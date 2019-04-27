@@ -1,62 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE0FDCDA
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 09:29:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB35FB23F
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Apr 2019 03:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78103891E2;
-	Mon, 29 Apr 2019 07:28:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7FE89255;
+	Sat, 27 Apr 2019 01:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E754D88F61;
- Sat, 27 Apr 2019 00:01:14 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
- id 814496086B; Sat, 27 Apr 2019 00:01:14 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
-Received: from lmark-linux.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB7289255
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Apr 2019 01:39:08 +0000 (UTC)
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
+ [73.47.72.35])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- (Authenticated sender: lmark@smtp.codeaurora.org)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BA46E607CA;
- Sat, 27 Apr 2019 00:01:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BA46E607CA
-From: Liam Mark <lmark@codeaurora.org>
-To: ckoenig.leichtzumerken@gmail.com
-Subject: [PATCH 01/12] dma-buf: add dynamic caching of sg_table
-Date: Fri, 26 Apr 2019 17:01:09 -0700
-Message-Id: <1556323269-19670-1-git-send-email-lmark@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <20190416183841.1577-1-christian.koenig@amd.com>
-References: <20190416183841.1577-1-christian.koenig@amd.com>
+ by mail.kernel.org (Postfix) with ESMTPSA id A92982084F;
+ Sat, 27 Apr 2019 01:39:06 +0000 (UTC)
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.0 23/79] drm/omap: hdmi4_cec: Fix CEC clock handling
+ for PM
+Date: Fri, 26 Apr 2019 21:37:42 -0400
+Message-Id: <20190427013838.6596-23-sashal@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190427013838.6596-1-sashal@kernel.org>
+References: <20190427013838.6596-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 29 Apr 2019 07:28:44 +0000
+X-stable: review
+X-Patchwork-Hint: Ignore
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1556323274;
- bh=F9CGa1Jb2BIbUCAdHSZn16z6iMU0C8BjBM1CfdG9Eq0=;
+ d=kernel.org; s=default; t=1556329147;
+ bh=9wxgPu0ztq6m1YVb/9c8SpBgLiynpp40Xv953t4reww=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FAGEYtkFc5dOVwHcmJJ98hSwBOLXgeDsS8tL1n4kkhHr+6bx6yPOe9Yg8YheRUtpJ
- vzSteCyWdTcCTiNRbkcLuod3cdYefNgywkqmrKAApK9l/u56HnhsJLVIxkeerM0uZn
- u8YrW4O5Wd2JP9jw0rRgbecULmkPY9Yff3Big+24=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1556323274;
- bh=F9CGa1Jb2BIbUCAdHSZn16z6iMU0C8BjBM1CfdG9Eq0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FAGEYtkFc5dOVwHcmJJ98hSwBOLXgeDsS8tL1n4kkhHr+6bx6yPOe9Yg8YheRUtpJ
- vzSteCyWdTcCTiNRbkcLuod3cdYefNgywkqmrKAApK9l/u56HnhsJLVIxkeerM0uZn
- u8YrW4O5Wd2JP9jw0rRgbecULmkPY9Yff3Big+24=
-X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
- dmarc=none (p=none dis=none)
- header.from=codeaurora.org
-X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
- spf=none
- smtp.mailfrom=lmark@codeaurora.org
+ b=eAsZi5tT6TQFB7wc/H9tg2hCyLlrwFESyJxz67RwqRlf2Bgc9LPqEyvcNy+pfEKb+
+ ubcEBptuM5IsWXsyi/HGMbWWUZ6FGnqS4a432582CkVU06MrslZeC0024z25ua3y4Z
+ kPkt7+fH1fki8NL1wZ/sAeC31bk2sEH0r62taUnI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,115 +50,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: lmark@codeaurora.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0543180853=="
+Cc: Sasha Levin <sashal@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ dri-devel@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0543180853==
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
-
-On Tue, 16 Apr 2019, Christian König wrote:
-
-> To allow a smooth transition from pinning buffer objects to dynamic
-> invalidation we first start to cache the sg_table for an attachment
-> unless the driver explicitly says to not do so.
-> 
-> ---
->  drivers/dma-buf/dma-buf.c | 24 ++++++++++++++++++++++++
->  include/linux/dma-buf.h   | 11 +++++++++++
->  2 files changed, 35 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 7c858020d14b..65161a82d4d5 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -573,6 +573,20 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
->  	list_add(&attach->node, &dmabuf->attachments);
->  
->  	mutex_unlock(&dmabuf->lock);
-> +
-> +	if (!dmabuf->ops->dynamic_sgt_mapping) {
-> +		struct sg_table *sgt;
-> +
-> +		sgt = dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
-> +		if (!sgt)
-> +			sgt = ERR_PTR(-ENOMEM);
-> +		if (IS_ERR(sgt)) {
-> +			dma_buf_detach(dmabuf, attach);
-> +			return ERR_CAST(sgt);
-> +		}
-> +		attach->sgt = sgt;
-> +	}
-> +
->  	return attach;
->  
->  err_attach:
-> @@ -595,6 +609,10 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  	if (WARN_ON(!dmabuf || !attach))
->  		return;
->  
-> +	if (attach->sgt)
-> +		dmabuf->ops->unmap_dma_buf(attach, attach->sgt,
-> +					   DMA_BIDIRECTIONAL);
-> +
->  	mutex_lock(&dmabuf->lock);
->  	list_del(&attach->node);
->  	if (dmabuf->ops->detach)
-> @@ -630,6 +648,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->  	if (WARN_ON(!attach || !attach->dmabuf))
->  		return ERR_PTR(-EINVAL);
->  
-> +	if (attach->sgt)
-> +		return attach->sgt;
-> +
-
-I am concerned by this change to make caching the sg_table the default 
-behavior as this will result in the exporter's map_dma_buf/unmap_dma_buf 
-calls are no longer being called in 
-dma_buf_map_attachment/dma_buf_unmap_attachment.
-	
-This seems concerning to me as it appears to ignore the cache maintenance 
-aspect of the map_dma_buf/unmap_dma_buf calls.
-For example won't this potentially cause issues for clients of ION.
-
-If we had the following
-- #1 dma_buf_attach coherent_device
-- #2 dma_buf attach non_coherent_device
-- #3 dma_buf_map_attachment non_coherent_device
-- #4 non_coherent_device writes to buffer
-- #5 dma_buf_unmap_attachment non_coherent_device
-- #6 dma_buf_map_attachment coherent_device
-- #7 coherent_device reads buffer
-- #8 dma_buf_unmap_attachment coherent_device	
-
-There wouldn't be any CMO at step #5 anymore (specifically no invalidate) 
-so now at step #7 the coherent_device could read a stale cache line.
-
-Also, now by default dma_buf_unmap_attachment no longer removes the 
-mappings from the iommu, so now by default dma_buf_unmap_attachment is not 
-doing what I would expect and clients are losing the potential sandboxing 
-benefits of removing the mappings.
-Shouldn't this caching behavior be something that clients opt into instead 
-of being the default?
-
-Liam
-
-Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
-
---===============0543180853==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0543180853==--
+RnJvbTogVG9ueSBMaW5kZ3JlbiA8dG9ueUBhdG9taWRlLmNvbT4KClsgVXBzdHJlYW0gY29tbWl0
+IDM2YTFkYTE1YjVkZjQ5MzI0MWIwMDExZDIxODVmZGQ3MjRhYzFlZDEgXQoKSWYgQ09ORklHX09N
+QVA0X0RTU19IRE1JX0NFQyBpcyBlbmFibGVkIGluIC5jb25maWcsIGRlZXBlciBTb0MgaWRsZQpz
+dGF0ZXMgYXJlIGJsb2NrZWQgYmVjYXVzZSB0aGUgQ0VDIGNsb2NrIGdldHMgYWx3YXlzIGVuYWJs
+ZWQgb24gaW5pdC4KCkxldCdzIGZpeCB0aGUgaXNzdWUgYnkgbW92aW5nIHRoZSBDRUMgY2xvY2sg
+aGFuZGxpbmcgdG8gaGFwcGVuIGxhdGVyIGluCmhkbWlfY2VjX2FkYXBfZW5hYmxlKCkgYXMgc3Vn
+Z2VzdGVkIGJ5IEhhbnMgVmVya3VpbCA8aHZlcmt1aWxAeHM0YWxsLm5sPi4KVGhpcyB3YXkgdGhl
+IENFQyBjbG9jayBnZXRzIG9ubHkgZW5hYmxlZCB3aGVuIG5lZWRlZC4gVGhpcyBjYW4gYmUgdGVz
+dGVkCmJ5IGRvaW5nIGNlYy1jdGwgLS1wbGF5YmFjayB0byBlbmFibGUgdGhlIENFQywgYW5kIGRv
+aW5nIGNlYy1jdGwgLS1jbGVhcgp0byBkaXNhYmxlIGl0LgoKTGV0J3MgYWxzbyBmaXggdGhlIHR5
+cG8gZm9yICJkaXZpZGVyIiBpbiB0aGUgY29tbWVudHMgd2hpbGUgYXQgaXQuCgpGaXhlczogOGQ3
+ZjkzNGRmOGQ4ICgib21hcGRybTogaGRtaTRfY2VjOiBhZGQgT01BUDQgSERNSSBDRUMgc3VwcG9y
+dCIpClN1Z2dlc3RlZC1ieTogSGFucyBWZXJrdWlsIDxodmVya3VpbEB4czRhbGwubmw+CkNjOiBI
+YW5zIFZlcmt1aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD4KQ2M6IEp5cmkgU2FyaGEgPGpzYXJoYUB0
+aS5jb20+CkNjOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2Fy
+ZC5jb20+ClNpZ25lZC1vZmYtYnk6IFRvbnkgTGluZGdyZW4gPHRvbnlAYXRvbWlkZS5jb20+ClJl
+dmlld2VkLWJ5OiBIYW5zIFZlcmt1aWwgPGh2ZXJrdWlsLWNpc2NvQHhzNGFsbC5ubD4KU2lnbmVk
+LW9mZi1ieTogVG9taSBWYWxrZWluZW4gPHRvbWkudmFsa2VpbmVuQHRpLmNvbT4KTGluazogaHR0
+cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3BhdGNoL21zZ2lkLzIwMTkwMzI2MTUxNDM4
+LjMyNDE0LTEtdG9ueUBhdG9taWRlLmNvbQpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2Fz
+aGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL2hkbWk0X2Nl
+Yy5jIHwgMjYgKysrKysrKysrKysrKysrKysrLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDE5IGlu
+c2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L29tYXBkcm0vZHNzL2hkbWk0X2NlYy5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL2hk
+bWk0X2NlYy5jCmluZGV4IDM0MDM4MzE1MGZiOS4uZWJmOWM5NmQ0M2VlIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvaGRtaTRfY2VjLmMKKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL29tYXBkcm0vZHNzL2hkbWk0X2NlYy5jCkBAIC0xNzUsNiArMTc1LDcgQEAgc3RhdGljIGlu
+dCBoZG1pX2NlY19hZGFwX2VuYWJsZShzdHJ1Y3QgY2VjX2FkYXB0ZXIgKmFkYXAsIGJvb2wgZW5h
+YmxlKQogCQlSRUdfRkxEX01PRChjb3JlLT5iYXNlLCBIRE1JX0NPUkVfU1lTX0lOVFJfVU5NQVNL
+NCwgMCwgMywgMyk7CiAJCWhkbWlfd3BfY2xlYXJfaXJxZW5hYmxlKGNvcmUtPndwLCBIRE1JX0lS
+UV9DT1JFKTsKIAkJaGRtaV93cF9zZXRfaXJxc3RhdHVzKGNvcmUtPndwLCBIRE1JX0lSUV9DT1JF
+KTsKKwkJUkVHX0ZMRF9NT0QoY29yZS0+d3AtPmJhc2UsIEhETUlfV1BfQ0xLLCAwLCA1LCAwKTsK
+IAkJaGRtaTRfY29yZV9kaXNhYmxlKGNvcmUpOwogCQlyZXR1cm4gMDsKIAl9CkBAIC0xODIsMTYg
+KzE4MywyNCBAQCBzdGF0aWMgaW50IGhkbWlfY2VjX2FkYXBfZW5hYmxlKHN0cnVjdCBjZWNfYWRh
+cHRlciAqYWRhcCwgYm9vbCBlbmFibGUpCiAJaWYgKGVycikKIAkJcmV0dXJuIGVycjsKIAorCS8q
+CisJICogSW5pdGlhbGl6ZSBDRUMgY2xvY2sgZGl2aWRlcjogQ0VDIG5lZWRzIDJNSHogY2xvY2sg
+aGVuY2UKKwkgKiBzZXQgdGhlIGRpdmlkZXIgdG8gMjQgdG8gZ2V0IDQ4LzI0PTJNSHogY2xvY2sK
+KwkgKi8KKwlSRUdfRkxEX01PRChjb3JlLT53cC0+YmFzZSwgSERNSV9XUF9DTEssIDB4MTgsIDUs
+IDApOworCiAJLyogQ2xlYXIgVFggRklGTyAqLwogCWlmICghaGRtaV9jZWNfY2xlYXJfdHhfZmlm
+byhhZGFwKSkgewogCQlwcl9lcnIoImNlYy0lczogY291bGQgbm90IGNsZWFyIFRYIEZJRk9cbiIs
+IGFkYXAtPm5hbWUpOwotCQlyZXR1cm4gLUVJTzsKKwkJZXJyID0gLUVJTzsKKwkJZ290byBlcnJf
+ZGlzYWJsZV9jbGs7CiAJfQogCiAJLyogQ2xlYXIgUlggRklGTyAqLwogCWlmICghaGRtaV9jZWNf
+Y2xlYXJfcnhfZmlmbyhhZGFwKSkgewogCQlwcl9lcnIoImNlYy0lczogY291bGQgbm90IGNsZWFy
+IFJYIEZJRk9cbiIsIGFkYXAtPm5hbWUpOwotCQlyZXR1cm4gLUVJTzsKKwkJZXJyID0gLUVJTzsK
+KwkJZ290byBlcnJfZGlzYWJsZV9jbGs7CiAJfQogCiAJLyogQ2xlYXIgQ0VDIGludGVycnVwdHMg
+Ki8KQEAgLTIzNiw2ICsyNDUsMTIgQEAgc3RhdGljIGludCBoZG1pX2NlY19hZGFwX2VuYWJsZShz
+dHJ1Y3QgY2VjX2FkYXB0ZXIgKmFkYXAsIGJvb2wgZW5hYmxlKQogCQloZG1pX3dyaXRlX3JlZyhj
+b3JlLT5iYXNlLCBIRE1JX0NFQ19JTlRfU1RBVFVTXzEsIHRlbXApOwogCX0KIAlyZXR1cm4gMDsK
+KworZXJyX2Rpc2FibGVfY2xrOgorCVJFR19GTERfTU9EKGNvcmUtPndwLT5iYXNlLCBIRE1JX1dQ
+X0NMSywgMCwgNSwgMCk7CisJaGRtaTRfY29yZV9kaXNhYmxlKGNvcmUpOworCisJcmV0dXJuIGVy
+cjsKIH0KIAogc3RhdGljIGludCBoZG1pX2NlY19hZGFwX2xvZ19hZGRyKHN0cnVjdCBjZWNfYWRh
+cHRlciAqYWRhcCwgdTggbG9nX2FkZHIpCkBAIC0zMzMsMTEgKzM0OCw4IEBAIGludCBoZG1pNF9j
+ZWNfaW5pdChzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2LCBzdHJ1Y3QgaGRtaV9jb3JlX2Rh
+dGEgKmNvcmUsCiAJCXJldHVybiByZXQ7CiAJY29yZS0+d3AgPSB3cDsKIAotCS8qCi0JICogSW5p
+dGlhbGl6ZSBDRUMgY2xvY2sgZGl2aWRlcjogQ0VDIG5lZWRzIDJNSHogY2xvY2sgaGVuY2UKLQkg
+KiBzZXQgdGhlIGRldmlkZXIgdG8gMjQgdG8gZ2V0IDQ4LzI0PTJNSHogY2xvY2sKLQkgKi8KLQlS
+RUdfRkxEX01PRChjb3JlLT53cC0+YmFzZSwgSERNSV9XUF9DTEssIDB4MTgsIDUsIDApOworCS8q
+IERpc2FibGUgY2xvY2sgaW5pdGlhbGx5LCBoZG1pX2NlY19hZGFwX2VuYWJsZSgpIG1hbmFnZXMg
+aXQgKi8KKwlSRUdfRkxEX01PRChjb3JlLT53cC0+YmFzZSwgSERNSV9XUF9DTEssIDAsIDUsIDAp
+OwogCiAJcmV0ID0gY2VjX3JlZ2lzdGVyX2FkYXB0ZXIoY29yZS0+YWRhcCwgJnBkZXYtPmRldik7
+CiAJaWYgKHJldCA8IDApIHsKLS0gCjIuMTkuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
