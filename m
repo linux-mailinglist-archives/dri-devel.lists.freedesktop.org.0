@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4ACFDCD3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 09:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE0FDCDA
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 09:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC022891AB;
-	Mon, 29 Apr 2019 07:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78103891E2;
+	Mon, 29 Apr 2019 07:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-it1-x143.google.com (mail-it1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6084489221
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2019 23:55:01 +0000 (UTC)
-Received: by mail-it1-x143.google.com with SMTP id s3so8525050itk.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Apr 2019 16:55:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WU03Ki48Dvm6T/xud/B67f7U5Mq2RTuwpBv2iAIar80=;
- b=cKhd8q2gdhQVhuBHGGrwh03X6EqcTDa+F9wFEydQgyhlErK+p79S5/0msfIgQXK5Yx
- 90o3MThVEDZAImhtAK7TcOlUTaWwCeKU6cUTp9oC80wuPOjb9YLN8+rS6YqVTqL5Kw9O
- nbYNiN55inNe8MGuwv3FCR6fyPp6IzCaYLTacLPLU2MgKVzQaxuloL8AuHVEAgQnlD8+
- Ffqyhl8IethJQmqwPQDtIGZL0E7/OUaF4GURMKYizUmq1snRczLblsr0PqNIjuTNzxqT
- rRGLmVTq5TvK1fFLxjAfDpX6wpsfyW1u+YxOjY70hEflwTaWkEFhNGrEZnytoHGWjTbR
- k0TA==
-X-Gm-Message-State: APjAAAWzxDSsU3n4O0Mc/kxx4np3H3MUPF63txNXhgFN4c3od1jBXav3
- GL3c7mFtOiZ6rL9zv3uI1cpdsdbTm5UPPpxS+fE=
-X-Google-Smtp-Source: APXvYqwKj9VRndGXWWOtHZc04aPsD0SeOqt2DCnlgm5Ae2NwnfDhoDHLtMepQBRl1p0R3Z+cAPamzQhXwNx2pdlA/jM=
-X-Received: by 2002:a02:924d:: with SMTP id y13mr33137561jag.24.1556322900697; 
- Fri, 26 Apr 2019 16:55:00 -0700 (PDT)
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E754D88F61;
+ Sat, 27 Apr 2019 00:01:14 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+ id 814496086B; Sat, 27 Apr 2019 00:01:14 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
+Received: from lmark-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: lmark@smtp.codeaurora.org)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BA46E607CA;
+ Sat, 27 Apr 2019 00:01:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BA46E607CA
+From: Liam Mark <lmark@codeaurora.org>
+To: ckoenig.leichtzumerken@gmail.com
+Subject: [PATCH 01/12] dma-buf: add dynamic caching of sg_table
+Date: Fri, 26 Apr 2019 17:01:09 -0700
+Message-Id: <1556323269-19670-1-git-send-email-lmark@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <20190416183841.1577-1-christian.koenig@amd.com>
+References: <20190416183841.1577-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20190326103146.24795-1-tomi.valkeinen@ti.com>
- <20190326103146.24795-3-tomi.valkeinen@ti.com>
- <20190420203049.GE4964@pendragon.ideasonboard.com>
- <275405d7-0538-93bb-ac06-f37fee942b7c@ti.com>
-In-Reply-To: <275405d7-0538-93bb-ac06-f37fee942b7c@ti.com>
-From: Andrey Smirnov <andrew.smirnov@gmail.com>
-Date: Fri, 26 Apr 2019 16:54:49 -0700
-Message-ID: <CAHQ1cqE-qB0__p7hLUq7_Ug=Ek505oL5dNLOsWP9Tf0ebbMG9A@mail.gmail.com>
-Subject: Re: [PATCHv2 02/22] drm/bridge: tc358767: reset voltage-swing &
- pre-emphasis
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
 X-Mailman-Approved-At: Mon, 29 Apr 2019 07:28:44 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=WU03Ki48Dvm6T/xud/B67f7U5Mq2RTuwpBv2iAIar80=;
- b=SnK4gLjS5RmgLi89OvbJINHuopocenT+MJWrrwfTCkF/u/Py9Q0WsmxGHUgkhp0Ka/
- vugJhkjvveV8rnwJtJVfugjeiYPTdgciaSn+nFSwHBd59rk6vHwaWcBsi3hRqUxm8yn4
- Jo8gwtfnPkzyCSZT3KXGQNITD9JqKT7mxzNWvr4dIbQ+JQv9qSW8Y47ItFCNEycY2ShW
- c0qF45h95WTxqmFQ+r5hZHVmkSQIRF7RYtVTn0RgnY+G5AWZByFcjQbbFGltFQ9ZShlW
- oa8yTsyOWriTT9DnpSIfJuoeIzgOy8kyyNFVkkGY1eVjmEFYXxpGAWbeae3UgfCBfsx0
- ZgTw==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1556323274;
+ bh=F9CGa1Jb2BIbUCAdHSZn16z6iMU0C8BjBM1CfdG9Eq0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FAGEYtkFc5dOVwHcmJJ98hSwBOLXgeDsS8tL1n4kkhHr+6bx6yPOe9Yg8YheRUtpJ
+ vzSteCyWdTcCTiNRbkcLuod3cdYefNgywkqmrKAApK9l/u56HnhsJLVIxkeerM0uZn
+ u8YrW4O5Wd2JP9jw0rRgbecULmkPY9Yff3Big+24=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1556323274;
+ bh=F9CGa1Jb2BIbUCAdHSZn16z6iMU0C8BjBM1CfdG9Eq0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FAGEYtkFc5dOVwHcmJJ98hSwBOLXgeDsS8tL1n4kkhHr+6bx6yPOe9Yg8YheRUtpJ
+ vzSteCyWdTcCTiNRbkcLuod3cdYefNgywkqmrKAApK9l/u56HnhsJLVIxkeerM0uZn
+ u8YrW4O5Wd2JP9jw0rRgbecULmkPY9Yff3Big+24=
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ dmarc=none (p=none dis=none)
+ header.from=codeaurora.org
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ spf=none
+ smtp.mailfrom=lmark@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,44 +69,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- Jyri Sarha <jsarha@ti.com>, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: lmark@codeaurora.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0543180853=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBcHIgMjYsIDIwMTkgYXQgNzoxNCBBTSBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxr
-ZWluZW5AdGkuY29tPiB3cm90ZToKPgo+IE9uIDIwLzA0LzIwMTkgMjM6MzAsIExhdXJlbnQgUGlu
-Y2hhcnQgd3JvdGU6Cj4gPiBIaSBUb21pLAo+ID4KPiA+IFRoYW5rIHlvdSBmb3IgdGhlIHBhdGNo
-Lgo+ID4KPiA+IE9uIFR1ZSwgTWFyIDI2LCAyMDE5IGF0IDEyOjMxOjI2UE0gKzAyMDAsIFRvbWkg
-VmFsa2VpbmVuIHdyb3RlOgo+ID4+IFdlIG5lZWQgdG8gcmVzZXQgRFBDRCB2b2x0YWdlLXN3aW5n
-ICYgcHJlLWVtcGhhc2lzIGJlZm9yZSBzdGFydGluZyB0aGUKPiA+PiBsaW5rIHRyYWluaW5nLCBh
-cyBvdGhlcndpc2UgdGMzNTg3Njcgd2lsbCB1c2UgdGhlIHByZXZpb3VzIHZhbHVlcyBhcwo+ID4+
-IG1pbmltdW1zLgo+ID4+Cj4gPj4gU2lnbmVkLW9mZi1ieTogVG9taSBWYWxrZWluZW4gPHRvbWku
-dmFsa2VpbmVuQHRpLmNvbT4KPiA+PiAtLS0KPiA+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90
-YzM1ODc2Ny5jIHwgNiArKysrKysKPiA+PiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
-KQo+ID4+Cj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3Njcu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYwo+ID4+IGluZGV4IDcwMzFjNGY1
-MmM1Ny4uMTFhNTBmN2JiNGJlIDEwMDY0NAo+ID4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2UvdGMzNTg3NjcuYwo+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3Njcu
-Ywo+ID4+IEBAIC05NTYsNiArOTU2LDEyIEBAIHN0YXRpYyBpbnQgdGNfbWFpbl9saW5rX3NldHVw
-KHN0cnVjdCB0Y19kYXRhICp0YykKPiA+PiAgICAgIGlmIChyZXQgPCAwKQo+ID4+ICAgICAgICAg
-ICAgICBnb3RvIGVycl9kcGNkX3dyaXRlOwo+ID4+Cj4gPj4gKyAgICAvLyBSZXNldCB2b2x0YWdl
-LXN3aW5nICYgcHJlLWVtcGhhc2lzCj4gPgo+ID4gVGhlIGRyaXZlciB1c2VzIEMtc3R5bGUgY29t
-bWVudHMsIEkgdGhpbmsgaXQgd291bGQgYmUgYmVzdCB0byBzdGljayB0bwo+ID4gdGhlbSB0byBh
-dm9pZCBhIHN0eWxlIG1pc21hdGNoLgo+Cj4gT29wcy4gWWVwLiBJIG9mdGVuIHVzZSBjKysgY29t
-bWVudHMgd2hlbiBoYWNraW5nL2RldmVsb3BpbmcgYXMgdGhleSdyZQo+IG9mdGVuIGVhc2llciB0
-byB1c2UuIFNvbWV0aW1lcyBJIG1pc3MgY29udmVydGluZyB0aGVtIHRvIGMgY29tbWVudHMuLi4K
-Pgo+ID4KPiA+PiArICAgIHRtcFswXSA9IHRtcFsxXSA9IERQX1RSQUlOX1ZPTFRBR0VfU1dJTkdf
-TEVWRUxfMCB8IERQX1RSQUlOX1BSRV9FTVBIX0xFVkVMXzA7Cj4gPgo+ID4gWW91IG1heSB3YW50
-IHRvIHdyYXAgdGhlIGxpbmUuCj4KPiBXZWxsLCBJIHBlcnNvbmFsbHkgZG9uJ3QgdGhpbmsgd3Jh
-cHBpbmcgYXQgODAgaXMgYSBnb29kIGlkZWEuCgpUcnlpbmcgdG8gcmVhZCB0d28gZmlsZXMgc2lk
-ZSBieSBzaWRlIG9uIGEgMTMiIGxhcHRvcCBzY3JlZW4gbWlnaHQKY2hhbmdlIHlvdXIgbWluZCA6
-LSkgKzEgb24gd3JhcHBpbmcgdGhlIGNvZGUgYXJvdW5kIDgwIGNoYXJhY3RlciBmcm9tCm1lLgoK
-VGhhbmtzLApBbmRyZXkgU21pcm5vdgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+--===============0543180853==
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
+
+On Tue, 16 Apr 2019, Christian König wrote:
+
+> To allow a smooth transition from pinning buffer objects to dynamic
+> invalidation we first start to cache the sg_table for an attachment
+> unless the driver explicitly says to not do so.
+> 
+> ---
+>  drivers/dma-buf/dma-buf.c | 24 ++++++++++++++++++++++++
+>  include/linux/dma-buf.h   | 11 +++++++++++
+>  2 files changed, 35 insertions(+)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 7c858020d14b..65161a82d4d5 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -573,6 +573,20 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  	list_add(&attach->node, &dmabuf->attachments);
+>  
+>  	mutex_unlock(&dmabuf->lock);
+> +
+> +	if (!dmabuf->ops->dynamic_sgt_mapping) {
+> +		struct sg_table *sgt;
+> +
+> +		sgt = dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
+> +		if (!sgt)
+> +			sgt = ERR_PTR(-ENOMEM);
+> +		if (IS_ERR(sgt)) {
+> +			dma_buf_detach(dmabuf, attach);
+> +			return ERR_CAST(sgt);
+> +		}
+> +		attach->sgt = sgt;
+> +	}
+> +
+>  	return attach;
+>  
+>  err_attach:
+> @@ -595,6 +609,10 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+>  	if (WARN_ON(!dmabuf || !attach))
+>  		return;
+>  
+> +	if (attach->sgt)
+> +		dmabuf->ops->unmap_dma_buf(attach, attach->sgt,
+> +					   DMA_BIDIRECTIONAL);
+> +
+>  	mutex_lock(&dmabuf->lock);
+>  	list_del(&attach->node);
+>  	if (dmabuf->ops->detach)
+> @@ -630,6 +648,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>  	if (WARN_ON(!attach || !attach->dmabuf))
+>  		return ERR_PTR(-EINVAL);
+>  
+> +	if (attach->sgt)
+> +		return attach->sgt;
+> +
+
+I am concerned by this change to make caching the sg_table the default 
+behavior as this will result in the exporter's map_dma_buf/unmap_dma_buf 
+calls are no longer being called in 
+dma_buf_map_attachment/dma_buf_unmap_attachment.
+	
+This seems concerning to me as it appears to ignore the cache maintenance 
+aspect of the map_dma_buf/unmap_dma_buf calls.
+For example won't this potentially cause issues for clients of ION.
+
+If we had the following
+- #1 dma_buf_attach coherent_device
+- #2 dma_buf attach non_coherent_device
+- #3 dma_buf_map_attachment non_coherent_device
+- #4 non_coherent_device writes to buffer
+- #5 dma_buf_unmap_attachment non_coherent_device
+- #6 dma_buf_map_attachment coherent_device
+- #7 coherent_device reads buffer
+- #8 dma_buf_unmap_attachment coherent_device	
+
+There wouldn't be any CMO at step #5 anymore (specifically no invalidate) 
+so now at step #7 the coherent_device could read a stale cache line.
+
+Also, now by default dma_buf_unmap_attachment no longer removes the 
+mappings from the iommu, so now by default dma_buf_unmap_attachment is not 
+doing what I would expect and clients are losing the potential sandboxing 
+benefits of removing the mappings.
+Shouldn't this caching behavior be something that clients opt into instead 
+of being the default?
+
+Liam
+
+Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
+
+--===============0543180853==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0543180853==--
