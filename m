@@ -2,37 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 294BAE663
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 17:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9DCE6F3
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 17:53:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7CEB89221;
-	Mon, 29 Apr 2019 15:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A428F89180;
+	Mon, 29 Apr 2019 15:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD5CA89050
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 15:29:21 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.89)
- (envelope-from <l.stach@pengutronix.de>)
- id 1hL8DX-0005f3-F3; Mon, 29 Apr 2019 17:29:19 +0200
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
-Subject: [PATCH] backlight: rave-sp: don't touch initial state and register
- with correct device
-Date: Mon, 29 Apr 2019 17:29:19 +0200
-Message-Id: <20190429152919.27277-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 98BF489241
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 15:53:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9586C72155; Mon, 29 Apr 2019 15:53:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 105684] Loading amdgpu hits general protection fault: 0000 [#1]
+ SMP NOPTI
+Date: Mon, 29 Apr 2019 15:53:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-105684-502-jL5p9yDxaw@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105684-502@http.bugs.freedesktop.org/>
+References: <bug-105684-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,31 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0371402640=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyB3YXkgdGhlIGJhY2tsaWdodCBjYW4gYmUgcmVmZXJlbmNlZCB0aHJvdWdoIGl0cyBkZXZp
-Y2Ugbm9kZSBhbmQKZW5hYmxpbmcvZGlzYWJsaW5nIGNhbiBiZSBtYW5hZ2VkIHRocm91Z2ggdGhl
-IHBhbmVsIGRyaXZlci4KClNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1
-dHJvbml4LmRlPgotLS0KIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3JhdmUtc3AtYmFja2xpZ2h0
-LmMgfCA0ICstLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9yYXZlLXNwLWJhY2tsaWdo
-dC5jIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcmF2ZS1zcC1iYWNrbGlnaHQuYwppbmRleCA0
-NjJmMTRhMWIxOWQuLmQyOTZiZmNmNDM5NiAxMDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9iYWNr
-bGlnaHQvcmF2ZS1zcC1iYWNrbGlnaHQuYworKysgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9y
-YXZlLXNwLWJhY2tsaWdodC5jCkBAIC00OCwxNSArNDgsMTMgQEAgc3RhdGljIGludCByYXZlX3Nw
-X2JhY2tsaWdodF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCXN0cnVjdCBk
-ZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7CiAJc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJkOwog
-Ci0JYmQgPSBkZXZtX2JhY2tsaWdodF9kZXZpY2VfcmVnaXN0ZXIoZGV2LCBwZGV2LT5uYW1lLCBk
-ZXYtPnBhcmVudCwKKwliZCA9IGRldm1fYmFja2xpZ2h0X2RldmljZV9yZWdpc3RlcihkZXYsIHBk
-ZXYtPm5hbWUsIGRldiwKIAkJCQkJICAgIGRldl9nZXRfZHJ2ZGF0YShkZXYtPnBhcmVudCksCiAJ
-CQkJCSAgICAmcmF2ZV9zcF9iYWNrbGlnaHRfb3BzLAogCQkJCQkgICAgJnJhdmVfc3BfYmFja2xp
-Z2h0X3Byb3BzKTsKIAlpZiAoSVNfRVJSKGJkKSkKIAkJcmV0dXJuIFBUUl9FUlIoYmQpOwogCi0J
-YmFja2xpZ2h0X3VwZGF0ZV9zdGF0dXMoYmQpOwotCiAJcmV0dXJuIDA7CiB9CiAKLS0gCjIuMjAu
-MQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0371402640==
+Content-Type: multipart/alternative; boundary="15565531992.CADe6d4F3.5080"
+Content-Transfer-Encoding: 7bit
+
+
+--15565531992.CADe6d4F3.5080
+Date: Mon, 29 Apr 2019 15:53:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105684
+
+--- Comment #45 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to J=C3=B6rn Frenzel from comment #44)
+> the issue seems to persist in Debian 9 with kernel 4.19.0-0.bpo.4-amd64.
+
+The dmesg you attached looks like a different issue, please file your own
+report.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15565531992.CADe6d4F3.5080
+Date: Mon, 29 Apr 2019 15:53:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Loading amdgpu hits general protection fault: 0000 [=
+#1] SMP NOPTI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105684#c45">Comme=
+nt # 45</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Loading amdgpu hits general protection fault: 0000 [=
+#1] SMP NOPTI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105684">bug 10568=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to J=C3=B6rn Frenzel from <a href=3D"show_bug.cgi?id=
+=3D105684#c44">comment #44</a>)
+<span class=3D"quote">&gt; the issue seems to persist in Debian 9 with kern=
+el 4.19.0-0.bpo.4-amd64.</span >
+
+The dmesg you attached looks like a different issue, please file your own
+report.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15565531992.CADe6d4F3.5080--
+
+--===============0371402640==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0371402640==--
