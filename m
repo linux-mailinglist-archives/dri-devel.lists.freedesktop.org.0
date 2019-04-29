@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A4FBDA4C
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 03:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E288DCC9
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 09:26:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A02688FFA;
-	Mon, 29 Apr 2019 01:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94DB18910A;
+	Mon, 29 Apr 2019 07:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id EFA4F8901E
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 01:15:48 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EC67C72155; Mon, 29 Apr 2019 01:15:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Mon, 29 Apr 2019 01:15:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-sZOILRoeze@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21248910A
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 07:26:12 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id a8so6152221edx.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 00:26:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=7eAWT5WKZBXL/G5Occ/zW17EdfbXJrEq+cqTRxCpsbE=;
+ b=hkLNClV/9ysYfFnpRw7NG1DNZB2PwQQkFVwq5Sy4hc3fvQsgzVRgp6S0swL/YJFGfc
+ V5b8kDgpIa8VyHDZwdFM6XsAOgSY1IiGPYmj0Mrs8Mq+n8uCK2L+j5XbTPbYS2BNn9ZF
+ F4zrs+1TIdiP/5QY6xxJiKEEbabULD82lWsWQ3/e56jM89wmNiEXrk7muIaakn1Vr9ji
+ 7h9gECRK46dq6S52TevIIuGD0H23aGpTa/flrOKho3auXZMZ4OEOutfFHFXSs54ukNJf
+ W6kDQAEB/B6r1tZ/tmWAeDN73hbI+2chOTusjj7r44wJSgZxJY22nQXQK231AoCNUgXL
+ rhuA==
+X-Gm-Message-State: APjAAAWC34RmUnbZaVXYKFGzcRdLrXoo6/rJZECIL9WyETXE14CT552f
+ ejd/YVfh9m5fejxoshBmVg60Fw==
+X-Google-Smtp-Source: APXvYqz8V7wp07nn7wRNfVb6sMmxuzPNroIRcJWBysZ2h/1hhg9/jHGPr+C5ZXw5ikTG/LItplrung==
+X-Received: by 2002:a17:906:12c1:: with SMTP id
+ l1mr30286673ejb.284.1556522771425; 
+ Mon, 29 Apr 2019 00:26:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id c4sm1773810ejo.51.2019.04.29.00.26.09
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 29 Apr 2019 00:26:10 -0700 (PDT)
+Date: Mon, 29 Apr 2019 09:26:07 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [PATCH v5 05/12] drm: revocation check at drm subsystem
+Message-ID: <20190429072607.GB3271@phenom.ffwll.local>
+References: <20190418085805.5648-1-ramalingam.c@intel.com>
+ <20190418085805.5648-6-ramalingam.c@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190418085805.5648-6-ramalingam.c@intel.com>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=7eAWT5WKZBXL/G5Occ/zW17EdfbXJrEq+cqTRxCpsbE=;
+ b=MO1toiaS5fOIgr0kK1VJStRH1ZMr8kQXQ7xGFIc+07xMs23pLND9BW0fweSTBCBAkI
+ vyTEg5gj+w+o4t0llnNNgDFog5gJA0lOEZ1NBVXXs1h1dSsxV+geO1pmMOLMFtmhVsOA
+ dbD4rbpSsLST4jUAEmk3Nqo91orFFsDOD6yxY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,346 +68,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1083713017=="
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ gwan-gyeong.mun@intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1083713017==
-Content-Type: multipart/alternative; boundary="15565005483.Be17.7909"
-Content-Transfer-Encoding: 7bit
-
-
---15565005483.Be17.7909
-Date: Mon, 29 Apr 2019 01:15:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #17 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to Jaap Buurman from comment #16)
-> Just got a crash in World of Warcraft as well, running via vkd3d. It happ=
-ens
-> instantly after trying to log into the game world, so the issue is nicely
-> reproducible for me. If you want me to get any traces, please let me know
-> what you would like me to run to get them. dmesg logs for now:
->=20
-> [   78.450637] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450641] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000984ec2d4b000 from 27
-> [   78.450642] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450648] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450650] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000850e92553000 from 27
-> [   78.450652] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450656] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450658] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000984ec2d4e000 from 27
-> [   78.450660] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450665] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450666] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000850e92542000 from 27
-> [   78.450668] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450673] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450674] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000984ec2d42000 from 27
-> [   78.450676] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450680] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450682] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000850e92552000 from 27
-> [   78.450683] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450688] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450690] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000984ec2d40000 from 27
-> [   78.450691] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450696] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450697] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000850e92552000 from 27
-> [   78.450699] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450703] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450705] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000984ec2d49000 from 27
-> [   78.450706] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.450711] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-> ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.exe:=
-cs0
-> pid 2370)
-> [   78.450713] amdgpu 0000:09:00.0:   in page starting at address
-> 0x0000850ea1eb2000 from 27
-> [   78.450714] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101=
-13D
-> [   78.454307] amdgpu 0000:09:00.0: IH ring buffer overflow (0x000BEDC0,
-> 0x0003EEC0, 0x0003EDE0)
-> [   88.570062] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeou=
-t,
-> signaled seq=3D25317, emitted seq=3D25319
-> [   88.570099] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
-> information: process WoW.exe pid 2349 thread WoW.exe:cs0 pid 2370
-> [   88.570102] amdgpu 0000:09:00.0: GPU reset begin!
-> [   88.831392] amdgpu 0000:09:00.0: GPU reset
-> [   89.356679] [drm] psp mode1 reset succeed=20
-> [   89.475356] amdgpu 0000:09:00.0: GPU reset succeeded, trying to resume
-> [   89.475465] [drm] PCIE GART of 512M enabled (table at 0x000000F4009000=
-00).
-> [   89.475508] [drm:amdgpu_device_gpu_recover [amdgpu]] *ERROR* VRAM is l=
-ost!
-> [   89.475642] [drm] PSP is resuming...
-> [   89.623052] [drm] reserve 0x400000 from 0xf400d00000 for PSP TMR SIZE
-> [   89.806625] [drm] SADs count is: -2, don't need to read it
-> [   89.856619] [drm] SADs count is: -2, don't need to read it
-> [   89.938255] [drm] UVD and UVD ENC initialized successfully.
-> [   90.038674] [drm] VCE initialized successfully.
-> [   90.039672] [drm] recover vram bo from shadow start
-> [   90.047496] [drm] recover vram bo from shadow done
-> [   90.047497] [drm] Skip scheduling IBs!
-> [   90.047499] [drm] Skip scheduling IBs!
-> [   90.047511] [drm] Skip scheduling IBs!
-> [   90.047518] [drm] Skip scheduling IBs!
-> [   90.047523] [drm] Skip scheduling IBs!
-> [   90.047524] [drm] Skip scheduling IBs!
-> [   90.047530] [drm] Skip scheduling IBs!
-> [   90.047531] [drm] Skip scheduling IBs!
-> [   90.047533] [drm] Skip scheduling IBs!
-> [   90.047535] [drm] Skip scheduling IBs!
-> [   90.047536] [drm] Skip scheduling IBs!
-> [   90.047538] [drm] Skip scheduling IBs!
-> [   90.047539] [drm] Skip scheduling IBs!
-> [   90.047555] amdgpu 0000:09:00.0: GPU reset(2) succeeded!
-
-The GPU reset succeeded.  You'll need to restart your desktop manager to
-recover because currently no desktop managers handle GPU reset errors and
-re-initialize their contexts.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15565005483.Be17.7909
-Date: Mon, 29 Apr 2019 01:15:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c17">Comme=
-nt # 17</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>(In reply to Jaap Buurman from <a href=3D"show_bug.cgi?id=3D10=
-9955#c16">comment #16</a>)
-<span class=3D"quote">&gt; Just got a crash in World of Warcraft as well, r=
-unning via vkd3d. It happens
-&gt; instantly after trying to log into the game world, so the issue is nic=
-ely
-&gt; reproducible for me. If you want me to get any traces, please let me k=
-now
-&gt; what you would like me to run to get them. dmesg logs for now:
-&gt;=20
-&gt; [   78.450637] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450641] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000984ec2d4b000 from 27
-&gt; [   78.450642] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450648] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450650] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000850e92553000 from 27
-&gt; [   78.450652] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450656] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450658] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000984ec2d4e000 from 27
-&gt; [   78.450660] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450665] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450666] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000850e92542000 from 27
-&gt; [   78.450668] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450673] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450674] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000984ec2d42000 from 27
-&gt; [   78.450676] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450680] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450682] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000850e92552000 from 27
-&gt; [   78.450683] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450688] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450690] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000984ec2d40000 from 27
-&gt; [   78.450691] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450696] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450697] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000850e92552000 from 27
-&gt; [   78.450699] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450703] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450705] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000984ec2d49000 from 27
-&gt; [   78.450706] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.450711] amdgpu 0000:09:00.0: [gfxhub] VMC page fault (src_id:0
-&gt; ring:158 vmid:1 pasid:32769, for process WoW.exe pid 2349 thread WoW.e=
-xe:cs0
-&gt; pid 2370)
-&gt; [   78.450713] amdgpu 0000:09:00.0:   in page starting at address
-&gt; 0x0000850ea1eb2000 from 27
-&gt; [   78.450714] amdgpu 0000:09:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00=
-10113D
-&gt; [   78.454307] amdgpu 0000:09:00.0: IH ring buffer overflow (0x000BEDC=
-0,
-&gt; 0x0003EEC0, 0x0003EDE0)
-&gt; [   88.570062] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx tim=
-eout,
-&gt; signaled seq=3D25317, emitted seq=3D25319
-&gt; [   88.570099] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
-&gt; information: process WoW.exe pid 2349 thread WoW.exe:cs0 pid 2370
-&gt; [   88.570102] amdgpu 0000:09:00.0: GPU reset begin!
-&gt; [   88.831392] amdgpu 0000:09:00.0: GPU reset
-&gt; [   89.356679] [drm] psp mode1 reset succeed=20
-&gt; [   89.475356] amdgpu 0000:09:00.0: GPU reset succeeded, trying to res=
-ume
-&gt; [   89.475465] [drm] PCIE GART of 512M enabled (table at 0x000000F4009=
-00000).
-&gt; [   89.475508] [drm:amdgpu_device_gpu_recover [amdgpu]] *ERROR* VRAM i=
-s lost!
-&gt; [   89.475642] [drm] PSP is resuming...
-&gt; [   89.623052] [drm] reserve 0x400000 from 0xf400d00000 for PSP TMR SI=
-ZE
-&gt; [   89.806625] [drm] SADs count is: -2, don't need to read it
-&gt; [   89.856619] [drm] SADs count is: -2, don't need to read it
-&gt; [   89.938255] [drm] UVD and UVD ENC initialized successfully.
-&gt; [   90.038674] [drm] VCE initialized successfully.
-&gt; [   90.039672] [drm] recover vram bo from shadow start
-&gt; [   90.047496] [drm] recover vram bo from shadow done
-&gt; [   90.047497] [drm] Skip scheduling IBs!
-&gt; [   90.047499] [drm] Skip scheduling IBs!
-&gt; [   90.047511] [drm] Skip scheduling IBs!
-&gt; [   90.047518] [drm] Skip scheduling IBs!
-&gt; [   90.047523] [drm] Skip scheduling IBs!
-&gt; [   90.047524] [drm] Skip scheduling IBs!
-&gt; [   90.047530] [drm] Skip scheduling IBs!
-&gt; [   90.047531] [drm] Skip scheduling IBs!
-&gt; [   90.047533] [drm] Skip scheduling IBs!
-&gt; [   90.047535] [drm] Skip scheduling IBs!
-&gt; [   90.047536] [drm] Skip scheduling IBs!
-&gt; [   90.047538] [drm] Skip scheduling IBs!
-&gt; [   90.047539] [drm] Skip scheduling IBs!
-&gt; [   90.047555] amdgpu 0000:09:00.0: GPU reset(2) succeeded!</span >
-
-The GPU reset succeeded.  You'll need to restart your desktop manager to
-recover because currently no desktop managers handle GPU reset errors and
-re-initialize their contexts.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15565005483.Be17.7909--
-
---===============1083713017==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1083713017==--
+T24gVGh1LCBBcHIgMTgsIDIwMTkgYXQgMDI6Mjc6NThQTSArMDUzMCwgUmFtYWxpbmdhbSBDIHdy
+b3RlOgo+IE9uIGV2ZXJ5IGhkY3AgcmV2b2NhdGlvbiBjaGVjayByZXF1ZXN0IFNSTSBpcyByZWFk
+IGZyb20gZncgZmlsZQo+IC9saWIvZmlybXdhcmUvZGlzcGxheV9oZGNwX3NybS5iaW4KPiAKPiBT
+Uk0gdGFibGUgaXMgcGFyc2VkIGFuZCBzdG9yZWQgYXQgZHJtX2hkY3AuYywgd2l0aCBmdW5jdGlv
+bnMgZXhwb3J0ZWQKPiBmb3IgdGhlIHNlcnZpY2VzIGZvciByZXZvY2F0aW9uIGNoZWNrIGZyb20g
+ZHJpdmVycyAod2hpY2gKPiBpbXBsZW1lbnRzIHRoZSBIRENQIGF1dGhlbnRpY2F0aW9uKQo+IAo+
+IFRoaXMgcGF0Y2ggaGFuZGxlcyB0aGUgSERDUDEuNCBhbmQgMi4yIHZlcnNpb25zIG9mIFNSTSB0
+YWJsZS4KPiAKPiB2MjoKPiAgIG1vdmVkIHRoZSB1QVBJIHRvIHJlcXVlc3RfZmlybXdhcmVfZGly
+ZWN0KCkgW0RhbmllbF0KPiAKPiBTaWduZWQtb2ZmLWJ5OiBSYW1hbGluZ2FtIEMgPHJhbWFsaW5n
+YW0uY0BpbnRlbC5jb20+Cj4gU3VnZ2VzdGVkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZSAgICAgICB8ICAgMiArLQo+
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYyAgICAgfCAzMzYgKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrCgpQbGVhc2UgYWRkIGFuIGluY2x1ZGUgc3RhbnphIGZvciB0aGlzIG5l
+dyBmaWxlIHRvCkRvY3VtZW50YXRpb24vZ3B1L2RybS1rbXMtaGVscGVycy5yc3QsIHNvbWV3aGVy
+ZSBuZWFyIHRoZSBvdGhlciBkcC9oZGNwCnJlbGF0ZWQgc2luayBoZWxwZXJzLgoKPiAgZHJpdmVy
+cy9ncHUvZHJtL2RybV9pbnRlcm5hbC5oIHwgICA0ICsKPiAgZHJpdmVycy9ncHUvZHJtL2RybV9z
+eXNmcy5jICAgIHwgICAyICsKPiAgaW5jbHVkZS9kcm0vZHJtX2hkY3AuaCAgICAgICAgIHwgIDM2
+ICsrKysKPiAgNSBmaWxlcyBjaGFuZ2VkLCAzNzkgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2RybV9oZGNwLmMKPiAKPiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlIGIvZHJpdmVycy9ncHUvZHJtL01h
+a2VmaWxlCj4gaW5kZXggM2QwYzc1Y2Q2ODdjLi5mZTg0MDBhZjI0MjYgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxl
+Cj4gQEAgLTE5LDcgKzE5LDcgQEAgZHJtLXkgICAgICAgOj0JZHJtX2F1dGgubyBkcm1fYnVmcy5v
+IGRybV9jYWNoZS5vIFwKPiAgCQlkcm1fcGxhbmUubyBkcm1fY29sb3JfbWdtdC5vIGRybV9wcmlu
+dC5vIFwKPiAgCQlkcm1fZHVtYl9idWZmZXJzLm8gZHJtX21vZGVfY29uZmlnLm8gZHJtX3ZibGFu
+ay5vIFwKPiAgCQlkcm1fc3luY29iai5vIGRybV9sZWFzZS5vIGRybV93cml0ZWJhY2subyBkcm1f
+Y2xpZW50Lm8gXAo+IC0JCWRybV9hdG9taWNfdWFwaS5vCj4gKwkJZHJtX2F0b21pY191YXBpLm8g
+ZHJtX2hkY3Aubwo+ICAKPiAgZHJtLSQoQ09ORklHX0RSTV9MSUJfUkFORE9NKSArPSBsaWIvZHJt
+X3JhbmRvbS5vCj4gIGRybS0kKENPTkZJR19EUk1fVk0pICs9IGRybV92bS5vCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faGRjcC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9oZGNw
+LmMKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMC4uNzhiMDQzYzgx
+OTVlCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1faGRjcC5jCj4g
+QEAgLTAsMCArMSwzMzYgQEAKPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAK
+PiArLyoKPiArICogQ29weXJpZ2h0IChDKSAyMDE5IEludGVsIENvcnBvcmF0aW9uLgo+ICsgKgo+
+ICsgKiBBdXRob3JzOgo+ICsgKiBSYW1hbGluZ2FtIEMgPHJhbWFsaW5nYW0uY0BpbnRlbC5jb20+
+Cj4gKyAqLwo+ICsKPiArI2luY2x1ZGUgPGxpbnV4L2RldmljZS5oPgo+ICsjaW5jbHVkZSA8bGlu
+dXgvZXJyLmg+Cj4gKyNpbmNsdWRlIDxsaW51eC9nZnAuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2V4
+cG9ydC5oPgo+ICsjaW5jbHVkZSA8bGludXgvc2xhYi5oPgo+ICsjaW5jbHVkZSA8bGludXgvZmly
+bXdhcmUuaD4KPiArCj4gKyNpbmNsdWRlIDxkcm0vZHJtX2hkY3AuaD4KPiArI2luY2x1ZGUgPGRy
+bS9kcm1fc3lzZnMuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KPiArI2luY2x1ZGUg
+PGRybS9kcm1fZGV2aWNlLmg+Cj4gKwo+ICtzdHJ1Y3QgaGRjcF9zcm0gewo+ICsJdTggKnNybV9i
+dWY7Cj4gKwlzaXplX3QgcmVjZWl2ZWRfc3JtX3N6Owo+ICsJdTMyIHJldm9jYXRlZF9rc3ZfY250
+Owo+ICsJdTggKnJldm9jYXRlZF9rc3ZfbGlzdDsKPiArCj4gKwkvKiBNdXRleCB0byBwcm90ZWN0
+IGFib3ZlIHN0cnVjdCBtZW1iZXIgKi8KPiArCXN0cnVjdCBtdXRleCBtdXRleDsKPiArfSAqc3Jt
+X2RhdGE7Cj4gKwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgZHJtX2hkY3BfcHJpbnRfa3N2KGNvbnN0
+IGNoYXIgKmtzdikKPiArewo+ICsJRFJNX0RFQlVHKCJcdCUjMDR4LCAlIzA0eCwgJSMwNHgsICUj
+MDR4LCAlIzA0eFxuIiwgKmtzdiAmIDB4ZmYsCgpXaHkgMDQ/IDggYml0IG9ubHkgbmVlZHMgMDIg
+SSB0aGluay4KCj4gKwkJICAqKGtzdiArIDEpICYgMHhmZiwgKihrc3YgKyAyKSAmIDB4ZmYsICoo
+a3N2ICsgMykgJiAweGZmLAo+ICsJCSAgKihrc3YgKyA0KSAmIDB4ZmYpOwoKVGhlIDB4ZmYgaXMg
+cmVkdW5kYW50LCBjaGFyIGlzIGFsd2F5cyBvbmx5IDggYml0cy4gWW91IGNvdWxkIGFsc28gc2lt
+cGxpZnkKdGhlIGFycmF5IGRlcmVmZSB1c2luZyBrc3ZbMF0sIGtzdlsxXSwgLi4uIGl0J3MgdGhl
+IHNhbWUgZXhwcmVzc2lvbi4KCkFub3RoZXIgb25lOiBUaGVyZSdzIGEgYml0IGEgY29uZnVzaW9u
+IGJldHdlZW4gY29uc3QgY2hhciAqIGFuZCB1OCogZm9yCnBhcnNpbmcgdGhlIGJ1ZmZlci4gSSB0
+aGluayBpdCdkIGJlIGdvb2QgdG8gc3RhbmRhcmRpemUgb24gY29uc3QgdTgqIGZvcgpldmVyeXRo
+aW5nLiBJIHRoaW5rIHRoYXQgc2hvdWxkIGFsc28gcmVtb3ZlIHRoZSBuZWVkIGZvciAweGZmIGNv
+bXBsZXRlbHksCmJlY2F1c2Ugbm8gbW9yZSBzaWduIGV4dGVuc2lvbnMgdG8gdGhlIGZ1bGwgaW50
+LgoKPiArfQo+ICsKPiArc3RhdGljIHUzMiBkcm1faGRjcF9nZXRfcmV2b2NhdGVkX2tzdl9jb3Vu
+dChjb25zdCBjaGFyICpidWYsIHUzMiB2cmxzX2xlbmd0aCkKPiArewo+ICsJdTMyIHBhcnNlZF9i
+eXRlcyA9IDAsIGtzdl9jb3VudCA9IDAsIHZybF9rc3ZfY250LCB2cmxfc3o7Cj4gKwo+ICsJZG8g
+ewo+ICsJCXZybF9rc3ZfY250ID0gKmJ1ZjsKPiArCQlrc3ZfY291bnQgKz0gdnJsX2tzdl9jbnQ7
+Cj4gKwo+ICsJCXZybF9zeiA9ICh2cmxfa3N2X2NudCAqIERSTV9IRENQX0tTVl9MRU4pICsgMTsK
+PiArCQlidWYgKz0gdnJsX3N6Owo+ICsJCXBhcnNlZF9ieXRlcyArPSB2cmxfc3o7Cj4gKwl9IHdo
+aWxlIChwYXJzZWRfYnl0ZXMgPCB2cmxzX2xlbmd0aCk7CgpIbSwgaWYgd2Ugb3ZlcmZsb3cgaGVy
+ZSAoaS5lLiBwYXJzZWRfYnl0ZXMgPiB2cmxzX2xlbmdodCkgdGhlbiB3ZSByZXR1cm4KZ2FyYmFn
+ZSwgc2luY2Ugd2UgYWxyZWFkeSBpbmNyZW1lbnRlZCBrc3ZfY291bnQuIFBsdXMgdGhlcmUncyBu
+byBlcnJvcgpjaGVja2luZyBvZiB0aGlzLiBLZXJuZWwgc2hvdWxkbid0IHRydXN0IHJvb3QgdGhp
+cyBtdWNoLCBhbmQgaWYgdGhlCnZybHNfbGVuZ3RoIGFuZCBvdXIga3N2IHBhcnNpbmcgZG9uJ3Qg
+YWdyZWUsIHdlIHNob3VsZCBhYm9ydCB0aGUgc3JtIGxvYWQuClNvIG1heWJlIHN3aXRjaCB0aGUg
+cmV0dXJuIHZhbHVlIHRvIGludCwgYW5kIG9uIGVycm9yIHJldHVybiAtRUlOVkFMIGFuZAphYm9y
+dD8KCj4gKwo+ICsJcmV0dXJuIGtzdl9jb3VudDsKPiArfQo+ICsKPiArc3RhdGljIHUzMiBkcm1f
+aGRjcF9nZXRfcmV2b2NhdGVkX2tzdnMoY29uc3QgY2hhciAqYnVmLCB1OCAqcmV2b2NhdGVkX2tz
+dl9saXN0LAo+ICsJCQkJICAgICAgIHUzMiB2cmxzX2xlbmd0aCkKClRoaXMgZnVuY3Rpb24gaGVy
+ZSBkb2Vzbid0IG5lZWQgdG8gYmUgcGFyYW5vaWQsIHNpbmNlIHdlIGFscmVhZHkgY2hlY2tlZAp0
+aGUgU1JNIGJ5IHRoaXMgcG9pbnQuCgo+ICt7Cj4gKwl1MzIgcGFyc2VkX2J5dGVzID0gMCwga3N2
+X2NvdW50ID0gMDsKPiArCXUzMiB2cmxfa3N2X2NudCwgdnJsX2tzdl9zeiwgdnJsX2lkeCA9IDA7
+Cj4gKwo+ICsJZG8gewo+ICsJCXZybF9rc3ZfY250ID0gKmJ1ZjsKPiArCQl2cmxfa3N2X3N6ID0g
+dnJsX2tzdl9jbnQgKiBEUk1fSERDUF9LU1ZfTEVOOwo+ICsKPiArCQlidWYrKzsKPiArCj4gKwkJ
+RFJNX0RFQlVHKCJ2cmw6ICVkLCBSZXZva2VkIEtTVnM6ICVkXG4iLCB2cmxfaWR4KyssCj4gKwkJ
+CSAgdnJsX2tzdl9jbnQpOwo+ICsJCW1lbWNweShyZXZvY2F0ZWRfa3N2X2xpc3QsIGJ1ZiwgdnJs
+X2tzdl9zeik7Cj4gKwo+ICsJCWtzdl9jb3VudCArPSB2cmxfa3N2X2NudDsKPiArCQlyZXZvY2F0
+ZWRfa3N2X2xpc3QgKz0gdnJsX2tzdl9zejsKPiArCQlidWYgKz0gdnJsX2tzdl9zejsKPiArCj4g
+KwkJcGFyc2VkX2J5dGVzICs9ICh2cmxfa3N2X3N6ICsgMSk7Cj4gKwl9IHdoaWxlIChwYXJzZWRf
+Ynl0ZXMgPCB2cmxzX2xlbmd0aCk7Cj4gKwo+ICsJcmV0dXJuIGtzdl9jb3VudDsKPiArfQo+ICsK
+PiArc3RhdGljIGludCBkcm1faGRjcF9wYXJzZV9oZGNwMV9zcm0oY29uc3QgY2hhciAqYnVmLCBz
+aXplX3QgY291bnQpCj4gK3sKPiArCXN0cnVjdCBoZGNwX3NybV9oZWFkZXIgKmhlYWRlcjsKPiAr
+CXUzMiB2cmxfbGVuZ3RoLCBrc3ZfY291bnQ7Cj4gKwo+ICsJaWYgKGNvdW50IDwgKHNpemVvZihz
+dHJ1Y3QgaGRjcF9zcm1faGVhZGVyKSArCj4gKwkgICAgRFJNX0hEQ1BfMV80X1ZSTF9MRU5HVEhf
+U0laRSArIERSTV9IRENQXzFfNF9EQ1BfU0lHX1NJWkUpKSB7Cj4gKwkJRFJNX0VSUk9SKCJJbnZh
+bGlkIGJsb2IgbGVuZ3RoXG4iKTsKPiArCQlyZXR1cm4gLUVJTlZBTDsKPiArCX0KPiArCj4gKwlo
+ZWFkZXIgPSAoc3RydWN0IGhkY3Bfc3JtX2hlYWRlciAqKWJ1ZjsKPiArCW11dGV4X2xvY2soJnNy
+bV9kYXRhLT5tdXRleCk7Cj4gKwlEUk1fREVCVUcoIlNSTSBJRDogMHgleCwgU1JNIFZlcjogMHgl
+eCwgU1JNIEdlbiBObzogMHgleFxuIiwKPiArCQkgIGhlYWRlci0+c3BlY19pbmRpY2F0b3Iuc3Jt
+X2lkLAo+ICsJCSAgX19zd2FiMTYoaGVhZGVyLT5zcm1fdmVyc2lvbiksIGhlYWRlci0+c3JtX2dl
+bl9ubyk7Cj4gKwo+ICsJV0FSTl9PTihoZWFkZXItPnNwZWNfaW5kaWNhdG9yLnJlc2VydmVkX2hp
+IHx8Cj4gKwkJaGVhZGVyLT5zcGVjX2luZGljYXRvci5yZXNlcnZlZF9sbyk7Cj4gKwo+ICsJaWYg
+KGhlYWRlci0+c3BlY19pbmRpY2F0b3Iuc3JtX2lkICE9IERSTV9IRENQXzFfNF9TUk1fSUQpIHsK
+PiArCQlEUk1fRVJST1IoIkludmFsaWQgc3JtX2lkXG4iKTsKPiArCQltdXRleF91bmxvY2soJnNy
+bV9kYXRhLT5tdXRleCk7Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4gKwo+ICsJYnVmID0g
+YnVmICsgc2l6ZW9mKCpoZWFkZXIpOwo+ICsJdnJsX2xlbmd0aCA9ICgqYnVmIDw8IDE2IHwgKihi
+dWYgKyAxKSA8PCA4IHwgKihidWYgKyAyKSk7CgpNYXliZSBhIHN0YXRpYyBpbmxpbmUgdG8gaW1w
+bGVtZW50IHRoaXMgYW5kIHVzZSBpbiB0aGUgaGRjcDIgdmVyc2lvbiBiZWxvdwp0b28uIEFsc28g
+SSB0aGluayBidWZbMF0sIGJ1ZlsxXSBpcyBlYXNpZXIgdG8gcmVhZCAoYXMgYSBiaWtlc2hlZCBh
+Z2FpbikuCgo+ICsJaWYgKGNvdW50IDwgKHNpemVvZihzdHJ1Y3QgaGRjcF9zcm1faGVhZGVyKSAr
+IHZybF9sZW5ndGgpIHx8Cj4gKwkgICAgdnJsX2xlbmd0aCA8IChEUk1fSERDUF8xXzRfVlJMX0xF
+TkdUSF9TSVpFICsKPiArCQkJICBEUk1fSERDUF8xXzRfRENQX1NJR19TSVpFKSkgewo+ICsJCURS
+TV9FUlJPUigiSW52YWxpZCBibG9iIGxlbmd0aCBvciB2cmwgbGVuZ3RoXG4iKTsKPiArCQltdXRl
+eF91bmxvY2soJnNybV9kYXRhLT5tdXRleCk7Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4g
+Kwo+ICsJLyogTGVuZ3RoIG9mIHRoZSBhbGwgdnJscyBjb21iaW5lZCAqLwo+ICsJdnJsX2xlbmd0
+aCAtPSAoRFJNX0hEQ1BfMV80X1ZSTF9MRU5HVEhfU0laRSArCj4gKwkJICAgICAgIERSTV9IRENQ
+XzFfNF9EQ1BfU0lHX1NJWkUpOwo+ICsKPiArCWlmICghdnJsX2xlbmd0aCkgewo+ICsJCURSTV9F
+UlJPUigiTm8gdnJsIGZvdW5kXG4iKTsKPiArCQltdXRleF91bmxvY2soJnNybV9kYXRhLT5tdXRl
+eCk7Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4gKwo+ICsJYnVmICs9IERSTV9IRENQXzFf
+NF9WUkxfTEVOR1RIX1NJWkU7Cj4gKwlrc3ZfY291bnQgPSBkcm1faGRjcF9nZXRfcmV2b2NhdGVk
+X2tzdl9jb3VudChidWYsIHZybF9sZW5ndGgpOwo+ICsJaWYgKCFrc3ZfY291bnQpIHsKPiArCQlE
+Uk1fREVCVUcoIlJldm9jYXRlZCBLU1YgY291bnQgaXMgMFxuIik7Cj4gKwkJbXV0ZXhfdW5sb2Nr
+KCZzcm1fZGF0YS0+bXV0ZXgpOwo+ICsJCXJldHVybiBjb3VudDsKPiArCX0KPiArCj4gKwlrZnJl
+ZShzcm1fZGF0YS0+cmV2b2NhdGVkX2tzdl9saXN0KTsKPiArCXNybV9kYXRhLT5yZXZvY2F0ZWRf
+a3N2X2xpc3QgPSBremFsbG9jKGtzdl9jb3VudCAqIERSTV9IRENQX0tTVl9MRU4sCj4gKwkJCQkJ
+ICAgICAgIEdGUF9LRVJORUwpOwoKa2NhbGxvYygpCgo+ICsJaWYgKCFzcm1fZGF0YS0+cmV2b2Nh
+dGVkX2tzdl9saXN0KSB7Cj4gKwkJRFJNX0VSUk9SKCJPdXQgb2YgTWVtb3J5XG4iKTsKPiArCQlt
+dXRleF91bmxvY2soJnNybV9kYXRhLT5tdXRleCk7Cj4gKwkJcmV0dXJuIC1FTk9NRU07Cj4gKwl9
+Cj4gKwo+ICsJaWYgKGRybV9oZGNwX2dldF9yZXZvY2F0ZWRfa3N2cyhidWYsIHNybV9kYXRhLT5y
+ZXZvY2F0ZWRfa3N2X2xpc3QsCj4gKwkJCQkJdnJsX2xlbmd0aCkgIT0ga3N2X2NvdW50KSB7Cj4g
+KwkJc3JtX2RhdGEtPnJldm9jYXRlZF9rc3ZfY250ID0gMDsKPiArCQlrZnJlZShzcm1fZGF0YS0+
+cmV2b2NhdGVkX2tzdl9saXN0KTsKPiArCQltdXRleF91bmxvY2soJnNybV9kYXRhLT5tdXRleCk7
+Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4gKwo+ICsJc3JtX2RhdGEtPnJldm9jYXRlZF9r
+c3ZfY250ID0ga3N2X2NvdW50Owo+ICsJbXV0ZXhfdW5sb2NrKCZzcm1fZGF0YS0+bXV0ZXgpOwo+
+ICsJcmV0dXJuIGNvdW50Owo+ICt9Cj4gKwo+ICtzdGF0aWMgaW50IGRybV9oZGNwX3BhcnNlX2hk
+Y3AyX3NybShjb25zdCBjaGFyICpidWYsIHNpemVfdCBjb3VudCkKPiArewo+ICsJc3RydWN0IGhk
+Y3AyX3NybV9oZWFkZXIgKmhlYWRlcjsKPiArCXUzMiB2cmxfbGVuZ3RoLCBrc3ZfY291bnQsIGtz
+dl9zejsKPiArCj4gKwltdXRleF9sb2NrKCZzcm1fZGF0YS0+bXV0ZXgpOwo+ICsJaWYgKGNvdW50
+IDwgKHNpemVvZihzdHJ1Y3QgaGRjcDJfc3JtX2hlYWRlcikgKwo+ICsJICAgIERSTV9IRENQXzJf
+VlJMX0xFTkdUSF9TSVpFICsgRFJNX0hEQ1BfMl9EQ1BfU0lHX1NJWkUpKSB7Cj4gKwkJRFJNX0VS
+Uk9SKCJJbnZhbGlkIGJsb2IgbGVuZ3RoXG4iKTsKPiArCQltdXRleF91bmxvY2soJnNybV9kYXRh
+LT5tdXRleCk7Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4gKwo+ICsJaGVhZGVyID0gKHN0
+cnVjdCBoZGNwMl9zcm1faGVhZGVyICopYnVmOwo+ICsJRFJNX0RFQlVHKCJTUk0gSUQ6IDB4JXgs
+IFNSTSBWZXI6IDB4JXgsIFNSTSBHZW4gTm86IDB4JXhcbiIsCj4gKwkJICBoZWFkZXItPnNwZWNf
+aW5kaWNhdG9yLnNybV9pZCwKPiArCQkgIF9fc3dhYjE2KGhlYWRlci0+c3JtX3ZlcnNpb24pLCBo
+ZWFkZXItPnNybV9nZW5fbm8pOwo+ICsKPiArCWlmIChoZWFkZXItPnNwZWNfaW5kaWNhdG9yLnJl
+c2VydmVkKQo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiArCWJ1ZiA9IGJ1ZiArIHNpemVvZigq
+aGVhZGVyKTsKPiArCXZybF9sZW5ndGggPSAoKmJ1ZiA8PCAxNiB8ICooYnVmICsgMSkgPDwgOCB8
+ICooYnVmICsgMikpOwo+ICsKPiArCWlmIChjb3VudCA8IChzaXplb2Yoc3RydWN0IGhkY3AyX3Ny
+bV9oZWFkZXIpICsgdnJsX2xlbmd0aCkgfHwKPiArCSAgICB2cmxfbGVuZ3RoIDwgKERSTV9IRENQ
+XzJfVlJMX0xFTkdUSF9TSVpFICsKPiArCSAgICBEUk1fSERDUF8yX0RDUF9TSUdfU0laRSkpIHsK
+PiArCQlEUk1fRVJST1IoIkludmFsaWQgYmxvYiBsZW5ndGggb3IgdnJsIGxlbmd0aFxuIik7Cj4g
+KwkJbXV0ZXhfdW5sb2NrKCZzcm1fZGF0YS0+bXV0ZXgpOwo+ICsJCXJldHVybiAtRUlOVkFMOwo+
+ICsJfQo+ICsKPiArCS8qIExlbmd0aCBvZiB0aGUgYWxsIHZybHMgY29tYmluZWQgKi8KPiArCXZy
+bF9sZW5ndGggLT0gKERSTV9IRENQXzJfVlJMX0xFTkdUSF9TSVpFICsKPiArCQkgICAgICAgRFJN
+X0hEQ1BfMl9EQ1BfU0lHX1NJWkUpOwo+ICsKPiArCWlmICghdnJsX2xlbmd0aCkgewo+ICsJCURS
+TV9FUlJPUigiTm8gdnJsIGZvdW5kXG4iKTsKPiArCQltdXRleF91bmxvY2soJnNybV9kYXRhLT5t
+dXRleCk7Cj4gKwkJcmV0dXJuIC1FSU5WQUw7Cj4gKwl9Cj4gKwo+ICsJYnVmICs9IERSTV9IRENQ
+XzJfVlJMX0xFTkdUSF9TSVpFOwo+ICsJa3N2X2NvdW50ID0gKCpidWYgPDwgMikgfCBEUk1fSERD
+UF8yX0tTVl9DT1VOVF8yX0xTQklUUygqKGJ1ZiArIDEpKTsKPiArCWlmICgha3N2X2NvdW50KSB7
+Cj4gKwkJRFJNX0RFQlVHKCJSZXZvY2F0ZWQgS1NWIGNvdW50IGlzIDBcbiIpOwo+ICsJCW11dGV4
+X3VubG9jaygmc3JtX2RhdGEtPm11dGV4KTsKPiArCQlyZXR1cm4gY291bnQ7Cj4gKwl9Cj4gKwo+
+ICsJa2ZyZWUoc3JtX2RhdGEtPnJldm9jYXRlZF9rc3ZfbGlzdCk7Cj4gKwlzcm1fZGF0YS0+cmV2
+b2NhdGVkX2tzdl9saXN0ID0ga3phbGxvYyhrc3ZfY291bnQgKiBEUk1fSERDUF9LU1ZfTEVOLAo+
+ICsJCQkJCSAgICAgICBHRlBfS0VSTkVMKTsKPiArCWlmICghc3JtX2RhdGEtPnJldm9jYXRlZF9r
+c3ZfbGlzdCkgewo+ICsJCURSTV9FUlJPUigiT3V0IG9mIE1lbW9yeVxuIik7Cj4gKwkJbXV0ZXhf
+dW5sb2NrKCZzcm1fZGF0YS0+bXV0ZXgpOwo+ICsJCXJldHVybiAtRU5PTUVNOwo+ICsJfQo+ICsK
+PiArCWtzdl9zeiA9IGtzdl9jb3VudCAqIERSTV9IRENQX0tTVl9MRU47Cj4gKwlidWYgKz0gRFJN
+X0hEQ1BfMl9OT19PRl9ERVZfUExVU19SRVNFUlZFRF9TWjsKPiArCj4gKwlEUk1fREVCVUcoIlJl
+dm9rZWQgS1NWczogJWRcbiIsIGtzdl9jb3VudCk7Cj4gKwltZW1jcHkoc3JtX2RhdGEtPnJldm9j
+YXRlZF9rc3ZfbGlzdCwgYnVmLCBrc3Zfc3opOwo+ICsKPiArCXNybV9kYXRhLT5yZXZvY2F0ZWRf
+a3N2X2NudCA9IGtzdl9jb3VudDsKPiArCW11dGV4X3VubG9jaygmc3JtX2RhdGEtPm11dGV4KTsK
+PiArCXJldHVybiBjb3VudDsKPiArfQo+ICsKPiArc3RhdGljIGlubGluZSBib29sIGlzX3NybV92
+ZXJzaW9uX2hkY3AxKGNvbnN0IGNoYXIgKmJ1ZikKPiArewo+ICsJcmV0dXJuICgodTgpKmJ1Zikg
+PT0gRFJNX0hEQ1BfMV80X1NSTV9JRCA8PCA0Owo+ICt9Cj4gKwo+ICtzdGF0aWMgaW5saW5lIGJv
+b2wgaXNfc3JtX3ZlcnNpb25faGRjcDIoY29uc3QgY2hhciAqYnVmKQo+ICt7Cj4gKwlyZXR1cm4g
+KCh1OCkqYnVmKSA9PSAoRFJNX0hEQ1BfMl9TUk1fSUQgPDwgNCB8Cj4gKwkJCSAgICAgRFJNX0hE
+Q1BfMl9JTkRJQ0FUT1IpOwo+ICt9Cj4gKwo+ICtzdGF0aWMgc3NpemVfdCBkcm1faGRjcF9zcm1f
+dXBkYXRlKGNvbnN0IGNoYXIgKmJ1Ziwgc2l6ZV90IGNvdW50KQo+ICt7Cj4gKwlpZiAoaXNfc3Jt
+X3ZlcnNpb25faGRjcDEoYnVmKSkKPiArCQlyZXR1cm4gKHNzaXplX3QpZHJtX2hkY3BfcGFyc2Vf
+aGRjcDFfc3JtKGJ1ZiwgY291bnQpOwo+ICsJZWxzZSBpZiAoaXNfc3JtX3ZlcnNpb25faGRjcDIo
+YnVmKSkKPiArCQlyZXR1cm4gKHNzaXplX3QpZHJtX2hkY3BfcGFyc2VfaGRjcDJfc3JtKGJ1Ziwg
+Y291bnQpOwo+ICsKPiArCXJldHVybiAoc3NpemVfdCktRUlOVkFMOwo+ICt9Cj4gKwo+ICt2b2lk
+IGRybV9oZGNwX3JlcXVlc3Rfc3JtKHN0cnVjdCBkcm1fZGV2aWNlICpkcm1fZGV2KQo+ICt7Cj4g
+KwljaGFyIGZ3X25hbWVbMzZdID0gImRpc3BsYXlfaGRjcF9zcm0uYmluIjsKPiArCWNvbnN0IHN0
+cnVjdCBmaXJtd2FyZSAqZnc7Cj4gKwo+ICsJaW50IHJldDsKPiArCj4gKwlyZXQgPSByZXF1ZXN0
+X2Zpcm13YXJlX2RpcmVjdCgmZncsIChjb25zdCBjaGFyICopZndfbmFtZSwKPiArCQkJCSAgICAg
+IGRybV9kZXYtPmRldik7CgpXZSBuZWVkIGFuIGFjayBmcm9tIE1hdHQgUm9wZXIgb3Igc29tZW9u
+dCBlbHNlIGZyb20gaW90ZyBvbiB0aGlzLgoKPiArCWlmIChyZXQgPCAwKQo+ICsJCWdvdG8gZXhp
+dDsKPiArCj4gKwlpZiAoZnctPnNpemUgJiYgZnctPmRhdGEpCj4gKwkJZHJtX2hkY3Bfc3JtX3Vw
+ZGF0ZSgoY29uc3QgY2hhciAqKWZ3LT5kYXRhLCBmdy0+c2l6ZSk7Cj4gKwo+ICtleGl0Ogo+ICsJ
+cmVsZWFzZV9maXJtd2FyZShmdyk7Cj4gK30KPiArCj4gKy8qIENoZWNrIGlmIGFueSBvZiB0aGUg
+S1NWIGlzIHJldm9jYXRlZCBieSBEQ1AgTExDIHRocm91Z2ggU1JNIHRhYmxlICovCj4gK2Jvb2wg
+ZHJtX2hkY3Bfa3N2c19yZXZvY2F0ZWQoc3RydWN0IGRybV9kZXZpY2UgKmRybV9kZXYsIHU4ICpr
+c3ZzLAoKU2luY2UgY29tbWVudCBzYXlzICJjaGVjayIsIG1heWJlIHB1dCB0aGF0IGludG8gdGhl
+IGZ1bmN0aW9uIG5hbWU/IEkgbGlrZQp0byBoYXZlIHZlcmJzIGluIGZ1bmN0aW9uIG5hbWVzIHRo
+YXQgZG8gc29tZXRoaW5nIChpbnN0ZWFkIG9mIHNpbXBsZQpoZWxwZXIgZnVuY3Rpb25zIHRvIGV4
+dHJhY3QgYSBjb21wdXRhdGlvbiB0byBtYWtlIHRoZSBjb2RlIGEgYml0IG1vcmUKcmVhZGFibGUp
+LgoKQWxzbyBuZWVkcyBzb21lIG5pY2Uga2VybmVsZG9jLgoKPiArCQkJICAgICB1MzIga3N2X2Nv
+dW50KQo+ICt7Cj4gKwl1MzIgcmV2X2tzdl9jbnQsIGNudCwgaSwgajsKPiArCXU4ICpyZXZfa3N2
+X2xpc3Q7Cj4gKwo+ICsJaWYgKCFzcm1fZGF0YSkKPiArCQlyZXR1cm4gZmFsc2U7Cj4gKwo+ICsJ
+ZHJtX2hkY3BfcmVxdWVzdF9zcm0oZHJtX2Rldik7Cj4gKwo+ICsJbXV0ZXhfbG9jaygmc3JtX2Rh
+dGEtPm11dGV4KTsKCkknZCBoYXZlIHdyYXBwZWQgdGhlIGxvY2tpbmcgYXJvdW5kIHRoZSBlbnRp
+cmUgZnVuY3Rpb24sIHNob3VsZCBzaW1wbGlmeQp0aGluZ3MgYSBsb3QuIE9yIGRvZXMgdGhhdCBh
+bmdlciBsb2NrZGVwIHdoZW4gd2UgY2FsbCBpbnRvCnJlcXVlc3RfZmlybXdhcmUoKT8KCj4gKwly
+ZXZfa3N2X2NudCA9IHNybV9kYXRhLT5yZXZvY2F0ZWRfa3N2X2NudDsKPiArCXJldl9rc3ZfbGlz
+dCA9IHNybV9kYXRhLT5yZXZvY2F0ZWRfa3N2X2xpc3Q7Cj4gKwo+ICsJLyogSWYgdGhlIFJldm9j
+YXRlZCBrc3YgbGlzdCBpcyBlbXB0eSAqLwo+ICsJaWYgKCFyZXZfa3N2X2NudCB8fCAhcmV2X2tz
+dl9saXN0KSB7Cj4gKwkJbXV0ZXhfdW5sb2NrKCZzcm1fZGF0YS0+bXV0ZXgpOwo+ICsJCXJldHVy
+biBmYWxzZTsKPiArCX0KPiArCj4gKwlmb3IgIChjbnQgPSAwOyBjbnQgPCBrc3ZfY291bnQ7IGNu
+dCsrKSB7Cj4gKwkJcmV2X2tzdl9saXN0ID0gc3JtX2RhdGEtPnJldm9jYXRlZF9rc3ZfbGlzdDsK
+PiArCQlmb3IgKGkgPSAwOyBpIDwgcmV2X2tzdl9jbnQ7IGkrKykgewo+ICsJCQlmb3IgKGogPSAw
+OyBqIDwgRFJNX0hEQ1BfS1NWX0xFTjsgaisrKQo+ICsJCQkJaWYgKCooa3N2cyArIGopICE9ICoo
+cmV2X2tzdl9saXN0ICsgaikpIHsKPiArCQkJCQlicmVhazsKPiArCQkJCX0gZWxzZSBpZiAoaiA9
+PSAoRFJNX0hEQ1BfS1NWX0xFTiAtIDEpKSB7Cj4gKwkJCQkJRFJNX0RFQlVHKCJSZXZvY2F0ZWQg
+S1NWIGlzICIpOwo+ICsJCQkJCWRybV9oZGNwX3ByaW50X2tzdihrc3ZzKTsKPiArCQkJCQltdXRl
+eF91bmxvY2soJnNybV9kYXRhLT5tdXRleCk7Cj4gKwkJCQkJcmV0dXJuIHRydWU7Cj4gKwkJCQl9
+Cj4gKwkJCS8qIE1vdmUgdGhlIG9mZnNldCB0byBuZXh0IEtTViBpbiB0aGUgcmV2b2NhdGVkIGxp
+c3QgKi8KPiArCQkJcmV2X2tzdl9saXN0ICs9IERSTV9IRENQX0tTVl9MRU47Cj4gKwkJfQo+ICsK
+PiArCQkvKiBJdGVyYXRlIHRvIG5leHQga3N2X29mZnNldCAqLwo+ICsJCWtzdnMgKz0gRFJNX0hE
+Q1BfS1NWX0xFTjsKPiArCX0KPiArCW11dGV4X3VubG9jaygmc3JtX2RhdGEtPm11dGV4KTsKPiAr
+CXJldHVybiBmYWxzZTsKPiArfQo+ICtFWFBPUlRfU1lNQk9MX0dQTChkcm1faGRjcF9rc3ZzX3Jl
+dm9jYXRlZCk7Cj4gKwo+ICtpbnQgZHJtX3NldHVwX2hkY3Bfc3JtKHN0cnVjdCBjbGFzcyAqZHJt
+X2NsYXNzKQo+ICt7Cj4gKwlzcm1fZGF0YSA9IGt6YWxsb2Moc2l6ZW9mKCpzcm1fZGF0YSksIEdG
+UF9LRVJORUwpOwo+ICsJaWYgKCFzcm1fZGF0YSkKPiArCQlyZXR1cm4gLUVOT01FTTsKPiArCj4g
+Kwlzcm1fZGF0YS0+c3JtX2J1ZiA9IGtjYWxsb2MoRFJNX0hEQ1BfU1JNX0dFTjFfTUFYX0JZVEVT
+LAo+ICsJCQkJICAgIHNpemVvZih1OCksIEdGUF9LRVJORUwpOwo+ICsJaWYgKCFzcm1fZGF0YS0+
+c3JtX2J1Zikgewo+ICsJCWtmcmVlKHNybV9kYXRhKTsKPiArCQlyZXR1cm4gLUVOT01FTTsKPiAr
+CX0KPiArCW11dGV4X2luaXQoJnNybV9kYXRhLT5tdXRleCk7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4g
+K30KPiArCj4gK3ZvaWQgZHJtX3RlYXJkb3duX2hkY3Bfc3JtKHN0cnVjdCBjbGFzcyAqZHJtX2Ns
+YXNzKQo+ICt7Cj4gKwlpZiAoc3JtX2RhdGEpIHsKPiArCQlrZnJlZShzcm1fZGF0YS0+c3JtX2J1
+Zik7Cj4gKwkJa2ZyZWUoc3JtX2RhdGEtPnJldm9jYXRlZF9rc3ZfbGlzdCk7Cj4gKwkJa2ZyZWUo
+c3JtX2RhdGEpOwo+ICsJfQo+ICt9Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+aW50ZXJuYWwuaCBiL2RyaXZlcnMvZ3B1L2RybS9kcm1faW50ZXJuYWwuaAo+IGluZGV4IGQ5YTQ4
+M2E1ZmNlMC4uZWYzMTgwNDQzODcwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+aW50ZXJuYWwuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1faW50ZXJuYWwuaAo+IEBAIC0x
+OTksMyArMTk5LDcgQEAgaW50IGRybV9zeW5jb2JqX3F1ZXJ5X2lvY3RsKHN0cnVjdCBkcm1fZGV2
+aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gIHZvaWQgZHJtX2ZyYW1lYnVmZmVyX3ByaW50X2luZm8o
+c3RydWN0IGRybV9wcmludGVyICpwLCB1bnNpZ25lZCBpbnQgaW5kZW50LAo+ICAJCQkJY29uc3Qg
+c3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIpOwo+ICBpbnQgZHJtX2ZyYW1lYnVmZmVyX2RlYnVn
+ZnNfaW5pdChzdHJ1Y3QgZHJtX21pbm9yICptaW5vcik7Cj4gKwo+ICsvKiBkcm1faGRjcC5jICov
+Cj4gK2ludCBkcm1fc2V0dXBfaGRjcF9zcm0oc3RydWN0IGNsYXNzICpkcm1fY2xhc3MpOwo+ICt2
+b2lkIGRybV90ZWFyZG93bl9oZGNwX3NybShzdHJ1Y3QgY2xhc3MgKmRybV9jbGFzcyk7Cj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lzZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fc3lzZnMuYwo+IGluZGV4IGVjYjdiMzMwMDJiYi4uMThiMWFjNDQyOTk3IDEwMDY0NAo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lzZnMuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fc3lzZnMuYwo+IEBAIC03OCw2ICs3OCw3IEBAIGludCBkcm1fc3lzZnNfaW5pdCh2b2lkKQo+
+ICAJfQo+ICAKPiAgCWRybV9jbGFzcy0+ZGV2bm9kZSA9IGRybV9kZXZub2RlOwo+ICsJZHJtX3Nl
+dHVwX2hkY3Bfc3JtKGRybV9jbGFzcyk7Cj4gIAlyZXR1cm4gMDsKPiAgfQo+ICAKPiBAQCAtOTAs
+NiArOTEsNyBAQCB2b2lkIGRybV9zeXNmc19kZXN0cm95KHZvaWQpCj4gIHsKPiAgCWlmIChJU19F
+UlJfT1JfTlVMTChkcm1fY2xhc3MpKQo+ICAJCXJldHVybjsKPiArCWRybV90ZWFyZG93bl9oZGNw
+X3NybShkcm1fY2xhc3MpOwo+ICAJY2xhc3NfcmVtb3ZlX2ZpbGUoZHJtX2NsYXNzLCAmY2xhc3Nf
+YXR0cl92ZXJzaW9uLmF0dHIpOwo+ICAJY2xhc3NfZGVzdHJveShkcm1fY2xhc3MpOwo+ICAJZHJt
+X2NsYXNzID0gTlVMTDsKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2hkY3AuaCBiL2lu
+Y2x1ZGUvZHJtL2RybV9oZGNwLmgKPiBpbmRleCBmMjQzNDA4ZWNmMjYuLmZmMmJjZmMxZWNlZiAx
+MDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1faGRjcC5oCj4gKysrIGIvaW5jbHVkZS9kcm0v
+ZHJtX2hkY3AuaAo+IEBAIC0yNjUsNCArMjY1LDQwIEBAIHZvaWQgZHJtX2hkY3AyX3UzMl90b19z
+ZXFfbnVtKHU4IHNlcV9udW1bSERDUF8yXzJfU0VRX05VTV9MRU5dLCB1MzIgdmFsKQo+ICAJc2Vx
+X251bVsyXSA9IHZhbDsKPiAgfQo+ICAKPiArI2RlZmluZSBEUk1fSERDUF9TUk1fR0VOMV9NQVhf
+QllURVMJCSg1ICogMTAyNCkKPiArI2RlZmluZSBEUk1fSERDUF8xXzRfU1JNX0lECQkJMHg4Cj4g
+KyNkZWZpbmUgRFJNX0hEQ1BfMV80X1ZSTF9MRU5HVEhfU0laRQkJMwo+ICsjZGVmaW5lIERSTV9I
+RENQXzFfNF9EQ1BfU0lHX1NJWkUJCTQwCj4gKwo+ICtzdHJ1Y3QgaGRjcF9zcm1faGVhZGVyIHsK
+PiArCXN0cnVjdCB7Cj4gKwkJdTggcmVzZXJ2ZWRfaGk6NDsKPiArCQl1OCBzcm1faWQ6NDsKCmJp
+dGZpZWxkcyBpbiBiaW5hcnkgc3RydWN0dXJlcyBhcmUgaGVhdmlseSBkaXNjb3VyYWdlZC4gSSB0
+aGluayBzaW5jZSB0aGlzCmlzIG9ubHkgdTggaXQgc2hvdWxkIGJlIGZpbmUsIGJ1dCBleHBsYWlu
+aW5nIHRoYXQgaXMgbW9yZSB3b3JrIHRoYW4ganVzdApoYXZpbmcgdGhlIHVzdWFsIF9NQVNLL19T
+SElGVCAjZGVmaW5lcyBsaWtlIHdlIGRvIHdpdGggcmVnaXN0ZXJzLgoKPiArCQl1OCByZXNlcnZl
+ZF9sbzsKPiArCX0gc3BlY19pbmRpY2F0b3I7CgpJZiB5b3Ugd2FubnQgX19wYWNrZWQsIHlvdSBh
+bHNvIG5lZWQgdG8gbGlzdCB0aGlzIHRvIHN1Yi1zdHJ1Y3RzLgoKPiArCXUxNiBzcm1fdmVyc2lv
+bjsKPiArCXU4IHNybV9nZW5fbm87Cj4gK30gX19wYWNrZWQ7Cj4gKwo+ICsjZGVmaW5lIERSTV9I
+RENQXzJfU1JNX0lECQkJMHg5Cj4gKyNkZWZpbmUgRFJNX0hEQ1BfMl9JTkRJQ0FUT1IJCQkweDEK
+PiArI2RlZmluZSBEUk1fSERDUF8yX1ZSTF9MRU5HVEhfU0laRQkJMwo+ICsjZGVmaW5lIERSTV9I
+RENQXzJfRENQX1NJR19TSVpFCQkJMzg0Cj4gKyNkZWZpbmUgRFJNX0hEQ1BfMl9OT19PRl9ERVZf
+UExVU19SRVNFUlZFRF9TWgk0Cj4gKwo+ICsjZGVmaW5lIERSTV9IRENQXzJfS1NWX0NPVU5UXzJf
+TFNCSVRTKGJ5dGUpCSgoKGJ5dGUpICYgMHhDKSA+PiA2KQo+ICsKPiArc3RydWN0IGhkY3AyX3Ny
+bV9oZWFkZXIgewo+ICsJc3RydWN0IHsKPiArCQl1OCBoZGNwMl9pbmRpY2F0b3I6NDsKClNpbmNl
+IGhkY3AxLzIgbWF0Y2ggZXhjZXB0IGZvciB0aGlzIEkgdGhpbmsgYmV0dGVyIHRvIG1lcmdlIHRo
+ZW0uCgo+ICsJCXU4IHNybV9pZDo0Owo+ICsJCXU4IHJlc2VydmVkOwo+ICsJfSBzcGVjX2luZGlj
+YXRvcjsKPiArCXUxNiBzcm1fdmVyc2lvbjsKPiArCXU4IHNybV9nZW5fbm87Cj4gK30gX19wYWNr
+ZWQ7Cj4gKwo+ICtzdHJ1Y3QgZHJtX2RldmljZTsKPiArCj4gK2Jvb2wgZHJtX2hkY3Bfa3N2c19y
+ZXZvY2F0ZWQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdTggKmtzdnMsIHUzMiBrc3ZfY291bnQp
+Owo+ICAjZW5kaWYKCkNoZWVycywgRGFuaWVsCgo+IC0tIAo+IDIuMTkuMQo+IAoKLS0gCkRhbmll
+bCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9n
+LmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
