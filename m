@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB118DD86
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 10:17:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9027DDA7
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 10:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A88238905A;
-	Mon, 29 Apr 2019 08:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DFF58876A;
+	Mon, 29 Apr 2019 08:24:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6E3E98902A
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 08:17:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6A58472155; Mon, 29 Apr 2019 08:17:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110514] [CI][BAT] igt@* - skip - Test requirement:
- is_i915_device(fd) && has_known_intel_chipset(fd), Skip
-Date: Mon, 29 Apr 2019 08:17:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cibuglog@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110514-502-BmsXa9Mldf@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110514-502@http.bugs.freedesktop.org/>
-References: <bug-110514-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C0CB89070
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 08:24:04 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id j20so8331390edq.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 01:24:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=t89u41H4WRrU54mSifl6x+OjQMssHUZIZN2HrSc5IYM=;
+ b=Kko/GGRoVj7eSV5V6j0s3oJTvFZ1YTFC3uZH3C/sRYixdLb5d7nHHBOhZ38oi8bl2+
+ Gsna/Ir6YnvsqWDvxdoSl+NCRInnn3Z8ZKbTWn7Nk0Ot9Ib+hPp7XUT3J9zGq4pnN1ip
+ lSgg9piC647AXCf4dJkYN+7UXMrL6Zym4wFBqHUomojQA6Pq7No23rLyMBzoOdRXJwfp
+ PrTWyeXbqT2TUmnAR+ka+Y2dHr6NDCapZhIIkQNbrgK1kGpJ5cbsQWg1eRI7N4TgspYr
+ 9EIFwIvONtQekCGxUx1tSVowbcXso7zKTZqeSow6kepaBXIeb7KIQ8SuqmzFPIKhBhdJ
+ +24A==
+X-Gm-Message-State: APjAAAXhpp2DLuKOY3d4Jz8Q54VjoKcACaDx19TPROnAQaCnJq+Ku3AS
+ PuJfVr+Leizequd5t6Ea6dMiq0m4Fog=
+X-Google-Smtp-Source: APXvYqyKjybGiI8i1wyn1FFf4WD/ZvALtqzuzWweqgmuS8cn5egdQGUsc8L/fijTuC42NhMWfEOWQQ==
+X-Received: by 2002:a50:fa90:: with SMTP id w16mr6547943edr.184.1556526243058; 
+ Mon, 29 Apr 2019 01:24:03 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id f7sm9025021edj.10.2019.04.29.01.24.02
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 29 Apr 2019 01:24:02 -0700 (PDT)
+Date: Mon, 29 Apr 2019 10:24:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 01/12] dma-buf: add struct dma_buf_attach_info
+Message-ID: <20190429082400.GK3271@phenom.ffwll.local>
+References: <20190426123638.40221-1-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190426123638.40221-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=t89u41H4WRrU54mSifl6x+OjQMssHUZIZN2HrSc5IYM=;
+ b=jR7d7RJ7a2KaC1gzh9nRx1esCnU0I0RmNjSYdOt+yILSILsjo48sFl45SJyIVQeFM7
+ 1CgDWrI8LvEFA1u0ogCV2HCyy0cUdNuu6uIJtt69LAqREAM2IgOaKBucANUlgdv3nuCT
+ zvYWnodHAfw61aGKbdTF8kHUmxhi/7Om6um40=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,546 +68,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1680457654=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1680457654==
-Content-Type: multipart/alternative; boundary="15565258353.0AA158C1D.16474"
-Content-Transfer-Encoding: 7bit
-
-
---15565258353.0AA158C1D.16474
-Date: Mon, 29 Apr 2019 08:17:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110514
-
---- Comment #22 from CI Bug Log <cibuglog@gmail.com> ---
-The CI Bug Log issue associated to this bug has been updated.
-
-### New filters associated
-
-* CML: igt@gem_mocs_settings@.* - skip - Test requirement:
-get_mocs_settings(fd, &amp;table, false), SKIP
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-isolation-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-ctx-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-blt.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-settings-vebox.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-rc6-ctx-dirty-render.html
-  -
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_mocs_s=
-ettings@mocs-reset-vebox.html
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15565258353.0AA158C1D.16474
-Date: Mon, 29 Apr 2019 08:17:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][BAT] igt&#64;* - skip - Test requirement:=
- is_i915_device(fd) &amp;&amp; has_known_intel_chipset(fd), Skip"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110514#c22">Comme=
-nt # 22</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][BAT] igt&#64;* - skip - Test requirement:=
- is_i915_device(fd) &amp;&amp; has_known_intel_chipset(fd), Skip"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110514">bug 11051=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
-> <span class=3D"fn">CI Bug Log</span></a>
-</span></b>
-        <pre>The CI Bug Log issue associated to this bug has been updated.
-
-### New filters associated
-
-* CML: igt&#64;gem_mocs_settings&#64;.* - skip - Test requirement:
-get_mocs_settings(fd, &amp;amp;table, false), SKIP
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-ctx-dirty-render.html">https://int=
-el-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings=
-&#64;mocs-settings-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--isolation-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-vebox.html">https://intel-gfx-ci.=
-01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-=
-isolation-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-render.html">https://intel-gfx-ci.01.=
-org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-res=
-et-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-dirty-render.html">https://intel-gfx-=
-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mo=
-cs-reset-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-ctx-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--reset-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-ctx-dirty-render.html">https://intel-=
-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#6=
-4;mocs-reset-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-render.html">https://intel-gfx-ci.=
-01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-=
-settings-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-ctx-render.html">https://intel-gfx=
--ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;m=
-ocs-settings-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-ctx-render.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-r=
-c6-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-blt.html">https://intel-gfx-ci.01.=
-org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-set=
-tings-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-blt.html">https://intel-gfx-ci.01.org/t=
-ree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rc6-blt.=
-html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-dirty-render.html">https://intel-g=
-fx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64=
-;mocs-settings-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-blt.html">https://intel-gfx-ci.01.org=
-/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-reset-=
-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-vebox.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-s=
-ettings-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-ctx-dirty-render.html">https://intel-gf=
-x-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt&#64;gem_mocs_settings&#64;=
-mocs-rc6-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-blt.html">https://intel-gfx-ci.01=
-.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-is=
-olation-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-ctx-dirty-render.html">https://int=
-el-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings=
-&#64;mocs-settings-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--isolation-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-vebox.html">https://intel-gfx-ci.01.org=
-/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rc6-ve=
-box.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-vebox.html">https://intel-gfx-ci.=
-01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-=
-isolation-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-render.html">https://intel-gfx-ci.01.=
-org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-res=
-et-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-render.html">https://intel-gfx-ci.01.or=
-g/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rc6-r=
-ender.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-dirty-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--rc6-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-dirty-render.html">https://intel-gfx-=
-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mo=
-cs-reset-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-ctx-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--reset-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-ctx-dirty-render.html">https://intel-=
-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#6=
-4;mocs-reset-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-render.html">https://intel-gfx-ci.=
-01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-=
-settings-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-ctx-render.html">https://intel-gfx=
--ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;m=
-ocs-settings-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-ctx-render.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-r=
-c6-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-blt.html">https://intel-gfx-ci.01.=
-org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-set=
-tings-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-blt.html">https://intel-gfx-ci.01.org=
-/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-reset-=
-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-vebox.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-s=
-ettings-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-ctx-dirty-render.html">https://intel-gf=
-x-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;=
-mocs-rc6-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-vebox.html">https://intel-gfx-ci.01.o=
-rg/tree/drm-tip/drmtip_268/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rese=
-t-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-blt.html">https://intel-gfx-ci.01=
-.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-is=
-olation-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-ctx-dirty-render.html">https://int=
-el-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings=
-&#64;mocs-settings-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--isolation-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-vebox.html">https://intel-gfx-ci.01.org=
-/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rc6-ve=
-box.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-isolation-vebox.html">https://intel-gfx-ci.=
-01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-=
-isolation-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-render.html">https://intel-gfx-ci.01.=
-org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-res=
-et-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-render.html">https://intel-gfx-ci.01.or=
-g/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rc6-r=
-ender.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-dirty-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--rc6-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-dirty-render.html">https://intel-gfx-=
-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mo=
-cs-reset-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-ctx-render.html">https://intel-gfx-ci=
-.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs=
--reset-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-ctx-dirty-render.html">https://intel-=
-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#6=
-4;mocs-reset-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-render.html">https://intel-gfx-ci.=
-01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-=
-settings-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-ctx-render.html">https://intel-gfx=
--ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;m=
-ocs-settings-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-ctx-render.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-r=
-c6-ctx-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-blt.html">https://intel-gfx-ci.01.=
-org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-set=
-tings-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-blt.html">https://intel-gfx-ci.01.org/t=
-ree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rc6-blt.=
-html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-dirty-render.html">https://intel-g=
-fx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64=
-;mocs-settings-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-blt.html">https://intel-gfx-ci.01.org=
-/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-reset-=
-blt.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-settings-vebox.html">https://intel-gfx-ci.0=
-1.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-s=
-ettings-vebox.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-rc6-ctx-dirty-render.html">https://intel-gf=
-x-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;=
-mocs-rc6-ctx-dirty-render.html</a>
-  -
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_mocs_settings&#64;mocs-reset-vebox.html">https://intel-gfx-ci.01.o=
-rg/tree/drm-tip/drmtip_269/fi-cml-u/igt&#64;gem_mocs_settings&#64;mocs-rese=
-t-vebox.html</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15565258353.0AA158C1D.16474--
-
---===============1680457654==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1680457654==--
+T24gRnJpLCBBcHIgMjYsIDIwMTkgYXQgMDI6MzY6MjdQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5p
+ZyB3cm90ZToKPiBBZGQgYSBzdHJ1Y3R1cmUgZm9yIHRoZSBwYXJhbWV0ZXJzIG9mIGRtYV9idWZf
+YXR0YWNoLCB0aGlzIG1ha2VzIGl0IG11Y2ggZWFzaWVyCj4gdG8gYWRkIG5ldyBwYXJhbWV0ZXJz
+IGxhdGVyIG9uLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlh
+bi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyAgICAg
+ICAgICAgICAgICAgICAgICAgfCAxMyArKysrKysrLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9h
+cm1hZGEvYXJtYWRhX2dlbS5jICAgICAgICAgICAgIHwgIDYgKysrKystCj4gIGRyaXZlcnMvZ3B1
+L2RybS9kcm1fcHJpbWUuYyAgICAgICAgICAgICAgICAgICAgIHwgIDYgKysrKystCj4gIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2k5MTVfZ2VtX2RtYWJ1Zi5jICAgICAgICAgIHwgIDYgKysrKystCgpv
+bWFwZHJtIHNlZW1zIHRvIGJlIG1pc3NpbmcuCgo+ICBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZ2Vt
+LmMgICAgICAgICAgICAgICAgICAgICB8ICA2ICsrKysrLQo+ICBkcml2ZXJzL2dwdS9kcm0vdWRs
+L3VkbF9kbWFidWYuYyAgICAgICAgICAgICAgICB8ICA2ICsrKysrLQo+ICAuLi4vY29tbW9uL3Zp
+ZGVvYnVmMi92aWRlb2J1ZjItZG1hLWNvbnRpZy5jICAgICB8ICA2ICsrKysrLQo+ICAuLi4vbWVk
+aWEvY29tbW9uL3ZpZGVvYnVmMi92aWRlb2J1ZjItZG1hLXNnLmMgICB8ICA2ICsrKysrLQoKdmlk
+ZW9idWYyLWRtYS1zZyBzZWVtcyB0byBiZSBtaXNzaW5nLgoKPiAgZHJpdmVycy9zdGFnaW5nL21l
+ZGlhL3RlZ3JhLXZkZS90ZWdyYS12ZGUuYyAgICAgfCAgNiArKysrKy0KCmZhc3RycGMgYW5kIGdu
+dGRldi1kbWFidWYgYWxzbyBtaXNzaW5nLgoKSSBndWVzcyBhbGwganVzdCByZWJhc2UgZmFsbG91
+dC4gV2l0aCB0aG9zZSBhbGwgY29tcGlsaW5nOgoKUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIg
+PGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CgpXb3VsZCBhbHNvIGJlIGdvb2QgdG8gY2M6IGV2ZXJ5
+b25lIG9uIHRoZSBuZXh0IHJvdW5kIHBlcgpnZXRfbWFpbnRlaW5lcnMucGwgZm9yIHRoaXMgcGF0
+Y2guCi1EYW5pZWwKCgo+ICBpbmNsdWRlL2xpbnV4L2RtYS1idWYuaCAgICAgICAgICAgICAgICAg
+ICAgICAgICB8IDE3ICsrKysrKysrKysrKysrKy0tCj4gIDEwIGZpbGVzIGNoYW5nZWQsIDYyIGlu
+c2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Rt
+YS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+IGluZGV4IDdjODU4
+MDIwZDE0Yi4uNTBiNGM2YWYwNGM3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
+YnVmLmMKPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4gQEAgLTUzMiw4ICs1MzIs
+OSBAQCBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX3B1dCk7Cj4gIC8qKgo+ICAgKiBkbWFfYnVm
+X2F0dGFjaCAtIEFkZCB0aGUgZGV2aWNlIHRvIGRtYV9idWYncyBhdHRhY2htZW50cyBsaXN0OyBv
+cHRpb25hbGx5LAo+ICAgKiBjYWxscyBhdHRhY2goKSBvZiBkbWFfYnVmX29wcyB0byBhbGxvdyBk
+ZXZpY2Utc3BlY2lmaWMgYXR0YWNoIGZ1bmN0aW9uYWxpdHkKPiAtICogQGRtYWJ1ZjoJW2luXQli
+dWZmZXIgdG8gYXR0YWNoIGRldmljZSB0by4KPiAtICogQGRldjoJW2luXQlkZXZpY2UgdG8gYmUg
+YXR0YWNoZWQuCj4gKyAqIEBpbmZvOglbaW5dCWhvbGRzIGFsbCB0aGUgYXR0YWNoIHJlbGF0ZWQg
+aW5mb3JtYXRpb24gcHJvdmlkZWQKPiArICoJCQlieSB0aGUgaW1wb3J0ZXIuIHNlZSAmc3RydWN0
+IGRtYV9idWZfYXR0YWNoX2luZm8KPiArICoJCQlmb3IgZnVydGhlciBkZXRhaWxzLgo+ICAgKgo+
+ICAgKiBSZXR1cm5zIHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgcG9pbnRlciBmb3IgdGhpcyBh
+dHRhY2htZW50LiBBdHRhY2htZW50cwo+ICAgKiBtdXN0IGJlIGNsZWFuZWQgdXAgYnkgY2FsbGlu
+ZyBkbWFfYnVmX2RldGFjaCgpLgo+IEBAIC01NDcsMjAgKzU0OCwyMCBAQCBFWFBPUlRfU1lNQk9M
+X0dQTChkbWFfYnVmX3B1dCk7Cj4gICAqIGFjY2Vzc2libGUgdG8gQGRldiwgYW5kIGNhbm5vdCBi
+ZSBtb3ZlZCB0byBhIG1vcmUgc3VpdGFibGUgcGxhY2UuIFRoaXMgaXMKPiAgICogaW5kaWNhdGVk
+IHdpdGggdGhlIGVycm9yIGNvZGUgLUVCVVNZLgo+ICAgKi8KPiAtc3RydWN0IGRtYV9idWZfYXR0
+YWNobWVudCAqZG1hX2J1Zl9hdHRhY2goc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwKPiAtCQkJCQkg
+IHN0cnVjdCBkZXZpY2UgKmRldikKPiArc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqZG1hX2J1
+Zl9hdHRhY2goY29uc3Qgc3RydWN0IGRtYV9idWZfYXR0YWNoX2luZm8gKmluZm8pCj4gIHsKPiAr
+CXN0cnVjdCBkbWFfYnVmICpkbWFidWYgPSBpbmZvLT5kbWFidWY7Cj4gIAlzdHJ1Y3QgZG1hX2J1
+Zl9hdHRhY2htZW50ICphdHRhY2g7Cj4gIAlpbnQgcmV0Owo+ICAKPiAtCWlmIChXQVJOX09OKCFk
+bWFidWYgfHwgIWRldikpCj4gKwlpZiAoV0FSTl9PTighZG1hYnVmIHx8ICFpbmZvLT5kZXYpKQo+
+ICAJCXJldHVybiBFUlJfUFRSKC1FSU5WQUwpOwo+ICAKPiAgCWF0dGFjaCA9IGt6YWxsb2Moc2l6
+ZW9mKCphdHRhY2gpLCBHRlBfS0VSTkVMKTsKPiAgCWlmICghYXR0YWNoKQo+ICAJCXJldHVybiBF
+UlJfUFRSKC1FTk9NRU0pOwo+ICAKPiAtCWF0dGFjaC0+ZGV2ID0gZGV2Owo+ICsJYXR0YWNoLT5k
+ZXYgPSBpbmZvLT5kZXY7Cj4gIAlhdHRhY2gtPmRtYWJ1ZiA9IGRtYWJ1ZjsKPiAgCj4gIAltdXRl
+eF9sb2NrKCZkbWFidWYtPmxvY2spOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJt
+YWRhL2FybWFkYV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2dlbS5jCj4g
+aW5kZXggNjQyZDBlNzBkMGY4Li4xOWM0NzgyMTAzMmYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL2FybWFkYS9hcm1hZGFfZ2VtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtYWRh
+L2FybWFkYV9nZW0uYwo+IEBAIC01MDEsNiArNTAxLDEwIEBAIGFybWFkYV9nZW1fcHJpbWVfZXhw
+b3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAo+
+ICBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKgo+ICBhcm1hZGFfZ2VtX3ByaW1lX2ltcG9ydChzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZG1hX2J1ZiAqYnVmKQo+ICB7Cj4gKwlzdHJ1Y3Qg
+ZG1hX2J1Zl9hdHRhY2hfaW5mbyBhdHRhY2hfaW5mbyA9IHsKPiArCQkuZGV2ID0gZGV2LT5kZXYs
+Cj4gKwkJLmRtYWJ1ZiA9IGJ1Zgo+ICsJfTsKPiAgCXN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQg
+KmF0dGFjaDsKPiAgCXN0cnVjdCBhcm1hZGFfZ2VtX29iamVjdCAqZG9iajsKPiAgCj4gQEAgLTUx
+Niw3ICs1MjAsNyBAQCBhcm1hZGFfZ2VtX3ByaW1lX2ltcG9ydChzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCBzdHJ1Y3QgZG1hX2J1ZiAqYnVmKQo+ICAJCX0KPiAgCX0KPiAgCj4gLQlhdHRhY2ggPSBk
+bWFfYnVmX2F0dGFjaChidWYsIGRldi0+ZGV2KTsKPiArCWF0dGFjaCA9IGRtYV9idWZfYXR0YWNo
+KCZhdHRhY2hfaW5mbyk7Cj4gIAlpZiAoSVNfRVJSKGF0dGFjaCkpCj4gIAkJcmV0dXJuIEVSUl9D
+QVNUKGF0dGFjaCk7Cj4gIAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1l
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiBpbmRleCAyMzFlM2Y2ZDVmNDEuLjFm
+YWRmNWQ1ZWQzMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMKPiBAQCAtNzA5LDYgKzcwOSwxMCBAQCBz
+dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmRybV9nZW1fcHJpbWVfaW1wb3J0X2RldihzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LAo+ICAJCQkJCSAgICBzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZiwKPiAgCQkJ
+CQkgICAgc3RydWN0IGRldmljZSAqYXR0YWNoX2RldikKPiAgewo+ICsJc3RydWN0IGRtYV9idWZf
+YXR0YWNoX2luZm8gYXR0YWNoX2luZm8gPSB7Cj4gKwkJLmRldiA9IGF0dGFjaF9kZXYsCj4gKwkJ
+LmRtYWJ1ZiA9IGRtYV9idWYKPiArCX07Cj4gIAlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICph
+dHRhY2g7Cj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnNndDsKPiAgCXN0cnVjdCBkcm1fZ2VtX29iamVj
+dCAqb2JqOwo+IEBAIC03MjksNyArNzMzLDcgQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpkcm1f
+Z2VtX3ByaW1lX2ltcG9ydF9kZXYoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgCWlmICghZGV2
+LT5kcml2ZXItPmdlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUpCj4gIAkJcmV0dXJuIEVSUl9QVFIo
+LUVJTlZBTCk7Cj4gIAo+IC0JYXR0YWNoID0gZG1hX2J1Zl9hdHRhY2goZG1hX2J1ZiwgYXR0YWNo
+X2Rldik7Cj4gKwlhdHRhY2ggPSBkbWFfYnVmX2F0dGFjaCgmYXR0YWNoX2luZm8pOwo+ICAJaWYg
+KElTX0VSUihhdHRhY2gpKQo+ICAJCXJldHVybiBFUlJfQ0FTVChhdHRhY2gpOwo+ICAKPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9nZW1fZG1hYnVmLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pOTE1X2dlbV9kbWFidWYuYwo+IGluZGV4IDgyZTJjYTE3YTQ0MS4uYWE3
+ZjY4NWJkNmNhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZ2VtX2Rt
+YWJ1Zi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9nZW1fZG1hYnVmLmMKPiBA
+QCAtMjc3LDYgKzI3NywxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9pOTE1X2dlbV9vYmpl
+Y3Rfb3BzIGk5MTVfZ2VtX29iamVjdF9kbWFidWZfb3BzID0gewo+ICBzdHJ1Y3QgZHJtX2dlbV9v
+YmplY3QgKmk5MTVfZ2VtX3ByaW1lX2ltcG9ydChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICAJ
+CQkJCSAgICAgc3RydWN0IGRtYV9idWYgKmRtYV9idWYpCj4gIHsKPiArCXN0cnVjdCBkbWFfYnVm
+X2F0dGFjaF9pbmZvIGF0dGFjaF9pbmZvID0gewo+ICsJCS5kZXYgPSBkZXYtPmRldiwKPiArCQku
+ZG1hYnVmID0gZG1hX2J1Zgo+ICsJfTsKPiAgCXN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0
+dGFjaDsKPiAgCXN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmo7Cj4gIAlpbnQgcmV0Owo+
+IEBAIC0yOTUsNyArMjk5LDcgQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICppOTE1X2dlbV9wcmlt
+ZV9pbXBvcnQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAgCX0KPiAgCj4gIAkvKiBuZWVkIHRv
+IGF0dGFjaCAqLwo+IC0JYXR0YWNoID0gZG1hX2J1Zl9hdHRhY2goZG1hX2J1ZiwgZGV2LT5kZXYp
+Owo+ICsJYXR0YWNoID0gZG1hX2J1Zl9hdHRhY2goJmF0dGFjaF9pbmZvKTsKPiAgCWlmIChJU19F
+UlIoYXR0YWNoKSkKPiAgCQlyZXR1cm4gRVJSX0NBU1QoYXR0YWNoKTsKPiAgCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9n
+ZW0uYwo+IGluZGV4IDRmODAxMDBmZjVmMy4uOGU2YjZjODc5YWRkIDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9n
+ZW0uYwo+IEBAIC0zMzIsNiArMzMyLDEwIEBAIHN0cnVjdCB0ZWdyYV9ibyAqdGVncmFfYm9fY3Jl
+YXRlX3dpdGhfaGFuZGxlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwKPiAgc3RhdGljIHN0cnVjdCB0
+ZWdyYV9ibyAqdGVncmFfYm9faW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCj4gIAkJCQkJ
+c3RydWN0IGRtYV9idWYgKmJ1ZikKPiAgewo+ICsJc3RydWN0IGRtYV9idWZfYXR0YWNoX2luZm8g
+YXR0YWNoX2luZm8gPSB7Cj4gKwkJLmRldiA9IGRybS0+ZGV2LAo+ICsJCS5kbWFidWYgPSBidWYK
+PiArCX07Cj4gIAlzdHJ1Y3QgdGVncmFfZHJtICp0ZWdyYSA9IGRybS0+ZGV2X3ByaXZhdGU7Cj4g
+IAlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2g7Cj4gIAlzdHJ1Y3QgdGVncmFfYm8g
+KmJvOwo+IEBAIC0zNDEsNyArMzQ1LDcgQEAgc3RhdGljIHN0cnVjdCB0ZWdyYV9ibyAqdGVncmFf
+Ym9faW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sCj4gIAlpZiAoSVNfRVJSKGJvKSkKPiAg
+CQlyZXR1cm4gYm87Cj4gIAo+IC0JYXR0YWNoID0gZG1hX2J1Zl9hdHRhY2goYnVmLCBkcm0tPmRl
+dik7Cj4gKwlhdHRhY2ggPSBkbWFfYnVmX2F0dGFjaCgmYXR0YWNoX2luZm8pOwo+ICAJaWYgKElT
+X0VSUihhdHRhY2gpKSB7Cj4gIAkJZXJyID0gUFRSX0VSUihhdHRhY2gpOwo+ICAJCWdvdG8gZnJl
+ZTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZG1hYnVmLmMgYi9kcml2
+ZXJzL2dwdS9kcm0vdWRsL3VkbF9kbWFidWYuYwo+IGluZGV4IDU1NmY2MjY2MmFhOS4uODZiOTI4
+Zjk3NDJmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2RtYWJ1Zi5jCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZG1hYnVmLmMKPiBAQCAtMjI2LDYgKzIyNiwx
+MCBAQCBzdGF0aWMgaW50IHVkbF9wcmltZV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
+PiAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICp1ZGxfZ2VtX3ByaW1lX2ltcG9ydChzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LAo+ICAJCQkJc3RydWN0IGRtYV9idWYgKmRtYV9idWYpCj4gIHsKPiArCXN0
+cnVjdCBkbWFfYnVmX2F0dGFjaF9pbmZvIGF0dGFjaF9pbmZvID0gewo+ICsJCS5kZXYgPSBkZXYt
+PmRldiwKPiArCQkuZG1hYnVmID0gZG1hX2J1Zgo+ICsJfTsKPiAgCXN0cnVjdCBkbWFfYnVmX2F0
+dGFjaG1lbnQgKmF0dGFjaDsKPiAgCXN0cnVjdCBzZ190YWJsZSAqc2c7Cj4gIAlzdHJ1Y3QgdWRs
+X2dlbV9vYmplY3QgKnVvYmo7Cj4gQEAgLTIzMyw3ICsyMzcsNyBAQCBzdHJ1Y3QgZHJtX2dlbV9v
+YmplY3QgKnVkbF9nZW1fcHJpbWVfaW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAo+
+ICAJLyogbmVlZCB0byBhdHRhY2ggKi8KPiAgCWdldF9kZXZpY2UoZGV2LT5kZXYpOwo+IC0JYXR0
+YWNoID0gZG1hX2J1Zl9hdHRhY2goZG1hX2J1ZiwgZGV2LT5kZXYpOwo+ICsJYXR0YWNoID0gZG1h
+X2J1Zl9hdHRhY2goJmF0dGFjaF9pbmZvKTsKPiAgCWlmIChJU19FUlIoYXR0YWNoKSkgewo+ICAJ
+CXB1dF9kZXZpY2UoZGV2LT5kZXYpOwo+ICAJCXJldHVybiBFUlJfQ0FTVChhdHRhY2gpOwo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL2NvbW1vbi92aWRlb2J1ZjIvdmlkZW9idWYyLWRtYS1j
+b250aWcuYyBiL2RyaXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVmMi92aWRlb2J1ZjItZG1hLWNv
+bnRpZy5jCj4gaW5kZXggYWZmMGFiN2JmODNkLi4xZjI2ODdiNWViMGUgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9tZWRpYS9jb21tb24vdmlkZW9idWYyL3ZpZGVvYnVmMi1kbWEtY29udGlnLmMKPiAr
+KysgYi9kcml2ZXJzL21lZGlhL2NvbW1vbi92aWRlb2J1ZjIvdmlkZW9idWYyLWRtYS1jb250aWcu
+Ywo+IEBAIC02NzYsNiArNjc2LDEwIEBAIHN0YXRpYyB2b2lkIHZiMl9kY19kZXRhY2hfZG1hYnVm
+KHZvaWQgKm1lbV9wcml2KQo+ICBzdGF0aWMgdm9pZCAqdmIyX2RjX2F0dGFjaF9kbWFidWYoc3Ry
+dWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZG1hX2J1ZiAqZGJ1ZiwKPiAgCXVuc2lnbmVkIGxvbmcg
+c2l6ZSwgZW51bSBkbWFfZGF0YV9kaXJlY3Rpb24gZG1hX2RpcikKPiAgewo+ICsJc3RydWN0IGRt
+YV9idWZfYXR0YWNoX2luZm8gYXR0YWNoX2luZm8gPSB7Cj4gKwkJLmRldiA9IGRldiwKPiArCQku
+ZG1hYnVmID0gZGJ1Zgo+ICsJfTsKPiAgCXN0cnVjdCB2YjJfZGNfYnVmICpidWY7Cj4gIAlzdHJ1
+Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICpkYmE7Cj4gIAo+IEBAIC02OTEsNyArNjk1LDcgQEAgc3Rh
+dGljIHZvaWQgKnZiMl9kY19hdHRhY2hfZG1hYnVmKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0
+IGRtYV9idWYgKmRidWYsCj4gIAo+ICAJYnVmLT5kZXYgPSBkZXY7Cj4gIAkvKiBjcmVhdGUgYXR0
+YWNobWVudCBmb3IgdGhlIGRtYWJ1ZiB3aXRoIHRoZSB1c2VyIGRldmljZSAqLwo+IC0JZGJhID0g
+ZG1hX2J1Zl9hdHRhY2goZGJ1ZiwgYnVmLT5kZXYpOwo+ICsJZGJhID0gZG1hX2J1Zl9hdHRhY2go
+JmF0dGFjaF9pbmZvKTsKPiAgCWlmIChJU19FUlIoZGJhKSkgewo+ICAJCXByX2VycigiZmFpbGVk
+IHRvIGF0dGFjaCBkbWFidWZcbiIpOwo+ICAJCWtmcmVlKGJ1Zik7Cj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVmMi92aWRlb2J1ZjItZG1hLXNnLmMgYi9kcml2ZXJz
+L21lZGlhL2NvbW1vbi92aWRlb2J1ZjIvdmlkZW9idWYyLWRtYS1zZy5jCj4gaW5kZXggMDE1ZTcz
+NzA5NWNkLi5jYmQ2MjZkMjM5M2EgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9tZWRpYS9jb21tb24v
+dmlkZW9idWYyL3ZpZGVvYnVmMi1kbWEtc2cuYwo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvY29tbW9u
+L3ZpZGVvYnVmMi92aWRlb2J1ZjItZG1hLXNnLmMKPiBAQCAtNjA4LDYgKzYwOCwxMCBAQCBzdGF0
+aWMgdm9pZCB2YjJfZG1hX3NnX2RldGFjaF9kbWFidWYodm9pZCAqbWVtX3ByaXYpCj4gIHN0YXRp
+YyB2b2lkICp2YjJfZG1hX3NnX2F0dGFjaF9kbWFidWYoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1
+Y3QgZG1hX2J1ZiAqZGJ1ZiwKPiAgCXVuc2lnbmVkIGxvbmcgc2l6ZSwgZW51bSBkbWFfZGF0YV9k
+aXJlY3Rpb24gZG1hX2RpcikKPiAgewo+ICsJc3RydWN0IGRtYV9idWZfYXR0YWNoX2luZm8gYXR0
+YWNoX2luZm8gPSB7Cj4gKwkJLmRldiA9IGRldiwKPiArCQkuZG1hYnVmID0gZGJ1Zgo+ICsJfTsK
+PiAgCXN0cnVjdCB2YjJfZG1hX3NnX2J1ZiAqYnVmOwo+ICAJc3RydWN0IGRtYV9idWZfYXR0YWNo
+bWVudCAqZGJhOwo+ICAKPiBAQCAtNjIzLDcgKzYyNyw3IEBAIHN0YXRpYyB2b2lkICp2YjJfZG1h
+X3NnX2F0dGFjaF9kbWFidWYoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZG1hX2J1ZiAqZGJ1
+ZiwKPiAgCj4gIAlidWYtPmRldiA9IGRldjsKPiAgCS8qIGNyZWF0ZSBhdHRhY2htZW50IGZvciB0
+aGUgZG1hYnVmIHdpdGggdGhlIHVzZXIgZGV2aWNlICovCj4gLQlkYmEgPSBkbWFfYnVmX2F0dGFj
+aChkYnVmLCBidWYtPmRldik7Cj4gKwlkYmEgPSBkbWFfYnVmX2F0dGFjaCgmYXR0YWNoX2luZm8p
+Owo+ICAJaWYgKElTX0VSUihkYmEpKSB7Cj4gIAkJcHJfZXJyKCJmYWlsZWQgdG8gYXR0YWNoIGRt
+YWJ1ZlxuIik7Cj4gIAkJa2ZyZWUoYnVmKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5n
+L21lZGlhL3RlZ3JhLXZkZS90ZWdyYS12ZGUuYyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS90ZWdy
+YS12ZGUvdGVncmEtdmRlLmMKPiBpbmRleCBhYTZjNmJiYTk2MWUuLjVhMTBjMWZhY2MyNyAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvdGVncmEtdmRlL3RlZ3JhLXZkZS5jCj4g
+KysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZkZS90ZWdyYS12ZGUuYwo+IEBAIC01
+NjgsNiArNTY4LDEwIEBAIHN0YXRpYyBpbnQgdGVncmFfdmRlX2F0dGFjaF9kbWFidWYoc3RydWN0
+IGRldmljZSAqZGV2LAo+ICAJCQkJICAgc2l6ZV90ICpzaXplLAo+ICAJCQkJICAgZW51bSBkbWFf
+ZGF0YV9kaXJlY3Rpb24gZG1hX2RpcikKPiAgewo+ICsJc3RydWN0IGRtYV9idWZfYXR0YWNoX2lu
+Zm8gYXR0YWNoX2luZm8gPSB7Cj4gKwkJLmRldiA9IGRldiwKPiArCQkuZG1hYnVmID0gZG1hYnVm
+Cj4gKwl9Owo+ICAJc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNobWVudDsKPiAgCXN0
+cnVjdCBkbWFfYnVmICpkbWFidWY7Cj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnNndDsKPiBAQCAtNTkx
+LDcgKzU5NSw3IEBAIHN0YXRpYyBpbnQgdGVncmFfdmRlX2F0dGFjaF9kbWFidWYoc3RydWN0IGRl
+dmljZSAqZGV2LAo+ICAJCXJldHVybiAtRUlOVkFMOwo+ICAJfQo+ICAKPiAtCWF0dGFjaG1lbnQg
+PSBkbWFfYnVmX2F0dGFjaChkbWFidWYsIGRldik7Cj4gKwlhdHRhY2htZW50ID0gZG1hX2J1Zl9h
+dHRhY2goJmF0dGFjaF9pbmZvKTsKPiAgCWlmIChJU19FUlIoYXR0YWNobWVudCkpIHsKPiAgCQlk
+ZXZfZXJyKGRldiwgIkZhaWxlZCB0byBhdHRhY2ggZG1hYnVmXG4iKTsKPiAgCQllcnIgPSBQVFJf
+RVJSKGF0dGFjaG1lbnQpOwo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaCBi
+L2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCj4gaW5kZXggNTg3MjVmODkwYjViLi4yYzMxMmRmZDMx
+YTEgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgKPiArKysgYi9pbmNsdWRl
+L2xpbnV4L2RtYS1idWYuaAo+IEBAIC0zNTksNiArMzU5LDE5IEBAIHN0cnVjdCBkbWFfYnVmX2V4
+cG9ydF9pbmZvIHsKPiAgCXN0cnVjdCBkbWFfYnVmX2V4cG9ydF9pbmZvIG5hbWUgPSB7IC5leHBf
+bmFtZSA9IEtCVUlMRF9NT0ROQU1FLCBcCj4gIAkJCQkJIC5vd25lciA9IFRISVNfTU9EVUxFIH0K
+PiAgCj4gKy8qKgo+ICsgKiBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hfaW5mbyAtIGhvbGRzIGluZm9y
+bWF0aW9uIG5lZWRlZCB0byBhdHRhY2ggdG8gYSBkbWFfYnVmCj4gKyAqIEBkbWFidWY6CXRoZSBl
+eHBvcnRlZCBkbWFfYnVmCj4gKyAqIEBkZXY6CXRoZSBkZXZpY2Ugd2hpY2ggd2FudHMgdG8gaW1w
+b3J0IHRoZSBhdHRhY2htZW50Cj4gKyAqCj4gKyAqIFRoaXMgc3RydWN0dXJlIGhvbGRzIHRoZSBp
+bmZvcm1hdGlvbiByZXF1aXJlZCB0byBhdHRhY2ggdG8gYSBidWZmZXIuIFVzZWQKPiArICogd2l0
+aCBkbWFfYnVmX2F0dGFjaCgpIG9ubHkuCj4gKyAqLwo+ICtzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2hf
+aW5mbyB7Cj4gKwlzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmOwo+ICsJc3RydWN0IGRldmljZSAqZGV2
+Owo+ICt9Owo+ICsKPiAgLyoqCj4gICAqIGdldF9kbWFfYnVmIC0gY29udmVuaWVuY2Ugd3JhcHBl
+ciBmb3IgZ2V0X2ZpbGUuCj4gICAqIEBkbWFidWY6CVtpbl0JcG9pbnRlciB0byBkbWFfYnVmCj4g
+QEAgLTM3Myw4ICszODYsOCBAQCBzdGF0aWMgaW5saW5lIHZvaWQgZ2V0X2RtYV9idWYoc3RydWN0
+IGRtYV9idWYgKmRtYWJ1ZikKPiAgCWdldF9maWxlKGRtYWJ1Zi0+ZmlsZSk7Cj4gIH0KPiAgCj4g
+LXN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmRtYV9idWZfYXR0YWNoKHN0cnVjdCBkbWFfYnVm
+ICpkbWFidWYsCj4gLQkJCQkJCQlzdHJ1Y3QgZGV2aWNlICpkZXYpOwo+ICtzdHJ1Y3QgZG1hX2J1
+Zl9hdHRhY2htZW50ICoKPiArZG1hX2J1Zl9hdHRhY2goY29uc3Qgc3RydWN0IGRtYV9idWZfYXR0
+YWNoX2luZm8gKmluZm8pOwo+ICB2b2lkIGRtYV9idWZfZGV0YWNoKHN0cnVjdCBkbWFfYnVmICpk
+bWFidWYsCj4gIAkJCQlzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICpkbWFidWZfYXR0YWNoKTsK
+PiAgCj4gLS0gCj4gMi4xNy4xCj4gCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwg
+SW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
