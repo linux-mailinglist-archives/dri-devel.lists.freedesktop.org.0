@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284CEDE09
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 10:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39622DE24
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 10:40:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E2F4892A5;
-	Mon, 29 Apr 2019 08:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202B48929B;
+	Mon, 29 Apr 2019 08:40:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC8C489274
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 08:36:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E8F4772155; Mon, 29 Apr 2019 08:36:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110381] Failed to updateMST allocation table forpipe idx:0
-Date: Mon, 29 Apr 2019 08:36:41 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110381-502-jHPfrhEimo@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110381-502@http.bugs.freedesktop.org/>
-References: <bug-110381-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C0889270
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 08:40:52 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id d55so6547233ede.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 01:40:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=h7KIMyebRAVcuYohu+RGjt8u2ijjhdKVnlFa7BFU63w=;
+ b=teXCD9EsclIlPZ3B2GkkO7vZraqR2L47ZlqAfnZoM2tB3kL980etp9oZHI2T6Mthoq
+ ePf7O1+WjT1Sh9KHIfSsV3P04MBWFl3NaWpy8sWgzJs/ycDOz9SR/A2vAk1vCcnna8V6
+ A2EP56z+1Nzyb1b/bftN/B7/3smb7PnQtIPV9uNuxwchztTqji8C7VXL0+bG/gdbRDq1
+ 2dS9c9s1ZWWQJeoLJzI/YWZH3aUFXYvJrQjFhbJ/lY0pH6OxaDawEAJNxLbppdq/d2hW
+ 7jYcDovoZ7RUrNPvhh19Wmm+RMulT69LmF9HhXuPCSW/FenYIVWqmk59XXaOs3aaw69c
+ e0Xg==
+X-Gm-Message-State: APjAAAVyRP70MglyFBNrH0fBaAAUGezzSnjl80goqSpmexDT9E1y517p
+ Z/E7riHhudOXhGJVKkYRPCxFug==
+X-Google-Smtp-Source: APXvYqxFYWwNu/Rb+t2ZRr+T7jKWdmrqwoz+gB5pJynkpZ9pPXXSPLNJbs9i4Ob1+NR3fLjVU+rO+A==
+X-Received: by 2002:a17:906:7010:: with SMTP id
+ n16mr30392851ejj.271.1556527251064; 
+ Mon, 29 Apr 2019 01:40:51 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id j5sm4504044edd.43.2019.04.29.01.40.49
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 29 Apr 2019 01:40:50 -0700 (PDT)
+Date: Mon, 29 Apr 2019 10:40:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Subject: Re: [PATCH 02/12] dma-buf: add explicit buffer pinning v2
+Message-ID: <20190429084048.GL3271@phenom.ffwll.local>
+References: <20190426123638.40221-1-christian.koenig@amd.com>
+ <20190426123638.40221-2-christian.koenig@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190426123638.40221-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 4.14.0-3-amd64
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=h7KIMyebRAVcuYohu+RGjt8u2ijjhdKVnlFa7BFU63w=;
+ b=Jd6C/7tE8ZpVXBPDgxThHX/8Lo75tjL8gkOLU2Q/6n8ZatOAxYNla3uy4ecx6TRsvD
+ 3v8YPyoR9YnA6DRxjefL33lRB/fxRTPj9lswL4a+kohkhAXpGcqQpIiPaV1fLGxuQtAZ
+ o6SZEjtkI9k0vw/4bQ+9mjlF29Xdhq16IypuE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,524 +70,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2134209148=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2134209148==
-Content-Type: multipart/alternative; boundary="15565270002.81EcBd.20407"
-Content-Transfer-Encoding: 7bit
-
-
---15565270002.81EcBd.20407
-Date: Mon, 29 Apr 2019 08:36:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110381
-
---- Comment #1 from Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de=
-> ---
-This still happens with Linux 5.1-rc6.
-
-```
-[Fri Apr 26 16:02:16 2019] [drm] DM_MST: stopping TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Fri Apr 26 16:02:16 2019] [drm] DM_MST: Disabling connector: 00000000d0028=
-6a1
-[id: 70] [master: 00000000c53c37c4]
-[Fri Apr 26 16:02:16 2019] [drm] DM_MST: Disabling connector: 00000000e78a9=
-cad
-[id: 75] [master: 00000000c53c37c4]
-[Fri Apr 26 16:02:19 2019] usb 1-10: USB disconnect, device number 9
-[Mon Apr 29 10:16:33 2019] [drm] DM_MST: starting TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:16:33 2019] [drm] DM_MST: added connector: 00000000f322b7c6 =
-[id:
-83] [master: 00000000c53c37c4]
-[Mon Apr 29 10:16:33 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:16:33 2019] [drm] DM_MST: added connector: 00000000d75129fc =
-[id:
-103] [master: 00000000c53c37c4]
-[Mon Apr 29 10:16:34 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:16:34 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:16:34 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:16:34 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:16:34 2019] WARNING: CPU: 3 PID: 466 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2354
-update_mst_stream_alloc_table+0x144/0x150 [amdgpu]
-[Mon Apr 29 10:16:34 2019] Modules linked in: fuse rpcsec_gss_krb5 nfsv4 nfs
-8021q garp stp mrp llc input_leds led_class amdgpu snd_hda_codec_realtek
-snd_hda_codec_generic i915 chash gpu_sched ttm iosf_mbi snd_hda_codec_hdmi
-drm_kms_helper snd_hda_intel intel_gtt snd_hda_codec drm x86_pkg_temp_therm=
-al
-fb_sys_fops syscopyarea snd_hda_core kvm_intel snd_pcm kvm snd_timer snd
-sysfillrect irqbypass wmi_bmof soundcore crc32c_intel sysimgblt video wmi n=
-fsd
-auth_rpcgss oid_registry nfs_acl lockd grace sunrpc efivarfs ip_tables x_ta=
-bles
-unix ipv6 autofs4
-[Mon Apr 29 10:16:34 2019] CPU: 3 PID: 466 Comm: Xorg Kdump: loaded Not tai=
-nted
-5.1.0-rc6.mx64.258 #1
-[Mon Apr 29 10:16:34 2019] Hardware name: Dell Inc. Precision 3630
-Tower/0NNNCT, BIOS 1.0.4 07/17/2018
-[Mon Apr 29 10:16:34 2019] RIP: 0010:update_mst_stream_alloc_table+0x144/0x=
-150
-[amdgpu]
-[Mon Apr 29 10:16:34 2019] Code: 63 d0 48 83 c2 13 48 c1 e2 04 4d 8b 4c 10 =
-08
-4d 8b 54 10 10 4d 89 0c 24 4d 89 54 24 08 39 c1 75 81 e9 67 ff ff ff 31 c0 =
-eb
-f3 <0f> 0b e9 14 ff ff ff e8 f0 15 88 e0 0f 1f 44 00 00 41 55 41 54 49
-[Mon Apr 29 10:16:34 2019] RSP: 0018:ffffc9000252b6b0 EFLAGS: 00010202
-[Mon Apr 29 10:16:34 2019] RAX: 0000000000000002 RBX: ffff88846410c5c0 RCX:
-0000000000000000
-[Mon Apr 29 10:16:34 2019] RDX: ffffc9000252b784 RSI: ffff88844d848a80 RDI:
-ffffc9000252b710
-[Mon Apr 29 10:16:34 2019] RBP: ffffc9000252b750 R08: ffff888460a53c00 R09:
-ffff888384600000
-[Mon Apr 29 10:16:34 2019] R10: ffffc9000252b768 R11: ffffc9000252b6b0 R12:
-ffff888460a53c00
-[Mon Apr 29 10:16:34 2019] R13: ffff88846410c000 R14: 0000000000000002 R15:
-ffff888454a70000
-[Mon Apr 29 10:16:34 2019] FS:  00007f906be66540(0000)
-GS:ffff88846c0c0000(0000) knlGS:0000000000000000
-[Mon Apr 29 10:16:34 2019] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[Mon Apr 29 10:16:34 2019] CR2: 00000000006c7448 CR3: 000000044c81c006 CR4:
-00000000003606e0
-[Mon Apr 29 10:16:34 2019] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
-0000000000000000
-[Mon Apr 29 10:16:34 2019] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
-0000000000000400
-[Mon Apr 29 10:16:34 2019] Call Trace:
-[Mon Apr 29 10:16:34 2019]  ? mutex_lock+0xe/0x30
-[Mon Apr 29 10:16:34 2019]  ? core_link_enable_stream+0x47a/0x1090 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  core_link_enable_stream+0x47a/0x1090 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  dce110_apply_ctx_to_hw+0x3f1/0x480 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? dce110_apply_ctx_for_surface+0x250/0x2b0 [amd=
-gpu]
-[Mon Apr 29 10:16:34 2019]  dc_commit_state+0x2d6/0x560 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? drm_calc_timestamping_constants+0xe5/0x150 [d=
-rm]
-[Mon Apr 29 10:16:34 2019]  amdgpu_dm_atomic_commit_tail+0x388/0x1960 [amdg=
-pu]
-[Mon Apr 29 10:16:34 2019]  ? bw_calcs+0x6f8/0x1cd0 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? dce112_validate_bandwidth+0x3e/0x70 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? dc_validate_global_state+0x2d4/0x360 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? amdgpu_bo_pin_restricted+0x68/0x290 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? _cond_resched+0x15/0x40
-[Mon Apr 29 10:16:34 2019]  ? wait_for_common+0x3d/0x180
-[Mon Apr 29 10:16:34 2019]  ? _cond_resched+0x15/0x40
-[Mon Apr 29 10:16:34 2019]  ? wait_for_common+0x3d/0x180
-[Mon Apr 29 10:16:34 2019]  ? dm_plane_helper_prepare_fb+0x117/0x370 [amdgp=
-u]
-[Mon Apr 29 10:16:34 2019]  ? commit_tail+0x3d/0x70 [drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  commit_tail+0x3d/0x70 [drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  drm_atomic_helper_commit+0xfc/0x110
-[drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  drm_atomic_helper_set_config+0x80/0x90
-[drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  drm_mode_setcrtc+0x170/0x6c0 [drm]
-[Mon Apr 29 10:16:34 2019]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[Mon Apr 29 10:16:34 2019]  drm_ioctl_kernel+0x88/0xf0 [drm]
-[Mon Apr 29 10:16:34 2019]  drm_ioctl+0x2f8/0x3b0 [drm]
-[Mon Apr 29 10:16:34 2019]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[Mon Apr 29 10:16:34 2019]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  do_vfs_ioctl+0xa4/0x630
-[Mon Apr 29 10:16:34 2019]  ? __sys_recvmsg+0x8a/0xa0
-[Mon Apr 29 10:16:34 2019]  ksys_ioctl+0x3a/0x70
-[Mon Apr 29 10:16:34 2019]  __x64_sys_ioctl+0x16/0x20
-[Mon Apr 29 10:16:34 2019]  do_syscall_64+0x48/0x100
-[Mon Apr 29 10:16:34 2019]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[Mon Apr 29 10:16:34 2019] RIP: 0033:0x7f90699b4647
-[Mon Apr 29 10:16:34 2019] Code: 00 00 00 48 8b 05 41 58 2c 00 64 c7 00 26 =
-00
-00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 =
-0f
-05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 11 58 2c 00 f7 d8 64 89 01 48
-[Mon Apr 29 10:16:34 2019] RSP: 002b:00007ffefc39edf8 EFLAGS: 00000246
-ORIG_RAX: 0000000000000010
-[Mon Apr 29 10:16:34 2019] RAX: ffffffffffffffda RBX: 00007ffefc39ee30 RCX:
-00007f90699b4647
-[Mon Apr 29 10:16:34 2019] RDX: 00007ffefc39ee30 RSI: 00000000c06864a2 RDI:
-000000000000000b
-[Mon Apr 29 10:16:34 2019] RBP: 00007ffefc39ee30 R08: 0000000000000000 R09:
-00000000016deaf0
-[Mon Apr 29 10:16:34 2019] R10: 00007ffefc39eef0 R11: 0000000000000246 R12:
-00000000c06864a2
-[Mon Apr 29 10:16:34 2019] R13: 000000000000000b R14: 0000000000000000 R15:
-00000000016deaf0
-[Mon Apr 29 10:16:34 2019] ---[ end trace f73ac3cc2c839e40 ]---
-[Mon Apr 29 10:17:17 2019] usb 1-10: new high-speed USB device number 10 us=
-ing
-xhci_hcd
-[Mon Apr 29 10:17:17 2019] usb-storage 1-10:1.0: USB Mass Storage device
-detected
-[Mon Apr 29 10:17:17 2019] scsi host5: usb-storage 1-10:1.0
-[Mon Apr 29 10:17:18 2019] scsi 5:0:0:0: Direct-Access     Linux    File-CD
-Gadget   0000 PQ: 0 ANSI: 2
-[Mon Apr 29 10:17:18 2019] sd 5:0:0:0: Attached scsi generic sg2 type 0
-[Mon Apr 29 10:17:18 2019] sd 5:0:0:0: Power-on or device reset occurred
-[Mon Apr 29 10:17:18 2019] sd 5:0:0:0: [sdc] Attached SCSI removable disk
-[Mon Apr 29 10:17:20 2019] usb 1-10: USB disconnect, device number 10
-[Mon Apr 29 10:17:21 2019] usb 1-10: new high-speed USB device number 11 us=
-ing
-xhci_hcd
-[Mon Apr 29 10:17:21 2019] usb-storage 1-10:1.0: USB Mass Storage device
-detected
-[Mon Apr 29 10:17:21 2019] scsi host5: usb-storage 1-10:1.0
-[Mon Apr 29 10:17:22 2019] scsi 5:0:0:0: Direct-Access     Linux    File-CD
-Gadget   0000 PQ: 0 ANSI: 2
-[Mon Apr 29 10:17:22 2019] sd 5:0:0:0: Attached scsi generic sg2 type 0
-[Mon Apr 29 10:17:22 2019] sd 5:0:0:0: Power-on or device reset occurred
-[Mon Apr 29 10:17:22 2019] sd 5:0:0:0: [sdc] Attached SCSI removable disk
-[Mon Apr 29 10:18:07 2019] usb 1-10: USB disconnect, device number 11
-[Mon Apr 29 10:18:07 2019] usb 1-10: new high-speed USB device number 12 us=
-ing
-xhci_hcd
-[Mon Apr 29 10:18:07 2019] usb-storage 1-10:1.0: USB Mass Storage device
-detected
-[Mon Apr 29 10:18:07 2019] scsi host5: usb-storage 1-10:1.0
-[Mon Apr 29 10:18:08 2019] scsi 5:0:0:0: Direct-Access     Linux    File-CD
-Gadget   0000 PQ: 0 ANSI: 2
-[Mon Apr 29 10:18:08 2019] sd 5:0:0:0: Attached scsi generic sg2 type 0
-[Mon Apr 29 10:18:08 2019] sd 5:0:0:0: Power-on or device reset occurred
-[Mon Apr 29 10:18:08 2019] sd 5:0:0:0: [sdc] Attached SCSI removable disk
-[Mon Apr 29 10:19:23 2019] [drm] DM_MST: stopping TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:23 2019] [drm] DM_MST: Disabling connector: 00000000f322b=
-7c6
-[id: 83] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:23 2019] [drm] DM_MST: Disabling connector: 00000000d7512=
-9fc
-[id: 103] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:24 2019] [drm] DM_MST: starting TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:25 2019] [drm] DM_MST: added connector: 0000000017233044 =
-[id:
-92] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:25 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:19:25 2019] [drm] DM_MST: added connector: 00000000e263cd87 =
-[id:
-108] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:25 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:19:25 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:19:25 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:19:39 2019] [drm] DM_MST: stopping TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:39 2019] [drm] DM_MST: Disabling connector: 0000000017233=
-044
-[id: 92] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:39 2019] [drm] DM_MST: Disabling connector: 00000000e263c=
-d87
-[id: 108] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:43 2019] [drm] DM_MST: starting TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:43 2019] [drm] DM_MST: added connector: 000000001c781c8d =
-[id:
-85] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:43 2019] [drm] amdgpu_dm_irq_schedule_work FAILED src 12
-[Mon Apr 29 10:19:43 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:19:43 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:19:44 2019] [drm] DM_MST: added connector: 00000000e78a9cad =
-[id:
-97] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:44 2019] [drm] SADs count is: -2, don't need to read it
-```
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15565270002.81EcBd.20407
-Date: Mon, 29 Apr 2019 08:36:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Failed to updateMST allocation table forpipe idx:0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110381#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Failed to updateMST allocation table forpipe idx:0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110381">bug 11038=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pm=
-enzel+bugs.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul =
-Menzel</span></a>
-</span></b>
-        <pre>This still happens with Linux 5.1-rc6.
-
-```
-[Fri Apr 26 16:02:16 2019] [drm] DM_MST: stopping TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Fri Apr 26 16:02:16 2019] [drm] DM_MST: Disabling connector: 00000000d0028=
-6a1
-[id: 70] [master: 00000000c53c37c4]
-[Fri Apr 26 16:02:16 2019] [drm] DM_MST: Disabling connector: 00000000e78a9=
-cad
-[id: 75] [master: 00000000c53c37c4]
-[Fri Apr 26 16:02:19 2019] usb 1-10: USB disconnect, device number 9
-[Mon Apr 29 10:16:33 2019] [drm] DM_MST: starting TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:16:33 2019] [drm] DM_MST: added connector: 00000000f322b7c6 =
-[id:
-83] [master: 00000000c53c37c4]
-[Mon Apr 29 10:16:33 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:16:33 2019] [drm] DM_MST: added connector: 00000000d75129fc =
-[id:
-103] [master: 00000000c53c37c4]
-[Mon Apr 29 10:16:34 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:16:34 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:16:34 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:16:34 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:16:34 2019] WARNING: CPU: 3 PID: 466 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2354
-update_mst_stream_alloc_table+0x144/0x150 [amdgpu]
-[Mon Apr 29 10:16:34 2019] Modules linked in: fuse rpcsec_gss_krb5 nfsv4 nfs
-8021q garp stp mrp llc input_leds led_class amdgpu snd_hda_codec_realtek
-snd_hda_codec_generic i915 chash gpu_sched ttm iosf_mbi snd_hda_codec_hdmi
-drm_kms_helper snd_hda_intel intel_gtt snd_hda_codec drm x86_pkg_temp_therm=
-al
-fb_sys_fops syscopyarea snd_hda_core kvm_intel snd_pcm kvm snd_timer snd
-sysfillrect irqbypass wmi_bmof soundcore crc32c_intel sysimgblt video wmi n=
-fsd
-auth_rpcgss oid_registry nfs_acl lockd grace sunrpc efivarfs ip_tables x_ta=
-bles
-unix ipv6 autofs4
-[Mon Apr 29 10:16:34 2019] CPU: 3 PID: 466 Comm: Xorg Kdump: loaded Not tai=
-nted
-5.1.0-rc6.mx64.258 #1
-[Mon Apr 29 10:16:34 2019] Hardware name: Dell Inc. Precision 3630
-Tower/0NNNCT, BIOS 1.0.4 07/17/2018
-[Mon Apr 29 10:16:34 2019] RIP: 0010:update_mst_stream_alloc_table+0x144/0x=
-150
-[amdgpu]
-[Mon Apr 29 10:16:34 2019] Code: 63 d0 48 83 c2 13 48 c1 e2 04 4d 8b 4c 10 =
-08
-4d 8b 54 10 10 4d 89 0c 24 4d 89 54 24 08 39 c1 75 81 e9 67 ff ff ff 31 c0 =
-eb
-f3 &lt;0f&gt; 0b e9 14 ff ff ff e8 f0 15 88 e0 0f 1f 44 00 00 41 55 41 54 49
-[Mon Apr 29 10:16:34 2019] RSP: 0018:ffffc9000252b6b0 EFLAGS: 00010202
-[Mon Apr 29 10:16:34 2019] RAX: 0000000000000002 RBX: ffff88846410c5c0 RCX:
-0000000000000000
-[Mon Apr 29 10:16:34 2019] RDX: ffffc9000252b784 RSI: ffff88844d848a80 RDI:
-ffffc9000252b710
-[Mon Apr 29 10:16:34 2019] RBP: ffffc9000252b750 R08: ffff888460a53c00 R09:
-ffff888384600000
-[Mon Apr 29 10:16:34 2019] R10: ffffc9000252b768 R11: ffffc9000252b6b0 R12:
-ffff888460a53c00
-[Mon Apr 29 10:16:34 2019] R13: ffff88846410c000 R14: 0000000000000002 R15:
-ffff888454a70000
-[Mon Apr 29 10:16:34 2019] FS:  00007f906be66540(0000)
-GS:ffff88846c0c0000(0000) knlGS:0000000000000000
-[Mon Apr 29 10:16:34 2019] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[Mon Apr 29 10:16:34 2019] CR2: 00000000006c7448 CR3: 000000044c81c006 CR4:
-00000000003606e0
-[Mon Apr 29 10:16:34 2019] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
-0000000000000000
-[Mon Apr 29 10:16:34 2019] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
-0000000000000400
-[Mon Apr 29 10:16:34 2019] Call Trace:
-[Mon Apr 29 10:16:34 2019]  ? mutex_lock+0xe/0x30
-[Mon Apr 29 10:16:34 2019]  ? core_link_enable_stream+0x47a/0x1090 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  core_link_enable_stream+0x47a/0x1090 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  dce110_apply_ctx_to_hw+0x3f1/0x480 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? dce110_apply_ctx_for_surface+0x250/0x2b0 [amd=
-gpu]
-[Mon Apr 29 10:16:34 2019]  dc_commit_state+0x2d6/0x560 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? drm_calc_timestamping_constants+0xe5/0x150 [d=
-rm]
-[Mon Apr 29 10:16:34 2019]  amdgpu_dm_atomic_commit_tail+0x388/0x1960 [amdg=
-pu]
-[Mon Apr 29 10:16:34 2019]  ? bw_calcs+0x6f8/0x1cd0 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? dce112_validate_bandwidth+0x3e/0x70 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? dc_validate_global_state+0x2d4/0x360 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? amdgpu_bo_pin_restricted+0x68/0x290 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  ? _cond_resched+0x15/0x40
-[Mon Apr 29 10:16:34 2019]  ? wait_for_common+0x3d/0x180
-[Mon Apr 29 10:16:34 2019]  ? _cond_resched+0x15/0x40
-[Mon Apr 29 10:16:34 2019]  ? wait_for_common+0x3d/0x180
-[Mon Apr 29 10:16:34 2019]  ? dm_plane_helper_prepare_fb+0x117/0x370 [amdgp=
-u]
-[Mon Apr 29 10:16:34 2019]  ? commit_tail+0x3d/0x70 [drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  commit_tail+0x3d/0x70 [drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  drm_atomic_helper_commit+0xfc/0x110
-[drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  drm_atomic_helper_set_config+0x80/0x90
-[drm_kms_helper]
-[Mon Apr 29 10:16:34 2019]  drm_mode_setcrtc+0x170/0x6c0 [drm]
-[Mon Apr 29 10:16:34 2019]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[Mon Apr 29 10:16:34 2019]  drm_ioctl_kernel+0x88/0xf0 [drm]
-[Mon Apr 29 10:16:34 2019]  drm_ioctl+0x2f8/0x3b0 [drm]
-[Mon Apr 29 10:16:34 2019]  ? drm_mode_getcrtc+0x180/0x180 [drm]
-[Mon Apr 29 10:16:34 2019]  amdgpu_drm_ioctl+0x49/0x80 [amdgpu]
-[Mon Apr 29 10:16:34 2019]  do_vfs_ioctl+0xa4/0x630
-[Mon Apr 29 10:16:34 2019]  ? __sys_recvmsg+0x8a/0xa0
-[Mon Apr 29 10:16:34 2019]  ksys_ioctl+0x3a/0x70
-[Mon Apr 29 10:16:34 2019]  __x64_sys_ioctl+0x16/0x20
-[Mon Apr 29 10:16:34 2019]  do_syscall_64+0x48/0x100
-[Mon Apr 29 10:16:34 2019]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[Mon Apr 29 10:16:34 2019] RIP: 0033:0x7f90699b4647
-[Mon Apr 29 10:16:34 2019] Code: 00 00 00 48 8b 05 41 58 2c 00 64 c7 00 26 =
-00
-00 00 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 b8 10 00 00 00 =
-0f
-05 &lt;48&gt; 3d 01 f0 ff ff 73 01 c3 48 8b 0d 11 58 2c 00 f7 d8 64 89 01 48
-[Mon Apr 29 10:16:34 2019] RSP: 002b:00007ffefc39edf8 EFLAGS: 00000246
-ORIG_RAX: 0000000000000010
-[Mon Apr 29 10:16:34 2019] RAX: ffffffffffffffda RBX: 00007ffefc39ee30 RCX:
-00007f90699b4647
-[Mon Apr 29 10:16:34 2019] RDX: 00007ffefc39ee30 RSI: 00000000c06864a2 RDI:
-000000000000000b
-[Mon Apr 29 10:16:34 2019] RBP: 00007ffefc39ee30 R08: 0000000000000000 R09:
-00000000016deaf0
-[Mon Apr 29 10:16:34 2019] R10: 00007ffefc39eef0 R11: 0000000000000246 R12:
-00000000c06864a2
-[Mon Apr 29 10:16:34 2019] R13: 000000000000000b R14: 0000000000000000 R15:
-00000000016deaf0
-[Mon Apr 29 10:16:34 2019] ---[ end trace f73ac3cc2c839e40 ]---
-[Mon Apr 29 10:17:17 2019] usb 1-10: new high-speed USB device number 10 us=
-ing
-xhci_hcd
-[Mon Apr 29 10:17:17 2019] usb-storage 1-10:1.0: USB Mass Storage device
-detected
-[Mon Apr 29 10:17:17 2019] scsi host5: usb-storage 1-10:1.0
-[Mon Apr 29 10:17:18 2019] scsi 5:0:0:0: Direct-Access     Linux    File-CD
-Gadget   0000 PQ: 0 ANSI: 2
-[Mon Apr 29 10:17:18 2019] sd 5:0:0:0: Attached scsi generic sg2 type 0
-[Mon Apr 29 10:17:18 2019] sd 5:0:0:0: Power-on or device reset occurred
-[Mon Apr 29 10:17:18 2019] sd 5:0:0:0: [sdc] Attached SCSI removable disk
-[Mon Apr 29 10:17:20 2019] usb 1-10: USB disconnect, device number 10
-[Mon Apr 29 10:17:21 2019] usb 1-10: new high-speed USB device number 11 us=
-ing
-xhci_hcd
-[Mon Apr 29 10:17:21 2019] usb-storage 1-10:1.0: USB Mass Storage device
-detected
-[Mon Apr 29 10:17:21 2019] scsi host5: usb-storage 1-10:1.0
-[Mon Apr 29 10:17:22 2019] scsi 5:0:0:0: Direct-Access     Linux    File-CD
-Gadget   0000 PQ: 0 ANSI: 2
-[Mon Apr 29 10:17:22 2019] sd 5:0:0:0: Attached scsi generic sg2 type 0
-[Mon Apr 29 10:17:22 2019] sd 5:0:0:0: Power-on or device reset occurred
-[Mon Apr 29 10:17:22 2019] sd 5:0:0:0: [sdc] Attached SCSI removable disk
-[Mon Apr 29 10:18:07 2019] usb 1-10: USB disconnect, device number 11
-[Mon Apr 29 10:18:07 2019] usb 1-10: new high-speed USB device number 12 us=
-ing
-xhci_hcd
-[Mon Apr 29 10:18:07 2019] usb-storage 1-10:1.0: USB Mass Storage device
-detected
-[Mon Apr 29 10:18:07 2019] scsi host5: usb-storage 1-10:1.0
-[Mon Apr 29 10:18:08 2019] scsi 5:0:0:0: Direct-Access     Linux    File-CD
-Gadget   0000 PQ: 0 ANSI: 2
-[Mon Apr 29 10:18:08 2019] sd 5:0:0:0: Attached scsi generic sg2 type 0
-[Mon Apr 29 10:18:08 2019] sd 5:0:0:0: Power-on or device reset occurred
-[Mon Apr 29 10:18:08 2019] sd 5:0:0:0: [sdc] Attached SCSI removable disk
-[Mon Apr 29 10:19:23 2019] [drm] DM_MST: stopping TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:23 2019] [drm] DM_MST: Disabling connector: 00000000f322b=
-7c6
-[id: 83] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:23 2019] [drm] DM_MST: Disabling connector: 00000000d7512=
-9fc
-[id: 103] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:24 2019] [drm] DM_MST: starting TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:25 2019] [drm] DM_MST: added connector: 0000000017233044 =
-[id:
-92] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:25 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:19:25 2019] [drm] DM_MST: added connector: 00000000e263cd87 =
-[id:
-108] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:25 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:19:25 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:19:25 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:19:39 2019] [drm] DM_MST: stopping TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:39 2019] [drm] DM_MST: Disabling connector: 0000000017233=
-044
-[id: 92] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:39 2019] [drm] DM_MST: Disabling connector: 00000000e263c=
-d87
-[id: 108] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:43 2019] [drm] DM_MST: starting TM on aconnector:
-00000000c53c37c4 [id: 59]
-[Mon Apr 29 10:19:43 2019] [drm] DM_MST: added connector: 000000001c781c8d =
-[id:
-85] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:43 2019] [drm] amdgpu_dm_irq_schedule_work FAILED src 12
-[Mon Apr 29 10:19:43 2019] [drm] SADs count is: -2, don't need to read it
-[Mon Apr 29 10:19:43 2019] [drm] Failed to updateMST allocation table forpi=
-pe
-idx:0
-[Mon Apr 29 10:19:44 2019] [drm] DM_MST: added connector: 00000000e78a9cad =
-[id:
-97] [master: 00000000c53c37c4]
-[Mon Apr 29 10:19:44 2019] [drm] SADs count is: -2, don't need to read it
-```</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15565270002.81EcBd.20407--
-
---===============2134209148==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2134209148==--
+T24gRnJpLCBBcHIgMjYsIDIwMTkgYXQgMDI6MzY6MjhQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5p
+ZyB3cm90ZToKPiBBZGQgb3B0aW9uYWwgZXhwbGljaXQgcGlubmluZyBjYWxsYmFja3MgaW5zdGVh
+ZCBvZiBpbXBsaWNpdGx5IGFzc3VtZSB0aGUKPiBleHBvcnRlciBwaW5zIHRoZSBidWZmZXIgd2hl
+biBhIG1hcHBpbmcgaXMgY3JlYXRlZC4KPiAKPiB2MjogbW92ZSBpbiBwYXRjaHNldCBhbmQgcGlu
+IHRoZSBkbWEtYnVmIGluIHRoZSBvbGQgbWFwcGluZyBjb2RlIHBhdGhzLgo+IAo+IFNpZ25lZC1v
+ZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0K
+PiAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyB8IDQ5ICsrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrLQo+ICBpbmNsdWRlL2xpbnV4L2RtYS1idWYuaCAgIHwgMzggKysrKysr
+KysrKysrKysrKysrKysrKysrKy0tLS0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgODAgaW5zZXJ0aW9u
+cygrKSwgNyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2Rt
+YS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKPiBpbmRleCA1MGI0YzZhZjA0Yzcu
+LjA2NTZkY2YyODliZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jCj4g
+KysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+IEBAIC01MjksNiArNTI5LDQxIEBAIHZv
+aWQgZG1hX2J1Zl9wdXQoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikKPiAgfQo+ICBFWFBPUlRfU1lN
+Qk9MX0dQTChkbWFfYnVmX3B1dCk7Cj4gIAo+ICsvKioKPiArICogZG1hX2J1Zl9waW4gLSBMb2Nr
+IGRvd24gdGhlIERNQS1idWYKPiArICoKPiArICogQGRtYWJ1ZjoJW2luXQlETUEtYnVmIHRvIGxv
+Y2sgZG93bi4KPiArICoKPiArICogUmV0dXJuczoKPiArICogMCBvbiBzdWNjZXNzLCBuZWdhdGl2
+ZSBlcnJvciBjb2RlIG9uIGZhaWx1cmUuCj4gKyAqLwo+ICtpbnQgZG1hX2J1Zl9waW4oc3RydWN0
+IGRtYV9idWYgKmRtYWJ1ZikKCkkgdGhpbmsgdGhpcyBzaG91bGQgYmUgb24gdGhlIGF0dGFjaG1l
+bnQsIG5vdCBvbiB0aGUgYnVmZmVyLiBPciBpcyB0aGUKaWRlYSB0aGF0IGEgcGluIGlzIGZvciB0
+aGUgZW50aXJlIGJ1ZmZlciwgYW5kIGFsbCBzdWJzZXF1ZW50CmRtYV9idWZfbWFwX2F0dGFjaG1l
+bnQgbXVzdCB3b3JrIGZvciBhbGwgYXR0YWNobWVudHM/IEkgdGhpbmsgdGhpcyBtYXR0ZXJzCmZv
+ciBzdWZmaWNpZW50bHkgY29udHJpdmVkIHAycCBzY2VuYXJpb3MuCgpFaXRoZXIgd2F5LCBkb2Nz
+IG5lZWQgdG8gY2xhcmlmeSB0aGlzLgoKPiArewo+ICsJaW50IHJldCA9IDA7Cj4gKwo+ICsJcmVz
+ZXJ2YXRpb25fb2JqZWN0X2Fzc2VydF9oZWxkKGRtYWJ1Zi0+cmVzdik7Cj4gKwo+ICsJaWYgKGRt
+YWJ1Zi0+b3BzLT5waW4pCj4gKwkJcmV0ID0gZG1hYnVmLT5vcHMtPnBpbihkbWFidWYpOwo+ICsK
+PiArCXJldHVybiByZXQ7Cj4gK30KPiArRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9waW4pOwo+
+ICsKPiArLyoqCj4gKyAqIGRtYV9idWZfdW5waW4gLSBSZW1vdmUgbG9jayBmcm9tIERNQS1idWYK
+PiArICoKPiArICogQGRtYWJ1ZjoJW2luXQlETUEtYnVmIHRvIHVubG9jay4KPiArICovCj4gK3Zv
+aWQgZG1hX2J1Zl91bnBpbihzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKQo+ICt7Cj4gKwlyZXNlcnZh
+dGlvbl9vYmplY3RfYXNzZXJ0X2hlbGQoZG1hYnVmLT5yZXN2KTsKPiArCj4gKwlpZiAoZG1hYnVm
+LT5vcHMtPnVucGluKQo+ICsJCWRtYWJ1Zi0+b3BzLT51bnBpbihkbWFidWYpOwo+ICt9Cj4gK0VY
+UE9SVF9TWU1CT0xfR1BMKGRtYV9idWZfdW5waW4pOwo+ICsKPiAgLyoqCj4gICAqIGRtYV9idWZf
+YXR0YWNoIC0gQWRkIHRoZSBkZXZpY2UgdG8gZG1hX2J1ZidzIGF0dGFjaG1lbnRzIGxpc3Q7IG9w
+dGlvbmFsbHksCj4gICAqIGNhbGxzIGF0dGFjaCgpIG9mIGRtYV9idWZfb3BzIHRvIGFsbG93IGRl
+dmljZS1zcGVjaWZpYyBhdHRhY2ggZnVuY3Rpb25hbGl0eQo+IEBAIC01NDgsNyArNTgzLDggQEAg
+RVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9wdXQpOwo+ICAgKiBhY2Nlc3NpYmxlIHRvIEBkZXYs
+IGFuZCBjYW5ub3QgYmUgbW92ZWQgdG8gYSBtb3JlIHN1aXRhYmxlIHBsYWNlLiBUaGlzIGlzCj4g
+ICAqIGluZGljYXRlZCB3aXRoIHRoZSBlcnJvciBjb2RlIC1FQlVTWS4KPiAgICovCj4gLXN0cnVj
+dCBkbWFfYnVmX2F0dGFjaG1lbnQgKmRtYV9idWZfYXR0YWNoKGNvbnN0IHN0cnVjdCBkbWFfYnVm
+X2F0dGFjaF9pbmZvICppbmZvKQo+ICtzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICoKPiArZG1h
+X2J1Zl9hdHRhY2goY29uc3Qgc3RydWN0IGRtYV9idWZfYXR0YWNoX2luZm8gKmluZm8pCj4gIHsK
+PiAgCXN0cnVjdCBkbWFfYnVmICpkbWFidWYgPSBpbmZvLT5kbWFidWY7Cj4gIAlzdHJ1Y3QgZG1h
+X2J1Zl9hdHRhY2htZW50ICphdHRhY2g7Cj4gQEAgLTYyNSwxMiArNjYxLDE5IEBAIHN0cnVjdCBz
+Z190YWJsZSAqZG1hX2J1Zl9tYXBfYXR0YWNobWVudChzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50
+ICphdHRhY2gsCj4gIAkJCQkJZW51bSBkbWFfZGF0YV9kaXJlY3Rpb24gZGlyZWN0aW9uKQo+ICB7
+Cj4gIAlzdHJ1Y3Qgc2dfdGFibGUgKnNnX3RhYmxlOwo+ICsJaW50IHI7Cj4gIAo+ICAJbWlnaHRf
+c2xlZXAoKTsKPiAgCj4gIAlpZiAoV0FSTl9PTighYXR0YWNoIHx8ICFhdHRhY2gtPmRtYWJ1Zikp
+Cj4gIAkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gIAo+ICsJcmVzZXJ2YXRpb25fb2JqZWN0
+X2xvY2soYXR0YWNoLT5kbWFidWYtPnJlc3YsIE5VTEwpOwo+ICsJciA9IGRtYV9idWZfcGluKGF0
+dGFjaC0+ZG1hYnVmKTsKPiArCXJlc2VydmF0aW9uX29iamVjdF91bmxvY2soYXR0YWNoLT5kbWFi
+dWYtPnJlc3YpOwoKVGhpcyBhZGRzIGFuIHVuY29uZGl0aW9uYWwgcmVzZXJ2YXQgbG9jayB0byBt
+YXAvdW5tYXAsIHdoaWNoIGlzIHRoaW5rCnBpc3NlcyBvZmYgZHJpdmVycy4gVGhpcyBnZXRzIGZp
+eGVkIGxhdGVyIG9uIHdpdGggdGhlIGNhY2hpbmcsIGJ1dCBtZWFucwp0aGUgc2VyaWVzIGlzIGJy
+b2tlbiBoZXJlLgoKQWxzbywgdGhhdCBzdXBlci1maW5lIGdyYWluZWQgc3BsaXQtdXAgbWFrZXMg
+aXQgaGFyZGVyIGZvciBtZSB0byByZXZpZXcKdGhlIGRvY3MsIHNpbmNlIG9ubHkgdW50aWwgdGhl
+IHZlcnkgZW5kIGFyZSBhbGwgdGhlIGJpdHMgcHJlc2VudCBmb3IgZnVsbApkeW5hbWljIGRtYS1i
+dWYgbWFwcGluZ3MuCgpJIHRoaW5rIGl0J2QgYmUgYmVzdCB0byBzcXVhc2ggYWxsIHRoZSBwYXRj
+aGVzIGZyb20gcGluIHVwIHRvIHRoZSBvbmUgdGhhdAphZGRzIHRoZSBpbnZhbGlkYXRlIGNhbGxi
+YWNrIGludG8gb25lIHBhdGNoLiBJdCdzIGFsbCBjaGFuZ2VzIHRvCmRtYS1idWYuW2hjXSBvbmx5
+IGFueXdheS4gSWYgdGhhdCBpcyB0b28gYmlnIHdlIGNhbiB0aGluayBhYm91dCBob3cgdG8Kc3Bs
+aXQgaXQgdXAgYWdhaW4sIGJ1dCBhdCBsZWFzdCBmb3IgbWUgdGhlIGN1cnJlbnQgc3BsaXR0aW5n
+IGRvZXNuJ3QgbWFrZQpzZW5zZSBhdCBhbGwuCgo+ICsJaWYgKHIpCj4gKwkJcmV0dXJuIEVSUl9Q
+VFIocik7Cj4gKwo+ICAJc2dfdGFibGUgPSBhdHRhY2gtPmRtYWJ1Zi0+b3BzLT5tYXBfZG1hX2J1
+ZihhdHRhY2gsIGRpcmVjdGlvbik7Cj4gIAlpZiAoIXNnX3RhYmxlKQo+ICAJCXNnX3RhYmxlID0g
+RVJSX1BUUigtRU5PTUVNKTsKCkxlYWtzIHRoZSBwaW4gaWYgd2UgZmFpbCBoZXJlLgoKPiBAQCAt
+NjYwLDYgKzcwMywxMCBAQCB2b2lkIGRtYV9idWZfdW5tYXBfYXR0YWNobWVudChzdHJ1Y3QgZG1h
+X2J1Zl9hdHRhY2htZW50ICphdHRhY2gsCj4gIAo+ICAJYXR0YWNoLT5kbWFidWYtPm9wcy0+dW5t
+YXBfZG1hX2J1ZihhdHRhY2gsIHNnX3RhYmxlLAo+ICAJCQkJCQlkaXJlY3Rpb24pOwo+ICsKPiAr
+CXJlc2VydmF0aW9uX29iamVjdF9sb2NrKGF0dGFjaC0+ZG1hYnVmLT5yZXN2LCBOVUxMKTsKPiAr
+CWRtYV9idWZfdW5waW4oYXR0YWNoLT5kbWFidWYpOwo+ICsJcmVzZXJ2YXRpb25fb2JqZWN0X3Vu
+bG9jayhhdHRhY2gtPmRtYWJ1Zi0+cmVzdik7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTF9HUEwoZG1h
+X2J1Zl91bm1hcF9hdHRhY2htZW50KTsKPiAgCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgv
+ZG1hLWJ1Zi5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgKPiBpbmRleCAyYzMxMmRmZDMxYTEu
+LjAzMjE5MzliMWMzZCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaAo+ICsr
+KyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCj4gQEAgLTUxLDYgKzUxLDM0IEBAIHN0cnVjdCBk
+bWFfYnVmX2F0dGFjaG1lbnQ7Cj4gICAqIEB2dW5tYXA6IFtvcHRpb25hbF0gdW5tYXBzIGEgdm1h
+cCBmcm9tIHRoZSBidWZmZXIKPiAgICovCj4gIHN0cnVjdCBkbWFfYnVmX29wcyB7Cj4gKwkvKioK
+PiArCSAqIEBwaW46Cj4gKwkgKgo+ICsJICogVGhpcyBpcyBjYWxsZWQgYnkgZG1hX2J1Zl9waW4g
+YW5kIGxldHMgdGhlIGV4cG9ydGVyIGtub3cgdGhhdCB0aGUKPiArCSAqIERNQS1idWYgY2FuJ3Qg
+YmUgbW92ZWQgYW55IG1vcmUuCj4gKwkgKgo+ICsJICogVGhpcyBpcyBjYWxsZWQgd2l0aCB0aGUg
+ZG1hYnVmLT5yZXN2IG9iamVjdCBsb2NrZWQuCj4gKwkgKgo+ICsJICogVGhpcyBjYWxsYmFjayBp
+cyBvcHRpb25hbC4KPiArCSAqCj4gKwkgKiBSZXR1cm5zOgo+ICsJICoKPiArCSAqIDAgb24gc3Vj
+Y2VzcywgbmVnYXRpdmUgZXJyb3IgY29kZSBvbiBmYWlsdXJlLgo+ICsJICovCj4gKwlpbnQgKCpw
+aW4pKHN0cnVjdCBkbWFfYnVmICopOwo+ICsKPiArCS8qKgo+ICsJICogQHVucGluOgo+ICsJICoK
+PiArCSAqIFRoaXMgaXMgY2FsbGVkIGJ5IGRtYV9idWZfdW5waW4gYW5kIGxldHMgdGhlIGV4cG9y
+dGVyIGtub3cgdGhhdCB0aGUKPiArCSAqIERNQS1idWYgY2FuIGJlIG1vdmVkIGFnYWluLgo+ICsJ
+ICoKPiArCSAqIFRoaXMgaXMgY2FsbGVkIHdpdGggdGhlIGRtYWJ1Zi0+cmVzdiBvYmplY3QgbG9j
+a2VkLgo+ICsJICoKPiArCSAqIFRoaXMgY2FsbGJhY2sgaXMgb3B0aW9uYWwuCgoiVGhpcyBjYWxs
+YmFjayBpcyBvcHRpb25hbCwgYnV0IG11c3QgYmUgcHJvdmlkZWQgaWYgQHBpbiBpcy4iIFNhbWUg
+Zm9yCkBwaW4gSSB0aGluaywgcGx1cyB3b3VsZCBiZSBnb29kIHRvIGNoZWNrIGluIGRtYV9idWZf
+ZXhwb3J0IHRoYXQgeW91IGhhdmUKYm90aCBvciBuZWl0aGVyIHdpdGgKCglXQVJOX09OKCEhZXhw
+X2luZm8tPm9wcy0+cGluID09ICEhZXhwX2luZm8tPm9wcy0+dW5waW4pOwoKPiArCSAqLwo+ICsJ
+dm9pZCAoKnVucGluKShzdHJ1Y3QgZG1hX2J1ZiAqKTsKPiArCj4gIAkvKioKPiAgCSAqIEBhdHRh
+Y2g6Cj4gIAkgKgo+IEBAIC05NSw5ICsxMjMsNyBAQCBzdHJ1Y3QgZG1hX2J1Zl9vcHMgewo+ICAJ
+ICoKPiAgCSAqIFRoaXMgaXMgY2FsbGVkIGJ5IGRtYV9idWZfbWFwX2F0dGFjaG1lbnQoKSBhbmQg
+aXMgdXNlZCB0byBtYXAgYQo+ICAJICogc2hhcmVkICZkbWFfYnVmIGludG8gZGV2aWNlIGFkZHJl
+c3Mgc3BhY2UsIGFuZCBpdCBpcyBtYW5kYXRvcnkuIEl0Cj4gLQkgKiBjYW4gb25seSBiZSBjYWxs
+ZWQgaWYgQGF0dGFjaCBoYXMgYmVlbiBjYWxsZWQgc3VjY2Vzc2Z1bGx5LiBUaGlzCj4gLQkgKiBl
+c3NlbnRpYWxseSBwaW5zIHRoZSBETUEgYnVmZmVyIGludG8gcGxhY2UsIGFuZCBpdCBjYW5ub3Qg
+YmUgbW92ZWQKPiAtCSAqIGFueSBtb3JlCj4gKwkgKiBjYW4gb25seSBiZSBjYWxsZWQgaWYgQGF0
+dGFjaCBoYXMgYmVlbiBjYWxsZWQgc3VjY2Vzc2Z1bGx5LgoKSSB0aGluayBkcm9wcGluZyB0aGlz
+IG91dHJpZ2h0IGlzbid0IGNvcnJlY3QsIHNpbmNlIGZvciBhbGwgY3VycmVudApkbWEtYnVmIGV4
+cG9ydGVycyBpdCdzIHN0aWxsIHdoYXQgdGhleSBzaG91bGQgYmUgZG9pbmcuIFdlIGp1c3QgbmVl
+ZCB0bwptYWtlIHRoaXMgY29uZGl0aW9uYWwgb24gQHBpbiBhbmQgQHVucGluIG5vdCBiZWluZyBw
+cmVzZW50OgoKCSJJZiBAcGluIGFuZCBAdW5waW4gYXJlIG5vdCBwcm92aWRlZCB0aGlzIGVzc2Vu
+dGlhbGx5IHBpbnMgdGhlIERNQQoJYnVmZmVyIGludG8gcGxhY2UsIGFuZCBpdCBjYW5ub3QgYmUg
+bW92ZWQgYW55IG1vcmUuIgoKPiAgCSAqCj4gIAkgKiBUaGlzIGNhbGwgbWF5IHNsZWVwLCBlLmcu
+IHdoZW4gdGhlIGJhY2tpbmcgc3RvcmFnZSBmaXJzdCBuZWVkcyB0byBiZQo+ICAJICogYWxsb2Nh
+dGVkLCBvciBtb3ZlZCB0byBhIGxvY2F0aW9uIHN1aXRhYmxlIGZvciBhbGwgY3VycmVudGx5IGF0
+dGFjaGVkCj4gQEAgLTEzNSw5ICsxNjEsNiBAQCBzdHJ1Y3QgZG1hX2J1Zl9vcHMgewo+ICAJICoK
+PiAgCSAqIFRoaXMgaXMgY2FsbGVkIGJ5IGRtYV9idWZfdW5tYXBfYXR0YWNobWVudCgpIGFuZCBz
+aG91bGQgdW5tYXAgYW5kCj4gIAkgKiByZWxlYXNlIHRoZSAmc2dfdGFibGUgYWxsb2NhdGVkIGlu
+IEBtYXBfZG1hX2J1ZiwgYW5kIGl0IGlzIG1hbmRhdG9yeS4KClNhbWUgaGVyZSwgYWRkIGEgIklm
+IEBwaW4gYW5kIEB1bnBpbiBhcmUgbm90IHByb3ZpZGVkIHRoaXMgc2hvdWxkIC4uLiIKcXVhbGlm
+aWVyIGluc3RlYWQgb2YgZGVsZXRpbmcuCgpDaGVlcnMsIERhbmllbAoKCj4gLQkgKiBJdCBzaG91
+bGQgYWxzbyB1bnBpbiB0aGUgYmFja2luZyBzdG9yYWdlIGlmIHRoaXMgaXMgdGhlIGxhc3QgbWFw
+cGluZwo+IC0JICogb2YgdGhlIERNQSBidWZmZXIsIGl0IHRoZSBleHBvcnRlciBzdXBwb3J0cyBi
+YWNraW5nIHN0b3JhZ2UKPiAtCSAqIG1pZ3JhdGlvbi4KPiAgCSAqLwo+ICAJdm9pZCAoKnVubWFw
+X2RtYV9idWYpKHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKiwKPiAgCQkJICAgICAgc3RydWN0
+IHNnX3RhYmxlICosCj4gQEAgLTM4Niw2ICs0MDksOSBAQCBzdGF0aWMgaW5saW5lIHZvaWQgZ2V0
+X2RtYV9idWYoc3RydWN0IGRtYV9idWYgKmRtYWJ1ZikKPiAgCWdldF9maWxlKGRtYWJ1Zi0+Zmls
+ZSk7Cj4gIH0KPiAgCj4gK2ludCBkbWFfYnVmX3BpbihzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKTsK
+PiArdm9pZCBkbWFfYnVmX3VucGluKHN0cnVjdCBkbWFfYnVmICpkbWFidWYpOwo+ICsKPiAgc3Ry
+dWN0IGRtYV9idWZfYXR0YWNobWVudCAqCj4gIGRtYV9idWZfYXR0YWNoKGNvbnN0IHN0cnVjdCBk
+bWFfYnVmX2F0dGFjaF9pbmZvICppbmZvKTsKPiAgdm9pZCBkbWFfYnVmX2RldGFjaChzdHJ1Y3Qg
+ZG1hX2J1ZiAqZG1hYnVmLAo+IC0tIAo+IDIuMTcuMQo+IAo+IF9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdh
+cmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
