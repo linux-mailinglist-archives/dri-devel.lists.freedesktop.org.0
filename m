@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FD2DD3B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 09:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D76BDD45
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Apr 2019 09:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C80988925D;
-	Mon, 29 Apr 2019 07:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AE1E8926B;
+	Mon, 29 Apr 2019 07:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E35889264
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 07:55:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C9D08926B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Apr 2019 07:58:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0AB1972155; Mon, 29 Apr 2019 07:55:08 +0000 (UTC)
+ id 5924972155; Mon, 29 Apr 2019 07:58:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110514] [CI][BAT] igt@* - skip - Test requirement:
  is_i915_device(fd) && has_known_intel_chipset(fd), Skip
-Date: Mon, 29 Apr 2019 07:55:08 +0000
+Date: Mon, 29 Apr 2019 07:58:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110514-502-3VvpYkPcP7@http.bugs.freedesktop.org/>
+Message-ID: <bug-110514-502-8XNUXJX7l3@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110514-502@http.bugs.freedesktop.org/>
 References: <bug-110514-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1741073251=="
+Content-Type: multipart/mixed; boundary="===============1989558184=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1741073251==
-Content-Type: multipart/alternative; boundary="15565245080.e9ac7.8155"
+--===============1989558184==
+Content-Type: multipart/alternative; boundary="15565246852.c814B7.8467"
 Content-Transfer-Encoding: 7bit
 
 
---15565245080.e9ac7.8155
-Date: Mon, 29 Apr 2019 07:55:07 +0000
+--15565246852.c814B7.8467
+Date: Mon, 29 Apr 2019 07:58:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,40 +73,31 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110514
 
---- Comment #19 from CI Bug Log <cibuglog@gmail.com> ---
+--- Comment #20 from CI Bug Log <cibuglog@gmail.com> ---
 A CI Bug Log filter associated to this bug has been updated:
 
-{- CML: igt@*stolen* - skip - Test requirement:
-gem_create__has_stolen_support(fd) &amp;&amp; (gem_total_stolen_size(fd) &g=
-t;
-0), SKIP -}
-{+ CML: igt@*stolen* | igt@gem_pread@pagefault-pread - skip - Test requirem=
-ent:
-gem_create__has_stolen_support(fd) &amp;&amp; (gem_total_stolen_size(fd) &g=
-t;
-0), SKIP +}
+{- CML: igt@gem_render_copy_redux@interruptible - skip - no render-copy
+function -}
+{+ CML: igt@gem_render_copy_redux@.* - skip - no render-copy function +}
 
 New failures caught by the filter:
 
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt@gem_pread@=
-pagefault-pread.html
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt@gem_render=
+_copy_redux@normal.html
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt@gem_pread@=
-pagefault-pread.html
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt@gem_render=
+_copy_redux@flink.html
   *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt@gem_pread@=
-pagefault-pread.html
-  *
-https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt@gem_pread@=
-pagefault-pread.html
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt@gem_render=
+_copy_redux@flink-interruptible.html
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15565245080.e9ac7.8155
-Date: Mon, 29 Apr 2019 07:55:08 +0000
+--15565246852.c814B7.8467
+Date: Mon, 29 Apr 2019 07:58:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -124,8 +115,8 @@ Auto-Submitted: auto-generated
           bz_status_RESOLVED  bz_closed"
    title=3D"RESOLVED FIXED - [CI][BAT] igt&#64;* - skip - Test requirement:=
  is_i915_device(fd) &amp;&amp; has_known_intel_chipset(fd), Skip"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110514#c19">Comme=
-nt # 19</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110514#c20">Comme=
+nt # 20</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
    title=3D"RESOLVED FIXED - [CI][BAT] igt&#64;* - skip - Test requirement:=
@@ -138,35 +129,29 @@ cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
 </span></b>
         <pre>A CI Bug Log filter associated to this bug has been updated:
 
-{- CML: igt&#64;*stolen* - skip - Test requirement:
-gem_create__has_stolen_support(fd) &amp;amp;&amp;amp; (gem_total_stolen_siz=
-e(fd) &amp;gt;
-0), SKIP -}
-{+ CML: igt&#64;*stolen* | igt&#64;gem_pread&#64;pagefault-pread - skip - T=
-est requirement:
-gem_create__has_stolen_support(fd) &amp;amp;&amp;amp; (gem_total_stolen_siz=
-e(fd) &amp;gt;
-0), SKIP +}
+{- CML: igt&#64;gem_render_copy_redux&#64;interruptible - skip - no render-=
+copy
+function -}
+{+ CML: igt&#64;gem_render_copy_redux&#64;.* - skip - no render-copy functi=
+on +}
 
 New failures caught by the filter:
 
   *
 <a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt=
-&#64;gem_pread&#64;pagefault-pread.html">https://intel-gfx-ci.01.org/tree/d=
-rm-tip/drmtip_266/fi-cml-u/igt&#64;gem_pread&#64;pagefault-pread.html</a>
+&#64;gem_render_copy_redux&#64;normal.html">https://intel-gfx-ci.01.org/tre=
+e/drm-tip/drmtip_266/fi-cml-u/igt&#64;gem_render_copy_redux&#64;normal.html=
+</a>
   *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_267/fi-cml-u/igt=
-&#64;gem_pread&#64;pagefault-pread.html">https://intel-gfx-ci.01.org/tree/d=
-rm-tip/drmtip_267/fi-cml-u/igt&#64;gem_pread&#64;pagefault-pread.html</a>
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt=
+&#64;gem_render_copy_redux&#64;flink.html">https://intel-gfx-ci.01.org/tree=
+/drm-tip/drmtip_266/fi-cml-u/igt&#64;gem_render_copy_redux&#64;flink.html</=
+a>
   *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_268/fi-cml-u/igt=
-&#64;gem_pread&#64;pagefault-pread.html">https://intel-gfx-ci.01.org/tree/d=
-rm-tip/drmtip_268/fi-cml-u/igt&#64;gem_pread&#64;pagefault-pread.html</a>
-  *
-<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_269/fi-cml-u/igt=
-&#64;gem_pread&#64;pagefault-pread.html">https://intel-gfx-ci.01.org/tree/d=
-rm-tip/drmtip_269/fi-cml-u/igt&#64;gem_pread&#64;pagefault-pread.html</a></=
-pre>
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt=
+&#64;gem_render_copy_redux&#64;flink-interruptible.html">https://intel-gfx-=
+ci.01.org/tree/drm-tip/drmtip_266/fi-cml-u/igt&#64;gem_render_copy_redux&#6=
+4;flink-interruptible.html</a></pre>
         </div>
       </p>
 
@@ -180,9 +165,9 @@ pre>
     </body>
 </html>=
 
---15565245080.e9ac7.8155--
+--15565246852.c814B7.8467--
 
---===============1741073251==
+--===============1989558184==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -192,4 +177,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1741073251==--
+--===============1989558184==--
