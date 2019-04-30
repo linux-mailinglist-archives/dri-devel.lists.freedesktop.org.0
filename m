@@ -2,36 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B04F467
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2019 12:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A80CF468
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Apr 2019 12:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B563189180;
-	Tue, 30 Apr 2019 10:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC3089190;
+	Tue, 30 Apr 2019 10:44:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74B0C89180
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2019 10:44:23 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2019 03:44:23 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 30 Apr 2019 03:44:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 30 Apr 2019 13:44:19 +0300
-Date: Tue, 30 Apr 2019 13:44:19 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] drm/atomic-helper: Bump vblank timeout to 100 ms
-Message-ID: <20190430104419.GD24299@intel.com>
-References: <20190430093746.26485-1-linus.walleij@linaro.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A318891C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2019 10:44:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4649372155; Tue, 30 Apr 2019 10:44:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110509] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+ timeout
+Date: Tue, 30 Apr 2019 10:44:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: James.Dutton@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110509-502-0zVy9d7fKV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110509-502@http.bugs.freedesktop.org/>
+References: <bug-110509-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190430093746.26485-1-linus.walleij@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,47 +53,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1440304931=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBBcHIgMzAsIDIwMTkgYXQgMTE6Mzc6NDZBTSArMDIwMCwgTGludXMgV2FsbGVpaiB3
-cm90ZToKPiBUaGUgNTAgbXMgZGVmYXVsdCB0aW1lb3V0IHdhaXRpbmcgZm9yIHZibGFua3MgaXMg
-dG9vIHNtYWxsCj4gZm9yIHRoZSBmaXJzdCB2YmxhbmsgZnJvbSB0aGUgU1QtRXJpY3Nzb24gTUNE
-RSBkaXNwbGF5Cj4gY29udHJvbGxlciBvdmVyIERTSS4gUHJlc3VtYWJseSB0aGlzIGlzIGJlY2F1
-c2UgdGhlIERTSQo+IGRpc3BsYXkgaXMgY29tbWFuZC1tb2RlIG9ubHkgYW5kIHRoZSBzdGF0ZSBt
-YWNoaW5lIHdpbGwKPiB0YWtlIHNvbWUgdGltZSBzZXR0aW5nIHVwIGl0cyBzdGF0ZSBmb3IgdGhl
-IGZpcnN0IGRpc3BsYXkKPiB1cGRhdGUsIGFuZCB3ZSBoaXQgYSB0aW1lb3V0LiAxMDAgbXMgbWFr
-ZXMgaXQgcGFzcyB3aXRob3V0Cj4gcHJvYmxlbXMuCj4gCj4gU2lnbmVkLW9mZi1ieTogTGludXMg
-V2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+IC0tLQo+IEFmdGVyIGEgcXVpdGUg
-cHJvbG9uZ2VkIGh1bnRpbmcgZm9yIHRoZSBjYXVzZSBvZiBtaXNzZWQKPiB2YmxhbmtzIGluIHRo
-ZSBNQ0RFIGRyaXZlciBJIGZpbmFsbHkgcmVhbGl6ZWQgaXQgdGltZWQKPiBvdXQgYmVjYXVzZSBp
-dCB3YXMgc2ltcGx5IHRha2luZyBzb21lIHRpbWUgb24gdGhlIGZpcnN0Cj4gdmJsYW5rLiA1MCBt
-cyBtYWtlcyBzZW5zZSBvbiA2MEh6IG1vbml0b3JzIGZvciBzdXJlLAo+IGJ1dCBhbiBlbWJlZGRl
-ZCBEU0kgc3RhdGUgbWFjaGluZSBjYW4gYmUgc2xvdywgYXMgaXQKPiB0dXJucyBvdXQuCj4gCj4g
-VGVsbCBtZSBpZiB0aGlzIHNob3VsZCBiZSBhIHBlci1kcml2ZXIgdmFyaWFibGUgYW5kIEkKPiB3
-aWxsIHRoaW5rIG9mIHNvbWV0aGluZy4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9hdG9t
-aWNfaGVscGVyLmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19o
-ZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4gaW5kZXggNDBh
-YzE5ODQ4MDM0Li5mMGFhN2IxOTVkNzkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9hdG9taWNfaGVscGVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxw
-ZXIuYwo+IEBAIC0xNDI0LDcgKzE0MjQsNyBAQCBkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl92
-YmxhbmtzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAkJcmV0ID0gd2FpdF9ldmVudF90aW1l
-b3V0KGRldi0+dmJsYW5rW2ldLnF1ZXVlLAo+ICAJCQkJb2xkX3N0YXRlLT5jcnRjc1tpXS5sYXN0
-X3ZibGFua19jb3VudCAhPQo+ICAJCQkJCWRybV9jcnRjX3ZibGFua19jb3VudChjcnRjKSwKPiAt
-CQkJCW1zZWNzX3RvX2ppZmZpZXMoNTApKTsKPiArCQkJCW1zZWNzX3RvX2ppZmZpZXMoMTAwKSk7
-Cgo1MG1zIGlzIHByZXR0eSB0aWdodCBmb3IgMjRIeiBhcyB3ZWxsLiBJIHN1cHBvc2Ugd2UgY291
-bGQgbWFrZSB0aGlzCmRlcGVuZCBvbiB0aGUgZXhwZWN0ZWQgZnJhbWUvZmllbGQgZHVyYXRpb24s
-IGJ1dCBpdCdzIGdlbmVyYWxseQppbmRpY2F0aXZlIG9mIGEgcHJvZ3JhbW1pbmcgZXJyb3Igb2Yg
-c29tZSBzb3J0LCBzbyBhcyBsb25nIGFzIGl0J3MKbG9uZyBlbm91Z2ggSSB0aGluayB3ZSdyZSBn
-b29kLgoKUmV2aWV3ZWQtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5p
-bnRlbC5jb20+Cgo+ICAKPiAgCQlXQVJOKCFyZXQsICJbQ1JUQzolZDolc10gdmJsYW5rIHdhaXQg
-dGltZWQgb3V0XG4iLAo+ICAJCSAgICAgY3J0Yy0+YmFzZS5pZCwgY3J0Yy0+bmFtZSk7Cj4gLS0g
-Cj4gMi4yMC4xCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1440304931==
+Content-Type: multipart/alternative; boundary="15566210650.AfE35F.17989"
+Content-Transfer-Encoding: 7bit
+
+
+--15566210650.AfE35F.17989
+Date: Tue, 30 Apr 2019 10:44:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110509
+
+--- Comment #11 from James.Dutton@gmail.com ---
+I tried with drm-next-5.2-wip.
+
+It does not hang any more, but I have a new error now.
+
+It is better, in the sense that I can now reboot the system normally, and n=
+ot
+resort to echo b >/proc/sysrq-trigger
+
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
+
+After the GPU reset, the screen is corrupted.
+I can do, via ssh,  service gdm stop.  service gdm start   and I then get a
+working login screen. (Mouse moves, I can type in password)
+I cannot actually login because X fails. The desktop fails to appear and it
+returns to the login greeter screen.
+
+I will try to get more details when I have time later.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15566210650.AfE35F.17989
+Date: Tue, 30 Apr 2019 10:44:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
+ut"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110509#c11">Comme=
+nt # 11</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeo=
+ut"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110509">bug 11050=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+James.Dutton&#64;gmail.com" title=3D"James.Dutton&#64;gmail.com">James.Dutt=
+on&#64;gmail.com</a>
+</span></b>
+        <pre>I tried with drm-next-5.2-wip.
+
+It does not hang any more, but I have a new error now.
+
+It is better, in the sense that I can now reboot the system normally, and n=
+ot
+resort to echo b &gt;/proc/sysrq-trigger
+
+[drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
+
+After the GPU reset, the screen is corrupted.
+I can do, via ssh,  service gdm stop.  service gdm start   and I then get a
+working login screen. (Mouse moves, I can type in password)
+I cannot actually login because X fails. The desktop fails to appear and it
+returns to the login greeter screen.
+
+I will try to get more details when I have time later.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15566210650.AfE35F.17989--
+
+--===============1440304931==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1440304931==--
