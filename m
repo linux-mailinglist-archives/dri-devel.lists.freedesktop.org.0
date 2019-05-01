@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692A110A95
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 18:06:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17BCF11464
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 09:43:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9395B892B6;
-	Wed,  1 May 2019 16:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15F1E892C2;
+	Thu,  2 May 2019 07:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 14F88892DB
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 16:06:47 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 10F1D7215A; Wed,  1 May 2019 16:06:47 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
-Date: Wed, 01 May 2019 16:06:47 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109345-502-3Y29SlLfXE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
-References: <bug-109345-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C91F9892B6;
+ Wed,  1 May 2019 16:14:45 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id b3so8817211pfd.1;
+ Wed, 01 May 2019 09:14:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=MtPcWFimi13xS3IBIx9BAJvwvZMDedknu7EfbmKtTWY=;
+ b=DqBJq4gw0aAPC+Up5FUtAkH2lI5MxmGyQrc9+CZSWLnlo3iho3tJYX/AWkgMe0Qgfj
+ a3eCRDjR6untLN8Jgu09Vlv7U2M8qu3wtQOkI1y81RzEkD5ZAT2W/Ori8+KrvaWo/ryg
+ fpnIBgZLR74SgZVziThZgIUI0Fj6XK8np7XNATcjDllGQJPxgYPBsmAaOAV/tpfgH6R6
+ 3h2184/owM0KMfeeEfY2Y++39uOMJgMq9929kvPUU4eG2PEiwFvUBXnOQpg2rbDLISia
+ zq8NI9sREXCqIIIXgOKkFXrdU5ZJh0jWoTq7K0dVI9mvkoeJcmS4YD1teWD9UBl1jcTr
+ dXAg==
+X-Gm-Message-State: APjAAAWPv6k6Q67XozRbZnvOMSaMC5Ug/LRiIpdrIUNNQJRbw4l3jntv
+ FEfukqOBATsjJSk4+p+vzzo=
+X-Google-Smtp-Source: APXvYqyHYU9WI4SIoemO/0OUMF/xgVkvo4cWypdtmSh6f0UJvj0k5fgpL7UiIzxsX9urC7r36EOPMg==
+X-Received: by 2002:a62:2b4e:: with SMTP id r75mr28501975pfr.131.1556727285407; 
+ Wed, 01 May 2019 09:14:45 -0700 (PDT)
+Received: from aw-bldr-10.qualcomm.com (i-global254.qualcomm.com.
+ [199.106.103.254])
+ by smtp.gmail.com with ESMTPSA id 132sm32102040pfw.87.2019.05.01.09.14.44
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 01 May 2019 09:14:44 -0700 (PDT)
+From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/msm/mdp5: Fix mdp5_cfg_init error return
+Date: Wed,  1 May 2019 09:14:37 -0700
+Message-Id: <20190501161437.15728-1-jeffrey.l.hugo@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Thu, 02 May 2019 07:42:58 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=MtPcWFimi13xS3IBIx9BAJvwvZMDedknu7EfbmKtTWY=;
+ b=FQJpgIglCJ0STefvmKylU7hCbm9/3Ti8NdGAjxmYsarjZNYLDciepWCd3aHOjfpkWl
+ wmAa5L2N7Y6yFny/vBSqk7W7BI5FhkmYq0U59el4Mybcq9InW0WjBJUGeg1ogQZNkGBt
+ GueH03/qpPNvi2UpJ3QBCgx6ZCBgVneWvbOPXk8sqjB3KU3POR5rOPhmSvHQC3weufdw
+ kEbZf44EgL+zNX3U/5tonWDsUuEK6IWRuorC++4JOoDBUps2fxX/Hw7Tr26dJOQ3PXif
+ T4JTAF72jU1r+mHcH1yvPRUzjMAqDu7MU6iq+Kpv8QgvJu3MNZinuKTzg317rIpVEbHa
+ i5jA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,141 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1178137949=="
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1178137949==
-Content-Type: multipart/alternative; boundary="15567268070.47E5fC.17481"
-Content-Transfer-Encoding: 7bit
-
-
---15567268070.47E5fC.17481
-Date: Wed, 1 May 2019 16:06:47 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
-
---- Comment #20 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to Christian Zigotzky from comment #17)
-> (In reply to Alex Deucher from comment #4)
-> > Hardly anything in the radeon driver has changed in the last few years.=
-=20
-> > You'd really need to bisect.  Also, can you attach a full dmesg (full l=
-ogs
-> > not just filtered for radeon or drm) output from the failed and working
-> > cases?
->=20
-> I have found some Radeon changes in these DRM updates:
->=20
-> -rw-r--r--	drivers/gpu/drm/radeon/r300.c	4=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/r420.c	1=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon.h	3=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon_cs.c	4=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon_gem.c	2=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon_legacy_tv.c 10=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon_object.c	2=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon_ttm.c	65=09=09=09
-> -rw-r--r--	drivers/gpu/drm/radeon/radeon_vm.c
-
-Someone with access to the hw and the platform would have to go through the
-changes and see what broke it.  A bisect would be an easy way to do it.  Al=
-so,
-it's not necessarily a drm change.  It could have been a bad interaction wi=
-th
-some other change elsewhere in the kernel.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15567268070.47E5fC.17481
-Date: Wed, 1 May 2019 16:06:47 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c20">Comme=
-nt # 20</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>(In reply to Christian Zigotzky from <a href=3D"show_bug.cgi?i=
-d=3D109345#c17">comment #17</a>)
-<span class=3D"quote">&gt; (In reply to Alex Deucher from <a href=3D"show_b=
-ug.cgi?id=3D109345#c4">comment #4</a>)
-&gt; &gt; Hardly anything in the radeon driver has changed in the last few =
-years.=20
-&gt; &gt; You'd really need to bisect.  Also, can you attach a full dmesg (=
-full logs
-&gt; &gt; not just filtered for radeon or drm) output from the failed and w=
-orking
-&gt; &gt; cases?
-&gt;=20
-&gt; I have found some Radeon changes in these DRM updates:
-&gt;=20
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/r300.c	4=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/r420.c	1=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon.h	3=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon_cs.c	4=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon_gem.c	2=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon_legacy_tv.c 10=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon_object.c	2=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon_ttm.c	65=09=09=09
-&gt; -rw-r--r--	drivers/gpu/drm/radeon/radeon_vm.c</span >
-
-Someone with access to the hw and the platform would have to go through the
-changes and see what broke it.  A bisect would be an easy way to do it.  Al=
-so,
-it's not necessarily a drm change.  It could have been a bad interaction wi=
-th
-some other change elsewhere in the kernel.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15567268070.47E5fC.17481--
-
---===============1178137949==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1178137949==--
+SWYgbWRwNV9jZmdfaW5pdCBmYWlscyBiZWNhdXNlIG9mIGFuIHVua25vd24gbWFqb3IgdmVyc2lv
+biwgYSBudWxsIHBvaW50ZXIKZGVyZWZlcmVuY2Ugb2NjdXJzLiAgVGhpcyBpcyBiZWNhdXNlIHRo
+ZSBjYWxsZXIgb2YgaW5pdCBleHBlY3RzIGVycm9yCnBvaW50ZXJzLCBidXQgaW5pdCByZXR1cm5z
+IE5VTEwgb24gZXJyb3IuICBGaXggdGhpcyBieSByZXR1cm5pbmcgdGhlCmV4cGVjdGVkIHZhbHVl
+cyBvbiBlcnJvci4KCkZpeGVzOiAyZTM2MmUxNzcyYjggKGRybS9tc20vbWRwNTogaW50cm9kdWNl
+IG1kcDVfY2ZnIG1vZHVsZSkKU2lnbmVkLW9mZi1ieTogSmVmZnJleSBIdWdvIDxqZWZmcmV5Lmwu
+aHVnb0BnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRwNV9j
+ZmcuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVfY2ZnLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNS9tZHA1X2NmZy5jCmluZGV4IGVhOGY3ZDdk
+YWY3Zi4uNTJlMjM3ODBmY2UxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3Av
+bWRwNS9tZHA1X2NmZy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVf
+Y2ZnLmMKQEAgLTcyMSw3ICs3MjEsNyBAQCBzdHJ1Y3QgbWRwNV9jZmdfaGFuZGxlciAqbWRwNV9j
+ZmdfaW5pdChzdHJ1Y3QgbWRwNV9rbXMgKm1kcDVfa21zLAogCWlmIChjZmdfaGFuZGxlcikKIAkJ
+bWRwNV9jZmdfZGVzdHJveShjZmdfaGFuZGxlcik7CiAKLQlyZXR1cm4gTlVMTDsKKwlyZXR1cm4g
+RVJSX1BUUihyZXQpOwogfQogCiBzdGF0aWMgc3RydWN0IG1kcDVfY2ZnX3BsYXRmb3JtICptZHA1
+X2dldF9jb25maWcoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2KQotLSAKMi4xNy4xCgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
