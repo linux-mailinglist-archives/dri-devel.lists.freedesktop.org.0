@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BEC10B55
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 18:30:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A6710B6C
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 18:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F30588EAA;
-	Wed,  1 May 2019 16:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEA7E890C7;
+	Wed,  1 May 2019 16:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15A7288EAA
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 16:30:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDDA890C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 16:36:09 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id E212628F3B
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 16:30:39 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id F365128D2C
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 16:36:08 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id D6EF928F3C; Wed,  1 May 2019 16:30:39 +0000 (UTC)
+ id E78F528D65; Wed,  1 May 2019 16:36:08 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -25,10 +25,10 @@ X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
  NO_RELAYS autolearn=unavailable version=3.3.1
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203473] New: ring gfx timeout when returning from suspension
-Date: Wed, 01 May 2019 16:30:39 +0000
+Subject: [Bug 203473] ring gfx timeout when waking from suspension
+Date: Wed, 01 May 2019 16:36:07 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -41,10 +41,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-203473-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-203473-2300-7kXPqDJXn9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203473-2300@https.bugzilla.kernel.org/>
+References: <bug-203473-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -66,48 +66,14 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM0NzMKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjAzNDczCiAgICAgICAgICAgU3VtbWFyeTogcmluZyBnZnggdGltZW91
-dCB3aGVuIHJldHVybmluZyBmcm9tIHN1c3BlbnNpb24KICAgICAgICAgICBQcm9kdWN0OiBEcml2
-ZXJzCiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS54CiAgICAg
-ICAgICBIYXJkd2FyZTogeDg2LTY0CiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAg
-ICAgICBUcmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2
-ZXJpdHk6IG5vcm1hbAogICAgICAgICAgUHJpb3JpdHk6IFAxCiAgICAgICAgIENvbXBvbmVudDog
-VmlkZW8oRFJJIC0gbm9uIEludGVsKQogICAgICAgICAgQXNzaWduZWU6IGRyaXZlcnNfdmlkZW8t
-ZHJpQGtlcm5lbC1idWdzLm9zZGwub3JnCiAgICAgICAgICBSZXBvcnRlcjogYnJ1bm9hbGV4YW5k
-cmVtaWd1ZWxAZ21haWwuY29tCiAgICAgICAgUmVncmVzc2lvbjogTm8KCkNyZWF0ZWQgYXR0YWNo
-bWVudCAyODI1NzEKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL2F0dGFjaG1lbnQu
-Y2dpP2lkPTI4MjU3MSZhY3Rpb249ZWRpdApsb2cKCkV2ZXIgc2luY2UgNS54IHJlYWNoZWQgc3Rh
-YmxlIChoYXZlbid0IHRlc3RlZCByYydzIGFuZCBzdWNoKSwgSSBnZXQgYSBibGFuawpzY3JlZW4g
-ZXZlcnkgdGltZSBteSBsYXB0b3AgcmV0dXJucyBmcm9tIHN1c3BlbnNpb24uIEZyb20gd2hhdCBJ
-J3ZlIHNlZW4gaW4gdGhlCmxvZ3MsIGl0IHNlZW1zIHRoZSBHUFUgY2FuJ3QgZ2V0IGJhY2sgdXAu
-CgpUaGUgZnVsbCBsb2cgaXMgYXR0YWNoZWQuCgpIZXJlIGlzIGEgc2hvcnQgaW5mbyBhYm91dCBt
-eSBzeXN0ZW06ClN5c3RlbTogICAgSG9zdDogc2FnYW4gS2VybmVsOiA1LjAuMTAtbHF4MS0xLWxx
-eCB4ODZfNjQgYml0czogNjQgRGVza3RvcDogS0RFClBsYXNtYSA1LjE1LjQgRGlzdHJvOiBNYW5q
-YXJvIExpbnV4IApNYWNoaW5lOiAgIFR5cGU6IExhcHRvcCBTeXN0ZW06IExFTk9WTyBwcm9kdWN0
-OiA4MFhWIHY6IExlbm92byBpZGVhcGFkCjMyMC0xNUFTVCBzZXJpYWw6IDxyb290IHJlcXVpcmVk
-PiAKICAgICAgICAgICBNb2JvOiBMRU5PVk8gbW9kZWw6IExOVk5CMTYxMjE2IHY6IFNESzBKNDA3
-MDBXSU4gc2VyaWFsOiA8cm9vdApyZXF1aXJlZD4gVUVGSTogTEVOT1ZPIHY6IDVQQ04xOVdXIGRh
-dGU6IDExLzI5LzIwMTcgCkJhdHRlcnk6ICAgSUQtMTogQkFUMCBjaGFyZ2U6IDI4LjQgV2ggY29u
-ZGl0aW9uOiAyOS45LzMwLjAgV2ggKDEwMCUpIApDUFU6ICAgICAgIER1YWwgQ29yZTogQU1EIEE5
-LTk0MjAgUkFERU9OIFI1IDUgQ09NUFVURSBDT1JFUyAyQyszRyB0eXBlOiBNQ1AKc3BlZWQ6IDEz
-OTcgTUh6IG1pbi9tYXg6IDE0MDAvMzAwMCBNSHogCkdyYXBoaWNzOiAgRGV2aWNlLTE6IEFkdmFu
-Y2VkIE1pY3JvIERldmljZXMgW0FNRC9BVEldIFN0b25leSBbUmFkZW9uClIyL1IzL1I0L1I1IEdy
-YXBoaWNzXSBkcml2ZXI6IGFtZGdwdSB2OiBrZXJuZWwgCiAgICAgICAgICAgRGV2aWNlLTI6IEFN
-RCBUb3BheiBYVCBbUmFkZW9uIFI3IE0yNjAvTTI2NSAvIE0zNDAvTTM2MCAvIE00NDAvTTQ0NV0K
-ZHJpdmVyOiBhbWRncHUgdjoga2VybmVsIAogICAgICAgICAgIERpc3BsYXk6IHgxMSBzZXJ2ZXI6
-IFguT3JnIDEuMjAuNCBkcml2ZXI6IGFtZGdwdSBGQUlMRUQ6IGF0aQp1bmxvYWRlZDogbW9kZXNl
-dHRpbmcgcmVzb2x1dGlvbjogMTM2Nng3Njh+NjBIeiAKICAgICAgICAgICBPcGVuR0w6IHJlbmRl
-cmVyOiBBTUQgSUNFTEFORCAoRFJNIDMuMjcuMCA1LjAuMTAtbHF4MS0xLWxxeCBMTFZNCjguMC4w
-KSB2OiA0LjUgTWVzYSAxOS4wLjMgCk5ldHdvcms6ICAgRGV2aWNlLTE6IFF1YWxjb21tIEF0aGVy
-b3MgUUNBOTM3NyA4MDIuMTFhYyBXaXJlbGVzcyBOZXR3b3JrIEFkYXB0ZXIKZHJpdmVyOiBhdGgx
-MGtfcGNpIAogICAgICAgICAgIERldmljZS0yOiBSZWFsdGVrIFJUTDgxMHhFIFBDSSBFeHByZXNz
-IEZhc3QgRXRoZXJuZXQgZHJpdmVyOiByODE2OSAKICAgICAgICAgICBEZXZpY2UtMzogUXVhbGNv
-bW0gQXRoZXJvcyB0eXBlOiBVU0IgZHJpdmVyOiBidHVzYiAKRHJpdmVzOiAgICBMb2NhbCBTdG9y
-YWdlOiB0b3RhbDogMTExLjc5IEdpQiB1c2VkOiA3MC4wMyBHaUIgKDYyLjYlKSAKSW5mbzogICAg
-ICBQcm9jZXNzZXM6IDIyOCBVcHRpbWU6IDVoIDE5bSBNZW1vcnk6IDcuMTggR2lCIHVzZWQ6IDIu
-MTkgR2lCCigzMC41JSkgU2hlbGw6IGJhc2ggaW54aTogMy4wLjMzCgotLSAKWW91IGFyZSByZWNl
-aXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9m
-IHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM0NzMKCkJydW5v
+IE1pZ3VlbCAoYnJ1bm9hbGV4YW5kcmVtaWd1ZWxAZ21haWwuY29tKSBjaGFuZ2VkOgoKICAgICAg
+ICAgICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KICAgICAgICAgICAgU3VtbWFyeXxyaW5nIGdmeCB0aW1lb3V0IHdoZW4gICAg
+ICAgfHJpbmcgZ2Z4IHRpbWVvdXQgd2hlbgogICAgICAgICAgICAgICAgICAgfHJldHVybmluZyBm
+cm9tIHN1c3BlbnNpb24gICB8d2FraW5nIGZyb20gc3VzcGVuc2lvbgoKLS0gCllvdSBhcmUgcmVj
+ZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBv
+ZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
