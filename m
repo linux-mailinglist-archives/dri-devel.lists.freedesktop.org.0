@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8436F10647
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 11:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E38DC107BB
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 14:01:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B78F389309;
-	Wed,  1 May 2019 09:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E680D8938F;
+	Wed,  1 May 2019 12:01:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM05-BY2-obe.outbound.protection.outlook.com
- (mail-eopbgr710044.outbound.protection.outlook.com [40.107.71.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B26989309
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 09:24:35 +0000 (UTC)
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB1691.namprd12.prod.outlook.com (10.172.36.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1835.13; Wed, 1 May 2019 09:24:32 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::70fc:f26c:1e22:73ba]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::70fc:f26c:1e22:73ba%10]) with mapi id 15.20.1856.008; Wed, 1 May 2019
- 09:24:32 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
+ [IPv6:2607:f8b0:4864:20::82d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 962DE8938F
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 12:01:17 +0000 (UTC)
+Received: by mail-qt1-x82d.google.com with SMTP id c35so19726485qtk.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2019 05:01:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=94vcth9UsZR0cgFW76HxxnwKMZsF1Fe0nnhfHQXDz4E=;
+ b=adlZ/DQ3nwz10t/sHYQ0KBo4V+fYn8zr9dyhyH/nTSVSEX4hazGIPWnkJRjtbiAR0E
+ S1XJqE7qvX+GyRnU5cagPindtIn5jodK2DN+KmzwAvE475fOoJMg9uJfVY6kZvB/327g
+ uRqcKgI39ueWSQSiW77hfyL7iOI/k+O2Mo67nA960O12kemKgcJO0pTHF/jAP6YTCmMr
+ oLiWnAFT1lXLwn+Ij/uJnn8BfxkXDmHez/d2aBX9ACBm9nhHWg683kOEZXoZ9DUZPDdo
+ M3skd8aIlbUglWTIsDXb3XB5q9CWNXFqFuo0EtLUUiZGfgU10MLfz14CBxK6xbx64CY8
+ D+yw==
+X-Gm-Message-State: APjAAAWRplq5gW533BuWiui8UEdcLwsPpRXLCX8pfen4lmwXMh2Zai8f
+ 57lsCce/EO72bunpyYp/trrhPeiupfiHVua5oSo=
+X-Google-Smtp-Source: APXvYqyonkKFa+kCh4a9YCAO/FE7q50BRSdk32bnly8YSCFMWm0ixHRThs4eCASWSMoEVE0LuHW277NT6+YTYDa5040=
+X-Received: by 2002:ac8:2556:: with SMTP id 22mr698225qtn.356.1556712075409;
+ Wed, 01 May 2019 05:01:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <5cb28694-943e-473a-a81c-a81b7e896509@email.android.com>
+In-Reply-To: <5cb28694-943e-473a-a81c-a81b7e896509@email.android.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 1 May 2019 22:01:05 +1000
+Message-ID: <CAPM=9tzpPT5JvFH+Kpc7zXuW12rvmoL-QsHsPq8vaBBRBG=g6w@mail.gmail.com>
 Subject: Re: [PATCH v2] drm: introduce a capability flag for syncobj timeline
  support
-Thread-Topic: [PATCH v2] drm: introduce a capability flag for syncobj timeline
- support
-Thread-Index: AQHU//+vibXtpK+zzkO0M5YuaPbCDw==
-Date: Wed, 1 May 2019 09:24:32 +0000
-Message-ID: <5cb28694-943e-473a-a81c-a81b7e896509@email.android.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [37.201.193.98]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 292f57f6-5a02-4196-c81f-08d6ce16d1f8
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
- SRVR:DM5PR12MB1691; 
-x-ms-traffictypediagnostic: DM5PR12MB1691:
-x-microsoft-antispam-prvs: <DM5PR12MB1691003BA797336E26EC069D833B0@DM5PR12MB1691.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00246AB517
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(136003)(376002)(366004)(396003)(39860400002)(346002)(199004)(189003)(6916009)(229853002)(7736002)(53546011)(66066001)(86362001)(8676002)(72206003)(478600001)(25786009)(316002)(14454004)(6246003)(102836004)(31686004)(6506007)(26005)(31696002)(4326008)(66446008)(66946007)(66556008)(3846002)(73956011)(76116006)(9686003)(71200400001)(6512007)(66574012)(2906002)(68736007)(54896002)(64756008)(6436002)(99286004)(8936002)(6486002)(66476007)(81156014)(486006)(256004)(14444005)(476003)(71190400001)(5660300002)(305945005)(53936002)(54906003)(186003)(81166006)(91956017)(6116002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1691;
- H:DM5PR12MB1546.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: txa3NBBiL/WoA6IwVoZPrOErQawFcDyJxqVGSFdJ1XkWXXkHjwJXIRH9P4JFLaj6orhxhFCX7conbjY1mrdktsqR3d7dVYtH8Jm1yO5m9SaOeTKqmbNpxNUYMnFP7/XpCQsttgXKIg47SI2NPtW4fSWvgueBgMR4JMxrsnt/+GXQ/VktGKUnviLJbSxVvJNqE+xMxNaI+4ehjy5dToUUnQsg+ZsZ85SDthGCfCzujWpbYdZ63rcOv5JHlexNzKQ+u4/pY+mktC4dIWLh41hHAudh80MNeO0c4MVmQYc2udocqDk0hWoIOKZBCFplwyuD19wis/Suv2JeGsvWc0WYxKT6psQUv463wtAjZuBdMKIT0R3iRoDhBbPD1A9AyQJjjRHDek2WyrjJ6QCU7PomfNZvkADSiMhMCoy0U05c43g=
-MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 292f57f6-5a02-4196-c81f-08d6ce16d1f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 May 2019 09:24:32.5527 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1691
+To: "Koenig, Christian" <Christian.Koenig@amd.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yw1bWHUDwImy6irc9netu4Scz7o7SW9k8XcYz9efAAg=;
- b=G+cr/chV/RwJcejuAhRZcuWLFrpL9oAPTwGviauzWWIJp6XPGn8RoPwncA/OIksfoPmVXzisYWG/0bKqOaA5o87EvwsZEq7v069XOI/4kHkDKf0RtUU8lMidRYmNTP6YIVhBluIjowg7JeiTrUc0oqfs20w14Z0DGrT03S9Uaq0=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=94vcth9UsZR0cgFW76HxxnwKMZsF1Fe0nnhfHQXDz4E=;
+ b=HIT0vEaqfHKMOEunRKttAkGYQ/ODfqbvEAL4hnDeTUTmVCsXgD7WjKyUJ2SdHNTYxt
+ sYwdEH6zMAVTGwPc1BaVIjaC7U/9oLXhsJ45SsvNAEcY6y1E9trEcwwxG4T9IA9pzX8R
+ vYImZ+GD/n9bdhSuA0XxPypc+7VCJiS+2djXClhP8f9bb6hEd4kejdUnctUhE0yDF9/q
+ khiue9ID6lyzRT0untqZaBJXTkbdxiHaYa8hahiHzJnwRTTUSZnX1ms0DZCxvtlUdjwC
+ YOnFdKABJzqN3SJuG7kXXdp5GRX8r9A1ttT2BonqwNQL/Zc5SPA45HTrnt0dW0RfZ7te
+ M4Cg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,99 +66,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Dave Airlie <airlied@redhat.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: multipart/mixed; boundary="===============0679598359=="
+Content-Type: multipart/mixed; boundary="===============0448823731=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0679598359==
-Content-Language: de-DE
-Content-Type: multipart/alternative;
-	boundary="_000_5cb28694943e473aa81ca81b7e896509emailandroidcom_"
+--===============0448823731==
+Content-Type: multipart/alternative; boundary="00000000000045c0b60587d246c1"
 
---_000_5cb28694943e473aa81ca81b7e896509emailandroidcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--00000000000045c0b60587d246c1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCkFtIDAxLjA1LjIwMTkgMTE6MDAgc2NocmllYiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVs
-LmcubGFuZHdlcmxpbkBpbnRlbC5jb20+Og0KW0NBVVRJT046IEV4dGVybmFsIEVtYWlsXQ0KDQpP
-biAxNi8wNC8yMDE5IDIwOjUzLCBEYXZlIEFpcmxpZSB3cm90ZToNCj4gT24gVHVlLCAxNiBBcHIg
-MjAxOSBhdCAyMjo1OCwgTGlvbmVsIExhbmR3ZXJsaW4NCj4gPGxpb25lbC5nLmxhbmR3ZXJsaW5A
-aW50ZWwuY29tPiB3cm90ZToNCj4+IFVuZm9ydHVuYXRlbHkgdXNlcnNwYWNlIHVzZXJzIG9mIHRo
-aXMgQVBJIGNhbm5vdCBiZSBwdWJsaWNseSBkaXNjbG9zZWQNCj4+IHlldC4NCj4+DQo+PiBUaGlz
-IGNvbW1pdCBlZmZlY3RpdmVseSBkaXNhYmxlcyB0aW1lbGluZSBzeW5jb2JqIGlvY3RscyBmb3Ig
-YWxsDQo+PiBkcml2ZXJzLiBFYWNoIGRyaXZlciB3aXNoaW5nIHRvIHN1cHBvcnQgdGhpcyBmZWF0
-dXJlIHdpbGwgbmVlZCB0bw0KPj4gZXhwb3NlIERSSVZFUl9TWU5DT0JKX1RJTUVMSU5FLg0KPj4N
-Cj4+IHYyOiBBZGQgdUFQSSBjYXBhYmlsaXR5IGNoZWNrIChDaHJpc3RpYW4pDQo+Pg0KPj4gU2ln
-bmVkLW9mZi1ieTogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJsaW5AaW50ZWwu
-Y29tPg0KPj4gUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdA
-YW1kLmNvbT4gKHYxKQ0KPj4gQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+DQo+
-PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4NCj4+IENjOiBDaHJp
-c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+PiBDYzogQ2h1bm1pbmcg
-WmhvdSA8ZGF2aWQxLnpob3VAYW1kLmNvbT4NCj4gTEdUTSwNCj4NCj4gUmV2aWV3ZWQtYnk6IERh
-dmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+DQo+DQo+IE5vdCBzdXJlIGlmIEknbSBkdWUg
-YW55bW9yZSBtaXNjLW5leHQgcHVsbHMsIGlmIHNvIHdvdWxkIGJlIGdvb2QgdG8NCj4gaGF2ZSBp
-dCBnbyB0aGF0IHdheSwgYnV0IG90aGVyd2lzZSBJIGNhbiBwdWxsIGl0IGludG8gLW5leHQgd2hl
-biBJIGdldA0KPiBzb21lIHRpbWUuDQo+DQo+IERhdmUuDQo+DQpDaHJpc3RpYW4sIERhdmUsDQoN
-CldobyBzaG91bGQgcHVsbCB0aGVzZSBwYXRjaGVzIGluPw0KDQpJIHdhcyBhc3N1bWluZyBEYXZl
-IGRvZXMgdGhpcy4NCg0KSSBjb3VsZCBkbyBpdCB0b21vcnJvdywgYnV0IHRvZGF5IGlzIGEgaG9s
-aWRheSBoZXJlIGFuZCBJIGFtIG5vdCBldmVuIGNsb3NlIHRvIG15IGxhcHRvcC4NCg0KQ2hyaXN0
-aWFuLg0KDQoNClRoYW5rcywNCg0KLUxpb25lbA0KDQo=
+On Wed, 1 May 2019, 19:24 Koenig, Christian, <Christian.Koenig@amd.com>
+wrote:
 
---_000_5cb28694943e473aa81ca81b7e896509emailandroidcom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <E9115C45A4D54B4882F4F9E477589764@amdcloud.onmicrosoft.com>
-Content-Transfer-Encoding: base64
+>
+>
+> Am 01.05.2019 11:00 schrieb Lionel Landwerlin <
+> lionel.g.landwerlin@intel.com>:
+>
+> [CAUTION: External Email]
+>
+> On 16/04/2019 20:53, Dave Airlie wrote:
+> > On Tue, 16 Apr 2019 at 22:58, Lionel Landwerlin
+> > <lionel.g.landwerlin@intel.com> wrote:
+> >> Unfortunately userspace users of this API cannot be publicly disclosed
+> >> yet.
+> >>
+> >> This commit effectively disables timeline syncobj ioctls for all
+> >> drivers. Each driver wishing to support this feature will need to
+> >> expose DRIVER_SYNCOBJ_TIMELINE.
+> >>
+> >> v2: Add uAPI capability check (Christian)
+> >>
+> >> Signed-off-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> >> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> (v1)
+> >> Cc: Dave Airlie <airlied@redhat.com>
+> >> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >> Cc: Chunming Zhou <david1.zhou@amd.com>
+> > LGTM,
+> >
+> > Reviewed-by: Dave Airlie <airlied@redhat.com>
+> >
+> > Not sure if I'm due anymore misc-next pulls, if so would be good to
+> > have it go that way, but otherwise I can pull it into -next when I get
+> > some time.
+> >
+> > Dave.
+> >
+> Christian, Dave,
+>
+> Who should pull these patches in?
+>
+>
+> I was assuming Dave does this.
+>
+> I could do it tomorrow, but today is a holiday here and I am not even
+> close to my laptop.
+>
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdiBkaXI9ImF1
-dG8iPg0KPGRpdj48YnI+DQo8ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+PGJyPg0KPGRpdiBjbGFz
-cz0iZ21haWxfcXVvdGUiPkFtIDAxLjA1LjIwMTkgMTE6MDAgc2NocmllYiBMaW9uZWwgTGFuZHdl
-cmxpbiAmbHQ7bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20mZ3Q7OjxiciB0eXBlPSJhdHRy
-aWJ1dGlvbiI+DQo8YmxvY2txdW90ZSBjbGFzcz0icXVvdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAg
-LjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxkaXY+
-PGZvbnQgc2l6ZT0iMiI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMXB0Ij4NCjxkaXY+W0NBVVRJ
-T046IEV4dGVybmFsIEVtYWlsXTxicj4NCjxicj4NCk9uIDE2LzA0LzIwMTkgMjA6NTMsIERhdmUg
-QWlybGllIHdyb3RlOjxicj4NCiZndDsgT24gVHVlLCAxNiBBcHIgMjAxOSBhdCAyMjo1OCwgTGlv
-bmVsIExhbmR3ZXJsaW48YnI+DQomZ3Q7ICZsdDtsaW9uZWwuZy5sYW5kd2VybGluQGludGVsLmNv
-bSZndDsgd3JvdGU6PGJyPg0KJmd0OyZndDsgVW5mb3J0dW5hdGVseSB1c2Vyc3BhY2UgdXNlcnMg
-b2YgdGhpcyBBUEkgY2Fubm90IGJlIHB1YmxpY2x5IGRpc2Nsb3NlZDxicj4NCiZndDsmZ3Q7IHll
-dC48YnI+DQomZ3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7IFRoaXMgY29tbWl0IGVmZmVjdGl2ZWx5IGRp
-c2FibGVzIHRpbWVsaW5lIHN5bmNvYmogaW9jdGxzIGZvciBhbGw8YnI+DQomZ3Q7Jmd0OyBkcml2
-ZXJzLiBFYWNoIGRyaXZlciB3aXNoaW5nIHRvIHN1cHBvcnQgdGhpcyBmZWF0dXJlIHdpbGwgbmVl
-ZCB0bzxicj4NCiZndDsmZ3Q7IGV4cG9zZSBEUklWRVJfU1lOQ09CSl9USU1FTElORS48YnI+DQom
-Z3Q7Jmd0Ozxicj4NCiZndDsmZ3Q7IHYyOiBBZGQgdUFQSSBjYXBhYmlsaXR5IGNoZWNrIChDaHJp
-c3RpYW4pPGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyBTaWduZWQtb2ZmLWJ5OiBMaW9uZWwg
-TGFuZHdlcmxpbiAmbHQ7bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20mZ3Q7PGJyPg0KJmd0
-OyZndDsgUmV2aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgJmx0O2NocmlzdGlhbi5rb2VuaWdA
-YW1kLmNvbSZndDsgKHYxKTxicj4NCiZndDsmZ3Q7IENjOiBEYXZlIEFpcmxpZSAmbHQ7YWlybGll
-ZEByZWRoYXQuY29tJmd0Ozxicj4NCiZndDsmZ3Q7IENjOiBEYW5pZWwgVmV0dGVyICZsdDtkYW5p
-ZWwudmV0dGVyQGZmd2xsLmNoJmd0Ozxicj4NCiZndDsmZ3Q7IENjOiBDaHJpc3RpYW4gS8O2bmln
-ICZsdDtjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20mZ3Q7PGJyPg0KJmd0OyZndDsgQ2M6IENodW5t
-aW5nIFpob3UgJmx0O2RhdmlkMS56aG91QGFtZC5jb20mZ3Q7PGJyPg0KJmd0OyBMR1RNLDxicj4N
-CiZndDs8YnI+DQomZ3Q7IFJldmlld2VkLWJ5OiBEYXZlIEFpcmxpZSAmbHQ7YWlybGllZEByZWRo
-YXQuY29tJmd0Ozxicj4NCiZndDs8YnI+DQomZ3Q7IE5vdCBzdXJlIGlmIEknbSBkdWUgYW55bW9y
-ZSBtaXNjLW5leHQgcHVsbHMsIGlmIHNvIHdvdWxkIGJlIGdvb2QgdG88YnI+DQomZ3Q7IGhhdmUg
-aXQgZ28gdGhhdCB3YXksIGJ1dCBvdGhlcndpc2UgSSBjYW4gcHVsbCBpdCBpbnRvIC1uZXh0IHdo
-ZW4gSSBnZXQ8YnI+DQomZ3Q7IHNvbWUgdGltZS48YnI+DQomZ3Q7PGJyPg0KJmd0OyBEYXZlLjxi
-cj4NCiZndDs8YnI+DQpDaHJpc3RpYW4sIERhdmUsPGJyPg0KPGJyPg0KV2hvIHNob3VsZCBwdWxs
-IHRoZXNlIHBhdGNoZXMgaW4/PGJyPg0KPC9kaXY+DQo8L3NwYW4+PC9mb250PjwvZGl2Pg0KPC9i
-bG9ja3F1b3RlPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPjxicj4N
-CjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPkkgd2FzIGFzc3VtaW5nIERhdmUgZG9lcyB0aGlzLjwv
-ZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPkkgY291
-bGQgZG8gaXQgdG9tb3Jyb3csIGJ1dCB0b2RheSBpcyBhIGhvbGlkYXkgaGVyZSBhbmQgSSBhbSBu
-b3QgZXZlbiBjbG9zZSB0byBteSBsYXB0b3AuPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+PGJyPg0K
-PC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+Q2hyaXN0aWFuLjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8i
-Pjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPg0KPGRpdiBjbGFzcz0iZ21haWxfZXh0cmEi
-Pg0KPGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPg0KPGJsb2NrcXVvdGUgY2xhc3M9InF1b3RlIiBz
-dHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7Ym9yZGVyLWxlZnQ6MXB4ICNjY2Mgc29saWQ7cGFkZGlu
-Zy1sZWZ0OjFleCI+DQo8ZGl2Pjxmb250IHNpemU9IjIiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTFwdCI+DQo8ZGl2Pjxicj4NClRoYW5rcyw8YnI+DQo8YnI+DQotTGlvbmVsPGJyPg0KPC9kaXY+
-DQo8L3NwYW4+PC9mb250PjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8YnI+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+I will pick it up tomorrow, jjst need to make my brain work.
 
---_000_5cb28694943e473aa81ca81b7e896509emailandroidcom_--
+Dave.
 
---===============0679598359==
+>
+> Christian.
+>
+>
+> Thanks,
+>
+> -Lionel
+>
+>
+>
+
+--00000000000045c0b60587d246c1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, 1 May 2019, 19:24 Koenig, Christian, &lt;<a hr=
+ef=3D"mailto:Christian.Koenig@amd.com">Christian.Koenig@amd.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">
+
+
+
+<div>
+<div dir=3D"auto">
+<div><br>
+<div class=3D"gmail_extra"><br>
+<div class=3D"gmail_quote">Am 01.05.2019 11:00 schrieb Lionel Landwerlin &l=
+t;<a href=3D"mailto:lionel.g.landwerlin@intel.com" target=3D"_blank" rel=3D=
+"noreferrer">lionel.g.landwerlin@intel.com</a>&gt;:<br type=3D"attribution"=
+>
+<blockquote class=3D"m_4610052506580666388quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">
+<div><font size=3D"2"><span style=3D"font-size:11pt">
+<div>[CAUTION: External Email]<br>
+<br>
+On 16/04/2019 20:53, Dave Airlie wrote:<br>
+&gt; On Tue, 16 Apr 2019 at 22:58, Lionel Landwerlin<br>
+&gt; &lt;<a href=3D"mailto:lionel.g.landwerlin@intel.com" target=3D"_blank"=
+ rel=3D"noreferrer">lionel.g.landwerlin@intel.com</a>&gt; wrote:<br>
+&gt;&gt; Unfortunately userspace users of this API cannot be publicly discl=
+osed<br>
+&gt;&gt; yet.<br>
+&gt;&gt;<br>
+&gt;&gt; This commit effectively disables timeline syncobj ioctls for all<b=
+r>
+&gt;&gt; drivers. Each driver wishing to support this feature will need to<=
+br>
+&gt;&gt; expose DRIVER_SYNCOBJ_TIMELINE.<br>
+&gt;&gt;<br>
+&gt;&gt; v2: Add uAPI capability check (Christian)<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Lionel Landwerlin &lt;<a href=3D"mailto:lionel.g.la=
+ndwerlin@intel.com" target=3D"_blank" rel=3D"noreferrer">lionel.g.landwerli=
+n@intel.com</a>&gt;<br>
+&gt;&gt; Reviewed-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.=
+koenig@amd.com" target=3D"_blank" rel=3D"noreferrer">christian.koenig@amd.c=
+om</a>&gt; (v1)<br>
+&gt;&gt; Cc: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" target=
+=3D"_blank" rel=3D"noreferrer">airlied@redhat.com</a>&gt;<br>
+&gt;&gt; Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch" ta=
+rget=3D"_blank" rel=3D"noreferrer">daniel.vetter@ffwll.ch</a>&gt;<br>
+&gt;&gt; Cc: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@am=
+d.com" target=3D"_blank" rel=3D"noreferrer">christian.koenig@amd.com</a>&gt=
+;<br>
+&gt;&gt; Cc: Chunming Zhou &lt;<a href=3D"mailto:david1.zhou@amd.com" targe=
+t=3D"_blank" rel=3D"noreferrer">david1.zhou@amd.com</a>&gt;<br>
+&gt; LGTM,<br>
+&gt;<br>
+&gt; Reviewed-by: Dave Airlie &lt;<a href=3D"mailto:airlied@redhat.com" tar=
+get=3D"_blank" rel=3D"noreferrer">airlied@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Not sure if I&#39;m due anymore misc-next pulls, if so would be good t=
+o<br>
+&gt; have it go that way, but otherwise I can pull it into -next when I get=
+<br>
+&gt; some time.<br>
+&gt;<br>
+&gt; Dave.<br>
+&gt;<br>
+Christian, Dave,<br>
+<br>
+Who should pull these patches in?<br>
+</div>
+</span></font></div>
+</blockquote>
+</div>
+</div>
+</div>
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">I was assuming Dave does this.</div>
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">I could do it tomorrow, but today is a holiday here and I=
+ am not even close to my laptop.</div>
+<div dir=3D"auto"></div></div></div></blockquote></div></div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">I will pick it up tomorrow, jjst need to ma=
+ke my brain work.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Dave.<=
+/div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div><div dir=3D"auto"><div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">Christian.</div>
+<div dir=3D"auto"><br>
+</div>
+<div dir=3D"auto">
+<div class=3D"gmail_extra">
+<div class=3D"gmail_quote">
+<blockquote class=3D"m_4610052506580666388quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">
+<div><font size=3D"2"><span style=3D"font-size:11pt">
+<div><br>
+Thanks,<br>
+<br>
+-Lionel<br>
+</div>
+</span></font></div>
+</blockquote>
+</div>
+<br>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div></div></div>
+
+--00000000000045c0b60587d246c1--
+
+--===============0448823731==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -186,4 +270,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0679598359==--
+--===============0448823731==--
