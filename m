@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D30411460
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 09:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BF110BAB
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 19:00:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA0B8929C;
-	Thu,  2 May 2019 07:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E4D88F9B;
+	Wed,  1 May 2019 17:00:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75235892BE
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 16:51:15 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id j11so8833610pff.13
- for <dri-devel@lists.freedesktop.org>; Wed, 01 May 2019 09:51:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Kd5MuO+17SSO78jER84yawU/+kS4c+qH+M/4Z95iLNY=;
- b=S32c66SLoSI/6iconatQ/4LKhClZFsryqphMP+jWZWL2i81aMv0HBLeONcr8CIf0u4
- 3irbhzX04X33IHRUXGLA0mSxhgxOVsrbhRXmzIKhRafgaXi4E7IRSvj/g7kxYht3Fzkw
- D65cLzDayzaG1NrE5KicUNX85jNapel8trPEP14a0KeRUdjnVYuaFNt7P/K88KO18XEN
- gTgcDzJaso/BXOpL8nZ2zp8RWmJMc3Y2/VsfiEILO9PptRoQeUnuIoDh5BvbLWKh2Itb
- C9WP3M0HmBk4/SDfJVrSJFDMAZU5+2CyQ3N9gMltJEV9K0XAbK5mknma52uhmvcbssnV
- xzjw==
-X-Gm-Message-State: APjAAAVQBFu51SLf5ZxusaRekwV12Ci7bvnoOyRj4CDDqiUaP5Vz/Hfx
- Ip5ekVoEointiUrYGdCDjWqL5g==
-X-Google-Smtp-Source: APXvYqwTaF3lkS2xcbZsYzpMTkI1G6dbKWjh7tN8qOSRuhSBT3G0ZPf6rYTURl8olJfGXJ2vBQZtGw==
-X-Received: by 2002:a65:6145:: with SMTP id o5mr17411677pgv.262.1556729474737; 
- Wed, 01 May 2019 09:51:14 -0700 (PDT)
-Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id 18sm58777799pfp.18.2019.05.01.09.51.13
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 01 May 2019 09:51:13 -0700 (PDT)
-Date: Wed, 1 May 2019 09:51:15 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Subject: Re: [PATCH] drm/msm/mdp5: Fix mdp5_cfg_init error return
-Message-ID: <20190501165115.GH2938@tuxbook-pro>
-References: <20190501161437.15728-1-jeffrey.l.hugo@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7959A88FDD
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 17:00:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6CFAE721ED; Wed,  1 May 2019 17:00:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
+Date: Wed, 01 May 2019 17:00:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109345-502-EAh41vVI7l@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
+References: <bug-109345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190501161437.15728-1-jeffrey.l.hugo@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Approved-At: Thu, 02 May 2019 07:42:58 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Kd5MuO+17SSO78jER84yawU/+kS4c+qH+M/4Z95iLNY=;
- b=p4961rDhAAkYdVL2MmCqcSFfDmoIe5vhA3cShJh7egp3Eb4kLmL2sB5jcTZBT1bBrs
- X2UUpPkwn29f2c9UAdFVjJrMkV/aK/zL0MDk5lw3aYKNt8+QE8TalXcEbVeApDAU7UpH
- c/g+s2N/Ee/n2VFwIgnhu9W8R9Ope8RnBjoUlC04/UVVNRV/DsvA60nM2TVkJcPgPPBn
- 0NuLBjuj6N2yXocjsMpPtUk0uZ2h6lEVZZCL6NhHgemzzc6Y0KboxPCTpXRsyjpqwnkO
- 9Fb6NIX/Wne6nx8wc6NGWcfcJ8cX/arFAHndFz2zwEoeHM97MNQ6pXGTfWQ6ddBRLQBq
- 9foA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,34 +52,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, sean@poorly.run
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0136706113=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkIDAxIE1heSAwOToxNCBQRFQgMjAxOSwgSmVmZnJleSBIdWdvIHdyb3RlOgoKPiBJZiBt
-ZHA1X2NmZ19pbml0IGZhaWxzIGJlY2F1c2Ugb2YgYW4gdW5rbm93biBtYWpvciB2ZXJzaW9uLCBh
-IG51bGwgcG9pbnRlcgo+IGRlcmVmZXJlbmNlIG9jY3Vycy4gIFRoaXMgaXMgYmVjYXVzZSB0aGUg
-Y2FsbGVyIG9mIGluaXQgZXhwZWN0cyBlcnJvcgo+IHBvaW50ZXJzLCBidXQgaW5pdCByZXR1cm5z
-IE5VTEwgb24gZXJyb3IuICBGaXggdGhpcyBieSByZXR1cm5pbmcgdGhlCj4gZXhwZWN0ZWQgdmFs
-dWVzIG9uIGVycm9yLgo+IAo+IEZpeGVzOiAyZTM2MmUxNzcyYjggKGRybS9tc20vbWRwNTogaW50
-cm9kdWNlIG1kcDVfY2ZnIG1vZHVsZSkKClJldmlld2VkLWJ5OiBCam9ybiBBbmRlcnNzb24gPGJq
-b3JuLmFuZGVyc3NvbkBsaW5hcm8ub3JnPgoKPiBTaWduZWQtb2ZmLWJ5OiBKZWZmcmV5IEh1Z28g
-PGplZmZyZXkubC5odWdvQGdtYWlsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21zbS9k
-aXNwL21kcDUvbWRwNV9jZmcuYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20v
-ZGlzcC9tZHA1L21kcDVfY2ZnLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNS9tZHA1
-X2NmZy5jCj4gaW5kZXggZWE4ZjdkN2RhZjdmLi41MmUyMzc4MGZjZTEgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRwNV9jZmcuYwo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVfY2ZnLmMKPiBAQCAtNzIxLDcgKzcyMSw3IEBAIHN0
-cnVjdCBtZHA1X2NmZ19oYW5kbGVyICptZHA1X2NmZ19pbml0KHN0cnVjdCBtZHA1X2ttcyAqbWRw
-NV9rbXMsCj4gIAlpZiAoY2ZnX2hhbmRsZXIpCj4gIAkJbWRwNV9jZmdfZGVzdHJveShjZmdfaGFu
-ZGxlcik7Cj4gIAo+IC0JcmV0dXJuIE5VTEw7Cj4gKwlyZXR1cm4gRVJSX1BUUihyZXQpOwo+ICB9
-Cj4gIAo+ICBzdGF0aWMgc3RydWN0IG1kcDVfY2ZnX3BsYXRmb3JtICptZHA1X2dldF9jb25maWco
-c3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2KQo+IC0tIAo+IDIuMTcuMQo+IApfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0136706113==
+Content-Type: multipart/alternative; boundary="15567300352.C955.29699"
+Content-Transfer-Encoding: 7bit
+
+
+--15567300352.C955.29699
+Date: Wed, 1 May 2019 17:00:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
+
+--- Comment #21 from Christian Zigotzky <chzigotzky@xenosoft.de> ---
+Again. Did you modify the behaviour of the initialisation of two graphics c=
+ards
+in the DRM updates 'drm-next-2018-12-14'? If you say no, than I can look in=
+ the
+PowerPC updates. You need to know if there was a change or you don't know w=
+hat
+you published. It's not the task for the enduser to look in your code or bi=
+sect
+the code because you don't know the changes. It is always the same. You cha=
+nged
+the code and after that we have issues and we endusers and first level supp=
+ort
+have to figure out where the problem is. And if we don't figure out the iss=
+ue
+then the issue remain. It's easy to write that you don't have this platform.
+
+Thanks
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15567300352.C955.29699
+Date: Wed, 1 May 2019 17:00:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c21">Comme=
+nt # 21</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chzigotzky&#64;xenosoft.de" title=3D"Christian Zigotzky &lt;chzigotzky&#64;=
+xenosoft.de&gt;"> <span class=3D"fn">Christian Zigotzky</span></a>
+</span></b>
+        <pre>Again. Did you modify the behaviour of the initialisation of t=
+wo graphics cards
+in the DRM updates 'drm-next-2018-12-14'? If you say no, than I can look in=
+ the
+PowerPC updates. You need to know if there was a change or you don't know w=
+hat
+you published. It's not the task for the enduser to look in your code or bi=
+sect
+the code because you don't know the changes. It is always the same. You cha=
+nged
+the code and after that we have issues and we endusers and first level supp=
+ort
+have to figure out where the problem is. And if we don't figure out the iss=
+ue
+then the issue remain. It's easy to write that you don't have this platform.
+
+Thanks</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15567300352.C955.29699--
+
+--===============0136706113==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0136706113==--
