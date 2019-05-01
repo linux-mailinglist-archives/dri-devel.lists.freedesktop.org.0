@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F291105A1
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 08:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1915105EC
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 09:45:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7711589218;
-	Wed,  1 May 2019 06:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFAD892A7;
+	Wed,  1 May 2019 07:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com
- [IPv6:2607:f8b0:4864:20::e29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C0589218
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 06:52:44 +0000 (UTC)
-Received: by mail-vs1-xe29.google.com with SMTP id x78so7012802vsc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Apr 2019 23:52:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=r0jg1hAMfzX9XOKdadiQceO0a+I86s/eYRTin7NDK8U=;
- b=mcxLIeiDtzLXB6WsIuBQagyOcn/jECstGvpRGGObqwMKy4/Pul/zUJF1k+m8TxDS88
- 8gLYRmcGRoGJqLLiNCs8eXXvdj09QEyPPN/OlecnLUG7DP2HOrYmtsZPMFgHQv8eEjJ6
- DPmPxC5fEbCIelOOhaMj6qICvH2QFllTe92B3E5GRmYGiuo0WqqKbX1+lh1shzXxDTxt
- vow9cBo5K51HD3bwhJ8E3cJoojEKhsdrEkWjPZFz5XhZwXGnMBtVCmQcBy87heqHBRST
- N4sy1nuRcBPZYfEvcjEzUKMvKszf3QCRuiJFsZoUWcT56nyhyrFuuXT9gh5BSTjwBo4S
- TFHw==
-X-Gm-Message-State: APjAAAWTQnVY5M833addXfiYxL8m6pP0nArnTnHZ8Nli2WqEQIMZm1PD
- T5c5DrxpFNk7NjONL8Cx9lVZwVbhVCqZIx6hNAYsopGj
-X-Google-Smtp-Source: APXvYqxeP3y860PVKCL+iyyD8E9jBPkOS2HfUqscz3UaYJHa5mEsvMP5ky1rTnF6w2ViceYhdjRYCfK7l66ffi5VltA=
-X-Received: by 2002:a67:df91:: with SMTP id x17mr18815411vsk.76.1556693563368; 
- Tue, 30 Apr 2019 23:52:43 -0700 (PDT)
-MIME-Version: 1.0
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 1 May 2019 16:50:41 +1000
-Message-ID: <CACAvsv7+Ch=r9pt+kPRP8obo_uLscL9Hrg3xq4s92StLvgy=Mw@mail.gmail.com>
-Subject: nouveau-next 5.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A08D892A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 07:45:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 46F5E7215A; Wed,  1 May 2019 07:45:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=r0jg1hAMfzX9XOKdadiQceO0a+I86s/eYRTin7NDK8U=;
- b=Ie1rEtEMaYiZg/RWIJgkclX6QXuRjupoNxG7XB61didojEv5fi43CWHuA+sFlCYD6h
- W1swm2451Wa4RFARHOKGDDZPp7X2+IaGzzrEIm/h3PSpWuPxOoko2K7Jfi0pGmCdm++O
- 5FCiAXeosORDY49w25ZALsIu+y20IEhHaiNkmEPj/aaRnE4hDgcw7/xQk5hAgt+8yekO
- 2LtMQ2/1yeB8L7HYV9AvBoiC6dHQA5FY6T1mTSfrEf+ySM+mp83ZQl0Ba7Qyt/se1wmW
- qwGD28ObhYl/Abs9GWYu59otW5TtUSjTllUbg0VkyCprYVDWUfNjE7/cBwN+51AOegcW
- wctQ==
+Subject: [Bug 110571] GPU Passthrough of Vega 56 GPU hangs on KVM start.
+Date: Wed, 01 May 2019 07:45:43 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: James.Dutton@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110571-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,47 +51,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0643993332=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGV5IERhdmUsCgpObyBtYWpvciBjaGFuZ2VzIHJlYWR5IGZvciB0aGlzIHJvdW5kLCBidXQgYSBm
-ZXcgbWlzYyBmaXhlcyBpbnN0ZWFkLgoKQmVuLgoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNl
-IGNvbW1pdCA3YzEzZTVjYzIzOTE5NTA1NDFmNDFmYzlhYjAzMzZhYWU3N2M3ZjYzOgoKICBNZXJn
-ZSB0YWcgJ2RybS1pbnRlbC1uZXh0LWZpeGVzLTIwMTktMDQtMjUnIG9mCmdpdDovL2Fub25naXQu
-ZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0taW50ZWwgaW50byBkcm0tbmV4dCAoMjAxOS0wNC0yNgox
-MTozNTo1OSArMTAwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoK
-ICBnaXQ6Ly9naXRodWIuY29tL3NrZWdnc2IvbGludXggbGludXgtNS4yCgpmb3IgeW91IHRvIGZl
-dGNoIGNoYW5nZXMgdXAgdG8gMzBkZjE2YjkzYjI1ZmUzNDVlNGM1ZDRlOWM3ODlkM2Y0ZjMzN2I3
-MjoKCiAgZHJtL25vdXZlYXUvbm91dmVhdTogZm9yd2FyZCBlcnJvciBnZW5lcmF0ZWQgd2hpbGUg
-cmVzdW1pbmcgb2JqZWN0cwp0cmVlICgyMDE5LTA1LTAxIDExOjA4OjM5ICsxMDAwKQoKLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LQpCam9ybiBIZWxnYWFzICgxKToKICAgICAgZHJtL25vdXZlYXU6IFJlbW92ZSBkdXBsaWNhdGUg
-QUNQSV9WSURFT19OT1RJRllfUFJPQkUgZGVmaW5pdGlvbgoKQ29saW4gSWFuIEtpbmcgKDEpOgog
-ICAgICBkcm0vbm91dmVhdS9mYi9yYW1nazEwNDogZml4IHNwZWxsaW5nIG1pc3Rha2UgInN1Y2Vz
-c2Z1bGx5IiAtPgoic3VjY2Vzc2Z1bGx5IgoKSm9uIERlcnJpY2sgKDQpOgogICAgICBkcm0vbm91
-dmVhdS9iYXIvbnY1MDogY2hlY2sgYmFyMSB2bW0gcmV0dXJuIHZhbHVlCiAgICAgIGRybS9ub3V2
-ZWF1L2Jhci9udjUwOiBlbnN1cmUgQkFSIGlzIG1hcHBlZAogICAgICBkcm0vbm91dmVhdS9iYXIv
-Z2YxMDA6IGVuc3VyZSBCQVIgaXMgbWFwcGVkCiAgICAgIGRybS9ub3V2ZWF1L21tdTogcXVhbGlm
-eSB2bW0gZHVyaW5nIGR0b3IKCkx5dWRlIFBhdWwgKDEpOgogICAgICBkcm0vbm91dmVhdS9pMmM6
-IERpc2FibGUgaTJjIGJ1cyBhY2Nlc3MgYWZ0ZXIgLT5maW5pKCkKClRvYmlhcyBLbGF1c21hbm4g
-KDEpOgogICAgICBkcm0vbm91dmVhdS9ub3V2ZWF1OiBmb3J3YXJkIGVycm9yIGdlbmVyYXRlZCB3
-aGlsZSByZXN1bWluZyBvYmplY3RzIHRyZWUKCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9pbmNs
-dWRlL252a20vc3ViZGV2L2kyYy5oIHwgIDIgKysKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25v
-dXZlYXVfZGlzcGxheS5jICAgICAgICAgfCAgOSAtLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL25v
-dXZlYXUvbm91dmVhdV9kcm0uYyAgICAgICAgICAgICB8IDEyICsrKysrKysrKystCiBkcml2ZXJz
-L2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9iYXIvZ2YxMDAuYyAgIHwgIDIgKysKIGRyaXZl
-cnMvZ3B1L2RybS9ub3V2ZWF1L252a20vc3ViZGV2L2Jhci9udjUwLmMgICAgfCAxNCArKysrKysr
-KystLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vc3ViZGV2L2ZiL3JhbWdrMTA0LmMg
-fCAgMiArLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvaTJjL2F1eC5jICAg
-ICB8IDI2ICsrKysrKysrKysrKysrKysrKysrKystCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9u
-dmttL3N1YmRldi9pMmMvYXV4LmggICAgIHwgIDIgKysKIGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
-L252a20vc3ViZGV2L2kyYy9iYXNlLmMgICAgfCAxNSArKysrKysrKysrKysrCiBkcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9pMmMvYnVzLmMgICAgIHwgMjEgKysrKysrKysrKysr
-KysrKystCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9pMmMvYnVzLmggICAg
-IHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvbW11L3ZtbS5jICAg
-ICB8ICAyICstCiAxMiBmaWxlcyBjaGFuZ2VkLCA5MSBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlv
-bnMoLSkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0643993332==
+Content-Type: multipart/alternative; boundary="15566967441.b8edFA.3200"
+Content-Transfer-Encoding: 7bit
+
+
+--15566967441.b8edFA.3200
+Date: Wed, 1 May 2019 07:45:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110571
+
+            Bug ID: 110571
+           Summary: GPU Passthrough of Vega 56 GPU hangs on KVM start.
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: James.Dutton@gmail.com
+
+When trying to use IOMMU and passthrough a Vega GPU to the guest VM.  KVM f=
+ails
+to start, and SERR errors are shown with lspci on the GPU device.
+
+Hardware is a Threadripper 1950X, Gigabyte X399 Pro motherboard.
+Vega 56.
+
+The same problem also happens with an old Radeon CAICOS GPU.
+
+So, my theory is that this is a AMD Threadripper and X399 motherboard probl=
+em.
+Maybe related to the IOMMU programming on the X399 chipset not happening
+correctly.
+
+Can anyone help give me some pointers as to where to look to help diagnose =
+the
+problem.
+For example, how do I view iommu settings/mappings?
+How do I find out what all the config params for the X399 Bridge GPP do?
+What does GPP mean?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15566967441.b8edFA.3200
+Date: Wed, 1 May 2019 07:45:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU Passthrough of Vega 56 GPU hangs on KVM start."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110571">110571</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>GPU Passthrough of Vega 56 GPU hangs on KVM start.
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>James.Dutton&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>When trying to use IOMMU and passthrough a Vega GPU to the gue=
+st VM.  KVM fails
+to start, and SERR errors are shown with lspci on the GPU device.
+
+Hardware is a Threadripper 1950X, Gigabyte X399 Pro motherboard.
+Vega 56.
+
+The same problem also happens with an old Radeon CAICOS GPU.
+
+So, my theory is that this is a AMD Threadripper and X399 motherboard probl=
+em.
+Maybe related to the IOMMU programming on the X399 chipset not happening
+correctly.
+
+Can anyone help give me some pointers as to where to look to help diagnose =
+the
+problem.
+For example, how do I view iommu settings/mappings?
+How do I find out what all the config params for the X399 Bridge GPP do?
+What does GPP mean?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15566967441.b8edFA.3200--
+
+--===============0643993332==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0643993332==--
