@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C66E10D43
-	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 21:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018EA10E26
+	for <lists+dri-devel@lfdr.de>; Wed,  1 May 2019 22:38:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68688892D8;
-	Wed,  1 May 2019 19:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28D63892E7;
+	Wed,  1 May 2019 20:38:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E292892B9
- for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 19:34:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id F0AB9804A7;
- Wed,  1 May 2019 21:34:30 +0200 (CEST)
-Date: Wed, 1 May 2019 21:34:29 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH 1/2] drm/panel: simple: Add FriendlyELEC HD702E 800x1280
- LCD panel
-Message-ID: <20190501193429.GA9075@ravnborg.org>
-References: <20190501121448.3812-1-jagan@amarulasolutions.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 652F3892C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  1 May 2019 20:38:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5BC857215A; Wed,  1 May 2019 20:38:55 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110575] [R9 380X] Artifacts in CSGO
+Date: Wed, 01 May 2019 20:38:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: danylo.piliaiev@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-110575-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190501121448.3812-1-jagan@amarulasolutions.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=dTbK6rJxFaEA:10
- a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8 a=iP-xVBlJAAAA:8
- a=zuLzuavZAAAA:8 a=Ojeavkj-tGznWrRYVDAA:9 a=CjuIK1q_8ugA:10
- a=tCw7dILebdcA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
- a=lHLH-nfn2y1bM_0xSXwp:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,86 +52,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- linux-amarula@amarulasolutions.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0527264475=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSmFnYW4KCk9uIFdlZCwgTWF5IDAxLCAyMDE5IGF0IDA1OjQ0OjQ3UE0gKzA1MzAsIEphZ2Fu
-IFRla2kgd3JvdGU6Cj4gSEQ3MDJFIGxjZCBpcyBGcmllbmRseUVMRUMgZGV2ZWxvcGVkIGVEUCBM
-Q0QgcGFuZWwgd2l0aCA4MDB4MTI4MAo+IHJlc29sdXRpb24uIEl0IGhhcyBidWlsdCBpbiBHb29k
-aXgsIEdUOTI3MSBjYXB0aXZlIHRvdWNoc2NyZWVuCj4gd2l0aCBiYWNrbGlnaHQgYWRqdXN0YWJs
-ZSB2aWEgUFdNLgo+IAo+IEFkZCBzdXBwb3J0IGZvciBpdC4KPiAKPiBDYzogVGhpZXJyeSBSZWRp
-bmcgPHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT4KPiBDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2
-bmJvcmcub3JnPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERh
-bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IEphZ2FuIFRla2kgPGphZ2FuQGFtYXJ1bGFzb2x1
-dGlvbnMuY29tPgoKUGxlYXNlIHN1Ym1pdCB0aGUgYmluZGluZyBpbiBhIHNlcGFyYXRlIHBhdGNo
-IGFzIHBlcgpEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc3VibWl0dGluZy1wYXRj
-aGVzLnR4dAoKVGhlIGJpbmRpbmcgbG9va3MgbGlrZSBpdCBpcyBjb21wYXRpYmxlIHdpdGggY29t
-bW9uLXBhbmVsIGFuZApzaW1wbGUtcGFuZWwgLSBwbGVhc2Ugc2F5IHNvIGluIHRoZSBiaW5kaW5n
-cy4KU2VlIGZvciBleGFtcGxlIHRoZSBsYXN0IGZldyBiaW5kaW5nIGRvY3VtZW50cyBhZGRlZCB0
-byB0aGUga2VybmVsIHRyZWUuCgo+IC0tLQo+ICAuLi4vZGlzcGxheS9wYW5lbC9mcmllbmRseWFy
-bSxoZDcwMmUudHh0ICAgICAgfCAyOSArKysrKysrKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1
-L2RybS9wYW5lbC9wYW5lbC1zaW1wbGUuYyAgICAgICAgICB8IDI2ICsrKysrKysrKysrKysrKysr
-Cj4gIDIgZmlsZXMgY2hhbmdlZCwgNTUgaW5zZXJ0aW9ucygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2
-NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZnJpZW5k
-bHlhcm0saGQ3MDJlLnR4dAo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9mcmllbmRseWFybSxoZDcwMmUudHh0IGIvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZnJpZW5kbHlhcm0saGQ3
-MDJlLnR4dAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi42NzM0
-OWQ3Zjc5YmUKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZnJpZW5kbHlhcm0saGQ3MDJlLnR4dAo+IEBAIC0wLDAg
-KzEsMjkgQEAKPiArRnJpZW5kbHlFTEVDIEhENzAyRSA4MDB4MTI4MCBMQ0QgcGFuZWwKPiArCj4g
-K0hENzAyRSBsY2QgaXMgRnJpZW5kbHlFTEVDIGRldmVsb3BlZCBlRFAgTENEIHBhbmVsIHdpdGgg
-ODAweDEyODAKPiArcmVzb2x1dGlvbi4gSXQgaGFzIGJ1aWx0IGluIEdvb2RpeCwgR1Q5MjcxIGNh
-cHRpdmUgdG91Y2hzY3JlZW4KPiArd2l0aCBiYWNrbGlnaHQgYWRqdXN0YWJsZSB2aWEgUFdNLgo+
-ICsKPiArUmVxdWlyZWQgcHJvcGVydGllczoKPiArLSBjb21wYXRpYmxlOiBzaG91bGQgYmUgImZy
-aWVuZGx5YXJtLGhkNzAyZSIKPiArLSBwb3dlci1zdXBwbHk6IHJlZ3VsYXRvciB0byBwcm92aWRl
-IHRoZSBzdXBwbHkgdm9sdGFnZQo+ICsKPiArT3B0aW9uYWwgcHJvcGVydGllczoKPiArLSBiYWNr
-bGlnaHQ6IHBoYW5kbGUgb2YgdGhlIGJhY2tsaWdodCBkZXZpY2UgYXR0YWNoZWQgdG8gdGhlIHBh
-bmVsCj4gKwo+ICtPcHRpb25hbCBub2RlczoKPiArLSBWaWRlbyBwb3J0IGZvciBMQ0QgcGFuZWwg
-aW5wdXQuCj4gKwo+ICtFeGFtcGxlOgo+ICsKPiArCXBhbmVsIHsKPiArCQljb21wYXRpYmxlID0i
-ZnJpZW5kbHlhcm0saGQ3MDJlIjsKPiArCQliYWNrbGlnaHQgPSA8JmJhY2tsaWdodD47Cj4gKwkJ
-cG93ZXItc3VwcGx5ID0gPCZ2Y2MzdjNfc3lzPjsKPiArCj4gKwkJcG9ydCB7Cj4gKwkJCXBhbmVs
-X2luX2VkcDogZW5kcG9pbnQgewo+ICsJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZlZHBfb3V0X3Bh
-bmVsPjsKPiArCQkJfTsKPiArCQl9Owo+ICsJfTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNp
-bXBsZS5jCj4gaW5kZXggOWU4MjE4ZjZhM2YyLi45ZGIzYzBjNjVlZjIgMTAwNjQ0Cj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5jCj4gQEAgLTExODQsNiArMTE4NCwyOSBAQCBzdGF0aWMg
-Y29uc3Qgc3RydWN0IHBhbmVsX2Rlc2MgZm94bGlua19mbDUwMHd2cjAwX2EwdCA9IHsKPiAgCS5i
-dXNfZm9ybWF0ID0gTUVESUFfQlVTX0ZNVF9SR0I4ODhfMVgyNCwKPiAgfTsKPiAgCj4gK3N0YXRp
-YyBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBmcmllbmRseWFybV9oZDcwMmVfbW9kZSA9
-IHsKPiArCS5jbG9jawkJPSA2NzE4NSwKPiArCS5oZGlzcGxheQk9IDgwMCwKPiArCS5oc3luY19z
-dGFydAk9IDgwMCArIDIwLAo+ICsJLmhzeW5jX2VuZAk9IDgwMCArIDIwICsgMjQsCj4gKwkuaHRv
-dGFsCQk9IDgwMCArIDIwICsgMjQgKyAyMCwKPiArCS52ZGlzcGxheQk9IDEyODAsCj4gKwkudnN5
-bmNfc3RhcnQJPSAxMjgwICsgNCwKPiArCS52c3luY19lbmQJPSAxMjgwICsgNCArIDgsCj4gKwku
-dnRvdGFsCQk9IDEyODAgKyA0ICsgOCArIDQsCj4gKwkudnJlZnJlc2gJPSA2MCwKPiArCS5mbGFn
-cyAJCT0gRFJNX01PREVfRkxBR19OVlNZTkMgfCBEUk1fTU9ERV9GTEFHX05IU1lOQywKPiArfTsK
-PiArCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgcGFuZWxfZGVzYyBmcmllbmRseWFybV9oZDcwMmUg
-PSB7Cj4gKwkubW9kZXMgPSAmZnJpZW5kbHlhcm1faGQ3MDJlX21vZGUsCj4gKwkubnVtX21vZGVz
-ID0gMSwKPiArCS5zaXplID0gewo+ICsJCS53aWR0aAk9IDk0LAo+ICsJCS5oZWlnaHQJPSAxNTEs
-Cj4gKwl9LAo+ICt9OwpBcyBJIHJlYWQgdGhlIGRhdGFzaGVldCB0aGVuIHRoaXMgcGFuZWwgbmVl
-ZHMgYXQgbGVhc3QgYSBwcmVwYXJlIGRlbGF5Cm9mIDEwIG1zIChpdCBzYXlzID4gMTAgbXMgZnJv
-bSBWR0ggdW50aWwgRGF0YSkuCkFuZCB0aGVuIHdlIGFsc28ga25vdyB0aGF0IFZHSCBzaGFsbCBi
-ZSB2YWxpZCBhdCBsZWFzdCAxMCBtcyBhZnRlciBEVkRECnNvIHByZXBhcmUgaXMgbGlrZWx5IDIw
-IG1zLgoKQmFzZWQgb24gZGF0YXNoZWV0IGZvdW5kIGhlcmU6Cmh0dHBzOi8vcGFuLmJhaWR1LmNv
-bS9zLzFnZUVmQkxoLwoKUGxlYXNlIGV2YWx1YXRlIGFsbCBkZWxheXMuCgo+ICsKPiAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIGdpYW50cGx1c19ncGc0ODI3MzlxczVfbW9k
-ZSA9IHsKPiAgCS5jbG9jayA9IDkwMDAsCj4gIAkuaGRpc3BsYXkgPSA0ODAsCj4gQEAgLTI2MzQs
-NiArMjY1Nyw5IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHBsYXRmb3JtX29m
-X21hdGNoW10gPSB7Cj4gIAl9LCB7Cj4gIAkJLmNvbXBhdGlibGUgPSAiZWR0LGV0bTA3MDBnMGVk
-aDYiLAo+ICAJCS5kYXRhID0gJmVkdF9ldG0wNzAwZzBiZGg2LAo+ICsJfSwgewo+ICsJCS5jb21w
-YXRpYmxlID0gImZyaWVuZGx5YXJtLGhkNzAyZSIsCj4gKwkJLmRhdGEgPSAmZnJpZW5kbHlhcm1f
-aGQ3MDJlLAo+ICAJfSwgewo+ICAJCS5jb21wYXRpYmxlID0gImZveGxpbmssZmw1MDB3dnIwMC1h
-MHQiLAo+ICAJCS5kYXRhID0gJmZveGxpbmtfZmw1MDB3dnIwMF9hMHQsCgpBZGQgdGhlc2UgaW4g
-c29ydGVkIG9yZGVyLgoiZm94IiBpcyBiZWZvcmUgImZyaSIKCglTYW0KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0527264475==
+Content-Type: multipart/alternative; boundary="15567431350.eEf2.10944"
+Content-Transfer-Encoding: 7bit
+
+
+--15567431350.eEf2.10944
+Date: Wed, 1 May 2019 20:38:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110575
+
+            Bug ID: 110575
+           Summary: [R9 380X] Artifacts in CSGO
+           Product: Mesa
+           Version: git
+          Hardware: Other
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: danylo.piliaiev@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 144123
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144123&action=3Dedit
+example of artifacts
+
+Distro: Manjaro
+Kernel: 5.0.5
+GPU: R9 380X
+
+Reproducible with:
+  Mesa: git (07745f94948)
+  LLVM: 9 (359393)
+
+Isn't reproducible with:
+  Mesa: 19.0.3
+  LLVM: 8
+
+Parts of the screen randomly become corrupted for 1 or 2 frames. It's not a
+rare event.
+Doesn't happen when capturing and/or replaying with apitrace.
+Doesn't happen when running OBS.
+
+Happens on new Sirocco map, didn't test on other.
+
+Sorry for the image quality - it was taken from video recorded with old pho=
+ne,
+the grey squares on a tree branch are the artifacts in question but they co=
+uld
+be completely different.
+
+I'm using https://pkgbuild.com/~lcarlier/mesa-git/x86_64/ for mesa and llvm
+builds.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15567431350.eEf2.10944
+Date: Wed, 1 May 2019 20:38:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [R9 380X] Artifacts in CSGO"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110575">110575</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[R9 380X] Artifacts in CSGO
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>danylo.piliaiev&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144123=
+" name=3D"attach_144123" title=3D"example of artifacts">attachment 144123</=
+a> <a href=3D"attachment.cgi?id=3D144123&amp;action=3Dedit" title=3D"exampl=
+e of artifacts">[details]</a></span>
+example of artifacts
+
+Distro: Manjaro
+Kernel: 5.0.5
+GPU: R9 380X
+
+Reproducible with:
+  Mesa: git (07745f94948)
+  LLVM: 9 (359393)
+
+Isn't reproducible with:
+  Mesa: 19.0.3
+  LLVM: 8
+
+Parts of the screen randomly become corrupted for 1 or 2 frames. It's not a
+rare event.
+Doesn't happen when capturing and/or replaying with apitrace.
+Doesn't happen when running OBS.
+
+Happens on new Sirocco map, didn't test on other.
+
+Sorry for the image quality - it was taken from video recorded with old pho=
+ne,
+the grey squares on a tree branch are the artifacts in question but they co=
+uld
+be completely different.
+
+I'm using <a href=3D"https://pkgbuild.com/~lcarlier/mesa-git/x86_64/">https=
+://pkgbuild.com/~lcarlier/mesa-git/x86_64/</a> for mesa and llvm
+builds.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15567431350.eEf2.10944--
+
+--===============0527264475==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0527264475==--
