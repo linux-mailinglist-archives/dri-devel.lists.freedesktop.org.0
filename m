@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4131D1136D
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 08:36:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4881141D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 09:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2233892BE;
-	Thu,  2 May 2019 06:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2589E89256;
+	Thu,  2 May 2019 07:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C995C892C5
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 06:36:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C5F947215A; Thu,  2 May 2019 06:36:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
-Date: Thu, 02 May 2019 06:36:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: jayfitzpatrick@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109206-502-lOF0CZWPmQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
-References: <bug-109206-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81A2289269
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 07:27:36 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id w11so1201177edl.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2019 00:27:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sJBn7OhxYZbK1Jdu1mmSELFdE7q95THJbAIrKtUxTh0=;
+ b=dH89VB0je1gyR9qEgNqEo6CwpVc3W1mVCJGrdbhcNBGkHQyU5RUQMWkx7gVXqKrYlK
+ qhXYyG5w5XFJBlFXWVWUeFQIb/IydTOlIsITz8425MxrVLE9K3EBjdN40Z88Sxpov9mH
+ 4udrtDdNhRpruHkBTMFZx1VF4fPOyuIrmTGKd6Z7F69ndWFK0JeMwM4vxXXvl8xDzbEk
+ Up6LD+ckFD0Tx8Osm9NfRYO4eayIbbflrio9wmLFPss9fzp1sSUQF6CIgEh/ztWmjyNt
+ G8Ie0mrtSjRxF/GecuJl7G3DHrhZMmX6oJXjmak4jNsgBBmzNiwnwM3lPwrGKvh7iC1h
+ OqiA==
+X-Gm-Message-State: APjAAAUI6K1tb+/zOlz1887iykrLKMkT46JY3MJXaBWUguHpkSFeQL5N
+ 7TWCXD5HIlBHaoZuLVlidUOgYDGxI84=
+X-Google-Smtp-Source: APXvYqwZRmiB/rJCIBLTKJt7XLqzb5LclGHvbWEWWy+qTNGI86abWvGufqQRXgpJvMWN8AGMDU425Q==
+X-Received: by 2002:a17:906:7c12:: with SMTP id
+ t18mr1030971ejo.59.1556782054351; 
+ Thu, 02 May 2019 00:27:34 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id t9sm6980458ejg.54.2019.05.02.00.27.33
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 May 2019 00:27:33 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm: Some ocd in drm_file.c
+Date: Thu,  2 May 2019 09:27:27 +0200
+Message-Id: <20190502072727.32159-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sJBn7OhxYZbK1Jdu1mmSELFdE7q95THJbAIrKtUxTh0=;
+ b=Qhso0MPyh4cbPNZPu4Ii2eXtXnmRqTHxc0+2+KOESBeZSKLZkroShAaAtGizeh08xl
+ +GHuGb2qQj9vRthf6GbOYm63wwtxS/OYks/JYYkNQNGMtGITwlzBL4YwnwbQrlrE6hd8
+ J/nGfaA9+LlaCaOyHxOR2HkS7VokWhbGDd9Jw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,103 +63,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1725967352=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1725967352==
-Content-Type: multipart/alternative; boundary="15567789994.8De84e.22917"
-Content-Transfer-Encoding: 7bit
-
-
---15567789994.8De84e.22917
-Date: Thu, 2 May 2019 06:36:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
-
---- Comment #42 from Jay Fitzpatrick <jayfitzpatrick@gmail.com> ---
-This was an upgrade from Fedora 29 with the above workaround applied to a v5
-kernel.
-
-Booting from the KDE spin of Fedora 30 would only work with limited graphics
-(nomodset) as the default boot hung.
-
-I do not have access to that machine at the moment but will pull any requir=
-ed
-logs later.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15567789994.8De84e.22917
-Date: Thu, 2 May 2019 06:36:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c42">Comme=
-nt # 42</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jayfitzpatrick&#64;gmail.com" title=3D"Jay Fitzpatrick &lt;jayfitzpatrick&#=
-64;gmail.com&gt;"> <span class=3D"fn">Jay Fitzpatrick</span></a>
-</span></b>
-        <pre>This was an upgrade from Fedora 29 with the above workaround a=
-pplied to a v5
-kernel.
-
-Booting from the KDE spin of Fedora 30 would only work with limited graphics
-(nomodset) as the default boot hung.
-
-I do not have access to that machine at the moment but will pull any requir=
-ed
-logs later.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15567789994.8De84e.22917--
-
---===============1725967352==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1725967352==--
+TW92ZSB0aGUgb3BlbiBoZWxwZXIgYXJvdW5kIHRvIGF2b2lkIHRoZSBmb3J3YXJkIGRlY2wsIGFu
+ZCBnaXZlCmRybV9zZXR1cCBhIGRybV9sZWdhY3lfIHByZWZpeCBzaW5jZSBpdCdzIGFsbCBsZWdh
+Y3kgc3R1ZmYgaW4gdGhlcmUuCgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
+dmV0dGVyQGZmd2xsLmNoPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jIHwgMTQyICsr
+KysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA3MCBp
+bnNlcnRpb25zKCspLCA3MiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2ZpbGUuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmlsZS5jCmluZGV4IDIzM2YxMTRk
+MjE4Ni4uODQzN2FhODM0MjQ1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUu
+YworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZpbGUuYwpAQCAtMTAwLDggKzEwMCw2IEBAIERF
+RklORV9NVVRFWChkcm1fZ2xvYmFsX211dGV4KTsKICAqIDpyZWY6YElPQ1RMIHN1cHBvcnQgaW4g
+dGhlIHVzZXJsYW5kIGludGVyZmFjZXMgY2hhcHRlcjxkcm1fZHJpdmVyX2lvY3RsPmAuCiAgKi8K
+IAotc3RhdGljIGludCBkcm1fb3Blbl9oZWxwZXIoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCBk
+cm1fbWlub3IgKm1pbm9yKTsKLQogLyoqCiAgKiBkcm1fZmlsZV9hbGxvYyAtIGFsbG9jYXRlIGZp
+bGUgY29udGV4dAogICogQG1pbm9yOiBtaW5vciB0byBhbGxvY2F0ZSBvbgpAQCAtMjczLDc2ICsy
+NzEsNiBAQCBzdGF0aWMgdm9pZCBkcm1fY2xvc2VfaGVscGVyKHN0cnVjdCBmaWxlICpmaWxwKQog
+CWRybV9maWxlX2ZyZWUoZmlsZV9wcml2KTsKIH0KIAotc3RhdGljIGludCBkcm1fc2V0dXAoc3Ry
+dWN0IGRybV9kZXZpY2UgKiBkZXYpCi17Ci0JaW50IHJldDsKLQotCWlmIChkZXYtPmRyaXZlci0+
+Zmlyc3RvcGVuICYmCi0JICAgIGRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVH
+QUNZKSkgewotCQlyZXQgPSBkZXYtPmRyaXZlci0+Zmlyc3RvcGVuKGRldik7Ci0JCWlmIChyZXQg
+IT0gMCkKLQkJCXJldHVybiByZXQ7Ci0JfQotCi0JcmV0ID0gZHJtX2xlZ2FjeV9kbWFfc2V0dXAo
+ZGV2KTsKLQlpZiAocmV0IDwgMCkKLQkJcmV0dXJuIHJldDsKLQotCi0JRFJNX0RFQlVHKCJcbiIp
+OwotCXJldHVybiAwOwotfQotCi0vKioKLSAqIGRybV9vcGVuIC0gb3BlbiBtZXRob2QgZm9yIERS
+TSBmaWxlCi0gKiBAaW5vZGU6IGRldmljZSBpbm9kZQotICogQGZpbHA6IGZpbGUgcG9pbnRlci4K
+LSAqCi0gKiBUaGlzIGZ1bmN0aW9uIG11c3QgYmUgdXNlZCBieSBkcml2ZXJzIGFzIHRoZWlyICZm
+aWxlX29wZXJhdGlvbnMub3BlbiBtZXRob2QuCi0gKiBJdCBsb29rcyB1cCB0aGUgY29ycmVjdCBE
+Uk0gZGV2aWNlIGFuZCBpbnN0YW50aWF0ZXMgYWxsIHRoZSBwZXItZmlsZQotICogcmVzb3VyY2Vz
+IGZvciBpdC4gSXQgYWxzbyBjYWxscyB0aGUgJmRybV9kcml2ZXIub3BlbiBkcml2ZXIgY2FsbGJh
+Y2suCi0gKgotICogUkVUVVJOUzoKLSAqCi0gKiAwIG9uIHN1Y2Nlc3Mgb3IgbmVnYXRpdmUgZXJy
+bm8gdmFsdWUgb24gZmFsdXJlLgotICovCi1pbnQgZHJtX29wZW4oc3RydWN0IGlub2RlICppbm9k
+ZSwgc3RydWN0IGZpbGUgKmZpbHApCi17Ci0Jc3RydWN0IGRybV9kZXZpY2UgKmRldjsKLQlzdHJ1
+Y3QgZHJtX21pbm9yICptaW5vcjsKLQlpbnQgcmV0Y29kZTsKLQlpbnQgbmVlZF9zZXR1cCA9IDA7
+Ci0KLQltaW5vciA9IGRybV9taW5vcl9hY3F1aXJlKGltaW5vcihpbm9kZSkpOwotCWlmIChJU19F
+UlIobWlub3IpKQotCQlyZXR1cm4gUFRSX0VSUihtaW5vcik7Ci0KLQlkZXYgPSBtaW5vci0+ZGV2
+OwotCWlmICghZGV2LT5vcGVuX2NvdW50KyspCi0JCW5lZWRfc2V0dXAgPSAxOwotCi0JLyogc2hh
+cmUgYWRkcmVzc19zcGFjZSBhY3Jvc3MgYWxsIGNoYXItZGV2cyBvZiBhIHNpbmdsZSBkZXZpY2Ug
+Ki8KLQlmaWxwLT5mX21hcHBpbmcgPSBkZXYtPmFub25faW5vZGUtPmlfbWFwcGluZzsKLQotCXJl
+dGNvZGUgPSBkcm1fb3Blbl9oZWxwZXIoZmlscCwgbWlub3IpOwotCWlmIChyZXRjb2RlKQotCQln
+b3RvIGVycl91bmRvOwotCWlmIChuZWVkX3NldHVwKSB7Ci0JCXJldGNvZGUgPSBkcm1fc2V0dXAo
+ZGV2KTsKLQkJaWYgKHJldGNvZGUpIHsKLQkJCWRybV9jbG9zZV9oZWxwZXIoZmlscCk7Ci0JCQln
+b3RvIGVycl91bmRvOwotCQl9Ci0JfQotCXJldHVybiAwOwotCi1lcnJfdW5kbzoKLQlkZXYtPm9w
+ZW5fY291bnQtLTsKLQlkcm1fbWlub3JfcmVsZWFzZShtaW5vcik7Ci0JcmV0dXJuIHJldGNvZGU7
+Ci19Ci1FWFBPUlRfU1lNQk9MKGRybV9vcGVuKTsKLQogLyoKICAqIENoZWNrIHdoZXRoZXIgRFJJ
+IHdpbGwgcnVuIG9uIHRoaXMgQ1BVLgogICoKQEAgLTQyNCw2ICszNTIsNzYgQEAgc3RhdGljIGlu
+dCBkcm1fb3Blbl9oZWxwZXIoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCBkcm1fbWlub3IgKm1p
+bm9yKQogCXJldHVybiAwOwogfQogCitzdGF0aWMgaW50IGRybV9sZWdhY3lfc2V0dXAoc3RydWN0
+IGRybV9kZXZpY2UgKiBkZXYpCit7CisJaW50IHJldDsKKworCWlmIChkZXYtPmRyaXZlci0+Zmly
+c3RvcGVuICYmCisJICAgIGRybV9jb3JlX2NoZWNrX2ZlYXR1cmUoZGV2LCBEUklWRVJfTEVHQUNZ
+KSkgeworCQlyZXQgPSBkZXYtPmRyaXZlci0+Zmlyc3RvcGVuKGRldik7CisJCWlmIChyZXQgIT0g
+MCkKKwkJCXJldHVybiByZXQ7CisJfQorCisJcmV0ID0gZHJtX2xlZ2FjeV9kbWFfc2V0dXAoZGV2
+KTsKKwlpZiAocmV0IDwgMCkKKwkJcmV0dXJuIHJldDsKKworCisJRFJNX0RFQlVHKCJcbiIpOwor
+CXJldHVybiAwOworfQorCisvKioKKyAqIGRybV9vcGVuIC0gb3BlbiBtZXRob2QgZm9yIERSTSBm
+aWxlCisgKiBAaW5vZGU6IGRldmljZSBpbm9kZQorICogQGZpbHA6IGZpbGUgcG9pbnRlci4KKyAq
+CisgKiBUaGlzIGZ1bmN0aW9uIG11c3QgYmUgdXNlZCBieSBkcml2ZXJzIGFzIHRoZWlyICZmaWxl
+X29wZXJhdGlvbnMub3BlbiBtZXRob2QuCisgKiBJdCBsb29rcyB1cCB0aGUgY29ycmVjdCBEUk0g
+ZGV2aWNlIGFuZCBpbnN0YW50aWF0ZXMgYWxsIHRoZSBwZXItZmlsZQorICogcmVzb3VyY2VzIGZv
+ciBpdC4gSXQgYWxzbyBjYWxscyB0aGUgJmRybV9kcml2ZXIub3BlbiBkcml2ZXIgY2FsbGJhY2su
+CisgKgorICogUkVUVVJOUzoKKyAqCisgKiAwIG9uIHN1Y2Nlc3Mgb3IgbmVnYXRpdmUgZXJybm8g
+dmFsdWUgb24gZmFsdXJlLgorICovCitpbnQgZHJtX29wZW4oc3RydWN0IGlub2RlICppbm9kZSwg
+c3RydWN0IGZpbGUgKmZpbHApCit7CisJc3RydWN0IGRybV9kZXZpY2UgKmRldjsKKwlzdHJ1Y3Qg
+ZHJtX21pbm9yICptaW5vcjsKKwlpbnQgcmV0Y29kZTsKKwlpbnQgbmVlZF9zZXR1cCA9IDA7CisK
+KwltaW5vciA9IGRybV9taW5vcl9hY3F1aXJlKGltaW5vcihpbm9kZSkpOworCWlmIChJU19FUlIo
+bWlub3IpKQorCQlyZXR1cm4gUFRSX0VSUihtaW5vcik7CisKKwlkZXYgPSBtaW5vci0+ZGV2Owor
+CWlmICghZGV2LT5vcGVuX2NvdW50KyspCisJCW5lZWRfc2V0dXAgPSAxOworCisJLyogc2hhcmUg
+YWRkcmVzc19zcGFjZSBhY3Jvc3MgYWxsIGNoYXItZGV2cyBvZiBhIHNpbmdsZSBkZXZpY2UgKi8K
+KwlmaWxwLT5mX21hcHBpbmcgPSBkZXYtPmFub25faW5vZGUtPmlfbWFwcGluZzsKKworCXJldGNv
+ZGUgPSBkcm1fb3Blbl9oZWxwZXIoZmlscCwgbWlub3IpOworCWlmIChyZXRjb2RlKQorCQlnb3Rv
+IGVycl91bmRvOworCWlmIChuZWVkX3NldHVwKSB7CisJCXJldGNvZGUgPSBkcm1fbGVnYWN5X3Nl
+dHVwKGRldik7CisJCWlmIChyZXRjb2RlKSB7CisJCQlkcm1fY2xvc2VfaGVscGVyKGZpbHApOwor
+CQkJZ290byBlcnJfdW5kbzsKKwkJfQorCX0KKwlyZXR1cm4gMDsKKworZXJyX3VuZG86CisJZGV2
+LT5vcGVuX2NvdW50LS07CisJZHJtX21pbm9yX3JlbGVhc2UobWlub3IpOworCXJldHVybiByZXRj
+b2RlOworfQorRVhQT1JUX1NZTUJPTChkcm1fb3Blbik7CisKIHZvaWQgZHJtX2xhc3RjbG9zZShz
+dHJ1Y3QgZHJtX2RldmljZSAqIGRldikKIHsKIAlEUk1fREVCVUcoIlxuIik7Ci0tIAoyLjIwLjEK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
