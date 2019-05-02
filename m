@@ -1,32 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602701142A
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 09:32:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 063AB1146A
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 09:43:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6169889256;
-	Thu,  2 May 2019 07:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8CB8929D;
+	Thu,  2 May 2019 07:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5003D89256
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 07:32:09 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 16424439-1500050 for multiple; Thu, 02 May 2019 08:32:03 +0100
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9DF8929D
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 07:43:26 +0000 (UTC)
+X-Originating-IP: 90.88.149.145
+Received: from localhost (aaubervilliers-681-1-29-145.w90-88.abo.wanadoo.fr
+ [90.88.149.145]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id A683E1C0016;
+ Thu,  2 May 2019 07:43:21 +0000 (UTC)
+Date: Thu, 2 May 2019 09:43:21 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Claudiu.Beznea@microchip.com
+Subject: Re: [RESEND][PATCH v3 6/6] drm/atmel-hclcdc: revert shift by 8
+Message-ID: <20190502074321.6g26negwuqdjswrx@flea>
+References: <1556195748-11106-1-git-send-email-claudiu.beznea@microchip.com>
+ <1556195748-11106-7-git-send-email-claudiu.beznea@microchip.com>
 MIME-Version: 1.0
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190502072727.32159-1-daniel.vetter@ffwll.ch>
-References: <20190502072727.32159-1-daniel.vetter@ffwll.ch>
-Message-ID: <155678232263.9023.1801355344268449244@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH] drm: Some ocd in drm_file.c
-Date: Thu, 02 May 2019 08:32:02 +0100
+In-Reply-To: <1556195748-11106-7-git-send-email-claudiu.beznea@microchip.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,22 +40,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, alexandre.belloni@bootlin.com,
+ bbrezillon@kernel.org, airlied@linux.ie, Nicolas.Ferre@microchip.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ludovic.Desroches@microchip.com, thierry.reding@gmail.com,
+ lee.jones@linaro.org, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============2041288162=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBEYW5pZWwgVmV0dGVyICgyMDE5LTA1LTAyIDA4OjI3OjI3KQo+ICtzdGF0aWMgaW50
-IGRybV9sZWdhY3lfc2V0dXAoc3RydWN0IGRybV9kZXZpY2UgKiBkZXYpCj4gK3sKPiArICAgICAg
-IGludCByZXQ7Cj4gKwo+ICsgICAgICAgaWYgKGRldi0+ZHJpdmVyLT5maXJzdG9wZW4gJiYKPiAr
-ICAgICAgICAgICBkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX0xFR0FDWSkpIHsK
-PiArICAgICAgICAgICAgICAgcmV0ID0gZGV2LT5kcml2ZXItPmZpcnN0b3BlbihkZXYpOwo+ICsg
-ICAgICAgICAgICAgICBpZiAocmV0ICE9IDApCj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0
-dXJuIHJldDsKPiArICAgICAgIH0KCkRpZCBhaXJsaWVkIGxhbmQgaGlzIHBhdGNoIHRvIG1vdmUg
-bGVnYWN5IHRvIGEgc2VwYXJhdGUgY29tcGlsYXRpb24KdW5pdD8gSWYgc28sIHdlIGNvdWxkIG1v
-dmUgdGhpcyBhd2F5IGFuZCB0aGUgY29tcGlsZXIgd291bGQgaGF2ZSBhIGZpZWxkCmRheSBzaW1w
-bGlmeWluZyBkcm1fb3BlbigpLgotQ2hyaXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============2041288162==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="6uagg5yh6vlrxpcb"
+Content-Disposition: inline
+
+
+--6uagg5yh6vlrxpcb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Apr 25, 2019 at 12:36:39PM +0000, Claudiu.Beznea@microchip.com wrote:
+> From: Claudiu Beznea <claudiu.beznea@microchip.com>
+>
+> Revert shift by 8 of state->base.alpha. This introduced regresion
+> on planes.
+>
+> Fixes: 7f73c10b256b ("drm/atmel-hclcdc: Convert to the new generic alpha property")
+> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+
+Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--6uagg5yh6vlrxpcb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXMqfmQAKCRDj7w1vZxhR
+xcseAP4vdJgH1hul/wM47RFdoRnyzZFVdLXER2Iuq1hWJ+PK0gEAtTag2QpyiY56
+rGojbjlWkUYDM93h+BP6r0Fj5J5+4Q0=
+=yTPE
+-----END PGP SIGNATURE-----
+
+--6uagg5yh6vlrxpcb--
+
+--===============2041288162==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2041288162==--
