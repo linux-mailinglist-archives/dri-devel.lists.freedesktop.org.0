@@ -1,103 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D610012829
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 08:55:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 044B1121DC
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 20:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5093A8961E;
-	Fri,  3 May 2019 06:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0440B897CD;
+	Thu,  2 May 2019 18:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM05-BY2-obe.outbound.protection.outlook.com
- (mail-eopbgr710128.outbound.protection.outlook.com [40.107.71.128])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50309897D0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 18:15:18 +0000 (UTC)
-Received: from DM5PR13CA0023.namprd13.prod.outlook.com (2603:10b6:3:23::33) by
- DM5PR13MB1402.namprd13.prod.outlook.com (2603:10b6:3:124::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.9; Thu, 2 May 2019 18:15:13 +0000
-Received: from CY1NAM02FT045.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::207) by DM5PR13CA0023.outlook.office365.com
- (2603:10b6:3:23::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1856.6 via Frontend
- Transport; Thu, 2 May 2019 18:15:13 +0000
-Received-SPF: PermError (protection.outlook.com: domain of sony.com used an
- invalid SPF mechanism)
-Received: from usculsndmail02v.am.sony.com (160.33.194.229) by
- CY1NAM02FT045.mail.protection.outlook.com (10.152.75.111) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.1856.11 via Frontend Transport; Thu, 2 May 2019 18:15:10 +0000
-Received: from usculsndmail12v.am.sony.com (usculsndmail12v.am.sony.com
- [146.215.230.103])
- by usculsndmail02v.am.sony.com (Sentrion-MTA-4.3.2/Sentrion-MTA-4.3.2) with
- ESMTP id x42IF8nt010260; Thu, 2 May 2019 18:15:08 GMT
-Received: from USCULXHUB07V.am.sony.com (usculxhub07v.am.sony.com
- [146.215.231.168])
- by usculsndmail12v.am.sony.com (Sentrion-MTA-4.3.2/Sentrion-MTA-4.3.2) with
- ESMTP id x42IF6Jm028842; Thu, 2 May 2019 18:15:06 GMT
-Received: from USCULXMSG01.am.sony.com ([fe80::b09d:6cb6:665e:d1b5]) by
- USCULXHUB07V.am.sony.com ([146.215.231.168]) with mapi id 14.03.0439.000;
- Thu, 2 May 2019 14:15:06 -0400
-From: <Tim.Bird@sony.com>
-To: <gregkh@linuxfoundation.org>, <brendanhiggins@google.com>
-Subject: RE: [PATCH v2 16/17] kernel/sysctl-test: Add null pointer test for
- sysctl.c:proc_dointvec()
-Thread-Topic: [PATCH v2 16/17] kernel/sysctl-test: Add null pointer test for
- sysctl.c:proc_dointvec()
-Thread-Index: AQHVAHJbh4bzAud+AEekHmLRH8eTgKZX75eAgAA1NbA=
-Date: Thu, 2 May 2019 18:14:53 +0000
-Message-ID: <ECADFF3FD767C149AD96A924E7EA6EAF9770A3A0@USCULXMSG01.am.sony.com>
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-17-brendanhiggins@google.com>
- <20190502110347.GE12416@kroah.com>
-In-Reply-To: <20190502110347.GE12416@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [146.215.228.6]
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 762AF897CD
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 18:27:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 2536F10A3444;
+ Thu,  2 May 2019 11:27:32 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id iNnVifLik6UJ; Thu,  2 May 2019 11:27:30 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 735FC10A343C;
+ Thu,  2 May 2019 11:27:30 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id BE0A12FE3AA9; Thu,  2 May 2019 11:27:29 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/4] drm/vc4: Allocate binner bo when starting to use
+ the V3D
+In-Reply-To: <5d8dadb34c9f845e21349253ff21c036c417f37a.camel@bootlin.com>
+References: <20190425122917.26536-1-paul.kocialkowski@bootlin.com>
+ <20190425122917.26536-5-paul.kocialkowski@bootlin.com>
+ <87tvemj80z.fsf@anholt.net>
+ <5d8dadb34c9f845e21349253ff21c036c417f37a.camel@bootlin.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Thu, 02 May 2019 11:27:29 -0700
+Message-ID: <87k1f8ww32.fsf@anholt.net>
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:160.33.194.229; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10019020)(1496009)(376002)(136003)(396003)(39860400002)(346002)(2980300002)(448002)(199004)(189003)(13464003)(72206003)(478600001)(47776003)(46406003)(37786003)(33656002)(97756001)(86362001)(70206006)(5660300002)(70586007)(356004)(6666004)(102836004)(186003)(426003)(11346002)(446003)(336012)(26005)(476003)(66066001)(55016002)(76176011)(7696005)(229853002)(8676002)(126002)(55846006)(85326001)(246002)(86152003)(8746002)(8936002)(486006)(50466002)(6246003)(7406005)(7416002)(4326008)(6116002)(3846002)(2906002)(110136005)(54906003)(2876002)(316002)(7736002)(305945005)(23726003)(5001870100001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR13MB1402; H:usculsndmail02v.am.sony.com;
- FPR:; SPF:PermError; LANG:en; PTR:mail.sonyusa.com,mail02.sonyusa.com; A:1;
- MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f2927ae1-d49f-4bad-60b8-08d6cf2a1ea6
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
- SRVR:DM5PR13MB1402; 
-X-MS-TrafficTypeDiagnostic: DM5PR13MB1402:
-X-Microsoft-Antispam-PRVS: <DM5PR13MB140230E0A68E41CAF530C442FD340@DM5PR13MB1402.namprd13.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-Forefront-PRVS: 0025434D2D
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: bU7dXAdMkBInmgFf3lbIAW/yrfjtPBT7xmHmRhPy+u/F81wqySYLneMKTgJ9uy6f0YnZlYzBIkUsJAFTKMvemgB8r0n8PpNut2dmxJyH0Tk3YniGZd66ERVNzNrefJVodv/kWUa6hgaki3mMtJp344RiOE+WDa1J6M1g8Xj9npIFmFbrKiNIqwy1kXQ1Nos1+jmUPPhdwmrCrUM652L4NDdpkYmrbJHGyo9Ki1uRlPub4F9xawbOv81NFQPbIr5jHTyV64qs0ySjS1hcXMVutCtRZYsHhbYXhA/h75upZypux1FfLor+rwCD2yUnL3L99DmemLALTzZurd+QM2IHPlRwBxUAIqwKyaM/GkcGTDxtfN/V3xavfSUHvudrqzxUZr4qoNFcRzjn8zuSDnhx4cCFFWZq6LryN47KBRJZgiU=
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2019 18:15:10.9314 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2927ae1-d49f-4bad-60b8-08d6cf2a1ea6
-X-MS-Exchange-CrossTenant-Id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=66c65d8a-9158-4521-a2d8-664963db48e4; Ip=[160.33.194.229];
- Helo=[usculsndmail02v.am.sony.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR13MB1402
-X-Mailman-Approved-At: Fri, 03 May 2019 06:54:46 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Sony.onmicrosoft.com; 
- s=selector1-Sony-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iu+qU7j1g4e0qKYY8NI+jYs8IDMeXiI9rKB2912aQxk=;
- b=RUlxFd43z0o0UbNfcJc6XxkFUNZRjbE6rDjHopszHC++6umPBCdj0bHYmEu7/iA8OAlvWwEHPLv4Yg1CRE6zRz/uncBnYwU/smDnizFcPa8KTi/iq744WUooeJBhZ48XuxmeUwYKfjzNGNs1IeBdyoq+75fOWCNe+LpZq2kMfXQ=
-X-Mailman-Original-Authentication-Results: spf=permerror (sender IP is
- 160.33.194.229)
- smtp.mailfrom=sony.com; linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=sony.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,48 +51,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
- dri-devel@lists.freedesktop.org, Alexander.Levin@microsoft.com,
- mpe@ellerman.id.au, linux-kselftest@vger.kernel.org, shuah@kernel.org,
- linux-nvdimm@lists.01.org, frowand.list@gmail.com, knut.omang@oracle.com,
- kieran.bingham@ideasonboard.com, wfg@linux.intel.com, joel@jms.id.au,
- rientjes@google.com, yzaikin@google.com, khilman@baylibre.com,
- dan.carpenter@oracle.com, devicetree@vger.kernel.org,
- linux-kbuild@vger.kernel.org, jdike@addtoit.com, linux-um@lists.infradead.org,
- rostedt@goodmis.org, julia.lawall@lip6.fr, dan.j.williams@intel.com,
- kunit-dev@googlegroups.com, richard@nod.at, sboyd@kernel.org,
- linux-kernel@vger.kernel.org, mcgrof@kernel.org, keescook@google.com,
- linux-fsdevel@vger.kernel.org, logang@deltatee.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Eben Upton <eben@raspberrypi.org>
+Content-Type: multipart/mixed; boundary="===============2135530335=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cgo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4gRnJvbTogR3JlZyBLSCAKPiAKPiBPbiBX
-ZWQsIE1heSAwMSwgMjAxOSBhdCAwNDowMToyNVBNIC0wNzAwLCBCcmVuZGFuIEhpZ2dpbnMgd3Jv
-dGU6Cj4gPiBGcm9tOiBJdXJpaSBaYWlraW4gPHl6YWlraW5AZ29vZ2xlLmNvbT4KPiA+Cj4gPiBL
-VW5pdCB0ZXN0cyBmb3IgaW5pdGlhbGl6ZWQgZGF0YSBiZWhhdmlvciBvZiBwcm9jX2RvaW50dmVj
-IHRoYXQgaXMKPiA+IGV4cGxpY2l0bHkgY2hlY2tlZCBpbiB0aGUgY29kZS4gSW5jbHVkZXMgYmFz
-aWMgcGFyc2luZyB0ZXN0cyBpbmNsdWRpbmcKPiA+IGludCBtaW4vbWF4IG92ZXJmbG93Lgo+ID4K
-PiA+IFNpZ25lZC1vZmYtYnk6IEl1cmlpIFphaWtpbiA8eXphaWtpbkBnb29nbGUuY29tPgo+ID4g
-U2lnbmVkLW9mZi1ieTogQnJlbmRhbiBIaWdnaW5zIDxicmVuZGFuaGlnZ2luc0Bnb29nbGUuY29t
-Pgo+ID4gLS0tCj4gPiAga2VybmVsL01ha2VmaWxlICAgICAgfCAgIDIgKwo+ID4gIGtlcm5lbC9z
-eXNjdGwtdGVzdC5jIHwgMjkyCj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKwo+ID4gIGxpYi9LY29uZmlnLmRlYnVnICAgIHwgICA2ICsKPiA+ICAzIGZpbGVzIGNo
-YW5nZWQsIDMwMCBpbnNlcnRpb25zKCspCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGtlcm5lbC9z
-eXNjdGwtdGVzdC5jCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2tlcm5lbC9NYWtlZmlsZSBiL2tlcm5l
-bC9NYWtlZmlsZQo+ID4gaW5kZXggNmM1N2U3ODgxN2RhZC4uYzgxYTg5NzZiNmE0YiAxMDA2NDQK
-PiA+IC0tLSBhL2tlcm5lbC9NYWtlZmlsZQo+ID4gKysrIGIva2VybmVsL01ha2VmaWxlCj4gPiBA
-QCAtMTEyLDYgKzExMiw4IEBAIG9iai0kKENPTkZJR19IQVNfSU9NRU0pICs9IGlvbWVtLm8KPiA+
-ICBvYmotJChDT05GSUdfWk9ORV9ERVZJQ0UpICs9IG1lbXJlbWFwLm8KPiA+ICBvYmotJChDT05G
-SUdfUlNFUSkgKz0gcnNlcS5vCj4gPgo+ID4gK29iai0kKENPTkZJR19TWVNDVExfS1VOSVRfVEVT
-VCkgKz0gc3lzY3RsLXRlc3Qubwo+IAo+IFlvdSBhcmUgZ29pbmcgdG8gaGF2ZSB0byBoYXZlIGEg
-InN0YW5kYXJkIiBuYW1pbmcgc2NoZW1lIGZvciB0ZXN0Cj4gbW9kdWxlcywgYXJlIHlvdSBnb2lu
-ZyB0byByZWNvbW1lbmQgImZvby10ZXN0IiBvdmVyICJ0ZXN0LWZvbyI/ICBJZiBzbywKPiB0aGF0
-J3MgZmluZSwgd2Ugc2hvdWxkIGp1c3QgYmUgY29uc2lzdGFudCBhbmQgZG9jdW1lbnQgaXQgc29t
-ZXdoZXJlLgo+IAo+IFBlcnNvbmFsbHksIEknZCBwcmVmZXIgInRlc3QtZm9vIiwgYnV0IHRoYXQn
-cyBqdXN0IG1lLCBuYW1pbmcgaXMgaGFyZC4uLgoKTXkgcHJlZmVyZW5jZSB3b3VsZCBiZSAidGVz
-dC1mb28iIGFzIHdlbGwuICBKdXN0IG15IDIgY2VudHMuCiAtLSBUaW0KCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============2135530335==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Paul Kocialkowski <paul.kocialkowski@bootlin.com> writes:
+
+> Hi,
+>
+> On Thu, 2019-04-25 at 10:42 -0700, Eric Anholt wrote:
+>> Paul Kocialkowski <paul.kocialkowski@bootlin.com> writes:
+>>=20
+>> > The binner BO is not required until the V3D is in use, so avoid
+>> > allocating it at probe and do it on the first non-dumb BO allocation.
+>> >=20
+>> > Keep track of which clients are using the V3D and liberate the buffer
+>> > when there is none left, using a kref. Protect the logic with a
+>> > mutex to avoid race conditions.
+>> >=20
+>> > The binner BO is created at the time of the first render ioctl and is
+>> > destroyed when there is no client and no exec job using it left.
+>> >=20
+>> > The Out-Of-Memory (OOM) interrupt also gets some tweaking, to avoid
+>> > enabling it before having allocated a binner bo.
+>> >=20
+>> > We also want to keep the BO alive during runtime suspend/resume to avo=
+id
+>> > failing to allocate it at resume. This happens when the CMA pool is
+>> > full at that point and results in a hard crash.
+>> >=20
+>> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>> > ---
+>> >  drivers/gpu/drm/vc4/vc4_bo.c  | 33 +++++++++++++++++++-
+>> >  drivers/gpu/drm/vc4/vc4_drv.c |  6 ++++
+>> >  drivers/gpu/drm/vc4/vc4_drv.h | 14 +++++++++
+>> >  drivers/gpu/drm/vc4/vc4_gem.c | 13 ++++++++
+>> >  drivers/gpu/drm/vc4/vc4_irq.c | 21 +++++++++----
+>> >  drivers/gpu/drm/vc4/vc4_v3d.c | 58 +++++++++++++++++++++++++++--------
+>> >  6 files changed, 125 insertions(+), 20 deletions(-)
+>> >=20
+>> > diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo=
+.c
+>> > index 88ebd681d7eb..2b3ec5926fe2 100644
+>> > --- a/drivers/gpu/drm/vc4/vc4_bo.c
+>> > +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+>> > @@ -799,13 +799,38 @@ vc4_prime_import_sg_table(struct drm_device *dev,
+>> >  	return obj;
+>> >  }
+>> >=20=20
+>> > +static int vc4_grab_bin_bo(struct vc4_dev *vc4, struct vc4_file *vc4f=
+ile)
+>> > +{
+>> > +	int ret;
+>> > +
+>> > +	if (!vc4->v3d)
+>> > +		return -ENODEV;
+>> > +
+>> > +	if (vc4file->bin_bo_used)
+>> > +		return 0;
+>> > +
+>> > +	ret =3D vc4_v3d_bin_bo_get(vc4);
+>> > +	if (ret)
+>> > +		return ret;
+>> > +
+>> > +	vc4file->bin_bo_used =3D true;
+>>=20
+>> I think I found one last race.  Multiple threads could be in an ioctl
+>> trying to grab the bin BO at the same time (while this is only during
+>> app startup, since the fd only needs to get the ref once, it's
+>> particularly plausible given that allocating the bin BO is slow).  I
+>> think if you replace this line with:
+>>=20
+>> 	mutex_lock(&vc4->bin_bo_lock);
+>>         if (vc4file->bin_bo_used) {
+>>         	mutex_unlock(&vc4->bin_bo_lock);
+>>                 vc4_v3d_bin_bo_put(vc4);
+>>         } else {
+>>         	vc4file->bin_bo_used =3D true;
+>>         	mutex_unlock(&vc4->bin_bo_lock);
+>>         }
+>
+> Huh, very good catch once again, thanks! It took me some time to grasp
+> this one, but as far as I understand, the risk is that we could ref our
+> bin bo twice (although it would only be allocated once) since
+> bin_bo_used is not protected.
+>
+> I'd like to suggest another solution, which would avoid re-locking and
+> doing an extra put if we got an extra ref: adding a "bool *used"
+> argument to vc4_v3d_bin_bo_get and, which only gets dereferenced with
+> the bin_bo lock held. Then we can skip obtaining a new reference if
+> (used && *used) in vc4_v3d_bin_bo_get.
+>
+> So we could pass a pointer to vc4file->bin_bo_used for vc4_grab_bin_bo
+> and exec->bin_bo_used for the exec case (where there is no such issue
+> since we'll only ever try to _get the bin bo once there anyway).
+>
+> What do you think?
+
+I like it!
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlzLNpEACgkQtdYpNtH8
+nuhALRAApZt7IqOa5t+ZSGZt1v8iX5qpd40P+ssx8Iq7L52Rd3OYItwCk38Mcxla
+UutDWr0LMMNDr9AkXvFOw4gR3xR2Tjzoi5mggR25hZCVB92xECXpLUc+HkH64mxk
+VbROrGdV5v4qlnEu1s0AwyUHsDdb+lr5jMS3OqWvYTHYCMX4Bft2HoXENypQD+MQ
+ZKdJXDnDLlR2uPqPfpIQJbsaHOzRufq4JdgokxEaHaOF3sAUcQbekGPY5ZgZF6uZ
+IZ0iI7mHMUt245ewIjpZrvWZjB+raqDJdzQQtorxwfc2EGJHhKQILQTJ2zC47AqU
+Mb7r6jeU6zMh4tupXopo+OpURZJA28fUqkE9+yyqjrPDeh2trJgQbfEEMuK3oREc
+NXmSwXWuW6zCk0xgr3QrbfCjHbMRSeJcKdSg0i/6+MkGoinWzBjE1KDRFtjgYQVM
+ykXIDATYVzV0lTBYtSk3/Cgv3Gk0sGJ5J149xVaUqnAuCfbrtVN5BV5TipE3N6GX
+9U5MybuD8MkywvkRrnpCsupUGY8tB1QJfZGo+2nuCiFfcCZvTq17bDwrMa1CW/Hc
+yJZ3gnq91xOsCckqKD683cT58YohdIKPu7QBLSMJi3SAq8k1eHNBmLCry5etPZY+
+ux7Kd48np0r/N0ja6oz+mZlLcxoj+gCP3hxnpBQMSHUEBcEfmGw=
+=qPta
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============2135530335==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2135530335==--
