@@ -1,28 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486CD118F7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 14:25:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AD71190B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 14:30:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A94E3890ED;
-	Thu,  2 May 2019 12:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F877890BA;
+	Thu,  2 May 2019 12:30:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFB55890BA;
- Thu,  2 May 2019 12:25:33 +0000 (UTC)
-Received: from localhost (aaubervilliers-681-1-29-145.w90-88.abo.wanadoo.fr
- [90.88.149.145]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay11.mail.gandi.net (Postfix) with ESMTPSA id 27BD710000F;
- Thu,  2 May 2019 12:25:29 +0000 (UTC)
-Date: Thu, 2 May 2019 14:25:29 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20190502122529.hguztj3kncaixe3d@flea>
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B6B890BA
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 12:30:23 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id AD5ED28E21
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 12:30:23 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id A06D528FD7; Thu,  2 May 2019 12:30:23 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203471] Tearing on Raven Ridge and RX560X PRIME setup even with
+ Vsync enabled
+Date: Thu, 02 May 2019 12:30:21 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: haxk612@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-203471-2300-HlWH0d66RP@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203471-2300@https.bugzilla.kernel.org/>
+References: <bug-203471-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: NeoMutt/20180716
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -35,82 +62,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1894564683=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1894564683==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wii2oos3wditb7pn"
-Content-Disposition: inline
-
-
---wii2oos3wditb7pn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Dave, Daniel,
-
-Here is a drm-misc fixes PR for 5.1.
-
-Thanks!
-Maxime
-
-drm-misc-fixes-2019-05-02:
-- One revert for QXL for a DRI3 breakage
-The following changes since commit c4cba44eeecab9d5ccd3dd2d5520a7d1e5be544f:
-
-  drm/bridge: dw-hdmi: fix SCDC configuration for ddc-i2c-bus (2019-04-25 10:38:21 +0200)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2019-05-02
-
-for you to fetch changes up to ab042b824c11502bd39abfdfd4c7f285347d483a:
-
-  Revert "drm/qxl: drop prime import/export callbacks" (2019-04-30 14:08:48 +0200)
-
-----------------------------------------------------------------
-- One revert for QXL for a DRI3 breakage
-
-----------------------------------------------------------------
-Gerd Hoffmann (1):
-      Revert "drm/qxl: drop prime import/export callbacks"
-
- drivers/gpu/drm/qxl/qxl_drv.c   |  4 ++++
- drivers/gpu/drm/qxl/qxl_prime.c | 12 ++++++++++++
- 2 files changed, 16 insertions(+)
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---wii2oos3wditb7pn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXMrhuQAKCRDj7w1vZxhR
-xfrjAP9cdoabdNJf+KI8c7jLGZd+tChRwW4ZILZtd8m9Zy06zgD9G+9oKSRKfUKK
-Q4tT5mTD2Wd4kHPomNVHjxSzhJWmJQI=
-=Mnep
------END PGP SIGNATURE-----
-
---wii2oos3wditb7pn--
-
---===============1894564683==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1894564683==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM0NzEKCi0tLSBD
+b21tZW50ICM0IGZyb20gSGF4azIwIChoYXhrNjEyQGdtYWlsLmNvbSkgLS0tCkNyZWF0ZWQgYXR0
+YWNobWVudCAyODI1ODUKICAtLT4gaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL2F0dGFjaG1l
+bnQuY2dpP2lkPTI4MjU4NSZhY3Rpb249ZWRpdApYb3JnIGxvZwoKLS0gCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
