@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2026E1242F
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 23:36:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B5512450
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 23:47:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4726089842;
-	Thu,  2 May 2019 21:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F09089872;
+	Thu,  2 May 2019 21:47:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FCDE89834
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 21:36:07 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id f23so3503205otl.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2019 14:36:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=QOVychIUmtDG8Tll/ecV8whoYD0pZhfgpjrLj+GI7lA=;
- b=Cuu7QONe27ky1jNVOnUGB69Y9NWlLaCJ4tOd97huZtzbstM9QkIzGrr0Q89xTPbGVF
- +JpeotZ8gosJaRWbFOQyHJsqlAcY1N1zJvwh0CQsLx1AhgQIJnoPIOeeos0RKGIi0pVY
- aeH/gX++RSLn2pALghpVX085ZKyK9WHvY1HiBiQQecRSb/guNw47xQw+um9lMEGpcwPm
- wqS/buzdrOSe1/xx2bt5VnASD/Hh8m2RSGh+GXDDqN8fjsZ+YLMXmy+6DpmQpB1zWQbA
- 8N5Hm/j2RK0MBFDeLRhWNDvOjymk6fR/YRTDgLD+DXOVEy1lbfv6GQ3iArVvcNOnKdnh
- JsOA==
-X-Gm-Message-State: APjAAAWPa/yGdgCy9j9CGBcwPbUe8KcAKjHzZGUzAFkUdKgVT0Ex/qfM
- mpV2cE7psbxcYFY10LDevg==
-X-Google-Smtp-Source: APXvYqzIKpF2SpUiGqboXp/KmEVvROVVZj0uRCj2SNazB/0BEXuociHSUGYQnO9Q7HpLJFsgEabH2g==
-X-Received: by 2002:a9d:7d06:: with SMTP id v6mr4009955otn.187.1556832966725; 
- Thu, 02 May 2019 14:36:06 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net.
- [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id n185sm213641oif.8.2019.05.02.14.36.05
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 02 May 2019 14:36:06 -0700 (PDT)
-Date: Thu, 2 May 2019 16:36:05 -0500
-From: Rob Herring <robh@kernel.org>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH 1/2] drm/panel: simple: Add FriendlyELEC HD702E 800x1280
- LCD panel
-Message-ID: <20190502213605.GA20606@bogus>
-References: <20190501121448.3812-1-jagan@amarulasolutions.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E80F889885
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 21:47:46 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E46257215A; Thu,  2 May 2019 21:47:46 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
+Date: Thu, 02 May 2019 21:47:47 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109345-502-XVfZki722P@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
+References: <bug-109345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190501121448.3812-1-jagan@amarulasolutions.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,32 +52,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>, linux-amarula@amarulasolutions.com,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1596844481=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAgMSBNYXkgMjAxOSAxNzo0NDo0NyArMDUzMCwgSmFnYW4gVGVraSB3cm90ZToKPiBI
-RDcwMkUgbGNkIGlzIEZyaWVuZGx5RUxFQyBkZXZlbG9wZWQgZURQIExDRCBwYW5lbCB3aXRoIDgw
-MHgxMjgwCj4gcmVzb2x1dGlvbi4gSXQgaGFzIGJ1aWx0IGluIEdvb2RpeCwgR1Q5MjcxIGNhcHRp
-dmUgdG91Y2hzY3JlZW4KPiB3aXRoIGJhY2tsaWdodCBhZGp1c3RhYmxlIHZpYSBQV00uCj4gCj4g
-QWRkIHN1cHBvcnQgZm9yIGl0Lgo+IAo+IENjOiBUaGllcnJ5IFJlZGluZyA8dGhpZXJyeS5yZWRp
-bmdAZ21haWwuY29tPgo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6
-IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPgo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gU2ln
-bmVkLW9mZi1ieTogSmFnYW4gVGVraSA8amFnYW5AYW1hcnVsYXNvbHV0aW9ucy5jb20+Cj4gLS0t
-Cj4gIC4uLi9kaXNwbGF5L3BhbmVsL2ZyaWVuZGx5YXJtLGhkNzAyZS50eHQgICAgICB8IDI5ICsr
-KysrKysrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNpbXBsZS5j
-ICAgICAgICAgIHwgMjYgKysrKysrKysrKysrKysrKysKPiAgMiBmaWxlcyBjaGFuZ2VkLCA1NSBp
-bnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9mcmllbmRseWFybSxoZDcwMmUudHh0Cj4gCgpSZXZp
-ZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1596844481==
+Content-Type: multipart/alternative; boundary="15568336662.2eEeA9.31173"
+Content-Transfer-Encoding: 7bit
+
+
+--15568336662.2eEeA9.31173
+Date: Thu, 2 May 2019 21:47:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
+
+--- Comment #26 from Christian Zigotzky <chzigotzky@xenosoft.de> ---
+(In reply to Michel D=C3=A4nzer from comment #25)
+> (In reply to Christian Zigotzky from comment #24)
+> > With which good and bad commit should I start bisecting?
+>=20
+> Good: c76cd634eb5bfd497617ea224a54a03b545c8c4d
+> Bad: 4971f090aa7f6ce5daa094ce4334f6618f93a7eb
+
+Hi Michel,
+
+Thanks a lot for your help! :-)
+
+I started bisecting today.
+
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+drm_test
+
+cd drm_test
+
+git bisect start
+
+git bisect good c76cd634eb5bfd497617ea224a54a03b545c8c4d
+
+git bisect bad 4971f090aa7f6ce5daa094ce4334f6618f93a7eb
+
+Output:
+
+Bisecting: 653 revisions left to test after this (roughly 10 steps)
+[2ac5e38ea4203852d6e99edd3cf11f044b0a409f] Merge drm/drm-next into
+drm-intel-next-queued
+
+---
+
+cp
+../linux-image-5.1-rc7-X1000_X5000/X5000_and_QEMU_e5500/src/cyrus-5.1-rc7.c=
+onfig
+.config
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: http://www.xenosoft.de/uImage-drm1
+
+@Allan (acefnq/ace)
+Please test this kernel with the two installed graphics cards.
+
+Thanks,
+Christian
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568336662.2eEeA9.31173
+Date: Thu, 2 May 2019 21:47:46 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c26">Comme=
+nt # 26</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chzigotzky&#64;xenosoft.de" title=3D"Christian Zigotzky &lt;chzigotzky&#64;=
+xenosoft.de&gt;"> <span class=3D"fn">Christian Zigotzky</span></a>
+</span></b>
+        <pre>(In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi?i=
+d=3D109345#c25">comment #25</a>)
+<span class=3D"quote">&gt; (In reply to Christian Zigotzky from <a href=3D"=
+show_bug.cgi?id=3D109345#c24">comment #24</a>)
+&gt; &gt; With which good and bad commit should I start bisecting?
+&gt;=20
+&gt; Good: c76cd634eb5bfd497617ea224a54a03b545c8c4d
+&gt; Bad: 4971f090aa7f6ce5daa094ce4334f6618f93a7eb</span >
+
+Hi Michel,
+
+Thanks a lot for your help! :-)
+
+I started bisecting today.
+
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+drm_test
+
+cd drm_test
+
+git bisect start
+
+git bisect good c76cd634eb5bfd497617ea224a54a03b545c8c4d
+
+git bisect bad 4971f090aa7f6ce5daa094ce4334f6618f93a7eb
+
+Output:
+
+Bisecting: 653 revisions left to test after this (roughly 10 steps)
+[2ac5e38ea4203852d6e99edd3cf11f044b0a409f] Merge drm/drm-next into
+drm-intel-next-queued
+
+---
+
+cp
+../linux-image-5.1-rc7-X1000_X5000/X5000_and_QEMU_e5500/src/cyrus-5.1-rc7.c=
+onfig
+.config
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: <a href=3D"http://www.xenosoft.de/uImage-drm1">http://www.xenosof=
+t.de/uImage-drm1</a>
+
+&#64;Allan (acefnq/ace)
+Please test this kernel with the two installed graphics cards.
+
+Thanks,
+Christian</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568336662.2eEeA9.31173--
+
+--===============1596844481==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1596844481==--
