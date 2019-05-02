@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100D4123A9
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 22:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DAB9123C4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 22:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE7689870;
-	Thu,  2 May 2019 20:52:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B47F897FD;
+	Thu,  2 May 2019 20:59:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6126D89870
- for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 20:52:47 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l2so5202222wrb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2019 13:52:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h1Oxk4UYdC4lygiC7PghTgnV7KW16QuABt+QpGWy6Ks=;
- b=Kt5h4Rv8BelyLZYX+CvjgGNSgz1KnNy0RF+MGjKV8fDwQkqyucTccZn87ImzV9gRqu
- cQujCKsxD7lLfVC7sg/LtKlrZAymdOCm6ISzDHKteeoQ5gGHk9A9mfCMC2RtUg5mfqx2
- iy1Zw+0lWo3Jt6fucYH7F6cFnjD2hVi5GwFlqOdHRitloREGNnAy5UAS0iD3hzA0T3Xe
- H5Y/tVsQWICqpvs/7wXvmuAtbmk76QFeyLjgaPaSVIF5Zn+oDYo1+8f8pJJQxbiJGYmb
- jMJ1hYOHn6Spp5pRX8GxWCfGqbbLlRBtL8ECfe4DdQYnnXW86cODXW6gKK8hBRWvHSjv
- Amsw==
-X-Gm-Message-State: APjAAAXAN5yTxv8bchsAyu9bFK2dH8UWldGZFdY3zw2wloI8+rTWzKGO
- K6BiJCh9xiI4B4f+71yoy4fsG+IMjR4NX3YdO52PBw==
-X-Google-Smtp-Source: APXvYqxE3EqFsaHEnprUyZaM4g6B4DVDzSbBMdE2ZY73wVD6Bim+KQa8z2P4Rv87Uw8/uVuVyXt0heOA/5Hr/9ZZC5E=
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr4299080wrv.253.1556830365851; 
- Thu, 02 May 2019 13:52:45 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C7B689885
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 20:59:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 568CE7215A; Thu,  2 May 2019 20:59:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108892] kernel BUG at kernel/time/timer.c:1137 in
+ drm_sched_job_finish [gpu_sched]
+Date: Thu, 02 May 2019 20:59:44 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: hvtaifwkbgefbaei@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-108892-502-ZUocm4cnqc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108892-502@http.bugs.freedesktop.org/>
+References: <bug-108892-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190502180346.4769-1-john.stultz@linaro.org>
- <CAOvepGk_0UTnXztVgXh6qYGBF_3aQFBqs4HUpwhmfMV0G8TMNQ@mail.gmail.com>
-In-Reply-To: <CAOvepGk_0UTnXztVgXh6qYGBF_3aQFBqs4HUpwhmfMV0G8TMNQ@mail.gmail.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Thu, 2 May 2019 13:52:33 -0700
-Message-ID: <CALAqxLXQV4jJpcV5VgECXQR5rw288v7LvBjEvzKm5eJb7oqPjA@mail.gmail.com>
-Subject: Re: [RFC][PATCH 0/3] mesa: Initial build fixups for AOSP/master
-To: Greg Hartman <ghartman@google.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=h1Oxk4UYdC4lygiC7PghTgnV7KW16QuABt+QpGWy6Ks=;
- b=rRwqaBTgCbQYerUN2DI69gUSpOfO1pZYUNilINzZVHxtrGbq8wUR9zUew26lzfTJRd
- ijzivptXe8DWswE527i0gKuiHrmLWK3px5rYzw00esyli5TohoytagOcUYrsJJPIKmNw
- WeB2wlvQaMxQn54qbTixNk0+orxqd3RDmfAPvIggcq+mzcJsOVQSCCMsFAXGkpFoB8yh
- KX5T8uvdttffh7QycG1TgxkFkiNQepoLOPH42eF1sryDYx7oH5cEbFT9du5CKdeZNzjf
- I9/1YTRsxrYrGgCDeVXursrMCa4x9kqhejdSx2QI+IbfSsWwpZGcxu77j7UGXirz/GIx
- bpXA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,32 +53,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Amit Pundir <amit.pundir@linaro.org>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- Alistair Strachan <astrachan@google.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Dan Willemsen <dwillemsen@google.com>, Jason Ekstrand <jason@jlekstrand.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0094484909=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMiwgMjAxOSBhdCAxOjIwIFBNIEdyZWcgSGFydG1hbiA8Z2hhcnRtYW5AZ29v
-Z2xlLmNvbT4gd3JvdGU6Cj4KPiArIGR3aWxsZW1zZW5AZ29vZ2xlLmNvbSBiYWNrZ3JvdW5kIG9u
-IHRoZSBidWlsZCBjaGFuZ2VzLgo+Cj4gVGhhbmtzIGZvciBkb2luZyB0aGlzLiBJdCB3aWxsIGJl
-IGhlbHBmdWwgdG8gaGF2ZSBmaXhlcyB0byBtYWtlIHRoaXMgYnVpbGQgYWdhaW4uCj4KCldlJ3Jl
-IHN0aWxsIGEgYml0IG91dCBmcm9tIGdldHRpbmcgbWFzdGVyIHRvIGJ1aWxkIHcvIHRoZSBjdXJy
-ZW50IEFPU1AgdHJlZS4KCldlIG5lZWQgc29sdXRpb25zIGZvciB0aGUgeGdldHRleHQgYW5kIHRo
-ZSBweXRob24tbWFrbyB1c2FnZS4gIFRoZQpjdXJyZW50IEFPU1AgdHJlZSBjaGVja3MgaW4gcHJl
-YnVpbHQtaW50ZXJtZWRpYXRlcyB0aGF0IGFyZSBoYW5kCmdlbmVyYXRlZCAod2hpY2ggaXMgbWVz
-c3kgdG8gcmUtY3JlYXRlKSwgc28gSSdtIHRoaW5raW5nIHdlIHNob3VsZApleHRlcm5hbGl6ZSB0
-aGUgaW50ZXJtZWRpYXRlIHNvdXJjZSBnZW5lcmF0aW9uIGludG8gc29tZXRoaW5nIGxpa2UgYQpz
-Y3JpcHQsIHdoaWNoIHRoZSBidWlsZCBzeXN0ZW0gY2FuIGNhbGwgaW4gdGhlIG5vcm1hbCBjYXNl
-LCBvciB0aGF0IHdlCmNhbiBydW4gaW5kZXBlbmRlbnRseSBvbiBhIGhvc3QgdG8gZ2VuZXJhdGUg
-cHJlYnVpbHQgaW50ZXJtZWRpYXRlCnNvdXJjZSBmaWxlcyB0aGF0IGNhbiBiZSBjaGVja2VkIGlu
-dG8gdGhlIEFPU1AgdHJlZS4KCkJ1dCBJIHdhbnRlZCB0byBnZXQgdGhlc2UgYmFzaWMgZml4ZXMg
-aW4gc28gaXRzIGVhc2llciB0byBoYXZlIHdvcmtpbmcKYmVmb3JlIGFuZCBhZnRlciB0cmVlcyB0
-byBjb21wYXJlIGFueSBzdWNoIGJ1aWxkIGNoYW5nZXMuCgp0aGFua3MKLWpvaG4KX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0094484909==
+Content-Type: multipart/alternative; boundary="15568307842.cA5498.27293"
+Content-Transfer-Encoding: 7bit
+
+
+--15568307842.cA5498.27293
+Date: Thu, 2 May 2019 20:59:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108892
+
+--- Comment #8 from Sami Farin <hvtaifwkbgefbaei@gmail.com> ---
+Created attachment 144130
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144130&action=3Dedit
+dmesg
+
+4.19.37 has this bug also.
+
+Graphics:  Device-1: Advanced Micro Devices [AMD/ATI] Lexa PRO [Radeon RX
+550/550X] driver: amdgpu v: kernel=20
+           Display: server: Fedora Project X.org 1.20.4 driver: amdgpu,ati
+unloaded: fbdev,modesetting,vesa=20
+           resolution: 3840x2160~60Hz=20
+           OpenGL: renderer: Radeon 550 Series (POLARIS12 DRM 3.27.0 4.19.3=
+8+
+LLVM 7.0.1) v: 4.5 Mesa 19.0.3
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568307842.cA5498.27293
+Date: Thu, 2 May 2019 20:59:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - kernel BUG at kernel/time/timer.c:1137 in drm_sched_job_f=
+inish [gpu_sched]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108892#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - kernel BUG at kernel/time/timer.c:1137 in drm_sched_job_f=
+inish [gpu_sched]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108892">bug 10889=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+hvtaifwkbgefbaei&#64;gmail.com" title=3D"Sami Farin &lt;hvtaifwkbgefbaei&#6=
+4;gmail.com&gt;"> <span class=3D"fn">Sami Farin</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144130=
+" name=3D"attach_144130" title=3D"dmesg">attachment 144130</a> <a href=3D"a=
+ttachment.cgi?id=3D144130&amp;action=3Dedit" title=3D"dmesg">[details]</a><=
+/span>
+dmesg
+
+4.19.37 has this bug also.
+
+Graphics:  Device-1: Advanced Micro Devices [AMD/ATI] Lexa PRO [Radeon RX
+550/550X] driver: amdgpu v: kernel=20
+           Display: server: Fedora Project X.org 1.20.4 driver: amdgpu,ati
+unloaded: fbdev,modesetting,vesa=20
+           resolution: 3840x2160~60Hz=20
+           OpenGL: renderer: Radeon 550 Series (POLARIS12 DRM 3.27.0 4.19.3=
+8+
+LLVM 7.0.1) v: 4.5 Mesa 19.0.3</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568307842.cA5498.27293--
+
+--===============0094484909==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0094484909==--
