@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F42911581
-	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 10:34:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66344115E4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 May 2019 10:59:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCAFB892C5;
-	Thu,  2 May 2019 08:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C9189306;
+	Thu,  2 May 2019 08:59:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E24892C5;
- Thu,  2 May 2019 08:34:36 +0000 (UTC)
-Received: from localhost (unknown [37.142.3.125])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2857820873;
- Thu,  2 May 2019 08:34:35 +0000 (UTC)
-Date: Thu, 2 May 2019 11:34:33 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Brian Welty <brian.welty@intel.com>
-Subject: Re: [RFC PATCH 0/5] cgroup support for GPU devices
-Message-ID: <20190502083433.GP7676@mtr-leonro.mtl.com>
-References: <20190501140438.9506-1-brian.welty@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BAE7089306
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 May 2019 08:59:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B6F197215A; Thu,  2 May 2019 08:59:55 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110411] GUI lock up for KVM guest in
+ drm_atomic_helper_commit_modeset_disables()
+Date: Thu, 02 May 2019 08:59:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/other
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dan@danny.cz
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110411-502-tDdUU1K1R9@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110411-502@http.bugs.freedesktop.org/>
+References: <bug-110411-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190501140438.9506-1-brian.welty@intel.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1556786076;
- bh=MQjRhogQLnzUq3Lldq3yF0nYV1BdOcxeJjuqAcrDwDs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SbgCz/Ciyhy9PYlonWt+ep9RVgw8J2IFnpExiZTS5DqSsrl7BV3EvScRoeQcunY8K
- gkHyue9SwLa/sINCO1qPNZEAsamW8wbTXuAttdzB52fzyO/zsBr82g7MzLfowj53gJ
- 4JRjWY9yKbREVMzC396iMWRTv9obSvTVIbdZHr+E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,91 +53,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Parav Pandit <parav@mellanox.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- dri-devel@lists.freedesktop.org, Michal Hocko <mhocko@kernel.org>,
- linux-mm@kvack.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Li Zefan <lizefan@huawei.com>, Vladimir Davydov <vdavydov.dev@gmail.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1540302939=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXkgMDEsIDIwMTkgYXQgMTA6MDQ6MzNBTSAtMDQwMCwgQnJpYW4gV2VsdHkgd3Jv
-dGU6Cj4gSW4gY29udGFpbmVyaXplZCBvciB2aXJ0dWFsaXplZCBlbnZpcm9ubWVudHMsIHRoZXJl
-IGlzIGRlc2lyZSB0byBoYXZlCj4gY29udHJvbHMgaW4gcGxhY2UgZm9yIHJlc291cmNlcyB0aGF0
-IGNhbiBiZSBjb25zdW1lZCBieSB1c2VycyBvZiBhIEdQVQo+IGRldmljZS4gIFRoaXMgUkZDIHBh
-dGNoIHNlcmllcyBwcm9wb3NlcyBhIGZyYW1ld29yayBmb3IgaW50ZWdyYXRpbmcKPiB1c2Ugb2Yg
-ZXhpc3RpbmcgY2dyb3VwIGNvbnRyb2xsZXJzIGludG8gZGV2aWNlIGRyaXZlcnMuCj4gVGhlIGk5
-MTUgZHJpdmVyIGlzIHVwZGF0ZWQgaW4gdGhpcyBzZXJpZXMgYXMgb3VyIHByaW1hcnkgdXNlIGNh
-c2UgdG8KPiBsZXZlcmFnZSB0aGlzIGZyYW1ld29yayBhbmQgdG8gc2VydmUgYXMgYW4gZXhhbXBs
-ZSBmb3IgZGlzY3Vzc2lvbi4KPgo+IFRoZSBwYXRjaCBzZXJpZXMgZW5hYmxlcyBkZXZpY2UgZHJp
-dmVycyB0byB1c2UgY2dyb3VwcyB0byBjb250cm9sIHRoZQo+IGZvbGxvd2luZyByZXNvdXJjZXMg
-d2l0aGluIGEgR1BVIChvciBvdGhlciBhY2NlbGVyYXRvciBkZXZpY2UpOgo+ICogIGNvbnRyb2wg
-YWxsb2NhdGlvbiBvZiBkZXZpY2UgbWVtb3J5IChyZXVzZSBvZiBtZW1jZykKCkNvdW50IHVzIChN
-ZWxsYW5veCkgdG9vLCBvdXIgUkRNQSBkZXZpY2VzIGFyZSBleHBvc2luZyBzcGVjaWFsIGFuZAps
-aW1pdGVkIGluIHNpemUgZGV2aWNlIG1lbW9yeSB0byB0aGUgdXNlcnMgYW5kIHdlIHdvdWxkIGxp
-a2UgdG8gcHJvdmlkZQphbiBvcHRpb24gdG8gdXNlIGNncm91cCB0byBjb250cm9sIGl0cyBleHBv
-c3VyZS4KCj4gYW5kIHdpdGggZnV0dXJlIHdvcmssIHdlIGNvdWxkIGV4dGVuZCB0bzoKPiAqICB0
-cmFjayBhbmQgY29udHJvbCBzaGFyZSBvZiBHUFUgdGltZSAocmV1c2Ugb2YgY3B1L2NwdWFjY3Qp
-Cj4gKiAgYXBwbHkgbWFzayBvZiBhbGxvd2VkIGV4ZWN1dGlvbiBlbmdpbmVzIChyZXVzZSBvZiBj
-cHVzZXRzKQo+Cj4gSW5zdGVhZCBvZiBpbnRyb2R1Y2luZyBhIG5ldyBjZ3JvdXAgc3Vic3lzdGVt
-IGZvciBHUFUgZGV2aWNlcywgYSBuZXcKPiBmcmFtZXdvcmsgaXMgcHJvcG9zZWQgdG8gYWxsb3cg
-ZGV2aWNlcyB0byByZWdpc3RlciB3aXRoIGV4aXN0aW5nIGNncm91cAo+IGNvbnRyb2xsZXJzLCB3
-aGljaCBjcmVhdGVzIHBlci1kZXZpY2UgY2dyb3VwX3N1YnN5c19zdGF0ZSB3aXRoaW4gdGhlCj4g
-Y2dyb3VwLiAgVGhpcyBnaXZlcyBkZXZpY2UgZHJpdmVycyB0aGVpciBvd24gcHJpdmF0ZSBjZ3Jv
-dXAgY29udHJvbHMKPiAoc3VjaCBhcyBtZW1vcnkgbGltaXRzIG9yIG90aGVyIHBhcmFtZXRlcnMp
-IHRvIGJlIGFwcGxpZWQgdG8gZGV2aWNlCj4gcmVzb3VyY2VzIGluc3RlYWQgb2YgaG9zdCBzeXN0
-ZW0gcmVzb3VyY2VzLgo+IERldmljZSBkcml2ZXJzIChHUFUgb3Igb3RoZXIpIGFyZSB0aGVuIGFi
-bGUgdG8gcmV1c2UgdGhlIGV4aXN0aW5nIGNncm91cAo+IGNvbnRyb2xzLCBpbnN0ZWFkIG9mIGlu
-dmVudGluZyBzaW1pbGFyIG9uZXMuCj4KPiBQZXItZGV2aWNlIGNvbnRyb2xzIHdvdWxkIGJlIGV4
-cG9zZWQgaW4gY2dyb3VwIGZpbGVzeXN0ZW0gYXM6Cj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4v
-PHN1YnN5c19uYW1lPi5kZXZpY2VzLzxkZXZfbmFtZT4vPHN1YnN5c19maWxlcz4KPiBzdWNoIGFz
-IChmb3IgZXhhbXBsZSk6Cj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4vbWVtb3J5LmRldmljZXMv
-PGRldl9uYW1lPi9tZW1vcnkubWF4Cj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4vbWVtb3J5LmRl
-dmljZXMvPGRldl9uYW1lPi9tZW1vcnkuY3VycmVudAo+ICAgICBtb3VudC88Y2dyb3VwX25hbWU+
-L2NwdS5kZXZpY2VzLzxkZXZfbmFtZT4vY3B1LnN0YXQKPiAgICAgbW91bnQvPGNncm91cF9uYW1l
-Pi9jcHUuZGV2aWNlcy88ZGV2X25hbWU+L2NwdS53ZWlnaHQKPgo+IFRoZSBkcm0vaTkxNSBwYXRj
-aCBpbiB0aGlzIHNlcmllcyBpcyBiYXNlZCBvbiB0b3Agb2Ygb3RoZXIgUkZDIHdvcmsgWzFdCj4g
-Zm9yIGk5MTUgZGV2aWNlIG1lbW9yeSBzdXBwb3J0Lgo+Cj4gQU1EIFsyXSBhbmQgSW50ZWwgWzNd
-IGhhdmUgcHJvcG9zZWQgcmVsYXRlZCB3b3JrIGluIHRoaXMgYXJlYSB3aXRoaW4gdGhlCj4gbGFz
-dCBmZXcgeWVhcnMsIGxpc3RlZCBiZWxvdyBhcyByZWZlcmVuY2UuICBUaGlzIG5ldyBSRkMgcmV1
-c2VzIGV4aXN0aW5nCj4gY2dyb3VwIGNvbnRyb2xsZXJzIGFuZCB0YWtlcyBhIGRpZmZlcmVudCBh
-cHByb2FjaCB0aGFuIHByaW9yIHdvcmsuCj4KPiBGaW5hbGx5LCBzb21lIHBvdGVudGlhbCBkaXNj
-dXNzaW9uIHBvaW50cyBmb3IgdGhpcyBzZXJpZXM6Cj4gKiBtZXJnZSBwcm9wb3NlZCA8c3Vic3lz
-X25hbWU+LmRldmljZXMgaW50byBhIHNpbmdsZSBkZXZpY2VzIGRpcmVjdG9yeT8KPiAqIGFsbG93
-IGRldmljZXMgdG8gaGF2ZSBtdWx0aXBsZSByZWdpc3RyYXRpb25zIGZvciBzdWJzZXRzIG9mIHJl
-c291cmNlcz8KPiAqIGRvY3VtZW50IGEgJ2NvbW1vbiBjaGFyZ2luZyBwb2xpY3knIGZvciBkZXZp
-Y2UgZHJpdmVycyB0byBmb2xsb3c/Cj4KPiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0
-b3Aub3JnL3Nlcmllcy81NjY4My8KPiBbMl0gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-YXJjaGl2ZXMvZHJpLWRldmVsLzIwMTgtTm92ZW1iZXIvMTk3MTA2Lmh0bWwKPiBbM10gaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvaW50ZWwtZ2Z4LzIwMTgtSmFudWFyeS8x
-NTMxNTYuaHRtbAo+Cj4KPiBCcmlhbiBXZWx0eSAoNSk6Cj4gICBjZ3JvdXA6IEFkZCBjZ3JvdXBf
-c3Vic3lzIHBlci1kZXZpY2UgcmVnaXN0cmF0aW9uIGZyYW1ld29yawo+ICAgY2dyb3VwOiBDaGFu
-Z2Uga2VybmZzX25vZGUgZm9yIGRpcmVjdG9yaWVzIHRvIHN0b3JlCj4gICAgIGNncm91cF9zdWJz
-eXNfc3RhdGUKPiAgIG1lbWNnOiBBZGQgcGVyLWRldmljZSBzdXBwb3J0IHRvIG1lbW9yeSBjZ3Jv
-dXAgc3Vic3lzdGVtCj4gICBkcm06IEFkZCBtZW1vcnkgY2dyb3VwIHJlZ2lzdHJhdGlvbiBhbmQg
-RFJJVkVSX0NHUk9VUFMgZmVhdHVyZSBiaXQKPiAgIGRybS9pOTE1OiBVc2UgbWVtb3J5IGNncm91
-cCBmb3IgZW5mb3JjaW5nIGRldmljZSBtZW1vcnkgbGltaXQKPgo+ICBkcml2ZXJzL2dwdS9kcm0v
-ZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgfCAgMTIgKwo+ICBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbS5jICAgICAgICAgICAgICAgICAgfCAgIDcgKwo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X2Rydi5jICAgICAgICAgICAgfCAgIDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50
-ZWxfbWVtb3J5X3JlZ2lvbi5jIHwgIDI0ICstCj4gIGluY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCAg
-ICAgICAgICAgICAgICAgICB8ICAgMyArCj4gIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAg
-ICAgICAgICAgICAgICB8ICAgOCArCj4gIGluY2x1ZGUvZHJtL2RybV9nZW0uaCAgICAgICAgICAg
-ICAgICAgICAgICB8ICAxMSArCj4gIGluY2x1ZGUvbGludXgvY2dyb3VwLWRlZnMuaCAgICAgICAg
-ICAgICAgICB8ICAyOCArKwo+ICBpbmNsdWRlL2xpbnV4L2Nncm91cC5oICAgICAgICAgICAgICAg
-ICAgICAgfCAgIDMgKwo+ICBpbmNsdWRlL2xpbnV4L21lbWNvbnRyb2wuaCAgICAgICAgICAgICAg
-ICAgfCAgMTAgKwo+ICBrZXJuZWwvY2dyb3VwL2Nncm91cC12MS5jICAgICAgICAgICAgICAgICAg
-fCAgMTAgKy0KPiAga2VybmVsL2Nncm91cC9jZ3JvdXAuYyAgICAgICAgICAgICAgICAgICAgIHwg
-MzEwICsrKysrKysrKysrKysrKysrKy0tLQo+ICBtbS9tZW1jb250cm9sLmMgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfCAxODMgKysrKysrKysrKystCj4gIDEzIGZpbGVzIGNoYW5nZWQsIDU1
-MiBpbnNlcnRpb25zKCspLCA1OSBkZWxldGlvbnMoLSkKPgo+IC0tCj4gMi4yMS4wCj4KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1540302939==
+Content-Type: multipart/alternative; boundary="15567875951.5AF7.16717"
+Content-Transfer-Encoding: 7bit
+
+
+--15567875951.5AF7.16717
+Date: Thu, 2 May 2019 08:59:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110411
+
+Dan Hor=C3=A1k <dan@danny.cz> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |FIXED
+             Status|NEW                         |RESOLVED
+
+--- Comment #2 from Dan Hor=C3=A1k <dan@danny.cz> ---
+fixed in
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3Dfe61692886669bbcc260f980903eacb4ddebaf59
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15567875951.5AF7.16717
+Date: Thu, 2 May 2019 08:59:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:dan&#64;d=
+anny.cz" title=3D"Dan Hor=C3=A1k &lt;dan&#64;danny.cz&gt;"> <span class=3D"=
+fn">Dan Hor=C3=A1k</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - GUI lock up for KVM guest in drm_atomic_helper=
+_commit_modeset_disables()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110411">bug 11041=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - GUI lock up for KVM guest in drm_atomic_helper=
+_commit_modeset_disables()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110411#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - GUI lock up for KVM guest in drm_atomic_helper=
+_commit_modeset_disables()"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110411">bug 11041=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+dan&#64;danny.cz" title=3D"Dan Hor=C3=A1k &lt;dan&#64;danny.cz&gt;"> <span =
+class=3D"fn">Dan Hor=C3=A1k</span></a>
+</span></b>
+        <pre>fixed in
+<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
+it/commit/?id=3Dfe61692886669bbcc260f980903eacb4ddebaf59">https://git.kerne=
+l.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3Dfe6169288666=
+9bbcc260f980903eacb4ddebaf59</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15567875951.5AF7.16717--
+
+--===============1540302939==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1540302939==--
