@@ -2,35 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022B612C0B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 13:10:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1C212C64
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 13:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E9988E35;
-	Fri,  3 May 2019 11:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86B7A89C96;
+	Fri,  3 May 2019 11:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5796F88DF6;
- Fri,  3 May 2019 11:10:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id CDA9EFB03;
- Fri,  3 May 2019 13:10:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BQxzPPcJD1BK; Fri,  3 May 2019 13:10:26 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 2C29E47CC6; Fri,  3 May 2019 13:10:26 +0200 (CEST)
-Date: Fri, 3 May 2019 13:10:26 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v2 0/8] per-process address spaces for MMUv2
-Message-ID: <20190503111026.GA6943@bogon.m.sigxcpu.org>
-References: <20190417135023.26977-1-l.stach@pengutronix.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 417B589C96
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 11:29:47 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3DF5C7215A; Fri,  3 May 2019 11:29:47 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110597] [IGT runner] allow attachments to results.json
+Date: Fri, 03 May 2019 11:29:47 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110597-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190417135023.26977-1-l.stach@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,39 +51,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- patchwork-lst@pengutronix.de, kernel@pengutronix.de,
- Russell King <linux+etnaviv@armlinux.org.uk>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1796338592=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTHVjYXMsCk9uIFdlZCwgQXByIDE3LCAyMDE5IGF0IDAzOjUwOjE1UE0gKzAyMDAsIEx1Y2Fz
-IFN0YWNoIHdyb3RlOgo+IAo+IEhpIGFsbCwKPiAKPiB2MSBjb3ZlciBsZXR0ZXI6Cj4gCj4gdGhl
-IGZvbGxvd2luZyBwYXRjaGVzIGZpbmFsbHkgaW1wbGVtZW50IG9uZSBvZiB0aGUgbG9uZ3N0YW5k
-aW5nIFRPRE8KPiBpdGVtcyBpbiB0aGUgZXRuYXZpdiBkcml2ZXI6IHBlci1wcm9jZXNzIGFkZHJl
-c3Mgc3BhY2VzLiBUaGV5IGFyZSBvbmx5Cj4gZW5hYmxlZCBmb3IgTU1VdjIsIGFzIHN3aXRjaGlu
-ZyB0aGUgTU1VIGNvbnRleHQgb24gTU1VdjEgd291bGQgcmVxdWlyZQo+IGEgZnVsbCBzdG9wIG9m
-IHRoZSBGRSwgd2hpY2ggSSBkZWVtZWQgdG9vIGV4cGVuc2l2ZSB0byBkbyBvbiBwb3RlbnRpYWxs
-eQo+IGV2ZXJ5IHN1Ym1pdHRlZCBjb21tYW5kc3RyZWFtLgo+IAo+IEZvciBub3cgdGhpcyBvbmx5
-IHByb3ZpZGVzIGJldHRlciBpc29sYXRpb24gYmV0d2VlbiBHUFUgY2xpZW50cywgYnV0IGl0Cj4g
-aXMgYWxzbyBhIGJpZyBzdGVwIGluIHRoZSBkaXJlY3Rpb24gb2Ygc3VwcG9ydGluZyBzb2Z0cGlu
-LiBTb2Z0cGluIHdpbGwKPiBsYXRlciBiZSB1c2VkIGJ5IEdDNzAwMCB1c2Vyc3BhY2UgZHJpdmVy
-cyB0byBkZWFsIHdpdGggdGV4dHVyZSBkZXNjcmlwdG9ycwo+IHdpdGhvdXQgdGhlIG5lZWQgdG8g
-YWRkIGV2ZW4gbW9yZSByZWxvY2F0aW9uIGludGVyZmFjZXMgdG8gdGhlIGV0bmF2aXYKPiBVQVBJ
-Lgo+IAo+IFRoZSBjaGFuZ2VzIGFyZSBiaWcgYW5kIHByZXR0eSBkaXNydXB0aXZlLCBzbyBJIGFj
-a25vd2xlZGdlIHRoYXQgdGhleQo+IGFyZW4ndCBwcmltZSB0YXJnZXRzIGZvciBhIHF1aWNrIHJl
-dmlldywgYnV0IEkgd291bGQgYXBwcmVjaWF0ZSBhCj4gc2Vjb25kIHBhaXJzIG9mIGV5ZXMgb24g
-dGhlbS4KPiAKPiBDaGFuZ2VzIHNpbmNlIHYxOgo+IC0gZml4ZWQgYW4gaXNzdWUgd2hlcmUgYSBk
-ZWJ1Z3NmcyByZWFkIGNvdWxkIHJ1biBpbnRvIGEga2VybmVsIE5VTEwKPiAgIHB0ciBkZXJlZmVy
-ZW5jZSBkdWUgdG8gbm8gY3VycmVudCBNTVUgY29udGV4dAo+IC0gZml4ZWQgYW4gaXNzdWUgd2hl
-cmUgdGhlIGN1cnJlbnQgTU1VIGNvbnRleHQgY291bGQgYmUgZGVzdHJveWVkCj4gICBkdWUgdG8g
-dGhlIERSTSBjbGllbnQgZ29pbmcgYXdheSwgd2hpbGUgaXQgaXMgc3RpbGwgaW4gdXNlIGJ5Cj4g
-ICBhbiBhY3RpdmUgR1BVIGpvYgo+IC0gbW9yZSBleHRlbnNpdmUgdGVzdGluZyBvbiBHQzg4MCwg
-R0MyMDAwLCBHQzMwMDAgYW5kIEdDNzAwMAoKSSBnYXZlIHRoaXMgc2VyaWVzIGEgdGVzdCBvbiBH
-QzcwMDAgYW5kIGl0IGxvb2tzIGdvb2QuIEknbGwgZG8gc29tZSBtb3JlCnRlc3Rpbmcgb3ZlciB0
-aGUgbmV4dCB3ZWVrLgpDaGVlcnMsCiAtLSBHdWlkbwpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1796338592==
+Content-Type: multipart/alternative; boundary="15568829871.2beB74.7915"
+Content-Transfer-Encoding: 7bit
+
+
+--15568829871.2beB74.7915
+Date: Fri, 3 May 2019 11:29:47 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110597
+
+            Bug ID: 110597
+           Summary: [IGT runner] allow attachments to results.json
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: martin.peres@free.fr
+
+This will be useful for storing random files relevant for the run.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568829871.2beB74.7915
+Date: Fri, 3 May 2019 11:29:47 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [IGT runner] allow attachments to results.json"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110597">110597</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[IGT runner] allow attachments to results.json
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>martin.peres&#64;free.fr
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>This will be useful for storing random files relevant for the =
+run.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568829871.2beB74.7915--
+
+--===============1796338592==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1796338592==--
