@@ -1,45 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFC2313119
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 17:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A95601312E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 17:32:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A2C06E7F1;
-	Fri,  3 May 2019 15:24:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231346E7F4;
+	Fri,  3 May 2019 15:31:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id AF4236E7F1
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:24:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A5C867215A; Fri,  3 May 2019 15:24:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109835] [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in
- europa.exe [1323], reason: hang on rcs0, action: reset
-Date: Fri, 03 May 2019 15:24:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/DRI/i915
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rtentser@yandex.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109835-502-4aEUWNDm9I@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109835-502@http.bugs.freedesktop.org/>
-References: <bug-109835-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EB0976E7F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:31:57 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB976374;
+ Fri,  3 May 2019 08:31:57 -0700 (PDT)
+Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
+ [10.1.196.75])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 80C323F557;
+ Fri,  3 May 2019 08:31:56 -0700 (PDT)
+From: Robin Murphy <robin.murphy@arm.com>
+To: robh@kernel.org,
+	tomeu.vizoso@collabora.com
+Subject: [PATCH 0/4] drm/panfrost: Misc. fixes and cleanups
+Date: Fri,  3 May 2019 16:31:41 +0100
+Message-Id: <cover.1556195258.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.21.0.dirty
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,99 +39,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0372315543=="
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0372315543==
-Content-Type: multipart/alternative; boundary="15568970970.c2768.25339"
-Content-Transfer-Encoding: 7bit
-
-
---15568970970.c2768.25339
-Date: Fri, 3 May 2019 15:24:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109835
-
---- Comment #3 from rtentser@yandex.ru ---
-I've lied, i have 865GV. With this motherboard:
-https://www.asrock.com/mb/Intel/P4i65GV/index.asp
-
-Also, LIBGL_ALWAYS_SOFTWARE is a workaround for the problem. But it works v=
-ery
-slow.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15568970970.c2768.25339
-Date: Fri, 3 May 2019 15:24:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in europa.ex=
-e [1323], reason: hang on rcs0, action: reset"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109835#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in europa.ex=
-e [1323], reason: hang on rcs0, action: reset"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109835">bug 10983=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rtentser&#64;yandex.ru" title=3D"rtentser&#64;yandex.ru">rtentser&#64;yande=
-x.ru</a>
-</span></b>
-        <pre>I've lied, i have 865GV. With this motherboard:
-<a href=3D"https://www.asrock.com/mb/Intel/P4i65GV/index.asp">https://www.a=
-srock.com/mb/Intel/P4i65GV/index.asp</a>
-
-Also, LIBGL_ALWAYS_SOFTWARE is a workaround for the problem. But it works v=
-ery
-slow.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15568970970.c2768.25339--
-
---===============0372315543==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0372315543==--
+SGksCgpUaGVzZSBhcmUgYSBmZXcgdHJpdmlhbCBmaXhlcyBhbmQgY2xlYW51cHMgZnJvbSBwbGF5
+aW5nIHdpdGggdGhlCnBhbmZyb3N0IGtlcm5lbCBkcml2ZXIgb24gYW4gQXJtIEp1bm8gYm9hcmQu
+IE5vdCB0aGF0IGFueW9uZSBoYXMgZXZlcgpjYXJlZCBtdWNoIGFib3V0IHRoZSBidWlsdC1pbiBH
+UFUgb24gSnVubywgYnV0IGl0J3MgYXQgbGVhc3QgYSBzb21ld2hhdAppbnRlcmVzdGluZyBwbGF0
+Zm9ybSBmcm9tIHRoZSBrZXJuZWwgZHJpdmVyIHBlcnNwZWN0aXZlIGZvciBoYXZpbmcKSS9PIGNv
+aGVyZW5jeSwgUkFNIGFib3ZlIDRHQiwgYW5kIERWRlMgYWJzdHJhY3RlZCBiZWhpbmQgYSBmaXJt
+d2FyZQppbnRlcmZhY2UuCgpSb2Jpbi4KCgpSb2JpbiBNdXJwaHkgKDQpOgogIGRybS9wYW5mcm9z
+dDogU2V0IERNQSBtYXNrcyBlYXJsaWVyCiAgZHJtL3BhbmZyb3N0OiBEaXNhYmxlIFBNIG9uIHBy
+b2JlIGZhaWx1cmUKICBkcm0vcGFuZnJvc3Q6IERvbid0IHNjcmVhbSBhYm91dCBkZWZlcnJlZCBw
+cm9iZQogIGRybS9wYW5mcm9zdDogU2hvdyBzdG9yZWQgZmVhdHVyZSByZWdpc3RlcnMKCiBkcml2
+ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCAxMiArKysrKy0tLS0tLS0KIGRy
+aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9ncHUuYyB8IDE5ICsrKysrKysrKysrKy0t
+LS0tLS0KIDIgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0p
+CgotLSAKMi4yMS4wLmRpcnR5CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
