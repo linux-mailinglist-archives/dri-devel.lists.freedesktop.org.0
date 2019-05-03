@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D8E12C6B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 13:31:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1F812C6D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 13:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 407FE89C84;
-	Fri,  3 May 2019 11:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7279C89C9B;
+	Fri,  3 May 2019 11:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0201889C84
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 11:31:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B7A1289C94
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 11:31:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EDD3A7215A; Fri,  3 May 2019 11:31:13 +0000 (UTC)
+ id B438F7215A; Fri,  3 May 2019 11:31:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110598] [IGT runner] allow tests to attach test-specific results
-Date: Fri, 03 May 2019 11:31:14 +0000
+Date: Fri, 03 May 2019 11:31:21 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: IGT
@@ -33,9 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110598-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: dependson
+Message-ID: <bug-110598-502-jgXDvDU0WB@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110598-502@http.bugs.freedesktop.org/>
+References: <bug-110598-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1005746236=="
+Content-Type: multipart/mixed; boundary="===============1566025156=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1005746236==
-Content-Type: multipart/alternative; boundary="15568830730.7d87Ff12D.8029"
+--===============1566025156==
+Content-Type: multipart/alternative; boundary="15568830811.14A4.6690"
 Content-Transfer-Encoding: 7bit
 
 
---15568830730.7d87Ff12D.8029
-Date: Fri, 3 May 2019 11:31:13 +0000
+--15568830811.14A4.6690
+Date: Fri, 3 May 2019 11:31:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -71,32 +72,23 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110598
 
-            Bug ID: 110598
-           Summary: [IGT runner] allow tests to attach test-specific
-                    results
-           Product: DRI
-           Version: DRI git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: IGT
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: martin.peres@free.fr
+Martin Peres <martin.peres@free.fr> changed:
 
-Some tests might generate images or audio files which are relevant for
-debugging.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Depends on|                            |110597
 
-We need to create a new way for tests to communicate to the igt runner these
-resources for it to store them in the results.json file.
 
+Referenced Bugs:
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110597
+[Bug 110597] [IGT runner] allow attachments to results.json
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15568830730.7d87Ff12D.8029
-Date: Fri, 3 May 2019 11:31:13 +0000
+--15568830811.14A4.6690
+Date: Fri, 3 May 2019 11:31:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,92 +99,48 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:martin.pe=
+res&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.fr&gt;"> <=
+span class=3D"fn">Martin Peres</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [IGT runner] allow tests to attach test-specific results"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110598">110598</a>
-          </td>
-        </tr>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110598">bug 11059=
+8</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>[IGT runner] allow tests to attach test-specific results
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>IGT
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>martin.peres&#64;free.fr
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">Depends on</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>110597
+           </td>
+         </tr></table>
       <p>
-        <div>
-        <pre>Some tests might generate images or audio files which are rele=
-vant for
-debugging.
-
-We need to create a new way for tests to communicate to the igt runner these
-resources for it to store them in the results.json file.</pre>
-        </div>
       </p>
 
+        <div id=3D"referenced">
+          <hr style=3D"border: 1px dashed #969696">
+          <b>Referenced Bugs:</b>
+          <ul>
+              <li>
+                [<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [IGT runner] allow attachments to results.json"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110597">Bug 11059=
+7</a>] [IGT runner] allow attachments to results.json
+              </li>
+          </ul>
+        </div>
+        <br>
 
       <hr>
       <span>You are receiving this mail because:</span>
@@ -203,9 +151,9 @@ resources for it to store them in the results.json file.</pre>
     </body>
 </html>=
 
---15568830730.7d87Ff12D.8029--
+--15568830811.14A4.6690--
 
---===============1005746236==
+--===============1566025156==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -215,4 +163,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1005746236==--
+--===============1566025156==--
