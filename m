@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE34B12D7A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B62E12D7F
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048CD89D60;
-	Fri,  3 May 2019 12:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81C7C89E35;
+	Fri,  3 May 2019 12:27:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F39289D60
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:25:49 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x43COb36107641;
- Fri, 3 May 2019 12:25:43 GMT
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2120.oracle.com with ESMTP id 2s6xhyxcad-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 03 May 2019 12:25:43 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x43CP9LD029893;
- Fri, 3 May 2019 12:25:42 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2s6xhhkgjd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 03 May 2019 12:25:42 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x43CPcWG007319;
- Fri, 3 May 2019 12:25:38 GMT
-Received: from mwanda (/196.104.111.181)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 03 May 2019 05:25:38 -0700
-Date: Fri, 3 May 2019 15:25:25 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: "James (Qian) Wang" <james.qian.wang@arm.com>
-Subject: [PATCH] drm/komeda: Potential error pointer dereference
-Message-ID: <20190503122525.GA29695@mwanda>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC31889E35
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:27:46 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 44BF9AD96;
+ Fri,  3 May 2019 12:27:45 +0000 (UTC)
+Subject: Re: [PATCH v3 01/19] drm: Add |struct drm_gem_vram_object| and helpers
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20190429144341.12615-1-tzimmermann@suse.de>
+ <20190429144341.12615-2-tzimmermann@suse.de>
+ <20190429195855.GA6610@ravnborg.org>
+ <1d14ef87-e1cd-4f4a-3632-bc045a1981c6@suse.de>
+ <20190430092327.GA13757@ravnborg.org>
+ <6e07e6c9-2ce7-c39f-8d55-46e811c61510@amd.com>
+ <a2398439-3bb5-d1ef-db94-82f252f461c2@suse.de>
+ <CAKMK7uGnUeeK-UPHZC+P5TsQTaOWPQd=LLV_Rr+VvPgNEEHhyg@mail.gmail.com>
+ <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
+Date: Fri, 3 May 2019 14:27:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.2
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9245
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=989
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905030078
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9245
- signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1905030078
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
- bh=ceWt8vhd+vPLCGDRTc4L2ZdfVL6RSbvaLc1St5DpuCA=;
- b=x9yNi406P2rabVuaIqMq3eo6vORo0ZDq3txjDfB2U18tnSCi/lAqlMRtdr5I+xVwod2g
- ZBt6OuYZ1lddQbg24F7UPF6SxuHOH7yncWVy03emkI/QWpxQfx0n6FyqCEUK3VtAFm6y
- Wr72mzLnwD38NhuUjFR6Vj3pUDX0mROiyFrsrlidxu4ZvxZp5Rz3HyNmvEdNtEOECDyx
- CZPLe3l6GSoixAhxVCHPy64w4RxBfeO7HLYdh8o2eWJcOf360Bnq/M5JyQonzlNWg5UZ
- ZmtOkvT55itCPO0hDnd7IW9LRO/4wRS8sNhqF3emjLjFeDb/ZeKpYkKLkEjYFfL41/Wh Vw== 
+In-Reply-To: <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,30 +73,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "z.liuxinliang@hisilicon.com" <z.liuxinliang@hisilicon.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>, "Huang,
+ Ray" <Ray.Huang@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
+ "zourongrong@gmail.com" <zourongrong@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============0736502049=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgbmVlZCB0byBjaGVjayB3aGV0aGVyIGRybV9hdG9taWNfZ2V0X2NydGNfc3RhdGUoKSByZXR1
-cm5zIGFuIGVycm9yCnBvaW50ZXIgYmVmb3JlIGRlcmVmZXJlbmNpbmcgImNydGNfc3QiLgoKRml4
-ZXM6IDdkMzFiOWU3YTU1MCAoImRybS9rb21lZGE6IEFkZCBrb21lZGFfcGxhbmUvcGxhbmVfaGVs
-cGVyX2Z1bmNzIikKU2lnbmVkLW9mZi1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBv
-cmFjbGUuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRh
-X3BsYW5lLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tv
-bWVkYV9wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFf
-cGxhbmUuYwppbmRleCAwN2VkMGNjMWJjNDQuLmM3ZTVmYzZlNTUwMCAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGxhbmUuYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9wbGFuZS5jCkBAIC02NCw3ICs2
-NCw3IEBAIGtvbWVkYV9wbGFuZV9hdG9taWNfY2hlY2soc3RydWN0IGRybV9wbGFuZSAqcGxhbmUs
-CiAJCXJldHVybiAwOwogCiAJY3J0Y19zdCA9IGRybV9hdG9taWNfZ2V0X2NydGNfc3RhdGUoc3Rh
-dGUtPnN0YXRlLCBzdGF0ZS0+Y3J0Yyk7Ci0JaWYgKCFjcnRjX3N0LT5lbmFibGUpIHsKKwlpZiAo
-SVNfRVJSKGNydGNfc3QpIHx8ICFjcnRjX3N0LT5lbmFibGUpIHsKIAkJRFJNX0RFQlVHX0FUT01J
-QygiQ2Fubm90IHVwZGF0ZSBwbGFuZSBvbiBhIGRpc2FibGVkIENSVEMuXG4iKTsKIAkJcmV0dXJu
-IC1FSU5WQUw7CiAJfQotLSAKMi4xOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0736502049==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wso2WylJrYE5BAjCVStQkMEIaju382Ct5"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wso2WylJrYE5BAjCVStQkMEIaju382Ct5
+Content-Type: multipart/mixed; boundary="4cdtrBoVZJR3xHpx49LzB45tdXPpojWto";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
+ "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "z.liuxinliang@hisilicon.com" <z.liuxinliang@hisilicon.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>,
+ "Huang, Ray" <Ray.Huang@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
+ "zourongrong@gmail.com" <zourongrong@gmail.com>
+Message-ID: <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
+Subject: Re: [PATCH v3 01/19] drm: Add |struct drm_gem_vram_object| and
+ helpers
+References: <20190429144341.12615-1-tzimmermann@suse.de>
+ <20190429144341.12615-2-tzimmermann@suse.de>
+ <20190429195855.GA6610@ravnborg.org>
+ <1d14ef87-e1cd-4f4a-3632-bc045a1981c6@suse.de>
+ <20190430092327.GA13757@ravnborg.org>
+ <6e07e6c9-2ce7-c39f-8d55-46e811c61510@amd.com>
+ <a2398439-3bb5-d1ef-db94-82f252f461c2@suse.de>
+ <CAKMK7uGnUeeK-UPHZC+P5TsQTaOWPQd=LLV_Rr+VvPgNEEHhyg@mail.gmail.com>
+ <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
+In-Reply-To: <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
+
+--4cdtrBoVZJR3xHpx49LzB45tdXPpojWto
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+cc: noralf@tronnes.org
+
+Am 03.05.19 um 14:07 schrieb Koenig, Christian:
+> Am 03.05.19 um 14:01 schrieb Daniel Vetter:
+>> [CAUTION: External Email]
+>>
+>> On Fri, May 3, 2019 at 12:15 PM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+>>> Hi Christian,
+>>>
+>>> would you review the whole patch set? Daniel mentioned that he'd pref=
+er
+>>> to leave the review to memory-mgmt developers.
+>> I think Noralf Tronnes or Gerd Hoffmann would also make good reviewers=
+
+>> for this, fairly close to what they've been working on in the past.
+>=20
+> I will try to take another look next week. Busy as usual here.
+
+Thanks, I'll post v4 of the patches early next week.
+
+> Christian.
+>=20
+>> -Daniel
+>>
+>>> Best regards
+>>> Thomas
+>>>
+>>> Am 30.04.19 um 11:35 schrieb Koenig, Christian:
+>>>> Am 30.04.19 um 11:23 schrieb Sam Ravnborg:
+>>>>> [CAUTION: External Email]
+>>>>>
+>>>>> Hi Thomas.
+>>>>>
+>>>>>>>> +
+>>>>>>>> +/**
+>>>>>>>> + * Returns the container of type &struct drm_gem_vram_object
+>>>>>>>> + * for field bo.
+>>>>>>>> + * @bo:           the VRAM buffer object
+>>>>>>>> + * Returns:       The containing GEM VRAM object
+>>>>>>>> + */
+>>>>>>>> +static inline struct drm_gem_vram_object* drm_gem_vram_of_bo(
+>>>>>>>> +  struct ttm_buffer_object *bo)
+>>>>>>>> +{
+>>>>>>>> +  return container_of(bo, struct drm_gem_vram_object, bo);
+>>>>>>>> +}
+>>>>>>> Indent funny. USe same indent as used in other parts of file for
+>>>>>>> function arguments.
+>>>>>> If I put the argument next to the function's name, it will exceed =
+the
+>>>>>> 80-character limit. From the coding-style document, I could not se=
+e what
+>>>>>> to do in this case. One solution would move the return type to a
+>>>>>> separate line before the function name. I've not seen that anywher=
+e in
+>>>>>> the source code, so moving the argument onto a separate line and
+>>>>>> indenting by one tab appears to be the next best solution. Please =
+let me
+>>>>>> know if there's if there's a preferred style for cases like this o=
+ne.
+>>>>> Readability has IMO higher priority than some limit of 80 chars.
+>>>>> And it hurts readability (at least my OCD) when style changes
+>>>>> as you do with indent here. So my personal preference is to fix
+>>>>> indent and accect longer lines.
+>>>> In this case the an often used convention (which is also kind of
+>>>> readable) is to add a newline after the return values, but before th=
+e
+>>>> function name. E.g. something like this:
+>>>>
+>>>> static inline struct drm_gem_vram_object*
+>>>> drm_gem_vram_of_bo(struct ttm_buffer_object *bo)
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>> But you ask for a preferred style - which I do not think we have in=
+ this
+>>>>> case. So it boils down to what you prefer.
+>>>>>
+>>>>> Enough bikeshedding, thanks for the quick response.
+>>>>>
+>>>>>           Sam
+>>> --
+>>> Thomas Zimmermann
+>>> Graphics Driver Developer
+>>> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+>>> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+>>> HRB 21284 (AG N=C3=BCrnberg)
+>>>
+>>> _______________________________________________
+>>> dri-devel mailing list
+>>> dri-devel@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+>>
+>> --
+>> Daniel Vetter
+>> Software Engineer, Intel Corporation
+>> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--4cdtrBoVZJR3xHpx49LzB45tdXPpojWto--
+
+--wso2WylJrYE5BAjCVStQkMEIaju382Ct5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlzMM7sACgkQaA3BHVML
+eiNqMggAv9r5WqFL9LGjuADBqLu3tKaTKc7I8UJXF1E+GwvGepKtxQ3uj/c8alcv
+IlMbVydXMyHqfMa1IcUmSaHOL89mucpR0QyYbVKdw/hENsN/qtHdVnnusanr1FbQ
+D5BXtE4JdZgLUsPr+G3nKJW0O8j3EXA8ZzK2P1kPgFut7D5vfwRBb9tS680d8I0+
+qJUGsmzQpL9jj4Iuoc1xctB1VtFZAj0wv3D8dcO+5ec4NbEKaZU/h211e/RxEwM7
+QDWB865KJaMjRY38REsyHZJfBf6AW6F0ngNcdpWbMu/NtI9j0o8IxLastIK4vsKS
+ORE/+kLmTmWpm858mh8PlZ8Zs9yM+A==
+=wQDH
+-----END PGP SIGNATURE-----
+
+--wso2WylJrYE5BAjCVStQkMEIaju382Ct5--
+
+--===============0736502049==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0736502049==--
