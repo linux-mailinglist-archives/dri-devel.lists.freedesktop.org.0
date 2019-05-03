@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B58C13130
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 17:32:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5396B13132
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 17:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6093E6E7F5;
-	Fri,  3 May 2019 15:32:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED736E7F6;
+	Fri,  3 May 2019 15:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7972C6E7F5
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:31:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 16D356E7F6
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:32:01 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AB2D80D;
- Fri,  3 May 2019 08:31:59 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4613EBD;
+ Fri,  3 May 2019 08:32:00 -0700 (PDT)
 Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
  [10.1.196.75])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 17E963F557;
- Fri,  3 May 2019 08:31:57 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9AEE13F557;
+ Fri,  3 May 2019 08:31:59 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: robh@kernel.org,
 	tomeu.vizoso@collabora.com
-Subject: [PATCH 1/4] drm/panfrost: Set DMA masks earlier
-Date: Fri,  3 May 2019 16:31:42 +0100
-Message-Id: <64361b929a5c61d2ab9580262ecb3d369164cfcb.1556195258.git.robin.murphy@arm.com>
+Subject: [PATCH 2/4] drm/panfrost: Disable PM on probe failure
+Date: Fri,  3 May 2019 16:31:43 +0100
+Message-Id: <2487391e7646cabbc52e9b4c20182e39d3f61859.1556195258.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.21.0.dirty
 In-Reply-To: <cover.1556195258.git.robin.murphy@arm.com>
 References: <cover.1556195258.git.robin.murphy@arm.com>
@@ -48,48 +48,20 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIERNQSBtYXNrcyBuZWVkIHRvIGJlIHNldCBjb3JyZWN0bHkgYmVmb3JlIGFueSBETUEgQVBJ
-IGFjdGl2aXR5IGtpY2tzCm9mZiwgYW5kIHRoZSBjdXJyZW50IHBvaW50IGluIHBhbmZyb3N0X3By
-b2JlKCkgaXMgd2F5IHRvbyBsYXRlIGluIHRoYXQKcmVnYXJkLiBzaW5jZSBwYW5mcm9zdF9tbXVf
-aW5pdCgpIGhhcyBhbHJlYWR5IHNldCB1cCBhIGxpdmUgYWRkcmVzcwpzcGFjZSBhbmQgRE1BLW1h
-cHBlZCBNTVUgcGFnZXRhYmxlcy4gV2UgY2FuJ3Qgc2V0IG1hc2tzIHVudGlsIHdlJ3ZlCnF1ZXJp
-ZWQgdGhlIGFwcHJvcHJpYXRlIHZhbHVlIGZyb20gTU1VX0ZFQVRVUkVTLCBidXQgYXMgc29vbiBh
-cwpyZWFzb25hYmx5IHBvc3NpYmxlIGFmdGVyIHRoYXQgc2hvdWxkIHN1ZmZpY2UuCgpTaWduZWQt
-b2ZmLWJ5OiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0uY29tPgotLS0KIGRyaXZlcnMv
-Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyB8IDUgLS0tLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9ncHUuYyB8IDUgKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgNSBp
-bnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5m
-cm9zdF9kcnYuYwppbmRleCBjMDZhZjc4YWI4MzMuLmFmMDA1OGZmYzFlNCAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwpAQCAtMyw4ICszLDYgQEAKIC8qIENvcHlyaWdo
-dCAyMDE5IExpbmFybywgTHRkLiwgUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4gKi8KIC8q
-IENvcHlyaWdodCAyMDE5IENvbGxhYm9yYSBsdGQuICovCiAKLSNpbmNsdWRlIDxsaW51eC9iaXRm
-aWVsZC5oPgotI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5nLmg+CiAjaW5jbHVkZSA8bGludXgv
-bW9kdWxlLmg+CiAjaW5jbHVkZSA8bGludXgvb2ZfcGxhdGZvcm0uaD4KICNpbmNsdWRlIDxsaW51
-eC9wYWdlbWFwLmg+CkBAIC0zODgsOSArMzg2LDYgQEAgc3RhdGljIGludCBwYW5mcm9zdF9wcm9i
-ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCQlnb3RvIGVycl9vdXQwOwogCX0KIAot
-CWRtYV9zZXRfbWFza19hbmRfY29oZXJlbnQocGZkZXYtPmRldiwKLQkJRE1BX0JJVF9NQVNLKEZJ
-RUxEX0dFVCgweGZmMDAsIHBmZGV2LT5mZWF0dXJlcy5tbXVfZmVhdHVyZXMpKSk7Ci0KIAllcnIg
-PSBwYW5mcm9zdF9kZXZmcmVxX2luaXQocGZkZXYpOwogCWlmIChlcnIpIHsKIAkJZGV2X2Vycigm
-cGRldi0+ZGV2LCAiRmF0YWwgZXJyb3IgZHVyaW5nIGRldmZyZXEgaW5pdFxuIik7CmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ3B1LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ3B1LmMKaW5kZXggYWNlYWY2ZTQ0YTA5Li40MjUxMWZj
-MWZlYTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9ncHUu
-YworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ3B1LmMKQEAgLTIsOCAr
-MiwxMCBAQAogLyogQ29weXJpZ2h0IDIwMTggTWFydHkgRS4gUGx1bW1lciA8aGFuZXR6ZXJAc3Rh
-cnRtYWlsLmNvbT4gKi8KIC8qIENvcHlyaWdodCAyMDE5IExpbmFybywgTHRkLiwgUm9iIEhlcnJp
-bmcgPHJvYmhAa2VybmVsLm9yZz4gKi8KIC8qIENvcHlyaWdodCAyMDE5IENvbGxhYm9yYSBsdGQu
-ICovCisjaW5jbHVkZSA8bGludXgvYml0ZmllbGQuaD4KICNpbmNsdWRlIDxsaW51eC9iaXRtYXAu
-aD4KICNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgorI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5n
-Lmg+CiAjaW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+CiAjaW5jbHVkZSA8bGludXgvaW8uaD4K
-ICNpbmNsdWRlIDxsaW51eC9pb3BvbGwuaD4KQEAgLTMzMiw2ICszMzQsOSBAQCBpbnQgcGFuZnJv
-c3RfZ3B1X2luaXQoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYpCiAKIAlwYW5mcm9zdF9n
-cHVfaW5pdF9mZWF0dXJlcyhwZmRldik7CiAKKwlkbWFfc2V0X21hc2tfYW5kX2NvaGVyZW50KHBm
-ZGV2LT5kZXYsCisJCURNQV9CSVRfTUFTSyhGSUVMRF9HRVQoMHhmZjAwLCBwZmRldi0+ZmVhdHVy
-ZXMubW11X2ZlYXR1cmVzKSkpOworCiAJaXJxID0gcGxhdGZvcm1fZ2V0X2lycV9ieW5hbWUodG9f
-cGxhdGZvcm1fZGV2aWNlKHBmZGV2LT5kZXYpLCAiZ3B1Iik7CiAJaWYgKGlycSA8PSAwKQogCQly
-ZXR1cm4gLUVOT0RFVjsKLS0gCjIuMjEuMC5kaXJ0eQoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+TWFrZSBzdXJlIHRvIGRpc2FibGUgcnVudGltZSBQTSBhZ2FpbiBpZiBwcm9iZSBmYWlscyBhZnRl
+ciB3ZSd2ZSBlbmFibGVkCml0LiBPdGhlcndpc2UsIGFueSBzdWJzZXF1ZW50IGF0dGVtcHQgdG8g
+cmUtcHJvYmUgc3RhcnRzIHRyaWdnZXJpbmcKIlVuYmFsYW5jZWQgcG1fcnVudGltZV9lbmFibGUh
+IiBhc3NlcnRpb25zIGZyb20gdGhlIGRyaXZlciBjb3JlLgoKU2lnbmVkLW9mZi1ieTogUm9iaW4g
+TXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJv
+c3QvcGFuZnJvc3RfZHJ2LmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwppbmRleCBhZjAwNThmZmMxZTQu
+LmE4ODFlMjM0NmI1NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
+b3N0X2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwpA
+QCAtNDA1LDYgKzQwNSw3IEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfcHJvYmUoc3RydWN0IHBsYXRm
+b3JtX2RldmljZSAqcGRldikKIGVycl9vdXQxOgogCXBhbmZyb3N0X2RldmljZV9maW5pKHBmZGV2
+KTsKIGVycl9vdXQwOgorCXBtX3J1bnRpbWVfZGlzYWJsZShwZmRldi0+ZGV2KTsKIAlkcm1fZGV2
+X3B1dChkZGV2KTsKIAlyZXR1cm4gZXJyOwogfQotLSAKMi4yMS4wLmRpcnR5CgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
