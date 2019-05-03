@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B09E12F17
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 15:29:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B2312F19
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 15:29:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB4176E794;
-	Fri,  3 May 2019 13:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F30C6E793;
+	Fri,  3 May 2019 13:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6A136E794
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 13:29:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 1CFF8AE84;
- Fri,  3 May 2019 13:29:33 +0000 (UTC)
-Subject: Re: [PATCH v3 01/19] drm: Add |struct drm_gem_vram_object| and helpers
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20190429144341.12615-1-tzimmermann@suse.de>
- <20190429144341.12615-2-tzimmermann@suse.de>
- <20190429195855.GA6610@ravnborg.org>
- <1d14ef87-e1cd-4f4a-3632-bc045a1981c6@suse.de>
- <20190430092327.GA13757@ravnborg.org>
- <6e07e6c9-2ce7-c39f-8d55-46e811c61510@amd.com>
- <a2398439-3bb5-d1ef-db94-82f252f461c2@suse.de>
- <CAKMK7uGnUeeK-UPHZC+P5TsQTaOWPQd=LLV_Rr+VvPgNEEHhyg@mail.gmail.com>
- <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
- <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <1d76d06a-7684-6e64-711e-93995ee71257@suse.de>
-Date: Fri, 3 May 2019 15:29:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.2
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C18F6E793
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 13:29:36 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id h11so6754977wmb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2019 06:29:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=UiiURwV+csCsGFRj/M2EvTMLMlk1L513hkjExJHkVEs=;
+ b=QL6fR2A7ejNnK+N+kin+k9VJcHMb4Xm+mwdwLpR/6PThMK5E6nkSCD0C+D0DOLu6Ys
+ Nv8ygu+5oP1yBEybQ3MbyoSsHKXcTgqHXNF8NcNdZ+Lw9LPACG1C4GI6gJdtfei7Qx8w
+ qlQIrGOrxo8Nuym7fHusXjqdNIUFHQr8TJpSvQH7ZlkZEyYJF0PR63qr0HHaaulTAtwf
+ qAXQP7e0i7lSDenbDMmvn2w/KV5aeRc3ZOSi/h7jKWRPnUlIHcbTe76v6AbqBri9lTD3
+ CT4eDMosIVhGd0SPUFgj+EvlG9REAZQtlky/sjZJDgusZzgh1fuKK0VWwd8/dwdfPMbX
+ rG5A==
+X-Gm-Message-State: APjAAAUi4Yc4Jqiu7YfGK133dNN6ekKfJhfDQ9lLZQjvkYNmP2uwWFvS
+ 1S7uzYT0fdutROIsIWP878jpWw==
+X-Google-Smtp-Source: APXvYqzA0vhwJpj92WdDars413IpWNcg1yQiVM9kEifAW+RTVzyZeKAKG9EQBfSsSikTgk3bWBMNUA==
+X-Received: by 2002:a1c:7610:: with SMTP id r16mr6360976wmc.15.1556890175153; 
+ Fri, 03 May 2019 06:29:35 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+ [86.9.19.6])
+ by smtp.gmail.com with ESMTPSA id o6sm2901085wre.60.2019.05.03.06.29.33
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 03 May 2019 06:29:34 -0700 (PDT)
+Date: Fri, 3 May 2019 14:29:32 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH] backlight: rave-sp: don't touch initial state and
+ register with correct device
+Message-ID: <20190503132932.2e3vrvlykofpexkf@holly.lan>
+References: <20190429152919.27277-1-l.stach@pengutronix.de>
+ <c23ecabd-c2ee-8c23-9ee3-13290bc4da35@linaro.org>
+ <1556798505.2590.7.camel@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
+Content-Disposition: inline
+In-Reply-To: <1556798505.2590.7.camel@pengutronix.de>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=UiiURwV+csCsGFRj/M2EvTMLMlk1L513hkjExJHkVEs=;
+ b=e0kosvW7YUPpY4q0WS+jyio53RdExQS62XQnEHyBmCxIHKCBWazHrqKfLNh+eOEieV
+ I2bVKlwVGg0oI3yJoOLsDsrD91dTw7V5D5/cEs/eOR9DZ5OmnPiBEuDApU4xkcXfxe2X
+ o7bJMLvk5gP59Q3seFovLewo/ILLvmgMz7b2xyr2qU5SV4kP+psmWOztcoXQQ3tSpolP
+ nOchj/xqxMmUd3yhD8nAlE0amuKDxMyFNej4nv2y5YZZt5GvQDyTzGZB5qPUQ/DBX0Qp
+ q/d/Hd3vvz6aIqXSzBmBxlFg0JULwwQfQ6rfbhB9NDIqzT/ZqfdUzhADnIqaqWQdbLeB
+ hkmg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,215 +74,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "z.liuxinliang@hisilicon.com" <z.liuxinliang@hisilicon.com>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>, "Huang,
- Ray" <Ray.Huang@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "zourongrong@gmail.com" <zourongrong@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0245069892=="
+Cc: linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ kernel@pengutronix.de, Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0245069892==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="5zEfUNNxMdTKyeDEcXN9rCyPuVeEcm6Pu"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5zEfUNNxMdTKyeDEcXN9rCyPuVeEcm6Pu
-Content-Type: multipart/mixed; boundary="FDnYabggc0RiNpgvlJISQl5Gd4FxcN3Fa";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "z.liuxinliang@hisilicon.com" <z.liuxinliang@hisilicon.com>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>,
- "Huang, Ray" <Ray.Huang@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "zourongrong@gmail.com" <zourongrong@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-Message-ID: <1d76d06a-7684-6e64-711e-93995ee71257@suse.de>
-Subject: Re: [PATCH v3 01/19] drm: Add |struct drm_gem_vram_object| and
- helpers
-References: <20190429144341.12615-1-tzimmermann@suse.de>
- <20190429144341.12615-2-tzimmermann@suse.de>
- <20190429195855.GA6610@ravnborg.org>
- <1d14ef87-e1cd-4f4a-3632-bc045a1981c6@suse.de>
- <20190430092327.GA13757@ravnborg.org>
- <6e07e6c9-2ce7-c39f-8d55-46e811c61510@amd.com>
- <a2398439-3bb5-d1ef-db94-82f252f461c2@suse.de>
- <CAKMK7uGnUeeK-UPHZC+P5TsQTaOWPQd=LLV_Rr+VvPgNEEHhyg@mail.gmail.com>
- <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
- <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
-In-Reply-To: <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
-
---FDnYabggc0RiNpgvlJISQl5Gd4FxcN3Fa
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Am 03.05.19 um 14:27 schrieb Thomas Zimmermann:
-> cc: noralf@tronnes.org
-
-Actually cc him
-
-> Am 03.05.19 um 14:07 schrieb Koenig, Christian:
->> Am 03.05.19 um 14:01 schrieb Daniel Vetter:
->>> [CAUTION: External Email]
->>>
->>> On Fri, May 3, 2019 at 12:15 PM Thomas Zimmermann <tzimmermann@suse.d=
-e> wrote:
->>>> Hi Christian,
->>>>
->>>> would you review the whole patch set? Daniel mentioned that he'd pre=
-fer
->>>> to leave the review to memory-mgmt developers.
->>> I think Noralf Tronnes or Gerd Hoffmann would also make good reviewer=
-s
->>> for this, fairly close to what they've been working on in the past.
->>
->> I will try to take another look next week. Busy as usual here.
->=20
-> Thanks, I'll post v4 of the patches early next week.
->=20
->> Christian.
->>
->>> -Daniel
->>>
->>>> Best regards
->>>> Thomas
->>>>
->>>> Am 30.04.19 um 11:35 schrieb Koenig, Christian:
->>>>> Am 30.04.19 um 11:23 schrieb Sam Ravnborg:
->>>>>> [CAUTION: External Email]
->>>>>>
->>>>>> Hi Thomas.
->>>>>>
->>>>>>>>> +
->>>>>>>>> +/**
->>>>>>>>> + * Returns the container of type &struct drm_gem_vram_object
->>>>>>>>> + * for field bo.
->>>>>>>>> + * @bo:           the VRAM buffer object
->>>>>>>>> + * Returns:       The containing GEM VRAM object
->>>>>>>>> + */
->>>>>>>>> +static inline struct drm_gem_vram_object* drm_gem_vram_of_bo(
->>>>>>>>> +  struct ttm_buffer_object *bo)
->>>>>>>>> +{
->>>>>>>>> +  return container_of(bo, struct drm_gem_vram_object, bo);
->>>>>>>>> +}
->>>>>>>> Indent funny. USe same indent as used in other parts of file for=
-
->>>>>>>> function arguments.
->>>>>>> If I put the argument next to the function's name, it will exceed=
- the
->>>>>>> 80-character limit. From the coding-style document, I could not s=
-ee what
->>>>>>> to do in this case. One solution would move the return type to a
->>>>>>> separate line before the function name. I've not seen that anywhe=
-re in
->>>>>>> the source code, so moving the argument onto a separate line and
->>>>>>> indenting by one tab appears to be the next best solution. Please=
- let me
->>>>>>> know if there's if there's a preferred style for cases like this =
-one.
->>>>>> Readability has IMO higher priority than some limit of 80 chars.
->>>>>> And it hurts readability (at least my OCD) when style changes
->>>>>> as you do with indent here. So my personal preference is to fix
->>>>>> indent and accect longer lines.
->>>>> In this case the an often used convention (which is also kind of
->>>>> readable) is to add a newline after the return values, but before t=
-he
->>>>> function name. E.g. something like this:
->>>>>
->>>>> static inline struct drm_gem_vram_object*
->>>>> drm_gem_vram_of_bo(struct ttm_buffer_object *bo)
->>>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>> But you ask for a preferred style - which I do not think we have i=
-n this
->>>>>> case. So it boils down to what you prefer.
->>>>>>
->>>>>> Enough bikeshedding, thanks for the quick response.
->>>>>>
->>>>>>           Sam
->>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->>>> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->>>> HRB 21284 (AG N=C3=BCrnberg)
->>>>
->>>> _______________________________________________
->>>> dri-devel mailing list
->>>> dri-devel@lists.freedesktop.org
->>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>
->>>
->>> --
->>> Daniel Vetter
->>> Software Engineer, Intel Corporation
->>> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
->>
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---FDnYabggc0RiNpgvlJISQl5Gd4FxcN3Fa--
-
---5zEfUNNxMdTKyeDEcXN9rCyPuVeEcm6Pu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlzMQjMACgkQaA3BHVML
-eiMAQQgAnDBGdjQKsmaEjqASPw85qSaomr5BCs9THb7rsyAUyMmEJe28FXXS3y2d
-uPqKI4ZZVezyvSdC3q2+9pHFF6vqYCsujOUl1SEoTXoTSKq6uD00DvbPvSWUzk/0
-fNmomyyiFnm7wtOwoWQY40fO8c0uGFN1R71L2M1i3bQjk9Hu4QWFjwAt1/HRdLyE
-Tifutac2H/H6kEqO1pQvBCQIZQfV2FsJHPNDk4JK12CRAkaEyGvXFt9D8Pi68+wK
-n4iTumrWv8H9ZiKwoudMduMAa2cmRGhpO8IkgHhWMaOpHOCDO7g8jIf1NowKaDaI
-ni1GT3XK4pNIVeKUTrUc69MNUoC6+A==
-=7kNI
------END PGP SIGNATURE-----
-
---5zEfUNNxMdTKyeDEcXN9rCyPuVeEcm6Pu--
-
---===============0245069892==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0245069892==--
+T24gVGh1LCBNYXkgMDIsIDIwMTkgYXQgMDI6MDE6NDVQTSArMDIwMCwgTHVjYXMgU3RhY2ggd3Jv
+dGU6Cj4gSGkgRGFuaWVsLAo+IAo+IEFtIERvbm5lcnN0YWcsIGRlbiAwMi4wNS4yMDE5LCAxMToz
+MyArMDEwMCBzY2hyaWViIERhbmllbCBUaG9tcHNvbjoKPiA+IE9uIDI5LzA0LzIwMTkgMTY6Mjks
+IEx1Y2FzIFN0YWNoIHdyb3RlOgo+ID4gPiBUaGlzIHdheSB0aGUgYmFja2xpZ2h0IGNhbiBiZSBy
+ZWZlcmVuY2VkIHRocm91Z2ggaXRzIGRldmljZSBub2RlIGFuZAo+ID4gPiBlbmFibGluZy9kaXNh
+YmxpbmcgY2FuIGJlIG1hbmFnZWQgdGhyb3VnaCB0aGUgcGFuZWwgZHJpdmVyLgo+ID4gCj4gPiBJ
+cyBpdCBwb3NzaWJsZSB0byBpbXBsZW1lbnQgc29tZXRoaW5nIHNpbWlsYXIgdG/CoAo+ID4gcHdt
+X2JhY2tsaWdodF9pbml0aWFsX3Bvd2VyX3N0YXRlKCkgdG8gaGFuZGxlIHRoaXM/Cj4gCj4gSSdt
+IG5vdCBhd2FyZSBvZiBhbnkgcHJvdG9jb2wgdG8gdGhlIFJBVkUtU1AgdGhhdCB3b3VsZCBhbGxv
+dyB0byByZWFkCj4gYmFjayB0aGUgYmFja2xpZ2h0IHN0YXRlLiBBRkFJQ1MgdGhlIGJhY2tsaWdo
+dCBpcyBpbXBsZW1lbnRlZCBhcyBhCj4gdW5pZGlyZWN0aW9uYWwgcHJvdG9jb2wuCgpUaGF0IGZ1
+bmN0aW9uIGRvZXMgdHdvIHRoaW5ncy4uLiBvbmUgaXMgcmVhZCB0aGUgY3VycmVudCBwb3dlciBz
+dGF0ZSB0bwplbnN1cmUgbWV0YS1kYXRhIGlzIGNvcnJlY3RseSB1cCB0byBkYXRlIHdoaWNoIGNh
+bm5vdCBiZSByZXBsaWNhdGVkLgpUaGUgb3RoZXIgaXMgdG8gY2hvb3NlIGRpZmZlcmVudCBiZWhh
+dmlvdXIgZGVwZW5kaW5nIG9uIHdoZXRoZXIgdGhlCmJhY2tsaWdodCBpcyBzdGFuZGFsb25lIG9y
+IGhhcyBhIHBoYW5kbGUgbGluayB0byBhbm90aGVyIGRldmljZS4KCkRvZXMgdGhlIHNlY29uZCBw
+YXJ0IGFwcGx5IHRvIHRoZSByYXZlLXNwPwoKCkRhbmllbC4KCgoKPiA+IGJhY2tsaWdodCBkcml2
+ZXJzIGFscmVhZHkgc3VmZmVyIGZyb20gdG9vIG11Y2ggZGl2ZXJzaXR5IHNvIEkgcHJlZmVywqAK
+PiA+IHRoaW5ncyBsaWtlIHRoaXMgdG8gYWxpZ24gYmVoYXZpb3VyIHdpdGggdGhlIChmYWlybHkg
+aGVhdmlseWx5IHVzZWQpIFBXTcKgCj4gPiBkcml2ZXIgaWYgcG9zc2libGUuCj4gPiAKPiA+IAo+
+ID4gRGFuaWVsLgo+ID4gCj4gPiAKPiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNo
+IDxsLnN0YWNoQHBlbmd1dHJvbml4LmRlPgo+ID4gPiAtLS0KPiA+ID4gwqAgZHJpdmVycy92aWRl
+by9iYWNrbGlnaHQvcmF2ZS1zcC1iYWNrbGlnaHQuYyB8IDQgKy0tLQo+ID4gPiDCoCAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDMgZGVsZXRpb25zKC0pCj4gPiA+IAo+ID4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcmF2ZS1zcC1iYWNrbGlnaHQuYyBiL2Ry
+aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3JhdmUtc3AtYmFja2xpZ2h0LmMKPiA+ID4gaW5kZXggNDYy
+ZjE0YTFiMTlkLi5kMjk2YmZjZjQzOTYgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8v
+YmFja2xpZ2h0L3JhdmUtc3AtYmFja2xpZ2h0LmMKPiA+ID4gKysrIGIvZHJpdmVycy92aWRlby9i
+YWNrbGlnaHQvcmF2ZS1zcC1iYWNrbGlnaHQuYwo+ID4gPiBAQCAtNDgsMTUgKzQ4LDEzIEBAIHN0
+YXRpYyBpbnQgcmF2ZV9zcF9iYWNrbGlnaHRfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
+cGRldikKPiA+ID4gPiA+IMKgwqAJc3RydWN0IGRldmljZSAqZGV2ID0gJnBkZXYtPmRldjsKPiA+
+ID4gPiA+IMKgwqAJc3RydWN0IGJhY2tsaWdodF9kZXZpY2UgKmJkOwo+ID4gPiDCoMKgCj4gPiA+
+ID4gPiAtCWJkID0gZGV2bV9iYWNrbGlnaHRfZGV2aWNlX3JlZ2lzdGVyKGRldiwgcGRldi0+bmFt
+ZSwgZGV2LT5wYXJlbnQsCj4gPiA+ID4gPiArCWJkID0gZGV2bV9iYWNrbGlnaHRfZGV2aWNlX3Jl
+Z2lzdGVyKGRldiwgcGRldi0+bmFtZSwgZGV2LAo+ID4gPiA+ID4gwqDCoAkJCQkJwqDCoMKgwqBk
+ZXZfZ2V0X2RydmRhdGEoZGV2LT5wYXJlbnQpLAo+ID4gPiA+ID4gwqDCoAkJCQkJwqDCoMKgwqAm
+cmF2ZV9zcF9iYWNrbGlnaHRfb3BzLAo+ID4gPiA+ID4gwqDCoAkJCQkJwqDCoMKgwqAmcmF2ZV9z
+cF9iYWNrbGlnaHRfcHJvcHMpOwo+ID4gPiA+ID4gwqDCoAlpZiAoSVNfRVJSKGJkKSkKPiA+ID4g
+PiA+IMKgwqAJCXJldHVybiBQVFJfRVJSKGJkKTsKPiA+ID4gwqDCoAo+ID4gPiA+ID4gLQliYWNr
+bGlnaHRfdXBkYXRlX3N0YXR1cyhiZCk7Cj4gPiA+IC0KPiA+ID4gPiA+IMKgwqAJcmV0dXJuIDA7
+Cj4gPiA+IMKgIH0KPiA+ID4gwqDCoAo+ID4gPiAKPiA+IAo+ID4gCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
