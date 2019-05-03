@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4134612DA8
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:31:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184BA12D9B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A2F89F5F;
-	Fri,  3 May 2019 12:31:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 402F489EBB;
+	Fri,  3 May 2019 12:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89D1889F5F
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:31:42 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x43CVc4s032499;
- Fri, 3 May 2019 07:31:38 -0500
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x43CVchQ049770
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 3 May 2019 07:31:38 -0500
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 3 May
- 2019 07:31:36 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 3 May 2019 07:31:36 -0500
-Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x43CUYu7002029;
- Fri, 3 May 2019 07:31:34 -0500
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: Andrzej Hajda <a.hajda@samsung.com>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Lucas Stach <l.stach@pengutronix.de>,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Andrey Smirnov <andrew.smirnov@gmail.com>, Peter
- Ujfalusi <peter.ujfalusi@ti.com>, Jyri Sarha <jsarha@ti.com>, Benoit Parrot
- <bparrot@ti.com>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCHv3 23/23] dt-bindings: tc358767: add HPD support
-Date: Fri, 3 May 2019 15:29:49 +0300
-Message-ID: <20190503122949.12266-24-tomi.valkeinen@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190503122949.12266-1-tomi.valkeinen@ti.com>
-References: <20190503122949.12266-1-tomi.valkeinen@ti.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 55C8B89EB7
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:31:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 52B5A7215A; Fri,  3 May 2019 12:31:08 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110214] radeonsi: xterm scrollback buffer disappears while
+ Shift+PgUp and Shift+PgDn
+Date: Fri, 03 May 2019 12:31:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: komqinxit@zoho.eu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110214-502-dzWukQf12X@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
+References: <bug-110214-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1556886698;
- bh=ie89C1JN/2hoK4jNI1tfsDdl8ZlnIPT+HjtwaWZJjJ8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=fVrZfMp8HkYM6OmUt7/eVrtHj1A31XUIxPoNbJlBAnTLdwd9+B1MHUym+2Xx8/ObV
- yYlORimFJ4BsiakxMmiIuXOQuAOqTG8V/gXpOWHSbIC+6sJoiyCPDAx4bk0T+5p4xX
- RDAqy8gkrX/40KX1DaDUG8g4MzkTG5YUBRfzvD3A=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,34 +53,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2036194767=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIERUIHByb3BlcnR5IGZvciBkZWZpbmluZyB0aGUgcGluIHVzZWQgZm9yIEhQRC4KClNpZ25l
-ZC1vZmYtYnk6IFRvbWkgVmFsa2VpbmVuIDx0b21pLnZhbGtlaW5lbkB0aS5jb20+CkNjOiBkZXZp
-Y2V0cmVlQHZnZXIua2VybmVsLm9yZwpDYzogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4K
-UmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQogLi4uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvdG9zaGliYSx0YzM1ODc2Ny50eHQgICAgICB8
-IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3Rvc2hpYmEsdGMzNTg3
-NjcudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdl
-L3Rvc2hpYmEsdGMzNTg3NjcudHh0CmluZGV4IGUzZjZhYTZhMjE0ZC4uNTgzYzVlOWRiZTZiIDEw
-MDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlk
-Z2UvdG9zaGliYSx0YzM1ODc2Ny50eHQKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3Rvc2hpYmEsdGMzNTg3NjcudHh0CkBAIC0xMiw2ICsxMiw3
-IEBAIE9wdGlvbmFsIHByb3BlcnRpZXM6CiAgICAgICAgICAgICAgICAgICAgKGFjdGl2ZSBoaWdo
-IHNodXRkb3duIGlucHV0KQogIC0gcmVzZXQtZ3Bpb3M6IE9GIGRldmljZS10cmVlIGdwaW8gc3Bl
-Y2lmaWNhdGlvbiBmb3IgUlNUWCBwaW4KICAgICAgICAgICAgICAgICAoYWN0aXZlIGxvdyBzeXN0
-ZW0gcmVzZXQpCisgLSB0b3NoaWJhLGhwZC1waW46IFRDMzU4NzY3IEdQSU8gcGluIG51bWJlciB0
-byB3aGljaCBIUEQgaXMgY29ubmVjdGVkIHRvICgwIG9yIDEpCiAgLSBwb3J0czogdGhlIHBvcnRz
-IG5vZGUgY2FuIGNvbnRhaW4gdmlkZW8gaW50ZXJmYWNlIHBvcnQgbm9kZXMgdG8gY29ubmVjdAog
-ICAgdG8gYSBEUEkvRFNJIHNvdXJjZSBhbmQgdG8gYW4gZURQL0RQIHNpbmsgYWNjb3JkaW5nIHRv
-IFsxXVsyXToKICAgICAtIHBvcnRAMDogRFNJIGlucHV0IHBvcnQKLS0gClRleGFzIEluc3RydW1l
-bnRzIEZpbmxhbmQgT3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgpZLXR1bm51
-cy9CdXNpbmVzcyBJRDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWljaWxlOiBIZWxzaW5raQoK
+
+--===============2036194767==
+Content-Type: multipart/alternative; boundary="15568866683.EBD3bC8.21432"
+Content-Transfer-Encoding: 7bit
+
+
+--15568866683.EBD3bC8.21432
+Date: Fri, 3 May 2019 12:31:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
+
+--- Comment #87 from komqinxit@zoho.eu ---
+I have the same bug with xterm and shift+paging.
+
+Another similar bug.
+xfce4-terminal leaves a large black area at the bottom when it renders 'dme=
+sg'
+or 'cat /etc/passwd'.
+
+AMD Ryzen 3 2200G.
+Arch Linux.
+Mesa 19.0.3-1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568866683.EBD3bC8.21432
+Date: Fri, 3 May 2019 12:31:08 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c87">Comme=
+nt # 87</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+komqinxit&#64;zoho.eu" title=3D"komqinxit&#64;zoho.eu">komqinxit&#64;zoho.e=
+u</a>
+</span></b>
+        <pre>I have the same bug with xterm and shift+paging.
+
+Another similar bug.
+xfce4-terminal leaves a large black area at the bottom when it renders 'dme=
+sg'
+or 'cat /etc/passwd'.
+
+AMD Ryzen 3 2200G.
+Arch Linux.
+Mesa 19.0.3-1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568866683.EBD3bC8.21432--
+
+--===============2036194767==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2036194767==--
