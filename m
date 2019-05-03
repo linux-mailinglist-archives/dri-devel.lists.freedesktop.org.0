@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868FA14529
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 09:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14134131F7
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 18:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D463B89221;
-	Mon,  6 May 2019 07:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343DD6E815;
+	Fri,  3 May 2019 16:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
- Fri, 03 May 2019 15:53:04 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3D36E801
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:53:04 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 44wc3G4Z08z1rYWw;
- Fri,  3 May 2019 17:47:54 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 44wc3G3zq6z1qtf0;
- Fri,  3 May 2019 17:47:54 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id LF8oQFI9RBcL; Fri,  3 May 2019 17:47:53 +0200 (CEST)
-X-Auth-Info: Do7dPbj9putD9hqyhF07qwHvll/bcrHuEUUlbo370WQ=
-Received: from kurokawa.lan (ip-86-49-110-70.net.upcbroadband.cz
- [86.49.110.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Fri,  3 May 2019 17:47:53 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5D5EB6E815
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 16:17:27 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5708D7215A; Fri,  3 May 2019 16:17:27 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dt-bindings: display: Add ETM0700G0DH6 compatible string
-Date: Fri,  3 May 2019 17:47:49 +0200
-Message-Id: <20190503154749.5630-1-marex@denx.de>
-X-Mailer: git-send-email 2.20.1
+Subject: [Bug 108893] Slow redrawing of menu in Gothic 2 under wine
+Date: Fri, 03 May 2019 16:17:27 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: supercoolemail@seznam.cz
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108893-502-BdnPmNdJk7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108893-502@http.bugs.freedesktop.org/>
+References: <bug-108893-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 06 May 2019 07:27:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,42 +52,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Thierry Reding <treding@nvidia.com>,
- Rob Herring <robh+dt@kernel.org>, Jan Tuerk <jan.tuerk@emtrion.com>,
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1626652053=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIEVUTTA3MDBHMERINiBpcyBjdXJyZW50bHkgZG9jdW1lbnRlZCBhcyB1c2luZyBlZHQsZXRt
-MDcwMDgwZGg2CmNvbXBhdGlibGUgc3RyaW5nLCBob3dldmVyIHRoZSBMaW51eCBrZXJuZWwgZHJp
-dmVyIGFzIHdlbGwgYXMgYQpjb3VwbGUgb2YgRFRzIHVzZSBlZHQsZXRtMDcwMGcwZGg2IGNvbXBh
-dGlibGUgc3RyaW5nLiBBZGQgaXQgaW50bwp0aGUgZG9jdW1lbnRhdGlvbi4KClNpZ25lZC1vZmYt
-Ynk6IE1hcmVrIFZhc3V0IDxtYXJleEBkZW54LmRlPgpDYzogUm9iIEhlcnJpbmcgPHJvYmgrZHRA
-a2VybmVsLm9yZz4KQ2M6IEphbiBUdWVyayA8amFuLnR1ZXJrQGVtdHJpb24uY29tPgpDYzogVGhp
-ZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KQ2M6IGRldmljZXRyZWVAdmdlci5rZXJu
-ZWwub3JnClRvOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCi0tLQogLi4uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9lZHQsZXQtc2VyaWVzLnR4dCAgICAgICAgIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZm
-IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwv
-ZWR0LGV0LXNlcmllcy50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
-cGxheS9wYW5lbC9lZHQsZXQtc2VyaWVzLnR4dAppbmRleCBkOWYyMWQ2MjQyMmUuLjRjYmI5ZGNi
-YjM0NCAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
-YXkvcGFuZWwvZWR0LGV0LXNlcmllcy50eHQKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZWR0LGV0LXNlcmllcy50eHQKQEAgLTMyLDcgKzMyLDcg
-QEAgc2ltcGxlLXBhbmVsLnR4dAogfCBJZGVudGlmaWVyICAgICAgfCBjb21wYXRiaWxlICAgICAg
-ICAgIHwgZGVzY3JpcHRpb24gICAgICAgICAgICAgICAgICAgICAgICAgfAogKz09PT09PT09PT09
-PT09PT09Kz09PT09PT09PT09PT09PT09PT09PSs9PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09KwogfCBFVE0wNzAwRzBESDYgICAgfCBlZHQsZXRtMDcwMDgwZGg2ICAgIHwgV1ZH
-QSBURlQgRGlzcGxheSB3aXRoIGNhcGFjaXRpdmUgICAgfAotfCAgICAgICAgICAgICAgICAgfCAg
-ICAgICAgICAgICAgICAgICAgIHwgVG91Y2hzY3JlZW4gICAgICAgICAgICAgICAgICAgICAgICAg
-fAorfCAgICAgICAgICAgICAgICAgfCBlZHQsZXRtMDcwMGcwZGg2ICAgIHwgVG91Y2hzY3JlZW4g
-ICAgICAgICAgICAgICAgICAgICAgICAgfAogKy0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0t
-LS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKwogfCBFVE0w
-NzAwRzBCREg2ICAgfCBlZHQsZXRtMDcwMDgwYmRoNiAgIHwgU2FtZSBhcyBFVE0wNzAwRzBESDYg
-YnV0IHdpdGggICAgICAgfAogfCAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-IHwgaW52ZXJ0ZWQgcGl4ZWwgY2xvY2suICAgICAgICAgICAgICAgfAotLSAKMi4yMC4xCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1626652053==
+Content-Type: multipart/alternative; boundary="15569002471.3f9cD.2191"
+Content-Transfer-Encoding: 7bit
+
+
+--15569002471.3f9cD.2191
+Date: Fri, 3 May 2019 16:17:27 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108893
+
+--- Comment #9 from supercoolemail@seznam.cz ---
+I am on 19.0.3.
+The game used to run quite well from what I remeber and I could navigate the
+menu. Now it's horrible and when I want to change something in menu, I need
+LIBGL_ALWAYS_SOFTWARE=3D1, otherwise I might not even live long enough to c=
+hange
+it :-)
+
+Output of perf (if you want anything more, e.g. full perf.data or something,
+I'll deliver):
+
+perf report --stdio
+    32.26%  Gothic2.exe      wined3d.dll.so            [.] wined3d_resource=
+_map
+    20.34%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053c2=
+22
+     4.05%  Gothic2.exe      wined3d.dll.so            [.] 0x000000000008c8=
+09
+     3.95%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053c2=
+27
+     3.67%  Gothic2.exe      ntdll.dll.so              [.] RtlAllocateHeap
+     2.41%  Gothic2.exe      perf-24471.map            [.] 0x0000000001426f=
+aa
+     2.02%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053c2=
+24
+     1.20%  Gothic2.exe      ntdll.dll.so              [.] 0x00000000000882=
+07
+     1.19%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053bf=
+2a
+     1.17%  Gothic2.exe      ntdll.dll.so              [.] 0x00000000000883=
+73
+     0.92%  Gothic2.exe      wined3d.dll.so            [.] 0x000000000008b2=
+82
+
+
+perf report --stdio --sort comm,dso
+    40.56%  Gothic2.exe      wined3d.dll.so=20=20=20=20=20=20=20=20=20=20
+    30.73%  Gothic2.exe      radeonsi_dri.so=20=20=20=20=20=20=20=20=20
+    11.74%  Gothic2.exe      ntdll.dll.so=20=20=20=20=20=20=20=20=20=20=20=
+=20
+     8.61%  Gothic2.exe      perf-24471.map=20=20=20=20=20=20=20=20=20=20
+     3.65%  Gothic2.exe      Gothic2.exe=20=20=20=20=20=20=20=20=20=20=20=
+=20=20
+     1.59%  Gothic2.exe      dsound.dll.so=20=20=20=20=20=20=20=20=20=20=20
+     0.71%  Gothic2.exe      libGLX_mesa.so.0.0.0
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15569002471.3f9cD.2191
+Date: Fri, 3 May 2019 16:17:27 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Slow redrawing of menu in Gothic 2 under wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108893#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Slow redrawing of menu in Gothic 2 under wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108893">bug 10889=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+supercoolemail&#64;seznam.cz" title=3D"supercoolemail&#64;seznam.cz">superc=
+oolemail&#64;seznam.cz</a>
+</span></b>
+        <pre>I am on 19.0.3.
+The game used to run quite well from what I remeber and I could navigate the
+menu. Now it's horrible and when I want to change something in menu, I need
+LIBGL_ALWAYS_SOFTWARE=3D1, otherwise I might not even live long enough to c=
+hange
+it :-)
+
+Output of perf (if you want anything more, e.g. full perf.data or something,
+I'll deliver):
+
+perf report --stdio
+    32.26%  Gothic2.exe      wined3d.dll.so            [.] wined3d_resource=
+_map
+    20.34%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053c2=
+22
+     4.05%  Gothic2.exe      wined3d.dll.so            [.] 0x000000000008c8=
+09
+     3.95%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053c2=
+27
+     3.67%  Gothic2.exe      ntdll.dll.so              [.] RtlAllocateHeap
+     2.41%  Gothic2.exe      perf-24471.map            [.] 0x0000000001426f=
+aa
+     2.02%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053c2=
+24
+     1.20%  Gothic2.exe      ntdll.dll.so              [.] 0x00000000000882=
+07
+     1.19%  Gothic2.exe      radeonsi_dri.so           [.] 0x000000000053bf=
+2a
+     1.17%  Gothic2.exe      ntdll.dll.so              [.] 0x00000000000883=
+73
+     0.92%  Gothic2.exe      wined3d.dll.so            [.] 0x000000000008b2=
+82
+
+
+perf report --stdio --sort comm,dso
+    40.56%  Gothic2.exe      wined3d.dll.so=20=20=20=20=20=20=20=20=20=20
+    30.73%  Gothic2.exe      radeonsi_dri.so=20=20=20=20=20=20=20=20=20
+    11.74%  Gothic2.exe      ntdll.dll.so=20=20=20=20=20=20=20=20=20=20=20=
+=20
+     8.61%  Gothic2.exe      perf-24471.map=20=20=20=20=20=20=20=20=20=20
+     3.65%  Gothic2.exe      Gothic2.exe=20=20=20=20=20=20=20=20=20=20=20=
+=20=20
+     1.59%  Gothic2.exe      dsound.dll.so=20=20=20=20=20=20=20=20=20=20=20
+     0.71%  Gothic2.exe      libGLX_mesa.so.0.0.0</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15569002471.3f9cD.2191--
+
+--===============1626652053==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1626652053==--
