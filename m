@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192D31264B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 04:23:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7086C1264F
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 04:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01A5289491;
-	Fri,  3 May 2019 02:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8977B894A7;
+	Fri,  3 May 2019 02:31:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 826D4890AB
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 02:23:48 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1F26894A7
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 02:31:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 760387215A; Fri,  3 May 2019 02:23:48 +0000 (UTC)
+ id BE8FE7215A; Fri,  3 May 2019 02:31:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109124] [AMD][TAHITI XT] csgo new battle royal mode bad
- performance
-Date: Fri, 03 May 2019 02:23:48 +0000
+Subject: [Bug 104185] CS:GO randomly locks up the entire system requiring
+ forced reboot
+Date: Fri, 03 May 2019 02:31:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: 17.2
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: major
 X-Bugzilla-Who: t_arceri@yahoo.com.au
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTABUG
+X-Bugzilla-Resolution: WORKSFORME
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109124-502-DldVz4Zy17@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109124-502@http.bugs.freedesktop.org/>
-References: <bug-109124-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-104185-502-Vi2o2PWmCF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-104185-502@http.bugs.freedesktop.org/>
+References: <bug-104185-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,50 +53,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0291921371=="
+Content-Type: multipart/mixed; boundary="===============1973078735=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0291921371==
-Content-Type: multipart/alternative; boundary="15568502280.ef6831c2.13130"
+--===============1973078735==
+Content-Type: multipart/alternative; boundary="15568506831.1fD5e.13572"
 Content-Transfer-Encoding: 7bit
 
 
---15568502280.ef6831c2.13130
-Date: Fri, 3 May 2019 02:23:48 +0000
+--15568506831.1fD5e.13572
+Date: Fri, 3 May 2019 02:31:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109124
+https://bugs.freedesktop.org/show_bug.cgi?id=3D104185
 
 Timothy Arceri <t_arceri@yahoo.com.au> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |NOTABUG
+         Resolution|---                         |WORKSFORME
+             Status|NEEDINFO                    |RESOLVED
 
---- Comment #4 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-I suspect it could be your system showing its age. It seems common that use=
-rs
-on Windows also reported FPS drops with Danger Zone. You could try some of =
-the
-generic (non windows) suggestions found here [1] to reduce CPU use etc.
-Otherwise it might be upgrade time.
+--- Comment #7 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Closing as there have been no reports of this issue in over a year and the
+original reporter haven't responded to confirm the issue still exists.
 
-
-[1] https://www.youtube.com/watch?v=3DFkP-MUL8Qg8
+Please reopen if this is still an issues.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15568502280.ef6831c2.13130
-Date: Fri, 3 May 2019 02:23:48 +0000
+--15568506831.1fD5e.13572
+Date: Fri, 3 May 2019 02:31:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,10 +108,10 @@ Auto-Submitted: auto-generated
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - [AMD][TAHITI XT] csgo new battle royal mode =
-bad performance"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124">bug 10912=
-4</a>
+   title=3D"RESOLVED WORKSFORME - CS:GO randomly locks up the entire system=
+ requiring forced reboot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104185">bug 10418=
+5</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -126,48 +121,43 @@ bad performance"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
-           <td>RESOLVED
+           <td>WORKSFORME
            </td>
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEEDINFO
            </td>
-           <td>NOTABUG
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - [AMD][TAHITI XT] csgo new battle royal mode =
-bad performance"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124#c4">Commen=
-t # 4</a>
+   title=3D"RESOLVED WORKSFORME - CS:GO randomly locks up the entire system=
+ requiring forced reboot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104185#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - [AMD][TAHITI XT] csgo new battle royal mode =
-bad performance"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124">bug 10912=
-4</a>
+   title=3D"RESOLVED WORKSFORME - CS:GO randomly locks up the entire system=
+ requiring forced reboot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104185">bug 10418=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
 om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
 </span></b>
-        <pre>I suspect it could be your system showing its age. It seems co=
-mmon that users
-on Windows also reported FPS drops with Danger Zone. You could try some of =
-the
-generic (non windows) suggestions found here [1] to reduce CPU use etc.
-Otherwise it might be upgrade time.
+        <pre>Closing as there have been no reports of this issue in over a =
+year and the
+original reporter haven't responded to confirm the issue still exists.
 
-
-[1] <a href=3D"https://www.youtube.com/watch?v=3DFkP-MUL8Qg8">https://www.y=
-outube.com/watch?v=3DFkP-MUL8Qg8</a></pre>
+Please reopen if this is still an issues.</pre>
         </div>
       </p>
 
@@ -181,9 +171,9 @@ outube.com/watch?v=3DFkP-MUL8Qg8</a></pre>
     </body>
 </html>=
 
---15568502280.ef6831c2.13130--
+--15568506831.1fD5e.13572--
 
---===============0291921371==
+--===============1973078735==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +183,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0291921371==--
+--===============1973078735==--
