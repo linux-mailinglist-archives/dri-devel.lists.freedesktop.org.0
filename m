@@ -1,52 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F54A125E4
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 03:01:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9994E125F5
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 03:20:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B015589458;
-	Fri,  3 May 2019 01:01:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB6978925D;
+	Fri,  3 May 2019 01:20:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7B289458
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 01:01:20 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id t1so4244001qtc.12
- for <dri-devel@lists.freedesktop.org>; Thu, 02 May 2019 18:01:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=kSq919h6o1UVm1JZ8MlwKXlLHm8tsVrO94W57bvWp2c=;
- b=fOon6ePZtGQGDurjJ6R171T47KzeWV55ZIegVNoV/LAZp8T7am4un1PK9R6yOgjYJX
- vXIYaEzHMSkLJ5okMGt8655K01uIEjgj1yXP46tACdTsqlJFiZuCjE6vVvVbNeusiynf
- YGdaC4YmEIt/cs022RQt/F4M8LkYrWKIn2iADiZVemtSZojMWOpZOz7yJ8XPaXHEGegD
- spZkCkMfXi2/Ffu6KQkDngQ6yhgGig4sInrIsK0wM1Eq0I/+oiQaLRGTXZXHcybuy7+/
- h7K2aqJGBuAfVG3CUWuTCBoMspK9h9TvXztMAaA3aQveEncl99ewCzmozdsSKCCUMTUj
- Y/7A==
-X-Gm-Message-State: APjAAAVhNHjz2Wf3OMcXl85m/RpXuNR0sENQay4g0DE9HJgRDqPn6IDp
- kdew7YA1vpAauwOQ/3+UiV61zvyFyWBU/fOkSsg=
-X-Google-Smtp-Source: APXvYqzqwXBZzn7P/M+8oVZTQObkWlxaQtklrl2kNkDc5uCEVpqFRMYB6KzRrQ3YDHduezYJsr+W+TApCM448vZNbE8=
-X-Received: by 2002:ac8:641:: with SMTP id e1mr6100662qth.76.1556845279093;
- Thu, 02 May 2019 18:01:19 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 556368925D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 01:20:43 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 51E2A7215A; Fri,  3 May 2019 01:20:43 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 100239] Incorrect rendering in CS:GO
+Date: Fri, 03 May 2019 01:20:43 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-100239-502-u4ngbVnPGe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-100239-502@http.bugs.freedesktop.org/>
+References: <bug-100239-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 3 May 2019 11:01:07 +1000
-Message-ID: <CAPM=9twjCLCi0rVHeaK1CtyD=13PSFxdDTDK4LvV-w89Wr6DvA@mail.gmail.com>
-Subject: [git pull] drm fixes for final
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=kSq919h6o1UVm1JZ8MlwKXlLHm8tsVrO94W57bvWp2c=;
- b=IABV5+rCWIW/Eqn5YRBe4mVOi4tsH7WTUfyZKB1wApRm0XHxzQwVhSXab+RdYsM1cS
- /f2u46ytLnwJ23XW1QgUTKxKAi6W2h1e2Ye/k/wKt9bBi1LPcQ0CzcOEwC132j9NA7/C
- wvMe6V3X/7RHzBon8R1VTPYjD45nxI6yqcBIcVsK/QlvXh5f8sdP4zcxC/nKhjUfovox
- DXu/QsP1cjLDr1o2I7rFI+K6HTwhGMjQO0Oi8fPhQpz6tsjKw47Y9V/xDfnhNm+xYdcx
- Fm2RkwEGKJeJ+BoMaXA2rcskbgNf/g9aMyaKWMm+B0IWPIHfx4Flib+99MMPuPWpCbg5
- whjw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,31 +52,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0182655424=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGV5IExpbnVzLAoKSnVzdCBhIHNpbmdsZSBxeGwgcmV2ZXJ0IGZvciByYzgvZmluYWwuCgpEYXZl
-Lgpkcm0tZml4ZXMtMjAxOS0wNS0wMzoKZHJtIG9uZSBxeGwgcmV2ZXJ0ClRoZSBmb2xsb3dpbmcg
-Y2hhbmdlcyBzaW5jZSBjb21taXQgMzc2MjRiNTg1NDJmYjlmMmQ5YTcwZTZlYTAwNmVmOGE1ZjY2
-YzMwYjoKCiAgTGludXggNS4xLXJjNyAoMjAxOS0wNC0yOCAxNzowNDoxMyAtMDcwMCkKCmFyZSBh
-dmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9hbm9uZ2l0LmZyZWVk
-ZXNrdG9wLm9yZy9kcm0vZHJtIHRhZ3MvZHJtLWZpeGVzLTIwMTktMDUtMDMKCmZvciB5b3UgdG8g
-ZmV0Y2ggY2hhbmdlcyB1cCB0byAxZGFhMDQ0OWQyODdhMTA5YjkzYzQ1MTY5MTRlZGRlZmY0YmFm
-ZjY1OgoKICBNZXJnZSB0YWcgJ2RybS1taXNjLWZpeGVzLTIwMTktMDUtMDInIG9mCmdpdDovL2Fu
-b25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYyBpbnRvIGRybS1maXhlcyAoMjAxOS0w
-NS0wMwowOTozNjozMSArMTAwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtIG9uZSBxeGwgcmV2ZXJ0CgotLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-CkRhdmUgQWlybGllICgxKToKICAgICAgTWVyZ2UgdGFnICdkcm0tbWlzYy1maXhlcy0yMDE5LTA1
-LTAyJyBvZgpnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgaW50byBk
-cm0tZml4ZXMKCkdlcmQgSG9mZm1hbm4gKDEpOgogICAgICBSZXZlcnQgImRybS9xeGw6IGRyb3Ag
-cHJpbWUgaW1wb3J0L2V4cG9ydCBjYWxsYmFja3MiCgogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxf
-ZHJ2LmMgICB8ICA0ICsrKysKIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX3ByaW1lLmMgfCAxMiAr
-KysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKQpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0182655424==
+Content-Type: multipart/alternative; boundary="15568464433.5069B29.10335"
+Content-Transfer-Encoding: 7bit
+
+
+--15568464433.5069B29.10335
+Date: Fri, 3 May 2019 01:20:43 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D100239
+
+--- Comment #19 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+If you run steam from the command line with:
+
+R600_DEBUG=3Dzerovram steam
+
+Does that fix the issue for you?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568464433.5069B29.10335
+Date: Fri, 3 May 2019 01:20:43 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Incorrect rendering in CS:GO"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100239#c19">Comme=
+nt # 19</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Incorrect rendering in CS:GO"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100239">bug 10023=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>If you run steam from the command line with:
+
+R600_DEBUG=3Dzerovram steam
+
+Does that fix the issue for you?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568464433.5069B29.10335--
+
+--===============0182655424==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0182655424==--
