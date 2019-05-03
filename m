@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988E113542
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 00:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B20313608
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 01:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B80B789852;
-	Fri,  3 May 2019 22:10:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1EF6898A4;
+	Fri,  3 May 2019 23:15:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7311489852
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 22:10:48 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6FF847215A; Fri,  3 May 2019 22:10:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108893] Slow redrawing of menu in Gothic 2 under wine
-Date: Fri, 03 May 2019 22:10:48 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andrew.m.mcmahon@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108893-502-AeTnOgvCyn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108893-502@http.bugs.freedesktop.org/>
-References: <bug-108893-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E21F898A4
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 23:15:02 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id a7so435706oie.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2019 16:15:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YiBKDqzegd04O+PzAcr7R/FeGobNFYgVSfswMBcZCZU=;
+ b=hfcRdOfUnzTKIc46QKqVV9n1kj+ADoSVGWXcOtpbrxFbmzfbb2Pt4tHTz4iNDTSiV3
+ kOlC259Ms5iuSe478hkuIZmbNrGiaeXTn7n1dg5rOqUO0ew0lrp1UmS8r1G9EMMdE+/g
+ GuskB3KEXMuKPgMD6syS3p1h7X85Ygrzu0oMTvmrmoussiJtQfNgizMbqreSNZ1WCZgM
+ m0JK1ZYzXWFAXVxkUUXP+CLGr9bEQmARQyrjQ8cSgKHqoMd6P4Sf6mYJ2gwpnmUZw221
+ rf6hVCm2D8GoZuGuDzgiaBHLVnJNXe4jKPiy26vSYBxD4VoP6bGP+UvVtFt1Q8Uab3Mi
+ YRnw==
+X-Gm-Message-State: APjAAAXRd9dkyksyxOcJWh3iEZoXod77pe3FVeXqKN8lA5a7WVdjU0hJ
+ 5G+xejOLjBq5K5oojmk42z7/GVLPS+QS8LDXOj4fng==
+X-Google-Smtp-Source: APXvYqy8jY7gfDI7WH+mEtQuPQSGdDFLmcOn9yaaI5FbZz82XQ12EIWD3sphcpnXXnG85dXFQdhExQpRbCPKPfTjxbk=
+X-Received: by 2002:aca:43d5:: with SMTP id q204mr880835oia.100.1556925301033; 
+ Fri, 03 May 2019 16:15:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <20190501230126.229218-13-brendanhiggins@google.com>
+ <20190502110220.GD12416@kroah.com>
+ <CAFd5g47t=EdLKFCT=CnPkrM2z0nDVo24Gz4j0VxFOJbARP37Lg@mail.gmail.com>
+ <a49c5088-a821-210c-66de-f422536f5b01@gmail.com>
+ <CAFd5g44iWRchQKdJYtjRtPY6e-6e0eXpKXXsx5Ooi6sWE474KA@mail.gmail.com>
+ <1a5f3c44-9fa9-d423-66bf-45255a90c468@gmail.com>
+ <CAFd5g45RYm+zfdJXnyp2KZZH5ojfOzy++aq+4zBeE5VDu6WgEw@mail.gmail.com>
+ <052fa196-4ea9-8384-79b7-fe6bacc0ee82@gmail.com>
+In-Reply-To: <052fa196-4ea9-8384-79b7-fe6bacc0ee82@gmail.com>
+From: Brendan Higgins <brendanhiggins@google.com>
+Date: Fri, 3 May 2019 16:14:49 -0700
+Message-ID: <CAFd5g47aY-CL+d7DfiyTidY4aAVY+eg1TM1UJ4nYqKSfHOi-0w@mail.gmail.com>
+Subject: Re: [PATCH v2 12/17] kunit: tool: add Python wrappers for running
+ KUnit tests
+To: Frank Rowand <frowand.list@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=YiBKDqzegd04O+PzAcr7R/FeGobNFYgVSfswMBcZCZU=;
+ b=SXAm3yjCa0nibHXK4ceAAGFs6uCwaUpLsdyCU1o2lKOvlI3rqheWTpKnj2wyShZ7lu
+ TPJifTqWsstn9qWG7fCugTMkSy8sDN1Wk1HhrgYmZcpapX1zR4GB6osSwq4oYO68ERug
+ m0zSS0SWlzMDnDTsEAVvAyt86c9z8vzc3wqoXGPWKAEB7EiOd+Kh78da/TO1uS4+hvXu
+ KHDx+3hb12TUOvvVeISvhVNnosdHc8Tl78soob4D9ge86intpqwkzZ5hweRv3v6ENiSu
+ 1rA6a30tpPPT6VjU3M1ZMvAEXkExGqUONafw5xmmYaV8aTHBJJADG16CXD8P/IByq2ER
+ s7rQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,162 +71,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0666428846=="
+Cc: Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
+ Amir Goldstein <amir73il@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sasha Levin <Alexander.Levin@microsoft.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, linux-kselftest@vger.kernel.org,
+ shuah <shuah@kernel.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
+ Kevin Hilman <khilman@baylibre.com>, Knut Omang <knut.omang@oracle.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Felix Guo <felixguoxiuping@gmail.com>, wfg@linux.intel.com,
+ Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
+ Jeff Dike <jdike@addtoit.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ devicetree <devicetree@vger.kernel.org>, linux-kbuild@vger.kernel.org, "Bird,
+ Timothy" <Tim.Bird@sony.com>, linux-um@lists.infradead.org,
+ Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
+ Dan Williams <dan.j.williams@intel.com>, kunit-dev@googlegroups.com,
+ Richard Weinberger <richard@nod.at>, Stephen Boyd <sboyd@kernel.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
+ linux-fsdevel@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0666428846==
-Content-Type: multipart/alternative; boundary="15569214482.be4a7.28022"
-Content-Transfer-Encoding: 7bit
-
-
---15569214482.be4a7.28022
-Date: Fri, 3 May 2019 22:10:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108893
-
---- Comment #12 from andrew.m.mcmahon@gmail.com ---
-(In reply to Michel D=C3=A4nzer from comment #8)
-> The video shows very low frame-rate and GPU load in the menu, but high CPU
-> load. Maybe there's a CPU bottleneck which affects the reporter even more
-> badly. A CPU profile from sysprof or perf might give a clue.
-The heavy CPU usage in that particular video is entirely down to
-SimpleScreenRecorder. When I'm running the game and NOT recording the scree=
-n at
-the same time, CPU usage is around 30-50%:
-https://imgur.com/a/AlhVLZp
-
-That doesn't seem abnormal; the Phenom II is ancient plus it's going through
-Wine. I also assume that the main menu ~10 fps cap is a quirk of the game b=
-ut
-perhaps I'm wrong?
-https://pcgamingwiki.com/wiki/Gothic_II#Low_frame_rate_in_fullscreen_mode
-
-I've compiled Mesa (git-8987152ac1) inside an amd64 & i386 chroot (debootst=
-rap)=20
-Adding --buildtype=3Ddebug into my usual script:
-https://pastebin.com/6uP6d7kL
-
-I've done two recordings with sysprof:
-- A 1 minute recording starting once the game reaches the main menu
-- A 5 minute recording starting the game, running around in the starting ar=
-ea
-and then exiting the game
-
-Hopefully those files are of use:
-https://drive.google.com/file/d/16s2OfDKIAhbnqrs8gwWicmP7RaJw28L-/view?usp=
-=3Dsharing
-
-Just out of interest there's an unofficial D3D11 renderer plus an unfinished
-open source remake - love to see the latter finished:
-https://github.com/ataulien/GD3D11
-https://github.com/REGoth-project/REGoth
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15569214482.be4a7.28022
-Date: Fri, 3 May 2019 22:10:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Slow redrawing of menu in Gothic 2 under wine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108893#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Slow redrawing of menu in Gothic 2 under wine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108893">bug 10889=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-andrew.m.mcmahon&#64;gmail.com" title=3D"andrew.m.mcmahon&#64;gmail.com">an=
-drew.m.mcmahon&#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi?i=
-d=3D108893#c8">comment #8</a>)
-<span class=3D"quote">&gt; The video shows very low frame-rate and GPU load=
- in the menu, but high CPU
-&gt; load. Maybe there's a CPU bottleneck which affects the reporter even m=
-ore
-&gt; badly. A CPU profile from sysprof or perf might give a clue.</span >
-The heavy CPU usage in that particular video is entirely down to
-SimpleScreenRecorder. When I'm running the game and NOT recording the scree=
-n at
-the same time, CPU usage is around 30-50%:
-<a href=3D"https://imgur.com/a/AlhVLZp">https://imgur.com/a/AlhVLZp</a>
-
-That doesn't seem abnormal; the Phenom II is ancient plus it's going through
-Wine. I also assume that the main menu ~10 fps cap is a quirk of the game b=
-ut
-perhaps I'm wrong?
-<a href=3D"https://pcgamingwiki.com/wiki/Gothic_II#Low_frame_rate_in_fullsc=
-reen_mode">https://pcgamingwiki.com/wiki/Gothic_II#Low_frame_rate_in_fullsc=
-reen_mode</a>
-
-I've compiled Mesa (git-8987152ac1) inside an amd64 &amp; i386 chroot (debo=
-otstrap)=20
-Adding --buildtype=3Ddebug into my usual script:
-<a href=3D"https://pastebin.com/6uP6d7kL">https://pastebin.com/6uP6d7kL</a>
-
-I've done two recordings with sysprof:
-- A 1 minute recording starting once the game reaches the main menu
-- A 5 minute recording starting the game, running around in the starting ar=
-ea
-and then exiting the game
-
-Hopefully those files are of use:
-<a href=3D"https://drive.google.com/file/d/16s2OfDKIAhbnqrs8gwWicmP7RaJw28L=
--/view?usp=3Dsharing">https://drive.google.com/file/d/16s2OfDKIAhbnqrs8gwWi=
-cmP7RaJw28L-/view?usp=3Dsharing</a>
-
-Just out of interest there's an unofficial D3D11 renderer plus an unfinished
-open source remake - love to see the latter finished:
-<a href=3D"https://github.com/ataulien/GD3D11">https://github.com/ataulien/=
-GD3D11</a>
-<a href=3D"https://github.com/REGoth-project/REGoth">https://github.com/REG=
-oth-project/REGoth</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15569214482.be4a7.28022--
-
---===============0666428846==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0666428846==--
+PiBPbiA1LzIvMTkgMTA6MzYgUE0sIEJyZW5kYW4gSGlnZ2lucyB3cm90ZToKPiA+IE9uIFRodSwg
+TWF5IDIsIDIwMTkgYXQgNjo0NSBQTSBGcmFuayBSb3dhbmQgPGZyb3dhbmQubGlzdEBnbWFpbC5j
+b20+IHdyb3RlOgo+ID4+Cj4gPj4gT24gNS8yLzE5IDQ6NDUgUE0sIEJyZW5kYW4gSGlnZ2lucyB3
+cm90ZToKPiA+Pj4gT24gVGh1LCBNYXkgMiwgMjAxOSBhdCAyOjE2IFBNIEZyYW5rIFJvd2FuZCA8
+ZnJvd2FuZC5saXN0QGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4+Pgo+ID4+Pj4gT24gNS8yLzE5IDEx
+OjA3IEFNLCBCcmVuZGFuIEhpZ2dpbnMgd3JvdGU6Cj4gPj4+Pj4gT24gVGh1LCBNYXkgMiwgMjAx
+OSBhdCA0OjAyIEFNIEdyZWcgS0ggPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPiB3cm90ZToK
+PiA+Pj4+Pj4KPiA+Pj4+Pj4gT24gV2VkLCBNYXkgMDEsIDIwMTkgYXQgMDQ6MDE6MjFQTSAtMDcw
+MCwgQnJlbmRhbiBIaWdnaW5zIHdyb3RlOgo+ID4+Pj4+Pj4gRnJvbTogRmVsaXggR3VvIDxmZWxp
+eGd1b3hpdXBpbmdAZ21haWwuY29tPgo+ID4+Pj4+Pj4KPiA+Pj4+Pj4+IFRoZSB1bHRpbWF0ZSBn
+b2FsIGlzIHRvIGNyZWF0ZSBtaW5pbWFsIGlzb2xhdGVkIHRlc3QgYmluYXJpZXM7IGluIHRoZQo+
+ID4+Pj4+Pj4gbWVhbnRpbWUgd2UgYXJlIHVzaW5nIFVNTCB0byBwcm92aWRlIHRoZSBpbmZyYXN0
+cnVjdHVyZSB0byBydW4gdGVzdHMsIHNvCj4gPj4+Pj4+PiBkZWZpbmUgYW4gYWJzdHJhY3Qgd2F5
+IHRvIGNvbmZpZ3VyZSBhbmQgcnVuIHRlc3RzIHRoYXQgYWxsb3cgdXMgdG8KPiA+Pj4+Pj4+IGNo
+YW5nZSB0aGUgY29udGV4dCBpbiB3aGljaCB0ZXN0cyBhcmUgYnVpbHQgd2l0aG91dCBhZmZlY3Rp
+bmcgdGhlIHVzZXIuCj4gPj4+Pj4+PiBUaGlzIGFsc28gbWFrZXMgcHJldHR5IGFuZCBkeW5hbWlj
+IGVycm9yIHJlcG9ydGluZywgYW5kIGEgbG90IG9mIG90aGVyCj4gPj4+Pj4+PiBuaWNlIGZlYXR1
+cmVzIGVhc2llci4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBrdW5pdF9jb25maWcucHk6Cj4gPj4+Pj4+
+PiAgIC0gcGFyc2UgLmNvbmZpZyBhbmQgS2NvbmZpZyBmaWxlcy4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+
+PiBrdW5pdF9rZXJuZWwucHk6IHByb3ZpZGVzIGhlbHBlciBmdW5jdGlvbnMgdG86Cj4gPj4+Pj4+
+PiAgIC0gY29uZmlndXJlIHRoZSBrZXJuZWwgdXNpbmcga3VuaXRjb25maWcuCj4gPj4+Pj4+PiAg
+IC0gYnVpbGQgdGhlIGtlcm5lbCB3aXRoIHRoZSBhcHByb3ByaWF0ZSBjb25maWd1cmF0aW9uLgo+
+ID4+Pj4+Pj4gICAtIHByb3ZpZGUgZnVuY3Rpb24gdG8gaW52b2tlIHRoZSBrZXJuZWwgYW5kIHN0
+cmVhbSB0aGUgb3V0cHV0IGJhY2suCj4gPj4+Pj4+Pgo+ID4+Pj4+Pj4gU2lnbmVkLW9mZi1ieTog
+RmVsaXggR3VvIDxmZWxpeGd1b3hpdXBpbmdAZ21haWwuY29tPgo+ID4+Pj4+Pj4gU2lnbmVkLW9m
+Zi1ieTogQnJlbmRhbiBIaWdnaW5zIDxicmVuZGFuaGlnZ2luc0Bnb29nbGUuY29tPgo+ID4+Pj4+
+Pgo+ID4+Pj4+PiBBaCwgaGVyZSdzIHByb2JhYmx5IG15IGFuc3dlciB0byBteSBwcmV2aW91cyBs
+b2dnaW5nIGZvcm1hdCBxdWVzdGlvbiwKPiA+Pj4+Pj4gcmlnaHQ/ICBXaGF0J3MgdGhlIGNoYW5j
+ZSB0aGF0IHRoZXNlIHdyYXBwZXJzIG91dHB1dCBzdHVmZiBpbiBhIHN0YW5kYXJkCj4gPj4+Pj4+
+IGZvcm1hdCB0aGF0IHRlc3QtZnJhbWV3b3JrLXRvb2xzIGNhbiBhbHJlYWR5IHBhcnNlPyAgOikK
+PiA+Pj4KPiA+Pj4gVG8gYmUgY2xlYXIsIHRoZSB0ZXN0LWZyYW1ld29yay10b29scyBmb3JtYXQg
+d2UgYXJlIHRhbGtpbmcgYWJvdXQgaXMKPiA+Pj4gVEFQMTNbMV0sIGNvcnJlY3Q/Cj4gPj4KPiA+
+PiBJJ20gbm90IHN1cmUgd2hhdCB0aGUgdGVzdCBjb21tdW5pdHkgcHJlZmVycyBmb3IgYSBmb3Jt
+YXQuICBJJ2xsIGxldCB0aGVtCj4gPj4ganVtcCBpbiBhbmQgZGViYXRlIHRoYXQgcXVlc3Rpb24u
+Cj4gPj4KPiA+Pgo+ID4+Pgo+ID4+PiBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgaXMgd2hhdCBr
+c2VsZnRlc3QgaXMgYmVpbmcgY29udmVydGVkIHRvIHVzZS4KPiA+Pj4KPiA+Pj4+Pgo+ID4+Pj4+
+IEl0IHNob3VsZCBiZSBwcmV0dHkgZWFzeSB0byBkby4gSSBoYWQgc29tZSBwYXRjaGVzIHRoYXQg
+cGFjayB1cCB0aGUKPiA+Pj4+PiByZXN1bHRzIGludG8gYSBzZXJpYWxpemVkIGZvcm1hdCBmb3Ig
+YSBwcmVzdWJtaXQgc2VydmljZTsgaXQgc2hvdWxkIGJlCj4gPj4+Pj4gcHJldHR5IHN0cmFpZ2h0
+Zm9yd2FyZCB0byB0YWtlIHRoZSBzYW1lIGxvZ2ljIGFuZCBqdXN0IGNoYW5nZSB0aGUKPiA+Pj4+
+PiBvdXRwdXQgZm9ybWF0Lgo+ID4+Pj4KPiA+Pj4+IFdoZW4gZXhhbWluaW5nIGFuZCB0cnlpbmcg
+b3V0IHRoZSBwcmV2aW91cyB2ZXJzaW9ucyBvZiB0aGUgcGF0Y2ggSSBmb3VuZAo+ID4+Pj4gdGhl
+IHdyYXBwZXJzIHVzZWZ1bCB0byBwcm92aWRlIGluZm9ybWF0aW9uIGFib3V0IGhvdyB0byBjb250
+cm9sIGFuZCB1c2UKPiA+Pj4+IHRoZSB0ZXN0cywgYnV0IEkgaGFkIG5vIGludGVyZXN0IGluIHVz
+aW5nIHRoZSBzY3JpcHRzIGFzIHRoZXkgZG8gbm90Cj4gPj4+PiBmaXQgaW4gd2l0aCBteSBwZXJz
+b25hbCBlbnZpcm9ubWVudCBhbmQgd29ya2Zsb3cuCj4gPj4+Pgo+ID4+Pj4gSW4gdGhlIHByZXZp
+b3VzIHZlcnNpb25zIG9mIHRoZSBwYXRjaCwgdGhlc2UgaGVscGVyIHNjcmlwdHMgYXJlIG9wdGlv
+bmFsLAo+ID4+Pj4gd2hpY2ggaXMgZ29vZCBmb3IgbXkgdXNlIGNhc2UuICBJZiB0aGUgaGVscGVy
+IHNjcmlwdHMgYXJlIHJlcXVpcmVkIHRvCj4gPj4+Cj4gPj4+IFRoZXkgYXJlIHN0aWxsIG9wdGlv
+bmFsLgo+ID4+Pgo+ID4+Pj4gZ2V0IHRoZSBkYXRhIGludG8gdGhlIHByb3BlciBmb3JtYXQgdGhl
+biB0aGUgc2NyaXB0cyBhcmUgbm90IHF1aXRlIHNvCj4gPj4+PiBvcHRpb25hbCwgdGhleSBiZWNv
+bWUgdGhlIGV4cGVjdGVkIGVudmlyb25tZW50LiAgSSB0aGluayB0aGUgcHJvcGVyCj4gPj4+PiBm
+b3JtYXQgc2hvdWxkIGV4aXN0IHdpdGhvdXQgdGhlIGhlbHBlciBzY3JpcHRzLgo+ID4+Pgo+ID4+
+PiBUaGF0J3MgYSBnb29kIHBvaW50LiBBIGNvdXBsZSB0aGluZ3MsCj4gPj4+Cj4gPj4+IEZpcnN0
+IG9mZiwgc3VwcG9ydGluZyBUQVAxMywgZWl0aGVyIGluIHRoZSBrZXJuZWwgb3IgdGhlIHdyYXBw
+ZXIKPiA+Pj4gc2NyaXB0IGlzIG5vdCBoYXJkLCBidXQgSSBkb24ndCB0aGluayB0aGF0IGlzIHRo
+ZSByZWFsIGlzc3VlIHRoYXQgeW91Cj4gPj4+IHJhaXNlLgo+ID4+Pgo+ID4+PiBJZiB5b3VyIG9u
+bHkgY29uY2VybiBpcyB0aGF0IHlvdSB3aWxsIGFsd2F5cyBiZSBhYmxlIHRvIGhhdmUgaHVtYW4K
+PiA+Pj4gcmVhZGFibGUgS1VuaXQgcmVzdWx0cyBwcmludGVkIHRvIHRoZSBrZXJuZWwgbG9nLCB0
+aGF0IGlzIGEgZ3VhcmFudGVlCj4gPj4+IEkgZmVlbCBjb21mb3J0YWJsZSBtYWtpbmcuIEJleW9u
+ZCB0aGF0LCBJIHRoaW5rIGl0IGlzIGdvaW5nIHRvIHRha2UgYQo+ID4+PiBsb25nIHdoaWxlIGJl
+Zm9yZSBJIHdvdWxkIGZlZWwgY29tZm9ydGFibGUgZ3VhcmFudGVlaW5nIGFueXRoaW5nIGFib3V0
+Cj4gPj4+IGhvdyB3aWxsIEtVbml0IHdvcmssIHdoYXQga2luZCBvZiBkYXRhIGl0IHdpbGwgd2Fu
+dCB0byBleHBvc2UsIGFuZCBob3cKPiA+Pj4gaXQgd2lsbCBiZSBvcmdhbml6ZWQuIEkgdGhpbmsg
+dGhlIHdyYXBwZXIgc2NyaXB0IHByb3ZpZGVzIGEgbmljZQo+ID4+PiBmYWNhZGUgdGhhdCBJIGNh
+biBtYWludGFpbiwgY2FuIG1lZGlhdGUgYmV0d2VlbiB0aGUgaW1wbGVtZW50YXRpb24KPiA+Pj4g
+ZGV0YWlscyBhbmQgdGhlIHVzZXIsIGFuZCBjYW4gbWVkaWF0ZSBiZXR3ZWVuIHRoZSBpbXBsZW1l
+bnRhdGlvbgo+ID4+PiBkZXRhaWxzIGFuZCBvdGhlciBwaWVjZXMgb2Ygc29mdHdhcmUgdGhhdCBt
+aWdodCB3YW50IHRvIGNvbnN1bWUKPiA+Pj4gcmVzdWx0cy4KPiA+Pj4KPiA+Pj4gWzFdIGh0dHBz
+Oi8vdGVzdGFueXRoaW5nLm9yZy90YXAtdmVyc2lvbi0xMy1zcGVjaWZpY2F0aW9uLmh0bWwKPiA+
+Pgo+ID4+IE15IGNvbmNlcm4gaXMgYmFzZWQgb24gYSBmb2N1cyBvbiBteSBsaXR0bGUgcGFydCBv
+ZiB0aGUgd29ybGQKPiA+PiAod2hpY2ggaW4gX3ByZXZpb3VzXyB2ZXJzaW9ucyBvZiB0aGUgcGF0
+Y2ggc2VyaWVzIHdhcyB0aGUgZGV2aWNldHJlZQo+ID4+IHVuaXR0ZXN0LmMgdGVzdHMgYmVpbmcg
+Y29udmVydGVkIHRvIHVzZSB0aGUga3VuaXQgaW5mcmFzdHJ1Y3R1cmUpLgo+ID4+IElmIEkgc3Rl
+cCBiYWNrIGFuZCB0aGluayBvZiB0aGUgZW50aXJlIGtlcm5lbCBnbG9iYWxseSBJIG1heSBlbmQK
+PiA+PiB1cCB3aXRoIGEgZGlmZmVyZW50IGNvbmNsdXNpb24gLSBidXQgSSdtIGdvaW5nIHRvIHJl
+bWFpbiBteW9waWMKPiA+PiBmb3IgdGhpcyBlbWFpbC4KPiA+Pgo+ID4+IEkgd2FudCB0aGUgdGVz
+dCByZXN1bHRzIHRvIGJlIHVzYWJsZSBieSBtZSBhbmQgbXkgZmVsbG93Cj4gPj4gZGV2ZWxvcGVy
+cy4gIEkgcHJlZmVyIHRoYXQgdGhlIHRlc3QgcmVzdWx0cyBiZSBlYXNpbHkgYWNjZXNzaWJsZQo+
+ID4+IChjdXJyZW50IHByaW50aygpIGltcGxlbWVudGF0aW9uIG1lYW5zIHRoYXQga3VuaXQgbWVz
+c2FnZXMgYXJlCj4gPj4ganVzdCBhcyBhY2Nlc3NpYmxlIGFzIHRoZSBjdXJyZW50IHVuaXR0ZXN0
+LmMgcHJpbnRrKCkgb3V0cHV0KS4KPiA+PiBJZiB0aGUgcHJpbnRrKCkgb3V0cHV0IG5lZWRzIHRv
+IGJlIGZpbHRlcmVkIHRocm91Z2ggYSBzY3JpcHQKPiA+PiB0byBnZW5lcmF0ZSB0aGUgYWN0dWFs
+IHRlc3QgcmVzdWx0cyB0aGVuIHRoYXQgaXMgc3ViLW9wdGltYWwKPiA+PiB0byBtZS4gIEl0IGlz
+IG9uZSBtb3JlIHN0ZXAgYWRkZWQgdG8gbXkgd29ya2Zsb3cuICBBbmQKPiA+PiBwb3RlbnRpYWxs
+eSB3aXRoIGFuIGVtYmVkZGVkIHRhcmdldCBhIG1ham9yIHBhaW4gdG8gZ2V0IGEKPiA+PiBkYXRh
+IGZpbGUgKHRoZSBrZXJuZWwgbG9nIGZpbGUpIHRyYW5zZmVycmVkIGZyb20gYSB0YXJnZXQKPiA+
+PiB0byBteSBkZXZlbG9wbWVudCBob3N0Lgo+ID4KPiA+IFRoYXQncyBmYWlyLiBJZiB0aGF0IGlz
+IGluZGVlZCB5b3VyIG9ubHkgY29uY2VybiwgdGhlbiBJIGRvbid0IHRoaW5rCj4gPiB0aGUgd3Jh
+cHBlciBzY3JpcHQgd2lsbCBldmVyIGJlIGFuIGlzc3VlIGZvciB5b3UuIFlvdSB3aWxsIGFsd2F5
+cyBiZQo+ID4gYWJsZSB0byBleGVjdXRlIGEgZ2l2ZW4gdGVzdCB0aGUgb2xkIGZhc2hpb25lZC9t
+YW51YWwgd2F5LCBhbmQgdGhlCj4gPiB3cmFwcGVyIHNjcmlwdCBvbmx5IHN1bW1hcml6ZXMgcmVz
+dWx0cywgaXQgZG9lcyBub3QgY2hhbmdlIHRoZQo+ID4gY29udGVudHMuCj4gPgo+ID4+Cj4gPj4g
+SSB3YW50IGEgcmVwb3J0ZWQgdGVzdCBmYWlsdXJlIHRvIGJlIGVhc3kgdG8gdHJhY2UgYmFjayB0
+byB0aGUKPiA+PiBwb2ludCBpbiB0aGUgc291cmNlIHdoZXJlIHRoZSBmYWlsdXJlIGlzIHJlcG9y
+dGVkLiAgV2l0aCBwcmludGsoKQo+ID4+IHRoZSBzZWFyY2ggaXMgYSBzaW1wbGUgZ3JlcCBmb3Ig
+dGhlIGZhaWx1cmUgbWVzc2FnZS4gIElmIHRoZQo+ID4+IGZhaWx1cmUgbWVzc2FnZSBoYXMgYmVl
+biBwcm9jZXNzZWQgYnkgYSBzY3JpcHQsIGFuZCB0aGVuIHRoZQo+ID4+IGZhaWx1cmUgcmVwb3J0
+ZWQgdG8gbWUgaW4gYW4gZW1haWwsIHRoZW4gSSBtYXkgaGF2ZSB0byBsb29rCj4gPj4gYXQgdGhl
+IHNjcmlwdCB0byByZXZlcnNlIGVuZ2luZWVyIGhvdyB0aGUgb3JpZ2luYWwgZmFpbHVyZQo+ID4+
+IG1lc3NhZ2Ugd2FzIHRyYW5zZm9ybWVkIGludG8gdGhlIG1lc3NhZ2UgdGhhdCB3YXMgcmVwb3J0
+ZWQKPiA+PiB0byBtZSBpbiB0aGUgZW1haWwuICBUaGVuIEkgc2VhcmNoIGZvciB0aGUgcG9pbnQg
+aW4gdGhlCj4gPj4gc291cmNlIHdoZXJlIHRoZSBmYWlsdXJlIGlzIHJlcG9ydGVkLiAgU28gYSBi
+YXNpYyB0YXNrIGhhcwo+ID4+IGp1c3QgYmVjb21lIG1vcmUgZGlmZmljdWx0IGFuZCB0aW1lIGNv
+bnN1bWluZy4KPiA+Cj4gPiBUaGF0IHNlZW1zIHRvIGJlIGEgdmFsaWQgY29uY2Vybi4gSSB3b3Vs
+ZCByZWl0ZXJhdGUgdGhhdCB5b3Ugc2hvdWxkbid0Cj4gPiBiZSBjb25jZXJuZWQgYnkgYW55IHBy
+b2Nlc3NpbmcgZG9uZSBieSB0aGUgd3JhcHBlciBzY3JpcHQgaXRzZWxmLCBidXQKPiA+IHRoZSBy
+ZWFsaXR5IGlzIHRoYXQgZGVwZW5kaW5nIG9uIHdoYXQgaGFwcGVucyB3aXRoIGF1dG9tYXRlZAo+
+ID4gdGVzdGluZy9wcmVzdWJtaXQvQ0kgb3RoZXIgcGVvcGxlIG1pZ2h0IGVuZCB1cCBwYXJzaW5n
+IGFuZAo+ID4gdHJhbnNmb3JtaW5nIHRlc3QgcmVzdWx0cyAtIGl0IG1pZ2h0IGhhcHBlbiwgaXQg
+bWlnaHQgbm90Lgo+Cj4gWW91IHNlZW0gdG8gYmUgbWlzc2luZyBteSBwb2ludC4KPgo+IEdyZWcg
+YXNrZWQgdGhhdCB0aGUgb3V0cHV0IGJlIGluIGEgc3RhbmRhcmQgZm9ybWF0Lgo+Cj4gWW91IHJl
+cGxpZWQgdGhhdCB0aGUgc3RhbmRhcmQgZm9ybWF0IGNvdWxkIGJlIGNyZWF0ZWQgYnkgdGhlIHdy
+YXBwZXIgc2NyaXB0LgoKSSB0aG91Z2h0IEdyZWcgb3JpZ2luYWxseSBtZWFudCB0aGF0IHRoYXQg
+aXMgaG93IGl0IGNvdWxkIGJlIGRvbmUgd2hlbgpoZSBmaXJzdCBjb21tZW50ZWQgb24gdGhpcyBw
+YXRjaCwgc28gSSB3YXMgYWdyZWVpbmcgYW5kIGVsYWJvcmF0aW5nLgpOZXZlcnRoZWxlc3MsIGl0
+IHNlZW1zIHlvdSBhbmQgR3JlZyBhcmUgbm93IGluIGFncmVlbWVudCBvbiB0aGlzCnBvaW50LCBz
+byBJIHdvbid0IGFyZ3VlIGl0IGZ1cnRoZXIuCgo+Cj4gTm93IHlvdSBzYXkgdGhhdCAiaXQgbWln
+aHQgaGFwcGVuLCBpdCBtaWdodCBub3QiLiAgSW4gb3RoZXIgd29yZHMgdGhlIG91dHB1dAo+IG1h
+eSBvciBtYXkgbm90IGVuZCB1cCBpbiB0aGUgc3RhbmRhcmQgZm9ybWF0LgoKU29ycnksIHRoYXQg
+d2FzIGluIHJlZmVyZW5jZSB0byB5b3VyIGNvbmNlcm4gYWJvdXQgZ2V0dGluZyBhbiBlbWFpbCBp
+bgphIGRpZmZlcmVudCBmb3JtYXQgdGhhbiB3aGF0IHRoZSB0b29sIHRoYXQgeW91IHVzZSBnZW5l
+cmF0ZXMuIEl0Cndhc24ndCBhIHN0YXRlbWVudCBhYm91dCB3aGF0IEkgd2FzIG9yIHdhc24ndCBn
+b2luZyB0byBkbyBpbiByZWdhcmRzCnRvIHN1cHBvcnRpbmcgYSBzdGFuZGFyZCBmb3JtYXQuCgo+
+Cj4gQXMgR3JlZyBwb2ludHMgb3V0IGluIGNvbW1lbnRzIHRvIHBhdGNoIDEyOgo+Cj4gICAiVGhl
+IGNvcmUgb2Yga3VuaXQgc2hvdWxkIGFsc28gbG9nIHRoZSBtZXNzYWdlcyBpbiB0aGlzIGZvcm1h
+dCBhcyB3ZWxsLAo+ICAgYW5kIG5vdCByZWx5IG9uIHRoZSBoZWxwZXIgc2NyaXB0cyBhcyBGcmFu
+ayBwb2ludHMgb3V0LCBub3QgZXZlcnlvbmUKPiAgIHdpbGwgdXNlL3dhbnQgdGhlbS4gIE1pZ2h0
+IGFzIHdlbGwgbWFrZSBpdCBlYXN5IGZvciBldmVyeW9uZSB0byBhbHdheXMKPiAgIGRvIHRoZSBy
+aWdodCB0aGluZyBhbmQgbm90IGZvcmNlIGl0IHRvIGFsd2F5cyBiZSBhZGRlZCBpbiBsYXRlci4i
+Cj4KPiBJIGFtIHJlcXVlc3RpbmcgdGhhdCB0aGUgb3JpZ2luYWwgbWVzc2FnZSBiZSBpbiB0aGUg
+c3RhbmRhcmQgZm9ybWF0LiAgT2YKPiBjb3Vyc2UgYW55b25lIGlzIGZyZWUgdG8gdHJhbnNmb3Jt
+IHRoZSBtZXNzYWdlcyBpbiBsYXRlciBwcm9jZXNzaW5nLCBubwo+IGJpZyBkZWFsLgoKTXkgbWlz
+dGFrZSwgSSB0aG91Z2h0IHRoYXQgd2FzIGEgY29uY2VybiBvZiB5b3Vycy4KCkluIGFueSBjYXNl
+LCBpdCBzb3VuZHMgbGlrZSB5b3UgYW5kIEdyZWcgYXJlIGluIGFncmVlbWVudCBvbiB0aGUgY29y
+ZQpsaWJyYXJpZXMgZ2VuZXJhdGluZyB0aGUgb3V0cHV0IGluIFRBUDEzLCBzbyBJIHdvbid0IGFy
+Z3VlIHRoYXQgcG9pbnQKZnVydGhlci4KCiMjIEFuYWx5c2lzIG9mIHVzaW5nIFRBUDEzCgpPbmUg
+b2YgbXkgZWFybGllciBjb25jZXJucyB3YXMgdGhhdCBUQVAxMyBpcyBhIGJpdCBvdmVyIGNvbnN0
+cmFpbmVkCmZvciB3aGF0IEkgd291bGQgbGlrZSB0byBvdXRwdXQgZnJvbSB0aGUgS1VuaXQgY29y
+ZS4gSXQgb25seSBhbGxvd3MKZGF0YSB0byBiZSBvdXRwdXQgYXMgZWl0aGVyOgogLSB0ZXN0IG51
+bWJlcgogLSBvay9ub3Qgb2sgd2l0aCBzaW5nbGUgbGluZSBkZXNjcmlwdGlvbgogLSBkaXJlY3Rp
+dmUKIC0gZGlhZ25vc3RpY3MKIC0gWUFNTCBibG9jawoKVGhlIHRlc3QgbnVtYmVyIG11c3QgYmVj
+b21lIGJlZm9yZSBhIHNldCBvZiBvay9ub3Qgb2sgbGluZXMsIGFuZCBkb2VzCm5vdCBjb250YWlu
+IGFueSBhZGRpdGlvbmFsIGluZm9ybWF0aW9uLiBPbmUgYW5ub3lpbmcgdGhpbmcgYWJvdXQgdGhp
+cwppcyBpdCBkb2Vzbid0IHByb3ZpZGUgYW55IGtpbmQgb2YgbmVzdGluZyBvciBncm91cGluZy4K
+ClRoZXJlIGlzIG9uZSBvay9ub3Qgb2sgbGluZSBwZXIgdGVzdCBhbmQgaXQgbWF5IGhhdmUgYSBz
+aG9ydApkZXNjcmlwdGlvbiBvZiB0aGUgdGVzdCBpbW1lZGlhdGVseSBhZnRlciAnb2snIG9yICdu
+b3Qgb2snOyB0aGlzIGlzCnByb2JsZW1hdGljIGJlY2F1c2UgaXQgd2FudHMgdGhlIGZpcnN0IHRo
+aW5nIHlvdSBzYXkgYWJvdXQgYSB0ZXN0IHRvCmJlIGFmdGVyIHlvdSBrbm93IHdoZXRoZXIgaXQg
+cGFzc2VzIG9yIG5vdC4KCkRpcmVjdGl2ZXMgYXJlIGp1c3QgYSB3YXkgdG8gc3BlY2lmeSBza2lw
+cGVkIHRlc3RzIGFuZCBUT0RPcy4KCkRpYWdub3N0aWNzIHNlZW0gdXNlZnVsLCBpdCBsb29rcyBs
+aWtlIHlvdSBjYW4gcHV0IHdoYXRldmVyCmluZm9ybWF0aW9uIGluIHRoZW0gYW5kIHByaW50IHRo
+ZW0gb3V0IGF0IGFueXRpbWUuIEl0IGxvb2tzIGxpa2UgYSBsb3QKb2Yga3NlbGZ0ZXN0cyBlbWl0
+IGEgbG90IG9mIGRhdGEgdGhpcyB3YXkuCgpUaGUgWUFNTCBibG9jayBzZWVtcyB0byBiZSB0aGUg
+d2F5IHRoYXQgdGhleSBwcmVmZXIgdXNlcnMgdG8gZW1pdCBkYXRhCmJleW9uZCBudW1iZXIgb2Yg
+dGVzdHMgcnVuIGFuZCB3aGV0aGVyIGEgdGVzdCBwYXNzZWQgb3IgZmFpbGVkLiBJCmNvdWxkIGV4
+cHJlc3MgbW9zdCB0aGluZ3MgSSB3YW50IHRvIGV4cHJlc3MgaW4gdGVybXMgb2YgWUFNTCwgYnV0
+IGl0CmlzIG5vdCB0aGUgbmljZXN0IGZvcm1hdCBmb3IgZGlzcGxheWluZyBhIGxvdCBvZiBkYXRh
+IGxpa2UKZXhwZWN0YXRpb25zLCBtaXNzZWQgZnVuY3Rpb24gY2FsbHMsIGFuZCBvdGhlciB0aGlu
+Z3Mgd2hpY2ggaGF2ZSBhCm5hdHVyYWwgY29uY2lzZSByZXByZXNlbnRhdGlvbi4gTmV2ZXJ0aGVs
+ZXNzLCBZQU1MIHJlYWRhYmlsaXR5IGlzCm1vc3RseSBhIHByb2JsZW0gd2hvIHdvbid0IGJlIHVz
+aW5nIHRoZSB3cmFwcGVyIHNjcmlwdHMuIE15IGJpZ2dlc3QKcHJvYmxlbSB3aXRoIHRoZSBZQU1M
+IGJsb2NrIGlzIHRoYXQgeW91IGNhbiBvbmx5IGhhdmUgb25lLCBhbmQgVEFQCnNwZWNpZmllcyB0
+aGF0IGl0IG11c3QgY29tZSBhZnRlciB0aGUgY29ycmVzcG9uZGluZyBvay9ub3Qgb2sgbGluZSwK
+d2hpY2ggYWdhaW4gaGFzIHRoZSBpc3N1ZSB0aGF0IHlvdSBoYXZlIHRvIGhvbGQgb24gdG8gYSBs
+b3Qgb2YKZGlhZ25vc3RpYyBkYXRhIGxvbmdlciB0aGFuIHlvdSBpZGVhbGx5IHdvdWxkLiBBbm90
+aGVyIGRvd25zaWRlIGlzCnRoYXQgSSBub3cgaGF2ZSB0byB3cml0ZSBhIFlBTUwgc2VyaWFsaXpl
+ciBmb3IgdGhlIGtlcm5lbC4KCiMjIEhlcmUgaXMgd2hhdCBJIHByb3Bvc2UgZm9yIHRoaXMgcGF0
+Y2hzZXQ6CgogLSBQcmludCBvdXQgdGVzdCBudW1iZXIgcmFuZ2UgYXQgdGhlIGJlZ2lubmluZyBv
+ZiBlYWNoIHRlc3Qgc3VpdGUuCiAtIFByaW50IG91dCBsb2cgbGluZXMgYXMgc29vbiBhcyB0aGV5
+IGhhcHBlbiBhcyBkaWFnbm9zdGljcy4KIC0gUHJpbnQgb3V0IHRoZSBsaW5lcyB0aGF0IHN0YXRl
+IHdoZXRoZXIgYSB0ZXN0IHBhc3NlcyBvciBmYWlscyBhcyBhCm9rL25vdCBvayBsaW5lLgoKVGhp
+cyB3b3VsZCBiZSB0ZWNobmljYWxseSBjb25mb3JtaW5nIHdpdGggVEFQMTMgYW5kIGlzIGNvbnNp
+c3RlbnQgd2l0aAp3aGF0IHNvbWUga3NlbGZ0ZXN0cyBoYXZlIGRvbmUuCgojIyBUbyBiZSBkb25l
+IGluIGEgZnV0dXJlIHBhdGNoc2V0OgoKQWRkIGEgWUFNTCBzZXJpYWxpemVyIGFuZCBwcmludCBv
+dXQgc29tZSBsb2dzIGNvbnRhaW5pbmcgc3RydWN0dXJlZApkYXRhIChsaWtlIGV4cGVjdGF0aW9u
+IGZhaWx1cmVzLCB1bmV4cGVjdGVkIGZ1bmN0aW9uIGNhbGxzLCBldGMpIGluCllBTUwgYmxvY2tz
+LgoKRG9lcyB0aGlzIHNvdW5kIHJlYXNvbmFibGU/IEkgd2lsbCBnbyBhaGVhZCBhbmQgc3RhcnQg
+d29ya2luZyBvbiB0aGlzLApidXQgZmVlbCBmcmVlIHRvIGdpdmUgbWUgZmVlZGJhY2sgb24gdGhl
+IG92ZXJhbGwgaWRlYSBpbiB0aGUgbWVhbnRpbWUuCgpDaGVlcnMKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
