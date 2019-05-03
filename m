@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A260012DB8
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9723E12DDB
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:42:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8506489E65;
-	Fri,  3 May 2019 12:35:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5011089F53;
+	Fri,  3 May 2019 12:42:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5DCE89E65
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:35:09 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id t76so6946720wmt.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2019 05:35:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=b7bzcRpq6iQaFYnlRWIHwOcIOhGEB2LMUCjRpfHIEsY=;
- b=nFs5hIO7lc/2eefDWP4DwY8s1I//xPDGyjmnSPaPRROlQkrvrYlbvaDDC4pCnWymo9
- t7K8WtB7qtWKJt/ZQCEW46App/FaZSzphTGMPQwnIO+Hjr+6TMVESMvw/8nHUSuIjmPW
- QtBR6mBhVKFHyH6ZzifIJEm4pHyQvCj7XTh42JYRINeHrNCMlEv5ybHwCxji5LyCQFg9
- G0d2Px4dW91Zd/Q5I1O/vlOWB+muQlKdsGX1ovbTWbWp9g/z/tVJynYO+fK3yKp6aTMi
- c5Yu4TjK/aPoXTymBpdryBhzMEqKV0ex7luZmkXsPHZkAfIFPC/r4o+H158bA0vdGldt
- UPuA==
-X-Gm-Message-State: APjAAAUDmc5wsRUvBvBU7ebSA6IkWMvzM5hFrbbKyt84MVzEMZ7OVToC
- KDZcLXKEP2OEy8nM3ME7NsX7ZxWJ
-X-Google-Smtp-Source: APXvYqxSQ9qKsK1feVRmHh3ut1oNydlVz+c7/oPAaaRLDbhEwdmvjqYjwdr3mj5CSkDaUCwq5KzMAQ==
-X-Received: by 2002:a1c:35c3:: with SMTP id c186mr6469623wma.135.1556886908153; 
- Fri, 03 May 2019 05:35:08 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id b184sm2861292wmh.17.2019.05.03.05.35.07
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 03 May 2019 05:35:07 -0700 (PDT)
-Subject: Re: [PATCH 10/12] drm/amdgpu: add independent DMA-buf export v3
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20190426123638.40221-1-christian.koenig@amd.com>
- <20190426123638.40221-10-christian.koenig@amd.com>
- <20190430141638.GT3271@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <09619fce-fa36-2bbc-ad24-7814748a84e0@gmail.com>
-Date: Fri, 3 May 2019 14:35:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B50BC89F53
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:42:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AB7DA7215A; Fri,  3 May 2019 12:42:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110599] [IGT runner] Per-test external watchdog
+Date: Fri, 03 May 2019 12:42:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110599-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190430141638.GT3271@phenom.ffwll.local>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=b7bzcRpq6iQaFYnlRWIHwOcIOhGEB2LMUCjRpfHIEsY=;
- b=IeN5qPUDrWcgz48lyMt/XG++aiMyB3Gh/AdQ/1WOwcSlUyARtOpezvPiEvRUElm3rK
- Z/g7tyJIG8vKJoeeNg+D/LuEY3AUIruAa++TVoxfBAljaVwFu6g1nIRKeKg3sIDx49Cy
- PknpyLteYiCQSAeKZG8OVL5qcmaLZuqrbfvJqOl1gIz+84jGnWbBcG/p85vl7OLPBrQH
- Jms+WDJwQZF3lmAJ2LbX+DjP8elAL4z8XAW/oHR7a7Z4QMiaSOdAoDxOrNAl+rTe4BRI
- 7nlKm7STwKwYTzfdIakUaDpHyheence7P87PHk7kLgsXxxR2N893NKSIPEbZUCp70xi8
- jPOQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,68 +51,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0393816663=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMzAuMDQuMTkgdW0gMTY6MTYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IFtTTklQXQo+PiAg
-IC8qKgo+PiAtICogYW1kZ3B1X2dlbV9tYXBfYXR0YWNoIC0gJmRtYV9idWZfb3BzLmF0dGFjaCBp
-bXBsZW1lbnRhdGlvbgo+PiAtICogQGRtYV9idWY6IFNoYXJlZCBETUEgYnVmZmVyCj4+ICsgKiBh
-bWRncHVfZ2VtX3Bpbl9kbWFfYnVmIC0gJmRtYV9idWZfb3BzLnBpbl9kbWFfYnVmIGltcGxlbWVu
-dGF0aW9uCj4+ICsgKgo+PiArICogQGRtYV9idWY6IERNQS1idWYgdG8gcGluIGluIG1lbW9yeQo+
-PiArICoKPj4gKyAqIFBpbiB0aGUgQk8gd2hpY2ggaXMgYmFja2luZyB0aGUgRE1BLWJ1ZiBzbyB0
-aGF0IGl0IGNhbid0IG1vdmUgYW55IG1vcmUuCj4+ICsgKi8KPj4gK3N0YXRpYyBpbnQgYW1kZ3B1
-X2dlbV9waW5fZG1hX2J1ZihzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZikKPj4gK3sKPj4gKwlzdHJ1
-Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiA9IGRtYV9idWYtPnByaXY7Cj4+ICsJc3RydWN0IGFtZGdw
-dV9ibyAqYm8gPSBnZW1fdG9fYW1kZ3B1X2JvKG9iaik7Cj4+ICsKPj4gKwkvKiBwaW4gYnVmZmVy
-IGludG8gR1RUICovCj4+ICsJcmV0dXJuIGFtZGdwdV9ib19waW4oYm8sIEFNREdQVV9HRU1fRE9N
-QUlOX0dUVCk7Cj4gVGhpcyBpcyBraW5kYSB3aGF0IEkgbWVhbiB3aXRoICJzaG91bGRuJ3Qgd2Ug
-cGluIHRoZSBhdHRhY2htZW50IiAtIGFmYWl1aQo+IHRoaXMgY2FuIGZhaWwgaXMgc29tZW9uZSBh
-bHJlYWR5IHBpbm5lZCB0aGUgYnVmZmVyIGludG8gdnJhbS4gQW5kIHRoYXQKPiBraW5kIG9mIGNo
-ZWNraW5nIGlzIHN1cHBvc2VkIHRvIGhhcHBlbiBpbiB0aGUgYnVmZmVyIGF0dGFjaG1lbnQuCgpX
-aHkgaXMgdGhhdCBzdXBwb3NlZCB0byBoYXBwZW4gb24gdGhlIGF0dGFjaG1lbnQ/IEkgbWVhbiBp
-dCBjb3VsZCBiZSAKbmljZSB0byBoYXZlIGZvciBkZWJ1Z2dpbmcsIGJ1dCBJIHN0aWxsIGRvbid0
-IHNlZSBhbnkgcHJhY3RpY2FsIHJlYXNvbiAKZm9yIHRoaXMuCgo+IEFsc28gd2lsbCBwMnAgcGlu
-IGludG8gVlJBTSBpZiBhbGwgYXR0YWNobWVudHMgYXJlIHAycCBjYXBhYmxlPyBPciBpcyB5b3Vy
-Cj4gcGxhbiB0byByZXF1aXJlIGR5bmFtaWMgaW52YWxpZGF0ZSB0byBhdm9pZCBmcmFnbWVudGlu
-ZyB2cmFtIGJhZGx5IHdpdGgKPiBwaW5uZWQgc3R1ZmYgeW91IGNhbid0IG1vdmU/CgpNeSBwbGFu
-IHdhcyB0byBtYWtlIGR5bmFtaWMgaW52YWxpZGF0aW9uIGEgbXVzdCBoYXZlIGZvciBQMlAsIGV4
-YWN0bHkgCmZvciB0aGUgcmVhc29uIHlvdSBub3RlZC4KCj4gKy8qKgo+ICsgKiBhbWRncHVfZ2Vt
-X2RtYV9idWZfYXR0YWNoIC0gJmRtYV9idWZfb3BzLmF0dGFjaCBpbXBsZW1lbnRhdGlvbgo+ICsg
-Kgo+ICsgKiBAZG1hX2J1ZjogRE1BLWJ1ZiB3ZSBhdHRhY2ggdG8KPiAgICAqIEBhdHRhY2g6IERN
-QS1idWYgYXR0YWNobWVudAo+ICAgICoKPiArICogUmV0dXJuczoKPiArICogQWx3YXlzIHplcm8g
-Zm9yIHN1Y2Nlc3MuCj4gKyAqLwo+ICtzdGF0aWMgaW50IGFtZGdwdV9nZW1fZG1hX2J1Zl9hdHRh
-Y2goc3RydWN0IGRtYV9idWYgKmRtYV9idWYsCj4gKwkJCQkgICAgIHN0cnVjdCBkbWFfYnVmX2F0
-dGFjaG1lbnQgKmF0dGFjaCkKPiArewo+ICsJc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmogPSBk
-bWFfYnVmLT5wcml2Owo+ICsJc3RydWN0IGFtZGdwdV9ibyAqYm8gPSBnZW1fdG9fYW1kZ3B1X2Jv
-KG9iaik7Cj4gKwo+ICsJLyogTWFrZSBzdXJlIHRoZSBidWZmZXIgaXMgcGlubmVkIHdoZW4gdXNl
-cnNwYWNlIGRpZG4ndCBzZXQgR1RUIGFzCj4gKwkgKiBwcmVmZXJyZWQgZG9tYWluLiBUaGlzIGF2
-b2lkIHBpbmcvcG9uZyBzaXR1YXRpb25zIHdpdGggc2NhbiBvdXQgQk9zLgo+ICsJICovCj4gKwlp
-ZiAoIShiby0+cHJlZmVycmVkX2RvbWFpbnMgJiBBTURHUFVfR0VNX0RPTUFJTl9HVFQpKQo+ICsJ
-CWF0dGFjaC0+aW52YWxpZGF0ZSA9IE5VTEw7Cj4gTm90IGZvbGxvd2luZyBoZXJlIGF0IGFsbC4g
-SWYgdGhlIEJPIGNhbid0IGJlIGluIEdUVCBJJ2QgZ3Vlc3MgeW91IHNob3VsZAo+IHJlamVjdCB0
-aGUgYXR0YWNoIG91dHJpZ2h0LCBzaW5jZSB0aGUgcGlubmluZy9tYXAgbGF0ZXIgb24gd2lsbCBm
-YWlsIEkKPiBndWVzcz8gQXQgbGVhc3QgSSdtIG5vdCBtYWtpbmcgdGhlIGNvbm5lY3Rpb24gd2l0
-aCB3aHkgZHluYW1pYyBkbWEtYnVmCj4gd29uJ3Qgd29yayBhbnltb3JlLCBzaW5jZSBkeW5hbWlj
-IGRtYS1idWYgaXMgdG8gbWFrZSBwMnAgb2YgYm8gaW4gdnJhbQo+IHdvcmsgYmV0dGVyLCB3aGlj
-aCBpcyBleGFjdGx5IHdoYXQgdGhpcyBoZXJlIHNlZW1zIHRvIGNoZWNrIGZvci4KPgo+IE9yIGlz
-IHRoaXMganVzdCBhIHF1aWNrIGNoZWNrIHVudGlsIHlvdSBhZGQgZnVsbCBwMnAgc3VwcG9ydD8K
-Pgo+IENvdW50IG1lIGNvbmZ1c2VkIC4uLgoKV2VsbCBjb21wbGV0ZWx5IGFtZGdwdSBpbnRlcm5h
-bCBoYW5kbGluZyBoZXJlLiBLZXkgcG9pbnQgaXMgd2UgaGF2ZSBib3RoIApwcmVmZXJyZWRfZG9t
-YWlucyBhcyB3ZWxsIGFzIGFsbG93ZWRfZG9tYWlucy4KCkR1cmluZyBjb21tYW5kIHN1Ym1pc3Np
-b24gd2UgYWx3YXlzIHRyeSB0byBtb3ZlIGEgQk8gdG8gdGhlIApwcmVmZXJyZWRfZG9tYWlucyBh
-Z2Fpbi4KCk5vdyB3aGF0IGNvdWxkIGhhcHBlbiBpZiB3ZSBkb24ndCBoYXZlIHRoaXMgY2hlY2sg
-aXMgdGhlIGZvbGxvd2luZzoKCjEuIEJPIGlzIGFsbG9jYXRlIGluIFZSQU0uIEFuZCBwcmVmZXJy
-ZWRfZG9tYWlucyBzYXlzIG9ubHkgVlJBTSBwbGVhc2UsIApidXQgYWxsb3dlZF9kb21haW5zIHNh
-eXMgVlJBTSBvciBHVFQuCgoyLiBETUEtYnVmIEltcG9ydGVyIGNvbWVzIGFsb25nIGFuZCBtb3Zl
-cyB0aGUgQk8gdG8gR1RULCB3aGljaCBpcyAKcGVyZmVjdGx5IHZhbGlkIGJlY2F1c2Ugb2YgdGhl
-IGFsbG93ZWRfZG9tYWlucy4KCjMuIENvbW1hbmQgc3VibWlzc2lvbiBpcyBtYWRlIGFuZCBtb3Zl
-cyB0aGUgQk8gdG8gVlJBTSBhZ2Fpbi4KCjQuIEltcG9ydGVyIGNvbWVzIGFsb25nIGFuZCBtb3Zl
-cyB0aGUgQk8gdG8gR1RULgouLi4uCgpFLmcuIGEgbmljZSBwaW5nL3Bvbmcgc2l0dWF0aW9uIHdo
-aWNoIGp1c3QgZWF0cyB1cCBtZW1vcnkgYmFuZHdpZHRoLgoKQ2hyaXN0aWFuLgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0393816663==
+Content-Type: multipart/alternative; boundary="15568873560.B7C21E7A.23566"
+Content-Transfer-Encoding: 7bit
+
+
+--15568873560.B7C21E7A.23566
+Date: Fri, 3 May 2019 12:42:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110599
+
+            Bug ID: 110599
+           Summary: [IGT runner] Per-test external watchdog
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: martin.peres@free.fr
+
+Sometimes, machines' clock is not working at the right rate, or their watch=
+dog
+is unreliable.
+
+To fix this issue, we should have an external watchdog which is reset after=
+ the
+beginning of every new test, and kills the machine after exceeding it.
+
+This watchdog's value should be greatly larger than the local watchdog in o=
+rder
+to give it a chance to do the right thing.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568873560.B7C21E7A.23566
+Date: Fri, 3 May 2019 12:42:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [IGT runner] Per-test external watchdog"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110599">110599</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[IGT runner] Per-test external watchdog
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>martin.peres&#64;free.fr
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Sometimes, machines' clock is not working at the right rate, o=
+r their watchdog
+is unreliable.
+
+To fix this issue, we should have an external watchdog which is reset after=
+ the
+beginning of every new test, and kills the machine after exceeding it.
+
+This watchdog's value should be greatly larger than the local watchdog in o=
+rder
+to give it a chance to do the right thing.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568873560.B7C21E7A.23566--
+
+--===============0393816663==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0393816663==--
