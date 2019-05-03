@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5396B13132
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 17:32:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D8A13133
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 17:32:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4ED736E7F6;
-	Fri,  3 May 2019 15:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB9C96E7FB;
+	Fri,  3 May 2019 15:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTP id 16D356E7F6
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:32:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 97E306E7F9
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 15:32:02 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4613EBD;
- Fri,  3 May 2019 08:32:00 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B31F15AD;
+ Fri,  3 May 2019 08:32:02 -0700 (PDT)
 Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com
  [10.1.196.75])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9AEE13F557;
- Fri,  3 May 2019 08:31:59 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 307D93F557;
+ Fri,  3 May 2019 08:32:01 -0700 (PDT)
 From: Robin Murphy <robin.murphy@arm.com>
 To: robh@kernel.org,
 	tomeu.vizoso@collabora.com
-Subject: [PATCH 2/4] drm/panfrost: Disable PM on probe failure
-Date: Fri,  3 May 2019 16:31:43 +0100
-Message-Id: <2487391e7646cabbc52e9b4c20182e39d3f61859.1556195258.git.robin.murphy@arm.com>
+Subject: [PATCH 3/4] drm/panfrost: Don't scream about deferred probe
+Date: Fri,  3 May 2019 16:31:44 +0100
+Message-Id: <b6ff1f18ac0612f29fd2e3336d6663b7e02db572.1556195258.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.21.0.dirty
 In-Reply-To: <cover.1556195258.git.robin.murphy@arm.com>
 References: <cover.1556195258.git.robin.murphy@arm.com>
@@ -48,20 +48,23 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TWFrZSBzdXJlIHRvIGRpc2FibGUgcnVudGltZSBQTSBhZ2FpbiBpZiBwcm9iZSBmYWlscyBhZnRl
-ciB3ZSd2ZSBlbmFibGVkCml0LiBPdGhlcndpc2UsIGFueSBzdWJzZXF1ZW50IGF0dGVtcHQgdG8g
-cmUtcHJvYmUgc3RhcnRzIHRyaWdnZXJpbmcKIlVuYmFsYW5jZWQgcG1fcnVudGltZV9lbmFibGUh
-IiBhc3NlcnRpb25zIGZyb20gdGhlIGRyaXZlciBjb3JlLgoKU2lnbmVkLW9mZi1ieTogUm9iaW4g
-TXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJv
-c3QvcGFuZnJvc3RfZHJ2LmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwppbmRleCBhZjAwNThmZmMxZTQu
-LmE4ODFlMjM0NmI1NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
-b3N0X2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwpA
-QCAtNDA1LDYgKzQwNSw3IEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfcHJvYmUoc3RydWN0IHBsYXRm
-b3JtX2RldmljZSAqcGRldikKIGVycl9vdXQxOgogCXBhbmZyb3N0X2RldmljZV9maW5pKHBmZGV2
-KTsKIGVycl9vdXQwOgorCXBtX3J1bnRpbWVfZGlzYWJsZShwZmRldi0+ZGV2KTsKIAlkcm1fZGV2
-X3B1dChkZGV2KTsKIAlyZXR1cm4gZXJyOwogfQotLSAKMi4yMS4wLmRpcnR5CgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+UHJvYmUgZGVmZXJyYWwgaXMgZmFyIGZyb20gImZhdGFsIi4KClNpZ25lZC1vZmYtYnk6IFJvYmlu
+IE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmZy
+b3N0L3BhbmZyb3N0X2Rydi5jIHwgNiArKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
+bnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZy
+b3N0L3BhbmZyb3N0X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Ry
+di5jCmluZGV4IGE4ODFlMjM0NmI1NS4uNGEzZmQ5NDJkZGM2IDEwMDY0NAotLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3Bh
+bmZyb3N0L3BhbmZyb3N0X2Rydi5jCkBAIC0zODIsMTMgKzM4MiwxNSBAQCBzdGF0aWMgaW50IHBh
+bmZyb3N0X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAKIAllcnIgPSBwYW5m
+cm9zdF9kZXZpY2VfaW5pdChwZmRldik7CiAJaWYgKGVycikgewotCQlkZXZfZXJyKCZwZGV2LT5k
+ZXYsICJGYXRhbCBlcnJvciBkdXJpbmcgR1BVIGluaXRcbiIpOworCQlpZiAoZXJyICE9IC1FUFJP
+QkVfREVGRVIpCisJCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJGYXRhbCBlcnJvciBkdXJpbmcgR1BV
+IGluaXRcbiIpOwogCQlnb3RvIGVycl9vdXQwOwogCX0KIAogCWVyciA9IHBhbmZyb3N0X2RldmZy
+ZXFfaW5pdChwZmRldik7CiAJaWYgKGVycikgewotCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJGYXRh
+bCBlcnJvciBkdXJpbmcgZGV2ZnJlcSBpbml0XG4iKTsKKwkJaWYgKGVyciAhPSAtRVBST0JFX0RF
+RkVSKQorCQkJZGV2X2VycigmcGRldi0+ZGV2LCAiRmF0YWwgZXJyb3IgZHVyaW5nIGRldmZyZXEg
+aW5pdFxuIik7CiAJCWdvdG8gZXJyX291dDE7CiAJfQogCi0tIAoyLjIxLjAuZGlydHkKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
