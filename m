@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C66812894
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 09:18:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A4B128E3
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 09:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE48897F0;
-	Fri,  3 May 2019 07:18:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6B4897FF;
+	Fri,  3 May 2019 07:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 395D3897F0
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 07:18:28 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id w33so2527501edb.10
- for <dri-devel@lists.freedesktop.org>; Fri, 03 May 2019 00:18:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=t3Nbi1OFvrAx8Btmot3XsZhtjkwoKWh4qz0DqlwjRQU=;
- b=RWFpEWLbCao5gQp+vWnhsNTHVdnrpqZFlJwu39UG/CjVd0/jOZG7YOMlar2GASkrXy
- TEE5YoQ9pmY+SXpsXXaddntClBRBK/xWnMWPb2OkDpulLFnQwk0/hqUj49ldVEJBkKM/
- eOAeUjCU+yzbTmpfgP6IMiUmNfERr3KPStEQ54XeWGOQ8beK1RBdDyPoOat1EFmwsiY7
- ssMbHARpWpoe9rgSdkBDlVwW7hi1Us9Nil+Eo3ye7iPa6Exq1XwIbXb1TPzih8lrHSk9
- 6Bb/YQ9lwnj0VcF2fBgPmq4A4SMZX7GmvsB+NalfeTtCMfB1KQ/VQBwzssciyUz49utz
- dKeA==
-X-Gm-Message-State: APjAAAU1n5AUf18lCZPLYWkmbbhATBmWfpeQWSYGHoWOgUSD5+3CdWyz
- Zp49x8HmKnebfWF+71uYCBOj9A==
-X-Google-Smtp-Source: APXvYqwc5EmhpiyJTNezN8PfLk00sMMe7QPkOgaHQLCDKHS5amuuhRgj8khNlKVkWU66IJJQ5OqT+Q==
-X-Received: by 2002:a50:e79c:: with SMTP id b28mr6243738edn.277.1556867906843; 
- Fri, 03 May 2019 00:18:26 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id g32sm373479ede.88.2019.05.03.00.18.24
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 03 May 2019 00:18:25 -0700 (PDT)
-Date: Fri, 3 May 2019 09:18:23 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH 2/2] drm/doc: Document the writeback prepare/cleanup jobs
-Message-ID: <20190503071823.GE3271@phenom.ffwll.local>
-References: <20190502202449.237184-1-sean@poorly.run>
- <20190502202449.237184-2-sean@poorly.run>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D10B0897F6
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 07:31:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C4C7B7215A; Fri,  3 May 2019 07:31:45 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108893] Slow redrawing of menu in Gothic 2 under wine
+Date: Fri, 03 May 2019 07:31:46 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108893-502-k4lSvzja5b@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108893-502@http.bugs.freedesktop.org/>
+References: <bug-108893-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190502202449.237184-2-sean@poorly.run>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=t3Nbi1OFvrAx8Btmot3XsZhtjkwoKWh4qz0DqlwjRQU=;
- b=LEX42/77HgvNLbSfX8pAO0nMppxzdI/iBufpAfCfHNMO79ikCbgo7Q1OXVryGNZ+7p
- VF/hOxtHZb9ygFvsPmW0KgxCe/Bp71ruAtSgIKLJvvsr/9wKE1KxZjis2Q7+LStIto0z
- KuaPdQU4j+amgaPTO15Ubl9oIs5WLYDl2I10U=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,111 +52,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1656135748=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMDIsIDIwMTkgYXQgMDQ6MjQ6MzBQTSAtMDQwMCwgU2VhbiBQYXVsIHdyb3Rl
-Ogo+IEZyb206IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+IAo+IFRoZXNlIGZ1
-bmN0aW9ucyB3ZXJlIG1pc3NpbmcgZG9jdW1lbnRhdGlvbi4KPiAKPiBGaXhlcyB0aGUgd2Fybmlu
-ZzoKPiAuLi9pbmNsdWRlL2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oOjEwMDA6IHdh
-cm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBvciBtZW1iZXIgJ3ByZXBhcmVfd3JpdGViYWNrX2pv
-Yicgbm90IGRlc2NyaWJlZCBpbiAnZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MnCj4gLi4vaW5j
-bHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaDoxMDAwOiB3YXJuaW5nOiBGdW5j
-dGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdjbGVhbnVwX3dyaXRlYmFja19qb2InIG5vdCBkZXNj
-cmliZWQgaW4gJ2RybV9jb25uZWN0b3JfaGVscGVyX2Z1bmNzJwo+IAo+IEZpeGVzOiA5ZDIyMzBk
-YzEzNTEgKCJkcm06IHdyaXRlYmFjazogQWRkIGpvYiBwcmVwYXJlIGFuZCBjbGVhbnVwIG9wZXJh
-dGlvbnMiKQo+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVzYXNA
-aWRlYXNvbmJvYXJkLmNvbT4KCk9oIExhdXJlbnQgZGlkbid0IHR5cGUgZG9jdW1lbnRhdGlvbiwg
-SSdsbCByZW1lbWJlciB0aGF0IG9uZSA6LSkKCj4gQ2M6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRh
-dUBhcm0uY29tPgo+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGlu
-dXguaW50ZWwuY29tPgo+IENjOiBNYXhpbWUgUmlwYXJkIDxtYXhpbWUucmlwYXJkQGJvb3RsaW4u
-Y29tPgo+IENjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KPiBDYzogRGF2aWQgQWlybGll
-IDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+
-Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBT
-ZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJt
-L2RybV93cml0ZWJhY2suYyAgICAgICAgICB8IDIwICsrKysrKysrKysrKysrKysrKysrCj4gIGlu
-Y2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmggfCAyMCArKysrKysrKysrKysr
-KysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDQwIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV93cml0ZWJhY2suYyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fd3JpdGViYWNrLmMKPiBpbmRleCA3OWFjMDE0NzAxYzguLmVmNmY4NTk2NjU0NiAxMDA2NDQK
-PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3dyaXRlYmFjay5jCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2RybV93cml0ZWJhY2suYwo+IEBAIC0yNTgsNiArMjU4LDE1IEBAIGludCBkcm1fd3Jp
-dGViYWNrX3NldF9mYihzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqY29ubl9zdGF0ZSwKPiAg
-CXJldHVybiAwOwo+ICB9Cj4gIAo+ICsvKioKPiArICogZHJtX3dyaXRlYmFja19wcmVwYXJlX2pv
-YiAtIEdpdmVzIGRyaXZlciBhIGNoYW5jZSB0byBwcmVwYXJlIGZvciB3cml0ZWJhY2sKPiArICog
-QGpvYjogVGhlIHdyaXRlYmFjayBqb2IgdG8gYmUgcHJlcGFyZWQKPiArICoKPiArICogVGhpcyBm
-dW5jdGlvbiBpcyBjYWxsZWQgZnJvbSAmZHJtX2F0b21pY19oZWxwZXJfcHJlcGFyZV9wbGFuZXMo
-KSwgYW5kIGFsbG93cwo+ICsgKiB0aGUgZHJpdmVyIHRvIHNldHVwIHRoZSB1cGNvbWluZyB3cml0
-ZWJhY2sgam9iLiBUaGUgam9iIHdpbGwgYmUKPiArICogZGVzdHJveWVkL2NsZWFuZWQgdXAgaW4g
-JmRybV93cml0ZWJhY2tfY2xlYW51cF9qb2Igd2hlbiB0aGUgY29ubmVjdG9yIHN0YXRlCj4gKyAq
-IGlzIGRlc3Ryb3llZC4KClRoaXMgaXMgbWlzc2luZyB0aGUgc3RhbmRhcmQgIlJldHVybnMgMCBv
-biBzdWNjZXNzLCBuZWdhdGl2ZSBlcnJvciBjb2RlcwpvbiBmYWlsdXJlcy4iCj4gKyAqLwo+ICBp
-bnQgZHJtX3dyaXRlYmFja19wcmVwYXJlX2pvYihzdHJ1Y3QgZHJtX3dyaXRlYmFja19qb2IgKmpv
-YikKPiAgewo+ICAJc3RydWN0IGRybV93cml0ZWJhY2tfY29ubmVjdG9yICpjb25uZWN0b3IgPSBq
-b2ItPmNvbm5lY3RvcjsKPiBAQCAtMzEwLDYgKzMxOSwxNyBAQCB2b2lkIGRybV93cml0ZWJhY2tf
-cXVldWVfam9iKHN0cnVjdCBkcm1fd3JpdGViYWNrX2Nvbm5lY3RvciAqd2JfY29ubmVjdG9yLAo+
-ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3dyaXRlYmFja19xdWV1ZV9qb2IpOwo+ICAKPiArLyoq
-Cj4gKyAqIGRybV93cml0ZWJhY2tfY2xlYW51cF9qb2IgLSBHaXZlcyBkcml2ZXIgYSBjaGFuY2Ug
-dG8gY2xlYW51cCBhIHdyaXRlYmFjayBqb2IKPiArICogQGpvYjogVGhlIHdyaXRlYmFjayBqb2Ig
-dG8gYmUgY2xlYW5lZCB1cAo+ICsgKgo+ICsgKiBUaGlzIGZ1bmN0aW9uIGlzIGNhbGxlZCBmcm9t
-ICZhdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9kZXN0cm95X3N0YXRlKCkgYW5kCj4gKyAqIGFsbG93
-cyB0aGUgZHJpdmVyIHRvIGNsZWFuIHVwIHRoZSBub3cgZmluaXNoZWQgd3JpdGViYWNrIGpvYi4K
-PiArICoKPiArICogTm90aWNlIHRoZSBhc3ltbWV0cnkgZnJvbSBwcmVwYXJlLCB0aGlzIGlzIGNh
-bGxlZCBvbiBkZXN0cm95IHRvCj4gKyAqIGVuc3VyZSB0aGUgam9iIGlzIG5vdCBkZXN0cm95ZWQg
-YmVmb3JlIHRoYW4gdGhlIHdyaXRlYmFjayBvcGVyYXRpb24KCnMvdGhhbi8vIEkgdGhpbmsuCgpC
-dXQgSSdtIG5vdCByZWFsbHkgY2xlYXIgb24gd2hhdCBleGFjdGx5IHRoZSBhc3ltbWV0cnkgaXMu
-CgpQbHVzIGl0J3Mgbm90IG9ubHkgY2FsbGVkIGZyb20gZGVzdHJ5X3N0YXRlLCBidXQgYWxzbyB0
-aHJvdWdoIGEgd29ya2VyCnRoYXQncyBsYXVuY2hlZCBieSBkcm1fd3JpdGViYWNrX3NpZ25hbF9j
-b21wbGV0aW9uLgoKSSB0aGluayB5b3UncmUgZG9jcyBoZXJlIGRvbid0IHJlZmxlY3QgcmVhbGl0
-eS4gQnV0IHllYWggSSB0aGluayB0aGVyZSdzCnNvbWUgYXN5bW1ldHJ5LCBhcyBpbiBjbGVhbnVw
-X2pvYiBpcyBhbHdheXMgY2FsbGVkLCBldmVuIGlmIHByZXBhcmVfam9iCndhc24ndC4gTm90IHRo
-ZSBncmVhdGVzdCBpbnRlcmZhY2UgSSB0aGluaywgcHJvYmFibHkgc2hvdWxkIHJlbmFtZSBjbGVh
-bnVwCnRvIHJlbGVhc2UvZnJlZS4gU2luY2UgdGhhdCdzIHdoYXQgaXQncyBzdXBwb3NlZCB0byBk
-byBJIHRoaW5rLgoKPiArICogaGFzIGNvbXBsZXRlZC4KPiArICovCj4gIHZvaWQgZHJtX3dyaXRl
-YmFja19jbGVhbnVwX2pvYihzdHJ1Y3QgZHJtX3dyaXRlYmFja19qb2IgKmpvYikKPiAgewo+ICAJ
-c3RydWN0IGRybV93cml0ZWJhY2tfY29ubmVjdG9yICpjb25uZWN0b3IgPSBqb2ItPmNvbm5lY3Rv
-cjsKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMu
-aCBiL2luY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFibGVzLmgKPiBpbmRleCA4ZjM2
-MDI4MTFlYjUuLmEwMDE3ZjM3ZWY1NSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fbW9k
-ZXNldF9oZWxwZXJfdnRhYmxlcy5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVs
-cGVyX3Z0YWJsZXMuaAo+IEBAIC05OTIsOCArOTkyLDI4IEBAIHN0cnVjdCBkcm1fY29ubmVjdG9y
-X2hlbHBlcl9mdW5jcyB7Cj4gIAl2b2lkICgqYXRvbWljX2NvbW1pdCkoc3RydWN0IGRybV9jb25u
-ZWN0b3IgKmNvbm5lY3RvciwKPiAgCQkJICAgICAgc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUg
-KnN0YXRlKTsKPiAgCj4gKwkvKioKPiArCSAqIEBwcmVwYXJlX3dyaXRlYmFja19qb2I6Cj4gKwkg
-Kgo+ICsJICogQ2FsbGVkIGZyb20gJmRybV9hdG9taWNfaGVscGVyX3ByZXBhcmVfcGxhbmVzKCks
-IHByb3ZpZGVzIHRoZSBkcml2ZXIKPiArCSAqIGEgY2hhbmNlIHRvIHNldHVwIHRoaW5ncyBpbiBw
-cmVwYXJhdGlvbiBmb3IgYSB3cml0ZWJhY2sgam9iLgo+ICsJICoKCk1pc3Npbmcgc3RhbmRhcmQg
-Ym9pbGVycGxhdGUgYWJvdXQgcmV0dXJuIHZhbHVlcy4KCj4gKwkgKiBUaGlzIGhvb2sgaXMgb3B0
-aW9uYWwuCj4gKwkgKi8KPiAgCWludCAoKnByZXBhcmVfd3JpdGViYWNrX2pvYikoc3RydWN0IGRy
-bV93cml0ZWJhY2tfY29ubmVjdG9yICpjb25uZWN0b3IsCj4gIAkJCQkgICAgIHN0cnVjdCBkcm1f
-d3JpdGViYWNrX2pvYiAqam9iKTsKPiArCj4gKwkvKioKPiArCSAqIEBjbGVhbnVwX3dyaXRlYmFj
-a19qb2I6Cj4gKwkgKgo+ICsJICogQ2FsbGVkIGZyb20gJmRybV9hdG9taWNfaGVscGVyX2Nvbm5l
-Y3Rvcl9kZXN0cm95X3N0YXRlKCksIGFuZAo+ICsJICogcHJvdmlkZXMgdGhlIGRyaXZlciBhbiBv
-cHBvcnR1bml0eSB0byBjbGVhbnVwIHRoZSB3cml0ZWJhY2sgam9iLgo+ICsJICogTm90aWNlIHRo
-ZSBhc3ltbWV0cnkgZnJvbSBwcmVwYXJlLCB0aGlzIGlzIGNhbGxlZCBvbiBkZXN0cm95IHRvCj4g
-KwkgKiBlbnN1cmUgdGhlIGpvYiBpcyBub3QgZGVzdHJveWVkIGJlZm9yZSB0aGFuIHRoZSB3cml0
-ZWJhY2sgb3BlcmF0aW9uCj4gKwkgKiBoYXMgY29tcGxldGVkLgo+ICsJICoKPiArCSAqIFRoaXMg
-aG9vayBpcyBvcHRpb25hbC4KPiArCSAqLwo+ICAJdm9pZCAoKmNsZWFudXBfd3JpdGViYWNrX2pv
-Yikoc3RydWN0IGRybV93cml0ZWJhY2tfY29ubmVjdG9yICpjb25uZWN0b3IsCj4gIAkJCQkgICAg
-ICBzdHJ1Y3QgZHJtX3dyaXRlYmFja19qb2IgKmpvYik7Cj4gIH07CgpTbyBJIGxvb2tlZCB0aHJv
-dWdoIHRoZSB3cml0ZWJhY2sgY29kZSBzb21lIG1vcmUsIGFuZCByZWFsaXplZCB0aGF0IHRoaXMK
-aGVyZSBpcyBwcm9iYWJseSBtb3JlIGhlbHBlciBjb2RlIChpdCdzIG1vc3RseSBjYWxsZWQgZnJv
-bSBoZWxwZXJzLCB0aGUKdmZ1bmNzIGFyZSBpbiBoZWxwZXJzKSwgYnV0IGl0J3MgaW4gY29yZSBj
-b2RlLgoKSSB0aGluayBiZWZvcmUgd2UgZG9jdW1lbnQgdGhlIGRldGFpbHMgb2YgdGhpcyB3ZSBh
-bHNvIG5lZWQgdG8gcmV0aGluayB0aGUKbGF5ZXJpbmcgaGVyZSwgYXRtIGl0IGxvb2tzIGxpa2Ug
-c29tZW9uZSBzbWFzaGVkIGEgcGVubmUgdmVydGljYWxseSBpbnRvCm91ciB2ZXJ5IG5pY2Uga21z
-IGNvcmUvaGVscGVyIGxhc2FnbmEgLi4uIFdvdWxkIGJlIHJlYWxseSBuaWNlIHRvIGNsZWFuCnRo
-aXMgdXAgdG9vIGFuZCBlaXRoZXIgbWFrZSBpdCBhbGwgY29yZSAod2hpY2ggZmVlbHMgd3Jvbmcp
-IG9yIG1vdmUgaW50bwpoZWxwZXJzIChwcm9iYWJseSBuZWVkcyBhIHdyaXRlYmFja19oZWxwZXIu
-YyBmb3IgdGhpcywgb3Igd2Ugc3R1ZmYgaXQgaW50bwpkcm1fYXRvbWljX2hlbHBlci5jKS4KCkNo
-ZWVycywgRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBD
-b3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1656135748==
+Content-Type: multipart/alternative; boundary="15568687050.8Fc63c.10407"
+Content-Transfer-Encoding: 7bit
+
+
+--15568687050.8Fc63c.10407
+Date: Fri, 3 May 2019 07:31:45 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108893
+
+--- Comment #8 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to andrew.m.mcmahon from comment #6)
+> I can't replicate any performance issues with Gothic 2 Gold on my setup.
+>=20
+> [...]
+>=20
+> I've recorded a video with SimpleScreenRecorder of the game running @
+> 1440x900 in wine's virtual desktop. I've got MESA_HUD enabled so you can =
+see
+> my framerate and other info:
+
+The video shows very low frame-rate and GPU load in the menu, but high CPU
+load. Maybe there's a CPU bottleneck which affects the reporter even more
+badly. A CPU profile from sysprof or perf might give a clue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568687050.8Fc63c.10407
+Date: Fri, 3 May 2019 07:31:45 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Slow redrawing of menu in Gothic 2 under wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108893#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Slow redrawing of menu in Gothic 2 under wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108893">bug 10889=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to andrew.m.mcmahon from <a href=3D"show_bug.cgi?id=
+=3D108893#c6">comment #6</a>)
+<span class=3D"quote">&gt; I can't replicate any performance issues with Go=
+thic 2 Gold on my setup.
+&gt;=20
+&gt; [...]
+&gt;=20
+&gt; I've recorded a video with SimpleScreenRecorder of the game running &#=
+64;
+&gt; 1440x900 in wine's virtual desktop. I've got MESA_HUD enabled so you c=
+an see
+&gt; my framerate and other info:</span >
+
+The video shows very low frame-rate and GPU load in the menu, but high CPU
+load. Maybe there's a CPU bottleneck which affects the reporter even more
+badly. A CPU profile from sysprof or perf might give a clue.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15568687050.8Fc63c.10407--
+
+--===============1656135748==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1656135748==--
