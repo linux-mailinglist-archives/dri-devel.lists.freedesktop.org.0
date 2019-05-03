@@ -2,65 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B62E12D7F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E17E12D83
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 14:28:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C7C89E35;
-	Fri,  3 May 2019 12:27:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F82789E3B;
+	Fri,  3 May 2019 12:28:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC31889E35
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:27:46 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 44BF9AD96;
- Fri,  3 May 2019 12:27:45 +0000 (UTC)
-Subject: Re: [PATCH v3 01/19] drm: Add |struct drm_gem_vram_object| and helpers
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20190429144341.12615-1-tzimmermann@suse.de>
- <20190429144341.12615-2-tzimmermann@suse.de>
- <20190429195855.GA6610@ravnborg.org>
- <1d14ef87-e1cd-4f4a-3632-bc045a1981c6@suse.de>
- <20190430092327.GA13757@ravnborg.org>
- <6e07e6c9-2ce7-c39f-8d55-46e811c61510@amd.com>
- <a2398439-3bb5-d1ef-db94-82f252f461c2@suse.de>
- <CAKMK7uGnUeeK-UPHZC+P5TsQTaOWPQd=LLV_Rr+VvPgNEEHhyg@mail.gmail.com>
- <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
-Date: Fri, 3 May 2019 14:27:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 48D8989E38
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 12:28:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 45DDD7215A; Fri,  3 May 2019 12:28:45 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109124] [AMD][TAHITI XT] csgo new battle royal mode bad
+ performance
+Date: Fri, 03 May 2019 12:28:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTOURBUG
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution
+Message-ID: <bug-109124-502-K6P3kHK7Vh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109124-502@http.bugs.freedesktop.org/>
+References: <bug-109124-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,194 +53,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "z.liuxinliang@hisilicon.com" <z.liuxinliang@hisilicon.com>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>, "Huang,
- Ray" <Ray.Huang@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "zourongrong@gmail.com" <zourongrong@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0736502049=="
+Content-Type: multipart/mixed; boundary="===============1179364345=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0736502049==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="wso2WylJrYE5BAjCVStQkMEIaju382Ct5"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---wso2WylJrYE5BAjCVStQkMEIaju382Ct5
-Content-Type: multipart/mixed; boundary="4cdtrBoVZJR3xHpx49LzB45tdXPpojWto";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>, "airlied@linux.ie" <airlied@linux.ie>,
- "puck.chen@hisilicon.com" <puck.chen@hisilicon.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- "z.liuxinliang@hisilicon.com" <z.liuxinliang@hisilicon.com>,
- "hdegoede@redhat.com" <hdegoede@redhat.com>,
- "kong.kongxinwei@hisilicon.com" <kong.kongxinwei@hisilicon.com>,
- "Huang, Ray" <Ray.Huang@amd.com>, "kraxel@redhat.com" <kraxel@redhat.com>,
- "zourongrong@gmail.com" <zourongrong@gmail.com>
-Message-ID: <a96ad14d-698b-ca7b-cbdb-347801c70ce0@suse.de>
-Subject: Re: [PATCH v3 01/19] drm: Add |struct drm_gem_vram_object| and
- helpers
-References: <20190429144341.12615-1-tzimmermann@suse.de>
- <20190429144341.12615-2-tzimmermann@suse.de>
- <20190429195855.GA6610@ravnborg.org>
- <1d14ef87-e1cd-4f4a-3632-bc045a1981c6@suse.de>
- <20190430092327.GA13757@ravnborg.org>
- <6e07e6c9-2ce7-c39f-8d55-46e811c61510@amd.com>
- <a2398439-3bb5-d1ef-db94-82f252f461c2@suse.de>
- <CAKMK7uGnUeeK-UPHZC+P5TsQTaOWPQd=LLV_Rr+VvPgNEEHhyg@mail.gmail.com>
- <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
-In-Reply-To: <c74362eb-c43a-a7be-5b52-106d207e8a8d@amd.com>
+--===============1179364345==
+Content-Type: multipart/alternative; boundary="15568865251.6bE7.19795"
+Content-Transfer-Encoding: 7bit
 
---4cdtrBoVZJR3xHpx49LzB45tdXPpojWto
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+
+--15568865251.6bE7.19795
+Date: Fri, 3 May 2019 12:28:45 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-cc: noralf@tronnes.org
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109124
 
-Am 03.05.19 um 14:07 schrieb Koenig, Christian:
-> Am 03.05.19 um 14:01 schrieb Daniel Vetter:
->> [CAUTION: External Email]
->>
->> On Fri, May 3, 2019 at 12:15 PM Thomas Zimmermann <tzimmermann@suse.de=
-> wrote:
->>> Hi Christian,
->>>
->>> would you review the whole patch set? Daniel mentioned that he'd pref=
-er
->>> to leave the review to memory-mgmt developers.
->> I think Noralf Tronnes or Gerd Hoffmann would also make good reviewers=
+Sylvain BERTRAND <sylvain.bertrand@gmail.com> changed:
 
->> for this, fairly close to what they've been working on in the past.
->=20
-> I will try to take another look next week. Busy as usual here.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|NOTABUG                     |NOTOURBUG
 
-Thanks, I'll post v4 of the patches early next week.
-
-> Christian.
->=20
->> -Daniel
->>
->>> Best regards
->>> Thomas
->>>
->>> Am 30.04.19 um 11:35 schrieb Koenig, Christian:
->>>> Am 30.04.19 um 11:23 schrieb Sam Ravnborg:
->>>>> [CAUTION: External Email]
->>>>>
->>>>> Hi Thomas.
->>>>>
->>>>>>>> +
->>>>>>>> +/**
->>>>>>>> + * Returns the container of type &struct drm_gem_vram_object
->>>>>>>> + * for field bo.
->>>>>>>> + * @bo:           the VRAM buffer object
->>>>>>>> + * Returns:       The containing GEM VRAM object
->>>>>>>> + */
->>>>>>>> +static inline struct drm_gem_vram_object* drm_gem_vram_of_bo(
->>>>>>>> +  struct ttm_buffer_object *bo)
->>>>>>>> +{
->>>>>>>> +  return container_of(bo, struct drm_gem_vram_object, bo);
->>>>>>>> +}
->>>>>>> Indent funny. USe same indent as used in other parts of file for
->>>>>>> function arguments.
->>>>>> If I put the argument next to the function's name, it will exceed =
-the
->>>>>> 80-character limit. From the coding-style document, I could not se=
-e what
->>>>>> to do in this case. One solution would move the return type to a
->>>>>> separate line before the function name. I've not seen that anywher=
-e in
->>>>>> the source code, so moving the argument onto a separate line and
->>>>>> indenting by one tab appears to be the next best solution. Please =
-let me
->>>>>> know if there's if there's a preferred style for cases like this o=
-ne.
->>>>> Readability has IMO higher priority than some limit of 80 chars.
->>>>> And it hurts readability (at least my OCD) when style changes
->>>>> as you do with indent here. So my personal preference is to fix
->>>>> indent and accect longer lines.
->>>> In this case the an often used convention (which is also kind of
->>>> readable) is to add a newline after the return values, but before th=
-e
->>>> function name. E.g. something like this:
->>>>
->>>> static inline struct drm_gem_vram_object*
->>>> drm_gem_vram_of_bo(struct ttm_buffer_object *bo)
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>> But you ask for a preferred style - which I do not think we have in=
- this
->>>>> case. So it boils down to what you prefer.
->>>>>
->>>>> Enough bikeshedding, thanks for the quick response.
->>>>>
->>>>>           Sam
->>> --
->>> Thomas Zimmermann
->>> Graphics Driver Developer
->>> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->>> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->>> HRB 21284 (AG N=C3=BCrnberg)
->>>
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->>
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> +41 (0) 79 365 57 48 - http://blog.ffwll.ch
->=20
+--- Comment #5 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+it does not seem to be the driver, but the 3D engine: I get the same low FPS
+while lowering the GPU settings. Seems to be a 3D meshes LOD computation
+performance issue in open areas with far sight.
+csgo source1 engine seems enough for classic gameplay csgo maps, but quite =
+bad
+for danger zone gameplay maps (expected).
+apex legend 3D engine is actually a heavily modified source1 engine (and th=
+ere
+are probably map specific optimizations).
+I did try the config community mod showed in the video, did not help.
+It is said csgo is being upgraded to source2 then vulkan: let's wait and se=
+e.
 
 --=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15568865251.6bE7.19795
+Date: Fri, 3 May 2019 12:28:45 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:sylvain.b=
+ertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertrand&#64;g=
+mail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - [AMD][TAHITI XT] csgo new battle royal mod=
+e bad performance"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124">bug 10912=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>NOTABUG
+           </td>
+           <td>NOTOURBUG
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - [AMD][TAHITI XT] csgo new battle royal mod=
+e bad performance"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - [AMD][TAHITI XT] csgo new battle royal mod=
+e bad performance"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124">bug 10912=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre>it does not seem to be the driver, but the 3D engine: I get th=
+e same low FPS
+while lowering the GPU settings. Seems to be a 3D meshes LOD computation
+performance issue in open areas with far sight.
+csgo source1 engine seems enough for classic gameplay csgo maps, but quite =
+bad
+for danger zone gameplay maps (expected).
+apex legend 3D engine is actually a heavily modified source1 engine (and th=
+ere
+are probably map specific optimizations).
+I did try the config community mod showed in the video, did not help.
+It is said csgo is being upgraded to source2 then vulkan: let's wait and se=
+e.</pre>
+        </div>
+      </p>
 
 
---4cdtrBoVZJR3xHpx49LzB45tdXPpojWto--
+      <hr>
+      <span>You are receiving this mail because:</span>
 
---wso2WylJrYE5BAjCVStQkMEIaju382Ct5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
 
------BEGIN PGP SIGNATURE-----
+--15568865251.6bE7.19795--
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlzMM7sACgkQaA3BHVML
-eiNqMggAv9r5WqFL9LGjuADBqLu3tKaTKc7I8UJXF1E+GwvGepKtxQ3uj/c8alcv
-IlMbVydXMyHqfMa1IcUmSaHOL89mucpR0QyYbVKdw/hENsN/qtHdVnnusanr1FbQ
-D5BXtE4JdZgLUsPr+G3nKJW0O8j3EXA8ZzK2P1kPgFut7D5vfwRBb9tS680d8I0+
-qJUGsmzQpL9jj4Iuoc1xctB1VtFZAj0wv3D8dcO+5ec4NbEKaZU/h211e/RxEwM7
-QDWB865KJaMjRY38REsyHZJfBf6AW6F0ngNcdpWbMu/NtI9j0o8IxLastIK4vsKS
-ORE/+kLmTmWpm858mh8PlZ8Zs9yM+A==
-=wQDH
------END PGP SIGNATURE-----
-
---wso2WylJrYE5BAjCVStQkMEIaju382Ct5--
-
---===============0736502049==
+--===============1179364345==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -270,4 +190,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0736502049==--
+--===============1179364345==--
