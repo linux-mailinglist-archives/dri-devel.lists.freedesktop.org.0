@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C9E1263F
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 03:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192D31264B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 04:23:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CC67893A8;
-	Fri,  3 May 2019 01:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A5289491;
+	Fri,  3 May 2019 02:23:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D174E893A8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 01:53:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 826D4890AB
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 02:23:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C43267215A; Fri,  3 May 2019 01:53:23 +0000 (UTC)
+ id 760387215A; Fri,  3 May 2019 02:23:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110575] [R9 380X] Artifacts in CSGO
-Date: Fri, 03 May 2019 01:53:24 +0000
+Subject: [Bug 109124] [AMD][TAHITI XT] csgo new battle royal mode bad
+ performance
+Date: Fri, 03 May 2019 02:23:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTABUG
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110575-502-26dVJoAfPQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110575-502@http.bugs.freedesktop.org/>
-References: <bug-110575-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-109124-502-DldVz4Zy17@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109124-502@http.bugs.freedesktop.org/>
+References: <bug-109124-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,39 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1624338401=="
+Content-Type: multipart/mixed; boundary="===============0291921371=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1624338401==
-Content-Type: multipart/alternative; boundary="15568484030.e9f1.11838"
+--===============0291921371==
+Content-Type: multipart/alternative; boundary="15568502280.ef6831c2.13130"
 Content-Transfer-Encoding: 7bit
 
 
---15568484030.e9f1.11838
-Date: Fri, 3 May 2019 01:53:23 +0000
+--15568502280.ef6831c2.13130
+Date: Fri, 3 May 2019 02:23:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110575
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109124
 
---- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-Bit of a stab in the dark but if its related to bug #100239
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
 
-You could try running steam from the command line with:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |NOTABUG
 
-R600_DEBUG=3Dzerovram steam
+--- Comment #4 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+I suspect it could be your system showing its age. It seems common that use=
+rs
+on Windows also reported FPS drops with Danger Zone. You could try some of =
+the
+generic (non windows) suggestions found here [1] to reduce CPU use etc.
+Otherwise it might be upgrade time.
+
+
+[1] https://www.youtube.com/watch?v=3DFkP-MUL8Qg8
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15568484030.e9f1.11838
-Date: Fri, 3 May 2019 01:53:23 +0000
+--15568502280.ef6831c2.13130
+Date: Fri, 3 May 2019 02:23:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -95,32 +107,67 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTABUG - [AMD][TAHITI XT] csgo new battle royal mode =
+bad performance"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124">bug 10912=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>NOTABUG
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [R9 380X] Artifacts in CSGO"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110575#c1">Commen=
-t # 1</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTABUG - [AMD][TAHITI XT] csgo new battle royal mode =
+bad performance"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [R9 380X] Artifacts in CSGO"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110575">bug 11057=
-5</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTABUG - [AMD][TAHITI XT] csgo new battle royal mode =
+bad performance"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109124">bug 10912=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
 om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
 </span></b>
-        <pre>Bit of a stab in the dark but if its related to <a class=3D"bz=
-_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Incorrect rendering in CS:GO"
-   href=3D"show_bug.cgi?id=3D100239">bug #100239</a>
+        <pre>I suspect it could be your system showing its age. It seems co=
+mmon that users
+on Windows also reported FPS drops with Danger Zone. You could try some of =
+the
+generic (non windows) suggestions found here [1] to reduce CPU use etc.
+Otherwise it might be upgrade time.
 
-You could try running steam from the command line with:
 
-R600_DEBUG=3Dzerovram steam</pre>
+[1] <a href=3D"https://www.youtube.com/watch?v=3DFkP-MUL8Qg8">https://www.y=
+outube.com/watch?v=3DFkP-MUL8Qg8</a></pre>
         </div>
       </p>
 
@@ -134,9 +181,9 @@ R600_DEBUG=3Dzerovram steam</pre>
     </body>
 </html>=
 
---15568484030.e9f1.11838--
+--15568502280.ef6831c2.13130--
 
---===============1624338401==
+--===============0291921371==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +193,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1624338401==--
+--===============0291921371==--
