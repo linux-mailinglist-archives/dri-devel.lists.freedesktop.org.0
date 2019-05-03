@@ -2,43 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0582F12EA0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 15:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A58312ED0
+	for <lists+dri-devel@lfdr.de>; Fri,  3 May 2019 15:09:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34222890D8;
-	Fri,  3 May 2019 13:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D86789FCE;
+	Fri,  3 May 2019 13:09:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41DE3890D8
- for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 13:00:48 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B26AD31E;
- Fri,  3 May 2019 15:00:46 +0200 (CEST)
-Date: Fri, 3 May 2019 16:00:33 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCHv2 16/22] drm/bridge: tc358767: remove check for video
- mode in link enable
-Message-ID: <20190503130033.GH4912@pendragon.ideasonboard.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9440389FCE
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 May 2019 13:08:59 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x43D8uii027411;
+ Fri, 3 May 2019 08:08:56 -0500
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x43D8uIa093526
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 3 May 2019 08:08:56 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 3 May
+ 2019 08:08:48 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 3 May 2019 08:08:48 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x43D8koE125055;
+ Fri, 3 May 2019 08:08:46 -0500
+Subject: Re: [PATCHv2 08/22] drm/bridge: tc358767: split stream enable/disable
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20190326103146.24795-1-tomi.valkeinen@ti.com>
- <20190326103146.24795-17-tomi.valkeinen@ti.com>
- <20190420221450.GS4964@pendragon.ideasonboard.com>
- <e022f4ae-0c62-3d4e-f793-c3e53d60109b@ti.com>
+ <20190326103146.24795-9-tomi.valkeinen@ti.com>
+ <20190420212913.GK4964@pendragon.ideasonboard.com>
+ <c5b5ca05-2c0a-7cb2-e916-e655138f3e58@ti.com>
+ <20190503125526.GG4912@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <044c79d5-8a19-2de5-52fd-a5c757a8ac72@ti.com>
+Date: Fri, 3 May 2019 16:08:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e022f4ae-0c62-3d4e-f793-c3e53d60109b@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1556888446;
- bh=3W/6c9wdumV/7YFqzLrpOn521/IGJc2qUYEUsLR8OvY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=citPL9uwlNOS2EDpnr5Z2X5JYuaq/FI2WbRjwcTyqfcIUvWte+jykljhWmKS/s8Lq
- WNYDZETR6XnTUWLrUgm8G1rnasdQtDhVdh4Ll/m+1gGRiLhhNFezw3rde2VM/0oaDI
- 6wyYSPEjl44IQT1IJxJ+bo8Co2CDukUiQ85OpPvk=
+In-Reply-To: <20190503125526.GG4912@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1556888936;
+ bh=v9gC5zuNUSaXj/W02rQ8GVtmpW/EqcSv6b3EM1oo68s=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=Ad8Yw2WkwZmGWaL/Non3SRRKBHFMvKFCW+m9kZ+bBYckSVRyHTCON991Kv+c3jnos
+ tSWiR0AlHO1hoPaXyIqn2jVktigHY4sfMUHzAfPM8CxWJxygUr1+lGP1Vzrl4uthfS
+ 3rWZIBrhxDSAx6MvzhSK8LSKho1eodZY15OhAKYA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,23 +74,21 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVG9taSwKCk9uIEZyaSwgTWF5IDAzLCAyMDE5IGF0IDExOjEwOjU0QU0gKzAzMDAsIFRvbWkg
-VmFsa2VpbmVuIHdyb3RlOgo+IE9uIDIxLzA0LzIwMTkgMDE6MTQsIExhdXJlbnQgUGluY2hhcnQg
-d3JvdGU6Cj4gPiBPbiBUdWUsIE1hciAyNiwgMjAxOSBhdCAxMjozMTo0MFBNICswMjAwLCBUb21p
-IFZhbGtlaW5lbiB3cm90ZToKPiA+PiB0Y19tYWluX2xpbmtfZW5hYmxlKCkgY2hlY2tzIGlmIHZp
-ZGVvbW9kZSBoYXMgYmVlbiBzZXQsIGFuZCBmYWlscyBpZgo+ID4+IHRoZXJlJ3Mgbm8gdmlkZW9t
-b2RlLiBBcyB0Y19tYWluX2xpbmtfZW5hYmxlKCkgbm8gbG9uZ2VyIGRlcGVuZHMgb24gdGhlCj4g
-Pj4gdmlkZW9tb2RlLCB3ZSBjYW4gZHJvcCB0aGUgY2hlY2suCj4gPiAKPiA+IFNob3VsZG4ndCB5
-b3UgbW92ZSB0aGUgY2hlY2sgdG8gdGhlIHN0cmVhbSBlbmFibGUgZnVuY3Rpb24gPyBPciBpZiBp
-dCdzCj4gPiBub3QgbmVlZGVkIHRoZXJlLCBleHBsYWluIHdoeSBpbiB0aGUgY29tbWl0IG1lc3Nh
-Z2UgPwo+IAo+IFRydWUuIEkgYmVsaWV2ZSBpdCBpcyBub3QgbmVlZGVkLiBJIGRvbid0IHRoaW5r
-IGJyaWRnZV9lbmFibGUgc2hvdWxkIGJlCj4gY2FsbGVkIGF0IGFsbCwgaWYgdGhlcmUgaGFzIG5v
-dCBiZWVuIGEgbW9kZSBzZXQgYmVmb3JlIGl0LiBJZiB0aGVyZSdzIG5vCj4gbW9kZSwgYnJpZGdl
-IGVuYWJsZSBwcmVzdW1hYmx5IHdvdWxkIGZhaWwgZm9yIGFueSBicmlkZ2UuLi4KClRoYXQncyBt
-eSB1bmRlcnN0YW5kaW5nIHRvby4gQSBxdWljayBjaGVjayBpbiB0aGUgY29yZSBjb3VsZCBiZSB1
-c2VmdWwsCmFuZCBtZW50aW9uaW5nIHRoaXMgaW4gdGhlIGNvbW1pdCBtZXNzYWdlIHRvby4gSWRl
-YWxseSB0aGUgZG9jdW1lbnRhdGlvbgpvZiB0aGUgYnJpZGdlIG9wZXJhdGlvbnMgc2hvdWxkIGJl
-IHVwZGF0ZWQgdG8gbWFrZSB0aGlzIGNsZWFyIDotKQoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBp
-bmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gMDMvMDUvMjAxOSAxNTo1NSwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKCj4+Pj4gIAo+Pj4+
+IC0JaWYgKHN0YXRlKSB7Cj4+Pj4gLQkJcmV0ID0gdGNfc2V0X3ZpZGVvX21vZGUodGMsIHRjLT5t
+b2RlKTsKPj4+PiAtCQlpZiAocmV0KQo+Pj4+IC0JCQlnb3RvIGVycjsKPj4+PiArCXJldCA9IHRj
+X3NldF92aWRlb19tb2RlKHRjLCB0Yy0+bW9kZSk7Cj4+Pj4gKwlpZiAocmV0KQo+Pj4+ICsJCWdv
+dG8gZXJyOwo+Pj4KPj4+IExldCdzIHJldHVybiByZXQgZGlyZWN0bHkgYW5kIHJlbW92ZSB0aGUg
+ZXJyIGxhYmVsLgo+Pgo+PiBDYW4ndCByZW1vdmUgdGhlIGVyciBsYWJlbCwgYmVjYXVzZSBvZiB0
+aGUgdGNfd3JpdGUoKSBjYWxscy4uLgo+IAo+IDotKAo+IAo+IEknZCBsb3ZlIHRvIHNlZSB0aGlz
+IGdldHRpbmcgZml4ZWQuIFRoZSBiZXN0IHdheSBJJ3ZlIGZvdW5kIHNvIGZhciB3b3VsZAo+IGJl
+CgpBbmQgYnkgZml4ZWQgeW91IG1lYW4gY2xlYW5lZCB1cD8KClllcywgaXQncyBhIG1lc3MuIFRo
+YXQncyB3aHkgSSB3YW50IHRvIGdldCB0aGlzIHNlcmllcyBtZXJnZWQgYXNhcCwgc28KQW5kcmV5
+IGNhbiByZWJhc2UgaGlzIHNlcmllcywgYW5kIHdlIGNhbiBwcm9jZWVkIHdpdGggYWxsIHRoZSBj
+bGVhbnVwcwo9KS4gSGlzIHNlcmllcyByZW1vdmVzIHRoZXNlIG1hY3JvcyB0aGF0IHJlcXVpcmUg
+dGhlIGVyciBsYWJlbC4KCiBUb21pCgotLSAKVGV4YXMgSW5zdHJ1bWVudHMgRmlubGFuZCBPeSwg
+UG9ya2thbGFua2F0dSAyMiwgMDAxODAgSGVsc2lua2kuClktdHVubnVzL0J1c2luZXNzIElEOiAw
+NjE1NTIxLTQuIEtvdGlwYWlra2EvRG9taWNpbGU6IEhlbHNpbmtpCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
