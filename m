@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17CA13C1F
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 22:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C47513C26
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 23:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECDA089307;
-	Sat,  4 May 2019 20:43:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0B089316;
+	Sat,  4 May 2019 21:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B172E89307
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 20:43:17 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id o189so64734wmb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 04 May 2019 13:43:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=Q7VTjVQy3LQQCBBMMEIcWAT75Jgeqmn8vdXa9ljuhRQ=;
- b=Anu/QwpXzt4u5b8ETS/2fMlKvb4BGWz9V6DzSrgGiM9BmsaiSMnlCz02b79flKK7Qk
- ZxvfYMcHidFHl8c2R0e8+OL2qNvnvhEgXvp/sbydx8xXSj0yspX2dikXkB6YsOF3Ulby
- MxIlZzfO3nxZxom3KmwyfdMjZ5OW41VKm3LPWt08BhlF7AjNqX9qnfJ91DHoupZbL9vN
- 2oG1l3tAqUFT3oMcINz4yNq4RSODWSsHCUy9HwxGGuOdSgsiREW/fbaaEDZI9MRl+1S5
- ntKF1VrxW3RbyHwrnoP50q59R13AFuB4Pylw6zmwLCtb53MvM0rPW79JPnjuWVonbKDz
- ez3w==
-X-Gm-Message-State: APjAAAV4RJdel8WmAdWKgq1+R351nfayBzZQfeoZ47Uh1Fye9hc1JIMa
- 2wE8XgVCQ1IvVk5styGeqR+Fs32Tw8WHGA==
-X-Google-Smtp-Source: APXvYqw+pUq0xsQLE3UeMBYFiwYEQaXsy37NFZF9oWvNIo2W8U2XNO9cR5R6uBrzhy5u6OYX+bntuA==
-X-Received: by 2002:a1c:c287:: with SMTP id s129mr11225229wmf.63.1557002596342; 
- Sat, 04 May 2019 13:43:16 -0700 (PDT)
-Received: from jrtc4a.trin.private.cam.ac.uk
- (global-184-8.nat-1.net.cam.ac.uk. [131.111.184.8])
- by smtp.gmail.com with ESMTPSA id f1sm5179702wrc.93.2019.05.04.13.43.15
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 04 May 2019 13:43:15 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 12.2 \(3445.102.3\))
-Subject: Re: [PATCH] drm: Fix drm.h uapi header for GNU/kFreeBSD
-From: James Clarke <jrtc27@jrtc27.com>
-In-Reply-To: <877ef5hifi.fsf@anholt.net>
-Date: Sat, 4 May 2019 21:43:14 +0100
-Message-Id: <C2E5BBDF-DD8B-4024-8995-8E21549385C7@jrtc27.com>
-References: <20190115150418.68080-1-jrtc27@jrtc27.com>
- <20190115151723.GQ10517@phenom.ffwll.local> <877ef5hifi.fsf@anholt.net>
-To: Eric Anholt <eric@anholt.net>
-X-Mailer: Apple Mail (2.3445.102.3)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jrtc27.com; s=google;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=Q7VTjVQy3LQQCBBMMEIcWAT75Jgeqmn8vdXa9ljuhRQ=;
- b=Jm3kiPhJHg1JukT48q15yjtyhO4wM38wmxMwnliwI362J4GxmXOr+zjtuRTs1CON8z
- 4Qfn/odUEn6gaTEP2zdagiryCQdcY3ALafeiNA0PAKLPXvmOhKeONW7+EeRCRuw5QOeh
- +4NND/gze8oPlNOF3mm0ibWs8LyrO8Bh4yTpc=
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6341589316
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 21:23:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 59C417215A; Sat,  4 May 2019 21:23:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
+Date: Sat, 04 May 2019 21:23:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109345-502-x3h8JhnLMl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
+References: <bug-109345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,26 +52,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0950141696=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTUgSmFuIDIwMTksIGF0IDE4OjQxLCBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0PiB3
-cm90ZToKPiAKPiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+IHdyaXRlczoKPiAKPj4g
-T24gVHVlLCBKYW4gMTUsIDIwMTkgYXQgMDM6MDQ6MThQTSArMDAwMCwgSmFtZXMgQ2xhcmtlIHdy
-b3RlOgo+Pj4gTGlrZSBHTlUvTGludXgsIEdOVS9rRnJlZUJTRCdzIHN5cy90eXBlcy5oIGRvZXMg
-bm90IGRlZmluZSB0aGUgdWludFhfdAo+Pj4gdHlwZXMsIHdoaWNoIGRpZmZlcnMgZnJvbSB0aGUg
-QlNEcycgaGVhZGVycy4gVGh1cyB3ZSBzaG91bGQgaW5jbHVkZQo+Pj4gc3RkaW50LmggdG8gZW5z
-dXJlIHdlIGhhdmUgYWxsIHRoZSByZXF1aXJlZCBpbnRlZ2VyIHR5cGVzLgo+Pj4gCj4+PiBTaWdu
-ZWQtb2ZmLWJ5OiBKYW1lcyBDbGFya2UgPGpydGMyN0BqcnRjMjcuY29tPgo+PiAKPj4gV291bGQg
-YmUgZ29vZCB0byBnZXQgYW4gYWNrIGZyb20gc29tZSBvdGhlciAqYnNkIHRoYXQgdGhpcyBpcyBz
-dGlsbCBhbGwKPj4gZmluZS4gbGd0bSBvdGhlcndpc2UuCj4+IC1EYW5pZWwKPiAKPiBJIHRoaW5r
-IHRoZXJlIHdhcyBzb21lIG5lZWQgZm9yIGludHR5cGVzLmggaW5zdGVhZCBvZiBzdGRpbnQgbGlr
-ZSBhCj4gZGVjYWRlIGFnbyB3aGVuIEkgd2FzIHdvcmtpbmcgb24gQlNEcywgYnV0IHRoYXQgd2Fz
-IGFscmVhZHkgYWxtb3N0Cj4gaXJyZWxldmFudCB0aGVuLgoKSGksIGp1c3QgZm9sbG93aW5nIHVw
-IG9uIHRoaXM7IGlzIHRoZXJlIHN0aWxsIHRoZSBuZWVkIGZvciBhbiBBQ0s/CgpSZWdhcmRzLApK
-YW1lcwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0950141696==
+Content-Type: multipart/alternative; boundary="15570050160.e2b8b7d61.1245"
+Content-Transfer-Encoding: 7bit
+
+
+--15570050160.e2b8b7d61.1245
+Date: Sat, 4 May 2019 21:23:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
+
+--- Comment #29 from Christian Zigotzky <chzigotzky@xenosoft.de> ---
+Hi All,
+
+Allan tested the third test kernel today. He wrote:
+
+Christian
+
+DRM3 boots to SI card.
+
+ace
+
+PS Thanks for doing this , much appreciated.
+
+------
+
+This step has been marked as bad because the third test kernel doesn't boot=
+ to
+the FirePro.
+
+Next step:
+
+git bisect bad
+
+Output:
+
+Bisecting: 92 revisions left to test after this (roughly 7 steps)
+[2b02a05bdc3a62d36e0d0b015351897109e25991] drm/vc4: Set ->is_yuv to false w=
+hen
+num_planes =3D=3D 1
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: http://www.xenosoft.de/uImage-drm4
+
+@Allan (acefnq/ace)
+Please test it.
+
+Thanks,
+Christian
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15570050160.e2b8b7d61.1245
+Date: Sat, 4 May 2019 21:23:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c29">Comme=
+nt # 29</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chzigotzky&#64;xenosoft.de" title=3D"Christian Zigotzky &lt;chzigotzky&#64;=
+xenosoft.de&gt;"> <span class=3D"fn">Christian Zigotzky</span></a>
+</span></b>
+        <pre>Hi All,
+
+Allan tested the third test kernel today. He wrote:
+
+Christian
+
+DRM3 boots to SI card.
+
+ace
+
+PS Thanks for doing this , much appreciated.
+
+------
+
+This step has been marked as bad because the third test kernel doesn't boot=
+ to
+the FirePro.
+
+Next step:
+
+git bisect bad
+
+Output:
+
+Bisecting: 92 revisions left to test after this (roughly 7 steps)
+[2b02a05bdc3a62d36e0d0b015351897109e25991] drm/vc4: Set -&gt;is_yuv to fals=
+e when
+num_planes =3D=3D 1
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: <a href=3D"http://www.xenosoft.de/uImage-drm4">http://www.xenosof=
+t.de/uImage-drm4</a>
+
+&#64;Allan (acefnq/ace)
+Please test it.
+
+Thanks,
+Christian</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15570050160.e2b8b7d61.1245--
+
+--===============0950141696==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0950141696==--
