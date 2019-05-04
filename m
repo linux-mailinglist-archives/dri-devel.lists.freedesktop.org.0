@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F92613776
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 06:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F96E1377D
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 06:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5DA89613;
-	Sat,  4 May 2019 04:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0788961E;
+	Sat,  4 May 2019 04:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6813789613
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 04:29:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F09A8961E
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 04:31:11 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5E43C7215A; Sat,  4 May 2019 04:29:43 +0000 (UTC)
+ id 8B4B97215A; Sat,  4 May 2019 04:31:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110604] AMX WX4150 hangs in aux_read call for REG_RC_CAP
-Date: Sat, 04 May 2019 04:29:43 +0000
+Subject: [Bug 110604] AMD WX4150 hangs in aux_read call for REG_RC_CAP
+Date: Sat, 04 May 2019 04:31:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: low
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: priority bug_file_loc
-Message-ID: <bug-110604-502-ebwpKNtufk@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-110604-502-CQMuHao7Vs@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110604-502@http.bugs.freedesktop.org/>
 References: <bug-110604-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1592949301=="
+Content-Type: multipart/mixed; boundary="===============1436336024=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1592949301==
-Content-Type: multipart/alternative; boundary="15569441830.07C3c.15352"
+--===============1436336024==
+Content-Type: multipart/alternative; boundary="15569442710.8b2A5e6A2.16881"
 Content-Transfer-Encoding: 7bit
 
 
---15569441830.07C3c.15352
-Date: Sat, 4 May 2019 04:29:43 +0000
+--15569442710.8b2A5e6A2.16881
+Date: Sat, 4 May 2019 04:31:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -76,17 +76,16 @@ Jason <pritchard.jason@gmail.com> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-           Priority|medium                      |low
-                URL|                            |https://bugs.launchpad.net/
-                   |                            |ubuntu/+source/fwupd/+bug/1
-                   |                            |826691
+            Summary|AMX WX4150 hangs in         |AMD WX4150 hangs in
+                   |aux_read call for           |aux_read call for
+                   |REG_RC_CAP                  |REG_RC_CAP
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15569441830.07C3c.15352
-Date: Sat, 4 May 2019 04:29:43 +0000
+--15569442710.8b2A5e6A2.16881
+Date: Sat, 4 May 2019 04:31:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,7 +102,7 @@ Auto-Submitted: auto-generated
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMX WX4150 hangs in aux_read call for REG_RC_CAP"
+   title=3D"NEW - AMD WX4150 hangs in aux_read call for REG_RC_CAP"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110604">bug 11060=
 4</a>
           <br>
@@ -115,19 +114,10 @@ Auto-Submitted: auto-generated
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Priority</td>
-           <td>medium
+           <td style=3D"text-align:right;">Summary</td>
+           <td>AMX WX4150 hangs in aux_read call for REG_RC_CAP
            </td>
-           <td>low
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>https://bugs.launchpad.net/ubuntu/+source/fwupd/+bug/1826691
+           <td>AMD WX4150 hangs in aux_read call for REG_RC_CAP
            </td>
          </tr></table>
       <p>
@@ -143,9 +133,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15569441830.07C3c.15352--
+--15569442710.8b2A5e6A2.16881--
 
---===============1592949301==
+--===============1436336024==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -155,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1592949301==--
+--===============1436336024==--
