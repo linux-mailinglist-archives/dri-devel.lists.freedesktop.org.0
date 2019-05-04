@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08CE1394A
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 12:41:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED551394B
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 12:41:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81CE6892A7;
-	Sat,  4 May 2019 10:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D422889145;
+	Sat,  4 May 2019 10:41:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1D4A9892A7
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 10:41:19 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2B3E189145
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 10:41:54 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1A0C87215A; Sat,  4 May 2019 10:41:18 +0000 (UTC)
+ id 27F1D7215A; Sat,  4 May 2019 10:41:54 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110605] "*ERROR* Waiting for fences timed out." happens every
  time when I select "Story" in the main game menu RE2.
-Date: Sat, 04 May 2019 10:41:17 +0000
+Date: Sat, 04 May 2019 10:41:54 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110605-502-U6uKsVHmmT@http.bugs.freedesktop.org/>
+Message-ID: <bug-110605-502-r5r3Jd1RWP@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110605-502@http.bugs.freedesktop.org/>
 References: <bug-110605-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1453351521=="
+Content-Type: multipart/mixed; boundary="===============0422746539=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1453351521==
-Content-Type: multipart/alternative; boundary="15569664780.8fAa5D.8971"
+--===============0422746539==
+Content-Type: multipart/alternative; boundary="15569665141.4a3B.9595"
 Content-Transfer-Encoding: 7bit
 
 
---15569664780.8fAa5D.8971
-Date: Sat, 4 May 2019 10:41:18 +0000
+--15569665141.4a3B.9595
+Date: Sat, 4 May 2019 10:41:54 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110605
 
---- Comment #2 from mikhail.v.gavrilov@gmail.com ---
-Created attachment 144157
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144157&action=3Dedit
-./umr -R gfx[.]
+--- Comment #3 from mikhail.v.gavrilov@gmail.com ---
+Created attachment 144158
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144158&action=3Dedit
+./umr -O many,bits -r *.*.mmGRBM_STATUS*
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15569664780.8fAa5D.8971
-Date: Sat, 4 May 2019 10:41:18 +0000
+--15569665141.4a3B.9595
+Date: Sat, 4 May 2019 10:41:54 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - &quot;*ERROR* Waiting for fences timed out.&quot; happens=
  every time when I select &quot;Story&quot; in the main game menu RE2."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110605#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110605#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - &quot;*ERROR* Waiting for fences timed out.&quot; happens=
@@ -113,11 +113,11 @@ t # 2</a>
 mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
 ">mikhail.v.gavrilov&#64;gmail.com</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144157=
-" name=3D"attach_144157" title=3D"./umr -R gfx[.]">attachment 144157</a> <a=
- href=3D"attachment.cgi?id=3D144157&amp;action=3Dedit" title=3D"./umr -R gf=
-x[.]">[details]</a></span>
-./umr -R gfx[.]</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144158=
+" name=3D"attach_144158" title=3D"./umr -O many,bits -r *.*.mmGRBM_STATUS*"=
+>attachment 144158</a> <a href=3D"attachment.cgi?id=3D144158&amp;action=3De=
+dit" title=3D"./umr -O many,bits -r *.*.mmGRBM_STATUS*">[details]</a></span>
+./umr -O many,bits -r *.*.mmGRBM_STATUS*</pre>
         </div>
       </p>
 
@@ -131,9 +131,9 @@ x[.]">[details]</a></span>
     </body>
 </html>=
 
---15569664780.8fAa5D.8971--
+--15569665141.4a3B.9595--
 
---===============1453351521==
+--===============0422746539==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1453351521==--
+--===============0422746539==--
