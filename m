@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCCB13940
-	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 12:40:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CE513947
+	for <lists+dri-devel@lfdr.de>; Sat,  4 May 2019 12:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A734D892A8;
-	Sat,  4 May 2019 10:40:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C493189145;
+	Sat,  4 May 2019 10:40:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E237892A8
- for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 10:40:15 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 21B9B206DF;
- Sat,  4 May 2019 10:40:14 +0000 (UTC)
-Date: Sat, 4 May 2019 12:40:12 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Brendan Higgins <brendanhiggins@google.com>
-Subject: Re: [PATCH v2 16/17] kernel/sysctl-test: Add null pointer test for
- sysctl.c:proc_dointvec()
-Message-ID: <20190504104012.GA1478@kroah.com>
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-17-brendanhiggins@google.com>
- <20190502110347.GE12416@kroah.com>
- <ECADFF3FD767C149AD96A924E7EA6EAF9770A3A0@USCULXMSG01.am.sony.com>
- <CAFd5g471Wawu6g14p0AO3aY8VPBKLA0mjHSdfR1qStFGzp3iGQ@mail.gmail.com>
- <20190503064241.GC20723@kroah.com>
- <CAFd5g44NrKM9WQCF1xW-BWpFNsC05UAS9jt1-S+vNRuBDZVsHQ@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E37B89010
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 May 2019 10:40:28 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6A8757215A; Sat,  4 May 2019 10:40:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110605] "*ERROR* Waiting for fences timed out." happens every
+ time when I select "Story" in the main game menu RE2.
+Date: Sat, 04 May 2019 10:40:28 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mikhail.v.gavrilov@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110605-502-o7PU2c07bI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110605-502@http.bugs.freedesktop.org/>
+References: <bug-110605-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAFd5g44NrKM9WQCF1xW-BWpFNsC05UAS9jt1-S+vNRuBDZVsHQ@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1556966414;
- bh=ZtaXllWS1pW5iu83jiogyXoGhA2z0cHfZWqL2iOl0tk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RMn5lzZLL3HFn059n+mYYbCZCfCFSbJL0BubXf+7IIzwGpN3fTwhTfeyIKdjim/HM
- zSpglcbIOjRyWHBccdUctPLb1/x4vk8bwpbvSIIaVSe3FuovZlhDX5c5EOmjT62X7z
- PNcd1lmo3U/hgtHtLZnjopNCJ8osmB6ssQVrxqhc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,91 +53,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, linux-doc@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sasha Levin <Alexander.Levin@microsoft.com>,
- Michael Ellerman <mpe@ellerman.id.au>, linux-kselftest@vger.kernel.org,
- shuah <shuah@kernel.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
- Frank Rowand <frowand.list@gmail.com>, Knut Omang <knut.omang@oracle.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, wfg@linux.intel.com,
- Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
- Iurii Zaikin <yzaikin@google.com>, Jeff Dike <jdike@addtoit.com>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- devicetree <devicetree@vger.kernel.org>, linux-kbuild@vger.kernel.org, "Bird,
- Timothy" <Tim.Bird@sony.com>, linux-um@lists.infradead.org,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Dan Williams <dan.j.williams@intel.com>, kunit-dev@googlegroups.com,
- Richard Weinberger <richard@nod.at>, Stephen Boyd <sboyd@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
- linux-fsdevel@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
- Kevin Hilman <khilman@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1666794933=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMDMsIDIwMTkgYXQgMDQ6NDE6MTBQTSAtMDcwMCwgQnJlbmRhbiBIaWdnaW5z
-IHdyb3RlOgo+ID4gT24gVGh1LCBNYXkgMDIsIDIwMTkgYXQgMTE6NDU6NDNBTSAtMDcwMCwgQnJl
-bmRhbiBIaWdnaW5zIHdyb3RlOgo+ID4gPiBPbiBUaHUsIE1heSAyLCAyMDE5IGF0IDExOjE1IEFN
-IDxUaW0uQmlyZEBzb255LmNvbT4gd3JvdGU6Cj4gPiA+ID4KPiA+ID4gPgo+ID4gPiA+Cj4gPiA+
-ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQo+ID4gPiA+ID4gRnJvbTogR3JlZyBLSAo+
-ID4gPiA+ID4KPiA+ID4gPiA+IE9uIFdlZCwgTWF5IDAxLCAyMDE5IGF0IDA0OjAxOjI1UE0gLTA3
-MDAsIEJyZW5kYW4gSGlnZ2lucyB3cm90ZToKPiA+ID4gPiA+ID4gRnJvbTogSXVyaWkgWmFpa2lu
-IDx5emFpa2luQGdvb2dsZS5jb20+Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEtVbml0IHRlc3Rz
-IGZvciBpbml0aWFsaXplZCBkYXRhIGJlaGF2aW9yIG9mIHByb2NfZG9pbnR2ZWMgdGhhdCBpcwo+
-ID4gPiA+ID4gPiBleHBsaWNpdGx5IGNoZWNrZWQgaW4gdGhlIGNvZGUuIEluY2x1ZGVzIGJhc2lj
-IHBhcnNpbmcgdGVzdHMgaW5jbHVkaW5nCj4gPiA+ID4gPiA+IGludCBtaW4vbWF4IG92ZXJmbG93
-Lgo+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBJdXJpaSBaYWlraW4gPHl6
-YWlraW5AZ29vZ2xlLmNvbT4KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQnJlbmRhbiBIaWdn
-aW5zIDxicmVuZGFuaGlnZ2luc0Bnb29nbGUuY29tPgo+ID4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+
-ID4gIGtlcm5lbC9NYWtlZmlsZSAgICAgIHwgICAyICsKPiA+ID4gPiA+ID4gIGtlcm5lbC9zeXNj
-dGwtdGVzdC5jIHwgMjkyCj4gPiA+ID4gPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrCj4gPiA+ID4gPiA+ICBsaWIvS2NvbmZpZy5kZWJ1ZyAgICB8ICAgNiArCj4g
-PiA+ID4gPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDMwMCBpbnNlcnRpb25zKCspCj4gPiA+ID4gPiA+
-ICBjcmVhdGUgbW9kZSAxMDA2NDQga2VybmVsL3N5c2N0bC10ZXN0LmMKPiA+ID4gPiA+ID4KPiA+
-ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2tlcm5lbC9NYWtlZmlsZSBiL2tlcm5lbC9NYWtlZmlsZQo+
-ID4gPiA+ID4gPiBpbmRleCA2YzU3ZTc4ODE3ZGFkLi5jODFhODk3NmI2YTRiIDEwMDY0NAo+ID4g
-PiA+ID4gPiAtLS0gYS9rZXJuZWwvTWFrZWZpbGUKPiA+ID4gPiA+ID4gKysrIGIva2VybmVsL01h
-a2VmaWxlCj4gPiA+ID4gPiA+IEBAIC0xMTIsNiArMTEyLDggQEAgb2JqLSQoQ09ORklHX0hBU19J
-T01FTSkgKz0gaW9tZW0ubwo+ID4gPiA+ID4gPiAgb2JqLSQoQ09ORklHX1pPTkVfREVWSUNFKSAr
-PSBtZW1yZW1hcC5vCj4gPiA+ID4gPiA+ICBvYmotJChDT05GSUdfUlNFUSkgKz0gcnNlcS5vCj4g
-PiA+ID4gPiA+Cj4gPiA+ID4gPiA+ICtvYmotJChDT05GSUdfU1lTQ1RMX0tVTklUX1RFU1QpICs9
-IHN5c2N0bC10ZXN0Lm8KPiA+ID4gPiA+Cj4gPiA+ID4gPiBZb3UgYXJlIGdvaW5nIHRvIGhhdmUg
-dG8gaGF2ZSBhICJzdGFuZGFyZCIgbmFtaW5nIHNjaGVtZSBmb3IgdGVzdAo+ID4gPiA+ID4gbW9k
-dWxlcywgYXJlIHlvdSBnb2luZyB0byByZWNvbW1lbmQgImZvby10ZXN0IiBvdmVyICJ0ZXN0LWZv
-byI/ICBJZiBzbywKPiA+ID4gPiA+IHRoYXQncyBmaW5lLCB3ZSBzaG91bGQganVzdCBiZSBjb25z
-aXN0YW50IGFuZCBkb2N1bWVudCBpdCBzb21ld2hlcmUuCj4gPiA+ID4gPgo+ID4gPiA+ID4gUGVy
-c29uYWxseSwgSSdkIHByZWZlciAidGVzdC1mb28iLCBidXQgdGhhdCdzIGp1c3QgbWUsIG5hbWlu
-ZyBpcyBoYXJkLi4uCj4gPiA+ID4KPiA+ID4gPiBNeSBwcmVmZXJlbmNlIHdvdWxkIGJlICJ0ZXN0
-LWZvbyIgYXMgd2VsbC4gIEp1c3QgbXkgMiBjZW50cy4KPiA+ID4KPiA+ID4gSSBkZWZpbml0ZWx5
-IGFncmVlIHdlIHNob3VsZCBiZSBjb25zaXN0ZW50LiBNeSBwZXJzb25hbCBiaWFzCj4gPiA+ICh1
-bnN1cnByaXNpbmdseSkgaXMgImZvby10ZXN0LCIgYnV0IHRoaXMgaXMganVzdCBiZWNhdXNlIHRo
-YXQgaXMgdGhlCj4gPiA+IGNvbnZlbnRpb24gSSBhbSB1c2VkIHRvIGluIG90aGVyIHByb2plY3Rz
-IEkgaGF2ZSB3b3JrZWQgb24uCj4gPiA+Cj4gPiA+IE9uIGFuIHVuYmlhc2VkIG5vdGUsIHdlIGFy
-ZSBjdXJyZW50bHkgYWxtb3N0IGV2ZW5seSBzcGxpdCBiZXR3ZWVuIHRoZQo+ID4gPiB0d28gY29u
-dmVudGlvbnMgd2l0aCAqc2xpZ2h0KiBwcmVmZXJlbmNlIGZvciAiZm9vLXRlc3QiOiBJIHJhbiB0
-aGUgdHdvCj4gPiA+IGZvbGxvd2luZyBncmVwIGNvbW1hbmRzIG9uIHY1LjEtcmM3Ogo+ID4gPgo+
-ID4gPiBncmVwIC1Icm4gLS1leGNsdWRlLWRpcj0iYnVpbGQiIC1lICJjb25maWcgW2EtekEtWl8w
-LTldXCtfVEVTVCQiIHwgd2MgLWwKPiA+ID4gZ3JlcCAtSHJuIC0tZXhjbHVkZS1kaXI9ImJ1aWxk
-IiAtZSAiY29uZmlnIFRFU1RfW2EtekEtWl8wLTldXCsiIHwgd2MgLWwKPiA+ID4KPiA+ID4gImZv
-by10ZXN0IiBoYXMgMzYgb2NjdXJyZW5jZXMuCj4gPiA+ICJ0ZXN0LWZvbyIgaGFzIDMzIG9jY3Vy
-cmVuY2VzLgo+ID4gPgo+ID4gPiBUaGUgdGhpbmdzIEkgYW0gbW9yZSBjb25jZXJuZWQgYWJvdXQg
-aXMgaG93IHRoaXMgd291bGQgYWZmZWN0IGZpbGUKPiA+ID4gbmFtaW5nLiBJZiB3ZSBoYXZlIGEg
-dW5pdCB0ZXN0IGZvciBmb28uYywgSSB0aGluayBmb29fdGVzdC5jIGlzIG1vcmUKPiA+ID4gY29u
-c2lzdGVudCB3aXRoIG91ciBuYW1lc3BhY2luZyBjb252ZW50aW9ucy4gVGhlIG90aGVyIHRoaW5n
-LCBpcyBpZiB3ZQo+ID4gPiBhbHJlYWR5IGhhdmUgYSBLY29uZmlnIHN5bWJvbCBjYWxsZWQgRk9P
-X1RFU1QgKG9yIFRFU1RfRk9PKSB3aGF0Cj4gPiA+IHNob3VsZCB3ZSBuYW1lIHRoZSBLVW5pdCB0
-ZXN0IGluIHRoaXMgY2FzZT8gRk9PX1VOSVRfVEVTVD8KPiA+ID4gRk9PX0tVTklUX1RFU1QsIGxp
-a2UgSSBkaWQgYWJvdmU/Cj4gPgo+ID4gT2ssIEkgY2FuIGxpdmUgd2l0aCAiZm9vLXRlc3QiLCBh
-cyB5b3UgYXJlIHJpZ2h0LCBpbiBhIGRpcmVjdG9yeSBsaXN0aW5nCj4gPiBhbmQgY29uZmlnIG9w
-dGlvbiwgaXQgbWFrZXMgbW9yZSBzZW5zZSB0byBhZGQgaXQgYXMgYSBzdWZmaXguCj4gCj4gQ29v
-bCwgc28ganVzdCBmb3IgZnV0dXJlIHJlZmVyZW5jZSwgaWYgd2UgYWxyZWFkeSBoYXZlIGEgS2Nv
-bmZpZwo+IHN5bWJvbCBjYWxsZWQgRk9PX1RFU1QgKG9yIFRFU1RfRk9PKSB3aGF0IHNob3VsZCB3
-ZSBuYW1lIHRoZSBLVW5pdAo+IHRlc3QgaW4gdGhpcyBjYXNlPyBGT09fVU5JVF9URVNUPyBGT09f
-S1VOSVRfVEVTVCwgbGlrZSBJIGRpZCBhYm92ZT8KCkZPT19LVU5JVF9URVNUIGlzIGZpbmUsIEkg
-ZG91YnQgdGhhdCdzIGdvaW5nIHRvIGNvbWUgdXAgdmVyeSBvZnRlbi4KCnRoYW5rcywKCmdyZWcg
-ay1oCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1666794933==
+Content-Type: multipart/alternative; boundary="15569664281.CCB4.9065"
+Content-Transfer-Encoding: 7bit
+
+
+--15569664281.CCB4.9065
+Date: Sat, 4 May 2019 10:40:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110605
+
+--- Comment #1 from mikhail.v.gavrilov@gmail.com ---
+Created attachment 144156
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144156&action=3Dedit
+./umr -O halt_waves -wa
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15569664281.CCB4.9065
+Date: Sat, 4 May 2019 10:40:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;*ERROR* Waiting for fences timed out.&quot; happens=
+ every time when I select &quot;Story&quot; in the main game menu RE2."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110605#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;*ERROR* Waiting for fences timed out.&quot; happens=
+ every time when I select &quot;Story&quot; in the main game menu RE2."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110605">bug 11060=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
+">mikhail.v.gavrilov&#64;gmail.com</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144156=
+" name=3D"attach_144156" title=3D"./umr -O halt_waves -wa">attachment 14415=
+6</a> <a href=3D"attachment.cgi?id=3D144156&amp;action=3Dedit" title=3D"./u=
+mr -O halt_waves -wa">[details]</a></span>
+./umr -O halt_waves -wa</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15569664281.CCB4.9065--
+
+--===============1666794933==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1666794933==--
