@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9321E1402F
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2019 16:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714DA1406E
+	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2019 17:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A9D1892C2;
-	Sun,  5 May 2019 14:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 967368929C;
+	Sun,  5 May 2019 15:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40C56892BE;
- Sun,  5 May 2019 14:21:43 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id m204so2107775oib.0;
- Sun, 05 May 2019 07:21:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IQqSIA7uD5M0wQf7Hipk4HlzkvDnQtg0hg1zEHr33zY=;
- b=ciMdBqPw91iUUYJjp/Og2hBrdgn0XbONzDvEpDFQnIwOblEHpuRRRMqUkYagRhl8p/
- BMIrWGYN3BZBFqQpof0Yo31kpiF54qRzk5bz+Cc5f08G0+8M3+HcHuEG+l78rs5QdKbS
- 0ExY1a6nQRL940zogNyWwDIkWtfu2hdhXtDdo0oPGvllqy+wdghKXRh8QrbSwza+ESN3
- WEDRhss+lTxV0UbIjEly7C1FeBQ9bsec5J8MfbZe8iWXzG5bIcvEMbPa6Tptmt66d0g/
- oOy62y3GwoILJUpnCz1FkEGdjl10qEFHWZw+u3NyG08RT1qHVQygBheYdz9wmPN3vdcL
- Gpzw==
-X-Gm-Message-State: APjAAAXheubNfo52e+7oupU+xtaiD2OcOLd9Abb+5x4FkTC5urx+AJkw
- H8Q2SvBgVRUekaqSanyznnsqM48CHu7PpSu5n0U=
-X-Google-Smtp-Source: APXvYqxtCTlnFpaog3a+ume/+CFEM0o9HMexE6GdSPSB//kAtVjADF27eCZpP5vpBUt2GA/SlUqk8VsrOlucOhccchs=
-X-Received: by 2002:aca:72c9:: with SMTP id p192mr5372420oic.164.1557066102015; 
- Sun, 05 May 2019 07:21:42 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BA4BC8929C
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2019 15:01:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B73817215A; Sun,  5 May 2019 15:01:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110614] [Regression] Freeze at desktop manager startup
+Date: Sun, 05 May 2019 15:01:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: raffarti@zoho.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-110614-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190501140438.9506-1-brian.welty@intel.com>
- <20190502083433.GP7676@mtr-leonro.mtl.com>
- <CAOWid-cYknxeTQvP9vQf3-i3Cpux+bs7uBs7_o-YMFjVCo19bg@mail.gmail.com>
- <bb001de0-e4e5-6b3f-7ced-9d0fb329635b@intel.com>
- <20190505071436.GD6938@mtr-leonro.mtl.com>
-In-Reply-To: <20190505071436.GD6938@mtr-leonro.mtl.com>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Sun, 5 May 2019 10:21:30 -0400
-Message-ID: <CAOWid-di8kcC2bYKq1KJo+rWfVjwQ13mcVRjaBjhFRzTO=c16Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/5] cgroup support for GPU devices
-To: Leon Romanovsky <leon@kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=IQqSIA7uD5M0wQf7Hipk4HlzkvDnQtg0hg1zEHr33zY=;
- b=AWQlbU8VoVdVOq3fIViQl9WYLUDY46SLhaBmW9Msab5SMYgL0D5pHgqnoecO4JXrdp
- 2K/zjn5/HgnHS3DI4TKeICobLr5jNn3MZFF8AWGvOzgMQvaFxHj0UersObHSwzbqjCHU
- kXFFzOlrutozkLHx0JC/PEftOVW4BUW7jl9QNtEAmrYuDNdqb7lyNN17WYTdeLCmWnPy
- UnxDtMS+e3G9oMwruAOb/RYs10NL5OqNm6D+D7hRvzETt/45lB6Xuk6D+wbdv1aVOktJ
- iYhmorWgDXqeGGDkgoGwbfAGo4MEe7F2Ixq+NKElGpK8fo9OAlyHVml2Qc8WS9v2A1Yi
- 1sNg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,120 +52,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, David Airlie <airlied@linux.ie>,
- kenny.ho@amd.com, intel-gfx@lists.freedesktop.org, "Welty,
- Brian" <brian.welty@intel.com>, Harish.Kasiviswanathan@amd.com,
- cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- linux-mm@kvack.org, J??r??me Glisse <jglisse@redhat.com>,
- Li Zefan <lizefan@huawei.com>, Vladimir Davydov <vdavydov.dev@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Tejun Heo <tj@kernel.org>,
- Christian K??nig <christian.koenig@amd.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2041580580=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBNYXkgNSwgMjAxOSBhdCAzOjE0IEFNIExlb24gUm9tYW5vdnNreSA8bGVvbkBrZXJu
-ZWwub3JnPiB3cm90ZToKPiA+ID4gRG9lc24ndCBSRE1BIGFscmVhZHkgaGFzIGEgc2VwYXJhdGUg
-Y2dyb3VwPyAgV2h5IG5vdCBpbXBsZW1lbnQgaXQgdGhlcmU/Cj4gPiA+Cj4gPgo+ID4gSGkgS2Vu
-bnksIEkgY2FuJ3QgYW5zd2VyIGZvciBMZW9uLCBidXQgSSdtIGhvcGVmdWwgaGUgYWdyZWVzIHdp
-dGggcmF0aW9uYWxlCj4gPiBJIGdhdmUgaW4gdGhlIGNvdmVyIGxldHRlci4gIE5hbWVseSwgdG8g
-aW1wbGVtZW50IGluIHJkbWEgY29udHJvbGxlciwgd291bGQKPiA+IG1lYW4gZHVwbGljYXRpbmcg
-ZXhpc3RpbmcgbWVtY2cgY29udHJvbHMgdGhlcmUuCj4KPiBFeGFjdGx5LCBJIGRpZG4ndCBmZWVs
-IGNvbWZvcnRhYmxlIHRvIGFkZCBub3Rpb24gb2YgImRldmljZSBtZW1vcnkiCj4gdG8gUkRNQSBj
-Z3JvdXAgYW5kIHBvc3Rwb25lZCB0aGF0IGRlY2lzaW9uIHRvIGxhdGVyIHBvaW50IG9mIHRpbWUu
-Cj4gUkRNQSBvcGVyYXRlcyB3aXRoIHZlcmJzIG9iamVjdHMgYW5kIGFsbCBvdXIgdXNlciBzcGFj
-ZSBBUEkgaXMgYmFzZWQgYXJvdW5kCj4gdGhhdCBjb25jZXB0LiBBdCB0aGUgZW5kLCBzeXN0ZW0g
-YWRtaW5pc3RyYXRvciB3aWxsIGhhdmUgaGFyZCB0aW1lIHRvCj4gdW5kZXJzdGFuZCB0aGUgZGlm
-ZmVyZW5jZXMgYmV0d2VlbiBtZW1jZyBhbmQgUkRNQSBtZW1vcnkuCkludGVyZXN0aW5nLiAgSSBh
-Y3R1YWxseSBkb24ndCB1bmRlcnN0YW5kIHRoaXMgcGFydCAoSSB3b3JrZWQgaW4KZGV2b3BzL3N5
-c2FkbWluIHNpZGUgb2YgdGhpbmdzIGJ1dCBuZXZlciB3aXRoIHJkbWEuKSAgRG9uJ3QKYXBwbGlj
-YXRpb25zIHRoYXQgdXNlIHJkbWEgcmVxdWlyZSBzb21lIGF3YXJlbmVzcyBvZiByZG1hIChJIG1l
-YW4sIHlvdQptZW50aW9uZWQgdmVyYnMgYW5kIG9iamVjdHMuLi4gb3IgZG8gdGhleSBqdXN0IHVz
-ZSByZWd1bGFyIG1hbGxvYyBmb3IKYnVmZmVyIGFsbG9jYXRpb24gYW5kIHRoZW4gc2VuZCBpdCB0
-aHJvdWdoIHNvbWUgZnVuY3Rpb24/KSAgQXMgYSB1c2VyLApJIHdvdWxkIGhhdmUgdGhpcyBxdWVz
-dGlvbjogd2h5IGRvIEkgbmVlZCB0byBjb25maWd1cmUgc29tZSBwYXJ0IG9mCnJkbWEgcmVzb3Vy
-Y2VzIHVuZGVyIHJkbWEgY2dyb3VwIHdoaWxlIG90aGVyIHBhcnQgb2YgcmRtYSByZXNvdXJjZXMg
-aW4KYSBkaWZmZXJlbnQsIHNlZW1pbmdseSB1bnJlbGF0ZWQgY2dyb3Vwcy4KCkkgdGhpbmsgd2Ug
-bmVlZCB0byBiZSBjYXJlZnVsIGFib3V0IGRyYXdpbmcgdGhlIGxpbmUgYmV0d2VlbgpkdXBsaWNh
-dGlvbiBhbmQgb3ZlciBjb3VwbGluZ3MgYmV0d2VlbiBzdWJzeXN0ZW1zLiAgSSBoYXZlIG90aGVy
-CnRob3VnaHRzIGFuZCBjb25jZXJucyBhbmQgSSB3aWxsIHRyeSB0byBvcmdhbml6ZSB0aGVtIGlu
-dG8gYSByZXNwb25zZQppbiB0aGUgbmV4dCBmZXcgZGF5cy4KClJlZ2FyZHMsCktlbm55CgoKPiA+
-Cj4gPiBJcyBBTUQgaW50ZXJlc3RlZCBpbiBjb2xsYWJvcmF0aW5nIHRvIGhlbHAgc2hhcGUgdGhp
-cyBmcmFtZXdvcms/Cj4gPiBJdCBpcyBpbnRlbmRlZCB0byBiZSBkZXZpY2UtbmV1dHJhbCwgc28g
-Y291bGQgYmUgbGV2ZXJhZ2VkIGJ5IHZhcmlvdXMKPiA+IHR5cGVzIG9mIGRldmljZXMuCj4gPiBJ
-ZiB5b3UgaGF2ZSBhbiBhbHRlcm5hdGl2ZSBzb2x1dGlvbiB3ZWxsIHVuZGVyd2F5LCB0aGVuIG1h
-eWJlCj4gPiB3ZSBjYW4gd29yayB0b2dldGhlciB0byBtZXJnZSBvdXIgZWZmb3J0cyBpbnRvIG9u
-ZS4KPiA+IEluIHRoZSBlbmQsIHRoZSBEUk0gY29tbXVuaXR5IGlzIGJlc3Qgc2VydmVkIHdpdGgg
-Y29tbW9uIHNvbHV0aW9uLgo+ID4KPiA+Cj4gPiA+Cj4gPiA+Pj4gYW5kIHdpdGggZnV0dXJlIHdv
-cmssIHdlIGNvdWxkIGV4dGVuZCB0bzoKPiA+ID4+PiAqICB0cmFjayBhbmQgY29udHJvbCBzaGFy
-ZSBvZiBHUFUgdGltZSAocmV1c2Ugb2YgY3B1L2NwdWFjY3QpCj4gPiA+Pj4gKiAgYXBwbHkgbWFz
-ayBvZiBhbGxvd2VkIGV4ZWN1dGlvbiBlbmdpbmVzIChyZXVzZSBvZiBjcHVzZXRzKQo+ID4gPj4+
-Cj4gPiA+Pj4gSW5zdGVhZCBvZiBpbnRyb2R1Y2luZyBhIG5ldyBjZ3JvdXAgc3Vic3lzdGVtIGZv
-ciBHUFUgZGV2aWNlcywgYSBuZXcKPiA+ID4+PiBmcmFtZXdvcmsgaXMgcHJvcG9zZWQgdG8gYWxs
-b3cgZGV2aWNlcyB0byByZWdpc3RlciB3aXRoIGV4aXN0aW5nIGNncm91cAo+ID4gPj4+IGNvbnRy
-b2xsZXJzLCB3aGljaCBjcmVhdGVzIHBlci1kZXZpY2UgY2dyb3VwX3N1YnN5c19zdGF0ZSB3aXRo
-aW4gdGhlCj4gPiA+Pj4gY2dyb3VwLiAgVGhpcyBnaXZlcyBkZXZpY2UgZHJpdmVycyB0aGVpciBv
-d24gcHJpdmF0ZSBjZ3JvdXAgY29udHJvbHMKPiA+ID4+PiAoc3VjaCBhcyBtZW1vcnkgbGltaXRz
-IG9yIG90aGVyIHBhcmFtZXRlcnMpIHRvIGJlIGFwcGxpZWQgdG8gZGV2aWNlCj4gPiA+Pj4gcmVz
-b3VyY2VzIGluc3RlYWQgb2YgaG9zdCBzeXN0ZW0gcmVzb3VyY2VzLgo+ID4gPj4+IERldmljZSBk
-cml2ZXJzIChHUFUgb3Igb3RoZXIpIGFyZSB0aGVuIGFibGUgdG8gcmV1c2UgdGhlIGV4aXN0aW5n
-IGNncm91cAo+ID4gPj4+IGNvbnRyb2xzLCBpbnN0ZWFkIG9mIGludmVudGluZyBzaW1pbGFyIG9u
-ZXMuCj4gPiA+Pj4KPiA+ID4+PiBQZXItZGV2aWNlIGNvbnRyb2xzIHdvdWxkIGJlIGV4cG9zZWQg
-aW4gY2dyb3VwIGZpbGVzeXN0ZW0gYXM6Cj4gPiA+Pj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4v
-PHN1YnN5c19uYW1lPi5kZXZpY2VzLzxkZXZfbmFtZT4vPHN1YnN5c19maWxlcz4KPiA+ID4+PiBz
-dWNoIGFzIChmb3IgZXhhbXBsZSk6Cj4gPiA+Pj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4vbWVt
-b3J5LmRldmljZXMvPGRldl9uYW1lPi9tZW1vcnkubWF4Cj4gPiA+Pj4gICAgIG1vdW50LzxjZ3Jv
-dXBfbmFtZT4vbWVtb3J5LmRldmljZXMvPGRldl9uYW1lPi9tZW1vcnkuY3VycmVudAo+ID4gPj4+
-ICAgICBtb3VudC88Y2dyb3VwX25hbWU+L2NwdS5kZXZpY2VzLzxkZXZfbmFtZT4vY3B1LnN0YXQK
-PiA+ID4+PiAgICAgbW91bnQvPGNncm91cF9uYW1lPi9jcHUuZGV2aWNlcy88ZGV2X25hbWU+L2Nw
-dS53ZWlnaHQKPiA+ID4+Pgo+ID4gPj4+IFRoZSBkcm0vaTkxNSBwYXRjaCBpbiB0aGlzIHNlcmll
-cyBpcyBiYXNlZCBvbiB0b3Agb2Ygb3RoZXIgUkZDIHdvcmsgWzFdCj4gPiA+Pj4gZm9yIGk5MTUg
-ZGV2aWNlIG1lbW9yeSBzdXBwb3J0Lgo+ID4gPj4+Cj4gPiA+Pj4gQU1EIFsyXSBhbmQgSW50ZWwg
-WzNdIGhhdmUgcHJvcG9zZWQgcmVsYXRlZCB3b3JrIGluIHRoaXMgYXJlYSB3aXRoaW4gdGhlCj4g
-PiA+Pj4gbGFzdCBmZXcgeWVhcnMsIGxpc3RlZCBiZWxvdyBhcyByZWZlcmVuY2UuICBUaGlzIG5l
-dyBSRkMgcmV1c2VzIGV4aXN0aW5nCj4gPiA+Pj4gY2dyb3VwIGNvbnRyb2xsZXJzIGFuZCB0YWtl
-cyBhIGRpZmZlcmVudCBhcHByb2FjaCB0aGFuIHByaW9yIHdvcmsuCj4gPiA+Pj4KPiA+ID4+PiBG
-aW5hbGx5LCBzb21lIHBvdGVudGlhbCBkaXNjdXNzaW9uIHBvaW50cyBmb3IgdGhpcyBzZXJpZXM6
-Cj4gPiA+Pj4gKiBtZXJnZSBwcm9wb3NlZCA8c3Vic3lzX25hbWU+LmRldmljZXMgaW50byBhIHNp
-bmdsZSBkZXZpY2VzIGRpcmVjdG9yeT8KPiA+ID4+PiAqIGFsbG93IGRldmljZXMgdG8gaGF2ZSBt
-dWx0aXBsZSByZWdpc3RyYXRpb25zIGZvciBzdWJzZXRzIG9mIHJlc291cmNlcz8KPiA+ID4+PiAq
-IGRvY3VtZW50IGEgJ2NvbW1vbiBjaGFyZ2luZyBwb2xpY3knIGZvciBkZXZpY2UgZHJpdmVycyB0
-byBmb2xsb3c/Cj4gPiA+Pj4KPiA+ID4+PiBbMV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0
-b3Aub3JnL3Nlcmllcy81NjY4My8KPiA+ID4+PiBbMl0gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTgtTm92ZW1iZXIvMTk3MTA2Lmh0bWwKPiA+ID4+
-PiBbM10gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvaW50ZWwtZ2Z4LzIw
-MTgtSmFudWFyeS8xNTMxNTYuaHRtbAo+ID4gPj4+Cj4gPiA+Pj4KPiA+ID4+PiBCcmlhbiBXZWx0
-eSAoNSk6Cj4gPiA+Pj4gICBjZ3JvdXA6IEFkZCBjZ3JvdXBfc3Vic3lzIHBlci1kZXZpY2UgcmVn
-aXN0cmF0aW9uIGZyYW1ld29yawo+ID4gPj4+ICAgY2dyb3VwOiBDaGFuZ2Uga2VybmZzX25vZGUg
-Zm9yIGRpcmVjdG9yaWVzIHRvIHN0b3JlCj4gPiA+Pj4gICAgIGNncm91cF9zdWJzeXNfc3RhdGUK
-PiA+ID4+PiAgIG1lbWNnOiBBZGQgcGVyLWRldmljZSBzdXBwb3J0IHRvIG1lbW9yeSBjZ3JvdXAg
-c3Vic3lzdGVtCj4gPiA+Pj4gICBkcm06IEFkZCBtZW1vcnkgY2dyb3VwIHJlZ2lzdHJhdGlvbiBh
-bmQgRFJJVkVSX0NHUk9VUFMgZmVhdHVyZSBiaXQKPiA+ID4+PiAgIGRybS9pOTE1OiBVc2UgbWVt
-b3J5IGNncm91cCBmb3IgZW5mb3JjaW5nIGRldmljZSBtZW1vcnkgbGltaXQKPiA+ID4+Pgo+ID4g
-Pj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgfCAgMTIgKwo+
-ID4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jICAgICAgICAgICAgICAgICAgfCAgIDcg
-Kwo+ID4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5jICAgICAgICAgICAgfCAg
-IDIgKy0KPiA+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfbWVtb3J5X3JlZ2lvbi5j
-IHwgIDI0ICstCj4gPiA+Pj4gIGluY2x1ZGUvZHJtL2RybV9kZXZpY2UuaCAgICAgICAgICAgICAg
-ICAgICB8ICAgMyArCj4gPiA+Pj4gIGluY2x1ZGUvZHJtL2RybV9kcnYuaCAgICAgICAgICAgICAg
-ICAgICAgICB8ICAgOCArCj4gPiA+Pj4gIGluY2x1ZGUvZHJtL2RybV9nZW0uaCAgICAgICAgICAg
-ICAgICAgICAgICB8ICAxMSArCj4gPiA+Pj4gIGluY2x1ZGUvbGludXgvY2dyb3VwLWRlZnMuaCAg
-ICAgICAgICAgICAgICB8ICAyOCArKwo+ID4gPj4+ICBpbmNsdWRlL2xpbnV4L2Nncm91cC5oICAg
-ICAgICAgICAgICAgICAgICAgfCAgIDMgKwo+ID4gPj4+ICBpbmNsdWRlL2xpbnV4L21lbWNvbnRy
-b2wuaCAgICAgICAgICAgICAgICAgfCAgMTAgKwo+ID4gPj4+ICBrZXJuZWwvY2dyb3VwL2Nncm91
-cC12MS5jICAgICAgICAgICAgICAgICAgfCAgMTAgKy0KPiA+ID4+PiAga2VybmVsL2Nncm91cC9j
-Z3JvdXAuYyAgICAgICAgICAgICAgICAgICAgIHwgMzEwICsrKysrKysrKysrKysrKysrKy0tLQo+
-ID4gPj4+ICBtbS9tZW1jb250cm9sLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxODMg
-KysrKysrKysrKystCj4gPiA+Pj4gIDEzIGZpbGVzIGNoYW5nZWQsIDU1MiBpbnNlcnRpb25zKCsp
-LCA1OSBkZWxldGlvbnMoLSkKPiA+ID4+Pgo+ID4gPj4+IC0tCj4gPiA+Pj4gMi4yMS4wCj4gPiA+
-Pj4KPiA+ID4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Cj4gPiA+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiA+PiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4gPiA+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============2041580580==
+Content-Type: multipart/alternative; boundary="15570684791.feDABBbEE.23158"
+Content-Transfer-Encoding: 7bit
+
+
+--15570684791.feDABBbEE.23158
+Date: Sun, 5 May 2019 15:01:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110614
+
+            Bug ID: 110614
+           Summary: [Regression] Freeze at desktop manager startup
+           Product: Mesa
+           Version: unspecified
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: raffarti@zoho.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Freeze at desktop manager startup (tested with sddm and lightdm).
+
+Bisected as
+
+commit 1cec049d4db1c4dcd121bad17df4a77273dd9bb1
+Author: Julien Isorce <jisorce@oblong.com>
+Date:   Tue Apr 23 14:28:48 2019 -0700
+
+    radeonsi: implement resource_get_info
+
+    Re-use existing si_texture_get_offset.
+
+    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D110443
+    Signed-off-by: Julien Isorce <jisorce@oblong.com>
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+
+commit a3c202de0a963c0562796cf75e3a9b3eedf1afad
+Author: Julien Isorce <jisorce@oblong.com>
+Date:   Tue Apr 23 14:26:33 2019 -0700
+
+    gallium: add resource_get_info to pipe_screen
+
+    Generic plumbing.
+
+    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D110443
+    Signed-off-by: Julien Isorce <jisorce@oblong.com>
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+
+GPU: RX 480
+OS: OpenSuse Tumbleweed
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15570684791.feDABBbEE.23158
+Date: Sun, 5 May 2019 15:01:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression] Freeze at desktop manager startup"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110614">110614</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[Regression] Freeze at desktop manager startup
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>raffarti&#64;zoho.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Freeze at desktop manager startup (tested with sddm and lightd=
+m).
+
+Bisected as
+
+commit 1cec049d4db1c4dcd121bad17df4a77273dd9bb1
+Author: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.com">jisorce=
+&#64;oblong.com</a>&gt;
+Date:   Tue Apr 23 14:28:48 2019 -0700
+
+    radeonsi: implement resource_get_info
+
+    Re-use existing si_texture_get_offset.
+
+    Bugzilla: <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vaapi/vpp: wrong output for non 64-bytes align width (ex:=
+ 1200)"
+   href=3D"show_bug.cgi?id=3D110443">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110443</a>
+    Signed-off-by: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.c=
+om">jisorce&#64;oblong.com</a>&gt;
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
+4;amd.com">marek.olsak&#64;amd.com</a>&gt;
+
+commit a3c202de0a963c0562796cf75e3a9b3eedf1afad
+Author: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.com">jisorce=
+&#64;oblong.com</a>&gt;
+Date:   Tue Apr 23 14:26:33 2019 -0700
+
+    gallium: add resource_get_info to pipe_screen
+
+    Generic plumbing.
+
+    Bugzilla: <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vaapi/vpp: wrong output for non 64-bytes align width (ex:=
+ 1200)"
+   href=3D"show_bug.cgi?id=3D110443">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110443</a>
+    Signed-off-by: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.c=
+om">jisorce&#64;oblong.com</a>&gt;
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
+4;amd.com">marek.olsak&#64;amd.com</a>&gt;
+
+GPU: RX 480
+OS: OpenSuse Tumbleweed</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15570684791.feDABBbEE.23158--
+
+--===============2041580580==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2041580580==--
