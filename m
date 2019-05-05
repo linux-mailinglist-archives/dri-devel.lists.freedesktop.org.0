@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714DA1406E
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2019 17:01:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 060E51408E
+	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2019 17:18:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 967368929C;
-	Sun,  5 May 2019 15:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F15DC89306;
+	Sun,  5 May 2019 15:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BA4BC8929C
- for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2019 15:01:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B73817215A; Sun,  5 May 2019 15:01:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 100F389306
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2019 15:18:53 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id A17B828627
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2019 15:18:52 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 95BA628632; Sun,  5 May 2019 15:18:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110614] [Regression] Freeze at desktop manager startup
-Date: Sun, 05 May 2019 15:01:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
+Subject: [Bug 201847] nouveau 0000:01:00.0: fifo: fault 01 [WRITE] at
+ 000000000a721000 engine 00 [GR] client 0f [GPC0/PROP_0] reason 82 [] on
+ channel 4 [00ff85c000 X[3819]]
+Date: Sun, 05 May 2019 15:18:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: raffarti@zoho.com
+X-Bugzilla-Who: kernel.org@marc.ngoe.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-110614-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201847-2300-0FcyuxDGtt@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201847-2300@https.bugzilla.kernel.org/>
+References: <bug-201847-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,240 +63,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2041580580=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2041580580==
-Content-Type: multipart/alternative; boundary="15570684791.feDABBbEE.23158"
-Content-Transfer-Encoding: 7bit
-
-
---15570684791.feDABBbEE.23158
-Date: Sun, 5 May 2019 15:01:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110614
-
-            Bug ID: 110614
-           Summary: [Regression] Freeze at desktop manager startup
-           Product: Mesa
-           Version: unspecified
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: raffarti@zoho.com
-        QA Contact: dri-devel@lists.freedesktop.org
-
-Freeze at desktop manager startup (tested with sddm and lightdm).
-
-Bisected as
-
-commit 1cec049d4db1c4dcd121bad17df4a77273dd9bb1
-Author: Julien Isorce <jisorce@oblong.com>
-Date:   Tue Apr 23 14:28:48 2019 -0700
-
-    radeonsi: implement resource_get_info
-
-    Re-use existing si_texture_get_offset.
-
-    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D110443
-    Signed-off-by: Julien Isorce <jisorce@oblong.com>
-    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-
-commit a3c202de0a963c0562796cf75e3a9b3eedf1afad
-Author: Julien Isorce <jisorce@oblong.com>
-Date:   Tue Apr 23 14:26:33 2019 -0700
-
-    gallium: add resource_get_info to pipe_screen
-
-    Generic plumbing.
-
-    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D110443
-    Signed-off-by: Julien Isorce <jisorce@oblong.com>
-    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-
-GPU: RX 480
-OS: OpenSuse Tumbleweed
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15570684791.feDABBbEE.23158
-Date: Sun, 5 May 2019 15:01:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Regression] Freeze at desktop manager startup"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110614">110614</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>[Regression] Freeze at desktop manager startup
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>raffarti&#64;zoho.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Freeze at desktop manager startup (tested with sddm and lightd=
-m).
-
-Bisected as
-
-commit 1cec049d4db1c4dcd121bad17df4a77273dd9bb1
-Author: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.com">jisorce=
-&#64;oblong.com</a>&gt;
-Date:   Tue Apr 23 14:28:48 2019 -0700
-
-    radeonsi: implement resource_get_info
-
-    Re-use existing si_texture_get_offset.
-
-    Bugzilla: <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - vaapi/vpp: wrong output for non 64-bytes align width (ex:=
- 1200)"
-   href=3D"show_bug.cgi?id=3D110443">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110443</a>
-    Signed-off-by: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.c=
-om">jisorce&#64;oblong.com</a>&gt;
-    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
-4;amd.com">marek.olsak&#64;amd.com</a>&gt;
-
-commit a3c202de0a963c0562796cf75e3a9b3eedf1afad
-Author: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.com">jisorce=
-&#64;oblong.com</a>&gt;
-Date:   Tue Apr 23 14:26:33 2019 -0700
-
-    gallium: add resource_get_info to pipe_screen
-
-    Generic plumbing.
-
-    Bugzilla: <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - vaapi/vpp: wrong output for non 64-bytes align width (ex:=
- 1200)"
-   href=3D"show_bug.cgi?id=3D110443">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110443</a>
-    Signed-off-by: Julien Isorce &lt;<a href=3D"mailto:jisorce&#64;oblong.c=
-om">jisorce&#64;oblong.com</a>&gt;
-    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
-4;amd.com">marek.olsak&#64;amd.com</a>&gt;
-
-GPU: RX 480
-OS: OpenSuse Tumbleweed</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15570684791.feDABBbEE.23158--
-
---===============2041580580==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2041580580==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE4NDcKCi0tLSBD
+b21tZW50ICMxIGZyb20gTWFyYyBCLiAoa2VybmVsLm9yZ0BtYXJjLm5nb2UuZGUpIC0tLQpJdCB3
+b3VsZCBiZSBzb29vbyBjb29sIGlmIGFueW9uZSB3b3VsZCBhY3R1YWxseSByZWFkIHRoaXMgYnVn
+IHJlcG9ydCBhbmQgbWF5YmUKdHJ5IHRvIGZpeCBpdC4gSSB3aWxsIGFzc2lzdCBpbiB0ZXN0aW5n
+IHBhdGNoZXMgdW50aWwgdGhpcyBpcyByZXNvbHZlZC4KCkFuZDogSSBhbSB3aWxsaW5nIHRvIG9m
+ZmVyICQxMDAgZm9yIGZpeGluZyB0aGlzIGFubm95aW5nIGJ1ZyEgS2VlcHMgZnJlZXppbmcgbXkK
+NC4xOS4zOSBrZXJuZWwgb3V0IG9mIG5vd2hlcmUuCgpTb21lIHRoaW5ncyBJIHdvdWxkIGxpa2Ug
+dG8gZ2V0IGludG8gZGlzY3Vzc2lvbjoKCmEpIC0gaXQgbWlnaHQgaGF2ZSBzb21ldGhpbmcgdG8g
+ZG8gd2l0aCBtZW1vcnkgcHJlc3N1cmUKCl9hbmRfCgpiKQotIGhpZ2ggQ1BVIGxvYWQKX29yXwot
+IGhpZ2ggbnVtYmVyIG9mIGNvbnRleHQgc3dpdGNoZXMuCgpGb3IgdGhlIGxhdHRlciBJJ20gbm90
+IHN1cmUuIFRoZSBidWcgYWN0dWFsbHkgYWx3YXlzIG9jY3VycyB3aGVuIEkgaWUuIGNvbXBpbGUK
+dHdvIGtlcm5lbHMgYXQgLWoyNCBhbmQgaGFiZSBzb21lIG90aGVyIHdvcmsgYmVzaWRlcyB0aGlz
+LCBzYXkgYSBZVCB2aWRlby4gVGhlCmJ1ZyBpcywgaG93ZXZlciwgZGVmaW5pdGVseSB0cmlnZ2Vy
+ZWQgYnkgYSBncmFwaGljcyBldmVudCwgaWUuCnJlc2l6aW5nL2NyZWF0aW5nIGEgd2luZG93LCBz
+Y3JvbGxpbmcgYSBXZWIgcGFnZSBvciB3YXRjaGluZyBhIHZpZGVvLgoKClsyMDE5LTA1LTA0IDE1
+OjQzOjI0XSBlcnIga2VybiAwMyBrZXJuZWwgOiBbICA1MjMuOTA2NDU5XSBub3V2ZWF1IDAwMDA6
+MDE6MDAuMDoKZmlmbzogU0NIRURfRVJST1IgMGEgW0NUWFNXX1RJTUVPVVRdClsyMDE5LTA1LTA0
+IDE1OjQzOjI0XSBub3RpY2Uga2VybiAwNSBrZXJuZWwgOiBbICA1MjMuOTA2NDY3XSBub3V2ZWF1
+CjAwMDA6MDE6MDAuMDogZmlmbzogcnVubGlzdCAwOiBzY2hlZHVsZWQgZm9yIHJlY292ZXJ5Clsy
+MDE5LTA1LTA0IDE1OjQzOjI0XSBub3RpY2Uga2VybiAwNSBrZXJuZWwgOiBbICA1MjMuOTA2NDcz
+XSBub3V2ZWF1CjAwMDA6MDE6MDAuMDogZmlmbzogY2hhbm5lbCAyOiBraWxsZWQKWzIwMTktMDUt
+MDQgMTU6NDM6MjRdIG5vdGljZSBrZXJuIDA1IGtlcm5lbCA6IFsgIDUyMy45MDY0NzldIG5vdXZl
+YXUKMDAwMDowMTowMC4wOiBmaWZvOiBlbmdpbmUgMDogc2NoZWR1bGVkIGZvciByZWNvdmVyeQpb
+MjAxOS0wNS0wNCAxNTo0MzoyNF0gd2FybmluZyBrZXJuIDA0IGtlcm5lbCA6IFsgIDUyMy45MDY3
+ODldIG5vdXZlYXUKMDAwMDowMTowMC4wOiBYWzgwMDZdOiBjaGFubmVsIDIga2lsbGVkIQpbMjAx
+OS0wNS0wNCAxNTo0MzoyNF0gZXJyIGtlcm4gMDMga2VybmVsIDogbm91dmVhdSAwMDAwOjAxOjAw
+LjA6IGZpZm86ClNDSEVEX0VSUk9SIDBhIFtDVFhTV19USU1FT1VUXQpbMjAxOS0wNS0wNCAxNTo0
+MzoyNF0gbm90aWNlIGtlcm4gMDUga2VybmVsIDogbm91dmVhdSAwMDAwOjAxOjAwLjA6IGZpZm86
+CnJ1bmxpc3QgMDogc2NoZWR1bGVkIGZvciByZWNvdmVyeQpbMjAxOS0wNS0wNCAxNTo0MzoyNF0g
+bm90aWNlIGtlcm4gMDUga2VybmVsIDogbm91dmVhdSAwMDAwOjAxOjAwLjA6IGZpZm86CmNoYW5u
+ZWwgMjoga2lsbGVkClsyMDE5LTA1LTA0IDE1OjQzOjI0XSBub3RpY2Uga2VybiAwNSBrZXJuZWwg
+OiBub3V2ZWF1IDAwMDA6MDE6MDAuMDogZmlmbzoKZW5naW5lIDA6IHNjaGVkdWxlZCBmb3IgcmVj
+b3ZlcnkKWzIwMTktMDUtMDQgMTU6NDM6MjRdIHdhcm5pbmcga2VybiAwNCBrZXJuZWwgOiBub3V2
+ZWF1IDAwMDA6MDE6MDAuMDogWFs4MDA2XToKY2hhbm5lbCAyIGtpbGxlZCEKWzIwMTktMDUtMDQg
+MTU6NDQ6MjRdIGluZm8ga2VybiAwNiBrZXJuZWwgOiBbICA1ODQuMTIxMzMxXSBzeXNycTogU3lz
+UnEgOgpLZXlib2FyZCBtb2RlIHNldCB0byBzeXN0ZW0gZGVmYXVsdApbMjAxOS0wNS0wNCAxNTo0
+NDoyNF0gaW5mbyBrZXJuIDA2IGtlcm5lbCA6IHN5c3JxOiBTeXNScSA6IEtleWJvYXJkIG1vZGUg
+c2V0IHRvCnN5c3RlbSBkZWZhdWx0CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
+Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
