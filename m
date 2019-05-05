@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDE713E1C
-	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2019 09:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD7D13E3F
+	for <lists+dri-devel@lfdr.de>; Sun,  5 May 2019 09:50:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22598938B;
-	Sun,  5 May 2019 07:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3728957D;
+	Sun,  5 May 2019 07:49:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB80A89364;
- Sun,  5 May 2019 07:14:41 +0000 (UTC)
-Received: from localhost (unknown [193.47.165.251])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 35A502087F;
- Sun,  5 May 2019 07:14:39 +0000 (UTC)
-Date: Sun, 5 May 2019 10:14:36 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: "Welty, Brian" <brian.welty@intel.com>
-Subject: Re: [RFC PATCH 0/5] cgroup support for GPU devices
-Message-ID: <20190505071436.GD6938@mtr-leonro.mtl.com>
-References: <20190501140438.9506-1-brian.welty@intel.com>
- <20190502083433.GP7676@mtr-leonro.mtl.com>
- <CAOWid-cYknxeTQvP9vQf3-i3Cpux+bs7uBs7_o-YMFjVCo19bg@mail.gmail.com>
- <bb001de0-e4e5-6b3f-7ced-9d0fb329635b@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1425D8957D
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 May 2019 07:49:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0B4DB7215A; Sun,  5 May 2019 07:49:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110214] radeonsi: xterm scrollback buffer disappears while
+ Shift+PgUp and Shift+PgDn
+Date: Sun, 05 May 2019 07:49:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: diego.viola@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110214-502-5qBh4GvD4a@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
+References: <bug-110214-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bb001de0-e4e5-6b3f-7ced-9d0fb329635b@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1557040481;
- bh=wfOufAim4Z05zwv37oknpoe8Q7ERn1v/x1yShXBuzwo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kEPSKJZFVOtrHxerAwWDvAcODpxmsrEiPojp4/7M+6j0blyCN6MVehJ4myZtrIC5X
- 34/Zr3ouf0/msOtEJgUzm/YP2V9vUOt0UB2m+ZIjJ46Mn0DhmkOHtLOugSTpCQdchY
- m6ed6oVQKxlrUjcHhFrZAOOMC8hJMNSequou6LUI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,118 +53,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Parav Pandit <parav@mellanox.com>, David Airlie <airlied@linux.ie>,
- kenny.ho@amd.com, intel-gfx@lists.freedesktop.org,
- Johannes Weiner <hannes@cmpxchg.org>, Harish.Kasiviswanathan@amd.com,
- cgroups@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michal Hocko <mhocko@kernel.org>, linux-mm@kvack.org,
- J??r??me Glisse <jglisse@redhat.com>, Li Zefan <lizefan@huawei.com>,
- Kenny Ho <y2kenny@gmail.com>, Vladimir Davydov <vdavydov.dev@gmail.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>, Tejun Heo <tj@kernel.org>,
- Christian K??nig <christian.koenig@amd.com>,
- RDMA mailing list <linux-rdma@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1179434245=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMDMsIDIwMTkgYXQgMDI6MTQ6MzNQTSAtMDcwMCwgV2VsdHksIEJyaWFuIHdy
-b3RlOgo+Cj4gT24gNS8yLzIwMTkgMzo0OCBQTSwgS2VubnkgSG8gd3JvdGU6Cj4gPiBPbiA1LzIv
-MjAxOSAxOjM0IEFNLCBMZW9uIFJvbWFub3Zza3kgd3JvdGU6Cj4gPj4gQ291bnQgdXMgKE1lbGxh
-bm94KSB0b28sIG91ciBSRE1BIGRldmljZXMgYXJlIGV4cG9zaW5nIHNwZWNpYWwgYW5kCj4gPj4g
-bGltaXRlZCBpbiBzaXplIGRldmljZSBtZW1vcnkgdG8gdGhlIHVzZXJzIGFuZCB3ZSB3b3VsZCBs
-aWtlIHRvIHByb3ZpZGUKPiA+PiBhbiBvcHRpb24gdG8gdXNlIGNncm91cCB0byBjb250cm9sIGl0
-cyBleHBvc3VyZS4KPgo+IEhpIExlb24sIGdyZWF0IHRvIGhlYXIgYW5kIGhhcHB5IHRvIHdvcmsg
-d2l0aCB5b3UgYW5kIFJETUEgY29tbXVuaXR5Cj4gdG8gc2hhcGUgdGhpcyBmcmFtZXdvcmsgZm9y
-IHVzZSBieSBSRE1BIGRldmljZXMgYXMgd2VsbC4gIFRoZSBpbnRlbnQKPiB3YXMgdG8gc3VwcG9y
-dCBtb3JlIHRoYW4gR1BVIGRldmljZXMuCj4KPiBJbmNpZGVudGFsbHksIEkgYWxzbyB3YW50ZWQg
-dG8gYXNrIGFib3V0IHRoZSByZG1hIGNncm91cCBjb250cm9sbGVyCj4gYW5kIGlmIHRoZXJlIGlz
-IGludGVyZXN0IGluIHVwZGF0aW5nIHRoZSBkZXZpY2UgcmVnaXN0cmF0aW9uIGltcGxlbWVudGVk
-Cj4gaW4gdGhhdCBjb250cm9sbGVyLiAgSXQgY291bGQgdXNlIHRoZSBjZ3JvdXBfZGV2aWNlX3Jl
-Z2lzdGVyKCkgdGhhdCBpcwo+IHByb3Bvc2VkIGhlcmUuICAgQnV0IHRoaXMgaXMgcGVyaGFwcyBm
-dXR1cmUgd29yaywgc28gY2FuIGRpc2N1c3Mgc2VwYXJhdGVseS4KCkknbGwgdHJ5IHRvIHRha2Ug
-YSBsb29rIGxhdGVyIHRoaXMgd2Vlay4KCj4KPgo+ID4gRG9lc24ndCBSRE1BIGFscmVhZHkgaGFz
-IGEgc2VwYXJhdGUgY2dyb3VwPyAgV2h5IG5vdCBpbXBsZW1lbnQgaXQgdGhlcmU/Cj4gPgo+Cj4g
-SGkgS2VubnksIEkgY2FuJ3QgYW5zd2VyIGZvciBMZW9uLCBidXQgSSdtIGhvcGVmdWwgaGUgYWdy
-ZWVzIHdpdGggcmF0aW9uYWxlCj4gSSBnYXZlIGluIHRoZSBjb3ZlciBsZXR0ZXIuICBOYW1lbHks
-IHRvIGltcGxlbWVudCBpbiByZG1hIGNvbnRyb2xsZXIsIHdvdWxkCj4gbWVhbiBkdXBsaWNhdGlu
-ZyBleGlzdGluZyBtZW1jZyBjb250cm9scyB0aGVyZS4KCkV4YWN0bHksIEkgZGlkbid0IGZlZWwg
-Y29tZm9ydGFibGUgdG8gYWRkIG5vdGlvbiBvZiAiZGV2aWNlIG1lbW9yeSIKdG8gUkRNQSBjZ3Jv
-dXAgYW5kIHBvc3Rwb25lZCB0aGF0IGRlY2lzaW9uIHRvIGxhdGVyIHBvaW50IG9mIHRpbWUuClJE
-TUEgb3BlcmF0ZXMgd2l0aCB2ZXJicyBvYmplY3RzIGFuZCBhbGwgb3VyIHVzZXIgc3BhY2UgQVBJ
-IGlzIGJhc2VkIGFyb3VuZAp0aGF0IGNvbmNlcHQuIEF0IHRoZSBlbmQsIHN5c3RlbSBhZG1pbmlz
-dHJhdG9yIHdpbGwgaGF2ZSBoYXJkIHRpbWUgdG8KdW5kZXJzdGFuZCB0aGUgZGlmZmVyZW5jZXMg
-YmV0d2VlbiBtZW1jZyBhbmQgUkRNQSBtZW1vcnkuCgo+Cj4gSXMgQU1EIGludGVyZXN0ZWQgaW4g
-Y29sbGFib3JhdGluZyB0byBoZWxwIHNoYXBlIHRoaXMgZnJhbWV3b3JrPwo+IEl0IGlzIGludGVu
-ZGVkIHRvIGJlIGRldmljZS1uZXV0cmFsLCBzbyBjb3VsZCBiZSBsZXZlcmFnZWQgYnkgdmFyaW91
-cwo+IHR5cGVzIG9mIGRldmljZXMuCj4gSWYgeW91IGhhdmUgYW4gYWx0ZXJuYXRpdmUgc29sdXRp
-b24gd2VsbCB1bmRlcndheSwgdGhlbiBtYXliZQo+IHdlIGNhbiB3b3JrIHRvZ2V0aGVyIHRvIG1l
-cmdlIG91ciBlZmZvcnRzIGludG8gb25lLgo+IEluIHRoZSBlbmQsIHRoZSBEUk0gY29tbXVuaXR5
-IGlzIGJlc3Qgc2VydmVkIHdpdGggY29tbW9uIHNvbHV0aW9uLgo+Cj4KPiA+Cj4gPj4+IGFuZCB3
-aXRoIGZ1dHVyZSB3b3JrLCB3ZSBjb3VsZCBleHRlbmQgdG86Cj4gPj4+ICogIHRyYWNrIGFuZCBj
-b250cm9sIHNoYXJlIG9mIEdQVSB0aW1lIChyZXVzZSBvZiBjcHUvY3B1YWNjdCkKPiA+Pj4gKiAg
-YXBwbHkgbWFzayBvZiBhbGxvd2VkIGV4ZWN1dGlvbiBlbmdpbmVzIChyZXVzZSBvZiBjcHVzZXRz
-KQo+ID4+Pgo+ID4+PiBJbnN0ZWFkIG9mIGludHJvZHVjaW5nIGEgbmV3IGNncm91cCBzdWJzeXN0
-ZW0gZm9yIEdQVSBkZXZpY2VzLCBhIG5ldwo+ID4+PiBmcmFtZXdvcmsgaXMgcHJvcG9zZWQgdG8g
-YWxsb3cgZGV2aWNlcyB0byByZWdpc3RlciB3aXRoIGV4aXN0aW5nIGNncm91cAo+ID4+PiBjb250
-cm9sbGVycywgd2hpY2ggY3JlYXRlcyBwZXItZGV2aWNlIGNncm91cF9zdWJzeXNfc3RhdGUgd2l0
-aGluIHRoZQo+ID4+PiBjZ3JvdXAuICBUaGlzIGdpdmVzIGRldmljZSBkcml2ZXJzIHRoZWlyIG93
-biBwcml2YXRlIGNncm91cCBjb250cm9scwo+ID4+PiAoc3VjaCBhcyBtZW1vcnkgbGltaXRzIG9y
-IG90aGVyIHBhcmFtZXRlcnMpIHRvIGJlIGFwcGxpZWQgdG8gZGV2aWNlCj4gPj4+IHJlc291cmNl
-cyBpbnN0ZWFkIG9mIGhvc3Qgc3lzdGVtIHJlc291cmNlcy4KPiA+Pj4gRGV2aWNlIGRyaXZlcnMg
-KEdQVSBvciBvdGhlcikgYXJlIHRoZW4gYWJsZSB0byByZXVzZSB0aGUgZXhpc3RpbmcgY2dyb3Vw
-Cj4gPj4+IGNvbnRyb2xzLCBpbnN0ZWFkIG9mIGludmVudGluZyBzaW1pbGFyIG9uZXMuCj4gPj4+
-Cj4gPj4+IFBlci1kZXZpY2UgY29udHJvbHMgd291bGQgYmUgZXhwb3NlZCBpbiBjZ3JvdXAgZmls
-ZXN5c3RlbSBhczoKPiA+Pj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4vPHN1YnN5c19uYW1lPi5k
-ZXZpY2VzLzxkZXZfbmFtZT4vPHN1YnN5c19maWxlcz4KPiA+Pj4gc3VjaCBhcyAoZm9yIGV4YW1w
-bGUpOgo+ID4+PiAgICAgbW91bnQvPGNncm91cF9uYW1lPi9tZW1vcnkuZGV2aWNlcy88ZGV2X25h
-bWU+L21lbW9yeS5tYXgKPiA+Pj4gICAgIG1vdW50LzxjZ3JvdXBfbmFtZT4vbWVtb3J5LmRldmlj
-ZXMvPGRldl9uYW1lPi9tZW1vcnkuY3VycmVudAo+ID4+PiAgICAgbW91bnQvPGNncm91cF9uYW1l
-Pi9jcHUuZGV2aWNlcy88ZGV2X25hbWU+L2NwdS5zdGF0Cj4gPj4+ICAgICBtb3VudC88Y2dyb3Vw
-X25hbWU+L2NwdS5kZXZpY2VzLzxkZXZfbmFtZT4vY3B1LndlaWdodAo+ID4+Pgo+ID4+PiBUaGUg
-ZHJtL2k5MTUgcGF0Y2ggaW4gdGhpcyBzZXJpZXMgaXMgYmFzZWQgb24gdG9wIG9mIG90aGVyIFJG
-QyB3b3JrIFsxXQo+ID4+PiBmb3IgaTkxNSBkZXZpY2UgbWVtb3J5IHN1cHBvcnQuCj4gPj4+Cj4g
-Pj4+IEFNRCBbMl0gYW5kIEludGVsIFszXSBoYXZlIHByb3Bvc2VkIHJlbGF0ZWQgd29yayBpbiB0
-aGlzIGFyZWEgd2l0aGluIHRoZQo+ID4+PiBsYXN0IGZldyB5ZWFycywgbGlzdGVkIGJlbG93IGFz
-IHJlZmVyZW5jZS4gIFRoaXMgbmV3IFJGQyByZXVzZXMgZXhpc3RpbmcKPiA+Pj4gY2dyb3VwIGNv
-bnRyb2xsZXJzIGFuZCB0YWtlcyBhIGRpZmZlcmVudCBhcHByb2FjaCB0aGFuIHByaW9yIHdvcmsu
-Cj4gPj4+Cj4gPj4+IEZpbmFsbHksIHNvbWUgcG90ZW50aWFsIGRpc2N1c3Npb24gcG9pbnRzIGZv
-ciB0aGlzIHNlcmllczoKPiA+Pj4gKiBtZXJnZSBwcm9wb3NlZCA8c3Vic3lzX25hbWU+LmRldmlj
-ZXMgaW50byBhIHNpbmdsZSBkZXZpY2VzIGRpcmVjdG9yeT8KPiA+Pj4gKiBhbGxvdyBkZXZpY2Vz
-IHRvIGhhdmUgbXVsdGlwbGUgcmVnaXN0cmF0aW9ucyBmb3Igc3Vic2V0cyBvZiByZXNvdXJjZXM/
-Cj4gPj4+ICogZG9jdW1lbnQgYSAnY29tbW9uIGNoYXJnaW5nIHBvbGljeScgZm9yIGRldmljZSBk
-cml2ZXJzIHRvIGZvbGxvdz8KPiA+Pj4KPiA+Pj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
-ZXNrdG9wLm9yZy9zZXJpZXMvNTY2ODMvCj4gPj4+IFsyXSBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOC1Ob3ZlbWJlci8xOTcxMDYuaHRtbAo+ID4+
-PiBbM10gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvaW50ZWwtZ2Z4LzIw
-MTgtSmFudWFyeS8xNTMxNTYuaHRtbAo+ID4+Pgo+ID4+Pgo+ID4+PiBCcmlhbiBXZWx0eSAoNSk6
-Cj4gPj4+ICAgY2dyb3VwOiBBZGQgY2dyb3VwX3N1YnN5cyBwZXItZGV2aWNlIHJlZ2lzdHJhdGlv
-biBmcmFtZXdvcmsKPiA+Pj4gICBjZ3JvdXA6IENoYW5nZSBrZXJuZnNfbm9kZSBmb3IgZGlyZWN0
-b3JpZXMgdG8gc3RvcmUKPiA+Pj4gICAgIGNncm91cF9zdWJzeXNfc3RhdGUKPiA+Pj4gICBtZW1j
-ZzogQWRkIHBlci1kZXZpY2Ugc3VwcG9ydCB0byBtZW1vcnkgY2dyb3VwIHN1YnN5c3RlbQo+ID4+
-PiAgIGRybTogQWRkIG1lbW9yeSBjZ3JvdXAgcmVnaXN0cmF0aW9uIGFuZCBEUklWRVJfQ0dST1VQ
-UyBmZWF0dXJlIGJpdAo+ID4+PiAgIGRybS9pOTE1OiBVc2UgbWVtb3J5IGNncm91cCBmb3IgZW5m
-b3JjaW5nIGRldmljZSBtZW1vcnkgbGltaXQKPiA+Pj4KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9k
-cm1fZHJ2LmMgICAgICAgICAgICAgICAgICB8ICAxMiArCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbS5jICAgICAgICAgICAgICAgICAgfCAgIDcgKwo+ID4+PiAgZHJpdmVycy9ncHUvZHJt
-L2k5MTUvaTkxNV9kcnYuYyAgICAgICAgICAgIHwgICAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pbnRlbF9tZW1vcnlfcmVnaW9uLmMgfCAgMjQgKy0KPiA+Pj4gIGluY2x1ZGUvZHJt
-L2RybV9kZXZpY2UuaCAgICAgICAgICAgICAgICAgICB8ICAgMyArCj4gPj4+ICBpbmNsdWRlL2Ry
-bS9kcm1fZHJ2LmggICAgICAgICAgICAgICAgICAgICAgfCAgIDggKwo+ID4+PiAgaW5jbHVkZS9k
-cm0vZHJtX2dlbS5oICAgICAgICAgICAgICAgICAgICAgIHwgIDExICsKPiA+Pj4gIGluY2x1ZGUv
-bGludXgvY2dyb3VwLWRlZnMuaCAgICAgICAgICAgICAgICB8ICAyOCArKwo+ID4+PiAgaW5jbHVk
-ZS9saW51eC9jZ3JvdXAuaCAgICAgICAgICAgICAgICAgICAgIHwgICAzICsKPiA+Pj4gIGluY2x1
-ZGUvbGludXgvbWVtY29udHJvbC5oICAgICAgICAgICAgICAgICB8ICAxMCArCj4gPj4+ICBrZXJu
-ZWwvY2dyb3VwL2Nncm91cC12MS5jICAgICAgICAgICAgICAgICAgfCAgMTAgKy0KPiA+Pj4gIGtl
-cm5lbC9jZ3JvdXAvY2dyb3VwLmMgICAgICAgICAgICAgICAgICAgICB8IDMxMCArKysrKysrKysr
-KysrKysrKystLS0KPiA+Pj4gIG1tL21lbWNvbnRyb2wuYyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB8IDE4MyArKysrKysrKysrKy0KPiA+Pj4gIDEzIGZpbGVzIGNoYW5nZWQsIDU1MiBpbnNl
-cnRpb25zKCspLCA1OSBkZWxldGlvbnMoLSkKPiA+Pj4KPiA+Pj4gLS0KPiA+Pj4gMi4yMS4wCj4g
-Pj4+Cj4gPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-PiA+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwo+ID4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============1179434245==
+Content-Type: multipart/alternative; boundary="15570425950.1C28BAfE.25987"
+Content-Transfer-Encoding: 7bit
+
+
+--15570425950.1C28BAfE.25987
+Date: Sun, 5 May 2019 07:49:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
+
+--- Comment #88 from Diego Viola <diego.viola@gmail.com> ---
+(In reply to komqinxit from comment #87)
+> Another similar bug.
+> xfce4-terminal leaves a large black area at the bottom when it renders
+> 'dmesg' or 'cat /etc/passwd'.
+>=20
+> AMD Ryzen 3 2200G.
+> Arch Linux.
+> Mesa 19.0.3-1
+
+I can reproduce this, it happens for me with xfce4-terminal and also
+gnome-terminal and most other VTE-based terminals.
+
+I also noticed that setting R600_DEBUG=3Dnodpbb and
+MESA_EXTENSION_OVERRIDE=3D"-GL_NV_texture_barrier" does not seem to help.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15570425950.1C28BAfE.25987
+Date: Sun, 5 May 2019 07:49:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c88">Comme=
+nt # 88</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+diego.viola&#64;gmail.com" title=3D"Diego Viola &lt;diego.viola&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Diego Viola</span></a>
+</span></b>
+        <pre>(In reply to komqinxit from <a href=3D"show_bug.cgi?id=3D11021=
+4#c87">comment #87</a>)
+<span class=3D"quote">&gt; Another similar bug.
+&gt; xfce4-terminal leaves a large black area at the bottom when it renders
+&gt; 'dmesg' or 'cat /etc/passwd'.
+&gt;=20
+&gt; AMD Ryzen 3 2200G.
+&gt; Arch Linux.
+&gt; Mesa 19.0.3-1</span >
+
+I can reproduce this, it happens for me with xfce4-terminal and also
+gnome-terminal and most other VTE-based terminals.
+
+I also noticed that setting R600_DEBUG=3Dnodpbb and
+MESA_EXTENSION_OVERRIDE=3D&quot;-GL_NV_texture_barrier&quot; does not seem =
+to help.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15570425950.1C28BAfE.25987--
+
+--===============1179434245==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1179434245==--
