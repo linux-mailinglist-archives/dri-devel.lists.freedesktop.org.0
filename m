@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FED01451C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 09:26:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4A81454F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 09:33:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C9DE89227;
-	Mon,  6 May 2019 07:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3074892BC;
+	Mon,  6 May 2019 07:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2D089227
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 07:26:03 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id j6so13639978qtq.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2019 00:26:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WNzn2D4LRFx0zq3ZMJPIJy2EHlJS0W/qRQO2E0djUbU=;
- b=OPGevWzAvX/walk4IvWsEhUF4XwufYnWmSmL+DJDA5iDrJqm9cGhiq/djXskQjzJ/J
- 7ukpbMwlEoQFHpdUHVmfsSza3F2jjUPwReN1Jltz2GLNnrQScMTzhnXgk5ByQ61lpYfz
- D/rjUdQuP7bCekYYu3ne6+KtQMuk+KMfRZZimWUL8xFMKmhIo3DxHhJ0xH+XOS6VNsaJ
- Th9IwYFJJMPgy/2AHMou6oBzmmbSEcpdqcJl9M63bwpjktHD8wX06z8PpToyYNFeK9gz
- i2UB6fIgBWVgoLpYdSQF+gxNaWY5zL8K6JBkdy+xtdCNQnySCkzH3jL5EgNZPI3r4KfI
- p4qQ==
-X-Gm-Message-State: APjAAAW4134rJmzCB6pPZx6x0GJyLbmMtOUZlZix+XrsCCe8+pLzFgbn
- R+4pEwwiRioocp4PG/gm9KKZc1MJTTNnT9I+zaH2pw==
-X-Google-Smtp-Source: APXvYqw4GFj4q4UVpUiDKBHF6OghiHzU5JrTfWPLaCo7KAV2UX+jBKeVBbLTsVkPr/PjAhKVuoZEyF0uUBi9eKD6m8o=
-X-Received: by 2002:aed:3fad:: with SMTP id s42mr20026506qth.335.1557127562156; 
- Mon, 06 May 2019 00:26:02 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6F64D89256
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 07:33:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6C6E17215A; Mon,  6 May 2019 07:33:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110143] Doom 3: BFG Edition - Steam and GOG.com - white
+ flickering screen
+Date: Mon, 06 May 2019 07:33:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-110143-502-emzXH80R7F@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110143-502@http.bugs.freedesktop.org/>
+References: <bug-110143-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1556114601-30936-1-git-send-email-fabien.dessenne@st.com>
- <1556114601-30936-3-git-send-email-fabien.dessenne@st.com>
- <03f53dcc-816f-c017-f420-5eacc1fa486d@st.com>
-In-Reply-To: <03f53dcc-816f-c017-f420-5eacc1fa486d@st.com>
-From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date: Mon, 6 May 2019 09:25:51 +0200
-Message-ID: <CA+M3ks6bGqux=D+8PgEn9ovGBEbUzkWSshB81Zy1OTG+U4Ww-w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/stm: ltdc: return appropriate error code during
- probe
-To: Philippe CORNU <philippe.cornu@st.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WNzn2D4LRFx0zq3ZMJPIJy2EHlJS0W/qRQO2E0djUbU=;
- b=BNjPq9C+fBd/dv+/34M6FL3Z2Pm8FqkPX6Z0HermdNoQMhO2azmmLW0MQfnj03p0b7
- G6hf2mwmU8G01N1ZkBrVVnNTG3r/otxtMeOTBFZyxhj9vjvZCeYarFlh3Z+YyBY0s7Q/
- n5Ij8Ly4cHNdL1GIhiFJUJEIk2EyVcRbn5+YyKfmsJgOjDdssNnRASzFPFZlWcaJ1nZL
- 6qsOPoYcGCuqWRDZU55zWXSw6lOexvFw8+spMo1mmr7iFZQvKXYQdHz2IovIeSjmrZGM
- B4ttVnpCIIV/hKVyr9iZSiQvZCjroyPAYOk7dvqikc9cLkahrr/tOydJFEwW4Kjn48A2
- qiAQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,44 +53,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Fabien DESSENNE <fabien.dessenne@st.com>,
- Yannick FERTRE <yannick.fertre@st.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Vincent ABRIOU <vincent.abriou@st.com>,
- "linux-stm32@st-md-mailman.stormreply.com"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Alexandre TORGUE <alexandre.torgue@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0375462820=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgdmVuLiAyNiBhdnIuIDIwMTkgw6AgMTQ6MzAsIFBoaWxpcHBlIENPUk5VIDxwaGlsaXBwZS5j
-b3JudUBzdC5jb20+IGEgw6ljcml0IDoKPgo+IEhpIEZhYmllbiwKPiBhbmQgdGhhbmsgeW91IGZv
-ciB5b3VyIHBhdGNoLAo+Cj4gQWNrZWQtYnk6IFBoaWxpcHBlIENvcm51IDxwaGlsaXBwZS5jb3Ju
-dUBzdC5jb20+Cj4KPiBQaGlsaXBwZSA6LSkKPgo+IE9uIDQvMjQvMTkgNDowMyBQTSwgRmFiaWVu
-IERlc3Nlbm5lIHdyb3RlOgo+ID4gRHVyaW5nIHByb2JlLCByZXR1cm4gdGhlICJjbGtfZ2V0IiBl
-cnJvciB2YWx1ZSBpbnN0ZWFkIG9mIC1FTk9ERVYuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogRmFi
-aWVuIERlc3Nlbm5lIDxmYWJpZW4uZGVzc2VubmVAc3QuY29tPgoKQXBwbGllZCBvbiBkcm0tbWlz
-Yy1uZXh0LgpUaGFua3MsCkJlbmphbWluCgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9z
-dG0vbHRkYy5jIHwgNSArKystLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3Rt
-L2x0ZGMuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCj4gPiBpbmRleCA1MjFiYTgzLi45
-NzkxMmUyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRjLmMKPiA+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jCj4gPiBAQCAtMTE0NSw4ICsxMTQ1LDkgQEAg
-aW50IGx0ZGNfbG9hZChzdHJ1Y3QgZHJtX2RldmljZSAqZGRldikKPiA+Cj4gPiAgICAgICBsZGV2
-LT5waXhlbF9jbGsgPSBkZXZtX2Nsa19nZXQoZGV2LCAibGNkIik7Cj4gPiAgICAgICBpZiAoSVNf
-RVJSKGxkZXYtPnBpeGVsX2NsaykpIHsKPiA+IC0gICAgICAgICAgICAgRFJNX0VSUk9SKCJVbmFi
-bGUgdG8gZ2V0IGxjZCBjbG9ja1xuIik7Cj4gPiAtICAgICAgICAgICAgIHJldHVybiAtRU5PREVW
-Owo+ID4gKyAgICAgICAgICAgICBpZiAoUFRSX0VSUihsZGV2LT5waXhlbF9jbGspICE9IC1FUFJP
-QkVfREVGRVIpCj4gPiArICAgICAgICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJVbmFibGUgdG8g
-Z2V0IGxjZCBjbG9ja1xuIik7Cj4gPiArICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGxkZXYt
-PnBpeGVsX2Nsayk7Cj4gPiAgICAgICB9Cj4gPgo+ID4gICAgICAgaWYgKGNsa19wcmVwYXJlX2Vu
-YWJsZShsZGV2LT5waXhlbF9jbGspKSB7Cj4gPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0375462820==
+Content-Type: multipart/alternative; boundary="15571280151.5FE5bA784.9782"
+Content-Transfer-Encoding: 7bit
+
+
+--15571280151.5FE5bA784.9782
+Date: Mon, 6 May 2019 07:33:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110143
+
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEEDINFO                    |RESOLVED
+         Resolution|---                         |FIXED
+
+--- Comment #6 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Should be fixed by:
+
+commit 1af72fa4d665b9847dff9b22d7a7dea01c0960c7 (HEAD -> master, origin/mas=
+ter,
+origin/HEAD)
+Author: Timothy Arceri <tarceri@itsqueeze.com>
+Date:   Fri May 3 13:59:05 2019 +1000
+
+    util/drirc: add workarounds for bugs in Doom 3: BFG
+
+    This makes the game playable on radeonsi.
+
+    Cc: "19.0" "19.1" <mesa-stable@lists.freedesktop.org>
+    Reviewed-by: Samuel Pitoiset <samuel.pitoiset@gmail.com>
+    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D110143
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15571280151.5FE5bA784.9782
+Date: Mon, 6 May 2019 07:33:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Doom 3: BFG Edition - Steam and GOG.com - whit=
+e flickering screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110143">bug 11014=
+3</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEEDINFO
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Doom 3: BFG Edition - Steam and GOG.com - whit=
+e flickering screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110143#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Doom 3: BFG Edition - Steam and GOG.com - whit=
+e flickering screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110143">bug 11014=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>Should be fixed by:
+
+commit 1af72fa4d665b9847dff9b22d7a7dea01c0960c7 (HEAD -&gt; master, origin/=
+master,
+origin/HEAD)
+Author: Timothy Arceri &lt;<a href=3D"mailto:tarceri&#64;itsqueeze.com">tar=
+ceri&#64;itsqueeze.com</a>&gt;
+Date:   Fri May 3 13:59:05 2019 +1000
+
+    util/drirc: add workarounds for bugs in Doom 3: BFG
+
+    This makes the game playable on radeonsi.
+
+    Cc: &quot;19.0&quot; &quot;19.1&quot; &lt;<a href=3D"mailto:mesa-stable=
+&#64;lists.freedesktop.org">mesa-stable&#64;lists.freedesktop.org</a>&gt;
+    Reviewed-by: Samuel Pitoiset &lt;<a href=3D"mailto:samuel.pitoiset&#64;=
+gmail.com">samuel.pitoiset&#64;gmail.com</a>&gt;
+    Bugzilla: <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Doom 3: BFG Edition - Steam and GOG.com - whit=
+e flickering screen"
+   href=3D"show_bug.cgi?id=3D110143">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110143</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15571280151.5FE5bA784.9782--
+
+--===============0375462820==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0375462820==--
