@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B31146D3
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 10:52:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9879146D6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 10:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE6ED897DC;
-	Mon,  6 May 2019 08:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4DDB897E7;
+	Mon,  6 May 2019 08:53:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 70E54897D7
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 08:52:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 686A27215A; Mon,  6 May 2019 08:52:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107049] monitor not found in 4.17+ kernel
-Date: Mon, 06 May 2019 08:52:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-107049-502-Eq7fXmL11H@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107049-502@http.bugs.freedesktop.org/>
-References: <bug-107049-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07085897E7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 08:53:42 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 34C92C06645C;
+ Mon,  6 May 2019 08:53:42 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+ [10.36.116.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC2BC61B60;
+ Mon,  6 May 2019 08:53:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2B5EB16E0A; Mon,  6 May 2019 10:53:36 +0200 (CEST)
+Date: Mon, 6 May 2019 10:53:36 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Subject: Re: [PATCH 1/3] drm/virtio: set seqno for dma-fence
+Message-ID: <20190506085336.wzzcx2t3bopnftr5@sirius.home.kraxel.org>
+References: <20190429220825.156644-1-olvaffe@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190429220825.156644-1-olvaffe@gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Mon, 06 May 2019 08:53:42 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,135 +49,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0130332975=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0130332975==
-Content-Type: multipart/alternative; boundary="15571327330.6a687ECa.20932"
-Content-Transfer-Encoding: 7bit
-
-
---15571327330.6a687ECa.20932
-Date: Mon, 6 May 2019 08:52:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107049
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |FIXED
-             Status|NEW                         |RESOLVED
-
---- Comment #11 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to Dan Hor=C3=A1k from comment #10)
-> and the dc=3D0 was still required for 5.0, so sound like an improvement i=
-n 5.1
-
-Glad to hear it's fixed in 5.1! Thanks for the follow-ups, resolving
-accordingly.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15571327330.6a687ECa.20932
-Date: Mon, 6 May 2019 08:52:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - monitor not found in 4.17+ kernel"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107049">bug 10704=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - monitor not found in 4.17+ kernel"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107049#c11">Comme=
-nt # 11</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - monitor not found in 4.17+ kernel"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107049">bug 10704=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to Dan Hor=C3=A1k from <a href=3D"show_bug.cgi?id=3D=
-107049#c10">comment #10</a>)
-<span class=3D"quote">&gt; and the dc=3D0 was still required for 5.0, so so=
-und like an improvement in 5.1</span >
-
-Glad to hear it's fixed in 5.1! Thanks for the follow-ups, resolving
-accordingly.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15571327330.6a687ECa.20932--
-
---===============0130332975==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0130332975==--
+T24gTW9uLCBBcHIgMjksIDIwMTkgYXQgMDM6MDg6MjNQTSAtMDcwMCwgQ2hpYS1JIFd1IHdyb3Rl
+Ogo+IFRoaXMgaXMgbW90aXZhdGVkIGJ5IGhhdmluZyBtZWFuaW5nZnVsIGZ0cmFjZSBldmVudHMs
+IGJ1dCBpdCBhbHNvCj4gZml4ZXMgdXNlIGNhc2VzIHdoZXJlIGRtYV9mZW5jZV9pc19sYXRlciBp
+cyBjYWxsZWQsIHN1Y2ggYXMgaW4KPiBzeW5jX2ZpbGVfbWVyZ2UuCj4gCj4gSW4gb3RoZXIgZHJp
+dmVycywgZmVuY2UgY3JlYXRpb24gYW5kIGNtZGJ1ZiBzdWJtaXNzaW9uIG5vcm1hbGx5Cj4gaGFw
+cGVuIGF0b21pY2FsbHksCj4gCj4gICBtdXRleF9sb2NrKCk7Cj4gICBmZW5jZSA9IGRtYV9mZW5j
+ZV9jcmVhdGUoLi4uLCArK3RpbWVsaW5lLT5zZXFubyk7Cj4gICBzdWJtaXRfY21kYnVmKCk7Cj4g
+ICBtdXRleF91bmxvY2soKTsKPiAKPiBhbmQgaGF2ZSBubyBzdWNoIGlzc3VlLiAgQnV0IGluIG91
+ciBkcml2ZXIsIGJlY2F1c2UgbW9zdCBpb2N0bHMKPiBxdWV1ZSBjb21tYW5kcyBpbnRvIGN0cmxx
+LCB3ZSBkbyBub3Qgd2FudCB0byBncmFiIGEgbG9jay4gIEluc3RlYWQsCj4gd2Ugc2V0IHNlcW5v
+IHRvIDAgd2hlbiBhIGZlbmNlIGlzIGNyZWF0ZWQsIGFuZCB1cGRhdGUgaXQgd2hlbiB0aGUKPiBj
+b21tYW5kIGlzIGZpbmFsbHkgcXVldWVkIGFuZCB0aGUgc2Vxbm8gaXMga25vd24uCgpTZXJpZXMg
+cHVzaGVkIHRvIGRybS1taXNjLW5leHQuCgp0aGFua3MsCiAgR2VyZAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
