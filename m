@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C81714BAB
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 16:19:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 249A214BB1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 16:20:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 310B6899E8;
-	Mon,  6 May 2019 14:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D461891EF;
+	Mon,  6 May 2019 14:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 54A18899D4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 14:19:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 50FFD7215A; Mon,  6 May 2019 14:19:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108514] heavy screen flickering with Mobility Radeon X1600 and
- kernel version 3.15rc2 onward
-Date: Mon, 06 May 2019 14:19:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: bisected, patch
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: werner.lueckel@googlemail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: version
-Message-ID: <bug-108514-502-MWb2Ftuhge@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108514-502@http.bugs.freedesktop.org/>
-References: <bug-108514-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08EC7891EF
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 14:20:39 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 243BC3001809;
+ Mon,  6 May 2019 14:20:38 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+ [10.36.116.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0C0E5E1A7;
+ Mon,  6 May 2019 14:20:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0056911AAA; Mon,  6 May 2019 16:20:34 +0200 (CEST)
+Date: Mon, 6 May 2019 16:20:34 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 00/19] Share TTM code among DRM framebuffer drivers
+Message-ID: <20190506142034.kb3lfvw25xbkrkyq@sirius.home.kraxel.org>
+References: <20190506082649.942-1-tzimmermann@suse.de>
+ <20190506122233.76pya5kpdfgp4f25@sirius.home.kraxel.org>
+ <fcb3efd9-64f2-ca35-e36e-83b7055f8055@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <fcb3efd9-64f2-ca35-e36e-83b7055f8055@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Mon, 06 May 2019 14:20:38 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +51,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0455764186=="
+Cc: airlied@linux.ie, puck.chen@hisilicon.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, z.liuxinliang@hisilicon.com,
+ hdegoede@redhat.com, kong.kongxinwei@hisilicon.com, ray.huang@amd.com,
+ zourongrong@gmail.com, sam@ravnborg.org, christian.koenig@amd.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0455764186==
-Content-Type: multipart/alternative; boundary="15571523570.DfdE2afe.5574"
-Content-Transfer-Encoding: 7bit
-
-
---15571523570.DfdE2afe.5574
-Date: Mon, 6 May 2019 14:19:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108514
-
-Werner Lueckel <werner.lueckel@googlemail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Version|unspecified                 |DRI git
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15571523570.DfdE2afe.5574
-Date: Mon, 6 May 2019 14:19:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:werner.lu=
-eckel&#64;googlemail.com" title=3D"Werner Lueckel &lt;werner.lueckel&#64;go=
-oglemail.com&gt;"> <span class=3D"fn">Werner Lueckel</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - heavy screen flickering with Mobility Radeon X1600 and ke=
-rnel version 3.15rc2 onward"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514">bug 10851=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>unspecified
-           </td>
-           <td>DRI git
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15571523570.DfdE2afe.5574--
-
---===============0455764186==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0455764186==--
+T24gTW9uLCBNYXkgMDYsIDIwMTkgYXQgMDM6MDk6MjBQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
+bm4gd3JvdGU6Cj4gSGkKPiAKPiBBbSAwNi4wNS4xOSB1bSAxNDoyMiBzY2hyaWViIEdlcmQgSG9m
+Zm1hbm46Cj4gPj4gR0VNIFZSQU0gY291bGQgaW1wbGVtZW50IFBSSU1FIGhlbHBlcnMsIHdoaWNo
+IHdvdWxkIGFsbG93IGZvciB1c2luZwo+ID4+IHRoZSBnZW5lcmljIGZiY29uLgo+ID4gCj4gPiBi
+b2Noc19nZW1fcHJpbWVfKigpIGZ1bmN0aW9ucyB3aXRoIHRoaXMgc2VyaWVzIGFwcGxpZWQgbG9v
+ayBsaWtlIHlvdSBjYW4KPiA+IGp1c3QgcmVuYW1lIHRoZW0gJiBtb3ZlIG92ZXIgdG8gdnJhbSBo
+ZWxwZXJzLgo+ID4gCj4gPiBJdCdzIG5vdCBhIGZ1bGwgcHJpbWUgaW1wbGVtZW50YXRpb24sIHNw
+ZWNpZmljYWxseSBhY3R1YWwgZXhwb3J0L2ltcG9ydAo+ID4gaXNuJ3QgdGhlcmUuICBCdXQgcGlu
+K3ZtYXAgKG5lZWRlZCBieSBnZW5lcmljIGZiY29uKSBpcyBpbXBsZW1lbnRlZC4KPiAKPiBJIGRp
+ZCBoYXZlIGEgcGF0Y2ggdG8gZG8gdGhpcywgYnV0IHRoZW4gSSByZWFkIHRoYXQgcHJpbWUgcmVx
+dWlyZXMgRE1BCj4gZm9yIGJ1ZmZlciBzaGFyaW5nIGFuZCBib2NocyB3b3JrcyBvbmx5IGJlY2F1
+c2UgaXQncyBlbXVsYXRlZC4KCkZvciBhY3R1YWwgYnVmZmVyIHNoYXJpbmcgd2l0aCBvdGhlciBk
+cml2ZXJzIHllcyBiZWNhdXNlIGRtYS1idWZzCnR5cGljYWxseSBhcmUgYSBidW5jaCBvZiBwYWdl
+cyAoc3RydWN0IHBhZ2UqKikgYW5kIGxpdmUgaW4gUkFNLgoKTm90IHN1cmUgd2hlbmV2ZXIgaXQg
+aXMgcG9zc2libGUgb3IgdXNlZnVsIHRvIHBsYWNlIHRoZSB2cmFtIGluClpPTkVfREVWSUNFIHRv
+IGdldCBwYWdlIHN0cnVjdHMgZm9yIGl0LCB0aGVuIGV4cG9ydCBidWZmZXJzIGxvY2F0ZWQKaW4g
+dnJhbSB0aGF0IHdheSB3aXRob3V0IGNvcHlpbmcgdGhlbSBvdmVyIHRvIG1haW4gbWVtb3J5LiAg
+SSBzdXNwZWN0Cm1vc3QgaW1wb3J0ZXJzIHdvdWxkIGZhaWwgdG8gcHJvcGVybHkgc2V0dXAgUENJ
+LVBDSSBkbWEgaW4gdGhhdCBjYXNlLgoKPiBJZiBib2NocycgaW1wbGVtZW50YXRpb24gaXMgY29t
+cGxldGUgZW5vdWdoIHRvIGJlIHVzZWZ1bCBmb3Igb3RoZXIKPiBkcml2ZXJzLCBJJ2xsIGFkZCBp
+dCB0byB0aGUgcGF0Y2ggc2V0LgoKSXQncyBnb29kIGVub3VnaCBmb3IgZ2VuZXJpYyBmYmNvbi4K
+CmNoZWVycywKICBHZXJkCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
