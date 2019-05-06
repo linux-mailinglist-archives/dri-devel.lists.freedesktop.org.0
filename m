@@ -2,64 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BACB14F56
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 17:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8661714FAB
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 17:13:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C15289192;
-	Mon,  6 May 2019 15:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC1F89A5C;
+	Mon,  6 May 2019 15:13:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C48389192
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 15:10:50 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id f37so15643721edb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2019 08:10:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=CpecHH3BR1rpnK9yjtUQFM/FgsQJsJsWnW3lCqezuPY=;
- b=j9tRsNDJHYCnngPoWM+3RJzNzu2pToKan27v+PeM+RGGr8Ezdo9Vqsf37sZTALcNbb
- 4bqM3uchwoRyxzbugS85a/nlZgF5GrWj6NvBSU2yIvwf3ySwgy5A1WDWyiTBjsswoMvc
- SAefI6T9Q//TCzKDfpcMOL8rVKh+UtlSiiowz+F+y2m7bd+4iIskm1xedaGkS6MjV162
- W6PggQy9B8FcKsP0YFk5/DQHF/b8Yh4VdzUT50hdLwZYPMrqMqq2dS52BBsW5ApZTZnK
- ykAz4w8c8Bv4tgABqGZUSxpkNbfwzt2JYA9T1cnCWQmB2giAGnUHlhynzcw4PuZ0FS5G
- CJUA==
-X-Gm-Message-State: APjAAAVeQWqW0ytjxy+vXyirZY/qr1kJlDF5HjRAIRb8Pfjg3i4WC7+V
- SHBfb78Cj8pHKZZXgD5D2HUgSA==
-X-Google-Smtp-Source: APXvYqznG/HHLhIVpdMHxcURHWiUCI5gAUIt3Be8LXF5iVCzWnxa0ERSGC/3mKQDYm8iUbD3882G0g==
-X-Received: by 2002:a05:6402:1696:: with SMTP id
- a22mr27396932edv.219.1557155449092; 
- Mon, 06 May 2019 08:10:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id y22sm1658114ejp.90.2019.05.06.08.10.47
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 06 May 2019 08:10:47 -0700 (PDT)
-Date: Mon, 6 May 2019 17:10:46 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-Subject: Re: [PATCH 10/12] drm/amdgpu: add independent DMA-buf export v3
-Message-ID: <20190506151045.GI17751@phenom.ffwll.local>
-References: <20190426123638.40221-1-christian.koenig@amd.com>
- <20190426123638.40221-10-christian.koenig@amd.com>
- <20190430141638.GT3271@phenom.ffwll.local>
- <09619fce-fa36-2bbc-ad24-7814748a84e0@gmail.com>
- <20190506080455.GC17751@phenom.ffwll.local>
- <5825dded-25eb-d266-4bb6-5f40d358ae9d@amd.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1C2889954
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 15:13:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BE6AB7215A; Mon,  6 May 2019 15:13:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110614] [Regression] Freeze at desktop manager startup
+Date: Mon, 06 May 2019 15:13:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: raffarti@zoho.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110614-502-5Y9dFyU28k@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110614-502@http.bugs.freedesktop.org/>
+References: <bug-110614-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <5825dded-25eb-d266-4bb6-5f40d358ae9d@amd.com>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=CpecHH3BR1rpnK9yjtUQFM/FgsQJsJsWnW3lCqezuPY=;
- b=SAe42A+aEuRbR3zrSZMsPx0oiM611DQj6AaKHCI/A2aK7rCq5CRoYyYS5oThy575YX
- WH+rOyq+marchM2SnQL/3TbiLw3HlC6EZou1h6VWL/6PLYg7Sr3Ha/JzPhpWpMLoH2TJ
- B4AWHvHSVqAySiKJjkk7Ap5udj1gL2GLeAWfU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,95 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0866933141=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXkgMDYsIDIwMTkgYXQgMTA6MDU6MDdBTSArMDAwMCwgS29lbmlnLCBDaHJpc3Rp
-YW4gd3JvdGU6Cj4gQW0gMDYuMDUuMTkgdW0gMTA6MDQgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+
-ID4gW1NOSVBdCj4gPj4+PiArIC8qIHBpbiBidWZmZXIgaW50byBHVFQgKi8KPiA+Pj4+ICsgcmV0
-dXJuIGFtZGdwdV9ib19waW4oYm8sIEFNREdQVV9HRU1fRE9NQUlOX0dUVCk7Cj4gPj4+IFRoaXMg
-aXMga2luZGEgd2hhdCBJIG1lYW4gd2l0aCAic2hvdWxkbid0IHdlIHBpbiB0aGUgYXR0YWNobWVu
-dCIgLSBhZmFpdWkKPiA+Pj4gdGhpcyBjYW4gZmFpbCBpcyBzb21lb25lIGFscmVhZHkgcGlubmVk
-IHRoZSBidWZmZXIgaW50byB2cmFtLiBBbmQgdGhhdAo+ID4+PiBraW5kIG9mIGNoZWNraW5nIGlz
-IHN1cHBvc2VkIHRvIGhhcHBlbiBpbiB0aGUgYnVmZmVyIGF0dGFjaG1lbnQuCj4gPj4gV2h5IGlz
-IHRoYXQgc3VwcG9zZWQgdG8gaGFwcGVuIG9uIHRoZSBhdHRhY2htZW50PyBJIG1lYW4gaXQgY291
-bGQgYmUgbmljZSB0bwo+ID4+IGhhdmUgZm9yIGRlYnVnZ2luZywgYnV0IEkgc3RpbGwgZG9uJ3Qg
-c2VlIGFueSBwcmFjdGljYWwgcmVhc29uIGZvciB0aGlzLgo+ID4gZG1hX2J1Zl9hdHRhY2ggaXMg
-c3VwcG9zZWQgdG8gbWFrZSBzdXJlIHRoZSBidWZmZXIgd29uJ3QgbGFuZCBzb21ld2hlcmUKPiA+
-IHdoZXJlIHlvdSBjYW4ndCBnZXQgYXQgaXQgYW55bW9yZS4gV3J0IHBpbiB0aGF0IG1lYW5zIHRo
-ZSBleHBvcnRlciBuZWVkcwo+ID4gdG8gbWFrZSBzdXJlIGl0IGNhbid0IGdldCBwaW5uZWQgaW50
-byBhIHdyb25nIHBsYWNlLCBhbmQgYWxzbyBpc24ndCBwaW5uZWQKPiA+IGludG8gYSB3cm9uZyBw
-bGFjZSBhbnltb3JlLiBUaGF0J3Mgd2h5IEkgdGhpbmsgcGlubmluZyB0aWVzIGluIHdpdGgKPiA+
-IGRtYV9idWZfYXR0YWNoIGFuZCBub3QgdGhlIG92ZXJhbGwgYnVmZmVyLgo+ID4KPiA+IEluIGEg
-d2F5IHRoZXJlJ3MgdHdvIHBpZWNlcyBvZiBhIHBpbjoKPiA+IC0gRG8gbm90IG1vdmUgdGhlIGJ1
-ZmZlciBhbnltb3JlLgo+ID4gLSBNYWtlIHN1cmUgSSBjYW4gc3RpbGwgZ2V0IGF0IGl0Lgo+ID4K
-PiA+IEludGVybmFsbHkgdGhlIDJuZCBwYXJ0IGlzIGVuY29kZWQgaW4gdGhlIGRvbWFpbiBwYXJh
-bWV0ZXIgeW91IHBhc3MgdG8KPiA+IGFtZGdwdV9ib19waW4uIFdoZW4gZ29pbmcgdGhyb3VnaCBk
-bWEtYnVmIHRoYXQgaW5mb3JtYXRpb24gaXMgZGVyaXZlZAo+ID4gZnJvbSB0aGUgYXR0YWNobWVu
-dCAoZS5nLiBpZiBpdCdzIGEgcDJwIG9uZSwgdGhlbiB5b3UgY2FuIHB1dCBpdCB3aGVyZXZlcgo+
-ID4geW91IGZlZWwgbGlrZSwgaWYgaXQncyBhIG5vcm1hbCBvbmUgaXQgbXVzdCBiZSBpbiBzeXN0
-ZW0gcmFtKS4gVGhlIGRtYS1idWYKPiA+IGFsb25lIGRvZXNuJ3QgdGVsbCB5b3UgX3doZXJlXyB0
-byBwaW4gc29tZXRoaW5nLgo+IAo+IE9rLCB0aGF0IGZpbmFsbHkgbWFrZXMgc29tZSBzZW5zZS4g
-U28gdGhlIGF0dGFjaG1lbnQgZGVzY3JpYmVzIHdoZXJlIHRoZSAKPiBidWZmZXIgbmVlZHMgdG8g
-YmUgZm9yIHRoZSBhdHRhY2hpbmcgZGV2aWNlL3VzZSBjYXNlIHRvIGJlIGFibGUgdG8gCj4gYWNj
-ZXNzIGl0Lgo+IAo+IEdvaW5nIHRvIGNoYW5nZSBpdCB0byB1c2UgYW4gYXR0YWNobWVudCBpbnN0
-ZWFkLgoKYnR3IG9uZSB0aGluZyB3ZSd2ZSBkaXNjdXNzZWQsIGFuZCBtdWNoIGVhc2llciB0byBp
-bXBsZW1lbnQgb24gbW9zdCBzb2NzCmlzIHRlbGxpbmcgYXBhcnQgdGhlIHJlbmRlciB2cyBkaXNw
-bGF5IGF0dGFjaG1lbnQuIE1vc3Qgc29jcyBoYXZlCmRpZmZlcmVudCBkZXZpY2VzIGZvciB0aGF0
-LCBhbmQgZGlmZmVyZW50IHBpbiByZXF1aXJlbWVudHMuIFdlIGNvdWxkIGRvCnNvbWV0aGluZyBz
-aW1pbGFybHktaXNoIG9uIHBjaSB0b28sIHdoZXJlIHlvdSBhdHRhY2ggdG8gc29tZSBzdWItZGV2
-aWNlCnJlcHJlc2VudGluZyBzY2Fub3V0LiBPciBtYXliZSBhIGZsYWcgb24gdGhlIGF0dGFjaG1l
-bnQuIEVpdGhlciB3YXksIHRoYXQKd291bGQgaW5kaWNhdGUgYW4gYXR0YWNobWVudCB3aGVyZSB0
-aGUgcGluIGluZGljYXRlcyAibXVzdCBiZSBpbiB2cmFtIi4KTWlnaHQgYmUgdXNlZnVsIGZvciBT
-TEkgcmVuZGVyZWQgc2Nhbm91dCAoaW4gY2FzZSB0aGF0IGV2ZXIgaGFwcGVucykuCgo+ID4+IFdl
-bGwgY29tcGxldGVseSBhbWRncHUgaW50ZXJuYWwgaGFuZGxpbmcgaGVyZS4gS2V5IHBvaW50IGlz
-IHdlIGhhdmUgYm90aAo+ID4+IHByZWZlcnJlZF9kb21haW5zIGFzIHdlbGwgYXMgYWxsb3dlZF9k
-b21haW5zLgo+ID4+Cj4gPj4gRHVyaW5nIGNvbW1hbmQgc3VibWlzc2lvbiB3ZSBhbHdheXMgdHJ5
-IHRvIG1vdmUgYSBCTyB0byB0aGUKPiA+PiBwcmVmZXJyZWRfZG9tYWlucyBhZ2Fpbi4KPiA+Pgo+
-ID4+IE5vdyB3aGF0IGNvdWxkIGhhcHBlbiBpZiB3ZSBkb24ndCBoYXZlIHRoaXMgY2hlY2sgaXMg
-dGhlIGZvbGxvd2luZzoKPiA+Pgo+ID4+IDEuIEJPIGlzIGFsbG9jYXRlIGluIFZSQU0uIEFuZCBw
-cmVmZXJyZWRfZG9tYWlucyBzYXlzIG9ubHkgVlJBTSBwbGVhc2UsIGJ1dAo+ID4+IGFsbG93ZWRf
-ZG9tYWlucyBzYXlzIFZSQU0gb3IgR1RULgo+ID4+Cj4gPj4gMi4gRE1BLWJ1ZiBJbXBvcnRlciBj
-b21lcyBhbG9uZyBhbmQgbW92ZXMgdGhlIEJPIHRvIEdUVCwgd2hpY2ggaXMgcGVyZmVjdGx5Cj4g
-Pj4gdmFsaWQgYmVjYXVzZSBvZiB0aGUgYWxsb3dlZF9kb21haW5zLgo+ID4+Cj4gPj4gMy4gQ29t
-bWFuZCBzdWJtaXNzaW9uIGlzIG1hZGUgYW5kIG1vdmVzIHRoZSBCTyB0byBWUkFNIGFnYWluLgo+
-ID4+Cj4gPj4gNC4gSW1wb3J0ZXIgY29tZXMgYWxvbmcgYW5kIG1vdmVzIHRoZSBCTyB0byBHVFQu
-Cj4gPj4gLi4uLgo+ID4+Cj4gPj4gRS5nLiBhIG5pY2UgcGluZy9wb25nIHNpdHVhdGlvbiB3aGlj
-aCBqdXN0IGVhdHMgdXAgbWVtb3J5IGJhbmR3aWR0aC4KPiA+IEhtIHllYWggdGhlIHBpbmcvcG9u
-ZyBpcyBiYWQsIGJ1dCBJIGZpZ3VyZSB5b3UgaGF2ZSB0byBhbHJlYWR5IGhhbmRsZSB0aGF0Cj4g
-PiAod2l0aCBzb21lIGJpYXMgb3Igd2hhdGV2ZXIpLiBPdXRyaWdodCBkaXNhYmxpbmcgaW52YWxp
-ZGF0ZS9keW5hbWljCj4gPiBkbWEtYnVmIHNlZW1zIGxpa2Ugb3ZlcmtpbGwuCj4gPgo+ID4gV2hh
-dCBhYm91dCB1cGdyYWRnaW5nIHByZWZlcnJlZF9kb21haW5zIHRvIGluY2x1ZGUgR1RUIGhlcmU/
-IERlZmFjdG8gd2hhdAo+ID4geW91IGRvIGlzIGZvcmNpbmcgR1RULCBzbyBqdXN0IGFkZGluZyBH
-VFQgYXMgYSBwb3NzaWJsZSBkb21haW4gc2VlbXMgbGlrZQo+ID4gdGhlIGJldHRlciBjaG9pY2Uu
-IEJvbnVzIHBvaW50cyBmb3IgdW5kb2luZyB0aGF0IHdoZW4gdGhlIGxhc3QgaW1wb3J0ZXIKPiA+
-IGRpc2FwcGVhcnMuCj4gCj4gV2VsbCB0aGF0J3MgZXhhY3RseSB3aGF0IHdlIHdhbnQgdG8gYXZv
-aWQgaGVyZS4KPiAKPiBUaGUgcHJlZmVycmVkX2RvbWFpbnMgaXMgd2hlcmUgdXNlcnNwYWNlIGxp
-a2VzIHRoZSBidWZmZXIgdG8gYmUgYW5kIAo+IHNob3VsZCBuZXZlciBiZSBjaGFuZ2VkIGJ5IHRo
-ZSBrZXJuZWwuCj4gCj4gVGhlIGFsbG93ZWRfZG9tYWlucyBpcyB3aGVyZSB0aGUgYnVmZmVyIHNo
-b3VsZCBiZSBiYXNlZCBvbiB0aGUgaGFyZHdhcmUgCj4gcmVzdHJpY3Rpb25zIGFuZCBpcyB1c3Vh
-bGx5IHVwZGF0ZWQgYnkgdGhlIGtlcm5lbCBkcml2ZXIuCj4gCj4gPiBJbiBnZW5lcmFsIEkgdGhp
-bmsgZHluYW1pYyBkbWEtYnVmIG5lZWRzIHRvIGJlIGFibGUgdG8gaGFuZGxlIHRoaXMKPiA+IHNv
-bWVob3csIG9yIGl0IHdvbid0IHJlYWxseSB3b3JrLiBTaW1wbGVzdCBpcyBwcm9iYWJseSB0byBq
-dXN0IHN0b3AgbW92aW5nCj4gPiBidWZmZXJzIGFyb3VuZCBzbyBtdWNoIGZvciBidWZmZXJzIHRo
-YXQgYXJlIGR5bmFtaWNhbGx5IGV4cG9ydGVkIChzbyBtYXliZQo+ID4gY291bGQgYWxzbyBjaGFu
-Z2UgdGhhdCBpbiB0aGUgQ1MgaW9jdGwgdG8gbm90IG1vdmUgZXhwb3J0ZWQgYnVmZmVycwo+ID4g
-YW55bW9yZSwgd291bGQgYWNoaWV2ZSB0aGUgc2FtZSkuCj4gCj4gWWVhaCwgdGhhdCdzIHRoZSBv
-YnZpb3VzIGFsdGVybmF0aXZlLiBCdXQgSSBkaWRuJ3Qgd2FudGVkIHRvIGFkZCBldmVuIAo+IG1v
-cmUgY29tcGxleGl0eSB0byB0aGUgcGF0Y2ggcmlnaHQgbm93Lgo+IAo+IENsZWFuaW5nIHRoaXMg
-dXAgaXMgcHVyZSBhbWRncHUgaW50ZXJuYWxseSwgZS5nLiB3ZSBuZWVkIHRvIG1ha2Ugc3VyZSB0
-byAKPiBub3QgbW92ZSBidWZmZXJzIGFyb3VuZCBzbyBtdWNoIG9uIGNvbW1hbmQgc3VibWlzc2lv
-bi4KCk9rIGlmIHRoZSBjb21tZW50IGlzIGNsZWFyIGVub3VnaCBmb3IgeW91IGZvbGtzIHRoYXQn
-cyBhbGwgZmluZS4gTWF5YmUgYWRkCmEgRklYTUUgYWJvdXQgaG93IHRoaXMgaXMgYSBiaXQgcGVz
-c2ltaXN0aWMgYW5kIHdoYXQgY291bGQvc2hvdWxkIGJlIGRvbmUKaW5zdGVhZC4KCkkgYWdyZWUg
-dGhhdCBpdCdzIHByb2JhYmx5IG5vdCBhIHVzZS1jYXNlIHlvdSByZWFsbHkgY2FyZSBhYm91dCwg
-c2luY2UgdGhlCmJpZyBwaWxlcyBvZiBkeW5hbWljIHNoYXJlZCBidWZmZXJzIHdpbGwgYmUgcDJw
-LiBEeW5hbWljLCBidXQgbm90IHAycCBpcyBhCmJpdCBhbiBlZGdlIGNhc2UgcmVhbGx5LgotRGFu
-aWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlv
-bgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============0866933141==
+Content-Type: multipart/alternative; boundary="15571556020.DF6f41.13557"
+Content-Transfer-Encoding: 7bit
+
+
+--15571556020.DF6f41.13557
+Date: Mon, 6 May 2019 15:13:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110614
+
+--- Comment #3 from raffarti@zoho.com ---
+Tested both master and 8cd71f399e73c5d87e9162cc74da76e317a9f41f specificall=
+y,
+but it still hangs and the stacktrace looks the same.
+Any way I can help debug this?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15571556020.DF6f41.13557
+Date: Mon, 6 May 2019 15:13:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression] Freeze at desktop manager startup"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110614#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression] Freeze at desktop manager startup"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110614">bug 11061=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+raffarti&#64;zoho.com" title=3D"raffarti&#64;zoho.com">raffarti&#64;zoho.co=
+m</a>
+</span></b>
+        <pre>Tested both master and 8cd71f399e73c5d87e9162cc74da76e317a9f41=
+f specifically,
+but it still hangs and the stacktrace looks the same.
+Any way I can help debug this?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15571556020.DF6f41.13557--
+
+--===============0866933141==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0866933141==--
