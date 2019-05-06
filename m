@@ -1,64 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5603B145B6
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 10:05:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E907145C2
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 10:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5D2089548;
-	Mon,  6 May 2019 08:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E718912D;
+	Mon,  6 May 2019 08:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E40C89548
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 08:04:59 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id m4so14314300edd.8
- for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2019 01:04:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=lvU2QsEs2/eBntfp9YyefPlHil787DxmJNqaO1o7AFw=;
- b=ijf/Zy2+ZPhWrPck02LvH2EHS71lV7vjrBQrFRM7yNvGnHVROUmjR7CElETT4sbN0K
- 8HEZzx3xW6iqwUJdvkdXuByFejKS4LpuLJ4H5wAEv2pHXV7CCY21DOFgWADh+LuOCmhq
- EcFvKjuMJ/506TKlBrbod3SJcv2p8BcaUtPZpkgIHDhTiy0Xj/C/lvhpxJiScFV/r5V8
- krdBi0EdXM0dLMIdJMayZJY5bTk6xhZA6tflgJRe+PPttMy3DkM7umJKMRxdyHm56lVK
- H2R0C7Q7Z8pjAWII4uhQOJH+/2mVEzi1nypTNURppIMAliZ1GBbF3ydWs0s/MxWnBukF
- bXPg==
-X-Gm-Message-State: APjAAAWXjmfMYTjehw2s7l4ejDCLThhlcbPgiMaBCLloL5IA6nXJhmcx
- J2uz2MBp+NYVcIxstGRJKFdWMA==
-X-Google-Smtp-Source: APXvYqwwiALOvfCU5Y2PpHBv27UQVfJBCPZmTDoSBWP5cQgjezzwaiCVUJdzRSrluUkQ0/CJ3ZITBg==
-X-Received: by 2002:aa7:ca54:: with SMTP id j20mr24077462edt.23.1557129898020; 
- Mon, 06 May 2019 01:04:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id g47sm2865077edc.68.2019.05.06.01.04.56
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 06 May 2019 01:04:57 -0700 (PDT)
-Date: Mon, 6 May 2019 10:04:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: christian.koenig@amd.com
-Subject: Re: [PATCH 10/12] drm/amdgpu: add independent DMA-buf export v3
-Message-ID: <20190506080455.GC17751@phenom.ffwll.local>
-References: <20190426123638.40221-1-christian.koenig@amd.com>
- <20190426123638.40221-10-christian.koenig@amd.com>
- <20190430141638.GT3271@phenom.ffwll.local>
- <09619fce-fa36-2bbc-ad24-7814748a84e0@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0C6FE895B4
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 08:09:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 08F8C7215A; Mon,  6 May 2019 08:09:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
+Date: Mon, 06 May 2019 08:09:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109345-502-NxllKd6J4t@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
+References: <bug-109345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <09619fce-fa36-2bbc-ad24-7814748a84e0@gmail.com>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=lvU2QsEs2/eBntfp9YyefPlHil787DxmJNqaO1o7AFw=;
- b=UlBQmIhto/vZCuBP88C9IsKTQoNXq7JJMsDxVFwMLPNwlSQgyA4Vlqp4Ue6YMEJqjQ
- m4jc3XstUEkXbLnje7tSdQkZo31DX8Il+AVVKe/yMTC/+S3ZdXIs6LdL67ID39E10RNU
- GemT0PwJdndQ9rxzJaQvcNlIEJSHKi+v1g/9E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,99 +52,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2036502066=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMDMsIDIwMTkgYXQgMDI6MzU6MDJQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5p
-ZyB3cm90ZToKPiBBbSAzMC4wNC4xOSB1bSAxNjoxNiBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4g
-PiBbU05JUF0KPiA+ID4gICAvKioKPiA+ID4gLSAqIGFtZGdwdV9nZW1fbWFwX2F0dGFjaCAtICZk
-bWFfYnVmX29wcy5hdHRhY2ggaW1wbGVtZW50YXRpb24KPiA+ID4gLSAqIEBkbWFfYnVmOiBTaGFy
-ZWQgRE1BIGJ1ZmZlcgo+ID4gPiArICogYW1kZ3B1X2dlbV9waW5fZG1hX2J1ZiAtICZkbWFfYnVm
-X29wcy5waW5fZG1hX2J1ZiBpbXBsZW1lbnRhdGlvbgo+ID4gPiArICoKPiA+ID4gKyAqIEBkbWFf
-YnVmOiBETUEtYnVmIHRvIHBpbiBpbiBtZW1vcnkKPiA+ID4gKyAqCj4gPiA+ICsgKiBQaW4gdGhl
-IEJPIHdoaWNoIGlzIGJhY2tpbmcgdGhlIERNQS1idWYgc28gdGhhdCBpdCBjYW4ndCBtb3ZlIGFu
-eSBtb3JlLgo+ID4gPiArICovCj4gPiA+ICtzdGF0aWMgaW50IGFtZGdwdV9nZW1fcGluX2RtYV9i
-dWYoc3RydWN0IGRtYV9idWYgKmRtYV9idWYpCj4gPiA+ICt7Cj4gPiA+ICsJc3RydWN0IGRybV9n
-ZW1fb2JqZWN0ICpvYmogPSBkbWFfYnVmLT5wcml2Owo+ID4gPiArCXN0cnVjdCBhbWRncHVfYm8g
-KmJvID0gZ2VtX3RvX2FtZGdwdV9ibyhvYmopOwo+ID4gPiArCj4gPiA+ICsJLyogcGluIGJ1ZmZl
-ciBpbnRvIEdUVCAqLwo+ID4gPiArCXJldHVybiBhbWRncHVfYm9fcGluKGJvLCBBTURHUFVfR0VN
-X0RPTUFJTl9HVFQpOwo+ID4gVGhpcyBpcyBraW5kYSB3aGF0IEkgbWVhbiB3aXRoICJzaG91bGRu
-J3Qgd2UgcGluIHRoZSBhdHRhY2htZW50IiAtIGFmYWl1aQo+ID4gdGhpcyBjYW4gZmFpbCBpcyBz
-b21lb25lIGFscmVhZHkgcGlubmVkIHRoZSBidWZmZXIgaW50byB2cmFtLiBBbmQgdGhhdAo+ID4g
-a2luZCBvZiBjaGVja2luZyBpcyBzdXBwb3NlZCB0byBoYXBwZW4gaW4gdGhlIGJ1ZmZlciBhdHRh
-Y2htZW50Lgo+IAo+IFdoeSBpcyB0aGF0IHN1cHBvc2VkIHRvIGhhcHBlbiBvbiB0aGUgYXR0YWNo
-bWVudD8gSSBtZWFuIGl0IGNvdWxkIGJlIG5pY2UgdG8KPiBoYXZlIGZvciBkZWJ1Z2dpbmcsIGJ1
-dCBJIHN0aWxsIGRvbid0IHNlZSBhbnkgcHJhY3RpY2FsIHJlYXNvbiBmb3IgdGhpcy4KCmRtYV9i
-dWZfYXR0YWNoIGlzIHN1cHBvc2VkIHRvIG1ha2Ugc3VyZSB0aGUgYnVmZmVyIHdvbid0IGxhbmQg
-c29tZXdoZXJlCndoZXJlIHlvdSBjYW4ndCBnZXQgYXQgaXQgYW55bW9yZS4gV3J0IHBpbiB0aGF0
-IG1lYW5zIHRoZSBleHBvcnRlciBuZWVkcwp0byBtYWtlIHN1cmUgaXQgY2FuJ3QgZ2V0IHBpbm5l
-ZCBpbnRvIGEgd3JvbmcgcGxhY2UsIGFuZCBhbHNvIGlzbid0IHBpbm5lZAppbnRvIGEgd3Jvbmcg
-cGxhY2UgYW55bW9yZS4gVGhhdCdzIHdoeSBJIHRoaW5rIHBpbm5pbmcgdGllcyBpbiB3aXRoCmRt
-YV9idWZfYXR0YWNoIGFuZCBub3QgdGhlIG92ZXJhbGwgYnVmZmVyLgoKSW4gYSB3YXkgdGhlcmUn
-cyB0d28gcGllY2VzIG9mIGEgcGluOgotIERvIG5vdCBtb3ZlIHRoZSBidWZmZXIgYW55bW9yZS4K
-LSBNYWtlIHN1cmUgSSBjYW4gc3RpbGwgZ2V0IGF0IGl0LgoKSW50ZXJuYWxseSB0aGUgMm5kIHBh
-cnQgaXMgZW5jb2RlZCBpbiB0aGUgZG9tYWluIHBhcmFtZXRlciB5b3UgcGFzcyB0bwphbWRncHVf
-Ym9fcGluLiBXaGVuIGdvaW5nIHRocm91Z2ggZG1hLWJ1ZiB0aGF0IGluZm9ybWF0aW9uIGlzIGRl
-cml2ZWQKZnJvbSB0aGUgYXR0YWNobWVudCAoZS5nLiBpZiBpdCdzIGEgcDJwIG9uZSwgdGhlbiB5
-b3UgY2FuIHB1dCBpdCB3aGVyZXZlcgp5b3UgZmVlbCBsaWtlLCBpZiBpdCdzIGEgbm9ybWFsIG9u
-ZSBpdCBtdXN0IGJlIGluIHN5c3RlbSByYW0pLiBUaGUgZG1hLWJ1ZgphbG9uZSBkb2Vzbid0IHRl
-bGwgeW91IF93aGVyZV8gdG8gcGluIHNvbWV0aGluZy4KCj4gPiBBbHNvIHdpbGwgcDJwIHBpbiBp
-bnRvIFZSQU0gaWYgYWxsIGF0dGFjaG1lbnRzIGFyZSBwMnAgY2FwYWJsZT8gT3IgaXMgeW91cgo+
-ID4gcGxhbiB0byByZXF1aXJlIGR5bmFtaWMgaW52YWxpZGF0ZSB0byBhdm9pZCBmcmFnbWVudGlu
-ZyB2cmFtIGJhZGx5IHdpdGgKPiA+IHBpbm5lZCBzdHVmZiB5b3UgY2FuJ3QgbW92ZT8KPiAKPiBN
-eSBwbGFuIHdhcyB0byBtYWtlIGR5bmFtaWMgaW52YWxpZGF0aW9uIGEgbXVzdCBoYXZlIGZvciBQ
-MlAsIGV4YWN0bHkgZm9yCj4gdGhlIHJlYXNvbiB5b3Ugbm90ZWQuCj4gCj4gPiArLyoqCj4gPiAr
-ICogYW1kZ3B1X2dlbV9kbWFfYnVmX2F0dGFjaCAtICZkbWFfYnVmX29wcy5hdHRhY2ggaW1wbGVt
-ZW50YXRpb24KPiA+ICsgKgo+ID4gKyAqIEBkbWFfYnVmOiBETUEtYnVmIHdlIGF0dGFjaCB0bwo+
-ID4gICAgKiBAYXR0YWNoOiBETUEtYnVmIGF0dGFjaG1lbnQKPiA+ICAgICoKPiA+ICsgKiBSZXR1
-cm5zOgo+ID4gKyAqIEFsd2F5cyB6ZXJvIGZvciBzdWNjZXNzLgo+ID4gKyAqLwo+ID4gK3N0YXRp
-YyBpbnQgYW1kZ3B1X2dlbV9kbWFfYnVmX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZiwK
-PiA+ICsJCQkJICAgICBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICphdHRhY2gpCj4gPiArewo+
-ID4gKwlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiA9IGRtYV9idWYtPnByaXY7Cj4gPiArCXN0
-cnVjdCBhbWRncHVfYm8gKmJvID0gZ2VtX3RvX2FtZGdwdV9ibyhvYmopOwo+ID4gKwo+ID4gKwkv
-KiBNYWtlIHN1cmUgdGhlIGJ1ZmZlciBpcyBwaW5uZWQgd2hlbiB1c2Vyc3BhY2UgZGlkbid0IHNl
-dCBHVFQgYXMKPiA+ICsJICogcHJlZmVycmVkIGRvbWFpbi4gVGhpcyBhdm9pZCBwaW5nL3Bvbmcg
-c2l0dWF0aW9ucyB3aXRoIHNjYW4gb3V0IEJPcy4KPiA+ICsJICovCj4gPiArCWlmICghKGJvLT5w
-cmVmZXJyZWRfZG9tYWlucyAmIEFNREdQVV9HRU1fRE9NQUlOX0dUVCkpCj4gPiArCQlhdHRhY2gt
-PmludmFsaWRhdGUgPSBOVUxMOwo+ID4gTm90IGZvbGxvd2luZyBoZXJlIGF0IGFsbC4gSWYgdGhl
-IEJPIGNhbid0IGJlIGluIEdUVCBJJ2QgZ3Vlc3MgeW91IHNob3VsZAo+ID4gcmVqZWN0IHRoZSBh
-dHRhY2ggb3V0cmlnaHQsIHNpbmNlIHRoZSBwaW5uaW5nL21hcCBsYXRlciBvbiB3aWxsIGZhaWwg
-SQo+ID4gZ3Vlc3M/IEF0IGxlYXN0IEknbSBub3QgbWFraW5nIHRoZSBjb25uZWN0aW9uIHdpdGgg
-d2h5IGR5bmFtaWMgZG1hLWJ1Zgo+ID4gd29uJ3Qgd29yayBhbnltb3JlLCBzaW5jZSBkeW5hbWlj
-IGRtYS1idWYgaXMgdG8gbWFrZSBwMnAgb2YgYm8gaW4gdnJhbQo+ID4gd29yayBiZXR0ZXIsIHdo
-aWNoIGlzIGV4YWN0bHkgd2hhdCB0aGlzIGhlcmUgc2VlbXMgdG8gY2hlY2sgZm9yLgo+ID4gCj4g
-PiBPciBpcyB0aGlzIGp1c3QgYSBxdWljayBjaGVjayB1bnRpbCB5b3UgYWRkIGZ1bGwgcDJwIHN1
-cHBvcnQ/Cj4gPiAKPiA+IENvdW50IG1lIGNvbmZ1c2VkIC4uLgo+IAo+IFdlbGwgY29tcGxldGVs
-eSBhbWRncHUgaW50ZXJuYWwgaGFuZGxpbmcgaGVyZS4gS2V5IHBvaW50IGlzIHdlIGhhdmUgYm90
-aAo+IHByZWZlcnJlZF9kb21haW5zIGFzIHdlbGwgYXMgYWxsb3dlZF9kb21haW5zLgo+IAo+IER1
-cmluZyBjb21tYW5kIHN1Ym1pc3Npb24gd2UgYWx3YXlzIHRyeSB0byBtb3ZlIGEgQk8gdG8gdGhl
-Cj4gcHJlZmVycmVkX2RvbWFpbnMgYWdhaW4uCj4gCj4gTm93IHdoYXQgY291bGQgaGFwcGVuIGlm
-IHdlIGRvbid0IGhhdmUgdGhpcyBjaGVjayBpcyB0aGUgZm9sbG93aW5nOgo+IAo+IDEuIEJPIGlz
-IGFsbG9jYXRlIGluIFZSQU0uIEFuZCBwcmVmZXJyZWRfZG9tYWlucyBzYXlzIG9ubHkgVlJBTSBw
-bGVhc2UsIGJ1dAo+IGFsbG93ZWRfZG9tYWlucyBzYXlzIFZSQU0gb3IgR1RULgo+IAo+IDIuIERN
-QS1idWYgSW1wb3J0ZXIgY29tZXMgYWxvbmcgYW5kIG1vdmVzIHRoZSBCTyB0byBHVFQsIHdoaWNo
-IGlzIHBlcmZlY3RseQo+IHZhbGlkIGJlY2F1c2Ugb2YgdGhlIGFsbG93ZWRfZG9tYWlucy4KPiAK
-PiAzLiBDb21tYW5kIHN1Ym1pc3Npb24gaXMgbWFkZSBhbmQgbW92ZXMgdGhlIEJPIHRvIFZSQU0g
-YWdhaW4uCj4gCj4gNC4gSW1wb3J0ZXIgY29tZXMgYWxvbmcgYW5kIG1vdmVzIHRoZSBCTyB0byBH
-VFQuCj4gLi4uLgo+IAo+IEUuZy4gYSBuaWNlIHBpbmcvcG9uZyBzaXR1YXRpb24gd2hpY2gganVz
-dCBlYXRzIHVwIG1lbW9yeSBiYW5kd2lkdGguCgpIbSB5ZWFoIHRoZSBwaW5nL3BvbmcgaXMgYmFk
-LCBidXQgSSBmaWd1cmUgeW91IGhhdmUgdG8gYWxyZWFkeSBoYW5kbGUgdGhhdAood2l0aCBzb21l
-IGJpYXMgb3Igd2hhdGV2ZXIpLiBPdXRyaWdodCBkaXNhYmxpbmcgaW52YWxpZGF0ZS9keW5hbWlj
-CmRtYS1idWYgc2VlbXMgbGlrZSBvdmVya2lsbC4KCldoYXQgYWJvdXQgdXBncmFkZ2luZyBwcmVm
-ZXJyZWRfZG9tYWlucyB0byBpbmNsdWRlIEdUVCBoZXJlPyBEZWZhY3RvIHdoYXQKeW91IGRvIGlz
-IGZvcmNpbmcgR1RULCBzbyBqdXN0IGFkZGluZyBHVFQgYXMgYSBwb3NzaWJsZSBkb21haW4gc2Vl
-bXMgbGlrZQp0aGUgYmV0dGVyIGNob2ljZS4gQm9udXMgcG9pbnRzIGZvciB1bmRvaW5nIHRoYXQg
-d2hlbiB0aGUgbGFzdCBpbXBvcnRlcgpkaXNhcHBlYXJzLgoKSW4gZ2VuZXJhbCBJIHRoaW5rIGR5
-bmFtaWMgZG1hLWJ1ZiBuZWVkcyB0byBiZSBhYmxlIHRvIGhhbmRsZSB0aGlzCnNvbWVob3csIG9y
-IGl0IHdvbid0IHJlYWxseSB3b3JrLiBTaW1wbGVzdCBpcyBwcm9iYWJseSB0byBqdXN0IHN0b3Ag
-bW92aW5nCmJ1ZmZlcnMgYXJvdW5kIHNvIG11Y2ggZm9yIGJ1ZmZlcnMgdGhhdCBhcmUgZHluYW1p
-Y2FsbHkgZXhwb3J0ZWQgKHNvIG1heWJlCmNvdWxkIGFsc28gY2hhbmdlIHRoYXQgaW4gdGhlIENT
-IGlvY3RsIHRvIG5vdCBtb3ZlIGV4cG9ydGVkIGJ1ZmZlcnMKYW55bW9yZSwgd291bGQgYWNoaWV2
-ZSB0aGUgc2FtZSkuCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIs
-IEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2036502066==
+Content-Type: multipart/alternative; boundary="15571301960.Adf401.14838"
+Content-Transfer-Encoding: 7bit
+
+
+--15571301960.Adf401.14838
+Date: Mon, 6 May 2019 08:09:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
+
+--- Comment #32 from Christian Zigotzky <chzigotzky@xenosoft.de> ---
+Hi All,
+
+Allan successfully tested the sixth test kernel today. He wrote:
+
+Christian
+DRM6 boots to Firepro.
+
+cheers
+
+ace
+
+------
+
+This step has been marked as good because the sixth test kernel boots to
+FirePro.
+
+Next step:
+
+git bisect good
+
+Output:
+
+Bisecting: 11 revisions left to test after this (roughly 4 steps)
+[068f304781804e208f901d8f6083189e0e28c420] drm/drm_pci.c: Use
+dma_zalloc_coherent
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: http://www.xenosoft.de/uImage-drm7
+
+@Allan (acefnq/ace)
+Please test it.
+
+Thanks,
+Christian
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15571301960.Adf401.14838
+Date: Mon, 6 May 2019 08:09:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c32">Comme=
+nt # 32</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chzigotzky&#64;xenosoft.de" title=3D"Christian Zigotzky &lt;chzigotzky&#64;=
+xenosoft.de&gt;"> <span class=3D"fn">Christian Zigotzky</span></a>
+</span></b>
+        <pre>Hi All,
+
+Allan successfully tested the sixth test kernel today. He wrote:
+
+Christian
+DRM6 boots to Firepro.
+
+cheers
+
+ace
+
+------
+
+This step has been marked as good because the sixth test kernel boots to
+FirePro.
+
+Next step:
+
+git bisect good
+
+Output:
+
+Bisecting: 11 revisions left to test after this (roughly 4 steps)
+[068f304781804e208f901d8f6083189e0e28c420] drm/drm_pci.c: Use
+dma_zalloc_coherent
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: <a href=3D"http://www.xenosoft.de/uImage-drm7">http://www.xenosof=
+t.de/uImage-drm7</a>
+
+&#64;Allan (acefnq/ace)
+Please test it.
+
+Thanks,
+Christian</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15571301960.Adf401.14838--
+
+--===============2036502066==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2036502066==--
