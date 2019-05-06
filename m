@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C3C1506F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 17:39:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0CB15075
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 17:40:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F256589A77;
-	Mon,  6 May 2019 15:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E2E89789;
+	Mon,  6 May 2019 15:40:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14D8389A77
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 15:39:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDDD89789
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 15:40:33 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id DA32C286DD
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 15:39:54 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id E57E6287C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 15:40:32 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id CEE732871A; Mon,  6 May 2019 15:39:54 +0000 (UTC)
+ id DA52C287F2; Mon,  6 May 2019 15:40:32 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -27,7 +27,7 @@ From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 203525] brightness with function buttons Acer Aspire A315-41
  notebook with AMD Ryzen 5 2500U
-Date: Mon, 06 May 2019 15:39:54 +0000
+Date: Mon, 06 May 2019 15:40:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -43,7 +43,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-203525-2300-Yd1vwlGk4x@https.bugzilla.kernel.org/>
+Message-ID: <bug-203525-2300-6Avq7BEeyc@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-203525-2300@https.bugzilla.kernel.org/>
 References: <bug-203525-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,11 +68,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM1MjUKCi0tLSBD
-b21tZW50ICMyIGZyb20gRXJpayAoZXJpa2pvaGFuc3NvbkBmbGFzaGJveC41anVseS5vcmcpIC0t
-LQpDcmVhdGVkIGF0dGFjaG1lbnQgMjgyNjQ3CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVs
-Lm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODI2NDcmYWN0aW9uPWVkaXQKZG1lc2cgZml4ZWQgNC4x
-OS4zOQoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdh
-dGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+b21tZW50ICMzIGZyb20gRXJpayAoZXJpa2pvaGFuc3NvbkBmbGFzaGJveC41anVseS5vcmcpIC0t
+LQpDcmVhdGVkIGF0dGFjaG1lbnQgMjgyNjQ5CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVs
+Lm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODI2NDkmYWN0aW9uPWVkaXQKZG1lc2cgYnJva2VuIDQu
+MTkuMzUKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3
+YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
