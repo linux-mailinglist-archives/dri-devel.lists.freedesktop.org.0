@@ -1,42 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699A7146DE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 10:57:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B90146E1
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 10:57:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CA8893D5;
-	Mon,  6 May 2019 08:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D213897CD;
+	Mon,  6 May 2019 08:57:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A138893D5
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 08:57:00 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0FBEE81E0D;
- Mon,  6 May 2019 08:57:00 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
- [10.36.116.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A38D67C421;
- Mon,  6 May 2019 08:56:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A5A1F16E0A; Mon,  6 May 2019 10:56:58 +0200 (CEST)
-Date: Mon, 6 May 2019 10:56:58 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Robert Foss <robert.foss@collabora.com>
-Subject: Re: [PATCH] drm/virtio: Remove redundant return type
-Message-ID: <20190506085658.bgbzefnvpez2k6zm@sirius.home.kraxel.org>
-References: <20190503163804.31922-1-robert.foss@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ED6B1897CD
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 08:57:51 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E98857215A; Mon,  6 May 2019 08:57:51 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110616] vce module in h264 encode
+Date: Mon, 06 May 2019 08:57:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110616-502-rJoRNsvSX7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110616-502@http.bugs.freedesktop.org/>
+References: <bug-110616-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190503163804.31922-1-robert.foss@collabora.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 06 May 2019 08:57:00 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,23 +52,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1250856461=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMDMsIDIwMTkgYXQgMDY6Mzg6MDRQTSArMDIwMCwgUm9iZXJ0IEZvc3Mgd3Jv
-dGU6Cj4gdmlydGlvX2dwdV9mZW5jZV9lbWl0KCkgYWx3YXlzIHJldHVybnMgMCwgc2luY2UgaXQK
-PiBoYXMgbm8gZXJyb3IgcGF0aHMuCj4gCj4gQ29uc2VxdWVudGx5IG5vIGNhbGxzIGZvciB2aXJ0
-aW9fZ3B1X2ZlbmNlX2VtaXQoKQo+IHVzZSB0aGUgcmV0dXJuIHZhbHVlLCBhbmQgaXQgY2FuIGJl
-IHJlbW92ZWQuCj4gCj4gU2lnbmVkLW9mZi1ieTogUm9iZXJ0IEZvc3MgPHJvYmVydC5mb3NzQGNv
-bGxhYm9yYS5jb20+Cj4gU3VnZ2VzdGVkLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBj
-b2xsYWJvcmEuY29tPgoKRG9lc24ndCBhcHBseSBjbGVhbmx5IHRvIGRybS1taXNjLW5leHQsIHBy
-b2JhYmx5IGNvbmZsaWN0cyB3aXRoIG9uZSBvZgp0aGUgb3RoZXIgdmlydGlvIGZlbmNlIHBhdGNo
-ZXMganVzdCBwdXNoZWQuICBDYW4geW91IHJlYmFzZSBhbmQgcmVzZW5kPwoKdGhhbmtzLAogIEdl
-cmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1250856461==
+Content-Type: multipart/alternative; boundary="15571330711.4d46e.21987"
+Content-Transfer-Encoding: 7bit
+
+
+--15571330711.4d46e.21987
+Date: Mon, 6 May 2019 08:57:51 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110616
+
+--- Comment #1 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+Please attach the corresponding output of dmesg and vainfo.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15571330711.4d46e.21987
+Date: Mon, 6 May 2019 08:57:51 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vce module in h264 encode"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110616#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vce module in h264 encode"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110616">bug 11061=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>Please attach the corresponding output of dmesg and vainfo.</p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15571330711.4d46e.21987--
+
+--===============1250856461==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1250856461==--
