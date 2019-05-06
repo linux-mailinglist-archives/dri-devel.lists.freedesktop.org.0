@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184C91554D
-	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 23:14:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D2D15552
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 23:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFF1B89AAE;
-	Mon,  6 May 2019 21:14:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB4189B7B;
+	Mon,  6 May 2019 21:17:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9240089AAE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 21:14:20 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3155689B7B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 21:17:28 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8A4DF7215A; Mon,  6 May 2019 21:14:20 +0000 (UTC)
+ id 2D4CB7215A; Mon,  6 May 2019 21:17:28 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110630] Random Horizontal green lines after screen resize
-Date: Mon, 06 May 2019 21:14:20 +0000
+Date: Mon, 06 May 2019 21:17:28 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: davyaxel0@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-110630-502-wPoQc1Ffmj@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110630-502-TjUPOtArYS@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110630-502@http.bugs.freedesktop.org/>
 References: <bug-110630-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0445966076=="
+Content-Type: multipart/mixed; boundary="===============0838134098=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0445966076==
-Content-Type: multipart/alternative; boundary="15571772600.9Ad0ce7.8254"
+--===============0838134098==
+Content-Type: multipart/alternative; boundary="15571774481.aff9d.8562"
 Content-Transfer-Encoding: 7bit
 
 
---15571772600.9Ad0ce7.8254
-Date: Mon, 6 May 2019 21:14:20 +0000
+--15571774481.aff9d.8562
+Date: Mon, 6 May 2019 21:17:28 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,49 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110630
 
-Axel Davy <davyaxel0@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|Horizontal green lines      |Random Horizontal green
-                   |                            |lines after screen resize
-
---- Comment #1 from Axel Davy <davyaxel0@gmail.com> ---
-Hi there,
-
-AMD Radeon RX 480.
-Linux 5.0.13
-Full HD screen with hdmi
-Archlinux KDE Xorg
-
-It's a problem I had noticed for some time, but couldn't figure out what was
-triggering it. Sometimes after screen mode change there is random green lin=
-es
-appearing on the screen (random location, but about one third of the bottom=
- of
-the screen).
-
-It seems i can replicate it on my system by changing the resolution in the
-system settings from 1920x1080 to 1280x1024.
-
-When going back to full hd, the green lines sometimes remain. Shutting down=
- the
-screen and resuming it helps (but if still at 1280x1024, the lines remain).
-
-The random line disappear when the screen doesn't refresh (cursor not movin=
-g,
-nothing drawing on the background).
-
-No particular message appear in the dmesg after changing resolution.
-
-I assume this is not enough, please indicate me what would help.
+--- Comment #2 from Alex Deucher <alexdeucher@gmail.com> ---
+Can you get a picture or video of the lines?  Please attach your dmesg outp=
+ut
+and xorg log (if using X).
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15571772600.9Ad0ce7.8254
-Date: Mon, 6 May 2019 21:14:20 +0000
+--15571774481.aff9d.8562
+Date: Mon, 6 May 2019 21:17:28 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -125,74 +93,26 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:davyaxel0=
-&#64;gmail.com" title=3D"Axel Davy &lt;davyaxel0&#64;gmail.com&gt;"> <span =
-class=3D"fn">Axel Davy</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Random Horizontal green lines after screen resize"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110630">bug 11063=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>Horizontal green lines
-           </td>
-           <td>Random Horizontal green lines after screen resize
-           </td>
-         </tr></table>
+    <body>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Random Horizontal green lines after screen resize"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110630#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110630#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Random Horizontal green lines after screen resize"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110630">bug 11063=
 0</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-davyaxel0&#64;gmail.com" title=3D"Axel Davy &lt;davyaxel0&#64;gmail.com&gt;=
-"> <span class=3D"fn">Axel Davy</span></a>
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>Hi there,
-
-AMD Radeon RX 480.
-Linux 5.0.13
-Full HD screen with hdmi
-Archlinux KDE Xorg
-
-It's a problem I had noticed for some time, but couldn't figure out what was
-triggering it. Sometimes after screen mode change there is random green lin=
-es
-appearing on the screen (random location, but about one third of the bottom=
- of
-the screen).
-
-It seems i can replicate it on my system by changing the resolution in the
-system settings from 1920x1080 to 1280x1024.
-
-When going back to full hd, the green lines sometimes remain. Shutting down=
- the
-screen and resuming it helps (but if still at 1280x1024, the lines remain).
-
-The random line disappear when the screen doesn't refresh (cursor not movin=
-g,
-nothing drawing on the background).
-
-No particular message appear in the dmesg after changing resolution.
-
-I assume this is not enough, please indicate me what would help.</pre>
+        <pre>Can you get a picture or video of the lines?  Please attach yo=
+ur dmesg output
+and xorg log (if using X).</pre>
         </div>
       </p>
 
@@ -206,9 +126,9 @@ I assume this is not enough, please indicate me what would help.</pre>
     </body>
 </html>=
 
---15571772600.9Ad0ce7.8254--
+--15571774481.aff9d.8562--
 
---===============0445966076==
+--===============0838134098==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -218,4 +138,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0445966076==--
+--===============0838134098==--
