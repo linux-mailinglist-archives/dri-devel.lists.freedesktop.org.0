@@ -1,59 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34A715E20
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 09:21:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C62514B4D
+	for <lists+dri-devel@lfdr.de>; Mon,  6 May 2019 15:54:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1276D89E03;
-	Tue,  7 May 2019 07:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D1789970;
+	Mon,  6 May 2019 13:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6391089970
- for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 13:53:13 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id y13so6807856pfm.11
- for <dri-devel@lists.freedesktop.org>; Mon, 06 May 2019 06:53:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DfsikH3ADmgNVGOW8dVHffAJXBPBy/1Drd0IdtpjjJ8=;
- b=oFe5dGG7VHP7Axknv3elxROdwMXnh7X9MV9HDg+TkZlwAcqGe9zb818CSdf08Tzlv5
- Qwa2X3MStfzKtw4U/s+SeLFJ2DD/JlbV+dzHpDvfaEei6Nc50bWILl0UhfsNA/kpmAVr
- tDNn97wcSxZoTZS1od5rgQRnZeWr5edM31uFcSi9ElRm1TKJO8GMA/y0f4rZQFJ+XtW1
- 6KZQlH1UQmL3wW1pmK1+Ra4X9t4Nu9UiiibP0jyugU+TEzMtDlPyJmKIEKpiEnLBw1PC
- yX89QSxVRl0Qu2QmGNPXvN4+rs1IdTPl4kWrIKUU/HVEQnv11z8QqvlX5BTFy9hOHzTp
- MEcg==
-X-Gm-Message-State: APjAAAVnJcxv8KyeunErf0QfgPBCwHwhdI4nfNwdYMfYMWBh11XMZMaB
- +UrtuLNWwKDmH8TKGKqZjTLSXipLWEFkdenyPHSaOA==
-X-Google-Smtp-Source: APXvYqz1fgwxD3Q1L0PJp0GBoiDCnAmVuD+UduBO6dKustad4HqnmYC98uMKFLNp2x7D5yl19BVMVIT9EGy2Pg34Ktk=
-X-Received: by 2002:aa7:9116:: with SMTP id 22mr33262822pfh.165.1557150792655; 
- Mon, 06 May 2019 06:53:12 -0700 (PDT)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80DB689970
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 May 2019 13:54:04 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id F0259ACD1;
+ Mon,  6 May 2019 13:54:02 +0000 (UTC)
+Subject: Re: [PATCH v4 01/19] drm: Add |struct drm_gem_vram_object| and helpers
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20190506082649.942-1-tzimmermann@suse.de>
+ <20190506082649.942-2-tzimmermann@suse.de>
+ <20190506123114.hzyl2hkix7lvqjyx@sirius.home.kraxel.org>
+ <0fad955f-5a9e-15b1-0dca-c5e842b297c6@suse.de>
+ <20190506131739.hmadwiqmjil2weth@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <20681195-13b8-5496-a23a-cf617f421dab@suse.de>
+Date: Mon, 6 May 2019 15:53:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.2
 MIME-Version: 1.0
-References: <cover.1556630205.git.andreyknvl@google.com>
- <8e20df035de677029b3f970744ba2d35e2df1db3.1556630205.git.andreyknvl@google.com>
- <20190503165113.GJ55449@arrakis.emea.arm.com>
-In-Reply-To: <20190503165113.GJ55449@arrakis.emea.arm.com>
-From: Andrey Konovalov <andreyknvl@google.com>
-Date: Mon, 6 May 2019 15:53:01 +0200
-Message-ID: <CAAeHK+wCyCa-5=bPNwfivP6sEODOXKE1bPjcjc2y_T4rN+-6gA@mail.gmail.com>
-Subject: Re: [PATCH v14 08/17] mm,
- arm64: untag user pointers in get_vaddr_frames
-To: Catalin Marinas <catalin.marinas@arm.com>
-X-Mailman-Approved-At: Tue, 07 May 2019 07:20:13 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=DfsikH3ADmgNVGOW8dVHffAJXBPBy/1Drd0IdtpjjJ8=;
- b=kv7aGbZwowOP86IiNXKGTzv02HGdI2dS555U/AmH12LgQOZnKLK39c4sVdRuufn96A
- qthFKSfdn7G60uj86be1sn6Yz08bEym7ZdQPS1mHAwXca2PX4G4xwzBsumjfQSNalrzf
- yL5bwTZ9P03pKULjLPyCJCemso/1RN2dFNxsJkh8Db8dDQ4uyTu4XB2OtIwgRdUtOIbE
- AyYkrbplUjKWiH4tJjgIH/K5mFuPdBD8NVSdZa64NURA8ieEyhpOBhaJlBUr1GIoMIGp
- v2ptbSyS2qLsf62uamUc0COAt9buSU1YrXxFbkm18U+53rgjezb09axtZoHwZgv8hVgU
- L1Yg==
+In-Reply-To: <20190506131739.hmadwiqmjil2weth@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,63 +68,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Koenig@google.com, kvm@vger.kernel.org,
- Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Chintan Pandya <cpandya@codeaurora.org>, Felix <Felix.Kuehling@amd.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jacob Bramley <Jacob.Bramley@arm.com>, Leon Romanovsky <leon@kernel.org>,
- linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Dave Martin <Dave.Martin@arm.com>, Evgeniy Stepanov <eugenis@google.com>,
- linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
- Kees Cook <keescook@chromium.org>, Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
- Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>, Deucher@google.com,
- Alex Williamson <alex.williamson@redhat.com>,
- Dmitry Vyukov <dvyukov@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Kuehling@google.com, Kostya Serebryany <kcc@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yishai Hadas <yishaih@mellanox.com>, LKML <linux-kernel@vger.kernel.org>,
- Jens Wiklander <jens.wiklander@linaro.org>, Lee Smith <Lee.Smith@arm.com>,
- Alexander <Alexander.Deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, Robin Murphy <robin.murphy@arm.com>,
- Christian <Christian.Koenig@amd.com>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, puck.chen@hisilicon.com, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, z.liuxinliang@hisilicon.com,
+ hdegoede@redhat.com, kong.kongxinwei@hisilicon.com, ray.huang@amd.com,
+ zourongrong@gmail.com, sam@ravnborg.org, christian.koenig@amd.com
+Content-Type: multipart/mixed; boundary="===============1602773235=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMywgMjAxOSBhdCA2OjUxIFBNIENhdGFsaW4gTWFyaW5hcyA8Y2F0YWxpbi5t
-YXJpbmFzQGFybS5jb20+IHdyb3RlOgo+Cj4gT24gVHVlLCBBcHIgMzAsIDIwMTkgYXQgMDM6MjU6
-MDRQTSArMDIwMCwgQW5kcmV5IEtvbm92YWxvdiB3cm90ZToKPiA+IFRoaXMgcGF0Y2ggaXMgYSBw
-YXJ0IG9mIGEgc2VyaWVzIHRoYXQgZXh0ZW5kcyBhcm02NCBrZXJuZWwgQUJJIHRvIGFsbG93IHRv
-Cj4gPiBwYXNzIHRhZ2dlZCB1c2VyIHBvaW50ZXJzICh3aXRoIHRoZSB0b3AgYnl0ZSBzZXQgdG8g
-c29tZXRoaW5nIGVsc2Ugb3RoZXIKPiA+IHRoYW4gMHgwMCkgYXMgc3lzY2FsbCBhcmd1bWVudHMu
-Cj4gPgo+ID4gZ2V0X3ZhZGRyX2ZyYW1lcyB1c2VzIHByb3ZpZGVkIHVzZXIgcG9pbnRlcnMgZm9y
-IHZtYSBsb29rdXBzLCB3aGljaCBjYW4KPiA+IG9ubHkgYnkgZG9uZSB3aXRoIHVudGFnZ2VkIHBv
-aW50ZXJzLiBJbnN0ZWFkIG9mIGxvY2F0aW5nIGFuZCBjaGFuZ2luZwo+ID4gYWxsIGNhbGxlcnMg
-b2YgdGhpcyBmdW5jdGlvbiwgcGVyZm9ybSB1bnRhZ2dpbmcgaW4gaXQuCj4gPgo+ID4gU2lnbmVk
-LW9mZi1ieTogQW5kcmV5IEtvbm92YWxvdiA8YW5kcmV5a252bEBnb29nbGUuY29tPgo+ID4gLS0t
-Cj4gPiAgbW0vZnJhbWVfdmVjdG9yLmMgfCAyICsrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5z
-ZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9tbS9mcmFtZV92ZWN0b3IuYyBiL21tL2Zy
-YW1lX3ZlY3Rvci5jCj4gPiBpbmRleCBjNjRkY2E2ZTI3YzIuLmM0MzFjYTgxZGFkNSAxMDA2NDQK
-PiA+IC0tLSBhL21tL2ZyYW1lX3ZlY3Rvci5jCj4gPiArKysgYi9tbS9mcmFtZV92ZWN0b3IuYwo+
-ID4gQEAgLTQ2LDYgKzQ2LDggQEAgaW50IGdldF92YWRkcl9mcmFtZXModW5zaWduZWQgbG9uZyBz
-dGFydCwgdW5zaWduZWQgaW50IG5yX2ZyYW1lcywKPiA+ICAgICAgIGlmIChXQVJOX09OX09OQ0Uo
-bnJfZnJhbWVzID4gdmVjLT5ucl9hbGxvY2F0ZWQpKQo+ID4gICAgICAgICAgICAgICBucl9mcmFt
-ZXMgPSB2ZWMtPm5yX2FsbG9jYXRlZDsKPiA+Cj4gPiArICAgICBzdGFydCA9IHVudGFnZ2VkX2Fk
-ZHIoc3RhcnQpOwo+ID4gKwo+ID4gICAgICAgZG93bl9yZWFkKCZtbS0+bW1hcF9zZW0pOwo+ID4g
-ICAgICAgbG9ja2VkID0gMTsKPiA+ICAgICAgIHZtYSA9IGZpbmRfdm1hX2ludGVyc2VjdGlvbiht
-bSwgc3RhcnQsIHN0YXJ0ICsgMSk7Cj4KPiBJcyB0aGlzIHNvbWUgYnVmZmVyIHRoYXQgdGhlIHVz
-ZXIgbWF5IGhhdmUgbWFsbG9jJ2VkPyBJIGdvdCBsb3N0IHdoZW4KPiB0cnlpbmcgdG8gdHJhY2sg
-ZG93biB0aGUgcHJvdmVuaWVuY2Ugb2YgdGhpcyBidWZmZXIuCgpUaGUgY2FsbGVyIHRoYXQgSSBm
-b3VuZCB3aGVuIEkgd2FzIGxvb2tpbmcgYXQgdGhpczoKCmRyaXZlcnMvZ3B1L2RybS9leHlub3Mv
-ZXh5bm9zX2RybV9nMmQuYzo0ODIKZXh5bm9zX2cyZF9zZXRfY21kbGlzdF9pb2N0bCgpLT5nMmRf
-bWFwX2NtZGxpc3RfZ2VtKCktPmcyZF91c2VycHRyX2dldF9kbWFfYWRkcigpLT5nZXRfdmFkZHJf
-ZnJhbWVzKCkKCj4KPiAtLQo+IENhdGFsaW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1602773235==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="UGMzEXZdjFq8twEgpjNrvE7GTC4FpsjGO"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--UGMzEXZdjFq8twEgpjNrvE7GTC4FpsjGO
+Content-Type: multipart/mixed; boundary="3lFZCR6nCiEs7kdDwSG9w8Zx7JdY0uGmB";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@linux.ie, puck.chen@hisilicon.com,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ z.liuxinliang@hisilicon.com, hdegoede@redhat.com,
+ kong.kongxinwei@hisilicon.com, ray.huang@amd.com, zourongrong@gmail.com,
+ sam@ravnborg.org, christian.koenig@amd.com
+Message-ID: <20681195-13b8-5496-a23a-cf617f421dab@suse.de>
+Subject: Re: [PATCH v4 01/19] drm: Add |struct drm_gem_vram_object| and
+ helpers
+References: <20190506082649.942-1-tzimmermann@suse.de>
+ <20190506082649.942-2-tzimmermann@suse.de>
+ <20190506123114.hzyl2hkix7lvqjyx@sirius.home.kraxel.org>
+ <0fad955f-5a9e-15b1-0dca-c5e842b297c6@suse.de>
+ <20190506131739.hmadwiqmjil2weth@sirius.home.kraxel.org>
+In-Reply-To: <20190506131739.hmadwiqmjil2weth@sirius.home.kraxel.org>
+
+--3lFZCR6nCiEs7kdDwSG9w8Zx7JdY0uGmB
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 06.05.19 um 15:17 schrieb Gerd Hoffmann:
+>   Hi,
+>=20
+>> This misses the call to drm_gem_vram_placement(), where
+>> drm_gem_vram_push_to_system() enforces placement in system memory.
+>=20
+> Ah, missed that detail.
+>=20
+>> We
+>> could build a common implementation out of both interfaces, but that
+>> would obfuscate the code IMHO. I'd just leave it as it is.
+>=20
+> Ok.
+>=20
+>>>> +struct drm_gem_vram_object {
+>>>> +	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
+>>>> +	struct ttm_placement placement;
+>>>> +	struct ttm_place placements[3];
+>>>
+>>> placements[2] should be enough I guess?
+>>
+>> TTM_PL_VRAM has index 2 and TTM_PL_SYSTEM has index 0. There's TTM_PL_=
+TT
+>> at index 1. We don't use all three array entries here, but I'm not sur=
+e
+>> if something in TTM does. I took the line from the drivers and didn't
+>> change it for that reason.
+>=20
+> TTM_PL_* isn't an index into that array.  See drm_gem_vram_placement()
+> which fills that array.  It'll use one or two entries of that array.
+
+The field 'placements' is assigned to 'placement.placements' and
+'placement.busy_placement'. The placement field is later given to
+ttm_bo_validate() for internal use by TTM. From reading ttm_bo.c, that's
+apparently not a problem. I'm just being defensive here, but let's
+remove the additional entry if it's just overhead.
+
+Best regards
+Thomas
+
+
+> cheers,
+>   Gerd
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--3lFZCR6nCiEs7kdDwSG9w8Zx7JdY0uGmB--
+
+--UGMzEXZdjFq8twEgpjNrvE7GTC4FpsjGO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlzQPHUACgkQaA3BHVML
+eiODkQf/eN0JzOmQP3Irawq18oVQAThKfdWiQsukQlvK6ghpb992Rmbut4/a8I3A
+gEpFV+fkF+m/94eKvpxvC7J+YQHT39aHeZNSld8+dCHtCMIqvBLpgPPUydjfHhm9
+y5eezyUkR65B70NfbiSFV2OUxt+2yM2lx2VSKCznmt+LHG7WL8RUtqGSJWhQ8RP/
+24FNaarHRrdm9Y5e9aqEP2bOQbv4XiyIGjzJuCreAjPetAgeVzlEsfKjUT4QMoxz
+Dy6LumnXLl4CmevuF/FlkQBlTo1SPn1oGv30ckMAsCT4WpGAbfAAsWFLyZm7k44m
+zwsiIBVtJD/7yFYZkdUN5ppY3PirTA==
+=Ocpe
+-----END PGP SIGNATURE-----
+
+--UGMzEXZdjFq8twEgpjNrvE7GTC4FpsjGO--
+
+--===============1602773235==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1602773235==--
