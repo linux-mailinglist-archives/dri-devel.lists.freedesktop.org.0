@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032F016DDF
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 01:36:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1EA16DEC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 01:46:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45DAC6E84B;
-	Tue,  7 May 2019 23:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B4BD6E84E;
+	Tue,  7 May 2019 23:46:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0DC3F6E84B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 23:36:42 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B34C6E856
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 23:46:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 04A0D7215A; Tue,  7 May 2019 23:36:41 +0000 (UTC)
+ id 97D667215A; Tue,  7 May 2019 23:46:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109619] Add new alias for R600_TEX_ANISO for radeonsi
-Date: Tue, 07 May 2019 23:36:42 +0000
+Subject: [Bug 107978] [amdgpu] Switching to tty fails with DisplayPort 1.2
+ monitor going to sleep (REG_WAIT timeout / dce110_stream_encoder_dp_blank)
+Date: Tue, 07 May 2019 23:46:21 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Who: shtetldik@gmail.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: FIXED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-109619-502-Ebn5rdHcVQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109619-502@http.bugs.freedesktop.org/>
-References: <bug-109619-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-107978-502-G233E6VJfm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107978-502@http.bugs.freedesktop.org/>
+References: <bug-107978-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,53 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0634333482=="
+Content-Type: multipart/mixed; boundary="===============2059264801=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0634333482==
-Content-Type: multipart/alternative; boundary="15572722010.FE7eB.3265"
+--===============2059264801==
+Content-Type: multipart/alternative; boundary="15572727816.f6F7Fcaab.4730"
 Content-Transfer-Encoding: 7bit
 
 
---15572722010.FE7eB.3265
-Date: Tue, 7 May 2019 23:36:41 +0000
+--15572727816.f6F7Fcaab.4730
+Date: Tue, 7 May 2019 23:46:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109619
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107978
 
-Timothy Arceri <t_arceri@yahoo.com.au> changed:
+Shmerl <shtetldik@gmail.com> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
          Resolution|---                         |FIXED
              Status|NEW                         |RESOLVED
 
---- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-Fixed by:
-
-commit 024232b26c203d593533e488b5131e7a787b2ac1
-Author: Timothy Arceri <tarceri@itsqueeze.com>
-Date:   Tue May 7 10:18:54 2019 +1000
-
-    radeonsi: add an AMD_TEX_ANISO environment variable
-
-    This brings it inline with the recently added AMD_DEBUG.
-
-    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
-    Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D109619
+--- Comment #59 from Shmerl <shtetldik@gmail.com> ---
+Closing, since it's already fixed in the released kernels.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15572722010.FE7eB.3265
-Date: Tue, 7 May 2019 23:36:41 +0000
+--15572727816.f6F7Fcaab.4730
+Date: Tue, 7 May 2019 23:46:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,15 +99,17 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
-#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
-"> <span class=3D"fn">Timothy Arceri</span></a>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:shtetldik=
+&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> <span cla=
+ss=3D"fn">Shmerl</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Add new alias for R600_TEX_ANISO for radeonsi"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109619">bug 10961=
-9</a>
+   title=3D"RESOLVED FIXED - [amdgpu] Switching to tty fails with DisplayPo=
+rt 1.2 monitor going to sleep (REG_WAIT timeout / dce110_stream_encoder_dp_=
+blank)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107978">bug 10797=
+8</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -145,36 +137,24 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Add new alias for R600_TEX_ANISO for radeonsi"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109619#c1">Commen=
-t # 1</a>
+   title=3D"RESOLVED FIXED - [amdgpu] Switching to tty fails with DisplayPo=
+rt 1.2 monitor going to sleep (REG_WAIT timeout / dce110_stream_encoder_dp_=
+blank)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107978#c59">Comme=
+nt # 59</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Add new alias for R600_TEX_ANISO for radeonsi"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109619">bug 10961=
-9</a>
+   title=3D"RESOLVED FIXED - [amdgpu] Switching to tty fails with DisplayPo=
+rt 1.2 monitor going to sleep (REG_WAIT timeout / dce110_stream_encoder_dp_=
+blank)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107978">bug 10797=
+8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+shtetldik&#64;gmail.com" title=3D"Shmerl &lt;shtetldik&#64;gmail.com&gt;"> =
+<span class=3D"fn">Shmerl</span></a>
 </span></b>
-        <pre>Fixed by:
-
-commit 024232b26c203d593533e488b5131e7a787b2ac1
-Author: Timothy Arceri &lt;<a href=3D"mailto:tarceri&#64;itsqueeze.com">tar=
-ceri&#64;itsqueeze.com</a>&gt;
-Date:   Tue May 7 10:18:54 2019 +1000
-
-    radeonsi: add an AMD_TEX_ANISO environment variable
-
-    This brings it inline with the recently added AMD_DEBUG.
-
-    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
-4;amd.com">marek.olsak&#64;amd.com</a>&gt;
-    Bugzilla: <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Add new alias for R600_TEX_ANISO for radeonsi"
-   href=3D"show_bug.cgi?id=3D109619">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D109619</a></pre>
+        <pre>Closing, since it's already fixed in the released kernels.</pr=
+e>
         </div>
       </p>
 
@@ -188,9 +168,9 @@ cgi?id=3D109619</a></pre>
     </body>
 </html>=
 
---15572722010.FE7eB.3265--
+--15572727816.f6F7Fcaab.4730--
 
---===============0634333482==
+--===============2059264801==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -200,4 +180,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0634333482==--
+--===============2059264801==--
