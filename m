@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B858316230
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 12:54:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA14716246
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 12:55:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA6A6E792;
-	Tue,  7 May 2019 10:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A69D46E797;
+	Tue,  7 May 2019 10:55:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
  [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D32486E792
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 10:54:23 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id z5so8779178lji.10
- for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2019 03:54:23 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2966E797
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 10:55:20 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id u21so4765649lja.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2019 03:55:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=GCAhg11SRp6Hew9zFemJx8a1BnYPfIc90dC9LSkimJg=;
- b=dBLSWpo9ic9Yll2ZgCvcBcZzxZdPaarnadmXjJAVVQ6uUyUbGsVdOOBHeJGo/VHs3B
- zFHtPs7S4CoGreZn+wKC2jQdTQ9kNTa4rZLqEWF0UrdBMLUh0bQ60Q5g1MN3ZO5JTQf+
- AMnK1qNC4BbYZx0GAwYore3FvBD4vnmsJKYvyA1HGlXLkovmaMW0ntVIgi6NZjt4Ivq9
- WMzRajaOcThENfZdiBrX/S9wL13og+/OJmAL8lDcZzOEsoqNkitPdCT6jYorCr7pkP78
- NJjTG1RhQ0B0w5f7XVceind6gd0NoA/5pOOxYa7bIRYdwvej0TR9qjHntiCFbZo6Az02
- nruA==
-X-Gm-Message-State: APjAAAXP7kg03r5gEdp4DcUA6g3Ij46XwCtf4lEiJVJsk2T2pIkNObEt
- gG37lH43Dd0fQvtYxVvwovHs0g5GOaWOD1t6wyw=
-X-Google-Smtp-Source: APXvYqzra4CeE9doUIEh8YRPLjXBNgdVF2kc5zUdswNRrUeYL/COm0wsOIKOaERd5W+viBb0m/EIk30lew/cjlBl89s=
-X-Received: by 2002:a2e:97d8:: with SMTP id m24mr16824476ljj.192.1557226462187; 
- Tue, 07 May 2019 03:54:22 -0700 (PDT)
+ bh=VXRQC0UsjauveYOiCa1HYIm6GnidpMCvjvUYDOoy8Kk=;
+ b=YJUULS5PcbbdtFQ8wPZVWyvsKy3c6TsH543+ughn2vrAuRFkuqJPm9jroqoCvxcW3L
+ V+vkgdg/8wVoNCevcJoyQ+5d40t/yVT10GflAoJuzdZN90gG7lJ5vGm52uQZU2c2Rtzg
+ dtblmew7u1p+VCHBHpUsAA4JvFBmWSwKFI1vBD4mJ0l1DZ1q1NlPqwlkpmShOHV462Lw
+ BNK2QFMU3mFA8JQUPrhN4AhpYo2k/CQK680EgeO0YurLp6d63OltOpTU+3Vx8ZQv6Z6W
+ QdE4uTcE7f/fwfE8psqB61iT7pQgTLxMU/ehpFCLvpz6Ki+L7kQ7+4pogqUT4a4/VseF
+ r0yw==
+X-Gm-Message-State: APjAAAWnDZLYtfn5VUQZGLfhib97moNCk+aNK47lcHpNgqPSLj/gjZ+Z
+ /yDZfjQRqYAMm1O66Nkb4W2VfcbcnWfN3ezknck=
+X-Google-Smtp-Source: APXvYqzG7AIMRfvZsHfREXhwZ2Vicp5dmMb3CrEXJw5WkOuq4TRI1BSQoriBbA7VwVewocx0xBmOjkzmaCaPMCXnOmg=
+X-Received: by 2002:a2e:390c:: with SMTP id g12mr18105225lja.174.1557226518508; 
+ Tue, 07 May 2019 03:55:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1557215047.git.agx@sigxcpu.org>
- <5817853945e1c707f641ae22458a0f27aa25949e.1557215047.git.agx@sigxcpu.org>
-In-Reply-To: <5817853945e1c707f641ae22458a0f27aa25949e.1557215047.git.agx@sigxcpu.org>
+ <299e28042e0a24c0cde593873bdfb15e18187a92.1557215047.git.agx@sigxcpu.org>
+In-Reply-To: <299e28042e0a24c0cde593873bdfb15e18187a92.1557215047.git.agx@sigxcpu.org>
 From: Fabio Estevam <festevam@gmail.com>
-Date: Tue, 7 May 2019 07:54:27 -0300
-Message-ID: <CAOMZO5Dn7yHC-NEBd0egHtXu8R4Zg=GNrvXR-RoHH6t9pqq_rA@mail.gmail.com>
-Subject: Re: [PATCH v10 1/2] dt-bindings: phy: Add documentation for mixel dphy
+Date: Tue, 7 May 2019 07:55:23 -0300
+Message-ID: <CAOMZO5CQXmmw50J3Pjy8wKOr+BBEo_-B9ChV32bq1Re4_0-4CQ@mail.gmail.com>
+Subject: Re: [PATCH v10 2/2] phy: Add driver for mixel mipi dphy found on
+ NXP's i.MX8 SoCs
 To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=GCAhg11SRp6Hew9zFemJx8a1BnYPfIc90dC9LSkimJg=;
- b=TjALlnw4nsc9u8UJAhsZ1uBY5MpOfYYFHDH9mn1SZIL22WxRUXNdnNDBKfloMxs27a
- zkktcwu/Sx6rAtgYRy+jjbrFEiebWtpPakYRhHYSNwUjqg7hkjBxrywE0qdj+bs5mwqT
- mAGORk3CLwMloH9BP4lzzaQuXR9JlzO+Kj8q69ccRd2MiUz3z35BBRqAAtUo4zi4smZI
- MabzDOCr9zz3P4SlWcmyucv0ihFJpbiG3KUU5uh85AnttvSQVcs4Nu1Ynf9ze8oNrxGs
- bmUy+Q8EEcR0F1vtMfz5/KTQoCKVgobaHPF78FJw1bkxm28K/RTEI8P+B2dIY2YPQEXE
- KveQ==
+ bh=VXRQC0UsjauveYOiCa1HYIm6GnidpMCvjvUYDOoy8Kk=;
+ b=VYDBlMQM/nMdmQESkPNOIOO0h9ONTG/hgvDy8XsTml1o4qUTDLnhRfle9wOL/Zaklv
+ va6dq8w70Itj6U1a0GNuU53NVSeQs+Q9lAbDTHZiUh+C+h/TgpwHaZIBejQg3Qw7TqiJ
+ o0ISt0SNZCrwyBVZwDgyDHFTeGtQXJZmLvamAW0ayMpIs26LlnmNy7C4hivNW+Rq4Sdm
+ HzBc0KFQsIdMtAqpLaeadJXI0mSLZcJOFcmIIejiZZtn1YNFT/XUO9vCu2ckz5yrNVTZ
+ aqPylUWrfsjepkTy7Al4ppslefHU6G3Xu6BjPt/OyzO1KDl75KQip4qak1B1XeKUb4ep
+ qTaw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,11 +86,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gVHVlLCBNYXkgNywgMjAxOSBhdCA0OjQ3IEFNIEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNw
-dS5vcmc+IHdyb3RlOgo+Cj4gQWRkIHN1cHBvcnQgZm9yIHRoZSBNSVhFTCBEUEhZIElQIGFzIGZv
-dW5kIG9uIE5YUCdzIGkuTVg4TVEgU29Dcy4KPgo+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50
-aGVyIDxhZ3hAc2lneGNwdS5vcmc+Cj4gUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJh
-dm5ib3JnLm9yZz4KPiBSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4K
-ClJldmlld2VkLWJ5OiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+Cl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+dS5vcmc+IHdyb3RlOgo+Cj4gVGhpcyBhZGRzIHN1cHBvcnQgZm9yIHRoZSBNaXhlbCBEUEhZIGFz
+IGZvdW5kIG9uIGkuTVg4IENQVXMgYnV0IHNpbmNlCj4gdGhpcyBpcyBhbiBJUCBjb3JlIGl0IHdp
+bGwgbGlrZWx5IGJlIGZvdW5kIG9uIG90aGVycyBpbiB0aGUgZnV0dXJlLiBTbwo+IGluc3RlYWQg
+b2YgYWRkaW5nIHRoaXMgdG8gdGhlIG53bCBob3N0IGRyaXZlciBtYWtlIGl0IGEgZ2VuZXJpYyBQ
+SFkKPiBkcml2ZXIuCj4KPiBUaGUgZHJpdmVyIHN1cHBvcnRzIHRoZSBpLk1YOE1RLiBTdXBwb3J0
+IGZvciBpLk1YOFFNIGFuZCBpLk1YOFFYUCBjYW4gYmUKPiBhZGRlZCBvbmNlIHRoZSBuZWNlc3Nh
+cnkgc3lzdGVtIGNvbnRyb2xsZXIgYml0cyBhcmUgaW4gdmlhCj4gbWl4ZWxfZHBoeV9kZXZkYXRh
+Lgo+Cj4gU2lnbmVkLW9mZi1ieTogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9yZz4KPiBD
+by1kZXZlbG9wZWQtYnk6IFJvYmVydCBDaGlyYXMgPHJvYmVydC5jaGlyYXNAbnhwLmNvbT4KPiBT
+aWduZWQtb2ZmLWJ5OiBSb2JlcnQgQ2hpcmFzIDxyb2JlcnQuY2hpcmFzQG54cC5jb20+CgpSZXZp
+ZXdlZC1ieTogRmFiaW8gRXN0ZXZhbSA8ZmVzdGV2YW1AZ21haWwuY29tPgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
