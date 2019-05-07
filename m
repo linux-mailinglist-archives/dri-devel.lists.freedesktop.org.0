@@ -2,44 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86ED616A7C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 20:41:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3592E16AA0
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 20:45:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEE76E828;
-	Tue,  7 May 2019 18:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7433A6E826;
+	Tue,  7 May 2019 18:45:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB1706E827
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 18:41:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A79AC7215A; Tue,  7 May 2019 18:41:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110636] [radv] DOOM 2016 particle artifacting
-Date: Tue, 07 May 2019 18:41:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lolisamurai@tfwno.gf
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: rep_platform op_sys
-Message-ID: <bug-110636-502-gxVJEI3cr1@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110636-502@http.bugs.freedesktop.org/>
-References: <bug-110636-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ECDF6E827
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 18:45:12 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r7so23697984wrr.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2019 11:45:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QyaVXRj7oJo0baLd2KgtrI93jLGKALbtwS6fggJD/Y8=;
+ b=anMhqk9SjlsZ2OC+D4PhwmcHrSICwSXJ+0/DvGS4ihgJPCX6LapK9z59QnaY/jm5zD
+ qNw55Kibo8RlO+WFsXkK3CjU3UJZHqEDXfPTxkT1L9qQ49oSw4dNqaIbdPtrvQV0sC0L
+ EXy2oaQ7vZF3mSgiUJLXeQh1PV1TOFoBmKjI5L+A/hP0rAM8PksBAOIyLQZPNcXci4Uv
+ cGWxnH697btHG6m/MyREp+yu1+5ZqQhjtXI807I2fS9pEhVLjQtdpURM07XHgMNx+zBS
+ 6Zw+cwmr+uux7sixoynxK3UOqXBMtPKLK0wIpNy9imaSI7IHQfUuoxkADxNGauXQNyB9
+ 0iUg==
+X-Gm-Message-State: APjAAAUCTxcMFh38BukzaDUroou340lb12a6PqiRXKlxtB0q0NSsS64K
+ k+0IVSRUTCTvTnCBRvSXGWekqf92FcXYoSqPkIi/qQ==
+X-Google-Smtp-Source: APXvYqxaQb+HJHQ8Jd1AdlBwaDzvFfx1AHWk/bDK2Of+98XchvAqXXfFRfUTJ6UefRuOXAf/lASCO2lwXyycU3kFOHk=
+X-Received: by 2002:adf:f685:: with SMTP id v5mr4096693wrp.233.1557254710879; 
+ Tue, 07 May 2019 11:45:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190502180346.4769-1-john.stultz@linaro.org>
+ <20190502180346.4769-4-john.stultz@linaro.org>
+ <155725408440.4885.13566386067662971275@anlee.localdomain>
+In-Reply-To: <155725408440.4885.13566386067662971275@anlee.localdomain>
+From: John Stultz <john.stultz@linaro.org>
+Date: Tue, 7 May 2019 11:44:58 -0700
+Message-ID: <CALAqxLVu-bVpEtqGmjFTJjZX1vKSADr1kHSe2ZUPVWCiNykEeQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] mesa: android: freedreno: Fix build failure due to
+ path change
+To: Dylan Baker <dylan@pnwbakers.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=QyaVXRj7oJo0baLd2KgtrI93jLGKALbtwS6fggJD/Y8=;
+ b=W2bXwjS0+6N3EHdA6b9oqxaBL4ASQ+2drwauBcYyRuVGXEi7M/vJB++MMwdkjtXZVB
+ Icwqs2Oip/i2JL7l8JvrvMToeUstNSxyxMdhdcy1zAeb/zY5yl0dJTTQJjEGq2uvsqKD
+ GH5Thl4plNr2WtsGEYOswZ64BQwIKjH0v82zNh8STSJjRKqavjnZdVhSJ4mLjuMNIPfl
+ kHM+BGtQLx7bZLN3MG/0YTIe68zm0HrEnnNepVYnWc8o0UigI+vZxwRKagipa+7WRqiZ
+ 92Js86DRaJvmn2X1v7/lqdY+5a0vor4DHDEmmV7tArYq2+HYjJ/jthI2X50HPixoI8uA
+ 1lig==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,104 +65,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1958565240=="
+Cc: Rob Clark <robdclark@chromium.org>, Amit Pundir <amit.pundir@linaro.org>,
+ Greg Hartman <ghartman@google.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Alistair Strachan <astrachan@google.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jason Ekstrand <jason@jlekstrand.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1958565240==
-Content-Type: multipart/alternative; boundary="15572544771.AddE2.21633"
-Content-Transfer-Encoding: 7bit
-
-
---15572544771.AddE2.21633
-Date: Tue, 7 May 2019 18:41:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110636
-
-Franc[e]sco <lolisamurai@tfwno.gf> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Hardware|Other                       |x86-64 (AMD64)
-                 OS|All                         |Linux (All)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15572544771.AddE2.21633
-Date: Tue, 7 May 2019 18:41:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:lolisamur=
-ai&#64;tfwno.gf" title=3D"Franc[e]sco &lt;lolisamurai&#64;tfwno.gf&gt;"> <s=
-pan class=3D"fn">Franc[e]sco</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radv] DOOM 2016 particle artifacting"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110636">bug 11063=
-6</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Hardware</td>
-           <td>Other
-           </td>
-           <td>x86-64 (AMD64)
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">OS</td>
-           <td>All
-           </td>
-           <td>Linux (All)
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15572544771.AddE2.21633--
-
---===============1958565240==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1958565240==--
+T24gVHVlLCBNYXkgNywgMjAxOSBhdCAxMTozNCBBTSBEeWxhbiBCYWtlciA8ZHlsYW5AcG53YmFr
+ZXJzLmNvbT4gd3JvdGU6Cj4KPiBUaGlzIHBhdGNoIGFuZCB0aGUgcHJldmlvdXMgb25lIGxhbmRl
+ZCB3aXRoIGEgZml4ZXMgdGFnIG5vbWluYXRpbmcgdGhlbSBmb3IgdGhlCj4gc3RhZ2luZy8xOS4w
+IGJyYW5jaCwgYnV0IHRoZXkgZG9uJ3QgYXBwbHksIGFuZCB0byBnZXQgdGhlIHRvIGFwcGx5IHJl
+cXVpcmVzCj4gcHVsbGluZyBpbiBzZXZlcmFsIG90aGVyIGFuZHJvaWQgYnVpbGQgc3lzdGVtIHBh
+dGNoZXMuIElmIHlvdSdkIGxpa2UgdGhvc2UgaW4KPiB0aGUgMTkuMCBzdGFibGUgYnJhbmNoIGNh
+biB5b3UgcHV0IHRvZ2V0aGVyIGFuIE1SIGFnYWluc3QgdGhlIHN0YWdpbmcvMTkuMAo+IGJyYW5j
+aCwgb3IgaWYgeW91IGRvbid0IGNhcmUgbGV0IG1lIGtub3cgc28gSSBjYW4gbWFyayB0aGVtIGFz
+IGRlLW5vbWluYXRlZD8KPgoKWWVhLCBzbyB0aGlzIG9uZSBJIGRvbid0IHRoaW5rIGlzIG5lY2Vz
+c2FyeSBmb3IgIDE5LjAKClNvIHlvdSBjYW4gc2VlIHRoZSBwYXRjaHNldCBJJ20gcHVzaGluZyBh
+dCB0aGUgbW9tZW50IGFnYWluc3QgMTkuMC4zIGZvciBBT1NQOgogIGh0dHBzOi8vYW5kcm9pZC1y
+ZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL3BsYXRmb3JtL2V4dGVybmFsL21lc2EzZC8rLzk1Njg0
+NAoKdGhhbmtzCi1qb2huCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
