@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E1A1646C
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 15:18:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 030EA1648C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 15:28:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF0586E7D3;
-	Tue,  7 May 2019 13:18:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C302689178;
+	Tue,  7 May 2019 13:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 753C26E7D1;
- Tue,  7 May 2019 13:18:02 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 31DE92002B;
- Tue,  7 May 2019 15:17:58 +0200 (CEST)
-Date: Tue, 7 May 2019 15:17:56 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: jagdsh.linux@gmail.com, robdclark@gmail.com, sean@poorly.run,
- airlied@linux.ie, bskeggs@redhat.com, hierry.reding@gmail.com,
- jcrouse@codeaurora.org, jsanka@codeaurora.org,
- skolluku@codeaurora.org, paul.burton@mips.com, jrdr.linux@gmail.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH] gpu/drm: Remove duplicate headers
-Message-ID: <20190507131756.GA17647@ravnborg.org>
-References: <1556906293-128921-1-git-send-email-jagdsh.linux@gmail.com>
- <20190506144334.GH17751@phenom.ffwll.local>
- <20190507100532.GP17751@phenom.ffwll.local>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 199B689178
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 13:28:02 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id p27so3801672eda.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2019 06:28:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=Ljryfdc1PIUzZ4d+3eICO9PgyywNfOo0C0fF/jXGyIU=;
+ b=Ggg97QWpokbR3z/C0gL260hBF43bCY6SzftGfNyKmDazMsdWi7GwDiTNOq4kVuCiok
+ 1p32pBHQ/TFhpAdvuRahaxmtWL5E6udSDBCn/iE7/KoH2kZANFInpv+G2W9btIqloKNu
+ Y8x1SRHPZD1PieItuTAzTspKx6sQPFwPQxQx28EmpqbfB/BuatGkSz/dba9btovaveVe
+ YULANom1qpe8YunXwI0rStnIBBWWSiI5ND+IBnsIAjgX78q/QkJ6J2vvawtFW5ATQkKW
+ DT+3IaOZw0z3RKLIV7xBYz4xEPkuaZ7mBRxMccfLwz2Gb0Ui+rG3R5kaaTNJReQHEEEE
+ Hnsg==
+X-Gm-Message-State: APjAAAUKn8Ctbe4S0uqMwSkLMYlB4rjRy9XM9/+tj8s3S1Y8Tm7qmH37
+ SkCUipNOcEreiXbOkncFDTVXVGSGZWmFeFDlI45MR9DG
+X-Google-Smtp-Source: APXvYqwxGrQz1QGZKyg59X/JV6AYA8+5KWdl95zI1zei3Wph1dm/17D4aAhp8cAvk6NAnbUQBKmSMZSkA6VX1re3U88=
+X-Received: by 2002:a17:906:2583:: with SMTP id
+ m3mr24358155ejb.74.1557235680478; 
+ Tue, 07 May 2019 06:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190507100532.GP17751@phenom.ffwll.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
- a=4sjd1iRJTynRc3plxrAA:9 a=CjuIK1q_8ugA:10
+From: Karthik Guru <karth251998@gmail.com>
+Date: Tue, 7 May 2019 18:57:49 +0530
+Message-ID: <CAKzjFstQdAM8tY-8YhF5HDtoZGMcuJnRXYQswnwgsnyvAbKR7A@mail.gmail.com>
+Subject: XORG Endless Vacation of Code
+To: dri-devel@lists.freedesktop.org
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=Ljryfdc1PIUzZ4d+3eICO9PgyywNfOo0C0fF/jXGyIU=;
+ b=plX4qNrEP8eljLqYzaoOnATUe54Q+KvITEwTl+sSqdBZ+ZE3B7QQpuFfzf1mu23rA9
+ nK55fjilvUYHvnXcj+gOPyVLOq2b1aR1UBHPLZ8MaFCOdSawM3JQcO3xmvo+n0WrPTDp
+ VffUxY/HUSSfXFBJIh84YJ8ef0uCpyXiYCH1qwdMKe7FsrHdk1XFHN0tZ3I/zX22IdFY
+ wsqicbGIZR9AKDUOotxwD+QgQ0pqgP+LSJR8ZFytsI7E/hHn7nuVZTl2bxIcvzixTB8F
+ 7+vgylMeKX8gOAPtIlbk3tUzb2AcqmuTACjrEH5bkMLKyjkcUH4JerH7/TpIiO5wpXCe
+ F/dQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,36 +59,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1387949396=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXkgMDcsIDIwMTkgYXQgMTI6MDU6MzJQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBNb24sIE1heSAwNiwgMjAxOSBhdCAwNDo0MzozNFBNICswMjAwLCBEYW5pZWwg
-VmV0dGVyIHdyb3RlOgo+ID4gT24gRnJpLCBNYXkgMDMsIDIwMTkgYXQgMTE6Mjg6MTNQTSArMDUz
-MCwgamFnZHNoLmxpbnV4QGdtYWlsLmNvbSB3cm90ZToKPiA+ID4gRnJvbTogSmFnYWRlZXNoIFBh
-Z2FkYWxhIDxqYWdkc2gubGludXhAZ21haWwuY29tPgo+ID4gPiAKPiA+ID4gUmVtb3ZlIGR1cGxp
-Y2F0ZSBoZWFkZXJzIHdoaWNoIGFyZSBpbmNsdWRlZCB0d2ljZS4KPiA+ID4gCj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IEphZ2FkZWVzaCBQYWdhZGFsYSA8amFnZHNoLmxpbnV4QGdtYWlsLmNvbT4KPiA+
-IAo+ID4gSSBjb2xsZWN0ZWQgc29tZSBhY2tzIGZvciB0aGUgbXNtIGFuZCBub3V2ZWF1IHBhcnRz
-IGFuZCBwdXNoZWQgdGhpcy4gRm9yCj4gPiBuZXh0IHRpbWUgYXJvdW5kIHdvdWxkIGJlIGdyZWF0
-IGlmIHlvdSBzcGxpdCB0aGVzZSB1cCBhbG9uZyBkcml2ZXIvbW9kdWxlCj4gPiBib3VuZGFyaWVz
-LCBzbyB0aGF0IGVhY2ggbWFpbnRhaW5lciBjYW4gcGljayB0aGlzIHVwIGRpcmVjdGx5Lgo+ID4g
-Cj4gPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2guCj4gPiAtRGFuaWVsCj4gPiAKPiA+ID4gLS0tCj4g
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfaHdfbG0uYyAgICAgICAgICAg
-ICB8IDEgLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvYnVzL252
-MDQuYyAgICAgICAgfCAyIC0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtcmFz
-cGJlcnJ5cGktdG91Y2hzY3JlZW4uYyB8IDEgLQo+IAo+IENvcnJlY3Rpb24sIHRoaXMgZGlkbid0
-IGNvbXBpbGUsIHNvIEkgZHJvcHBlZCB0aGUgY2hhbmdlcyB0byBwYW5lbC1ycGkuCj4gQW5vdGhl
-ciByZWFzb24gdG8gc3BsaXQgcGF0Y2hlcyBtb3JlIGZvciBuZXh0IHRpbWUgYXJvdW5kLiBBbHNv
-LCBuZWVkcwo+IG1vcmUgY29tcGlsZSB0ZXN0aW5nICh5b3UgbmVlZCBjcm9zcyBjb21waWxlcnMg
-Zm9yIGF0IGxlYXN0IGFybSB0byB0ZXN0Cj4gdGhpcyBzdHVmZikuCkkgd2lsbCB0cnkgdG8gcmVz
-dXJyZWN0IG15IHBhdGNoIHNlcmllcyBmb3IgZHJtL3BhbmVsLyB0aGF0CmFkZHJlc3NlczoKLSBy
-ZW1vdmFsIG9mIGRybVAuaAotIHJlbW92YWwgb2YgZHVwbGljYXRlZCBpbmNsdWRlIGZpbGVzCi0g
-c29ydCBhbGwgaW5jbHVkZSBmaWxlcwoKSW4gb3RoZXIgd29yZHMgLSBwYW5lbC1yYXNwYmVycnlw
-aS10b3VjaHNjcmVlbi5jIHdpbGwgYmUgZGVhbHQgd2l0aC4KSSBleHBlY3QgdG8gbG9vayBhdCBp
-dCBpbiB0d28gd2Vla3MgdGltZSAob24gdmFjYXRpb24gc3RhcnRpbmcgZnJpZGF5KS4KCglTYW0K
+--===============1387949396==
+Content-Type: multipart/alternative; boundary="000000000000910af505884c2f50"
+
+--000000000000910af505884c2f50
+Content-Type: text/plain; charset="UTF-8"
+
+Hey
+
+Could you please tell me if applications are open for XORG EVOC?
+
+Also, whats the procedure for writing a proposal for any of the projects
+
+Thanks!
+
+--000000000000910af505884c2f50
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hey=C2=A0<div><br></div><div>Could you please tell me if a=
+pplications are open for XORG EVOC?</div><div><br></div><div>Also, whats th=
+e procedure for writing a proposal for any of the projects</div><div><br></=
+div><div>Thanks!</div></div>
+
+--000000000000910af505884c2f50--
+
+--===============1387949396==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1387949396==--
