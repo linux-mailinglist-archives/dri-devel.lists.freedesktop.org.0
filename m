@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2AC16A67
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 20:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ED616A7C
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 20:41:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC5289F41;
-	Tue,  7 May 2019 18:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FEE76E828;
+	Tue,  7 May 2019 18:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E905789F41
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 18:40:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AB1706E827
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 18:41:17 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E59D87215A; Tue,  7 May 2019 18:40:51 +0000 (UTC)
+ id A79AC7215A; Tue,  7 May 2019 18:41:17 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110636] [radv] DOOM 2016 particle artifacting
-Date: Tue, 07 May 2019 18:40:52 +0000
+Date: Tue, 07 May 2019 18:41:17 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110636-502-H3qXfY292i@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: rep_platform op_sys
+Message-ID: <bug-110636-502-gxVJEI3cr1@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110636-502@http.bugs.freedesktop.org/>
 References: <bug-110636-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1059316712=="
+Content-Type: multipart/mixed; boundary="===============1958565240=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1059316712==
-Content-Type: multipart/alternative; boundary="15572544510.51DAc0.21737"
+--===============1958565240==
+Content-Type: multipart/alternative; boundary="15572544771.AddE2.21633"
 Content-Transfer-Encoding: 7bit
 
 
---15572544510.51DAc0.21737
-Date: Tue, 7 May 2019 18:40:51 +0000
+--15572544771.AddE2.21633
+Date: Tue, 7 May 2019 18:41:17 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110636
 
---- Comment #1 from Franc[e]sco <lolisamurai@tfwno.gf> ---
-Created attachment 144190
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144190&action=3Dedit
-system info at the time of the renderdoc capture
+Franc[e]sco <lolisamurai@tfwno.gf> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Hardware|Other                       |x86-64 (AMD64)
+                 OS|All                         |Linux (All)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15572544510.51DAc0.21737
-Date: Tue, 7 May 2019 18:40:51 +0000
+--15572544771.AddE2.21633
+Date: Tue, 7 May 2019 18:41:17 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,30 +95,39 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radv] DOOM 2016 particle artifacting"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110636#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:lolisamur=
+ai&#64;tfwno.gf" title=3D"Franc[e]sco &lt;lolisamurai&#64;tfwno.gf&gt;"> <s=
+pan class=3D"fn">Franc[e]sco</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [radv] DOOM 2016 particle artifacting"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110636">bug 11063=
 6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-lolisamurai&#64;tfwno.gf" title=3D"Franc[e]sco &lt;lolisamurai&#64;tfwno.gf=
-&gt;"> <span class=3D"fn">Franc[e]sco</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144190=
-" name=3D"attach_144190" title=3D"system info at the time of the renderdoc =
-capture">attachment 144190</a> <a href=3D"attachment.cgi?id=3D144190&amp;ac=
-tion=3Dedit" title=3D"system info at the time of the renderdoc capture">[de=
-tails]</a></span>
-system info at the time of the renderdoc capture</pre>
-        </div>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Hardware</td>
+           <td>Other
+           </td>
+           <td>x86-64 (AMD64)
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">OS</td>
+           <td>All
+           </td>
+           <td>Linux (All)
+           </td>
+         </tr></table>
+      <p>
       </p>
 
 
@@ -129,9 +140,9 @@ system info at the time of the renderdoc capture</pre>
     </body>
 </html>=
 
---15572544510.51DAc0.21737--
+--15572544771.AddE2.21633--
 
---===============1059316712==
+--===============1958565240==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -141,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1059316712==--
+--===============1958565240==--
