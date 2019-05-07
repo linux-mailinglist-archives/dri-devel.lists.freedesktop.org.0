@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BB616397
-	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 14:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B298D16435
+	for <lists+dri-devel@lfdr.de>; Tue,  7 May 2019 15:07:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF2CD6E7CE;
-	Tue,  7 May 2019 12:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04CA089F5B;
+	Tue,  7 May 2019 13:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C88AC6E7C8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 12:19:50 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C54F77215A; Tue,  7 May 2019 12:19:50 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105819] Window system hang due to GPU Fault
-Date: Tue, 07 May 2019 12:19:50 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cwb@420blaze.it
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105819-502-HnQGGLiFN7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105819-502@http.bugs.freedesktop.org/>
-References: <bug-105819-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E98C89F45
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 May 2019 13:07:29 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id w24so8187190plp.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 May 2019 06:07:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zVEShq2r+HH1dqUKjsY/tIvQnR4fC4lx62sAnv2cszQ=;
+ b=ai220cwX64C1332rGJLx8AIkXq3fuHeH7ql5fl7AfZdoMnIXe7d9O6DKzzDhDbg5uA
+ G7KlVjigho7hgknEWhTsry4R8QeNe9Q0/f8zYoA3ix8VfSRa3krR3Ln33qdsiIFAfrKV
+ K5uHGrOCMDfyEa4L+PNeKURbLm1X7kYavyRbUk8JJHJ9hGx//1x8nvl/KMEmu4bP6Ua7
+ wVoUUTpmRdKqTwC9CVImO8m3s1pGnSesMuaSBpIOXb8QfStMUr+qcrZ7T6KRDIQTrYii
+ pAw2o/VUxnu7f7svWJ9UNoju6lUHWX9coq0BPiU8OuRqCYtvmUr1N/JckN2SJie4l14Z
+ XjZg==
+X-Gm-Message-State: APjAAAWX4cXpn8PTa+d6ufZA95cSxw7hqNZGvo+99WPZw8vMI1X6riwB
+ IIZRuzkaSqzyyzN41O9xIOaVLA==
+X-Google-Smtp-Source: APXvYqxTNLStKgWqhFuYnzLAEpQKZaTXrhsWJy7MmuW5PcblTQp6f4JovNxg5jyNfUeBBZ2VP2/bHQ==
+X-Received: by 2002:a17:902:2a:: with SMTP id 39mr39639547pla.64.1557234449180; 
+ Tue, 07 May 2019 06:07:29 -0700 (PDT)
+Received: from localhost.localdomain ([2401:4900:3682:cdb6:452:ecda:bdfa:452e])
+ by smtp.gmail.com with ESMTPSA id w190sm21889823pfb.101.2019.05.07.06.07.24
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 07 May 2019 06:07:28 -0700 (PDT)
+From: Jagan Teki <jagan@amarulasolutions.com>
+To: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH v2 1/3] dt-bindings: display: Document FriendlyELEC HD702E LCD
+ panel
+Date: Tue,  7 May 2019 18:37:06 +0530
+Message-Id: <20190507130708.11255-1-jagan@amarulasolutions.com>
+X-Mailer: git-send-email 2.18.0.321.gffc6fa0e3
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zVEShq2r+HH1dqUKjsY/tIvQnR4fC4lx62sAnv2cszQ=;
+ b=jm+TvJfNFt6JoZDpIcsdQYCpeFYqOblkOGI08ywsGy57x+8/bmkSF4Jiva803NbPKE
+ s7m5WLd6gfL1+tbGQjSyYmf3uBgqOudNS4xmd/KNNKzha6oI95GWuIDU4syC1mQ+66W8
+ lrUJaarBqXPhwdumssK7oXfiCQKiWLW3S0Kas=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,132 +64,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0578574886=="
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, linux-amarula@amarulasolutions.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0578574886==
-Content-Type: multipart/alternative; boundary="15572315903.A3f4d.26835"
-Content-Transfer-Encoding: 7bit
-
-
---15572315903.A3f4d.26835
-Date: Tue, 7 May 2019 12:19:50 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105819
-
---- Comment #12 from xom <cwb@420blaze.it> ---
-Only solution to this problem I have found is to downgrade to LTS 4.14 kern=
-el.
-GPU has never had any issues in windows.=20=20
-
-Linux abyss 4.14.116-1-lts414 #1 SMP Tue May 7 01:33:27 MDT 2019 x86_64
-GNU/Linux
-
-xom[~]$ glxinfo | grep OpenGL
-OpenGL vendor string: X.Org
-OpenGL renderer string: Radeon RX 580 Series (POLARIS10, DRM 3.19.0,
-4.14.116-1-lts414, LLVM 8.0.0)
-OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.0.3
-OpenGL core profile shading language version string: 4.50
-OpenGL core profile context flags: (none)
-OpenGL core profile profile mask: core profile
-OpenGL core profile extensions:
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.0.3
-OpenGL shading language version string: 4.50
-OpenGL context flags: (none)
-OpenGL profile mask: compatibility profile
-OpenGL extensions:
-OpenGL ES profile version string: OpenGL ES 3.2 Mesa 19.0.3
-OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
-OpenGL ES profile extensions:
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15572315903.A3f4d.26835
-Date: Tue, 7 May 2019 12:19:50 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Window system hang due to GPU Fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105819#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Window system hang due to GPU Fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105819">bug 10581=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cwb&#64;420blaze.it" title=3D"xom &lt;cwb&#64;420blaze.it&gt;"> <span class=
-=3D"fn">xom</span></a>
-</span></b>
-        <pre>Only solution to this problem I have found is to downgrade to =
-LTS 4.14 kernel.
-GPU has never had any issues in windows.=20=20
-
-Linux abyss 4.14.116-1-lts414 #1 SMP Tue May 7 01:33:27 MDT 2019 x86_64
-GNU/Linux
-
-xom[~]$ glxinfo | grep OpenGL
-OpenGL vendor string: X.Org
-OpenGL renderer string: Radeon RX 580 Series (POLARIS10, DRM 3.19.0,
-4.14.116-1-lts414, LLVM 8.0.0)
-OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.0.3
-OpenGL core profile shading language version string: 4.50
-OpenGL core profile context flags: (none)
-OpenGL core profile profile mask: core profile
-OpenGL core profile extensions:
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.0.3
-OpenGL shading language version string: 4.50
-OpenGL context flags: (none)
-OpenGL profile mask: compatibility profile
-OpenGL extensions:
-OpenGL ES profile version string: OpenGL ES 3.2 Mesa 19.0.3
-OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
-OpenGL ES profile extensions:</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15572315903.A3f4d.26835--
-
---===============0578574886==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0578574886==--
+SEQ3MDJFIGxjZCBpcyBGcmllbmRseUVMRUMgZGV2ZWxvcGVkIGVEUCBMQ0QgcGFuZWwgd2l0aCA4
+MDB4MTI4MApyZXNvbHV0aW9uLiBJdCBoYXMgYnVpbHQgaW4gR29vZGl4LCBHVDkyNzEgY2FwdGl2
+ZSB0b3VjaHNjcmVlbgp3aXRoIGJhY2tsaWdodCBhZGp1c3RhYmxlIHZpYSBQV00uCgpBZGQgZHQt
+YmluZGluZ3MgZG9jdW1lbnRhdGlvbiBmb3IgaXQuCkNjOiBUaGllcnJ5IFJlZGluZyA8dGhpZXJy
+eS5yZWRpbmdAZ21haWwuY29tPgpDYzogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpD
+YzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsQGZmd2xsLmNoPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpSZXZpZXdl
+ZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogSmFnYW4g
+VGVraSA8amFnYW5AYW1hcnVsYXNvbHV0aW9ucy5jb20+Ci0tLQpDaGFuZ2VzIGZvciB2MjoKLSBz
+ZXBhcmF0ZSBiaW5kaW5nIHBhdGNoIGZyb20gZHJpdmVyCi0gQWRkIHNpbXBsZS1wYW5lbCBjb21w
+YXRpYmxlIGFzIGZhbGxiYWNrCi0gQWRkIHRleHQgaW5mbyBhYm91dCBzaW1wbGUtcGFuZWwgYmlu
+ZGluZ3MKCiAuLi4vZGlzcGxheS9wYW5lbC9mcmllbmRseWFybSxoZDcwMmUudHh0ICAgICAgfCAz
+MiArKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMzIgaW5zZXJ0aW9ucygrKQog
+Y3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L3BhbmVsL2ZyaWVuZGx5YXJtLGhkNzAyZS50eHQKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9mcmllbmRseWFybSxoZDcwMmUu
+dHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvZnJp
+ZW5kbHlhcm0saGQ3MDJlLnR4dApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAw
+MDAuLjZjOTE1NmZjMzQ3OAotLS0gL2Rldi9udWxsCisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2ZyaWVuZGx5YXJtLGhkNzAyZS50eHQKQEAgLTAs
+MCArMSwzMiBAQAorRnJpZW5kbHlFTEVDIEhENzAyRSA4MDB4MTI4MCBMQ0QgcGFuZWwKKworSEQ3
+MDJFIGxjZCBpcyBGcmllbmRseUVMRUMgZGV2ZWxvcGVkIGVEUCBMQ0QgcGFuZWwgd2l0aCA4MDB4
+MTI4MAorcmVzb2x1dGlvbi4gSXQgaGFzIGJ1aWx0IGluIEdvb2RpeCwgR1Q5MjcxIGNhcHRpdmUg
+dG91Y2hzY3JlZW4KK3dpdGggYmFja2xpZ2h0IGFkanVzdGFibGUgdmlhIFBXTS4KKworUmVxdWly
+ZWQgcHJvcGVydGllczoKKy0gY29tcGF0aWJsZTogc2hvdWxkIGJlICJmcmllbmRseWFybSxoZDcw
+MmUiCistIHBvd2VyLXN1cHBseTogcmVndWxhdG9yIHRvIHByb3ZpZGUgdGhlIHN1cHBseSB2b2x0
+YWdlCisKK09wdGlvbmFsIHByb3BlcnRpZXM6CistIGJhY2tsaWdodDogcGhhbmRsZSBvZiB0aGUg
+YmFja2xpZ2h0IGRldmljZSBhdHRhY2hlZCB0byB0aGUgcGFuZWwKKworT3B0aW9uYWwgbm9kZXM6
+CistIFZpZGVvIHBvcnQgZm9yIExDRCBwYW5lbCBpbnB1dC4KKworVGhpcyBiaW5kaW5nIGlzIGNv
+bXBhdGlibGUgd2l0aCB0aGUgc2ltcGxlLXBhbmVsIGJpbmRpbmcsIHdoaWNoIGlzIHNwZWNpZmll
+ZAoraW4gc2ltcGxlLXBhbmVsLnR4dCBpbiB0aGlzIGRpcmVjdG9yeS4KKworRXhhbXBsZToKKwor
+CXBhbmVsIHsKKwkJY29tcGF0aWJsZSA9ImZyaWVuZGx5YXJtLGhkNzAyZSIsICJzaW1wbGUtcGFu
+ZWwiOworCQliYWNrbGlnaHQgPSA8JmJhY2tsaWdodD47CisJCXBvd2VyLXN1cHBseSA9IDwmdmNj
+M3YzX3N5cz47CisKKwkJcG9ydCB7CisJCQlwYW5lbF9pbl9lZHA6IGVuZHBvaW50IHsKKwkJCQly
+ZW1vdGUtZW5kcG9pbnQgPSA8JmVkcF9vdXRfcGFuZWw+OworCQkJfTsKKwkJfTsKKwl9OwotLSAK
+Mi4xOC4wLjMyMS5nZmZjNmZhMGUzCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
