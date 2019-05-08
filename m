@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAA217B95
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 16:35:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F56617B9E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 16:37:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51530892A4;
-	Wed,  8 May 2019 14:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC36F89700;
+	Wed,  8 May 2019 14:37:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A01F1892A4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 14:35:49 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id o7so1349637qtp.4
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2019 07:35:49 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7726489700
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 14:37:28 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id n134so12891681lfn.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2019 07:37:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=3CqV7qK/MYg0m3+i2Zpuf5DMfjvdX/UQG8imkRgo8G4=;
- b=eiLlA0yyejDxBya6R5dLXn5pi5TRgUeA3u9m9oxh9V4Kz1U0m1QwiOlVRXtSJDpKiS
- a6ZqPIoTADGiHBN0DwdScZNeJ2REjH2EgqCaXfLjRcMnzFcVHu4I0Cj9Or+rKsvJePyI
- AFeLO+kk7QKLGmUUYTW8+EmQSLAbaGotSMyS9zHp3QP6qqW80zWyiJRLOz1S9YSMS3RO
- KHjENBgp59yNKN7zHri7rZ8CkxvZp6cjDxyaxB6PllzDecmdqKC2mL6o0hyW7u1OBFAO
- ZDDFmk2PsR7qSeJx4UqDTvTjGPfNM5aNfvKbtKTRFGzb8uaViqjL2VQ0ZOI9E3/6ChVl
- zDHw==
-X-Gm-Message-State: APjAAAXDbtrNMlK9YOWKytIkKVuirW6hiUcikLxD6U2FMuk3mvG08lY4
- fTYI5MbriM59EZN6yve9TwRzbKEzmyY=
-X-Google-Smtp-Source: APXvYqwRXPijPs76WYJinxhIWtACNjsBn+EyW7O54bxbDoCzWVQhJluAtNSkYy2fL/8CdskcCrCziQ==
-X-Received: by 2002:ad4:51c2:: with SMTP id p2mr14418052qvq.64.1557326148469; 
- Wed, 08 May 2019 07:35:48 -0700 (PDT)
-Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
- by smtp.gmail.com with ESMTPSA id s50sm10775869qts.39.2019.05.08.07.35.46
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 08 May 2019 07:35:47 -0700 (PDT)
-Date: Wed, 8 May 2019 10:35:46 -0400
-From: Sean Paul <sean@poorly.run>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: No zap shader is not an error
-Message-ID: <20190508143546.GJ17077@art_vandelay>
-References: <20190508130726.27557-1-robdclark@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:cc;
+ bh=Jwi+XiDBBZYpEW0bFiznktLRMdbckfIl/3oolZSvdlk=;
+ b=JOOyyboWqTW90h0A0acWBXf/zVY7AK3bG/s7lPizLkriLZjr6XBPY6W0enHd0HSHgZ
+ IsPsAo0felX1dgltu2rOEqdexe8CZZsUmjH4rBZNXlMm83kDpSs0ZBysPPzVQJCQ9yTT
+ ku4TtdrgfI9Fi6U4Dm/yuNhSXFb2kSdqK24YDPiGTKfJVLnWYoP8h9dU9jgoxpyoOBzb
+ XN+Iq0lPfcAZbLrk9KhHPAnciJm+QcpqGeJSB5Tkm1OgmoI74P5rSWj/J7Ljz6IfkGeR
+ vjaZ4zgPX8fxopbz4yGD1+yoebLoYlErEd6MDFtIK+bnlSQ/VHyHTiNf78sSosYuQUle
+ bV+g==
+X-Gm-Message-State: APjAAAWL50XgByXXw3e2Mj5OoyCA/2oGQ8XjgQJPo8EGKFsMaxUt17p7
+ sbtqupddhmsBAH3O8iP2kv/qbHVRdO3AzQDdd4U=
+X-Received: by 2002:a19:550d:: with SMTP id n13mt14856607lfe.127.1557326246693; 
+ Wed, 08 May 2019 07:37:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190508130726.27557-1-robdclark@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <a473bcae-113f-a347-9afd-d69d7176c264@amd.com>
+In-Reply-To: <a473bcae-113f-a347-9afd-d69d7176c264@amd.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Wed, 8 May 2019 10:37:15 -0400
+Message-ID: <CAHUNapQnhBXWt5QWKMZ1wZg+OCPR_7apZhxyffCp9=TtFfe6_A@mail.gmail.com>
+Subject: Re: 2019 Xorg Election Results
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=3CqV7qK/MYg0m3+i2Zpuf5DMfjvdX/UQG8imkRgo8G4=;
- b=Y7IdqX5SwtfUZhMC8Omj7ZnkfOutLCTgi99GUmAKTzJeA+tn5upJO2YMtJb0gbCT1a
- Ya/o8+LtVpEmBSX5gjKepenV9kfHwcVWfzyayXiH44+BpddsoK3sYXfePk/hMIYzczhG
- +CvJaScO1luWaIia9bjHEy0+TBUkVdOsjNMYDGElJtShKGzwb27gOyMdwjb47LPkYyTm
- 8ZexTO4FrY/srB6LmYc/uaSkgX2RjwKflAdPOrQJTgF6fW3zPbgKGrhnily+9FjTR8Qk
- MwwZAvQqflQk3f9w6dAdUGbRQNtW5lx9PmJ4K7tc7uXjedIVZlN3fHMs/juLzjmlEAco
- j1Sg==
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
+ bh=Jwi+XiDBBZYpEW0bFiznktLRMdbckfIl/3oolZSvdlk=;
+ b=d2mvAwkbUFFbfrEBKRfLA12sYU0f6IW+A0NkYMN+qtlrIV9ZXYr6OtYJuU5NKrSogX
+ eUdqYTKuhN1rsYPxoAFNjMp7eB5a9Kojez/1PEOstpaFVSDLuct7sFJGcl5wuqc93/Ra
+ FE7IPZAiwFc1FXbZOjuUgb6JwAqdgz7cxJveTkpQb8f0pids/9EdKrV3L2bJh0AonUvo
+ fjDUjDMUrxv+cNN93OQ1qCAkhQ5Zs6Vt+oMZByFrlJ8SxRbOibqAUK2LmvXnozB3tGnX
+ ZLygpXhi16j2VZbab3xUKYQgOaZpEEUnhiF1VL7oLBzwIPF2b3S9rK+JYWQeD3iGIfV2
+ IHaQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,37 +59,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "mesa-dev@lists.freedesktop.org" <mesa-dev@lists.freedesktop.org>,
+ "xorg@lists.x.org" <xorg@lists.x.org>, xorg-devel <xorg-devel@lists.x.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0253165590=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXkgMDgsIDIwMTkgYXQgMDY6MDY6NTJBTSAtMDcwMCwgUm9iIENsYXJrIHdyb3Rl
-Ogo+IEZyb206IFJvYiBDbGFyayA8cm9iZGNsYXJrQGNocm9taXVtLm9yZz4KPiAKPiBEZXBlbmRp
-bmcgb24gcGxhdGZvcm0gZmlybXdhcmUsIGEgemFwIHNoYWRlciBtYXkgbm90IGJlIHJlcXVpcmVk
-IHRvIHRha2UKPiB0aGUgR1BVIG91dCBvZiBzZWN1cmUgbW9kZSBvbiBib290LCBpbiB3aGljaCBj
-YXNlIHdlIGNhbiBqdXN0IHdyaXRlCj4gUkJCTV9TRUNWSURfVFJVU1RfQ05UTCBkaXJlY3RseS4g
-IFdoaWNoIHdlICptb3N0bHkqIGhhbmRsZWQsIGJ1dCBtaXNzZWQKPiBjbGVhcmluZyAncmV0JyBy
-ZXN1bHRpbmcgdGhhdCBod19pbml0KCkgcmV0dXJuZWQgYW4gZXJyb3Igb24gdGhlc2UKPiBkZXZp
-Y2VzLgo+IAo+IEZpeGVzOiBhYmNjYjlmZTMyNjcgZHJtL21zbS9hNnh4OiBBZGQgemFwIHNoYWRl
-ciBsb2FkCj4gU2lnbmVkLW9mZi1ieTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3Jn
-PgoKUmV2aWV3ZWQtYnk6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgoKPiAtLS0KPiAgZHJp
-dmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9ncHUuYyB8IDEgKwo+ICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9h
-ZHJlbm8vYTZ4eF9ncHUuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1LmMK
-PiBpbmRleCBlYzI0NTA4YjlkNjguLmU3NGRjZTQ3NDI1MCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21z
-bS9hZHJlbm8vYTZ4eF9ncHUuYwo+IEBAIC01MjcsNiArNTI3LDcgQEAgc3RhdGljIGludCBhNnh4
-X2h3X2luaXQoc3RydWN0IG1zbV9ncHUgKmdwdSkKPiAgCQlkZXZfd2Fybl9vbmNlKGdwdS0+ZGV2
-LT5kZXYsCj4gIAkJCSJaYXAgc2hhZGVyIG5vdCBlbmFibGVkIC0gdXNpbmcgU0VDVklEX1RSVVNU
-X0NOVEwgaW5zdGVhZFxuIik7Cj4gIAkJZ3B1X3dyaXRlKGdwdSwgUkVHX0E2WFhfUkJCTV9TRUNW
-SURfVFJVU1RfQ05UTCwgMHgwKTsKPiArCQlyZXQgPSAwOwo+ICAJfQo+ICAKPiAgb3V0Ogo+IC0t
-IAo+IDIuMjAuMQo+IAoKLS0gClNlYW4gUGF1bCwgU29mdHdhcmUgRW5naW5lZXIsIEdvb2dsZSAv
-IENocm9taXVtIE9TCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+--===============0253165590==
+Content-Type: multipart/alternative; boundary="000000000000bdbfe905886145bd"
+
+--000000000000bdbfe905886145bd
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, May 8, 2019 at 10:06 AM Harry Wentland <hwentlan@amd.com> wrote:
+
+>    Trevor Woerner             4  14  10  10   8  19   199
+>
+
+I'd like to truly thank the other 3 people who chose me as their 1st pick,
+and the 14 (:-O !!) who chose me as their first 2nd-place pick!
+Considering I'm not an active contributor of code to this project, I think
+this is an amazing result! Thank you :-D
+
+Although I didn't make it on the board, I remain committed to running GSoC
+and EVoC.
+
+--000000000000bdbfe905886145bd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Wed, May 8, 2019 at 10:06 AM Harry Wentland &lt;<a href=
+=3D"mailto:hwentlan@amd.com">hwentlan@amd.com</a>&gt; wrote:<br><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0=
+=C2=A0 Trevor Woerner=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A04=C2=
+=A0 14=C2=A0 10=C2=A0 10=C2=A0 =C2=A08=C2=A0 19=C2=A0 =C2=A0199<br>
+</blockquote><div><br></div><div>I&#39;d like to truly thank the other 3 pe=
+ople who chose me as their 1st pick, and the 14 (:-O !!) who chose me as th=
+eir first 2nd-place pick!</div><div>Considering I&#39;m not an active contr=
+ibutor of code to this project, I think this is an amazing result! Thank yo=
+u :-D<br></div><div><br></div><div>Although I didn&#39;t make it on the boa=
+rd, I remain committed to running GSoC and EVoC.<br></div></div></div>
+
+--000000000000bdbfe905886145bd--
+
+--===============0253165590==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0253165590==--
