@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65B817F0D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 19:26:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FCA17F1A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 19:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9F889893;
-	Wed,  8 May 2019 17:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D49C689740;
+	Wed,  8 May 2019 17:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 263EF89893
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 17:26:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1DF9B7215A; Wed,  8 May 2019 17:26:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109526] [CARRIZO] amdgpu fails to resume from S3, atombios
- stuck executing C554 (len 629, WS 0, PS 0)
-Date: Wed, 08 May 2019 17:26:56 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: johannes.hirte@datenkhaos.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109526-502-gCRG0WSe1v@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109526-502@http.bugs.freedesktop.org/>
-References: <bug-109526-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6A5891EB;
+ Wed,  8 May 2019 17:32:22 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 May 2019 10:32:09 -0700
+X-ExtLoop1: 1
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 08 May 2019 10:32:07 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 08 May 2019 20:32:06 +0300
+Date: Wed, 8 May 2019 20:32:06 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+Subject: Re: [PATCH v6 2/6] drm: Add a VSC structure for handling Pixel
+ Encoding/Colorimetry Formats
+Message-ID: <20190508173206.GW24299@intel.com>
+References: <20190508081757.28042-1-gwan-gyeong.mun@intel.com>
+ <20190508081757.28042-3-gwan-gyeong.mun@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190508081757.28042-3-gwan-gyeong.mun@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,88 +47,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1192935240=="
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1192935240==
-Content-Type: multipart/alternative; boundary="15573364160.DFdd9b5AE.32417"
-Content-Transfer-Encoding: 7bit
-
-
---15573364160.DFdd9b5AE.32417
-Date: Wed, 8 May 2019 17:26:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109526
-
---- Comment #6 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
-ping? still an issue with kernel 5.1
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15573364160.DFdd9b5AE.32417
-Date: Wed, 8 May 2019 17:26:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CARRIZO] amdgpu fails to resume from S3, atombios stuck =
-executing C554 (len 629, WS 0, PS 0)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109526#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CARRIZO] amdgpu fails to resume from S3, atombios stuck =
-executing C554 (len 629, WS 0, PS 0)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109526">bug 10952=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
-e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
-</span></b>
-        <pre>ping? still an issue with kernel 5.1</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15573364160.DFdd9b5AE.32417--
-
---===============1192935240==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1192935240==--
+T24gV2VkLCBNYXkgMDgsIDIwMTkgYXQgMTE6MTc6NTNBTSArMDMwMCwgR3dhbi1neWVvbmcgTXVu
+IHdyb3RlOgo+IFNEUCBWU0MgSGVhZGVyIGFuZCBEYXRhIEJsb2NrIGZvbGxvdyBEUCAxLjRhIHNw
+ZWMsIHNlY3Rpb24gMi4yLjUuNy41LAo+IGNoYXB0ZXIgIlZTQyBTRFAgUGF5bG9hZCBmb3IgUGl4
+ZWwgRW5jb2RpbmcvQ29sb3JpbWV0cnkgRm9ybWF0Ii4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBHd2Fu
+LWd5ZW9uZyBNdW4gPGd3YW4tZ3llb25nLm11bkBpbnRlbC5jb20+Cj4gUmV2aWV3ZWQtYnk6IE1h
+YXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gLS0t
+Cj4gIGluY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCB8IDE3ICsrKysrKysrKysrKysrKysrCj4g
+IDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2luY2x1
+ZGUvZHJtL2RybV9kcF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+IGlu
+ZGV4IDk3Y2U3OTBhNWI1YS4uMzc5M2JlYTdiN2ZlIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJt
+L2RybV9kcF9oZWxwZXIuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9kcF9oZWxwZXIuaAo+IEBA
+IC0xMDk2LDYgKzEwOTYsMjMgQEAgc3RydWN0IGVkcF92c2NfcHNyIHsKPiAgCXU4IERCOF8zMVsy
+NF07IC8qIFJlc2VydmVkICovCj4gIH0gX19wYWNrZWQ7Cj4gIAo+ICtzdHJ1Y3QgZHBfdnNjX3Nk
+cCB7Cj4gKwlzdHJ1Y3QgZHBfc2RwX2hlYWRlciBzZHBfaGVhZGVyOwo+ICsJdTggREIwOyAvKiBT
+dGVyZW8gSW50ZXJmYWNlICovCj4gKwl1OCBEQjE7IC8qIDAgLSBQU1IgU3RhdGU7IDEgLSBVcGRh
+dGUgUkZCOyAyIC0gQ1JDIFZhbGlkICovCj4gKwl1OCBEQjI7IC8qIENSQyB2YWx1ZSBiaXRzIDc6
+MCBvZiB0aGUgUiBvciBDciBjb21wb25lbnQgKi8KPiArCXU4IERCMzsgLyogQ1JDIHZhbHVlIGJp
+dHMgMTU6OCBvZiB0aGUgUiBvciBDciBjb21wb25lbnQgKi8KPiArCXU4IERCNDsgLyogQ1JDIHZh
+bHVlIGJpdHMgNzowIG9mIHRoZSBHIG9yIFkgY29tcG9uZW50ICovCj4gKwl1OCBEQjU7IC8qIENS
+QyB2YWx1ZSBiaXRzIDE1Ojggb2YgdGhlIEcgb3IgWSBjb21wb25lbnQgKi8KPiArCXU4IERCNjsg
+LyogQ1JDIHZhbHVlIGJpdHMgNzowIG9mIHRoZSBCIG9yIENiIGNvbXBvbmVudCAqLwo+ICsJdTgg
+REI3OyAvKiBDUkMgdmFsdWUgYml0cyAxNTo4IG9mIHRoZSBCIG9yIENiIGNvbXBvbmVudCAqLwo+
+ICsJdTggREI4XzE1WzhdOyAgLyogUmVzZXJ2ZWQgKi8KPiArCXU4IERCMTY7IC8qIFBpeGVsIEVu
+Y29kaW5nIGFuZCBDb2xvcmltZXRyeSBGb3JtYXRzICovCj4gKwl1OCBEQjE3OyAvKiBEeW5hbWlj
+IFJhbmdlIGFuZCBDb21wb25lbnQgQml0IERlcHRoICovCj4gKwl1OCBEQjE4OyAvKiBDb250ZW50
+IFR5cGUgKi8KPiArCXU4IERCMTlfMzFbMTNdOyAvKiBSZXNlcnZlZCAqLwo+ICt9IF9fcGFja2Vk
+OwoKSXNuJ3QgdGhpcyB0aGUgc2FtZSB0aGluZyB3ZSBoYXZlIGZvciBlZHAgYWxyZWFkeT8gSnVz
+dCByZW5hbWUgdGhlIGVkcApzdHJ1Y3QgYW5kIGFkZCB0aGUgbWlzc2luZyBzdHVmZj8KCj4gKwo+
+ICAjZGVmaW5lIEVEUF9WU0NfUFNSX1NUQVRFX0FDVElWRQkoMTw8MCkKPiAgI2RlZmluZSBFRFBf
+VlNDX1BTUl9VUERBVEVfUkZCCQkoMTw8MSkKPiAgI2RlZmluZSBFRFBfVlNDX1BTUl9DUkNfVkFM
+VUVTX1ZBTElECSgxPDwyKQo+IC0tIAo+IDIuMjEuMAoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRl
+bApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
