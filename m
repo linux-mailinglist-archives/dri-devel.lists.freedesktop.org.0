@@ -2,45 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF6317DA2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 17:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5981E17DBA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 18:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A88589715;
-	Wed,  8 May 2019 15:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 404F2897D0;
+	Wed,  8 May 2019 16:09:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0EE7489715
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 15:59:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0431B7215A; Wed,  8 May 2019 15:59:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2FFD897D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 16:09:23 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id t1so3623136qtc.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2019 09:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZuA1H8/bCgJfsPaV3bxQ5r2Gm40gimxvB9w8idYsqQI=;
+ b=HYxVGkDcq4aAD9g7GgwO09cKhnl9XknOB4yyLhWC9+Z8YH2d9pQZOacoK3rIjJV3f0
+ YGa2YwtK6eRz1XKMAOSkc0FndFG+wE/OznFR9XemrzlkAlYJ4we8SqMnKuFOSzIEedAV
+ XDwSyrOA96pjlrBJv+HIHvvq/8HZSGgtg/5ayfI5rAvo/QzCK5mxqJ/E4wE9zoh5H7up
+ k1zjTE8JHFJ+jaf1ivYll+/oxU/CzEuB5i9/jDUjovU2KgtPIEqH+4ej3HgwtlsPXrGr
+ W/LYT8o/Y6UH9zGRYQ7tVZcd0NIQpHREcLb88H4O9cDGOq7GJ0uVkMWCyZM55Gj+a44R
+ jp5w==
+X-Gm-Message-State: APjAAAX+yYUhI7ukTkA2bO6w5WNt6Q/Y7/B3c9LE64M2igO1vJ+SW1xY
+ ZRacIrz1ZgrU/exAtIIAi8slYsOvDD4=
+X-Google-Smtp-Source: APXvYqzRnz7EQiULGOm1m8ROTRo2G3xvatY3G+3s2B42th8pRKNOPuD2ObQ9GTkBoNHT3uA2vhvmGg==
+X-Received: by 2002:a0c:ff0b:: with SMTP id w11mr31366785qvt.33.1557331762284; 
+ Wed, 08 May 2019 09:09:22 -0700 (PDT)
+Received: from rosewood.cam.corp.google.com
+ ([2620:0:1013:11:89c6:2139:5435:371d])
+ by smtp.gmail.com with ESMTPSA id s50sm10936877qts.39.2019.05.08.09.09.21
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 08 May 2019 09:09:21 -0700 (PDT)
+From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110472] Graphical Fault (Desktop Freeze) on Specific OpenGL
- Application
-Date: Wed, 08 May 2019 15:59:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gpizarro@javaman.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110472-502-7SVj1GPKtl@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110472-502@http.bugs.freedesktop.org/>
-References: <bug-110472-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v4 00/12]  drm: Add self refresh helpers
+Date: Wed,  8 May 2019 12:09:05 -0400
+Message-Id: <20190508160920.144739-1-sean@poorly.run>
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZuA1H8/bCgJfsPaV3bxQ5r2Gm40gimxvB9w8idYsqQI=;
+ b=VXFYNvwgLwsknF95z8T35E5bCPHoUyLgYUlH+euafYU3MjzewZ55AaZsQeYW9OPZOW
+ X8iJYuaK58fPAJ7/6KLqRAvPhvOPs26lPS6jqo15GhP7D35kSYaTggVBJB9Ee+K/fpwK
+ W0ibK9QJ8y+AUSivXljus+V5BlaAI0T53/cULk6iTYntfMKY9hynFZVBmhmh4VXKRMFG
+ NQT8W1PGmzVsSmnknh7+CWOq0wt1oYUghzfCysp0DniVEvu1ugtFcGkDl1+odA40QCPA
+ VcYrEj0cCqYIvK7Ukgd2tW6qU4l4vpsbfT/lHgUmMXmJThDLBbhdduEjZgbbcB0Iacw4
+ bcpg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,88 +66,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1191261686=="
+Cc: Sean Paul <seanpaul@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1191261686==
-Content-Type: multipart/alternative; boundary="15573311880.d96b38.19297"
-Content-Transfer-Encoding: 7bit
-
-
---15573311880.d96b38.19297
-Date: Wed, 8 May 2019 15:59:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110472
-
---- Comment #2 from gpizarro@javaman.net ---
-I really hope someone sees this. Bump x2?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15573311880.d96b38.19297
-Date: Wed, 8 May 2019 15:59:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Graphical Fault (Desktop Freeze) on Specific OpenGL Appli=
-cation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Graphical Fault (Desktop Freeze) on Specific OpenGL Appli=
-cation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472">bug 11047=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gpizarro&#64;javaman.net" title=3D"gpizarro&#64;javaman.net">gpizarro&#64;j=
-avaman.net</a>
-</span></b>
-        <pre>I really hope someone sees this. Bump x2?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15573311880.d96b38.19297--
-
---===============1191261686==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1191261686==--
+RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpBbm90aGVyIHZlcnNpb24g
+b2YgdGhlIFNSIGhlbHBlcnMgZm9yIHlvdXIgY29uc3VtcHRpb24uCgpQcmV0dHkgbWlub3IgZGlm
+ZmVyZW5jZXMgYmV0d2VlbiB2NCBhbmQgdjM6Ci0gbG90cyBvZiBkb2N1bWVudGF0aW9uIGNoYW5n
+ZXMKLSBVc2UgY29ubmVjdG9yIHRvIGdldCBhdCBjcnRjIHN0YXRlIGluIGVuY29kZXJzCi0gVXNl
+IHRoZSBkYW1hZ2UgaGVscGVycyBpbiByb2NrY2hpcCB0byBmaXggZmJkZXYKCk5vdGUgdGhhdCB0
+aGUgcm9ja2NoaXAgcGF0Y2hlcyByZXF1aXJlCmU5YWJjNjExYTk0MWQ0MDUxY2RlMWQ5NGIyYWI3
+NDczZmRiNTAxMDIgd2hpY2ggaXMgbWFraW5nIGl0cyB3YXkgdGhyb3VnaAp0aGUgLWZpeGVzIGJy
+YW5jaGVzLgoKUFRBTAoKTGF1cmVudCBQaW5jaGFydCAoMSk6CiAgZHJtOiBBZGQgZHJtX2F0b21p
+Y19nZXRfKG9sZHxuZXctX2Nvbm5lY3Rvcl9mb3JfZW5jb2RlcigpIGhlbHBlcnMKClNlYW4gUGF1
+bCAoMTApOgogIGRybTogQWRkIGF0b21pYyB2YXJpYW50cyBvZiBlbmFibGUvZGlzYWJsZSB0byBl
+bmNvZGVyIGhlbHBlciBmdW5jcwogIGRybTogQWRkIGF0b21pYyB2YXJpYW50cyBmb3IgYnJpZGdl
+IGVuYWJsZS9kaXNhYmxlCiAgZHJtOiBDb252ZXJ0IGNvbm5lY3Rvcl9oZWxwZXJfZnVuY3MtPmF0
+b21pY19jaGVjayB0byBhY2NlcHQKICAgIGRybV9hdG9taWNfc3RhdGUKICBkcm06IEFkZCBoZWxw
+ZXJzIHRvIGtpY2sgb2ZmIHNlbGYgcmVmcmVzaCBtb2RlIGluIGRyaXZlcnMKICBkcm0vcm9ja2No
+aXA6IFVzZSBkaXJ0eWZiIGhlbHBlcgogIGRybS9yb2NrY2hpcDogQ2hlY2sgZm9yIGZhc3QgbGlu
+ayB0cmFpbmluZyBiZWZvcmUgZW5hYmxpbmcgcHNyCiAgZHJtL3JvY2tjaGlwOiBVc2UgdGhlIGhl
+bHBlcnMgZm9yIFBTUgogIGRybS9yb2NrY2hpcDogVXNlIHZvcF93aW4gaW4gdm9wX3dpbl9kaXNh
+YmxlIGluc3RlYWQgb2Ygdm9wX3dpbl9kYXRhCiAgZHJtL3JvY2tjaGlwOiBEb24ndCBmdWxseSBk
+aXNhYmxlIHZvcCBvbiBzZWxmIHJlZnJlc2gKICBkcm0vcm9ja2NoaXA6IFVzZSBkcm1fYXRvbWlj
+X2hlbHBlcl9jb21taXRfdGFpbF9ycG0KCiBEb2N1bWVudGF0aW9uL2dwdS9kcm0ta21zLWhlbHBl
+cnMucnN0ICAgICAgICAgfCAgIDkgKwogZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlICAgICAgICAg
+ICAgICAgICAgICAgIHwgICAyICstCiAuLi4vZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeF9k
+cF9jb3JlLmMgICAgfCAyOTIgKysrKysrKysrKysrKy0tLS0tCiAuLi4vZHJtL2JyaWRnZS9hbmFs
+b2dpeC9hbmFsb2dpeF9kcF9jb3JlLmggICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+YXRvbWljLmMgICAgICAgICAgICAgICAgICB8ICA3MiArKysrKwogZHJpdmVycy9ncHUvZHJtL2Ry
+bV9hdG9taWNfaGVscGVyLmMgICAgICAgICAgIHwgIDU1ICsrKy0KIGRyaXZlcnMvZ3B1L2RybS9k
+cm1fYXRvbWljX3N0YXRlX2hlbHBlci5jICAgICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2F0b21pY191YXBpLmMgICAgICAgICAgICAgfCAgIDcgKy0KIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+YnJpZGdlLmMgICAgICAgICAgICAgICAgICB8IDExMCArKysrKysrCiBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuYyAgICAgfCAyMTMgKysrKysrKysrKysrKwogZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaW50ZWxfYXRvbWljLmMgICAgICAgICAgIHwgICA4ICstCiBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pbnRlbF9kcF9tc3QuYyAgICAgICAgICAgfCAgIDcgKy0KIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2ludGVsX2Rydi5oICAgICAgICAgICAgICB8ICAgMiArLQogZHJpdmVycy9n
+cHUvZHJtL2k5MTUvaW50ZWxfc2R2by5jICAgICAgICAgICAgIHwgICA5ICstCiBkcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pbnRlbF90di5jICAgICAgICAgICAgICAgfCAgIDggKy0KIGRyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyAgICAgICB8ICAgNSArLQogZHJpdmVycy9ncHUv
+ZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgICAgICAgICAgIHwgIDEyICstCiBkcml2ZXJzL2dwdS9k
+cm0vcm9ja2NoaXAvTWFrZWZpbGUgICAgICAgICAgICAgfCAgIDMgKy0KIC4uLi9ncHUvZHJtL3Jv
+Y2tjaGlwL2FuYWxvZ2l4X2RwLXJvY2tjaGlwLmMgICB8IDEwNiArKysrLS0tCiBkcml2ZXJzL2dw
+dS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2ZiLmMgICAgfCAgMzkgKy0tCiBkcml2ZXJzL2dw
+dS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3Bzci5jICAgfCAyOTAgLS0tLS0tLS0tLS0tLS0t
+LS0KIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fcHNyLmggICB8ICAzMCAt
+LQogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYyAgIHwgIDg0ICsr
+KystCiBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF90eHAuYyAgICAgICAgICAgICAgICAgfCAgIDcg
+Ky0KIGluY2x1ZGUvZHJtL2JyaWRnZS9hbmFsb2dpeF9kcC5oICAgICAgICAgICAgICB8ICAgNCAt
+CiBpbmNsdWRlL2RybS9kcm1fYXRvbWljLmggICAgICAgICAgICAgICAgICAgICAgfCAgMjIgKysK
+IGluY2x1ZGUvZHJtL2RybV9icmlkZ2UuaCAgICAgICAgICAgICAgICAgICAgICB8IDEwNiArKysr
+KysrCiBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggICAgICAgICAgICAgICAgICAgfCAgMTQg
+KwogaW5jbHVkZS9kcm0vZHJtX2NydGMuaCAgICAgICAgICAgICAgICAgICAgICAgIHwgIDE5ICsr
+CiBpbmNsdWRlL2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oICAgICAgfCAgNTAgKyst
+CiBpbmNsdWRlL2RybS9kcm1fc2VsZl9yZWZyZXNoX2hlbHBlci5oICAgICAgICAgfCAgMjIgKysK
+IDMxIGZpbGVzIGNoYW5nZWQsIDEwNjIgaW5zZXJ0aW9ucygrKSwgNTUxIGRlbGV0aW9ucygtKQog
+Y3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9kcm1fc2VsZl9yZWZyZXNoX2hlbHBl
+ci5jCiBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlw
+X2RybV9wc3IuYwogZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9y
+b2NrY2hpcF9kcm1fcHNyLmgKIGNyZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL2RybS9kcm1fc2Vs
+Zl9yZWZyZXNoX2hlbHBlci5oCgotLSAKU2VhbiBQYXVsLCBTb2Z0d2FyZSBFbmdpbmVlciwgR29v
+Z2xlIC8gQ2hyb21pdW0gT1MKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
