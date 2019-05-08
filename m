@@ -1,37 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8986317EF3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 19:18:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65B817F0D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 19:26:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA7A1895EE;
-	Wed,  8 May 2019 17:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9F889893;
+	Wed,  8 May 2019 17:26:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B77F895EE
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 17:18:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 86486FB03;
- Wed,  8 May 2019 19:18:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gAVnxvGAgT-N; Wed,  8 May 2019 19:18:27 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 2815147CC5; Wed,  8 May 2019 19:18:27 +0200 (CEST)
-Date: Wed, 8 May 2019 19:18:27 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 263EF89893
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 17:26:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1DF9B7215A; Wed,  8 May 2019 17:26:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/2] drm: imx: Add NWL MIPI DSI host controller support
-Message-ID: <20190508171827.GA21725@bogon.m.sigxcpu.org>
-References: <cover.1551954425.git.agx@sigxcpu.org>
+Subject: [Bug 109526] [CARRIZO] amdgpu fails to resume from S3, atombios
+ stuck executing C554 (len 629, WS 0, PS 0)
+Date: Wed, 08 May 2019 17:26:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johannes.hirte@datenkhaos.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109526-502-gCRG0WSe1v@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109526-502@http.bugs.freedesktop.org/>
+References: <bug-109526-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <cover.1551954425.git.agx@sigxcpu.org>
-hFrom: Guido =?iso-8859-1?Q?G=FCnthe?= =?iso-8859-1?Q?r?= <agx@sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,86 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Chiras <robert.chiras@nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1192935240=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCk9uIFRodSwgTWFyIDA3LCAyMDE5IGF0IDExOjMwOjUxQU0gKzAxMDAsIEd1aWRvIEfDvG50
-aGVyIHdyb3RlOgo+IFRoaXMgYWRkcyBpbml0aWFsIHN1cHBvcnQgZm9yIHRoZSBOV0wgTUlQSSBE
-U0kgSG9zdCBjb250cm9sbGVyIGZvdW5kIG9uIGkuTVg4Cj4gU29Dcy4KPiAKPiBJdCBhZGRzIHN1
-cHBvcnQgZm9yIHRoZSBpLk1YOE1RIGJ1dCB0aGUgc2FtZSBJUCBjb3JlIGNhbiBhbHNvIGJlIGZv
-dW5kIG9uIGUuZy4KPiBpLk1YOFFYUC4gSSBhZGRlZCB0aGUgbmVjZXNzYXJ5IGhvb2tzIHRvIHN1
-cHBvcnQgb3RoZXIgaW14OCB2YXJpYW50cyBidXQgc2luY2UKPiBJIG9ubHkgaGF2ZSBpbXg4bXEg
-Ym9hcmRzIHRvIHRlc3QgSSBvbWl0dGVkIHRoZSBwbGF0Zm9ybSBkYXRhIGZvciBvdGhlciBTb0Nz
-Lgo+IAo+IFRoZSBjb2RlIGlzIGJhc2VkIG9uIE5YUHMgQlNQIHNvIEkgYWRkZWQgUm9iZXJ0IENo
-aXJhcyBhcyBDby1hdXRob3JlZC1ieSBidXQKPiBJJ20gaGFwcHkgdG8gc3dhcCBBdXRob3I6IGFu
-ZCBDby1hdXRob3JlZC1ieTogaWYgdGhhdCBsb29rcyBtb3JlIGFwcHJvcHJpYXRlLgo+IFRoZSBt
-b3N0IG5vdGFibGUgY2hhbmdlcyBvdmVyIHRoZSBCU1AgZHJpdmVyIGFyZQo+ICAtIENhbGN1bGF0
-ZSBIUyBtb2RlIHRpbWluZyBmcm9tIHBoeV9jb25maWd1cmVfb3B0c19taXBpX2RwaHkKPiAgLSBQ
-ZXJmb3JtIGFsbCBjbG9jayBzZXR1cCB2aWEgRFQKPiAgLSBNZXJnZSBud2wtaW14IGFuZCBud2wg
-ZHJpdmVycwo+ICAtIEFkZCBCMCBzaWxpb24gcmV2aXNpb24gcXVpcmsKPiAKPiBQb3N0aW5nIHRo
-aXMgaXMgbGlrZWx5IGEgYml0IHByZW1hdHVyZSAoaGVuY2UgdjApIGJ1dCBJIHdhbnRlZCBmb3Ig
-b25lIHNob3cgaG93Cj4gdGhpcyBob29rcyBpbnRvIHRoZSBtaXhlbCBkcGh5IHBvc3RlZCBlYXJs
-aWVyIFsxXSBhbmQgYXZvaWQgZHVwbGljYXRpbmcgd29yay4KPiBTbyBpZiB0aGVyZSdzIG90aGVy
-IGNvZGUgb3V0IHRoZXJlIGRvaW5nIHRoZSBzYW1lIEknbSBiZSBoYXBweSB0byBtZXJnZQo+IGVm
-Zm9ydHMuCgpTaW5jZSB0aGlzIGlzIGxpa2VseSBub3QgZ29pbmcgYW55d2hlcmUgdW50aWwgd2Ug
-aGF2ZSBhIGRjc3MgZHJpdmVyIGFpbWVkCmZvciBtYWlubGluZSBJJ20gbm90IGdvaW5nIHNwYW0g
-dGhlIGxpc3Qgd2l0aCBmdXJ0aGVyIHJldmlzaW9ucy4gSG93ZXZlcgp0aGUgNS54IHZlcnNpb24g
-aXMgbWFpbnRhaW5lZCBoZXJlOgoKICAgIGh0dHBzOi8vc291cmNlLnB1cmkuc20vZ3VpZG8uZ3Vu
-dGhlci9saW51eC1pbXg4L3RyZWUvZm9yd2FyZC11cHN0cmVhbS9uZXh0LTIwMTkwNTA2L2lteC1u
-d2wvdjEtd2lwCgpGZWVkYmFjayBpcyBzdGlsbCB3ZWxjb21lLiBJdCdsbCBldmVudHVhbGx5IGJl
-IGZvcndhcmRlZCB0byBuZXdlcgpsaW51eC1uZXh0IHZlcnNpb25zLgoKQ2hhbmdlcyBvdmVyIHRo
-ZSBwb3N0ZWQgdmVyc2lvbiBhcmU6CgotIEFkZCBxdWlyayBmb3IgSU1ROE1RIHNpbGljb24gQjAg
-cmV2aXNpb24gdG8gbm90IG1lc3Mgd2l0aCB0aGUKICBzeXN0ZW0gcmVzZXQgY29udHJvbGxlciBv
-biBwb3dlciBkb3duIHNpbmNlIGVuYWJsZSB3b24ndCB3b3JrCiAgYWZ0ZXJ3YXJkcyBvdGhlcndp
-c2UuCi0gRGlzYWJsZSB0eCBlc2MgY2xvY2sgKmFmdGVyKiB0aGUgcGh5IHBvd2VyIGRvd24gdG8g
-dW5icmVhawogIGRpc2FibGUvZW5hYmxlICh1bmJsYW5rL2JsYW5rKQotIERyb3AgZGV2bV9mcmVl
-X2lycSgpIGhhbmRsZWQgYnkgdGhlIGRldmljZSBkcml2ZXIgY29yZQotIEFkZCBwb3J0cyB0byBk
-dCBiaW5kaW5nIGRvY3MKLSBTZWxlY3QgR0VORVJJQ19QSFlfTUlQSV9EUEhZIGluc3RlYWQgb2Yg
-R0VORVJJQ19QSFkgZm9yCiAgcGh5X21pcGlfZHBoeV9nZXRfZGVmYXVsdF9jb25maWcKLSBJbmNs
-dWRlIGRybV9wcmludC5oIHRvIGZpeCBidWlsZCBvbiBuZXh0LTIwMTkwNDA4Ci0gRHJvcCBzb21l
-IGRlYnVnZ2luZyBtZXNzYWdlcwotIE5ld2xpbmUgdGVybWluYXRlIGFsbCBEUk1fIHByaW50b3V0
-cwoKSWYgc29tZWJvZHkgaXMgd29ya2luZyBvbiBEQ1NTIHN1cHBvcnQgaXQnZCBiZSBjb29sIHRv
-IGtub3cgc2luY2UgdGhpcwpkcml2ZXIgaXMgY3VycmVudGx5IGEgY29tcG9uZW50IG9mIGlteC1k
-aXNwbGF5LXN1YnN5c3RlbSB3aGljaCB3aWxsIG9ubHkKd29yayBvdXQgaWYgZGNzcyBpcyBoYW5k
-bGVkIGxpa2UgdGhpcyBhcyB3ZWxsLgpDaGVlcnMsCiAtLSBHdWlkbwoKPiAKPiBJdCBoYXMgYmVl
-biB0ZXN0ZWQgcXVpdGUgYml0IChpbiBhIHZlcnNpb24gYmFja3BvcnRlZCB0byA0LjE4KSBvbiBM
-aWJyZW0gNQo+IGRldmtpdCB1c2luZyBEQ1NTICh3aGljaCBpcyBub3QgbWFpbmxpbmVkIHlldCkg
-YW5kIGEgTUlQSSBEU0kgcGFuZWxbMl0uIEluCj4gcHJpbmNpcGxlIExDRElGIGNhbiBhbHNvIGFj
-dCBhcyBpbnB1dCBzb3VyY2UuIEkgaW50ZW5kIGxvb2sgaW50byBuZXh0IHNvIHRoaXMKPiBjYW4g
-YWN0dWFsbHkgYmUgdGVzdGVkIHdpdGhvdXQgZnVydGhlciBwYXRjaGVzIG9uIG1haW5saW5lIGtl
-cm5lbHMuCj4gCj4gWzFdOiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9k
-cmktZGV2ZWwvMjAxOS1NYXJjaC8yMDk2ODAuaHRtbAo+IFsyXTogaHR0cHM6Ly9zb3VyY2UucHVy
-aS5zbS9ndWlkby5ndW50aGVyL2xpbnV4LWlteDgvdHJlZS9pbXg4LTQuMTgtd2lwLW53bC1kc2kt
-cmV3b3JrCj4gCj4gR3VpZG8gR8O8bnRoZXIgKDIpOgo+ICAgZHQtYmluZGluZ3M6IGlteDogQWRk
-IGJpbmRpbmcgZm9yIElNWCBOV0wgbWlwaSBkc2kgaG9zdCBjb250cm9sbGVyCj4gICBkcm0vaW14
-OiBBZGQgTldMIE1JUEkgRFNJIGhvc3QgY29udHJvbGxlciBzdXBwb3J0Cj4gCj4gIC4uLi9iaW5k
-aW5ncy9kaXNwbGF5L2lteC9pbXgtbndsLWRzaS50eHQgICAgICB8ICA3MiArKwo+ICBkcml2ZXJz
-L2dwdS9kcm0vS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgfCAgIDIgKwo+ICBkcml2ZXJz
-L2dwdS9kcm0vTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgKwo+ICBkcml2ZXJz
-L2dwdS9kcm0vbndsL0tjb25maWcgICAgICAgICAgICAgICAgICAgfCAgMTIgKwo+ICBkcml2ZXJz
-L2dwdS9kcm0vbndsL01ha2VmaWxlICAgICAgICAgICAgICAgICAgfCAgIDIgKwo+ICBkcml2ZXJz
-L2dwdS9kcm0vbndsL253bC1kcnYuYyAgICAgICAgICAgICAgICAgfCA1OTQgKysrKysrKysrKysr
-KysKPiAgZHJpdmVycy9ncHUvZHJtL253bC9ud2wtZHJ2LmggICAgICAgICAgICAgICAgIHwgIDY4
-ICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9ud2wvbndsLWRzaS5jICAgICAgICAgICAgICAgICB8IDc1
-MiArKysrKysrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL253bC9ud2wtZHNpLmggICAg
-ICAgICAgICAgICAgIHwgMTA1ICsrKwo+ICA5IGZpbGVzIGNoYW5nZWQsIDE2MDggaW5zZXJ0aW9u
-cygrKQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvaW14L2lteC1ud2wtZHNpLnR4dAo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJp
-dmVycy9ncHUvZHJtL253bC9LY29uZmlnCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dw
-dS9kcm0vbndsL01ha2VmaWxlCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0v
-bndsL253bC1kcnYuYwo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL253bC9u
-d2wtZHJ2LmgKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9ud2wvbndsLWRz
-aS5jCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbndsL253bC1kc2kuaAo+
-IAo+IC0tIAo+IDIuMjAuMQo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============1192935240==
+Content-Type: multipart/alternative; boundary="15573364160.DFdd9b5AE.32417"
+Content-Transfer-Encoding: 7bit
+
+
+--15573364160.DFdd9b5AE.32417
+Date: Wed, 8 May 2019 17:26:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109526
+
+--- Comment #6 from Johannes Hirte <johannes.hirte@datenkhaos.de> ---
+ping? still an issue with kernel 5.1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15573364160.DFdd9b5AE.32417
+Date: Wed, 8 May 2019 17:26:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CARRIZO] amdgpu fails to resume from S3, atombios stuck =
+executing C554 (len 629, WS 0, PS 0)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109526#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CARRIZO] amdgpu fails to resume from S3, atombios stuck =
+executing C554 (len 629, WS 0, PS 0)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109526">bug 10952=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+johannes.hirte&#64;datenkhaos.de" title=3D"Johannes Hirte &lt;johannes.hirt=
+e&#64;datenkhaos.de&gt;"> <span class=3D"fn">Johannes Hirte</span></a>
+</span></b>
+        <pre>ping? still an issue with kernel 5.1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15573364160.DFdd9b5AE.32417--
+
+--===============1192935240==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1192935240==--
