@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347FF1724B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 09:08:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6A01728D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 May 2019 09:28:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7EC7891D5;
-	Wed,  8 May 2019 07:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51F9B891B5;
+	Wed,  8 May 2019 07:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D4D2892C1
- for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 07:08:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A1211891B5
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 May 2019 07:28:04 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3610B7215A; Wed,  8 May 2019 07:08:55 +0000 (UTC)
+ id 9D6117215A; Wed,  8 May 2019 07:28:04 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
-Date: Wed, 08 May 2019 07:08:55 +0000
+Subject: [Bug 110641] lm_sensors reports "ERROR: Can't get value of
+ subfeature in0_input: Can't read"
+Date: Wed, 08 May 2019 07:28:04 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Who: bong.cosca@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109345-502-MCEAKcVtkn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
-References: <bug-109345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110641-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,59 +52,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1749476357=="
+Content-Type: multipart/mixed; boundary="===============0772945343=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1749476357==
-Content-Type: multipart/alternative; boundary="15572993352.11fC.2134"
+--===============0772945343==
+Content-Type: multipart/alternative; boundary="15573004841.B23Ca04.5777"
 Content-Transfer-Encoding: 7bit
 
 
---15572993352.11fC.2134
-Date: Wed, 8 May 2019 07:08:55 +0000
+--15573004841.B23Ca04.5777
+Date: Wed, 8 May 2019 07:28:04 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110641
 
---- Comment #36 from Christian Zigotzky <chzigotzky@xenosoft.de> ---
-(In reply to Ilia Mirkin from comment #35)
-> If I had to put money on one of the left-over commits, I'd go with
->=20
-> commit 3d42f1ddc47a69c0ce155f9f30d764c4d689a5fa
-> Author: Aaron Ma <aaron.ma@canonical.com>
-> Date:   Sat Sep 1 02:20:00 2018 +0800
->=20
->     vgaarb: Keep adding VGA device in queue
->=20=20=20=20=20
->     If failed to find the deivice owning the boot framebuffer,
->     try to use the first VGA device instead of the last one.
->=20=20=20=20=20
->     Usually the 1st device is integrated GPU who owns the boot framebuffe=
-r.
->=20=20=20=20=20
->     Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
->     Acked-by: Alex Deucher <alexander.deucher@amd.com>
->     Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->     Link:
-> https://patchwork.freedesktop.org/patch/msgid/1535739600-8842-2-git-send-
-> email-aaron.ma@canonical.com
->=20
-> Which seems to change the vgaarb logic wrt which device is the primary.
+            Bug ID: 110641
+           Summary: lm_sensors reports "ERROR: Can't get value of
+                    subfeature in0_input: Can't read"
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: bong.cosca@gmail.com
 
-Thanks a lot for the hint. I am looking forward to the git bisect result.
+Alex Deucher <alexander.deucher@amd.com> 2017-03-08 18:25:15 -0500
+drm/amdgpu: expose GPU sensor related information
+commit 5ebbac4b5c9159130046bf7c56b7f4c71ca7d1b7
+
+This particular commit introduced this error.
+
+$ sensors -j
+
+{
+   "amdgpu-pci-0008":{
+      "Adapter": "PCI adapter",
+      "vddgfx":{
+ERROR: Can't get value of subfeature in0_input: Can't read
+
+      },
+      "vddnb":{
+ERROR: Can't get value of subfeature in1_input: Can't read
+
+      },
+      "temp1":{
+         "temp1_input": 12.000,
+         "temp1_crit": 120.000,
+         "temp1_crit_hyst": 90.000
+      }
+   },
+   "it8603-isa-0290":{
+      "Adapter": "ISA adapter",
+      "CPU Fan":{
+         "fan1_input": 2509.000,
+         "fan1_min": 200.000,
+         "fan1_alarm": 0.000
+      },
+      "Mobo Fan":{
+         "fan2_input": 0.000,
+         "fan2_min": 600.000,
+         "fan2_alarm": 1.000
+      },
+      "AMD A6-7400K Radeon R5":{
+         "temp1_input": 44.000,
+         "temp1_max": 127.000,
+         "temp1_min": -45.000,
+         "temp1_alarm": 0.000,
+         "temp1_type": 4.000,
+         "temp1_offset": 0.000
+      },
+      "Asus A68HM-K Mobo":{
+         "temp2_input": 45.000,
+         "temp2_max": -33.000,
+         "temp2_min": 53.000,
+         "temp2_alarm": 1.000,
+         "temp2_type": 4.000,
+         "temp2_offset": 0.000
+      }
+   }
+}
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15572993352.11fC.2134
-Date: Wed, 8 May 2019 07:08:55 +0000
+--15573004841.B23Ca04.5777
+Date: Wed, 8 May 2019 07:28:04 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -115,59 +158,141 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
+ture in0_input: Can't read&quot;"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641">110641</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>lm_sensors reports &quot;ERROR: Can't get value of subfeature=
+ in0_input: Can't read&quot;
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>bong.cosca&#64;gmail.com
+          </td>
+        </tr></table>
       <p>
         <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c36">Comme=
-nt # 36</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-chzigotzky&#64;xenosoft.de" title=3D"Christian Zigotzky &lt;chzigotzky&#64;=
-xenosoft.de&gt;"> <span class=3D"fn">Christian Zigotzky</span></a>
-</span></b>
-        <pre>(In reply to Ilia Mirkin from <a href=3D"show_bug.cgi?id=3D109=
-345#c35">comment #35</a>)
-<span class=3D"quote">&gt; If I had to put money on one of the left-over co=
-mmits, I'd go with
-&gt;=20
-&gt; commit 3d42f1ddc47a69c0ce155f9f30d764c4d689a5fa
-&gt; Author: Aaron Ma &lt;<a href=3D"mailto:aaron.ma&#64;canonical.com">aar=
-on.ma&#64;canonical.com</a>&gt;
-&gt; Date:   Sat Sep 1 02:20:00 2018 +0800
-&gt;=20
-&gt;     vgaarb: Keep adding VGA device in queue
-&gt;=20=20=20=20=20
-&gt;     If failed to find the deivice owning the boot framebuffer,
-&gt;     try to use the first VGA device instead of the last one.
-&gt;=20=20=20=20=20
-&gt;     Usually the 1st device is integrated GPU who owns the boot framebu=
-ffer.
-&gt;=20=20=20=20=20
-&gt;     Signed-off-by: Aaron Ma &lt;<a href=3D"mailto:aaron.ma&#64;canonic=
-al.com">aaron.ma&#64;canonical.com</a>&gt;
-&gt;     Acked-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64=
-;amd.com">alexander.deucher&#64;amd.com</a>&gt;
-&gt;     Signed-off-by: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter&#=
-64;ffwll.ch">daniel.vetter&#64;ffwll.ch</a>&gt;
-&gt;     Link:
-&gt; <a href=3D"https://patchwork.freedesktop.org/patch/msgid/1535739600-88=
-42-2-git-send">https://patchwork.freedesktop.org/patch/msgid/1535739600-884=
-2-2-git-send</a>-
-&gt; <a href=3D"mailto:email-aaron.ma&#64;canonical.com">email-aaron.ma&#64=
-;canonical.com</a>
-&gt;=20
-&gt; Which seems to change the vgaarb logic wrt which device is the primary=
-.</span >
+        <pre>Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64;amd.c=
+om">alexander.deucher&#64;amd.com</a>&gt; 2017-03-08 18:25:15 -0500
+drm/amdgpu: expose GPU sensor related information
+commit 5ebbac4b5c9159130046bf7c56b7f4c71ca7d1b7
 
-Thanks a lot for the hint. I am looking forward to the git bisect result.</=
-pre>
+This particular commit introduced this error.
+
+$ sensors -j
+
+{
+   &quot;amdgpu-pci-0008&quot;:{
+      &quot;Adapter&quot;: &quot;PCI adapter&quot;,
+      &quot;vddgfx&quot;:{
+ERROR: Can't get value of subfeature in0_input: Can't read
+
+      },
+      &quot;vddnb&quot;:{
+ERROR: Can't get value of subfeature in1_input: Can't read
+
+      },
+      &quot;temp1&quot;:{
+         &quot;temp1_input&quot;: 12.000,
+         &quot;temp1_crit&quot;: 120.000,
+         &quot;temp1_crit_hyst&quot;: 90.000
+      }
+   },
+   &quot;it8603-isa-0290&quot;:{
+      &quot;Adapter&quot;: &quot;ISA adapter&quot;,
+      &quot;CPU Fan&quot;:{
+         &quot;fan1_input&quot;: 2509.000,
+         &quot;fan1_min&quot;: 200.000,
+         &quot;fan1_alarm&quot;: 0.000
+      },
+      &quot;Mobo Fan&quot;:{
+         &quot;fan2_input&quot;: 0.000,
+         &quot;fan2_min&quot;: 600.000,
+         &quot;fan2_alarm&quot;: 1.000
+      },
+      &quot;AMD A6-7400K Radeon R5&quot;:{
+         &quot;temp1_input&quot;: 44.000,
+         &quot;temp1_max&quot;: 127.000,
+         &quot;temp1_min&quot;: -45.000,
+         &quot;temp1_alarm&quot;: 0.000,
+         &quot;temp1_type&quot;: 4.000,
+         &quot;temp1_offset&quot;: 0.000
+      },
+      &quot;Asus A68HM-K Mobo&quot;:{
+         &quot;temp2_input&quot;: 45.000,
+         &quot;temp2_max&quot;: -33.000,
+         &quot;temp2_min&quot;: 53.000,
+         &quot;temp2_alarm&quot;: 1.000,
+         &quot;temp2_type&quot;: 4.000,
+         &quot;temp2_offset&quot;: 0.000
+      }
+   }
+}</pre>
         </div>
       </p>
 
@@ -181,9 +306,9 @@ pre>
     </body>
 </html>=
 
---15572993352.11fC.2134--
+--15573004841.B23Ca04.5777--
 
---===============1749476357==
+--===============0772945343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -193,4 +318,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1749476357==--
+--===============0772945343==--
