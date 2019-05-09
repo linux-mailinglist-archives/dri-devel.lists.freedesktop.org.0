@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E80183FB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 05:12:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9AC18415
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 05:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27196899F2;
-	Thu,  9 May 2019 03:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312A889A4A;
+	Thu,  9 May 2019 03:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A8567899F2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 03:12:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A4E827215A; Thu,  9 May 2019 03:12:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110472] Graphical Fault (Desktop Freeze) on Specific OpenGL
- Application
-Date: Thu, 09 May 2019 03:12:34 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gpizarro@javaman.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110472-502-aEcOYG92ZT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110472-502@http.bugs.freedesktop.org/>
-References: <bug-110472-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4299B89A4A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 03:21:24 +0000 (UTC)
+Received: from callcc.thunk.org ([66.31.38.53]) (authenticated bits=0)
+ (User authenticated as tytso@ATHENA.MIT.EDU)
+ by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x493KHVw012310
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 8 May 2019 23:20:19 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+ id A3951420024; Wed,  8 May 2019 23:20:17 -0400 (EDT)
+Date: Wed, 8 May 2019 23:20:17 -0400
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Frank Rowand <frowand.list@gmail.com>
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190509032017.GA29703@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+ Frank Rowand <frowand.list@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Brendan Higgins <brendanhiggins@google.com>, keescook@google.com,
+ kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+ sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+ linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+ Tim.Bird@sony.com, amir73il@gmail.com, dan.carpenter@oracle.com,
+ dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+ joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+ knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+ pmladek@suse.com, richard@nod.at, rientjes@google.com,
+ rostedt@goodmis.org, wfg@linux.intel.com
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
+ <20190507080119.GB28121@kroah.com>
+ <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
+ <20190509015856.GB7031@mit.edu>
+ <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,121 +64,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0880272469=="
+Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
+ Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
+ Alexander.Levin@microsoft.com, mpe@ellerman.id.au,
+ linux-kselftest@vger.kernel.org, shuah@kernel.org, linux-nvdimm@lists.01.org,
+ khilman@baylibre.com, knut.omang@oracle.com, kieran.bingham@ideasonboard.com,
+ wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
+ dan.carpenter@oracle.com, devicetree@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
+ rostedt@goodmis.org, julia.lawall@lip6.fr, dan.j.williams@intel.com,
+ kunit-dev@googlegroups.com, richard@nod.at, sboyd@kernel.org,
+ Greg KH <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ mcgrof@kernel.org, keescook@google.com, linux-fsdevel@vger.kernel.org,
+ logang@deltatee.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0880272469==
-Content-Type: multipart/alternative; boundary="15573715540.7B3d.23412"
-Content-Transfer-Encoding: 7bit
-
-
---15573715540.7B3d.23412
-Date: Thu, 9 May 2019 03:12:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110472
-
---- Comment #4 from gpizarro@javaman.net ---
-(In reply to Timothy Arceri from comment #3)
-> It would be helpful if you were able to get an apitrace [1] of the proble=
-m.
->=20
-> [1] https://github.com/apitrace/apitrace
-
-Thank you for replying!
-
-My apitrace file is unnaturally large (418MB) so I uploaded it to Google Dr=
-ive
-instead of this site. The apitrace log is also large (24MB), so it's also in
-the shared folder.
-
-Link:
-https://drive.google.com/drive/folders/1rulVIW3dIB3RYA3RlIorLFufdQxLOYrn?us=
-p=3Dsharing
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15573715540.7B3d.23412
-Date: Thu, 9 May 2019 03:12:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Graphical Fault (Desktop Freeze) on Specific OpenGL Appli=
-cation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Graphical Fault (Desktop Freeze) on Specific OpenGL Appli=
-cation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472">bug 11047=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gpizarro&#64;javaman.net" title=3D"gpizarro&#64;javaman.net">gpizarro&#64;j=
-avaman.net</a>
-</span></b>
-        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
-110472#c3">comment #3</a>)
-<span class=3D"quote">&gt; It would be helpful if you were able to get an a=
-pitrace [1] of the problem.
-&gt;=20
-&gt; [1] <a href=3D"https://github.com/apitrace/apitrace">https://github.co=
-m/apitrace/apitrace</a></span >
-
-Thank you for replying!
-
-My apitrace file is unnaturally large (418MB) so I uploaded it to Google Dr=
-ive
-instead of this site. The apitrace log is also large (24MB), so it's also in
-the shared folder.
-
-Link:
-<a href=3D"https://drive.google.com/drive/folders/1rulVIW3dIB3RYA3RlIorLFuf=
-dQxLOYrn?usp=3Dsharing">https://drive.google.com/drive/folders/1rulVIW3dIB3=
-RYA3RlIorLFufdQxLOYrn?usp=3Dsharing</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15573715540.7B3d.23412--
-
---===============0880272469==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0880272469==--
+T24gV2VkLCBNYXkgMDgsIDIwMTkgYXQgMDc6MTM6NTlQTSAtMDcwMCwgRnJhbmsgUm93YW5kIHdy
+b3RlOgo+ID4gSWYgeW91IHdhbnQgdG8gdXNlIHZpY2UgZ3JpcHMgYXMgYSBoYW1tZXIsIHNjcmV3
+ZHJpdmVyLCBtb25rZXkgd3JlbmNoLAo+ID4gZXRjLiAgdGhlcmUncyBub3RoaW5nIHN0b3BwaW5n
+IHlvdSBmcm9tIGRvaW5nIHRoYXQuICBCdXQgaXQncyBub3QgZmFpcgo+ID4gdG8gb2JqZWN0IHRv
+IG90aGVyIHBlb3BsZSB3aG8gbWlnaHQgd2FudCB0byB1c2UgYmV0dGVyIHRvb2xzLgo+ID4gCj4g
+PiBUaGUgcmVhbGl0eSBpcyB0aGF0IHdlIGhhdmUgYSBsb3Qgb2YgdGVzdGluZyB0b29scy4gIEl0
+J3Mgbm90IGp1c3QKPiA+IGtzZWxmdGVzdHMuICBUaGVyZSBpcyB4ZnN0ZXN0cyBmb3IgZmlsZSBz
+eXN0ZW0gY29kZSwgYmxrdGVzdHMgZm9yCj4gPiBibG9jayBsYXllciB0ZXN0cywgZXRjLiAgIFdl
+IHVzZSB0aGUgcmlnaHQgdG9vbCBmb3IgdGhlIHJpZ2h0IGpvYi4KPiAKPiBNb3JlIHNwZWNpb3Vz
+IGFyZ3VtZW50cy4KCldlbGwsICpJKiBkb24ndCB0aGluayB0aGV5IGFyZSBzcGVjaW91czsgc28g
+SSB0aGluayB3ZSdyZSBnb2luZyB0bwpoYXZlIHRvIGFncmVlIHRvIGRpc2FncmVlLgoKQ2hlZXJz
+LAoKCQkJCQkJLSBUZWQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
