@@ -2,66 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADD6185FD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 09:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E80183FB
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 05:12:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD9B89A98;
-	Thu,  9 May 2019 07:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27196899F2;
+	Thu,  9 May 2019 03:12:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E96C89257
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 03:00:33 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id n19so503515pfa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 May 2019 20:00:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=R6mFOl4YJArdXkPl64BdobxdiCxDb1GQAsEcDCxAI1c=;
- b=fLK6lLMSWw6mnf39ehjtDOhx3fXH2g9y6o5YfjhV2ozyQGtqAHfXohJAcnSo6ZJWpj
- 9ptUpcCUnUzex0McdxpdW2klBhOjssl81wcj2k+AoMNQwxWa+S2lrFzHhaSBzUmCrW8I
- FzHoSPO/tq5YEFYIK7hW5m2T+aswWW/QnLqwxAjxg/bI2K9STGCepmIfeaig5m5JwZxN
- XhY8szBC4TGOkYoRNMg2sz9IzDUBgG0spBW1hBbkSFxv47NfZMrKRTFoJvvx2W3hltHs
- HWEFj+9guJWeyWCu05ZUERyXeqJhr+hxpLEPx0lQTEm3yRuBUQnpdhiqBnOa+gHQpkp5
- prZA==
-X-Gm-Message-State: APjAAAXImp8nH5RC6I01Nh8sfT54RHLEi9SnZyym2lAgoBBXA6jVfGt1
- svA9GyvPTVziU7nrTYeOxi25Dw==
-X-Google-Smtp-Source: APXvYqxgN704DpczLbGfx053xEiv41Nt6oO0nbwl2oNJfPJaAeEeqFFzx6MkSY1scvkrrW5nHXsfWA==
-X-Received: by 2002:a63:5659:: with SMTP id g25mr2416023pgm.59.1557370833308; 
- Wed, 08 May 2019 20:00:33 -0700 (PDT)
-Received: from tuxbook-pro (104-188-17-28.lightspeed.sndgca.sbcglobal.net.
- [104.188.17.28])
- by smtp.gmail.com with ESMTPSA id o5sm901426pfa.135.2019.05.08.20.00.31
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 08 May 2019 20:00:31 -0700 (PDT)
-Date: Wed, 8 May 2019 20:00:47 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH RFC 4/6] ARM: dts: msm8974: add display support
-Message-ID: <20190509030047.GE2085@tuxbook-pro>
-References: <20190505130413.32253-1-masneyb@onstation.org>
- <20190505130413.32253-5-masneyb@onstation.org>
- <20190507063902.GA2085@tuxbook-pro>
- <20190509021616.GA26228@basecamp>
- <CAF6AEGsM382jB=h7oM3frhZ5fAp+qYUdgiiKSKo1RtR8+ffjrg@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A8567899F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 03:12:34 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A4E827215A; Thu,  9 May 2019 03:12:34 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110472] Graphical Fault (Desktop Freeze) on Specific OpenGL
+ Application
+Date: Thu, 09 May 2019 03:12:34 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gpizarro@javaman.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110472-502-aEcOYG92ZT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110472-502@http.bugs.freedesktop.org/>
+References: <bug-110472-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGsM382jB=h7oM3frhZ5fAp+qYUdgiiKSKo1RtR8+ffjrg@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Approved-At: Thu, 09 May 2019 07:18:00 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=R6mFOl4YJArdXkPl64BdobxdiCxDb1GQAsEcDCxAI1c=;
- b=AfK/Uume2oPASwykEbs/t9IMEMyllPOQopDa9fMIYaD+zAfbeCEUFdQuIappnyEn3z
- dXioYDA9KBXc/pOKOAihi0asuc6L5//SlvzGt4LgklZGtohHhIVNx3Fst2PBNV2u3PTj
- PiUEOpLgZNU8Jggtcbvz1aU0YT/6i8SvYYCA1qUjdlF3Ol/dGwMiw14DGpN5f5vw2ZkJ
- 1x/5fvkiDw01ozcsLF/oUJy+2+wue9QV5IIjfdiorrI2SfwTjCWItRF/gla27XbLQFuS
- kMSmjYCnOW8T8itm7LgazU11YQiaDQY2lN50WFLZ8I6Mh/r01WIW/ChsfNTLzuX6T0Oh
- yeLw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,57 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Brian Masney <masneyb@onstation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0880272469=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkIDA4IE1heSAxOToyNSBQRFQgMjAxOSwgUm9iIENsYXJrIHdyb3RlOgoKPiBPbiBXZWQs
-IE1heSA4LCAyMDE5IGF0IDc6MTYgUE0gQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5v
-cmc+IHdyb3RlOgo+ID4KPiA+IE9uIE1vbiwgTWF5IDA2LCAyMDE5IGF0IDExOjM5OjAyUE0gLTA3
-MDAsIEJqb3JuIEFuZGVyc3NvbiB3cm90ZToKPiA+ID4gT24gU3VuIDA1IE1heSAwNjowNCBQRFQg
-MjAxOSwgQnJpYW4gTWFzbmV5IHdyb3RlOgo+ID4gPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9i
-b290L2R0cy9xY29tLW1zbTg5NzQuZHRzaSBiL2FyY2gvYXJtL2Jvb3QvZHRzL3Fjb20tbXNtODk3
-NC5kdHNpCj4gPiA+IFsuLl0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgY2xv
-Y2tzID0gPCZtbWNjIE1EU1NfTURQX0NMSz4sCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIDwmbW1jYyBNRFNTX0FIQl9DTEs+LAo+ID4gPiA+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICA8Jm1tY2MgTURTU19BWElfQ0xLPiwKPiA+ID4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPCZtbWNjIE1EU1NfQllURTBfQ0xL
-PiwKPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPCZtbWNjIE1E
-U1NfUENMSzBfQ0xLPiwKPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgPCZtbWNjIE1EU1NfRVNDMF9DTEs+LAo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICA8Jm1tY2MgTU1TU19NSVNDX0FIQl9DTEs+Owo+ID4gPiA+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBjbG9jay1uYW1lcyA9ICJtZHBfY29yZSIsCj4gPiA+ID4gKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImlmYWNlIiwKPiA+ID4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiYnVzIiwKPiA+ID4gPiAr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiYnl0ZSIsCj4gPiA+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInBpeGVsIiwKPiA+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiY29yZSIsCj4gPiA+
-ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgImNvcmVfbW1zcyI7
-Cj4gPiA+Cj4gPiA+IFVubGVzcyBJIGVuYWJsZSBNTVNTX01NU1NOT0NfQVhJX0NMSyBhbmQgTU1T
-U19TMF9BWElfQ0xLIEkgZ2V0IHNvbWUKPiA+ID4gdW5kZXJydW4gZXJyb3IgZnJvbSBEU0kuIFlv
-dSBkb24ndCBzZWUgYW55dGhpbmcgbGlrZSB0aGlzPwo+ID4gPgo+ID4gPiAoVGhlc2UgY2xvY2tz
-IGFyZSBjb250cm9sbGVkIGJ5IG1zbV9idXMgZG93bnN0cmVhbSBhbmQgc2hvdWxkIGJlIGRyaXZl
-bgo+ID4gPiBieSBpbnRlcmNvbm5lY3QgdXBzdHJlYW0pCj4gPiA+Cj4gPiA+Cj4gPiA+IEFwYXJ0
-IGZyb20gdGhpcywgSSB0aGluayB0aGlzIGxvb2tzIG5pY2UuIEhhcHB5IHRvIHNlZSB0aGUgcHJv
-Z3Jlc3MuCj4gPgo+ID4gTm8sIEknbSBub3Qgc2VlaW5nIGFuIHVuZGVycnVuIGVycm9ycyBmcm9t
-IHRoZSBEU0kuIEkgdGhpbmsgdGhlIGNsb2Nrcwo+ID4gYXJlIGZpbmUgc2luY2UgSSdtIGFibGUg
-dG8gZ2V0IHRoaXMgd29ya2luZyB3aXRoIDQuMTcgdXNpbmcgdGhlc2Ugc2FtZQo+ID4gY2xvY2tz
-LiBJIGp1c3Qgc2VudCBvdXQgdjIgYW5kIHRoZSBjb3ZlciBsZXR0ZXIgaGFzIHNvbWUgZGV0YWls
-cywgYWxvbmcKPiA+IHdpdGggdGhlIGZ1bGwgZG1lc2cuCj4gCj4gc2luY2Ugd2UgZG9uJ3QgaGF2
-ZSBpbnRlcmNvbm5lY3QgZHJpdmVyIGZvciA4OTc0LCBJIGd1ZXNzIHRoZXJlIGlzCj4gc29tZSBj
-aGFuY2UgdGhhdCB0aGluZ3Mgd29yayBvciBub3QgYmFzZWQgb24gaG93IGxrIGxlYXZlcyB0aGlu
-Z3M/Cj4gCgpSaWdodCwgSSBndWVzcyB0aGUgYm9vdGxvYWRlciBvbiBteSBkZXZpY2UgZG9lcyBu
-b3QgbGVhdmUgdGhlIGJ1c3Nlcwp0aWNraW5nIC0gcGVyaGFwcyB0aGVyZSdzIGEgYm9vdCBzcGxh
-c2ggaW52b2x2ZWQgb24gQnJpYW4ncyBkZXZpY2U/CgpSZWdhcmRsZXNzLCB0aGlzIHdvcmtzIG9u
-IE5leHVzIDUgYW5kIGFsbG93cyBCcmlhbiB0byBtYWtlIGZ1cnRoZXIKcHJvZ3Jlc3Mgc28gSSdt
-IGFsbCBmb3IgbWVyZ2luZyBpdC4KClJlZ2FyZHMsCkJqb3JuCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0880272469==
+Content-Type: multipart/alternative; boundary="15573715540.7B3d.23412"
+Content-Transfer-Encoding: 7bit
+
+
+--15573715540.7B3d.23412
+Date: Thu, 9 May 2019 03:12:34 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110472
+
+--- Comment #4 from gpizarro@javaman.net ---
+(In reply to Timothy Arceri from comment #3)
+> It would be helpful if you were able to get an apitrace [1] of the proble=
+m.
+>=20
+> [1] https://github.com/apitrace/apitrace
+
+Thank you for replying!
+
+My apitrace file is unnaturally large (418MB) so I uploaded it to Google Dr=
+ive
+instead of this site. The apitrace log is also large (24MB), so it's also in
+the shared folder.
+
+Link:
+https://drive.google.com/drive/folders/1rulVIW3dIB3RYA3RlIorLFufdQxLOYrn?us=
+p=3Dsharing
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15573715540.7B3d.23412
+Date: Thu, 9 May 2019 03:12:34 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Graphical Fault (Desktop Freeze) on Specific OpenGL Appli=
+cation"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Graphical Fault (Desktop Freeze) on Specific OpenGL Appli=
+cation"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110472">bug 11047=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gpizarro&#64;javaman.net" title=3D"gpizarro&#64;javaman.net">gpizarro&#64;j=
+avaman.net</a>
+</span></b>
+        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
+110472#c3">comment #3</a>)
+<span class=3D"quote">&gt; It would be helpful if you were able to get an a=
+pitrace [1] of the problem.
+&gt;=20
+&gt; [1] <a href=3D"https://github.com/apitrace/apitrace">https://github.co=
+m/apitrace/apitrace</a></span >
+
+Thank you for replying!
+
+My apitrace file is unnaturally large (418MB) so I uploaded it to Google Dr=
+ive
+instead of this site. The apitrace log is also large (24MB), so it's also in
+the shared folder.
+
+Link:
+<a href=3D"https://drive.google.com/drive/folders/1rulVIW3dIB3RYA3RlIorLFuf=
+dQxLOYrn?usp=3Dsharing">https://drive.google.com/drive/folders/1rulVIW3dIB3=
+RYA3RlIorLFufdQxLOYrn?usp=3Dsharing</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15573715540.7B3d.23412--
+
+--===============0880272469==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0880272469==--
