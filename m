@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650B01839E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 04:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A46185EB
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 09:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57033899C7;
-	Thu,  9 May 2019 02:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F1C899D4;
+	Thu,  9 May 2019 07:18:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F3983899C7
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 02:15:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D63D2721AA; Thu,  9 May 2019 02:15:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110641] lm_sensors reports "ERROR: Can't get value of
- subfeature in0_input: Can't read"
-Date: Thu, 09 May 2019 02:15:26 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110641-502-BUXfhOThV8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110641-502@http.bugs.freedesktop.org/>
-References: <bug-110641-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from onstation.org (onstation.org [52.200.56.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26EF7899D5;
+ Thu,  9 May 2019 02:16:18 +0000 (UTC)
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
+ [98.239.145.235])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: masneyb)
+ by onstation.org (Postfix) with ESMTPSA id D17EA3E93E;
+ Thu,  9 May 2019 02:16:16 +0000 (UTC)
+Date: Wed, 8 May 2019 22:16:16 -0400
+From: Brian Masney <masneyb@onstation.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH RFC 4/6] ARM: dts: msm8974: add display support
+Message-ID: <20190509021616.GA26228@basecamp>
+References: <20190505130413.32253-1-masneyb@onstation.org>
+ <20190505130413.32253-5-masneyb@onstation.org>
+ <20190507063902.GA2085@tuxbook-pro>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190507063902.GA2085@tuxbook-pro>
+X-Mailman-Approved-At: Thu, 09 May 2019 07:18:00 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=onstation.org; s=default; t=1557368177;
+ bh=tmkrzCFkH/2BB60qHGR1FIeTOycpUvg0bsZt2RenJj4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vrIgonbPOsyhQUnSQavxiYuzFg2p2RJ6V0cNoEndlFVs9bQd14kx+Yn4NoHdfaTTA
+ AheBy6TxmQlAuNm6VFM7ktM7MgtTlvwTKBBISivlWzlUyenbq0wClCIJf+Vfri0VX9
+ /bZEl7e2Ig5Qcyqj9b8Gasm/3bC1mFgrD7lDx2CM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,89 +49,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1993241994=="
+Cc: sean@poorly.run, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1993241994==
-Content-Type: multipart/alternative; boundary="15573681261.c2f6.15530"
-Content-Transfer-Encoding: 7bit
-
-
---15573681261.c2f6.15530
-Date: Thu, 9 May 2019 02:15:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110641
-
---- Comment #3 from Alex Deucher <alexdeucher@gmail.com> ---
-What chip do you have?  Voltage hwmon is not implemented on all APUs.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15573681261.c2f6.15530
-Date: Thu, 9 May 2019 02:15:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
-ture in0_input: Can't read&quot;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
-ture in0_input: Can't read&quot;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641">bug 11064=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>What chip do you have?  Voltage hwmon is not implemented on al=
-l APUs.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15573681261.c2f6.15530--
-
---===============1993241994==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1993241994==--
+T24gTW9uLCBNYXkgMDYsIDIwMTkgYXQgMTE6Mzk6MDJQTSAtMDcwMCwgQmpvcm4gQW5kZXJzc29u
+IHdyb3RlOgo+IE9uIFN1biAwNSBNYXkgMDY6MDQgUERUIDIwMTksIEJyaWFuIE1hc25leSB3cm90
+ZToKPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9xY29tLW1zbTg5NzQuZHRzaSBi
+L2FyY2gvYXJtL2Jvb3QvZHRzL3Fjb20tbXNtODk3NC5kdHNpCj4gWy4uXQo+ID4gKwkJCQljbG9j
+a3MgPSA8Jm1tY2MgTURTU19NRFBfQ0xLPiwKPiA+ICsJCQkJICAgICAgICAgPCZtbWNjIE1EU1Nf
+QUhCX0NMSz4sCj4gPiArCQkJCSAgICAgICAgIDwmbW1jYyBNRFNTX0FYSV9DTEs+LAo+ID4gKwkJ
+CQkgICAgICAgICA8Jm1tY2MgTURTU19CWVRFMF9DTEs+LAo+ID4gKwkJCQkgICAgICAgICA8Jm1t
+Y2MgTURTU19QQ0xLMF9DTEs+LAo+ID4gKwkJCQkgICAgICAgICA8Jm1tY2MgTURTU19FU0MwX0NM
+Sz4sCj4gPiArCQkJCSAgICAgICAgIDwmbW1jYyBNTVNTX01JU0NfQUhCX0NMSz47Cj4gPiArCQkJ
+CWNsb2NrLW5hbWVzID0gIm1kcF9jb3JlIiwKPiA+ICsJCQkJICAgICAgICAgICAgICAiaWZhY2Ui
+LAo+ID4gKwkJCQkgICAgICAgICAgICAgICJidXMiLAo+ID4gKwkJCQkgICAgICAgICAgICAgICJi
+eXRlIiwKPiA+ICsJCQkJICAgICAgICAgICAgICAicGl4ZWwiLAo+ID4gKwkJCQkgICAgICAgICAg
+ICAgICJjb3JlIiwKPiA+ICsJCQkJICAgICAgICAgICAgICAiY29yZV9tbXNzIjsKPiAKPiBVbmxl
+c3MgSSBlbmFibGUgTU1TU19NTVNTTk9DX0FYSV9DTEsgYW5kIE1NU1NfUzBfQVhJX0NMSyBJIGdl
+dCBzb21lCj4gdW5kZXJydW4gZXJyb3IgZnJvbSBEU0kuIFlvdSBkb24ndCBzZWUgYW55dGhpbmcg
+bGlrZSB0aGlzPwo+IAo+IChUaGVzZSBjbG9ja3MgYXJlIGNvbnRyb2xsZWQgYnkgbXNtX2J1cyBk
+b3duc3RyZWFtIGFuZCBzaG91bGQgYmUgZHJpdmVuCj4gYnkgaW50ZXJjb25uZWN0IHVwc3RyZWFt
+KQo+IAo+IAo+IEFwYXJ0IGZyb20gdGhpcywgSSB0aGluayB0aGlzIGxvb2tzIG5pY2UuIEhhcHB5
+IHRvIHNlZSB0aGUgcHJvZ3Jlc3MuCgpObywgSSdtIG5vdCBzZWVpbmcgYW4gdW5kZXJydW4gZXJy
+b3JzIGZyb20gdGhlIERTSS4gSSB0aGluayB0aGUgY2xvY2tzCmFyZSBmaW5lIHNpbmNlIEknbSBh
+YmxlIHRvIGdldCB0aGlzIHdvcmtpbmcgd2l0aCA0LjE3IHVzaW5nIHRoZXNlIHNhbWUKY2xvY2tz
+LiBJIGp1c3Qgc2VudCBvdXQgdjIgYW5kIHRoZSBjb3ZlciBsZXR0ZXIgaGFzIHNvbWUgZGV0YWls
+cywgYWxvbmcKd2l0aCB0aGUgZnVsbCBkbWVzZy4KCkJyaWFuCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
