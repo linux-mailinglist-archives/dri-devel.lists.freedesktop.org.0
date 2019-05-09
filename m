@@ -2,34 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64AD18819
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 12:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E10C18822
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 12:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF04B89A35;
-	Thu,  9 May 2019 10:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56F9B8989C;
+	Thu,  9 May 2019 10:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 955D689949;
- Thu,  9 May 2019 10:01:14 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 09 May 2019 03:01:13 -0700
-X-ExtLoop1: 1
-Received: from jlahtine-desk.ger.corp.intel.com (HELO localhost)
- ([10.252.5.139])
- by fmsmga008.fm.intel.com with ESMTP; 09 May 2019 03:01:10 -0700
-Date: Thu, 9 May 2019 13:01:09 +0300
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-next-fixes
-Message-ID: <20190509100109.GA14820@jlahtine-desk.ger.corp.intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 63CD38989C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 10:04:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 601817215A; Thu,  9 May 2019 10:04:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
+Date: Thu, 09 May 2019 10:04:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chzigotzky@xenosoft.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109345-502-h3ZZRSCbzJ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
+References: <bug-109345-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.11.3 (2019-02-01)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,61 +52,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0636740264=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2ZSAmIERhbmllbCwKClN0aWxsIHJhdGhlciBxdWlldCwgbW9zdCBpc3N1ZXMgc2VlbSB0
-byBoYXZlIGJlZW4gZml4ZWQgZHVyaW5nIENJIHRlc3RpbmcuCgpGb3IgaTkxNSwganVzdCB0d28g
-Zml4ZXMgdG8gdGhlIHJlcXVlc3Qgc2VtYXBob3JlIG9yZGVyaW5nIGNvZGUuCgpGb3IgR1ZUIGEg
-Y291cGxlIHJlZ3Jlc3Npb24gYW5kIHN0YXRpYyBjaGVja2VyIGZpeGVzLgoKQmVzdCBSZWdhcmRz
-LApKb29uYXMKCioqKgoKZHJtLWludGVsLW5leHQtZml4ZXMtMjAxOS0wNS0wOToKCi0gVHdvIGZp
-eGVzIGZvciB0aGUgZnJlc2hseSBlbmFibGVkIHNlbWFwaG9yZSBvcmRlcmluZyBjb2RlCi0gSW5j
-bHVkZXMgZ3Z0LW5leHQtZml4ZXMtMjAxOS0wNS0wNwoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNp
-bmNlIGNvbW1pdCA5NjI4ZTE1Y2E5ZDVmNzU5NWJhODg2MTczZTk4YTEzOWQwYTU2Y2QxOgoKICBk
-cm0vaTkxNS9pY2w6IFdoaXRlbGlzdCBHRU45X1NMSUNFX0NPTU1PTl9FQ09fQ0hJQ0tFTjEgKDIw
-MTktMDQtMzAgMTA6MTY6MTggKzAzMDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3Np
-dG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCB0
-YWdzL2RybS1pbnRlbC1uZXh0LWZpeGVzLTIwMTktMDUtMDkKCmZvciB5b3UgdG8gZmV0Y2ggY2hh
-bmdlcyB1cCB0byAyMzM3MmNjZThmZTdlZTk4YTY0NThmZDNkMDM1YTU1Yjg3ZjBjNmZlOgoKICBN
-ZXJnZSB0YWcgJ2d2dC1uZXh0LWZpeGVzLTIwMTktMDUtMDcnIG9mIGh0dHBzOi8vZ2l0aHViLmNv
-bS9pbnRlbC9ndnQtbGludXggaW50byBkcm0taW50ZWwtbmV4dC1maXhlcyAoMjAxOS0wNS0wNyAx
-NToyOToxNSArMDMwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KLSBUd28gZml4ZXMgZm9yIHRoZSBmcmVzaGx5IGVuYWJs
-ZWQgc2VtYXBob3JlIG9yZGVyaW5nIGNvZGUKLSBJbmNsdWRlcyBndnQtbmV4dC1maXhlcy0yMDE5
-LTA1LTA3CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tCkFsZWtzZWkgR2ltYml0c2tpaSAoNCk6CiAgICAgIGRybS9pOTE1L2d2
-dDogUmVtb3ZlIHR5cGVkZWYgYW5kIGxldCB0aGUgZW51bWVyYXRpb24gc3RhcnRzIGZyb20gemVy
-bwogICAgICBkcm0vaTkxNS9ndnQ6IERvIG5vdCBjb3B5IHRoZSB1bmluaXRpYWxpemVkIHBvaW50
-ZXIgZnJvbSBmYl9pbmZvCiAgICAgIGRybS9pOTE1L2d2dDogVXNlIHNucHJpbnRmKCkgdG8gcHJl
-dmVudCBwb3NzaWJsZSBidWZmZXIgb3ZlcmZsb3cuCiAgICAgIGRybS9pOTE1L2d2dDogQ2hlY2sg
-aWYgZ2V0X25leHRfcHRfdHlwZSgpIGFsd2F5cyByZXR1cm5zIGEgdmFsaWQgdmFsdWUKCkNocmlz
-IFdpbHNvbiAoMik6CiAgICAgIGRybS9pOTE1OiBEZWxheSBzZW1hcGhvcmUgc3VibWlzc2lvbiB1
-bnRpbCB0aGUgc3RhcnQgb2YgdGhlIHNpZ25hbGVyCiAgICAgIGRybS9pOTE1OiBEaXNhYmxlIHNl
-bWFwaG9yZSBidXN5d2FpdHMgb24gc2F0dXJhdGVkIHN5c3RlbXMKCkNvbGluIFh1ICgxKToKICAg
-ICAgZHJtL2k5MTUvZ3Z0OiBBZGQgaW4gY29udGV4dCBtbWlvIDB4MjBEOCB0byBnZW45IG1taW8g
-bGlzdAoKSm9vbmFzIExhaHRpbmVuICgxKToKICAgICAgTWVyZ2UgdGFnICdndnQtbmV4dC1maXhl
-cy0yMDE5LTA1LTA3JyBvZiBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwvZ3Z0LWxpbnV4IGludG8g
-ZHJtLWludGVsLW5leHQtZml4ZXMKClhpb25nIFpoYW5nICgxKToKICAgICAgZHJtL2k5MTUvZ3Z0
-OiBDaGFuZ2UgZmJfaW5mby0+c2l6ZSBmcm9tIHBhZ2VzIHRvIGJ5dGVzCgpaaGFvIFlha3VpICgx
-KToKICAgICAgZHJtL2k5MTUvZ3Z0OiBSZXZlcnQgImRybS9pOTE1L2d2dDogUmVmaW5lIHRoZSBz
-bmFwc2hvcnQgcmFuZ2Ugb2YgSTkxNSBNQ0hCQVIgdG8gb3B0aW1pemUgZ3Z0LWcgYm9vdCB0aW1l
-IgoKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9kZWJ1Z2ZzLmMgICAgICAgICB8ICA0ICstCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvZG1hYnVmLmMgICAgICAgICAgfCAxOSArKysrLS0tLS0t
-CiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvZ3R0LmMgICAgICAgICAgICAgfCAxNSArKysrKy0t
-LQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2d0dC5oICAgICAgICAgICAgIHwgMTYgKysrKy0t
-LS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9oYW5kbGVycy5jICAgICAgICB8ICA0ICstCiBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvbW1pb19jb250ZXh0LmMgICAgfCAgMSArCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9ndnQvcmVnLmggICAgICAgICAgICAgfCAgMyAtLQogZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ3Z0L3NjaGVkdWxlci5jICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2k5MTVfcmVxdWVzdC5jICAgICAgICB8IDU5ICsrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfY29udGV4dC5jICAgICAgIHwgIDEgKwog
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfY29udGV4dF90eXBlcy5oIHwgIDMgKysKIDExIGZp
-bGVzIGNoYW5nZWQsIDkzIGluc2VydGlvbnMoKyksIDM0IGRlbGV0aW9ucygtKQpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0636740264==
+Content-Type: multipart/alternative; boundary="15573962640.a6CA.19382"
+Content-Transfer-Encoding: 7bit
+
+
+--15573962640.a6CA.19382
+Date: Thu, 9 May 2019 10:04:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
+
+--- Comment #38 from Christian Zigotzky <chzigotzky@xenosoft.de> ---
+Hi All,
+
+Allan tested the tenth test kernel today.
+
+He wrote:
+
+Christian
+DRM10 also boots to SI card.
+
+ace
+
+------
+
+Link to the test thread:
+http://forum.hyperion-entertainment.com/viewtopic.php?f=3D58&t=3D4256&start=
+=3D50#p47877
+
+This step has been marked as bad because the tenth test kernel doesn't boot=
+ to
+the FirePro.
+
+Next step:
+
+git bisect bad
+
+Output:
+
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[a81c9ab678802075b7942c41cf640d9d9866d2db] vgaarb: Add support for 64-bit f=
+rame
+buffer address
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: http://www.xenosoft.de/uImage-drm11
+
+Additionally I undid the changes in the file 'drivers/gpu/vga/vgaarb.c' [1]=
+ and
+created a test kernel today.
+
+Download: http://www.xenosoft.de/linux-image-5.2-alpha2-X1000_X5000.tar.gz
+
+@Allan (acefnq/ace)
+Please test both kernels.
+
+Thanks,
+Christian
+
+[1] https://patchwork.freedesktop.org/patch/246810/
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15573962640.a6CA.19382
+Date: Thu, 9 May 2019 10:04:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c38">Comme=
+nt # 38</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chzigotzky&#64;xenosoft.de" title=3D"Christian Zigotzky &lt;chzigotzky&#64;=
+xenosoft.de&gt;"> <span class=3D"fn">Christian Zigotzky</span></a>
+</span></b>
+        <pre>Hi All,
+
+Allan tested the tenth test kernel today.
+
+He wrote:
+
+Christian
+DRM10 also boots to SI card.
+
+ace
+
+------
+
+Link to the test thread:
+<a href=3D"http://forum.hyperion-entertainment.com/viewtopic.php?f=3D58&amp=
+;t=3D4256&amp;start=3D50#p47877">http://forum.hyperion-entertainment.com/vi=
+ewtopic.php?f=3D58&amp;t=3D4256&amp;start=3D50#p47877</a>
+
+This step has been marked as bad because the tenth test kernel doesn't boot=
+ to
+the FirePro.
+
+Next step:
+
+git bisect bad
+
+Output:
+
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[a81c9ab678802075b7942c41cf640d9d9866d2db] vgaarb: Add support for 64-bit f=
+rame
+buffer address
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc oldconfig
+
+make CROSS_COMPILE=3Dpowerpc-linux-gnu- ARCH=3Dpowerpc uImage
+
+Download: <a href=3D"http://www.xenosoft.de/uImage-drm11">http://www.xenoso=
+ft.de/uImage-drm11</a>
+
+Additionally I undid the changes in the file 'drivers/gpu/vga/vgaarb.c' [1]=
+ and
+created a test kernel today.
+
+Download: <a href=3D"http://www.xenosoft.de/linux-image-5.2-alpha2-X1000_X5=
+000.tar.gz">http://www.xenosoft.de/linux-image-5.2-alpha2-X1000_X5000.tar.g=
+z</a>
+
+&#64;Allan (acefnq/ace)
+Please test both kernels.
+
+Thanks,
+Christian
+
+[1] <a href=3D"https://patchwork.freedesktop.org/patch/246810/">https://pat=
+chwork.freedesktop.org/patch/246810/</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15573962640.a6CA.19382--
+
+--===============0636740264==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0636740264==--
