@@ -1,24 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80FC184AC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 07:02:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 939C1184AE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 07:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EBA889A44;
-	Thu,  9 May 2019 05:02:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF47689A4E;
+	Thu,  9 May 2019 05:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B7BB389A44
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 05:02:31 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A2F5089A4E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 05:03:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B43DC7215A; Thu,  9 May 2019 05:02:31 +0000 (UTC)
+ id 9F3367215A; Thu,  9 May 2019 05:03:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110637] Enabling OpenCL in Libreoffice kills Vega 64
-Date: Thu, 09 May 2019 05:02:31 +0000
+Subject: [Bug 110637] Any OpenCL application causes "*ERROR* ring gfx
+ timeout" on Vega 64
+Date: Thu, 09 May 2019 05:03:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110637-502-pqnaNYGeni@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-110637-502-qipgPKBYUl@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110637-502@http.bugs.freedesktop.org/>
 References: <bug-110637-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1980825331=="
+Content-Type: multipart/mixed; boundary="===============1437996707=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1980825331==
-Content-Type: multipart/alternative; boundary="15573781511.Cf82179F.7049"
+--===============1437996707==
+Content-Type: multipart/alternative; boundary="15573782030.2a54e7d.7262"
 Content-Transfer-Encoding: 7bit
 
 
---15573781511.Cf82179F.7049
-Date: Thu, 9 May 2019 05:02:31 +0000
+--15573782030.2a54e7d.7262
+Date: Thu, 9 May 2019 05:03:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,18 +73,20 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110637
 
---- Comment #1 from Alexander Mezin <mezin.alexander@gmail.com> ---
-And the same thing with 4.19.40. And with manually built drm-next.
+Alexander Mezin <mezin.alexander@gmail.com> changed:
 
-Also, not only libreoffice, but literally any application that uses OpenCL
-triggers the same problem. It seems that I just can't use OpenCL at all.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|Enabling OpenCL in          |Any OpenCL application
+                   |Libreoffice kills Vega 64   |causes "*ERROR* ring gfx
+                   |                            |timeout" on Vega 64
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15573781511.Cf82179F.7049
-Date: Thu, 9 May 2019 05:02:31 +0000
+--15573782030.2a54e7d.7262
+Date: Thu, 9 May 2019 05:03:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,30 +97,33 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:mezin.ale=
+xander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander&#64;gmai=
+l.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Enabling OpenCL in Libreoffice kills Vega 64"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Enabling OpenCL in Libreoffice kills Vega 64"
+   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
+out&quot; on Vega 64"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637">bug 11063=
 7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mezin.alexander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander=
-&#64;gmail.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
-</span></b>
-        <pre>And the same thing with 4.19.40. And with manually built drm-n=
-ext.
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-Also, not only libreoffice, but literally any application that uses OpenCL
-triggers the same problem. It seems that I just can't use OpenCL at all.</p=
-re>
-        </div>
+         <tr>
+           <td style=3D"text-align:right;">Summary</td>
+           <td>Enabling OpenCL in Libreoffice kills Vega 64
+           </td>
+           <td>Any OpenCL application causes &quot;*ERROR* ring gfx timeout=
+&quot; on Vega 64
+           </td>
+         </tr></table>
+      <p>
       </p>
 
 
@@ -130,9 +136,9 @@ re>
     </body>
 </html>=
 
---15573781511.Cf82179F.7049--
+--15573782030.2a54e7d.7262--
 
---===============1980825331==
+--===============1437996707==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +148,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1980825331==--
+--===============1437996707==--
