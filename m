@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D7D184CA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 07:17:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE17184D7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 07:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C79589A57;
-	Thu,  9 May 2019 05:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B037F89AAD;
+	Thu,  9 May 2019 05:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8EAC689A61
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 05:17:07 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9BA589AAD
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 05:29:10 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6097F7215A; Thu,  9 May 2019 05:17:07 +0000 (UTC)
+ id ACAA67215A; Thu,  9 May 2019 05:29:10 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110641] lm_sensors reports "ERROR: Can't get value of
- subfeature in0_input: Can't read"
-Date: Thu, 09 May 2019 05:17:07 +0000
+Subject: [Bug 110637] Any OpenCL application causes "*ERROR* ring gfx
+ timeout" on Vega 64
+Date: Thu, 09 May 2019 05:29:10 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bong.cosca@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110641-502-LHwC3T5sMZ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110641-502@http.bugs.freedesktop.org/>
-References: <bug-110641-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: component product qa_contact
+Message-ID: <bug-110637-502-y40A16US0j@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110637-502@http.bugs.freedesktop.org/>
+References: <bug-110637-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,36 +53,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0523371363=="
+Content-Type: multipart/mixed; boundary="===============0293721638=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0523371363==
-Content-Type: multipart/alternative; boundary="15573790270.0D77bdf.8069"
+--===============0293721638==
+Content-Type: multipart/alternative; boundary="15573797500.B69b.9938"
 Content-Transfer-Encoding: 7bit
 
 
---15573790270.0D77bdf.8069
-Date: Thu, 9 May 2019 05:17:07 +0000
+--15573797500.B69b.9938
+Date: Thu, 9 May 2019 05:29:10 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110641
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110637
 
---- Comment #6 from Bong Cosca <bong.cosca@gmail.com> ---
-So does it make sense to expose VDDGFX and VDDNB at all? Or should this be
-fixed in lm_sensors?
+Alex Deucher <alexdeucher@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|DRM/AMDgpu                  |Drivers/Gallium/radeonsi
+            Product|DRI                         |Mesa
+         QA Contact|                            |dri-devel@lists.freedesktop
+                   |                            |.org
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15573790270.0D77bdf.8069
-Date: Thu, 9 May 2019 05:17:07 +0000
+--15573797500.B69b.9938
+Date: Thu, 9 May 2019 05:29:10 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,29 +98,49 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
+er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
+ <span class=3D"fn">Alex Deucher</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
+out&quot; on Vega 64"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637">bug 11063=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/AMDgpu
+           </td>
+           <td>Drivers/Gallium/radeonsi
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Mesa
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr></table>
       <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
-ture in0_input: Can't read&quot;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
-ture in0_input: Can't read&quot;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641">bug 11064=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bong.cosca&#64;gmail.com" title=3D"Bong Cosca &lt;bong.cosca&#64;gmail.com&=
-gt;"> <span class=3D"fn">Bong Cosca</span></a>
-</span></b>
-        <pre>So does it make sense to expose VDDGFX and VDDNB at all? Or sh=
-ould this be
-fixed in lm_sensors?</pre>
-        </div>
       </p>
 
 
@@ -128,9 +153,9 @@ fixed in lm_sensors?</pre>
     </body>
 </html>=
 
---15573790270.0D77bdf.8069--
+--15573797500.B69b.9938--
 
---===============0523371363==
+--===============0293721638==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +165,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0523371363==--
+--===============0293721638==--
