@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44DE192F9
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 21:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73551932D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 22:06:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F290289C6E;
-	Thu,  9 May 2019 19:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED7C8899DE;
+	Thu,  9 May 2019 20:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F0C989C9A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 19:34:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9B8517215A; Thu,  9 May 2019 19:34:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110457] System resumes failed and hits [drm:amdgpu_job_timedout
- [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G
-Date: Thu, 09 May 2019 19:34:26 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: freedesktop@cameron.bz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110457-502-fJQtBA4s3H@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110457-502@http.bugs.freedesktop.org/>
-References: <bug-110457-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9C93899DE
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 20:06:40 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id l25so3118829eda.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 May 2019 13:06:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2eMy81xQoynkvOjZ8yVubZa7SulddFEJzBcPEPrFGYQ=;
+ b=RDrBuyuUnPsnidNVOQh/XaFcBlSXX74LeGL/OCvREI+vAJoOH+dE9lrubcndclgjbS
+ XlbacbcxN/Od8+qlijrLoGzF1e/XDKNJDTVoRCfF07Cf2VZuH1NSneaeKA4+xGzrKiaB
+ B9+bz9f0EB6zeCbPREHVxMmWFIdhi/uJ7a1odC8r4R7qRNY62IL7g3hPAUZaeT8EptFZ
+ TIudPM4ZBTplpCKSUVLaYQFAOAcjOANAStkIHh3QtTL5SYiUZefCEqe4lnnr93PrdslN
+ FmOA05TtWXSwTqRKK01ugBhEHZwx2Cd1ZO62M+E6/H6Yuu4b7kL4EwhQxVZ68QC1ysqZ
+ GyGw==
+X-Gm-Message-State: APjAAAV6izhiTCPo22nbqDMSK/CtC6Jhv6jQfhcY9rpANLJ0qad8S4a/
+ r6/PSPVrNcrrAu8ty0BNVbySlg==
+X-Google-Smtp-Source: APXvYqxj4+2Mrt199n9RPZfirgO2cTGlKahmfW3rytPUch4MQ27eM7Nxv4JvVHynhY78CelcoZKfCw==
+X-Received: by 2002:a50:a5ed:: with SMTP id b42mr6126084edc.178.1557432399557; 
+ Thu, 09 May 2019 13:06:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id x30sm813241edd.74.2019.05.09.13.06.37
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 09 May 2019 13:06:38 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Subject: [PATCH] kernel/locking/semaphore: use wake_q in up()
+Date: Thu,  9 May 2019 22:06:33 +0200
+Message-Id: <20190509200633.19678-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190509120903.28939-1-daniel.vetter@ffwll.ch>
+References: <20190509120903.28939-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2eMy81xQoynkvOjZ8yVubZa7SulddFEJzBcPEPrFGYQ=;
+ b=Hjg39OzW1Svgec3a5DZNVclKDdeN2jAcbw2Ff17kMPtzSfVdFVjOOMpVM+8pvd/y1G
+ GxzIE6WCwJDU7oO3C++iCeBly3eLKVezmFRH1W8G4HRxbWQVnSyyEVMFWFeojqEva+ls
+ hsUSstHf3wZDSxBqOGTWOfE536dkZ5+uGGC4k=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,122 +64,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0139733680=="
+Cc: Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Ingo Molnar <mingo@redhat.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0139733680==
-Content-Type: multipart/alternative; boundary="15574304661.64c13.6226"
-Content-Transfer-Encoding: 7bit
-
-
---15574304661.64c13.6226
-Date: Thu, 9 May 2019 19:34:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110457
-
---- Comment #7 from Cameron Banfield <freedesktop@cameron.bz> ---
-I am having very similar issues and see similar errors in logs. The most re=
-cent
-error was:
-
-kernel: amdgpu 0000:06:00.0: [gfxhub] no-retry page fault (src_id:0 ring:24
-vmid:1 pasid:32768, for process Xorg pid 1301 thread Xorg:cs0 pid 1362)
-kernel: amdgpu 0000:06:00.0:   in page starting at address 0x0000800108a180=
-00
-from 27
-kernel: amdgpu 0000:06:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101031
-
-The laptop is then unusable and requires a hard reboot.
-
-Linux Mint 19.1
-Kernel 5.1.0
-AMD Ryzen PRO 2700U with Vega 10 graphics
-
-Trying to load cities skylines is a guaranteed crash.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15574304661.64c13.6226
-Date: Thu, 9 May 2019 19:34:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
-amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
-amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457">bug 11045=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;cameron.bz" title=3D"Cameron Banfield &lt;freedesktop&#64;c=
-ameron.bz&gt;"> <span class=3D"fn">Cameron Banfield</span></a>
-</span></b>
-        <pre>I am having very similar issues and see similar errors in logs=
-. The most recent
-error was:
-
-kernel: amdgpu 0000:06:00.0: [gfxhub] no-retry page fault (src_id:0 ring:24
-vmid:1 pasid:32768, for process Xorg pid 1301 thread Xorg:cs0 pid 1362)
-kernel: amdgpu 0000:06:00.0:   in page starting at address 0x0000800108a180=
-00
-from 27
-kernel: amdgpu 0000:06:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101031
-
-The laptop is then unusable and requires a hard reboot.
-
-Linux Mint 19.1
-Kernel 5.1.0
-AMD Ryzen PRO 2700U with Vega 10 graphics
-
-Trying to load cities skylines is a guaranteed crash.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15574304661.64c13.6226--
-
---===============0139733680==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0139733680==--
+Y29uc29sZV90cnlsb2NrLCBjYWxsZWQgZnJvbSB3aXRoaW4gcHJpbnRrLCBjYW4gYmUgY2FsbGVk
+IGZyb20gcHJldHR5Cm11Y2ggYW55d2hlcmUuIEluY2x1ZGluZyB0cnlfdG9fd2FrZV91cC4gTm90
+ZSB0aGF0IHRoaXMgaXNuJ3QgY29tbW9uLAp1c3VhbGx5IHRoZSBib3ggaXMgaW4gcHJldHR5IGJh
+ZCBzaGFwZSBhdCB0aGF0IHBvaW50IGFscmVhZHkuIEJ1dCBpdApyZWFsbHkgZG9lc24ndCBoZWxw
+IHdoZW4gdGhlbiBsb2NrZGVwIGp1bXBzIGluIGFuZCBzcGFtcyB0aGUgbG9ncywKcG90ZW50aWFs
+bHkgb2JzY3VyaW5nIHRoZSByZWFsIGJhY2t0cmFjZSB3ZSdyZSByZWFsbHkgaW50ZXJlc3RlZCBp
+bi4KT25lIGNhc2UgSSd2ZSBzZWVuIChzbGlnaHRseSBzaW1wbGlmaWVkIGJhY2t0cmFjZSk6Cgog
+Q2FsbCBUcmFjZToKICA8SVJRPgogIGNvbnNvbGVfdHJ5bG9jaysweGUvMHg2MAogIHZwcmludGtf
+ZW1pdCsweGYxLzB4MzIwCiAgcHJpbnRrKzB4NGQvMHg2OQogIF9fd2Fybl9wcmludGsrMHg0Ni8w
+eDkwCiAgbmF0aXZlX3NtcF9zZW5kX3Jlc2NoZWR1bGUrMHgyZi8weDQwCiAgY2hlY2tfcHJlZW1w
+dF9jdXJyKzB4ODEvMHhhMAogIHR0d3VfZG9fd2FrZXVwKzB4MTQvMHgyMjAKICB0cnlfdG9fd2Fr
+ZV91cCsweDIxOC8weDVmMAogIHBvbGx3YWtlKzB4NmYvMHg5MAogIGNyZWRpdF9lbnRyb3B5X2Jp
+dHMrMHgyMDQvMHgzMTAKICBhZGRfaW50ZXJydXB0X3JhbmRvbW5lc3MrMHgxOGYvMHgyMTAKICBo
+YW5kbGVfaXJxKzB4NjcvMHgxNjAKICBkb19JUlErMHg1ZS8weDEzMAogIGNvbW1vbl9pbnRlcnJ1
+cHQrMHhmLzB4ZgogIDwvSVJRPgoKVGhpcyBhbG9uZSBpc24ndCBhIHByb2JsZW0sIGJ1dCB0aGUg
+c3BpbmxvY2sgaW4gdGhlIHNlbWFwaG9yZSBpcyBhbHNvCnN0aWxsIGhlbGQgd2hpbGUgd2FraW5n
+IHVwIHdhaXRlcnMgKHVwKCkgLT4gX191cCgpIC0+IHRyeV90b193YWtlX3VwKCkKY2FsbGNoYWlu
+KSwgd2hpY2ggdGhlbiBjbG9zZXMgdGhlIHJ1bnF1ZXVlIHZzLiBzZW1hcGhvcmUubG9jayBsb29w
+LAphbmQgdXBzZXRzIGxvY2tkZXAsIHdoaWNoIGlzc3VlcyBhIGNpcmN1bGFyIGxvY2tpbmcgc3Bs
+YXQgdG8gZG1lc2cuCldvcnNlIGl0IHVwc2V0cyBkZXZlbG9wZXJzLCBzaW5jZSB3ZSBkb24ndCB3
+YW50IHRvIHNwYW0gZG1lc2cgd2l0aApjbHV0dGVyIHdoZW4gdGhlIG1hY2hpbmUgaXMgZHlpbmcg
+YWxyZWFkeS4KCkZpeCB0aGlzIHNwZWNpZmljIGxvY2tpbmcgcmVjdXJzaW9uIGJ5IG1vdmluZyB0
+aGUgd2FrZV91cF9wcm9jZXNzIG91dApmcm9tIHVuZGVyIHRoZSBzZW1hcGhvcmUubG9jayBzcGlu
+bG9jaywgdXNpbmcgd2FrZV9xIGFzIHJlY29tbWVuZGVkIGJ5ClBldGVyIFppamxzdHJhLgoKQXMg
+UGV0ciBNbGFkZWsgcG9pbnRzIG91dCB0aGlzIGRvZXNuJ3QgZml4IGFsbCB0aGUgbG9ja2luZyBy
+ZWN1cnNpb25zCmluIHRoaXMgYXJlYS4gSWYgd2UgYWN0dWFsbHkgcmVjdXJzaXZlIGluIHRoZSBh
+Ym92ZSBjYWxsY2hhaW46CgogICAgICArIHRyeV90b193YWtlX3VwKCkgICAgIyB0YWtlcyBwLT5w
+aV9sb2NrCiAgICAgICAgKyB0dHd1X3JlbW90ZSgpICAgICAjIHRha2VzIHJxIGxvY2sKICAgICAg
+ICAgICsgdHR3dV9kb193YWtldXAoKQogICAgICAgICAgICArIGNoZWNrX3ByZWVtcHRfY3Vycigp
+CiAgICAgICAgICAgICAgKyBuYXRpdmVfc21wX3NlbmRfcmVzY2hlZHVsZSgpCiAgICAgICAgICAg
+ICAgICArIF9fd2Fybl9wcmludGsoKQogICAgICAgICAgICAgICAgICArIHByaW50aygpCiAgICAg
+ICAgICAgICAgICAgICAgKyB2cHJpbnRrX2VtaXQoKQogICAgICAgICAgICAgICAgICAgICAgKyBj
+b25zb2xlX3RyeWxvY2soKSAjIHN1Y2Nlc3MKICAgICAgICAgICAgICAgICAgICAgICsgY29uc29s
+ZV91bmxvY2soKQogICAgICAgICAgICAgICAgICAgICAgICArIHVwX2NvbnNvbGVfc2VtKCkKICAg
+ICAgICAgICAgICAgICAgICAgICAgICArIHVwKCkgIyB3YWl0IGxpc3QgaW4gbm90IGVtcHR5CiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICArIF9fdXAoKQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICArIHdha2VfdXBfcHJvY2VzcygpCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgKyB0cnlfdG9fd2FrZV91cCgpCgpUaGVuIHRoZXJlJ3MgYW55IG51bWJlciBvZiBzY2hlZHVs
+ZXIgcmVsYXRlZCBsb2NrcyB3aWxsIGRlYWRsb2NrLgpHaXZlbiB0aGF0IHRoZSBrZXJuZWwgaXMg
+ZHlpbmcgYWxyZWFkeSAodGhlIHByaW50aygpIGluCm5hdGl2ZV9zbXBfc2VuZF9yZXNjaGVkdWxl
+KCkgaGFwcGVucyBiZWNhdXNlIHdlIHJ1biBvbiBhbiBvZmZsaW5lZApDUFUpIEkgdGhpbmsgdGhl
+cmUncyBsaW1pdGVkIHZhbHVlIGluIHRyeWluZyB0byBmaXggdGhpczoKCi0gV2UgaGF2ZW4ndCBz
+ZWVuIHRoZSBhY3R1YWwgZGVhZGxvY2sgaW4gb3VyIENJLCBvbmx5IGxvY2tkZXAKICBjb21wbGFp
+bmluZyBhYm91dCB0aGUgcG9zc2liaWxpdHkuCgotIFRoZSByZWFsIGlzc3VlIGlzIHRoYXQgdGhl
+IGxvY2tkZXAgc3BsYXQgaGlkZXMgdXNlZnVsIGRtZXNnCiAgaW5mb3JtYXRpb24gd2UgY2FwdHVy
+ZSBpbiBlLmcuIHBzdG9yZSBvciBvbiBzY3JlZW4gYWJvdXQgdGhlIHJlYWwKICBjYXVzZSBvZiB3
+aHkgdGhlIGtlcm5lbCBpcyBkeWluZy4KCi0gVGhlIGNvbnNvbGVfdW5sb2NrIGluIHRoZSBhYm92
+ZSBjYWxsY2hhaW4gc2hvdWxkIGhhdmUgbWFuYWdlZCB0byBnZXQKICBhbGwgdGhlIGRtZXNnIHVw
+IHRvIHRoYXQgcG9pbnQgb3V0IGFscmVhZHkuIER5aW5nIGxhdGVyIG9uIGlzCiAgc29tZXdoYXQg
+b2sgLSBJJ3ZlIG9ubHkgc2VlbiB0aGlzIGxvY2tkZXAgc3BsYXQgaW4gcHN0b3JlIHdoZW4gdGhl
+CiAgbWFjaGluZSBkaWVkIGFueXdheS4KCkFsc28gY2MnaW5nIEpvaG4gT2duZXNzIHNpbmNlIHBl
+cmhhcHMgaGlzIHByaW50ayByZXdvcmsgZml4ZXMgdGhpcyBhbGwKcHJvcGVybHkuCgp2MjogRGl0
+Y2ggYXR0ZW1wdCB0byBmaXggY29uc29sZV90cnlsb2NrLgoKdjM6IEFkZCBhIGNvbW1lbnQgZXhw
+bGFpbmluZyB3aHkgdGhlIHRha3Mgd2UncmUgd2FraW5nIHdvbid0CmRpc2FwcGVhciAoQ2hyaXMp
+LCBhbmQgaW1wcm92ZSBjb21taXQgbWVzc2FnZSB0byBhZGRyZXNzIHJldmlldwpxdWVzdGlvbnMu
+Cgp2NDogVXNlIHdha2VfcSAoUGV0ZXIgWikuCgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6IFBldGVyIFppamxzdHJhIDxwZXRlcnpAaW5m
+cmFkZWFkLm9yZz4KQ2M6IEluZ28gTW9sbmFyIDxtaW5nb0ByZWRoYXQuY29tPgpDYzogV2lsbCBE
+ZWFjb24gPHdpbGwuZGVhY29uQGFybS5jb20+CkNjOiBQZXRyIE1sYWRlayA8cG1sYWRla0BzdXNl
+LmNvbT4KQ2M6IFNlcmdleSBTZW5vemhhdHNreSA8c2VyZ2V5LnNlbm96aGF0c2t5QGdtYWlsLmNv
+bT4KQ2M6IFN0ZXZlbiBSb3N0ZWR0IDxyb3N0ZWR0QGdvb2RtaXMub3JnPgpDYzogRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KQ2M6IEpvaG4gT2duZXNzIDxqb2huLm9nbmVz
+c0BsaW51dHJvbml4LmRlPgpDYzogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28u
+dWs+CkNjOiBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnClNpZ25lZC1vZmYtYnk6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Ci0tLQoga2VybmVsL2xvY2tpbmcvc2Vt
+YXBob3JlLmMgfCA0MiArKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLQogMSBm
+aWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIxIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL2tlcm5lbC9sb2NraW5nL3NlbWFwaG9yZS5jIGIva2VybmVsL2xvY2tpbmcvc2VtYXBob3Jl
+LmMKaW5kZXggNTYxYWNkZDM5OTYwLi43YTZmMzM3MTU2ODggMTAwNjQ0Ci0tLSBhL2tlcm5lbC9s
+b2NraW5nL3NlbWFwaG9yZS5jCisrKyBiL2tlcm5lbC9sb2NraW5nL3NlbWFwaG9yZS5jCkBAIC0z
+MywxMiArMzMsMTIgQEAKICNpbmNsdWRlIDxsaW51eC9zZW1hcGhvcmUuaD4KICNpbmNsdWRlIDxs
+aW51eC9zcGlubG9jay5oPgogI2luY2x1ZGUgPGxpbnV4L2Z0cmFjZS5oPgorI2luY2x1ZGUgPGxp
+bnV4L3NjaGVkL3dha2VfcS5oPgogCiBzdGF0aWMgbm9pbmxpbmUgdm9pZCBfX2Rvd24oc3RydWN0
+IHNlbWFwaG9yZSAqc2VtKTsKIHN0YXRpYyBub2lubGluZSBpbnQgX19kb3duX2ludGVycnVwdGli
+bGUoc3RydWN0IHNlbWFwaG9yZSAqc2VtKTsKIHN0YXRpYyBub2lubGluZSBpbnQgX19kb3duX2tp
+bGxhYmxlKHN0cnVjdCBzZW1hcGhvcmUgKnNlbSk7CiBzdGF0aWMgbm9pbmxpbmUgaW50IF9fZG93
+bl90aW1lb3V0KHN0cnVjdCBzZW1hcGhvcmUgKnNlbSwgbG9uZyB0aW1lb3V0KTsKLXN0YXRpYyBu
+b2lubGluZSB2b2lkIF9fdXAoc3RydWN0IHNlbWFwaG9yZSAqc2VtKTsKIAogLyoqCiAgKiBkb3du
+IC0gYWNxdWlyZSB0aGUgc2VtYXBob3JlCkBAIC0xNjksNiArMTY5LDE0IEBAIGludCBkb3duX3Rp
+bWVvdXQoc3RydWN0IHNlbWFwaG9yZSAqc2VtLCBsb25nIHRpbWVvdXQpCiB9CiBFWFBPUlRfU1lN
+Qk9MKGRvd25fdGltZW91dCk7CiAKKy8qIEZ1bmN0aW9ucyBmb3IgdGhlIGNvbnRlbmRlZCBjYXNl
+ICovCisKK3N0cnVjdCBzZW1hcGhvcmVfd2FpdGVyIHsKKwlzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7
+CisJc3RydWN0IHRhc2tfc3RydWN0ICp0YXNrOworCWJvb2wgdXA7Cit9OworCiAvKioKICAqIHVw
+IC0gcmVsZWFzZSB0aGUgc2VtYXBob3JlCiAgKiBAc2VtOiB0aGUgc2VtYXBob3JlIHRvIHJlbGVh
+c2UKQEAgLTE3OSwyNCArMTg3LDI1IEBAIEVYUE9SVF9TWU1CT0woZG93bl90aW1lb3V0KTsKIHZv
+aWQgdXAoc3RydWN0IHNlbWFwaG9yZSAqc2VtKQogewogCXVuc2lnbmVkIGxvbmcgZmxhZ3M7CisJ
+c3RydWN0IHNlbWFwaG9yZV93YWl0ZXIgKndhaXRlcjsKKwlERUZJTkVfV0FLRV9RKHdha2VfcSk7
+CiAKIAlyYXdfc3Bpbl9sb2NrX2lycXNhdmUoJnNlbS0+bG9jaywgZmxhZ3MpOwotCWlmIChsaWtl
+bHkobGlzdF9lbXB0eSgmc2VtLT53YWl0X2xpc3QpKSkKKwlpZiAobGlrZWx5KGxpc3RfZW1wdHko
+JnNlbS0+d2FpdF9saXN0KSkpIHsKIAkJc2VtLT5jb3VudCsrOwotCWVsc2UKLQkJX191cChzZW0p
+OworCX0gZWxzZSB7CisJCXdhaXRlciA9ICBsaXN0X2ZpcnN0X2VudHJ5KCZzZW0tPndhaXRfbGlz
+dCwKKwkJCQkJICAgc3RydWN0IHNlbWFwaG9yZV93YWl0ZXIsIGxpc3QpOworCQlsaXN0X2RlbCgm
+d2FpdGVyLT5saXN0KTsKKwkJd2FpdGVyLT51cCA9IHRydWU7CisJCXdha2VfcV9hZGQoJndha2Vf
+cSwgd2FpdGVyLT50YXNrKTsKKwl9CiAJcmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnNlbS0+
+bG9jaywgZmxhZ3MpOworCisJd2FrZV91cF9xKCZ3YWtlX3EpOwogfQogRVhQT1JUX1NZTUJPTCh1
+cCk7CiAKLS8qIEZ1bmN0aW9ucyBmb3IgdGhlIGNvbnRlbmRlZCBjYXNlICovCi0KLXN0cnVjdCBz
+ZW1hcGhvcmVfd2FpdGVyIHsKLQlzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7Ci0Jc3RydWN0IHRhc2tf
+c3RydWN0ICp0YXNrOwotCWJvb2wgdXA7Ci19OwotCiAvKgogICogQmVjYXVzZSB0aGlzIGZ1bmN0
+aW9uIGlzIGlubGluZWQsIHRoZSAnc3RhdGUnIHBhcmFtZXRlciB3aWxsIGJlCiAgKiBjb25zdGFu
+dCwgYW5kIHRodXMgb3B0aW1pc2VkIGF3YXkgYnkgdGhlIGNvbXBpbGVyLiAgTGlrZXdpc2UgdGhl
+CkBAIC0yNTIsMTIgKzI2MSwzIEBAIHN0YXRpYyBub2lubGluZSBpbnQgX19zY2hlZCBfX2Rvd25f
+dGltZW91dChzdHJ1Y3Qgc2VtYXBob3JlICpzZW0sIGxvbmcgdGltZW91dCkKIHsKIAlyZXR1cm4g
+X19kb3duX2NvbW1vbihzZW0sIFRBU0tfVU5JTlRFUlJVUFRJQkxFLCB0aW1lb3V0KTsKIH0KLQot
+c3RhdGljIG5vaW5saW5lIHZvaWQgX19zY2hlZCBfX3VwKHN0cnVjdCBzZW1hcGhvcmUgKnNlbSkK
+LXsKLQlzdHJ1Y3Qgc2VtYXBob3JlX3dhaXRlciAqd2FpdGVyID0gbGlzdF9maXJzdF9lbnRyeSgm
+c2VtLT53YWl0X2xpc3QsCi0JCQkJCQlzdHJ1Y3Qgc2VtYXBob3JlX3dhaXRlciwgbGlzdCk7Ci0J
+bGlzdF9kZWwoJndhaXRlci0+bGlzdCk7Ci0Jd2FpdGVyLT51cCA9IHRydWU7Ci0Jd2FrZV91cF9w
+cm9jZXNzKHdhaXRlci0+dGFzayk7Ci19Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
