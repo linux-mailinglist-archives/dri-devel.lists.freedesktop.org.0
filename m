@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C3C190BF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 20:48:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A44DE192F9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 21:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1938C89CC1;
-	Thu,  9 May 2019 18:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F290289C6E;
+	Thu,  9 May 2019 19:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328F889CC1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 18:48:39 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 94B1020578;
- Thu,  9 May 2019 18:48:38 +0000 (UTC)
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.19 43/66] drm/mediatek: fix possible object reference leak
-Date: Thu,  9 May 2019 20:42:18 +0200
-Message-Id: <20190509181306.423253638@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190509181301.719249738@linuxfoundation.org>
-References: <20190509181301.719249738@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9F0C989C9A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 19:34:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9B8517215A; Thu,  9 May 2019 19:34:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110457] System resumes failed and hits [drm:amdgpu_job_timedout
+ [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G
+Date: Thu, 09 May 2019 19:34:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: freedesktop@cameron.bz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110457-502-fJQtBA4s3H@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110457-502@http.bugs.freedesktop.org/>
+References: <bug-110457-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1557427719;
- bh=fuPoLE3V2yAUWFUBWayRnbpH4gfWO4t8LudXIxPk+J4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YQLZR4vIPrTzxoeppc/gZIjhgm/La+cntd/McIKEiWhyv1TDbjWIorX/cw1TPPpso
- izztYO8rn06HZQOkyhmdTWTOqN1Ibydqa4Ug3o1Zrt26MeWdOy/qClK5lQbiN5Jziv
- v8jakqivYVY13rPihREOwZE3UdrmkUubfLx1qphU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,47 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- Matthias Brugger <matthias.bgg@gmail.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Wen Yang <wen.yang99@zte.com.cn>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0139733680=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WyBVcHN0cmVhbSBjb21taXQgMmFlMmMzMzE2ZmI3N2RjZjY0Mjc1ZDAxMTU5NmI2MDEwNGM0NTQy
-NiBdCgpUaGUgY2FsbCB0byBvZl9wYXJzZV9waGFuZGxlIHJldHVybnMgYSBub2RlIHBvaW50ZXIg
-d2l0aCByZWZjb3VudAppbmNyZW1lbnRlZCB0aHVzIGl0IG11c3QgYmUgZXhwbGljaXRseSBkZWNy
-ZW1lbnRlZCBhZnRlciB0aGUgbGFzdAp1c2FnZS4KCkRldGVjdGVkIGJ5IGNvY2NpbmVsbGUgd2l0
-aCB0aGUgZm9sbG93aW5nIHdhcm5pbmdzOgpkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2hk
-bWkuYzoxNTIxOjItODogRVJST1I6IG1pc3Npbmcgb2Zfbm9kZV9wdXQ7IGFjcXVpcmVkIGEgbm9k
-ZSBwb2ludGVyIHdpdGggcmVmY291bnQgaW5jcmVtZW50ZWQgb24gbGluZSAxNTA5LCBidXQgd2l0
-aG91dCBhIGNvcnJlc3BvbmRpbmcgb2JqZWN0IHJlbGVhc2Ugd2l0aGluIHRoaXMgZnVuY3Rpb24u
-CmRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jOjE1MjQ6MS03OiBFUlJPUjogbWlz
-c2luZyBvZl9ub2RlX3B1dDsgYWNxdWlyZWQgYSBub2RlIHBvaW50ZXIgd2l0aCByZWZjb3VudCBp
-bmNyZW1lbnRlZCBvbiBsaW5lIDE1MDksIGJ1dCB3aXRob3V0IGEgY29ycmVzcG9uZGluZyBvYmpl
-Y3QgcmVsZWFzZSB3aXRoaW4gdGhpcyBmdW5jdGlvbi4KClNpZ25lZC1vZmYtYnk6IFdlbiBZYW5n
-IDx3ZW4ueWFuZzk5QHp0ZS5jb20uY24+CkNjOiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPgpD
-YzogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KQ2M6IERhdmlkIEFpcmxp
-ZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4K
-Q2M6IE1hdHRoaWFzIEJydWdnZXIgPG1hdHRoaWFzLmJnZ0BnbWFpbC5jb20+CkNjOiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJh
-ZGVhZC5vcmcKQ2M6IGxpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcKQ2M6IGxpbnV4
-LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogQ0sgSHUgPGNrLmh1QG1lZGlh
-dGVrLmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jIHwgMSArCiAxIGZpbGUgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
-ZWsvbXRrX2hkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jCmluZGV4
-IGM3YTc3ZDZmNjEyYjIuLjYyNDQ0YTNhNTc0MmEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfaGRtaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
-aGRtaS5jCkBAIC0xNTA4LDYgKzE1MDgsNyBAQCBzdGF0aWMgaW50IG10a19oZG1pX2R0X3BhcnNl
-X3BkYXRhKHN0cnVjdCBtdGtfaGRtaSAqaGRtaSwKIAlvZl9ub2RlX3B1dChyZW1vdGUpOwogCiAJ
-aGRtaS0+ZGRjX2FkcHQgPSBvZl9maW5kX2kyY19hZGFwdGVyX2J5X25vZGUoaTJjX25wKTsKKwlv
-Zl9ub2RlX3B1dChpMmNfbnApOwogCWlmICghaGRtaS0+ZGRjX2FkcHQpIHsKIAkJZGV2X2Vycihk
-ZXYsICJGYWlsZWQgdG8gZ2V0IGRkYyBpMmMgYWRhcHRlciBieSBub2RlXG4iKTsKIAkJcmV0dXJu
-IC1FSU5WQUw7Ci0tIAoyLjIwLjEKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0139733680==
+Content-Type: multipart/alternative; boundary="15574304661.64c13.6226"
+Content-Transfer-Encoding: 7bit
+
+
+--15574304661.64c13.6226
+Date: Thu, 9 May 2019 19:34:26 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110457
+
+--- Comment #7 from Cameron Banfield <freedesktop@cameron.bz> ---
+I am having very similar issues and see similar errors in logs. The most re=
+cent
+error was:
+
+kernel: amdgpu 0000:06:00.0: [gfxhub] no-retry page fault (src_id:0 ring:24
+vmid:1 pasid:32768, for process Xorg pid 1301 thread Xorg:cs0 pid 1362)
+kernel: amdgpu 0000:06:00.0:   in page starting at address 0x0000800108a180=
+00
+from 27
+kernel: amdgpu 0000:06:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101031
+
+The laptop is then unusable and requires a hard reboot.
+
+Linux Mint 19.1
+Kernel 5.1.0
+AMD Ryzen PRO 2700U with Vega 10 graphics
+
+Trying to load cities skylines is a guaranteed crash.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15574304661.64c13.6226
+Date: Thu, 9 May 2019 19:34:26 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
+amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
+amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457">bug 11045=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;cameron.bz" title=3D"Cameron Banfield &lt;freedesktop&#64;c=
+ameron.bz&gt;"> <span class=3D"fn">Cameron Banfield</span></a>
+</span></b>
+        <pre>I am having very similar issues and see similar errors in logs=
+. The most recent
+error was:
+
+kernel: amdgpu 0000:06:00.0: [gfxhub] no-retry page fault (src_id:0 ring:24
+vmid:1 pasid:32768, for process Xorg pid 1301 thread Xorg:cs0 pid 1362)
+kernel: amdgpu 0000:06:00.0:   in page starting at address 0x0000800108a180=
+00
+from 27
+kernel: amdgpu 0000:06:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00101031
+
+The laptop is then unusable and requires a hard reboot.
+
+Linux Mint 19.1
+Kernel 5.1.0
+AMD Ryzen PRO 2700U with Vega 10 graphics
+
+Trying to load cities skylines is a guaranteed crash.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15574304661.64c13.6226--
+
+--===============0139733680==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0139733680==--
