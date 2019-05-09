@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2B518429
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 05:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8315218438
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 05:51:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 147A6892FA;
-	Thu,  9 May 2019 03:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F9D89993;
+	Thu,  9 May 2019 03:51:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2A449892FA
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 03:40:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DAFA689993
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 03:51:24 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2196C7215A; Thu,  9 May 2019 03:40:57 +0000 (UTC)
+ id D15177215A; Thu,  9 May 2019 03:51:24 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110641] lm_sensors reports "ERROR: Can't get value of
  subfeature in0_input: Can't read"
-Date: Thu, 09 May 2019 03:40:57 +0000
+Date: Thu, 09 May 2019 03:51:25 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,14 +28,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bong.cosca@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110641-502-UdRZnb3VQv@http.bugs.freedesktop.org/>
+Message-ID: <bug-110641-502-Rq27Dpf3O4@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110641-502@http.bugs.freedesktop.org/>
 References: <bug-110641-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1043859280=="
+Content-Type: multipart/mixed; boundary="===============1246666586=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1043859280==
-Content-Type: multipart/alternative; boundary="15573732570.6571d.27412"
+--===============1246666586==
+Content-Type: multipart/alternative; boundary="15573738840.0Dc0B7D2.29943"
 Content-Transfer-Encoding: 7bit
 
 
---15573732570.6571d.27412
-Date: Thu, 9 May 2019 03:40:57 +0000
+--15573738840.0Dc0B7D2.29943
+Date: Thu, 9 May 2019 03:51:24 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,15 +73,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110641
 
---- Comment #4 from Bong Cosca <bong.cosca@gmail.com> ---
-AMD A6-7400K Radeon R5
+--- Comment #5 from Alex Deucher <alexdeucher@gmail.com> ---
+(In reply to Bong Cosca from comment #4)
+> AMD A6-7400K Radeon R5
+
+No hwmon support for voltage on that family.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15573732570.6571d.27412
-Date: Thu, 9 May 2019 03:40:57 +0000
+--15573738840.0Dc0B7D2.29943
+Date: Thu, 9 May 2019 03:51:24 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +102,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
 ture in0_input: Can't read&quot;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641#c4">Commen=
-t # 4</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - lm_sensors reports &quot;ERROR: Can't get value of subfea=
@@ -108,10 +111,14 @@ ture in0_input: Can't read&quot;"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110641">bug 11064=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bong.cosca&#64;gmail.com" title=3D"Bong Cosca &lt;bong.cosca&#64;gmail.com&=
-gt;"> <span class=3D"fn">Bong Cosca</span></a>
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>AMD A6-7400K Radeon R5</pre>
+        <pre>(In reply to Bong Cosca from <a href=3D"show_bug.cgi?id=3D1106=
+41#c4">comment #4</a>)
+<span class=3D"quote">&gt; AMD A6-7400K Radeon R5</span >
+
+No hwmon support for voltage on that family.</pre>
         </div>
       </p>
 
@@ -125,9 +132,9 @@ gt;"> <span class=3D"fn">Bong Cosca</span></a>
     </body>
 </html>=
 
---15573732570.6571d.27412--
+--15573738840.0Dc0B7D2.29943--
 
---===============1043859280==
+--===============1246666586==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -137,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1043859280==--
+--===============1246666586==--
