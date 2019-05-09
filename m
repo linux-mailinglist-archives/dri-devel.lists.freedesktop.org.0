@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F2D18576
-	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 08:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCBC185A1
+	for <lists+dri-devel@lfdr.de>; Thu,  9 May 2019 09:00:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 252CC89467;
-	Thu,  9 May 2019 06:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5842089862;
+	Thu,  9 May 2019 06:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 36A1C89467
- for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 06:37:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 332B27215A; Thu,  9 May 2019 06:37:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110637] Any OpenCL application causes "*ERROR* ring gfx
- timeout" on Vega 64
-Date: Thu, 09 May 2019 06:37:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mezin.alexander@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110637-502-bSjbhJNGcQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110637-502@http.bugs.freedesktop.org/>
-References: <bug-110637-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA8EB89862
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 May 2019 06:59:57 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3F6B881F25;
+ Thu,  9 May 2019 06:59:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+ [10.36.116.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEFF688FD;
+ Thu,  9 May 2019 06:59:56 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id C1A0C11AAA; Thu,  9 May 2019 08:59:55 +0200 (CEST)
+Date: Thu, 9 May 2019 08:59:55 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [git pull] drm for 5.2-rc1
+Message-ID: <20190509065955.ro5eagqzo4u6ds4a@sirius.home.kraxel.org>
+References: <CAPM=9tyFp5LZ6QO1TaDK5jSb5+2SCe3Rjmk0_juVfr-zfspBLg@mail.gmail.com>
+ <CAHk-=wg6imuGGw_4d6ywhu=0Kxr+H2S=hHavoDXYjN6o7SqMUg@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wg6imuGGw_4d6ywhu=0Kxr+H2S=hHavoDXYjN6o7SqMUg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Thu, 09 May 2019 06:59:57 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,121 +50,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1196929552=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1196929552==
-Content-Type: multipart/alternative; boundary="15573838371.19E5ff.19285"
-Content-Transfer-Encoding: 7bit
-
-
---15573838371.19E5ff.19285
-Date: Thu, 9 May 2019 06:37:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110637
-
---- Comment #4 from Alexander Mezin <mezin.alexander@gmail.com> ---
-(In reply to Alex Deucher from comment #3)
-> More likely a bug in the mesa OpenCL code.  If you want functional OpenCL,
-> you should use the ROCm OpenCL packages.
-
-I thought that buggy userspace shouldn't cause a complete GPU lockup like
-this...
-The kernel log says "GPU reset succeeded", but it leaves GNOME session
-completely unusable (hung, artifacts on screen), restarting GDM also fails,=
- the
-only way to recover is rebooting (sometimes only through Sysrq)
-
-And also I get a very similar lockup (the same messages in kernel log, again
-with all kernel/firmware versions I tried) in a few Steam games running on
-Proton/DXVK.
-
-Will try different mesa versions
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15573838371.19E5ff.19285
-Date: Thu, 9 May 2019 06:37:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
-out&quot; on Vega 64"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
-out&quot; on Vega 64"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637">bug 11063=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mezin.alexander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander=
-&#64;gmail.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
-</span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-0637#c3">comment #3</a>)
-<span class=3D"quote">&gt; More likely a bug in the mesa OpenCL code.  If y=
-ou want functional OpenCL,
-&gt; you should use the ROCm OpenCL packages.</span >
-
-I thought that buggy userspace shouldn't cause a complete GPU lockup like
-this...
-The kernel log says &quot;GPU reset succeeded&quot;, but it leaves GNOME se=
-ssion
-completely unusable (hung, artifacts on screen), restarting GDM also fails,=
- the
-only way to recover is rebooting (sometimes only through Sysrq)
-
-And also I get a very similar lockup (the same messages in kernel log, again
-with all kernel/firmware versions I tried) in a few Steam games running on
-Proton/DXVK.
-
-Will try different mesa versions</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15573838371.19E5ff.19285--
-
---===============1196929552==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1196929552==--
+ICBIaSwKCj4gVGhlIG9uZSB0byB0aGUgdmlydGdwdSBkcml2ZXIsIEkgcmVhbGx5IGRvbid0IGtu
+b3cgaWYgaXMgbmVlZGVkIGFueQo+IG1vcmUuIEkgc3VzcGVjdCBJIGNvbXBsZXRlbHkgdW5uZWNl
+c3NhcmlseSBtZXJnZWQgdGhhdAo+IHZpcnRncHVfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSgp
+IGZ1bmN0aW9uIHRoYXQgY2FtZSBpbiBiZWNhdXNlIEkKPiBkZWNpZGVkIHRvIGRvIHRoZSBtZXJn
+ZSBvZiB0aGUgcmV2ZXJ0Lgo+IAo+IEl0J3MgYSB0cml2aWFsIGZ1bmN0aW9uIHRoYXQganVzdCBy
+ZXR1cm5zIGFuIGVycm9yLCBhbmQgeW91ciB0cmVlIGp1c3QKPiBsZWF2ZXMgaXQgYXMgTlVMTCwg
+YW5kIEkgc3VzcGVjdCBteSBtZXJnZSBkb2Vzbid0IGh1cnQsIGJ1dCBpdCBhbHNvCj4gcHJvYmFi
+bHkgZG9lc24ndCBtYXR0ZXIuCgpDaGVja2VkIHRoYXQgb25lLCB0aGUgbWVyZ2UgaXMgY29ycmVj
+dC4KCmNoZWVycywKICBHZXJkCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
