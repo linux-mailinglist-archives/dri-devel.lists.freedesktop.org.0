@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6608A19804
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2019 07:22:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8981D19805
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2019 07:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439EE89664;
-	Fri, 10 May 2019 05:22:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 389D58945A;
+	Fri, 10 May 2019 05:23:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E41589664
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2019 05:22:18 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3F04C8945A
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2019 05:23:33 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0A6E57215A; Fri, 10 May 2019 05:22:18 +0000 (UTC)
+ id 3B1127215A; Fri, 10 May 2019 05:23:33 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108824] Invalid handling when GL buffer is bound on one context
- and invalidated on another
-Date: Fri, 10 May 2019 05:22:18 +0000
+Subject: [Bug 110637] Any OpenCL application causes "*ERROR* ring gfx
+ timeout" on Vega 64
+Date: Fri, 10 May 2019 05:23:33 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: maraeo@gmail.com
+X-Bugzilla-Who: mezin.alexander@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108824-502-lX2UXzLaM5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108824-502@http.bugs.freedesktop.org/>
-References: <bug-108824-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110637-502-rx77vQ58AS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110637-502@http.bugs.freedesktop.org/>
+References: <bug-110637-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,36 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1181154110=="
+Content-Type: multipart/mixed; boundary="===============0586252220=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1181154110==
-Content-Type: multipart/alternative; boundary="15574657380.dDec1d11a.2008"
+--===============0586252220==
+Content-Type: multipart/alternative; boundary="15574658130.E0ead.897"
 Content-Transfer-Encoding: 7bit
 
 
---15574657380.dDec1d11a.2008
-Date: Fri, 10 May 2019 05:22:17 +0000
+--15574658130.E0ead.897
+Date: Fri, 10 May 2019 05:23:33 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108824
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110637
 
---- Comment #4 from Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> ---
-This is fixed by these patches:
-https://patchwork.freedesktop.org/series/60491/
+--- Comment #8 from Alexander Mezin <mezin.alexander@gmail.com> ---
+(In reply to Jan Vesely from comment #6)
+> if yes can you confirm if the games hang when running with
+> OCL_ICD_VENDORS=3D/var/empty/ ?
+> (alternatively, you can just move libMesaOpenCL.* out of library path)
+
+No, setting OCL_ICD_VENDORS didn't change anything (though I'm not complete=
+ly
+sure that Steam and then Proton don't discard environment variables somewhe=
+re).
+
+However, upgrading Mesa to 19.0.4 fixed game hangs. OpenCL issues are still
+here.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15574657380.dDec1d11a.2008
-Date: Fri, 10 May 2019 05:22:18 +0000
+--15574658130.E0ead.897
+Date: Fri, 10 May 2019 05:23:33 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,23 +108,35 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824#c4">Commen=
-t # 4</a>
+   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
+out&quot; on Vega 64"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637#c8">Commen=
+t # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824">bug 10882=
-4</a>
+   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
+out&quot; on Vega 64"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637">bug 11063=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-maraeo&#64;gmail.com" title=3D"Marek Ol=C5=A1=C3=A1k &lt;maraeo&#64;gmail.c=
-om&gt;"> <span class=3D"fn">Marek Ol=C5=A1=C3=A1k</span></a>
+mezin.alexander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander=
+&#64;gmail.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
 </span></b>
-        <pre>This is fixed by these patches:
-<a href=3D"https://patchwork.freedesktop.org/series/60491/">https://patchwo=
-rk.freedesktop.org/series/60491/</a></pre>
+        <pre>(In reply to Jan Vesely from <a href=3D"show_bug.cgi?id=3D1106=
+37#c6">comment #6</a>)
+<span class=3D"quote">&gt; if yes can you confirm if the games hang when ru=
+nning with
+&gt; OCL_ICD_VENDORS=3D/var/empty/ ?
+&gt; (alternatively, you can just move libMesaOpenCL.* out of library path)=
+</span >
+
+No, setting OCL_ICD_VENDORS didn't change anything (though I'm not complete=
+ly
+sure that Steam and then Proton don't discard environment variables somewhe=
+re).
+
+However, upgrading Mesa to 19.0.4 fixed game hangs. OpenCL issues are still
+here.</pre>
         </div>
       </p>
 
@@ -128,9 +150,9 @@ rk.freedesktop.org/series/60491/</a></pre>
     </body>
 </html>=
 
---15574657380.dDec1d11a.2008--
+--15574658130.E0ead.897--
 
---===============1181154110==
+--===============0586252220==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +162,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1181154110==--
+--===============0586252220==--
