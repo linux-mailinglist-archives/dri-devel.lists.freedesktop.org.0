@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2921999C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2019 10:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEC41988F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2019 08:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BF5289A5D;
-	Fri, 10 May 2019 08:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FF689B99;
+	Fri, 10 May 2019 06:43:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EAB989916;
- Fri, 10 May 2019 05:50:58 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id z16so2433703pgv.11;
- Thu, 09 May 2019 22:50:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=7DNbQy+XeUwJNnsLrbsf7GgVt3vG1E1+vrBOysMv8YE=;
- b=nzfYQfGudmFEiENyFC8o3Ioy/qvaOHaWAAa9c2OzBj5VWG5uVonWpWMgqVXjkl693H
- 3PiTv9b0QeWxU91sLnnAzMlgKjv12i3nWZuE6zqE5j/DDMhf8bC2rFiiM2LyCa6wpDb5
- 0fSvMU26ftHpRQuI9Lu4e+GTb1x97+k7JukqDsvi/X1+VhnW6WGJutrlnc3hipQPTmfK
- weuw5NW5mks9p2AyZSAGDM2uh2JBIUE4NASy6zn+z2hDskxiqAzcf7vij1Qe64Q6zfgz
- s5bhs4acYdN9PC1Lmfw3kF1H2XAMWhH3mpiyJr+XoAeRofFNVbCw7K+h2Hof86CQCE2G
- RA3g==
-X-Gm-Message-State: APjAAAUQMd2V7TqNCgTAoYvU0gF9CjLfz2n39OcmRmpkQbocWSJ4Eteu
- k6vO1IicwP59pco2MNJ1Qw0=
-X-Google-Smtp-Source: APXvYqzoTTJJuY7emFpyseXgmhhtAkOmA0sg3IQDQa3Kp5WUeM/5FO2g9Cz09UPUzVof3g3O+Df1Sg==
-X-Received: by 2002:a63:a55:: with SMTP id z21mr11336025pgk.440.1557467457679; 
- Thu, 09 May 2019 22:50:57 -0700 (PDT)
-Received: from localhost ([39.7.15.25])
- by smtp.gmail.com with ESMTPSA id i12sm4613535pgb.61.2019.05.09.22.50.55
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 09 May 2019 22:50:56 -0700 (PDT)
-Date: Fri, 10 May 2019 14:50:53 +0900
-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] kernel/locking/semaphore: use wake_q in up()
-Message-ID: <20190510055053.GA9864@jagdpanzerIV>
-References: <20190509120903.28939-1-daniel.vetter@ffwll.ch>
- <20190509200633.19678-1-daniel.vetter@ffwll.ch>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 39DD6898BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2019 06:43:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 367587215A; Fri, 10 May 2019 06:43:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 101473] (SI) latest stable & cant boot
+Date: Fri, 10 May 2019 06:43:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: qmastery16@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-101473-502-ivKNbbsxeu@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-101473-502@http.bugs.freedesktop.org/>
+References: <bug-101473-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190509200633.19678-1-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Approved-At: Fri, 10 May 2019 08:23:54 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=7DNbQy+XeUwJNnsLrbsf7GgVt3vG1E1+vrBOysMv8YE=;
- b=pUfvvAZFqUVTiqjxv40mkHsNUmq7PBox1pFF166ZopvOvdfQGvbOVJnOm+aoJu5sEz
- DOggZuoz45ZIDa8GI90MV1/vdHaAAtQI9uW956G/4MxykZgBJ2dWMiXvBvfSHjOFwgFO
- /H0TseWHxGUXAS4l8bz4i3L4KVPE7Ts5JNHc7z4SLbLGzOGL7XDZuY3s+d85vDTOMcBO
- 0KezU2gXMeA0eGAB4od6jTnHD0HZmFlH0OXeiTpfzy2NhQdcpFyHsUTxdOz8w2oL6U4o
- xXOdPK6D0yIW2TzK4KruW/bOPNR9VrQJG3ue4SDSTv3AHdmqAvYgCpT6pVAQyxERl4ge
- tf5A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,38 +52,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>,
- Peter Zijlstra <peterz@infradead.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Ingo Molnar <mingo@redhat.com>, Steven Rostedt <rostedt@goodmis.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2112108951=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gKDA1LzA5LzE5IDIyOjA2KSwgRGFuaWVsIFZldHRlciB3cm90ZToKWy4uXQo+ICsvKiBGdW5j
-dGlvbnMgZm9yIHRoZSBjb250ZW5kZWQgY2FzZSAqLwo+ICsKPiArc3RydWN0IHNlbWFwaG9yZV93
-YWl0ZXIgewo+ICsJc3RydWN0IGxpc3RfaGVhZCBsaXN0Owo+ICsJc3RydWN0IHRhc2tfc3RydWN0
-ICp0YXNrOwo+ICsJYm9vbCB1cDsKPiArfTsKPiArCj4gIC8qKgo+ICAgKiB1cCAtIHJlbGVhc2Ug
-dGhlIHNlbWFwaG9yZQo+ICAgKiBAc2VtOiB0aGUgc2VtYXBob3JlIHRvIHJlbGVhc2UKPiBAQCAt
-MTc5LDI0ICsxODcsMjUgQEAgRVhQT1JUX1NZTUJPTChkb3duX3RpbWVvdXQpOwo+ICB2b2lkIHVw
-KHN0cnVjdCBzZW1hcGhvcmUgKnNlbSkKPiAgewo+ICAJdW5zaWduZWQgbG9uZyBmbGFnczsKPiAr
-CXN0cnVjdCBzZW1hcGhvcmVfd2FpdGVyICp3YWl0ZXI7Cj4gKwlERUZJTkVfV0FLRV9RKHdha2Vf
-cSk7Cj4gIAo+ICAJcmF3X3NwaW5fbG9ja19pcnFzYXZlKCZzZW0tPmxvY2ssIGZsYWdzKTsKPiAt
-CWlmIChsaWtlbHkobGlzdF9lbXB0eSgmc2VtLT53YWl0X2xpc3QpKSkKPiArCWlmIChsaWtlbHko
-bGlzdF9lbXB0eSgmc2VtLT53YWl0X2xpc3QpKSkgewo+ICAJCXNlbS0+Y291bnQrKzsKPiAtCWVs
-c2UKPiAtCQlfX3VwKHNlbSk7Cj4gKwl9IGVsc2Ugewo+ICsJCXdhaXRlciA9ICBsaXN0X2ZpcnN0
-X2VudHJ5KCZzZW0tPndhaXRfbGlzdCwKPiArCQkJCQkgICBzdHJ1Y3Qgc2VtYXBob3JlX3dhaXRl
-ciwgbGlzdCk7Cj4gKwkJbGlzdF9kZWwoJndhaXRlci0+bGlzdCk7Cj4gKwkJd2FpdGVyLT51cCA9
-IHRydWU7Cj4gKwkJd2FrZV9xX2FkZCgmd2FrZV9xLCB3YWl0ZXItPnRhc2spOwo+ICsJfQo+ICAJ
-cmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUoJnNlbS0+bG9jaywgZmxhZ3MpOwoKU28gdGhlIG5l
-dyBjb2RlIHN0aWxsIGNhbiBwcmludGsvV0FSTiB1bmRlciBzZW0tPmxvY2sgaW4gc29tZSBidWdn
-eQpjYXNlcy4KCkUuZy4KCXdha2VfcV9hZGQoKQoJIGdldF90YXNrX3N0cnVjdCgpCgkgIHJlZmNv
-dW50X2luY19jaGVja2VkKCkKCSAgIFdBUk5fT05DRSgpCgpBcmUgd2UgZmluZSB3aXRoIHRoYXQ/
-CgoJLXNzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2112108951==
+Content-Type: multipart/alternative; boundary="15574706211.FABfdE.15692"
+Content-Transfer-Encoding: 7bit
+
+
+--15574706211.FABfdE.15692
+Date: Fri, 10 May 2019 06:43:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D101473
+
+qmastery16@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |FIXED
+             Status|REOPENED                    |RESOLVED
+
+--- Comment #8 from qmastery16@gmail.com ---
+Our problem was caused by the opensource coreboot BIOS incorrectly initiali=
+zing
+the discrete GPU. These unofficial patches are solving our problem -
+https://review.coreboot.org/c/coreboot/+/31929/ . And here is our latest
+board-status report, containing a new kernel log and other useful info -
+https://coreboot.org/status/board-status.html#lenovo/g505s . So this issue
+could be closed - and if someone has a similar problem he could reopen,
+although maybe it's better to do a fresh start by creating a new issue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15574706211.FABfdE.15692
+Date: Fri, 10 May 2019 06:43:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:qmastery1=
+6&#64;gmail.com" title=3D"qmastery16&#64;gmail.com">qmastery16&#64;gmail.co=
+m</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - (SI) latest stable &amp; cant boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101473">bug 10147=
+3</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>REOPENED
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - (SI) latest stable &amp; cant boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101473#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - (SI) latest stable &amp; cant boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101473">bug 10147=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+qmastery16&#64;gmail.com" title=3D"qmastery16&#64;gmail.com">qmastery16&#64=
+;gmail.com</a>
+</span></b>
+        <pre>Our problem was caused by the opensource coreboot BIOS incorre=
+ctly initializing
+the discrete GPU. These unofficial patches are solving our problem -
+<a href=3D"https://review.coreboot.org/c/coreboot/+/31929/">https://review.=
+coreboot.org/c/coreboot/+/31929/</a> . And here is our latest
+board-status report, containing a new kernel log and other useful info -
+<a href=3D"https://coreboot.org/status/board-status.html#lenovo/g505s">http=
+s://coreboot.org/status/board-status.html#lenovo/g505s</a> . So this issue
+could be closed - and if someone has a similar problem he could reopen,
+although maybe it's better to do a fresh start by creating a new issue.</pr=
+e>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15574706211.FABfdE.15692--
+
+--===============2112108951==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2112108951==--
