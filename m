@@ -2,44 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8B219C91
-	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2019 13:28:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C42919D07
+	for <lists+dri-devel@lfdr.de>; Fri, 10 May 2019 14:12:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF64C89B46;
-	Fri, 10 May 2019 11:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB84B89CDD;
+	Fri, 10 May 2019 12:12:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E3B3189BA5
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2019 11:28:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E0DF77215A; Fri, 10 May 2019 11:28:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110248] IGT Meson build fails when "-Dbuild_tests=false" option
- is used
-Date: Fri, 10 May 2019 11:28:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: eero.t.tamminen@intel.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110248-502-PAtFwTPv9Y@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110248-502@http.bugs.freedesktop.org/>
-References: <bug-110248-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8895C89CDD
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2019 12:12:44 +0000 (UTC)
+X-Originating-IP: 90.88.28.253
+Received: from aptenodytes (aaubervilliers-681-1-86-253.w90-88.abo.wanadoo.fr
+ [90.88.28.253]) (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 6F7A5240002;
+ Fri, 10 May 2019 12:12:37 +0000 (UTC)
+Message-ID: <31dad9a323382628911c5301a6eec179855aa815.camel@bootlin.com>
+Subject: Re: [PATCH v7 09/11] drm: uevent for connector status change
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Ramalingam C <ramalingam.c@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, daniel.vetter@intel.com
+Date: Fri, 10 May 2019 14:12:15 +0200
+In-Reply-To: <20190507162745.25600-10-ramalingam.c@intel.com>
+References: <20190507162745.25600-1-ramalingam.c@intel.com>
+ <20190507162745.25600-10-ramalingam.c@intel.com>
+Organization: Bootlin
+User-Agent: Evolution 3.32.1 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,183 +42,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1827920507=="
+Cc: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, gwan-gyeong.mun@intel.com, "Ser,
+ Simon" <simon.ser@intel.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1827920507==
-Content-Type: multipart/alternative; boundary="15574877222.5c0a0Ada.30325"
-Content-Transfer-Encoding: 7bit
-
-
---15574877222.5c0a0Ada.30325
-Date: Fri, 10 May 2019 11:28:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110248
-
---- Comment #2 from Eero Tamminen <eero.t.tamminen@intel.com> ---
-Thanks, I can verify that the Meson doesn't anymore fail.
-
-However, it doesn't seem to disable all tests:
-----------------------------------------------------------------
-$ grep tests intel-gpu-tools_build.log
-Message: Build tests: No
-[3/328] Compiling C object
-'lib/tests/lib@tests@@igt_can_fail_simple@exe/igt_can_fail_simple.c.o'.
-[4/328] Compiling C object
-'lib/tests/lib@tests@@igt_timeout@exe/igt_timeout.c.o'.
-[5/328] Compiling C object
-'lib/tests/lib@tests@@igt_can_fail@exe/igt_can_fail.c.o'.
-[6/328] Compiling C object
-'lib/tests/lib@tests@@igt_no_subtest@exe/igt_no_subtest.c.o'.
-[7/328] Compiling C object
-'lib/tests/lib@tests@@igt_simple_test_subtests@exe/igt_simple_test_subtests=
-.c.o'.
-[8/328] Compiling C object
-'lib/tests/lib@tests@@igt_list_only@exe/igt_list_only.c.o'.
-[10/328] Compiling C object
-'lib/tests/lib@tests@@igt_fork_helper@exe/igt_fork_helper.c.o'.
-[11/328] Compiling C object
-'lib/tests/lib@tests@@igt_invalid_subtest_name@exe/igt_invalid_subtest_name=
-.c.o'.
-[12/328] Compiling C object
-'lib/tests/lib@tests@@igt_segfault@exe/igt_segfault.c.o'.
-[15/328] Compiling C object
-'lib/tests/lib@tests@@igt_no_exit@exe/igt_no_exit.c.o'.
-[17/328] Compiling C object 'lib/tests/lib@tests@@igt_fork@exe/igt_fork.c.o=
-'.
-[18/328] Compiling C object
-'lib/tests/lib@tests@@igt_subtest_group@exe/igt_subtest_group.c.o'.
-[22/328] Compiling C object
-'lib/tests/lib@tests@@igt_exit_handler@exe/igt_exit_handler.c.o'.
-[23/328] Compiling C object
-'lib/tests/lib@tests@@igt_simulation@exe/igt_simulation.c.o'.
-[30/328] Compiling C object
-'lib/tests/lib@tests@@igt_hdmi_inject@exe/igt_hdmi_inject.c.o'.
-[37/328] Compiling C object 'lib/tests/lib@tests@@igt_stats@exe/igt_stats.c=
-.o'.
-[45/328] Compiling C object
-'lib/tests/lib@tests@@igt_assert@exe/igt_assert.c.o'.
-----------------------------------------------------------------
-
-Are these built on purpose even with tests building disabled?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15574877222.5c0a0Ada.30325
-Date: Fri, 10 May 2019 11:28:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - IGT Meson build fails when &quot;-Dbuild_tests=
-=3Dfalse&quot; option is used"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110248#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - IGT Meson build fails when &quot;-Dbuild_tests=
-=3Dfalse&quot; option is used"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110248">bug 11024=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-eero.t.tamminen&#64;intel.com" title=3D"Eero Tamminen &lt;eero.t.tamminen&#=
-64;intel.com&gt;"> <span class=3D"fn">Eero Tamminen</span></a>
-</span></b>
-        <pre>Thanks, I can verify that the Meson doesn't anymore fail.
-
-However, it doesn't seem to disable all tests:
-----------------------------------------------------------------
-$ grep tests intel-gpu-tools_build.log
-Message: Build tests: No
-[3/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_can_fail_simple&#64;exe/igt_can_fail_=
-simple.c.o'.
-[4/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_timeout&#64;exe/igt_timeout.c.o'.
-[5/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_can_fail&#64;exe/igt_can_fail.c.o'.
-[6/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_no_subtest&#64;exe/igt_no_subtest.c.o=
-'.
-[7/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_simple_test_subtests&#64;exe/igt_simp=
-le_test_subtests.c.o'.
-[8/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_list_only&#64;exe/igt_list_only.c.o'.
-[10/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_fork_helper&#64;exe/igt_fork_helper.c=
-.o'.
-[11/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_invalid_subtest_name&#64;exe/igt_inva=
-lid_subtest_name.c.o'.
-[12/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_segfault&#64;exe/igt_segfault.c.o'.
-[15/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_no_exit&#64;exe/igt_no_exit.c.o'.
-[17/328] Compiling C object 'lib/tests/lib&#64;tests&#64;&#64;igt_fork&#64;=
-exe/igt_fork.c.o'.
-[18/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_subtest_group&#64;exe/igt_subtest_gro=
-up.c.o'.
-[22/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_exit_handler&#64;exe/igt_exit_handler=
-.c.o'.
-[23/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_simulation&#64;exe/igt_simulation.c.o=
-'.
-[30/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_hdmi_inject&#64;exe/igt_hdmi_inject.c=
-.o'.
-[37/328] Compiling C object 'lib/tests/lib&#64;tests&#64;&#64;igt_stats&#64=
-;exe/igt_stats.c.o'.
-[45/328] Compiling C object
-'lib/tests/lib&#64;tests&#64;&#64;igt_assert&#64;exe/igt_assert.c.o'.
-----------------------------------------------------------------
-
-Are these built on purpose even with tests building disabled?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15574877222.5c0a0Ada.30325--
-
---===============1827920507==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1827920507==--
+SGksCgpPbiBUdWUsIDIwMTktMDUtMDcgYXQgMjE6NTcgKzA1MzAsIFJhbWFsaW5nYW0gQyB3cm90
+ZToKPiBEUk0gQVBJIGZvciBnZW5lcmF0aW5nIHVldmVudCBmb3IgYSBzdGF0dXMgY2hhbmdlcyBv
+ZiBjb25uZWN0b3Incwo+IHByb3BlcnR5Lgo+IAo+IFRoaXMgdWV2ZW50IHdpbGwgaGF2ZSBmb2xs
+b3dpbmcgZGV0YWlscyByZWxhdGVkIHRvIHRoZSBzdGF0dXMgY2hhbmdlOgo+IAo+ICAgSE9UUExV
+Rz0xLCBDT05ORUNUT1I9PGNvbm5lY3Rvcl9pZD4gYW5kIFBST1BFUlRZPTxwcm9wZXJ0eV9pZD4K
+PiAKPiBOZWVkIEFDSyBmcm9tIHRoaXMgdWV2ZW50IGZyb20gdXNlcnNwYWNlIGNvbnN1bWVyLgoK
+U28gd2UganVzdCBoYWQgc29tZSBkaXNjdXNzaW9ucyBvdmVyIG9uIElSQyBhbmQgYXQgYWJvdXQg
+dGhlIGhvdHBsdWcKaXNzdWUgYW5kIGNhbWUgdXAgd2l0aCBzaW1pbGFyIGlkZWFzOgpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1NYXkvMjE3NDA4
+Lmh0bWwKClRoZSBjb25jbHVzaW9ucyBvZiB0aGVzZSBkaXNjdXNzaW9ucyBzbyBmYXIgd291bGQg
+YmUgdG8gaGF2ZSBhIG1vcmUgb3IKbGVzcyBmaW5lIGdyYWluIG9mIHVldmVudCByZXBvcnRpbmcg
+ZGVwZW5kaW5nIG9uIHdoYXQgaGFwcGVuZWQuIFRoZQpwb2ludCBpcyB0aGF0IHdlIG5lZWQgdG8g
+Y292ZXIgZGlmZmVyZW50IGNhc2VzOgotIG9uZSBvciBtb3JlIHByb3BlcnRpZXMgY2hhbmdlZDsK
+LSB0aGUgY29ubmVjdG9yIHN0YXR1cyBjaGFuZ2VkOwotIHNvbWV0aGluZyBlbHNlIGFib3V0IHRo
+ZSBjb25uZWN0b3IgY2hhbmdlZCAoZS5nLiBFRElEL21vZGVzKQoKRm9yIHRoZSBmaXJzdCBjYXNl
+LCB3ZSBjYW4gc2VuZCBvdXQ6CkhPVFBMVUc9MQpDT05ORUNUT1I9PGlkPgpQUk9QRVJUWT08aWQ+
+CgphbmQgbm8gcmVwcm9iZSBpcyByZXF1aXJlZC4KCkZvciB0aGUgc2Vjb25kIG9uZSwgc29tZXRo
+aW5nIGxpa2U6CkhPVFBMVUc9MQpDT05ORUNUT1I9PGlkPgpTVEFUVVM9Q29ubmVjdGVkL0Rpc2Nv
+bm5lY3RlZAoKYW5kIGEgY29ubmVjdG9yIHByb2JlIGlzIG5lZWRlZCBmb3IgY29ubmVjdGVkLCBi
+dXQgbm90IGZvcgpkaXNjb25uZWN0ZWQ7CgpGb3IgdGhlIHRoaXJkIG9uZSwgd2UgY2FuIG9ubHkg
+aW5kaWNhdGUgdGhlIGNvbm5lY3RvcjoKSE9UUExVRz0xCkNPTk5FQ1RPUj08aWQ+CgphbmQgYSBy
+ZXByb2JlIG9mIHRoZSBjb25uZWN0b3IgaXMgYWx3YXlzIG5lZWRlZAoKVGhlbiB3ZSBzdGlsbCBo
+YXZlIHRoZSBsZWdhY3kgY2FzZToKSE9UUExVRz0xCgp3aGVyZSB1c2Vyc3BhY2UgaXMgZXhwZWN0
+ZWQgdG8gcmVwcm9iZSBhbGwgdGhlIGNvbm5lY3RvcnMuCgpJIHRoaW5rIHRoaXMgd291bGQgZGVz
+ZXJ2ZSB0byBiZSBhIHNlcGFyYXRlIHNlcmllcyBvbiBpdHMgb3duLiBTbyBJIGFtCnByb3Bvc2lu
+ZyB0byB0YWtlIHRoaXMgb25lIG9mZiB5b3VyIHBsYXRlIGFuZCBjb21lIHVwIHdpdGggYW5vdGhl
+cgpzZXJlcyBpbXBsZW1lbnRpbmcgdGhpcyBwcm9wb3NhbC4gV2hhdCBkbyB5b3UgdGhpbms/CgpD
+aGVlcnMsCgpQYXVsCgo+IHYyOgo+ICAgTWlub3IgZml4ZXMgYXQgS0RvYyBjb21tZW50cyBbRGFu
+aWVsXQo+IHYzOgo+ICAgQ2hlY2sgdGhlIHByb3BlcnR5IGlzIHJlYWxseSBhdHRhY2hlZCB3aXRo
+IGNvbm5lY3RvciBbRGFuaWVsXQo+IAo+IFNpZ25lZC1vZmYtYnk6IFJhbWFsaW5nYW0gQyA8cmFt
+YWxpbmdhbS5jQGludGVsLmNvbT4KPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBmZndsbC5jaD4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9zeXNmcy5jIHwg
+MzUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZHJt
+X3N5c2ZzLmggICAgIHwgIDUgKysrKy0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAzOSBpbnNlcnRpb25z
+KCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+c3lzZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lzZnMuYwo+IGluZGV4IDE4YjFhYzQ0Mjk5
+Ny4uNjNmYTk1MWEyMGRiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lzZnMu
+Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lzZnMuYwo+IEBAIC0yMSw2ICsyMSw3IEBA
+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX3N5c2ZzLmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtUC5oPgo+
+ICAjaW5jbHVkZSAiZHJtX2ludGVybmFsLmgiCj4gKyNpbmNsdWRlICJkcm1fY3J0Y19pbnRlcm5h
+bC5oIgo+ICAKPiAgI2RlZmluZSB0b19kcm1fbWlub3IoZCkgZGV2X2dldF9kcnZkYXRhKGQpCj4g
+ICNkZWZpbmUgdG9fZHJtX2Nvbm5lY3RvcihkKSBkZXZfZ2V0X2RydmRhdGEoZCkKPiBAQCAtMzIw
+LDYgKzMyMSw5IEBAIHZvaWQgZHJtX3N5c2ZzX2xlYXNlX2V2ZW50KHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYpCj4gICAqIFNlbmQgYSB1ZXZlbnQgZm9yIHRoZSBEUk0gZGV2aWNlIHNwZWNpZmllZCBi
+eSBAZGV2LiAgQ3VycmVudGx5IHdlIG9ubHkKPiAgICogc2V0IEhPVFBMVUc9MSBpbiB0aGUgdWV2
+ZW50IGVudmlyb25tZW50LCBidXQgdGhpcyBjb3VsZCBiZSBleHBhbmRlZCB0bwo+ICAgKiBkZWFs
+IHdpdGggb3RoZXIgdHlwZXMgb2YgZXZlbnRzLgo+ICsgKgo+ICsgKiBBbnkgbmV3IHVhcGkgc2hv
+dWxkIGJlIHVzaW5nIHRoZSBkcm1fc3lzZnNfY29ubmVjdG9yX3N0YXR1c19ldmVudCgpCj4gKyAq
+IGZvciB1ZXZlbnRzIG9uIGNvbm5lY3RvciBzdGF0dXMgY2hhbmdlLgo+ICAgKi8KPiAgdm9pZCBk
+cm1fc3lzZnNfaG90cGx1Z19ldmVudChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KQo+ICB7Cj4gQEAg
+LTMzMiw2ICszMzYsMzcgQEAgdm9pZCBkcm1fc3lzZnNfaG90cGx1Z19ldmVudChzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2KQo+ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3N5c2ZzX2hvdHBsdWdfZXZl
+bnQpOwo+ICAKPiArLyoqCj4gKyAqIGRybV9zeXNmc19jb25uZWN0b3Jfc3RhdHVzX2V2ZW50IC0g
+Z2VuZXJhdGUgYSBEUk0gdWV2ZW50IGZvciBjb25uZWN0b3IKPiArICogcHJvcGVydHkgc3RhdHVz
+IGNoYW5nZQo+ICsgKiBAY29ubmVjdG9yOiBjb25uZWN0b3Igb24gd2hpY2ggcHJvcGVydHkgc3Rh
+dHVzIGNoYW5nZWQKPiArICogQHByb3BlcnR5OiBjb25uZWN0b3IgcHJvcGVydHkgd2hvZXMgc3Rh
+dHVzIGNoYW5nZWQuCj4gKyAqCj4gKyAqIFNlbmQgYSB1ZXZlbnQgZm9yIHRoZSBEUk0gZGV2aWNl
+IHNwZWNpZmllZCBieSBAZGV2LiAgQ3VycmVudGx5IHdlCj4gKyAqIHNldCBIT1RQTFVHPTEgYW5k
+IGNvbm5lY3RvciBpZCBhbG9uZyB3aXRoIHRoZSBhdHRhY2hlZCBwcm9wZXJ0eSBpZAo+ICsgKiBy
+ZWxhdGVkIHRvIHRoZSBzdGF0dXMgY2hhbmdlLgo+ICsgKi8KPiArdm9pZCBkcm1fc3lzZnNfY29u
+bmVjdG9yX3N0YXR1c19ldmVudChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLAo+ICsJ
+CQkJICAgICAgc3RydWN0IGRybV9wcm9wZXJ0eSAqcHJvcGVydHkpCj4gK3sKPiArCXN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsKPiArCWNoYXIgaG90cGx1Z19zdHJbXSA9
+ICJIT1RQTFVHPTEiLCBjb25uX2lkWzMwXSwgcHJvcF9pZFszMF07Cj4gKwljaGFyICplbnZwWzRd
+ID0geyBob3RwbHVnX3N0ciwgY29ubl9pZCwgcHJvcF9pZCwgTlVMTCB9Owo+ICsKPiArCVdBUk5f
+T04oIWRybV9tb2RlX29ial9maW5kX3Byb3BfaWQoJmNvbm5lY3Rvci0+YmFzZSwKPiArCQkJCQkg
+ICBwcm9wZXJ0eS0+YmFzZS5pZCkpOwo+ICsKPiArCXNucHJpbnRmKGNvbm5faWQsIEFSUkFZX1NJ
+WkUoY29ubl9pZCksCj4gKwkJICJDT05ORUNUT1I9JXUiLCBjb25uZWN0b3ItPmJhc2UuaWQpOwo+
+ICsJc25wcmludGYocHJvcF9pZCwgQVJSQVlfU0laRShwcm9wX2lkKSwKPiArCQkgIlBST1BFUlRZ
+PSV1IiwgcHJvcGVydHktPmJhc2UuaWQpOwo+ICsKPiArCURSTV9ERUJVRygiZ2VuZXJhdGluZyBj
+b25uZWN0b3Igc3RhdHVzIGV2ZW50XG4iKTsKPiArCj4gKwlrb2JqZWN0X3VldmVudF9lbnYoJmRl
+di0+cHJpbWFyeS0+a2Rldi0+a29iaiwgS09CSl9DSEFOR0UsIGVudnApOwo+ICt9Cj4gK0VYUE9S
+VF9TWU1CT0woZHJtX3N5c2ZzX2Nvbm5lY3Rvcl9zdGF0dXNfZXZlbnQpOwo+ICsKPiAgc3RhdGlj
+IHZvaWQgZHJtX3N5c2ZzX3JlbGVhc2Uoc3RydWN0IGRldmljZSAqZGV2KQo+ICB7Cj4gIAlrZnJl
+ZShkZXYpOwo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fc3lzZnMuaCBiL2luY2x1ZGUv
+ZHJtL2RybV9zeXNmcy5oCj4gaW5kZXggNGYzMTFlODM2Y2RjLi5kNDU0ZWY2MTdiMmMgMTAwNjQ0
+Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3N5c2ZzLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1f
+c3lzZnMuaAo+IEBAIC00LDEwICs0LDEzIEBACj4gIAo+ICBzdHJ1Y3QgZHJtX2RldmljZTsKPiAg
+c3RydWN0IGRldmljZTsKPiArc3RydWN0IGRybV9jb25uZWN0b3I7Cj4gK3N0cnVjdCBkcm1fcHJv
+cGVydHk7Cj4gIAo+ICBpbnQgZHJtX2NsYXNzX2RldmljZV9yZWdpc3RlcihzdHJ1Y3QgZGV2aWNl
+ICpkZXYpOwo+ICB2b2lkIGRybV9jbGFzc19kZXZpY2VfdW5yZWdpc3RlcihzdHJ1Y3QgZGV2aWNl
+ICpkZXYpOwo+ICAKPiAgdm9pZCBkcm1fc3lzZnNfaG90cGx1Z19ldmVudChzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2KTsKPiAtCj4gK3ZvaWQgZHJtX3N5c2ZzX2Nvbm5lY3Rvcl9zdGF0dXNfZXZlbnQo
+c3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPiArCQkJCSAgICAgIHN0cnVjdCBkcm1f
+cHJvcGVydHkgKnByb3BlcnR5KTsKPiAgI2VuZGlmCi0tIApQYXVsIEtvY2lhbGtvd3NraSwgQm9v
+dGxpbgpFbWJlZGRlZCBMaW51eCBhbmQga2VybmVsIGVuZ2luZWVyaW5nCmh0dHBzOi8vYm9vdGxp
+bi5jb20KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
