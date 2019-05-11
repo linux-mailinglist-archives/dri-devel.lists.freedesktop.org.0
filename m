@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C9C1A96E
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2019 22:36:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8151A96F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2019 22:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2B2589A83;
-	Sat, 11 May 2019 20:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D736D89A9B;
+	Sat, 11 May 2019 20:38:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 984B489A83
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2019 20:36:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A74C12B6;
- Sat, 11 May 2019 22:36:27 +0200 (CEST)
-Date: Sat, 11 May 2019 23:36:11 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH/RFC 04/15] drm: bridge: Add dual_link field to the
- drm_bridge_timings structure
-Message-ID: <20190511203611.GP13043@pendragon.ideasonboard.com>
-References: <20190306232345.23052-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190306232345.23052-5-laurent.pinchart+renesas@ideasonboard.com>
- <eed9204e-a54e-98d8-99f0-cdc8675704e1@ideasonboard.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 565EC89A8B
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2019 20:38:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4B18F721CD; Sat, 11 May 2019 20:38:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110214] radeonsi: xterm scrollback buffer disappears while
+ Shift+PgUp and Shift+PgDn
+Date: Sat, 11 May 2019 20:38:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: diego.viola@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110214-502-XOqqhis4gy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
+References: <bug-110214-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <eed9204e-a54e-98d8-99f0-cdc8675704e1@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1557606987;
- bh=SbZkJJ8vo4OmG062o90zpWv9Wbc8FQI5/YgNhE98pMQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iQxFzWoN6xY9ohSfoGcSlnwE3CDwK+P0KddF3kjK5HNoQtSoXRYa3YjtYy1D2RMFf
- NYRjDGlkwihsVrK5piWG6pqldDZZ05MHFNTIoHCaUG2rX+GHcLb+HHw6GJMbp/0U7a
- JsyGMBt/js4301y2fBXWPMN5YrW8LahIq3Zc7g9Y=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,44 +53,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1590353419=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgS2llcmFuLAoKT24gV2VkLCBBcHIgMjQsIDIwMTkgYXQgMDk6MTI6NDhBTSArMDEwMCwgS2ll
-cmFuIEJpbmdoYW0gd3JvdGU6Cj4gT24gMDYvMDMvMjAxOSAyMzoyMywgTGF1cmVudCBQaW5jaGFy
-dCB3cm90ZToKPiA+IEV4dGVuZCB0aGUgZHJtX2JyaWRnZV90aW1pbmdzIHN0cnVjdHVyZSB3aXRo
-IGEgbmV3IGR1YWxfbGluayBmaWVsZCB0bwo+ID4gaW5kaWNhdGUgdGhhdCB0aGUgYnJpZGdlJ3Mg
-aW5wdXQgYnVzIGNhcnJpZXMgZGF0YSBvbiB0d28gc2VwYXJhdGUKPiA+IHBoeXNpY2FsIGxpbmtz
-LiBUaGUgZmlyc3QgdXNlIGNhc2UgaXMgTFZEUyBkdWFsLWxpbmsgbW9kZSB3aGVyZSBldmVuLQo+
-ID4gYW5kIG9kZC1udW1iZXJlZCBwaXhlbHMgYXJlIHRyYW5zZmVycmVkIG9uIHNlcGFyYXRlIExW
-RFMgbGlua3MuCj4gCj4gRG8geW91IGZvcmVzZWUgdGhpcyBiZWNvbWluZyBhIGJpdGZpZWxkIGlu
-IHRoZSBmdXR1cmUgaWYgdGhlcmUgYXJlIG1vcmUKPiBvcHRpb25zPwo+IAo+IEkgZG9uJ3QgdGhp
-bmsgdGhhdCBhZmZlY3RzIHRoaXMgcmlnaHQgbm93IHRob3VnaCwgYW5kIGl0J3MgZmluZSBhcyBh
-IGJvb2wuCgpJIGRvbid0IGtub3cgeWV0LiBNYXliZSB3ZSdsbCBjb21iaW5lIHRoaXMgd2l0aCBv
-dGhlciBmbGFncywgbWF5YmUgbm90LgpJdCdzIGEgYml0IG9mIGEgYWQtaG9jIHBhcmFtZXRlciwg
-aWYvd2hlbiBvdGhlciBsaW5rIHR5cGVzIHJlcXVpcmUgYQpzaW1pbGFyIGZlYXR1cmUsIHdlJ2xs
-IGxpa2VseSByZWZhY3RvciB0aGlzLgoKPiA+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hh
-cnQgPGxhdXJlbnQucGluY2hhcnQrcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPgo+IAo+IFJldmll
-d2VkLWJ5OiBLaWVyYW4gQmluZ2hhbSA8a2llcmFuLmJpbmdoYW0rcmVuZXNhc0BpZGVhc29uYm9h
-cmQuY29tPgo+IAo+ID4gLS0tCj4gPiAgaW5jbHVkZS9kcm0vZHJtX2JyaWRnZS5oIHwgOCArKysr
-KysrKwo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKykKPiA+IAo+ID4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvZHJtL2RybV9icmlkZ2UuaCBiL2luY2x1ZGUvZHJtL2RybV9icmlkZ2Uu
-aAo+ID4gaW5kZXggZDQ0Mjg5MTNhNGUxLi5hZWExZmNmZDkyYTcgMTAwNjQ0Cj4gPiAtLS0gYS9p
-bmNsdWRlL2RybS9kcm1fYnJpZGdlLmgKPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9icmlkZ2Uu
-aAo+ID4gQEAgLTI2NSw2ICsyNjUsMTQgQEAgc3RydWN0IGRybV9icmlkZ2VfdGltaW5ncyB7Cj4g
-PiAgCSAqIGlucHV0IHNpZ25hbCBhZnRlciB0aGUgY2xvY2sgZWRnZS4KPiA+ICAJICovCj4gPiAg
-CXUzMiBob2xkX3RpbWVfcHM7Cj4gPiArCS8qKgo+ID4gKwkgKiBAZHVhbF9saW5rOgo+ID4gKwkg
-Kgo+ID4gKwkgKiBUcnVlIGlmIHRoZSBidXMgb3BlcmF0ZXMgaW4gZHVhbC1saW5rIG1vZGUuIFRo
-ZSBleGFjdCBtZWFuaW5nIGlzCj4gPiArCSAqIGRlcGVuZGVudCBvbiB0aGUgYnVzIHR5cGUuIEZv
-ciBMVkRTIGJ1c2VzLCB0aGlzIGluZGljYXRlcyB0aGF0IGV2ZW4tCj4gPiArCSAqIGFuZCBvZGQt
-bnVtYmVyZWQgcGl4ZWxzIGFyZSByZWNlaXZlZCBvbiBzZXBhcmF0ZSBsaW5rcy4KPiA+ICsJICov
-Cj4gPiArCWJvb2wgZHVhbF9saW5rOwo+ID4gIH07Cj4gPiAgCj4gPiAgLyoqCgotLSAKUmVnYXJk
-cywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+
+--===============1590353419==
+Content-Type: multipart/alternative; boundary="15576071210.542Bab.4968"
+Content-Transfer-Encoding: 7bit
+
+
+--15576071210.542Bab.4968
+Date: Sat, 11 May 2019 20:38:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
+
+--- Comment #92 from Diego Viola <diego.viola@gmail.com> ---
+(In reply to komqinxit from comment #91)
+> xfce4-terminal and Geany bugs seem to be this
+> https://bugs.freedesktop.org/show_bug.cgi?id=3D110355 and solved with mesa
+> 19.0.4.
+
+That's good to know, thanks.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15576071210.542Bab.4968
+Date: Sat, 11 May 2019 20:38:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c92">Comme=
+nt # 92</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+diego.viola&#64;gmail.com" title=3D"Diego Viola &lt;diego.viola&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Diego Viola</span></a>
+</span></b>
+        <pre>(In reply to komqinxit from <a href=3D"show_bug.cgi?id=3D11021=
+4#c91">comment #91</a>)
+<span class=3D"quote">&gt; xfce4-terminal and Geany bugs seem to be this
+&gt; <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - radeonsi: GTK elements become invisible in som=
+e applications (GIMP, LibreOffice)"
+   href=3D"show_bug.cgi?id=3D110355">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110355</a> and solved with mesa
+&gt; 19.0.4.</span >
+
+That's good to know, thanks.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15576071210.542Bab.4968--
+
+--===============1590353419==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1590353419==--
