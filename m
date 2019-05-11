@@ -1,56 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B131A611
-	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2019 03:09:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 398061A910
+	for <lists+dri-devel@lfdr.de>; Sat, 11 May 2019 20:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7CD6E7BD;
-	Sat, 11 May 2019 01:09:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA0689829;
+	Sat, 11 May 2019 18:23:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57CF26E7BD
- for <dri-devel@lists.freedesktop.org>; Sat, 11 May 2019 01:09:27 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id e19so5933254iob.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 May 2019 18:09:27 -0700 (PDT)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D02E89E57;
+ Sat, 11 May 2019 01:37:04 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id p26so7626989edr.2;
+ Fri, 10 May 2019 18:37:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dqmq9WGVMgbP1nQthV9rRR/9O17BEpxJgG7Ph+QrKIo=;
- b=jNt4awBBRwtp6CLIM3IxeUWmFDIZUOV1Uqc3rXr1i2yRDihg94TWC/elCqE8/Nv/90
- ueGZfBq+NbzuTAxxuuDWDUdkblKfDlAL3XZhKWZ6f8F3+ZKk0U1vwahezvbptdmKVd5w
- nkDUDUlmkaH9zXKL8dVFZTH/tI1Fhhs+0s4PgR0eot9qXaHrX2vyFxIqUKZIc1ix05y0
- eNM8nCEN2bQ26B5UqWV9YzdcZ+a07dzA8d+TSEqaTknWv5wS3uRjF207CcUjmFBZQao1
- H89K0Se2HClgxz9BjUTsv9J/lyfh7Yi6kkjYWxAJNXC6kviGGcQCW9b2WkhmOKG3LBBT
- DJ9Q==
-X-Gm-Message-State: APjAAAXmSlzoAL49RQzKP+QJSPIG6Ll9o/qO+hZA8gwI3QC2FyFXE1rv
- i5yJEdcIJqz1uFlxFDWKnWdEg6tFl59WIZwyHf0=
-X-Google-Smtp-Source: APXvYqxUTKbsdM7r9JHIEnmcyF7hCoXRt8zTuDbdSeJoV2kt29qGJR1KOnSLlgIkxMfX/lsNErbe1uqE+6/bWjfoJlk=
-X-Received: by 2002:a6b:b408:: with SMTP id d8mr8510326iof.12.1557536965805;
- Fri, 10 May 2019 18:09:25 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=cMq/4MVOYTLAY5QCZFXsiVplr0BJ1X0QHMo57CSt7M0=;
+ b=hAgxDorpgaQVmoNdJwqfUomFKDecQMgv6PGgg9RLuVVh9HpSGzY1DdX27Xg6CHzGL5
+ Q5QpaajA/kEE6MIRo7cWcYXp/+Ok+ffbqvCjFSs3OrV+RmtLBUbY2/ANXanCNBNJ4MaS
+ p8FU6ScN9+jXNWl54daq3RGT8IcyYrdNpxLqdX2O/zSxTs/gL6aooUBqJbrs7uvT2xim
+ /7Q3Niwu83KMxONAmRAf7mBDINX3j1DfJfG7jMMhBOjwr25xU6O+go3I0DzaDCKHPBs/
+ QCXu+sOZ944R8usZV/ZTxRkYm9T8IQqCXXGmhUYADcOKYSrADBXmyOwv+kANwEzhI9ze
+ hZ5g==
+X-Gm-Message-State: APjAAAU7ftxky/8MX0P8szc9FDo1BDjVUz160+LnzKImfxp6PNtrX9qh
+ qZgqNXuhOxZwKD6Y2DNDZec=
+X-Google-Smtp-Source: APXvYqwEslwWnu/DDdBLnHiDjFx0U3EFjNGO7nlU7JO0Cna0SAFoYxwor0qw9RJIv7RkJryDnJDIzQ==
+X-Received: by 2002:a50:87ab:: with SMTP id a40mr14362661eda.188.1557538622698; 
+ Fri, 10 May 2019 18:37:02 -0700 (PDT)
+Received: from archlinux-i9 ([2a01:4f9:2b:2b84::2])
+ by smtp.gmail.com with ESMTPSA id x49sm1943909edm.25.2019.05.10.18.37.01
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 10 May 2019 18:37:01 -0700 (PDT)
+Date: Fri, 10 May 2019 18:37:00 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Colin King <colin.king@canonical.com>
+Subject: Re: [PATCH][next] drm/amdgpu: fix return of an uninitialized value
+ in variable ret
+Message-ID: <20190511013700.GA3530@archlinux-i9>
+References: <20190510100842.30458-1-colin.king@canonical.com>
 MIME-Version: 1.0
-References: <20190510141316.1746-1-christian.koenig@amd.com>
- <20190510141316.1746-4-christian.koenig@amd.com>
-In-Reply-To: <20190510141316.1746-4-christian.koenig@amd.com>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Fri, 10 May 2019 21:08:49 -0400
-Message-ID: <CAAxE2A4kePQ-_Bu8E5T6WHvM0tR912FRbf2qsJct4nhiP9R6gw@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/amdgpu: stop removing BOs from the LRU during CS
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20190510100842.30458-1-colin.king@canonical.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Mailman-Approved-At: Sat, 11 May 2019 18:22:57 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=dqmq9WGVMgbP1nQthV9rRR/9O17BEpxJgG7Ph+QrKIo=;
- b=M4uNHW/JcsPLf6DWgE8/NnfIWC1+k1hkO4vy7LSeoIZRzF3y0F7wFwfoujJY1KsTy4
- Ldppxz9SrDUzM+KKJOsQWzSfvEb8pOtewdVKu4J8WApuvQSGBz/cgxSfDaXRJiDvoWAH
- NnrpTmhjslc5BcGu6n0WPiGZfysWN+u9IJKxXUEOs5vXufLH1F43cRRzr38E/IJyNr7I
- DL/rnsbskSCalv6b4iULmb2jkt3Ska8ujJj8RwNM/qhfmAsFWKjtL1/LuQvIyArXYJ9A
- 8EzaNH1sRlUFppVT30zmrLce2J5c7pO5HNh6gYevzslFI2bAE/+Q6MJMP7e6BxjpaMxT
- Arnw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=cMq/4MVOYTLAY5QCZFXsiVplr0BJ1X0QHMo57CSt7M0=;
+ b=CkNDRldwZfIz+X4uABrZClSDUWHjBfaBuu7G2n7Gpczgt75QH0WclEqN4k6TsURw68
+ Qxt3ESXCC/ATWtJOOqRe8qpgnsqNovPgvq7dC6tbcHMU//mqFVvwAEq8Vx8JBSaaxhM6
+ /YSqC/tKAAnWDQDclisONzDZbVRc27N7lIsH+WlXYnFkSQf5NFehFX5vSY5JVk/9UQEx
+ vx4BLyFZ5CtxqH6lTtR5r28RR3GuuEHO+fh/73/LD8XPw1rzG5BFaBmLlnM1KoBRatqE
+ NtyXxvSkhlNSavw0FGRj4B7inEBomdaBSgl1ZgZ1PAJ2H4tP4CxfFG1YiknsYFqrurQJ
+ PcdQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,125 +70,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Prike.Liang@amd.com, dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0179465184=="
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0179465184==
-Content-Type: multipart/alternative; boundary="000000000000924b07058892552d"
-
---000000000000924b07058892552d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-This patch series doesn't help with the OOM errors due to GDS. Reproducible
-with:
-
-AMD_DEBUG=3Dtestgdsmm glxgears & AMD_DEBUG=3Dtestgdsmm glxgears
-
-Marek
-
-
-On Fri, May 10, 2019 at 10:13 AM Christian K=C3=B6nig <
-ckoenig.leichtzumerken@gmail.com> wrote:
-
-> This avoids OOM situations when we have lots of threads
-> submitting at the same time.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index a1d6a0721e53..8828d30cd409 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -648,7 +648,7 @@ static int amdgpu_cs_parser_bos(struct
-> amdgpu_cs_parser *p,
->         }
->
->         r =3D ttm_eu_reserve_buffers(&p->ticket, &p->validated, true,
-> -                                  &duplicates, true);
-> +                                  &duplicates, false);
->         if (unlikely(r !=3D 0)) {
->                 if (r !=3D -ERESTARTSYS)
->                         DRM_ERROR("ttm_eu_reserve_buffers failed.\n");
-> --
-> 2.17.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---000000000000924b07058892552d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi,</div><div><br></div><div>This pa=
-tch series doesn&#39;t help with the OOM errors due to GDS. Reproducible wi=
-th:</div><div><br></div><div>AMD_DEBUG=3Dtestgdsmm glxgears &amp; AMD_DEBUG=
-=3Dtestgdsmm glxgears</div><div><br></div><div>Marek</div><div><br></div></=
-div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
-tr">On Fri, May 10, 2019 at 10:13 AM Christian K=C3=B6nig &lt;<a href=3D"ma=
-ilto:ckoenig.leichtzumerken@gmail.com" target=3D"_blank">ckoenig.leichtzume=
-rken@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">This avoids OOM situations when we have lots of threads<br>
-submitting at the same time.<br>
-<br>
-Signed-off-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig@=
-amd.com" target=3D"_blank">christian.koenig@amd.com</a>&gt;<br>
----<br>
-=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/a=
-mdgpu/amdgpu_cs.c<br>
-index a1d6a0721e53..8828d30cd409 100644<br>
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c<br>
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c<br>
-@@ -648,7 +648,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser=
- *p,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D ttm_eu_reserve_buffers(&amp;p-&gt;ticket,=
- &amp;p-&gt;validated, true,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;duplicates, true);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;duplicates, false);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (unlikely(r !=3D 0)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (r !=3D -ERESTAR=
-TSYS)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 DRM_ERROR(&quot;ttm_eu_reserve_buffers failed.\n&quot;);<br>
--- <br>
-2.17.1<br>
-<br>
-_______________________________________________<br>
-dri-devel mailing list<br>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">dri-de=
-vel@lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" rel=3D=
-"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listin=
-fo/dri-devel</a></blockquote></div>
-
---000000000000924b07058892552d--
-
---===============0179465184==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0179465184==--
+T24gRnJpLCBNYXkgMTAsIDIwMTkgYXQgMTE6MDg6NDJBTSArMDEwMCwgQ29saW4gS2luZyB3cm90
+ZToKPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+IAo+
+IEluIHRoZSBjYXNlIHdoZXJlIGlzX2VuYWJsZSBpcyBmYWxzZSBhbmQgbG9fYmFzZV9hZGRyIGlz
+IG5vbi16ZXJvIHRoZQo+IHZhcmlhYmxlIHJldCBoYXMgbm90IGJlZW4gaW5pdGlhbGl6ZWQgYW5k
+IGlzIGJlaW5nIGNoZWNrZWQgZm9yIG5vbi16ZXJvCj4gYW5kIHBvdGVudGlhbGx5IGdhcmJhZ2Ug
+aXMgYmVpbmcgcmV0dXJuZWQuIEZpeCB0aGlzIGJ5IG5vdCByZXR1cm5pbmcKPiByZXQgYnV0IGlu
+c3RlYWQgcmV0dXJuaW5nIC1FSU5WQUwgb24gdGhlIHplcm8gbG9fYmFzZV9hZGRyIGNhc2UuCj4g
+Cj4gQWRkcmVzc2VzLUNvdmVyaXR5OiAoIlVuaW5pdGlhbGl6ZWQgc2NhbGFyIHZhcmlhYmxlIikK
+PiBGaXhlczogYTZhYzBiNDRiYWI5ICgiZHJtL2FtZGdwdTogYWRkIGRmIHBlcmZtb24gcmVncyBh
+bmQgZnVuY3MgZm9yIHhnbWkiKQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xp
+bi5raW5nQGNhbm9uaWNhbC5jb20+CgpSZXZpZXdlZC1ieTogTmF0aGFuIENoYW5jZWxsb3IgPG5h
+dGVjaGFuY2VsbG9yQGdtYWlsLmNvbT4KClRoaXMgZml4ZXMgYSBjbGFuZyB3YXJuaW5nIGNvbXBs
+YWluaW5nIGFib3V0IHRoZSBzYW1lIHRoaW5nLgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvZGZfdjNfNi5jIHwgNSArLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDQgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2RmX3YzXzYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RmX3YzXzYu
+Ywo+IGluZGV4IGE1YzM1NTg4NjlmYi4uOGMwOWJmOTk0YWNkIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2RmX3YzXzYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2RmX3YzXzYuYwo+IEBAIC0zOTgsMTAgKzM5OCw3IEBAIHN0YXRpYyBpbnQgZGZf
+djNfNl9zdGFydF94Z21pX2xpbmtfY250cihzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwKPiAg
+CQkJCU5VTEwpOwo+ICAKPiAgCQlpZiAobG9fYmFzZV9hZGRyID09IDApCj4gLQkJCXJldCA9IC1F
+SU5WQUw7Cj4gLQo+IC0JCWlmIChyZXQpCj4gLQkJCXJldHVybiByZXQ7Cj4gKwkJCXJldHVybiAt
+RUlOVkFMOwo+ICAKPiAgCQlsb192YWwgPSBSUkVHMzJfUENJRShsb19iYXNlX2FkZHIpOwo+ICAK
+PiAtLSAKPiAyLjIwLjEKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
