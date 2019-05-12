@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF0B1AB6F
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2019 11:17:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 451131ABAB
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2019 12:16:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1461B899D6;
-	Sun, 12 May 2019 09:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5119E898C0;
+	Sun, 12 May 2019 10:16:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B966B89AB2
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 09:17:07 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B5D27721CD; Sun, 12 May 2019 09:17:07 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
- power profile]
-Date: Sun, 12 May 2019 09:17:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102646-502-NHsiH6lsrH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
-References: <bug-102646-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1A1898C0
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 10:16:05 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1CBEB2B6;
+ Sun, 12 May 2019 12:16:03 +0200 (CEST)
+Date: Sun, 12 May 2019 13:15:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 00/10] R-Car DU: LVDS dual-link mode support
+Message-ID: <20190512101547.GA4960@pendragon.ideasonboard.com>
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdWqvKXXfjSAk3GRyk8fwa2TS+EwcV_n0YwcEU9d8XohUA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWqvKXXfjSAk3GRyk8fwa2TS+EwcV_n0YwcEU9d8XohUA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1557656163;
+ bh=Smh8RnsdxUUwrCpSlzhBkPYPaqOf6kzTv3VYY4pns2A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n/bb+H7oHP1+Yqk7gyZBwSx62GTmAJK25PN2UuWMYilITsTd7kWfVyRbUm4f3vII8
+ JHw6+DIH7Y0G4Wu4V8HR//FxZikXmWHDee0EKPvwqw5Pevx/hfMKrrG7WhguMeF+5L
+ G/KCzA+l2LNo5oeErSlYbG8j2QFbqLjZkeqRKu3w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,108 +48,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0775545014=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0775545014==
-Content-Type: multipart/alternative; boundary="15576526279.ac0E.9865"
-Content-Transfer-Encoding: 7bit
-
-
---15576526279.ac0E.9865
-Date: Sun, 12 May 2019 09:17:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
-
---- Comment #87 from tempel.julian@gmail.com ---
-Applying the patch to 5.0, 5.1 and drm-next-5.2-wip fails with
-
-patching file drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-Hunk #5 FAILED at 3943.
-Hunk #6 succeeded at 3951 (offset -7 lines).
-Hunk #7 succeeded at 4035 (offset -7 lines).
-Hunk #8 succeeded at 4152 (offset -7 lines).
-Hunk #9 succeeded at 4669 (offset -7 lines).
-1 out of 9 hunks FAILED -- saving rejects to file
-drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c.rej
-patching file drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.h
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15576526279.ac0E.9865
-Date: Sun, 12 May 2019 09:17:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c87">Comme=
-nt # 87</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Applying the patch to 5.0, 5.1 and drm-next-5.2-wip fails with
-
-patching file drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c
-Hunk #5 FAILED at 3943.
-Hunk #6 succeeded at 3951 (offset -7 lines).
-Hunk #7 succeeded at 4035 (offset -7 lines).
-Hunk #8 succeeded at 4152 (offset -7 lines).
-Hunk #9 succeeded at 4669 (offset -7 lines).
-1 out of 9 hunks FAILED -- saving rejects to file
-drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c.rej
-patching file drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.h</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15576526279.ac0E.9865--
-
---===============0775545014==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0775545014==--
+SGkgR2VlcnQsCgpPbiBTdW4sIE1heSAxMiwgMjAxOSBhdCAxMDo1NToyMEFNICswMjAwLCBHZWVy
+dCBVeXR0ZXJob2V2ZW4gd3JvdGU6Cj4gT24gU2F0LCBNYXkgMTEsIDIwMTkgYXQgMTE6MDcgUE0g
+TGF1cmVudCBQaW5jaGFydCB3cm90ZToKPiA+IE9uIHRoZSByZWNlaXZpbmcgc2lkZSwgdGhlIFRI
+QzYzTFZEMTAyNCBMVkRTLXRvLXBhcmFsbGVsIGJyaWRnZSBoYXMgdHdvCj4gPiBMVkRTIGlucHV0
+cyBhbmQgdHdvIHBhcmFsbGVsIG91dHB1dHMuIEl0IGNhbiBvcGVyYXRlIGluIGZvdXIgZGlmZmVy
+ZW50Cj4gPiBtb2RlczoKPiA+Cj4gPiAtIFNpbmdsZS1pbiwgc2luZ2xlLW91dDogVGhlIGZpcnN0
+IExWRFMgaW5wdXQgcmVjZWl2ZXMgdGhlIHZpZGVvIHN0cmVhbSwKPiA+ICAgYW5kIHRoZSBicmlk
+Z2Ugb3V0cHV0cyBpdCBvbiB0aGUgZmlyc3QgcGFyYWxsZWwgb3V0cHV0LiBUaGUgc2Vjb25kCj4g
+PiAgIExWRFMgaW5wdXQgYW5kIHRoZSBzZWNvbmQgcGFyYWxsZWwgb3V0cHV0IGFyZSBub3QgdXNl
+ZC4KPiA+Cj4gPiAtIFNpbmdsZS1pbiwgZHVhbC1vdXQ6IFRoZSBmaXJzdCBMVkRTIGlucHV0IHJl
+Y2VpdmVzIHRoZSB2aWRlbyBzdHJlYW0sCj4gPiAgIGFuZCB0aGUgYnJpZGdlIHNwbGl0cyBldmVu
+LSBhbmQgb2RkLW51bWJlcmVkIHBpeGVscyBhbmQgb3V0cHV0cyB0aGVtCj4gPiAgIG9uIHRoZSBm
+aXJzdCBhbmQgc2Vjb25kIHBhcmFsbGVsIG91dHB1dHMuIFRoZSBzZWNvbmQgTFZEUyBpbnB1dCBp
+cyBub3QKPiA+ICAgdXNlZC4KPiA+Cj4gPiAtIER1YWwtaW4sIHNpbmdsZS1vdXQ6IFRoZSB0d28g
+TFZEUyBpbnB1dHMgYXJlIHVzZWQgaW4gZHVhbC1saW5rIG1vZGUsCj4gPiAgIGFuZCB0aGUgYnJp
+ZGdlIGNvbWJpbmVzIHRoZSBldmVuLSBhbmQgb2RkLW51bWJlcmVkIHBpeGVscyBhbmQgb3V0cHV0
+cwo+ID4gICB0aGVtIG9uIHRoZSBmaXJzdCBwYXJhbGxlbCBvdXRwdXQuIFRoZSBzZWNvbmQgcGFy
+YWxsZWwgb3V0cHV0IGlzIG5vdAo+ID4gICB1c2VkLgo+ID4KPiA+IC0gRHVhbC1pbiwgZHVhbC1v
+dXQ6IFRoZSB0d28gTFZEUyBpbnB1dHMgYXJlIHVzZWQgaW4gZHVhbC1saW5rIG1vZGUsCj4gPiAg
+IGFuZCB0aGUgYnJpZGdlIG91dHB1dHMgdGhlIGV2ZW4tIGFuZCBvZGQtbnVtYmVyZWQgcGl4ZWxz
+IG9uIHRoZSBmaXJzdAo+ID4gICBwYXJhbGxlbCBvdXRwdXQuCj4gCj4gYW5kIHRoZSBzZWNvbmQ/
+CgpJIHNob3VsZCBoYXZlIHJlYWQgIm9uIHRoZSBmaXJzdCBhbmQgc2Vjb25kIHBhcmFsbGVsIG91
+dHB1dHMKcmVzcGVjdGl2ZWx5IiBpbmRlZWQuCgo+ID4gVGhlIG9wZXJhdGluZyBtb2RlIGlzIHNl
+bGVjdGVkIGJ5IHR3byBpbnB1dCBwaW5zIG9mIHRoZSBicmlkZ2UsIHdoaWNoCj4gPiBhcmUgY29u
+bmVjdGVkIHRvIERJUCBzd2l0Y2hlcyBvbiB0aGUgZGV2ZWxvcG1lbnQgYm9hcmRzIEkgdXNlLiBU
+aGUgbW9kZQo+ID4gaXMgdGh1cyBmaXhlZCBmcm9tIGEgTGludXggcG9pbnQgb2Ygdmlldy4KPiAK
+PiBDYW4gdGhlIHN0YXRlIG9mIHRoZXNlIHN3aXRjaGVzIGJlIHJlYWQgZnJvbSBzb2Z0d2FyZT8K
+ClVuZm9ydHVuYXRlbHkgbm90IDotKAoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
