@@ -1,48 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C965D1B0BA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 09:04:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF12B1B0BD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 09:04:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57011895A8;
-	Mon, 13 May 2019 07:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D922E895B6;
+	Mon, 13 May 2019 07:04:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC3A89A14
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 17:46:23 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id v11so12722020wru.5
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 10:46:23 -0700 (PDT)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC4789B20
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 17:46:24 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id n25so11481677wmk.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 10:46:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p98bYKaDXcVUZuwnIBPZ/FdFvePGsYF2RuZMRuVjYxs=;
- b=ME57m/0BNUaV5qgUer1izrm9WnGO1X4lkcn3bl9Iu2TEd99yQ9hlA4oPObUmJUaisY
- JiatqprF/XzEBEk8QwcCmwTVJPWx1AjS0vb7tIm/kZnHHcqAo5mduW9cS0xDMh7qD/8B
- qZyx1uDDz07wcBs/3/ZtGUOVl6CvjxQcDwTVqUx7Zp35TQRMJ+0vRqH1s9T4HssaIm02
- VQEouwmRdoxxK3zZyZclvRINvbmY496k6Hp008wWVmdBIf2L72miYU2FbQhUIs+OSFWm
- irkcUbIVdHJ1Mo7UjuB3RD6DF+r8SF9N2kmww7YaPAwQy87CMkqWNMlhooly9CKs6ym7
- JtyA==
-X-Gm-Message-State: APjAAAWbjA+ZPnF8FkRBUNQW5ycnI6KGeJdR9qVTAImlWDs40JjSaQVy
- Tbf0pePn+hUtUXjSf/5UyHQ=
-X-Google-Smtp-Source: APXvYqxmVJMgR22Rrgiw76ZfkUKo9ruVzTo1GiQnpLImqxaLzFzVd7hGG/AexLVI7T+n/wNN3jTc9Q==
-X-Received: by 2002:adf:c788:: with SMTP id l8mr9151728wrg.143.1557683181952; 
- Sun, 12 May 2019 10:46:21 -0700 (PDT)
+ bh=O/WO/ffKN1nR7MAqYGhQYYeumvZlvKqHgg+H3sUnXZQ=;
+ b=gBEQ0sILyxk8fHDBnNHt4FPl7y1nA/3YCJ1VZG7s80daCDJDTToll1NEzxjz1GXePO
+ Zds9F7TWpacBxLL9u9e4C0Btosir/5SIKy++SDpN5zg5OBm0rzfN2B0efVCcudI4C4Jf
+ 4cQ461C4crwuqA965fZ5g/DvqBLe+bcwsaGzx0zRTKWTWAnBqlXhPf+oWoObkl+aH2Ez
+ 2S6EwC2e+V3hObCc2C5c5y9EIsW/cD9WWdSAQ65m8MP7c0pCjU9+Y62NU9bvONMiqJJw
+ EDAPubfrEXsQEjhCU6N1s2DjSazY9G9gTn8Ws6EELgJlzJppGBvYzJVMjyWK7iZZRWBs
+ iNlw==
+X-Gm-Message-State: APjAAAW/dRq6/fAOhOKK7H3jkvFdbQtl7Y4m6AtGHAwvhKXevIK26az1
+ uE3p9ApTMQjUppL5UiOiuQs=
+X-Google-Smtp-Source: APXvYqzi9o0UaKC2uI0n2gwk41XjsRknm8NfjHda1nCX7OznFRIL6qrFRg5m6GcNJ+2ExgmPPAPjqQ==
+X-Received: by 2002:a05:600c:2291:: with SMTP id
+ 17mr12838376wmf.132.1557683183110; 
+ Sun, 12 May 2019 10:46:23 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
- by smtp.gmail.com with ESMTPSA id d14sm9090558wre.78.2019.05.12.10.46.21
+ by smtp.gmail.com with ESMTPSA id d14sm9090558wre.78.2019.05.12.10.46.22
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 12 May 2019 10:46:21 -0700 (PDT)
+ Sun, 12 May 2019 10:46:22 -0700 (PDT)
 From: peron.clem@gmail.com
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: [PATCH v4 6/8] arm64: dts: allwinner: Add mali GPU supply for Beelink
- GS1
-Date: Sun, 12 May 2019 19:46:06 +0200
-Message-Id: <20190512174608.10083-7-peron.clem@gmail.com>
+Subject: [PATCH v4 7/8] arm64: dts: allwinner: Add mali GPU supply for
+ OrangePi Boards
+Date: Sun, 12 May 2019 19:46:07 +0200
+Message-Id: <20190512174608.10083-8-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190512174608.10083-1-peron.clem@gmail.com>
 References: <20190512174608.10083-1-peron.clem@gmail.com>
@@ -52,13 +53,13 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p98bYKaDXcVUZuwnIBPZ/FdFvePGsYF2RuZMRuVjYxs=;
- b=abLKdOs0RFabo5GEND0zTOZyfkPDvhghjZxq2fsWLSpwzFrhJicR9jyufdbk1CDU9L
- J3wFEG29swfiDgIU8/+h9f3ipbmM27+bznSj7jQ2/s8qArm1YJxI8X0FV78uFY2Ny4xE
- zSXX3yClrh1AF+gwiUi9rla0gY5dVKSoDl75x7sy8/GmgVjfASsokQRovThYJ+kEGeZp
- sQwZb/Ex5wZXFcwJPGqgvyBmMShzFYfMsZ2EDZWzYzYfSwZvhtGn0jinqrK4dB3L+ZB7
- x8NKbN8VeSeE77qlo4ybhdLzsmJINDE9YjebAyaAZmMUYzjSA2H1FQP98ssvV0VPA7UC
- AwVw==
+ bh=O/WO/ffKN1nR7MAqYGhQYYeumvZlvKqHgg+H3sUnXZQ=;
+ b=BfFp3mD1gJ83voX20yOdlNujQc4iP8GMJNSAhGKW9J+ieaGZrQZm70MlVwNRlAovJf
+ cLFpPO4p3cCkiMwLKCMP3iIR2kpy2CwY88bzuvwuI29Rj1cxv6j36TrXibdYc/wS972g
+ LokaEdxI8LH8sUVepVtWfShY3al33AYxz9wlelH2iHOQxrIUS7JQLWyjX+SBd/NT1JqG
+ kh1JzmOkAKJLN4hcDplcv95TbVrzyCJiKzjHKPHo04KeZhCtZ+Q4/gkuu3KYJ/JUORGv
+ D1fuidpRei9PjrnLRshDSoDfeqvNshBjQT3U9hUX6owqSSoRPARUTEn6Wo6xab5CBHev
+ lMnQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,18 +82,19 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 RnJvbTogQ2zDqW1lbnQgUMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4KCkVuYWJsZSBhbmQg
-YWRkIHN1cHBseSB0byB0aGUgTWFsaSBHUFUgbm9kZSBvbiB0aGUKQmVlbGluayBHUzEgYm9hcmQu
-CgpTaWduZWQtb2ZmLWJ5OiBDbMOpbWVudCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPgot
-LS0KIGFyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi1iZWVsaW5rLWdzMS5k
-dHMgfCA1ICsrKysrCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0
-IGEvYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0
-cyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi1iZWVsaW5rLWdzMS5k
-dHMKaW5kZXggMGRjMzNjOTBkZDYwLi4yMTQ0MGQ1NzJmMGEgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJt
-NjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi1iZWVsaW5rLWdzMS5kdHMKKysrIGIvYXJj
-aC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2LWJlZWxpbmstZ3MxLmR0cwpAQCAt
-NzAsNiArNzAsMTEgQEAKIAlzdGF0dXMgPSAib2theSI7CiB9OwogCismZ3B1IHsKKwltYWxpLXN1
-cHBseSA9IDwmcmVnX2RjZGNjPjsKKwlzdGF0dXMgPSAib2theSI7Cit9OworCiAmaGRtaSB7CiAJ
-c3RhdHVzID0gIm9rYXkiOwogfTsKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+YWRkIHN1cHBseSB0byB0aGUgTWFsaSBHUFUgbm9kZSBvbiB0aGUKT3JhbmdlIFBpIE9uZSBQbHVz
+IGFuZCBMaXRlMiBib2FyZHMuCgpTaWduZWQtb2ZmLWJ5OiBDbMOpbWVudCBQw6lyb24gPHBlcm9u
+LmNsZW1AZ21haWwuY29tPgotLS0KIGFyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUw
+aS1oNi1vcmFuZ2VwaS5kdHNpIHwgNSArKysrKwogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9u
+cygrKQoKZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1o
+Ni1vcmFuZ2VwaS5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWg2
+LW9yYW5nZXBpLmR0c2kKaW5kZXggNjJlMjc5NDhhM2ZhLi5iZDEzMjk3NTU1YWIgMTAwNjQ0Ci0t
+LSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi1vcmFuZ2VwaS5kdHNp
+CisrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvYWxsd2lubmVyL3N1bjUwaS1oNi1vcmFuZ2VwaS5k
+dHNpCkBAIC01NSw2ICs1NSwxMSBAQAogCXN0YXR1cyA9ICJva2F5IjsKIH07CiAKKyZncHUgewor
+CW1hbGktc3VwcGx5ID0gPCZyZWdfZGNkY2M+OworCXN0YXR1cyA9ICJva2F5IjsKK307CisKICZt
+bWMwIHsKIAl2bW1jLXN1cHBseSA9IDwmcmVnX2NsZG8xPjsKIAljZC1ncGlvcyA9IDwmcGlvIDUg
+NiBHUElPX0FDVElWRV9MT1c+OwotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
