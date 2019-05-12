@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C161AAB6
-	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2019 06:51:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8A51AB5C
+	for <lists+dri-devel@lfdr.de>; Sun, 12 May 2019 10:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D2B8997C;
-	Sun, 12 May 2019 04:50:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72857893DB;
+	Sun, 12 May 2019 08:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4938089304
- for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 04:50:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 40A6B721ED; Sun, 12 May 2019 04:50:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
- power profile]
-Date: Sun, 12 May 2019 04:50:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: evan.quan@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102646-502-XS93yRSKIV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
-References: <bug-102646-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+ [209.85.217.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BD01893DB
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 08:55:33 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id g187so6201637vsc.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 May 2019 01:55:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ow848t2u3LpAUpqXAKwtt4Cf+vUELYwh7/Zxrs8pkng=;
+ b=FzAcBQAj6vdVOsnyK5qcQE5x9tuC4taxFejPXnhTwKiQ3IdYSaFpsiIk3AZF6Bf38F
+ 0cQ9No+O+6/JH8MWnMJD063TzR1O9IrulhyVh0yMOp6p8GdiQ7p7d1isBlI0xjEdX3sa
+ gfZekLAJUZr5AxRgAzjJSzjAbUS6VzxtGMGXrJ6lyakQrgIdihC1Z5lVFcT+6UjHtjsk
+ WE23EAXHYuzsAREo8/HXREJKFK2yW0AExv6sqMkBK8GxA7F3vC68dDRCXtR+L+AOMGmE
+ ZFvre2qG+i1caEaRi2UPKV3KZLF/nyyL4f5F2EyOw94HNxs3L5aEzSBzMPm0lQBh2i3B
+ ST/Q==
+X-Gm-Message-State: APjAAAUWS24gaE44b6EE5gl1TxU+csRXnYoQ6lbHqedn5A4eisgePq1t
+ HY3dG7P305JnxWAwDkPGObpGZQBSpnkYZkK6rCQ=
+X-Google-Smtp-Source: APXvYqx8fhpnx1jG+o7RUM+RTlx+K0ybPOaIQnf4viZNAVVaLQuRbMeV3I8lNMmlRdaz08KipNvdU5CIqkDnaX3zHLQ=
+X-Received: by 2002:a67:fdd4:: with SMTP id l20mr7036223vsq.63.1557651332429; 
+ Sun, 12 May 2019 01:55:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 12 May 2019 10:55:20 +0200
+Message-ID: <CAMuHMdWqvKXXfjSAk3GRyk8fwa2TS+EwcV_n0YwcEU9d8XohUA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] R-Car DU: LVDS dual-link mode support
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,100 +51,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0028986518=="
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0028986518==
-Content-Type: multipart/alternative; boundary="15576366571.32aA.4661"
-Content-Transfer-Encoding: 7bit
-
-
---15576366571.32aA.4661
-Date: Sun, 12 May 2019 04:50:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
-
---- Comment #86 from evan.quan@amd.com <evan.quan@outlook.com> ---
-Can anyone give the attachment 144237 a try and let me know the result?
-And if the issue still exists, please apply attachment 144238 also which can
-provide more debug outputs.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15576366571.32aA.4661
-Date: Sun, 12 May 2019 04:50:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c86">Comme=
-nt # 86</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-evan.quan&#64;outlook.com" title=3D"evan.quan&#64;amd.com &lt;evan.quan&#64=
-;outlook.com&gt;"> <span class=3D"fn">evan.quan&#64;amd.com</span></a>
-</span></b>
-        <pre>Can anyone give the <span class=3D""><a href=3D"attachment.cgi=
-?id=3D144237" name=3D"attach_144237" title=3D"Clean up the fast uclk switch=
- settings on SMU7 asics">attachment 144237</a> <a href=3D"attachment.cgi?id=
-=3D144237&amp;action=3Dedit" title=3D"Clean up the fast uclk switch setting=
-s on SMU7 asics">[details]</a></span> a try and let me know the result?
-And if the issue still exists, please apply <span class=3D""><a href=3D"att=
-achment.cgi?id=3D144238" name=3D"attach_144238" title=3D"Added some verbose=
- debugs">attachment 144238</a> <a href=3D"attachment.cgi?id=3D144238&amp;ac=
-tion=3Dedit" title=3D"Added some verbose debugs">[details]</a></span> also =
-which can
-provide more debug outputs.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15576366571.32aA.4661--
-
---===============0028986518==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0028986518==--
+SGkgTGF1cmVudCwKCk9uIFNhdCwgTWF5IDExLCAyMDE5IGF0IDExOjA3IFBNIExhdXJlbnQgUGlu
+Y2hhcnQKPGxhdXJlbnQucGluY2hhcnQrcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPiB3cm90ZToK
+PiBPbiB0aGUgcmVjZWl2aW5nIHNpZGUsIHRoZSBUSEM2M0xWRDEwMjQgTFZEUy10by1wYXJhbGxl
+bCBicmlkZ2UgaGFzIHR3bwo+IExWRFMgaW5wdXRzIGFuZCB0d28gcGFyYWxsZWwgb3V0cHV0cy4g
+SXQgY2FuIG9wZXJhdGUgaW4gZm91ciBkaWZmZXJlbnQKPiBtb2RlczoKPgo+IC0gU2luZ2xlLWlu
+LCBzaW5nbGUtb3V0OiBUaGUgZmlyc3QgTFZEUyBpbnB1dCByZWNlaXZlcyB0aGUgdmlkZW8gc3Ry
+ZWFtLAo+ICAgYW5kIHRoZSBicmlkZ2Ugb3V0cHV0cyBpdCBvbiB0aGUgZmlyc3QgcGFyYWxsZWwg
+b3V0cHV0LiBUaGUgc2Vjb25kCj4gICBMVkRTIGlucHV0IGFuZCB0aGUgc2Vjb25kIHBhcmFsbGVs
+IG91dHB1dCBhcmUgbm90IHVzZWQuCj4KPiAtIFNpbmdsZS1pbiwgZHVhbC1vdXQ6IFRoZSBmaXJz
+dCBMVkRTIGlucHV0IHJlY2VpdmVzIHRoZSB2aWRlbyBzdHJlYW0sCj4gICBhbmQgdGhlIGJyaWRn
+ZSBzcGxpdHMgZXZlbi0gYW5kIG9kZC1udW1iZXJlZCBwaXhlbHMgYW5kIG91dHB1dHMgdGhlbQo+
+ICAgb24gdGhlIGZpcnN0IGFuZCBzZWNvbmQgcGFyYWxsZWwgb3V0cHV0cy4gVGhlIHNlY29uZCBM
+VkRTIGlucHV0IGlzIG5vdAo+ICAgdXNlZC4KPgo+IC0gRHVhbC1pbiwgc2luZ2xlLW91dDogVGhl
+IHR3byBMVkRTIGlucHV0cyBhcmUgdXNlZCBpbiBkdWFsLWxpbmsgbW9kZSwKPiAgIGFuZCB0aGUg
+YnJpZGdlIGNvbWJpbmVzIHRoZSBldmVuLSBhbmQgb2RkLW51bWJlcmVkIHBpeGVscyBhbmQgb3V0
+cHV0cwo+ICAgdGhlbSBvbiB0aGUgZmlyc3QgcGFyYWxsZWwgb3V0cHV0LiBUaGUgc2Vjb25kIHBh
+cmFsbGVsIG91dHB1dCBpcyBub3QKPiAgIHVzZWQuCj4KPiAtIER1YWwtaW4sIGR1YWwtb3V0OiBU
+aGUgdHdvIExWRFMgaW5wdXRzIGFyZSB1c2VkIGluIGR1YWwtbGluayBtb2RlLAo+ICAgYW5kIHRo
+ZSBicmlkZ2Ugb3V0cHV0cyB0aGUgZXZlbi0gYW5kIG9kZC1udW1iZXJlZCBwaXhlbHMgb24gdGhl
+IGZpcnN0Cj4gICBwYXJhbGxlbCBvdXRwdXQuCgphbmQgdGhlIHNlY29uZD8KCj4gVGhlIG9wZXJh
+dGluZyBtb2RlIGlzIHNlbGVjdGVkIGJ5IHR3byBpbnB1dCBwaW5zIG9mIHRoZSBicmlkZ2UsIHdo
+aWNoCj4gYXJlIGNvbm5lY3RlZCB0byBESVAgc3dpdGNoZXMgb24gdGhlIGRldmVsb3BtZW50IGJv
+YXJkcyBJIHVzZS4gVGhlIG1vZGUKPiBpcyB0aHVzIGZpeGVkIGZyb20gYSBMaW51eCBwb2ludCBv
+ZiB2aWV3LgoKQ2FuIHRoZSBzdGF0ZSBvZiB0aGVzZSBzd2l0Y2hlcyBiZSByZWFkIGZyb20gc29m
+dHdhcmU/CgpHcntvZXRqZSxlZXRpbmd9cywKCiAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0
+CgotLQpHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBp
+YTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsub3JnCgpJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdp
+dGggdGVjaG5pY2FsIHBlb3BsZSwgSSBjYWxsIG15c2VsZiBhIGhhY2tlci4gQnV0CndoZW4gSSdt
+IHRhbGtpbmcgdG8gam91cm5hbGlzdHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRo
+aW5nIGxpa2UgdGhhdC4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBU
+b3J2YWxkcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
