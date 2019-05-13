@@ -1,45 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00821B6FA
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 15:25:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3412B1B710
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 15:32:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50FE089CD4;
-	Mon, 13 May 2019 13:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D57B8991D;
+	Mon, 13 May 2019 13:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D396589CD4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 13:25:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C7737721CD; Mon, 13 May 2019 13:25:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110671] Regression: DP outputs out of sync on dual-DP tiled 5k
- screen
-Date: Mon, 13 May 2019 13:25:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-110671-502-gAi39lKYfG@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110671-502@http.bugs.freedesktop.org/>
-References: <bug-110671-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6DD18991D;
+ Mon, 13 May 2019 13:32:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 May 2019 06:32:38 -0700
+X-ExtLoop1: 1
+Received: from nuc.iind.intel.com ([10.99.66.149])
+ by fmsmga001.fm.intel.com with ESMTP; 13 May 2019 06:32:36 -0700
+From: Ramalingam C <ramalingam.c@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch
+Subject: [PATCH] drm/hdcp: drm_hdcp_request_srm() as static
+Date: Mon, 13 May 2019 19:05:04 +0530
+Message-Id: <20190513133504.18612-1-ramalingam.c@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,120 +40,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0448727284=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0448727284==
-Content-Type: multipart/alternative; boundary="15577539150.6d8D.15959"
-Content-Transfer-Encoding: 7bit
-
-
---15577539150.6d8D.15959
-Date: Mon, 13 May 2019 13:25:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |nicholas.kazlauskas@amd.com
-
---- Comment #1 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-Please attach the corresponding output of dmesg and Xorg log file.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15577539150.6d8D.15959
-Date: Mon, 13 May 2019 13:25:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
-reen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>nicholas.kazlauskas&#64;amd.com
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
-reen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
-reen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>Please attach the corresponding output of dmesg and Xorg log f=
-ile.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15577539150.6d8D.15959--
-
---===============0448727284==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0448727284==--
+QmVsb3cgU3BhcnNoIHdhcm5pbmdzIGFyZSBmaXhlZC4KCkNvbW1pdDogZHJtOiByZXZvY2F0aW9u
+IGNoZWNrIGF0IGRybSBzdWJzeXN0ZW0KK2RyaXZlcnMvZ3B1L2RybS9kcm1faGRjcC5jOjIzNTo2
+OiB3YXJuaW5nOiBzeW1ib2wKJ2RybV9oZGNwX3JlcXVlc3Rfc3JtJyB3YXMgbm90IGRlY2xhcmVk
+LiBTaG91bGQgaXQgYmUgc3RhdGljPworZHJpdmVycy9ncHUvZHJtL2RybV9oZGNwLmM6Mjc6Mzog
+d2FybmluZzogc3ltYm9sICdzcm1fZGF0YScgd2FzIG5vdApkZWNsYXJlZC4gU2hvdWxkIGl0IGJl
+IHN0YXRpYz8KK2RyaXZlcnMvZ3B1L2RybS9kcm1faGRjcC5jOjMxNzo1OiB3YXJuaW5nOiBzeW1i
+b2wgJ2RybV9zZXR1cF9oZGNwX3NybScKd2FzIG5vdCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0
+YXRpYz8KK2RyaXZlcnMvZ3B1L2RybS9kcm1faGRjcC5jOjMyNzo2OiB3YXJuaW5nOiBzeW1ib2wK
+J2RybV90ZWFyZG93bl9oZGNwX3NybScgd2FzIG5vdCBkZWNsYXJlZC4gU2hvdWxkIGl0IGJlIHN0
+YXRpYz8KCmNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpSZXBvcnRl
+ZC1ieToga2J1aWxkIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IFJh
+bWFsaW5nYW0gQyA8cmFtYWxpbmdhbS5jQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2hkY3AuYyAgICAgfCA2ICsrKystLQogZHJpdmVycy9ncHUvZHJtL2RybV9pbnRlcm5hbC5o
+IHwgMSArCiAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1faGRjcC5jCmluZGV4IDBkYTdiMzcxOGJhZC4uY2Q4MzdiZDQwOWY3IDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2hk
+Y3AuYwpAQCAtMjEsNyArMjEsOSBAQAogI2luY2x1ZGUgPGRybS9kcm1fbW9kZV9vYmplY3QuaD4K
+ICNpbmNsdWRlIDxkcm0vZHJtX2Nvbm5lY3Rvci5oPgogCi1zdHJ1Y3QgaGRjcF9zcm0geworI2lu
+Y2x1ZGUgImRybV9pbnRlcm5hbC5oIgorCitzdGF0aWMgc3RydWN0IGhkY3Bfc3JtIHsKIAl1MzIg
+cmV2b2tlZF9rc3ZfY250OwogCXU4ICpyZXZva2VkX2tzdl9saXN0OwogCkBAIC0yMzUsNyArMjM3
+LDcgQEAgc3RhdGljIHZvaWQgZHJtX2hkY3Bfc3JtX3VwZGF0ZShjb25zdCB1OCAqYnVmLCBzaXpl
+X3QgY291bnQpCiAJCWRybV9oZGNwX3BhcnNlX2hkY3AyX3NybShidWYsIGNvdW50KTsKIH0KIAot
+dm9pZCBkcm1faGRjcF9yZXF1ZXN0X3NybShzdHJ1Y3QgZHJtX2RldmljZSAqZHJtX2RldikKK3N0
+YXRpYyB2b2lkIGRybV9oZGNwX3JlcXVlc3Rfc3JtKHN0cnVjdCBkcm1fZGV2aWNlICpkcm1fZGV2
+KQogewogCWNoYXIgZndfbmFtZVszNl0gPSAiZGlzcGxheV9oZGNwX3NybS5iaW4iOwogCWNvbnN0
+IHN0cnVjdCBmaXJtd2FyZSAqZnc7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2lu
+dGVybmFsLmggYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVybmFsLmgKaW5kZXggNDc2YTQyMjQx
+NGY2Li42NWFiZjNhNjliNDAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faW50ZXJu
+YWwuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVybmFsLmgKQEAgLTEwNiw2ICsxMDYs
+NyBAQCB2b2lkIGRybV9zeXNmc19jb25uZWN0b3JfcmVtb3ZlKHN0cnVjdCBkcm1fY29ubmVjdG9y
+ICpjb25uZWN0b3IpOwogdm9pZCBkcm1fc3lzZnNfbGVhc2VfZXZlbnQoc3RydWN0IGRybV9kZXZp
+Y2UgKmRldik7CiAKIC8qIGRybV9nZW0uYyAqLworc3RydWN0IGRybV9nZW1fb2JqZWN0OwogaW50
+IGRybV9nZW1faW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2KTsKIHZvaWQgZHJtX2dlbV9kZXN0
+cm95KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpOwogaW50IGRybV9nZW1faGFuZGxlX2NyZWF0ZV90
+YWlsKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LAotLSAKMi4xOS4xCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
