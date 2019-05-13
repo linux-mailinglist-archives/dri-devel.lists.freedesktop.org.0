@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FCE1BDA7
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 21:19:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC9D1BDAA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 21:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC60989211;
-	Mon, 13 May 2019 19:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F73891D7;
+	Mon, 13 May 2019 19:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6FEA8920F;
- Mon, 13 May 2019 19:19:16 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 May 2019 12:19:16 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 13 May 2019 12:19:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 13 May 2019 22:19:11 +0300
-Date: Mon, 13 May 2019 22:19:11 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v9 03/13] drm: Parse HDR metadata info from EDID
-Message-ID: <20190513191911.GR24299@intel.com>
-References: <1557340733-9629-1-git-send-email-uma.shankar@intel.com>
- <1557340733-9629-4-git-send-email-uma.shankar@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6D46B891D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 19:22:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3EA85721CD; Mon, 13 May 2019 19:22:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110635] briefly flashing corruption when playing various OGL
+ games
+Date: Mon, 13 May 2019 19:22:11 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110635-502-KfyrOvHU6t@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110635-502@http.bugs.freedesktop.org/>
+References: <bug-110635-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1557340733-9629-4-git-send-email-uma.shankar@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,83 +53,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dcastagna@chromium.org, jonas@kwiboo.se, intel-gfx@lists.freedesktop.org,
- emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, ville.syrjala@intel.com, maarten.lankhorst@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1350603551=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMDksIDIwMTkgYXQgMTI6MDg6NDNBTSArMDUzMCwgVW1hIFNoYW5rYXIgd3Jv
-dGU6Cj4gSERSIG1ldGFkYXRhIGJsb2NrIGlzIGludHJvZHVjZWQgaW4gQ0VBLTg2MS4zIHNwZWMu
-Cj4gUGFyc2luZyB0aGUgc2FtZSB0byBnZXQgdGhlIHBhbmVsJ3MgSERSIG1ldGFkYXRhLgo+IAo+
-IHYyOiBSZWJhc2UgYW5kIGFkZGVkIFZpbGxlJ3MgUE9DIGNoYW5nZXMgdG8gdGhlIHBhdGNoLgo+
-IAo+IHYzOiBObyBDaGFuZ2UKPiAKPiB2NDogQWRkcmVzc2VkIFNoYXNoYW5rJ3MgcmV2aWV3IGNv
-bW1lbnRzCj4gCj4gdjU6IEFkZHJlc3NlZCBTaGFzaGFuaydzIGNvbW1lbnQgYW5kIGFkZGVkIGhp
-cyBSQi4KPiAKPiB2NjogQWRkcmVzc2VkIEpvbmFzIEthcmxtYW4gcmV2aWV3IGNvbW1lbnRzLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IFVtYSBTaGFua2FyIDx1bWEuc2hhbmthckBpbnRlbC5jb20+Cj4g
-UmV2aWV3ZWQtYnk6IFNoYXNoYW5rIFNoYXJtYSA8c2hhc2hhbmsuc2hhcm1hQGludGVsLmNvbT4K
-PiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgfCA1MiArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA1MiBpbnNl
-cnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKPiBpbmRleCA4NTJiZGQ4Li5mZTJjMjliIDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV9lZGlkLmMKPiBAQCAtMjg1Miw2ICsyODUyLDcgQEAgc3RhdGljIGludCBkcm1fY3Z0
-X21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4gICNkZWZpbmUgVklERU9f
-QkxPQ0sgICAgIDB4MDIKPiAgI2RlZmluZSBWRU5ET1JfQkxPQ0sgICAgMHgwMwo+ICAjZGVmaW5l
-IFNQRUFLRVJfQkxPQ0sJMHgwNAo+ICsjZGVmaW5lIEhEUl9TVEFUSUNfTUVUQURBVEFfQkxPQ0sJ
-MHg2Cj4gICNkZWZpbmUgVVNFX0VYVEVOREVEX1RBRyAweDA3Cj4gICNkZWZpbmUgRVhUX1ZJREVP
-X0NBUEFCSUxJVFlfQkxPQ0sgMHgwMAo+ICAjZGVmaW5lIEVYVF9WSURFT19EQVRBX0JMT0NLXzQy
-MAkweDBFCj4gQEAgLTM1OTksNiArMzYwMCwxMiBAQCBzdGF0aWMgaW50IGFkZF8zZF9zdHJ1Y3Rf
-bW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgdTE2IHN0cnVjdHVyZSwKPiAg
-fQo+ICAKPiAgc3RhdGljIGludAo+ICtjZWFfZGJfcGF5bG9hZF9sZW5fZXh0KGNvbnN0IHU4ICpk
-YikKPiArewo+ICsJcmV0dXJuIChkYlswXSAmIDB4MWYpIC0gMTsKPiArfQo+ICsKPiArc3RhdGlj
-IGludAo+ICBjZWFfZGJfZXh0ZW5kZWRfdGFnKGNvbnN0IHU4ICpkYikKPiAgewo+ICAJcmV0dXJu
-IGRiWzFdOwo+IEBAIC0zODM0LDYgKzM4NDEsNDkgQEAgc3RhdGljIHZvaWQgZml4dXBfZGV0YWls
-ZWRfY2VhX21vZGVfY2xvY2soc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUpCj4gIAltb2Rl
-LT5jbG9jayA9IGNsb2NrOwo+ICB9Cj4gIAo+ICtzdGF0aWMgYm9vbCBjZWFfZGJfaXNfaGRtaV9o
-ZHJfbWV0YWRhdGFfYmxvY2soY29uc3QgdTggKmRiKQo+ICt7Cj4gKwlpZiAoY2VhX2RiX3RhZyhk
-YikgIT0gVVNFX0VYVEVOREVEX1RBRykKPiArCQlyZXR1cm4gZmFsc2U7Cj4gKwo+ICsJaWYgKGRi
-WzFdICE9IEhEUl9TVEFUSUNfTUVUQURBVEFfQkxPQ0spCj4gKwkJcmV0dXJuIGZhbHNlOwo+ICsK
-PiArCXJldHVybiB0cnVlOwo+ICt9Cj4gKwo+ICtzdGF0aWMgdWludDhfdCBlb3RmX3N1cHBvcnRl
-ZChjb25zdCB1OCAqZWRpZF9leHQpCj4gK3sKPiArCXJldHVybiBlZGlkX2V4dFsyXSAmCj4gKwkJ
-KEJJVChIRE1JX0VPVEZfVFJBRElUSU9OQUxfR0FNTUFfU0RSKSB8Cj4gKwkJIEJJVChIRE1JX0VP
-VEZfVFJBRElUSU9OQUxfR0FNTUFfSERSKSB8Cj4gKwkJIEJJVChIRE1JX0VPVEZfU01QVEVfU1Qy
-MDg0KSk7Cj4gK30KPiArCj4gK3N0YXRpYyB1aW50OF90IGhkcl9tZXRhZGF0YV90eXBlKGNvbnN0
-IHU4ICplZGlkX2V4dCkKPiArewo+ICsJcmV0dXJuIGVkaWRfZXh0WzNdICYKPiArCQlCSVQoSERN
-SV9TVEFUSUNfTUVUQURBVEFfVFlQRTEpOwo+ICt9Cj4gKwo+ICtzdGF0aWMgdm9pZAo+ICtkcm1f
-cGFyc2VfaGRyX21ldGFkYXRhX2Jsb2NrKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3Is
-IGNvbnN0IHU4ICpkYikKPiArewo+ICsJdTE2IGxlbjsKPiArCj4gKwlsZW4gPSBjZWFfZGJfcGF5
-bG9hZF9sZW5fZXh0KGRiKTsKPiArCWNvbm5lY3Rvci0+aGRyX3NpbmtfbWV0YWRhdGEuaGRtaV90
-eXBlMS5lb3RmID0gZW90Zl9zdXBwb3J0ZWQoZGIpOwo+ICsJY29ubmVjdG9yLT5oZHJfc2lua19t
-ZXRhZGF0YS5oZG1pX3R5cGUxLm1ldGFkYXRhX3R5cGUgPQo+ICsJCQkJCWhkcl9tZXRhZGF0YV90
-eXBlKGRiKTsKCkxlbmd0aCBjaGVja3MgbWlzc2luZyBmb3IgdGhpcyBzdHVmZi4KCj4gKwo+ICsJ
-aWYgKGxlbiA+PSA0KQo+ICsJCWNvbm5lY3Rvci0+aGRyX3NpbmtfbWV0YWRhdGEuaGRtaV90eXBl
-MS5tYXhfY2xsID0gZGJbNF07Cj4gKwlpZiAobGVuID49IDUpCj4gKwkJY29ubmVjdG9yLT5oZHJf
-c2lua19tZXRhZGF0YS5oZG1pX3R5cGUxLm1heF9mYWxsID0gZGJbNV07Cj4gKwlpZiAobGVuID49
-IDYpCj4gKwkJY29ubmVjdG9yLT5oZHJfc2lua19tZXRhZGF0YS5oZG1pX3R5cGUxLm1pbl9jbGwg
-PSBkYls2XTsKCkFsbCB0aGUgbGVuZ3RoIGNoZWNrcyBzZWVtIHRvIGJlIG9mZiBieSBvbmUgZHVl
-IHRvIGNlYV9kYl9wYXlsb2FkX2xlbl9leHQoKS4KSSB0aGluayBqdXN0IGRyb3BwaW5nIGNlYV9k
-Yl9wYXlsb2FkX2xlbl9leHQoKSB3b3VsZCBtYWtlIHRoaW5ncyBiZXR0ZXIKc2luY2UgYSkgbm90
-aGluZyBlbHNlIGhhcyB0aGF0LCBiKSBkYiBzdGlsbCBwb2ludHMgYXQgdGhlIHN0YXJ0IG9mCnRo
-ZSB3aG9sZSBkYXRhIGJsb2NrIGluc3RlYWQgb2YgdGhlIHBheWxvYWQuCgpUaGUgd2hpbGUgcGF5
-bG9hZCB2cy4gYmxvY2sgbGVuZ3RoIHRoaW5nIGlzIGFscmVhZHkgY29uZnVzaW5nIGFueXdheS4K
-SSBoYXZlIGEgZmVlbGluZyB3ZSBzaG91bGQgcmVwbGFjZSBjZWFfZGJfcGF5bG9hZF9sZW4oKSB3
-aXRoIHNvbWV0aGluZwp0aGF0IHJldHVybnMgdGhlIGxlbmd0aCBvZiB0aGUgd2hvbGUgZGF0YSBi
-bG9jay4gVGhhdCB3YXkgdGhlIGRiW2luZGV4XQp2cy4gbGVuZ3RoIGNoZWNrcyB3b3VsZCBzdGFy
-dCB0byBtYWtlIHNvbWUgc2Vuc2UgdG8gdGhlIGNhc3VhbCByZWFkZXIuCgo+ICt9Cj4gKwo+ICBz
-dGF0aWMgdm9pZAo+ICBkcm1fcGFyc2VfaGRtaV92c2RiX2F1ZGlvKHN0cnVjdCBkcm1fY29ubmVj
-dG9yICpjb25uZWN0b3IsIGNvbnN0IHU4ICpkYikKPiAgewo+IEBAIC00NDYxLDYgKzQ1MTEsOCBA
-QCBzdGF0aWMgdm9pZCBkcm1fcGFyc2VfY2VhX2V4dChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29u
-bmVjdG9yLAo+ICAJCQlkcm1fcGFyc2VfeTQyMGNtZGJfYml0bWFwKGNvbm5lY3RvciwgZGIpOwo+
-ICAJCWlmIChjZWFfZGJfaXNfdmNkYihkYikpCj4gIAkJCWRybV9wYXJzZV92Y2RiKGNvbm5lY3Rv
-ciwgZGIpOwo+ICsJCWlmIChjZWFfZGJfaXNfaGRtaV9oZHJfbWV0YWRhdGFfYmxvY2soZGIpKQo+
-ICsJCQlkcm1fcGFyc2VfaGRyX21ldGFkYXRhX2Jsb2NrKGNvbm5lY3RvciwgZGIpOwo+ICAJfQo+
-ICB9Cj4gIAo+IC0tIAo+IDEuOS4xCj4gCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1350603551==
+Content-Type: multipart/alternative; boundary="15577753310.2137.7296"
+Content-Transfer-Encoding: 7bit
+
+
+--15577753310.2137.7296
+Date: Mon, 13 May 2019 19:22:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110635
+
+--- Comment #3 from tempel.julian@gmail.com ---
+Skyrim in both wined3d and Gallium Nine is affected as well.
+How could we start bisecting it? It seems something's broken in Gallium and=
+ I'd
+really like to have it fixed. :)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15577753310.2137.7296
+Date: Mon, 13 May 2019 19:22:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - briefly flashing corruption when playing various OGL game=
+s"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - briefly flashing corruption when playing various OGL game=
+s"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635">bug 11063=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>Skyrim in both wined3d and Gallium Nine is affected as well.
+How could we start bisecting it? It seems something's broken in Gallium and=
+ I'd
+really like to have it fixed. :)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15577753310.2137.7296--
+
+--===============1350603551==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1350603551==--
