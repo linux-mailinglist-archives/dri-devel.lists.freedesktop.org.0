@@ -2,41 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE401B6C9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 15:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29D5C1C414
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 09:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5778989E;
-	Mon, 13 May 2019 13:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC50892C1;
+	Tue, 14 May 2019 07:41:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52EA08989E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 13:11:37 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 May 2019 06:11:36 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 13 May 2019 06:11:33 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 13 May 2019 16:11:32 +0300
-Date: Mon, 13 May 2019 16:11:32 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [PATCH v2 4/6] drm/fourcc: Pass the format_info pointer to
- drm_format_plane_cpp
-Message-ID: <20190513131132.GN24299@intel.com>
-References: <27b0041c7977402df4a087c78d2849ffe51c9f1c.1557486447.git-series.maxime.ripard@bootlin.com>
- <32aa13e53dbc98a90207fd290aa8e79f785fb11e.1557486447.git-series.maxime.ripard@bootlin.com>
- <20190510160031.GM24299@intel.com>
- <20190512173054.uj3thuvkgmllsy2n@flea>
+Received: from foss.arm.com (usa-sjc-mx-foss1.foss.arm.com [217.140.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A01C89C08
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 13:12:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CFF280D;
+ Mon, 13 May 2019 06:12:24 -0700 (PDT)
+Received: from [10.1.196.69] (e112269-lin.cambridge.arm.com [10.1.196.69])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71B983F720;
+ Mon, 13 May 2019 06:12:23 -0700 (PDT)
+Subject: Re: [PATCH] drm/panfrost: Add missing _fini() calls in
+ panfrost_device_fini()
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+References: <20190513081734.911-1-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <f27b2af0-2e03-b1ac-fa6b-ec72475bf3ce@arm.com>
+Date: Mon, 13 May 2019 14:12:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190512173054.uj3thuvkgmllsy2n@flea>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190513081734.911-1-boris.brezillon@collabora.com>
+Content-Language: en-GB
+X-Mailman-Approved-At: Tue, 14 May 2019 07:40:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,37 +44,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Emil Velikov <emil.velikov@collabora.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBNYXkgMTIsIDIwMTkgYXQgMDc6MzA6NTRQTSArMDIwMCwgTWF4aW1lIFJpcGFyZCB3
-cm90ZToKPiBIaSBWaWxsZSwKPiAKPiBPbiBGcmksIE1heSAxMCwgMjAxOSBhdCAwNzowMDozMVBN
-ICswMzAwLCBWaWxsZSBTeXJqw6Rsw6Qgd3JvdGU6Cj4gPiBPbiBGcmksIE1heSAxMCwgMjAxOSBh
-dCAwMTowODo0OVBNICswMjAwLCBNYXhpbWUgUmlwYXJkIHdyb3RlOgo+ID4gPiBTbyBmYXIsIHRo
-ZSBkcm1fZm9ybWF0X3BsYW5lX2NwcCBmdW5jdGlvbiB3YXMgb3BlcmF0aW5nIG9uIHRoZSBmb3Jt
-YXQncwo+ID4gPiBmb3VyY2MgYW5kIHdhcyBkb2luZyBhIGxvb2t1cCB0byByZXRyaWV2ZSB0aGUg
-ZHJtX2Zvcm1hdF9pbmZvIHN0cnVjdHVyZSBhbmQKPiA+ID4gcmV0dXJuIHRoZSBjcHAuCj4gPiA+
-Cj4gPiA+IEhvd2V2ZXIsIHRoaXMgaXMgaW5lZmZpY2llbnQgc2luY2UgaW4gbW9zdCBjYXNlcywg
-d2Ugd2lsbCBoYXZlIHRoZQo+ID4gPiBkcm1fZm9ybWF0X2luZm8gcG9pbnRlciBhbHJlYWR5IGF2
-YWlsYWJsZSBzbyB3ZSBzaG91bGRuJ3QgaGF2ZSB0byBwZXJmb3JtIGEKPiA+ID4gbmV3IGxvb2t1
-cC4gU29tZSBkcm1fZm91cmNjIGZ1bmN0aW9ucyBhbHNvIGFscmVhZHkgb3BlcmF0ZSBvbiB0aGUK
-PiA+ID4gZHJtX2Zvcm1hdF9pbmZvIHBvaW50ZXIgZm9yIHRoYXQgcmVhc29uLCBzbyB0aGUgQVBJ
-IGlzIHF1aXRlIGluY29uc2lzdGVudAo+ID4gPiB0aGVyZS4KPiA+ID4KPiA+ID4gTGV0J3MgZm9s
-bG93IHRoZSBsYXR0ZXIgcGF0dGVybiBhbmQgcmVtb3ZlIHRoZSBleHRyYSBsb29rdXAgd2hpbGUg
-YmVpbmcgYQo+ID4gPiBiaXQgbW9yZSBjb25zaXN0ZW50LiBJbiBvcmRlciB0byBiZSBleHRyYSBj
-b25zaXN0ZW50LCBhbHNvIHJlbmFtZSB0aGF0Cj4gPiA+IGZ1bmN0aW9uIHRvIGRybV9mb3JtYXRf
-aW5mb19wbGFuZV9jcHAgYW5kIHRvIGEgc3RhdGljIGZ1bmN0aW9uIGluIHRoZQo+ID4gPiBoZWFk
-ZXIgdG8gbWF0Y2ggdGhlIGN1cnJlbnQgcG9saWN5Lgo+ID4KPiA+IElzIHRoZXJlIGFueSBwb2lu
-dCBrZWVwaW5nIHRoZSBmdW5jdGlvbiBhdCBhbGw/Cj4gPiBJdCdzIGp1c3QgaW5mby0+Y3BwW2ld
-IG5vPwo+IAo+IFlvdSdyZSByaWdodCwgd2UgY2FuIHJlbW92ZSBpdC4KPiAKPiBEbyB5b3Ugd2Fu
-dCB0aGlzIHRvIGJlIGRvbmUgaW4gdGhhdCBwYXRjaCBvciBhIHN1YnNlcXVlbnQgb25lPwoKSSBk
-b24ndCBtaW5kIGVpdGhlciB3YXkuCgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gMTMvMDUvMjAxOSAwOToxNywgQm9yaXMgQnJlemlsbG9uIHdyb3RlOgo+IHBhbmZyb3N0X3tq
+b2IsbW11LGdwdSxyZXNldH1fZmluaSgpIHdlcmUgbWlzc2luZy4KPiAKPiBGaXhlczogZjNiYTkx
+MjI4ZThlICgiZHJtL3BhbmZyb3N0OiBBZGQgaW5pdGlhbCBwYW5mcm9zdCBkcml2ZXIiKQo+IFNp
+Z25lZC1vZmYtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5j
+b20+CgpSZXZpZXdlZC1ieTogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KCj4g
+LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuYyB8IDQgKysr
+Kwo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuYwo+IGluZGV4IDk3MGY2NjljNmQyOS4uM2IyYmNl
+ZDFiMDE1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9k
+ZXZpY2UuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2Uu
+Ywo+IEBAIC0xNjUsNiArMTY1LDEwIEBAIGludCBwYW5mcm9zdF9kZXZpY2VfaW5pdChzdHJ1Y3Qg
+cGFuZnJvc3RfZGV2aWNlICpwZmRldikKPiAgCj4gIHZvaWQgcGFuZnJvc3RfZGV2aWNlX2Zpbmko
+c3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYpCj4gIHsKPiArCXBhbmZyb3N0X2pvYl9maW5p
+KHBmZGV2KTsKPiArCXBhbmZyb3N0X21tdV9maW5pKHBmZGV2KTsKPiArCXBhbmZyb3N0X2dwdV9m
+aW5pKHBmZGV2KTsKPiArCXBhbmZyb3N0X3Jlc2V0X2ZpbmkocGZkZXYpOwo+ICAJcGFuZnJvc3Rf
+cmVndWxhdG9yX2ZpbmkocGZkZXYpOwo+ICAJcGFuZnJvc3RfY2xrX2ZpbmkocGZkZXYpOwo+ICB9
+Cj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
