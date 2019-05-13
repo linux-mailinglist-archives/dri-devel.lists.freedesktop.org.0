@@ -1,65 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9F71B6D9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 15:15:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A00821B6FA
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 15:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC4DE89C9A;
-	Mon, 13 May 2019 13:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50FE089CD4;
+	Mon, 13 May 2019 13:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D50289C9A
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 13:15:25 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x4DDCndD024681; Mon, 13 May 2019 15:15:23 +0200
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx08-00178001.pphosted.com with ESMTP id 2sek5a54b2-1
- (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
- Mon, 13 May 2019 15:15:23 +0200
-Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 6BA8A3A;
- Mon, 13 May 2019 13:15:22 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
- by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4004B1D84;
- Mon, 13 May 2019 13:15:22 +0000 (GMT)
-Received: from SAFEX1HUBCAS24.st.com (10.75.90.95) by Safex1hubcas22.st.com
- (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 13 May
- 2019 15:15:22 +0200
-Received: from localhost (10.201.23.97) by webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 13 May 2019 15:15:21
- +0200
-From: =?UTF-8?q?Yannick=20Fertr=C3=A9?= <yannick.fertre@st.com>
-To: Yannick Fertre <yannick.fertre@st.com>, Philippe Cornu
- <philippe.cornu@st.com>, Benjamin Gaignard <benjamin.gaignard@st.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- <dri-devel@lists.freedesktop.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/stm: ltdc: remove clk_round_rate comment
-Date: Mon, 13 May 2019 15:15:18 +0200
-Message-ID: <1557753318-11218-1-git-send-email-yannick.fertre@st.com>
-X-Mailer: git-send-email 2.7.4
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D396589CD4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 13:25:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C7737721CD; Mon, 13 May 2019 13:25:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110671] Regression: DP outputs out of sync on dual-DP tiled 5k
+ screen
+Date: Mon, 13 May 2019 13:25:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-110671-502-gAi39lKYfG@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110671-502@http.bugs.freedesktop.org/>
+References: <bug-110671-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Originating-IP: [10.201.23.97]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-05-13_07:, , signatures=0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=st.com; h=from : to : subject :
- date : message-id : mime-version : content-type :
- content-transfer-encoding; s=STMicroelectronics;
- bh=z+jHhwBwJ5kIQ/vL9ubJdrHRuDnMR+YPpPiAVmxBKdc=;
- b=SurjwkHWIiIPmx7BHJI1H1JXcGmlUr1FfwyAmMMG6+3nFCzbxK3v6Q0/xWPlo9DWIwxi
- Y5xkj4brF4PVfTyZqGh4kJcDA938QNAV5ii5ud0QFIsleksYQECVRj0+iak9amNTOxDK
- XqsLi5AKlVUPhoaKEYvpNCYKWve6IeOMAEIekWzT6EwnVaMsuxcViwJ+bULzVuIqsyLC
- k2Rik5LIgVGilAams2+uUK/wOatezrSVBmEHLMXWgxHCOHBRzP6wklZyd+Egng6a40yX
- vEFMC02klVKIyEHT8MuewbakJ00aULTDLncv2pFY7mrgeQlJoaTmz6mgcgqUFJWjv4Q/ AQ== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,36 +53,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0448727284=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q2xrX3JvdW5kX3JhdGUgcmV0dXJucyByb3VuZGVkIGNsb2NrIHdpdGhvdXQgY2hhbmdpbmcKdGhl
-IGhhcmR3YXJlIGluIGFueSB3YXkuClRoaXMgZnVuY3Rpb24gY291bGRuJ3QgcmVwbGFjZSBzZXRf
-cmF0ZS9nZXRfcmF0ZSBjYWxscy4KVG9kbyBjb21tZW50IGhhcyBiZWVuIHJlbW92ZWQgJiBhIG5l
-dyBsb2cgaW5zZXJ0ZWQuCgpTaWduZWQtb2ZmLWJ5OiBZYW5uaWNrIEZlcnRyw6kgPHlhbm5pY2su
-ZmVydHJlQHN0LmNvbT4KLS0tCkNoYW5nZXMgaW4gdjI6CgktIENsa19lbmFibGUgJiBjbGtfZGlz
-YWJsZSBhcmUgbmVlZGVkIGZvciB0aGUgU09DIFNUTTMyRjcKCSAobm90IGZvciBTVE0zMk1QMSku
-IEkgcmV0dXJuIHRoaXMgcGFydCBvZiB0aGUgcGF0Y2ggdG8gbWFrZSBzdXJlIHRoZQoJIGRyaXZl
-ciBpcyBjb21wYXRpYmxlIHdpdGggYWxsIFNPQyBTVE0zMi4KCiBkcml2ZXJzL2dwdS9kcm0vc3Rt
-L2x0ZGMuYyB8IDggKysrLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDUg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0bS9sdGRjLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYwppbmRleCA5NzkxMmUyLi4xMTA0ZTc4IDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vc3RtL2x0ZGMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vc3Rt
-L2x0ZGMuYwpAQCAtNTA3LDExICs1MDcsNiBAQCBzdGF0aWMgYm9vbCBsdGRjX2NydGNfbW9kZV9m
-aXh1cChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCiAJc3RydWN0IGx0ZGNfZGV2aWNlICpsZGV2ID0g
-Y3J0Y190b19sdGRjKGNydGMpOwogCWludCByYXRlID0gbW9kZS0+Y2xvY2sgKiAxMDAwOwoKLQkv
-KgotCSAqIFRPRE8gY2xrX3JvdW5kX3JhdGUoKSBkb2VzIG5vdCB3b3JrIHlldC4gV2hlbiByZWFk
-eSwgaXQgY2FuCi0JICogYmUgdXNlZCBpbnN0ZWFkIG9mIGNsa19zZXRfcmF0ZSgpIHRoZW4gY2xr
-X2dldF9yYXRlKCkuCi0JICovCi0KIAljbGtfZGlzYWJsZShsZGV2LT5waXhlbF9jbGspOwogCWlm
-IChjbGtfc2V0X3JhdGUobGRldi0+cGl4ZWxfY2xrLCByYXRlKSA8IDApIHsKIAkJRFJNX0VSUk9S
-KCJDYW5ub3Qgc2V0IHJhdGUgKCVkSHopIGZvciBwaXhlbCBjbGtcbiIsIHJhdGUpOwpAQCAtNTIx
-LDYgKzUxNiw5IEBAIHN0YXRpYyBib29sIGx0ZGNfY3J0Y19tb2RlX2ZpeHVwKHN0cnVjdCBkcm1f
-Y3J0YyAqY3J0YywKCiAJYWRqdXN0ZWRfbW9kZS0+Y2xvY2sgPSBjbGtfZ2V0X3JhdGUobGRldi0+
-cGl4ZWxfY2xrKSAvIDEwMDA7CgorCURSTV9ERUJVR19EUklWRVIoInJlcXVlc3RlZCBjbG9jayAl
-ZGtIeiwgYWRqdXN0ZWQgY2xvY2sgJWRrSHpcbiIsCisJCQkgbW9kZS0+Y2xvY2ssIGFkanVzdGVk
-X21vZGUtPmNsb2NrKTsKKwogCXJldHVybiB0cnVlOwogfQoKLS0KMi43LjQKCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0448727284==
+Content-Type: multipart/alternative; boundary="15577539150.6d8D.15959"
+Content-Transfer-Encoding: 7bit
+
+
+--15577539150.6d8D.15959
+Date: Mon, 13 May 2019 13:25:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
+
+Michel D=C3=A4nzer <michel@daenzer.net> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |nicholas.kazlauskas@amd.com
+
+--- Comment #1 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+Please attach the corresponding output of dmesg and Xorg log file.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15577539150.6d8D.15959
+Date: Mon, 13 May 2019 13:25:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
+4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
+ <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
+reen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>nicholas.kazlauskas&#64;amd.com
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
+reen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
+reen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>Please attach the corresponding output of dmesg and Xorg log f=
+ile.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15577539150.6d8D.15959--
+
+--===============0448727284==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0448727284==--
