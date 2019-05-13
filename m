@@ -1,38 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C38F1BE18
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 21:37:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 408D51BE1A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 21:38:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 958348921D;
-	Mon, 13 May 2019 19:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB3D890BC;
+	Mon, 13 May 2019 19:38:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C19D89219;
- Mon, 13 May 2019 19:37:27 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 13 May 2019 12:37:26 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga007.fm.intel.com with SMTP; 13 May 2019 12:37:22 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 13 May 2019 22:37:21 +0300
-Date: Mon, 13 May 2019 22:37:21 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v9 08/13] drm/i915: Enable infoframes on GLK+ for HDR
-Message-ID: <20190513193721.GT24299@intel.com>
-References: <1557340733-9629-1-git-send-email-uma.shankar@intel.com>
- <1557340733-9629-9-git-send-email-uma.shankar@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB8BF890BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 19:38:14 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D2A5B721CD; Mon, 13 May 2019 19:38:14 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110671] Regression: DP outputs out of sync on dual-DP tiled 5k
+ screen
+Date: Mon, 13 May 2019 19:38:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bugs@bzatek.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110671-502-iIYOixVn04@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110671-502@http.bugs.freedesktop.org/>
+References: <bug-110671-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1557340733-9629-9-git-send-email-uma.shankar@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,107 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ville.syrjala@intel.com, jonas@kwiboo.se, intel-gfx@lists.freedesktop.org,
- emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org, dcastagna@chromium.org, maarten.lankhorst@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0727126710=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMDksIDIwMTkgYXQgMTI6MDg6NDhBTSArMDUzMCwgVW1hIFNoYW5rYXIgd3Jv
-dGU6Cj4gRnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNv
-bT4KPiAKPiBUaGlzIHBhdGNoIGVuYWJsZXMgaW5mb2ZyYW1lcyBvbiBHTEsrIHRvIGJlCj4gdXNl
-ZCB0byBzZW5kIEhEUiBtZXRhZGF0YSB0byBIRE1JIHNpbmsuCj4gCj4gdjI6IEFkZHJlc3NlZCBT
-aGFzaGFuaydzIHJldmlldyBjb21tZW50Lgo+IAo+IHYzOiBBZGRyZXNzZWQgU2hhc2hhbmsncyBy
-ZXZpZXcgY29tbWVudC4KPiAKPiB2NDogQWRkZWQgU2hhc2hhbmsncyBSQi4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+
-IFNpZ25lZC1vZmYtYnk6IFVtYSBTaGFua2FyIDx1bWEuc2hhbmthckBpbnRlbC5jb20+Cj4gUmV2
-aWV3ZWQtYnk6IFNoYXNoYW5rIFNoYXJtYSA8c2hhc2hhbmsuc2hhcm1hQGludGVsLmNvbT4KPiAt
-LS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaCAgIHwgIDQgKysrKwo+ICBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9oZG1pLmMgfCAyMiArKysrKysrKysrKysrKysrKy0tLS0t
-Cj4gIDIgZmlsZXMgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKPiAK
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcuaCBiL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfcmVnLmgKPiBpbmRleCBlOTdjNDdmLi5kM2Y1NTEwIDEwMDY0NAo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmgKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vaTkxNS9pOTE1X3JlZy5oCj4gQEAgLTQ2OTQsNiArNDY5NCw3IEBAIGVudW0gewo+ICAj
-ZGVmaW5lICAgVklERU9fRElQX0ZSRVFfTUFTSwkJKDMgPDwgMTYpCj4gIC8qIEhTVyBhbmQgbGF0
-ZXI6ICovCj4gICNkZWZpbmUgICBEUk1fRElQX0VOQUJMRQkJKDEgPDwgMjgpCj4gKyNkZWZpbmUg
-ICBWSURFT19ESVBfRU5BQkxFX0RSTV9HTEsJKDEgPDwgMjgpCj4gICNkZWZpbmUgICBQU1JfVlND
-X0JJVF83X1NFVAkJKDEgPDwgMjcpCj4gICNkZWZpbmUgICBWU0NfU0VMRUNUX01BU0sJCSgweDMg
-PDwgMjUpCj4gICNkZWZpbmUgICBWU0NfU0VMRUNUX1NISUZUCQkyNQo+IEBAIC04MTQ2LDYgKzgx
-NDcsNyBAQCBlbnVtIHsKPiAgI2RlZmluZSBfSFNXX1ZJREVPX0RJUF9TUERfREFUQV9BCTB4NjAy
-QTAKPiAgI2RlZmluZSBfSFNXX1ZJREVPX0RJUF9HTVBfREFUQV9BCTB4NjAyRTAKPiAgI2RlZmlu
-ZSBfSFNXX1ZJREVPX0RJUF9WU0NfREFUQV9BCTB4NjAzMjAKPiArI2RlZmluZSBfR0xLX1ZJREVP
-X0RJUF9EUk1fREFUQV9BCTB4NjA0NDAKPiAgI2RlZmluZSBfSFNXX1ZJREVPX0RJUF9BVklfRUND
-X0EJMHg2MDI0MAo+ICAjZGVmaW5lIF9IU1dfVklERU9fRElQX1ZTX0VDQ19BCQkweDYwMjgwCj4g
-ICNkZWZpbmUgX0hTV19WSURFT19ESVBfU1BEX0VDQ19BCTB4NjAyQzAKPiBAQCAtODE1OSw2ICs4
-MTYxLDcgQEAgZW51bSB7Cj4gICNkZWZpbmUgX0hTV19WSURFT19ESVBfU1BEX0RBVEFfQgkweDYx
-MkEwCj4gICNkZWZpbmUgX0hTV19WSURFT19ESVBfR01QX0RBVEFfQgkweDYxMkUwCj4gICNkZWZp
-bmUgX0hTV19WSURFT19ESVBfVlNDX0RBVEFfQgkweDYxMzIwCj4gKyNkZWZpbmUgX0dMS19WSURF
-T19ESVBfRFJNX0RBVEFfQgkweDYxNDQwCj4gICNkZWZpbmUgX0hTV19WSURFT19ESVBfQlZJX0VD
-Q19CCTB4NjEyNDAKPiAgI2RlZmluZSBfSFNXX1ZJREVPX0RJUF9WU19FQ0NfQgkJMHg2MTI4MAo+
-ICAjZGVmaW5lIF9IU1dfVklERU9fRElQX1NQRF9FQ0NfQgkweDYxMkMwCj4gQEAgLTgxODQsNiAr
-ODE4Nyw3IEBAIGVudW0gewo+ICAjZGVmaW5lIEhTV19UVklERU9fRElQX1NQRF9EQVRBKHRyYW5z
-LCBpKQlfTU1JT19UUkFOUzIodHJhbnMsIF9IU1dfVklERU9fRElQX1NQRF9EQVRBX0EgKyAoaSkg
-KiA0KQo+ICAjZGVmaW5lIEhTV19UVklERU9fRElQX0dNUF9EQVRBKHRyYW5zLCBpKQlfTU1JT19U
-UkFOUzIodHJhbnMsIF9IU1dfVklERU9fRElQX0dNUF9EQVRBX0EgKyAoaSkgKiA0KQo+ICAjZGVm
-aW5lIEhTV19UVklERU9fRElQX1ZTQ19EQVRBKHRyYW5zLCBpKQlfTU1JT19UUkFOUzIodHJhbnMs
-IF9IU1dfVklERU9fRElQX1ZTQ19EQVRBX0EgKyAoaSkgKiA0KQo+ICsjZGVmaW5lIEdMS19UVklE
-RU9fRElQX0RSTV9EQVRBKHRyYW5zLCBpKQlfTU1JT19UUkFOUzIodHJhbnMsIF9HTEtfVklERU9f
-RElQX0RSTV9EQVRBX0EgKyAoaSkgKiA0KQo+ICAjZGVmaW5lIElDTF9WSURFT19ESVBfUFBTX0RB
-VEEodHJhbnMsIGkpCV9NTUlPX1RSQU5TMih0cmFucywgX0lDTF9WSURFT19ESVBfUFBTX0RBVEFf
-QSArIChpKSAqIDQpCj4gICNkZWZpbmUgSUNMX1ZJREVPX0RJUF9QUFNfRUNDKHRyYW5zLCBpKQkJ
-X01NSU9fVFJBTlMyKHRyYW5zLCBfSUNMX1ZJREVPX0RJUF9QUFNfRUNDX0EgKyAoaSkgKiA0KQo+
-ICAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfaGRtaS5jIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfaGRtaS5jCj4gaW5kZXggOTgwOTAwYi4uOTJiYzM0NyAx
-MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9oZG1pLmMKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9oZG1pLmMKPiBAQCAtMTUyLDYgKzE1Miw4IEBAIHN0
-YXRpYyB1MzIgaHN3X2luZm9mcmFtZV9lbmFibGUodW5zaWduZWQgaW50IHR5cGUpCj4gIAkJcmV0
-dXJuIFZJREVPX0RJUF9FTkFCTEVfU1BEX0hTVzsKPiAgCWNhc2UgSERNSV9JTkZPRlJBTUVfVFlQ
-RV9WRU5ET1I6Cj4gIAkJcmV0dXJuIFZJREVPX0RJUF9FTkFCTEVfVlNfSFNXOwo+ICsJY2FzZSBI
-RE1JX0lORk9GUkFNRV9UWVBFX0RSTToKPiArCQlyZXR1cm4gVklERU9fRElQX0VOQUJMRV9EUk1f
-R0xLOwo+ICAJZGVmYXVsdDoKPiAgCQlNSVNTSU5HX0NBU0UodHlwZSk7Cj4gIAkJcmV0dXJuIDA7
-Cj4gQEAgLTE3Nyw2ICsxNzksOCBAQCBzdGF0aWMgdTMyIGhzd19pbmZvZnJhbWVfZW5hYmxlKHVu
-c2lnbmVkIGludCB0eXBlKQo+ICAJCXJldHVybiBIU1dfVFZJREVPX0RJUF9TUERfREFUQShjcHVf
-dHJhbnNjb2RlciwgaSk7Cj4gIAljYXNlIEhETUlfSU5GT0ZSQU1FX1RZUEVfVkVORE9SOgo+ICAJ
-CXJldHVybiBIU1dfVFZJREVPX0RJUF9WU19EQVRBKGNwdV90cmFuc2NvZGVyLCBpKTsKPiArCWNh
-c2UgSERNSV9JTkZPRlJBTUVfVFlQRV9EUk06Cj4gKwkJcmV0dXJuIEdMS19UVklERU9fRElQX0RS
-TV9EQVRBKGNwdV90cmFuc2NvZGVyLCBpKTsKPiAgCWRlZmF1bHQ6Cj4gIAkJTUlTU0lOR19DQVNF
-KHR5cGUpOwo+ICAJCXJldHVybiBJTlZBTElEX01NSU9fUkVHOwo+IEBAIC01NjAsMTAgKzU2NCwx
-NiBAQCBzdGF0aWMgdTMyIGhzd19pbmZvZnJhbWVzX2VuYWJsZWQoc3RydWN0IGludGVsX2VuY29k
-ZXIgKmVuY29kZXIsCj4gIHsKPiAgCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9
-IHRvX2k5MTUoZW5jb2Rlci0+YmFzZS5kZXYpOwo+ICAJdTMyIHZhbCA9IEk5MTVfUkVBRChIU1df
-VFZJREVPX0RJUF9DVEwocGlwZV9jb25maWctPmNwdV90cmFuc2NvZGVyKSk7Cj4gKwl1MzIgbWFz
-azsKPiAgCj4gLQlyZXR1cm4gdmFsICYgKFZJREVPX0RJUF9FTkFCTEVfVlNDX0hTVyB8IFZJREVP
-X0RJUF9FTkFCTEVfQVZJX0hTVyB8Cj4gLQkJICAgICAgVklERU9fRElQX0VOQUJMRV9HQ1BfSFNX
-IHwgVklERU9fRElQX0VOQUJMRV9WU19IU1cgfAo+IC0JCSAgICAgIFZJREVPX0RJUF9FTkFCTEVf
-R01QX0hTVyB8IFZJREVPX0RJUF9FTkFCTEVfU1BEX0hTVyk7Cj4gKwltYXNrID0gKFZJREVPX0RJ
-UF9FTkFCTEVfVlNDX0hTVyB8IFZJREVPX0RJUF9FTkFCTEVfQVZJX0hTVyB8Cj4gKwkJVklERU9f
-RElQX0VOQUJMRV9HQ1BfSFNXIHwgVklERU9fRElQX0VOQUJMRV9WU19IU1cgfAo+ICsJCVZJREVP
-X0RJUF9FTkFCTEVfR01QX0hTVyB8IFZJREVPX0RJUF9FTkFCTEVfU1BEX0hTVyk7Cj4gKwo+ICsJ
-aWYgKElOVEVMX0dFTihkZXZfcHJpdikgPj0gMTAgfHwgSVNfR0VNSU5JTEFLRShkZXZfcHJpdikp
-Cj4gKwkJbWFzayB8PSBWSURFT19ESVBfRU5BQkxFX0RSTV9HTEs7Cj4gKwo+ICsJcmV0dXJuIHZh
-bCAmIG1hc2s7Cj4gIH0KPiAgCj4gIHN0YXRpYyBjb25zdCB1OCBpbmZvZnJhbWVfdHlwZV90b19p
-ZHhbXSA9IHsKPiBAQCAtMTE4Miw3ICsxMTkyLDggQEAgc3RhdGljIHZvaWQgaHN3X3NldF9pbmZv
-ZnJhbWVzKHN0cnVjdCBpbnRlbF9lbmNvZGVyICplbmNvZGVyLAo+ICAKPiAgCXZhbCAmPSB+KFZJ
-REVPX0RJUF9FTkFCTEVfVlNDX0hTVyB8IFZJREVPX0RJUF9FTkFCTEVfQVZJX0hTVyB8Cj4gIAkJ
-IFZJREVPX0RJUF9FTkFCTEVfR0NQX0hTVyB8IFZJREVPX0RJUF9FTkFCTEVfVlNfSFNXIHwKPiAt
-CQkgVklERU9fRElQX0VOQUJMRV9HTVBfSFNXIHwgVklERU9fRElQX0VOQUJMRV9TUERfSFNXKTsK
-PiArCQkgVklERU9fRElQX0VOQUJMRV9HTVBfSFNXIHwgVklERU9fRElQX0VOQUJMRV9TUERfSFNX
-IHwKPiArCQkgVklERU9fRElQX0VOQUJMRV9EUk1fR0xLKTsKPiAgCj4gIAlpZiAoIWVuYWJsZSkg
-ewo+ICAJCUk5MTVfV1JJVEUocmVnLCB2YWwpOwo+IEBAIC0xMjExLDcgKzEyMjIsOCBAQCBzdGF0
-aWMgdm9pZCBoc3dfc2V0X2luZm9mcmFtZXMoc3RydWN0IGludGVsX2VuY29kZXIgKmVuY29kZXIs
-Cj4gIAkgKiBUb0RvOiBHZW45IGFsc28gY2FuIHN1cHBvcnQgSERSIHdpdGggTFNQQ09OLgo+ICAJ
-ICogU3VwcG9ydCBmb3IgdGhlIHNhbWUgdG8gYmUgZW5hYmxlZCBsYXRlci4KPiAgCSAqLwo+IC0J
-aWYgKElOVEVMX0dFTihkZXZfcHJpdikgPj0gMTApCj4gKwlpZiAoKElOVEVMX0dFTihkZXZfcHJp
-dikgPj0gMTAgfHwgSVNfR0VNSU5JTEFLRShkZXZfcHJpdikpICYmCj4gKwkgICAgY29ubl9zdGF0
-ZS0+aGRyX21ldGFkYXRhX2NoYW5nZWQpCgpUaGUgbWV0YWRhdGFfY2hhbmdlZCBjaGVjayBzaG91
-bGRuJ3QgYmUgaGVyZS4gVGhpcyBpcyBhIGZ1bGwgbW9kZXNldC4gV2UKY2FuJ3QgYXNzdW1lIGFu
-eSBwcmV2aW91cyBoYXJkd2FyZSBzdGF0ZSBpcyBjb3JyZWN0LgoKPiAgCQlpbnRlbF93cml0ZV9p
-bmZvZnJhbWUoZW5jb2RlciwgY3J0Y19zdGF0ZSwKPiAgCQkJCSAgICAgIEhETUlfSU5GT0ZSQU1F
-X1RZUEVfRFJNLAo+ICAJCQkJICAgICAgJmNydGNfc3RhdGUtPmluZm9mcmFtZXMuZHJtKTsKPiAt
-LSAKPiAxLjkuMQoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRlbApfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0727126710==
+Content-Type: multipart/alternative; boundary="15577762940.721768.9928"
+Content-Transfer-Encoding: 7bit
+
+
+--15577762940.721768.9928
+Date: Mon, 13 May 2019 19:38:14 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
+
+--- Comment #4 from Tomas Bzatek <bugs@bzatek.net> ---
+Created attachment 144252
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144252&action=3Dedit
+dmesg drm.debug=3D0x1e (kernel 4.20.0-zen-g742adf1bca12-dirty)
+
+For the record, this is a custom 4.20.0 kernel that is proven realiable.
+
+Basically agd5f drm-next-4.21 branch at 674e78acae0dfb4beb5613
+"drm/amd/display: Add fast path for cursor plane updates"
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15577762940.721768.9928
+Date: Mon, 13 May 2019 19:38:14 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
+reen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
+reen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+bugs&#64;bzatek.net" title=3D"Tomas Bzatek &lt;bugs&#64;bzatek.net&gt;"> <s=
+pan class=3D"fn">Tomas Bzatek</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144252=
+" name=3D"attach_144252" title=3D"dmesg drm.debug=3D0x1e (kernel 4.20.0-zen=
+-g742adf1bca12-dirty)">attachment 144252</a> <a href=3D"attachment.cgi?id=
+=3D144252&amp;action=3Dedit" title=3D"dmesg drm.debug=3D0x1e (kernel 4.20.0=
+-zen-g742adf1bca12-dirty)">[details]</a></span>
+dmesg drm.debug=3D0x1e (kernel 4.20.0-zen-g742adf1bca12-dirty)
+
+For the record, this is a custom 4.20.0 kernel that is proven realiable.
+
+Basically agd5f drm-next-4.21 branch at 674e78acae0dfb4beb5613
+&quot;drm/amd/display: Add fast path for cursor plane updates&quot;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15577762940.721768.9928--
+
+--===============0727126710==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0727126710==--
