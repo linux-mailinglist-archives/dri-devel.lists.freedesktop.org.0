@@ -2,86 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3371B3BD
-	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 12:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D339A1B47D
+	for <lists+dri-devel@lfdr.de>; Mon, 13 May 2019 13:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E147489C03;
-	Mon, 13 May 2019 10:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F081789BD4;
+	Mon, 13 May 2019 11:04:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr700080.outbound.protection.outlook.com [40.107.70.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94FC789B78;
- Mon, 13 May 2019 10:15:14 +0000 (UTC)
-Received: from BN4PR12CA0021.namprd12.prod.outlook.com (2603:10b6:403:2::31)
- by CY4PR12MB1270.namprd12.prod.outlook.com (2603:10b6:903:43::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1878.26; Mon, 13 May
- 2019 10:15:12 +0000
-Received: from BY2NAM03FT059.eop-NAM03.prod.protection.outlook.com
- (2a01:111:f400:7e4a::209) by BN4PR12CA0021.outlook.office365.com
- (2603:10b6:403:2::31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1878.21 via Frontend
- Transport; Mon, 13 May 2019 10:15:11 +0000
-Received-SPF: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-Received: from SATLEXCHOV01.amd.com (165.204.84.17) by
- BY2NAM03FT059.mail.protection.outlook.com (10.152.85.111) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.1856.11 via Frontend Transport; Mon, 13 May 2019 10:15:10 +0000
-Received: from [10.237.74.158] (10.34.1.3) by SATLEXCHOV01.amd.com
- (10.181.40.71) with Microsoft SMTP Server (TLS) id 14.3.389.1; Mon, 13 May
- 2019 05:15:08 -0500
-Subject: Re: [PATCH libdrm 1/7] addr cs chunk for syncobj timeline
-To: Chunming Zhou <david1.zhou@amd.com>, <dri-devel@lists.freedesktop.org>,
- <amd-gfx@lists.freedesktop.org>
-References: <20190513095305.14110-1-david1.zhou@amd.com>
-From: zhoucm1 <zhoucm1@amd.com>
-Message-ID: <9179e6bc-77f3-f284-d1ad-13d8956e1919@amd.com>
-Date: Mon, 13 May 2019 18:15:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3CA5C89BD4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 11:04:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 393C5721CD; Mon, 13 May 2019 11:04:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110671] Regression: DP outputs out of sync on dual-DP tiled 5k
+ screen
+Date: Mon, 13 May 2019 11:04:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bugs@bzatek.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110671-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190513095305.14110-1-david1.zhou@amd.com>
-Content-Language: en-US
-X-Originating-IP: [10.34.1.3]
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:165.204.84.17; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(39860400002)(376002)(346002)(396003)(136003)(2980300002)(428003)(199004)(189003)(336012)(5660300002)(68736007)(36756003)(2616005)(126002)(426003)(11346002)(446003)(486006)(65826007)(2906002)(31696002)(356004)(229853002)(64126003)(6666004)(2201001)(476003)(16526019)(186003)(50466002)(26005)(77096007)(478600001)(70586007)(4326008)(316002)(53936002)(305945005)(7736002)(3846002)(6116002)(86152003)(6246003)(6306002)(72206003)(966005)(76176011)(8676002)(2486003)(23676004)(16576012)(67846002)(110136005)(58126008)(54906003)(2870700001)(81156014)(70206006)(8936002)(81166006)(65956001)(31686004)(65806001)(47776003)(2101003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1270; H:SATLEXCHOV01.amd.com; FPR:;
- SPF:None; LANG:en; PTR:InfoDomainNonexistent; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c2ec769b-2ca5-4352-d8b6-08d6d78be189
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
- SRVR:CY4PR12MB1270; 
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1270:
-X-MS-Exchange-PUrlCount: 1
-X-Microsoft-Antispam-PRVS: <CY4PR12MB12702495C7187CFB0C968D78B40F0@CY4PR12MB1270.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:983;
-X-Forefront-PRVS: 0036736630
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: AmjyJz6CD2N5v6VBpEe6C4F9A97WIhsNPqhjokgumEqsoiz2LIkgcK+VsOepOERMZ+/U5R5nvyjeAFkd55FfRMfLe92LvSFpPWV0NyilROLiKhCIaAzvd4pLtrbHA/v3xkKIdOgQx1XrtfMqcop0ONSbSWS52wu0Yje8JkKuEi/NM9trPnk7p5Shh9BF1gQBPe8scxbtogM+eLTCVKxLRQusFjYWXvRrDAA69QqiSjVAiB73MGNE/bLNt2quJYGCudt+OxRsQqilJ+qdEmXejp1FhQkHTPsdzBWkdFaPCSUm4xbZoZVHFHz+fT10Phyhp8g3WWMCstKXczlx9SHqBekqnu4xzTq/H5/pgh4nDiKTuPDI+NZwKiAT9M5dMHOdQUoZqGOCBAX33OqEdyW1OPVyq6CZvcJ6WbER+Nh+Iic=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2019 10:15:10.2035 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2ec769b-2ca5-4352-d8b6-08d6d78be189
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXCHOV01.amd.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1270
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NIL5KwaeoGvVWW2ExddPqvpJxGZMoJbxswvqXPpN5HM=;
- b=odyGKg1z/6g6GDdDOKrlOaHER/XANEikUHpPbN0Iv1CQ9EGN2Ui8FR9gAKXkoCpTZU8npme5bEMG56QVOwl+15rzoO/91whQry1Anw0BxO3aC2VJWgYeBBJ+J+z52WBs/w0YXWppOS3Juaj94lWZNMJ0LhpCDJB1iOUH9EG0uHg=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is
- 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=permerror action=none
- header.from=amd.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,36 +52,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian.Koenig@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1235012260=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-cGluZy4uLiBmb3IgcGF0Y2ggc2V0LgoKCk9uIDIwMTnlubQwNeaciDEz5pelIDE3OjUyLCBDaHVu
-bWluZyBaaG91IHdyb3RlOgo+IFtDQVVUSU9OOiBFeHRlcm5hbCBFbWFpbF0KPgo+IFNpZ25lZC1v
-ZmYtYnk6IENodW5taW5nIFpob3UgPGRhdmlkMS56aG91QGFtZC5jb20+Cj4gLS0tCj4gICBpbmNs
-dWRlL2RybS9hbWRncHVfZHJtLmggfCA5ICsrKysrKysrKwo+ICAgMSBmaWxlIGNoYW5nZWQsIDkg
-aW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2FtZGdwdV9kcm0uaCBi
-L2luY2x1ZGUvZHJtL2FtZGdwdV9kcm0uaAo+IGluZGV4IGQwNzAxZmZjLi4zZDAzMThlNiAxMDA2
-NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9hbWRncHVfZHJtLmgKPiArKysgYi9pbmNsdWRlL2RybS9h
-bWRncHVfZHJtLmgKPiBAQCAtNTI4LDYgKzUyOCw4IEBAIHN0cnVjdCBkcm1fYW1kZ3B1X2dlbV92
-YSB7Cj4gICAjZGVmaW5lIEFNREdQVV9DSFVOS19JRF9TWU5DT0JKX09VVCAgICAgMHgwNQo+ICAg
-I2RlZmluZSBBTURHUFVfQ0hVTktfSURfQk9fSEFORExFUyAgICAgIDB4MDYKPiAgICNkZWZpbmUg
-QU1ER1BVX0NIVU5LX0lEX1NDSEVEVUxFRF9ERVBFTkRFTkNJRVMgMHgwNwo+ICsjZGVmaW5lIEFN
-REdQVV9DSFVOS19JRF9TWU5DT0JKX1RJTUVMSU5FX1dBSVQgICAgMHgwOAo+ICsjZGVmaW5lIEFN
-REdQVV9DSFVOS19JRF9TWU5DT0JKX1RJTUVMSU5FX1NJR05BTCAgMHgwOQo+Cj4gICBzdHJ1Y3Qg
-ZHJtX2FtZGdwdV9jc19jaHVuayB7Cj4gICAgICAgICAgX191MzIgICAgICAgICAgIGNodW5rX2lk
-Owo+IEBAIC02MDgsNiArNjEwLDEzIEBAIHN0cnVjdCBkcm1fYW1kZ3B1X2NzX2NodW5rX3NlbSB7
-Cj4gICAgICAgICAgX191MzIgaGFuZGxlOwo+ICAgfTsKPgo+ICtzdHJ1Y3QgZHJtX2FtZGdwdV9j
-c19jaHVua19zeW5jb2JqIHsKPiArICAgICAgIF9fdTMyIGhhbmRsZTsKPiArICAgICAgIF9fdTMy
-IGZsYWdzOwo+ICsgICAgICAgX191NjQgcG9pbnQ7Cj4gK307Cj4gKwo+ICsKPiAgICNkZWZpbmUg
-QU1ER1BVX0ZFTkNFX1RPX0hBTkRMRV9HRVRfU1lOQ09CSiAgICAgMAo+ICAgI2RlZmluZSBBTURH
-UFVfRkVOQ0VfVE9fSEFORExFX0dFVF9TWU5DT0JKX0ZEICAxCj4gICAjZGVmaW5lIEFNREdQVV9G
-RU5DRV9UT19IQU5ETEVfR0VUX1NZTkNfRklMRV9GRCAgICAgICAgMgo+IC0tCj4gMi4xNy4xCj4K
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGFtZC1n
-ZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1235012260==
+Content-Type: multipart/alternative; boundary="15577454591.801E2de9.28223"
+Content-Transfer-Encoding: 7bit
+
+
+--15577454591.801E2de9.28223
+Date: Mon, 13 May 2019 11:04:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
+
+            Bug ID: 110671
+           Summary: Regression: DP outputs out of sync on dual-DP tiled 5k
+                    screen
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: bugs@bzatek.net
+
+With kernel 5.1.1 I get corrupted image on my Dell UP2715K screen (again). =
+The
+symptomps are similar to the ones in bug 98461 (see also attachment 127570)=
+. In
+my theory this is caused by the two DisplayPort outputs not being in sync -=
+ the
+screen needs both tiles to be in sync (i.e. scanlines to match) to make a
+composite final image.
+
+The Dell UP2715K monitor has two DP 1.2 inputs, two tiles expecting
+2560x2880@60Hz modes (as exposed in EDID/DisplayInfo data). Connected to Ra=
+deon
+Pro WX2100 (Polaris 12).
+
+This used to be actually working reliably in kernel 4.20.0, yesterday I fir=
+ed
+up kernel 5.1.1 and only got garbage on my screen. Also tested drm-tip kern=
+el
+that includes drm-next-5.2 branch from the agd5f repo
+(https://patchwork.freedesktop.org/patch/304430/) - same issue.
+
+I haven't got time to bisect the change yet, I was hoping you could point m=
+e to
+a possible commit that broke this. By any chance, do you AMD guys have a 5k
+tiled screen inhouse for testing?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15577454591.801E2de9.28223
+Date: Mon, 13 May 2019 11:04:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
+reen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">110671</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Regression: DP outputs out of sync on dual-DP tiled 5k screen
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>bugs&#64;bzatek.net
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>With kernel 5.1.1 I get corrupted image on my Dell UP2715K scr=
+een (again). The
+symptomps are similar to the ones in <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon and 5k resolution 5120x2880 =3D corrupted image"
+   href=3D"show_bug.cgi?id=3D98461">bug 98461</a> (see also <span class=3D"=
+"><a href=3D"attachment.cgi?id=3D127570" name=3D"attach_127570" title=3D"Ph=
+oto of display">attachment 127570</a> <a href=3D"attachment.cgi?id=3D127570=
+&amp;action=3Dedit" title=3D"Photo of display">[details]</a></span>). In
+my theory this is caused by the two DisplayPort outputs not being in sync -=
+ the
+screen needs both tiles to be in sync (i.e. scanlines to match) to make a
+composite final image.
+
+The Dell UP2715K monitor has two DP 1.2 inputs, two tiles expecting
+2560x2880&#64;60Hz modes (as exposed in EDID/DisplayInfo data). Connected t=
+o Radeon
+Pro WX2100 (Polaris 12).
+
+This used to be actually working reliably in kernel 4.20.0, yesterday I fir=
+ed
+up kernel 5.1.1 and only got garbage on my screen. Also tested drm-tip kern=
+el
+that includes drm-next-5.2 branch from the agd5f repo
+(<a href=3D"https://patchwork.freedesktop.org/patch/304430/">https://patchw=
+ork.freedesktop.org/patch/304430/</a>) - same issue.
+
+I haven't got time to bisect the change yet, I was hoping you could point m=
+e to
+a possible commit that broke this. By any chance, do you AMD guys have a 5k
+tiled screen inhouse for testing?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15577454591.801E2de9.28223--
+
+--===============1235012260==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1235012260==--
