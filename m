@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6821C412
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 09:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E531BFFC
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 01:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E73389254;
-	Tue, 14 May 2019 07:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C2C89238;
+	Mon, 13 May 2019 23:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from onstation.org (onstation.org [52.200.56.107])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C385C89235;
- Mon, 13 May 2019 23:41:20 +0000 (UTC)
-Received: from localhost.localdomain (c-98-239-145-235.hsd1.wv.comcast.net
- [98.239.145.235])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: masneyb)
- by onstation.org (Postfix) with ESMTPSA id CB82E45029;
- Mon, 13 May 2019 23:41:19 +0000 (UTC)
-From: Brian Masney <masneyb@onstation.org>
-To: robdclark@gmail.com,
-	sean@poorly.run
-Subject: [PATCH 2/2] drm/msm: correct attempted NULL pointer dereference in
- debugfs
-Date: Mon, 13 May 2019 19:41:05 -0400
-Message-Id: <20190513234105.7531-2-masneyb@onstation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190513234105.7531-1-masneyb@onstation.org>
-References: <20190513234105.7531-1-masneyb@onstation.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9092889235
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 23:59:10 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 85D64721CD; Mon, 13 May 2019 23:59:10 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
+ power profile]
+Date: Mon, 13 May 2019 23:59:10 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: magist3r@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-102646-502-aPjdm0GJPt@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
+References: <bug-102646-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 14 May 2019 07:40:44 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=onstation.org; s=default; t=1557790880;
- bh=AgbXz/pOeFm7SB3WM30G8MU/5/skIhEBOhYSZdjZNCs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bXb+LlLhIA1NFT3uLoziGtEwWeRt0BRj3A+aZb9cRHInlFyoGZNvSOLw+TzdTOXIE
- FKgAvAeC1BS6j9LWu5jYZ/TYFA7Vnlwa7rIZXPY4WslOGA9zwDzUor+SJbpTUK1ToS
- rqM8Fc5XQa13Q2o9hXLA06WvOlvh6Ce9kGLquWZo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,32 +53,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jonathan@marek.ca, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0988718034=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-bXNtX2dlbV9kZXNjcmliZSgpIHdvdWxkIGF0dGVtcHQgdG8gZGVyZWZlcmVuY2UgYSBOVUxMIHBv
-aW50ZXIgdmlhIHRoZQphZGRyZXNzIHNwYWNlIHBvaW50ZXIgd2hlbiBubyBJT01NVSBpcyBwcmVz
-ZW50LiBDb3JyZWN0IHRoaXMgYnkgYWRkaW5nCnRoZSBhcHByb3ByaWF0ZSBjaGVjay4KClNpZ25l
-ZC1vZmYtYnk6IEJyaWFuIE1hc25leSA8bWFzbmV5YkBvbnN0YXRpb24ub3JnPgpGaXhlczogNTc1
-ZjA0ODU1MDhiICgiZHJtL21zbTogQ2xlYW4gdXAgYW5kIGVuaGFuY2UgdGhlIG91dHB1dCBvZiB0
-aGUgJ2dlbScgZGVidWdmcyBub2RlIikKLS0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW0u
-YyB8IDMgKystCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vbXNtL21zbV9nZW0uYwppbmRleCAzMWQ1YTc0NGQ4NGYuLjM1ZjU1ZGQyNTk5NCAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL21zbS9tc21fZ2VtLmMKQEAgLTgwMyw3ICs4MDMsOCBAQCB2b2lkIG1zbV9nZW1fZGVzY3Jp
-YmUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0cnVjdCBzZXFfZmlsZSAqbSkKIAkJc2Vx
-X3B1dHMobSwgIiAgICAgIHZtYXM6Iik7CiAKIAkJbGlzdF9mb3JfZWFjaF9lbnRyeSh2bWEsICZt
-c21fb2JqLT52bWFzLCBsaXN0KQotCQkJc2VxX3ByaW50ZihtLCAiIFslczogJTA4bGx4LCVzLGlu
-dXNlPSVkXSIsIHZtYS0+YXNwYWNlLT5uYW1lLAorCQkJc2VxX3ByaW50ZihtLCAiIFslczogJTA4
-bGx4LCVzLGludXNlPSVkXSIsCisJCQkJdm1hLT5hc3BhY2UgIT0gTlVMTCA/IHZtYS0+YXNwYWNl
-LT5uYW1lIDogTlVMTCwKIAkJCQl2bWEtPmlvdmEsIHZtYS0+bWFwcGVkID8gIm1hcHBlZCIgOiAi
-dW5tYXBwZWQiLAogCQkJCXZtYS0+aW51c2UpOwogCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0988718034==
+Content-Type: multipart/alternative; boundary="15577919500.99F1.10779"
+Content-Transfer-Encoding: 7bit
+
+
+--15577919500.99F1.10779
+Date: Mon, 13 May 2019 23:59:10 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
+
+magist3r <magist3r@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144237|0                           |1
+        is obsolete|                            |
+
+--- Comment #91 from magist3r <magist3r@gmail.com> ---
+Created attachment 144253
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144253&action=3Dedit
+fixed patch
+
+I fixed the patch and can apply it on top of amd-drm-next and vanilla kernel
+5.0.11 (my current kernel). Unfortunately it doesn't help. I added 'verbose
+debug' patch too, here is my output.
+
+1) Before applying high memory profile workaround:
+ kernel: amdgpu: [powerplay] min_core_set_clock: 30000
+ kernel: amdgpu: [powerplay] min_mem_set_clock: 30000
+ kernel: amdgpu: [powerplay] vrefresh: 75
+ kernel: amdgpu: [powerplay] min_vblank_time: 464
+ kernel: amdgpu: [powerplay] num_display: 2
+ kernel: amdgpu: [powerplay] multi_monitor_in_sync: 0
+ kernel: amdgpu: [powerplay] performance level 0 memory clock =3D 30000
+ kernel: amdgpu: [powerplay] performance level 0 engine clock =3D 30000
+ kernel: amdgpu: [powerplay] performance level 1 memory clock =3D 200000
+ kernel: amdgpu: [powerplay] performance level 1 engine clock =3D 136600
+ kernel: amdgpu: [powerplay] mclk_latency_table entry0 frequency =3D 30000
+ kernel: amdgpu: [powerplay] mclk_latency_table entry0 latency =3D 330
+ kernel: amdgpu: [powerplay] mclk_latency_table entry1 frequency =3D 100000
+ kernel: amdgpu: [powerplay] mclk_latency_table entry1 latency =3D 330
+ kernel: amdgpu: [powerplay] mclk_latency_table entry2 frequency =3D 200000
+ kernel: amdgpu: [powerplay] mclk_latency_table entry2 latency =3D 330
+
+2) After:
+kernel: amdgpu: [powerplay] min_core_set_clock: 30000
+kernel: amdgpu: [powerplay] min_mem_set_clock: 30000
+kernel: amdgpu: [powerplay] vrefresh: 75
+kernel: amdgpu: [powerplay] min_vblank_time: 464
+kernel: amdgpu: [powerplay] num_display: 2
+kernel: amdgpu: [powerplay] multi_monitor_in_sync: 0
+kernel: amdgpu: [powerplay] performance level 0 memory clock =3D 200000
+kernel: amdgpu: [powerplay] performance level 0 engine clock =3D 30000
+kernel: amdgpu: [powerplay] performance level 1 memory clock =3D 200000
+kernel: amdgpu: [powerplay] performance level 1 engine clock =3D 136600
+kernel: amdgpu: [powerplay] mclk_latency_table entry0 frequency =3D 30000
+kernel: amdgpu: [powerplay] mclk_latency_table entry0 latency =3D 330
+kernel: amdgpu: [powerplay] mclk_latency_table entry1 frequency =3D 100000
+kernel: amdgpu: [powerplay] mclk_latency_table entry1 latency =3D 330
+kernel: amdgpu: [powerplay] mclk_latency_table entry2 frequency =3D 200000
+kernel: amdgpu: [powerplay] mclk_latency_table entry2 latency =3D 330
+
+My GPU is RX580 8Gb with 2 monitors connected through HDMI.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15577919500.99F1.10779
+Date: Mon, 13 May 2019 23:59:10 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:magist3r&=
+#64;gmail.com" title=3D"magist3r &lt;magist3r&#64;gmail.com&gt;"> <span cla=
+ss=3D"fn">magist3r</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144237 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c91">Comme=
+nt # 91</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+magist3r&#64;gmail.com" title=3D"magist3r &lt;magist3r&#64;gmail.com&gt;"> =
+<span class=3D"fn">magist3r</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144253=
+" name=3D"attach_144253" title=3D"fixed patch">attachment 144253</a> <a hre=
+f=3D"attachment.cgi?id=3D144253&amp;action=3Dedit" title=3D"fixed patch">[d=
+etails]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D102646&=
+amp;attachment=3D144253'>[review]</a>
+fixed patch
+
+I fixed the patch and can apply it on top of amd-drm-next and vanilla kernel
+5.0.11 (my current kernel). Unfortunately it doesn't help. I added 'verbose
+debug' patch too, here is my output.
+
+1) Before applying high memory profile workaround:
+ kernel: amdgpu: [powerplay] min_core_set_clock: 30000
+ kernel: amdgpu: [powerplay] min_mem_set_clock: 30000
+ kernel: amdgpu: [powerplay] vrefresh: 75
+ kernel: amdgpu: [powerplay] min_vblank_time: 464
+ kernel: amdgpu: [powerplay] num_display: 2
+ kernel: amdgpu: [powerplay] multi_monitor_in_sync: 0
+ kernel: amdgpu: [powerplay] performance level 0 memory clock =3D 30000
+ kernel: amdgpu: [powerplay] performance level 0 engine clock =3D 30000
+ kernel: amdgpu: [powerplay] performance level 1 memory clock =3D 200000
+ kernel: amdgpu: [powerplay] performance level 1 engine clock =3D 136600
+ kernel: amdgpu: [powerplay] mclk_latency_table entry0 frequency =3D 30000
+ kernel: amdgpu: [powerplay] mclk_latency_table entry0 latency =3D 330
+ kernel: amdgpu: [powerplay] mclk_latency_table entry1 frequency =3D 100000
+ kernel: amdgpu: [powerplay] mclk_latency_table entry1 latency =3D 330
+ kernel: amdgpu: [powerplay] mclk_latency_table entry2 frequency =3D 200000
+ kernel: amdgpu: [powerplay] mclk_latency_table entry2 latency =3D 330
+
+2) After:
+kernel: amdgpu: [powerplay] min_core_set_clock: 30000
+kernel: amdgpu: [powerplay] min_mem_set_clock: 30000
+kernel: amdgpu: [powerplay] vrefresh: 75
+kernel: amdgpu: [powerplay] min_vblank_time: 464
+kernel: amdgpu: [powerplay] num_display: 2
+kernel: amdgpu: [powerplay] multi_monitor_in_sync: 0
+kernel: amdgpu: [powerplay] performance level 0 memory clock =3D 200000
+kernel: amdgpu: [powerplay] performance level 0 engine clock =3D 30000
+kernel: amdgpu: [powerplay] performance level 1 memory clock =3D 200000
+kernel: amdgpu: [powerplay] performance level 1 engine clock =3D 136600
+kernel: amdgpu: [powerplay] mclk_latency_table entry0 frequency =3D 30000
+kernel: amdgpu: [powerplay] mclk_latency_table entry0 latency =3D 330
+kernel: amdgpu: [powerplay] mclk_latency_table entry1 frequency =3D 100000
+kernel: amdgpu: [powerplay] mclk_latency_table entry1 latency =3D 330
+kernel: amdgpu: [powerplay] mclk_latency_table entry2 frequency =3D 200000
+kernel: amdgpu: [powerplay] mclk_latency_table entry2 latency =3D 330
+
+My GPU is RX580 8Gb with 2 monitors connected through HDMI.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15577919500.99F1.10779--
+
+--===============0988718034==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0988718034==--
