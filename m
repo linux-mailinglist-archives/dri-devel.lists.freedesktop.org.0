@@ -2,45 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B121D11A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 23:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E431D123
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 23:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F64A89301;
-	Tue, 14 May 2019 21:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3759B892FB;
+	Tue, 14 May 2019 21:14:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B45C9892F2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 21:13:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B0C3D721CD; Tue, 14 May 2019 21:13:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110117] Waking from Suspend causes screen to appear with grey
- static (like a TV with no signal)
-Date: Tue, 14 May 2019 21:13:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stein12c@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110117-502-BidY4L4V1p@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110117-502@http.bugs.freedesktop.org/>
-References: <bug-110117-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from NAM04-BN3-obe.outbound.protection.outlook.com
+ (mail-eopbgr680057.outbound.protection.outlook.com [40.107.68.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85CF0892FB;
+ Tue, 14 May 2019 21:14:44 +0000 (UTC)
+Received: from MN2PR12MB3949.namprd12.prod.outlook.com (10.255.238.150) by
+ MN2PR12MB2989.namprd12.prod.outlook.com (20.178.241.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.25; Tue, 14 May 2019 21:14:42 +0000
+Received: from MN2PR12MB3949.namprd12.prod.outlook.com
+ ([fe80::b9af:29f1:fcab:6f6f]) by MN2PR12MB3949.namprd12.prod.outlook.com
+ ([fe80::b9af:29f1:fcab:6f6f%4]) with mapi id 15.20.1878.024; Tue, 14 May 2019
+ 21:14:42 +0000
+From: "Kuehling, Felix" <Felix.Kuehling@amd.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 1/2] mm/hmm: support automatic NUMA balancing
+Thread-Topic: [PATCH 1/2] mm/hmm: support automatic NUMA balancing
+Thread-Index: AQHVB2oGxdqwfWjT3keZMPNyIuFBZ6ZplnYAgAGOzIA=
+Date: Tue, 14 May 2019 21:14:42 +0000
+Message-ID: <180dbdaf-3ca4-07be-b549-08757e2ef105@amd.com>
+References: <20190510195258.9930-1-Felix.Kuehling@amd.com>
+ <20190510195258.9930-2-Felix.Kuehling@amd.com>
+ <20190513142720.3334a98cbabaae67b4ffbb5a@linux-foundation.org>
+In-Reply-To: <20190513142720.3334a98cbabaae67b4ffbb5a@linux-foundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [165.204.55.251]
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+x-clientproxiedby: YTXPR0101CA0042.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::19) To MN2PR12MB3949.namprd12.prod.outlook.com
+ (2603:10b6:208:16b::22)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7ead95ba-1d79-484c-ead8-08d6d8b12ecb
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
+ SRVR:MN2PR12MB2989; 
+x-ms-traffictypediagnostic: MN2PR12MB2989:
+x-microsoft-antispam-prvs: <MN2PR12MB2989011921D6100FB62179C392080@MN2PR12MB2989.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-forefront-prvs: 0037FD6480
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(136003)(366004)(376002)(346002)(39860400002)(396003)(199004)(189003)(99286004)(66946007)(71190400001)(71200400001)(52116002)(6512007)(76176011)(31696002)(86362001)(66476007)(66556008)(73956011)(256004)(14444005)(64756008)(66446008)(26005)(446003)(478600001)(6436002)(72206003)(36756003)(25786009)(54906003)(58126008)(6116002)(3846002)(66066001)(4326008)(65956001)(65806001)(6506007)(386003)(53546011)(4744005)(102836004)(316002)(2906002)(64126003)(6486002)(31686004)(486006)(476003)(305945005)(14454004)(53936002)(81156014)(81166006)(229853002)(6916009)(186003)(2616005)(7736002)(11346002)(5660300002)(8936002)(6246003)(65826007)(8676002)(68736007);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB2989;
+ H:MN2PR12MB3949.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: vZh2Laa8AtjRPNVAWHtiCkM6DX5wAO8Q40kRfgd1V70gP7KM67CE1PBNa7ox0dIChQvHRbz+wQtOF79Au89V/lZqej5uF3tk8MF6pL+kmjgReJZDmn55+VSdBBWX3uAj7SfeWewtFe1pJfHr3VfU9olGvjt8xC20E7wtpBKqxcrvsZk5G2GyDcCGS/IMWcqeEioEMtJsuVFf0MMOE4LhrJ4jPUaYD44Gq6l+qGeMusI1xRGm5nFwC7sHXoka+eTNQRmdE0yutx3xxEnvT9AJHCYuVW1I3cxzS1QKQgl7lc3wPWPCtS7g+QKZanLKIzSkO128Xfu8aXlrjmIVvgCqdeBXelDTWuhFWQ8NQR8IvGOGouHuZUs/W8IuiqohAHxcFWweWb2zOqOqhKmj02eLUCwhZzBPZyps2ZJ/ODlzHQU=
+Content-ID: <37BFBE354B9EE042991B3828B0383237@namprd12.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ead95ba-1d79-484c-ead8-08d6d8b12ecb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 May 2019 21:14:42.8392 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB2989
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xKwa8E3jh5+W/cbcaoZsR2eB0KxE0u7jRbZGOEH9u1Q=;
+ b=OgbI2k2ICcIgK33ij62KLuzOm94yL+XouJDOOB8Ox0OoUALQBrgJRcUD7oR95D6VsW4QK7qTQZbMCl3bLzqWLWZmQmFJCRmuhFr+wMPXdLnqTMsGrb6uKx6yeLlJfVvKqZrL916/rtdMdJgfZXGXyfeXcmmetRSRqJAqfxzZdZA=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Felix.Kuehling@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +90,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1292805059=="
+Cc: "Yang, Philip" <Philip.Yang@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "jglisse@redhat.com" <jglisse@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1292805059==
-Content-Type: multipart/alternative; boundary="15578683950.7a4D89.31892"
-Content-Transfer-Encoding: 7bit
-
-
---15578683950.7a4D89.31892
-Date: Tue, 14 May 2019 21:13:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110117
-
---- Comment #10 from Craig <stein12c@gmail.com> ---
-Created attachment 144270
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144270&action=3Dedit
-Most Recent dmesg with magic number
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15578683950.7a4D89.31892
-Date: Tue, 14 May 2019 21:13:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
-tic (like a TV with no signal)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
-tic (like a TV with no signal)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117">bug 11011=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-stein12c&#64;gmail.com" title=3D"Craig &lt;stein12c&#64;gmail.com&gt;"> <sp=
-an class=3D"fn">Craig</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144270=
-" name=3D"attach_144270" title=3D"Most Recent dmesg with magic number">atta=
-chment 144270</a> <a href=3D"attachment.cgi?id=3D144270&amp;action=3Dedit" =
-title=3D"Most Recent dmesg with magic number">[details]</a></span>
-Most Recent dmesg with magic number</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15578683950.7a4D89.31892--
-
---===============1292805059==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1292805059==--
+T24gMjAxOS0wNS0xMyA1OjI3IHAubS4sIEFuZHJldyBNb3J0b24gd3JvdGU6DQo+IFtDQVVUSU9O
+OiBFeHRlcm5hbCBFbWFpbF0NCj4NCj4gT24gRnJpLCAxMCBNYXkgMjAxOSAxOTo1MzoyMyArMDAw
+MCAiS3VlaGxpbmcsIEZlbGl4IiA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4gd3JvdGU6DQo+DQo+
+PiBGcm9tOiBQaGlsaXAgWWFuZyA8UGhpbGlwLllhbmdAYW1kLmNvbT4NCj4+DQo+PiBXaGlsZSB0
+aGUgcGFnZSBpcyBtaWdyYXRpbmcgYnkgTlVNQSBiYWxhbmNpbmcsIEhNTSBmYWlsZWQgdG8gZGV0
+ZWN0IHRoaXMNCj4+IGNvbmRpdGlvbiBhbmQgc3RpbGwgcmV0dXJuIHRoZSBvbGQgcGFnZS4gQXBw
+bGljYXRpb24gd2lsbCB1c2UgdGhlIG5ldw0KPj4gcGFnZSBtaWdyYXRlZCwgYnV0IGRyaXZlciBw
+YXNzIHRoZSBvbGQgcGFnZSBwaHlzaWNhbCBhZGRyZXNzIHRvIEdQVSwNCj4+IHRoaXMgY3Jhc2gg
+dGhlIGFwcGxpY2F0aW9uIGxhdGVyLg0KPj4NCj4+IFVzZSBwdGVfcHJvdG5vbmUocHRlKSB0byBy
+ZXR1cm4gdGhpcyBjb25kaXRpb24gYW5kIHRoZW4gaG1tX3ZtYV9kb19mYXVsdA0KPj4gd2lsbCBh
+bGxvY2F0ZSBuZXcgcGFnZS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXAgWWFuZyA8UGhp
+bGlwLllhbmdAYW1kLmNvbT4NCj4gVGhpcyBzaG91bGQgaGF2ZSBpbmNsdWRlZCB5b3VyIHNpZ25l
+ZC1vZmYtYnk6LCBzaW5jZSB5b3Ugd2VyZSBvbiB0aGUNCj4gcGF0Y2ggZGVsaXZlcnkgcGF0aC4g
+IEknbGwgbWFrZSB0aGF0IGNoYW5nZSB0byBteSBjb3B5IG9mIHRoZSBwYXRjaCwNCj4gT0s/DQo+
+DQpZZXMuIFRoYW5rcyENCg0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
