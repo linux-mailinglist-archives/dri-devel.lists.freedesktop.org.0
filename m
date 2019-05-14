@@ -1,65 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C286F1C454
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 10:03:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 079E61C45F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 10:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC1589308;
-	Tue, 14 May 2019 08:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E24AB892FA;
+	Tue, 14 May 2019 08:08:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAD1689015;
- Tue, 14 May 2019 08:02:56 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id 188so13399904ljf.9;
- Tue, 14 May 2019 01:02:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=0rG4JeZYl40TiUZGVj/VepyJkR7jNmst+/WZT0L1Xx8=;
- b=DBvhvl/d5tfmlYS/h1ZJqwBnct3Xv41ogotoD/QAHaTzy+W2PHDcMRV+o732xAKBgp
- 82byEB5Ehku/BKly1YtOVD7reTOl5/HbEJpJfkz0Qc96RwR+mvsHQ0L48gmk5vrkoQW4
- iDVyr6pt0a2tyDpJzXC+/tq4bbStSFu8hzXtjeB7EDyFFI36HjBAPWcIblaXvOhFAScr
- R0Fyrpg6bL5DHN0SwRCYfZCe/CMwchSnftcuZ2Sk1dpH8lqKB3Sqz0IpRIyGfcK8NBtT
- 31E9J1vDcNNmFcXMlyD53dgauvJU12qZ1s0k4FTvHxXcYLT+dAKbzZm79OIuCgRBkM+L
- n+qA==
-X-Gm-Message-State: APjAAAXKe5WdRiXP8AKDSmnNBb8tfqjmVCVePGd/Xwh4kkts+D2TmYn/
- vkuHVHfR6z9N/p/qbUT2pI0=
-X-Google-Smtp-Source: APXvYqz5653EhGNBL6JPJTQ9TBoxfb/4V+Vt81eztJwyzdmcLwPB6TARCFXnZZiV8AkuUrl/Wtitkw==
-X-Received: by 2002:a2e:4701:: with SMTP id u1mr11629109lja.38.1557820975069; 
- Tue, 14 May 2019 01:02:55 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q21sm3730228lfa.84.2019.05.14.01.02.54
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 14 May 2019 01:02:54 -0700 (PDT)
-Date: Tue, 14 May 2019 11:02:42 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH v7 09/11] drm: uevent for connector status change
-Message-ID: <20190514110242.6f6ba4b0@eldfell.localdomain>
-In-Reply-To: <CAKMK7uFaEPm+kqYdc=vkb_iRRXDf=P6D98VTMMKtCMQHCixhLg@mail.gmail.com>
-References: <20190507162745.25600-1-ramalingam.c@intel.com>
- <20190507162745.25600-10-ramalingam.c@intel.com>
- <31dad9a323382628911c5301a6eec179855aa815.camel@bootlin.com>
- <CAKMK7uEwHZ=As3B4z+WZ1fyd2yP5Krg3hVzfCcCAtv3jOxmTrA@mail.gmail.com>
- <8aa3980a6948b9b2b989c237f8453ca54e72ad95.camel@bootlin.com>
- <CAKMK7uFaEPm+kqYdc=vkb_iRRXDf=P6D98VTMMKtCMQHCixhLg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2767E892FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 08:07:59 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 16548174-1500050 for multiple; Tue, 14 May 2019 09:06:14 +0100
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=0rG4JeZYl40TiUZGVj/VepyJkR7jNmst+/WZT0L1Xx8=;
- b=o5oN1V5IxJHEIrS1T7UkcWpJsKjtuSazdsh7g42kYiz14vdHiAFgGkf+S2k1pyztpR
- Qdrv0NE2Ht46tRGyPoZcHdMVVk82b/of92enmAYh0VZIo/aIXNYXSikQvli+BxmWGb3p
- +6ON8XVhVZfBRw4Co3eiuQkeHsF8oDD6RUtin0WfE347jlrD//eMgDF4/2F7Ic356tyL
- 7m+lVT1MtbMvean0647ybJvw7aAb0/82JnNyAy9acZxGFtaUqxg64ZdZoqgOz92g2/kI
- hJIQgOjJB2XHQwtM3y8BAJoh8ErnXRoyrwBl7r6PASN9wP4SgpxCFmFU6efJjSoCLRZY
- 0JKw==
+To: Michael Yang <michael.yang@imgtec.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20190514075537.GA7483@michael-imgtec>
+References: <1554710495-6646-1-git-send-email-michael.yang@imgtec.com>
+ <1557376451-20164-1-git-send-email-michael.yang@imgtec.com>
+ <155740236592.28545.17880521046408313036@skylake-alporthouse-com>
+ <20190514075537.GA7483@michael-imgtec>
+Message-ID: <155782117405.2525.2694876407407711784@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [EXTERNAL] Re: [PATCH] sync_file: Return reasonable timestamp when
+ merging signaled fences
+Date: Tue, 14 May 2019 09:06:14 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,157 +42,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ser, Simon" <simon.ser@intel.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- David Airlie <airlied@linux.ie>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1926669453=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, gregkh@linuxfoundation.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1926669453==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/xePYMb_LVcJtrNRDT_vhGiI"; protocol="application/pgp-signature"
-
---Sig_/xePYMb_LVcJtrNRDT_vhGiI
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 13 May 2019 11:34:58 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-
-> On Mon, May 13, 2019 at 11:02 AM Paul Kocialkowski
-> <paul.kocialkowski@bootlin.com> wrote:
-> >
-> > Hi,
-> >
-> > On Fri, 2019-05-10 at 16:54 +0200, Daniel Vetter wrote: =20
-> > > On Fri, May 10, 2019 at 2:12 PM Paul Kocialkowski
-> > > <paul.kocialkowski@bootlin.com> wrote: =20
-> > > > Hi,
-> > > >
-> > > > On Tue, 2019-05-07 at 21:57 +0530, Ramalingam C wrote: =20
-> > > > > DRM API for generating uevent for a status changes of connector's
-> > > > > property.
-> > > > >
-> > > > > This uevent will have following details related to the status cha=
-nge:
-> > > > >
-> > > > >   HOTPLUG=3D1, CONNECTOR=3D<connector_id> and PROPERTY=3D<propert=
-y_id>
-> > > > >
-> > > > > Need ACK from this uevent from userspace consumer. =20
-> > > >
-> > > > So we just had some discussions over on IRC and at about the hotplug
-> > > > issue and came up with similar ideas:
-> > > > https://lists.freedesktop.org/archives/dri-devel/2019-May/217408.ht=
-ml
-> > > >
-> > > > The conclusions of these discussions so far would be to have a more=
- or
-> > > > less fine grain of uevent reporting depending on what happened. The
-> > > > point is that we need to cover different cases:
-> > > > - one or more properties changed;
-> > > > - the connector status changed;
-> > > > - something else about the connector changed (e.g. EDID/modes)
-> > > >
-> > > > For the first case, we can send out:
-> > > > HOTPLUG=3D1
-> > > > CONNECTOR=3D<id>
-> > > > PROPERTY=3D<id>
-> > > >
-> > > > and no reprobe is required.
-> > > >
-> > > > For the second one, something like:
-> > > > HOTPLUG=3D1
-> > > > CONNECTOR=3D<id>
-> > > > STATUS=3DConnected/Disconnected
-> > > >
-> > > > and a connector probe is needed for connected, but not for
-> > > > disconnected;
-> > > >
-> > > > For the third one, we can only indicate the connector:
-> > > > HOTPLUG=3D1
-> > > > CONNECTOR=3D<id>
-> > > >
-> > > > and a reprobe of the connector is always needed =20
-> > >
-> > > There's no material difference between this one and the previous one.
-> > > Plus there's no beenfit in supplying the actual value of the property,
-> > > i.e. we can reuse the same PROPERTY=3D<id-of-status-property> trick. =
-=20
-> >
-> > That's the idea, but we need to handle status changes differently than
-> > properties, since as far as I know, connected/unconnected status is not
-> > exposed as a prop for the connector. =20
->=20
-> Oops, totally missed that. "Everything is a property" is kinda
-> new-ish, at least compared to kms. Kinda tempted to just make status
-> into a property. Or another excuse why we should expose the epoch
-> property :-)
-
-Hi Daniel,
-
-just to clarify the first case, specific to one very particular
-property:
-
-With HDCP, there is a property that may change dynamically at runtime
-(the undesired/desired/enabled tristate). Userspace must be notified
-when it changes, I do not want userspace have to poll that property
-with a timer.
-
-When that property alone changes, and userspace is prepared to handle
-that property changing alone, it must not trigger a reprobe of the
-connector. There is no reason to reprobe at that point AFAIU.
-
-How do you ensure that userspace can avoid triggering a reprobe with the
-epoch approach or with any alternate uevent design?
-
-We need an event to userspace that indicates that re-reading the
-properties is enough and reprobe of the connector is not necessary.
-This is complementary to indicating to userspace that only some
-connectors need to be reprobed instead of everything.
-
-
-Thanks,
-pq
-
---Sig_/xePYMb_LVcJtrNRDT_vhGiI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAlzadiIACgkQI1/ltBGq
-qqdNjg//fhiH95AO/F8SSQJpoxesnfj5ARXoWmT35WIxxSg+byDJrk79fLc0RliQ
-0KvvhfScOUWz5fjrO16imxfbaV86pxgRqedDs0p0bx5AC0oaUh/Di4gEuWRh5lub
-FRDaTbjzKZju5eyMpADkggbhvoYQfQAlnVqhqyxWGls5Qy2RVy2O5ioIhfC/Lf9+
-Esg5xnZVdDHKtDEy5pW/PbJ2jSUstKc07ag2oppKA9zhDLJXepD15ejNctwtio3R
-vV8nD71nBRFsk5ImSWdRurIHmiSoTwNpOW1mYF3QDDuTBZr2w6l6kQ6VuzjzjdeD
-o3BYhswCsAqxNSj6H0b5CD9yMRB/GZzw/GwGIGfCnzQwO00MJWif+bDr6rxf/nCg
-s8CFyP0mFshUXBeygTKzjtDzJe1dZmWn95bRtZP73K734E069pWefwG5p61Cfbk8
-yFLZUKHSc4flh4yljP71O0QZX8g9rRFbcvc2fhFNhkO3qbrVKtzQPJl6qvEpehuo
-xYp75O74b0V+UEvDZrtmWjsRmZ/+HLybAvNREUj0kMhb/8C/pJq/vcnTOSCB7r77
-NPaaQrufrhDk1s2pj7bLSeZA4J7nQTK4VDT8SzRceQqCLl+sL7Rig6ndb10QDUss
-Qo1OeZX81SZMSxqNhWwXbDdkbVulJfSmKIgDKo8K+ZUdJqFpX3Y=
-=H+Hh
------END PGP SIGNATURE-----
-
---Sig_/xePYMb_LVcJtrNRDT_vhGiI--
-
---===============1926669453==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1926669453==--
+UXVvdGluZyBNaWNoYWVsIFlhbmcgKDIwMTktMDUtMTQgMDg6NTU6MzcpCj4gT24gVGh1LCBNYXkg
+MDksIDIwMTkgYXQgMTI6NDY6MDVQTSArMDEwMCwgQ2hyaXMgV2lsc29uIHdyb3RlOgo+ID4gUXVv
+dGluZyBNaWNoYWVsIFlhbmcgKDIwMTktMDUtMDkgMDU6MzQ6MTEpCj4gPiA+IElmIGFsbCB0aGUg
+c3luYyBwb2ludHMgd2VyZSBzaWduYWxlZCBpbiBib3RoIGZlbmNlcyBhIGFuZCBiLAo+ID4gPiB0
+aGVyZSB3YXMgb25seSBvbmUgc3luYyBwb2ludCBpbiBtZXJnZWQgZmVuY2Ugd2hpY2ggaXMgYV9m
+ZW5jZVswXS4KPiA+ID4gVGhlIEZlbmNlIHN0cnVjdHVyZSBpbiBhbmRyb2lkIGZyYW1ld29yayBt
+aWdodCBiZSBjb25mdXNlZCBhYm91dAo+ID4gPiB0aW1lc3RhbXAgaWYgdGhlcmUgd2VyZSBhbnkg
+c3luYyBwb2ludHMgd2hpY2ggd2VyZSBzaWduYWxlZCBhZnRlcgo+ID4gPiBhX2ZlbmNlWzBdLiBJ
+dCBtaWdodCBiZSBtb3JlIHJlYXNvbmFibGUgdG8gdXNlIHRpbWVzdGFtcCBvZiBsYXN0IHNpZ25h
+bGVkCj4gPiA+IHN5bmMgcG9pbnQgdG8gcmVwcmVzZW50IHRoZSBtZXJnZWQgZmVuY2UuCj4gPiA+
+IFRoZSBpc3N1ZSBjYW4gYmUgZm91bmQgZnJvbSBFR0wgZXh0ZW5zaW9uIEFORFJPSURfZ2V0X2Zy
+YW1lX3RpbWVzdGFtcHMuCj4gPiA+IFNvbWV0aW1lcyB0aGUgcmV0dXJuIHZhbHVlIG9mIEVHTF9S
+RUFEU19ET05FX1RJTUVfQU5EUk9JRCBpcyBoZWFkIG9mCj4gPiA+IHRoZSByZXR1cm4gdmFsdWUg
+b2YgRUdMX1JFTkRFUklOR19DT01QTEVURV9USU1FX0FORFJPSUQuCj4gPiA+IFRoYXQgbWVhbnMg
+ZGlzcGxheS9jb21wb3NpdGlvbiBoYWQgYmVlbiBjb21wbGV0ZWQgYmVmb3JlIHJlbmRlcmluZwo+
+ID4gPiB3YXMgY29tcGxldGVkIHRoYXQgaXMgaW5jb3JyZWN0Lgo+ID4gPiAKPiA+ID4gU29tZSBk
+aXNjdXNzaW9uIGNhbiBiZSBmb3VuZCBhdDoKPiA+ID4gaHR0cHM6Ly91cmxkZWZlbnNlLnByb29m
+cG9pbnQuY29tL3YyL3VybD91PWh0dHBzLTNBX19hbmRyb2lkLTJEcmV2aWV3Lmdvb2dsZXNvdXJj
+ZS5jb21fY19rZXJuZWxfY29tbW9uXy0yQl85MDcwMDkmZD1Ed0lGYVEmYz1icTlwcG1ndlN3M29R
+RmZSODcxRF93JnI9TmdnNnZob3VQa2d3U0liRE1VN3JETjBaZlQyUWF4NTB4dVdrWFhxUTN6dyZt
+PU45UjlkWEdKM3prMGUwZ1hOTTR0c2lybzd4Q09MbFd4NmMzSEFFc2VTU3cmcz02c1kydDlpMnd2
+eWxXSC1yUFVsdlkxTUl1V0tqQ1B6VDhTZUNncFpPSUdrJmU9IAo+ID4gPiAKPiA+ID4gU2lnbmVk
+LW9mZi1ieTogTWljaGFlbCBZYW5nIDxtaWNoYWVsLnlhbmdAaW1ndGVjLmNvbT4KPiA+ID4gLS0t
+Cj4gPiA+IEhpLAo+ID4gPiBJIGRpZG4ndCBnZXQgcmVzcG9uc2Ugc2luY2UgSSBwcmV2aW91c2x5
+IHNlbnQgdGhpcyBhIG1vbnRoIGFnby4KPiA+ID4gQ291bGQgc29tZW9uZSBoYXZlIGEgY2hhbmNl
+IHRvIGxvb2sgYXQgaXQgcGxlYXNlPwo+ID4gPiBUaGFua3MuCj4gPiA+ICBkcml2ZXJzL2RtYS1i
+dWYvc3luY19maWxlLmMgfCAyNSArKysrKysrKysrKysrKysrKysrKysrKy0tCj4gPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+ID4gCj4gPiA+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2RtYS1idWYvc3luY19maWxlLmMgYi9kcml2ZXJzL2RtYS1i
+dWYvc3luY19maWxlLmMKPiA+ID4gaW5kZXggNGY2MzA1Yy4uZDQ2YmZlMSAxMDA2NDQKPiA+ID4g
+LS0tIGEvZHJpdmVycy9kbWEtYnVmL3N5bmNfZmlsZS5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZG1h
+LWJ1Zi9zeW5jX2ZpbGUuYwo+ID4gPiBAQCAtMjc0LDggKzI3NCwyOSBAQCBzdGF0aWMgc3RydWN0
+IHN5bmNfZmlsZSAqc3luY19maWxlX21lcmdlKGNvbnN0IGNoYXIgKm5hbWUsIHN0cnVjdCBzeW5j
+X2ZpbGUgKmEsCj4gPiA+ICAgICAgICAgZm9yICg7IGlfYiA8IGJfbnVtX2ZlbmNlczsgaV9iKysp
+Cj4gPiA+ICAgICAgICAgICAgICAgICBhZGRfZmVuY2UoZmVuY2VzLCAmaSwgYl9mZW5jZXNbaV9i
+XSk7Cj4gPiA+ICAKPiA+ID4gLSAgICAgICBpZiAoaSA9PSAwKQo+ID4gPiAtICAgICAgICAgICAg
+ICAgZmVuY2VzW2krK10gPSBkbWFfZmVuY2VfZ2V0KGFfZmVuY2VzWzBdKTsKPiA+ID4gKyAgICAg
+ICAvKiBJZiBhbGwgdGhlIHN5bmMgcHRzIHdlcmUgc2lnbmFsZWQsIHRoZW4gYWRkaW5nIHRoZSBz
+eW5jX3B0IHdobwo+ID4gPiArICAgICAgICAqIHdhcyB0aGUgbGFzdCBzaWduYWxlZCB0byB0aGUg
+ZmVuY2UuCj4gPiA+ICsgICAgICAgICovCj4gPiA+ICsgICAgICAgaWYgKGkgPT0gMCkgewo+ID4g
+PiArICAgICAgICAgICAgICAgc3RydWN0IGRtYV9mZW5jZSAqbGFzdF9zaWduYWxlZF9zeW5jX3B0
+ID0gYV9mZW5jZXNbMF07Cj4gPiA+ICsgICAgICAgICAgICAgICBpbnQgaXRlcjsKPiA+ID4gKwo+
+ID4gPiArICAgICAgICAgICAgICAgZm9yIChpdGVyID0gMTsgaXRlciA8IGFfbnVtX2ZlbmNlczsg
+aXRlcisrKSB7Cj4gPiAKPiA+IElmIHRoZXJlIGlzIG1vcmUgdGhhbiBvbmUgZmVuY2UsIHN5bmNf
+ZmlsZS0+ZmVuY2UgaXMgYSBmZW5jZV9hcnJheSBhbmQKPiA+IGl0cyB0aW1lc3RhbXAgaXMgd2hh
+dCB5b3Ugd2FudC4gSWYgdGhlcmUgaXMgb25lIGZlbmNlLCBzeW5jX2ZpbGUtPmZlbmNlCj4gPiBp
+cyBhIHBvaW50ZXIgdG8gdGhhdCBmZW5jZSwgYW5kIG5hdHVyYWxseSBoYXMgdGhlIHJpZ2h0IHRp
+bWVzdGFtcC4KPiA+IAo+ID4gSW4gc2hvcnQsIHRoaXMgc2hvdWxkIGJlIGhhbmRsZWQgYnkgZG1h
+X2ZlbmNlX2FycmF5X2NyZWF0ZSgpIHdoZW4gZ2l2ZW4KPiA+IGEgY29tcGxldGUgc2V0IG9mIHNp
+Z25hbGVkIGZlbmNlcywgaXQgdG9vIHNob3VsZCBpbmhlcml0IHRoZSBzaWduYWxlZAo+ID4gc3Rh
+dHVzIHdpdGggdGhlIHRpbWVzdGFtcCBiZWluZyB0YWtlbiBmcm9tIHRoZSBsYXN0IGZlbmNlLiBJ
+dCBzaG91bGQKPiA+IGFsc28gYmUgY2FyZWZ1bCB0byBpbmhlcml0IHRoZSBlcnJvciBzdGF0dXMu
+Cj4gPiAtQ2hyaXMKPiBUaGFua3MgQ2hyaXMgZm9yIHRoZSBpbnB1dHMuIEZvciB0aGlzIGNhc2Us
+IHRoZXJlIHdpbGwgYmUgb25seSBvbmUgZmVuY2UKPiBpbiBzeW5jX2ZpbGUtPmZlbmNlIGFmdGVy
+IGRvaW5nIHN5bmNfZmlsZV9tZXJnZSgpLiBSZWdhcmRpbmcgdG8gdGhlIGN1cnJlbnQKPiBpbXBs
+ZW1lbnRhdGlvbiwgZG1hX2ZlbmNlX2FycmF5X2NyZWF0ZSgpIGlzIG5vdCBjYWxsZWQgYXMgbnVt
+X2ZlbmNlcyBpcyBlcXVhbAo+IHRvIDEuIEkgd2FzIHdvbmRlcmluZyBkbyB5b3Ugc3VnZ2VzdCB0
+aGF0IHdlIHBhc3MgYSBjb21wbGV0ZSBzZXQgb2Ygc2lnbmFsZWQKPiBmZW5jZXMgdG8gc3luY19m
+aWxlX3NldF9mZW5jZSgpIGFuZCBoYW5kbGUgaXQgaW4gZG1hX2ZlbmNlX2FycmF5X2NyZWF0ZSgp
+Lgo+IFRoYW5rcy4KCk5vLCBpbiB0aGUgY2FzZSB0aGVyZSBpcyBvbmx5IG9uZSBmZW5jZSwgd2Ug
+anVzdCBpbmhlcml0IGl0cyB0aW1lc3RhbXAKYWxvbmcgd2l0aCBpdHMgZmVuY2Ugc3RhdHVzLiAo
+QSBzaW5nbGUgZmVuY2UgaXMgdGhlIGRlZ2VuZXJhdGUgY2FzZSBvZgphIGZlbmNlIGFycmF5LikK
+LUNocmlzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
