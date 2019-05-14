@@ -2,59 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EBC21C26A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 07:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C061C2A0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 07:55:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D317892A1;
-	Tue, 14 May 2019 05:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDBC89260;
+	Tue, 14 May 2019 05:55:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc49.google.com (mail-yw1-xc49.google.com
- [IPv6:2607:f8b0:4864:20::c49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C22F48929F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 05:46:38 +0000 (UTC)
-Received: by mail-yw1-xc49.google.com with SMTP id v127so29116227ywb.20
- for <dri-devel@lists.freedesktop.org>; Mon, 13 May 2019 22:46:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=NNCnVCTAATMxlDMarLLJ67yqDDVFt+vwrBh9wh5mNVQ=;
- b=qSgMpE8/bP6Zbud59rIjvXBqNlhJknrnXwTRplNsQfZCxClK4P3AzuJQnoMKHW/0kI
- Q8O8vPELSIQqnvGKw+i8XyVMzqH0V54M1hvg7z0D4Zr9AF/cPySpwfbsQBPwZr0aWDTo
- 0u5H9/fvpKpRyFrjGkLegogka41CwZCZxmgImEzgya5qbIIvt8Qu6A0mCxP2yWt+JiQT
- 3e5CIODWI4c5IkeUqcefN7gjpaHubCAcjuRJc6yafnwareycXZBHBVFRpnUIOg3BXWWZ
- JjD/ntehoda0cw8Px5uqoLZXqWChFYSpzgOn8C/F9+a0VLxAgfXz5Rfx/dVboaZjjB0i
- ZMdg==
-X-Gm-Message-State: APjAAAWWZh+QSRgNnc7lzpuZ3zyxB51iYV89bG0TiCNnxr83dgXv518v
- WhVXNPFczvaOfJQ0mT2y6i1Pdt/LYWgUOAOrWT6eRw==
-X-Google-Smtp-Source: APXvYqzDnMJ4szPxIA4N77qJLw1e3aRJqDLenWVgRY3sM/QbVOHbh8x+6bBUoK7BNggbwfl2r5XHp/gCvYGW7uZKqd8+nw==
-X-Received: by 2002:a81:9b17:: with SMTP id s23mr15952402ywg.503.1557812797962; 
- Mon, 13 May 2019 22:46:37 -0700 (PDT)
-Date: Mon, 13 May 2019 22:42:52 -0700
-In-Reply-To: <20190514054251.186196-1-brendanhiggins@google.com>
-Message-Id: <20190514054251.186196-19-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190514054251.186196-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v3 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-From: Brendan Higgins <brendanhiggins@google.com>
-To: frowand.list@gmail.com, gregkh@linuxfoundation.org, keescook@google.com, 
- kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org, 
- sboyd@kernel.org, shuah@kernel.org, tytso@mit.edu, 
- yamada.masahiro@socionext.com
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc;
- bh=NNCnVCTAATMxlDMarLLJ67yqDDVFt+vwrBh9wh5mNVQ=;
- b=ogDQD8ZjbQ6rQB/cWAayl+9VthgdTRB4N9+9GyMbHO4DiRsdRDrdV4hPILgY7Dd+L0
- I2RHu02OyvKeDL+lm6hCGMoAmOxcXp1iclHCDygBWy5BFLe5GT+edQ82hOKLR/JJ9KdQ
- 11b1p3QAxEdg7lXAO1lNroEn+qdvSJWt3iw3DL5AYhMjgqkE31tSGZQfrWeGG6OKTYPS
- afsxa8QMIeJn+iGaVG/JH2h1LJjJKyL47IF09+kVKczWp9X/zQGgRpH1Zc1iYBbEn+oS
- scXx1DItvS3mhp2+j2MbNl8vNbIJweBsYUaOnaq+FaUIBk4qrqEB0Zys9RYKfXBLRZW1
- bh9g==
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B4B4F89260
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 05:55:02 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id AE5F6721ED; Tue, 14 May 2019 05:55:02 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 14 May 2019 05:55:02 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: chris@hodapp.email
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,34 +52,178 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
- Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
- Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
- linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
- wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
- dan.carpenter@oracle.com, devicetree@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
- rostedt@goodmis.org, julia.lawall@lip6.fr, dan.j.williams@intel.com,
- kunit-dev@googlegroups.com, richard@nod.at, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, mpe@ellerman.id.au,
- linux-fsdevel@vger.kernel.org, logang@deltatee.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0995941686=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIGVudHJ5IGZvciB0aGUgbmV3IHByb2Mgc3lzY3RsIEtVbml0IHRlc3QgdG8gdGhlIFBST0Mg
-U1lTQ1RMIHNlY3Rpb24uCgpTaWduZWQtb2ZmLWJ5OiBCcmVuZGFuIEhpZ2dpbnMgPGJyZW5kYW5o
-aWdnaW5zQGdvb2dsZS5jb20+ClJldmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdr
-aEBsaW51eGZvdW5kYXRpb24ub3JnPgpSZXZpZXdlZC1ieTogTG9nYW4gR3VudGhvcnBlIDxsb2dh
-bmdAZGVsdGF0ZWUuY29tPgotLS0KIE1BSU5UQUlORVJTIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCmlu
-ZGV4IDhhOTE4ODdjOGQ1NDEuLjJlNTM5NjQ3NTg5ZmQgMTAwNjQ0Ci0tLSBhL01BSU5UQUlORVJT
-CisrKyBiL01BSU5UQUlORVJTCkBAIC0xMjUyNiw2ICsxMjUyNiw3IEBAIFM6CU1haW50YWluZWQK
-IEY6CWZzL3Byb2MvcHJvY19zeXNjdGwuYwogRjoJaW5jbHVkZS9saW51eC9zeXNjdGwuaAogRjoJ
-a2VybmVsL3N5c2N0bC5jCitGOglrZXJuZWwvc3lzY3RsLXRlc3QuYwogRjoJdG9vbHMvdGVzdGlu
-Zy9zZWxmdGVzdHMvc3lzY3RsLwogCiBQUzMgTkVUV09SSyBTVVBQT1JUCi0tIAoyLjIxLjAuMTAy
-MC5nZjI4MjBjZjAxYS1nb29nCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============0995941686==
+Content-Type: multipart/alternative; boundary="15578133021.B65b.29788"
+Content-Transfer-Encoding: 7bit
+
+
+--15578133021.B65b.29788
+Date: Tue, 14 May 2019 05:55:02 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+            Bug ID: 110674
+           Summary: Crashes / Resets From AMDGPU / Radeon VII
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: chris@hodapp.email
+
+Created attachment 144254
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144254&action=3Dedit
+Kernel Log
+
+I'm getting frequent crashes and resets. They seem to occur most often right
+after boot, right after login, and right after wake from standby.
+
+See the attachments for more (recommend `less --raw` if working with the co=
+lor
+dmesg).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15578133021.B65b.29788
+Date: Tue, 14 May 2019 05:55:02 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">110674</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Crashes / Resets From AMDGPU / Radeon VII
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>chris&#64;hodapp.email
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144254=
+" name=3D"attach_144254" title=3D"Kernel Log">attachment 144254</a> <a href=
+=3D"attachment.cgi?id=3D144254&amp;action=3Dedit" title=3D"Kernel Log">[det=
+ails]</a></span>
+Kernel Log
+
+I'm getting frequent crashes and resets. They seem to occur most often right
+after boot, right after login, and right after wake from standby.
+
+See the attachments for more (recommend `less --raw` if working with the co=
+lor
+dmesg).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15578133021.B65b.29788--
+
+--===============0995941686==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0995941686==--
