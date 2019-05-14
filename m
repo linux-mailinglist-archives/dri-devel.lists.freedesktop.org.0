@@ -2,43 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737931CDF5
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 19:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74DC1CD77
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 19:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3B6892AC;
-	Tue, 14 May 2019 17:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD26789291;
+	Tue, 14 May 2019 17:09:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 03661892FD
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 17:29:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F2261721CD; Tue, 14 May 2019 17:29:01 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110677] Can't invert screen colors by adjusting the gamma ramp
-Date: Tue, 14 May 2019 17:29:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110677-502-v1aawxmHaW@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110677-502@http.bugs.freedesktop.org/>
-References: <bug-110677-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36FC89260;
+ Tue, 14 May 2019 17:09:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 14 May 2019 10:09:28 -0700
+X-ExtLoop1: 1
+Received: from linuxpresi1-desktop.iind.intel.com ([10.223.74.121])
+ by fmsmga005.fm.intel.com with ESMTP; 14 May 2019 10:09:24 -0700
+From: Uma Shankar <uma.shankar@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [v10 00/12] Add HDR Metadata Parsing and handling in DRM layer
+Date: Tue, 14 May 2019 23:06:22 +0530
+Message-Id: <1557855394-12214-1-git-send-email-uma.shankar@intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,119 +40,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1263899503=="
+Cc: dcastagna@chromium.org, jonas@kwiboo.se, emil.l.velikov@gmail.com,
+ Uma Shankar <uma.shankar@intel.com>, seanpaul@chromium.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1263899503==
-Content-Type: multipart/alternative; boundary="15578549412.d0AF3ec3a.16713"
-Content-Transfer-Encoding: 7bit
-
-
---15578549412.d0AF3ec3a.16713
-Date: Tue, 14 May 2019 17:29:01 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110677
-
---- Comment #7 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-The issue is in the display driver.
-
-The driver does an sRGB degamma, CTM, then sRGB regamma + user regamma - wh=
-ich
-explains why the screen is mostly white (since the curve is inverse).
-
-If the the degamma block was put into linear bypass and the user regamma was
-applied directly to the regamma block that should give the correct result.
-
-Not sure if mapping the legacy gamma to the full LUT would break any IGT co=
-lor
-or standard X11 gamma operations.
-
-I do have some changes that fix this kind of operation for atomic userspace=
- but
-I'd have to take a look at the legacy one again to know if this is easy to
-support or not.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15578549412.d0AF3ec3a.16713
-Date: Tue, 14 May 2019 17:29:01 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Can't invert screen colors by adjusting the gamma ramp"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110677#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Can't invert screen colors by adjusting the gamma ramp"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110677">bug 11067=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
-</span></b>
-        <pre>The issue is in the display driver.
-
-The driver does an sRGB degamma, CTM, then sRGB regamma + user regamma - wh=
-ich
-explains why the screen is mostly white (since the curve is inverse).
-
-If the the degamma block was put into linear bypass and the user regamma was
-applied directly to the regamma block that should give the correct result.
-
-Not sure if mapping the legacy gamma to the full LUT would break any IGT co=
-lor
-or standard X11 gamma operations.
-
-I do have some changes that fix this kind of operation for atomic userspace=
- but
-I'd have to take a look at the legacy one again to know if this is easy to
-support or not.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15578549412.d0AF3ec3a.16713--
-
---===============1263899503==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1263899503==--
+VGhpcyBwYXRjaCBzZXJpZXMgZW5hYmxlcyBIRFIgc3VwcG9ydCBpbiBkcm0uIEl0IGJhc2ljYWxs
+eSBkZWZpbmVzCkhEUiBtZXRhZGF0YSBzdHJ1Y3R1cmVzLCBwcm9wZXJ0eSB0byBwYXNzIGNvbnRl
+bnQgKGFmdGVyIGJsZW5kaW5nKQptZXRhZGF0YSBmcm9tIHVzZXIgc3BhY2UgY29tcG9zaXRvcnMg
+dG8gZHJpdmVyLgoKRHluYW1pYyBSYW5nZSBhbmQgTWFzdGVyaW5nIGluZm9mcmFtZSBjcmVhdGlv
+biBhbmQgc2VuZGluZy4KClRvRG86CjEuIFdlIG5lZWQgdG8gZ2V0IHRoZSBjb2xvciBmcmFtZXdv
+cmsgaW4gcGxhY2UgZm9yIGFsbCBwbGFuZXMKICAgd2hpY2ggc3VwcG9ydCBIRFIgY29udGVudCBp
+biBoYXJkd2FyZS4gVGhpcyBpcyBhbHJlYWR5IGluIHByb2dyZXMKICAgYW5kIHBhdGNoZXMgYXJl
+IG91dCBmb3IgcmV2aWV3IGluIG1haWxpbmcgbGlzdC4KMi4gVXNlclNwYWNlL0NvbXBvc2l0b3Jz
+OiBCbGVuZGluZyBwb2xpY2llcyBhbmQgbWV0YWRhdGEgYmxvYgogICBjcmVhdGlvbiBhbmQgcGFz
+c2luZyB0byBkcml2ZXIuIFdvcmsgaXMgYWxyZWFkeSBpbiBwcm9ncmVzcwogICBieSBJbnRlbCdz
+IG1pZGRsZXdhcmUgdGVhbXMgb24gd2F5bGFuZCBhbmQgdGhlIHBhdGNoZXMgZm9yCiAgIHRoZSBz
+YW1lIGFyZSBpbiByZXZpZXcuCgpBIFBPQyBoYXMgYWxyZWFkeSBiZWVuIGRldmVsb3BlZCBieSBW
+aWxsZSBiYXNlZCBvbiB3YXlsYW5kLiBQbGVhc2UgcmVmZXIKYmVsb3cgbGluayB0byBzZWUgdGhl
+IGNvbXBvbmVudCBpbnRlcmFjdGlvbnMgYW5kIHVzYWdlOgpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9hcmNoaXZlcy93YXlsYW5kLWRldmVsLzIwMTctRGVjZW1iZXIvMDM2NDAzLmh0bWwK
+CnYyOiBVcGRhdGVkIFZpbGxlJ3MgUE9DIGNoYW5nZXMgdG8gdGhlIHBhdGNoIHNlcmllcy5JbmNv
+cnBvcmF0ZWQgY2xlYW51cHMKYW5kIGZpeGVzIGZyb20gVmlsbGUuIFJlYmFzZSBvbiBsYXRlc3Qg
+ZHJtLXRpcC4KCnYzOiBGaXhlZCBhIHdhcm5pbmcgY2F1c2luZyBidWlsZHMgdG8gYnJlYWsgb24g
+Q0kuIE5vIG1ham9yIGNoYW5nZS4KCnY0OiBBZGRyZXNzZWQgU2hhc2hhbmsncyByZXZpZXcgY29t
+bWVudHMuCgp2NTogUmViYXNlIG9uIHRvcCBvZiBWaWxsZSdzIGluZm9mcmFtZSByZWZhY3Rvcmlu
+ZyBjaGFuZ2VzLiBGaXhlZCBub24gbW9kZXNldApjYXNlIGZvciBIRFIgbWV0YWRhdGEgdXBkYXRl
+LiBEcm9wcGVkIGEgcmVkdW5kYW50IHBhdGNoLgoKdjY6IEFkZHJlc3NlZCBTaGFzaGFuaydzIHJl
+dmlldyBjb21tZW50cyBhbmQgYWRkZWQgUkIncyByZWNlaXZlZC4KCnY3OiBTcXVhc2hlZCAyIHBh
+dGNoZXMsIGRyb3BwZWQgMSBjaGFuZ2UgYW5kIGFkZHJlc3NlZCBCcmlhbiBTdGFya2V5J3MgYW5k
+ClNoYXNoYW5rJ3MgcmV2aWV3IGNvbW1lbnRzLgoKdjg6IEFkZHJlc3NlZCBKb25hcyBLYXJsbWFu
+IHJldmlldyBjb21tZW50cy4gQWRkZWQgU2hhc2hhbmsncyBSQiB0byB0aGUgc2VyaWVzLApmaXhl
+ZCBhIFdBUk5fT04gb24gQllUL0NIVC4KCnY5OiBBZGRyZXNzZWQgVmlsbGUgYW5kIEpvbmFzIEth
+cmxtYW4ncyByZXZpZXcgY29tbWVudHMuIEFkZGVkIHRoZSBpbmZvZnJhbWUKc3RhdGUgcmVhZG91
+dCBhbmQgbWV0YWRhdGEgcmVmZXJlbmNlIGNvdW50LgoKdjEwOiBBZGRyZXNzZWQgcmV2aWV3IGNv
+bW1lbnRzIGZyb20gSm9uYXMgYW5kIFZpbGxlLiBEcm9wcGVkIG9uZSBwYXRjaCByZWxhdGVkCnRv
+IGk5MTUgZmFzdHNldCBoYW5kbGluZyBhcyBwZXIgVmlsbGUncyBmZWVkYmFjay4KCk5vdGU6IHY5
+IHZlcnNpb24gaXMgYWxyZWFkeSB0ZXN0ZWQgd2l0aCBLb2RpIGFuZCBhIGNvbmZpcm1hdGlvbiBm
+cm9tIHRlYW0ga29kaSBoYXMgYmVlbgpyZWNlaXZlZC4gQnJhbmNoIGRldGFpbHMgZm9yIHRoZSBz
+YW1lIGFzIGJlbG93OgpodHRwczovL2dpdGh1Yi5jb20veGJtYy94Ym1jL3RyZWUvZmVhdHVyZV9k
+cm1wcmltZS12YWFwaQoKdjkgb2YgdGhpcyBzZXJpZXMgaXM6ClRlc3RlZC1ieTogSm9uYXMgS2Fy
+bG1hbiA8am9uYXNAa3dpYm9vLnNlPgoKSm9uYXMgS2FybG1hbiAoMSk6CiAgZHJtOiBBZGQgcmVm
+ZXJlbmNlIGNvdW50aW5nIG9uIEhEUiBtZXRhZGF0YSBibG9iCgpVbWEgU2hhbmthciAoOSk6CiAg
+ZHJtOiBBZGQgSERSIHNvdXJjZSBtZXRhZGF0YSBwcm9wZXJ0eQogIGRybTogUGFyc2UgSERSIG1l
+dGFkYXRhIGluZm8gZnJvbSBFRElECiAgZHJtOiBFbmFibGUgSERSIGluZm9mcmFtZSBzdXBwb3J0
+CiAgZHJtL2k5MTU6IEF0dGFjaCBIRFIgbWV0YWRhdGEgcHJvcGVydHkgdG8gY29ubmVjdG9yCiAg
+ZHJtL2k5MTU6IFdyaXRlIEhEUiBpbmZvZnJhbWUgYW5kIHNlbmQgdG8gcGFuZWwKICBkcm0vaTkx
+NTpFbmFibGVkIE1vZGVzZXQgd2hlbiBIRFIgSW5mb2ZyYW1lIGNoYW5nZXMKICBkcm0vaTkxNTog
+QWRkZWQgRFJNIEluZm9mcmFtZSBoYW5kbGluZyBmb3IgQllUL0NIVAogIHZpZGVvL2hkbWk6IEFk
+ZCBVbnBhY2sgZnVuY3Rpb24gZm9yIERSTSBpbmZvZnJhbWUKICBkcm0vaTkxNTogQWRkIHN0YXRl
+IHJlYWRvdXQgZm9yIERSTSBpbmZvZnJhbWUKClZpbGxlIFN5cmrDpGzDpCAoMik6CiAgZHJtOiBB
+ZGQgSExHIEVPVEYKICBkcm0vaTkxNTogRW5hYmxlIGluZm9mcmFtZXMgb24gR0xLKyBmb3IgSERS
+CgogZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWMuYyAgICAgICAgICAgICAgfCAgIDIgKwogZHJp
+dmVycy9ncHUvZHJtL2RybV9hdG9taWNfc3RhdGVfaGVscGVyLmMgfCAgIDYgKwogZHJpdmVycy9n
+cHUvZHJtL2RybV9hdG9taWNfdWFwaS5jICAgICAgICAgfCAgMTMgKysKIGRyaXZlcnMvZ3B1L2Ry
+bS9kcm1fY29ubmVjdG9yLmMgICAgICAgICAgIHwgICA2ICsKIGRyaXZlcnMvZ3B1L2RybS9kcm1f
+ZWRpZC5jICAgICAgICAgICAgICAgIHwgIDkzICsrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9pOTE1X3JlZy5oICAgICAgICAgICB8ICAgNCArCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+bnRlbF9hdG9taWMuYyAgICAgICB8ICAxNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxf
+ZGRpLmMgICAgICAgICAgfCAgIDQgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZGlzcGxh
+eS5jICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHJ2LmggICAgICAg
+ICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfaGRtaS5jICAgICAgICAgfCAg
+ODMgKysrKysrKysrLQogZHJpdmVycy92aWRlby9oZG1pLmMgICAgICAgICAgICAgICAgICAgICAg
+fCAyNTcgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiBpbmNsdWRlL2RybS9kcm1fY29u
+bmVjdG9yLmggICAgICAgICAgICAgICB8ICAxMSArKwogaW5jbHVkZS9kcm0vZHJtX2VkaWQuaCAg
+ICAgICAgICAgICAgICAgICAgfCAgIDUgKwogaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgg
+ICAgICAgICAgICAgfCAgIDcgKwogaW5jbHVkZS9saW51eC9oZG1pLmggICAgICAgICAgICAgICAg
+ICAgICAgfCAgNTUgKysrKysrKwogaW5jbHVkZS91YXBpL2RybS9kcm1fbW9kZS5oICAgICAgICAg
+ICAgICAgfCAgMjMgKysrCiAxNyBmaWxlcyBjaGFuZ2VkLCA1ODAgaW5zZXJ0aW9ucygrKSwgNSBk
+ZWxldGlvbnMoLSkKCi0tIAoxLjkuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
