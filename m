@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4621E1D115
-	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 23:12:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B121D11A
+	for <lists+dri-devel@lfdr.de>; Tue, 14 May 2019 23:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21ED189319;
-	Tue, 14 May 2019 21:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F64A89301;
+	Tue, 14 May 2019 21:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C018D89301
- for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 21:12:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B45C9892F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 May 2019 21:13:15 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BC55F721CD; Tue, 14 May 2019 21:12:34 +0000 (UTC)
+ id B0C3D721CD; Tue, 14 May 2019 21:13:15 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110117] Waking from Suspend causes screen to appear with grey
  static (like a TV with no signal)
-Date: Tue, 14 May 2019 21:12:34 +0000
+Date: Tue, 14 May 2019 21:13:15 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110117-502-B5S4EnQGqr@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110117-502-BidY4L4V1p@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110117-502@http.bugs.freedesktop.org/>
 References: <bug-110117-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1628470035=="
+Content-Type: multipart/mixed; boundary="===============1292805059=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1628470035==
-Content-Type: multipart/alternative; boundary="15578683541.dFa0E.1303"
+--===============1292805059==
+Content-Type: multipart/alternative; boundary="15578683950.7a4D89.31892"
 Content-Transfer-Encoding: 7bit
 
 
---15578683541.dFa0E.1303
-Date: Tue, 14 May 2019 21:12:34 +0000
+--15578683950.7a4D89.31892
+Date: Tue, 14 May 2019 21:13:15 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,51 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110117
 
---- Comment #9 from Craig <stein12c@gmail.com> ---
-I would like to add to this some additional troubleshooting I have performe=
-d,
-in case it is of use.
-
-
-
-just a short history: I am unable to suspend with any Linux distribution an=
-d be
-able to resume again. Currently running Ubuntu 19.04.
-
-I am attempting to follow the steps here to trace the problem:
-https://wiki.ubuntu.com/DebuggingKernelSuspend
-
-This is what I have done so far:
-
-$ sudo apt install pm-utils
-$ sudo sh -c "sync && echo 1 > /sys/power/pm_trace && pm-suspend"
-
-I resumed but got my usual screen garbage (looks like static on the screen)=
-. I
-ssh'd in and did a sudo reboot
-
-Right away I ran this:
-
-$ dmesg > dmesg_post_boot.txt
-
-I looked for Magic number in the dmesg per the ubuntu wiki above and found
-these lines:
-
-[    0.950964]   Magic number: 0:66:1001
-[    0.950965]   hash matches drivers/base/power/main.c:1012
-
-Now the instructions are to exclude this module from the next boot and see =
-if I
-can replicate the problem. How do I exclude main.c or do I even want to? Is=
- it
-even possible that the bug is here?
+--- Comment #10 from Craig <stein12c@gmail.com> ---
+Created attachment 144270
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144270&action=3Dedit
+Most Recent dmesg with magic number
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15578683541.dFa0E.1303
-Date: Tue, 14 May 2019 21:12:34 +0000
+--15578683950.7a4D89.31892
+Date: Tue, 14 May 2019 21:13:15 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -135,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
 tic (like a TV with no signal)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c9">Commen=
-t # 9</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c10">Comme=
+nt # 10</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
@@ -147,45 +113,11 @@ tic (like a TV with no signal)"
 stein12c&#64;gmail.com" title=3D"Craig &lt;stein12c&#64;gmail.com&gt;"> <sp=
 an class=3D"fn">Craig</span></a>
 </span></b>
-        <pre>I would like to add to this some additional troubleshooting I =
-have performed,
-in case it is of use.
-
-
-
-just a short history: I am unable to suspend with any Linux distribution an=
-d be
-able to resume again. Currently running Ubuntu 19.04.
-
-I am attempting to follow the steps here to trace the problem:
-<a href=3D"https://wiki.ubuntu.com/DebuggingKernelSuspend">https://wiki.ubu=
-ntu.com/DebuggingKernelSuspend</a>
-
-This is what I have done so far:
-
-$ sudo apt install pm-utils
-$ sudo sh -c &quot;sync &amp;&amp; echo 1 &gt; /sys/power/pm_trace &amp;&am=
-p; pm-suspend&quot;
-
-I resumed but got my usual screen garbage (looks like static on the screen)=
-. I
-ssh'd in and did a sudo reboot
-
-Right away I ran this:
-
-$ dmesg &gt; dmesg_post_boot.txt
-
-I looked for Magic number in the dmesg per the ubuntu wiki above and found
-these lines:
-
-[    0.950964]   Magic number: 0:66:1001
-[    0.950965]   hash matches drivers/base/power/main.c:1012
-
-Now the instructions are to exclude this module from the next boot and see =
-if I
-can replicate the problem. How do I exclude main.c or do I even want to? Is=
- it
-even possible that the bug is here?</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144270=
+" name=3D"attach_144270" title=3D"Most Recent dmesg with magic number">atta=
+chment 144270</a> <a href=3D"attachment.cgi?id=3D144270&amp;action=3Dedit" =
+title=3D"Most Recent dmesg with magic number">[details]</a></span>
+Most Recent dmesg with magic number</pre>
         </div>
       </p>
 
@@ -199,9 +131,9 @@ even possible that the bug is here?</pre>
     </body>
 </html>=
 
---15578683541.dFa0E.1303--
+--15578683950.7a4D89.31892--
 
---===============1628470035==
+--===============1292805059==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -211,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1628470035==--
+--===============1292805059==--
