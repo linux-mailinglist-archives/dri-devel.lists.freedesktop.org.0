@@ -2,35 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD11F5C7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 15:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F6C1F610
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 15:55:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8EF89152;
-	Wed, 15 May 2019 13:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 692A189291;
+	Wed, 15 May 2019 13:55:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA038911F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2019 13:45:50 +0000 (UTC)
-Received: from lwn.net (localhost [127.0.0.1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id CACC1AAB;
- Wed, 15 May 2019 13:45:47 +0000 (UTC)
-Date: Wed, 15 May 2019 07:45:46 -0600
-From: Jonathan Corbet <corbet@lwn.net>
-To: Brendan Higgins <brendanhiggins@google.com>
-Subject: Re: [PATCH v3 15/18] Documentation: kunit: add documentation for KUnit
-Message-ID: <20190515074546.07700142@lwn.net>
-In-Reply-To: <20190514231902.GA12893@google.com>
-References: <20190514054251.186196-1-brendanhiggins@google.com>
- <20190514054251.186196-16-brendanhiggins@google.com>
- <20190514073422.4287267c@lwn.net>
- <20190514180810.GA109557@google.com>
- <20190514121623.0314bf07@lwn.net>
- <20190514231902.GA12893@google.com>
-Organization: LWN.net
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF9BD89291
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2019 13:55:27 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4FDs8C1122182;
+ Wed, 15 May 2019 13:55:25 GMT
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2sdnttvybk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 May 2019 13:55:25 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x4FDsDEW122019;
+ Wed, 15 May 2019 13:55:24 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2sgkx3g589-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 15 May 2019 13:55:24 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4FDtNF0030256;
+ Wed, 15 May 2019 13:55:23 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 15 May 2019 06:55:22 -0700
+Date: Wed, 15 May 2019 16:55:16 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/fb-helper: Fix drm_fb_helper_hotplug_event() NULL
+ ptr argument
+Message-ID: <20190515135516.GF19380@kadam>
+References: <20190515132925.48867-1-noralf@tronnes.org>
+ <20190515134014.GJ17751@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190515134014.GJ17751@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905150087
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9257
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1905150087
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2018-07-02;
+ bh=8Tr4yX+pqO3uY+Tnjk1O93/LfFYjRJpjea1GGWbuFmc=;
+ b=q1qdfqltRXcg9IKb1aCZ61h3hMYWriEMMkUIHj2CbWpRMCzvCMEM2EYIGUdQ4NjTQplc
+ 98cN7zp38cWvGVFPeHz8NlGbmIm27COsmbYWdFpUpFZENuN8ublwUFMpOu53kiPaSQxH
+ mhKgWKtpjQSjnA83AS0iBcTnC6IcguffbXM2PKIBwxtg9yGajyIxxYpqKuGGlmodh6wn
+ hGFoYAZXhlCmllYN/hej89xrygJKoncDx+3R3eqFE+J+YyrhUYv4t79JC4n5mBRnlTT6
+ 9trfxjXgZ/qh9DHtMhUpUYeIVzjYXHyGQoNn3JVMY4aIryskft3RHoCG4seNNspF4XAe mg== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,42 +80,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
- dri-devel@lists.freedesktop.org, Alexander.Levin@microsoft.com,
- yamada.masahiro@socionext.com, mpe@ellerman.id.au,
- linux-kselftest@vger.kernel.org, shuah@kernel.org, linux-nvdimm@lists.01.org,
- frowand.list@gmail.com, knut.omang@oracle.com, kieran.bingham@ideasonboard.com,
- Felix Guo <felixguoxiuping@gmail.com>, wfg@linux.intel.com, joel@jms.id.au,
- rientjes@google.com, jdike@addtoit.com, dan.carpenter@oracle.com,
- devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org, Tim.Bird@sony.com,
- linux-um@lists.infradead.org, rostedt@goodmis.org, julia.lawall@lip6.fr,
- dan.j.williams@intel.com, kunit-dev@googlegroups.com, tytso@mit.edu,
- richard@nod.at, sboyd@kernel.org, gregkh@linuxfoundation.org,
- rdunlap@infradead.org, linux-kernel@vger.kernel.org, mcgrof@kernel.org,
- keescook@google.com, linux-fsdevel@vger.kernel.org, logang@deltatee.com,
- khilman@baylibre.com
+Cc: kbuild test robot <lkp@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxNCBNYXkgMjAxOSAxNjoxOTowMiAtMDcwMApCcmVuZGFuIEhpZ2dpbnMgPGJyZW5k
-YW5oaWdnaW5zQGdvb2dsZS5jb20+IHdyb3RlOgoKPiBIbW1tLi4ucHJvYmFibHkgcHJlbWF0dXJl
-IHRvIGJyaW5nIHRoaXMgdXAsIGJ1dCBEb2N1bWVudGF0aW9uL2Rldi10b29scy8KPiBpcyBraW5k
-IG9mIHRocm93biB0b2dldGhlci4KCldhaXQgYSBtaW51dGUsIG1hbi4uLiAqSSogY3JlYXRlZCB0
-aGF0IGRpcmVjdG9yeSwgYXJlIHlvdSBpbXB1Z25pbmcgbXkKd29yaz8gOikKCkJ1dCB5ZXMsICJr
-aW5kIG9mIHRocm93biB0b2dldGhlciIgaXMgYSBnb29kIGRlc2NyaXB0aW9uIG9mIG11Y2ggb2YK
-RG9jdW1lbnRhdGlvbi8uICBBIG51bWJlciBvZiBwZW9wbGUgaGF2ZSBiZWVuIHdvcmtpbmcgZm9y
-IHllYXJzIHRvIG1ha2UKdGhhdCBiZXR0ZXIsIHdpdGggc29tZSBzdWNjZXNzLCBidXQgdGhlcmUg
-aXMgYSBsb25nIHdheSB0byBnbyB5ZXQuICBUaGUKZGV2LXRvb2xzIGRpcmVjdG9yeSBpcyBhbiBp
-bXByb3ZlbWVudCBvdmVyIGhhdmluZyB0aGF0IHN0dWZmIHNjYXR0ZXJlZCBhbGwKb3ZlciB0aGUg
-cGxhY2Ug4oCUIGF0IGxlYXN0IGl0J3MgYWN0dWFsbHkgdGhyb3duIHRvZ2V0aGVyIOKAlCBidXQg
-aXQncyBub3QgdGhlCmVuZCBwb2ludC4KCj4gSXQgd291bGQgYmUgbmljZSB0byBwcm92aWRlIGEg
-Y29oZXJlbnQgb3ZlcnZpZXcsIG1heWJlIHByb3ZpZGUgc29tZQo+IGJhc2ljIGdyb3VwaW5nIGFz
-IHdlbGwuCj4gCj4gSXQgd291bGQgYmUgbmljZSBpZiB0aGVyZSB3YXMga2luZCBvZiBhIGdlbnRs
-ZSBpbnRyb2R1Y3Rpb24gdG8gdGhlCj4gdG9vbHMsIHdoaWNoIG9uZXMgeW91IHNob3VsZCBiZSBs
-b29raW5nIGF0LCB3aGVuLCB3aHksIGV0Yy4KClRvdGFsIGFncmVlbWVudC4gIEFsbCB3ZSBuZWVk
-IGlzIHNvbWVib2R5IHRvIHdyaXRlIGl0ISAgOikKClRoYW5rcywKCmpvbgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gV2VkLCBNYXkgMTUsIDIwMTkgYXQgMDM6NDA6MTRQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
+cm90ZToKPiBPbiBXZWQsIE1heSAxNSwgMjAxOSBhdCAwMzoyOToyNVBNICswMjAwLCBOb3JhbGYg
+VHLDuG5uZXMgd3JvdGU6Cj4gPiBkcm1fZmJfaGVscGVyX2hvdHBsdWdfZXZlbnQoKSBzaG91bGQg
+dG9sZXJhdGUgdGhlIGZiX2hlbHBlciBhcmd1bWVudCBiZWluZwo+ID4gTlVMTC4gQ29tbWl0IDAz
+YTk2MDZlN2ZlZSAoImRybS9mYi1oZWxwZXI6IEF2b2lkIHJhY2Ugd2l0aCBEUk0gdXNlcnNwYWNl
+IikKPiA+IGludHJvZHVjZWQgYSBmYl9oZWxwZXIgZGVyZWZlcmVuY2UgYmVmb3JlIHRoZSBOVUxM
+IGNoZWNrLgo+ID4gRml4dXAgYnkgbW92aW5nIHRoZSBkZXJlZmVyZW5jZSBhZnRlciB0aGUgTlVM
+TCBjaGVjay4KPiA+IAo+ID4gRml4ZXM6IDAzYTk2MDZlN2ZlZSAoImRybS9mYi1oZWxwZXI6IEF2
+b2lkIHJhY2Ugd2l0aCBEUk0gdXNlcnNwYWNlIikKPiA+IFJlcG9ydGVkLWJ5OiBrYnVpbGQgdGVz
+dCByb2JvdCA8bGtwQGludGVsLmNvbT4KPiA+IFJlcG9ydGVkLWJ5OiBEYW4gQ2FycGVudGVyIDxk
+YW4uY2FycGVudGVyQG9yYWNsZS5jb20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBOb3JhbGYgVHLDuG5u
+ZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KPiAKPiBBaCB0aGUgY2xhc3NpYyAiSSBzcG90dGVkIGEg
+ZGVyZWYgYmVmb3JlIHlvdXIgTlVMTCBjaGVjaywgSSdtIGdvaW5nIHRvCj4gb3B0aW1pemUgdGhp
+cyBhbGwgYXdheSBiZWNhdXNlIHlvdSBnb3QgaXQgd3JvbmciIG5vbnNlbnNlIGZyb20gZ2NjLiBJ
+Cj4gdGhvdWdodCB0aGUga2VybmVsIHVzZXMgYSBzcGVjaWFsIGNvbXBpbGUgZmxhZyB0byBhdm9p
+ZCB0aGlzIG9wdGltaXphdGlvbgo+IC4uLgoKVGhpcyBpcyBqdXN0IGEgbm9ybWFsIE5VTEwgZGVy
+ZWZlcmVuY2UgYnVnLgoKWW91J3JlIHRoaW5raW5nIG9mIHRoZSBvbGQgdHVuLmMgdnVsbmVyYWJp
+bGl0eS4gIFRoYXQgd2FzIGJhY2sgaW4gdGhlCmRheSBiZWZvcmUgd2Ugc3RhcnRlZCB1c2luZyAt
+Zm5vLWRlbGV0ZS1udWxsLXBvaW50ZXItY2hlY2tzLiAgV2hhdApoYXBwZW5lZCB0aGVyZSB3YXMg
+dGhlIGNvZGUgc2hvdWxkIGhhdmUgTlVMTCBkZXJlZmVyZW5jZWQgYW5kIE9vcHNlZCBidXQKR0ND
+IG9wdGltaXplZCBpdCBhd2F5IGFuZCBpdCBlbmRlZCB1cCBiZWluZyBhIHByaXZpbGVnZSBlc2Nh
+bGF0aW9uIGJ1ZwppbnN0ZWFkLgoKcmVnYXJkcywKZGFuIGNhcnBlbnRlcgoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
