@@ -1,37 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960531F673
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 16:22:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6591F684
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 16:27:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E244289298;
-	Wed, 15 May 2019 14:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 197A189216;
+	Wed, 15 May 2019 14:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com
- (mail-eopbgr810083.outbound.protection.outlook.com [40.107.81.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09F2F89291;
- Wed, 15 May 2019 14:22:41 +0000 (UTC)
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB1707.namprd12.prod.outlook.com (10.175.86.21) with Microsoft SMTP
+Received: from NAM03-BY2-obe.outbound.protection.outlook.com
+ (mail-eopbgr780045.outbound.protection.outlook.com [40.107.78.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1A88891FF;
+ Wed, 15 May 2019 14:27:25 +0000 (UTC)
+Received: from MN2PR12MB2910.namprd12.prod.outlook.com (20.179.81.219) by
+ MN2PR12MB3216.namprd12.prod.outlook.com (20.179.82.138) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1900.16; Wed, 15 May 2019 14:22:37 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::e1b1:5b6f:b2df:afa5]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::e1b1:5b6f:b2df:afa5%7]) with mapi id 15.20.1878.024; Wed, 15 May 2019
- 14:22:37 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: "Zhou, David(ChunMing)" <David1.Zhou@amd.com>, "Olsak, Marek"
- <Marek.Olsak@amd.com>, "Liang, Prike" <Prike.Liang@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU during CS
-Thread-Topic: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU during
- CS
-Thread-Index: AQHVCyml1YAv4ZwYk0eTCM4vlldemg==
-Date: Wed, 15 May 2019 14:22:36 +0000
-Message-ID: <67f0f0d0-7ec1-8737-8216-f7613e99d874@amd.com>
+ 15.20.1900.16; Wed, 15 May 2019 14:27:23 +0000
+Received: from MN2PR12MB2910.namprd12.prod.outlook.com
+ ([fe80::9daa:c9ea:c94e:ae45]) by MN2PR12MB2910.namprd12.prod.outlook.com
+ ([fe80::9daa:c9ea:c94e:ae45%3]) with mapi id 15.20.1878.024; Wed, 15 May 2019
+ 14:27:23 +0000
+From: "Zhou, David(ChunMing)" <David1.Zhou@amd.com>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)"
+ <David1.Zhou@amd.com>, "Olsak, Marek" <Marek.Olsak@amd.com>, "Liang, Prike"
+ <Prike.Liang@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+Subject: Re:[PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU during CS
+Thread-Topic: Re:[PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU
+ during CS
+Thread-Index: AQHVCymrVxMeWWycKEaO16O2pDJuYQ==
+Date: Wed, 15 May 2019 14:27:23 +0000
+Message-ID: <rp7e8bvmd8at-fbpuvj-5p99vd76g9os67avqt-62jpk3nrxe1mj5avps-jggemecehov-gybjrm3ihk9c-asqgt0-u3a3qe-ds4k57nwztbewro8e8-gx1b2p-aat3mys93rzu527f0k-yg1zrd-isx1lt.1557930440085@email.android.com>
 References: <20190514123127.1650-1-christian.koenig@amd.com>
  <20190514123127.1650-11-christian.koenig@amd.com>
  <-vf7xt3-qgf5mz-veq8ih-okgxtz-9ehg3tx8dyemoidihe-fwj066fntvvx-x3y4nh-bn07hl-82anfo4oofx-4di7gg-3nkfhtbcgh58-yj9ws0-pthytc-oq9qcxd40s4g-249dv8-x6wbfujry6xi-mu2nvl.1557839540398@email.android.com>
@@ -39,53 +40,47 @@ References: <20190514123127.1650-1-christian.koenig@amd.com>
  <-wsx1tz-kxfbz1yns7x33sra134gl11xhlux4lx3izissqr2httt4mb1vleyxgj8i7k6-q6ze8ub3ff8c4o0fxmx7niu76yg4-ybakue-3v14jw-ed5ol8ybh6o9-1ze886-hbstfi448pvq3pwhkj.1557844282594@email.android.com>
  <451e8757-b509-c0f7-eced-6ccedc45117b@gmail.com>
  <-z5t5bc-r0qydowvgp2jfwhsru6hathty0w6tmefo8lvfrqj4298bq6-53859k-e09jr8-7uhi4m-ne8q5-er44kbg5jt6sh5lbep35sue0-8jf289-u3ez2g-1jbf4vwi8mtu-b26by3izukbi-qq632i.1557930062576@email.android.com>
-In-Reply-To: <-z5t5bc-r0qydowvgp2jfwhsru6hathty0w6tmefo8lvfrqj4298bq6-53859k-e09jr8-7uhi4m-ne8q5-er44kbg5jt6sh5lbep35sue0-8jf289-u3ez2g-1jbf4vwi8mtu-b26by3izukbi-qq632i.1557930062576@email.android.com>
-Accept-Language: de-DE, en-US
+ <67f0f0d0-7ec1-8737-8216-f7613e99d874@amd.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: AM6PR0402CA0024.eurprd04.prod.outlook.com
- (2603:10a6:209::37) To DM5PR12MB1546.namprd12.prod.outlook.com
- (2603:10b6:4:8::23)
-x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [101.86.234.22]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5370718c-09c1-4444-5e91-08d6d940c746
+x-ms-office365-filtering-correlation-id: 0825df83-9125-405e-e297-08d6d9417263
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
- SRVR:DM5PR12MB1707; 
-x-ms-traffictypediagnostic: DM5PR12MB1707:
+ SRVR:MN2PR12MB3216; 
+x-ms-traffictypediagnostic: MN2PR12MB3216:
 x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DM5PR12MB1707C646DAD088D780AC470483090@DM5PR12MB1707.namprd12.prod.outlook.com>
+x-microsoft-antispam-prvs: <MN2PR12MB3216FE1172E3681D54B62430B4090@MN2PR12MB3216.namprd12.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 0038DE95A2
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(346002)(39860400002)(396003)(136003)(376002)(366004)(13464003)(189003)(199004)(25786009)(68736007)(450100002)(64126003)(2501003)(486006)(46003)(2906002)(446003)(2616005)(31686004)(316002)(229853002)(476003)(53936002)(6116002)(36756003)(6246003)(11346002)(8676002)(14444005)(256004)(6486002)(86362001)(71200400001)(71190400001)(606006)(76176011)(110136005)(2201001)(65826007)(6436002)(7736002)(81156014)(72206003)(81166006)(31696002)(65956001)(65806001)(478600001)(6506007)(64756008)(66574012)(236005)(966005)(73956011)(386003)(5660300002)(14454004)(66446008)(102836004)(6512007)(66476007)(66556008)(6306002)(54896002)(66946007)(52116002)(8936002)(99286004)(186003)(58126008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1707;
- H:DM5PR12MB1546.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+ SFS:(10009020)(346002)(376002)(396003)(136003)(39860400002)(366004)(13464003)(199004)(189003)(76116006)(66556008)(64756008)(66446008)(7736002)(91956017)(68736007)(72206003)(66946007)(66476007)(81166006)(446003)(8676002)(81156014)(66066001)(476003)(450100002)(102836004)(3846002)(6116002)(256004)(25786009)(6506007)(14444005)(186003)(26005)(76176011)(486006)(71200400001)(71190400001)(110136005)(606006)(14454004)(2501003)(236005)(99286004)(316002)(2906002)(6436002)(966005)(53936002)(2201001)(73956011)(6486002)(86362001)(478600001)(6512007)(8936002)(5660300002)(66574012)(6306002)(54896002)(9686003)(921003)(1121003)(87826002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3216;
+ H:MN2PR12MB2910.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ye25NcQe/s6aurb5eh/9KWxi/+slqbdbkzJHUnEo7oJeowtnDi7qpWAGyNUNJVV38HJWD5Ax0DexyV+KoX3ba8Kc87XBeYLlKqy12Rj7gDED0N/koe/Y9fOAD0NG3krv91Z8FRGFxKF2fsYmzE6fLqe5GaDn2wvtoZINyy9z+d5BQpWHYMDbQmhTiwhhIrFQ2SzkTWA1+rFLNRbwgdodtQd1ly/ysAysKIVW8dwEtnGTNOS5uXFAXLCPUHVMLjUdUJNb7hPLi6p7XsSGYDiDpaz/S/SdZB4UIhYAGEpZdZvtyiNy/dkMMN4zUAp7pUl8Hvrrk0JFXwSsBHNLYaVMS4tM5lVg+FeHF2vCvyncKnG/pB1JAew6lzhSY0l7eXwgvpj22kEBOFmcbLVl9WaizFPdL9CD/dhCmeoW8l1lInE=
+x-microsoft-antispam-message-info: l34yu1CvZepIqKO/ZkTAFjTHf2ycotQtE/wfbmbGPR9rfSkbUqfcHp87b21sehn+wrZ1YXFGPeq4nIph2u54R+9DzH/ona96UMfosI1PxM5sIDCbUufbiHvIEvYhBBPtzeGYke7a4PTe1YqXh8n1U/W9r3vp2wpqluIomuEfdk1ZzHTr5mgjyiOW2y4H364WUlNC/8AZLy6nTTK+kzyE6g6/gLSVV5J+tfkymHDcZ67p98wnnYaDFXXlRr/9iYgOJ5lLkuWXQD9cy+g08ReUWmW+gzn6xY92p64EltQq158jAsmwErhu1JuO9+ktPXNK+Zhu1ipiYCeKmjeanDf7CeYbnW1KpRrRBlom3vtdE3/lVAeXGxMbkPbdJ/LrppKYff8hPq7XZ+/Md0TmP7S1tJtmOzJ70LX80q70ZVB8XAo=
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5370718c-09c1-4444-5e91-08d6d940c746
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 14:22:37.0951 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0825df83-9125-405e-e297-08d6d9417263
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 14:27:23.2752 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1707
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3216
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LnoX/fl5KwtU4wBxSTiFknSfo06djnfovxINIVkJpzk=;
- b=mPLg/7y7rXritRxxOpd3jvaEGct4QVFIaX5hqIy6Vfa93u/tjAH1ugThzlyYFjspj93OwDXpGQnjev2gVFuhjgp98d3elu3TPFYJuvyKq5qaX7pjq7SB0rzZUqMz3p+9efa7ycsYPh6uacjhwBJqtRGZ0JOpMvxCUm2XNFPqy5E=
+ bh=Sv1OBTg2o6bIBvlLBIOSevfEbr34vCd9r62xxqoTUVs=;
+ b=feuqm9ClJ2WsZiEgg4By3AkHAkI9vaCS2VTG4mqQzO0Lvt2Sr0/BxbgXDDFhjKpNOQ15PNmw4xGuBtnp3xcrFoIP94lZREoS8PNW21UQ6OY2bwwL9pAoJYjLdwSDcnwDGQDhgm/TLoofyq6QrMeSJcnZp+RNNgu3CJy5J0jvUMs=
 X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
+ smtp.mailfrom=David1.Zhou@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,324 +93,219 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0092638612=="
+Content-Type: multipart/mixed; boundary="===============0295172201=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0092638612==
+--===============0295172201==
 Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="_000_67f0f0d07ec187378216f7613e99d874amdcom_"
+	boundary="_000_rp7e8bvmd8atfbpuvj5p99vd76g9os67avqt62jpk3nrxe1mj5avpsj_"
 
---_000_67f0f0d07ec187378216f7613e99d874amdcom_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+--_000_rp7e8bvmd8atfbpuvj5p99vd76g9os67avqt62jpk3nrxe1mj5avpsj_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-BO list? No, we stop removing them from the LRU.
+QWgsIHNvcnJ5LCBJIG1pc3NlZCAgIisgICAgICAgICAgICAgICAgICAgICAgdHRtX2JvX21vdmVf
+dG9fbHJ1X3RhaWwoYm8sIE5VTEwpOyIuDQoNClJpZ2h0LCBtb3ZpbmcgdGhlbSB0byBlbmQgYmVm
+b3JlIHJlbGVhc2luZyBpcyBmaXhpbmcgbXkgY29uY2Vybi4NCg0KU29ycnkgZm9yIG5vaXNlLg0K
+LURhdmlkDQoNCg0KLS0tLS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLQ0KU3ViamVjdDog
+UmU6IFtQQVRDSCAxMS8xMV0gZHJtL2FtZGdwdTogc3RvcCByZW1vdmluZyBCT3MgZnJvbSB0aGUg
+TFJVIGR1cmluZyBDUw0KRnJvbTogIktvZW5pZywgQ2hyaXN0aWFuIg0KVG86ICJaaG91LCBEYXZp
+ZChDaHVuTWluZykiICwiT2xzYWssIE1hcmVrIiAsIkxpYW5nLCBQcmlrZSIgLGRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcsYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCkNDOg0K
+DQpbQ0FVVElPTjogRXh0ZXJuYWwgRW1haWxdDQpCTyBsaXN0PyBObywgd2Ugc3RvcCByZW1vdmlu
+ZyB0aGVtIGZyb20gdGhlIExSVS4NCg0KQnV0IHdlIHN0aWxsIG1vdmUgdGhlbSB0byB0aGUgZW5k
+IG9mIHRoZSBMUlUgYmVmb3JlIHJlbGVhc2luZyB0aGVtLg0KDQpDaHJpc3RpYW4uDQoNCkFtIDE1
+LjA1LjE5IHVtIDE2OjIxIHNjaHJpZWIgWmhvdSwgRGF2aWQoQ2h1bk1pbmcpOg0KSXNuJ3QgdGhp
+cyBwYXRjaCB0cnlpbmcgdG8gc3RvcCByZW1vdmluZyBmb3IgYWxsIEJPcyAgZnJvbSBibyBsaXN0
+Pw0KDQotRGF2aWQNCg0KLS0tLS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLQ0KU3ViamVj
+dDogUmU6IFtQQVRDSCAxMS8xMV0gZHJtL2FtZGdwdTogc3RvcCByZW1vdmluZyBCT3MgZnJvbSB0
+aGUgTFJVIGR1cmluZyBDUw0KRnJvbTogQ2hyaXN0aWFuIEvDtm5pZw0KVG86ICJaaG91LCBEYXZp
+ZChDaHVuTWluZykiICwiS29lbmlnLCBDaHJpc3RpYW4iICwiT2xzYWssIE1hcmVrIiAsIkxpYW5n
+LCBQcmlrZSIgLGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsYW1kLWdmeEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmc8bWFpbHRvOmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsYW1k
+LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+DQpDQzoNCg0KW0NBVVRJT046IEV4dGVybmFsIEVt
+YWlsXQ0KVGhhdCBpcyBhIGdvb2QgcG9pbnQsIGJ1dCBhY3R1YWxseSBub3QgYSBwcm9ibGVtIGlu
+IHByYWN0aWNlLg0KDQpTZWUgdGhlIGNoYW5nZSB0byB0dG1fZXVfZmVuY2VfYnVmZmVyX29iamVj
+dHM6DQotICAgICAgICAgICAgICAgdHRtX2JvX2FkZF90b19scnUoYm8pOw0KKyAgICAgICAgICAg
+ICAgIGlmIChsaXN0X2VtcHR5KCZiby0+bHJ1KSkNCisgICAgICAgICAgICAgICAgICAgICAgIHR0
+bV9ib19hZGRfdG9fbHJ1KGJvKTsNCisgICAgICAgICAgICAgICBlbHNlDQorICAgICAgICAgICAg
+ICAgICAgICAgICB0dG1fYm9fbW92ZV90b19scnVfdGFpbChibywgTlVMTCk7DQoNCldlIHN0aWxs
+IG1vdmUgdGhlIEJPcyB0byB0aGUgZW5kIG9mIHRoZSBMUlUgaW4gdGhlIHNhbWUgb3JkZXIgd2Ug
+aGF2ZSBiZWZvcmUsIHdlIGp1c3QgZG9uJ3QgcmVtb3ZlIHRoZW0gd2hlbiB0aGV5IGFyZSByZXNl
+cnZlZC4NCg0KUmVnYXJkcywNCkNocmlzdGlhbi4NCg0KQW0gMTQuMDUuMTkgdW0gMTY6MzEgc2No
+cmllYiBaaG91LCBEYXZpZChDaHVuTWluZyk6DQpob3cgdG8gcmVmcmVzaCBMUlUgdG8ga2VlcCB0
+aGUgb3JkZXIgYWxpZ24gd2l0aCBibyBsaXN0IHBhc3NlZCBmcm9tIHVzZXIgc3BhY2U/DQoNCnlv
+dSBjYW4gdmVyaWZ5IGl0IGJ5IHNvbWUgZ2FtZXMsIHBlcmZvcm1hbmNlIGNvdWxkIGJlIGRpZmZl
+cmVudCBtdWNoIGJldHdlZW4gbXVsdGlwbGUgcnVubmluZ3MuDQoNCi1EYXZpZA0KDQotLS0tLS0t
+LSBPcmlnaW5hbCBNZXNzYWdlIC0tLS0tLS0tDQpTdWJqZWN0OiBSZTogW1BBVENIIDExLzExXSBk
+cm0vYW1kZ3B1OiBzdG9wIHJlbW92aW5nIEJPcyBmcm9tIHRoZSBMUlUgZHVyaW5nIENTDQpGcm9t
+OiBDaHJpc3RpYW4gS8O2bmlnDQpUbzogIlpob3UsIERhdmlkKENodW5NaW5nKSIgLCJPbHNhaywg
+TWFyZWsiICwiTGlhbmcsIFByaWtlIiAsZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyxh
+bWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzxtYWlsdG86ZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZyxhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZz4NCkNDOg0KDQpbQ0FVVElP
+TjogRXh0ZXJuYWwgRW1haWxdDQpIdWk/IFdoYXQgZG8geW91IG1lYW4gd2l0aCB0aGF0Pw0KDQpD
+aHJpc3RpYW4uDQoNCkFtIDE0LjA1LjE5IHVtIDE1OjEyIHNjaHJpZWIgWmhvdSwgRGF2aWQoQ2h1
+bk1pbmcpOg0KbXkgb25seSBjb25jZXJuIGlzIGhvdyB0byBmcmVzaCBMUlUgd2hlbiBibyBpcyBm
+cm9tIGJvIGxpc3QuDQoNCi1EYXZpZA0KDQotLS0tLS0tLSBPcmlnaW5hbCBNZXNzYWdlIC0tLS0t
+LS0tDQpTdWJqZWN0OiBbUEFUQ0ggMTEvMTFdIGRybS9hbWRncHU6IHN0b3AgcmVtb3ZpbmcgQk9z
+IGZyb20gdGhlIExSVSBkdXJpbmcgQ1MNCkZyb206IENocmlzdGlhbiBLw7ZuaWcNClRvOiAiT2xz
+YWssIE1hcmVrIiAsIlpob3UsIERhdmlkKENodW5NaW5nKSIgLCJMaWFuZywgUHJpa2UiICxkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+PG1haWx0bzpkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnLGFtZC1nZnhAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnPg0KQ0M6DQoNCltDQVVUSU9OOiBFeHRlcm5hbCBFbWFpbF0NCg0KVGhpcyBh
+dm9pZHMgT09NIHNpdHVhdGlvbnMgd2hlbiB3ZSBoYXZlIGxvdHMgb2YgdGhyZWFkcw0Kc3VibWl0
+dGluZyBhdCB0aGUgc2FtZSB0aW1lLg0KDQpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmln
+IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+PG1haWx0bzpjaHJpc3RpYW4ua29lbmlnQGFtZC5j
+b20+DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY3MuYyB8IDIgKy0N
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jIGIvZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMNCmluZGV4IGZmZjU1OGNmMzg1Yi4uZjkyNDBh
+OTQyMTdiIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Nz
+LmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jDQpAQCAtNjQ4
+LDcgKzY0OCw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X2NzX3BhcnNlcl9ib3Moc3RydWN0IGFtZGdw
+dV9jc19wYXJzZXIgKnAsDQogICAgICAgIH0NCg0KICAgICAgICByID0gdHRtX2V1X3Jlc2VydmVf
+YnVmZmVycygmcC0+dGlja2V0LCAmcC0+dmFsaWRhdGVkLCB0cnVlLA0KLSAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAmZHVwbGljYXRlcywgdHJ1ZSk7DQorICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICZkdXBsaWNhdGVzLCBmYWxzZSk7DQogICAgICAgIGlmICh1bmxp
+a2VseShyICE9IDApKSB7DQogICAgICAgICAgICAgICAgaWYgKHIgIT0gLUVSRVNUQVJUU1lTKQ0K
+ICAgICAgICAgICAgICAgICAgICAgICAgRFJNX0VSUk9SKCJ0dG1fZXVfcmVzZXJ2ZV9idWZmZXJz
+IGZhaWxlZC5cbiIpOw0KLS0NCjIuMTcuMQ0KDQoNCg0KDQoNCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fDQphbWQtZ2Z4IG1haWxpbmcgbGlzdA0KYW1kLWdm
+eEBsaXN0cy5mcmVlZGVza3RvcC5vcmc8bWFpbHRvOmFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnPg0KaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQt
+Z2Z4DQoNCg0K
 
-But we still move them to the end of the LRU before releasing them.
+--_000_rp7e8bvmd8atfbpuvj5p99vd76g9os67avqt62jpk3nrxe1mj5avpsj_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <C901344523D37A4C9D2B18B9CF427381@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: base64
 
-Christian.
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KQWgsIHNvcnJ5LCBJ
+IG1pc3NlZCZuYnNwOyAmcXVvdDsmIzQzOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwO3R0bV9ib19tb3ZlX3Rv
+X2xydV90YWlsKGJvLCBOVUxMKTsmcXVvdDsuPGJyPg0KPGJyPg0KUmlnaHQsIG1vdmluZyB0aGVt
+IHRvIGVuZCBiZWZvcmUgcmVsZWFzaW5nIGlzIGZpeGluZyBteSBjb25jZXJuLjxicj4NCjxicj4N
+ClNvcnJ5IGZvciBub2lzZS48YnI+DQotRGF2aWQNCjxkaXYgc3R5bGU9ImxpbmUtaGVpZ2h0OjEu
+NSI+PGJyPg0KPGJyPg0KLS0tLS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLTxicj4NClN1
+YmplY3Q6IFJlOiBbUEFUQ0ggMTEvMTFdIGRybS9hbWRncHU6IHN0b3AgcmVtb3ZpbmcgQk9zIGZy
+b20gdGhlIExSVSBkdXJpbmcgQ1M8YnI+DQpGcm9tOiAmcXVvdDtLb2VuaWcsIENocmlzdGlhbiZx
+dW90OyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPjxicj4NClRvOiAmcXVvdDtaaG91LCBEYXZp
+ZChDaHVuTWluZykmcXVvdDsgPGRhdmlkMS56aG91QGFtZC5jb20+LCZxdW90O09sc2FrLCBNYXJl
+ayZxdW90OyA8bWFyZWsub2xzYWtAYW1kLmNvbT4NCiwmcXVvdDtMaWFuZywgUHJpa2UmcXVvdDsg
+PHByaWtlLmxpYW5nQGFtZC5jb20+LGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcsYW1k
+LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc8YnI+DQpDQzogPGJyPg0KPGJyPg0KPGJsb2NrcXVv
+dGUgc3R5bGU9Im1hcmdpbjowIDAgMCAwLjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xpZDtw
+YWRkaW5nLWxlZnQ6MWV4Ij4NCjxibG9ja3F1b3RlIGNsYXNzPSJxdW90ZSIgc3R5bGU9Im1hcmdp
+bjowIDAgMCAuOGV4O2JvcmRlci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgi
+Pg0KPGRpdj5bQ0FVVElPTjogRXh0ZXJuYWwgRW1haWxdDQo8ZGl2Pg0KPGRpdj5CTyBsaXN0PyBO
+bywgd2Ugc3RvcCByZW1vdmluZyB0aGVtIGZyb20gdGhlIExSVS48YnI+DQo8YnI+DQpCdXQgd2Ug
+c3RpbGwgbW92ZSB0aGVtIHRvIHRoZSBlbmQgb2YgdGhlIExSVSBiZWZvcmUgcmVsZWFzaW5nIHRo
+ZW0uPGJyPg0KPGJyPg0KQ2hyaXN0aWFuLjxicj4NCjxicj4NCkFtIDE1LjA1LjE5IHVtIDE2OjIx
+IHNjaHJpZWIgWmhvdSwgRGF2aWQoQ2h1bk1pbmcpOjxicj4NCjwvZGl2Pg0KPGJsb2NrcXVvdGU+
+PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8L2Rpdj4NCklzbid0IHRoaXMgcGF0Y2ggdHJ5aW5nIHRv
+IHN0b3AgcmVtb3ZpbmcgZm9yIGFsbCBCT3MmbmJzcDsgZnJvbSBibyBsaXN0Pzxicj4NCjxicj4N
+Ci1EYXZpZDxicj4NCjxicj4NCi0tLS0tLS0tIE9yaWdpbmFsIE1lc3NhZ2UgLS0tLS0tLS08YnI+
+DQpTdWJqZWN0OiBSZTogW1BBVENIIDExLzExXSBkcm0vYW1kZ3B1OiBzdG9wIHJlbW92aW5nIEJP
+cyBmcm9tIHRoZSBMUlUgZHVyaW5nIENTPGJyPg0KRnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8YnI+
+DQpUbzogJnF1b3Q7WmhvdSwgRGF2aWQoQ2h1bk1pbmcpJnF1b3Q7ICwmcXVvdDtLb2VuaWcsIENo
+cmlzdGlhbiZxdW90OyAsJnF1b3Q7T2xzYWssIE1hcmVrJnF1b3Q7ICwmcXVvdDtMaWFuZywgUHJp
+a2UmcXVvdDsgLDxhIGhyZWY9Im1haWx0bzpkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+LGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIj5kcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnLGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPC9hPjxicj4NCkNDOiA8YnI+DQo8
+YnI+DQo8ZGl2PltDQVVUSU9OOiBFeHRlcm5hbCBFbWFpbF0NCjxkaXY+DQo8ZGl2PlRoYXQgaXMg
+YSBnb29kIHBvaW50LCBidXQgYWN0dWFsbHkgbm90IGEgcHJvYmxlbSBpbiBwcmFjdGljZS48YnI+
+DQo8YnI+DQpTZWUgdGhlIGNoYW5nZSB0byB0dG1fZXVfZmVuY2VfYnVmZmVyX29iamVjdHM6PGJy
+Pg0KPGJsb2NrcXVvdGU+LSZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB0dG1fYm9fYWRkX3Rv
+X2xydShibyk7PGJyPg0KJiM0MzsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgKGxpc3Rf
+ZW1wdHkoJmFtcDtiby0mZ3Q7bHJ1KSk8YnI+DQomIzQzOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyB0dG1f
+Ym9fYWRkX3RvX2xydShibyk7PGJyPg0KJiM0MzsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsg
+ZWxzZTxicj4NCiYjNDM7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHR0bV9ib19tb3ZlX3RvX2xydV90YWls
+KGJvLCBOVUxMKTs8YnI+DQo8L2Jsb2NrcXVvdGU+DQo8YnI+DQpXZSBzdGlsbCBtb3ZlIHRoZSBC
+T3MgdG8gdGhlIGVuZCBvZiB0aGUgTFJVIGluIHRoZSBzYW1lIG9yZGVyIHdlIGhhdmUgYmVmb3Jl
+LCB3ZSBqdXN0IGRvbid0IHJlbW92ZSB0aGVtIHdoZW4gdGhleSBhcmUgcmVzZXJ2ZWQuPGJyPg0K
+PGJyPg0KUmVnYXJkcyw8YnI+DQpDaHJpc3RpYW4uPGJyPg0KPGJyPg0KQW0gMTQuMDUuMTkgdW0g
+MTY6MzEgc2NocmllYiBaaG91LCBEYXZpZChDaHVuTWluZyk6PGJyPg0KPC9kaXY+DQo8YmxvY2tx
+dW90ZT48L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjwvZGl2Pg0KaG93IHRvIHJlZnJlc2ggTFJVIHRv
+IGtlZXAgdGhlIG9yZGVyIGFsaWduIHdpdGggYm8gbGlzdCBwYXNzZWQgZnJvbSB1c2VyIHNwYWNl
+Pzxicj4NCjxicj4NCnlvdSBjYW4gdmVyaWZ5IGl0IGJ5IHNvbWUgZ2FtZXMsIHBlcmZvcm1hbmNl
+IGNvdWxkIGJlIGRpZmZlcmVudCBtdWNoIGJldHdlZW4gbXVsdGlwbGUgcnVubmluZ3MuPGJyPg0K
+PGJyPg0KLURhdmlkPGJyPg0KPGJyPg0KLS0tLS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0t
+LTxicj4NClN1YmplY3Q6IFJlOiBbUEFUQ0ggMTEvMTFdIGRybS9hbWRncHU6IHN0b3AgcmVtb3Zp
+bmcgQk9zIGZyb20gdGhlIExSVSBkdXJpbmcgQ1M8YnI+DQpGcm9tOiBDaHJpc3RpYW4gS8O2bmln
+IDxicj4NClRvOiAmcXVvdDtaaG91LCBEYXZpZChDaHVuTWluZykmcXVvdDsgLCZxdW90O09sc2Fr
+LCBNYXJlayZxdW90OyAsJnF1b3Q7TGlhbmcsIFByaWtlJnF1b3Q7ICw8YSBocmVmPSJtYWlsdG86
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyxhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZyI+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZyxhbWQtZ2Z4QGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZzwvYT48YnI+DQpDQzogPGJyPg0KPGJyPg0KPGRpdj5bQ0FVVElPTjogRXh0ZXJu
+YWwgRW1haWxdDQo8ZGl2Pg0KPGRpdj5IdWk/IFdoYXQgZG8geW91IG1lYW4gd2l0aCB0aGF0Pzxi
+cj4NCjxicj4NCkNocmlzdGlhbi48YnI+DQo8YnI+DQpBbSAxNC4wNS4xOSB1bSAxNToxMiBzY2hy
+aWViIFpob3UsIERhdmlkKENodW5NaW5nKTo8YnI+DQo8L2Rpdj4NCjxibG9ja3F1b3RlPjwvYmxv
+Y2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8ZGl2Pm15IG9ubHkgY29uY2VybiBpcyBob3cgdG8g
+ZnJlc2ggTFJVIHdoZW4gYm8gaXMgZnJvbSBibyBsaXN0Ljxicj4NCjxicj4NCi1EYXZpZDxicj4N
+Cjxicj4NCi0tLS0tLS0tIE9yaWdpbmFsIE1lc3NhZ2UgLS0tLS0tLS08YnI+DQpTdWJqZWN0OiBb
+UEFUQ0ggMTEvMTFdIGRybS9hbWRncHU6IHN0b3AgcmVtb3ZpbmcgQk9zIGZyb20gdGhlIExSVSBk
+dXJpbmcgQ1M8YnI+DQpGcm9tOiBDaHJpc3RpYW4gS8O2bmlnIDxicj4NClRvOiAmcXVvdDtPbHNh
+aywgTWFyZWsmcXVvdDsgLCZxdW90O1pob3UsIERhdmlkKENodW5NaW5nKSZxdW90OyAsJnF1b3Q7
+TGlhbmcsIFByaWtlJnF1b3Q7ICw8YSBocmVmPSJtYWlsdG86ZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZyxhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyI+ZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZyxhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzwvYT48YnI+DQpD
+QzogPGJyPg0KPGJyPg0KPC9kaXY+DQo8Zm9udCBzaXplPSIyIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExcHQiPjwvc3Bhbj48L2ZvbnQ+DQo8ZGl2PltDQVVUSU9OOiBFeHRlcm5hbCBFbWFpbF08
+YnI+DQo8YnI+DQpUaGlzIGF2b2lkcyBPT00gc2l0dWF0aW9ucyB3aGVuIHdlIGhhdmUgbG90cyBv
+ZiB0aHJlYWRzPGJyPg0Kc3VibWl0dGluZyBhdCB0aGUgc2FtZSB0aW1lLjxicj4NCjxicj4NClNp
+Z25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGEgaHJlZj0ibWFpbHRvOmNocmlzdGlhbi5r
+b2VuaWdAYW1kLmNvbSI+Jmx0O2NocmlzdGlhbi5rb2VuaWdAYW1kLmNvbSZndDs8L2E+PGJyPg0K
+LS0tPGJyPg0KJm5ic3A7ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmMgfCAy
+ICYjNDM7LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigmIzQzOyksIDEg
+ZGVsZXRpb24oLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X2NzLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfY3Mu
+Yzxicj4NCmluZGV4IGZmZjU1OGNmMzg1Yi4uZjkyNDBhOTQyMTdiIDEwMDY0NDxicj4NCi0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9jcy5jPGJyPg0KJiM0MzsmIzQzOyYj
+NDM7IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2NzLmM8YnI+DQpAQCAtNjQ4
+LDcgJiM0Mzs2NDgsNyBAQCBzdGF0aWMgaW50IGFtZGdwdV9jc19wYXJzZXJfYm9zKHN0cnVjdCBh
+bWRncHVfY3NfcGFyc2VyICpwLDxicj4NCiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyB9PGJyPg0KPGJyPg0KJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7IHIgPSB0dG1fZXVfcmVzZXJ2ZV9idWZmZXJzKCZhbXA7cC0mZ3Q7dGlja2V0LCAm
+YW1wO3AtJmd0O3ZhbGlkYXRlZCwgdHJ1ZSw8YnI+DQotJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7ICZhbXA7ZHVwbGljYXRlcywgdHJ1ZSk7PGJyPg0KJiM0MzsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsgJmFtcDtkdXBsaWNhdGVzLCBmYWxzZSk7PGJyPg0KJm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGlmICh1bmxpa2VseShyICE9IDApKSB7PGJyPg0KJm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGlmIChyICE9IC1FUkVTVEFSVFNZUyk8YnI+
+DQombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgRFJNX0VSUk9SKCZxdW90O3R0bV9ldV9yZXNlcnZl
+X2J1ZmZlcnMgZmFpbGVkLlxuJnF1b3Q7KTs8YnI+DQotLTxicj4NCjIuMTcuMTxicj4NCjxicj4N
+CjwvZGl2Pg0KPGJyPg0KPGJyPg0KPGZpZWxkc2V0PjwvZmllbGRzZXQ+DQo8cHJlPl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmFtZC1nZnggbWFpbGluZyBs
+aXN0CjxhIGhyZWY9Im1haWx0bzphbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZyI+YW1kLWdm
+eEBsaXN0cy5mcmVlZGVza3RvcC5vcmc8L2E+CjxhIGhyZWY9Imh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeCI+aHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4PC9hPjwvcHJlPg0KPGJyPg0KPGJyPg0K
+PC9ibG9ja3F1b3RlPg0KPC9ibG9ja3F1b3RlPg0KPC9wcmlrZS5saWFuZ0BhbWQuY29tPjwvbWFy
+ZWsub2xzYWtAYW1kLmNvbT48L2RhdmlkMS56aG91QGFtZC5jb20+PC9jaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Am 15.05.19 um 16:21 schrieb Zhou, David(ChunMing):
-Isn't this patch trying to stop removing for all BOs  from bo list?
+--_000_rp7e8bvmd8atfbpuvj5p99vd76g9os67avqt62jpk3nrxe1mj5avpsj_--
 
--David
-
--------- Original Message --------
-Subject: Re: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU durin=
-g CS
-From: Christian K=F6nig
-To: "Zhou, David(ChunMing)" ,"Koenig, Christian" ,"Olsak, Marek" ,"Liang, P=
-rike" ,dri-devel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org<mailto=
-:dri-devel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org>
-CC:
-
-[CAUTION: External Email]
-That is a good point, but actually not a problem in practice.
-
-See the change to ttm_eu_fence_buffer_objects:
--               ttm_bo_add_to_lru(bo);
-+               if (list_empty(&bo->lru))
-+                       ttm_bo_add_to_lru(bo);
-+               else
-+                       ttm_bo_move_to_lru_tail(bo, NULL);
-
-We still move the BOs to the end of the LRU in the same order we have befor=
-e, we just don't remove them when they are reserved.
-
-Regards,
-Christian.
-
-Am 14.05.19 um 16:31 schrieb Zhou, David(ChunMing):
-how to refresh LRU to keep the order align with bo list passed from user sp=
-ace?
-
-you can verify it by some games, performance could be different much betwee=
-n multiple runnings.
-
--David
-
--------- Original Message --------
-Subject: Re: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU durin=
-g CS
-From: Christian K=F6nig
-To: "Zhou, David(ChunMing)" ,"Olsak, Marek" ,"Liang, Prike" ,dri-devel@list=
-s.freedesktop.org,amd-gfx@lists.freedesktop.org<mailto:dri-devel@lists.free=
-desktop.org,amd-gfx@lists.freedesktop.org>
-CC:
-
-[CAUTION: External Email]
-Hui? What do you mean with that?
-
-Christian.
-
-Am 14.05.19 um 15:12 schrieb Zhou, David(ChunMing):
-my only concern is how to fresh LRU when bo is from bo list.
-
--David
-
--------- Original Message --------
-Subject: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU during CS
-From: Christian K=F6nig
-To: "Olsak, Marek" ,"Zhou, David(ChunMing)" ,"Liang, Prike" ,dri-devel@list=
-s.freedesktop.org,amd-gfx@lists.freedesktop.org<mailto:dri-devel@lists.free=
-desktop.org,amd-gfx@lists.freedesktop.org>
-CC:
-
-[CAUTION: External Email]
-
-This avoids OOM situations when we have lots of threads
-submitting at the same time.
-
-Signed-off-by: Christian K=F6nig <christian.koenig@amd.com><mailto:christia=
-n.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/a=
-mdgpu/amdgpu_cs.c
-index fff558cf385b..f9240a94217b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -648,7 +648,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser=
- *p,
-        }
-
-        r =3D ttm_eu_reserve_buffers(&p->ticket, &p->validated, true,
--                                  &duplicates, true);
-+                                  &duplicates, false);
-        if (unlikely(r !=3D 0)) {
-                if (r !=3D -ERESTARTSYS)
-                        DRM_ERROR("ttm_eu_reserve_buffers failed.\n");
---
-2.17.1
-
-
-
-
-
-_______________________________________________
-amd-gfx mailing list
-amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org>
-https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-
-
-
---_000_67f0f0d07ec187378216f7613e99d874amdcom_
-Content-Type: text/html; charset="Windows-1252"
-Content-ID: <FF6E9BF95658424D8A466EA89E196960@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-</head>
-<body text=3D"#000000" bgcolor=3D"#FFFFFF">
-<div class=3D"moz-cite-prefix">BO list? No, we stop removing them from the =
-LRU.<br>
-<br>
-But we still move them to the end of the LRU before releasing them.<br>
-<br>
-Christian.<br>
-<br>
-Am 15.05.19 um 16:21 schrieb Zhou, David(ChunMing):<br>
-</div>
-<blockquote type=3D"cite" cite=3D"mid:-z5t5bc-r0qydowvgp2jfwhsru6hathty0w6t=
-mefo8lvfrqj4298bq6-53859k-e09jr8-7uhi4m-ne8q5-er44kbg5jt6sh5lbep35sue0-8jf2=
-89-u3ez2g-1jbf4vwi8mtu-b26by3izukbi-qq632i.1557930062576@email.android.com"=
->
-<meta content=3D"text/html; charset=3DWindows-1252">
-Isn't this patch trying to stop removing for all BOs&nbsp; from bo list?<br=
->
-<br>
--David<br>
-<br>
--------- Original Message --------<br>
-Subject: Re: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU durin=
-g CS<br>
-From: Christian K=F6nig <br>
-To: &quot;Zhou, David(ChunMing)&quot; ,&quot;Koenig, Christian&quot; ,&quot=
-;Olsak, Marek&quot; ,&quot;Liang, Prike&quot; ,<a class=3D"moz-txt-link-abb=
-reviated" href=3D"mailto:dri-devel@lists.freedesktop.org,amd-gfx@lists.free=
-desktop.org">dri-devel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org<=
-/a><br>
-CC: <br>
-<br>
-<div>[CAUTION: External Email]
-<div>
-<div class=3D"moz-cite-prefix">That is a good point, but actually not a pro=
-blem in practice.<br>
-<br>
-See the change to ttm_eu_fence_buffer_objects:<br>
-<blockquote type=3D"cite">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm_bo_add_to_lru(bo);<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; if (list_empty(&amp;bo-&gt;lru))<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm_bo_add_t=
-o_lru(bo);<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp; else<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm_bo_move_=
-to_lru_tail(bo, NULL);<br>
-</blockquote>
-<br>
-We still move the BOs to the end of the LRU in the same order we have befor=
-e, we just don't remove them when they are reserved.<br>
-<br>
-Regards,<br>
-Christian.<br>
-<br>
-Am 14.05.19 um 16:31 schrieb Zhou, David(ChunMing):<br>
-</div>
-<blockquote type=3D"cite">
-<meta content=3D"text/html; charset=3DWindows-1252">
-how to refresh LRU to keep the order align with bo list passed from user sp=
-ace?<br>
-<br>
-you can verify it by some games, performance could be different much betwee=
-n multiple runnings.<br>
-<br>
--David<br>
-<br>
--------- Original Message --------<br>
-Subject: Re: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU durin=
-g CS<br>
-From: Christian K=F6nig <br>
-To: &quot;Zhou, David(ChunMing)&quot; ,&quot;Olsak, Marek&quot; ,&quot;Lian=
-g, Prike&quot; ,<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:dri-de=
-vel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org" moz-do-not-send=3D=
-"true">dri-devel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org</a><br=
->
-CC: <br>
-<br>
-<div>[CAUTION: External Email]
-<div>
-<div class=3D"moz-cite-prefix">Hui? What do you mean with that?<br>
-<br>
-Christian.<br>
-<br>
-Am 14.05.19 um 15:12 schrieb Zhou, David(ChunMing):<br>
-</div>
-<blockquote type=3D"cite">
-<meta name=3D"Generator" content=3D"Microsoft Exchange
-                    Server">
-<style>
-<!--
-.EmailQuote
-	{margin-left:1pt;
-	padding-left:4pt;
-	border-left:#800000 2px solid}
--->
-</style>
-<div>my only concern is how to fresh LRU when bo is from bo list.<br>
-<br>
--David<br>
-<br>
--------- Original Message --------<br>
-Subject: [PATCH 11/11] drm/amdgpu: stop removing BOs from the LRU during CS=
-<br>
-From: Christian K=F6nig <br>
-To: &quot;Olsak, Marek&quot; ,&quot;Zhou, David(ChunMing)&quot; ,&quot;Lian=
-g, Prike&quot; ,<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:dri-de=
-vel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org" moz-do-not-send=3D=
-"true">dri-devel@lists.freedesktop.org,amd-gfx@lists.freedesktop.org</a><br=
->
-CC: <br>
-<br>
-</div>
-<font size=3D"2"><span style=3D"font-size:11pt">
-<div class=3D"PlainText">[CAUTION: External Email]<br>
-<br>
-This avoids OOM situations when we have lots of threads<br>
-submitting at the same time.<br>
-<br>
-Signed-off-by: Christian K=F6nig <a class=3D"moz-txt-link-rfc2396E" href=3D=
-"mailto:christian.koenig@amd.com" moz-do-not-send=3D"true">
-&lt;christian.koenig@amd.com&gt;</a><br>
----<br>
-&nbsp;drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 &#43;-<br>
-&nbsp;1 file changed, 1 insertion(&#43;), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/a=
-mdgpu/amdgpu_cs.c<br>
-index fff558cf385b..f9240a94217b 100644<br>
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c<br>
-&#43;&#43;&#43; b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c<br>
-@@ -648,7 &#43;648,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_pa=
-rser *p,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r =3D ttm_eu_reserve_buffers(&am=
-p;p-&gt;ticket, &amp;p-&gt;validated, true,<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;duplicates, true);<b=
-r>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;duplicates, fals=
-e);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (unlikely(r !=3D 0)) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp; if (r !=3D -ERESTARTSYS)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DRM_ERROR(&=
-quot;ttm_eu_reserve_buffers failed.\n&quot;);<br>
---<br>
-2.17.1<br>
-<br>
-</div>
-</span></font></blockquote>
-<br>
-</div>
-</div>
-<br>
-<fieldset class=3D"mimeAttachmentHeader"></fieldset>
-<pre class=3D"moz-quote-pre">______________________________________________=
-_
-amd-gfx mailing list
-<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:amd-gfx@lists.freedesk=
-top.org" moz-do-not-send=3D"true">amd-gfx@lists.freedesktop.org</a>
-<a class=3D"moz-txt-link-freetext" href=3D"https://lists.freedesktop.org/ma=
-ilman/listinfo/amd-gfx" moz-do-not-send=3D"true">https://lists.freedesktop.=
-org/mailman/listinfo/amd-gfx</a></pre>
-</blockquote>
-<br>
-</div>
-</div>
-</blockquote>
-<br>
-</body>
-</html>
-
---_000_67f0f0d07ec187378216f7613e99d874amdcom_--
-
---===============0092638612==
+--===============0295172201==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -425,4 +315,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0092638612==--
+--===============0295172201==--
