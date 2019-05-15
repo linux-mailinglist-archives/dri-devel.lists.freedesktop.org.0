@@ -1,67 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B91420020
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 09:22:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 512DB1F590
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 15:27:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F393D89308;
-	Thu, 16 May 2019 07:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A194892F1;
+	Wed, 15 May 2019 13:27:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA1C6892FD;
- Wed, 15 May 2019 12:26:46 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
- id AF6156086B; Wed, 15 May 2019 12:26:46 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
-Received: from [10.204.79.15]
- (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: mojha@smtp.codeaurora.org)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 4DF336072E;
- Wed, 15 May 2019 12:26:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4DF336072E
-Subject: Re: [PATCH] drm/nouveau/bios/init: fix spelling mistake "CONDITON" ->
- "CONDITION"
-To: Colin King <colin.king@canonical.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-References: <20190514205701.5750-1-colin.king@canonical.com>
-From: Mukesh Ojha <mojha@codeaurora.org>
-Message-ID: <c214275e-912b-9cec-d0c1-4eadd07a100e@codeaurora.org>
-Date: Wed, 15 May 2019 17:56:40 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B403892EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2019 13:27:31 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 73291721CD; Wed, 15 May 2019 13:27:31 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 97055] Black screens on A10-8780P (Carrizo) + R7 M260/M265
+ (Topaz) Combo
+Date: Wed, 15 May 2019 13:27:31 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: alan.martin.pmp@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-97055-502-8qRPwyEZiC@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-97055-502@http.bugs.freedesktop.org/>
+References: <bug-97055-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190514205701.5750-1-colin.king@canonical.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Thu, 16 May 2019 07:22:48 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1557923206;
- bh=Jq8r59j8L9cuyE+iEkCCfN3oZ7FkZj2PtazceDgQIjs=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=MoPgbp/Xauv8laEhwNTlkhgZ2bVtQ1U1SDf8IfsQqY4VSnd2bSnTWIriAbPiMcu76
- Ycm+5nIoOdpmSiqxx4RE6/feZYh8xgI++0BVVMCFl5oLbuHKYkyMwCFXbNkPxVokLa
- pYJpINMcVfPd1N/SbBZv3QTsV0W3Efs1ckc6aIQ0=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1557923206;
- bh=Jq8r59j8L9cuyE+iEkCCfN3oZ7FkZj2PtazceDgQIjs=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=MoPgbp/Xauv8laEhwNTlkhgZ2bVtQ1U1SDf8IfsQqY4VSnd2bSnTWIriAbPiMcu76
- Ycm+5nIoOdpmSiqxx4RE6/feZYh8xgI++0BVVMCFl5oLbuHKYkyMwCFXbNkPxVokLa
- pYJpINMcVfPd1N/SbBZv3QTsV0W3Efs1ckc6aIQ0=
-X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
- dmarc=none (p=none dis=none)
- header.from=codeaurora.org
-X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
- spf=none
- smtp.mailfrom=mojha@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,29 +53,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0825236142=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDUvMTUvMjAxOSAyOjI3IEFNLCBDb2xpbiBLaW5nIHdyb3RlOgo+IEZyb206IENvbGluIElh
-biBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Cj4KPiBUaGVyZSBpcyBhIHNwZWxsaW5n
-IG1pc3Rha2UgaW4gYSB3YXJuaW5nIG1lc3NhZ2UuIEZpeCBpdC4KPgo+IFNpZ25lZC1vZmYtYnk6
-IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+ClJldmlld2VkLWJ5OiBN
-dWtlc2ggT2poYSA8bW9qaGFAY29kZWF1cm9yYS5vcmc+CgpDaGVlcnMsCi1NdWtlc2gKCj4gLS0t
-Cj4gICBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9iaW9zL2luaXQuYyB8IDIg
-Ky0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Cj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vc3ViZGV2L2Jpb3MvaW5p
-dC5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvYmlvcy9pbml0LmMKPiBp
-bmRleCBlYzBlOWY3MjI0YjUuLjNmNGYyN2QxOTFhZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9iaW9zL2luaXQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9ub3V2ZWF1L252a20vc3ViZGV2L2Jpb3MvaW5pdC5jCj4gQEAgLTgzNCw3ICs4MzQsNyBA
-QCBpbml0X2dlbmVyaWNfY29uZGl0aW9uKHN0cnVjdCBudmJpb3NfaW5pdCAqaW5pdCkKPiAgIAkJ
-aW5pdF9leGVjX3NldChpbml0LCBmYWxzZSk7Cj4gICAJCWJyZWFrOwo+ICAgCWRlZmF1bHQ6Cj4g
-LQkJd2FybigiSU5JVF9HRU5FUklDX0NPTkRJVE9OOiB1bmtub3duIDB4JTAyeFxuIiwgY29uZCk7
-Cj4gKwkJd2FybigiSU5JVF9HRU5FUklDX0NPTkRJVElPTjogdW5rbm93biAweCUwMnhcbiIsIGNv
-bmQpOwo+ICAgCQlpbml0LT5vZmZzZXQgKz0gc2l6ZTsKPiAgIAkJYnJlYWs7Cj4gICAJfQpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0825236142==
+Content-Type: multipart/alternative; boundary="15579268510.7aBFa.25913"
+Content-Transfer-Encoding: 7bit
+
+
+--15579268510.7aBFa.25913
+Date: Wed, 15 May 2019 13:27:31 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D97055
+
+--- Comment #24 from Alan Martin <alan.martin.pmp@gmail.com> ---
+Can I simply just say what a comfort to find somebody that really knows what
+they're discussing on the internet.
+You definitely understand how to bring an issue to light and make it import=
+ant.
+https://www.papersjunction.co.uk
+More and more people really need to read this and understand this side of y=
+our
+story. It's surprising you're not more popular since you certainly possess =
+the
+gift.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15579268510.7aBFa.25913
+Date: Wed, 15 May 2019 13:27:31 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Black screens on A10-8780P (Carrizo) + R7 M260/M265 (Topa=
+z) Combo"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97055#c24">Commen=
+t # 24</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Black screens on A10-8780P (Carrizo) + R7 M260/M265 (Topa=
+z) Combo"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D97055">bug 97055<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alan.martin.pmp&#64;gmail.com" title=3D"Alan Martin &lt;alan.martin.pmp&#64=
+;gmail.com&gt;"> <span class=3D"fn">Alan Martin</span></a>
+</span></b>
+        <pre>Can I simply just say what a comfort to find somebody that rea=
+lly knows what
+they're discussing on the internet.
+You definitely understand how to bring an issue to light and make it import=
+ant.
+<a href=3D"https://www.papersjunction.co.uk">https://www.papersjunction.co.=
+uk</a>
+More and more people really need to read this and understand this side of y=
+our
+story. It's surprising you're not more popular since you certainly possess =
+the
+gift.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15579268510.7aBFa.25913--
+
+--===============0825236142==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0825236142==--
