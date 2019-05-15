@@ -2,45 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12C31E856
-	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 08:36:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098B51E86D
+	for <lists+dri-devel@lfdr.de>; Wed, 15 May 2019 08:45:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E723893EF;
-	Wed, 15 May 2019 06:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C4A789444;
+	Wed, 15 May 2019 06:45:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 15E3689548
- for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2019 06:36:47 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 127F5721CD; Wed, 15 May 2019 06:36:47 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108514] heavy screen flickering with Mobility Radeon X1600 and
- kernel version 3.15rc2 onward
-Date: Wed, 15 May 2019 06:36:47 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: bisected, patch
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: bholeshankar1992crax@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108514-502-a7AdT8UNwg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108514-502@http.bugs.freedesktop.org/>
-References: <bug-108514-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85B7089444
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 May 2019 06:45:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: tomeu) with ESMTPSA id 5C71126C46B
+Subject: Re: [PATCH] drm/panfrost: Make devfreq truly optional
+To: Ezequiel Garcia <ezequiel@collabora.com>, Rob Herring <robh@kernel.org>
+References: <20190513175554.31804-1-ezequiel@collabora.com>
+ <CAL_JsqLtDXxA5c_zP8SnKecWF+CMcG_eCvMKhaHjVtqQqswY0g@mail.gmail.com>
+ <227a3b929cd336f6eb8d470cf5a4aaf97e0dda2b.camel@collabora.com>
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-ID: <231168e6-a68d-1484-26b9-9c8dccdf3c44@collabora.com>
+Date: Wed, 15 May 2019 08:45:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.3
 MIME-Version: 1.0
+In-Reply-To: <227a3b929cd336f6eb8d470cf5a4aaf97e0dda2b.camel@collabora.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +39,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1957906170=="
+Cc: David Airlie <airlied@linux.ie>, kernel@collabora.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1957906170==
-Content-Type: multipart/alternative; boundary="15579022070.aa1E242d7.3469"
-Content-Transfer-Encoding: 7bit
-
-
---15579022070.aa1E242d7.3469
-Date: Wed, 15 May 2019 06:36:47 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108514
-
---- Comment #35 from sandy jiil <bholeshankar1992crax@gmail.com> ---
-Whatsapp is well known messenger app.It is used worldwide for messaging whe=
-n we
-download status from it we can face problem. By the use of this site
-https://downloadstatus.xyz we can download it for free.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15579022070.aa1E242d7.3469
-Date: Wed, 15 May 2019 06:36:47 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - heavy screen flickering with Mobility Radeon X1600 and ke=
-rnel version 3.15rc2 onward"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514#c35">Comme=
-nt # 35</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - heavy screen flickering with Mobility Radeon X1600 and ke=
-rnel version 3.15rc2 onward"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108514">bug 10851=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bholeshankar1992crax&#64;gmail.com" title=3D"sandy jiil &lt;bholeshankar199=
-2crax&#64;gmail.com&gt;"> <span class=3D"fn">sandy jiil</span></a>
-</span></b>
-        <pre>Whatsapp is well known messenger app.It is used worldwide for =
-messaging when we
-download status from it we can face problem. By the use of this site
-<a href=3D"https://downloadstatus.xyz">https://downloadstatus.xyz</a> we ca=
-n download it for free.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15579022070.aa1E242d7.3469--
-
---===============1957906170==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1957906170==--
+T24gNS8xNC8xOSA1OjM2IFBNLCBFemVxdWllbCBHYXJjaWEgd3JvdGU6Cj4gT24gVHVlLCAyMDE5
+LTA1LTE0IGF0IDA4OjM4IC0wNTAwLCBSb2IgSGVycmluZyB3cm90ZToKPj4gT24gTW9uLCBNYXkg
+MTMsIDIwMTkgYXQgMTI6NTYgUE0gRXplcXVpZWwgR2FyY2lhIDxlemVxdWllbEBjb2xsYWJvcmEu
+Y29tPiB3cm90ZToKPj4+IEN1cnJlbnRseSwgdGhlcmUgaXMgc29tZSBsb2dpYyB0byBtYWtlIGRl
+dmZyZXEgb3B0aW9uYWwsCj4+PiBidXQgaXQgZmFpbHMgdG8gY292ZXIgc29tZSBjYXNlcyBzdWNo
+IGFzICFDT05GSUdfUE1fREVWRlJFUS4KPj4KPj4gRmFpbHMgaG93PyBjb21waWxpbmc/IHJ1bnRp
+bWU/IE9yIGp1c3QgYnVpbGRzIGV4dHJhIGNvZGU/Cj4+Cj4gCj4gV2VsbCwgZ2l2ZW4gd2UgY3Vy
+cmVudGx5IGRvbid0IGVuZm9yY2UgUE1fREVWRlJFUSwgdGhlIGRyaXZlciBmYWlscwo+IHRvIHBy
+b2JlLiBTcGVjaWZpY2FsbHksCj4gCj4gcGFuZnJvc3RfZGV2ZnJlcV9pbml0Cj4gICAgZGV2ZnJl
+cV9yZWNvbW1lbmRlZF9vcHAKPiAgICAgIC1FSU5WQUwKPiAgIAo+Pj4gTW9yZW92ZXIsIGRlcGVu
+ZGluZyBvbiByZXR1cm4gY29kZXMgaXMgbm90IHJlc2lsaWVudCB0byBjaGFuZ2UsCj4+PiBzbyBs
+ZXQncyB0YWtlIGEgZGlmZmVyZW50IGFwcHJvYWNoLCBpbnRyb2R1Y2luZyBwcm9wZXIKPj4+IHN0
+dWJzIGFuZCBvbmx5IGNvbmRpdGlvbmFsbHkgY29tcGlsaW5nIHRoZSBkZXZmcmVxIHN1cHBvcnQu
+Cj4+Cj4+IFRoZSBkb3duc2lkZSBoZXJlIGlzIGFub3RoZXIgYnVpbGQgdGltZSBjb25maWd1cmF0
+aW9uIHRvIHRlc3QuIElzbid0Cj4+IGRldmZyZXEgZXNzZW50aWFsbHkgZ29pbmcgdG8gYmUgcmVx
+dWlyZWQgdG8gcnVuIHRoZSBHUFUgYXQgaGlnaGVyCj4+IGZyZXF1ZW5jaWVzIGFuZCB0byBub3Qg
+bWVsdCBpdD8KPj4KPiAKPiBSaWdodC4gU28gdGhlIGFsdGVybmF0aXZlIGlzIHRvIHNlbGVjdCBv
+ciBkZXBlbmQgb24gUE1fREVWRlJFUS4KPiAKPiBPdGhlcndpc2UsIGl0J3MgcXVpdGUgY29uZnVz
+aW5nIGZvciBkZXZlbG9wZXJzIHRvIGNob29zZSB0aGUgZHJpdmVyCj4gYW5kIGhhdmUgaXQgZmFp
+bCB0byBwcm9iZSBiZWNhdXNlIHNvbWUgb3RoZXIgb3B0aW9uIGlzIG5vdCBzZWxlY3RlZC4KClll
+YWgsIEkgZG9uJ3Qgc2VlIGEgZ29vZCByZWFzb24gdG8gbm90IHVzZSBkZXZmcmVxLCBzbyBJIHRo
+aW5rIHdlIHNob3VsZCAKcmVxdWlyZSBpdC4KClRoYW5rcywKClRvbWV1Cgo+IExldCBtZSBrbm93
+IHdoYXQgeW91IHRoaW5rIGFuZCBJJ2xsIGNvb2sgYSB2Mi4KPiAKPiBUaGFua3MsCj4gRXplCj4g
+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBFemVxdWllbCBHYXJjaWEgPGV6ZXF1aWVsQGNvbGxhYm9yYS5j
+b20+Cj4+PiAtLS0KPj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L01ha2VmaWxlICAgICAg
+ICAgICB8ICAzICsrLQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2
+ZnJlcS5jIHwgMTMgKystLS0tLS0tLS0tLQo+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3Qv
+cGFuZnJvc3RfZGV2ZnJlcS5oIHwgMTkgKysrKysrKysrKysrKysrKystLQo+Pj4gICAzIGZpbGVz
+IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQo+Pj4KPj4+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9k
+cm0vcGFuZnJvc3QvTWFrZWZpbGUKPj4+IGluZGV4IDZkZTcyZDEzYzU4Zi4uOGI2OTA2NzJmOWQ5
+IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L01ha2VmaWxlCj4+PiAr
+KysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvTWFrZWZpbGUKPj4+IEBAIC0zLDEwICszLDEx
+IEBACj4+PiAgIHBhbmZyb3N0LXkgOj0gXAo+Pj4gICAgICAgICAgcGFuZnJvc3RfZHJ2Lm8gXAo+
+Pj4gICAgICAgICAgcGFuZnJvc3RfZGV2aWNlLm8gXAo+Pj4gLSAgICAgICBwYW5mcm9zdF9kZXZm
+cmVxLm8gXAo+Pj4gICAgICAgICAgcGFuZnJvc3RfZ2VtLm8gXAo+Pj4gICAgICAgICAgcGFuZnJv
+c3RfZ3B1Lm8gXAo+Pj4gICAgICAgICAgcGFuZnJvc3Rfam9iLm8gXAo+Pj4gICAgICAgICAgcGFu
+ZnJvc3RfbW11Lm8KPj4+Cj4+PiArcGFuZnJvc3QtJChDT05GSUdfUE1fREVWRlJFUSkgKz0gcGFu
+ZnJvc3RfZGV2ZnJlcS5vCj4+PiArCj4+PiAgIG9iai0kKENPTkZJR19EUk1fUEFORlJPU1QpICs9
+IHBhbmZyb3N0Lm8KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFu
+ZnJvc3RfZGV2ZnJlcS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZy
+ZXEuYwo+Pj4gaW5kZXggMjM4YmQxZDg5ZDQzLi4yOWZjZmZkZjJkNTcgMTAwNjQ0Cj4+PiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jCj4+PiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jCj4+PiBAQCAtMTQwLDgg
+KzE0MCw4IEBAIGludCBwYW5mcm9zdF9kZXZmcmVxX2luaXQoc3RydWN0IHBhbmZyb3N0X2Rldmlj
+ZSAqcGZkZXYpCj4+PiAgICAgICAgICAgICAgICAgIHJldHVybiAwOwo+Pj4KPj4+ICAgICAgICAg
+IHJldCA9IGRldl9wbV9vcHBfb2ZfYWRkX3RhYmxlKCZwZmRldi0+cGRldi0+ZGV2KTsKPj4+IC0g
+ICAgICAgaWYgKHJldCA9PSAtRU5PREVWKSAvKiBPcHRpb25hbCwgY29udGludWUgd2l0aG91dCBk
+ZXZmcmVxICovCj4+PiAtICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4+PiArICAgICAgIGlmIChy
+ZXQpCj4+PiArICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPj4+Cj4+PiAgICAgICAgICBwYW5m
+cm9zdF9kZXZmcmVxX3Jlc2V0KHBmZGV2KTsKPj4+Cj4+PiBAQCAtMTcwLDkgKzE3MCw2IEBAIHZv
+aWQgcGFuZnJvc3RfZGV2ZnJlcV9yZXN1bWUoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYp
+Cj4+PiAgIHsKPj4+ICAgICAgICAgIGludCBpOwo+Pj4KPj4+IC0gICAgICAgaWYgKCFwZmRldi0+
+ZGV2ZnJlcS5kZXZmcmVxKQo+Pj4gLSAgICAgICAgICAgICAgIHJldHVybjsKPj4+IC0KPj4+ICAg
+ICAgICAgIHBhbmZyb3N0X2RldmZyZXFfcmVzZXQocGZkZXYpOwo+Pj4gICAgICAgICAgZm9yIChp
+ID0gMDsgaSA8IE5VTV9KT0JfU0xPVFM7IGkrKykKPj4+ICAgICAgICAgICAgICAgICAgcGZkZXYt
+PmRldmZyZXEuc2xvdFtpXS5idXN5ID0gZmFsc2U7Cj4+PiBAQCAtMTgyLDkgKzE3OSw2IEBAIHZv
+aWQgcGFuZnJvc3RfZGV2ZnJlcV9yZXN1bWUoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYp
+Cj4+Pgo+Pj4gICB2b2lkIHBhbmZyb3N0X2RldmZyZXFfc3VzcGVuZChzdHJ1Y3QgcGFuZnJvc3Rf
+ZGV2aWNlICpwZmRldikKPj4+ICAgewo+Pj4gLSAgICAgICBpZiAoIXBmZGV2LT5kZXZmcmVxLmRl
+dmZyZXEpCj4+PiAtICAgICAgICAgICAgICAgcmV0dXJuOwo+Pj4gLQo+Pj4gICAgICAgICAgZGV2
+ZnJlcV9zdXNwZW5kX2RldmljZShwZmRldi0+ZGV2ZnJlcS5kZXZmcmVxKTsKPj4+ICAgfQo+Pj4K
+Pj4+IEBAIC0xOTQsOSArMTg4LDYgQEAgc3RhdGljIHZvaWQgcGFuZnJvc3RfZGV2ZnJlcV91cGRh
+dGVfdXRpbGl6YXRpb24oc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYsIGkKPj4+ICAgICAg
+ICAgIGt0aW1lX3Qgbm93Owo+Pj4gICAgICAgICAga3RpbWVfdCBsYXN0Owo+Pj4KPj4+IC0gICAg
+ICAgaWYgKCFwZmRldi0+ZGV2ZnJlcS5kZXZmcmVxKQo+Pj4gLSAgICAgICAgICAgICAgIHJldHVy
+bjsKPj4+IC0KPj4+ICAgICAgICAgIG5vdyA9IGt0aW1lX2dldCgpOwo+Pj4gICAgICAgICAgbGFz
+dCA9IHBmZGV2LT5kZXZmcmVxLnNsb3Rbc2xvdF0udGltZV9sYXN0X3VwZGF0ZTsKPj4+Cj4+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuaCBi
+L2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZmcmVxLmgKPj4+IGluZGV4IGVi
+OTk5NTMxZWQ5MC4uNzZiNTZhOGRlNmUzIDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuaAo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Bh
+bmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuaAo+Pj4gQEAgLTQsMTEgKzQsMjYgQEAKPj4+ICAgI2lm
+bmRlZiBfX1BBTkZST1NUX0RFVkZSRVFfSF9fCj4+PiAgICNkZWZpbmUgX19QQU5GUk9TVF9ERVZG
+UkVRX0hfXwo+Pj4KPj4+ICsjaWYgZGVmaW5lZChDT05GSUdfUE1fREVWRlJFUSkKPj4+ICAgaW50
+IHBhbmZyb3N0X2RldmZyZXFfaW5pdChzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldik7Cj4+
+PiAtCj4+PiAgIHZvaWQgcGFuZnJvc3RfZGV2ZnJlcV9yZXN1bWUoc3RydWN0IHBhbmZyb3N0X2Rl
+dmljZSAqcGZkZXYpOwo+Pj4gICB2b2lkIHBhbmZyb3N0X2RldmZyZXFfc3VzcGVuZChzdHJ1Y3Qg
+cGFuZnJvc3RfZGV2aWNlICpwZmRldik7Cj4+PiAtCj4+PiAgIHZvaWQgcGFuZnJvc3RfZGV2ZnJl
+cV9yZWNvcmRfdHJhbnNpdGlvbihzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldiwgaW50IHNs
+b3QpOwo+Pj4gKyNlbHNlCj4+PiArc3RhdGljIGlubGluZSBpbnQgcGFuZnJvc3RfZGV2ZnJlcV9p
+bml0KHN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2KQo+Pj4gK3sKPj4+ICsgICAgICAgcmV0
+dXJuIDA7Cj4+PiArfQo+Pj4gKwo+Pj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBwYW5mcm9zdF9kZXZm
+cmVxX3Jlc3VtZShzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldikKPj4+ICt7fQo+Pj4gKwo+
+Pj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBwYW5mcm9zdF9kZXZmcmVxX3N1c3BlbmQoc3RydWN0IHBh
+bmZyb3N0X2RldmljZSAqcGZkZXYpCj4+PiAre30KPj4+ICsKPj4+ICtzdGF0aWMgaW5saW5lIHZv
+aWQKPj4+ICtwYW5mcm9zdF9kZXZmcmVxX3JlY29yZF90cmFuc2l0aW9uKHN0cnVjdCBwYW5mcm9z
+dF9kZXZpY2UgKnBmZGV2LCBpbnQgc2xvdCkKPj4+ICt7fQo+Pj4gKyNlbmRpZgo+Pj4KPj4+ICAg
+I2VuZGlmIC8qIF9fUEFORlJPU1RfREVWRlJFUV9IX18gKi8KPj4+IC0tCj4+PiAyLjIwLjEKPj4+
+Cj4gCj4gCj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
