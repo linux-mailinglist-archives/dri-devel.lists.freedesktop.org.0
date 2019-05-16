@@ -2,70 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCADA208F9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 16:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA1B20921
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 16:08:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62562895D7;
-	Thu, 16 May 2019 14:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C745895E1;
+	Thu, 16 May 2019 14:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 486ED895D7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 14:03:22 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id l2so3532150wrb.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 07:03:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language;
- bh=dWxnYxXzseJZ+7zTbv+LaMWGAD7kvJ0WjqCNBwsS5g0=;
- b=VZKdKevZfWI/7dVBSIQyKOlAQQhywuhUVPqs7rsUA7PxTEZtzmvvr9mjx6wuuYQV0V
- xXNSljTsTWiMD+oqgeiRYyy+KZ5Na9I55+CkJDRv3QKogDhKmi/wODIaSrBX6yTtZTpZ
- Q+YzllIMuMSBIkU8XLOcrOkeNp1BvPYtyK1sfJjfPcnmXUeKHiQ+03r4G/Le/lokj49V
- Z5zozV3tBot/w5r/1ZqlaFZ/3YxJZFJYxDJcaqDMVS3YtXuyrIi/3EAWbJ+KbgpIk9Ga
- xmSywSSkJWQJw7fmNNYRiR/hDPf/bk8ikhfZDbzKpOclz2euXI7FobrFmeN19iz7bSJT
- 0ikQ==
-X-Gm-Message-State: APjAAAVlM1MPh9tGcL6KexlztxToZzzFtba8PYKEr0nw+XSurgf3SP5z
- qGmXM6qZnpNNt7x/51/XAKY7x5Kd
-X-Google-Smtp-Source: APXvYqw88pisgI3w011nHcSjzloTKOfvwB8f+vVLjEWHq6Gzam3cP8r4Vr8k5SNTbCvh1YsI+I8zhA==
-X-Received: by 2002:adf:e4c9:: with SMTP id v9mr7376713wrm.147.1558015400616; 
- Thu, 16 May 2019 07:03:20 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id k17sm4450371wrm.73.2019.05.16.07.03.19
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 16 May 2019 07:03:19 -0700 (PDT)
-Subject: Re: [PATCH libdrm 7/7] add syncobj timeline tests v3
-To: "Zhou, David(ChunMing)" <David1.Zhou@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20190516080714.14980-1-david1.zhou@amd.com>
- <20190516080714.14980-7-david1.zhou@amd.com>
- <e9b4e467-775f-e3e0-b842-07e4d12cf093@amd.com>
- <212b7506-58cc-fd48-a0cf-4e6098d0d4b1@gmail.com>
- <786dd8b0-0943-8275-39fc-d88ae9685ad7@amd.com>
- <7f032aed-a83e-6ac7-25fc-0098ceffc7ab@gmail.com>
- <-hr0cw7wplji6kur9szo2dka8ja1pou-3nnay4-uxxtwr-otnhsl1qetv0o1gtgu-lfnxxj8heoqc6a8l96-nzvfofweuygaoki3ql-641t1t-lccynh6ltsf-lty877-volmoddqo3n1-k65ryocb6ryt.1558004857725@email.android.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <c8c6dfe1-c8a4-8cdd-1cd4-23facd4e002d@gmail.com>
-Date: Thu, 16 May 2019 16:03:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <-hr0cw7wplji6kur9szo2dka8ja1pou-3nnay4-uxxtwr-otnhsl1qetv0o1gtgu-lfnxxj8heoqc6a8l96-nzvfofweuygaoki3ql-641t1t-lccynh6ltsf-lty877-volmoddqo3n1-k65ryocb6ryt.1558004857725@email.android.com>
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750079.outbound.protection.outlook.com [40.107.75.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29EA18912D;
+ Thu, 16 May 2019 14:08:41 +0000 (UTC)
+Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
+ DM5PR12MB1611.namprd12.prod.outlook.com (10.172.38.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1900.17; Thu, 16 May 2019 14:08:39 +0000
+Received: from DM5PR12MB1546.namprd12.prod.outlook.com
+ ([fe80::e1b1:5b6f:b2df:afa5]) by DM5PR12MB1546.namprd12.prod.outlook.com
+ ([fe80::e1b1:5b6f:b2df:afa5%7]) with mapi id 15.20.1878.024; Thu, 16 May 2019
+ 14:08:39 +0000
+From: "Koenig, Christian" <Christian.Koenig@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC PATCH v2 4/5] drm, cgroup: Add total GEM buffer allocation
+ limit
+Thread-Topic: [RFC PATCH v2 4/5] drm, cgroup: Add total GEM buffer allocation
+ limit
+Thread-Index: AQHVC48rVkIxCCCoYECMKlqE0zp4P6ZtV34AgAACeYCAAFTIAIAAG9GA
+Date: Thu, 16 May 2019 14:08:38 +0000
+Message-ID: <65075485-3c94-41cf-d39a-1fd451ecc430@amd.com>
+References: <20181120185814.13362-1-Kenny.Ho@amd.com>
+ <20190509210410.5471-1-Kenny.Ho@amd.com>
+ <20190509210410.5471-5-Kenny.Ho@amd.com>
+ <d81e8f55-9602-818e-0f9c-1d9d150133b1@intel.com>
+ <CAOWid-ftUrVVWPu9KuS8xpWKNQT6_FtxB8gEyEAn9nLD6qxb5Q@mail.gmail.com>
+ <7db2caae-7eab-7c6a-fe90-89cb9cae30b4@amd.com>
+ <6e124f5e-f83f-5ca1-4616-92538f202653@gmail.com>
+ <20190516122858.GB3851@phenom.ffwll.local>
+In-Reply-To: <20190516122858.GB3851@phenom.ffwll.local>
+Accept-Language: de-DE, en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+x-clientproxiedby: AM5PR04CA0030.eurprd04.prod.outlook.com
+ (2603:10a6:206:1::43) To DM5PR12MB1546.namprd12.prod.outlook.com
+ (2603:10b6:4:8::23)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5f26ca75-3dae-4d4c-df47-08d6da07fdf1
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
+ SRVR:DM5PR12MB1611; 
+x-ms-traffictypediagnostic: DM5PR12MB1611:
+x-ms-exchange-purlcount: 3
+x-microsoft-antispam-prvs: <DM5PR12MB16116428BF27A1B2C7FB9EE8830A0@DM5PR12MB1611.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0039C6E5C5
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(366004)(136003)(346002)(39860400002)(376002)(396003)(189003)(199004)(65956001)(65806001)(2906002)(53936002)(6116002)(31686004)(99286004)(25786009)(6246003)(4326008)(54906003)(76176011)(58126008)(52116002)(36756003)(102836004)(53546011)(6506007)(386003)(5660300002)(186003)(7736002)(486006)(2616005)(446003)(476003)(46003)(305945005)(66556008)(64756008)(66476007)(66574012)(256004)(73956011)(66446008)(14444005)(66946007)(71200400001)(71190400001)(11346002)(8936002)(229853002)(68736007)(478600001)(65826007)(31696002)(86362001)(72206003)(966005)(316002)(6306002)(6512007)(6916009)(14454004)(64126003)(8676002)(6436002)(81166006)(81156014)(6486002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1611;
+ H:DM5PR12MB1546.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: +6HPxn4g8jVBBO19H1FaVNU3e4ZFdDt85fqfAmqw1iRaO1nh9ADQ+nHlZcdqxNHtzmBCpdPGD0LYp9wwUwqq8tfuAMLM0lnkK8MY4f3CA/TvgCsBJwndT8RUU1fWqfHgIEuwUx3YZRBku1Ij9iN9AWEmiFSbgGGVjp2/d/HWz92y5mVnKrAwiZ91g8lEhYnWli5JvgO4Mwx1bCSy32dfbRPh3rtEWQPZLt0mjkVjtmc/SugTr6D0uC0GDgpRt1PtFd4SS0drHxhiFzQJAsuhGqQGxvFEu2GkWiON24fqe5xLl7v249HrHDYGVP1bpaddGPpGe1zXW/UX5+Nc8k4XKCpkX7BKqGrOrTd6q4pHSKWiekQb4JGOQWG9ki1yQoKmt2vW/8ogJSFo/KKO/qT9nTTIjy4SV1+fMujm667W/h4=
+Content-ID: <303281B957BB504189E859716D523295@namprd12.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f26ca75-3dae-4d4c-df47-08d6da07fdf1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2019 14:08:38.8364 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1611
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=reply-to:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=dWxnYxXzseJZ+7zTbv+LaMWGAD7kvJ0WjqCNBwsS5g0=;
- b=Jyw85Qs3kfJvjamqwtu2zCl1m3VYGfWpQze/+WnpQh0BbAfsAGAPX3txpJYFarnqV8
- EXkLDVw9rVxJPL6C0zBvd4RT5AdqBcEyNz5abteQbElCu+oFsvtE8cRohyJU26MjKs0J
- J+xDvGRSutCJ3FvflFoUcJpIpUCBSbk4FfsViwgvaPfG1XBucRVbJlxbN21VfVce0sQx
- 3e+diT8m3rnIqhqZQweZSeIRrkfNc4FfE9fe+SQiDBI7znTmd4FPriN0o0eFoM0toelL
- f9j56mvg7i3arjrEBJWlgRo2Ba829AcL0U+rgD+lyBrH5CUlyC7CuPVIcerfU5xVAZd/
- Fttw==
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W5hlLBK742OArBpEumWpYhELl7VGA5KHo9JGpQE7tpk=;
+ b=iA2eP9Rw72sIqmT1CkipIvVMDw7vuZvCVhUpRtyMstgp4j5jlI15RAZL+dKmKbOrJ3KoP8v46Q3b5Ibg7ofK1Zzyk47qIESTIzk4nAEh7aGJKYPwSaj7Kevf+uZRHl4y4VFJ7m2lz83MA2m5Q5981kLG0X8THQXNbZlfvjl+4YA=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,1187 +98,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Content-Type: multipart/mixed; boundary="===============1923871812=="
+Cc: "sunnanyong@huawei.com" <sunnanyong@huawei.com>, "Ho,
+ Kenny" <Kenny.Ho@amd.com>, "Welty, Brian" <brian.welty@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, Kenny Ho <y2kenny@gmail.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Tejun Heo <tj@kernel.org>, "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============1923871812==
-Content-Type: multipart/alternative;
- boundary="------------80B558730A7AEDDDC24C6B2B"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------80B558730A7AEDDDC24C6B2B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Oh, please not that problem again :(
-
-Please just try "ssh gitlab.freedesktop.org" if that also times out like 
-this you need to contact AMD network IT and ask why ssh once more 
-doesn't work.
-
-Christian.
-
-Am 16.05.19 um 13:43 schrieb Zhou, David(ChunMing):
-> It mentioned me I cannot push to gitlab directly. After that, I added 
-> my ssh pub to gitlab web, and also added gitlab url to git remote.
-> then push again, it mentions "connection timeout".
->
-> -David
->
-> -------- Original Message --------
-> Subject: Re: [PATCH libdrm 7/7] add syncobj timeline tests v3
-> From: Christian König
-> To: "Zhou, David(ChunMing)" ,"Koenig, Christian" ,"Zhou, 
-> David(ChunMing)" ,dri-devel@lists.freedesktop.org
-> CC:
->
-> [CAUTION: External Email]
->
-> Am 16.05.19 um 12:19 schrieb zhoucm1:
-> >
-> >
-> > On 2019年05月16日 18:09, Christian König wrote:
-> >> [CAUTION: External Email]
-> >>
-> >> Am 16.05.19 um 10:16 schrieb zhoucm1:
-> >>> I was able to push changes to libdrm, but now seems after libdrm is
-> >>> migrated to gitlab, I cannot yet. What step do I need to get back my
-> >>> permission? I already can login into gitlab with old freedesktop
-> >>> account.
-> >>>
-> >>> @Christian, Can you help submit this patch set to libdrm first?
-> >>
-> >> Done. And I think you can now request write permission to a repository
-> >> through the web-interface and all the "owners" of the project can grant
-> >> that to you.
-> > Any guide for that? I failed to find where to request permission.
->
-> Not of hand. What does the system say when you try to push?
->
-> Christian.
->
-> >
-> > -David
-> >>
-> >> Christian.
-> >>
-> >>>
-> >>>
-> >>> Thanks,
-> >>>
-> >>> -David
-> >>>
-> >>>
-> >>> On 2019年05月16日 16:07, Chunming Zhou wrote:
-> >>>> v2: drop DRM_SYNCOBJ_CREATE_TYPE_TIMELINE, fix timeout calculation,
-> >>>>      fix some warnings
-> >>>> v3: add export/import and cpu signal testing cases
-> >>>>
-> >>>> Signed-off-by: Chunming Zhou <david1.zhou@amd.com>
-> >>>> Acked-by: Christian König <christian.koenig@amd.com>
-> >>>> Acked-by: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-> >>>> ---
-> >>>>   tests/amdgpu/Makefile.am     |   3 +-
-> >>>>   tests/amdgpu/amdgpu_test.c   |  11 ++
-> >>>>   tests/amdgpu/amdgpu_test.h   |  21 +++
-> >>>>   tests/amdgpu/meson.build     |   2 +-
-> >>>>   tests/amdgpu/syncobj_tests.c | 290
-> >>>> +++++++++++++++++++++++++++++++++++
-> >>>>   5 files changed, 325 insertions(+), 2 deletions(-)
-> >>>>   create mode 100644 tests/amdgpu/syncobj_tests.c
-> >>>>
-> >>>> diff --git a/tests/amdgpu/Makefile.am b/tests/amdgpu/Makefile.am
-> >>>> index 48278848..920882d0 100644
-> >>>> --- a/tests/amdgpu/Makefile.am
-> >>>> +++ b/tests/amdgpu/Makefile.am
-> >>>> @@ -34,4 +34,5 @@ amdgpu_test_SOURCES = \
-> >>>>       uve_ib.h \
-> >>>>       deadlock_tests.c \
-> >>>>       vm_tests.c    \
-> >>>> -    ras_tests.c
-> >>>> +    ras_tests.c \
-> >>>> +    syncobj_tests.c
-> >>>> diff --git a/tests/amdgpu/amdgpu_test.c b/tests/amdgpu/amdgpu_test.c
-> >>>> index 35c8bf6c..73403fb4 100644
-> >>>> --- a/tests/amdgpu/amdgpu_test.c
-> >>>> +++ b/tests/amdgpu/amdgpu_test.c
-> >>>> @@ -57,6 +57,7 @@
-> >>>>   #define DEADLOCK_TESTS_STR "Deadlock Tests"
-> >>>>   #define VM_TESTS_STR "VM Tests"
-> >>>>   #define RAS_TESTS_STR "RAS Tests"
-> >>>> +#define SYNCOBJ_TIMELINE_TESTS_STR "SYNCOBJ TIMELINE Tests"
-> >>>>     /**
-> >>>>    *  Open handles for amdgpu devices
-> >>>> @@ -123,6 +124,12 @@ static CU_SuiteInfo suites[] = {
-> >>>>           .pCleanupFunc = suite_ras_tests_clean,
-> >>>>           .pTests = ras_tests,
-> >>>>       },
-> >>>> +    {
-> >>>> +        .pName = SYNCOBJ_TIMELINE_TESTS_STR,
-> >>>> +        .pInitFunc = suite_syncobj_timeline_tests_init,
-> >>>> +        .pCleanupFunc = suite_syncobj_timeline_tests_clean,
-> >>>> +        .pTests = syncobj_timeline_tests,
-> >>>> +    },
-> >>>>         CU_SUITE_INFO_NULL,
-> >>>>   };
-> >>>> @@ -176,6 +183,10 @@ static Suites_Active_Status suites_active_stat[]
-> >>>> = {
-> >>>>               .pName = RAS_TESTS_STR,
-> >>>>               .pActive = suite_ras_tests_enable,
-> >>>>           },
-> >>>> +        {
-> >>>> +            .pName = SYNCOBJ_TIMELINE_TESTS_STR,
-> >>>> +            .pActive = suite_syncobj_timeline_tests_enable,
-> >>>> +        },
-> >>>>   };
-> >>>>     diff --git a/tests/amdgpu/amdgpu_test.h
-> >>>> b/tests/amdgpu/amdgpu_test.h
-> >>>> index bcd0bc7e..36675ea3 100644
-> >>>> --- a/tests/amdgpu/amdgpu_test.h
-> >>>> +++ b/tests/amdgpu/amdgpu_test.h
-> >>>> @@ -216,6 +216,27 @@ CU_BOOL suite_ras_tests_enable(void);
-> >>>>   extern CU_TestInfo ras_tests[];
-> >>>>     +/**
-> >>>> + * Initialize syncobj timeline test suite
-> >>>> + */
-> >>>> +int suite_syncobj_timeline_tests_init();
-> >>>> +
-> >>>> +/**
-> >>>> + * Deinitialize syncobj timeline test suite
-> >>>> + */
-> >>>> +int suite_syncobj_timeline_tests_clean();
-> >>>> +
-> >>>> +/**
-> >>>> + * Decide if the suite is enabled by default or not.
-> >>>> + */
-> >>>> +CU_BOOL suite_syncobj_timeline_tests_enable(void);
-> >>>> +
-> >>>> +/**
-> >>>> + * Tests in syncobj timeline test suite
-> >>>> + */
-> >>>> +extern CU_TestInfo syncobj_timeline_tests[];
-> >>>> +
-> >>>> +
-> >>>>   /**
-> >>>>    * Helper functions
-> >>>>    */
-> >>>> diff --git a/tests/amdgpu/meson.build b/tests/amdgpu/meson.build
-> >>>> index 95ed9305..1726cb43 100644
-> >>>> --- a/tests/amdgpu/meson.build
-> >>>> +++ b/tests/amdgpu/meson.build
-> >>>> @@ -24,7 +24,7 @@ if dep_cunit.found()
-> >>>>       files(
-> >>>>         'amdgpu_test.c', 'basic_tests.c', 'bo_tests.c', 'cs_tests.c',
-> >>>>         'vce_tests.c', 'uvd_enc_tests.c', 'vcn_tests.c',
-> >>>> 'deadlock_tests.c',
-> >>>> -      'vm_tests.c', 'ras_tests.c',
-> >>>> +      'vm_tests.c', 'ras_tests.c', 'syncobj_tests.c',
-> >>>>       ),
-> >>>>       dependencies : [dep_cunit, dep_threads],
-> >>>>       include_directories : [inc_root, inc_drm,
-> >>>> include_directories('../../amdgpu')],
-> >>>> diff --git a/tests/amdgpu/syncobj_tests.c
-> >>>> b/tests/amdgpu/syncobj_tests.c
-> >>>> new file mode 100644
-> >>>> index 00000000..a0c627d7
-> >>>> --- /dev/null
-> >>>> +++ b/tests/amdgpu/syncobj_tests.c
-> >>>> @@ -0,0 +1,290 @@
-> >>>> +/*
-> >>>> + * Copyright 2017 Advanced Micro Devices, Inc.
-> >>>> + *
-> >>>> + * Permission is hereby granted, free of charge, to any person
-> >>>> obtaining a
-> >>>> + * copy of this software and associated documentation files (the
-> >>>> "Software"),
-> >>>> + * to deal in the Software without restriction, including without
-> >>>> limitation
-> >>>> + * the rights to use, copy, modify, merge, publish, distribute,
-> >>>> sublicense,
-> >>>> + * and/or sell copies of the Software, and to permit persons to whom
-> >>>> the
-> >>>> + * Software is furnished to do so, subject to the following
-> >>>> conditions:
-> >>>> + *
-> >>>> + * The above copyright notice and this permission notice shall be
-> >>>> included in
-> >>>> + * all copies or substantial portions of the Software.
-> >>>> + *
-> >>>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-> >>>> EXPRESS OR
-> >>>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> >>>> MERCHANTABILITY,
-> >>>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
-> >>>> EVENT SHALL
-> >>>> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM,
-> >>>> DAMAGES OR
-> >>>> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-> >>>> OTHERWISE,
-> >>>> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-> >>>> USE OR
-> >>>> + * OTHER DEALINGS IN THE SOFTWARE.
-> >>>> + *
-> >>>> +*/
-> >>>> +
-> >>>> +#include "CUnit/Basic.h"
-> >>>> +
-> >>>> +#include "amdgpu_test.h"
-> >>>> +#include "amdgpu_drm.h"
-> >>>> +#include "amdgpu_internal.h"
-> >>>> +#include <pthread.h>
-> >>>> +
-> >>>> +static  amdgpu_device_handle device_handle;
-> >>>> +static  uint32_t  major_version;
-> >>>> +static  uint32_t  minor_version;
-> >>>> +
-> >>>> +static void amdgpu_syncobj_timeline_test(void);
-> >>>> +
-> >>>> +CU_BOOL suite_syncobj_timeline_tests_enable(void)
-> >>>> +{
-> >>>> +    return CU_TRUE;
-> >>>> +}
-> >>>> +
-> >>>> +int suite_syncobj_timeline_tests_init(void)
-> >>>> +{
-> >>>> +    int r;
-> >>>> +
-> >>>> +    r = amdgpu_device_initialize(drm_amdgpu[0], &major_version,
-> >>>> +                   &minor_version, &device_handle);
-> >>>> +
-> >>>> +    if (r) {
-> >>>> +        if ((r == -EACCES) && (errno == EACCES))
-> >>>> +            printf("\n\nError:%s. "
-> >>>> +                "Hint:Try to run this test program as root.",
-> >>>> +                strerror(errno));
-> >>>> +        return CUE_SINIT_FAILED;
-> >>>> +    }
-> >>>> +
-> >>>> +    return CUE_SUCCESS;
-> >>>> +}
-> >>>> +
-> >>>> +int suite_syncobj_timeline_tests_clean(void)
-> >>>> +{
-> >>>> +    int r = amdgpu_device_deinitialize(device_handle);
-> >>>> +
-> >>>> +    if (r == 0)
-> >>>> +        return CUE_SUCCESS;
-> >>>> +    else
-> >>>> +        return CUE_SCLEAN_FAILED;
-> >>>> +}
-> >>>> +
-> >>>> +
-> >>>> +CU_TestInfo syncobj_timeline_tests[] = {
-> >>>> +    { "syncobj timeline test", amdgpu_syncobj_timeline_test },
-> >>>> +    CU_TEST_INFO_NULL,
-> >>>> +};
-> >>>> +
-> >>>> +#define GFX_COMPUTE_NOP  0xffff1000
-> >>>> +#define SDMA_NOP  0x0
-> >>>> +static int syncobj_command_submission_helper(uint32_t
-> >>>> syncobj_handle, bool
-> >>>> +                         wait_or_signal, uint64_t point)
-> >>>> +{
-> >>>> +    amdgpu_context_handle context_handle;
-> >>>> +    amdgpu_bo_handle ib_result_handle;
-> >>>> +    void *ib_result_cpu;
-> >>>> +    uint64_t ib_result_mc_address;
-> >>>> +    struct drm_amdgpu_cs_chunk chunks[2];
-> >>>> +    struct drm_amdgpu_cs_chunk_data chunk_data;
-> >>>> +    struct drm_amdgpu_cs_chunk_syncobj syncobj_data;
-> >>>> +    struct amdgpu_cs_fence fence_status;
-> >>>> +    amdgpu_bo_list_handle bo_list;
-> >>>> +    amdgpu_va_handle va_handle;
-> >>>> +    uint32_t expired, flags;
-> >>>> +    int i, r;
-> >>>> +    uint64_t seq_no;
-> >>>> +    static uint32_t *ptr;
-> >>>> +
-> >>>> +    r = amdgpu_cs_ctx_create(device_handle, &context_handle);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    r = amdgpu_bo_alloc_and_map(device_handle, 4096, 4096,
-> >>>> +                    AMDGPU_GEM_DOMAIN_GTT, 0,
-> >>>> +                    &ib_result_handle, &ib_result_cpu,
-> >>>> + &ib_result_mc_address, &va_handle);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    r = amdgpu_get_bo_list(device_handle, ib_result_handle, NULL,
-> >>>> +                   &bo_list);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    ptr = ib_result_cpu;
-> >>>> +
-> >>>> +    for (i = 0; i < 16; ++i)
-> >>>> +        ptr[i] = wait_or_signal ? GFX_COMPUTE_NOP: SDMA_NOP;
-> >>>> +
-> >>>> +    chunks[0].chunk_id = AMDGPU_CHUNK_ID_IB;
-> >>>> +    chunks[0].length_dw = sizeof(struct drm_amdgpu_cs_chunk_ib) / 4;
-> >>>> +    chunks[0].chunk_data = (uint64_t)(uintptr_t)&chunk_data;
-> >>>> +    chunk_data.ib_data._pad = 0;
-> >>>> +    chunk_data.ib_data.va_start = ib_result_mc_address;
-> >>>> +    chunk_data.ib_data.ib_bytes = 16 * 4;
-> >>>> +    chunk_data.ib_data.ip_type = wait_or_signal ? AMDGPU_HW_IP_GFX :
-> >>>> +        AMDGPU_HW_IP_DMA;
-> >>>> +    chunk_data.ib_data.ip_instance = 0;
-> >>>> +    chunk_data.ib_data.ring = 0;
-> >>>> +    chunk_data.ib_data.flags = 0;
-> >>>> +
-> >>>> +    chunks[1].chunk_id = wait_or_signal ?
-> >>>> + AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT :
-> >>>> + AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL;
-> >>>> +    chunks[1].length_dw = sizeof(struct drm_amdgpu_cs_chunk_syncobj)
-> >>>> / 4;
-> >>>> +    chunks[1].chunk_data = (uint64_t)(uintptr_t)&syncobj_data;
-> >>>> +    syncobj_data.handle = syncobj_handle;
-> >>>> +    syncobj_data.point = point;
-> >>>> +    syncobj_data.flags = DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT;
-> >>>> +
-> >>>> +    r = amdgpu_cs_submit_raw(device_handle,
-> >>>> +                 context_handle,
-> >>>> +                 bo_list,
-> >>>> +                 2,
-> >>>> +                 chunks,
-> >>>> +                 &seq_no);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +
-> >>>> +    memset(&fence_status, 0, sizeof(struct amdgpu_cs_fence));
-> >>>> +    fence_status.context = context_handle;
-> >>>> +    fence_status.ip_type = wait_or_signal ? AMDGPU_HW_IP_GFX:
-> >>>> +        AMDGPU_HW_IP_DMA;
-> >>>> +    fence_status.ip_instance = 0;
-> >>>> +    fence_status.ring = 0;
-> >>>> +    fence_status.fence = seq_no;
-> >>>> +
-> >>>> +    r = amdgpu_cs_query_fence_status(&fence_status,
-> >>>> +            AMDGPU_TIMEOUT_INFINITE,0, &expired);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    r = amdgpu_bo_list_destroy(bo_list);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    r = amdgpu_bo_unmap_and_free(ib_result_handle, va_handle,
-> >>>> +                     ib_result_mc_address, 4096);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    r = amdgpu_cs_ctx_free(context_handle);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    return r;
-> >>>> +}
-> >>>> +
-> >>>> +struct syncobj_point {
-> >>>> +    uint32_t syncobj_handle;
-> >>>> +    uint64_t point;
-> >>>> +};
-> >>>> +
-> >>>> +static void *syncobj_wait(void *data)
-> >>>> +{
-> >>>> +    struct syncobj_point *sp = (struct syncobj_point *)data;
-> >>>> +    int r;
-> >>>> +
-> >>>> +    r = syncobj_command_submission_helper(sp->syncobj_handle, true,
-> >>>> +                          sp->point);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    return (void *)(long)r;
-> >>>> +}
-> >>>> +
-> >>>> +static void *syncobj_signal(void *data)
-> >>>> +{
-> >>>> +    struct syncobj_point *sp = (struct syncobj_point *)data;
-> >>>> +    int r;
-> >>>> +
-> >>>> +    r = syncobj_command_submission_helper(sp->syncobj_handle, false,
-> >>>> +                          sp->point);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    return (void *)(long)r;
-> >>>> +}
-> >>>> +
-> >>>> +static void amdgpu_syncobj_timeline_test(void)
-> >>>> +{
-> >>>> +    static pthread_t wait_thread;
-> >>>> +    static pthread_t signal_thread;
-> >>>> +    static pthread_t c_thread;
-> >>>> +    struct syncobj_point sp1, sp2, sp3;
-> >>>> +    uint32_t syncobj_handle;
-> >>>> +    uint64_t payload;
-> >>>> +    uint64_t wait_point, signal_point;
-> >>>> +    uint64_t timeout;
-> >>>> +    struct timespec tp;
-> >>>> +    int r, sync_fd;
-> >>>> +    void *tmp;
-> >>>> +
-> >>>> +    r = amdgpu_cs_create_syncobj2(device_handle, 0,
-> >>>> &syncobj_handle);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    // wait on point 5
-> >>>> +    sp1.syncobj_handle = syncobj_handle;
-> >>>> +    sp1.point = 5;
-> >>>> +    r = pthread_create(&wait_thread, NULL, syncobj_wait, &sp1);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    // signal on point 10
-> >>>> +    sp2.syncobj_handle = syncobj_handle;
-> >>>> +    sp2.point = 10;
-> >>>> +    r = pthread_create(&signal_thread, NULL, syncobj_signal, &sp2);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +    r = pthread_join(wait_thread, &tmp);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    CU_ASSERT_EQUAL(tmp, 0);
-> >>>> +
-> >>>> +    r = pthread_join(signal_thread, &tmp);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    CU_ASSERT_EQUAL(tmp, 0);
-> >>>> +
-> >>>> +    //query timeline payload
-> >>>> +    r = amdgpu_cs_syncobj_query(device_handle, &syncobj_handle,
-> >>>> +                    &payload, 1);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    CU_ASSERT_EQUAL(payload, 10);
-> >>>> +
-> >>>> +    //signal on point 16
-> >>>> +    sp3.syncobj_handle = syncobj_handle;
-> >>>> +    sp3.point = 16;
-> >>>> +    r = pthread_create(&c_thread, NULL, syncobj_signal, &sp3);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    //CPU wait on point 16
-> >>>> +    wait_point = 16;
-> >>>> +    timeout = 0;
-> >>>> +    clock_gettime(CLOCK_MONOTONIC, &tp);
-> >>>> +    timeout = tp.tv_sec * 1000000000ULL + tp.tv_nsec;
-> >>>> +    timeout += 0x10000000000; //10s
-> >>>> +    r = amdgpu_cs_syncobj_timeline_wait(device_handle,
-> >>>> &syncobj_handle,
-> >>>> +                        &wait_point, 1, timeout,
-> >>>> + DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |
-> >>>> + DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT,
-> >>>> +                        NULL);
-> >>>> +
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    r = pthread_join(c_thread, &tmp);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    CU_ASSERT_EQUAL(tmp, 0);
-> >>>> +
-> >>>> +    // export point 16 and import to point 18
-> >>>> +    r = amdgpu_cs_syncobj_export_sync_file2(device_handle,
-> >>>> syncobj_handle,
-> >>>> +                        16,
-> >>>> + DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT,
-> >>>> +                        &sync_fd);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    r = amdgpu_cs_syncobj_import_sync_file2(device_handle,
-> >>>> syncobj_handle,
-> >>>> +                        18, sync_fd);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    r = amdgpu_cs_syncobj_query(device_handle, &syncobj_handle,
-> >>>> +                    &payload, 1);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    CU_ASSERT_EQUAL(payload, 18);
-> >>>> +
-> >>>> +    // CPU signal on point 20
-> >>>> +    signal_point = 20;
-> >>>> +    r = amdgpu_cs_syncobj_timeline_signal(device_handle,
-> >>>> &syncobj_handle,
-> >>>> + &signal_point, 1);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    r = amdgpu_cs_syncobj_query(device_handle, &syncobj_handle,
-> >>>> +                    &payload, 1);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +    CU_ASSERT_EQUAL(payload, 20);
-> >>>> +
-> >>>> +    r = amdgpu_cs_destroy_syncobj(device_handle, syncobj_handle);
-> >>>> +    CU_ASSERT_EQUAL(r, 0);
-> >>>> +
-> >>>> +}
-> >>>
-> >>> _______________________________________________
-> >>> dri-devel mailing list
-> >>> dri-devel@lists.freedesktop.org
-> >>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> >>
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
---------------80B558730A7AEDDDC24C6B2B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">Oh, please not that problem again :(<br>
-      <br>
-      Please just try "ssh gitlab.freedesktop.org" if that also times
-      out like this you need to contact AMD network IT and ask why ssh
-      once more doesn't work.<br>
-      <br>
-      Christian.<br>
-      <br>
-      Am 16.05.19 um 13:43 schrieb Zhou, David(ChunMing):<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:-hr0cw7wplji6kur9szo2dka8ja1pou-3nnay4-uxxtwr-otnhsl1qetv0o1gtgu-lfnxxj8heoqc6a8l96-nzvfofweuygaoki3ql-641t1t-lccynh6ltsf-lty877-volmoddqo3n1-k65ryocb6ryt.1558004857725@email.android.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <meta name="Generator" content="Microsoft Exchange Server">
-      <!-- converted from text -->
-      <style><!-- .EmailQuote { margin-left: 1pt; padding-left: 4pt; border-left: #800000 2px solid; } --></style>
-      <div>It mentioned me I cannot push to gitlab directly. After that,
-        I added my ssh pub to gitlab web, and also added gitlab url to
-        git remote.<br>
-        then push again, it mentions "connection timeout".<br>
-        <br>
-        -David<br>
-        <br>
-        -------- Original Message --------<br>
-        Subject: Re: [PATCH libdrm 7/7] add syncobj timeline tests v3<br>
-        From: Christian König <br>
-        To: "Zhou, David(ChunMing)" ,"Koenig, Christian" ,"Zhou,
-        David(ChunMing)" ,<a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a><br>
-        CC: <br>
-        <br>
-      </div>
-      <font size="2"><span style="font-size:11pt;">
-          <div class="PlainText">[CAUTION: External Email]<br>
-            <br>
-            Am 16.05.19 um 12:19 schrieb zhoucm1:<br>
-            &gt;<br>
-            &gt;<br>
-            &gt; On 2019年05月16日 18:09, Christian König wrote:<br>
-            &gt;&gt; [CAUTION: External Email]<br>
-            &gt;&gt;<br>
-            &gt;&gt; Am 16.05.19 um 10:16 schrieb zhoucm1:<br>
-            &gt;&gt;&gt; I was able to push changes to libdrm, but now
-            seems after libdrm is<br>
-            &gt;&gt;&gt; migrated to gitlab, I cannot yet. What step do
-            I need to get back my<br>
-            &gt;&gt;&gt; permission? I already can login into gitlab
-            with old freedesktop<br>
-            &gt;&gt;&gt; account.<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; @Christian, Can you help submit this patch set
-            to libdrm first?<br>
-            &gt;&gt;<br>
-            &gt;&gt; Done. And I think you can now request write
-            permission to a repository<br>
-            &gt;&gt; through the web-interface and all the "owners" of
-            the project can grant<br>
-            &gt;&gt; that to you.<br>
-            &gt; Any guide for that? I failed to find where to request
-            permission.<br>
-            <br>
-            Not of hand. What does the system say when you try to push?<br>
-            <br>
-            Christian.<br>
-            <br>
-            &gt;<br>
-            &gt; -David<br>
-            &gt;&gt;<br>
-            &gt;&gt; Christian.<br>
-            &gt;&gt;<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; Thanks,<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; -David<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; On 2019年05月16日 16:07, Chunming Zhou wrote:<br>
-            &gt;&gt;&gt;&gt; v2: drop DRM_SYNCOBJ_CREATE_TYPE_TIMELINE,
-            fix timeout calculation,<br>
-            &gt;&gt;&gt;&gt;      fix some warnings<br>
-            &gt;&gt;&gt;&gt; v3: add export/import and cpu signal
-            testing cases<br>
-            &gt;&gt;&gt;&gt;<br>
-            &gt;&gt;&gt;&gt; Signed-off-by: Chunming Zhou
-            <a class="moz-txt-link-rfc2396E" href="mailto:david1.zhou@amd.com">&lt;david1.zhou@amd.com&gt;</a><br>
-            &gt;&gt;&gt;&gt; Acked-by: Christian König
-            <a class="moz-txt-link-rfc2396E" href="mailto:christian.koenig@amd.com">&lt;christian.koenig@amd.com&gt;</a><br>
-            &gt;&gt;&gt;&gt; Acked-by: Lionel Landwerlin
-            <a class="moz-txt-link-rfc2396E" href="mailto:lionel.g.landwerlin@intel.com">&lt;lionel.g.landwerlin@intel.com&gt;</a><br>
-            &gt;&gt;&gt;&gt; ---<br>
-            &gt;&gt;&gt;&gt;   tests/amdgpu/Makefile.am     |   3 +-<br>
-            &gt;&gt;&gt;&gt;   tests/amdgpu/amdgpu_test.c   |  11 ++<br>
-            &gt;&gt;&gt;&gt;   tests/amdgpu/amdgpu_test.h   |  21 +++<br>
-            &gt;&gt;&gt;&gt;   tests/amdgpu/meson.build     |   2 +-<br>
-            &gt;&gt;&gt;&gt;   tests/amdgpu/syncobj_tests.c | 290<br>
-            &gt;&gt;&gt;&gt; +++++++++++++++++++++++++++++++++++<br>
-            &gt;&gt;&gt;&gt;   5 files changed, 325 insertions(+), 2
-            deletions(-)<br>
-            &gt;&gt;&gt;&gt;   create mode 100644
-            tests/amdgpu/syncobj_tests.c<br>
-            &gt;&gt;&gt;&gt;<br>
-            &gt;&gt;&gt;&gt; diff --git a/tests/amdgpu/Makefile.am
-            b/tests/amdgpu/Makefile.am<br>
-            &gt;&gt;&gt;&gt; index 48278848..920882d0 100644<br>
-            &gt;&gt;&gt;&gt; --- a/tests/amdgpu/Makefile.am<br>
-            &gt;&gt;&gt;&gt; +++ b/tests/amdgpu/Makefile.am<br>
-            &gt;&gt;&gt;&gt; @@ -34,4 +34,5 @@ amdgpu_test_SOURCES = \<br>
-            &gt;&gt;&gt;&gt;       uve_ib.h \<br>
-            &gt;&gt;&gt;&gt;       deadlock_tests.c \<br>
-            &gt;&gt;&gt;&gt;       vm_tests.c    \<br>
-            &gt;&gt;&gt;&gt; -    ras_tests.c<br>
-            &gt;&gt;&gt;&gt; +    ras_tests.c \<br>
-            &gt;&gt;&gt;&gt; +    syncobj_tests.c<br>
-            &gt;&gt;&gt;&gt; diff --git a/tests/amdgpu/amdgpu_test.c
-            b/tests/amdgpu/amdgpu_test.c<br>
-            &gt;&gt;&gt;&gt; index 35c8bf6c..73403fb4 100644<br>
-            &gt;&gt;&gt;&gt; --- a/tests/amdgpu/amdgpu_test.c<br>
-            &gt;&gt;&gt;&gt; +++ b/tests/amdgpu/amdgpu_test.c<br>
-            &gt;&gt;&gt;&gt; @@ -57,6 +57,7 @@<br>
-            &gt;&gt;&gt;&gt;   #define DEADLOCK_TESTS_STR "Deadlock
-            Tests"<br>
-            &gt;&gt;&gt;&gt;   #define VM_TESTS_STR "VM Tests"<br>
-            &gt;&gt;&gt;&gt;   #define RAS_TESTS_STR "RAS Tests"<br>
-            &gt;&gt;&gt;&gt; +#define SYNCOBJ_TIMELINE_TESTS_STR
-            "SYNCOBJ TIMELINE Tests"<br>
-            &gt;&gt;&gt;&gt;     /**<br>
-            &gt;&gt;&gt;&gt;    *  Open handles for amdgpu devices<br>
-            &gt;&gt;&gt;&gt; @@ -123,6 +124,12 @@ static CU_SuiteInfo
-            suites[] = {<br>
-            &gt;&gt;&gt;&gt;           .pCleanupFunc =
-            suite_ras_tests_clean,<br>
-            &gt;&gt;&gt;&gt;           .pTests = ras_tests,<br>
-            &gt;&gt;&gt;&gt;       },<br>
-            &gt;&gt;&gt;&gt; +    {<br>
-            &gt;&gt;&gt;&gt; +        .pName =
-            SYNCOBJ_TIMELINE_TESTS_STR,<br>
-            &gt;&gt;&gt;&gt; +        .pInitFunc =
-            suite_syncobj_timeline_tests_init,<br>
-            &gt;&gt;&gt;&gt; +        .pCleanupFunc =
-            suite_syncobj_timeline_tests_clean,<br>
-            &gt;&gt;&gt;&gt; +        .pTests = syncobj_timeline_tests,<br>
-            &gt;&gt;&gt;&gt; +    },<br>
-            &gt;&gt;&gt;&gt;         CU_SUITE_INFO_NULL,<br>
-            &gt;&gt;&gt;&gt;   };<br>
-            &gt;&gt;&gt;&gt; @@ -176,6 +183,10 @@ static
-            Suites_Active_Status suites_active_stat[]<br>
-            &gt;&gt;&gt;&gt; = {<br>
-            &gt;&gt;&gt;&gt;               .pName = RAS_TESTS_STR,<br>
-            &gt;&gt;&gt;&gt;               .pActive =
-            suite_ras_tests_enable,<br>
-            &gt;&gt;&gt;&gt;           },<br>
-            &gt;&gt;&gt;&gt; +        {<br>
-            &gt;&gt;&gt;&gt; +            .pName =
-            SYNCOBJ_TIMELINE_TESTS_STR,<br>
-            &gt;&gt;&gt;&gt; +            .pActive =
-            suite_syncobj_timeline_tests_enable,<br>
-            &gt;&gt;&gt;&gt; +        },<br>
-            &gt;&gt;&gt;&gt;   };<br>
-            &gt;&gt;&gt;&gt;     diff --git a/tests/amdgpu/amdgpu_test.h<br>
-            &gt;&gt;&gt;&gt; b/tests/amdgpu/amdgpu_test.h<br>
-            &gt;&gt;&gt;&gt; index bcd0bc7e..36675ea3 100644<br>
-            &gt;&gt;&gt;&gt; --- a/tests/amdgpu/amdgpu_test.h<br>
-            &gt;&gt;&gt;&gt; +++ b/tests/amdgpu/amdgpu_test.h<br>
-            &gt;&gt;&gt;&gt; @@ -216,6 +216,27 @@ CU_BOOL
-            suite_ras_tests_enable(void);<br>
-            &gt;&gt;&gt;&gt;   extern CU_TestInfo ras_tests[];<br>
-            &gt;&gt;&gt;&gt;     +/**<br>
-            &gt;&gt;&gt;&gt; + * Initialize syncobj timeline test suite<br>
-            &gt;&gt;&gt;&gt; + */<br>
-            &gt;&gt;&gt;&gt; +int suite_syncobj_timeline_tests_init();<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +/**<br>
-            &gt;&gt;&gt;&gt; + * Deinitialize syncobj timeline test
-            suite<br>
-            &gt;&gt;&gt;&gt; + */<br>
-            &gt;&gt;&gt;&gt; +int suite_syncobj_timeline_tests_clean();<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +/**<br>
-            &gt;&gt;&gt;&gt; + * Decide if the suite is enabled by
-            default or not.<br>
-            &gt;&gt;&gt;&gt; + */<br>
-            &gt;&gt;&gt;&gt; +CU_BOOL
-            suite_syncobj_timeline_tests_enable(void);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +/**<br>
-            &gt;&gt;&gt;&gt; + * Tests in syncobj timeline test suite<br>
-            &gt;&gt;&gt;&gt; + */<br>
-            &gt;&gt;&gt;&gt; +extern CU_TestInfo
-            syncobj_timeline_tests[];<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt;   /**<br>
-            &gt;&gt;&gt;&gt;    * Helper functions<br>
-            &gt;&gt;&gt;&gt;    */<br>
-            &gt;&gt;&gt;&gt; diff --git a/tests/amdgpu/meson.build
-            b/tests/amdgpu/meson.build<br>
-            &gt;&gt;&gt;&gt; index 95ed9305..1726cb43 100644<br>
-            &gt;&gt;&gt;&gt; --- a/tests/amdgpu/meson.build<br>
-            &gt;&gt;&gt;&gt; +++ b/tests/amdgpu/meson.build<br>
-            &gt;&gt;&gt;&gt; @@ -24,7 +24,7 @@ if dep_cunit.found()<br>
-            &gt;&gt;&gt;&gt;       files(<br>
-            &gt;&gt;&gt;&gt;         'amdgpu_test.c', 'basic_tests.c',
-            'bo_tests.c', 'cs_tests.c',<br>
-            &gt;&gt;&gt;&gt;         'vce_tests.c', 'uvd_enc_tests.c',
-            'vcn_tests.c',<br>
-            &gt;&gt;&gt;&gt; 'deadlock_tests.c',<br>
-            &gt;&gt;&gt;&gt; -      'vm_tests.c', 'ras_tests.c',<br>
-            &gt;&gt;&gt;&gt; +      'vm_tests.c', 'ras_tests.c',
-            'syncobj_tests.c',<br>
-            &gt;&gt;&gt;&gt;       ),<br>
-            &gt;&gt;&gt;&gt;       dependencies : [dep_cunit,
-            dep_threads],<br>
-            &gt;&gt;&gt;&gt;       include_directories : [inc_root,
-            inc_drm,<br>
-            &gt;&gt;&gt;&gt; include_directories('../../amdgpu')],<br>
-            &gt;&gt;&gt;&gt; diff --git a/tests/amdgpu/syncobj_tests.c<br>
-            &gt;&gt;&gt;&gt; b/tests/amdgpu/syncobj_tests.c<br>
-            &gt;&gt;&gt;&gt; new file mode 100644<br>
-            &gt;&gt;&gt;&gt; index 00000000..a0c627d7<br>
-            &gt;&gt;&gt;&gt; --- /dev/null<br>
-            &gt;&gt;&gt;&gt; +++ b/tests/amdgpu/syncobj_tests.c<br>
-            &gt;&gt;&gt;&gt; @@ -0,0 +1,290 @@<br>
-            &gt;&gt;&gt;&gt; +/*<br>
-            &gt;&gt;&gt;&gt; + * Copyright 2017 Advanced Micro Devices,
-            Inc.<br>
-            &gt;&gt;&gt;&gt; + *<br>
-            &gt;&gt;&gt;&gt; + * Permission is hereby granted, free of
-            charge, to any person<br>
-            &gt;&gt;&gt;&gt; obtaining a<br>
-            &gt;&gt;&gt;&gt; + * copy of this software and associated
-            documentation files (the<br>
-            &gt;&gt;&gt;&gt; "Software"),<br>
-            &gt;&gt;&gt;&gt; + * to deal in the Software without
-            restriction, including without<br>
-            &gt;&gt;&gt;&gt; limitation<br>
-            &gt;&gt;&gt;&gt; + * the rights to use, copy, modify, merge,
-            publish, distribute,<br>
-            &gt;&gt;&gt;&gt; sublicense,<br>
-            &gt;&gt;&gt;&gt; + * and/or sell copies of the Software, and
-            to permit persons to whom<br>
-            &gt;&gt;&gt;&gt; the<br>
-            &gt;&gt;&gt;&gt; + * Software is furnished to do so, subject
-            to the following<br>
-            &gt;&gt;&gt;&gt; conditions:<br>
-            &gt;&gt;&gt;&gt; + *<br>
-            &gt;&gt;&gt;&gt; + * The above copyright notice and this
-            permission notice shall be<br>
-            &gt;&gt;&gt;&gt; included in<br>
-            &gt;&gt;&gt;&gt; + * all copies or substantial portions of
-            the Software.<br>
-            &gt;&gt;&gt;&gt; + *<br>
-            &gt;&gt;&gt;&gt; + * THE SOFTWARE IS PROVIDED "AS IS",
-            WITHOUT WARRANTY OF ANY KIND,<br>
-            &gt;&gt;&gt;&gt; EXPRESS OR<br>
-            &gt;&gt;&gt;&gt; + * IMPLIED, INCLUDING BUT NOT LIMITED TO
-            THE WARRANTIES OF<br>
-            &gt;&gt;&gt;&gt; MERCHANTABILITY,<br>
-            &gt;&gt;&gt;&gt; + * FITNESS FOR A PARTICULAR PURPOSE AND
-            NONINFRINGEMENT. IN NO<br>
-            &gt;&gt;&gt;&gt; EVENT SHALL<br>
-            &gt;&gt;&gt;&gt; + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE
-            LIABLE FOR ANY CLAIM,<br>
-            &gt;&gt;&gt;&gt; DAMAGES OR<br>
-            &gt;&gt;&gt;&gt; + * OTHER LIABILITY, WHETHER IN AN ACTION
-            OF CONTRACT, TORT OR<br>
-            &gt;&gt;&gt;&gt; OTHERWISE,<br>
-            &gt;&gt;&gt;&gt; + * ARISING FROM, OUT OF OR IN CONNECTION
-            WITH THE SOFTWARE OR THE<br>
-            &gt;&gt;&gt;&gt; USE OR<br>
-            &gt;&gt;&gt;&gt; + * OTHER DEALINGS IN THE SOFTWARE.<br>
-            &gt;&gt;&gt;&gt; + *<br>
-            &gt;&gt;&gt;&gt; +*/<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +#include "CUnit/Basic.h"<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +#include "amdgpu_test.h"<br>
-            &gt;&gt;&gt;&gt; +#include "amdgpu_drm.h"<br>
-            &gt;&gt;&gt;&gt; +#include "amdgpu_internal.h"<br>
-            &gt;&gt;&gt;&gt; +#include &lt;pthread.h&gt;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +static  amdgpu_device_handle
-            device_handle;<br>
-            &gt;&gt;&gt;&gt; +static  uint32_t  major_version;<br>
-            &gt;&gt;&gt;&gt; +static  uint32_t  minor_version;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +static void
-            amdgpu_syncobj_timeline_test(void);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +CU_BOOL
-            suite_syncobj_timeline_tests_enable(void)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    return CU_TRUE;<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +int
-            suite_syncobj_timeline_tests_init(void)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    int r;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_device_initialize(drm_amdgpu[0], &amp;major_version,<br>
-            &gt;&gt;&gt;&gt; +                   &amp;minor_version,
-            &amp;device_handle);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    if (r) {<br>
-            &gt;&gt;&gt;&gt; +        if ((r == -EACCES) &amp;&amp;
-            (errno == EACCES))<br>
-            &gt;&gt;&gt;&gt; +            printf("\n\nError:%s. "<br>
-            &gt;&gt;&gt;&gt; +                "Hint:Try to run this test
-            program as root.",<br>
-            &gt;&gt;&gt;&gt; +                strerror(errno));<br>
-            &gt;&gt;&gt;&gt; +        return CUE_SINIT_FAILED;<br>
-            &gt;&gt;&gt;&gt; +    }<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    return CUE_SUCCESS;<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +int
-            suite_syncobj_timeline_tests_clean(void)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    int r =
-            amdgpu_device_deinitialize(device_handle);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    if (r == 0)<br>
-            &gt;&gt;&gt;&gt; +        return CUE_SUCCESS;<br>
-            &gt;&gt;&gt;&gt; +    else<br>
-            &gt;&gt;&gt;&gt; +        return CUE_SCLEAN_FAILED;<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +CU_TestInfo syncobj_timeline_tests[] = {<br>
-            &gt;&gt;&gt;&gt; +    { "syncobj timeline test",
-            amdgpu_syncobj_timeline_test },<br>
-            &gt;&gt;&gt;&gt; +    CU_TEST_INFO_NULL,<br>
-            &gt;&gt;&gt;&gt; +};<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +#define GFX_COMPUTE_NOP  0xffff1000<br>
-            &gt;&gt;&gt;&gt; +#define SDMA_NOP  0x0<br>
-            &gt;&gt;&gt;&gt; +static int
-            syncobj_command_submission_helper(uint32_t<br>
-            &gt;&gt;&gt;&gt; syncobj_handle, bool<br>
-            &gt;&gt;&gt;&gt; +                         wait_or_signal,
-            uint64_t point)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    amdgpu_context_handle context_handle;<br>
-            &gt;&gt;&gt;&gt; +    amdgpu_bo_handle ib_result_handle;<br>
-            &gt;&gt;&gt;&gt; +    void *ib_result_cpu;<br>
-            &gt;&gt;&gt;&gt; +    uint64_t ib_result_mc_address;<br>
-            &gt;&gt;&gt;&gt; +    struct drm_amdgpu_cs_chunk chunks[2];<br>
-            &gt;&gt;&gt;&gt; +    struct drm_amdgpu_cs_chunk_data
-            chunk_data;<br>
-            &gt;&gt;&gt;&gt; +    struct drm_amdgpu_cs_chunk_syncobj
-            syncobj_data;<br>
-            &gt;&gt;&gt;&gt; +    struct amdgpu_cs_fence fence_status;<br>
-            &gt;&gt;&gt;&gt; +    amdgpu_bo_list_handle bo_list;<br>
-            &gt;&gt;&gt;&gt; +    amdgpu_va_handle va_handle;<br>
-            &gt;&gt;&gt;&gt; +    uint32_t expired, flags;<br>
-            &gt;&gt;&gt;&gt; +    int i, r;<br>
-            &gt;&gt;&gt;&gt; +    uint64_t seq_no;<br>
-            &gt;&gt;&gt;&gt; +    static uint32_t *ptr;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_ctx_create(device_handle, &amp;context_handle);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_bo_alloc_and_map(device_handle, 4096, 4096,<br>
-            &gt;&gt;&gt;&gt; +                    AMDGPU_GEM_DOMAIN_GTT,
-            0,<br>
-            &gt;&gt;&gt;&gt; +                    &amp;ib_result_handle,
-            &amp;ib_result_cpu,<br>
-            &gt;&gt;&gt;&gt; +                   
-            &amp;ib_result_mc_address, &amp;va_handle);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r = amdgpu_get_bo_list(device_handle,
-            ib_result_handle, NULL,<br>
-            &gt;&gt;&gt;&gt; +                   &amp;bo_list);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    ptr = ib_result_cpu;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    for (i = 0; i &lt; 16; ++i)<br>
-            &gt;&gt;&gt;&gt; +        ptr[i] = wait_or_signal ?
-            GFX_COMPUTE_NOP: SDMA_NOP;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    chunks[0].chunk_id =
-            AMDGPU_CHUNK_ID_IB;<br>
-            &gt;&gt;&gt;&gt; +    chunks[0].length_dw = sizeof(struct
-            drm_amdgpu_cs_chunk_ib) / 4;<br>
-            &gt;&gt;&gt;&gt; +    chunks[0].chunk_data =
-            (uint64_t)(uintptr_t)&amp;chunk_data;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data._pad = 0;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data.va_start =
-            ib_result_mc_address;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data.ib_bytes = 16 * 4;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data.ip_type =
-            wait_or_signal ? AMDGPU_HW_IP_GFX :<br>
-            &gt;&gt;&gt;&gt; +        AMDGPU_HW_IP_DMA;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data.ip_instance = 0;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data.ring = 0;<br>
-            &gt;&gt;&gt;&gt; +    chunk_data.ib_data.flags = 0;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    chunks[1].chunk_id = wait_or_signal ?<br>
-            &gt;&gt;&gt;&gt; +       
-            AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_WAIT :<br>
-            &gt;&gt;&gt;&gt; +       
-            AMDGPU_CHUNK_ID_SYNCOBJ_TIMELINE_SIGNAL;<br>
-            &gt;&gt;&gt;&gt; +    chunks[1].length_dw = sizeof(struct
-            drm_amdgpu_cs_chunk_syncobj)<br>
-            &gt;&gt;&gt;&gt; / 4;<br>
-            &gt;&gt;&gt;&gt; +    chunks[1].chunk_data =
-            (uint64_t)(uintptr_t)&amp;syncobj_data;<br>
-            &gt;&gt;&gt;&gt; +    syncobj_data.handle = syncobj_handle;<br>
-            &gt;&gt;&gt;&gt; +    syncobj_data.point = point;<br>
-            &gt;&gt;&gt;&gt; +    syncobj_data.flags =
-            DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_submit_raw(device_handle,<br>
-            &gt;&gt;&gt;&gt; +                 context_handle,<br>
-            &gt;&gt;&gt;&gt; +                 bo_list,<br>
-            &gt;&gt;&gt;&gt; +                 2,<br>
-            &gt;&gt;&gt;&gt; +                 chunks,<br>
-            &gt;&gt;&gt;&gt; +                 &amp;seq_no);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    memset(&amp;fence_status, 0,
-            sizeof(struct amdgpu_cs_fence));<br>
-            &gt;&gt;&gt;&gt; +    fence_status.context = context_handle;<br>
-            &gt;&gt;&gt;&gt; +    fence_status.ip_type = wait_or_signal
-            ? AMDGPU_HW_IP_GFX:<br>
-            &gt;&gt;&gt;&gt; +        AMDGPU_HW_IP_DMA;<br>
-            &gt;&gt;&gt;&gt; +    fence_status.ip_instance = 0;<br>
-            &gt;&gt;&gt;&gt; +    fence_status.ring = 0;<br>
-            &gt;&gt;&gt;&gt; +    fence_status.fence = seq_no;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_query_fence_status(&amp;fence_status,<br>
-            &gt;&gt;&gt;&gt; +            AMDGPU_TIMEOUT_INFINITE,0,
-            &amp;expired);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r = amdgpu_bo_list_destroy(bo_list);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_bo_unmap_and_free(ib_result_handle, va_handle,<br>
-            &gt;&gt;&gt;&gt; +                     ib_result_mc_address,
-            4096);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_ctx_free(context_handle);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    return r;<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +struct syncobj_point {<br>
-            &gt;&gt;&gt;&gt; +    uint32_t syncobj_handle;<br>
-            &gt;&gt;&gt;&gt; +    uint64_t point;<br>
-            &gt;&gt;&gt;&gt; +};<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +static void *syncobj_wait(void *data)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    struct syncobj_point *sp = (struct
-            syncobj_point *)data;<br>
-            &gt;&gt;&gt;&gt; +    int r;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            syncobj_command_submission_helper(sp-&gt;syncobj_handle,
-            true,<br>
-            &gt;&gt;&gt;&gt; +                          sp-&gt;point);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    return (void *)(long)r;<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +static void *syncobj_signal(void *data)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    struct syncobj_point *sp = (struct
-            syncobj_point *)data;<br>
-            &gt;&gt;&gt;&gt; +    int r;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            syncobj_command_submission_helper(sp-&gt;syncobj_handle,
-            false,<br>
-            &gt;&gt;&gt;&gt; +                          sp-&gt;point);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    return (void *)(long)r;<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +static void
-            amdgpu_syncobj_timeline_test(void)<br>
-            &gt;&gt;&gt;&gt; +{<br>
-            &gt;&gt;&gt;&gt; +    static pthread_t wait_thread;<br>
-            &gt;&gt;&gt;&gt; +    static pthread_t signal_thread;<br>
-            &gt;&gt;&gt;&gt; +    static pthread_t c_thread;<br>
-            &gt;&gt;&gt;&gt; +    struct syncobj_point sp1, sp2, sp3;<br>
-            &gt;&gt;&gt;&gt; +    uint32_t syncobj_handle;<br>
-            &gt;&gt;&gt;&gt; +    uint64_t payload;<br>
-            &gt;&gt;&gt;&gt; +    uint64_t wait_point, signal_point;<br>
-            &gt;&gt;&gt;&gt; +    uint64_t timeout;<br>
-            &gt;&gt;&gt;&gt; +    struct timespec tp;<br>
-            &gt;&gt;&gt;&gt; +    int r, sync_fd;<br>
-            &gt;&gt;&gt;&gt; +    void *tmp;<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r = 
-            amdgpu_cs_create_syncobj2(device_handle, 0,<br>
-            &gt;&gt;&gt;&gt; &amp;syncobj_handle);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    // wait on point 5<br>
-            &gt;&gt;&gt;&gt; +    sp1.syncobj_handle = syncobj_handle;<br>
-            &gt;&gt;&gt;&gt; +    sp1.point = 5;<br>
-            &gt;&gt;&gt;&gt; +    r = pthread_create(&amp;wait_thread,
-            NULL, syncobj_wait, &amp;sp1);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    // signal on point 10<br>
-            &gt;&gt;&gt;&gt; +    sp2.syncobj_handle = syncobj_handle;<br>
-            &gt;&gt;&gt;&gt; +    sp2.point = 10;<br>
-            &gt;&gt;&gt;&gt; +    r = pthread_create(&amp;signal_thread,
-            NULL, syncobj_signal, &amp;sp2);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r = pthread_join(wait_thread,
-            &amp;tmp);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(tmp, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r = pthread_join(signal_thread,
-            &amp;tmp);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(tmp, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    //query timeline payload<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_query(device_handle, &amp;syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                    &amp;payload, 1);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(payload, 10);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    //signal on point 16<br>
-            &gt;&gt;&gt;&gt; +    sp3.syncobj_handle = syncobj_handle;<br>
-            &gt;&gt;&gt;&gt; +    sp3.point = 16;<br>
-            &gt;&gt;&gt;&gt; +    r = pthread_create(&amp;c_thread,
-            NULL, syncobj_signal, &amp;sp3);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    //CPU wait on point 16<br>
-            &gt;&gt;&gt;&gt; +    wait_point = 16;<br>
-            &gt;&gt;&gt;&gt; +    timeout = 0;<br>
-            &gt;&gt;&gt;&gt; +    clock_gettime(CLOCK_MONOTONIC,
-            &amp;tp);<br>
-            &gt;&gt;&gt;&gt; +    timeout = tp.tv_sec * 1000000000ULL +
-            tp.tv_nsec;<br>
-            &gt;&gt;&gt;&gt; +    timeout += 0x10000000000; //10s<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_timeline_wait(device_handle,<br>
-            &gt;&gt;&gt;&gt; &amp;syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                        &amp;wait_point,
-            1, timeout,<br>
-            &gt;&gt;&gt;&gt; +                       
-            DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL |<br>
-            &gt;&gt;&gt;&gt; + DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT,<br>
-            &gt;&gt;&gt;&gt; +                        NULL);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    r = pthread_join(c_thread, &amp;tmp);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(tmp, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    // export point 16 and import to point
-            18<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_export_sync_file2(device_handle,<br>
-            &gt;&gt;&gt;&gt; syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                        16,<br>
-            &gt;&gt;&gt;&gt; + DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT,<br>
-            &gt;&gt;&gt;&gt; +                        &amp;sync_fd);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_import_sync_file2(device_handle,<br>
-            &gt;&gt;&gt;&gt; syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                        18, sync_fd);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_query(device_handle, &amp;syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                    &amp;payload, 1);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(payload, 18);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    // CPU signal on point 20<br>
-            &gt;&gt;&gt;&gt; +    signal_point = 20;<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_timeline_signal(device_handle,<br>
-            &gt;&gt;&gt;&gt; &amp;syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                         
-            &amp;signal_point, 1);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_syncobj_query(device_handle, &amp;syncobj_handle,<br>
-            &gt;&gt;&gt;&gt; +                    &amp;payload, 1);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(payload, 20);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +    r =
-            amdgpu_cs_destroy_syncobj(device_handle, syncobj_handle);<br>
-            &gt;&gt;&gt;&gt; +    CU_ASSERT_EQUAL(r, 0);<br>
-            &gt;&gt;&gt;&gt; +<br>
-            &gt;&gt;&gt;&gt; +}<br>
-            &gt;&gt;&gt;<br>
-            &gt;&gt;&gt; _______________________________________________<br>
-            &gt;&gt;&gt; dri-devel mailing list<br>
-            &gt;&gt;&gt; <a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a><br>
-            &gt;&gt;&gt; <a
-              href="https://lists.freedesktop.org/mailman/listinfo/dri-devel"
-              moz-do-not-send="true">https://lists.freedesktop.org/mailman/listinfo/dri-devel</a><br>
-            &gt;&gt;<br>
-            &gt;<br>
-            &gt; _______________________________________________<br>
-            &gt; dri-devel mailing list<br>
-            &gt; <a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a><br>
-            &gt; <a
-              href="https://lists.freedesktop.org/mailman/listinfo/dri-devel"
-              moz-do-not-send="true">https://lists.freedesktop.org/mailman/listinfo/dri-devel</a><br>
-            <br>
-          </div>
-        </span></font>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">_______________________________________________
-dri-devel mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a>
-<a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/dri-devel">https://lists.freedesktop.org/mailman/listinfo/dri-devel</a></pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------80B558730A7AEDDDC24C6B2B--
-
---===============1923871812==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1923871812==--
+QW0gMTYuMDUuMTkgdW0gMTQ6Mjggc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBbQ0FVVElPTjog
+RXh0ZXJuYWwgRW1haWxdDQo+DQo+IE9uIFRodSwgTWF5IDE2LCAyMDE5IGF0IDA5OjI1OjMxQU0g
+KzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6DQo+PiBBbSAxNi4wNS4xOSB1bSAwOToxNiBz
+Y2hyaWViIEtvZW5pZywgQ2hyaXN0aWFuOg0KPj4+IEFtIDE2LjA1LjE5IHVtIDA0OjI5IHNjaHJp
+ZWIgS2VubnkgSG86DQo+Pj4+IFtDQVVUSU9OOiBFeHRlcm5hbCBFbWFpbF0NCj4+Pj4NCj4+Pj4g
+T24gV2VkLCBNYXkgMTUsIDIwMTkgYXQgNToyNiBQTSBXZWx0eSwgQnJpYW4gPGJyaWFuLndlbHR5
+QGludGVsLmNvbT4gd3JvdGU6DQo+Pj4+PiBPbiA1LzkvMjAxOSAyOjA0IFBNLCBLZW5ueSBIbyB3
+cm90ZToNCj4+Pj4+PiBUaGVyZSBhcmUgZm91ciBjb250cm9sIGZpbGUgdHlwZXMsDQo+Pj4+Pj4g
+c3RhdHMgKHJvKSAtIGRpc3BsYXkgY3VycmVudCBtZWFzdXJlZCB2YWx1ZXMgZm9yIGEgcmVzb3Vy
+Y2UNCj4+Pj4+PiBtYXggKHJ3KSAtIGxpbWl0cyBmb3IgYSByZXNvdXJjZQ0KPj4+Pj4+IGRlZmF1
+bHQgKHJvLCByb290IGNncm91cCBvbmx5KSAtIGRlZmF1bHQgdmFsdWVzIGZvciBhIHJlc291cmNl
+DQo+Pj4+Pj4gaGVscCAocm8sIHJvb3QgY2dyb3VwIG9ubHkpIC0gaGVscCBzdHJpbmcgZm9yIGEg
+cmVzb3VyY2UNCj4+Pj4+Pg0KPj4+Pj4+IEVhY2ggZmlsZSBpcyBtdWx0aS1saW5lZCB3aXRoIG9u
+ZSBlbnRyeS9saW5lIHBlciBkcm0gZGV2aWNlLg0KPj4+Pj4gTXVsdGktbGluZSBpcyBjb3JyZWN0
+IGZvciBtdWx0aXBsZSBkZXZpY2VzLCBidXQgSSBiZWxpZXZlIHlvdSBuZWVkDQo+Pj4+PiB0byB1
+c2UgYSBLRVkgdG8gZGVub3RlIGRldmljZSBmb3IgYm90aCB5b3VyIHNldCBhbmQgZ2V0IHJvdXRp
+bmVzLg0KPj4+Pj4gSSBkaWRuJ3Qgc2VlIHlvdXIgc2V0IGZ1bmN0aW9ucyByZWFkaW5nIGEga2V5
+LCBvciB0aGUgZ2V0IGZ1bmN0aW9ucw0KPj4+Pj4gcHJpbnRpbmcgdGhlIGtleSBpbiBvdXRwdXQu
+DQo+Pj4+PiBjZ3JvdXBzLXYyIGNvbnZlbnRpb25zIG1lbnRpb24gdXNpbmcgS0VZIG9mIG1ham9y
+Om1pbm9yLCBidXQgSSB0aGluaw0KPj4+Pj4geW91IGNhbiB1c2UgZHJtX21pbm9yIGFzIGtleT8N
+Cj4+Pj4gR2l2ZW4gdGhpcyBjb250cm9sbGVyIGlzIHNwZWNpZmljIHRvIHRoZSBkcm0ga2VybmVs
+IHN1YnN5c3RlbSB3aGljaA0KPj4+PiB1c2VzIG1pbm9yIHRvIGlkZW50aWZ5IGRybSBkZXZpY2Us
+DQo+Pj4gV2FpdCBhIHNlY29uZCwgdXNpbmcgdGhlIERSTSBtaW5vciBpcyBhIGdvb2QgaWRlYSBp
+biB0aGUgZmlyc3QgcGxhY2UuDQo+PiBXZWxsIHRoYXQgc2hvdWxkIGhhdmUgcmVhZCAiaXMgbm90
+IGEgZ29vZCBpZGVhIi4uDQo+IFdoYXQgZWxzZSBzaG91bGQgd2UgdXNlPw0KDQpXZWxsIHdoYXQg
+ZG9lcyBmb3IgZXhhbXBsZSB1ZGV2IHVzZXMgdG8gaWRlbnRpZnkgYSBkZXZpY2U/DQoNCj4+IENo
+cmlzdGlhbi4NCj4+DQo+Pj4gSSBoYXZlIGEgdGVzdCBzeXN0ZW0gd2l0aCBhIFZlZ2ExMCBhbmQg
+YSBWZWdhMjAuIFdoaWNoIGRldmljZSBnZXRzIHdoaWNoDQo+Pj4gbWlub3IgaXMgbm90IHN0YWJs
+ZSwgYnV0IHJhdGhlciBkZWZpbmVkIGJ5IHRoZSBzY2FuIG9yZGVyIG9mIHRoZSBQQ0llIGJ1cy4N
+Cj4+Pg0KPj4+IE5vcm1hbGx5IHRoZSBzY2FuIG9yZGVyIGlzIGFsd2F5cyB0aGUgc2FtZSwgYnV0
+IGFkZGluZyBvciByZW1vdmluZw0KPj4+IGRldmljZXMgb3IgZGVsYXlpbmcgdGhpbmdzIGp1c3Qg
+YSBsaXR0bGUgYml0IGR1cmluZyBpbml0IGlzIGVub3VnaCB0bw0KPj4+IGNoYW5nZSB0aGlzLg0K
+Pj4+DQo+Pj4gV2UgbmVlZCBzb21ldGhpbmcgbGlrZSB0aGUgTGludXggc3lzZnMgbG9jYXRpb24g
+b3Igc2ltaWxhciB0byBoYXZlIGENCj4+PiBzdGFibGUgaW1wbGVtZW50YXRpb24uDQo+IFlvdSBj
+YW4gZ28gZnJvbSBzeXNmcyBsb2NhdGlvbiB0byBkcm0gY2xhc3MgZGlyZWN0b3J5IChpbiBzeXNm
+cykgYW5kIGJhY2suDQo+IFRoYXQgbWVhbnMgaWYgeW91IGNhcmUgeW91IG5lZWQgdG8gd2FsayBz
+eXNmcyB5b3Vyc2VsZiBhIGJpdCwgYnV0IHVzaW5nDQo+IHRoZSBkcm0gbWlub3IgaXNuJ3QgYSBi
+bG9ja2VyIGl0c2VsZi4NCg0KWWVhaCwgYWdyZWVkIHRoYXQgdXNlcnNwYWNlIGNvdWxkIGRvIHRo
+aXMuIEJ1dCBJIHRoaW5rIGlmIHRoZXJlIGlzIGFuIG9mIA0KaGFuZCBhbHRlcm5hdGl2ZSB3ZSBz
+aG91bGQgdXNlIHRoaXMgaW5zdGVhZC4NCg0KPiBPbmUgZG93bnNpZGUgd2l0aCB0aGUgZHJtIG1p
+bm9yIGlzIHRoYXQgaXQncyBwcmV0dHkgZ29vZCBub25zZW5zZSBvbmNlIHlvdQ0KPiBoYXZlIG1v
+cmUgdGhhbiA2NCBncHVzIHRob3VnaCwgZHVlIHRvIGhvdyB3ZSBzcGFjZSByZW5kZXIgYW5kIGxl
+Z2FjeSBub2Rlcw0KPiBpbiB0aGUgbWlub3IgaWRzIDotKQ0KDQpPaywgYW5vdGhlciBnb29kIHJl
+YXNvbiB0byBhdCBsZWFzdCBub3QgdXNlIHRoZSBtaW5vcj1saW5lbnVtIGFwcHJvYWNoLg0KDQpD
+aHJpc3RpYW4uDQoNCj4gLURhbmllbA0KPj4+IFJlZ2FyZHMsDQo+Pj4gQ2hyaXN0aWFuLg0KPj4+
+DQo+Pj4+ICAgICBJIGRvbid0IHNlZSBhIG5lZWQgdG8gY29tcGxpY2F0ZQ0KPj4+PiB0aGUgaW50
+ZXJmYWNlcyBtb3JlIGJ5IGhhdmluZyBtYWpvciBhbmQgYSBrZXkuICBBcyB5b3UgY2FuIHNlZSBp
+biB0aGUNCj4+Pj4gZXhhbXBsZXMgYmVsb3csIHRoZSBkcm0gZGV2aWNlIG1pbm9yIGNvcnJlc3Bv
+bmRzIHRvIHRoZSBsaW5lIG51bWJlci4NCj4+Pj4gSSBhbSBub3Qgc3VyZSBob3cgc3RyaWN0IGNn
+cm91cCB1cHN0cmVhbSBpcyBhYm91dCB0aGUgY29udmVudGlvbiBidXQgSQ0KPj4+PiBhbSBob3Bp
+bmcgdGhlcmUgYXJlIGZsZXhpYmlsaXR5IGhlcmUgdG8gYWxsb3cgZm9yIHdoYXQgSSBoYXZlDQo+
+Pj4+IGltcGxlbWVudGVkLiAgVGhlcmUgYXJlIGEgY291cGxlIG9mIG90aGVyIHRoaW5ncyBJIGhh
+dmUgZG9uZSB0aGF0IGlzDQo+Pj4+IG5vdCBkZXNjcmliZWQgaW4gdGhlIGNvbnZlbnRpb246IDEp
+IGluY2x1c2lvbiBvZiByZWFkLW9ubHkgKi5oZWxwIGZpbGUNCj4+Pj4gYXQgdGhlIHJvb3QgY2dy
+b3VwLCAyKSB1c2UgcmVhZC1vbmx5ICh3aGljaCBJIGNhbiBwb3RlbnRpYWxseSBtYWtlIHJ3KQ0K
+Pj4+PiAqLmRlZmF1bHQgZmlsZSBpbnN0ZWFkIG9mIGhhdmluZyBhIGRlZmF1bHQgZW50cmllcyAo
+c2luY2UgdGhlIGRlZmF1bHQNCj4+Pj4gY2FuIGJlIGRpZmZlcmVudCBmb3IgZGlmZmVyZW50IGRl
+dmljZXMpIGluc2lkZSB0aGUgY29udHJvbCBmaWxlcyAodGhpcw0KPj4+PiB3YXksIHRoZSByZXNl
+dHRpbmcgb2YgY2dyb3VwIHZhbHVlcyBmb3IgYWxsIHRoZSBkcm0gZGV2aWNlcywgY2FuIGJlDQo+
+Pj4+IGRvbmUgYnkgYSBzaW1wbGUgJ2NwJy4pDQo+Pj4+DQo+Pj4+Pj4gVXNhZ2UgZXhhbXBsZXM6
+DQo+Pj4+Pj4gLy8gc2V0IGxpbWl0IGZvciBjYXJkMSB0byAxR0INCj4+Pj4+PiBzZWQgLWkgJzJz
+Ly4qLzEwNzM3NDE4MjQvJyAvc3lzL2ZzL2Nncm91cC88Y2dyb3VwPi9kcm0uYnVmZmVyLnRvdGFs
+Lm1heA0KPj4+Pj4+DQo+Pj4+Pj4gLy8gc2V0IGxpbWl0IGZvciBjYXJkMCB0byA1MTJNQg0KPj4+
+Pj4+IHNlZCAtaSAnMXMvLiovNTM2ODcwOTEyLycgL3N5cy9mcy9jZ3JvdXAvPGNncm91cD4vZHJt
+LmJ1ZmZlci50b3RhbC5tYXgNCj4+Pj4+PiAgICAgLyoqIEBmaWxlIGRybV9nZW0uYw0KPj4+Pj4+
+IEBAIC0xNTQsNiArMTU2LDkgQEAgdm9pZCBkcm1fZ2VtX3ByaXZhdGVfb2JqZWN0X2luaXQoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwNCj4+Pj4+PiAgICAgICAgICBvYmotPmhhbmRsZV9jb3VudCA9
+IDA7DQo+Pj4+Pj4gICAgICAgICAgb2JqLT5zaXplID0gc2l6ZTsNCj4+Pj4+PiAgICAgICAgICBk
+cm1fdm1hX25vZGVfcmVzZXQoJm9iai0+dm1hX25vZGUpOw0KPj4+Pj4+ICsNCj4+Pj4+PiArICAg
+ICBvYmotPmRybWNncnAgPSBnZXRfZHJtY2dycChjdXJyZW50KTsNCj4+Pj4+PiArICAgICBkcm1j
+Z3JwX2NoZ19ib19hbGxvYyhvYmotPmRybWNncnAsIGRldiwgc2l6ZSk7DQo+Pj4+PiBXaHkgZG8g
+dGhlIGNoYXJnaW5nIGhlcmU/DQo+Pj4+PiBUaGVyZSBpcyBubyBiYWNraW5nIHN0b3JlIHlldCBm
+b3IgdGhlIGJ1ZmZlciwgc28gdGhpcyBpcyByZWFsbHkgdHJhY2tpbmcgc29tZXRoaW5nIGFraW4g
+dG8gYWxsb3dlZCB2aXJ0dWFsIG1lbW9yeSBmb3IgR0VNIG9iamVjdHM/DQo+Pj4+PiBJcyB0aGlz
+IHJlYWxseSB1c2VmdWwgZm9yIGFuIGFkbWluaXN0cmF0b3IgdG8gY29udHJvbD8NCj4+Pj4+IElz
+bid0IHRoZSByZXNvdXJjZSB3ZSB3YW50IHRvIGNvbnRyb2wgYWN0dWFsbHkgdGhlIHBoeXNpY2Fs
+IGJhY2tpbmcgc3RvcmU/DQo+Pj4+IFRoYXQncyBjb3JyZWN0LiAgVGhpcyBpcyBqdXN0IHRoZSBm
+aXJzdCBsZXZlbCBvZiBjb250cm9sIHNpbmNlIHRoZQ0KPj4+PiBiYWNraW5nIHN0b3JlIGNhbiBi
+ZSBiYWNrZWQgYnkgZGlmZmVyZW50IHR5cGUgb2YgbWVtb3J5LiAgSSBhbSBpbiB0aGUNCj4+Pj4g
+cHJvY2VzcyBvZiBhZGRpbmcgYXQgbGVhc3QgdHdvIG1vcmUgcmVzb3VyY2VzLiAgU3RheSB0dW5l
+ZC4gIEkgYW0NCj4+Pj4gZG9pbmcgdGhlIGNoYXJnZSBoZXJlIHRvIGVuZm9yY2UgdGhlIGlkZWEg
+b2YgImNyZWF0b3IgaXMgZGVlbWVkIG93bmVyIg0KPj4+PiBhdCBhIHBsYWNlIHdoZXJlIHRoZSBj
+b2RlIGlzIHNoYXJlZCBieSBhbGwgKHRoZSBpbml0IGZ1bmN0aW9uLikNCj4+Pj4NCj4+Pj4+PiAr
+ICAgICB3aGlsZSAoaSA8PSBtYXhfbWlub3IgJiYgbGltaXRzICE9IE5VTEwpIHsNCj4+Pj4+PiAr
+ICAgICAgICAgICAgIHN2YWwgPSAgc3Ryc2VwKCZsaW1pdHMsICJcbiIpOw0KPj4+Pj4+ICsgICAg
+ICAgICAgICAgcmMgPSBrc3RydG9sbChzdmFsLCAwLCAmdmFsKTsNCj4+Pj4+IElucHV0IHNob3Vs
+ZCBiZSAiS0VZIFZBTFVFIiwgc28gS0VZIHdpbGwgZGV0ZXJtaW5lIGRldmljZSB0byBhcHBseSB0
+aGlzIHRvLg0KPj4+Pj4gQWxzbywgcGVyIGNncm91cHMtdjIgZG9jdW1lbnRhdGlvbiBvZiBsaW1p
+dHMsIEkgYmVsaWV2ZSBuZWVkIHRvIHBhcnNlIGFuZCBoYW5kbGUgdGhlIHNwZWNpYWwgIm1heCIg
+aW5wdXQgdmFsdWUuDQo+Pj4+Pg0KPj4+Pj4gcGFyc2VfcmVzb3VyY2VzKCkgaW4gcmRtYSBjb250
+cm9sbGVyIGlzIGV4YW1wbGUgZm9yIGJvdGggb2YgYWJvdmUuDQo+Pj4+IFBsZWFzZSBzZWUgbXkg
+cHJldmlvdXMgcmVwbHkgZm9yIHRoZSByYXRpb25hbGUgb2YgbXkgaG9wZSB0byBub3QgbmVlZA0K
+Pj4+PiBhIGtleS4gIEkgY2FuIGNlcnRhaW5seSBhZGQgaGFuZGxpbmcgb2YgIm1heCIgYW5kICJk
+ZWZhdWx0Ii4NCj4+Pj4NCj4+Pj4NCj4+Pj4+PiArdm9pZCBkcm1jZ3JwX2NoZ19ib19hbGxvYyhz
+dHJ1Y3QgZHJtY2dycCAqZHJtY2dycCwgc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4+Pj4+PiAr
+ICAgICAgICAgICAgIHNpemVfdCBzaXplKQ0KPj4+Pj4gU2hvdWxkbid0IHRoaXMgcmV0dXJuIGFu
+IGVycm9yIGFuZCBiZSBpbXBsZW1lbnRlZCB3aXRoIHNhbWUgc2VtYW50aWNzIGFzIHRoZQ0KPj4+
+Pj4gdHJ5X2NoYXJnZSgpIGZ1bmN0aW9ucyBvZiBvdGhlciBjb250cm9sbGVycz8NCj4+Pj4+IEJl
+bG93IHdpbGwgYWxsb3cgc3RhdHNfdG90YWxfYWxsb2NhdGVkIHRvIG92ZXJydW4gbGltaXRzX3Rv
+dGFsX2FsbG9jYXRlZC4NCj4+Pj4gVGhpcyBpcyBiZWNhdXNlIEkgYW0gY2hhcmdpbmcgdGhlIGJ1
+ZmZlciBhdCB0aGUgaW5pdCBvZiB0aGUgYnVmZmVyDQo+Pj4+IHdoaWNoIGRvZXMgbm90IGZhaWwg
+c28gdGhlICJ0cnkiIChkcm1jZ3JwX2JvX2Nhbl9hbGxvY2F0ZSkgaXMgc2VwYXJhdGUNCj4+Pj4g
+YW5kIHBsYWNlZCBlYXJsaWVyIGFuZCBuZWFyZXIgb3RoZXIgY29uZGl0aW9uIHdoZXJlIGdlbSBv
+YmplY3QNCj4+Pj4gYWxsb2NhdGlvbiBtYXkgZmFpbC4gIEluIG90aGVyIHdvcmRzLCB0aGVyZSBh
+cmUgbXVsdGlwbGUgcG9zc2liaWxpdGllcw0KPj4+PiBmb3Igd2hpY2ggZ2VtIGFsbG9jYXRpb24g
+bWF5IGZhaWwgKGNncm91cCBsaW1pdCBiZWluZyBvbmUgb2YgdGhlbSkgYW5kDQo+Pj4+IHNhdGlz
+ZnlpbmcgY2dyb3VwIGxpbWl0IGRvZXMgbm90IG1lYW4gYSBjaGFyZ2UgaXMgbmVlZGVkLiAgSSBj
+YW4NCj4+Pj4gY2VydGFpbmx5IGNvbWJpbmUgdGhlIHR3byBmdW5jdGlvbnMgdG8gaGF2ZSBhbiBh
+ZGRpdGlvbmFsIHRyeV9jaGFyZ2UNCj4+Pj4gc2VtYW50aWMgYXMgd2VsbCBpZiB0aGF0IGlzIHJl
+YWxseSBuZWVkZWQuDQo+Pj4+DQo+Pj4+IFJlZ2FyZHMsDQo+Pj4+IEtlbm55DQo+Pj4gX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4+PiBhbWQtZ2Z4IG1h
+aWxpbmcgbGlzdA0KPj4+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+Pj4gaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9hbWQtZ2Z4DQo+PiBfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4gZHJpLWRldmVs
+IG1haWxpbmcgbGlzdA0KPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPj4gaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwNCj4g
+LS0NCj4gRGFuaWVsIFZldHRlcg0KPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRp
+b24NCj4gaHR0cDovL2Jsb2cuZmZ3bGwuY2gNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
