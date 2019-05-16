@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11A61FDBC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 04:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E4B1FDF7
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 05:15:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6294089198;
-	Thu, 16 May 2019 02:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 445EF8925E;
+	Thu, 16 May 2019 03:15:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB5CA89179;
- Thu, 16 May 2019 02:29:33 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id k9so1347921oig.9;
- Wed, 15 May 2019 19:29:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=brIRTZ8rTL3D1hESD9cfO1okHwiplIHm2d3dgCFXGos=;
- b=sGvekHGZjJuJP8IIdG7uLYScInjh7XWnIM1lw2jlZvS3ZKk2d2HcDaG8088SA1aVL3
- 99e2MHhOgyb20HvwdkUS7k5NGPmciLShIqJfqmfoEvpuzrZxsc2MVuOF5tDuxtD4HiSn
- hFCnXyfErOs0NHmgonma9BPzpk2zpOSnsh0cYaay86Lknq733P300+hM4TRVFZ+EPc5N
- BQMz3ALZngtDa49/kZtzja43sCRznpJzsivp5KmTf4+zFf3bNKjxldueB97fIzWQi0aw
- hrKuIUwPBJgjLZBuRNU+VAwtcjN0kySbkDwg2UFjvu/JyIOGDaPNYIRB0/pmYBg2dACa
- JY0Q==
-X-Gm-Message-State: APjAAAXeroMGLmPSMKeE6PV178utEiNy93aT16kyZ/c6uJ54zLGui3Ux
- 70MXYKcHQpf3zB2RTOcaAHxgnKRAFM1QmpqlXNg=
-X-Google-Smtp-Source: APXvYqwr48Jpr1yWapbdXplFe4VSiTKhBLkcW9I9j7VKV8+AaN+tcbtQOLBFjPJfrPknwFxMSe0hu2qkPbJO1iJVpjQ=
-X-Received: by 2002:aca:b8c4:: with SMTP id i187mr8550785oif.6.1557973772566; 
- Wed, 15 May 2019 19:29:32 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A72678925E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 03:15:13 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9CD6172167; Thu, 16 May 2019 03:15:13 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109085] Radeon driver crashes with a message "ring 0 stalled
+ for more than 10344msec" when using Citra and Newly free to play game Albion
+ Online on UBUNTU 18.04LTS
+Date: Thu, 16 May 2019 03:15:13 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: sudheerj0680@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: sudheerj0680@gmail.com
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: assigned_to
+Message-ID: <bug-109085-502-QZ4clXUr7t@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109085-502@http.bugs.freedesktop.org/>
+References: <bug-109085-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20181120185814.13362-1-Kenny.Ho@amd.com>
- <20190509210410.5471-1-Kenny.Ho@amd.com>
- <20190509210410.5471-5-Kenny.Ho@amd.com>
- <d81e8f55-9602-818e-0f9c-1d9d150133b1@intel.com>
-In-Reply-To: <d81e8f55-9602-818e-0f9c-1d9d150133b1@intel.com>
-From: Kenny Ho <y2kenny@gmail.com>
-Date: Wed, 15 May 2019 22:29:21 -0400
-Message-ID: <CAOWid-ftUrVVWPu9KuS8xpWKNQT6_FtxB8gEyEAn9nLD6qxb5Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 4/5] drm,
- cgroup: Add total GEM buffer allocation limit
-To: "Welty, Brian" <brian.welty@intel.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=brIRTZ8rTL3D1hESD9cfO1okHwiplIHm2d3dgCFXGos=;
- b=lTP3J91gu85/z346HD4bLomplfbBRvVMZ5hOyii2mbh+6R44qEdQ21SMDdb16poqOL
- EKrK31S1q29G8DrOBb10UrJSiXilNHiLzpcwax8nwbqQ9Z1aQ+Sj7ZcqFBtfIw3Owmsk
- MRQA1j+29KOO5Y9KSjS3XuMCvUoYqCHQ+puhCfHvqMM91d0qTirnlrA0TCDwgZGyK6zg
- qP56C3OpFSPP4YrcphxXXq+Q9eb05nCZGxos/LW7LZncXDkqsWiYgii98nkhyhXCkkfw
- C5GkL4MLPWs5rT4xpBM9tain40FWtrNLnGNdm9GJPyCbPq1g1Rx0sqZ14dyDhVS18Mzc
- HbRw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,91 +54,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sunnanyong@huawei.com, Kenny Ho <Kenny.Ho@amd.com>,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- cgroups@vger.kernel.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1922756167=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXkgMTUsIDIwMTkgYXQgNToyNiBQTSBXZWx0eSwgQnJpYW4gPGJyaWFuLndlbHR5
-QGludGVsLmNvbT4gd3JvdGU6Cj4gT24gNS85LzIwMTkgMjowNCBQTSwgS2VubnkgSG8gd3JvdGU6
-Cj4gPiBUaGVyZSBhcmUgZm91ciBjb250cm9sIGZpbGUgdHlwZXMsCj4gPiBzdGF0cyAocm8pIC0g
-ZGlzcGxheSBjdXJyZW50IG1lYXN1cmVkIHZhbHVlcyBmb3IgYSByZXNvdXJjZQo+ID4gbWF4IChy
-dykgLSBsaW1pdHMgZm9yIGEgcmVzb3VyY2UKPiA+IGRlZmF1bHQgKHJvLCByb290IGNncm91cCBv
-bmx5KSAtIGRlZmF1bHQgdmFsdWVzIGZvciBhIHJlc291cmNlCj4gPiBoZWxwIChybywgcm9vdCBj
-Z3JvdXAgb25seSkgLSBoZWxwIHN0cmluZyBmb3IgYSByZXNvdXJjZQo+ID4KPiA+IEVhY2ggZmls
-ZSBpcyBtdWx0aS1saW5lZCB3aXRoIG9uZSBlbnRyeS9saW5lIHBlciBkcm0gZGV2aWNlLgo+Cj4g
-TXVsdGktbGluZSBpcyBjb3JyZWN0IGZvciBtdWx0aXBsZSBkZXZpY2VzLCBidXQgSSBiZWxpZXZl
-IHlvdSBuZWVkCj4gdG8gdXNlIGEgS0VZIHRvIGRlbm90ZSBkZXZpY2UgZm9yIGJvdGggeW91ciBz
-ZXQgYW5kIGdldCByb3V0aW5lcy4KPiBJIGRpZG4ndCBzZWUgeW91ciBzZXQgZnVuY3Rpb25zIHJl
-YWRpbmcgYSBrZXksIG9yIHRoZSBnZXQgZnVuY3Rpb25zCj4gcHJpbnRpbmcgdGhlIGtleSBpbiBv
-dXRwdXQuCj4gY2dyb3Vwcy12MiBjb252ZW50aW9ucyBtZW50aW9uIHVzaW5nIEtFWSBvZiBtYWpv
-cjptaW5vciwgYnV0IEkgdGhpbmsKPiB5b3UgY2FuIHVzZSBkcm1fbWlub3IgYXMga2V5PwpHaXZl
-biB0aGlzIGNvbnRyb2xsZXIgaXMgc3BlY2lmaWMgdG8gdGhlIGRybSBrZXJuZWwgc3Vic3lzdGVt
-IHdoaWNoCnVzZXMgbWlub3IgdG8gaWRlbnRpZnkgZHJtIGRldmljZSwgSSBkb24ndCBzZWUgYSBu
-ZWVkIHRvIGNvbXBsaWNhdGUKdGhlIGludGVyZmFjZXMgbW9yZSBieSBoYXZpbmcgbWFqb3IgYW5k
-IGEga2V5LiAgQXMgeW91IGNhbiBzZWUgaW4gdGhlCmV4YW1wbGVzIGJlbG93LCB0aGUgZHJtIGRl
-dmljZSBtaW5vciBjb3JyZXNwb25kcyB0byB0aGUgbGluZSBudW1iZXIuCkkgYW0gbm90IHN1cmUg
-aG93IHN0cmljdCBjZ3JvdXAgdXBzdHJlYW0gaXMgYWJvdXQgdGhlIGNvbnZlbnRpb24gYnV0IEkK
-YW0gaG9waW5nIHRoZXJlIGFyZSBmbGV4aWJpbGl0eSBoZXJlIHRvIGFsbG93IGZvciB3aGF0IEkg
-aGF2ZQppbXBsZW1lbnRlZC4gIFRoZXJlIGFyZSBhIGNvdXBsZSBvZiBvdGhlciB0aGluZ3MgSSBo
-YXZlIGRvbmUgdGhhdCBpcwpub3QgZGVzY3JpYmVkIGluIHRoZSBjb252ZW50aW9uOiAxKSBpbmNs
-dXNpb24gb2YgcmVhZC1vbmx5ICouaGVscCBmaWxlCmF0IHRoZSByb290IGNncm91cCwgMikgdXNl
-IHJlYWQtb25seSAod2hpY2ggSSBjYW4gcG90ZW50aWFsbHkgbWFrZSBydykKKi5kZWZhdWx0IGZp
-bGUgaW5zdGVhZCBvZiBoYXZpbmcgYSBkZWZhdWx0IGVudHJpZXMgKHNpbmNlIHRoZSBkZWZhdWx0
-CmNhbiBiZSBkaWZmZXJlbnQgZm9yIGRpZmZlcmVudCBkZXZpY2VzKSBpbnNpZGUgdGhlIGNvbnRy
-b2wgZmlsZXMgKHRoaXMKd2F5LCB0aGUgcmVzZXR0aW5nIG9mIGNncm91cCB2YWx1ZXMgZm9yIGFs
-bCB0aGUgZHJtIGRldmljZXMsIGNhbiBiZQpkb25lIGJ5IGEgc2ltcGxlICdjcCcuKQoKPiA+IFVz
-YWdlIGV4YW1wbGVzOgo+ID4gLy8gc2V0IGxpbWl0IGZvciBjYXJkMSB0byAxR0IKPiA+IHNlZCAt
-aSAnMnMvLiovMTA3Mzc0MTgyNC8nIC9zeXMvZnMvY2dyb3VwLzxjZ3JvdXA+L2RybS5idWZmZXIu
-dG90YWwubWF4Cj4gPgo+ID4gLy8gc2V0IGxpbWl0IGZvciBjYXJkMCB0byA1MTJNQgo+ID4gc2Vk
-IC1pICcxcy8uKi81MzY4NzA5MTIvJyAvc3lzL2ZzL2Nncm91cC88Y2dyb3VwPi9kcm0uYnVmZmVy
-LnRvdGFsLm1heAoKCj4gPiAgLyoqIEBmaWxlIGRybV9nZW0uYwo+ID4gQEAgLTE1NCw2ICsxNTYs
-OSBAQCB2b2lkIGRybV9nZW1fcHJpdmF0ZV9vYmplY3RfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LAo+ID4gICAgICAgb2JqLT5oYW5kbGVfY291bnQgPSAwOwo+ID4gICAgICAgb2JqLT5zaXpl
-ID0gc2l6ZTsKPiA+ICAgICAgIGRybV92bWFfbm9kZV9yZXNldCgmb2JqLT52bWFfbm9kZSk7Cj4g
-PiArCj4gPiArICAgICBvYmotPmRybWNncnAgPSBnZXRfZHJtY2dycChjdXJyZW50KTsKPiA+ICsg
-ICAgIGRybWNncnBfY2hnX2JvX2FsbG9jKG9iai0+ZHJtY2dycCwgZGV2LCBzaXplKTsKPgo+IFdo
-eSBkbyB0aGUgY2hhcmdpbmcgaGVyZT8KPiBUaGVyZSBpcyBubyBiYWNraW5nIHN0b3JlIHlldCBm
-b3IgdGhlIGJ1ZmZlciwgc28gdGhpcyBpcyByZWFsbHkgdHJhY2tpbmcgc29tZXRoaW5nIGFraW4g
-dG8gYWxsb3dlZCB2aXJ0dWFsIG1lbW9yeSBmb3IgR0VNIG9iamVjdHM/Cj4gSXMgdGhpcyByZWFs
-bHkgdXNlZnVsIGZvciBhbiBhZG1pbmlzdHJhdG9yIHRvIGNvbnRyb2w/Cj4gSXNuJ3QgdGhlIHJl
-c291cmNlIHdlIHdhbnQgdG8gY29udHJvbCBhY3R1YWxseSB0aGUgcGh5c2ljYWwgYmFja2luZyBz
-dG9yZT8KVGhhdCdzIGNvcnJlY3QuICBUaGlzIGlzIGp1c3QgdGhlIGZpcnN0IGxldmVsIG9mIGNv
-bnRyb2wgc2luY2UgdGhlCmJhY2tpbmcgc3RvcmUgY2FuIGJlIGJhY2tlZCBieSBkaWZmZXJlbnQg
-dHlwZSBvZiBtZW1vcnkuICBJIGFtIGluIHRoZQpwcm9jZXNzIG9mIGFkZGluZyBhdCBsZWFzdCB0
-d28gbW9yZSByZXNvdXJjZXMuICBTdGF5IHR1bmVkLiAgSSBhbQpkb2luZyB0aGUgY2hhcmdlIGhl
-cmUgdG8gZW5mb3JjZSB0aGUgaWRlYSBvZiAiY3JlYXRvciBpcyBkZWVtZWQgb3duZXIiCmF0IGEg
-cGxhY2Ugd2hlcmUgdGhlIGNvZGUgaXMgc2hhcmVkIGJ5IGFsbCAodGhlIGluaXQgZnVuY3Rpb24u
-KQoKPiA+ICsgICAgIHdoaWxlIChpIDw9IG1heF9taW5vciAmJiBsaW1pdHMgIT0gTlVMTCkgewo+
-ID4gKyAgICAgICAgICAgICBzdmFsID0gIHN0cnNlcCgmbGltaXRzLCAiXG4iKTsKPiA+ICsgICAg
-ICAgICAgICAgcmMgPSBrc3RydG9sbChzdmFsLCAwLCAmdmFsKTsKPgo+IElucHV0IHNob3VsZCBi
-ZSAiS0VZIFZBTFVFIiwgc28gS0VZIHdpbGwgZGV0ZXJtaW5lIGRldmljZSB0byBhcHBseSB0aGlz
-IHRvLgo+IEFsc28sIHBlciBjZ3JvdXBzLXYyIGRvY3VtZW50YXRpb24gb2YgbGltaXRzLCBJIGJl
-bGlldmUgbmVlZCB0byBwYXJzZSBhbmQgaGFuZGxlIHRoZSBzcGVjaWFsICJtYXgiIGlucHV0IHZh
-bHVlLgo+Cj4gcGFyc2VfcmVzb3VyY2VzKCkgaW4gcmRtYSBjb250cm9sbGVyIGlzIGV4YW1wbGUg
-Zm9yIGJvdGggb2YgYWJvdmUuClBsZWFzZSBzZWUgbXkgcHJldmlvdXMgcmVwbHkgZm9yIHRoZSBy
-YXRpb25hbGUgb2YgbXkgaG9wZSB0byBub3QgbmVlZAphIGtleS4gIEkgY2FuIGNlcnRhaW5seSBh
-ZGQgaGFuZGxpbmcgb2YgIm1heCIgYW5kICJkZWZhdWx0Ii4KCgo+ID4gK3ZvaWQgZHJtY2dycF9j
-aGdfYm9fYWxsb2Moc3RydWN0IGRybWNncnAgKmRybWNncnAsIHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsCj4gPiArICAgICAgICAgICAgIHNpemVfdCBzaXplKQo+Cj4gU2hvdWxkbid0IHRoaXMgcmV0
-dXJuIGFuIGVycm9yIGFuZCBiZSBpbXBsZW1lbnRlZCB3aXRoIHNhbWUgc2VtYW50aWNzIGFzIHRo
-ZQo+IHRyeV9jaGFyZ2UoKSBmdW5jdGlvbnMgb2Ygb3RoZXIgY29udHJvbGxlcnM/Cj4gQmVsb3cg
-d2lsbCBhbGxvdyBzdGF0c190b3RhbF9hbGxvY2F0ZWQgdG8gb3ZlcnJ1biBsaW1pdHNfdG90YWxf
-YWxsb2NhdGVkLgpUaGlzIGlzIGJlY2F1c2UgSSBhbSBjaGFyZ2luZyB0aGUgYnVmZmVyIGF0IHRo
-ZSBpbml0IG9mIHRoZSBidWZmZXIKd2hpY2ggZG9lcyBub3QgZmFpbCBzbyB0aGUgInRyeSIgKGRy
-bWNncnBfYm9fY2FuX2FsbG9jYXRlKSBpcyBzZXBhcmF0ZQphbmQgcGxhY2VkIGVhcmxpZXIgYW5k
-IG5lYXJlciBvdGhlciBjb25kaXRpb24gd2hlcmUgZ2VtIG9iamVjdAphbGxvY2F0aW9uIG1heSBm
-YWlsLiAgSW4gb3RoZXIgd29yZHMsIHRoZXJlIGFyZSBtdWx0aXBsZSBwb3NzaWJpbGl0aWVzCmZv
-ciB3aGljaCBnZW0gYWxsb2NhdGlvbiBtYXkgZmFpbCAoY2dyb3VwIGxpbWl0IGJlaW5nIG9uZSBv
-ZiB0aGVtKSBhbmQKc2F0aXNmeWluZyBjZ3JvdXAgbGltaXQgZG9lcyBub3QgbWVhbiBhIGNoYXJn
-ZSBpcyBuZWVkZWQuICBJIGNhbgpjZXJ0YWlubHkgY29tYmluZSB0aGUgdHdvIGZ1bmN0aW9ucyB0
-byBoYXZlIGFuIGFkZGl0aW9uYWwgdHJ5X2NoYXJnZQpzZW1hbnRpYyBhcyB3ZWxsIGlmIHRoYXQg
-aXMgcmVhbGx5IG5lZWRlZC4KClJlZ2FyZHMsCktlbm55Cl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1922756167==
+Content-Type: multipart/alternative; boundary="15579765130.CE75.26553"
+Content-Transfer-Encoding: 7bit
+
+
+--15579765130.CE75.26553
+Date: Thu, 16 May 2019 03:15:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109085
+
+sudheer <sudheerj0680@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Assignee|dri-devel@lists.freedesktop |sudheerj0680@gmail.com
+                   |.org                        |
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15579765130.CE75.26553
+Date: Thu, 16 May 2019 03:15:13 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:sudheerj0=
+680&#64;gmail.com" title=3D"sudheer &lt;sudheerj0680&#64;gmail.com&gt;"> <s=
+pan class=3D"fn">sudheer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon driver crashes with a message &quot;ring 0 stalled=
+ for more than 10344msec&quot; when using Citra and Newly free to play game=
+ Albion Online on UBUNTU 18.04LTS"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109085">bug 10908=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+           <td>sudheerj0680&#64;gmail.com
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15579765130.CE75.26553--
+
+--===============1922756167==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1922756167==--
