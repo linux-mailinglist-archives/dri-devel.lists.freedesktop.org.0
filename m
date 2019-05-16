@@ -2,76 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0A520403
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 13:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9E52046C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 13:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7881989385;
-	Thu, 16 May 2019 11:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA85C8937C;
+	Thu, 16 May 2019 11:19:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM05-BY2-obe.outbound.protection.outlook.com
- (mail-eopbgr710075.outbound.protection.outlook.com [40.107.71.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5D6889385
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 11:03:37 +0000 (UTC)
-Received: from MN2PR12MB2910.namprd12.prod.outlook.com (20.179.81.219) by
- MN2PR12MB3376.namprd12.prod.outlook.com (20.178.240.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.22; Thu, 16 May 2019 11:03:36 +0000
-Received: from MN2PR12MB2910.namprd12.prod.outlook.com
- ([fe80::9daa:c9ea:c94e:ae45]) by MN2PR12MB2910.namprd12.prod.outlook.com
- ([fe80::9daa:c9ea:c94e:ae45%3]) with mapi id 15.20.1878.024; Thu, 16 May 2019
- 11:03:36 +0000
-From: "Zhou, David(ChunMing)" <David1.Zhou@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)"
- <David1.Zhou@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re:[PATCH libdrm] enable syncobj test depending on capability
-Thread-Topic: Re:[PATCH libdrm] enable syncobj test depending on capability
-Thread-Index: AQHVC9S26afyd2i5ZUioEtn386aMRaZtkvsAgAADYCE=
-Date: Thu, 16 May 2019 11:03:36 +0000
-Message-ID: <-yw2q6u7xkjpo-i83eg9msudz1wgjn7w-b101h0-sfv5ag1noxjz2wg54r-iuw7ml-f519uls55cqypexnfa-et96uc-nx96jg5fu1d3-wn1hxg-td9bpo5n1nbv-wmnwfr84y609mm8lnpxqaf92-n4k5l3.1558004611599@email.android.com>
-References: <20190516104642.21450-1-david1.zhou@amd.com>,
- <278437b6-c5f0-209b-443b-573b4143f944@amd.com>
-In-Reply-To: <278437b6-c5f0-209b-443b-573b4143f944@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [112.64.119.180]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d15dc7b1-ebd5-45ee-7a5e-08d6d9ee24fa
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
- SRVR:MN2PR12MB3376; 
-x-ms-traffictypediagnostic: MN2PR12MB3376:
-x-microsoft-antispam-prvs: <MN2PR12MB337663199AE092C16ADE00B5B40A0@MN2PR12MB3376.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:357;
-x-forefront-prvs: 0039C6E5C5
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(376002)(39860400002)(366004)(396003)(136003)(346002)(199004)(13464003)(189003)(2501003)(102836004)(7736002)(64756008)(316002)(186003)(54896002)(6512007)(26005)(8936002)(8676002)(6436002)(3846002)(6116002)(66066001)(476003)(91956017)(446003)(11346002)(81156014)(9686003)(6486002)(66556008)(66476007)(66946007)(73956011)(76116006)(53936002)(66446008)(486006)(99286004)(2906002)(25786009)(5660300002)(72206003)(76176011)(478600001)(68736007)(71200400001)(71190400001)(6506007)(14454004)(86362001)(81166006)(256004)(110136005)(87826002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3376;
- H:MN2PR12MB2910.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ifIUBLYvfDkLgqdMloWGblNpzBzCNYO5x14ZQmIqjGQ47A55VX6pvNl5+qj9okStyYxVcy3XOzvycdjASRlSwvjH2YaDqsQSLx19QTIcn3uOyzvR5LmEvrFiojiMRFkxrwO7b1wnU/QuJDcX/hLFf1uE1XR4AJOg1Xl/VoW4BVmmq20TgyvSKpM9Eo1jKQRCkTs8mBgX/wtJp9nEkA7BllxknplrspXZwjecm4yk2v98opJyk5xmC6SPaXz5QSUACUf1HpF9L6UjLk1DvsY1SUVG+Jm+OhsbnKEpf/iYiJfUbX+5sqrdewpfG7sIS+PPbz7SW3M7ysJONiy70zNhRSicFtVchGRxoc7Wy74TJ2Ys3iZbyW0GVC2969LMMWhp99BDiaBwANyd3HWUqndJR+dcvpmpF8b1vHuyRLHd1fw=
+Received: from foss.arm.com (foss.arm.com [217.140.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF0EB8937C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 11:19:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ABF4F19BF;
+ Thu, 16 May 2019 04:19:09 -0700 (PDT)
+Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 91A6F3F71E;
+ Thu, 16 May 2019 04:19:07 -0700 (PDT)
+Subject: Re: [PATCH v4 0/8] Allwinner H6 Mali GPU support
+To: Rob Herring <rob.e.herring@gmail.com>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+References: <20190512174608.10083-1-peron.clem@gmail.com>
+ <20190513151405.GW17751@phenom.ffwll.local>
+ <de50a9da-669f-ab25-2ef2-5ffb90f8ee03@baylibre.com>
+ <CAJiuCccuEw0BK6MwROR+XUDvu8AJTmZ5tu=pYwZbGAuvO31pgg@mail.gmail.com>
+ <CAJiuCccWa5UTML68JDQq6q8SyNZzVWwQWTOL=+84Bh4EMHGC3A@mail.gmail.com>
+ <3c2c9094-69d4-bace-d5ee-c02b7f56ac82@arm.com>
+ <CAJiuCcd=gCQJ4mxn3wNhHXveOhFLnYSEs+cnOMHcALPvd7bQZw@mail.gmail.com>
+ <CAC=3edbn1yXih5vP0SwsDkqRB0j5q0c4FL0jhCq9DQ9Wt2-hAA@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e8618889-9b22-7f9f-7451-3c08a80a0f9b@arm.com>
+Date: Thu, 16 May 2019 12:19:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d15dc7b1-ebd5-45ee-7a5e-08d6d9ee24fa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2019 11:03:36.3141 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3376
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z2KgGn5AxEJkYy0E45PdMQ7NvrzS+tEDXJx0NVsrob4=;
- b=4TCpBRNbC0aNoTR5LMTi5aLloA/fp34sjLIHXKrF/XRYqKZMSXLNOIzkSUDSEphz/Yua0+fc1V7qLCJgMAQaMXT8xOANt9CFvCGUQfgtqr2im/vJDphUCDr0tjkc4a/DyMFrRbz/mv+V5FytmBNA0wrgfZPMRdxtRdvWb0isyqE=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=David1.Zhou@amd.com; 
+In-Reply-To: <CAC=3edbn1yXih5vP0SwsDkqRB0j5q0c4FL0jhCq9DQ9Wt2-hAA@mail.gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,183 +49,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0198026322=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ linux-sunxi <linux-sunxi@googlegroups.com>, Rob Herring <robh+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0198026322==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_yw2q6u7xkjpoi83eg9msudz1wgjn7wb101h0sfv5ag1noxjz2wg54ri_"
-
---_000_yw2q6u7xkjpoi83eg9msudz1wgjn7wb101h0sfv5ag1noxjz2wg54ri_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-could you help push this patch as well?
-
-Thanks,
--David
-
--------- Original Message --------
-Subject: Re: [PATCH libdrm] enable syncobj test depending on capability
-From: "Koenig, Christian"
-To: "Zhou, David(ChunMing)" ,dri-devel@lists.freedesktop.org
-CC:
-
-Am 16.05.19 um 12:46 schrieb Chunming Zhou:
-> Feature is controlled by DRM_CAP_SYNCOBJ_TIMELINE drm capability.
->
-> Signed-off-by: Chunming Zhou <david1.zhou@amd.com>
-
-Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
-
-> ---
->   include/drm/drm.h            | 1 +
->   tests/amdgpu/syncobj_tests.c | 8 ++++++++
->   2 files changed, 9 insertions(+)
->
-> diff --git a/include/drm/drm.h b/include/drm/drm.h
-> index c893f3b4..532787bf 100644
-> --- a/include/drm/drm.h
-> +++ b/include/drm/drm.h
-> @@ -643,6 +643,7 @@ struct drm_gem_open {
->   #define DRM_CAP_PAGE_FLIP_TARGET    0x11
->   #define DRM_CAP_CRTC_IN_VBLANK_EVENT        0x12
->   #define DRM_CAP_SYNCOBJ             0x13
-> +#define DRM_CAP_SYNCOBJ_TIMELINE     0x14
->
->   /** DRM_IOCTL_GET_CAP ioctl argument type */
->   struct drm_get_cap {
-> diff --git a/tests/amdgpu/syncobj_tests.c b/tests/amdgpu/syncobj_tests.c
-> index a0c627d7..869ed88e 100644
-> --- a/tests/amdgpu/syncobj_tests.c
-> +++ b/tests/amdgpu/syncobj_tests.c
-> @@ -22,6 +22,7 @@
->   */
->
->   #include "CUnit/Basic.h"
-> +#include "xf86drm.h"
->
->   #include "amdgpu_test.h"
->   #include "amdgpu_drm.h"
-> @@ -36,6 +37,13 @@ static void amdgpu_syncobj_timeline_test(void);
->
->   CU_BOOL suite_syncobj_timeline_tests_enable(void)
->   {
-> +     int r;
-> +     uint64_t cap =3D 0;
-> +
-> +     r =3D drmGetCap(drm_amdgpu[0], DRM_CAP_SYNCOBJ_TIMELINE, &cap);
-> +     if (r || cap =3D=3D 0)
-> +             return CU_FALSE;
-> +
->        return CU_TRUE;
->   }
->
-
-
---_000_yw2q6u7xkjpoi83eg9msudz1wgjn7wb101h0sfv5ag1noxjz2wg54ri_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
-ding-left: 4pt; border-left: #800000 2px solid; } --></style>
-</head>
-<body>
-<div>could you help push this patch as well?<br>
-<br>
-Thanks,<br>
--David<br>
-<br>
--------- Original Message --------<br>
-Subject: Re: [PATCH libdrm] enable syncobj test depending on capability<br>
-From: &quot;Koenig, Christian&quot; <br>
-To: &quot;Zhou, David(ChunMing)&quot; ,dri-devel@lists.freedesktop.org<br>
-CC: <br>
-<br>
-</div>
-<font size=3D"2"><span style=3D"font-size:11pt;">
-<div class=3D"PlainText">Am 16.05.19 um 12:46 schrieb Chunming Zhou:<br>
-&gt; Feature is controlled by DRM_CAP_SYNCOBJ_TIMELINE drm capability.<br>
-&gt;<br>
-&gt; Signed-off-by: Chunming Zhou &lt;david1.zhou@amd.com&gt;<br>
-<br>
-Reviewed-by: Christian K=F6nig &lt;christian.koenig@amd.com&gt;<br>
-<br>
-&gt; ---<br>
-&gt;&nbsp;&nbsp; include/drm/drm.h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; | 1 &#43;<br>
-&gt;&nbsp;&nbsp; tests/amdgpu/syncobj_tests.c | 8 &#43;&#43;&#43;&#43;&#43;=
-&#43;&#43;&#43;<br>
-&gt;&nbsp;&nbsp; 2 files changed, 9 insertions(&#43;)<br>
-&gt;<br>
-&gt; diff --git a/include/drm/drm.h b/include/drm/drm.h<br>
-&gt; index c893f3b4..532787bf 100644<br>
-&gt; --- a/include/drm/drm.h<br>
-&gt; &#43;&#43;&#43; b/include/drm/drm.h<br>
-&gt; @@ -643,6 &#43;643,7 @@ struct drm_gem_open {<br>
-&gt;&nbsp;&nbsp; #define DRM_CAP_PAGE_FLIP_TARGET&nbsp;&nbsp;&nbsp; 0x11<br=
->
-&gt;&nbsp;&nbsp; #define DRM_CAP_CRTC_IN_VBLANK_EVENT&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; 0x12<br>
-&gt;&nbsp;&nbsp; #define DRM_CAP_SYNCOBJ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x13<br>
-&gt; &#43;#define DRM_CAP_SYNCOBJ_TIMELINE&nbsp;&nbsp;&nbsp;&nbsp; 0x14<br>
-&gt;&nbsp;&nbsp; <br>
-&gt;&nbsp;&nbsp; /** DRM_IOCTL_GET_CAP ioctl argument type */<br>
-&gt;&nbsp;&nbsp; struct drm_get_cap {<br>
-&gt; diff --git a/tests/amdgpu/syncobj_tests.c b/tests/amdgpu/syncobj_tests=
-.c<br>
-&gt; index a0c627d7..869ed88e 100644<br>
-&gt; --- a/tests/amdgpu/syncobj_tests.c<br>
-&gt; &#43;&#43;&#43; b/tests/amdgpu/syncobj_tests.c<br>
-&gt; @@ -22,6 &#43;22,7 @@<br>
-&gt;&nbsp;&nbsp; */<br>
-&gt;&nbsp;&nbsp; <br>
-&gt;&nbsp;&nbsp; #include &quot;CUnit/Basic.h&quot;<br>
-&gt; &#43;#include &quot;xf86drm.h&quot;<br>
-&gt;&nbsp;&nbsp; <br>
-&gt;&nbsp;&nbsp; #include &quot;amdgpu_test.h&quot;<br>
-&gt;&nbsp;&nbsp; #include &quot;amdgpu_drm.h&quot;<br>
-&gt; @@ -36,6 &#43;37,13 @@ static void amdgpu_syncobj_timeline_test(void);=
-<br>
-&gt;&nbsp;&nbsp; <br>
-&gt;&nbsp;&nbsp; CU_BOOL suite_syncobj_timeline_tests_enable(void)<br>
-&gt;&nbsp;&nbsp; {<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; int r;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; uint64_t cap =3D 0;<br>
-&gt; &#43;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; r =3D drmGetCap(drm_amdgpu[0], DRM_CAP_S=
-YNCOBJ_TIMELINE, &amp;cap);<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp; if (r || cap =3D=3D 0)<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; return CU_FALSE;<br>
-&gt; &#43;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return CU_TRUE;<br>
-&gt;&nbsp;&nbsp; }<br>
-&gt;&nbsp;&nbsp; <br>
-<br>
-</div>
-</span></font>
-</body>
-</html>
-
---_000_yw2q6u7xkjpoi83eg9msudz1wgjn7wb101h0sfv5ag1noxjz2wg54ri_--
-
---===============0198026322==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0198026322==--
+T24gMTYvMDUvMjAxOSAwMDoyMiwgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gT24gV2VkLCBNYXkgMTUs
+IDIwMTkgYXQgNTowNiBQTSBDbMOpbWVudCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPiB3
+cm90ZToKPj4KPj4gSGkgUm9iaW4sCj4+Cj4+IE9uIFR1ZSwgMTQgTWF5IDIwMTkgYXQgMjM6NTcs
+IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+IHdyb3RlOgo+Pj4KPj4+IE9uIDIw
+MTktMDUtMTQgMTA6MjIgcG0sIENsw6ltZW50IFDDqXJvbiB3cm90ZToKPj4+PiBIaSwKPj4+Pgo+
+Pj4+IE9uIFR1ZSwgMTQgTWF5IDIwMTkgYXQgMTc6MTcsIENsw6ltZW50IFDDqXJvbiA8cGVyb24u
+Y2xlbUBnbWFpbC5jb20+IHdyb3RlOgo+Pj4+Pgo+Pj4+PiBIaSwKPj4+Pj4KPj4+Pj4gT24gVHVl
+LCAxNCBNYXkgMjAxOSBhdCAxMjoyOSwgTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGli
+cmUuY29tPiB3cm90ZToKPj4+Pj4+Cj4+Pj4+PiBIaSwKPj4+Pj4+Cj4+Pj4+PiBPbiAxMy8wNS8y
+MDE5IDE3OjE0LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4+Pj4+IE9uIFN1biwgTWF5IDEyLCAy
+MDE5IGF0IDA3OjQ2OjAwUE0gKzAyMDAsIHBlcm9uLmNsZW1AZ21haWwuY29tIHdyb3RlOgo+Pj4+
+Pj4+PiBGcm9tOiBDbMOpbWVudCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPgo+Pj4+Pj4+
+Pgo+Pj4+Pj4+PiBIaSwKPj4+Pj4+Pj4KPj4+Pj4+Pj4gVGhlIEFsbHdpbm5lciBINiBoYXMgYSBN
+YWxpLVQ3MjAgTVAyLiBUaGUgZHJpdmVycyBhcmUKPj4+Pj4+Pj4gb3V0LW9mLXRyZWUgc28gdGhp
+cyBzZXJpZXMgb25seSBpbnRyb2R1Y2UgdGhlIGR0LWJpbmRpbmdzLgo+Pj4+Pj4+Cj4+Pj4+Pj4g
+V2UgZG8gaGF2ZSBhbiBpbi10cmVlIG1pZGdhcmQgZHJpdmVyIG5vdyAoc2luY2UgNS4yKS4gRG9l
+cyB0aGlzIHN0dWZmIHdvcmsKPj4+Pj4+PiB0b2dldGhlciB3aXRoIHlvdXIgZHQgY2hhbmdlcyBo
+ZXJlPwo+Pj4+Pj4KPj4+Pj4+IE5vLCBidXQgaXQgc2hvdWxkIGJlIGVhc3kgdG8gYWRkLgo+Pj4+
+PiBJIHdpbGwgZ2l2ZSBpdCBhIHRyeSBhbmQgbGV0IHlvdSBrbm93Lgo+Pj4+IEFkZGVkIHRoZSBi
+dXNfY2xvY2sgYW5kIGEgcmFtcCBkZWxheSB0byB0aGUgZ3B1X3ZkZCBidXQgdGhlIGRyaXZlcgo+
+Pj4+IGZhaWwgYXQgcHJvYmUuCj4+Pj4KPj4+PiBbICAgIDMuMDUyOTE5XSBwYW5mcm9zdCAxODAw
+MDAwLmdwdTogY2xvY2sgcmF0ZSA9IDQzMjAwMDAwMAo+Pj4+IFsgICAgMy4wNTgyNzhdIHBhbmZy
+b3N0IDE4MDAwMDAuZ3B1OiBidXNfY2xvY2sgcmF0ZSA9IDEwMDAwMDAwMAo+Pj4+IFsgICAgMy4x
+Nzk3NzJdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBtYWxpLXQ3MjAgaWQgMHg3MjAgbWFqb3IgMHgx
+Cj4+Pj4gbWlub3IgMHgxIHN0YXR1cyAweDAKPj4+PiBbICAgIDMuMTg3NDMyXSBwYW5mcm9zdCAx
+ODAwMDAwLmdwdTogZmVhdHVyZXM6IDAwMDAwMDAwLDEwMzA5ZTQwLAo+Pj4+IGlzc3VlczogMDAw
+MDAwMDAsMjEwNTQ0MDAKPj4+PiBbICAgIDMuMTk1NTMxXSBwYW5mcm9zdCAxODAwMDAwLmdwdTog
+RmVhdHVyZXM6IEwyOjB4MDcxMTAyMDYKPj4+PiBTaGFkZXI6MHgwMDAwMDAwMCBUaWxlcjoweDAw
+MDAwODA5IE1lbToweDEgTU1VOjB4MDAwMDI4MjEgQVM6MHhmCj4+Pj4gSlM6MHg3Cj4+Pj4gWyAg
+ICAzLjIwNzE3OF0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IHNoYWRlcl9wcmVzZW50PTB4MyBsMl9w
+cmVzZW50PTB4MQo+Pj4+IFsgICAgMy4yMzgyNTddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBGYXRh
+bCBlcnJvciBkdXJpbmcgR1BVIGluaXQKPj4+PiBbICAgIDMuMjQ0MTY1XSBwYW5mcm9zdDogcHJv
+YmUgb2YgMTgwMDAwMC5ncHUgZmFpbGVkIHdpdGggZXJyb3IgLTEyCj4+Pj4KPj4+PiBUaGUgRU5P
+TUVNIGlzIGNvbWluZyBmcm9tICJwYW5mcm9zdF9tbXVfaW5pdCIKPj4+PiBhbGxvY19pb19wZ3Rh
+YmxlX29wcyhBUk1fTUFMSV9MUEFFLCAmcGZkZXYtPm1tdS0+cGd0YmxfY2ZnLAo+Pj4+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwZmRldik7Cj4+Pj4KPj4+PiBX
+aGljaCBpcyBkdWUgdG8gYSBjaGVjayBpbiB0aGUgcGd0YWJsZSBhbGxvYyAiY2ZnLT5pYXMgIT0g
+NDgiCj4+Pj4gYXJtLWxwYWUgaW8tcGd0YWJsZTogYXJtX21hbGlfbHBhZV9hbGxvY19wZ3RhYmxl
+IGNmZy0+aWFzIDMzIGNmZy0+b2FzIDQwCj4+Pj4KPj4+PiBEUkkgc3RhY2sgaXMgdG90YWxseSBu
+ZXcgZm9yIG1lLCBjb3VsZCB5b3UgZ2l2ZSBtZSBhIGxpdHRsZSBjbHVlIGFib3V0Cj4+Pj4gdGhp
+cyBpc3N1ZSA/Cj4+Pgo+Pj4gSGVoLCB0aGlzIGlzIHByb2JhYmx5IHRoZSBvbmUgYml0IHdoaWNo
+IGRvZXNuJ3QgcmVhbGx5IGNvdW50IGFzICJEUkkgc3RhY2siLgo+Pj4KPj4+IFRoYXQncyBtZXJl
+bHkgYSBzb21ld2hhdC1jb25zZXJ2YXRpdmUgc2FuaXR5IGNoZWNrIC0gSSdtIHByZXR0eSBzdXJl
+IGl0Cj4+PiAqc2hvdWxkKiBiZSBmaW5lIHRvIGNoYW5nZSB0aGUgdGVzdCB0byAiY2ZnLT5pYXMg
+PiA0OCIgKGlvLXBndGFibGUKPj4+IGl0c2VsZiBvdWdodCB0byBjb3BlKS4gWW91J2xsIGp1c3Qg
+Z2V0IHRvIGJlIHRoZSBmaXJzdCB0byBhY3R1YWxseSB0ZXN0Cj4+PiBhIG5vbi00OC1iaXQgY29u
+ZmlndXJhdGlvbiBoZXJlIDopCj4+Cj4+IFRoYW5rcyBhIGxvdCwgdGhlIHByb2JlIHNlZW1zIGZp
+bmUgbm93IDopCj4+Cj4+IEkgdHJ5IHRvIHJ1biBnbG1hcmsyIDoKPj4gIyBnbG1hcmsyLWVzMi1k
+cm0KPj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQo+PiAgICAgIGdsbWFyazIgMjAxNy4wNwo+PiA9PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4+ICAgICAgT3BlbkdMIEluZm9ybWF0aW9u
+Cj4+ICAgICAgR0xfVkVORE9SOiAgICAgcGFuZnJvc3QKPj4gICAgICBHTF9SRU5ERVJFUjogICBw
+YW5mcm9zdAo+PiAgICAgIEdMX1ZFUlNJT046ICAgIE9wZW5HTCBFUyAyLjAgTWVzYSAxOS4xLjAt
+cmMyCj4+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT0KPj4gW2J1aWxkXSB1c2UtdmJvPWZhbHNlOgo+Pgo+PiBCdXQgaXQgc2VlbXMgdGhhdCBI
+NiBpcyBub3Qgc28gZWFzeSB0byBhZGQgOiguCj4+Cj4+IFsgIDM0NS4yMDQ4MTNdIHBhbmZyb3N0
+IDE4MDAwMDAuZ3B1OiBtbXUgaXJxIHN0YXR1cz0xCj4+IFsgIDM0NS4yMDk2MTddIHBhbmZyb3N0
+IDE4MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEKPj4gMHgwMDAw
+MDAwMDAyNDAwNDAwCj4+IFsgIDM0NS4yMDk2MTddIFJlYXNvbjogVE9ETwo+PiBbICAzNDUuMjA5
+NjE3XSByYXcgZmF1bHQgc3RhdHVzOiAweDgwMDAwMkMxCj4+IFsgIDM0NS4yMDk2MTddIGRlY29k
+ZWQgZmF1bHQgc3RhdHVzOiBTTEFWRSBGQVVMVAo+PiBbICAzNDUuMjA5NjE3XSBleGNlcHRpb24g
+dHlwZSAweEMxOiBUUkFOU0xBVElPTl9GQVVMVF9MRVZFTDEKPj4gWyAgMzQ1LjIwOTYxN10gYWNj
+ZXNzIHR5cGUgMHgyOiBSRUFECj4+IFsgIDM0NS4yMDk2MTddIHNvdXJjZSBpZCAweDgwMDAKPj4g
+WyAgMzQ1LjcyOTk1N10gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBq
+cz0wLAo+PiBzdGF0dXM9MHg4LCBoZWFkPTB4MjQwMDQwMCwgdGFpbD0weDI0MDA0MDAsIHNjaGVk
+X2pvYj0wMDAwMDAwMDllMjA0ZGU5Cj4+IFsgIDM0Ni4wNTU4NzZdIHBhbmZyb3N0IDE4MDAwMDAu
+Z3B1OiBtbXUgaXJxIHN0YXR1cz0xCj4+IFsgIDM0Ni4wNjA2ODBdIHBhbmZyb3N0IDE4MDAwMDAu
+Z3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEKPj4gMHgwMDAwMDAwMDAyQzAw
+QTAwCj4+IFsgIDM0Ni4wNjA2ODBdIFJlYXNvbjogVE9ETwo+PiBbICAzNDYuMDYwNjgwXSByYXcg
+ZmF1bHQgc3RhdHVzOiAweDgxMDAwMkMxCj4+IFsgIDM0Ni4wNjA2ODBdIGRlY29kZWQgZmF1bHQg
+c3RhdHVzOiBTTEFWRSBGQVVMVAo+PiBbICAzNDYuMDYwNjgwXSBleGNlcHRpb24gdHlwZSAweEMx
+OiBUUkFOU0xBVElPTl9GQVVMVF9MRVZFTDEKPj4gWyAgMzQ2LjA2MDY4MF0gYWNjZXNzIHR5cGUg
+MHgyOiBSRUFECj4+IFsgIDM0Ni4wNjA2ODBdIHNvdXJjZSBpZCAweDgxMDAKPj4gWyAgMzQ2LjU2
+MTk1NV0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0xLAo+PiBz
+dGF0dXM9MHg4LCBoZWFkPTB4MmMwMGEwMCwgdGFpbD0weDJjMDBhMDAsIHNjaGVkX2pvYj0wMDAw
+MDAwMGI1NWE5YTg1Cj4+IFsgIDM0Ni41NzM5MTNdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBtbXUg
+aXJxIHN0YXR1cz0xCj4+IFsgIDM0Ni41Nzg3MDddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBVbmhh
+bmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEKPj4gMHgwMDAwMDAwMDAyQzAwQjgwCj4+IFsg
+IDM0Ni41Nzg3MDddIFJlYXNvbjogVE9ETwo+PiBbICAzNDYuNTc4NzA3XSByYXcgZmF1bHQgc3Rh
+dHVzOiAweDgwMDAwMkMxCj4+IFsgIDM0Ni41Nzg3MDddIGRlY29kZWQgZmF1bHQgc3RhdHVzOiBT
+TEFWRSBGQVVMVAo+PiBbICAzNDYuNTc4NzA3XSBleGNlcHRpb24gdHlwZSAweEMxOiBUUkFOU0xB
+VElPTl9GQVVMVF9MRVZFTDEKPj4gWyAgMzQ2LjU3ODcwN10gYWNjZXNzIHR5cGUgMHgyOiBSRUFE
+Cj4+IFsgIDM0Ni41Nzg3MDddIHNvdXJjZSBpZCAweDgwMDAKPj4gWyAgMzQ3LjA3Mzk0N10gcGFu
+ZnJvc3QgMTgwMDAwMC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0wLAo+PiBzdGF0dXM9MHg4
+LCBoZWFkPTB4MmMwMGI4MCwgdGFpbD0weDJjMDBiODAsIHNjaGVkX2pvYj0wMDAwMDAwMGNmNmFm
+OGU4Cj4+IFsgIDM0Ny4xMDQxMjVdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBtbXUgaXJxIHN0YXR1
+cz0xCj4+IFsgIDM0Ny4xMDg5MzBdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFn
+ZSBmYXVsdCBpbiBBUzAgYXQgVkEKPj4gMHgwMDAwMDAwMDAyODAwOTAwCj4+IFsgIDM0Ny4xMDg5
+MzBdIFJlYXNvbjogVE9ETwo+PiBbICAzNDcuMTA4OTMwXSByYXcgZmF1bHQgc3RhdHVzOiAweDgx
+MDAwMkMxCj4+IFsgIDM0Ny4xMDg5MzBdIGRlY29kZWQgZmF1bHRuIHRoaSBzdGF0dXM6IFNMQVZF
+IEZBVUxUCj4+IFsgIDM0Ny4xMDg5MzBdIGV4Y2VwdGlvbiB0eXBlIDB4QzE6IFRSQU5TTEFUSU9O
+X0ZBVUxUX0xFVkVMMQo+PiBbICAzNDcuMTA4OTMwXSBhY2Nlc3MgdHlwZSAweDI6IFJFQUQKPj4g
+WyAgMzQ3LjEwODkzMF0gc291cmNlIGlkIDB4ODEwMAo+PiBbICAzNDcuNjE3OTUwXSBwYW5mcm9z
+dCAxODAwMDAwLmdwdTogZ3B1IHNjaGVkIHRpbWVvdXQsIGpzPTEsCj4+IHN0YXR1cz0weDgsIGhl
+YWQ9MHgyODAwOTAwLCB0YWlsPTB4MjgwMDkwMCwgc2NoZWRfam9iPTAwMDAwMDAwOTMyNWZkYjcK
+Pj4gWyAgMzQ3LjYyOTkwMl0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IG1tdSBpcnEgc3RhdHVzPTEK
+Pj4gWyAgMzQ3LjYzNDY5Nl0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IFVuaGFuZGxlZCBQYWdlIGZh
+dWx0IGluIEFTMCBhdCBWQQo+PiAweDAwMDAwMDAwMDI4MDBBODAKPiAKPiBJcyB0aGlzIDMyIG9y
+IDY0IGJpdCB1c2Vyc3BhY2U/IEkgdGhpbmsgNjQtYml0IGRvZXMgbm90IHdvcmsgd2l0aAo+IFQ3
+eHguIFlvdSBtaWdodCBuZWVkIHRoaXNbMV0uCgpbIE9vb2guLi4gdGhhdCBtYWtlcyBUNjIwIGFj
+dHVhbGx5IGRvIHN0dWZmIHdpdGhvdXQgZmFsbGluZyBvdmVyIApkZXJlZmVyZW5jaW5nIFZBIDAg
+c29tZXdoZXJlIGhhbGZ3YXkgdGhyb3VnaCB0aGUgam9iIGNoYWluIDpECgpJIHNoYWxsIGNvbnRp
+bnVlIHRvIHBsYXkuLi4gXQoKPiBZb3UgbWF5IGFsc28gYmUgdGhlIGZpcnN0IHRvIHRyeSBUNzIw
+LAo+IHNvIGl0IGNvdWxkIGJlIHNvbWV0aGluZyBlbHNlLgoKSSB3YXMgZXhwZWN0aW5nIHRvIHNl
+ZSBhIHNpbWlsYXIgYmVoYXZpb3VyIHRvIG15IFQ2MjAgKHdoaWNoIEkgbm93IAphc3N1bWUgd2Fz
+IGRvd24gdG8gNjQtYml0IGpvYiBkZXNjcmlwdG9ycyBzb3J0LW9mLWJ1dC1ub3QtcXVpdGUgd29y
+a2luZykgCmJ1dCB0aGlzIGRvZXMgbG9vayBhIGJpdCBtb3JlIGZ1bmRhbWVudGFsIC0gdGhlIGZh
+Y3QgdGhhdCBpdCdzIGEgbGV2ZWwgMSAKZmF1bHQgd2l0aCBWQSA9PSBoZWFkID09IHRhaWwgc3Vn
+Z2VzdHMgdG8gbWUgdGhhdCB0aGUgTU1VIGNhbid0IHNlZSB0aGUgCnBhZ2UgdGFibGVzIGF0IGFs
+bCB0byB0cmFuc2xhdGUgYW55dGhpbmcuIEkgcmVhbGx5IGhvcGUgdGhhdCB0aGUgSDYgR1BVIApp
+bnRlZ3JhdGlvbiBkb2Vzbid0IHN1ZmZlciBmcm9tIHRoZSBzYW1lIERNQSBvZmZzZXQgYXMgdGhl
+IEFsbHdpbm5lciAKZGlzcGxheSBwaXBlbGluZSBzdHVmZiwgYmVjYXVzZSB0aGF0IHdvdWxkIGJl
+IGEgcmVhbCBwYWluIHRvIHN1cHBvcnQgaW4gCmlvLXBndGFibGUuCgpSb2Jpbi4KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
