@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7367F20156
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 10:31:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A52A201C3
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 10:54:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3949A89259;
-	Thu, 16 May 2019 08:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DAA689309;
+	Thu, 16 May 2019 08:54:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA8889259
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 08:31:14 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E72E89309
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 08:54:26 +0000 (UTC)
 X-Originating-IP: 80.215.246.107
 Received: from localhost (unknown [80.215.246.107])
  (Authenticated sender: maxime.ripard@bootlin.com)
- by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 6532D20003;
- Thu, 16 May 2019 08:31:05 +0000 (UTC)
-Date: Thu, 16 May 2019 10:31:04 +0200
+ by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id D086CFF807;
+ Thu, 16 May 2019 08:54:17 +0000 (UTC)
+Date: Thu, 16 May 2019 10:54:16 +0200
 From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH 0/2] drm/sun4i: Fix sun8i HDMI PHY initialization
-Message-ID: <20190516083104.rr2ewg3dd4aej67b@flea>
-References: <20190514204337.11068-1-jernej.skrabec@siol.net>
+To: Torsten Duwe <duwe@lst.de>
+Subject: Re: [PATCH 1/4] arm64: DTS: allwinner: a64: Add pinmux for RGB666 LCD
+Message-ID: <20190516085416.qfrbylku7226rub6@flea>
+References: <20190514155911.6C0AC68B05@newverein.lst.de>
+ <20190514160225.AB0D368B20@newverein.lst.de>
 MIME-Version: 1.0
-In-Reply-To: <20190514204337.11068-1-jernej.skrabec@siol.net>
+In-Reply-To: <20190514160225.AB0D368B20@newverein.lst.de>
 User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -39,37 +40,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1606654622=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Archit Taneja <architt@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============1620636365=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1606654622==
+--===============1620636365==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nxc66wpttvnorf5q"
+	protocol="application/pgp-signature"; boundary="h2fn4argqt45zmoa"
 Content-Disposition: inline
 
 
---nxc66wpttvnorf5q
+--h2fn4argqt45zmoa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, May 14, 2019 at 10:43:35PM +0200, Jernej Skrabec wrote:
-> I received a report that 4K resolution doesn't work if U-Boot video
-> driver is disabled. It turns out that HDMI PHY clock driver was
-> initialized prematurely, before reset line was deasserted and clocks
-> enabled. U-Boot video driver masked the issue because it set pixel
-> clock correctly.
+On Tue, May 14, 2019 at 06:02:25PM +0200, Torsten Duwe wrote:
+> From: Icenowy Zheng <icenowy@aosc.io>
 >
-> In the process of researching the bug, I also found out that few bits
-> in HDMI PHY registers were not set correctly. While there is no
-> noticeable change (4K resolution works with both settings), I've
-> added fix anyway, to be conformant with vendor documentation.
+> Allwinner A64's TCON0 can output RGB666 LCD signal.
+>
+> Add its pinmux.
+>
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> Signed-off-by: Torsten Duwe <duwe@suse.de>
+> ---
+>
+> originally: patchwork.kernel.org/patch/10814179
+>
+> Almost trivial, and obviously correct.
+> I added the /omit-if-no-ref/.
+>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> index 2abb335145a6..a8bbee84e7da 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+> @@ -559,6 +559,16 @@
+>  				function = "i2c1";
+>  			};
+>
+> +			/omit-if-no-ref/
+> +			lcd_rgb666_pins: lcd-rgb666 {
 
-Applied both, thanks
+This should have the -pins suffix
 
 Maxime
 
@@ -78,20 +104,20 @@ Maxime Ripard, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
 
---nxc66wpttvnorf5q
+--h2fn4argqt45zmoa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXN0fyAAKCRDj7w1vZxhR
-xUAXAP9xICklXvpieTeqdcZC4XE/+a2QALTSkxog1dIwU2z9hgEA9W1tdHngDaMj
-jYInZNsuhpQY0H7zxkIQTeX7MeX2Ogs=
-=TN7Y
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXN0lOAAKCRDj7w1vZxhR
+xfczAP949KD6LxwvBpLAV424mzw9jhUzLgBNJAOIYxQ1QQ2afAEAqHyh7A4+J2EV
+4OxzrWJXa/IL7TiTlQCvFyhQrynH+AI=
+=R8dD
 -----END PGP SIGNATURE-----
 
---nxc66wpttvnorf5q--
+--h2fn4argqt45zmoa--
 
---===============1606654622==
+--===============1620636365==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -101,4 +127,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1606654622==--
+--===============1620636365==--
