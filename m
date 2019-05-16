@@ -2,38 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCCC20135
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 10:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7367F20156
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 10:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F58D892E2;
-	Thu, 16 May 2019 08:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3949A89259;
+	Thu, 16 May 2019 08:31:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6178892E2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 08:23:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C7431715;
- Thu, 16 May 2019 01:23:52 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.72.51.249])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 490AB3F703;
- Thu, 16 May 2019 01:23:52 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id A66D7682413; Thu, 16 May 2019 09:23:50 +0100 (BST)
-Date: Thu, 16 May 2019 09:23:50 +0100
-From: "liviu.dudau@arm.com" <liviu.dudau@arm.com>
-To: Wen He <wen.he_1@nxp.com>
-Subject: Re: [EXT] Re: [v1] drm/arm/mali-dp: Disable checking for required
- pixel clock rate
-Message-ID: <20190516082350.GB15144@e110455-lin.cambridge.arm.com>
-References: <20190515024348.43642-1-wen.he_1@nxp.com>
- <20190515154530.GX15144@e110455-lin.cambridge.arm.com>
- <AM0PR04MB48658C4B7AADE1E3FFCA7ED7E20A0@AM0PR04MB4865.eurprd04.prod.outlook.com>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA8889259
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 08:31:14 +0000 (UTC)
+X-Originating-IP: 80.215.246.107
+Received: from localhost (unknown [80.215.246.107])
+ (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 6532D20003;
+ Thu, 16 May 2019 08:31:05 +0000 (UTC)
+Date: Thu, 16 May 2019 10:31:04 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [PATCH 0/2] drm/sun4i: Fix sun8i HDMI PHY initialization
+Message-ID: <20190516083104.rr2ewg3dd4aej67b@flea>
+References: <20190514204337.11068-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <AM0PR04MB48658C4B7AADE1E3FFCA7ED7E20A0@AM0PR04MB4865.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190514204337.11068-1-jernej.skrabec@siol.net>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,104 +39,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Leo Li <leoyang.li@nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-sunxi@googlegroups.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, wens@csie.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1606654622=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMTYsIDIwMTkgYXQgMDg6MTA6MjFBTSArMDAwMCwgV2VuIEhlIHdyb3RlOgo+
-IAo+IAo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPiA+IEZyb206IGxpdml1LmR1ZGF1
-QGFybS5jb20gW21haWx0bzpsaXZpdS5kdWRhdUBhcm0uY29tXQo+ID4gU2VudDogMjAxOeW5tDXm
-nIgxNeaXpSAyMzo0Ngo+ID4gVG86IFdlbiBIZSA8d2VuLmhlXzFAbnhwLmNvbT4KPiA+IENjOiBk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwu
-b3JnOyBMZW8gTGkKPiA+IDxsZW95YW5nLmxpQG54cC5jb20+Cj4gPiBTdWJqZWN0OiBbRVhUXSBS
-ZTogW3YxXSBkcm0vYXJtL21hbGktZHA6IERpc2FibGUgY2hlY2tpbmcgZm9yIHJlcXVpcmVkIHBp
-eGVsCj4gPiBjbG9jayByYXRlCj4gPiAKPiA+IAo+ID4gSGkgV2VuLAo+IAo+IEhpIExpdml1LAo+
-IAo+ID4gCj4gPiBPbiBXZWQsIE1heSAxNSwgMjAxOSBhdCAwMjo0MjowOEFNICswMDAwLCBXZW4g
-SGUgd3JvdGU6Cj4gPiA+IERpc2FibGUgY2hlY2tpbmcgZm9yIHJlcXVpcmVkIHBpeGVsIGNsb2Nr
-IHJhdGUgaWYgQVJDSF9MQVlFUlNDUEFFIGlzCj4gPiA+IGVuYWJsZS4KPiA+ID4KPiA+ID4gU2ln
-bmVkLW9mZi1ieTogQWxpc29uIFdhbmcgPGFsaXNvbi53YW5nQG54cC5jb20+Cj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IFdlbiBIZSA8d2VuLmhlXzFAbnhwLmNvbT4KPiA+ID4gLS0tCj4gPiA+IGNoYW5n
-ZSBpbiBkZXNjcmlwdGlvbjoKPiA+ID4gICAgICAgLSBUaGlzIGNoZWNrIHRoYXQgb25seSBzdXBw
-b3J0ZWQgb25lIHBpeGVsIGNsb2NrIHJlcXVpcmVkIGNsb2NrIHJhdGUKPiA+ID4gICAgICAgY29t
-cGFyZSB3aXRoIGR0cyBub2RlIHZhbHVlLiBidXQgd2UgaGF2ZSBzdXBwb3J0cyA0IHBpeGVsIGNs
-b2NrCj4gPiA+ICAgICAgIGZvciBsczEwMjhhIGJvYXJkLgo+ID4gCj4gPiBTbywgeW91ciBEVCBz
-YXlzIHlvdXIgcGl4ZWwgY2xvY2sgcHJvdmlkZXIgaXMgYSBmaXhlZCBjbG9jaz8gSWYgeW91IHN1
-cHBvcnQgbW9yZQo+ID4gdGhhbiBvbmUgcmF0ZSwgeW91IHNob3VsZCBpbnN0ZWFkIHVzZSBhIHJl
-YWwgcHJvdmlkZXIgZm9yIGl0LiBIb3cgZG8geW91Cj4gPiBzdXBwb3J0IHRoZSA0IHBpeGVsIGNs
-b2Nrcz8KPiA+IAo+ICAKPiBZZXMgLCB0aGUgRFQgbm9kZSBvbmx5IGNhbiBwcm92aWRlZCBvbmUg
-cGl4ZWwgY2xvY2sgYnkgdXNpbmcgYSBmaXhlZCBjbG9jay4KPiBCdXQgd2UgRGlzcGxheSBQb3J0
-IGNvbnRyb2xsZXIgc3VwcG9ydCA0IG9yIG1vcmUgcmVzb2x1dGlvbnMsIGVhY2ggb2Ygd2hpY2gK
-PiByZXF1aXJlcyBhIHNldCBvZiBwaXhlbCBjbG9ja3MgdG8gZHJpdmUsIGFuZCB3ZSBob3BlIHRo
-ZXkgY2FuIHN3aXRjaCBhbnkgcmVzb2x1dGlvbgo+IHdlIHdhbnQgYnkgc29tZSBwcm9ncmFtIGV2
-ZXJ5IHRpbWVzLgoKVGhhdCBwcm9ncmFtIGNhbid0IGJlIHNvbWUgdXNlcnNwYWNlIGFwcGxpY2F0
-aW9uLCBiZWNhdXNlIGl0IHdpbGwgaGF2ZSB0byBtYWtlCmNoYW5nZXMgdG8gdGhlIGhhcmR3YXJl
-IGFuZCB0aGUga2VybmVsIHdpbGwgbm90IGtub3cgdGhhdCB0aGluZ3MgaGF2ZSBjaGFuZ2VkCnVu
-ZGVyIGl0cyBmZWV0LiBUaGF0IGxlYXZlcyB0aGUgb3B0aW9uIG9mIHRoZSBib290bG9hZGVyIG9y
-IHNvbWUgb3RoZXIga2VybmVsCm1vZHVsZSBkb2luZyB0aGUgY2hhbmdlcy4KCklmIHlvdSBoYXZl
-IGFub3RoZXIga2VybmVsIG1vZHVsZSB0aGF0IGtub3dzIGhvdyB0byBjaGFuZ2UgY2xvY2tzLCB0
-aGF0IHNob3VsZApiZSBpbXBsZW1lbnRlZCB1c2luZyB0aGUgY29tbW9uIGNsb2NrcyBpbmZyYXN0
-cnVjdHVyZSwgYXQgd2hpY2ggdGltZSB5b3UgY2FuCnB1dCBpdCBpbiB0aGUgRFQgYXMgdGhlIGNs
-b2NrIHByb3ZpZGVyIGZvciB0aGUgcGl4ZWxjbG9jay4KCklmIHRoZSBib290bG9hZGVyIGRvZXMg
-dGhlIGNoYW5nZXMsIHRoZW4gdGhlIGJvb3Rsb2FkZXIgc2hvdWxkIGVkaXQgdGhlIERUIGFuZApz
-ZXQgdGhlIGNvcnJlY3QgdmFsdWUgZm9yIHRoZSBwaXhlbCBjbG9jay4gUmVnYXJkbGVzcywgd2l0
-aCB5b3VyIGNoYW5nZSBhbmQgb24KeW91ciBwbGF0Zm9ybSB0aGUgdXNlciBjYW4gcmVxdWVzdCBh
-bnkgcmVzb2x1dGlvbiBhbmQgdGhlIGRyaXZlciB3aWxsIHNpbGVudGx5CmZhaWwgdG8gc2V0IHRo
-YXQgcmVzb2x1dGlvbi4KCk9uZSBvdGhlciBwcm9ibGVtIGlzIHRoZSBvbmUgUm9iaW4gcmFpc2Vk
-LCB3aGVyZSB0aGUga2VybmVsIGlzIGNvbXBpbGVkIGZvcgptdWx0aXBsZSBwbGF0Zm9ybXMsIGxp
-a2Ugd2hhdCB2YXJpb3VzIExpbnV4IGRpc3RyaWJ1dGlvbnMgZG8uIFRoYXQga2VybmVsIHdpbGwK
-ZWl0aGVyIHdvcmsgb24gb3RoZXIgU29DIG9yIG5vdCwgZGVwZW5kaW5nIG9uIHdoYXQgQ09ORklH
-X0FSQ0hfTEFZRVJTQ0FQRSBpcwpzZXQgdG8uCgpJbiBzdW1tYXJ5LCBmb3IgdGhpcyBwYXRjaCwg
-aXQncyBhIE5BSy4gVGhlcmUgYXJlIHByb3BlciB3YXlzIG9mIGFjaGlldmluZyB3aGF0CnlvdSBu
-ZWVkLCBidXQgdGhpcyBwYXRjaCBpcyBub3QuCgpCZXN0IHJlZ2FyZHMsCkxpdml1Cgo+IAo+IEZv
-ciBleGFtcGxlLCBpZiB3ZSBzZXQgdGhhdCBmaXhlZCBwaXhlbCBjbG9jayBpcyAyNzAwMDAwMCAo
-MjdNaHopLCBidXQgdXNlciBob3BlIGNhbiBzZWUKPiBhIGdyb3VwIDEwODBwIHJlc29sdXRpb24g
-cGVuZ3VpbnMgZHVyaW5nIHN0YXJ0dXAgLCBhbmQgaG9wZSBwbGF5aW5nIGEgNGsgdmlkZW8gb25j
-ZQo+IHN5c3RlbSBib290IHVwIGRvbmUuIAo+IEJ0dywgSW4gb3VyIGJvYXJkLCB0aGUgMTA4MHAg
-cmVzb2x1dGlvbiBpcyBkcml2ZW4gYnkgYSAxNDguNU1oeiBwaXhlbCBjbG9jaywgNGsgaXMgZHJp
-dmVuCj4gYnkgYSA1OTRNaHouIDI3TWh6IG9ubHkgY2FuIGRyaXZlIDQ4MHAgcmVzb2x1dGlvbi4K
-PiAKPiBUbyBtZWV0IHRoZSBhYm92ZSB1c2VyIHJlcXVpcmVtZW50cywgSSB3YXMgdG8gc2V0dXAg
-Zm9sbG93aW5nIHN0ZXBzLAo+IDEuIEFkZCB0aGUgInZpZGVvPTE5MjB4MTA4MC0zMkA2MCIgdG8g
-Ym9vdGFyZ3MgY29tbWFuZCBsaW5lIFtzcGVjaWZ5IHBlbmd1aW5zIHNpemVdCj4gMi4gUGxheSBh
-IDRLIHZpZGVvIHdpdGggNGsgcmVzb2x1dGlvbiB3aGVuIHN5c3RlbSBib290IHVwIGRvbmUuCj4g
-Cj4gPiBBbHNvLCBub3Qgc3VyZSB3aGF0IHRoZSBwYXJhZ3JhcGggYWJvdmUgaXMgbWVhbnQgdG8g
-YmUuIFNob3VsZCBpdCBiZSBwYXJ0IG9mCj4gPiB0aGUgY29tbWl0IG1lc3NhZ2U/Cj4gPiAKPiAK
-PiBUaGVzZSBjb21tZW50cyBqdXN0IHdhbnQgdG8gbGV0IHlvdSBrbm93Lgo+IAo+ID4gQmVzdCBy
-ZWdhcmRzLAo+ID4gTGl2aXUKPiA+IAo+ID4gCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21h
-bGlkcF9jcnRjLmMgfCAyICsrCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-Cj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9jcnRj
-LmMKPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9jcnRjLmMKPiA+ID4gaW5kZXgg
-NTZhYWQyODg2NjZlLi5iYjc5MjIzZDk5ODEgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9hcm0vbWFsaWRwX2NydGMuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21h
-bGlkcF9jcnRjLmMKPiA+ID4gQEAgLTM2LDExICszNiwxMyBAQCBzdGF0aWMgZW51bSBkcm1fbW9k
-ZV9zdGF0dXMKPiA+ID4gbWFsaWRwX2NydGNfbW9kZV92YWxpZChzdHJ1Y3QgZHJtX2NydGMgKmNy
-dGMsCj4gPiA+Cj4gCj4gQWNjb3JkaW5nIHRvIG91ciBwaXhlbCBjb25maWd1cmF0aW9uIGFib3Zl
-LAo+IE5vdyB0aGUgdmFyaWFibGUgcmVxX3JhdGUgdmFsdWUgaXMgMTQ4NTAwMDAwIG9yIDU5NDAw
-MDAwLCBhbm90aGVyIHZhcmlhYmxlIHJhdGUgdmFsdWUgaXMKPiAyNzAwMDAwMCwgc28gd2Ugd2ls
-bCBnZXQgYSB3YXJuaW5nIGFuZCBkaXNwbGF5IHdpbGwgY2Fubm90IHdvcmtzIHdlbGwuIAo+IAo+
-IFdlJ3JlIG5vdCBzdXJlIHdoaWNoIHJlc29sdXRpb24gYXJlIHVzZXIgd2FudCwgYW5kIHdlIGFs
-c28gY2FuJ3QganVzdCBvZmZlcmVkIG9uZSByZXNvbHV0aW9uCj4gdG8gdXNlci4gc28gSSByZW1v
-dmUgdGhpcyBjaGVjayBvbiBvdXIgYm9hcmQsIG1heWJlIGl0J3Mgbm90IGdvb2QgY2hhbmdlLgo+
-IAo+IEkgd2FudCB0byBrbm93IGRvIHlvdSBoYXZlIG90aGVyIGdvb2Qgc3VnZ2VzdGlvbj8gVGhh
-bmtzLgo+IAo+IEJlc3QgUmVnYXJkcywKPiBXZW4KPiAKPiA+ID4gICAgICAgaWYgKHJlcV9yYXRl
-KSB7Cj4gPiA+ICAgICAgICAgICAgICAgcmF0ZSA9IGNsa19yb3VuZF9yYXRlKGh3ZGV2LT5weGxj
-bGssIHJlcV9yYXRlKTsKPiA+ID4gKyNpZm5kZWYgQ09ORklHX0FSQ0hfTEFZRVJTQ0FQRQo+ID4g
-PiAgICAgICAgICAgICAgIGlmIChyYXRlICE9IHJlcV9yYXRlKSB7Cj4gPiA+ICAgICAgICAgICAg
-ICAgICAgICAgICBEUk1fREVCVUdfRFJJVkVSKCJweGxjbGsgZG9lc24ndCBzdXBwb3J0ICVsZAo+
-ID4gSHpcbiIsCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJl
-cV9yYXRlKTsKPiA+ID4gICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBNT0RFX05PQ0xPQ0s7
-Cj4gPiA+ICAgICAgICAgICAgICAgfQo+ID4gPiArI2VuZGlmCj4gPiA+ICAgICAgIH0KPiA+ID4K
-PiA+ID4gICAgICAgcmV0dXJuIE1PREVfT0s7Cj4gPiA+IC0tCj4gPiA+IDIuMTcuMQo+ID4gPgo+
-ID4gCj4gPiAtLQo+ID4gPT09PT09PT09PT09PT09PT09PT0KPiA+IHwgSSB3b3VsZCBsaWtlIHRv
-IHwKPiA+IHwgZml4IHRoZSB3b3JsZCwgIHwKPiA+IHwgYnV0IHRoZXkncmUgbm90IHwKPiA+IHwg
-Z2l2aW5nIG1lIHRoZSAgIHwKPiA+ICBcIHNvdXJjZSBjb2RlISAgLwo+ID4gICAtLS0tLS0tLS0t
-LS0tLS0KPiA+ICAgICDCr1xfKOODhClfL8KvCgotLSAKPT09PT09PT09PT09PT09PT09PT0KfCBJ
-IHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8CnwgYnV0IHRoZXkncmUgbm90IHwK
-fCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEgIC8KICAtLS0tLS0tLS0tLS0tLS0K
-ICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+
+--===============1606654622==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="nxc66wpttvnorf5q"
+Content-Disposition: inline
+
+
+--nxc66wpttvnorf5q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, May 14, 2019 at 10:43:35PM +0200, Jernej Skrabec wrote:
+> I received a report that 4K resolution doesn't work if U-Boot video
+> driver is disabled. It turns out that HDMI PHY clock driver was
+> initialized prematurely, before reset line was deasserted and clocks
+> enabled. U-Boot video driver masked the issue because it set pixel
+> clock correctly.
+>
+> In the process of researching the bug, I also found out that few bits
+> in HDMI PHY registers were not set correctly. While there is no
+> noticeable change (4K resolution works with both settings), I've
+> added fix anyway, to be conformant with vendor documentation.
+
+Applied both, thanks
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--nxc66wpttvnorf5q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXN0fyAAKCRDj7w1vZxhR
+xUAXAP9xICklXvpieTeqdcZC4XE/+a2QALTSkxog1dIwU2z9hgEA9W1tdHngDaMj
+jYInZNsuhpQY0H7zxkIQTeX7MeX2Ogs=
+=TN7Y
+-----END PGP SIGNATURE-----
+
+--nxc66wpttvnorf5q--
+
+--===============1606654622==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1606654622==--
