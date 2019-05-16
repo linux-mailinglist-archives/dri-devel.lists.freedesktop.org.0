@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BBC520D1B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 18:34:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DB220D28
+	for <lists+dri-devel@lfdr.de>; Thu, 16 May 2019 18:37:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 568FB89483;
-	Thu, 16 May 2019 16:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B7E89725;
+	Thu, 16 May 2019 16:37:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D6E1189483
- for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 16:34:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D387B72167; Thu, 16 May 2019 16:34:42 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108824] Invalid handling when GL buffer is bound on one context
- and invalidated on another
-Date: Thu, 16 May 2019 16:34:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: baldurk@baldurk.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108824-502-4UKKEXgYsM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108824-502@http.bugs.freedesktop.org/>
-References: <bug-108824-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6A8DC89725
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 May 2019 16:37:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 242EF10A3516;
+ Thu, 16 May 2019 09:37:43 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Hw30axL6XjNz; Thu, 16 May 2019 09:37:42 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 0850210A2E28;
+ Thu, 16 May 2019 09:37:42 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 8BB062FE3AAE; Thu, 16 May 2019 11:37:41 -0500 (CDT)
+From: Eric Anholt <eric@anholt.net>
+To: James Clarke <jrtc27@jrtc27.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for GNU/kFreeBSD
+In-Reply-To: <87tve334o1.fsf@anholt.net>
+References: <20190115150418.68080-1-jrtc27@jrtc27.com>
+ <87tve334o1.fsf@anholt.net>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Thu, 16 May 2019 09:37:40 -0700
+Message-ID: <87d0kibbjf.fsf@anholt.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,123 +47,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1835762662=="
+Cc: James Clarke <jrtc27@jrtc27.com>
+Content-Type: multipart/mixed; boundary="===============0709976245=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0709976245==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---===============1835762662==
-Content-Type: multipart/alternative; boundary="15580244821.B59a.6370"
-Content-Transfer-Encoding: 7bit
+--=-=-=
+Content-Type: text/plain
 
+Eric Anholt <eric@anholt.net> writes:
 
---15580244821.B59a.6370
-Date: Thu, 16 May 2019 16:34:42 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+> [ Unknown signature status ]
+> James Clarke <jrtc27@jrtc27.com> writes:
+>
+>> Like GNU/Linux, GNU/kFreeBSD's sys/types.h does not define the uintX_t
+>> types, which differs from the BSDs' headers. Thus we should include
+>> stdint.h to ensure we have all the required integer types.
+>>
+>> Signed-off-by: James Clarke <jrtc27@jrtc27.com>
+>
+> Reviewed-by: Eric Anholt <eric@anholt.net>
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108824
+And pushed to drm-misc-next now.
 
---- Comment #7 from Baldur Karlsson <baldurk@baldurk.org> ---
-I applied the patchset on top of latest mesa
-(aa040d3b3c7d068e1ece61c71770c16a54745f89) and I seem to get some rendered
-corruption that I don't get with the parent commit before applying the patc=
-hes.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It seems to only appear in RenderDoc, or at least it doesn't happen when
-running tiny demo programs. I can't isolate a simpler test case just now bu=
-t it
-seems reliably reproducible and only shows up when I build with the patches
-applied.
+-----BEGIN PGP SIGNATURE-----
 
-To repro with RenderDoc:
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlzdkdQACgkQtdYpNtH8
+nuiT2hAAic+xaCJEwtlpqbWEZ7GnXG6SRsEQBZrYBc6Z/jppkYJLq2HklO7RQOKY
+T3oJYu8Q+fNDlTRpLh6jFOvt0FxrKq0cI5JbmzLZgqLMqlHp45lOUjnEDug6EFsB
+rLyEqvME26apsrsLsbmiIKPBw0U5XGY1fQnI/AkMp6YUkFxnkqtoZfRewzcBK0iD
+O6dSTW1lsIlCcf4IwL4r2Nh95dquZZs62zVWqZRbldMN3st9opuII/1gpIuw6au0
+LYqC3CIkfXGYbnet1DviYiiXbySiSUTKQtrI9wczcj7XVpNB27lvIxvKRQPlZCbC
+VntDvlMsfn2MzQPv4/wyTBe55L/6MuMO+rYqDQLDODGjUKlPSU0TjvUoR5sdUk4F
+eW6NE2HNa4YORLQL07U5BpqXmG0LRzjQtglZw1XgEPuzou7lZm3z2RSwrMX6Ewh3
+iQOpZMDk72Jn6zDyNSfTbq02c6OGdBGs3HK2JTuX1Fz+mPolhF7VdMoSPa7IQVl4
+tQ95e3KdwtRXV/l3J3eC4jtkW/KZNPwIC64NYSwaeWPiD96DcnEST9KSgfjeWnBZ
+Y2Ro1Fkrdg3v075DM5JRE/dWHjWy9KuX+jYXxsiwc9AY41IvirC+hmeYpQhqfJuU
+V6uZDg4RDRfS5esfjfD2IPJZBuwXEN9Q9TqCpdiRdKPIVU70DKI=
+=2rf/
+-----END PGP SIGNATURE-----
+--=-=-=--
 
-* Download or build RenderDoc 1.4
-* Build gears3d from https://github.com/gears3d/gears3d
-* Launch gears3d through RenderDoc, capture, open the frame
-* Step back and forth through the drawcalls and the texture viewer will sho=
-w up
-with some corruption.
-
-Screenshot here: https://i.imgur.com/1Dk7diS.png
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15580244821.B59a.6370
-Date: Thu, 16 May 2019 16:34:42 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824">bug 10882=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-baldurk&#64;baldurk.org" title=3D"Baldur Karlsson &lt;baldurk&#64;baldurk.o=
-rg&gt;"> <span class=3D"fn">Baldur Karlsson</span></a>
-</span></b>
-        <pre>I applied the patchset on top of latest mesa
-(aa040d3b3c7d068e1ece61c71770c16a54745f89) and I seem to get some rendered
-corruption that I don't get with the parent commit before applying the patc=
-hes.
-
-It seems to only appear in RenderDoc, or at least it doesn't happen when
-running tiny demo programs. I can't isolate a simpler test case just now bu=
-t it
-seems reliably reproducible and only shows up when I build with the patches
-applied.
-
-To repro with RenderDoc:
-
-* Download or build RenderDoc 1.4
-* Build gears3d from <a href=3D"https://github.com/gears3d/gears3d">https:/=
-/github.com/gears3d/gears3d</a>
-* Launch gears3d through RenderDoc, capture, open the frame
-* Step back and forth through the drawcalls and the texture viewer will sho=
-w up
-with some corruption.
-
-Screenshot here: <a href=3D"https://i.imgur.com/1Dk7diS.png">https://i.imgu=
-r.com/1Dk7diS.png</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15580244821.B59a.6370--
-
---===============1835762662==
+--===============0709976245==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -179,4 +105,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1835762662==--
+--===============0709976245==--
