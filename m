@@ -2,61 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E649214E7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 09:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDCDB21435
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 09:27:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02072898C6;
-	Fri, 17 May 2019 07:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A048F898A3;
+	Fri, 17 May 2019 07:27:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2BE8989C;
- Fri, 17 May 2019 07:27:42 +0000 (UTC)
-Received: by mail-pf1-x42b.google.com with SMTP id y11so3233448pfm.13;
- Fri, 17 May 2019 00:27:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5yR7w+lbXREb1V+QECtjDDonB2NG2+mD0zE8iEbLsOA=;
- b=VqYQBei/i9EYcTA3ckdZqfD8ceOuHJhdeawiEReVkTHqQTy8QIZBh1SYfBomxnmTmL
- uFo0HxAhI2AE6D1TcQPeeAphrc83kxiMOGxYiv4YXijFxwdF/wEjrHzCoC3yIEO7TSSf
- ZNxVAXjr++/jrDX7TuOV6RDHwMRRc4y+SQM2jChSy59q6+oLBEtQCyZqmPCQuXx/+XLi
- 8CkqwP796GquQu0BFOSq0TZhgH8xSTSGDTKmpieBaCF7xl+HVrNzE7pwqeTFJsCyUf24
- kqj1evES+TcQ65wtcMIRQA5Z6f2n0fPuikqbNuVY+A1MTCXocQcNUl0GqQM4J/EcbNF3
- 1Fwg==
-X-Gm-Message-State: APjAAAUl3u0fFSCsBPRVSg2FYOOfMcISXlzXcANSEfmQUx99mSRC6pQb
- bxLDPpyXQQdHX8nIjtVOim+BA/vR
-X-Google-Smtp-Source: APXvYqwkpkqsGtVIR2m+JggYHRaeSu01PUNRAiPSAH7+euE+tdrLQfGM8RMw5R18pbOHoltUL9EtUQ==
-X-Received: by 2002:a65:64da:: with SMTP id t26mr55379408pgv.322.1558078061730; 
- Fri, 17 May 2019 00:27:41 -0700 (PDT)
-Received: from localhost ([175.223.38.122])
- by smtp.gmail.com with ESMTPSA id m12sm3674967pgi.56.2019.05.17.00.27.39
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 17 May 2019 00:27:40 -0700 (PDT)
-Date: Fri, 17 May 2019 16:27:37 +0900
-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-Subject: Re: drm/nouveau/core/memory: kmemleak 684 new suspected memory leaks
-Message-ID: <20190517072737.GA651@jagdpanzerIV>
-References: <20190517061340.GA709@jagdpanzerIV>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAC30898A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 07:27:46 +0000 (UTC)
+X-Originating-IP: 80.215.154.25
+Received: from localhost (unknown [80.215.154.25])
+ (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 4AABB2000F;
+ Fri, 17 May 2019 07:27:39 +0000 (UTC)
+Date: Fri, 17 May 2019 09:27:38 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Torsten Duwe <duwe@lst.de>
+Subject: Re: [PATCH 4/4] arm64: DTS: allwinner: a64: enable ANX6345 bridge on
+ Teres-I
+Message-ID: <20190517072738.deohh5fly4jxms7k@flea>
+References: <20190514155911.6C0AC68B05@newverein.lst.de>
+ <20190514160241.9EAC768C7B@newverein.lst.de>
+ <CA+E=qVfuKBzWK7dpM_eabjU8mLdzOw3zCnYk6Tc1oXdavH7CNA@mail.gmail.com>
+ <20190515093141.41016b11@blackhole.lan>
+ <CA+E=qVf6K_0T0x2Hsfp6EDqM-ok6xiAzeZPvp6SRg0yt010pKA@mail.gmail.com>
+ <20190516154820.GA10431@lst.de>
+ <CA+E=qVe5NkAvHXPvVc7iTbZn5sKeoRm0166zPW_s83c2gk7B+g@mail.gmail.com>
+ <20190516164859.GB10431@lst.de>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190517061340.GA709@jagdpanzerIV>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Approved-At: Fri, 17 May 2019 07:54:52 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=5yR7w+lbXREb1V+QECtjDDonB2NG2+mD0zE8iEbLsOA=;
- b=rL1R5dEGxFf0mAiouBM4WyIyJZ8lQ/FFAJS1ZztuHLBBhU/AuQSJk59uh2/Naurhzu
- JsZaG5ziu7sOP04pfroQYmEnw+an5tgyQ3pQjx680Ve6Q0NUGh94x33CUPaabRViKSL8
- Hys5i+cUGtBGyBGtnWDDzfhGLFa4Kyp41YBM7y3s8z6Qlnp5DIWH19wR2dPsyCcWK5lQ
- o0klD35f6BhlECxzjiBlm3d17a6dMOHRZi0LT2f8Y1ymTYC3KwPaSiiQqnUpV/HZ/V0J
- +Lo46zzei2RJNXEhbjv8u8WmdckJw8wSHi1xjVxzErXCdn7OacgK8Edo1JvwuCif/SrY
- AxZQ==
+In-Reply-To: <20190516164859.GB10431@lst.de>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,24 +47,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
+ arm-linux <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============0817643669=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gKDA1LzE3LzE5IDE1OjEzKSwgU2VyZ2V5IFNlbm96aGF0c2t5IHdyb3RlOgoKPiAuLi4gYnV0
-IG1vc3QgbGlrZWx5IGl0J3MgdXR0ZXJseSB3cm9uZy4KPiAKCkpGSSwgSSByZW1vdmVkIGttZW1s
-ZWFrIGFubm90YXRpb24gYW5kIGFkZGVkIHRoZSBmb2xsb3dpbmcKdGhpbmc6CgpAQCAtMzYwLDYg
-KzM2MCw3IEBAIGdwMTAwX3ZtbV92YWxpZChzdHJ1Y3QgbnZrbV92bW0gKnZtbSwgdm9pZCAqYXJn
-diwgdTMyIGFyZ2MsCiAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRUlOVkFMOwogICAg
-ICAgICAgICAgICAgfQoKKyAgICAgICAgICAgICAgIGtmcmVlKG1hcC0+dGFncyk7CiAgICAgICAg
-ICAgICAgICByZXQgPSBudmttX21lbW9yeV90YWdzX2dldChtZW1vcnksIGRldmljZSwgdGFncywK
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG52a21fbHRjX3RhZ3Nf
-Y2xlYXIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAmbWFwLT50
-YWdzKTsKCgktc3MKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0817643669==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="f4mha6snzgf75knu"
+Content-Disposition: inline
+
+
+--f4mha6snzgf75knu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, May 16, 2019 at 06:48:59PM +0200, Torsten Duwe wrote:
+> On Thu, May 16, 2019 at 09:06:41AM -0700, Vasily Khoruzhick wrote:
+> >
+> > Driver can talk to the panel over AUX channel only after t1+t3, t1 is
+> > up to 10ms, t3 is up to 200ms.
+>
+> This is after power-on. The boot loader needs to deal with this.
+
+The bootloader can deal with it, but the kernel will also need to. The
+bootloader might not be doing this because it's not been updated, the
+regulator might have been disabled between the time the kernel was
+started and the time the bridge driver probes, etc.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--f4mha6snzgf75knu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXN5iagAKCRDj7w1vZxhR
+xSOTAQCltYqEUg7d+BcEgl5RN6diNU5EHsL/qXA4yAy1FZI9NwD/epfnmdGcVWie
+o0KQWW6HOXO96Su1afZmNzHrEtQffwQ=
+=zj1P
+-----END PGP SIGNATURE-----
+
+--f4mha6snzgf75knu--
+
+--===============0817643669==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0817643669==--
