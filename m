@@ -2,44 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5726821EC3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 21:48:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983FF21EDD
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 22:07:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF7A890D5;
-	Fri, 17 May 2019 19:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B68BA89996;
+	Fri, 17 May 2019 20:07:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9D302890D5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 19:48:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 92FD372167; Fri, 17 May 2019 19:48:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding
-Date: Fri, 17 May 2019 19:48:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-bugzilla@ossman.eu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-110702-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B62B89996
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 20:07:47 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
+ [209.85.160.180])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id B695E217D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 20:07:46 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id h1so9511452qtp.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 13:07:46 -0700 (PDT)
+X-Gm-Message-State: APjAAAXDmnQpss+O0AEntM8eT9mrm//XwspOyMoAJUgXn5uAuxpkV5ZA
+ KiFvQB0ZXQim/EFtSirsvSdm+Cz5lTBEkww5jg==
+X-Google-Smtp-Source: APXvYqyorKmxc+J4KVhOQBHBImhJm18kRJeWl2YZpK+ASt7DMCb593EYeTOi8eZBw90uGhvevJaQVOjh6CpzEWMWRDg=
+X-Received: by 2002:ac8:2d48:: with SMTP id o8mr50643532qta.136.1558123665768; 
+ Fri, 17 May 2019 13:07:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190517184659.18828-1-peron.clem@gmail.com>
+ <20190517184659.18828-2-peron.clem@gmail.com>
+In-Reply-To: <20190517184659.18828-2-peron.clem@gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Fri, 17 May 2019 15:07:32 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKPazGn+g1zS4NMwvQZ_6GcAm0tgcOTqyQA0dz0+2dp3g@mail.gmail.com>
+Message-ID: <CAL_JsqKPazGn+g1zS4NMwvQZ_6GcAm0tgcOTqyQA0dz0+2dp3g@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] drm: panfrost: add optional bus_clock
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1558123666;
+ bh=IkVGNrM3mkdkCp1ruLguz7iPAsoAAPm6bhm62l6C0l4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=D7KoCjgNCYuzAKFnaeZMIowcKdNjhe/bHfunIg0phnFQGUNm7Si+IswAnpAuc8H6I
+ 6Juv7ClQ+lDWVypoiyNPgrHPlYddKlyshbbCP2el4CrhQiWah4/LMWx6fgC/bWtuFU
+ E4aSZreYUPIbR5Wj7iA7bqvpJU7ENIrsynXOu2+M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,358 +54,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0497275456=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Will Deacon <will.deacon@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0497275456==
-Content-Type: multipart/alternative; boundary="15581224950.C81019b.10013"
-Content-Transfer-Encoding: 7bit
-
-
---15581224950.C81019b.10013
-Date: Fri, 17 May 2019 19:48:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
-
-            Bug ID: 110702
-           Summary: segfault in radeonsi HEVC hardware decoding
-           Product: Mesa
-           Version: unspecified
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: pierre-bugzilla@ossman.eu
-        QA Contact: dri-devel@lists.freedesktop.org
-
-A few HEVC files gives me a segfault in radeonsi_dri.so when trying to play
-them via Kodi. They work fine when decoding in software, and other HEVC fil=
-es
-work fine being decoded in hardware. I do not know what is special about th=
-ese
-files.
-
-> amdgpu: Failed to allocate a buffer:
-> amdgpu:    size      : 3221295104 bytes
-> amdgpu:    alignment : 4096 bytes
-> amdgpu:    domains   : 4
-> amdgpu: Failed to allocate a buffer:
-> amdgpu:    size      : 3221295104 bytes
-> amdgpu:    alignment : 4096 bytes
-> amdgpu:    domains   : 4
-> EE ../src/gallium/drivers/radeon/radeon_vcn_dec.c:880 rvcn_dec_message_de=
-code UVD - Can't allocated context buffer.
-> /usr/bin/kodi: line 219:  1223 Segmentation fault      (core dumped) ${KO=
-DI_BINARY} $SAVED_ARGS
-
-Lines seen in ~/.xsession-errors
-
-This is the details Kodi reports about the video:
-
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-  Metadata:
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    ENCODER         : Lavf58.27.102
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-  Duration: 01:29:45.38, start: 0.000000, bitrate: 1598 kb/s
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    Stream #0:0(eng): Video: hevc (Main 10), yuv420p10le(tv), 1920x1080 [SA=
-R 1:1 DAR 16:9], 23.98 fps, 23.98 tbr, 1k tbn, 23.98 tbc (default)
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    Metadata:
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      BPS-eng         : 8246896
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      DURATION-eng    : 01:29:45.380000000
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      NUMBER_OF_FRAMES-eng: 129120
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      NUMBER_OF_BYTES-eng: 5551584033
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_WRITING_APP-eng: mkvmerge v33.1.0 ('Primrose') 64-bit
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_WRITING_DATE_UTC-eng: 2019-05-13 00:59:51
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      ENCODER         : Lavc58.51.100 libx265
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      DURATION        : 01:29:45.380000000
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    Stream #0:1(eng): Audio: eac3, 48000 Hz, 6 channels, fltp (default)
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    Metadata:
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      BPS-eng         : 640000
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      DURATION-eng    : 01:29:45.376000000
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      NUMBER_OF_FRAMES-eng: 168293
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      NUMBER_OF_BYTES-eng: 430830080
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_WRITING_APP-eng: mkvmerge v33.1.0 ('Primrose') 64-bit
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_WRITING_DATE_UTC-eng: 2019-05-13 00:59:51
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      DURATION        : 01:29:45.384000000
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    Stream #0:2(eng): Subtitle: ass
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-    Metadata:
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      BPS-eng         : 38
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      DURATION-eng    : 01:29:38.000000000
-> 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      NUMBER_OF_FRAMES-eng: 955
-> 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      NUMBER_OF_BYTES-eng: 26165
-> 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_WRITING_APP-eng: mkvmerge v33.1.0 ('Primrose') 64-bit
-> 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_WRITING_DATE_UTC-eng: 2019-05-13 00:59:51
-> 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-> 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      ENCODER         : Lavc58.51.100 ssa
-> 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700]: =
-      DURATION        : 01:29:42.162000000
-
-This is with mesa-dri-drivers-19.0.4-1.fc30.x86_64.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15581224950.C81019b.10013
-Date: Fri, 17 May 2019 19:48:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">110702</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>segfault in radeonsi HEVC hardware decoding
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>pierre-bugzilla&#64;ossman.eu
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>A few HEVC files gives me a segfault in radeonsi_dri.so when t=
-rying to play
-them via Kodi. They work fine when decoding in software, and other HEVC fil=
-es
-work fine being decoded in hardware. I do not know what is special about th=
-ese
-files.
-
-<span class=3D"quote">&gt; amdgpu: Failed to allocate a buffer:
-&gt; amdgpu:    size      : 3221295104 bytes
-&gt; amdgpu:    alignment : 4096 bytes
-&gt; amdgpu:    domains   : 4
-&gt; amdgpu: Failed to allocate a buffer:
-&gt; amdgpu:    size      : 3221295104 bytes
-&gt; amdgpu:    alignment : 4096 bytes
-&gt; amdgpu:    domains   : 4
-&gt; EE ../src/gallium/drivers/radeon/radeon_vcn_dec.c:880 rvcn_dec_message=
-_decode UVD - Can't allocated context buffer.
-&gt; /usr/bin/kodi: line 219:  1223 Segmentation fault      (core dumped) $=
-{KODI_BINARY} $SAVED_ARGS</span >
-
-Lines seen in ~/.xsession-errors
-
-This is the details Kodi reports about the video:
-
-<span class=3D"quote">&gt; 2019-05-17 19:51:31.904 T:140684663195392    INF=
-O: ffmpeg[7FF3B3600700]:   Metadata:
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     ENCODER         : Lavf58.27.102
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:   Duration: 01:29:45.38, start: 0.000000, bitrate: 1598 kb/s
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     Stream #0:0(eng): Video: hevc (Main 10), yuv420p10le(tv), 1920x1080 =
-[SAR 1:1 DAR 16:9], 23.98 fps, 23.98 tbr, 1k tbn, 23.98 tbc (default)
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     Metadata:
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       BPS-eng         : 8246896
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       DURATION-eng    : 01:29:45.380000000
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       NUMBER_OF_FRAMES-eng: 129120
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       NUMBER_OF_BYTES-eng: 5551584033
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_WRITING_APP-eng: mkvmerge v33.1.0 ('Primrose') 64-bit
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_WRITING_DATE_UTC-eng: 2019-05-13 00:59:51
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       ENCODER         : Lavc58.51.100 libx265
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       DURATION        : 01:29:45.380000000
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     Stream #0:1(eng): Audio: eac3, 48000 Hz, 6 channels, fltp (default)
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     Metadata:
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       BPS-eng         : 640000
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       DURATION-eng    : 01:29:45.376000000
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       NUMBER_OF_FRAMES-eng: 168293
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       NUMBER_OF_BYTES-eng: 430830080
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_WRITING_APP-eng: mkvmerge v33.1.0 ('Primrose') 64-bit
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_WRITING_DATE_UTC-eng: 2019-05-13 00:59:51
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       DURATION        : 01:29:45.384000000
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     Stream #0:2(eng): Subtitle: ass
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:     Metadata:
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       BPS-eng         : 38
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       DURATION-eng    : 01:29:38.000000000
-&gt; 2019-05-17 19:51:31.904 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       NUMBER_OF_FRAMES-eng: 955
-&gt; 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       NUMBER_OF_BYTES-eng: 26165
-&gt; 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_WRITING_APP-eng: mkvmerge v33.1.0 ('Primrose') 64-bit
-&gt; 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_WRITING_DATE_UTC-eng: 2019-05-13 00:59:51
-&gt; 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-&gt; 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       ENCODER         : Lavc58.51.100 ssa
-&gt; 2019-05-17 19:51:31.905 T:140684663195392    INFO: ffmpeg[7FF3B3600700=
-]:       DURATION        : 01:29:42.162000000</span >
-
-This is with mesa-dri-drivers-19.0.4-1.fc30.x86_64.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15581224950.C81019b.10013--
-
---===============0497275456==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0497275456==--
+T24gRnJpLCBNYXkgMTcsIDIwMTkgYXQgMTo0NyBQTSBDbMOpbWVudCBQw6lyb24gPHBlcm9uLmNs
+ZW1AZ21haWwuY29tPiB3cm90ZToKPgo+IEFsbHdpbm5lciBINiBoYXMgYW4gQVJNIE1hbGktVDcy
+MCBNUDIgd2hpY2ggcmVxdWlyZWQgYSBidXNfY2xvY2suCj4KPiBBZGQgYW4gb3B0aW9uYWwgYnVz
+X2Nsb2NrIGF0IHRoZSBpbml0IG9mIHRoZSBwYW5mcm9zdCBkcml2ZXIuCj4KPiBTaWduZWQtb2Zm
+LWJ5OiBDbMOpbWVudCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPgo+IC0tLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmMgfCAyNSArKysrKysrKysrKysr
+KysrKysrKystCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCB8
+ICAxICsKPiAgMiBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+Cj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rldmlj
+ZS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5jCj4gaW5kZXgg
+M2IyYmNlZDFiMDE1Li44ZGE2ZTYxMmQzODQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZy
+b3N0L3BhbmZyb3N0X2RldmljZS5jCj4gQEAgLTQ0LDcgKzQ0LDggQEAgc3RhdGljIGludCBwYW5m
+cm9zdF9jbGtfaW5pdChzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldikKPgo+ICAgICAgICAg
+cGZkZXYtPmNsb2NrID0gZGV2bV9jbGtfZ2V0KHBmZGV2LT5kZXYsIE5VTEwpOwo+ICAgICAgICAg
+aWYgKElTX0VSUihwZmRldi0+Y2xvY2spKSB7Cj4gLSAgICAgICAgICAgICAgIGRldl9lcnIocGZk
+ZXYtPmRldiwgImdldCBjbG9jayBmYWlsZWQgJWxkXG4iLCBQVFJfRVJSKHBmZGV2LT5jbG9jaykp
+Owo+ICsgICAgICAgICAgICAgICBkZXZfZXJyKHBmZGV2LT5kZXYsICJnZXQgY2xvY2sgZmFpbGVk
+ICVsZFxuIiwKPiArICAgICAgICAgICAgICAgICAgICAgICBQVFJfRVJSKHBmZGV2LT5jbG9jaykp
+OwoKUGxlYXNlIGRyb3AgdGhpcyB3aGl0ZXNwYWNlIGNoYW5nZS4KCj4gICAgICAgICAgICAgICAg
+IHJldHVybiBQVFJfRVJSKHBmZGV2LT5jbG9jayk7Cj4gICAgICAgICB9Cj4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
