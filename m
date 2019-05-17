@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6053B2178B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 13:17:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CEB217DD
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 13:45:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66862898E8;
-	Fri, 17 May 2019 11:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1DF389196;
+	Fri, 17 May 2019 11:45:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAFAD898E8
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 11:17:16 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9EDC28553F;
- Fri, 17 May 2019 11:17:09 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
- [10.36.117.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C417F348CE;
- Fri, 17 May 2019 11:17:04 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CDE9C11AA3; Fri, 17 May 2019 13:17:03 +0200 (CEST)
-Date: Fri, 17 May 2019 13:17:03 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/2] Add BO reservation to GEM VRAM
- pin/unpin/push_to_system
-Message-ID: <20190517111703.j3qtk74awnnebupe@sirius.home.kraxel.org>
-References: <20190516162746.11636-1-tzimmermann@suse.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C4EF89247
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 11:45:46 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 58F7A72167; Fri, 17 May 2019 11:45:46 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108898] (Recoverable) GPU hangs with GfxBench Manhattan GL tests
+Date: Fri, 17 May 2019 11:45:46 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: eero.t.tamminen@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108898-502-JP82WVPfQS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108898-502@http.bugs.freedesktop.org/>
+References: <bug-108898-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190516162746.11636-1-tzimmermann@suse.de>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 17 May 2019 11:17:16 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,33 +52,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, puck.chen@hisilicon.com, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, z.liuxinliang@hisilicon.com,
- hdegoede@redhat.com, kong.kongxinwei@hisilicon.com, ray.huang@amd.com,
- zourongrong@gmail.com, sam@ravnborg.org, christian.koenig@amd.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0648768130=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCj4gSXQgdHVybnMgb3V0IHRoYXQgdGhlIGJvY2hzIGFuZCB2Ym94IGRyaXZlcnMgYXV0
-b21hdGljYWxseSByZXNlcnZlZCBhbmQKPiB1bnJlc2VydmVkIHRoZSBCTyBmcm9tIHdpdGhpbiB0
-aGVpciBwaW4gYW5kIHVucGluIGZ1bmN0aW9ucy4gVGhlIG90aGVyCj4gZHJpdmVyczsgYXN0LCBo
-aWJtYyBhbmQgbWdhZzIwMDsgcGVyZm9ybWVkIHJlc2VydmF0aW9uIGV4cGxpY2l0bHkuIFdpdGgg
-dGhlCj4gR0VNIFZSQU0gY29udmVyc2lvbiwgYXV0b21hdGljIEJPIHJlc2VydmF0aW9uIHdpdGhp
-biBwaW4gYW5kIHVucGluIGZ1bmN0aW9ucwo+IGFjY2lkZW50YWxseSBnb3QgbG9zdC4gU28gZm9y
-IGJvY2hzIGFuZCB2Ym94LCB0dG1fYm9fdmFsaWRhdGUoKSB3b3JrZWQgb24KPiB1bmxvY2tlZCBC
-T3MuCj4gCj4gVGhpcyBwYXRjaCBzZXQgZml4ZXMgdGhlIHByb2JsZW0gYnkgYWRkaW5nIGF1dG9t
-YXRpYyByZXNlcnZhdGlvbiB0byB0aGUKPiBpbXBsZW1lbnRhdGlvbiBvZiBkcm1fZ2VtX3ZyYW1f
-e3Bpbix1bnBpbixwdXNoX3RvX3N5c3RlbX0oKSB0byBmaXggYm9jaHMKPiBhbmQgdmJveC4gSXQg
-cmVtb3ZlcyBleHBsaWNpdCBCTyByZXNlcnZhdGlvbiBhcm91bmQgdGhlIHBpbiwgdW5waW4gYW5k
-Cj4gcHVzaC10by1zeXN0ZW0gY2FsbHMgaW4gdGhlIGFzdCwgaGlibWMgYW5kIG1nYWcyMDAgZHJp
-dmVycy4KPiAKPiBUaGUgb25seSBleGNlcHRpb24gaXMgdGhlIGN1cnNvciBoYW5kbGluZyBvZiBt
-Z2FnMjAwLiBJbiB0aGlzIGNhc2UsIHRoZQo+IG1nYWcyMDAgZHJpdmVyIG5vdyBjYWxscyBkcm1f
-Z2VtX3ZyYW1fe3Bpbix1bnBpbn1fcmVzZXJ2ZWQoKSwgd2hpY2ggd29ya3MKPiB3aXRoIHJlc2Vy
-dmVkIEJPcy4gVGhlIHJlc3BlY3RpdmUgY29kZSBzaG91bGQgYmUgcmVmYWN0b3JlZCBpbiBhIGZ1
-dHVyZQo+IHBhdGNoIHRvIHdvcmsgd2l0aCB0aGUgcmVndWxhciBwaW4gYW5kIHVucGluIGZ1bmN0
-aW9ucy4KCkxvb2tzIGdvb2QsIHB1c2hlZCB0byBkcm0tbWlzYy1uZXh0LgoKdGhhbmtzLAogIEdl
-cmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0648768130==
+Content-Type: multipart/alternative; boundary="15580935462.aa6b.29873"
+Content-Transfer-Encoding: 7bit
+
+
+--15580935462.aa6b.29873
+Date: Fri, 17 May 2019 11:45:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108898
+
+--- Comment #5 from Eero Tamminen <eero.t.tamminen@intel.com> ---
+Sometimes there's also another error message, about fences:
+[ 5813.444709] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[ 5818.564819] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15580935462.aa6b.29873
+Date: Fri, 17 May 2019 11:45:46 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - (Recoverable) GPU hangs with GfxBench Manhattan GL tests"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108898#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - (Recoverable) GPU hangs with GfxBench Manhattan GL tests"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108898">bug 10889=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+eero.t.tamminen&#64;intel.com" title=3D"Eero Tamminen &lt;eero.t.tamminen&#=
+64;intel.com&gt;"> <span class=3D"fn">Eero Tamminen</span></a>
+</span></b>
+        <pre>Sometimes there's also another error message, about fences:
+[ 5813.444709] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out or interrupted!
+[ 5818.564819] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15580935462.aa6b.29873--
+
+--===============0648768130==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0648768130==--
