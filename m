@@ -1,40 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC2D2200A
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2019 00:07:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE467265D7
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 16:35:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86F498999E;
-	Fri, 17 May 2019 22:07:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E97CC89AC0;
+	Wed, 22 May 2019 14:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 741FE8999E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 22:07:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9DE12F3;
- Sat, 18 May 2019 00:07:03 +0200 (CEST)
-Date: Sat, 18 May 2019 01:06:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar-du: writeback: include interface header
-Message-ID: <20190517220647.GA21057@pendragon.ideasonboard.com>
-References: <20190517212050.3561-1-kieran.bingham+renesas@ideasonboard.com>
+Received: from mail-yw1-xc41.google.com (mail-yw1-xc41.google.com
+ [IPv6:2607:f8b0:4864:20::c41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437038999E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 22:08:35 +0000 (UTC)
+Received: by mail-yw1-xc41.google.com with SMTP id w21so3323638ywd.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 15:08:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jft35/5eu7LfpLWAoZ01uRn8po613JLoj7AyHoG1GXA=;
+ b=hY3ip0mf57hgnAvAVBRXDLdDDo15XoRuBwzkzf964jyCu+D+rflDxojfbqxgAy6UXt
+ zax92sHafn5t6AMGwYUg6a++dPOj5R4q+oPSpMSwzJZJk2q4023bOhhQzNM65ddExUVY
+ SEnJcvTrRiPCq4p22fzixZpj5gKaT2Oa+RwfL+A5D5Suemqvq9bPveYhWM1TBTYanJCB
+ +ZSDi1giJy+HFzqiAd0l3NfaP+Gcp2NBuOVmwc1105A9L24aYVnCW3zEfySMDIaIO8O8
+ 0sitdpcvnsj2LkHXdoBFnmsxJ2ajAPH6AgFhM4MuEXk8lJJSbfjwlM7HLSI4gn7lOfNe
+ ZEMg==
+X-Gm-Message-State: APjAAAWzmsK4xdFrzsdQOiB+MpJGKY0d3g5zbwVujRXi8KYu/pomPLRc
+ +9uEpP/pGv3flISKFEwqVcxP9rE3+tRKWBlSLqTE+T3ka12NPA==
+X-Google-Smtp-Source: APXvYqxcSNmzU/oyHvSUYVr+deObwpxqKqFM5P2fsb0esZnQS0M5F0CXJpjeTYUlAVM4uj0CwId57+uwvLalM45wrhw=
+X-Received: by 2002:a81:9a4b:: with SMTP id r72mr5190935ywg.422.1558130914303; 
+ Fri, 17 May 2019 15:08:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190517212050.3561-1-kieran.bingham+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1558130824;
- bh=MnCz2Ojjo7iLxTB+zccLU/er2kvrni3WBKp6QNyIvFo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fx3bSAQAn0WyG3KGbSJnXAVTpccFNfK9JaLK2xaLofZ2rojxQ79vyrJyHAJu0pDSm
- x/OE0HK9I83JblwQoOa9wkClnGMCLES3WmVtBm8cToe4RTFQq+apqAD56t8FZSYvMO
- 4cUJVTk+m5zGuzBs2z1rcdt93LoKhpNXuC6M5Zo0=
+References: <20190517184659.18828-1-peron.clem@gmail.com>
+ <20190517184659.18828-2-peron.clem@gmail.com>
+ <CAL_JsqKPazGn+g1zS4NMwvQZ_6GcAm0tgcOTqyQA0dz0+2dp3g@mail.gmail.com>
+In-Reply-To: <CAL_JsqKPazGn+g1zS4NMwvQZ_6GcAm0tgcOTqyQA0dz0+2dp3g@mail.gmail.com>
+From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date: Sat, 18 May 2019 00:08:22 +0200
+Message-ID: <CAJiuCcdMxXAXYk=QpRwsvBUW0tvBVMqXvgx0Y7fAKP=ouyBnKQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] drm: panfrost: add optional bus_clock
+To: Rob Herring <robh+dt@kernel.org>
+X-Mailman-Approved-At: Wed, 22 May 2019 14:35:24 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jft35/5eu7LfpLWAoZ01uRn8po613JLoj7AyHoG1GXA=;
+ b=NYUgiQf/XO3wfHvPfBK9JqBrKKj3Wmowkwt6/vjOgQkCDK/v6jvW0oo1OZnPmZfOd6
+ gXIM2YU1dxM65gHmFxomQBCOUKQV3zVEh6vSfVBe+5Nw1XhNUuyzAv724hOrXXhgW8Cn
+ VQkWNIdZVzet1VOC/zC6hyJHTH5bUEGREk5GN72T5tLuAz7M2PAc55Z2kxM6tQ5SMraJ
+ VZtkn8qK6YLUjTu/4tr0kcNDMPH4zIjSprh5Iy1oYW+ZozjdEZzHGQPDCltQ3I55Bt0/
+ elMkVF9psPDUj7MHeBzCfsRcjwvVTi/HiUpy5OLdflq0g+ead+zvm2UIv6NzBHoYmvym
+ E5XA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,35 +65,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Will Deacon <will.deacon@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgS2llcmFuLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBGcmksIE1heSAxNywgMjAx
-OSBhdCAxMDoyMDo0OVBNICswMTAwLCBLaWVyYW4gQmluZ2hhbSB3cm90ZToKPiBUaGUgbmV3IHdy
-aXRlYmFjayBmZWF0dXJlIGlzIGV4cG9ydHMgZnVuY3Rpb25zIHNvIHRoYXQgdGhleSBjYW4KPiBp
-bnRlZ3JhdGUgaW50byB0aGUgcmNhcl9kdV9rbXMgbW9kdWxlLgo+IAo+IFRoZSBpbnRlcmZhY2Ug
-ZnVuY3Rpb25zIGFyZSBkZWZpbmVkIGluIHRoZSByY2FyX2R1X3dyaXRlYmFjayBoZWFkZXIsIGJ1
-dAo+IGl0IGlzIG5vdCBpbmNsdWRlZCBpbiB0aGUgb2JqZWN0IGZpbGUgaXRzZWxmIGxlYWRpbmcg
-dG8gY29tcGlsZXIKPiB3YXJuaW5ncyBmb3IgbWlzc2luZyBwcm90b3R5cGVzLgo+IAo+IEluY2x1
-ZGUgdGhlIGhlYWRlciBhcyBhcHByb3ByaWF0ZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLaWVyYW4g
-QmluZ2hhbSA8a2llcmFuLmJpbmdoYW0rcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPgoKUmV2aWV3
-ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
-bT4KCkFuZCBhcHBsaWVkIHRvIG15IHRyZWUuCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmNh
-ci1kdS9yY2FyX2R1X3dyaXRlYmFjay5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2R1
-X3dyaXRlYmFjay5jIGIvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV93cml0ZWJhY2su
-Ywo+IGluZGV4IDk4OWEwYmU5NDEzMS4uYWUwNzI5MGJiYTZhIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfd3JpdGViYWNrLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vcmNhci1kdS9yY2FyX2R1X3dyaXRlYmFjay5jCj4gQEAgLTE0LDYgKzE0LDcgQEAKPiAg
-I2luY2x1ZGUgInJjYXJfZHVfY3J0Yy5oIgo+ICAjaW5jbHVkZSAicmNhcl9kdV9kcnYuaCIKPiAg
-I2luY2x1ZGUgInJjYXJfZHVfa21zLmgiCj4gKyNpbmNsdWRlICJyY2FyX2R1X3dyaXRlYmFjay5o
-Igo+ICAKPiAgLyoqCj4gICAqIHN0cnVjdCByY2FyX2R1X3diX2Nvbm5fc3RhdGUgLSBEcml2ZXIt
-c3BlY2lmaWMgd3JpdGViYWNrIGNvbm5lY3RvciBzdGF0ZQoKLS0gClJlZ2FyZHMsCgpMYXVyZW50
-IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SGkgUm9iLAoKT24gRnJpLCAxNyBNYXkgMjAxOSBhdCAyMjowNywgUm9iIEhlcnJpbmcgPHJvYmgr
+ZHRAa2VybmVsLm9yZz4gd3JvdGU6Cj4KPiBPbiBGcmksIE1heSAxNywgMjAxOSBhdCAxOjQ3IFBN
+IENsw6ltZW50IFDDqXJvbiA8cGVyb24uY2xlbUBnbWFpbC5jb20+IHdyb3RlOgo+ID4KPiA+IEFs
+bHdpbm5lciBINiBoYXMgYW4gQVJNIE1hbGktVDcyMCBNUDIgd2hpY2ggcmVxdWlyZWQgYSBidXNf
+Y2xvY2suCj4gPgo+ID4gQWRkIGFuIG9wdGlvbmFsIGJ1c19jbG9jayBhdCB0aGUgaW5pdCBvZiB0
+aGUgcGFuZnJvc3QgZHJpdmVyLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IENsw6ltZW50IFDDqXJv
+biA8cGVyb24uY2xlbUBnbWFpbC5jb20+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFu
+ZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmMgfCAyNSArKysrKysrKysrKysrKysrKysrKystCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5oIHwgIDEgKwo+ID4gIDIg
+ZmlsZXMgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4KPiA+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmMKPiA+IGluZGV4IDNiMmJj
+ZWQxYjAxNS4uOGRhNmU2MTJkMzg0IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Bh
+bmZyb3N0L3BhbmZyb3N0X2RldmljZS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJv
+c3QvcGFuZnJvc3RfZGV2aWNlLmMKPiA+IEBAIC00NCw3ICs0NCw4IEBAIHN0YXRpYyBpbnQgcGFu
+ZnJvc3RfY2xrX2luaXQoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYpCj4gPgo+ID4gICAg
+ICAgICBwZmRldi0+Y2xvY2sgPSBkZXZtX2Nsa19nZXQocGZkZXYtPmRldiwgTlVMTCk7Cj4gPiAg
+ICAgICAgIGlmIChJU19FUlIocGZkZXYtPmNsb2NrKSkgewo+ID4gLSAgICAgICAgICAgICAgIGRl
+dl9lcnIocGZkZXYtPmRldiwgImdldCBjbG9jayBmYWlsZWQgJWxkXG4iLCBQVFJfRVJSKHBmZGV2
+LT5jbG9jaykpOwo+ID4gKyAgICAgICAgICAgICAgIGRldl9lcnIocGZkZXYtPmRldiwgImdldCBj
+bG9jayBmYWlsZWQgJWxkXG4iLAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgUFRSX0VSUihw
+ZmRldi0+Y2xvY2spKTsKPgo+IFBsZWFzZSBkcm9wIHRoaXMgd2hpdGVzcGFjZSBjaGFuZ2UuCgpT
+b3JyeSwgSSB0aG91Z2h0IGl0IHdhcyBvbmx5IGEgbWlzdGFrZSBoZXJlLCBJIHdpbGwgZHJvcCBp
+dC4KV2h5IGFyZSB0aGV5IHNvIG1hbnkgbGluZXMgb3ZlciA4MCBjaGFyYWN0ZXJzPwpJcyB0aGVy
+ZSBhIHNwZWNpZmljIGNvZGluZyBzdHlsZSB0byBmb2xsb3cgPwoKVGhhbmtzLApDbGVtZW50Cgo+
+Cj4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIocGZkZXYtPmNsb2NrKTsKPiA+ICAg
+ICAgICAgfQo+ID4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
