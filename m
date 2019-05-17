@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FCF2133F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 06:52:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B31A12138B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 May 2019 07:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD4D89815;
-	Fri, 17 May 2019 04:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B573689830;
+	Fri, 17 May 2019 05:49:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E40C289823
- for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 04:52:19 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 49AE88982D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 May 2019 05:49:40 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E0CC372167; Fri, 17 May 2019 04:52:19 +0000 (UTC)
+ id 420ED72167; Fri, 17 May 2019 05:49:40 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110257] Major artifacts in mpeg2 vaapi hw decoding
-Date: Fri, 17 May 2019 04:52:19 +0000
+Date: Fri, 17 May 2019 05:49:40 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
-X-Bugzilla-Who: randrik@mail.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: 67b0226d@casix.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110257-502-VNcPd7bSee@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-110257-502-RrWweBbuMM@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110257-502@http.bugs.freedesktop.org/>
 References: <bug-110257-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0139936752=="
+Content-Type: multipart/mixed; boundary="===============0984854751=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0139936752==
-Content-Type: multipart/alternative; boundary="15580687393.9a8de1.2332"
+--===============0984854751==
+Content-Type: multipart/alternative; boundary="15580721800.c34a825.15658"
 Content-Transfer-Encoding: 7bit
 
 
---15580687393.9a8de1.2332
-Date: Fri, 17 May 2019 04:52:19 +0000
+--15580721800.c34a825.15658
+Date: Fri, 17 May 2019 05:49:40 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,32 +72,24 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110257
 
---- Comment #2 from Andrew Randrianasulu <randrik@mail.ru> ---
-wasn't this fixed by
-https://cgit.freedesktop.org/mesa/mesa/commit/?id=3Dd507bcdcf26b417dea20109=
-0165af651253b6b11=20
+67b0226d@casix.org changed:
 
-----------
-st/va: reverse qt matrix back to its original order
-The quantiser matrix that VAAPI provides has been applied with inverse z-sc=
-an.
-However, what we expect in MPEG2 picture description is the original order.
-Therefore, we need to reverse it back to its original order.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
 
-Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=3D110257
-Cc: mesa-stable@lists.freedesktop.org
-----------
-
-I can only test with Cinelerra-GG, and my nv92 crad decodes 1080p25 mpeg2 v=
-ery
-slowly (video decoder clock problem) - but for me images were ok!
+--- Comment #3 from 67b0226d@casix.org ---
+Yes indeed, this bug is even listed in the 19.0.2 release notes. It was
+probably just forgotten to comment here. Anyhow, thanks Boyuan Zhang for the
+fix, works perfectly fine now with mesa 19.0.3 installed from normal repos!
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15580687393.9a8de1.2332
-Date: Fri, 17 May 2019 04:52:19 +0000
+--15580721800.c34a825.15658
+Date: Fri, 17 May 2019 05:49:40 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,47 +100,58 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:67b0226d&=
+#64;casix.org" title=3D"67b0226d&#64;casix.org">67b0226d&#64;casix.org</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Major artifacts in mpeg2 vaapi hw decoding"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110257">bug 11025=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Major artifacts in mpeg2 vaapi hw decoding"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110257#c2">Commen=
-t # 2</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Major artifacts in mpeg2 vaapi hw decoding"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110257#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Major artifacts in mpeg2 vaapi hw decoding"
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Major artifacts in mpeg2 vaapi hw decoding"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110257">bug 11025=
 7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-randrik&#64;mail.ru" title=3D"Andrew Randrianasulu &lt;randrik&#64;mail.ru&=
-gt;"> <span class=3D"fn">Andrew Randrianasulu</span></a>
+67b0226d&#64;casix.org" title=3D"67b0226d&#64;casix.org">67b0226d&#64;casix=
+.org</a>
 </span></b>
-        <pre>wasn't this fixed by
-<a href=3D"https://cgit.freedesktop.org/mesa/mesa/commit/?id=3Dd507bcdcf26b=
-417dea201090165af651253b6b11">https://cgit.freedesktop.org/mesa/mesa/commit=
-/?id=3Dd507bcdcf26b417dea201090165af651253b6b11</a>=20
-
-----------
-st/va: reverse qt matrix back to its original order
-The quantiser matrix that VAAPI provides has been applied with inverse z-sc=
-an.
-However, what we expect in MPEG2 picture description is the original order.
-Therefore, we need to reverse it back to its original order.
-
-Bugzilla: <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Major artifacts in mpeg2 vaapi hw decoding"
-   href=3D"show_bug.cgi?id=3D110257">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110257</a>
-Cc: <a href=3D"mailto:mesa-stable&#64;lists.freedesktop.org">mesa-stable&#6=
-4;lists.freedesktop.org</a>
-----------
-
-I can only test with Cinelerra-GG, and my nv92 crad decodes 1080p25 mpeg2 v=
-ery
-slowly (video decoder clock problem) - but for me images were ok!</pre>
+        <pre>Yes indeed, this bug is even listed in the 19.0.2 release note=
+s. It was
+probably just forgotten to comment here. Anyhow, thanks Boyuan Zhang for the
+fix, works perfectly fine now with mesa 19.0.3 installed from normal repos!=
+</pre>
         </div>
       </p>
 
@@ -162,9 +165,9 @@ slowly (video decoder clock problem) - but for me images were ok!</pre>
     </body>
 </html>=
 
---15580687393.9a8de1.2332--
+--15580721800.c34a825.15658--
 
---===============0139936752==
+--===============0984854751==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -174,4 +177,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0139936752==--
+--===============0984854751==--
