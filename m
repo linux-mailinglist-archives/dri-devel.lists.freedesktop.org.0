@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA0C22542
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2019 23:38:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1DF22562
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 00:29:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC3D89310;
-	Sat, 18 May 2019 21:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B27893E7;
+	Sat, 18 May 2019 22:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
- [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F1E89310
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2019 21:37:58 +0000 (UTC)
-Received: from shell.armlinux.org.uk
- ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:38162)
- by pandora.armlinux.org.uk with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
- (envelope-from <linux@armlinux.org.uk>)
- id 1hS71b-0000RC-FF; Sat, 18 May 2019 22:37:51 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.89)
- (envelope-from <linux@shell.armlinux.org.uk>)
- id 1hS71Y-0003QS-V8; Sat, 18 May 2019 22:37:48 +0100
-Date: Sat, 18 May 2019 22:37:48 +0100
-From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To: Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH] drm: etnaviv: avoid DMA API warning when importing buffers
-Message-ID: <20190518213748.msdvolgiu5ykmaep@shell.armlinux.org.uk>
-References: <E1gyDr8-0001cW-8d@rmk-PC.armlinux.org.uk>
- <20190225105423.jouccln33vj5xtyb@shell.armlinux.org.uk>
- <20190518175133.tpj255jzi7idhwxq@shell.armlinux.org.uk>
- <CAOMZO5C_nAMQM=ODU+_v3XMhcEDg_U+wY8c0-yR-cq_BWN_tVw@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6EE6C893D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2019 22:29:10 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6B16972167; Sat, 18 May 2019 22:29:10 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 104206] [drm:construct [amdgpu]] *ERROR* construct: Invalid
+ Connector ObjectID from Adapter Service for connector index:2!
+Date: Sat, 18 May 2019 22:29:10 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: alex.bradatan85@yahoo.it
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-104206-502-ccPZkusspx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-104206-502@http.bugs.freedesktop.org/>
+References: <bug-104206-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAOMZO5C_nAMQM=ODU+_v3XMhcEDg_U+wY8c0-yR-cq_BWN_tVw@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NTByp75oL9ER+cYUi4rvgY47AqZN84/yeo0Ctkaiyo8=; b=LWINue1GYbeZcfu5ukLT3ec2m
- CMEiTcisK8DtoklIUQtvDp5HKlmPfXIC8mv84GpFOd3m5Id5+1ZPDPnPc9c3JfHiFVcJZhBWpIFx4
- jiB+9Yd4cgSOPcG6LIFYYW05Du7bxS6FgDkAOGBvSuIbWH8Q/y2ZRNgi+JCyfueU+GXkNiu3LzzA5
- mqCjK2gMmu/Kaw2qA7AY69YliFGXh1N6IGmbZBvLKg0D14vku8hPCHE1zK/BoPxcHBYwvicwZcgXY
- 10PVd9FdCJ3wyPE1M5T8Jy4C9xSvBELwoAdI1aIv+g6oRYLt91+ygD9JDNZfAV0yIfqLGXltp7TYi
- hzIa+ziUg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,24 +53,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Christoph Hellwig <hch@lst.de>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1488265834=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBNYXkgMTgsIDIwMTkgYXQgMDY6MDQ6NDJQTSAtMDMwMCwgRmFiaW8gRXN0ZXZhbSB3
-cm90ZToKPiBIaSBSdXNzZWxsLAo+IAo+IE9uIFNhdCwgTWF5IDE4LCAyMDE5IGF0IDI6NTEgUE0g
-UnVzc2VsbCBLaW5nIC0gQVJNIExpbnV4IGFkbWluCj4gPGxpbnV4QGFybWxpbnV4Lm9yZy51az4g
-d3JvdGU6Cj4gPgo+ID4gUGluZy4KPiAKPiBUaGlzIHBhdGNoIGlzIHByZXNlbnQgaW4gTHVjYXMn
-IHB1bGwgcmVxdWVzdDoKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9l
-dG5hdml2LzIwMTktTWF5LzAwMjQ5MC5odG1sCgpJJ20gd29uZGVyaW5nIHdoeSBpdCBkaWRuJ3Qg
-bWFrZSA1LjEgc2luY2UgaXQncyBhIHJlZ3Jlc3Npb24uCgotLSAKUk1LJ3MgUGF0Y2ggc3lzdGVt
-OiBodHRwczovL3d3dy5hcm1saW51eC5vcmcudWsvZGV2ZWxvcGVyL3BhdGNoZXMvCkZUVEMgYnJv
-YWRiYW5kIGZvciAwLjhtaWxlIGxpbmUgaW4gc3VidXJiaWE6IHN5bmMgYXQgMTIuMU1icHMgZG93
-biA2MjJrYnBzIHVwCkFjY29yZGluZyB0byBzcGVlZHRlc3QubmV0OiAxMS45TWJwcyBkb3duIDUw
-MGticHMgdXAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1488265834==
+Content-Type: multipart/alternative; boundary="15582185504.216A4EFa.1524"
+Content-Transfer-Encoding: 7bit
+
+
+--15582185504.216A4EFa.1524
+Date: Sat, 18 May 2019 22:29:10 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D104206
+
+alex.bradatan85@yahoo.it changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alex.bradatan85@yahoo.it
+
+--- Comment #24 from alex.bradatan85@yahoo.it ---
+Created attachment 144298
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144298&action=3Dedit
+dmesg from vivobook x505za
+
+Added the dmesg from boot of a Asus Vivobook X505ZA with a Ryzen 2500U with
+Vega 8 mobile graphics running Arch Linux kernel version 5.1.2.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15582185504.216A4EFa.1524
+Date: Sat, 18 May 2019 22:29:10 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alex.brad=
+atan85&#64;yahoo.it" title=3D"alex.bradatan85&#64;yahoo.it">alex.bradatan85=
+&#64;yahoo.it</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [drm:construct [amdgpu]] *ERROR* construct: Invalid Conne=
+ctor ObjectID from Adapter Service for connector index:2!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104206">bug 10420=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>alex.bradatan85&#64;yahoo.it
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [drm:construct [amdgpu]] *ERROR* construct: Invalid Conne=
+ctor ObjectID from Adapter Service for connector index:2!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104206#c24">Comme=
+nt # 24</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [drm:construct [amdgpu]] *ERROR* construct: Invalid Conne=
+ctor ObjectID from Adapter Service for connector index:2!"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104206">bug 10420=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alex.bradatan85&#64;yahoo.it" title=3D"alex.bradatan85&#64;yahoo.it">alex.b=
+radatan85&#64;yahoo.it</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144298=
+" name=3D"attach_144298" title=3D"dmesg from vivobook x505za">attachment 14=
+4298</a> <a href=3D"attachment.cgi?id=3D144298&amp;action=3Dedit" title=3D"=
+dmesg from vivobook x505za">[details]</a></span>
+dmesg from vivobook x505za
+
+Added the dmesg from boot of a Asus Vivobook X505ZA with a Ryzen 2500U with
+Vega 8 mobile graphics running Arch Linux kernel version 5.1.2.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15582185504.216A4EFa.1524--
+
+--===============1488265834==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1488265834==--
