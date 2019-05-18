@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0258C220E7
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2019 02:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93D822128
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2019 03:48:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3865C899B3;
-	Sat, 18 May 2019 00:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48BC7898EE;
+	Sat, 18 May 2019 01:48:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6A5C899B3
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2019 00:37:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 696D689994
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2019 01:48:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B541D72167; Sat, 18 May 2019 00:37:26 +0000 (UTC)
+ id 654CC72167; Sat, 18 May 2019 01:48:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
-Date: Sat, 18 May 2019 00:37:27 +0000
+Date: Sat, 18 May 2019 01:48:02 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cwidmer@umbrox.de
+X-Bugzilla-Who: stalkerg@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110701-502-w6RVmlgDCq@http.bugs.freedesktop.org/>
+Message-ID: <bug-110701-502-fpXEpOwevY@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
 References: <bug-110701-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0882472602=="
+Content-Type: multipart/mixed; boundary="===============1906538846=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0882472602==
-Content-Type: multipart/alternative; boundary="15581398460.ba57.9287"
+--===============1906538846==
+Content-Type: multipart/alternative; boundary="15581440832.64dC2d.21034"
 Content-Transfer-Encoding: 7bit
 
 
---15581398460.ba57.9287
-Date: Sat, 18 May 2019 00:37:26 +0000
+--15581440832.64dC2d.21034
+Date: Sat, 18 May 2019 01:48:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,46 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
 
---- Comment #2 from Christian Widmer <cwidmer@umbrox.de> ---
-I should probably mention that I am using a Radeon RX580 on Gentoo with ker=
-nel
-5.1.3 and a pretty recent git version of LLVM.
+--- Comment #3 from Yury Zhuravlev <stalkerg@gmail.com> ---
+Similar, after the update today I have the same errors even for KDE KWin.=20
+Looks like Marek something did.
+
+Error:
+[  240.649210] amdgpu 0000:1f:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:24 vmid:7 pasid:32769, for process systemsettings5 pid 12567 thread
+systemsett:cs0 pid 12571)=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  240.649211] amdgpu 0000:1f:00.0:   in page starting at address
+0x0000800100be6000 from 27
+[  240.649212] amdgpu 0000:1f:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00701031
+[  240.649215] amdgpu 0000:1f:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:24 vmid:7 pasid:32769, for process systemsettings5 pid 12567 thread
+systemsett:cs0 pid 12571)=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  240.649216] amdgpu 0000:1f:00.0:   in page starting at address
+0x0000800100bf3000 from 27
+[  240.649217] amdgpu 0000:1f:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
+[  240.649220] amdgpu 0000:1f:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:24 vmid:7 pasid:32769, for process systemsettings5 pid 12567 thread
+systemsett:cs0 pid 12571)
+
+and etc.=20
+
+My spec:
+OpenGL renderer string: Radeon RX Vega (VEGA10, DRM 3.30.0, 5.1.0-gentoo, L=
+LVM
+9.0.0)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.2.0-devel
+(git-28c2ce7105)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15581398460.ba57.9287
-Date: Sat, 18 May 2019 00:37:26 +0000
+--15581440832.64dC2d.21034
+Date: Sat, 18 May 2019 01:48:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,20 +128,50 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - GPU faults in in Unigine Valley 1.0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c2">Commen=
-t # 2</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - GPU faults in in Unigine Valley 1.0"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cwidmer&#64;umbrox.de" title=3D"Christian Widmer &lt;cwidmer&#64;umbrox.de&=
-gt;"> <span class=3D"fn">Christian Widmer</span></a>
+stalkerg&#64;gmail.com" title=3D"Yury Zhuravlev &lt;stalkerg&#64;gmail.com&=
+gt;"> <span class=3D"fn">Yury Zhuravlev</span></a>
 </span></b>
-        <pre>I should probably mention that I am using a Radeon RX580 on Ge=
-ntoo with kernel
-5.1.3 and a pretty recent git version of LLVM.</pre>
+        <pre>Similar, after the update today I have the same errors even fo=
+r KDE KWin.=20
+Looks like Marek something did.
+
+Error:
+[  240.649210] amdgpu 0000:1f:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:24 vmid:7 pasid:32769, for process systemsettings5 pid 12567 thread
+systemsett:cs0 pid 12571)=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  240.649211] amdgpu 0000:1f:00.0:   in page starting at address
+0x0000800100be6000 from 27
+[  240.649212] amdgpu 0000:1f:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00701031
+[  240.649215] amdgpu 0000:1f:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:24 vmid:7 pasid:32769, for process systemsettings5 pid 12567 thread
+systemsett:cs0 pid 12571)=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+[  240.649216] amdgpu 0000:1f:00.0:   in page starting at address
+0x0000800100bf3000 from 27
+[  240.649217] amdgpu 0000:1f:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
+[  240.649220] amdgpu 0000:1f:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:24 vmid:7 pasid:32769, for process systemsettings5 pid 12567 thread
+systemsett:cs0 pid 12571)
+
+and etc.=20
+
+My spec:
+OpenGL renderer string: Radeon RX Vega (VEGA10, DRM 3.30.0, 5.1.0-gentoo, L=
+LVM
+9.0.0)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.2.0-devel
+(git-28c2ce7105)</pre>
         </div>
       </p>
 
@@ -126,9 +185,9 @@ ntoo with kernel
     </body>
 </html>=
 
---15581398460.ba57.9287--
+--15581440832.64dC2d.21034--
 
---===============0882472602==
+--===============1906538846==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -138,4 +197,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0882472602==--
+--===============1906538846==--
