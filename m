@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98264220E3
-	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2019 02:22:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0258C220E7
+	for <lists+dri-devel@lfdr.de>; Sat, 18 May 2019 02:37:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B62AC899B5;
-	Sat, 18 May 2019 00:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3865C899B3;
+	Sat, 18 May 2019 00:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 40AA6899BC
- for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2019 00:22:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C6A5C899B3
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 May 2019 00:37:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 38CE372167; Sat, 18 May 2019 00:22:26 +0000 (UTC)
+ id B541D72167; Sat, 18 May 2019 00:37:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
-Date: Sat, 18 May 2019 00:22:26 +0000
+Date: Sat, 18 May 2019 00:37:27 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110701-502-p7jxfYgH4c@http.bugs.freedesktop.org/>
+Message-ID: <bug-110701-502-w6RVmlgDCq@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
 References: <bug-110701-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1027005715=="
+Content-Type: multipart/mixed; boundary="===============0882472602=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1027005715==
-Content-Type: multipart/alternative; boundary="15581389463.985a.5919"
+--===============0882472602==
+Content-Type: multipart/alternative; boundary="15581398460.ba57.9287"
 Content-Transfer-Encoding: 7bit
 
 
---15581389463.985a.5919
-Date: Sat, 18 May 2019 00:22:26 +0000
+--15581398460.ba57.9287
+Date: Sat, 18 May 2019 00:37:26 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,27 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
 
---- Comment #1 from Christian Widmer <cwidmer@umbrox.de> ---
-Having a similar issue where using OpenGL in certain applications (specific=
-ally
-encountered the problem in Anki with hardware acceleration and mpv with the
-x11egl context and vaapi hardware decoding) causes dmesg being filled with =
-GPU
-faults, I decided to bisect mesa and was able to identify commit [1] as bei=
-ng
-the culprit. Reverting that one makes the issue disappear for me. Does this=
-, by
-any chance, solve the issue for you as well?
-
-[1] [78e35df52aa2f7d770f929a0866a0faa89c261a9] radeonsi: update buffer
-descriptors in all contexts after buffer invalidation
+--- Comment #2 from Christian Widmer <cwidmer@umbrox.de> ---
+I should probably mention that I am using a Radeon RX580 on Gentoo with ker=
+nel
+5.1.3 and a pretty recent git version of LLVM.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15581389463.985a.5919
-Date: Sat, 18 May 2019 00:22:26 +0000
+--15581398460.ba57.9287
+Date: Sat, 18 May 2019 00:37:26 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - GPU faults in in Unigine Valley 1.0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - GPU faults in in Unigine Valley 1.0"
@@ -120,19 +110,9 @@ t # 1</a>
 cwidmer&#64;umbrox.de" title=3D"Christian Widmer &lt;cwidmer&#64;umbrox.de&=
 gt;"> <span class=3D"fn">Christian Widmer</span></a>
 </span></b>
-        <pre>Having a similar issue where using OpenGL in certain applicati=
-ons (specifically
-encountered the problem in Anki with hardware acceleration and mpv with the
-x11egl context and vaapi hardware decoding) causes dmesg being filled with =
-GPU
-faults, I decided to bisect mesa and was able to identify commit [1] as bei=
-ng
-the culprit. Reverting that one makes the issue disappear for me. Does this=
-, by
-any chance, solve the issue for you as well?
-
-[1] [78e35df52aa2f7d770f929a0866a0faa89c261a9] radeonsi: update buffer
-descriptors in all contexts after buffer invalidation</pre>
+        <pre>I should probably mention that I am using a Radeon RX580 on Ge=
+ntoo with kernel
+5.1.3 and a pretty recent git version of LLVM.</pre>
         </div>
       </p>
 
@@ -146,9 +126,9 @@ descriptors in all contexts after buffer invalidation</pre>
     </body>
 </html>=
 
---15581389463.985a.5919--
+--15581398460.ba57.9287--
 
---===============1027005715==
+--===============0882472602==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -158,4 +138,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1027005715==--
+--===============0882472602==--
