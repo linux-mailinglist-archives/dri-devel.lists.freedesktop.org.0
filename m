@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D00228E2
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 22:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718622290D
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 23:16:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5600C89187;
-	Sun, 19 May 2019 20:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A09AD890EE;
+	Sun, 19 May 2019 21:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 30DF18918F
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 20:53:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1C1DC721A2; Sun, 19 May 2019 20:53:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 19 May 2019 20:53:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: hameerabbasi@yahoo.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-Xtl6lq0NtX@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B16890EE
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 21:15:57 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAFDC443;
+ Sun, 19 May 2019 23:15:54 +0200 (CEST)
+Date: Mon, 20 May 2019 00:15:38 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 1/2] drm/bridge: make dw_mipi_dsi.h self-contained
+Message-ID: <20190519211538.GE5213@pendragon.ideasonboard.com>
+References: <20190519183636.19588-1-sam@ravnborg.org>
+ <20190519183636.19588-2-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190519183636.19588-2-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1558300555;
+ bh=le1e79RwTvcNi/t1QXTd31mLTy8npxlc9y+7vrxjP38=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DEJQ8xrhSgd5l4x6vFEB3jkk/vFb758MIQ1GDtdN3GtlleOzD8bpokUu49TCUNXxe
+ enPM+xdkWtG3HPimjBF3lpPPJDpRhqGmIaljoBOwgBoEhilnj4ePlNgGFUVsJQZYET
+ DBUp8Tj/OIeu9XbCQcpn4rse5RmCZTW2emDppt28=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,99 +48,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0812788044=="
+Cc: Martyn Welch <martyn.welch@collabora.co.uk>,
+ David Airlie <airlied@linux.ie>, Peter Senna Tschudin <peter.senna@gmail.com>,
+ dri-devel@lists.freedesktop.org, Martin Donnelly <martin.donnelly@ge.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0812788044==
-Content-Type: multipart/alternative; boundary="15582991971.Fc08BBCEd.32318"
-Content-Transfer-Encoding: 7bit
-
-
---15582991971.Fc08BBCEd.32318
-Date: Sun, 19 May 2019 20:53:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #18 from Hameer Abbasi <hameerabbasi@yahoo.com> ---
-Hmm, I'm fairly certain at this point that the issue happened between 5.0.13
-and 5.1.0. Those are the ones available in the Arch repos, I lack the knowl=
-edge
-to build the kernel myself.
-
-I restarted thrice on 5.0.13, no issue.
-Restarted once on 5.1.0, there was an issue.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15582991971.Fc08BBCEd.32318
-Date: Sun, 19 May 2019 20:53:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c18">Comme=
-nt # 18</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-hameerabbasi&#64;yahoo.com" title=3D"Hameer Abbasi &lt;hameerabbasi&#64;yah=
-oo.com&gt;"> <span class=3D"fn">Hameer Abbasi</span></a>
-</span></b>
-        <pre>Hmm, I'm fairly certain at this point that the issue happened =
-between 5.0.13
-and 5.1.0. Those are the ones available in the Arch repos, I lack the knowl=
-edge
-to build the kernel myself.
-
-I restarted thrice on 5.0.13, no issue.
-Restarted once on 5.1.0, there was an issue.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15582991971.Fc08BBCEd.32318--
-
---===============0812788044==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0812788044==--
+SGkgU2FtLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBTdW4sIE1heSAxOSwgMjAxOSBh
+dCAwODozNjozNVBNICswMjAwLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4gVG8gYWxsb3cgdXNlcnMg
+dG8gaW5jbHVkZSBkd19taXBpX2RzaS5oIHdpdGhvdXQgcHVsbGluZyBpbiBkZXBlbmRlbmNpZXMK
+PiBtYWtlIGR3X21pcGlfZHNpLmggc2VsZi1jb250YWluZWQuCj4gVXNlIGZvcndhcmQgZGVjbGFy
+YXRpb25zIHdoZW4gcG9zc2libGUuCj4gCj4gU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxz
+YW1AcmF2bmJvcmcub3JnPgo+IENjOiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29t
+Pgo+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxMYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5j
+b20+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBQZXRlciBTZW5uYSBUc2NodWRpbiA8cGV0ZXIu
+c2VubmFAZ21haWwuY29tPgo+IENjOiBNYXJ0aW4gRG9ubmVsbHkgPG1hcnRpbi5kb25uZWxseUBn
+ZS5jb20+Cj4gQ2M6IE1hcnR5biBXZWxjaCA8bWFydHluLndlbGNoQGNvbGxhYm9yYS5jby51az4K
+PiAtLS0KPiAgaW5jbHVkZS9kcm0vYnJpZGdlL2R3X21pcGlfZHNpLmggfCA4ICsrKysrKysrCj4g
+IDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvaW5jbHVk
+ZS9kcm0vYnJpZGdlL2R3X21pcGlfZHNpLmggYi9pbmNsdWRlL2RybS9icmlkZ2UvZHdfbWlwaV9k
+c2kuaAo+IGluZGV4IDdkM2RkNjlhNWNhYS4uODI1YzIyMmFmYmZjIDEwMDY0NAo+IC0tLSBhL2lu
+Y2x1ZGUvZHJtL2JyaWRnZS9kd19taXBpX2RzaS5oCj4gKysrIGIvaW5jbHVkZS9kcm0vYnJpZGdl
+L2R3X21pcGlfZHNpLmgKPiBAQCAtOSw4ICs5LDE2IEBACj4gIAo+ICAjaWZuZGVmIF9fRFdfTUlQ
+SV9EU0lfXwo+ICAjZGVmaW5lIF9fRFdfTUlQSV9EU0lfXwo+ICsjaW5jbHVkZSA8bGludXgvdHlw
+ZXMuaD4KPiAgCj4gK3N0cnVjdCBkcm1fZGlzcGxheV9tb2RlOwo+ICtzdHJ1Y3QgZHJtX2VuY29k
+ZXI7Cj4gIHN0cnVjdCBkd19taXBpX2RzaTsKPiArc3RydWN0IGR3X21pcGlfZHNpX2hvc3Rfb3Bz
+Owo+ICtzdHJ1Y3QgZHdfbWlwaV9kc2lfcGh5X29wczsKPiArc3RydWN0IGR3X21pcGlfZHNpX3Bs
+YXRfZGF0YTsKCk5vIG5lZWQgdG8gZm9yd2FyZC1kZWNsYXJlIHRoZXNlIHRocmVlIHN0cnVjdHVy
+ZXMsIHRoZXkncmUgZGVmaW5lZCBpbgp0aGlzIHZlcnkgLmggZmlsZS4KCj4gK3N0cnVjdCBtaXBp
+X2RzaV9kZXZpY2U7Cj4gK3N0cnVjdCBwbGF0Zm9ybV9kZXZpY2U7CgpZb3UgbmVlZCB0byBwdWxs
+IGluIGRybS9tb2Rlcy5oIGZvciBkcm1fbW9kZV9zdGF0dXMuCgpBcGFydCBmcm9tIHRoYXQsCgpS
+ZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9h
+cmQuY29tPgoKPiAgCj4gIHN0cnVjdCBkd19taXBpX2RzaV9waHlfb3BzIHsKPiAgCWludCAoKmlu
+aXQpKHZvaWQgKnByaXZfZGF0YSk7CgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
