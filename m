@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342D422961
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 01:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9664C22964
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 01:19:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0389E891C0;
-	Sun, 19 May 2019 23:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53F67891C2;
+	Sun, 19 May 2019 23:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 146CD891BA
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 23:18:06 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 55BF9891C5
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 23:19:49 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 10B5B72167; Sun, 19 May 2019 23:18:06 +0000 (UTC)
+ id 5245872167; Sun, 19 May 2019 23:19:49 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 19 May 2019 23:18:06 +0000
+Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
+Date: Sun, 19 May 2019 23:19:49 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: tom@r.je
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lonewolf@xs4all.nl
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-ZQtGBTJ6Hq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110701-502-7O5iXiEiql@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
+References: <bug-110701-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,132 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0700514394=="
+Content-Type: multipart/mixed; boundary="===============0239671557=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0700514394==
-Content-Type: multipart/alternative; boundary="15583078860.De990.27037"
+--===============0239671557==
+Content-Type: multipart/alternative; boundary="15583079892.cdA09.27020"
 Content-Transfer-Encoding: 7bit
 
 
---15583078860.De990.27037
-Date: Sun, 19 May 2019 23:18:06 +0000
+--15583079892.cdA09.27020
+Date: Sun, 19 May 2019 23:19:49 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
 
---- Comment #27 from Tom B <tom@r.je> ---
-Boost is definitely the problem.
-
-Idle 5.0.13:
-
-$ cat /sys/kernel/debug/dri/0/amdgpu_pm_info
-Clock Gating Flags Mask: 0x36974f
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: On
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: On
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: On
-        Memory Controller Light Sleep: On
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: On
-        System Direct Memory Access Medium Grain Clock Gating: Off
-        Bus Interface Medium Grain Clock Gating: Off
-        Bus Interface Light Sleep: On
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: Off
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: On
-        Rom Medium Grain Clock Gating: On
-        Data Fabric Medium Grain Clock Gating: Off
-
-GFX Clocks and Power:
-        351 MHz (MCLK)
-        809 MHz (SCLK)
-        1373 MHz (PSTATE_SCLK)
-        1001 MHz (PSTATE_MCLK)
-        737 mV (VDDGFX)
-        23.0 W (average GPU)
-
-GPU Temperature: 31 C
-GPU Load: 0 %
-
-SMC Feature Mask: 0x0000000019f0e3cf
-UVD: Disabled
-
-VCE: Disabled
+--- Comment #12 from LoneVVolf <lonewolf@xs4all.nl> ---
+I get a similar bug when running knetwalk[1] . As soon as the application g=
+ets
+focus, there's visual corruption in its window. If I move the mouse away the
+corruption (and messafes) are gone.
+Running mesa-git built an hour ago on a RX 580 .
+Will try to verify which of the the commits mentioned matter tomorrow.
 
 
-Load 5.0.13:
+[1] https://kde.org/applications/games/knetwalk/
 
 
-Clock Gating Flags Mask: 0x36974f
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: On
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: On
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: On
-        Memory Controller Light Sleep: On
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: On
-        System Direct Memory Access Medium Grain Clock Gating: Off
-        Bus Interface Medium Grain Clock Gating: Off
-        Bus Interface Light Sleep: On
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: Off
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: On
-        Rom Medium Grain Clock Gating: On
-        Data Fabric Medium Grain Clock Gating: Off
-
-GFX Clocks and Power:
-        1001 MHz (MCLK)
-        1802 MHz (SCLK)
-        1373 MHz (PSTATE_SCLK)
-        1001 MHz (PSTATE_MCLK)
-        1068 mV (VDDGFX)
-        191.0 W (average GPU)
-
-GPU Temperature: 63 C
-GPU Load: 0 %
-
-SMC Feature Mask: 0x0000000019f0e3cf
-UVD: Disabled
-
-VCE: Disabled
-
-
-
-On 5.1, the same clocks, voltage and wattage are used, it never changes pow=
-er
-states. On 5.0 it idles at 23w low clocks and boosts to 191w with 1802mhz.
+dmesg snippet
+[ 1642.706004] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0e08040c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706010] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100BC1
+[ 1642.706012] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E00400C
+[ 1642.706016] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051585, read from 'TC1' (0x54433100) (4)
+[ 1642.706074] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38440c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706078] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100B87
+[ 1642.706080] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E04400C
+[ 1642.706082] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051527, read from 'TC5' (0x54433500) (68)
+[ 1642.706087] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38480c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706089] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100B9D
+[ 1642.706090] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E04400C
+[ 1642.706093] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051549, read from 'TC5' (0x54433500) (68)
+[ 1642.706098] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38c80c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706102] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100BE2
+[ 1642.706104] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E04400C
+[ 1642.706106] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051618, read from 'TC5' (0x54433500) (68)
+[ 1642.706111] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38c40c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706113] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100BD0
+[ 1642.706115] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E0C800C
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15583078860.De990.27037
-Date: Sun, 19 May 2019 23:18:06 +0000
+--15583079892.cdA09.27020
+Date: Sun, 19 May 2019 23:19:49 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -193,117 +150,74 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c27">Comme=
-nt # 27</a>
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c12">Comme=
+nt # 12</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
-B</span></a>
+lonewolf&#64;xs4all.nl" title=3D"LoneVVolf &lt;lonewolf&#64;xs4all.nl&gt;">=
+ <span class=3D"fn">LoneVVolf</span></a>
 </span></b>
-        <pre>Boost is definitely the problem.
-
-Idle 5.0.13:
-
-$ cat /sys/kernel/debug/dri/0/amdgpu_pm_info
-Clock Gating Flags Mask: 0x36974f
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: On
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: On
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: On
-        Memory Controller Light Sleep: On
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: On
-        System Direct Memory Access Medium Grain Clock Gating: Off
-        Bus Interface Medium Grain Clock Gating: Off
-        Bus Interface Light Sleep: On
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: Off
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: On
-        Rom Medium Grain Clock Gating: On
-        Data Fabric Medium Grain Clock Gating: Off
-
-GFX Clocks and Power:
-        351 MHz (MCLK)
-        809 MHz (SCLK)
-        1373 MHz (PSTATE_SCLK)
-        1001 MHz (PSTATE_MCLK)
-        737 mV (VDDGFX)
-        23.0 W (average GPU)
-
-GPU Temperature: 31 C
-GPU Load: 0 %
-
-SMC Feature Mask: 0x0000000019f0e3cf
-UVD: Disabled
-
-VCE: Disabled
+        <pre>I get a similar bug when running knetwalk[1] . As soon as the =
+application gets
+focus, there's visual corruption in its window. If I move the mouse away the
+corruption (and messafes) are gone.
+Running mesa-git built an hour ago on a RX 580 .
+Will try to verify which of the the commits mentioned matter tomorrow.
 
 
-Load 5.0.13:
+[1] <a href=3D"https://kde.org/applications/games/knetwalk/">https://kde.or=
+g/applications/games/knetwalk/</a>
 
 
-Clock Gating Flags Mask: 0x36974f
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: On
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: On
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: On
-        Memory Controller Light Sleep: On
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: On
-        System Direct Memory Access Medium Grain Clock Gating: Off
-        Bus Interface Medium Grain Clock Gating: Off
-        Bus Interface Light Sleep: On
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: Off
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: On
-        Rom Medium Grain Clock Gating: On
-        Data Fabric Medium Grain Clock Gating: Off
-
-GFX Clocks and Power:
-        1001 MHz (MCLK)
-        1802 MHz (SCLK)
-        1373 MHz (PSTATE_SCLK)
-        1001 MHz (PSTATE_MCLK)
-        1068 mV (VDDGFX)
-        191.0 W (average GPU)
-
-GPU Temperature: 63 C
-GPU Load: 0 %
-
-SMC Feature Mask: 0x0000000019f0e3cf
-UVD: Disabled
-
-VCE: Disabled
-
-
-
-On 5.1, the same clocks, voltage and wattage are used, it never changes pow=
-er
-states. On 5.0 it idles at 23w low clocks and boosts to 191w with 1802mhz.<=
-/pre>
+dmesg snippet
+[ 1642.706004] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0e08040c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706010] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100BC1
+[ 1642.706012] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E00400C
+[ 1642.706016] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051585, read from 'TC1' (0x54433100) (4)
+[ 1642.706074] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38440c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706078] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100B87
+[ 1642.706080] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E04400C
+[ 1642.706082] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051527, read from 'TC5' (0x54433500) (68)
+[ 1642.706087] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38480c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706089] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100B9D
+[ 1642.706090] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E04400C
+[ 1642.706093] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051549, read from 'TC5' (0x54433500) (68)
+[ 1642.706098] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38c80c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706102] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100BE2
+[ 1642.706104] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E04400C
+[ 1642.706106] amdgpu 0000:42:00.0: VM fault (0x0c, vmid 7, pasid 32772) at
+page 1051618, read from 'TC5' (0x54433500) (68)
+[ 1642.706111] amdgpu 0000:42:00.0: GPU fault detected: 146 0x0c38c40c for
+process knetwalk pid 2647 thread knetwalk:cs0 pid 2656
+[ 1642.706113] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_ADDR=20=
+=20
+0x00100BD0
+[ 1642.706115] amdgpu 0000:42:00.0:   VM_CONTEXT1_PROTECTION_FAULT_STATUS
+0x0E0C800C</pre>
         </div>
       </p>
 
@@ -317,9 +231,9 @@ states. On 5.0 it idles at 23w low clocks and boosts to 191w with 1802mhz.<=
     </body>
 </html>=
 
---15583078860.De990.27037--
+--15583079892.cdA09.27020--
 
---===============0700514394==
+--===============0239671557==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -329,4 +243,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0700514394==--
+--===============0239671557==--
