@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180FD225B8
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 04:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52246225BD
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 06:15:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE3A890BC;
-	Sun, 19 May 2019 02:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47B65890A5;
+	Sun, 19 May 2019 04:15:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F44989363
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 02:38:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B43D4890D8
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 04:15:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9A41872167; Sun, 19 May 2019 02:38:16 +0000 (UTC)
+ id B0BAD72167; Sun, 19 May 2019 04:15:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105251] [Vega10]  GPU lockup on boot: VMC page fault
-Date: Sun, 19 May 2019 02:38:16 +0000
+Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
+Date: Sun, 19 May 2019 04:15:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: mesa@suchmail.net
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: cwidmer@umbrox.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105251-502-xFr4coyO0Y@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105251-502@http.bugs.freedesktop.org/>
-References: <bug-105251-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-110701-502-MSeRkpOFiF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
+References: <bug-110701-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,48 +52,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1713088326=="
+Content-Type: multipart/mixed; boundary="===============0765946388=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1713088326==
-Content-Type: multipart/alternative; boundary="15582334967.6D78B.19023"
+--===============0765946388==
+Content-Type: multipart/alternative; boundary="15582393392.A594.12849"
 Content-Transfer-Encoding: 7bit
 
 
---15582334967.6D78B.19023
-Date: Sun, 19 May 2019 02:38:16 +0000
+--15582393392.A594.12849
+Date: Sun, 19 May 2019 04:15:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105251
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
 
---- Comment #66 from CheatCodesOfLife <mesa@suchmail.net> ---
-I jumped ship to nvidia months ago so this doesn't help me, but for you guys
-following this thread, the Cemu developers managed to fix this issue on the=
-ir
-end.
+Christian Widmer <cwidmer@umbrox.de> changed:
 
-If you install the latest public release of Cemu, all games will work with =
-Vega
-+ mesa under wine.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |cwidmer@umbrox.de
 
-Since there are non-cemu cases in here, I won't close the issue (someone el=
-se
-can if appropriate).
+--- Comment #7 from Christian Widmer <cwidmer@umbrox.de> ---
+(In reply to Yury Zhuravlev from comment #6)
+> 78e35df52aa2f7d770f929a0866a0faa89c261a9 radeonsi: update buffer descript=
+ors
+> in all contexts after buffer invalidation
 
-I'm unsubscribing from this now.
+That is the commit I identified in comment #1 as being responsible for my
+issues. I would not be surprised if reverting that one makes your faults
+disappear as well.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15582334967.6D78B.19023
-Date: Sun, 19 May 2019 02:38:16 +0000
+--15582393392.A594.12849
+Date: Sun, 19 May 2019 04:15:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,38 +104,57 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:cwidmer&#=
+64;umbrox.de" title=3D"Christian Widmer &lt;cwidmer&#64;umbrox.de&gt;"> <sp=
+an class=3D"fn">Christian Widmer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>cwidmer&#64;umbrox.de
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251#c66">Comme=
-nt # 66</a>
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251">bug 10525=
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mesa&#64;suchmail.net" title=3D"CheatCodesOfLife &lt;mesa&#64;suchmail.net&=
-gt;"> <span class=3D"fn">CheatCodesOfLife</span></a>
+cwidmer&#64;umbrox.de" title=3D"Christian Widmer &lt;cwidmer&#64;umbrox.de&=
+gt;"> <span class=3D"fn">Christian Widmer</span></a>
 </span></b>
-        <pre>I jumped ship to nvidia months ago so this doesn't help me, bu=
-t for you guys
-following this thread, the Cemu developers managed to fix this issue on the=
-ir
-end.
+        <pre>(In reply to Yury Zhuravlev from <a href=3D"show_bug.cgi?id=3D=
+110701#c6">comment #6</a>)
+<span class=3D"quote">&gt; 78e35df52aa2f7d770f929a0866a0faa89c261a9 radeons=
+i: update buffer descriptors
+&gt; in all contexts after buffer invalidation</span >
 
-If you install the latest public release of Cemu, all games will work with =
-Vega
-+ mesa under wine.
-
-Since there are non-cemu cases in here, I won't close the issue (someone el=
-se
-can if appropriate).
-
-I'm unsubscribing from this now.</pre>
+That is the commit I identified in <a href=3D"show_bug.cgi?id=3D110701#c1">=
+comment #1</a> as being responsible for my
+issues. I would not be surprised if reverting that one makes your faults
+disappear as well.</pre>
         </div>
       </p>
 
@@ -149,9 +168,9 @@ I'm unsubscribing from this now.</pre>
     </body>
 </html>=
 
---15582334967.6D78B.19023--
+--15582393392.A594.12849--
 
---===============1713088326==
+--===============0765946388==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -161,4 +180,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1713088326==--
+--===============0765946388==--
