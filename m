@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807112271B
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 17:50:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B37E2271C
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 17:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFC78916C;
-	Sun, 19 May 2019 15:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3E0B891A3;
+	Sun, 19 May 2019 15:52:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 957F18916C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 15:50:34 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AFEFB8916C
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 15:52:13 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 90D3B72167; Sun, 19 May 2019 15:50:34 +0000 (UTC)
+ id ACA2872167; Sun, 19 May 2019 15:52:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110711] American Truck shows strange colored reflections
-Date: Sun, 19 May 2019 15:50:34 +0000
+Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
+Date: Sun, 19 May 2019 15:52:14 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gr.muench@gmail.com
+X-Bugzilla-Who: stalkerg@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact attachments.created
-Message-ID: <bug-110711-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110701-502-28dA6N1XRo@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
+References: <bug-110701-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,60 +52,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1407655513=="
+Content-Type: multipart/mixed; boundary="===============0595363845=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1407655513==
-Content-Type: multipart/alternative; boundary="15582810341.3b74Dc9a.5244"
+--===============0595363845==
+Content-Type: multipart/alternative; boundary="15582811330.5B888.5566"
 Content-Transfer-Encoding: 7bit
 
 
---15582810341.3b74Dc9a.5244
-Date: Sun, 19 May 2019 15:50:34 +0000
+--15582811330.5B888.5566
+Date: Sun, 19 May 2019 15:52:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110711
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
 
-            Bug ID: 110711
-           Summary: American Truck shows strange colored reflections
-           Product: Mesa
-           Version: git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: gr.muench@gmail.com
-        QA Contact: dri-devel@lists.freedesktop.org
+--- Comment #10 from Yury Zhuravlev <stalkerg@gmail.com> ---
+(In reply to Mariusz Ceier from comment #9)
+> (In reply to Yury Zhuravlev from comment #5)
+> > > can you try to build mesa for previous commit? Like
+> > > 6b3343e5d80abf162b45f0d7e977449588824706=20
+> > >=20
+> > > I think we need to change the title of this bug.
+> >=20
+> > sorry, it's also unstable, but I can't reproduce error easily.=20
+>=20
+> Opening firefox private window causes this error every time (built with
+> --enable-webrender and --enable-rust-simd, not sure if it makes differenc=
+e).
 
-Created attachment 144301
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144301&action=3Dedit
-ATS Menu
-
-There is strange colored noise on the chrome parts of the Truck, see
-screenshot. Wasnt sure if this was a game bug or a radeonsi one, so I didnt
-report, although it was there for several years.
-
-After I saw that a lot graphical issues in other games went away
-R600_DEBUG=3Dzerovram I tried that here too and voila!
-
-For me, that looks like a general problem that was undiscovered for several
-years and needs examination.
+Currently, I am on 04122532e3c06260ae889a4f6a28d6f9849b00f5 and it's stable=
+ for
+me. Can you check this one?=20
+(I have no modern firefox yet)
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15582810341.3b74Dc9a.5244
-Date: Sun, 19 May 2019 15:50:34 +0000
+--15582811330.5B888.5566
+Date: Sun, 19 May 2019 15:52:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -116,104 +107,42 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - American Truck shows strange colored reflections"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110711">110711</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>American Truck shows strange colored reflections
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>gr.muench&#64;gmail.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
+    <body>
       <p>
         <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144301=
-" name=3D"attach_144301" title=3D"ATS Menu">attachment 144301</a> <a href=
-=3D"attachment.cgi?id=3D144301&amp;action=3Dedit" title=3D"ATS Menu">[detai=
-ls]</a></span>
-ATS Menu
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+stalkerg&#64;gmail.com" title=3D"Yury Zhuravlev &lt;stalkerg&#64;gmail.com&=
+gt;"> <span class=3D"fn">Yury Zhuravlev</span></a>
+</span></b>
+        <pre>(In reply to Mariusz Ceier from <a href=3D"show_bug.cgi?id=3D1=
+10701#c9">comment #9</a>)
+<span class=3D"quote">&gt; (In reply to Yury Zhuravlev from <a href=3D"show=
+_bug.cgi?id=3D110701#c5">comment #5</a>)
+&gt; &gt; &gt; can you try to build mesa for previous commit? Like
+&gt; &gt; &gt; 6b3343e5d80abf162b45f0d7e977449588824706=20
+&gt; &gt; &gt;=20
+&gt; &gt; &gt; I think we need to change the title of this bug.
+&gt; &gt;=20
+&gt; &gt; sorry, it's also unstable, but I can't reproduce error easily.=20
+&gt;=20
+&gt; Opening firefox private window causes this error every time (built with
+&gt; --enable-webrender and --enable-rust-simd, not sure if it makes differ=
+ence).</span >
 
-There is strange colored noise on the chrome parts of the Truck, see
-screenshot. Wasnt sure if this was a game bug or a radeonsi one, so I didnt
-report, although it was there for several years.
-
-After I saw that a lot graphical issues in other games went away
-R600_DEBUG=3Dzerovram I tried that here too and voila!
-
-For me, that looks like a general problem that was undiscovered for several
-years and needs examination.</pre>
+Currently, I am on 04122532e3c06260ae889a4f6a28d6f9849b00f5 and it's stable=
+ for
+me. Can you check this one?=20
+(I have no modern firefox yet)</pre>
         </div>
       </p>
 
@@ -227,9 +156,9 @@ years and needs examination.</pre>
     </body>
 </html>=
 
---15582810341.3b74Dc9a.5244--
+--15582811330.5B888.5566--
 
---===============1407655513==
+--===============0595363845==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -239,4 +168,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1407655513==--
+--===============0595363845==--
