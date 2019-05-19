@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B5B2295E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 01:02:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8D22295F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 01:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D45F891B1;
-	Sun, 19 May 2019 23:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D58890EA;
+	Sun, 19 May 2019 23:05:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6B4B5891AF
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 23:02:27 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4C6A989117
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 23:05:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 67BB972167; Sun, 19 May 2019 23:02:27 +0000 (UTC)
+ id 488BD72167; Sun, 19 May 2019 23:05:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 19 May 2019 23:02:27 +0000
+Date: Sun, 19 May 2019 23:05:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-BQJiK238oM@http.bugs.freedesktop.org/>
+Message-ID: <bug-110674-502-MpDUtXGTzv@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0179602056=="
+Content-Type: multipart/mixed; boundary="===============1954314664=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0179602056==
-Content-Type: multipart/alternative; boundary="15583069471.AD48.24795"
+--===============1954314664==
+Content-Type: multipart/alternative; boundary="15583071562.D9d56e.25154"
 Content-Transfer-Encoding: 7bit
 
 
---15583069471.AD48.24795
-Date: Sun, 19 May 2019 23:02:27 +0000
+--15583071562.D9d56e.25154
+Date: Sun, 19 May 2019 23:05:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,84 +72,29 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #25 from Tom B <tom@r.je> ---
-On 5.1.3 (and presumably all 5.1 kernels) I am seeing a strange power profi=
-le.
+--- Comment #26 from Tom B <tom@r.je> ---
+Ok, running unigine-heaven and watching  /sys/kernel/debug/dri/0/amdgpu_pm_=
+info
+ the wattage and voltage never change. It also never boosts to 1800mhz as it
+should and sticks at 1373.
 
-Can everyone else run sensors (after sensors-detect if you don't have the
-amdgpu device showing)
+I should have mentioned in my last post that previously the card went down =
+to
+about 23w when idle.
 
-I'm seeing this:
+I'm guessing the crash occurs when the GPU needs more than the 135w that it=
+'s
+getting.=20
 
-amdgpu-pci-4400
-Adapter: PCI adapter
-vddgfx:       +1.11 V=20=20
-fan1:           0 RPM  (min =3D    0 RPM, max =3D 3850 RPM)
-temp1:        +33.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
-power1:      135.00 W  (cap =3D 250.00 W)
-
-
-Even at idle my GPU is running at 1100mv (my default base voltage) and
-constantly running at 135w.
-
-
-My output of cat /sys/kernel/debug/dri/0/amdgpu_pm_info shows the same thin=
-g:
-
-Clock Gating Flags Mask: 0x36974f
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: On
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: On
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: On
-        Memory Controller Light Sleep: On
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: On
-        System Direct Memory Access Medium Grain Clock Gating: Off
-        Bus Interface Medium Grain Clock Gating: Off
-        Bus Interface Light Sleep: On
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: Off
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: On
-        Rom Medium Grain Clock Gating: On
-        Data Fabric Medium Grain Clock Gating: Off
-
-GFX Clocks and Power:
-        351 MHz (MCLK)
-        0 MHz (SCLK)
-        1373 MHz (PSTATE_SCLK)
-        1001 MHz (PSTATE_MCLK)
-        1106 mV (VDDGFX)
-        135.0 W (average GPU)
-
-GPU Temperature: 33 C
-GPU Load: 0 %
-
-SMC Feature Mask: 0x0000000000c0c002
-UVD: Disabled
-
-VCE: Disabled
-
-
-It's locked at 135w and 1106mv. Are you guys seeing similar? Apologies for =
-the
-multiple posts but I'll post in a second after running unigine to see if it
-tries to boost before it crashes.
+Chris Hodapp, did you come across any commits referencing power profiles as
+that looks to be the cause of the issue.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15583069471.AD48.24795
-Date: Sun, 19 May 2019 23:02:27 +0000
+--15583071562.D9d56e.25154
+Date: Sun, 19 May 2019 23:05:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -166,8 +111,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c25">Comme=
-nt # 25</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c26">Comme=
+nt # 26</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -177,76 +122,21 @@ nt # 25</a>
 tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
 B</span></a>
 </span></b>
-        <pre>On 5.1.3 (and presumably all 5.1 kernels) I am seeing a strang=
-e power profile.
+        <pre>Ok, running unigine-heaven and watching  /sys/kernel/debug/dri=
+/0/amdgpu_pm_info
+ the wattage and voltage never change. It also never boosts to 1800mhz as it
+should and sticks at 1373.
 
-Can everyone else run sensors (after sensors-detect if you don't have the
-amdgpu device showing)
+I should have mentioned in my last post that previously the card went down =
+to
+about 23w when idle.
 
-I'm seeing this:
+I'm guessing the crash occurs when the GPU needs more than the 135w that it=
+'s
+getting.=20
 
-amdgpu-pci-4400
-Adapter: PCI adapter
-vddgfx:       +1.11 V=20=20
-fan1:           0 RPM  (min =3D    0 RPM, max =3D 3850 RPM)
-temp1:        +33.0=C2=B0C  (crit =3D +118.0=C2=B0C, hyst =3D -273.1=C2=B0C)
-power1:      135.00 W  (cap =3D 250.00 W)
-
-
-Even at idle my GPU is running at 1100mv (my default base voltage) and
-constantly running at 135w.
-
-
-My output of cat /sys/kernel/debug/dri/0/amdgpu_pm_info shows the same thin=
-g:
-
-Clock Gating Flags Mask: 0x36974f
-        Graphics Medium Grain Clock Gating: On
-        Graphics Medium Grain memory Light Sleep: On
-        Graphics Coarse Grain Clock Gating: On
-        Graphics Coarse Grain memory Light Sleep: On
-        Graphics Coarse Grain Tree Shader Clock Gating: Off
-        Graphics Coarse Grain Tree Shader Light Sleep: Off
-        Graphics Command Processor Light Sleep: On
-        Graphics Run List Controller Light Sleep: Off
-        Graphics 3D Coarse Grain Clock Gating: On
-        Graphics 3D Coarse Grain memory Light Sleep: On
-        Memory Controller Light Sleep: On
-        Memory Controller Medium Grain Clock Gating: On
-        System Direct Memory Access Light Sleep: On
-        System Direct Memory Access Medium Grain Clock Gating: Off
-        Bus Interface Medium Grain Clock Gating: Off
-        Bus Interface Light Sleep: On
-        Unified Video Decoder Medium Grain Clock Gating: Off
-        Video Compression Engine Medium Grain Clock Gating: Off
-        Host Data Path Light Sleep: On
-        Host Data Path Medium Grain Clock Gating: Off
-        Digital Right Management Medium Grain Clock Gating: Off
-        Digital Right Management Light Sleep: On
-        Rom Medium Grain Clock Gating: On
-        Data Fabric Medium Grain Clock Gating: Off
-
-GFX Clocks and Power:
-        351 MHz (MCLK)
-        0 MHz (SCLK)
-        1373 MHz (PSTATE_SCLK)
-        1001 MHz (PSTATE_MCLK)
-        1106 mV (VDDGFX)
-        135.0 W (average GPU)
-
-GPU Temperature: 33 C
-GPU Load: 0 %
-
-SMC Feature Mask: 0x0000000000c0c002
-UVD: Disabled
-
-VCE: Disabled
-
-
-It's locked at 135w and 1106mv. Are you guys seeing similar? Apologies for =
-the
-multiple posts but I'll post in a second after running unigine to see if it
-tries to boost before it crashes.</pre>
+Chris Hodapp, did you come across any commits referencing power profiles as
+that looks to be the cause of the issue.</pre>
         </div>
       </p>
 
@@ -260,9 +150,9 @@ tries to boost before it crashes.</pre>
     </body>
 </html>=
 
---15583069471.AD48.24795--
+--15583071562.D9d56e.25154--
 
---===============0179602056==
+--===============1954314664==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -272,4 +162,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0179602056==--
+--===============1954314664==--
