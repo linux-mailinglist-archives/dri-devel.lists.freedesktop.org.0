@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC59B226C2
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 13:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBAC226C3
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 13:34:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE7C89227;
-	Sun, 19 May 2019 11:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B03C589228;
+	Sun, 19 May 2019 11:34:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7DB4F89227
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 11:34:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C0F3489228
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 11:34:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7969972167; Sun, 19 May 2019 11:34:20 +0000 (UTC)
+ id BDA3A72167; Sun, 19 May 2019 11:34:41 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110708] this is test error
-Date: Sun, 19 May 2019 11:34:20 +0000
+Date: Sun, 19 May 2019 11:34:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,13 +28,13 @@ X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
 X-Bugzilla-Who: sajid.khan@sqamail.com
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-110708-502-3821PKVXHw@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110708-502-ZvwFgCGbGa@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110708-502@http.bugs.freedesktop.org/>
 References: <bug-110708-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1577275321=="
+Content-Type: multipart/mixed; boundary="===============2092438612=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1577275321==
-Content-Type: multipart/alternative; boundary="15582656601.Ec74dA.12066"
+--===============2092438612==
+Content-Type: multipart/alternative; boundary="15582656811.dd0FbE7.12066"
 Content-Transfer-Encoding: 7bit
 
 
---15582656601.Ec74dA.12066
-Date: Sun, 19 May 2019 11:34:20 +0000
+--15582656811.dd0FbE7.12066
+Date: Sun, 19 May 2019 11:34:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -76,14 +76,15 @@ Sajid Khan <sajid.khan@sqamail.com> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
+         Resolution|---                         |FIXED
+             Status|ASSIGNED                    |RESOLVED
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15582656601.Ec74dA.12066
-Date: Sun, 19 May 2019 11:34:20 +0000
+--15582656811.dd0FbE7.12066
+Date: Sun, 19 May 2019 11:34:41 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +100,8 @@ n&#64;sqamail.com" title=3D"Sajid Khan &lt;sajid.khan&#64;sqamail.com&gt;">=
  <span class=3D"fn">Sajid Khan</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
-          bz_status_ASSIGNED "
-   title=3D"ASSIGNED - this is test error"
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - this is test error"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110708">bug 11070=
 8</a>
           <br>
@@ -112,10 +113,18 @@ n&#64;sqamail.com" title=3D"Sajid Khan &lt;sajid.khan&#64;sqamail.com&gt;">=
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
            <td>ASSIGNED
+           </td>
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
@@ -131,9 +140,9 @@ n&#64;sqamail.com" title=3D"Sajid Khan &lt;sajid.khan&#64;sqamail.com&gt;">=
     </body>
 </html>=
 
---15582656601.Ec74dA.12066--
+--15582656811.dd0FbE7.12066--
 
---===============1577275321==
+--===============2092438612==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1577275321==--
+--===============2092438612==--
