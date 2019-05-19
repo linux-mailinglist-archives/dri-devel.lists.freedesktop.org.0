@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECFA22949
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 00:04:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D41512294A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 00:05:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2895389178;
-	Sun, 19 May 2019 22:04:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A05689178;
+	Sun, 19 May 2019 22:05:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EBEFE89183
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 22:04:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E4D2C8917E
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 22:05:26 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E80F572167; Sun, 19 May 2019 22:04:20 +0000 (UTC)
+ id E052672167; Sun, 19 May 2019 22:05:26 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 19 May 2019 22:04:21 +0000
+Date: Sun, 19 May 2019 22:05:27 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-zUAcnKOo8H@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-4krilQW7WH@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1206778137=="
+Content-Type: multipart/mixed; boundary="===============1792845277=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1206778137==
-Content-Type: multipart/alternative; boundary="15583034603.E4eb4.12150"
+--===============1792845277==
+Content-Type: multipart/alternative; boundary="15583035260.bEFBEAE9A.14039"
 Content-Transfer-Encoding: 7bit
 
 
---15583034603.E4eb4.12150
-Date: Sun, 19 May 2019 22:04:20 +0000
+--15583035260.bEFBEAE9A.14039
+Date: Sun, 19 May 2019 22:05:26 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,23 +72,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #19 from Tom B <tom@r.je> ---
-I've just resumed from suspend (5.1.3). Had complete graphical corruption a=
-nd a
-frozen system. I couldn't switch TTY and had to do a hard reset.
+--- Comment #20 from Tom B <tom@r.je> ---
+Created attachment 144303
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144303&action=3Dedit
+5.1.3 crash after resume
 
-First two reboots froze, third is working fine. Youtube was fine for my 30
-second test, as is running unigine-heaven to try GPU load.=20
-
-
-I'll attach my journal from after suspend.
+Journal output from suspend to crash on resume
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15583034603.E4eb4.12150
-Date: Sun, 19 May 2019 22:04:20 +0000
+--15583035260.bEFBEAE9A.14039
+Date: Sun, 19 May 2019 22:05:26 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,8 +101,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c19">Comme=
-nt # 19</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c20">Comme=
+nt # 20</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -116,15 +112,13 @@ nt # 19</a>
 tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
 B</span></a>
 </span></b>
-        <pre>I've just resumed from suspend (5.1.3). Had complete graphical=
- corruption and a
-frozen system. I couldn't switch TTY and had to do a hard reset.
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144303=
+" name=3D"attach_144303" title=3D"5.1.3 crash after resume">attachment 1443=
+03</a> <a href=3D"attachment.cgi?id=3D144303&amp;action=3Dedit" title=3D"5.=
+1.3 crash after resume">[details]</a></span>
+5.1.3 crash after resume
 
-First two reboots froze, third is working fine. Youtube was fine for my 30
-second test, as is running unigine-heaven to try GPU load.=20
-
-
-I'll attach my journal from after suspend.</pre>
+Journal output from suspend to crash on resume</pre>
         </div>
       </p>
 
@@ -138,9 +132,9 @@ I'll attach my journal from after suspend.</pre>
     </body>
 </html>=
 
---15583034603.E4eb4.12150--
+--15583035260.bEFBEAE9A.14039--
 
---===============1206778137==
+--===============1792845277==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1206778137==--
+--===============1792845277==--
