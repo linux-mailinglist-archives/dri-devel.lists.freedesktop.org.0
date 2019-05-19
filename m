@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B37E2271C
-	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 17:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CF52271D
+	for <lists+dri-devel@lfdr.de>; Sun, 19 May 2019 17:54:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3E0B891A3;
-	Sun, 19 May 2019 15:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78C348916C;
+	Sun, 19 May 2019 15:54:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id AFEFB8916C
- for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 15:52:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D5C428916C
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 May 2019 15:54:38 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id ACA2872167; Sun, 19 May 2019 15:52:13 +0000 (UTC)
+ id CB8CF72167; Sun, 19 May 2019 15:54:38 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
-Date: Sun, 19 May 2019 15:52:14 +0000
+Subject: [Bug 110711] American Truck Simulator shows strange colored
+ reflections
+Date: Sun, 19 May 2019 15:54:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,16 +28,16 @@ X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stalkerg@gmail.com
+X-Bugzilla-Who: gr.muench@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110701-502-28dA6N1XRo@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
-References: <bug-110701-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: short_desc
+Message-ID: <bug-110711-502-CpygtGHKdZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110711-502@http.bugs.freedesktop.org/>
+References: <bug-110711-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,51 +53,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0595363845=="
+Content-Type: multipart/mixed; boundary="===============0405937389=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0595363845==
-Content-Type: multipart/alternative; boundary="15582811330.5B888.5566"
+--===============0405937389==
+Content-Type: multipart/alternative; boundary="15582812780.615a2B8bd.5782"
 Content-Transfer-Encoding: 7bit
 
 
---15582811330.5B888.5566
-Date: Sun, 19 May 2019 15:52:13 +0000
+--15582812780.615a2B8bd.5782
+Date: Sun, 19 May 2019 15:54:38 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110711
 
---- Comment #10 from Yury Zhuravlev <stalkerg@gmail.com> ---
-(In reply to Mariusz Ceier from comment #9)
-> (In reply to Yury Zhuravlev from comment #5)
-> > > can you try to build mesa for previous commit? Like
-> > > 6b3343e5d80abf162b45f0d7e977449588824706=20
-> > >=20
-> > > I think we need to change the title of this bug.
-> >=20
-> > sorry, it's also unstable, but I can't reproduce error easily.=20
->=20
-> Opening firefox private window causes this error every time (built with
-> --enable-webrender and --enable-rust-simd, not sure if it makes differenc=
-e).
+Gregor M=C3=BCnch <gr.muench@gmail.com> changed:
 
-Currently, I am on 04122532e3c06260ae889a4f6a28d6f9849b00f5 and it's stable=
- for
-me. Can you check this one?=20
-(I have no modern firefox yet)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|American Truck shows        |American Truck Simulator
+                   |strange colored reflections |shows strange colored
+                   |                            |reflections
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15582811330.5B888.5566
-Date: Sun, 19 May 2019 15:52:13 +0000
+--15582812780.615a2B8bd.5782
+Date: Sun, 19 May 2019 15:54:38 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,43 +97,32 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:gr.muench=
+&#64;gmail.com" title=3D"Gregor M=C3=BCnch &lt;gr.muench&#64;gmail.com&gt;"=
+> <span class=3D"fn">Gregor M=C3=BCnch</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - GPU faults in in Unigine Valley 1.0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
+   title=3D"NEW - American Truck Simulator shows strange colored reflection=
+s"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110711">bug 11071=
 1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-stalkerg&#64;gmail.com" title=3D"Yury Zhuravlev &lt;stalkerg&#64;gmail.com&=
-gt;"> <span class=3D"fn">Yury Zhuravlev</span></a>
-</span></b>
-        <pre>(In reply to Mariusz Ceier from <a href=3D"show_bug.cgi?id=3D1=
-10701#c9">comment #9</a>)
-<span class=3D"quote">&gt; (In reply to Yury Zhuravlev from <a href=3D"show=
-_bug.cgi?id=3D110701#c5">comment #5</a>)
-&gt; &gt; &gt; can you try to build mesa for previous commit? Like
-&gt; &gt; &gt; 6b3343e5d80abf162b45f0d7e977449588824706=20
-&gt; &gt; &gt;=20
-&gt; &gt; &gt; I think we need to change the title of this bug.
-&gt; &gt;=20
-&gt; &gt; sorry, it's also unstable, but I can't reproduce error easily.=20
-&gt;=20
-&gt; Opening firefox private window causes this error every time (built with
-&gt; --enable-webrender and --enable-rust-simd, not sure if it makes differ=
-ence).</span >
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-Currently, I am on 04122532e3c06260ae889a4f6a28d6f9849b00f5 and it's stable=
- for
-me. Can you check this one?=20
-(I have no modern firefox yet)</pre>
-        </div>
+         <tr>
+           <td style=3D"text-align:right;">Summary</td>
+           <td>American Truck shows strange colored reflections
+           </td>
+           <td>American Truck Simulator shows strange colored reflections
+           </td>
+         </tr></table>
+      <p>
       </p>
 
 
@@ -156,9 +135,9 @@ me. Can you check this one?=20
     </body>
 </html>=
 
---15582811330.5B888.5566--
+--15582812780.615a2B8bd.5782--
 
---===============0595363845==
+--===============0405937389==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -168,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0595363845==--
+--===============0405937389==--
