@@ -2,58 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D58922EFC
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 10:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E1A22F05
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 10:34:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6F7C8938C;
-	Mon, 20 May 2019 08:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 685C5894C1;
+	Mon, 20 May 2019 08:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56110892D7;
- Mon, 20 May 2019 08:33:50 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 9D3FAAF8D;
- Mon, 20 May 2019 08:33:48 +0000 (UTC)
-Subject: Re: [PATCH 10/33] fbcon: call fbcon_fb_(un)registered directly
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20190520082216.26273-1-daniel.vetter@ffwll.ch>
- <20190520082216.26273-11-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <423eba4b-15e1-f10b-ae2d-855b8a585688@suse.de>
-Date: Mon, 20 May 2019 10:33:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 871BD89394
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2019 08:34:23 +0000 (UTC)
+X-UUID: b58bd22e58254f2384bdf69571e7c1ac-20190520
+X-UUID: b58bd22e58254f2384bdf69571e7c1ac-20190520
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 1035860400; Mon, 20 May 2019 16:34:18 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS33N1.mediatek.inc (172.27.4.75) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Mon, 20 May 2019 16:34:16 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 20 May 2019 16:34:09 +0800
+Message-ID: <1558341248.7311.42.camel@mtksdaap41>
+Subject: Re: [v2 2/5] drm/mediatek: CMDQ reg address of mt8173 is different
+ with mt2701
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Mon, 20 May 2019 16:34:08 +0800
+In-Reply-To: <1558258406.367.2.camel@mszsdaap41>
+References: <20190416060501.76276-1-jitao.shi@mediatek.com>
+ <20190416060501.76276-3-jitao.shi@mediatek.com>
+ <1557283144.31731.4.camel@mtksdaap41> <1558258406.367.2.camel@mszsdaap41>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20190520082216.26273-11-daniel.vetter@ffwll.ch>
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,200 +49,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Yisheng Xie <ysxie@foxmail.com>, Hans de Goede <hdegoede@redhat.com>,
- Mikulas Patocka <mpatocka@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Peter Rosin <peda@axentia.se>
-Content-Type: multipart/mixed; boundary="===============0987915030=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, stonea168@163.com,
+ dri-devel@lists.freedesktop.org, yingjoe.chen@mediatek.com, Ajay
+ Kumar <ajaykumar.rs@samsung.com>, Vincent Palatin <vpalatin@chromium.org>,
+ cawa.cheng@mediatek.com, Russell King <rmk+kernel@arm.linux.org.uk>,
+ Thierry Reding <treding@nvidia.com>, linux-pwm@vger.kernel.org,
+ Sascha Hauer <kernel@pengutronix.de>, Pawel Moll <pawel.moll@arm.com>,
+ Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, eddie.huang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org, Rahul
+ Sharma <rahul.sharma@samsung.com>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Kumar Gala <galak@codeaurora.org>,
+ Sean Paul <seanpaul@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0987915030==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7
-Content-Type: multipart/mixed; boundary="4hhIUX5t4MYIJcRw4vNqCe8B7g9KtfXzI";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Daniel Vetter
- <daniel.vetter@intel.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Yisheng Xie <ysxie@foxmail.com>, Peter Rosin <peda@axentia.se>,
- =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Mikulas Patocka <mpatocka@redhat.com>, linux-fbdev@vger.kernel.org
-Message-ID: <423eba4b-15e1-f10b-ae2d-855b8a585688@suse.de>
-Subject: Re: [PATCH 10/33] fbcon: call fbcon_fb_(un)registered directly
-References: <20190520082216.26273-1-daniel.vetter@ffwll.ch>
- <20190520082216.26273-11-daniel.vetter@ffwll.ch>
-In-Reply-To: <20190520082216.26273-11-daniel.vetter@ffwll.ch>
-
---4hhIUX5t4MYIJcRw4vNqCe8B7g9KtfXzI
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 20.05.19 um 10:21 schrieb Daniel Vetter:
-=2E..
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/cor=
-e/fbmem.c
-> index fc3d34a8ea5b..ae2db31eeba7 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1660,7 +1660,6 @@ MODULE_PARM_DESC(lockless_register_fb,
->  static int do_register_framebuffer(struct fb_info *fb_info)
->  {
->  	int i, ret;
-> -	struct fb_event event;
->  	struct fb_videomode mode;
-> =20
->  	if (fb_check_foreignness(fb_info))
-> @@ -1723,7 +1722,6 @@ static int do_register_framebuffer(struct fb_info=
- *fb_info)
->  	fb_add_videomode(&mode, &fb_info->modelist);
->  	registered_fb[i] =3D fb_info;
-> =20
-> -	event.info =3D fb_info;
->  	if (!lockless_register_fb)
->  		console_lock();
->  	else
-> @@ -1732,9 +1730,8 @@ static int do_register_framebuffer(struct fb_info=
- *fb_info)
->  		ret =3D -ENODEV;
->  		goto unlock_console;
->  	}
-> -	ret =3D 0;
-> =20
-> -	fb_notifier_call_chain(FB_EVENT_FB_REGISTERED, &event);
-> +	ret =3D fbcon_fb_registered(fb_info);
-
-What about backlight drivers? [1] Apparently these also use the
-notifiers. [2] From my understanding, backlight drivers would stop
-working with this change.
-
-Best regards
-Thomas
-
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/video/backlight
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
-rivers/video/backlight/backlight.c#n40
-
->  	unlock_fb_info(fb_info);
->  unlock_console:
->  	if (!lockless_register_fb)
-> @@ -1771,7 +1768,6 @@ static int __unlink_framebuffer(struct fb_info *f=
-b_info);
-> =20
->  static int do_unregister_framebuffer(struct fb_info *fb_info)
->  {
-> -	struct fb_event event;
->  	int ret;
-> =20
->  	ret =3D unbind_console(fb_info);
-> @@ -1789,9 +1785,8 @@ static int do_unregister_framebuffer(struct fb_in=
-fo *fb_info)
->  	registered_fb[fb_info->node] =3D NULL;
->  	num_registered_fb--;
->  	fb_cleanup_device(fb_info);
-> -	event.info =3D fb_info;
->  	console_lock();
-> -	fb_notifier_call_chain(FB_EVENT_FB_UNREGISTERED, &event);
-> +	fbcon_fb_unregistered(fb_info);
->  	console_unlock();
-> =20
->  	/* this may free fb info */
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index f52ef0ad6781..701abaf79c87 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -136,10 +136,6 @@ struct fb_cursor_user {
->  #define FB_EVENT_RESUME			0x03
->  /*      An entry from the modelist was removed */
->  #define FB_EVENT_MODE_DELETE            0x04
-> -/*      A driver registered itself */
-> -#define FB_EVENT_FB_REGISTERED          0x05
-> -/*      A driver unregistered itself */
-> -#define FB_EVENT_FB_UNREGISTERED        0x06
->  /*      CONSOLE-SPECIFIC: get console to framebuffer mapping */
->  #define FB_EVENT_GET_CONSOLE_MAP        0x07
->  /*      CONSOLE-SPECIFIC: set console to framebuffer mapping */
-> diff --git a/include/linux/fbcon.h b/include/linux/fbcon.h
-> index f68a7db14165..94a71e9e1257 100644
-> --- a/include/linux/fbcon.h
-> +++ b/include/linux/fbcon.h
-> @@ -4,9 +4,13 @@
->  #ifdef CONFIG_FRAMEBUFFER_CONSOLE
->  void __init fb_console_init(void);
->  void __exit fb_console_exit(void);
-> +int fbcon_fb_registered(struct fb_info *info);
-> +void fbcon_fb_unregistered(struct fb_info *info);
->  #else
->  static inline void fb_console_init(void) {}
->  static inline void fb_console_exit(void) {}
-> +static inline int fbcon_fb_registered(struct fb_info *info) { return 0=
-; }
-> +static inline void fbcon_fb_unregistered(struct fb_info *info) {}
->  #endif
-> =20
->  #endif /* _LINUX_FBCON_H */
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---4hhIUX5t4MYIJcRw4vNqCe8B7g9KtfXzI--
-
---10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlziZmoACgkQaA3BHVML
-eiNAngf/ZQOl9FM5aGOYTl4o6aIfgLH22To1SqJNHKjRpMHr4Zh+YwCPOGzft9F6
-6Ybw9yK4Ozwzm/A9gTvgCkgw5CpSpLekcZX8Mpl+x2M8LpBwKSkZdK3chQpBtxuA
-t06+umoBi9AG1yqcXEkv/2H81ENylNFCt0IkcC7eSje0N8bbN7imqIOkBoxF2t+7
-KdrIB09zrg46OiFYz0SBUn+yim6y0GkntcPkfOD7KSvaHuvB5t7rfecY3Ckl8EYS
-99bZ7B+D97+eUENCo6e84GQGoPa4n7RkIPeRPGH9WJoq0047Z6QViyTkBqg7gH8N
-mxwBpGU9UYbpiZMsiiSB9wdiGBciyg==
-=j0QV
------END PGP SIGNATURE-----
-
---10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7--
-
---===============0987915030==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0987915030==--
+SGksIEppdGFvOgoKT24gU3VuLCAyMDE5LTA1LTE5IGF0IDE3OjMzICswODAwLCBKaXRhbyBTaGkg
+d3JvdGU6Cj4gT24gV2VkLCAyMDE5LTA1LTA4IGF0IDEwOjM5ICswODAwLCBDSyBIdSB3cm90ZToK
+PiA+IE9uIFR1ZSwgMjAxOS0wNC0xNiBhdCAxNDowNCArMDgwMCwgSml0YW8gU2hpIHdyb3RlOgo+
+ID4gPiBDb25maWcgdGhlIGRpZmZlcmVudCBDTURRIHJlZyBhZGRyZXNzIGluIGRyaXZlciBkYXRh
+Lgo+ID4gPiAKPiA+IEZvciBNVDgxNzMsIHlvdSBjaGFuZ2UgcmVnX2NtZF9vZmYgZnJvbSAweDE4
+MCB0byAweDIwMCwgc28gdGhpcyBwYXRjaCBpcwo+ID4gYSBidWcgZml4LiBZb3Ugc2hvdWxkIGFk
+ZCBhICdGaXhlcycgdGFnLgo+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEppdGFvIFNoaSA8aml0
+YW8uc2hpQG1lZGlhdGVrLmNvbT4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
+aWF0ZWsvbXRrX2RzaS5jIHwgMzkgKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tCj4gPiA+
+ICAxIGZpbGUgY2hhbmdlZCwgMzAgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKPiA+ID4g
+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+ID4gPiBpbmRleCA2YzRhYzM3Zjk4
+M2QuLjU3M2U2YmVjNmQzNiAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19kc2kuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rz
+aS5jCj4gPiA+IEBAIC0xMzEsNyArMTMxLDYgQEAKPiA+ID4gICNkZWZpbmUgVk1fQ01EX0VOCQkJ
+QklUKDApCj4gPiA+ICAjZGVmaW5lIFRTX1ZGUF9FTgkJCUJJVCg1KQo+ID4gPiAgCj4gPiA+IC0j
+ZGVmaW5lIERTSV9DTURRMAkJMHgxODAKPiA+ID4gICNkZWZpbmUgQ09ORklHCQkJCSgweGZmIDw8
+IDApCj4gPiA+ICAjZGVmaW5lIFNIT1JUX1BBQ0tFVAkJCTAKPiA+ID4gICNkZWZpbmUgTE9OR19Q
+QUNLRVQJCQkyCj4gPiA+IEBAIC0xNTYsNiArMTU1LDEwIEBACj4gPiA+ICAKPiA+ID4gIHN0cnVj
+dCBwaHk7Cj4gPiA+ICAKPiA+ID4gK3N0cnVjdCBtdGtfZHNpX2RyaXZlcl9kYXRhIHsKPiA+ID4g
+Kwljb25zdCB1MzIgcmVnX2NtZHFfb2ZmOwo+ID4gPiArfTsKPiA+ID4gKwo+ID4gPiAgc3RydWN0
+IG10a19kc2kgewo+ID4gPiAgCXN0cnVjdCBtdGtfZGRwX2NvbXAgZGRwX2NvbXA7Cj4gPiA+ICAJ
+c3RydWN0IGRldmljZSAqZGV2Owo+ID4gPiBAQCAtMTgyLDYgKzE4NSw3IEBAIHN0cnVjdCBtdGtf
+ZHNpIHsKPiA+ID4gIAlib29sIGVuYWJsZWQ7Cj4gPiA+ICAJdTMyIGlycV9kYXRhOwo+ID4gPiAg
+CXdhaXRfcXVldWVfaGVhZF90IGlycV93YWl0X3F1ZXVlOwo+ID4gPiArCXN0cnVjdCBtdGtfZHNp
+X2RyaXZlcl9kYXRhICpkcml2ZXJfZGF0YTsKPiA+ID4gIH07Cj4gPiA+ICAKPiA+ID4gIHN0YXRp
+YyBpbmxpbmUgc3RydWN0IG10a19kc2kgKmVuY29kZXJfdG9fZHNpKHN0cnVjdCBkcm1fZW5jb2Rl
+ciAqZSkKPiA+ID4gQEAgLTkzNCw2ICs5MzgsNyBAQCBzdGF0aWMgdm9pZCBtdGtfZHNpX2NtZHEo
+c3RydWN0IG10a19kc2kgKmRzaSwgY29uc3Qgc3RydWN0IG1pcGlfZHNpX21zZyAqbXNnKQo+ID4g
+PiAgCWNvbnN0IGNoYXIgKnR4X2J1ZiA9IG1zZy0+dHhfYnVmOwo+ID4gPiAgCXU4IGNvbmZpZywg
+Y21kcV9zaXplLCBjbWRxX29mZiwgdHlwZSA9IG1zZy0+dHlwZTsKPiA+ID4gIAl1MzIgcmVnX3Zh
+bCwgY21kcV9tYXNrLCBpOwo+ID4gPiArCXUzMiByZWdfY21kcV9vZmYgPSBkc2ktPmRyaXZlcl9k
+YXRhLT5yZWdfY21kcV9vZmY7Cj4gPiA+ICAKPiA+ID4gIAlpZiAoTVRLX0RTSV9IT1NUX0lTX1JF
+QUQodHlwZSkpCj4gPiA+ICAJCWNvbmZpZyA9IEJUQTsKPiA+ID4gQEAgLTk1Myw5ICs5NTgsMTEg
+QEAgc3RhdGljIHZvaWQgbXRrX2RzaV9jbWRxKHN0cnVjdCBtdGtfZHNpICpkc2ksIGNvbnN0IHN0
+cnVjdCBtaXBpX2RzaV9tc2cgKm1zZykKPiA+ID4gIAl9Cj4gPiA+ICAKPiA+ID4gIAlmb3IgKGkg
+PSAwOyBpIDwgbXNnLT50eF9sZW47IGkrKykKPiA+ID4gLQkJd3JpdGViKHR4X2J1ZltpXSwgZHNp
+LT5yZWdzICsgRFNJX0NNRFEwICsgY21kcV9vZmYgKyBpKTsKPiA+ID4gKwkJbXRrX2RzaV9tYXNr
+KGRzaSwgKHJlZ19jbWRxX29mZiArIGNtZHFfb2ZmICsgaSkgJiAofjB4M1UpLAo+ID4gPiArCQkJ
+ICAgICAoMHhmZlVMIDw8ICgoKGkgKyBjbWRxX29mZikgJiAzVSkgKiA4VSkpLAo+ID4gPiArCQkJ
+ICAgICB0eF9idWZbaV0gPDwgKCgoaSArIGNtZHFfb2ZmKSAmIDNVKSAqIDhVKSk7Cj4gPiAKPiA+
+IFlvdSBzYXkgeW91IHdvdWxkIGZvbGxvdyBOaWNvbGFzJyBzdWdnZXN0aW9uIGhlcmUuCj4gPiAK
+PiAKPiBJZiBpIHJlcGxhY2UgbXRrX2RzaV9tYXNrIHdpdGggd3JpdGViLCBpIGNhbid0IGdldCBy
+aWdodCB2YWx1ZSBmcm9tCj4gcmVnaXN0ZXJzLiBJIGRvbid0IGtub3cgd2h5IHRoaXMuCgpJIHJl
+bWVtYmVyIHRoYXQgU2hhb21pbmcgaGFzIGFsc28gbWVldCBzb21lIGVycm9yIGFib3V0IHdyaXRl
+YigpLCBidXQgaGUKZmluYWxseSBmaXggdGhpcyBidWcuIFlvdSBtYXkgZ2V0IHNvbWUgaGludCBm
+cm9tIGhpbS4gSWYgd2UgY2FuIG5vdCB1c2UKd3JpdGViKCksIHRoaXMgbW9kaWZpY2F0aW9uIHNo
+b3VsZCBiZSB0d28gcGF0Y2hlczogb25lIGlzIGNoYW5naW5nCkRTSV9DTURRMCB0byByZWdfY21k
+cV9vZmYsIGFub3RoZXIgb25lIGlzIGNoYW5naW5nIHdyaXRlYigpIHRvCm10a19kc2lfbWFzaygp
+LgoKUmVnYXJkcywKQ0sKCj4gCj4gPiA+ICAKPiA+ID4gLQltdGtfZHNpX21hc2soZHNpLCBEU0lf
+Q01EUTAsIGNtZHFfbWFzaywgcmVnX3ZhbCk7Cj4gPiA+ICsJbXRrX2RzaV9tYXNrKGRzaSwgcmVn
+X2NtZHFfb2ZmLCBjbWRxX21hc2ssIHJlZ192YWwpOwo+ID4gPiAgCW10a19kc2lfbWFzayhkc2ks
+IERTSV9DTURRX1NJWkUsIENNRFFfU0laRSwgY21kcV9zaXplKTsKPiA+ID4gIH0KPiA+ID4gIAo+
+ID4gPiBAQCAtMTA3NCwxMCArMTA4MSwyNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGNvbXBvbmVu
+dF9vcHMgbXRrX2RzaV9jb21wb25lbnRfb3BzID0gewo+ID4gPiAgCS51bmJpbmQgPSBtdGtfZHNp
+X3VuYmluZCwKPiA+ID4gIH07Cj4gPiA+ICAKPiA+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgbXRr
+X2RzaV9kcml2ZXJfZGF0YSBtdDgxNzNfZHNpX2RyaXZlcl9kYXRhID0gewo+ID4gPiArCS5yZWdf
+Y21kcV9vZmYgPSAweDIwMCwKPiA+ID4gK307Cj4gPiA+ICsKPiA+ID4gK3N0YXRpYyBjb25zdCBz
+dHJ1Y3QgbXRrX2RzaV9kcml2ZXJfZGF0YSBtdDI3MDFfZHNpX2RyaXZlcl9kYXRhID0gewo+ID4g
+PiArCS5yZWdfY21kcV9vZmYgPSAweDE4MCwKPiA+ID4gK307Cj4gPiA+ICsKPiA+ID4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19kc2lfb2ZfbWF0Y2hbXSA9IHsKPiA+ID4g
+Kwl7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10MjcwMS1kc2kiLAo+ID4gPiArCSAgLmRhdGEg
+PSAmbXQyNzAxX2RzaV9kcml2ZXJfZGF0YSB9LAo+ID4gPiArCXsgLmNvbXBhdGlibGUgPSAibWVk
+aWF0ZWssbXQ4MTczLWRzaSIsCj4gPiA+ICsJICAuZGF0YSA9ICZtdDgxNzNfZHNpX2RyaXZlcl9k
+YXRhIH0sCj4gPiA+ICsJeyB9LAo+ID4gPiArfTsKPiA+ID4gKwo+ID4gPiAgc3RhdGljIGludCBt
+dGtfZHNpX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiA+ICB7Cj4gPiA+
+ICAJc3RydWN0IG10a19kc2kgKmRzaTsKPiA+ID4gIAlzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmcGRl
+di0+ZGV2Owo+ID4gPiArCWNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgKm9mX2lkOwo+ID4gPiAg
+CXN0cnVjdCByZXNvdXJjZSAqcmVnczsKPiA+ID4gIAlpbnQgaXJxX251bTsKPiA+ID4gIAlpbnQg
+Y29tcF9pZDsKPiA+ID4gQEAgLTExMDEsNiArMTEyNSw5IEBAIHN0YXRpYyBpbnQgbXRrX2RzaV9w
+cm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ID4gPiAgCWlmIChyZXQpCj4gPiA+
+ICAJCWdvdG8gZXJyX3VucmVnaXN0ZXJfaG9zdDsKPiA+ID4gIAo+ID4gPiArCW9mX2lkID0gb2Zf
+bWF0Y2hfZGV2aWNlKG10a19kc2lfb2ZfbWF0Y2gsICZwZGV2LT5kZXYpOwo+ID4gPiArCWRzaS0+
+ZHJpdmVyX2RhdGEgPSBvZl9pZC0+ZGF0YTsKPiA+IAo+ID4gTWF5YmUgdXNlIG9mX2RldmljZV9n
+ZXRfbWF0Y2hfZGF0YSgpIGlzIGEgbW9yZSBzaW1wbGUgd2F5LiBZb3UgY291bGQKPiA+IHJlZmVy
+IHRvIFsxXS4KPiA+IAo+ID4gWzFdCj4gPiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51
+eC92NS4xL3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3Bfb3ZsLmMjTDMw
+MAo+ID4gCj4gPiBSZWdhcmRzLAo+ID4gQ0sKPiA+IAo+IAo+IEknbGwgZml4IGl0IG5leHQgdmVy
+c2lvbi4KPiAKPiA+ID4gKwo+ID4gPiAgCWRzaS0+ZW5naW5lX2NsayA9IGRldm1fY2xrX2dldChk
+ZXYsICJlbmdpbmUiKTsKPiA+ID4gIAlpZiAoSVNfRVJSKGRzaS0+ZW5naW5lX2NsaykpIHsKPiA+
+ID4gIAkJcmV0ID0gUFRSX0VSUihkc2ktPmVuZ2luZV9jbGspOwo+ID4gPiBAQCAtMTE5MywxMiAr
+MTIyMCw2IEBAIHN0YXRpYyBpbnQgbXRrX2RzaV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
+ZSAqcGRldikKPiA+ID4gIAlyZXR1cm4gMDsKPiA+ID4gIH0KPiA+ID4gIAo+ID4gPiAtc3RhdGlj
+IGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgbXRrX2RzaV9vZl9tYXRjaFtdID0gewo+ID4gPiAt
+CXsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQyNzAxLWRzaSIgfSwKPiA+ID4gLQl7IC5jb21w
+YXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1kc2kiIH0sCj4gPiA+IC0JeyB9LAo+ID4gPiAtfTsK
+PiA+ID4gLQo+ID4gPiAgc3RydWN0IHBsYXRmb3JtX2RyaXZlciBtdGtfZHNpX2RyaXZlciA9IHsK
+PiA+ID4gIAkucHJvYmUgPSBtdGtfZHNpX3Byb2JlLAo+ID4gPiAgCS5yZW1vdmUgPSBtdGtfZHNp
+X3JlbW92ZSwKPiA+IAo+ID4gCj4gCj4gCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
