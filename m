@@ -1,49 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260DF22E99
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 10:24:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D58922EFC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 10:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA86B893DB;
-	Mon, 20 May 2019 08:24:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F7C8938C;
+	Mon, 20 May 2019 08:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43277893D1;
- Mon, 20 May 2019 08:24:22 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 May 2019 01:24:20 -0700
-X-ExtLoop1: 1
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
- by orsmga008.jf.intel.com with ESMTP; 20 May 2019 01:24:19 -0700
-Received: from irsmsx106.ger.corp.intel.com ([169.254.8.166]) by
- IRSMSX102.ger.corp.intel.com ([169.254.2.108]) with mapi id 14.03.0415.000;
- Mon, 20 May 2019 09:23:37 +0100
-From: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>
-To: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v7 3/6] drm/i915/dp: Program VSC Header and DB for Pixel
- Encoding/Colorimetry Format
-Thread-Topic: [PATCH v7 3/6] drm/i915/dp: Program VSC Header and DB for
- Pixel Encoding/Colorimetry Format
-Thread-Index: AQHVDLWMU7Wdzjz0fk67Uq/yJY5teaZzoHcA
-Date: Mon, 20 May 2019 08:23:36 +0000
-Message-ID: <a5b20c018d8df18a4575ab042a1718b0513e3212.camel@intel.com>
-References: <20190510015353.15119-1-gwan-gyeong.mun@intel.com>
- <20190510015353.15119-4-gwan-gyeong.mun@intel.com>
- <f9e2c169-b5b7-e0cd-4263-71075cc2e54a@linux.intel.com>
-In-Reply-To: <f9e2c169-b5b7-e0cd-4263-71075cc2e54a@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.66.134]
-Content-ID: <FA7CA1B910B84E48A8729DDAEE3E0607@intel.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56110892D7;
+ Mon, 20 May 2019 08:33:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 9D3FAAF8D;
+ Mon, 20 May 2019 08:33:48 +0000 (UTC)
+Subject: Re: [PATCH 10/33] fbcon: call fbcon_fb_(un)registered directly
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20190520082216.26273-1-daniel.vetter@ffwll.ch>
+ <20190520082216.26273-11-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <423eba4b-15e1-f10b-ae2d-855b8a585688@suse.de>
+Date: Mon, 20 May 2019 10:33:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190520082216.26273-11-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,135 +66,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Yisheng Xie <ysxie@foxmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ Mikulas Patocka <mpatocka@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Peter Rosin <peda@axentia.se>
+Content-Type: multipart/mixed; boundary="===============0987915030=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDE5LTA1LTE3IGF0IDE1OjM2ICswMjAwLCBNYWFydGVuIExhbmtob3JzdCB3cm90
-ZToNCj4gT3AgMTAtMDUtMjAxOSBvbSAwMzo1MyBzY2hyZWVmIEd3YW4tZ3llb25nIE11bjoNCj4g
-PiBGdW5jdGlvbiBpbnRlbF9waXhlbF9lbmNvZGluZ19zZXR1cF92c2MgaGFuZGxlcyB2c2MgaGVh
-ZGVyIGFuZCBkYXRhDQo+ID4gYmxvY2sNCj4gPiBzZXR1cCBmb3IgcGl4ZWwgZW5jb2RpbmcgLyBj
-b2xvcmltZXRyeSBmb3JtYXQuDQo+ID4gDQo+ID4gU2V0dXAgVlNDIGhlYWRlciBhbmQgZGF0YSBi
-bG9jayBpbiBmdW5jdGlvbg0KPiA+IGludGVsX3BpeGVsX2VuY29kaW5nX3NldHVwX3ZzYw0KPiA+
-IGZvciBwaXhlbCBlbmNvZGluZyAvIGNvbG9yaW1ldHJ5IGZvcm1hdCBhcyBwZXIgZHAgMS40YSBz
-cGVjLA0KPiA+IHNlY3Rpb24gMi4yLjUuNy4xLCB0YWJsZSAyLTExOTogVlNDIFNEUCBIZWFkZXIg
-Qnl0ZXMsIHNlY3Rpb24NCj4gPiAyLjIuNS43LjUsDQo+ID4gdGFibGUgMi0xMjA6VlNDIFNEUCBQ
-YXlsb2FkIGZvciBEQjE2IHRocm91Z2ggREIxOC4NCj4gPiANCj4gPiB2MjoNCj4gPiAgIE1pbm9y
-IHN0eWxlIGZpeC4gW01hYXJ0ZW5dDQo+ID4gICBSZWZlciB0byBjb21taXQgaWRzIGluc3RlYWQg
-b2YgcGF0Y2h3b3JrLiBbTWFhcnRlbl0NCj4gPiANCj4gPiB2NjogUmViYXNlDQo+ID4gDQo+ID4g
-djc6DQo+ID4gICBSZWJhc2UgYW5kIGFkZHJlc3NlZCByZXZpZXcgY29tbWVudHMgZnJvbSBWaWxs
-ZS4NCj4gPiAgIFVzZSBhIHN0cnVjdHVyZSBpbml0aWFsaXplciBpbnN0ZWFkIG9mIG1lbXNldCgp
-Lg0KPiA+ICAgRml4IG5vbi1zdGFuZGFyZCBjb21tZW50IGZvcm1hdC4NCj4gPiAgIFJlbW92ZSBh
-IHJlZmVycmluZyB0byBzcGVjaWZpYyBjb21taXQuDQo+ID4gICBBZGQgYSBzZXR0aW5nIG9mIGR5
-bmFtaWMgcmFuZ2UgYml0IHRvICB2c2Nfc2RwLkRCMTcuDQo+ID4gICBBZGQgYSBzZXR0aW5nIG9m
-IGJwYyB3aGljaCBpcyBiYXNlZCBvbiBwaXBlX2JwcC4NCj4gPiAgIFJlbW92ZSBkdXBsaWNhdGVk
-IGNoZWNraW5nIG9mIGNvbm5lY3RvcidzIHljYmNyXzQyMF9hbGxvd2VkIGZyb20NCj4gPiAgIGlu
-dGVsX3BpeGVsX2VuY29kaW5nX3NldHVwX3ZzYygpLiBJdCBpcyBhbHJlYWR5IGNoZWNrZWQgZnJv
-bQ0KPiA+ICAgaW50ZWxfZHBfeWNiY3I0MjBfY29uZmlnKCkuDQo+ID4gICBSZW1vdmUgY29tbWVu
-dHMgZm9yIFZTQ19TRFBfRVhURU5TSU9OX0ZPUl9DT0xPUklNRVRSWV9TVVBQT1JURUQuDQo+ID4g
-SXQgaXMNCj4gPiAgIGFscmVhZHkgaW1wbGVtZW50ZWQgb24gaW50ZWxfZHBfZ2V0X2NvbG9yaW1l
-dHJ5X3N0YXR1cygpLg0KPiA+IA0KPiA+IENjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5s
-YW5raG9yc3RAbGludXguaW50ZWwuY29tPg0KPiA+IENjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxl
-LnN5cmphbGFAbGludXguaW50ZWwuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEd3YW4tZ3llb25n
-IE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJpdmVycy9n
-cHUvZHJtL2k5MTUvaW50ZWxfZGRpLmMgfCAgMSArDQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2ludGVsX2RwLmMgIHwgOTANCj4gPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0K
-PiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kcnYuaCB8ICAyICsNCj4gPiAgMyBmaWxl
-cyBjaGFuZ2VkLCA5MyBpbnNlcnRpb25zKCspDQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2ludGVsX2RkaS5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-bnRlbF9kZGkuYw0KPiA+IGluZGV4IGNkNTI3N2Q5OGIwMy4uMmYxNjg4ZWE1YTJjIDEwMDY0NA0K
-PiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2RkaS5jDQo+ID4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZGRpLmMNCj4gPiBAQCAtMzM5MSw2ICszMzkxLDcgQEAg
-c3RhdGljIHZvaWQgaW50ZWxfZW5hYmxlX2RkaV9kcChzdHJ1Y3QNCj4gPiBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLA0KPiA+ICANCj4gPiAgCWludGVsX2VkcF9iYWNrbGlnaHRfb24oY3J0Y19zdGF0
-ZSwgY29ubl9zdGF0ZSk7DQo+ID4gIAlpbnRlbF9wc3JfZW5hYmxlKGludGVsX2RwLCBjcnRjX3N0
-YXRlKTsNCj4gPiArCWludGVsX2RwX3ljYmNyXzQyMF9lbmFibGUoaW50ZWxfZHAsIGNydGNfc3Rh
-dGUpOw0KPiA+ICAJaW50ZWxfZWRwX2RycnNfZW5hYmxlKGludGVsX2RwLCBjcnRjX3N0YXRlKTsN
-Cj4gPiAgDQo+ID4gIAlpZiAoY3J0Y19zdGF0ZS0+aGFzX2F1ZGlvKQ0KPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kcC5jDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pbnRlbF9kcC5jDQo+ID4gaW5kZXggOWYyMTlmOGYwYzcxLi5hM2ZkMjc5YTVjNTIgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHAuYw0KPiA+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2RwLmMNCj4gPiBAQCAtNDQwNyw2ICs0NDA3LDk2
-IEBAIHU4IGludGVsX2RwX2RzY19nZXRfc2xpY2VfY291bnQoc3RydWN0DQo+ID4gaW50ZWxfZHAg
-KmludGVsX2RwLA0KPiA+ICAJcmV0dXJuIDA7DQo+ID4gIH0NCj4gPiAgDQo+ID4gK3N0YXRpYyB2
-b2lkDQo+ID4gK2ludGVsX3BpeGVsX2VuY29kaW5nX3NldHVwX3ZzYyhzdHJ1Y3QgaW50ZWxfZHAg
-KmludGVsX2RwLA0KPiA+ICsJCQkgICAgICAgY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUN
-Cj4gPiAqY3J0Y19zdGF0ZSkNCj4gPiArew0KPiA+ICsJc3RydWN0IGludGVsX2RpZ2l0YWxfcG9y
-dCAqaW50ZWxfZGlnX3BvcnQgPQ0KPiA+IGRwX3RvX2RpZ19wb3J0KGludGVsX2RwKTsNCj4gPiAr
-CXN0cnVjdCBkcF9zZHAgdnNjX3NkcCA9IHt9Ow0KPiA+ICsNCj4gPiArCS8qIFByZXBhcmUgVlND
-IEhlYWRlciBmb3IgU1UgYXMgcGVyIERQIDEuNGEgc3BlYywgVGFibGUgMi0xMTkNCj4gPiAqLw0K
-PiA+ICsJdnNjX3NkcC5zZHBfaGVhZGVyLkhCMCA9IDA7DQo+ID4gKwl2c2Nfc2RwLnNkcF9oZWFk
-ZXIuSEIxID0gMHg3Ow0KPiA+ICsNCj4gPiArCS8qDQo+ID4gKwkgKiBWU0MgU0RQIHN1cHBvcnRp
-bmcgM0Qgc3RlcmVvLCBQU1IyLCBhbmQgUGl4ZWwgRW5jb2RpbmcvDQo+ID4gKwkgKiBDb2xvcmlt
-ZXRyeSBGb3JtYXQgaW5kaWNhdGlvbi4NCj4gPiArCSAqLw0KPiA+ICsJdnNjX3NkcC5zZHBfaGVh
-ZGVyLkhCMiA9IDB4NTsNCj4gPiArDQo+ID4gKwkvKg0KPiA+ICsJICogVlNDIFNEUCBzdXBwb3J0
-aW5nIDNEIHN0ZXJlbywgKyBQU1IyLCArIFBpeGVsIEVuY29kaW5nLw0KPiA+ICsJICogQ29sb3Jp
-bWV0cnkgRm9ybWF0IGluZGljYXRpb24gKEhCMiA9IDA1aCkuDQo+ID4gKwkgKi8NCj4gPiArCXZz
-Y19zZHAuc2RwX2hlYWRlci5IQjMgPSAweDEzOw0KPiA+ICsNCj4gPiArCS8qDQo+ID4gKwkgKiBZ
-Q2JDciA0MjAgPSAzaCBEQjE2Wzc6NF0gSVRVLVIgQlQuNjAxID0gMGgsIElUVS1SIEJULjcwOSA9
-DQo+ID4gMWgNCj4gPiArCSAqIERCMTZbMzowXSBEUCAxLjRhIHNwZWMsIFRhYmxlIDItMTIwDQo+
-ID4gKwkgKi8NCj4gPiArCXZzY19zZHAuREJbMTZdID0gMHgzIDw8IDQ7IC8qIDB4MyA8PCA0ICwg
-WUNiQ3IgNDIwKi8NCj4gPiArCS8qIFJHQi0+WUNCQ1IgY29sb3IgY29udmVyc2lvbiB1c2VzIHRo
-ZSBCVC43MDkgY29sb3Igc3BhY2UuICovDQo+ID4gKwl2c2Nfc2RwLkRCWzE2XSB8PSAweDE7IC8q
-IDB4MSwgSVRVLVIgQlQuNzA5ICovDQo+ID4gKw0KPiA+ICsJLyoNCj4gPiArCSAqIEZvciBwaXhl
-bCBlbmNvZGluZyBmb3JtYXRzIFlDYkNyNDQ0LCBZQ2JDcjQyMiwgWUNiQ3I0MjAsIGFuZA0KPiA+
-IFkgT25seSwNCj4gPiArCSAqIHRoZSBmb2xsb3dpbmcgQ29tcG9uZW50IEJpdCBEZXB0aCB2YWx1
-ZXMgYXJlIGRlZmluZWQ6DQo+ID4gKwkgKiAwMDFiID0gOGJwYy4NCj4gPiArCSAqIDAxMGIgPSAx
-MGJwYy4NCj4gPiArCSAqIDAxMWIgPSAxMmJwYy4NCj4gPiArCSAqIDEwMGIgPSAxNmJwYy4NCj4g
-PiArCSAqLw0KPiA+ICsJc3dpdGNoIChjcnRjX3N0YXRlLT5waXBlX2JwcCkgew0KPiA+ICsJY2Fz
-ZSAyNDogLyogOGJwYyAqLw0KPiA+ICsJCXZzY19zZHAuREJbMTddID0gMHgxOw0KPiA+ICsJCWJy
-ZWFrOw0KPiA+ICsJY2FzZSAzMDogLyogMTBicGMgKi8NCj4gPiArCQl2c2Nfc2RwLkRCWzE3XSA9
-IDB4MjsNCj4gPiArCQlicmVhazsNCj4gPiArCWNhc2UgMzY6IC8qIDEyYnBjICovDQo+ID4gKwkJ
-dnNjX3NkcC5EQlsxN10gPSAweDM7DQo+ID4gKwkJYnJlYWs7DQo+ID4gKwljYXNlIDQ4OiAvKiAx
-NmJwYyAqLw0KPiA+ICsJCXZzY19zZHAuREJbMTddID0gMHg0Ow0KPiA+ICsJCWJyZWFrOw0KPiA+
-ICsJZGVmYXVsdDoNCj4gPiArCQlEUk1fREVCVUdfS01TKCJJbnZhbGlkIGJwcCB2YWx1ZSAnJWQn
-XG4iLCBjcnRjX3N0YXRlLQ0KPiA+ID5waXBlX2JwcCk7DQo+IA0KPiBJIHdvdWxkIHVzZSBNSVNT
-SU5HX0NBU0UoY3J0Y19zdGF0ZS0+cGlwZV9icHApOyBoZXJlLCBhcyBpdCdzIHByZXR0eQ0KPiBm
-YXRhbCB0byBWU0Mgc2V0dXAuIDopDQo+IA0KPiBPdGhlcndpc2Ugc2VyaWVzIGxvb2tzIGdvb2Qg
-ZnJvbSBhbiBhdG9taWMgcG9pbnQgb2Ygdmlldy4gSSB3b3VsZCB0cnkNCj4gdG8gZ2V0IGFuIEFD
-SyBmcm9tIHRoZSBhbmFsb2dpeCBicmlkZ2UgbWFpbnRhaW5lciBmb3INCj4gaW5jbHVzaW9uIGlu
-IHRoZSBkcm0taW50ZWwtbmV4dC1xdWV1ZWQgdHJlZSwgc2luY2UgaXQgc2VlbXMgaGFybWxlc3MN
-Cj4gZW5vdWdoIHRvIGluY2x1ZGUgZnJvbSB0aGVyZS4NCj4gDQpIaSwNClRoYW5rIHlvdSBmb3Ig
-cmV2aWV3aW5nIHRoZSBzZXJpZXMuDQpBbmQgSSdsbCByZXBsYWNlIERSTV9ERUJVR19LTVMoKSB0
-byBNSVNTSU5HX0NBU0UoKSBvbiBkZWZhdWx0IHN3aXRjaC0NCmNhc2UuDQoNCj4gU28gZm9yIHdo
-b2xlIHNlcmllczoNCj4gUmV2aWV3ZWQtYnk6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxh
-bmtob3JzdEBsaW51eC5pbnRlbC5jb20+DQo+IA0KPiA+ICsJCWJyZWFrOw0KPiA+ICsJfQ0KPiA+
-ICsNCj4gPiArCS8qDQo+ID4gKwkgKiBEeW5hbWljIFJhbmdlIChCaXQgNykNCj4gPiArCSAqIDAg
-PSBWRVNBIHJhbmdlLCAxID0gQ1RBIHJhbmdlLg0KPiA+ICsJICogYWxsIFlDYkNyIGFyZSBhbHdh
-eXMgbGltaXRlZCByYW5nZQ0KPiA+ICsJICovDQo+ID4gKwl2c2Nfc2RwLkRCWzE3XSB8PSAweDgw
-Ow0KPiA+ICsNCj4gPiArCS8qDQo+ID4gKwkgKiBDb250ZW50IFR5cGUgKEJpdHMgMjowKQ0KPiA+
-ICsJICogMDAwYiA9IE5vdCBkZWZpbmVkLg0KPiA+ICsJICogMDAxYiA9IEdyYXBoaWNzLg0KPiA+
-ICsJICogMDEwYiA9IFBob3RvLg0KPiA+ICsJICogMDExYiA9IFZpZGVvLg0KPiA+ICsJICogMTAw
-YiA9IEdhbWUNCj4gPiArCSAqIEFsbCBvdGhlciB2YWx1ZXMgYXJlIFJFU0VSVkVELg0KPiA+ICsJ
-ICogTm90ZTogU2VlIENUQS04NjEtRyBmb3IgdGhlIGRlZmluaXRpb24gYW5kIGV4cGVjdGVkDQo+
-ID4gKwkgKiBwcm9jZXNzaW5nIGJ5IGEgc3RyZWFtIHNpbmsgZm9yIHRoZSBhYm92ZSBjb250ZWN0
-IHR5cGVzLg0KPiA+ICsJICovDQo+ID4gKwl2c2Nfc2RwLkRCWzE4XSA9IDA7DQo+ID4gKw0KPiA+
-ICsJaW50ZWxfZGlnX3BvcnQtPndyaXRlX2luZm9mcmFtZSgmaW50ZWxfZGlnX3BvcnQtPmJhc2Us
-DQo+ID4gKwkJCWNydGNfc3RhdGUsIERQX1NEUF9WU0MsICZ2c2Nfc2RwLA0KPiA+IHNpemVvZih2
-c2Nfc2RwKSk7DQo+ID4gK30NCj4gPiArDQo+ID4gK3ZvaWQgaW50ZWxfZHBfeWNiY3JfNDIwX2Vu
-YWJsZShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLA0KPiA+ICsJCQkgICAgICAgY29uc3Qgc3Ry
-dWN0IGludGVsX2NydGNfc3RhdGUNCj4gPiAqY3J0Y19zdGF0ZSkNCj4gPiArew0KPiA+ICsJaWYg
-KGNydGNfc3RhdGUtPm91dHB1dF9mb3JtYXQgIT0gSU5URUxfT1VUUFVUX0ZPUk1BVF9ZQ0JDUjQy
-MCkNCj4gPiArCQlyZXR1cm47DQo+ID4gKw0KPiA+ICsJaW50ZWxfcGl4ZWxfZW5jb2Rpbmdfc2V0
-dXBfdnNjKGludGVsX2RwLCBjcnRjX3N0YXRlKTsNCj4gPiArfQ0KPiA+ICsNCj4gPiAgc3RhdGlj
-IHU4IGludGVsX2RwX2F1dG90ZXN0X2xpbmtfdHJhaW5pbmcoc3RydWN0IGludGVsX2RwDQo+ID4g
-KmludGVsX2RwKQ0KPiA+ICB7DQo+ID4gIAlpbnQgc3RhdHVzID0gMDsNCj4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHJ2LmgNCj4gPiBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2ludGVsX2Rydi5oDQo+ID4gaW5kZXggMjQ3ODkzZWQxNTQzLi41ZDE4NDU1MjZjZjgg
-MTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHJ2LmgNCj4gPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kcnYuaA0KPiA+IEBAIC0xNTc2LDYgKzE1
-NzYsOCBAQCB2b2lkIGludGVsX2RwX2dldF9tX24oc3RydWN0IGludGVsX2NydGMNCj4gPiAqY3J0
-YywNCj4gPiAgCQkgICAgICBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqcGlwZV9jb25maWcpOw0K
-PiA+ICB2b2lkIGludGVsX2RwX3NldF9tX24oY29uc3Qgc3RydWN0IGludGVsX2NydGNfc3RhdGUg
-KmNydGNfc3RhdGUsDQo+ID4gIAkJICAgICAgZW51bSBsaW5rX21fbl9zZXQgbV9uKTsNCj4gPiAr
-dm9pZCBpbnRlbF9kcF95Y2Jjcl80MjBfZW5hYmxlKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAs
-DQo+ID4gKwkJCSAgICAgICBjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZQ0KPiA+ICpjcnRj
-X3N0YXRlKTsNCj4gPiAgaW50IGludGVsX2RvdGNsb2NrX2NhbGN1bGF0ZShpbnQgbGlua19mcmVx
-LCBjb25zdCBzdHJ1Y3QNCj4gPiBpbnRlbF9saW5rX21fbiAqbV9uKTsNCj4gPiAgYm9vbCBieHRf
-ZmluZF9iZXN0X2RwbGwoc3RydWN0IGludGVsX2NydGNfc3RhdGUgKmNydGNfc3RhdGUsDQo+ID4g
-IAkJCXN0cnVjdCBkcGxsICpiZXN0X2Nsb2NrKTsNCj4gDQo+IA0KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0987915030==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7
+Content-Type: multipart/mixed; boundary="4hhIUX5t4MYIJcRw4vNqCe8B7g9KtfXzI";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Daniel Vetter
+ <daniel.vetter@intel.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ Yisheng Xie <ysxie@foxmail.com>, Peter Rosin <peda@axentia.se>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Mikulas Patocka <mpatocka@redhat.com>, linux-fbdev@vger.kernel.org
+Message-ID: <423eba4b-15e1-f10b-ae2d-855b8a585688@suse.de>
+Subject: Re: [PATCH 10/33] fbcon: call fbcon_fb_(un)registered directly
+References: <20190520082216.26273-1-daniel.vetter@ffwll.ch>
+ <20190520082216.26273-11-daniel.vetter@ffwll.ch>
+In-Reply-To: <20190520082216.26273-11-daniel.vetter@ffwll.ch>
+
+--4hhIUX5t4MYIJcRw4vNqCe8B7g9KtfXzI
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 20.05.19 um 10:21 schrieb Daniel Vetter:
+=2E..
+> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/cor=
+e/fbmem.c
+> index fc3d34a8ea5b..ae2db31eeba7 100644
+> --- a/drivers/video/fbdev/core/fbmem.c
+> +++ b/drivers/video/fbdev/core/fbmem.c
+> @@ -1660,7 +1660,6 @@ MODULE_PARM_DESC(lockless_register_fb,
+>  static int do_register_framebuffer(struct fb_info *fb_info)
+>  {
+>  	int i, ret;
+> -	struct fb_event event;
+>  	struct fb_videomode mode;
+> =20
+>  	if (fb_check_foreignness(fb_info))
+> @@ -1723,7 +1722,6 @@ static int do_register_framebuffer(struct fb_info=
+ *fb_info)
+>  	fb_add_videomode(&mode, &fb_info->modelist);
+>  	registered_fb[i] =3D fb_info;
+> =20
+> -	event.info =3D fb_info;
+>  	if (!lockless_register_fb)
+>  		console_lock();
+>  	else
+> @@ -1732,9 +1730,8 @@ static int do_register_framebuffer(struct fb_info=
+ *fb_info)
+>  		ret =3D -ENODEV;
+>  		goto unlock_console;
+>  	}
+> -	ret =3D 0;
+> =20
+> -	fb_notifier_call_chain(FB_EVENT_FB_REGISTERED, &event);
+> +	ret =3D fbcon_fb_registered(fb_info);
+
+What about backlight drivers? [1] Apparently these also use the
+notifiers. [2] From my understanding, backlight drivers would stop
+working with this change.
+
+Best regards
+Thomas
+
+[1]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/video/backlight
+[2]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/video/backlight/backlight.c#n40
+
+>  	unlock_fb_info(fb_info);
+>  unlock_console:
+>  	if (!lockless_register_fb)
+> @@ -1771,7 +1768,6 @@ static int __unlink_framebuffer(struct fb_info *f=
+b_info);
+> =20
+>  static int do_unregister_framebuffer(struct fb_info *fb_info)
+>  {
+> -	struct fb_event event;
+>  	int ret;
+> =20
+>  	ret =3D unbind_console(fb_info);
+> @@ -1789,9 +1785,8 @@ static int do_unregister_framebuffer(struct fb_in=
+fo *fb_info)
+>  	registered_fb[fb_info->node] =3D NULL;
+>  	num_registered_fb--;
+>  	fb_cleanup_device(fb_info);
+> -	event.info =3D fb_info;
+>  	console_lock();
+> -	fb_notifier_call_chain(FB_EVENT_FB_UNREGISTERED, &event);
+> +	fbcon_fb_unregistered(fb_info);
+>  	console_unlock();
+> =20
+>  	/* this may free fb info */
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index f52ef0ad6781..701abaf79c87 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -136,10 +136,6 @@ struct fb_cursor_user {
+>  #define FB_EVENT_RESUME			0x03
+>  /*      An entry from the modelist was removed */
+>  #define FB_EVENT_MODE_DELETE            0x04
+> -/*      A driver registered itself */
+> -#define FB_EVENT_FB_REGISTERED          0x05
+> -/*      A driver unregistered itself */
+> -#define FB_EVENT_FB_UNREGISTERED        0x06
+>  /*      CONSOLE-SPECIFIC: get console to framebuffer mapping */
+>  #define FB_EVENT_GET_CONSOLE_MAP        0x07
+>  /*      CONSOLE-SPECIFIC: set console to framebuffer mapping */
+> diff --git a/include/linux/fbcon.h b/include/linux/fbcon.h
+> index f68a7db14165..94a71e9e1257 100644
+> --- a/include/linux/fbcon.h
+> +++ b/include/linux/fbcon.h
+> @@ -4,9 +4,13 @@
+>  #ifdef CONFIG_FRAMEBUFFER_CONSOLE
+>  void __init fb_console_init(void);
+>  void __exit fb_console_exit(void);
+> +int fbcon_fb_registered(struct fb_info *info);
+> +void fbcon_fb_unregistered(struct fb_info *info);
+>  #else
+>  static inline void fb_console_init(void) {}
+>  static inline void fb_console_exit(void) {}
+> +static inline int fbcon_fb_registered(struct fb_info *info) { return 0=
+; }
+> +static inline void fbcon_fb_unregistered(struct fb_info *info) {}
+>  #endif
+> =20
+>  #endif /* _LINUX_FBCON_H */
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--4hhIUX5t4MYIJcRw4vNqCe8B7g9KtfXzI--
+
+--10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlziZmoACgkQaA3BHVML
+eiNAngf/ZQOl9FM5aGOYTl4o6aIfgLH22To1SqJNHKjRpMHr4Zh+YwCPOGzft9F6
+6Ybw9yK4Ozwzm/A9gTvgCkgw5CpSpLekcZX8Mpl+x2M8LpBwKSkZdK3chQpBtxuA
+t06+umoBi9AG1yqcXEkv/2H81ENylNFCt0IkcC7eSje0N8bbN7imqIOkBoxF2t+7
+KdrIB09zrg46OiFYz0SBUn+yim6y0GkntcPkfOD7KSvaHuvB5t7rfecY3Ckl8EYS
+99bZ7B+D97+eUENCo6e84GQGoPa4n7RkIPeRPGH9WJoq0047Z6QViyTkBqg7gH8N
+mxwBpGU9UYbpiZMsiiSB9wdiGBciyg==
+=j0QV
+-----END PGP SIGNATURE-----
+
+--10BkQrmXYiTb3owcb8YFUe0uLWcOVDCw7--
+
+--===============0987915030==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0987915030==--
