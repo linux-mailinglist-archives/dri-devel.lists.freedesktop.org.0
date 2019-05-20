@@ -2,33 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1021922D52
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 09:42:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C95722D76
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 09:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4385C88A56;
-	Mon, 20 May 2019 07:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02B9C891DA;
+	Mon, 20 May 2019 07:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3761188A56
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2019 07:42:22 +0000 (UTC)
-X-Originating-IP: 90.88.22.185
-Received: from localhost (aaubervilliers-681-1-80-185.w90-88.abo.wanadoo.fr
- [90.88.22.185]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 5047A60003;
- Mon, 20 May 2019 07:42:11 +0000 (UTC)
-Date: Mon, 20 May 2019 09:42:11 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Torsten Duwe <duwe@lst.de>
-Subject: Re: [PATCH v2 1/4] arm64: DTS: allwinner: a64: Add pinmux for RGB666
- LCD
-Message-ID: <20190520074211.mq2au6gt7tyxijrv@flea>
-References: <20190516154943.239E668B05@newverein.lst.de>
- <20190516155130.8A52768B20@newverein.lst.de>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D776891DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2019 07:56:27 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id p27so22472212eda.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2019 00:56:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jiVgtLJVaSK+kBnj7Ae+LR1x0hOyccWrwqfEKZcrZlk=;
+ b=kvXuW/hXwMLnp1Iqb7XAoVaFZ4dnWR0EsGDf9XdGoR8rhrbOvRzwq4VjpFhF/tx+lC
+ pJoS1pmMqLEfTHOCRy72UCd/68VoRql9EIt3Kipln6H6hkRBbAiUFz0pBD9302bG2x8W
+ 3E+uIq4uYeJrK4dAGC8npktW/Bitwjp+lAPFhrc2eFuNC2o4NfV/VPhUQLAP6A/osjWL
+ 2n1ulsXxXNFU756TK3VBdnWz8udF9usktiucZQrGGyDMTy5cYmNKfm62MGASZH/KY0Ji
+ qo9/6ArXr6XCI2gOwDM9i1lGEloSPF5h8mjmfNQ3PaigQ0lUEjxODjOeTckM8ARgNFFw
+ OlaQ==
+X-Gm-Message-State: APjAAAUNgoqLTJhqtE/9IVtmpUWIBlBr7az5F4EDOPPqSlwiZguvhM6/
+ uIGUeXQsRYKIUy8kQL/eUqo/FLxFUn8=
+X-Google-Smtp-Source: APXvYqwi/FoAjlDjgnyKa9Nq5isBQTItjiBdLZ9RqLwDoQTYjlY2eNSF3P5KmqEErVvFcy6mF/ngHQ==
+X-Received: by 2002:a17:906:82cf:: with SMTP id
+ a15mr32371500ejy.176.1558338985489; 
+ Mon, 20 May 2019 00:56:25 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com.
+ [209.85.221.43])
+ by smtp.gmail.com with ESMTPSA id e9sm5209044edq.39.2019.05.20.00.56.24
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 20 May 2019 00:56:25 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id l2so13381187wrb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2019 00:56:24 -0700 (PDT)
+X-Received: by 2002:adf:dfc4:: with SMTP id q4mr41065855wrn.201.1558338984633; 
+ Mon, 20 May 2019 00:56:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190516155130.8A52768B20@newverein.lst.de>
-User-Agent: NeoMutt/20180716
+References: <20190516154943.239E668B05@newverein.lst.de>
+ <20190516155139.E6EE568C65@newverein.lst.de>
+In-Reply-To: <20190516155139.E6EE568C65@newverein.lst.de>
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 20 May 2019 15:56:13 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64xKk1r1iqSVm5pVvHVkyQ175MUFB7JPUkvQX9ecOZDDQ@mail.gmail.com>
+Message-ID: <CAGb2v64xKk1r1iqSVm5pVvHVkyQ175MUFB7JPUkvQX9ecOZDDQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] arm64: DTS: allwinner: a64: Enable audio on Teres-I
+To: Torsten Duwe <duwe@lst.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,70 +64,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>,
  Archit Taneja <architt@codeaurora.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
- linux-arm-kernel@lists.infradead.org, Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============0504618374=="
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0504618374==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nmucr3o54tqc5cok"
-Content-Disposition: inline
-
-
---nmucr3o54tqc5cok
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, May 16, 2019 at 05:51:30PM +0200, Torsten Duwe wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
->
-> Allwinner A64's TCON0 can output RGB666 LCD signal.
->
-> Add its pinmux.
->
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> Signed-off-by: Torsten Duwe <duwe@suse.de>
-
-Applied, with sed/DTS/dts/ in the commit title
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---nmucr3o54tqc5cok
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOJaUwAKCRDj7w1vZxhR
-xeRpAP9JHeg2w3hIcKAnJSqyT4MAdUGk3w86iyTzdo8MN3q3FwEAiizS3iTsBbIV
-WSkjcMS/7QscOwCwAxJe8Na87XN4owM=
-=CwT1
------END PGP SIGNATURE-----
-
---nmucr3o54tqc5cok--
-
---===============0504618374==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0504618374==--
+T24gVGh1LCBNYXkgMTYsIDIwMTkgYXQgMTE6NTIgUE0gVG9yc3RlbiBEdXdlIDxkdXdlQGxzdC5k
+ZT4gd3JvdGU6Cj4KPiBGcm9tOiBIYXJhbGQgR2V5ZXIgPGhhcmFsZEBjY2JpYi5vcmc+Cj4KPiBU
+aGUgVEVSRVMtSSBoYXMgaW50ZXJuYWwgc3BlYWtlcnMgKGxlZnQsIHJpZ2h0KSwgaW50ZXJuYWwg
+bWljcm9waG9uZQo+IGFuZCBhIGhlYWRzZXQgY29tYm8gamFjayAoaGVhZHBob25lcyArIG1pYyks
+ICJDVElBIiAoYW5kcm9pZCkgcGlub3V0Lgo+Cj4gVGhlIGhlYWRwaG9uZSBhbmQgbWljIGRldGVj
+dCBsaW5lcyBvZiB0aGUgQTY0IGFyZSBjb25uZWN0ZWQgcHJvcGVybHksCj4gYnV0IEFGQUlLIGN1
+cnJlbnRseSB1bnN1cHBvcnRlZCBieSB0aGUgZHJpdmVyLgo+Cj4gU2lnbmVkLW9mZi1ieTogSGFy
+YWxkIEdleWVyIDxoYXJhbGRAY2NiaWIub3JnPgo+IFNpZ25lZC1vZmYtYnk6IFRvcnN0ZW4gRHV3
+ZSA8ZHV3ZUBzdXNlLmRlPgoKTG9va3MgZ29vZCB0byBtZS4KClJldmlld2VkLWJ5OiBDaGVuLVl1
+IFRzYWkgPHdlbnNAY3NpZS5vcmc+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
