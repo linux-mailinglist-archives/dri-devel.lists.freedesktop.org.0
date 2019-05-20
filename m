@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4524C23DFA
-	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 19:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C971223E0D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 May 2019 19:08:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5F889227;
-	Mon, 20 May 2019 17:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38B5A8925F;
+	Mon, 20 May 2019 17:08:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BC90989227
- for <dri-devel@lists.freedesktop.org>; Mon, 20 May 2019 17:03:21 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B438172167; Mon, 20 May 2019 17:03:21 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110713] A Hat in Time: GPU hang with gallium nine
-Date: Mon, 20 May 2019 17:03:22 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kiwii@lytoria.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-110713-502-7BsQ3sG993@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110713-502@http.bugs.freedesktop.org/>
-References: <bug-110713-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4128923C;
+ Mon, 20 May 2019 17:08:27 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 640F720087;
+ Mon, 20 May 2019 19:08:22 +0200 (CEST)
+Date: Mon, 20 May 2019 19:08:20 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 10/33] fbcon: call fbcon_fb_(un)registered directly
+Message-ID: <20190520170820.GA27230@ravnborg.org>
+References: <20190520082216.26273-1-daniel.vetter@ffwll.ch>
+ <20190520082216.26273-11-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190520082216.26273-11-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=QyXUC8HyAAAA:8
+ a=hD80L64hAAAA:8 a=20KFwNOVAAAA:8 a=ag1SF4gXAAAA:8 a=SJz97ENfAAAA:8
+ a=bDN84i_9AAAA:8 a=VwQbUJbxAAAA:8 a=AUPil0-6CJQSJ-L3P-oA:9
+ a=QEXdDO2ut3YA:10 a=Yupwre4RP9_Eg_Bd0iYG:22 a=vFet0B0WnEQeilDPIY6i:22
+ a=J2PsDwZO0S0EpbpLmD-j:22 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,143 +48,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0255409996=="
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+ Yisheng Xie <ysxie@foxmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ Mikulas Patocka <mpatocka@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Peter Rosin <peda@axentia.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0255409996==
-Content-Type: multipart/alternative; boundary="15583718010.6E0742f6c.327"
-Content-Transfer-Encoding: 7bit
-
-
---15583718010.6E0742f6c.327
-Date: Mon, 20 May 2019 17:03:21 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110713
-
-kiwii@lytoria.de changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |kiwii@lytoria.de
-
---- Comment #1 from kiwii@lytoria.de ---
-I'd like to add, besides the R9 270X, this also affects Vega (both traces h=
-ang
-my Vega 64) and Polaris (one user reports the chapter 1, act 4 hang to be 1=
-00%
-reproducible on his RX 580).
-
-I can also confirm both traces to play fine on my card with AMD_DEBUG=3Dmon=
-o on
-mesa-git and R600_DEBUG=3Dmono on mesa 19.0.4.
-
-With the NIR backend (R600_DEBUG=3Dnir) it still hangs the same way as with
-default TGSI on both 19.0.4 and git.
-
-Note: Both traces are recorded on x64 and may need to be replayed with x64
-apitrace to prevent running out of memory during shader compilation.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15583718010.6E0742f6c.327
-Date: Mon, 20 May 2019 17:03:21 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:kiwii&#64=
-;lytoria.de" title=3D"kiwii&#64;lytoria.de">kiwii&#64;lytoria.de</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - A Hat in Time: GPU hang with gallium nine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110713">bug 11071=
-3</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>kiwii&#64;lytoria.de
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - A Hat in Time: GPU hang with gallium nine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110713#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - A Hat in Time: GPU hang with gallium nine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110713">bug 11071=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-kiwii&#64;lytoria.de" title=3D"kiwii&#64;lytoria.de">kiwii&#64;lytoria.de</=
-a>
-</span></b>
-        <pre>I'd like to add, besides the R9 270X, this also affects Vega (=
-both traces hang
-my Vega 64) and Polaris (one user reports the chapter 1, act 4 hang to be 1=
-00%
-reproducible on his RX 580).
-
-I can also confirm both traces to play fine on my card with AMD_DEBUG=3Dmon=
-o on
-mesa-git and R600_DEBUG=3Dmono on mesa 19.0.4.
-
-With the NIR backend (R600_DEBUG=3Dnir) it still hangs the same way as with
-default TGSI on both 19.0.4 and git.
-
-Note: Both traces are recorded on x64 and may need to be replayed with x64
-apitrace to prevent running out of memory during shader compilation.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15583718010.6E0742f6c.327--
-
---===============0255409996==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0255409996==--
+SGkgRGFuaWVsLgoKV2hpbGUgYnJvd3NpbmcgdGhpcyBuaWNlIHBhdGNoIHNlcmllcyBJIHN0dW1i
+bGVkIHVwb24gYSBkZXRhaWwuCgpPbiBNb24sIE1heSAyMCwgMjAxOSBhdCAxMDoyMTo1M0FNICsw
+MjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IFdpdGgKPiAKPiBjb21taXQgNjEwNGMzNzA5NGU3
+MjlmM2Q0Y2U2NTc5NzAwMjExMjczNWQ0OWNkMQo+IEF1dGhvcjogRGFuaWVsIFZldHRlciA8ZGFu
+aWVsLnZldHRlckBmZndsbC5jaD4KPiBEYXRlOiAgIFR1ZSBBdWcgMSAxNzozMjowNyAyMDE3ICsw
+MjAwCj4gCj4gICAgIGZiY29uOiBNYWtlIGZiY29uIGEgYnVpbHQtdGltZSBkZXBlbmN5IGZvciBm
+YmRldgo+IAo+IHdlIGhhdmUgYSBzdGF0aWMgZGVwZW5kZW5jeSBiZXR3ZWVuIGZiY29uIGFuZCBm
+YmRldiwgYW5kIHdlIGNhbgo+IHJlcGxhY2UgdGhlIGluZGlyZWN0aW9uIHRocm91Z2ggdGhlIG5v
+dGlmaWVyIGNoYWluIHdpdGggYSBmdW5jdGlvbgo+IGNhbGwuCj4gCj4gU2lnbmVkLW9mZi1ieTog
+RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IEJhcnRsb21pZWog
+Wm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KPiBDYzogRGFuaWVsIFZl
+dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBDYzogSGFucyBkZSBHb2VkZSA8aGRlZ29l
+ZGVAcmVkaGF0LmNvbT4KPiBDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4KPiBDYzogIk5vcmFsZiBUcsO4bm5lcyIgPG5vcmFsZkB0cm9ubmVzLm9yZz4K
+PiBDYzogWWlzaGVuZyBYaWUgPHlzeGllQGZveG1haWwuY29tPgo+IENjOiBQZXRlciBSb3NpbiA8
+cGVkYUBheGVudGlhLnNlPgo+IENjOiAiTWljaGHFgiBNaXJvc8WCYXciIDxtaXJxLWxpbnV4QHJl
+cmUucW1xbS5wbD4KPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
+Cj4gQ2M6IE1pa3VsYXMgUGF0b2NrYSA8bXBhdG9ja2FAcmVkaGF0LmNvbT4KPiBDYzogbGludXgt
+ZmJkZXZAdmdlci5rZXJuZWwub3JnCj4gLS0tCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgv
+ZmIuaCBiL2luY2x1ZGUvbGludXgvZmIuaAo+IGluZGV4IGY1MmVmMGFkNjc4MS4uNzAxYWJhZjc5
+Yzg3IDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvbGludXgvZmIuaAo+ICsrKyBiL2luY2x1ZGUvbGlu
+dXgvZmIuaAo+IEBAIC0xMzYsMTAgKzEzNiw2IEBAIHN0cnVjdCBmYl9jdXJzb3JfdXNlciB7Cj4g
+ICNkZWZpbmUgRkJfRVZFTlRfUkVTVU1FCQkJMHgwMwo+ICAvKiAgICAgIEFuIGVudHJ5IGZyb20g
+dGhlIG1vZGVsaXN0IHdhcyByZW1vdmVkICovCj4gICNkZWZpbmUgRkJfRVZFTlRfTU9ERV9ERUxF
+VEUgICAgICAgICAgICAweDA0Cj4gLS8qICAgICAgQSBkcml2ZXIgcmVnaXN0ZXJlZCBpdHNlbGYg
+Ki8KPiAtI2RlZmluZSBGQl9FVkVOVF9GQl9SRUdJU1RFUkVEICAgICAgICAgIDB4MDUKPiAtLyog
+ICAgICBBIGRyaXZlciB1bnJlZ2lzdGVyZWQgaXRzZWxmICovCj4gLSNkZWZpbmUgRkJfRVZFTlRf
+RkJfVU5SRUdJU1RFUkVEICAgICAgICAweDA2Cj4gIC8qICAgICAgQ09OU09MRS1TUEVDSUZJQzog
+Z2V0IGNvbnNvbGUgdG8gZnJhbWVidWZmZXIgbWFwcGluZyAqLwo+ICAjZGVmaW5lIEZCX0VWRU5U
+X0dFVF9DT05TT0xFX01BUCAgICAgICAgMHgwNwo+ICAvKiAgICAgIENPTlNPTEUtU1BFQ0lGSUM6
+IHNldCBjb25zb2xlIHRvIGZyYW1lYnVmZmVyIG1hcHBpbmcgKi8KClRoaXMgYnJlYWtzIGJ1aWxk
+IG9mIGFyY2gvYXJtL21hY2gtcHhhL2FtMjAwZXBkLmMgdGhhdHMgdXNlcwpGQl9FVkVOVF9GQl8q
+UkVHSVNURVJFRDoKCgogICAgICAgaWYgKGV2ZW50ID09IEZCX0VWRU5UX0ZCX1JFR0lTVEVSRUQp
+CiAgICAgICAgICAgICAgICByZXR1cm4gYW0yMDBfc2hhcmVfdmlkZW9fbWVtKGluZm8pOwogICAg
+ICAgIGVsc2UgaWYgKGV2ZW50ID09IEZCX0VWRU5UX0ZCX1VOUkVHSVNURVJFRCkKICAgICAgICAg
+ICAgICAgIHJldHVybiBhbTIwMF91bnNoYXJlX3ZpZGVvX21lbShpbmZvKTsKCgpGb3VuZCB3aGls
+ZSBncmVwcGluZyBmb3IgIkZCX0VWRU5UIiBzbyB0aGlzIGlzIG5vdCBhIGJ1aWxkCmVycm9yIEkg
+dHJpZ2dlcmVkLgoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
