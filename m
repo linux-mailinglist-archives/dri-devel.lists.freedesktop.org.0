@@ -2,66 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5891824A50
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 10:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5DD524A92
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 10:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34D3589247;
-	Tue, 21 May 2019 08:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C7D8925A;
+	Tue, 21 May 2019 08:40:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE5889247
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 08:26:57 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id f37so28009601edb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 01:26:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=sflGufuJmBGrWVV7kp0a21Ak4l+RlvLDFK6F90TjUIk=;
- b=fnoyIQqkeMSUhZZjGn0/rRiLMONC4K4M/oNzBLgTIdaG3ZKO4csfQqp3MaCvasIsUw
- wuId59+MdpoosuLVQxNagibNVM0kzyh2mrSGKsUplJ7Ml6yQDdo9bki4obP7BkErw6Wi
- VCl29l9/cTpU24dpWS4KlbV5GoSazu2YOHF7C/ECGFNY2e1Z08VLr/MJWAfduprzbtDV
- 7g4OQH4374ekgMBldbFIWD78zCtXT5skp4kuiI/Xz5wXTfjON1JCp6/sNKEFeE/SFtBd
- 34xAqJBAPPwlvnf4ASn5Hj+ZbXZYOcPvnjYiC+LhmCw1M4u5l2KPsDHz4iuJwR7uzSSH
- M6eg==
-X-Gm-Message-State: APjAAAXzznhy53Qa603GXKOuuNUHotOAhXxOud4A1QIbWpixV8Nvva2x
- AI5ib2LXucE/My42JfFvGm/LcQ==
-X-Google-Smtp-Source: APXvYqwA6mKKB38IoocAh7xCa1f9JR4yiOByi2IoSmFpDSnNdZHvj/wmfZQp19/9E2v9ZWOHBhQsHA==
-X-Received: by 2002:a50:addc:: with SMTP id b28mr82524241edd.7.1558427216045; 
- Tue, 21 May 2019 01:26:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id d24sm6190111edb.5.2019.05.21.01.26.55
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 21 May 2019 01:26:55 -0700 (PDT)
-Date: Tue, 21 May 2019 10:26:53 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH 2/2] drm/doc: Document expectation that userspace review
- looks at kernel uAPI.
-Message-ID: <20190521082653.GJ21222@phenom.ffwll.local>
-Mail-Followup-To: Pekka Paalanen <ppaalanen@gmail.com>,
- Eric Anholt <eric@anholt.net>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20190424185617.16865-1-eric@anholt.net>
- <20190424185617.16865-2-eric@anholt.net>
- <20190424193636.GU9857@phenom.ffwll.local>
- <20190521104734.2d8853ac@eldfell.localdomain>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 20428891EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 08:40:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 17B9A72167; Tue, 21 May 2019 08:40:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108824] Invalid handling when GL buffer is bound on one context
+ and invalidated on another
+Date: Tue, 21 May 2019 08:40:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pelloux@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108824-502-fssatLmCLj@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108824-502@http.bugs.freedesktop.org/>
+References: <bug-108824-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190521104734.2d8853ac@eldfell.localdomain>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=sflGufuJmBGrWVV7kp0a21Ak4l+RlvLDFK6F90TjUIk=;
- b=PO/+DkkqU2QMkKp1T2YLYKA9bqN7zoE0orBMP1ZgOfRn1ykb8Rhc2OAb4f/CU2LToz
- f+jqxUBiuPwEGvvw2rEqeXFB3bIkuNt7ATmh9dscN4EhugZWbZGLxTJjP0r+j2I6kP5S
- qU9Gy87QX7JdjaLotxtlAsPUGE7EsUdqsMwwU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,54 +53,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0820009523=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXkgMjEsIDIwMTkgYXQgMTA6NDc6MzRBTSArMDMwMCwgUGVra2EgUGFhbGFuZW4g
-d3JvdGU6Cj4gT24gV2VkLCAyNCBBcHIgMjAxOSAyMTozNjozNiArMDIwMAo+IERhbmllbCBWZXR0
-ZXIgPGRhbmllbEBmZndsbC5jaD4gd3JvdGU6Cj4gCj4gPiBPbiBXZWQsIEFwciAyNCwgMjAxOSBh
-dCAxMTo1NjoxN0FNIC0wNzAwLCBFcmljIEFuaG9sdCB3cm90ZToKPiA+ID4gVGhlIHBvaW50IG9m
-IHRoaXMgcmV2aWV3IHByb2Nlc3MgaXMgdGhhdCB1c2Vyc3BhY2UgdXNpbmcgdGhlIG5ldyB1QVBJ
-Cj4gPiA+IGNhbiBhY3R1YWxseSBsaXZlIHdpdGggdGhlIHVBUEkgYmVpbmcgcHJvdmlkZWQsIGFu
-ZCBpdCdzIGhhcmQgdG8ga25vdwo+ID4gPiB0aGF0IHdpdGhvdXQgaGF2aW5nIGFjdHVhbGx5IGxv
-b2tlZCBpbnRvIGEga2VybmVsIHBhdGNoIHlvdXJzZWxmLgo+ID4gPiAKPiA+ID4gU2lnbmVkLW9m
-Zi1ieTogRXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KPiA+ID4gU3VnZ2VzdGVkLWJ5OiBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gPiAtLS0KPiA+ID4gIERv
-Y3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdCB8IDQgKysrLQo+ID4gPiAgMSBmaWxlIGNoYW5n
-ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L2Ry
-bS11YXBpLnJzdAo+ID4gPiBpbmRleCA4ZTU1NDVkZmJmODIuLjI5ODQyNGI5OGQ5OSAxMDA2NDQK
-PiA+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLXVhcGkucnN0Cj4gPiA+ICsrKyBiL0Rv
-Y3VtZW50YXRpb24vZ3B1L2RybS11YXBpLnJzdAo+ID4gPiBAQCAtODUsNyArODUsOSBAQCBsZWFk
-cyB0byBhIGZldyBhZGRpdGlvbmFsIHJlcXVpcmVtZW50czoKPiA+ID4gIC0gVGhlIHVzZXJzcGFj
-ZSBzaWRlIG11c3QgYmUgZnVsbHkgcmV2aWV3ZWQgYW5kIHRlc3RlZCB0byB0aGUgc3RhbmRhcmRz
-IG9mIHRoYXQKPiA+ID4gICAgdXNlcnNwYWNlIHByb2plY3QuIEZvciBlLmcuIG1lc2EgdGhpcyBt
-ZWFucyBwaWdsaXQgdGVzdGNhc2VzIGFuZCByZXZpZXcgb24gdGhlCj4gPiA+ICAgIG1haWxpbmcg
-bGlzdC4gVGhpcyBpcyBhZ2FpbiB0byBlbnN1cmUgdGhhdCB0aGUgbmV3IGludGVyZmFjZSBhY3R1
-YWxseSBnZXRzIHRoZQo+ID4gPiAtICBqb2IgZG9uZS4KPiA+ID4gKyAgam9iIGRvbmUuICBUaGUg
-dXNlcnNwYWNlLXNpZGUgcmV2aWV3ZXIgc2hvdWxkIGFsc28gcHJvdmlkZSBhdCBsZWFzdCBhbgo+
-ID4gPiArICBBY2tlZC1ieSBvbiB0aGUga2VybmVsIHVBUEkgcGF0Y2ggaW5kaWNhdGluZyB0aGF0
-IHRoZXkndmUgbG9va2VkIGF0IGhvdyB0aGUKPiA+ID4gKyAga2VybmVsIHNpZGUgaXMgaW1wbGVt
-ZW50aW5nIHRoZSBuZXcgZmVhdHVyZSBiZWluZyB1c2VkLiAgCj4gPiAKPiA+IEFuc3dlcnMgYSBx
-dWVzdGlvbiB0aGF0IGp1c3QgcmVjZW50bHkgY2FtZSB1cCBvbiBtZXJnaW5nIG5ldyBrbXMKPiA+
-IHByb3BlcnRpZXMuCj4gPiAKPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGZmd2xsLmNoPgo+IAo+IEhpLAo+IAo+IGZvciB0aGUgcmVjb3JkLCBJIHBlcnNvbmFs
-bHkgd2lsbCBub3QgYmUgYWJsZSB0byBwcm92aWRlIHN1Y2ggQWNrZWQtYnkKPiB0YWcgYWNjb3Jk
-aW5nIHRvIGtlcm5lbCByZXZpZXcgcnVsZXMsIGJlY2F1c2UgSSBhbSBjb21wbGV0ZWx5IHVuZmFt
-aWxpYXIKPiB3aXRoIGtlcm5lbCBEUk0gaW50ZXJuYWxzIGFuZCBjYW5ub3QgcmV2aWV3IGtlcm5l
-bCBjb2RlIGF0IGFsbC4gVGhpcwo+IG1pZ2h0IG1ha2UgcGVvcGxlIGV4cGVjdGluZyBXZXN0b24g
-dG8gcHJvdmUgdGhlaXIgdUFQSSBkaXNhcHBvaW50ZWQsCj4gc2luY2UgdGhlcmUgYXJlIHZlcnkg
-ZmV3IFdlc3RvbiByZXZpZXdlcnMgYXZhaWxhYmxlLgo+IAo+IElmIHlvdSBtZWFudCBzb21ldGhp
-bmcgZWxzZSwgcGxlYXNlIHdvcmQgaXQgdG8gdGhhdCB5b3UgYWN0dWFsbHkgbWVhbnQuCgpIbSBy
-aWdodCwgdGhhdCB3b3JkaW5nIGlzIHB1dHRpbmcgYSBiaXQgdG9vIGhpZ2ggYSBiYXIuIFdlIHdh
-bnQgdGhlCnVzZXJzcGFjZSB2aWV3IHBvaW50IGhlcmUsIG5vdCBmb3JjZSB1c2Vyc3BhY2UgcGVv
-cGxlIHRvIHJldmlldyBrZXJuZWwKY29kZS4gSSdsbCB0cnkgdG8gY2xhcmlmeSB0aGlzIGEgYml0
-IGJldHRlci4KLURhbmllbAotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50
-ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0820009523==
+Content-Type: multipart/alternative; boundary="15584280170.dcBa9A2a.7058"
+Content-Transfer-Encoding: 7bit
+
+
+--15584280170.dcBa9A2a.7058
+Date: Tue, 21 May 2019 08:40:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108824
+
+--- Comment #10 from Pierre-Eric Pelloux-Prayer <pelloux@gmail.com> ---
+(In reply to Baldur Karlsson from comment #7)
+> To repro with RenderDoc:
+>=20
+> * Download or build RenderDoc 1.4
+> * Build gears3d from https://github.com/gears3d/gears3d
+> * Launch gears3d through RenderDoc, capture, open the frame
+> * Step back and forth through the drawcalls and the texture viewer will s=
+how
+> up with some corruption.
+>=20
+> Screenshot here: https://i.imgur.com/1Dk7diS.png
+
+I tried to reproduce the issue and actually had 2 different issues:
+- before 12bf7cfecf52083c484602f971738475edfe497e: the rendering is corrupt=
+ed
+as described above. Reverting 78e35df52aa2f7d770f929a0866a0faa89c261a9 fixes
+the rendering.
+
+- starting from 12bf7cfecf52083c484602f971738475edfe497e: the rendering is
+corrupted and wrong: I only see the red gear, the green/blue ones are never
+drawn
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15584280170.dcBa9A2a.7058
+Date: Tue, 21 May 2019 08:40:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
+nd invalidated on another"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
+nd invalidated on another"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824">bug 10882=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pelloux&#64;gmail.com" title=3D"Pierre-Eric Pelloux-Prayer &lt;pelloux&#64;=
+gmail.com&gt;"> <span class=3D"fn">Pierre-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Baldur Karlsson from <a href=3D"show_bug.cgi?id=
+=3D108824#c7">comment #7</a>)
+<span class=3D"quote">&gt; To repro with RenderDoc:
+&gt;=20
+&gt; * Download or build RenderDoc 1.4
+&gt; * Build gears3d from <a href=3D"https://github.com/gears3d/gears3d">ht=
+tps://github.com/gears3d/gears3d</a>
+&gt; * Launch gears3d through RenderDoc, capture, open the frame
+&gt; * Step back and forth through the drawcalls and the texture viewer wil=
+l show
+&gt; up with some corruption.
+&gt;=20
+&gt; Screenshot here: <a href=3D"https://i.imgur.com/1Dk7diS.png">https://i=
+.imgur.com/1Dk7diS.png</a></span >
+
+I tried to reproduce the issue and actually had 2 different issues:
+- before 12bf7cfecf52083c484602f971738475edfe497e: the rendering is corrupt=
+ed
+as described above. Reverting 78e35df52aa2f7d770f929a0866a0faa89c261a9 fixes
+the rendering.
+
+- starting from 12bf7cfecf52083c484602f971738475edfe497e: the rendering is
+corrupted and wrong: I only see the red gear, the green/blue ones are never
+drawn</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15584280170.dcBa9A2a.7058--
+
+--===============0820009523==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0820009523==--
