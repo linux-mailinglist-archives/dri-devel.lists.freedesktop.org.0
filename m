@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DD524A92
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 10:40:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA8424AA4
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 10:44:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C7D8925A;
-	Tue, 21 May 2019 08:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92D0C89206;
+	Tue, 21 May 2019 08:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 20428891EB
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 08:40:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 17B9A72167; Tue, 21 May 2019 08:40:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108824] Invalid handling when GL buffer is bound on one context
- and invalidated on another
-Date: Tue, 21 May 2019 08:40:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pelloux@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108824-502-fssatLmCLj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108824-502@http.bugs.freedesktop.org/>
-References: <bug-108824-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E01D89206
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 08:44:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 May 2019 01:44:38 -0700
+X-ExtLoop1: 1
+Received: from lfo1-mobl.ger.corp.intel.com (HELO [10.252.22.14])
+ ([10.252.22.14])
+ by orsmga003.jf.intel.com with ESMTP; 21 May 2019 01:44:36 -0700
+Subject: Re: drm-sync timeline signaling
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ "Zhou, David(ChunMing)" <David1.Zhou@amd.com>
+References: <882a793c-cf49-8522-b1f3-cdb8dc685ea0@intel.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Message-ID: <2e74c0a7-3b4e-c1ff-9b6c-33ebd7008b6b@intel.com>
+Date: Tue, 21 May 2019 09:44:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <882a793c-cf49-8522-b1f3-cdb8dc685ea0@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,131 +48,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0820009523=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0820009523==
-Content-Type: multipart/alternative; boundary="15584280170.dcBa9A2a.7058"
-Content-Transfer-Encoding: 7bit
-
-
---15584280170.dcBa9A2a.7058
-Date: Tue, 21 May 2019 08:40:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108824
-
---- Comment #10 from Pierre-Eric Pelloux-Prayer <pelloux@gmail.com> ---
-(In reply to Baldur Karlsson from comment #7)
-> To repro with RenderDoc:
->=20
-> * Download or build RenderDoc 1.4
-> * Build gears3d from https://github.com/gears3d/gears3d
-> * Launch gears3d through RenderDoc, capture, open the frame
-> * Step back and forth through the drawcalls and the texture viewer will s=
-how
-> up with some corruption.
->=20
-> Screenshot here: https://i.imgur.com/1Dk7diS.png
-
-I tried to reproduce the issue and actually had 2 different issues:
-- before 12bf7cfecf52083c484602f971738475edfe497e: the rendering is corrupt=
-ed
-as described above. Reverting 78e35df52aa2f7d770f929a0866a0faa89c261a9 fixes
-the rendering.
-
-- starting from 12bf7cfecf52083c484602f971738475edfe497e: the rendering is
-corrupted and wrong: I only see the red gear, the green/blue ones are never
-drawn
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15584280170.dcBa9A2a.7058
-Date: Tue, 21 May 2019 08:40:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824">bug 10882=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pelloux&#64;gmail.com" title=3D"Pierre-Eric Pelloux-Prayer &lt;pelloux&#64;=
-gmail.com&gt;"> <span class=3D"fn">Pierre-Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>(In reply to Baldur Karlsson from <a href=3D"show_bug.cgi?id=
-=3D108824#c7">comment #7</a>)
-<span class=3D"quote">&gt; To repro with RenderDoc:
-&gt;=20
-&gt; * Download or build RenderDoc 1.4
-&gt; * Build gears3d from <a href=3D"https://github.com/gears3d/gears3d">ht=
-tps://github.com/gears3d/gears3d</a>
-&gt; * Launch gears3d through RenderDoc, capture, open the frame
-&gt; * Step back and forth through the drawcalls and the texture viewer wil=
-l show
-&gt; up with some corruption.
-&gt;=20
-&gt; Screenshot here: <a href=3D"https://i.imgur.com/1Dk7diS.png">https://i=
-.imgur.com/1Dk7diS.png</a></span >
-
-I tried to reproduce the issue and actually had 2 different issues:
-- before 12bf7cfecf52083c484602f971738475edfe497e: the rendering is corrupt=
-ed
-as described above. Reverting 78e35df52aa2f7d770f929a0866a0faa89c261a9 fixes
-the rendering.
-
-- starting from 12bf7cfecf52083c484602f971738475edfe497e: the rendering is
-corrupted and wrong: I only see the red gear, the green/blue ones are never
-drawn</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15584280170.dcBa9A2a.7058--
-
---===============0820009523==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0820009523==--
+UGluZz8KCk9uIDE2LzA1LzIwMTkgMTU6NDksIExpb25lbCBMYW5kd2VybGluIHdyb3RlOgo+IEhp
+IGFsbCwKPgo+IFdoaWxlIHBpY2tpbmcgdXAgdGhlIElHVCB0ZXN0cyBmb3IgdGltZWxpbmUgc3lu
+Y29iaiwKPiBJIG5vdGljZWQgdGhhdCBhbHRob3VnaCB3ZSBkZWFsIHdpdGggbXVsdGkgd2FpdCBh
+Y3Jvc3MgYm90aCB0aW1lbGluZSAKPiAod2l0aCBwb2ludCB2YWx1ZSA+IDApIGFuZCBiaW5hcnkg
+KHBvaW50IHZhbHVlID0gMCkgc3luY29ianMsCj4gd2UgZG9uJ3Qgc2VlbSB0byBoYXZlIGEgc2lt
+aWxhciBiZWhhdmlvciB3aXRoIHNpZ25hbGluZy4KPgo+IERvIHlvdSBoYXZlIGFueSB0aG91Z2h0
+IG9uIHRoaXM/Cj4gSSdtIGNvbnNpZGVyaW5nIHdyaXRpbmcgc29tZSBkb2NzIGJ1dCBJJ20gbm90
+IHF1aXRlIHN1cmUgd2hldGhlciB0aGlzIAo+IGRpZmZlcmVuY2UgYmV0d2VlbiBzaWduYWxpbmcv
+d2FpdGluZyB3YXMgaW50ZW50aW9uYWwgb3IganVzdCBvdmVybG9va2VkLgo+Cj4gVGhhbmtzLAo+
+Cj4gLUxpb25lbAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
