@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64562248E6
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 09:23:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB4724916
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 09:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2715389213;
-	Tue, 21 May 2019 07:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FAF89219;
+	Tue, 21 May 2019 07:38:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54A0089213
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 07:23:27 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id l17so15446614otq.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 00:23:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DPQL8bz6Ge/eFLfJPuBWgxB/nSLqSz43ISfLIGw+Rn0=;
- b=gzd7uSCweWssYQicB2WK9kSTuVFq6d+o15b+mhFOjfbaf4xYVcS+SwVbCnb6l4Nz82
- kiex72cbZ0Z/UaxiJgBrw4uX8Cl0YvTNxU2xxJYz1gzLaSiCBfNRegFa2MDcg38soB4p
- 6YKmMQcTDTFhVxmeiq1N68vHd/x8pba+wWtVEOZJnZm0OJeTkWtqJBlRs0y11boZZoTf
- SCocsF5UQ//olTcxglxiUMP7et9cQR/WDksvp7rfAicgMKm7qQfM8QLxE3a+91KDM96O
- PR3mwpoma+iVr7s7O4637QoADePYO6fRT5m0QFw71dQZPRNHSpbapgJ7u+/B7lEhKFQo
- GGxw==
-X-Gm-Message-State: APjAAAV/b33cWAGgu/X2YJ4YmDJBbVb0RLpAwm2mkcVbBf4rpsdBjuZO
- Ss79fWlq87iGeK4yXPHHcDvT4fgpfNK3H4F46PJ82g==
-X-Google-Smtp-Source: APXvYqwRwB1P5Gup3HP1MIlCSYyVyfn4YovUvZH/z6o7Bagy2HaHKKRr1LGuNbzUCTI0WsNWPs4SnLqkO/CCNIdY6Bk=
-X-Received: by 2002:a9d:7395:: with SMTP id j21mr2061299otk.204.1558423406551; 
- Tue, 21 May 2019 00:23:26 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 20048890C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 07:38:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 17AE672167; Tue, 21 May 2019 07:38:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 21 May 2019 07:38:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: chris@hodapp.email
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-wD0rrM8dJy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1558082760-4915-1-git-send-email-xiaolinkui@kylinos.cn>
- <SN6PR12MB2800A7AEC22121C8704CBB09870B0@SN6PR12MB2800.namprd12.prod.outlook.com>
- <20190520162807.GE21222@phenom.ffwll.local>
- <SN6PR12MB28007ED8F5C6838F2C25A9D587060@SN6PR12MB2800.namprd12.prod.outlook.com>
- <CADnq5_O=PAK3qZJ-kHUX9jQDkmEYOX+iOhOX7gNaaXp+tC7nUg@mail.gmail.com>
-In-Reply-To: <CADnq5_O=PAK3qZJ-kHUX9jQDkmEYOX+iOhOX7gNaaXp+tC7nUg@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 21 May 2019 09:23:14 +0200
-Message-ID: <CAKMK7uHS837L9Ze_K5q-AsFgOtAMD+n_i_Y404BX-_CwJeP08Q@mail.gmail.com>
-Subject: Re: [PATCH] gpu: drm: use struct_size() in kmalloc()
-To: Alex Deucher <alexdeucher@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DPQL8bz6Ge/eFLfJPuBWgxB/nSLqSz43ISfLIGw+Rn0=;
- b=RttiH3G67ThRjHMOpk4pcVI/VMZPc5TF2PsMtvOI1PMokcZqYS7EectW/z54H7FqiF
- ovukQ8zGr07qzNzAkQ482SUGOCpjq8+PKUV7PJmRe2njXqsuR3SkafzFpr77LyQTCbZD
- k3FpSMJ2zRic7PUIm4ogcRJ3+3tTAO/e1CK/w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,89 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- xiaolinkui <xiaolinkui@kylinos.cn>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Quan, Evan" <Evan.Quan@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0384388536=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXkgMjEsIDIwMTkgYXQgNDozMyBBTSBBbGV4IERldWNoZXIgPGFsZXhkZXVjaGVy
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBNb24sIE1heSAyMCwgMjAxOSBhdCA3OjE5IFBNIFBh
-biwgWGluaHVpIDxYaW5odWkuUGFuQGFtZC5jb20+IHdyb3RlOgo+ID4KPiA+IERhbmllbCwgd2hh
-dCB5b3UgYXJlIHRhbGtpbmcgYWJvdXQgaXMgdG90YWxseSB3cm9uZy4KPiA+IDEpIEFGQUlLLCBv
-bmx5IG9uZSB6ZXJvLXNpemUgYXJyYXkgY2FuIGJlIGluIHRoZSBlbmQgb2YgYSBzdHJ1Y3QuCj4g
-PiAyKSB0d28gc3RydWN0X3NpemUgd2lsbCBhZGQgdXAgc3RydWN0IGl0c2VsZiB0d2ljZS4gdGhl
-IHN1bSBpcyB3cm9uZyB0aGVuLgo+ID4KPiA+IE5vIG9mZmVuc2UuIEkgY2FuJ3QgaGVscCBmZWVs
-aW5nIGx1Y2t5IHRoYXQgeW91IGFyZSBpbiBpbnRlbC4KPgo+IFhpbmh1aSwKPgo+IFBsZWFzZSBr
-ZWVwIHRoaW5ncyBjaXZpbC4gIFRoZXJlIGlzIG5vIG5lZWQgZm9yIGNvbW1lbnRzIGxpa2UgdGhp
-cy4KClllYWgsIHRoaXMgd2FzIG92ZXIgdGhlIGxpbmUsIHRoYW5rcyBBbGV4IGZvciBhbHJlYWR5
-IHRha2luZyBjYXJlIG9mCnRoaXMuIFBsZWFzZSBub3RlIHRoYXQgZmQubyBtYWlsaW5nIGxpc3Rz
-IG9wZXJhdGUgdW5kZXIgYSBDb0M6CgpodHRwczovL3d3dy5mcmVlZGVza3RvcC5vcmcvd2lraS9D
-b2RlT2ZDb25kdWN0LwoKV3J0IHRoZSB0ZWNobmljYWwgY29tbWVudDogSSBrbm93IHRoYXQgeW91
-IGNhbiBvbmx5IGRvIG9uZSB2YXJpYWJsZQpzaXplZCBhcnJheSwgYW5kIGl0IG11c3QgYmUgYXQg
-dGhlIGVuZC4gQnV0IHlvdSBjYW4gcHV0IG11bHRpcGxlCnN0cnVjdHVyZXMgYWxsIHdpdGhpbiB0
-aGUgc2FtZSBhbGxvY2F0aW9uLiBXaGljaCBpcyB3aGF0IEkgdGhvdWdodCB5b3UKd2FudGVkIHRv
-IGRvLiBBbmQgbXkgc2tldGNoIHdvdWxkIGFsbG93IHlvdSB0byBkbyB0aGF0IGV2ZW4gaWYgeW91
-CmhhdmUgbXVsdGlwbGUgdmFyaWFibGUgbGVuZ3RoIHN0cnVjdHVyZXMgeW91IHdhbnQgdG8gYWxs
-b2NhdGUuIFRoZXJlJ3MKcGxlbnR5IGV4YW1wbGVzIG9mIHRoaXMgKGJ1dCBvcGVuLWNvZGVkIG9u
-ZXMpIGluIHRoZSBrZXJuZWwuCgpFeGNlcHQgaW4gcmVhbGx5IGhvdCBwYXRocyBJIHBlcnNvbmFs
-bHkgdGhpbmsgdGhhdCB0aGF0IGtpbmQgb2YKdHJpY2tlcnkgaXNuJ3Qgd29ydGggaXQuCgpDaGVl
-cnMsIERhbmllbAoKPgo+IEFsZXgKPgo+ID4KPiA+Cj4gPiDlj5Hku7bkuro6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IOS7o+ihqCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxA
-ZmZ3bGwuY2g+Cj4gPiDlj5HpgIHml7bpl7Q6IDIwMTnlubQ15pyIMjHml6UgMDoyOAo+ID4g5pS2
-5Lu25Lq6OiBQYW4sIFhpbmh1aQo+ID4g5oqE6YCBOiBEZXVjaGVyLCBBbGV4YW5kZXI7IEtvZW5p
-ZywgQ2hyaXN0aWFuOyBaaG91LCBEYXZpZChDaHVuTWluZyk7IGFpcmxpZWRAbGludXguaWU7IGRh
-bmllbEBmZndsbC5jaDsgUXVhbiwgRXZhbjsgeGlhb2xpbmt1aTsgYW1kLWdmeEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5l
-bEB2Z2VyLmtlcm5lbC5vcmcKPiA+IOS4u+mimDogUmU6IFtQQVRDSF0gZ3B1OiBkcm06IHVzZSBz
-dHJ1Y3Rfc2l6ZSgpIGluIGttYWxsb2MoKQo+ID4KPiA+IFtDQVVUSU9OOiBFeHRlcm5hbCBFbWFp
-bF0KPiA+Cj4gPiBPbiBGcmksIE1heSAxNywgMjAxOSBhdCAwNDo0NDozMFBNICswMDAwLCBQYW4s
-IFhpbmh1aSB3cm90ZToKPiA+ID4gSSBhbSBnb2luZyB0byBwdXQgbW9yZSBtZW1iZXJzIHdoaWNo
-IGFyZSBhbHNvIGFycmF5IGFmdGVyIHRoaXMgc3RydWN0LAo+ID4gPiBub3Qgb25seSBvYmpbXS4g
-IExvb2tzIGxpa2UgdGhpcyBzdHJ1Y3Rfc2l6ZSBkaWQgbm90IGhlbHAgb24gbXVsdGlwbGUKPiA+
-ID4gYXJyYXkgY2FzZS4gVGhhbmtzIGFueXdheS4gIF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCj4gPgo+ID4gWW91IGNhbiB0aGVuIGFkZCB0aGVtIHVwLCBlLmcuIGttYWxsb2Moc3Ry
-dWN0X3NpemUoKStzdHJ1Y3Rfc2l6ZSgpLAo+ID4gR0ZQX0tFUk5FTCksIHNvIHRoaXMgcGF0Y2gg
-aGVyZSBzdGlsbCBsb29rcyBsaWtlIGEgZ29vZCBpZGVhLgo+ID4KPiA+IFJldmlld2VkLWJ5OiBE
-YW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4KPiA+IENoZWVycywgRGFu
-aWVsCj4gPgo+ID4gPiBGcm9tOiB4aWFvbGlua3VpIDx4aWFvbGlua3VpQGt5bGlub3MuY24+Cj4g
-PiA+IFNlbnQ6IEZyaWRheSwgTWF5IDE3LCAyMDE5IDQ6NDY6MDAgUE0KPiA+ID4gVG86IERldWNo
-ZXIsIEFsZXhhbmRlcjsgS29lbmlnLCBDaHJpc3RpYW47IFpob3UsIERhdmlkKENodW5NaW5nKTsg
-YWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOyBQYW4sIFhpbmh1aTsgUXVhbiwgRXZh
-bgo+ID4gPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IHhpYW9saW5r
-dWlAa3lsaW5vcy5jbgo+ID4gPiBTdWJqZWN0OiBbUEFUQ0hdIGdwdTogZHJtOiB1c2Ugc3RydWN0
-X3NpemUoKSBpbiBrbWFsbG9jKCkKPiA+ID4KPiA+ID4gW0NBVVRJT046IEV4dGVybmFsIEVtYWls
-XQo+ID4gPgo+ID4gPiBVc2Ugc3RydWN0X3NpemUoKSBoZWxwZXIgdG8ga2VlcCBjb2RlIHNpbXBs
-ZS4KPiA+ID4KPiA+ID4gU2lnbmVkLW9mZi1ieTogeGlhb2xpbmt1aSA8eGlhb2xpbmt1aUBreWxp
-bm9zLmNuPgo+ID4gPiAtLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9yYXMuYyB8IDMgKy0tCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIg
-ZGVsZXRpb25zKC0pCj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS9hbWRncHVfcmFzLmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-cmFzLmMKPiA+ID4gaW5kZXggMjJiZDIxZS4uNDcxN2E2NCAxMDA2NDQKPiA+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3Jhcy5jCj4gPiA+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yYXMuYwo+ID4gPiBAQCAtMTM3NSw4ICsxMzc1LDcg
-QEAgaW50IGFtZGdwdV9yYXNfaW5pdChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKPiA+ID4g
-ICAgICAgICBpZiAoY29uKQo+ID4gPiAgICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPiA+Cj4g
-PiA+IC0gICAgICAgY29uID0ga21hbGxvYyhzaXplb2Yoc3RydWN0IGFtZGdwdV9yYXMpICsKPiA+
-ID4gLSAgICAgICAgICAgICAgICAgICAgICAgc2l6ZW9mKHN0cnVjdCByYXNfbWFuYWdlcikgKiBB
-TURHUFVfUkFTX0JMT0NLX0NPVU5ULAo+ID4gPiArICAgICAgIGNvbiA9IGttYWxsb2Moc3RydWN0
-X3NpemUoY29uLCBvYmpzLCBBTURHUFVfUkFTX0JMT0NLX0NPVU5UKSwKPiA+ID4gICAgICAgICAg
-ICAgICAgICAgICAgICAgR0ZQX0tFUk5FTHxfX0dGUF9aRVJPKTsKPiA+ID4gICAgICAgICBpZiAo
-IWNvbikKPiA+ID4gICAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+ID4gPiAtLQo+ID4g
-PiAyLjcuNAo+ID4gPgo+ID4gPgo+ID4gPgo+ID4KPiA+IC0tCj4gPiBEYW5pZWwgVmV0dGVyCj4g
-PiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiA+IGh0dHA6Ly9ibG9nLmZm
-d2xsLmNoCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwo+ID4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPiA+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ft
-ZC1nZngKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
-cmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0384388536==
+Content-Type: multipart/alternative; boundary="15584243030.Aa65ddAE.24856"
+Content-Transfer-Encoding: 7bit
+
+
+--15584243030.Aa65ddAE.24856
+Date: Tue, 21 May 2019 07:38:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #29 from Chris Hodapp <chris@hodapp.email> ---
+Tom B, as far as I can tell, that commit didn't get merged in until relativ=
+ely
+recently and is not in 5.1.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15584243030.Aa65ddAE.24856
+Date: Tue, 21 May 2019 07:38:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c29">Comme=
+nt # 29</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chris&#64;hodapp.email" title=3D"Chris Hodapp &lt;chris&#64;hodapp.email&gt=
+;"> <span class=3D"fn">Chris Hodapp</span></a>
+</span></b>
+        <pre>Tom B, as far as I can tell, that commit didn't get merged in =
+until relatively
+recently and is not in 5.1.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15584243030.Aa65ddAE.24856--
+
+--===============0384388536==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0384388536==--
