@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD82524536
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 02:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46DF24605
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 04:33:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A0F891FA;
-	Tue, 21 May 2019 00:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 615D989260;
+	Tue, 21 May 2019 02:33:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 45364 seconds by postgrey-1.36 at gabe;
- Tue, 21 May 2019 00:51:55 UTC
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FC2C891FA;
- Tue, 21 May 2019 00:51:55 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 457HK35YNjz9s9T;
- Tue, 21 May 2019 10:51:51 +1000 (AEST)
-Date: Tue, 21 May 2019 10:51:51 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with Linus' tree
-Message-ID: <20190521105151.51ffa942@canb.auug.org.au>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69FC98925C;
+ Tue, 21 May 2019 02:33:02 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id c66so1213328wme.0;
+ Mon, 20 May 2019 19:33:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Kd6dZtuJ+zXIoXi0n4Wghz44M25gXh6ZLX+Zm5Oue7o=;
+ b=aLBQf7CxxJrWmRWc+et+kmFclyYDcHQfpPga7AcOQJB4hGUBkqadopnNzFNFfi9TJ2
+ n1MOdQayGNy7UaUS420apfOxdT5NmiPrd5kxON52lr9DNNkdMqL0SJr1trMXIAkyBlCF
+ t8otyRcAtxHCW/01B7ij1wu9vFIQkprDCjk7AAnII89lL6G8kjzE3Cweb7tvoyIsVGwu
+ dKxTgdnoV72Grlxpx1lKul3SFhXvx2QPrUNn7P+DTsVyrpxADReEnEiEfeuI+MTGDhR1
+ 7RPSPQW0lbeGzWAK8ibx0elIsDe2xBNUohOarWSgRGlYPvr932kFpl9FZICtTv2LLTEc
+ ZILg==
+X-Gm-Message-State: APjAAAVf2zX7eoHYJxU1rlzG95jjIKHC2zM+cFAUXY7YWqs5KqFryg3P
+ FRnn1rdxAJaeGx2CJ85Z4qwR3silDVB2gQNQje8=
+X-Google-Smtp-Source: APXvYqzU58B+S9LHz4pIUbyimpv6Pckn8KO/PCbUQXILGb6Ru4V304Tj4cXpG8ftONJXo9AShaQy9DZ/k6ldGQYvGIE=
+X-Received: by 2002:a1c:f009:: with SMTP id a9mr1359554wmb.110.1558405981000; 
+ Mon, 20 May 2019 19:33:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1558399913;
- bh=mrT1NhYLTGm56w+283Q/Y/Bq4w6pdDYqc2RQ0JCklGU=;
- h=Date:From:To:Cc:Subject:From;
- b=bScaIWcjdzoAWs5HQl4+uIfctMX2CdWm3FrdE2Qa7dJ5FIWE+06ez5290MiCTI3EA
- b7KPVQADb9D3Ua5D7AmlB5Hy3+u3RfsgoKXaS/zBHO3vESkg2TAe3lZ6Cu7AAxW//S
- uWd9s5j7gg68GRInZLSm4zLWdvIRVX2eMGXG/TM4vLsAawzJWazyiMQZ+8pZTyd0UE
- PNd+rjTIcOZK9tGoTo1JbzPSdX+PvLHbuds72M+55X16EhiyuE4oj9ypK4r5U4lAQp
- VjYkKaBtuzGZ9xcO3kBXAxHjMGqfY2QceFEbhRbufDnqbPcDXI6+jhkMbGCHZVB4Oe
- wkmhByWTJeU6A==
+References: <1558082760-4915-1-git-send-email-xiaolinkui@kylinos.cn>
+ <SN6PR12MB2800A7AEC22121C8704CBB09870B0@SN6PR12MB2800.namprd12.prod.outlook.com>
+ <20190520162807.GE21222@phenom.ffwll.local>
+ <SN6PR12MB28007ED8F5C6838F2C25A9D587060@SN6PR12MB2800.namprd12.prod.outlook.com>
+In-Reply-To: <SN6PR12MB28007ED8F5C6838F2C25A9D587060@SN6PR12MB2800.namprd12.prod.outlook.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 20 May 2019 22:32:49 -0400
+Message-ID: <CADnq5_O=PAK3qZJ-kHUX9jQDkmEYOX+iOhOX7gNaaXp+tC7nUg@mail.gmail.com>
+Subject: Re: [PATCH] gpu: drm: use struct_size() in kmalloc()
+To: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Kd6dZtuJ+zXIoXi0n4Wghz44M25gXh6ZLX+Zm5Oue7o=;
+ b=QkcRhCCxjWn7ooDTcuWtWeD4PwQRkjapE24t6b2y2+/FMNepC2urjqAcEfUEeaHLPg
+ BkmnrJJK3srOj91fNZISPcEf1SeroEn26oxUJ/9jYp5OGFrD5QSg431lE5yZiXc3pGJi
+ sbrGI1ooHvbIJXFFa0p0oSs6Xzs8wavTSCmp8gDqW3M519qmd2P9Fckvbf4Sr4Z/2DSF
+ Ob/0wusSyie8A5rvkpy0RcH9SfXztzVdeJax9zlufiHZMS+kH4SjjUxhOtOn4s/5/8Hu
+ /GQL7tuaXn9MtA6bh3UjSxa0CPw5UG3G/7OFL+jkZ7CEEtwyBNRMPLrs1tJFhGhLTaP3
+ 2LxQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,122 +65,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jyri Sarha <jsarha@ti.com>, Marco Felsch <m.felsch@pengutronix.de>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Thierry Reding <treding@nvidia.com>
-Content-Type: multipart/mixed; boundary="===============1890317147=="
+Cc: "airlied@linux.ie" <airlied@linux.ie>, xiaolinkui <xiaolinkui@kylinos.cn>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>, "Quan, Evan" <Evan.Quan@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1890317147==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/G6L+=B.XzszjFbhvzmL2hFN"; protocol="application/pgp-signature"
-
---Sig_/G6L+=B.XzszjFbhvzmL2hFN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the drm-misc tree got a conflict in:
-
-  Documentation/devicetree/bindings/vendor-prefixes.txt
-
-between commit:
-
-  8122de54602e ("dt-bindings: Convert vendor prefixes to json-schema")
-
-from Linus' tree and commits:
-
-  b4a2c0055a4f ("dt-bindings: Add vendor prefix for VXT Ltd")
-  b1b0d36bdb15 ("dt-bindings: drm/panel: simple: Add binding for TFC S9700R=
-TWV43TR-01B")
-  fbd8b69ab616 ("dt-bindings: Add vendor prefix for Evervision Electronics")
-
-from the drm-misc tree.
-
-I fixed it up (I deleted the file and added the patch below) and can
-carry the fix as necessary. This is now fixed as far as linux-next is
-concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the conflicting
-tree to minimise any particularly complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Tue, 21 May 2019 10:48:36 +1000
-Subject: [PATCH] dt-bindings: fix up for vendor prefixes file conversion
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Docum=
-entation/devicetree/bindings/vendor-prefixes.yaml
-index 83ca4816a78b..749e3c3843d0 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -287,6 +287,8 @@ patternProperties:
-     description: Everest Semiconductor Co. Ltd.
-   "^everspin,.*":
-     description: Everspin Technologies, Inc.
-+  "^evervision,.*":
-+    description: Evervision Electronics Co. Ltd.
-   "^exar,.*":
-     description: Exar Corporation
-   "^excito,.*":
-@@ -851,6 +853,8 @@ patternProperties:
-     description: Shenzhen Techstar Electronics Co., Ltd.
-   "^terasic,.*":
-     description: Terasic Inc.
-+  "^tfc,.*":
-+    description: Three Five Corp
-   "^thine,.*":
-     description: THine Electronics, Inc.
-   "^ti,.*":
-@@ -925,6 +929,8 @@ patternProperties:
-     description: Voipac Technologies s.r.o.
-   "^vot,.*":
-     description: Vision Optical Technology Co., Ltd.
-+  "^vxt,.*"
-+    description: VXT Ltd
-   "^wd,.*":
-     description: Western Digital Corp.
-   "^wetek,.*":
---=20
-2.20.1
-
---Sig_/G6L+=B.XzszjFbhvzmL2hFN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlzjS6cACgkQAVBC80lX
-0GxxWAf/U1Bd2c5IorrbBJ3GkYu19Jh6K5qnUcxJYTTKlhemqW0P9KsDtQe2fvsH
-EUIsYjeHhlAUsohXmD7LMada75LSwqESAWY2nO9hCyOk4Mf6VU68oiEOGg+PI1s5
-Ex8sCpW5SmJj4NUnOBVCFuQLde/8baqC/l7PN6NQ/aetKRSXvw51OK2JzbWrmqFQ
-f9/sGKu2HUBbsbkZhbs2FZt+ZfMQlA3RtKn8Kt4R/h0joo1gkVvztAO+PsOYhZL0
-HIMpwg4o972YQYhLdUjqX088+mFQ2ck4d9iazQxcycIhVRgQl6EcAuWr3AzA5UcW
-Ii58xvlIbU1Uqb2AtEAocPkXyup2lQ==
-=C1+W
------END PGP SIGNATURE-----
-
---Sig_/G6L+=B.XzszjFbhvzmL2hFN--
-
---===============1890317147==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1890317147==--
+T24gTW9uLCBNYXkgMjAsIDIwMTkgYXQgNzoxOSBQTSBQYW4sIFhpbmh1aSA8WGluaHVpLlBhbkBh
+bWQuY29tPiB3cm90ZToKPgo+IERhbmllbCwgd2hhdCB5b3UgYXJlIHRhbGtpbmcgYWJvdXQgaXMg
+dG90YWxseSB3cm9uZy4KPiAxKSBBRkFJSywgb25seSBvbmUgemVyby1zaXplIGFycmF5IGNhbiBi
+ZSBpbiB0aGUgZW5kIG9mIGEgc3RydWN0Lgo+IDIpIHR3byBzdHJ1Y3Rfc2l6ZSB3aWxsIGFkZCB1
+cCBzdHJ1Y3QgaXRzZWxmIHR3aWNlLiB0aGUgc3VtIGlzIHdyb25nIHRoZW4uCj4KPiBObyBvZmZl
+bnNlLiBJIGNhbid0IGhlbHAgZmVlbGluZyBsdWNreSB0aGF0IHlvdSBhcmUgaW4gaW50ZWwuCgpY
+aW5odWksCgpQbGVhc2Uga2VlcCB0aGluZ3MgY2l2aWwuICBUaGVyZSBpcyBubyBuZWVkIGZvciBj
+b21tZW50cyBsaWtlIHRoaXMuCgpBbGV4Cgo+Cj4KPiDlj5Hku7bkuro6IERhbmllbCBWZXR0ZXIg
+PGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+IOS7o+ihqCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+Cj4g5Y+R6YCB5pe26Ze0OiAyMDE55bm0NeaciDIx5pelIDA6MjgKPiDmlLbku7bkuro6
+IFBhbiwgWGluaHVpCj4g5oqE6YCBOiBEZXVjaGVyLCBBbGV4YW5kZXI7IEtvZW5pZywgQ2hyaXN0
+aWFuOyBaaG91LCBEYXZpZChDaHVuTWluZyk7IGFpcmxpZWRAbGludXguaWU7IGRhbmllbEBmZnds
+bC5jaDsgUXVhbiwgRXZhbjsgeGlhb2xpbmt1aTsgYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
+cm5lbC5vcmcKPiDkuLvpopg6IFJlOiBbUEFUQ0hdIGdwdTogZHJtOiB1c2Ugc3RydWN0X3NpemUo
+KSBpbiBrbWFsbG9jKCkKPgo+IFtDQVVUSU9OOiBFeHRlcm5hbCBFbWFpbF0KPgo+IE9uIEZyaSwg
+TWF5IDE3LCAyMDE5IGF0IDA0OjQ0OjMwUE0gKzAwMDAsIFBhbiwgWGluaHVpIHdyb3RlOgo+ID4g
+SSBhbSBnb2luZyB0byBwdXQgbW9yZSBtZW1iZXJzIHdoaWNoIGFyZSBhbHNvIGFycmF5IGFmdGVy
+IHRoaXMgc3RydWN0LAo+ID4gbm90IG9ubHkgb2JqW10uICBMb29rcyBsaWtlIHRoaXMgc3RydWN0
+X3NpemUgZGlkIG5vdCBoZWxwIG9uIG11bHRpcGxlCj4gPiBhcnJheSBjYXNlLiBUaGFua3MgYW55
+d2F5LiAgX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPgo+IFlvdSBjYW4gdGhlbiBh
+ZGQgdGhlbSB1cCwgZS5nLiBrbWFsbG9jKHN0cnVjdF9zaXplKCkrc3RydWN0X3NpemUoKSwKPiBH
+RlBfS0VSTkVMKSwgc28gdGhpcyBwYXRjaCBoZXJlIHN0aWxsIGxvb2tzIGxpa2UgYSBnb29kIGlk
+ZWEuCj4KPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
+aD4KPgo+IENoZWVycywgRGFuaWVsCj4KPiA+IEZyb206IHhpYW9saW5rdWkgPHhpYW9saW5rdWlA
+a3lsaW5vcy5jbj4KPiA+IFNlbnQ6IEZyaWRheSwgTWF5IDE3LCAyMDE5IDQ6NDY6MDAgUE0KPiA+
+IFRvOiBEZXVjaGVyLCBBbGV4YW5kZXI7IEtvZW5pZywgQ2hyaXN0aWFuOyBaaG91LCBEYXZpZChD
+aHVuTWluZyk7IGFpcmxpZWRAbGludXguaWU7IGRhbmllbEBmZndsbC5jaDsgUGFuLCBYaW5odWk7
+IFF1YW4sIEV2YW4KPiA+IENjOiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsg
+eGlhb2xpbmt1aUBreWxpbm9zLmNuCj4gPiBTdWJqZWN0OiBbUEFUQ0hdIGdwdTogZHJtOiB1c2Ug
+c3RydWN0X3NpemUoKSBpbiBrbWFsbG9jKCkKPiA+Cj4gPiBbQ0FVVElPTjogRXh0ZXJuYWwgRW1h
+aWxdCj4gPgo+ID4gVXNlIHN0cnVjdF9zaXplKCkgaGVscGVyIHRvIGtlZXAgY29kZSBzaW1wbGUu
+Cj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogeGlhb2xpbmt1aSA8eGlhb2xpbmt1aUBreWxpbm9zLmNu
+Pgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3Jhcy5jIHwg
+MyArLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0p
+Cj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9y
+YXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yYXMuYwo+ID4gaW5kZXgg
+MjJiZDIxZS4uNDcxN2E2NCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9yYXMuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3Jhcy5jCj4gPiBAQCAtMTM3NSw4ICsxMzc1LDcgQEAgaW50IGFtZGdwdV9yYXNfaW5pdChz
+dHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKPiA+ICAgICAgICAgaWYgKGNvbikKPiA+ICAgICAg
+ICAgICAgICAgICByZXR1cm4gMDsKPiA+Cj4gPiAtICAgICAgIGNvbiA9IGttYWxsb2Moc2l6ZW9m
+KHN0cnVjdCBhbWRncHVfcmFzKSArCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICBzaXplb2Yo
+c3RydWN0IHJhc19tYW5hZ2VyKSAqIEFNREdQVV9SQVNfQkxPQ0tfQ09VTlQsCj4gPiArICAgICAg
+IGNvbiA9IGttYWxsb2Moc3RydWN0X3NpemUoY29uLCBvYmpzLCBBTURHUFVfUkFTX0JMT0NLX0NP
+VU5UKSwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgIEdGUF9LRVJORUx8X19HRlBfWkVSTyk7
+Cj4gPiAgICAgICAgIGlmICghY29uKQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVN
+Owo+ID4gLS0KPiA+IDIuNy40Cj4gPgo+ID4KPiA+Cj4KPiAtLQo+IERhbmllbCBWZXR0ZXIKPiBT
+b2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPiBodHRwOi8vYmxvZy5mZndsbC5j
+aAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gYW1k
+LWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeApfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
