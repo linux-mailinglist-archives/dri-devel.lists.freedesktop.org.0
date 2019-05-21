@@ -1,22 +1,18 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DC225C6A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 05:57:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2971251AF
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 16:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E0D89740;
-	Wed, 22 May 2019 03:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B336889320;
+	Tue, 21 May 2019 14:15:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
- (mail-eopbgr820078.outbound.protection.outlook.com [40.107.82.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA34989740;
- Wed, 22 May 2019 03:57:45 +0000 (UTC)
-Received: from BN6PR12MB1300.namprd12.prod.outlook.com
- (fe80::d06b:365d:a891:d6ea%9) by BN6PR12MB1300.namprd12.prod.outlook.com
- (fe80::d06b:365d:a891:d6ea%9) with TransportReplication id Version 15.20
- (Build 1900.17); Wed, 22 May 2019 03:57:41 +0000
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr770040.outbound.protection.outlook.com [40.107.77.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 197F389320;
+ Tue, 21 May 2019 14:15:24 +0000 (UTC)
 Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
  DM5PR12MB1307.namprd12.prod.outlook.com (10.168.239.149) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -53,20 +49,20 @@ x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
  SRVR:DM5PR12MB1307; 
-x-ms-traffictypediagnostic: BN6PR12MB1300:
+x-ms-traffictypediagnostic: DM5PR12MB1307:
 x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <BN6PR12MB1300656E3D1F66E6AB46F06183000@BN6PR12MB1300.namprd12.prod.outlook.com>
+x-microsoft-antispam-prvs: <DM5PR12MB1307E4580C77700E1A06CB6083070@DM5PR12MB1307.namprd12.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:2657;
-x-forefront-prvs: 0045236D47
+x-forefront-prvs: 0044C17179
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(366004)(346002)(376002)(39860400002)(396003)(136003)(51914003)(189003)(199004)(386003)(6506007)(14444005)(256004)(31696002)(52116002)(4326008)(76176011)(86362001)(2906002)(486006)(46003)(316002)(14454004)(31686004)(6916009)(53546011)(64126003)(99286004)(65806001)(102836004)(65826007)(966005)(71200400001)(71190400001)(72206003)(6116002)(65956001)(186003)(478600001)(229853002)(25786009)(6486002)(6306002)(6436002)(6512007)(66574012)(81156014)(81166006)(36756003)(8676002)(8936002)(5660300002)(58126008)(54906003)(68736007)(305945005)(6246003)(73956011)(7736002)(7416002)(446003)(66476007)(2616005)(66946007)(53936002)(476003)(1411001)(11346002)(64756008)(66556008)(66446008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR12MB1300;
+ SFS:(10009020)(366004)(136003)(396003)(39860400002)(346002)(376002)(51914003)(199004)(189003)(102836004)(65826007)(4326008)(68736007)(6246003)(25786009)(6486002)(54906003)(99286004)(6116002)(229853002)(52116002)(6436002)(31696002)(7736002)(316002)(186003)(14444005)(305945005)(2906002)(86362001)(73956011)(5660300002)(66574012)(66946007)(66476007)(36756003)(256004)(66446008)(64756008)(66556008)(46003)(81166006)(71200400001)(71190400001)(53546011)(81156014)(8676002)(14454004)(72206003)(6306002)(966005)(53936002)(7416002)(6512007)(486006)(64126003)(6506007)(76176011)(386003)(1411001)(11346002)(446003)(58126008)(2616005)(6916009)(65956001)(478600001)(31686004)(8936002)(65806001)(476003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1307;
  H:DM5PR12MB1546.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+ PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: amd.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 1Kus192uhPgPi/9NhJ3+reG52kvEXaaomMHOdT7reVT2z+PXTBzX1jlL0XsKxJlqi5v1PvRCKeWA9IP2S+7mNKjjiRF/jKNOqhdQLWqPJ3SdO+Et4L9oowvn75dAg8ttsllJBh1aHsvpjlgDe7vSd0EVH5Owy1BH+TUmGH6HmzkeFEMkZ2ouFwgzzOUY4OWSsNgpATs1cXG2itiYxFrAm2Q5B6tLCepTvLrTkYMGMrVic9iF9jw/020+5WdYioBnFwDgt0bgsl6RnE6B67HJUK6DpQS/+vUEofSuQ9fbIJYZvmJggLuQkE3gHfpuX8ImHMo9mIz+T4vQhWEDuawetlPylbrvL/G/Tmb8ChqWhCgayVC1B2OUOLMncOLZsXZtCmx1llAuu36BSJQMuQst2Ya7mkcrd9ZuQ8V5xC6fAZ0=
+x-microsoft-antispam-message-info: IzONFMmFemRv/kFwjTxJY8SZRM3v9YyOoQkv4wUrSCLwq23YI4b+FuXbVsypv4eC0PwAtgZ5sDR+LaBo/4r/Pp6YSD2RK6thJjWsh/FT2jIhIpX+8oWWT7kvBR38hOwYbifiuo0RnmMrNspxtyDoZmD4IuBGzwI9tt8kRpfO4D4Y2B02DtBT5wCoc83ezGMgk16zT+c0NuHB1Vizd4v7OIOaUiK6/rpbjQ0zBOsSNINTdH+UH8uuWwN3NZuls9BIuC3HFqOZYRvSF8Zy954jfpkmhfQxkMSoCJvy6dggxiFoFgny5VW0ILFbF38qSVV5qppW04POW0PPKcNR7Nib2xy14Ed7esd0Tex/w25UNYqBx8at7OjaqzeIQs2sPQlgwE5LQg9RfcmneKqkQhmPjzcKqi2ChaOTZMFKOoo9brI=
 Content-ID: <18E31E542C986345AAF64922E1ACA8CF@namprd12.prod.outlook.com>
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
@@ -75,7 +71,7 @@ X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2019 14:15:17.9923 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1300
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1307
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
