@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6733C25635
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 18:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2CF25725
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 20:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F6689180;
-	Tue, 21 May 2019 16:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59E72892D7;
+	Tue, 21 May 2019 18:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5251B89533
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 16:54:36 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id t1so21273077qtc.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 09:54:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YX1lqQKoAdMEkXm9fJ7ay6mt/s4Fthe/P9FKBQsotPA=;
- b=AA15Q3fFQUdeK/AnzykLeyFOTzASZwRmt8v69r845DsrzYxrDdPidCCWzPx6yGVYjq
- mxaIvs+FxO3dV6tkHr6ZOXZG08uknfJL4/kTWiRqUhdmEn/621l+ztQ7ObaLmHVO28FG
- V9biDCNGYL8Dp+9g4dkmssQcHikG1Z9IpDF/z+/GxSRJT3I1mpdfnoRaQar0wLZQMUfS
- lyZui/M5kyWPsZGa0XtBeXBAL+5EzJ4W+Lga/g36RNk+hRI7xQMnUMtneyTp1jbl3z1s
- dbdOQENDBGD4GwvsqGgJgpNSdVO2ZOdOgZ8Z23S459CAW6zAb6BqzairkyxN8oDTLxJo
- qhog==
-X-Gm-Message-State: APjAAAXyRKqZsaNT6INUEYtvJWVCLs4gfb+Tm6vU0AQBkLGkyTSTHld7
- Eng7hT8EQSoDJj2W/OAVSDv6BvwKQuc=
-X-Google-Smtp-Source: APXvYqyn3PDcDAV3VtVntCLGUTk34w3mGeiDPU2bayID9L/15EXdZ1OMsMblyWHbE8SXaz0tJepwzQ==
-X-Received: by 2002:a0c:ad1c:: with SMTP id u28mr23319436qvc.87.1558457675228; 
- Tue, 21 May 2019 09:54:35 -0700 (PDT)
-Received: from rosewood.cam.corp.google.com
- ([2620:0:1013:11:89c6:2139:5435:371d])
- by smtp.gmail.com with ESMTPSA id z29sm10777828qkg.19.2019.05.21.09.54.34
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 21 May 2019 09:54:34 -0700 (PDT)
-From: Sean Paul <sean@poorly.run>
-To: dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm/a6xx: Avoid freeing gmu resources multiple times
-Date: Tue, 21 May 2019 12:54:20 -0400
-Message-Id: <20190521165433.2895-1-sean@poorly.run>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 15FB3892D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 18:00:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 121B472167; Tue, 21 May 2019 18:00:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110214] radeonsi: xterm scrollback buffer disappears while
+ Shift+PgUp and Shift+PgDn
+Date: Tue, 21 May 2019 18:00:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: diego.viola@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110214-502-DO3lvvk4Oe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
+References: <bug-110214-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=poorly.run; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YX1lqQKoAdMEkXm9fJ7ay6mt/s4Fthe/P9FKBQsotPA=;
- b=HfRUsH30j8bXOUQb7Dj+WNScabJk0n5VYqokSX6HSXVxAA6C/9LFtd1QTG2rS9uMUf
- kY7XYJXxrUtZlyvN4tHCD/ld0eNIKMwqriNP9YGiik5s9Dbr0mQNUOh98RfiDI1/uCfi
- qNblANZU4QtkDhsxHLCX1wbgIolSCBTxfeHZ2wWr9RakCIE9RynEpy0kASPqSkVc/IDm
- FH0rOxQ5pt5tsVKz00HO8jnIhChnWv6FfWIIEHJuCaaNsIVQurdpWWLxhIfpnSTIMKs6
- UoYjLCQ0nM0yPdAs2WvqSLYKm0PYBmyS9vuUcL63G26AS7ex6w8XG54tOp6nR6wSChWn
- 9dGg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,69 +53,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Sean Paul <seanpaul@chromium.org>,
- linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0752347091=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpUaGUgZHJpdmVyIGNoZWNr
-cyBmb3IgZ211LT5tbWlvIGFzIGEgc2lnbiB0aGF0IHRoZSBkZXZpY2UgaGFzIGJlZW4KaW5pdGlh
-bGl6ZWQsIGhvd2V2ZXIgdGhlcmUgYXJlIGZhaWx1cmVzIGluIHByb2JlIGJlbG93IHRoZSBtbWlv
-IGluaXQuCklmIG9uZSBvZiB0aG9zZSBpcyBoaXQsIG1taW8gd2lsbCBiZSBub24tbnVsbCBidXQg
-ZnJlZWQuCgpJbiB0aGF0IGNhc2UsIGE2eHhfZ211X3Byb2JlIHdpbGwgcmV0dXJuIGFuIGVycm9y
-IHRvIGE2eHhfZ3B1X2luaXQgd2hpY2gKd2lsbCBpbiB0dXJuIGNhbGwgYTZ4eF9nbXVfcmVtb3Zl
-IHdoaWNoIGNoZWNrcyBnbXUtPm1taW8gYW5kIHRyaWVzIHRvIGZyZWUKcmVzb3VyY2VzIGZvciBh
-IHNlY29uZCB0aW1lLiBUaGlzIGNhdXNlcyBhIGdyZWF0IGJvb20uCgpGaXggdGhpcyBieSBhZGRp
-bmcgYW4gaW5pdGlhbGl6ZWQgbWVtYmVyIHRvIGdtdSB3aGljaCBpcyBzZXQgb24Kc3VjY2Vzc2Z1
-bCBwcm9iZSBhbmQgY2xlYXJlZCBvbiByZW1vdmFsLgoKQ2M6IEpvcmRhbiBDcm91c2UgPGpjcm91
-c2VAY29kZWF1cm9yYS5vcmc+ClNpZ25lZC1vZmYtYnk6IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hy
-b21pdW0ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ211LmMgfCAx
-NCArKysrKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9nbXUuaCB8
-ICAxICsKIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5jIGIvZHJp
-dmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9nbXUuYwppbmRleCAzOGUyY2ZhOWNlYzcuLmFh
-ODRlZGIyNWQ5MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9n
-bXUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5jCkBAIC03NCw3
-ICs3NCw3IEBAIGJvb2wgYTZ4eF9nbXVfc3B0cHJhY19pc19vbihzdHJ1Y3QgYTZ4eF9nbXUgKmdt
-dSkKIAl1MzIgdmFsOwogCiAJLyogVGhpcyBjYW4gYmUgY2FsbGVkIGZyb20gZ3B1IHN0YXRlIGNv
-ZGUgc28gbWFrZSBzdXJlIEdNVSBpcyB2YWxpZCAqLwotCWlmIChJU19FUlJfT1JfTlVMTChnbXUt
-Pm1taW8pKQorCWlmICghZ211LT5pbml0aWFsaXplZCkKIAkJcmV0dXJuIGZhbHNlOwogCiAJdmFs
-ID0gZ211X3JlYWQoZ211LCBSRUdfQTZYWF9HTVVfU1BUUFJBQ19QV1JfQ0xLX1NUQVRVUyk7CkBA
-IC05MCw3ICs5MCw3IEBAIGJvb2wgYTZ4eF9nbXVfZ3hfaXNfb24oc3RydWN0IGE2eHhfZ211ICpn
-bXUpCiAJdTMyIHZhbDsKIAogCS8qIFRoaXMgY2FuIGJlIGNhbGxlZCBmcm9tIGdwdSBzdGF0ZSBj
-b2RlIHNvIG1ha2Ugc3VyZSBHTVUgaXMgdmFsaWQgKi8KLQlpZiAoSVNfRVJSX09SX05VTEwoZ211
-LT5tbWlvKSkKKwlpZiAoIWdtdS0+aW5pdGlhbGl6ZWQpCiAJCXJldHVybiBmYWxzZTsKIAogCXZh
-bCA9IGdtdV9yZWFkKGdtdSwgUkVHX0E2WFhfR01VX1NQVFBSQUNfUFdSX0NMS19TVEFUVVMpOwpA
-QCAtNjk1LDcgKzY5NSw3IEBAIGludCBhNnh4X2dtdV9yZXN1bWUoc3RydWN0IGE2eHhfZ3B1ICph
-Nnh4X2dwdSkKIAlzdHJ1Y3QgYTZ4eF9nbXUgKmdtdSA9ICZhNnh4X2dwdS0+Z211OwogCWludCBz
-dGF0dXMsIHJldDsKIAotCWlmIChXQVJOKCFnbXUtPm1taW8sICJUaGUgR01VIGlzIG5vdCBzZXQg
-dXAgeWV0XG4iKSkKKwlpZiAoV0FSTighZ211LT5pbml0aWFsaXplZCwgIlRoZSBHTVUgaXMgbm90
-IHNldCB1cCB5ZXRcbiIpKQogCQlyZXR1cm4gMDsKIAogCWdtdS0+aHVuZyA9IGZhbHNlOwpAQCAt
-NzY1LDcgKzc2NSw3IEBAIGJvb2wgYTZ4eF9nbXVfaXNpZGxlKHN0cnVjdCBhNnh4X2dtdSAqZ211
-KQogewogCXUzMiByZWc7CiAKLQlpZiAoIWdtdS0+bW1pbykKKwlpZiAoIWdtdS0+aW5pdGlhbGl6
-ZWQpCiAJCXJldHVybiB0cnVlOwogCiAJcmVnID0gZ211X3JlYWQoZ211LCBSRUdfQTZYWF9HUFVf
-R01VX0FPX0dQVV9DWF9CVVNZX1NUQVRVUyk7CkBAIC0xMjI3LDcgKzEyMjcsNyBAQCB2b2lkIGE2
-eHhfZ211X3JlbW92ZShzdHJ1Y3QgYTZ4eF9ncHUgKmE2eHhfZ3B1KQogewogCXN0cnVjdCBhNnh4
-X2dtdSAqZ211ID0gJmE2eHhfZ3B1LT5nbXU7CiAKLQlpZiAoSVNfRVJSX09SX05VTEwoZ211LT5t
-bWlvKSkKKwlpZiAoIWdtdS0+aW5pdGlhbGl6ZWQpCiAJCXJldHVybjsKIAogCWE2eHhfZ211X3N0
-b3AoYTZ4eF9ncHUpOwpAQCAtMTI0NSw2ICsxMjQ1LDggQEAgdm9pZCBhNnh4X2dtdV9yZW1vdmUo
-c3RydWN0IGE2eHhfZ3B1ICphNnh4X2dwdSkKIAlpb21tdV9kZXRhY2hfZGV2aWNlKGdtdS0+ZG9t
-YWluLCBnbXUtPmRldik7CiAKIAlpb21tdV9kb21haW5fZnJlZShnbXUtPmRvbWFpbik7CisKKwln
-bXUtPmluaXRpYWxpemVkID0gZmFsc2U7CiB9CiAKIGludCBhNnh4X2dtdV9wcm9iZShzdHJ1Y3Qg
-YTZ4eF9ncHUgKmE2eHhfZ3B1LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5vZGUpCkBAIC0xMzA5LDYg
-KzEzMTEsOCBAQCBpbnQgYTZ4eF9nbXVfcHJvYmUoc3RydWN0IGE2eHhfZ3B1ICphNnh4X2dwdSwg
-c3RydWN0IGRldmljZV9ub2RlICpub2RlKQogCS8qIFNldCB1cCB0aGUgSEZJIHF1ZXVlcyAqLwog
-CWE2eHhfaGZpX2luaXQoZ211KTsKIAorCWdtdS0+aW5pdGlhbGl6ZWQgPSB0cnVlOworCiAJcmV0
-dXJuIDA7CiBlcnI6CiAJYTZ4eF9nbXVfbWVtb3J5X2ZyZWUoZ211LCBnbXUtPmhmaSk7CmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5oIGIvZHJpdmVycy9n
-cHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9nbXUuaAppbmRleCBiZWRkOGU2YTYzYWEuLjM5YTI2ZGQ2
-MzY3NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9nbXUuaAor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dtdS5oCkBAIC03NSw2ICs3NSw3
-IEBAIHN0cnVjdCBhNnh4X2dtdSB7CiAKIAlzdHJ1Y3QgYTZ4eF9oZmlfcXVldWUgcXVldWVzWzJd
-OwogCisJYm9vbCBpbml0aWFsaXplZDsKIAlib29sIGh1bmc7CiB9OwogCi0tIApTZWFuIFBhdWws
-IFNvZnR3YXJlIEVuZ2luZWVyLCBHb29nbGUgLyBDaHJvbWl1bSBPUwoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0752347091==
+Content-Type: multipart/alternative; boundary="15584616410.71C10FDfe.2762"
+Content-Transfer-Encoding: 7bit
+
+
+--15584616410.71C10FDfe.2762
+Date: Tue, 21 May 2019 18:00:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
+
+--- Comment #93 from Diego Viola <diego.viola@gmail.com> ---
+I just tried to reproduce this issue (xterm bug) with sway today and noticed
+that I can't reproduce it under sway.
+
+The bug can still be reproduced with weston and i3.
+
+- sway 1.0-8
+- xorg-server-xwayland 1.20.4-1
+- mesa 19.0.4-1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15584616410.71C10FDfe.2762
+Date: Tue, 21 May 2019 18:00:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c93">Comme=
+nt # 93</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+diego.viola&#64;gmail.com" title=3D"Diego Viola &lt;diego.viola&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Diego Viola</span></a>
+</span></b>
+        <pre>I just tried to reproduce this issue (xterm bug) with sway tod=
+ay and noticed
+that I can't reproduce it under sway.
+
+The bug can still be reproduced with weston and i3.
+
+- sway 1.0-8
+- xorg-server-xwayland 1.20.4-1
+- mesa 19.0.4-1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15584616410.71C10FDfe.2762--
+
+--===============0752347091==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0752347091==--
