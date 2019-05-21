@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5681B24B22
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 11:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56CA24B76
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 11:27:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6CF189260;
-	Tue, 21 May 2019 09:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D894289240;
+	Tue, 21 May 2019 09:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90283891A4;
- Tue, 21 May 2019 09:07:18 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id e13so15095651ljl.11;
- Tue, 21 May 2019 02:07:18 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4927B89240
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 09:27:34 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id r76so15147988lja.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 02:27:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=9612Tf+sK5snInFYphGIIxQ5vnfq8tFzesSfj8BgP7Y=;
- b=MMtIOWiABT7YnHc7cbxjTK1sDQbcjga+sjznMjvl1gkMXbu0ctpZDlUSc6s9IhpW0t
- UZBQZhM/yTqd6d0liUSsloQRsFiRGzheUE+u/QJ6rVWT7RRaQNdAdCf5qKVtpFgHZsHx
- xehcdwhNz6t5Sa3q1CXtjfJqCLetFkgaljx+S+2ybSPBWEW9/lJgIarHZ0ess14Bz+d1
- yc8QCKOoVM+GvTBtPK/lgm5ONinkycA8x6DHqPtETvozWWv32QrKTEaF+P6aJelK1ndc
- 4P/OuiwMwTfUpj+IbpIM6oMC6UGpsMOillT1OuDWSBpar2GwYcx8VWSo60V0NtcKu/6m
- UepQ==
-X-Gm-Message-State: APjAAAWdEvuwkoPa79EawHkOwr62WGgRSoDOnav8Umtk53vshoGivS1w
- FojNU1mDhSaNJ59sRa7pmIk=
-X-Google-Smtp-Source: APXvYqx1NJ36n5cuoYdRuLskx8w1sxG2wMqgyKhi+7EgZ8OXtosNnwWhMrPWBbc1BysT23YRbaqmSA==
-X-Received: by 2002:a2e:8954:: with SMTP id b20mr30429255ljk.10.1558429636890; 
- Tue, 21 May 2019 02:07:16 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id x23sm4549626ljb.29.2019.05.21.02.07.16
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 21 May 2019 02:07:16 -0700 (PDT)
-Date: Tue, 21 May 2019 12:07:12 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/doc: More fine-tuning on userspace review requirements
-Message-ID: <20190521120712.05b0a46a@eldfell.localdomain>
-In-Reply-To: <20190521084849.27452-1-daniel.vetter@ffwll.ch>
-References: <20190521084849.27452-1-daniel.vetter@ffwll.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5Xy6KpBMf4VElfSxI8JZgNkIn+5swVz4A7VXhYDp2D4=;
+ b=giNgvS1705/juktGdtabgGcDdi90bYUYqv2+gJXxOOr8KjLgS0zEh/LMguTBrS0N3Z
+ j/KoLxY/fqHeeGyRfaug25HMXxfXBl/1bZhwYnoiGmBJZAbGKW2gWSuXUI8de2d7iw4U
+ i4GHRjRts4C/WehN3cxKy3Th5sl9p0+zwpLvpHNfURwargOiFrlFQ0tjU2O5LiFhWf0e
+ IR9YdBNt+MFJYTc2l8o7UFxGzODU6VfX5QlxNX9A5do396JZ2AsBDvW3aMz5TmDoxbTY
+ Mur582+4CRXxyqjzQBSGti5oANRtv7FpXz9O2KmNUYz7QTirD3NqiTgvY+MONt4Rz902
+ xEPw==
+X-Gm-Message-State: APjAAAW0+G0tOd3N4ZMraI0AoqjC+m7Dpnc+iMlVLBwRzpseBc2Arf1k
+ 88dwf6fdq9zWJaEEKXszyN8Fsg==
+X-Google-Smtp-Source: APXvYqz2W9cUR77wBpFQtxU/OEIMqFs1dqOYZh2m5bXIMOiU7pDh+NaARFsIcqKmxsWQZ0msZguFsQ==
+X-Received: by 2002:a2e:60a:: with SMTP id 10mr3542802ljg.126.1558430852654;
+ Tue, 21 May 2019 02:27:32 -0700 (PDT)
+Received: from [192.168.0.199] ([31.173.81.21])
+ by smtp.gmail.com with ESMTPSA id u128sm1039382lja.23.2019.05.21.02.27.30
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 21 May 2019 02:27:31 -0700 (PDT)
+Subject: Re: [PATCH v5 2/6] net: stmmac: sun8i: force select external PHY when
+ no internal one
+To: megous@megous.com, linux-sunxi@googlegroups.com,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>
+References: <20190520235009.16734-1-megous@megous.com>
+ <20190520235009.16734-3-megous@megous.com>
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <4e031eeb-2819-a97f-73bf-af84b04aa7b2@cogentembedded.com>
+Date: Tue, 21 May 2019 12:27:24 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190520235009.16734-3-megous@megous.com>
+Content-Language: en-US
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=9612Tf+sK5snInFYphGIIxQ5vnfq8tFzesSfj8BgP7Y=;
- b=Aa02Qo/FgF+cPEZSd9XPEcraydfC6kujkHskYSJ4F5/ewVBg2YNUpvME2EzPLPXkIY
- pm6LUBM8gFH2n1GOsH46i60K7LtFFVnRlh12ME85GGzvR3jX0SDNHseGnJZ5RPklx2Pg
- 3VzfkD/lG7Stm/nE7wx7PNSCOehfjf04rLQm0qyjhoNesic+5Qz/ViiuxduJo8oiAoWr
- T3StLqlGn3YYmGOlj29p/mVyXd5PoX0lYKPvW3SDrZhI4OR5N+qo99DyJvejGI8hnP/J
- xkZbBL9wC4a/JMMZX/ykAXKFUnDM8/yOv77R6XPlAjlbFl+BPPhIqBGE0R3gv0bScA+n
- okQQ==
+ d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5Xy6KpBMf4VElfSxI8JZgNkIn+5swVz4A7VXhYDp2D4=;
+ b=gi0FnqEmcboPROS3aUYX2FmzKmldrXp2Xd53Cs+z0s80NF/1tJ+89FLSOmuykkWh0a
+ Bseps+m7BHSnZFk5NVsRLKcGhVs10u9VBXuk7ZFWImQxcj/UfGSJbg6gJGqG3M6Eryu0
+ +6VMdvaQODEdkEjm10eVWCg6HQioXvq/vhckhU8CXA37bZxImLyV9zUqEhECALNCOSWj
+ Io7qmy3Kwb5wIloKJURrXpWb2PPdq2gW5p7a9/ShaO6loZBFBAo1n7iTGu7RKvdGnRAu
+ 5KIh2bLGig4OqmPNCI6RFNpRPS27XWQk6PKwqmubBBllN7izvBcvS8lnUx17EQ9e1BYP
+ sbbQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,112 +74,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- wayland-devel@lists.freedesktop.org,
- DRI Development <dri-devel@lists.freedesktop.org>, contact@emersion.fr
-Content-Type: multipart/mixed; boundary="===============0996266558=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, Jose Abreu <joabreu@synopsys.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0996266558==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/AqtM96bSPR/rWx0jmFwEdY5"; protocol="application/pgp-signature"
-
---Sig_/AqtM96bSPR/rWx0jmFwEdY5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 21 May 2019 10:48:49 +0200
-Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-
-> With Eric's patch
->=20
-> commit ba6e798ecf320716780bb6a6088a8d17dcba1d49
-> Author: Eric Anholt <eric@anholt.net>
-> Date:   Wed Apr 24 11:56:17 2019 -0700
->=20
->     drm/doc: Document expectation that userspace review looks at kernel u=
-API.
->=20
-> there's been concerns raised that we expect userspace people to do
-> in-depth kernel patch review. That's not reasonable, same way kernel
-> people can't review all the userspace we have. Try to clarify
-> expectations a bit more.
->=20
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: contact@emersion.fr
-> Cc: wayland-devel@lists.freedesktop.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  Documentation/gpu/drm-uapi.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
-rst
-> index 05874d09820c..f368e58fb727 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -85,9 +85,9 @@ leads to a few additional requirements:
->  - The userspace side must be fully reviewed and tested to the standards =
-of that
->    userspace project. For e.g. mesa this means piglit testcases and revie=
-w on the
->    mailing list. This is again to ensure that the new interface actually =
-gets the
-> -  job done.  The userspace-side reviewer should also provide at least an
-> -  Acked-by on the kernel uAPI patch indicating that they've looked at ho=
-w the
-> -  kernel side is implementing the new feature being used.
-> +  job done.  The userspace-side reviewer should also provide an Acked-by=
- on the
-> +  kernel uAPI patch indicating that they believe the proposed uAPI is so=
-und and
-> +  sufficiently documented and validated for userspace's consumption.
-> =20
->  - The userspace patches must be against the canonical upstream, not some=
- vendor
->    fork. This is to make sure that no one cheats on the review and testing
-
-Thank you for clarifying this. I can work with that.
-
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-
-Thanks,
-pq
-
---Sig_/AqtM96bSPR/rWx0jmFwEdY5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAlzjv8AACgkQI1/ltBGq
-qqcPEg//RQDts7tTCP5ejz+X4GH+FrkDShd1nCYmRxCX2zj3/xRsiyM1fvDYVmF/
-QC4dItoCc9/HLFg0ymhFyWwHOBdYj6jgrk/VDMwmJ1IMhWFO+09xbfR7Oml6wDD+
-e18Lnm5Zdh++z/d+bG3GfhTYIbUYwu4AebvFGqVG1lGhkSeUBtjFAuvSEHDxHfkn
-KI3mBepVNX051ENW1t5DSkc75xCUHxLpAnJuO3+vxKUYg/8A5Rg+xMDSO7AiXkCG
-hVyS6M/c3zI6yuyOTftXPRNpGRzrRGwlNGc6UrlEbEsSkISWoBiP2TTNUYa+l4Gu
-r9KScfqDwD+c+kdO6mEqOKX1avOq3zQqaAsxmc6632q7Ph6ER6V0hiJTZvng30bR
-28iJlBvTfTsHMjmZIS5/DWR/GlOE0iUzFfKJWxnu9Kk9SiFM2mL/Ahu8Ot1+Zz/7
-d2c66YuSbNI4JKgwC2WJxrr3ElK8E9Iuv5PVlPKz5oBGV3KSTdk61EeONafKot57
-7P/osiCNFum2+VzvQk05lO7sEhAWDBr0Z57SXQAHqjS1GK6ntdXnIqr93c4S4MY+
-mxcocNlJl1r9f3zufSpKBexhP7BSI93rxl60xZt48OZoMTOTdjn+F5f+F06jJgMv
-U9RMmNgawV8sO2a5Nq6eBz2UpUiuO9ryyJxWGFRDxCoQ6kI0dR8=
-=WMlX
------END PGP SIGNATURE-----
-
---Sig_/AqtM96bSPR/rWx0jmFwEdY5--
-
---===============0996266558==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0996266558==--
+SGVsbG8hCgpPbiAyMS4wNS4yMDE5IDI6NTAsIG1lZ291c0BtZWdvdXMuY29tIHdyb3RlOgoKPiBG
+cm9tOiBJY2Vub3d5IFpoZW5nIDxpY2Vub3d5QGFvc2MuaW8+Cj4gCj4gVGhlIFBIWSBzZWxlY3Rp
+b24gYml0IGFsc28gZXhpc3RzIG9uIFNvQ3Mgd2l0aG91dCBhbiBpbnRlcm5hbCBQSFk7IGlmIGl0
+J3MKPiBzZXQgdG8gMSAoaW50ZXJuYWwgUEhZLCBkZWZhdWx0IHZhbHVlKSB0aGVuIHRoZSBNQUMg
+d2lsbCBub3QgbWFrZSB1c2Ugb2YKPiBhbnkgUEhZIHN1Y2ggU29Dcy4KICAgICAgICAgIF4gIm9u
+IiBvciAid2l0aCIgbWlzc2luZz8KCj4gVGhpcyBwcm9ibGVtIGFwcGVhcnMgd2hlbiBhZGFwdGlu
+ZyBmb3IgSDYsIHdoaWNoIGhhcyBubyByZWFsIGludGVybmFsIFBIWQo+ICh0aGUgImludGVybmFs
+IFBIWSIgb24gSDYgaXMgbm90IG9uLWRpZSwgYnV0IG9uIGEgY28tcGFja2FnZWQgQUMyMDAgY2hp
+cCwKPiBjb25uZWN0ZWQgdmlhIFJNSUkgaW50ZXJmYWNlIGF0IEdQSU8gYmFuayBBKS4KPiAKPiBG
+b3JjZSB0aGUgUEhZIHNlbGVjdGlvbiBiaXQgdG8gMCB3aGVuIHRoZSBTT0MgZG9lc24ndCBoYXZl
+IGFuIGludGVybmFsIFBIWSwKPiB0byBhZGRyZXNzIHRoZSBwcm9ibGVtIG9mIGEgd3JvbmcgZGVm
+YXVsdCB2YWx1ZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBJY2Vub3d5IFpoZW5nIDxpY2Vub3d5QGFv
+c2MuaW8+Cj4gU2lnbmVkLW9mZi1ieTogT25kcmVqIEppcm1hbiA8bWVnb3VzQG1lZ291cy5jb20+
+ClsuLi5dCgpNQlIsIFNlcmdlaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
