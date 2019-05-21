@@ -2,68 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7C924B02
-	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 10:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4685F24B0E
+	for <lists+dri-devel@lfdr.de>; Tue, 21 May 2019 11:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9827F89254;
-	Tue, 21 May 2019 08:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B4B8921B;
+	Tue, 21 May 2019 09:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE9CF891C7;
- Tue, 21 May 2019 08:59:10 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id i3so2067193wml.4;
- Tue, 21 May 2019 01:59:10 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE7308921B;
+ Tue, 21 May 2019 09:01:35 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id l26so12411853lfh.13;
+ Tue, 21 May 2019 02:01:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=rM29GR+GLJBGbe/X4l+o5HboBDmZQ0NCAg2bSni71Wg=;
- b=OV3nk6/g7wHNIcgAS2W9e2UyVYCTFlmOG0gtenFHZaQiceA4EkzWkrgxtujkwTgFq8
- YUIXZYl8ZNUdzETLdg0xPjy3+1IBkJ2hQrM9FeoR+QBbiIpTQqVzUETGcmDEiDTmhULi
- na1P9r9ZtLjIdKLI/9XdoeIpP9d4GMvVVmFBv9r8DTxlt2TSByBLq0bNNF9TGM+IJ72P
- fOPs9707jotfO56xHsV8INHndqnqWoptIJk2Qv/8wP086J06GxlrwtuQhcKAuzcRD6Ei
- AWt8rRwjlRC78lYPwma/FGlK1IMHMNIu0e0FW4Nyg9D7UICS6gem8cIuSdOYc5ULGanU
- Ut2g==
-X-Gm-Message-State: APjAAAUt5eqfvSjsiBJizLzHmAFaGIC9tt5LmG1xvb2vqJnYxO3Le5/S
- 6LLfdUFS+8ex+6ABS2V3mOs=
-X-Google-Smtp-Source: APXvYqxpI7tzkLKspuFLCiRW/leKiX1O+difohz9rQxKEyaYMt80NYvjUP0bKgL4TGpNJShW7HOEZg==
-X-Received: by 2002:a1c:b4d4:: with SMTP id d203mr2406208wmf.34.1558429149384; 
- Tue, 21 May 2019 01:59:09 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id f20sm2188461wmh.22.2019.05.21.01.59.08
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 21 May 2019 01:59:08 -0700 (PDT)
-Subject: Re: [PATCH] gpu: drm: use struct_size() in kmalloc()
-To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
-References: <1558082760-4915-1-git-send-email-xiaolinkui@kylinos.cn>
- <SN6PR12MB2800A7AEC22121C8704CBB09870B0@SN6PR12MB2800.namprd12.prod.outlook.com>
- <20190520162807.GE21222@phenom.ffwll.local>
- <SN6PR12MB28007ED8F5C6838F2C25A9D587060@SN6PR12MB2800.namprd12.prod.outlook.com>
- <CADnq5_O=PAK3qZJ-kHUX9jQDkmEYOX+iOhOX7gNaaXp+tC7nUg@mail.gmail.com>
- <CAKMK7uHS837L9Ze_K5q-AsFgOtAMD+n_i_Y404BX-_CwJeP08Q@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <36de7e05-9055-6d8b-fb2c-fa5a4e94274b@gmail.com>
-Date: Tue, 21 May 2019 10:59:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=PtVhATZFCdMrNMeNaXq/dBa4oF4LDNOsQG7RgNOHY40=;
+ b=URG/hte+oF/BHxiOZXEqgerOyTfTlyMW8gfgQIXTi2zRHKJiKlb3wIVgOfOWgf+t9L
+ Jymkzg0CPuDMv10NvNOvcL4yTB3V0/aLz9ZnKjJBcK7nhBKR2I0Q1rwJfJpNRfjfk6bx
+ TjJX0fX7etYACHI5HsXqQVya6ol4zlNP5jINw4GGFGcM5AZ4akuQeWqpHVpkVxNuyFUe
+ lMfOhA9l+tFIGAQ5Nkp/+QzNt78AUh6dS0MRi9Lgc0pacCJPmNp7VaFCXMQuluCRLcBF
+ i3jYhXY0+b4T3SJSOuPD7UwKMQhGelWJk2icc10wCWcx5GYCHycSsiBZF9TVw6byMy1d
+ wFIA==
+X-Gm-Message-State: APjAAAXwMPPBLE/R3w7MgdBqEY2cew3K+UKvOH1JGJJn9JLlRgTG2lRF
+ TmNo97Lzb9MrcKx4kWbOJcg=
+X-Google-Smtp-Source: APXvYqzJM0jhbYfG95tBGMaicwhq9YRS+50HLNfe7LLTg2ihTJuzFxSDRmkLa5iTJuJfGiGFh+iwZw==
+X-Received: by 2002:a19:9f01:: with SMTP id i1mr38333519lfe.98.1558429293912; 
+ Tue, 21 May 2019 02:01:33 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id x20sm4440810ljc.15.2019.05.21.02.01.33
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 21 May 2019 02:01:33 -0700 (PDT)
+Date: Tue, 21 May 2019 12:01:29 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v7 09/11] drm: uevent for connector status change
+Message-ID: <20190521120129.2d06d88e@eldfell.localdomain>
+In-Reply-To: <CAKMK7uGoVhAOkZN7G1fuzdUjihjxqRhVuVvE3K5HFZwGjyC6Hg@mail.gmail.com>
+References: <20190514110242.6f6ba4b0@eldfell.localdomain>
+ <9b6386239ecae396fc4f5cc4467f8e76721f2c83.camel@intel.com>
+ <CAKMK7uHJPugRWJx32oWVF94jBf28P0nBirZNbSBRMS1SbUaS9A@mail.gmail.com>
+ <20190514163602.7d252b12@eldfell.localdomain>
+ <CAKMK7uGMJMZiOP4rhhiu=Obu6sO0oav5se-vy8bNLu8dfoZmvA@mail.gmail.com>
+ <20190515103731.16855195@eldfell.localdomain>
+ <20190515082449.GA17751@phenom.ffwll.local>
+ <20190516112211.1cd5a8c6@eldfell.localdomain>
+ <20190516122455.GA3851@phenom.ffwll.local>
+ <20190517130824.17372663@eldfell.localdomain>
+ <20190520161107.GA21222@phenom.ffwll.local>
+ <20190521095505.7ef1cbdf@eldfell.localdomain>
+ <CAKMK7uGoVhAOkZN7G1fuzdUjihjxqRhVuVvE3K5HFZwGjyC6Hg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHS837L9Ze_K5q-AsFgOtAMD+n_i_Y404BX-_CwJeP08Q@mail.gmail.com>
-Content-Language: en-US
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=rM29GR+GLJBGbe/X4l+o5HboBDmZQ0NCAg2bSni71Wg=;
- b=XD//WTrHKOB3LOnuShkRM8SfrtkoNTpat43ssMyrfZEqXb+aSoswSAMVJgoOq3NZf4
- aYxhlBupBmACwpwe78IYv67mfL6KKwRasgJU2N2hR1yPkdr1rMIy3r65d/SCBh/XVJ6N
- oeG+C687IwMNUbzXQct4nB7IqEQkAEUY73ii/pFuiaBdRL4C/CQqNdokRcGgR5twcAm+
- 0mOE11gu6+MFN0NnsAU33cn3noGlbdIHNFJLBiXAvprf50DcQyTxr6Zy8L4R79Tqw+1w
- ds1vJG4V6LKijZAnRmi98jBqWCTuNRslvvDHTIXE1j8WnH0rD/4hSBRK7yeoYfbelq69
- Jq9A==
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=PtVhATZFCdMrNMeNaXq/dBa4oF4LDNOsQG7RgNOHY40=;
+ b=kCRzaIfwacj9Bb2tyPVd6xoksfI6G/H3IixGxzn9hPQy/gzR3kETo8LPkw7M0DpA2x
+ 9Xp2cWZuVbEYfde4WJaxlYjzFBE8CszKdBq8RTkNWuYOdiS7mrg0i3liesHISSrTFbg/
+ qhMVxcbcze9/74obgtWU3MQcgzitm98sSy0wYjvep/1LeWZAld23YH5mT/Z3gHJE8mon
+ MjUkdZEeY2eyb3Xh/OFOpivgC5cOoIWMF/jWgRvovM8u4PqtFquMq7xK2L61TEr5DqbP
+ TOaJyCieynyfNNfYSVhN+pxVqam2L8kLMcaWhgjBA8SRSUomqbESEvXiP19FCsAeSeif
+ azjQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,100 +79,213 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: "airlied@linux.ie" <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- xiaolinkui <xiaolinkui@kylinos.cn>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Quan, Evan" <Evan.Quan@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "Ser, Simon" <simon.ser@intel.com>,
+ "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Mun, 
+ Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
+ "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>, "Vetter, 
+ Daniel" <daniel.vetter@intel.com>, "sean@poorly.run" <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1199668869=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjEuMDUuMTkgdW0gMDk6MjMgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFR1ZSwgTWF5
-IDIxLCAyMDE5IGF0IDQ6MzMgQU0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hlckBnbWFpbC5jb20+
-IHdyb3RlOgo+PiBPbiBNb24sIE1heSAyMCwgMjAxOSBhdCA3OjE5IFBNIFBhbiwgWGluaHVpIDxY
-aW5odWkuUGFuQGFtZC5jb20+IHdyb3RlOgo+Pj4gRGFuaWVsLCB3aGF0IHlvdSBhcmUgdGFsa2lu
-ZyBhYm91dCBpcyB0b3RhbGx5IHdyb25nLgo+Pj4gMSkgQUZBSUssIG9ubHkgb25lIHplcm8tc2l6
-ZSBhcnJheSBjYW4gYmUgaW4gdGhlIGVuZCBvZiBhIHN0cnVjdC4KPj4+IDIpIHR3byBzdHJ1Y3Rf
-c2l6ZSB3aWxsIGFkZCB1cCBzdHJ1Y3QgaXRzZWxmIHR3aWNlLiB0aGUgc3VtIGlzIHdyb25nIHRo
-ZW4uCj4+Pgo+Pj4gTm8gb2ZmZW5zZS4gSSBjYW4ndCBoZWxwIGZlZWxpbmcgbHVja3kgdGhhdCB5
-b3UgYXJlIGluIGludGVsLgo+PiBYaW5odWksCj4+Cj4+IFBsZWFzZSBrZWVwIHRoaW5ncyBjaXZp
-bC4gIFRoZXJlIGlzIG5vIG5lZWQgZm9yIGNvbW1lbnRzIGxpa2UgdGhpcy4KPiBZZWFoLCB0aGlz
-IHdhcyBvdmVyIHRoZSBsaW5lLCB0aGFua3MgQWxleCBmb3IgYWxyZWFkeSB0YWtpbmcgY2FyZSBv
-Zgo+IHRoaXMuIFBsZWFzZSBub3RlIHRoYXQgZmQubyBtYWlsaW5nIGxpc3RzIG9wZXJhdGUgdW5k
-ZXIgYSBDb0M6Cj4KPiBodHRwczovL3d3dy5mcmVlZGVza3RvcC5vcmcvd2lraS9Db2RlT2ZDb25k
-dWN0LwoKU2Vjb25kZWQuIEkgYWxzbyBlbmpveSB0aGUgaHVtaWxpYXRpb24gb2Ygb3RoZXIgaW4g
-ZW1haWwsIGJ1dCBpdCBkb2Vzbid0IApoZWxwcyB1cyBnZXR0aW5nIGNvZGUgd3JpdHRlbiBhbmQg
-cHJvYmxlbXMgc29sdmVkIGluIGEgcHJvZmVzc2lvbmFsIAplbnZpcm9ubWVudC4KCj4gV3J0IHRo
-ZSB0ZWNobmljYWwgY29tbWVudDogSSBrbm93IHRoYXQgeW91IGNhbiBvbmx5IGRvIG9uZSB2YXJp
-YWJsZQo+IHNpemVkIGFycmF5LCBhbmQgaXQgbXVzdCBiZSBhdCB0aGUgZW5kLiBCdXQgeW91IGNh
-biBwdXQgbXVsdGlwbGUKPiBzdHJ1Y3R1cmVzIGFsbCB3aXRoaW4gdGhlIHNhbWUgYWxsb2NhdGlv
-bi4gV2hpY2ggaXMgd2hhdCBJIHRob3VnaHQgeW91Cj4gd2FudGVkIHRvIGRvLiBBbmQgbXkgc2tl
-dGNoIHdvdWxkIGFsbG93IHlvdSB0byBkbyB0aGF0IGV2ZW4gaWYgeW91Cj4gaGF2ZSBtdWx0aXBs
-ZSB2YXJpYWJsZSBsZW5ndGggc3RydWN0dXJlcyB5b3Ugd2FudCB0byBhbGxvY2F0ZS4gVGhlcmUn
-cwo+IHBsZW50eSBleGFtcGxlcyBvZiB0aGlzIChidXQgb3Blbi1jb2RlZCBvbmVzKSBpbiB0aGUg
-a2VybmVsLgoKQlRXOiBJcyB0aGVyZSBhY3R1YWxseSBnb29kIGRvY3VtZW50YXRpb24gaG93IHRv
-IGNvcnJlY3RseSBkbyB0aGUgCnZhcmlhYmxlIGxlbmd0aCBhcnJheSBhdCBlbmQgb2Ygc3RydWN0
-dXJlIHRoaW5nIGluIHRoZSBrZXJuZWw/CgpJIGRvIGtub3cgdGhhdCBJJ3ZlIHNlZW4gYSBsb3Qg
-b2YgZGlmZmVyZW50IHZhcmlhbnRzIGxpa2UgYXJyYXlbXSAKYXJyYXlbMF0gb3IgYXJyYXlbMV0g
-YW5kIEkgaGF2ZSBhbHNvIHNlZW4gYSBidW5jaCBvZiBnY2MgdmVyc2lvbnMgCmZhaWxpbmcgdG8g
-Z2VuZXJhdGUgY29ycmVjdCBjb2RlIGZvciBzb21lIG9mIHRoZW0uCgpTbyB3ZSBzaG91bGQgcHJv
-YmFibHkgbmFpbCBkb3duIGhvdyB0byBkbyB0aGluZ3MgY29ycmVjdGx5LgoKPiBFeGNlcHQgaW4g
-cmVhbGx5IGhvdCBwYXRocyBJIHBlcnNvbmFsbHkgdGhpbmsgdGhhdCB0aGF0IGtpbmQgb2YKPiB0
-cmlja2VyeSBpc24ndCB3b3J0aCBpdC4KCldlbGwgZm9yIGttYWxsb2MoKSBpdCdzIG5vdCB0aGF0
-IG11Y2ggb3ZlcmhlYWQsIGJ1dCB3aXRoIHZtYWxsb2MgdGhhdCBpcyAKYSBjb21wbGV0ZWx5IGRp
-ZmZlcmVudCBwaWN0dXJlLgoKQ2hyaXN0aWFuLgoKPgo+IENoZWVycywgRGFuaWVsCj4KPj4gQWxl
-eAo+Pgo+Pj4KPj4+IOWPkeS7tuS6ujogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZnds
-bC5jaD4g5Luj6KGoIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPj4+IOWPkemAgeaX
-tumXtDogMjAxOeW5tDXmnIgyMeaXpSAwOjI4Cj4+PiDmlLbku7bkuro6IFBhbiwgWGluaHVpCj4+
-PiDmioTpgIE6IERldWNoZXIsIEFsZXhhbmRlcjsgS29lbmlnLCBDaHJpc3RpYW47IFpob3UsIERh
-dmlkKENodW5NaW5nKTsgYWlybGllZEBsaW51eC5pZTsgZGFuaWVsQGZmd2xsLmNoOyBRdWFuLCBF
-dmFuOyB4aWFvbGlua3VpOyBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+Pj4g
-5Li76aKYOiBSZTogW1BBVENIXSBncHU6IGRybTogdXNlIHN0cnVjdF9zaXplKCkgaW4ga21hbGxv
-YygpCj4+Pgo+Pj4gW0NBVVRJT046IEV4dGVybmFsIEVtYWlsXQo+Pj4KPj4+IE9uIEZyaSwgTWF5
-IDE3LCAyMDE5IGF0IDA0OjQ0OjMwUE0gKzAwMDAsIFBhbiwgWGluaHVpIHdyb3RlOgo+Pj4+IEkg
-YW0gZ29pbmcgdG8gcHV0IG1vcmUgbWVtYmVycyB3aGljaCBhcmUgYWxzbyBhcnJheSBhZnRlciB0
-aGlzIHN0cnVjdCwKPj4+PiBub3Qgb25seSBvYmpbXS4gIExvb2tzIGxpa2UgdGhpcyBzdHJ1Y3Rf
-c2l6ZSBkaWQgbm90IGhlbHAgb24gbXVsdGlwbGUKPj4+PiBhcnJheSBjYXNlLiBUaGFua3MgYW55
-d2F5LiAgX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4+IFlvdSBjYW4gdGhlbiBh
-ZGQgdGhlbSB1cCwgZS5nLiBrbWFsbG9jKHN0cnVjdF9zaXplKCkrc3RydWN0X3NpemUoKSwKPj4+
-IEdGUF9LRVJORUwpLCBzbyB0aGlzIHBhdGNoIGhlcmUgc3RpbGwgbG9va3MgbGlrZSBhIGdvb2Qg
-aWRlYS4KPj4+Cj4+PiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBm
-ZndsbC5jaD4KPj4+Cj4+PiBDaGVlcnMsIERhbmllbAo+Pj4KPj4+PiBGcm9tOiB4aWFvbGlua3Vp
-IDx4aWFvbGlua3VpQGt5bGlub3MuY24+Cj4+Pj4gU2VudDogRnJpZGF5LCBNYXkgMTcsIDIwMTkg
-NDo0NjowMCBQTQo+Pj4+IFRvOiBEZXVjaGVyLCBBbGV4YW5kZXI7IEtvZW5pZywgQ2hyaXN0aWFu
-OyBaaG91LCBEYXZpZChDaHVuTWluZyk7IGFpcmxpZWRAbGludXguaWU7IGRhbmllbEBmZndsbC5j
-aDsgUGFuLCBYaW5odWk7IFF1YW4sIEV2YW4KPj4+PiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmc7IHhpYW9saW5rdWlAa3lsaW5vcy5jbgo+Pj4+IFN1YmplY3Q6IFtQQVRD
-SF0gZ3B1OiBkcm06IHVzZSBzdHJ1Y3Rfc2l6ZSgpIGluIGttYWxsb2MoKQo+Pj4+Cj4+Pj4gW0NB
-VVRJT046IEV4dGVybmFsIEVtYWlsXQo+Pj4+Cj4+Pj4gVXNlIHN0cnVjdF9zaXplKCkgaGVscGVy
-IHRvIGtlZXAgY29kZSBzaW1wbGUuCj4+Pj4KPj4+PiBTaWduZWQtb2ZmLWJ5OiB4aWFvbGlua3Vp
-IDx4aWFvbGlua3VpQGt5bGlub3MuY24+Cj4+Pj4gLS0tCj4+Pj4gICBkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9hbWRncHVfcmFzLmMgfCAzICstLQo+Pj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQo+Pj4+Cj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yYXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9yYXMuYwo+Pj4+IGluZGV4IDIyYmQyMWUuLjQ3MTdhNjQgMTAwNjQ0Cj4+
-Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3Jhcy5jCj4+Pj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3Jhcy5jCj4+Pj4gQEAgLTEzNzUs
-OCArMTM3NSw3IEBAIGludCBhbWRncHVfcmFzX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYpCj4+Pj4gICAgICAgICAgaWYgKGNvbikKPj4+PiAgICAgICAgICAgICAgICAgIHJldHVybiAw
-Owo+Pj4+Cj4+Pj4gLSAgICAgICBjb24gPSBrbWFsbG9jKHNpemVvZihzdHJ1Y3QgYW1kZ3B1X3Jh
-cykgKwo+Pj4+IC0gICAgICAgICAgICAgICAgICAgICAgIHNpemVvZihzdHJ1Y3QgcmFzX21hbmFn
-ZXIpICogQU1ER1BVX1JBU19CTE9DS19DT1VOVCwKPj4+PiArICAgICAgIGNvbiA9IGttYWxsb2Mo
-c3RydWN0X3NpemUoY29uLCBvYmpzLCBBTURHUFVfUkFTX0JMT0NLX0NPVU5UKSwKPj4+PiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgR0ZQX0tFUk5FTHxfX0dGUF9aRVJPKTsKPj4+PiAgICAgICAg
-ICBpZiAoIWNvbikKPj4+PiAgICAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+Pj4+IC0t
-Cj4+Pj4gMi43LjQKPj4+Pgo+Pj4+Cj4+Pj4KPj4+IC0tCj4+PiBEYW5pZWwgVmV0dGVyCj4+PiBT
-b2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KPj4+IGh0dHA6Ly9ibG9nLmZmd2xs
-LmNoCj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-Pj4gYW1kLWdmeCBtYWlsaW5nIGxpc3QKPj4+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cj4+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1n
-ZngKPgo+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1199668869==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/3bo6fQCg9G6.W+NNcH46DHI"; protocol="application/pgp-signature"
+
+--Sig_/3bo6fQCg9G6.W+NNcH46DHI
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 21 May 2019 09:52:50 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Tue, May 21, 2019 at 8:55 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
+e:
+> >
+> > On Mon, 20 May 2019 18:11:07 +0200
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > =20
+> > > On Fri, May 17, 2019 at 01:08:24PM +0300, Pekka Paalanen wrote: =20
+> > > > On Thu, 16 May 2019 14:24:55 +0200
+> > > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > =20
+> > > > > On Thu, May 16, 2019 at 11:22:11AM +0300, Pekka Paalanen wrote: =
+=20
+
+...
+
+> > > > > > No, my concern is not an issue with netlink reliability. It is a
+> > > > > > potential issue when userspace chooses to not use netlink, and =
+uses
+> > > > > > something else instead. I'm not sure what that else is but Paul=
+ says
+> > > > > > there is code in libudev and that is completely outside the con=
+trol of
+> > > > > > KMS apps like display servers. =20
+> > > > >
+> > > > > afaik this other path only exists because it's the older one, for=
+ uapi
+> > > > > backwards compatibility with older userspace. Shouldn't be used f=
+or
+> > > > > anything. =20
+> > > >
+> > > > "Shouldn't be used" and someone screaming "kernel regression"... ar=
+e you
+> > > > sure that path won't matter?
+> > > >
+> > > > Like some home-brewn distribution that happens to configure their
+> > > > libudev and kernel to use the old method, uses already new userspac=
+e,
+> > > > and then upgrades the kernel that starts sending fine-grained hotpl=
+ug
+> > > > events, resulting the display server randomly handling hotplug wron=
+g.
+> > > >
+> > > > Reading Airlie's recent rant about kernel regression handling make =
+this
+> > > > a scary scenario where you would have no other choice than to rip a=
+ll
+> > > > the fine-grained uevents out again.
+> > > >
+> > > > Is there any difference in the kernel code between the old method a=
+nd
+> > > > the netlink method? Would it be possible to send fine-grained hotpl=
+ug
+> > > > events only through netlink, and fall back to the old 'HOTPLUG=3D1'=
+ for
+> > > > the old method? =20
+> > >
+> > > There's a lot of grey in kernel regressions, and for fringe setups us=
+ed by
+> > > few people I wouldn't worry about this. If they expect their shit to =
+keep
+> > > working when using new stuff and crappy old interfaces, they get to k=
+eep
+> > > all the pieces. =20
+> >
+> > It didn't sound gray at all, reading Dave Airlie's email about it. If
+> > someone updates the kernel, and something works worse after that, then
+> > it is by definition a kernel regression. Period. And the earliest
+> > regression wins, i.e. if a revert breaks other things, the revert will
+> > be done regardless.
+> > =20
+> > > Dave's recent rant was a bit special, since userspace is clearly smok=
+ing
+> > > some strong stuff (-modesetting's atomic is seriously not using atomic
+> > > correctly), but it was also affecting too many people, and changing t=
+he
+> > > boot setup meant you'd get a black screen on boot-up already. Instead=
+ of
+> > > just on the first modeset with more than 1 screen. =20
+> >
+> > Then I think I missed the context of Dave's email. Reading it again, I
+> > still do not see that context.
+> >
+> > Btw. how do you determine "not using atomic correctly"? Has some uAPI
+> > specification for atomic appeared? I wasn't aware there was any uAPI
+> > specs, so there is no "incorrect use" if it happened to work once. =20
+>=20
+> -modesetting atomic blows up with more than one screen (even if you
+> just move that screen between crtc). The breakage was that with the
+> fastboot changes we've put the one screen onto crtc 1, but by default
+> modesetting wants it on crtc 0, and it couldn't do that switch
+> anymore.
+
+Hi Daniel,
+
+what says the assumption of the only monitor being driven by CRTC 0
+was a bad one? :-p
+
+It's probably not obvious that userspace needs to explicitly try to
+avoid invalid configuration combinations by inspecting the current full
+configuration and not just the one CRTC/connector it wants to use.
+
+> All current atomic in -modesetting can do is pageflip and dpms off/on
+> on the first screen on the first crtc. Anything more fancy goes boom,
+> like where you change the connector/crtc links.
+>=20
+> It's _really_ broken :-)
+
+But it worked exactly that much, until a kernel change broke it, right?
+Yes, I totally see the sillyness, but if it worked and we have these
+no-regression rules...
+
+> > I don't personally really like these rules, but if these are the rules,
+> > then so be it. In my opinion it would be a huge step forward to get and
+> > require uAPI specifications, that people could verify both kernel and
+> > userspace against. Verifying against kernel code with no spec is what
+> > leads to the -modesetting issue by the sounds of it.
+> >
+> > Documenting kernel internal interfaces is not it. People reading
+> > DRM internal interface docs would need to know how DRM works internally
+> > before they could map that information into uAPI, which makes it less
+> > useful if not even useless for userspace developers. =20
+>=20
+> vgem is the idea here for validation, but if people ship atomic code
+> that was never tested except for "boots on my laptop", then nothing is
+> going to help.
+
+A testing pattern library with vkms would be awesome indeed.
+
+> And yes we have a huge gap with uapi documentation. btw for properties
+> those section are meant to be useful for userspace people too:
+>=20
+> https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#standard-connector-=
+properties
+>=20
+> and all subsequent chapters. I guess it's a bit burried, but this part
+> is meant to be the uapi spec for properties. Is that also failing your
+> expectations?
+
+Yes: it is hard to find (it is in Driver Developer's Guide, buried
+several chapters in), it is interleaved with lots of DRM internal
+details, makes references to DRM internal functions, and probably
+relies on DRM internals behaviour through the references by not
+repeating what they do.
+
+It is useful once you find it, but I don't think it's enough for making
+good use in userspace for someone who hasn't been a DRM kernel
+developer.
+
+
+Thanks,
+pq
+
+--Sig_/3bo6fQCg9G6.W+NNcH46DHI
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAlzjvmkACgkQI1/ltBGq
+qqdZVxAApeeOIzpTPW9ArVhdRtSgmbyucPH9QqP8HSZ5K9Sx/gwSqfFz0aFSFUdX
+a9dd/6B6s4nJ2NewoN1kRphyTwkJjwPrKEZxubQDsHH+2c+Zl9KSJ1smO3xjeD+z
+bKOcgF1Qcs7KDG7oHTcj6jlcLL/rO5H9Z4vL5DxBKmnRpbd6uHbK3c13uf1p7z7E
+mJ+43uhWGgjYsEtok8Nzc8CsNtnXLLX63CLiQ0RgnrF/2+kqk89P1JTssqV30v2r
+XOkKhAMq4CqkbcI+nhY1vKrcaSsXPYrUFU7itNqtkVqgYENKR4AD0AZvBtVK2/bz
+qBbln78SNZYdOjNN/4K5KuoHN0ezBtJ+JBm37cLNeyDSU6+Z/01p4T2w34frDh1p
+88M02hWIGU3i20f1sdeNCrn9+z9pFP9JoK2r/+7H/R3EkaAEdj22vt5Hvd0x5vL7
+hLgtM86at9q7aY/XVs1cCkE9BQZCTjtgL4OwIlDwNRDcVFICGo77TceqkoX24xK5
+1KBs2CaFVsayHmDpksUFg0iNkXP5EM9yeo8fJYja/fwoCKSqadrNSaOVbYxcIIw9
+tE1IZ3B/r/bmlMdkWJYrbZTWwju6eDnvL/nT8QkdqZZly6rrhnu38bnzEVss3eu7
+hr8ZBBb5gmbiId7ACa62o9Q25ZTluC1ff3ihQUfnUCUpsP7ZA88=
+=0zpr
+-----END PGP SIGNATURE-----
+
+--Sig_/3bo6fQCg9G6.W+NNcH46DHI--
+
+--===============1199668869==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1199668869==--
