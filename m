@@ -1,46 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AFE2693D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 19:39:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FFD269C1
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 20:22:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2712089C69;
-	Wed, 22 May 2019 17:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C0189B9A;
+	Wed, 22 May 2019 18:21:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7951C89C69
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 17:39:43 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7356272167; Wed, 22 May 2019 17:39:43 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
- rc3 on polaris
-Date: Wed, 22 May 2019 17:39:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: edisonalvarez@arnet.com.ar
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110721-502-PlOjo6fEPP@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
-References: <bug-110721-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
+ [195.113.26.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D8689B9A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 18:21:56 +0000 (UTC)
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+ id A821780313; Wed, 22 May 2019 20:21:42 +0200 (CEST)
+Date: Wed, 22 May 2019 20:21:52 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCHv6 4/4] drm/omap: add support for manually updated displays
+Message-ID: <20190522182152.GA10003@amd>
+References: <20190403195413.djfrgzuj7povdksi@earth.universe>
+ <20190403201326.3127-1-sebastian.reichel@collabora.com>
+ <20190403201326.3127-5-sebastian.reichel@collabora.com>
+ <20190404001109.GZ49658@atomide.com>
 MIME-Version: 1.0
+In-Reply-To: <20190404001109.GZ49658@atomide.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +39,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1936527612=="
+Cc: kernel@collabora.com, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0834806733=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1936527612==
-Content-Type: multipart/alternative; boundary="15585467831.23dc1.20310"
-Content-Transfer-Encoding: 7bit
+--===============0834806733==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fUYQa+Pmc3FrFX/N"
+Content-Disposition: inline
 
 
---15585467831.23dc1.20310
-Date: Wed, 22 May 2019 17:39:43 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--fUYQa+Pmc3FrFX/N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
+On Wed 2019-04-03 17:11:09, Tony Lindgren wrote:
+> * Sebastian Reichel <sebastian.reichel@collabora.com> [190403 20:14]:
+> > This adds the required infrastructure for manually updated displays,
+> > such as DSI command mode panels. While those panels often support
+> > partial updates we currently always do a full refresh.
+> >=20
+> > The display will be refreshed when something calls the dirty callback,
+> > such as libdrm's drmModeDirtyFB(). This is currently being done at least
+> > by the kernel console and Xorg (with modesetting driver) in their
+> > default configuration. Weston does not implement this and the fbdev
+> > backend does not work (display will not update). Weston's DRM backend
+> > uses double buffering and the page flip will also trigger a display
+> > refresh.
+>=20
+> I've tested this with Linux next and the latest lm3532
+> patches and it works fine as long as we leave out the
+> backlight =3D <&lcd_backlight> entry from dts like I
+> replied in the lm3532 tread. So as far as I'm concerned,
+> we're good to go:
+>=20
+> Tested-by: Tony Lindgren <tony@atomide.com>
 
---- Comment #11 from alvarex <edisonalvarez@arnet.com.ar> ---
+I've tested this on 5.2-rc1, and it is still neccessary, still needed,
+and still not merged.
 
-> The second one is 811fa9a79cf ("mesa: unreference current winsys buffers
->  when unbinding winsys buffers").=20
->=20=20
+How can I help? Can the patches simply be picked up for drm tree?
 
-
-I'm going to try reverting that commit and building anyway.(In reply to alv=
-arex
-
+Tested-by: Pavel Machek <pavel@ucw.cz>
+									Pavel
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
---15585467831.23dc1.20310
-Date: Wed, 22 May 2019 17:39:43 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--fUYQa+Pmc3FrFX/N
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c11">Comme=
-nt # 11</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-edisonalvarez&#64;arnet.com.ar" title=3D"alvarex &lt;edisonalvarez&#64;arne=
-t.com.ar&gt;"> <span class=3D"fn">alvarex</span></a>
-</span></b>
-        <pre>
-<span class=3D"quote">&gt; The second one is 811fa9a79cf (&quot;mesa: unref=
-erence current winsys buffers
-&gt;  when unbinding winsys buffers&quot;).=20
-&gt;  </span >
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iEYEARECAAYFAlzlk0AACgkQMOfwapXb+vJXQQCfQd2JMKV5aE0IX8qcHplWoUFq
+tQsAn2FpwuQw/t+w9mpUiAiZ/CP53ppT
+=FNwu
+-----END PGP SIGNATURE-----
 
-I'm going to try reverting that commit and building anyway.(In reply to alv=
-arex</pre>
-        </div>
-      </p>
+--fUYQa+Pmc3FrFX/N--
 
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15585467831.23dc1.20310--
-
---===============1936527612==
+--===============0834806733==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -152,4 +119,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1936527612==--
+--===============0834806733==--
