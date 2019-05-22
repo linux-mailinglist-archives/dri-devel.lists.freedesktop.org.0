@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AF325B74
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 03:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED0825BE8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 04:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC62A896E7;
-	Wed, 22 May 2019 01:03:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E321F89718;
+	Wed, 22 May 2019 02:20:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B12896E7
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 01:03:33 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id t87so373109pfa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 18:03:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=4LWWo6vClK616q2qAdH10ez3h7JYhnb9DJf05zCL0Rc=;
- b=H6zVUPvHYPWuGh+kj7eEAnAdowFUQAVvO2Mv01OTQIc4mbJ1eOAmHT8r2hcz8S2frg
- PMJQCf5mvJbKAXOGjXnVbO2kDa3bMy0didlfxWnrJgsphhsJX3en3O6Oe+LUsKrpwGPE
- OJCnykkHhYJ7jEDUcrcNgoObSWIpordwBfeHJw1rBX0wtibmGs0j42LcVcRj7SWw7Zy8
- hrpUCfsMtQK5OLIwOrJa6UsvhdJkIUWRPXHqrYVRIMZ4Df3n/hR9Pcqre8pu62YcQ4FP
- ISNlf2dChjiDLQZWTL0tEehVwN6kEdnMDgDK0SKkR9sOfgVjW53C20WhPmTmbiw8NIsh
- cL9w==
-X-Gm-Message-State: APjAAAVU5OT3B6bMtqW1+8OqufH8LN5E1ib0olAjj22a2ofb+EVBs7ag
- fdXg8GXo7rlhOF3KLI3eLS0=
-X-Google-Smtp-Source: APXvYqx46cgSSnZBSN8MWy4w7UZ6LJ5vZdvCQjHSWoe3hmviwnIYYozuLF6vRtAMmZFD3wJxA9CP7A==
-X-Received: by 2002:a62:575b:: with SMTP id l88mr91654511pfb.143.1558487013025; 
- Tue, 21 May 2019 18:03:33 -0700 (PDT)
-Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net.
- [73.202.231.77]) by smtp.googlemail.com with ESMTPSA id
- q193sm34291242pfc.52.2019.05.21.18.03.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 21 May 2019 18:03:32 -0700 (PDT)
-From: Steve Longerbeam <slongerbeam@gmail.com>
-To: linux-media@vger.kernel.org
-Subject: [PATCH v8 4/5] gpu: ipu-v3: ipu-ic-csc: Add support for Rec.709
- encoding
-Date: Tue, 21 May 2019 18:03:16 -0700
-Message-Id: <20190522010317.23710-5-slongerbeam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190522010317.23710-1-slongerbeam@gmail.com>
-References: <20190522010317.23710-1-slongerbeam@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4LWWo6vClK616q2qAdH10ez3h7JYhnb9DJf05zCL0Rc=;
- b=HbANLn+g0LwhyL73Znthe1lIqjmXuS5dqUXxR+6LYakUxm9jvTiZqWvFAXWT6Mg0Cu
- VxWu2fAdjE+2eb5xGK+NY38ms+xhOutmalOoq/bJWbCnk73gDzvGFRQimK5EVDONrWZm
- Ho93lEevjG5LyoArdC6YBvHYJzIPtn3GhFJIFGqhQm/FpkxIMJl22y6Dx6vclvMMAr9C
- wdKsrcvKRrOKH5OgtQZherSQQ5CdFYgrze/sRst4uhjq+9249vdQ6TtiZCyqN7qAAp4X
- aXafPWhJQaFdqPWtnw/SYFfKwRN75UkKzBF+gmethj1+YRDrsNgKFiZR3RLBLQivMAbZ
- oDsw==
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E036F89722
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 02:20:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D815C72167; Wed, 22 May 2019 02:20:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107731] radeon (amdgpu) DisplayPort loss of max-resolution on
+ DP monitor (after monitor power saving / idle)
+Date: Wed, 22 May 2019 02:20:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop-bugs@fermulator.fastmail.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-107731-502-ewrL3E4F1n@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107731-502@http.bugs.freedesktop.org/>
+References: <bug-107731-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,100 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR FREESCALE IMX"
- <dri-devel@lists.freedesktop.org>, Steve Longerbeam <slongerbeam@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1697761838=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHN1cHBvcnQgZm9yIFJlYy43MDkgZW5jb2RpbmcgYW5kIGludmVyc2UgZW5jb2RpbmcuCgpS
-ZXBvcnRlZC1ieTogVGltIEhhcnZleSA8dGhhcnZleUBnYXRld29ya3MuY29tPgpTaWduZWQtb2Zm
-LWJ5OiBTdGV2ZSBMb25nZXJiZWFtIDxzbG9uZ2VyYmVhbUBnbWFpbC5jb20+Ci0tLQpDaGFuZ2Vz
-IGluIHY3OgotIG1vdmVkIENTQyB0YWJsZXMgdG8gbmV3IG1vZHVsZSBpcHUtaWMtY3NjLmMuCi0g
-ZXhwcmVzcyBuZWdhdGl2ZSBjb2VmZmljaWVudHMgYXMgdHJ1ZSBzaWduZWQgaW50J3MsIGZvciBi
-ZXR0ZXIKICByZWFkYWJpbGl0eS4KQ2hhbmdlcyBpbiB2NToKLSBtb3ZlZCBBUEkgY2hhbmdlcyB0
-byBhIHByZXZpb3VzIHBhdGNoLgotIG1vdmVkIENTQyBjb2VmZiBjYWxjIHRvIG5ldyBmdW5jdGlv
-biBjYWxjX2NzY19jb2VmZnMoKS4KQ2hhbmdlcyBpbiB2NDoKLSBmaXggY29tcGlsZSBlcnJvci4K
-Q2huZ2VzIGluIHYzOgotIG5vbmUuCkNoYW5nZXMgaW4gdjI6Ci0gb25seSByZXR1cm4gIlVuc3Vw
-cG9ydGVkIFlDYkNyIGVuY29kaW5nIiBlcnJvciBpZiBpbmYgIT0gb3V0ZiwKICBzaW5jZSBpZiBp
-bmYgPT0gb3V0ZiwgdGhlIGlkZW50aXR5IG1hdHJpeCBjYW4gYmUgdXNlZC4gUmVwb3J0ZWQKICBi
-eSBUaW0gSGFydmV5LgotLS0KIGRyaXZlcnMvZ3B1L2lwdS12My9pcHUtaWMtY3NjLmMgfCAxMzkg
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAxMzQgaW5z
-ZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9pcHUt
-djMvaXB1LWljLWNzYy5jIGIvZHJpdmVycy9ncHUvaXB1LXYzL2lwdS1pYy1jc2MuYwppbmRleCA4
-ZTkxNTBiMWQ2NjguLjA5ZTk0YWExMmM0MCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvaXB1LXYz
-L2lwdS1pYy1jc2MuYworKysgYi9kcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWljLWNzYy5jCkBAIC0y
-MzAsMTQgKzIzMCwxMzMgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBpcHVfaWNfY3NjX3BhcmFtcyAq
-eXV2MnJnYl82MDFbXSA9IHsKIAkmeXV2bDJyZ2JsXzYwMSwKIH07CiAKKy8qCisgKiBSRUMuNzA5
-IGVuY29kaW5nIGZyb20gUkdCIGZ1bGwgcmFuZ2UgdG8gWVVWIGZ1bGwgcmFuZ2U6CisgKgorICog
-WSA9ICAuMjEyNiAqIFIgKyAuNzE1MiAqIEcgKyAuMDcyMiAqIEIKKyAqIFUgPSAtLjExNDYgKiBS
-IC0gLjM4NTQgKiBHICsgLjUwMDAgKiBCICsgMTI4CisgKiBWID0gIC41MDAwICogUiAtIC40NTQy
-ICogRyAtIC4wNDU4ICogQiArIDEyOAorICovCitzdGF0aWMgY29uc3Qgc3RydWN0IGlwdV9pY19j
-c2NfcGFyYW1zIHJnYmYyeXV2Zl83MDkgPSB7CisJLmNvZWZmID0geworCQl7ICA1NCwgIDE4Mywg
-IDE5IH0sCisJCXsgLTI5LCAgLTk5LCAxMjggfSwKKwkJeyAxMjgsIC0xMTYsIC0xMiB9LAorCX0s
-CisJLm9mZnNldCA9IHsgMCwgNTEyLCA1MTIgfSwKKwkuc2NhbGUgPSAxLAorfTsKKworLyogUmVj
-LjcwOSBSR0IgZnVsbC1yYW5nZSB0byBZVVYgbGltaXRlZC1yYW5nZSAqLworc3RhdGljIGNvbnN0
-IHN0cnVjdCBpcHVfaWNfY3NjX3BhcmFtcyByZ2JmMnl1dmxfNzA5ID0geworCS5jb2VmZiA9IHsK
-KwkJeyAgIDQ3LCAgMTU3LCAgIDE2LCB9LAorCQl7ICAtMjYsICAtODcsICAxMTIsIH0sCisJCXsg
-IDExMiwgLTEwMiwgIC0xMCwgfSwKKwl9LAorCS5vZmZzZXQgPSB7IDY0LCA1MTIsIDUxMiwgfSwK
-Kwkuc2NhbGUgPSAxLAorCS5zYXQgPSB0cnVlLAorfTsKKworLyogUmVjLjcwOSBSR0IgbGltaXRl
-ZC1yYW5nZSB0byBZVVYgZnVsbC1yYW5nZSAqLworc3RhdGljIGNvbnN0IHN0cnVjdCBpcHVfaWNf
-Y3NjX3BhcmFtcyByZ2JsMnl1dmZfNzA5ID0geworCS5jb2VmZiA9IHsKKwkJeyAgIDYzLCAgMjEz
-LCAgIDIyLCB9LAorCQl7ICAtMzQsIC0xMTUsICAxNDksIH0sCisJCXsgIDE0OSwgLTEzNSwgIC0x
-NCwgfSwKKwl9LAorCS5vZmZzZXQgPSB7IC03NSwgNTEyLCA1MTIsIH0sCisJLnNjYWxlID0gMSwK
-K307CisKKy8qIFJlYy43MDkgUkdCIGxpbWl0ZWQtcmFuZ2UgdG8gWVVWIGxpbWl0ZWQtcmFuZ2Ug
-Ki8KK3N0YXRpYyBjb25zdCBzdHJ1Y3QgaXB1X2ljX2NzY19wYXJhbXMgcmdibDJ5dXZsXzcwOSA9
-IHsKKwkuY29lZmYgPSB7CisJCXsgICA1NCwgIDE4MywgICAxOCwgfSwKKwkJeyAgLTMwLCAtMTAx
-LCAgMTMxLCB9LAorCQl7ICAxMzEsIC0xMTksICAtMTIsIH0sCisJfSwKKwkub2Zmc2V0ID0geyAw
-LCA1MTIsIDUxMiwgfSwKKwkuc2NhbGUgPSAxLAorCS5zYXQgPSB0cnVlLAorfTsKKworLyoKKyAq
-IEludmVyc2UgUkVDLjcwOSBlbmNvZGluZyBmcm9tIFlVViBmdWxsIHJhbmdlIHRvIFJHQiBmdWxs
-IHJhbmdlOgorICoKKyAqIFIgPSAxLiAqIFkgKyAgICAgIDAgKiAoQ2IgLSAxMjgpICsgMS41NzQ4
-ICogKENyIC0gMTI4KQorICogRyA9IDEuICogWSAtICAuMTg3MyAqIChDYiAtIDEyOCkgLSAgLjQ2
-ODEgKiAoQ3IgLSAxMjgpCisgKiBCID0gMS4gKiBZICsgMS44NTU2ICogKENiIC0gMTI4KSArICAg
-ICAgMCAqIChDciAtIDEyOCkKKyAqCisgKiBlcXVpdmFsZW50bHkgKGZhY3RvcmluZyBvdXQgdGhl
-IG9mZnNldHMpOgorICoKKyAqIFIgPSAxLiAqIFkgICsgICAgICAwICogQ2IgKyAxLjU3NDggKiBD
-ciAtIDIwMS41NzQKKyAqIEcgPSAxLiAqIFkgIC0gIC4xODczICogQ2IgLSAgLjQ2ODEgKiBDciAr
-ICA4My44OTEKKyAqIEIgPSAxLiAqIFkgICsgMS44NTU2ICogQ2IgKyAgICAgIDAgKiBDciAtIDIz
-Ny41MTcKKyAqLworc3RhdGljIGNvbnN0IHN0cnVjdCBpcHVfaWNfY3NjX3BhcmFtcyB5dXZmMnJn
-YmZfNzA5ID0geworCS5jb2VmZiA9IHsKKwkJeyAgMTI4LCAgIDAsIDIwMiB9LAorCQl7ICAxMjgs
-IC0yNCwgLTYwIH0sCisJCXsgIDEyOCwgMjM4LCAgIDAgfSwKKwl9LAorCS5vZmZzZXQgPSB7IC00
-MDMsIDE2OCwgLTQ3NSB9LAorCS5zY2FsZSA9IDIsCit9OworCisvKiBSZWMuNzA5IFlVViBmdWxs
-LXJhbmdlIHRvIFJHQiBsaW1pdGVkLXJhbmdlICovCitzdGF0aWMgY29uc3Qgc3RydWN0IGlwdV9p
-Y19jc2NfcGFyYW1zIHl1dmYycmdibF83MDkgPSB7CisJLmNvZWZmID0geworCQl7ICAxMTAsICAg
-IDAsICAxNzMsIH0sCisJCXsgIDExMCwgIC0yMSwgIC01MSwgfSwKKwkJeyAgMTEwLCAgMjA0LCAg
-ICAwLCB9LAorCX0sCisJLm9mZnNldCA9IHsgLTMxNCwgMTc2LCAtMzc2LCB9LAorCS5zY2FsZSA9
-IDIsCit9OworCisvKiBSZWMuNzA5IFlVViBsaW1pdGVkLXJhbmdlIHRvIFJHQiBmdWxsLXJhbmdl
-ICovCitzdGF0aWMgY29uc3Qgc3RydWN0IGlwdV9pY19jc2NfcGFyYW1zIHl1dmwycmdiZl83MDkg
-PSB7CisJLmNvZWZmID0geworCQl7ICAgNzUsICAgIDAsICAxMTUsIH0sCisJCXsgICA3NSwgIC0x
-NCwgIC0zNCwgfSwKKwkJeyAgIDc1LCAgMTM1LCAgICAwLCB9LAorCX0sCisJLm9mZnNldCA9IHsg
-LTI0OCwgNzcsIC0yODksIH0sCisJLnNjYWxlID0gMywKK307CisKKy8qIFJlYy43MDkgWVVWIGxp
-bWl0ZWQtcmFuZ2UgdG8gUkdCIGxpbWl0ZWQtcmFuZ2UgKi8KK3N0YXRpYyBjb25zdCBzdHJ1Y3Qg
-aXB1X2ljX2NzY19wYXJhbXMgeXV2bDJyZ2JsXzcwOSA9IHsKKwkuY29lZmYgPSB7CisJCXsgIDEy
-OCwgICAgMCwgIDE5NywgfSwKKwkJeyAgMTI4LCAgLTIzLCAgLTU5LCB9LAorCQl7ICAxMjgsICAy
-MzIsICAgIDAsIH0sCisJfSwKKwkub2Zmc2V0ID0geyAtMzk0LCAxNjQsIC00NjQsIH0sCisJLnNj
-YWxlID0gMiwKK307CisKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgaXB1X2ljX2NzY19wYXJhbXMgKnJn
-YjJ5dXZfNzA5W10gPSB7CisJJnJnYmYyeXV2Zl83MDksCisJJnJnYmYyeXV2bF83MDksCisJJnJn
-YmwyeXV2Zl83MDksCisJJnJnYmwyeXV2bF83MDksCit9OworCitzdGF0aWMgY29uc3Qgc3RydWN0
-IGlwdV9pY19jc2NfcGFyYW1zICp5dXYycmdiXzcwOVtdID0geworCSZ5dXZmMnJnYmZfNzA5LAor
-CSZ5dXZmMnJnYmxfNzA5LAorCSZ5dXZsMnJnYmZfNzA5LAorCSZ5dXZsMnJnYmxfNzA5LAorfTsK
-Kwogc3RhdGljIGludCBjYWxjX2NzY19jb2VmZnMoc3RydWN0IGlwdV9pY19jc2MgKmNzYykKIHsK
-IAljb25zdCBzdHJ1Y3QgaXB1X2ljX2NzY19wYXJhbXMgKipwYXJhbXNfdGJsOwogCWludCB0Ymxf
-aWR4OwogCi0JaWYgKGNzYy0+b3V0X2NzLmVuYyAhPSBWNEwyX1lDQkNSX0VOQ182MDEpCi0JCXJl
-dHVybiAtRU5PVFNVUFA7Ci0KIAl0YmxfaWR4ID0gKFFVQU5UX01BUChjc2MtPmluX2NzLnF1YW50
-KSA8PCAxKSB8CiAJCVFVQU5UX01BUChjc2MtPm91dF9jcy5xdWFudCk7CiAKQEAgLTI1MCw4ICsz
-NjksMTggQEAgc3RhdGljIGludCBjYWxjX2NzY19jb2VmZnMoc3RydWN0IGlwdV9pY19jc2MgKmNz
-YykKIAogCS8qIFlVViA8LT4gUkdCIGVuY29kaW5nIGlzIHJlcXVpcmVkICovCiAKLQlwYXJhbXNf
-dGJsID0gKGNzYy0+aW5fY3MuY3MgPT0gSVBVVjNfQ09MT1JTUEFDRV9ZVVYpID8KLQkJeXV2MnJn
-Yl82MDEgOiByZ2IyeXV2XzYwMTsKKwlzd2l0Y2ggKGNzYy0+b3V0X2NzLmVuYykgeworCWNhc2Ug
-VjRMMl9ZQ0JDUl9FTkNfNjAxOgorCQlwYXJhbXNfdGJsID0gKGNzYy0+aW5fY3MuY3MgPT0gSVBV
-VjNfQ09MT1JTUEFDRV9ZVVYpID8KKwkJCXl1djJyZ2JfNjAxIDogcmdiMnl1dl82MDE7CisJCWJy
-ZWFrOworCWNhc2UgVjRMMl9ZQ0JDUl9FTkNfNzA5OgorCQlwYXJhbXNfdGJsID0gKGNzYy0+aW5f
-Y3MuY3MgPT0gSVBVVjNfQ09MT1JTUEFDRV9ZVVYpID8KKwkJCXl1djJyZ2JfNzA5IDogcmdiMnl1
-dl83MDk7CisJCWJyZWFrOworCWRlZmF1bHQ6CisJCXJldHVybiAtRU5PVFNVUFA7CisJfQogCiAJ
-Y3NjLT5wYXJhbXMgPSAqcGFyYW1zX3RibFt0YmxfaWR4XTsKIAotLSAKMi4xNy4xCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1697761838==
+Content-Type: multipart/alternative; boundary="15584916252.ACae15.10338"
+Content-Transfer-Encoding: 7bit
+
+
+--15584916252.ACae15.10338
+Date: Wed, 22 May 2019 02:20:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107731
+
+--- Comment #13 from Fermulator <freedesktop-bugs@fermulator.fastmail.org> =
+---
+Sorry I no longer have access to the system originally reported this issue
+from.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15584916252.ACae15.10338
+Date: Wed, 22 May 2019 02:20:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeon (amdgpu) DisplayPort loss of max-resolution on DP =
+monitor (after monitor power saving / idle)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107731#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeon (amdgpu) DisplayPort loss of max-resolution on DP =
+monitor (after monitor power saving / idle)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107731">bug 10773=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop-bugs&#64;fermulator.fastmail.org" title=3D"Fermulator &lt;freed=
+esktop-bugs&#64;fermulator.fastmail.org&gt;"> <span class=3D"fn">Fermulator=
+</span></a>
+</span></b>
+        <pre>Sorry I no longer have access to the system originally reporte=
+d this issue
+from.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15584916252.ACae15.10338--
+
+--===============1697761838==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1697761838==--
