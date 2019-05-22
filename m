@@ -2,70 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7DA2B43F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7952730B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 01:54:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E70F89CBC;
-	Mon, 27 May 2019 12:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42DB089CA4;
+	Wed, 22 May 2019 23:54:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2656 seconds by postgrey-1.36 at gabe;
- Wed, 22 May 2019 23:37:40 UTC
-Received: from outgoing4.flk.host-h.net (outgoing4.flk.host-h.net
- [188.40.0.90])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18AE289CA2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 23:37:40 +0000 (UTC)
-Received: from www31.flk1.host-h.net ([188.40.1.173])
- by antispam1-flk1.host-h.net with esmtpsa
- (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.89)
- (envelope-from <justin.swartz@risingedge.co.za>)
- id 1hTa6n-0000bT-Bw; Thu, 23 May 2019 00:53:18 +0200
-Received: from [130.255.73.16] (helo=v01.28459.vpscontrol.net)
- by www31.flk1.host-h.net with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
- (envelope-from <justin.swartz@risingedge.co.za>)
- id 1hTa6c-0007fD-EJ; Thu, 23 May 2019 00:53:06 +0200
-From: Justin Swartz <justin.swartz@risingedge.co.za>
-To: Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH] drm/rockchip: dw_hdmi: add basic rk3228 support
-Date: Wed, 22 May 2019 22:46:29 +0000
-Message-Id: <20190522224631.25164-1-justin.swartz@risingedge.co.za>
-X-Mailer: git-send-email 2.11.0
-X-Authenticated-Sender: justin.swartz@risingedge.co.za
-X-Virus-Scanned: Clear (ClamAV 0.100.3/25457/Wed May 22 09:57:31 2019)
-X-Originating-IP: 188.40.1.173
-X-SpamExperts-Domain: risingedge.co.za
-X-SpamExperts-Username: 
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: SB/global_tokens (0.000718690605145)
-X-Recommended-Action: accept
-X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0fHWENUdqj+4JDN3TQDP3eCpSDasLI4SayDByyq9LIhVur86TwL7jsv5
- m6+fjp/sxETNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K7uDjV/sFUXQr+CDrNQuIHgQg
- mAX8Bxy/iUu0ThNZg0h/RxVysY5Ye6+GGw0VqdJD7ren9RtRNyYim5e3GD8LGfWrcbYvelpuN/Pk
- qhBpvAyWwieZyauFYqHkIbFa+ipF21HJWO60ZqrvKy/1AXUV5oXt6ymoFHaG7BQtEYvFCSo5O9aO
- OPCZx1b2uMC/zMc3aAOV7ICS29ZskdEzgnmWc6FyCw2oLKHJClAYHcXyktNZ2XmZE6Ulo3Sg6/fH
- CWNxoaEnuBtnt6GUDDzwi0xE9ujBdjBi/EW6wTMO5aPWRLvv8qeRWs1kOo/p5GKJkWYAO3Aa5n+U
- cgHka3/viXjzcoj1m7f+vTE4JStv6WwSOoIjjjxJx7TjfIl9lT02e+bLG5tY/17Am1+3t6saIBBg
- jLL9CBTChXJpl1nl23cKb/28qAHF3ayYxbGdFos0fpCN/Zqe7k8tOuyC0ezetWWw8nL3mjAyuRnY
- YfqoF0qwBaWr31abV7tmT2g84edke3MdOkNjooab3HXOpUJdeB9FrcmwwJhZoFj1JrH8+3dIKm8T
- aJbF/DJ9xG35AyqkelXaj1B5NGYLZCD5qc9WTEIS3cJCoM1jZKVSdLKiMKeae175VNiXOYUQ+bYR
- OTnFZniyHwlqvaI+zok/BsKQK4gft9MTokp23oPCMeUu86GfQl/coNq5LDsD+gmtrHR34ik+dbYb
- 9IXfYGRpVS/0hA4MwqmkYLLjcD7HaYjxiQBclDtVrfG8Zd+nzbonxrsMSs4uYqsuNEW45+y/2kiU
- pWy9c+XovTjsJstHtBoNlKIuslv0d6pyfV7QOE1hL9j5OVSXNVTcvF4bYNCxBEiOkhGolglPmh6a
- ILJqM6WsXf7aQnmpO2ydeyFd1pMxtzaLrgiAa1jZ449c5QOSXHeR3E0E19yXIdNHJDPRcm8rLb1r
- h0PyzIaTXD+uKJkHA4nFPinpYeLTxNigHOV5GQgWJq64bnCnflZnbjDB2+RGRgaXth0ZHRqQruFr
- G/GlTGRDUHWt54s410cgWo1fMD6i15+WgVsQdC9uGg5IeWmPBYt4N47WgJgyTfy73B/Plf7FmTDV
- qY+pQN3pVbMWvtuGUnEh3DwJWw42swm4bO6gacpMpzKjPCVKQvBNmkphbV+6LqpSOVpogBsPfG5h
- jLRjd6kxWF4VLgIZIkTm0juO6rHlP/TihjA708Lg3Y2gXyaf+rItBxw1SWz0NFi7GeT33MAvp0E4
- hZvaIK8zWrz4lb7RoCsWna0PdfWBYPgYUN6vj8NApCcRaz+idK1HZy9Txmtmp2+U8T3Kfj7tHuHD
- vXqVSlU=
-X-Report-Abuse-To: spam@antispammaster.host-h.net
-X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
-X-Mailman-Original-Authentication-Results: host-h.net; auth=pass (login)
- smtp.auth=@risingedge.co.za
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A02889CA4;
+ Wed, 22 May 2019 23:54:05 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 458TxP6JLxz9s55;
+ Thu, 23 May 2019 09:54:01 +1000 (AEST)
+Date: Thu, 23 May 2019 09:53:41 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-misc tree with the drm-intel tree
+Message-ID: <20190523095341.728a79b7@canb.auug.org.au>
+MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1558569243;
+ bh=4Ie1TzLXQj8FI5hKG+wwp2NDJHkk7TzCx/TL7beKews=;
+ h=Date:From:To:Cc:Subject:From;
+ b=W45yq2L2Kflk4ySOTn67aogaWM+73l8VU19rLtVoJexA84dXjXZhLtzn3OnZL0Pu3
+ BcUQOTd9k4xgaMtcOSj3wpDzEW1QnaH4zqw3/y0sWRkR8GYz8+iTfQgGHjL+czT2zR
+ bfTdjRMMwhDOscBSX/mTir2fFQpGylg/xE0MrVGw4D1WSonE0cAtcIoTivsOoTbvmV
+ qttFnoDDh0ql8AQAm6CfR057fVCX+Lq7psr45pF530RhndZ+apC2SwvkJAJdwR5qYg
+ r/5vRg+HThw++3LGpYilhnHuL0VuPRpy0b246vLqdKmxVQvH5FcEBdW9PEeM4ZSIqD
+ zt3+HPT1U5s3A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,85 +47,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Justin Swartz <justin.swartz@risingedge.co.za>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Uma Shankar <uma.shankar@intel.com>
+Content-Type: multipart/mixed; boundary="===============0571844776=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGlrZSB0aGUgUkszMzI4LCBSSzMyMnggU29DcyBvZmZlciBhIFN5bm9wc2lzIERlc2lnbldhcmUg
-SERNSSB0cmFuc21pdHRlcgphbmQgYW4gSW5ub3NpbGljb24gSERNSSBQSFkuCgpBZGQgYSBuZXcg
-ZHdfaGRtaV9wbGF0X2RhdGEgc3RydWN0LCByazMyMjhfaGRtaV9kcnZfZGF0YS4KQXNzaWduIGEg
-c2V0IG9mIG1vc3RseSBnZW5lcmljIHJrMzIyOF9oZG1pX3BoeV9vcHMgZnVuY3Rpb25zLgpBZGQg
-ZHdfaGRtaV9yazMyMjhfc2V0dXBfaHBkKCkgdG8gZW5hYmxlIHRoZSBIRE1JIEhQRCBhbmQgRERD
-IGxpbmVzLgoKU2lnbmVkLW9mZi1ieTogSnVzdGluIFN3YXJ0eiA8anVzdGluLnN3YXJ0ekByaXNp
-bmdlZGdlLmNvLnphPgotLS0KIC4uLi9iaW5kaW5ncy9kaXNwbGF5L3JvY2tjaGlwL2R3X2hkbWkt
-cm9ja2NoaXAudHh0IHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9j
-a2NoaXAuYyAgICAgICAgfCA1MyArKysrKysrKysrKysrKysrKysrKysrCiAyIGZpbGVzIGNoYW5n
-ZWQsIDU0IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLnR4dCBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3JvY2tjaGlwL2R3X2hkbWktcm9j
-a2NoaXAudHh0CmluZGV4IDM5MTQzNDI0YS4uNzAzNTAzMTAzIDEwMDY0NAotLS0gYS9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9yb2NrY2hpcC9kd19oZG1pLXJvY2tj
-aGlwLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9y
-b2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLnR4dApAQCAtMTIsNiArMTIsNyBAQCBmb2xsb3dpbmcg
-ZGV2aWNlLXNwZWNpZmljIHByb3BlcnRpZXMuCiBSZXF1aXJlZCBwcm9wZXJ0aWVzOgogCiAtIGNv
-bXBhdGlibGU6IHNob3VsZCBiZSBvbmUgb2YgdGhlIGZvbGxvd2luZzoKKwkJInJvY2tjaGlwLHJr
-MzIyOC1kdy1oZG1pIgogCQkicm9ja2NoaXAscmszMjg4LWR3LWhkbWkiCiAJCSJyb2NrY2hpcCxy
-azMzMjgtZHctaGRtaSIKIAkJInJvY2tjaGlwLHJrMzM5OS1kdy1oZG1pIgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMKaW5kZXggNGNkYzlmODZjLi4xODJhODUy
-YWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlw
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwpAQCAt
-MjMsNiArMjMsMTQgQEAKICNpbmNsdWRlICJyb2NrY2hpcF9kcm1fZHJ2LmgiCiAjaW5jbHVkZSAi
-cm9ja2NoaXBfZHJtX3ZvcC5oIgogCisjZGVmaW5lIFJLMzIyOF9HUkZfU09DX0NPTjIJCTB4MDQw
-OAorI2RlZmluZSBSSzMyMjhfSERNSV9TREFJTl9NU0sJCUJJVCgxNCkKKyNkZWZpbmUgUkszMjI4
-X0hETUlfU0NMSU5fTVNLCQlCSVQoMTMpCisjZGVmaW5lIFJLMzIyOF9HUkZfU09DX0NPTjYJCTB4
-MDQxOAorI2RlZmluZSBSSzMyMjhfSERNSV9IUERfVlNFTAkJQklUKDYpCisjZGVmaW5lIFJLMzIy
-OF9IRE1JX1NEQV9WU0VMCQlCSVQoNSkKKyNkZWZpbmUgUkszMjI4X0hETUlfU0NMX1ZTRUwJCUJJ
-VCg0KQorCiAjZGVmaW5lIFJLMzI4OF9HUkZfU09DX0NPTjYJCTB4MDI1QwogI2RlZmluZSBSSzMy
-ODhfSERNSV9MQ0RDX1NFTAkJQklUKDQpCiAjZGVmaW5lIFJLMzMyOF9HUkZfU09DX0NPTjIJCTB4
-MDQwOApAQCAtMzI1LDYgKzMzMywyNSBAQCBzdGF0aWMgdm9pZCBkd19oZG1pX3JvY2tjaGlwX2dl
-bnBoeV9kaXNhYmxlKHN0cnVjdCBkd19oZG1pICpkd19oZG1pLCB2b2lkICpkYXRhKQogCXBoeV9w
-b3dlcl9vZmYoaGRtaS0+cGh5KTsKIH0KIAorc3RhdGljIHZvaWQgZHdfaGRtaV9yazMyMjhfc2V0
-dXBfaHBkKHN0cnVjdCBkd19oZG1pICpkd19oZG1pLCB2b2lkICpkYXRhKQoreworCXN0cnVjdCBy
-b2NrY2hpcF9oZG1pICpoZG1pID0gKHN0cnVjdCByb2NrY2hpcF9oZG1pICopZGF0YTsKKworCWR3
-X2hkbWlfcGh5X3NldHVwX2hwZChkd19oZG1pLCBkYXRhKTsKKworCXJlZ21hcF93cml0ZShoZG1p
-LT5yZWdtYXAsCisJCVJLMzIyOF9HUkZfU09DX0NPTjYsCisJCUhJV09SRF9VUERBVEUoUkszMjI4
-X0hETUlfSFBEX1ZTRUwgfCBSSzMyMjhfSERNSV9TREFfVlNFTCB8CisJCQkgICAgICBSSzMyMjhf
-SERNSV9TQ0xfVlNFTCwKKwkJCSAgICAgIFJLMzIyOF9IRE1JX0hQRF9WU0VMIHwgUkszMjI4X0hE
-TUlfU0RBX1ZTRUwgfAorCQkJICAgICAgUkszMjI4X0hETUlfU0NMX1ZTRUwpKTsKKworCXJlZ21h
-cF93cml0ZShoZG1pLT5yZWdtYXAsCisJCVJLMzIyOF9HUkZfU09DX0NPTjIsCisJCUhJV09SRF9V
-UERBVEUoUkszMjI4X0hETUlfU0RBSU5fTVNLIHwgUkszMjI4X0hETUlfU0NMSU5fTVNLLAorCQkJ
-ICAgICAgUkszMjI4X0hETUlfU0RBSU5fTVNLIHwgUkszMjI4X0hETUlfU0NMSU5fTVNLKSk7Cit9
-CisKIHN0YXRpYyBlbnVtIGRybV9jb25uZWN0b3Jfc3RhdHVzCiBkd19oZG1pX3JrMzMyOF9yZWFk
-X2hwZChzdHJ1Y3QgZHdfaGRtaSAqZHdfaGRtaSwgdm9pZCAqZGF0YSkKIHsKQEAgLTM3MCw2ICsz
-OTcsMjkgQEAgc3RhdGljIHZvaWQgZHdfaGRtaV9yazMzMjhfc2V0dXBfaHBkKHN0cnVjdCBkd19o
-ZG1pICpkd19oZG1pLCB2b2lkICpkYXRhKQogCQkJICAgICAgUkszMzI4X0hETUlfSFBEX0lPRSkp
-OwogfQogCitzdGF0aWMgY29uc3Qgc3RydWN0IGR3X2hkbWlfcGh5X29wcyByazMyMjhfaGRtaV9w
-aHlfb3BzID0geworCS5pbml0CQk9IGR3X2hkbWlfcm9ja2NoaXBfZ2VucGh5X2luaXQsCisJLmRp
-c2FibGUJPSBkd19oZG1pX3JvY2tjaGlwX2dlbnBoeV9kaXNhYmxlLAorCS5yZWFkX2hwZAk9IGR3
-X2hkbWlfcGh5X3JlYWRfaHBkLAorCS51cGRhdGVfaHBkCT0gZHdfaGRtaV9waHlfdXBkYXRlX2hw
-ZCwKKwkuc2V0dXBfaHBkCT0gZHdfaGRtaV9yazMyMjhfc2V0dXBfaHBkLAorfTsKKworc3RhdGlj
-IHN0cnVjdCByb2NrY2hpcF9oZG1pX2NoaXBfZGF0YSByazMyMjhfY2hpcF9kYXRhID0geworCS5s
-Y2RzZWxfZ3JmX3JlZyA9IC0xLAorfTsKKworc3RhdGljIGNvbnN0IHN0cnVjdCBkd19oZG1pX3Bs
-YXRfZGF0YSByazMyMjhfaGRtaV9kcnZfZGF0YSA9IHsKKwkubW9kZV92YWxpZCA9IGR3X2hkbWlf
-cm9ja2NoaXBfbW9kZV92YWxpZCwKKwkubXBsbF9jZmcgPSByb2NrY2hpcF9tcGxsX2NmZywKKwku
-Y3VyX2N0ciA9IHJvY2tjaGlwX2N1cl9jdHIsCisJLnBoeV9jb25maWcgPSByb2NrY2hpcF9waHlf
-Y29uZmlnLAorCS5waHlfZGF0YSA9ICZyazMyMjhfY2hpcF9kYXRhLAorCS5waHlfb3BzID0gJnJr
-MzIyOF9oZG1pX3BoeV9vcHMsCisJLnBoeV9uYW1lID0gImlubm9fZHdfaGRtaV9waHkyIiwKKwku
-cGh5X2ZvcmNlX3ZlbmRvciA9IHRydWUsCit9OworCiBzdGF0aWMgc3RydWN0IHJvY2tjaGlwX2hk
-bWlfY2hpcF9kYXRhIHJrMzI4OF9jaGlwX2RhdGEgPSB7CiAJLmxjZHNlbF9ncmZfcmVnID0gUksz
-Mjg4X0dSRl9TT0NfQ09ONiwKIAkubGNkc2VsX2JpZyA9IEhJV09SRF9VUERBVEUoMCwgUkszMjg4
-X0hETUlfTENEQ19TRUwpLApAQCAtNDIyLDYgKzQ3Miw5IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-ZHdfaGRtaV9wbGF0X2RhdGEgcmszMzk5X2hkbWlfZHJ2X2RhdGEgPSB7CiB9OwogCiBzdGF0aWMg
-Y29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBkd19oZG1pX3JvY2tjaGlwX2R0X2lkc1tdID0gewor
-CXsgLmNvbXBhdGlibGUgPSAicm9ja2NoaXAscmszMjI4LWR3LWhkbWkiLAorCSAgLmRhdGEgPSAm
-cmszMjI4X2hkbWlfZHJ2X2RhdGEKKwl9LAogCXsgLmNvbXBhdGlibGUgPSAicm9ja2NoaXAscmsz
-Mjg4LWR3LWhkbWkiLAogCSAgLmRhdGEgPSAmcmszMjg4X2hkbWlfZHJ2X2RhdGEKIAl9LAotLSAK
-Mi4xMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============0571844776==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/XP=lWq5qsA1xog0vpv4kTbS"; protocol="application/pgp-signature"
+
+--Sig_/XP=lWq5qsA1xog0vpv4kTbS
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+Today's linux-next merge of the drm-misc tree got a conflict in:
+
+  drivers/gpu/drm/drm_atomic_uapi.c
+
+between commit:
+
+  585b000de23b ("drm: move content protection property to mode_config")
+
+from the drm-intel tree and commit:
+
+  fbb5d0353c62 ("drm: Add HDR source metadata property")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/drm_atomic_uapi.c
+index 4131e669785a,125605ff45af..000000000000
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@@ -814,7 -823,10 +823,10 @@@ drm_atomic_connector_get_property(struc
+  		*val =3D state->colorspace;
+  	} else if (property =3D=3D connector->scaling_mode_property) {
+  		*val =3D state->scaling_mode;
++ 	} else if (property =3D=3D config->hdr_output_metadata_property) {
++ 		*val =3D state->hdr_output_metadata ?
++ 			state->hdr_output_metadata->base.id : 0;
+ -	} else if (property =3D=3D connector->content_protection_property) {
+ +	} else if (property =3D=3D config->content_protection_property) {
+  		*val =3D state->content_protection;
+  	} else if (property =3D=3D config->writeback_fb_id_property) {
+  		/* Writeback framebuffer is one-shot, write and forget */
+
+--Sig_/XP=lWq5qsA1xog0vpv4kTbS
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlzl4QUACgkQAVBC80lX
+0GxSWwf+MTWafkXTbuoTHRn6ceiKD4K1BQsTENaQOxEaubqh5y9mLJZFPSonoirH
+a/7tG2u3KTKKMI4fqHLWvnyHVUn7piAf7IU+rTFYHc1Mrfj8wYJzc8CbrS0AbQ14
+840CxOiUewJJtziqeL4KGIrkQXD7KmQYtc/CgYN1OImZc9L344VS919941yEz8ad
+MEEBPraKYvn4eYAVBhNmRGJR2H8/DSoprmJ26bCC/usFBLOI+Ux8yjIie1AF+Ev9
+AKxufmlfLF22L7tIXnPLbAm6xe2SpjerAYK8hCHAp1Uv5swqsXj1TxFuIa0Bo87w
+PmCWifWI4YNoD2JqY57vP2pS9eEWFQ==
+=bwN4
+-----END PGP SIGNATURE-----
+
+--Sig_/XP=lWq5qsA1xog0vpv4kTbS--
+
+--===============0571844776==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0571844776==--
