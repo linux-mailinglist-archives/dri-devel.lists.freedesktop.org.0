@@ -2,45 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802B12654A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 15:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EEE26561
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 16:08:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B77389AA7;
-	Wed, 22 May 2019 13:58:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C42FE89A8C;
+	Wed, 22 May 2019 14:08:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A1DF889AA7
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 13:57:59 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9C76472167; Wed, 22 May 2019 13:57:59 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
- rc3 on polaris
-Date: Wed, 22 May 2019 13:57:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: fdo-bugs@engestrom.ch
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110721-502-FvlzjRGFya@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
-References: <bug-110721-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 676F589A8B;
+ Wed, 22 May 2019 14:08:33 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id y3so2399843wmm.2;
+ Wed, 22 May 2019 07:08:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=l9tt9QGc6Bp92n1KiO9WVx9PEjdT55lWsd07JFziKiY=;
+ b=N1MO7ui3wmV0rDB+RJW09hjakOemTFt6W/j8SqLh3lVsdUN+FItLmx5jHLIRsEUhoc
+ EfuUhzVoku12WtzCrChtpFyi2EgZdJ9o4IXXGEDtlA3mc6UjcHghxkWOXP1TXjD8jrVQ
+ mgmwRJkGNvDX1Ji+Q3plfLI7GIXPFhzZPid8TNULA6W8eXMeVEGcep0C85vWtn07bEaI
+ a1tWBZQa0HmJtkecoFUxSVyg0XLLRb3WZsq5+1JqslXxmc9solmYsx9t5JbkaFYGiK8c
+ F4Uy4N4xXPpDT8+452gc5qjS/ZczWeOfGxj8q/5S2jXK5WFdo6y2xuYaCnX6EeWkmOUM
+ 3xDA==
+X-Gm-Message-State: APjAAAUvoh3F6N2oHEQGEamrKl/xa3cZIGCJFHHR/OMb+IsOTgBHFxjU
+ 8iSlZqIdtHI/7orzcsa7n4PIeg5Z
+X-Google-Smtp-Source: APXvYqz9g8MSnTf14k1/3xMlOUXTO/qRFdUmkNh3unFDlBlPejN7wEvFL2faLMK2EuI9qlvt0KVxqA==
+X-Received: by 2002:a1c:238d:: with SMTP id j135mr8241019wmj.46.1558534112175; 
+ Wed, 22 May 2019 07:08:32 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id z8sm22685305wrs.84.2019.05.22.07.08.25
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 22 May 2019 07:08:30 -0700 (PDT)
+Subject: Re: [PATCH] drm/sched: Fix static checker warning for potential NULL
+ ptr
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ dan.carpenter@oracle.com
+References: <1558533443-7795-1-git-send-email-andrey.grodzovsky@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <307e40c1-a25a-42f4-4d19-cffdb521974e@gmail.com>
+Date: Wed, 22 May 2019 16:08:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <1558533443-7795-1-git-send-email-andrey.grodzovsky@amd.com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=reply-to:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=l9tt9QGc6Bp92n1KiO9WVx9PEjdT55lWsd07JFziKiY=;
+ b=t+uoX5pMCUMIuQKAKZ82Uh9ZpnzDGe/OMhKeUUbG67oDQCD2Y9lzeBdXMGMVrZVDne
+ 2lZiofmjr46lEysNERHvbOy8go6JzL9/Z2EtbgXJPDuPO47x0oVNAIKTyUGlDWaZTBEv
+ TbNXQpsAvXgmdPcToLyTLHmqadX3jQTomqhCIydrAhTAD+FZU6Wk01M+OlbBtCXYDiGK
+ AiiVgTeXqpm+qn+wuYKVHEhrDv5Ul/7hrlMPR/smp/RO23Rc8hsH2ccSjoIqYOXwvm6Q
+ YcWft7J6bc3YB+wVYaZrDtTAAom2m0yFL8dk41xyinB+ak+RKorFlFl2HBixrGhrN1KP
+ 1+Xw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,110 +74,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1991634126=="
+Reply-To: christian.koenig@amd.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1991634126==
-Content-Type: multipart/alternative; boundary="15585334790.d541153f.31582"
-Content-Transfer-Encoding: 7bit
-
-
---15585334790.d541153f.31582
-Date: Wed, 22 May 2019 13:57:59 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
-
---- Comment #3 from Eric Engestrom <fdo-bugs@engestrom.ch> ---
-(In reply to alvarex from comment #2)
-> now the bug has hit 19.0.5.
-
-Are you saying the bug was not present in 19.0.4, but is now present in 19.=
-0.5?
-
-If so, that's only 22 new commits, 10 if you exclude obvious non-candidates.
-
-If you can reliably test this, that's at most 5 build & test you need to do
-when bisecting mesa-19.0.4..mesa-19.0.5; could you do this please? It would
-greatly help figure out the cause :)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15585334790.d541153f.31582
-Date: Wed, 22 May 2019 13:57:59 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-fdo-bugs&#64;engestrom.ch" title=3D"Eric Engestrom &lt;fdo-bugs&#64;engestr=
-om.ch&gt;"> <span class=3D"fn">Eric Engestrom</span></a>
-</span></b>
-        <pre>(In reply to alvarex from <a href=3D"show_bug.cgi?id=3D110721#=
-c2">comment #2</a>)
-<span class=3D"quote">&gt; now the bug has hit 19.0.5.</span >
-
-Are you saying the bug was not present in 19.0.4, but is now present in 19.=
-0.5?
-
-If so, that's only 22 new commits, 10 if you exclude obvious non-candidates.
-
-If you can reliably test this, that's at most 5 build &amp; test you need t=
-o do
-when bisecting mesa-19.0.4..mesa-19.0.5; could you do this please? It would
-greatly help figure out the cause :)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15585334790.d541153f.31582--
-
---===============1991634126==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1991634126==--
+QW0gMjIuMDUuMTkgdW0gMTU6NTcgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiBTaWduZWQt
+b2ZmLWJ5OiBBbmRyZXkgR3JvZHpvdnNreSA8YW5kcmV5Lmdyb2R6b3Zza3lAYW1kLmNvbT4KClJl
+dmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cgo+
+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgfCAxNyArKysr
+KysrKystLS0tLS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgOCBkZWxl
+dGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
+X21haW4uYyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jCj4gaW5kZXgg
+OTBkN2E4Mi4uZWM3ZmFjYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVy
+L3NjaGVkX21haW4uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFp
+bi5jCj4gQEAgLTI4NiwxNiArMjg2LDE3IEBAIHN0YXRpYyB2b2lkIGRybV9zY2hlZF9qb2JfdGlt
+ZWRvdXQoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAgCWpvYiA9IGxpc3RfZmlyc3RfZW50
+cnlfb3JfbnVsbCgmc2NoZWQtPnJpbmdfbWlycm9yX2xpc3QsCj4gICAJCQkJICAgICAgIHN0cnVj
+dCBkcm1fc2NoZWRfam9iLCBub2RlKTsKPiAgIAo+IC0JaWYgKGpvYikKPiArCWlmIChqb2IpIHsK
+PiAgIAkJam9iLT5zY2hlZC0+b3BzLT50aW1lZG91dF9qb2Ioam9iKTsKPiAgIAo+IC0JLyoKPiAt
+CSAqIEd1aWx0eSBqb2IgZGlkIGNvbXBsZXRlIGFuZCBoZW5jZSBuZWVkcyB0byBiZSBtYW51YWxs
+eSByZW1vdmVkCj4gLQkgKiBTZWUgZHJtX3NjaGVkX3N0b3AgZG9jLgo+IC0JICovCj4gLQlpZiAo
+c2NoZWQtPmZyZWVfZ3VpbHR5KSB7Cj4gLQkJam9iLT5zY2hlZC0+b3BzLT5mcmVlX2pvYihqb2Ip
+Owo+IC0JCXNjaGVkLT5mcmVlX2d1aWx0eSA9IGZhbHNlOwo+ICsJCS8qCj4gKwkJICogR3VpbHR5
+IGpvYiBkaWQgY29tcGxldGUgYW5kIGhlbmNlIG5lZWRzIHRvIGJlIG1hbnVhbGx5IHJlbW92ZWQK
+PiArCQkgKiBTZWUgZHJtX3NjaGVkX3N0b3AgZG9jLgo+ICsJCSAqLwo+ICsJCWlmIChzY2hlZC0+
+ZnJlZV9ndWlsdHkpIHsKPiArCQkJam9iLT5zY2hlZC0+b3BzLT5mcmVlX2pvYihqb2IpOwo+ICsJ
+CQlzY2hlZC0+ZnJlZV9ndWlsdHkgPSBmYWxzZTsKPiArCQl9Cj4gICAJfQo+ICAgCj4gICAJc3Bp
+bl9sb2NrX2lycXNhdmUoJnNjaGVkLT5qb2JfbGlzdF9sb2NrLCBmbGFncyk7CgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
