@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492D7267B0
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 18:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5394A267CA
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 18:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E75A89BB2;
-	Wed, 22 May 2019 16:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E5789A77;
+	Wed, 22 May 2019 16:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D716889BB2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 16:07:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D34D472167; Wed, 22 May 2019 16:07:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
- rc3 on polaris
-Date: Wed, 22 May 2019 16:07:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: edisonalvarez@arnet.com.ar
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110721-502-nBbZJF18Uu@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
-References: <bug-110721-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2DC689A77
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 16:13:03 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id w11so4608047edl.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 09:13:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=H9svHU931UiX9eMbbZmiUfF04cjDaXORe28ufQfzIpg=;
+ b=DI6/ZKRS93pMT0sVY9sIebByqiF3SkjKiAFiXFJ4zIfvTG1rSqucNuRcTpgxhjrIaJ
+ G2wkAEeMK18h0Is2gZwzVasheAShGuFbun0cVf6gYVpK/HvqrgCVyTB6D5yCk3eWLTfP
+ FJnjKz8zYYfB0M5AEaaLYq4SSdlZldAniqQZuvDBuiUohp72Fa3iYuAPNc/dC/RZEg3i
+ 33kXc9rN1nk2Asi8Hnobcjr3uGoW67Kxa/oOm9JXFi70S/105gTYKiB8iup9paIH/ubT
+ +jf+EaTS+nDYpwrz/sdpRznAtrE+It7zBY3ZwFWbsCqBmkrB/fmZ24rOF77lN0OKN0OM
+ 1gyg==
+X-Gm-Message-State: APjAAAUZh1RJbUw0ac/a8x6UFvKxvKb/Rx+pcuVNcg/4w/K4hXUt2tC9
+ YqzUI4L1PiVTwBJ4QrvmwWWj0g==
+X-Google-Smtp-Source: APXvYqyxgffm5UBHdBWdnYIdeYcWKETiRhcJpsNijDtNOVVtjtb+YzjnHLmRmQv9UAWw9bfDKE5pqA==
+X-Received: by 2002:a17:906:cd27:: with SMTP id
+ oz39mr64688859ejb.73.1558541582419; 
+ Wed, 22 May 2019 09:13:02 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id c26sm7312236ede.32.2019.05.22.09.13.01
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 22 May 2019 09:13:01 -0700 (PDT)
+Date: Wed, 22 May 2019 18:12:59 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH 4/4] drm/TODO: add a task to kill DRM_UNLOCKED
+Message-ID: <20190522161259.GV21222@phenom.ffwll.local>
+References: <20190522154702.16269-1-emil.l.velikov@gmail.com>
+ <20190522154702.16269-4-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190522154702.16269-4-emil.l.velikov@gmail.com>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=H9svHU931UiX9eMbbZmiUfF04cjDaXORe28ufQfzIpg=;
+ b=Y/vfci6WoKajzYv4hef7rvAi6coBjkBvDf/Z3yZ2t3xtzA3m9vlGSphnoOpYZQmObx
+ 3nBkm6lvU9dh4RX3XD4eoSgEejYasQq69UcmXS1ujZdON7DxDdQluc0O+BOrG6TWnY8C
+ wZEPxHp+HNb5cuQgZjaVPeKcUZMi+MbdJf7Zg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0016253961=="
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0016253961==
-Content-Type: multipart/alternative; boundary="15585412251.98C7D1Fa9.26943"
-Content-Transfer-Encoding: 7bit
-
-
---15585412251.98C7D1Fa9.26943
-Date: Wed, 22 May 2019 16:07:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
-
---- Comment #5 from alvarex <edisonalvarez@arnet.com.ar> ---
-I need help, I build up mesa and set the git bisect good and bad commits, b=
-ut
-steam does not start because it needs 32bits libs and I can't seem to build
-them. What option should I pass to meson or ninja to compile 32 bit? I can't
-trigger the bug on chrome, chrome or chromium do launch but the bug doesn't
-trigger . @Ropid what do you mean with Visual Studio Code? where should I f=
-ind
-that extension?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15585412251.98C7D1Fa9.26943
-Date: Wed, 22 May 2019 16:07:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-edisonalvarez&#64;arnet.com.ar" title=3D"alvarex &lt;edisonalvarez&#64;arne=
-t.com.ar&gt;"> <span class=3D"fn">alvarex</span></a>
-</span></b>
-        <pre>I need help, I build up mesa and set the git bisect good and b=
-ad commits, but
-steam does not start because it needs 32bits libs and I can't seem to build
-them. What option should I pass to meson or ninja to compile 32 bit? I can't
-trigger the bug on chrome, chrome or chromium do launch but the bug doesn't
-trigger . &#64;Ropid what do you mean with Visual Studio Code? where should=
- I find
-that extension?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15585412251.98C7D1Fa9.26943--
-
---===============0016253961==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0016253961==--
+T24gV2VkLCBNYXkgMjIsIDIwMTkgYXQgMDQ6NDc6MDJQTSArMDEwMCwgRW1pbCBWZWxpa292IHdy
+b3RlOgo+IEZyb206IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4g
+Cj4gU2hvdWxkIG1pbmltaXNlIHRoZSBjb3B5L3Bhc3RlIG1pc3Rha2VzLCBmaXhlZCB3aXRoIHBy
+ZXZpb3VzIHBhdGNoZXMuCj4gCj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4K
+PiBTaWduZWQtb2ZmLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29t
+Pgo+IC0tLQo+IERhbmllbCwgbm90IDEwMCUgc29sZCBvbiB0aGUgaWRlYS4gVGhhdCBwbHVzIGxp
+c3RpbmcgeW91IGFzIGEgY29udGFjdAo+IHBvaW50IDstKQo+IAo+IFdoYXQgZG8geW91IHRoaW5n
+Pwo+IEVtaWwKPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgfCAxOSArKysrKysr
+KysrKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspCj4gCj4gZGlm
+ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IGIvRG9jdW1lbnRhdGlvbi9ncHUv
+dG9kby5yc3QKPiBpbmRleCA2NmYwNWY0ZTQ2OWYuLjllNjdkMTI1ZjJmZCAxMDA2NDQKPiAtLS0g
+YS9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZ3B1L3Rv
+ZG8ucnN0Cj4gQEAgLTM5Nyw2ICszOTcsMjUgQEAgU29tZSBvZiB0aGVzZSBkYXRlIGZyb20gdGhl
+IHZlcnkgaW50cm9kdWN0aW9uIG9mIEtNUyBpbiAyMDA4IC4uLgo+ICAgIGVuZCwgZm9yIHdoaWNo
+IHdlIGNvdWxkIGFkZCBkcm1fKl9jbGVhbnVwX2tmcmVlKCkuIEFuZCB0aGVuIHRoZXJlJ3MgdGhl
+IChmb3IKPiAgICBoaXN0b3JpY2FsIHJlYXNvbnMpIG1pc25hbWVkIGRybV9wcmltYXJ5X2hlbHBl
+cl9kZXN0cm95KCkgZnVuY3Rpb24uCj4gIAo+ICtVc2UgRFJNX0xPQ0tFRCBpbnN0ZWFkIG9mIERS
+TV9VTkxPQ0tFRAo+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICsK
+PiArRFJNX1VOTE9DS0VEIGlzIGEgcmVtYWluZGVyIGZyb20gdGhlIGxlZ2FjeSBEUk0gZHJpdmVy
+cy4gU2VlbWluZ2x5IGRyaXZlcnMgZ2V0Cj4gK3RyaWNrZWQgYnkgaXQgYW5kIGl0IGVuZHMgdXAg
+aW4gdGhlIGRyaXZlciBwcml2YXRlIGlvY3Rscy4KPiArCj4gK1RvZGF5IG5vIG1vcmUgbGVnYWN5
+IGRyaXZlcnMgYXJlIGFsbG93ZWQgYW5kIG1vc3QgY29yZSBEUk0gaW9jdGxzIGFyZSB1bmxvY2tl
+ZC4KPiArCj4gK0ludHJvZHVjZSBEUk1fTE9DS0VELCB1c2UgaXQgdG8gYW5ub3RhdGUgb25seSB0
+aGUgcmVsZXZhbnQgaW9jdGxzIGFuZCBraWxsIHRoZQo+ICtvbGQgRFJNX1VOTE9DS0VELgo+ICsK
+PiArUGF0Y2ggc2VyaWVzIHNob3VsZCBiZSBzcGxpdCBhcyBmb2xsb3dzOgo+ICsgLSBQYXRjaCAx
+OiBkcm06IGFkZCB0aGUgbmV3IERSTV9MT0NLRUQgZmxhZyBhbmQgaG9ub3VyIGl0Cj4gKyAtIFBh
+dGNoIDI6IGRybTogY29udmVydCBjb3JlIGlvY3RscyBmcm9tIERSTV9VTkxPQ0tFRCB0byBEUk1f
+TE9DS0VECj4gKyAtIFBhdGNoIDMtLi4uOiBkcm0vZHJpdmVyWDogY29udmVydCBkcml2ZXIgaW9j
+dGxzIGZyb20gLi4uCj4gKyAtIFBhdGNoIFg6IGRybTogcmVtb3ZlIG5vIGxvbmdlciB1c2VkIERS
+TV9VTkxPQ0tFRCwgZHJvcCB0b2RvIGl0ZW0KClNlZW1zIGxpa2UgdG9vIG11Y2ggYm90aGVyIGZv
+ciBsZWdhY3kgZHJpdmVycyAuLi4gV2hhdCBJJ2QgZG8gaXMgc29tZXRoaW5nCmEgbG90IGNoZWFw
+ZXIsIHNpbmNlIGFsbCB3ZSdyZSB0b3VjaGluZyBoZXJlIGFyZSBsZWdhY3kgZHJpdmVyczoKClJl
+bW92ZSBEUk1fVU5MT0NLRUQgZnJvbSBldmVyeXRoaW5nIGV4Y2VwdCB0aGUgb2xkIHZibGFuayBp
+b2N0bC4gVGhhdCBvbmUKd2UgbmVlZCB0byBrZWVwLCBiZWNhdXNlIGl0IGZyZWV6ZXMgWDoKCmNv
+bW1pdCA4ZjRmZjJiMDZhZmNkNmYxNTE4Njg0NzRhNDMyYzYwMzA1N2VhZjU2CkF1dGhvcjogSWxp
+amEgSGFkemljIDxpaGFkemljQHJlc2VhcmNoLmJlbGwtbGFicy5jb20+CkRhdGU6ICAgTW9uIE9j
+dCAzMSAxNzo0NjoxOCAyMDExIC0wNDAwCgogICAgZHJtOiBkbyBub3Qgc2xlZXAgb24gdmJsYW5r
+IHdoaWxlIGhvbGRpbmcgYSBtdXRleAoKQW55dGhpbmcgZWxzZSBJIHRoaW5rIGlzIGVpdGhlciBu
+ZXZlciB1c2VkIGJ5IGxlZ2FjeSB1c2Vyc3BhY2UsIG9yIGp1c3QKZG9lc24ndCBtYXR0ZXIuIFRo
+YXQncyBzaW1wbGUgZW5vdWdoIHRoYXQgSSBkb24ndCB0aGluayB3ZSByZWFsbHkgbmVlZCBhCnRv
+ZG8gZm9yIGl0IDotKSBJIGd1ZXNzIGlmIHlvdSB3YW50IHRvIGtpbGwgRFJNX1VOTE9DS0VEIHlv
+dSBjb3VsZCByZXBsYWNlCnRoZSBjaGVjayB3aXRoIGlvY3RsLT5mdW5jID09IGRybV92Ymxhbmtf
+aW9jdGwsIG9mYyBvbmx5IGluIHRoZQpEUklWRVJfTEVHQUNZIHBhdGguCgpPbiBwYXRjaGVzIDEt
+MyBpbiB5b3VyIHNlcmllczoKClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
+dGVyQGZmd2xsLmNoPgoKQ2hlZXJzLCBEYW5pZWwKCgoKPiArCj4gK0NvbnRhY3Q6IEVtaWwgVmVs
+aWtvdiwgRGFuaWVsIFZldHRlcgo+ICsKPiAgQmV0dGVyIFRlc3RpbmcKPiAgPT09PT09PT09PT09
+PT0KPiAgCj4gLS0gCj4gMi4yMS4wCj4gCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdp
+bmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
