@@ -1,46 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD28271FE
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 23:59:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7DA2B43F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FECA89C84;
-	Wed, 22 May 2019 21:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E70F89CBC;
+	Mon, 27 May 2019 12:04:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE46589C89
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:59:28 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DAD8372167; Wed, 22 May 2019 21:59:28 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108824] Invalid handling when GL buffer is bound on one context
- and invalidated on another
-Date: Wed, 22 May 2019 21:59:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: raffarti@zoho.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108824-502-mRfWuj8rRn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108824-502@http.bugs.freedesktop.org/>
-References: <bug-108824-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+X-Greylist: delayed 2656 seconds by postgrey-1.36 at gabe;
+ Wed, 22 May 2019 23:37:40 UTC
+Received: from outgoing4.flk.host-h.net (outgoing4.flk.host-h.net
+ [188.40.0.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18AE289CA2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 23:37:40 +0000 (UTC)
+Received: from www31.flk1.host-h.net ([188.40.1.173])
+ by antispam1-flk1.host-h.net with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.89)
+ (envelope-from <justin.swartz@risingedge.co.za>)
+ id 1hTa6n-0000bT-Bw; Thu, 23 May 2019 00:53:18 +0200
+Received: from [130.255.73.16] (helo=v01.28459.vpscontrol.net)
+ by www31.flk1.host-h.net with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.84_2)
+ (envelope-from <justin.swartz@risingedge.co.za>)
+ id 1hTa6c-0007fD-EJ; Thu, 23 May 2019 00:53:06 +0200
+From: Justin Swartz <justin.swartz@risingedge.co.za>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH] drm/rockchip: dw_hdmi: add basic rk3228 support
+Date: Wed, 22 May 2019 22:46:29 +0000
+Message-Id: <20190522224631.25164-1-justin.swartz@risingedge.co.za>
+X-Mailer: git-send-email 2.11.0
+X-Authenticated-Sender: justin.swartz@risingedge.co.za
+X-Virus-Scanned: Clear (ClamAV 0.100.3/25457/Wed May 22 09:57:31 2019)
+X-Originating-IP: 188.40.1.173
+X-SpamExperts-Domain: risingedge.co.za
+X-SpamExperts-Username: 
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: SB/global_tokens (0.000718690605145)
+X-Recommended-Action: accept
+X-Filter-ID: Mvzo4OR0dZXEDF/gcnlw0fHWENUdqj+4JDN3TQDP3eCpSDasLI4SayDByyq9LIhVur86TwL7jsv5
+ m6+fjp/sxETNWdUk1Ol2OGx3IfrIJKyP9eGNFz9TW9u+Jt8z2T3K7uDjV/sFUXQr+CDrNQuIHgQg
+ mAX8Bxy/iUu0ThNZg0h/RxVysY5Ye6+GGw0VqdJD7ren9RtRNyYim5e3GD8LGfWrcbYvelpuN/Pk
+ qhBpvAyWwieZyauFYqHkIbFa+ipF21HJWO60ZqrvKy/1AXUV5oXt6ymoFHaG7BQtEYvFCSo5O9aO
+ OPCZx1b2uMC/zMc3aAOV7ICS29ZskdEzgnmWc6FyCw2oLKHJClAYHcXyktNZ2XmZE6Ulo3Sg6/fH
+ CWNxoaEnuBtnt6GUDDzwi0xE9ujBdjBi/EW6wTMO5aPWRLvv8qeRWs1kOo/p5GKJkWYAO3Aa5n+U
+ cgHka3/viXjzcoj1m7f+vTE4JStv6WwSOoIjjjxJx7TjfIl9lT02e+bLG5tY/17Am1+3t6saIBBg
+ jLL9CBTChXJpl1nl23cKb/28qAHF3ayYxbGdFos0fpCN/Zqe7k8tOuyC0ezetWWw8nL3mjAyuRnY
+ YfqoF0qwBaWr31abV7tmT2g84edke3MdOkNjooab3HXOpUJdeB9FrcmwwJhZoFj1JrH8+3dIKm8T
+ aJbF/DJ9xG35AyqkelXaj1B5NGYLZCD5qc9WTEIS3cJCoM1jZKVSdLKiMKeae175VNiXOYUQ+bYR
+ OTnFZniyHwlqvaI+zok/BsKQK4gft9MTokp23oPCMeUu86GfQl/coNq5LDsD+gmtrHR34ik+dbYb
+ 9IXfYGRpVS/0hA4MwqmkYLLjcD7HaYjxiQBclDtVrfG8Zd+nzbonxrsMSs4uYqsuNEW45+y/2kiU
+ pWy9c+XovTjsJstHtBoNlKIuslv0d6pyfV7QOE1hL9j5OVSXNVTcvF4bYNCxBEiOkhGolglPmh6a
+ ILJqM6WsXf7aQnmpO2ydeyFd1pMxtzaLrgiAa1jZ449c5QOSXHeR3E0E19yXIdNHJDPRcm8rLb1r
+ h0PyzIaTXD+uKJkHA4nFPinpYeLTxNigHOV5GQgWJq64bnCnflZnbjDB2+RGRgaXth0ZHRqQruFr
+ G/GlTGRDUHWt54s410cgWo1fMD6i15+WgVsQdC9uGg5IeWmPBYt4N47WgJgyTfy73B/Plf7FmTDV
+ qY+pQN3pVbMWvtuGUnEh3DwJWw42swm4bO6gacpMpzKjPCVKQvBNmkphbV+6LqpSOVpogBsPfG5h
+ jLRjd6kxWF4VLgIZIkTm0juO6rHlP/TihjA708Lg3Y2gXyaf+rItBxw1SWz0NFi7GeT33MAvp0E4
+ hZvaIK8zWrz4lb7RoCsWna0PdfWBYPgYUN6vj8NApCcRaz+idK1HZy9Txmtmp2+U8T3Kfj7tHuHD
+ vXqVSlU=
+X-Report-Abuse-To: spam@antispammaster.host-h.net
+X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
+X-Mailman-Original-Authentication-Results: host-h.net; auth=pass (login)
+ smtp.auth=@risingedge.co.za
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +78,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0772272405=="
+Cc: devicetree@vger.kernel.org, Justin Swartz <justin.swartz@risingedge.co.za>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0772272405==
-Content-Type: multipart/alternative; boundary="15585623684.B5DA4de.14849"
-Content-Transfer-Encoding: 7bit
-
-
---15585623684.B5DA4de.14849
-Date: Wed, 22 May 2019 21:59:28 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108824
-
---- Comment #14 from raffarti@zoho.com ---
-The patch fixes corruption caused by 78e35df52aa2f7d770f929a0866a0faa89c261=
-a9
-but not the one from 12bf7cfecf52083c484602f971738475edfe497e, which still
-persists in scroll bars of falkon and akregator.
-I'm using an RX 480.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15585623684.B5DA4de.14849
-Date: Wed, 22 May 2019 21:59:28 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824#c14">Comme=
-nt # 14</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Invalid handling when GL buffer is bound on one context a=
-nd invalidated on another"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108824">bug 10882=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-raffarti&#64;zoho.com" title=3D"raffarti&#64;zoho.com">raffarti&#64;zoho.co=
-m</a>
-</span></b>
-        <pre>The patch fixes corruption caused by 78e35df52aa2f7d770f929a08=
-66a0faa89c261a9
-but not the one from 12bf7cfecf52083c484602f971738475edfe497e, which still
-persists in scroll bars of falkon and akregator.
-I'm using an RX 480.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15585623684.B5DA4de.14849--
-
---===============0772272405==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0772272405==--
+TGlrZSB0aGUgUkszMzI4LCBSSzMyMnggU29DcyBvZmZlciBhIFN5bm9wc2lzIERlc2lnbldhcmUg
+SERNSSB0cmFuc21pdHRlcgphbmQgYW4gSW5ub3NpbGljb24gSERNSSBQSFkuCgpBZGQgYSBuZXcg
+ZHdfaGRtaV9wbGF0X2RhdGEgc3RydWN0LCByazMyMjhfaGRtaV9kcnZfZGF0YS4KQXNzaWduIGEg
+c2V0IG9mIG1vc3RseSBnZW5lcmljIHJrMzIyOF9oZG1pX3BoeV9vcHMgZnVuY3Rpb25zLgpBZGQg
+ZHdfaGRtaV9yazMyMjhfc2V0dXBfaHBkKCkgdG8gZW5hYmxlIHRoZSBIRE1JIEhQRCBhbmQgRERD
+IGxpbmVzLgoKU2lnbmVkLW9mZi1ieTogSnVzdGluIFN3YXJ0eiA8anVzdGluLnN3YXJ0ekByaXNp
+bmdlZGdlLmNvLnphPgotLS0KIC4uLi9iaW5kaW5ncy9kaXNwbGF5L3JvY2tjaGlwL2R3X2hkbWkt
+cm9ja2NoaXAudHh0IHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9j
+a2NoaXAuYyAgICAgICAgfCA1MyArKysrKysrKysrKysrKysrKysrKysrCiAyIGZpbGVzIGNoYW5n
+ZWQsIDU0IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLnR4dCBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3JvY2tjaGlwL2R3X2hkbWktcm9j
+a2NoaXAudHh0CmluZGV4IDM5MTQzNDI0YS4uNzAzNTAzMTAzIDEwMDY0NAotLS0gYS9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9yb2NrY2hpcC9kd19oZG1pLXJvY2tj
+aGlwLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9y
+b2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLnR4dApAQCAtMTIsNiArMTIsNyBAQCBmb2xsb3dpbmcg
+ZGV2aWNlLXNwZWNpZmljIHByb3BlcnRpZXMuCiBSZXF1aXJlZCBwcm9wZXJ0aWVzOgogCiAtIGNv
+bXBhdGlibGU6IHNob3VsZCBiZSBvbmUgb2YgdGhlIGZvbGxvd2luZzoKKwkJInJvY2tjaGlwLHJr
+MzIyOC1kdy1oZG1pIgogCQkicm9ja2NoaXAscmszMjg4LWR3LWhkbWkiCiAJCSJyb2NrY2hpcCxy
+azMzMjgtZHctaGRtaSIKIAkJInJvY2tjaGlwLHJrMzM5OS1kdy1oZG1pIgpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMKaW5kZXggNGNkYzlmODZjLi4xODJhODUy
+YWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlw
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwpAQCAt
+MjMsNiArMjMsMTQgQEAKICNpbmNsdWRlICJyb2NrY2hpcF9kcm1fZHJ2LmgiCiAjaW5jbHVkZSAi
+cm9ja2NoaXBfZHJtX3ZvcC5oIgogCisjZGVmaW5lIFJLMzIyOF9HUkZfU09DX0NPTjIJCTB4MDQw
+OAorI2RlZmluZSBSSzMyMjhfSERNSV9TREFJTl9NU0sJCUJJVCgxNCkKKyNkZWZpbmUgUkszMjI4
+X0hETUlfU0NMSU5fTVNLCQlCSVQoMTMpCisjZGVmaW5lIFJLMzIyOF9HUkZfU09DX0NPTjYJCTB4
+MDQxOAorI2RlZmluZSBSSzMyMjhfSERNSV9IUERfVlNFTAkJQklUKDYpCisjZGVmaW5lIFJLMzIy
+OF9IRE1JX1NEQV9WU0VMCQlCSVQoNSkKKyNkZWZpbmUgUkszMjI4X0hETUlfU0NMX1ZTRUwJCUJJ
+VCg0KQorCiAjZGVmaW5lIFJLMzI4OF9HUkZfU09DX0NPTjYJCTB4MDI1QwogI2RlZmluZSBSSzMy
+ODhfSERNSV9MQ0RDX1NFTAkJQklUKDQpCiAjZGVmaW5lIFJLMzMyOF9HUkZfU09DX0NPTjIJCTB4
+MDQwOApAQCAtMzI1LDYgKzMzMywyNSBAQCBzdGF0aWMgdm9pZCBkd19oZG1pX3JvY2tjaGlwX2dl
+bnBoeV9kaXNhYmxlKHN0cnVjdCBkd19oZG1pICpkd19oZG1pLCB2b2lkICpkYXRhKQogCXBoeV9w
+b3dlcl9vZmYoaGRtaS0+cGh5KTsKIH0KIAorc3RhdGljIHZvaWQgZHdfaGRtaV9yazMyMjhfc2V0
+dXBfaHBkKHN0cnVjdCBkd19oZG1pICpkd19oZG1pLCB2b2lkICpkYXRhKQoreworCXN0cnVjdCBy
+b2NrY2hpcF9oZG1pICpoZG1pID0gKHN0cnVjdCByb2NrY2hpcF9oZG1pICopZGF0YTsKKworCWR3
+X2hkbWlfcGh5X3NldHVwX2hwZChkd19oZG1pLCBkYXRhKTsKKworCXJlZ21hcF93cml0ZShoZG1p
+LT5yZWdtYXAsCisJCVJLMzIyOF9HUkZfU09DX0NPTjYsCisJCUhJV09SRF9VUERBVEUoUkszMjI4
+X0hETUlfSFBEX1ZTRUwgfCBSSzMyMjhfSERNSV9TREFfVlNFTCB8CisJCQkgICAgICBSSzMyMjhf
+SERNSV9TQ0xfVlNFTCwKKwkJCSAgICAgIFJLMzIyOF9IRE1JX0hQRF9WU0VMIHwgUkszMjI4X0hE
+TUlfU0RBX1ZTRUwgfAorCQkJICAgICAgUkszMjI4X0hETUlfU0NMX1ZTRUwpKTsKKworCXJlZ21h
+cF93cml0ZShoZG1pLT5yZWdtYXAsCisJCVJLMzIyOF9HUkZfU09DX0NPTjIsCisJCUhJV09SRF9V
+UERBVEUoUkszMjI4X0hETUlfU0RBSU5fTVNLIHwgUkszMjI4X0hETUlfU0NMSU5fTVNLLAorCQkJ
+ICAgICAgUkszMjI4X0hETUlfU0RBSU5fTVNLIHwgUkszMjI4X0hETUlfU0NMSU5fTVNLKSk7Cit9
+CisKIHN0YXRpYyBlbnVtIGRybV9jb25uZWN0b3Jfc3RhdHVzCiBkd19oZG1pX3JrMzMyOF9yZWFk
+X2hwZChzdHJ1Y3QgZHdfaGRtaSAqZHdfaGRtaSwgdm9pZCAqZGF0YSkKIHsKQEAgLTM3MCw2ICsz
+OTcsMjkgQEAgc3RhdGljIHZvaWQgZHdfaGRtaV9yazMzMjhfc2V0dXBfaHBkKHN0cnVjdCBkd19o
+ZG1pICpkd19oZG1pLCB2b2lkICpkYXRhKQogCQkJICAgICAgUkszMzI4X0hETUlfSFBEX0lPRSkp
+OwogfQogCitzdGF0aWMgY29uc3Qgc3RydWN0IGR3X2hkbWlfcGh5X29wcyByazMyMjhfaGRtaV9w
+aHlfb3BzID0geworCS5pbml0CQk9IGR3X2hkbWlfcm9ja2NoaXBfZ2VucGh5X2luaXQsCisJLmRp
+c2FibGUJPSBkd19oZG1pX3JvY2tjaGlwX2dlbnBoeV9kaXNhYmxlLAorCS5yZWFkX2hwZAk9IGR3
+X2hkbWlfcGh5X3JlYWRfaHBkLAorCS51cGRhdGVfaHBkCT0gZHdfaGRtaV9waHlfdXBkYXRlX2hw
+ZCwKKwkuc2V0dXBfaHBkCT0gZHdfaGRtaV9yazMyMjhfc2V0dXBfaHBkLAorfTsKKworc3RhdGlj
+IHN0cnVjdCByb2NrY2hpcF9oZG1pX2NoaXBfZGF0YSByazMyMjhfY2hpcF9kYXRhID0geworCS5s
+Y2RzZWxfZ3JmX3JlZyA9IC0xLAorfTsKKworc3RhdGljIGNvbnN0IHN0cnVjdCBkd19oZG1pX3Bs
+YXRfZGF0YSByazMyMjhfaGRtaV9kcnZfZGF0YSA9IHsKKwkubW9kZV92YWxpZCA9IGR3X2hkbWlf
+cm9ja2NoaXBfbW9kZV92YWxpZCwKKwkubXBsbF9jZmcgPSByb2NrY2hpcF9tcGxsX2NmZywKKwku
+Y3VyX2N0ciA9IHJvY2tjaGlwX2N1cl9jdHIsCisJLnBoeV9jb25maWcgPSByb2NrY2hpcF9waHlf
+Y29uZmlnLAorCS5waHlfZGF0YSA9ICZyazMyMjhfY2hpcF9kYXRhLAorCS5waHlfb3BzID0gJnJr
+MzIyOF9oZG1pX3BoeV9vcHMsCisJLnBoeV9uYW1lID0gImlubm9fZHdfaGRtaV9waHkyIiwKKwku
+cGh5X2ZvcmNlX3ZlbmRvciA9IHRydWUsCit9OworCiBzdGF0aWMgc3RydWN0IHJvY2tjaGlwX2hk
+bWlfY2hpcF9kYXRhIHJrMzI4OF9jaGlwX2RhdGEgPSB7CiAJLmxjZHNlbF9ncmZfcmVnID0gUksz
+Mjg4X0dSRl9TT0NfQ09ONiwKIAkubGNkc2VsX2JpZyA9IEhJV09SRF9VUERBVEUoMCwgUkszMjg4
+X0hETUlfTENEQ19TRUwpLApAQCAtNDIyLDYgKzQ3Miw5IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+ZHdfaGRtaV9wbGF0X2RhdGEgcmszMzk5X2hkbWlfZHJ2X2RhdGEgPSB7CiB9OwogCiBzdGF0aWMg
+Y29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBkd19oZG1pX3JvY2tjaGlwX2R0X2lkc1tdID0gewor
+CXsgLmNvbXBhdGlibGUgPSAicm9ja2NoaXAscmszMjI4LWR3LWhkbWkiLAorCSAgLmRhdGEgPSAm
+cmszMjI4X2hkbWlfZHJ2X2RhdGEKKwl9LAogCXsgLmNvbXBhdGlibGUgPSAicm9ja2NoaXAscmsz
+Mjg4LWR3LWhkbWkiLAogCSAgLmRhdGEgPSAmcmszMjg4X2hkbWlfZHJ2X2RhdGEKIAl9LAotLSAK
+Mi4xMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
