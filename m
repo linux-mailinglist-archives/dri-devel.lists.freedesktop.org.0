@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319F225B6B
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 02:59:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 299D725B71
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 03:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27DED896A5;
-	Wed, 22 May 2019 00:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21872896BF;
+	Wed, 22 May 2019 01:03:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 97D0A896A5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 00:58:59 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 906DC72167; Wed, 22 May 2019 00:58:59 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107731] radeon (amdgpu) DisplayPort loss of max-resolution on
- DP monitor (after monitor power saving / idle)
-Date: Wed, 22 May 2019 00:58:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ragnaros39216@yandex.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-107731-502-RmBlVkHxNj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107731-502@http.bugs.freedesktop.org/>
-References: <bug-107731-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0237896BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 01:03:27 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id a5so177139pls.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 18:03:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=hZxOPx40sM31sXATrJWIrdV0RTZA1DlPQH1xR20a6EI=;
+ b=YNQJJfd7vl1qiBM8V3vSANOKijAKYEXmWs1eoYoXQOvqzVnWqXeDZFuYNntgA9JyMp
+ ZWb7/XPGrJqjH9NlQCt7nfvPrCPtO838UEP9sG/kctyVW8aaRf64FUr1B7S+XD5HLN+7
+ oVDCOtkrQnTa4spNxZezIjSXJC65/ydosPtjn+1c+9TO87zA1YS1CEENa5OG3vL38RmB
+ WAmsKNyUIt4/avLtr7S8rbHRVj4BEqJSVBuQCpkPNVC71p4LcDdZ5cfIuS0LjfrcUUWv
+ EC7IYXjkFp7bN4XnB4y5eyLTEXK0ivj7TvdZO2CMDrZfiOXEUPMZoisAIfwPNsyJ7jiF
+ j0lg==
+X-Gm-Message-State: APjAAAXxWjAEeqr5PNlpYa9R5lhZYnTP8RnmuiIv8G8H025/JJ0ls3Rc
+ XSIF46j5Th0712uxTmAOUBs=
+X-Google-Smtp-Source: APXvYqxX3046Ypk/1iJeTlE7JccOi5IUU7WTFVOh31S6dnrg9pgR8igRa5NROi7akpn4K9HbrvEROQ==
+X-Received: by 2002:a17:902:424:: with SMTP id
+ 33mr87086594ple.102.1558487007261; 
+ Tue, 21 May 2019 18:03:27 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net.
+ [73.202.231.77]) by smtp.googlemail.com with ESMTPSA id
+ q193sm34291242pfc.52.2019.05.21.18.03.26
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 21 May 2019 18:03:26 -0700 (PDT)
+From: Steve Longerbeam <slongerbeam@gmail.com>
+To: linux-media@vger.kernel.org
+Subject: [PATCH v8 1/5] gpu: ipu-v3: ipu-ic: Fix saturation bit offset in TPMEM
+Date: Tue, 21 May 2019 18:03:13 -0700
+Message-Id: <20190522010317.23710-2-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190522010317.23710-1-slongerbeam@gmail.com>
+References: <20190522010317.23710-1-slongerbeam@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=hZxOPx40sM31sXATrJWIrdV0RTZA1DlPQH1xR20a6EI=;
+ b=jgen3ia4nDSmuFARPMsvjj7DWaO1iW//OuXl403j+o/G/TeeSqMiVvZ0ntMuQMMXz6
+ dtYV3xJmd6l827CYLhYs0ByM6njiVjg79s2sLCEs10WDDns51gcmIiqVYfDp/6R1nW+G
+ D7wCvEhSSQapr8PxP9ML32wzLwnQZxIdUggSCXCB7IypYUWUyr8i5evxZj6HPi+WRFmO
+ yXzbdeJePZ2tMsOKiODoiM6UEvZefm+7ELDy419DUzcbnyj1I3a46oV0Ah5yp0TC7bIQ
+ KccvvkiC4s8eBlLscwu0inRFcPY4XG+2RKJmEymnUlEEow92i0+LBjTtou2cCMaAb2x1
+ Njgg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,109 +67,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2088750079=="
+Cc: open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR FREESCALE IMX"
+ <dri-devel@lists.freedesktop.org>, stable@vger.kernel.org,
+ Steve Longerbeam <slongerbeam@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2088750079==
-Content-Type: multipart/alternative; boundary="15584867392.32f3.26243"
-Content-Transfer-Encoding: 7bit
-
-
---15584867392.32f3.26243
-Date: Wed, 22 May 2019 00:58:59 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107731
-
---- Comment #12 from L.S.S. <ragnaros39216@yandex.com> ---
-Sorry, but should have commented on this much sooner.
-
-After my last comment I eventually replaced the ATEN CS1924 KVM with a new
-generic 4-port KVM that is 4K@60Hz-capable. This one does not exhibit the
-issue, so I could consider my own issue as having been worked around. The n=
-ew
-KVM costs about 1/4 of the ATEN KVM, though.
-
-I'm not sure about the OP's situation or whether he had worked around or no=
-t,
-but this kinda proved that the issue is indeed configuration-specific.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15584867392.32f3.26243
-Date: Wed, 22 May 2019 00:58:59 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - radeon (amdgpu) DisplayPort loss of max-resolution on DP =
-monitor (after monitor power saving / idle)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107731#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - radeon (amdgpu) DisplayPort loss of max-resolution on DP =
-monitor (after monitor power saving / idle)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107731">bug 10773=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ragnaros39216&#64;yandex.com" title=3D"L.S.S. &lt;ragnaros39216&#64;yandex.=
-com&gt;"> <span class=3D"fn">L.S.S.</span></a>
-</span></b>
-        <pre>Sorry, but should have commented on this much sooner.
-
-After my last comment I eventually replaced the ATEN CS1924 KVM with a new
-generic 4-port KVM that is 4K&#64;60Hz-capable. This one does not exhibit t=
-he
-issue, so I could consider my own issue as having been worked around. The n=
-ew
-KVM costs about 1/4 of the ATEN KVM, though.
-
-I'm not sure about the OP's situation or whether he had worked around or no=
-t,
-but this kinda proved that the issue is indeed configuration-specific.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15584867392.32f3.26243--
-
---===============2088750079==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2088750079==--
+VGhlIHNhdHVyYXRpb24gYml0IHdhcyBiZWluZyBzZXQgYXQgYml0IDkgaW4gdGhlIHNlY29uZCAz
+Mi1iaXQgd29yZApvZiB0aGUgVFBNRU0gQ1NDLiBUaGlzIGlzbid0IGNvcnJlY3QsIHRoZSBzYXR1
+cmF0aW9uIGJpdCBpcyBiaXQgNDIsCndoaWNoIGlzIGJpdCAxMCBvZiB0aGUgc2Vjb25kIHdvcmQu
+CgpGaXhlczogMWFhOGVhMGQyYmQ1ZCAoImdwdTogaXB1LXYzOiBBZGQgSW1hZ2UgQ29udmVydGVy
+IHVuaXQiKQoKU2lnbmVkLW9mZi1ieTogU3RldmUgTG9uZ2VyYmVhbSA8c2xvbmdlcmJlYW1AZ21h
+aWwuY29tPgpSZXZpZXdlZC1ieTogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5k
+ZT4KQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKLS0tCiBkcml2ZXJzL2dwdS9pcHUtdjMvaXB1
+LWljLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWljLmMgYi9kcml2ZXJzL2dw
+dS9pcHUtdjMvaXB1LWljLmMKaW5kZXggNTk0YzNjYmM4MjkxLi4xODgxNmNjZjYwMGUgMTAwNjQ0
+Ci0tLSBhL2RyaXZlcnMvZ3B1L2lwdS12My9pcHUtaWMuYworKysgYi9kcml2ZXJzL2dwdS9pcHUt
+djMvaXB1LWljLmMKQEAgLTI1Nyw3ICsyNTcsNyBAQCBzdGF0aWMgaW50IGluaXRfY3NjKHN0cnVj
+dCBpcHVfaWMgKmljLAogCXdyaXRlbChwYXJhbSwgYmFzZSsrKTsKIAogCXBhcmFtID0gKChhWzBd
+ICYgMHgxZmUwKSA+PiA1KSB8IChwYXJhbXMtPnNjYWxlIDw8IDgpIHwKLQkJKHBhcmFtcy0+c2F0
+IDw8IDkpOworCQkocGFyYW1zLT5zYXQgPDwgMTApOwogCXdyaXRlbChwYXJhbSwgYmFzZSsrKTsK
+IAogCXBhcmFtID0gKChhWzFdICYgMHgxZikgPDwgMjcpIHwgKChjWzBdWzFdICYgMHgxZmYpIDw8
+IDE4KSB8Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
