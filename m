@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1619026AE7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 21:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C398026B2F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 21:24:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 733BB89B62;
-	Wed, 22 May 2019 19:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1586789BB3;
+	Wed, 22 May 2019 19:24:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CAF289B4D;
- Wed, 22 May 2019 19:22:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71C3189BA3;
+ Wed, 22 May 2019 19:24:41 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 267E420644;
- Wed, 22 May 2019 19:22:24 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8712020675;
+ Wed, 22 May 2019 19:24:40 +0000 (UTC)
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 043/375] drm/nouveau/bar/nv50: ensure BAR is mapped
-Date: Wed, 22 May 2019 15:15:43 -0400
-Message-Id: <20190522192115.22666-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.0 037/317] drm/nouveau/bar/nv50: ensure BAR is mapped
+Date: Wed, 22 May 2019 15:18:58 -0400
+Message-Id: <20190522192338.23715-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522192115.22666-1-sashal@kernel.org>
-References: <20190522192115.22666-1-sashal@kernel.org>
+In-Reply-To: <20190522192338.23715-1-sashal@kernel.org>
+References: <20190522192338.23715-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1558552944;
+ d=kernel.org; s=default; t=1558553081;
  bh=t5xengB7nNuo2KSH7Jj1ZxDwNMwXO7ggXnUm8qMUaWg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P86AuJrAyjGNPkCOo5wvqwhZCddKJtLeF3xXWVWnTsWZlQGkuIJM2xcZVJUsdiiGL
- /N2gIyqbGJuLCMxAs1JvixgpszUZIPMNWXPUFPofQbtQ45s3779XRFrxFWoR1tZ7H/
- 5KdmBoKt3JXwoygfa0Fqxo+ZFFv8FqV6tJnWnY7A=
+ b=cpGq74nhZkZAvlGyOeYseG3B54bTIb6iKyceKicJqyHy0C9iAoi6QrXQJ4x/GKY0Q
+ Cx8XoqqMUAyFokmXTweZw3y6qZY0iObevjMMNDKokoj4BC4XkPDtP2MfwCsPwQ20U9
+ n8TGHcP2DXmP4ZsT6u877lZ0NWBDWjmdHT2e+Hd0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
