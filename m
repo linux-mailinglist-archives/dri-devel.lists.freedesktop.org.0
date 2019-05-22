@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F1B26B7A
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 21:28:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF5626CCB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 21:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B94A89BF3;
-	Wed, 22 May 2019 19:28:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB3F89BE8;
+	Wed, 22 May 2019 19:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id CE7B989BF1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 19:27:59 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C894372167; Wed, 22 May 2019 19:27:59 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110575] [R9 380X] Artifacts in CSGO
-Date: Wed, 22 May 2019 19:27:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: danylo.piliaiev@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110575-502-BWGUi7YDNg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110575-502@http.bugs.freedesktop.org/>
-References: <bug-110575-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF26489BE8
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 19:37:41 +0000 (UTC)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A9FE821473
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 19:37:41 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id m32so3900313qtf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 12:37:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAVk27Qq5x7eNKkb58KHmZDD0Qm0mJ25JIKPGiyHatqeyowxR6N+
+ Yl4k2GbwONpldnHQMiJHXWLtKT1F4EM137jpyw==
+X-Google-Smtp-Source: APXvYqyvQA0DlBQCl0dcjjCe/pm9yiLcemUSw6voBD6ZAURo33XiNKtxHRpnO4B91SAIh1FVmA/dMAlbYtOmZ3lZOl0=
+X-Received: by 2002:a0c:929a:: with SMTP id b26mr72722492qvb.148.1558553860979; 
+ Wed, 22 May 2019 12:37:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190517150042.776-1-ezequiel@collabora.com>
+ <d3feaa58-ff8f-614e-0aad-969a8b1c950c@baylibre.com>
+In-Reply-To: <d3feaa58-ff8f-614e-0aad-969a8b1c950c@baylibre.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 22 May 2019 14:37:30 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ7JUiSYS9OaKHPwKrsRRw7s6TQTWz_qSJ+F2eRqqdo2A@mail.gmail.com>
+Message-ID: <CAL_JsqJ7JUiSYS9OaKHPwKrsRRw7s6TQTWz_qSJ+F2eRqqdo2A@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Select devfreq
+To: Neil Armstrong <narmstrong@baylibre.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1558553861;
+ bh=xuOCdr9OBhB6lk8Ng0SesBbIf5fuWxrkVYV7EGZsZMI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=n4tM+09NWzVmMdaKps61P4II4gRCu8THvoDypt2VIk+rxVZnyAl2aloCSW8TrbfXP
+ b0DT5D0JnYj3AETZYcwqt6UMjIUb8S1uGbpPi+cUJrEJ3Opd/1SvpJFigXxlCQa7FC
+ cfsHkvXwMFHg+j6RtfZnj2TKnKiTGPhtzOYoSqY4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,87 +54,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1468702369=="
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>, kernel@collabora.com,
+ Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1468702369==
-Content-Type: multipart/alternative; boundary="15585532791.5f6Fe2CE.14602"
-Content-Transfer-Encoding: 7bit
-
-
---15585532791.5f6Fe2CE.14602
-Date: Wed, 22 May 2019 19:27:59 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110575
-
---- Comment #5 from Danylo <danylo.piliaiev@gmail.com> ---
-It helps, unfortunately  it also reduces fps by around 15 - 20%
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15585532791.5f6Fe2CE.14602
-Date: Wed, 22 May 2019 19:27:59 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [R9 380X] Artifacts in CSGO"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110575#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [R9 380X] Artifacts in CSGO"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110575">bug 11057=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danylo.piliaiev&#64;gmail.com" title=3D"Danylo &lt;danylo.piliaiev&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Danylo</span></a>
-</span></b>
-        <pre>It helps, unfortunately  it also reduces fps by around 15 - 20=
-%</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15585532791.5f6Fe2CE.14602--
-
---===============1468702369==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1468702369==--
+T24gRnJpLCBNYXkgMTcsIDIwMTkgYXQgMTA6MzMgQU0gTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJv
+bmdAYmF5bGlicmUuY29tPiB3cm90ZToKPgo+IE9uIDE3LzA1LzIwMTkgMTc6MDAsIEV6ZXF1aWVs
+IEdhcmNpYSB3cm90ZToKPiA+IEN1cnJlbnRseSwgdGhlcmUgaXMgc29tZSBsb2dpYyBmb3IgdGhl
+IGRyaXZlciB0byB3b3JrIHdpdGhvdXQgZGV2ZnJlcS4KPiA+IEhvd2V2ZXIsIHRoZSBkcml2ZXIg
+YWN0dWFsbHkgZmFpbHMgdG8gcHJvYmUgaWYgIUNPTkZJR19QTV9ERVZGUkVRLgo+ID4KPiA+IEZp
+eCB0aGlzIGJ5IHNlbGVjdGluZyBkZXZmcmVxLCBhbmQgZHJvcCB0aGUgYWRkaXRpb25hbCBjaGVj
+a3MKPiA+IGZvciBkZXZmcmVxLgo+ID4KPgo+IFBsZWFzZSBhZGQgYSBGaXhlcyB0YWcuCgpJIGFw
+cGxpZWQgdGhpcywgYnV0IGZvcmdvdCB0aGUgRml4ZXMgdGFnLgoKUm9iCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
