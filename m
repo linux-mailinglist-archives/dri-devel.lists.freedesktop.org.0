@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F8A2689E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 18:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F597268F3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 19:16:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB85D89C1E;
-	Wed, 22 May 2019 16:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE0EF89C59;
+	Wed, 22 May 2019 17:16:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BBA8F89C1E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 16:49:35 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D2EB589C55
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 17:16:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B81E972167; Wed, 22 May 2019 16:49:35 +0000 (UTC)
+ id CED6572167; Wed, 22 May 2019 17:16:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
- rc3 on polaris
-Date: Wed, 22 May 2019 16:49:35 +0000
+Subject: [Bug 110731] ui issues
+Date: Wed, 22 May 2019 17:16:22 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric@damsy.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110721-502-27h3TqTZ8h@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
-References: <bug-110721-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: product resolution bug_status component bug_group
+Message-ID: <bug-110731-502-5QVKLzpnXJ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110731-502@http.bugs.freedesktop.org/>
+References: <bug-110731-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,54 +52,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1078166776=="
+Content-Type: multipart/mixed; boundary="===============1862277325=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1078166776==
-Content-Type: multipart/alternative; boundary="15585437752.7eCf.6052"
+--===============1862277325==
+Content-Type: multipart/alternative; boundary="15585453811.596a9ffd.13597"
 Content-Transfer-Encoding: 7bit
 
 
---15585437752.7eCf.6052
-Date: Wed, 22 May 2019 16:49:35 +0000
+--15585453811.596a9ffd.13597
+Date: Wed, 22 May 2019 17:16:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110731
 
---- Comment #9 from Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net> ---
-> (In reply to Ropid from comment #6)
-> @alvarex:
->=20
-> Try starting chromium with this command line here, it makes it show
-> corruption everywhere for me here:
->=20
-> chromium --ignore-gpu-blacklist --enable-gpu-rasterization
-> --enable-native-gpu-memory-buffers --enable-zero-copy
-> --disable-gpu-driver-bug-workarounds
->=20
+Andre Klapper <a9016009@gmx.de> changed:
 
-Same here so I did a bisect.
-There are 2 problematic commits, making the bisect a bit more complicated.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Product|DRI                         |Spam
+         Resolution|---                         |INVALID
+             Status|NEW                         |RESOLVED
+          Component|DRM/AMDgpu-pro              |Two
+              Group|                            |spam
 
-The first one has already been solved by d6053bf2a170.
-The second one is 811fa9a79cf ("mesa: unreference current winsys buffers wh=
-en
-unbinding winsys buffers").=20
-
-Using master + this commit reverted: no more corruption in chromium.
+--- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
+Go away and test somewhere else.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15585437752.7eCf.6052
-Date: Wed, 22 May 2019 16:49:35 +0000
+--15585453811.596a9ffd.13597
+Date: Wed, 22 May 2019 17:16:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,47 +101,80 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - ui issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110731">bug 11073=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/AMDgpu-pro
+           </td>
+           <td>Two
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c9">Commen=
-t # 9</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - ui issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110731#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
-on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - ui issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110731">bug 11073=
 1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric&#64;damsy.net" title=3D"Pierre-Eric Pelloux-Prayer &lt;pierre-e=
-ric&#64;damsy.net&gt;"> <span class=3D"fn">Pierre-Eric Pelloux-Prayer</span=
-></a>
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
 </span></b>
-        <pre><span class=3D"quote">&gt; (In reply to Ropid from <a href=3D"=
-show_bug.cgi?id=3D110721#c6">comment #6</a>)
-&gt; &#64;alvarex:
-&gt;=20
-&gt; Try starting chromium with this command line here, it makes it show
-&gt; corruption everywhere for me here:
-&gt;=20
-&gt; chromium --ignore-gpu-blacklist --enable-gpu-rasterization
-&gt; --enable-native-gpu-memory-buffers --enable-zero-copy
-&gt; --disable-gpu-driver-bug-workarounds
-&gt; </span >
-
-Same here so I did a bisect.
-There are 2 problematic commits, making the bisect a bit more complicated.
-
-The first one has already been solved by d6053bf2a170.
-The second one is 811fa9a79cf (&quot;mesa: unreference current winsys buffe=
-rs when
-unbinding winsys buffers&quot;).=20
-
-Using master + this commit reverted: no more corruption in chromium.</pre>
+        <pre>Go away and test somewhere else.</pre>
         </div>
       </p>
 
@@ -165,9 +188,9 @@ Using master + this commit reverted: no more corruption in chromium.</pre>
     </body>
 </html>=
 
---15585437752.7eCf.6052--
+--15585453811.596a9ffd.13597--
 
---===============1078166776==
+--===============1862277325==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -177,4 +200,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1078166776==--
+--===============1862277325==--
