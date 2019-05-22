@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D2F26344
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 13:54:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED7E26353
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 13:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C98D880C6;
-	Wed, 22 May 2019 11:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A9418994A;
+	Wed, 22 May 2019 11:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pio-pvt-msa1.bahnhof.se (pio-pvt-msa1.bahnhof.se [79.136.2.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D33C7880C6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 11:54:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id DB28D3F9F0;
- Wed, 22 May 2019 13:54:35 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -0.6
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 tagged_above=-999 required=6.31
- tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SORTED_RECIPS=2.499, URIBL_BLOCKED=0.001]
- autolearn=no autolearn_force=no
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uXZZ-HZgB2tC; Wed, 22 May 2019 13:54:27 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
- [155.4.205.35]) (Authenticated sender: mb878879)
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id E3E5E3FBA1;
- Wed, 22 May 2019 13:54:26 +0200 (CEST)
-Received: from localhost.localdomain.localdomain
- (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
- by mail1.shipmail.org (Postfix) with ESMTPA id 5AEB0360143;
- Wed, 22 May 2019 13:54:26 +0200 (CEST)
-From: "Thomas Hellstrom (VMware)" <thomas@shipmail.org>
-To: airlied@gmail.com, airlied@redhat.com, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: [git pull] vmwgfx-fixes-5.2
-Date: Wed, 22 May 2019 13:54:08 +0200
-Message-Id: <20190522115408.33185-1-thomas@shipmail.org>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2F2A88994A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 11:59:02 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2A7AD72167; Wed, 22 May 2019 11:59:02 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 106302] [radeonsi] Garbage content when accessing a texture in
+ multiple shared EGL contexts
+Date: Wed, 22 May 2019 11:59:02 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 17.2
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric@damsy.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-106302-502-11klPjSC8Y@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-106302-502@http.bugs.freedesktop.org/>
+References: <bug-106302-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=shipmail.org; s=mail; 
- t=1558526066; bh=LZvL5iAL3QMDzoDWgUXq+nne5cPqdwwKCqkfrZNrDCQ=;
- h=From:To:Cc:Subject:Date:From;
- b=E8cPRQ+6WHs0k4J8PEEE6l8p7h9O7j6b/yH9jIZq2ScHcZF6PI0lH0Mrc37mOWrAX
- pCp7gJDoxcFO6d90RDSHPU48dMe9Mxu0aHo+LGImIsa8STDj6zMBJd7iERW6Vcroyo
- B5AeXUc1/5gg+hZ1FsRPHy0NPf2+e7PAAPNzdX0w=
-X-Mailman-Original-Authentication-Results: pio-pvt-msa1.bahnhof.se;
- dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=E8cPRQ+6; 
- dkim-atps=neutral
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,39 +53,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pv-drivers@vmware.com, linux-graphics-maintainer@vmware.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0895182287=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGF2ZSwgRGFuaWVsCgpBIHNldCBvZiBtaXNjIGZpeGVzIGZvciB2YXJpb3VzIGlzc3VlcyB0aGF0
-IGhhdmUgc3VyZmFjZWQgcmVjZW50bHkuCkFsbCBDYydkIHN0YWJsZSBleGNlcHQgdGhlIGRtYSBp
-dGVyYXRvciBmaXggd2hpY2ggc2hvdWxkbid0IHJlYWxseSBjYXVzZQphbnkgcmVhbCBpc3N1ZXMg
-b24gb2xkZXIga2VybmVscy4KClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgYTE4
-ODMzOWNhNWEzOTZhY2M1ODhlNTg1MWVkN2UxOWY2NmIwZWJkOToKCiAgTGludXggNS4yLXJjMSAo
-MjAxOS0wNS0xOSAxNTo0NzowOSAtMDcwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBv
-c2l0b3J5IGF0OgoKICBnaXQ6Ly9wZW9wbGUuZnJlZWRlc2t0b3Aub3JnL350aG9tYXNoL2xpbnV4
-IHZtd2dmeC1maXhlcy01LjIKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byA1ZWQ3ZjRi
-NWVjYTExYzNjNjllN2M4YjUzZTQzMjE4MTJiYzFlZTFlOgoKICBkcm0vdm13Z2Z4OiBpbnRlZ2Vy
-IHVuZGVyZmxvdyBpbiB2bXdfY21kX2R4X3NldF9zaGFkZXIoKSBsZWFkaW5nIHRvIGFuIGludmFs
-aWQgcmVhZCAoMjAxOS0wNS0yMSAxMDoyMzoxMCArMDIwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTXVycmF5IE1jQWxs
-aXN0ZXIgKDIpOgogICAgICBkcm0vdm13Z2Z4OiBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgZnJv
-bSB2bXdfY21kX2R4X3ZpZXdfZGVmaW5lKCkKICAgICAgZHJtL3Ztd2dmeDogaW50ZWdlciB1bmRl
-cmZsb3cgaW4gdm13X2NtZF9keF9zZXRfc2hhZGVyKCkgbGVhZGluZyB0byBhbiBpbnZhbGlkIHJl
-YWQKClRob21hcyBIZWxsc3Ryb20gKDQpOgogICAgICBkcm0vdm13Z2Z4OiBEb24ndCBzZW5kIGRy
-bSBzeXNmcyBob3RwbHVnIGV2ZW50cyBvbiBpbml0aWFsIG1hc3RlciBzZXQKICAgICAgZHJtL3Zt
-d2dmeDogRml4IHVzZXIgc3BhY2UgaGFuZGxlIGVxdWFsIHRvIHplcm8KICAgICAgZHJtL3Ztd2dm
-eDogRml4IGNvbXBhdCBtb2RlIHNoYWRlciBvcGVyYXRpb24KICAgICAgZHJtL3Ztd2dmeDogVXNl
-IHRoZSBkbWEgc2NhdHRlci1nYXRoZXIgaXRlcmF0b3IgdG8gZ2V0IGRtYSBhZGRyZXNzZXMKCiBk
-cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3R0bV9vYmplY3QuYyAgICAgICAgfCAgMiArLQogZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgICAgICAgIHwgIDggKysrKysrKy0KIGRyaXZl
-cnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2Rydi5oICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dw
-dS9kcm0vdm13Z2Z4L3Ztd2dmeF9leGVjYnVmLmMgICAgfCAyMCArKysrKysrKysrKysrKysrKysr
-LQogZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfdHRtX2J1ZmZlci5jIHwgMjcgKysrKysr
-Ky0tLS0tLS0tLS0tLS0tLS0tLS0tCiA1IGZpbGVzIGNoYW5nZWQsIDM1IGluc2VydGlvbnMoKyks
-IDI0IGRlbGV0aW9ucygtKQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============0895182287==
+Content-Type: multipart/alternative; boundary="15585263421.fFbBb8.5958"
+Content-Transfer-Encoding: 7bit
+
+
+--15585263421.fFbBb8.5958
+Date: Wed, 22 May 2019 11:59:02 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D106302
+
+--- Comment #1 from Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net> ---
+I can reproduce but I don't think it's a bug in Mesa: your createTexture()
+function doesn't use any synchronization mechanisms so you can't expect the
+other thread/context to pick up the changes mades to the texture.
+
+Adding a call to glFlush or glFinish at the end of createTexture() is enoug=
+h in
+this case to fix the issue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15585263421.fFbBb8.5958
+Date: Wed, 22 May 2019 11:59:02 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [radeonsi] Garbage content when accessing a texture in mu=
+ltiple shared EGL contexts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106302#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [radeonsi] Garbage content when accessing a texture in mu=
+ltiple shared EGL contexts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106302">bug 10630=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric&#64;damsy.net" title=3D"Pierre-Eric Pelloux-Prayer &lt;pierre-e=
+ric&#64;damsy.net&gt;"> <span class=3D"fn">Pierre-Eric Pelloux-Prayer</span=
+></a>
+</span></b>
+        <pre>I can reproduce but I don't think it's a bug in Mesa: your cre=
+ateTexture()
+function doesn't use any synchronization mechanisms so you can't expect the
+other thread/context to pick up the changes mades to the texture.
+
+Adding a call to glFlush or glFinish at the end of createTexture() is enoug=
+h in
+this case to fix the issue.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15585263421.fFbBb8.5958--
+
+--===============0895182287==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0895182287==--
