@@ -1,54 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7195326603
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 16:39:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1471A25C1F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 05:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A6C89B5F;
-	Wed, 22 May 2019 14:36:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B71E3896B0;
+	Wed, 22 May 2019 03:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-it1-f198.google.com (mail-it1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D13C889725
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 03:16:01 +0000 (UTC)
-Received: by mail-it1-f198.google.com with SMTP id p19so806406itp.6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 May 2019 20:16:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=3nIzlGw+4wszd7mCGI8udFQIKx5mXZuEZdlx7TUEr8s=;
- b=BatxzSv55Sl7WeIld07b4pMK39roNlXBapuirzebw+EjhYfnmIkREo/wwHqE+nP1Wt
- t2r+7XW2vvAUkihzz9GrW0U0itZpoSYYK6KBhLly/9Wf90oB0ADt3ZLiQnuyiYK2FM5n
- nbzBhn9vDHg3jwH8IAaEm8qGrr25tEXe+91AP0G9riuse99Kh9V8O9Oj/tCZy8hxbJvV
- wTqLp+a7k2eDAhsenOWVgZMUERBsr4fJoujtdoaRL0YRog825bk/jrcFI+YfpMe7umHi
- Z91EGyZteKiaN8QuRLlN3/QMXWSuW4QQJU6JAsx+v89RUbxj0JrzMVbALrfcrAogaVR6
- piEg==
-X-Gm-Message-State: APjAAAV40NcUd9KMUaoCkx7dQ6uau+GVSvE0hh2vWWnFobvJ3GfZCV5f
- z0Us/ucB7bEIjgUfvZ+n4BGVXr/sUlKQMYk/mWBIpA0SP6J8
-X-Google-Smtp-Source: APXvYqxp+o+WQM7bTF4SCjOC36sALTlwx1QmJGZsN4sPxGpKCkBFjyv3EMuUBqqVKn8wzyZnUI3z37a7vKmMtQ7mfrLWFQqBAHmU
-MIME-Version: 1.0
-X-Received: by 2002:a5d:9d4f:: with SMTP id k15mr7079076iok.100.1558494961163; 
- Tue, 21 May 2019 20:16:01 -0700 (PDT)
-Date: Tue, 21 May 2019 20:16:01 -0700
-In-Reply-To: <00000000000033a0120588fac894@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008b645c058971629b@google.com>
+Received: from NAM01-BY2-obe.outbound.protection.outlook.com
+ (mail-eopbgr810047.outbound.protection.outlook.com [40.107.81.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED2E89654;
+ Wed, 22 May 2019 03:21:21 +0000 (UTC)
+Received: from DM6PR12MB2778.namprd12.prod.outlook.com (20.176.114.145) by
+ DM6PR12MB3418.namprd12.prod.outlook.com (20.178.198.153) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1900.18; Wed, 22 May 2019 03:21:16 +0000
+Received: from DM6PR12MB2778.namprd12.prod.outlook.com
+ ([fe80::2c9b:7930:7865:78bd]) by DM6PR12MB2778.namprd12.prod.outlook.com
+ ([fe80::2c9b:7930:7865:78bd%6]) with mapi id 15.20.1900.020; Wed, 22 May 2019
+ 03:21:16 +0000
+From: "Zhao, Yong" <Yong.Zhao@amd.com>
+To: syzbot <syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "ast@kernel.org" <ast@kernel.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>, "davem@davemloft.net"
+ <davem@davemloft.net>, "Zhou, David(ChunMing)" <David1.Zhou@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Quan,
+ Evan" <Evan.Quan@amd.com>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ "Wentland, Harry" <Harry.Wentland@amd.com>, "kafai@fb.com" <kafai@fb.com>,
+ "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "Zeng, Oak" <Oak.Zeng@amd.com>, "Huang, Ray"
+ <Ray.Huang@amd.com>, "rex.zhu@amd.com" <rex.zhu@amd.com>,
+ "songliubraving@fb.com" <songliubraving@fb.com>,
+ "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
+ "yhs@fb.com" <yhs@fb.com>, "yoshfuji@linux-ipv6.org"
+ <yoshfuji@linux-ipv6.org>
 Subject: Re: WARNING: locking bug in inet_autobind
-From: syzbot <syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com>
-To: Yong.Zhao@amd.com, airlied@linux.ie, alexander.deucher@amd.com, 
- amd-gfx@lists.freedesktop.org, ast@kernel.org, bpf@vger.kernel.org, 
- christian.koenig@amd.com, daniel@ffwll.ch, daniel@iogearbox.net, 
- davem@davemloft.net, david1.zhou@amd.com, dri-devel@lists.freedesktop.org, 
- evan.quan@amd.com, felix.kuehling@amd.com, harry.wentland@amd.com, 
- kafai@fb.com, kuznet@ms2.inr.ac.ru, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, ozeng@amd.com, ray.huang@amd.com, rex.zhu@amd.com, 
- songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com, 
- yong.zhao@amd.com, yoshfuji@linux-ipv6.org
-X-Mailman-Approved-At: Wed, 22 May 2019 14:35:24 +0000
+Thread-Topic: WARNING: locking bug in inet_autobind
+Thread-Index: AQHVEEyxr8BJKSjlPU2LqA8J24j7dKZ2edYB
+Date: Wed, 22 May 2019 03:21:15 +0000
+Message-ID: <DM6PR12MB27788B3B39A41027C62CEF5EF0000@DM6PR12MB2778.namprd12.prod.outlook.com>
+References: <00000000000033a0120588fac894@google.com>,
+ <0000000000008b645c058971629b@google.com>
+In-Reply-To: <0000000000008b645c058971629b@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [165.204.54.211]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: dc6d9e58-5bec-48a6-7471-08d6de648ce7
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
+ SRVR:DM6PR12MB3418; 
+x-ms-traffictypediagnostic: DM6PR12MB3418:
+x-ms-exchange-purlcount: 7
+x-microsoft-antispam-prvs: <DM6PR12MB3418EA0394235FCD2EB6B85BF0000@DM6PR12MB3418.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:660;
+x-forefront-prvs: 0045236D47
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(366004)(136003)(346002)(396003)(39860400002)(376002)(199004)(189003)(26005)(86362001)(33656002)(186003)(105004)(7736002)(8676002)(66066001)(68736007)(8936002)(81156014)(81166006)(19627405001)(316002)(2501003)(6506007)(53546011)(110136005)(76176011)(606006)(102836004)(6116002)(7696005)(236005)(478600001)(966005)(72206003)(3846002)(2906002)(229853002)(99286004)(9686003)(2201001)(25786009)(446003)(14444005)(71200400001)(256004)(7416002)(71190400001)(66946007)(486006)(5660300002)(76116006)(53936002)(55016002)(476003)(66476007)(66556008)(74316002)(54896002)(64756008)(52536014)(6246003)(14454004)(6436002)(66446008)(6306002)(73956011)(11346002)(921003)(99710200001)(1121003);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3418;
+ H:DM6PR12MB2778.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: PiQrcbLfzCHeF3omThaKe+orqtlvogRD3R239X1Zu8KM3Lu4BdnmPLv6ahgEMLE/FyPTFIxadLtIH7yarlExrzfsDr0TVWGEJca9PEGGRko77QPGejBb5UDy3x8pShxcAcfX0G5pFfEe1ZmEKmzvw9hOJf7i4kFz0WfLl60vW42sEmxtowDUzDGdK6X08eSZtp7osL+Zj1On1zdaQIMWd2/iVvWhGvJHTF+iuFBu28WUGyR+jWZESQyDrCQmannIz0zi/vuJnOUB+FJaB6/DBkxPq5DHsBIhfpdgCngRcHLg+nobAYzQLv0E0xwgR78rNglOZjesqzRZIznr9oJTCBoNucvT4BnXM4ID/UoWPsu3VmUH/CmTd3kmfVsijJRAjQF9iJLWz0uJ46x4I7qrwhtX8ORQ1F+lJWvi/RFp2xs=
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc6d9e58-5bec-48a6-7471-08d6de648ce7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2019 03:21:15.8830 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3418
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZbkbfdceHizFRC2hgkRWgB8wkIUSqfJ3Ob/rhqlOyYc=;
+ b=iDvDsyS4w6XeuVFEhOHfGObq6eZIofVs3DKDgBgpyZ/LzXROR4/1TskcmG+9f9q02VLhVHw0VceqvW+RCeSmnmOlPvpB5jd2rr0ZVPyh0ilApr4JS2i1Yms5hcLYonAf7tNsl5GQtxWB44sOMsG0fa+rVHvkoWqZME7zk20PRk0=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Yong.Zhao@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,29 +101,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"; DelSp="yes"
+Content-Type: multipart/mixed; boundary="===============0427692288=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-c3l6Ym90IGhhcyBiaXNlY3RlZCB0aGlzIGJ1ZyB0bzoKCmNvbW1pdCBjMGQ5MjcxZWNiZDg5MWNk
-ZWIwZmFkMWVkY2RkOTllZTcxN2E2NTVmCkF1dGhvcjogWW9uZyBaaGFvIDxZb25nLlpoYW9AYW1k
-LmNvbT4KRGF0ZTogICBGcmkgRmViIDEgMjM6MzY6MjEgMjAxOSArMDAwMAoKICAgICBkcm0vYW1k
-Z3B1OiBEZWxldGUgdXNlciBxdWV1ZSBkb29yYmVsbCB2YXJpYWJsZXMKCmJpc2VjdGlvbiBsb2c6
-ICBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94L2Jpc2VjdC50eHQ/eD0xNDMzZWNlNGEw
-MDAwMApzdGFydCBjb21taXQ6ICAgZjQ5YWExZGUgTWVyZ2UgdGFnICdmb3ItNS4yLXJjMS10YWcn
-IG9mIGdpdDovL2dpdC5rZXJuZWwuby4uCmdpdCB0cmVlOiAgICAgICBuZXQtbmV4dApmaW5hbCBj
-cmFzaDogICAgaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20veC9yZXBvcnQudHh0P3g9MTYz
-M2VjZTRhMDAwMDAKY29uc29sZSBvdXRwdXQ6IGh0dHBzOi8vc3l6a2FsbGVyLmFwcHNwb3QuY29t
-L3gvbG9nLnR4dD94PTEyMzNlY2U0YTAwMDAwCmtlcm5lbCBjb25maWc6ICBodHRwczovL3N5emth
-bGxlci5hcHBzcG90LmNvbS94Ly5jb25maWc/eD1mYzA0NTEzMTQ3Mjk0N2Q3CmRhc2hib2FyZCBs
-aW5rOiBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS9idWc/ZXh0aWQ9OTRjYzJhNjZmYzIy
-OGIyM2YzNjAKc3l6IHJlcHJvOiAgICAgIGh0dHBzOi8vc3l6a2FsbGVyLmFwcHNwb3QuY29tL3gv
-cmVwcm8uc3l6P3g9MTYzNzMxZjhhMDAwMDAKClJlcG9ydGVkLWJ5OiBzeXpib3QrOTRjYzJhNjZm
-YzIyOGIyM2YzNjBAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQpGaXhlczogYzBkOTI3MWVjYmQ4
-ICgiZHJtL2FtZGdwdTogRGVsZXRlIHVzZXIgcXVldWUgZG9vcmJlbGwgdmFyaWFibGVzIikKCkZv
-ciBpbmZvcm1hdGlvbiBhYm91dCBiaXNlY3Rpb24gcHJvY2VzcyBzZWU6IGh0dHBzOi8vZ29vLmds
-L3Rwc21FSiNiaXNlY3Rpb24KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+--===============0427692288==
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_DM6PR12MB27788B3B39A41027C62CEF5EF0000DM6PR12MB2778namp_"
+
+--_000_DM6PR12MB27788B3B39A41027C62CEF5EF0000DM6PR12MB2778namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+This commit was reverted later. I guess the revert was probably not picked =
+up properly.
+
+Regards,
+Yong
+________________________________
+From: syzbot <syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com>
+Sent: Tuesday, May 21, 2019 11:16 PM
+To: Zhao, Yong; airlied@linux.ie; Deucher, Alexander; amd-gfx@lists.freedes=
+ktop.org; ast@kernel.org; bpf@vger.kernel.org; Koenig, Christian; daniel@ff=
+wll.ch; daniel@iogearbox.net; davem@davemloft.net; Zhou, David(ChunMing); d=
+ri-devel@lists.freedesktop.org; Quan, Evan; Kuehling, Felix; Wentland, Harr=
+y; kafai@fb.com; kuznet@ms2.inr.ac.ru; linux-kernel@vger.kernel.org; netdev=
+@vger.kernel.org; Zeng, Oak; Huang, Ray; rex.zhu@amd.com; songliubraving@fb=
+.com; syzkaller-bugs@googlegroups.com; yhs@fb.com; Zhao, Yong; yoshfuji@lin=
+ux-ipv6.org
+Subject: Re: WARNING: locking bug in inet_autobind
+
+[CAUTION: External Email]
+
+syzbot has bisected this bug to:
+
+commit c0d9271ecbd891cdeb0fad1edcdd99ee717a655f
+Author: Yong Zhao <Yong.Zhao@amd.com>
+Date:   Fri Feb 1 23:36:21 2019 +0000
+
+     drm/amdgpu: Delete user queue doorbell variables
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D1433ece4a000=
+00
+start commit:   f49aa1de Merge tag 'for-5.2-rc1-tag' of git://git.kernel.o.=
+.
+git tree:       net-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=3D1633ece4a000=
+00
+console output: https://syzkaller.appspot.com/x/log.txt?x=3D1233ece4a00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3Dfc045131472947d=
+7
+dashboard link: https://syzkaller.appspot.com/bug?extid=3D94cc2a66fc228b23f=
+360
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D163731f8a0000=
+0
+
+Reported-by: syzbot+94cc2a66fc228b23f360@syzkaller.appspotmail.com
+Fixes: c0d9271ecbd8 ("drm/amdgpu: Delete user queue doorbell variables")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
+n
+
+--_000_DM6PR12MB27788B3B39A41027C62CEF5EF0000DM6PR12MB2778namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+This commit was reverted later. I guess the revert was probably not picked =
+up properly.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Regards,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Yong</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> syzbot &lt;syzbot&#43=
+;94cc2a66fc228b23f360@syzkaller.appspotmail.com&gt;<br>
+<b>Sent:</b> Tuesday, May 21, 2019 11:16 PM<br>
+<b>To:</b> Zhao, Yong; airlied@linux.ie; Deucher, Alexander; amd-gfx@lists.=
+freedesktop.org; ast@kernel.org; bpf@vger.kernel.org; Koenig, Christian; da=
+niel@ffwll.ch; daniel@iogearbox.net; davem@davemloft.net; Zhou, David(ChunM=
+ing); dri-devel@lists.freedesktop.org;
+ Quan, Evan; Kuehling, Felix; Wentland, Harry; kafai@fb.com; kuznet@ms2.inr=
+.ac.ru; linux-kernel@vger.kernel.org; netdev@vger.kernel.org; Zeng, Oak; Hu=
+ang, Ray; rex.zhu@amd.com; songliubraving@fb.com; syzkaller-bugs@googlegrou=
+ps.com; yhs@fb.com; Zhao, Yong;
+ yoshfuji@linux-ipv6.org<br>
+<b>Subject:</b> Re: WARNING: locking bug in inet_autobind</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">[CAUTION: External Email]<br>
+<br>
+syzbot has bisected this bug to:<br>
+<br>
+commit c0d9271ecbd891cdeb0fad1edcdd99ee717a655f<br>
+Author: Yong Zhao &lt;Yong.Zhao@amd.com&gt;<br>
+Date:&nbsp;&nbsp; Fri Feb 1 23:36:21 2019 &#43;0000<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; drm/amdgpu: Delete user queue doorbell variables<b=
+r>
+<br>
+bisection log:&nbsp; <a href=3D"https://syzkaller.appspot.com/x/bisect.txt?=
+x=3D1433ece4a00000">
+https://syzkaller.appspot.com/x/bisect.txt?x=3D1433ece4a00000</a><br>
+start commit:&nbsp;&nbsp; f49aa1de Merge tag 'for-5.2-rc1-tag' of git://git=
+.kernel.o..<br>
+git tree:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; net-next<br>
+final crash:&nbsp;&nbsp;&nbsp; <a href=3D"https://syzkaller.appspot.com/x/r=
+eport.txt?x=3D1633ece4a00000">
+https://syzkaller.appspot.com/x/report.txt?x=3D1633ece4a00000</a><br>
+console output: <a href=3D"https://syzkaller.appspot.com/x/log.txt?x=3D1233=
+ece4a00000">
+https://syzkaller.appspot.com/x/log.txt?x=3D1233ece4a00000</a><br>
+kernel config:&nbsp; <a href=3D"https://syzkaller.appspot.com/x/.config?x=
+=3Dfc045131472947d7">
+https://syzkaller.appspot.com/x/.config?x=3Dfc045131472947d7</a><br>
+dashboard link: <a href=3D"https://syzkaller.appspot.com/bug?extid=3D94cc2a=
+66fc228b23f360">
+https://syzkaller.appspot.com/bug?extid=3D94cc2a66fc228b23f360</a><br>
+syz repro:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"https://syzkaller.appsp=
+ot.com/x/repro.syz?x=3D163731f8a00000">
+https://syzkaller.appspot.com/x/repro.syz?x=3D163731f8a00000</a><br>
+<br>
+Reported-by: syzbot&#43;94cc2a66fc228b23f360@syzkaller.appspotmail.com<br>
+Fixes: c0d9271ecbd8 (&quot;drm/amdgpu: Delete user queue doorbell variables=
+&quot;)<br>
+<br>
+For information about bisection process see: <a href=3D"https://goo.gl/tpsm=
+EJ#bisection">
+https://goo.gl/tpsmEJ#bisection</a><br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_DM6PR12MB27788B3B39A41027C62CEF5EF0000DM6PR12MB2778namp_--
+
+--===============0427692288==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0427692288==--
