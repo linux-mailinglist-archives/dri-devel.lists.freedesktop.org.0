@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0999926914
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 19:28:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B197A26925
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 19:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9AC589C55;
-	Wed, 22 May 2019 17:28:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 817CD89C49;
+	Wed, 22 May 2019 17:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36CEF89C55;
- Wed, 22 May 2019 17:28:03 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id n25so3038653wmk.4;
- Wed, 22 May 2019 10:28:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=4S0Pec9BfD8kDwkly62E8kWNDoNmW+jmLXii0uHlq84=;
- b=g8mjVDCGk+OJAwAXvDX8o5q+2z4HMljOfMVIMwGqCRFBCVW/6jJPrFmrok5LW8EXm9
- bSV0dq4SHyppeVqmylcUCMbgR+NNTZ/eOBv2/1eXtHDmHHzPIs2CXLQ/Jle2GOIHwB3W
- PFOoYgSUIKgaeJOdHx82gseFaPfTm0dk0oz6yjLboOOXgb6vMchtlPmfkdnEfRgE8KF+
- NXne4uM6iG9ULsF05WZdIJM8A98yL530kTTsRUoQMLJDWQuCOqCv3KQZLFHJMJNwvraK
- bS4xj7CsPz1MY39MkRZCSubZ5HAIbnrBJjR/+WTGLd3sQRJQ+AnOmhxgkg4OrJygPE2J
- 1LwA==
-X-Gm-Message-State: APjAAAU1PdBXNAFDz6WLeuSVUXS1B1WJ1e+dyBIfsS++A7Cgs3b4LxCs
- nJUDc1GLb3R+p3RoQW7oq+npj3kZ
-X-Google-Smtp-Source: APXvYqwD8IBhEolkceHyQXps2P8YYEE22P/lpAoZE3V2IX1M1/rT6DDluSpzupRRYXRQCKwANjBPQQ==
-X-Received: by 2002:a1c:a7cc:: with SMTP id q195mr8640694wme.53.1558546081898; 
- Wed, 22 May 2019 10:28:01 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id m206sm8514022wmf.21.2019.05.22.10.28.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 22 May 2019 10:28:01 -0700 (PDT)
-Subject: Re: [PATCH 01/12] dma-buf: add dynamic caching of sg_table
-To: Sumit Semwal <sumit.semwal@linaro.org>, Liam Mark <lmark@codeaurora.org>
-References: <20190416183841.1577-1-christian.koenig@amd.com>
- <1556323269-19670-1-git-send-email-lmark@codeaurora.org>
- <CAO_48GGanguXbmYDD+p1kK_VkiWdZSTYAD1y-0JQK7hqL_OPPg@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <d7fb2a6b-f516-b506-247d-0f3d4d59ec8e@gmail.com>
-Date: Wed, 22 May 2019 19:27:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1A5C389C49
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 17:35:26 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0CA9372167; Wed, 22 May 2019 17:35:26 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
+ rc3 on polaris
+Date: Wed, 22 May 2019 17:35:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: edisonalvarez@arnet.com.ar
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110721-502-3piUZ70MxO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
+References: <bug-110721-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAO_48GGanguXbmYDD+p1kK_VkiWdZSTYAD1y-0JQK7hqL_OPPg@mail.gmail.com>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=4S0Pec9BfD8kDwkly62E8kWNDoNmW+jmLXii0uHlq84=;
- b=qSC/E8Xb32KhkpZX/APfXdIGTG2h3A33Q295nP7KBI+d/zKZEyDPBic2fY/4AfElK1
- CdqKD9m70g5/oyzWKpWUdlSzNrItRXf5+5B+Fbh9bc1ZnGcUBWBUmCCafNkw8ASARpx8
- +3wtKHc/5RtFtzk2URnIEz+Wow7rsZNeI5c5bc3gGNKRkJc4Sdvxi2Uain6tG76D5Z3j
- S7JvBic6R/by6vzi3Md1y/JyCBwLE+CMci+2VQ26I8ANLdaoSzjcjV78UIUlYfM1twB8
- x5VvrP1B+vxF/hxxIiPJCZ8iSVHx2g2I+CDq0Om7XzoGxOA4LKxCszYV7sMVfx58HQdm
- 8jww==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,101 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0308966691=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjIuMDUuMTkgdW0gMTg6MTcgc2NocmllYiBTdW1pdCBTZW13YWw6Cj4gSGkgQ2hyaXN0aWFu
-LAo+Cj4gT24gU2F0LCAyNyBBcHIgMjAxOSBhdCAwNTozMSwgTGlhbSBNYXJrIDxsbWFya0Bjb2Rl
-YXVyb3JhLm9yZz4gd3JvdGU6Cj4+IE9uIFR1ZSwgMTYgQXByIDIwMTksIENocmlzdGlhbiBLw7Zu
-aWcgd3JvdGU6Cj4+Cj4+PiBUbyBhbGxvdyBhIHNtb290aCB0cmFuc2l0aW9uIGZyb20gcGlubmlu
-ZyBidWZmZXIgb2JqZWN0cyB0byBkeW5hbWljCj4+PiBpbnZhbGlkYXRpb24gd2UgZmlyc3Qgc3Rh
-cnQgdG8gY2FjaGUgdGhlIHNnX3RhYmxlIGZvciBhbiBhdHRhY2htZW50Cj4+PiB1bmxlc3MgdGhl
-IGRyaXZlciBleHBsaWNpdGx5IHNheXMgdG8gbm90IGRvIHNvLgo+Pj4KPj4+IC0tLQo+Pj4gICBk
-cml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIHwgMjQgKysrKysrKysrKysrKysrKysrKysrKysrCj4+
-PiAgIGluY2x1ZGUvbGludXgvZG1hLWJ1Zi5oICAgfCAxMSArKysrKysrKysrKwo+Pj4gICAyIGZp
-bGVzIGNoYW5nZWQsIDM1IGluc2VydGlvbnMoKykKPj4+Cj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKPj4+IGluZGV4
-IDdjODU4MDIwZDE0Yi4uNjUxNjFhODJkNGQ1IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9kbWEt
-YnVmL2RtYS1idWYuYwo+Pj4gKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+Pj4gQEAg
-LTU3Myw2ICs1NzMsMjAgQEAgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqZG1hX2J1Zl9hdHRh
-Y2goc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwKPj4+ICAgICAgICBsaXN0X2FkZCgmYXR0YWNoLT5u
-b2RlLCAmZG1hYnVmLT5hdHRhY2htZW50cyk7Cj4+Pgo+Pj4gICAgICAgIG11dGV4X3VubG9jaygm
-ZG1hYnVmLT5sb2NrKTsKPj4+ICsKPj4+ICsgICAgIGlmICghZG1hYnVmLT5vcHMtPmR5bmFtaWNf
-c2d0X21hcHBpbmcpIHsKPj4+ICsgICAgICAgICAgICAgc3RydWN0IHNnX3RhYmxlICpzZ3Q7Cj4+
-PiArCj4+PiArICAgICAgICAgICAgIHNndCA9IGRtYWJ1Zi0+b3BzLT5tYXBfZG1hX2J1ZihhdHRh
-Y2gsIERNQV9CSURJUkVDVElPTkFMKTsKPj4+ICsgICAgICAgICAgICAgaWYgKCFzZ3QpCj4+PiAr
-ICAgICAgICAgICAgICAgICAgICAgc2d0ID0gRVJSX1BUUigtRU5PTUVNKTsKPj4+ICsgICAgICAg
-ICAgICAgaWYgKElTX0VSUihzZ3QpKSB7Cj4+PiArICAgICAgICAgICAgICAgICAgICAgZG1hX2J1
-Zl9kZXRhY2goZG1hYnVmLCBhdHRhY2gpOwo+Pj4gKyAgICAgICAgICAgICAgICAgICAgIHJldHVy
-biBFUlJfQ0FTVChzZ3QpOwo+Pj4gKyAgICAgICAgICAgICB9Cj4+PiArICAgICAgICAgICAgIGF0
-dGFjaC0+c2d0ID0gc2d0Owo+Pj4gKyAgICAgfQo+Pj4gKwo+Pj4gICAgICAgIHJldHVybiBhdHRh
-Y2g7Cj4+Pgo+Pj4gICBlcnJfYXR0YWNoOgo+Pj4gQEAgLTU5NSw2ICs2MDksMTAgQEAgdm9pZCBk
-bWFfYnVmX2RldGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgZG1hX2J1Zl9hdHRh
-Y2htZW50ICphdHRhY2gpCj4+PiAgICAgICAgaWYgKFdBUk5fT04oIWRtYWJ1ZiB8fCAhYXR0YWNo
-KSkKPj4+ICAgICAgICAgICAgICAgIHJldHVybjsKPj4+Cj4+PiArICAgICBpZiAoYXR0YWNoLT5z
-Z3QpCj4+PiArICAgICAgICAgICAgIGRtYWJ1Zi0+b3BzLT51bm1hcF9kbWFfYnVmKGF0dGFjaCwg
-YXR0YWNoLT5zZ3QsCj4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IERNQV9CSURJUkVDVElPTkFMKTsKPj4+ICsKPj4+ICAgICAgICBtdXRleF9sb2NrKCZkbWFidWYt
-PmxvY2spOwo+Pj4gICAgICAgIGxpc3RfZGVsKCZhdHRhY2gtPm5vZGUpOwo+Pj4gICAgICAgIGlm
-IChkbWFidWYtPm9wcy0+ZGV0YWNoKQo+Pj4gQEAgLTYzMCw2ICs2NDgsOSBAQCBzdHJ1Y3Qgc2df
-dGFibGUgKmRtYV9idWZfbWFwX2F0dGFjaG1lbnQoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAq
-YXR0YWNoLAo+Pj4gICAgICAgIGlmIChXQVJOX09OKCFhdHRhY2ggfHwgIWF0dGFjaC0+ZG1hYnVm
-KSkKPj4+ICAgICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKC1FSU5WQUwpOwo+Pj4KPj4+ICsg
-ICAgIGlmIChhdHRhY2gtPnNndCkKPj4+ICsgICAgICAgICAgICAgcmV0dXJuIGF0dGFjaC0+c2d0
-Owo+Pj4gKwo+PiBJIGFtIGNvbmNlcm5lZCBieSB0aGlzIGNoYW5nZSB0byBtYWtlIGNhY2hpbmcg
-dGhlIHNnX3RhYmxlIHRoZSBkZWZhdWx0Cj4+IGJlaGF2aW9yIGFzIHRoaXMgd2lsbCByZXN1bHQg
-aW4gdGhlIGV4cG9ydGVyJ3MgbWFwX2RtYV9idWYvdW5tYXBfZG1hX2J1Zgo+PiBjYWxscyBhcmUg
-bm8gbG9uZ2VyIGJlaW5nIGNhbGxlZCBpbgo+PiBkbWFfYnVmX21hcF9hdHRhY2htZW50L2RtYV9i
-dWZfdW5tYXBfYXR0YWNobWVudC4KPiBQcm9iYWJseSB0aGlzIGNvbmNlcm4gZnJvbSBMaWFtIGdv
-dCBsb3N0IGJldHdlZW4gdmVyc2lvbnMgb2YgeW91cgo+IHBhdGNoZXM7IGNvdWxkIHdlIHBsZWFz
-ZSByZXF1ZXN0IGEgcmVwbHkgdG8gdGhlc2UgcG9pbnRzIGhlcmU/CgpTb3JyeSBJIGluZGVlZCBu
-ZXZlciBnb3QgdGhpcyBtYWlsLCBidXQgdGhpcyBpcyBhY3R1YWxseSBub3QgYW4gaXNzdWUgCmJl
-Y2F1c2UgRGFuaWVsIGhhZCBzaW1pbGFyIGNvbmNlcm5zIGFuZCB3ZSBkaWRuJ3QgbWFkZSB0aGlz
-IHRoZSBkZWZhdWx0IAppbiB0aGUgZmluYWwgdmVyc2lvbi4KCj4+IFRoaXMgc2VlbXMgY29uY2Vy
-bmluZyB0byBtZSBhcyBpdCBhcHBlYXJzIHRvIGlnbm9yZSB0aGUgY2FjaGUgbWFpbnRlbmFuY2UK
-Pj4gYXNwZWN0IG9mIHRoZSBtYXBfZG1hX2J1Zi91bm1hcF9kbWFfYnVmIGNhbGxzLgo+PiBGb3Ig
-ZXhhbXBsZSB3b24ndCB0aGlzIHBvdGVudGlhbGx5IGNhdXNlIGlzc3VlcyBmb3IgY2xpZW50cyBv
-ZiBJT04uCj4+Cj4+IElmIHdlIGhhZCB0aGUgZm9sbG93aW5nCj4+IC0gIzEgZG1hX2J1Zl9hdHRh
-Y2ggY29oZXJlbnRfZGV2aWNlCj4+IC0gIzIgZG1hX2J1ZiBhdHRhY2ggbm9uX2NvaGVyZW50X2Rl
-dmljZQo+PiAtICMzIGRtYV9idWZfbWFwX2F0dGFjaG1lbnQgbm9uX2NvaGVyZW50X2RldmljZQo+
-PiAtICM0IG5vbl9jb2hlcmVudF9kZXZpY2Ugd3JpdGVzIHRvIGJ1ZmZlcgo+PiAtICM1IGRtYV9i
-dWZfdW5tYXBfYXR0YWNobWVudCBub25fY29oZXJlbnRfZGV2aWNlCj4+IC0gIzYgZG1hX2J1Zl9t
-YXBfYXR0YWNobWVudCBjb2hlcmVudF9kZXZpY2UKPj4gLSAjNyBjb2hlcmVudF9kZXZpY2UgcmVh
-ZHMgYnVmZmVyCj4+IC0gIzggZG1hX2J1Zl91bm1hcF9hdHRhY2htZW50IGNvaGVyZW50X2Rldmlj
-ZQo+Pgo+PiBUaGVyZSB3b3VsZG4ndCBiZSBhbnkgQ01PIGF0IHN0ZXAgIzUgYW55bW9yZSAoc3Bl
-Y2lmaWNhbGx5IG5vIGludmFsaWRhdGUpCj4+IHNvIG5vdyBhdCBzdGVwICM3IHRoZSBjb2hlcmVu
-dF9kZXZpY2UgY291bGQgcmVhZCBhIHN0YWxlIGNhY2hlIGxpbmUuCj4+Cj4+IEFsc28sIG5vdyBi
-eSBkZWZhdWx0IGRtYV9idWZfdW5tYXBfYXR0YWNobWVudCBubyBsb25nZXIgcmVtb3ZlcyB0aGUK
-Pj4gbWFwcGluZ3MgZnJvbSB0aGUgaW9tbXUsIHNvIG5vdyBieSBkZWZhdWx0IGRtYV9idWZfdW5t
-YXBfYXR0YWNobWVudCBpcyBub3QKPj4gZG9pbmcgd2hhdCBJIHdvdWxkIGV4cGVjdCBhbmQgY2xp
-ZW50cyBhcmUgbG9zaW5nIHRoZSBwb3RlbnRpYWwgc2FuZGJveGluZwo+PiBiZW5lZml0cyBvZiBy
-ZW1vdmluZyB0aGUgbWFwcGluZ3MuCj4+IFNob3VsZG4ndCB0aGlzIGNhY2hpbmcgYmVoYXZpb3Ig
-YmUgc29tZXRoaW5nIHRoYXQgY2xpZW50cyBvcHQgaW50byBpbnN0ZWFkCj4+IG9mIGJlaW5nIHRo
-ZSBkZWZhdWx0PwoKV2VsbCwgaXQgc2VlbXMgeW91IGFyZSBtYWtpbmcgaW5jb3JyZWN0IGFzc3Vt
-cHRpb25zIGFib3V0IHRoZSBjYWNoZSAKbWFpbnRlbmFuY2Ugb2YgRE1BLWJ1ZiBoZXJlLgoKQXQg
-bGVhc3QgZm9yIGFsbCBEUk0gZGV2aWNlcyBJJ20gYXdhcmUgb2YgbWFwcGluZy91bm1hcHBpbmcg
-YW4gCmF0dGFjaG1lbnQgZG9lcyAqTk9UKiBoYXZlIGFueSBjYWNoZSBtYWludGVuYW5jZSBpbXBs
-aWNhdGlvbnMuCgpFLmcuIHRoZSB1c2UgY2FzZSB5b3UgZGVzY3JpYmUgYWJvdmUgd291bGQgY2Vy
-dGFpbmx5IGZhaWwgd2l0aCBhbWRncHUsIApyYWRlb24sIG5vdXZlYXUgYW5kIGk5MTUgYmVjYXVz
-ZSBtYXBwaW5nIGEgRE1BLWJ1ZiBkb2Vzbid0IHN0b3AgdGhlIApleHBvcnRlciBmcm9tIHJlYWRp
-bmcvd3JpdGluZyB0byB0aGF0IGJ1ZmZlciAoanVzdCB0aGUgb3Bwb3NpdGUgYWN0dWFsbHkpLgoK
-QWxsIG9mIHRoZW0gYXNzdW1lIHBlcmZlY3RseSBjb2hlcmVudCBhY2Nlc3MgdG8gdGhlIHVuZGVy
-bHlpbmcgbWVtb3J5LiAKQXMgZmFyIGFzIEkga25vdyB0aGVyZSBpcyBubyBkb2N1bWVudGVkIGNh
-Y2hlIG1haW50ZW5hbmNlIHJlcXVpcmVtZW50cyAKZm9yIERNQS1idWYuCgpUaGUgSU9NTVUgY29u
-Y2VybiBvbiB0aGUgb3RoZXIgaGFuZCBpcyBjZXJ0YWlubHkgdmFsaWQgYW5kIEkgcGVyZmVjdGx5
-IAphZ3JlZSB0aGF0IGtlZXBpbmcgdGhlIG1hcHBpbmcgdGltZSBhcyBzaG9ydCBhcyBwb3NzaWJs
-ZSBpcyBkZXNpcmFibGUuCgpSZWdhcmRzLApDaHJpc3RpYW4uCgo+PiBMaWFtCj4+Cj4+IFF1YWxj
-b21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIGlzIGEgbWVtYmVyIG9mIENvZGUgQXVyb3JhIEZv
-cnVtLAo+PiBhIExpbnV4IEZvdW5kYXRpb24gQ29sbGFib3JhdGl2ZSBQcm9qZWN0Cj4+Cj4gQmVz
-dCwKPiBTdW1pdC4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============0308966691==
+Content-Type: multipart/alternative; boundary="15585465250.80Cd2.18699"
+Content-Transfer-Encoding: 7bit
+
+
+--15585465250.80Cd2.18699
+Date: Wed, 22 May 2019 17:35:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
+
+--- Comment #10 from alvarex <edisonalvarez@arnet.com.ar> ---
+(In reply to Pierre-Eric Pelloux-Prayer from comment #9)
+> > (In reply to Ropid from comment #6)
+> > @alvarex:
+> >=20
+> > Try starting chromium with this command line here, it makes it show
+> > corruption everywhere for me here:
+> >=20
+> > chromium --ignore-gpu-blacklist --enable-gpu-rasterization
+> > --enable-native-gpu-memory-buffers --enable-zero-copy
+> > --disable-gpu-driver-bug-workarounds
+> >=20
+>=20
+> Same here so I did a bisect.
+> There are 2 problematic commits, making the bisect a bit more complicated.
+>=20
+> The first one has already been solved by d6053bf2a170.
+> The second one is 811fa9a79cf ("mesa: unreference current winsys buffers
+> when unbinding winsys buffers").=20
+>=20
+> Using master + this commit reverted: no more corruption in chromium.
+
+for me it doesn't happen on chrome with 64 bits libs, (I couldn't compile
+32bits) I tried several versions of chrome, but not that precise one. not s=
+ure
+if it is the same bug. what version of chrome does steam use?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15585465250.80Cd2.18699
+Date: Wed, 22 May 2019 17:35:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
+on polaris"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - graphics corruption on steam client with mesa 19.1.0 rc3 =
+on polaris"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+edisonalvarez&#64;arnet.com.ar" title=3D"alvarex &lt;edisonalvarez&#64;arne=
+t.com.ar&gt;"> <span class=3D"fn">alvarex</span></a>
+</span></b>
+        <pre>(In reply to Pierre-Eric Pelloux-Prayer from <a href=3D"show_b=
+ug.cgi?id=3D110721#c9">comment #9</a>)
+<span class=3D"quote">&gt; &gt; (In reply to Ropid from <a href=3D"show_bug=
+.cgi?id=3D110721#c6">comment #6</a>)
+&gt; &gt; &#64;alvarex:
+&gt; &gt;=20
+&gt; &gt; Try starting chromium with this command line here, it makes it sh=
+ow
+&gt; &gt; corruption everywhere for me here:
+&gt; &gt;=20
+&gt; &gt; chromium --ignore-gpu-blacklist --enable-gpu-rasterization
+&gt; &gt; --enable-native-gpu-memory-buffers --enable-zero-copy
+&gt; &gt; --disable-gpu-driver-bug-workarounds
+&gt; &gt;=20
+&gt;=20
+&gt; Same here so I did a bisect.
+&gt; There are 2 problematic commits, making the bisect a bit more complica=
+ted.
+&gt;=20
+&gt; The first one has already been solved by d6053bf2a170.
+&gt; The second one is 811fa9a79cf (&quot;mesa: unreference current winsys =
+buffers
+&gt; when unbinding winsys buffers&quot;).=20
+&gt;=20
+&gt; Using master + this commit reverted: no more corruption in chromium.</=
+span >
+
+for me it doesn't happen on chrome with 64 bits libs, (I couldn't compile
+32bits) I tried several versions of chrome, but not that precise one. not s=
+ure
+if it is the same bug. what version of chrome does steam use?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15585465250.80Cd2.18699--
+
+--===============0308966691==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0308966691==--
