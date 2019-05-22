@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D8327163
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 23:09:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F6627166
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 23:10:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7468389BFE;
-	Wed, 22 May 2019 21:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6155897D0;
+	Wed, 22 May 2019 21:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2106089BFE
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:09:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67CCA897D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:10:49 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id D5D88237A5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:09:50 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 2ABD022B1F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:10:49 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id CA34822B27; Wed, 22 May 2019 21:09:50 +0000 (UTC)
+ id 1C78322B39; Wed, 22 May 2019 21:10:49 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=2.0 tests=BAYES_00,HEXHASH_WORD,
- NO_RECEIVED,NO_RELAYS autolearn=no version=3.3.1
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203679] New: Revert 8059add0478e29cb641936011a8fcc9ce9fd80be
- for stable 5.1.x
-Date: Wed, 22 May 2019 21:09:50 +0000
+Subject: [Bug 203679] Revert 8059add0478e29cb641936011a8fcc9ce9fd80be for
+ stable 5.1.x
+Date: Wed, 22 May 2019 21:10:47 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -42,10 +42,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-203679-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_file_loc cf_regression
+Message-ID: <bug-203679-2300-1Wq8vC2RNz@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203679-2300@https.bugzilla.kernel.org/>
+References: <bug-203679-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -67,26 +67,19 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM2NzkKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjAzNjc5CiAgICAgICAgICAgU3VtbWFyeTogUmV2ZXJ0IDgwNTlhZGQw
-NDc4ZTI5Y2I2NDE5MzYwMTFhOGZjYzljZTlmZDgwYmUgZm9yCiAgICAgICAgICAgICAgICAgICAg
-c3RhYmxlIDUuMS54CiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAgICAgIFZlcnNp
-b246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMS54CiAgICAgICAgICBIYXJkd2FyZTogQWxs
-CiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAgICAgICBUcmVlOiBNYWlubGluZQog
-ICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2ZXJpdHk6IG5vcm1hbAogICAgICAg
-ICAgUHJpb3JpdHk6IFAxCiAgICAgICAgIENvbXBvbmVudDogVmlkZW8oRFJJIC0gbm9uIEludGVs
-KQogICAgICAgICAgQXNzaWduZWU6IGRyaXZlcnNfdmlkZW8tZHJpQGtlcm5lbC1idWdzLm9zZGwu
-b3JnCiAgICAgICAgICBSZXBvcnRlcjogbnJuZGRhQGdtYWlsLmNvbQogICAgICAgIFJlZ3Jlc3Np
-b246IE5vCgpPcmlnaW5hbCBjb21taXQgODA1OWFkZDA0NzhlMjljYjY0MTkzNjAxMWE4ZmNjOWNl
-OWZkODBiZQooaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQv
-dG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmM/aWQ9
-ODA1OWFkZDA0NzhlMjljYjY0MTkzNjAxMWE4ZmNjOWNlOWZkODBiZSkKd2FzIGFkZGVkIGluIDUu
-MSBtZXJnZSBjeWNsZSBhbmQgcmV2ZXJ0ZWQgYnkKZGJiOTI0NzE2NzRhNDg4OTJmNWU1MDc3OTQy
-NWUwMzM4ODA3M2FiOQooaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
-bC9naXQvdG9ydmFsZHMvbGludXguZ2l0L2NvbW1pdC8/aWQ9ZGJiOTI0NzE2NzRhNDg4OTJmNWU1
-MDc3OTQyNWUwMzM4ODA3M2FiOSkKaW4gNS4yLiBTbyByYWR2IGlzIHN0aWxsIGJyb2tlbiBpbiA1
-LjEuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0
-Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM2NzkKCkRtaXRy
+eSAobnJuZGRhQGdtYWlsLmNvbSkgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAgICB8UmVtb3Zl
+ZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAg
+ICAgICAgICBVUkx8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxodHRwczovL2dpdC5rZXJu
+ZWwub3JnL3B1Yi8KICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfHNjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbAogICAgICAgICAgICAgICAgICAgfCAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8ZHMvbGludXguZ2l0L2NvbW1pdC8/aWQ9ZGJiCiAgICAg
+ICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHw5MjQ3MTY3NGE0ODg5
+MmY1ZTUwNzc5NDI1ZTAKICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfDMzODgwNzNhYjkKICAgICAgICAgUmVncmVzc2lvbnxObyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfFllcwoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZ
+b3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
