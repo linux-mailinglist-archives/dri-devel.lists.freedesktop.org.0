@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FC12669C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 17:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F692669D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 17:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E0789A1A;
-	Wed, 22 May 2019 15:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A40E189A74;
+	Wed, 22 May 2019 15:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id ECB37899DE
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 15:06:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E28EA72167; Wed, 22 May 2019 15:06:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107612] [Vega10] Hard Lock [gfxhub] VMC page fault when opening
- Mario Kart 8 in Cemu under wine
-Date: Wed, 22 May 2019 15:06:27 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: bibitocarlos@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-107612-502-8TeExVvP0L@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107612-502@http.bugs.freedesktop.org/>
-References: <bug-107612-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3EA89A74
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 15:06:38 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id D5AB2803D6;
+ Wed, 22 May 2019 17:06:35 +0200 (CEST)
+Date: Wed, 22 May 2019 17:06:34 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] drm/cirrus: remove leftover files
+Message-ID: <20190522150634.GA26677@ravnborg.org>
+References: <20190522103307.12711-1-kraxel@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190522103307.12711-1-kraxel@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=20KFwNOVAAAA:8
+ a=7gkXJVJtAAAA:8 a=Uddh69Z27F23pCbIwTIA:9 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,90 +45,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0770349002=="
+Cc: David Airlie <airlied@linux.ie>, Dave Airlie <airlied@redhat.com>,
+ open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ "open list:DRM DRIVER FOR QEMU'S CIRRUS DEVICE"
+ <virtualization@lists.linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0770349002==
-Content-Type: multipart/alternative; boundary="15585375860.b4b1b9ec8.12436"
-Content-Transfer-Encoding: 7bit
-
-
---15585375860.b4b1b9ec8.12436
-Date: Wed, 22 May 2019 15:06:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107612
-
---- Comment #7 from bibitocarlos <bibitocarlos@gmail.com> ---
-Yeah, it's fixed.
-thanks
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15585375860.b4b1b9ec8.12436
-Date: Wed, 22 May 2019 15:06:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [Vega10] Hard Lock [gfxhub] VMC page fault whe=
-n opening Mario Kart 8 in Cemu under wine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107612#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [Vega10] Hard Lock [gfxhub] VMC page fault whe=
-n opening Mario Kart 8 in Cemu under wine"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107612">bug 10761=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-bibitocarlos&#64;gmail.com" title=3D"bibitocarlos &lt;bibitocarlos&#64;gmai=
-l.com&gt;"> <span class=3D"fn">bibitocarlos</span></a>
-</span></b>
-        <pre>Yeah, it's fixed.
-thanks</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15585375860.b4b1b9ec8.12436--
-
---===============0770349002==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0770349002==--
+T24gV2VkLCBNYXkgMjIsIDIwMTkgYXQgMTI6MzM6MDdQTSArMDIwMCwgR2VyZCBIb2ZmbWFubiB3
+cm90ZToKPiBjaXJydXNfZHJ2LmggYW5kIGNpcnJ1c190dG0uYyBhcmUgdW51c2VkIHNpbmNlIGNv
+bW1pdCBhYjNlMDIzYjFiNGMKPiAoImRybS9jaXJydXM6IHJld3JpdGUgYW5kIG1vZGVybml6ZSBk
+cml2ZXIiKSwgYXBwYXJlbnRseSBJIHJhbiAicm0iCj4gaW5zdGVhZCBvZiAiZ2l0IHJtIiBvbiB0
+aGVtIHNvIHRoZXkgYXJlIHN0aWxsIGluIHByZXNlbnQgdGhlIHRyZWUuCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBTYW0g
+UmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CgpBbHdheXMgbmljZSB3aXRoIHRoZSBjb2RlIHJl
+bW92YWwgcGF0Y2hlcy4KV2lsbCB5b3UgYXBwbHkgeW91cnNlbGY/CgoJU2FtCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
