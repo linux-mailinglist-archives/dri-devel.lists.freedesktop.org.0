@@ -2,89 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925C4271C4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 23:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0596F271F4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 May 2019 23:53:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B53DF89C68;
-	Wed, 22 May 2019 21:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE37389B8F;
+	Wed, 22 May 2019 21:53:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917D489C63
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:39:02 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id 203so2781135oid.13
- for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 14:39:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=X8iUa3mR7n1QUqI0vPloid9MGvfKcIGgUfFxnULZ5+U=;
- b=bSMRpS7fb1BX5GB24+YMLwo0rGWQDbW3dUMjdKNxhjh+e2a3vfNry3jZ2guWFxN9Kz
- pCrOflO6X1BRU/Lr+JHWIZYWR1/gzTsEVDP/IFFgK6NKI5k/4Oiaq7T3peNf5d47CtXf
- P0OXDHRI40CJAF1tFTgaziw39SlMT4cAZObjj/YBPyE1bmExcp2ayF1TmPp8AIreKxuc
- gAFbtXv8kb5tNIuJBd/QXIs4wTc8joJorkcm/4Oo17wUduG77N+KzN+FNnlKGLvqiy6m
- 5LuPqP+2lOFPewne0h+GMgK2bwSaoWSMyw3irnV13AppXpLeGz/3qHjA02UmqT8A4nDZ
- bLmw==
-X-Gm-Message-State: APjAAAUG+iKEPQ6Sji+/XxjmNyZWvwNd5em8WlwaZFt5f+OrzTQLh3UD
- 9aumPayM3UF9Od6/+sH1C7hvjyCftt4mCYVpfKHs6A==
-X-Google-Smtp-Source: APXvYqwhyT9IyVUG9lkFu5kWtgvlKVPb/Q03tyBe4vbXVaiSv8N9Jry7yPQvyfivwOs/aXwiHN39BhvkHSSieLsYpPE=
-X-Received: by 2002:aca:55d6:: with SMTP id j205mr565451oib.137.1558561141083; 
- Wed, 22 May 2019 14:39:01 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8A3F489B8F
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 May 2019 21:53:12 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 750C972168; Wed, 22 May 2019 21:53:12 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110733] [Regression] Kernel 4.19.x + linux-firmware 20190514 +
+ Vega 64: boot fails
+Date: Wed, 22 May 2019 21:53:12 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mezin.alexander@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110733-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190509133551.GD29703@mit.edu>
- <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
- <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
- <20190509214233.GA20877@mit.edu>
- <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
- <20190511173344.GA8507@mit.edu>
- <20190513144451.GQ17751@phenom.ffwll.local>
- <20190514060433.GA181462@google.com>
- <CAKMK7uHqtSF_sazJTbFL+xmQJRk4iwukCKZHoDHhsKkLXk=ECQ@mail.gmail.com>
- <20190514183618.GC109557@google.com>
- <20190515074141.GY17751@phenom.ffwll.local>
-In-Reply-To: <20190515074141.GY17751@phenom.ffwll.local>
-From: Brendan Higgins <brendanhiggins@google.com>
-Date: Wed, 22 May 2019 14:38:48 -0700
-Message-ID: <CAFd5g476Hc+6jL5sV=VJamXCbqGebwHqqN9N9RppQYMCoo052Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To: Brendan Higgins <brendanhiggins@google.com>,
- "Theodore Ts'o" <tytso@mit.edu>, 
- Frank Rowand <frowand.list@gmail.com>, "Bird, Timothy" <Tim.Bird@sony.com>, 
- Knut Omang <knut.omang@oracle.com>, Greg KH <gregkh@linuxfoundation.org>, 
- Kees Cook <keescook@google.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- "Luis R. Rodriguez" <mcgrof@kernel.org>, Rob Herring <robh@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, devicetree <devicetree@vger.kernel.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, kunit-dev@googlegroups.com, 
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-fsdevel@vger.kernel.org, 
- linux-kbuild <linux-kbuild@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- linux-nvdimm <linux-nvdimm@lists.01.org>, 
- linux-um@lists.infradead.org, Sasha Levin <Alexander.Levin@microsoft.com>, 
- Amir Goldstein <amir73il@gmail.com>, Dan Carpenter <dan.carpenter@oracle.com>, 
- Dan Williams <dan.j.williams@intel.com>, Jeff Dike <jdike@addtoit.com>, 
- Joel Stanley <joel@jms.id.au>, Julia Lawall <julia.lawall@lip6.fr>, 
- Kevin Hilman <khilman@baylibre.com>, Logan Gunthorpe <logang@deltatee.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Petr Mladek <pmladek@suse.com>, 
- Richard Weinberger <richard@nod.at>, David Rientjes <rientjes@google.com>, 
- Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com, 
- Bjorn Helgaas <bhelgaas@google.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=X8iUa3mR7n1QUqI0vPloid9MGvfKcIGgUfFxnULZ5+U=;
- b=GDelsoqQolX8vZ500TJnYRTrvx7UvzJ51bjddO3LDssDGEV/KLjn45OPSK1LoHb+pt
- vMc4fO10d8rFO9cUXhUOasQS1z00mtA/aaww0itHgEjxtv6/EtX/A5C4yrS8r08gyITU
- TA04J0efipr8o8Xl0BPEGjp/KEY0bIEgjzBYUxRrb7zqAvNHGycq9491MnB/928cEorF
- vcRKUxoGSumKvZMwAn4LVEhN0I/8thaBrCFiTKXFw9vQen81eDnsqy70p43bZYFnR6bP
- AEdEBccKUY3heoXvT17IcKdkpcaihfJ0EloODJeeR+bHCXp13wWqqLlXuKmTMbFs7kR8
- kJzg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,137 +52,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1320827094=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-K0Jqb3JuIEhlbGdhYXMKCk9uIFdlZCwgTWF5IDE1LCAyMDE5IGF0IDEyOjQxIEFNIERhbmllbCBW
-ZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4gd3JvdGU6Cj4KPiBPbiBUdWUsIE1heSAxNCwgMjAxOSBh
-dCAxMTozNjoxOEFNIC0wNzAwLCBCcmVuZGFuIEhpZ2dpbnMgd3JvdGU6Cj4gPiBPbiBUdWUsIE1h
-eSAxNCwgMjAxOSBhdCAwMjowNTowNVBNICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4g
-PiBPbiBUdWUsIE1heSAxNCwgMjAxOSBhdCA4OjA0IEFNIEJyZW5kYW4gSGlnZ2lucwo+ID4gPiA8
-YnJlbmRhbmhpZ2dpbnNAZ29vZ2xlLmNvbT4gd3JvdGU6Cj4gPiA+ID4KPiA+ID4gPiBPbiBNb24s
-IE1heSAxMywgMjAxOSBhdCAwNDo0NDo1MVBNICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+
-ID4gPiA+ID4gT24gU2F0LCBNYXkgMTEsIDIwMTkgYXQgMDE6MzM6NDRQTSAtMDQwMCwgVGhlb2Rv
-cmUgVHMnbyB3cm90ZToKPiA+ID4gPiA+ID4gT24gRnJpLCBNYXkgMTAsIDIwMTkgYXQgMDI6MTI6
-NDBQTSAtMDcwMCwgRnJhbmsgUm93YW5kIHdyb3RlOgo+ID4gPiA+ID4gPiA+IEhvd2V2ZXIsIHRo
-ZSByZXBseSBpcyBpbmNvcnJlY3QuICBLc2VsZnRlc3QgaW4ta2VybmVsIHRlc3RzICh3aGljaAo+
-ID4gPiA+ID4gPiA+IGlzIHRoZSBjb250ZXh0IGhlcmUpIGNhbiBiZSBjb25maWd1cmVkIGFzIGJ1
-aWx0IGluIGluc3RlYWQgb2YgYXMKPiA+ID4gPiA+ID4gPiBhIG1vZHVsZSwgYW5kIGJ1aWx0IGlu
-IGEgVU1MIGtlcm5lbC4gIFRoZSBVTUwga2VybmVsIGNhbiBib290LAo+ID4gPiA+ID4gPiA+IHJ1
-bm5pbmcgdGhlIGluLWtlcm5lbCB0ZXN0cyBiZWZvcmUgVU1MIGF0dGVtcHRzIHRvIGludm9rZSB0
-aGUKPiA+ID4gPiA+ID4gPiBpbml0IHByb2Nlc3MuCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IFVt
-LCBDaXRhdGlvbiBuZWVkZWQ/Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEkgZG9uJ3Qgc2VlIGFu
-eSBldmlkZW5jZSBmb3IgdGhpcyBpbiB0aGUga3NlbGZ0ZXN0IGRvY3VtZW50YXRpb24sIG5vcgo+
-ID4gPiA+ID4gPiBkbyBJIHNlZSBhbnkgZXZpZGVuY2Ugb2YgdGhpcyBpbiB0aGUga3NlbGZ0ZXN0
-IE1ha2VmaWxlcy4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gVGhlcmUgZXhpc3RzIHRlc3QgbW9k
-dWxlcyBpbiB0aGUga2VybmVsIHRoYXQgcnVuIGJlZm9yZSB0aGUgaW5pdAo+ID4gPiA+ID4gPiBz
-Y3JpcHRzIHJ1biAtLS0gYnV0IHRoYXQncyBub3Qgc3RyaWN0bHkgc3BlYWtpbmcgcGFydCBvZiBr
-c2VsZnRlc3RzLAo+ID4gPiA+ID4gPiBhbmQgZG8gbm90IGhhdmUgYW55IGtpbmQgb2YgaW5mcmFz
-dHJ1Y3R1cmUuICBBcyBub3RlZCwgdGhlCj4gPiA+ID4gPiA+IGtzZWxmdGVzdHNfaGFybmVzcyBo
-ZWFkZXIgZmlsZSBmdW5kYW1lbnRhbGx5IGFzc3VtZXMgdGhhdCB5b3UgYXJlCj4gPiA+ID4gPiA+
-IHJ1bm5pbmcgdGVzdCBjb2RlIGluIHVzZXJzcGFjZS4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBZZWFo
-IEkgcmVhbGx5IGxpa2UgdGhlICJubyB1c2Vyc3BhY2UgcmVxdWlyZWQgYXQgYWxsIiBkZXNpZ24g
-b2Yga3VuaXQsCj4gPiA+ID4gPiB3aGlsZSBzdGlsbCBjb2xsZWN0aW5nIHJlc3VsdHMgaW4gYSB3
-ZWxsLWRlZmluZWQgd2F5ICh1bmxlc3MgdGhlIGN1cnJlbnQKPiA+ID4gPiA+IHNlbGYtdGVzdCB0
-aGF0IGp1c3QgcnVuIHdoZW4geW91IGxvYWQgdGhlIG1vZHVsZSwgd2l0aCBtYXliZSBzb21lCj4g
-PiA+ID4gPiBrc2VsZnRlc3QgYWQtaG9jIHdyYXBwZXIgYXJvdW5kIHRvIGNvbGxlY3QgdGhlIHJl
-c3VsdHMpLgo+ID4gPiA+ID4KPiA+ID4gPiA+IFdoYXQgSSB3YW50IHRvIGRvIGxvbmctdGVybSBp
-cyB0byBydW4gdGhlc2Uga2VybmVsIHVuaXQgdGVzdHMgYXMgcGFydCBvZgo+ID4gPiA+ID4gdGhl
-IGJ1aWxkLXRlc3RpbmcsIG1vc3QgbGlrZWx5IGluIGdpdGxhYiAoc29vbmVyIG9yIGxhdGVyLCBm
-b3IgZHJtLmdpdAo+ID4gPiA+Cj4gPiA+ID4gVG90YWxseSEgVGhpcyBpcyBwYXJ0IG9mIHRoZSBy
-ZWFzb24gSSBoYXZlIGJlZW4gaW5zaXN0aW5nIG9uIGEgbWluaW11bQo+ID4gPiA+IG9mIFVNTCBj
-b21wYXRpYmlsaXR5IGZvciBhbGwgdW5pdCB0ZXN0cy4gSWYgeW91IGNhbiBzdWZmaWVudGx5IGNv
-bnN0cmFpbgo+ID4gPiA+IHRoZSBlbnZpcm9ubWVudCB0aGF0IGlzIHJlcXVpcmVkIGZvciB0ZXN0
-cyB0byBydW4gaW4sIGl0IG1ha2VzIGl0IG11Y2gKPiA+ID4gPiBlYXNpZXIgbm90IG9ubHkgZm9y
-IGEgaHVtYW4gdG8gcnVuIHlvdXIgdGVzdHMsIGJ1dCBpdCBhbHNvIG1ha2VzIGl0IGEKPiA+ID4g
-PiBsb3QgZWFzaWVyIGZvciBhbiBhdXRvbWF0ZWQgc2VydmljZSB0byBiZSBhYmxlIHRvIHJ1biB5
-b3VyIHRlc3RzLgo+ID4gPiA+Cj4gPiA+ID4gSSBhY3R1YWxseSBoYXZlIGEgcHJvdG90eXBlIHBy
-ZXN1Ym1pdCBhbHJlYWR5IHdvcmtpbmcgb24gbXkKPiA+ID4gPiAic3RhYmxlL25vbi11cHN0cmVh
-bSIgYnJhbmNoLiBZb3UgY2FuIGNoZWNrb3V0IHdoYXQgcHJlc3VibWl0IHJlc3VsdHMKPiA+ID4g
-PiBsb29rIGxpa2UgaGVyZVsxXVsyXS4KPiA+ID4KPiA+ID4gdWcgZ2Vycml0IDotKQo+ID4KPiA+
-IFllYWgsIHllYWgsIEkga25vdywgYnV0IGl0IGlzIGEgbG90IGVhc2llciBmb3IgbWUgdG8gZ2V0
-IGEgcHJvamVjdCBzZXQKPiA+IHVwIGhlcmUgdXNpbmcgR2Vycml0LCB3aGVuIHdlIGFscmVhZHkg
-dXNlIHRoYXQgZm9yIGEgbG90IG9mIG90aGVyCj4gPiBwcm9qZWN0cy4KPiA+Cj4gPiBBbHNvLCBH
-ZXJyaXQgaGFzIGdvdHRlbiBhIGxvdCBiZXR0ZXIgb3ZlciB0aGUgbGFzdCB0d28geWVhcnMgb3Ig
-c28uIFR3bwo+ID4geWVhcnMgYWdvLCBJIHdvdWxkbid0IHRvdWNoIGl0IHdpdGggYSB0ZW4gZm9v
-dCBwb2xlLiBJdCdzIG5vdCBzbyBiYWQKPiA+IGFueW1vcmUsIGF0IGxlYXN0IGlmIHlvdSBhcmUg
-dXNlZCB0byB1c2luZyBhIHdlYiBVSSB0byByZXZpZXcgY29kZS4KPgo+IEkgd2FzIHNvbWV3aGF0
-IGpva2luZywgSSdtIGp1c3Qgbm90IHVzZWQgdG8gZ2Vycml0IC4uLiBBbmQgc2VlbXMgdG8gaW5k
-ZWVkCj4gYmUgYSBsb3QgbW9yZSBwb2xpc2hlZCB0aGFuIGxhc3QgdGltZSBJIGxvb2tlZCBhdCBp
-dCBzZXJpb3VzbHkuCgpJIG1lYW4sIGl0IGlzIHN0aWxsIG5vdCBwZXJmZWN0LCBidXQgSSB0aGlu
-ayBpdCBoYXMgZmluYWxseSBnb3R0ZW4gdG8KdGhlIHBvaW50IHdoZXJlIEkgcHJlZmVyIGl0IG92
-ZXIgcmV2aWV3aW5nIGJ5IGVtYWlsIGZvciBoaWdoIGNvbnRleHQKcGF0Y2hlcyB3aGVyZSB5b3Ug
-ZG9uJ3QgZXhwZWN0IGEgbG90IG9mIGRlZXAgZGlzY3Vzc2lvbi4KClN0aWxsIG5vdCBncmVhdCBm
-b3IgcGF0Y2hlcyB3aGVyZSB5b3Ugd2FudCB0byBoYXZlIGEgbG90IG9mIGRpc2N1c3Npb24uCgo+
-ID4gPiA+ID4gb25seSBvZmMpLiBTbyB0aGF0IHBlb3BsZSBnZXQgdGhlaXIgcHVsbCByZXF1ZXN0
-cyAoYW5kIHBhdGNoIHNlcmllcywgd2UKPiA+ID4gPiA+IGhhdmUgc29tZSBpZGVhcyB0byB0aWUg
-dGhpcyBpbnRvIHBhdGNod29yaykgYXV0b21hdGljYWxseSB0ZXN0ZWQgZm9yIHRoaXMKPiA+ID4g
-Pgo+ID4gPiA+IE1pZ2h0IHRoYXQgYmUgU25vd3BhdGNoWzNdPyBJIHRhbGtlZCB0byBSdXNzZWxs
-LCB0aGUgY3JlYXRvciBvZiBTbm93cGF0Y2gsCj4gPiA+ID4gYW5kIGhlIHNlZW1lZCBwcmV0dHkg
-b3BlbiB0byBjb2xsYWJvcmF0aW9uLgo+ID4gPiA+Cj4gPiA+ID4gQmVmb3JlIEkgaGVhcmQgYWJv
-dXQgU25vd3BhdGNoLCBJIGhhZCBhbiBpbnRlcm4gd3JpdGUgYSB0cmFuc2xhdGlvbgo+ID4gPiA+
-IGxheWVyIHRoYXQgbWFkZSBQcm93ICh0aGUgcHJlc3VibWl0IHNlcnZpY2UgdGhhdCBJIHVzZWQg
-aW4gdGhlIHByb3RvdHlwZQo+ID4gPiA+IGFib3ZlKSB3b3JrIHdpdGggTEtNTFs0XS4KPiA+ID4K
-PiA+ID4gVGhlcmUncyBhYm91dCAzLTQgZm9ya3MvY2xvbmVzIG9mIHBhdGNod29yay4gc25vd3Bh
-dGNoIGlzIG9uZSwgd2UgaGF2ZQo+ID4gPiBhIGRpZmZlcmVudCBvbmUgb24gZnJlZWRlc2t0b3Au
-b3JnLiBJdCdzIGEgYml0IGEgbWVzcyA6LS8KCkkgdGhpbmsgU25vd3BhdGNoIGlzIGFuIG96bGFi
-cyBwcm9qZWN0OyBhdCBsZWFzdCB0aGUgbWFpbnRhaW5lciB3b3JrcyBhdCBJQk0uCgpQYXRjaHdv
-cmsgb3JpZ2luYWxseSB3YXMgYSBvemxhYnMgcHJvamVjdCwgcmlnaHQ/CgpIYXMgYW55IGRpc2N1
-c3Npb24gdGFrZW4gcGxhY2UgdHJ5aW5nIHRvIGNvbnNvbGlkYXRlIHNvbWUgb2YgdGhlIGZvcmtz
-PwoKUHJlc3VibWl0IGNsZWFybHkgc2VlbXMgbGlrZSBhIGZlYXR1cmUgdGhhdCBhIG51bWJlciBv
-ZiBwZW9wbGUgd2FudC4KCj4gPiBPaCwgSSBkaWRuJ3QgcmVhbGl6ZSB0aGF0LiBJIGZvdW5kIHlv
-dXIgcGF0Y2h3b3JrIGluc3RhbmNlIGhlcmVbNV0sIGJ1dAo+ID4gZG8geW91IGhhdmUgYSBwbGFj
-ZSB3aGVyZSBJIGNhbiBzZWUgdGhlIGNoYW5nZXMgeW91IGhhdmUgYWRkZWQgdG8KPiA+IHN1cHBv
-cnQgcHJlc3VibWl0Pwo+Cj4gT2sgaGVyZSdzIGEgZmV3IGxpbmtzLiBBc2lkZSBmcm9tIHRoZSB1
-c3VhbCBwYXRjaCB2aWV3IHdlJ3ZlIGFsc28gYWRkZWQgYQo+IHNlcmllcyB2aWV3Ogo+Cj4gaHR0
-cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Byb2plY3QvaW50ZWwtZ2Z4L3Nlcmllcy8/
-b3JkZXJpbmc9LWxhc3RfdXBkYXRlZAo+Cj4gVGhpcyB0aWVzIHRoZSBwYXRjaGVzICsgY292ZXIg
-bGV0dGVyIHRvZ2V0aGVyLCBhbmQgaXQgZXZlbiAodHJpZXMgdG8gYXQKPiBsZWFzdCkgdHJhY2sg
-cmV2aXNpb25zLiBIZXJlJ3MgYW4gZXhhbXBsZSB3aGljaCBpcyBjdXJyZW50bHkgYXQgcmV2aXNp
-b24KPiA5Ogo+Cj4gaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy81NzIz
-Mi8KCk9vb2gsIG5pY2UhIFRoYXQgbG9va3MgYXdlc29tZSEgTG9va3MgbGlrZSB5b3UgaGF2ZSBh
-IG51bWJlciBvZiBwcmVzdWJtaXRzIHRvby4KCj4gQmVsb3cgdGhlIHBhdGNoIGxpc3QgZm9yIGVh
-Y2ggcmV2aXNpb24gd2UgYWxzbyBoYXZlIHRoZSB0ZXN0IHJlc3VsdCBsaXN0Lgo+IElmIHlvdSBj
-bGljayBvbiB0aGUgZ3JleSBiYXIgaXQnbGwgZXhwYW5kIHdpdGggdGhlIHN1bW1hcnkgZnJvbSBD
-SSwgdGhlCj4gIlNlZSBmdWxsIGxvZ3MiIGlzIGxpbmsgdG8gdGhlIGZ1bGwgcmVzdWx0cyBmcm9t
-IG91ciBDSS4gVGhpcyBpcyBkcml2ZW4KPiB3aXRoIHNvbWUgUkVTVCBhcGkgZnJvbSBvdXIgamVu
-a2lucy4KPgo+IFBhdGNod29yayBhbHNvIHNlbmRzIG91dCBtYWlscyBmb3IgdGhlc2UgcmVzdWx0
-cy4KCk5pY2UhIFRoZXJlIGFyZSBvYnZpb3VzbHkgYSBsb3Qgb2Ygb3RoZXIgYm90cyBvbiB2YXJp
-b3VzIGtlcm5lbAptYWlsaW5nIGxpc3RzLiBEbyB5b3UgdGhpbmsgcGVvcGxlIHdvdWxkIG9iamVj
-dCB0byBzZW5kaW5nIHByZXN1Ym1pdApyZXN1bHRzIHRvIHRoZSBtYWlsaW5nIGxpc3RzIGJ5IGRl
-ZmF1bHQ/Cgo+IFNvdXJjZSBpcyBvbiBnaXRsYWI6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9w
-Lm9yZy9wYXRjaHdvcmstZmRvCgpFcnIsIGxvb2tzIGxpa2UgeW91IGZvcmtlZCBmcm9tIHRoZSBv
-emxhYidzIHJlcG8gYSBnb29kIHdoaWxlIGFnby4KClN0aWxsLCB0aGlzIGFsbCBsb29rcyBncmVh
-dCEKCj4gPiA+ID4gSSBhbSBub3QgbWFycmllZCB0byBlaXRoZXIgYXBwcm9hY2gsIGJ1dCBJIHRo
-aW5rIGJldHdlZW4gdGhlIHR3byBvZgo+ID4gPiA+IHRoZW0sIG1vc3Qgb2YgdGhlIGluaXRpYWwg
-bGVnd29yayBoYXMgYmVlbiBkb25lIHRvIG1ha2UgcHJlc3VibWl0IG9uCj4gPiA+ID4gTEtNTCBh
-IHJlYWxpdHkuCj4gPiA+Cj4gPiA+IFdlIGRvIGhhdmUgcHJlc3VibWl0IENJIHdvcmtpbmcgYWxy
-ZWFkeSB3aXRoIG91ciBmcmVlZGVza3RvcC5vcmcKPiA+ID4gcGF0Y2h3b3JrLiBUaGUgbWlzc2lu
-ZyBnbHVlIGlzIGp1c3QgdHlpbmcgdGhhdCBpbnRvIGdpdGxhYiBDSSBzb21laG93Cj4gPiA+IChz
-aW5jZSB3ZSB3YW50IHRvIHVuaWZ5IGJ1aWxkIHRlc3RpbmcgbW9yZSBhbmQgbWFrZSBpdCBlYXNp
-ZXIgZm9yCj4gPiA+IGNvbnRyaWJ1dG9ycyB0byBhZGp1c3QgdGhpbmdzKS4KPiA+Cj4gPiBJIGNo
-ZWNrZWQgb3V0IGEgY291cGxlIG9mIHlvdXIgcHJvamVjdHMgb24geW91ciBwYXRjaHdvcmsgaW5z
-dGFuY2U6IEFNRAo+ID4gWC5PcmcgZHJpdmVycywgRFJJIGRldmVsLCBhbmQgV2F5bGFuZC4gSSBz
-YXcgdGhlIHRhYiB5b3UgYWRkZWQgZm9yCj4gPiB0ZXN0cywgYnV0IG5vbmUgb2YgdGhlbSBhY3R1
-YWxseSBoYWQgYW55IHRlc3QgcmVzdWx0cy4gQ2FuIHlvdSBwb2ludCBtZQo+ID4gYXQgb25lIHRo
-YXQgZG9lcz8KPgo+IEF0bSB3ZSB1c2UgdGhlIENJIHN0dWZmIG9ubHkgb24gaW50ZWwtZ2Z4LCB3
-aXRoIHRoZSBvdXIgZ3B1IENJIGZhcm0sIHNlZQo+IGxpbmtzIGFib3ZlLgo+Cj4gQ2hlZXJzLCBE
-YW5pZWwKPgo+ID4KPiA+IENoZWVycyEKPiA+Cj4gPiBbNV0gaHR0cHM6Ly9wYXRjaHdvcmsuZnJl
-ZWRlc2t0b3Aub3JnLwo+ID4KPiA+ID4gPiA+IHN1cGVyIGJhc2ljIHN0dWZmLgo+ID4gPiA+Cj4g
-PiA+ID4gSSBhbSByZWFsbHkgZXhjaXRlZCB0byBoZWFyIGJhY2sgb24gd2hhdCB5b3UgdGhpbmsh
-Cj4gPiA+ID4KPiA+ID4gPiBDaGVlcnMhCj4gPiA+ID4KPiA+ID4gPiBbMV0gaHR0cHM6Ly9rdW5p
-dC1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL2xpbnV4LysvMTUwOS8xMCNtZXNzYWdlLTdiZmE0
-MGVmYjEzMmUxNWM4Mzg4NzU1YzI3MzgzNzU1OTkxMTQyNWMKPiA+ID4gPiBbMl0gaHR0cHM6Ly9r
-dW5pdC1yZXZpZXcuZ29vZ2xlc291cmNlLmNvbS9jL2xpbnV4LysvMTUwOS8xMCNtZXNzYWdlLWE2
-Nzg0NDk2ZWFmZmY0NDJhYzk4ZmIwNjhiZjFhMGYzNmVlNzM1MDkKPiA+ID4gPiBbM10gaHR0cHM6
-Ly9kZXZlbG9wZXIuaWJtLmNvbS9vcGVuL3Byb2plY3RzL3Nub3dwYXRjaC8KPiA+ID4gPiBbNF0g
-aHR0cHM6Ly9rdW5pdC5nb29nbGVzb3VyY2UuY29tL3Byb3ctbGttbC8KPiA+ID4gPiBfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gPiA+IGRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKPiA+ID4gPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-PiA+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwKCkNoZWVycyEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============1320827094==
+Content-Type: multipart/alternative; boundary="15585619921.3ddCBEE.14520"
+Content-Transfer-Encoding: 7bit
+
+
+--15585619921.3ddCBEE.14520
+Date: Wed, 22 May 2019 21:53:12 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110733
+
+            Bug ID: 110733
+           Summary: [Regression] Kernel 4.19.x + linux-firmware 20190514 +
+                    Vega 64: boot fails
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: mezin.alexander@gmail.com
+
+Copying https://bugzilla.kernel.org/show_bug.cgi?id=3D203627 here, as I'm n=
+ot
+sure where to report the issue (and got no response in kernel bugzilla so f=
+ar)
+
+After linux-firmware upgrade from 4b6cf2bd1a9d53caa087403d943e7695009c1d0c =
+to
+711d3297bac870af42088a467459a0634c1970ca (20190514), 4.19 kernels (at least
+4.19.40-4.19.45) don't boot anymore. Early during boot the monitor turns of=
+f,
+and, apparently, the system hangs. Can't connect over SSH, SysRq keys don't
+work. Also the failed boot attempt doesn't get recorded by journald.
+
+Kernels 5.0 and 5.1 still boot completely fine. Also, 4.19 kernels boot if I
+downgrade firmware back to 4b6cf2bd1a9d53caa087403d943e7695009c1d0c.
+
+Apparently, these problems are caused by
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git=
+/commit/?id=3D2579167548be33afb1fe2a9a5c141561ee5a8bbe
+
+GPU: RX Vega 64 (Sapphire Nitro+, vbios_version: 113-D0500110-O01)
+Distro: Arch Linux
+Archlinux bug: https://bugs.archlinux.org/task/62666
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15585619921.3ddCBEE.14520
+Date: Wed, 22 May 2019 21:53:12 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression] Kernel 4.19.x + linux-firmware 20190514 + Ve=
+ga 64: boot fails"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110733">110733</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[Regression] Kernel 4.19.x + linux-firmware 20190514 + Vega 6=
+4: boot fails
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>mezin.alexander&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Copying <a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=
+=3D203627">https://bugzilla.kernel.org/show_bug.cgi?id=3D203627</a> here, a=
+s I'm not
+sure where to report the issue (and got no response in kernel bugzilla so f=
+ar)
+
+After linux-firmware upgrade from 4b6cf2bd1a9d53caa087403d943e7695009c1d0c =
+to
+711d3297bac870af42088a467459a0634c1970ca (20190514), 4.19 kernels (at least
+4.19.40-4.19.45) don't boot anymore. Early during boot the monitor turns of=
+f,
+and, apparently, the system hangs. Can't connect over SSH, SysRq keys don't
+work. Also the failed boot attempt doesn't get recorded by journald.
+
+Kernels 5.0 and 5.1 still boot completely fine. Also, 4.19 kernels boot if I
+downgrade firmware back to 4b6cf2bd1a9d53caa087403d943e7695009c1d0c.
+
+Apparently, these problems are caused by
+<a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-f=
+irmware.git/commit/?id=3D2579167548be33afb1fe2a9a5c141561ee5a8bbe">https://=
+git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/=
+?id=3D2579167548be33afb1fe2a9a5c141561ee5a8bbe</a>
+
+GPU: RX Vega 64 (Sapphire Nitro+, vbios_version: 113-D0500110-O01)
+Distro: Arch Linux
+Archlinux bug: <a href=3D"https://bugs.archlinux.org/task/62666">https://bu=
+gs.archlinux.org/task/62666</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15585619921.3ddCBEE.14520--
+
+--===============1320827094==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1320827094==--
