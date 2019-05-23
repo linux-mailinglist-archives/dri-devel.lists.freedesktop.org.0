@@ -2,44 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9301B28B31
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 22:01:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D222B454
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:06:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B97E89F5F;
-	Thu, 23 May 2019 20:01:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5504D89DA8;
+	Mon, 27 May 2019 12:04:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 39D5489F6B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 20:01:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3729F72167; Thu, 23 May 2019 20:01:33 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110701] GPU faults in in Unigine Valley 1.0
-Date: Thu, 23 May 2019 20:01:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haagch@frickel.club
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110701-502-LI0e3sBbBn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110701-502@http.bugs.freedesktop.org/>
-References: <bug-110701-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51FE89F6E
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 20:08:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id 4926626117E
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Sebastian Reichel <sre@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Tony Lindgren <tony@atomide.com>, Pavel Machek <pavel@ucw.cz>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCHv6 0/4] omapdrm: DSI command mode panel support
+Date: Thu, 23 May 2019 22:07:52 +0200
+Message-Id: <20190523200756.25314-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,114 +36,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1113493697=="
+Cc: kernel@collabora.com, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1113493697==
-Content-Type: multipart/alternative; boundary="15586416932.C5Ad9.30152"
-Content-Transfer-Encoding: 7bit
-
-
---15586416932.C5Ad9.30152
-Date: Thu, 23 May 2019 20:01:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110701
-
---- Comment #25 from Christoph Haag <haagch@frickel.club> ---
-(In reply to Yury Zhuravlev from comment #24)
-> (In reply to Marek Ol=C5=A1=C3=A1k from comment #23)
-> > Fixed by d6053bf2a170a0fec6d232fda097d2f35f0e9eae. Closing.
->=20
-> The original issue was about Vega and on Vega we saw a different problem.=
- I
-> suppose before close issue somebody should check patch on Vega.=20
-> I will do it soon.
-
-Since nobody responded: On a Vega 64 I got GPU faults like the ones posted =
-here
-followed by a GPU hang immediately when restoring a firefox (nightly) sessi=
-on.
-With mesa master this does not happen anymore.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15586416932.C5Ad9.30152
-Date: Thu, 23 May 2019 20:01:33 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - GPU faults in in Unigine Valley 1.0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701#c25">Comme=
-nt # 25</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - GPU faults in in Unigine Valley 1.0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110701">bug 11070=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haagch&#64;frickel.club" title=3D"Christoph Haag &lt;haagch&#64;frickel.clu=
-b&gt;"> <span class=3D"fn">Christoph Haag</span></a>
-</span></b>
-        <pre>(In reply to Yury Zhuravlev from <a href=3D"show_bug.cgi?id=3D=
-110701#c24">comment #24</a>)
-<span class=3D"quote">&gt; (In reply to Marek Ol=C5=A1=C3=A1k from <a href=
-=3D"show_bug.cgi?id=3D110701#c23">comment #23</a>)
-&gt; &gt; Fixed by d6053bf2a170a0fec6d232fda097d2f35f0e9eae. Closing.
-&gt;=20
-&gt; The original issue was about Vega and on Vega we saw a different probl=
-em. I
-&gt; suppose before close issue somebody should check patch on Vega.=20
-&gt; I will do it soon.</span >
-
-Since nobody responded: On a Vega 64 I got GPU faults like the ones posted =
-here
-followed by a GPU hang immediately when restoring a firefox (nightly) sessi=
-on.
-With mesa master this does not happen anymore.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15586416932.C5Ad9.30152--
-
---===============1113493697==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1113493697==--
+SGksCgpIZXJlIGlzIGFub3RoZXIgcm91bmQgb2YgdGhlIERTSSBjb21tYW5kIG1vZGUgcGFuZWwg
+cGF0Y2hzZXQKaW50ZWdyYXRpbmcgdGhlIGZlZWRiYWNrIGZyb20gUEFUQ0h2NS4gVGhlIHBhdGNo
+ZXMgYXJlIGJhc2VkCm9uIHY1LjItcmMxIHRhZy4gSXQgZG9lcyBub3QgY29udGFpbiB0aGUgcGF0
+Y2hlcyByZXF1aXJlZCBmb3IKT01BUDMgc3VwcG9ydCAoaXQgbmVlZHMgYSB3b3JrYXJvdW5kIGZv
+ciBhIGhhcmR3YXJlIGJ1ZykgYW5kCmZvciBhdXRvbWF0aWMgZGlzcGxheSByb3RhdGlvbi4gVGhl
+eSBzaG91bGQgZ2V0IHRoZWlyIG93biBzZXJpZXMsCm9uY2UgYWZ0ZXIgZXZlcnl0aGluZyBoYXMg
+YmVlbiBtb3ZlZCB0byBEUk0gcGFuZWwgQVBJLiBJIHRoaW5rCkRSTSBwYW5lbCBjb252ZXJzaW9u
+IHNob3VsZCBoYXBwZW4gX2FmdGVyXyB0aGlzIHNlcmllcywgc2luY2UKb3RoZXJ3aXNlIHRoZXJl
+IGlzIGEgaGlnaCByaXNrIG9mIGJyaWNraW5nIERTSSBzdXBwb3J0IGNvbXBsZXRlbHkuCkkgYWxy
+ZWFkeSBzdGFydGVkIGEgV0lQIGJyYW5jaCBmb3IgY29udmVydGluZyBEU0kgdG8gdGhlIERSTSBw
+YW5lbApBUEkgb24gdG9wIG9mIHRoaXMgcGF0Y2hzZXQuCgpUZXN0ZWQgb24gRHJvaWQgNDoKICog
+RGlzcGxheSBibGFua2luZwogIC0gYXV0b21hdGljIGJhY2tsaWdodCBibGFua2luZyBpcyBtaXNz
+aW5nIChub3QgaGFuZGxlZCBieSBEU0kpCiAqIEZyYW1lYnVmZmVyIENvbnNvbGUsIHVwZGF0ZWQg
+YXQgMUh6IGR1ZSB0byBibGlua2luZyBjdXJzb3IKICogWG9yZyAxLjE5IHdpdGggbW9kZXNldHRp
+bmcgZHJpdmVyCiAqIFdlc3RvbiA1LjAgd2l0aCBEUk0gYmFja2VuZAogKiBrbXN0ZXN0IChzdGF0
+aWMgaW1hZ2UpCiAqIE5vIHVwZGF0ZXMgc2VuZCB3aGVuIG5vdGhpbmcgbmVlZHMgdG8gYmUgc2Vu
+dAoKS25vd24gaXNzdWVzOgogKiBPTUFQMyBpcyB1bnRlc3RlZCBhbmQgbW9zdCBsaWtlbHkgYnJv
+a2VuIGR1ZSB0byBtaXNzaW5nCiAgIHdvcmthcm91bmQocykgZm9yIGhhcmR3YXJlIGJ1Z3MuCiAq
+IFdlc3RvbiA1LjAgd2l0aCBmYmRldiBiYWNrZW5kIGRvZXMgbm90IHdvcmssIHNpbmNlIGl0CiAg
+IHVzZXMgbmVpdGhlciBwYWdlIGZsaXAgbm9yIGRpcnR5IGlvY3RsLiBZb3UgbmVlZCB0byB1c2UK
+ICAgdGhlIGRybSBiYWNrZW5kLgoKQ2hhbmdlcyBzaW5jZSBQQVRDSHY1OgogKiBSZWJhc2VkIHRv
+IHY1LjItcmMxCiAqIFNpbXBsaWZpZWQgb21hcF9mcmFtZWJ1ZmZlcl9kaXJ0eSgpIGJ5IHVzaW5n
+CiAgIGRybV9mb3JfZWFjaF9jcnRjKCkKCkNoYW5nZXMgc2luY2UgUEFUQ0h2NDoKICogQXBwbHkg
+QWNrZWQtL1Rlc3RlZC1ieSByZWNlaXZlZCBmcm9tIFRvbnkgYW5kIFBhdmVsCiAqIEZpeCBzcGVs
+bGluZy9vcHRpbWl6ZSBjb21taXQgbWVzc2FnZXMKICogVXNlIHByb3BlciBtdWx0aS1saW5lIGNv
+bW1lbnRzCiAqIFJlc3RydWN0dXJlIHBhdGNoIDQ6IG1vdmUgdGhlIHdob2xlIEhETUkgYmxvY2sg
+aW50byBhCiAgIHN0YXRpYyBzdWJmdW5jdGlvbiwgdGhhdCBpcyBvbmx5IGNhbGxlZCB3aGVuIG91
+dHB1dAogICB0eXBlIGlzIEhETUkuIEFsc28gZHJvcCB0aGUgaW5jb3JyZWN0IGNoZWNrIGZvciBE
+VkkuCgpDaGFuZ2VzIHNpbmNlIFBBVENIdjM6CiAqIERyb3AgYWxsIFRlc3RlZC9BY2tlZC1ieSB0
+YWdzCiAqIERyb3AgdGhlIHJvdGF0aW9uIHBhdGNoZXMgZm9yIG5vdwogKiBSZWJhc2UgdG8gNC4y
+MC1yYzEgKyBmaXhlcyBmcm9tIExhdXJlbnQgYW5kIFRvbnkKICogQWRkIGZpeGVzIGZvciBEU0kg
+cmVncmVzc2lvbnMgaW50cm9kdWNlZCBpbiA0LjIwLXJjMQogKiBTdG9yZSBpbmZvIHVwZGF0ZSBt
+YW51YWwgdXBkYXRlIG1vZGUgaW4gb21hcF9jcnRjX3N0YXRlCiAqIExvY2sgbW9kZXNldHRpbmcg
+aW4gb21hcF9mcmFtZWJ1ZmZlcl9kaXJ0eQogKiBEaXJlY3RseSBsb29wIHRocm91Z2ggQ1JUQ3Mg
+aW5zdGVhZCBvZiBjb25uZWN0b3JzIGluIGRpcnR5IGZ1bmN0aW9uCiAqIFByb3Blcmx5IHJlZnJl
+c2ggZGlzcGxheSBkdXJpbmcgcGFnZSBmbGlwcyBhbmQgZ2V0IFdlc3RvbiB3b3JraW5nCiAqIEFk
+ZCBtb3JlIGNvbW1lbnRzIGFib3V0IGltcGxlbWVudGF0aW9uIGRldGFpbHMKCkNoYW5nZXMgc2lu
+Y2UgUEFUQ0h2MjoKICogRHJvcCBvbWFwMyBxdWlyayBwYXRjaCAoT01BUDMgc2hvdWxkIGdldCBp
+dHMgb3duIG1pbmktc2VyaWVzKQogKiBSZWJhc2UgdG8gY3VycmVudCBsaW51eC1uZXh0CiAqIFVz
+ZSBleGlzdGluZyAncm90YXRpb24nIERUIHByb3BlcnR5IHRvIHNldCBEUk0gb3JpZW50YXRpb24g
+aGludAogKiBBZGQgVGVzdGVkLWJ5IGZyb20gVG9ueQoKQ2hhbmdlcyBzaW5jZSBQQVRDSHYxOgog
+KiBEcm9wIHBhdGNoZXMsIHRoYXQgd2VyZSBxdWV1ZWQgYnkgVG9taQogKiBSZWJhc2UgdG8gY3Vy
+cmVudCBtYXN0ZXIKICogUmV3b3JrIHRoZSBvbWFwMyB3b3JrYXJvdW5kIHBhdGNoIHRvIG9ubHkg
+YWZmZWN0IG9tYXAzCiAqIEFkZCBvcmllbnRhdGlvbiBEUk0gcHJvcGVydHkgc3VwcG9ydAoKLS0g
+U2ViYXN0aWFuCgpTZWJhc3RpYW4gUmVpY2hlbCAoNCk6CiAgZHJtL29tYXA6IHVzZSBEUk1fREVC
+VUdfRFJJVkVSIGluc3RlYWQgb2YgQ09SRQogIGRybS9vbWFwOiBkb24ndCBjaGVjayBkaXNwYyB0
+aW1pbmdzIGZvciBEU0kKICBkcm0vb21hcDogYWRkIGZyYW1lZG9uZSBpbnRlcnJ1cHQgc3VwcG9y
+dAogIGRybS9vbWFwOiBhZGQgc3VwcG9ydCBmb3IgbWFudWFsbHkgdXBkYXRlZCBkaXNwbGF5cwoK
+IGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfY3J0Yy5jIHwgMTgyICsrKysrKysrKysrKysr
+KysrKysrKysrKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfY3J0Yy5oIHwgICAy
+ICsKIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZHJ2LmggIHwgICA0ICstCiBkcml2ZXJz
+L2dwdS9kcm0vb21hcGRybS9vbWFwX2ZiLmMgICB8ICAxOSArKysKIGRyaXZlcnMvZ3B1L2RybS9v
+bWFwZHJtL29tYXBfaXJxLmMgIHwgIDI1ICsrKysKIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29t
+YXBfaXJxLmggIHwgICAxICsKIDYgZmlsZXMgY2hhbmdlZCwgMjIyIGluc2VydGlvbnMoKyksIDEx
+IGRlbGV0aW9ucygtKQoKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
