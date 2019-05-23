@@ -1,41 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 337E628811
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8362F28652
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:09:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 319B26E062;
-	Thu, 23 May 2019 19:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D11A16E064;
+	Thu, 23 May 2019 19:09:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C201589DCF;
- Thu, 23 May 2019 19:30:20 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 24FEB217D7;
- Thu, 23 May 2019 19:30:19 +0000 (UTC)
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.1 096/122] PCI: Reset Lenovo ThinkPad P50 nvgpu at boot if
- necessary
-Date: Thu, 23 May 2019 21:06:58 +0200
-Message-Id: <20190523181717.889796516@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190523181705.091418060@linuxfoundation.org>
-References: <20190523181705.091418060@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 007E06E061
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 19:09:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id ECC9872167; Thu, 23 May 2019 19:09:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110217] RX580: screen turns black or flickers until forced
+ reconfiguration
+Date: Thu, 23 May 2019 19:09:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: numzer0@yandex.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110217-502-CmhNtQxMxU@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110217-502@http.bugs.freedesktop.org/>
+References: <bug-110217-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1558639820;
- bh=Wrox4qTEQPbr5+6ELzZ2IUMc6lAtK5/Gm7lshHxMJB0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mdIVpwYJES/EPHa1Hq3FAw/ZSKeqNUrsD7PqSfg/K50dvCdHtvSfYkiSFuO7Une43
- 9aRqi3WePfznkqECnyG+KOqNv8nim4ILm0swThgBLMlkbKnTT1I49CWdf/h8h+Fx+u
- FyFe+fV43kdlAPp4tAFr7easI4mZvmSJ9y/bZtr0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,121 +53,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- nouveau@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1432521771=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KCmNvbW1pdCBlMDU0N2M4MWJmY2Zh
-ZDAxY2JiZmE5M2E1ZTY2YmI5OGFiOTMyZjgwIHVwc3RyZWFtLgoKT24gVGhpbmtQYWQgUDUwIFNL
-VXMgd2l0aCBhbiBOdmlkaWEgUXVhZHJvIE0xMDAwTSBpbnN0ZWFkIG9mIHRoZSBNMjAwME0KdmFy
-aWFudCwgdGhlIEJJT1MgZG9lcyBub3QgYWx3YXlzIHJlc2V0IHRoZSBzZWNvbmRhcnkgTnZpZGlh
-IEdQVSBkdXJpbmcKcmVib290IGlmIHRoZSBsYXB0b3AgaXMgY29uZmlndXJlZCBpbiBIeWJyaWQg
-R3JhcGhpY3MgbW9kZS4gIFRoZSByZWFzb24gaXMKdW5rbm93biwgYnV0IHRoZSBmb2xsb3dpbmcg
-c3RlcHMgYW5kIHBvc3NpYmx5IGEgZ29vZCBiaXQgb2YgcGF0aWVuY2Ugd2lsbApyZXByb2R1Y2Ug
-dGhlIGlzc3VlOgoKICAxLiBCb290IHVwIHRoZSBsYXB0b3Agbm9ybWFsbHkgaW4gSHlicmlkIEdy
-YXBoaWNzIG1vZGUKICAyLiBNYWtlIHN1cmUgbm91dmVhdSBpcyBsb2FkZWQgYW5kIHRoYXQgdGhl
-IEdQVSBpcyBhd2FrZQogIDMuIEFsbG93IHRoZSBOdmlkaWEgR1BVIHRvIHJ1bnRpbWUgc3VzcGVu
-ZCBpdHNlbGYgYWZ0ZXIgYmVpbmcgaWRsZQogIDQuIFJlYm9vdCB0aGUgbWFjaGluZSwgdGhlIG1v
-cmUgc3VkZGVuIHRoZSBiZXR0ZXIgKGUuZy4gc3lzcnEtYiBtYXkgaGVscCkKICA1LiBJZiBub3V2
-ZWF1IGxvYWRzIHVwIHByb3Blcmx5LCByZWJvb3QgdGhlIG1hY2hpbmUgYWdhaW4gYW5kIGdvIGJh
-Y2sgdG8KICAgICBzdGVwIDIgdW50aWwgeW91IHJlcHJvZHVjZSB0aGUgaXNzdWUKClRoaXMgcmVz
-dWx0cyBpbiBzb21lIHZlcnkgc3RyYW5nZSBiZWhhdmlvcjogdGhlIEdQVSB3aWxsIGJlIGxlZnQg
-aW4gZXhhY3RseQp0aGUgc2FtZSBzdGF0ZSBpdCB3YXMgaW4gd2hlbiB0aGUgcHJldmlvdXNseSBi
-b290ZWQga2VybmVsIHN0YXJ0ZWQgdGhlCnJlYm9vdC4gIFRoaXMgaGFzIGFsbCBzb3J0cyBvZiBi
-YWQgc2lkZSBlZmZlY3RzOiBmb3Igc3RhcnRlcnMsIHRoaXMKY29tcGxldGVseSBicmVha3Mgbm91
-dmVhdSBzdGFydGluZyB3aXRoIGEgbXlzdGVyaW91cyBFVk8gY2hhbm5lbCBmYWlsdXJlCnRoYXQg
-aGFwcGVucyB3ZWxsIGJlZm9yZSB3ZSd2ZSBhY3R1YWxseSB1c2VkIHRoZSBFVk8gY2hhbm5lbCBm
-b3IgYW55dGhpbmc6CgogIG5vdXZlYXUgMDAwMDowMTowMC4wOiBkaXNwOiBjaGlkIDAgbXRoZCAw
-MDAwIGRhdGEgMDAwMDA0MDAgMDAwMDEwMDAgMDAwMDAwMDIKClRoaXMgY2F1c2VzIGEgdGltZW91
-dCB0cnlpbmcgdG8gYnJpbmcgdXAgdGhlIEdSIGN0eDoKCiAgbm91dmVhdSAwMDAwOjAxOjAwLjA6
-IHRpbWVvdXQKICBXQVJOSU5HOiBDUFU6IDAgUElEOiAxMiBhdCBkcml2ZXJzL2dwdS9kcm0vbm91
-dmVhdS9udmttL2VuZ2luZS9nci9jdHhnZjEwMC5jOjE1NDcgZ2YxMDBfZ3JjdHhfZ2VuZXJhdGUr
-MHg3YjIvMHg4NTAgW25vdXZlYXVdCiAgSGFyZHdhcmUgbmFtZTogTEVOT1ZPIDIwRVFTNjROMEIv
-MjBFUVM2NE4wQiwgQklPUyBOMUVFVDgyVyAoMS41NSApIDEyLzE4LzIwMTgKICBXb3JrcXVldWU6
-IGV2ZW50c19sb25nIGRybV9kcF9tc3RfbGlua19wcm9iZV93b3JrIFtkcm1fa21zX2hlbHBlcl0K
-ICAuLi4KICBub3V2ZWF1IDAwMDA6MDE6MDAuMDogZ3I6IHdhaXQgZm9yIGlkbGUgdGltZW91dCAo
-ZW46IDEsIGN0eHN3OiAwLCBidXN5OiAxKQogIG5vdXZlYXUgMDAwMDowMTowMC4wOiBncjogd2Fp
-dCBmb3IgaWRsZSB0aW1lb3V0IChlbjogMSwgY3R4c3c6IDAsIGJ1c3k6IDEpCiAgbm91dmVhdSAw
-MDAwOjAxOjAwLjA6IGZpZm86IGZhdWx0IDAxIFtXUklURV0gYXQgMDAwMDAwMDAwMDAwODAwMCBl
-bmdpbmUgMDAgW0dSXSBjbGllbnQgMTUgW0hVQi9TQ0NfTkJdIHJlYXNvbiBjNCBbXSBvbiBjaGFu
-bmVsIC0xIFswMDAwMDAwMDAwIHVua25vd25dCgpUaGUgR1BVIG5ldmVyIG1hbmFnZXMgdG8gcmVj
-b3Zlci4gIEJvb3Rpbmcgd2l0aG91dCBsb2FkaW5nIG5vdXZlYXUgY2F1c2VzCmlzc3VlcyBhcyB3
-ZWxsLCBzaW5jZSB0aGUgR1BVIHN0YXJ0cyBzZW5kaW5nIHNwdXJpb3VzIGludGVycnVwdHMgdGhh
-dCBjYXVzZQpvdGhlciBkZXZpY2UncyBJUlFzIHRvIGdldCBkaXNhYmxlZCBieSB0aGUga2VybmVs
-OgoKICBpcnEgMTY6IG5vYm9keSBjYXJlZCAodHJ5IGJvb3Rpbmcgd2l0aCB0aGUgImlycXBvbGwi
-IG9wdGlvbikKICAuLi4KICBoYW5kbGVyczoKICBbPDAwMDAwMDAwN2ZhYTllOTk+XSBpODAxX2lz
-ciBbaTJjX2k4MDFdCiAgRGlzYWJsaW5nIElSUSAjMTYKICAuLi4KICBzZXJpbzogUk1JNCBQUy8y
-IHBhc3MtdGhyb3VnaCBwb3J0IGF0IHJtaTQtMDAuZm4wMwogIGk4MDFfc21idXMgMDAwMDowMDox
-Zi40OiBUaW1lb3V0IHdhaXRpbmcgZm9yIGludGVycnVwdCEKICBpODAxX3NtYnVzIDAwMDA6MDA6
-MWYuNDogVHJhbnNhY3Rpb24gdGltZW91dAogIHJtaTRfZjAzIHJtaTQtMDAuZm4wMzogcm1pX2Yw
-M19wdF93cml0ZTogRmFpbGVkIHRvIHdyaXRlIHRvIEYwMyBUWCByZWdpc3RlciAoLTExMCkuCiAg
-aTgwMV9zbWJ1cyAwMDAwOjAwOjFmLjQ6IFRpbWVvdXQgd2FpdGluZyBmb3IgaW50ZXJydXB0IQog
-IGk4MDFfc21idXMgMDAwMDowMDoxZi40OiBUcmFuc2FjdGlvbiB0aW1lb3V0CiAgcm1pNF9waHlz
-aWNhbCBybWk0LTAwOiBybWlfZHJpdmVyX3NldF9pcnFfYml0czogRmFpbGVkIHRvIGNoYW5nZSBl
-bmFibGVkIGludGVycnVwdHMhCgpUaGlzIGNhdXNlcyB0aGUgdG91Y2hwYWQgYW5kIHNvbWV0aW1l
-cyBvdGhlciB0aGluZ3MgdG8gZ2V0IGRpc2FibGVkLgoKU2luY2UgdGhpcyBoYXBwZW5zIHdpdGhv
-dXQgbm91dmVhdSwgd2UgY2FuJ3QgZml4IHRoaXMgcHJvYmxlbSBmcm9tIG5vdXZlYXUKaXRzZWxm
-LgoKQWRkIGEgUENJIHF1aXJrIGZvciB0aGUgc3BlY2lmaWMgUDUwIHZhcmlhbnQgb2YgdGhpcyBH
-UFUuICBNYWtlIHN1cmUgdGhlCkdQVSBpcyBhZHZlcnRpc2luZyBOb1Jlc2V0LSBzbyB3ZSBkb24n
-dCByZXNldCB0aGUgR1BVIHdoZW4gdGhlIG1hY2hpbmUgaXMKaW4gRGVkaWNhdGVkIGdyYXBoaWNz
-IG1vZGUgKHdoZXJlIHRoZSBHUFUgYmVpbmcgaW5pdGlhbGl6ZWQgYnkgdGhlIEJJT1MgaXMKbm9y
-bWFsIGFuZCBleHBlY3RlZCkuICBNYXAgdGhlIEdQVSBNTUlPIHNwYWNlIGFuZCByZWFkIHRoZSBt
-YWdpYyAweDIyNDBjCnJlZ2lzdGVyLCB3aGljaCB3aWxsIGhhdmUgYml0IDEgc2V0IGlmIHRoZSBk
-ZXZpY2Ugd2FzIFBPU1RlZCBkdXJpbmcgYQpwcmV2aW91cyBib290LiAgT25jZSB3ZSd2ZSBjb25m
-aXJtZWQgYWxsIG9mIHRoaXMsIHJlc2V0IHRoZSBHUFUgYW5kCnJlLWRpc2FibGUgaXQgLSBicmlu
-Z2luZyBpdCBiYWNrIHRvIGEgaGVhbHRoeSBzdGF0ZS4KCkxpbms6IGh0dHBzOi8vYnVnemlsbGEu
-a2VybmVsLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MjAzMDAzCkxpbms6IGh0dHBzOi8vbG9yZS5rZXJu
-ZWwub3JnL2xrbWwvMjAxOTAyMTIyMjAyMzAuMTU2OC0xLWx5dWRlQHJlZGhhdC5jb20KU2lnbmVk
-LW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KU2lnbmVkLW9mZi1ieTogQmpv
-cm4gSGVsZ2FhcyA8YmhlbGdhYXNAZ29vZ2xlLmNvbT4KQ2M6IG5vdXZlYXVAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBLYXJvbCBI
-ZXJic3QgPGtoZXJic3RAcmVkaGF0LmNvbT4KQ2M6IEJlbiBTa2VnZ3MgPHNrZWdnc2JAZ21haWwu
-Y29tPgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBHcmVnIEtyb2Fo
-LUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgoKLS0tCiBkcml2ZXJzL3BjaS9x
-dWlya3MuYyB8ICAgNTggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNTggaW5zZXJ0aW9ucygrKQoKLS0tIGEvZHJpdmVy
-cy9wY2kvcXVpcmtzLmMKKysrIGIvZHJpdmVycy9wY2kvcXVpcmtzLmMKQEAgLTUxMjQsMyArNTEy
-NCw2MSBAQCBTV0lUQ0hURUNfUVVJUksoMHg4NTczKTsgIC8qIFBGWEkgNDhYRzMKIFNXSVRDSFRF
-Q19RVUlSSygweDg1NzQpOyAgLyogUEZYSSA2NFhHMyAqLwogU1dJVENIVEVDX1FVSVJLKDB4ODU3
-NSk7ICAvKiBQRlhJIDgwWEczICovCiBTV0lUQ0hURUNfUVVJUksoMHg4NTc2KTsgIC8qIFBGWEkg
-OTZYRzMgKi8KKworLyoKKyAqIE9uIExlbm92byBUaGlua3BhZCBQNTAgU0tVcyB3aXRoIGEgTnZp
-ZGlhIFF1YWRybyBNMTAwME0sIHRoZSBCSU9TIGRvZXMKKyAqIG5vdCBhbHdheXMgcmVzZXQgdGhl
-IHNlY29uZGFyeSBOdmlkaWEgR1BVIGJldHdlZW4gcmVib290cyBpZiB0aGUgc3lzdGVtCisgKiBp
-cyBjb25maWd1cmVkIHRvIHVzZSBIeWJyaWQgR3JhcGhpY3MgbW9kZS4gIFRoaXMgcmVzdWx0cyBp
-biB0aGUgR1BVCisgKiBiZWluZyBsZWZ0IGluIHdoYXRldmVyIHN0YXRlIGl0IHdhcyBpbiBkdXJp
-bmcgdGhlICpwcmV2aW91cyogYm9vdCwgd2hpY2gKKyAqIGNhdXNlcyBzcHVyaW91cyBpbnRlcnJ1
-cHRzIGZyb20gdGhlIEdQVSwgd2hpY2ggaW4gdHVybiBjYXVzZXMgdXMgdG8KKyAqIGRpc2FibGUg
-dGhlIHdyb25nIElSUSBhbmQgZW5kIHVwIGJyZWFraW5nIHRoZSB0b3VjaHBhZC4gIFVuc3VycHJp
-c2luZ2x5LAorICogdGhpcyBhbHNvIGNvbXBsZXRlbHkgYnJlYWtzIG5vdXZlYXUuCisgKgorICog
-THVja2lseSwgaXQgc2VlbXMgYSBzaW1wbGUgcmVzZXQgb2YgdGhlIE52aWRpYSBHUFUgYnJpbmdz
-IGl0IGJhY2sgdG8gYQorICogY2xlYW4gc3RhdGUgYW5kIGZpeGVzIGFsbCB0aGVzZSBpc3N1ZXMu
-CisgKgorICogV2hlbiB0aGUgbWFjaGluZSBpcyBjb25maWd1cmVkIGluIERlZGljYXRlZCBkaXNw
-bGF5IG1vZGUsIHRoZSBpc3N1ZQorICogZG9lc24ndCBvY2N1ci4gIEZvcnR1bmF0ZWx5IHRoZSBH
-UFUgYWR2ZXJ0aXNlcyBOb1Jlc2V0KyB3aGVuIGluIHRoaXMKKyAqIG1vZGUsIHNvIHdlIGNhbiBk
-ZXRlY3QgdGhhdCBhbmQgYXZvaWQgcmVzZXR0aW5nIGl0LgorICovCitzdGF0aWMgdm9pZCBxdWly
-a19yZXNldF9sZW5vdm9fdGhpbmtwYWRfcDUwX252Z3B1KHN0cnVjdCBwY2lfZGV2ICpwZGV2KQor
-eworCXZvaWQgX19pb21lbSAqbWFwOworCWludCByZXQ7CisKKwlpZiAocGRldi0+c3Vic3lzdGVt
-X3ZlbmRvciAhPSBQQ0lfVkVORE9SX0lEX0xFTk9WTyB8fAorCSAgICBwZGV2LT5zdWJzeXN0ZW1f
-ZGV2aWNlICE9IDB4MjIyZSB8fAorCSAgICAhcGRldi0+cmVzZXRfZm4pCisJCXJldHVybjsKKwor
-CWlmIChwY2lfZW5hYmxlX2RldmljZV9tZW0ocGRldikpCisJCXJldHVybjsKKworCS8qCisJICog
-QmFzZWQgb24gbnZrbV9kZXZpY2VfY3RvcigpIGluCisJICogZHJpdmVycy9ncHUvZHJtL25vdXZl
-YXUvbnZrbS9lbmdpbmUvZGV2aWNlL2Jhc2UuYworCSAqLworCW1hcCA9IHBjaV9pb21hcChwZGV2
-LCAwLCAweDIzMDAwKTsKKwlpZiAoIW1hcCkgeworCQlwY2lfZXJyKHBkZXYsICJDYW4ndCBtYXAg
-TU1JTyBzcGFjZVxuIik7CisJCWdvdG8gb3V0X2Rpc2FibGU7CisJfQorCisJLyoKKwkgKiBNYWtl
-IHN1cmUgdGhlIEdQVSBsb29rcyBsaWtlIGl0J3MgYmVlbiBQT1NUZWQgYmVmb3JlIHJlc2V0dGlu
-ZworCSAqIGl0LgorCSAqLworCWlmIChpb3JlYWQzMihtYXAgKyAweDIyNDBjKSAmIDB4Mikgewor
-CQlwY2lfaW5mbyhwZGV2LCBGV19CVUcgIkdQVSBsZWZ0IGluaXRpYWxpemVkIGJ5IEVGSSwgcmVz
-ZXR0aW5nXG4iKTsKKwkJcmV0ID0gcGNpX3Jlc2V0X2Z1bmN0aW9uKHBkZXYpOworCQlpZiAocmV0
-IDwgMCkKKwkJCXBjaV9lcnIocGRldiwgIkZhaWxlZCB0byByZXNldCBHUFU6ICVkXG4iLCByZXQp
-OworCX0KKworCWlvdW5tYXAobWFwKTsKK291dF9kaXNhYmxlOgorCXBjaV9kaXNhYmxlX2Rldmlj
-ZShwZGV2KTsKK30KK0RFQ0xBUkVfUENJX0ZJWFVQX0NMQVNTX0ZJTkFMKFBDSV9WRU5ET1JfSURf
-TlZJRElBLCAweDEzYjEsCisJCQkgICAgICBQQ0lfQ0xBU1NfRElTUExBWV9WR0EsIDgsCisJCQkg
-ICAgICBxdWlya19yZXNldF9sZW5vdm9fdGhpbmtwYWRfcDUwX252Z3B1KTsKCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1432521771==
+Content-Type: multipart/alternative; boundary="15586385810.23BCbcaa.17651"
+Content-Transfer-Encoding: 7bit
+
+
+--15586385810.23BCbcaa.17651
+Date: Thu, 23 May 2019 19:09:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110217
+
+--- Comment #5 from numzer0@yandex.ru ---
+The flicker seems to be due to
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102646, despite the fact Arc=
+h wiki
+tells that affects 120+=C2=A0Hz only (my monitor runs at=C2=A075 Hz). At le=
+ast fixing
+clocks fixes the problem.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15586385810.23BCbcaa.17651
+Date: Thu, 23 May 2019 19:09:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX580: screen turns black or flickers until forced reconf=
+iguration"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110217#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX580: screen turns black or flickers until forced reconf=
+iguration"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110217">bug 11021=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+numzer0&#64;yandex.ru" title=3D"numzer0&#64;yandex.ru">numzer0&#64;yandex.r=
+u</a>
+</span></b>
+        <pre>The flicker seems to be due to
+<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"show_bug.cgi?id=3D102646">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D102646</a>, despite the fact Arch wiki
+tells that affects 120+=C2=A0Hz only (my monitor runs at=C2=A075 Hz). At le=
+ast fixing
+clocks fixes the problem.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15586385810.23BCbcaa.17651--
+
+--===============1432521771==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1432521771==--
