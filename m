@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725C9285EA
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 20:29:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3779D285EB
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 20:30:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19BDD6E060;
-	Thu, 23 May 2019 18:29:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7CB289FF9;
+	Thu, 23 May 2019 18:29:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E889B6E060
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 18:29:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 840BA89FF9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 18:29:58 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E59BE72167; Thu, 23 May 2019 18:29:17 +0000 (UTC)
+ id 811B272167; Thu, 23 May 2019 18:29:58 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110217] RX580: screen turns black or flickers until forced
- reconfiguration
-Date: Thu, 23 May 2019 18:29:18 +0000
+Subject: [Bug 110736] Spotify rendering issues
+Date: Thu, 23 May 2019 18:29:58 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: numzer0@yandex.ru
+X-Bugzilla-Who: b747xx@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110217-502-878C3VPl9w@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110217-502@http.bugs.freedesktop.org/>
-References: <bug-110217-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110736-502-ezgI7Q9rud@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110736-502@http.bugs.freedesktop.org/>
+References: <bug-110736-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,35 +52,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1302564196=="
+Content-Type: multipart/mixed; boundary="===============1909049817=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1302564196==
-Content-Type: multipart/alternative; boundary="15586361573.d8a79b98a.6266"
+--===============1909049817==
+Content-Type: multipart/alternative; boundary="15586361981.6e62.6476"
 Content-Transfer-Encoding: 7bit
 
 
---15586361573.d8a79b98a.6266
-Date: Thu, 23 May 2019 18:29:17 +0000
+--15586361981.6e62.6476
+Date: Thu, 23 May 2019 18:29:58 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110217
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110736
 
---- Comment #4 from numzer0@yandex.ru ---
-Just downgraded xf86-video-amdgpu back to 19.0.0-1. The flicker disappeared.
+--- Comment #1 from Mathieu Belanger <b747xx@gmail.com> ---
+I have the same bug
+
+It started yesterday after a reboot.
+
+Between the reboot and the previous reboot I did emerge -e the whole things=
+ so
+I'm not totally sure it's mesa related
+
+I have the bug in:
+ * Discord (only the rotating Discord logo when I load it, it spin like 30x=
+ on
+itself in the same amount of time it usually spin one time on itself.)
+ * Brave browser (corruptopia like OP screen shot)
+ * Chromium (partially, just the scroll bar)
+
+@Zak, is there is something else you also updated recently? Like libdrm, xo=
+rg
+parts, llvm?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15586361573.d8a79b98a.6266
-Date: Thu, 23 May 2019 18:29:17 +0000
+--15586361981.6e62.6476
+Date: Thu, 23 May 2019 18:29:58 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,22 +113,36 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - RX580: screen turns black or flickers until forced reconf=
-iguration"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110217#c4">Commen=
-t # 4</a>
+   title=3D"NEW - Spotify rendering issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110736#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - RX580: screen turns black or flickers until forced reconf=
-iguration"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110217">bug 11021=
-7</a>
+   title=3D"NEW - Spotify rendering issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110736">bug 11073=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-numzer0&#64;yandex.ru" title=3D"numzer0&#64;yandex.ru">numzer0&#64;yandex.r=
-u</a>
+b747xx&#64;gmail.com" title=3D"Mathieu Belanger &lt;b747xx&#64;gmail.com&gt=
+;"> <span class=3D"fn">Mathieu Belanger</span></a>
 </span></b>
-        <pre>Just downgraded xf86-video-amdgpu back to 19.0.0-1. The flicke=
-r disappeared.</pre>
+        <pre>I have the same bug
+
+It started yesterday after a reboot.
+
+Between the reboot and the previous reboot I did emerge -e the whole things=
+ so
+I'm not totally sure it's mesa related
+
+I have the bug in:
+ * Discord (only the rotating Discord logo when I load it, it spin like 30x=
+ on
+itself in the same amount of time it usually spin one time on itself.)
+ * Brave browser (corruptopia like OP screen shot)
+ * Chromium (partially, just the scroll bar)
+
+&#64;Zak, is there is something else you also updated recently? Like libdrm=
+, xorg
+parts, llvm?</pre>
         </div>
       </p>
 
@@ -126,9 +156,9 @@ r disappeared.</pre>
     </body>
 </html>=
 
---15586361573.d8a79b98a.6266--
+--15586361981.6e62.6476--
 
---===============1302564196==
+--===============1909049817==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -138,4 +168,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1302564196==--
+--===============1909049817==--
