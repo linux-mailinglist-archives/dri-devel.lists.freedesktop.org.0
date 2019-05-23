@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0659E28645
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF22D28644
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:04:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C74346E05A;
-	Thu, 23 May 2019 19:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA5EA89FCA;
+	Thu, 23 May 2019 19:04:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8C7D889FCA
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A1536E05A
  for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 19:04:33 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8948772167; Thu, 23 May 2019 19:04:33 +0000 (UTC)
+ id 46CEB72167; Thu, 23 May 2019 19:04:33 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
- rc3 on polaris
+Subject: [Bug 110736] Spotify rendering issues
 Date: Thu, 23 May 2019 19:04:33 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: b747xx@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: DUPLICATE
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-110721-502-SKRJaPxout@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
-References: <bug-110721-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-110736-502-j3FCc7RmAH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110736-502@http.bugs.freedesktop.org/>
+References: <bug-110736-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,17 +52,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1902638415=="
+Content-Type: multipart/mixed; boundary="===============0646731698=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1902638415==
-Content-Type: multipart/alternative; boundary="15586382735.00BCe8e.16727"
+--===============0646731698==
+Content-Type: multipart/alternative; boundary="15586382732.ee93fb.16727"
 Content-Transfer-Encoding: 7bit
 
 
---15586382735.00BCe8e.16727
+--15586382732.ee93fb.16727
 Date: Thu, 23 May 2019 19:04:33 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -71,22 +70,25 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110736
 
 Mathieu Belanger <b747xx@gmail.com> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |0xe2.0x9a.0x9b@gmail.com
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |DUPLICATE
 
---- Comment #14 from Mathieu Belanger <b747xx@gmail.com> ---
-*** Bug 110736 has been marked as a duplicate of this bug. ***
+--- Comment #4 from Mathieu Belanger <b747xx@gmail.com> ---
+
+
+*** This bug has been marked as a duplicate of bug 110721 ***
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15586382735.00BCe8e.16727
+--15586382732.ee93fb.16727
 Date: Thu, 23 May 2019 19:04:33 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
@@ -103,11 +105,10 @@ Auto-Submitted: auto-generated
  class=3D"fn">Mathieu Belanger</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
- rc3 on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
-1</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - Spotify rendering issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110736">bug 11073=
+6</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -117,36 +118,43 @@ Auto-Submitted: auto-generated
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
            </td>
-           <td>0xe2.0x9a.0x9b&#64;gmail.com
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>DUPLICATE
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
- rc3 on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c14">Comme=
-nt # 14</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - Spotify rendering issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110736#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
- rc3 on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
-1</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - Spotify rendering issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110736">bug 11073=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 b747xx&#64;gmail.com" title=3D"Mathieu Belanger &lt;b747xx&#64;gmail.com&gt=
 ;"> <span class=3D"fn">Mathieu Belanger</span></a>
 </span></b>
-        <pre>*** <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - Spotify rendering issues"
-   href=3D"show_bug.cgi?id=3D110736">Bug 110736</a> has been marked as a du=
-plicate of this bug. ***</pre>
+        <pre>
+
+*** This bug has been marked as a duplicate of <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
+ rc3 on polaris"
+   href=3D"show_bug.cgi?id=3D110721">bug 110721</a> ***</pre>
         </div>
       </p>
 
@@ -160,9 +168,9 @@ plicate of this bug. ***</pre>
     </body>
 </html>=
 
---15586382735.00BCe8e.16727--
+--15586382732.ee93fb.16727--
 
---===============1902638415==
+--===============0646731698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -172,4 +180,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1902638415==--
+--===============0646731698==--
