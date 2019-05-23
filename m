@@ -1,45 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C6528C7B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 23:38:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FF528CDC
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 00:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FCE26E07D;
-	Thu, 23 May 2019 21:38:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650FB6E039;
+	Thu, 23 May 2019 22:10:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2B4DF6E07B
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 21:38:25 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2877A72167; Thu, 23 May 2019 21:38:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
- rc3 on polaris
-Date: Thu, 23 May 2019 21:38:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: 0xe2.0x9a.0x9b@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110721-502-HUhYDA8jBq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
-References: <bug-110721-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+ [209.85.160.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4CAE6E039
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 22:09:58 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id k24so8679293qtq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 15:09:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=brsxRrdskdf/H+X3V+Dm0y8qX6170jVsjGA8N6YcUuE=;
+ b=VLqAnDI2d+5ahqMhYkH21J4KBZK2CePeN/BSPaWrgDO5+NR9vVC0OZRbdu8/HCofDa
+ D35Z8nIw/yWhNxiuUfuM8vmW3pqsB/IOVZFSM3clYsjPm5+spb6xisnc0/dG5heVfNGP
+ 8ZG6A9KCfOWXu2oX+2/nEMQ9IGhRVjJIhLyEorlQmRLiOOWaTaT2lRSp3zmTQnnD/Lgp
+ ybw5Ziovv4zh11NQFa+LsCGrszUt2TSdNWLH+uKM2tfEA09fJBGC8ktPNHpb5zBbUl0J
+ GtCzgSc7mjNzGFHXScKkeDkMQMH/8m0VMZL7nSpNkyOzKnKk+38dvDaAfPvDpg6/jpAr
+ YZMg==
+X-Gm-Message-State: APjAAAWCY/Zg+b3Asbf7eNMix8oMSVMknlqxyH+srO5T/GEMwSEsOpf9
+ qipB/g/Bp2IKnLfZZtVz1zHHZA==
+X-Google-Smtp-Source: APXvYqwA9x+4fBRf3/40NgRtVEcctpUhL42Ox5LjjUi3Dv/kgUkXp152Xc0GsSywscV0vg6NaX0qXQ==
+X-Received: by 2002:aed:39e5:: with SMTP id m92mr70811182qte.106.1558649397813; 
+ Thu, 23 May 2019 15:09:57 -0700 (PDT)
+Received: from malachite.lyude.net
+ (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id c32sm359438qtd.61.2019.05.23.15.09.57
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 23 May 2019 15:09:57 -0700 (PDT)
+Message-ID: <016079c3ec78cddeaa2181a4c15ae2b5b6df2b88.camel@redhat.com>
+Subject: Re: [PATCH] drm/mst: Fix MST sideband up-reply failure handling
+From: Lyude Paul <lyude@redhat.com>
+To: Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org
+Date: Thu, 23 May 2019 18:09:56 -0400
+In-Reply-To: <20190523212433.9058-1-imre.deak@intel.com>
+References: <20190523212433.9058-1-imre.deak@intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,100 +59,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0990276694=="
+Cc: Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0990276694==
-Content-Type: multipart/alternative; boundary="15586475051.371D8C.19549"
-Content-Transfer-Encoding: 7bit
-
-
---15586475051.371D8C.19549
-Date: Thu, 23 May 2019 21:38:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
-
---- Comment #16 from Jan Ziak (http://atom-symbol.net) <0xe2.0x9a.0x9b@gmai=
-l.com> ---
-I confirm that reverting "mesa: unreference current winsys buffers when
-unbinding winsys buffers" fixes the rendering issues in Spotify and Visual
-Studio Code.
-
-Thanks.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15586475051.371D8C.19549
-Date: Thu, 23 May 2019 21:38:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
- rc3 on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c16">Comme=
-nt # 16</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
- rc3 on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-0xe2.0x9a.0x9b&#64;gmail.com" title=3D"Jan Ziak (http://atom-symbol.net) &l=
-t;0xe2.0x9a.0x9b&#64;gmail.com&gt;"> <span class=3D"fn">Jan Ziak (http://at=
-om-symbol.net)</span></a>
-</span></b>
-        <pre>I confirm that reverting &quot;mesa: unreference current winsy=
-s buffers when
-unbinding winsys buffers&quot; fixes the rendering issues in Spotify and Vi=
-sual
-Studio Code.
-
-Thanks.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15586475051.371D8C.19549--
-
---===============0990276694==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0990276694==--
+UGF0Y2ggbW9zdGx5IGxvb2tzIGdvb2QgdG8gbWUsIG9uZSBjb21tZW50IGJlbG93CgpPbiBGcmks
+IDIwMTktMDUtMjQgYXQgMDA6MjQgKzAzMDAsIEltcmUgRGVhayB3cm90ZToKPiBGaXggdGhlIGJy
+ZWFrYWdlIHJlc3VsdGluZyBpbiB0aGUgc3RhY2t0cmFjZSBiZWxvdywgZHVlIHRvIHR4IHF1ZXVl
+Cj4gYmVpbmcgZnVsbCB3aGVuIHRyeWluZyB0byBzZW5kIGFuIHVwLXJlcGx5LiB0eG1zZy0+c2Vx
+bm8gaXMgLTEgaW4gdGhpcwo+IGNhc2UgbGVhZGluZyB0byBhIGNvcnJ1cHRpb24gb2YgdGhlIG1z
+dGIgb2JqZWN0IGJ5Cj4gCj4gCXR4bXNnLT5kc3QtPnR4X3Nsb3RzW3R4bXNnLT5zZXFub10gPSBO
+VUxMOwo+IAo+IGluIHByb2Nlc3Nfc2luZ2xlX3VwX3R4X3Fsb2NrKCkuCj4gCj4gWyAgKzAsMDA1
+MTYyXSBbZHJtOnByb2Nlc3Nfc2luZ2xlX3R4X3Fsb2NrIFtkcm1fa21zX2hlbHBlcl1dCj4gc2V0
+X2hkcl9mcm9tX2RzdF9xbG9jazogZmFpbGVkIHRvIGZpbmQgc2xvdAo+IFsgICswLDAwMDAxNV0g
+W2RybTpkcm1fZHBfc2VuZF91cF9hY2tfcmVwbHkuY29uc3Rwcm9wLjE5IFtkcm1fa21zX2hlbHBl
+cl1dCj4gZmFpbGVkIHRvIHNlbmQgbXNnIGluIHEgLTExCj4gWyAgKzAsMDAwOTM5XSBCVUc6IGtl
+cm5lbCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UsIGFkZHJlc3M6Cj4gMDAwMDAwMDAwMDAwMDVh
+MAo+IFsgICswLDAwNjk4Ml0gI1BGOiBzdXBlcnZpc29yIHdyaXRlIGFjY2VzcyBpbiBrZXJuZWwg
+bW9kZQo+IFsgICswLDAwNTIyM10gI1BGOiBlcnJvcl9jb2RlKDB4MDAwMikgLSBub3QtcHJlc2Vu
+dCBwYWdlCj4gWyAgKzAsMDA1MTM1XSBQR0QgMCBQNEQgMAo+IFsgICswLDAwMjU4MV0gT29wczog
+MDAwMiBbIzFdIFBSRUVNUFQgU01QIE5PUFRJCj4gWyAgKzAsMDA0MzU5XSBDUFU6IDEgUElEOiAx
+MjAwIENvbW06IGt3b3JrZXIvdTE2OjMgVGFpbnRlZDoKPiBHICAgICBVICAgICAgICAgICAgNS4y
+LjAtcmMxKyAjNDEwCj4gWyAgKzAsMDA4NDMzXSBIYXJkd2FyZSBuYW1lOiBJbnRlbCBDb3Jwb3Jh
+dGlvbiBJY2UgTGFrZSBDbGllbnQKPiBQbGF0Zm9ybS9JY2VMYWtlIFUgRERSNCBTT0RJTU0gUEQg
+UlZQLCBCSU9TIElDTFNGV1IxLlIwMC4zMTc1LkEwMC4xOTA0MjYxNDI4Cj4gMDQvMjYvMjAxOQo+
+IFsgICswLDAxMzMyM10gV29ya3F1ZXVlOiBpOTE1LWRwIGk5MTVfZGlncG9ydF93b3JrX2Z1bmMg
+W2k5MTVdCj4gWyAgKzAsMDA1Njc2XSBSSVA6IDAwMTA6cXVldWVfd29ya19vbisweDE5LzB4NzAK
+PiBbICArMCwwMDQzNzJdIENvZGU6IGZmIGZmIGZmIDBmIDFmIDQwIDAwIDY2IDJlIDBmIDFmIDg0
+IDAwIDAwIDAwIDAwIDAwIDQxIDU2Cj4gNDkgODkgZjYgNDEgNTUgNDEgODkgZmQgNDEgNTQgNTUg
+NTMgNDggODkgZDMgOWMgNWQgZmEgZTggZTcgODEgMGMgMDAgPGYwPiA0OAo+IDBmIGJhIDJiIDAw
+IDczIDMxIDQ1IDMxIGU0IGY3IGM1IDAwIDAyIDAwIDAwIDc0IDEzIGU4IGNmIDdmCj4gWyAgKzAs
+MDE4NzUwXSBSU1A6IDAwMTg6ZmZmZmM5MDAwMDdkZmM1MCBFRkxBR1M6IDAwMDEwMDA2Cj4gWyAg
+KzAsMDA1MjIyXSBSQVg6IDAwMDAwMDAwMDAwMDAwNDYgUkJYOiAwMDAwMDAwMDAwMDAwNWEwIFJD
+WDoKPiAwMDAwMDAwMDAwMDAwMDAxCj4gWyAgKzAsMDA3MTMzXSBSRFg6IDAwMDAwMDAwMDAwMWI2
+MDggUlNJOiAwMDAwMDAwMDAwMDAwMDAwIFJESToKPiBmZmZmZmZmZjgyMTIxOTcyCj4gWyAgKzAs
+MDA3MTI5XSBSQlA6IDAwMDAwMDAwMDAwMDAyMDIgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOToK
+PiAwMDAwMDAwMDAwMDAwMDAxCj4gWyAgKzAsMDA3MTI5XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDAg
+UjExOiAwMDAwMDAwMDAwMDAwMDAwIFIxMjoKPiBmZmZmODg4NDdiZmE1MDk2Cj4gWyAgKzAsMDA3
+MTMxXSBSMTM6IDAwMDAwMDAwMDAwMDAwMTAgUjE0OiBmZmZmODg4NDljMDhmM2Y4IFIxNToKPiAw
+MDAwMDAwMDAwMDAwMDAwCj4gWyAgKzAsMDA3MTI4XSBGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAw
+MCkgR1M6ZmZmZjg4ODQ5ZGM4MDAwMCgwMDAwKQo+IGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKPiBb
+ICArMCwwMDgwODNdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAw
+NTAwMzMKPiBbICArMCwwMDU3NDldIENSMjogMDAwMDAwMDAwMDAwMDVhMCBDUjM6IDAwMDAwMDAw
+MDUyMTAwMDYgQ1I0Ogo+IDAwMDAwMDAwMDA3NjBlZTAKPiBbICArMCwwMDcxMjhdIFBLUlU6IDU1
+NTU1NTU0Cj4gWyAgKzAsMDAyNzIyXSBDYWxsIFRyYWNlOgo+IFsgICswLDAwMjQ1OF0gIGRybV9k
+cF9tc3RfaGFuZGxlX3VwX3JlcSsweDUxNy8weDU0MCBbZHJtX2ttc19oZWxwZXJdCj4gWyAgKzAs
+MDA2MTk3XSAgPyBkcm1fZHBfbXN0X2hwZF9pcnErMHg1Yi8weDljMCBbZHJtX2ttc19oZWxwZXJd
+Cj4gWyAgKzAsMDA1NzY0XSAgZHJtX2RwX21zdF9ocGRfaXJxKzB4NWIvMHg5YzAgW2RybV9rbXNf
+aGVscGVyXQo+IFsgICswLDAwNTYyM10gID8gaW50ZWxfZHBfaHBkX3B1bHNlKzB4MjA1LzB4Mzcw
+IFtpOTE1XQo+IFsgICswLDAwNTAxOF0gIGludGVsX2RwX2hwZF9wdWxzZSsweDIwNS8weDM3MCBb
+aTkxNV0KPiBbICArMCwwMDQ4MzZdICBpOTE1X2RpZ3BvcnRfd29ya19mdW5jKzB4YmIvMHgxNDAg
+W2k5MTVdCj4gWyAgKzAsMDA1MTA4XSAgcHJvY2Vzc19vbmVfd29yaysweDI0NS8weDYxMAo+IFsg
+ICswLDAwNDAyN10gIHdvcmtlcl90aHJlYWQrMHgzNy8weDM4MAo+IFsgICswLDAwMzY4NF0gID8g
+cHJvY2Vzc19vbmVfd29yaysweDYxMC8weDYxMAo+IFsgICswLDAwNDE4NF0gIGt0aHJlYWQrMHgx
+MTkvMHgxMzAKPiBbICArMCwwMDMyNDBdICA/IGt0aHJlYWRfcGFyaysweDgwLzB4ODAKPiBbICAr
+MCwwMDM2NjhdICByZXRfZnJvbV9mb3JrKzB4MjQvMHg1MAo+IAo+IENjOiBMeXVkZSBQYXVsIDxs
+eXVkZUByZWRoYXQuY29tPgo+IENjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+
+IFNpZ25lZC1vZmYtYnk6IEltcmUgRGVhayA8aW1yZS5kZWFrQGludGVsLmNvbT4KPiAtLS0KPiAg
+ZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyB8IDYgKysrKystCj4gIDEgZmls
+ZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGIvZHJpdmVycy9ncHUv
+ZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IGluZGV4IGRhMWFiY2ExYjllOS4uMjRjMzI1ZjRh
+NjE2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gQEAgLTE5OTYs
+NyArMTk5NiwxMSBAQCBzdGF0aWMgdm9pZCBwcm9jZXNzX3NpbmdsZV91cF90eF9xbG9jayhzdHJ1
+Y3QKPiBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLAo+ICAJaWYgKHJldCAhPSAxKQo+ICAJ
+CURSTV9ERUJVR19LTVMoImZhaWxlZCB0byBzZW5kIG1zZyBpbiBxICVkXG4iLCByZXQpOwo+ICAK
+PiAtCXR4bXNnLT5kc3QtPnR4X3Nsb3RzW3R4bXNnLT5zZXFub10gPSBOVUxMOwo+ICsJaWYgKHR4
+bXNnLT5zZXFubyAhPSAtMSkgewo+ICsJCVdBUk5fT04oKHVuc2lnbmVkKXR4bXNnLT5zZXFubyA+
+Cj4gKwkJCUFSUkFZX1NJWkUodHhtc2ctPmRzdC0+dHhfc2xvdHMpKTsKCk5vdCAxMDAlIHN1cmUg
+b24gdGhpcyBuaXRwaWNrIG15c2VsZiBidXQsIGlmIHdlIGtub3cgdGhhdCB0eG1zZy0+c2Vxbm8g
+aXMKYWJvdXQgdG8gZ28gb3V0IG9mIGJvdW5kcyBzaG91bGRuJ3Qgd2UgYWxzbyB0cnkgdG8gdGFr
+ZSBhY3Rpb24gdG8gc3RvcCBpdD8KbGlrZQoKaWYgKCFXQVJOX09OKCh1bnNpZ25lZCl0eG1zZy0+
+c2Vxbm8gPiBBUlJBWV9TSVpFKHR4bXNnLT5kc3QtPnR4X3Nsb3RzKSkpCiAgICAgICAgdHhtc2ct
+PmRzdC0+dHhfc2xvdHNbdHhtc2ctPnNlcW5vXSA9IE5VTEw7CgoKCj4gKwkJdHhtc2ctPmRzdC0+
+dHhfc2xvdHNbdHhtc2ctPnNlcW5vXSA9IE5VTEw7Cj4gKwl9Cj4gIH0KPiAgCj4gIHN0YXRpYyB2
+b2lkIGRybV9kcF9xdWV1ZV9kb3duX3R4KHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAq
+bWdyLAotLSAKQ2hlZXJzLAoJTHl1ZGUgUGF1bAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
