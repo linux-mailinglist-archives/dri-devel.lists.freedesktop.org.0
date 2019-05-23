@@ -1,45 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA15627CD4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 14:27:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCAF82B448
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:05:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B7589E19;
-	Thu, 23 May 2019 12:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3E0189D4B;
+	Mon, 27 May 2019 12:04:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40BAD89E19
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 12:27:13 +0000 (UTC)
-X-Originating-IP: 90.88.22.185
-Received: from localhost (aaubervilliers-681-1-80-185.w90-88.abo.wanadoo.fr
- [90.88.22.185]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 8D5E060005;
- Thu, 23 May 2019 12:27:01 +0000 (UTC)
-Date: Thu, 23 May 2019 14:27:01 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: linux-sunxi@googlegroups.com, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Mark Rutland <mark.rutland@arm.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Alexandre Torgue <alexandre.torgue@st.com>,
- Jose Abreu <joabreu@synopsys.com>, "David S. Miller" <davem@davemloft.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH v5 5/6] drm: sun4i: Add support for enabling DDC I2C bus
- to sun8i_dw_hdmi glue
-Message-ID: <20190523122701.qeuthkrczdzngzod@flea>
-References: <20190520235009.16734-1-megous@megous.com>
- <20190520235009.16734-6-megous@megous.com>
- <20190521114611.ylmbo2oqeanveil4@flea>
- <20190521121519.k343dgv3cgpewjl2@core.my.home>
+Received: from newverein.lst.de (verein.lst.de [213.95.11.211])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 889A689E08
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 12:31:06 +0000 (UTC)
+Received: by newverein.lst.de (Postfix, from userid 2005)
+ id 97A7A68AFE; Thu, 23 May 2019 14:30:41 +0200 (CEST)
+Date: Thu, 23 May 2019 14:30:41 +0200
+From: Torsten Duwe <duwe@lst.de>
+To: Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: Re: [PATCH 5/6] dt-bindings: Add ANX6345 DP/eDP transmitter binding
+Message-ID: <20190523123041.GB15685@lst.de>
+References: <20190523065013.2719D68B05@newverein.lst.de>
+ <20190523065400.BD9EB68B05@newverein.lst.de>
+ <20190523090540.nhxrjpz3scx6jt23@flea>
 MIME-Version: 1.0
-In-Reply-To: <20190521121519.k343dgv3cgpewjl2@core.my.home>
-User-Agent: NeoMutt/20180716
+Content-Disposition: inline
+In-Reply-To: <20190523090540.nhxrjpz3scx6jt23@flea>
+User-Agent: Mutt/1.5.17 (2007-11-01)
+X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,150 +39,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0746335663=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0746335663==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xaediv5ol6nrlghm"
-Content-Disposition: inline
-
-
---xaediv5ol6nrlghm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 21, 2019 at 02:15:19PM +0200, Ond=C5=99ej Jirman wrote:
-> Hi Maxime,
->
-> On Tue, May 21, 2019 at 01:46:11PM +0200, Maxime Ripard wrote:
-> > Hi,
-> >
-> > On Tue, May 21, 2019 at 01:50:08AM +0200, megous@megous.com wrote:
-> > > From: Ondrej Jirman <megous@megous.com>
-> > >
-> > > Orange Pi 3 board requires enabling a voltage shifting circuit via GP=
-IO
-> > > for the DDC bus to be usable.
-> > >
-> > > Add support for hdmi-connector node's optional ddc-en-gpios property =
-to
-> > > support this use case.
-> > >
-> > > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > > ---
-> > >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 55 +++++++++++++++++++++++++=
---
-> > >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h |  3 ++
-> > >  2 files changed, 55 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/=
-sun4i/sun8i_dw_hdmi.c
-> > > index 39d8509d96a0..59b81ba02d96 100644
-> > > --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> > > +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> > > @@ -98,6 +98,30 @@ static u32 sun8i_dw_hdmi_find_possible_crtcs(struc=
-t drm_device *drm,
-> > >  	return crtcs;
-> > >  }
-> > >
-> > > +static int sun8i_dw_hdmi_find_connector_pdev(struct device *dev,
-> > > +					     struct platform_device **pdev_out)
-> > > +{
-> > > +	struct platform_device *pdev;
-> > > +	struct device_node *remote;
-> > > +
-> > > +	remote =3D of_graph_get_remote_node(dev->of_node, 1, -1);
-> > > +	if (!remote)
-> > > +		return -ENODEV;
-> > > +
-> > > +	if (!of_device_is_compatible(remote, "hdmi-connector")) {
-> > > +		of_node_put(remote);
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	pdev =3D of_find_device_by_node(remote);
-> > > +	of_node_put(remote);
-> > > +	if (!pdev)
-> > > +		return -ENODEV;
-> > > +
-> > > +	*pdev_out =3D pdev;
-> > > +	return 0;
-> > > +}
-> > > +
-> > >  static int sun8i_dw_hdmi_bind(struct device *dev, struct device *mas=
-ter,
-> > >  			      void *data)
-> > >  {
-> > > @@ -151,16 +175,29 @@ static int sun8i_dw_hdmi_bind(struct device *de=
-v, struct device *master,
-> > >  		return PTR_ERR(hdmi->regulator);
-> > >  	}
-> > >
-> > > +	ret =3D sun8i_dw_hdmi_find_connector_pdev(dev, &hdmi->connector_pde=
-v);
-> > > +	if (!ret) {
-> > > +		hdmi->ddc_en =3D gpiod_get_optional(&hdmi->connector_pdev->dev,
-> > > +						  "ddc-en", GPIOD_OUT_HIGH);
-> > > +		if (IS_ERR(hdmi->ddc_en)) {
-> > > +			platform_device_put(hdmi->connector_pdev);
-> > > +			dev_err(dev, "Couldn't get ddc-en gpio\n");
-> > > +			return PTR_ERR(hdmi->ddc_en);
-> > > +		}
-> > > +	}
-> > > +
-> > >  	ret =3D regulator_enable(hdmi->regulator);
-> > >  	if (ret) {
-> > >  		dev_err(dev, "Failed to enable regulator\n");
-> > > -		return ret;
-> > > +		goto err_unref_ddc_en;
-> > >  	}
-> > >
-> > > +	gpiod_set_value(hdmi->ddc_en, 1);
-> > > +
-> >
-> > Do you really need this to be done all the time? I'm guessing you
-> > would only need this when running .get_modes, right?
->
-> I don't think it hurts anything. Enabled voltage shifting circuit doesn't
-> draw any current, unless DDC is actually transmitting data. On most boards
-> I'd imagine this circuit is always on anyway (Orange Pi 3 schematic even =
-has
-> an option to tie this signal to VCC-IO instead of GPIO).
-
-Ok, it works for me then
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---xaediv5ol6nrlghm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOaRjgAKCRDj7w1vZxhR
-xXP8AQDJFrAb2tEeZAxbO0lR5xA3HSBZ1CG8XwnZfh/DVcz7IgD/d1nl6k3ae3tz
-jt35NpcG3EPiCyUUHN1/ZuAY6YBkHQc=
-=qe05
------END PGP SIGNATURE-----
-
---xaediv5ol6nrlghm--
-
---===============0746335663==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0746335663==--
+T24gVGh1LCBNYXkgMjMsIDIwMTkgYXQgMTE6MDU6NDBBTSArMDIwMCwgTWF4aW1lIFJpcGFyZCB3
+cm90ZToKPiA+ICtPcHRpb25hbCBwcm9wZXJ0aWVzOgo+ID4gKwo+ID4gKyAtIFZpZGVvIHBvcnRz
+IGZvciBSR0IgaW5wdXQgYW5kIGVEUCBvdXRwdXQgdXNpbmcgdGhlIERUIGJpbmRpbmdzCj4gPiAr
+ICAgZGVmaW5lZCBpbiBbMV0KPiAKPiBUaGUgb3V0cHV0IG5vZGUgY2FuIGJlIG9wdGlvbmFsLCBi
+dXQgdGhlIGlucHV0IG9uZSBpcyBwcm9iYWJseSBnb2luZwo+IHRvIGJlIG5lZWRlZCBhbGwgdGhl
+IHRpbWUsIHNpbmNlIG90aGVyd2lzZSB5b3Ugd29uJ3QgYmUgYWJsZSB0byBmaWxsCj4gdGhlIG91
+dHB1dCBwb3J0IG9mIHRoZSB1cHN0cmVhbSBkZXZpY2UgaW4gdGhlIGdyYXBoLgoKSSBndWVzcyBz
+by4gQSBzaWJsaW5nIHByb2R1Y3QgYnJpZWYgKGFueDk4MDQpCmh0dHBzOi8vd3d3LmFuYWxvZ2l4
+LmNvbS9lbi90dGxjb252ZXJ0ZXJzYnJpZGdlcwpyZWZlcmVuY2VzIGl0IGFzCnwgTFZUVEwgdG8g
+RGlzcGxheVBvcnQgMS4yIF90cmFuc21pdHRlcl8Kc28gaXQgd2lsbCBwcm9iYWJseSBhbHdheXMg
+YmUgdXNlZCBvbiB0aGUgb3V0cHV0IHNpZGUuCgoJVG9yc3RlbgoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
