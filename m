@@ -1,34 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB8328506
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 19:36:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6173285E3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 20:25:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65F1F6E051;
-	Thu, 23 May 2019 17:36:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19CB26E05F;
+	Thu, 23 May 2019 18:25:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9599B6E044;
- Thu, 23 May 2019 17:36:51 +0000 (UTC)
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com
- [66.24.58.225])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 41C892133D;
- Thu, 23 May 2019 17:36:50 +0000 (UTC)
-Date: Thu, 23 May 2019 13:36:48 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [RFC][PATCH] kernel.h: Add generic roundup_64() macro
-Message-ID: <20190523133648.591f9e78@gandalf.local.home>
-In-Reply-To: <CAHk-=whFJqTOk0mSxJGeh38ZxDksgRaMrNV8hqTngiuokyJzew@mail.gmail.com>
-References: <20190523100013.52a8d2a6@gandalf.local.home>
- <CAHk-=wg5HqJ2Kfgpub+tCWQ2_FiFwEW9H1Rm+an-BLGaGvDDXw@mail.gmail.com>
- <20190523112740.7167aba4@gandalf.local.home>
- <CAHk-=whFJqTOk0mSxJGeh38ZxDksgRaMrNV8hqTngiuokyJzew@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D465D6E063
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 18:25:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D118B72167; Thu, 23 May 2019 18:25:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110217] RX580: screen turns black or flickers until forced
+ reconfiguration
+Date: Thu, 23 May 2019 18:25:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: numzer0@yandex.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110217-502-FsNLgpsl0V@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110217-502@http.bugs.freedesktop.org/>
+References: <bug-110217-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,80 +53,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "Darrick J. Wong" <darrick.wong@oracle.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, linux-xfs@vger.kernel.org,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>,
- Ben Skeggs <bskeggs@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- linux-rdma <linux-rdma@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0242949320=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMyBNYXkgMjAxOSAwOTo1MToyOSAtMDcwMApMaW51cyBUb3J2YWxkcyA8dG9ydmFs
-ZHNAbGludXgtZm91bmRhdGlvbi5vcmc+IHdyb3RlOgoKPiBPbiBUaHUsIE1heSAyMywgMjAxOSBh
-dCA4OjI3IEFNIFN0ZXZlbiBSb3N0ZWR0IDxyb3N0ZWR0QGdvb2RtaXMub3JnPiB3cm90ZToKPiA+
-Cj4gPiBJIGhhdmVuJ3QgeWV0IHRlc3RlZCB0aGlzLCBidXQgd2hhdCBhYm91dCBzb21ldGhpbmcg
-bGlrZSB0aGUgZm9sbG93aW5nOiAgCj4gCj4gU28gdGhhdCBhdCBsZWFzdCBoYW5kbGVzIHRoZSBj
-b25zdGFudCBjYXNlIHRoYXQgdGhlIG5vcm1hbCAicm91bmR1cCgpIgo+IGNhc2UgYWxzbyBoYW5k
-bGVzLgo+IAo+IEF0IHRoZSBzYW1lIHRpbWUsIGluIHRoZSBjYXNlIHlvdSBhcmUgdGFsa2luZyBh
-Ym91dCwgSSByZWFsbHkgZG8KPiBzdXNwZWN0IHRoYXQgd2UgaGF2ZSBhIChub24tY29uc3RhbnQp
-IHBvd2VyIG9mIHR3bywgYW5kIHRoYXQgeW91Cj4gc2hvdWxkIGhhdmUganVzdCB1c2VkICJyb3Vu
-ZF91cCgpIiB3aGljaCB3b3JrcyBmaW5lIHJlZ2FyZGxlc3Mgb2YKPiBzaXplLCBhbmQgaXMgYWx3
-YXlzIGVmZmljaWVudC4KCkkgdGhpbmsgeW91IGFyZSBjb3JyZWN0IGluIHRoaXMuCgogICAgICAg
-YWN0X3NpemUgPSByb3VuZHVwXzY0KGF0dHItPmxlbmd0aCwgTUxYNV9TV19JQ01fQkxPQ0tfU0la
-RShkbV9kYi0+ZGV2KSk7CgpXaGVyZSB3ZSBoYXZlOgoKI2RlZmluZSBNTFg1X1NXX0lDTV9CTE9D
-S19TSVpFKGRldikgKDEgPDwgTUxYNV9MT0dfU1dfSUNNX0JMT0NLX1NJWkUoZGV2KSkKCldoaWNo
-IHByZXR0eSBtdWNoIGd1YXJhbnRlZXMgdGhhdCBpdCBpcyBhIHBvd2VyIG9mIHR3by4gVGh1cywg
-dGhlIHJlYWwKZml4IGhlcmUgaXMgc2ltcGx5IHRvIHMvcm91bmR1cC9yb3VuZF91cC8gYXMgeW91
-IHN1Z2dlc3QuCgo+IAo+IE9uIGEgc2xpZ2h0IHRhbmdlbnQuLiBNYXliZSB3ZSBzaG91bGQgaGF2
-ZSBzb21ldGhpbmcgbGlrZSB0aGlzOgo+IAo+ICNkZWZpbmUgc2l6ZV9mbih4LCBwcmVmaXgsIC4u
-LikgKHsgICAgICAgICAgICAgICAgICAgICAgXAo+ICAgICAgICAgdHlwZW9mKHgpIF9fcmV0OyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAo+ICAgICAgICAgc3dpdGNoIChzaXplb2Yo
-eCkpIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAo+ICAgICAgICAgY2FzZSAxOiBfX3Jl
-dCA9IHByZWZpeCMjOChfX1ZBX0FSR1NfXyk7IGJyZWFrOyAgXAo+ICAgICAgICAgY2FzZSAyOiBf
-X3JldCA9IHByZWZpeCMjMTYoX19WQV9BUkdTX18pOyBicmVhazsgXAo+ICAgICAgICAgY2FzZSA0
-OiBfX3JldCA9IHByZWZpeCMjMzIoX19WQV9BUkdTX18pOyBicmVhazsgXAo+ICAgICAgICAgY2Fz
-ZSA4OiBfX3JldCA9IHByZWZpeCMjNjQoX19WQV9BUkdTX18pOyBicmVhazsgXAo+ICAgICAgICAg
-ZGVmYXVsdDogX19yZXQgPSBwcmVmaXgjI2JhZChfX1ZBX0FSR1NfXyk7ICAgICAgXAo+ICAgICAg
-ICAgfSBfX3JldDsgfSkKPiAKPiAjZGVmaW5lIHR5cGVfZm4oeCwgcHJlZml4LCAuLi4pICh7ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAo+ICAgICAgICAgdHlwZW9mKHgpIF9fcmV0OyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCj4gICAgICAgICBpZiAoKHR5
-cGVvZih4KSktMSA+IDEpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKPiAgICAg
-ICAgICAgICAgICAgX19yZXQgPSBzaXplX2ZuKHgsIHByZWZpeCMjX3UsIF9fVkFfQVJHU19fKTsg
-ICAgXAo+ICAgICAgICAgZWxzZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBcCj4gICAgICAgICAgICAgICAgIF9fcmV0ID0gc2l6ZV9mbih4LCBwcmVm
-aXgjI19zLCBfX1ZBX0FSR1NfXyk7ICAgIFwKPiAgICAgICAgIF9fcmV0OyB9KQo+IAo+IHdoaWNo
-IHdvdWxkIGFsbG93IHR5cGVkIGludGVnZXIgZnVuY3Rpb25zIGxpa2UgdGhpcy4gU28geW91IGNv
-dWxkIGRvCj4gc29tZXRoaW5nIGxpa2UKPiAKPiAgICAgICNkZWZpbmUgcm91bmRfdXAoeCwgeSkg
-c2l6ZV9mbih4LCByb3VuZF91cF9zaXplLCB4LCB5KQo+IAo+IGFuZCB0aGVuIHlvdSBkZWZpbmUg
-ZnVuY3Rpb25zIGZvciByb3VuZF91cF9zaXplOC8xNi8zMi82NCAoYW5kIHlvdQoKWW91IG1lYW4g
-ZGVmaW5lIGZ1bmN0aW9ucyBmb3Igcm91bmRfdXBfc2l6ZV97dXxzfTgvMTYvMzIvNjQKCj4gaGF2
-ZSB0b2kgZGVjbGFyZSAtIGJ1dCBub3QgZGVmaW5lIC0gcm91bmRfdXBfc2l6ZWJhZCgpKS4KPiAK
-PiBPZiBjb3Vyc2UsIHlvdSBwcm9iYWJseSB3YW50IHRoZSB1c3VhbCAiYXQgbGVhc3QgdXNlICdp
-bnQnIiBzZW1hbnRpY3MsCj4gaW4gd2hpY2ggY2FzZSB0aGUgInR5cGUiIHNob3VsZCBiZSAiKHgp
-KzAiOgo+IAo+ICAgICAgI2RlZmluZSByb3VuZF91cCh4LCB5KSBzaXplX2ZuKCh4KSswLCByb3Vu
-ZF91cF9zaXplLCB4LCB5KQo+IAo+ICBhbmQgdGhlIDgtYml0IGFuZCAxNi1iaXQgY2FzZXMgd2ls
-bCBuZXZlciBiZSB1c2VkLgoKSSdtIGN1cmlvdXMgdG8gd2hhdCB0aGUgYWR2YW50YWdlIG9mIHRo
-YXQgaXM/Cgo+IAo+IFdlIGhhdmUgYSBsb3Qgb2YgY2FzZXMgd2hlcmUgd2UgZW5kIHVwIHVzaW5n
-ICJ0eXBlIG92ZXJsb2FkaW5nIiBieQo+IHNpemUuIFRoZSBtb3N0IGV4cGxpY2l0IGNhc2UgaXMg
-cGVyaGFwcyAiZ2V0X3VzZXIoKSIgYW5kICJwdXRfdXNlcigpIiwKPiBidXQgdGhpcyB3aG9sZSBy
-b3VuZF91cCB0aGluZyBpcyBhbm90aGVyIGV4YW1wbGUuCj4gCj4gTWF5YmUgd2UgbmV2ZXIgcmVh
-bGx5IGNhcmUgYWJvdXQgImNoYXIiIGFuZCAic2hvcnQiLCBhbmQgYWx3YXlzIHdhbnQKPiBqdXN0
-IHRoZSAiaW50LXZzLWxvbmctdnMtbG9uZ2xvbmciPyBUaGF0IHdvdWxkIG1ha2UgdGhlIGNhc2Vz
-IHNpbXBsZXIKPiAoMzIgYW5kIDY0KS4gQW5kIG1heWJlIHdlIG5ldmVyIGNhcmUgYWJvdXQgc2ln
-bi4gQnV0IHdlIGNvdWxkIHRyeSB0bwo+IGhhdmUgc29tZSB1bmlmaWVkIGhlbHBlciBtb2RlbCBs
-aWtlIHRoZSBhYm92ZS4uCgpJdCBtYXkgYmUgc2ltcGxlciBhbmQgcGVyaGFwcyBtb3JlIHJvYnVz
-dCBpZiB3ZSBrZWVwIHRoZSBjaGFyIGFuZCBzaG9ydApjYXNlcy4KCkknbSBmaW5lIHdpdGggYWRk
-aW5nIHNvbWV0aGluZyBsaWtlIHRoaXMgZm9yIHJvdW5kX3VwKCksIGJ1dCBkbyB3ZSB3YW50CnRv
-IGhhdmUgYSBnZW5lcmljIHJvdW5kdXBfNjQoKSBhcyB3ZWxsPyBJJ20gYWxzbyB0aGlua2luZyB0
-aGF0IHdlCnBlcmhhcHMgc2hvdWxkIHRlc3QgZm9yIHBvd2VyIG9mIHR3byBvbiByb3VuZHVwKCk6
-CgojZGVmaW5lIHJvdW5kdXAoeCwgeSkgKAkJCQkJXAp7CQkJCQkJCVwKCXR5cGVvZih5KSBfX3kg
-PSB5OwkJCQlcCgl0eXBlb2YoeCkgX194OwkJCQkJXAoJCQkJCQkJXAoJaWYgKF9feSAmIChfX3kg
-LSAxKSkJCQkJXAoJCV9feCA9IHJvdW5kX3VwKHgsIF9feSk7CQkJXAoJZWxzZQkJCQkJCVwKCQlf
-X3ggPSAoKCh4KSArIChfX3kgLSAxKSkgLyBfX3kpICogX195OwlcCglfX3g7CQkJCQkJXAp9KQoK
-Ci0tIFN0ZXZlCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0242949320==
+Content-Type: multipart/alternative; boundary="15586359233.Eb5354f.4899"
+Content-Transfer-Encoding: 7bit
+
+
+--15586359233.Eb5354f.4899
+Date: Thu, 23 May 2019 18:25:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110217
+
+--- Comment #3 from numzer0@yandex.ru ---
+New information:
+
+1. Screen turns black at module insertion, be it during bootup or later. But
+resuming from hibernation works.
+
+2. On the system, the converter I use is problematic itself. When I connect=
+ it
+to another PC, HDMI port is shown as =E2=80=9Cconnected=E2=80=9D *until* I =
+connect a=C2=A0monitor to
+the=C2=A0converter. Then, everything works but HDMI port is displayed as
+=E2=80=9Cdisconnected=E2=80=9D in xrandr.
+
+After updating the system, flicker seems to happen in X only, despite the
+=E2=80=9CTearFree=E2=80=9D option. Virtual consoles work well, albeit use t=
+he same mode (i.e.
+no mode change on VT switch). Not sure was that the case earlier.
+
+Also, after last hibernation, the old trick with resetting mode didn=E2=80=
+=99t help,
+flicker continues. New X instances flicker as well.=20
+
+New kernel: Linux 5.1.2-arch1-1-ARCH
+New X driver: xf86-video-amdgpu 19.0.1-1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15586359233.Eb5354f.4899
+Date: Thu, 23 May 2019 18:25:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX580: screen turns black or flickers until forced reconf=
+iguration"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110217#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX580: screen turns black or flickers until forced reconf=
+iguration"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110217">bug 11021=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+numzer0&#64;yandex.ru" title=3D"numzer0&#64;yandex.ru">numzer0&#64;yandex.r=
+u</a>
+</span></b>
+        <pre>New information:
+
+1. Screen turns black at module insertion, be it during bootup or later. But
+resuming from hibernation works.
+
+2. On the system, the converter I use is problematic itself. When I connect=
+ it
+to another PC, HDMI port is shown as =E2=80=9Cconnected=E2=80=9D *until* I =
+connect a=C2=A0monitor to
+the=C2=A0converter. Then, everything works but HDMI port is displayed as
+=E2=80=9Cdisconnected=E2=80=9D in xrandr.
+
+After updating the system, flicker seems to happen in X only, despite the
+=E2=80=9CTearFree=E2=80=9D option. Virtual consoles work well, albeit use t=
+he same mode (i.e.
+no mode change on VT switch). Not sure was that the case earlier.
+
+Also, after last hibernation, the old trick with resetting mode didn=E2=80=
+=99t help,
+flicker continues. New X instances flicker as well.=20
+
+New kernel: Linux 5.1.2-arch1-1-ARCH
+New X driver: xf86-video-amdgpu 19.0.1-1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15586359233.Eb5354f.4899--
+
+--===============0242949320==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0242949320==--
