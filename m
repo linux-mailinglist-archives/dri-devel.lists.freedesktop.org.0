@@ -2,35 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03ECB2779F
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 10:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7178E277B2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 10:10:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 083FD8996F;
-	Thu, 23 May 2019 08:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB77C89CE0;
+	Thu, 23 May 2019 08:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29BAE8996F;
- Thu, 23 May 2019 08:06:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 23 May 2019 01:06:26 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
- by fmsmga001.fm.intel.com with ESMTP; 23 May 2019 01:06:23 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Uma
- Shankar <uma.shankar@intel.com>
-Subject: Re: [v11 00/12] Add HDR Metadata Parsing and handling in DRM layer
-In-Reply-To: <20190522204522.GC6464@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <1558015817-12025-1-git-send-email-uma.shankar@intel.com>
- <20190522204522.GC6464@intel.com>
-Date: Thu, 23 May 2019 11:09:41 +0300
-Message-ID: <87d0k97fsq.fsf@intel.com>
+Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6EBB89CE0;
+ Thu, 23 May 2019 08:10:27 +0000 (UTC)
+Received: from localhost (aaubervilliers-681-1-80-185.w90-88.abo.wanadoo.fr
+ [90.88.22.185]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay11.mail.gandi.net (Postfix) with ESMTPSA id 5BB07100009;
+ Thu, 23 May 2019 08:10:22 +0000 (UTC)
+Date: Thu, 23 May 2019 10:10:22 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: linux-next: manual merge of the drm-misc tree with Linus' tree
+Message-ID: <20190523081022.cbirvf2vucbyc34r@flea>
+References: <20190521105151.51ffa942@canb.auug.org.au>
 MIME-Version: 1.0
+In-Reply-To: <20190521105151.51ffa942@canb.auug.org.au>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,23 +37,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dcastagna@chromium.org, jonas@kwiboo.se, intel-gfx@lists.freedesktop.org,
- emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- seanpaul@chromium.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Jyri Sarha <jsarha@ti.com>, Marco Felsch <m.felsch@pengutronix.de>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Thierry Reding <treding@nvidia.com>
+Content-Type: multipart/mixed; boundary="===============1681495583=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMiBNYXkgMjAxOSwgVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4gd3JvdGU6Cj4gUHVzaGVkIHRoZSBjb3JlL2V0Yy4gYml0cyB0byBkcm0tbWlz
-Yy1uZXh0IHNvIHRoYXQgb3RoZXIgZHJpdmVycwo+IGNhbiBiYXNlIHRoZWlyIHdvcmsgb24gdGhh
-dC4gV2UnbGwgbmVlZCBhIGJhY2ttZXJnZSB0byBnZXQgdGhlCj4gaTkxNSBzdHVmZiBpbiB2aWEg
-ZGlucS4KClRvIGF2b2lkIGFueSBjb25mdXNpb24sIGRybS1taXNjLW5leHQgbmVlZHMgdG8gZ2V0
-IG1lcmdlZCB0byBkcm0tbmV4dCwKd2hpY2ggdGhlbiBuZWVkcyB0byBiZSBiYWNrbWVyZ2VkIHRv
-IGRybS1pbnRlbC1uZXh0LXF1ZXVlZC4gV2UgZG9uJ3QgZG8KbWVyZ2VzIGZyb20gZHJtLW1pc2Mt
-bmV4dCB0byBkcm0taW50ZWwtbmV4dC1xdWV1ZWQgZGlyZWN0bHkuCgpCUiwKSmFuaS4KCgotLSAK
-SmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1681495583==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="xewzbf7ky33bviot"
+Content-Disposition: inline
+
+
+--xewzbf7ky33bviot
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Stephen,
+
+On Tue, May 21, 2019 at 10:51:51AM +1000, Stephen Rothwell wrote:
+> Hi all,
+>
+> Today's linux-next merge of the drm-misc tree got a conflict in:
+>
+>   Documentation/devicetree/bindings/vendor-prefixes.txt
+>
+> between commit:
+>
+>   8122de54602e ("dt-bindings: Convert vendor prefixes to json-schema")
+>
+> from Linus' tree and commits:
+>
+>   b4a2c0055a4f ("dt-bindings: Add vendor prefix for VXT Ltd")
+>   b1b0d36bdb15 ("dt-bindings: drm/panel: simple: Add binding for TFC S9700RTWV43TR-01B")
+>   fbd8b69ab616 ("dt-bindings: Add vendor prefix for Evervision Electronics")
+>
+> from the drm-misc tree.
+>
+> I fixed it up (I deleted the file and added the patch below) and can
+> carry the fix as necessary. This is now fixed as far as linux-next is
+> concerned, but any non trivial conflicts should be mentioned to your
+> upstream maintainer when your tree is submitted for merging.  You may
+> also want to consider cooperating with the maintainer of the conflicting
+> tree to minimise any particularly complex conflicts.
+>
+> --
+> Cheers,
+> Stephen Rothwell
+>
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Tue, 21 May 2019 10:48:36 +1000
+> Subject: [PATCH] dt-bindings: fix up for vendor prefixes file conversion
+>
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 83ca4816a78b..749e3c3843d0 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -287,6 +287,8 @@ patternProperties:
+>      description: Everest Semiconductor Co. Ltd.
+>    "^everspin,.*":
+>      description: Everspin Technologies, Inc.
+> +  "^evervision,.*":
+> +    description: Evervision Electronics Co. Ltd.
+>    "^exar,.*":
+>      description: Exar Corporation
+>    "^excito,.*":
+> @@ -851,6 +853,8 @@ patternProperties:
+>      description: Shenzhen Techstar Electronics Co., Ltd.
+>    "^terasic,.*":
+>      description: Terasic Inc.
+> +  "^tfc,.*":
+> +    description: Three Five Corp
+>    "^thine,.*":
+>      description: THine Electronics, Inc.
+>    "^ti,.*":
+> @@ -925,6 +929,8 @@ patternProperties:
+>      description: Voipac Technologies s.r.o.
+>    "^vot,.*":
+>      description: Vision Optical Technology Co., Ltd.
+> +  "^vxt,.*"
+> +    description: VXT Ltd
+
+I'm not sure whether or not you can change it, but this breaks the
+users of that file.
+
+What you want is:
+
+- "^vxt,.*"
++ "^vxt,.*:"
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--xewzbf7ky33bviot
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOZVbgAKCRDj7w1vZxhR
+xdkoAQDobhCUG+I4w3094DQy1fBwYM/nIQz4W3Lnaf6UfXiBFQD/c+ZCEARV7ili
+XDWIhqfVU7QecWQJAbtJlN4rMpTK4go=
+=c51w
+-----END PGP SIGNATURE-----
+
+--xewzbf7ky33bviot--
+
+--===============1681495583==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1681495583==--
