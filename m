@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F9428728
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 337E628811
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE9316E059;
-	Thu, 23 May 2019 19:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 319B26E062;
+	Thu, 23 May 2019 19:30:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AA5889F3C;
- Thu, 23 May 2019 19:23:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C201589DCF;
+ Thu, 23 May 2019 19:30:20 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CAF9F217D9;
- Thu, 23 May 2019 19:23:09 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 24FEB217D7;
+ Thu, 23 May 2019 19:30:19 +0000 (UTC)
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.0 087/139] PCI: Reset Lenovo ThinkPad P50 nvgpu at boot if
+Subject: [PATCH 5.1 096/122] PCI: Reset Lenovo ThinkPad P50 nvgpu at boot if
  necessary
-Date: Thu, 23 May 2019 21:06:15 +0200
-Message-Id: <20190523181732.035427564@linuxfoundation.org>
+Date: Thu, 23 May 2019 21:06:58 +0200
+Message-Id: <20190523181717.889796516@linuxfoundation.org>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190523181720.120897565@linuxfoundation.org>
-References: <20190523181720.120897565@linuxfoundation.org>
+In-Reply-To: <20190523181705.091418060@linuxfoundation.org>
+References: <20190523181705.091418060@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1558639390;
- bh=BsoZT09ICDrr9PYbWIynPJCrWWofqYTqYBk2e6ffaWw=;
+ d=kernel.org; s=default; t=1558639820;
+ bh=Wrox4qTEQPbr5+6ELzZ2IUMc6lAtK5/Gm7lshHxMJB0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UxHDdPc0I0s/v/LkJdXvBlUzAGA8ajOUIIgMGG8d/KZyhTUFEyj41xxvCVovAPAuh
- 4E4VjbYeQvvcok+uun/XiLF89Lw5jXNiny6ebhquiAVZVAUyJWmfwqqwwkNTsaZaaL
- xODbcW/eTLSjrpEOqneJxyk/1QmTerBuOUKBZ7OM=
+ b=mdIVpwYJES/EPHa1Hq3FAw/ZSKeqNUrsD7PqSfg/K50dvCdHtvSfYkiSFuO7Une43
+ 9aRqi3WePfznkqECnyG+KOqNv8nim4ILm0swThgBLMlkbKnTT1I49CWdf/h8h+Fx+u
+ FyFe+fV43kdlAPp4tAFr7easI4mZvmSJ9y/bZtr0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -126,8 +126,8 @@ Y29tPgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBHcmVnIEtyb2Fo
 LUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgoKLS0tCiBkcml2ZXJzL3BjaS9x
 dWlya3MuYyB8ICAgNTggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
 KysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNTggaW5zZXJ0aW9ucygrKQoKLS0tIGEvZHJpdmVy
-cy9wY2kvcXVpcmtzLmMKKysrIGIvZHJpdmVycy9wY2kvcXVpcmtzLmMKQEAgLTUxMjIsMyArNTEy
-Miw2MSBAQCBTV0lUQ0hURUNfUVVJUksoMHg4NTczKTsgIC8qIFBGWEkgNDhYRzMKIFNXSVRDSFRF
+cy9wY2kvcXVpcmtzLmMKKysrIGIvZHJpdmVycy9wY2kvcXVpcmtzLmMKQEAgLTUxMjQsMyArNTEy
+NCw2MSBAQCBTV0lUQ0hURUNfUVVJUksoMHg4NTczKTsgIC8qIFBGWEkgNDhYRzMKIFNXSVRDSFRF
 Q19RVUlSSygweDg1NzQpOyAgLyogUEZYSSA2NFhHMyAqLwogU1dJVENIVEVDX1FVSVJLKDB4ODU3
 NSk7ICAvKiBQRlhJIDgwWEczICovCiBTV0lUQ0hURUNfUVVJUksoMHg4NTc2KTsgIC8qIFBGWEkg
 OTZYRzMgKi8KKworLyoKKyAqIE9uIExlbm92byBUaGlua3BhZCBQNTAgU0tVcyB3aXRoIGEgTnZp
