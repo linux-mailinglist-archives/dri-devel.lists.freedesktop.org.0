@@ -2,38 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6F528CE9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 00:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B35328D01
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 00:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 689C36E06E;
-	Thu, 23 May 2019 22:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC25C6E07B;
+	Thu, 23 May 2019 22:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25DC46E06E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 22:29:34 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45941Q1cSPz9sBr;
- Fri, 24 May 2019 08:29:29 +1000 (AEST)
-Date: Fri, 24 May 2019 08:29:26 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-fixes tree
-Message-ID: <20190524082926.6e1a7d8f@canb.auug.org.au>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C4A6E07B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 22:31:18 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id y42so8748761qtk.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 15:31:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=Zpad/CoufAL8SdeJNaS7zBU5Oy0n91VexE8HAmiPCcs=;
+ b=NtZrSLFQMURddGZnf2cXjVUnzwBhWaDg0YxwgwftYK783emGMGsQ/jkxiR6Kk5qUD9
+ zo6ZoreEdiNBISWjRsii7NoH+p1XOg6+7S3heLIsTIrwge1pU/c8usmtSuoIWusDgSNy
+ jyNwC+AbWh2P7n9TGTwYkwUaG+cHNSoqHf5QqUrQgs1dYVpA0OhfiN44jCtA/FBRbRY6
+ d9AtHmSBhi0p2FJf/p9Rnn7C5QRGh6E6SGST2wSiP9KBf4B81EE8nbcjXzeGx32KJxF1
+ oBSo23ewiu43sq1qiOnK5kT9JTbVWO/ZP0B14udUIHSyYzRtcFwriEg3bgag4EYPriVb
+ MoJQ==
+X-Gm-Message-State: APjAAAXyYstooK+EQGE0zH8rbYE6+hk3bg2KB7N0Xcin7rEbR/OOXa/7
+ uto6HrLMEgSgMjqsoj5ZxwtxEw==
+X-Google-Smtp-Source: APXvYqyoRTjcgYho3FXgC8wNONbY/xDSNQhRJ8futMFXzdfGndDQif3g/I3Eplt8LAidmjE+ygdqfg==
+X-Received: by 2002:ac8:1115:: with SMTP id c21mr81949534qtj.155.1558650677150; 
+ Thu, 23 May 2019 15:31:17 -0700 (PDT)
+Received: from malachite.lyude.net
+ (static-173-76-190-23.bstnma.ftas.verizon.net. [173.76.190.23])
+ by smtp.gmail.com with ESMTPSA id d185sm407355qke.32.2019.05.23.15.31.16
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 23 May 2019 15:31:16 -0700 (PDT)
+Message-ID: <5347ff700defd9e2b7fe739dd864ea1e174dde00.camel@redhat.com>
+Subject: Re: [PATCH] drm/mst: Fix MST sideband up-reply failure handling
+From: Lyude Paul <lyude@redhat.com>
+To: imre.deak@intel.com
+Date: Thu, 23 May 2019 18:31:15 -0400
+In-Reply-To: <20190523222829.GA10167@ideak-desk.fi.intel.com>
+References: <20190523212433.9058-1-imre.deak@intel.com>
+ <016079c3ec78cddeaa2181a4c15ae2b5b6df2b88.camel@redhat.com>
+ <20190523222829.GA10167@ideak-desk.fi.intel.com>
+Organization: Red Hat
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1558650571;
- bh=oZ+Y4Oj9nlfaxg+9a4yhZHeUnYqYAt63cgwtgI91vS0=;
- h=Date:From:To:Cc:Subject:From;
- b=KnktJHetT3IepuRUUS14pUn3nwEyKmleQnnr37irUY8y32u0aQQiIh4o5/oVTuyh0
- oTqkISOqntV6hscMwoWTDUTLk+F2VpQGy1FJT7KRapF4wfKKx5V3zhaPyLwPYtbY+f
- q61LWFQ13oAtfXv0l5LXT2sPAirPEHIFXG5eBIU9ZtJpFgbFJkJUXHo0HSb3ykQkGz
- Nqta7ZZSGaIR4Buo3UoocOYIFSLZ3ivnqscB/2exCa3r10JYoC1yYdU1inKONZfZoq
- yMEt4vG8bA+FzvumnhNIYt8doHwhH82l1cXgND9Xwjfp5YKs74HIV3Nj94jCYXmoRh
- rYb7tcTWX7BoA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,72 +61,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: multipart/mixed; boundary="===============0300087361=="
+Cc: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0300087361==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/3/vL9jhrSoegPrs8wupWN73"; protocol="application/pgp-signature"
-
---Sig_/3/vL9jhrSoegPrs8wupWN73
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-After merging the drm-fixes tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
-
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'l=
-oad_dmcu_fw':
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:667:7: error: i=
-mplicit declaration of function 'ASICREV_IS_PICASSO'; did you mean 'ASICREV=
-_IS_VEGA12_P'? [-Werror=3Dimplicit-function-declaration]
-   if (ASICREV_IS_PICASSO(adev->external_rev_id))
-       ^~~~~~~~~~~~~~~~~~
-       ASICREV_IS_VEGA12_P
-
-Caused by commit
-
-  55143dc23ca4 ("drm/amd/display: Don't load DMCU for Raven 1")
-
-I have reverted that commit for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/3/vL9jhrSoegPrs8wupWN73
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlznHsYACgkQAVBC80lX
-0Gxiqgf/TX+jNEffQfpsZ0K5DEdyod6S5jH6C3F8/4luruSvyxWOVsJkfo3n7+eY
-G3FgBMxNkwfk/gNzHujp7JwZ1cyONguMQhUd/MgTWdLtu8tj0sELLLxrLecDJtJA
-ru1k5stROtvFEFJBt7ttqyQyqUQTCIH29WPrmnRDOlspkhVC9nnY1EaHhIjGJZkq
-4Z1AmffQnv4BI0riIg+6EDgM8GlzkopAqn0JkSLXqXrlYyN7o9SyNoh/JsunmF02
-+ySAqwq7WO3aAxGUAx24aO8MCJbFw6ZfwAZk+tF6h/28sV0Mkqs9p91uFmxFMqB/
-d00p8y1eDXWFDmkJpd+l+HIXXMEP7w==
-=XBe4
------END PGP SIGNATURE-----
-
---Sig_/3/vL9jhrSoegPrs8wupWN73--
-
---===============0300087361==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0300087361==--
+T24gRnJpLCAyMDE5LTA1LTI0IGF0IDAxOjI4ICswMzAwLCBJbXJlIERlYWsgd3JvdGU6Cj4gT24g
+VGh1LCBNYXkgMjMsIDIwMTkgYXQgMDY6MDk6NTZQTSAtMDQwMCwgTHl1ZGUgUGF1bCB3cm90ZToK
+PiA+IFBhdGNoIG1vc3RseSBsb29rcyBnb29kIHRvIG1lLCBvbmUgY29tbWVudCBiZWxvdwo+ID4g
+Cj4gPiBPbiBGcmksIDIwMTktMDUtMjQgYXQgMDA6MjQgKzAzMDAsIEltcmUgRGVhayB3cm90ZToK
+PiA+ID4gRml4IHRoZSBicmVha2FnZSByZXN1bHRpbmcgaW4gdGhlIHN0YWNrdHJhY2UgYmVsb3cs
+IGR1ZSB0byB0eCBxdWV1ZQo+ID4gPiBiZWluZyBmdWxsIHdoZW4gdHJ5aW5nIHRvIHNlbmQgYW4g
+dXAtcmVwbHkuIHR4bXNnLT5zZXFubyBpcyAtMSBpbiB0aGlzCj4gPiA+IGNhc2UgbGVhZGluZyB0
+byBhIGNvcnJ1cHRpb24gb2YgdGhlIG1zdGIgb2JqZWN0IGJ5Cj4gPiA+IAo+ID4gPiAJdHhtc2ct
+PmRzdC0+dHhfc2xvdHNbdHhtc2ctPnNlcW5vXSA9IE5VTEw7Cj4gPiA+IAo+ID4gPiBpbiBwcm9j
+ZXNzX3NpbmdsZV91cF90eF9xbG9jaygpLgo+ID4gPiAKPiA+ID4gWyAgKzAsMDA1MTYyXSBbZHJt
+OnByb2Nlc3Nfc2luZ2xlX3R4X3Fsb2NrIFtkcm1fa21zX2hlbHBlcl1dCj4gPiA+IHNldF9oZHJf
+ZnJvbV9kc3RfcWxvY2s6IGZhaWxlZCB0byBmaW5kIHNsb3QKPiA+ID4gWyAgKzAsMDAwMDE1XSBb
+ZHJtOmRybV9kcF9zZW5kX3VwX2Fja19yZXBseS5jb25zdHByb3AuMTkKPiA+ID4gW2RybV9rbXNf
+aGVscGVyXV0KPiA+ID4gZmFpbGVkIHRvIHNlbmQgbXNnIGluIHEgLTExCj4gPiA+IFsgICswLDAw
+MDkzOV0gQlVHOiBrZXJuZWwgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlLCBhZGRyZXNzOgo+ID4g
+PiAwMDAwMDAwMDAwMDAwNWEwCj4gPiA+IFsgICswLDAwNjk4Ml0gI1BGOiBzdXBlcnZpc29yIHdy
+aXRlIGFjY2VzcyBpbiBrZXJuZWwgbW9kZQo+ID4gPiBbICArMCwwMDUyMjNdICNQRjogZXJyb3Jf
+Y29kZSgweDAwMDIpIC0gbm90LXByZXNlbnQgcGFnZQo+ID4gPiBbICArMCwwMDUxMzVdIFBHRCAw
+IFA0RCAwCj4gPiA+IFsgICswLDAwMjU4MV0gT29wczogMDAwMiBbIzFdIFBSRUVNUFQgU01QIE5P
+UFRJCj4gPiA+IFsgICswLDAwNDM1OV0gQ1BVOiAxIFBJRDogMTIwMCBDb21tOiBrd29ya2VyL3Ux
+NjozIFRhaW50ZWQ6Cj4gPiA+IEcgICAgIFUgICAgICAgICAgICA1LjIuMC1yYzErICM0MTAKPiA+
+ID4gWyAgKzAsMDA4NDMzXSBIYXJkd2FyZSBuYW1lOiBJbnRlbCBDb3Jwb3JhdGlvbiBJY2UgTGFr
+ZSBDbGllbnQKPiA+ID4gUGxhdGZvcm0vSWNlTGFrZSBVIEREUjQgU09ESU1NIFBEIFJWUCwgQklP
+Uwo+ID4gPiBJQ0xTRldSMS5SMDAuMzE3NS5BMDAuMTkwNDI2MTQyOAo+ID4gPiAwNC8yNi8yMDE5
+Cj4gPiA+IFsgICswLDAxMzMyM10gV29ya3F1ZXVlOiBpOTE1LWRwIGk5MTVfZGlncG9ydF93b3Jr
+X2Z1bmMgW2k5MTVdCj4gPiA+IFsgICswLDAwNTY3Nl0gUklQOiAwMDEwOnF1ZXVlX3dvcmtfb24r
+MHgxOS8weDcwCj4gPiA+IFsgICswLDAwNDM3Ml0gQ29kZTogZmYgZmYgZmYgMGYgMWYgNDAgMDAg
+NjYgMmUgMGYgMWYgODQgMDAgMDAgMDAgMDAgMDAKPiA+ID4gNDEgNTYKPiA+ID4gNDkgODkgZjYg
+NDEgNTUgNDEgODkgZmQgNDEgNTQgNTUgNTMgNDggODkgZDMgOWMgNWQgZmEgZTggZTcgODEgMGMg
+MDAKPiA+ID4gPGYwPiA0OAo+ID4gPiAwZiBiYSAyYiAwMCA3MyAzMSA0NSAzMSBlNCBmNyBjNSAw
+MCAwMiAwMCAwMCA3NCAxMyBlOCBjZiA3Zgo+ID4gPiBbICArMCwwMTg3NTBdIFJTUDogMDAxODpm
+ZmZmYzkwMDAwN2RmYzUwIEVGTEFHUzogMDAwMTAwMDYKPiA+ID4gWyAgKzAsMDA1MjIyXSBSQVg6
+IDAwMDAwMDAwMDAwMDAwNDYgUkJYOiAwMDAwMDAwMDAwMDAwNWEwIFJDWDoKPiA+ID4gMDAwMDAw
+MDAwMDAwMDAwMQo+ID4gPiBbICArMCwwMDcxMzNdIFJEWDogMDAwMDAwMDAwMDAxYjYwOCBSU0k6
+IDAwMDAwMDAwMDAwMDAwMDAgUkRJOgo+ID4gPiBmZmZmZmZmZjgyMTIxOTcyCj4gPiA+IFsgICsw
+LDAwNzEyOV0gUkJQOiAwMDAwMDAwMDAwMDAwMjAyIFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6
+Cj4gPiA+IDAwMDAwMDAwMDAwMDAwMDEKPiA+ID4gWyAgKzAsMDA3MTI5XSBSMTA6IDAwMDAwMDAw
+MDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMDAwIFIxMjoKPiA+ID4gZmZmZjg4ODQ3YmZhNTA5
+Ngo+ID4gPiBbICArMCwwMDcxMzFdIFIxMzogMDAwMDAwMDAwMDAwMDAxMCBSMTQ6IGZmZmY4ODg0
+OWMwOGYzZjggUjE1Ogo+ID4gPiAwMDAwMDAwMDAwMDAwMDAwCj4gPiA+IFsgICswLDAwNzEyOF0g
+RlM6ICAwMDAwMDAwMDAwMDAwMDAwKDAwMDApIEdTOmZmZmY4ODg0OWRjODAwMDAoMDAwMCkKPiA+
+ID4ga25sR1M6MDAwMDAwMDAwMDAwMDAwMAo+ID4gPiBbICArMCwwMDgwODNdIENTOiAgMDAxMCBE
+UzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMKPiA+ID4gWyAgKzAsMDA1NzQ5
+XSBDUjI6IDAwMDAwMDAwMDAwMDA1YTAgQ1IzOiAwMDAwMDAwMDA1MjEwMDA2IENSNDoKPiA+ID4g
+MDAwMDAwMDAwMDc2MGVlMAo+ID4gPiBbICArMCwwMDcxMjhdIFBLUlU6IDU1NTU1NTU0Cj4gPiA+
+IFsgICswLDAwMjcyMl0gQ2FsbCBUcmFjZToKPiA+ID4gWyAgKzAsMDAyNDU4XSAgZHJtX2RwX21z
+dF9oYW5kbGVfdXBfcmVxKzB4NTE3LzB4NTQwIFtkcm1fa21zX2hlbHBlcl0KPiA+ID4gWyAgKzAs
+MDA2MTk3XSAgPyBkcm1fZHBfbXN0X2hwZF9pcnErMHg1Yi8weDljMCBbZHJtX2ttc19oZWxwZXJd
+Cj4gPiA+IFsgICswLDAwNTc2NF0gIGRybV9kcF9tc3RfaHBkX2lycSsweDViLzB4OWMwIFtkcm1f
+a21zX2hlbHBlcl0KPiA+ID4gWyAgKzAsMDA1NjIzXSAgPyBpbnRlbF9kcF9ocGRfcHVsc2UrMHgy
+MDUvMHgzNzAgW2k5MTVdCj4gPiA+IFsgICswLDAwNTAxOF0gIGludGVsX2RwX2hwZF9wdWxzZSsw
+eDIwNS8weDM3MCBbaTkxNV0KPiA+ID4gWyAgKzAsMDA0ODM2XSAgaTkxNV9kaWdwb3J0X3dvcmtf
+ZnVuYysweGJiLzB4MTQwIFtpOTE1XQo+ID4gPiBbICArMCwwMDUxMDhdICBwcm9jZXNzX29uZV93
+b3JrKzB4MjQ1LzB4NjEwCj4gPiA+IFsgICswLDAwNDAyN10gIHdvcmtlcl90aHJlYWQrMHgzNy8w
+eDM4MAo+ID4gPiBbICArMCwwMDM2ODRdICA/IHByb2Nlc3Nfb25lX3dvcmsrMHg2MTAvMHg2MTAK
+PiA+ID4gWyAgKzAsMDA0MTg0XSAga3RocmVhZCsweDExOS8weDEzMAo+ID4gPiBbICArMCwwMDMy
+NDBdICA/IGt0aHJlYWRfcGFyaysweDgwLzB4ODAKPiA+ID4gWyAgKzAsMDAzNjY4XSAgcmV0X2Zy
+b21fZm9yaysweDI0LzB4NTAKPiA+ID4gCj4gPiA+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRo
+YXQuY29tPgo+ID4gPiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiA+ID4g
+U2lnbmVkLW9mZi1ieTogSW1yZSBEZWFrIDxpbXJlLmRlYWtAaW50ZWwuY29tPgo+ID4gPiAtLS0K
+PiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCA2ICsrKysrLQo+
+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+ID4g
+PiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5
+LmMKPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPiA+IGlu
+ZGV4IGRhMWFiY2ExYjllOS4uMjRjMzI1ZjRhNjE2IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMKPiA+ID4gQEAgLTE5OTYsNyArMTk5NiwxMSBAQCBzdGF0
+aWMgdm9pZCBwcm9jZXNzX3NpbmdsZV91cF90eF9xbG9jayhzdHJ1Y3QKPiA+ID4gZHJtX2RwX21z
+dF90b3BvbG9neV9tZ3IgKm1nciwKPiA+ID4gIAlpZiAocmV0ICE9IDEpCj4gPiA+ICAJCURSTV9E
+RUJVR19LTVMoImZhaWxlZCB0byBzZW5kIG1zZyBpbiBxICVkXG4iLCByZXQpOwo+ID4gPiAgCj4g
+PiA+IC0JdHhtc2ctPmRzdC0+dHhfc2xvdHNbdHhtc2ctPnNlcW5vXSA9IE5VTEw7Cj4gPiA+ICsJ
+aWYgKHR4bXNnLT5zZXFubyAhPSAtMSkgewo+ID4gPiArCQlXQVJOX09OKCh1bnNpZ25lZCl0eG1z
+Zy0+c2Vxbm8gPgo+ID4gPiArCQkJQVJSQVlfU0laRSh0eG1zZy0+ZHN0LT50eF9zbG90cykpOwo+
+ID4gCj4gPiBOb3QgMTAwJSBzdXJlIG9uIHRoaXMgbml0cGljayBteXNlbGYgYnV0LCBpZiB3ZSBr
+bm93IHRoYXQgdHhtc2ctPnNlcW5vIGlzCj4gPiBhYm91dCB0byBnbyBvdXQgb2YgYm91bmRzIHNo
+b3VsZG4ndCB3ZSBhbHNvIHRyeSB0byB0YWtlIGFjdGlvbiB0byBzdG9wIGl0Pwo+ID4gbGlrZQo+
+IAo+IEltbywgaXQncyB3b3J0aCBrZWVwaW5nIHRoaW5zIHNpbXBsZS4gSWYgdGhlIFdBUk4gdHJp
+Z2dlcnMgd2UgbmVlZCB0bwo+IGZpeCB0aGUgb3JpZ2luYWwgaXNzdWUgaW4gYW55IGNhc2UgKHR4
+bXNnLT5zZXFubyBuZXZlciBzaG91bGQgYmUgc2V0IHRvCj4gYW55dGhpbmcgZWxzZSB0aGFuIC0x
+IG9yIGEgdmFsaWQgaWR4KSBzbyBtYWtpbmcgdGhlIGFzc2lnbm1lbnQgaGVyZQo+IGNvbmRpdGlv
+bmFsIHdvdWxkbid0IGhhdmUgYSByZWFsIHB1cnBvc2UuCgptbSwgZmFpciBlbm91Z2guIFRoZW46
+CgpSZXZpZXdlZC1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KClRoYW5rcyBmb3Ig
+dGhlIGZpeCEKCj4gCj4gPiBpZiAoIVdBUk5fT04oKHVuc2lnbmVkKXR4bXNnLT5zZXFubyA+IEFS
+UkFZX1NJWkUodHhtc2ctPmRzdC0+dHhfc2xvdHMpKSkKPiA+ICAgICAgICAgdHhtc2ctPmRzdC0+
+dHhfc2xvdHNbdHhtc2ctPnNlcW5vXSA9IE5VTEw7Cj4gPiAKPiA+IAo+ID4gCj4gPiA+ICsJCXR4
+bXNnLT5kc3QtPnR4X3Nsb3RzW3R4bXNnLT5zZXFub10gPSBOVUxMOwo+ID4gPiArCX0KPiA+ID4g
+IH0KPiA+ID4gIAo+ID4gPiAgc3RhdGljIHZvaWQgZHJtX2RwX3F1ZXVlX2Rvd25fdHgoc3RydWN0
+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gPiAtLSAKPiA+IENoZWVycywKPiA+IAlM
+eXVkZSBQYXVsCj4gPiAKLS0gCkNoZWVycywKCUx5dWRlIFBhdWwKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
