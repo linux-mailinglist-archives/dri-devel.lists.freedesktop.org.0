@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A4C27BC1
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 13:29:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2BD27BC6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 13:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B1EE89B84;
-	Thu, 23 May 2019 11:29:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA2889DD8;
+	Thu, 23 May 2019 11:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B307389DD8;
- Thu, 23 May 2019 11:29:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EFB989DD8;
+ Thu, 23 May 2019 11:30:41 +0000 (UTC)
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
  [83.86.89.107])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0B65B21872;
- Thu, 23 May 2019 11:29:28 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id E87AA21841;
+ Thu, 23 May 2019 11:30:40 +0000 (UTC)
 Subject: Patch "PCI: Reset Lenovo ThinkPad P50 nvgpu at boot if necessary" has
- been added to the 5.0-stable tree
+ been added to the 5.1-stable tree
 To: 20190212220230.1568-1-lyude@redhat.com, bhelgaas@google.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  kherbst@redhat.com, lyude@redhat.com, nouveau@lists.freedesktop.org,
  skeggsb@gmail.com
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 23 May 2019 13:26:17 +0200
-Message-ID: <155861077717120@kroah.com>
+Date: Thu, 23 May 2019 13:26:35 +0200
+Message-ID: <155861079575238@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1558610969;
- bh=eMe/QyeoYgd7mu9aEdEE7wtU2SOzqrzJt8wCDYrvLKo=;
+ d=kernel.org; s=default; t=1558611041;
+ bh=vGwZPpuEuzEinPctZmbQtHcOdyXF5pf1Q4/Qfw/wxXs=;
  h=Subject:To:Cc:From:Date:From;
- b=AIaOq+Rcve8zeuYzgZweC9CnOMr7cn8VModkkVH5eVsoimIJph1GLdOXtwgLXYKat
- bbqLdlVqj7NZMKu/QRIoLldxqJ3l8IoCdrNEgiItNaNn43TQZUQ2f1glxpWZks2cMj
- o6ZVw76zIxFMpmg09chSAN/VOS5SFTT5uB3J6p7U=
+ b=hga1jBBDzFZPVRn1HQyiP10CQpZk1iZHba39phmoxTRmptXLvYMLedUk5qxWGnUCY
+ Hb9KDcdt/lLn3NsL3seqZ8VZsUUurknMgHz1/KJD8S026zNY/UviEJQdW8ocBntPYR
+ pkD5lQTAYimzjsvOS8snJICjtINEvisHVDKzQlj4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,11 +57,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ClRoaXMgaXMgYSBub3RlIHRvIGxldCB5b3Uga25vdyB0aGF0IEkndmUganVzdCBhZGRlZCB0aGUg
 cGF0Y2ggdGl0bGVkCgogICAgUENJOiBSZXNldCBMZW5vdm8gVGhpbmtQYWQgUDUwIG52Z3B1IGF0
-IGJvb3QgaWYgbmVjZXNzYXJ5Cgp0byB0aGUgNS4wLXN0YWJsZSB0cmVlIHdoaWNoIGNhbiBiZSBm
+IGJvb3QgaWYgbmVjZXNzYXJ5Cgp0byB0aGUgNS4xLXN0YWJsZSB0cmVlIHdoaWNoIGNhbiBiZSBm
 b3VuZCBhdDoKICAgIGh0dHA6Ly93d3cua2VybmVsLm9yZy9naXQvP3A9bGludXgva2VybmVsL2dp
 dC9zdGFibGUvc3RhYmxlLXF1ZXVlLmdpdDthPXN1bW1hcnkKClRoZSBmaWxlbmFtZSBvZiB0aGUg
 cGF0Y2ggaXM6CiAgICAgcGNpLXJlc2V0LWxlbm92by10aGlua3BhZC1wNTAtbnZncHUtYXQtYm9v
-dC1pZi1uZWNlc3NhcnkucGF0Y2gKYW5kIGl0IGNhbiBiZSBmb3VuZCBpbiB0aGUgcXVldWUtNS4w
+dC1pZi1uZWNlc3NhcnkucGF0Y2gKYW5kIGl0IGNhbiBiZSBmb3VuZCBpbiB0aGUgcXVldWUtNS4x
 IHN1YmRpcmVjdG9yeS4KCklmIHlvdSwgb3IgYW55b25lIGVsc2UsIGZlZWxzIGl0IHNob3VsZCBu
 b3QgYmUgYWRkZWQgdG8gdGhlIHN0YWJsZSB0cmVlLApwbGVhc2UgbGV0IDxzdGFibGVAdmdlci5r
 ZXJuZWwub3JnPiBrbm93IGFib3V0IGl0LgoKCkZyb20gZTA1NDdjODFiZmNmYWQwMWNiYmZhOTNh
@@ -138,7 +138,7 @@ eTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KCi0tLQog
 ZHJpdmVycy9wY2kvcXVpcmtzLmMgfCAgIDU4ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
 KysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDU4IGluc2VydGlvbnMoKykK
 Ci0tLSBhL2RyaXZlcnMvcGNpL3F1aXJrcy5jCisrKyBiL2RyaXZlcnMvcGNpL3F1aXJrcy5jCkBA
-IC01MTIyLDMgKzUxMjIsNjEgQEAgU1dJVENIVEVDX1FVSVJLKDB4ODU3Myk7ICAvKiBQRlhJIDQ4
+IC01MTI0LDMgKzUxMjQsNjEgQEAgU1dJVENIVEVDX1FVSVJLKDB4ODU3Myk7ICAvKiBQRlhJIDQ4
 WEczCiBTV0lUQ0hURUNfUVVJUksoMHg4NTc0KTsgIC8qIFBGWEkgNjRYRzMgKi8KIFNXSVRDSFRF
 Q19RVUlSSygweDg1NzUpOyAgLyogUEZYSSA4MFhHMyAqLwogU1dJVENIVEVDX1FVSVJLKDB4ODU3
 Nik7ICAvKiBQRlhJIDk2WEczICovCisKKy8qCisgKiBPbiBMZW5vdm8gVGhpbmtwYWQgUDUwIFNL
@@ -175,7 +175,7 @@ ZGlzYWJsZV9kZXZpY2UocGRldik7Cit9CitERUNMQVJFX1BDSV9GSVhVUF9DTEFTU19GSU5BTChQ
 Q0lfVkVORE9SX0lEX05WSURJQSwgMHgxM2IxLAorCQkJICAgICAgUENJX0NMQVNTX0RJU1BMQVlf
 VkdBLCA4LAorCQkJICAgICAgcXVpcmtfcmVzZXRfbGVub3ZvX3RoaW5rcGFkX3A1MF9udmdwdSk7
 CgoKUGF0Y2hlcyBjdXJyZW50bHkgaW4gc3RhYmxlLXF1ZXVlIHdoaWNoIG1pZ2h0IGJlIGZyb20g
-bHl1ZGVAcmVkaGF0LmNvbSBhcmUKCnF1ZXVlLTUuMC9wY2ktcmVzZXQtbGVub3ZvLXRoaW5rcGFk
+bHl1ZGVAcmVkaGF0LmNvbSBhcmUKCnF1ZXVlLTUuMS9wY2ktcmVzZXQtbGVub3ZvLXRoaW5rcGFk
 LXA1MC1udmdwdS1hdC1ib290LWlmLW5lY2Vzc2FyeS5wYXRjaApfX19fX19fX19fX19fX19fX19f
 X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
 ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
