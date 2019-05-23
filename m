@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA3C2863D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:02:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0659E28645
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 21:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8430189F75;
-	Thu, 23 May 2019 19:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C74346E05A;
+	Thu, 23 May 2019 19:04:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DA24889F75
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 19:02:44 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8C7D889FCA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 19:04:33 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D71C472167; Thu, 23 May 2019 19:02:44 +0000 (UTC)
+ id 8948772167; Thu, 23 May 2019 19:04:33 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110721] graphics corruption on steam client with mesa 19.1.0
  rc3 on polaris
-Date: Thu, 23 May 2019 19:02:45 +0000
+Date: Thu, 23 May 2019 19:04:33 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110721-502-SD0Vj0guV5@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-110721-502-SKRJaPxout@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110721-502@http.bugs.freedesktop.org/>
 References: <bug-110721-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0472753426=="
+Content-Type: multipart/mixed; boundary="===============1902638415=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0472753426==
-Content-Type: multipart/alternative; boundary="15586381641.BADbfe.16174"
+--===============1902638415==
+Content-Type: multipart/alternative; boundary="15586382735.00BCe8e.16727"
 Content-Transfer-Encoding: 7bit
 
 
---15586381641.BADbfe.16174
-Date: Thu, 23 May 2019 19:02:44 +0000
+--15586382735.00BCe8e.16727
+Date: Thu, 23 May 2019 19:04:33 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,21 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
 
---- Comment #13 from Mathieu Belanger <b747xx@gmail.com> ---
-That bug was affecting Discord, Brave and Chromium.
+Mathieu Belanger <b747xx@gmail.com> changed:
 
-Fixed by reverting : 811fa9a79cf
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |0xe2.0x9a.0x9b@gmail.com
+
+--- Comment #14 from Mathieu Belanger <b747xx@gmail.com> ---
+*** Bug 110736 has been marked as a duplicate of this bug. ***
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15586381641.BADbfe.16174
-Date: Thu, 23 May 2019 19:02:44 +0000
+--15586382735.00BCe8e.16727
+Date: Thu, 23 May 2019 19:04:33 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,15 +98,40 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:b747xx&#6=
+4;gmail.com" title=3D"Mathieu Belanger &lt;b747xx&#64;gmail.com&gt;"> <span=
+ class=3D"fn">Mathieu Belanger</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
+ rc3 on polaris"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721">bug 11072=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>0xe2.0x9a.0x9b&#64;gmail.com
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_REOPENED "
    title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
  rc3 on polaris"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c13">Comme=
-nt # 13</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110721#c14">Comme=
+nt # 14</a>
               on <a class=3D"bz_bug_link=20
           bz_status_REOPENED "
    title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
@@ -113,9 +142,11 @@ nt # 13</a>
 b747xx&#64;gmail.com" title=3D"Mathieu Belanger &lt;b747xx&#64;gmail.com&gt=
 ;"> <span class=3D"fn">Mathieu Belanger</span></a>
 </span></b>
-        <pre>That bug was affecting Discord, Brave and Chromium.
-
-Fixed by reverting : 811fa9a79cf</pre>
+        <pre>*** <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - Spotify rendering issues"
+   href=3D"show_bug.cgi?id=3D110736">Bug 110736</a> has been marked as a du=
+plicate of this bug. ***</pre>
         </div>
       </p>
 
@@ -129,9 +160,9 @@ Fixed by reverting : 811fa9a79cf</pre>
     </body>
 </html>=
 
---15586381641.BADbfe.16174--
+--15586382735.00BCe8e.16727--
 
---===============0472753426==
+--===============1902638415==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -141,4 +172,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0472753426==--
+--===============1902638415==--
