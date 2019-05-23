@@ -1,40 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E795127311
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 01:58:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6C427333
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 02:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C55989CAD;
-	Wed, 22 May 2019 23:58:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BC389CC4;
+	Thu, 23 May 2019 00:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1435C89CAD;
- Wed, 22 May 2019 23:58:19 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 458V2K0zG5z9s55;
- Thu, 23 May 2019 09:58:17 +1000 (AEST)
-Date: Thu, 23 May 2019 09:58:16 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-misc tree with the drm-intel tree
-Message-ID: <20190523095816.2fd950f6@canb.auug.org.au>
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFA6789CC1;
+ Thu, 23 May 2019 00:19:47 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id y6so2533467vsb.0;
+ Wed, 22 May 2019 17:19:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A7WHfBXXIto6odbaUW4DTZDLjf1NDdjY6ytjPMo7wwQ=;
+ b=RjaKB8EAnM5Fa+/Cw4BgIc9yOJ2ucgRU/tjHkKNgMpC0d6r02UfqA/udNKUse81j+2
+ CO9UCC1P0HMcFweTLa6QNX9Ksb1+aWJROhI4OF+PfsiCTTpEq3081CGVQf0V8Az4RI6H
+ wdAkQLGEWYkMjcVGfTSTCq+vuGs1bie0rCqEHyBOhFvDDWRMkXWxIK+si0D3ue6OEBFw
+ JYfGhi50NbYKBRXhk30e3u2c6TCa7I7AKmQj54PxDOWSoE58dfD4pxzsQqEOK7rcAHK1
+ PcBD7GHQJRDPYm0h6zuTr5QnRwsidTlcEl0HCQCOrmzaOPyIt1VfpttqwJA0bownzkk5
+ LEHg==
+X-Gm-Message-State: APjAAAUK7KcQrm+lNmA4BGiWg9lbZD+iousO7dAuhbMzGX3HGwTC4rfE
+ BLv+YED0VWXUHxAfeLiYhCrrY6bqVLeJbtbwuUo=
+X-Google-Smtp-Source: APXvYqy6eWEp65OT9vAPNDxLLk7AOYG3a7+SbK8ilRo1O5sLzfB6aHfe/hua+lO7HWLlbRhtyAOeL66ULA5FKKNtx7o=
+X-Received: by 2002:a67:8dc5:: with SMTP id
+ p188mr46357209vsd.121.1558570786847; 
+ Wed, 22 May 2019 17:19:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1558569497;
- bh=awSBY8QhuVpH2dy6Tjr+pBL7Q9+494tGdrCADPbp6JU=;
- h=Date:From:To:Cc:Subject:From;
- b=AkCaBfd81pV96IMrR/ZRSqiziOtr2nedXxnYOHwKBtvL8mxs2Rcfs0RrGH/avyVn7
- 2HvfDbg9slu+9LeNCNWNbXn+6uEMNzAECO1RPJQ43X4fBJIzIXhrmM9+bgrpEDLHxf
- ioF1nKeosEkVVxp7wSsD1Zqulnm8yAgQig7gPDn1rHrIZWEtK7sDe/5t4mR9ryytlt
- 2viGVPe+KD26LtZa2v2o/7hXf6S9q0cddu9MryVoO9517+SDepzYKaGX1wC4E4YWLF
- MbuBKBGZqUsjyKrKkgvTEg8bopi/bAvqcMPrjvbXELT980QIESSsRm3aKZx0PcS6CE
- 6S9vMHyD0jgKA==
+References: <20190522150219.13913-1-emil.l.velikov@gmail.com>
+ <20190522150219.13913-2-emil.l.velikov@gmail.com>
+In-Reply-To: <20190522150219.13913-2-emil.l.velikov@gmail.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 23 May 2019 10:19:35 +1000
+Message-ID: <CACAvsv5Z7CZOirZrRB=88rCeZt0SvBvdDjbhSpOcfE9JA20hCg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/nouveau: remove open-coded drm_invalid_op()
+To: Emil Velikov <emil.l.velikov@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=A7WHfBXXIto6odbaUW4DTZDLjf1NDdjY6ytjPMo7wwQ=;
+ b=ngFNODiRF3Rn3xD4xJfMAHjbWssGrjWJ81qMbEGA25TNwEktHFIIDU6+1XYtQj1Nf5
+ pKWatVDhwEp3aHODskR5t9s+L3Y3JzsTS6ZzpMKe1PKuB1iYnSb+7YJbiDO94Kkgfnl7
+ 7RIblYbfu2SUNCVQl5ESk6NyinPbhmMrEGH2NePyvKQWi6higxCRKK73vz4PhK5tMqmu
+ ltDDESnsSLrfF3B6RDminMAl6YanCeO8NJKYu4Tl/BVGbtaTZ1UcPJ0q9hxIOw4mO6on
+ DbaoLGurmHW6W4XNVcmtyZYuSFXlk70cJeYIl5glWPBD5V7gRIbdNRyRWilMGdUJqKnS
+ Yjjg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,99 +64,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Uma Shankar <uma.shankar@intel.com>
-Content-Type: multipart/mixed; boundary="===============1389848129=="
+Cc: nouveau@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1389848129==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/iqoc+GgWuISAZa6f0roKMrT"; protocol="application/pgp-signature"
-
---Sig_/iqoc+GgWuISAZa6f0roKMrT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-Today's linux-next merge of the drm-misc tree got a conflict in:
-
-  include/drm/drm_mode_config.h
-
-between commit:
-
-  585b000de23b ("drm: move content protection property to mode_config")
-
-from the drm-intel tree and commit:
-
-  fbb5d0353c62 ("drm: Add HDR source metadata property")
-
-from the drm-misc tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc include/drm/drm_mode_config.h
-index 5764ee3c7453,c031b5a9d8d1..000000000000
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@@ -836,12 -836,13 +836,19 @@@ struct drm_mode_config=20
-  	 */
-  	struct drm_property *writeback_out_fence_ptr_property;
- =20
- +	/**
- +	 * @content_protection_property: DRM ENUM property for content
- +	 * protection. See drm_connector_attach_content_protection_property().
- +	 */
- +	struct drm_property *content_protection_property;
- +
-+ 	/**
-+ 	 * hdr_output_metadata_property: Connector property containing hdr
-+ 	 * metatda. This will be provided by userspace compositors based
-+ 	 * on HDR content
-+ 	 */
-+ 	struct drm_property *hdr_output_metadata_property;
-+=20
-  	/* dumb ioctl parameters */
-  	uint32_t preferred_depth, prefer_shadow;
- =20
-
---Sig_/iqoc+GgWuISAZa6f0roKMrT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlzl4hgACgkQAVBC80lX
-0GwvNAf/e7CBkRU+Cwrf5MF74yDaDjYq1i+q6cdNZgWm1pjYAHtD+2QarsztG3fI
-8Ln3ug+xGjuoWWDSWQ4kkDWRg2L//Viqt5EmUrQFKrvxvOBBWE4936f1kfJg9JGp
-neOdvZEGjRgQo8xcKW/5KP7WQvNw+yelYPZ1p3IdQ2oigr7y0SewpICvWnIPEeUa
-MAqY9sBmCp+S326XWvjlPoAnMZUbzzsnnUZUYMt3yzUui1k8UaYAG9WGPyx2WNgs
-Qxi+1CsuV9GVpoAao+4s1QsLJDUZ9nCjT/GgN56mQR+NBFyfTTtfY/yBxyzAkxu/
-kfA2Tk1W5TcIrEbrf3/mX/OifV3dgA==
-=xKAU
------END PGP SIGNATURE-----
-
---Sig_/iqoc+GgWuISAZa6f0roKMrT--
-
---===============1389848129==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1389848129==--
+T24gVGh1LCAyMyBNYXkgMjAxOSBhdCAwMTowMywgRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtv
+dkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZA
+Y29sbGFib3JhLmNvbT4KPgo+IENjOiBCZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Cj4g
+Q2M6IG5vdXZlYXVAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gU2lnbmVkLW9mZi1ieTogRW1pbCBW
+ZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KVGhhbmtzIQoKPiAtLS0KPiAgZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5jIHwgNiAtLS0tLS0KPiAgZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5oIHwgMSAtCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMgICB8IDIgKy0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgOCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vbm91dmVhdS9ub3V2ZWF1X2FiaTE2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
+ZWF1X2FiaTE2LmMKPiBpbmRleCBjM2ZkNWRkMzllZDkuLjBjNTg1ZGM1ZjVjMyAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2FiaTE2LmMKPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2FiaTE2LmMKPiBAQCAtMjQ0LDEyICsyNDQsNiBA
+QCBub3V2ZWF1X2FiaTE2X2lvY3RsX2dldHBhcmFtKEFCSTE2X0lPQ1RMX0FSR1MpCj4gICAgICAg
+ICByZXR1cm4gMDsKPiAgfQo+Cj4gLWludAo+IC1ub3V2ZWF1X2FiaTE2X2lvY3RsX3NldHBhcmFt
+KEFCSTE2X0lPQ1RMX0FSR1MpCj4gLXsKPiAtICAgICAgIHJldHVybiAtRUlOVkFMOwo+IC19Cj4g
+LQo+ICBpbnQKPiAgbm91dmVhdV9hYmkxNl9pb2N0bF9jaGFubmVsX2FsbG9jKEFCSTE2X0lPQ1RM
+X0FSR1MpCj4gIHsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVh
+dV9hYmkxNi5oIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5oCj4gaW5k
+ZXggMzZmZGUxZmYzYWQ1Li45Mjc1ZDUyOWI5NDcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL25vdXZlYXUvbm91dmVhdV9hYmkxNi5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvbm91dmVhdV9hYmkxNi5oCj4gQEAgLTYsNyArNiw2IEBACj4gICAgICAgICBzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdgo+Cj4g
+IGludCBub3V2ZWF1X2FiaTE2X2lvY3RsX2dldHBhcmFtKEFCSTE2X0lPQ1RMX0FSR1MpOwo+IC1p
+bnQgbm91dmVhdV9hYmkxNl9pb2N0bF9zZXRwYXJhbShBQkkxNl9JT0NUTF9BUkdTKTsKPiAgaW50
+IG5vdXZlYXVfYWJpMTZfaW9jdGxfY2hhbm5lbF9hbGxvYyhBQkkxNl9JT0NUTF9BUkdTKTsKPiAg
+aW50IG5vdXZlYXVfYWJpMTZfaW9jdGxfY2hhbm5lbF9mcmVlKEFCSTE2X0lPQ1RMX0FSR1MpOwo+
+ICBpbnQgbm91dmVhdV9hYmkxNl9pb2N0bF9ncm9ial9hbGxvYyhBQkkxNl9JT0NUTF9BUkdTKTsK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZHJtLmMKPiBpbmRleCAyMmNkNDU4NDVlMDcu
+LmVkNDVhZDJiNzJmMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2
+ZWF1X2RybS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcm0uYwo+
+IEBAIC0xMDQ2LDcgKzEwNDYsNyBAQCBub3V2ZWF1X2RybV9wb3N0Y2xvc2Uoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwgc3RydWN0IGRybV9maWxlICpmcHJpdikKPiAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBkcm1faW9jdGxfZGVzYwo+ICBub3V2ZWF1X2lvY3Rsc1tdID0gewo+ICAgICAgICAgRFJNX0lP
+Q1RMX0RFRl9EUlYoTk9VVkVBVV9HRVRQQVJBTSwgbm91dmVhdV9hYmkxNl9pb2N0bF9nZXRwYXJh
+bSwgRFJNX0FVVEh8RFJNX1JFTkRFUl9BTExPVyksCj4gLSAgICAgICBEUk1fSU9DVExfREVGX0RS
+VihOT1VWRUFVX1NFVFBBUkFNLCBub3V2ZWF1X2FiaTE2X2lvY3RsX3NldHBhcmFtLCBEUk1fQVVU
+SHxEUk1fTUFTVEVSfERSTV9ST09UX09OTFkpLAo+ICsgICAgICAgRFJNX0lPQ1RMX0RFRl9EUlYo
+Tk9VVkVBVV9TRVRQQVJBTSwgZHJtX2ludmFsaWRfb3AsIERSTV9BVVRIfERSTV9NQVNURVJ8RFJN
+X1JPT1RfT05MWSksCj4gICAgICAgICBEUk1fSU9DVExfREVGX0RSVihOT1VWRUFVX0NIQU5ORUxf
+QUxMT0MsIG5vdXZlYXVfYWJpMTZfaW9jdGxfY2hhbm5lbF9hbGxvYywgRFJNX0FVVEh8RFJNX1JF
+TkRFUl9BTExPVyksCj4gICAgICAgICBEUk1fSU9DVExfREVGX0RSVihOT1VWRUFVX0NIQU5ORUxf
+RlJFRSwgbm91dmVhdV9hYmkxNl9pb2N0bF9jaGFubmVsX2ZyZWUsIERSTV9BVVRIfERSTV9SRU5E
+RVJfQUxMT1cpLAo+ICAgICAgICAgRFJNX0lPQ1RMX0RFRl9EUlYoTk9VVkVBVV9HUk9CSl9BTExP
+Qywgbm91dmVhdV9hYmkxNl9pb2N0bF9ncm9ial9hbGxvYywgRFJNX0FVVEh8RFJNX1JFTkRFUl9B
+TExPVyksCj4gLS0KPiAyLjIxLjAKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
