@@ -2,45 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCC427F6E
-	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 16:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5695C27F8F
+	for <lists+dri-devel@lfdr.de>; Thu, 23 May 2019 16:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E46989EA3;
-	Thu, 23 May 2019 14:22:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A7889BDB;
+	Thu, 23 May 2019 14:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE83D89EEB
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 14:22:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BBA8072167; Thu, 23 May 2019 14:22:06 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D816789BDB
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 14:26:56 +0000 (UTC)
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:53432
+ helo=localhost.localdomain)
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
+ id 1hTogJ-0000BN-0A; Thu, 23 May 2019 16:26:55 +0200
+From: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109073] AMDGPU Radeon RX540 system freezes and/or crashes; poor
- performance with ac adapter plugged in
-Date: Thu, 23 May 2019 14:22:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: a9016009@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109073-502-TsoXsKkqdZ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109073-502@http.bugs.freedesktop.org/>
-References: <bug-109073-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] drm/todo: Add bootsplash entry
+Date: Thu, 23 May 2019 16:26:49 +0200
+Message-Id: <20190523142649.19891-1-noralf@tronnes.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=etJBhNmi3HgpmITz+9dSKoS96PlZ1o2TnLdxAR1MwEg=; 
+ b=HxXmqy0UBp0dYUCb0uaew/hmNg1vw78mGHhua0Wm+/5OUDDm94pPriHR59qFahSsZ4qf54omZKKO3f/OwbyDQ22SMgmqMKRiJGOvJiDeoWRs3YCX63/xdZDWqXhH7+eZOXa2tqiu4ztTxPLwyAMYEALsB2ZKsrehReMqVQDxSlBh0AyOPotN7m3TyIxzTLKOTxvGqJh+Fva1XdKqY7PW0jhYGDSaGr3WTU3URsjATncPPSAa1Rv3gcE3XCU/CRsOzscaMt6KoypJ4Kk31ojAZke/IgFWWAK/B/kAKcemmmu/0mgjZS9/BNd4e6jT5lvj7nTd3ALoU6bdqEcex3W7gA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +42,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2070865259=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2070865259==
-Content-Type: multipart/alternative; boundary="15586213264.E0d5.14810"
-Content-Transfer-Encoding: 7bit
-
-
---15586213264.E0d5.14810
-Date: Thu, 23 May 2019 14:22:06 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109073
-
---- Comment #13 from Andre Klapper <a9016009@gmx.de> ---
-> its actually been more then two months since reporting it, its not fixed =
-yet
-
-You (or anyone else) needs to volunteer to investigate and provide a patch.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15586213264.E0d5.14810
-Date: Thu, 23 May 2019 14:22:06 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Radeon RX540 system freezes and/or crashes; poor p=
-erformance with ac adapter plugged in"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109073#c13">Comme=
-nt # 13</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Radeon RX540 system freezes and/or crashes; poor p=
-erformance with ac adapter plugged in"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109073">bug 10907=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
-span class=3D"fn">Andre Klapper</span></a>
-</span></b>
-        <pre><span class=3D"quote">&gt; its actually been more then two mon=
-ths since reporting it, its not fixed yet</span >
-
-You (or anyone else) needs to volunteer to investigate and provide a patch.=
-</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15586213264.E0d5.14810--
-
---===============2070865259==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2070865259==--
+RWFzZSBlbnRyeSBmb3IgYW55b25lIHdhbnRpbmcgdG8gcGljayB1cCB0aGUgYm9vdHNwbGFzaCB3
+b3JrIGJ5IHByb3ZpZGluZwphIGNvdXBsZSBvZiBwb2ludGVycy4KClNpZ25lZC1vZmYtYnk6IE5v
+cmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgotLS0KIERvY3VtZW50YXRpb24vZ3B1
+L3RvZG8ucnN0IHwgMTQgKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRp
+b25zKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgYi9Eb2N1bWVu
+dGF0aW9uL2dwdS90b2RvLnJzdAppbmRleCBhYjk2YmEwNjAwYTkuLjA1ZDYxMDMyMTU2NiAxMDA2
+NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9n
+cHUvdG9kby5yc3QKQEAgLTQ4NCw1ICs0ODQsMTkgQEAgaTkxNQogICBkZXZpY2VfbGlua19hZGQg
+dG8gbW9kZWwgdGhlIGRlcGVuZGVuY3kgYmV0d2VlbiBpOTE1IGFuZCBzbmRfaGFkLiBTZWUKICAg
+aHR0cHM6Ly9kcmkuZnJlZWRlc2t0b3Aub3JnL2RvY3MvZHJtL2RyaXZlci1hcGkvZGV2aWNlX2xp
+bmsuaHRtbAogCitCb290c3BsYXNoCis9PT09PT09PT09CisKK1RoZXJlIGlzIHN1cHBvcnQgaW4g
+cGxhY2Ugbm93IGZvciB3cml0aW5nIGludGVybmFsIERSTSBjbGllbnRzIG1ha2luZyBpdAorcG9z
+c2libGUgdG8gcGljayB1cCB0aGUgYm9vdHNwbGFzaCB3b3JrIHRoYXQgd2FzIHJlamVjdGVkIGJl
+Y2F1c2UgaXQgd2FzIHdyaXR0ZW4KK2ZvciBmYmRldi4KKworLSBbdjYsOC84XSBkcm0vY2xpZW50
+OiBIYWNrOiBBZGQgYm9vdHNwbGFzaCBleGFtcGxlCisgIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
+ZXNrdG9wLm9yZy9wYXRjaC8zMDY1NzkvCisKKy0gW1JGQyBQQVRDSCB2MiAwMC8xM10gS2VybmVs
+IGJhc2VkIGJvb3RzcGxhc2gKKyAgaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTcvMTIvMTMvNzY0
+CisKKwogT3V0c2lkZSBEUk0KID09PT09PT09PT09Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
