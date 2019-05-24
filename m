@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9C8297E3
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 14:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C1F4297F3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 14:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3016E0DB;
-	Fri, 24 May 2019 12:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C978C6E0E3;
+	Fri, 24 May 2019 12:23:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 489F46E0DB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 12:15:33 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id w13so1424616wru.11
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 05:15:33 -0700 (PDT)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71ACF6E0E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 12:23:32 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id n22so6972679lfe.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 05:23:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=bwgmf3lJOZtZmcYZZcNfojnZ76ujSWCcDjCYzdMdQVc=;
- b=GTucOWKccrLLGRx8ptXnnqtgNArojAvM1JgIVp0JzgIuOPA15jdWKpig8dxH/cfIcD
- SufTOznlj8NliI8x0/guJgCm35W3igs8Y8p2EcJVnXwbbq4gM7meutMhTZBMLb4K2jWf
- 8b3HwJXzOX/oy2wXgK9C1XD5MUHAKkyhn6mOPUjpwzDe1ogUElpL6hRIVrjSd1w64UYu
- qVpPHQlr5GoCkdKHak8WSHWQCajs1/b0o2MrNal1SkivI+UV6No3ACBn0v9Fzrq97c+S
- HIN3CvO8a3QPUlg34g+S7EZGDSuPpw4z1pvkrI1OIUO2usEbDcOt3O9QXDr7l2vzSfER
- ZvOg==
-X-Gm-Message-State: APjAAAVqswqFC8SIoV9+bBX40B33w5BUMrZXc0yodltySuiYR21w+aB8
- sDo/+DZ47B1yvjQbrPbhiFs=
-X-Google-Smtp-Source: APXvYqziJE1Z38A7VxhqMdrjqzqscDp9/3Gb4UkyYUuvipqAIgIKhym97R3p9VOiBPSntVqFybeDYw==
-X-Received: by 2002:a5d:6108:: with SMTP id v8mr7446790wrt.150.1558700131984; 
- Fri, 24 May 2019 05:15:31 -0700 (PDT)
-Received: from arch-x1c3 ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id v184sm3641733wma.6.2019.05.24.05.15.31
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 24 May 2019 05:15:31 -0700 (PDT)
-Date: Fri, 24 May 2019 13:14:10 +0100
-From: Emil Velikov <emil.l.velikov@gmail.com>
-To: Thomas Hellstrom <thellstrom@vmware.com>
-Subject: Re: [PATCH 4/5] drm/vmwgfx: remove custom ioctl io encoding check
-Message-ID: <20190524121410.GB6233@arch-x1c3>
-References: <20190522164119.24139-1-emil.l.velikov@gmail.com>
- <20190522164119.24139-4-emil.l.velikov@gmail.com>
- <a2ec4b6f529ffdc6146903decec6b5ba4cab0a1d.camel@vmware.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=C+myfdGRYFPLLSybMtkNtVx2Tt/XQimBNXiCQ/VdObg=;
+ b=DBENCBgHshEdZpyX3Lw2fX4gLHsrdoGf58BuamLyR9IKZl+25VukdlMrf8GPTnc1/z
+ 75L0zeFJNdlXtHDuUH+ATPuZvVVC4c9JAbJ3U+ey7ZDeAdgG2Isr/tsvNs88S38+EWg0
+ BqVaoRv1/XCxygvW0KFUU6XIdrJtYX6Ua8vyDW+4pK4K8YAQrHva5Uv4R6IR8ggBuQgB
+ IFkRRp6vy/maQ7GaaZ2krp4NVyi1qS1IawvHDQlw6Gw+KKJLWKfP7VUbhBQ4zY9KdY5z
+ BdERnYnW3Ntm5ExakKagQS8as4/4wuFU6qZYgpiFFqBIN/s2t9fVhhlkVKluaSFtvkS1
+ fLnA==
+X-Gm-Message-State: APjAAAXQh26S94SA7auTQvzq1uVofY0mafn1wlp0uw/qagn1fcLBvjDv
+ GSpwsAJHr+OOO7Y0MR7xy6zjcaikDG3pv/Yvjm0=
+X-Google-Smtp-Source: APXvYqzNQQPTSEiT9TgbJ91HH92JPe3O9NL20r1waVsd3eYrkSbkO8SrKpooDjZEBXWcbK0tw4yY2uokVzdzBVZa5zc=
+X-Received: by 2002:ac2:4428:: with SMTP id w8mr46274166lfl.99.1558700610795; 
+ Fri, 24 May 2019 05:23:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a2ec4b6f529ffdc6146903decec6b5ba4cab0a1d.camel@vmware.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <cover.1557657814.git.agx@sigxcpu.org>
+ <2000bc4564175abd7966207a5e9fbb9bb7d82059.1557657814.git.agx@sigxcpu.org>
+In-Reply-To: <2000bc4564175abd7966207a5e9fbb9bb7d82059.1557657814.git.agx@sigxcpu.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 24 May 2019 09:23:30 -0300
+Message-ID: <CAOMZO5BaFYJxh1v46n2mdPyc+-jg6LgvoGR1rTE+yHZg_0Z8PA@mail.gmail.com>
+Subject: Re: [PATCH v11 2/2] phy: Add driver for mixel mipi dphy found on
+ NXP's i.MX8 SoCs
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Kishon Vijay Abraham I <kishon@ti.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=bwgmf3lJOZtZmcYZZcNfojnZ76ujSWCcDjCYzdMdQVc=;
- b=ZG+VaQoMyWsNdwrK5HMdVI9KaU8+A0x6yhAEd/IPIZ0fkTBVxd+nm0XGcw1WinlN8x
- XNcEHiD83pkrsqbRMz8Gwtu1nBvEQ5yX/KlybT5HkQcGzcLeE/BPk7lMi+ULdSapt4PO
- 2ayXCty2RIsKSQynpyEYPgtSiHC/3p2tu1J4Eqn+xx1/2TzwG3PnjdwYC53hVCMdfC0Q
- BfEZmTUUSsyU8+RysTQaJAL4SDvFtradqkAGuoCarDCYHyVMJuDftTP7ejqUiGwpomhn
- Txcxut48z7IsUxyfizA85XIsDbzp7MW+F2krL8/klDjCxSBChMyWE5xmUL1O/+GImQaT
- Rsvg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=C+myfdGRYFPLLSybMtkNtVx2Tt/XQimBNXiCQ/VdObg=;
+ b=hZ0bD/CUdsrgatmNXy5higdZbx3OSCJT8sw3LgkqkYgqbLtDn/gLs9c3g8mirUEDrG
+ l+4o7a9TAxKLDBrPxE1t79fM9XPEqezMkBejfXLFW1INWkfF6OniubiwX8l6JtdYRW5M
+ tFXRga1iZyPaMA5IfgLcUNsVq0/n8CPAA7ngiZ2vlfacytZlLloQGm7izI50MYXleqvm
+ ISGNwOfcAGX8Xe6oTUH7CHfM9HQ/3MXe5c0F3fumRQ20D6mMK9Uiok4uhyMArRoFFH+q
+ u4G3Opyv18dM583Kp0bxWnPFYDg/9AdqBdoV4pWXcATSuvokXHnSxlg9lkFRrlKRVbRQ
+ 1utQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,25 +65,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel@collabora.com" <kernel@collabora.com>,
- Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Li Jun <jun.li@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Johan Hovold <johan@kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Abel Vesa <abel.vesa@nxp.com>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Rob Herring <robh+dt@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Chiras <robert.chiras@nxp.com>, Thierry Reding <treding@nvidia.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS8wNS8yMywgVGhvbWFzIEhlbGxzdHJvbSB3cm90ZToKPiBIaSwgRW1pbCwKPiAKPiBP
-biBXZWQsIDIwMTktMDUtMjIgYXQgMTc6NDEgKzAxMDAsIEVtaWwgVmVsaWtvdiB3cm90ZToKPiA+
-IEZyb206IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4gPiAKPiA+
-IERyb3AgdGhlIGN1c3RvbSBpb2N0bCBpbyBlbmNvZGluZyBjaGVjayAtIGNvcmUgZHJtIGRvZXMg
-aXQgZm9yIHVzLgo+IAo+IEkgZmFpbCB0byBzZWUgd2hlcmUgdGhlIGNvcmUgZG9lcyB0aGlzLCBv
-ciBkbyBJIG1pc3Mgc29tZXRoaW5nPwoKZHJtX2lvY3RsKCkgYWxsb3dzIGZvciB0aGUgZW5jb2Rp
-bmcgdG8gYmUgY2hhbmdlZCBhbmQgYXR0cmlidXRlcyB0aGF0IG9ubHkgdGhlCmFwcHJvcHJpYXRl
-IHNpemUgaXMgY29waWVkIGluL291dCBvZiB0aGUga2VybmVsLgoKVGVjaG5pY2FsbHkgdGhlIGZ1
-bmN0aW9uIGlzIG1vcmUgcmVsYXhlZCByZWxhdGl2ZSB0byB0aGUgdm13Z2Z4IGNoZWNrLCB5ZXQK
-c2VlbXMgcGVyZmVjdGx5IHJlYXNvbmFibGUuCgpJcyB0aGVyZSBhbnkgY29ybmVyLWNhc2UgdGhh
-dCBpc24ndCBidXQgc2hvdWxkIGJlIGhhbmRsZWQgaW4gZHJtX2lvY3RsKCk/CgotRW1pbApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SGkgS2lzaG9uLAoKT24gU3VuLCBNYXkgMTIsIDIwMTkgYXQgNzo0OSBBTSBHdWlkbyBHw7xudGhl
+ciA8YWd4QHNpZ3hjcHUub3JnPiB3cm90ZToKPgo+IFRoaXMgYWRkcyBzdXBwb3J0IGZvciB0aGUg
+TWl4ZWwgRFBIWSBhcyBmb3VuZCBvbiBpLk1YOCBDUFVzIGJ1dCBzaW5jZQo+IHRoaXMgaXMgYW4g
+SVAgY29yZSBpdCB3aWxsIGxpa2VseSBiZSBmb3VuZCBvbiBvdGhlcnMgaW4gdGhlIGZ1dHVyZS4g
+U28KPiBpbnN0ZWFkIG9mIGFkZGluZyB0aGlzIHRvIHRoZSBud2wgaG9zdCBkcml2ZXIgbWFrZSBp
+dCBhIGdlbmVyaWMgUEhZCj4gZHJpdmVyLgo+Cj4gVGhlIGRyaXZlciBzdXBwb3J0cyB0aGUgaS5N
+WDhNUS4gU3VwcG9ydCBmb3IgaS5NWDhRTSBhbmQgaS5NWDhRWFAgY2FuIGJlCj4gYWRkZWQgb25j
+ZSB0aGUgbmVjZXNzYXJ5IHN5c3RlbSBjb250cm9sbGVyIGJpdHMgYXJlIGluIHZpYQo+IG1peGVs
+X2RwaHlfZGV2ZGF0YS4KPgo+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2ln
+eGNwdS5vcmc+Cj4gQ28tZGV2ZWxvcGVkLWJ5OiBSb2JlcnQgQ2hpcmFzIDxyb2JlcnQuY2hpcmFz
+QG54cC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogUm9iZXJ0IENoaXJhcyA8cm9iZXJ0LmNoaXJhc0Bu
+eHAuY29tPgo+IFJldmlld2VkLWJ5OiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBnbWFpbC5jb20+
+Cj4gUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KCldvdWxkIHlv
+dSBoYXZlIGFueSBjb21tZW50cyBvbiB0aGlzIHNlcmllcywgcGxlYXNlPwoKVGhhbmtzCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
