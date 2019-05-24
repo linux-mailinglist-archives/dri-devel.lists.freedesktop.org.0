@@ -2,35 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB6229DAC
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 20:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABD4F29DC7
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 20:11:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC366E13C;
-	Fri, 24 May 2019 18:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBC4D6E140;
+	Fri, 24 May 2019 18:11:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADF26E13C
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 18:03:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 24 May 2019 11:03:03 -0700
-X-ExtLoop1: 1
-Received: from unknown (HELO localhost) ([10.252.46.194])
- by fmsmga001.fm.intel.com with ESMTP; 24 May 2019 11:03:01 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Gen Zhang <blackgod016574@gmail.com>, maarten.lankhorst@linux.intel.com,
- maxime.ripard@bootlin.com
-Subject: Re: [PATCH] drm_edid-load: Fix a missing-check bug in
- drm_load_edid_firmware()
-In-Reply-To: <20190524023222.GA5302@zhanggen-UX430UQ>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190522123920.GB6772@zhanggen-UX430UQ>
- <87o93u7d3s.fsf@intel.com> <20190524023222.GA5302@zhanggen-UX430UQ>
-Date: Fri, 24 May 2019 21:02:59 +0300
-Message-ID: <87pno7n31o.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E4D46E140
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 18:11:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6B4A772167; Fri, 24 May 2019 18:11:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109754] util_blitter_generate_mipmap: Assertion
+ `!util_format_has_stencil(desc)' failed
+Date: Fri, 24 May 2019 18:11:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric@damsy.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109754-502-kwrsVFCvNe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109754-502@http.bugs.freedesktop.org/>
+References: <bug-109754-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,34 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0074147426=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyNCBNYXkgMjAxOSwgR2VuIFpoYW5nIDxibGFja2dvZDAxNjU3NEBnbWFpbC5jb20+
-IHdyb3RlOgo+IEluIGRybV9sb2FkX2VkaWRfZmlybXdhcmUoKSwgZndzdHIgaXMgYWxsb2NhdGVk
-IGJ5IGtzdHJkdXAoKS4gQW5kIGZ3c3RyCj4gaXMgZGVyZWZlcmVuY2VkIGluIHRoZSBmb2xsb3dp
-bmcgY29kZXMuIEhvd2V2ZXIsIG1lbW9yeSBhbGxvY2F0aW9uIAo+IGZ1bmN0aW9ucyBzdWNoIGFz
-IGtzdHJkdXAoKSBtYXkgZmFpbCBhbmQgcmV0dXJucyBOVUxMLiBEZXJlZmVyZW5jaW5nIAo+IHRo
-aXMgbnVsbCBwb2ludGVyIG1heSBjYXVzZSB0aGUga2VybmVsIGdvIHdyb25nLiBUaHVzIHdlIHNo
-b3VsZCBjaGVjayAKPiB0aGlzIGtzdHJkdXAoKSBvcGVyYXRpb24uCj4gRnVydGhlciwgaWYga3N0
-cmR1cCgpIHJldHVybnMgTlVMTCwgd2Ugc2hvdWxkIHJldHVybiBFUlJfUFRSKC1FTk9NRU0pIHRv
-Cj4gdGhlIGNhbGxlciBzaXRlLgo+Cj4gU2lnbmVkLW9mZi1ieTogR2VuIFpoYW5nIDxibGFja2dv
-ZDAxNjU3NEBnbWFpbC5jb20+Cj4gUmV2aWV3ZWQtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3Vs
-YUBpbnRlbC5jb20+CgpQdXNoZWQgdG8gZHJtLW1pc2MtbmV4dCwgdGhhbmtzIGZvciB0aGUgcGF0
-Y2guCgpCUiwKSmFuaS4KCj4gLS0tCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-ZWRpZF9sb2FkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWRfbG9hZC5jCj4gaW5kZXggYTQ5
-MTUwOS4uYTBlMTA3YSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWRfbG9h
-ZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkX2xvYWQuYwo+IEBAIC0yOTAsNiAr
-MjkwLDggQEAgc3RydWN0IGVkaWQgKmRybV9sb2FkX2VkaWRfZmlybXdhcmUoc3RydWN0IGRybV9j
-b25uZWN0b3IgKmNvbm5lY3RvcikKPiAgCSAqIHRoZSBsYXN0IG9uZSBmb3VuZCBvbmUgYXMgYSBm
-YWxsYmFjay4KPiAgCSAqLwo+ICAJZndzdHIgPSBrc3RyZHVwKGVkaWRfZmlybXdhcmUsIEdGUF9L
-RVJORUwpOwo+ICsJaWYgKCFmd3N0cikKPiArCQlyZXR1cm4gRVJSX1BUUigtRU5PTUVNKTsKPiAg
-CWVkaWRzdHIgPSBmd3N0cjsKPiAgCj4gIAl3aGlsZSAoKGVkaWRuYW1lID0gc3Ryc2VwKCZlZGlk
-c3RyLCAiLCIpKSkgewo+IC0tLQoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNvdXJjZSBH
-cmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============0074147426==
+Content-Type: multipart/alternative; boundary="15587214821.5713bb.1512"
+Content-Transfer-Encoding: 7bit
+
+
+--15587214821.5713bb.1512
+Date: Fri, 24 May 2019 18:11:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109754
+
+--- Comment #1 from Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net> ---
+Thanks for your bug report.
+
+I've opened a merge request to fix this bug:
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/946
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15587214821.5713bb.1512
+Date: Fri, 24 May 2019 18:11:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - util_blitter_generate_mipmap: Assertion `!util_format_has=
+_stencil(desc)' failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109754#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - util_blitter_generate_mipmap: Assertion `!util_format_has=
+_stencil(desc)' failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109754">bug 10975=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric&#64;damsy.net" title=3D"Pierre-Eric Pelloux-Prayer &lt;pierre-e=
+ric&#64;damsy.net&gt;"> <span class=3D"fn">Pierre-Eric Pelloux-Prayer</span=
+></a>
+</span></b>
+        <pre>Thanks for your bug report.
+
+I've opened a merge request to fix this bug:
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/946">htt=
+ps://gitlab.freedesktop.org/mesa/mesa/merge_requests/946</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15587214821.5713bb.1512--
+
+--===============0074147426==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0074147426==--
