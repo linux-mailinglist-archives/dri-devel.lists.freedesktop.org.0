@@ -1,46 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F5D29F24
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 21:35:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4F429F9C
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 22:16:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61A3B6E0B1;
-	Fri, 24 May 2019 19:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 165DA6E0A2;
+	Fri, 24 May 2019 20:16:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id EE91B6E0B1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 19:34:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E387572168; Fri, 24 May 2019 19:34:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Fri, 24 May 2019 19:34:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-VHUGeQhDHR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4F146E0A2;
+ Fri, 24 May 2019 20:16:06 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+ id B321960C5F; Fri, 24 May 2019 20:16:06 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_INVALID,DKIM_SIGNED autolearn=no autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ by smtp.codeaurora.org (Postfix) with ESMTP id 0A3B06087F;
+ Fri, 24 May 2019 20:16:06 +0000 (UTC)
 MIME-Version: 1.0
+Date: Fri, 24 May 2019 13:16:06 -0700
+From: Abhinav Kumar <abhinavk@codeaurora.org>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH 1/2] drm/msm/dpu: Use provided drm_minor to initialize
+ debugfs
+In-Reply-To: <20190524173231.5040-1-sean@poorly.run>
+References: <20190524173231.5040-1-sean@poorly.run>
+Message-ID: <b9e1d9e8e5e76b39c51701c77e00b1c4@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.2.5
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1558728966;
+ bh=7lAqkzss2aGJ5ffn2bYK8f++vTLf/SLZklfVXvX23tk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=g8ZYW2MUJvgg61MOc9jTAxDeA3OBqkLqq5YTCisvEqFJEJXNoa/Xs7iEG0BNqXOqt
+ SeX+liPk36qjxkpC1EiVpHrD2sq9wx/vVEHVjpRO9OqqHOSr9M5xM7bHxFTbwner6w
+ YA5cj60YcBH8BoJkE/PfVpBHeRaLim+JHfMH/ovw=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1558728966;
+ bh=7lAqkzss2aGJ5ffn2bYK8f++vTLf/SLZklfVXvX23tk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=g8ZYW2MUJvgg61MOc9jTAxDeA3OBqkLqq5YTCisvEqFJEJXNoa/Xs7iEG0BNqXOqt
+ SeX+liPk36qjxkpC1EiVpHrD2sq9wx/vVEHVjpRO9OqqHOSr9M5xM7bHxFTbwner6w
+ YA5cj60YcBH8BoJkE/PfVpBHeRaLim+JHfMH/ovw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,124 +59,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0134385416=="
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ freedreno@lists.freedesktop.org, linux-arm-msm-owner@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0134385416==
-Content-Type: multipart/alternative; boundary="15587264961.eD1ecCc.21460"
-Content-Transfer-Encoding: 7bit
-
-
---15587264961.eD1ecCc.21460
-Date: Fri, 24 May 2019 19:34:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #6 from tempel.julian@gmail.com ---
-Situation is unchanged with 5.3-wip.
-
-It also occurs with amdvlk instead of radv if you turn on pageflipping via
-UseFlipHint,1 in amdPalSettings.cfg (for incomprehensible reasons it is
-disabled by default and the amdvlk developers unfortunately seem to ignore =
-user
-complaints regarding it).
-Instead of pageflipping, the issue can also be triggered with amdvlk +
-TearFree.
-
-Btw: There is a free demo of Hitman 2 on Steam, it might work out of the box
-with Steam Play/Proton.
-
-
------
-
-Little off-topic:
-I head to re-write this entire comment because freedesktop.org servers are a
-nightmare. Complete migration to GitLab would be great thing.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15587264961.eD1ecCc.21460
-Date: Fri, 24 May 2019 19:34:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Situation is unchanged with 5.3-wip.
-
-It also occurs with amdvlk instead of radv if you turn on pageflipping via
-UseFlipHint,1 in amdPalSettings.cfg (for incomprehensible reasons it is
-disabled by default and the amdvlk developers unfortunately seem to ignore =
-user
-complaints regarding it).
-Instead of pageflipping, the issue can also be triggered with amdvlk +
-TearFree.
-
-Btw: There is a free demo of Hitman 2 on Steam, it might work out of the box
-with Steam Play/Proton.
-
-
------
-
-Little off-topic:
-I head to re-write this entire comment because freedesktop.org servers are a
-nightmare. Complete migration to GitLab would be great thing.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15587264961.eD1ecCc.21460--
-
---===============0134385416==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0134385416==--
+T24gMjAxOS0wNS0yNCAxMDozMiwgU2VhbiBQYXVsIHdyb3RlOgo+IEZyb206IFNlYW4gUGF1bCA8
+c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+IAo+IEluc3RlYWQgb2YgcmVhY2hpbmcgaW50byBkZXYt
+PnByaW1hcnkgZm9yIGRlYnVnZnNfcm9vdCwgdXNlIHRoZSBtaW5vcgo+IHBhc3NlZCBpbnRvIGRl
+YnVnZnNfaW5pdC4KPiAKPiBUaGlzIGF2b2lkcyBjcmVhdGluZyB0aGUgZGVidWcgZGlyZWN0b3J5
+IHVuZGVyIC9zeXMva2VybmVsL2RlYnVnLyBhbmQKPiBpbnN0ZWFkIGNyZWF0ZXMgdGhlIGRpcmVj
+dG9yeSB1bmRlciB0aGUgY29ycmVjdCBub2RlIGluCj4gL3N5cy9rZXJuZWwvZGVidWcvZHJpLzxu
+b2RlPi8KPiAKPiBSZXBvcnRlZC1ieTogU3RlcGhlbiBCb3lkIDxzd2JveWRAY2hyb21pdW0ub3Jn
+Pgo+IFNpZ25lZC1vZmYtYnk6IFNlYW4gUGF1bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPgpSZXZp
+ZXdlZC1ieTogQWJoaW5hdiBLdW1hciA8YWJoaW5hdmtAY29kZWF1cm9yYS5vcmc+Cj4gLS0tCj4g
+IGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9rbXMuYyB8IDYgKysrLS0tCj4gIDEg
+ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9rbXMuYwo+IGIvZHJpdmVy
+cy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2ttcy5jCj4gaW5kZXggODg1YmY4OGFmYTNlLi5k
+NzcwNzE5NjU0MzEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEv
+ZHB1X2ttcy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2ttcy5j
+Cj4gQEAgLTIzMSw3ICsyMzEsNyBAQCB2b2lkICpkcHVfZGVidWdmc19jcmVhdGVfcmVnc2V0MzIo
+Y29uc3QgY2hhcgo+ICpuYW1lLCB1bW9kZV90IG1vZGUsCj4gIAkJCXJlZ3NldCwgJmRwdV9mb3Bz
+X3JlZ3NldDMyKTsKPiAgfQo+IAo+IC1zdGF0aWMgaW50IF9kcHVfZGVidWdmc19pbml0KHN0cnVj
+dCBkcHVfa21zICpkcHVfa21zKQo+ICtzdGF0aWMgaW50IF9kcHVfZGVidWdmc19pbml0KHN0cnVj
+dCBkcHVfa21zICpkcHVfa21zLCBzdHJ1Y3QgZHJtX21pbm9yIAo+ICptaW5vcikKPiAgewo+ICAJ
+dm9pZCAqcCA9IGRwdV9od191dGlsX2dldF9sb2dfbWFza19wdHIoKTsKPiAgCXN0cnVjdCBkZW50
+cnkgKmVudHJ5Owo+IEBAIC0yMzksNyArMjM5LDcgQEAgc3RhdGljIGludCBfZHB1X2RlYnVnZnNf
+aW5pdChzdHJ1Y3QgZHB1X2ttcyAKPiAqZHB1X2ttcykKPiAgCWlmICghcCkKPiAgCQlyZXR1cm4g
+LUVJTlZBTDsKPiAKPiAtCWVudHJ5ID0gZGVidWdmc19jcmVhdGVfZGlyKCJkZWJ1ZyIsIAo+IGRw
+dV9rbXMtPmRldi0+cHJpbWFyeS0+ZGVidWdmc19yb290KTsKPiArCWVudHJ5ID0gZGVidWdmc19j
+cmVhdGVfZGlyKCJkZWJ1ZyIsIG1pbm9yLT5kZWJ1Z2ZzX3Jvb3QpOwo+ICAJaWYgKElTX0VSUl9P
+Ul9OVUxMKGVudHJ5KSkKPiAgCQlyZXR1cm4gLUVOT0RFVjsKPiAKPiBAQCAtNTgxLDcgKzU4MSw3
+IEBAIHN0YXRpYyBpbnQgX2RwdV9rbXNfZHJtX29ial9pbml0KHN0cnVjdCBkcHVfa21zIAo+ICpk
+cHVfa21zKQo+ICAjaWZkZWYgQ09ORklHX0RFQlVHX0ZTCj4gIHN0YXRpYyBpbnQgZHB1X2ttc19k
+ZWJ1Z2ZzX2luaXQoc3RydWN0IG1zbV9rbXMgKmttcywgc3RydWN0IGRybV9taW5vciAKPiAqbWlu
+b3IpCj4gIHsKPiAtCXJldHVybiBfZHB1X2RlYnVnZnNfaW5pdCh0b19kcHVfa21zKGttcykpOwo+
+ICsJcmV0dXJuIF9kcHVfZGVidWdmc19pbml0KHRvX2RwdV9rbXMoa21zKSwgbWlub3IpOwo+ICB9
+Cj4gICNlbmRpZgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
