@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0831428ED2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 03:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BB928EF8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 04:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB5906E030;
-	Fri, 24 May 2019 01:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FCC489E0D;
+	Fri, 24 May 2019 02:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C08E36E030
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 01:32:58 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E6BE389E0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 02:03:11 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B28B372167; Fri, 24 May 2019 01:32:58 +0000 (UTC)
+ id DDF3F72167; Fri, 24 May 2019 02:03:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110749] [Vega 11] [amdgpu retry page fault
  VM_L2_PROTECTION_FAULT_STATUS] System lock up during playing Steam version of
  Saints Row 3
-Date: Fri, 24 May 2019 01:32:58 +0000
+Date: Fri, 24 May 2019 02:03:12 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,8 +35,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: priority
-Message-ID: <bug-110749-502-ZyKUO4Szis@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110749-502-Adrraero5i@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110749-502@http.bugs.freedesktop.org/>
 References: <bug-110749-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -54,18 +54,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1507345509=="
+Content-Type: multipart/mixed; boundary="===============0031881823=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1507345509==
-Content-Type: multipart/alternative; boundary="15586615780.7dc2.3046"
+--===============0031881823==
+Content-Type: multipart/alternative; boundary="15586633910.170ac48F.9790"
 Content-Transfer-Encoding: 7bit
 
 
---15586615780.7dc2.3046
-Date: Fri, 24 May 2019 01:32:58 +0000
+--15586633910.170ac48F.9790
+Date: Fri, 24 May 2019 02:03:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,18 +74,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110749
 
-Cyrax <evvke@hotmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Priority|medium                      |highest
+--- Comment #2 from Cyrax <evvke@hotmail.com> ---
+Created attachment 144338
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144338&action=3Dedit
+Xorg log before starting the game
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15586615780.7dc2.3046
-Date: Fri, 24 May 2019 01:32:58 +0000
+--15586633910.170ac48F.9790
+Date: Fri, 24 May 2019 02:03:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,32 +95,31 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:evvke&#64=
-;hotmail.com" title=3D"Cyrax &lt;evvke&#64;hotmail.com&gt;"> <span class=3D=
-"fn">Cyrax</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Vega 11] [amdgpu retry page fault VM_L2_PROTECTION_FAULT=
+_STATUS] System lock up during playing Steam version of Saints Row 3"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110749#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [Vega 11] [amdgpu retry page fault VM_L2_PROTECTION_FAULT=
 _STATUS] System lock up during playing Steam version of Saints Row 3"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110749">bug 11074=
 9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Priority</td>
-           <td>medium
-           </td>
-           <td>highest
-           </td>
-         </tr></table>
-      <p>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+evvke&#64;hotmail.com" title=3D"Cyrax &lt;evvke&#64;hotmail.com&gt;"> <span=
+ class=3D"fn">Cyrax</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144338=
+" name=3D"attach_144338" title=3D"Xorg log before starting the game">attach=
+ment 144338</a> <a href=3D"attachment.cgi?id=3D144338&amp;action=3Dedit" ti=
+tle=3D"Xorg log before starting the game">[details]</a></span>
+Xorg log before starting the game</pre>
+        </div>
       </p>
 
 
@@ -134,9 +132,9 @@ _STATUS] System lock up during playing Steam version of Saints Row 3"
     </body>
 </html>=
 
---15586615780.7dc2.3046--
+--15586633910.170ac48F.9790--
 
---===============1507345509==
+--===============0031881823==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1507345509==--
+--===============0031881823==--
