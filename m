@@ -1,34 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A1F29192
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 09:13:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6242919F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 09:24:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 623446E059;
-	Fri, 24 May 2019 07:13:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C85546E091;
+	Fri, 24 May 2019 07:24:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0336E059;
- Fri, 24 May 2019 07:12:58 +0000 (UTC)
-X-Originating-IP: 90.88.147.134
-Received: from localhost (aaubervilliers-681-1-27-134.w90-88.abo.wanadoo.fr
- [90.88.147.134]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 8206DFF80C;
- Fri, 24 May 2019 07:12:53 +0000 (UTC)
-Date: Fri, 24 May 2019 09:12:53 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: linux-next: manual merge of the drm-misc tree with Linus' tree
-Message-ID: <20190524071253.xfimg5mlvzevj2nk@flea>
-References: <20190521105151.51ffa942@canb.auug.org.au>
- <20190523115355.joyeqlmbjkufueyn@flea>
- <CAL_JsqKN6+f5FXUVs03VSv2AKvqaS0XemKFSYFthaxPoHJVwEg@mail.gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72E2F6E091;
+ Fri, 24 May 2019 07:24:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 May 2019 00:24:34 -0700
+X-ExtLoop1: 1
+Received: from unknown (HELO localhost) ([10.252.46.194])
+ by fmsmga001.fm.intel.com with ESMTP; 24 May 2019 00:24:31 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915: Maintain consistent documentation subsection
+ ordering
+In-Reply-To: <20190523101631.64fb33c0@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190523101631.64fb33c0@lwn.net>
+Date: Fri, 24 May 2019 10:24:31 +0300
+Message-ID: <8736l4nwls.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKN6+f5FXUVs03VSv2AKvqaS0XemKFSYFthaxPoHJVwEg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,99 +42,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Marco Felsch <m.felsch@pengutronix.de>, Jyri Sarha <jsarha@ti.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>, Thierry Reding <treding@nvidia.com>
-Content-Type: multipart/mixed; boundary="===============1769505778=="
+Cc: intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1769505778==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hfshwxlp636xi7sx"
-Content-Disposition: inline
-
-
---hfshwxlp636xi7sx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, May 23, 2019 at 11:10:39AM -0500, Rob Herring wrote:
-> On Thu, May 23, 2019 at 6:54 AM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> >
-> > On Tue, May 21, 2019 at 10:51:51AM +1000, Stephen Rothwell wrote:
-> > > Hi all,
-> > >
-> > > Today's linux-next merge of the drm-misc tree got a conflict in:
-> > >
-> > >   Documentation/devicetree/bindings/vendor-prefixes.txt
-> > >
-> > > between commit:
-> > >
-> > >   8122de54602e ("dt-bindings: Convert vendor prefixes to json-schema")
-> > >
-> > > from Linus' tree and commits:
-> > >
-> > >   b4a2c0055a4f ("dt-bindings: Add vendor prefix for VXT Ltd")
-> > >   b1b0d36bdb15 ("dt-bindings: drm/panel: simple: Add binding for TFC S9700RTWV43TR-01B")
-> > >   fbd8b69ab616 ("dt-bindings: Add vendor prefix for Evervision Electronics")
-> > >
-> > > from the drm-misc tree.
-> > >
-> > > I fixed it up (I deleted the file and added the patch below) and can
-> > > carry the fix as necessary. This is now fixed as far as linux-next is
-> > > concerned, but any non trivial conflicts should be mentioned to your
-> > > upstream maintainer when your tree is submitted for merging.  You may
-> > > also want to consider cooperating with the maintainer of the conflicting
-> > > tree to minimise any particularly complex conflicts.
-> >
-> > I just took your patch and pushed a temp branch there:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git/commit/?h=drm-misc-next&id=3832f2cad5307ebcedeead13fbd8d3cf06ba5e90
-> >
-> > Rob, Stephen, are you ok with the change? If so, I'll push it.
->
-> The 'tfc' line is missing a ':' on the end.
-
-That's on me, sorry.
-
-> Does the file pass dt_binding_check like that?
-
-No, it didn't but I overlooked it somehow. I've pushed that patch with
-the extra semi-column.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---hfshwxlp636xi7sx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOeZdQAKCRDj7w1vZxhR
-xZr9AP9GA2LoSNSb8Aw3lEDA0VSIAbX2AciLEGPTA/XJg9DJNQEAjA43h9VqiTXF
-qjCOtN/i2lxT8YXjFbrhoaQuY7/4yQU=
-=kgcI
------END PGP SIGNATURE-----
-
---hfshwxlp636xi7sx--
-
---===============1769505778==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1769505778==--
+T24gVGh1LCAyMyBNYXkgMjAxOSwgSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD4gd3Jv
+dGU6Cj4gV2l0aCBTcGhpbnggMi4wIChvciBwcmlvciB2ZXJzaW9ucyB3aXRoIHRoZSBkZXByZWNh
+dGlvbiB3YXJuaW5ncyBmaXhlZCkgdGhlCj4gZG9jcyBidWlsZCBmYWlscyB3aXRoOgo+Cj4gICBE
+b2N1bWVudGF0aW9uL2dwdS9pOTE1LnJzdDo0MDM6IFdBUk5JTkc6IFRpdGxlIGxldmVsIGluY29u
+c2lzdGVudDoKPgo+ICAgR2xvYmFsIEdUVCBGZW5jZSBIYW5kbGluZwo+ICAgfn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fgo+Cj4gICByZVNUIG1hcmt1cCBlcnJvcjoKPiAgIERvY3VtZW50YXRpb24v
+Z3B1L2k5MTUucnN0OjQwMzogKFNFVkVSRS80KSBUaXRsZSBsZXZlbCBpbmNvbnNpc3RlbnQ6Cj4K
+PiBJICJmaXhlZCIgaXQgYnkgY2hhbmdpbmcgdGhlIHN1YnNlY3Rpb25zIGluIGk5MTUucnN0LCBi
+dXQgdGhhdCBkaWRuJ3Qgc2VlbQo+IGxpa2UgdGhlIGNvcnJlY3QgY2hhbmdlLiAgSXQgdHVybnMg
+b3V0IHRoYXQgYSBjb3VwbGUgb2YgaTkxNSBmaWxlcyBjcmVhdGUKPiB0aGVpciBvd24gc3Vic2Vj
+dGlvbnMgaW4ga2VybmVsZG9jIGNvbW1lbnRzIHVzaW5nIGFwb3N0cm9waGVzIGFzIHRoZQo+IGhl
+YWRpbmcgbWFya2VyOgo+Cj4gICBMYXlvdXQKPiAgICcnJycnJwo+Cj4gVGhhdCBicmVha3MgdGhl
+IG5vcm1hbCBzdWJzZWN0aW9uIG1hcmtlciBvcmRlcmluZywgYW5kIG5ld2VyIFNwaGlueCBpcwo+
+IHJhdGhlciBtb3JlIHN0cmljdCBhYm91dCBlbmZvcmNpbmcgdGhhdCBvcmRlcmluZy4gIFNvIGZp
+eCB0aGUgb2ZmZW5kaW5nCj4gY29tbWVudHMgdG8gbWFrZSBTcGhpbnggaGFwcHkuCj4KPiAoVGhp
+cyBpcyB1bmZvcnR1bmF0ZSwgaW4gdGhhdCBrZXJuZWxkb2MgY29tbWVudHMgc2hvdWxkbid0IG5l
+ZWQgdG8gYmUgYXdhcmUKPiBvZiB3aGVyZSB0aGV5IG1pZ2h0IGJlIGluY2x1ZGVkIGluIHRoZSBo
+ZWFkaW5nIGhpZXJhcmNoeSwgYnV0IEkgZG9uJ3Qgc2VlCj4gYSBiZXR0ZXIgd2F5IGFyb3VuZCBp
+dCkuCj4KPiBTaWduZWQtb2ZmLWJ5OiBKb25hdGhhbiBDb3JiZXQgPGNvcmJldEBsd24ubmV0Pgo+
+IC0tLQo+IFtJZiBJIGNhbiBwb3NzaWJseSBnZXQgYW4gYWNrIGZvciB0aGlzLCBJIHdvdWxkIGxp
+a2UgdG8gc2VuZCBpdCB1cCBzb29uCj4gd2l0aCB0aGUgb3RoZXIgU3BoaW54LXJlbGF0ZWQgZml4
+ZXMuXQoKVGhhbmtzLCB3aGF0ZXZlciB3b3JrcywKCkFja2VkLWJ5OiBKYW5pIE5pa3VsYSA8amFu
+aS5uaWt1bGFAaW50ZWwuY29tPgoKCj4KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWcu
+aCAgICAgICAgICB8IDYgKysrLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3dvcmth
+cm91bmRzLmMgfCAyICstCj4gIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRl
+bGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVn
+LmggYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZy5oCj4gaW5kZXggYjc0ODI0ZjBiNWIx
+Li4yNDlkMzVjMTJhNzUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9y
+ZWcuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmgKPiBAQCAtMzUsNyAr
+MzUsNyBAQAo+ICAgKiBtYWNyb3MuIERvICoqbm90KiogbWFzcyBjaGFuZ2UgZXhpc3RpbmcgZGVm
+aW5pdGlvbnMganVzdCB0byB1cGRhdGUgdGhlIHN0eWxlLgo+ICAgKgo+ICAgKiBMYXlvdXQKPiAt
+ICogJycnJycnCj4gKyAqIH5+fn5+fgo+ICAgKgo+ICAgKiBLZWVwIGhlbHBlciBtYWNyb3MgbmVh
+ciB0aGUgdG9wLiBGb3IgZXhhbXBsZSwgX1BJUEUoKSBhbmQgZnJpZW5kcy4KPiAgICoKPiBAQCAt
+NzksNyArNzksNyBAQAo+ICAgKiBzdHlsZS4gVXNlIGxvd2VyIGNhc2UgaW4gaGV4YWRlY2ltYWwg
+dmFsdWVzLgo+ICAgKgo+ICAgKiBOYW1pbmcKPiAtICogJycnJycnCj4gKyAqIH5+fn5+fgo+ICAg
+Kgo+ICAgKiBUcnkgdG8gbmFtZSByZWdpc3RlcnMgYWNjb3JkaW5nIHRvIHRoZSBzcGVjcy4gSWYg
+dGhlIHJlZ2lzdGVyIG5hbWUgY2hhbmdlcyBpbgo+ICAgKiB0aGUgc3BlY3MgZnJvbSBwbGF0Zm9y
+bSB0byBhbm90aGVyLCBzdGljayB0byB0aGUgb3JpZ2luYWwgbmFtZS4KPiBAQCAtOTcsNyArOTcs
+NyBAQAo+ICAgKiBzdWZmaXggdG8gdGhlIG5hbWUuIEZvciBleGFtcGxlLCBgYF9TS0xgYCBvciBg
+YF9HRU44YGAuCj4gICAqCj4gICAqIEV4YW1wbGVzCj4gLSAqICcnJycnJycnCj4gKyAqIH5+fn5+
+fn5+Cj4gICAqCj4gICAqIChOb3RlIHRoYXQgdGhlIHZhbHVlcyBpbiB0aGUgZXhhbXBsZSBhcmUg
+aW5kZW50ZWQgdXNpbmcgc3BhY2VzIGluc3RlYWQgb2YKPiAgICogVEFCcyB0byBhdm9pZCBtaXNh
+bGlnbm1lbnQgaW4gZ2VuZXJhdGVkIGRvY3VtZW50YXRpb24uIFVzZSBUQUJzIGluIHRoZQo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF93b3JrYXJvdW5kcy5jIGIvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfd29ya2Fyb3VuZHMuYwo+IGluZGV4IDk2ODJkZDU3NTE1
+Mi4uNmRlY2Q0MzJmNGQzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVs
+X3dvcmthcm91bmRzLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF93b3JrYXJv
+dW5kcy5jCj4gQEAgLTM3LDcgKzM3LDcgQEAKPiAgICogICAgY29zdGx5IGFuZCBzaW1wbGlmaWVz
+IHRoaW5ncy4gV2UgY2FuIHJldmlzaXQgdGhpcyBpbiB0aGUgZnV0dXJlLgo+ICAgKgo+ICAgKiBM
+YXlvdXQKPiAtICogJycnJycnCj4gKyAqIH5+fn5+fgo+ICAgKgo+ICAgKiBLZWVwIHRoaW5ncyBp
+biB0aGlzIGZpbGUgb3JkZXJlZCBieSBXQSB0eXBlLCBhcyBwZXIgdGhlIGFib3ZlIChjb250ZXh0
+LCBHVCwKPiAgICogZGlzcGxheSwgcmVnaXN0ZXIgd2hpdGVsaXN0LCBiYXRjaGJ1ZmZlcikuIFRo
+ZW4sIGluc2lkZSBlYWNoIHR5cGUsIGtlZXAgdGhlCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9w
+ZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
