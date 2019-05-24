@@ -2,39 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7312987E
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 15:06:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DDF2987F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 15:06:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08B366E10D;
-	Fri, 24 May 2019 13:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4F26E10E;
+	Fri, 24 May 2019 13:06:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82C986E10C;
- Fri, 24 May 2019 13:06:12 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1A2DDC4EC4;
- Fri, 24 May 2019 13:06:12 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-47.ams2.redhat.com
- [10.36.112.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 81B1E19748;
- Fri, 24 May 2019 13:06:09 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Daniel Vetter <daniel.vetter@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH] drm/i915/dsi: Use a fuzzy check for burst mode clock check
-Date: Fri, 24 May 2019 15:06:07 +0200
-Message-Id: <20190524130607.4021-1-hdegoede@redhat.com>
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3304B6E10E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 13:06:31 +0000 (UTC)
+Received: from localhost (aaubervilliers-681-1-27-134.w90-88.abo.wanadoo.fr
+ [90.88.147.134]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay12.mail.gandi.net (Postfix) with ESMTPSA id C20A420000F;
+ Fri, 24 May 2019 13:06:23 +0000 (UTC)
+Date: Fri, 24 May 2019 15:06:23 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Torsten Duwe <duwe@lst.de>
+Subject: Re: [PATCH 6/6] arm64: dts: allwinner: a64: enable ANX6345 bridge on
+ Teres-I
+Message-ID: <20190524130623.dpkg5z5rdyc2bno4@flea>
+References: <20190523065013.2719D68B05@newverein.lst.de>
+ <20190523065404.BB60F68B20@newverein.lst.de>
+ <CA+E=qVdh-=C5zOYWYj95jLN51EaXFS6B+CQ101-f64q5QmgN3g@mail.gmail.com>
+ <20190524121359.GE15685@lst.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 24 May 2019 13:06:12 +0000 (UTC)
+In-Reply-To: <20190524121359.GE15685@lst.de>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,46 +41,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ arm-linux <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============1796115840=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UHJpb3IgdG8gdGhpcyBjb21taXQgd2UgZmFpbCB0byBpbml0IHRoZSBEU0kgcGFuZWwgb24gdGhl
-IEdQRCBNaWNyb1BDOgpodHRwczovL3d3dy5pbmRpZWdvZ28uY29tL3Byb2plY3RzL2dwZC1taWNy
-b3BjLTYtaW5jaC1oYW5kaGVsZC1pbmR1c3RyeS1sYXB0b3AjLwoKVGhlIHByb2JsZW0gaXMgaW50
-ZWxfZHNpX3ZidF9pbml0KCkgZmFpbGluZyB3aXRoIHRoZSBmb2xsb3dpbmcgZXJyb3I6CipFUlJP
-UiogQnVyc3QgbW9kZSBmcmVxIGlzIGxlc3MgdGhhbiBjb21wdXRlZAoKVGhlIHBjbGsgaW4gdGhl
-IFZCVCBwYW5lbCBtb2RlbGluZSBpcyA3MDAwMCwgdG9nZXRoZXIgd2l0aCAyNCBicHAgYW5kCjQg
-bGluZXMgdGhpcyByZXN1bHRzIGluIGEgYml0cmF0ZSB2YWx1ZSBvZiA3MDAwMCAqIDI0IC8gNCA9
-IDQyMDAwMC4KQnV0IHRoZSB0YXJnZXRfYnVyc3RfbW9kZV9mcmVxIGluIHRoZSBWQlQgaXMgNDE4
-MDAwLgoKVGhpcyBjb21taXQgd29ya3MgYXJvdW5kIHRoaXMgcHJvYmxlbSBieSBhZGRpbmcgYW4g
-aW50ZWxfZnV6enlfY2xvY2tfY2hlY2sKd2hlbiB0YXJnZXRfYnVyc3RfbW9kZV9mcmVxIDwgYml0
-cmF0ZSBhbmQgc2V0dGluZyB0YXJnZXRfYnVyc3RfbW9kZV9mcmVxIHRvCmJpdHJhdGUgd2hlbiB0
-aGF0IGNoZWNrcyBzdWNjZWVkcywgZml4aW5nIHRoZSBwYW5lbCBub3Qgd29ya2luZy4KCkNjOiBz
-dGFibGVAdmdlci5rZXJuZWwub3JnClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdv
-ZWRlQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHNpX3ZidC5j
-IHwgMTEgKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHNpX3ZidC5jIGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvaW50ZWxfZHNpX3ZidC5jCmluZGV4IDAyMmJmNTk0MThkZi4uYTJhOWI5ZDBl
-ZWFhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2lfdmJ0LmMKKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHNpX3ZidC5jCkBAIC04OTUsNiArODk1LDE3
-IEBAIGJvb2wgaW50ZWxfZHNpX3ZidF9pbml0KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSwg
-dTE2IHBhbmVsX2lkKQogCQlpZiAobWlwaV9jb25maWctPnRhcmdldF9idXJzdF9tb2RlX2ZyZXEp
-IHsKIAkJCXUzMiBiaXRyYXRlID0gaW50ZWxfZHNpX2JpdHJhdGUoaW50ZWxfZHNpKTsKIAorCQkJ
-LyoKKwkJCSAqIFNvbWV0aW1lcyB0aGUgVkJUIGNvbnRhaW5zIGEgc2xpZ2h0bHkgbG93ZXIgY2xv
-Y2ssCisJCQkgKiB0aGVuIHRoZSBiaXRyYXRlIHdlIGhhdmUgY2FsY3VsYXRlZCwgaW4gdGhpcyBj
-YXNlCisJCQkgKiBqdXN0IHJlcGxhY2UgaXQgd2l0aCB0aGUgY2FsY3VsYXRlZCBiaXRyYXRlLgor
-CQkJICovCisJCQlpZiAobWlwaV9jb25maWctPnRhcmdldF9idXJzdF9tb2RlX2ZyZXEgPCBiaXRy
-YXRlICYmCisJCQkgICAgaW50ZWxfZnV6enlfY2xvY2tfY2hlY2soCisJCQkJCW1pcGlfY29uZmln
-LT50YXJnZXRfYnVyc3RfbW9kZV9mcmVxLAorCQkJCQliaXRyYXRlKSkKKwkJCQltaXBpX2NvbmZp
-Zy0+dGFyZ2V0X2J1cnN0X21vZGVfZnJlcSA9IGJpdHJhdGU7CisKIAkJCWlmIChtaXBpX2NvbmZp
-Zy0+dGFyZ2V0X2J1cnN0X21vZGVfZnJlcSA8IGJpdHJhdGUpIHsKIAkJCQlEUk1fRVJST1IoIkJ1
-cnN0IG1vZGUgZnJlcSBpcyBsZXNzIHRoYW4gY29tcHV0ZWRcbiIpOwogCQkJCXJldHVybiBmYWxz
-ZTsKLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============1796115840==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fsxi6i2r62yvgbvk"
+Content-Disposition: inline
+
+
+--fsxi6i2r62yvgbvk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, May 24, 2019 at 02:13:59PM +0200, Torsten Duwe wrote:
+> On Thu, May 23, 2019 at 07:48:03AM -0700, Vasily Khoruzhick wrote:
+> > On Wed, May 22, 2019 at 11:54 PM Torsten Duwe <duwe@lst.de> wrote:
+> > >
+> > >
+> > > --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> > > @@ -65,6 +65,21 @@
+> > >                 };
+> > >         };
+> > >
+> > > +       panel: panel {
+> > > +               compatible ="innolux,n116bge", "simple-panel";
+> >
+> > IIRC Rob wanted it to be edp-connector, not simple-panel. Also you
+> > need to introduce edp-connector binding.
+>
+> This line is identically found in
+> arch/arm/boot/dts/rk3288-veyron-chromebook.dtsi and
+> arch/arm64/boot/dts/nvidia/tegra132-norrin.dts
+
+That's not really an argument though. These are using rather old
+bindings, and realising that they are flawed and fixing these flaws is
+a natural process.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--fsxi6i2r62yvgbvk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOfsTwAKCRDj7w1vZxhR
+xRybAP9iKNkCqyhXQ6xIsRZgZ0sNXT+q0aHuuuRwgIKZaEJwkwEAqakTF1EIu2Pr
+7DcRHe8aaX/5zfuRYUOdKKZ/wNaOdQ0=
+=Mlxd
+-----END PGP SIGNATURE-----
+
+--fsxi6i2r62yvgbvk--
+
+--===============1796115840==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1796115840==--
