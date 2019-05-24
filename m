@@ -2,51 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60AC329018
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 06:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D288A2904B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 07:12:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 685656E083;
-	Fri, 24 May 2019 04:28:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2913B6E06B;
+	Fri, 24 May 2019 05:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
- [IPv6:2607:f8b0:4864:20::72b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CCA6E083
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 04:28:21 +0000 (UTC)
-Received: by mail-qk1-x72b.google.com with SMTP id i125so3331460qkd.6
- for <dri-devel@lists.freedesktop.org>; Thu, 23 May 2019 21:28:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=dX1gAgyAdzMJi0GaHGS7cbC2Ct6z+9KB6whPdLfhPwk=;
- b=pla9uvSjyM5jJYGTXk4GJRuSYVqbADXtS2npIb6d0ccz5ZEEPGKVu9Qz8oTJui0BHE
- EdlSAeXg92Sb+RUBsFcLhtdCWwjcnyqS5MFJKvcgv9pCctisBmKD8rlGltC7u1t/WOwN
- XtqDuYey1CT95bHLkPnoSl/zN377RPSAwGr4HJaJFCxvCMkoaL8uP/FStAGEjazZt2+f
- jTSPe46ah5Eh/0j2e1yUCbGd1vu6k8JdNS7Dfail5VRtSD6qcv6VBM7UWsL2byv92vka
- TI/IF1l4ecEcGFbJLQ27ICwK5frZ8FoxhBXCY/6woAPk2/SrSJlsvKy6G+IvrZSsaViu
- dw6Q==
-X-Gm-Message-State: APjAAAVFUvf1rvwCMZVyslVphD16mDb9JoGZ+jaAbZ77z37lLFidg2fv
- KWZ+zFIyDsDBZAqEkoiDgNfelgn4FURGiJ9mP7pNYKivH4k=
-X-Google-Smtp-Source: APXvYqyV+tgcdjP1W4JsbTT4pcvk7C99uUJZbn4Eg7Jxh5ewQFsRPLrcTgKhW2ADCMFvx9HIvVmr0ZDf4YbMDWpvHKE=
-X-Received: by 2002:ac8:1b0a:: with SMTP id y10mr79375567qtj.91.1558672100610; 
- Thu, 23 May 2019 21:28:20 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5A1EC6E088
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 05:12:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 56BCA72167; Fri, 24 May 2019 05:12:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Fri, 24 May 2019 05:12:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-V2SBdg3Diz@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 24 May 2019 14:28:08 +1000
-Message-ID: <CAPM=9txEn_xBG7fW+P40v6VZW8txMUn9usQnC4L_KXumXNXMjw@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.2-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=dX1gAgyAdzMJi0GaHGS7cbC2Ct6z+9KB6whPdLfhPwk=;
- b=csPt3kpWzdOqRdPPJaEmrJF0sndRH6vTTYhcrCTCh9xZrqPTgOJAZXwN2cXQoEzs18
- oj8y/cJDfb2CmWRnDIESbvYFsfde8Gc3XDp3pqat4DzATdv+vRhXKn9/KtWrrfzT4MDo
- /o3VBRNhDWFqxQ8ey4Wq3woRRbB/gHgwAmG8LPNtVY/3pplZWh7XSVfKglokgw6rDHPu
- nEQHj/IbYweTOD93nhyNomfyW9WDObktgI28EAjC1fqtL4b+HUOUesXgv49pf/cQMfeD
- +YvJmqJaMvPmgKunBoJ3RHNwQYf5+mG4TXgNbGhyHV9EQV508z9R/n7b92TkZ7ABOZtt
- rVkw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,118 +52,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1902271098=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGV5IExpbnVzLAoKTm90aGluZyB0b28gdW51c3VhbCBoZXJlIGZvciByYzIuCgppOTE1OgotIGJv
-b3N0aW5nIGZpeAotIGJ1bXAgcmVhZHkgdGFzayBmaXhlcwotIEdWVCAtIHJlc2V0IGZpeCwgZXJy
-b3IgcmV0dXJuLCBUUlRUIGhhbmRsaW5nIGZpeAoKYW1kZ3B1OgotIERNQ1UgZmlybXdhcmUgbG9h
-ZGluZyBmaXgKLSBQb2xhcmlzIDEwIHBjaSBpZCBmb3Iga2ZkCi0gcGljYXNzbyBzY3JlZW4gY29y
-cnVwdGlvbiBmaXgKLSBTUi1JT1YgZml4ZXMKLSB2ZWdhIGRyaXZlciByZWxvYWQgZml4ZXMKLSBT
-TVUgbG9ja2luZyBmaXgKLSBjb21wdXRlIHByb2ZpbGUgZml4IGZvciBrZmQKCnZtd2dmeDoKLSBp
-bnRlZ2VyIG92ZXJmbG93IGZpeGVzCi0gZG1hIHNnIGZpeAoKc3VuNGk6Ci0gSERNSSBwaHkgZml4
-ZXMKCmdtYTUwMDoKLSBMVkRTIGRldGVjdGlvbiBmaXgKCnBhbmZyb3N0OgotIGRldmZyZXEgc2Vs
-ZWN0aW9uIGZpeAoKZHJtLWZpeGVzLTIwMTktMDUtMjQ6CmRybSBpOTE1LCBhbWRncHUsIHZtd2dm
-eCwgc3VuNGksIHBhbmZyb3N0LCBnbWE1MDAgZml4ZXMuClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQgYTE4ODMzOWNhNWEzOTZhY2M1ODhlNTg1MWVkN2UxOWY2NmIwZWJkOToKCiAg
-TGludXggNS4yLXJjMSAoMjAxOS0wNS0xOSAxNTo0NzowOSAtMDcwMCkKCmFyZSBhdmFpbGFibGUg
-aW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9y
-Zy9kcm0vZHJtIHRhZ3MvZHJtLWZpeGVzLTIwMTktMDUtMjQKCmZvciB5b3UgdG8gZmV0Y2ggY2hh
-bmdlcyB1cCB0byBlMWU1Mjk4MWYyOTJiNGUzMjE3ODE3OTRlYWY2ZThhMDg3ZjRmMzAwOgoKICBN
-ZXJnZSB0YWcgJ2RybS1pbnRlbC1maXhlcy0yMDE5LTA1LTIzJyBvZgpnaXQ6Ly9hbm9uZ2l0LmZy
-ZWVkZXNrdG9wLm9yZy9kcm0vZHJtLWludGVsIGludG8gZHJtLWZpeGVzICgyMDE5LTA1LTI0CjE0
-OjAxOjAwICsxMDAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpkcm0gaTkxNSwgYW1kZ3B1LCB2bXdnZngsIHN1bjRpLCBw
-YW5mcm9zdCwgZ21hNTAwIGZpeGVzLgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpBbGV4IERldWNoZXIgKDIpOgogICAgICBk
-cm0vYW1kZ3B1L3NvYzE1OiBza2lwIHJlc2V0IG9uIGluaXQKICAgICAgZHJtL2FtZGdwdS9nbWM5
-OiBzZXQgdnJhbV93aWR0aCBwcm9wZXJseSBmb3IgU1ItSU9WCgpDaHJpcyBXaWxzb24gKDUpOgog
-ICAgICBkcm0vaTkxNTogUmVhcnJhbmdlIGk5MTVfc2NoZWR1bGVyLmMKICAgICAgZHJtL2k5MTU6
-IFBhc3MgaTkxNV9zY2hlZF9ub2RlIGFyb3VuZCBpbnRlcm5hbGx5CiAgICAgIGRybS9pOTE1OiBC
-dW1wIHNpZ25hbGVyIHByaW9yaXR5IG9uIGFkZGluZyBhIHdhaXRlcgogICAgICBkcm0vaTkxNTog
-RG93bmdyYWRlIE5FV0NMSUVOVCB0byBub24tcHJlZW1wdGl2ZQogICAgICBkcm0vaTkxNTogVHJ1
-bHkgYnVtcCByZWFkeSB0YXNrcyBhaGVhZCBvZiBidXN5d2FpdHMKCkRhbiBDYXJwZW50ZXIgKDIp
-OgogICAgICBkcm0vYW1kL3Bvd2VycGxheTogZml4IGxvY2tpbmcgaW4gc211X2ZlYXR1cmVfc2V0
-X3N1cHBvcnRlZCgpCiAgICAgIGRybS9pOTE1L2d2dDogRml4IGFuIGVycm9yIGNvZGUgaW4gcHBn
-dHRfcG9wdWxhdGVfc3B0X2J5X2d1ZXN0X2VudHJ5KCkKCkRhdmUgQWlybGllICg0KToKICAgICAg
-TWVyZ2UgYnJhbmNoICd2bXdnZngtZml4ZXMtNS4yJyBvZgpnaXQ6Ly9wZW9wbGUuZnJlZWRlc2t0
-b3Aub3JnL350aG9tYXNoL2xpbnV4IGludG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIHRhZyAnZHJt
-LW1pc2MtZml4ZXMtMjAxOS0wNS0yMicgb2YKZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcv
-ZHJtL2RybS1taXNjIGludG8gZHJtLWZpeGVzCiAgICAgIE1lcmdlIGJyYW5jaCAnZHJtLWZpeGVz
-LTUuMicgb2YKZ2l0Oi8vcGVvcGxlLmZyZWVkZXNrdG9wLm9yZy9+YWdkNWYvbGludXggaW50byBk
-cm0tZml4ZXMKICAgICAgTWVyZ2UgdGFnICdkcm0taW50ZWwtZml4ZXMtMjAxOS0wNS0yMycgb2YK
-Z2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1pbnRlbCBpbnRvIGRybS1maXhl
-cwoKRXplcXVpZWwgR2FyY2lhICgxKToKICAgICAgZHJtL3BhbmZyb3N0OiBTZWxlY3QgZGV2ZnJl
-cQoKRmxvcmEgQ3VpICgxKToKICAgICAgZHJtL2FtZGdwdToga2VlcCBzdG9sZW4gbWVtb3J5IG9u
-IHBpY2Fzc28KCkhhcmlzaCBLYXNpdmlzd2FuYXRoYW4gKDEpOgogICAgICBkcm0vYW1ka2ZkOiBG
-aXggY29tcHV0ZSBwcm9maWxlIHN3aXRjaGluZwoKSGFycnkgV2VudGxhbmQgKDIpOgogICAgICBk
-cm0vYW1kL2Rpc3BsYXk6IEFkZCBBU0lDUkVWX0lTX1BJQ0FTU08KICAgICAgZHJtL2FtZC9kaXNw
-bGF5OiBEb24ndCBsb2FkIERNQ1UgZm9yIFJhdmVuIDEKCkphZ2FuIFRla2kgKDEpOgogICAgICBk
-cm0vc3VuNGk6IHN1bjZpX21pcGlfZHNpOiBGaXggaHN5bmNfcG9yY2ggb3ZlcmZsb3cKCkplcm5l
-aiBTa3JhYmVjICgyKToKICAgICAgZHJtL3N1bjRpOiBGaXggc3VuOGkgSERNSSBQSFkgY2xvY2sg
-aW5pdGlhbGl6YXRpb24KICAgICAgZHJtL3N1bjRpOiBGaXggc3VuOGkgSERNSSBQSFkgY29uZmln
-dXJhdGlvbiBmb3IgPiAxNDguNSBNSHoKCkpvb25hcyBMYWh0aW5lbiAoMSk6CiAgICAgIE1lcmdl
-IHRhZyAnZ3Z0LWZpeGVzLTIwMTktMDUtMjEnIG9mCmh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9n
-dnQtbGludXggaW50byBkcm0taW50ZWwtZml4ZXMKCktlbnQgUnVzc2VsbCAoMSk6CiAgICAgIGRy
-bS9hbWRrZmQ6IEFkZCBtaXNzaW5nIFBvbGFyaXMxMCBJRAoKTXVycmF5IE1jQWxsaXN0ZXIgKDIp
-OgogICAgICBkcm0vdm13Z2Z4OiBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgZnJvbSB2bXdfY21k
-X2R4X3ZpZXdfZGVmaW5lKCkKICAgICAgZHJtL3Ztd2dmeDogaW50ZWdlciB1bmRlcmZsb3cgaW4g
-dm13X2NtZF9keF9zZXRfc2hhZGVyKCkgbGVhZGluZwp0byBhbiBpbnZhbGlkIHJlYWQKClBhdHJp
-ayBKYWtvYnNzb24gKDEpOgogICAgICBkcm0vZ21hNTAwL2NkdjogQ2hlY2sgdmJ0IGNvbmZpZyBi
-aXRzIHdoZW4gZGV0ZWN0aW5nIGx2ZHMgcGFuZWxzCgpTZWFuIFBhdWwgKDEpOgogICAgICBNZXJn
-ZSBkcm0tbWlzYy1uZXh0LWZpeGVzLTIwMTktMDUtMjAgaW50byBkcm0tbWlzYy1maXhlcwoKVGhv
-bWFzIEhlbGxzdHJvbSAoNCk6CiAgICAgIGRybS92bXdnZng6IERvbid0IHNlbmQgZHJtIHN5c2Zz
-IGhvdHBsdWcgZXZlbnRzIG9uIGluaXRpYWwgbWFzdGVyIHNldAogICAgICBkcm0vdm13Z2Z4OiBG
-aXggdXNlciBzcGFjZSBoYW5kbGUgZXF1YWwgdG8gemVybwogICAgICBkcm0vdm13Z2Z4OiBGaXgg
-Y29tcGF0IG1vZGUgc2hhZGVyIG9wZXJhdGlvbgogICAgICBkcm0vdm13Z2Z4OiBVc2UgdGhlIGRt
-YSBzY2F0dGVyLWdhdGhlciBpdGVyYXRvciB0byBnZXQgZG1hIGFkZHJlc3NlcwoKV2VpbmFuICgx
-KToKICAgICAgZHJtL2k5MTUvZ3Z0OiBlbWl0IGluaXQgYnJlYWRjcnVtYiBmb3IgZ3Z0IHJlcXVl
-c3QKCllhbiBaaGFvICg0KToKICAgICAgZHJtL2k5MTUvZ3Z0OiB1c2UgY21kIHRvIHJlc3RvcmUg
-aW4tY29udGV4dCBtbWlvcyB0byBodyBmb3IgZ2VuOSBwbGF0Zm9ybQogICAgICBkcm0vaTkxNS9n
-dnQ6IFRpbGVkIFJlc291cmNlcyBtbWlvcyBhcmUgaW4tY29udGV4dCBtbWlvcyBmb3IgZ2VuOSsK
-ICAgICAgZHJtL2k5MTUvZ3Z0OiBhZGQgMHg0ZGZjIHRvIGdlbjkgc2F2ZS1yZXN0b3JlIGxpc3QK
-ICAgICAgZHJtL2k5MTUvZ3Z0OiBkbyBub3QgbGV0IFRSVFRFIGFuZCAweDRkZmMgd3JpdGUgcGFz
-c3Rocm91Z2ggdG8gaGFyZHdhcmUKCllpbnRpYW4gVGFvICgxKToKICAgICAgZHJtL2FtZGdwdTog
-c2tpcCBmdyBwcmkgYm8gYWxsb2MgZm9yIFNSSU9WCgogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X3BzcC5jICAgICAgICAgICAgfCAgMTcgKy0KIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2dtY192OV8wLmMgICAgICAgICAgICAgIHwgIDExICstCiBkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9zb2MxNS5jICAgICAgICAgICAgICAgICB8ICAgNSArCiBkcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlLmMgICAgICAgICAgICB8ICAxNyArKwogLi4uL2dwdS9k
-cm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1ZXVlX21hbmFnZXIuYyAgfCAgMTEgKy0KIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9wcml2LmggICAgICAgICAgICAgIHwgICA3ICsKIGRy
-aXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgIHwgIDEyICst
-CiBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvaW5jbHVkZS9kYWxfYXNpY19pZC5oICB8ICAg
-NyArLQogZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvYW1kZ3B1X3NtdS5jICAgICAgICAg
-fCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2x2ZHMuYyAgICAgICAg
-ICAgIHwgICAzICsKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvaW50ZWxfYmlvcy5jICAgICAgICAg
-ICAgICAgIHwgICAzICsKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5oICAgICAgICAg
-ICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9jbWRfcGFyc2VyLmMg
-ICAgICAgICAgICAgIHwgIDE0ICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvZ3R0LmMgICAg
-ICAgICAgICAgICAgICAgICB8ICAgNCArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2hhbmRs
-ZXJzLmMgICAgICAgICAgICAgICAgfCAgMTUgLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9t
-bWlvX2NvbnRleHQuYyAgICAgICAgICAgIHwgIDIzICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9n
-dnQvc2NoZWR1bGVyLmMgICAgICAgICAgICAgICB8ICAyMyArLQogZHJpdmVycy9ncHUvZHJtL2k5
-MTUvaTkxNV9wcmlvbGlzdF90eXBlcy5oICAgICAgICAgfCAgIDUgKy0KIGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfcmVxdWVzdC5jICAgICAgICAgICAgICAgIHwgIDQyICsrLS0KIGRyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfc2NoZWR1bGVyLmMgICAgICAgICAgICAgIHwgMjU1ICsrKysrKysr
-KysrLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9zY2hlZHVsZXJfdHlwZXMu
-aCAgICAgICAgfCAgIDMgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2xyYy5jICAgICAg
-ICAgICAgICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9zZWxmdGVzdHMvaW50
-ZWxfbHJjLmMgICAgICAgICB8ICAxMiArLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L0tjb25m
-aWcgICAgICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2RldmZyZXEuYyAgICAgICAgfCAgMTMgKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9z
-dW42aV9taXBpX2RzaS5jICAgICAgICAgICAgIHwgICA1ICstCiBkcml2ZXJzL2dwdS9kcm0vc3Vu
-NGkvc3VuOGlfaGRtaV9waHkuYyAgICAgICAgICAgICB8ICAyOSArLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS92bXdnZngvdHRtX29iamVjdC5jICAgICAgICAgICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dw
-dS9kcm0vdm13Z2Z4L3Ztd2dmeF9kcnYuYyAgICAgICAgICAgICAgICB8ICAgOCArLQogZHJpdmVy
-cy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmggICAgICAgICAgICAgICAgfCAgIDIgKy0KIGRy
-aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2V4ZWNidWYuYyAgICAgICAgICAgIHwgIDIwICst
-CiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgICAgICAgICB8ICAy
-NyArLS0KIDMyIGZpbGVzIGNoYW5nZWQsIDMzNiBpbnNlcnRpb25zKCspLCAyNjUgZGVsZXRpb25z
-KC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1902271098==
+Content-Type: multipart/alternative; boundary="15586747382.DD995eC.17416"
+Content-Transfer-Encoding: 7bit
+
+
+--15586747382.DD995eC.17416
+Date: Fri, 24 May 2019 05:12:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #22 from Mauro Gaspari <ilvipero@gmx.com> ---
+I ran more tests:
+
+1. Installed Arch Linux, vulkan, llvm8 and ran wine games with DXVK. With s=
+ame
+kernel parameters on grub, no freezes, no crashes. Great performance.
+
+2. Installed Ubuntu Budgie 19.04, Oibaf ppa, updated mesa and llvm8. Same as
+with Arch Linux: With same kernel parameters on grub, no freezes, no crashe=
+s.
+Great performance.
+
+The only issue I have not being able to reproduce the issue quickly, is to
+clearly understand when the issue is resolved by Mesa. It takes hours for m=
+e to
+get the freeze sometimes.=20
+If someone has a quick way to trigger system freeze, I am happy to run more
+tests.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15586747382.DD995eC.17416
+Date: Fri, 24 May 2019 05:12:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c22">Comme=
+nt # 22</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
+ <span class=3D"fn">Mauro Gaspari</span></a>
+</span></b>
+        <pre>I ran more tests:
+
+1. Installed Arch Linux, vulkan, llvm8 and ran wine games with DXVK. With s=
+ame
+kernel parameters on grub, no freezes, no crashes. Great performance.
+
+2. Installed Ubuntu Budgie 19.04, Oibaf ppa, updated mesa and llvm8. Same as
+with Arch Linux: With same kernel parameters on grub, no freezes, no crashe=
+s.
+Great performance.
+
+The only issue I have not being able to reproduce the issue quickly, is to
+clearly understand when the issue is resolved by Mesa. It takes hours for m=
+e to
+get the freeze sometimes.=20
+If someone has a quick way to trigger system freeze, I am happy to run more
+tests.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15586747382.DD995eC.17416--
+
+--===============1902271098==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1902271098==--
