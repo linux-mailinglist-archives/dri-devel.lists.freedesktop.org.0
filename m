@@ -1,43 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6112A2960F
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 12:41:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA5C2961F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 12:42:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 439726E0E7;
-	Fri, 24 May 2019 10:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5690D6E0ED;
+	Fri, 24 May 2019 10:42:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E09689F5B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 10:41:36 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 459NG51r9dz9s6w;
- Fri, 24 May 2019 20:41:33 +1000 (AEST)
-Date: Fri, 24 May 2019 20:41:30 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: linux-next: build failure after merge of the drm-fixes tree
-Message-ID: <20190524204130.35fd2b63@canb.auug.org.au>
-In-Reply-To: <20190524201548.2e8594a2@canb.auug.org.au>
-References: <20190524082926.6e1a7d8f@canb.auug.org.au>
- <CAKMK7uGSfOev71DKF+ygRjU0rMWcrW3rL7-=Xhbwdm9STUWntQ@mail.gmail.com>
- <20190524201548.2e8594a2@canb.auug.org.au>
-MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1558694494;
- bh=ZgWKFfxHvwpM8Wtk7Zc4j9EyrdKEfULQCXmeKuMZL2M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FICrb9z1efYrymNjagrBKaXUcgEciJG4KmwVwjWqcw5giDjWLEn1E6pIaIJGZxtxI
- nHaLOXkwWWGUDgMhE4MRg5JamsL2CuIE1cCNw4YGqJIhu/MmARgEJKKPakiUV0WqB8
- uYPaQb08uACB+x/E/2W0EUBS9P4+APcrop+km4tr69LGExxpbBYxv9OoGSZaG54Eyo
- 30ArngiFovzt0QFTagPSOQdFRz6BX/kuA/QgdcRb36QnEgAkADF2UcqadpLqVUNV7R
- ABQlUX9QEJ+lPrVo3i+MBfUAAAbVVbG02h2Q8VEfjLgrcwf0igZiQ+wK2V//3jw5ID
- zqSuCiJinV/yg==
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E436A6E0E5;
+ Fri, 24 May 2019 10:42:54 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4A380308424C;
+ Fri, 24 May 2019 10:42:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-101.ams2.redhat.com
+ [10.36.116.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DEA875B683;
+ Fri, 24 May 2019 10:42:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0FD2511AB5; Fri, 24 May 2019 12:42:51 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/qxl: drop WARN_ONCE()
+Date: Fri, 24 May 2019 12:42:50 +0200
+Message-Id: <20190524104251.22761-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 24 May 2019 10:42:54 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,63 +44,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: multipart/mixed; boundary="===============1123729378=="
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1123729378==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/=wMrdjYPpv2SAVt7Y0+ABtL"; protocol="application/pgp-signature"
-
---Sig_/=wMrdjYPpv2SAVt7Y0+ABtL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-On Fri, 24 May 2019 20:15:48 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> Ah, in the drm-fixes tree, the definition of  is protected by
-                                               ^
-ASICREV_IS_PICASSO
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/=wMrdjYPpv2SAVt7Y0+ABtL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlznyloACgkQAVBC80lX
-0GxJbQgAj0dhFiXefIMEVotDJekVsFhb6aKrghhuZ5tUdUEO2J3VmCpA/kRwUPQj
-NgfgVp3d6uOl8WKJvzKxmeH8XUQ+fr13I2rO6ltRKIODWW5Hs+iAHd5lp3EkWF9M
-OFNuM2HuUFV+HIymiD6Nq1Jx8uElzK0lwlCi1LarO3Zeo4orB1B6/TdxQvXuOVTD
-xXLaAM5hvuFF0e8SicPturJ16laxlfH1snCI8gtjmxol7KG1QGWQyUi+Bf3MfQQk
-9tOWZ9Y5Yz3Kz8SOInDpvrEXm14nQ7OWP/n6FLVxCo0UGsL3vkJdaOyCqcr1ojMb
-ZIndbfGIyM2VomQ8oZhTaC3kAjc0ow==
-=rVue
------END PGP SIGNATURE-----
-
---Sig_/=wMrdjYPpv2SAVt7Y0+ABtL--
-
---===============1123729378==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1123729378==--
+VGhlcmUgaXMgbm8gZ29vZCByZWFzb24gdG8gZmxvb2QgdGhlIGtlcm5lbCBsb2cgd2l0aCBhIFdB
+Uk4Kc3RhY2t0cmFjZSBqdXN0IGJlY2F1c2Ugc29tZW9uZSB0cmllZCB0byBtbWFwIGEgcHJpbWUg
+YnVmZmVyLgoKU2lnbmVkLW9mZi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+
+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcHJpbWUuYyB8IDEgLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9w
+cmltZS5jIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcHJpbWUuYwppbmRleCAxMTQ2NTNiNDcx
+YzYuLjdkMzgxNmZjYTVhOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcHJp
+bWUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9wcmltZS5jCkBAIC03Nyw2ICs3Nyw1
+IEBAIHZvaWQgcXhsX2dlbV9wcmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmos
+IHZvaWQgKnZhZGRyKQogaW50IHF4bF9nZW1fcHJpbWVfbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmpl
+Y3QgKm9iaiwKIAkJICAgICAgIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqYXJlYSkKIHsKLQlXQVJO
+X09OQ0UoMSwgIm5vdCBpbXBsZW1lbnRlZCIpOwogCXJldHVybiAtRU5PU1lTOwogfQotLSAKMi4x
+OC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
