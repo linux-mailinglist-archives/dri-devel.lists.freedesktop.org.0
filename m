@@ -1,52 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EB729275
-	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 10:09:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A01FB29279
+	for <lists+dri-devel@lfdr.de>; Fri, 24 May 2019 10:10:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5224A6E094;
-	Fri, 24 May 2019 08:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF296E09F;
+	Fri, 24 May 2019 08:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C014D6E094
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 08:09:41 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id g18so7886067otj.11
- for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 01:09:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YuE0856TsTDzOr+71DW3ES+79KQ8yfmx0fgvjM9w/1k=;
- b=nuWA4C8SUuzSU+9vWonea6nj+Hxrnt7jrnGSlqqV8Qx8xrExFb4FIajygVW3una5rn
- EFeMjZnTPw99SzrrQk2AYK9uMpatRhvpI/ZVU5yH1sKKRh70zv1Xmw6nsCQPe2IHo6xQ
- bESc8oMF2SS/mpNAOQaH7k/xNpJNvWWHH/NgYm9BQi9van4WHG44Rqq1XEccX3zZYcqf
- iUoIee24dewdriLXJz2DudMwE0Ns/Ni4iJQz0T7sDVKON/tP1JqIMuymKw4PJrcpiAAx
- 12I8XD2RfHgnp0XjCxuQOdScvSfuziGFrjptmvRip2tY5iVV8a3Wy5Kk0lkaOtGVgOyQ
- awVQ==
-X-Gm-Message-State: APjAAAXknuPkozY3fc6+KLUp7WsTkCEFNkFhouIAYD1CbyaGPN8LsjDb
- UesAlNdNfrZZTqboHQ9zazCgJOMyTazINNdOFRITOw==
-X-Google-Smtp-Source: APXvYqwTQvXvByfrzF4XOqJaZR3DWhg2Aui8um312pfGys3LkCBzcYSph7Loao897bvhjCqFHYARbNInZuy8DwKhvxg=
-X-Received: by 2002:a9d:6e1a:: with SMTP id e26mr61890768otr.188.1558685381035; 
- Fri, 24 May 2019 01:09:41 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 654066E09F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 May 2019 08:10:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6214672167; Fri, 24 May 2019 08:10:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110752] Make kms_ccs clearer
+Date: Fri, 24 May 2019 08:10:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: arkadiusz.hiler@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110752-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190524082926.6e1a7d8f@canb.auug.org.au>
-In-Reply-To: <20190524082926.6e1a7d8f@canb.auug.org.au>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 24 May 2019 10:09:28 +0200
-Message-ID: <CAKMK7uGSfOev71DKF+ygRjU0rMWcrW3rL7-=Xhbwdm9STUWntQ@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the drm-fixes tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=YuE0856TsTDzOr+71DW3ES+79KQ8yfmx0fgvjM9w/1k=;
- b=NhG5otDuKj+xoYuqWMZ8PG2WA2QVSXgCAotFXiApL9qn+lNO9iLE9Iqscjht011rS7
- /JdGphDVJAgCROpPSVvDsWfZy5wi6hUW4hvYY9rBdAKg5cyUYwOTcd88yDwY2qkpBNE9
- wPxsQh/OoT6+xGc/qZ2ghPwLXHIymQxMHJods=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,38 +51,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1555305282=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMjQsIDIwMTkgYXQgMTI6MjkgQU0gU3RlcGhlbiBSb3Rod2VsbCA8c2ZyQGNh
-bmIuYXV1Zy5vcmcuYXU+IHdyb3RlOgo+Cj4gSGkgYWxsLAo+Cj4gQWZ0ZXIgbWVyZ2luZyB0aGUg
-ZHJtLWZpeGVzIHRyZWUsIHRvZGF5J3MgbGludXgtbmV4dCBidWlsZCAoeDg2XzY0Cj4gYWxsbW9k
-Y29uZmlnKSBmYWlsZWQgbGlrZSB0aGlzOgo+Cj4gZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-Li4vZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmM6IEluIGZ1bmN0aW9uICdsb2FkX2RtY3Vf
-ZncnOgo+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
-ZGdwdV9kbS5jOjY2Nzo3OiBlcnJvcjogaW1wbGljaXQgZGVjbGFyYXRpb24gb2YgZnVuY3Rpb24g
-J0FTSUNSRVZfSVNfUElDQVNTTyc7IGRpZCB5b3UgbWVhbiAnQVNJQ1JFVl9JU19WRUdBMTJfUCc/
-IFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQo+ICAgIGlmIChBU0lDUkVW
-X0lTX1BJQ0FTU08oYWRldi0+ZXh0ZXJuYWxfcmV2X2lkKSkKPiAgICAgICAgXn5+fn5+fn5+fn5+
-fn5+fn5+Cj4gICAgICAgIEFTSUNSRVZfSVNfVkVHQTEyX1AKPgo+IENhdXNlZCBieSBjb21taXQK
-Pgo+ICAgNTUxNDNkYzIzY2E0ICgiZHJtL2FtZC9kaXNwbGF5OiBEb24ndCBsb2FkIERNQ1UgZm9y
-IFJhdmVuIDEiKQo+Cj4gSSBoYXZlIHJldmVydGVkIHRoYXQgY29tbWl0IGZvciB0b2RheS4KClNl
-ZW1zIHRvIGNvbXBpbGUgZmluZSBoZXJlLCBhbmQgRGF2ZSBqdXN0IHNlbnQgb3V0IHRoZSBwdWxs
-IHNvIEkgZ3Vlc3MKd29ya3MgZm9yIGhpbSB0b28uIFdoYXQncyB5b3VyIC5jb25maWc/Ci1EYW5p
-ZWwKCj4KPiAtLQo+IENoZWVycywKPiBTdGVwaGVuIFJvdGh3ZWxsCj4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5pZWwgVmV0dGVy
-ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0
-OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============1555305282==
+Content-Type: multipart/alternative; boundary="15586854221.2bC3a.27947"
+Content-Transfer-Encoding: 7bit
+
+
+--15586854221.2bC3a.27947
+Date: Fri, 24 May 2019 08:10:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110752
+
+            Bug ID: 110752
+           Summary: Make kms_ccs clearer
+           Product: DRI
+           Version: unspecified
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: arkadiusz.hiler@intel.com
+
+The test is written in a clever manner but that makes the skip results hard=
+ to
+parse both by humans and machines.
+
+igt_requires should be moved inside test_output and we should not use
+for_each_valid_output_on_pipe to find the first one valid.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15586854221.2bC3a.27947
+Date: Fri, 24 May 2019 08:10:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Make kms_ccs clearer"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110752">110752</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Make kms_ccs clearer
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>arkadiusz.hiler&#64;intel.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>The test is written in a clever manner but that makes the skip=
+ results hard to
+parse both by humans and machines.
+
+igt_requires should be moved inside test_output and we should not use
+for_each_valid_output_on_pipe to find the first one valid.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15586854221.2bC3a.27947--
+
+--===============1555305282==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1555305282==--
