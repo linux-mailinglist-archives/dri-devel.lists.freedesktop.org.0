@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF282B459
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD262A6DF
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 22:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7916889D61;
-	Mon, 27 May 2019 12:04:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D723289FED;
+	Sat, 25 May 2019 20:07:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 745B189E9E
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 19:50:56 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id b18so13044816wrq.12
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 12:50:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZcYPCLZRiQ5K7DYB5WujiUGNLt4GcC2QMNo60dWqOik=;
- b=ZjazS+J5oCL5CkScKmeHNOJ3HGm84mFbzX+YLDpqDpa8LHLQKZ+mg/ybexEwhyM5ch
- Ui1uTITYbc+V7nQdnpRzOQjIas1oUCbYI4bwDquyD81SwhfNP9PP2WfA18HQdyi6wsXA
- q3lqVEZ8qPNhBh9NfUk9z4m+PLcK4ZuEadxcpMG7hYe7dXdICVJU21jsIwWoFUi8Nrl7
- l8wkez0iHc2zHqgk3iCTaJ1slsh4vxS/dsv6cCAufWT8kxVwFsbhBHej9DFF0EDJ9IAu
- P+5zFOlxmrJ/sCHXfRrg+P+TKCSuTRtj+iWntOsV00xPlIa1S02UlebZQ/1SM7KbtkZr
- FHmA==
-X-Gm-Message-State: APjAAAXo42zcf3pPbk5tGb7Ayk5CVlmM7KELA3M+6So2+tD5LyFx1FlH
- YGgvJki+sJcygFHN96P4PuQ=
-X-Google-Smtp-Source: APXvYqz1Hc3st2m4yyaJ9QXusSb5WMHqrM7kgmyyrpaFPx9sCy5y1AsOTj+npZi0tXjPz1nzPZ0YgA==
-X-Received: by 2002:adf:eb09:: with SMTP id s9mr10319702wrn.127.1558813855045; 
- Sat, 25 May 2019 12:50:55 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net.
- [89.212.178.211])
- by smtp.gmail.com with ESMTPSA id t17sm3704510wmj.7.2019.05.25.12.50.52
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 25 May 2019 12:50:53 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@googlegroups.com, robin.murphy@arm.com
-Subject: Re: [linux-sunxi] Re: [PATCH v4 0/8] Allwinner H6 Mali GPU support
-Date: Sat, 25 May 2019 21:50:51 +0200
-Message-ID: <259803076.m90EgR4Zsz@jernej-laptop>
-In-Reply-To: <e8618889-9b22-7f9f-7451-3c08a80a0f9b@arm.com>
-References: <20190512174608.10083-1-peron.clem@gmail.com>
- <CAC=3edbn1yXih5vP0SwsDkqRB0j5q0c4FL0jhCq9DQ9Wt2-hAA@mail.gmail.com>
- <e8618889-9b22-7f9f-7451-3c08a80a0f9b@arm.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 61E8F89FED
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 20:07:38 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 54C2972167; Sat, 25 May 2019 20:07:38 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 106302] [radeonsi] Garbage content when accessing a texture in
+ multiple shared EGL contexts
+Date: Sat, 25 May 2019 20:07:38 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 17.2
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: seb@vestigecounty.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-106302-502-lnFeP0PNoT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-106302-502@http.bugs.freedesktop.org/>
+References: <bug-106302-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZcYPCLZRiQ5K7DYB5WujiUGNLt4GcC2QMNo60dWqOik=;
- b=OstiajoXFzr8xn1GWXjVng2KUZPv1FpE26rnp+DZLjVAPoxD7Byqr11XQpCq8jTUzf
- Y1XDFCZ4Pu/99whHMyYu3EXOhEob5zAGVnJ2DS585qYBWvy6RTBDueIFeMMVp3CCFFB+
- 6tDXPN8F1GdJDM42tpq66M+t/D3oe2j7klsnZkwmo47Qg+sUNZUcVgZAI1lbcEoMjLOF
- ds+diH1HvlA6W2geXXowspcUfv9Rd8vE1BBgGcJ9Xe6Vdv3ECO5LJI6BINSqAOtxbUHO
- m4+4X0BA6EjZV0FE3b3DL7jxfNuddAdQja7UZ/0o0KLsMMnOqtSYa20L5QXvRII02uHF
- AQgQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,143 +53,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Rob Herring <rob.e.herring@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>,
- =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0371626290=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkhCgpEbmUgxI1ldHJ0ZWssIDE2LiBtYWogMjAxOSBvYiAxMzoxOTowNiBDRVNUIGplIFJvYmlu
-IE11cnBoeSBuYXBpc2FsKGEpOgo+IE9uIDE2LzA1LzIwMTkgMDA6MjIsIFJvYiBIZXJyaW5nIHdy
-b3RlOgo+ID4gT24gV2VkLCBNYXkgMTUsIDIwMTkgYXQgNTowNiBQTSBDbMOpbWVudCBQw6lyb24g
-PHBlcm9uLmNsZW1AZ21haWwuY29tPiAKd3JvdGU6Cj4gPj4gSGkgUm9iaW4sCj4gPj4gCj4gPj4g
-T24gVHVlLCAxNCBNYXkgMjAxOSBhdCAyMzo1NywgUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlA
-YXJtLmNvbT4gd3JvdGU6Cj4gPj4+IE9uIDIwMTktMDUtMTQgMTA6MjIgcG0sIENsw6ltZW50IFDD
-qXJvbiB3cm90ZToKPiA+Pj4+IEhpLAo+ID4+Pj4gCj4gPj4+PiBPbiBUdWUsIDE0IE1heSAyMDE5
-IGF0IDE3OjE3LCBDbMOpbWVudCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPiAKd3JvdGU6
-Cj4gPj4+Pj4gSGksCj4gPj4+Pj4gCj4gPj4+Pj4gT24gVHVlLCAxNCBNYXkgMjAxOSBhdCAxMjoy
-OSwgTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29tPiAKd3JvdGU6Cj4gPj4+
-Pj4+IEhpLAo+ID4+Pj4+PiAKPiA+Pj4+Pj4gT24gMTMvMDUvMjAxOSAxNzoxNCwgRGFuaWVsIFZl
-dHRlciB3cm90ZToKPiA+Pj4+Pj4+IE9uIFN1biwgTWF5IDEyLCAyMDE5IGF0IDA3OjQ2OjAwUE0g
-KzAyMDAsIHBlcm9uLmNsZW1AZ21haWwuY29tIAp3cm90ZToKPiA+Pj4+Pj4+PiBGcm9tOiBDbMOp
-bWVudCBQw6lyb24gPHBlcm9uLmNsZW1AZ21haWwuY29tPgo+ID4+Pj4+Pj4+IAo+ID4+Pj4+Pj4+
-IEhpLAo+ID4+Pj4+Pj4+IAo+ID4+Pj4+Pj4+IFRoZSBBbGx3aW5uZXIgSDYgaGFzIGEgTWFsaS1U
-NzIwIE1QMi4gVGhlIGRyaXZlcnMgYXJlCj4gPj4+Pj4+Pj4gb3V0LW9mLXRyZWUgc28gdGhpcyBz
-ZXJpZXMgb25seSBpbnRyb2R1Y2UgdGhlIGR0LWJpbmRpbmdzLgo+ID4+Pj4+Pj4gCj4gPj4+Pj4+
-PiBXZSBkbyBoYXZlIGFuIGluLXRyZWUgbWlkZ2FyZCBkcml2ZXIgbm93IChzaW5jZSA1LjIpLiBE
-b2VzIHRoaXMKPiA+Pj4+Pj4+IHN0dWZmIHdvcmsKPiA+Pj4+Pj4+IHRvZ2V0aGVyIHdpdGggeW91
-ciBkdCBjaGFuZ2VzIGhlcmU/Cj4gPj4+Pj4+IAo+ID4+Pj4+PiBObywgYnV0IGl0IHNob3VsZCBi
-ZSBlYXN5IHRvIGFkZC4KPiA+Pj4+PiAKPiA+Pj4+PiBJIHdpbGwgZ2l2ZSBpdCBhIHRyeSBhbmQg
-bGV0IHlvdSBrbm93Lgo+ID4+Pj4gCj4gPj4+PiBBZGRlZCB0aGUgYnVzX2Nsb2NrIGFuZCBhIHJh
-bXAgZGVsYXkgdG8gdGhlIGdwdV92ZGQgYnV0IHRoZSBkcml2ZXIKPiA+Pj4+IGZhaWwgYXQgcHJv
-YmUuCj4gPj4+PiAKPiA+Pj4+IFsgICAgMy4wNTI5MTldIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBj
-bG9jayByYXRlID0gNDMyMDAwMDAwCj4gPj4+PiBbICAgIDMuMDU4Mjc4XSBwYW5mcm9zdCAxODAw
-MDAwLmdwdTogYnVzX2Nsb2NrIHJhdGUgPSAxMDAwMDAwMDAKPiA+Pj4+IFsgICAgMy4xNzk3NzJd
-IHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBtYWxpLXQ3MjAgaWQgMHg3MjAgbWFqb3IgMHgxCj4gPj4+
-PiBtaW5vciAweDEgc3RhdHVzIDB4MAo+ID4+Pj4gWyAgICAzLjE4NzQzMl0gcGFuZnJvc3QgMTgw
-MDAwMC5ncHU6IGZlYXR1cmVzOiAwMDAwMDAwMCwxMDMwOWU0MCwKPiA+Pj4+IGlzc3VlczogMDAw
-MDAwMDAsMjEwNTQ0MDAKPiA+Pj4+IFsgICAgMy4xOTU1MzFdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1
-OiBGZWF0dXJlczogTDI6MHgwNzExMDIwNgo+ID4+Pj4gU2hhZGVyOjB4MDAwMDAwMDAgVGlsZXI6
-MHgwMDAwMDgwOSBNZW06MHgxIE1NVToweDAwMDAyODIxIEFTOjB4Zgo+ID4+Pj4gSlM6MHg3Cj4g
-Pj4+PiBbICAgIDMuMjA3MTc4XSBwYW5mcm9zdCAxODAwMDAwLmdwdTogc2hhZGVyX3ByZXNlbnQ9
-MHgzIGwyX3ByZXNlbnQ9MHgxCj4gPj4+PiBbICAgIDMuMjM4MjU3XSBwYW5mcm9zdCAxODAwMDAw
-LmdwdTogRmF0YWwgZXJyb3IgZHVyaW5nIEdQVSBpbml0Cj4gPj4+PiBbICAgIDMuMjQ0MTY1XSBw
-YW5mcm9zdDogcHJvYmUgb2YgMTgwMDAwMC5ncHUgZmFpbGVkIHdpdGggZXJyb3IgLTEyCj4gPj4+
-PiAKPiA+Pj4+IFRoZSBFTk9NRU0gaXMgY29taW5nIGZyb20gInBhbmZyb3N0X21tdV9pbml0Igo+
-ID4+Pj4gYWxsb2NfaW9fcGd0YWJsZV9vcHMoQVJNX01BTElfTFBBRSwgJnBmZGV2LT5tbXUtPnBn
-dGJsX2NmZywKPiA+Pj4+IAo+ID4+Pj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHBmZGV2KTsKPiA+Pj4+IAo+ID4+Pj4gV2hpY2ggaXMgZHVlIHRvIGEgY2hlY2sg
-aW4gdGhlIHBndGFibGUgYWxsb2MgImNmZy0+aWFzICE9IDQ4Igo+ID4+Pj4gYXJtLWxwYWUgaW8t
-cGd0YWJsZTogYXJtX21hbGlfbHBhZV9hbGxvY19wZ3RhYmxlIGNmZy0+aWFzIDMzIGNmZy0+b2Fz
-Cj4gPj4+PiA0MAo+ID4+Pj4gCj4gPj4+PiBEUkkgc3RhY2sgaXMgdG90YWxseSBuZXcgZm9yIG1l
-LCBjb3VsZCB5b3UgZ2l2ZSBtZSBhIGxpdHRsZSBjbHVlIGFib3V0Cj4gPj4+PiB0aGlzIGlzc3Vl
-ID8KPiA+Pj4gCj4gPj4+IEhlaCwgdGhpcyBpcyBwcm9iYWJseSB0aGUgb25lIGJpdCB3aGljaCBk
-b2Vzbid0IHJlYWxseSBjb3VudCBhcyAiRFJJCj4gPj4+IHN0YWNrIi4KPiA+Pj4gCj4gPj4+IFRo
-YXQncyBtZXJlbHkgYSBzb21ld2hhdC1jb25zZXJ2YXRpdmUgc2FuaXR5IGNoZWNrIC0gSSdtIHBy
-ZXR0eSBzdXJlIGl0Cj4gPj4+ICpzaG91bGQqIGJlIGZpbmUgdG8gY2hhbmdlIHRoZSB0ZXN0IHRv
-ICJjZmctPmlhcyA+IDQ4IiAoaW8tcGd0YWJsZQo+ID4+PiBpdHNlbGYgb3VnaHQgdG8gY29wZSku
-IFlvdSdsbCBqdXN0IGdldCB0byBiZSB0aGUgZmlyc3QgdG8gYWN0dWFsbHkgdGVzdAo+ID4+PiBh
-IG5vbi00OC1iaXQgY29uZmlndXJhdGlvbiBoZXJlIDopCj4gPj4gCj4gPj4gVGhhbmtzIGEgbG90
-LCB0aGUgcHJvYmUgc2VlbXMgZmluZSBub3cgOikKPiA+PiAKPiA+PiBJIHRyeSB0byBydW4gZ2xt
-YXJrMiA6Cj4gPj4gIyBnbG1hcmsyLWVzMi1kcm0KPiA+PiA9PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4gPj4gCj4gPj4gICAgICBnbG1hcmsy
-IDIwMTcuMDcKPiA+PiAKPiA+PiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09Cj4gPj4gCj4gPj4gICAgICBPcGVuR0wgSW5mb3JtYXRpb24KPiA+
-PiAgICAgIEdMX1ZFTkRPUjogICAgIHBhbmZyb3N0Cj4gPj4gICAgICBHTF9SRU5ERVJFUjogICBw
-YW5mcm9zdAo+ID4+ICAgICAgR0xfVkVSU0lPTjogICAgT3BlbkdMIEVTIDIuMCBNZXNhIDE5LjEu
-MC1yYzIKPiA+PiAKPiA+PiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09Cj4gPj4gW2J1aWxkXSB1c2UtdmJvPWZhbHNlOgo+ID4+IAo+ID4+IEJ1
-dCBpdCBzZWVtcyB0aGF0IEg2IGlzIG5vdCBzbyBlYXN5IHRvIGFkZCA6KC4KPiA+PiAKPiA+PiBb
-ICAzNDUuMjA0ODEzXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogbW11IGlycSBzdGF0dXM9MQo+ID4+
-IFsgIDM0NS4yMDk2MTddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVs
-dCBpbiBBUzAgYXQgVkEKPiA+PiAweDAwMDAwMDAwMDI0MDA0MDAKPiA+PiBbICAzNDUuMjA5NjE3
-XSBSZWFzb246IFRPRE8KPiA+PiBbICAzNDUuMjA5NjE3XSByYXcgZmF1bHQgc3RhdHVzOiAweDgw
-MDAwMkMxCj4gPj4gWyAgMzQ1LjIwOTYxN10gZGVjb2RlZCBmYXVsdCBzdGF0dXM6IFNMQVZFIEZB
-VUxUCj4gPj4gWyAgMzQ1LjIwOTYxN10gZXhjZXB0aW9uIHR5cGUgMHhDMTogVFJBTlNMQVRJT05f
-RkFVTFRfTEVWRUwxCj4gPj4gWyAgMzQ1LjIwOTYxN10gYWNjZXNzIHR5cGUgMHgyOiBSRUFECj4g
-Pj4gWyAgMzQ1LjIwOTYxN10gc291cmNlIGlkIDB4ODAwMAo+ID4+IFsgIDM0NS43Mjk5NTddIHBh
-bmZyb3N0IDE4MDAwMDAuZ3B1OiBncHUgc2NoZWQgdGltZW91dCwganM9MCwKPiA+PiBzdGF0dXM9
-MHg4LCBoZWFkPTB4MjQwMDQwMCwgdGFpbD0weDI0MDA0MDAsIHNjaGVkX2pvYj0wMDAwMDAwMDll
-MjA0ZGU5Cj4gPj4gWyAgMzQ2LjA1NTg3Nl0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IG1tdSBpcnEg
-c3RhdHVzPTEKPiA+PiBbICAzNDYuMDYwNjgwXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogVW5oYW5k
-bGVkIFBhZ2UgZmF1bHQgaW4gQVMwIGF0IFZBCj4gPj4gMHgwMDAwMDAwMDAyQzAwQTAwCj4gPj4g
-WyAgMzQ2LjA2MDY4MF0gUmVhc29uOiBUT0RPCj4gPj4gWyAgMzQ2LjA2MDY4MF0gcmF3IGZhdWx0
-IHN0YXR1czogMHg4MTAwMDJDMQo+ID4+IFsgIDM0Ni4wNjA2ODBdIGRlY29kZWQgZmF1bHQgc3Rh
-dHVzOiBTTEFWRSBGQVVMVAo+ID4+IFsgIDM0Ni4wNjA2ODBdIGV4Y2VwdGlvbiB0eXBlIDB4QzE6
-IFRSQU5TTEFUSU9OX0ZBVUxUX0xFVkVMMQo+ID4+IFsgIDM0Ni4wNjA2ODBdIGFjY2VzcyB0eXBl
-IDB4MjogUkVBRAo+ID4+IFsgIDM0Ni4wNjA2ODBdIHNvdXJjZSBpZCAweDgxMDAKPiA+PiBbICAz
-NDYuNTYxOTU1XSBwYW5mcm9zdCAxODAwMDAwLmdwdTogZ3B1IHNjaGVkIHRpbWVvdXQsIGpzPTEs
-Cj4gPj4gc3RhdHVzPTB4OCwgaGVhZD0weDJjMDBhMDAsIHRhaWw9MHgyYzAwYTAwLCBzY2hlZF9q
-b2I9MDAwMDAwMDBiNTVhOWE4NQo+ID4+IFsgIDM0Ni41NzM5MTNdIHBhbmZyb3N0IDE4MDAwMDAu
-Z3B1OiBtbXUgaXJxIHN0YXR1cz0xCj4gPj4gWyAgMzQ2LjU3ODcwN10gcGFuZnJvc3QgMTgwMDAw
-MC5ncHU6IFVuaGFuZGxlZCBQYWdlIGZhdWx0IGluIEFTMCBhdCBWQQo+ID4+IDB4MDAwMDAwMDAw
-MkMwMEI4MAo+ID4+IFsgIDM0Ni41Nzg3MDddIFJlYXNvbjogVE9ETwo+ID4+IFsgIDM0Ni41Nzg3
-MDddIHJhdyBmYXVsdCBzdGF0dXM6IDB4ODAwMDAyQzEKPiA+PiBbICAzNDYuNTc4NzA3XSBkZWNv
-ZGVkIGZhdWx0IHN0YXR1czogU0xBVkUgRkFVTFQKPiA+PiBbICAzNDYuNTc4NzA3XSBleGNlcHRp
-b24gdHlwZSAweEMxOiBUUkFOU0xBVElPTl9GQVVMVF9MRVZFTDEKPiA+PiBbICAzNDYuNTc4NzA3
-XSBhY2Nlc3MgdHlwZSAweDI6IFJFQUQKPiA+PiBbICAzNDYuNTc4NzA3XSBzb3VyY2UgaWQgMHg4
-MDAwCj4gPj4gWyAgMzQ3LjA3Mzk0N10gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IGdwdSBzY2hlZCB0
-aW1lb3V0LCBqcz0wLAo+ID4+IHN0YXR1cz0weDgsIGhlYWQ9MHgyYzAwYjgwLCB0YWlsPTB4MmMw
-MGI4MCwgc2NoZWRfam9iPTAwMDAwMDAwY2Y2YWY4ZTgKPiA+PiBbICAzNDcuMTA0MTI1XSBwYW5m
-cm9zdCAxODAwMDAwLmdwdTogbW11IGlycSBzdGF0dXM9MQo+ID4+IFsgIDM0Ny4xMDg5MzBdIHBh
-bmZyb3N0IDE4MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVsdCBpbiBBUzAgYXQgVkEKPiA+
-PiAweDAwMDAwMDAwMDI4MDA5MDAKPiA+PiBbICAzNDcuMTA4OTMwXSBSZWFzb246IFRPRE8KPiA+
-PiBbICAzNDcuMTA4OTMwXSByYXcgZmF1bHQgc3RhdHVzOiAweDgxMDAwMkMxCj4gPj4gWyAgMzQ3
-LjEwODkzMF0gZGVjb2RlZCBmYXVsdG4gdGhpIHN0YXR1czogU0xBVkUgRkFVTFQKPiA+PiBbICAz
-NDcuMTA4OTMwXSBleGNlcHRpb24gdHlwZSAweEMxOiBUUkFOU0xBVElPTl9GQVVMVF9MRVZFTDEK
-PiA+PiBbICAzNDcuMTA4OTMwXSBhY2Nlc3MgdHlwZSAweDI6IFJFQUQKPiA+PiBbICAzNDcuMTA4
-OTMwXSBzb3VyY2UgaWQgMHg4MTAwCj4gPj4gWyAgMzQ3LjYxNzk1MF0gcGFuZnJvc3QgMTgwMDAw
-MC5ncHU6IGdwdSBzY2hlZCB0aW1lb3V0LCBqcz0xLAo+ID4+IHN0YXR1cz0weDgsIGhlYWQ9MHgy
-ODAwOTAwLCB0YWlsPTB4MjgwMDkwMCwgc2NoZWRfam9iPTAwMDAwMDAwOTMyNWZkYjcKPiA+PiBb
-ICAzNDcuNjI5OTAyXSBwYW5mcm9zdCAxODAwMDAwLmdwdTogbW11IGlycSBzdGF0dXM9MQo+ID4+
-IFsgIDM0Ny42MzQ2OTZdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBVbmhhbmRsZWQgUGFnZSBmYXVs
-dCBpbiBBUzAgYXQgVkEKPiA+PiAweDAwMDAwMDAwMDI4MDBBODAKPiA+IAo+ID4gSXMgdGhpcyAz
-MiBvciA2NCBiaXQgdXNlcnNwYWNlPyBJIHRoaW5rIDY0LWJpdCBkb2VzIG5vdCB3b3JrIHdpdGgK
-PiA+IFQ3eHguIFlvdSBtaWdodCBuZWVkIHRoaXNbMV0uCj4gCj4gWyBPb29oLi4uIHRoYXQgbWFr
-ZXMgVDYyMCBhY3R1YWxseSBkbyBzdHVmZiB3aXRob3V0IGZhbGxpbmcgb3Zlcgo+IGRlcmVmZXJl
-bmNpbmcgVkEgMCBzb21ld2hlcmUgaGFsZndheSB0aHJvdWdoIHRoZSBqb2IgY2hhaW4gOkQKPiAK
-PiBJIHNoYWxsIGNvbnRpbnVlIHRvIHBsYXkuLi4gXQo+IAo+ID4gWW91IG1heSBhbHNvIGJlIHRo
-ZSBmaXJzdCB0byB0cnkgVDcyMCwKPiA+IHNvIGl0IGNvdWxkIGJlIHNvbWV0aGluZyBlbHNlLgo+
-IAo+IEkgd2FzIGV4cGVjdGluZyB0byBzZWUgYSBzaW1pbGFyIGJlaGF2aW91ciB0byBteSBUNjIw
-ICh3aGljaCBJIG5vdwo+IGFzc3VtZSB3YXMgZG93biB0byA2NC1iaXQgam9iIGRlc2NyaXB0b3Jz
-IHNvcnQtb2YtYnV0LW5vdC1xdWl0ZSB3b3JraW5nKQo+IGJ1dCB0aGlzIGRvZXMgbG9vayBhIGJp
-dCBtb3JlIGZ1bmRhbWVudGFsIC0gdGhlIGZhY3QgdGhhdCBpdCdzIGEgbGV2ZWwgMQo+IGZhdWx0
-IHdpdGggVkEgPT0gaGVhZCA9PSB0YWlsIHN1Z2dlc3RzIHRvIG1lIHRoYXQgdGhlIE1NVSBjYW4n
-dCBzZWUgdGhlCj4gcGFnZSB0YWJsZXMgYXQgYWxsIHRvIHRyYW5zbGF0ZSBhbnl0aGluZy4gSSBy
-ZWFsbHkgaG9wZSB0aGF0IHRoZSBINiBHUFUKPiBpbnRlZ3JhdGlvbiBkb2Vzbid0IHN1ZmZlciBm
-cm9tIHRoZSBzYW1lIERNQSBvZmZzZXQgYXMgdGhlIEFsbHdpbm5lcgo+IGRpc3BsYXkgcGlwZWxp
-bmUgc3R1ZmYsIGJlY2F1c2UgdGhhdCB3b3VsZCBiZSBhIHJlYWwgcGFpbiB0byBzdXBwb3J0IGlu
-Cj4gaW8tcGd0YWJsZS4KCkRNQSBvZmZzZXQgaXMgcHJlc2VudCBvbmx5IG9uIGVhcmx5IFNvQ3Mg
-d2l0aCBERTEuIERFMiBhbmQgREUzICh1c2VkIG9uIEg2KSAKaGF2ZSBubyBvZmZzZXQuCgpCZXN0
-IHJlZ2FyZHMsCkplcm5lagoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============0371626290==
+Content-Type: multipart/alternative; boundary="15588148580.C0e3C444c.10693"
+Content-Transfer-Encoding: 7bit
+
+
+--15588148580.C0e3C444c.10693
+Date: Sat, 25 May 2019 20:07:38 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D106302
+
+--- Comment #2 from seb@vestigecounty.com ---
+Pierre-Eric, in my interpretation of OpenGL(R) ES Version 3.0.5 (November 3,
+2016) Specification, Appendix 4: Shared Objects and Multiple Contexts, D.3.
+Propagating Changes to Objects, Rule 4:...
+
+----
+If the contents of an object T are changed in a context other than the curr=
+ent
+context, T must be attached or re-attached to at least one binding point in=
+ the
+current context, or at least one attachment point of a currently bound
+container object C, in order to guarantee that the new contents of T are
+visible in the current context.
+
+Example: If a texture image is bound to multiple texture bind points and the
+texture is changed in another context, re-binding the texture at any one of=
+ the
+texture bind points is sufficient to cause the changes to be visible at all
+texture bind points.
+----
+
+...Finish or Fence are not required, since I am re-binding the texture on t=
+he
+secondary thread where I expect changes to be seen.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15588148580.C0e3C444c.10693
+Date: Sat, 25 May 2019 20:07:38 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [radeonsi] Garbage content when accessing a texture in mu=
+ltiple shared EGL contexts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106302#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [radeonsi] Garbage content when accessing a texture in mu=
+ltiple shared EGL contexts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106302">bug 10630=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+seb&#64;vestigecounty.com" title=3D"seb&#64;vestigecounty.com">seb&#64;vest=
+igecounty.com</a>
+</span></b>
+        <pre>Pierre-Eric, in my interpretation of OpenGL(R) ES Version 3.0.=
+5 (November 3,
+2016) Specification, Appendix 4: Shared Objects and Multiple Contexts, D.3.
+Propagating Changes to Objects, Rule 4:...
+
+----
+If the contents of an object T are changed in a context other than the curr=
+ent
+context, T must be attached or re-attached to at least one binding point in=
+ the
+current context, or at least one attachment point of a currently bound
+container object C, in order to guarantee that the new contents of T are
+visible in the current context.
+
+Example: If a texture image is bound to multiple texture bind points and the
+texture is changed in another context, re-binding the texture at any one of=
+ the
+texture bind points is sufficient to cause the changes to be visible at all
+texture bind points.
+----
+
+...Finish or Fence are not required, since I am re-binding the texture on t=
+he
+secondary thread where I expect changes to be seen.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15588148580.C0e3C444c.10693--
+
+--===============0371626290==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0371626290==--
