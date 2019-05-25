@@ -2,44 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E89B2A34B
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 09:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DA92B434
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:05:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 311FF6E14A;
-	Sat, 25 May 2019 07:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C65F889C85;
+	Mon, 27 May 2019 12:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC36E14A
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 07:20:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1CD8772167; Sat, 25 May 2019 07:20:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110760] Low FPS in Quake Champions with Vega20
-Date: Sat, 25 May 2019 07:20:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: network723@rkmail.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-110760-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 429F56E149
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 07:25:15 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id o11so1643415pgm.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 00:25:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=3/HXmCveeAbDHijcuKaxjc8S8ha3SNVf6PI9wjQHBaU=;
+ b=oie3HqnotyB/AoCehQFyh+LVPM+9qN0F2zidIMN66RSpnSnYuLjyueKRwJSaW4u1Uu
+ aPhXh53eEaasZhipFgBKlSSvYfFO+HnfYbyWCXaGm+JelVVwD97WdSo6sR5yVGDqRsuR
+ cXOhiNssL8x39nZNe0MdDBgBwL/gNMCwIg5IKGqcPfZtqaQrmtsDd1B+4tUNvY34N9GT
+ h+XU0eHACBp/IU1xIGbk2AL5cIMSn7ANPZOGHBjc+CA1V68wb1ikYmQiScOL/jI2ePA7
+ eyYvhbSZT+bNkImynUt4km1zUH36mV+awJsQsVUDQXeiISD1LB5QR6OJdDM9GpEIrxOq
+ u1mw==
+X-Gm-Message-State: APjAAAWdLLO5U+MwDja4Cl2L+cbiUbNoBegqyOzFx88fZSpeEX/pIOot
+ vKsASmBac4JvOAjpqClObvtQQJOe
+X-Google-Smtp-Source: APXvYqzI7XugKhrUD2ISKoSITMC4xDXu1F2+tRQ/O+1otSv26NNTnycbocgJEljBBIvtNXuOVEpEZg==
+X-Received: by 2002:a65:4349:: with SMTP id k9mr22299168pgq.243.1558769114822; 
+ Sat, 25 May 2019 00:25:14 -0700 (PDT)
+Received: from hari-Inspiron-1545 ([183.83.92.73])
+ by smtp.gmail.com with ESMTPSA id w12sm3997009pgp.51.2019.05.25.00.25.11
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 25 May 2019 00:25:14 -0700 (PDT)
+Date: Sat, 25 May 2019 12:55:09 +0530
+From: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+To: Maxime Ripard <maxime.ripard@bootlin.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/sun4i: fix warning PTR_ERR_OR_ZERO can be used
+Message-ID: <20190525072509.GA6979@hari-Inspiron-1545>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:subject:message-id:mime-version:content-disposition
+ :user-agent;
+ bh=3/HXmCveeAbDHijcuKaxjc8S8ha3SNVf6PI9wjQHBaU=;
+ b=iJGtl5ifVwJd8BjCR93hGbqtuqBchM1RWraUzeQUQoQ2O9vIRPkkaX9QRvxuuCr4Uc
+ nQD2tWFlXUVRN+Qig2B3ShbJzo1YM4FdaCl3vEoU2LA25xV4K3POmnQM9RLw3b0RVF4L
+ oC+iDk+pdJfldY2GLBfZhy6+jAuqsoLK8koBh0lwLGgX0CQz3ZtsocUEk6RDP1PhizlR
+ D2Mg+l5vVefIdCFCLeGSphk4tzW+C2r3SUjG5HPYmk+YIiuBSH7BYAhJHnTW+H/57C6h
+ n+b5SXSTPcPntvqtNyhhfOYSjTfMXxC3jqx+oiQ4RlfO5u9nPu6z+m9AZvq7IBWtgNIo
+ 1Wcg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,208 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0991139981=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0991139981==
-Content-Type: multipart/alternative; boundary="15587688341.3fc44.18470"
-Content-Transfer-Encoding: 7bit
-
-
---15587688341.3fc44.18470
-Date: Sat, 25 May 2019 07:20:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110760
-
-            Bug ID: 110760
-           Summary: Low FPS in Quake Champions with Vega20
-           Product: Mesa
-           Version: git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: network723@rkmail.ru
-        QA Contact: dri-devel@lists.freedesktop.org
-
-I'm not sure if I should report it here or against DXVK. I've just installed
-Radeon VII card on my Ryzen 7 1700 system, and FPS in Quake Champions
-(Steam/Proton) is twice as lower as it was with RX480.
-I've tried other applications like Unigine Superposition, Rise of Tomb Raid=
-er,
-and Witcher 3 (proton), and they seem to perform as expected (much faster t=
-han
-with RX480)
-I've tried purging DXVK and Mesa caches, this does not seem to help. Also,
-tried different DXVK versions.
-
-HW spec:
-Ryzen 1700
-ASUS Prime X370 Pro
-32 GiB ram
-Sapphire Radeon VII
-
-SW spec:
-openSUSE 15.1
-linux kernel 5.1.4
-Mesa git 9fe1a925e2a4093cd88152a52ad48677d02f6ba5
-llvm 9 rev 361414
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15587688341.3fc44.18470
-Date: Sat, 25 May 2019 07:20:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Low FPS in Quake Champions with Vega20"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110760">110760</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Low FPS in Quake Champions with Vega20
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>network723&#64;rkmail.ru
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>I'm not sure if I should report it here or against DXVK. I've =
-just installed
-Radeon VII card on my Ryzen 7 1700 system, and FPS in Quake Champions
-(Steam/Proton) is twice as lower as it was with RX480.
-I've tried other applications like Unigine Superposition, Rise of Tomb Raid=
-er,
-and Witcher 3 (proton), and they seem to perform as expected (much faster t=
-han
-with RX480)
-I've tried purging DXVK and Mesa caches, this does not seem to help. Also,
-tried different DXVK versions.
-
-HW spec:
-Ryzen 1700
-ASUS Prime X370 Pro
-32 GiB ram
-Sapphire Radeon VII
-
-SW spec:
-openSUSE 15.1
-linux kernel 5.1.4
-Mesa git 9fe1a925e2a4093cd88152a52ad48677d02f6ba5
-llvm 9 rev 361414</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15587688341.3fc44.18470--
-
---===============0991139981==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0991139981==--
+Zml4IGJlbG93IHdhcm5pbmdzIHJlcG9ydGVkIGJ5IGNvY2NpY2hlY2sKCi4vZHJpdmVycy9ncHUv
+ZHJtL3N1bjRpL3N1bjhpX2hkbWlfcGh5X2Nsay5jOjE3NDoxLTM6IFdBUk5JTkc6ClBUUl9FUlJf
+T1JfWkVSTyBjYW4gYmUgdXNlZAouL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9oZG1pX3Rt
+ZHNfY2xrLmM6MjM2OjEtMzogV0FSTklORzoKUFRSX0VSUl9PUl9aRVJPIGNhbiBiZSB1c2VkCi4v
+ZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2hkbWlfaTJjLmM6Mjg1OjEtMzogV0FSTklORzoK
+UFRSX0VSUl9PUl9aRVJPIGNhbiBiZSB1c2VkCi4vZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRp
+X2hkbWlfZGRjX2Nsay5jOjE0MjoxLTM6IFdBUk5JTkc6ClBUUl9FUlJfT1JfWkVSTyBjYW4gYmUg
+dXNlZAouL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9kb3RjbG9jay5jOjE5ODoxLTM6IFdB
+Uk5JTkc6ClBUUl9FUlJfT1JfWkVSTyBjYW4gYmUgdXNlZAoKU2lnbmVkLW9mZi1ieTogSGFyaXBy
+YXNhZCBLZWxhbSA8aGFyaXByYXNhZC5rZWxhbUBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9ncHUv
+ZHJtL3N1bjRpL3N1bjRpX2RvdGNsb2NrLmMgICAgICB8IDQgKy0tLQogZHJpdmVycy9ncHUvZHJt
+L3N1bjRpL3N1bjRpX2hkbWlfZGRjX2Nsay5jICB8IDQgKy0tLQogZHJpdmVycy9ncHUvZHJtL3N1
+bjRpL3N1bjRpX2hkbWlfaTJjLmMgICAgICB8IDQgKy0tLQogZHJpdmVycy9ncHUvZHJtL3N1bjRp
+L3N1bjRpX2hkbWlfdG1kc19jbGsuYyB8IDQgKy0tLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1
+bjhpX2hkbWlfcGh5X2Nsay5jICB8IDQgKy0tLQogNSBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlv
+bnMoKyksIDE1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW40aV9kb3RjbG9jay5jIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2RvdGNsb2Nr
+LmMKaW5kZXggMmExNWYyZi4uZTBmZDE5ZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1
+bjRpL3N1bjRpX2RvdGNsb2NrLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2Rv
+dGNsb2NrLmMKQEAgLTE5NSwxMCArMTk1LDggQEAgaW50IHN1bjRpX2RjbGtfY3JlYXRlKHN0cnVj
+dCBkZXZpY2UgKmRldiwgc3RydWN0IHN1bjRpX3Rjb24gKnRjb24pCiAJZGNsay0+aHcuaW5pdCA9
+ICZpbml0OwogCiAJdGNvbi0+ZGNsayA9IGNsa19yZWdpc3RlcihkZXYsICZkY2xrLT5odyk7Ci0J
+aWYgKElTX0VSUih0Y29uLT5kY2xrKSkKLQkJcmV0dXJuIFBUUl9FUlIodGNvbi0+ZGNsayk7CiAK
+LQlyZXR1cm4gMDsKKwlyZXR1cm4gUFRSX0VSUl9PUl9aRVJPKHRjb24tPmRjbGspOwogfQogRVhQ
+T1JUX1NZTUJPTChzdW40aV9kY2xrX2NyZWF0ZSk7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS9zdW40aS9zdW40aV9oZG1pX2RkY19jbGsuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9z
+dW40aV9oZG1pX2RkY19jbGsuYwppbmRleCBlODI2ZGEzLi4xZTc0MDQwIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfaGRtaV9kZGNfY2xrLmMKKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3N1bjRpL3N1bjRpX2hkbWlfZGRjX2Nsay5jCkBAIC0xMzksOCArMTM5LDYgQEAgaW50
+IHN1bjRpX2RkY19jcmVhdGUoc3RydWN0IHN1bjRpX2hkbWkgKmhkbWksIHN0cnVjdCBjbGsgKnBh
+cmVudCkKIAlkZGMtPm1fb2Zmc2V0ID0gaGRtaS0+dmFyaWFudC0+ZGRjX2Nsa19tX29mZnNldDsK
+IAogCWhkbWktPmRkY19jbGsgPSBkZXZtX2Nsa19yZWdpc3RlcihoZG1pLT5kZXYsICZkZGMtPmh3
+KTsKLQlpZiAoSVNfRVJSKGhkbWktPmRkY19jbGspKQotCQlyZXR1cm4gUFRSX0VSUihoZG1pLT5k
+ZGNfY2xrKTsKIAotCXJldHVybiAwOworCXJldHVybiBQVFJfRVJSX09SX1pFUk8oaGRtaS0+ZGRj
+X2Nsayk7CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfaGRtaV9p
+MmMuYyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9oZG1pX2kyYy5jCmluZGV4IDU4ZTlk
+MzcuLmI3MmY5YzcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9oZG1p
+X2kyYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9oZG1pX2kyYy5jCkBAIC0y
+ODIsMTAgKzI4Miw4IEBAIHN0YXRpYyBpbnQgc3VuNGlfaGRtaV9pbml0X3JlZ21hcF9maWVsZHMo
+c3RydWN0IHN1bjRpX2hkbWkgKmhkbWkpCiAJaGRtaS0+ZmllbGRfZGRjX3Nja19lbiA9CiAJCWRl
+dm1fcmVnbWFwX2ZpZWxkX2FsbG9jKGhkbWktPmRldiwgaGRtaS0+cmVnbWFwLAogCQkJCQloZG1p
+LT52YXJpYW50LT5maWVsZF9kZGNfc2NrX2VuKTsKLQlpZiAoSVNfRVJSKGhkbWktPmZpZWxkX2Rk
+Y19zY2tfZW4pKQotCQlyZXR1cm4gUFRSX0VSUihoZG1pLT5maWVsZF9kZGNfc2NrX2VuKTsKIAot
+CXJldHVybiAwOworCXJldHVybiBQVFJfRVJSX09SX1pFUk8oaGRtaS0+ZmllbGRfZGRjX3Nja19l
+bik7CiB9CiAKIGludCBzdW40aV9oZG1pX2kyY19jcmVhdGUoc3RydWN0IGRldmljZSAqZGV2LCBz
+dHJ1Y3Qgc3VuNGlfaGRtaSAqaGRtaSkKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW40aV9oZG1pX3RtZHNfY2xrLmMgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfaGRt
+aV90bWRzX2Nsay5jCmluZGV4IDI1OTg3NDEuLjM4OWMxYzUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9zdW40aS9zdW40aV9oZG1pX3RtZHNfY2xrLmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3N1bjRpL3N1bjRpX2hkbWlfdG1kc19jbGsuYwpAQCAtMjMzLDggKzIzMyw2IEBAIGludCBzdW40
+aV90bWRzX2NyZWF0ZShzdHJ1Y3Qgc3VuNGlfaGRtaSAqaGRtaSkKIAl0bWRzLT5kaXZfb2Zmc2V0
+ID0gaGRtaS0+dmFyaWFudC0+dG1kc19jbGtfZGl2X29mZnNldDsKIAogCWhkbWktPnRtZHNfY2xr
+ID0gZGV2bV9jbGtfcmVnaXN0ZXIoaGRtaS0+ZGV2LCAmdG1kcy0+aHcpOwotCWlmIChJU19FUlIo
+aGRtaS0+dG1kc19jbGspKQotCQlyZXR1cm4gUFRSX0VSUihoZG1pLT50bWRzX2Nsayk7CiAKLQly
+ZXR1cm4gMDsKKwlyZXR1cm4gUFRSX0VSUl9PUl9aRVJPKGhkbWktPnRtZHNfY2xrKTsKIH0KZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9oZG1pX3BoeV9jbGsuYyBiL2Ry
+aXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9oZG1pX3BoeV9jbGsuYwppbmRleCBhNGQzMWZlLi5k
+NTJmNTgxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfaGRtaV9waHlf
+Y2xrLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2hkbWlfcGh5X2Nsay5jCkBA
+IC0xNzEsOCArMTcxLDYgQEAgaW50IHN1bjhpX3BoeV9jbGtfY3JlYXRlKHN0cnVjdCBzdW44aV9o
+ZG1pX3BoeSAqcGh5LCBzdHJ1Y3QgZGV2aWNlICpkZXYsCiAJcHJpdi0+aHcuaW5pdCA9ICZpbml0
+OwogCiAJcGh5LT5jbGtfcGh5ID0gZGV2bV9jbGtfcmVnaXN0ZXIoZGV2LCAmcHJpdi0+aHcpOwot
+CWlmIChJU19FUlIocGh5LT5jbGtfcGh5KSkKLQkJcmV0dXJuIFBUUl9FUlIocGh5LT5jbGtfcGh5
+KTsKIAotCXJldHVybiAwOworCXJldHVybiBQVFJfRVJSX09SX1pFUk8ocGh5LT5jbGtfcGh5KTsK
+IH0KLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
