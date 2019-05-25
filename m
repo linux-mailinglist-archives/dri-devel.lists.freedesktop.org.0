@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DBE2B428
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:04:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8AD72A349
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 09:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0688D89C3F;
-	Mon, 27 May 2019 12:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D89E66E14B;
+	Sat, 25 May 2019 07:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7E3D6E14A
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 07:03:59 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id b76so6601556pfb.5
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 00:03:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=Ou9qucjjS1yvpscRKVmRRDKnwn1q8SEEK4iftZmvq6M=;
- b=JidvNaNo/eUxmvxp3ZdH1anQX7qlzmx8QYwupbpNV1QKNSjOw2V0qJPg2iyUx5dZX8
- anC6KA8JW5IaIFp/HzIxZl5huZK6obiVVIlgbmP620Dbjz3T2qbuJcy/rgfwpI2aH4B/
- tDSmn0pRU1PGOz0gxqBUR+CP4G7XoCo1Fp7zoQFVwpnTh9k+Kwj8H4wGDwIFywRXLYzy
- 2RIISlrK9tqSPBKqRoCYmPQb6u5o3hP2cDECyPfNqFD3jHraFISSeJbf/qBgVS4nWI0D
- hFrx4S0Qw/ouLzVlegxS6qQMPTVqgHJUIUnqSyfryyQR3cdYj3/3s2E0OyMTEl/0zCy5
- 1lww==
-X-Gm-Message-State: APjAAAV7HOZw5Mu6eoxvJ96Ls1lmJcXcehQ3RGu61Xlw9zHskR0GjYLK
- Nuof/IVEBwIIA+qWpmDV8o8=
-X-Google-Smtp-Source: APXvYqz2fGzaLhOvTZ21B/Yj6WrUS10LI1Zb4JIpAoP+/EKpHI31hwmtNsEYlR5FcngbX8d1WspBsA==
-X-Received: by 2002:a17:90a:1b0b:: with SMTP id
- q11mr14288409pjq.80.1558767839357; 
- Sat, 25 May 2019 00:03:59 -0700 (PDT)
-Received: from hari-Inspiron-1545 ([183.83.92.73])
- by smtp.gmail.com with ESMTPSA id l3sm5637001pgl.3.2019.05.25.00.03.56
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 25 May 2019 00:03:58 -0700 (PDT)
-Date: Sat, 25 May 2019 12:33:53 +0530
-From: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tegra: fix warning PTR_ERR_OR_ZERO can be used
-Message-ID: <20190525070353.GA6727@hari-Inspiron-1545>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 186A36E14A
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 07:16:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1560572167; Sat, 25 May 2019 07:16:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110759] Blender 2.8 crash when selecting geometry with 19.0.5
+Date: Sat, 25 May 2019 07:16:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: git@dougty.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-110759-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:mime-version:content-disposition
- :user-agent;
- bh=Ou9qucjjS1yvpscRKVmRRDKnwn1q8SEEK4iftZmvq6M=;
- b=ATa9IqXhpNknuRnnk037f1U6Wxr3N5YBbIe47DjrNQJKxe/WJi9JnrTLdBwB5NLGpb
- S0kubHshm4bHRHlbBkWQ61ZfQUbqLb7Ow9TotSlUyA+nDbq0aIfCRnn8BZ4fXwUJCED8
- 9EvuIJka24CFEde+tWxY020XqIbnCNSmsM5KB0TZLb2GtZbJYZCbw/80PeG/gZq8YAm/
- iwX3FkCRSNamIt87A9L47qHWNqDAHMVbLX7UHvj1LSWzm9qRtfKkUcHhVRLM0N0Zdi2u
- E/k66nOFfavkbQG+MpD9q72O/P80f6xbNGslU9lZT8eDASSPMNN1FPiSpY62XJjE1lNY
- nMMQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,36 +52,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1569380907=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Zml4IGJlbG93IHdhcm5pbmdzIHJlcG9ydGVkIGJ5IGNvY2NpY2hlY2sKCi9kcml2ZXJzL2dwdS9k
-cm0vdGVncmEvZHJtLmM6NTA5OjEtMzogV0FSTklORzogUFRSX0VSUl9PUl9aRVJPIGNhbiBiZQp1
-c2VkCi4vZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2dlbS5jOjQxOToxLTM6IFdBUk5JTkc6IFBUUl9F
-UlJfT1JfWkVSTyBjYW4gYmUKdXNlZAoKU2lnbmVkLW9mZi1ieTogSGFyaXByYXNhZCBLZWxhbSA8
-aGFyaXByYXNhZC5rZWxhbUBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2Ry
-bS5jIHwgNiArKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uYyB8IDUgKy0tLS0KIDIg
-ZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9k
-cm0uYwppbmRleCAwYzVmMWU2Li4wYThmY2MxIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-dGVncmEvZHJtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5jCkBAIC01MDYsMTAg
-KzUwNiw4IEBAIHN0YXRpYyBpbnQgdGVncmFfZ2VtX2NyZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAq
-ZHJtLCB2b2lkICpkYXRhLAogCiAJYm8gPSB0ZWdyYV9ib19jcmVhdGVfd2l0aF9oYW5kbGUoZmls
-ZSwgZHJtLCBhcmdzLT5zaXplLCBhcmdzLT5mbGFncywKIAkJCQkJICZhcmdzLT5oYW5kbGUpOwot
-CWlmIChJU19FUlIoYm8pKQotCQlyZXR1cm4gUFRSX0VSUihibyk7Ci0KLQlyZXR1cm4gMDsKKwkK
-KwlyZXR1cm4gUFRSX0VSUl9PUl9aRVJPKGJvKTsKIH0KIAogc3RhdGljIGludCB0ZWdyYV9nZW1f
-bW1hcChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtLCB2b2lkICpkYXRhLApkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3RlZ3JhL2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2dlbS5jCmlu
-ZGV4IDRjY2UxMWYuLjZlMjdmYzAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9n
-ZW0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdGVncmEvZ2VtLmMKQEAgLTQxNiwxMCArNDE2LDcg
-QEAgaW50IHRlZ3JhX2JvX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZSwgc3RydWN0
-IGRybV9kZXZpY2UgKmRybSwKIAogCWJvID0gdGVncmFfYm9fY3JlYXRlX3dpdGhfaGFuZGxlKGZp
-bGUsIGRybSwgYXJncy0+c2l6ZSwgMCwKIAkJCQkJICZhcmdzLT5oYW5kbGUpOwotCWlmIChJU19F
-UlIoYm8pKQotCQlyZXR1cm4gUFRSX0VSUihibyk7Ci0KLQlyZXR1cm4gMDsKKwlyZXR1cm4gUFRS
-X0VSUl9PUl9aRVJPKGJvKTsKIH0KIAogc3RhdGljIHZtX2ZhdWx0X3QgdGVncmFfYm9fZmF1bHQo
-c3RydWN0IHZtX2ZhdWx0ICp2bWYpCi0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1569380907==
+Content-Type: multipart/alternative; boundary="15587685810.be6F.17426"
+Content-Transfer-Encoding: 7bit
+
+
+--15587685810.be6F.17426
+Date: Sat, 25 May 2019 07:16:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110759
+
+            Bug ID: 110759
+           Summary: Blender 2.8 crash when selecting geometry with 19.0.5
+           Product: Mesa
+           Version: 19.0
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: git@dougty.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+I've recently updated to mesa 19.0.5 on Arch Linux, and it's consistently
+crashing Blender for me -- reverting to 19.0.4, everything is fine again.
+
+Using the development build of Blender 2.8 (tested with 2019-05-24
+caf52e3779a9), mesa 19.0.5 crashes upon selecting any geometry inside Blend=
+er.
+This renders Blender quite unusable, so unfortunately this is a pretty show
+stopping issue for me.
+
+To reproduce:
+1. Open Blender and select the default cube
+2. Press tab to enter edit mode
+3. Click on a vertex (and crash)
+
+OS: Arch Linux x64
+Kernel: Linux 5.1.4
+Mesa: 19.0.5
+LLVM: 8.0.0
+CPU: Ryzen 2700X
+GPU: Vega 56
+
+Please let me know if further information is required. I am unsure of how to
+generate a meaningful log from Blender.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15587685810.be6F.17426
+Date: Sat, 25 May 2019 07:16:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Blender 2.8 crash when selecting geometry with 19.0.5"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110759">110759</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Blender 2.8 crash when selecting geometry with 19.0.5
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.0
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>git&#64;dougty.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>I've recently updated to mesa 19.0.5 on Arch Linux, and it's c=
+onsistently
+crashing Blender for me -- reverting to 19.0.4, everything is fine again.
+
+Using the development build of Blender 2.8 (tested with 2019-05-24
+caf52e3779a9), mesa 19.0.5 crashes upon selecting any geometry inside Blend=
+er.
+This renders Blender quite unusable, so unfortunately this is a pretty show
+stopping issue for me.
+
+To reproduce:
+1. Open Blender and select the default cube
+2. Press tab to enter edit mode
+3. Click on a vertex (and crash)
+
+OS: Arch Linux x64
+Kernel: Linux 5.1.4
+Mesa: 19.0.5
+LLVM: 8.0.0
+CPU: Ryzen 2700X
+GPU: Vega 56
+
+Please let me know if further information is required. I am unsure of how to
+generate a meaningful log from Blender.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15587685810.be6F.17426--
+
+--===============1569380907==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1569380907==--
