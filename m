@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6E82A351
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 09:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4802A354
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 09:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F22156E149;
-	Sat, 25 May 2019 07:36:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDE5C6E14D;
+	Sat, 25 May 2019 07:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F07F6E149
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 07:36:21 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id C8916804BF;
- Sat, 25 May 2019 09:36:18 +0200 (CEST)
-Date: Sat, 25 May 2019 09:36:16 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3] drm/mcde: Add new driver for ST-Ericsson MCDE
-Message-ID: <20190525073616.GE9586@ravnborg.org>
-References: <20190522072153.13727-1-linus.walleij@linaro.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5908D6E14D
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 07:52:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5090672167; Sat, 25 May 2019 07:52:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110759] Blender 2.8 crash when selecting geometry with 19.0.5
+Date: Sat, 25 May 2019 07:52:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: git@dougty.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110759-502-KnpwsMCNdi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110759-502@http.bugs.freedesktop.org/>
+References: <bug-110759-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190522072153.13727-1-linus.walleij@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=m_Je5-PlRfT3v9rmweEA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,39 +52,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1010319754=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGludXMKCk9uIFdlZCwgTWF5IDIyLCAyMDE5IGF0IDA5OjIxOjUzQU0gKzAyMDAsIExpbnVz
-IFdhbGxlaWogd3JvdGU6Cj4gVGhpcyBhZGRzIGEgbmV3IERSTSBkcml2ZXIgZm9yIHRoZSBTVC1F
-cmljc3NvbiBNdWx0aSBDaGFubmVsCj4gRGlzcGxheSBFbmdpbmUsIE1DREUgZGlzcGxheSBjb250
-cm9sbGVyLgoKVGhpcyBkcml2ZXIgYnJlYWtzIGJ1aWxkIGluIGRybS1taXNjLW5leHQgYXQgdGhl
-IG1vbWVudC4KCkZvbGxvd2luZyBwYXRjaCBmaXhlZCBib3RoIGEgYnVpbGQgd2FybmluZyBhbmQg
-YSBidWlsZCBlcnJvci4KQ291bGQgeW91IHRha2UgYSBsb29rIGFuZCBnZXQgaXQgZml4ZWQgcHJv
-cGVybHkuCgpJZiByZWxldmFudCAtIHRoZW4gcGF0Y2ggaXM6ClNpZ25lZC1vZmYtYnk6IFNhbSBS
-YXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KCglTYW0KCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vbWNkZS9tY2RlX2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZGlz
-cGxheS5jCmluZGV4IDE3ZGM0NmQ1NTRiMC4uZjNlZjEwOGE0MWQ5IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2Rpc3BsYXkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbWNk
-ZS9tY2RlX2Rpc3BsYXkuYwpAQCAtODIzLDcgKzgyMyw3IEBAIHN0YXRpYyB2b2lkIG1jZGVfZGlz
-cGxheV9lbmFibGUoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaXBlLAogCXUzMiBm
-b3JtYXR0ZXJfcHBsID0gbW9kZS0+aGRpc3BsYXk7IC8qIHBpeGVscyBwZXIgbGluZSAqLwogCXUz
-MiBmb3JtYXR0ZXJfbHBmID0gbW9kZS0+dmRpc3BsYXk7IC8qIGxpbmVzIHBlciBmcmFtZSAqLwog
-CWludCBwa3Rfc2l6ZSwgZmlmb193dHJtcms7Ci0JaW50IGNwcCA9IGRybV9mb3JtYXRfcGxhbmVf
-Y3BwKGZvcm1hdCwgMCk7CisJaW50IGNwcCA9IGZiLT5mb3JtYXQtPmNwcFswXTsKIAlpbnQgZm9y
-bWF0dGVyX2NwcDsKIAlzdHJ1Y3QgZHJtX2Zvcm1hdF9uYW1lX2J1ZiB0bXA7CiAJdTMyIGZvcm1h
-dHRlcl9mcmFtZTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHNpLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2RzaS5jCmluZGV4IDQ1NmI0MzQ4MjQ0OC4uMDdm
-NzA5MGQwOGIzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWNkZS9tY2RlX2RzaS5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tY2RlL21jZGVfZHNpLmMKQEAgLTE5MSw3ICsxOTEsNyBAQCBz
-dGF0aWMgc3NpemVfdCBtY2RlX2RzaV9ob3N0X3RyYW5zZmVyKHN0cnVjdCBtaXBpX2RzaV9ob3N0
-ICpob3N0LAogCX0KIAogCWRldl9kYmcoZC0+ZGV2LAotCQkibWVzc2FnZSB0byBjaGFubmVsICVk
-LCAldSBieXRlcyIsCisJCSJtZXNzYWdlIHRvIGNoYW5uZWwgJWQsICV6ZCBieXRlcyIsCiAJCW1z
-Zy0+Y2hhbm5lbCwKIAkJdHhsZW4pOwoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1010319754==
+Content-Type: multipart/alternative; boundary="15587707620.f48bA89.26613"
+Content-Transfer-Encoding: 7bit
+
+
+--15587707620.f48bA89.26613
+Date: Sat, 25 May 2019 07:52:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110759
+
+--- Comment #1 from Doug Ty <git@dougty.com> ---
+Update:
+
+This also happens with the latest development build of mesa
+(19.2.0_devel.111215.1dc593e9b93 as compiled via mesa-git package on AUR)
+
+
+I believe this is related to Bug 110721:
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110721
+
+...As reverting "mesa: unreference current winsys buffers when unbinding wi=
+nsys
+buffers" fixes the crashing in Blender (in addition to the issues presented=
+ in
+the other bug report.)
+
+Using master + reverting that commit seems to resolve the issue for me.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15587707620.f48bA89.26613
+Date: Sat, 25 May 2019 07:52:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Blender 2.8 crash when selecting geometry with 19.0.5"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110759#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Blender 2.8 crash when selecting geometry with 19.0.5"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110759">bug 11075=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+git&#64;dougty.com" title=3D"Doug Ty &lt;git&#64;dougty.com&gt;"> <span cla=
+ss=3D"fn">Doug Ty</span></a>
+</span></b>
+        <pre>Update:
+
+This also happens with the latest development build of mesa
+(19.2.0_devel.111215.1dc593e9b93 as compiled via mesa-git package on AUR)
+
+
+I believe this is related to <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
+ rc3 on polaris"
+   href=3D"show_bug.cgi?id=3D110721">Bug 110721</a>:
+<a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - graphics corruption on steam client with mesa 19.1.0=
+ rc3 on polaris"
+   href=3D"show_bug.cgi?id=3D110721">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110721</a>
+
+...As reverting &quot;mesa: unreference current winsys buffers when unbindi=
+ng winsys
+buffers&quot; fixes the crashing in Blender (in addition to the issues pres=
+ented in
+the other bug report.)
+
+Using master + reverting that commit seems to resolve the issue for me.</pr=
+e>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15587707620.f48bA89.26613--
+
+--===============1010319754==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1010319754==--
