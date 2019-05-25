@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD262A6DF
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 22:07:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 161CA2A6F8
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 22:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D723289FED;
-	Sat, 25 May 2019 20:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C946E172;
+	Sat, 25 May 2019 20:43:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 61E8F89FED
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 20:07:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 54C2972167; Sat, 25 May 2019 20:07:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B0136E16D;
+ Sat, 25 May 2019 20:43:32 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id q62so11496663ljq.7;
+ Sat, 25 May 2019 13:43:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=8FEa7021EScyRFJ8JQgdSHDcUZj2MgIq0nWLWijSyIk=;
+ b=bXeZ51iQMjZm8OhDfjjcs8ZbR9jPmGcE+Abdgkvj4U7Ri8Fi+eI5LH4HDYGbjR/Wdu
+ 6IDX8g2UpVdHEjhwZLjInM0AcgrRMZur/KoqGmHsXApEeMHOFIN9EQMDoHaIrQjFE5kn
+ i+gTKEIjtO8Q6Krn9MOG4qVEVuMUg7FzipbrA3KC7lMPNnWVdcrVfgSBnUbPp3ZG4JXD
+ lAzTdFIHNmQbzDe2f/j0SSCNmF18VAsMHwKDXTix6sUed1R66ImBgezlzmbVwXvPPrjD
+ u0dPoTJ+j+xuSFNK2jhAp0EI5lo5UGjR5XhLAATOJaDZtNtc0PQ5M1Jw6x/jb84A3Z5a
+ +TgQ==
+X-Gm-Message-State: APjAAAUjAgPhqng4jqyYXjfiYiUcKDJ6VepAr1GuLGKOTgi+ZruB/XjO
+ FTRlN11My60rLsxtX2ihPXSIOo3P
+X-Google-Smtp-Source: APXvYqxE4x84B5Fbqj9/PPkGzeLKEUj+EfRJAmzregkHkT7u35IX6iIYPxo0hce44Y0Mej4bcaCgBA==
+X-Received: by 2002:a2e:9c09:: with SMTP id s9mr28699445lji.74.1558817010589; 
+ Sat, 25 May 2019 13:43:30 -0700 (PDT)
+Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
+ by smtp.gmail.com with ESMTPSA id
+ i187sm1328569lfe.64.2019.05.25.13.43.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 25 May 2019 13:43:29 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 106302] [radeonsi] Garbage content when accessing a texture in
- multiple shared EGL contexts
-Date: Sat, 25 May 2019 20:07:38 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 17.2
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: seb@vestigecounty.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-106302-502-lnFeP0PNoT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-106302-502@http.bugs.freedesktop.org/>
-References: <bug-106302-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v3 0/5] drm/gma500: drop use of drmP.h
+Date: Sat, 25 May 2019 22:43:14 +0200
+Message-Id: <20190525204319.28977-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8FEa7021EScyRFJ8JQgdSHDcUZj2MgIq0nWLWijSyIk=;
+ b=oZ8EZVP0M/vmkFHx4FwWQaoWF6GBOA0s+gJ97uKbk5mcpyumpLpD1Lt+dXMdB6qzkT
+ 2sEZkVHMrxs3Ww4vXcq0suTvVQag/khaxPsMYkH7cmzJhFyLwIZGSbLS+x5ai7bQSKqO
+ vcWOKxP5oJRKFcgCoFca5ivjOlaO4YSN2aDAQsZZsr9dd5qaU8xE9ZXRI0c3gO02fSqz
+ M2Eg95R4lxlpi+j8/y6lSrXXJG7xV+sHUHMNUQEOzc9mqlLdB2zf8M3BR9xAIs+fbXLz
+ ScdzUzoQaHZxlbvbwDn+QGSVIYr2Oxgj79t9WDAxv+HvcBj69IFSEXUqFzX7KQqHowK4
+ XZtw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,133 +66,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0371626290=="
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0371626290==
-Content-Type: multipart/alternative; boundary="15588148580.C0e3C444c.10693"
-Content-Transfer-Encoding: 7bit
-
-
---15588148580.C0e3C444c.10693
-Date: Sat, 25 May 2019 20:07:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D106302
-
---- Comment #2 from seb@vestigecounty.com ---
-Pierre-Eric, in my interpretation of OpenGL(R) ES Version 3.0.5 (November 3,
-2016) Specification, Appendix 4: Shared Objects and Multiple Contexts, D.3.
-Propagating Changes to Objects, Rule 4:...
-
-----
-If the contents of an object T are changed in a context other than the curr=
-ent
-context, T must be attached or re-attached to at least one binding point in=
- the
-current context, or at least one attachment point of a currently bound
-container object C, in order to guarantee that the new contents of T are
-visible in the current context.
-
-Example: If a texture image is bound to multiple texture bind points and the
-texture is changed in another context, re-binding the texture at any one of=
- the
-texture bind points is sufficient to cause the changes to be visible at all
-texture bind points.
-----
-
-...Finish or Fence are not required, since I am re-binding the texture on t=
-he
-secondary thread where I expect changes to be seen.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15588148580.C0e3C444c.10693
-Date: Sat, 25 May 2019 20:07:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi] Garbage content when accessing a texture in mu=
-ltiple shared EGL contexts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106302#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [radeonsi] Garbage content when accessing a texture in mu=
-ltiple shared EGL contexts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106302">bug 10630=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-seb&#64;vestigecounty.com" title=3D"seb&#64;vestigecounty.com">seb&#64;vest=
-igecounty.com</a>
-</span></b>
-        <pre>Pierre-Eric, in my interpretation of OpenGL(R) ES Version 3.0.=
-5 (November 3,
-2016) Specification, Appendix 4: Shared Objects and Multiple Contexts, D.3.
-Propagating Changes to Objects, Rule 4:...
-
-----
-If the contents of an object T are changed in a context other than the curr=
-ent
-context, T must be attached or re-attached to at least one binding point in=
- the
-current context, or at least one attachment point of a currently bound
-container object C, in order to guarantee that the new contents of T are
-visible in the current context.
-
-Example: If a texture image is bound to multiple texture bind points and the
-texture is changed in another context, re-binding the texture at any one of=
- the
-texture bind points is sufficient to cause the changes to be visible at all
-texture bind points.
-----
-
-...Finish or Fence are not required, since I am re-binding the texture on t=
-he
-secondary thread where I expect changes to be seen.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15588148580.C0e3C444c.10693--
-
---===============0371626290==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0371626290==--
+SnVzdCBhIHF1aWNrIChmaW5hbCkgcHJvYmUuIElmIHRoZXJlIGFyZSBubyBmdXJ0aGVyIGZlZWRi
+YWNrIEkgd2lsbApjb21taXQgdGhpcyBzZXQgc3VuZGF5LgpBZGRlZCBpbnRlbC1nZnhAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnIGp1c3QgdG8gZ2V0IGEgYml0IG1vcmUgY292ZXJhZ2UuCgoKVGhlIGZv
+bGxvd2luZyBwYXRjaHNldCByZW1vdmUgdXNlIG9mIHRoZSBkZXByZWNhdGVkIGRybVAuaApoZWFk
+ZXIgZmlsZSBpbiB0aGUgZ21hNTAwIGRyaXZlci4KCkFzIHByZXBhcmF0aW9uIGFuIGVtcHR5IGhl
+YWRlciBmaWxlIGlzIHJlbW92ZWQgYW5kIGEgZGVwZW5kZW5jeSBvbgpkcm1fb3NfbGludXguaCBp
+cyBkcm9wcGVkLgpUaGUgbG9jYWwgaGVhZGVyIGZpbGVzIGFyZSBtYWRlIG1vcmUgc2VsZi1jb250
+YWluZWQgdG8gYWxsb3cKdGhlbSB0byBiZSBpbmNsdWRlZCBpbiBhbHBoYWJldGljYWwgb3JkZXIg
+aW4gdGhlIGZpbGVzIHdoZXJlIHRoZXkgYXJlIHVzZWQuCgpXaGVuIHJlbW92aW5nIGRybVAuaCB0
+aGUgaW5jbHVkZSBmaWxlcyBhcmUgZGl2aWRlZCB1cCBpbiBibG9ja3M6ClwjaW5jbHVkZSA8bGlu
+dXgvKj4KClwjaW5jbHVkZSA8YXNtLyo+CgpcI2luY2x1ZGUgPGRybS8qPgoKXCNpbmNsdWRlICIi
+CgpXaXRoaW4gZWFjaCBibG9jayB0aGUgaW5jbHVkZSBmaWxlcyBhcmUgc29ydGVkIGFscGhhYmV0
+aWNhbGx5CgpCdWlsZCB0ZXN0ZWQgd2l0aCBhbGxtb2Rjb25maWcgYW5kIGFsbHllc2NvbmZpZyBm
+b3IgeDg2LCBhcm0sIGFscGhhIGFuZCBtb3JlLgoKUGF0Y2hzZXQgbWFkZSBvbiB0b3Agb2YgZHJt
+LW1pc2MtbmV4dAoKdjI6Ci0gQmUgY29uc2l0ZW50IGluIGRpdmlkaW5nIGluY2x1ZGVzIGZpbGVz
+IGludG8gYmxvY2tzCi0gU29ydCBhbGwgaW5jbHVkZSBmaWxlcywgbm90IG9ubHkgdGhlIGJsb2Nr
+cyB0b3VjaGVkCi0gTWFkZSBsb2NhbCBoZWFkZXIgZmlsZXMgbW9yZSBzZWxmLWNvbnRhaW5lZAog
+IFRvIGFsbG93IHRoZW0gdG8gYmUgaW5jbHVkZWQgaW4gYWxwaGFiZXRpY2FsbHkgb3JkZXIKCnYz
+OgotIENvbGxlY3QgYWNrcyBmcm9tIERhbmllbCBhbmQgUGF0cmlrCgoJU2FtIAoKU2FtIFJhdm5i
+b3JnICg1KToKICAgICAgZHJtL2dtYTUwMDogcmVtb3ZlIGVtcHR5IGdtYV9kcm0uaCBoZWFkZXIg
+ZmlsZQogICAgICBkcm0vZ21hNTAwOiBkcm9wIGRybVAuaCBmcm9tIGhlYWRlciBmaWxlcwogICAg
+ICBkcm0vZ21hNTAwOiBtYWtlIGxvY2FsIGhlYWRlciBmaWxlcyBtb3JlIHNlbGYtY29udGFpbmVk
+CiAgICAgIGRybS9nbWE1MDA6IGRyb3AgdXNlIG9mIERSTV9VREVMQVkgd3JhcHBlcgogICAgICBk
+cm0vZ21hNTAwOiBkcm9wIGRybXAuaCBpbmNsdWRlIGZyb20gYWxsIC5jIGZpbGVzCgoKIGRyaXZl
+cnMvZ3B1L2RybS9nbWE1MDAvYWNjZWxfMmQuYyAgICAgICAgICAgICB8IDE4ICsrKysrKystLS0t
+LS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ibGl0dGVyLmggICAgICAgICAgICAgIHwgIDIg
+KysKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2RldmljZS5jICAgICAgICAgICB8IDEzICsr
+KysrKy0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2Nkdl9kZXZpY2UuaCAgICAgICAgICAg
+fCAgNCArKysrCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2Nkdl9pbnRlbF9jcnQuYyAgICAgICAg
+fCAgOCArKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2Nkdl9pbnRlbF9kaXNwbGF5LmMg
+ICAgfCAxMCArKysrLS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfaW50ZWxfZHAuYyAg
+ICAgICAgIHwgIDkgKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2hk
+bWkuYyAgICAgICB8ICA5ICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2Nkdl9pbnRl
+bF9sdmRzLmMgICAgICAgfCAgOSArKysrLS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9mcmFt
+ZWJ1ZmZlci5jICAgICAgICAgIHwgMjQgKysrKysrKysrLS0tLS0tLS0tLQogZHJpdmVycy9ncHUv
+ZHJtL2dtYTUwMC9mcmFtZWJ1ZmZlci5oICAgICAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJt
+L2dtYTUwMC9nZW0uYyAgICAgICAgICAgICAgICAgIHwgIDUgKystLQogZHJpdmVycy9ncHUvZHJt
+L2dtYTUwMC9nbWFfZGV2aWNlLmMgICAgICAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL2dt
+YTUwMC9nbWFfZGV2aWNlLmggICAgICAgICAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL2dtYTUw
+MC9nbWFfZGlzcGxheS5jICAgICAgICAgIHwgMTIgKysrKysrKy0tLQogZHJpdmVycy9ncHUvZHJt
+L2dtYTUwMC9nbWFfZGlzcGxheS5oICAgICAgICAgIHwgIDMgKysrCiBkcml2ZXJzL2dwdS9kcm0v
+Z21hNTAwL2d0dC5jICAgICAgICAgICAgICAgICAgfCAgNSArKy0tCiBkcml2ZXJzL2dwdS9kcm0v
+Z21hNTAwL2d0dC5oICAgICAgICAgICAgICAgICAgfCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2ludGVsX2Jpb3MuYyAgICAgICAgICAgfCAgNiArKy0tLQogZHJpdmVycy9ncHUvZHJtL2dt
+YTUwMC9pbnRlbF9iaW9zLmggICAgICAgICAgIHwgIDMgKy0tCiBkcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2ludGVsX2dtYnVzLmMgICAgICAgICAgfCAxMSArKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS9nbWE1MDAvaW50ZWxfaTJjLmMgICAgICAgICAgICB8ICA0ICsrKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS9nbWE1MDAvbWRmbGRfZGV2aWNlLmMgICAgICAgICB8IDE2ICsrKysrKystLS0tLS0KIGRyaXZl
+cnMvZ3B1L2RybS9nbWE1MDAvbWRmbGRfZHNpX2RwaS5jICAgICAgICB8ICA0ICsrKy0KIGRyaXZl
+cnMvZ3B1L2RybS9nbWE1MDAvbWRmbGRfZHNpX291dHB1dC5jICAgICB8IDEyICsrKysrKy0tLS0K
+IGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbWRmbGRfZHNpX291dHB1dC5oICAgICB8ICA4ICsrKy0t
+LS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbWRmbGRfZHNpX3BrZ19zZW5kZXIuYyB8ICA0ICsr
+Ky0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbWRmbGRfaW50ZWxfZGlzcGxheS5jICB8IDExICsr
+KysrLS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9tZGZsZF90bWRfdmlkLmMgICAgICAgIHwg
+IDIgKysKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbWlkX2Jpb3MuYyAgICAgICAgICAgICB8ICA1
+ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbWlkX2Jpb3MuaCAgICAgICAgICAgICB8ICAx
+ICsKIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbW11LmMgICAgICAgICAgICAgICAgICB8ICA2ICsr
+Ky0tCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL29ha3RyYWlsLmggICAgICAgICAgICAgfCAgMiAr
+KwogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9jcnRjLmMgICAgICAgIHwgIDggKysr
+Ky0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9kZXZpY2UuYyAgICAgIHwgMjAg
+KysrKysrKystLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9oZG1pLmMg
+ICAgICAgIHwgIDggKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFpbF9sdmRz
+LmMgICAgICAgIHwgIDYgKystLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvb2FrdHJhaWxfbHZk
+c19pMmMuYyAgICB8IDExICsrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wb3dlci5o
+ICAgICAgICAgICAgICAgIHwgIDQgKysrLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZGV2
+aWNlLmMgICAgICAgICAgIHwgMTIgKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9w
+c2JfZHJ2LmMgICAgICAgICAgICAgIHwgMzMgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tCiBk
+cml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9kcnYuaCAgICAgICAgICAgICAgfCAxNiArKysrKyst
+LS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pbnRlbF9kaXNwbGF5LmMgICAgfCAg
+NyArKystLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX2x2ZHMuYyAgICAgICB8
+ICA1ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX21vZGVzLmMgICAgICB8
+ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pbnRlbF9zZHZvLmMgICAgICAgfCAx
+NSArKysrKystLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5jICAgICAgICAg
+ICAgICB8ICA5ICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9pcnEuaCAgICAg
+ICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfbGlkLmMgICAgICAg
+ICAgICAgIHwgIDYgKystLS0KIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvdGMzNTg3NngtZHNpLWx2
+ZHMuYyAgICB8IDEzICsrKysrKystLS0tCiBpbmNsdWRlL2RybS9nbWFfZHJtLmggICAgICAgICAg
+ICAgICAgICAgICAgICAgfCAyNSAtLS0tLS0tLS0tLS0tLS0tLS0tLQogNTEgZmlsZXMgY2hhbmdl
+ZCwgMjMzIGluc2VydGlvbnMoKyksIDE5OSBkZWxldGlvbnMoLSkKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
