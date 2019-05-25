@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D6A2A50D
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 17:17:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3FD2A524
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 17:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7739D6E165;
-	Sat, 25 May 2019 15:17:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01996E162;
+	Sat, 25 May 2019 15:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7CF7E6E161
- for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 15:17:16 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 73F5872167; Sat, 25 May 2019 15:17:16 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding with
- yuv420p10le
-Date: Sat, 25 May 2019 15:17:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-bugzilla@ossman.eu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110702-502-Ys9cN4azqa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110702-502@http.bugs.freedesktop.org/>
-References: <bug-110702-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D87C89FDD;
+ Sat, 25 May 2019 15:38:31 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 8CEE0200EF;
+ Sat, 25 May 2019 17:38:27 +0200 (CEST)
+Date: Sat, 25 May 2019 17:38:26 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 09/33] fbcon: Remove fbcon_has_exited
+Message-ID: <20190525153826.GA8661@ravnborg.org>
+References: <20190524085354.27411-1-daniel.vetter@ffwll.ch>
+ <20190524085354.27411-10-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190524085354.27411-10-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
+ a=DzVgexfn9IsVGKuEcHIA:9 a=mS0BKyo6H8Xd97p-:21 a=5wqHtdtA96AT7Bqp:21
+ a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,93 +46,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1863219535=="
+Cc: Prarit Bhargava <prarit@redhat.com>, Kees Cook <keescook@chromium.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Yisheng Xie <ysxie@foxmail.com>, Hans de Goede <hdegoede@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Konstantin Khorenko <khorenko@virtuozzo.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1863219535==
-Content-Type: multipart/alternative; boundary="15587974360.0ce14e1ce.3818"
-Content-Transfer-Encoding: 7bit
-
-
---15587974360.0ce14e1ce.3818
-Date: Sat, 25 May 2019 15:17:16 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
-
---- Comment #4 from Pierre Ossman <pierre-bugzilla@ossman.eu> ---
-As a workaround, is it possible to configure VA-API to refuse to handle this
-specific format? It would be nice to have to disable hardware acceleration
-entirely.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15587974360.0ce14e1ce.3818
-Date: Sat, 25 May 2019 15:17:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
-0le"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
-0le"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">bug 11070=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-bugzilla&#64;ossman.eu" title=3D"Pierre Ossman &lt;pierre-bugzilla&#=
-64;ossman.eu&gt;"> <span class=3D"fn">Pierre Ossman</span></a>
-</span></b>
-        <pre>As a workaround, is it possible to configure VA-API to refuse =
-to handle this
-specific format? It would be nice to have to disable hardware acceleration
-entirely.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15587974360.0ce14e1ce.3818--
-
---===============1863219535==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1863219535==--
+SGkgRGFuaWVsLgoKT25lIGRldGFpbCBJIG5vdGljZWQgd2hpbGUgYnJvc2luZyB0aGUgY2hhbmdl
+cy4KCj4gIAo+IEBAIC0xMDY0LDkgKzEwNjIsMTMgQEAgc3RhdGljIHZvaWQgZmJjb25faW5pdChz
+dHJ1Y3QgdmNfZGF0YSAqdmMsIGludCBpbml0KQo+ICAJaW50IGxvZ28gPSAxLCBuZXdfcm93cywg
+bmV3X2NvbHMsIHJvd3MsIGNvbHMsIGNoYXJjbnQgPSAyNTY7Cj4gIAlpbnQgY2FwLCByZXQ7Cj4g
+IAo+IC0JaWYgKGluZm9faWR4ID09IC0xIHx8IGluZm8gPT0gTlVMTCkKPiArCWlmIChXQVJOX09O
+KGluZm9faWR4ID09IC0xKSkKPiAgCSAgICByZXR1cm47Cj4gIAo+ICsJaWYgKGNvbjJmYl9tYXBb
+dmMtPnZjX251bV0gPT0gLTEpCj4gKwkJY29uMmZiX21hcFt2Yy0+dmNfbnVtXSA9IGluZm9faWR4
+Owo+ICsKPiArCWluZm8gPSByZWdpc3RlcmVkX2ZiW2NvbjJmYl9tYXBbdmMtPnZjX251bV1dOwo+
+ICAJY2FwID0gaW5mby0+ZmxhZ3M7CgpXaGVuIGluZm8gaXMgZGVmaW5lZCBpdCBpcyBhbHNvIGFz
+c2lnbmVkOgpzdHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IHJlZ2lzdGVyZWRfZmJbY29uMmZiX21hcFt2
+Yy0+dmNfbnVtXV07CgpBcyB0aGUgdGVzdCBmb3IgaW5mbyBpcyBnb25lIHRoaXMgYXNzaWdubWVu
+dCBpcyBubyBsb25nZXIKcmVxdXJpcmVkIGFuZCBjYW4gYmUgZGVsZXRlZC4KClRoZSBjb2RlIG5v
+dyBhc3N1bWVzIHRoYXQgdGhlcmUgaXMgYWx3YXlzIGFuIGZiX2luZm8gaWYgY29uMmZiX21hcFtd
+CmlzIG5vdCBzZXQgdG8gLTEuIEkgY291bGQgbm90IGRldGVybWluZSBpZiB0aGlzIGlzIE9LLCBi
+dXQgdGhpcwpsaWtlbHkgYm9pbHMgZG93biB0byB5b3VyIGxvY2tpbmcgY29uY2VybiBvZiByZWdp
+c3RlcmVkX2ZiLgoKCVNhbQoKPiAgCj4gIAlpZiAobG9nb19zaG93biA8IDAgJiYgY29uc29sZV9s
+b2dsZXZlbCA8PSBDT05TT0xFX0xPR0xFVkVMX1FVSUVUKQo+IEBAIC0zMzM2LDE0ICszMzM4LDYg
+QEAgc3RhdGljIGludCBmYmNvbl9ldmVudF9ub3RpZnkoc3RydWN0IG5vdGlmaWVyX2Jsb2NrICpz
+ZWxmLAo+ICAJc3RydWN0IGZiX2JsaXRfY2FwcyAqY2FwczsKPiAgCWludCBpZHgsIHJldCA9IDA7
+Cj4gIAo+IC0JLyoKPiAtCSAqIGlnbm9yZSBhbGwgZXZlbnRzIGV4Y2VwdCBkcml2ZXIgcmVnaXN0
+cmF0aW9uIGFuZCBkZXJlZ2lzdHJhdGlvbgo+IC0JICogaWYgZmJjb24gaXMgbm90IGFjdGl2ZQo+
+IC0JICovCj4gLQlpZiAoZmJjb25faGFzX2V4aXRlZCAmJiAhKGFjdGlvbiA9PSBGQl9FVkVOVF9G
+Ql9SRUdJU1RFUkVEIHx8Cj4gLQkJCQkgIGFjdGlvbiA9PSBGQl9FVkVOVF9GQl9VTlJFR0lTVEVS
+RUQpKQo+IC0JCWdvdG8gZG9uZTsKPiAtCj4gIAlzd2l0Y2goYWN0aW9uKSB7Cj4gIAljYXNlIEZC
+X0VWRU5UX1NVU1BFTkQ6Cj4gIAkJZmJjb25fc3VzcGVuZGVkKGluZm8pOwo+IEBAIC0zMzk2LDcg
+KzMzOTAsNiBAQCBzdGF0aWMgaW50IGZiY29uX2V2ZW50X25vdGlmeShzdHJ1Y3Qgbm90aWZpZXJf
+YmxvY2sgKnNlbGYsCj4gIAkJZmJjb25fcmVtYXBfYWxsKGlkeCk7Cj4gIAkJYnJlYWs7Cj4gIAl9
+Cj4gLWRvbmU6Cj4gIAlyZXR1cm4gcmV0Owo+ICB9Cj4gIAo+IEBAIC0zNDQzLDkgKzM0MzYsNiBA
+QCBzdGF0aWMgc3NpemVfdCBzdG9yZV9yb3RhdGUoc3RydWN0IGRldmljZSAqZGV2aWNlLAo+ICAJ
+aW50IHJvdGF0ZSwgaWR4Owo+ICAJY2hhciAqKmxhc3QgPSBOVUxMOwo+ICAKPiAtCWlmIChmYmNv
+bl9oYXNfZXhpdGVkKQo+IC0JCXJldHVybiBjb3VudDsKPiAtCj4gIAljb25zb2xlX2xvY2soKTsK
+PiAgCWlkeCA9IGNvbjJmYl9tYXBbZmdfY29uc29sZV07Cj4gIAo+IEBAIC0zNDY4LDkgKzM0NTgs
+NiBAQCBzdGF0aWMgc3NpemVfdCBzdG9yZV9yb3RhdGVfYWxsKHN0cnVjdCBkZXZpY2UgKmRldmlj
+ZSwKPiAgCWludCByb3RhdGUsIGlkeDsKPiAgCWNoYXIgKipsYXN0ID0gTlVMTDsKPiAgCj4gLQlp
+ZiAoZmJjb25faGFzX2V4aXRlZCkKPiAtCQlyZXR1cm4gY291bnQ7Cj4gLQo+ICAJY29uc29sZV9s
+b2NrKCk7Cj4gIAlpZHggPSBjb24yZmJfbWFwW2ZnX2NvbnNvbGVdOwo+ICAKPiBAQCAtMzQ5MSw5
+ICszNDc4LDYgQEAgc3RhdGljIHNzaXplX3Qgc2hvd19yb3RhdGUoc3RydWN0IGRldmljZSAqZGV2
+aWNlLAo+ICAJc3RydWN0IGZiX2luZm8gKmluZm87Cj4gIAlpbnQgcm90YXRlID0gMCwgaWR4Owo+
+ICAKPiAtCWlmIChmYmNvbl9oYXNfZXhpdGVkKQo+IC0JCXJldHVybiAwOwo+IC0KPiAgCWNvbnNv
+bGVfbG9jaygpOwo+ICAJaWR4ID0gY29uMmZiX21hcFtmZ19jb25zb2xlXTsKPiAgCj4gQEAgLTM1
+MTQsOSArMzQ5OCw2IEBAIHN0YXRpYyBzc2l6ZV90IHNob3dfY3Vyc29yX2JsaW5rKHN0cnVjdCBk
+ZXZpY2UgKmRldmljZSwKPiAgCXN0cnVjdCBmYmNvbl9vcHMgKm9wczsKPiAgCWludCBpZHgsIGJs
+aW5rID0gLTE7Cj4gIAo+IC0JaWYgKGZiY29uX2hhc19leGl0ZWQpCj4gLQkJcmV0dXJuIDA7Cj4g
+LQo+ICAJY29uc29sZV9sb2NrKCk7Cj4gIAlpZHggPSBjb24yZmJfbWFwW2ZnX2NvbnNvbGVdOwo+
+ICAKPiBAQCAtMzU0Myw5ICszNTI0LDYgQEAgc3RhdGljIHNzaXplX3Qgc3RvcmVfY3Vyc29yX2Js
+aW5rKHN0cnVjdCBkZXZpY2UgKmRldmljZSwKPiAgCWludCBibGluaywgaWR4Owo+ICAJY2hhciAq
+Kmxhc3QgPSBOVUxMOwo+ICAKPiAtCWlmIChmYmNvbl9oYXNfZXhpdGVkKQo+IC0JCXJldHVybiBj
+b3VudDsKPiAtCj4gIAljb25zb2xlX2xvY2soKTsKPiAgCWlkeCA9IGNvbjJmYl9tYXBbZmdfY29u
+c29sZV07Cj4gIAo+IEBAIC0zNjY4LDkgKzM2NDYsNiBAQCBzdGF0aWMgdm9pZCBmYmNvbl9leGl0
+KHZvaWQpCj4gIAlzdHJ1Y3QgZmJfaW5mbyAqaW5mbzsKPiAgCWludCBpLCBqLCBtYXBwZWQ7Cj4g
+IAo+IC0JaWYgKGZiY29uX2hhc19leGl0ZWQpCj4gLQkJcmV0dXJuOwo+IC0KPiAgI2lmZGVmIENP
+TkZJR19GUkFNRUJVRkZFUl9DT05TT0xFX0RFRkVSUkVEX1RBS0VPVkVSCj4gIAlpZiAoZGVmZXJy
+ZWRfdGFrZW92ZXIpIHsKPiAgCQlkdW1teWNvbl91bnJlZ2lzdGVyX291dHB1dF9ub3RpZmllcigm
+ZmJjb25fb3V0cHV0X25iKTsKPiBAQCAtMzY5NSw3ICszNjcwLDcgQEAgc3RhdGljIHZvaWQgZmJj
+b25fZXhpdCh2b2lkKQo+ICAJCWZvciAoaiA9IGZpcnN0X2ZiX3ZjOyBqIDw9IGxhc3RfZmJfdmM7
+IGorKykgewo+ICAJCQlpZiAoY29uMmZiX21hcFtqXSA9PSBpKSB7Cj4gIAkJCQltYXBwZWQgPSAx
+Owo+IC0JCQkJYnJlYWs7Cj4gKwkJCQljb24yZmJfbWFwW2pdID0gLTE7Cj4gIAkJCX0KPiAgCQl9
+Cj4gIAo+IEBAIC0zNzE4LDggKzM2OTMsNiBAQCBzdGF0aWMgdm9pZCBmYmNvbl9leGl0KHZvaWQp
+Cj4gIAkJCQlpbmZvLT5xdWV1ZS5mdW5jID0gTlVMTDsKPiAgCQl9Cj4gIAl9Cj4gLQo+IC0JZmJj
+b25faGFzX2V4aXRlZCA9IDE7Cj4gIH0KPiAgCj4gIHZvaWQgX19pbml0IGZiX2NvbnNvbGVfaW5p
+dCh2b2lkKQo+IC0tIAo+IDIuMjAuMQo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
