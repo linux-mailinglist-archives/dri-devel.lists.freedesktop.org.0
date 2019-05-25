@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB3D2A502
-	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 17:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D6A2A50D
+	for <lists+dri-devel@lfdr.de>; Sat, 25 May 2019 17:17:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1535889F6D;
-	Sat, 25 May 2019 15:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7739D6E165;
+	Sat, 25 May 2019 15:17:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F089389F07;
- Sat, 25 May 2019 15:02:04 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 7C9228036E;
- Sat, 25 May 2019 17:02:02 +0200 (CEST)
-Date: Sat, 25 May 2019 17:01:59 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 11/33] fbdev/sh_mobile: remove
- sh_mobile_lcdc_display_notify
-Message-ID: <20190525150159.GA27341@ravnborg.org>
-References: <20190524085354.27411-1-daniel.vetter@ffwll.ch>
- <20190524085354.27411-12-daniel.vetter@ffwll.ch>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7CF7E6E161
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 May 2019 15:17:16 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 73F5872167; Sat, 25 May 2019 15:17:16 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding with
+ yuv420p10le
+Date: Sat, 25 May 2019 15:17:16 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-bugzilla@ossman.eu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110702-502-Ys9cN4azqa@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110702-502@http.bugs.freedesktop.org/>
+References: <bug-110702-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190524085354.27411-12-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=e5mUnYsNAAAA:8
- a=48fi2nN1bOFThYuLmmEA:9 a=FjwzjW-X6r35EzHo:21 a=pi2SNfIRU6eJWu1B:21
- a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,117 +53,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1863219535=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsCgo+IEl0J3MgZGVhZCBjb2RlLCBhbmQgcmVtb3ZpbmcgaXQgYXZvaWRzIG1lIGhh
-dmluZyB0byB1bmRlcnN0YW5kCj4gd2hhdCBpdCdzIGRvaW5nIHdpdGggbG9ja19mYl9pbmZvLgoK
-SSBwdXNoZWQgdGhlIHNlcmllcyB0aHJvdWdoIG15IGJ1aWxkIHRlc3RzIHdoaWNoIGluY2x1ZGUg
-dGhlIHNoCmFyY2hpdGVjdHVyZS4KCk9uZSBlcnJvciBhbmQgb25lIHdhcm5pbmcgd2FzIHRyaWdn
-ZXJlZCBmcm9tIHNoX21vYmlsZV9sY2RjZmIuYy4KVGhlIHJlc3Qgd2FzIGZpbmUuCgpUaGUgcGF0
-Y2ggYmVsb3cgcmVtb3ZlZCB0aGUgc29sZSB1c2VyIG9mCnNoX21vYmlsZV9sY2RjX211c3RfcmVj
-b25maWd1cmUoKSBzbyB0aGlzIHRyaWdnZXJzIGEgd2FybmluZy4KCkFuZCBJIGFsc28gZ2V0IHRo
-ZSBmb2xsb3dpbmcgZXJyb3I6CmRyaXZlcnMvdmlkZW8vZmJkZXYvc2hfbW9iaWxlX2xjZGNmYi5j
-OiBJbiBmdW5jdGlvbiDigJhzaF9tb2JpbGVfZmJfcmVjb25maWfigJk6CmRyaXZlcnMvdmlkZW8v
-ZmJkZXYvc2hfbW9iaWxlX2xjZGNmYi5jOjE4MDA6MjogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0
-aW9uIG9mIGZ1bmN0aW9uIOKAmGZiY29uX3VwZGF0ZV92Y3PigJk7IGRpZCB5b3UgbWVhbiDigJhm
-aWxlX3VwZGF0ZV90aW1l4oCZPyBbLVdlcnJvcj1pbXBsaWNpdC1mdW5jdGlvbi1kZWNsYXJhdGlv
-bl0KICBmYmNvbl91cGRhdGVfdmNzKGluZm8sIHRydWUpOwogIF5+fn5+fn5+fn5+fn5+fn4KICBm
-aWxlX3VwZGF0ZV90aW1lCgpJIGRpZCBub3QgY2hlY2sgYnV0IGFzc3VtZSB0aGUgZXJyb3Igd2Fz
-IHRyaWdnZXJlZCBpbiBwYXRjaCAyOCB3aGVyZQpmYmNvbl91cGRhdGVfdmNzKCkgaW4gaW50cm9k
-dWNlZC4KCgpCb3RoIGFyZSB0cml2aWFsbHkgZml4ZWQgYnkgYXBwZW5kZWQgcGF0Y2guCgoJU2Ft
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2JpbGVfbGNkY2ZiLmMgYi9k
-cml2ZXJzL3ZpZGVvL2ZiZGV2L3NoX21vYmlsZV9sY2RjZmIuYwppbmRleCBiYjFhNjEwZDAzNjMu
-LmI4NDU0NDI0OTEwZCAxMDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2JpbGVf
-bGNkY2ZiLmMKKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2JpbGVfbGNkY2ZiLmMKQEAg
-LTE1LDYgKzE1LDcgQEAKICNpbmNsdWRlIDxsaW51eC9jdHlwZS5oPgogI2luY2x1ZGUgPGxpbnV4
-L2RtYS1tYXBwaW5nLmg+CiAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4KKyNpbmNsdWRlIDxsaW51
-eC9mYmNvbi5oPgogI2luY2x1ZGUgPGxpbnV4L2dwaW8uaD4KICNpbmNsdWRlIDxsaW51eC9pbml0
-Lmg+CiAjaW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+CkBAIC01MzMsMjUgKzUzNCw2IEBAIHN0
-YXRpYyB2b2lkIHNoX21vYmlsZV9sY2RjX2Rpc3BsYXlfb2ZmKHN0cnVjdCBzaF9tb2JpbGVfbGNk
-Y19jaGFuICpjaCkKIAkJY2gtPnR4X2Rldi0+b3BzLT5kaXNwbGF5X29mZihjaC0+dHhfZGV2KTsK
-IH0KIAotc3RhdGljIGJvb2wKLXNoX21vYmlsZV9sY2RjX211c3RfcmVjb25maWd1cmUoc3RydWN0
-IHNoX21vYmlsZV9sY2RjX2NoYW4gKmNoLAotCQkJCWNvbnN0IHN0cnVjdCBmYl92aWRlb21vZGUg
-Km5ld19tb2RlKQotewotCWRldl9kYmcoY2gtPmluZm8tPmRldiwgIk9sZCAldXgldSwgbmV3ICV1
-eCV1XG4iLAotCQljaC0+ZGlzcGxheS5tb2RlLnhyZXMsIGNoLT5kaXNwbGF5Lm1vZGUueXJlcywK
-LQkJbmV3X21vZGUtPnhyZXMsIG5ld19tb2RlLT55cmVzKTsKLQotCS8qIEl0IGNhbiBiZSBhIGRp
-ZmZlcmVudCBtb25pdG9yIHdpdGggYW4gZXF1YWwgdmlkZW8tbW9kZSAqLwotCWlmIChmYl9tb2Rl
-X2lzX2VxdWFsKCZjaC0+ZGlzcGxheS5tb2RlLCBuZXdfbW9kZSkpCi0JCXJldHVybiBmYWxzZTsK
-LQotCWRldl9kYmcoY2gtPmluZm8tPmRldiwgIlN3aXRjaGluZyAldSAtPiAldSBsaW5lc1xuIiwK
-LQkJY2gtPmRpc3BsYXkubW9kZS55cmVzLCBuZXdfbW9kZS0+eXJlcyk7Ci0JY2gtPmRpc3BsYXku
-bW9kZSA9ICpuZXdfbW9kZTsKLQotCXJldHVybiB0cnVlOwotfQotCiBzdGF0aWMgaW50IHNoX21v
-YmlsZV9sY2RjX2NoZWNrX3ZhcihzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZhciwKIAkJCQkg
-ICAgc3RydWN0IGZiX2luZm8gKmluZm8pOwogCgogCj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZl
-dHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiBSZXZpZXdlZC1ieTogR2VlcnQgVXl0dGVy
-aG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4KPiBDYzogR2VlcnQgVXl0dGVyaG9ldmVu
-IDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBmZndsbC5jaD4KPiAtLS0KPiAgZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2JpbGVfbGNk
-Y2ZiLmMgfCA2MyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICBkcml2ZXJzL3ZpZGVvL2Zi
-ZGV2L3NoX21vYmlsZV9sY2RjZmIuaCB8ICA1IC0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgNjggZGVs
-ZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvc2hfbW9iaWxl
-X2xjZGNmYi5jIGIvZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2JpbGVfbGNkY2ZiLmMKPiBpbmRl
-eCBkYzQ2YmUzOGM5NzAuLmM1OTI0ZjVlOThjNiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVv
-L2ZiZGV2L3NoX21vYmlsZV9sY2RjZmIuYwo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvc2hf
-bW9iaWxlX2xjZGNmYi5jCj4gQEAgLTU1Niw2NyArNTU2LDYgQEAgc2hfbW9iaWxlX2xjZGNfbXVz
-dF9yZWNvbmZpZ3VyZShzdHJ1Y3Qgc2hfbW9iaWxlX2xjZGNfY2hhbiAqY2gsCj4gIHN0YXRpYyBp
-bnQgc2hfbW9iaWxlX2xjZGNfY2hlY2tfdmFyKHN0cnVjdCBmYl92YXJfc2NyZWVuaW5mbyAqdmFy
-LAo+ICAJCQkJICAgIHN0cnVjdCBmYl9pbmZvICppbmZvKTsKPiAgCj4gLXN0YXRpYyBpbnQgc2hf
-bW9iaWxlX2xjZGNfZGlzcGxheV9ub3RpZnkoc3RydWN0IHNoX21vYmlsZV9sY2RjX2NoYW4gKmNo
-LAo+IC0JCQkJCSBlbnVtIHNoX21vYmlsZV9sY2RjX2VudGl0eV9ldmVudCBldmVudCwKPiAtCQkJ
-CQkgY29uc3Qgc3RydWN0IGZiX3ZpZGVvbW9kZSAqbW9kZSwKPiAtCQkJCQkgY29uc3Qgc3RydWN0
-IGZiX21vbnNwZWNzICptb25zcGVjKQo+IC17Cj4gLQlzdHJ1Y3QgZmJfaW5mbyAqaW5mbyA9IGNo
-LT5pbmZvOwo+IC0Jc3RydWN0IGZiX3Zhcl9zY3JlZW5pbmZvIHZhcjsKPiAtCWludCByZXQgPSAw
-Owo+IC0KPiAtCXN3aXRjaCAoZXZlbnQpIHsKPiAtCWNhc2UgU0hfTU9CSUxFX0xDRENfRVZFTlRf
-RElTUExBWV9DT05ORUNUOgo+IC0JCS8qIEhETUkgcGx1ZyBpbiAqLwo+IC0JCWNvbnNvbGVfbG9j
-aygpOwo+IC0JCWlmIChsb2NrX2ZiX2luZm8oaW5mbykpIHsKPiAtCj4gLQo+IC0JCQljaC0+ZGlz
-cGxheS53aWR0aCA9IG1vbnNwZWMtPm1heF94ICogMTA7Cj4gLQkJCWNoLT5kaXNwbGF5LmhlaWdo
-dCA9IG1vbnNwZWMtPm1heF95ICogMTA7Cj4gLQo+IC0JCQlpZiAoIXNoX21vYmlsZV9sY2RjX211
-c3RfcmVjb25maWd1cmUoY2gsIG1vZGUpICYmCj4gLQkJCSAgICBpbmZvLT5zdGF0ZSA9PSBGQklO
-Rk9fU1RBVEVfUlVOTklORykgewo+IC0JCQkJLyogRmlyc3QgYWN0aXZhdGlvbiB3aXRoIHRoZSBk
-ZWZhdWx0IG1vbml0b3IuCj4gLQkJCQkgKiBKdXN0IHR1cm4gb24sIGlmIHdlIHJ1biBhIHJlc3Vt
-ZSBoZXJlLCB0aGUKPiAtCQkJCSAqIGxvZ28gZGlzYXBwZWFycy4KPiAtCQkJCSAqLwo+IC0JCQkJ
-aW5mby0+dmFyLndpZHRoID0gY2gtPmRpc3BsYXkud2lkdGg7Cj4gLQkJCQlpbmZvLT52YXIuaGVp
-Z2h0ID0gY2gtPmRpc3BsYXkuaGVpZ2h0Owo+IC0JCQkJc2hfbW9iaWxlX2xjZGNfZGlzcGxheV9v
-bihjaCk7Cj4gLQkJCX0gZWxzZSB7Cj4gLQkJCQkvKiBOZXcgbW9uaXRvciBvciBoYXZlIHRvIHdh
-a2UgdXAgKi8KPiAtCQkJCWZiX3NldF9zdXNwZW5kKGluZm8sIDApOwo+IC0JCQl9Cj4gLQo+IC0K
-PiAtCQkJdW5sb2NrX2ZiX2luZm8oaW5mbyk7Cj4gLQkJfQo+IC0JCWNvbnNvbGVfdW5sb2NrKCk7
-Cj4gLQkJYnJlYWs7Cj4gLQo+IC0JY2FzZSBTSF9NT0JJTEVfTENEQ19FVkVOVF9ESVNQTEFZX0RJ
-U0NPTk5FQ1Q6Cj4gLQkJLyogSERNSSBkaXNjb25uZWN0ICovCj4gLQkJY29uc29sZV9sb2NrKCk7
-Cj4gLQkJaWYgKGxvY2tfZmJfaW5mbyhpbmZvKSkgewo+IC0JCQlmYl9zZXRfc3VzcGVuZChpbmZv
-LCAxKTsKPiAtCQkJdW5sb2NrX2ZiX2luZm8oaW5mbyk7Cj4gLQkJfQo+IC0JCWNvbnNvbGVfdW5s
-b2NrKCk7Cj4gLQkJYnJlYWs7Cj4gLQo+IC0JY2FzZSBTSF9NT0JJTEVfTENEQ19FVkVOVF9ESVNQ
-TEFZX01PREU6Cj4gLQkJLyogVmFsaWRhdGUgYSBwcm9wb3NlZCBuZXcgbW9kZSAqLwo+IC0JCWZi
-X3ZpZGVvbW9kZV90b192YXIoJnZhciwgbW9kZSk7Cj4gLQkJdmFyLmJpdHNfcGVyX3BpeGVsID0g
-aW5mby0+dmFyLmJpdHNfcGVyX3BpeGVsOwo+IC0JCXZhci5ncmF5c2NhbGUgPSBpbmZvLT52YXIu
-Z3JheXNjYWxlOwo+IC0JCXJldCA9IHNoX21vYmlsZV9sY2RjX2NoZWNrX3ZhcigmdmFyLCBpbmZv
-KTsKPiAtCQlicmVhazsKPiAtCX0KPiAtCj4gLQlyZXR1cm4gcmV0Owo+IC19Cj4gLQo+ICAvKiAt
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAgKiBGb3JtYXQgaGVscGVycwo+ICAgKi8KPiBAQCAtMjU0
-MCw4ICsyNDc5LDYgQEAgc2hfbW9iaWxlX2xjZGNfY2hhbm5lbF9pbml0KHN0cnVjdCBzaF9tb2Jp
-bGVfbGNkY19jaGFuICpjaCkKPiAgCXVuc2lnbmVkIGludCBtYXhfc2l6ZTsKPiAgCXVuc2lnbmVk
-IGludCBpOwo+ICAKPiAtCWNoLT5ub3RpZnkgPSBzaF9tb2JpbGVfbGNkY19kaXNwbGF5X25vdGlm
-eTsKPiAtCj4gIAkvKiBWYWxpZGF0ZSB0aGUgZm9ybWF0LiAqLwo+ICAJZm9ybWF0ID0gc2hfbW9i
-aWxlX2Zvcm1hdF9pbmZvKGNmZy0+Zm91cmNjKTsKPiAgCWlmIChmb3JtYXQgPT0gTlVMTCkgewo+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NoX21vYmlsZV9sY2RjZmIuaCBiL2Ry
-aXZlcnMvdmlkZW8vZmJkZXYvc2hfbW9iaWxlX2xjZGNmYi5oCj4gaW5kZXggYjhlNDdhOGJkOGFi
-Li41ODk0MDAzNzIwOTggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2Jp
-bGVfbGNkY2ZiLmgKPiArKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NoX21vYmlsZV9sY2RjZmIu
-aAo+IEBAIC04NywxMSArODcsNiBAQCBzdHJ1Y3Qgc2hfbW9iaWxlX2xjZGNfY2hhbiB7Cj4gIAl1
-bnNpZ25lZCBsb25nIGJhc2VfYWRkcl9jOwo+ICAJdW5zaWduZWQgaW50IGxpbmVfc2l6ZTsKPiAg
-Cj4gLQlpbnQgKCpub3RpZnkpKHN0cnVjdCBzaF9tb2JpbGVfbGNkY19jaGFuICpjaCwKPiAtCQkg
-ICAgICBlbnVtIHNoX21vYmlsZV9sY2RjX2VudGl0eV9ldmVudCBldmVudCwKPiAtCQkgICAgICBj
-b25zdCBzdHJ1Y3QgZmJfdmlkZW9tb2RlICptb2RlLAo+IC0JCSAgICAgIGNvbnN0IHN0cnVjdCBm
-Yl9tb25zcGVjcyAqbW9uc3BlYyk7Cj4gLQo+ICAJLyogQmFja2xpZ2h0ICovCj4gIAlzdHJ1Y3Qg
-YmFja2xpZ2h0X2RldmljZSAqYmw7Cj4gIAl1bnNpZ25lZCBpbnQgYmxfYnJpZ2h0bmVzczsKPiAt
-LSAKPiAyLjIwLjEKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1863219535==
+Content-Type: multipart/alternative; boundary="15587974360.0ce14e1ce.3818"
+Content-Transfer-Encoding: 7bit
+
+
+--15587974360.0ce14e1ce.3818
+Date: Sat, 25 May 2019 15:17:16 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
+
+--- Comment #4 from Pierre Ossman <pierre-bugzilla@ossman.eu> ---
+As a workaround, is it possible to configure VA-API to refuse to handle this
+specific format? It would be nice to have to disable hardware acceleration
+entirely.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15587974360.0ce14e1ce.3818
+Date: Sat, 25 May 2019 15:17:16 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
+0le"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
+0le"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">bug 11070=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-bugzilla&#64;ossman.eu" title=3D"Pierre Ossman &lt;pierre-bugzilla&#=
+64;ossman.eu&gt;"> <span class=3D"fn">Pierre Ossman</span></a>
+</span></b>
+        <pre>As a workaround, is it possible to configure VA-API to refuse =
+to handle this
+specific format? It would be nice to have to disable hardware acceleration
+entirely.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15587974360.0ce14e1ce.3818--
+
+--===============1863219535==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1863219535==--
