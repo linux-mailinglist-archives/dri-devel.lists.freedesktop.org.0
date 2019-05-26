@@ -2,29 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18ED2ABE5
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2019 21:19:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348AA2B438
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:05:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 996338979E;
-	Sun, 26 May 2019 19:19:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B54E689C69;
+	Mon, 27 May 2019 12:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 912548979E
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 19:19:52 +0000 (UTC)
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- (Authenticated sender: maxime.ripard@bootlin.com)
- by relay10.mail.gandi.net (Postfix) with ESMTPSA id 0A271240003;
- Sun, 26 May 2019 19:19:40 +0000 (UTC)
-Date: Sun, 26 May 2019 21:19:40 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-Subject: Re: [PATCH] drm/sun4i: fix warning PTR_ERR_OR_ZERO can be used
-Message-ID: <20190526191940.ddr2yd7szfidtiu2@flea>
-References: <20190525072509.GA6979@hari-Inspiron-1545>
+X-Greylist: delayed 1588 seconds by postgrey-1.36 at gabe;
+ Sun, 26 May 2019 20:17:23 UTC
+Received: from smtp-rs2-vallila1.fe.helsinki.fi
+ (smtp-rs2-vallila1.fe.helsinki.fi [128.214.173.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF474895CA
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 20:17:23 +0000 (UTC)
+Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
+ by smtp-rs2.it.helsinki.fi (8.14.7/8.14.7) with ESMTP id
+ x4QJopP9010199; Sun, 26 May 2019 22:50:51 +0300
+Received: by whs-18.cs.helsinki.fi (Postfix, from userid 1070048)
+ id 1D5EC3600C6; Sun, 26 May 2019 22:50:51 +0300 (EEST)
+Received: from localhost (localhost [127.0.0.1])
+ by whs-18.cs.helsinki.fi (Postfix) with ESMTP id 1BEE536007C;
+ Sun, 26 May 2019 22:50:51 +0300 (EEST)
+Date: Sun, 26 May 2019 22:50:51 +0300 (EEST)
+From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@cs.helsinki.fi>
+X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
+To: Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
+Subject: DRM/AST regression (likely 4.14 -> 4.19+), providing EDID manually
+ fails
+Message-ID: <alpine.DEB.2.20.1905262211270.24390@whs-18.cs.helsinki.fi>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
-In-Reply-To: <20190525072509.GA6979@hari-Inspiron-1545>
-User-Agent: NeoMutt/20180716
+X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -37,94 +45,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0936635736=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0936635736==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wbyhtjebfo7bq6wk"
-Content-Disposition: inline
-
-
---wbyhtjebfo7bq6wk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi!
-
-On Sat, May 25, 2019 at 12:55:09PM +0530, Hariprasad Kelam wrote:
-> fix below warnings reported by coccicheck
->
-> ./drivers/gpu/drm/sun4i/sun8i_hdmi_phy_clk.c:174:1-3: WARNING:
-> PTR_ERR_OR_ZERO can be used
-> ./drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c:236:1-3: WARNING:
-> PTR_ERR_OR_ZERO can be used
-> ./drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:285:1-3: WARNING:
-> PTR_ERR_OR_ZERO can be used
-> ./drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c:142:1-3: WARNING:
-> PTR_ERR_OR_ZERO can be used
-> ./drivers/gpu/drm/sun4i/sun4i_dotclock.c:198:1-3: WARNING:
-> PTR_ERR_OR_ZERO can be used
->
-> Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-> ---
->  drivers/gpu/drm/sun4i/sun4i_dotclock.c      | 4 +---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_ddc_clk.c  | 4 +---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c      | 4 +---
->  drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c | 4 +---
->  drivers/gpu/drm/sun4i/sun8i_hdmi_phy_clk.c  | 4 +---
->  5 files changed, 5 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_dotclock.c b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-> index 2a15f2f..e0fd19d 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_dotclock.c
-> @@ -195,10 +195,8 @@ int sun4i_dclk_create(struct device *dev, struct sun4i_tcon *tcon)
->  	dclk->hw.init = &init;
->
->  	tcon->dclk = clk_register(dev, &dclk->hw);
-> -	if (IS_ERR(tcon->dclk))
-> -		return PTR_ERR(tcon->dclk);
->
-> -	return 0;
-> +	return PTR_ERR_OR_ZERO(tcon->dclk);
-
-Unfortunately, that was on purpose. It's much easier to extend if we
-ever need to change anything there.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---wbyhtjebfo7bq6wk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXOrmzAAKCRDj7w1vZxhR
-xYHIAQCHJXC7nn+WNDI2HEnEBKzcFG+IbWIX34bHIZfhK4AnGgEAgZHJJQ6EF1xn
-m34W2K3bjCbJ19Re4AH0OQy4fDUa5Ag=
-=640m
------END PGP SIGNATURE-----
-
---wbyhtjebfo7bq6wk--
-
---===============0936635736==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0936635736==--
+SGkgYWxsLAoKSSd2ZSBhIHdvcmtzdGF0aW9uIHdoaWNoIGhhcyBpbnRlcm5hbCBWR0EgdGhhdCBp
+cyBkZXRlY3RlZCBhcyBBU1QgMjQwMCBhbmQgCndpdGggaXQgRURJRCBoYXMgYmVlbiBhbHdheXMg
+cXVpdGUgZmxha3kgKGV4Y2VwdCBmb3Igc29tZSB0aW1lIGl0IHdvcmtlZCAKd2l0aCA0LjE0IGxv
+bmcgZW5vdWdoIHRoYXQgSSB0aG91Z2h0IHRoZSBwcm9ibGVtcyB3b3VsZCBiZSBwYXN0IHVudGls
+IHRoZSAKcHJvYmxlbXMgcmVhcHBlYXJlZCBhbHNvIHdpdGggNC4xNCkuIFRodXMsIEkndmUgcHJv
+dmlkZWQgbWFudWFsbHkgdGhlIEVESUQgCnRoYXQgSSBleHRyYWN0ZWQgZnJvbSB0aGUgbW9uaXRv
+ciB1c2luZyBvdGhlciBjb21wdXRlciAodGhlIG1vbml0b3IgaXRzZWxmIAp3b3JrZWQganVzdCBm
+aW5lIG9uIHRoZSBlYXJsaWVyIGNvbXB1dGVyIHNvIGl0IGlzIGxpa2VseSBmaW5lKS4KCkkgc2V0
+dXAgdGhlIG1hbnVhbCBFRElEIHVzaW5nIGRybV9rbXNfaGVscGVyLmVkaWRfZmlybXdhcmUsIGhv
+d2V2ZXIsCmFmdGVyIHVwZ3JhZGluZyB0byA0LjE5LjQ1IGl0IHN0b3BwZWQgd29ya2luZyAobm8g
+IkdvdCBleHRlcm5hbCBFRElEIGJhc2UgCmJsb2NrIiBhcHBlYXJzIGluIGRtZXNnLCB0aGUgdGV4
+dCBtb2RlIGlzIGtlcHQgaW4gdGhlIGxvd2VyIHJlcyBtb2RlLCBhbmQgClhvcmcgbG9ncyBubyBs
+b25nZXIgZHVtcHMgdGhlIEVESUQgaW5mbyBsaWtlIGl0IGRpZCB3aXRoIDQuMTQpLiBTbyBJIGd1
+ZXNzIAp0aGUgRURJRCBJIHByb3ZpZGVkIG1hbnVhbGx5IG9uIHRoZSBjb21tYW5kIGxpbmUgaXMg
+bm90IGNvcnJlY3RseSBwdXQgaW50byAKdXNlIHdpdGggNC4xOSsga2VybmVscy4KClRoZSA0LjE5
+IGRtZXNnIGluZGljYXRlZCB0aGF0IGRybV9rbXNfaGVscGVyLmVkaWRfZmlybXdhcmUgaXMgZGVw
+cmVjYXRlZCAKc28gSSBhbHNvIHRlc3RlZCB3aXRoIGRybS5lZGlkX2Zpcm13YXJlIGl0IHN1Z2dl
+c3RlZCBhcyB0aGUgcmVwbGFjZW1lbnQgCmJ1dCB3aXRoIG5vIGx1Y2sgKGJ1dCBJIGJlbGlldmUg
+YWxzbyB0aGUgZHJtX2ttc19oZWxwZXIgb25lIHNob3VsZCBoYXZlIAp3b3JrZWQgYXMgaXQgd2Fz
+IG9ubHkgImRlcHJlY2F0ZWQiKS4KCkkgYWxzbyB0cmllZCA1LjEuMiBidXQgaXQgZGlkIG5vdCB3
+b3JrIGFueSBiZXR0ZXIgKGFuZCB3aXRoIGl0IGFsc28gdHJpZWQgCnJlbW92aW5nIGFsbCB0aGUg
+bWFudWFsICouZWRpZF9maXJtd2FyZSBmcm9tIHRoZSBjb21tYW5kIGxpbmUgc28gSSBzdGlsbCAK
+bmVlZCB0byBwcm92aWRlIG9uZSBtYW51YWxseSB0byBoYXZlIGl0IHJlbGlhYmxlIHdvcmtpbmcg
+aXQgc2VlbXMpLgoKCi0tIAogaS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
