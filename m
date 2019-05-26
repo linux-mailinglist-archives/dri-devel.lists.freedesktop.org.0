@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA352B435
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 14:05:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFFF2AC9F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 01:19:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F3AD89CBE;
-	Mon, 27 May 2019 12:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9CB8897FD;
+	Sun, 26 May 2019 23:19:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2125 seconds by postgrey-1.36 at gabe;
- Sun, 26 May 2019 23:03:11 UTC
-Received: from imap1.codethink.co.uk (imap1.codethink.co.uk [176.9.8.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0D84897F9
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 23:03:11 +0000 (UTC)
-Received: from x4db76deb.dyn.telefonica.de ([77.183.109.235] helo=[10.0.95.2])
- by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
- id 1hV1cF-0004F7-V8; Sun, 26 May 2019 23:27:44 +0100
-Subject: Re: [PATCH] drm/tegra: fix warning PTR_ERR_OR_ZERO can be used
-To: Hariprasad Kelam <hariprasad.kelam@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter <jonathanh@nvidia.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20190525070353.GA6727@hari-Inspiron-1545>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-Message-ID: <7446cd38-71c5-284d-8a9a-b5ac6865bf35@codethink.co.uk>
-Date: Sun, 26 May 2019 23:27:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C458897FD
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 23:19:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 593F472167; Sun, 26 May 2019 23:19:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109022] ring gfx timeout during particular shader generation on
+ yuzu emulator
+Date: Sun, 26 May 2019 23:19:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: felix.adrianto@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109022-502-UZdoiwifAe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109022-502@http.bugs.freedesktop.org/>
+References: <bug-109022-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190525070353.GA6727@hari-Inspiron-1545>
-Content-Language: en-GB
-X-Mailman-Approved-At: Mon, 27 May 2019 12:03:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,20 +53,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1152803981=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjUvMDUvMjAxOSAwODowMywgSGFyaXByYXNhZCBLZWxhbSB3cm90ZToKPiBmaXggYmVsb3cg
-d2FybmluZ3MgcmVwb3J0ZWQgYnkgY29jY2ljaGVjawo+IAo+IC9kcml2ZXJzL2dwdS9kcm0vdGVn
-cmEvZHJtLmM6NTA5OjEtMzogV0FSTklORzogUFRSX0VSUl9PUl9aRVJPIGNhbiBiZQo+IHVzZWQK
-PiAuL2RyaXZlcnMvZ3B1L2RybS90ZWdyYS9nZW0uYzo0MTk6MS0zOiBXQVJOSU5HOiBQVFJfRVJS
-X09SX1pFUk8gY2FuIGJlCj4gdXNlZAoKSSdkIHNheSB0aGUgY29jY2ljaGVjayBzaG91bGQgc2F5
-ICJJbXByb3ZlbWVudDoiIGhlcmUsIGl0J3Mgbm90CnNvbWV0aGluZyB3cm9uZywganVzdCBjb2Rl
-IHRoYXQgaGFzIGEgYmV0dGVyIGNhbGwgYXZhaWxhYmxlLgoKLS0gCkJlbiBEb29rcwkJCQlodHRw
-Oi8vd3d3LmNvZGV0aGluay5jby51ay8KU2VuaW9yIEVuZ2luZWVyCQkJCUNvZGV0aGluayAtIFBy
-b3ZpZGluZyBHZW5pdXMKCmh0dHBzOi8vd3d3LmNvZGV0aGluay5jby51ay9wcml2YWN5Lmh0bWwK
+
+--===============1152803981==
+Content-Type: multipart/alternative; boundary="15589127591.7fc6.25182"
+Content-Transfer-Encoding: 7bit
+
+
+--15589127591.7fc6.25182
+Date: Sun, 26 May 2019 23:19:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109022
+
+--- Comment #14 from e88z4 <felix.adrianto@gmail.com> ---
+I tried to reproduce this bug again with latest mesa master (659aa3dd651). =
+My
+kernel is 5.1.3 and yuzu-canary #2318. The behaviour of the softlock is
+slightly changed. Yuzu didn't crash anymore but rendering was super slow. I=
+ was
+able to kill the application without using SSH. The following error was
+produced from dmesg.
+
+[ 5179.131132] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5183.739102] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5189.883024] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5193.979037] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5204.218939] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5214.458837] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5224.698730] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5229.818653] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5234.938622] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5234.938680] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5241.850516] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5245.178534] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5251.322426] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5255.418427] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15589127591.7fc6.25182
+Date: Sun, 26 May 2019 23:19:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring gfx timeout during particular shader generation on y=
+uzu emulator"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - ring gfx timeout during particular shader generation on y=
+uzu emulator"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022">bug 10902=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+felix.adrianto&#64;gmail.com" title=3D"e88z4 &lt;felix.adrianto&#64;gmail.c=
+om&gt;"> <span class=3D"fn">e88z4</span></a>
+</span></b>
+        <pre>I tried to reproduce this bug again with latest mesa master (6=
+59aa3dd651). My
+kernel is 5.1.3 and yuzu-canary #2318. The behaviour of the softlock is
+slightly changed. Yuzu didn't crash anymore but rendering was super slow. I=
+ was
+able to kill the application without using SSH. The following error was
+produced from dmesg.
+
+[ 5179.131132] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5183.739102] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5189.883024] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5193.979037] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5204.218939] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5214.458837] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5224.698730] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5229.818653] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5234.938622] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5234.938680] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5241.850516] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5245.178534] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered
+[ 5251.322426] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5255.418427] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
+ but
+soft recovered</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15589127591.7fc6.25182--
+
+--===============1152803981==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1152803981==--
