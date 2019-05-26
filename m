@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C8082A800
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2019 06:28:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC062A8D9
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2019 08:33:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C383E6E1B1;
-	Sun, 26 May 2019 04:28:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13A789FDE;
+	Sun, 26 May 2019 06:33:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C22276E1B1
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 04:28:36 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BC5B572167; Sun, 26 May 2019 04:28:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110637] Any OpenCL application causes "*ERROR* ring gfx
- timeout" on Vega 64
-Date: Sun, 26 May 2019 04:28:36 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mezin.alexander@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110637-502-rBLgpSD9lF@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110637-502@http.bugs.freedesktop.org/>
-References: <bug-110637-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEDC989FDE;
+ Sun, 26 May 2019 06:33:45 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id d8so9838472lfb.8;
+ Sat, 25 May 2019 23:33:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FL3NqmmcJOCLEtdHAgDmCnVfTaPySoatOAnbGv6chaI=;
+ b=uVYnMQ+cd54aB7MfV9Ek5bC8eNTrZuyMPnhFcZwS3hSmhtD6zmx9pJ1In2GhtI/wYS
+ d1K1oHVujOYxroybGrS9dWmBWsogwbMXWC8i52R/RXGmU/ovdMTOnOb2H41We/TL1SjS
+ LFRRmkAl6vDOyCuYP+tglHdyohFvJsk0jIlQcEd2UExorWNiIwOmCReSZuC6UJgP7tCg
+ EsbyJwiR/A6+gkvd6POZ3179v+yANDruz4iHyy40lIYWQewe5J+mpESxGZOl+eiDGxot
+ goV7t/8Xt1k84VrbaNpPspWUyzpaEPz1QnwELgqsw0wNB4f7kWNDoYi/PFuQ0ZkIIJVz
+ jlNQ==
+X-Gm-Message-State: APjAAAVvhuc+j6bNHdY2EzPlU4tfPk2/bOPPtCrqYvVuAD1euXT4nog/
+ I3DKmN04vB8OScUp2nqdEQ1qTwQ098Mq/Ci753pY5A==
+X-Google-Smtp-Source: APXvYqyAr9Cwnftu44j0BYBEVINtBJ1qKcIWPHpBGBCZ+yjpcW43Fy9g7kjteFhS2VjdmuZiLIYQMcIMWrMLHL7YF44=
+X-Received: by 2002:ac2:4a6e:: with SMTP id q14mr18941138lfp.46.1558852424052; 
+ Sat, 25 May 2019 23:33:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190525204319.28977-1-sam@ravnborg.org>
+In-Reply-To: <20190525204319.28977-1-sam@ravnborg.org>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Sun, 26 May 2019 08:33:36 +0200
+Message-ID: <CAMeQTsYUfGTjBw-eyO2gOif99Ywp+TdxBQQ9Lif-KqOcjL4UWA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] drm/gma500: drop use of drmP.h
+To: Sam Ravnborg <sam@ravnborg.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=FL3NqmmcJOCLEtdHAgDmCnVfTaPySoatOAnbGv6chaI=;
+ b=lswtMpilbSHqmV1cba9T8Xd8PwDrf8M5Iy4njn/Y7ZSJMgSKHc5g3k7FSNKSURE/PC
+ lnzHC45+JmxpJwZ+299QJyKTW3wQ+mP6wtyYCbKq4cI9yxJNRTERqeoah6XJUi4XXZwA
+ uSMf6JIfT7vGhUcg2KOEvF3xt/PnP6rdBgZUk5glSDLE35CLwIh9fasK1YjXTYWBtUrv
+ I86H93WlsZVlExOhPGsMPwqUCy70aqRxrXiX8QYkKeIw5Hsz7cgXJIujuGRoif0QqjqU
+ Nz60k6k6dOheI8L4XqqFouBl5Kr1e/WhxIeLr/s86Re4j+8y+DJALMp6nlM7eCkv1e5f
+ 4Z6Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +62,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1721146051=="
+Cc: David Airlie <airlied@linux.ie>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1721146051==
-Content-Type: multipart/alternative; boundary="15588449161.f04E7b982.1803"
-Content-Transfer-Encoding: 7bit
-
-
---15588449161.f04E7b982.1803
-Date: Sun, 26 May 2019 04:28:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110637
-
---- Comment #9 from Alexander Mezin <mezin.alexander@gmail.com> ---
-Tried Mesa 19.1.0-rc3
-Geekbench hangs, but there are no immediate errors in dmesg. It looks like =
-gpu
-is doing something based on 'sensors' output (~130 W power consumption, at =
-idle
-it is <20W). And power consumption doesn't go down even when I kill geekben=
-ch.
-When I try to reboot, the system hangs.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15588449161.f04E7b982.1803
-Date: Sun, 26 May 2019 04:28:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
-out&quot; on Vega 64"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Any OpenCL application causes &quot;*ERROR* ring gfx time=
-out&quot; on Vega 64"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110637">bug 11063=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mezin.alexander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander=
-&#64;gmail.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
-</span></b>
-        <pre>Tried Mesa 19.1.0-rc3
-Geekbench hangs, but there are no immediate errors in dmesg. It looks like =
-gpu
-is doing something based on 'sensors' output (~130 W power consumption, at =
-idle
-it is &lt;20W). And power consumption doesn't go down even when I kill geek=
-bench.
-When I try to reboot, the system hangs.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15588449161.f04E7b982.1803--
-
---===============1721146051==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1721146051==--
+T24gU2F0LCBNYXkgMjUsIDIwMTkgYXQgMTA6NDMgUE0gU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPiB3cm90ZToKPgo+IEp1c3QgYSBxdWljayAoZmluYWwpIHByb2JlLiBJZiB0aGVyZSBh
+cmUgbm8gZnVydGhlciBmZWVkYmFjayBJIHdpbGwKPiBjb21taXQgdGhpcyBzZXQgc3VuZGF5Lgo+
+IEFkZGVkIGludGVsLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcganVzdCB0byBnZXQgYSBiaXQg
+bW9yZSBjb3ZlcmFnZS4KCkhpIFNhbQp2MiBvZiB0aGlzIHNlcmllcyBpcyBhbHJlYWR5IGFwcGxp
+ZWQgdG8gZHJtLW1pc2MtbmV4dAoKVGhhbmtzClBhdHJpawoKPgo+Cj4gVGhlIGZvbGxvd2luZyBw
+YXRjaHNldCByZW1vdmUgdXNlIG9mIHRoZSBkZXByZWNhdGVkIGRybVAuaAo+IGhlYWRlciBmaWxl
+IGluIHRoZSBnbWE1MDAgZHJpdmVyLgo+Cj4gQXMgcHJlcGFyYXRpb24gYW4gZW1wdHkgaGVhZGVy
+IGZpbGUgaXMgcmVtb3ZlZCBhbmQgYSBkZXBlbmRlbmN5IG9uCj4gZHJtX29zX2xpbnV4LmggaXMg
+ZHJvcHBlZC4KPiBUaGUgbG9jYWwgaGVhZGVyIGZpbGVzIGFyZSBtYWRlIG1vcmUgc2VsZi1jb250
+YWluZWQgdG8gYWxsb3cKPiB0aGVtIHRvIGJlIGluY2x1ZGVkIGluIGFscGhhYmV0aWNhbCBvcmRl
+ciBpbiB0aGUgZmlsZXMgd2hlcmUgdGhleSBhcmUgdXNlZC4KPgo+IFdoZW4gcmVtb3ZpbmcgZHJt
+UC5oIHRoZSBpbmNsdWRlIGZpbGVzIGFyZSBkaXZpZGVkIHVwIGluIGJsb2NrczoKPiBcI2luY2x1
+ZGUgPGxpbnV4Lyo+Cj4KPiBcI2luY2x1ZGUgPGFzbS8qPgo+Cj4gXCNpbmNsdWRlIDxkcm0vKj4K
+Pgo+IFwjaW5jbHVkZSAiIgo+Cj4gV2l0aGluIGVhY2ggYmxvY2sgdGhlIGluY2x1ZGUgZmlsZXMg
+YXJlIHNvcnRlZCBhbHBoYWJldGljYWxseQo+Cj4gQnVpbGQgdGVzdGVkIHdpdGggYWxsbW9kY29u
+ZmlnIGFuZCBhbGx5ZXNjb25maWcgZm9yIHg4NiwgYXJtLCBhbHBoYSBhbmQgbW9yZS4KPgo+IFBh
+dGNoc2V0IG1hZGUgb24gdG9wIG9mIGRybS1taXNjLW5leHQKPgo+IHYyOgo+IC0gQmUgY29uc2l0
+ZW50IGluIGRpdmlkaW5nIGluY2x1ZGVzIGZpbGVzIGludG8gYmxvY2tzCj4gLSBTb3J0IGFsbCBp
+bmNsdWRlIGZpbGVzLCBub3Qgb25seSB0aGUgYmxvY2tzIHRvdWNoZWQKPiAtIE1hZGUgbG9jYWwg
+aGVhZGVyIGZpbGVzIG1vcmUgc2VsZi1jb250YWluZWQKPiAgIFRvIGFsbG93IHRoZW0gdG8gYmUg
+aW5jbHVkZWQgaW4gYWxwaGFiZXRpY2FsbHkgb3JkZXIKPgo+IHYzOgo+IC0gQ29sbGVjdCBhY2tz
+IGZyb20gRGFuaWVsIGFuZCBQYXRyaWsKPgo+ICAgICAgICAgU2FtCj4KPiBTYW0gUmF2bmJvcmcg
+KDUpOgo+ICAgICAgIGRybS9nbWE1MDA6IHJlbW92ZSBlbXB0eSBnbWFfZHJtLmggaGVhZGVyIGZp
+bGUKPiAgICAgICBkcm0vZ21hNTAwOiBkcm9wIGRybVAuaCBmcm9tIGhlYWRlciBmaWxlcwo+ICAg
+ICAgIGRybS9nbWE1MDA6IG1ha2UgbG9jYWwgaGVhZGVyIGZpbGVzIG1vcmUgc2VsZi1jb250YWlu
+ZWQKPiAgICAgICBkcm0vZ21hNTAwOiBkcm9wIHVzZSBvZiBEUk1fVURFTEFZIHdyYXBwZXIKPiAg
+ICAgICBkcm0vZ21hNTAwOiBkcm9wIGRybXAuaCBpbmNsdWRlIGZyb20gYWxsIC5jIGZpbGVzCj4K
+Pgo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2FjY2VsXzJkLmMgICAgICAgICAgICAgfCAxOCAr
+KysrKysrLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ibGl0dGVyLmggICAgICAg
+ICAgICAgIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfZGV2aWNlLmMgICAg
+ICAgICAgIHwgMTMgKysrKysrLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9jZHZfZGV2
+aWNlLmggICAgICAgICAgIHwgIDQgKysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2Nkdl9p
+bnRlbF9jcnQuYyAgICAgICAgfCAgOCArKystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAv
+Y2R2X2ludGVsX2Rpc3BsYXkuYyAgICB8IDEwICsrKystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9n
+bWE1MDAvY2R2X2ludGVsX2RwLmMgICAgICAgICB8ICA5ICsrKystLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9nbWE1MDAvY2R2X2ludGVsX2hkbWkuYyAgICAgICB8ICA5ICsrKystLS0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9nbWE1MDAvY2R2X2ludGVsX2x2ZHMuYyAgICAgICB8ICA5ICsrKystLS0tCj4g
+IGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZnJhbWVidWZmZXIuYyAgICAgICAgICB8IDI0ICsrKysr
+KysrKy0tLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9mcmFtZWJ1ZmZlci5oICAg
+ICAgICAgIHwgIDEgLQo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5jICAgICAgICAgICAg
+ICAgICAgfCAgNSArKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ21hX2RldmljZS5jICAg
+ICAgICAgICB8ICAxIC0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9nbWFfZGV2aWNlLmggICAg
+ICAgICAgIHwgIDEgKwo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dtYV9kaXNwbGF5LmMgICAg
+ICAgICAgfCAxMiArKysrKysrLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ21hX2Rpc3Bs
+YXkuaCAgICAgICAgICB8ICAzICsrKwo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2d0dC5jICAg
+ICAgICAgICAgICAgICAgfCAgNSArKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ3R0Lmgg
+ICAgICAgICAgICAgICAgICB8ICAxIC0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9pbnRlbF9i
+aW9zLmMgICAgICAgICAgIHwgIDYgKystLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9pbnRl
+bF9iaW9zLmggICAgICAgICAgIHwgIDMgKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvaW50
+ZWxfZ21idXMuYyAgICAgICAgICB8IDExICsrKysrLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2ludGVsX2kyYy5jICAgICAgICAgICAgfCAgNCArKystCj4gIGRyaXZlcnMvZ3B1L2RybS9n
+bWE1MDAvbWRmbGRfZGV2aWNlLmMgICAgICAgICB8IDE2ICsrKysrKystLS0tLS0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9tZGZsZF9kc2lfZHBpLmMgICAgICAgIHwgIDQgKysrLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vZ21hNTAwL21kZmxkX2RzaV9vdXRwdXQuYyAgICAgfCAxMiArKysrKystLS0t
+Cj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbWRmbGRfZHNpX291dHB1dC5oICAgICB8ICA4ICsr
+Ky0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9tZGZsZF9kc2lfcGtnX3NlbmRlci5jIHwg
+IDQgKysrLQo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL21kZmxkX2ludGVsX2Rpc3BsYXkuYyAg
+fCAxMSArKysrKy0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9tZGZsZF90bWRfdmlkLmMg
+ICAgICAgIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9taWRfYmlvcy5jICAgICAg
+ICAgICAgIHwgIDUgKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL21pZF9iaW9zLmggICAg
+ICAgICAgICAgfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvbW11LmMgICAgICAgICAg
+ICAgICAgICB8ICA2ICsrKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvb2FrdHJhaWwuaCAg
+ICAgICAgICAgICB8ICAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvb2FrdHJhaWxfY3J0
+Yy5jICAgICAgICB8ICA4ICsrKystLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9vYWt0cmFp
+bF9kZXZpY2UuYyAgICAgIHwgMjAgKysrKysrKystLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0v
+Z21hNTAwL29ha3RyYWlsX2hkbWkuYyAgICAgICAgfCAgOCArKysrLS0tCj4gIGRyaXZlcnMvZ3B1
+L2RybS9nbWE1MDAvb2FrdHJhaWxfbHZkcy5jICAgICAgICB8ICA2ICsrLS0tCj4gIGRyaXZlcnMv
+Z3B1L2RybS9nbWE1MDAvb2FrdHJhaWxfbHZkc19pMmMuYyAgICB8IDExICsrKystLS0tLQo+ICBk
+cml2ZXJzL2dwdS9kcm0vZ21hNTAwL3Bvd2VyLmggICAgICAgICAgICAgICAgfCAgNCArKystCj4g
+IGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2RldmljZS5jICAgICAgICAgICB8IDEyICsrKysr
+LS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2LmMgICAgICAgICAgICAgIHwg
+MzMgKysrKysrKysrKysrKysrKystLS0tLS0tLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAv
+cHNiX2Rydi5oICAgICAgICAgICAgICB8IDE2ICsrKysrKy0tLS0tLS0KPiAgZHJpdmVycy9ncHUv
+ZHJtL2dtYTUwMC9wc2JfaW50ZWxfZGlzcGxheS5jICAgIHwgIDcgKysrLS0tCj4gIGRyaXZlcnMv
+Z3B1L2RybS9nbWE1MDAvcHNiX2ludGVsX2x2ZHMuYyAgICAgICB8ICA1ICsrLS0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9wc2JfaW50ZWxfbW9kZXMuYyAgICAgIHwgIDIgKy0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2dtYTUwMC9wc2JfaW50ZWxfc2R2by5jICAgICAgIHwgMTUgKysrKysrLS0tLS0t
+Cj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5jICAgICAgICAgICAgICB8ICA5ICsr
+KystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2lycS5oICAgICAgICAgICAgICB8
+ICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2xpZC5jICAgICAgICAgICAgICB8
+ICA2ICsrLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvdGMzNTg3NngtZHNpLWx2ZHMuYyAg
+ICB8IDEzICsrKysrKystLS0tCj4gIGluY2x1ZGUvZHJtL2dtYV9kcm0uaCAgICAgICAgICAgICAg
+ICAgICAgICAgICB8IDI1IC0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIDUxIGZpbGVzIGNoYW5nZWQs
+IDIzMyBpbnNlcnRpb25zKCspLCAxOTkgZGVsZXRpb25zKC0pCj4KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
