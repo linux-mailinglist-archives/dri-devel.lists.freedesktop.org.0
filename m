@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEAF2AC51
-	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2019 23:20:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704562AC53
+	for <lists+dri-devel@lfdr.de>; Sun, 26 May 2019 23:20:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEE1897F0;
-	Sun, 26 May 2019 21:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F96897FB;
+	Sun, 26 May 2019 21:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (mail-oln040092070048.outbound.protection.outlook.com [40.92.70.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92789897F0
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 21:20:07 +0000 (UTC)
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur03olkn082b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe09::82b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D450897FB
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 21:20:23 +0000 (UTC)
 Received: from VE1EUR03FT043.eop-EUR03.prod.protection.outlook.com
- (10.152.18.59) by VE1EUR03HT097.eop-EUR03.prod.protection.outlook.com
- (10.152.19.239) with Microsoft SMTP Server (version=TLS1_2,
+ (10.152.18.53) by VE1EUR03HT092.eop-EUR03.prod.protection.outlook.com
+ (10.152.19.175) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1922.16; Sun, 26 May
- 2019 21:20:05 +0000
+ 2019 21:20:21 +0000
 Received: from VI1PR03MB4206.eurprd03.prod.outlook.com (10.152.18.55) by
  VE1EUR03FT043.mail.protection.outlook.com (10.152.19.122) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.1922.16 via Frontend Transport; Sun, 26 May 2019 21:20:05 +0000
+ 15.20.1922.16 via Frontend Transport; Sun, 26 May 2019 21:20:21 +0000
 Received: from VI1PR03MB4206.eurprd03.prod.outlook.com
  ([fe80::883e:1bd6:cd36:5fb0]) by VI1PR03MB4206.eurprd03.prod.outlook.com
  ([fe80::883e:1bd6:cd36:5fb0%4]) with mapi id 15.20.1922.021; Sun, 26 May 2019
- 21:20:05 +0000
+ 21:20:21 +0000
 From: Jonas Karlman <jonas@kwiboo.se>
 To: "a.hajda@samsung.com" <a.hajda@samsung.com>,
  "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH 2/4] drm/rockchip: Enable DRM InfoFrame support on RK3328 and
- RK3399
-Thread-Topic: [PATCH 2/4] drm/rockchip: Enable DRM InfoFrame support on RK3328
- and RK3399
-Thread-Index: AQHVFAjJPuRdg1EVp0Kx4o5U/y99+A==
-Date: Sun, 26 May 2019 21:20:05 +0000
-Message-ID: <VI1PR03MB42062F51FD88AEB6DADD8734AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+Subject: [PATCH 3/4] drm/meson: Enable DRM InfoFrame support on GXL, GXM and
+ G12A
+Thread-Topic: [PATCH 3/4] drm/meson: Enable DRM InfoFrame support on GXL, GXM
+ and G12A
+Thread-Index: AQHVFAjTiBUVlVzg0Ey27UDn0LdoFg==
+Date: Sun, 26 May 2019 21:20:21 +0000
+Message-ID: <VI1PR03MB4206A326130A81DCBAA62CE8AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
 References: <VI1PR03MB420621617DDEAB3596700DE0AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
 In-Reply-To: <VI1PR03MB420621617DDEAB3596700DE0AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
 Accept-Language: sv-SE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM5P194CA0019.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:203:8f::29) To VI1PR03MB4206.eurprd03.prod.outlook.com
+x-clientproxiedby: AM5P194CA0016.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:203:8f::26) To VI1PR03MB4206.eurprd03.prod.outlook.com
  (2603:10a6:803:51::23)
-x-incomingtopheadermarker: OriginalChecksum:2F9F864FFCCD18FEB82CD8CE03ED9C81B70E449B994933EE67F2C1E3545D9379;
- UpperCasedChecksum:B7EF89375F1E3B7E4FC9FFC33B9C9C28F0E10F88B54E27966938B966C93A7B84;
- SizeAsReceived:8123; Count:50
+x-incomingtopheadermarker: OriginalChecksum:B4F359A41AA2A6E855DFAB7927CCB6099252EB3CFAD3B62BAA21F8BAB040625C;
+ UpperCasedChecksum:2FD75F5FEF2A62BCE2C7C2D69009653194286B004FD6F074AB58A1761D1CA78F;
+ SizeAsReceived:8121; Count:50
 x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
-x-tmn: [AWzaq9EL1xXMxZ6bhr9jhEiwqzG1hkEr]
-x-microsoft-original-message-id: <20190526211954.31938-1-jonas@kwiboo.se>
+x-tmn: [khpGtoKFcGyh6rGSRWTft7uY3QUY3+Ok]
+x-microsoft-original-message-id: <20190526212012.31994-1-jonas@kwiboo.se>
 x-ms-publictraffictype: Email
 x-incomingheadercount: 50
 x-eopattributedmessage: 0
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
- SRVR:VE1EUR03HT097; 
-x-ms-traffictypediagnostic: VE1EUR03HT097:
-x-microsoft-antispam-message-info: MMDAyrF7XEnELdmqEZ7is35MB6Ef37uM4MABUUhEdqSY23p7lrqr8HNNHLa0N/ghA59EYLVKKhotYcJPU+8Rz2/ITpbCv+KY0B3kJsXJiP1OcPdyoRQqyssFAZBDiOobXswfjEmbNOspqZ7VJbWqbB73DCtkzniD1V79mIJ4ShSzXvw2AwjDpz5kjaE1l3tB
+ SRVR:VE1EUR03HT092; 
+x-ms-traffictypediagnostic: VE1EUR03HT092:
+x-microsoft-antispam-message-info: 5chgj3XDhLQKiSPmioevvDxbwXfCvotxovdABLndbYScaY/rb9Hw4XXO56c4OfAMipNAXom1gfoWJ8m9Mect00n4P98vYl7ZyaSJlbAudsm3CiHtlHydQUWN+9y9Iv+2rM4gM5X3Axf2ECb7iNhD2LtRtzW2/WbsvVGKsy1tr2mKAYlDlWZLSccWVV2i7PLI
 MIME-Version: 1.0
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 739633f3-2928-4fc0-32c8-08d6e21febc2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 155994aa-743c-4a9a-9b32-08d6e21ff54d
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2019 21:20:05.1227 (UTC)
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2019 21:20:21.0459 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Internet
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT097
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,25 +96,24 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 VGhpcyBwYXRjaCBlbmFibGVzIER5bmFtaWMgUmFuZ2UgYW5kIE1hc3RlcmluZyBJbmZvRnJhbWUg
-b24gUkszMzI4IGFuZCBSSzMzOTkuDQoNCkNjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMu
-Y29tPg0KQ2M6IEhlaWtvIFN0dWVibmVyIDxoZWlrb0BzbnRlY2guZGU+DQpTaWduZWQtb2ZmLWJ5
-OiBKb25hcyBLYXJsbWFuIDxqb25hc0Brd2lib28uc2U+DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0v
-cm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5jIHwgMiArKw0KIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
-c2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19o
-ZG1pLXJvY2tjaGlwLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hp
-cC5jDQppbmRleCA0Y2RjOWY4NmMyZTUuLjFmMzFmMzcyNmYwNCAxMDA2NDQNCi0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMNCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMNCkBAIC00MDUsNiArNDA1LDcgQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBkd19oZG1pX3BsYXRfZGF0YSByazMzMjhfaGRtaV9kcnZfZGF0YSA9
-IHsNCiAJLnBoeV9vcHMgPSAmcmszMzI4X2hkbWlfcGh5X29wcywNCiAJLnBoeV9uYW1lID0gImlu
-bm9fZHdfaGRtaV9waHkyIiwNCiAJLnBoeV9mb3JjZV92ZW5kb3IgPSB0cnVlLA0KKwkuZHJtX2lu
-Zm9mcmFtZSA9IHRydWUsDQogfTsNCiANCiBzdGF0aWMgc3RydWN0IHJvY2tjaGlwX2hkbWlfY2hp
-cF9kYXRhIHJrMzM5OV9jaGlwX2RhdGEgPSB7DQpAQCAtNDE5LDYgKzQyMCw3IEBAIHN0YXRpYyBj
-b25zdCBzdHJ1Y3QgZHdfaGRtaV9wbGF0X2RhdGEgcmszMzk5X2hkbWlfZHJ2X2RhdGEgPSB7DQog
-CS5jdXJfY3RyICAgID0gcm9ja2NoaXBfY3VyX2N0ciwNCiAJLnBoeV9jb25maWcgPSByb2NrY2hp
-cF9waHlfY29uZmlnLA0KIAkucGh5X2RhdGEgPSAmcmszMzk5X2NoaXBfZGF0YSwNCisJLmRybV9p
-bmZvZnJhbWUgPSB0cnVlLA0KIH07DQogDQogc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2Vf
-aWQgZHdfaGRtaV9yb2NrY2hpcF9kdF9pZHNbXSA9IHsNCi0tIA0KMi4xNy4xDQoNCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+b24gR1hMLCBHWE0gYW5kIEcxMkEuDQoNCkNjOiBOZWlsIEFybXN0cm9uZyA8bmFybXN0cm9uZ0Bi
+YXlsaWJyZS5jb20+DQpTaWduZWQtb2ZmLWJ5OiBKb25hcyBLYXJsbWFuIDxqb25hc0Brd2lib28u
+c2U+DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fZHdfaGRtaS5jIHwgNSArKysr
+Kw0KIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kd19oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVzb24v
+bWVzb25fZHdfaGRtaS5jDQppbmRleCBkZjNmOWRkZDIyMzQuLmY3NzYxZTY5OGMwMyAxMDA2NDQN
+Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kd19oZG1pLmMNCisrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kd19oZG1pLmMNCkBAIC05NjYsNiArOTY2LDExIEBAIHN0
+YXRpYyBpbnQgbWVzb25fZHdfaGRtaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRl
+dmljZSAqbWFzdGVyLA0KIAlkd19wbGF0X2RhdGEtPmlucHV0X2J1c19mb3JtYXQgPSBNRURJQV9C
+VVNfRk1UX1lVVjhfMVgyNDsNCiAJZHdfcGxhdF9kYXRhLT5pbnB1dF9idXNfZW5jb2RpbmcgPSBW
+NEwyX1lDQkNSX0VOQ183MDk7DQogDQorCWlmIChkd19oZG1pX2lzX2NvbXBhdGlibGUobWVzb25f
+ZHdfaGRtaSwgImFtbG9naWMsbWVzb24tZ3hsLWR3LWhkbWkiKSB8fA0KKwkgICAgZHdfaGRtaV9p
+c19jb21wYXRpYmxlKG1lc29uX2R3X2hkbWksICJhbWxvZ2ljLG1lc29uLWd4bS1kdy1oZG1pIikg
+fHwNCisJICAgIGR3X2hkbWlfaXNfY29tcGF0aWJsZShtZXNvbl9kd19oZG1pLCAiYW1sb2dpYyxt
+ZXNvbi1nMTJhLWR3LWhkbWkiKSkNCisJCWR3X3BsYXRfZGF0YS0+ZHJtX2luZm9mcmFtZSA9IHRy
+dWU7DQorDQogCXBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIG1lc29uX2R3X2hkbWkpOw0KIA0K
+IAltZXNvbl9kd19oZG1pLT5oZG1pID0gZHdfaGRtaV9iaW5kKHBkZXYsIGVuY29kZXIsDQotLSAN
+CjIuMTcuMQ0KDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
