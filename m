@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFC82B938
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 18:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBC32B949
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 19:00:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4025D89932;
-	Mon, 27 May 2019 16:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138E189A8C;
+	Mon, 27 May 2019 17:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7DBA98997C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 16:43:56 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F197089A8C
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 17:00:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7A40672167; Mon, 27 May 2019 16:43:56 +0000 (UTC)
+ id EE54D72167; Mon, 27 May 2019 17:00:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
-Date: Mon, 27 May 2019 16:43:56 +0000
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Mon, 27 May 2019 17:00:40 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: ondrej@lang.sk
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109206-502-DIOi6RMIlk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
-References: <bug-109206-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110659-502-PrMN2bBFKP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,47 +53,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0319891122=="
+Content-Type: multipart/mixed; boundary="===============0177803113=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0319891122==
-Content-Type: multipart/alternative; boundary="15589754363.f6763.8256"
+--===============0177803113==
+Content-Type: multipart/alternative; boundary="15589764392.4Cff6.12066"
 Content-Transfer-Encoding: 7bit
 
 
---15589754363.f6763.8256
-Date: Mon, 27 May 2019 16:43:56 +0000
+--15589764392.4Cff6.12066
+Date: Mon, 27 May 2019 17:00:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
 
---- Comment #45 from Ondrej Lang <ondrej@lang.sk> ---
-I just came across this article, which seems to suggest a fix for the issue
-mentioned in this thread is coming in a future linux-firmware update:
+--- Comment #11 from tempel.julian@gmail.com ---
+Happens also with plain wined3d inside official Steam Proton builds. In cas=
+e of
+Skyrim, it is also affects the rendering performance and thus is visible in=
+ the
+frametime graph (unlike Hitman 2 with DXVK):
+https://abload.de/img/screenshot_20190527_1t1ktp.png
 
-https://www.phoronix.com/scan.php?page=3Dnews_item&px=3DAMD-Raven1-Skip-The=
--DMCU
-
-It seem s patch has already been proposed to the kernel tree so hopefully t=
-his
-will fix the problem with some laptop models with the Raven Ridge 1 CPUs.
-
-Patch url:
-
-https://lists.freedesktop.org/archives/amd-gfx/2019-May/034307.html
+Those spikes occur by just moving the mouse. Pressing keyboard buttons don't
+trigger them.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15589754363.f6763.8256
-Date: Mon, 27 May 2019 16:43:56 +0000
+--15589764392.4Cff6.12066
+Date: Mon, 27 May 2019 17:00:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,35 +105,30 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c45">Comme=
-nt # 45</a>
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c11">Comme=
+nt # 11</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
-6</a>
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ondrej&#64;lang.sk" title=3D"Ondrej Lang &lt;ondrej&#64;lang.sk&gt;"> <span=
- class=3D"fn">Ondrej Lang</span></a>
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
 </span></b>
-        <pre>I just came across this article, which seems to suggest a fix =
-for the issue
-mentioned in this thread is coming in a future linux-firmware update:
+        <pre>Happens also with plain wined3d inside official Steam Proton b=
+uilds. In case of
+Skyrim, it is also affects the rendering performance and thus is visible in=
+ the
+frametime graph (unlike Hitman 2 with DXVK):
+<a href=3D"https://abload.de/img/screenshot_20190527_1t1ktp.png">https://ab=
+load.de/img/screenshot_20190527_1t1ktp.png</a>
 
-<a href=3D"https://www.phoronix.com/scan.php?page=3Dnews_item&amp;px=3DAMD-=
-Raven1-Skip-The-DMCU">https://www.phoronix.com/scan.php?page=3Dnews_item&am=
-p;px=3DAMD-Raven1-Skip-The-DMCU</a>
-
-It seem s patch has already been proposed to the kernel tree so hopefully t=
-his
-will fix the problem with some laptop models with the Raven Ridge 1 CPUs.
-
-Patch url:
-
-<a href=3D"https://lists.freedesktop.org/archives/amd-gfx/2019-May/034307.h=
-tml">https://lists.freedesktop.org/archives/amd-gfx/2019-May/034307.html</a=
-></pre>
+Those spikes occur by just moving the mouse. Pressing keyboard buttons don't
+trigger them.</pre>
         </div>
       </p>
 
@@ -150,9 +142,9 @@ tml">https://lists.freedesktop.org/archives/amd-gfx/2019-May/034307.html</a=
     </body>
 </html>=
 
---15589754363.f6763.8256--
+--15589764392.4Cff6.12066--
 
---===============0319891122==
+--===============0177803113==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -162,4 +154,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0319891122==--
+--===============0177803113==--
