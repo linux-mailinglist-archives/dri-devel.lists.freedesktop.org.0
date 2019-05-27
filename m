@@ -2,37 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4BB2B9C4
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 20:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE472B9D1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 20:07:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 533F989812;
-	Mon, 27 May 2019 18:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 623AC898E8;
+	Mon, 27 May 2019 18:07:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7743089812;
- Mon, 27 May 2019 18:05:51 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 7CF3C20021;
- Mon, 27 May 2019 20:05:48 +0200 (CEST)
-Date: Mon, 27 May 2019 20:05:46 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v2 0/7] drm: make headers self-contained and drop drmP.h
-Message-ID: <20190527180546.GA21925@ravnborg.org>
-References: <20190526173535.32701-1-sam@ravnborg.org>
- <20190527061835.GH21222@phenom.ffwll.local>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8736E898E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 18:07:37 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8306D72167; Mon, 27 May 2019 18:07:37 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Mon, 27 May 2019 18:07:37 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110659-502-G4mi0nUJVh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190527061835.GH21222@phenom.ffwll.local>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=dhQdzHBUYkDFEHG2kKAA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,47 +53,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0944921619=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBNYXkgMjcsIDIwMTkgYXQgMDg6MTg6MzVBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBTdW4sIE1heSAyNiwgMjAxOSBhdCAwNzozNToyOFBNICswMjAwLCBTYW0gUmF2
-bmJvcmcgd3JvdGU6Cj4gPiBXaGlsZSByZW1vdmluZyB1c2Ugb2YgZHJtUC5oIGZyb20gZmlsZXMg
-aW4gZHJtLyogSQo+ID4gbm90aWNlZCB0aGF0IEkgaGFkIHRvIGFkZCB0aGUgc2FtZSBpbmNsdWRl
-IGZpbGVzIGR1ZSB0bwo+ID4gZGVwZW5kZW5jaWVzIGluIHRoZSBoZWFkZXIgZmlsZXMuCj4gPiAK
-PiA+IEl0IGlzIGJldHRlciB0byBsZXQgdGhlIGhlYWRlciBmaWxlcyBiZSBzZWxmLWNvbnRhaW5l
-ZCBhbmQKPiA+IGxldCB0aGUgdXNlcnMgcHVsbCBpbiBvbmx5IHRoZSBhZGRpdGlvbmFsIGhlYWRl
-cnMgZmlsZXMgcmVxdWlyZWQuCj4gPiBTbyBJIHdlbnQgYWhlYWQgYW5kIG1hZGUgdGhlIHJlbGV2
-YW50IGhlYWRlciBmaWxlcyBzZWxmLWNvbnRhaW5lZC4KPiA+IChJIGRpZCBub3QgY2hlY2sgaWYg
-dGhpcyBtYWRlIGFueSBpbmNsdWRlcyByZWR1bmRhbnQgaW4gc29tZSBmaWxlcywKPiA+IEkgZG8g
-bm90IGhhdmUgdG9vbGluZyBpbiBwbGFjZSB0byBkbyBzbykuCj4gPiAKPiA+IERhbmllbCBzdWdn
-ZXN0ZWQgdG8gYWRkIHN1cHBvcnQgZm9yIHRlc3RpbmcgdGhhdCB0aGV5IHN0YXkKPiA+IHNlbGYg
-Y29udGFpbmVkLgo+ID4gSmFuaSBOaWt1bGEgaGFzIHNlbnQgYSBwYXRjaCB0byBrYnVpbGQgdG8g
-bWFrZSB0aGlzIHBhcnQgb2YgdGhlCj4gPiBrYnVpbGQgbWFjaGluZXJ5LiBJIGhhdmUgdXNlZCBp
-dCBsb2NhbGx5IGFuZCBhcyBzb29uIGFzIGl0Cj4gPiBsYW5kcyBpbiBrYnVpbGQgSSB3aWxsIHN0
-YXJ0IHVzaW5nIGl0IGZvciBkcm0uCj4gPiBXZSBjb3VsZCBoYXZlIGR1cGxpY2F0ZWQgdGhlIGlu
-ZnJhc3RydWN0dXJlIG5vdyBidXQgdGhhdCBzZWVtZWQKPiA+IHRvbyBtdWNoIGNvZGUgY2hydW5j
-aC4KPiA+IAo+ID4gVGhpcyBwYXRjaHNldCBpbmNsdWRlIHRoZSBhY3R1YWwgcmVtb3ZhbCBvZiBk
-cm1QLmggYXMgb25lIGJpZyBwYXRjaC4KPiA+IFRoaXMgaXMgYnVpbGQgdGVzdGVkIG9uIGFscGhh
-IChhbHdheXMgaW50ZXJlc3RpbmcpLCBhcm0sIGFybTY0LCB4ODYgZXRjLgo+ID4gCj4gPiBGb3Ig
-YWxsIGZpbGVzIHRvdWNoZWQgdGhlIGZvbGxvd2luZyB3YXMgZG9uZToKPiA+IC0gaW5jbHVkZSBm
-aWxlcyBkaXZpZGVkIHVwIGluIGJsb2NrcyBpbiBmb2xsb3dpbmcgb3JkZXI6Cj4gPiAgICAgCWxp
-bnV4LyoKPiA+IAl2aWRlby8qCj4gPiAJZHJtLyoKPiA+IAkiIgo+ID4gLSB3aXRoaW4gZWFjaCBi
-bG9jayB0aGUgaW5jbHVkZSBmaWxlcyBhcmUgc29ydGVkIGFscGhhYmV0aWNhbGx5Cj4gPiAKPiA+
-IHYyOgo+ID4gLSB1c2Ugc2FtZSBvcmRlcmluZyBhZiBibG9ja3MKPiA+IC0gbW92ZSBpbmNsdWRl
-cyBkb3duIGJlbG93IGxpY2Vuc2UgdGV4dAo+ID4gLSBhZGRlZCBwYXRjaCB3aXRoIGFjdHVhbCBk
-cm1QLmggcmVtb3ZhbAo+ID4gLSByZXdvcmRlZCBzb21lIHN1YmplY3RzIHRvIG1ha2UgdGhlbSBt
-b3JlIGRlc2NyaXB0aXZlCj4gPiAtIGZpeGVkIGEgZmV3IHNwZWxsaW5nIGVycm9zIGluIGNoYW5n
-ZWxvZ3MgKGJ1dCBhIGZldyBtYXkgcmVtYWluKQo+ID4gCj4gPiAgICAgICAgIFNhbQo+IAo+IE9u
-IHRoZSBzZXJpZXM6Cj4gCj4gQWNrZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJA
-ZmZ3bGwuY2g+Cj4gCj4gRGlkIGEgYml0IG9mIHNjcm9sbGluZywgbG9va3MgYWxsIHJlYXNvbmFi
-bGUsIGJ1dCBkZWZpbml0ZWx5IGRpZG4ndCBjaGVjawo+IHRoaW5ncyBpbi1kZXB0aC4KVGhhbmtz
-LCBhcHBsaWVkIGFuZCB3aWxsIGJlIHB1c2hlZCBvdXQgaW4gYSBtaW51dGUuCgoJU2FtCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0944921619==
+Content-Type: multipart/alternative; boundary="15589804571.DAd2F01EE.28453"
+Content-Transfer-Encoding: 7bit
+
+
+--15589804571.DAd2F01EE.28453
+Date: Mon, 27 May 2019 18:07:37 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #16 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
+Created attachment 144354
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144354&action=3Dedit
+0001-drm-amd-display-Allow-fast-updates-again-for-swappin.patch
+
+Sure, you can try the patch I've attached on applied after series fixing the
+problem in DRM:
+
+https://patchwork.kernel.org/cover/10837847/
+
+Not sure if that applies cleanly, however. The important patches from should
+be:
+
+https://patchwork.kernel.org/patch/10837849/
+https://patchwork.kernel.org/patch/10837853/
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15589804571.DAd2F01EE.28453
+Date: Mon, 27 May 2019 18:07:37 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
+kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
+/a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144354=
+" name=3D"attach_144354" title=3D"0001-drm-amd-display-Allow-fast-updates-a=
+gain-for-swappin.patch">attachment 144354</a> <a href=3D"attachment.cgi?id=
+=3D144354&amp;action=3Dedit" title=3D"0001-drm-amd-display-Allow-fast-updat=
+es-again-for-swappin.patch">[details]</a></span> <a href=3D'page.cgi?id=3Ds=
+plinter.html&amp;bug=3D110659&amp;attachment=3D144354'>[review]</a>
+0001-drm-amd-display-Allow-fast-updates-again-for-swappin.patch
+
+Sure, you can try the patch I've attached on applied after series fixing the
+problem in DRM:
+
+<a href=3D"https://patchwork.kernel.org/cover/10837847/">https://patchwork.=
+kernel.org/cover/10837847/</a>
+
+Not sure if that applies cleanly, however. The important patches from should
+be:
+
+<a href=3D"https://patchwork.kernel.org/patch/10837849/">https://patchwork.=
+kernel.org/patch/10837849/</a>
+<a href=3D"https://patchwork.kernel.org/patch/10837853/">https://patchwork.=
+kernel.org/patch/10837853/</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15589804571.DAd2F01EE.28453--
+
+--===============0944921619==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0944921619==--
