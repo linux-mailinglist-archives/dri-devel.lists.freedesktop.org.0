@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFFF2AC9F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 01:19:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2A62ACC2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 03:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9CB8897FD;
-	Sun, 26 May 2019 23:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7597389725;
+	Mon, 27 May 2019 01:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5C458897FD
- for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 23:19:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 593F472167; Sun, 26 May 2019 23:19:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109022] ring gfx timeout during particular shader generation on
- yuzu emulator
-Date: Sun, 26 May 2019 23:19:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: felix.adrianto@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109022-502-UZdoiwifAe@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109022-502@http.bugs.freedesktop.org/>
-References: <bug-109022-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDE889725
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 01:08:02 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id b18so15146234wrq.12
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 May 2019 18:08:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :mime-version:content-disposition:user-agent;
+ bh=6B2BdOCKCrG1hA2h6aEOrhniKpPhguqMXaM08L8d3as=;
+ b=CoZKuv6zSqUqLVBP0+aoTxNC/fZ2M+Ekt39pj/WwXLUDgJb3zTXP8aXKR6j7s0vkGR
+ 5K/YJjeST6Jmaoj9ufKAz5LoFdNFNRS4vI24RNd3AZYip78+GXOAKsmZPRmnmWcF4CEI
+ OLiDJPb5fMOY+XIAslkdz0qpj8iiecSk5WBGgllcQXYBZYhztrPYeG6zHAnJ62gWL9Hg
+ 62g3z4A1dF35Jt2T+nerXwHDSZZDwTmWhth0tBoRPpDJoZh8U8gyj/h3YyZ2ChYEPzjY
+ P8PuoAHupPZuEAOYh5aJwv5xnBTAGTaqEOjbzJJTgQQq1J7edONHbHV2t7HCGnu+oRcp
+ 6vFg==
+X-Gm-Message-State: APjAAAVWlEZUNK4TkRe6nIoWatePm6PwI0AUSWRV0CCah4Ks2I53/yZi
+ V3708i898rZXYDJx7StBnSM=
+X-Google-Smtp-Source: APXvYqzoiUbZ4GT0aYLxpnVbv0kG/nekOk8FgxeRANyb+DwdRpRmGxlrfo6ee/I99gfwZaikcSghxA==
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr19190374wre.9.1558919280766; 
+ Sun, 26 May 2019 18:08:00 -0700 (PDT)
+Received: from smart-ThinkPad-T410 ([89.187.177.105])
+ by smtp.gmail.com with ESMTPSA id r4sm6883091wrv.34.2019.05.26.18.07.58
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 26 May 2019 18:08:00 -0700 (PDT)
+Date: Mon, 27 May 2019 05:37:54 +0430
+From: nasser afshin <afshin.nasser@gmail.com>
+To: vikasmpatil@gmail.com
+Subject: [ADV7393] DRM Encoder Slave or DRM Bridge
+Message-ID: <20190527010753.GA15000@smart-ThinkPad-T410>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:reply-to:mime-version
+ :content-disposition:user-agent;
+ bh=6B2BdOCKCrG1hA2h6aEOrhniKpPhguqMXaM08L8d3as=;
+ b=sHqOGiJx5kQFxr0qzVw2gxyhxavJHlx3gNYWuCXgvTH9zRgc+mIM2+wwOl7GFXy2Td
+ fEzvq6SYBk0FzcLNri51DSKpJoNMXewTz0fAt8Uk0qT7PloPIs1gsYqyDIrJcHywxSmu
+ QkIuQ9Gh968rZkCpQu5B2QgmXj6mBsc+Yutrhm5LCOnhO3Q9JtYdubKZ3U52WjB4Y/NV
+ CE22TvvxS2rh8iM1tSHKW/6WXxWDy+QYJvIq5zJOjUrEd6PyMWlPm76uFYcdL9uPMGot
+ lP81Fu5EPCu97nZo2Zf01Aips2ROG1eREGk5Qfn5kQwdnVJsc8MibASxdDMe6Ca2OIb6
+ Fr6Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,186 +66,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1152803981=="
+Reply-To: CA+kt3u11xsbjhZ2mNRfJUBbqtrPaUJHsEMk9CfzLdEED=xBXSw@mail.gmail.com
+Cc: tomi.valkeinen@ti.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1152803981==
-Content-Type: multipart/alternative; boundary="15589127591.7fc6.25182"
-Content-Transfer-Encoding: 7bit
-
-
---15589127591.7fc6.25182
-Date: Sun, 26 May 2019 23:19:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109022
-
---- Comment #14 from e88z4 <felix.adrianto@gmail.com> ---
-I tried to reproduce this bug again with latest mesa master (659aa3dd651). =
-My
-kernel is 5.1.3 and yuzu-canary #2318. The behaviour of the softlock is
-slightly changed. Yuzu didn't crash anymore but rendering was super slow. I=
- was
-able to kill the application without using SSH. The following error was
-produced from dmesg.
-
-[ 5179.131132] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5183.739102] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5189.883024] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5193.979037] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5204.218939] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5214.458837] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5224.698730] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5229.818653] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5234.938622] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5234.938680] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5241.850516] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5245.178534] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5251.322426] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5255.418427] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15589127591.7fc6.25182
-Date: Sun, 26 May 2019 23:19:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring gfx timeout during particular shader generation on y=
-uzu emulator"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022#c14">Comme=
-nt # 14</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring gfx timeout during particular shader generation on y=
-uzu emulator"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022">bug 10902=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-felix.adrianto&#64;gmail.com" title=3D"e88z4 &lt;felix.adrianto&#64;gmail.c=
-om&gt;"> <span class=3D"fn">e88z4</span></a>
-</span></b>
-        <pre>I tried to reproduce this bug again with latest mesa master (6=
-59aa3dd651). My
-kernel is 5.1.3 and yuzu-canary #2318. The behaviour of the softlock is
-slightly changed. Yuzu didn't crash anymore but rendering was super slow. I=
- was
-able to kill the application without using SSH. The following error was
-produced from dmesg.
-
-[ 5179.131132] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5183.739102] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5189.883024] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5193.979037] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5204.218939] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5214.458837] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5224.698730] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5229.818653] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5234.938622] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5234.938680] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5241.850516] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5245.178534] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[ 5251.322426] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
-for
-fences timed out.
-[ 5255.418427] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15589127591.7fc6.25182--
-
---===============1152803981==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1152803981==--
+SGkgVmlrYXNoLAoKQXMgaXQncyBiZWVuIHF1aXRlIGEgd2hpbGUsIEkgd2FudCB0byBrbm93IGlm
+IHRoZSBwcm9ibGVtIGlzIHNvbHZlZCBzdWNjZXNzZnVsbHkKSWYgc28sIGNvdWxkIHlvdSBwbGVh
+c2Ugc2hlZCBzb21lIGxpZ2h0IG9uIHRoZSBwcm9ibGVtIHNvbHZpbmcgcGF0aD8KCldvcmtpbmcg
+b24gYSBjdXN0b20gaGFyZHdhcmUgYmFzZWQgb24gVEkgQU01NzI4LCBhbmQgaGF2aW5nIHRoZSBz
+YW1lCnByb2JsZW0gYXQgaGFuZCwgSSBqdXN0IHdhcyBjdXJpb3VzIGlmIHNvbWUgb25lIGhhcyBi
+ZWVuIGFibGUgdG8gd3JpdGUgYQpvbWFwZHJtIGJhc2VkIGRyaXZlciBmb3IgQURWNzM5My4KCkFu
+eSBoZWxwIHdvdWxkIGdyZWF0bHkgYmUgYXBwcmVjaWF0ZWQuCgpLaW5kIFJlZ2FyZHMsCk5hc3Nl
+ciBBZnNoaW4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
