@@ -2,22 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990892B2B1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 13:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9016F2B2B2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 13:06:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D81898B7;
-	Mon, 27 May 2019 11:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3937489852;
+	Mon, 27 May 2019 11:06:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A7CFE89873
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C96C389873
  for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 11:06:32 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A454072167; Mon, 27 May 2019 11:06:32 +0000 (UTC)
+ id C65FB72167; Mon, 27 May 2019 11:06:32 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107209] DM_PPLIB causes a warning on Raven
+Subject: [Bug 107296] WARNING: CPU: 0 PID: 370 at
+ drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dcn_calcs.c:1355
+ dcn_bw_update_from_pplib+0x16b/0x280 [amdgpu]
 Date: Mon, 27 May 2019 11:06:32 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
@@ -28,15 +30,15 @@ X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: vono22@yahoo.fr
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-107209-502-j0l7UZscnm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107209-502@http.bugs.freedesktop.org/>
-References: <bug-107209-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-107296-502-6tYohbMXWS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107296-502@http.bugs.freedesktop.org/>
+References: <bug-107296-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,17 +54,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0402974177=="
+Content-Type: multipart/mixed; boundary="===============1124109890=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0402974177==
-Content-Type: multipart/alternative; boundary="15589551922.58FdB.29185"
+--===============1124109890==
+Content-Type: multipart/alternative; boundary="15589551923.fCaEE.29185"
 Content-Transfer-Encoding: 7bit
 
 
---15589551922.58FdB.29185
+--15589551923.fCaEE.29185
 Date: Mon, 27 May 2019 11:06:32 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -70,26 +72,22 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107209
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107296
 
 vono <vono22@yahoo.fr> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |DUPLICATE
+                 CC|                            |mike@fireburn.co.uk
 
---- Comment #4 from vono <vono22@yahoo.fr> ---
-Seems to be same bug than 107296
-Mark this one as duplicate since the other has more activities.
-
-*** This bug has been marked as a duplicate of bug 107296 ***
+--- Comment #14 from vono <vono22@yahoo.fr> ---
+*** Bug 107209 has been marked as a duplicate of this bug. ***
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15589551922.58FdB.29185
+--15589551923.fCaEE.29185
 Date: Mon, 27 May 2019 11:06:32 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
@@ -106,10 +104,12 @@ Auto-Submitted: auto-generated
 vono</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - DM_PPLIB causes a warning on Raven"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107209">bug 10720=
-9</a>
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
+6</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -119,45 +119,38 @@ vono</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
            </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>DUPLICATE
+           <td>mike&#64;fireburn.co.uk
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - DM_PPLIB causes a warning on Raven"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107209#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - DM_PPLIB causes a warning on Raven"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107209">bug 10720=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-vono22&#64;yahoo.fr" title=3D"vono &lt;vono22&#64;yahoo.fr&gt;"> <span clas=
-s=3D"fn">vono</span></a>
-</span></b>
-        <pre>Seems to be same bug than 107296
-Mark this one as duplicate since the other has more activities.
-
-*** This bug has been marked as a duplicate of <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
 /display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
 dgpu]"
-   href=3D"show_bug.cgi?id=3D107296">bug 107296</a> ***</pre>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - WARNING: CPU: 0 PID: 370 at drivers/gpu/drm/amd/amdgpu/..=
+/display/dc/calcs/dcn_calcs.c:1355 dcn_bw_update_from_pplib+0x16b/0x280 [am=
+dgpu]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107296">bug 10729=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+vono22&#64;yahoo.fr" title=3D"vono &lt;vono22&#64;yahoo.fr&gt;"> <span clas=
+s=3D"fn">vono</span></a>
+</span></b>
+        <pre>*** <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED DUPLICATE - DM_PPLIB causes a warning on Raven"
+   href=3D"show_bug.cgi?id=3D107209">Bug 107209</a> has been marked as a du=
+plicate of this bug. ***</pre>
         </div>
       </p>
 
@@ -171,9 +164,9 @@ dgpu]"
     </body>
 </html>=
 
---15589551922.58FdB.29185--
+--15589551923.fCaEE.29185--
 
---===============0402974177==
+--===============1124109890==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -183,4 +176,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0402974177==--
+--===============1124109890==--
