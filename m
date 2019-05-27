@@ -1,46 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D032B75B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 16:13:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 657DB2B766
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 16:17:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E5956E1D2;
-	Mon, 27 May 2019 14:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16EA9896ED;
+	Mon, 27 May 2019 14:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A80A089F4A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 14:13:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9E99B72167; Mon, 27 May 2019 14:13:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Mon, 27 May 2019 14:13:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-9V37UxYOQk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A468989736
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 14:17:48 +0000 (UTC)
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1hVGRe-0001Z6-OB; Mon, 27 May 2019 16:17:46 +0200
+Message-ID: <1558966666.4039.4.camel@pengutronix.de>
+Subject: [GIT PULL] etnaviv-fixes for 5.2-rc3
+From: Lucas Stach <l.stach@pengutronix.de>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Mon, 27 May 2019 16:17:46 +0200
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,113 +41,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1246492998=="
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1246492998==
-Content-Type: multipart/alternative; boundary="15589663990.eB272.6246"
-Content-Transfer-Encoding: 7bit
-
-
---15589663990.eB272.6246
-Date: Mon, 27 May 2019 14:13:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #9 from tempel.julian@gmail.com ---
-Until I get a new GPU or a FreeSync display, I use amdgpu.dc=3D1 only for t=
-esting
-purposes. So I can't judge if this is a regression or has always existed.
-But I gave Linux 4.19.46 LTS a try and it shows the same behavior.
-
-Hm, maybe no one noticed because pageflipping wasn't working before this
-commit?
-https://gitlab.freedesktop.org/xorg/driver/xf86-video-amdgpu/commit/bf61e6d=
-7ac1a5754b1026d7f80acf25ef622c491
-Will retest with latest stable versions of xorg / amdgpu DDX.
-
-It's btw. really not happening in every game, e.g. Elex seems to be fine.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15589663990.eB272.6246
-Date: Mon, 27 May 2019 14:13:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Until I get a new GPU or a FreeSync display, I use amdgpu.dc=
-=3D1 only for testing
-purposes. So I can't judge if this is a regression or has always existed.
-But I gave Linux 4.19.46 LTS a try and it shows the same behavior.
-
-Hm, maybe no one noticed because pageflipping wasn't working before this
-commit?
-<a href=3D"https://gitlab.freedesktop.org/xorg/driver/xf86-video-amdgpu/com=
-mit/bf61e6d7ac1a5754b1026d7f80acf25ef622c491">https://gitlab.freedesktop.or=
-g/xorg/driver/xf86-video-amdgpu/commit/bf61e6d7ac1a5754b1026d7f80acf25ef622=
-c491</a>
-Will retest with latest stable versions of xorg / amdgpu DDX.
-
-It's btw. really not happening in every game, e.g. Elex seems to be fine.</=
-pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15589663990.eB272.6246--
-
---===============1246492998==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1246492998==--
+SGkgRGFuaWVsLCBoaSBEYXZlLAoKcGxlYXNlIHB1bGwgaW4gdGhpcyBmaXggZm9yIGEga2VybmVs
+IGNyYXNoaW5nIHZtYWxsb2MgYnVmZmVyIG92ZXJydW4gaW4KdGhlIGV0bmF2aXYgZGV2Y29yZWR1
+bXAgY29kZS4KClJlZ2FyZHMsCkx1Y2FzCgoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNv
+bW1pdCBhMTg4MzM5Y2E1YTM5NmFjYzU4OGU1ODUxZWQ3ZTE5ZjY2YjBlYmQ5OgoKICBMaW51eCA1
+LjItcmMxICgyMDE5LTA1LTE5IDE1OjQ3OjA5IC0wNzAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUg
+R2l0IHJlcG9zaXRvcnkgYXQ6CgogIGh0dHBzOi8vZ2l0LnBlbmd1dHJvbml4LmRlL2dpdC9sc3Qv
+bGludXggZXRuYXZpdi9maXhlcwoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDEzOTY1
+MDBkNjczYmQwMjc2ODNhMDYwOWZmODRkY2E3ZWI2ZWEyZTc6CgogIGRybS9ldG5hdml2OiBsb2Nr
+IE1NVSB3aGlsZSBkdW1waW5nIGNvcmUgKDIwMTktMDUtMjcgMTY6MDg6MzggKzAyMDApCgotLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tCkx1Y2FzIFN0YWNoICgxKToKICAgICAgZHJtL2V0bmF2aXY6IGxvY2sgTU1VIHdoaWxlIGR1
+bXBpbmcgY29yZQoKIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZHVtcC5jIHwgNSAr
+KysrKwogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
