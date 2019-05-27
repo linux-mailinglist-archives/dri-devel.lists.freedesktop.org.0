@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE21B2ACE1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 03:58:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CFF2ACF2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 04:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD048970B;
-	Mon, 27 May 2019 01:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7A3896F7;
+	Mon, 27 May 2019 02:25:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2033A8970B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 01:58:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 184F672168; Mon, 27 May 2019 01:58:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110711] American Truck Simulator shows strange colored
- reflections
-Date: Mon, 27 May 2019 01:58:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-110711-502-OiEyqccjHY@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110711-502@http.bugs.freedesktop.org/>
-References: <bug-110711-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C8F7896F7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 02:25:09 +0000 (UTC)
+Received: from dragon (98.142.130.235.16clouds.com [98.142.130.235])
+ (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9421C2075C;
+ Mon, 27 May 2019 02:25:06 +0000 (UTC)
+Date: Mon, 27 May 2019 10:24:02 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH 0/2] drm: imx: Add NWL MIPI DSI host controller support
+Message-ID: <20190527022401.GA6885@dragon>
+References: <cover.1551954425.git.agx@sigxcpu.org>
+ <20190508171827.GA21725@bogon.m.sigxcpu.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190508171827.GA21725@bogon.m.sigxcpu.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1558923908;
+ bh=PnWBJZi7tFkId/29AECHALDrxKdeCRYn68Pkw8Tj7jA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ru193l5yePtTv6ZAC+Zt6APOEXvKadKLLSPUNkUDF1jDt9dMXeEHyMfSC/Q9NhfOL
+ 98JJjpNXaqwyhDU8cAV/qFGKOAS34/kXb1tt5eERVkRz7jWrQNtI4+mTOfF9MZmwLH
+ 42zhZgJo9e65X5WRbcVAE1NUNwgYuC8poQSSXd+s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,124 +47,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1272032793=="
+Cc: David Airlie <airlied@linux.ie>, Robert Chiras <robert.chiras@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ NXP Linux Team <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1272032793==
-Content-Type: multipart/alternative; boundary="15589223370.F4e2Bf.28448"
-Content-Transfer-Encoding: 7bit
-
-
---15589223370.F4e2Bf.28448
-Date: Mon, 27 May 2019 01:58:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110711
-
-Timothy Arceri <t_arceri@yahoo.com.au> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-
---- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-Thanks for the bug report.
-
-Patch to workaround the issue: https://patchwork.freedesktop.org/patch/3069=
-76/
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15589223370.F4e2Bf.28448
-Date: Mon, 27 May 2019 01:58:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
-#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
-"> <span class=3D"fn">Timothy Arceri</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_ASSIGNED "
-   title=3D"ASSIGNED - American Truck Simulator shows strange colored refle=
-ctions"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110711">bug 11071=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>ASSIGNED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_ASSIGNED "
-   title=3D"ASSIGNED - American Truck Simulator shows strange colored refle=
-ctions"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110711#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_ASSIGNED "
-   title=3D"ASSIGNED - American Truck Simulator shows strange colored refle=
-ctions"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110711">bug 11071=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>Thanks for the bug report.
-
-Patch to workaround the issue: <a href=3D"https://patchwork.freedesktop.org=
-/patch/306976/">https://patchwork.freedesktop.org/patch/306976/</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15589223370.F4e2Bf.28448--
-
---===============1272032793==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1272032793==--
+T24gV2VkLCBNYXkgMDgsIDIwMTkgYXQgMDc6MTg6MjdQTSArMDIwMCwgR3VpZG8gR8O8bnRoZXIg
+d3JvdGU6Cj4gSWYgc29tZWJvZHkgaXMgd29ya2luZyBvbiBEQ1NTIHN1cHBvcnQgaXQnZCBiZSBj
+b29sIHRvIGtub3cgc2luY2UgdGhpcwoKSSBoYXZlIHNvbWUgdGltZSBzbG90cyBoZXJlIGFuZCB3
+aWxsIHN0YXJ0IGxvb2tpbmcgYXQgaXQsIGlmIG5vIG9uZSBlbHNlCmlzIGFscmVhZHkgd29ya2lu
+ZyBvbiBpdC4KClNoYXduCgo+IGRyaXZlciBpcyBjdXJyZW50bHkgYSBjb21wb25lbnQgb2YgaW14
+LWRpc3BsYXktc3Vic3lzdGVtIHdoaWNoIHdpbGwgb25seQo+IHdvcmsgb3V0IGlmIGRjc3MgaXMg
+aGFuZGxlZCBsaWtlIHRoaXMgYXMgd2VsbC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
