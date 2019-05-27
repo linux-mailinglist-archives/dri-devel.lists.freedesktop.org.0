@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7092BA14
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 20:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F682BA3F
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 20:37:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B88D389A1A;
-	Mon, 27 May 2019 18:25:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC9989A91;
+	Mon, 27 May 2019 18:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7E90289A1A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 18:25:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7192D72167; Mon, 27 May 2019 18:25:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110635] briefly flashing corruption when playing various OGL
- games
-Date: Mon, 27 May 2019 18:25:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: danylo.piliaiev@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-110635-502-OQTvEd1qjL@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110635-502@http.bugs.freedesktop.org/>
-References: <bug-110635-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5804F89A91
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 18:37:06 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id p18so19101904qkk.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 11:37:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=K6OVAmaBOqD68iXkzTW2npsdToRyLFXbtYu9zE4kNLA=;
+ b=r1uvpSa1anUP++gJXCm10PX2TtQ70txB4bNUCz5sAbGmGf6HrTw0J+g2sTIcySMzYr
+ Jip6ot18+kp4gev6HeYxH3bA4/UtscL2B8xWq4KM8kyKLkpC45X3z9e1g99l2qR9lQOK
+ ZKAK2DPDyg4+CAmOeWeAr7Mu7bG/MBDUmLGZHiXKdQNjcPkWtmnqjPgxcm3eUoAKVNf2
+ 7QRivMXRmOgG2fjtFxDyHEUDU/sy1Lh/wgRZOd11aEwA/eHfF8wCpb/EmIyRdBt0Jrro
+ fTBIwRbBNh4S4cZMcnIf3twJsf3UlTSP8TZ4qGcHhQIdjJj9aL5T7mCX0AKcPKFqeU6i
+ IDcw==
+X-Gm-Message-State: APjAAAUkQfUqQTa0yJhK1VkqpZtEudeMBXkdLiedRZymYhuYgoockQGK
+ 682zEOjCIsMG/NbDdMFJW/g=
+X-Google-Smtp-Source: APXvYqy3oenGCtrjTihLLnWQN85/RzRKArhTIdPKQT0Kh2qE7rGimUyEkxJ1p9vIRMQfRH71BxsyKQ==
+X-Received: by 2002:a37:424a:: with SMTP id p71mr16397869qka.17.1558982225455; 
+ Mon, 27 May 2019 11:37:05 -0700 (PDT)
+Received: from fabio-Latitude-E5450.nxp.com ([177.221.114.206])
+ by smtp.gmail.com with ESMTPSA id g54sm5643754qta.51.2019.05.27.11.37.03
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 27 May 2019 11:37:04 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: maarten.lankhorst@linux.intel.com
+Subject: [PATCH] drm/damage-helper: Use NULL instead of 0
+Date: Mon, 27 May 2019 15:37:14 -0300
+Message-Id: <20190527183714.11168-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=K6OVAmaBOqD68iXkzTW2npsdToRyLFXbtYu9zE4kNLA=;
+ b=LyKX1h3pJpQRbE8YnZeWAn8KBwRgMG0OWvOs4fkY7oob6WgxUZoBDd0Nrz+yPl/XVo
+ SLnDIpWWbOcqawz1IWD1mDJoGvc4PS/OY3x8H7iynL/Q6EZYvBEeQhirlMRycaWNXOuL
+ xpERoCuirrB+4EmMYlcR0k1ESN9fQrCxbsLfl3CTeGA17Cal5NFVgVWzEGLGDUJhmqhW
+ 29noJ9rjq/yo+0RNgJeETRBGrkFSP/7sv8/MnceT6XIBGW0O5cUND8pdka/1cahEcI3f
+ z09opivAWMHmu94K3VS5utIvpVKTSy2wAa3yICznZ3gMkpFIYd0jEsiLChQ9PeusTncB
+ 04yA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,119 +62,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1173611530=="
+Cc: maxime.ripard@bootlin.com, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1173611530==
-Content-Type: multipart/alternative; boundary="15589815110.D6bCA.32761"
-Content-Transfer-Encoding: 7bit
-
-
---15589815110.D6bCA.32761
-Date: Mon, 27 May 2019 18:25:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110635
-
-Danylo <danylo.piliaiev@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |danylo.piliaiev@gmail.com
-
---- Comment #5 from Danylo <danylo.piliaiev@gmail.com> ---
-Yep, AMD_DEBUG=3Dnodma works
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15589815110.D6bCA.32761
-Date: Mon, 27 May 2019 18:25:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:danylo.pi=
-liaiev&#64;gmail.com" title=3D"Danylo &lt;danylo.piliaiev&#64;gmail.com&gt;=
-"> <span class=3D"fn">Danylo</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - briefly flashing corruption when playing various OGL game=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635">bug 11063=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>danylo.piliaiev&#64;gmail.com
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - briefly flashing corruption when playing various OGL game=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - briefly flashing corruption when playing various OGL game=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635">bug 11063=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-danylo.piliaiev&#64;gmail.com" title=3D"Danylo &lt;danylo.piliaiev&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Danylo</span></a>
-</span></b>
-        <pre>Yep, AMD_DEBUG=3Dnodma works</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15589815110.D6bCA.32761--
-
---===============1173611530==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+VGhlICdjbGlwcycgbWVtYmVyIGlzIGEgcG9pbnRlciwgc28gYXNzaWduIE5VTEwgaW5zdGVhZCBv
+ZiAwLgoKVGhpcyBmaXhlcyB0aGUgZm9sbG93aW5nIHNwYXJzZSB3YXJuaW5nOgoKZHJpdmVycy9n
+cHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmM6Mjg5OjMxOiB3YXJuaW5nOiBVc2luZyBwbGFpbiBp
+bnRlZ2VyIGFzIE5VTEwgcG9pbnRlcgoKU2lnbmVkLW9mZi1ieTogRmFiaW8gRXN0ZXZhbSA8ZmVz
+dGV2YW1AZ21haWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZGFtYWdlX2hlbHBlci5j
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2RhbWFnZV9oZWxwZXIuYwppbmRleCBlZTY3Yzk2ODQxZmEuLjgyMzBkYWMw
+MWE4OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMKKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMKQEAgLTI4Niw3ICsyODYsNyBA
+QCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlcl9pbml0KHN0cnVjdCBkcm1fYXRvbWljX2hl
+bHBlcl9kYW1hZ2VfaXRlciAqaXRlciwKIAlpdGVyLT5wbGFuZV9zcmMueTIgPSAoc3RhdGUtPnNy
+Yy55MiA+PiAxNikgKyAhIShzdGF0ZS0+c3JjLnkyICYgMHhGRkZGKTsKIAogCWlmICghaXRlci0+
+Y2xpcHMgfHwgIWRybV9yZWN0X2VxdWFscygmc3RhdGUtPnNyYywgJm9sZF9zdGF0ZS0+c3JjKSkg
+ewotCQlpdGVyLT5jbGlwcyA9IDA7CisJCWl0ZXItPmNsaXBzID0gTlVMTDsKIAkJaXRlci0+bnVt
+X2NsaXBzID0gMDsKIAkJaXRlci0+ZnVsbF91cGRhdGUgPSB0cnVlOwogCX0KLS0gCjIuMTcuMQoK
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1173611530==--
