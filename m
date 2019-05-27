@@ -1,46 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF40B2AE01
-	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 07:31:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 621C82AE57
+	for <lists+dri-devel@lfdr.de>; Mon, 27 May 2019 08:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65FF189781;
-	Mon, 27 May 2019 05:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00141897B4;
+	Mon, 27 May 2019 06:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1C9DB89791
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 05:31:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 160EA72168; Mon, 27 May 2019 05:31:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109022] ring gfx timeout during particular shader generation on
- yuzu emulator
-Date: Mon, 27 May 2019 05:31:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: glencoesmith@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109022-502-68a0MngEtT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109022-502@http.bugs.freedesktop.org/>
-References: <bug-109022-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B411C897B4;
+ Mon, 27 May 2019 06:03:34 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id h72so3592390vkh.10;
+ Sun, 26 May 2019 23:03:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1T7t3vTTz0shwdzCG3TjJUAaUImkyr0fiC2h61tBjXE=;
+ b=JhVtIw25biav/oAckGApAdHyUyE5kRwbe5A62X3uA+GDzCApNYUCBOEggJfisqDeX3
+ euajN6YLEMjP30NXhjgdPX5hIf0eoqEsGtU+fiMo+1Vnqv8WSx3oOqFr7W4VZ4M6632G
+ baI6wJOAG/NppfXSZeo0HlD1URAOQFu372KCQdNJH2FnvL8IArHaqNjjSgaCLO9zUC/p
+ JSadLua54BDHiSuz+30A8zUcYg86n2mY0jnQI7xhsnhF5G+3uTHndA8zUH8+hnPa7LhK
+ OBH3kwKgpFm6omVyYo1y+oc2xEcBLQCXIhGMNRfiOYWTLcCRNf/KiZrnzvDYops1oSFb
+ ISfA==
+X-Gm-Message-State: APjAAAVzhWKNmSOOEVbyrnlLZv5Jyuw1k6CqV9Vs4L296E9sYS/XQRLa
+ gEUxhJfPfvG3TFiTCLPTsG3rB6AdjxakLQTc+AM=
+X-Google-Smtp-Source: APXvYqy4lCHG+K7byfehre/tmSiFInfqxdjeHMQXAnkreNLujdu+h3YsGu8NQOwxer+VpHzpAeMKNU5vApZG5EECUUM=
+X-Received: by 2002:a1f:9390:: with SMTP id v138mr17944836vkd.48.1558937013713; 
+ Sun, 26 May 2019 23:03:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190522150219.13913-1-emil.l.velikov@gmail.com>
+ <20190522150219.13913-2-emil.l.velikov@gmail.com>
+ <CACAvsv5Z7CZOirZrRB=88rCeZt0SvBvdDjbhSpOcfE9JA20hCg@mail.gmail.com>
+ <20190524151407.GA8938@arch-x1c3>
+In-Reply-To: <20190524151407.GA8938@arch-x1c3>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Mon, 27 May 2019 16:03:22 +1000
+Message-ID: <CACAvsv6nqEODiWPwx0w_PSZSb_n59_JZBpuyKHtx16r8KJf5AA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/nouveau: remove open-coded drm_invalid_op()
+To: Emil Velikov <emil.l.velikov@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=1T7t3vTTz0shwdzCG3TjJUAaUImkyr0fiC2h61tBjXE=;
+ b=MoP5pnKkRfHjjx/EfKgYyKmoTyUAqonBAInIcr+R5/Ue9M36b/NwDDRlOw7vqvMRmc
+ JO8gNYP2vwn8o+J95VpKfGOFJrddnJ2HJN5AWxlh/gJZ0oNVQemKvXa8bTbR4Ol/QzcY
+ cz+SCer+/2yl/CuhoCSmADcIsEIb5bC3gQxwzcHX/q8JIzKrq701n9VoEl+GTwEbL9Z1
+ 43k4UrYeU6rerNSrZEezTElSIM1C5NT6SabQRWMkPfMj7E2tS2qQPpmdTxMkIBL5DW/D
+ E5spMfKZltIqI5ik9X13O9/MSSDxywZwIpi9YL8YU6TnL5Zomz+RPyq/cFmp9/sABJqB
+ FOMQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +65,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1699133253=="
+Cc: nouveau@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1699133253==
-Content-Type: multipart/alternative; boundary="15589350730.9fe298ebD.18467"
-Content-Transfer-Encoding: 7bit
-
-
---15589350730.9fe298ebD.18467
-Date: Mon, 27 May 2019 05:31:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109022
-
---- Comment #19 from glencoesmith@hotmail.com ---
-https://github.com/yuzu-emu/yuzu/issues/2523
-
-WOOOOOOO!
-
-This is getting a Yuzu side fix!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15589350730.9fe298ebD.18467
-Date: Mon, 27 May 2019 05:31:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring gfx timeout during particular shader generation on y=
-uzu emulator"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022#c19">Comme=
-nt # 19</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring gfx timeout during particular shader generation on y=
-uzu emulator"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022">bug 10902=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-glencoesmith&#64;hotmail.com" title=3D"glencoesmith&#64;hotmail.com">glenco=
-esmith&#64;hotmail.com</a>
-</span></b>
-        <pre><a href=3D"https://github.com/yuzu-emu/yuzu/issues/2523">https=
-://github.com/yuzu-emu/yuzu/issues/2523</a>
-
-WOOOOOOO!
-
-This is getting a Yuzu side fix!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15589350730.9fe298ebD.18467--
-
---===============1699133253==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1699133253==--
+T24gU2F0LCAyNSBNYXkgMjAxOSBhdCAwMToxNSwgRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtv
+dkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gT24gMjAxOS8wNS8yMywgQmVuIFNrZWdncyB3cm90ZToK
+PiA+IE9uIFRodSwgMjMgTWF5IDIwMTkgYXQgMDE6MDMsIEVtaWwgVmVsaWtvdiA8ZW1pbC5sLnZl
+bGlrb3ZAZ21haWwuY29tPiB3cm90ZToKPiA+ID4KPiA+ID4gRnJvbTogRW1pbCBWZWxpa292IDxl
+bWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiA+ID4KPiA+ID4gQ2M6IEJlbiBTa2VnZ3MgPGJz
+a2VnZ3NAcmVkaGF0LmNvbT4KPiA+ID4gQ2M6IG5vdXZlYXVAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9y
+YS5jb20+Cj4gPiBUaGFua3MhCj4gPgo+IEZvcmdvdCB0byBtZW50aW9uLCBhbnkgb2JqZWN0aW9u
+cyBpZiBJIHRha2UgdGhpcyB0aHJvdWdoIGRybS1taXNjPwo+IEknbSBhYm91dCB0byBzZW5kIGEg
+bGVuZ3RoeSBzZXJpZXMgd2hpY2ggd2lsbCBjb25mbGljdCB3aXRoIHRoaXMgcGF0Y2gsCj4gYWxi
+ZWl0IHRyaXZpYWxseS4KR28gZm9yIGl0LgoKPgo+IFRoYW5rcwo+IEVtaWwKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
