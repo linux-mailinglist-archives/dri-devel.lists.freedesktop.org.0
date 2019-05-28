@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECB92CCA9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 18:51:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5B12CCCC
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 18:59:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0882B6E268;
-	Tue, 28 May 2019 16:51:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAD816E26D;
+	Tue, 28 May 2019 16:59:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBB46E268
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 16:51:15 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-139-52-nat.elisa-mobile.fi
- [85.76.139.52])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id CEB03FA6;
- Tue, 28 May 2019 18:51:12 +0200 (CEST)
-Date: Tue, 28 May 2019 19:50:52 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v3 07/10] drm: rcar-du: Skip LVDS1 output on Gen3 when
- using dual-link LVDS mode
-Message-ID: <20190528165052.GB17874@pendragon.ideasonboard.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A426E26D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 16:59:04 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3AFF920045;
+ Tue, 28 May 2019 18:59:02 +0200 (CEST)
+Date: Tue, 28 May 2019 18:59:00 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 04/10] dt-bindings: display: renesas: lvds: Add
+ renesas, companion property
+Message-ID: <20190528165900.GA10262@ravnborg.org>
 References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190528141234.15425-8-laurent.pinchart+renesas@ideasonboard.com>
- <20190528164213.GB9610@ravnborg.org>
+ <20190528141234.15425-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528163730.GA9610@ravnborg.org>
+ <20190528164916.GA17874@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190528164213.GB9610@ravnborg.org>
+In-Reply-To: <20190528164916.GA17874@pendragon.ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1559062273;
- bh=Cu7qwr8iVSvHU3iF7trDV2hyNHcZ7hO7GlIDCSQOIKM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=njKN6GdU5iTMeMdz6yBTnp3/5fSj/i22xmJ/P9zXhFjd37LULke7q+D5gD4gb5Jtz
- 9bTPy3eDi7bWY36LJX3Z2cyQebUoM8vz/ClFpOzRvQrxVgTTEq3i+Pe/cFCnbFZn3N
- s6vm4A2++cRsAPnGpzI+D1V0cYbzGla9a5cMZOCc=
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=RqNDS8CZelupaJZLNH0A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,51 +48,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
+Cc: devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2FtLAoKT24gVHVlLCBNYXkgMjgsIDIwMTkgYXQgMDY6NDI6MTNQTSArMDIwMCwgU2FtIFJh
-dm5ib3JnIHdyb3RlOgo+IE9uIFR1ZSwgTWF5IDI4LCAyMDE5IGF0IDA1OjEyOjMxUE0gKzAzMDAs
-IExhdXJlbnQgUGluY2hhcnQgd3JvdGU6Cj4gPiBJbiBkdWFsLWxpbmsgTFZEUyBtb2RlLCB0aGUg
-TFZEUzEgZW5jb2RlciBpcyB1c2VkIGFzIGEgY29tcGFuaW9uIGZvcgo+ID4gTFZEUzAsIGFuZCBi
-b3RoIGVuY29kZXJzIHRyYW5zbWl0IGRhdGEgZnJvbSBEVTAuIFRoZSBMVkRTMSBvdXRwdXQgb2Yg
-RFUxCj4gPiBjYW4ndCBiZSB1c2VkIGluIHRoYXQgY2FzZSwgZG9uJ3QgY3JlYXRlIGFuIGVuY29k
-ZXIgYW5kIGNvbm5lY3RvciBmb3IKPiA+IGl0Lgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBMYXVy
-ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0K3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4K
-PiA+IFJldmlld2VkLWJ5OiBKYWNvcG8gTW9uZGkgPGphY29wbytyZW5lc2FzQGptb25kaS5vcmc+
-Cj4gPiBUZXN0ZWQtYnk6IEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVzYXNAam1vbmRpLm9yZz4K
-PiA+IC0tLQo+ID4gQ2hhbmdlc3Mgc2luY2UgdjI6Cj4gPiAKPiA+IC0gUmVtb3ZlIHVubmVlZGVk
-IGJyaWRnZSBOVUxMIGNoZWNrCj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9y
-Y2FyX2R1X2VuY29kZXIuYyB8IDEyICsrKysrKysrKysrKwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9y
-Y2FyLWR1L3JjYXJfZHVfa21zLmMgICAgIHwgIDIgKy0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDEz
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZW5jb2Rlci5jIGIvZHJpdmVycy9ncHUvZHJtL3Jj
-YXItZHUvcmNhcl9kdV9lbmNvZGVyLmMKPiA+IGluZGV4IDZjOTE3NTNhZjdiYy4uMGYwMGJkZmUy
-MzY2IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9lbmNv
-ZGVyLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfZW5jb2Rlci5j
-Cj4gPiBAQCAtMTYsNiArMTYsNyBAQAo+ID4gICNpbmNsdWRlICJyY2FyX2R1X2Rydi5oIgo+ID4g
-ICNpbmNsdWRlICJyY2FyX2R1X2VuY29kZXIuaCIKPiA+ICAjaW5jbHVkZSAicmNhcl9kdV9rbXMu
-aCIKPiA+ICsjaW5jbHVkZSAicmNhcl9sdmRzLmgiCj4gPiAgCj4gPiAgLyogLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0KPiA+ICAgKiBFbmNvZGVyCj4gPiBAQCAtOTcsNiArOTgsMTcgQEAgaW50IHJjYXJf
-ZHVfZW5jb2Rlcl9pbml0KHN0cnVjdCByY2FyX2R1X2RldmljZSAqcmNkdSwKPiA+ICAJCX0KPiA+
-ICAJfQo+ID4gIAo+ID4gKwkvKgo+ID4gKwkgKiBPbiBHZW4zIHNraXAgdGhlIExWRFMxIG91dHB1
-dCBpZiB0aGUgTFZEUzEgZW5jb2RlciBpcyB1c2VkIGFzIGEKPiA+ICsJICogY29tcGFuaW9uIGZv
-ciBMVkRTMCBpbiBkdWFsLWxpbmsgbW9kZS4KPiA+ICsJICovCj4gPiArCWlmIChyY2R1LT5pbmZv
-LT5nZW4gPj0gMyAmJiBvdXRwdXQgPT0gUkNBUl9EVV9PVVRQVVRfTFZEUzEpIHsKPiAKPiBCb3Ro
-IHN1YmplY3QgYW5kIGNvbW1lbnQgYWJvdmUgc2F5cyAiT24gR2VuMyIsIGJ1dCB0aGUgY29kZSBs
-b29rcyBsaWtlCj4gaXQgaW1wbGVtZW50cyAiT24gR2VuMyBvciBuZXdlciIgLSBkdWUgdG8gdXNl
-IG9mICI+PSIuCj4gTG9va3Mgd3JvbmcgdG8gbWUuCgpHZW4zIGlzIHRoZSBuZXdlc3QgZ2VuZXJh
-dGlvbiA6LSkgV2UgdGh1cyB1c2UgPj0gdGhyb3VnaCB0aGUgRFUgYW5kIExWRFMKZHJpdmVycyB0
-byBwcmVwYXJlIGZvciBzdXBwb3J0IG9mIEdlbjQsIGp1c3QgaW4gY2FzZS4KCi0tIApSZWdhcmRz
-LAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+SGkgTGF1cmVudC4KCj4gPiA+ICAKPiA+ID4gK09wdGlvbmFsIHByb3BlcnRpZXM6Cj4gPiA+ICsK
+PiA+ID4gKy0gcmVuZXNhcyxjb21wYW5pb24gOiBwaGFuZGxlIHRvIHRoZSBjb21wYW5pb24gTFZE
+UyBlbmNvZGVyLiBUaGlzIHByb3BlcnR5IGlzCj4gPiA+ICsgIG1hbmRhdG9yeSBmb3IgdGhlIGZp
+cnN0IExWRFMgZW5jb2RlciBvbiBEMyBhbmQgRTMgU29DcywgYW5kIHNoYWxsIHBvaW50IHRvCj4g
+PiA+ICsgIHRoZSBzZWNvbmQgZW5jb2RlciB0byBiZSB1c2VkIGFzIGEgY29tcGFuaW9uIGluIGR1
+YWwtbGluayBtb2RlLiBJdCBzaGFsbCBub3QKPiA+ID4gKyAgYmUgc2V0IGZvciBhbnkgb3RoZXIg
+TFZEUyBlbmNvZGVyLgo+ID4gCj4gPiBJZiB0aGUgRDMgYW5kIEUzIHNvY3MgZG8gbm90IG1hbmRh
+dGUgdGhlIHVzZSBvZiBkdWFsLWxpbmssIHRoZW4gd2hhdCB0bwo+ID4gZG8gaW4gdGhlIERUPyBC
+ZWNhdXNlIGFjY29yZGluZyB0byB0aGUgYWJvdmUgdGhpcyBwcm9wZXJ0eSBtdXN0IGJlCj4gPiBz
+cGVjaWZpZWQgZm9yIEQzIGFuZCBFMyBTT0Mncy4KPiAKPiBUaGlzIHByb3BlcnR5IGRvZXNuJ3Qg
+ZW5hYmxlIGR1YWwtbGluayBtb2RlLCBpdCBvbmx5IHNwZWNpZmllcyB0aGUKPiBjb21wYW5pb24g
+TFZEUyBlbmNvZGVyIHVzZWQgZm9yIGR1YWwtbGluayBtb2RlLCB3aGVuIGVuYWJsZWQgKHRocm91
+Z2gKPiBjb21tdW5pY2F0aW9uIGJldHdlZW4gdGhlIExWRFMgZW5jb2RlciBhbmQgdGhlIExWRFMg
+cmVjZWl2ZXIgYXQKPiBydW50aW1lKS4KPiAKPiBKYWNvcG8gaGFkIGEgc2ltaWxhciBjb21tZW50
+IHNvIEkgc3VwcG9zZSB0aGlzIGlzbid0IGNsZWFyLiBIb3cgd291bGQKPiB5b3Ugd29yZCBpdCB0
+byBtYWtlIGl0IGNsZWFyID8KTGV0IG1lIHRyeToKCgotIHJlbmVzYXMsY29tcGFuaW9uIDogcGhh
+bmRsZSB0byB0aGUgY29tcGFuaW9uIExWRFMgZW5jb2Rlci4gVGhpcyBwcm9wZXJ0eSBpcwogIG1h
+bmRhdG9yeSBmb3IgdGhlIGZpcnN0IExWRFMgZW5jb2RlciBvbiBEMyBhbmQgRTMgU29DcyB3aGVu
+IGR1YWwtbGluayBtb2RlCiAgaXMgc3VwcG9ydGVkLgogIFRoZSBwcm9wZXJ0eSBzaGFsbCBwb250
+IHRvIHRoZSBwaGFuZGxlIG9mIHRoZSBzZWNvbmQgZW5jb2RlciB0byBiZSB1c2VkIGFzIGEKICBj
+b21wYW5pb24gaW4gZHVhbC1saW5rIG1vZGUuIEl0IHNoYWxsIG5vdCBiZSBzZXQgZm9yIGFueSBv
+dGhlciBMVkRTIGVuY29kZXIuCgpUaGUgbWFpbiBkaWZmZXJlbmNlIGlzICJ3aGVuIGR1YWwtbGlu
+ayBtb2RlIGlzIHN1cHBvcnRlZCIuCkFzIHBlciBteSB1bmRlcnN0YW5kaW5nIHRoaXMgcHJvcGVy
+dHkgaXMgb25seSByZWxldmFudCB3aGVuIHRoZSBhY3R1YWwKSFcgc3VwcG9ydHMgLyB1c2VzIGR1
+YWwtbGluayBtb2RlLgpTbyBmb3IgYSBib2FyZCB0aGF0IGRvIG5vdCBldmVuIHdpcmUgdXAgZHVh
+bC1saW5rLCB0aGVuIHNldHRpbmcgdGhlCnByb3BlcnR5IHdvdWxkIGJlIGNvbmZ1c2luZy4KCkkg
+aG9wZSB0aGlzIGJldHRlciBkZXNjcmliZXMgbXkgdW5kZXJzdGFuZGluZy4KCglTYW0KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
