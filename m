@@ -1,56 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227C02C2FF
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 11:19:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3102C332
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 11:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB39892BC;
-	Tue, 28 May 2019 09:19:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCBB6898CE;
+	Tue, 28 May 2019 09:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F383D892BC
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:19:43 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4S9JYYP045555;
- Tue, 28 May 2019 04:19:34 -0500
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4S9JYKi065704
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 May 2019 04:19:34 -0500
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 28
- May 2019 04:19:33 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 28 May 2019 04:19:33 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4S9JVYM068155;
- Tue, 28 May 2019 04:19:31 -0500
-Subject: Re: [PATCHv6 0/4] omapdrm: DSI command mode panel support
-To: Tony Lindgren <tony@atomide.com>
-References: <20190523200756.25314-1-sebastian.reichel@collabora.com>
- <60c45d23-de2f-d94a-c3d7-146a2bee538f@ti.com>
- <20190527112122.GJ5447@atomide.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <e507c415-38de-86fe-9265-4b0aed0d7224@ti.com>
-Date: Tue, 28 May 2019 12:19:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA49E898CE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:27:42 +0000 (UTC)
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 49BAF20010;
+ Tue, 28 May 2019 09:27:38 +0000 (UTC)
+Date: Tue, 28 May 2019 11:28:47 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 04/10] dt-bindings: display: renesas: lvds: Add
+ renesas,companion property
+Message-ID: <20190528092847.kxhhq7hevforddb6@uno.localdomain>
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190511210702.18394-5-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20190527112122.GJ5447@atomide.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1559035174;
- bh=0SQ34B5HOk35t1pLSe3ahubUcB7ram5G3YhycY8CAJg=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=aDq+pfi9k3q3a03MktomO1TfKh6WV1BHBSvKtRK1zSG+Dqs4sdVVnVvC1nl+HGDlt
- 4SnZX9Ai7OabF0RGFEdd1Vq6qel1S1Cr03lnrING3JBh9jC5vGA8e3Ub4gcECgZY9J
- EvtAoxram2CCOy0qJeWfPhNMH2gsCPyH+NTondtM=
+In-Reply-To: <20190511210702.18394-5-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,163 +41,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, "H. Nikolaus Schaller" <hns@goldelico.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, Keerthy <j-keerthy@ti.com>,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1832517455=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjcvMDUvMjAxOSAxNDoyMSwgVG9ueSBMaW5kZ3JlbiB3cm90ZToKCj4+IExvb2tzIGdvb2Qg
-dG8gbWUuIEZvciBzb21lIHJlYXNvbiBJIGNhbid0IGJvb3QgNS4yLXJjMiAob24geDE1KSBzbyBJ
-IGhhdmVuJ3QKPj4gYmVlbiBhYmxlIHRvIHRlc3QgeWV0LiBJJ2xsIHBpY2sgdGhlIHNlcmllcyB1
-cCBpbiBhbnkgY2FzZSwgYW5kIEknbGwgdGVzdCBpdAo+PiB3aGVuIEkgZ2V0IHRoZSBrZXJuZWwg
-Ym9vdGluZy4KPiAKPiBHcmVhdCBnb29kIHRvIGhhdmUgdGhlc2UgbWVyZ2VkIGZpbmFsbHkgOikK
-PiAKPiBIbW0gSSB3b25kZXIgaWYgc29tZSB4MTUgbW9kZWxzIGFyZSBhZmZlY3RlZCBieSB0aGUg
-U29DIHZhcmlhbnQKPiBjaGFuZ2VzIHF1ZXVlZCBpbiBteSBmaXhlcyBicmFuY2g/CgpUaGlzIGlz
-IHdoYXQgSSBzZWUgd2l0aCBlYXJseWNvbiwgb24gbGludXgtb21hcCBmaXhlcyBicmFuY2guIEkg
-dGhpbmsgdGhpcyBsb29rcwpzaW1pbGFyIHRvIHdoYXQgSSBzYXcgd2l0aCBkcmE3NiBfd2l0aG91
-dF8gdGhlIGZpeGVzLgoKWyAgICAxLjI5MDc3MV0gVW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwgcGFn
-aW5nIHJlcXVlc3QgYXQgdmlydHVhbCBhZGRyZXNzIDVhNWE1YTVhClsgICAgMS4yOTgyMjJdIHBn
-ZCA9IChwdHJ2YWwpClsgICAgMS4zMDEwMDJdIFs1YTVhNWE1YV0gKnBnZD0wMDAwMDAwMApbICAg
-IDEuMzA0Njk1XSBJbnRlcm5hbCBlcnJvcjogT29wczogNSBbIzFdIFBSRUVNUFQgU01QIEFSTQpb
-ICAgIDEuMzEwMTU4XSBNb2R1bGVzIGxpbmtlZCBpbjoKWyAgICAxLjMxMzMwMF0gQ1BVOiAwIFBJ
-RDogMSBDb21tOiBzd2FwcGVyLzAgTm90IHRhaW50ZWQgNS4yLjAtcmMxLTAwMDE2LWc0MzA2OWU2
-OGYxNjItZGlydHkgIzcKWyAgICAxLjMyMTk3OV0gSGFyZHdhcmUgbmFtZTogR2VuZXJpYyBEUkE3
-NFggKEZsYXR0ZW5lZCBEZXZpY2UgVHJlZSkKWyAgICAxLjMyODI1Nl0gUEMgaXMgYXQgY2xrX2h3
-X2NyZWF0ZV9jbGsucGFydC4zMysweDgvMHg5NApbICAgIDEuMzMzNjMyXSBMUiBpcyBhdCBzeXNj
-X25vdGlmaWVyX2NhbGwrMHg5OC8weDEzOApbICAgIDEuMzM4NTU4XSBwYyA6IFs8YzA1NTQxMTg+
-XSAgICBsciA6IFs8YzA0ZmI1MTQ+XSAgICBwc3I6IDAwMDAwMDEzClsgICAgMS4zNDUwMDFdIHNw
-IDogZWI4ZjdjNzggIGlwIDogNWE1YTVhNWEgIGZwIDogYzBiM2I1MzgKWyAgICAxLjM1MDM3NF0g
-cjEwOiAwMDAwMDAwMSAgcjkgOiAwMDAwMDAwMCAgcjggOiAwMDAwMDAwMApbICAgIDEuMzU1NzQ2
-XSByNyA6IGVhYWI4MzQwICByNiA6IGVhYWJlYTEwICByNSA6IGNmZmVhNzljICByNCA6IDAwMDAw
-MDAwClsgICAgMS4zNjI0NTldIHIzIDogY2ZmZWE3OWMgIHIyIDogZWFhYmM4YzAgIHIxIDogNWE1
-YTVhNWEgIHIwIDogZWFhYmVhMTAKWyAgICAxLjM2OTE3NF0gRmxhZ3M6IG56Y3YgIElSUXMgb24g
-IEZJUXMgb24gIE1vZGUgU1ZDXzMyICBJU0EgQVJNICBTZWdtZW50IG5vbmUKWyAgICAxLjM3NjUx
-M10gQ29udHJvbDogMTBjNTM4N2QgIFRhYmxlOiA4MDAwNDA2YSAgREFDOiAwMDAwMDA1MQpbICAg
-IDEuMzgyNDIyXSBQcm9jZXNzIHN3YXBwZXIvMCAocGlkOiAxLCBzdGFjayBsaW1pdCA9IDB4KHB0
-cnZhbCkpClsgICAgMS4zODg1OTldIFN0YWNrOiAoMHhlYjhmN2M3OCB0byAweGViOGY4MDAwKQpb
-ICAgIDEuMzkzMDc3XSA3YzYwOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAwMDAwMDAwMCBjZmZlYTc5YwpbICAgIDEuNDAxNDkzXSA3YzgwOiBl
-YWFiZWExMCBjMDRmYjUxNCBjMGU3NmM2YyBmZmZmZmZmZCAwMDAwMDAwMCAwMDAwMDAwMSAwMDAw
-MDAwMCBlYWFiZWExMApbICAgIDEuNDA5OTA1XSA3Y2EwOiAwMDAwMDAwMSBjMDE1Y2VlOCBmZmZm
-ZmZmZiAwMDAwMDAwMSBlYjhkZmI4MCBlYWFiZWExMCBjMGUwNTE0OCAwMDAwMDAwMApbICAgIDEu
-NDE4MzE5XSA3Y2MwOiAwMDAwMDAwMCBjMGUyZTRmMCAwMDAwMDAwMCBjMDE1ZDY4NCAwMDAwMDAw
-MCAwMDAwMDAwMCBlYWFiZWExMCAwMDAwMDAwMApbICAgIDEuNDI2NzMyXSA3Y2UwOiBlYjkzYzgx
-MCBjMDViOTdlNCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwZmVlMmY1NiAwMDAwMDAwMCAw
-ZmVlMmY1NgpbICAgIDEuNDM1MTQzXSA3ZDAwOiAwMDAwMDAwMCBlYWFiZWEwMCAwMDAwMDAwMCBl
-YjkzYzgxMCBlZmRiZmQwYyAwMDAwMDAwMCAwMDAwMDAwMSBjMDc4ZWRiMApbICAgIDEuNDQzNTU3
-XSA3ZDIwOiBlZmRiZmNjMCAwMDAwMDAwMCAwMDAwMDAwMCBjMGUwNTE0OCBjMGUyZTM5MCBjMDc4
-ZWY4OCBlYjkzY2E4YyAwMDAwMDAwMApbICAgIDEuNDUxOTcyXSA3ZDQwOiBjMGEzOWI2NCBlYjkz
-YzgxMCBlYjkzYzg4YyBlYjkzY2E4YyBjMGUwNTE0OCBjMDkxYjBjNCBlYjkzYzgxMCBjMDVjOWFh
-YwpbICAgIDEuNDYwMzg2XSA3ZDYwOiBjMGYxM2JhNCA2MDAwMDAxMyBjMGEzOWI2NCAwZmVlMmY1
-NiBjMGEzOWIzYyBlZmRiZmNjMCBlZmRiZmEzYyBjMGEzOWI2NApbICAgIDEuNDY4ODAwXSA3ZDgw
-OiBjMGUyZTM5MCBlYjkzYzgxMCAwMDAwMDAwMSAwMDAwMDAwMCBjMGEzOWIzYyBjMDc4ZjJiOCAw
-MDAwMDAwMSAwZmVlMmY1NgpbICAgIDEuNDc3MjEzXSA3ZGEwOiBlYWFiODM0MCBlYWFiODM0MCBl
-YjkzYzgxMCAwMDAwMDAwMCBjMGUwNTE0OCAwMDAwMDAwMSAwMDAwMDAxMCBjMDRmYzk2NApbICAg
-IDEuNDg1NjI3XSA3ZGMwOiAwMDAwMDAwMCBjMDM0OTcxNCBjMGUyZTUwMCBlYjkzYzgxMCAwMDAw
-MDAwMSBlZmRiZmEzYyBlYTlkZmQyOCAwMDAwMDAwMApbICAgIDEuNDk0MDM5XSA3ZGUwOiAwMDAw
-MDAwMSAwMDAwMDAwMSAwMDAwMDAwMyAwZmVlMmY1NiAwMDAwMDAwMSBlYjkzYzgxMCAwMDAwMDAw
-MCBjMGU3NmM4YwpbICAgIDEuNTAyNDUxXSA3ZTAwOiAwMDAwMDAwMCAwMDAwMDAwMCBjMGU3NmM4
-YyBjMGViOGYzMCAwMDAwMDAwMCBjMDVjMDBlOCBlYjkzYzgxMCBjMGYwZjM1YwpbICAgIDEuNTEw
-ODY1XSA3ZTIwOiBjMGYwZjM2MCAwMDAwMDAwMCAwMDAwMDAwMCBjMDViZGMwNCBjMGU3NmM4YyBl
-YjkzYzgxMCBjMGVhZjJhMCBlYjkzYzgxMApbICAgIDEuNTE5Mjc4XSA3ZTQwOiBjMGU3NmM4YyBj
-MGU3NmM4YyBjMGUwNTE0OCBmZmZmZTAwMCBjMGQ1YjgzNCAwMDAwMDBkOCBjMGVhZjJhMCBjMDVi
-ZTBiNApbICAgIDEuNTI3NjkyXSA3ZTYwOiBjMGEzOWQwMCBhMDAwMDAxMyBjMGVhZjJhMCBlYjkz
-YzgxMCAwMDAwMDAwMCBjMGU3NmM4YyBjMGUwNTE0OCBmZmZmZTAwMApbICAgIDEuNTM2MTA0XSA3
-ZTgwOiBjMGQ1YjgzNCBjMDViZTQ1MCAwMDAwMDAwMCBjMGU3NmM4YyBlYjkzYzgxMCBjMDViZTRm
-YyBlYjkzODBiNCBjMGU3NmM4YwpbICAgIDEuNTQ0NTE2XSA3ZWEwOiBjMDViZTQ1OCBjMDViYmMy
-NCBjMGVhZjJhMCBlYjhkZmI1OCBlYjkzODBiNCAwZmVlMmY1NiBjMGU3NmM4YyBjMGU3NmM4Ywpb
-ICAgIDEuNTUyOTI4XSA3ZWMwOiBlYTllNDI4MCBjMGU4NTMzOCAwMDAwMDAwMCBjMDViY2Y2OCBj
-MGI3YWE5OCBjMGUwNTE0OCBjMGQzNmIyMCBjMGU3NmM4YwpbICAgIDEuNTYxMzQzXSA3ZWUwOiBj
-MGUwNTE0OCBjMGQzNmIyMCAwMDAwMDAwMCBjMDViZjBhMCBjMGVhZjJhMCBjMGUwNTE0OCBjMGQz
-NmIyMCBjMDEwMmY4OApbICAgIDEuNTY5NzU3XSA3ZjAwOiBjMGM0ZTEwYyAwMDAwMDAwMCBlZmQ5
-YTgyZiBjMDE1YTkwMCAwMDAwMDAwMCBlYjhmN2YxNCBjMGQwMDRhOCAwMDAwMDAwNgpbICAgIDEu
-NTc4MTcxXSA3ZjIwOiAwMDAwMDAwNiBjMGJjMmU4OCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
-MCBlZmQ5YTgyNyAwMDAwMDAwMCAwZmVlMmY1NgpbICAgIDEuNTg2NTgzXSA3ZjQwOiBjMGVhZjJh
-MCBjMGQwMDRhOCAwMDAwMDAwNiAwZmVlMmY1NiBjMGQ3NzBlYyAwMDAwMDAwNyBjMGQ1Yjg1NCBj
-MGVjYTA4MApbICAgIDEuNTk0OTk3XSA3ZjYwOiBjMGVjYTA4MCBjMGQwMTIwOCAwMDAwMDAwNiAw
-MDAwMDAwNiAwMDAwMDAwMCBjMGQwMDRhOCBjMDkxNDVlMCAwMDAwMDAwMApbICAgIDEuNjAzNDEx
-XSA3ZjgwOiAwMDAwMDAwMCAwMDAwMDAwMCBjMDkxNDVlMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
-MDAwMCAwMDAwMDAwMCAwMDAwMDAwMApbICAgIDEuNjExODIzXSA3ZmEwOiAwMDAwMDAwMCBjMDkx
-NDVlOCAwMDAwMDAwMCBjMDEwMTBlOCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
-MApbICAgIDEuNjIwMjM3XSA3ZmMwOiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
-MCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMApbICAgIDEuNjI4NjUxXSA3ZmUw
-OiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAxMyAwMDAwMDAwMCAw
-MDAwMDAwMCAwMDAwMDAwMApbICAgIDEuNjM3MDc0XSBbPGMwNTU0MTE4Pl0gKGNsa19od19jcmVh
-dGVfY2xrLnBhcnQuMzMpIGZyb20gWzxjMDRmYjUxND5dIChzeXNjX25vdGlmaWVyX2NhbGwrMHg5
-OC8weDEzOCkKWyAgICAxLjY0NjY1Nl0gWzxjMDRmYjUxND5dIChzeXNjX25vdGlmaWVyX2NhbGwp
-IGZyb20gWzxjMDE1Y2VlOD5dIChub3RpZmllcl9jYWxsX2NoYWluKzB4MmMvMHhhMCkKWyAgICAx
-LjY1NTYxMl0gWzxjMDE1Y2VlOD5dIChub3RpZmllcl9jYWxsX2NoYWluKSBmcm9tIFs8YzAxNWQ2
-ODQ+XSAoYmxvY2tpbmdfbm90aWZpZXJfY2FsbF9jaGFpbisweDUwLzB4NjgpClsgICAgMS42NjU0
-NjFdIFs8YzAxNWQ2ODQ+XSAoYmxvY2tpbmdfbm90aWZpZXJfY2FsbF9jaGFpbikgZnJvbSBbPGMw
-NWI5N2U0Pl0gKGRldmljZV9hZGQrMHgzYmMvMHg2MjgpClsgICAgMS42NzQ2ODVdIFs8YzA1Yjk3
-ZTQ+XSAoZGV2aWNlX2FkZCkgZnJvbSBbPGMwNzhlZGIwPl0gKG9mX3BsYXRmb3JtX2RldmljZV9j
-cmVhdGVfcGRhdGErMHg5MC8weGJjKQpbICAgIDEuNjgzOTk3XSBbPGMwNzhlZGIwPl0gKG9mX3Bs
-YXRmb3JtX2RldmljZV9jcmVhdGVfcGRhdGEpIGZyb20gWzxjMDc4ZWY4OD5dIChvZl9wbGF0Zm9y
-bV9idXNfY3JlYXRlKzB4MWEwLzB4MzI4KQpbICAgIDEuNjk0NTU4XSBbPGMwNzhlZjg4Pl0gKG9m
-X3BsYXRmb3JtX2J1c19jcmVhdGUpIGZyb20gWzxjMDc4ZjJiOD5dIChvZl9wbGF0Zm9ybV9wb3B1
-bGF0ZSsweDdjLzB4MTA4KQpbICAgIDEuNzA0MDQ2XSBbPGMwNzhmMmI4Pl0gKG9mX3BsYXRmb3Jt
-X3BvcHVsYXRlKSBmcm9tIFs8YzA0ZmM5NjQ+XSAoc3lzY19wcm9iZSsweDlkYy8weGY5OCkKWyAg
-ICAxLjcxMjU1Ml0gWzxjMDRmYzk2ND5dIChzeXNjX3Byb2JlKSBmcm9tIFs8YzA1YzAwZTg+XSAo
-cGxhdGZvcm1fZHJ2X3Byb2JlKzB4NDgvMHg5OCkKWyAgICAxLjcyMDcwMF0gWzxjMDVjMDBlOD5d
-IChwbGF0Zm9ybV9kcnZfcHJvYmUpIGZyb20gWzxjMDViZGMwND5dIChyZWFsbHlfcHJvYmUrMHgx
-MDAvMHg0MGMpClsgICAgMS43MjkyMDVdIFs8YzA1YmRjMDQ+XSAocmVhbGx5X3Byb2JlKSBmcm9t
-IFs8YzA1YmUwYjQ+XSAoZHJpdmVyX3Byb2JlX2RldmljZSsweDZjLzB4MWI4KQpbICAgIDEuNzM3
-NzA5XSBbPGMwNWJlMGI0Pl0gKGRyaXZlcl9wcm9iZV9kZXZpY2UpIGZyb20gWzxjMDViZTQ1MD5d
-IChkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDU4LzB4NjApClsgICAgMS43NDY4MzZdIFs8YzA1YmU0
-NTA+XSAoZGV2aWNlX2RyaXZlcl9hdHRhY2gpIGZyb20gWzxjMDViZTRmYz5dIChfX2RyaXZlcl9h
-dHRhY2grMHhhNC8weDE0OCkKWyAgICAxLjc1NTcwMF0gWzxjMDViZTRmYz5dIChfX2RyaXZlcl9h
-dHRhY2gpIGZyb20gWzxjMDViYmMyND5dIChidXNfZm9yX2VhY2hfZGV2KzB4NzAvMHhiNCkKWyAg
-ICAxLjc2NDExNl0gWzxjMDViYmMyND5dIChidXNfZm9yX2VhY2hfZGV2KSBmcm9tIFs8YzA1YmNm
-Njg+XSAoYnVzX2FkZF9kcml2ZXIrMHgxYTgvMHgyMDApClsgICAgMS43NzI2MjBdIFs8YzA1YmNm
-Njg+XSAoYnVzX2FkZF9kcml2ZXIpIGZyb20gWzxjMDViZjBhMD5dIChkcml2ZXJfcmVnaXN0ZXIr
-MHg3NC8weDEwOCkKWyAgICAxLjc4MDk0OF0gWzxjMDViZjBhMD5dIChkcml2ZXJfcmVnaXN0ZXIp
-IGZyb20gWzxjMDEwMmY4OD5dIChkb19vbmVfaW5pdGNhbGwrMHg0OC8weDI5YykKWyAgICAxLjc4
-OTM2NV0gWzxjMDEwMmY4OD5dIChkb19vbmVfaW5pdGNhbGwpIGZyb20gWzxjMGQwMTIwOD5dIChr
-ZXJuZWxfaW5pdF9mcmVlYWJsZSsweDMwNC8weDNkOCkKWyAgICAxLjc5ODMxN10gWzxjMGQwMTIw
-OD5dIChrZXJuZWxfaW5pdF9mcmVlYWJsZSkgZnJvbSBbPGMwOTE0NWU4Pl0gKGtlcm5lbF9pbml0
-KzB4OC8weDExMCkKWyAgICAxLjgwNjczMl0gWzxjMDkxNDVlOD5dIChrZXJuZWxfaW5pdCkgZnJv
-bSBbPGMwMTAxMGU4Pl0gKHJldF9mcm9tX2ZvcmsrMHgxNC8weDJjKQpbICAgIDEuODE0NTE2XSBF
-eGNlcHRpb24gc3RhY2soMHhlYjhmN2ZiMCB0byAweGViOGY3ZmY4KQpbICAgIDEuODE5NzExXSA3
-ZmEwOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwMDAwMDAwMCAwMDAwMDAw
-MCAwMDAwMDAwMCAwMDAwMDAwMApbICAgIDEuODI4MTI0XSA3ZmMwOiAwMDAwMDAwMCAwMDAwMDAw
-MCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMApb
-ICAgIDEuODM2NTM1XSA3ZmUwOiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAw
-MDAwMDAxMyAwMDAwMDAwMApbICAgIDEuODQzMzQyXSBDb2RlOiAwMDAwMTBhYyBjMGI4NWI0OCBl
-OTJkNDA3MCBlMWEwNjAwMCAoZTU5MTUwMDApIApbICAgIDEuODQ5NjQ3XSAtLS1bIGVuZCB0cmFj
-ZSBkZGFiZDM3ZTdhYTNkOTA4IF0tLS0KWyAgICAxLjg1NDQzMF0gS2VybmVsIHBhbmljIC0gbm90
-IHN5bmNpbmc6IEF0dGVtcHRlZCB0byBraWxsIGluaXQhIGV4aXRjb2RlPTB4MDAwMDAwMGIKWyAg
-ICAxLjg2MjMxMV0gQ1BVMTogc3RvcHBpbmcKWyAgICAxLjg2NTA5OF0gQ1BVOiAxIFBJRDogMCBD
-b21tOiBzd2FwcGVyLzEgVGFpbnRlZDogRyAgICAgIEQgICAgICAgICAgIDUuMi4wLXJjMS0wMDAx
-Ni1nNDMwNjllNjhmMTYyLWRpcnR5ICM3ClsgICAgMS44NzUyMDhdIEhhcmR3YXJlIG5hbWU6IEdl
-bmVyaWMgRFJBNzRYIChGbGF0dGVuZWQgRGV2aWNlIFRyZWUpClsgICAgMS44ODE0ODddIFs8YzAx
-MTM5NGM+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBkYTdjPl0gKHNob3dfc3RhY2sr
-MHgxMC8weDE0KQpbICAgIDEuODg5NDYwXSBbPGMwMTBkYTdjPl0gKHNob3dfc3RhY2spIGZyb20g
-WzxjMDhmYzlmND5dIChkdW1wX3N0YWNrKzB4YTgvMHhjNCkKWyAgICAxLjg5Njg5NV0gWzxjMDhm
-YzlmND5dIChkdW1wX3N0YWNrKSBmcm9tIFs8YzAxMTE5ZDg+XSAoaGFuZGxlX0lQSSsweDNlYy8w
-eDQ1MCkKWyAgICAxLjkwNDUxMF0gWzxjMDExMTlkOD5dIChoYW5kbGVfSVBJKSBmcm9tIFs8YzA0
-ZjkyYjA+XSAoZ2ljX2hhbmRsZV9pcnErMHg5NC8weGE4KQpbICAgIDEuOTEyMzAyXSBbPGMwNGY5
-MmIwPl0gKGdpY19oYW5kbGVfaXJxKSBmcm9tIFs8YzAxMDFhYWM+XSAoX19pcnFfc3ZjKzB4NmMv
-MHhhOCkKWyAgICAxLjkxOTk5Nl0gRXhjZXB0aW9uIHN0YWNrKDB4ZWI5MTNmNjAgdG8gMHhlYjkx
-M2ZhOCkKWyAgICAxLjkyNTE5M10gM2Y2MDogMDAwMDA2YzAgMDAwMDAwMDAgZWZkOTBiZTAgYzAx
-MWU0ODAgZmZmZmUwMDAgYzBlMDUxNjggMDAwMDAwMDIgYzBlMDUxYWMKWyAgICAxLjkzMzYwOF0g
-M2Y4MDogMDAwMDAwMDAgYzBlMDUxNDggMDAwMDAwMDAgYzBlMDU1YjAgMDAwMDAwMDAgZWI5MTNm
-YjAgYzAxMGEyMGMgYzAxMGEyMTAKWyAgICAxLjk0MjAxN10gM2ZhMDogNjAwMDAwMTMgZmZmZmZm
-ZmYKWyAgICAxLjk0NTYwOV0gWzxjMDEwMWFhYz5dIChfX2lycV9zdmMpIGZyb20gWzxjMDEwYTIx
-MD5dIChhcmNoX2NwdV9pZGxlKzB4MzAvMHgzYykKWyAgICAxLjk1MzIyMl0gWzxjMDEwYTIxMD5d
-IChhcmNoX2NwdV9pZGxlKSBmcm9tIFs8YzAxNmNkZjA+XSAoZG9faWRsZSsweDFkOC8weDJhOCkK
-WyAgICAxLjk2MDgzNF0gWzxjMDE2Y2RmMD5dIChkb19pZGxlKSBmcm9tIFs8YzAxNmQxODQ+XSAo
-Y3B1X3N0YXJ0dXBfZW50cnkrMHgxOC8weDFjKQpbICAgIDEuOTY4NjIzXSBbPGMwMTZkMTg0Pl0g
-KGNwdV9zdGFydHVwX2VudHJ5KSBmcm9tIFs8ODAxMDI3MGM+XSAoMHg4MDEwMjcwYykKWyAgICAx
-Ljk3NTc5M10gLS0tWyBlbmQgS2VybmVsIHBhbmljIC0gbm90IHN5bmNpbmc6IEF0dGVtcHRlZCB0
-byBraWxsIGluaXQhIGV4aXRjb2RlPTB4MDAwMDAwMGIgXS0tLQoKIFRvbWkKCi0tIApUZXhhcyBJ
-bnN0cnVtZW50cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5raS4K
-WS10dW5udXMvQnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTogSGVs
-c2lua2kKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1832517455==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="o263536bpxeaqxlm"
+Content-Disposition: inline
+
+
+--o263536bpxeaqxlm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Laurent,
+
+On Sun, May 12, 2019 at 12:06:56AM +0300, Laurent Pinchart wrote:
+> Add a new optional renesas,companion property to point to the companion
+> LVDS encoder. This is used to support dual-link operation where the main
+> LVDS encoder splits even-numbered and odd-numbered pixels between the
+> two LVDS encoders.
+>
+> The new property doesn't control the mode of operation, it only
+> describes the relationship between the master and companion LVDS
+> encoders.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+>
+> - Fixed typo
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,lvds.txt     | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> index 900a884ad9f5..f2cc01d54cbd 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> @@ -45,6 +45,12 @@ OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+>
+>  Each port shall have a single endpoint.
+>
+> +Optional properties:
+> +
+> +- renesas,companion : phandle to the companion LVDS encoder. This property is
+> +  valid for the first LVDS encoder on D3 and E3 SoCs only, and points to the
+> +  second encoder to be used as a companion in dual-link mode.
+> +
+
+If I got this right, the property does not enable dual-link
+operations by itself, but it needs the next bridge to be operating in
+dual link mode (ie. has both LVDS0 and LVDS1 output connected to its
+input ports). Is it worth describing it here (or at least clarify the
+the property alone does not enable dual link operations).
+
+Apart from that
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+
+>
+>  Example:
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+
+--o263536bpxeaqxlm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlzs/08ACgkQcjQGjxah
+VjwbRg//Xq8IhU73P6ciYEg0LzEj7uZQhWGQW8t5c0/ccUU/Db+fzYvMxaW2UwFl
+wEv8PPxfmBUkObeu5hKRXFi1NoZuOx7fXYQFloMIzkDZTq/6cSfOqO1SHhg+n9QP
+Gms+aJ8bmU9epGw5jHt6PvUvAmO//X7VSgzocvIOG9YnWA15bBw3HkjiH9gsmUTl
+54/YaRKbdTEk9zgEvDvYkal+fz2l27P/askcy9yN35wKkIhxGWeQOTXt3RnoT289
+yP7gOUBnk9PB4bct2IOh3LwMQaH1OIqn5eIfbL/5FotnsGfiYNHu+mbFLcH+K67x
+RWlC++O/j6DjGtQ2k33068GaIfMcgDDhVwgUHGKxt0JNoovsdeUwq8Wy7HZjhrHs
+UzDSPIgtQ5zrq0hyNJYjQ7QbENwTUxplGWX5fd6QAz+A+YHMRCjZvS/kkzqKucb2
+hf3gIkWQDVSgYzxAp7pmZT5xKt61IbHpqhBdJVPduzifjGRLL20NbPXxGr5igWFC
+eHCeVvjohdj9mDAlTmFJ3/Yunbe8T6STHFRrtqEodDComF6XQZSc5nG8ejD6lKTi
+SfpQq+2HCjmN/M9Vfyrg0bfi/vmXDOihxY+4M0PX8Qe37B6iwvogX9cFDOC55Tqu
+eEGJAKW6y+jFDWI//qswELADsN7nqa0Ik5//ZQF2/Y7vgwn1S2s=
+=j2sp
+-----END PGP SIGNATURE-----
+
+--o263536bpxeaqxlm--
+
+--===============1832517455==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1832517455==--
