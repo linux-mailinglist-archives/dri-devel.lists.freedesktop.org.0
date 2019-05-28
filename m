@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 580692D16E
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 00:24:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C77FD2D17D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 00:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD0A89DA6;
-	Tue, 28 May 2019 22:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A596E027;
+	Tue, 28 May 2019 22:25:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0E31489DA6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 22:24:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9E9A06E027
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 22:25:17 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 04BF772167; Tue, 28 May 2019 22:24:28 +0000 (UTC)
+ id 9BBC472167; Tue, 28 May 2019 22:25:17 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110787] Glitches in console of the Julia language plugin for
  Atom (Juno)
-Date: Tue, 28 May 2019 22:24:29 +0000
+Date: Tue, 28 May 2019 22:25:17 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact attachments.created
-Message-ID: <bug-110787-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110787-502-HqL9UaAsUv@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110787-502@http.bugs.freedesktop.org/>
+References: <bug-110787-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0496490925=="
+Content-Type: multipart/mixed; boundary="===============0853383899=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0496490925==
-Content-Type: multipart/alternative; boundary="15590822680.80788d.18776"
+--===============0853383899==
+Content-Type: multipart/alternative; boundary="15590823171.e8a6915.18316"
 Content-Transfer-Encoding: 7bit
 
 
---15590822680.80788d.18776
-Date: Tue, 28 May 2019 22:24:28 +0000
+--15590823171.e8a6915.18316
+Date: Tue, 28 May 2019 22:25:17 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,55 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110787
 
-            Bug ID: 110787
-           Summary: Glitches in console of the Julia language plugin for
-                    Atom (Juno)
-           Product: Mesa
-           Version: 19.0
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: develop@manuel-voegele.de
-        QA Contact: dri-devel@lists.freedesktop.org
-
-Created attachment 144366
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144366&action=3Dedit
-A screenshot showing the graphical artifacts in the console
-
-Since Mesa 19.0.5 the REPL-Console in the Julia language plugin is unusable=
- and
-often shows artifacts. Mesa 19.0.4 seems not to be affectd by this.
-
-Steps to reproduce:
-1. Install the Atom and the Julia language plugin (Juno) according to this
-gude: http://docs.junolab.org/latest/man/installation/
-During the installation agree to open julia specific views by default.
-2. Open up atom. A console windows should appear on the bottom.
-3. Click around (switching between clicks in the console, in the editor and=
- in
-windows that don't belong to atom). This usually causes graphical glitches =
-to
-appear in the Julia console (REPL). If this doesn't happen try using the
-console - I am usually unable to use it since even if it doesn't get filled
-with artifacts it still won't render properly which makes it unusable.
-
-I've attached a screenshot of the broken console.
-
-I'm using Arch Linux with KDE Plasma as desktop environment.
-
-Unfortunately I'm unable to provide an apitrace since runnign atom with
-apitrace caused the bug to disappear.
+--- Comment #1 from Manuel V=C3=B6gele <develop@manuel-voegele.de> ---
+Created attachment 144367
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144367&action=3Dedit
+Output of glxinfo
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15590822680.80788d.18776
-Date: Tue, 28 May 2019 22:24:28 +0000
+--15590823171.e8a6915.18316
+Date: Tue, 28 May 2019 22:25:17 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -132,122 +94,30 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Glitches in console of the Julia language plugin for Atom=
  (Juno)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110787">110787</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Glitches in console of the Julia language plugin for Atom (Ju=
-no)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>19.0
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>develop&#64;manuel-voegele.de
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144366=
-" name=3D"attach_144366" title=3D"A screenshot showing the graphical artifa=
-cts in the console">attachment 144366</a> <a href=3D"attachment.cgi?id=3D14=
-4366&amp;action=3Dedit" title=3D"A screenshot showing the graphical artifac=
-ts in the console">[details]</a></span>
-A screenshot showing the graphical artifacts in the console
-
-Since Mesa 19.0.5 the REPL-Console in the Julia language plugin is unusable=
- and
-often shows artifacts. Mesa 19.0.4 seems not to be affectd by this.
-
-Steps to reproduce:
-1. Install the Atom and the Julia language plugin (Juno) according to this
-gude: <a href=3D"http://docs.junolab.org/latest/man/installation/">http://d=
-ocs.junolab.org/latest/man/installation/</a>
-During the installation agree to open julia specific views by default.
-2. Open up atom. A console windows should appear on the bottom.
-3. Click around (switching between clicks in the console, in the editor and=
- in
-windows that don't belong to atom). This usually causes graphical glitches =
-to
-appear in the Julia console (REPL). If this doesn't happen try using the
-console - I am usually unable to use it since even if it doesn't get filled
-with artifacts it still won't render properly which makes it unusable.
-
-I've attached a screenshot of the broken console.
-
-I'm using Arch Linux with KDE Plasma as desktop environment.
-
-Unfortunately I'm unable to provide an apitrace since runnign atom with
-apitrace caused the bug to disappear.</pre>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110787#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Glitches in console of the Julia language plugin for Atom=
+ (Juno)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110787">bug 11078=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+develop&#64;manuel-voegele.de" title=3D"Manuel V=C3=B6gele &lt;develop&#64;=
+manuel-voegele.de&gt;"> <span class=3D"fn">Manuel V=C3=B6gele</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144367=
+" name=3D"attach_144367" title=3D"Output of glxinfo">attachment 144367</a> =
+<a href=3D"attachment.cgi?id=3D144367&amp;action=3Dedit" title=3D"Output of=
+ glxinfo">[details]</a></span>
+Output of glxinfo</pre>
         </div>
       </p>
 
@@ -261,9 +131,9 @@ apitrace caused the bug to disappear.</pre>
     </body>
 </html>=
 
---15590822680.80788d.18776--
+--15590823171.e8a6915.18316--
 
---===============0496490925==
+--===============0853383899==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -273,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0496490925==--
+--===============0853383899==--
