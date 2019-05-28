@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D308E2C206
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 11:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E43EA2C208
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 11:03:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9E889DA3;
-	Tue, 28 May 2019 09:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E55D589CF4;
+	Tue, 28 May 2019 09:03:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C221D89D64
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:03:14 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id g13so835276edu.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 02:03:14 -0700 (PDT)
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34DD89D79
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:03:16 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id p27so30685641eda.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 02:03:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zV1k/wyKbSK4unVk9Zsa3jP6q9n4lvzRcxAhP6ZZB9c=;
- b=VIshAQOt0G0/huk+MnI41ZEIFQF+misgREvN3KaS9Nsa2Kb0XWiU5Hh2zrV2JE4qKI
- dCXPnM8DjrVKmKaBB3j07Vz2MpZKEU3DlYrzDFm2F6kpZAzOXlq4U8oHtDfdOWwakAii
- Ko6jEz4GIPmg9opl0HqR8Ev+n2uWueuckR4WJuFxol+NAsh+wKzxP3enQrMm5bVlcJVd
- MiQJHYtCY+YrAYZCnl/XvCDHpcP+W+tDpEHLXu5x6T+3u993sd9BVDQRrBgrT8Jzmijq
- 18gwod5b3M5XQjvU50mIqO27NWT3rGgTpDkmDbdyRKPPfGry82SVaz1RfdFdDvtPiquk
- vw0A==
-X-Gm-Message-State: APjAAAXVN/c9lHp/F7VjRLpU2R/bdrvd7iJDxtcmJOIMeSxW7HhyHYGq
- Vwcx2Nz/8ptKAD8+YplKjLY+Mw==
-X-Google-Smtp-Source: APXvYqzAGcPvnepTOvwWRDQxzLcJ/M058MuV1V355eV9v96p3PIpDSwE+P8RHoMQgcX7eCRUeENRAg==
-X-Received: by 2002:a50:8a46:: with SMTP id
- i64mr126930218edi.177.1559034193385; 
- Tue, 28 May 2019 02:03:13 -0700 (PDT)
+ bh=MkPaiys1FHkvX5Xasbg4uMlexzhS3Oo0c8bAmpggR9g=;
+ b=H5p2ineacuwLfnVbTOVDsBwgvbAUtR/tJb9LrtM+zfeIAGHPtSsNDvfotrpGPZNRzF
+ /udiWqkoC6AKyNJ8pme1r6uBHZRyM5gEc2buep815CZThJdIs2+2TbY3Kr4mU2a3215H
+ ksg5uXbHh+AwaYX/XRjRS32+I/uB8ZiRo/KpvGSPueYf9soHmuX/z0tYksSuhD6oPuZ+
+ WUlxFGuEcrnvXRM/WD0gM/oZ5aAdJR2+i7VNKdmbKSVT3AA4zYup7i13GWG98OWdoF7u
+ nLu6tac/ZK5Jlg57jxLHAWm+nv2MPR+ko/956/vviBLnrvs2oZTHicRfmK9E8APR5oSs
+ WO9A==
+X-Gm-Message-State: APjAAAUoS/nS53QOZSToBh3LvMuhFtqh0Fys2CNh8iuw3z14uiOSMbEG
+ FkECXjDUWHgwv2Z5t0iccs+dWA==
+X-Google-Smtp-Source: APXvYqxNUG3PIbLtvNeH5i4uB4mGfl/Vclh7rWNvv07X8NGzMdCrtTYqdpxbhNGmaVceS0uzEWD3gQ==
+X-Received: by 2002:a50:b7bc:: with SMTP id h57mr111959297ede.77.1559034194600; 
+ Tue, 28 May 2019 02:03:14 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id x49sm4072656edm.25.2019.05.28.02.03.11
+ by smtp.gmail.com with ESMTPSA id x49sm4072656edm.25.2019.05.28.02.03.13
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 May 2019 02:03:12 -0700 (PDT)
+ Tue, 28 May 2019 02:03:13 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 02/33] fbdev: locking check for fb_set_suspend
-Date: Tue, 28 May 2019 11:02:33 +0200
-Message-Id: <20190528090304.9388-3-daniel.vetter@ffwll.ch>
+Subject: [PATCH 03/33] vt: might_sleep() annotation for do_blank_screen
+Date: Tue, 28 May 2019 11:02:34 +0200
+Message-Id: <20190528090304.9388-4-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190528090304.9388-1-daniel.vetter@ffwll.ch>
 References: <20190528090304.9388-1-daniel.vetter@ffwll.ch>
@@ -49,10 +48,10 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zV1k/wyKbSK4unVk9Zsa3jP6q9n4lvzRcxAhP6ZZB9c=;
- b=Jr4diFnn4D12FEqGpJQ+RuXfm8du2nWF1rRHD4W7cIEGcbaXABy4y7PYtm1RWYCGsM
- 4VUgAtZNFYUQNW5orIhfjotHfmaMRBcdXOU7lv9qvqyzRqJa5qThyVjqHAx5MH9qVK6q
- lTOmQV05XsP0H1DMu730MHM4S7AOOkuX/FVNA=
+ bh=MkPaiys1FHkvX5Xasbg4uMlexzhS3Oo0c8bAmpggR9g=;
+ b=chjJHMWFVuPfhW3A7wneTkspRz2zd+mGVI0vCAF6liTiOmsE5RMJw1G5cMrRnyNngC
+ W2oQnkMN6UocrhEJ8dL6n810MNsuqxnBqMe8cuwYvDOWo8W60y/cNQRvGXu+RScDN24b
+ yIAQaBhqHR1mwDhUGgUGALBnoax8FwNCAT8Ho=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,43 +64,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Kees Cook <keescook@chromium.org>,
+Cc: Nicolas Pitre <nicolas.pitre@linaro.org>,
+ Adam Borowski <kilobyte@angband.pl>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Manfred Schlaegl <manfred.schlaegl@ginzinger.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  linux-fbdev@vger.kernel.org, DRI Development <dri-devel@lists.freedesktop.org>,
- =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
- Hans de Goede <hdegoede@redhat.com>, Mikulas Patocka <mpatocka@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Peter Rosin <peda@axentia.se>
+ Martin Hostettler <textshell@uchuujin.de>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SnVzdCBkcml2ZS1ieSwgbm90aGluZyBzeXN0ZW1hdGljIHlldC4KClNpZ25lZC1vZmYtYnk6IERh
-bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogU2FtIFJh
-dm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpSZXZpZXdlZC1ieTogTWFhcnRlbiBMYW5raG9yc3Qg
-PG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IEJhcnRsb21pZWogWm9sbmll
-cmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRh
-bmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiAiTWljaGHFgiBNaXJvc8WCYXciIDxtaXJxLWxpbnV4
-QHJlcmUucW1xbS5wbD4KQ2M6IFBldGVyIFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+CkNjOiBIYW5z
-IGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29tPgpDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+CkNjOiBNYW5mcmVkIFNjaGxhZWdsIDxtYW5mcmVkLnNjaGxhZWds
-QGdpbnppbmdlci5jb20+CkNjOiBNaWt1bGFzIFBhdG9ja2EgPG1wYXRvY2thQHJlZGhhdC5jb20+
-CkNjOiBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2NvcmUvZmJtZW0uYyB8IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
-KykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYyBiL2RyaXZl
-cnMvdmlkZW8vZmJkZXYvY29yZS9mYm1lbS5jCmluZGV4IGQxOTQ5YzkyYmU5OC4uOGJhNjc0ZmZi
-M2M5IDEwMDY0NAotLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYworKysgYi9k
-cml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYwpAQCAtMTk4NSw2ICsxOTg1LDggQEAgdm9p
-ZCBmYl9zZXRfc3VzcGVuZChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgaW50IHN0YXRlKQogewogCXN0
-cnVjdCBmYl9ldmVudCBldmVudDsKIAorCVdBUk5fQ09OU09MRV9VTkxPQ0tFRCgpOworCiAJZXZl
-bnQuaW5mbyA9IGluZm87CiAJaWYgKHN0YXRlKSB7CiAJCWZiX25vdGlmaWVyX2NhbGxfY2hhaW4o
-RkJfRVZFTlRfU1VTUEVORCwgJmV2ZW50KTsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Rm9yIHN5bW1ldHJ5IHJlYXNvbnMgd2l0aCBkb191bmJsYW5rX3NjcmVlbiwgZXhjZXB0IHdpdGhv
+dXQgdGhlCm9vcHNfaW5fcHJvZ3Jlc3Mgc3BlY2lhbCBjYXNlLgoKSnVzdCBhIGRyaXZlLWJ5IGFu
+bm90YXRpb24gd2hpbGUgSSdtIHRyeWluZyB0byB1bnRhbmdsZSB0aGUgZmJjb24gdnMuCmZiZGV2
+IHNjcmVlbiBibGFuay91bmJsYW5rIG1hemUuCgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2Ft
+QHJhdm5ib3JnLm9yZz4KQWNrZWQtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4
+Zm91bmRhdGlvbi5vcmc+ClJldmlld2VkLWJ5OiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5s
+YW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hA
+bGludXhmb3VuZGF0aW9uLm9yZz4KQ2M6IE5pY29sYXMgUGl0cmUgPG5pY29sYXMucGl0cmVAbGlu
+YXJvLm9yZz4KQ2M6IEFkYW0gQm9yb3dza2kgPGtpbG9ieXRlQGFuZ2JhbmQucGw+CkNjOiBNYXJ0
+aW4gSG9zdGV0dGxlciA8dGV4dHNoZWxsQHVjaHV1amluLmRlPgpDYzogRGFuaWVsIFZldHRlciA8
+ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KQ2M6IE1pa3VsYXMgUGF0b2NrYSA8bXBhdG9ja2FAcmVk
+aGF0LmNvbT4KLS0tCiBkcml2ZXJzL3R0eS92dC92dC5jIHwgMiArKwogMSBmaWxlIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdHR5L3Z0L3Z0LmMgYi9kcml2
+ZXJzL3R0eS92dC92dC5jCmluZGV4IGZkZDEyZjhjM2RlYi4uYmM5ODEzYjE0YzU4IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL3R0eS92dC92dC5jCisrKyBiL2RyaXZlcnMvdHR5L3Z0L3Z0LmMKQEAgLTQx
+NTksNiArNDE1OSw4IEBAIHZvaWQgZG9fYmxhbmtfc2NyZWVuKGludCBlbnRlcmluZ19nZngpCiAJ
+c3RydWN0IHZjX2RhdGEgKnZjID0gdmNfY29uc1tmZ19jb25zb2xlXS5kOwogCWludCBpOwogCisJ
+bWlnaHRfc2xlZXAoKTsKKwogCVdBUk5fQ09OU09MRV9VTkxPQ0tFRCgpOwogCiAJaWYgKGNvbnNv
+bGVfYmxhbmtlZCkgewotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
