@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C319C2C51F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 13:06:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A012C52D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 13:12:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0051289C14;
-	Tue, 28 May 2019 11:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2659E88EF0;
+	Tue, 28 May 2019 11:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id BF98889C9D
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 11:06:22 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BC7A172167; Tue, 28 May 2019 11:06:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102370] [CI] Failed assertion: eld_is_valid() in
- igt@kms_hdmi_inject@inject-audio
-Date: Tue, 28 May 2019 11:06:22 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jani.saarinen@intel.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: intel-gfx-bugs@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: assigned_to
-Message-ID: <bug-102370-502-vwYjIyXk06@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102370-502@http.bugs.freedesktop.org/>
-References: <bug-102370-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57D7488EF0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 11:12:01 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4SBBrF8071878;
+ Tue, 28 May 2019 06:11:53 -0500
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4SBBr2P112080
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 28 May 2019 06:11:53 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 28
+ May 2019 06:11:52 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 28 May 2019 06:11:52 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4SBBoLo088964;
+ Tue, 28 May 2019 06:11:50 -0500
+Subject: Re: [PATCH] drm/omap: Migrate minimum FCK/PCK ratio from Kconfig to
+ dts
+To: Adam Ford <aford173@gmail.com>, <linux-omap@vger.kernel.org>
+References: <20190510194229.20628-1-aford173@gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <af325707-3e42-493d-e858-77878ef06138@ti.com>
+Date: Tue, 28 May 2019 14:11:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190510194229.20628-1-aford173@gmail.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1559041913;
+ bh=XbgikyC9otiR4YuTt/uxocCuXVecKc1fGa0PD78NL7o=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=VPQcS2VMgEKOda7JpQv+0emh77HzV9Whuj3flfgsA+DAQrZa01jON9U3tCmf2khOg
+ fuw5K1DoHnhNWdOzur4PZNOJX0q0cdLT/bK5zsw6KnctJ5aFcCtwqMPk6Qb1AC39zI
+ lI9LCTS6Hi/6C3uZNTUIZsvumuuOlaTDghM/tqgQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +62,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1260635455=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tony Lindgren <tony@atomide.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>, adam.ford@logicpd.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1260635455==
-Content-Type: multipart/alternative; boundary="15590415825.D506Db1.8292"
-Content-Transfer-Encoding: 7bit
-
-
---15590415825.D506Db1.8292
-Date: Tue, 28 May 2019 11:06:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102370
-
-Jani Saarinen <jani.saarinen@intel.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Assignee|dri-devel@lists.freedesktop |intel-gfx-bugs@lists.freede
-                   |.org                        |sktop.org
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15590415825.D506Db1.8292
-Date: Tue, 28 May 2019 11:06:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:jani.saar=
-inen&#64;intel.com" title=3D"Jani Saarinen &lt;jani.saarinen&#64;intel.com&=
-gt;"> <span class=3D"fn">Jani Saarinen</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [CI] Failed assertion: eld_is_valid() in igt&#64;kms=
-_hdmi_inject&#64;inject-audio"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102370">bug 10237=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Assignee</td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15590415825.D506Db1.8292--
-
---===============1260635455==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1260635455==--
+SGksCgpPbiAxMC8wNS8yMDE5IDIyOjQyLCBBZGFtIEZvcmQgd3JvdGU6Cj4gQ3VycmVudGx5IHRo
+ZSBzb3VyY2UgY29kZSBpcyBjb21waWxlZCB1c2luZyBoYXJkLWNvZGVkIHZhbHVlcwo+IGZyb20g
+Q09ORklHX09NQVAyX0RTU19NSU5fRkNLX1BFUl9QQ0suICBUaGlzIHBhdGNoIGFsbG93cyB0aGlz
+Cj4gY2xvY2sgZGl2aWRlciB2YWx1ZSB0byBiZSBtb3ZlZCB0byB0aGUgZGV2aWNlIHRyZWUgYW5k
+IGJlIGNoYW5nZWQKPiB3aXRob3V0IGhhdmluZyB0byByZWNvbXBpbGUgdGhlIGtlcm5lbC4KPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBBZGFtIEZvcmQgPGFmb3JkMTczQGdtYWlsLmNvbT4KCkkgdW5kZXJz
+dGFuZCB3aHkgeW91IHdhbnQgdG8gZG8gdGhpcywgYnV0IEknbSBub3Qgc3VyZSBpdCdzIGEgZ29v
+ZCBpZGVhLiAKSXQncyByZWFsbHkgc29tZXRoaW5nIHRoZSBkcml2ZXIgc2hvdWxkIGZpZ3VyZSBv
+dXQsIGFuZCBpZiB3ZSBhZGQgaXQgdG8gCnRoZSBEVCwgaXQgZWZmZWN0aXZlbHkgYmVjb21lcyBh
+biBBQkkuCgpUaGF0IHNhaWQuLi4gSSdtIG5vdCBzdXJlIGhvdyBnb29kIG9mIGEgam9iIHRoZSBk
+cml2ZXIgY291bGQgZXZlciBkbywgYXMgCml0IGNhbid0IGtub3cgdGhlIGZ1dHVyZSBzY2FsaW5n
+IG5lZWRzIG9mIHRoZSB1c2Vyc3BhY2UgYXQgdGhlIHRpbWUgaXQgCmlzIGNvbmZpZ3VyaW5nIHRo
+ZSBjbG9jay4gQW5kIHNvLCBJJ20gbm90IG5hY2tpbmcgdGhpcyBwYXRjaCwgYnV0IEkgCmRvbid0
+IGZlZWwgdmVyeSBnb29kIGFib3V0IHRoaXMgcGF0Y2guLi4KClRoZSBzZXR0aW5nIGFsc28gYWZm
+ZWN0cyBhbGwgb3V0cHV0cyAoZXhsdWRpbmcgdmVuYyksIHdoaWNoIG1heSBub3QgYmUgCndoYXQg
+dGhlIHVzZXIgd2FudHMuIFRoZW4gYWdhaW4sIEkgdGhpbmsgdGhpcyBzZXR0aW5nIGlzIHJlYWxs
+eSBvbmx5IApuZWVkZWQgb24gT01BUDIgJiAzLCB3aGljaCBoYXZlIG9ubHkgYSBzaW5nbGUgb3V0
+cHV0LiBCdXQgdGhhdCdzIHRoZSAKc2FtZSB3aXRoIHRoZSBjdXJyZW50IGtjb25maWcgb3B0aW9u
+LCBvZiBjb3Vyc2UuCgpTbywgdGhlIGN1cnJlbnQgQ09ORklHX09NQVAyX0RTU19NSU5fRkNLX1BF
+Ul9QQ0sgaXMgYW4gdWdseSBoYWNrLCBpbiBteSAKb3BpbmlvbiwgYW5kIG1vdmluZyBpdCB0byBE
+VCBtYWtlcyBpdCBhIHdvcnNlIGhhY2sgPSkuIEJ1dCBJIGRvbid0IGhhdmUgCmFueSBnb29kIHN1
+Z2dlc3Rpb25zIGVpdGhlci4KCiAgVG9taQoKLS0gClRleGFzIEluc3RydW1lbnRzIEZpbmxhbmQg
+T3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgpZLXR1bm51cy9CdXNpbmVzcyBJ
+RDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWljaWxlOiBIZWxzaW5raQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
