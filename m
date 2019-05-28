@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB952C4CA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 12:50:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A84AE2C4CE
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 12:51:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E652789B55;
-	Tue, 28 May 2019 10:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 798EF89D6C;
+	Tue, 28 May 2019 10:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB5989B55
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 10:50:12 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4SAo9M5071145;
- Tue, 28 May 2019 05:50:09 -0500
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4SAo9XG043109
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 May 2019 05:50:09 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 28
- May 2019 05:50:09 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 28 May 2019 05:50:09 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4SAo5Pl127389;
- Tue, 28 May 2019 05:50:06 -0500
-Subject: Re: [PATCH] drm/omap: Make sure device_id tables are NULL terminated
-To: Thomas Meyer <thomas@m3y3r.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <1558989631144-20791398-0-diffsplit-thomas@m3y3r.de>
- <1558989631162-1860150863-1-diffsplit-thomas@m3y3r.de>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <7bb26068-36fe-33d2-b374-079cdedab76d@ti.com>
-Date: Tue, 28 May 2019 13:50:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DA80489C5E
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 10:51:48 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D6EBB72167; Tue, 28 May 2019 10:51:48 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 102370] [CI] Failed assertion: eld_is_valid() in
+ igt@kms_hdmi_inject@inject-audio
+Date: Tue, 28 May 2019 10:51:49 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jani.saarinen@intel.com
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: component assigned_to qa_contact
+Message-ID: <bug-102370-502-Dql2vHClsa@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102370-502@http.bugs.freedesktop.org/>
+References: <bug-102370-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <1558989631162-1860150863-1-diffsplit-thomas@m3y3r.de>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1559040609;
- bh=3KI4TZCi5svmvrs/+WfaxacZZlvuTjo1DGtT0rt3dWA=;
- h=Subject:To:References:From:Date:In-Reply-To;
- b=jKZXaT5vjwf3nk0m/96lzgkrJiflhp3wRwspDaqU2XvZVmj+06hjp/D/7qSOxA4fh
- Sr/q/h5y1kp62fONWkVhpP0HakggdKA5c7ztnHyAg9UV1BJ4opX9qMvGya2Xtv1Nt3
- 1O38sDyVizyeYv7Q5gxjnv+cYJic/w/03BzKfr4w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,26 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1068578389=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjcvMDUvMjAxOSAyMzo0MSwgVGhvbWFzIE1leWVyIHdyb3RlOgo+IE1ha2Ugc3VyZSAob2Yv
-aTJjL3BsYXRmb3JtKV9kZXZpY2VfaWQgdGFibGVzIGFyZSBOVUxMIHRlcm1pbmF0ZWQuCj4gCj4g
-U2lnbmVkLW9mZi1ieTogVGhvbWFzIE1leWVyIDx0aG9tYXNAbTN5M3IuZGU+Cj4gLS0tCj4gCj4g
-ZGlmZiAtdSAtcCBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9vbWFwZHNzLWJvb3QtaW5p
-dC5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL29tYXBkc3MtYm9vdC1pbml0LmMKPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3Mvb21hcGRzcy1ib290LWluaXQuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9vbWFwZHNzLWJvb3QtaW5pdC5jCj4gQEAg
-LTE5OCw2ICsxOTgsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBvbWFwZHNz
-Cj4gICAJeyAuY29tcGF0aWJsZSA9ICJ0b3Bwb2x5LHRkMDI4dHRlYzEiIH0sCj4gICAJeyAuY29t
-cGF0aWJsZSA9ICJ0cG8sdGQwMjh0dGVjMSIgfSwKPiAgIAl7IC5jb21wYXRpYmxlID0gInRwbyx0
-ZDA0M210ZWExIiB9LAo+ICsJe30sCj4gICB9Owo+ICAgCj4gICBzdGF0aWMgaW50IF9faW5pdCBv
-bWFwZHNzX2Jvb3RfaW5pdCh2b2lkKQo+IAoKVGhhbmtzISBJJ3ZlIHBpY2tlZCB0aGlzIHVwLgoK
-ICBUb21pCgotLSAKVGV4YXMgSW5zdHJ1bWVudHMgRmlubGFuZCBPeSwgUG9ya2thbGFua2F0dSAy
-MiwgMDAxODAgSGVsc2lua2kuClktdHVubnVzL0J1c2luZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlw
-YWlra2EvRG9taWNpbGU6IEhlbHNpbmtpCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============1068578389==
+Content-Type: multipart/alternative; boundary="15590407081.ca25C7f.1528"
+Content-Transfer-Encoding: 7bit
+
+
+--15590407081.ca25C7f.1528
+Date: Tue, 28 May 2019 10:51:48 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102370
+
+Jani Saarinen <jani.saarinen@intel.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|DRM/Intel                   |IGT
+           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
+                   |sktop.org                   |.org
+         QA Contact|intel-gfx-bugs@lists.freede |
+                   |sktop.org                   |
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15590407081.ca25C7f.1528
+Date: Tue, 28 May 2019 10:51:48 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:jani.saar=
+inen&#64;intel.com" title=3D"Jani Saarinen &lt;jani.saarinen&#64;intel.com&=
+gt;"> <span class=3D"fn">Jani Saarinen</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [CI] Failed assertion: eld_is_valid() in igt&#64;kms=
+_hdmi_inject&#64;inject-audio"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102370">bug 10237=
+0</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/Intel
+           </td>
+           <td>IGT
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>intel-gfx-bugs&#64;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15590407081.ca25C7f.1528--
+
+--===============1068578389==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1068578389==--
