@@ -1,61 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E6A2DB9F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:20:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580692D16E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 00:24:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75A9F6E2E1;
-	Wed, 29 May 2019 11:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD0A89DA6;
+	Tue, 28 May 2019 22:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-it1-x143.google.com (mail-it1-x143.google.com
- [IPv6:2607:f8b0:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8F2F89CD3;
- Tue, 28 May 2019 21:21:37 +0000 (UTC)
-Received: by mail-it1-x143.google.com with SMTP id s16so168579ita.2;
- Tue, 28 May 2019 14:21:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=E8v5+EuR+OzevO5VrvC8NUWHNNFoEIwMFK6SXtiaiMY=;
- b=dTu9VLdzHjRZ/qyyBZ8doWW0bdOOj64GkcLKyS3RGuQVMf/Lj27N86QyJyN4hDsNqu
- HiKklVnbz6DNiW7IPerrHsbWPvyucbGvYNY4PPiQBgRvmN92+YynlGQQFtuaO3xuNEnG
- BIFTfnoVKf+gpvqjsMu/JAOxEBCMPvqMP4UzM6u1+Pv5tuocjSegH1dq2gzVgFLur/hD
- 5+nGNLK2NxbBlQNNTje+t2czWrISqqnxZAgGljsMLt/ZC85EkCa0e4aYi7fb4tILk9j/
- gkatT79VENQ+iXALPEtB1U7T+HC5dbLw6VvkysLmBiWbnR/Qxg0RH/K0idJ1+5lY1gXE
- I+Hg==
-X-Gm-Message-State: APjAAAX4q3JwXBzOgkUB5F/x1AMAU+UhuEQBrEtqu6SDF6nnPz5nU6nH
- 5DOwhJqUrPx96qbBsUWDep5Db+aSEReIqUXCrmc=
-X-Google-Smtp-Source: APXvYqyTFeOz8KR+0J5TzMWqQm6LzkFqSlwbxdr8qH0IIqiq+Lli6gbwKbMmT/8nTWunJpLfQ2UOow/5F2mngvy3PMo=
-X-Received: by 2002:a24:6c4a:: with SMTP id w71mr5021130itb.128.1559078497108; 
- Tue, 28 May 2019 14:21:37 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0E31489DA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 22:24:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 04BF772167; Tue, 28 May 2019 22:24:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110787] Glitches in console of the Julia language plugin for
+ Atom (Juno)
+Date: Tue, 28 May 2019 22:24:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: develop@manuel-voegele.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-110787-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190528170612.39003-1-jeffrey.l.hugo@gmail.com>
- <20190528204505.GC23227@jcrouse1-lnx.qualcomm.com>
-In-Reply-To: <20190528204505.GC23227@jcrouse1-lnx.qualcomm.com>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Tue, 28 May 2019 15:21:27 -0600
-Message-ID: <CAOCk7NoUZXZSr6szZ4ObOrqE00pkbuCi1BFu9EZHsxpAa-iwmw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/adreno: Add A540 support
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, robdclark@gmail.com,
- sean@poorly.run, airlied@linux.ie, Daniel Vetter <daniel@ffwll.ch>,
- Marc Gonzalez <marc.w.gonzalez@free.fr>, 
- Bjorn Andersson <bjorn.andersson@linaro.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- lkml <linux-kernel@vger.kernel.org>
-X-Mailman-Approved-At: Wed, 29 May 2019 11:20:23 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=E8v5+EuR+OzevO5VrvC8NUWHNNFoEIwMFK6SXtiaiMY=;
- b=Sa504xvoFQu7A54OfDsba6Rl99JPwAQZmry2bf6Lt/bJMMms/uUiIP5TMTDIPlbos0
- 1RhtdLJqVO4hDZ4/9QCVwu0hn7/zNQft1XPqKQ9ja8E9sShz/NaMQqvYdcgVFMcdrn1e
- dOKY5tQQtsw7fMMf08sU4BR0rOv6KX74H3Bh8d7FU2saTbK4GbiRZuUR3KNXYhbPLRYl
- IQ8wbMDhIWddnTPd4Z3ITqZs0t+iO4XfOOfoPuwuWpgdFcJL86QUotDEiPc4TjxSLB6J
- 9f671MtuDvkGGq3E6a/LshgWmxOGjtAj1cgX0BbadmZDQ6bD1lCdvIO1x0w/vsgM6XIi
- dzNg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,131 +53,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0496490925=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBNYXkgMjgsIDIwMTkgYXQgMjo0NSBQTSBKb3JkYW4gQ3JvdXNlIDxqY3JvdXNlQGNv
-ZGVhdXJvcmEub3JnPiB3cm90ZToKPgo+IE9uIFR1ZSwgTWF5IDI4LCAyMDE5IGF0IDEwOjA2OjEy
-QU0gLTA3MDAsIEplZmZyZXkgSHVnbyB3cm90ZToKPiA+IFRoZSBBNTQwIGlzIGEgZGVyaXZhdGl2
-ZSBvZiB0aGUgQTUzMCwgYW5kIGlzIGZvdW5kIGluIHRoZSBNU004OTk4IFNvQy4KPiA+Cj4gPiBT
-aWduZWQtb2ZmLWJ5OiBKZWZmcmV5IEh1Z28gPGplZmZyZXkubC5odWdvQGdtYWlsLmNvbT4KPiA+
-IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1eHhfZ3B1LmMgICAgICB8IDIy
-ICsrKysrKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNXh4X3Bvd2VyLmMgICAg
-fCA3NiArKysrKysrKysrKysrKysrKysrKystCj4gPiAgZHJpdmVycy9ncHUvZHJtL21zbS9hZHJl
-bm8vYWRyZW5vX2RldmljZS5jIHwgMTggKysrKysKPiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL2Fk
-cmVuby9hZHJlbm9fZ3B1LmggICAgfCAgNiArKwo+ID4gIDQgZmlsZXMgY2hhbmdlZCwgMTE5IGlu
-c2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4KPiBUaGlzIGlzIGF3ZXNvbWUuICBJJ20gZ2xh
-ZCB3ZSBjYW4gZmluYWxseSBjaGVjayB0aGlzIG9mZiB0aGUgbGlzdC4KClRoYW5rcyBmb3IgdGhl
-IHF1aWNrIHJldmlldy4KCj4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Fk
-cmVuby9hNXh4X2dwdS5jIGIvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTV4eF9ncHUuYwo+
-ID4gaW5kZXggZTVmY2VmYTQ5ZjE5Li43Y2E4ZmRlMjJmZDggMTAwNjQ0Cj4gPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNXh4X2dwdS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vbXNtL2FkcmVuby9hNXh4X2dwdS5jCj4gPiBAQCAtMzE4LDEyICszMTgsMTkgQEAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCB7Cj4gPgo+ID4gIHZvaWQgYTV4eF9zZXRfaHdjZyhzdHJ1Y3QgbXNtX2dw
-dSAqZ3B1LCBib29sIHN0YXRlKQo+ID4gIHsKPiA+ICsgICAgIHN0cnVjdCBhZHJlbm9fZ3B1ICph
-ZHJlbm9fZ3B1ID0gdG9fYWRyZW5vX2dwdShncHUpOwo+ID4gICAgICAgdW5zaWduZWQgaW50IGk7
-Cj4gPgo+ID4gICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoYTV4eF9od2NnKTsgaSsr
-KQo+ID4gICAgICAgICAgICAgICBncHVfd3JpdGUoZ3B1LCBhNXh4X2h3Y2dbaV0ub2Zmc2V0LAo+
-ID4gICAgICAgICAgICAgICAgICAgICAgIHN0YXRlID8gYTV4eF9od2NnW2ldLnZhbHVlIDogMCk7
-Cj4gPgo+ID4gKyAgICAgaWYgKGFkcmVub19pc19hNTQwKGFkcmVub19ncHUpKSB7Cj4gPiArICAg
-ICAgICAgICAgIGdwdV93cml0ZShncHUsIFJFR19BNVhYX1JCQk1fQ0xPQ0tfSFlTVF9HUE1VLCAw
-eDAwMDAwMjIyKTsKPgo+IEkgZG9uJ3QgdGhpbmsgdGhpcyBvbmUgaXMgbmVlZGVkIC0gd2UgY2Fu
-IGp1c3QgZ28gd2l0aCB0aGUgb25lIHR3byBsaW5lcyBiZWxvdy4KCkknbGwgdHJ5IHdpdGhvdXQg
-aXQsIGFuZCBzZWUuCgo+Cj4gPiArICAgICAgICAgICAgIGdwdV93cml0ZShncHUsIFJFR19BNVhY
-X1JCQk1fQ0xPQ0tfREVMQVlfR1BNVSwgMHgwMDAwMDc3MCk7Cj4gPiArICAgICAgICAgICAgIGdw
-dV93cml0ZShncHUsIFJFR19BNVhYX1JCQk1fQ0xPQ0tfSFlTVF9HUE1VLCAweDAwMDAwMDA0KTsK
-Pgo+IEJvdGggb2YgdGhlc2UgbmVlZCB0aGUgc3RhdGUgPyA8dmFsdWU+IDogMHgwIGhhY2sgdG8g
-dHVybiBvZmYgSFdDRyBpZiByZXF1ZXN0ZWQKCkkgc2VlLiAgV2lsbCBkby4KCj4KPiA+ICsgICAg
-IH0KPiA+ICsKPiA+ICAgICAgIGdwdV93cml0ZShncHUsIFJFR19BNVhYX1JCQk1fQ0xPQ0tfQ05U
-TCwgc3RhdGUgPyAweEFBQThBQTAwIDogMCk7Cj4gPiAgICAgICBncHVfd3JpdGUoZ3B1LCBSRUdf
-QTVYWF9SQkJNX0lTREJfQ05ULCBzdGF0ZSA/IDB4MTgyIDogMHgxODApOwo+ID4gIH0KPiA+IEBA
-IC01MDcsNiArNTE0LDkgQEAgc3RhdGljIGludCBhNXh4X2h3X2luaXQoc3RydWN0IG1zbV9ncHUg
-KmdwdSkKPiA+Cj4gPiAgICAgICBncHVfd3JpdGUoZ3B1LCBSRUdfQTVYWF9WQklGX1JPVU5EX1JP
-QklOX1FPU19BUkIsIDB4MDAwMDAwMDMpOwo+ID4KPiA+ICsgICAgIGlmIChhZHJlbm9faXNfYTU0
-MChhZHJlbm9fZ3B1KSkKPiA+ICsgICAgICAgICAgICAgZ3B1X3dyaXRlKGdwdSwgUkVHX0E1WFhf
-VkJJRl9HQVRFX09GRl9XUlJFUV9FTiwgMHgwMDAwMDAwOSk7Cj4gPiArCj4gPiAgICAgICAvKiBN
-YWtlIGFsbCBibG9ja3MgY29udHJpYnV0ZSB0byB0aGUgR1BVIEJVU1kgcGVyZiBjb3VudGVyICov
-Cj4gPiAgICAgICBncHVfd3JpdGUoZ3B1LCBSRUdfQTVYWF9SQkJNX1BFUkZDVFJfR1BVX0JVU1lf
-TUFTS0VELCAweEZGRkZGRkZGKTsKPiA+Cj4gPiBAQCAtNTkyLDYgKzYwMiw4IEBAIHN0YXRpYyBp
-bnQgYTV4eF9od19pbml0KHN0cnVjdCBtc21fZ3B1ICpncHUpCj4gPiAgICAgICAvKiBTZXQgdGhl
-IGhpZ2hlc3QgYmFuayBiaXQgKi8KPiA+ICAgICAgIGdwdV93cml0ZShncHUsIFJFR19BNVhYX1RQ
-TDFfTU9ERV9DTlRMLCAyIDw8IDcpOwo+ID4gICAgICAgZ3B1X3dyaXRlKGdwdSwgUkVHX0E1WFhf
-UkJfTU9ERV9DTlRMLCAyIDw8IDEpOwo+ID4gKyAgICAgaWYgKGFkcmVub19pc19hNTQwKGFkcmVu
-b19ncHUpKQo+ID4gKyAgICAgICAgICAgICBncHVfd3JpdGUoZ3B1LCBSRUdfQTVYWF9VQ0hFX0RC
-R19FQ09fQ05UTF8yLCAyKTsKPiA+Cj4gPiAgICAgICAvKiBQcm90ZWN0IHJlZ2lzdGVycyBmcm9t
-IHRoZSBDUCAqLwo+ID4gICAgICAgZ3B1X3dyaXRlKGdwdSwgUkVHX0E1WFhfQ1BfUFJPVEVDVF9D
-TlRMLCAweDAwMDAwMDA3KTsKPiA+IEBAIC02NDIsNiArNjU0LDE2IEBAIHN0YXRpYyBpbnQgYTV4
-eF9od19pbml0KHN0cnVjdCBtc21fZ3B1ICpncHUpCj4gPiAgICAgICAgICAgICAgIFJFR19BNVhY
-X1JCQk1fU0VDVklEX1RTQl9UUlVTVEVEX0JBU0VfSEksIDB4MDAwMDAwMDApOwo+ID4gICAgICAg
-Z3B1X3dyaXRlKGdwdSwgUkVHX0E1WFhfUkJCTV9TRUNWSURfVFNCX1RSVVNURURfU0laRSwgMHgw
-MDAwMDAwMCk7Cj4gPgo+ID4gKyAgICAgLyoKPiA+ICsgICAgICAqIFZQQyBjb3JuZXIgY2FzZSB3
-aXRoIGxvY2FsIG1lbW9yeSBsb2FkIGtpbGwgbGVhZHMgdG8gY29ycnVwdAo+ID4gKyAgICAgICog
-aW50ZXJuYWwgc3RhdGUuIE5vcm1hbCBEaXNhYmxlIGRvZXMgbm90IHdvcmsgZm9yIGFsbCBhNXgg
-Y2hpcHMuCj4gPiArICAgICAgKiBTbyBkbyB0aGUgZm9sbG93aW5nIHNldHRpbmcgdG8gZGlzYWJs
-ZSBpdC4KPiA+ICsgICAgICAqLwo+ID4gKyAgICAgaWYgKGFkcmVub19ncHUtPmluZm8tPnF1aXJr
-cyAmIEFEUkVOT19RVUlSS19MTUxPQURLSUxMX0RJU0FCTEUpIHsKPgo+IFRoaXMgaXMgYTV4eCBv
-bmx5IHF1aXJrIGJ1dCBpdCBhcHBsaWVzIHRvIG11bHRpcGxlIDV4eCB0YXJnZXRzIHNvIEkgdGhp
-bmsgaXRzCj4gcmVhc29uYWJsZSB0byBpZGVudGlmeSBpdCBhcyBhIHF1aXJrIGFuZCB1c2UgaXQg
-YXMgc3VjaCB0byBtYWtlIGl0IGVhc2llciBvbgo+IGZ1dHVyZSBjb2RlIHBvcnRlcnMuCj4KPiA+
-ICsgICAgICAgICAgICAgZ3B1X3JtdyhncHUsIFJFR19BNVhYX1ZQQ19EQkdfRUNPX0NOVEwsIDAs
-IEJJVCgyMykpOwo+ID4gKyAgICAgICAgICAgICBncHVfcm13KGdwdSwgMHhFMDQsIEJJVCgxOCks
-IDApOyAvKlJFR19BNVhYX0hMU1FfREJHX0VDT19DTlRMKi8KPgo+IFlvdSBzaG91bGQgZGVmaW5l
-IGFuZCB1c2UgUkVHX0E1WFhfSExTUV9EQkdfRUNPX0NOVEwgc3ltYm9saWNhbGx5LiBXZSBjYW4g
-aGVscAo+IHlvdSBkbyB0aGUgZW52eXRvb2xzIGRhbmNlIGlmIHlvdSBuZWVkLgoKVGhhbmtzIGZv
-ciB0aGUgb2ZmbGluZSBleHBsYW5hdGlvbi4gIFdpbGwgZG8KCj4KPiA+ICsgICAgIH0KPiA+ICsK
-PiA+ICAgICAgIHJldCA9IGFkcmVub19od19pbml0KGdwdSk7Cj4gPiAgICAgICBpZiAocmV0KQo+
-ID4gICAgICAgICAgICAgICByZXR1cm4gcmV0Owo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9tc20vYWRyZW5vL2E1eHhfcG93ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5v
-L2E1eHhfcG93ZXIuYwo+ID4gaW5kZXggNzBlNjVjOTRlNTI1Li41Y2IzMjVjNmViOGYgMTAwNjQ0
-Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNXh4X3Bvd2VyLmMKPiA+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1eHhfcG93ZXIuYwo+ID4gQEAgLTMyLDYg
-KzMyLDE4IEBACj4gPiAgI2RlZmluZSBBR0NfUE9XRVJfQ09ORklHX1BST0RVQ1RJT05fSUQgMQo+
-ID4gICNkZWZpbmUgQUdDX0lOSVRfTVNHX1ZBTFVFIDB4QkFCRUZBQ0UKPiA+Cj4gPiArLyogQUdD
-X0xNX0NPTkZJRyAoQTU0MCspICovCj4gPiArI2RlZmluZSBBR0NfTE1fQ09ORklHICgxMzYvNCkK
-PiA+ICsjZGVmaW5lIEFHQ19MTV9DT05GSUdfR1BVX1ZFUlNJT05fU0hJRlQgMTcKPiA+ICsjZGVm
-aW5lIEFHQ19MTV9DT05GSUdfRU5BQkxFX0dQTVVfQURBUFRJVkUgMQo+ID4gKyNkZWZpbmUgQUdD
-X0xNX0NPTkZJR19USFJPVFRMRV9ESVNBQkxFICgyIDw8IDgpCj4gPiArI2RlZmluZSBBR0NfTE1f
-Q09ORklHX0lTRU5TRV9FTkFCTEUgKDEgPDwgNCkKPiA+ICsjZGVmaW5lIEFHQ19MTV9DT05GSUdf
-RU5BQkxFX0VSUk9SICgzIDw8IDQpCj4gPiArI2RlZmluZSBBR0NfTE1fQ09ORklHX0xMTV9FTkFC
-TEVEICgxIDw8IDE2KQo+ID4gKyNkZWZpbmUgQUdDX0xNX0NPTkZJR19CQ0xfRElTQUJMRUQgKDEg
-PDwgMjQpCj4gPiArCj4gPiArI2RlZmluZSBBR0NfTEVWRUxfQ09ORklHICgxNDAvNCkKPiA+ICsK
-PiA+ICBzdGF0aWMgc3RydWN0IHsKPiA+ICAgICAgIHVpbnQzMl90IHJlZzsKPiA+ICAgICAgIHVp
-bnQzMl90IHZhbHVlOwo+ID4gQEAgLTExNiw3ICsxMjgsNyBAQCBzdGF0aWMgaW5saW5lIHVpbnQz
-Ml90IF9nZXRfbXZvbHRzKHN0cnVjdCBtc21fZ3B1ICpncHUsIHVpbnQzMl90IGZyZXEpCj4gPiAg
-fQo+ID4KPiA+ICAvKiBTZXR1cCB0aGVybWFsIGxpbWl0IG1hbmFnZW1lbnQgKi8KPiA+IC1zdGF0
-aWMgdm9pZCBhNXh4X2xtX3NldHVwKHN0cnVjdCBtc21fZ3B1ICpncHUpCj4gPiArc3RhdGljIHZv
-aWQgYTUzMF9sbV9zZXR1cChzdHJ1Y3QgbXNtX2dwdSAqZ3B1KQo+ID4gIHsKPiA+ICAgICAgIHN0
-cnVjdCBhZHJlbm9fZ3B1ICphZHJlbm9fZ3B1ID0gdG9fYWRyZW5vX2dwdShncHUpOwo+ID4gICAg
-ICAgc3RydWN0IGE1eHhfZ3B1ICphNXh4X2dwdSA9IHRvX2E1eHhfZ3B1KGFkcmVub19ncHUpOwo+
-ID4gQEAgLTE2NSw2ICsxNzcsNDUgQEAgc3RhdGljIHZvaWQgYTV4eF9sbV9zZXR1cChzdHJ1Y3Qg
-bXNtX2dwdSAqZ3B1KQo+ID4gICAgICAgZ3B1X3dyaXRlKGdwdSwgQUdDX0lOSVRfTVNHX01BR0lD
-LCBBR0NfSU5JVF9NU0dfVkFMVUUpOwo+ID4gIH0KPiA+Cj4gPiArI2RlZmluZSBQQVlMT0FEX1NJ
-WkUoX3NpemUpICgoX3NpemUpICogc2l6ZW9mKHUzMikpCj4gPiArI2RlZmluZSBMTV9EQ1ZTX0xJ
-TUlUIDEKPiA+ICsjZGVmaW5lIExFVkVMX0NPTkZJRyB+KDB4MzAzKQo+ID4gKwo+ID4gK3N0YXRp
-YyB2b2lkIGE1NDBfbG1fc2V0dXAoc3RydWN0IG1zbV9ncHUgKmdwdSkKPiA+ICt7Cj4gPiArICAg
-ICBzdHJ1Y3QgYWRyZW5vX2dwdSAqYWRyZW5vX2dwdSA9IHRvX2FkcmVub19ncHUoZ3B1KTsKPiA+
-ICsgICAgIHUzMiBjb25maWc7Cj4gPiArCj4gPiArICAgICAvKiBUaGUgYmF0dGVyeSBjdXJyZW50
-IGxpbWl0ZXIgaXNuJ3QgZW5hYmxlZCBmb3IgQTU0MCAqLwo+ID4gKyAgICAgY29uZmlnID0gQUdD
-X0xNX0NPTkZJR19CQ0xfRElTQUJMRUQ7Cj4gPiArICAgICBjb25maWcgfD0gYWRyZW5vX2dwdS0+
-cmV2LnBhdGNoaWQgPDwgQUdDX0xNX0NPTkZJR19HUFVfVkVSU0lPTl9TSElGVDsKPiA+ICsKPiA+
-ICsgICAgIC8qIEZvciBub3cgZGlzYWJsZSBHUE1VIHNpZGUgdGhyb3R0bGluZyAqLwo+ID4gKyAg
-ICAgY29uZmlnIHw9IEFHQ19MTV9DT05GSUdfVEhST1RUTEVfRElTQUJMRTsKPiA+ICsKPiA+ICsg
-ICAgIC8qIFVudGlsIHdlIGdldCBjbG9jayBzY2FsaW5nIDAgaXMgYWx3YXlzIHRoZSBhY3RpdmUg
-cG93ZXIgbGV2ZWwgKi8KPiA+ICsgICAgIGdwdV93cml0ZShncHUsIFJFR19BNVhYX0dQTVVfR1BN
-VV9WT0xUQUdFLCAweDgwMDAwMDAwIHwgMCk7Cj4gPiArCj4gPiArICAgICAvKiBGaXhlZCBhdCA2
-MDAwIGZvciBub3cgKi8KPiA+ICsgICAgIGdwdV93cml0ZShncHUsIFJFR19BNVhYX0dQTVVfR1BN
-VV9QV1JfVEhSRVNIT0xELCAweDgwMDAwMDAwIHwgNjAwMCk7Cj4gPiArCj4gPiArICAgICBncHVf
-d3JpdGUoZ3B1LCBBR0NfTVNHX1NUQVRFLCAweDgwMDAwMDAxKTsKPiA+ICsgICAgIGdwdV93cml0
-ZShncHUsIEFHQ19NU0dfQ09NTUFORCwgQUdDX1BPV0VSX0NPTkZJR19QUk9EVUNUSU9OX0lEKTsK
-PiA+ICsKPiA+ICsgICAgIGdwdV93cml0ZShncHUsIEFHQ19NU0dfUEFZTE9BRCgwKSwgNTQ0OCk7
-IC8vbWFnaWMgbnVtYmVyPwo+Cj4gVGhleSBhcmUgYWxsIG1hZ2ljIG51bWJlcnMgYnV0IGVzcGVj
-aWFsbHkgdGhpcyBudW1iZXIuICA1MzAgaGFzIHRoZSBzYW1lLgoKV2hvb3BzLiAgSSBmb3Jnb3Qg
-dG8gc3RyaXAgdGhhdCBjb21tZW50IG91dC4gIFRoYW5rcyBmb3IgY2F0Y2hpbmcuCgo+Cj4gPHNu
-aXA+Cj4KPiBKb3JkYW4KPiAtLQo+IFRoZSBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5j
-LiBpcyBhIG1lbWJlciBvZiBDb2RlIEF1cm9yYSBGb3J1bSwKPiBhIExpbnV4IEZvdW5kYXRpb24g
-Q29sbGFib3JhdGl2ZSBQcm9qZWN0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============0496490925==
+Content-Type: multipart/alternative; boundary="15590822680.80788d.18776"
+Content-Transfer-Encoding: 7bit
+
+
+--15590822680.80788d.18776
+Date: Tue, 28 May 2019 22:24:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110787
+
+            Bug ID: 110787
+           Summary: Glitches in console of the Julia language plugin for
+                    Atom (Juno)
+           Product: Mesa
+           Version: 19.0
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: develop@manuel-voegele.de
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 144366
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144366&action=3Dedit
+A screenshot showing the graphical artifacts in the console
+
+Since Mesa 19.0.5 the REPL-Console in the Julia language plugin is unusable=
+ and
+often shows artifacts. Mesa 19.0.4 seems not to be affectd by this.
+
+Steps to reproduce:
+1. Install the Atom and the Julia language plugin (Juno) according to this
+gude: http://docs.junolab.org/latest/man/installation/
+During the installation agree to open julia specific views by default.
+2. Open up atom. A console windows should appear on the bottom.
+3. Click around (switching between clicks in the console, in the editor and=
+ in
+windows that don't belong to atom). This usually causes graphical glitches =
+to
+appear in the Julia console (REPL). If this doesn't happen try using the
+console - I am usually unable to use it since even if it doesn't get filled
+with artifacts it still won't render properly which makes it unusable.
+
+I've attached a screenshot of the broken console.
+
+I'm using Arch Linux with KDE Plasma as desktop environment.
+
+Unfortunately I'm unable to provide an apitrace since runnign atom with
+apitrace caused the bug to disappear.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15590822680.80788d.18776
+Date: Tue, 28 May 2019 22:24:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Glitches in console of the Julia language plugin for Atom=
+ (Juno)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110787">110787</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Glitches in console of the Julia language plugin for Atom (Ju=
+no)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.0
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>develop&#64;manuel-voegele.de
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144366=
+" name=3D"attach_144366" title=3D"A screenshot showing the graphical artifa=
+cts in the console">attachment 144366</a> <a href=3D"attachment.cgi?id=3D14=
+4366&amp;action=3Dedit" title=3D"A screenshot showing the graphical artifac=
+ts in the console">[details]</a></span>
+A screenshot showing the graphical artifacts in the console
+
+Since Mesa 19.0.5 the REPL-Console in the Julia language plugin is unusable=
+ and
+often shows artifacts. Mesa 19.0.4 seems not to be affectd by this.
+
+Steps to reproduce:
+1. Install the Atom and the Julia language plugin (Juno) according to this
+gude: <a href=3D"http://docs.junolab.org/latest/man/installation/">http://d=
+ocs.junolab.org/latest/man/installation/</a>
+During the installation agree to open julia specific views by default.
+2. Open up atom. A console windows should appear on the bottom.
+3. Click around (switching between clicks in the console, in the editor and=
+ in
+windows that don't belong to atom). This usually causes graphical glitches =
+to
+appear in the Julia console (REPL). If this doesn't happen try using the
+console - I am usually unable to use it since even if it doesn't get filled
+with artifacts it still won't render properly which makes it unusable.
+
+I've attached a screenshot of the broken console.
+
+I'm using Arch Linux with KDE Plasma as desktop environment.
+
+Unfortunately I'm unable to provide an apitrace since runnign atom with
+apitrace caused the bug to disappear.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15590822680.80788d.18776--
+
+--===============0496490925==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0496490925==--
