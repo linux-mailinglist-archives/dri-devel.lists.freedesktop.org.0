@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461002C429
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 12:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B784F2C447
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 12:32:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A0F89EBD;
-	Tue, 28 May 2019 10:21:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F50189CF6;
+	Tue, 28 May 2019 10:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7226889F19
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 10:21:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6F0A172167; Tue, 28 May 2019 10:21:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110635] briefly flashing corruption when playing various OGL
- games
-Date: Tue, 28 May 2019 10:21:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110635-502-dUQlKi6UuJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110635-502@http.bugs.freedesktop.org/>
-References: <bug-110635-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F3C89CF6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 10:32:53 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x4SAWir0024513;
+ Tue, 28 May 2019 05:32:44 -0500
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x4SAWiAY015404
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 28 May 2019 05:32:44 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 28
+ May 2019 05:32:43 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 28 May 2019 05:32:43 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x4SAWfN4034016;
+ Tue, 28 May 2019 05:32:41 -0500
+Subject: Re: [PATCHv6 0/4] omapdrm: DSI command mode panel support
+To: Tony Lindgren <tony@atomide.com>
+References: <20190523200756.25314-1-sebastian.reichel@collabora.com>
+ <60c45d23-de2f-d94a-c3d7-146a2bee538f@ti.com>
+ <20190527112122.GJ5447@atomide.com>
+ <e507c415-38de-86fe-9265-4b0aed0d7224@ti.com>
+ <20190528093952.GM5447@atomide.com>
+ <14c6c702-844b-756d-2d97-44e8f5a169df@ti.com>
+ <20190528101847.GN5447@atomide.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <c2eaee25-a0d3-2632-fdea-3a81ac7085af@ti.com>
+Date: Tue, 28 May 2019 13:32:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190528101847.GN5447@atomide.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1559039564;
+ bh=McxG6qXOV6aRVRHUHTwTeJqgXjBwYLgFzusvSu8toTI=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=teL/QmkddaZ+JzvBP0kX3Zm+hUB2eEut+CxRyf1eliUYVy2PPqICzksu1aHHx7X2O
+ Fk4/Aanx/SAHDeW89PaVQ3q7A+XPnUWEp/I9coniBud2KIaEQO7WNpW9KfghmQ7NHn
+ JOfGXAu1q/V2yvRu7cxIdjt6xOETDdqQDOoiSKR0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,105 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0585445518=="
+Cc: kernel@collabora.com, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Pavel Machek <pavel@ucw.cz>, Keerthy <j-keerthy@ti.com>,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0585445518==
-Content-Type: multipart/alternative; boundary="15590388722.dA628562.22235"
-Content-Transfer-Encoding: 7bit
-
-
---15590388722.dA628562.22235
-Date: Tue, 28 May 2019 10:21:12 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110635
-
---- Comment #7 from tempel.julian@gmail.com ---
-The OGL issue occurs with both LLVM 8 and 9-git, so there might not be a
-connection to your radv issue here. I suppose LLVM 9 would also be fine with
-AMD_DEBUG=3Dnodma & radeonsi, which indicates that the bug really is in the=
- async
-DMA code of radeonsi (or at least triggers it).
-
-I also would suppose that RADV_PERFTEST=3D doesn't have to know the same va=
-lues
-like AMD_DEBUG=3D, which afaik applies only to radeonsi.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15590388722.dA628562.22235
-Date: Tue, 28 May 2019 10:21:12 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - briefly flashing corruption when playing various OGL game=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - briefly flashing corruption when playing various OGL game=
-s"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110635">bug 11063=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>The OGL issue occurs with both LLVM 8 and 9-git, so there migh=
-t not be a
-connection to your radv issue here. I suppose LLVM 9 would also be fine with
-AMD_DEBUG=3Dnodma &amp; radeonsi, which indicates that the bug really is in=
- the async
-DMA code of radeonsi (or at least triggers it).
-
-I also would suppose that RADV_PERFTEST=3D doesn't have to know the same va=
-lues
-like AMD_DEBUG=3D, which afaik applies only to radeonsi.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15590388722.dA628562.22235--
-
---===============0585445518==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0585445518==--
+T24gMjgvMDUvMjAxOSAxMzoxOCwgVG9ueSBMaW5kZ3JlbiB3cm90ZToKCj4+IFRoaXMgY2hhbmdl
+IGxldHMgbWUgYm9vdC4gSSBkb24ndCBrbm93IHRoYXQncyB0aGUgY29ycmVjdCBwbGFjZSwgdGhv
+dWdoOgo+Pgo+PiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvYW01NzI4LmR0c2kgYi9h
+cmNoL2FybS9ib290L2R0cy9hbTU3MjguZHRzaQo+PiBpbmRleCA4MmU1NDI3ZWY2YTkuLmM3Nzhm
+OWE4NmIzYSAxMDA2NDQKPj4gLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvYW01NzI4LmR0c2kKPj4g
+KysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvYW01NzI4LmR0c2kKPj4gQEAgLTMxLDMgKzMxLDcgQEAK
+Pj4gJmF0bF90bSB7Cj4+ICAgICAgICAgc3RhdHVzID0gImRpc2FibGVkIjsKPj4gfTsKPj4gKwo+
+PiArJnRpbWVyMTIgewo+PiArICAgICAgIHN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4+ICt9Owo+IAo+
+IE9LIHdlIHNob3VsZCBkaXNhYmxlIGl0IGF0IHRoZSB0YXJnZXQtbW9kdWxlIGxldmVsIHRob3Vn
+aC4gSW50ZXJlc3RpbmcKPiB0aGF0IHJlYWRpbmcgdGhlIHJldmlzaW9uIHJlZ2lzdGVyIHdvcmtz
+IHdpdGggdGhlIGFib3ZlLCBvciBtYXliZSB5b3UKPiBzdGlsbCBnZXQgc29tZSB3YXJuaW5nPwoK
+SSBkb24ndCBzZWUgYW55dGhpbmcgb2RkIGluIHRoZSBib290IGxvZyB3aXRoIHRoZSBhYm92ZSBj
+aGFuZ2UuIEF0IGxlYXN0IApubyBrZXJuZWwgV0FSTnMsIG5vciBhbnl0aGluZyB3aXRoIGdyZXBw
+aW5nICJ0aW1lciIsICJlcnIiLCBvciAid2FybiIuCgpJIGp1c3QgdmVyaWZpZWQgd2l0aCBjbGVh
+biA1LjItcmMyLCB0aGF0IGl0IGRvZXNuJ3QgYm9vdCwgYW5kIHdpdGggdGhlIAphYm92ZSBjaGFu
+Z2UsIGJvb3RzLgoKPj4gTXkgYm9hcmQgaXMgeDE1IHJldiBBMywgYXR0YWNoZWQgdG8gQU01IEVW
+TS4gSSd2ZSBhbHNvIGF0dGFjaGVkIG15IGtlcm5lbAo+PiBjb25maWcuCj4gCj4gU3RyYW5nZSB0
+aGF0IHRoaXMgaXMgbm90IGFmZmVjdGluZyBvdGhlciB4MTU/IEkgdGhpbmsgdGltZXIxMiB3b3Vs
+ZAo+IGJlIGJsb2NrZWQgb24gSFMgZGV2aWNlcyB0aG91Z2g/CgpJIGRvbid0IGtub3cuLi4gSSBj
+YW4ndCBiZWxpZXZlIG15IHgxNSB3b3VsZCBiZSB1bmlxdWUgPSkuIENhbiBpdCBiZSAKc29tZXRo
+aW5nIGluIHRoZSBrZXJuZWwgY29uZmlnPyB1LWJvb3Q/CgpQZXRlciBzaG91bGQgaGF2ZSB0aGUg
+c2FtZSBBMy4gUGV0ZXIsIGNhbiB5b3UgdHJ5IHdpdGggbXkgY29uZmlnPwoKICBUb21pCgotLSAK
+VGV4YXMgSW5zdHJ1bWVudHMgRmlubGFuZCBPeSwgUG9ya2thbGFua2F0dSAyMiwgMDAxODAgSGVs
+c2lua2kuClktdHVubnVzL0J1c2luZXNzIElEOiAwNjE1NTIxLTQuIEtvdGlwYWlra2EvRG9taWNp
+bGU6IEhlbHNpbmtpCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
