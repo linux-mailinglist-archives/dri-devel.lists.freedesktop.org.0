@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17B22BC61
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 01:41:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD932BCEA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 03:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB47089A35;
-	Mon, 27 May 2019 23:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C07389A4A;
+	Tue, 28 May 2019 01:39:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9420589A35
- for <dri-devel@lists.freedesktop.org>; Mon, 27 May 2019 23:41:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8B92272167; Mon, 27 May 2019 23:41:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109022] ring gfx timeout during particular shader generation on
- yuzu emulator
-Date: Mon, 27 May 2019 23:41:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: felix.adrianto@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109022-502-SaSkGLsZNm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109022-502@http.bugs.freedesktop.org/>
-References: <bug-109022-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 770B689A4A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 01:39:14 +0000 (UTC)
+Received: from dragon (98.142.130.235.16clouds.com [98.142.130.235])
+ (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A3FFB2053B;
+ Tue, 28 May 2019 01:39:09 +0000 (UTC)
+Date: Tue, 28 May 2019 09:38:02 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH 0/2] drm: imx: Add NWL MIPI DSI host controller support
+Message-ID: <20190528013800.GB6885@dragon>
+References: <cover.1551954425.git.agx@sigxcpu.org>
+ <20190508171827.GA21725@bogon.m.sigxcpu.org>
+ <1558964213.4039.2.camel@pengutronix.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1558964213.4039.2.camel@pengutronix.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1559007554;
+ bh=Ma5P1NlWfDPd/p8+Di2DSazF2a2RvIx5ucDAtm56qyA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uTTy5BWXR3m2+CSJM3gOqIHwKbyNl054ZMW71m8yNb1pd/nRZpseyohKVSWZSgQCo
+ jbSIY/Vq1Yf8nv5Ymv2x/3r8VipdERmW5F+EILSHjyXtAoo7BslSx3abuB+yK7ud6+
+ 7vJlX3DpLuAWI4x9Mi7e4lxejUl2c38YA5tKj5mc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,119 +48,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1629852274=="
+Cc: David Airlie <airlied@linux.ie>,
+ Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Chiras <robert.chiras@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1629852274==
-Content-Type: multipart/alternative; boundary="15590004680.FCD67B.1583"
-Content-Transfer-Encoding: 7bit
-
-
---15590004680.FCD67B.1583
-Date: Mon, 27 May 2019 23:41:08 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109022
-
---- Comment #21 from e88z4 <felix.adrianto@gmail.com> ---
-Hi,=20
-
-I uploaded the apitrace in my google drive.=20
-
-https://drive.google.com/file/d/1hg1ep4rJ2Y_g7WmA_HbmNndrHd-x7Etc/view?usp=
-=3Dsharing
-
-When I replayed the trace, I was able to produce the error.=20
-
-My system is=20
-AMD Ryzen 2600
-Radeon RX580
-Mesa master 659aa3dd651
-Kernel 5.1.3
-
-Let me know if you need anything else.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15590004680.FCD67B.1583
-Date: Mon, 27 May 2019 23:41:08 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring gfx timeout during particular shader generation on y=
-uzu emulator"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022#c21">Comme=
-nt # 21</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - ring gfx timeout during particular shader generation on y=
-uzu emulator"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109022">bug 10902=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-felix.adrianto&#64;gmail.com" title=3D"e88z4 &lt;felix.adrianto&#64;gmail.c=
-om&gt;"> <span class=3D"fn">e88z4</span></a>
-</span></b>
-        <pre>Hi,=20
-
-I uploaded the apitrace in my google drive.=20
-
-<a href=3D"https://drive.google.com/file/d/1hg1ep4rJ2Y_g7WmA_HbmNndrHd-x7Et=
-c/view?usp=3Dsharing">https://drive.google.com/file/d/1hg1ep4rJ2Y_g7WmA_Hbm=
-NndrHd-x7Etc/view?usp=3Dsharing</a>
-
-When I replayed the trace, I was able to produce the error.=20
-
-My system is=20
-AMD Ryzen 2600
-Radeon RX580
-Mesa master 659aa3dd651
-Kernel 5.1.3
-
-Let me know if you need anything else.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15590004680.FCD67B.1583--
-
---===============1629852274==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1629852274==--
+SGkgTHVjYXMsCgpPbiBNb24sIE1heSAyNywgMjAxOSBhdCAwMzozNjo1M1BNICswMjAwLCBMdWNh
+cyBTdGFjaCB3cm90ZToKPiBXZSBoYXZlIGJlZW4gbG9va2luZyBhdCBob3cgdG8gc3VwcG9ydCBE
+Q1NTIGluIG1haW5saW5lIGZvciBhIHdoaWxlLAo+IGJ1dCBtb3N0IG9mIHRoZSBhY3R1YWwgd29y
+ayBnb3QgcHVzaGVkIGJlaGluZCBpbiBzY2hlZHVsZSBkdWUgdG8gb3RoZXIKPiBwcmlvcml0aWVz
+LgoKSSBoYXZlIHNvbWUgdGltZSB0byBjb250cmlidXRlLiAgV291bGQgeW91IHN1Z2dlc3QgaG93
+IEkgc2hvdWxkIGhlbHAKaGVyZT8KCjEuIFlvdSBndXlzIGFscmVhZHkgaGF2ZSBzb21ldGhpbmcg
+Y2xvc2UgdG8gY29tcGxldGlvbiBhbmQgZG8gbm90IG5lZWQKICAgbW9yZSBoYW5kcy4KMi4gWW91
+IGd1eXMgYWxyZWFkeSBoYXZlIHNvbWUgcHJlbGltaW5hcnkgY29kZSBhbmQgY2FuIHVzZSBoZWxw
+IGZyb20KICAgb3RoZXJzLgozLiBZb3UgZ3V5cyBoYXZlbid0IGdvdCBhbnl0aGluZyB0byBzdGFy
+dCB3aXRoLCBidXQganVzdCBzb21lIGRlc2lnbgogICBwcmluY2lwbGVzIHRoYXQgYW55b25lIHdo
+byB3YW50cyB0byB3b3JrIG9uIGl0IHNob3VsZCBjb25zaWRlci4KCldoaWNoIGlzIHRoZSBvbmUg
+dGhhdCB5b3Ugd2FudCBtZSB0byByZWFkPwoKPiBPbmUgdGhpbmcgSSBjYW4gY2FuIHNheSBmb3Ig
+Y2VydGFpbiBpcyB0aGF0IERDU1Mgc2hvdWxkIG5vdCBiZQo+IGludGVncmF0ZWQgaW50byBpbXgt
+ZHJtLiBJdCdzIGEgdG90YWxseSBkaWZmZXJlbnQgaGFyZHdhcmUgYW5kCj4gZG93bnN0cmVhbSBj
+bGVhcmx5IHNob3dzIHRoYXQgaXQncyBub3QgYSBnb29kIGlkZWEgdG8gY3JhbSBpdCBpbnRvIGlt
+eC0KPiBkcm0uCgpJIGhhdmVuJ3QgZ29uZSBkZWVwZXIgaW50byB0aGUgdmVuZG9yIGNvZGUsIGJ1
+dCBmcm9tIGEgYnJpZWYgbG9va2luZyBJCmRpZG4ndCBzZWUgc28gbWFueSBwcm9ibGVtcyB3aXRo
+IGludGVncmF0aW5nIERDU1MgaW50byBpbXgtZHJtLiAgSXQncwpub3Qgc28gdW5yZWFzb25hYmxl
+IHRvIHRha2UgaW14LWRybSBhcyBhbiBpbXgtZGlzcGxheS1zdWJzeXN0ZW0gd2hpY2gKY2FuIGhh
+dmUgbXVsdGlwbGUgQ1JUQ3MuICBTbyBjYW4geW91IHBsZWFzZSBlbGFib3JhdGUgYSBiaXQgb24g
+d2h5IGl0J3MKcmVhbGx5IGEgYmFkIGlkZWE/Cgo+IEFsc28gdGhlIGFydGlmaWNpYWwgc3BsaXQg
+YmV0d2VlbiBoYXJkd2FyZSBjb250cm9sIGluCj4gZHJpdmVycy9ncHUvaW14L2Rjc3MgYW5kIHRo
+ZSBEUk0gZHJpdmVyIGlzIGp1c3QgY2FyZ28tY3VsdCBmcm9tIHRoZQo+IElQVS9pbXgtZHJtIHNw
+bGl0LiBGb3IgdGhlIElQVSB3ZSBkaWQgaXQgYXMgdGhlIElQVSBoYXMgbGVncyBpbiBib3RoCj4g
+RFJNIGZvciB0aGUgb3V0cHV0IHBhcnRzIGFuZCBWNEwyIGZvciB0aGUgaW5wdXQgcGFydHMuIEFz
+IHRoZSBEQ1NTIGhhcwo+IG5vIHZpZGVvIGlucHV0IGNhcGFiaWxpdGllcyB0aGUgZHJpdmVyIGNv
+dWxkIGJlIHNpbXBsaWZpZWQgYSBsb3QgYnkKPiBtb3ZpbmcgaXQgYWxsIGludG8gYSBzaW5nbGUg
+RFJNIGRyaXZlci4KCkFncmVlZCBvbiB0aGlzLgoKU2hhd24KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
