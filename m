@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7B92C560
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 13:27:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0894F2C580
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 13:35:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5FCC89D8A;
-	Tue, 28 May 2019 11:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 502A26E20C;
+	Tue, 28 May 2019 11:35:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 084D789D8A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 11:27:42 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F3ECF72167; Tue, 28 May 2019 11:27:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 94043] Distorted graphics when running Battle.net app under
- Wine with Radeon hardware
-Date: Tue, 28 May 2019 11:27:42 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: 11.2
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-94043-502-S0LlznxVUi@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-94043-502@http.bugs.freedesktop.org/>
-References: <bug-94043-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED0E16E202;
+ Tue, 28 May 2019 11:35:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 May 2019 04:35:49 -0700
+X-ExtLoop1: 1
+Received: from unknown (HELO [10.252.33.94]) ([10.252.33.94])
+ by orsmga005.jf.intel.com with ESMTP; 28 May 2019 04:35:46 -0700
+Subject: Re: [v11 00/12] Add HDR Metadata Parsing and handling in DRM layer
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Uma Shankar <uma.shankar@intel.com>
+References: <1558015817-12025-1-git-send-email-uma.shankar@intel.com>
+ <20190522204522.GC6464@intel.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <c83b4fc7-ea7e-66e6-9d7e-379eeec6d199@linux.intel.com>
+Date: Tue, 28 May 2019 13:35:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190522204522.GC6464@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +45,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0777697650=="
+Cc: dcastagna@chromium.org, jonas@kwiboo.se, intel-gfx@lists.freedesktop.org,
+ emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
+ seanpaul@chromium.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0777697650==
-Content-Type: multipart/alternative; boundary="15590428610.ACbDF.15811"
-Content-Transfer-Encoding: 7bit
-
-
---15590428610.ACbDF.15811
-Date: Tue, 28 May 2019 11:27:41 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D94043
-
---- Comment #15 from Richard Thier <u9vata@gmail.com> ---
-I have seen really similar scrambled graphics when trying to play Rome: Tot=
-al
-War (rtw 1). In my case however the glitch seems to have more simmetry: it
-looks like the screen is tiled into tiles all of which has bad scratched im=
-ages
-like here.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15590428610.ACbDF.15811
-Date: Tue, 28 May 2019 11:27:41 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Distorted graphics when running Battle.net app under Wine=
- with Radeon hardware"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94043#c15">Commen=
-t # 15</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Distorted graphics when running Battle.net app under Wine=
- with Radeon hardware"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D94043">bug 94043<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>I have seen really similar scrambled graphics when trying to p=
-lay Rome: Total
-War (rtw 1). In my case however the glitch seems to have more simmetry: it
-looks like the screen is tiled into tiles all of which has bad scratched im=
-ages
-like here.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15590428610.ACbDF.15811--
-
---===============0777697650==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0777697650==--
+T3AgMjItMDUtMjAxOSBvbSAyMjo0NSBzY2hyZWVmIFZpbGxlIFN5cmrDpGzDpDoKPiBPbiBUaHUs
+IE1heSAxNiwgMjAxOSBhdCAwNzo0MDowNVBNICswNTMwLCBVbWEgU2hhbmthciB3cm90ZToKPj4g
+VGhpcyBwYXRjaCBzZXJpZXMgZW5hYmxlcyBIRFIgc3VwcG9ydCBpbiBkcm0uIEl0IGJhc2ljYWxs
+eSBkZWZpbmVzCj4+IEhEUiBtZXRhZGF0YSBzdHJ1Y3R1cmVzLCBwcm9wZXJ0eSB0byBwYXNzIGNv
+bnRlbnQgKGFmdGVyIGJsZW5kaW5nKQo+PiBtZXRhZGF0YSBmcm9tIHVzZXIgc3BhY2UgY29tcG9z
+aXRvcnMgdG8gZHJpdmVyLgo+Pgo+PiBEeW5hbWljIFJhbmdlIGFuZCBNYXN0ZXJpbmcgaW5mb2Zy
+YW1lIGNyZWF0aW9uIGFuZCBzZW5kaW5nLgo+Pgo+PiBUb0RvOgo+PiAxLiBXZSBuZWVkIHRvIGdl
+dCB0aGUgY29sb3IgZnJhbWV3b3JrIGluIHBsYWNlIGZvciBhbGwgcGxhbmVzCj4+ICAgIHdoaWNo
+IHN1cHBvcnQgSERSIGNvbnRlbnQgaW4gaGFyZHdhcmUuIFRoaXMgaXMgYWxyZWFkeSBpbiBwcm9n
+cmVzCj4+ICAgIGFuZCBwYXRjaGVzIGFyZSBvdXQgZm9yIHJldmlldyBpbiBtYWlsaW5nIGxpc3Qu
+Cj4+IDIuIFVzZXJTcGFjZS9Db21wb3NpdG9yczogQmxlbmRpbmcgcG9saWNpZXMgYW5kIG1ldGFk
+YXRhIGJsb2IKPj4gICAgY3JlYXRpb24gYW5kIHBhc3NpbmcgdG8gZHJpdmVyLiBXb3JrIGlzIGFs
+cmVhZHkgaW4gcHJvZ3Jlc3MKPj4gICAgYnkgSW50ZWwncyBtaWRkbGV3YXJlIHRlYW1zIG9uIHdh
+eWxhbmQgYW5kIHRoZSBwYXRjaGVzIGZvcgo+PiAgICB0aGUgc2FtZSBhcmUgaW4gcmV2aWV3Lgo+
+Pgo+PiBBIFBPQyBoYXMgYWxyZWFkeSBiZWVuIGRldmVsb3BlZCBieSBWaWxsZSBiYXNlZCBvbiB3
+YXlsYW5kLiBQbGVhc2UgcmVmZXIKPj4gYmVsb3cgbGluayB0byBzZWUgdGhlIGNvbXBvbmVudCBp
+bnRlcmFjdGlvbnMgYW5kIHVzYWdlOgo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9h
+cmNoaXZlcy93YXlsYW5kLWRldmVsLzIwMTctRGVjZW1iZXIvMDM2NDAzLmh0bWwKPj4KPj4gdjI6
+IFVwZGF0ZWQgVmlsbGUncyBQT0MgY2hhbmdlcyB0byB0aGUgcGF0Y2ggc2VyaWVzLkluY29ycG9y
+YXRlZCBjbGVhbnVwcwo+PiBhbmQgZml4ZXMgZnJvbSBWaWxsZS4gUmViYXNlIG9uIGxhdGVzdCBk
+cm0tdGlwLgo+Pgo+PiB2MzogRml4ZWQgYSB3YXJuaW5nIGNhdXNpbmcgYnVpbGRzIHRvIGJyZWFr
+IG9uIENJLiBObyBtYWpvciBjaGFuZ2UuCj4+Cj4+IHY0OiBBZGRyZXNzZWQgU2hhc2hhbmsncyBy
+ZXZpZXcgY29tbWVudHMuCj4+Cj4+IHY1OiBSZWJhc2Ugb24gdG9wIG9mIFZpbGxlJ3MgaW5mb2Zy
+YW1lIHJlZmFjdG9yaW5nIGNoYW5nZXMuIEZpeGVkIG5vbiBtb2Rlc2V0Cj4+IGNhc2UgZm9yIEhE
+UiBtZXRhZGF0YSB1cGRhdGUuIERyb3BwZWQgYSByZWR1bmRhbnQgcGF0Y2guCj4+Cj4+IHY2OiBB
+ZGRyZXNzZWQgU2hhc2hhbmsncyByZXZpZXcgY29tbWVudHMgYW5kIGFkZGVkIFJCJ3MgcmVjZWl2
+ZWQuCj4+Cj4+IHY3OiBTcXVhc2hlZCAyIHBhdGNoZXMsIGRyb3BwZWQgMSBjaGFuZ2UgYW5kIGFk
+ZHJlc3NlZCBCcmlhbiBTdGFya2V5J3MgYW5kCj4+IFNoYXNoYW5rJ3MgcmV2aWV3IGNvbW1lbnRz
+Lgo+Pgo+PiB2ODogQWRkcmVzc2VkIEpvbmFzIEthcmxtYW4gcmV2aWV3IGNvbW1lbnRzLiBBZGRl
+ZCBTaGFzaGFuaydzIFJCIHRvIHRoZSBzZXJpZXMsCj4+IGZpeGVkIGEgV0FSTl9PTiBvbiBCWVQv
+Q0hULgo+Pgo+PiB2OTogQWRkcmVzc2VkIFZpbGxlIGFuZCBKb25hcyBLYXJsbWFuJ3MgcmV2aWV3
+IGNvbW1lbnRzLiBBZGRlZCB0aGUgaW5mb2ZyYW1lCj4+IHN0YXRlIHJlYWRvdXQgYW5kIG1ldGFk
+YXRhIHJlZmVyZW5jZSBjb3VudC4KPj4KPj4gdjEwOiBBZGRyZXNzZWQgcmV2aWV3IGNvbW1lbnRz
+IGZyb20gSm9uYXMgYW5kIFZpbGxlLiBEcm9wcGVkIG9uZSBwYXRjaCByZWxhdGVkCj4+IHRvIGk5
+MTUgZmFzdHNldCBoYW5kbGluZyBhcyBwZXIgVmlsbGUncyBmZWVkYmFjay4KPj4KPj4gdjExOiBB
+ZGRyZXNzZWQgVmlsbGUncyByZXZpZXcgY29tbWVudHMuCj4+Cj4+IE5vdGU6IHY5IHZlcnNpb24g
+aXMgYWxyZWFkeSB0ZXN0ZWQgd2l0aCBLb2RpIGFuZCBhIGNvbmZpcm1hdGlvbiBmcm9tIHRlYW0g
+a29kaSBoYXMgYmVlbgo+PiByZWNlaXZlZC4gQnJhbmNoIGRldGFpbHMgZm9yIHRoZSBzYW1lIGFz
+IGJlbG93Ogo+PiBodHRwczovL2dpdGh1Yi5jb20veGJtYy94Ym1jL3RyZWUvZmVhdHVyZV9kcm1w
+cmltZS12YWFwaQo+Pgo+PiB2OSBvZiB0aGlzIHNlcmllcyBpczoKPj4gVGVzdGVkLWJ5OiBKb25h
+cyBLYXJsbWFuIDxqb25hc0Brd2lib28uc2U+Cj4+Cj4+IEpvbmFzIEthcmxtYW4gKDEpOgo+PiAg
+IGRybTogQWRkIHJlZmVyZW5jZSBjb3VudGluZyBvbiBIRFIgbWV0YWRhdGEgYmxvYgo+Pgo+PiBV
+bWEgU2hhbmthciAoOSk6Cj4+ICAgZHJtOiBBZGQgSERSIHNvdXJjZSBtZXRhZGF0YSBwcm9wZXJ0
+eQo+PiAgIGRybTogUGFyc2UgSERSIG1ldGFkYXRhIGluZm8gZnJvbSBFRElECj4+ICAgZHJtOiBF
+bmFibGUgSERSIGluZm9mcmFtZSBzdXBwb3J0Cj4+ICAgZHJtL2k5MTU6IEF0dGFjaCBIRFIgbWV0
+YWRhdGEgcHJvcGVydHkgdG8gY29ubmVjdG9yCj4+ICAgZHJtL2k5MTU6IFdyaXRlIEhEUiBpbmZv
+ZnJhbWUgYW5kIHNlbmQgdG8gcGFuZWwKPj4gICBkcm0vaTkxNTpFbmFibGVkIE1vZGVzZXQgd2hl
+biBIRFIgSW5mb2ZyYW1lIGNoYW5nZXMKPj4gICBkcm0vaTkxNTogQWRkZWQgRFJNIEluZm9mcmFt
+ZSBoYW5kbGluZyBmb3IgQllUL0NIVAo+PiAgIHZpZGVvL2hkbWk6IEFkZCBVbnBhY2sgZnVuY3Rp
+b24gZm9yIERSTSBpbmZvZnJhbWUKPj4gICBkcm0vaTkxNTogQWRkIHN0YXRlIHJlYWRvdXQgZm9y
+IERSTSBpbmZvZnJhbWUKPj4KPj4gVmlsbGUgU3lyasOkbMOkICgyKToKPj4gICBkcm06IEFkZCBI
+TEcgRU9URgo+PiAgIGRybS9pOTE1OiBFbmFibGUgaW5mb2ZyYW1lcyBvbiBHTEsrIGZvciBIRFIK
+PiBQdXNoZWQgdGhlIGNvcmUvZXRjLiBiaXRzIHRvIGRybS1taXNjLW5leHQgc28gdGhhdCBvdGhl
+ciBkcml2ZXJzCj4gY2FuIGJhc2UgdGhlaXIgd29yayBvbiB0aGF0LiBXZSdsbCBuZWVkIGEgYmFj
+a21lcmdlIHRvIGdldCB0aGUKPiBpOTE1IHN0dWZmIGluIHZpYSBkaW5xLgo+ClJlc3QgcHVzaGVk
+IGFzIHdlbGwuIEkgcmVvcmRlcmVkIHRoZSBzZXJpZXMgdG8gYmUgc2xpZ2h0bHkgbW9yZSBsb2dp
+Y2FsLCBmcm9tIGh3IGVuYWJsaW5nIGJpdHMgdG8gc3cgZW5hYmxpbmcgYml0cy4gOikKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
