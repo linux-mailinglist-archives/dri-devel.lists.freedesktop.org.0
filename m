@@ -1,58 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0672A2C273
-	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 11:05:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 123A82C302
+	for <lists+dri-devel@lfdr.de>; Tue, 28 May 2019 11:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6CCA6E1B6;
-	Tue, 28 May 2019 09:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78B016E0B9;
+	Tue, 28 May 2019 09:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEA2C6E1D7
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:04:01 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id g13so838474edu.5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 02:04:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HU1EQ+v38P9QJolnmXZTrOO2rSD6T7u0Lqw2ZLkiLWs=;
- b=OrNZPsMrMQZPnMZld7otqWpz8CZ2C21wJuDSwrclcjVfdZvUtqJ3BUzru+L3Q7pFA2
- Hql7ac8whTC4df6AELqB9QvYYynSvLlG2tFtojOUyh/X0BxRUq6Y2ukBPqh9C0eJ0/Xb
- LPJ8w/o0lIHWVk4sn9fr/7aL3ecorh/1Ru8vJsLR0fgIFKVQtXz8lUq2uSlcdHsBqaCH
- GPmp2id5pUaazcCCtToLp50AMjNn2qBVZvX0NRRIA46zvL0YPGtW1sJHtGHEqg3k2yKe
- 9UOPFrhf+rRkodtSBDNupeLDPoKhpEIoskG2WohLZ8beWb/ddHQjbAHQIo/bwUp8wE7O
- yr4g==
-X-Gm-Message-State: APjAAAVPjciZnGmwZvOyyy7h2uxCwX8xYBOQLvtCyopbl4bjqZHtSQIX
- Enc7gyA1p/r9pK1Lb+eLq54uCg==
-X-Google-Smtp-Source: APXvYqz9RdhfaDx2JF7fgePZMlTSmHplGB4DlBCTqMFDkYawJ7AszXHKVriOXKY3FK7S7TQRU+5DbA==
-X-Received: by 2002:a50:b3a6:: with SMTP id
- s35mr129117953edd.220.1559034238538; 
- Tue, 28 May 2019 02:03:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id x49sm4072656edm.25.2019.05.28.02.03.57
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 28 May 2019 02:03:57 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 33/33] backlight: simplify lcd notifier
-Date: Tue, 28 May 2019 11:03:04 +0200
-Message-Id: <20190528090304.9388-34-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190528090304.9388-1-daniel.vetter@ffwll.ch>
-References: <20190528090304.9388-1-daniel.vetter@ffwll.ch>
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D3D89A1F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:19:48 +0000 (UTC)
+Received: from relay11.mail.gandi.net (unknown [217.70.178.231])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id A05913A6CDB
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 09:05:09 +0000 (UTC)
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6C0F9100008;
+ Tue, 28 May 2019 09:04:42 +0000 (UTC)
+Date: Tue, 28 May 2019 11:05:51 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 03/10] drm: bridge: thc63: Report input bus mode
+ through bridge timings
+Message-ID: <20190528090551.swt6ovalcadateht@uno.localdomain>
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190511210702.18394-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HU1EQ+v38P9QJolnmXZTrOO2rSD6T7u0Lqw2ZLkiLWs=;
- b=I/7AsYIlcIbykNwShZDT9vqdf0W2l+mAfbQvvY1pNwfgs1W0LbkA4t+YgIW85/3uHO
- bTSykFOJBi17eYvOrMy8aAuO/GbqB2OLqAj4V9SBcfmO69y+tfbM0o7u5JDDHKRZ4I+y
- c4JkYTOM0jo97idl5z+S/KV2EusVrq92+9MXo=
+In-Reply-To: <20190511210702.18394-4-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,41 +42,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-fbdev@vger.kernel.org, DRI Development <dri-devel@lists.freedesktop.org>,
- Jingoo Han <jingoohan1@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Lee Jones <lee.jones@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0364008405=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2l0aCBhbGwgdGhlIHdvcmsgSSd2ZSBkb25lIG9uIHJlcGxhY2luZyBmYiBub3RpZmllciBjYWxs
-cyB3aXRoIGRpcmVjdApjYWxscyBpbnRvIGZiY29uIHRoZSBiYWNrbGlnaHQvbGNkIG5vdGlmaWVy
-IGlzIHRoZSBvbmx5IHVzZXIgbGVmdC4KCkl0IHdpbGwgb25seSByZWNlaXZlIGV2ZW50cyBub3cg
-dGhhdCBpdCBjYXJlcyBhYm91dCwgaGVuY2Ugd2UgY2FuCnJlbW92ZSB0aGlzIGNoZWNrLgoKU2ln
-bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+ClJldmll
-d2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+ClJldmlld2VkLWJ5OiBNYWFy
-dGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogTGVl
-IEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KQ2M6IERhbmllbCBUaG9tcHNvbiA8ZGFuaWVs
-LnRob21wc29uQGxpbmFyby5vcmc+CkNjOiBKaW5nb28gSGFuIDxqaW5nb29oYW4xQGdtYWlsLmNv
-bT4KLS0tCiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sY2QuYyB8IDExIC0tLS0tLS0tLS0tCiAx
-IGZpbGUgY2hhbmdlZCwgMTEgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRl
-by9iYWNrbGlnaHQvbGNkLmMgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sY2QuYwppbmRleCBl
-Y2RkYTA2OTg5ZDAuLmQ2YjY1M2FhNGVlOSAxMDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9iYWNr
-bGlnaHQvbGNkLmMKKysrIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbGNkLmMKQEAgLTMwLDE3
-ICszMCw2IEBAIHN0YXRpYyBpbnQgZmJfbm90aWZpZXJfY2FsbGJhY2soc3RydWN0IG5vdGlmaWVy
-X2Jsb2NrICpzZWxmLAogCXN0cnVjdCBsY2RfZGV2aWNlICpsZDsKIAlzdHJ1Y3QgZmJfZXZlbnQg
-KmV2ZGF0YSA9IGRhdGE7CiAKLQkvKiBJZiB3ZSBhcmVuJ3QgaW50ZXJlc3RlZCBpbiB0aGlzIGV2
-ZW50LCBza2lwIGl0IGltbWVkaWF0ZWx5IC4uLiAqLwotCXN3aXRjaCAoZXZlbnQpIHsKLQljYXNl
-IEZCX0VWRU5UX0JMQU5LOgotCWNhc2UgRkJfRVZFTlRfTU9ERV9DSEFOR0U6Ci0JY2FzZSBGQl9F
-QVJMWV9FVkVOVF9CTEFOSzoKLQljYXNlIEZCX1JfRUFSTFlfRVZFTlRfQkxBTks6Ci0JCWJyZWFr
-OwotCWRlZmF1bHQ6Ci0JCXJldHVybiAwOwotCX0KLQogCWxkID0gY29udGFpbmVyX29mKHNlbGYs
-IHN0cnVjdCBsY2RfZGV2aWNlLCBmYl9ub3RpZik7CiAJaWYgKCFsZC0+b3BzKQogCQlyZXR1cm4g
-MDsKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============0364008405==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="hpp6knvdq33m7ccs"
+Content-Disposition: inline
+
+
+--hpp6knvdq33m7ccs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Laurent,
+
+On Sun, May 12, 2019 at 12:06:55AM +0300, Laurent Pinchart wrote:
+> Set a drm_bridge_timings in the drm_bridge, and use it to report the
+> input bus mode (single-link or dual-link). The other fields of the
+> timings structure are kept to 0 as they do not apply to LVDS buses.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+>
+> - Ignore disabled remote device
+> ---
+>  drivers/gpu/drm/bridge/thc63lvd1024.c | 54 +++++++++++++++++++++------
+>  1 file changed, 43 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
+> index b083a740565c..709dd28b43d6 100644
+> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
+> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
+> @@ -31,6 +31,8 @@ struct thc63_dev {
+>
+>  	struct drm_bridge bridge;
+>  	struct drm_bridge *next;
+> +
+> +	struct drm_bridge_timings timings;
+>  };
+>
+>  static inline struct thc63_dev *to_thc63(struct drm_bridge *bridge)
+> @@ -48,15 +50,28 @@ static int thc63_attach(struct drm_bridge *bridge)
+>  static enum drm_mode_status thc63_mode_valid(struct drm_bridge *bridge,
+>  					const struct drm_display_mode *mode)
+>  {
+> +	struct thc63_dev *thc63 = to_thc63(bridge);
+> +	unsigned int min_freq;
+> +	unsigned int max_freq;
+> +
+>  	/*
+> -	 * The THC63LVD1024 clock frequency range is 8 to 135 MHz in single-in
+> -	 * mode. Note that the limits are different in dual-in, single-out mode,
+> -	 * and will need to be adjusted accordingly.
+> +	 * The THC63LVD1024 pixel rate range is 8 to 135 MHz in all modes but
+> +	 * dual-in, single-out where it is 40 to 150 MHz. As dual-in, dual-out
+> +	 * isn't supported by the driver yet, simply derive the limits from the
+> +	 * input mode.
+>  	 */
+> -	if (mode->clock < 8000)
+> +	if (thc63->timings.dual_link) {
+> +		min_freq = 40000;
+> +		max_freq = 150000;
+> +	} else {
+> +		min_freq = 8000;
+> +		max_freq = 135000;
+> +	}
+> +
+> +	if (mode->clock < min_freq)
+>  		return MODE_CLOCK_LOW;
+>
+> -	if (mode->clock > 135000)
+> +	if (mode->clock > max_freq)
+>  		return MODE_CLOCK_HIGH;
+
+I would have made a separate patch for this bit, anyway, verified
+against the THC631024 manual, and this matches my understanding.
+
+>
+>  	return MODE_OK;
+> @@ -101,19 +116,19 @@ static const struct drm_bridge_funcs thc63_bridge_func = {
+>
+>  static int thc63_parse_dt(struct thc63_dev *thc63)
+>  {
+> -	struct device_node *thc63_out;
+> +	struct device_node *endpoint;
+>  	struct device_node *remote;
+>
+> -	thc63_out = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
+> -						  THC63_RGB_OUT0, -1);
+> -	if (!thc63_out) {
+> +	endpoint = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
+> +						 THC63_RGB_OUT0, -1);
+> +	if (!endpoint) {
+>  		dev_err(thc63->dev, "Missing endpoint in port@%u\n",
+>  			THC63_RGB_OUT0);
+>  		return -ENODEV;
+>  	}
+>
+> -	remote = of_graph_get_remote_port_parent(thc63_out);
+> -	of_node_put(thc63_out);
+> +	remote = of_graph_get_remote_port_parent(endpoint);
+> +	of_node_put(endpoint);
+>  	if (!remote) {
+>  		dev_err(thc63->dev, "Endpoint in port@%u unconnected\n",
+>  			THC63_RGB_OUT0);
+> @@ -132,6 +147,22 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
+>  	if (!thc63->next)
+>  		return -EPROBE_DEFER;
+>
+> +	endpoint = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
+> +						 THC63_LVDS_IN1, -1);
+> +	if (endpoint) {
+> +		remote = of_graph_get_remote_port_parent(endpoint);
+> +		of_node_put(endpoint);
+> +
+> +		if (remote) {
+> +			if (of_device_is_available(remote))
+> +				thc63->timings.dual_link = true;
+> +			of_node_put(remote);
+> +		}
+> +	}
+> +
+> +	dev_dbg(thc63->dev, "operating in %s-link mode\n",
+> +		thc63->timings.dual_link ? "dual" : "single");
+> +
+
+Fine, thanks for having addressed comments on the RFC.
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+   j
+
+>  	return 0;
+>  }
+>
+> @@ -188,6 +219,7 @@ static int thc63_probe(struct platform_device *pdev)
+>  	thc63->bridge.driver_private = thc63;
+>  	thc63->bridge.of_node = pdev->dev.of_node;
+>  	thc63->bridge.funcs = &thc63_bridge_func;
+> +	thc63->bridge.timings = &thc63->timings;
+>
+>  	drm_bridge_add(&thc63->bridge);
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+
+--hpp6knvdq33m7ccs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlzs+e8ACgkQcjQGjxah
+VjxGBQ//QaejbAKf4w1iPov+CyMt01/OwqyLdI2pfSvTF6118ZDWONgYY62kqpMb
+BFrDILszA2My2FPdBMxD777GWpaDGCGCUxES4aB3+qFGL6EsOvRurxk1ERiZ1r6F
+hbbINoOpit4BG0Qy3Ac3Yi1XwNRRmhaN6Ne5IMyYKil6zDy8kEA7Pl658cgc+kaR
+VxZfma9bsCe6lHZ/Tq2BcDhHFiI46FyHiuZ0enaJrPxbUxkxRv7eYJQemhzFXvG0
+iOYFUC+1CXh0XqiQYDaNifWIb4fryMt1NwVs0UF9WJJYUKqcIMIDP69v8fLhRcPc
+Xrs9zZYKgHH9a3w68Q97F8sKBHmhIPoAtTjwpg+LL52htKZEIWbAfyLZmL3zikQH
+YiTZX7grMD1caSfXNEoRRYsezQ4MW0ph+oVgp3+xnCVmt11BU5N9wnZVj3mE4/L3
+7CTUcWUbwHYOg/8h3kH2ubstMGKfrwYcRSubJGjbgjI1YBLXleWoRwfEIe/X26K5
+XXOC8Dfhz9MpUCtfLEk/juTEYSUniIJRUtKTSaE0JTy+Cy3L7datbETgSR/c+eQg
+V8t3YefLGljB/oeY+3dj+Evy9OgvmDbGjatCfhlTVsCNaf5M2M1jotMz82v76TVj
+zIXLw8d2QuggC45YG7HaFH05zp8zvfy2RwQ4/z80y7NRmywDfjc=
+=k+Tn
+-----END PGP SIGNATURE-----
+
+--hpp6knvdq33m7ccs--
+
+--===============0364008405==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0364008405==--
