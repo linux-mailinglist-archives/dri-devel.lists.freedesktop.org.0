@@ -2,31 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4D82DB64
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:07:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FB92DB92
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D19C36E2C4;
-	Wed, 29 May 2019 11:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 281ED6E0C0;
+	Wed, 29 May 2019 11:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB5356E2C7;
- Wed, 29 May 2019 11:07:05 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 16718579-1500050 for multiple; Wed, 29 May 2019 12:07:00 +0100
-MIME-Version: 1.0
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190529110355.GA19119@mwanda>
-References: <20190529110355.GA19119@mwanda>
-Message-ID: <155912801762.13891.15171740473591714585@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH] drm/i915: selftest_lrc: Check the correct variable
-Date: Wed, 29 May 2019 12:06:57 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0296E0C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 11:19:01 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1hVwbj-0005Lr-Fv; Wed, 29 May 2019 13:18:59 +0200
+Message-ID: <1559128738.3651.4.camel@pengutronix.de>
+Subject: [GIT PULL] drm/imx: fix frame rate regression on non-plus i.MX6Q
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 29 May 2019 13:18:58 +0200
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,21 +42,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- David Airlie <airlied@linux.ie>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Matthew Auld <matthew.william.auld@gmail.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBEYW4gQ2FycGVudGVyICgyMDE5LTA1LTI5IDEyOjAzOjU1KQo+IFdlIHNob3VsZCBj
-aGVjayAicmVxdWVzdFtuXSIgaW5zdGVhZCBvZiBqdXN0ICJyZXF1ZXN0Ii4KPiAKPiBGaXhlczog
-NzhlNDFkZGQyMTk4ICgiZHJtL2k5MTU6IEFwcGx5IGFuIGV4ZWN1dGlvbl9tYXNrIHRvIHRoZSB2
-aXJ0dWFsX2VuZ2luZSIpCj4gU2lnbmVkLW9mZi1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBl
-bnRlckBvcmFjbGUuY29tPgoKT29wcy4KUmV2aWV3ZC1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0Bj
-aHJpcy13aWxzb24uY28udWs+Ci1DaHJpcwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+SGkgRGF2ZSwgRGFuaWVsLAoKcGxlYXNlIGNvbnNpZGVyIG1lcmdpbmcgdGhlc2UgZml4ZXMgZm9y
+IHY1LjIuCgpyZWdhcmRzClBoaWxpcHAKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21t
+aXQgY2Q2Yzg0ZDhmMGNkYzkxMWRmNDM1YmIwNzViYTIyY2UzYzYwNWIwNzoKCiAgTGludXggNS4y
+LXJjMiAoMjAxOS0wNS0yNiAxNjo0OToxOSAtMDcwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdp
+dCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9naXQucGVuZ3V0cm9uaXguZGUvZ2l0L3B6YS9saW51
+eCB0YWdzL2lteC1kcm0tZml4ZXMtMjAxOS0wNS0yOQoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2Vz
+IHVwIHRvIDEzN2NhYTcwMmYyMzA4ZjdlZjAzODc2ZTE2NGIwZDBmMzMwMDcxMmE6CgogIGRybS9p
+bXg6IGlwdXYzLXBsYW5lOiBmaXggYXRvbWljIHVwZGF0ZSBzdGF0dXMgcXVlcnkgZm9yIG5vbi1w
+bHVzIGkuTVg2USAoMjAxOS0wNS0yNyAxNToxMzo1NyArMDIwMCkKCi0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtL2lteDog
+aXB1djMtcGxhbmU6IGZpeCBmcmFtZSByYXRlIHJlZ3Jlc3Npb24gb24gbm9uLXBsdXMgaS5NWDZR
+CgpGaXggYSByZWdyZXNzaW9uIGludHJvZHVjZWQgYnkgNzBlOGEwYzcxZTkgKCJkcm0vaW14OiBp
+cHV2My1wbGFuZTogYWRkCmZ1bmN0aW9uIHRvIHF1ZXJ5IGF0b21pYyB1cGRhdGUgc3RhdHVzIikg
+dGhhdCBoYWx2ZXMgdGhlIGZyYW1lIHJhdGUgb24Kbm9uLXBsdXMgaS5NWDZRLCBiZWNhdXNlIHRo
+ZSBwZW5kaW5nIGNoZWNrIGFsd2F5cyByZXR1cm5zICJwZW5kaW5nIgpldmVuIGlmIGFuIHVwZGF0
+ZSBpcyBhY3R1YWxseSBhcHBsaWVkLgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpQaGlsaXBwIFphYmVsICgxKToKICAgICAg
+ZHJtL2lteDogaXB1djMtcGxhbmU6IGZpeCBhdG9taWMgdXBkYXRlIHN0YXR1cyBxdWVyeSBmb3Ig
+bm9uLXBsdXMgaS5NWDZRCgogZHJpdmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFuZS5jIHwgMTMg
+KysrKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFuZS5oIHwgIDEgLQog
+MiBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
