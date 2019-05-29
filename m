@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F1B2E36F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 19:39:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C243C2E40B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 20:05:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0258954A;
-	Wed, 29 May 2019 17:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 982466E083;
+	Wed, 29 May 2019 18:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021628954A;
- Wed, 29 May 2019 17:39:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 May 2019 10:39:36 -0700
-X-ExtLoop1: 1
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga002.jf.intel.com with ESMTP; 29 May 2019 10:39:35 -0700
-Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Wed, 29 May 2019 10:39:35 -0700
-Received: from bgsmsx101.gar.corp.intel.com (10.223.4.170) by
- FMSMSX153.amr.corp.intel.com (10.18.125.6) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Wed, 29 May 2019 10:39:35 -0700
-Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.115]) by
- BGSMSX101.gar.corp.intel.com ([169.254.1.184]) with mapi id 14.03.0415.000;
- Wed, 29 May 2019 23:09:32 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: RE: [Intel-gfx] [v11 00/12] Add HDR Metadata Parsing and handling
- in DRM layer
-Thread-Topic: [Intel-gfx] [v11 00/12] Add HDR Metadata Parsing and handling
- in DRM layer
-Thread-Index: AQHVC+1Op5bE7U7iO02sLWexQqzXBaaBkdoAgACiDaD//7dcgIAAg/yA//+mfICAAFy+UA==
-Date: Wed, 29 May 2019 17:39:31 +0000
-Message-ID: <E7C9878FBA1C6D42A1CA3F62AEB6945F82033733@BGSMSX104.gar.corp.intel.com>
-References: <1558015817-12025-1-git-send-email-uma.shankar@intel.com>
- <CAKMK7uGou8VC03pCe4Q1ycTuNaxCAdCSGw_MmJjMZg-z3m1jfw@mail.gmail.com>
- <E7C9878FBA1C6D42A1CA3F62AEB6945F820333AD@BGSMSX104.gar.corp.intel.com>
- <CAKMK7uFjo_FRXvLxTLpf-9OoRwyhiHn+VST8d_VBeNdTWMZf=w@mail.gmail.com>
- <E7C9878FBA1C6D42A1CA3F62AEB6945F820336FF@BGSMSX104.gar.corp.intel.com>
- <CAKMK7uEai2KXv_fmxagMDYz185B+j4omMcnEjs2K6VbXLcQJMw@mail.gmail.com>
-In-Reply-To: <CAKMK7uEai2KXv_fmxagMDYz185B+j4omMcnEjs2K6VbXLcQJMw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODY2YzIzNDMtZWIyYS00ZDFiLTk1MmMtZjljZjZlMDgxOTM5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoidVwvOEJYdFwvZGtVTWxFOWxjdzVHWVltY2g0aVQ0MlNEUXZiMklocUxjXC9KNG1ucGFkTnN6WGE0endwdTFsazhMMiJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-originating-ip: [10.223.10.10]
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6298A6E083
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 18:05:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5ADF872167; Wed, 29 May 2019 18:05:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Wed, 29 May 2019 18:05:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-EAKMhqFahd@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -68,183 +53,194 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniele Castagna <dcastagna@chromium.org>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1073940313=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4+ID4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4gPkZyb206IERhbmllbCBWZXR0
-ZXIgW21haWx0bzpkYW5pZWxAZmZ3bGwuY2hdDQo+PiA+U2VudDogV2VkbmVzZGF5LCBNYXkgMjks
-IDIwMTkgODozMyBQTQ0KPj4gPlRvOiBTaGFua2FyLCBVbWEgPHVtYS5zaGFua2FyQGludGVsLmNv
-bT4NCj4+ID5DYzogaW50ZWwtZ2Z4IDxpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsg
-ZHJpLWRldmVsIDxkcmktDQo+PiA+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgRGFuaWVs
-ZSBDYXN0YWduYQ0KPj4gPjxkY2FzdGFnbmFAY2hyb21pdW0ub3JnPjsgam9uYXNAa3dpYm9vLnNl
-OyBTZWFuIFBhdWwNCj4+ID48c2VhbnBhdWxAY2hyb21pdW0ub3JnPjsgU2hhcm1hLCBTaGFzaGFu
-aw0KPj4gPjxzaGFzaGFuay5zaGFybWFAaW50ZWwuY29tPjsgU3lyamFsYSwgVmlsbGUNCj4+ID48
-dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+DQo+PiA+U3ViamVjdDogUmU6IFtJbnRlbC1n
-ZnhdIFt2MTEgMDAvMTJdIEFkZCBIRFIgTWV0YWRhdGEgUGFyc2luZyBhbmQNCj4+ID5oYW5kbGlu
-ZyBpbiBEUk0gbGF5ZXINCj4+ID4NCj4+ID5PbiBXZWQsIE1heSAyOSwgMjAxOSBhdCAzOjU5IFBN
-IFNoYW5rYXIsIFVtYSA8dW1hLnNoYW5rYXJAaW50ZWwuY29tPg0KPndyb3RlOg0KPj4gPj4NCj4+
-ID4+DQo+PiA+Pg0KPj4gPj4gPi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+PiA+PiA+RnJv
-bTogRGFuaWVsIFZldHRlciBbbWFpbHRvOmRhbmllbEBmZndsbC5jaF0NCj4+ID4+ID5TZW50OiBX
-ZWRuZXNkYXksIE1heSAyOSwgMjAxOSAzOjEzIFBNDQo+PiA+PiA+VG86IFNoYW5rYXIsIFVtYSA8
-dW1hLnNoYW5rYXJAaW50ZWwuY29tPg0KPj4gPj4gPkNjOiBpbnRlbC1nZnggPGludGVsLWdmeEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmc+OyBkcmktZGV2ZWwgPGRyaS0NCj4+ID4+ID5kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmc+OyBEYW5pZWxlIENhc3RhZ25hDQo+PiA+PiA+PGRjYXN0YWduYUBj
-aHJvbWl1bS5vcmc+OyBqb25hc0Brd2lib28uc2U7IFNlYW4gUGF1bA0KPj4gPj4gPjxzZWFucGF1
-bEBjaHJvbWl1bS5vcmc+OyBTaGFybWEsIFNoYXNoYW5rDQo+PiA+PiA+PHNoYXNoYW5rLnNoYXJt
-YUBpbnRlbC5jb20+OyBTeXJqYWxhLCBWaWxsZQ0KPj4gPj4gPjx2aWxsZS5zeXJqYWxhQGxpbnV4
-LmludGVsLmNvbT4NCj4+ID4+ID5TdWJqZWN0OiBSZTogW0ludGVsLWdmeF0gW3YxMSAwMC8xMl0g
-QWRkIEhEUiBNZXRhZGF0YSBQYXJzaW5nIGFuZA0KPj4gPj4gPmhhbmRsaW5nIGluIERSTSBsYXll
-cg0KPj4gPj4gPg0KPj4gPj4gPldoZW4gYnVpbGRpbmcgdGhlIGRvY3Mgd2l0aCBtYWtlIGh0bWxk
-b2NzOg0KPj4gPj4gPg0KPj4gPj4gPi4vaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmg6ODQx
-OiB3YXJuaW5nOiBJbmNvcnJlY3QgdXNlIG9mDQo+PiA+PiA+a2VybmVsLWRvYyBmb3JtYXQ6ICAg
-ICAgICAgICogaGRyX291dHB1dF9tZXRhZGF0YV9wcm9wZXJ0eTogQ29ubmVjdG9yDQo+PiA+PiA+
-cHJvcGVydHkgY29udGFpbmluZyBoZHINCj4+ID4+ID4uL2luY2x1ZGUvZHJtL2RybV9tb2RlX2Nv
-bmZpZy5oOjkxODogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyDQo+PiA+PiA+b3IgbWVtYmVy
-ICdoZHJfb3V0cHV0X21ldGFkYXRhX3Byb3BlcnR5JyBub3QgZGVzY3JpYmVkIGluDQo+J2RybV9t
-b2RlX2NvbmZpZycNCj4+ID4+ID4uL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaDoxMjUxOiB3
-YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3INCj4+ID4+ID5tZW1iZXIgJ2hkcl9vdXRwdXRf
-bWV0YWRhdGEnIG5vdCBkZXNjcmliZWQgaW4gJ2RybV9jb25uZWN0b3InDQo+PiA+PiA+Li9pbmNs
-dWRlL2RybS9kcm1fY29ubmVjdG9yLmg6MTI1MTogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVy
-IG9yDQo+PiA+PiA+bWVtYmVyICdoZHJfc2lua19tZXRhZGF0YScgbm90IGRlc2NyaWJlZCBpbiAn
-ZHJtX2Nvbm5lY3RvcicNCj4+ID4+ID4NCj4+ID4+ID5QbGVhc2UgZml4Lg0KPj4gPj4NCj4+ID4+
-IFRoYW5rcyBEYW5pZWwsIEkgbWlzc2VkIHRvIGNoZWNrIHRoZSBkb2NzIHdhcm5pbmdzLiBXaWxs
-IGZpeCB0aGlzLg0KPj4gPj4NCj4+ID4+ID5JbiBnZW5lcmFsIGRvY3VtZW50YXRpb24gZm9yIHRo
-aXMgcGF0Y2ggc2VlbXMgdG8gYmUgZXh0cmVtZWx5IGxhY2tpbmcuDQo+PiA+PiA+Tm8gcHJvcGVy
-dHkgc3BlYywgbm90IGRvY3MgZm9yIG1vc3Qgb2YgdGhlIG5ldyBzdHVmZiBhZGRlZCwgbm8gbm90
-aGluZy4NCj4+ID4+DQo+PiA+PiBXaWxsIGFkZCB0aGUgcHJvcGVydHkgZGVzY3JpcHRpb24gaW4g
-Y29ubmVjdG9yIGNyZWF0ZSBwcm9wZXJ0aWVzIGFzIHdlbGwuDQo+PiA+Pg0KPj4gPj4gPlBsZWFz
-ZSBmaXggYXNhcC4NCj4+ID4+DQo+PiA+PiBZZWFoLCB3aWxsIHNlbmQgb3V0IHRoZSBkb2MgZml4
-IHBhdGNoIHNvb24uDQo+PiA+DQo+PiA+YnR3IEkgdGhpbmsgdGhlIGhkbWkgaW5mb2ZyYW1lIGhl
-bHBlciBkb2NzIGFsc28gbmVlZCBtb3JlIHBvbGlzaC4NCj4+ID5HZW5lcmFsbHkgd2Ugb25seSBk
-b2N1bWVudCB0aGUgZHJpdmVyIGludGVyZmFjZSwgZm9ybWFsIGtlcm5lbGRvYw0KPj4gPmNvbW1l
-bnRzIGZvciBzdGF0aWMgZnVuY3Rpb25zIGlzIG92ZXJraWxsLiBJIHRoaW5rIHlvdSBhZGRlZCBz
-b21lIG9mIHRob3NlLg0KPj4NCj4+IEhpIERhbmllbCwNCj4+IEkgdHJpZWQgdG8gc3RheSBjb25z
-aXN0ZW50IHdpdGggaG93IHRoZSBleGlzdGluZyBzdHVmZiB3YXMgaGFuZGxlZA0KPj4gaGVyZS4g
-U28geWVzLCBpdCBnb3QgYWRkZWQgYXMgcGFydCBvZiB0aGlzIGFzIHdlbGwuIE1heSBiZSBJIHdp
-bGwgZHJvcA0KPj4gaXQgZm9yIEhEUiBzdHVmZiB3aXRob3V0IGRpc3R1cmJpbmcgdGhlIGxlZ2Fj
-eSBzdHVmZi4gSG9wZSB0aGlzIGlzIGZpbmUgPw0KPg0KPlRoZXJlJ3MganVzdCBvbmUgcGF0Y2gg
-YmVmb3JlIHlvdXJzIHRoYXQgYWRkcyBrZXJuZWxkb2MgdG8gc3RhdGljIGlubGluZToNCj4NCj5j
-b21taXQgMmM2NzZmMzc4ZWRiMTZjYjY4Zjc4MTU1ODFjODExOWZjNDNhNGI4NQ0KPkF1dGhvcjog
-TWFydGluIEJ1Z2dlIDxtYXJidWdnZUBjaXNjby5jb20+DQo+RGF0ZTogICBGcmkgRGVjIDE5IDA5
-OjE0OjIxIDIwMTQgLTAzMDANCj4NCj4gICAgW21lZGlhXSBoZG1pOiBhZGRlZCB1bnBhY2sgYW5k
-IGxvZ2dpbmcgZnVuY3Rpb25zIGZvciBJbmZvRnJhbWVzDQo+DQo+VGhhdCBvbmUgZGlkbid0IGdv
-IHRocm91Z2ggZHJpLWRldmVsIEkgdGhpbmsuIE5vbmUgb2YgdGhlIG90aGVyIHN0YXRpYyBmdW5j
-dGlvbnMgYXJlDQo+ZG9jdW1lbnRlZC4NCj4NCj5JIHRoaW5rIGEgcGF0Y2ggdG8gcmVtb3ZlIHRo
-b3NlIChhbmQgbWF5YmUganVzdCBoYXZlIHNpbXBsZSBjb21tZW50cywgYnV0IGRvZXNuJ3QNCj5s
-b29rIGxpa2UgYW55dGhpbmcgZmFuY3kgdGhhdCdzIG5vdCBhbHJlYWR5IG9idmlvdXMpIG1ha2Vz
-IHNlbnNlIGhlcmUuDQoNClN1cmUgRGFuaWVsLCBJIHdpbGwgY3JlYXRlIGEgcGF0Y2ggdG8gcmVt
-b3ZlIHRob3NlIGFuZCB0aGVuIGRyb3AgdGhlIGRvY3VtZW50YXRpb24NCmZyb20gdGhlIHN0YXRp
-YyBmdW5jdGlvbnMgZnJvbSB0aGlzIGZpbGUuDQoNCj5JJ20gYWxzbyB3b3JraW5nIG9uIHNvbWUg
-cGF0Y2hlcyB0byBkb2N1bWVudCBkcm0gc3Vic3lzdGVtIGRvY3VtZW50YXRpb24gcnVsZXMNCj5i
-ZXR0ZXIgZ29pbmcgZm9yd2FyZC4NCg0KWWVhaCwgdGhpcyB3aWxsIGhlbHAgaGF2ZSBzb21lIHN0
-YW5kYXJkaXphdGlvbi4gVGhhbmtzLg0KDQpSZWdhcmRzLA0KVW1hIFNoYW5rYXINCg0KPi1EYW5p
-ZWwNCj4NCj4+DQo+PiBSZWdhcmRzLA0KPj4gVW1hIFNoYW5rYXINCj4+DQo+PiA+SWYgeW91IGZl
-ZWwgbGlrZSBhIGNvbW1lbnQgaXMgbmVlZGVkLCBzdXJlIGRvIHRoYXQsIGJ1dCBqdXN0IGEgcGxh
-aW4NCj4+ID5jb21tZW50LiBBbHdheXMgd29ydGggaXQgdG8gbWFrZSBzdXJlIHRoYXQgdGhlIGRv
-Y3VtZW50YXRpb24geW91J3JlDQo+PiA+dHlwaW5nIGFjdHVhbGx5IHNob3dzIHVwIGluIHRoZSBv
-dXRwdXQsIGFuZCBjb3JyZWN0bHkuIElmIGl0IGRvZXNuJ3QsIHRoZW4gdGhlcmUncw0KPnNvbWV0
-aGluZyB0byBpbXByb3ZlLg0KPj4gPg0KPj4gPkNhbiB5b3UgcGxzIGFsc28gdGFrZSBhIGxvb2sg
-YXQgdGhhdD8NCj4+ID4NCj4+ID5UaGFua3MsIERhbmllbA0KPj4gPj4NCj4+ID4+IFJlZ2FyZHMs
-DQo+PiA+PiBVbWEgU2hhbmthcg0KPj4gPj4NCj4+ID4+ID5TaGFzaGFuaywgVmlsbGUsIHRoaXMg
-aXMgc3R1ZmYgcmV2aWV3ZXJzIG11c3QgY2F0Y2guDQo+PiA+PiA+DQo+PiA+PiA+VGhhbmtzLCBE
-YW5pZWwNCj4+ID4+ID4NCj4+ID4+ID5PbiBUaHUsIE1heSAxNiwgMjAxOSBhdCAzOjQzIFBNIFVt
-YSBTaGFua2FyIDx1bWEuc2hhbmthckBpbnRlbC5jb20+DQo+d3JvdGU6DQo+PiA+PiA+Pg0KPj4g
-Pj4gPj4gVGhpcyBwYXRjaCBzZXJpZXMgZW5hYmxlcyBIRFIgc3VwcG9ydCBpbiBkcm0uIEl0IGJh
-c2ljYWxseQ0KPj4gPj4gPj4gZGVmaW5lcyBIRFIgbWV0YWRhdGEgc3RydWN0dXJlcywgcHJvcGVy
-dHkgdG8gcGFzcyBjb250ZW50IChhZnRlcg0KPj4gPj4gPj4gYmxlbmRpbmcpIG1ldGFkYXRhIGZy
-b20gdXNlciBzcGFjZSBjb21wb3NpdG9ycyB0byBkcml2ZXIuDQo+PiA+PiA+Pg0KPj4gPj4gPj4g
-RHluYW1pYyBSYW5nZSBhbmQgTWFzdGVyaW5nIGluZm9mcmFtZSBjcmVhdGlvbiBhbmQgc2VuZGlu
-Zy4NCj4+ID4+ID4+DQo+PiA+PiA+PiBUb0RvOg0KPj4gPj4gPj4gMS4gV2UgbmVlZCB0byBnZXQg
-dGhlIGNvbG9yIGZyYW1ld29yayBpbiBwbGFjZSBmb3IgYWxsIHBsYW5lcw0KPj4gPj4gPj4gICAg
-d2hpY2ggc3VwcG9ydCBIRFIgY29udGVudCBpbiBoYXJkd2FyZS4gVGhpcyBpcyBhbHJlYWR5IGlu
-IHByb2dyZXMNCj4+ID4+ID4+ICAgIGFuZCBwYXRjaGVzIGFyZSBvdXQgZm9yIHJldmlldyBpbiBt
-YWlsaW5nIGxpc3QuDQo+PiA+PiA+PiAyLiBVc2VyU3BhY2UvQ29tcG9zaXRvcnM6IEJsZW5kaW5n
-IHBvbGljaWVzIGFuZCBtZXRhZGF0YSBibG9iDQo+PiA+PiA+PiAgICBjcmVhdGlvbiBhbmQgcGFz
-c2luZyB0byBkcml2ZXIuIFdvcmsgaXMgYWxyZWFkeSBpbiBwcm9ncmVzcw0KPj4gPj4gPj4gICAg
-YnkgSW50ZWwncyBtaWRkbGV3YXJlIHRlYW1zIG9uIHdheWxhbmQgYW5kIHRoZSBwYXRjaGVzIGZv
-cg0KPj4gPj4gPj4gICAgdGhlIHNhbWUgYXJlIGluIHJldmlldy4NCj4+ID4+ID4+DQo+PiA+PiA+
-PiBBIFBPQyBoYXMgYWxyZWFkeSBiZWVuIGRldmVsb3BlZCBieSBWaWxsZSBiYXNlZCBvbiB3YXls
-YW5kLg0KPj4gPj4gPj4gUGxlYXNlIHJlZmVyIGJlbG93IGxpbmsgdG8gc2VlIHRoZSBjb21wb25l
-bnQgaW50ZXJhY3Rpb25zIGFuZCB1c2FnZToNCj4+ID4+ID4+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL2FyY2hpdmVzL3dheWxhbmQtZGV2ZWwvMjAxNy1EZWNlbWINCj4+ID4+ID4+IGVy
-Lw0KPj4gPj4gPj4gMDM2DQo+PiA+PiA+PiA0MDMuaHRtbA0KPj4gPj4gPj4NCj4+ID4+ID4+IHYy
-OiBVcGRhdGVkIFZpbGxlJ3MgUE9DIGNoYW5nZXMgdG8gdGhlIHBhdGNoIHNlcmllcy5JbmNvcnBv
-cmF0ZWQNCj4+ID4+ID4+IGNsZWFudXBzIGFuZCBmaXhlcyBmcm9tIFZpbGxlLiBSZWJhc2Ugb24g
-bGF0ZXN0IGRybS10aXAuDQo+PiA+PiA+Pg0KPj4gPj4gPj4gdjM6IEZpeGVkIGEgd2FybmluZyBj
-YXVzaW5nIGJ1aWxkcyB0byBicmVhayBvbiBDSS4gTm8gbWFqb3IgY2hhbmdlLg0KPj4gPj4gPj4N
-Cj4+ID4+ID4+IHY0OiBBZGRyZXNzZWQgU2hhc2hhbmsncyByZXZpZXcgY29tbWVudHMuDQo+PiA+
-PiA+Pg0KPj4gPj4gPj4gdjU6IFJlYmFzZSBvbiB0b3Agb2YgVmlsbGUncyBpbmZvZnJhbWUgcmVm
-YWN0b3JpbmcgY2hhbmdlcy4NCj4+ID4+ID4+IEZpeGVkIG5vbiBtb2Rlc2V0IGNhc2UgZm9yIEhE
-UiBtZXRhZGF0YSB1cGRhdGUuIERyb3BwZWQgYSByZWR1bmRhbnQNCj5wYXRjaC4NCj4+ID4+ID4+
-DQo+PiA+PiA+PiB2NjogQWRkcmVzc2VkIFNoYXNoYW5rJ3MgcmV2aWV3IGNvbW1lbnRzIGFuZCBh
-ZGRlZCBSQidzIHJlY2VpdmVkLg0KPj4gPj4gPj4NCj4+ID4+ID4+IHY3OiBTcXVhc2hlZCAyIHBh
-dGNoZXMsIGRyb3BwZWQgMSBjaGFuZ2UgYW5kIGFkZHJlc3NlZCBCcmlhbg0KPj4gPj4gPj4gU3Rh
-cmtleSdzIGFuZCBTaGFzaGFuaydzIHJldmlldyBjb21tZW50cy4NCj4+ID4+ID4+DQo+PiA+PiA+
-PiB2ODogQWRkcmVzc2VkIEpvbmFzIEthcmxtYW4gcmV2aWV3IGNvbW1lbnRzLiBBZGRlZCBTaGFz
-aGFuaydzIFJCDQo+PiA+PiA+PiB0byB0aGUgc2VyaWVzLCBmaXhlZCBhIFdBUk5fT04gb24gQllU
-L0NIVC4NCj4+ID4+ID4+DQo+PiA+PiA+PiB2OTogQWRkcmVzc2VkIFZpbGxlIGFuZCBKb25hcyBL
-YXJsbWFuJ3MgcmV2aWV3IGNvbW1lbnRzLiBBZGRlZA0KPj4gPj4gPj4gdGhlIGluZm9mcmFtZSBz
-dGF0ZSByZWFkb3V0IGFuZCBtZXRhZGF0YSByZWZlcmVuY2UgY291bnQuDQo+PiA+PiA+Pg0KPj4g
-Pj4gPj4gdjEwOiBBZGRyZXNzZWQgcmV2aWV3IGNvbW1lbnRzIGZyb20gSm9uYXMgYW5kIFZpbGxl
-LiBEcm9wcGVkIG9uZQ0KPj4gPj4gPj4gcGF0Y2ggcmVsYXRlZCB0byBpOTE1IGZhc3RzZXQgaGFu
-ZGxpbmcgYXMgcGVyIFZpbGxlJ3MgZmVlZGJhY2suDQo+PiA+PiA+Pg0KPj4gPj4gPj4gdjExOiBB
-ZGRyZXNzZWQgVmlsbGUncyByZXZpZXcgY29tbWVudHMuDQo+PiA+PiA+Pg0KPj4gPj4gPj4gTm90
-ZTogdjkgdmVyc2lvbiBpcyBhbHJlYWR5IHRlc3RlZCB3aXRoIEtvZGkgYW5kIGEgY29uZmlybWF0
-aW9uDQo+PiA+PiA+PiBmcm9tIHRlYW0ga29kaSBoYXMgYmVlbiByZWNlaXZlZC4gQnJhbmNoIGRl
-dGFpbHMgZm9yIHRoZSBzYW1lIGFzIGJlbG93Og0KPj4gPj4gPj4gaHR0cHM6Ly9naXRodWIuY29t
-L3hibWMveGJtYy90cmVlL2ZlYXR1cmVfZHJtcHJpbWUtdmFhcGkNCj4+ID4+ID4+DQo+PiA+PiA+
-PiB2OSBvZiB0aGlzIHNlcmllcyBpczoNCj4+ID4+ID4+IFRlc3RlZC1ieTogSm9uYXMgS2FybG1h
-biA8am9uYXNAa3dpYm9vLnNlPg0KPj4gPj4gPj4NCj4+ID4+ID4+IEpvbmFzIEthcmxtYW4gKDEp
-Og0KPj4gPj4gPj4gICBkcm06IEFkZCByZWZlcmVuY2UgY291bnRpbmcgb24gSERSIG1ldGFkYXRh
-IGJsb2INCj4+ID4+ID4+DQo+PiA+PiA+PiBVbWEgU2hhbmthciAoOSk6DQo+PiA+PiA+PiAgIGRy
-bTogQWRkIEhEUiBzb3VyY2UgbWV0YWRhdGEgcHJvcGVydHkNCj4+ID4+ID4+ICAgZHJtOiBQYXJz
-ZSBIRFIgbWV0YWRhdGEgaW5mbyBmcm9tIEVESUQNCj4+ID4+ID4+ICAgZHJtOiBFbmFibGUgSERS
-IGluZm9mcmFtZSBzdXBwb3J0DQo+PiA+PiA+PiAgIGRybS9pOTE1OiBBdHRhY2ggSERSIG1ldGFk
-YXRhIHByb3BlcnR5IHRvIGNvbm5lY3Rvcg0KPj4gPj4gPj4gICBkcm0vaTkxNTogV3JpdGUgSERS
-IGluZm9mcmFtZSBhbmQgc2VuZCB0byBwYW5lbA0KPj4gPj4gPj4gICBkcm0vaTkxNTpFbmFibGVk
-IE1vZGVzZXQgd2hlbiBIRFIgSW5mb2ZyYW1lIGNoYW5nZXMNCj4+ID4+ID4+ICAgZHJtL2k5MTU6
-IEFkZGVkIERSTSBJbmZvZnJhbWUgaGFuZGxpbmcgZm9yIEJZVC9DSFQNCj4+ID4+ID4+ICAgdmlk
-ZW8vaGRtaTogQWRkIFVucGFjayBmdW5jdGlvbiBmb3IgRFJNIGluZm9mcmFtZQ0KPj4gPj4gPj4g
-ICBkcm0vaTkxNTogQWRkIHN0YXRlIHJlYWRvdXQgZm9yIERSTSBpbmZvZnJhbWUNCj4+ID4+ID4+
-DQo+PiA+PiA+PiBWaWxsZSBTeXJqw6Rsw6QgKDIpOg0KPj4gPj4gPj4gICBkcm06IEFkZCBITEcg
-RU9URg0KPj4gPj4gPj4gICBkcm0vaTkxNTogRW5hYmxlIGluZm9mcmFtZXMgb24gR0xLKyBmb3Ig
-SERSDQo+PiA+PiA+Pg0KPj4gPj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX3N0YXRl
-X2hlbHBlci5jIHwgICA1ICsNCj4+ID4+ID4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191
-YXBpLmMgICAgICAgICB8ICAxMiArKw0KPj4gPj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29u
-bmVjdG9yLmMgICAgICAgICAgIHwgICA2ICsNCj4+ID4+ID4+ICBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2VkaWQuYyAgICAgICAgICAgICAgICB8IDEyNCArKysrKysrKysrKysrKw0KPj4gPj4gPj4gIGRy
-aXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmggICAgICAgICAgIHwgICA0ICsNCj4+ID4+ID4+
-ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9hdG9taWMuYyAgICAgICB8ICAxNCArLQ0KPj4g
-Pj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2RkaS5jICAgICAgICAgIHwgICAzICsN
-Cj4+ID4+ID4+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kaXNwbGF5LmMgICAgICB8ICAg
-MSArDQo+PiA+PiA+PiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZHJ2LmggICAgICAgICAg
-fCAgIDEgKw0KPj4gPj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2hkbWkuYyAgICAg
-ICAgIHwgIDY3ICsrKysrKystDQo+PiA+PiA+PiAgZHJpdmVycy92aWRlby9oZG1pLmMgICAgICAg
-ICAgICAgICAgICAgICAgfCAyNTcgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+PiA+
-PiA+PiAgaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oICAgICAgICAgICAgICAgfCAgMTAgKysN
-Cj4+ID4+ID4+ICBpbmNsdWRlL2RybS9kcm1fZWRpZC5oICAgICAgICAgICAgICAgICAgICB8ICAg
-NSArDQo+PiA+PiA+PiAgaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmggICAgICAgICAgICAg
-fCAgIDcgKw0KPj4gPj4gPj4gIGluY2x1ZGUvbGludXgvaGRtaS5oICAgICAgICAgICAgICAgICAg
-ICAgIHwgIDU1ICsrKysrKysNCj4+ID4+ID4+ICBpbmNsdWRlL3VhcGkvZHJtL2RybV9tb2RlLmgg
-ICAgICAgICAgICAgICB8ICAyMyArKysNCj4+ID4+ID4+ICAxNiBmaWxlcyBjaGFuZ2VkLCA1ODkg
-aW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkNCj4+ID4+ID4+DQo+PiA+PiA+PiAtLQ0KPj4g
-Pj4gPj4gMS45LjENCj4+ID4+ID4+DQo+PiA+PiA+PiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXw0KPj4gPj4gPj4gSW50ZWwtZ2Z4IG1haWxpbmcgbGlzdA0K
-Pj4gPj4gPj4gSW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPj4gPj4gPj4gaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9pbnRlbC1nZngNCj4+ID4+
-ID4NCj4+ID4+ID4NCj4+ID4+ID4NCj4+ID4+ID4tLQ0KPj4gPj4gPkRhbmllbCBWZXR0ZXINCj4+
-ID4+ID5Tb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24NCj4+ID4+ID4rNDEgKDAp
-IDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoDQo+PiA+DQo+PiA+DQo+PiA+DQo+
-PiA+LS0NCj4+ID5EYW5pZWwgVmV0dGVyDQo+PiA+U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENv
-cnBvcmF0aW9uDQo+PiA+KzQxICgwKSA3OSAzNjUgNTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5j
-aA0KPg0KPg0KPg0KPi0tDQo+RGFuaWVsIFZldHRlcg0KPlNvZnR3YXJlIEVuZ2luZWVyLCBJbnRl
-bCBDb3Jwb3JhdGlvbg0KPis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwu
-Y2gNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1073940313==
+Content-Type: multipart/alternative; boundary="15591531540.7cA96fB37.4585"
+Content-Transfer-Encoding: 7bit
+
+
+--15591531540.7cA96fB37.4585
+Date: Wed, 29 May 2019 18:05:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #19 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
+(In reply to tempel.julian from comment #18)
+> Huh, with modesetting driver, those patches eliminate the stutter when new
+> windows are shown. Does the xf86-video-amdgpu driver need adjustments for
+> this?
+
+It should eliminate stuttering for that case in xf86-video-amdgpu if it's t=
+he
+problem I think it is (double buffering the cursor).
+
+>=20
+> However, turning on nightlight in Plasma Wayland still causes stutter, wh=
+ich
+> is not there with amdgpu.dc=3D0.
+
+1. Gamma updates are slow updates that do a lot of register programming.
+Nightlight and RedShift issue a lot of these updates.
+
+2. Gamma updates, like everything that isn't a cursor update, currently tar=
+get
+the next vblank period.
+
+3. If the pageflip is in a separate commit or update than the gamma update,
+then it'll need to wait for the gamma update to finish and for the next vbl=
+ank
+interval. If this takes too long then we might miss the next vblank interval
+and have to wait for the one after that.
+
+I think it's a combination of these 3 issues. Even though it's Wayland and
+should be using the full atomic API, I'm not sure if plasma is actually iss=
+uing
+all that state in the same commit or not.
+
+My guess would be no, since you're seeing the stuttering. We do have a bug =
+with
+(2) for legacy gamma updates, since there isn't really any reason those sho=
+uld
+be waiting for the next flip / vblank other than to be consistent with the =
+rest
+of the atomic commit framework.
+
+> RedShift btw. is completely broken with amdgpu.dc=3D1 + modesetting DDX, =
+it
+> simply has no effect anymore (not related to the experimental atomic
+> modesetting patches).
+
+Not sure what the issue here would be. Gamma seems to work fine for legacy =
+and
+atomic on amdgpu (we pass the IGT tests for this) and it works fine in lega=
+cy
+desktops like GNOME on Xorg with the xf86-video-amdgpu DDX.
+
+Was this still on Plasma, but on X?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15591531540.7cA96fB37.4585
+Date: Wed, 29 May 2019 18:05:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c19">Comme=
+nt # 19</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
+kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
+/a>
+</span></b>
+        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
+10659#c18">comment #18</a>)
+<span class=3D"quote">&gt; Huh, with modesetting driver, those patches elim=
+inate the stutter when new
+&gt; windows are shown. Does the xf86-video-amdgpu driver need adjustments =
+for
+&gt; this?</span >
+
+It should eliminate stuttering for that case in xf86-video-amdgpu if it's t=
+he
+problem I think it is (double buffering the cursor).
+
+<span class=3D"quote">&gt;=20
+&gt; However, turning on nightlight in Plasma Wayland still causes stutter,=
+ which
+&gt; is not there with amdgpu.dc=3D0.</span >
+
+1. Gamma updates are slow updates that do a lot of register programming.
+Nightlight and RedShift issue a lot of these updates.
+
+2. Gamma updates, like everything that isn't a cursor update, currently tar=
+get
+the next vblank period.
+
+3. If the pageflip is in a separate commit or update than the gamma update,
+then it'll need to wait for the gamma update to finish and for the next vbl=
+ank
+interval. If this takes too long then we might miss the next vblank interval
+and have to wait for the one after that.
+
+I think it's a combination of these 3 issues. Even though it's Wayland and
+should be using the full atomic API, I'm not sure if plasma is actually iss=
+uing
+all that state in the same commit or not.
+
+My guess would be no, since you're seeing the stuttering. We do have a bug =
+with
+(2) for legacy gamma updates, since there isn't really any reason those sho=
+uld
+be waiting for the next flip / vblank other than to be consistent with the =
+rest
+of the atomic commit framework.
+
+<span class=3D"quote">&gt; RedShift btw. is completely broken with amdgpu.d=
+c=3D1 + modesetting DDX, it
+&gt; simply has no effect anymore (not related to the experimental atomic
+&gt; modesetting patches).</span >
+
+Not sure what the issue here would be. Gamma seems to work fine for legacy =
+and
+atomic on amdgpu (we pass the IGT tests for this) and it works fine in lega=
+cy
+desktops like GNOME on Xorg with the xf86-video-amdgpu DDX.
+
+Was this still on Plasma, but on X?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15591531540.7cA96fB37.4585--
+
+--===============1073940313==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1073940313==--
