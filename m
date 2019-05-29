@@ -2,34 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68CB82E089
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 17:07:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7F12E094
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 17:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23DE26E0E8;
-	Wed, 29 May 2019 15:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA62F6E2B2;
+	Wed, 29 May 2019 15:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from youngberry.canonical.com (youngberry.canonical.com
- [91.189.89.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72CA66E0E8;
- Wed, 29 May 2019 15:07:38 +0000 (UTC)
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
- by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.76) (envelope-from <colin.king@canonical.com>)
- id 1hW0Aw-0004FY-R3; Wed, 29 May 2019 15:07:34 +0000
-From: Colin King <colin.king@canonical.com>
-To: Oded Gabbay <oded.gabbay@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Zhou <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Oak Zeng <Oak.Zeng@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>
-Subject: [PATCH][next] drm/amdkfd: fix null pointer dereference on dev
-Date: Wed, 29 May 2019 16:07:34 +0100
-Message-Id: <20190529150734.18120-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+ [209.85.166.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2350B6E2B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 15:09:34 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id g16so2110493iom.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 08:09:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZnaDev0tj+heu2iB5lB6hq5yDeKgLXO4KFHMV/Qt+5k=;
+ b=nACYZMXcEcQF1zRNt4OFTSMtwDDuoFbQb4OMKR7+0A5J3C9RGpLMA4T/a+AQQs/1Av
+ x/brb2vqYBZQYW3PW54h170LtfoK8AYRwDhOMC3/r5/+qWe4GwVvhdc7uFnb3mXLGX09
+ XiTVFjNn4lMlAPMh3FfhnZPU4Y1TogmKmKhedlURdpndeQBYFArjxhroE1QvVjpr0IOH
+ PSmh84jUxrky96mNW9DL9dOAcjfiVNsJQrB37lyUUKpIfmoq3oKVt+uXx36OuCx/Bhig
+ 0gEGP13RQClqRwM11wjzv5AercVcrA8n1KQr64SCpNL9iWY/tT+yVDtPT6h2tDbf7JvY
+ LqPw==
+X-Gm-Message-State: APjAAAV6LnPoZjNB3YNMXnv4WdSx3hOOwCPKCFOeyNXZsyXqZfc+KKzk
+ 6dgkAUvVqwvYOWRxUN/KxF9FMALdDvMU2P3y7LURKZXw
+X-Google-Smtp-Source: APXvYqySOnocW0FtjyGqwuP2FQxhmxY7P/texfW33GuY5PwHsuap8yTRqkoaWNnTkj3NpjtfrGddYcbbqyuWzUYQqNA=
+X-Received: by 2002:a6b:7:: with SMTP id 7mr828192ioa.253.1559142573556; Wed,
+ 29 May 2019 08:09:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190521161102.29620-1-peron.clem@gmail.com>
+In-Reply-To: <20190521161102.29620-1-peron.clem@gmail.com>
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Date: Wed, 29 May 2019 17:09:22 +0200
+Message-ID: <CAAObsKD8bij1ANLqX6y11Y6mDEXiymNjrDkmHmvGWiFLKWu_FA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/6] Allwinner H6 Mali GPU support
+To: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,39 +51,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Will Deacon <will.deacon@arm.com>, open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZSBwb2lu
-dGVyIGRldiBpcyBzZXQgdG8gbnVsbCB5ZXQgaXQgaXMgYmVpbmcgZGVyZWZlcmVuY2VkIHdoZW4K
-Y2hlY2tpbmcgZGV2LT5kcW0tPnNjaGVkX3BvbGljeS4gIEZpeCB0aGlzIGJ5IHBlcmZvcm1pbmcg
-dGhlIGNoZWNrCm9uIGRldi0+ZHFtLT5zY2hlZF9wb2xpY3kgYWZ0ZXIgZGV2IGhhcyBiZWVuIGFz
-c2lnbmVkIGFuZCBudWxsCmNoZWNrZWQuICBBbHNvIHJlbW92ZSB0aGUgcmVkdW5kYW50IG51bGwg
-YXNzaWdubWVudCB0byBkZXYuCgpBZGRyZXNzZXMtQ292ZXJpdHk6ICgiRXhwbGljaXQgbnVsbCBk
-ZXJlZmVyZW5jZSIpCkZpeGVzOiAxYTA1OGMzMzc2NzYgKCJkcm0vYW1ka2ZkOiBOZXcgSU9DVEwg
-dG8gYWxsb2NhdGUgcXVldWUgR1dTIikKU2lnbmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNv
-bGluLmtpbmdAY2Fub25pY2FsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9r
-ZmRfY2hhcmRldi5jIHwgNyArKysrLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
-LCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2Zk
-L2tmZF9jaGFyZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfY2hhcmRldi5j
-CmluZGV4IGFhYjJhYTZjMWRlZS4uZWE4MjgyOGZkYzc2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGtmZC9rZmRfY2hhcmRldi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1ka2ZkL2tmZF9jaGFyZGV2LmMKQEAgLTE1NzIsMTAgKzE1NzIsOSBAQCBzdGF0aWMgaW50IGtm
-ZF9pb2N0bF9hbGxvY19xdWV1ZV9nd3Moc3RydWN0IGZpbGUgKmZpbGVwLAogewogCWludCByZXR2
-YWw7CiAJc3RydWN0IGtmZF9pb2N0bF9hbGxvY19xdWV1ZV9nd3NfYXJncyAqYXJncyA9IGRhdGE7
-Ci0Jc3RydWN0IGtmZF9kZXYgKmRldiA9IE5VTEw7CisJc3RydWN0IGtmZF9kZXYgKmRldjsKIAot
-CWlmICghaHdzX2d3c19zdXBwb3J0IHx8Ci0JCWRldi0+ZHFtLT5zY2hlZF9wb2xpY3kgPT0gS0ZE
-X1NDSEVEX1BPTElDWV9OT19IV1MpCisJaWYgKCFod3NfZ3dzX3N1cHBvcnQpCiAJCXJldHVybiAt
-RUlOVkFMOwogCiAJZGV2ID0ga2ZkX2RldmljZV9ieV9pZChhcmdzLT5ncHVfaWQpOwpAQCAtMTU4
-Myw2ICsxNTgyLDggQEAgc3RhdGljIGludCBrZmRfaW9jdGxfYWxsb2NfcXVldWVfZ3dzKHN0cnVj
-dCBmaWxlICpmaWxlcCwKIAkJcHJfZGVidWcoIkNvdWxkIG5vdCBmaW5kIGdwdSBpZCAweCV4XG4i
-LCBhcmdzLT5ncHVfaWQpOwogCQlyZXR1cm4gLUVJTlZBTDsKIAl9CisJaWYgKGRldi0+ZHFtLT5z
-Y2hlZF9wb2xpY3kgPT0gS0ZEX1NDSEVEX1BPTElDWV9OT19IV1MpCisJCXJldHVybiAtRUlOVkFM
-OwogCiAJbXV0ZXhfbG9jaygmcC0+bXV0ZXgpOwogCXJldHZhbCA9IHBxbV9zZXRfZ3dzKCZwLT5w
-cW0sIGFyZ3MtPnF1ZXVlX2lkLCBhcmdzLT5udW1fZ3dzID8gZGV2LT5nd3MgOiBOVUxMKTsKLS0g
-CjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gVHVlLCAyMSBNYXkgMjAxOSBhdCAxODoxMSwgQ2zDqW1lbnQgUMOpcm9uIDxwZXJvbi5jbGVt
+QGdtYWlsLmNvbT4gd3JvdGU6Cj4KW3NuaXBdCj4gWyAgMzQ1LjIwNDgxM10gcGFuZnJvc3QgMTgw
+MDAwMC5ncHU6IG1tdSBpcnEgc3RhdHVzPTEKPiBbICAzNDUuMjA5NjE3XSBwYW5mcm9zdCAxODAw
+MDAwLmdwdTogVW5oYW5kbGVkIFBhZ2UgZmF1bHQgaW4gQVMwIGF0IFZBCj4gMHgwMDAwMDAwMDAy
+NDAwNDAwCgpGcm9tIHdoYXQgSSBjYW4gc2VlIGhlcmUsIDB4MDAwMDAwMDAwMjQwMDQwMCBwb2lu
+dHMgdG8gdGhlIGZpcnN0IGJ5dGUKb2YgdGhlIGZpcnN0IHN1Ym1pdHRlZCBqb2IgZGVzY3JpcHRv
+ci4KClNvIG1hcHBpbmcgYnVmZmVycyBmb3IgdGhlIEdQVSBkb2Vzbid0IHNlZW0gdG8gYmUgd29y
+a2luZyBhdCBhbGwgb24KNjQtYml0IFQtNzYwLgoKU3RldmVuLCBSb2JpbiwgZG8geW91IGhhdmUg
+YW55IGlkZWEgb2Ygd2h5IHRoaXMgY291bGQgYmU/CgpUaGFua3MsCgpUb21ldQpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
