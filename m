@@ -1,46 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7942E6CA
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 22:56:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E132E74C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 23:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2694890F9;
-	Wed, 29 May 2019 20:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB2C46E0BB;
+	Wed, 29 May 2019 21:18:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 58F8A890F9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 20:56:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4E3FF72167; Wed, 29 May 2019 20:56:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 29 May 2019 20:56:40 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-oqke5tWnhD@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23CFA6E111
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 21:18:35 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id m14so2464296qka.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 14:18:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=5fNozO3bwwzX6wXm+puxeZDwgkkGojQ7a7fZzhpnV5Y=;
+ b=UfNaYgww2SjzHGCG8PwuB5Zh01O7mTB5sjD8MSIA4fjH2xs/t5H/RWbwaLa8gx219a
+ q133HVvzw1KRu2P15/UlxXSR43cFp4NKT0vd6zcizc9tinnT7iBQYGv3ADy8C/Vlnk0l
+ oT/RZfGLCdqeM82xh7gEYfymnLmGFkH+4QL7P6sOWp7huoIhL4emt4JfNRARWTHkmztH
+ AM64ustu0D3BqSDy7Tomngq9/vaxpylFGqZH2xuUaEWw2tIDS5TwW3xKyOhVlFOUHAfM
+ 2uXw2a1edFc5qPa6mlOBlHsU4KjKHn/Wv5/jTX3pxJD+uznAWBeyNB/SDQiLPPepR68c
+ kFRg==
+X-Gm-Message-State: APjAAAV2c/q7QzDy3tMy+uBkdrc4G2LBm1T/jyUhHLqLvciIgcgh3OGZ
+ gLSmidoxuJ8qxk8heR6qDMAnmw==
+X-Google-Smtp-Source: APXvYqwtfiAzESHby2OuVfBs15loPuuROecBbjF5kbk0UyyrJooGQptOSu/cdLt1Yerabpg0GoXAPA==
+X-Received: by 2002:a05:620a:3:: with SMTP id j3mr77599698qki.95.1559164714180; 
+ Wed, 29 May 2019 14:18:34 -0700 (PDT)
+Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
+ by smtp.gmail.com with ESMTPSA id w143sm363919qka.22.2019.05.29.14.18.33
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 29 May 2019 14:18:33 -0700 (PDT)
+Date: Wed, 29 May 2019 17:18:33 -0400
+From: Sean Paul <sean@poorly.run>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20190529211833.GA195708@art_vandelay>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent;
+ bh=5fNozO3bwwzX6wXm+puxeZDwgkkGojQ7a7fZzhpnV5Y=;
+ b=K2N04qjY3JMxlYEUHC1v+e51c09smLZprV1GfOWb1lmhS9VRZdEaqZBTzPI5SH4d8r
+ Fwsp5sNkChDD6HAOMnIDs1zMU5f6/ZxNC+EwAdnSfOJdI0iz5H3Qrs7UEyST4MXTquyh
+ 9dRquH25hNn2Jm8V3u78c6ZPPe1sliGKnzSc6wVtFOMF9KquLjEwX3pscUeKC+jO1qkj
+ AFtu+Z/fPRABFu/kmQD28IuBBdBZJ0Oh9AalY06XBOK9bLprfH3l9+Xr5w9ElRDUhjcl
+ G9vkxSO4fzTn/PK1pNzeVVhJQs8t2H5rgov1JtAppq/2kUCHkfxnn2lcWaH27bJzxkQA
+ njCw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,179 +66,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1147148940=="
+Cc: dim-tools@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1147148940==
-Content-Type: multipart/alternative; boundary="15591634000.4fDc.12745"
-Content-Transfer-Encoding: 7bit
-
-
---15591634000.4fDc.12745
-Date: Wed, 29 May 2019 20:56:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #20 from tempel.julian@gmail.com ---
-I forgot that I patched this PR into my Xserver:
-https://gitlab.freedesktop.org/xorg/xserver/merge_requests/36
-It is responsible for the blocked gamma adjustment and the better desktop
-window performance of the modesetting Xorg driver with the experimental ato=
-mic
-modesetting kernel patches vs. the xf86-video-amdgpu driver.
-
-So, since everything got a bit messy, let me recap the results and add a few
-more details:
-
--The experimental atomic modesetting kernel patches actually improve the
-performance for desktop window usage for one aspect: When I open
-www.vsynctester.com in Chromium and quickly hover the mouse cursor over my
-system tray to trigger popup windows, this doesn't result in stuttering
-anymore. The same applies to little text popups (e.g. URLs of links) during
-regular web browsing. This is the case with both modesetting and
-xf86-video-amdgpu, window compositing is enabled and 100% free of tearing at
-the same time.
-
--But there is still stutter on www.vsynctester.com in Chromium (please don't
-use Firefox for this, it even stutters on MS Windows when doing this...) wh=
-en I
-hide and show any other window, e.g. of running Dolphin file browser by
-clicking its starter icon in the taskbar. It's just the window that is shown
-and hidden, the program itself continues running all the time. This applies=
- to
-both modesetting and xf86-video-amdgpu driver.
-
--But when I apply the aforementioned "WIP: modesetting: Use atomic more
-atomically" patch to Xserver (additionally to the experimental atomic
-modesetting kernel patches), the modesetting driver is also 100% free of
-stutter in this situation, while the xf86-video-amdgpu-driver is not.
-Question is: Can this also be incorporated into the xf86-video-amdgpu drive=
-r?
-This would be a VAST improvement, the stuttering during gamma adjustments i=
-mho
-is not close to being as important.
-
--Now back to the stutter in games when moving the mouse: This is completely
-untouched by all this. The xf86-video-amdgpu driver always show stuttering =
-in
-the mentioned games (as long as amdgpu.dc=3D1), while modesetting and also
-xwayland don't.
-
-
-Oof, I hope I didn't forget anything. ;)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15591634000.4fDc.12745
-Date: Wed, 29 May 2019 20:56:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c20">Comme=
-nt # 20</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>I forgot that I patched this PR into my Xserver:
-<a href=3D"https://gitlab.freedesktop.org/xorg/xserver/merge_requests/36">h=
-ttps://gitlab.freedesktop.org/xorg/xserver/merge_requests/36</a>
-It is responsible for the blocked gamma adjustment and the better desktop
-window performance of the modesetting Xorg driver with the experimental ato=
-mic
-modesetting kernel patches vs. the xf86-video-amdgpu driver.
-
-So, since everything got a bit messy, let me recap the results and add a few
-more details:
-
--The experimental atomic modesetting kernel patches actually improve the
-performance for desktop window usage for one aspect: When I open
-www.vsynctester.com in Chromium and quickly hover the mouse cursor over my
-system tray to trigger popup windows, this doesn't result in stuttering
-anymore. The same applies to little text popups (e.g. URLs of links) during
-regular web browsing. This is the case with both modesetting and
-xf86-video-amdgpu, window compositing is enabled and 100% free of tearing at
-the same time.
-
--But there is still stutter on www.vsynctester.com in Chromium (please don't
-use Firefox for this, it even stutters on MS Windows when doing this...) wh=
-en I
-hide and show any other window, e.g. of running Dolphin file browser by
-clicking its starter icon in the taskbar. It's just the window that is shown
-and hidden, the program itself continues running all the time. This applies=
- to
-both modesetting and xf86-video-amdgpu driver.
-
--But when I apply the aforementioned &quot;WIP: modesetting: Use atomic more
-atomically&quot; patch to Xserver (additionally to the experimental atomic
-modesetting kernel patches), the modesetting driver is also 100% free of
-stutter in this situation, while the xf86-video-amdgpu-driver is not.
-Question is: Can this also be incorporated into the xf86-video-amdgpu drive=
-r?
-This would be a VAST improvement, the stuttering during gamma adjustments i=
-mho
-is not close to being as important.
-
--Now back to the stutter in games when moving the mouse: This is completely
-untouched by all this. The xf86-video-amdgpu driver always show stuttering =
-in
-the mentioned games (as long as amdgpu.dc=3D1), while modesetting and also
-xwayland don't.
-
-
-Oof, I hope I didn't forget anything. ;)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15591634000.4fDc.12745--
-
---===============1147148940==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1147148940==--
+CkhpIERhLiosCk9uZSBsaW5lIHB1bGwtcmVxdWVzdCwgb25lLWxpbmUgc3VtbWFyeS4gUGxlYXNl
+IHB1bGwgOikKCmRybS1taXNjLWZpeGVzLTIwMTktMDUtMjk6CnF4bDogRHJvcCBXQVJOIHdoZW4g
+dS9zIHRyaWVzIHRvIG1tYXAgYSBwcmltZSBidWZmZXIgKEdlcmQpCgpDYzogR2VyZCBIb2ZmbWFu
+biA8a3JheGVsQHJlZGhhdC5jb20+CgpDaGVlcnMsIFNlYW4KCgpUaGUgZm9sbG93aW5nIGNoYW5n
+ZXMgc2luY2UgY29tbWl0IGYzNjE3YjQ0OWQwYmNmM2I1ZDgwYTk3ZjUxNDk4ZGNmNzQ2M2NmN2U6
+CgogIGRybS9wYW5mcm9zdDogU2VsZWN0IGRldmZyZXEgKDIwMTktMDUtMjIgMTM6MDU6MTMgLTA1
+MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5v
+bmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjIHRhZ3MvZHJtLW1pc2MtZml4ZXMtMjAx
+OS0wNS0yOQoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDk1Yjc0Y2U4ODk0Mzc0N2Zm
+ZjBhM2E4YTZmMDRlZWNiZTdiMWMzY2U6CgogIGRybS9xeGw6IGRyb3AgV0FSTl9PTkNFKCkgKDIw
+MTktMDUtMjcgMTM6MTc6MDMgKzAyMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCnF4bDogRHJvcCBXQVJOIHdoZW4gdS9z
+IHRyaWVzIHRvIG1tYXAgYSBwcmltZSBidWZmZXIgKEdlcmQpCgpDYzogR2VyZCBIb2ZmbWFubiA8
+a3JheGVsQHJlZGhhdC5jb20+CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkdlcmQgSG9mZm1hbm4gKDEpOgogICAgICBkcm0v
+cXhsOiBkcm9wIFdBUk5fT05DRSgpCgogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfcHJpbWUuYyB8
+IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCi0tIApTZWFuIFBhdWwsIFNvZnR3
+YXJlIEVuZ2luZWVyLCBHb29nbGUgLyBDaHJvbWl1bSBPUwpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
