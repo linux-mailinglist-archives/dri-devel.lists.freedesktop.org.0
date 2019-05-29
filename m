@@ -1,35 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D11142E03B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 16:55:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 224FE2E06F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 17:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01B3E6E33A;
-	Wed, 29 May 2019 14:54:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED586E100;
+	Wed, 29 May 2019 15:01:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 804AE6E33A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 14:54:57 +0000 (UTC)
-X-Originating-IP: 90.88.147.134
-Received: from localhost (aaubervilliers-681-1-27-134.w90-88.abo.wanadoo.fr
- [90.88.147.134]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id B6E83FF810;
- Wed, 29 May 2019 14:54:50 +0000 (UTC)
-Date: Wed, 29 May 2019 16:54:50 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v10 01/11] drm/sun4i: dsi: Fix TCON DRQ set bits
-Message-ID: <20190529145450.qnitxpmpr2a2xemk@flea>
-References: <20190520090318.27570-1-jagan@amarulasolutions.com>
- <20190520090318.27570-2-jagan@amarulasolutions.com>
- <20190523203407.o5obg2wtj7wwau6a@flea>
- <CAMty3ZDDYEOvSbi7kmacjJZS6f3whpaGd4xsf4OUkXmBbTE3Qg@mail.gmail.com>
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63D4D6E100
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 15:01:07 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id y10so2284498oia.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 08:01:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=28b8Lw/VKP0F/5ijVj5uCNPJtbGPYpXDuGC5vNO+lJU=;
+ b=ZW5UFrrfHPfNrVk++zKKUfIg0rEMa/1Q+vxoh0aY1tcp84gr+mksYBGAyYE84K+pFa
+ qRvhhsl5ewya9wC2Lcv/4fziH5SdVHvOj8WKljpPaFHhqBgorFIATVIg9af2OFfkp+oQ
+ ncAzXS3YsJTlIIfUnWOX4Tm1BloK2EDRX6bQEGheet9SH7eoi1D0BpMhu+ZiCJ5LlQQg
+ 003bGb3339a3yTBsgil5TDTs/Y8xjgLDTJCYBc0lXNsXRIMGGfqPwEkW131ApjpIBVaR
+ VhpdvXaF9EylPE5UOkI6KT5Bh52iVy4PZyyNET6dkHVzwqMuIf2hVX36joLyDvodpvhG
+ xGUw==
+X-Gm-Message-State: APjAAAUda+vhqQraA7CE3aDedS8HtEBkYDozd1LtqGYfPfcnIM0aqMTX
+ a7NpMV8Xa7vNj3MWAZTUkIJEFknhbcT/JFyzF6Fd8w==
+X-Google-Smtp-Source: APXvYqxDoZiCU1ACmLGFxGdlV/ZOM5bwRZ/eSuDb2I9G1+CpvJ+bKWQ4iqMLcGok76Bb8VkcGARnnsDtdfjMJhJhsy4=
+X-Received: by 2002:aca:31cf:: with SMTP id x198mr883293oix.132.1559142064819; 
+ Wed, 29 May 2019 08:01:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZDDYEOvSbi7kmacjJZS6f3whpaGd4xsf4OUkXmBbTE3Qg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <1559141030-4386-1-git-send-email-uma.shankar@intel.com>
+In-Reply-To: <1559141030-4386-1-git-send-email-uma.shankar@intel.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 29 May 2019 17:00:51 +0200
+Message-ID: <CAKMK7uEoZD3m9cgfBo93jOuei2VB68+9fBTrcduQ=Aybc-PKOw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix docbook warnings in hdr metadata helper
+ structures
+To: Uma Shankar <uma.shankar@intel.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=28b8Lw/VKP0F/5ijVj5uCNPJtbGPYpXDuGC5vNO+lJU=;
+ b=M4kmsUpie/lhA2Q5tCmhz+BPhKZIdIR3B7Fr29DU0e7ELX/tnhWjwfQHAjmxBx27St
+ 16RO6vEMkp3lyyyov5rtJrdiM30u4PSQYuBoOgoza4IMGxXkEZQsP3CyDz0qnPVSsaiq
+ EWLKWe0htlEXCDOPIMqGYBlCYebKa3/nKsojI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,169 +60,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhushan Shah <bshah@mykolab.com>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- =?utf-8?B?5Z2a5a6a5YmN6KGM?= <powerpan@qq.com>, Chen-Yu Tsai <wens@csie.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0239642717=="
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hansverk@cisco.com>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0239642717==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="e3ohgwzl5lwvn4wg"
-Content-Disposition: inline
-
-
---e3ohgwzl5lwvn4wg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, May 24, 2019 at 03:48:51PM +0530, Jagan Teki wrote:
-> On Fri, May 24, 2019 at 2:04 AM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> >
-> > On Mon, May 20, 2019 at 02:33:08PM +0530, Jagan Teki wrote:
-> > > According to "DRM kernel-internal display mode structure" in
-> > > include/drm/drm_modes.h the current driver is trying to include
-> > > sync timings along with front porch value while checking and
-> > > computing drq set bits in non-burst mode.
-> > >
-> > > mode->hsync_end - mode->hdisplay => horizontal front porch + sync
-> > >
-> > > With adding additional sync timings, the dsi controller leads to
-> > > wrong drq set bits for "bananapi,s070wv20-ct16" panel which indeed
-> > > trigger panel flip_done timed out as:
-> > >
-> > >  WARNING: CPU: 0 PID: 31 at drivers/gpu/drm/drm_atomic_helper.c:1429 drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0
-> > >  [CRTC:46:crtc-0] vblank wait timed out
-> > >  Modules linked in:
-> > >  CPU: 0 PID: 31 Comm: kworker/0:1 Not tainted 5.1.0-next-20190514-00026-g01f0c75b902d-dirty #13
-> > >  Hardware name: Allwinner sun8i Family
-> > >  Workqueue: events deferred_probe_work_func
-> > >  [<c010ed54>] (unwind_backtrace) from [<c010b76c>] (show_stack+0x10/0x14)
-> > >  [<c010b76c>] (show_stack) from [<c0688c70>] (dump_stack+0x84/0x98)
-> > >  [<c0688c70>] (dump_stack) from [<c011d9e4>] (__warn+0xfc/0x114)
-> > >  [<c011d9e4>] (__warn) from [<c011da40>] (warn_slowpath_fmt+0x44/0x68)
-> > >  [<c011da40>] (warn_slowpath_fmt) from [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0)
-> > >  [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1) from [<c040e694>] (drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
-> > >  [<c040e694>] (drm_atomic_helper_commit_tail_rpm) from [<c040e4dc>] (commit_tail+0x40/0x6c)
-> > >  [<c040e4dc>] (commit_tail) from [<c040e5cc>] (drm_atomic_helper_commit+0xbc/0x128)
-> > >  [<c040e5cc>] (drm_atomic_helper_commit) from [<c0411b64>] (restore_fbdev_mode_atomic+0x1cc/0x1dc)
-> > >  [<c0411b64>] (restore_fbdev_mode_atomic) from [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa0)
-> > >  [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0415774>] (drm_fb_helper_set_par+0x30/0x54)
-> > >  [<c0415774>] (drm_fb_helper_set_par) from [<c03ad450>] (fbcon_init+0x560/0x5ac)
-> > >  [<c03ad450>] (fbcon_init) from [<c03eb8a0>] (visual_init+0xbc/0x104)
-> > >  [<c03eb8a0>] (visual_init) from [<c03ed1b8>] (do_bind_con_driver+0x1b0/0x390)
-> > >  [<c03ed1b8>] (do_bind_con_driver) from [<c03ed780>] (do_take_over_console+0x13c/0x1c4)
-> > >  [<c03ed780>] (do_take_over_console) from [<c03ad800>] (do_fbcon_takeover+0x74/0xcc)
-> > >  [<c03ad800>] (do_fbcon_takeover) from [<c013c9c8>] (notifier_call_chain+0x44/0x84)
-> > >  [<c013c9c8>] (notifier_call_chain) from [<c013cd20>] (__blocking_notifier_call_chain+0x48/0x60)
-> > >  [<c013cd20>] (__blocking_notifier_call_chain) from [<c013cd50>] (blocking_notifier_call_chain+0x18/0x20)
-> > >  [<c013cd50>] (blocking_notifier_call_chain) from [<c03a6e44>] (register_framebuffer+0x1e0/0x2f8)
-> > >  [<c03a6e44>] (register_framebuffer) from [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock+0x2fc/0x50c)
-> > >  [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock) from [<c04158c8>] (drm_fbdev_client_hotplug+0xe8/0x1b8)
-> > >  [<c04158c8>] (drm_fbdev_client_hotplug) from [<c0415a20>] (drm_fbdev_generic_setup+0x88/0x118)
-> > >  [<c0415a20>] (drm_fbdev_generic_setup) from [<c043f060>] (sun4i_drv_bind+0x128/0x160)
-> > >  [<c043f060>] (sun4i_drv_bind) from [<c044b598>] (try_to_bring_up_master+0x164/0x1a0)
-> > >  [<c044b598>] (try_to_bring_up_master) from [<c044b668>] (__component_add+0x94/0x140)
-> > >  [<c044b668>] (__component_add) from [<c0445e1c>] (sun6i_dsi_probe+0x144/0x234)
-> > >  [<c0445e1c>] (sun6i_dsi_probe) from [<c0452ef4>] (platform_drv_probe+0x48/0x9c)
-> > >  [<c0452ef4>] (platform_drv_probe) from [<c04512cc>] (really_probe+0x1dc/0x2c8)
-> > >  [<c04512cc>] (really_probe) from [<c0451518>] (driver_probe_device+0x60/0x160)
-> > >  [<c0451518>] (driver_probe_device) from [<c044f7a4>] (bus_for_each_drv+0x74/0xb8)
-> > >  [<c044f7a4>] (bus_for_each_drv) from [<c045107c>] (__device_attach+0xd0/0x13c)
-> > >  [<c045107c>] (__device_attach) from [<c0450474>] (bus_probe_device+0x84/0x8c)
-> > >  [<c0450474>] (bus_probe_device) from [<c0450900>] (deferred_probe_work_func+0x64/0x90)
-> > >  [<c0450900>] (deferred_probe_work_func) from [<c0135970>] (process_one_work+0x204/0x420)
-> > >  [<c0135970>] (process_one_work) from [<c013690c>] (worker_thread+0x274/0x5a0)
-> > >  [<c013690c>] (worker_thread) from [<c013b3d8>] (kthread+0x11c/0x14c)
-> > >  [<c013b3d8>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
-> > >  Exception stack(0xde539fb0 to 0xde539ff8)
-> > >  9fa0:                                     00000000 00000000 00000000 00000000
-> > >  9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > >  9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> > >  ---[ end trace b57eb1e5c64c6b8b ]---
-> > >  random: fast init done
-> > >  [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:46:crtc-0] flip_done timed out
-> > >  [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:48:DSI-1] flip_done timed out
-> > >  [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:30:plane-0] flip_done timed out
-> > >
-> > > But according to Allwinner A33, A64 BSP code [1] [3] the TCON DRQ for
-> > > non-burst DSI mode can be computed based on "horizontal front porch"
-> > > value only (no sync timings included).
-> > >
-> > > Detailed evidence for drq set bits based on A33 BSP [1] [2]
-> > >
-> > > => panel->lcd_ht - panel->lcd_x - panel->lcd_hbp - 20
-> > > => (tt->hor_front_porch + lcdp->panel_info.lcd_hbp +
-> > > lcdp->panel_info.lcd_x) - panel->lcd_x - panel->lcd_hbp - 20
-> > > => tt->hor_front_porch - 20
-> >
-> > The thing is, while your explanation on the DRM side is sound,
-> > Allwinner has been using the hbp field of their panel description to
-> > store what DRM calls the backporch and the sync period.
->
-> Exactly, hbp = backporch + sync
-> https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L2046
->
-> And the above computation is rely on that as well. If you can see the
-> final out of the above computation you can get the front porch value
-> (w/o sync )
-
-As I was saying, you are explaining it well for DRM, but in order for
-your last formula (the one coming from the BSP) to make sense, you
-have to explain that the horizontal back porch for Allwinner contains
-the sync period, otherwise your expansion of lcd_ht doesn't make
-sense.
-
-> > And nowhere in that commit log you are describing whether it's still
-> > an issue or not, and if it's not anymore how you did test that it's
-> > not the case anymore.
->
-> No, I have explained 1st and 2nd para about
-> 00. There is any additional sync timings in the drq set bits
-> 01: issue occur due to adding addition sync timings with longs on the
-> panel, by referring
-> 03: and later paragraphs proved that there is no sync timings used in BSP
->
-> Am I missing anythings?
-
-I'm sorry, but I'm not quite sure what you mean here :/
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---e3ohgwzl5lwvn4wg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXO6dOgAKCRDj7w1vZxhR
-xb3JAQDiU9ih3FaFVzHFsCryipzzledy17txQyF0xAPZx3DffwD9GlUTRIfwWY6P
-ietvjmHvlDtHvP7JCiWM+ntELt2bHwU=
-=Exq+
------END PGP SIGNATURE-----
-
---e3ohgwzl5lwvn4wg--
-
---===============0239642717==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0239642717==--
+T24gV2VkLCBNYXkgMjksIDIwMTkgYXQgNDoxNiBQTSBVbWEgU2hhbmthciA8dW1hLnNoYW5rYXJA
+aW50ZWwuY29tPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgd2FybmluZ3M6Cj4gLi9p
+bmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaDo4NDE6IHdhcm5pbmc6IEluY29ycmVjdCB1c2Ug
+b2YKPiBrZXJuZWwtZG9jIGZvcm1hdDogICAgICAgICAgKiBoZHJfb3V0cHV0X21ldGFkYXRhX3By
+b3BlcnR5OiBDb25uZWN0b3IKPiBwcm9wZXJ0eSBjb250YWluaW5nIGhkcgo+IC4vaW5jbHVkZS9k
+cm0vZHJtX21vZGVfY29uZmlnLmg6OTE4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3Ig
+bWVtYmVyICdoZHJfb3V0cHV0X21ldGFkYXRhX3Byb3BlcnR5JyBub3QgZGVzY3JpYmVkIGluICdk
+cm1fbW9kZV9jb25maWcnCj4gLi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmg6MTI1MTogd2Fy
+bmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnaGRyX291dHB1dF9tZXRhZGF0YScg
+bm90IGRlc2NyaWJlZCBpbiAnZHJtX2Nvbm5lY3RvcicKPiAuL2luY2x1ZGUvZHJtL2RybV9jb25u
+ZWN0b3IuaDoxMjUxOiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdoZHJf
+c2lua19tZXRhZGF0YScgbm90IGRlc2NyaWJlZCBpbiAnZHJtX2Nvbm5lY3RvcicKPgo+IEFsc28g
+YWRkcyBzb21lIHByb3BlcnR5IGRvY3VtZW50YXRpb24gZm9yIEhEUiBNZXRhZGF0YSBDb25uZWN0
+b3IKPiBQcm9wZXJ0eSBpbiBjb25uZWN0b3IgcHJvcGVydHkgY3JlYXRlIGZ1bmN0aW9uLgo+Cj4g
+Q2M6IFNoYXNoYW5rIFNoYXJtYSA8c2hhc2hhbmsuc2hhcm1hQGludGVsLmNvbT4KPiBDYzogVmls
+bGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWFhcnRl
+biBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWF4
+aW1lIFJpcGFyZCA8bWF4aW1lLnJpcGFyZEBib290bGluLmNvbT4KPiBDYzogU2VhbiBQYXVsIDxz
+ZWFuQHBvb3JseS5ydW4+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBD
+YzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBCYXJ0bG9taWVqIFpvbG5p
+ZXJraWV3aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+Cj4gQ2M6ICJWaWxsZSBTeXJqw6Rs
+w6QiIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogSGFucyBWZXJrdWlsIDxo
+YW5zdmVya0BjaXNjby5jb20+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+PiBDYzogbGludXgtZmJkZXZAdmdlci5rZXJuZWwub3JnCj4gU2lnbmVkLW9mZi1ieTogVW1hIFNo
+YW5rYXIgPHVtYS5zaGFua2FyQGludGVsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2Ry
+bV9jb25uZWN0b3IuYyB8IDggKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5o
+ICAgICB8IDMgKystCj4gIGluY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oICAgfCAyICstCj4g
+IGluY2x1ZGUvbGludXgvaGRtaS5oICAgICAgICAgICAgfCAxICsKPiAgNCBmaWxlcyBjaGFuZ2Vk
+LCAxMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rv
+ci5jCj4gaW5kZXggYzlhYzhiOS4uNzAyMzA3YyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vZHJtX2Nvbm5lY3Rvci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3Iu
+Ywo+IEBAIC0xMDAzLDYgKzEwMDMsMTQgQEAgaW50IGRybV9kaXNwbGF5X2luZm9fc2V0X2J1c19m
+b3JtYXRzKHN0cnVjdCBkcm1fZGlzcGxheV9pbmZvICppbmZvLAo+ICAgKiAgICAgY2FuIGFsc28g
+ZXhwb3NlIHRoaXMgcHJvcGVydHkgdG8gZXh0ZXJuYWwgb3V0cHV0cywgaW4gd2hpY2ggY2FzZSB0
+aGV5Cj4gICAqICAgICBtdXN0IHN1cHBvcnQgIk5vbmUiLCB3aGljaCBzaG91bGQgYmUgdGhlIGRl
+ZmF1bHQgKHNpbmNlIGV4dGVybmFsIHNjcmVlbnMKPiAgICogICAgIGhhdmUgYSBidWlsdC1pbiBz
+Y2FsZXIpLgo+ICsgKgo+ICsgKiBIRFJfT1VUUFVUX01FVEFEQVRBOgo+ICsgKiAgICAgQ29ubmVj
+dG9yIHByb3BlcnR5IHRvIGVuYWJsZSB1c2Vyc3BhY2UgdG8gc2VuZCBIRFIgTWV0YWRhdGEgdG8g
+ZHJpdmVyLgo+ICsgKiAgICAgVGhpcyBtZXRhZGF0YSBpcyBiYXNlZCBvbiB0aGUgY29tcG9zaXRp
+b24gYW5kIGJsZW5kaW5nIHBvbGljaWVzIGRlY2lkZWQKPiArICogICAgIGJ5IHVzZXIsIHRha2lu
+ZyBpbnRvIGFjY291bnQgdGhlIGhhcmR3YXJlIGFuZCBzaW5rIGNhcGFiaWx0aWVzLgo+ICsgKiAg
+ICAgVGhlIGRyaXZlciBnZXRzIHRoaXMgbWV0YWRhdGEgYW5kIGNyZWF0ZXMgYSBEeW5hbWljIFJh
+bmdlIGFuZCBNYXN0ZXJpbmcKPiArICogICAgIEluZm9mcmFtZSAoRFJNKSB3aGljaCBpcyB0aGVu
+IHNlbnQgdG8gc2luay4gVGhpcyBub3RpZmllcyB0aGUgc2luayBvZgo+ICsgKiAgICAgdGhlIHVw
+Y29taW5nIGZyYW1lJ3MgQ29sb3IgRW5jb2RpbmcgYW5kIEx1bWluYW5jZSBwYXJhbWV0ZXJzLgo+
+ICAgKi8KCkFzc3VtaW5nIEknbSBhcHBseWluZyB0aGlzIGNvcnJlY3RseSB5b3VyIGFkZGluZyB0
+aGlzIHRvIHRoZSAibGNkCnBhbmVsIHByb3BlcnRpZXMiIHNlY3Rpb24uIFRoYXQgZG9lc24ndCBt
+YWtlIHNlbnNlIHRvIG1lLiBJIHRoaW5rIHdlCmFscmVhZHkgaGF2ZSBhIHNlY3Rpb24gZm9yIGhk
+bWkgcHJvcGVydGllcyBzb21ld2hlcmUsIHdvdWxkIGZpdCBiZXR0ZXIKdGhlcmUuCgpUaGlzIHNo
+b3VsZCBhbHNvIGNvbnRhaW4gYSBiaXQgbW9yZSBhYm91dCBob3cgdGhpcyBpcyBzdXBwb3NlZCB0
+bwp3b3JrLCBob3cgaXQncyBzZXQgdXAgZnJvbSBhIGRyaXZlciBwb3YgKHNwcmlua2xlIGxpbmtz
+IGFsbCBvdmVyIGl0KQphbmQgaG93IHVzZXJzcGFjZSBpdCBzdXBwb3NlZCB0byB1c2UgaXQuCgpJ
+IHRoaW5rIHNpbmNlIHRoaXMgaXMgYSB1c2luZyBhIHJhdGhlciBjb21wbGljYXRlZCBzdHJ1Y3Qg
+SSB0aGluayB3ZQpuZWVkIHRvIGZ1bGx5IGRvY3VtZW50IHRoYXQgc3RydWN0dXJlIHRvby4gQXRt
+IHVhcGkvZHJtX21vZGUuaCBpc24ndApwdWxsZWQgaW50byBhbnl3aGVyZSwgc28gd2UgbmVlZCB0
+byBmaXggdGhhdCAoYSBuZXcgY2hhcHRlciB0aXRsZWQKIlVzZXJzcGFjZSBBUEkgU3RydWN0dXJl
+cyIgaW4gZHJtLXVhcGkucnN0IHdvdWxkIGJlIGdvb2QsIGNyb3NzLWxpbmtzCndpbGwgd29yayku
+Cgo+Cj4gIGludCBkcm1fY29ubmVjdG9yX2NyZWF0ZV9zdGFuZGFyZF9wcm9wZXJ0aWVzKHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYpCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0
+b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaAo+IGluZGV4IGY4ZjQwMDMuLmYyMjZl
+ZjAgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCj4gKysrIGIvaW5j
+bHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCj4gQEAgLTEyNDQsOCArMTI0NCw5IEBAIHN0cnVjdCBk
+cm1fY29ubmVjdG9yIHsKPiAgICAgICAgICAqLwo+ICAgICAgICAgc3RydWN0IGxsaXN0X25vZGUg
+ZnJlZV9ub2RlOwo+Cj4gLSAgICAgICAvKiBIRFIgbWV0ZGF0YSAqLwo+ICsgICAgICAgLyoqIEBo
+ZHJfb3V0cHV0X21ldGFkYXRhOiBIRFIgTWV0YWRhdGEgdG8gYmUgc2VudCB0byBzaW5rICovCj4g
+ICAgICAgICBzdHJ1Y3QgaGRyX291dHB1dF9tZXRhZGF0YSBoZHJfb3V0cHV0X21ldGFkYXRhOwoK
+VWgsIGlzIHRoaXMgZXZlbiB1c2VkPyBJdCB3b3VsZCBiZSBhIGJ1ZyBpZiBzbywgc2luY2UgdGhl
+IHN0YXRlCnVzZXJzcGFjZSBjYW4gc2V0IG11c3QgYmUgc3RvcmVkIGluIGRybV9jb25uZWN0b3Jf
+c3RhdGUsIG5vdCBpbgpkcm1fY29ubmVjdG9yLiBPbmx5IHJlYWQtb25seSBzdHVmZiBjYW4gYmUg
+aW4gdGhlcmUuCgpQbGVhc2UgZG9uJ3QganVzdCBibGluZGx5IHR5cGUgZG9jcywgdHJ5IHRvIG1h
+a2Ugc3VyZSB0aGF0IHdoYXQgeW91J3JlCmRvY3VtZW50aW5nIGFjdHVhbGx5IG1ha2VzIHNlbnNl
+LiBBbHNvLCBzaG91bGQgaGF2ZSBiZWVuIGEgY2xlYXIgc2lnbgp0aGF0IHlvdSd2ZSBmb3Jnb3R0
+ZW4gdG8gZG9jdW1lbnQgb25lIG9mIHRoZSBwcm9wZXJ0aWVzIGluIHRoZQplbnVtZXJhdGlvbiBh
+Ym92ZS4KLURhbmllbAoKPiArICAgICAgIC8qKiBAaGRyX3NpbmtfbWV0YWRhdGE6IEhEUiBNZXRh
+ZGF0YSBJbmZvcm1hdGlvbiByZWFkIGZyb20gc2luayAqLwo+ICAgICAgICAgc3RydWN0IGhkcl9z
+aW5rX21ldGFkYXRhIGhkcl9zaW5rX21ldGFkYXRhOwo+ICB9Owo+Cj4gZGlmZiAtLWdpdCBhL2lu
+Y2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmln
+LmgKPiBpbmRleCA0Zjg4Y2M5Li4wYjE4MGUwIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2Ry
+bV9tb2RlX2NvbmZpZy5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgKPiBA
+QCAtODM3LDcgKzgzNyw3IEBAIHN0cnVjdCBkcm1fbW9kZV9jb25maWcgewo+ICAgICAgICAgc3Ry
+dWN0IGRybV9wcm9wZXJ0eSAqd3JpdGViYWNrX291dF9mZW5jZV9wdHJfcHJvcGVydHk7Cj4KPiAg
+ICAgICAgIC8qKgo+IC0gICAgICAgICogaGRyX291dHB1dF9tZXRhZGF0YV9wcm9wZXJ0eTogQ29u
+bmVjdG9yIHByb3BlcnR5IGNvbnRhaW5pbmcgaGRyCj4gKyAgICAgICAgKiBAaGRyX291dHB1dF9t
+ZXRhZGF0YV9wcm9wZXJ0eTogQ29ubmVjdG9yIHByb3BlcnR5IGNvbnRhaW5pbmcgaGRyCj4gICAg
+ICAgICAgKiBtZXRhdGRhLiBUaGlzIHdpbGwgYmUgcHJvdmlkZWQgYnkgdXNlcnNwYWNlIGNvbXBv
+c2l0b3JzIGJhc2VkCj4gICAgICAgICAgKiBvbiBIRFIgY29udGVudAo+ICAgICAgICAgICovCj4g
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvaGRtaS5oIGIvaW5jbHVkZS9saW51eC9oZG1pLmgK
+PiBpbmRleCBlZTU1YmE1Li5lYTU4NThlIDEwMDY0NAo+IC0tLSBhL2luY2x1ZGUvbGludXgvaGRt
+aS5oCj4gKysrIGIvaW5jbHVkZS9saW51eC9oZG1pLmgKPiBAQCAtMzk4LDYgKzM5OCw3IEBAIHNz
+aXplX3QgaGRtaV92ZW5kb3JfaW5mb2ZyYW1lX3BhY2tfb25seShjb25zdCBzdHJ1Y3QgaGRtaV92
+ZW5kb3JfaW5mb2ZyYW1lICpmcmFtCj4gICAqIEBzcGQ6IHNwZCBpbmZvZnJhbWUKPiAgICogQHZl
+bmRvcjogdW5pb24gb2YgYWxsIHZlbmRvciBpbmZvZnJhbWVzCj4gICAqIEBhdWRpbzogYXVkaW8g
+aW5mb2ZyYW1lCj4gKyAqIEBkcm06IERSTSBpbmZvZnJhbWUKPiAgICoKPiAgICogVGhpcyBpcyB1
+c2VkIGJ5IHRoZSBnZW5lcmljIHBhY2sgZnVuY3Rpb24uIFRoaXMgd29ya3Mgc2luY2UgYWxsIGlu
+Zm9mcmFtZXMKPiAgICogaGF2ZSB0aGUgc2FtZSBoZWFkZXIgd2hpY2ggYWxzbyBpbmRpY2F0ZXMg
+d2hpY2ggdHlwZSBvZiBpbmZvZnJhbWUgc2hvdWxkIGJlCj4gLS0KPiAxLjkuMQo+CgoKLS0gCkRh
+bmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkg
+NzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
