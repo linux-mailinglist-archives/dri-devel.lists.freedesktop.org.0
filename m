@@ -1,61 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D942E6CC
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 22:57:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7942E6CA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 22:56:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78AAE6E0F7;
-	Wed, 29 May 2019 20:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2694890F9;
+	Wed, 29 May 2019 20:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D279892C0;
- Wed, 29 May 2019 20:57:04 +0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
- id 5217561A44; Wed, 29 May 2019 20:56:02 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
- version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: jcrouse@smtp.codeaurora.org)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7A5C661A64;
- Wed, 29 May 2019 20:55:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7A5C661A64
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: freedreno@lists.freedesktop.org
-Subject: [PATCH v3 16/16] drm/msm/a5xx: Support per-instance pagetables
-Date: Wed, 29 May 2019 14:54:52 -0600
-Message-Id: <1559163292-4792-17-git-send-email-jcrouse@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559163292-4792-1-git-send-email-jcrouse@codeaurora.org>
-References: <1559163292-4792-1-git-send-email-jcrouse@codeaurora.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1559163424;
- bh=cUIPIGctA4wgg/uQMmcfCltYmcPMsZcXek/F57krbj8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WvQDyhzXJddhsIzfgmvNEdqjdnVVpBTe/LLBWYtqoV/BegGrGwlaqwWGguXnjiVeP
- YwmYQ3s4/z5DMyDLw085FKjKKl8NSUVRvPpHyLnBbUBwicCIgesxr6jobF52Cs5g2P
- lHj8eaWFBZD0+JgXs/kOQM3Cuits4lGt6S5y1TiE=
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=codeaurora.org; s=default; t=1559163359;
- bh=cUIPIGctA4wgg/uQMmcfCltYmcPMsZcXek/F57krbj8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P83qkCzwhSOwkMKxEoS1lLkD3rpGdJPj2h0iGI1atM/hUMjDunUuJfaue+901h6sp
- CxAh4OMZv2QDcIn/f0tsXhCWPMSNd1vXSXjAkuegx4bhcHTnjFDhLAJOKHgojYGf4V
- CTzYjxQ/tBj3uZe6ERCtsuL2IGVhuOzYhdSFjQww=
-X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
- dmarc=none (p=none dis=none)
- header.from=codeaurora.org
-X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
- spf=none
- smtp.mailfrom=jcrouse@codeaurora.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 58F8A890F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 20:56:40 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4E3FF72167; Wed, 29 May 2019 20:56:40 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Wed, 29 May 2019 20:56:40 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-oqke5tWnhD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,193 +53,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jean-philippe.brucker@arm.com, linux-arm-msm@vger.kernel.org,
- Sharat Masetty <smasetty@codeaurora.org>, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- David Airlie <airlied@linux.ie>, hoegsberg@google.com,
- Mamta Shukla <mamtashukla555@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>,
- Wen Yang <wen.yang99@zte.com.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1147148940=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHN1cHBvcnQgZm9yIHBlci1pbnN0YW5jZSBwYWdldGFibGVzIGZvciA1WFggdGFyZ2V0cy4g
-Q3JlYXRlIGEgc3VwcG9ydApidWZmZXIgZm9yIHByZWVtcHRpb24gdG8gaG9sZCB0aGUgU01NVSBw
-YWdldGFibGUgaW5mb3JtYXRpb24gZm9yIGEKcHJlZW1wdGVkIHJpbmcsIGVuYWJsZSBUVEJSMSB0
-byBzdXBwb3J0IHNwbGl0IHBhZ2V0YWJsZXMgYW5kIGFkZCB0aGUKbmVjZXNzYXJ5IFBNNCBjb21t
-YW5kcyB0byB0cmlnZ2VyIGEgcGFnZXRhYmxlIHN3aXRjaCBhdCB0aGUgYmVnaW5uaW5nCm9mIGEg
-dXNlciBjb21tYW5kLgoKU2lnbmVkLW9mZi1ieTogSm9yZGFuIENyb3VzZSA8amNyb3VzZUBjb2Rl
-YXVyb3JhLm9yZz4KLS0tCgogZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTV4eF9ncHUuYyAg
-ICAgfCAxMjAgKysrKysrKysrKysrKysrKysrKysrKysrKysrKystCiBkcml2ZXJzL2dwdS9kcm0v
-bXNtL2FkcmVuby9hNXh4X2dwdS5oICAgICB8ICAxOSArKysrKwogZHJpdmVycy9ncHUvZHJtL21z
-bS9hZHJlbm8vYTV4eF9wcmVlbXB0LmMgfCAgNzAgKysrKysrKysrKysrKy0tLS0KIDMgZmlsZXMg
-Y2hhbmdlZCwgMTkyIGluc2VydGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1eHhfZ3B1LmMgYi9kcml2ZXJzL2dwdS9kcm0v
-bXNtL2FkcmVuby9hNXh4X2dwdS5jCmluZGV4IDJmODdjM2UuLmZlZGQ0NzAgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1eHhfZ3B1LmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL21zbS9hZHJlbm8vYTV4eF9ncHUuYwpAQCAtMTExLDYgKzExMSw1OSBAQCBzdGF0aWMgdm9p
-ZCBhNXh4X3N1Ym1pdF9pbl9yYihzdHJ1Y3QgbXNtX2dwdSAqZ3B1LCBzdHJ1Y3QgbXNtX2dlbV9z
-dWJtaXQgKnN1Ym1pdAogCW1zbV9ncHVfcmV0aXJlKGdwdSk7CiB9CiAKK3N0YXRpYyB2b2lkIGE1
-eHhfc2V0X3BhZ2V0YWJsZShzdHJ1Y3QgbXNtX2dwdSAqZ3B1LCBzdHJ1Y3QgbXNtX3JpbmdidWZm
-ZXIgKnJpbmcsCisJc3RydWN0IG1zbV9maWxlX3ByaXZhdGUgKmN0eCkKK3sKKwl1NjQgdHRicjsK
-Kwl1MzIgYXNpZDsKKworCWlmICghbXNtX2lvbW11X2dldF9wdGluZm8oY3R4LT5hc3BhY2UtPm1t
-dSwgJnR0YnIsICZhc2lkKSkKKwkJcmV0dXJuOworCisJdHRiciA9IHR0YnIgfCAoKHU2NCkgYXNp
-ZCkgPDwgNDg7CisKKwkvKiBUdXJuIG9mZiBwcm90ZWN0ZWQgbW9kZSAqLworCU9VVF9QS1Q3KHJp
-bmcsIENQX1NFVF9QUk9URUNURURfTU9ERSwgMSk7CisJT1VUX1JJTkcocmluZywgMCk7CisKKwkv
-KiBUdXJuIG9uIEFQSVYgbW9kZSB0byBhY2Nlc3MgY3JpdGljYWwgcmVnaW9ucyAqLworCU9VVF9Q
-S1Q0KHJpbmcsIFJFR19BNVhYX0NQX0NOVEwsIDEpOworCU9VVF9SSU5HKHJpbmcsIDEpOworCisJ
-LyogTWFrZSBzdXJlIHRoZSBNRSBpcyBzeW5jaHJvbml6ZWQgYmVmb3JlIHN0YXJpbmcgdGhlIHVw
-ZGF0ZSAqLworCU9VVF9QS1Q3KHJpbmcsIENQX1dBSVRfRk9SX01FLCAwKTsKKworCS8qIEV4ZWN1
-dGUgdGhlIHRhYmxlIHVwZGF0ZSAqLworCU9VVF9QS1Q3KHJpbmcsIENQX1NNTVVfVEFCTEVfVVBE
-QVRFLCAzKTsKKwlPVVRfUklORyhyaW5nLCBsb3dlcl8zMl9iaXRzKHR0YnIpKTsKKwlPVVRfUklO
-RyhyaW5nLCB1cHBlcl8zMl9iaXRzKHR0YnIpKTsKKwlPVVRfUklORyhyaW5nLCAwKTsKKworCS8q
-CisJICogV3JpdGUgdGhlIG5ldyBUVEJSMCB0byB0aGUgcHJlZW1wdGlvbiByZWNvcmRzIC0gdGhp
-cyB3aWxsIGJlIHVzZWQgdG8KKwkgKiByZWxvYWQgdGhlIHBhZ2V0YWJsZSBpZiB0aGUgY3VycmVu
-dCByaW5nIGdldHMgcHJlZW1wdGVkIG91dC4KKwkgKi8KKwlPVVRfUEtUNyhyaW5nLCBDUF9NRU1f
-V1JJVEUsIDQpOworCU9VVF9SSU5HKHJpbmcsIGxvd2VyXzMyX2JpdHMocmJtZW1wdHIocmluZywg
-dHRicjApKSk7CisJT1VUX1JJTkcocmluZywgdXBwZXJfMzJfYml0cyhyYm1lbXB0cihyaW5nLCB0
-dGJyMCkpKTsKKwlPVVRfUklORyhyaW5nLCBsb3dlcl8zMl9iaXRzKHR0YnIpKTsKKwlPVVRfUklO
-RyhyaW5nLCB1cHBlcl8zMl9iaXRzKHR0YnIpKTsKKworCS8qIEludmFsaWRhdGUgdGhlIGRyYXcg
-c3RhdGUgc28gd2Ugc3RhcnQgb2ZmIGZyZXNoICovCisJT1VUX1BLVDcocmluZywgQ1BfU0VUX0RS
-QVdfU1RBVEUsIDMpOworCU9VVF9SSU5HKHJpbmcsIDB4NDAwMDApOworCU9VVF9SSU5HKHJpbmcs
-IDEpOworCU9VVF9SSU5HKHJpbmcsIDApOworCisJLyogVHVybiBvZmYgQVBSSVYgKi8KKwlPVVRf
-UEtUNChyaW5nLCBSRUdfQTVYWF9DUF9DTlRMLCAxKTsKKwlPVVRfUklORyhyaW5nLCAwKTsKKwor
-CS8qIFR1cm4gb2ZmIHByb3RlY3RlZCBtb2RlICovCisJT1VUX1BLVDcocmluZywgQ1BfU0VUX1BS
-T1RFQ1RFRF9NT0RFLCAxKTsKKwlPVVRfUklORyhyaW5nLCAxKTsKK30KKwogc3RhdGljIHZvaWQg
-YTV4eF9zdWJtaXQoc3RydWN0IG1zbV9ncHUgKmdwdSwgc3RydWN0IG1zbV9nZW1fc3VibWl0ICpz
-dWJtaXQsCiAJc3RydWN0IG1zbV9maWxlX3ByaXZhdGUgKmN0eCkKIHsKQEAgLTEyNiw2ICsxNzks
-OCBAQCBzdGF0aWMgdm9pZCBhNXh4X3N1Ym1pdChzdHJ1Y3QgbXNtX2dwdSAqZ3B1LCBzdHJ1Y3Qg
-bXNtX2dlbV9zdWJtaXQgKnN1Ym1pdCwKIAkJcmV0dXJuOwogCX0KIAorCWE1eHhfc2V0X3BhZ2V0
-YWJsZShncHUsIHJpbmcsIGN0eCk7CisKIAlPVVRfUEtUNyhyaW5nLCBDUF9QUkVFTVBUX0VOQUJM
-RV9HTE9CQUwsIDEpOwogCU9VVF9SSU5HKHJpbmcsIDB4MDIpOwogCkBAIC0xMzQ5LDIxICsxNDA0
-LDc3IEBAIHN0YXRpYyB1bnNpZ25lZCBsb25nIGE1eHhfZ3B1X2J1c3koc3RydWN0IG1zbV9ncHUg
-KmdwdSkKIAlyZXR1cm4gKHVuc2lnbmVkIGxvbmcpYnVzeV90aW1lOwogfQogCitzdGF0aWMgc3Ry
-dWN0IG1zbV9nZW1fYWRkcmVzc19zcGFjZSAqYTV4eF9uZXdfYWRkcmVzc19zcGFjZShzdHJ1Y3Qg
-bXNtX2dwdSAqZ3B1KQoreworCXN0cnVjdCBhZHJlbm9fZ3B1ICphZHJlbm9fZ3B1ID0gdG9fYWRy
-ZW5vX2dwdShncHUpOworCXN0cnVjdCBhNXh4X2dwdSAqYTV4eF9ncHUgPSB0b19hNXh4X2dwdShh
-ZHJlbm9fZ3B1KTsKKwlzdHJ1Y3QgbXNtX2dlbV9hZGRyZXNzX3NwYWNlICphc3BhY2U7CisJaW50
-IHJldDsKKworCS8qIFJldHVybiB0aGUgZGVmYXVsdCBwYWdldGFibGUgaWYgcGVyIGluc3RhbmNl
-IHRhYmxlcyBkb24ndCB3b3JrICovCisJaWYgKCFhNXh4X2dwdS0+cGVyX2luc3RhbmNlX3RhYmxl
-cykKKwkJcmV0dXJuIGdwdS0+YXNwYWNlOworCisJYXNwYWNlID0gbXNtX2dlbV9hZGRyZXNzX3Nw
-YWNlX2NyZWF0ZV9pbnN0YW5jZSgmZ3B1LT5wZGV2LT5kZXYsCisJCSJncHUiLCAweDEwMDAwMDAw
-MFVMTCwgMHgxZmZmZmZmZmZVTEwpOworCWlmIChJU19FUlIoYXNwYWNlKSkKKwkJcmV0dXJuIGFz
-cGFjZTsKKworCXJldCA9IGFzcGFjZS0+bW11LT5mdW5jcy0+YXR0YWNoKGFzcGFjZS0+bW11LCBO
-VUxMLCAwKTsKKwlpZiAocmV0KSB7CisJCS8qIC1FTk9ERVYgbWVhbnMgdGhhdCBhdXggZG9tYWlu
-cyBhcmVuJ3Qgc3VwcG9ydGVkICovCisJCWlmIChyZXQgPT0gLUVOT0RFVikKKwkJCXJldHVybiBn
-cHUtPmFzcGFjZTsKKworCQlyZXR1cm4gRVJSX1BUUihyZXQpOworCX0KKworCXJldHVybiBhc3Bh
-Y2U7Cit9CisKIHN0YXRpYyBzdHJ1Y3QgbXNtX2dlbV9hZGRyZXNzX3NwYWNlICoKIGE1eHhfY3Jl
-YXRlX2FkZHJlc3Nfc3BhY2Uoc3RydWN0IG1zbV9ncHUgKmdwdSkKIHsKKwlzdHJ1Y3QgYWRyZW5v
-X2dwdSAqYWRyZW5vX2dwdSA9IHRvX2FkcmVub19ncHUoZ3B1KTsKKwlzdHJ1Y3QgYTV4eF9ncHUg
-KmE1eHhfZ3B1ID0gdG9fYTV4eF9ncHUoYWRyZW5vX2dwdSk7CisJc3RydWN0IGRldmljZSAqZGV2
-ID0gJmdwdS0+cGRldi0+ZGV2OwogCXN0cnVjdCBtc21fZ2VtX2FkZHJlc3Nfc3BhY2UgKmFzcGFj
-ZTsKIAlzdHJ1Y3QgaW9tbXVfZG9tYWluICppb21tdTsKLQlpbnQgcmV0OworCWludCByZXQsIHZh
-bCA9IDE7CisKKwlhNXh4X2dwdS0+cGVyX2luc3RhbmNlX3RhYmxlcyA9IGZhbHNlOwogCiAJaW9t
-bXUgPSBpb21tdV9kb21haW5fYWxsb2MoJnBsYXRmb3JtX2J1c190eXBlKTsKIAlpZiAoIWlvbW11
-KQogCQlyZXR1cm4gRVJSX1BUUigtRU5YSU8pOwogCi0JaW9tbXUtPmdlb21ldHJ5LmFwZXJ0dXJl
-X3N0YXJ0ID0gMHgxMDAwMDAwMDBVTEw7Ci0JaW9tbXUtPmdlb21ldHJ5LmFwZXJ0dXJlX2VuZCA9
-IDB4MWZmZmZmZmZmVUxMOworCS8qIFRyeSB0byBlbmFibGUgc3BsaXQgcGFnZXRhYmxlcyAqLwor
-CWlmIChpb21tdV9kb21haW5fc2V0X2F0dHIoaW9tbXUsIERPTUFJTl9BVFRSX1NQTElUX1RBQkxF
-UywgJnZhbCkpIHsKKwkJLyoKKwkJICogSWYgc3BsaXQgcGFnZXRhYmxlcyBhcmVuJ3QgYXZhaWxh
-YmxlIHdlIHdvbid0IGJlIGFibGUgdG8gZG8KKwkJICogcGVyLWluc3RhbmNlIHBhZ2V0YWJsZXMg
-c28gc2V0IHVwIHRoZSBnbG9iYWwgdmEgc3BhY2UgYXQgb3VyCisJCSAqIHN1c3VhbCBsb2NhdGlv
-bgorCQkgKi8KKwkJaW9tbXUtPmdlb21ldHJ5LmFwZXJ0dXJlX3N0YXJ0ID0gMHgxMDAwMDAwMDBV
-TEw7CisJCWlvbW11LT5nZW9tZXRyeS5hcGVydHVyZV9lbmQgPSAweDFmZmZmZmZmZlVMTDsKKwl9
-IGVsc2UgeworCQkvKgorCQkgKiBJZiBzcGxpdCBwYWdldGFibGVzIGFyZSBhdmFpbGFibGUgdGhl
-biB3ZSBtaWdodCBiZSBhYmxlIHRvIGRvCisJCSAqIHBlci1pbnN0YW5jZSBwYWdldGFibGVzLiBQ
-dXQgdGhlIGRlZmF1bHQgdmEtc3BhY2UgaW4gVFRCUjEgdG8KKwkJICogcHJlcGFyZQorCQkgKi8K
-KwkJaW9tbXUtPmdlb21ldHJ5LmFwZXJ0dXJlX3N0YXJ0ID0gMHhmZmZmZmZmMTAwMDAwMDAwVUxM
-OworCQlpb21tdS0+Z2VvbWV0cnkuYXBlcnR1cmVfZW5kID0gMHhmZmZmZmZmMWZmZmZmZmZmVUxM
-OworCisJCS8qCisJCSAqIElmIGJvdGggc3BsaXQgcGFnZXRhYmxlcyBhbmQgYXV4IGRvbWFpbnMg
-YXJlIHN1cHBvcnRlZCB3ZSBjYW4KKwkJICogZG8gcGVyX2luc3RhbmNlIHBhZ2V0YWJsZXMKKwkJ
-ICovCisJCWE1eHhfZ3B1LT5wZXJfaW5zdGFuY2VfdGFibGVzID0KKwkJCWlvbW11X2Rldl9oYXNf
-ZmVhdHVyZShkZXYsIElPTU1VX0RFVl9GRUFUX0FVWCk7CisJfQogCi0JYXNwYWNlID0gbXNtX2dl
-bV9hZGRyZXNzX3NwYWNlX2NyZWF0ZSgmZ3B1LT5wZGV2LT5kZXYsIGlvbW11LCAiZ3B1Iik7CisJ
-YXNwYWNlID0gbXNtX2dlbV9hZGRyZXNzX3NwYWNlX2NyZWF0ZShkZXYsIGlvbW11LCAiZ3B1Iik7
-CiAJaWYgKElTX0VSUihhc3BhY2UpKSB7CiAJCWlvbW11X2RvbWFpbl9mcmVlKGlvbW11KTsKIAkJ
-RFJNX0RFVl9FUlJPUihncHUtPmRldi0+ZGV2LCAiZmFpbGVkIHRvIGluaXQgbW11OiAlbGRcbiIs
-CkBAIC0xNDAzLDYgKzE1MTQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGFkcmVub19ncHVfZnVu
-Y3MgZnVuY3MgPSB7CiAJCS5ncHVfc3RhdGVfZ2V0ID0gYTV4eF9ncHVfc3RhdGVfZ2V0LAogCQku
-Z3B1X3N0YXRlX3B1dCA9IGE1eHhfZ3B1X3N0YXRlX3B1dCwKIAkJLmNyZWF0ZV9hZGRyZXNzX3Nw
-YWNlID0gYTV4eF9jcmVhdGVfYWRkcmVzc19zcGFjZSwKKwkJLm5ld19hZGRyZXNzX3NwYWNlID0g
-YTV4eF9uZXdfYWRkcmVzc19zcGFjZSwKIAl9LAogCS5nZXRfdGltZXN0YW1wID0gYTV4eF9nZXRf
-dGltZXN0YW1wLAogfTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1
-eHhfZ3B1LmggYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNXh4X2dwdS5oCmluZGV4IDdk
-NzE4NjAuLjgyY2ViOWIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E1
-eHhfZ3B1LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTV4eF9ncHUuaApAQCAt
-NDUsNiArNDUsMTEgQEAgc3RydWN0IGE1eHhfZ3B1IHsKIAogCWF0b21pY190IHByZWVtcHRfc3Rh
-dGU7CiAJc3RydWN0IHRpbWVyX2xpc3QgcHJlZW1wdF90aW1lcjsKKwlzdHJ1Y3QgYTV4eF9zbW11
-X2luZm8gKnNtbXVfaW5mbzsKKwlzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnNtbXVfaW5mb19ibzsK
-Kwl1aW50NjRfdCBzbW11X2luZm9faW92YTsKKworCWJvb2wgcGVyX2luc3RhbmNlX3RhYmxlczsK
-IH07CiAKICNkZWZpbmUgdG9fYTV4eF9ncHUoeCkgY29udGFpbmVyX29mKHgsIHN0cnVjdCBhNXh4
-X2dwdSwgYmFzZSkKQEAgLTEzMiw2ICsxMzcsMjAgQEAgc3RydWN0IGE1eHhfcHJlZW1wdF9yZWNv
-cmQgewogICovCiAjZGVmaW5lIEE1WFhfUFJFRU1QVF9DT1VOVEVSX1NJWkUgKDE2ICogNCkKIAor
-LyoKKyAqIFRoaXMgaXMgYSBnbG9iYWwgc3RydWN0dXJlIHRoYXQgdGhlIHByZWVtcHRpb24gY29k
-ZSB1c2VzIHRvIHN3aXRjaCBpbiB0aGUKKyAqIHBhZ2V0YWJsZSBmb3IgdGhlIHByZWVtcHRlZCBw
-cm9jZXNzIC0gdGhlIGNvZGUgc3dpdGNoZXMgaW4gd2hhdGV2ZXIgd2UKKyAqIGFmdGVyIHByZWVt
-cHRpbmcgaW4gYSBuZXcgcmluZy4KKyAqLworc3RydWN0IGE1eHhfc21tdV9pbmZvIHsKKwl1aW50
-MzJfdCAgbWFnaWM7CisJdWludDMyX3QgIF9wYWQ0OworCXVpbnQ2NF90ICB0dGJyMDsKKwl1aW50
-MzJfdCAgYXNpZDsKKwl1aW50MzJfdCAgY29udGV4dGlkcjsKK307CisKKyNkZWZpbmUgQTVYWF9T
-TU1VX0lORk9fTUFHSUMgMHgzNjE4Q0RBM1VMCiAKIGludCBhNXh4X3Bvd2VyX2luaXQoc3RydWN0
-IG1zbV9ncHUgKmdwdSk7CiB2b2lkIGE1eHhfZ3BtdV91Y29kZV9pbml0KHN0cnVjdCBtc21fZ3B1
-ICpncHUpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYTV4eF9wcmVl
-bXB0LmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNXh4X3ByZWVtcHQuYwppbmRleCAz
-ZDYyMzEwLi4xMDUwNDA5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9h
-NXh4X3ByZWVtcHQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNXh4X3ByZWVt
-cHQuYwpAQCAtMTIsNiArMTIsNyBAQAogICovCiAKICNpbmNsdWRlICJtc21fZ2VtLmgiCisjaW5j
-bHVkZSAibXNtX21tdS5oIgogI2luY2x1ZGUgImE1eHhfZ3B1LmgiCiAKIC8qCkBAIC0xNDUsNiAr
-MTQ2LDE1IEBAIHZvaWQgYTV4eF9wcmVlbXB0X3RyaWdnZXIoc3RydWN0IG1zbV9ncHUgKmdwdSkK
-IAlhNXh4X2dwdS0+cHJlZW1wdFtyaW5nLT5pZF0tPndwdHIgPSBnZXRfd3B0cihyaW5nKTsKIAlz
-cGluX3VubG9ja19pcnFyZXN0b3JlKCZyaW5nLT5sb2NrLCBmbGFncyk7CiAKKwkvKiBEbyByZWFk
-IGJhcnJpZXIgdG8gbWFrZSBzdXJlIHdlIGhhdmUgdXBkYXRlZCBwYWdldGFibGUgaW5mbyAqLwor
-CXJtYigpOworCisJLyogU2V0IHRoZSBTTU1VIGluZm8gZm9yIHRoZSBwcmVlbXB0aW9uICovCisJ
-aWYgKGE1eHhfZ3B1LT5zbW11X2luZm8pIHsKKwkJYTV4eF9ncHUtPnNtbXVfaW5mby0+dHRicjAg
-PSByaW5nLT5tZW1wdHJzLT50dGJyMDsKKwkJYTV4eF9ncHUtPnNtbXVfaW5mby0+Y29udGV4dGlk
-ciA9IDA7CisJfQorCiAJLyogU2V0IHRoZSBhZGRyZXNzIG9mIHRoZSBpbmNvbWluZyBwcmVlbXB0
-aW9uIHJlY29yZCAqLwogCWdwdV93cml0ZTY0KGdwdSwgUkVHX0E1WFhfQ1BfQ09OVEVYVF9TV0lU
-Q0hfUkVTVE9SRV9BRERSX0xPLAogCQlSRUdfQTVYWF9DUF9DT05URVhUX1NXSVRDSF9SRVNUT1JF
-X0FERFJfSEksCkBAIC0yMjEsOSArMjMxLDEwIEBAIHZvaWQgYTV4eF9wcmVlbXB0X2h3X2luaXQo
-c3RydWN0IG1zbV9ncHUgKmdwdSkKIAkJYTV4eF9ncHUtPnByZWVtcHRbaV0tPnJiYXNlID0gZ3B1
-LT5yYltpXS0+aW92YTsKIAl9CiAKLQkvKiBXcml0ZSBhIDAgdG8gc2lnbmFsIHRoYXQgd2UgYXJl
-bid0IHN3aXRjaGluZyBwYWdldGFibGVzICovCisJLyogVGVsbCB0aGUgQ1Agd2hlcmUgdG8gZmlu
-ZCB0aGUgc21tdV9pbmZvIGJ1ZmZlciovCiAJZ3B1X3dyaXRlNjQoZ3B1LCBSRUdfQTVYWF9DUF9D
-T05URVhUX1NXSVRDSF9TTU1VX0lORk9fTE8sCi0JCVJFR19BNVhYX0NQX0NPTlRFWFRfU1dJVENI
-X1NNTVVfSU5GT19ISSwgMCk7CisJCVJFR19BNVhYX0NQX0NPTlRFWFRfU1dJVENIX1NNTVVfSU5G
-T19ISSwKKwkJYTV4eF9ncHUtPnNtbXVfaW5mb19pb3ZhKTsKIAogCS8qIFJlc2V0IHRoZSBwcmVl
-bXB0aW9uIHN0YXRlICovCiAJc2V0X3ByZWVtcHRfc3RhdGUoYTV4eF9ncHUsIFBSRUVNUFRfTk9O
-RSk7CkBAIC0yNzEsNiArMjgyLDM0IEBAIHZvaWQgYTV4eF9wcmVlbXB0X2Zpbmkoc3RydWN0IG1z
-bV9ncHUgKmdwdSkKIAogCWZvciAoaSA9IDA7IGkgPCBncHUtPm5yX3JpbmdzOyBpKyspCiAJCW1z
-bV9nZW1fa2VybmVsX3B1dChhNXh4X2dwdS0+cHJlZW1wdF9ib1tpXSwgZ3B1LT5hc3BhY2UsIHRy
-dWUpOworCisJbXNtX2dlbV9rZXJuZWxfcHV0KGE1eHhfZ3B1LT5zbW11X2luZm9fYm8sIGdwdS0+
-YXNwYWNlLCB0cnVlKTsKK30KKworc3RhdGljIGludCBhNXh4X3NtbXVfaW5mb19pbml0KHN0cnVj
-dCBtc21fZ3B1ICpncHUpCit7CisJc3RydWN0IGFkcmVub19ncHUgKmFkcmVub19ncHUgPSB0b19h
-ZHJlbm9fZ3B1KGdwdSk7CisJc3RydWN0IGE1eHhfZ3B1ICphNXh4X2dwdSA9IHRvX2E1eHhfZ3B1
-KGFkcmVub19ncHUpOworCXN0cnVjdCBhNXh4X3NtbXVfaW5mbyAqcHRyOworCXN0cnVjdCBkcm1f
-Z2VtX29iamVjdCAqYm87CisJdTY0IGlvdmE7CisKKwlpZiAoIWE1eHhfZ3B1LT5wZXJfaW5zdGFu
-Y2VfdGFibGVzKQorCQlyZXR1cm4gMDsKKworCXB0ciA9IG1zbV9nZW1fa2VybmVsX25ldyhncHUt
-PmRldiwgc2l6ZW9mKHN0cnVjdCBhNXh4X3NtbXVfaW5mbyksCisJCU1TTV9CT19VTkNBQ0hFRCwg
-Z3B1LT5hc3BhY2UsICZibywgJmlvdmEpOworCisJaWYgKElTX0VSUihwdHIpKQorCQlyZXR1cm4g
-UFRSX0VSUihwdHIpOworCisJcHRyLT5tYWdpYyA9IEE1WFhfU01NVV9JTkZPX01BR0lDOworCisJ
-YTV4eF9ncHUtPnNtbXVfaW5mb19ibyA9IGJvOworCWE1eHhfZ3B1LT5zbW11X2luZm9faW92YSA9
-IGlvdmE7CisJYTV4eF9ncHUtPnNtbXVfaW5mbyA9IHB0cjsKKworCXJldHVybiAwOwogfQogCiB2
-b2lkIGE1eHhfcHJlZW1wdF9pbml0KHN0cnVjdCBtc21fZ3B1ICpncHUpCkBAIC0yODQsMTcgKzMy
-MywyMiBAQCB2b2lkIGE1eHhfcHJlZW1wdF9pbml0KHN0cnVjdCBtc21fZ3B1ICpncHUpCiAJCXJl
-dHVybjsKIAogCWZvciAoaSA9IDA7IGkgPCBncHUtPm5yX3JpbmdzOyBpKyspIHsKLQkJaWYgKHBy
-ZWVtcHRfaW5pdF9yaW5nKGE1eHhfZ3B1LCBncHUtPnJiW2ldKSkgewotCQkJLyoKLQkJCSAqIE9u
-IGFueSBmYWlsdXJlIG91ciBhZHZlbnR1cmUgaXMgb3Zlci4gQ2xlYW4gdXAgYW5kCi0JCQkgKiBz
-ZXQgbnJfcmluZ3MgdG8gMSB0byBmb3JjZSBwcmVlbXB0aW9uIG9mZgotCQkJICovCi0JCQlhNXh4
-X3ByZWVtcHRfZmluaShncHUpOwotCQkJZ3B1LT5ucl9yaW5ncyA9IDE7Ci0KLQkJCXJldHVybjsK
-LQkJfQorCQlpZiAocHJlZW1wdF9pbml0X3JpbmcoYTV4eF9ncHUsIGdwdS0+cmJbaV0pKQorCQkJ
-Z290byBmYWlsOwogCX0KIAotCXRpbWVyX3NldHVwKCZhNXh4X2dwdS0+cHJlZW1wdF90aW1lciwg
-YTV4eF9wcmVlbXB0X3RpbWVyLCAwKTsKKwlpZiAoYTV4eF9zbW11X2luZm9faW5pdChncHUpKQor
-CQlnb3RvIGZhaWw7CisKKwl0aW1lcl9zZXR1cCgmYTV4eF9ncHUtPnByZWVtcHRfdGltZXIsIGE1
-eHhfcHJlZW1wdF90aW1lciwKKwkJKHVuc2lnbmVkIGxvbmcpIGE1eHhfZ3B1KTsKKworCXJldHVy
-bjsKK2ZhaWw6CisJLyoKKwkgKiBPbiBhbnkgZmFpbHVyZSBvdXIgYWR2ZW50dXJlIGlzIG92ZXIu
-IENsZWFuIHVwIGFuZAorCSAqIHNldCBucl9yaW5ncyB0byAxIHRvIGZvcmNlIHByZWVtcHRpb24g
-b2ZmCisJICovCisJYTV4eF9wcmVlbXB0X2ZpbmkoZ3B1KTsKKwlncHUtPm5yX3JpbmdzID0gMTsK
-IH0KLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1147148940==
+Content-Type: multipart/alternative; boundary="15591634000.4fDc.12745"
+Content-Transfer-Encoding: 7bit
+
+
+--15591634000.4fDc.12745
+Date: Wed, 29 May 2019 20:56:40 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #20 from tempel.julian@gmail.com ---
+I forgot that I patched this PR into my Xserver:
+https://gitlab.freedesktop.org/xorg/xserver/merge_requests/36
+It is responsible for the blocked gamma adjustment and the better desktop
+window performance of the modesetting Xorg driver with the experimental ato=
+mic
+modesetting kernel patches vs. the xf86-video-amdgpu driver.
+
+So, since everything got a bit messy, let me recap the results and add a few
+more details:
+
+-The experimental atomic modesetting kernel patches actually improve the
+performance for desktop window usage for one aspect: When I open
+www.vsynctester.com in Chromium and quickly hover the mouse cursor over my
+system tray to trigger popup windows, this doesn't result in stuttering
+anymore. The same applies to little text popups (e.g. URLs of links) during
+regular web browsing. This is the case with both modesetting and
+xf86-video-amdgpu, window compositing is enabled and 100% free of tearing at
+the same time.
+
+-But there is still stutter on www.vsynctester.com in Chromium (please don't
+use Firefox for this, it even stutters on MS Windows when doing this...) wh=
+en I
+hide and show any other window, e.g. of running Dolphin file browser by
+clicking its starter icon in the taskbar. It's just the window that is shown
+and hidden, the program itself continues running all the time. This applies=
+ to
+both modesetting and xf86-video-amdgpu driver.
+
+-But when I apply the aforementioned "WIP: modesetting: Use atomic more
+atomically" patch to Xserver (additionally to the experimental atomic
+modesetting kernel patches), the modesetting driver is also 100% free of
+stutter in this situation, while the xf86-video-amdgpu-driver is not.
+Question is: Can this also be incorporated into the xf86-video-amdgpu drive=
+r?
+This would be a VAST improvement, the stuttering during gamma adjustments i=
+mho
+is not close to being as important.
+
+-Now back to the stutter in games when moving the mouse: This is completely
+untouched by all this. The xf86-video-amdgpu driver always show stuttering =
+in
+the mentioned games (as long as amdgpu.dc=3D1), while modesetting and also
+xwayland don't.
+
+
+Oof, I hope I didn't forget anything. ;)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15591634000.4fDc.12745
+Date: Wed, 29 May 2019 20:56:40 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c20">Comme=
+nt # 20</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>I forgot that I patched this PR into my Xserver:
+<a href=3D"https://gitlab.freedesktop.org/xorg/xserver/merge_requests/36">h=
+ttps://gitlab.freedesktop.org/xorg/xserver/merge_requests/36</a>
+It is responsible for the blocked gamma adjustment and the better desktop
+window performance of the modesetting Xorg driver with the experimental ato=
+mic
+modesetting kernel patches vs. the xf86-video-amdgpu driver.
+
+So, since everything got a bit messy, let me recap the results and add a few
+more details:
+
+-The experimental atomic modesetting kernel patches actually improve the
+performance for desktop window usage for one aspect: When I open
+www.vsynctester.com in Chromium and quickly hover the mouse cursor over my
+system tray to trigger popup windows, this doesn't result in stuttering
+anymore. The same applies to little text popups (e.g. URLs of links) during
+regular web browsing. This is the case with both modesetting and
+xf86-video-amdgpu, window compositing is enabled and 100% free of tearing at
+the same time.
+
+-But there is still stutter on www.vsynctester.com in Chromium (please don't
+use Firefox for this, it even stutters on MS Windows when doing this...) wh=
+en I
+hide and show any other window, e.g. of running Dolphin file browser by
+clicking its starter icon in the taskbar. It's just the window that is shown
+and hidden, the program itself continues running all the time. This applies=
+ to
+both modesetting and xf86-video-amdgpu driver.
+
+-But when I apply the aforementioned &quot;WIP: modesetting: Use atomic more
+atomically&quot; patch to Xserver (additionally to the experimental atomic
+modesetting kernel patches), the modesetting driver is also 100% free of
+stutter in this situation, while the xf86-video-amdgpu-driver is not.
+Question is: Can this also be incorporated into the xf86-video-amdgpu drive=
+r?
+This would be a VAST improvement, the stuttering during gamma adjustments i=
+mho
+is not close to being as important.
+
+-Now back to the stutter in games when moving the mouse: This is completely
+untouched by all this. The xf86-video-amdgpu driver always show stuttering =
+in
+the mentioned games (as long as amdgpu.dc=3D1), while modesetting and also
+xwayland don't.
+
+
+Oof, I hope I didn't forget anything. ;)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15591634000.4fDc.12745--
+
+--===============1147148940==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1147148940==--
