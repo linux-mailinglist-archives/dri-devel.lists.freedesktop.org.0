@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BD92E2A6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 18:57:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDCC2E2A8
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 18:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A0E6E34A;
-	Wed, 29 May 2019 16:57:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 317EF6E34D;
+	Wed, 29 May 2019 16:57:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 800186E34C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 16:57:33 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7A1106E34D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 16:57:51 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7CAAC72167; Wed, 29 May 2019 16:57:33 +0000 (UTC)
+ id 76ABF72167; Wed, 29 May 2019 16:57:51 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 11547] gl error when aiglx is enabled
-Date: Wed, 29 May 2019 16:57:33 +0000
+Subject: [Bug 16313] Nexuiz often makes Xorg crash
+Date: Wed, 29 May 2019 16:57:51 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -29,14 +29,14 @@ X-Bugzilla-Keywords:
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: ajax@nwnk.net
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: MOVED
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-11547-502-rCvjRa1lfQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-11547-502@http.bugs.freedesktop.org/>
-References: <bug-11547-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-16313-502-w7eMbpBa9y@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-16313-502@http.bugs.freedesktop.org/>
+References: <bug-16313-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,45 +52,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1853546010=="
+Content-Type: multipart/mixed; boundary="===============1354244908=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1853546010==
-Content-Type: multipart/alternative; boundary="15591490531.DE0A4A975.20055"
+--===============1354244908==
+Content-Type: multipart/alternative; boundary="15591490711.2Ca6eF4f9.20336"
 Content-Transfer-Encoding: 7bit
 
 
---15591490531.DE0A4A975.20055
-Date: Wed, 29 May 2019 16:57:33 +0000
+--15591490711.2Ca6eF4f9.20336
+Date: Wed, 29 May 2019 16:57:51 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D11547
+https://bugs.freedesktop.org/show_bug.cgi?id=3D16313
 
 Adam Jackson <ajax@nwnk.net> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
+         Resolution|---                         |INVALID
              Status|NEW                         |RESOLVED
-         Resolution|---                         |MOVED
 
 --- Comment #1 from Adam Jackson <ajax@nwnk.net> ---
-If you can still reproduce this with current X servers, please file an issue
-at:
-
-https://gitlab.freedesktop.org/xorg/xserver
+Eleven year old bug, closing.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15591490531.DE0A4A975.20055
-Date: Wed, 29 May 2019 16:57:33 +0000
+--15591490711.2Ca6eF4f9.20336
+Date: Wed, 29 May 2019 16:57:51 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,8 +104,8 @@ fn">Adam Jackson</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - gl error when aiglx is enabled"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D11547">bug 11547<=
+   title=3D"RESOLVED INVALID - Nexuiz often makes Xorg crash"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D16313">bug 16313<=
 /a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
@@ -119,42 +116,37 @@ fn">Adam Jackson</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
-           <td>RESOLVED
+           <td>INVALID
            </td>
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
            </td>
-           <td>MOVED
+           <td>RESOLVED
            </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - gl error when aiglx is enabled"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D11547#c1">Comment=
+   title=3D"RESOLVED INVALID - Nexuiz often makes Xorg crash"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D16313#c1">Comment=
  # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED MOVED - gl error when aiglx is enabled"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D11547">bug 11547<=
+   title=3D"RESOLVED INVALID - Nexuiz often makes Xorg crash"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D16313">bug 16313<=
 /a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 ajax&#64;nwnk.net" title=3D"Adam Jackson &lt;ajax&#64;nwnk.net&gt;"> <span =
 class=3D"fn">Adam Jackson</span></a>
 </span></b>
-        <pre>If you can still reproduce this with current X servers, please=
- file an issue
-at:
-
-<a href=3D"https://gitlab.freedesktop.org/xorg/xserver">https://gitlab.free=
-desktop.org/xorg/xserver</a></pre>
+        <pre>Eleven year old bug, closing.</pre>
         </div>
       </p>
 
@@ -168,9 +160,9 @@ desktop.org/xorg/xserver</a></pre>
     </body>
 </html>=
 
---15591490531.DE0A4A975.20055--
+--15591490711.2Ca6eF4f9.20336--
 
---===============1853546010==
+--===============1354244908==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -180,4 +172,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1853546010==--
+--===============1354244908==--
