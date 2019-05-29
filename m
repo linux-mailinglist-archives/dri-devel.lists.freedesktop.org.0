@@ -1,46 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9DB2E187
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 17:49:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78D92E248
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 18:30:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA3016E0F2;
-	Wed, 29 May 2019 15:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E42E6E34B;
+	Wed, 29 May 2019 16:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C353C6E0F2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 15:49:01 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B94A872167; Wed, 29 May 2019 15:49:01 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
- 11.x and 19.x
-Date: Wed, 29 May 2019 15:49:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110781-502-POTlwEXOzk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
-References: <bug-110781-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5761389DFE;
+ Wed, 29 May 2019 16:30:40 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id l17so2231183wrm.10;
+ Wed, 29 May 2019 09:30:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GC9eQaN4hQORyw3va2P/qFKkeZBcN4DCSdhtunDJMoA=;
+ b=kwY9GNJnsp3KkJW63bS5lwa+MWsOMpPcY2cPeUmmzpVCI3EpLTRREtUTd7Eco4D9Xw
+ KwNrATYPtob9GXK6jTKqm5bD0Aqqo6qNagUVActf/PgpbSRAIswyC5dfagiIN7FqE0MA
+ vjwpI9mozEIFwL8Wu2B6R7pbwJVSfnieKI9XOQjDNau5We1DLdvnoU5l1lisIMYnKkqe
+ 6zl5rE5QX8E2XD4kXPwO/3U4XIgeCBOaUCfpUUIVCNEy6bNtjEKKr4e7ZG9UwZX9dxWg
+ 4lcc0qRnQ7KOxS/B0QIFOKjfH+tm9WliB7WytIuIzDePtXgX64BL2Z40nGI6orb2Puva
+ 3lFg==
+X-Gm-Message-State: APjAAAWh92JdJXE1aKsN0RlbW1GkOz04+zJKRnwoW8xTRS+Tz8+8MVZE
+ Wt15SsILZoGgkM1wBWcA6l1bOYg/
+X-Google-Smtp-Source: APXvYqxAqLsqt2SZXietrE5Gpb7eEQUwAFltaewfr7PoeuGvLIab08Y8CiNsfZw3VqUDIUUhpRQGAg==
+X-Received: by 2002:a5d:6b12:: with SMTP id v18mr21730648wrw.306.1559147438822; 
+ Wed, 29 May 2019 09:30:38 -0700 (PDT)
+Received: from arch-x1c3 ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
+ by smtp.gmail.com with ESMTPSA id f197sm7172834wme.39.2019.05.29.09.30.37
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 29 May 2019 09:30:37 -0700 (PDT)
+Date: Wed, 29 May 2019 17:29:08 +0100
+From: Emil Velikov <emil.l.velikov@gmail.com>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>
+Subject: Re: [PATCH 01/13] drm/amdgpu: introduce and honour DRM_FORCE_AUTH
+ workaround
+Message-ID: <20190529162908.GA19679@arch-x1c3>
+References: <d12a7dd4-595b-d0aa-a87d-527392fb0384@amd.com>
+ <CAKMK7uE1ZWjCeg3q7qDrbcj89+DuPQwfjMqC8hTjDAMU5bhh-w@mail.gmail.com>
+ <98c3d891-6966-2043-9709-4e718dbc6bac@amd.com>
+ <CAKMK7uGsc7WzBBrfxape4Yy7fbKoDFH5J2F87Kx=7rE1+pXcXw@mail.gmail.com>
+ <20190528161051.GB2768@arch-x1c3>
+ <9530c9bc-0cd2-72b1-34fc-d697df8f32f1@amd.com>
+ <20190528164610.GC2768@arch-x1c3>
+ <CAPM=9tzuQX4iQU=w4QfbE1ryq6sXc4k5SVh6V1_4AyH_O+D_oA@mail.gmail.com>
+ <20190529130356.GA9205@arch-x1c3>
+ <9bfd8a01-1e0a-c4b3-6b6f-86d5d05fac31@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9bfd8a01-1e0a-c4b3-6b6f-86d5d05fac31@amd.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GC9eQaN4hQORyw3va2P/qFKkeZBcN4DCSdhtunDJMoA=;
+ b=GE+5BURJfCfBeF6B+eRzCQjKZWLbbQux8O6QGwam8P0i4ByMZv+TLlk+50uEcEegxI
+ 9IYaySU2atHj23oQV6Owp0wX6r0gzsV9fC6VxfRoSf7vMo2SQRJawnxV04TYYGmkURCU
+ /JNmwRHIbcJrdLU9sEnwsK+BJ4SjBlV+d/7e/RWm+YpApDmJW0yWDSPbLBiQnI+wpH1f
+ h39l0LvQUnBwli0y+r8mRCpZrVFIBnBcQD6kbnfRuVw6HSjXAtEo0sjI7MDmwDaexUPz
+ rEHG2h4NGy7U4uZ5kF1M4+fyUEJWkIVFC1d8T7H2ZW0GQ5ggKzLR+52+q4KKk008iAXY
+ rGZw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,174 +78,175 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0349011079=="
+Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ David Airlie <airlied@linux.ie>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0349011079==
-Content-Type: multipart/alternative; boundary="15591449410.EffFE324.3939"
-Content-Transfer-Encoding: 7bit
-
-
---15591449410.EffFE324.3939
-Date: Wed, 29 May 2019 15:49:01 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
-
---- Comment #5 from Richard Thier <u9vata@gmail.com> ---
-Still fast with mesa 17.2.8 and X.Org X Server 1.19.5
-
-The problem is somewhere between 17.x and 19.x mesa versions (and correspon=
-ding
-xorg).
-
-Also I have made an strace when it is good in one older system to see numbe=
-r of
-CREATE and CLOSE ioctl calls (also the number of CS ioctl calls) are a
-magnitude smaller than in case of 19.x!
-
-For example 10-20 seconds of glxgears running leads to 9-10 calls to
-DRM_IOCTL_RADEON_GEM_CREATE on mesa 17.2.8 while it leads to 708 (!!!) numb=
-er
-of same calls in the same time period on mesa 19.x! This is surely a quite =
-big
-of a difference!
-
-The similar pattern in 17.x is never creating a new gem object:
-
-  ...
-  ioctl(6, DRM_IOCTL_RADEON_GEM_WAIT_IDLE, 0xbfcf9f04) =3D 0 <0.000055>
-  ioctl(6, DRM_IOCTL_RADEON_GEM_BUSY, 0xbfcf9d44) =3D 0 <0.000022>
-  ioctl(6, DRM_IOCTL_RADEON_CS, 0xb307d03c) =3D 0 <0.000089>
-  ioctl(6, DRM_IOCTL_RADEON_GEM_WAIT_IDLE, 0xbfcf9f04) =3D 0 <0.000053>
-  ioctl(6, DRM_IOCTL_RADEON_GEM_BUSY, 0xbfcf9d44) =3D 0 <0.000023>
-  ioctl(6, DRM_IOCTL_RADEON_CS, 0xb30910d0) =3D 0 <0.000095>
-  ioctl(6, DRM_IOCTL_RADEON_GEM_WAIT_IDLE, 0xbfcf9f04) =3D 0 <0.000054>
-  ioctl(6, DRM_IOCTL_RADEON_GEM_BUSY, 0xbfcf9d44) =3D 0 <0.000023>
-  ioctl(6, DRM_IOCTL_RADEON_CS, 0xb307d03c) =3D 0 <0.000090>
-  ...
-
-Sometimes when the *_BUSY ioctl call returns -1, it issues a CREATE, but
-otherwise not.
-
-I think GEM is some kind of memory handler for the GPU (just like "ttm" in =
-the
-perf output) and I think something have messed up with memory handling sche=
-mes
-for Mobility Radeon 200M (r300) at some mesa update between 17.x and 19.x.
-
-Will try to bisect a closer version as 17.2.8 is from 2017.12.22 in time...
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15591449410.EffFE324.3939
-Date: Wed, 29 May 2019 15:49:01 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>Still fast with mesa 17.2.8 and X.Org X Server 1.19.5
-
-The problem is somewhere between 17.x and 19.x mesa versions (and correspon=
-ding
-xorg).
-
-Also I have made an strace when it is good in one older system to see numbe=
-r of
-CREATE and CLOSE ioctl calls (also the number of CS ioctl calls) are a
-magnitude smaller than in case of 19.x!
-
-For example 10-20 seconds of glxgears running leads to 9-10 calls to
-DRM_IOCTL_RADEON_GEM_CREATE on mesa 17.2.8 while it leads to 708 (!!!) numb=
-er
-of same calls in the same time period on mesa 19.x! This is surely a quite =
-big
-of a difference!
-
-The similar pattern in 17.x is never creating a new gem object:
-
-  ...
-  ioctl(6, DRM_IOCTL_RADEON_GEM_WAIT_IDLE, 0xbfcf9f04) =3D 0 &lt;0.000055&g=
-t;
-  ioctl(6, DRM_IOCTL_RADEON_GEM_BUSY, 0xbfcf9d44) =3D 0 &lt;0.000022&gt;
-  ioctl(6, DRM_IOCTL_RADEON_CS, 0xb307d03c) =3D 0 &lt;0.000089&gt;
-  ioctl(6, DRM_IOCTL_RADEON_GEM_WAIT_IDLE, 0xbfcf9f04) =3D 0 &lt;0.000053&g=
-t;
-  ioctl(6, DRM_IOCTL_RADEON_GEM_BUSY, 0xbfcf9d44) =3D 0 &lt;0.000023&gt;
-  ioctl(6, DRM_IOCTL_RADEON_CS, 0xb30910d0) =3D 0 &lt;0.000095&gt;
-  ioctl(6, DRM_IOCTL_RADEON_GEM_WAIT_IDLE, 0xbfcf9f04) =3D 0 &lt;0.000054&g=
-t;
-  ioctl(6, DRM_IOCTL_RADEON_GEM_BUSY, 0xbfcf9d44) =3D 0 &lt;0.000023&gt;
-  ioctl(6, DRM_IOCTL_RADEON_CS, 0xb307d03c) =3D 0 &lt;0.000090&gt;
-  ...
-
-Sometimes when the *_BUSY ioctl call returns -1, it issues a CREATE, but
-otherwise not.
-
-I think GEM is some kind of memory handler for the GPU (just like &quot;ttm=
-&quot; in the
-perf output) and I think something have messed up with memory handling sche=
-mes
-for Mobility Radeon 200M (r300) at some mesa update between 17.x and 19.x.
-
-Will try to bisect a closer version as 17.2.8 is from 2017.12.22 in time...=
-</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15591449410.EffFE324.3939--
-
---===============0349011079==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0349011079==--
+T24gMjAxOS8wNS8yOSwgS29lbmlnLCBDaHJpc3RpYW4gd3JvdGU6Cj4gQW0gMjkuMDUuMTkgdW0g
+MTU6MDMgc2NocmllYiBFbWlsIFZlbGlrb3Y6Cj4gPiBPbiAyMDE5LzA1LzI5LCBEYXZlIEFpcmxp
+ZSB3cm90ZToKPiA+PiBPbiBXZWQsIDI5IE1heSAyMDE5IGF0IDAyOjQ3LCBFbWlsIFZlbGlrb3Yg
+PGVtaWwubC52ZWxpa292QGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4+IE9uIDIwMTkvMDUvMjgsIEtv
+ZW5pZywgQ2hyaXN0aWFuIHdyb3RlOgo+ID4+Pj4gQW0gMjguMDUuMTkgdW0gMTg6MTAgc2Nocmll
+YiBFbWlsIFZlbGlrb3Y6Cj4gPj4+Pj4gT24gMjAxOS8wNS8yOCwgRGFuaWVsIFZldHRlciB3cm90
+ZToKPiA+Pj4+Pj4gT24gVHVlLCBNYXkgMjgsIDIwMTkgYXQgMTA6MDMgQU0gS29lbmlnLCBDaHJp
+c3RpYW4KPiA+Pj4+Pj4gPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbT4gd3JvdGU6Cj4gPj4+Pj4+
+PiBBbSAyOC4wNS4xOSB1bSAwOTozOCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gPj4+Pj4+Pj4g
+W1NOSVBdCj4gPj4+Pj4+Pj4+IE1pZ2h0IGJlIGEgZ29vZCBpZGVhIGxvb2tpbmcgaW50byByZXZl
+cnRpbmcgaXQgcGFydGlhbGx5LCBzbyB0aGF0IGF0Cj4gPj4+Pj4+Pj4+IGxlYXN0IGNvbW1hbmQg
+c3VibWlzc2lvbiBhbmQgYnVmZmVyIGFsbG9jYXRpb24gaXMgc3RpbGwgYmxvY2tlZC4KPiA+Pj4+
+Pj4+PiBJIHRob3VnaHQgdGhlIGlzc3VlIGlzIGEgbG90IG1vcmUgdGhhbiB2YWluZm8sIGl0J3Mg
+cHJldHR5IG11Y2ggZXZlcnkKPiA+Pj4+Pj4+PiBoYWNrZWQgdXAgY29tcG9zaXRvciB1bmRlciB0
+aGUgc3VuIGdldHRpbmcgdGhpcyB3cm9uZyBvbmUgd2F5IG9yCj4gPj4+Pj4+Pj4gYW5vdGhlci4g
+VGhpbmtpbmcgYWJvdXQgdGhpcyBzb21lIG1vcmUsIEkgYWxzbyBoYXZlIG5vIGlkZWEgaG93IHlv
+dSdkCj4gPj4+Pj4+Pj4gd2FudCB0byBkZXByZWNhdGUgcmVuZGVyaW5nIG9uIHByaW1hcnkgbm9k
+ZXMgaW4gZ2VuZXJhbC4gQXBwYXJlbnRseQo+ID4+Pj4+Pj4+IHRoYXQgYnJlYWtzIC1tb2Rlc2V0
+dGluZyBhbHJlYWR5LCBhbmQgcHJvYmFibHkgbG90cyBtb3JlIGNvbXBvc2l0b3JzLgo+ID4+Pj4+
+Pj4+IEFuZCBpdCBsb29rcyBsaWtlIHdlJ3JlIGZpbmFsbHkgYWNoaWV2ZSB0aGUgZ29hbCBrbXMg
+c2V0IG91dCB0byAxMAo+ID4+Pj4+Pj4+IHllYXJzIGFnbywgYW5kIG5ldyBjb21wb3NpdG9ycyBh
+cmUgc3Byb3V0aW5nIHVwIGFsbCB0aGUgdGltZS4gSSBndWVzcwo+ID4+Pj4+Pj4+IHdlIGNvdWxk
+IGp1c3QgYnJlYWsgdGhlbSBhbGwgKG9uIG5ldyBoYXJkd2FyZSkgYW5kIHRlbGwgdGhlbSB0byBh
+bGwKPiA+Pj4+Pj4+PiBzdWNrIGl0IHVwLiBCdXQgSSBkb24ndCB0aGluayB0aGF0J3MgYSBncmVh
+dCBvcHRpb24uIEFuZCBqdXN0Cj4gPj4+Pj4+Pj4gZGVwcmVjYXRpbmcgdGhpcyBvbiBhbWRncHUg
+aXMgZ29pbmcgdG8gYmUgZXZlbiBoYXJkZXIsIHNpbmNlIHRoZW4KPiA+Pj4+Pj4+PiBldmVyeXdo
+ZXJlIGVsc2UgaXQnbGwga2VlcCB3b3JraW5nLCBhbmQgaXQncyBqdXN0IGFtZGdwdS5rbyB0aGF0
+IGxvb2tzCj4gPj4+Pj4+Pj4gYnJva2VuLgo+ID4+Pj4+Pj4+Cj4gPj4+Pj4+Pj4gQXNpZGU6IEkn
+bSBub3Qgc3VwcG9ydGluZyBFbWlsJ3MgaWRlYSBoZXJlIGJlY2F1c2UgaXQgZml4ZXMgYW55IGlz
+c3Vlcwo+ID4+Pj4+Pj4+IEludGVsIGhhcyAtIEludGVsIGRvZXNuJ3QgY2FyZS4gSSBzdXBwb3J0
+IGl0IGJlY2F1c2UgcmVhbGl0eSBzdWNrcywKPiA+Pj4+Pj4+PiBwZW9wbGUgZ2V0IHRoaXMgcmVu
+ZGVyIHZzLiBwcmltYXJ5IHZzLiBtdWx0aS1ncHUgcHJpbWUgd3JvbmcgYWxsIHRoZQo+ID4+Pj4+
+Pj4+IHRpbWUgKHRoYXQncyBhbHNvIHdoeSB3ZSBoYXZlIGhhcmRjb2RlZCBkaXNwbGF5K2dwdSBw
+YWlycyBpbiBtZXNhIGZvcgo+ID4+Pj4+Pj4+IHRoZSB2YXJpb3VzIHNvYyBjb21iaW5hdGlvbnMg
+b3V0IHRoZXJlKSwgYW5kIHRoaXMgbG9va3MgbGlrZSBhCj4gPj4+Pj4+Pj4gcHJhZ21hdGljIHNv
+bHV0aW9uLiBJdCdkIGJlIG5pY2UgaWYgZXZlcnkgY29tcG9zaXRvciBhbmQgZXZlcnl0aGluZwo+
+ID4+Pj4+Pj4+IGVsc2Ugd291bGQgcGVyZmVjdGx5IHN1cHBvcnQgbXVsdGkgZ3B1IGFuZCBvbmx5
+IHVzZSByZW5kZXIgbm9kZXMgZm9yCj4gPj4+Pj4+Pj4gcmVuZGVyaW5nLCBhbmQgb25seSBwcmlt
+YXJ5IG5vZGVzIGZvciBkaXNwbGF5LiBCdXQgcmVhbGl0eSBpcyB0aGF0Cj4gPj4+Pj4+Pj4gcGVv
+cGxlIGhhY2sgb24gc3R1ZmYgdW50aWwgZ2VhcnMgb24gc2NyZWVuIGFuZCB0aGVuIG1vdmUgb24g
+dG8gbW9yZQo+ID4+Pj4+Pj4+IGludGVyZXN0aW5nIHRoaW5ncyAodG8gdGhlbSkuIFNvIEkgZG9u
+J3QgdGhpbmsgd2UnbGwgZXZlciB3aW4gdGhpcyA6LS8KPiA+Pj4+Pj4+IFllYWgsIGJ1dCB0aGlz
+IGlzIGEgY2xhc3NpYyBjYXNlIG9mIHdvcmtpbmcgYXJvdW5kIHVzZXIgc3BhY2UgaXNzdWVzIGJ5
+Cj4gPj4+Pj4+PiBtYWtpbmcga2VybmVsIGNoYW5nZXMgaW5zdGVhZCBvZiBmaXhpbmcgdXNlciBz
+cGFjZS4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBIYXZpbmcgcHJpdmlsZWdlZCAob3V0cHV0IGNvbnRy
+b2wpIGFuZCB1bnByaXZpbGVnZWQgKHJlbmRlcmluZyBjb250cm9sKQo+ID4+Pj4+Pj4gZnVuY3Rp
+b25hbGl0eSBiZWhpbmQgdGhlIHNhbWUgbm9kZSBpcyBhIG1pc3Rha2Ugd2UgaGF2ZSBtYWRlIGEg
+bG9uZyB0aW1lCj4gPj4+Pj4+PiBhZ28gYW5kIHJlbmRlciBub2RlcyBmaW5hbGx5IHNlZW1lZCB0
+byBiZSBhIHdheSB0byBmaXggdGhhdC4KPiA+Pj4+Pj4+Cj4gPj4+Pj4+PiBJIG1lYW4gd2h5IGFy
+ZSBjb21wb3NpdG9ycyB1c2luZyB0aGUgcHJpbWFyeSBub2RlIGluIHRoZSBmaXJzdCBwbGFjZT8K
+PiA+Pj4+Pj4+IEJlY2F1c2UgdGhleSB3YW50IHRvIGhhdmUgYWNjZXNzIHRvIHByaXZpbGVnZWQg
+cmVzb3VyY2VzIEkgdGhpbmsgYW5kIGluCj4gPj4+Pj4+PiB0aGlzIGNhc2UgaXQgaXMgcGVyZmVj
+dGx5IG9rIHRvIGRvIHNvLgo+ID4+Pj4+Pj4KPiA+Pj4+Pj4+IE5vdyBleHRlbmRpbmcgdW5wcml2
+aWxlZ2VkIGFjY2VzcyB0byB0aGUgcHJpbWFyeSBub2RlIGFjdHVhbGx5IHNvdW5kcwo+ID4+Pj4+
+Pj4gbGlrZSBhIHN0ZXAgaW50byB0aGUgd3JvbmcgZGlyZWN0aW9uIHRvIG1lLgo+ID4+Pj4+Pj4K
+PiA+Pj4+Pj4+IEkgcmF0aGVyIHRoaW5rIHRoYXQgd2Ugc2hvdWxkIGdvIGRvd24gdGhlIHJvdXRl
+IG9mIGNvbXBsZXRlbHkgZHJvcHBpbmcKPiA+Pj4+Pj4+IGNvbW1hbmQgc3VibWlzc2lvbiBhbmQg
+YnVmZmVyIGFsbG9jYXRpb24gdGhyb3VnaCB0aGUgcHJpbWFyeSBub2RlIGZvcgo+ID4+Pj4+Pj4g
+bm9uIG1hc3RlciBjbGllbnRzLiBBbmQgdGhlbiBhcyBuZXh0IHN0ZXAgYXQgc29tZSBwb2ludCBk
+cm9wIHN1cHBvcnQgZm9yCj4gPj4+Pj4+PiBhdXRoZW50aWNhdGlvbi9mbGluay4KPiA+Pj4+Pj4+
+Cj4gPj4+Pj4+PiBJIG1lYW4gd2UgaGF2ZSBkb25lIHRoaXMgd2l0aCBVTVMgYXMgd2VsbCBhbmQg
+SSBkb24ndCBzZWUgbXVjaCBvdGhlciB3YXkKPiA+Pj4+Pj4+IHRvIG1vdmUgZm9yd2FyZCBhbmQg
+Z2V0IHJpZCBvZiB0aG9zZSBhbmNpZW50IGludGVyZmFjZSBpbiB0aGUgbG9uZyB0ZXJtLgo+ID4+
+Pj4+PiBXZWxsIGttcyBoYWQgc29tZSByZWFsbHkgZ29vZCBiZW5lZml0cyB0aGF0IGRyb3ZlIHF1
+aWNrIGFkb3B0aW9uLCBsaWtlCj4gPj4+Pj4+ICJzdXNwZW5kL3Jlc3VtZSBhY3R1YWxseSBoYXMg
+YSBjaGFuY2Ugb2Ygd29ya2luZyIgb3IgImNvbWVzIHdpdGgKPiA+Pj4+Pj4gYnVmZmVyIG1hbmFn
+ZW1lbnQgc28geW91IGNhbiBydW4gbXVsdGlwbGUgZ2VhcnMiLgo+ID4+Pj4+Pgo+ID4+Pj4+PiBU
+aGUgcmVuZGVyIG5vZGUgdGhpbmcgaXMgYSBsb3QgbW9yZSBuaWNoZSB1c2UgY2FzZSAocHJpbWUs
+IGJldHRlciBwcml2Cj4gPj4+Pj4+IHNlcGFyYXRpb24pLCBwbHVzICJpdCdzIGNsZWFuZXIgZGVz
+aWduIi4gQW5kIHRoZSAiY2xlYW5lciBkZXNpZ24iIHBhcnQKPiA+Pj4+Pj4gaXMgc29tZXRoaW5n
+IHRoYXQgZW1waXJpY2FsbHkgZG9lc24ndCBzZWVtIHRvIG1hdHRlciA6LS8gSnVzdCB0d28KPiA+
+Pj4+Pj4gZXhhbXBsZXM6Cj4gPj4+Pj4+IC0gS0hSX2Rpc3BsYXkvbGVhc2VzIGp1c3QgaXRlcmF0
+ZWQgZGlzcGxheSByZXNvdXJjZXMgb24gdGhlIGZkIG5lZWRlZAo+ID4+Pj4+PiBmb3IgcmVuZGVy
+aW5nIChhbmQgaWlyYyB0aGVyZSB3YXMgZXZlbiBhIHBhdGNoIHRvIGV4cG9zZSB0aGF0IGZvcgo+
+ID4+Pj4+PiByZW5kZXIgbm9kZXMgdG9vIHNvIGl0IHdvcmtzIHdpdGggRFJJMyksIGJlY2F1c2Ug
+aW1wbGVtZW50aW5nCj4gPj4+Pj4+IHByb3RvY29scyBpcyB0b28gaGFyZC4gQmFyZWx5IG1hbmFn
+ZWQgdG8gc3RvcCB0aGF0IG9uZSBiZWZvcmUgaXQKPiA+Pj4+Pj4gaGFwcGVuZWQuCj4gPj4+Pj4+
+IC0gVmFyaW91cyB2aWRlbyBwbGF5ZXJzIHVzZSB0aGUgdmJsYW5rIGlvY3RsIG9uIGRpcmVjdGx5
+IHRvIHNjaGVkdWxlCj4gPj4+Pj4+IGZyYW1lcywgd2l0aG91dCB0ZWxsaW5nIHRoZSBjb21wb3Np
+dG9yLiBJIGRpc2NvdmVyZWQgdGhhdCB3aGVuIEkKPiA+Pj4+Pj4gd2FudGVkIHRvIGxpbWl0ZSB0
+aGUgdmJsYW5rIGlvY3RsIHRvIG1hc3RlciBjbGllbnRzIG9ubHkuIEFnYWluLAo+ID4+Pj4+PiBh
+cHBhcmVudGx5IHRvbyBoYXJkIHRvIHVzZSB0aGUgZXhpc3RpbmcgZXh0ZW5zaW9ucywgb3IgZml4
+IHRoZSBidWdzIGluCj4gPj4+Pj4+IHRoZXJlLCBvciB3aGF0ZXZlci4gT25lIHVzZXJzcGFjZSBn
+b3QgZml4ZWQgbGFzdCB5ZWFyLCBidXQgaXQnbGwKPiA+Pj4+Pj4gcHJvYmFibHkgZ2V0IGNvcHlw
+YXN0ZWQgYXJvdW5kIGZvcmV2ZXIgOi0vCj4gPj4+Pj4+Cj4gPj4+Pj4+IFNvIEkgZG9uJ3QgdGhp
+bmsgd2UnbGwgZXZlciBtYW5hZ2UgdG8gcm9sbCBhIGNsZWFuIHNwbGl0IG91dCwgYW5kIGJlc3QK
+PiA+Pj4+Pj4gd2UgY2FuIGRvIGlzIGdpdmUgaW4gYW5kIGp1c3QgaGFuZCB1c2Vyc3BhY2Ugd2hh
+dCBpdCB3YW50cy4gQXMgbXVjaCBhcwo+ID4+Pj4+PiB0aGF0J3MgbWlzZ3VpZGVkIGFuZCB1bmNs
+ZWFuIGFuZCBhbGwgdGhhdC4gTWF5YmUgaXQnbGwgcmVzdWx0IGluIGEKPiA+Pj4+Pj4gbGVhc3Qg
+ZmV3ZXIgc3R1ZmYgZ2V0dGluZyBydW4gYXMgcm9vdCB0byBoYWNrIGFyb3VuZCB0aGlzLCBiZWNh
+dXNlCj4gPj4+Pj4+IGZpeGluZyBwcm9wZXJseSBzZWVtcyBub3QgdG8gYmUgb24gdGhlIHRhYmxl
+Lgo+ID4+Pj4+Pgo+ID4+Pj4+PiBUaGUgYmVhdXR5IG9mIGttcyBpcyB0aGF0IHdlJ3ZlIGFjaGll
+dmVkIHRoZSBtaXNzaW9uLCBldmVyeW9uZSdzCj4gPj4+Pj4+IHdyaXRpbmcgdGhlaXIgb3duIHRo
+aW5nLiBXaGljaCBpcyBhbHNvIHRlcnJpYmxlLCBhbmQgSSBkb24ndCB0aGluawo+ID4+Pj4+PiBp
+dCdsbCBnZXQgYmV0dGVyLgo+ID4+Pj4+IFdpdGggdGhlIHJpc2sgb2YgY29taW5nIHJ1ZGUgSSB3
+aWxsIHJlcGVhdCBteSBlYXJsaWVyIGNvbW1lbnQ6Cj4gPj4+Pj4KPiA+Pj4+PiBUaGUgcHJvYmxl
+bSBpcyBfbmVpdGhlcl8gSW50ZWwgbm9yIGxpYnZhIHNwZWNpZmljLgo+ID4+Pj4+Cj4gPj4+Pj4K
+PiA+Pj4+Pgo+ID4+Pj4+IFRoYXQgc2FpZCwgbGV0J3Mgc3RlcCBiYWNrIGZvciBhIG1vbWVudCBh
+bmQgY29uc2lkZXI6Cj4gPj4+Pj4KPiA+Pj4+PiAgICAtIHRoZSAiYmxvY2sgZXZlcnl0aGluZyBi
+dXQgS01TIHZpYSB0aGUgcHJpbWFyeSBub2RlIiBpZGVhIGlzIGdyZWF0IGJ1dAo+ID4+Pj4+IG9y
+dGhvZ29uYWwKPiA+Pj4+Pgo+ID4+Pj4+ICAgIC0gdGhlIHNlcmllcyBkb2VzIGFkZHJlc3MgaXNz
+dWVzIHRoYXQgYXJlIHZlbmRvci1hZ25vc3RpYwo+ID4+Pj4+Cj4gPj4+Pj4gICAgLSBieSBkZWZh
+dWx0IHRoaXMgc2VyaWVzIGRvZXMgX25vdF8gY2F1c2UgYW55IHJlZ3Jlc3Npb24gYmUgdGhhdCBm
+b3IKPiA+Pj4+PiBuZXcgb3Igb2xkIHVzZXJzcGFjZQo+ID4+Pj4+Cj4gPj4+Pj4gICAgLSB0aGVy
+ZSBhcmUgdHdvIHRyaXZpYWwgc29sdXRpb25zLCBpZiB0aGUgQU1EIHRlYW0gaGFzIGNvbmNlcm5z
+IGFib3V0Cj4gPj4+Pj4gY2xvc2VkLXNvdXJjZS9wcml2YXRlIHN0YWNrIGRlcGVuZGluZyBvbiB0
+aGUgb2xkIGJlaGF2aW91cgo+ID4+Pj4+IElmIHRoZXkgd2FudCBJIGNhbiBldmVuIHdyaXRlIHRo
+ZSBwYXRjaGVzIDstKQo+ID4+Pj4+Cj4gPj4+Pj4KPiA+Pj4+PiBUaGF0IHNhaWQsIHRoZSBub3Rh
+YmxlIGNvbW1lbnRzIHJlY2VpdmVkIHNvIGZhciBhcmU6Cj4gPj4+Pj4gICAgLSByZXdvcmsgcGF0
+Y2ggMTMvMTMgdG8gcmVtb3ZlIHRoZSBEUk1fQVVUSCBmcm9tIHByaW1lIGZkIHRvL2Zyb20KPiA+
+Pj4+PiBoYW5kbGUuIEknbSBPSyBidXQgdGhpcyB3aWxsIGNoYW5nZSB0aGUgcmV0dXJuIGNvZGUg
+LSBmcm9tIEVBQ0NFUyB0bwo+ID4+Pj4+IEVOT1NZUwo+ID4+Pj4+Cj4gPj4+Pj4gICAgLSB2bXdn
+Znggd2lsbCBuZWVkIGEgY2hlY2sgb24gdGhlIHJlZmVyZW5jZSBpb2N0bChzKSAtIElJUkMgVGhv
+bWFzIGlzCj4gPj4+Pj4gcGxhbm5pbmcgdG8gZHJvcCBuZWFybHkgYWxsIERSTV9BVVRIIGluc3Rh
+bmNlcyBpbiB0aGVpciBkcml2ZXIuCj4gPj4+Pj4KPiA+Pj4+Pgo+ID4+Pj4+IENocmlzdGlhbiwg
+YXMgbWVudGlvbmVkIGJlZm9yZSAtIHRoaXMgc2VyaWVzIGRvZXMgX25vdF8gYWRkCj4gPj4+Pj4g
+ZnVuY3Rpb25hbGl0eSB0byByZW5kZXIgbm9kZXMuIEl0IGVmZmVjdGl2ZWx5IHBhdmVzIGEgd2F5
+IHRvd2FyZHMKPiA+Pj4+PiByZW1vdmluZyBEUk1fQVVUSC4KPiA+Pj4+IEJ1dCBpdCBhZGRzIGZ1
+bmN0aW9uYWxpdHkgdG8gdGhlIHByaW1hcnkgbm9kZS4KPiA+Pj4+Cj4gPj4+IEJlaGF2aW91ciBp
+cyBhZGp1c3RlZCAtIGZ1bmN0aW9uYWxpdHkgd2FzIHRoZXJlIHNpbmNlIGRheSAxLgo+ID4+Pgo+
+ID4+Pj4+IEkgdW5kZXJzdGFuZCB0aGUgc2VyaWVzIG1heSBmZWVsIGEgYml0IGRpcnR5LiBZZXQg
+SSB3b3VsZCBnbGFkbHkgYWRkcmVzcwo+ID4+Pj4+IGFueSB0ZWNobmljYWwgY29uY2VybnMgeW91
+IGhhdmUuCj4gPj4+PiBXZWxsIHB1dHRpbmcgY29tcGF0aWJpbGl0eSBpc3N1ZXMgYXNpZGUgbXkg
+Y29uY2VybiBpcyB0aGF0IHRoaXMgaXMKPiA+Pj4+IHNpbXBseSBhIGJhZCBkZXNpZ24gZGVjaXNp
+b24gd2hpY2ggd2UgY2FuJ3QgcmV2ZXJ0IGxhdGVyIG9uLgo+ID4+Pj4KPiA+Pj4gQXMgc2FkIGFi
+b3ZlIC0gYW55IGNvbmNlcm5zICh0aGVvcmV0aWNhbCBvciBhY3R1YWwgcmVncmVzc2lvbnMpIGNh
+biBiZQo+ID4+PiB0cml2aWFsbHkgZml4ZWQgX3dpdGhvdXRfIHJldmVydGluZyBhbnkgb2YgdGhp
+cy4KPiA+Pj4KPiA+Pj4gSSBhbSBtb3JlIHRoYW4gaGFwcHkgdG8gc3RlcCB1cCBhbmQgYWRkcmVz
+cyBhbnkgcmVncmVzc2lvbnMgaW4gdGltZWx5Cj4gPj4+IG1hbm5lci4KPiA+Pj4KPiA+Pj4KPiA+
+Pj4gQXMgYSByZW1pbmRlciB3aXRob3V0IHRoaXMgc2VyaWVzLCBzb21lIG9mIHlvdXIgY3VzdG9t
+ZXJzIGFyZSBmb3JjZWQgdG8KPiA+Pj4gcnVuIHRoZWlyIGFwcGxpY2F0aW9ucyBhcyByb290Lgo+
+ID4+IEknbSB0b3JuIGhlcmUgb24gd2hldGhlciB0aGlzIGlzIHdvcnRoIGl0LiBIYXZlIHdlIGdv
+dCBtb3JlIHVzZSBjYXNlcwo+ID4+IHRvIGp1c3RpZnkgaXQ/Cj4gPj4KPiA+IFNob3VsZCBoYXZl
+IG1lbnRpb25lZDogdGhyZWUgRFJNIGRyaXZlcnMgKG5vdCBjb3VudGluZyBpOTE1KSBoYXZlCj4g
+PiBkcm9wcGVkIERSTV9BVVRILCBhc3N1bWluZ2x5IGZvciB0aGUgc2FtZSByZWFzb25zIEknbSBi
+cmluZ2luZyBoZXJlLgo+ID4KPiA+IEFwYXJ0IGZyb20gdGhlIGxpYnZhLCBrbXNjdWJlICsgZ3N0
+IGFuZCBtZXNhLCBJJ20gZXhwZWN0aW5nIG90aGVyCj4gPiBwcm9qZWN0cyB0byBtYWtlIHRoZSBz
+YW1lIG1pc3Rha2UuIFNpbmNlIHRoZSBmb3JtZXIgdGhyZWUgZGVmaW5lIHRoZQo+ID4gbm9ybSBv
+ZiB1c2luZyBEUk0uCj4gPgo+ID4gVGhlICJmaXgiIGZvciBhbGwgb2YgdGhlc2UgYmVpbmcgInJ1
+biBhcyByb290IiA6LVwKPiA+Cj4gPj4gSSdtIHdhcnkgb2Ygb3BlbmluZyB0aGlzIHVwIGp1c3Qg
+YmVjYXVzZSB3ZSBjYW4uCj4gPj4KPiA+IFdoYXQgY2FuIEkgZG8gdG8gYWxsZXZpYXRlIHRoYXQg
+d29ycnk/IEkgaGF2ZSBzcGVudCBvdmVyIGEgd2VlayBhdWRpdGluZwo+ID4gY29kZSBhbmQgZGVz
+aWduZWQgc28gdGhhdCB3ZSBjYW4gcmVpbnN0YXRlIHRoZSBhdXRoZW50aWNhdGlvbiBvbmx5IHdo
+ZXJlCj4gPiBuZWVkZWQuCj4gCj4gV2VsbCBJIGRvbid0IHRoaW5rIHRoZSB3b3JyeSBoZXJlIGlz
+IGFib3V0IHJlZ3Jlc3Npb25zLApHbGFkIHRvIGhlYXIuCgo+IGJ1dCByYXRoZXIgYWJvdXQgCj4g
+YSBkZXNpZ24gZGVjaXNpb24gd2Ugd2lsbCBuZXZlciBiZSBhYmxlIHRvIHJldmVydC4KPiAKQ2Fu
+IHlvdSB0aGluayBvZiBhbnkgcmVhc29uL2lzc3VlIHdoeSB3ZSB3b3VsZCB3YW50IHRvIHJldmVy
+dCB0aGlzPyBJCndpbGwgZ2xhZGx5IHNwZW5kIHNvbWUgdGhpbmcgZXhwbG9yaW5nIGhvdyB0byBh
+ZGRyZXNzIGl0LgoKPiBTbyB0aGUgcXVlc3Rpb24gd2UgaGF2ZSB0byBhc2sgaXMgcmF0aGVyIGlm
+IGl0J3MgYSBnb29kIGRlc2lnbiBkZWNpc2lvbiAKPiB0byByZXN1cnJlY3QgdGhlIHByaW1hcnkg
+bm9kZSB3aXRoIGFsbCBpdHMgcmVsYXRlZCBjb21wYWJpbGl0eSBidXJkZW5zIAo+IHRvIHdvcmsg
+YXJvdW5kIGFuIGlzc3VlIHdoaWNoIGlzIGVzc2VudGlhbGx5IGFuIHVzZXJzcGFjZSBjb2Rpbmcg
+ZXJyb3IuCj4gCgpDYW4gc2VlIHlvdSdyZSBub3QgaGFwcHkgb24gdGhlIHRvcGljIC0gSSdtIG5v
+dCB0b28gZXhjaXRlZCBlaXRoZXIuIFRoZQp0cnV0aCB0byB0aGUgbWF0dGVyIGlzIC0gRFJNIGRy
+aXZlcnMgaGF2ZSBkcm9wcGVkIERSTV9BVVRIIHJlZ2FyZGxlc3Mgb2YKbXkgd29yay4KCkl0J3Mg
+dmVyeSB1bmZvcnR1bmF0ZSwgaWYgQU1ER1BVIHN0YW5kcyBvdXQuIFBlcmhhcHMgYWZ0ZXIgc29t
+ZSB0aW1lIGFuZAp1bmhhcHB5IHVzZXJzIHlvdSdsbCByZWNvbnNpZGVyLgoKSSBiZWxpZXZlIHRo
+YXQgTGludXMgaGFzIHBvaW50ZWQgb3V0IGEgbnVtYmVyIG9mIHRpbWVzIHRoYXQga2VybmVsCmRl
+dmVsb3BlcnMgc2hvdWxkIGNhcmUgYWJvdXQgb3VyIHVzZXJzLiBFdmVuIHdoZW4gaXQncyBhbiB1
+c2Vyc3BhY2UKZXJyb3IuCgoKSFRICkVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
