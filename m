@@ -1,46 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77FD2D17D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 00:25:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773022DBA6
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5A596E027;
-	Tue, 28 May 2019 22:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5087A6E2D4;
+	Wed, 29 May 2019 11:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9E9A06E027
- for <dri-devel@lists.freedesktop.org>; Tue, 28 May 2019 22:25:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9BBC472167; Tue, 28 May 2019 22:25:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110787] Glitches in console of the Julia language plugin for
- Atom (Juno)
-Date: Tue, 28 May 2019 22:25:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: develop@manuel-voegele.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110787-502-HqL9UaAsUv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110787-502@http.bugs.freedesktop.org/>
-References: <bug-110787-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from onstation.org (onstation.org [52.200.56.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77DD2895C4;
+ Wed, 29 May 2019 01:17:07 +0000 (UTC)
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
+ [98.239.145.235])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: masneyb)
+ by onstation.org (Postfix) with ESMTPSA id DC95F3E93F;
+ Wed, 29 May 2019 01:17:05 +0000 (UTC)
+Date: Tue, 28 May 2019 21:17:05 -0400
+From: Brian Masney <masneyb@onstation.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH RFC v2 0/6] ARM: qcom: initial Nexus 5 display support
+Message-ID: <20190529011705.GA12977@basecamp>
+References: <20190509020352.14282-1-masneyb@onstation.org>
+ <CACRpkda-7+ggoeMD9=erPX09OWteX0bt+qP60_Yv6=4XLqNDZQ@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CACRpkda-7+ggoeMD9=erPX09OWteX0bt+qP60_Yv6=4XLqNDZQ@mail.gmail.com>
+X-Mailman-Approved-At: Wed, 29 May 2019 11:20:23 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=onstation.org; s=default; t=1559092626;
+ bh=624x27QESSEqdHdt8jzd0ud8U0qgsoYwZR247KGLs0E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bhY0pU6QI6vSQUXwTbKMMbwo2QHJ971xqn7eUiLTyXSQeUKqVNIqC7ifzFhdxZgNT
+ l98hUA5Uw9EK3nVmwFcPc4oFA+11WCN0M2L59LyFp97/pKisUVlzaN6JGOMNdO/Kcd
+ OzcTKkDDlXjjeGCT/xTywIbT0MNrBbaAZ2MZWuz4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,94 +48,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0853383899=="
+Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
+ Dave Airlie <airlied@linux.ie>, MSM <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0853383899==
-Content-Type: multipart/alternative; boundary="15590823171.e8a6915.18316"
-Content-Transfer-Encoding: 7bit
-
-
---15590823171.e8a6915.18316
-Date: Tue, 28 May 2019 22:25:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110787
-
---- Comment #1 from Manuel V=C3=B6gele <develop@manuel-voegele.de> ---
-Created attachment 144367
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144367&action=3Dedit
-Output of glxinfo
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15590823171.e8a6915.18316
-Date: Tue, 28 May 2019 22:25:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Glitches in console of the Julia language plugin for Atom=
- (Juno)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110787#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Glitches in console of the Julia language plugin for Atom=
- (Juno)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110787">bug 11078=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-develop&#64;manuel-voegele.de" title=3D"Manuel V=C3=B6gele &lt;develop&#64;=
-manuel-voegele.de&gt;"> <span class=3D"fn">Manuel V=C3=B6gele</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144367=
-" name=3D"attach_144367" title=3D"Output of glxinfo">attachment 144367</a> =
-<a href=3D"attachment.cgi?id=3D144367&amp;action=3Dedit" title=3D"Output of=
- glxinfo">[details]</a></span>
-Output of glxinfo</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15590823171.e8a6915.18316--
-
---===============0853383899==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0853383899==--
+T24gVHVlLCBNYXkgMjgsIDIwMTkgYXQgMDM6NDY6MTRQTSArMDIwMCwgTGludXMgV2FsbGVpaiB3
+cm90ZToKPiBPbiBUaHUsIE1heSA5LCAyMDE5IGF0IDQ6MDQgQU0gQnJpYW4gTWFzbmV5IDxtYXNu
+ZXliQG9uc3RhdGlvbi5vcmc+IHdyb3RlOgo+IAo+ID4gSGVyZSBpcyBhIHBhdGNoIHNlcmllcyB0
+aGF0IGFkZHMgaW5pdGlhbCBkaXNwbGF5IHN1cHBvcnQgZm9yIHRoZSBMRwo+ID4gTmV4dXMgNSAo
+aGFtbWVyaGVhZCkgcGhvbmUuIEl0J3Mgbm90IGZ1bGx5IHdvcmtpbmcgc28gdGhhdCdzIHdoeSBz
+b21lCj4gPiBvZiB0aGVzZSBwYXRjaGVzIGFyZSBSRkMgdW50aWwgd2UgY2FuIGdldCBpdCBmdWxs
+eSB3b3JraW5nLgo+ID4KPiA+IFRoZSBwaG9uZXMgYm9vdHMgaW50byB0ZXJtaW5hbCBtb2RlLCBo
+b3dldmVyIHRoZXJlIGlzIGEgc2V2ZXJhbCBzZWNvbmQKPiA+IChvciBtb3JlKSBkZWxheSB3aGVu
+IHdyaXRpbmcgdG8gdHR5MSBjb21wYXJlZCB0byB3aGVuIHRoZSBjaGFuZ2VzIGFyZQo+ID4gYWN0
+dWFsbHkgc2hvd24gb24gdGhlIHNjcmVlbi4gVGhlIGZvbGxvd2luZyBlcnJvcnMgYXJlIGluIGRt
+ZXNnOgo+IAo+IEkgdGVzdGVkIHRvIGFwcGx5IHBhdGNoZXMgMi02IGFuZCBnb3QgdGhlIGNvbnNv
+bGUgdXAgb24gdGhlIHBob25lIGFzIHdlbGwuCj4gSSBzZWUgdGhlIHNhbWUgdGltb3V0cywgYW5k
+IEkgYWxzbyBub3RpY2UgdGhlIHVwZGF0ZSBpcyBzbG93IGluIHRoZQo+IGRpc3BsYXksIGFzIGlm
+IHRoZSBEU0kgcGFuZWwgd2FzIHJ1bm5pbmcgaW4gbG93IHBvd2VyIChMUCkgbW9kZS4KPiAKPiBX
+YXMgYm9vdGluZyB0aGlzIHRvIGRvIHNvbWUgb3RoZXIgd29yaywgYnV0IGhhcHB5IHRvIHNlZSB0
+aGUgcHJvZ3Jlc3MhCgpUaGFua3MhCgpJJ3ZlIGhhZCB0aHJlZSBwZW9wbGUgZW1haWwgbWUgb2Zm
+IGxpc3QgcmVnYXJkaW5nIHRoZSBkaXNwbGF5IHdvcmtpbmcgb24KNC4xNyBiZWZvcmUgdGhlIG1z
+bSBrbXMvZHJtIGRyaXZlciB3YXMgY29udmVydGVkIHRvIHRoZSBEUk0gYXRvbWljIEFQSSBzbwp0
+aGlzIGVtYWlsIGlzIHRvIGdldCBzb21lIG1vcmUgaW5mb3JtYXRpb24gb3V0IHB1YmxpY2x5LgoK
+SSBwdXNoZWQgdXAgYSBicmFuY2ggdG8gbXkgZ2l0aHViIHdpdGggMTUgcGF0Y2hlcyBhcHBsaWVk
+IGFnYWluc3QgNC4xNwp0aGF0IGhhcyBhIHdvcmtpbmcgZGlzcGxheToKCmh0dHBzOi8vZ2l0aHVi
+LmNvbS9tYXNuZXliL2xpbnV4L2NvbW1pdHMvZGlzcGxheS13b3Jrcy00LjE3CgpJdCdzIGluIGxv
+dyBzcGVlZCBtb2RlIGJ1dCBpdHMgdXNhYmxlLiBUaGUgZmlyc3QgMTAgcGF0Y2hlcyBhcmUgaW4K
+bWFpbmxpbmUgbm93IGFuZCB0aGUgbGFzdCA1IGFyZSBpbiBlc3NlbmNlIHRoaXMgcGF0Y2ggc2Vy
+aWVzIHdpdGggdGhlCmV4Y2VwdGlvbiBvZiAnZHJtL2F0b21pYyttc206IGFkZCBoZWxwZXIgdG8g
+aW1wbGVtZW50IGxlZ2FjeSBkaXJ0eWZiJy4KVGhlcmUncyBhIHNsaWdodGx5IGRpZmZlcmVudCB2
+ZXJzaW9uIG9mIHRoYXQgcGF0Y2ggaW4gbWFpbmxpbmUgbm93LgoKSSdtIHBsYW5uaW5nIHRvIHdv
+cmsgb24gdGhlIG1zbTg5NzQgaW50ZXJjb25uZWN0IHN1cHBvcnQgb25jZSBzb21lIG9mCnRoZSBv
+dXRzdGFuZGluZyBpbnRlcmNvbm5lY3QgcGF0Y2hlcyBmb3IgdGhlIG1zbSBrbXMvZHJtIGRyaXZl
+ciBhcnJpdmUKaW4gbWFpbmxpbmUuIEknZCByZWFsbHkgbGlrZSB0byB1bmRlcnN0YW5kIHdoeSB0
+aGUgZGlzcGxheSB3b3JrcyBvbgo0LjE3IHdpdGggdGhvc2UgcGF0Y2hlcyB0aG91Z2guIEkgYXNz
+dW1lIHRoYXQgaXQncyByZWxhdGVkIHRvIHRoZQp2YmxhbmsgZXZlbnRzIG5vdCB3b3JraW5nIHBy
+b3Blcmx5PyBMZXQgbWUgcHJlZmFjZSB0aGlzIHdpdGggSSdtIGEKdG90YWwgRFJNIG5ld2JpZSwg
+YnV0IGl0IGxvb2tlZCBsaWtlIHRoZSBwcmUtRFJNLWF0b21pYyBkcml2ZXIgd2Fzbid0Cmxvb2tp
+bmcgZm9yIHRoZXNlIGV2ZW50cyBpbiB0aGUgYXRvbWljIGNvbW1pdHMgYmVmb3JlIHRoZSBtaWdy
+YXRpb24/ClNlZSBjb21taXQgNzBkYjE4ZGNhNGUwICgiZHJtL21zbTogUmVtb3ZlIG1zbV9jb21t
+aXQvd29ya2VyLCB1c2UgYXRvbWljCmhlbHBlciBjb21taXQiKSwgc3BlY2lmaWNhbGx5IHRoZSBk
+cm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl92YmxhbmtzKCkKY2FsbCB0aGF0IHdhcyBhZGRlZC4K
+CkJyaWFuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
