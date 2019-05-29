@@ -1,45 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906292E0AF
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 17:12:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8E62FB0B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 13:40:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D7806E0EB;
-	Wed, 29 May 2019 15:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 440786E313;
+	Thu, 30 May 2019 11:39:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3BA826E2D2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 15:12:22 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2E9CD72167; Wed, 29 May 2019 15:12:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110658] MXGP3 (Steam, native Linux port, UE4): graphical glitches
-Date: Wed, 29 May 2019 15:12:22 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mezin.alexander@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110658-502-oDeu14AxRY@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110658-502@http.bugs.freedesktop.org/>
-References: <bug-110658-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from rosenzweig.io (rosenzweig.io [107.170.207.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6DE6E07B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 15:16:20 +0000 (UTC)
+Received: by rosenzweig.io (Postfix, from userid 1000)
+ id B1C2C60D37; Wed, 29 May 2019 08:16:19 -0700 (PDT)
+Date: Wed, 29 May 2019 08:16:19 -0700
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH v3 0/4] drm/panfrost: Expose perf counters to userspace
+Message-ID: <20190529151619.GC32127@rosenzweig.io>
+References: <20190529095233.26277-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190529095233.26277-1-boris.brezillon@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Approved-At: Thu, 30 May 2019 11:39:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,124 +37,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1766914907=="
+Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, kernel@collabora.com,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1766914907==
-Content-Type: multipart/alternative; boundary="15591427420.f88D3.28161"
-Content-Transfer-Encoding: 7bit
-
-
---15591427420.f88D3.28161
-Date: Wed, 29 May 2019 15:12:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110658
-
---- Comment #5 from Alexander Mezin <mezin.alexander@gmail.com> ---
-
-(In reply to Timothy Arceri from comment #3)
-> Are you able to test with llvm 9?
-
-I won't have time for that until weekend
-
-(In reply to Timothy Arceri from comment #4)
-> I've run it on llvm 8 and mesa 19.0.5 and was unable to reproduce the iss=
-ues
-> seen in the screen capture on my Vega 64.
-
-Just re-tested with mesa 19.0.5+llvm 8, the issue is still there.
-
-It seems to be track-specific. At least it doesn't happen on "Compound", for
-example.
-
-Also the game runs fine under Proton/SteamPlay (no glitches/artifacts).
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15591427420.f88D3.28161
-Date: Wed, 29 May 2019 15:12:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - MXGP3 (Steam, native Linux port, UE4): graphical gli=
-tches"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110658#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - MXGP3 (Steam, native Linux port, UE4): graphical gli=
-tches"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110658">bug 11065=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mezin.alexander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander=
-&#64;gmail.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
-</span></b>
-        <pre>
-(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D110658#c3">co=
-mment #3</a>)
-<span class=3D"quote">&gt; Are you able to test with llvm 9?</span >
-
-I won't have time for that until weekend
-
-(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D110658#c4">co=
-mment #4</a>)
-<span class=3D"quote">&gt; I've run it on llvm 8 and mesa 19.0.5 and was un=
-able to reproduce the issues
-&gt; seen in the screen capture on my Vega 64.</span >
-
-Just re-tested with mesa 19.0.5+llvm 8, the issue is still there.
-
-It seems to be track-specific. At least it doesn't happen on &quot;Compound=
-&quot;, for
-example.
-
-Also the game runs fine under Proton/SteamPlay (no glitches/artifacts).</pr=
-e>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15591427420.f88D3.28161--
-
---===============1766914907==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1766914907==--
+V29vaG9vISBQYXRjaGVzIDEtMyBhcmUgUi1iOyBwYXRjaCA0IGlzIEEtYi4gRXhjaXRpbmcgcHJv
+Z3Jlc3MhIEhvcGluZwp0byBoZWFyIHdoYXQgUm9iIGFuZCBTdGV2ZW4gdGhpbmsgOikKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
