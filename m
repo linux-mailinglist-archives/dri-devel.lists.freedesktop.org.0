@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC542DAE3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 12:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512712DAF8
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 12:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FDD893B8;
-	Wed, 29 May 2019 10:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41FFA6E04B;
+	Wed, 29 May 2019 10:43:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE850893B8
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 10:35:36 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BADE772167; Wed, 29 May 2019 10:35:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
- 11.x and 19.x
-Date: Wed, 29 May 2019 10:35:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_severity
-Message-ID: <bug-110781-502-kZGpJaCZBU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
-References: <bug-110781-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CEC16E04B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 10:43:27 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.89)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1hVw3A-00016K-AI; Wed, 29 May 2019 12:43:16 +0200
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Andrew Morton <akpm@linux-foundation.org>, Yue Hu <huyue2@yulong.com>,
+ =?UTF-8?q?Micha=C5=82=20Nazarewicz?= <mina86@mina86.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Subject: [PATCH 1/2] mm: cma: export functions to get CMA base and size
+Date: Wed, 29 May 2019 12:43:11 +0200
+Message-Id: <20190529104312.27835-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,96 +45,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0792839068=="
+Cc: kernel@pengutronix.de, linux-mm@kvack.org, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0792839068==
-Content-Type: multipart/alternative; boundary="15591261360.7Cd88cd3.11747"
-Content-Transfer-Encoding: 7bit
-
-
---15591261360.7Cd88cd3.11747
-Date: Wed, 29 May 2019 10:35:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
-
-Richard Thier <u9vata@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Severity|normal                      |major
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15591261360.7Cd88cd3.11747
-Date: Wed, 29 May 2019 10:35:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:u9vata&#6=
-4;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;"> <span cl=
-ass=3D"fn">Richard Thier</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Severity</td>
-           <td>normal
-           </td>
-           <td>major
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15591261360.7Cd88cd3.11747--
-
---===============0792839068==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0792839068==--
+TWFrZSB0aGVtIHVzYWJsZSBpbiBtb2R1bGVzLiBTb21lIGRyaXZlcnMgd2FudCB0byBrbm93IHdo
+ZXJlIHRoZWlyCmRldmljZSBDTUEgYXJlYSBpcyBsb2NhdGVkIHRvIG1ha2UgYmV0dGVyIGRlY2lz
+aW9ucyBhYm91dCB0aGUgRE1BCnByb2dyYW1taW5nLgoKU2lnbmVkLW9mZi1ieTogTHVjYXMgU3Rh
+Y2ggPGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Ci0tLQogbW0vY21hLmMgfCAyICsrCiAxIGZpbGUg
+Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvbW0vY21hLmMgYi9tbS9jbWEu
+YwppbmRleCAzMzQwZWYzNGMxNTQuLjE5MWM4OWJmMDM4ZCAxMDA2NDQKLS0tIGEvbW0vY21hLmMK
+KysrIGIvbW0vY21hLmMKQEAgLTQ0LDExICs0NCwxMyBAQCBwaHlzX2FkZHJfdCBjbWFfZ2V0X2Jh
+c2UoY29uc3Qgc3RydWN0IGNtYSAqY21hKQogewogCXJldHVybiBQRk5fUEhZUyhjbWEtPmJhc2Vf
+cGZuKTsKIH0KK0VYUE9SVF9TWU1CT0xfR1BMKGNtYV9nZXRfYmFzZSk7CiAKIHVuc2lnbmVkIGxv
+bmcgY21hX2dldF9zaXplKGNvbnN0IHN0cnVjdCBjbWEgKmNtYSkKIHsKIAlyZXR1cm4gY21hLT5j
+b3VudCA8PCBQQUdFX1NISUZUOwogfQorRVhQT1JUX1NZTUJPTF9HUEwoY21hX2dldF9zaXplKTsK
+IAogY29uc3QgY2hhciAqY21hX2dldF9uYW1lKGNvbnN0IHN0cnVjdCBjbWEgKmNtYSkKIHsKLS0g
+CjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
