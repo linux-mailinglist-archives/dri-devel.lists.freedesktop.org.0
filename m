@@ -1,40 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6722DB93
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:20:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 545B42D8DB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 11:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2F36E0D2;
-	Wed, 29 May 2019 11:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBFC6E09F;
+	Wed, 29 May 2019 09:18:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-rs2-vallila1.fe.helsinki.fi
- (smtp-rs2-vallila1.fe.helsinki.fi [128.214.173.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DEB789FCA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 08:31:43 +0000 (UTC)
-Received: from whs-18.cs.helsinki.fi (whs-18.cs.helsinki.fi [128.214.166.46])
- by smtp-rs2.it.helsinki.fi (8.14.7/8.14.7) with ESMTP id
- x4T8VT9u045966; Wed, 29 May 2019 11:31:29 +0300
-Received: by whs-18.cs.helsinki.fi (Postfix, from userid 1070048)
- id 5DBEE3600C6; Wed, 29 May 2019 11:31:29 +0300 (EEST)
-Received: from localhost (localhost [127.0.0.1])
- by whs-18.cs.helsinki.fi (Postfix) with ESMTP id 5C46536004D;
- Wed, 29 May 2019 11:31:29 +0300 (EEST)
-Date: Wed, 29 May 2019 11:31:29 +0300 (EEST)
-From: =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@cs.helsinki.fi>
-X-X-Sender: ijjarvin@whs-18.cs.helsinki.fi
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: DRM/AST regression (likely 4.14 -> 4.19+), providing EDID manually
- fails
-In-Reply-To: <87sgsz593p.fsf@intel.com>
-Message-ID: <alpine.DEB.2.20.1905291127350.24401@whs-18.cs.helsinki.fi>
-References: <alpine.DEB.2.20.1905262211270.24390@whs-18.cs.helsinki.fi>
- <878surn919.wl-ashutosh.dixit@intel.com> <87sgsz593p.fsf@intel.com>
-User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E30DE6E0A6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 09:18:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown
+ [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 679FD2849FA;
+ Wed, 29 May 2019 10:18:39 +0100 (BST)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH] drm/panfrost: Make sure a BO is only unmapped when appropriate
+Date: Wed, 29 May 2019 11:18:36 +0200
+Message-Id: <20190529091836.22060-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-419456701-1559118689=:24401"
-X-Mailman-Approved-At: Wed, 29 May 2019 11:20:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,69 +39,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>, Dave Airlie <airlied@redhat.com>,
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, stable@vger.kernel.org,
  dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-419456701-1559118689=:24401
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 28 May 2019, Jani Nikula wrote:
-
-> On Mon, 27 May 2019, Ashutosh Dixit <ashutosh.dixit@intel.com> wrote:
-> > On Sun, 26 May 2019 12:50:51 -0700, Ilpo Järvinen wrote:
-> >>
-> >> Hi all,
-> >>
-> >> I've a workstation which has internal VGA that is detected as AST 2400 and
-> >> with it EDID has been always quite flaky (except for some time it worked
-> >> with 4.14 long enough that I thought the problems would be past until the
-> >> problems reappeared also with 4.14). Thus, I've provided manually the EDID
-> >> that I extracted from the monitor using other computer (the monitor itself
-> >> worked just fine on the earlier computer so it is likely fine).
-> >>
-> >> I setup the manual EDID using drm_kms_helper.edid_firmware, however,
-> >> after upgrading to 4.19.45 it stopped working (no "Got external EDID base
-> >> block" appears in dmesg, the text mode is kept in the lower res mode, and
-> >> Xorg logs no longer dumps the EDID info like it did with 4.14). So I guess
-> >> the EDID I provided manually on the command line is not correctly put into
-> >> use with 4.19+ kernels.
-> >>
-> >> The 4.19 dmesg indicated that drm_kms_helper.edid_firmware is deprecated
-> >> so I also tested with drm.edid_firmware it suggested as the replacement
-> >> but with no luck (but I believe also the drm_kms_helper one should have
-> >> worked as it was only "deprecated").
-> >>
-> >> I also tried 5.1.2 but it did not work any better (and with it also tried
-> >> removing all the manual *.edid_firmware from the command line so I still
-> >> need to provide one manually to have it reliable working it seems).
-> >
-> > I believe there is a bug already tracking this, here:
-> >
-> > https://bugs.freedesktop.org/show_bug.cgi?id=107583
-> 
-> Ilpo, does video=VGA-1:e command-line option work around the problem for
-> you?
-
-Yes it does; together with the modeline stuff for Xorg (after reading the 
-referenced bug report I realized I can fix the X side with it). So I now 
-have the desired modes/resolutions in use. Thank you all!
-
--- 
- i.
---8323329-419456701-1559118689=:24401
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---8323329-419456701-1559118689=:24401--
+bW11X29wcy0+dW5tYXAoKSB3aWxsIGZhaWwgd2hlbiBjYWxsZWQgb24gYSBCTyB0aGF0IGhhcyBu
+b3QgYmVlbgpwcmV2aW91c2x5IG1hcHBlZCwgYW5kIHRoZSBlcnJvciBwYXRoIGluIHBhbmZyb3N0
+X2lvY3RsX2NyZWF0ZV9ibygpCmNhbiBjYWxsIGRybV9nZW1fb2JqZWN0X3B1dF91bmxvY2tlZCgp
+ICh3aGljaCBpbiB0dXJuIGNhbGxzCnBhbmZyb3N0X21tdV91bm1hcCgpKSBvbiBhIEJPIHRoYXQg
+aGFzIG5vdCBiZWVuIG1hcHBlZCB5ZXQuCgpLZWVwIHRyYWNrIG9mIHRoZSBtYXBwZWQvdW5tYXBw
+ZWQgc3RhdGUgdG8gYXZvaWQgc3VjaCBpc3N1ZXMuCgpGaXhlczogZjNiYTkxMjI4ZThlICgiZHJt
+L3BhbmZyb3N0OiBBZGQgaW5pdGlhbCBwYW5mcm9zdCBkcml2ZXIiKQpDYzogPHN0YWJsZUB2Z2Vy
+Lmtlcm5lbC5vcmc+ClNpZ25lZC1vZmYtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemls
+bG9uQGNvbGxhYm9yYS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0
+X2dlbS5oIHwgMSArCiBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfbW11LmMgfCA4
+ICsrKysrKysrCiAyIGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9nZW0uaCBiL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5mcm9zdC9wYW5mcm9zdF9nZW0uaAppbmRleCAwNDUwMDBlYjVmY2YuLjZkYmNhYmEwMjBm
+YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5oCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9nZW0uaApAQCAtMTEsNiArMTEs
+NyBAQCBzdHJ1Y3QgcGFuZnJvc3RfZ2VtX29iamVjdCB7CiAJc3RydWN0IGRybV9nZW1fc2htZW1f
+b2JqZWN0IGJhc2U7CiAKIAlzdHJ1Y3QgZHJtX21tX25vZGUgbm9kZTsKKwlib29sIGlzX21hcHBl
+ZDsKIH07CiAKIHN0YXRpYyBpbmxpbmUKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5m
+cm9zdC9wYW5mcm9zdF9tbXUuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9t
+bXUuYwppbmRleCA3NjJiMWJkMmE4YzIuLmZiNTU2YWE4OTIwMyAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X21tdS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9w
+YW5mcm9zdC9wYW5mcm9zdF9tbXUuYwpAQCAtMTU2LDYgKzE1Niw5IEBAIGludCBwYW5mcm9zdF9t
+bXVfbWFwKHN0cnVjdCBwYW5mcm9zdF9nZW1fb2JqZWN0ICpibykKIAlzdHJ1Y3Qgc2dfdGFibGUg
+KnNndDsKIAlpbnQgcmV0OwogCisJaWYgKGJvLT5pc19tYXBwZWQpCisJCXJldHVybiAwOworCiAJ
+c2d0ID0gZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KG9iaik7CiAJaWYgKFdBUk5fT04oSVNf
+RVJSKHNndCkpKQogCQlyZXR1cm4gUFRSX0VSUihzZ3QpOwpAQCAtMTg5LDYgKzE5Miw3IEBAIGlu
+dCBwYW5mcm9zdF9tbXVfbWFwKHN0cnVjdCBwYW5mcm9zdF9nZW1fb2JqZWN0ICpibykKIAogCXBt
+X3J1bnRpbWVfbWFya19sYXN0X2J1c3kocGZkZXYtPmRldik7CiAJcG1fcnVudGltZV9wdXRfYXV0
+b3N1c3BlbmQocGZkZXYtPmRldik7CisJYm8tPmlzX21hcHBlZCA9IHRydWU7CiAKIAlyZXR1cm4g
+MDsKIH0KQEAgLTIwMyw2ICsyMDcsOSBAQCB2b2lkIHBhbmZyb3N0X21tdV91bm1hcChzdHJ1Y3Qg
+cGFuZnJvc3RfZ2VtX29iamVjdCAqYm8pCiAJc2l6ZV90IHVubWFwcGVkX2xlbiA9IDA7CiAJaW50
+IHJldDsKIAorCWlmICghYm8tPmlzX21hcHBlZCkKKwkJcmV0dXJuOworCiAJZGV2X2RiZyhwZmRl
+di0+ZGV2LCAidW5tYXA6IGlvdmE9JWxseCwgbGVuPSV6eCIsIGlvdmEsIGxlbik7CiAKIAlyZXQg
+PSBwbV9ydW50aW1lX2dldF9zeW5jKHBmZGV2LT5kZXYpOwpAQCAtMjMwLDYgKzIzNyw3IEBAIHZv
+aWQgcGFuZnJvc3RfbW11X3VubWFwKHN0cnVjdCBwYW5mcm9zdF9nZW1fb2JqZWN0ICpibykKIAog
+CXBtX3J1bnRpbWVfbWFya19sYXN0X2J1c3kocGZkZXYtPmRldik7CiAJcG1fcnVudGltZV9wdXRf
+YXV0b3N1c3BlbmQocGZkZXYtPmRldik7CisJYm8tPmlzX21hcHBlZCA9IGZhbHNlOwogfQogCiBz
+dGF0aWMgdm9pZCBtbXVfdGxiX2ludl9jb250ZXh0X3MxKHZvaWQgKmNvb2tpZSkKLS0gCjIuMjAu
+MQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
