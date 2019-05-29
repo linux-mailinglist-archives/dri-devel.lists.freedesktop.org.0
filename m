@@ -2,31 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9E22E555
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 21:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498832E557
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 21:31:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6DB6E0A0;
-	Wed, 29 May 2019 19:31:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A6A26E0A6;
+	Wed, 29 May 2019 19:31:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C559A6E095;
- Wed, 29 May 2019 19:31:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 832716E0A6;
+ Wed, 29 May 2019 19:31:30 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 May 2019 12:31:27 -0700
+ 29 May 2019 12:31:30 -0700
 X-ExtLoop1: 1
 Received: from linuxpresi1-desktop.iind.intel.com ([10.223.74.121])
- by fmsmga008.fm.intel.com with ESMTP; 29 May 2019 12:31:23 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 29 May 2019 12:31:27 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/4] Document fixes for DRM UAPI and HDR
-Date: Thu, 30 May 2019 01:29:00 +0530
-Message-Id: <1559159944-21103-1-git-send-email-uma.shankar@intel.com>
+Subject: [PATCH 1/4] drm: Drop a redundant unused variable
+Date: Thu, 30 May 2019 01:29:01 +0530
+Message-Id: <1559159944-21103-2-git-send-email-uma.shankar@intel.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1559159944-21103-1-git-send-email-uma.shankar@intel.com>
+References: <1559159944-21103-1-git-send-email-uma.shankar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,23 +49,17 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBzZXJpZXMgYWRkcyBEUk0gVUFQSSBoZWFkZXIgc3RydWN0dXJlIGRvY3VtZW50YXRpb24g
-dG8ga2VybmVsCmRvY3MuIEZpeGVzIGlzc3VlcyB3aXRoIGV4aXN0aW5nIHN0cnVjdHVyZSBkb2N1
-bWVudGF0aW9uIGluIGRybQp1YXBpIGhlYWRlci4KClRoaXMgYWxzbyBmaXhlcyB3YXJuaW5ncyBp
-biBIRFIgZG9jIGFuZCBhZGRyZXNzZXMgc3VnZ2VzdGlvbnMgZnJvbQpEYW5pZWwgVmV0dGVyLgoK
-QWxzbyBkcm9wcGVkIHN0YXRpYyBmdW5jdGlvbiBkb2N1bWVudGF0aW9uIGluIGhkbWkgY29yZS4K
-ClVtYSBTaGFua2FyICg0KToKICBkcm06IERyb3AgYSByZWR1bmRhbnQgdW51c2VkIHZhcmlhYmxl
-CiAgZHJtOiBGaXggZG9jYm9vayB3YXJuaW5ncyBpbiBoZHIgbWV0YWRhdGEgaGVscGVyIHN0cnVj
-dHVyZXMKICBkcm06IEZpeGVkIGRvYyB3YXJuaW5ncyBpbiBkcm0gdWFwaSBoZWFkZXIKICB2aWRl
-by9oZG1pOiBEcm9wcGVkIHN0YXRpYyBmdW5jdGlvbnMgZnJvbSBrZXJuZWwgZG9jCgogRG9jdW1l
-bnRhdGlvbi9ncHUvZHJtLXVhcGkucnN0ICB8ICA5ICsrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9k
-cm1fY29ubmVjdG9yLmMgfCAzMSArKysrKysrKysrKysrKysrKysrKysrCiBkcml2ZXJzL3ZpZGVv
-L2hkbWkuYyAgICAgICAgICAgIHwgMzIgKysrKysrKysrKystLS0tLS0tLS0tLQogaW5jbHVkZS9k
-cm0vZHJtX2Nvbm5lY3Rvci5oICAgICB8ICAzICstLQogaW5jbHVkZS9kcm0vZHJtX21vZGVfY29u
-ZmlnLmggICB8ICA0ICstLQogaW5jbHVkZS9saW51eC9oZG1pLmggICAgICAgICAgICB8ICAxICsK
-IGluY2x1ZGUvdWFwaS9kcm0vZHJtX21vZGUuaCAgICAgfCA1OSArKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrLQogNyBmaWxlcyBjaGFuZ2VkLCAxMTggaW5zZXJ0aW9ucygr
-KSwgMjEgZGVsZXRpb25zKC0pCgotLSAKMS45LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+RHJvcCBhIHJlZHVuZGFudCBhbmQgdW51c2VkIHZhcmlhYmxlICJoZHJfb3V0cHV0X21ldGFkYXRh
+IiBmcm9tCmRybV9jb25uZWN0b3IuCgpTdWdnZXN0ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bEBmZndsbC5jaD4KU2lnbmVkLW9mZi1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGludGVs
+LmNvbT4KLS0tCiBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggfCAyIC0tCiAxIGZpbGUgY2hh
+bmdlZCwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fY29ubmVj
+dG9yLmggYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKaW5kZXggZjhmNDAwMy4uNTQ3NjU2
+MSAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCisrKyBiL2luY2x1ZGUv
+ZHJtL2RybV9jb25uZWN0b3IuaApAQCAtMTI0NCw4ICsxMjQ0LDYgQEAgc3RydWN0IGRybV9jb25u
+ZWN0b3IgewogCSAqLwogCXN0cnVjdCBsbGlzdF9ub2RlIGZyZWVfbm9kZTsKIAotCS8qIEhEUiBt
+ZXRkYXRhICovCi0Jc3RydWN0IGhkcl9vdXRwdXRfbWV0YWRhdGEgaGRyX291dHB1dF9tZXRhZGF0
+YTsKIAlzdHJ1Y3QgaGRyX3NpbmtfbWV0YWRhdGEgaGRyX3NpbmtfbWV0YWRhdGE7CiB9OwogCi0t
+IAoxLjkuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
