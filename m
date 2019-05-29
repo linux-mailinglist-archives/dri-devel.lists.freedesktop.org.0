@@ -2,37 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FF62DBA3
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6452D7CA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 10:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B5176E2C8;
-	Wed, 29 May 2019 11:20:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4605C6E09A;
+	Wed, 29 May 2019 08:28:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id 376C26E29A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 08:10:43 +0000 (UTC)
-Received: from atomide.com (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id 851638027;
- Wed, 29 May 2019 08:11:01 +0000 (UTC)
-Date: Wed, 29 May 2019 01:10:38 -0700
-From: Tony Lindgren <tony@atomide.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCHv6 0/4] omapdrm: DSI command mode panel support
-Message-ID: <20190529081038.GP5447@atomide.com>
-References: <20190523200756.25314-1-sebastian.reichel@collabora.com>
- <60c45d23-de2f-d94a-c3d7-146a2bee538f@ti.com>
- <20190527112122.GJ5447@atomide.com>
- <e507c415-38de-86fe-9265-4b0aed0d7224@ti.com>
- <20190528093952.GM5447@atomide.com>
- <14c6c702-844b-756d-2d97-44e8f5a169df@ti.com>
- <20190528101847.GN5447@atomide.com>
- <ac487765-01a3-2c82-d86e-db00451563a9@ti.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9846E09A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 08:28:29 +0000 (UTC)
+X-UUID: 725f9bdff6c840129cdc26316ed95433-20190529
+X-UUID: 725f9bdff6c840129cdc26316ed95433-20190529
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mhqrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 1005367912; Wed, 29 May 2019 16:28:18 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 29 May 2019 16:28:16 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 29 May 2019 16:28:16 +0800
+Message-ID: <1559118496.4226.11.camel@mtksdaap41>
+Subject: Re: [PATCH 1/3] drm: mediatek: fix unbind functions
+From: CK Hu <ck.hu@mediatek.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Wed, 29 May 2019 16:28:16 +0800
+In-Reply-To: <CAJMQK-jDhDNViUA3dpixG=_Pe7x0qH4utBWy3k+D_+oKwEOPig@mail.gmail.com>
+References: <20190527045054.113259-1-hsinyi@chromium.org>
+ <20190527045054.113259-2-hsinyi@chromium.org>
+ <1559093711.11380.6.camel@mtksdaap41>
+ <CAJMQK-jDhDNViUA3dpixG=_Pe7x0qH4utBWy3k+D_+oKwEOPig@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ac487765-01a3-2c82-d86e-db00451563a9@ti.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Mailman-Approved-At: Wed, 29 May 2019 11:20:23 +0000
+X-TM-SNTS-SMTP: A023916AAC1D56E857E7DE6AAAEAA623764789450FCB15420F9FB9F4341CEE5A2000:8
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,33 +50,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, "H. Nikolaus Schaller" <hns@goldelico.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Pavel Machek <pavel@ucw.cz>, Keerthy <j-keerthy@ti.com>,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, lkml <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPiBbMTkwNTI5IDA3OjA2XToK
-PiBPbiAyOC8wNS8yMDE5IDEzOjE4LCBUb255IExpbmRncmVuIHdyb3RlOgo+IAo+ID4gPiBNeSBi
-b2FyZCBpcyB4MTUgcmV2IEEzLCBhdHRhY2hlZCB0byBBTTUgRVZNLiBJJ3ZlIGFsc28gYXR0YWNo
-ZWQgbXkga2VybmVsCj4gPiA+IGNvbmZpZy4KPiA+IAo+ID4gU3RyYW5nZSB0aGF0IHRoaXMgaXMg
-bm90IGFmZmVjdGluZyBvdGhlciB4MTU/IEkgdGhpbmsgdGltZXIxMiB3b3VsZAo+ID4gYmUgYmxv
-Y2tlZCBvbiBIUyBkZXZpY2VzIHRob3VnaD8KPiAKPiBTZWVtcyB0aGF0IHRoZSBrZXJuZWwgY29u
-ZmlnIGFmZmVjdHMuIG9tYXAycGx1c19kZWZjb25maWcgYm9vdHMgb2suCgpPSywgdGhpcyBsaW5l
-IGluIHlvdXIgb29wczoKClVuYWJsZSB0byBoYW5kbGUga2VybmVsIHBhZ2luZyByZXF1ZXN0IGF0
-IHZpcnR1YWwgYWRkcmVzcyA1YTVhNWE1YQoKUHJvYmFibHkgbWVhbnMgd2UgaGl0IHNvbWUgc2xh
-YiBwb2lzb24gd2l0aCBERUJVR19TTEFCIHNldC4KTG9va3MgbGlrZSB5b3VyIGNvbmZpZyBib290
-cyBmaW5lIHdpdGggREVCVUdfU0xBQiBkaXNhYmxlZApmb3IgbWUuCgpBcyB0aGlzIG9ubHkgaGFw
-cGVucyBmb3IgdGltZXIxMiwgSSB3b25kZXIgaWYgd2UncmUgYWdhaW4KaGl0dGluZyBzb21lIHVu
-Y29tcHJlc3MgaXNzdWUgd2l0aCBjb3JydXB0ZWQgZHRiLiBDaGFuZ2luZwp1LWJvb3QgZnRkYWRk
-ciBoaWdoZXIgdXAgbWlnaHQgcG9zc2libHkgbWFrZSBpdCBnbyBhd2F5LgpPciBlbHNlIHRoZXJl
-J3MgYSBidWcgZWxzZXdoZXJlIDopCgpSZWdhcmRzLAoKVG9ueQoKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SGksIEhzaW4tWWk6CgpPbiBXZWQsIDIwMTktMDUtMjkgYXQgMTU6MDYgKzA4MDAsIEhzaW4tWWkg
+V2FuZyB3cm90ZToKPiBPbiBXZWQsIE1heSAyOSwgMjAxOSBhdCA5OjM1IEFNIENLIEh1IDxjay5o
+dUBtZWRpYXRlay5jb20+IHdyb3RlOgo+IAo+ID4KPiA+IEkgdGhpbmsgbXRrX2RzaV9kZXN0cm95
+X2Nvbm5fZW5jKCkgaGFzIG11Y2ggdGhpbmcgdG8gZG8gYW5kIEkgd291bGQgbGlrZQo+ID4geW91
+IHRvIGRvIG1vcmUuIFlvdSBjb3VsZCByZWZlciB0byBbMl0gZm9yIGNvbXBsZXRlIGltcGxlbWVu
+dGF0aW9uLgo+ID4KPiA+IFsyXQo+ID4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
+bnV4L2tlcm5lbC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvZHJpdmVycy9ncHUvZHJtL2V4
+eW5vcy9leHlub3NfZHJtX2RzaS5jP2g9djUuMi1yYzIjbjE1NzUKPiA+Cj4gSGkgQ0ssCj4gCj4g
+U2luY2UgZHJtX2VuY29kZXJfY2xlYW51cCgpIHdvdWxkIGFscmVhZHkgY2FsbCBkcm1fYnJpZGdl
+X2RldGFjaCgpIHRvCj4gZGV0YWNoIGJyaWRnZSwgSSB0aGluayB3ZSBvbmx5IG5lZWQgdG8gaGFu
+ZGxlIHBhbmVsIGNhc2UgaGVyZS4KPiBXZSBkb24ndCBuZWVkIHRvIGNhbGwgbXRrX2RzaV9lbmNv
+ZGVyX2Rpc2FibGUoKSBzaW5jZQo+IG10a19vdXRwdXRfZHNpX2Rpc2FibGUoKSBpcyBjYWxsZWQg
+aW4gbXRrX2RzaV9yZW1vdmUoKSBhbmQKPiBkc2ktPmVuYWJsZWQgd2lsbCBiZSBzZXQgdG8gZmFs
+c2UuIENhbGxpbmcgc2Vjb25kIHRpbWUgd2lsbCBqdXN0Cj4gcmV0dXJucyBpbW1lZGlhdGVseS4K
+PiBTbywgYmVzaWRlcyBzZXR0aW5nCj4gCj4gZHNpLT5wYW5lbCA9IE5VTEw7Cj4gZHNpLT5jb25u
+LnN0YXR1cyA9IGNvbm5lY3Rvcl9zdGF0dXNfZGlzY29ubmVjdGVkOwoKU29ycnksIEkgdGhpbmsg
+eW91ciBvcmlnaW5hbCBwYXRjaCBpcyBnb29kIGVub3VnaCwgYW5kIHlvdSBuZWVkIG5vdCB0bwpk
+byB0aGUgYmVzaWRlcyBzZXR0aW5nLgoKUmVnYXJkcywKQ0sKCj4gCj4gYXJlIHRoZXJlIG90aGVy
+IHRoaW5ncyB3ZSBuZWVkIHRvIGRvIGhlcmU/Cj4gCj4gT3JpZ2luYWwgY29kZSBkb2Vzbid0IGhh
+dmUgZHJtX2ttc19oZWxwZXJfaG90cGx1Z19ldmVudCgpLCBhbmQgSSdtIG5vdAo+IHN1cmUgaWYg
+bXRrIGRzaSB3b3VsZCBuZWVkIHRoaXMuCj4gQWxzbywgbXRrX2RzaV9zdG9wKCkgd291bGQgYWxz
+byBzdG9wIGlycS4KPiAKPiBUaGFua3MKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
