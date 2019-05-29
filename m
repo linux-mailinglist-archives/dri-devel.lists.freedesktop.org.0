@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90AC52DBAA
-	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:21:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 230632DB9C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 May 2019 13:20:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 051866E2DC;
-	Wed, 29 May 2019 11:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE2FB6E2D8;
+	Wed, 29 May 2019 11:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A52146E0E2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 10:26:48 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id w34so1095041pga.12
- for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 03:26:48 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEC66E0F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 10:26:51 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id c6so1331806pfa.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 May 2019 03:26:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zkf9FoxdryyDt1X+5P+GJSoX1FiD3J3GXj2LP0N8rdU=;
- b=rxRmjHvXX+pLNrDAbUg02PXyXZQgeOBIAl5b1vwiwdCbkuBI5SpdAopT1XufJbQE+T
- HAcr51KHmuOcWRZeI4SmfJpb6fMVXZBFG0BTsRDJN8HB0IxEpoJ2tAbpwxypI7+CqZWz
- IElPHvZ96EmZsWdkHg/wQR0Aj+aGzc4v2jnw6iT7FICVm0YU68xXIr5P67Z2cYQ88PcV
- /sX/Yifyop6zBLinmUH3Su+FDHRbOeoMgehEXWyoNJcAi8G2IlvcZD3W08+RcX5auau+
- EEFFlzkTnXBCK51YbLZMRDip+acTh2PzHLkUsguTsdp4RpzDrGE8PbSg0J6oGxt9p/AW
- O0JA==
-X-Gm-Message-State: APjAAAUx/+6SkLb6GyJH6V7FSVxE0j66koSWUADWU9+5qWNshRj/iUUK
- UTo+5PPSUzAlcO1WRyQbB8zzqw==
-X-Google-Smtp-Source: APXvYqwnrc9pdx47YY9TRS/DoiPhrNWvI1W5hjidPKQ2diP8prk0BV504pPU4kJBaFleNW4weG407w==
-X-Received: by 2002:a62:d244:: with SMTP id
- c65mr111971351pfg.173.1559125608082; 
- Wed, 29 May 2019 03:26:48 -0700 (PDT)
+ bh=YcCSMOQNkzGaXhDk0okGAy0XqAbQi4G2u6aLWlPaPBw=;
+ b=OFqVDgsFJeQWznGywuNQLzFKsNpKVSm4zz7WMkMEIH/31jCyexKIJU7GfbZUfkOFzf
+ 76HGBW0WLFGrcLRBj0x+68+wI3lNy5o/h4buRfjHeuYoEGkBAGzpFQAf+iVQGGTh0EqY
+ rBm3+I+Nxy8LezW8c7QqAMNPv6aUS4Y83cG4H7e9KignyvLdUs96rQAp+F7cBFC1aqhn
+ gey7p9HV/RW0PlutdAIhI5m/GWoQZK7f1OCwQ4SWh69V4crFa6yj5aEBxO2e2zBfNP6V
+ 122l/1/wj/Dqq6oz5xMpsbS93U+U8DFB+veCFRooOX73CJPjTPFyYM1vhx+7RPxamzlX
+ uMuw==
+X-Gm-Message-State: APjAAAWkdI/7+RLevDm6bxEfamTysDLv7BCQ7gZy3v6iXoH1ayMKHH7a
+ pu7DPzrTwKwGCgMOYUZiPqyw2Q==
+X-Google-Smtp-Source: APXvYqyyaROmC37HXAcccgz51No+HwGj0nRGT99eAspxv1IL1mnTD2gRQ1iaLO7Rvi00xcw+ddOyEQ==
+X-Received: by 2002:a17:90a:ac0d:: with SMTP id
+ o13mr11037075pjq.139.1559125611164; 
+ Wed, 29 May 2019 03:26:51 -0700 (PDT)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:b852:bd51:9305:4261])
- by smtp.gmail.com with ESMTPSA id e12sm18992183pfl.122.2019.05.29.03.26.46
+ by smtp.gmail.com with ESMTPSA id e12sm18992183pfl.122.2019.05.29.03.26.49
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Wed, 29 May 2019 03:26:47 -0700 (PDT)
+ Wed, 29 May 2019 03:26:50 -0700 (PDT)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/4] drm: mediatek: call drm_atomic_helper_shutdown() when
- unbinding driver
-Date: Wed, 29 May 2019 18:25:54 +0800
-Message-Id: <20190529102555.251579-4-hsinyi@chromium.org>
+Subject: [PATCH v2 4/4] drm: mediatek: clear num_pipes when unbind driver
+Date: Wed, 29 May 2019 18:25:55 +0800
+Message-Id: <20190529102555.251579-5-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190529102555.251579-1-hsinyi@chromium.org>
 References: <20190529102555.251579-1-hsinyi@chromium.org>
@@ -52,10 +51,10 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zkf9FoxdryyDt1X+5P+GJSoX1FiD3J3GXj2LP0N8rdU=;
- b=KrJR7S9O4TEFHPeGH3rkqlofANGLf5xPlPIkRdAwYAC4yHaXwn/r/L5YxrLyP6L7K5
- qaAvmgB0+oizqOfAJqwCXO6Bb570+HJHpI4ecYCXN0wEWCx0ClL1x6NMDWXAVOfvHBRR
- rfpWfc3r/oA8m007TQhh7sV5qE4QAleSuWEsI=
+ bh=YcCSMOQNkzGaXhDk0okGAy0XqAbQi4G2u6aLWlPaPBw=;
+ b=Cuhppf15fgs+ro5fQzou91thI1XLxU4KioJr8st6A+3rShMcYV8fSqZOp424wsNyS7
+ Yjt8ZDWKI8t5jY8/w/olvN9NejpmeXI58p0vNnxcpidO9I9OYs9PLq5hcAy2JUfwloW/
+ 0z63BUjUnVKb52ngcrkoQKYOWPV2zpLSKFZpM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,20 +75,23 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-c2h1dGRvd24gYWxsIENSVEMgd2hlbiB1bmJpbmRpbmcgZHJtIGRyaXZlci4KCkZpeGVzOiAxMTlm
-NTE3MzYyOGEgKCJkcm0vbWVkaWF0ZWs6IEFkZCBEUk0gRHJpdmVyIGZvciBNZWRpYXRlayBTb0Mg
-TVQ4MTczLiIpClNpZ25lZC1vZmYtYnk6IEhzaW4tWWkgV2FuZyA8aHNpbnlpQGNocm9taXVtLm9y
-Zz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyB8IDEgKwogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
-bV9kcnYuYwppbmRleCBlNzM2MmJkYWZhODIuLjg3MThkMTIzY2NhYSAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZHJ2LmMKQEAgLTMxMSw2ICszMTEsNyBAQCBzdGF0aWMgaW50IG10
-a19kcm1fa21zX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkKIHN0YXRpYyB2b2lkIG10a19k
-cm1fa21zX2RlaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtKQogewogCWRybV9rbXNfaGVscGVy
-X3BvbGxfZmluaShkcm0pOworCWRybV9hdG9taWNfaGVscGVyX3NodXRkb3duKGRybSk7CiAKIAlj
-b21wb25lbnRfdW5iaW5kX2FsbChkcm0tPmRldiwgZHJtKTsKIAlkcm1fbW9kZV9jb25maWdfY2xl
-YW51cChkcm0pOwotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+bnVtX3BpcGVzIGlzIHVzZWQgZm9yIG11dGV4IGNyZWF0ZWQgaW4gbXRrX2RybV9jcnRjX2NyZWF0
+ZSgpLiBJZiB3ZQpkb24ndCBjbGVhciBudW1fcGlwZXMgY291bnQsIHdoZW4gcmViaW5kaW5nIGRy
+aXZlciwgdGhlIGNvdW50IHdpbGwKYmUgYWNjdW11bGF0ZWQuIEZyb20gbXRrX2Rpc3BfbXV0ZXhf
+Z2V0KCksIHRoZXJlIGNhbiBvbmx5IGJlIGF0IG1vc3QKMTAgbXV0ZXggaWQuIENsZWFyIHRoaXMg
+bnVtYmVyIHNvIGl0IHN0YXJ0cyBmcm9tIDAgaW4gZXZlcnkgcmViaW5kLgoKRml4ZXM6IDExOWY1
+MTczNjI4YSAoImRybS9tZWRpYXRlazogQWRkIERSTSBEcml2ZXIgZm9yIE1lZGlhdGVrIFNvQyBN
+VDgxNzMuIikKU2lnbmVkLW9mZi1ieTogSHNpbi1ZaSBXYW5nIDxoc2lueWlAY2hyb21pdW0ub3Jn
+PgotLS0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jIHwgMSArCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJt
+X2Rydi5jCmluZGV4IDg3MThkMTIzY2NhYS4uYmJmZTNhNDY0YWVhIDEwMDY0NAotLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
+bWVkaWF0ZWsvbXRrX2RybV9kcnYuYwpAQCAtNDAwLDYgKzQwMCw3IEBAIHN0YXRpYyB2b2lkIG10
+a19kcm1fdW5iaW5kKHN0cnVjdCBkZXZpY2UgKmRldikKIAlkcm1fZGV2X3VucmVnaXN0ZXIocHJp
+dmF0ZS0+ZHJtKTsKIAltdGtfZHJtX2ttc19kZWluaXQocHJpdmF0ZS0+ZHJtKTsKIAlkcm1fZGV2
+X3B1dChwcml2YXRlLT5kcm0pOworCXByaXZhdGUtPm51bV9waXBlcyA9IDA7CiAJcHJpdmF0ZS0+
+ZHJtID0gTlVMTDsKIH0KIAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
