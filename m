@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E63F2EB43
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 05:11:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1302E2EBA3
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 05:14:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 308A689AA2;
-	Thu, 30 May 2019 03:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7C86E30B;
+	Thu, 30 May 2019 03:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3757489AA2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2019 03:11:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1F86E30B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2019 03:14:47 +0000 (UTC)
 Received: from localhost (ip67-88-213-2.z213-88-67.customer.algx.net
  [67.88.213.2])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 0FA98244C4;
- Thu, 30 May 2019 03:11:44 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4D05424557;
+ Thu, 30 May 2019 03:14:47 +0000 (UTC)
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.1 239/405] drm/pl111: fix possible object reference leak
-Date: Wed, 29 May 2019 20:03:57 -0700
-Message-Id: <20190530030553.101349333@linuxfoundation.org>
+Subject: [PATCH 5.0 215/346] drm/pl111: fix possible object reference leak
+Date: Wed, 29 May 2019 20:04:48 -0700
+Message-Id: <20190530030551.988267471@linuxfoundation.org>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190530030540.291644921@linuxfoundation.org>
-References: <20190530030540.291644921@linuxfoundation.org>
+In-Reply-To: <20190530030540.363386121@linuxfoundation.org>
+References: <20190530030540.363386121@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1559185904;
+ d=kernel.org; s=default; t=1559186087;
  bh=GZUqsTk4DRyMhsW1KtZI2tC5X5LSHWq2AHH1vJ4K+oM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XDq+ijSknErqK8+23pyCh04VQSURpX2Y8oEBR29tsWEgjAEcTnAsFIIU4xktW93cM
- p8niY5HmFqVrr5grz7vP/zZwlcQEOOnDeGKgGL3Cox0nDNMx4qRLrdbnpLs4aPq6ns
- JvUPcii+CCvnYlZ1bNbMDaN49vptAZ2z8bRSR1ds=
+ b=LnbXVTSaKnOD1zJn5CSxnOZD4LdwVB2rZQNk6hWfGUQH29NVPO4r3Nb3tSHEDLmP4
+ cpEbOCNLjF8jgZlJBGe9JqxnP82JEVq99B/GIHTdwrsz518ALBxIY7FQLQJhrbu681
+ BOo/x2T9tXrbvr+0dAnBatwUvg9zY8vMfbUyWGWA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
