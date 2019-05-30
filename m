@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87ED2EA5E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 03:49:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC792EA88
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 04:13:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D078B6E288;
-	Thu, 30 May 2019 01:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EECE89E26;
+	Thu, 30 May 2019 02:13:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D0DBC6E288
- for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2019 01:49:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C371C72167; Thu, 30 May 2019 01:49:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Thu, 30 May 2019 01:49:41 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: rolf@lagrangepoint.io
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110795-502-7GgAnWEVvV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
-References: <bug-110795-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1144989E26
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2019 02:13:38 +0000 (UTC)
+X-UUID: 86029ab1131847df8fbb925b3fe479c1-20190530
+X-UUID: 86029ab1131847df8fbb925b3fe479c1-20190530
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (mhqrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 881203175; Thu, 30 May 2019 10:13:36 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 30 May 2019 10:13:35 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 30 May 2019 10:13:35 +0800
+Message-ID: <1559182415.6868.0.camel@mtksdaap41>
+Subject: Re: [PATCH v2 1/4] drm: mediatek: fix unbind functions
+From: CK Hu <ck.hu@mediatek.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Thu, 30 May 2019 10:13:35 +0800
+In-Reply-To: <20190529102555.251579-2-hsinyi@chromium.org>
+References: <20190529102555.251579-1-hsinyi@chromium.org>
+ <20190529102555.251579-2-hsinyi@chromium.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,102 +47,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0704364565=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0704364565==
-Content-Type: multipart/alternative; boundary="15591809800.A1b92cEA.18787"
-Content-Transfer-Encoding: 7bit
-
-
---15591809800.A1b92cEA.18787
-Date: Thu, 30 May 2019 01:49:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
-
---- Comment #5 from Rolf <rolf@lagrangepoint.io> ---
-Yet it half-way installs on 19.04 without a check, and your download page d=
-oes
-not include any warning of what it will do to your system if it's not 18.04=
-. In
-fact, the sub heading lists 18.04.2, so is that the only version of 18.04
-supported?
-
-From the specificity used, it's reasonable to assume that the listed version
-was a minimum version, not an exclusive version.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15591809800.A1b92cEA.18787
-Date: Thu, 30 May 2019 01:49:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rolf&#64;lagrangepoint.io" title=3D"Rolf &lt;rolf&#64;lagrangepoint.io&gt;"=
-> <span class=3D"fn">Rolf</span></a>
-</span></b>
-        <pre>Yet it half-way installs on 19.04 without a check, and your do=
-wnload page does
-not include any warning of what it will do to your system if it's not 18.04=
-. In
-fact, the sub heading lists 18.04.2, so is that the only version of 18.04
-supported?
-
-From the specificity used, it's reasonable to assume that the listed version
-was a minimum version, not an exclusive version.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15591809800.A1b92cEA.18787--
-
---===============0704364565==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0704364565==--
+SGksIEhzaW4tWWk6CgpPbiBXZWQsIDIwMTktMDUtMjkgYXQgMTg6MjUgKzA4MDAsIEhzaW4tWWkg
+V2FuZyB3cm90ZToKPiBkZXRhdGNoIHBhbmVsIGluIG10a19kc2lfZGVzdHJveV9jb25uX2VuYygp
+LCBzaW5jZSAuYmluZCB3aWxsIHRyeSB0bwo+IGF0dGFjaCBpdCBhZ2Fpbi4KPiAKClJldmlld2Vk
+LWJ5OiBDSyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPgoKPiBGaXhlczogMmU1NGMxNGUzMTBmICgi
+ZHJtL21lZGlhdGVrOiBBZGQgRFNJIHN1YiBkcml2ZXIiKQo+IFNpZ25lZC1vZmYtYnk6IEhzaW4t
+WWkgV2FuZyA8aHNpbnlpQGNocm9taXVtLm9yZz4KPiAtLS0KPiBjaGFuZ2UgbG9nIHYxLT52MjoK
+PiAqIG1pcGlfZHNpX2hvc3RfdW5yZWdpc3RlcigpIHNob3VsZCBiZSBmaXhlZCBpbiBhbm90aGVy
+IHBhdGNoIG9uIHRoZSBsaXN0Lgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RzaS5jIHwgMiArKwo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4gCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gaW5kZXggYjAwZWIyZDJlMDg2Li4xYWUzYmU5OWUw
+ZmYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiBAQCAtODQ0LDYgKzg0NCw4
+IEBAIHN0YXRpYyB2b2lkIG10a19kc2lfZGVzdHJveV9jb25uX2VuYyhzdHJ1Y3QgbXRrX2RzaSAq
+ZHNpKQo+ICAJLyogU2tpcCBjb25uZWN0b3IgY2xlYW51cCBpZiBjcmVhdGlvbiB3YXMgZGVsZWdh
+dGVkIHRvIHRoZSBicmlkZ2UgKi8KPiAgCWlmIChkc2ktPmNvbm4uZGV2KQo+ICAJCWRybV9jb25u
+ZWN0b3JfY2xlYW51cCgmZHNpLT5jb25uKTsKPiArCWlmIChkc2ktPnBhbmVsKQo+ICsJCWRybV9w
+YW5lbF9kZXRhY2goZHNpLT5wYW5lbCk7Cj4gIH0KPiAgCj4gIHN0YXRpYyB2b2lkIG10a19kc2lf
+ZGRwX3N0YXJ0KHN0cnVjdCBtdGtfZGRwX2NvbXAgKmNvbXApCgoKX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
