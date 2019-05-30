@@ -1,33 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7D42E9A8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 02:16:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1BE2E9BE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 May 2019 02:36:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F4526E13C;
-	Thu, 30 May 2019 00:16:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93346E140;
+	Thu, 30 May 2019 00:36:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 465 seconds by postgrey-1.36 at gabe;
- Thu, 30 May 2019 00:16:13 UTC
-Received: from mail.skrimstad.net (mail.skrimstad.net [139.162.145.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 594776E13B;
- Thu, 30 May 2019 00:16:13 +0000 (UTC)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
- by mail.skrimstad.net (Postfix) with ESMTPA id 29812DE701;
- Thu, 30 May 2019 00:08:23 +0000 (UTC)
-Date: Thu, 30 May 2019 02:08:21 +0200
-From: Yrjan Skrimstad <yrjan@skrimstad.net>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB17E6E140
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 May 2019 00:36:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B9EF972167; Thu, 30 May 2019 00:36:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd/powerplay/smu7_hwmgr: replace blocking delay with
- non-blocking
-Message-ID: <20190530000819.GA25416@obi-wan>
+Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
+Date: Thu, 30 May 2019 00:36:04 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: rolf@lagrangepoint.io
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110795-502-wqTKR0kNXT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
+References: <bug-110795-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Spamd-Bar: /
-X-Mailman-Original-Authentication-Results: mail.skrimstad.net;
- auth=pass smtp.auth=yrjan@skrimstad.net smtp.mailfrom=yrjan@skrimstad.net
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,33 +52,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Yrjan Skrimstad <yrjan@skrimstad.net>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Rex Zhu <rex.zhu@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1690414106=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBkcml2ZXIgY3VycmVudGx5IGNvbnRhaW5zIGEgcmVwZWF0ZWQgNTAwbXMgYmxvY2tpbmcg
-ZGVsYXkgY2FsbAp3aGljaCBjYXVzZXMgZnJlcXVlbnQgbWFqb3IgYnVmZmVyIHVuZGVycnVucyBp
-biBQdWxzZUF1ZGlvLiBUaGlzIHBhdGNoCmZpeGVzIHRoaXMgaXNzdWUgYnkgcmVwbGFjaW5nIHRo
-ZSBibG9ja2luZyBkZWxheSB3aXRoIGEgbm9uLWJsb2NraW5nCnNsZWVwIGNhbGwuCgpTaWduZWQt
-b2ZmLWJ5OiBZcmphbiBTa3JpbXN0YWQgPHlyamFuQHNrcmltc3RhZC5uZXQ+Ci0tLQogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211N19od21nci5jIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211N19od21nci5jIGIvZHJpdmVycy9n
-cHUvZHJtL2FtZC9wb3dlcnBsYXkvaHdtZ3Ivc211N19od21nci5jCmluZGV4IDA0ODc1N2U4ZjQ5
-NC4uMzQwYWZkYmRkYzcyIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3Bvd2VycGxh
-eS9od21nci9zbXU3X2h3bWdyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkv
-aHdtZ3Ivc211N19od21nci5jCkBAIC0zNDk0LDcgKzM0OTQsNyBAQCBzdGF0aWMgaW50IHNtdTdf
-Z2V0X2dwdV9wb3dlcihzdHJ1Y3QgcHBfaHdtZ3IgKmh3bWdyLCB1MzIgKnF1ZXJ5KQogCQkJCQkJ
-CWl4U01VX1BNX1NUQVRVU185NSwgMCk7CiAKIAlmb3IgKGkgPSAwOyBpIDwgMTA7IGkrKykgewot
-CQltZGVsYXkoNTAwKTsKKwkJbXNsZWVwKDUwMCk7CiAJCXNtdW1fc2VuZF9tc2dfdG9fc21jKGh3
-bWdyLCBQUFNNQ19NU0dfUG1TdGF0dXNMb2dTYW1wbGUpOwogCQl0bXAgPSBjZ3NfcmVhZF9pbmRf
-cmVnaXN0ZXIoaHdtZ3ItPmRldmljZSwKIAkJCQkJCUNHU19JTkRfUkVHX19TTUMsCi0tIAoyLjIw
-LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1690414106==
+Content-Type: multipart/alternative; boundary="15591765630.8cADFa.32375"
+Content-Transfer-Encoding: 7bit
+
+
+--15591765630.8cADFa.32375
+Date: Thu, 30 May 2019 00:36:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
+
+--- Comment #2 from Rolf <rolf@lagrangepoint.io> ---
+Also, the install scrip fails without rolling back anything and leaving the
+system in a half-baked state. The supplied uninstall fails because amdgpu-c=
+ore
+isn't installed yet. Since only 18.04 is supported, the install script shou=
+ld
+at least check for that before installing half a dozen packages for which "=
+apt
+--fix-broken" cannot resolve their dependencies, due to the hard coded Ubun=
+tu
+version. Catch-22.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15591765630.8cADFa.32375
+Date: Thu, 30 May 2019 00:36:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rolf&#64;lagrangepoint.io" title=3D"Rolf &lt;rolf&#64;lagrangepoint.io&gt;"=
+> <span class=3D"fn">Rolf</span></a>
+</span></b>
+        <pre>Also, the install scrip fails without rolling back anything an=
+d leaving the
+system in a half-baked state. The supplied uninstall fails because amdgpu-c=
+ore
+isn't installed yet. Since only 18.04 is supported, the install script shou=
+ld
+at least check for that before installing half a dozen packages for which &=
+quot;apt
+--fix-broken&quot; cannot resolve their dependencies, due to the hard coded=
+ Ubuntu
+version. Catch-22.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15591765630.8cADFa.32375--
+
+--===============1690414106==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1690414106==--
