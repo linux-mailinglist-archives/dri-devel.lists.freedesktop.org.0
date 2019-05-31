@@ -1,57 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DD2310CE
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2019 17:03:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0563118B
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2019 17:47:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B008A893C9;
-	Fri, 31 May 2019 15:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 287E28934F;
+	Fri, 31 May 2019 15:47:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-xc44.google.com (mail-yw1-xc44.google.com
- [IPv6:2607:f8b0:4864:20::c44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6620893C9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 15:03:23 +0000 (UTC)
-Received: by mail-yw1-xc44.google.com with SMTP id w18so4228083ywa.12
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 08:03:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ab4Nh0FZkrZQCQChzSfnebh5p0VEbtuG5pXGGr0tef0=;
- b=gGfuans7lyEGKb924JI5Ejomz8FpTmbhLarwe8WvmtPnbNGkgxVDRmXr1ozM1gh2Bn
- sCPfQp5QzxcZtpledu0UMDF5hvaOJqY059uTDHN0ol7PCZRTRBxjfQrIOJJ1UiKWF6dv
- aOSnhNLler0v9nQxDUcu5yR1ME93QMWbX1lCy0nGauwhmcSVZ+7fx2QrpkszoPbWBUFB
- X0NZMkCYluyWjp7WOxA2GhhRKJsT5of/NffR4QMTRZNEaurhQsasmRZl4CkJohdRkPV3
- mJy4xxIj3cpcDI3MdCQoo2vuBLhjV1rwGQAyEAY5BNLhAdG20yhjviEt9nkJSLafcGY5
- UP3w==
-X-Gm-Message-State: APjAAAWuk4UY7luci3F8aNid5xv8/5CLoizrw2clwDnHDcb7rXVMEZvY
- CMSrzpn5/OXdyT1TOR3yYYiPWifoCjZr7Xee7w2SOw==
-X-Google-Smtp-Source: APXvYqybMv6mcv53VLj6NtwjvPaXw2yuyOGNGxF8jSVmrF9SkBpO0tit0PBZ0tyPsIc8DdWX2gvUIvKgVeFchLXX/u8=
-X-Received: by 2002:a81:3411:: with SMTP id b17mr5553993ywa.280.1559315002885; 
- Fri, 31 May 2019 08:03:22 -0700 (PDT)
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 474D88934F
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 15:47:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id ACFE010A2EEC;
+ Fri, 31 May 2019 08:47:02 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id 9SwidZ4aZes7; Fri, 31 May 2019 08:47:01 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 7035B10A1AE4;
+ Fri, 31 May 2019 08:47:01 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id E45102FE3AAE; Fri, 31 May 2019 08:47:00 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH] drm/gem_shmem: Use a writecombine mapping for ->vaddr
+In-Reply-To: <20190529065121.13485-1-boris.brezillon@collabora.com>
+References: <20190529065121.13485-1-boris.brezillon@collabora.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Fri, 31 May 2019 08:46:58 -0700
+Message-ID: <87woi6wrrh.fsf@anholt.net>
 MIME-Version: 1.0
-References: <cover.1559171394.git.mchehab+samsung@kernel.org>
- <f7378a751557277eab6f37f3f5692cf5f1aff8c6.1559171394.git.mchehab+samsung@kernel.org>
- <bf8163be-eb1f-f060-1c5a-405bc6d4c8c5@gmail.com>
-In-Reply-To: <bf8163be-eb1f-f060-1c5a-405bc6d4c8c5@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 31 May 2019 11:03:11 -0400
-Message-ID: <CADnq5_O8Dh-6Mpz=_+5iTOz+UuVUid44=S-SrHenoVzFB77u-A@mail.gmail.com>
-Subject: Re: [PATCH 11/22] gpu: amdgpu: fix broken amdgpu_dma_buf.c references
-To: Christian Koenig <christian.koenig@amd.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ab4Nh0FZkrZQCQChzSfnebh5p0VEbtuG5pXGGr0tef0=;
- b=nOS3EcqnXLPrMLW6+22jRFGGaRQwwdCB/1abNj75WPFLIRLjChddHEySgEYPQXe9JX
- p0FwzrOeuV94MZd/n0FBYFK7l41UQNumuusNoqyNL27LJyksNahNFySC36sqq689t4HS
- 8/U+1ce19isNXjqktokyPRJNOyIDfVswImh66/uJ+2yv+GKO2ICQEfYlEa69+cBtfciH
- JJ8IQNd+OBwKRSB0JfOgJS6iSScpHS2UstEGxBgeKfCMbGZcKp/ytuj4E50pGT8zqde4
- 8b5DQjmSjJIJLA51+bevM0UIs9E/ZMnZt9YD06X8L4dc6AZ65p0blxRwAiCzM0mxCr8P
- RWMA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,49 +47,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Mauro Carvalho Chehab <mchehab@infradead.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0713923449=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMzEsIDIwMTkgYXQgMTA6MDAgQU0gQ2hyaXN0aWFuIEvDtm5pZwo8Y2tvZW5p
-Zy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gQW0gMzAuMDUuMTkgdW0gMDE6
-MjMgc2NocmllYiBNYXVybyBDYXJ2YWxobyBDaGVoYWI6Cj4gPiBUaGlzIGZpbGUgd2FzIHJlbmFt
-ZWQsIGJ1dCBkb2NzIHdlcmVuJ3QgdXBkYXRlZCBhY2NvcmRpbmdseS4KPiA+Cj4gPiAgICAgICBX
-QVJOSU5HOiBrZXJuZWwtZG9jICcuL3NjcmlwdHMva2VybmVsLWRvYyAtcnN0IC1lbmFibGUtbGlu
-ZW5vIC1mdW5jdGlvbiBQUklNRSBCdWZmZXIgU2hhcmluZyAuL2RyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9wcmltZS5jJyBmYWlsZWQgd2l0aCByZXR1cm4gY29kZSAxCj4gPiAgICAg
-ICBXQVJOSU5HOiBrZXJuZWwtZG9jICcuL3NjcmlwdHMva2VybmVsLWRvYyAtcnN0IC1lbmFibGUt
-bGluZW5vIC1pbnRlcm5hbCAuL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9wcmlt
-ZS5jJyBmYWlsZWQgd2l0aCByZXR1cm4gY29kZSAyCj4gPgo+ID4gRml4ZXM6IDk4ODA3NmNkOGM1
-YyAoImRybS9hbWRncHU6IHJlbmFtZSBhbWRncHVfcHJpbWUuW2NoXSBpbnRvIGFtZGdwdV9kbWFf
-YnVmLltjaF0iKQo+ID4gU2lnbmVkLW9mZi1ieTogTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hl
-aGFiK3NhbXN1bmdAa2VybmVsLm9yZz4KPgo+IFJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmln
-IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4KCkFwcGxpZWQuICB0aGFua3MhCgpBbGV4Cgo+
-ID4gLS0tCj4gPiAgIERvY3VtZW50YXRpb24vZ3B1L2FtZGdwdS5yc3QgfCA0ICsrLS0KPiA+ICAg
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiA+Cj4gPiBk
-aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9ncHUvYW1kZ3B1LnJzdCBiL0RvY3VtZW50YXRpb24v
-Z3B1L2FtZGdwdS5yc3QKPiA+IGluZGV4IGE3NDBlNDkxZGZjYy4uYTE1MTk5YjFiMDJlIDEwMDY0
-NAo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9ncHUvYW1kZ3B1LnJzdAo+ID4gKysrIGIvRG9jdW1l
-bnRhdGlvbi9ncHUvYW1kZ3B1LnJzdAo+ID4gQEAgLTM3LDEwICszNywxMCBAQCBCdWZmZXIgT2Jq
-ZWN0cwo+ID4gICBQUklNRSBCdWZmZXIgU2hhcmluZwo+ID4gICAtLS0tLS0tLS0tLS0tLS0tLS0t
-LQo+ID4KPiA+IC0uLiBrZXJuZWwtZG9jOjogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
-Z3B1X3ByaW1lLmMKPiA+ICsuLiBrZXJuZWwtZG9jOjogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X2RtYV9idWYuYwo+ID4gICAgICA6ZG9jOiBQUklNRSBCdWZmZXIgU2hhcmluZwo+
-ID4KPiA+IC0uLiBrZXJuZWwtZG9jOjogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
-X3ByaW1lLmMKPiA+ICsuLiBrZXJuZWwtZG9jOjogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2RtYV9idWYuYwo+ID4gICAgICA6aW50ZXJuYWw6Cj4gPgo+ID4gICBNTVUgTm90aWZp
-ZXIKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4g
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============0713923449==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+
+Boris Brezillon <boris.brezillon@collabora.com> writes:
+
+> Right now, the BO is mapped as a cached region when ->vmap() is called
+> and the underlying object is not a dmabuf.
+> Doing that makes cache management a bit more complicated (you'd need
+> to call dma_map/unmap_sg() on the ->sgt field everytime the BO is about
+> to be passed to the GPU/CPU), so let's map the BO with writecombine
+> attributes instead (as done in most drivers).
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> ---
+> Found this issue while working on panfrost perfcnt where the GPU dumps
+> perf counter values in memory and the CPU reads them back in
+> kernel-space. This patch seems to solve the unpredictable behavior I
+> had.
+>
+> I can also go for the other option (call dma_map/unmap/_sg() when
+> needed) if you think that's more appropriate.
+
+writecombined was the intent, and this makes kernel vmap match the
+userspace mmap path.
+
+Reviewed-by: Eric Anholt <eric@anholt.net>
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlzxTHIACgkQtdYpNtH8
+nugtvBAAssEmMnaCHsUdVx4xVOZ73w3vzU/lv12CoK4zGxqq1ow4XYTVVWUyC6VK
+1YWwEBqM/ml1gobHmJoZcHTHWnQO4GNeVNcOC4PWsC10UiUwi07Pdg981ajUSu87
+0vWs8ZjtJWH4ZF702lnuyM7kzvHTAHTmJEyWfeRHhcKHsJH94c7kJ76Nxk3/7Ho3
+t5XGdXcSuJknPEnyKrigDjMua+JHFcGYL6a5YZwEgLm1ZQXNDU4skuvICOXxTFBI
+YAfTSjFQ1N5uspJKX1RljDiO1kNjdjYD+W5jgYB4eDMrPaeUBiT+F1dyNMUOIOx6
+IWZemDgNBSkacvYkTqN7afFbNqy+8QLwnRZ8rwbga2etvrvsoQPn8UoyNPrKOcpG
+0yOJpHxNpLHk5VHV3RBWi5OSdTjK21ZaXmkBaqpdl0IvSC5absizKph3qsW3iL1Y
+uU5pSVV5l0ogwunb8WefgvavbWQtk6Fw2AXGoL+dDhvkHYgUZl6BjZnVCCs/MujS
+2YVOb2mAgRwi9wCEuJkdzgJwj8RM6GBWuO9dCTVF3biOzmSwnY9CkhQCebMGSI/8
+p9ZpEwHgB+pVJSIsSIXYo0VcCrZKuJHtwxumIDuALazlf7tkCGXqB/Yl8HF4j8YM
+JMMV4iQUmxOxe9m9jn3nnZpaam1Q3LXfgo6PVQrmNVfgo8nYP4s=
+=Pwh0
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============0713923449==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0713923449==--
