@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0216030DD2
-	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2019 14:08:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3334630DD3
+	for <lists+dri-devel@lfdr.de>; Fri, 31 May 2019 14:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A28892CA;
-	Fri, 31 May 2019 12:08:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921AA89343;
+	Fri, 31 May 2019 12:09:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CA1C0892CA
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 12:08:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C71D672167; Fri, 31 May 2019 12:08:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110361] [CI][DRMTIP] igt@kms_chamelium@hdmi-cmp-planes-random -
- fail - Failed assertion: false, Conversion not implemented
-Date: Fri, 31 May 2019 12:08:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lakshminarayana.vudum@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: component qa_contact assigned_to
-Message-ID: <bug-110361-502-nJSQnsrq2F@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110361-502@http.bugs.freedesktop.org/>
-References: <bug-110361-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+ [209.85.166.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1BDF89343
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 12:09:57 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id a186so15311944itg.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 05:09:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6Tuh90SBNakyTuRSgXBkXaHbnlkZwtPNHW7V5YqX2cs=;
+ b=SIPjI2IOolq5h9AXOuEeu+JccmJPHwKpkBY5WVLgnHMI4ANX/wGtuxEcOk25T/N1wT
+ R2giffBjWLsyr0gKIXfJQ2bT5g6AAkIAIRo1MRI7AwQXpYmdt80oUkrLDxVWG1aZ7wlL
+ HaEhkqzRapXWBk/ES8GSW628MQEEFOy0BV2XzoMavML1OxBhAOyOU2TOHJBeU7mtufDM
+ 1TZoT4RTE4l4Jln9cX/cXvse7PDpdijRUlcsMa4PMJbSXccr9c+fOjOtiQWmVkZWJtxO
+ +7FFJ8/eWdCqexcoQJhAgGta9PvxbFGcP2Iv+YKJXeIP94Iw9wPt3e8vyJUp97kx4Hxl
+ 1uXg==
+X-Gm-Message-State: APjAAAUOaBevfYpM6fkykiBmM2K2tMQdQ5aWhOKcteh22TtVx2hCwHOk
+ ugVibG5tTdNd7fA5rzZvj1NMX/oouQKCb3YXAaW8Dg==
+X-Google-Smtp-Source: APXvYqwPKL1uvHiup1kP4RLCIZqK3tMYoHqhzK9cxuP9y+i0q9vTzbYwU+VinhSk7QRSzeCq9YTFn2elGjJvurJWGVY=
+X-Received: by 2002:a24:6583:: with SMTP id u125mr6987478itb.168.1559304597143; 
+ Fri, 31 May 2019 05:09:57 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAJiuCcfSUAJ2w1qd-OC_CJPXoUVL03dCX1OeaUykNioHkR8Ciw@mail.gmail.com>
+ <CAAObsKBuDDF225otw-2kBKufmpS6ng9feBshUPFKNDGv3pE8Ww@mail.gmail.com>
+ <838fa193-3c67-d4c8-8991-78c3c8f89cb6@baylibre.com>
+In-Reply-To: <838fa193-3c67-d4c8-8991-78c3c8f89cb6@baylibre.com>
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Date: Fri, 31 May 2019 14:09:45 +0200
+Message-ID: <CAAObsKBjboa50k0awDtwk5LUNV6_6+NQbpwS=_4QuD0vf70TNA@mail.gmail.com>
+Subject: Re: Panfrost impossible to probe without opp table
+To: Neil Armstrong <narmstrong@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,144 +53,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0206119109=="
+Cc: ezequiel Garcia <ezequiel@collabora.com>, Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0206119109==
-Content-Type: multipart/alternative; boundary="15593044951.4fAef.6383"
-Content-Transfer-Encoding: 7bit
-
-
---15593044951.4fAef.6383
-Date: Fri, 31 May 2019 12:08:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110361
-
-Lakshmi <lakshminarayana.vudum@intel.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-          Component|DRM/Intel                   |IGT
-         QA Contact|intel-gfx-bugs@lists.freede |
-                   |sktop.org                   |
-           Assignee|intel-gfx-bugs@lists.freede |dri-devel@lists.freedesktop
-                   |sktop.org                   |.org
-
---- Comment #4 from Lakshmi <lakshminarayana.vudum@intel.com> ---
-Moving to IGT as igt_fb.c is missing fb format conversion path.=20
-Also, its a sporadic failure because the resources are choosing randomly
-(intentionally).
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15593044951.4fAef.6383
-Date: Fri, 31 May 2019 12:08:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:lakshmina=
-rayana.vudum&#64;intel.com" title=3D"Lakshmi &lt;lakshminarayana.vudum&#64;=
-intel.com&gt;"> <span class=3D"fn">Lakshmi</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] igt&#64;kms_chamelium&#64;hdmi-cmp-planes-ra=
-ndom - fail - Failed assertion: false, Conversion not implemented"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110361">bug 11036=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>DRM/Intel
-           </td>
-           <td>IGT
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">QA Contact</td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Assignee</td>
-           <td>intel-gfx-bugs&#64;lists.freedesktop.org
-           </td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] igt&#64;kms_chamelium&#64;hdmi-cmp-planes-ra=
-ndom - fail - Failed assertion: false, Conversion not implemented"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110361#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][DRMTIP] igt&#64;kms_chamelium&#64;hdmi-cmp-planes-ra=
-ndom - fail - Failed assertion: false, Conversion not implemented"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110361">bug 11036=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-lakshminarayana.vudum&#64;intel.com" title=3D"Lakshmi &lt;lakshminarayana.v=
-udum&#64;intel.com&gt;"> <span class=3D"fn">Lakshmi</span></a>
-</span></b>
-        <pre>Moving to IGT as igt_fb.c is missing fb format conversion path=
-.=20
-Also, its a sporadic failure because the resources are choosing randomly
-(intentionally).</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15593044951.4fAef.6383--
-
---===============0206119109==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0206119109==--
+T24gRnJpLCAzMSBNYXkgMjAxOSBhdCAxNDowMywgTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdA
+YmF5bGlicmUuY29tPiB3cm90ZToKPgo+IEhpIFRvbWV1LAo+Cj4gT24gMzEvMDUvMjAxOSAxMzo1
+OSwgVG9tZXUgVml6b3NvIHdyb3RlOgo+ID4gT24gV2VkLCAyOSBNYXkgMjAxOSBhdCAyMzoyOSwg
+Q2zDqW1lbnQgUMOpcm9uIDxwZXJvbi5jbGVtQGdtYWlsLmNvbT4gd3JvdGU6Cj4gPj4KPiA+PiBI
+aSwKPiA+Pgo+ID4+IEkgaGF2ZSByZWJhc2UgbXkga2VybmVsIG9uIGxhdGVzdCA1LjItcmMyLCBh
+bmQgbXkgcGFuZnJvc3QgZHJpdmVyIGlzCj4gPj4gbm8gbW9yZSBwcm9iaW5nLgo+ID4+Cj4gPj4g
+VGhlIGlzc3VlIGlzIGNvbWluZyBmcm9tIGYzNjE3YjQ0OWQwYmNmM2I1ZDgwYTk3ZjUxNDk4ZGNm
+NzQ2M2NmN2UKPiA+PiAgICAgZHJtL3BhbmZyb3N0OiBTZWxlY3QgZGV2ZnJlcQo+ID4+Cj4gPj4g
+ICAgIEN1cnJlbnRseSwgdGhlcmUgaXMgc29tZSBsb2dpYyBmb3IgdGhlIGRyaXZlciB0byB3b3Jr
+IHdpdGhvdXQgZGV2ZnJlcS4KPiA+PiAgICAgSG93ZXZlciwgdGhlIGRyaXZlciBhY3R1YWxseSBm
+YWlscyB0byBwcm9iZSBpZiAhQ09ORklHX1BNX0RFVkZSRVEuCj4gPj4KPiA+PiAgICAgRml4IHRo
+aXMgYnkgc2VsZWN0aW5nIGRldmZyZXEsIGFuZCBkcm9wIHRoZSBhZGRpdGlvbmFsIGNoZWNrcwo+
+ID4+ICAgICBmb3IgZGV2ZnJlcS4KPiA+Pgo+ID4+IEl0IHNlZW1zIHRoYXQgd2l0aCB0aGlzIGNv
+bW1pdCB0aGUgT1BQIHRhYmxlIGlzIG5vdyBtYW5kYXRvcnkuCj4gPj4gaXMgaXQgaW50ZW50aW9u
+YWw/Cj4gPgo+ID4gSGkgQ2zDqW1lbnQsCj4gPgo+ID4gZGV2ZnJlcSBzdXBwb3J0IGlzIGludGVu
+dGlvbmFsbHkgcmVxdWlyZWQuIEkgZ290IGEgSDY0IGJvYXJkIHdoaWNoIEknbQo+ID4gdXNpbmcg
+dG8gYWRkIFQ3MjAgc3VwcG9ydCB0byBQYW5mcm9zdC4KPgo+IG9wZXJhdGluZy1wb2ludHMtdjIg
+YW5kIGNsb2NrcyBhcmUgb3B0aW9uYWwsIGRldmZyZXEgc2hvdWxkIGJlIG9wdGlvbmFsLAo+IHRo
+aXMgd2FzIHRoZSBkZWZhdWx0IGJlaGF2aW91ciBvZiB0aGUgZmlyc3QgYXBwbGllZCB2ZXJzaW9u
+LgoKSSdtIGNvbmNlcm5lZCBieSB0aGUgc2FmZXR5IG9mIHJ1bm5pbmcgdGhlc2UgR1BVcyBhbGwg
+dGhlIHRpbWUgYXQKdGhlaXIgbWF4aW11bSBmcmVxdWVuY2llcy4gTWF5YmUgbm90IG9uIENocm9t
+ZWJvb2tzIGFuZCBvdGhlciBjb25zdW1lcgpkZXZpY2VzLCBidXQgdGhlIFNCQ3MgSSBoYXZlIGhl
+cmUgaGF2ZSBhbGwgdmVyeSBjcmFwcHkgaGVhdApkaXNzaXBhdGlvbi4KCj4gQW1sb2dpYyBkdCBk
+b2VzIG5vdCBoYXZlIG9wZXJhdGluZy1wb2ludHMtdjIsIGFuZCBkZXZmcmVxIHdvbid0IGJlIHN1
+cHBvcnRlZAo+IHNvb24uCgpXaGF0J3MgdGhlIHByb2JsZW0gd2l0aCBjb21pbmcgdXAgd2l0aCB0
+aGUgb3BlcmF0aW5nIHBvaW50cz8KClRoYW5rcywKClRvbWV1Cgo+IE5laWwKPgo+ID4KPiA+IE9u
+Y2UgSSdtIGFibGUgdG8gdGVzdCB0aGUgR1BVIHByb3Blcmx5IGFsb25nIHdpdGggZnJlcXVlbmN5
+IHNjYWxpbmcsIEkKPiA+IHdpbGwgcGluZyB5b3Ugc28geW91IGNhbiByZXRlc3QgYW5kIHJlc3Vi
+bWl0Lgo+ID4KPiA+IFRoYW5rcywKPiA+Cj4gPiBUb21ldQo+ID4KPiA+PiBBY3R1YWxseQo+ID4+
+IFsgICAgMy4wNDYyMzddIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBjbG9jayByYXRlID0gNDMyMDAw
+MDAwCj4gPj4gWyAgICAzLjA1MTU5M10gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IGJ1c19jbG9jayBy
+YXRlID0gMTAwMDAwMDAwCj4gPj4gWyAgICAzLjA5NjAxMl0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6
+IG1hbGktdDcyMCBpZCAweDcyMCBtYWpvciAweDEKPiA+PiBtaW5vciAweDEgc3RhdHVzIDB4MAo+
+ID4+IFsgICAgMy4xMDM2ODJdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBmZWF0dXJlczogMDAwMDAw
+MDAsMTAzMDllNDAsCj4gPj4gaXNzdWVzOiAwMDAwMDAwMCwyMTA1NDQwMAo+ID4+IFsgICAgMy4x
+MTE3ODldIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBGZWF0dXJlczogTDI6MHgwNzExMDIwNgo+ID4+
+IFNoYWRlcjoweDAwMDAwMDAwIFRpbGVyOjB4MDAwMDA4MDkgTWVtOjB4MSBNTVU6MHgwMDAwMjgy
+MSBBUzoweGYKPiA+PiBKUzoweDcKPiA+PiBbICAgIDMuMTIzNDM1XSBwYW5mcm9zdCAxODAwMDAw
+LmdwdTogc2hhZGVyX3ByZXNlbnQ9MHgzIGwyX3ByZXNlbnQ9MHgxCj4gPj4gWyAgICAzLjEzMDQw
+NV0gcGFuZnJvc3QgMTgwMDAwMC5ncHU6IEZhdGFsIGVycm9yIGR1cmluZyBkZXZmcmVxIGluaXQK
+PiA+Pgo+ID4+IFdpdGggY29tbWl0IHJldmVydGVkCj4gPj4gWyAgICAzLjAzODIzNl0gcGFuZnJv
+c3QgMTgwMDAwMC5ncHU6IGNsb2NrIHJhdGUgPSA0MzIwMDAwMDAKPiA+PiBbICAgIDMuMDQzNTkz
+XSBwYW5mcm9zdCAxODAwMDAwLmdwdTogYnVzX2Nsb2NrIHJhdGUgPSAxMDAwMDAwMDAKPiA+PiBb
+ICAgIDMuMDg3OTk0XSBwYW5mcm9zdCAxODAwMDAwLmdwdTogbWFsaS10NzIwIGlkIDB4NzIwIG1h
+am9yIDB4MQo+ID4+IG1pbm9yIDB4MSBzdGF0dXMgMHgwCj4gPj4gWyAgICAzLjA5NTY1OF0gcGFu
+ZnJvc3QgMTgwMDAwMC5ncHU6IGZlYXR1cmVzOiAwMDAwMDAwMCwxMDMwOWU0MCwKPiA+PiBpc3N1
+ZXM6IDAwMDAwMDAwLDIxMDU0NDAwCj4gPj4gWyAgICAzLjEwMzc2M10gcGFuZnJvc3QgMTgwMDAw
+MC5ncHU6IEZlYXR1cmVzOiBMMjoweDA3MTEwMjA2Cj4gPj4gU2hhZGVyOjB4MDAwMDAwMDAgVGls
+ZXI6MHgwMDAwMDgwOSBNZW06MHgxIE1NVToweDAwMDAyODIxIEFTOjB4Zgo+ID4+IEpTOjB4Nwo+
+ID4+IFsgICAgMy4xMTU0MTBdIHBhbmZyb3N0IDE4MDAwMDAuZ3B1OiBzaGFkZXJfcHJlc2VudD0w
+eDMgbDJfcHJlc2VudD0weDEKPiA+PiBbICAgIDMuMTIyNzk4XSBbZHJtXSBJbml0aWFsaXplZCBw
+YW5mcm9zdCAxLjAuMCAyMDE4MDkwOCBmb3IKPiA+PiAxODAwMDAwLmdwdSBvbiBtaW5vciAwCj4g
+Pj4KPiA+Pgo+ID4+IFRoYW5rcywKPiA+PiBDbMOpbWVudAo+ID4+Cj4gPj4gX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+PiBsaW51eC1hcm0ta2VybmVs
+IG1haWxpbmcgbGlzdAo+ID4+IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+
+ID4+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtYXJt
+LWtlcm5lbAo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KPiA+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiA+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCj4gPgo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
