@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E2E317FA
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 01:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC56331808
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 01:32:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88508898ED;
-	Fri, 31 May 2019 23:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AED489AFF;
+	Fri, 31 May 2019 23:32:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0CD4F898ED
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 23:31:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B21AE89AFF
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 23:32:33 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0127172162; Fri, 31 May 2019 23:31:38 +0000 (UTC)
+ id AF26D72162; Fri, 31 May 2019 23:32:33 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110805] All the friends in the friend list is not listed
-Date: Fri, 31 May 2019 23:31:38 +0000
+Date: Fri, 31 May 2019 23:32:33 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/DRI/i915
-X-Bugzilla-Version: 18.3
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: coolsm1982@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-110805-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: component version bug_group resolution bug_status
+ product
+Message-ID: <bug-110805-502-sDFPB8mxSp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110805-502@http.bugs.freedesktop.org/>
+References: <bug-110805-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0665943157=="
+Content-Type: multipart/mixed; boundary="===============2032069744=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0665943157==
-Content-Type: multipart/alternative; boundary="15593454981.bAf6C.4932"
+--===============2032069744==
+Content-Type: multipart/alternative; boundary="15593455531.97dBfda.5855"
 Content-Transfer-Encoding: 7bit
 
 
---15593454981.bAf6C.4932
-Date: Fri, 31 May 2019 23:31:38 +0000
+--15593455531.97dBfda.5855
+Date: Fri, 31 May 2019 23:32:33 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,57 +73,26 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110805
 
-            Bug ID: 110805
-           Summary: All the friends in the friend list is not listed
-           Product: Mesa
-           Version: 18.3
-          Hardware: x86 (IA32)
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/DRI/i915
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: coolsm1982@gmail.com
-        QA Contact: dri-devel@lists.freedesktop.org
+Andre Klapper <a9016009@gmx.de> changed:
 
-login to the fb using user credentials
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|Drivers/DRI/i915            |Two
+            Version|18.3                        |unspecified
+              Group|                            |spam
+         Resolution|---                         |INVALID
+             Status|NEW                         |RESOLVED
+            Product|Mesa                        |Spam
 
-enter user name
-enter password
-click on login button
-
-the landing page is the home page
-click on the add friend=20
-the friend list should be listed.
-
-Expected results
-
-enter user name
-enter password
-click on login button
-
-the landing page is the home page
-click on the add friend=20
-the friend list should be listed.
-
-
-Actual results
-
-enter user name
-enter password
-click on login button
-
-the landing page is the home page
-click on the add friend=20
-All the friend in the list is not listed.
+--- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
+Go away and test somewhere else.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15593454981.bAf6C.4932
-Date: Fri, 31 May 2019 23:31:38 +0000
+--15593455531.97dBfda.5855
+Date: Fri, 31 May 2019 23:32:33 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -133,119 +103,91 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - All the friends in the friend list is not listed"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110805">110805</a>
-          </td>
-        </tr>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - All the friends in the friend list is not li=
+sted"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110805">bug 11080=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>All the friends in the friend list is not listed
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>Drivers/DRI/i915
+           </td>
+           <td>Two
+           </td>
+         </tr>
 
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">Version</td>
+           <td>18.3
+           </td>
+           <td>unspecified
+           </td>
+         </tr>
 
-        <tr>
-          <th>Version</th>
-          <td>18.3
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr>
 
-        <tr>
-          <th>Hardware</th>
-          <td>x86 (IA32)
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
 
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
 
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/DRI/i915
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>coolsm1982&#64;gmail.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>Mesa
+           </td>
+           <td>Spam
+           </td>
+         </tr></table>
       <p>
         <div>
-        <pre>login to the fb using user credentials
-
-enter user name
-enter password
-click on login button
-
-the landing page is the home page
-click on the add friend=20
-the friend list should be listed.
-
-Expected results
-
-enter user name
-enter password
-click on login button
-
-the landing page is the home page
-click on the add friend=20
-the friend list should be listed.
-
-
-Actual results
-
-enter user name
-enter password
-click on login button
-
-the landing page is the home page
-click on the add friend=20
-All the friend in the list is not listed.</pre>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - All the friends in the friend list is not li=
+sted"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110805#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - All the friends in the friend list is not li=
+sted"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110805">bug 11080=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>Go away and test somewhere else.</pre>
         </div>
       </p>
 
@@ -259,9 +201,9 @@ All the friend in the list is not listed.</pre>
     </body>
 </html>=
 
---15593454981.bAf6C.4932--
+--15593455531.97dBfda.5855--
 
---===============0665943157==
+--===============2032069744==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -271,4 +213,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0665943157==--
+--===============2032069744==--
