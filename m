@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2E1323A4
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2019 17:01:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7673316FC
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 00:09:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA0F189356;
-	Sun,  2 Jun 2019 15:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB470899C4;
+	Fri, 31 May 2019 22:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD3EB8987A
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 21:03:34 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id y57so2635598qtk.4
- for <dri-devel@lists.freedesktop.org>; Fri, 31 May 2019 14:03:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=EVoBy70val96iyRWUzgEGMhxa62G1pkCrgxgHlubNtk=;
- b=SmgVBFW6HGmZB8Cr4XNcmNdAKwchnPYgD3kLobIrST5Ra6d9yBk5lK3iiwL8aKe4UI
- OLeAsxmK16WlJmk+dRGDlzxLgiHCuXlFeE364NyvsSF80v/vnNv6CWS8OkEEexcSDiVc
- TiMmHEha8H49ZBYL0MMg+LG2PZJfMdaAdOCDirzaFzejioG+wYptjTbkj/+aZF8cT7r2
- s0AUqqzCtiUHYm0cYG3ezK+Z4vtY5uohKZ4eOrUgJvNLMMDWukANPpJhCRpqLZhCaLK7
- ADC+S+gQKGmTyVERtKepi3ZcL58duLWxzTx/+qhGM25bt+Tq7EvKQnLk9oK1sceoOTPC
- GCtg==
-X-Gm-Message-State: APjAAAXwyjzRLK1l1ohgTfZ52wXrxD13MYeKpj+dCyXpB/kRn5EWk7DY
- j6UOm67orVCVQ8P/ADewj38lXPaxt1E=
-X-Google-Smtp-Source: APXvYqwehGm14n5LI8yz9G+/yLlBWZ5MFCuhFETeSWsGFtJcEV1cpT/R5ISgD96cYJX85xiqaSm7jA==
-X-Received: by 2002:ac8:3861:: with SMTP id r30mr11442271qtb.341.1559336613921; 
- Fri, 31 May 2019 14:03:33 -0700 (PDT)
-Received: from qcai.nay.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id d18sm862293qkj.61.2019.05.31.14.03.32
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 31 May 2019 14:03:33 -0700 (PDT)
-From: Qian Cai <cai@lca.pw>
-To: airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH] gpu/drm_memory: fix a few warnings
-Date: Fri, 31 May 2019 17:03:05 -0400
-Message-Id: <1559336585-4708-1-git-send-email-cai@lca.pw>
-X-Mailer: git-send-email 1.8.3.1
-X-Mailman-Approved-At: Sun, 02 Jun 2019 15:00:55 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lca.pw; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=EVoBy70val96iyRWUzgEGMhxa62G1pkCrgxgHlubNtk=;
- b=GBVdZeNpg4mBcK7MRP/Ey/Rd7KLoJSTk52Ko+aLDV94wYz+jOZUZKPppkU3b/yUX9m
- SohBmPhBlq7AU6D6tt/AQSbODHhrJxBlqhjtjYROqiQ/ZFiYyOr1wpFvy87Ny/uS1x8I
- EFtUGbi8zUSDI9BbyZ2a5lTJbHiRI6FbbH882kG4lsvRh/jUcRG5vSWJRn6rwVYgKzCs
- 0/V1DZ3DCJhGUC2v1EraDMexzUlLfrrBk4vUC5o90ykYDw5sgbZZH1NwJAJBOz0vHdaR
- FCDZt+YSOikU5FIjpPT+rlaZq+A4zHc6wAXbPFfZHp/Q7WqRm+6M1v3l6+bEqrse8R8e
- rtew==
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3961589AFF;
+ Fri, 31 May 2019 22:09:53 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+ id DEE2E6087B; Fri, 31 May 2019 22:09:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: jcrouse@smtp.codeaurora.org)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 309D160712;
+ Fri, 31 May 2019 22:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 309D160712
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm/adreno: Ensure that the zap shader region is big
+ enough
+Date: Fri, 31 May 2019 16:09:38 -0600
+Message-Id: <1559340578-11482-1-git-send-email-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1559340592;
+ bh=A8zDS66mjFwXp5YoMISUc0SPzfOMxvbFtRNcKwj+2ZY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=VwKUnTRyzCqxrWkiGb0nFYnNp0wm94KgqBGzQk4TfAyOCZ36ziGZZ0gMxicjPhzO+
+ 2KsC16FM5D/6r20a5rRi9KZxlHq7gF3WuJyBeEo5rGCIpQ/uJBL0gNbFi/w50XG8TH
+ r9fF4Y7PzjvU0LNwC8c3EhrCGiEun3FzjEvUAuuI=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1559340591;
+ bh=A8zDS66mjFwXp5YoMISUc0SPzfOMxvbFtRNcKwj+2ZY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WU34CiZqbH7Vy5mC9Mv7jpghXfkOTCP5nHlG1N3qw1UyNTEcxajfVvALY+7S0xV6U
+ lmGAXoHioCsmQXbl7xLpVEe5FChLTjOEoIpjQCjxEQsolowG/Yg1+5I9+xhPXh7OlA
+ 9ePXkP+nJfoc0SWBvx4sYPHFHPcEjJunrVYtF5tQ=
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ dmarc=none (p=none dis=none)
+ header.from=codeaurora.org
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ spf=none
+ smtp.mailfrom=jcrouse@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,27 +67,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Qian Cai <cai@lca.pw>, sean@poorly.run, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Douglas Anderson <dianders@chromium.org>, Kees Cook <keescook@chromium.org>,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Sharat Masetty <smasetty@codeaurora.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bjorn.andersson@linaro.org, Mamta Shukla <mamtashukla555@gmail.com>,
+ Sean Paul <sean@poorly.run>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIG9wZW5pbmcgY29tbWVudCBtYXJrICIvKioiIGlzIHJlc2VydmVkIGZvciBrZXJuZWwtZG9j
-IGNvbW1lbnRzLCBzbwppdCB3aWxsIGdlbmVyYXRlIGEgd2FybmluZyB3aXRoICJtYWtlIFc9MSIu
-Cgpkcml2ZXJzL2dwdS9kcm0vZHJtX21lbW9yeS5jOjI6IHdhcm5pbmc6IENhbm5vdCB1bmRlcnN0
-YW5kICAqIFxmaWxlCmRybV9tZW1vcnkuYwoKQWxzbywgc2lsZW5jZSBhIGNoZWNrcGF0Y2ggd2Fy
-bmluZywKCldBUk5JTkc6IE1pc3Npbmcgb3IgbWFsZm9ybWVkIFNQRFgtTGljZW5zZS1JZGVudGlm
-aWVyIHRhZyBpbiBsaW5lIDEKClNpZ25lZC1vZmYtYnk6IFFpYW4gQ2FpIDxjYWlAbGNhLnB3Pgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fbWVtb3J5LmMgfCAzICsrLQogMSBmaWxlIGNoYW5nZWQs
-IDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fbWVtb3J5LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX21lbW9yeS5jCmluZGV4IDEz
-MmZlZjhmZjFiNi4uNjgzMDQyYzhlZTJjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X21lbW9yeS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbWVtb3J5LmMKQEAgLTEsNCArMSw1
-IEBACi0vKioKKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQKKy8qCiAgKiBcZmlsZSBk
-cm1fbWVtb3J5LmMKICAqIE1lbW9yeSBtYW5hZ2VtZW50IHdyYXBwZXJzIGZvciBEUk0KICAqCi0t
-IAoxLjguMy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+QmVmb3JlIGxvYWRpbmcgdGhlIHphcCBzaGFkZXIgd2Ugc2hvdWxkIGVuc3VyZSB0aGF0IHRoZSBy
+ZXNlcnZlZCBtZW1vcnkKcmVnaW9uIGlzIGJpZyBlbm91Z2ggdG8gaG9sZCB0aGUgbG9hZGVkIGZp
+bGUuCgpTaWduZWQtb2ZmLWJ5OiBKb3JkYW4gQ3JvdXNlIDxqY3JvdXNlQGNvZGVhdXJvcmEub3Jn
+PgotLS0KCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hZHJlbm9fZ3B1LmMgfCA4ICsrKysr
+KystCiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL21zbS9hZHJlbm8vYWRyZW5vX2dwdS5jCmluZGV4IDZmN2Y0MTEuLjNkYjhlNDkg
+MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2FkcmVub19ncHUuYworKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hZHJlbm9fZ3B1LmMKQEAgLTY3LDcgKzY3LDYg
+QEAgc3RhdGljIGludCB6YXBfc2hhZGVyX2xvYWRfbWR0KHN0cnVjdCBtc21fZ3B1ICpncHUsIGNv
+bnN0IGNoYXIgKmZ3bmFtZSwKIAkJcmV0dXJuIHJldDsKIAogCW1lbV9waHlzID0gci5zdGFydDsK
+LQltZW1fc2l6ZSA9IHJlc291cmNlX3NpemUoJnIpOwogCiAJLyogUmVxdWVzdCB0aGUgTURUIGZp
+bGUgZm9yIHRoZSBmaXJtd2FyZSAqLwogCWZ3ID0gYWRyZW5vX3JlcXVlc3RfZncodG9fYWRyZW5v
+X2dwdShncHUpLCBmd25hbWUpOwpAQCAtODMsNiArODIsMTMgQEAgc3RhdGljIGludCB6YXBfc2hh
+ZGVyX2xvYWRfbWR0KHN0cnVjdCBtc21fZ3B1ICpncHUsIGNvbnN0IGNoYXIgKmZ3bmFtZSwKIAkJ
+Z290byBvdXQ7CiAJfQogCisJaWYgKG1lbV9zaXplID4gcmVzb3VyY2Vfc2l6ZSgmcikpIHsKKwkJ
+RFJNX0RFVl9FUlJPUihkZXYsCisJCQkibWVtb3J5IHJlZ2lvbiBpcyB0b28gc21hbGwgdG8gbG9h
+ZCB0aGUgTURUXG4iKTsKKwkJcmV0ID0gLUUyQklHOworCQlnb3RvIG91dDsKKwl9CisKIAkvKiBB
+bGxvY2F0ZSBtZW1vcnkgZm9yIHRoZSBmaXJtd2FyZSBpbWFnZSAqLwogCW1lbV9yZWdpb24gPSBt
+ZW1yZW1hcChtZW1fcGh5cywgbWVtX3NpemUsICBNRU1SRU1BUF9XQyk7CiAJaWYgKCFtZW1fcmVn
+aW9uKSB7Ci0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
