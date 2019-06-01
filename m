@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9720C31D20
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 15:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBA931FB1
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 16:28:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE4F89C7F;
-	Sat,  1 Jun 2019 13:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 479EB89A20;
+	Sat,  1 Jun 2019 14:28:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C6A89C56
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2019 13:27:25 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3CF8922387;
- Sat,  1 Jun 2019 13:27:24 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 48/56] fbdev: sm712fb: fix crashes during
- framebuffer writes by correctly mapping VRAM
-Date: Sat,  1 Jun 2019 09:25:52 -0400
-Message-Id: <20190601132600.27427-48-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190601132600.27427-1-sashal@kernel.org>
-References: <20190601132600.27427-1-sashal@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 083D089A20
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2019 14:28:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F2D8172167; Sat,  1 Jun 2019 14:28:14 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110807] Regression: artifacts in Chromium after mesa 19.0.5
+ update
+Date: Sat, 01 Jun 2019 14:28:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mezin.alexander@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-110807-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1559395645;
- bh=IAcLolur0s/FFdJNYaNpQtzY56PRhPlK7SeSIWJIMy0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VG7EN7IVPvr47R1jOsOTpLF9Y+zB3fV4nC09N9a/cjA6l1xkppVFZ7RlMrs07fGmm
- aa5buuBBOcfoBx80elpNRfxWeC7D2piYOHW+u7JYiCmChRNvCQBFYEEzKN8cpDo/1f
- XW4210a3D7L03boBlV2/H65bQILI47H2xt5i5ybw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,108 +53,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- dri-devel@lists.freedesktop.org, Yifeng Li <tomli@tomli.me>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1492148106=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogWWlmZW5nIExpIDx0b21saUB0b21saS5tZT4KClsgVXBzdHJlYW0gY29tbWl0IDllMGU1
-OTk5M2RmMDYwMWNkZGI5NWM0ZjZjNjFhYTNkNWU3NTNjMDAgXQoKT24gYSBUaGlua3BhZCBzMzAg
-KFBlbnRpdW0gSUlJIC8gaTQ0ME1YLCBMeW54M0RNKSwgcnVubmluZyBmYnRlc3Qgb3IgWAp3aWxs
-IGNyYXNoIHRoZSBtYWNoaW5lIGluc3RhbnRseSwgYmVjYXVzZSB0aGUgVlJBTS9mcmFtZWJ1ZmZl
-ciBpcyBub3QKbWFwcGVkIGNvcnJlY3RseS4KCk9uIFNNNzEyLCB0aGUgZnJhbWVidWZmZXIgc3Rh
-cnRzIGF0IHRoZSBiZWdpbm5pbmcgb2YgYWRkcmVzcyBzcGFjZSwgYnV0ClNNNzIwJ3MgZnJhbWVi
-dWZmZXIgc3RhcnRzIGF0IHRoZSAxIE1pQiBvZmZzZXQgZnJvbSB0aGUgYmVnaW5uaW5nLiBIb3dl
-dmVyLApzbTcxMmZiIGZhaWxzIHRvIHRha2UgdGhpcyBpbnRvIGFjY291bnQsIGFzIGEgcmVzdWx0
-LCB3cml0aW5nIHRvIHRoZQpmcmFtZWJ1ZmZlciB3aWxsIGRlc3Ryb3kgYWxsIHRoZSByZWdpc3Rl
-cnMgYW5kIGtpbGwgdGhlIHN5c3RlbSBpbW1lZGlhdGVseS4KQW5vdGhlciBwcm9ibGVtIGlzIHRo
-ZSBkcml2ZXIgYXNzdW1lcyA4IE1pQiBvZiBWUkFNIGZvciBTTTcyMCwgYnV0IHNvbWUKU003MjAg
-c3lzdGVtLCBzdWNoIGFzIHRoaXMgSUJNIFRoaW5rcGFkLCBvbmx5IGhhcyA0IE1pQiBvZiBWUkFN
-LgoKRml4IHRoaXMgcHJvYmxlbSBieSByZW1vdmluZyB0aGUgaGFyZGNvZGVkIFZSQU0gc2l6ZSwg
-YWRkaW5nIGEgZnVuY3Rpb24gdG8KcXVlcnkgdGhlIGFtb3VudCBvZiBWUkFNIGZyb20gcmVnaXN0
-ZXIgTUNSNzYgb24gU003MjAsIGFuZCBhZGRpbmcgcHJvcGVyCmZyYW1lYnVmZmVyIG9mZnNldC4K
-ClBsZWFzZSBub3RlIHRoYXQgdGhlIG1lbW9yeSBtYXAgbWF5IGhhdmUgYWRkaXRpb25hbCBwcm9i
-bGVtcyBvbiBCaWctRW5kaWFuCnN5c3RlbSwgd2hpY2ggaXMgbm90IGF2YWlsYWJsZSBmb3IgdGVz
-dGluZyBieSBteXNlbGYuIEJ1dCBJIGhpZ2hseSBzdXNwZWN0CnRoYXQgdGhlIG9yaWdpbmFsIGNv
-ZGUgaXMgYWxzbyBicm9rZW4gb24gQmlnLUVuZGlhbiBtYWNoaW5lcyBmb3IgU003MjAsIHNvCmF0
-IGxlYXN0IHdlIGFyZSBub3QgbWFraW5nIHRoZSBwcm9ibGVtIHdvcnNlLiBNb3JlLCB0aGUgZHJp
-dmVyIGFsc28gYXNzdW1lZApTTTcxMC9TTTcxMiBoYXMgNCBNaUIgb2YgVlJBTSwgYnV0IGl0IGhh
-cyBhIDIgTWlCIHZlcnNpb24gYXMgd2VsbCwgYW5kIHVzZWQKaW4gZWFybGllciBsYXB0b3BzLCBz
-dWNoIGFzIElCTSBUaGlua3BhZCAyNDBYLCB0aGUgZHJpdmVyIHdvdWxkIHByb2JhYmx5CmNyYXNo
-IG9uIHRoZW0uIEkndmUgbmV2ZXIgc2VlbiBvbmUgb2YgdGhvc2UgbWFjaGluZXMgYW5kIGNhbm5v
-dCBmaXggaXQsIGJ1dApJIGhhdmUgZG9jdW1lbnRlZCB0aGVzZSBwcm9ibGVtcyBpbiB0aGUgY29t
-bWVudHMuCgpTaWduZWQtb2ZmLWJ5OiBZaWZlbmcgTGkgPHRvbWxpQHRvbWxpLm1lPgpUZXN0ZWQt
-Ynk6IFN1ZGlwIE11a2hlcmplZSA8c3VkaXBtLm11a2hlcmplZUBnbWFpbC5jb20+CkNjOiBUZWRk
-eSBXYW5nIDx0ZWRkeS53YW5nQHNpbGljb25tb3Rpb24uY29tPgpDYzogPHN0YWJsZUB2Z2VyLmtl
-cm5lbC5vcmc+ICAjIHY0LjQrClNpZ25lZC1vZmYtYnk6IEJhcnRsb21pZWogWm9sbmllcmtpZXdp
-Y3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4g
-PHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvdmlkZW8vZmJkZXYvc203MTIuaCAgIHwg
-IDUgLS0tLQogZHJpdmVycy92aWRlby9mYmRldi9zbTcxMmZiLmMgfCA0OCArKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKy0tLQogMiBmaWxlcyBjaGFuZ2VkLCA0NCBpbnNlcnRpb25zKCsp
-LCA5IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvc203MTIu
-aCBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvc203MTIuaAppbmRleCBhYWQxY2M0YmUzNGE5Li4yY2Jh
-MWU3M2VkMjRmIDEwMDY0NAotLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NtNzEyLmgKKysrIGIv
-ZHJpdmVycy92aWRlby9mYmRldi9zbTcxMi5oCkBAIC0xOSwxMSArMTksNiBAQAogI2RlZmluZSBT
-Q1JFRU5fWV9SRVMgICAgICA2MDAKICNkZWZpbmUgU0NSRUVOX0JQUCAgICAgICAgMTYKIAotLypB
-c3N1bWUgU003MTIgZ3JhcGhpY3MgY2hpcCBoYXMgNE1CIFZSQU0gKi8KLSNkZWZpbmUgU003MTJf
-VklERU9NRU1PUllTSVpFCSAgMHgwMDQwMDAwMAotLypBc3N1bWUgU003MjIgZ3JhcGhpY3MgY2hp
-cCBoYXMgOE1CIFZSQU0gKi8KLSNkZWZpbmUgU003MjJfVklERU9NRU1PUllTSVpFCSAgMHgwMDgw
-MDAwMAotCiAjZGVmaW5lIGRhY19yZWcJKDB4M2M4KQogI2RlZmluZSBkYWNfdmFsCSgweDNjOSkK
-IApkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9zbTcxMmZiLmMgYi9kcml2ZXJzL3Zp
-ZGVvL2ZiZGV2L3NtNzEyZmIuYwppbmRleCA1MTQ4NzY1ZjAwN2NmLi42MmRkZDc3OTJhZDIwIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3NtNzEyZmIuYworKysgYi9kcml2ZXJzL3Zp
-ZGVvL2ZiZGV2L3NtNzEyZmIuYwpAQCAtMTMzOCw2ICsxMzM4LDExIEBAIHN0YXRpYyBpbnQgc210
-Y19tYXBfc21lbShzdHJ1Y3Qgc210Y2ZiX2luZm8gKnNmYiwKIHsKIAlzZmItPmZiLT5maXguc21l
-bV9zdGFydCA9IHBjaV9yZXNvdXJjZV9zdGFydChwZGV2LCAwKTsKIAorCWlmIChzZmItPmNoaXBf
-aWQgPT0gMHg3MjApCisJCS8qIG9uIFNNNzIwLCB0aGUgZnJhbWVidWZmZXIgc3RhcnRzIGF0IHRo
-ZSAxIE1CIG9mZnNldCAqLworCQlzZmItPmZiLT5maXguc21lbV9zdGFydCArPSAweDAwMjAwMDAw
-OworCisJLyogWFhYOiBpcyBpdCBzYWZlIGZvciBTTTcyMCBvbiBCaWctRW5kaWFuPyAqLwogCWlm
-IChzZmItPmZiLT52YXIuYml0c19wZXJfcGl4ZWwgPT0gMzIpCiAJCXNmYi0+ZmItPmZpeC5zbWVt
-X3N0YXJ0ICs9IGJpZ19hZGRyOwogCkBAIC0xMzc1LDEyICsxMzgwLDQ1IEBAIHN0YXRpYyBpbmxp
-bmUgdm9pZCBzbTd4eF9pbml0X2h3KHZvaWQpCiAJb3V0Yl9wKDB4MTEsIDB4M2M1KTsKIH0KIAor
-c3RhdGljIHVfbG9uZyBzbTd4eF92cmFtX3Byb2JlKHN0cnVjdCBzbXRjZmJfaW5mbyAqc2ZiKQor
-eworCXU4IHZyYW07CisKKwlzd2l0Y2ggKHNmYi0+Y2hpcF9pZCkgeworCWNhc2UgMHg3MTA6CisJ
-Y2FzZSAweDcxMjoKKwkJLyoKKwkJICogQXNzdW1lIFNNNzEyIGdyYXBoaWNzIGNoaXAgaGFzIDRN
-QiBWUkFNLgorCQkgKgorCQkgKiBGSVhNRTogU003MTIgY2FuIGhhdmUgMk1CIFZSQU0sIHdoaWNo
-IGlzIHVzZWQgb24gZWFybGllcgorCQkgKiBsYXB0b3BzLCBzdWNoIGFzIElCTSBUaGlua3BhZCAy
-NDBYLiBUaGlzIGRyaXZlciB3b3VsZAorCQkgKiBwcm9iYWJseSBjcmFzaCBvbiB0aG9zZSBtYWNo
-aW5lcy4gSWYgYW55b25lIGdldHMgb25lIG9mCisJCSAqIHRob3NlIGFuZCBpcyB3aWxsaW5nIHRv
-IGhlbHAsIHJ1biAiZ2l0IGJsYW1lIiBhbmQgc2VuZCBtZQorCQkgKiBhbiBFLW1haWwuCisJCSAq
-LworCQlyZXR1cm4gMHgwMDQwMDAwMDsKKwljYXNlIDB4NzIwOgorCQlvdXRiX3AoMHg3NiwgMHgz
-YzQpOworCQl2cmFtID0gaW5iX3AoMHgzYzUpID4+IDY7CisKKwkJaWYgKHZyYW0gPT0gMHgwMCkK
-KwkJCXJldHVybiAweDAwODAwMDAwOyAgLyogOCBNQiAqLworCQllbHNlIGlmICh2cmFtID09IDB4
-MDEpCisJCQlyZXR1cm4gMHgwMTAwMDAwMDsgIC8qIDE2IE1CICovCisJCWVsc2UgaWYgKHZyYW0g
-PT0gMHgwMikKKwkJCXJldHVybiAweDAwNDAwMDAwOyAgLyogaWxsZWdhbCwgZmFsbGJhY2sgdG8g
-NCBNQiAqLworCQllbHNlIGlmICh2cmFtID09IDB4MDMpCisJCQlyZXR1cm4gMHgwMDQwMDAwMDsg
-IC8qIDQgTUIgKi8KKwl9CisJcmV0dXJuIDA7ICAvKiB1bmtub3duIGhhcmR3YXJlICovCit9CisK
-IHN0YXRpYyBpbnQgc210Y2ZiX3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwKIAkJCSAg
-ICBjb25zdCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqZW50KQogewogCXN0cnVjdCBzbXRjZmJfaW5m
-byAqc2ZiOwogCXN0cnVjdCBmYl9pbmZvICppbmZvOwotCXVfbG9uZyBzbWVtX3NpemUgPSAweDAw
-ODAwMDAwOwkvKiBkZWZhdWx0IDhNQiAqLworCXVfbG9uZyBzbWVtX3NpemU7CiAJaW50IGVycjsK
-IAl1bnNpZ25lZCBsb25nIG1taW9fYmFzZTsKIApAQCAtMTQzNywxMiArMTQ3NSwxNSBAQCBzdGF0
-aWMgaW50IHNtdGNmYl9wY2lfcHJvYmUoc3RydWN0IHBjaV9kZXYgKnBkZXYsCiAJbW1pb19iYXNl
-ID0gcGNpX3Jlc291cmNlX3N0YXJ0KHBkZXYsIDApOwogCXBjaV9yZWFkX2NvbmZpZ19ieXRlKHBk
-ZXYsIFBDSV9SRVZJU0lPTl9JRCwgJnNmYi0+Y2hpcF9yZXZfaWQpOwogCisJc21lbV9zaXplID0g
-c203eHhfdnJhbV9wcm9iZShzZmIpOworCWRldl9pbmZvKCZwZGV2LT5kZXYsICIlbHUgTWlCIG9m
-IFZSQU0gZGV0ZWN0ZWQuXG4iLAorCQkJCQlzbWVtX3NpemUgLyAxMDQ4NTc2KTsKKwogCXN3aXRj
-aCAoc2ZiLT5jaGlwX2lkKSB7CiAJY2FzZSAweDcxMDoKIAljYXNlIDB4NzEyOgogCQlzZmItPmZi
-LT5maXgubW1pb19zdGFydCA9IG1taW9fYmFzZSArIDB4MDA0MDAwMDA7CiAJCXNmYi0+ZmItPmZp
-eC5tbWlvX2xlbiA9IDB4MDA0MDAwMDA7Ci0JCXNtZW1fc2l6ZSA9IFNNNzEyX1ZJREVPTUVNT1JZ
-U0laRTsKIAkJc2ZiLT5sZmIgPSBpb3JlbWFwKG1taW9fYmFzZSwgbW1pb19hZGRyKTsKIAkJaWYg
-KCFzZmItPmxmYikgewogCQkJZGV2X2VycigmcGRldi0+ZGV2LApAQCAtMTQ3NCw4ICsxNTE1LDcg
-QEAgc3RhdGljIGludCBzbXRjZmJfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LAogCWNh
-c2UgMHg3MjA6CiAJCXNmYi0+ZmItPmZpeC5tbWlvX3N0YXJ0ID0gbW1pb19iYXNlOwogCQlzZmIt
-PmZiLT5maXgubW1pb19sZW4gPSAweDAwMjAwMDAwOwotCQlzbWVtX3NpemUgPSBTTTcyMl9WSURF
-T01FTU9SWVNJWkU7Ci0JCXNmYi0+ZHBfcmVncyA9IGlvcmVtYXAobW1pb19iYXNlLCAweDAwYTAw
-MDAwKTsKKwkJc2ZiLT5kcF9yZWdzID0gaW9yZW1hcChtbWlvX2Jhc2UsIDB4MDAyMDAwMDAgKyBz
-bWVtX3NpemUpOwogCQlzZmItPmxmYiA9IHNmYi0+ZHBfcmVncyArIDB4MDAyMDAwMDA7CiAJCXNm
-Yi0+bW1pbyA9IChzbXRjX3JlZ2Jhc2VhZGRyZXNzID0KIAkJICAgIHNmYi0+ZHBfcmVncyArIDB4
-MDAwYzAwMDApOwotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============1492148106==
+Content-Type: multipart/alternative; boundary="15593992940.41bAA.12157"
+Content-Transfer-Encoding: 7bit
+
+
+--15593992940.41bAA.12157
+Date: Sat, 1 Jun 2019 14:28:14 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110807
+
+            Bug ID: 110807
+           Summary: Regression: artifacts in Chromium after mesa 19.0.5
+                    update
+           Product: Mesa
+           Version: 19.0
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: mezin.alexander@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 144403
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144403&action=3Dedit
+Artifacts in Chromium
+
+mesa 19.0.4: Chromium works fine
+mesa 19.0.5, 19.1.0-rc4 (haven't tested other 19.1 rcs yet): see attached
+screenshot
+
+Hardware: RX Vega 64 (Sapphire Nitro+)
+Distro: Arch Linux
+Kernel: 5.1.6, 4.19.47 - no difference
+X.org server 1.20.5, no difference between modesetting and amdgpu drivers
+chromium 74.0.3729.169
+
+Not sure if it's a hardware-specific problem or generic mesa issue
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15593992940.41bAA.12157
+Date: Sat, 1 Jun 2019 14:28:14 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: artifacts in Chromium after mesa 19.0.5 updat=
+e"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110807">110807</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Regression: artifacts in Chromium after mesa 19.0.5 update
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.0
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>mezin.alexander&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144403=
+" name=3D"attach_144403" title=3D"Artifacts in Chromium">attachment 144403<=
+/a> <a href=3D"attachment.cgi?id=3D144403&amp;action=3Dedit" title=3D"Artif=
+acts in Chromium">[details]</a></span>
+Artifacts in Chromium
+
+mesa 19.0.4: Chromium works fine
+mesa 19.0.5, 19.1.0-rc4 (haven't tested other 19.1 rcs yet): see attached
+screenshot
+
+Hardware: RX Vega 64 (Sapphire Nitro+)
+Distro: Arch Linux
+Kernel: 5.1.6, 4.19.47 - no difference
+X.org server 1.20.5, no difference between modesetting and amdgpu drivers
+chromium 74.0.3729.169
+
+Not sure if it's a hardware-specific problem or generic mesa issue</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15593992940.41bAA.12157--
+
+--===============1492148106==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1492148106==--
