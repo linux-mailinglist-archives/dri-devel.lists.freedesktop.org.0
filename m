@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC57931AD5
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 11:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FFB31B14
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Jun 2019 11:52:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1279B89807;
-	Sat,  1 Jun 2019 09:26:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4006E898BC;
+	Sat,  1 Jun 2019 09:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3A9AC897D4
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2019 09:26:36 +0000 (UTC)
-X-UUID: 3fdc10fb3388403a8519b8a6142017c9-20190601
-X-UUID: 3fdc10fb3388403a8519b8a6142017c9-20190601
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C989898C6
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Jun 2019 09:52:47 +0000 (UTC)
+X-UUID: 89a4df0d271742b38f24409b7d29a041-20190601
+X-UUID: 89a4df0d271742b38f24409b7d29a041-20190601
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
  (envelope-from <jitao.shi@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1653669255; Sat, 01 Jun 2019 17:26:32 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS33N2.mediatek.inc
- (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Sat, 1 Jun 2019 17:26:31 +0800
-Received: from mszsdclx1018.gcn.mediatek.inc (172.27.4.253) by
- MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
- 15.0.1395.4 via Frontend Transport; Sat, 1 Jun 2019 17:26:29 +0800
+ with ESMTP id 704681345; Sat, 01 Jun 2019 17:52:40 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33DR.mediatek.inc
+ (172.27.6.106) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+ Sat, 1 Jun 2019 17:52:39 +0800
+Received: from mszsdaap41.mediatek.inc (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Sat, 1 Jun 2019 17:52:37 +0800
 From: Jitao Shi <jitao.shi@mediatek.com>
 To: Rob Herring <robh+dt@kernel.org>, Pawel Moll <pawel.moll@arm.com>, Mark
  Rutland <mark.rutland@arm.com>, Ian Campbell <ijc+devicetree@hellion.org.uk>, 
  <linux-pwm@vger.kernel.org>, David Airlie <airlied@linux.ie>, Matthias
  Brugger <matthias.bgg@gmail.com>
-Subject: [v4 7/7] drm: mediatek: adjust dsi and mipi_tx probe sequence
-Date: Sat, 1 Jun 2019 17:26:15 +0800
-Message-ID: <20190601092615.67917-8-jitao.shi@mediatek.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190601092615.67917-1-jitao.shi@mediatek.com>
-References: <20190601092615.67917-1-jitao.shi@mediatek.com>
+Subject: [v4 0/3] Support mipitx for mt8183
+Date: Sat, 1 Jun 2019 17:52:32 +0800
+Message-ID: <20190601095235.9194-1-jitao.shi@mediatek.com>
+X-Mailer: git-send-email 2.12.5
 MIME-Version: 1.0
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -64,21 +62,28 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-bXRrX21pcGlfdHggaXMgdGhlIHBoeSBvZiBtdGtfZHNpLgptdGtfZHNpIGdldCB0aGUgcGh5KG10
-a19taXBpX3R4KSBpbiBwcm9iZSgpLgoKU28sICBtdGtfbWlwaV90eCBpbml0IHNob3VsZCBiZSBh
-aGVhZCBvZiBtdGtfZHNpLiBPciBtdGtfZHNpIHdpbGwKZGVmZXIgdG8gd2FpdCBtdGtfbWlwaV90
-eCBwcm9iZSBkb25lLgoKU2lnbmVkLW9mZi1ieTogSml0YW8gU2hpIDxqaXRhby5zaGlAbWVkaWF0
-ZWsuY29tPgpSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KLS0tCiBkcml2
-ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcm1fZHJ2LmMKaW5kZXggNTdjZTQ3MDhlZjFiLi5mYzgwOWE2MWZhYjkgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCkBAIC02NDAsOCArNjQwLDggQEAgc3RhdGljIHN0
-cnVjdCBwbGF0Zm9ybV9kcml2ZXIgKiBjb25zdCBtdGtfZHJtX2RyaXZlcnNbXSA9IHsKIAkmbXRr
-X2Rpc3BfcmRtYV9kcml2ZXIsCiAJJm10a19kcGlfZHJpdmVyLAogCSZtdGtfZHJtX3BsYXRmb3Jt
-X2RyaXZlciwKLQkmbXRrX2RzaV9kcml2ZXIsCiAJJm10a19taXBpX3R4X2RyaXZlciwKKwkmbXRr
-X2RzaV9kcml2ZXIsCiB9OwogCiBzdGF0aWMgaW50IF9faW5pdCBtdGtfZHJtX2luaXQodm9pZCkK
-LS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Q2hhbmdlcyBzaW5jZSB2MzoKIC0gdHVybiBvZmYgUExMIGJlZm9yZSBzZXR0aW5nIFBMTCBwYXJh
+bWV0ZXJzLgoKQ2hhbmdlcyBzaW5jZSB2MjoKIC0gdXBkYXRlIEFja2VkLWJ5OiBSb2IgSGVycmlu
+ZyA8cm9iaEBrZXJuZWwub3JnPgogLSB1cGRhdGUgbXQ4MTgzIG1heCBiaXQgcmF0ZSBzdXBwb3J0
+CgpDaGFuZ2VzIHNpbmNlIHYxOgogLSB1cGRhdGUgZHQtYmluZGluZ3MgZG9jdW1lbnQgZm9yIG10
+ODE4MyBtaXBpdHguCiAtIHJlbW92ZSBtdGtfbWlwaXR4X2Nsa19nZXRfb3BzIGFuZCBhc3NpZ24g
+Y2xrX29wcyBpbiBwcm9iZS4KIC0gZml4IHRoZSBsaW5jZW5jZQogLSByZW1vdmUgdHhkaXYxIGZy
+b20gbXRrX21pcGlfdHhfcGxsX3ByZXBhcmUKCkppdGFvIFNoaSAoMyk6CiAgZHQtYmluZGluZ3M6
+IGRpc3BsYXk6IG1lZGlhdGVrOiB1cGRhdGUgZHNpIHN1cHBvcnRlZCBjaGlwcwogIGRybS9tZWRp
+YXRlazogc2VwYXJhdGUgbWlwaV90eCB0byBkaWZmZXJlbnQgZmlsZQogIGRybS9tZWRpYXRlazog
+YWRkIG1pcGlfdHggZHJpdmVyIGZvciBtdDgxODMKCiAuLi4vYmluZGluZ3MvZGlzcGxheS9tZWRp
+YXRlay9tZWRpYXRlayxkc2kudHh0ICAgICB8ICAgMiArLQogZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL01ha2VmaWxlICAgICAgICAgICAgICAgICAgfCAgIDIgKwogZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19taXBpX3R4LmMgICAgICAgICAgICAgfCAzNDUgKystLS0tLS0tLS0tLS0tLS0t
+LS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX21pcGlfdHguaCAgICAgICAgICAgICB8
+ICA1MCArKysKIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfbXQ4MTczX21pcGlfdHguYyAg
+ICAgIHwgMjg5ICsrKysrKysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X210ODE4M19taXBpX3R4LmMgICAgICB8IDE2MiArKysrKysrKysrCiA2IGZpbGVzIGNoYW5nZWQs
+IDUzMCBpbnNlcnRpb25zKCspLCAzMjAgZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQg
+ZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19taXBpX3R4LmgKIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX210ODE3M19taXBpX3R4LmMKIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX210ODE4M19taXBpX3R4LmMK
+Ci0tIAoyLjEyLjUKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
