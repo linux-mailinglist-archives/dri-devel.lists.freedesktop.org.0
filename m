@@ -2,44 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36BA32328
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2019 13:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5592323A6
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2019 17:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB0C189240;
-	Sun,  2 Jun 2019 11:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA23896E9;
+	Sun,  2 Jun 2019 15:01:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3DD2889240
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2019 11:35:45 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3A8A172167; Sun,  2 Jun 2019 11:35:45 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110813] Vega hung on Surviving Mars game
-Date: Sun, 02 Jun 2019 11:35:45 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stalkerg@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact attachments.created
-Message-ID: <bug-110813-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAD0893D5;
+ Sun,  2 Jun 2019 12:07:43 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id z3so6633395pgp.8;
+ Sun, 02 Jun 2019 05:07:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qX3ghjlw/x61cEZZaOOANDltXvTi7Um5dbpJ/suOwPo=;
+ b=WD6bTpH5bzNgjIWK8I9w0C2dvS04XFMsKcwqc/JYXJGG6wpn55lGUh1Zjejlvt9YcK
+ Bh/tFeNWZMTbMffiU9IkH13gIS9p9MSMojKj7epG9WhdFGhAlzt5UbXIIQOJiYawzDy2
+ hr8A3U6YlMDMHo6ACbm3Cw3JLKxGvXa22NLGCYps/O51JOTjfWUlsbR4vCfFcS1SpB3Z
+ UQLA1EF7h90ymOSLZnqEQ7UodWb+T37BSFng8LUgETxxnUiY8ubyRDGy2K1HuW3YCCwk
+ 8sVH+ESW3/KN8MJEmtVUcZSS81Zs/DdFYjsVb9xQHkYORjij3+0ReZ9/OJcaVfHaILiq
+ Sd8w==
+X-Gm-Message-State: APjAAAUZ1ZGKEFBudhGAWAI6IFn4+HT2AFgz0aOuc/AfkUoFFuBPLUi2
+ TBGqiQD2HWfdUINDdY750E8=
+X-Google-Smtp-Source: APXvYqzm2wJW1+YOTI30uFW4t5o4z2n5SL6LKrDTNG9aLkdwk+rTGDGuQD+/ySgk9af0E2r2tIFxaQ==
+X-Received: by 2002:a65:5684:: with SMTP id v4mr21788486pgs.160.1559477262974; 
+ Sun, 02 Jun 2019 05:07:42 -0700 (PDT)
+Received: from localhost.localdomain
+ (119-18-21-111.771215.syd.nbn.aussiebb.net. [119.18.21.111])
+ by smtp.gmail.com with ESMTPSA id x28sm13668510pfo.78.2019.06.02.05.07.37
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 02 Jun 2019 05:07:42 -0700 (PDT)
+From: Rhys Kidd <rhyskidd@gmail.com>
+To: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: [PATCH] drm/nouveau/bios: downgrade absence of tmds table to info
+ from an error
+Date: Sun,  2 Jun 2019 22:07:27 +1000
+Message-Id: <20190602120727.4001-1-rhyskidd@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Approved-At: Sun, 02 Jun 2019 15:00:55 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qX3ghjlw/x61cEZZaOOANDltXvTi7Um5dbpJ/suOwPo=;
+ b=bNugs5VlHZPS4tZ2VPhAX09sWOYYGdVuKnoOLgjmuOdLsm6J2zmLxYDwlanH7ezVMX
+ d2ATyFvXAdfIBBL6pukfNrxawsTimGZkOnAmr5ngT8EYiWM5dxN7k8zNSXF0Dy36kR7L
+ wix5aoCXP8t/SU7WdSrKg+rh3m1faTCtS8lKiNImTIVDdYjx2H2H+zanoOTMeYX2PqTg
+ anwfOhV9UyQXvaQgrAb/Tn2OvnA+h3n4TVnIeiA+KpLEp6YRiSS0Eu5EU5RAmZwG9/Zx
+ DFR2lpvve+CAN+uS+nylIbCd027VJipl/LxoU9XaYMscmqttlwS/bqWpj6xTykrljg/g
+ eVdg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,199 +72,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1460660762=="
+Cc: Rhys Kidd <rhyskidd@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1460660762==
-Content-Type: multipart/alternative; boundary="15594753451.BeC6E.4320"
-Content-Transfer-Encoding: 7bit
-
-
---15594753451.BeC6E.4320
-Date: Sun, 2 Jun 2019 11:35:45 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110813
-
-            Bug ID: 110813
-           Summary: Vega hung on Surviving Mars game
-           Product: Mesa
-           Version: git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: stalkerg@gmail.com
-        QA Contact: dri-devel@lists.freedesktop.org
-
-Created attachment 144414
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144414&action=3Dedit
-kernel log
-
-It happens every time after +-20 min of the gaming. (I have already many it=
-ems
-on the map)
-it's happened last few months after update to kernel 5.0.
-
-Kernel - 5.1.6-gentoo
-GPU - Vega56
-from glxinfo:
-Radeon RX Vega (VEGA10, DRM 3.30.0, 5.1.6-gentoo, LLVM 9.0.0)
-Mesa 19.2.0-devel (git-47a10edefb)
-
-
-Call trace and error log in attachment.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15594753451.BeC6E.4320
-Date: Sun, 2 Jun 2019 11:35:45 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Vega hung on Surviving Mars game"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110813">110813</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Vega hung on Surviving Mars game
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>stalkerg&#64;gmail.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144414=
-" name=3D"attach_144414" title=3D"kernel log">attachment 144414</a> <a href=
-=3D"attachment.cgi?id=3D144414&amp;action=3Dedit" title=3D"kernel log">[det=
-ails]</a></span>
-kernel log
-
-It happens every time after +-20 min of the gaming. (I have already many it=
-ems
-on the map)
-it's happened last few months after update to kernel 5.0.
-
-Kernel - 5.1.6-gentoo
-GPU - Vega56
-from glxinfo:
-Radeon RX Vega (VEGA10, DRM 3.30.0, 5.1.6-gentoo, LLVM 9.0.0)
-Mesa 19.2.0-devel (git-47a10edefb)
-
-
-Call trace and error log in attachment.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15594753451.BeC6E.4320--
-
---===============1460660762==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1460660762==--
+QWJzZW5jZSBvZiBhIFRNRFMgSW5mbyBUYWJsZSBpcyBjb21tb24gb24gT3B0aW11cyBzZXR1cHMg
+d2hlcmUgdGhlIE5WSURJQQpncHUgaXMgbm90IGNvbm5lY3RlZCBkaXJlY3RseSB0byBhbnkgb3V0
+cHV0cy4KClJlcG9ydGluZyBhbiBlcnJvciBpbiB0aGlzIHNjZW5hcmlvIGlzIHRvbyBoYXJzaC4g
+QWNjb3JkaW5nbHksIGNoYW5nZSB0aGUKZXJyb3IgbWVzc2FnZSB0byBhbiBpbmZvIG1lc3NhZ2Uu
+CgpCeSBkZWZhdWx0IHRoZSBlcnJvciBtZXNzYWdlIGFsc28gY2F1c2VzIGEgYm9vdCBmbGlja2Vy
+IGZvciB0aGVzZSBzeXRlbXMuCgpTaWduZWQtb2ZmLWJ5OiBSaHlzIEtpZGQgPHJoeXNraWRkQGdt
+YWlsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Jpb3MuYyB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYmlvcy5jIGIvZHJpdmVycy9n
+cHUvZHJtL25vdXZlYXUvbm91dmVhdV9iaW9zLmMKaW5kZXggNjZiZjJhZmY0YTNlLi5iZGZhZGM2
+MzIwNGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYmlvcy5j
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYmlvcy5jCkBAIC05MzUsNyAr
+OTM1LDcgQEAgc3RhdGljIGludCBwYXJzZV9iaXRfdG1kc190YmxfZW50cnkoc3RydWN0IGRybV9k
+ZXZpY2UgKmRldiwgc3RydWN0IG52YmlvcyAqYmlvcywKIAogCXRtZHN0YWJsZXB0ciA9IFJPTTE2
+KGJpb3MtPmRhdGFbYml0ZW50cnktPm9mZnNldF0pOwogCWlmICghdG1kc3RhYmxlcHRyKSB7Ci0J
+CU5WX0VSUk9SKGRybSwgIlBvaW50ZXIgdG8gVE1EUyB0YWJsZSBpbnZhbGlkXG4iKTsKKwkJTlZf
+SU5GTyhkcm0sICJQb2ludGVyIHRvIFRNRFMgdGFibGUgbm90IGZvdW5kXG4iKTsKIAkJcmV0dXJu
+IC1FSU5WQUw7CiAJfQogCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
