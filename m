@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B925322D7
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2019 11:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D845322DA
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Jun 2019 11:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 931A88930E;
-	Sun,  2 Jun 2019 09:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156A88968D;
+	Sun,  2 Jun 2019 09:51:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA008930E
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2019 09:50:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7B4189688
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2019 09:51:32 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 78EC82877B
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2019 09:50:34 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id B0B8F28C13
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Jun 2019 09:51:32 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 584E328806; Sun,  2 Jun 2019 09:50:34 +0000 (UTC)
+ id 9325627F8E; Sun,  2 Jun 2019 09:51:32 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=ham version=3.3.1
+ NO_RELAYS autolearn=unavailable version=3.3.1
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203781] New: AMDGPU Radeon VII crashes with dual monitors
-Date: Sun, 02 Jun 2019 09:50:33 +0000
+Subject: [Bug 203781] AMDGPU Radeon VII crashes with dual monitors
+Date: Sun, 02 Jun 2019 09:51:32 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -41,10 +41,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-203781-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-203781-2300-cCB9NvC6o5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203781-2300@https.bugzilla.kernel.org/>
+References: <bug-203781-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -66,24 +66,12 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM3ODEKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjAzNzgxCiAgICAgICAgICAgU3VtbWFyeTogQU1ER1BVIFJhZGVvbiBW
-SUkgY3Jhc2hlcyB3aXRoIGR1YWwgbW9uaXRvcnMKICAgICAgICAgICBQcm9kdWN0OiBEcml2ZXJz
-CiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4yLjAtcmMyLCA1
-LjEueAogICAgICAgICAgSGFyZHdhcmU6IHg4Ni02NAogICAgICAgICAgICAgICAgT1M6IExpbnV4
-CiAgICAgICAgICAgICAgVHJlZTogTWFpbmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAg
-ICAgICAgIFNldmVyaXR5OiBibG9ja2luZwogICAgICAgICAgUHJpb3JpdHk6IFAxCiAgICAgICAg
-IENvbXBvbmVudDogVmlkZW8oRFJJIC0gbm9uIEludGVsKQogICAgICAgICAgQXNzaWduZWU6IGRy
-aXZlcnNfdmlkZW8tZHJpQGtlcm5lbC1idWdzLm9zZGwub3JnCiAgICAgICAgICBSZXBvcnRlcjog
-c2VoZWxsaW9uQGdtYWlsLmNvbQogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFj
-aG1lbnQgMjgzMDMzCiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50
-LmNnaT9pZD0yODMwMzMmYWN0aW9uPWVkaXQKZG1lc2cgd2l0aCB0d28gbW9uaXRvcnMKClN5c3Rl
-bSBpbmZvcm1hdGlvbjoKTWFpbmxpbmUga2VybmVsIDUuMi4wLXJjMgpNZXNhIDE5LjEuMF9yYzQK
-Q2FyZCBSYWRlb24gVklJCk1vbml0b3JzIExHIDI0VUQ1OC1CIHZpYSBEUAoKV2hlbiB1c2luZyBv
-bmx5IG9uZSBtb25pdG9yLCB0aGVuIGV2ZXJ5dGhpbmcgd29ya3MgZmluZS4gQnV0IHdoZW4gdXNp
-bmcgdHdvLAp0aGUgc3lzdGVtIHN0YXJ0cyB0byBoYW5nIGFuZCB0cnkgcmVzZXQgZ3B1LgoKLS0g
-CllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRo
-ZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM3ODEKCi0tLSBD
+b21tZW50ICMxIGZyb20gc2VoZWxsaW9uQGdtYWlsLmNvbSAtLS0KQ3JlYXRlZCBhdHRhY2htZW50
+IDI4MzAzNQogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/
+aWQ9MjgzMDM1JmFjdGlvbj1lZGl0CmRtZXNnIHdpdGggb25lIG1vbml0b3IgLSBhbGwgZmluZQoK
+LS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5n
+IHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
