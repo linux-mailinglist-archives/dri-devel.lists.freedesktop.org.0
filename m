@@ -1,37 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453CF32D67
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 12:03:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D476F32D96
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 12:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E3A8891E3;
-	Mon,  3 Jun 2019 10:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA92891FF;
+	Mon,  3 Jun 2019 10:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50D4A891FF;
- Mon,  3 Jun 2019 10:03:48 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2019 03:03:47 -0700
-Received: from jkrzyszt-desk.ger.corp.intel.com ([172.22.244.18])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 03 Jun 2019 03:03:45 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC PATCH 1/1] drm/i915: Split off pci_driver.remove() tail to
- drm_driver.release()
-Date: Mon, 03 Jun 2019 12:03:39 +0200
-Message-ID: <2282457.v6vtYRPrDg@jkrzyszt-desk.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20190603072818.GA21222@phenom.ffwll.local>
-References: <20190530092426.23880-1-janusz.krzysztofik@linux.intel.com>
- <155920920944.2224.169121808439828849@skylake-alporthouse-com>
- <20190603072818.GA21222@phenom.ffwll.local>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1F37A89217
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 10:11:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1BC4572167; Mon,  3 Jun 2019 10:11:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Mon, 03 Jun 2019 10:11:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-mpSLKF0SO3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -45,134 +53,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0461135363=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uZGF5LCBKdW5lIDMsIDIwMTkgOToyODoxOCBBTSBDRVNUIERhbmllbCBWZXR0ZXIgd3Jv
-dGU6Cj4gT24gVGh1LCBNYXkgMzAsIDIwMTkgYXQgMTA6NDA6MDlBTSArMDEwMCwgQ2hyaXMgV2ls
-c29uIHdyb3RlOgo+ID4gUXVvdGluZyBKYW51c3ogS3J6eXN6dG9maWsgKDIwMTktMDUtMzAgMTA6
-MjQ6MjYpCj4gPiA+IEluIG9yZGVyIHRvIHN1cHBvcnQgZHJpdmVyIGhvdCB1bmJpbmQsIHNvbWUg
-Y2xlYW51cCBvcGVyYXRpb25zLCBub3cKPiA+ID4gcGVyZm9ybWVkIG9uIFBDSSBkcml2ZXIgcmVt
-b3ZlLCBtdXN0IGJlIGNhbGxlZCBsYXRlciwgYWZ0ZXIgYWxsIGRldmljZQo+ID4gPiBmaWxlIGRl
-c2NyaXB0b3JzIGFyZSBjbG9zZWQuCj4gPiA+IAo+ID4gPiBTcGxpdCBvdXQgdGhvc2Ugb3BlcmF0
-aW9ucyBmcm9tIHRoZSB0YWlsIG9mIHBjaV9kcml2ZXIucmVtb3ZlKCkKPiA+ID4gY2FsbGJhY2sg
-YW5kIHB1dCB0aGVtIGludG8gZHJtX2RyaXZlci5yZWxlYXNlKCkgd2hpY2ggaXMgY2FsbGVkIGFz
-IHNvb24KPiA+ID4gYXMgYWxsIHJlZmVyZW5jZXMgdG8gdGhlIGRyaXZlciBhcmUgcHV0LiAgQXMg
-YSByZXN1bHQsIHRob3NlIGNsZWFudXBzCj4gPiA+IHdpbGwgYmUgbm93IHJ1biBvbiBsYXN0IGRy
-bV9kZXZfcHV0KCksIGVpdGhlciBzdGlsbCBjYWxsZWQgZnJvbQo+ID4gPiBwY2lfZHJpdmVyLnJl
-bW92ZSgpIGlmIGFsbCBkZXZpY2UgZmlsZSBkZXNjcmlwdG9ycyBhcmUgYWxyZWFkeSBjbG9zZWQs
-Cj4gPiA+IG9yIG9uIGxhc3QgZHJtX3JlbGVhc2UoKSBmaWxlIG9wZXJhdGlvbi4KPiA+ID4gCj4g
-PiA+IFNpZ25lZC1vZmYtYnk6IEphbnVzeiBLcnp5c3p0b2ZpayA8amFudXN6LmtyenlzenRvZmlr
-QGxpbnV4LmludGVsLmNvbT4KPiA+ID4gLS0tCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
-OTE1X2Rydi5jIHwgMTcgKysrKysrKysrKysrKy0tLS0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2k5MTVfZHJ2LmggfCAgMSArCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dl
-bS5jIHwgMTAgKysrKysrKysrLQo+ID4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAyMyBpbnNlcnRpb25z
-KCspLCA1IGRlbGV0aW9ucygtKQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2k5MTVfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS8KaTkxNV9kcnYuYwo+
-ID4gPiBpbmRleCA4M2QyZWI5ZTc0Y2IuLjhiZTY5Zjg0ZWI2ZCAxMDA2NDQKPiA+ID4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9k
-cm0vaTkxNS9pOTE1X2Rydi5jCj4gPiA+IEBAIC03MzgsNiArNzM4LDcgQEAgc3RhdGljIGludCBp
-OTE1X2xvYWRfbW9kZXNldF9pbml0KHN0cnVjdCBkcm1fZGV2aWNlIAoqZGV2KQo+ID4gPiAgCj4g
-PiA+ICBjbGVhbnVwX2dlbToKPiA+ID4gICAgICAgICBpOTE1X2dlbV9zdXNwZW5kKGRldl9wcml2
-KTsKPiA+ID4gKyAgICAgICBpOTE1X2dlbV9maW5pX2h3KGRldl9wcml2KTsKPiA+ID4gICAgICAg
-ICBpOTE1X2dlbV9maW5pKGRldl9wcml2KTsKPiA+ID4gIGNsZWFudXBfbW9kZXNldDoKPiA+ID4g
-ICAgICAgICBpbnRlbF9tb2Rlc2V0X2NsZWFudXAoZGV2KTsKPiA+ID4gQEAgLTE2ODUsNyArMTY4
-Niw2IEBAIHN0YXRpYyB2b2lkIGk5MTVfZHJpdmVyX2NsZWFudXBfaHcoc3RydWN0IApkcm1faTkx
-NV9wcml2YXRlICpkZXZfcHJpdikKPiA+ID4gICAgICAgICAgICAgICAgIHBjaV9kaXNhYmxlX21z
-aShwZGV2KTsKPiA+ID4gIAo+ID4gPiAgICAgICAgIHBtX3Fvc19yZW1vdmVfcmVxdWVzdCgmZGV2
-X3ByaXYtPnBtX3Fvcyk7Cj4gPiA+IC0gICAgICAgaTkxNV9nZ3R0X2NsZWFudXBfaHcoZGV2X3By
-aXYpOwo+ID4gPiAgfQo+ID4gPiAgCj4gPiA+ICAvKioKPiA+ID4gQEAgLTE5MDksNiArMTkwOSw3
-IEBAIGludCBpOTE1X2RyaXZlcl9sb2FkKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCAKc3Ry
-dWN0IHBjaV9kZXZpY2VfaWQgKmVudCkKPiA+IAo+ID4gV291bGQgaXQgbWFrZSBzZW5zZSB0byBy
-ZW5hbWUgbG9hZC91bmxvYWQgZnJvbSB0aGUgbGVnYWN5IGRybSBzdHVicyBvdmVyCj4gPiB0byBt
-YXRjaCB0aGUgcGNpIGVudHJ5IHBvaW50cz8KPiAKPiArMSBvbiB0aGF0IHJlbmFtZSwgbG9hZC91
-bmxvYWQgaXMgcmVhbGx5IHRlcnJpYmx5IGNvbmZ1c2luZyBhbmQgaGFzCj4gaG9ycmlibGUgc2Vt
-YW50aWNzIGluIHRoZSBkcmkxIHNoYWRvdyBhdHRhY2ggd29ybGQgLi4uCj4gLURhbmllbAoKSSd2
-ZSBub3QgcmVzcG9uZGVkIHRvIHRoYXQgY29tbWVudCwgc29ycnksIGJ1dCBJIGFncmVlIHRvby4g
-IEkndmUgYXNzdW1lZCAKdGhhdCdzIGEgY2FuZGlkYXRlIGZvciBhIHNlcGFyYXRlIHBhdGNoIG9y
-IHNlcmllcy4gIEknbSB3aWxsaW5nIHRvIHdvcmsgb24gCnRoYXQgYXMgdGltZSBwZXJtaXRzLgoK
-VGhhbmtzLApKYW51c3oKCj4gPiAKPiA+ID4gIG91dF9jbGVhbnVwX2h3Ogo+ID4gPiAgICAgICAg
-IGk5MTVfZHJpdmVyX2NsZWFudXBfaHcoZGV2X3ByaXYpOwo+ID4gPiArICAgICAgIGk5MTVfZ2d0
-dF9jbGVhbnVwX2h3KGRldl9wcml2KTsKPiA+ID4gIG91dF9jbGVhbnVwX21taW86Cj4gPiA+ICAg
-ICAgICAgaTkxNV9kcml2ZXJfY2xlYW51cF9tbWlvKGRldl9wcml2KTsKPiA+ID4gIG91dF9ydW50
-aW1lX3BtX3B1dDoKPiA+ID4gQEAgLTE5NjAsMjEgKzE5NjEsMjkgQEAgdm9pZCBpOTE1X2RyaXZl
-cl91bmxvYWQoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiA+ID4gICAgICAgICBjYW5jZWxfZGVs
-YXllZF93b3JrX3N5bmMoJmRldl9wcml2LT5ncHVfZXJyb3IuaGFuZ2NoZWNrX3dvcmspOwo+ID4g
-PiAgICAgICAgIGk5MTVfcmVzZXRfZXJyb3Jfc3RhdGUoZGV2X3ByaXYpOwo+ID4gPiAgCj4gPiA+
-IC0gICAgICAgaTkxNV9nZW1fZmluaShkZXZfcHJpdik7Cj4gPiA+ICsgICAgICAgaTkxNV9nZW1f
-ZmluaV9odyhkZXZfcHJpdik7Cj4gPiA+ICAKPiA+ID4gICAgICAgICBpbnRlbF9wb3dlcl9kb21h
-aW5zX2ZpbmlfaHcoZGV2X3ByaXYpOwo+ID4gPiAgCj4gPiA+ICAgICAgICAgaTkxNV9kcml2ZXJf
-Y2xlYW51cF9odyhkZXZfcHJpdik7Cj4gPiA+IC0gICAgICAgaTkxNV9kcml2ZXJfY2xlYW51cF9t
-bWlvKGRldl9wcml2KTsKPiA+ID4gIAo+ID4gPiAgICAgICAgIGVuYWJsZV9ycG1fd2FrZXJlZl9h
-c3NlcnRzKGRldl9wcml2KTsKPiA+ID4gLSAgICAgICBpbnRlbF9ydW50aW1lX3BtX2NsZWFudXAo
-ZGV2X3ByaXYpOwo+ID4gPiAgfQo+ID4gPiAgCj4gPiA+ICBzdGF0aWMgdm9pZCBpOTE1X2RyaXZl
-cl9yZWxlYXNlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4gPiA+ICB7Cj4gPiA+ICAgICAgICAg
-c3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShkZXYpOwo+ID4gPiAg
-Cj4gPiA+ICsgICAgICAgZGlzYWJsZV9ycG1fd2FrZXJlZl9hc3NlcnRzKGRldl9wcml2KTsKPiA+
-ID4gKwo+ID4gPiArICAgICAgIGk5MTVfZ2VtX2ZpbmkoZGV2X3ByaXYpOwo+ID4gPiArCj4gPiA+
-ICsgICAgICAgaTkxNV9nZ3R0X2NsZWFudXBfaHcoZGV2X3ByaXYpOwo+ID4gPiArICAgICAgIGk5
-MTVfZHJpdmVyX2NsZWFudXBfbW1pbyhkZXZfcHJpdik7Cj4gPiA+ICsKPiA+ID4gKyAgICAgICBl
-bmFibGVfcnBtX3dha2VyZWZfYXNzZXJ0cyhkZXZfcHJpdik7Cj4gPiA+ICsgICAgICAgaW50ZWxf
-cnVudGltZV9wbV9jbGVhbnVwKGRldl9wcml2KTsKPiA+IAo+ID4gV2Ugc2hvdWxkIHJlYWxseSBw
-cm9wYWdhdGUgdGhlIHJlbGVhc2Ugbm9tZW5jbGF0dXJlIGRvd24gYW5kIHJlcGxhY2Ugb3VyCj4g
-PiBtaXhlZCBmaW5pL2NsZWFudXAuIENvbnNpc3RlbmN5IGlzIGhlbHBmdWwgd2hlbiB0cnlpbmcg
-dG8gd29yayBvdXQgd2hpY2gKPiA+IHBoYXNlIHRoZSBjb2RlIGlzIGluLgo+ID4gCj4gPiA+ICAg
-ICAgICAgaTkxNV9kcml2ZXJfY2xlYW51cF9lYXJseShkZXZfcHJpdik7Cj4gPiA+ICAgICAgICAg
-aTkxNV9kcml2ZXJfZGVzdHJveShkZXZfcHJpdik7Cj4gPiA+ICB9Cj4gPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Cmk5MTVfZHJ2LmgKPiA+ID4gaW5kZXggYTI2NjRlYTEzOTViLi5kMDhlN2JkODM1NDQgMTAwNjQ0
-Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2LmgKPiA+ID4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaAo+ID4gPiBAQCAtMzA0Nyw2ICszMDQ3LDcg
-QEAgdm9pZCBpOTE1X2dlbV9pbml0X21taW8oc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgCippOTE1
-KTsKPiA+ID4gIGludCBfX211c3RfY2hlY2sgaTkxNV9nZW1faW5pdChzdHJ1Y3QgZHJtX2k5MTVf
-cHJpdmF0ZSAqZGV2X3ByaXYpOwo+ID4gPiAgaW50IF9fbXVzdF9jaGVjayBpOTE1X2dlbV9pbml0
-X2h3KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdik7Cj4gPiA+ICB2b2lkIGk5MTVf
-Z2VtX2luaXRfc3dpenpsaW5nKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdik7Cj4g
-PiA+ICt2b2lkIGk5MTVfZ2VtX2ZpbmlfaHcoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9w
-cml2KTsKPiA+ID4gIHZvaWQgaTkxNV9nZW1fZmluaShzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAq
-ZGV2X3ByaXYpOwo+ID4gPiAgaW50IGk5MTVfZ2VtX3dhaXRfZm9yX2lkbGUoc3RydWN0IGRybV9p
-OTE1X3ByaXZhdGUgKmRldl9wcml2LAo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICB1
-bnNpZ25lZCBpbnQgZmxhZ3MsIGxvbmcgdGltZW91dCk7Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvCmk5MTVf
-Z2VtLmMKPiA+ID4gaW5kZXggN2NhZmQ1NjEyZjcxLi5jNmE4ZTY2NWE2YmEgMTAwNjQ0Cj4gPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZ2VtLmMKPiA+ID4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9nZW0uYwo+ID4gPiBAQCAtNDY2Nyw3ICs0NjY3LDcgQEAgaW50
-IGk5MTVfZ2VtX2luaXQoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgCipkZXZfcHJpdikKPiA+ID4g
-ICAgICAgICByZXR1cm4gcmV0Owo+ID4gPiAgfQo+ID4gPiAgCj4gPiA+IC12b2lkIGk5MTVfZ2Vt
-X2Zpbmkoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2KQo+ID4gPiArdm9pZCBpOTE1
-X2dlbV9maW5pX2h3KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikKPiA+ID4gIHsK
-PiA+ID4gICAgICAgICBHRU1fQlVHX09OKGRldl9wcml2LT5ndC5hd2FrZSk7Cj4gPiA+ICAKPiA+
-ID4gQEAgLTQ2ODEsNiArNDY4MSwxNCBAQCB2b2lkIGk5MTVfZ2VtX2Zpbmkoc3RydWN0IGRybV9p
-OTE1X3ByaXZhdGUgCipkZXZfcHJpdikKPiA+ID4gICAgICAgICBpbnRlbF91Y19maW5pX2h3KGRl
-dl9wcml2KTsKPiA+ID4gICAgICAgICBpbnRlbF91Y19maW5pKGRldl9wcml2KTsKPiA+IAo+ID4g
-PiAgICAgICAgIGludGVsX2VuZ2luZXNfY2xlYW51cChkZXZfcHJpdik7Cj4gPiAKPiA+IGludGVs
-X2VuZ2luZXNfY2xlYW51cCAtPiBpOTE1X2dlbV9maW5pIC0tIHRoYXQgaXMgaW4gcHJpbmNpcGxl
-IGp1c3QKPiA+IGZyZWVpbmcgc3RydWN0cy4gT25lIHNpZGUgZWZmZWN0IGl0IGRvZXMgaGF2ZSBp
-cyB0byBtYWtlIGFsbCBlbmdpbmVzCj4gPiB1bmF2YWlsYWJsZSAoYnV0IGl0IGRvZXNuJ3QgdXBk
-YXRlIHRoZSBlbmdpbmVfbWFzayBzbyB0aGUgaW5jb25zaXN0ZW5jeQo+ID4gbWlnaHQgY2F0Y2gg
-dXMgb3V0IGlmIGl0IGlzIG5vdCBvbmUgb2YgdGhlIGxhc3QgY2xlYW51cCBhY3Rpb25zKS4KPiA+
-IAo+ID4gaW50ZWxfdWNfZmluaSgpIGlzIGEgYml0IG9mIGEgbWl4ZWQgYmFnLiBJdCBsb29rcyBs
-aWtlIGl0IGZsdXNoZXMKPiA+IHJ1bnRpbWUgc3RhdGUsIHNvIHByZWZlcnJhYmx5IHRoYXQgZmx1
-c2ggc2hvdWxkIGJlIG1vdmVkIHRvIHRoZSAKPiA+IF9maW5pX2h3IHNvIHRoYXQgX2ZpbmkgaXMg
-cHVyZSBjbGVhbnVwLiBTbyBmb3IgdGhlIHRpbWUgYmVpbmcsIGJlc3QgdG8KPiA+IGxlYXZlIGlu
-dGVsX3VjX2ZpbmkoKSBoZXJlLgo+ID4gCj4gPiA+ICsgICAgICAgbXV0ZXhfdW5sb2NrKCZkZXZf
-cHJpdi0+ZHJtLnN0cnVjdF9tdXRleCk7Cj4gPiA+ICsKPiA+ID4gKyAgICAgICBpOTE1X2dlbV9k
-cmFpbl9mcmVlZF9vYmplY3RzKGRldl9wcml2KTsKPiA+ID4gK30KPiA+ID4gKwo+ID4gPiArdm9p
-ZCBpOTE1X2dlbV9maW5pKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikKPiA+ID4g
-K3sKPiA+ID4gKyAgICAgICBtdXRleF9sb2NrKCZkZXZfcHJpdi0+ZHJtLnN0cnVjdF9tdXRleCk7
-Cj4gPiA+ICAgICAgICAgaTkxNV9nZW1fY29udGV4dHNfZmluaShkZXZfcHJpdik7Cj4gPiA+ICAg
-ICAgICAgaTkxNV9nZW1fZmluaV9zY3JhdGNoKGRldl9wcml2KTsKPiA+ID4gICAgICAgICBtdXRl
-eF91bmxvY2soJmRldl9wcml2LT5kcm0uc3RydWN0X211dGV4KTsKPiA+IAo+ID4gVGhhdCBzcGxp
-dCBsb29rcyBzZW5zaWJsZSB0byBtZSwgd2l0aCB0aGUgY29uc2lkZXJhdGlvbiBhcyB0byB3aGV0
-aGVyCj4gPiBkZWZlciBpbnRlbF9lbmdpbmVzX2NsZWFudXAoKSBhcyB3ZWxsLAo+ID4gUmV2aWV3
-ZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+ID4gLUNocmlz
-Cj4gCj4gCgoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0461135363==
+Content-Type: multipart/alternative; boundary="15595566950.260D5fdDE.1377"
+Content-Transfer-Encoding: 7bit
+
+
+--15595566950.260D5fdDE.1377
+Date: Mon, 3 Jun 2019 10:11:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+
+--- Comment #11 from Richard Thier <u9vata@gmail.com> ---
+Slowdown cause is found when bisecting:
+
+8b3a257851905ff444d981e52938cbf2b36ba830 is the first bad commit
+commit 8b3a257851905ff444d981e52938cbf2b36ba830
+Author: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+Date:   Tue Jul 18 16:08:44 2017 -0400
+
+    radeonsi: set a per-buffer flag that disables inter-process sharing (v4)
+
+    For lower overhead in the CS ioctl.
+    Winsys allocators are not used with interprocess-sharable resources.
+
+    v2: It shouldn't crash anymore, but the kernel will reject the new flag.
+    v3 (christian): Rename the flag, avoid sending those buffers in the BO
+list.
+    v4 (christian): Remove setting the kernel flag for now
+
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15595566950.260D5fdDE.1377
+Date: Mon, 3 Jun 2019 10:11:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c11">Comme=
+nt # 11</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>Slowdown cause is found when bisecting:
+
+8b3a257851905ff444d981e52938cbf2b36ba830 is the first bad commit
+commit 8b3a257851905ff444d981e52938cbf2b36ba830
+Author: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#64;amd.com=
+">marek.olsak&#64;amd.com</a>&gt;
+Date:   Tue Jul 18 16:08:44 2017 -0400
+
+    radeonsi: set a per-buffer flag that disables inter-process sharing (v4)
+
+    For lower overhead in the CS ioctl.
+    Winsys allocators are not used with interprocess-sharable resources.
+
+    v2: It shouldn't crash anymore, but the kernel will reject the new flag.
+    v3 (christian): Rename the flag, avoid sending those buffers in the BO
+list.
+    v4 (christian): Remove setting the kernel flag for now
+
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
+4;amd.com">marek.olsak&#64;amd.com</a>&gt;</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15595566950.260D5fdDE.1377--
+
+--===============0461135363==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0461135363==--
