@@ -1,53 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0969E333AB
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 17:36:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2EA1333CC
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 17:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24CB28928F;
-	Mon,  3 Jun 2019 15:36:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33CD38919D;
+	Mon,  3 Jun 2019 15:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com
- [IPv6:2607:f8b0:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39A348928F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 15:36:43 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id i2so15469943otr.9
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2019 08:36:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ysk87hK/RndHDoFsMlKY9s0HoBw2vJNWH9Bdud9a6w4=;
- b=AFDeh6tnWAvCMz3OwZkY76RC70gWMTkI4zs1ms7Vjiecco3i5I60Y3Uel50k+RY/qV
- fM9PwWoUSPkB4lvFXr/0I02Qo8HAnxZBAbswAy7UJVCW1OQU/Ea+oQhjxiyCPZl47BcA
- o8oHf/B3wqBcJ1oqz29YCBIQ8TC1NvzbnQYUnn9y1T1OpNc2Fcoe1OMzQ3jAI7gm+fFI
- 8wu5ZCn2l86crZ1ooHn71+0C82LMNYs/kp9VUqNoamk3HhD02vShKTCG0BqnoPVtZLUV
- mO2vSYMopWyN4TZLm618oDwM9I+8ocQtbwcjgoAgSJQcK3tF3yvaria4WqgaWvgyezAf
- xUEw==
-X-Gm-Message-State: APjAAAVoyXG+85XHFnA1UqcUoXIGJ3MZ2QpDhnERI3xUp95okqiGXzY8
- 6Ykd0GAf114s1VuI8WW+mK9DoUCTZn84cKiQR4idOg==
-X-Google-Smtp-Source: APXvYqz4BRPWmmmpZSzl05SYzwwCun8nLt4YQkgo2iRficS4kkIeKWNc+yWJo0clnqo9vFk274yXNp4AVBdmVGKPy/g=
-X-Received: by 2002:a05:6830:4b:: with SMTP id
- d11mr1573630otp.106.1559576170901; 
- Mon, 03 Jun 2019 08:36:10 -0700 (PDT)
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C475A8919D
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 15:43:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 377C110A1128;
+ Mon,  3 Jun 2019 08:43:38 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id vPop5WYHdg61; Mon,  3 Jun 2019 08:43:36 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id AAF0210A1AEB;
+ Mon,  3 Jun 2019 08:43:36 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id C02692FE3AAE; Mon,  3 Jun 2019 08:43:35 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/gem_shmem: Use a writecombine mapping for ->vaddr
+In-Reply-To: <20190603072133.GY21222@phenom.ffwll.local>
+References: <20190529065121.13485-1-boris.brezillon@collabora.com>
+ <87woi6wrrh.fsf@anholt.net> <20190603072133.GY21222@phenom.ffwll.local>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Mon, 03 Jun 2019 08:43:33 -0700
+Message-ID: <871s0aznbu.fsf@anholt.net>
 MIME-Version: 1.0
-References: <20190529220944.14464-1-alexander.deucher@amd.com>
-In-Reply-To: <20190529220944.14464-1-alexander.deucher@amd.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 3 Jun 2019 17:35:59 +0200
-Message-ID: <CAKMK7uFFB7ME=d1U-SpCUEtVbysAuW2H--=4EeKKJYofeggLoA@mail.gmail.com>
-Subject: Re: [pull] amdgpu, amdkfd drm-next-5.3
-To: Alex Deucher <alexdeucher@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=Ysk87hK/RndHDoFsMlKY9s0HoBw2vJNWH9Bdud9a6w4=;
- b=SZdUpjNaeYBWAG46pAfejGJJOC5lmvQ5FIGJNPiVbarBY+qmuPzMqk8KqnxWg6eqIE
- X5pymTAv05FeSAlqY+n1Y8DvIYxIZlW57gtLT7D0ORmB+jRp2utCFO8I4dGgVEsaz82v
- kvCuaTl0R4wXKNn673mSjEZXYZH25kdX10HJ0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,36 +47,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh+dt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============0854774123=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBNYXkgMzAsIDIwMTkgYXQgMTI6MDkgQU0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hl
-ckBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gSGkgRGF2ZSwgRGFuaWVsLAo+Cj4gTmV3IHN0dWZmIGZv
-ciA1LjM6Cj4gLSBBZGQgbmV3IHRoZXJtYWwgc2Vuc29ycyBmb3IgdmVnYSBhc2ljcwo+IC0gVmFy
-aW91cyBSQVMgZml4ZXMKPiAtIEFkZCBzeXNmcyBpbnRlcmZhY2UgZm9yIG1lbW9yeSBpbnRlcmZh
-Y2UgdXRpbGl6YXRpb24KPiAtIFVzZSBITU0gcmF0aGVyIHRoYW4gbW11IG5vdGlmaWVyIGZvciB1
-c2VyIHBhZ2VzCj4gLSBFeHBvc2UgeGdtaSB0b3BvbG9neSB2aWEga2ZkCj4gLSBTUi1JT1YgZml4
-ZXMKPiAtIEZpeGVzIGZvciBtYW51YWwgZHJpdmVyIHJlbG9hZAo+IC0gQWRkIHVuaXF1ZSBpZGVu
-dGlmaWVyIGZvciB2ZWdhIGFzaWNzCj4gLSBDbGVhbiB1cCB1c2VyIGZlbmNlIGhhbmRsaW5nIHdp
-dGggVVZEL1ZDRS9WQ04gYmxvY2tzCj4gLSBDb252ZXJ0IERDIHRvIHVzZSBjb3JlIGJwYyBhdHRy
-aWJ1dGUgcmF0aGVyIHRoYW4gYSBjdXN0b20gb25lCj4gLSBBZGQgR1dTIHN1cHBvcnQgZm9yIEtG
-RAo+IC0gVmVnYSBwb3dlcnBsYXkgaW1wcm92ZW1lbnRzCj4gLSBBZGQgQ1JDIHN1cHBvcnQgZm9y
-IERDRSAxMgo+IC0gU1ItSU9WIHN1cHBvcnQgZm9yIG5ldyBzZWN1cml0eSBwb2xpY3kKPiAtIFZh
-cmlvdXMgY2xlYW51cHMKCj4gQ2h1bm1pbmcgWmhvdSAoMSk6Cj4gICAgICAgZHJtL2FtZGdwdTog
-YWRkIERSSVZFUl9TWU5DT0JKX1RJTUVMSU5FIHRvIGFtZGdwdQoKVGhpcyB1bmNvbmRpdGlvbmFs
-bHkgZW5hYmxlcyB0aW1lbGluZSBzeW5jb2JqIHN1cHBvcnQsIFdoaWNoIEkgdGhvdWdodAp3ZSd2
-ZSBkZWNpZGVkIHRvIGhvbGQgYmFjayBiZWhpbmQgc29tZSBtb2R1bGVfcGFyYW1fbmFtZWRfdW5z
-YWZlIG9yCmV4cGVyaW1lbnRhbCBLY29uZmlnLCBhdCBsZWFzdCB1bnRpbCBLSFIgcmF0aWZpZXMg
-dGhlIGV4dGVuc2lvbnMgYW5kCmV2ZXJ5b25lIGNhbiBwdWJsaXNoIHRoZSBtZXNhIHBhdGNoZXMu
-IFRoaXMgaXMga2luZGEgdWFwaSB3aXRob3V0CnVzZXJzcGFjZSBhcy1pcyAuLi4gYWxzbyBub3Qg
-b24geW91ciBzdW1tYXJ5LCBvciBJJ20gYmxpbmQuCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIK
-U29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4
-IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+--===============0854774123==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Daniel Vetter <daniel@ffwll.ch> writes:
+
+> On Fri, May 31, 2019 at 08:46:58AM -0700, Eric Anholt wrote:
+>> Boris Brezillon <boris.brezillon@collabora.com> writes:
+>>=20
+>> > Right now, the BO is mapped as a cached region when ->vmap() is called
+>> > and the underlying object is not a dmabuf.
+>> > Doing that makes cache management a bit more complicated (you'd need
+>> > to call dma_map/unmap_sg() on the ->sgt field everytime the BO is about
+>> > to be passed to the GPU/CPU), so let's map the BO with writecombine
+>> > attributes instead (as done in most drivers).
+>> >
+>> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> > ---
+>> > Found this issue while working on panfrost perfcnt where the GPU dumps
+>> > perf counter values in memory and the CPU reads them back in
+>> > kernel-space. This patch seems to solve the unpredictable behavior I
+>> > had.
+>> >
+>> > I can also go for the other option (call dma_map/unmap/_sg() when
+>> > needed) if you think that's more appropriate.
+>>=20
+>> writecombined was the intent, and this makes kernel vmap match the
+>> userspace mmap path.
+>
+> Since I missed that obviously: Where do the shmem helpers set write
+> combined mode for userspace mmap?
+
+That was the trick when I asked the question, too.  drm_gem.c is what
+sets WC by default.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAlz1QCUACgkQtdYpNtH8
+nugRgw//SS3ZkwuWzsaSiFf1aPyHfgbZse1kB4qxsaCp5otb2Ice2cucAqKp9Jnu
+Iy4dMsx3y/i3rXpZCA4CuFWFPol1J7Zf0jWm4lTKstxEhZXlcQOvhDxbHtJmaYpO
+xJKHNfaXJNu83fdPyUoq8H7QF9SsW9sE63I0NbWYTE8yzkwZBsCtbHIiP5PYoYlO
+FDENZ0vGyLbTCHHeBeEUmleQ2Ua4czcKMu7x99ysV0KAymKvKsrRd+mg+8zJmxjf
+pE6RK/ElB8qd2wNLRp5oAqiRJnjbnAowQHBeAQ07dX/XU8bu8IGVUZaAYSxlZBsC
+IdJaC3NASk7eBkO6cbXXQIvQX+1c0vUzUsQQiTEcsJe9TZ3neN0aIjVq2MxSzJ5D
+qSkP1TYJ5tx0rRy/O25mmESkNH+U9v6UQDGb3swRU6RI5Lj2xJRQCS282JGXO56W
+zPuqmCW0xWSE5SZ4N03h0Ha8VY3ZZ6T8hfRpioSsqMk+L2N0osgbf2gtjjv92OKI
+TxcObmEOjNuQQswR3PnYuCiBVqxtK5HKOfXFs0B/LG5F/IuIrG82pp63ND4SMRj2
+5TF8x+mBh88UBlhcwTr5aHVfcJWw3nARbczF08OksN5r5KOhFuDsveW7hFBRrGbS
+pVmE2K78CTXPFwDDNrpm79WCkwqoKHr89CU7qM+wTu9GK7n40R8=
+=8swC
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============0854774123==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0854774123==--
