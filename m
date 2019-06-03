@@ -1,62 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B533A32EBE
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 13:38:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A3D32EC3
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 13:38:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1F5B8925B;
-	Mon,  3 Jun 2019 11:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C69618925D;
+	Mon,  3 Jun 2019 11:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9083589226
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 11:21:09 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id cl9so1764076plb.10
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2019 04:21:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=X1RK5o2YwgeeL35w0RyHVD/3IISKzcQZl/0CwWXVP98=;
- b=FN5b/qz5tp0LfPV1GdbnTk9JNxKdAksct4l70Phth1ruMucIluI2s+BW9ZqQKtxPjv
- GMR3lO3CMBqaUYwHu+xF7+tY4tiopmoG94vmuFCewXeInh/eQUsLSzJm9bZTHj0urZd0
- kSaMi8O/wXEcXmBG2Ic+yRLHWHbKgqd8gp3JpQiXvAihyQl9N5q6nv3B8YxbR+huqu2f
- YLNr4PEVSg/PUJA+deFiJdqaZUwyomGMHUhDLbO2wYPxcu3mi1FFTVx0PFSVKZGPuC8e
- iY2Yc2pJvtXk+YbzbkwPs+fJx09VAj5B6KI+ujGkTykeMnZoCkWqN8vCBAuktD3hX2VR
- HeQw==
-X-Gm-Message-State: APjAAAUmWHpP3XR5xHSOO/j+XhB0Vq+VOWnDMF8xI3oLWgnz93Mtyvcf
- fo6+k5K4TUpE+VyPcXnUEcjktHcIqck=
-X-Google-Smtp-Source: APXvYqzSsvxko30YbiYYj7LlgHGa9uI7nrhtHqowooQWCAP1T1BXmYkLkNNKs/3fagu6iNcApFp0uA==
-X-Received: by 2002:a17:902:2869:: with SMTP id
- e96mr28060532plb.203.1559560869155; 
- Mon, 03 Jun 2019 04:21:09 -0700 (PDT)
-Received: from localhost.localdomain (c-98-210-58-162.hsd1.ca.comcast.net.
- [98.210.58.162])
- by smtp.gmail.com with ESMTPSA id g9sm11792692pgs.78.2019.06.03.04.21.08
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Mon, 03 Jun 2019 04:21:08 -0700 (PDT)
-From: shobhitkukreti@gmail.com
-To: malat@debian.org
-Subject: [PATCH v2] video: fbdev: Fix Warning comparing pointer to 0 reported
- by coccicheck
-Date: Mon,  3 Jun 2019 04:19:12 -0700
-Message-Id: <1559560752-12314-1-git-send-email-shobhitkukreti@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CA+7wUswLsZ7PF6Pi8Oz=9287UYZQeKCFJHP7FDtPf1Cq8PO7ag@mail.gmail.com>
-References: <CA+7wUswLsZ7PF6Pi8Oz=9287UYZQeKCFJHP7FDtPf1Cq8PO7ag@mail.gmail.com>
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53E7589115;
+ Mon,  3 Jun 2019 11:32:17 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+ id 305436087A; Mon,  3 Jun 2019 11:32:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: vivek.gautam@smtp.codeaurora.org)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4ED1960DB3;
+ Mon,  3 Jun 2019 11:32:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4ED1960DB3
+Received: by mail-ed1-f43.google.com with SMTP id x25so14250529eds.8;
+ Mon, 03 Jun 2019 04:32:16 -0700 (PDT)
+X-Gm-Message-State: APjAAAXnqXKxs8xfgKMdutGkd9epKpt7QfBvRpvNlYvLszoexcS2+zgH
+ EoPCMrDCv98bmy2KNudBi2tIuImhaob72kbFRpo=
+X-Google-Smtp-Source: APXvYqyiIFFrNC2dS0VKPCYWX1j2jp1tB7QsnH94XhbngF15E/fbqVAiXipU+Z4bYlGRkMHto3FDPg70mdWqFQgEqKg=
+X-Received: by 2002:a50:85c1:: with SMTP id q1mr25059239edh.253.1559561535071; 
+ Mon, 03 Jun 2019 04:32:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20181201165348.24140-1-robdclark@gmail.com>
+ <CAL_JsqJmPqis46Un91QyhXgdrVtfATMP_hTp6wSeSAfc8MLFfw@mail.gmail.com>
+ <CAF6AEGs9Nsft8ofZkGz_yWBPBC+prh8dBSkJ4PJr8yk2c5FMdQ@mail.gmail.com>
+ <CAF6AEGt-dhbQS5zZCNVTLT57OiUwO0RiP5bawTSu2RKZ-7W-aw@mail.gmail.com>
+ <CAAFQd5BdrJFL5LKK8O5NPDKWfFgkTX_JU-jU3giEz33tj-jwCA@mail.gmail.com>
+ <4864dc3e-6e04-43e5-32c8-2cf5a0705fe5@codeaurora.org>
+ <CAF6AEGuFyk1DJWUcQTnW=xsEUhYTYJccjzHJFxvipK4M8UdrUA@mail.gmail.com>
+ <CAFp+6iGexVjbak8RQhEQNPp5cV8PK2ubTNNCMyaFPqdTGAbJ0A@mail.gmail.com>
+ <20190603111705.GA27163@lst.de>
+In-Reply-To: <20190603111705.GA27163@lst.de>
+From: Vivek Gautam <vivek.gautam@codeaurora.org>
+Date: Mon, 3 Jun 2019 17:02:03 +0530
+X-Gmail-Original-Message-ID: <CAFp+6iEULiB74ecZQ4E+Jouj0AYZu4cDBgy3S2LuT6Ud4uf+KQ@mail.gmail.com>
+Message-ID: <CAFp+6iEULiB74ecZQ4E+Jouj0AYZu4cDBgy3S2LuT6Ud4uf+KQ@mail.gmail.com>
+Subject: Re: [PATCH] of/device: add blacklist for iommu dma_ops
+To: Christoph Hellwig <hch@lst.de>
 X-Mailman-Approved-At: Mon, 03 Jun 2019 11:37:53 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=X1RK5o2YwgeeL35w0RyHVD/3IISKzcQZl/0CwWXVP98=;
- b=E9NczHkk6piU+jYvDH5MHbfCTe0nwwlQBO4NKK5OqqL8t8Di7UBvUy5RqhvzpmEXYM
- 4uDpdSAyFkQAYmOl7DJNWyqhauAaVlINrxQCpIV3S+yKsGA0PqD1sxH3ysIQ1buEOGwm
- oYspBYwVphRJxVlce0VEuaZN9IjOldoI9Qm0c30PDUVtqRzE9kZ0WUHD++dEgtLLVuf2
- mrM96XS6XEmgsw1Ert1vhQMFigjEO/7ipzTNHtVuJRIgzx4izfJ5k4Y/35exZFXoICFu
- 50yzoZD4MUaCvDtrV6KiTr6LY7sCXvkpjynV0Sli1NMyuXXpkn+/aBL6E49tcCfqxq4b
- aFKA==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1559561537;
+ bh=u888gqwF5NhltRBK8QKDhfIseMU8jp8wEFqDIraWQdM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=nMoCQMTLHHj4U+Y6FJPQlUokPulCRDfdG0mnglE0VnYreDcFAvUhXAB7ZhZ/xf2Xz
+ pouMdu8/KphryGpg1bFGyBNHNsstHJel/gO7lr5J0Qq0aMTJlUZB6ANd9dRXN6B0Vc
+ Cl59+jU74fIKLw40uoPLawLkGv6jueo9kTOf0vGI=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1559561536;
+ bh=u888gqwF5NhltRBK8QKDhfIseMU8jp8wEFqDIraWQdM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=hxQLPhaQslKp9q099I3Z4uSekA0WGa7SAv077w193RpFzKvwqHaoZFDupcsWhOy3h
+ GS2T89RpACK5+kgV4Wng/QklehjK4cseEogNCONidArZowYO3qBvJZe5pMx4HynvCG
+ CZfmelntQRr2W1WyuVQK9105rGLlFYPQCojwHpoM=
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ dmarc=none (p=none dis=none)
+ header.from=codeaurora.org
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ spf=none
+ smtp.mailfrom=vivek.gautam@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,41 +85,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shobhit Kukreti <shobhitkukreti@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, b.zolnierkie@samsung.com
-MIME-Version: 1.0
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Archit Taneja <architt@codeaurora.org>,
+ Frank Rowand <frowand.list@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Will Deacon <will.deacon@arm.com>, Doug Anderson <dianders@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linux IOMMU <iommu@lists.linux-foundation.org>,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU2hvYmhpdCBLdWtyZXRpIDxzaG9iaGl0a3VrcmV0aUBnbWFpbC5jb20+CgpGaXhlZCBX
-YXJuaW5nIENvbXBhcmluZyBQb2ludGVyIHRvIDAuIENoYW5nZWQgcmV0dXJuIHZhbHVlIHRvIC1F
-Tk9NRU0gdG8KcmVwb3J0IGt6YWxsb2MgZmFpbHVyZQoKZHJpdmVycy92aWRlby9mYmRldi9jb250
-cm9sZmIuYzogV0FSTklORyBjb21wYXJpbmcgcG9pbnRlciB0byAwCmRyaXZlcnMvdmlkZW8vZmJk
-ZXYvY29udHJvbGZiLmM6IFdBUk5JTkcgY29tcGFyaW5nIHBvaW50ZXIgdG8gMApkcml2ZXJzL3Zp
-ZGVvL2ZiZGV2L2NvbnRyb2xmYi5jOiBXQVJOSU5HIGNvbXBhcmluZyBwb2ludGVyIHRvIDAKClNp
-Z25lZC1vZmYtYnk6IFNob2JoaXQgS3VrcmV0aSA8c2hvYmhpdGt1a3JldGlAZ21haWwuY29tPgot
-LS0KQ2hhbmdlcyBpbiB2MjoKIC0gTW9kaWZpZWQgY29tbWl0IG1lc3NhZ2UgdG8gcmVwb3J0IGNo
-YW5nZSBpbiByZXR1cm4gdHlwZQoKIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29udHJvbGZiLmMgfCA4
-ICsrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29udHJvbGZiLmMgYi9kcml2ZXJz
-L3ZpZGVvL2ZiZGV2L2NvbnRyb2xmYi5jCmluZGV4IDdhZjhkYjIuLjA3OTA3YzUgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29udHJvbGZiLmMKKysrIGIvZHJpdmVycy92aWRlby9m
-YmRldi9jb250cm9sZmIuYwpAQCAtMTgyLDcgKzE4Miw3IEBAIGludCBpbml0X21vZHVsZSh2b2lk
-KQogCWludCByZXQgPSAtRU5YSU87CiAKIAlkcCA9IG9mX2ZpbmRfbm9kZV9ieV9uYW1lKE5VTEws
-ICJjb250cm9sIik7Ci0JaWYgKGRwICE9IDAgJiYgIWNvbnRyb2xfb2ZfaW5pdChkcCkpCisJaWYg
-KGRwICE9IE5VTEwgJiYgIWNvbnRyb2xfb2ZfaW5pdChkcCkpCiAJCXJldCA9IDA7CiAJb2Zfbm9k
-ZV9wdXQoZHApOwogCkBAIC01ODAsNyArNTgwLDcgQEAgc3RhdGljIGludCBfX2luaXQgY29udHJv
-bF9pbml0KHZvaWQpCiAJY29udHJvbF9zZXR1cChvcHRpb24pOwogCiAJZHAgPSBvZl9maW5kX25v
-ZGVfYnlfbmFtZShOVUxMLCAiY29udHJvbCIpOwotCWlmIChkcCAhPSAwICYmICFjb250cm9sX29m
-X2luaXQoZHApKQorCWlmIChkcCAhPSBOVUxMICYmICFjb250cm9sX29mX2luaXQoZHApKQogCQly
-ZXQgPSAwOwogCW9mX25vZGVfcHV0KGRwKTsKIApAQCAtNjgzLDggKzY4Myw4IEBAIHN0YXRpYyBp
-bnQgX19pbml0IGNvbnRyb2xfb2ZfaW5pdChzdHJ1Y3QgZGV2aWNlX25vZGUgKmRwKQogCQlyZXR1
-cm4gLUVOWElPOwogCX0KIAlwID0ga3phbGxvYyhzaXplb2YoKnApLCBHRlBfS0VSTkVMKTsKLQlp
-ZiAocCA9PSAwKQotCQlyZXR1cm4gLUVOWElPOworCWlmIChwID09IE5VTEwpCisJCXJldHVybiAt
-RU5PTUVNOwogCWNvbnRyb2xfZmIgPSBwOwkvKiBzYXZlIGl0IGZvciBjbGVhbnVwcyAqLwogCiAJ
-LyogTWFwIGluIGZyYW1lIGJ1ZmZlciBhbmQgcmVnaXN0ZXJzICovCi0tIAoyLjcuNAoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gTW9uLCBKdW4gMywgMjAxOSBhdCA0OjQ3IFBNIENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0
+LmRlPiB3cm90ZToKPgo+IElmIHlvdSAoYW5kIGEgZmV3IG90aGVycyBhY3RvcnMgaW4gdGhlIHRo
+cmVhZCkgd2FudCBwZW9wbGUgdG8gYWN0dWFsbHkKPiByZWFkIHdoYXQgeW91IHdyb3RlIHBsZWFz
+ZSBmb2xsb3cgcHJvcGVyIG1haWxpbmcgbGlzdCBldHRpcXVldHRlLiAgSSd2ZQo+IGdpdmVuIHVw
+IG9uIHJlYWRpbmcgYWxsIHRoZSByZWNlbnQgbWFpbHMgYWZ0ZXIgc2Nyb2xsaW5nIHRocm91Z2gg
+dHdvCj4gcGFnZXMgb2YgZnVsbCBxdW90ZXMuCgpBcG9sb2dpZXMgZm9yIG5vdCBjdXR0aW5nIGRv
+d24gdGhlIHF1b3RlZCB0ZXh0LiBJIHdpbGwgYmUgbW9yZSBjYXJlZnVsCm5leHQgdGltZSBvbndh
+cmRzLgoKUmVnYXJkcwpWaXZlawoKLS0gClFVQUxDT01NIElORElBLCBvbiBiZWhhbGYgb2YgUXVh
+bGNvbW0gSW5ub3ZhdGlvbiBDZW50ZXIsIEluYy4gaXMgYSBtZW1iZXIKb2YgQ29kZSBBdXJvcmEg
+Rm9ydW0sIGhvc3RlZCBieSBUaGUgTGludXggRm91bmRhdGlvbgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
