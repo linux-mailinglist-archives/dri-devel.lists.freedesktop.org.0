@@ -2,44 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7FF3398B
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 22:10:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4392D33995
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 22:13:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3EEB89339;
-	Mon,  3 Jun 2019 20:10:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 806DE89330;
+	Mon,  3 Jun 2019 20:13:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1EB588933C
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 20:10:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1B72E72167; Mon,  3 Jun 2019 20:10:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Mon, 03 Jun 2019 20:10:26 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mcoffin13@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-oCikataeGh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A23EC89330
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 20:13:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: koike) with ESMTPSA id 23EA8276DCD
+Subject: Re: [PATCH v4 1/5] drm/rockchip: fix fb references in async update
+To: dri-devel@lists.freedesktop.org, nicholas.kazlauskas@amd.com
+References: <20190603165610.24614-1-helen.koike@collabora.com>
+ <20190603165610.24614-2-helen.koike@collabora.com>
+From: Helen Koike <helen.koike@collabora.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <aecadca2-f67b-5d9d-550e-f90cbca5fd3f@collabora.com>
+Date: Mon, 3 Jun 2019 17:13:34 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190603165610.24614-2-helen.koike@collabora.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,159 +114,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0508532885=="
+Cc: =?UTF-8?Q?St=c3=a9phane_Marchesin?= <marcheu@google.com>,
+ Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
+ daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
+ Tomasz Figa <tfiga@chromium.org>, linux-rockchip@lists.infradead.org,
+ boris.brezillon@collabora.com, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0508532885==
-Content-Type: multipart/alternative; boundary="15595926261.ca259e.15217"
-Content-Transfer-Encoding: 7bit
-
-
---15595926261.ca259e.15217
-Date: Mon, 3 Jun 2019 20:10:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #26 from Matt Coffin <mcoffin13@gmail.com> ---
-For reproducability, here's what I've been using. (I can reproduce this cra=
-sh
-on both the RADV and AMDVLK Vulkan implementations, and can reproduce it bo=
-th
-on top of sway 1.1 (wayland), and xfce4 (X11)).
-
-* 5.1.3-arch2-1-ARCH
-* LLVM 8.0.0
-* mesa/vulkan-radeon: 19.0.4
-* AMDVLK: (dev branch from nighttime Mountain time 20190602)
-* DXVK: winelib version - release 1.2.1
-
-I run "House Flipper" from Steam with DXVK_FILTER_DEVICE_NAME=3D590.
-
-On 1080p@60Hz with v-sync, it runs quite well and stable (for hours). If I
-disable v-sync and framerate limiting, the crash occurs within a minute
-usually.
-
-At 2560x1440 resolution, no refresh rate works in a stable mannner, but I h=
-ave
-tried both 60Hz and 144Hz.
-
-With the game rendering 1080p but scaling up to a 2560x1440 display, I saw =
-it
-crash once, but was unable to duplicate it again.
-
-I'm new to low-level development, and would like to help. If I can provide =
-any
-information since I can reliably reproduce the issue, I'd love to. Let me k=
-now
-what would be useful and I'd be happy to get it out to you.
-
-I've also seen the bugs listed in my other comment on the other bug here:
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102322#c82
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15595926261.ca259e.15217
-Date: Mon, 3 Jun 2019 20:10:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c26">Comme=
-nt # 26</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mcoffin13&#64;gmail.com" title=3D"Matt Coffin &lt;mcoffin13&#64;gmail.com&g=
-t;"> <span class=3D"fn">Matt Coffin</span></a>
-</span></b>
-        <pre>For reproducability, here's what I've been using. (I can repro=
-duce this crash
-on both the RADV and AMDVLK Vulkan implementations, and can reproduce it bo=
-th
-on top of sway 1.1 (wayland), and xfce4 (X11)).
-
-* 5.1.3-arch2-1-ARCH
-* LLVM 8.0.0
-* mesa/vulkan-radeon: 19.0.4
-* AMDVLK: (dev branch from nighttime Mountain time 20190602)
-* DXVK: winelib version - release 1.2.1
-
-I run &quot;House Flipper&quot; from Steam with DXVK_FILTER_DEVICE_NAME=3D5=
-90.
-
-On 1080p&#64;60Hz with v-sync, it runs quite well and stable (for hours). I=
-f I
-disable v-sync and framerate limiting, the crash occurs within a minute
-usually.
-
-At 2560x1440 resolution, no refresh rate works in a stable mannner, but I h=
-ave
-tried both 60Hz and 144Hz.
-
-With the game rendering 1080p but scaling up to a 2560x1440 display, I saw =
-it
-crash once, but was unable to duplicate it again.
-
-I'm new to low-level development, and would like to help. If I can provide =
-any
-information since I can reliably reproduce the issue, I'd love to. Let me k=
-now
-what would be useful and I'd be happy to get it out to you.
-
-I've also seen the bugs listed in my other comment on the other bug here:
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
-g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
-   href=3D"show_bug.cgi?id=3D102322#c82">https://bugs.freedesktop.org/show_=
-bug.cgi?id=3D102322#c82</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15595926261.ca259e.15217--
-
---===============0508532885==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0508532885==--
+CgpPbiA2LzMvMTkgMTo1NiBQTSwgSGVsZW4gS29pa2Ugd3JvdGU6Cj4gSW4gdGhlIGNhc2Ugb2Yg
+YXN5bmMgdXBkYXRlLCBtb2RpZmljYXRpb25zIGFyZSBkb25lIGluIHBsYWNlLCBpLmUuIGluIHRo
+ZQo+IGN1cnJlbnQgcGxhbmUgc3RhdGUsIHNvIHRoZSBuZXdfc3RhdGUgaXMgcHJlcGFyZWQgYW5k
+IHRoZSBuZXdfc3RhdGUgaXMKPiBjbGVhbmVkIHVwIChpbnN0ZWFkIG9mIHRoZSBvbGRfc3RhdGUs
+IHVubGlrZSB3aGF0IGhhcHBlbnMgaW4gYQo+IG5vcm1hbCBzeW5jIHVwZGF0ZSkuCj4gVG8gY2xl
+YW51cCB0aGUgb2xkX2ZiIHByb3Blcmx5LCBpdCBuZWVkcyB0byBiZSBwbGFjZWQgaW4gdGhlIG5l
+d19zdGF0ZQo+IGluIHRoZSBlbmQgb2YgYXN5bmNfdXBkYXRlLCBzbyBjbGVhbnVwIGNhbGwgd2ls
+bCB1bnJlZmVyZW5jZSB0aGUgb2xkX2ZiCj4gY29ycmVjdGx5Lgo+IAo+IEFsc28sIHRoZSBwcmV2
+aW91cyBjb2RlIGhhZCBhOgo+IAo+IAlwbGFuZV9zdGF0ZSA9IHBsYW5lLT5mdW5jcy0+YXRvbWlj
+X2R1cGxpY2F0ZV9zdGF0ZShwbGFuZSk7Cj4gCS4uLgo+IAlzd2FwKHBsYW5lX3N0YXRlLCBwbGFu
+ZS0+c3RhdGUpOwo+IAo+IAlpZiAocGxhbmUtPnN0YXRlLT5mYiAmJiBwbGFuZS0+c3RhdGUtPmZi
+ICE9IG5ld19zdGF0ZS0+ZmIpIHsKPiAJLi4uCj4gCX0KPiAKPiBXaGljaCB3YXMgd3JvbmcsIGFz
+IHRoZSBmYiB3ZXJlIGp1c3QgYXNzaWduZWQgdG8gYmUgZXF1YWwsIHNvIHRoaXMgaWYKPiBzdGF0
+ZW1lbnQgbmV2ZXJzIGV2YWx1YXRlcyB0byB0cnVlLgo+IAo+IEFub3RoZXIgZGV0YWlscyBpcyB0
+aGF0IHRoZSBmdW5jdGlvbiBkcm1fY3J0Y192YmxhbmtfZ2V0KCkgY2FuIG9ubHkgYmUKPiBjYWxs
+ZWQgd2hlbiB2b3AtPmlzX2VuYWJsZWQgaXMgdHJ1ZSwgb3RoZXJ3aXNlIGl0IGhhcyBubyBlZmZl
+Y3QgYW5kCj4gdHJvd3MgYSBXQVJOX09OKCkuCj4gCj4gQ2FsbGluZyBkcm1fYXRvbWljX3NldF9m
+Yl9mb3JfcGxhbmUoKSAod2hpY2ggZ2V0IGEgcmVmZXJlbnQgb2YgdGhlIG5ldwo+IGZiIGFuZCBw
+dXMgdGhlIG9sZCBmYikgaXMgbm90IHJlcXVpcmVkLCBhcyBpdCBpcyB0YWtlbiBjYXJlIGJ5Cj4g
+ZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCgpIHdoZW4gY2FsbGluZwo+IGRybV9hdG9taWNfaGVs
+cGVyX3VwZGF0ZV9wbGFuZSgpLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEhlbGVuIEtvaWtlIDxoZWxl
+bi5rb2lrZUBjb2xsYWJvcmEuY29tPgoKQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY0
+LjIwKwpGaXhlczogMTU2MDk1NTlhODM0ICgiZHJtL3JvY2tjaGlwOiB1cGRhdGUgY3Vyc29ycyBh
+c3luY2hyb25vdXNseQp0aHJvdWdoIGF0b21pYy4iKQoKPiAKPiAtLS0KPiBIZWxsbywKPiAKPiBJ
+IHRlc3RlZCBvbiB0aGUgcm9ja2NoaXAgZmljdXMgdjEuMSB1c2luZyBpZ3QgcGxhbmVfY3Vyc29y
+X2xlZ2FjeSBhbmQKPiBrbXNfY3Vyc29yX2xlZ2FjeSBhbmQgSSBkaWRuJ3Qgc2VlIGFueSByZWdy
+ZXNzaW9ucy4KPiAKPiBDaGFuZ2VzIGluIHY0OiBOb25lCj4gQ2hhbmdlcyBpbiB2MzoKPiAtIHVz
+ZSBzd2FwKCkgdG8gc3dhcCBvbGQgYW5kIG5ldyBmcmFtZWJ1ZmZlcnMgaW4gYXN5bmNfdXBkYXRl
+Cj4gLSBnZXQgdGhlIHJlZmVyZW5jZSB0byBvbGRfZmIgYW5kIHNldCB0aGUgd29ya2VyIGFmdGVy
+IHZvcF9wbGFuZV9hdG9taWNfdXBkYXRlKCkKPiAtIGFkZCBhIEZJWE1FIHRhZyBmb3Igd2hlbiB3
+ZSBoYXZlIG11bHRpcGxlIGZicyB0byBiZSByZWxlYXNlZCB3aGVuCj4gdmJsYW5rIGhhcHBlbnMu
+Cj4gLSB1cGRhdGUgY29tbWl0IG1lc3NhZ2UKPiAKPiBDaGFuZ2VzIGluIHYyOiBOb25lCj4gCj4g
+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMgfCA1MSArKysrKysr
+KysrKy0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDI2IGluc2VydGlvbnMoKyksIDI1IGRl
+bGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9j
+a2NoaXBfZHJtX3ZvcC5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92
+b3AuYwo+IGluZGV4IDQxODljYTE3ZjM4MS4uYjdjNDdkMTE1M2M2IDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wLmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcC5jCj4gQEAgLTkxOSwyOSArOTE5LDE3
+IEBAIHN0YXRpYyB2b2lkIHZvcF9wbGFuZV9hdG9taWNfYXN5bmNfdXBkYXRlKHN0cnVjdCBkcm1f
+cGxhbmUgKnBsYW5lLAo+ICAJCQkJCSAgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqbmV3X3N0YXRl
+KQo+ICB7Cj4gIAlzdHJ1Y3Qgdm9wICp2b3AgPSB0b192b3AocGxhbmUtPnN0YXRlLT5jcnRjKTsK
+PiAtCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlOwo+IC0KPiAtCXBsYW5lX3N0
+YXRlID0gcGxhbmUtPmZ1bmNzLT5hdG9taWNfZHVwbGljYXRlX3N0YXRlKHBsYW5lKTsKPiAtCXBs
+YW5lX3N0YXRlLT5jcnRjX3ggPSBuZXdfc3RhdGUtPmNydGNfeDsKPiAtCXBsYW5lX3N0YXRlLT5j
+cnRjX3kgPSBuZXdfc3RhdGUtPmNydGNfeTsKPiAtCXBsYW5lX3N0YXRlLT5jcnRjX2ggPSBuZXdf
+c3RhdGUtPmNydGNfaDsKPiAtCXBsYW5lX3N0YXRlLT5jcnRjX3cgPSBuZXdfc3RhdGUtPmNydGNf
+dzsKPiAtCXBsYW5lX3N0YXRlLT5zcmNfeCA9IG5ld19zdGF0ZS0+c3JjX3g7Cj4gLQlwbGFuZV9z
+dGF0ZS0+c3JjX3kgPSBuZXdfc3RhdGUtPnNyY195Owo+IC0JcGxhbmVfc3RhdGUtPnNyY19oID0g
+bmV3X3N0YXRlLT5zcmNfaDsKPiAtCXBsYW5lX3N0YXRlLT5zcmNfdyA9IG5ld19zdGF0ZS0+c3Jj
+X3c7Cj4gLQo+IC0JaWYgKHBsYW5lX3N0YXRlLT5mYiAhPSBuZXdfc3RhdGUtPmZiKQo+IC0JCWRy
+bV9hdG9taWNfc2V0X2ZiX2Zvcl9wbGFuZShwbGFuZV9zdGF0ZSwgbmV3X3N0YXRlLT5mYik7Cj4g
+LQo+IC0Jc3dhcChwbGFuZV9zdGF0ZSwgcGxhbmUtPnN0YXRlKTsKPiAtCj4gLQlpZiAocGxhbmUt
+PnN0YXRlLT5mYiAmJiBwbGFuZS0+c3RhdGUtPmZiICE9IG5ld19zdGF0ZS0+ZmIpIHsKPiAtCQlk
+cm1fZnJhbWVidWZmZXJfZ2V0KHBsYW5lLT5zdGF0ZS0+ZmIpOwo+IC0JCVdBUk5fT04oZHJtX2Ny
+dGNfdmJsYW5rX2dldChwbGFuZS0+c3RhdGUtPmNydGMpICE9IDApOwo+IC0JCWRybV9mbGlwX3dv
+cmtfcXVldWUoJnZvcC0+ZmJfdW5yZWZfd29yaywgcGxhbmUtPnN0YXRlLT5mYik7Cj4gLQkJc2V0
+X2JpdChWT1BfUEVORElOR19GQl9VTlJFRiwgJnZvcC0+cGVuZGluZyk7Cj4gLQl9Cj4gKwlzdHJ1
+Y3QgZHJtX2ZyYW1lYnVmZmVyICpvbGRfZmIgPSBwbGFuZS0+c3RhdGUtPmZiOwo+ICsKPiArCXBs
+YW5lLT5zdGF0ZS0+Y3J0Y194ID0gbmV3X3N0YXRlLT5jcnRjX3g7Cj4gKwlwbGFuZS0+c3RhdGUt
+PmNydGNfeSA9IG5ld19zdGF0ZS0+Y3J0Y195Owo+ICsJcGxhbmUtPnN0YXRlLT5jcnRjX2ggPSBu
+ZXdfc3RhdGUtPmNydGNfaDsKPiArCXBsYW5lLT5zdGF0ZS0+Y3J0Y193ID0gbmV3X3N0YXRlLT5j
+cnRjX3c7Cj4gKwlwbGFuZS0+c3RhdGUtPnNyY194ID0gbmV3X3N0YXRlLT5zcmNfeDsKPiArCXBs
+YW5lLT5zdGF0ZS0+c3JjX3kgPSBuZXdfc3RhdGUtPnNyY195Owo+ICsJcGxhbmUtPnN0YXRlLT5z
+cmNfaCA9IG5ld19zdGF0ZS0+c3JjX2g7Cj4gKwlwbGFuZS0+c3RhdGUtPnNyY193ID0gbmV3X3N0
+YXRlLT5zcmNfdzsKPiArCXN3YXAocGxhbmUtPnN0YXRlLT5mYiwgbmV3X3N0YXRlLT5mYik7Cj4g
+IAo+ICAJaWYgKHZvcC0+aXNfZW5hYmxlZCkgewo+ICAJCXJvY2tjaGlwX2RybV9wc3JfaW5oaWJp
+dF9nZXRfc3RhdGUobmV3X3N0YXRlLT5zdGF0ZSk7Cj4gQEAgLTk1MCw5ICs5MzgsMjIgQEAgc3Rh
+dGljIHZvaWQgdm9wX3BsYW5lX2F0b21pY19hc3luY191cGRhdGUoc3RydWN0IGRybV9wbGFuZSAq
+cGxhbmUsCj4gIAkJdm9wX2NmZ19kb25lKHZvcCk7Cj4gIAkJc3Bpbl91bmxvY2soJnZvcC0+cmVn
+X2xvY2spOwo+ICAJCXJvY2tjaGlwX2RybV9wc3JfaW5oaWJpdF9wdXRfc3RhdGUobmV3X3N0YXRl
+LT5zdGF0ZSk7Cj4gLQl9Cj4gIAo+IC0JcGxhbmUtPmZ1bmNzLT5hdG9taWNfZGVzdHJveV9zdGF0
+ZShwbGFuZSwgcGxhbmVfc3RhdGUpOwo+ICsJCS8qCj4gKwkJICogQSBzY2Fub3V0IGNhbiBzdGls
+bCBiZSBvY2N1cnJpbmcsIHNvIHdlIGNhbid0IGRyb3AgdGhlCj4gKwkJICogcmVmZXJlbmNlIHRv
+IHRoZSBvbGQgZnJhbWVidWZmZXIuIFRvIHNvbHZlIHRoaXMgd2UgZ2V0IGEKPiArCQkgKiByZWZl
+cmVuY2UgdG8gb2xkX2ZiIGFuZCBzZXQgYSB3b3JrZXIgdG8gcmVsZWFzZSBpdCBsYXRlci4KPiAr
+CQkgKiBGSVhNRTogaWYgd2UgcGVyZm9ybSA1MDAgYXN5bmNfdXBkYXRlIGNhbGxzIGJlZm9yZSB0
+aGUKPiArCQkgKiB2YmxhbmssIHRoZW4gd2UgY2FuIGhhdmUgNTAwIGRpZmZlcmVudCBmcmFtZWJ1
+ZmZlcnMgd2FpdGluZwo+ICsJCSAqIHRvIGJlIHJlbGVhc2VkLgo+ICsJCSAqLwo+ICsJCWlmIChv
+bGRfZmIgJiYgcGxhbmUtPnN0YXRlLT5mYiAhPSBvbGRfZmIpIHsKPiArCQkJZHJtX2ZyYW1lYnVm
+ZmVyX2dldChvbGRfZmIpOwo+ICsJCQlXQVJOX09OKGRybV9jcnRjX3ZibGFua19nZXQocGxhbmUt
+PnN0YXRlLT5jcnRjKSAhPSAwKTsKPiArCQkJZHJtX2ZsaXBfd29ya19xdWV1ZSgmdm9wLT5mYl91
+bnJlZl93b3JrLCBvbGRfZmIpOwo+ICsJCQlzZXRfYml0KFZPUF9QRU5ESU5HX0ZCX1VOUkVGLCAm
+dm9wLT5wZW5kaW5nKTsKPiArCQl9Cj4gKwl9Cj4gIH0KPiAgCj4gIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgZHJtX3BsYW5lX2hlbHBlcl9mdW5jcyBwbGFuZV9oZWxwZXJfZnVuY3MgPSB7Cj4gCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
