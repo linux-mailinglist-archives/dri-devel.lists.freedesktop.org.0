@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D0D331FE
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 16:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E72D3321D
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 16:29:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 048F589079;
-	Mon,  3 Jun 2019 14:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 503D089244;
+	Mon,  3 Jun 2019 14:28:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5FAC989079
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 14:21:28 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 556E772167; Mon,  3 Jun 2019 14:21:28 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109835] [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in
- europa.exe [1323], reason: hang on rcs0, action: reset
-Date: Mon, 03 Jun 2019 14:21:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/DRI/i915
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rtentser@yandex.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: version
-Message-ID: <bug-109835-502-1GeSnEPmn8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109835-502@http.bugs.freedesktop.org/>
-References: <bug-109835-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63AF589244
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 14:28:56 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id r18so26183282edo.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Jun 2019 07:28:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uNAeS51QRUwciVaj0qUAWn++Wcyjuws4KaNbVtCgqIg=;
+ b=Pfa36fdJz1zaMaT0JXyKfW5nz7xjgsumUhwaIbCMW0cKR81aIGCMY6Y+Be9XgwLOzd
+ bcr98Ccj93t25cyesPtFUx5j6Rc+I9lDP5WhCin208cerjc8JP7FMuqhK7DC+XUGw9Zo
+ NzajCOdkt74jMxbvaTDVnllzWczwD2i0y6X7AbCrvLeboyzAxv2KD66JDQOU3VWul4+7
+ jqhpzK6Z56Ypotpjduia0wtfQ+HJ53uCxiwVdU/NqqMTpjvlFJXxWxXY5kyf71RRj5Gy
+ EXZA9db/Ix8Nw4jW8F0GiSI3FUN9hmXrjP2kp93eFq6ja53+5W41uS6rWlD2wBPEjsfW
+ OCQg==
+X-Gm-Message-State: APjAAAU3PiLddSYu4olVtArAAd6PqgofzTK3uXWFTwrpTbwyHSwxEBM4
+ DJVG4J38+7G7vxsEdrzC+ckOmgcw4rw=
+X-Google-Smtp-Source: APXvYqxr8JNKelZSPvLm8lUlcvEZ+sComgPTxPSLY12mHjF6SZvHXDzXvSb6ohXT05mDxOg9PhV6eg==
+X-Received: by 2002:a50:aeaf:: with SMTP id e44mr29643846edd.239.1559572134834; 
+ Mon, 03 Jun 2019 07:28:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id z3sm2572707edh.71.2019.06.03.07.28.53
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 03 Jun 2019 07:28:54 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/docs: More links for implicit/explicit fencing.
+Date: Mon,  3 Jun 2019 16:28:48 +0200
+Message-Id: <20190603142848.26487-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uNAeS51QRUwciVaj0qUAWn++Wcyjuws4KaNbVtCgqIg=;
+ b=AFGi04VVp/3xB5QuV/dCaezEZmGv3eXvARp3zR/Suj92Trwok3JFbCc3Zu9ax6ETD6
+ u0wsQfO4ikMpKTylUmPXjCc9LbOXZk39DD6e16lisk4GY5a5NAF93fDeuGRvTVLjd/0S
+ CaK4vSj/GNBvraRDnKF5J/1jBW7BVDP+9eBec=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,117 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0347888222=="
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0347888222==
-Content-Type: multipart/alternative; boundary="15595716880.D612.31470"
-Content-Transfer-Encoding: 7bit
-
-
---15595716880.D612.31470
-Date: Mon, 3 Jun 2019 14:21:28 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109835
-
-rtentser@yandex.ru changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Version|unspecified                 |19.1
-
---- Comment #4 from rtentser@yandex.ru ---
-Still here in 19.0.5 and 19.1.0-rc4.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15595716880.D612.31470
-Date: Mon, 3 Jun 2019 14:21:28 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:rtentser&=
-#64;yandex.ru" title=3D"rtentser&#64;yandex.ru">rtentser&#64;yandex.ru</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in europa.ex=
-e [1323], reason: hang on rcs0, action: reset"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109835">bug 10983=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>unspecified
-           </td>
-           <td>19.1
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in europa.ex=
-e [1323], reason: hang on rcs0, action: reset"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109835#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [865G] [drm] GPU HANG: ecode 2:0:0x75f4003e, in europa.ex=
-e [1323], reason: hang on rcs0, action: reset"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109835">bug 10983=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rtentser&#64;yandex.ru" title=3D"rtentser&#64;yandex.ru">rtentser&#64;yande=
-x.ru</a>
-</span></b>
-        <pre>Still here in 19.0.5 and 19.1.0-rc4.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15595716880.D612.31470--
-
---===============0347888222==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0347888222==--
+ZHJtX2F0b21pY19zZXRfZmVuY2VfZm9yX3BsYW5lKCkgY29udGFpbnMgdGhlIG1haW4gZGlzY3Vz
+c2lvbiBmcm9tIGEKZHJpdmVyIHBvdiwgbGluayB0byB0aGF0IGZyb20gbW9yZSBwbGFjZXMuCgpD
+YzogUGVra2EgUGFhbGFuZW4gPHBla2thLnBhYWxhbmVuQGNvbGxhYm9yYS5jb20+ClNpZ25lZC1v
+ZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgpDYzogTWFhcnRl
+biBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IE1heGlt
+ZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9vdGxpbi5jb20+CkNjOiBTZWFuIFBhdWwgPHNlYW5A
+cG9vcmx5LnJ1bj4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmll
+bCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9m
+cmFtZWJ1ZmZlcl9oZWxwZXIuYyB8IDYgKysrKysrCiBpbmNsdWRlL2RybS9kcm1fcGxhbmUuaCAg
+ICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25z
+KCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
+ZnJhbWVidWZmZXJfaGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1ZmZl
+cl9oZWxwZXIuYwppbmRleCA2ZmQ0OGVmZTI4OGMuLjY3OTEyNDU5NjNjMyAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMKKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmMKQEAgLTI4NCw2ICsyODQsOSBA
+QCBFWFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX2ZiX2NyZWF0ZV93aXRoX2RpcnR5KTsKICAqIFRo
+ZXJlIGlzIG5vIG5lZWQgZm9yICZkcm1fcGxhbmVfaGVscGVyX2Z1bmNzLmNsZWFudXBfZmIgaG9v
+ayBmb3Igc2ltcGxlCiAgKiBnZW0gYmFzZWQgZnJhbWVidWZmZXIgZHJpdmVycyB3aGljaCBoYXZl
+IHRoZWlyIGJ1ZmZlcnMgYWx3YXlzIHBpbm5lZCBpbgogICogbWVtb3J5LgorICoKKyAqIFNlZSBk
+cm1fYXRvbWljX3NldF9mZW5jZV9mb3JfcGxhbmUoKSBmb3IgYSBkaXNjdXNzaW9uIG9mIGltcGxp
+Y2l0IGFuZAorICogZXhwbGljaXQgZmVuY2luZyBpbiBhdG9taWMgbW9kZXNldCB1cGRhdGVzLgog
+ICovCiBpbnQgZHJtX2dlbV9mYl9wcmVwYXJlX2ZiKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLAog
+CQkJICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSkKQEAgLTMxNCw2ICszMTcsOSBAQCBF
+WFBPUlRfU1lNQk9MX0dQTChkcm1fZ2VtX2ZiX3ByZXBhcmVfZmIpOwogICogJmRtYV9idWYgYXR0
+YWNoZWQsIGV4dHJhY3RzIHRoZSBleGNsdXNpdmUgZmVuY2UgYW5kIGF0dGFjaGVzIGl0IHRvIHBs
+YW5lCiAgKiBzdGF0ZSBmb3IgdGhlIGF0b21pYyBoZWxwZXIgdG8gd2FpdCBvbi4gRHJpdmVycyBj
+YW4gdXNlIHRoaXMgYXMgdGhlaXIKICAqICZkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZV9mdW5jcy5w
+cmVwYXJlX2ZiIGNhbGxiYWNrLgorICoKKyAqIFNlZSBkcm1fYXRvbWljX3NldF9mZW5jZV9mb3Jf
+cGxhbmUoKSBmb3IgYSBkaXNjdXNzaW9uIG9mIGltcGxpY2l0IGFuZAorICogZXhwbGljaXQgZmVu
+Y2luZyBpbiBhdG9taWMgbW9kZXNldCB1cGRhdGVzLgogICovCiBpbnQgZHJtX2dlbV9mYl9zaW1w
+bGVfZGlzcGxheV9waXBlX3ByZXBhcmVfZmIoc3RydWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBl
+ICpwaXBlLAogCQkJCQkgICAgICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpwbGFuZV9zdGF0ZSkK
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5oIGIvaW5jbHVkZS9kcm0vZHJtX3Bs
+YW5lLmgKaW5kZXggNjA3OGM3MDBkOWJhLi5jZDU5MDNhZDMzZjcgMTAwNjQ0Ci0tLSBhL2luY2x1
+ZGUvZHJtL2RybV9wbGFuZS5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9wbGFuZS5oCkBAIC02OSw3
+ICs2OSw3IEBAIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgewogCSAqCiAJICogT3B0aW9uYWwgZmVu
+Y2UgdG8gd2FpdCBmb3IgYmVmb3JlIHNjYW5uaW5nIG91dCBAZmIuIFRoZSBjb3JlIGF0b21pYwog
+CSAqIGNvZGUgd2lsbCBzZXQgdGhpcyB3aGVuIHVzZXJzcGFjZSBpcyB1c2luZyBleHBsaWNpdCBm
+ZW5jaW5nLiBEbyBub3QKLQkgKiB3cml0ZSB0aGlzIGRpcmVjdGx5IGZvciBhIGRyaXZlcidzIGlt
+cGxpY2l0IGZlbmNlLCB1c2UKKwkgKiB3cml0ZSB0aGlzIGZpZWxkIGRpcmVjdGx5IGZvciBhIGRy
+aXZlcidzIGltcGxpY2l0IGZlbmNlLCB1c2UKIAkgKiBkcm1fYXRvbWljX3NldF9mZW5jZV9mb3Jf
+cGxhbmUoKSB0byBlbnN1cmUgdGhhdCBhbiBleHBsaWNpdCBmZW5jZSBpcwogCSAqIHByZXNlcnZl
+ZC4KIAkgKgotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
