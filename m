@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5220338A1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 20:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2664338E8
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Jun 2019 21:12:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C370789341;
-	Mon,  3 Jun 2019 18:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B500D892F1;
+	Mon,  3 Jun 2019 19:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A393389341
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 18:55:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id BF1D5892F1
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 19:12:15 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A02BA72167; Mon,  3 Jun 2019 18:55:18 +0000 (UTC)
+ id BBE1472167; Mon,  3 Jun 2019 19:12:15 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110777] Kernel 5.1-5.2 MCLK stuck at 167MHz Vega 10 (56)
-Date: Mon, 03 Jun 2019 18:55:18 +0000
+Subject: [Bug 110422] AMD_DEBUG=forcedma will crash OpenGL aps with SIGFAULT
+ on VegaM 8706G
+Date: Mon, 03 Jun 2019 19:12:15 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: antonh@gmx.de
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110777-502-jWBiW7nol5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110777-502@http.bugs.freedesktop.org/>
-References: <bug-110777-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110422-502-rVpk0uyx2J@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110422-502@http.bugs.freedesktop.org/>
+References: <bug-110422-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,48 +53,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1873743383=="
+Content-Type: multipart/mixed; boundary="===============0017502449=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1873743383==
-Content-Type: multipart/alternative; boundary="15595881181.eb65.30496"
+--===============0017502449==
+Content-Type: multipart/alternative; boundary="15595891351.882C25C.1614"
 Content-Transfer-Encoding: 7bit
 
 
---15595881181.eb65.30496
-Date: Mon, 3 Jun 2019 18:55:18 +0000
+--15595891351.882C25C.1614
+Date: Mon, 3 Jun 2019 19:12:15 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110777
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110422
 
---- Comment #3 from antonh@gmx.de ---
-reverting the following two patches fixes the boost in memory clocks but it
-seems once mem clock has ramped up it's not going down again.
+--- Comment #1 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
+amd.com> ---
+Should be fixed on master by
+https://gitlab.freedesktop.org/mesa/mesa/commit/4583f09caa5aef719a1eec282f2=
+4a86c789cbba6.
 
-1.
-Revert "drm/amd/powerplay: update soc boot and max level on vega10"=20=20=20
-This reverts commit 373e87fc91527124cb8ec21465a6d070a65c56af.
-
-2.
-Revert "drm/amd/powerplay: support Vega10 SOCclk and DCEFclk dpm level
-settings"
-This reverts commit bb05821b13fa0c0b97760cb292b30d3105d65954.
-
-Evan Quan <evan.quan@amd.com>
-Alex Deucher <alexander.deucher@amd.com>
+Can you test and confirm?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15595881181.eb65.30496
-Date: Mon, 3 Jun 2019 18:55:18 +0000
+--15595891351.882C25C.1614
+Date: Mon, 3 Jun 2019 19:12:15 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,35 +102,27 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Kernel 5.1-5.2 MCLK stuck at 167MHz Vega 10 (56)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110777#c3">Commen=
-t # 3</a>
+   title=3D"NEW - AMD_DEBUG=3Dforcedma will crash OpenGL aps with SIGFAULT =
+on VegaM 8706G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110422#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Kernel 5.1-5.2 MCLK stuck at 167MHz Vega 10 (56)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110777">bug 11077=
-7</a>
+   title=3D"NEW - AMD_DEBUG=3Dforcedma will crash OpenGL aps with SIGFAULT =
+on VegaM 8706G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110422">bug 11042=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-antonh&#64;gmx.de" title=3D"antonh&#64;gmx.de">antonh&#64;gmx.de</a>
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
 </span></b>
-        <pre>reverting the following two patches fixes the boost in memory =
-clocks but it
-seems once mem clock has ramped up it's not going down again.
+        <pre>Should be fixed on master by
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/commit/4583f09caa5aef71=
+9a1eec282f24a86c789cbba6">https://gitlab.freedesktop.org/mesa/mesa/commit/4=
+583f09caa5aef719a1eec282f24a86c789cbba6</a>.
 
-1.
-Revert &quot;drm/amd/powerplay: update soc boot and max level on vega10&quo=
-t;=20=20=20
-This reverts commit 373e87fc91527124cb8ec21465a6d070a65c56af.
-
-2.
-Revert &quot;drm/amd/powerplay: support Vega10 SOCclk and DCEFclk dpm level
-settings&quot;
-This reverts commit bb05821b13fa0c0b97760cb292b30d3105d65954.
-
-Evan Quan &lt;<a href=3D"mailto:evan.quan&#64;amd.com">evan.quan&#64;amd.co=
-m</a>&gt;
-Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64;amd.com">alexander=
-.deucher&#64;amd.com</a>&gt;</pre>
+Can you test and confirm?</pre>
         </div>
       </p>
 
@@ -151,9 +136,9 @@ Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64;amd.com">alexander=
     </body>
 </html>=
 
---15595881181.eb65.30496--
+--15595891351.882C25C.1614--
 
---===============1873743383==
+--===============0017502449==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -163,4 +148,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1873743383==--
+--===============0017502449==--
