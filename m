@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5659233F2D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 08:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2498033F36
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 08:53:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D61AB895B5;
-	Tue,  4 Jun 2019 06:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B86C989415;
+	Tue,  4 Jun 2019 06:53:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 57564895B5
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 06:48:00 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC8A08955D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 06:53:28 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 53CC672167; Tue,  4 Jun 2019 06:48:00 +0000 (UTC)
+ id E954072167; Tue,  4 Jun 2019 06:53:28 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
  11.x and 19.x
-Date: Tue, 04 Jun 2019 06:48:00 +0000
+Date: Tue, 04 Jun 2019 06:53:29 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110781-502-f4O9vNyiOM@http.bugs.freedesktop.org/>
+Message-ID: <bug-110781-502-xqwYZ6WcIP@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
 References: <bug-110781-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1203560778=="
+Content-Type: multipart/mixed; boundary="===============0956359907=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1203560778==
-Content-Type: multipart/alternative; boundary="15596308801.10da5edb.3832"
+--===============0956359907==
+Content-Type: multipart/alternative; boundary="15596312081.0EEa7449.5430"
 Content-Transfer-Encoding: 7bit
 
 
---15596308801.10da5edb.3832
-Date: Tue, 4 Jun 2019 06:48:00 +0000
+--15596312081.0EEa7449.5430
+Date: Tue, 4 Jun 2019 06:53:28 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,23 +73,25 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
 
---- Comment #23 from Richard Thier <u9vata@gmail.com> ---
-I have added this before the assert:
+--- Comment #24 from Richard Thier <u9vata@gmail.com> ---
+Sorry! I have to add that the above printf only prints as such if I use my
+hacky patch on latest git! I will try what it says with the "proposed fix"
+patch of Marek as the body of radeon_get_heap_index seems to need
+RADEON_FLAG_NO_INTERPROCESS_SHARING so the above might be misleading withou=
+t me
+telling what are the exact circumstances.
 
-fprintf(stderr, "radeon_get_heap_index(%u, %u): %d", domain, flags, heap);
-
-And I see this logged out before the assertion fail:
-
-radeon_get_heap_index(6, 1): -1
-
-Will look around more if possible.
+But the assert I was running into even with the proposed fix - just I wante=
+d to
+try if there is a difference between the hacky fix and the normal one in the
+assert appearing or not...
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15596308801.10da5edb.3832
-Date: Tue, 4 Jun 2019 06:48:00 +0000
+--15596312081.0EEa7449.5430
+Date: Tue, 4 Jun 2019 06:53:28 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,8 +109,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
 .x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c23">Comme=
-nt # 23</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c24">Comme=
+nt # 24</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
@@ -119,16 +121,19 @@ nt # 23</a>
 u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
  <span class=3D"fn">Richard Thier</span></a>
 </span></b>
-        <pre>I have added this before the assert:
+        <pre>Sorry! I have to add that the above printf only prints as such=
+ if I use my
+hacky patch on latest git! I will try what it says with the &quot;proposed =
+fix&quot;
+patch of Marek as the body of radeon_get_heap_index seems to need
+RADEON_FLAG_NO_INTERPROCESS_SHARING so the above might be misleading withou=
+t me
+telling what are the exact circumstances.
 
-fprintf(stderr, &quot;radeon_get_heap_index(%u, %u): %d&quot;, domain, flag=
-s, heap);
-
-And I see this logged out before the assertion fail:
-
-radeon_get_heap_index(6, 1): -1
-
-Will look around more if possible.</pre>
+But the assert I was running into even with the proposed fix - just I wante=
+d to
+try if there is a difference between the hacky fix and the normal one in the
+assert appearing or not...</pre>
         </div>
       </p>
 
@@ -142,9 +147,9 @@ Will look around more if possible.</pre>
     </body>
 </html>=
 
---15596308801.10da5edb.3832--
+--15596312081.0EEa7449.5430--
 
---===============1203560778==
+--===============0956359907==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -154,4 +159,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1203560778==--
+--===============0956359907==--
