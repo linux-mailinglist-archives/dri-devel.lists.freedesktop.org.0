@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6362E34ECE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 19:30:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C1334F00
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 19:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF1C0899DB;
-	Tue,  4 Jun 2019 17:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4792A895E2;
+	Tue,  4 Jun 2019 17:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A16B989B46
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 17:30:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 989FE72167; Tue,  4 Jun 2019 17:30:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110837] "WebGL creation failed" strings on about:support in
- Firefox 67.0 with Mesa 19.0.5 for WebGL 2
-Date: Tue, 04 Jun 2019 17:30:40 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 19.0
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: a9016009@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-110837-502-6XqSQYl273@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110837-502@http.bugs.freedesktop.org/>
-References: <bug-110837-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9825F895E2;
+ Tue,  4 Jun 2019 17:35:38 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 04 Jun 2019 10:35:38 -0700
+X-ExtLoop1: 1
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 04 Jun 2019 10:35:34 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 04 Jun 2019 20:35:33 +0300
+Date: Tue, 4 Jun 2019 20:35:33 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 3/4] drm/i915/dsi: Move vlv/icl_dphy_param_init call out
+ of intel_dsi_vbt_init
+Message-ID: <20190604173533.GI5942@intel.com>
+References: <20190524163020.17099-1-hdegoede@redhat.com>
+ <20190524163020.17099-4-hdegoede@redhat.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190524163020.17099-4-hdegoede@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,100 +46,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0060875112=="
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0060875112==
-Content-Type: multipart/alternative; boundary="15596694400.4caF4f0.21028"
-Content-Transfer-Encoding: 7bit
-
-
---15596694400.4caF4f0.21028
-Date: Tue, 4 Jun 2019 17:30:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110837
-
-Andre Klapper <a9016009@gmx.de> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|Mesa 19.0.5 breaks support  |"WebGL creation failed"
-                   |for a WebGL 2 in a Firefox  |strings on about:support in
-                   |67.0                        |Firefox 67.0 with Mesa
-                   |                            |19.0.5 for WebGL 2
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15596694400.4caF4f0.21028
-Date: Tue, 4 Jun 2019 17:30:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
-#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
-s=3D"fn">Andre Klapper</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - &quot;WebGL creation failed&quot; strings on about:suppor=
-t in Firefox 67.0 with Mesa 19.0.5 for WebGL 2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110837">bug 11083=
-7</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>Mesa 19.0.5 breaks support for a WebGL 2 in a Firefox 67.0
-           </td>
-           <td>&quot;WebGL creation failed&quot; strings on about:support i=
-n Firefox 67.0 with Mesa 19.0.5 for WebGL 2
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15596694400.4caF4f0.21028--
-
---===============0060875112==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0060875112==--
+T24gRnJpLCBNYXkgMjQsIDIwMTkgYXQgMDY6MzA6MTlQTSArMDIwMCwgSGFucyBkZSBHb2VkZSB3
+cm90ZToKPiBUaGUgdmx2L2ljbF9kcGh5X3BhcmFtX2luaXQgY2FsbHMgZG8gdmFyaW91cyBjYWxj
+dWxhdGlvbnMgdG8gc2V0IGRwaHkKPiBwYXJhbWV0ZXJzIGJhc2VkIG9uIHRoZSBwY2xrLgo+IAo+
+IE1vdmUgdGhlIGNhbGxpbmcgb2Ygdmx2L2ljbF9kcGh5X3BhcmFtX2luaXQgdG8gdmx2X2RzaV9p
+bml0IHRvIGdpdmUKPiB2bHZfZHNpX2luaXQgYSBjaGFuY2UgdG8gdHdlYWsgdGhlIHBjbGsgYmVm
+b3JlIHRoZXNlIGNhbGN1bGF0aW9ucyBhcmUgZG9uZS4KPiAKPiBUaGlzIGFsc28gcmVtb3ZlcyB0
+aGUgc2luZ2xlICJpZiAoSVNfSUNFTEFLRShkZXZfcHJpdikpIiBjaGVjayBmcm9tCj4gaW50ZWxf
+ZHNpX3ZidF9pbml0IG1ha2luZyBpdCBmdWxseSBwbGF0Zm9ybSBhZ25vc3RpYy4KPiAKPiBTaWdu
+ZWQtb2ZmLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29tPgo+IC0tLQo+ICBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pY2xfZHNpLmMgICAgICAgfCAxICsKPiAgZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaW50ZWxfZHNpLmggICAgIHwgMiArKwo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+bnRlbF9kc2lfdmJ0LmMgfCA5ICsrLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS92bHZf
+ZHNpLmMgICAgICAgfCAyICsrCj4gIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3
+IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pY2xf
+ZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pY2xfZHNpLmMKPiBpbmRleCA5ZDk2MmVhMWU2
+MzUuLjBmNDNlZjA3ZWZlYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pY2xf
+ZHNpLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pY2xfZHNpLmMKPiBAQCAtMTQ1NSw2
+ICsxNDU1LDcgQEAgdm9pZCBpY2xfZHNpX2luaXQoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRl
+dl9wcml2KQo+ICAJCWdvdG8gZXJyOwo+ICAJfQo+ICAKPiArCWljbF9kcGh5X3BhcmFtX2luaXQo
+aW50ZWxfZHNpKTsKCkkgdGhpbmsgd2Ugc2hvdWxkIG1vdmUgdGhlIGVudGlyZSBmdW5jdGlvbiBp
+bnRvIHRoaXMgZmlsZS4KCj4gIAlyZXR1cm47Cj4gIAo+ICBlcnI6Cj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2RzaS5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50
+ZWxfZHNpLmgKPiBpbmRleCA3MDVhNjA5MDUwYzAuLmE1OGQzZDk4OGQ5ZiAxMDA2NDQKPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2kuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2ludGVsX2RzaS5oCj4gQEAgLTE5Miw1ICsxOTIsNyBAQCBib29sIGludGVsX2RzaV92
+YnRfaW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2ksIHUxNiBwYW5lbF9pZCk7Cj4gIHZv
+aWQgaW50ZWxfZHNpX3ZidF9leGVjX3NlcXVlbmNlKHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2Rz
+aSwKPiAgCQkJCSBlbnVtIG1pcGlfc2VxIHNlcV9pZCk7Cj4gIHZvaWQgaW50ZWxfZHNpX21zbGVl
+cChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2ksIGludCBtc2VjKTsKPiArdm9pZCBpY2xfZHBo
+eV9wYXJhbV9pbml0KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSk7Cj4gK3ZvaWQgdmx2X2Rw
+aHlfcGFyYW1faW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2kpOwo+ICAKPiAgI2VuZGlm
+IC8qIF9JTlRFTF9EU0lfSCAqLwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+bnRlbF9kc2lfdmJ0LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2lfdmJ0LmMKPiBp
+bmRleCAzNDQ4ZThkNTEwNTcuLjAyMmJmNTk0MThkZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pbnRlbF9kc2lfdmJ0LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+bnRlbF9kc2lfdmJ0LmMKPiBAQCAtNTc4LDcgKzU3OCw3IEBAIHN0YXRpYyB2b2lkIGludGVsX2Rz
+aV9sb2dfcGFyYW1zKHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSkKPiAgI2RlZmluZSBJQ0xf
+SFNfWkVST19DTlRfTUFYCTB4Zgo+ICAjZGVmaW5lIElDTF9FWElUX1pFUk9fQ05UX01BWAkweDcK
+PiAgCj4gLXN0YXRpYyB2b2lkIGljbF9kcGh5X3BhcmFtX2luaXQoc3RydWN0IGludGVsX2RzaSAq
+aW50ZWxfZHNpKQo+ICt2b2lkIGljbF9kcGh5X3BhcmFtX2luaXQoc3RydWN0IGludGVsX2RzaSAq
+aW50ZWxfZHNpKQo+ICB7Cj4gIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gaW50ZWxfZHNpLT5i
+YXNlLmJhc2UuZGV2Owo+ICAJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9f
+aTkxNShkZXYpOwo+IEBAIC02NzcsNyArNjc3LDcgQEAgc3RhdGljIHZvaWQgaWNsX2RwaHlfcGFy
+YW1faW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2kpCj4gIAlpbnRlbF9kc2lfbG9nX3Bh
+cmFtcyhpbnRlbF9kc2kpOwo+ICB9Cj4gIAo+IC1zdGF0aWMgdm9pZCB2bHZfZHBoeV9wYXJhbV9p
+bml0KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSkKPiArdm9pZCB2bHZfZHBoeV9wYXJhbV9p
+bml0KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSkKPiAgewo+ICAJc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiA9IGludGVsX2RzaS0+YmFzZS5iYXNlLmRldjsKPiAgCXN0cnVjdCBkcm1faTkxNV9w
+cml2YXRlICpkZXZfcHJpdiA9IHRvX2k5MTUoZGV2KTsKPiBAQCAtOTE0LDExICs5MTQsNiBAQCBi
+b29sIGludGVsX2RzaV92YnRfaW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2ksIHUxNiBw
+YW5lbF9pZCkKPiAgCj4gIAlpbnRlbF9kc2ktPmJ1cnN0X21vZGVfcmF0aW8gPSBidXJzdF9tb2Rl
+X3JhdGlvOwo+ICAKPiAtCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYpID49IDExKQo+IC0JCWljbF9k
+cGh5X3BhcmFtX2luaXQoaW50ZWxfZHNpKTsKPiAtCWVsc2UKPiAtCQl2bHZfZHBoeV9wYXJhbV9p
+bml0KGludGVsX2RzaSk7Cj4gLQo+ICAJLyogZGVsYXlzIGluIFZCVCBhcmUgaW4gdW5pdCBvZiAx
+MDB1cywgc28gbmVlZCB0byBjb252ZXJ0Cj4gIAkgKiBoZXJlIGluIG1zCj4gIAkgKiBEZWxheSAo
+MTAwdXMpICogMTAwIC8xMDAwID0gRGVsYXkgLyAxMCAobXMpICovCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L3Zsdl9kc2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3Zsdl9k
+c2kuYwo+IGluZGV4IGZjZThiNThmN2Y5My4uMzMyOWNjZjNiMzQ2IDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9pOTE1L3Zsdl9kc2kuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L3Zsdl9kc2kuYwo+IEBAIC0xNzgyLDYgKzE3ODIsOCBAQCB2b2lkIHZsdl9kc2lfaW5pdChzdHJ1
+Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCj4gIAkJZ290byBlcnI7Cj4gIAl9Cj4gIAo+
+ICsJdmx2X2RwaHlfcGFyYW1faW5pdChpbnRlbF9kc2kpOwoKZGl0dG8KCj4gKwo+ICAJLyoKPiAg
+CSAqIEluIGNhc2Ugb2YgQllUIHdpdGggQ1JDIFBNSUMsIHdlIG5lZWQgdG8gdXNlIEdQSU8gZm9y
+Cj4gIAkgKiBQYW5lbCBjb250cm9sLgo+IC0tIAo+IDIuMjEuMAoKLS0gClZpbGxlIFN5cmrDpGzD
+pApJbnRlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
