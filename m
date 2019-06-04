@@ -2,28 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816B134714
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 14:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA0A34721
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 14:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 567E18911F;
-	Tue,  4 Jun 2019 12:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F66D897F9;
+	Tue,  4 Jun 2019 12:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C928911F;
- Tue,  4 Jun 2019 12:40:56 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 16788264-1500050 
- for multiple; Tue, 04 Jun 2019 13:39:52 +0100
-From: Chris Wilson <chris@chris-wilson.co.uk>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3B9A7897F9
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 12:43:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 382C772167; Tue,  4 Jun 2019 12:43:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dma-buf: Discard old fence_excl on retrying get_fences_rcu
- for realloc
-Date: Tue,  4 Jun 2019 13:39:47 +0100
-Message-Id: <20190604123947.20713-1-chris@chris-wilson.co.uk>
-X-Mailer: git-send-email 2.20.1
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Tue, 04 Jun 2019 12:43:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-HKTQeyvErk@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -37,36 +53,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- stable@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0451579910=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgd2UgaGF2ZSB0byBkcm9wIHRoZSBzZXFjb3VudCAmIHJjdSBsb2NrIHRvIHBlcmZvcm0gYSBr
-cmVhbGxvYywgd2UKaGF2ZSB0byByZXN0YXJ0IHRoZSBsb29wLiBJbiBkb2luZyBzbywgYmUgY2Fy
-ZWZ1bCBub3QgdG8gbG9zZSB0cmFjayBvZgp0aGUgYWxyZWFkeSBhY3F1aXJlZCBleGNsdXNpdmUg
-ZmVuY2UuCgpGaXhlczogZmVkZjU0MTMyZDI0ICgiZG1hLWJ1ZjogUmVzdGFydCByZXNlcnZhdGlv
-bl9vYmplY3RfZ2V0X2ZlbmNlc19yY3UoKSBhZnRlciB3cml0ZXMiKSAjdjQuMTAKU2lnbmVkLW9m
-Zi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+CkNjOiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1h
-YXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNo
-cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNo
-ZXJAYW1kLmNvbT4KQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+CkNj
-OiBzdGFibGVAdmdlci5rZXJuZWwub3JnCi0tLQogZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9u
-LmMgfCA2ICsrKysrKwogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jIGIvZHJpdmVycy9kbWEtYnVmL3Jlc2Vy
-dmF0aW9uLmMKaW5kZXggNGQzMmUyYzY3ODYyLi43MDQ1MDNkZjQ4OTIgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZh
-dGlvbi5jCkBAIC0zNjUsNiArMzY1LDEyIEBAIGludCByZXNlcnZhdGlvbl9vYmplY3RfZ2V0X2Zl
-bmNlc19yY3Uoc3RydWN0IHJlc2VydmF0aW9uX29iamVjdCAqb2JqLAogCQkJCQkgICBHRlBfTk9X
-QUlUIHwgX19HRlBfTk9XQVJOKTsKIAkJCWlmICghbnNoYXJlZCkgewogCQkJCXJjdV9yZWFkX3Vu
-bG9jaygpOworCisJCQkJaWYgKGZlbmNlX2V4Y2wpIHsKKwkJCQkJZG1hX2ZlbmNlX3B1dChmZW5j
-ZV9leGNsKTsKKwkJCQkJZmVuY2VfZXhjbCA9IE5VTEw7CisJCQkJfQorCiAJCQkJbnNoYXJlZCA9
-IGtyZWFsbG9jKHNoYXJlZCwgc3osIEdGUF9LRVJORUwpOwogCQkJCWlmIChuc2hhcmVkKSB7CiAJ
-CQkJCXNoYXJlZCA9IG5zaGFyZWQ7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0451579910==
+Content-Type: multipart/alternative; boundary="15596522041.DfBfCFd.30357"
+Content-Transfer-Encoding: 7bit
+
+
+--15596522041.DfBfCFd.30357
+Date: Tue, 4 Jun 2019 12:43:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+
+--- Comment #33 from Richard Thier <u9vata@gmail.com> ---
+I have compiled a "how to build" just for you - linking sources I used:
+
+http://ballmerpeak.web.elte.hu/devblog/building-your-own-mesa.html
+
+Everyone should be able to try the quickfix using this and the links on this
+page, but I guess even if questions arise there will be people answering th=
+em -
+just please do not clutter the bug report with these anymore. Write emails =
+or
+ask around forums or something as this is a general topic unrelated to the
+slowdown bug.
+
+Wondering about two things now:
+
+- Is my quickfix patch working for other people too?
+- Is my quickfix good-enough or should we dig deeper and solve the domain b=
+its
+issue other ways? (latter is a question towards more experiences devs)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15596522041.DfBfCFd.30357
+Date: Tue, 4 Jun 2019 12:43:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c33">Comme=
+nt # 33</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>I have compiled a &quot;how to build&quot; just for you - link=
+ing sources I used:
+
+<a href=3D"http://ballmerpeak.web.elte.hu/devblog/building-your-own-mesa.ht=
+ml">http://ballmerpeak.web.elte.hu/devblog/building-your-own-mesa.html</a>
+
+Everyone should be able to try the quickfix using this and the links on this
+page, but I guess even if questions arise there will be people answering th=
+em -
+just please do not clutter the bug report with these anymore. Write emails =
+or
+ask around forums or something as this is a general topic unrelated to the
+slowdown bug.
+
+Wondering about two things now:
+
+- Is my quickfix patch working for other people too?
+- Is my quickfix good-enough or should we dig deeper and solve the domain b=
+its
+issue other ways? (latter is a question towards more experiences devs)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15596522041.DfBfCFd.30357--
+
+--===============0451579910==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0451579910==--
