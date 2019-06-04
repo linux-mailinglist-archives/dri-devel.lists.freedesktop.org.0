@@ -1,64 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70952348F0
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 15:35:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD4B348F1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 15:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF91898C7;
-	Tue,  4 Jun 2019 13:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 917AA898C8;
+	Tue,  4 Jun 2019 13:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C777A898C7
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 13:35:21 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id g135so73939wme.4
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2019 06:35:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=0rxWiDS7gpUSmRLiQjK4w/FfUorLcAv9VSiS1hF9VWE=;
- b=CLjlAUC/86qNQPD0AeKzz8hkHfs/PFsu6MMttQzlKdM/vPZOSYN5JjZjuKw+C9agmI
- SC9sdke+c01jYr6qMAc4O/nWH1A0Fn2iNJKt1t4g0aJfkQRvRlZ1W0DI9JtKOFNUwaRH
- l+eRJ8MMDrrI+kxhPgOwb5OxjXicxxKnpigoIu9I6ldsjzjTn84N34U86429euKIeA1q
- tIxHH0ea4ENRS5z/FYW2YUOGFYgbqjcGojPnsy+ZxYwBVsobuv1+BsKSA3McGUAZDg4e
- sa+ssN/3WIk3htvzCz2viMyZfNpty8qtvoQGBXb6jazFUeowixtYaF4At5mVciAKdhJ3
- AmDQ==
-X-Gm-Message-State: APjAAAXVjIw3dYj9s8Zb3FAVWnzrTOBkZ0Acz9Gpw0CzCmJD1Gfg/B03
- e4fy3knxMTFf41d/pQvNZxqfD5pSeic=
-X-Google-Smtp-Source: APXvYqwjt2pZ1Qpkgey4nZvvtoNMWNTNOMzd+uSC3T6KKKXW2+zQOLZdz4uQlm/kcHrMGqWtT/TAuw==
-X-Received: by 2002:a1c:a7ca:: with SMTP id
- q193mr19491784wme.150.1559655319427; 
- Tue, 04 Jun 2019 06:35:19 -0700 (PDT)
-Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
- by smtp.gmail.com with ESMTPSA id f2sm18227608wrq.48.2019.06.04.06.35.18
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 04 Jun 2019 06:35:19 -0700 (PDT)
-Date: Tue, 4 Jun 2019 13:35:11 +0000
-From: sylvain.bertrand@gmail.com
-To: bugzilla-daemon@freedesktop.org
-Subject: Re: [Bug 110822] booting with kernel version 5.1.0 or higher on RX
- 580 hangs
-Message-ID: <20190604133511.GA574@freedom>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9B35898C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 13:35:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B31EE72168; Tue,  4 Jun 2019 13:35:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110822] booting with kernel version 5.1.0 or higher on RX 580
+ hangs
+Date: Tue, 04 Jun 2019 13:35:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110822-502-SYVNBSOubu@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
 References: <bug-110822-502@http.bugs.freedesktop.org/>
- <bug-110822-502-7marQ2G77X@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bug-110822-502-7marQ2G77X@http.bugs.freedesktop.org/>
-User-Agent: Mutt/ (2018-04-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=0rxWiDS7gpUSmRLiQjK4w/FfUorLcAv9VSiS1hF9VWE=;
- b=Ujyh7gQao87GcWvkSpjQJswPKl/O5DJbiGBpZBa7kB1e/pQecYLl+Vr4JgFL15WiN5
- B/kZut3cKYLYCOL8qYdeUSdGJ2bYqZOpRGdSF5BItwD+5cLC5oyILN6CeD5h9g1N/L8d
- G3dx6xjK6J7WtWUWyoNo/NhjSLI2R2tFqV8XX91Wt6BKeAxgc+6SR3YMBlKnrHAeUGqa
- QVaAY89Heh+mylXxVluVOIIXB1Qa6Z5siOg1XVkUpqkOKPtgff73Bw4l8vAjn+E6O/z4
- ZaYYRbcj0+TlwiKpVdG9s6QlCr7Nus/kCuBPgIHXV722fmvjyrxuQEjlvLjcyLbW+9OC
- oN8Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,17 +53,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0328384083=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-YmlzZWN0IGlzIHF1aXRlIGNvbW1vbiBpbiB0aGUgZ2l0IHdvcmxkLiBZb3UnbGwgZmluZCB0b25z
-IG9mIHR1dG9yaWFscyBvbiB0aGUKd2ViLCBuYW1lbHkgeW91J3JlIGdvb2QgZm9yIGEgbGl0dGxl
-IGJpdCBvZiByZWFkaW5nLgpKdXN0IGRvbid0IGZvcmdldCB0byAiZ2l0IHJlc2V0IC0taGFyZCIg
-YmVmb3JlIGNhbGxpbmcgImdpdCBiaXNlY3QgZ29vZHxiYWQiLgooanVzdCBwZXJmb3JtZWQgYSBi
-aXNlY3Rpb24gb24gbGludXggeWVzdGVyZGF5KS4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============0328384083==
+Content-Type: multipart/alternative; boundary="15596553230.593dB.9724"
+Content-Transfer-Encoding: 7bit
+
+
+--15596553230.593dB.9724
+Date: Tue, 4 Jun 2019 13:35:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
+
+--- Comment #6 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+bisect is quite common in the git world. You'll find tons of tutorials on t=
+he
+web, namely you're good for a little bit of reading.
+Just don't forget to "git reset --hard" before calling "git bisect good|bad=
+".
+(just performed a bisection on linux yesterday).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15596553230.593dB.9724
+Date: Tue, 4 Jun 2019 13:35:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - booting with kernel version 5.1.0 or higher on RX 580 han=
+gs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - booting with kernel version 5.1.0 or higher on RX 580 han=
+gs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre>bisect is quite common in the git world. You'll find tons of t=
+utorials on the
+web, namely you're good for a little bit of reading.
+Just don't forget to &quot;git reset --hard&quot; before calling &quot;git =
+bisect good|bad&quot;.
+(just performed a bisection on linux yesterday).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15596553230.593dB.9724--
+
+--===============0328384083==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0328384083==--
