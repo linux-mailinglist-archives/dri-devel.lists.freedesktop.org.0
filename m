@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8358C33FC2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 09:15:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC4E33C72
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 02:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CBEC896E5;
-	Tue,  4 Jun 2019 07:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3358935B;
+	Tue,  4 Jun 2019 00:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0698934F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Jun 2019 23:40:27 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 45Hs4973bGz1rwJL;
- Tue,  4 Jun 2019 01:40:25 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 45Hs496gF8z1qqkb;
- Tue,  4 Jun 2019 01:40:25 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id z9f2sek0AuoN; Tue,  4 Jun 2019 01:40:24 +0200 (CEST)
-X-Auth-Info: cZo50q+ISbjfiBQKMOAo40iAGzEdzuKJF2QKS1FgwJQ=
-Received: from kurokawa.lan (ip-86-49-110-70.net.upcbroadband.cz
- [86.49.110.70])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Tue,  4 Jun 2019 01:40:24 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4DD238935B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 00:31:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4AAB972167; Tue,  4 Jun 2019 00:31:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm] etnaviv: Use hash table to track BO indexes
-Date: Tue,  4 Jun 2019 01:39:29 +0200
-Message-Id: <20190603233929.23048-1-marex@denx.de>
-X-Mailer: git-send-email 2.20.1
+Subject: [Bug 110422] AMD_DEBUG=forcedma will crash OpenGL aps with SIGFAULT
+ on VegaM 8706G
+Date: Tue, 04 Jun 2019 00:31:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: Dieter@nuetzel-hh.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110422-502-1v4qYxq7Mo@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110422-502@http.bugs.freedesktop.org/>
+References: <bug-110422-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 04 Jun 2019 07:14:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,90 +53,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2061694482=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXNlIGhhc2ggdGFibGUgaW5zdGVhZCBvZiBhZC1ob2MgYXJyYXlzLgoKU2lnbmVkLW9mZi1ieTog
-TWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+CkNjOiBDaHJpc3RpYW4gR21laW5lciA8Y2hyaXN0
-aWFuLmdtZWluZXJAZ21haWwuY29tPgpDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0cm9u
-aXguZGU+Ci0tLQogZXRuYXZpdi9ldG5hdml2X2JvLmMgICAgICAgICB8ICA2ICsrKy0tLQogZXRu
-YXZpdi9ldG5hdml2X2NtZF9zdHJlYW0uYyB8IDMxICsrKysrKysrKysrKysrKysrKysrKystLS0t
-LS0tLS0KIGV0bmF2aXYvZXRuYXZpdl9wcml2LmggICAgICAgfCAxNyArKysrKysrKysrLS0tLS0t
-LQogMyBmaWxlcyBjaGFuZ2VkLCAzNSBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKCmRp
-ZmYgLS1naXQgYS9ldG5hdml2L2V0bmF2aXZfYm8uYyBiL2V0bmF2aXYvZXRuYXZpdl9iby5jCmlu
-ZGV4IDQzY2U2YjRlLi4yOGFkMzE2MiAxMDA2NDQKLS0tIGEvZXRuYXZpdi9ldG5hdml2X2JvLmMK
-KysrIGIvZXRuYXZpdi9ldG5hdml2X2JvLmMKQEAgLTQ0LDE0ICs0NCwxNCBAQCBkcm1fcHJpdmF0
-ZSB2b2lkIGJvX2RlbChzdHJ1Y3QgZXRuYV9ibyAqYm8pCiAJaWYgKGJvLT5tYXApCiAJCWRybV9t
-dW5tYXAoYm8tPm1hcCwgYm8tPnNpemUpOwogCi0JaWYgKGJvLT5uYW1lKQotCQlkcm1IYXNoRGVs
-ZXRlKGJvLT5kZXYtPm5hbWVfdGFibGUsIGJvLT5uYW1lKTsKLQogCWlmIChiby0+aGFuZGxlKSB7
-CiAJCXN0cnVjdCBkcm1fZ2VtX2Nsb3NlIHJlcSA9IHsKIAkJCS5oYW5kbGUgPSBiby0+aGFuZGxl
-LAogCQl9OwogCisJCWlmIChiby0+bmFtZSkKKwkJCWRybUhhc2hEZWxldGUoYm8tPmRldi0+bmFt
-ZV90YWJsZSwgYm8tPm5hbWUpOworCiAJCWRybUhhc2hEZWxldGUoYm8tPmRldi0+aGFuZGxlX3Rh
-YmxlLCBiby0+aGFuZGxlKTsKIAkJZHJtSW9jdGwoYm8tPmRldi0+ZmQsIERSTV9JT0NUTF9HRU1f
-Q0xPU0UsICZyZXEpOwogCX0KZGlmZiAtLWdpdCBhL2V0bmF2aXYvZXRuYXZpdl9jbWRfc3RyZWFt
-LmMgYi9ldG5hdml2L2V0bmF2aXZfY21kX3N0cmVhbS5jCmluZGV4IDI2MTc3N2IwLi5mNTUwYjJm
-ZiAxMDA2NDQKLS0tIGEvZXRuYXZpdi9ldG5hdml2X2NtZF9zdHJlYW0uYworKysgYi9ldG5hdml2
-L2V0bmF2aXZfY21kX3N0cmVhbS5jCkBAIC02MSw2ICs2MSw3IEBAIGRybV9wdWJsaWMgc3RydWN0
-IGV0bmFfY21kX3N0cmVhbSAqZXRuYV9jbWRfc3RyZWFtX25ldyhzdHJ1Y3QgZXRuYV9waXBlICpw
-aXBlLAogCQl2b2lkICpwcml2KQogewogCXN0cnVjdCBldG5hX2NtZF9zdHJlYW1fcHJpdiAqc3Ry
-ZWFtID0gTlVMTDsKKwlzdHJ1Y3QgZXRuYV9kZXZpY2UgKmRldiA9IHBpcGUtPmdwdS0+ZGV2Owog
-CiAJaWYgKHNpemUgPT0gMCkgewogCQlFUlJPUl9NU0coImludmFsaWQgc2l6ZSBvZiAwIik7CkBA
-IC04Niw2ICs4Nyw3IEBAIGRybV9wdWJsaWMgc3RydWN0IGV0bmFfY21kX3N0cmVhbSAqZXRuYV9j
-bWRfc3RyZWFtX25ldyhzdHJ1Y3QgZXRuYV9waXBlICpwaXBlLAogCXN0cmVhbS0+cGlwZSA9IHBp
-cGU7CiAJc3RyZWFtLT5yZXNldF9ub3RpZnkgPSByZXNldF9ub3RpZnk7CiAJc3RyZWFtLT5yZXNl
-dF9ub3RpZnlfcHJpdiA9IHByaXY7CisJc3RyZWFtLT5zZXFubyA9ICsrZGV2LT5zdHJlYW1fY250
-OwogCiAJcmV0dXJuICZzdHJlYW0tPmJhc2U7CiAKQEAgLTE1MCwxOCArMTUyLDI0IEBAIHN0YXRp
-YyB1aW50MzJfdCBibzJpZHgoc3RydWN0IGV0bmFfY21kX3N0cmVhbSAqc3RyZWFtLCBzdHJ1Y3Qg
-ZXRuYV9ibyAqYm8sCiAKIAlwdGhyZWFkX211dGV4X2xvY2soJmlkeF9sb2NrKTsKIAotCWlmIChi
-by0+Y3VycmVudF9zdHJlYW0gPT0gc3RyZWFtKSB7CisJaWYgKGJvLT5jdXJyZW50X3N0cmVhbV9z
-ZXFubyA9PSBwcml2LT5zZXFubykgewogCQlpZHggPSBiby0+aWR4OwogCX0gZWxzZSB7Ci0JCS8q
-IHNsb3ctcGF0aDogKi8KLQkJZm9yIChpZHggPSAwOyBpZHggPCBwcml2LT5ucl9ib3M7IGlkeCsr
-KQotCQkJaWYgKHByaXYtPmJvc1tpZHhdID09IGJvKQotCQkJCWJyZWFrOwotCQlpZiAoaWR4ID09
-IHByaXYtPm5yX2JvcykgewotCQkJLyogbm90IGZvdW5kICovCisJCXZvaWQgKnZhbDsKKworCQlp
-ZiAoIXByaXYtPmJvX3RhYmxlKQorCQkJcHJpdi0+Ym9fdGFibGUgPSBkcm1IYXNoQ3JlYXRlKCk7
-CisKKwkJaWYgKCFkcm1IYXNoTG9va3VwKHByaXYtPmJvX3RhYmxlLCBiby0+aGFuZGxlLCAmdmFs
-KSkgeworCQkJLyogZm91bmQgKi8KKwkJCWlkeCA9ICh1aW50MzJfdCkodWludHB0cl90KXZhbDsK
-KwkJfSBlbHNlIHsKIAkJCWlkeCA9IGFwcGVuZF9ibyhzdHJlYW0sIGJvKTsKKwkJCXZhbCA9ICh2
-b2lkICopKHVpbnRwdHJfdClpZHg7CisJCQlkcm1IYXNoSW5zZXJ0KHByaXYtPmJvX3RhYmxlLCBi
-by0+aGFuZGxlLCB2YWwpOwogCQl9Ci0JCWJvLT5jdXJyZW50X3N0cmVhbSA9IHN0cmVhbTsKKwor
-CQliby0+Y3VycmVudF9zdHJlYW1fc2Vxbm8gPSBwcml2LT5zZXFubzsKIAkJYm8tPmlkeCA9IGlk
-eDsKIAl9CiAJcHRocmVhZF9tdXRleF91bmxvY2soJmlkeF9sb2NrKTsKQEAgLTIxMywxMCArMjIx
-LDE1IEBAIHN0YXRpYyB2b2lkIGZsdXNoKHN0cnVjdCBldG5hX2NtZF9zdHJlYW0gKnN0cmVhbSwg
-aW50IGluX2ZlbmNlX2ZkLAogCWZvciAodWludDMyX3QgaSA9IDA7IGkgPCBwcml2LT5ucl9ib3M7
-IGkrKykgewogCQlzdHJ1Y3QgZXRuYV9ibyAqYm8gPSBwcml2LT5ib3NbaV07CiAKLQkJYm8tPmN1
-cnJlbnRfc3RyZWFtID0gTlVMTDsKKwkJYm8tPmN1cnJlbnRfc3RyZWFtX3NlcW5vID0gMDsKIAkJ
-ZXRuYV9ib19kZWwoYm8pOwogCX0KIAorCWlmIChwcml2LT5ib190YWJsZSkgeworCQlkcm1IYXNo
-RGVzdHJveShwcml2LT5ib190YWJsZSk7CisJCXByaXYtPmJvX3RhYmxlID0gTlVMTDsKKwl9CisK
-IAlpZiAob3V0X2ZlbmNlX2ZkKQogCQkqb3V0X2ZlbmNlX2ZkID0gcmVxLmZlbmNlX2ZkOwogfQpk
-aWZmIC0tZ2l0IGEvZXRuYXZpdi9ldG5hdml2X3ByaXYuaCBiL2V0bmF2aXYvZXRuYXZpdl9wcml2
-LmgKaW5kZXggZWVmN2Y0OWMuLmJjODIzMjRlIDEwMDY0NAotLS0gYS9ldG5hdml2L2V0bmF2aXZf
-cHJpdi5oCisrKyBiL2V0bmF2aXYvZXRuYXZpdl9wcml2LmgKQEAgLTc2LDYgKzc2LDggQEAgc3Ry
-dWN0IGV0bmFfZGV2aWNlIHsKIAlzdHJ1Y3QgZXRuYV9ib19jYWNoZSBib19jYWNoZTsKIAogCWlu
-dCBjbG9zZWZkOyAgICAgICAgLyogY2FsbCBjbG9zZShmZCkgdXBvbiBkZXN0cnVjdGlvbiAqLwor
-CisJdW5zaWduZWQgaW50IHN0cmVhbV9jbnQ7CiB9OwogCiBkcm1fcHJpdmF0ZSB2b2lkIGV0bmFf
-Ym9fY2FjaGVfaW5pdChzdHJ1Y3QgZXRuYV9ib19jYWNoZSAqY2FjaGUpOwpAQCAtOTgsMTQgKzEw
-MCwxMiBAQCBzdHJ1Y3QgZXRuYV9ibyB7CiAJdWludDY0X3QgICAgICAgIG9mZnNldDsgICAgICAg
-ICAvKiBvZmZzZXQgdG8gbW1hcCgpICovCiAJYXRvbWljX3QgICAgICAgIHJlZmNudDsKIAotCS8q
-IGluIHRoZSBjb21tb24gY2FzZSwgYSBibyB3b24ndCBiZSByZWZlcmVuY2VkIGJ5IG1vcmUgdGhh
-biBhIHNpbmdsZQotCSAqIGNvbW1hbmQgc3RyZWFtLiAgU28gdG8gYXZvaWQgbG9vcGluZyBvdmVy
-IGFsbCB0aGUgYm8ncyBpbiB0aGUKLQkgKiByZWxvYyB0YWJsZSB0byBmaW5kIHRoZSBpZHggb2Yg
-YSBibyB0aGF0IG1pZ2h0IGFscmVhZHkgYmUgaW4gdGhlCi0JICogdGFibGUsIHdlIGNhY2hlIHRo
-ZSBpZHggaW4gdGhlIGJvLiAgQnV0IGluIG9yZGVyIHRvIGRldGVjdCB0aGUKLQkgKiBzbG93LXBh
-dGggd2hlcmUgYm8gaXMgcmVmJ2QgaW4gbXVsdGlwbGUgc3RyZWFtcywgd2UgYWxzbyBtdXN0IHRy
-YWNrCi0JICogdGhlIGN1cnJlbnRfc3RyZWFtIGZvciB3aGljaCB0aGUgaWR4IGlzIHZhbGlkLiAg
-U2VlIGJvMmlkeCgpLgorCS8qCisJICogVG8gYXZvaWQgZXhjZXNzIGhhc2h0YWJsZSBsb29rdXBz
-LCBjYWNoZSB0aGUgc3RyZWFtIHRoaXMgYm8gd2FzCisJICogbGFzdCBlbWl0dGVkIG9uIChzaW5j
-ZSB0aGF0IHdpbGwgcHJvYmFibHkgYWxzbyBiZSB0aGUgbmV4dCByaW5nCisJICogaXQgaXMgZW1p
-dHRlZCBvbikuCiAJICovCi0Jc3RydWN0IGV0bmFfY21kX3N0cmVhbSAqY3VycmVudF9zdHJlYW07
-CisJdW5zaWduZWQgaW50IGN1cnJlbnRfc3RyZWFtX3NlcW5vOwogCXVpbnQzMl90IGlkeDsKIAog
-CWludCByZXVzZTsKQEAgLTE1Myw2ICsxNTMsOSBAQCBzdHJ1Y3QgZXRuYV9jbWRfc3RyZWFtX3By
-aXYgewogCS8qIG5vdGlmeSBjYWxsYmFjayBpZiBidWZmZXIgcmVzZXQgaGFwcGVuZWQgKi8KIAl2
-b2lkICgqcmVzZXRfbm90aWZ5KShzdHJ1Y3QgZXRuYV9jbWRfc3RyZWFtICpzdHJlYW0sIHZvaWQg
-KnByaXYpOwogCXZvaWQgKnJlc2V0X25vdGlmeV9wcml2OworCisJdW5zaWduZWQgaW50IHNlcW5v
-OworCXZvaWQgKmJvX3RhYmxlOwogfTsKIAogc3RydWN0IGV0bmFfcGVyZm1vbiB7Ci0tIAoyLjIw
-LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2061694482==
+Content-Type: multipart/alternative; boundary="15596082842.bed2Ac.8219"
+Content-Transfer-Encoding: 7bit
+
+
+--15596082842.bed2Ac.8219
+Date: Tue, 4 Jun 2019 00:31:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110422
+
+--- Comment #2 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
+(In reply to Pierre-Eric Pelloux-Prayer from comment #1)
+> Should be fixed on master by
+> https://gitlab.freedesktop.org/mesa/mesa/commit/
+> 4583f09caa5aef719a1eec282f24a86c789cbba6.
+>=20
+> Can you test and confirm?
+
+Hello Pierre-Eric,
+
+I can confirm with Polaris 20 (RX580) running Unigine_Heaven-4.0 with
+
+SOURCE/Unigine_Heaven-4.0> echo $AMD_DEBUG=20
+sisched,nir,forcedma
+SOURCE/Unigine_Heaven-4.0> echo $R600_DEBUG=20
+sisched,nir,forcedma
+
+sigfaulted for me before, too.
+Could be closed after Dimitar confirmed, too.
+
+BTW Are you one of the 'new' AMD OSS guys?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15596082842.bed2Ac.8219
+Date: Tue, 4 Jun 2019 00:31:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD_DEBUG=3Dforcedma will crash OpenGL aps with SIGFAULT =
+on VegaM 8706G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110422#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMD_DEBUG=3Dforcedma will crash OpenGL aps with SIGFAULT =
+on VegaM 8706G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110422">bug 11042=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
+l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
+</span></b>
+        <pre>(In reply to Pierre-Eric Pelloux-Prayer from <a href=3D"show_b=
+ug.cgi?id=3D110422#c1">comment #1</a>)
+<span class=3D"quote">&gt; Should be fixed on master by
+&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/commit/">https://g=
+itlab.freedesktop.org/mesa/mesa/commit/</a>
+&gt; 4583f09caa5aef719a1eec282f24a86c789cbba6.
+&gt;=20
+&gt; Can you test and confirm?</span >
+
+Hello Pierre-Eric,
+
+I can confirm with Polaris 20 (RX580) running Unigine_Heaven-4.0 with
+
+SOURCE/Unigine_Heaven-4.0&gt; echo $AMD_DEBUG=20
+sisched,nir,forcedma
+SOURCE/Unigine_Heaven-4.0&gt; echo $R600_DEBUG=20
+sisched,nir,forcedma
+
+sigfaulted for me before, too.
+Could be closed after Dimitar confirmed, too.
+
+BTW Are you one of the 'new' AMD OSS guys?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15596082842.bed2Ac.8219--
+
+--===============2061694482==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2061694482==--
