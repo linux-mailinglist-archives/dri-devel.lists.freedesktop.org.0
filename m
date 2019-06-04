@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515AC33DC8
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 06:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 209C733DCD
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 06:21:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EFFA89444;
-	Tue,  4 Jun 2019 04:19:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 181808944A;
+	Tue,  4 Jun 2019 04:21:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id F40BD89450
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 04:19:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D2AA8944A
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 04:21:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F0F0472167; Tue,  4 Jun 2019 04:19:25 +0000 (UTC)
+ id 19BB072167; Tue,  4 Jun 2019 04:21:41 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Tue, 04 Jun 2019 04:19:26 +0000
+Date: Tue, 04 Jun 2019 04:21:41 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-r7CXJegBaC@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-GnAoMZf3oX@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0575153863=="
+Content-Type: multipart/mixed; boundary="===============0929403710=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0575153863==
-Content-Type: multipart/alternative; boundary="15596219653.Ccd3Dd753.32573"
+--===============0929403710==
+Content-Type: multipart/alternative; boundary="15596221010.0d4Ebf001.32573"
 Content-Transfer-Encoding: 7bit
 
 
---15596219653.Ccd3Dd753.32573
-Date: Tue, 4 Jun 2019 04:19:25 +0000
+--15596221010.0d4Ebf001.32573
+Date: Tue, 4 Jun 2019 04:21:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,23 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #35 from sehellion@gmail.com ---
-Vega20 affected to these or similar bugs, too. On are kernels 5.0.x the pri=
-mary
-monitor falls. Starting with version 5.1.x, hangs and resets gpu already af=
-ter
-login to x-session or after workiing dpms. This is not fixed in version 5.2=
--rc2
-yet. But yesterday I successfully boot and work with two monitors. Problems
-appeared only after idle time.
-https://bugzilla.kernel.org/show_bug.cgi?id=3D203781
+--- Comment #36 from sehellion@gmail.com ---
+Created attachment 144438
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144438&action=3Dedit
+dmesg.log vega20 crash after idle
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15596219653.Ccd3Dd753.32573
-Date: Tue, 4 Jun 2019 04:19:25 +0000
+--15596221010.0d4Ebf001.32573
+Date: Tue, 4 Jun 2019 04:21:41 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c35">Comme=
-nt # 35</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c36">Comme=
+nt # 36</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -116,16 +110,11 @@ nt # 35</a>
 sehellion&#64;gmail.com" title=3D"sehellion&#64;gmail.com">sehellion&#64;gm=
 ail.com</a>
 </span></b>
-        <pre>Vega20 affected to these or similar bugs, too. On are kernels =
-5.0.x the primary
-monitor falls. Starting with version 5.1.x, hangs and resets gpu already af=
-ter
-login to x-session or after workiing dpms. This is not fixed in version 5.2=
--rc2
-yet. But yesterday I successfully boot and work with two monitors. Problems
-appeared only after idle time.
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D203781">https://bu=
-gzilla.kernel.org/show_bug.cgi?id=3D203781</a></pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144438=
+" name=3D"attach_144438" title=3D"dmesg.log vega20 crash after idle">attach=
+ment 144438</a> <a href=3D"attachment.cgi?id=3D144438&amp;action=3Dedit" ti=
+tle=3D"dmesg.log vega20 crash after idle">[details]</a></span>
+dmesg.log vega20 crash after idle</pre>
         </div>
       </p>
 
@@ -139,9 +128,9 @@ gzilla.kernel.org/show_bug.cgi?id=3D203781</a></pre>
     </body>
 </html>=
 
---15596219653.Ccd3Dd753.32573--
+--15596221010.0d4Ebf001.32573--
 
---===============0575153863==
+--===============0929403710==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -151,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0575153863==--
+--===============0929403710==--
