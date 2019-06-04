@@ -1,46 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DD735010
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 20:57:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2053501B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 21:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C520689BBD;
-	Tue,  4 Jun 2019 18:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A5989BBD;
+	Tue,  4 Jun 2019 19:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0530789BBE
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 18:57:32 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F38A172167; Tue,  4 Jun 2019 18:57:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110822] booting with kernel version 5.1.0 or higher on RX 580
- hangs
-Date: Tue, 04 Jun 2019 18:57:32 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: gobinda.joy@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110822-502-YVGFpL4JWx@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
-References: <bug-110822-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com
+ (mail-eopbgr760078.outbound.protection.outlook.com [40.107.76.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4BEF89BB2;
+ Tue,  4 Jun 2019 19:03:12 +0000 (UTC)
+Received: from BL0PR12MB2580.namprd12.prod.outlook.com (52.132.27.147) by
+ BL0PR12MB2515.namprd12.prod.outlook.com (52.132.11.154) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1943.22; Tue, 4 Jun 2019 19:03:10 +0000
+Received: from BL0PR12MB2580.namprd12.prod.outlook.com
+ ([fe80::24a0:610c:5b5c:9b9b]) by BL0PR12MB2580.namprd12.prod.outlook.com
+ ([fe80::24a0:610c:5b5c:9b9b%5]) with mapi id 15.20.1943.018; Tue, 4 Jun 2019
+ 19:03:10 +0000
+From: "Zeng, Oak" <Oak.Zeng@amd.com>
+To: "Kuehling, Felix" <Felix.Kuehling@amd.com>,
+ =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/ttm: fix ttm_bo_unreserve
+Thread-Topic: [PATCH] drm/ttm: fix ttm_bo_unreserve
+Thread-Index: AQHVGulu9ZQ941Np90exnDVnWHTczaaL1eGAgAAD1oA=
+Date: Tue, 4 Jun 2019 19:03:10 +0000
+Message-ID: <BL0PR12MB2580B3E88C17043DE402CF3280150@BL0PR12MB2580.namprd12.prod.outlook.com>
+References: <20190604152306.1804-1-christian.koenig@amd.com>
+ <497dc76b-4752-59cf-a9a4-8fdf8c608383@amd.com>
+In-Reply-To: <497dc76b-4752-59cf-a9a4-8fdf8c608383@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [165.204.55.250]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ba82c6c6-7ae9-4d2f-e445-08d6e91f495c
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:BL0PR12MB2515; 
+x-ms-traffictypediagnostic: BL0PR12MB2515:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <BL0PR12MB251553CB009271DB747C956B80150@BL0PR12MB2515.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0058ABBBC7
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(136003)(366004)(396003)(346002)(376002)(39860400002)(13464003)(189003)(199004)(25786009)(6306002)(9686003)(6436002)(14454004)(55016002)(966005)(2201001)(316002)(68736007)(14444005)(229853002)(256004)(66556008)(53936002)(6246003)(478600001)(66066001)(2906002)(3846002)(102836004)(72206003)(53546011)(6116002)(26005)(6506007)(66946007)(76176011)(7696005)(64756008)(74316002)(110136005)(71200400001)(86362001)(186003)(305945005)(66446008)(7736002)(99286004)(73956011)(5660300002)(71190400001)(8936002)(81156014)(81166006)(66574012)(486006)(11346002)(2501003)(8676002)(476003)(446003)(33656002)(52536014)(76116006)(66476007);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:BL0PR12MB2515;
+ H:BL0PR12MB2580.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 1rZKCyKwTcHrsrqSs5If9lEDsn9UC2+9fTzjB7Fxk8L7eWsLqG29NZ8nzZsiTTyRotF/vns29DyLez7fmKzHgAluYUCwpiMJvHkXRllyGN3BgQOm+G0G1H3a8wg4IG0Cc9vH4sf4lNK6ZeyJEc6FIJOWwH6ihMLfuu2j07ZGhP1D8UV2gsTBH0kEQdpqRUHfYVSMaYucjmpMCwtfKNFeCrnIYQuRY4o2GPOFXKDkVFBdR0CAnj/F2B6nAStOGfnb/BJQHGT/lpaBq69tZFZrn8sQsc4P9+3CXtuaZ+X2y7S949EIynuH2TzIH3sTIbWRTDe1/JN00gu5MCSlo3M5TPNbGdoCCQxUBYe0ff2j4wU0v2XI3KKN8f3Yq4Ps3tk9vBVVwzqmthezB8uyGK0RYDtmHjvZg/5OOcdyIYnVoEY=
 MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba82c6c6-7ae9-4d2f-e445-08d6e91f495c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2019 19:03:10.1857 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ozeng@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2515
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F6RanFj66f3EkvaybXIcLsjmIWIXk5uLI7YyanPw75Y=;
+ b=XqqWN45DjI4L2gmJNzOj/60jrL/owySWebYxHWiMBzGs+6w5FdtOtAwUbIyxfRbZvpHY6ICbqcuijdbohqweolgNb2zAQf6OM+aObP68YqKBHgJnYZfnHOvwgrvxt+9quaC5wjm4EqmO3Eu/k2Z6u8XEMlV0V/ojU3661KqrAHI=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Oak.Zeng@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,99 +87,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1899824621=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1899824621==
-Content-Type: multipart/alternative; boundary="15596746511.Fb68C.19110"
-Content-Transfer-Encoding: 7bit
-
-
---15596746511.Fb68C.19110
-Date: Tue, 4 Jun 2019 18:57:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
-
---- Comment #10 from Gobinda Joy <gobinda.joy@gmail.com> ---
-Created attachment 144450
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144450&action=3Dedit
-Linux version 5.1.0-0.rc3.git3.1.fc31.x86_64
-
-First occurrence of the bug
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15596746511.Fb68C.19110
-Date: Tue, 4 Jun 2019 18:57:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - booting with kernel version 5.1.0 or higher on RX 580 han=
-gs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - booting with kernel version 5.1.0 or higher on RX 580 han=
-gs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gobinda.joy&#64;gmail.com" title=3D"Gobinda Joy &lt;gobinda.joy&#64;gmail.c=
-om&gt;"> <span class=3D"fn">Gobinda Joy</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144450=
-" name=3D"attach_144450" title=3D"Linux version 5.1.0-0.rc3.git3.1.fc31.x86=
-_64">attachment 144450</a> <a href=3D"attachment.cgi?id=3D144450&amp;action=
-=3Dedit" title=3D"Linux version 5.1.0-0.rc3.git3.1.fc31.x86_64">[details]</=
-a></span>
-Linux version 5.1.0-0.rc3.git3.1.fc31.x86_64
-
-First occurrence of the bug</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15596746511.Fb68C.19110--
-
---===============1899824621==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1899824621==--
+DQoNClJlZ2FyZHMsDQpPYWsNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IGFt
+ZC1nZnggPGFtZC1nZngtYm91bmNlc0BsaXN0cy5mcmVlZGVza3RvcC5vcmc+IE9uIEJlaGFsZiBP
+ZiBLdWVobGluZywgRmVsaXgNClNlbnQ6IFR1ZXNkYXksIEp1bmUgNCwgMjAxOSAyOjQ3IFBNDQpU
+bzogQ2hyaXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+OyBk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZw0KU3ViamVjdDogUmU6IFtQQVRDSF0gZHJtL3R0bTogZml4IHR0bV9ib191bnJlc2VydmUN
+Cg0KT24gMjAxOS0wNi0wNCAxMToyMywgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToNCg0KPiBTaW5j
+ZSB3ZSBub3cga2VlcCBCT3Mgb24gdGhlIExSVSB3ZSBuZWVkIHRvIG1ha2Ugc3VyZSB0aGF0IHRo
+ZXkgYXJlIA0KPiByZW1vdmVkIHdoZW4gdGhleSBhcmUgcGlubmVkLg0KPg0KPiBTaWduZWQtb2Zm
+LWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+DQo+IC0tLQ0K
+PiAgIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggfCAxNCArKysrKystLS0tLS0tLQ0K
+PiAgIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pDQo+DQo+
+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oIA0KPiBiL2luY2x1
+ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggaW5kZXggOWY1NGNmOWM2MGRmLi5jOWI4YmE0OTJm
+MjQgDQo+IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oDQo+
+ICsrKyBiL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgNCj4gQEAgLTc2NywxNCArNzY3
+LDEyIEBAIHN0YXRpYyBpbmxpbmUgaW50IHR0bV9ib19yZXNlcnZlX3Nsb3dwYXRoKHN0cnVjdCB0
+dG1fYnVmZmVyX29iamVjdCAqYm8sDQo+ICAgICovDQo+ICAgc3RhdGljIGlubGluZSB2b2lkIHR0
+bV9ib191bnJlc2VydmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykNCj4gICB7DQo+IC0J
+aWYgKCEoYm8tPm1lbS5wbGFjZW1lbnQgJiBUVE1fUExfRkxBR19OT19FVklDVCkpIHsNCj4gLQkJ
+c3Bpbl9sb2NrKCZiby0+YmRldi0+Z2xvYi0+bHJ1X2xvY2spOw0KPiAtCQlpZiAobGlzdF9lbXB0
+eSgmYm8tPmxydSkpDQo+IC0JCQl0dG1fYm9fYWRkX3RvX2xydShibyk7DQo+IC0JCWVsc2UNCj4g
+LQkJCXR0bV9ib19tb3ZlX3RvX2xydV90YWlsKGJvLCBOVUxMKTsNCj4gLQkJc3Bpbl91bmxvY2so
+JmJvLT5iZGV2LT5nbG9iLT5scnVfbG9jayk7DQo+IC0JfQ0KPiArCXNwaW5fbG9jaygmYm8tPmJk
+ZXYtPmdsb2ItPmxydV9sb2NrKTsNCj4gKwlpZiAobGlzdF9lbXB0eSgmYm8tPmxydSkpDQo+ICsJ
+CXR0bV9ib19hZGRfdG9fbHJ1KGJvKTsNCj4gKwllbHNlDQo+ICsJCXR0bV9ib19tb3ZlX3RvX2xy
+dV90YWlsKGJvLCBOVUxMKTsNCg0KR29pbmcganVzdCBieSB0aGUgZnVuY3Rpb24gbmFtZXMsIHRo
+aXMgc2VlbXMgdG8gZG8gdGhlIGV4YWN0IG9wcG9zaXRlIG9mIHdoYXQgdGhlIGNoYW5nZSBkZXNj
+cmlwdGlvbiBzYXlzLg0KDQpbT2FrXSArMSwgd2hlbiBJIHJlYWQgdGhlIGRlc2NyaXB0aW9uLCBJ
+IGFsc28gZ2V0IGxvc3QuLi5TbyBwbGVhc2UgZG8gYWRkIGEgbW9yZSBhY2N1cmF0ZSBkZXNjcmlw
+dGlvbi4NCg0KQW53YXksIHRoaXMgcGF0Y2ggaXMgUmV2aWV3ZWQtYnk6IEZlbGl4IEt1ZWhsaW5n
+IDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPg0KDQpCVFcsIHRoaXMgZml4IGlzIG5lZWRlZCBmb3Ig
+S0ZELiBJdCBmaXhlcyBvdXIgZXZpY3Rpb24gdGVzdCB0aGF0IHdhcyBicm9rZW4gYnkgeW91ciBw
+cmV2aW91cyBwYXRjaCBzZXJpZXMuIFRoaXMgdGVzdCBzcGVjaWZpY2FsbHkgdHJpZ2dlcnMgaW50
+ZXJhY3Rpb25zIGJldHdlZW4gS0ZEIGFuZCBncmFwaGljcyB1bmRlciBtZW1vcnkgcHJlc3N1cmUu
+IEl0J3Mgc29tZXRoaW5nIHdlIHJhcmVseSBzZWUgaW4gcmVhbCB3b3JsZCBjb21wdXRlIGFwcGxp
+Y2F0aW9uIHRlc3Rpbmcgd2l0aG91dCBhIHRhcmdldGVkIHRlc3QuIEJ1dCB3aGVuIGl0IGJyZWFr
+cyBpdCBsZWFkcyB0byBzb21lIHBhaW5mdWwgaW50ZXJtaXR0ZW50IGZhaWx1cmVzIHRoYXQgYXJl
+IGhhcmQgdG8gcmVncmVzcyBhbmQgZGVidWcuDQoNCkRvIHlvdSBoYXZlIGFueSB0YXJnZXRlZCB0
+ZXN0cyB0byB0cmlnZ2VyIGV2aWN0aW9ucyB3aGVuIHlvdSB3b3JrIG9uIFRUTSBpbnRlcm5hbHM/
+DQoNClJlZ2FyZHMsDQogwqAgRmVsaXgNCg0KDQo+ICsJc3Bpbl91bmxvY2soJmJvLT5iZGV2LT5n
+bG9iLT5scnVfbG9jayk7DQo+ICAgCXJlc2VydmF0aW9uX29iamVjdF91bmxvY2soYm8tPnJlc3Yp
+Ow0KPiAgIH0NCj4gICANCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fDQphbWQtZ2Z4IG1haWxpbmcgbGlzdA0KYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcNCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdm
+eA0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
