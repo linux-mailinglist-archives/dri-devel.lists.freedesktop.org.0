@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7634F3513A
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 22:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B32935210
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 23:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B3F89BB0;
-	Tue,  4 Jun 2019 20:42:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C75F089C93;
+	Tue,  4 Jun 2019 21:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C30589BB0
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 20:42:33 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id q10so3180957pff.9
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2019 13:42:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NL5DPTKKMNZWvD7Hnx1KIRpy/8nRGAMXIh44aNGHSaY=;
- b=AS1bSBrGuZ2DZUCjqeCsqXgJRgN+zxWv2eD6+zJxLNvv94xktry92KTgDIhfbgfT0g
- 8lWPz80ODyP+J+KxASLhWNzQCgCeClYXgLVfotYN37SQAEfJQWDiVUSQ+unV6EPV0x9J
- 4zkpTVLu02rbCs3nS8HEhM2Yf1YdyADjpzcHNO3pMH0tW9OhXX1daTL7tEKF+7PvxqMC
- 0sXua0uzWQO1Msyy23PtFDB/V+NlcQvcvNgdUIfmsVBYYZPSKoAsLkLQ6VTalCMRUCEq
- XXib1jQ7jQ5RZ8SUjNJhIhOItSxtOcp1eC7ZT+RKT9MjQREjDyr4PcGSFzbLZdtwBYT/
- c6fw==
-X-Gm-Message-State: APjAAAW4kOL/k9XHLteZHZVo7wIiHy2mE9lwPZ9lAGfPz0yDKZNtKFEC
- Yr8fxKyPTsyxlGxTb+jOdQeo0Q==
-X-Google-Smtp-Source: APXvYqy6yGca0NfMnlay8Iio+11gDCTu9XCNqkdRwwop7IybVxYxXjJ3nlJNPRuR6O5jg/ll53xR3w==
-X-Received: by 2002:a63:2bd1:: with SMTP id r200mr633202pgr.202.1559680952939; 
- Tue, 04 Jun 2019 13:42:32 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:1:24fa:e766:52c9:e3b2])
- by smtp.gmail.com with ESMTPSA id m5sm11553616pgn.59.2019.06.04.13.42.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 04 Jun 2019 13:42:32 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Sean Paul <seanpaul@chromium.org>, Heiko Stuebner <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v3 2/2] drm/rockchip: dw_hdmi: Handle suspend/resume
-Date: Tue,  4 Jun 2019 13:42:07 -0700
-Message-Id: <20190604204207.168085-2-dianders@chromium.org>
-X-Mailer: git-send-email 2.22.0.rc1.311.g5d7573a151-goog
-In-Reply-To: <20190604204207.168085-1-dianders@chromium.org>
-References: <20190604204207.168085-1-dianders@chromium.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BFDA689C9B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 21:43:38 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BC95572167; Tue,  4 Jun 2019 21:43:38 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Tue, 04 Jun 2019 21:43:38 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: samueldgv@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-109955-502-26F5DqCvQb@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NL5DPTKKMNZWvD7Hnx1KIRpy/8nRGAMXIh44aNGHSaY=;
- b=TVOLIvqXNvIKZDyIwK8wpLxqIpKlUqfTCiUrsEkG21UZPFVpKJ6u/ERmqbwBnZ100J
- MXZP+S/ZMqjo48TC2q466d1DX8mhAZ31orqtTrnRjWiiiEZT++FMmvnf+4CFvTY0hdRh
- jRJliijhyE9rK1ULJ56hNMxT1YaXl3L8Q43wg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,48 +52,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- mka@chromium.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0680219239=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gUm9ja2NoaXAgcmszMjg4LWJhc2VkIENocm9tZWJvb2tzIHdoZW4geW91IGRvIGEgc3VzcGVu
-ZC9yZXN1bWUKY3ljbGU6CgoxLiBZb3UgbG9zZSB0aGUgYWJpbGl0eSB0byBkZXRlY3QgYW4gSERN
-SSBkZXZpY2UgYmVpbmcgcGx1Z2dlZCBpbi4KCjIuIElmIHlvdSdyZSB1c2luZyB0aGUgaTJjIGJ1
-cyBidWlsdCBpbiB0byBkd19oZG1pIHRoZW4gaXQgc3RvcHMKd29ya2luZy4KCkxldCdzIGNhbGwg
-dGhlIGNvcmUgZHctaGRtaSdzIHN1c3BlbmQvcmVzdW1lIGZ1bmN0aW9ucyB0byByZXN0b3JlCnRo
-aW5ncy4KCk5PVEU6IGluIGRvd25zdHJlYW0gQ2hyb21lIE9TIChiYXNlZCBvbiBrZXJuZWwgMy4x
-NCkgd2UgdXNlZCB0aGUKImxhdGUvZWFybHkiIHZlcnNpb25zIG9mIHN1c3BlbmQvcmVzdW1lIGJl
-Y2F1c2Ugd2UgZm91bmQgdGhhdCB0aGUgVk9QCndhcyBzb21ldGltZXMgcmVzdW1pbmcgYmVmb3Jl
-IGR3X2hkbWkgYW5kIHRoZW4gY2FsbGluZyBpbnRvIHVzIGJlZm9yZQp3ZSB3ZXJlIGZ1bGx5IHJl
-c3VtZWQuICBGb3Igbm93IEkgaGF2ZSBnb25lIGJhY2sgdG8gdGhlIG5vcm1hbApzdXNwZW5kL3Jl
-c3VtZSBiZWNhdXNlIEkgY2FuJ3QgcmVwcm9kdWNlIHRoZSBwcm9ibGVtcy4KClNpZ25lZC1vZmYt
-Ynk6IERvdWdsYXMgQW5kZXJzb24gPGRpYW5kZXJzQGNocm9taXVtLm9yZz4KLS0tCgpDaGFuZ2Vz
-IGluIHYzOgotIGR3X2hkbWlfcmVzdW1lKCkgaXMgbm93IGEgdm9pZCBmdW5jdGlvbiAoTGF1cmVu
-dCkKCkNoYW5nZXMgaW4gdjI6Ci0gQWRkIGZvcmdvdHRlbiBzdGF0aWMgKExhdXJlbnQpCi0gTm8g
-ZW1wdHkgc3R1YiBmb3Igc3VzcGVuZCAoTGF1cmVudCkKCiBkcml2ZXJzL2dwdS9kcm0vcm9ja2No
-aXAvZHdfaGRtaS1yb2NrY2hpcC5jIHwgMTQgKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2Vk
-LCAxNCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlw
-L2R3X2hkbWktcm9ja2NoaXAuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJv
-Y2tjaGlwLmMKaW5kZXggNGNkYzlmODZjMmU1Li43YmIwZjkyMmIzMDMgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwpAQCAtNTQyLDExICs1NDIsMjUgQEAg
-c3RhdGljIGludCBkd19oZG1pX3JvY2tjaGlwX3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
-ICpwZGV2KQogCXJldHVybiAwOwogfQogCitzdGF0aWMgaW50IF9fbWF5YmVfdW51c2VkIGR3X2hk
-bWlfcm9ja2NoaXBfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikKK3sKKwlzdHJ1Y3Qgcm9ja2No
-aXBfaGRtaSAqaGRtaSA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOworCisJZHdfaGRtaV9yZXN1bWUo
-aGRtaS0+aGRtaSk7CisKKwlyZXR1cm4gMDsKK30KKworc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZf
-cG1fb3BzIGR3X2hkbWlfcm9ja2NoaXBfcG0gPSB7CisJU0VUX1NZU1RFTV9TTEVFUF9QTV9PUFMo
-TlVMTCwgZHdfaGRtaV9yb2NrY2hpcF9yZXN1bWUpCit9OworCiBzdHJ1Y3QgcGxhdGZvcm1fZHJp
-dmVyIGR3X2hkbWlfcm9ja2NoaXBfcGx0Zm1fZHJpdmVyID0gewogCS5wcm9iZSAgPSBkd19oZG1p
-X3JvY2tjaGlwX3Byb2JlLAogCS5yZW1vdmUgPSBkd19oZG1pX3JvY2tjaGlwX3JlbW92ZSwKIAku
-ZHJpdmVyID0gewogCQkubmFtZSA9ICJkd2hkbWktcm9ja2NoaXAiLAorCQkucG0gPSAmZHdfaGRt
-aV9yb2NrY2hpcF9wbSwKIAkJLm9mX21hdGNoX3RhYmxlID0gZHdfaGRtaV9yb2NrY2hpcF9kdF9p
-ZHMsCiAJfSwKIH07Ci0tIAoyLjIyLjAucmMxLjMxMS5nNWQ3NTczYTE1MS1nb29nCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0680219239==
+Content-Type: multipart/alternative; boundary="15596846184.27Dc.4914"
+Content-Transfer-Encoding: 7bit
+
+
+--15596846184.27Dc.4914
+Date: Tue, 4 Jun 2019 21:43:38 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+Sam <samueldgv@mailbox.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |samueldgv@mailbox.org
+
+--- Comment #27 from Sam <samueldgv@mailbox.org> ---
+Hello! I can confirm that I have the same issues. I am using a Vega 56 and
+openSUSE Tumbleweed (X11 and KDE) with:
+
+Kernel Version:  5.1.5-1-default
+X Server Release:  12004000
+Driver:  X.Org Radeon RX Vega (VEGA10, DRM 3.30.0, 5.1.5-1-default, LLVM 7.=
+0.1)
+
+
+I have been having the same freezes exactly as described here since, as far=
+ as
+I can remember, mesa 19.0.4 and 5.0.13 (based on the Tumbleweed snapshots f=
+rom
+when this started happening)
+
+This was definitely not happening before on mesa 18.x/LLVM 6 and 7 and kern=
+el
+4.20. I niehter run overclocks, never messed with firmware/BIOS...etc.
+Everything has been running as-is since Oct. 2018 so firmware or BIOS issues
+should be discarded, I guess.
+
+In my case, I have also experienced this issue when running non-demanding
+OpenGL games and even desktop applications (I had a crash happen on the des=
+ktop
+with just WxMaxima, a computer algebra system GUI, opened doing nothing)
+
+The easiest way for me to reproduce it is by simply leaving Pillars of Eter=
+nity
+(an OpenGL unity game) open and idle for an hour or so. I have tried settin=
+g up
+Kdump and trying to catch some error messages in the logs with no luck. I'm
+definitely open for directions on how to get more info if this can help.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15596846184.27Dc.4914
+Date: Tue, 4 Jun 2019 21:43:38 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:samueldgv=
+&#64;mailbox.org" title=3D"Sam &lt;samueldgv&#64;mailbox.org&gt;"> <span cl=
+ass=3D"fn">Sam</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>samueldgv&#64;mailbox.org
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c27">Comme=
+nt # 27</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samueldgv&#64;mailbox.org" title=3D"Sam &lt;samueldgv&#64;mailbox.org&gt;">=
+ <span class=3D"fn">Sam</span></a>
+</span></b>
+        <pre>Hello! I can confirm that I have the same issues. I am using a=
+ Vega 56 and
+openSUSE Tumbleweed (X11 and KDE) with:
+
+Kernel Version:  5.1.5-1-default
+X Server Release:  12004000
+Driver:  X.Org Radeon RX Vega (VEGA10, DRM 3.30.0, 5.1.5-1-default, LLVM 7.=
+0.1)
+
+
+I have been having the same freezes exactly as described here since, as far=
+ as
+I can remember, mesa 19.0.4 and 5.0.13 (based on the Tumbleweed snapshots f=
+rom
+when this started happening)
+
+This was definitely not happening before on mesa 18.x/LLVM 6 and 7 and kern=
+el
+4.20. I niehter run overclocks, never messed with firmware/BIOS...etc.
+Everything has been running as-is since Oct. 2018 so firmware or BIOS issues
+should be discarded, I guess.
+
+In my case, I have also experienced this issue when running non-demanding
+OpenGL games and even desktop applications (I had a crash happen on the des=
+ktop
+with just WxMaxima, a computer algebra system GUI, opened doing nothing)
+
+The easiest way for me to reproduce it is by simply leaving Pillars of Eter=
+nity
+(an OpenGL unity game) open and idle for an hour or so. I have tried settin=
+g up
+Kdump and trying to catch some error messages in the logs with no luck. I'm
+definitely open for directions on how to get more info if this can help.</p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15596846184.27Dc.4914--
+
+--===============0680219239==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0680219239==--
