@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F658348A0
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 15:27:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9F7348A1
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 15:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631F38989F;
-	Tue,  4 Jun 2019 13:27:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 940D98989E;
+	Tue,  4 Jun 2019 13:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D61F28989F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 13:27:47 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D2B2972167; Tue,  4 Jun 2019 13:27:47 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110457] System resumes failed and hits [drm:amdgpu_job_timedout
- [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G
-Date: Tue, 04 Jun 2019 13:27:48 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: mcoffin13@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110457-502-U56avs1ujp@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110457-502@http.bugs.freedesktop.org/>
-References: <bug-110457-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B628989E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 13:28:26 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id m202so4399309oig.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Jun 2019 06:28:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wxn95cvMi6VK8Dxg2EJ7OQj/Dh4SRIR83A0MCmlPkz8=;
+ b=EeBLjdhyoWb00TgPEOIzcwCkJiiGGkCNDKBfE8oAR8zjpWlQLuHiKP2asyu2F0pjr2
+ vYrkwPT98lJ2cTwpAXEQsdiwgVW4FYe9SpJmZu9wfMWnSJTpmXgvwItWEiJVax+1w+Sf
+ IuU1QETN0R1gI/rG7CdiWNMrJIAXvKe3QMuBCqy10lH5kjM5tEWGBkcwf9Zk+ukv5+qD
+ s+HrWkcWNyig9b4cKUYzyu7XDfx6oVeMXGlBl/JTLjEX8gLlD5k2VSmr4PHRI53mgtpT
+ Iyiz9fSjStW6Z7bPfZ1OT8mBTE35x1XyjYogLzz5j5GCRvXzRSPOXby/Gc2EzR20p9TU
+ ZJkQ==
+X-Gm-Message-State: APjAAAUDMGcusFRCIVdweZyzdYUwefdqLBb40rnslA46n/fWU72wJjSX
+ HG8Ng9RCawldOjHcyhUIbgqAzx5SOd7ESE70IQcqrg==
+X-Google-Smtp-Source: APXvYqyKfFED5gE7/1+9fEnZdCPjtuRi8+yr5jtF/dNlCPvtZk1H4giYgAscvbt2297cw+5YjfyE00tvMMyZFj9Qqa8=
+X-Received: by 2002:aca:6208:: with SMTP id w8mr4466062oib.128.1559654905660; 
+ Tue, 04 Jun 2019 06:28:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190527081741.14235-1-emil.l.velikov@gmail.com>
+ <3c9b5688-5e83-f173-00e3-6e139e05d466@amd.com>
+ <20190527132041.GP21222@phenom.ffwll.local>
+ <20190527132607.GH15067@arch-x1c3>
+ <0426fb3e-e7bc-2464-cb42-4d5753956d23@amd.com>
+ <CAKMK7uE_pRro8PxTwUq+pC_1GVVT7nUxan1T-kqSYT=BMHTf2g@mail.gmail.com>
+ <d12a7dd4-595b-d0aa-a87d-527392fb0384@amd.com>
+ <CAKMK7uE1ZWjCeg3q7qDrbcj89+DuPQwfjMqC8hTjDAMU5bhh-w@mail.gmail.com>
+ <98c3d891-6966-2043-9709-4e718dbc6bac@amd.com>
+ <ee1b8980-3d78-aa6d-fe46-2c0d45c2bbdd@daenzer.net>
+ <1b697f02-a6cf-0bc1-9149-3acd71eb4e30@amd.com>
+In-Reply-To: <1b697f02-a6cf-0bc1-9149-3acd71eb4e30@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 4 Jun 2019 15:28:14 +0200
+Message-ID: <CAKMK7uGoSbtXVNthr6oUomc7EcYUheNDWHsZ4=F0QwsSN3y=CQ@mail.gmail.com>
+Subject: Re: [PATCH 01/13] drm/amdgpu: introduce and honour DRM_FORCE_AUTH
+ workaround
+To: "Koenig, Christian" <Christian.Koenig@amd.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wxn95cvMi6VK8Dxg2EJ7OQj/Dh4SRIR83A0MCmlPkz8=;
+ b=HFau3wq7pP0+D2h3sn567fc6rICVEIhDvUY8T7ASDZUPB4kPLkeRfxeOity9bpQ609
+ lHjgBYND9/07iuhmFv43JVvFMA96XrbhAX0gr9jPW1p0WgcHUc5I+RonlfBQlRBpIkqD
+ PCEyDk4ybMzy63/rW9HQrcNVAvEx2xXN/CZjg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,92 +70,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1178373267=="
+Cc: David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1178373267==
-Content-Type: multipart/alternative; boundary="15596548671.707De.7758"
-Content-Transfer-Encoding: 7bit
-
-
---15596548671.707De.7758
-Date: Tue, 4 Jun 2019 13:27:47 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110457
-
---- Comment #8 from Matt Coffin <mcoffin13@gmail.com> ---
-This is probably related to bug 102322, yes?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15596548671.707De.7758
-Date: Tue, 4 Jun 2019 13:27:47 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
-amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
-amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457">bug 11045=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mcoffin13&#64;gmail.com" title=3D"Matt Coffin &lt;mcoffin13&#64;gmail.com&g=
-t;"> <span class=3D"fn">Matt Coffin</span></a>
-</span></b>
-        <pre>This is probably related to <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
-g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
-   href=3D"show_bug.cgi?id=3D102322">bug 102322</a>, yes?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15596548671.707De.7758--
-
---===============1178373267==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1178373267==--
+T24gVHVlLCBKdW4gNCwgMjAxOSBhdCAxOjI0IFBNIEtvZW5pZywgQ2hyaXN0aWFuCjxDaHJpc3Rp
+YW4uS29lbmlnQGFtZC5jb20+IHdyb3RlOgo+Cj4gQW0gMDQuMDYuMTkgdW0gMTI6NTAgc2Nocmll
+YiBNaWNoZWwgRMOkbnplcjoKPiA+IE9uIDIwMTktMDUtMjggMTA6MDMgYS5tLiwgS29lbmlnLCBD
+aHJpc3RpYW4gd3JvdGU6Cj4gPj4gSSByYXRoZXIgdGhpbmsgdGhhdCB3ZSBzaG91bGQgZ28gZG93
+biB0aGUgcm91dGUgb2YgY29tcGxldGVseSBkcm9wcGluZwo+ID4+IGNvbW1hbmQgc3VibWlzc2lv
+biBhbmQgYnVmZmVyIGFsbG9jYXRpb24gdGhyb3VnaCB0aGUgcHJpbWFyeSBub2RlIGZvcgo+ID4+
+IG5vbiBtYXN0ZXIgY2xpZW50cy4gQW5kIHRoZW4gYXMgbmV4dCBzdGVwIGF0IHNvbWUgcG9pbnQg
+ZHJvcCBzdXBwb3J0IGZvcgo+ID4+IGF1dGhlbnRpY2F0aW9uL2ZsaW5rLgo+ID4gS2VlcCBpbiBt
+aW5kIHRoYXQgZXZlbiBkaXNwbGF5IHNlcnZlcnMgYXJlbid0IERSTSBtYXN0ZXIgd2hpbGUgdGhl
+aXIgVlQKPiA+IGlzbid0IGFjdGl2ZSwgc28gdGhpcyBtaWdodCBiZSBwcm9ibGVtYXRpYyBpZiBh
+IGRpc3BsYXkgc2VydmVyIG5lZWRzIHRvCj4gPiBkbyBzb21lIGNvbW1hbmQgc3VibWlzc2lvbiAv
+IGJ1ZmZlciBhbGxvY2F0aW9uIGR1cmluZyB0aGF0IHRpbWUuCj4KPiBJZiBJIHVuZGVyc3RhbmQg
+aXQgY29ycmVjdGx5IHRoZSBEUk0gZmQgc3RheXMgbWFzdGVyIGV2ZW4gd2hlbiB0aGUgVlQgaXMK
+PiBzd2l0Y2hlZCBhd2F5LCBpdCdzIGp1c3Qgbm90IHRoZSBjdXJyZW50IG1hc3RlciBhbnkgbW9y
+ZS4KPgo+IFNvIGluIHRoaXMgY2FzZSBmcHJpdi0+aXNfbWFzdGVyIHN0YXlzIHRydWUsIGJ1dAo+
+IGRybV9pc19jdXJyZW50X21hc3RlcihmcHJpdikgcmV0dXJucyBmYWxzZS4KPgo+IEFuZCB5ZXMg
+d2UgbWl4ZWQgdGhhdCB1cCBpbiBhbWRncHUsIGk5MTUgYW5kIHZtd2dmeC4gU29tZWJvZHkgc2hv
+dWxkCj4gcHJvYmFibHkgd3JpdGUgcGF0Y2hlcyB0byBmaXggdGhpcy4KCm1hc3RlciBzaG91bGQg
+YWx3YXlzIGJlIGF1dGhlbnRpY2F0ZWQsIHNvIHNob3VsZCBiZSBhYmxlIHRvIGNvbnRpbnVlCnJl
+bmRlcmluZy4gV2VsbCAuLi4gZXhjZXB0IG9uIGRyaXZlcnMgd2hvIGRvIHRha2UgaXNvbGF0aW9u
+IHNvbWV3aGF0CnNlcmlvdXMsIGJ1dCBkb24ndCBoYXZlIGZ1bGwgcGVyLWNsaWVudCBpc29sYXRp
+b24uIFRob3NlIGFjdHVhbGx5CnJlZnVzZSByZW5kZXJpbmcvZ3B1IGFjY2VzcyBmb3IgYW55IGF1
+dGhlbnRpY2F0ZWQgY2xpZW50IGlmIHRoZWlyCmNvcnJlc3BvbmRpbmcgbWFzdGVyIGlzbid0IHRo
+ZSBjdXJyZW50IG1hc3Rlci4gQnV0IEkgdGhpbmsgb25seSB2bXdnZngKZG9lcyB0aGF0LgoKUGVy
+LWNsaWVudCBpc29sYXRpb24gaGFzIHRha2VuIG92ZXIgYW55d2F5LCBzbyBhbGwgYSBiaXQgbW9v
+dCwgYXQKbGVhc3Qgb24gbW9kZXJuIGh3LgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3
+YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0
+dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
