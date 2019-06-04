@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AB63474C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 14:50:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F374434757
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 14:53:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E44589248;
-	Tue,  4 Jun 2019 12:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C256189248;
+	Tue,  4 Jun 2019 12:53:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C0889226;
- Tue,  4 Jun 2019 12:50:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6B3E89248;
+ Tue,  4 Jun 2019 12:53:41 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 16788374-1500050 
- for multiple; Tue, 04 Jun 2019 13:50:30 +0100
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 16788413-1500050 
+ for multiple; Tue, 04 Jun 2019 13:53:27 +0100
 From: Chris Wilson <chris@chris-wilson.co.uk>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] dma-buf: Discard old fence_excl on retrying get_fences_rcu
+Subject: [PATCH v3] dma-buf: Discard old fence_excl on retrying get_fences_rcu
  for realloc
-Date: Tue,  4 Jun 2019 13:50:26 +0100
-Message-Id: <20190604125026.21115-1-chris@chris-wilson.co.uk>
+Date: Tue,  4 Jun 2019 13:53:23 +0100
+Message-Id: <20190604125323.21396-1-chris@chris-wilson.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190604123947.20713-1-chris@chris-wilson.co.uk>
 References: <20190604123947.20713-1-chris@chris-wilson.co.uk>
@@ -57,18 +57,20 @@ VmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1h
 YXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNo
 cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNo
 ZXJAYW1kLmNvbT4KQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+CkNj
-OiBzdGFibGVAdmdlci5rZXJuZWwub3JnCi0tLQogZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9u
-LmMgfCA2ICsrKysrKwogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jIGIvZHJpdmVycy9kbWEtYnVmL3Jlc2Vy
-dmF0aW9uLmMKaW5kZXggNGQzMmUyYzY3ODYyLi43MDQ1MDNkZjQ4OTIgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jCisrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZh
-dGlvbi5jCkBAIC0zNjUsNiArMzY1LDEyIEBAIGludCByZXNlcnZhdGlvbl9vYmplY3RfZ2V0X2Zl
-bmNlc19yY3Uoc3RydWN0IHJlc2VydmF0aW9uX29iamVjdCAqb2JqLAogCQkJCQkgICBHRlBfTk9X
-QUlUIHwgX19HRlBfTk9XQVJOKTsKIAkJCWlmICghbnNoYXJlZCkgewogCQkJCXJjdV9yZWFkX3Vu
-bG9jaygpOworCisJCQkJaWYgKGZlbmNlX2V4Y2wpIHsKKwkJCQkJZG1hX2ZlbmNlX3B1dChmZW5j
-ZV9leGNsKTsKKwkJCQkJZmVuY2VfZXhjbCA9IE5VTEw7CisJCQkJfQorCiAJCQkJbnNoYXJlZCA9
-IGtyZWFsbG9jKHNoYXJlZCwgc3osIEdGUF9LRVJORUwpOwogCQkJCWlmIChuc2hhcmVkKSB7CiAJ
-CQkJCXNoYXJlZCA9IG5zaGFyZWQ7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+OiBzdGFibGVAdmdlci5rZXJuZWwub3JnClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxj
+aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQpUaGlzLCB0aGlzIGlzIHYyLiBOb3QgdGhlIG9s
+ZCBicmFuY2g7IHJlbWVtYmVyIHRvIGNoZWNrIHRoZSBnaXQKc2VuZC1lbWFpbCBiZWZvcmUgaGl0
+dGluZyBlbnRlci4KLUNocmlzCi0tLQogZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9uLmMgfCA0
+ICsrKysKIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2RtYS1idWYvcmVzZXJ2YXRpb24uYyBiL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5j
+CmluZGV4IDRkMzJlMmM2Nzg2Mi4uNDQ0N2UxM2QxZTg5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2Rt
+YS1idWYvcmVzZXJ2YXRpb24uYworKysgYi9kcml2ZXJzL2RtYS1idWYvcmVzZXJ2YXRpb24uYwpA
+QCAtMzY1LDYgKzM2NSwxMCBAQCBpbnQgcmVzZXJ2YXRpb25fb2JqZWN0X2dldF9mZW5jZXNfcmN1
+KHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3QgKm9iaiwKIAkJCQkJICAgR0ZQX05PV0FJVCB8IF9f
+R0ZQX05PV0FSTik7CiAJCQlpZiAoIW5zaGFyZWQpIHsKIAkJCQlyY3VfcmVhZF91bmxvY2soKTsK
+KworCQkJCWRtYV9mZW5jZV9wdXQoZmVuY2VfZXhjbCk7CisJCQkJZmVuY2VfZXhjbCA9IE5VTEw7
+CisKIAkJCQluc2hhcmVkID0ga3JlYWxsb2Moc2hhcmVkLCBzeiwgR0ZQX0tFUk5FTCk7CiAJCQkJ
+aWYgKG5zaGFyZWQpIHsKIAkJCQkJc2hhcmVkID0gbnNoYXJlZDsKLS0gCjIuMjAuMQoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
