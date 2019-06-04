@@ -1,38 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5980634508
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 13:04:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F24333451D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 13:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA7589622;
-	Tue,  4 Jun 2019 11:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B96A8967B;
+	Tue,  4 Jun 2019 11:13:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B78089622
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 11:04:53 +0000 (UTC)
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Jun 2019 04:04:52 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 04 Jun 2019 04:04:50 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 04 Jun 2019 14:04:49 +0300
-Date: Tue, 4 Jun 2019 14:04:49 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-Subject: Re: [PATCH libdrm 00/10] Add C8, 30bpp and FP16 support to modetest
-Message-ID: <20190604110449.GB5942@intel.com>
-References: <20190603004017.7114-1-imirkin@alum.mit.edu>
- <CAKb7Uvi3dOhF7C=te5=yMqoohM6fqXWyJJgPRyCXOQ8psRx5vg@mail.gmail.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E49478967B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 11:13:40 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 59080AFAF;
+ Tue,  4 Jun 2019 11:13:39 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ maxime.ripard@bootlin.com, sean@poorly.run
+Subject: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated documentation
+Date: Tue,  4 Jun 2019 13:13:30 +0200
+Message-Id: <20190604111330.25324-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKb7Uvi3dOhF7C=te5=yMqoohM6fqXWyJJgPRyCXOQ8psRx5vg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,48 +36,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdW4gMDMsIDIwMTkgYXQgMDQ6NTc6NDNQTSAtMDQwMCwgSWxpYSBNaXJraW4gd3Jv
-dGU6Cj4gT24gU3VuLCBKdW4gMiwgMjAxOSBhdCA4OjQwIFBNIElsaWEgTWlya2luIDxpbWlya2lu
-QGFsdW0ubWl0LmVkdT4gd3JvdGU6Cj4gPgo+ID4gVGhpcyBzZXJpZXMgaW1wcm92ZXMgdGhlIHBh
-dHRlcm4gZ2VuZXJhdGlvbiBsb2dpYyB0byBzdXBwb3J0IGFkZGl0aW9uYWwKPiA+IGZvcm1hdHMs
-IGFzIHdlbGwgYXMgYSBuZXcgImdyYWRpZW50IiBwYXR0ZXJuIChzZWUgcGF0Y2ggY29tbWVudHMg
-b24gd2h5Cj4gPiBJIGZvdW5kIGl0IHVzZWZ1bCkuCj4gPgo+ID4gRnVydGhlcm1vcmUsIHRoZXNl
-IGZvcm1hdHMgYXJlIHBpcGVkIHRocm91Z2ggdG8gbW9kZXRlc3QsIGluY2x1ZGluZyB0aGUKPiA+
-IGFiaWxpdHkgdG8gc2V0IGEgZ2FtbWEgdGFibGUsIHdoaWNoIGlzIG5lY2Vzc2FyeSBmb3IgdGhl
-IEM4IGluZGV4ZWQKPiA+IGZvcm1hdC4KPiA+Cj4gPiBUaGlzIHdhcyB0ZXN0ZWQgb24gbm91dmVh
-dSwgYW5kIHVzZWQgZm9yIGJyaW5nLXVwIG9mIHRoZSBDOCwgWEIzMCwgYW5kCj4gPiBGUDE2IGZv
-cm1hdHMgb24gdGhlIE5WSURJQSBoYXJkd2FyZSB0aGF0IHN1cHBvcnRzIHRoZXNlLgo+IAo+IEp1
-c3QgdG8gZm9sbG93IHVwLCBJJ3ZlIHN1Y2Nlc3NmdWxseSB0ZXN0ZWQgb24gYW4gSW50ZWwgU0tM
-IHdpdGggQzgKPiBhbmQgWEIzMC9YUjMwIGFzIHdlbGwgKGFuZCBjb25maXJtZWQgdGhhdCB0aGUg
-R0FNTUFfTFVUIGdldHMgdW5zZXQgaW4KPiBhIHNlcXVlbmNlIG9mIEM4IGZvbGxvd2VkIGJ5IFhC
-MzApLiBGUDE2IHdhcyBub3QgYXZhaWxhYmxlIG9uIHRoZQo+IGtlcm5lbCBJIGFtIGN1cnJlbnRs
-eSB1c2luZyAoYW5kIHBlcmhhcHMgbm90IHRoZSBIVz8pCgpodHRwczovL3BhdGNod29yay5mcmVl
-ZGVza3RvcC5vcmcvc2VyaWVzLzYxMzQ1LwoKb3IgYSBzbGlnaHRseSBvbGRlciB2ZXJzaW9uOgpn
-aXQ6Ly9naXRodWIuY29tL3ZzeXJqYWxhL2xpbnV4LmdpdCBmcDE2X3NjYW5vdXRfNAoKaW4gY2Fz
-ZSB5b3Ugd2FudCB0byB0ZXN0IGl0LgoKPiAKPiAgIC1pbGlhCj4gCj4gPgo+ID4gSWxpYSBNaXJr
-aW4gKDEwKToKPiA+ICAgdXRpbDogYWRkIEM4IGZvcm1hdCwgc3VwcG9ydCBpdCB3aXRoIFNNUFRF
-IHBhdHRlcm4KPiA+ICAgdXRpbDogZml4IE1BS0VfUkdCQSBtYWNybyBmb3IgMTBicHAgbW9kZXMK
-PiA+ICAgdXRpbDogYWRkIGdyYWRpZW50IHBhdHRlcm4KPiA+ICAgdXRpbDogYWRkIGZwMTYgZm9y
-bWF0IHN1cHBvcnQKPiA+ICAgdXRpbDogYWRkIGNhaXJvIGRyYXdpbmcgZm9yIDMwYnBwIGZvcm1h
-dHMgd2hlbiBhdmFpbGFibGUKPiA+ICAgbW9kZXRlc3Q6IGRvbid0IHByZXRlbmQgdGhhdCBhdG9t
-aWMgbW9kZSBpbmNsdWRlcyBhIGZvcm1hdAo+ID4gICBtb2RldGVzdDogYWRkIGFuIGFkZF9wcm9w
-ZXJ0eV9vcHRpb25hbCB2YXJpYW50IHRoYXQgZG9lcyBub3QgcHJpbnQKPiA+ICAgICBlcnJvcnMK
-PiA+ICAgbW9kZXRlc3Q6IGFkZCBDOCBzdXBwb3J0IHRvIGdlbmVyYXRlIFNNUFRFIHBhdHRlcm4K
-PiA+ICAgbW9kZXRlc3Q6IGFkZCB0aGUgYWJpbGl0eSB0byBzcGVjaWZ5IGZpbGwgcGF0dGVybnMg
-b24gdGhlIGNvbW1hbmRsaW5lCj4gPiAgIG1vZGV0ZXN0OiBhZGQgRlAxNiBmb3JtYXQgc3VwcG9y
-dAo+ID4KPiA+ICB0ZXN0cy9tb2RldGVzdC9idWZmZXJzLmMgIHwgIDEzICsrCj4gPiAgdGVzdHMv
-bW9kZXRlc3QvbW9kZXRlc3QuYyB8IDEwOSArKysrKysrKy0tCj4gPiAgdGVzdHMvdXRpbC9mb3Jt
-YXQuYyAgICAgICB8ICAgNyArCj4gPiAgdGVzdHMvdXRpbC9wYXR0ZXJuLmMgICAgICB8IDQzMiAr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+ID4gIHRlc3RzL3V0aWwvcGF0
-dGVybi5oICAgICAgfCAgIDcgKwo+ID4gIDUgZmlsZXMgY2hhbmdlZCwgNTQzIGluc2VydGlvbnMo
-KyksIDI1IGRlbGV0aW9ucygtKQo+ID4KPiA+IC0tCj4gPiAyLjIxLjAKPiA+CgotLSAKVmlsbGUg
-U3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+VGhlIGRvY3VtZW50YXRpb24gdG9vbHMgaW50ZXJwcmV0IGRybV9nZW1fdnJhbV9tbV9mdW5jcyBh
+cyBmdW5jdGlvbiBhbmQKdGhlcmUgYXBwZWFycyB0byBiZSBubyB3YXkgb2YgaW5saW5lLWRvY3Vt
+ZW50aW5nIGNvbnN0YW50cy4gVGhpcyByZXN1bHRzCmluIGEgd2FybmluZyBieSAnbWFrZSBodG1s
+ZG9jcycuIEZvciBub3csIHJlbW92aW5nIGRybV9nZW1fdnJhbV9tbV9mdW5jcwpmcm9tIGdlbmVy
+YXRlZCBkb2N1bWVudGF0aW9uIHdvcmtzIGFyb3VuZCB0aGUgaXNzdWUuCgpTaWduZWQtb2ZmLWJ5
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KRml4ZXM6IDVjOWRjYWNm
+ZTU2NjczNTU1NTQwOTMzMDE3YzU0ZThmMzllOTQ3Y2IKLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJt
+X2dlbV92cmFtX2hlbHBlci5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJh
+bV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKaW5kZXgg
+NzM4MGEwNmE1ODJjLi40MmFkODA4ODhkZjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
+cm1fZ2VtX3ZyYW1faGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9o
+ZWxwZXIuYwpAQCAtNTg1LDcgKzU4NSw3IEBAIGludCBkcm1fZ2VtX3ZyYW1fYm9fZHJpdmVyX3Zl
+cmlmeV9hY2Nlc3Moc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywKIH0KIEVYUE9SVF9TWU1C
+T0woZHJtX2dlbV92cmFtX2JvX2RyaXZlcl92ZXJpZnlfYWNjZXNzKTsKIAotLyoqCisvKgogICog
+ZHJtX2dlbV92cmFtX21tX2Z1bmNzIC0gRnVuY3Rpb25zIGZvciAmc3RydWN0IGRybV92cmFtX21t
+CiAgKgogICogTW9zdCB1c2VycyBvZiBAc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3Qgd2lsbCBh
+bHNvIHVzZQotLSAKMi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
