@@ -1,35 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AB0341E6
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 10:34:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4CD341EC
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 10:34:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A65BE89826;
-	Tue,  4 Jun 2019 08:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66CE289830;
+	Tue,  4 Jun 2019 08:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6225D89826
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 08:34:26 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 843A228527C;
- Tue,  4 Jun 2019 09:34:24 +0100 (BST)
-Date: Tue, 4 Jun 2019 10:34:22 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Helen Koike <helen.koike@collabora.com>
-Subject: Re: [PATCH v4 1/5] drm/rockchip: fix fb references in async update
-Message-ID: <20190604103422.63a61f46@collabora.com>
-In-Reply-To: <aecadca2-f67b-5d9d-550e-f90cbca5fd3f@collabora.com>
-References: <20190603165610.24614-1-helen.koike@collabora.com>
- <20190603165610.24614-2-helen.koike@collabora.com>
- <aecadca2-f67b-5d9d-550e-f90cbca5fd3f@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3236189830
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 08:34:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2B73372167; Tue,  4 Jun 2019 08:34:55 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110822] booting with kernel version 5.1.0 or higher on RX 580
+ hangs
+Date: Tue, 04 Jun 2019 08:34:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: gobinda.joy@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110822-502-7marQ2G77X@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
+References: <bug-110822-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,46 +53,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@google.com>,
- Sean Paul <seanpaul@google.com>, David Airlie <airlied@linux.ie>,
- daniel.vetter@ffwll.ch, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- nicholas.kazlauskas@amd.com, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0767637736=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAzIEp1biAyMDE5IDE3OjEzOjM0IC0wMzAwCkhlbGVuIEtvaWtlIDxoZWxlbi5rb2lr
-ZUBjb2xsYWJvcmEuY29tPiB3cm90ZToKCj4gT24gNi8zLzE5IDE6NTYgUE0sIEhlbGVuIEtvaWtl
-IHdyb3RlOgo+ID4gSW4gdGhlIGNhc2Ugb2YgYXN5bmMgdXBkYXRlLCBtb2RpZmljYXRpb25zIGFy
-ZSBkb25lIGluIHBsYWNlLCBpLmUuIGluIHRoZQo+ID4gY3VycmVudCBwbGFuZSBzdGF0ZSwgc28g
-dGhlIG5ld19zdGF0ZSBpcyBwcmVwYXJlZCBhbmQgdGhlIG5ld19zdGF0ZSBpcwo+ID4gY2xlYW5l
-ZCB1cCAoaW5zdGVhZCBvZiB0aGUgb2xkX3N0YXRlLCB1bmxpa2Ugd2hhdCBoYXBwZW5zIGluIGEK
-PiA+IG5vcm1hbCBzeW5jIHVwZGF0ZSkuCj4gPiBUbyBjbGVhbnVwIHRoZSBvbGRfZmIgcHJvcGVy
-bHksIGl0IG5lZWRzIHRvIGJlIHBsYWNlZCBpbiB0aGUgbmV3X3N0YXRlCj4gPiBpbiB0aGUgZW5k
-IG9mIGFzeW5jX3VwZGF0ZSwgc28gY2xlYW51cCBjYWxsIHdpbGwgdW5yZWZlcmVuY2UgdGhlIG9s
-ZF9mYgo+ID4gY29ycmVjdGx5Lgo+ID4gCj4gPiBBbHNvLCB0aGUgcHJldmlvdXMgY29kZSBoYWQg
-YToKPiA+IAo+ID4gCXBsYW5lX3N0YXRlID0gcGxhbmUtPmZ1bmNzLT5hdG9taWNfZHVwbGljYXRl
-X3N0YXRlKHBsYW5lKTsKPiA+IAkuLi4KPiA+IAlzd2FwKHBsYW5lX3N0YXRlLCBwbGFuZS0+c3Rh
-dGUpOwo+ID4gCj4gPiAJaWYgKHBsYW5lLT5zdGF0ZS0+ZmIgJiYgcGxhbmUtPnN0YXRlLT5mYiAh
-PSBuZXdfc3RhdGUtPmZiKSB7Cj4gPiAJLi4uCj4gPiAJfQo+ID4gCj4gPiBXaGljaCB3YXMgd3Jv
-bmcsIGFzIHRoZSBmYiB3ZXJlIGp1c3QgYXNzaWduZWQgdG8gYmUgZXF1YWwsIHNvIHRoaXMgaWYK
-PiA+IHN0YXRlbWVudCBuZXZlcnMgZXZhbHVhdGVzIHRvIHRydWUuCj4gPiAKPiA+IEFub3RoZXIg
-ZGV0YWlscyBpcyB0aGF0IHRoZSBmdW5jdGlvbiBkcm1fY3J0Y192YmxhbmtfZ2V0KCkgY2FuIG9u
-bHkgYmUKPiA+IGNhbGxlZCB3aGVuIHZvcC0+aXNfZW5hYmxlZCBpcyB0cnVlLCBvdGhlcndpc2Ug
-aXQgaGFzIG5vIGVmZmVjdCBhbmQKPiA+IHRyb3dzIGEgV0FSTl9PTigpLgo+ID4gCj4gPiBDYWxs
-aW5nIGRybV9hdG9taWNfc2V0X2ZiX2Zvcl9wbGFuZSgpICh3aGljaCBnZXQgYSByZWZlcmVudCBv
-ZiB0aGUgbmV3Cj4gPiBmYiBhbmQgcHVzIHRoZSBvbGQgZmIpIGlzIG5vdCByZXF1aXJlZCwgYXMg
-aXQgaXMgdGFrZW4gY2FyZSBieQo+ID4gZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCgpIHdoZW4g
-Y2FsbGluZwo+ID4gZHJtX2F0b21pY19oZWxwZXJfdXBkYXRlX3BsYW5lKCkuCj4gPiAKPiA+IFNp
-Z25lZC1vZmYtYnk6IEhlbGVuIEtvaWtlIDxoZWxlbi5rb2lrZUBjb2xsYWJvcmEuY29tPiAgCj4g
-Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY0LjIwKwo+IEZpeGVzOiAxNTYwOTU1
-OWE4MzQgKCJkcm0vcm9ja2NoaXA6IHVwZGF0ZSBjdXJzb3JzIGFzeW5jaHJvbm91c2x5Cj4gdGhy
-b3VnaCBhdG9taWMuIikKCk9uZSBjb21tZW50IGZvciBuZXh0IHRpbWUgeW91IGhhdmUgdG8gYWRk
-IHN1Y2ggdGFncyBhZnRlciB0aGUgZmFjdDoKcGxlYXNlIHRyeSB0byBrZWVwIGxpbmVzIHVud3Jh
-cHBlZCwgb3RoZXJ3aXNlIHBhdGNod29yayBvbmx5IGdldHMgd2hhdCdzCm9uIHRoZSBmaXJzdCBs
-aW5lLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0767637736==
+Content-Type: multipart/alternative; boundary="15596372951.8BF4.30825"
+Content-Transfer-Encoding: 7bit
+
+
+--15596372951.8BF4.30825
+Date: Tue, 4 Jun 2019 08:34:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
+
+--- Comment #5 from Gobinda Joy <gobinda.joy@gmail.com> ---
+(In reply to Alex Deucher from comment #4)
+> (In reply to Gobinda Joy from comment #3)
+> > I was curious so checked out the commit log on amd-staging-drm-next bra=
+nch.
+> > And I see some reverts of powerplay related commits.
+> >=20
+> > Link: https://cgit.freedesktop.org/~agd5f/linux/log/?h=3Damd-staging-dr=
+m-next
+> >=20
+> > I am currently waiting for this to getting merged with master branch.
+>=20
+> Those were just reverts of changes that were accidentally committed just
+> before.  Can you bisect?
+Help/instruct me on how to do it. I can compile kernel and use git. But I n=
+ever
+have used bisect command.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15596372951.8BF4.30825
+Date: Tue, 4 Jun 2019 08:34:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - booting with kernel version 5.1.0 or higher on RX 580 han=
+gs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - booting with kernel version 5.1.0 or higher on RX 580 han=
+gs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gobinda.joy&#64;gmail.com" title=3D"Gobinda Joy &lt;gobinda.joy&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Gobinda Joy</span></a>
+</span></b>
+        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
+0822#c4">comment #4</a>)
+<span class=3D"quote">&gt; (In reply to Gobinda Joy from <a href=3D"show_bu=
+g.cgi?id=3D110822#c3">comment #3</a>)
+&gt; &gt; I was curious so checked out the commit log on amd-staging-drm-ne=
+xt branch.
+&gt; &gt; And I see some reverts of powerplay related commits.
+&gt; &gt;=20
+&gt; &gt; Link: <a href=3D"https://cgit.freedesktop.org/~agd5f/linux/log/?h=
+=3Damd-staging-drm-next">https://cgit.freedesktop.org/~agd5f/linux/log/?h=
+=3Damd-staging-drm-next</a>
+&gt; &gt;=20
+&gt; &gt; I am currently waiting for this to getting merged with master bra=
+nch.
+&gt;=20
+&gt; Those were just reverts of changes that were accidentally committed ju=
+st
+&gt; before.  Can you bisect?</span >
+Help/instruct me on how to do it. I can compile kernel and use git. But I n=
+ever
+have used bisect command.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15596372951.8BF4.30825--
+
+--===============0767637736==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0767637736==--
