@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC4E33C72
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 02:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5451233CBF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Jun 2019 03:33:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3358935B;
-	Tue,  4 Jun 2019 00:31:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 501408934F;
+	Tue,  4 Jun 2019 01:33:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4DD238935B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 00:31:24 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4AAB972167; Tue,  4 Jun 2019 00:31:24 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110422] AMD_DEBUG=forcedma will crash OpenGL aps with SIGFAULT
- on VegaM 8706G
-Date: Tue, 04 Jun 2019 00:31:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110422-502-1v4qYxq7Mo@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110422-502@http.bugs.freedesktop.org/>
-References: <bug-110422-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C87708934F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Jun 2019 01:33:26 +0000 (UTC)
+X-UUID: 6d75eacfb1d0483e842d953bff80b1a9-20190604
+X-UUID: 6d75eacfb1d0483e842d953bff80b1a9-20190604
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (mhqrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 1791249730; Tue, 04 Jun 2019 09:33:23 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 4 Jun 2019 09:33:22 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 4 Jun 2019 09:33:22 +0800
+Message-ID: <1559612002.2749.2.camel@mtksdaap41>
+Subject: Re: [PATCH v2 0/4] fix mediatek drm, dis, and disp-* unbind/bind
+From: CK Hu <ck.hu@mediatek.com>
+To: Hsin-Yi Wang <hsinyi@chromium.org>
+Date: Tue, 4 Jun 2019 09:33:22 +0800
+In-Reply-To: <20190529102555.251579-1-hsinyi@chromium.org>
+References: <20190529102555.251579-1-hsinyi@chromium.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,128 +46,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2061694482=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2061694482==
-Content-Type: multipart/alternative; boundary="15596082842.bed2Ac.8219"
-Content-Transfer-Encoding: 7bit
-
-
---15596082842.bed2Ac.8219
-Date: Tue, 4 Jun 2019 00:31:24 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110422
-
---- Comment #2 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-(In reply to Pierre-Eric Pelloux-Prayer from comment #1)
-> Should be fixed on master by
-> https://gitlab.freedesktop.org/mesa/mesa/commit/
-> 4583f09caa5aef719a1eec282f24a86c789cbba6.
->=20
-> Can you test and confirm?
-
-Hello Pierre-Eric,
-
-I can confirm with Polaris 20 (RX580) running Unigine_Heaven-4.0 with
-
-SOURCE/Unigine_Heaven-4.0> echo $AMD_DEBUG=20
-sisched,nir,forcedma
-SOURCE/Unigine_Heaven-4.0> echo $R600_DEBUG=20
-sisched,nir,forcedma
-
-sigfaulted for me before, too.
-Could be closed after Dimitar confirmed, too.
-
-BTW Are you one of the 'new' AMD OSS guys?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15596082842.bed2Ac.8219
-Date: Tue, 4 Jun 2019 00:31:24 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD_DEBUG=3Dforcedma will crash OpenGL aps with SIGFAULT =
-on VegaM 8706G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110422#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD_DEBUG=3Dforcedma will crash OpenGL aps with SIGFAULT =
-on VegaM 8706G"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110422">bug 11042=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
-</span></b>
-        <pre>(In reply to Pierre-Eric Pelloux-Prayer from <a href=3D"show_b=
-ug.cgi?id=3D110422#c1">comment #1</a>)
-<span class=3D"quote">&gt; Should be fixed on master by
-&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/commit/">https://g=
-itlab.freedesktop.org/mesa/mesa/commit/</a>
-&gt; 4583f09caa5aef719a1eec282f24a86c789cbba6.
-&gt;=20
-&gt; Can you test and confirm?</span >
-
-Hello Pierre-Eric,
-
-I can confirm with Polaris 20 (RX580) running Unigine_Heaven-4.0 with
-
-SOURCE/Unigine_Heaven-4.0&gt; echo $AMD_DEBUG=20
-sisched,nir,forcedma
-SOURCE/Unigine_Heaven-4.0&gt; echo $R600_DEBUG=20
-sisched,nir,forcedma
-
-sigfaulted for me before, too.
-Could be closed after Dimitar confirmed, too.
-
-BTW Are you one of the 'new' AMD OSS guys?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15596082842.bed2Ac.8219--
-
---===============2061694482==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2061694482==--
+SGksIEhzaW4tWWk6CgpPbiBXZWQsIDIwMTktMDUtMjkgYXQgMTg6MjUgKzA4MDAsIEhzaW4tWWkg
+V2FuZyB3cm90ZToKPiBUaGVyZSBhcmUgc29tZSBlcnJvcnMgd2hlbiB1bmJpbmRpbmcgYW5kIHJl
+YmluZGluZyBtZWRpYXRlayBkcm0sIGRzaSwKPiBhbmQgZGlzcC0qIGRyaXZlcnMuIFRoaXMgc2Vy
+aWVzIGlzIHRvIGZpeCB0aG9zZSBlcnJvcnMgYW5kIHdhcm5pbmdzLgo+IAo+IEhzaW4tWWkgV2Fu
+ZyAoNCk6Cj4gICBkcm06IG1lZGlhdGVrOiBmaXggdW5iaW5kIGZ1bmN0aW9ucwo+ICAgZHJtOiBt
+ZWRpYXRlazogdW5iaW5kIGNvbXBvbmVudHMgaW4gbXRrX2RybV91bmJpbmQoKQo+ICAgZHJtOiBt
+ZWRpYXRlazogY2FsbCBkcm1fYXRvbWljX2hlbHBlcl9zaHV0ZG93bigpIHdoZW4gdW5iaW5kaW5n
+IGRyaXZlcgo+ICAgZHJtOiBtZWRpYXRlazogY2xlYXIgbnVtX3BpcGVzIHdoZW4gdW5iaW5kIGRy
+aXZlcgoKRm9yIHRoaXMgc2VyaWVzIHdpdGggc29tZSB0aXRsZSBtb2RpZmljYXRpb24sIGFwcGxp
+ZWQgdG8KbWVkaWF0ZWstZHJtLWZpeGVzLTUuMiBbMV0sIHRoYW5rcy4KClsxXQpodHRwczovL2dp
+dGh1Yi5jb20vY2todS1tZWRpYXRlay9saW51eC5naXQtdGFncy9jb21taXRzL21lZGlhdGVrLWRy
+bS1maXhlcy01LjIKClJlZ2FyZHMsCkNLCgo+IAo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2RybV9kcnYuYyB8IDggKysrLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kc2kuYyAgICAgfCAyICsrCj4gIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA1
+IGRlbGV0aW9ucygtKQo+IAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
