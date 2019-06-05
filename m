@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BE936305
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 19:54:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0960436306
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 19:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5F3E89336;
-	Wed,  5 Jun 2019 17:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7653889322;
+	Wed,  5 Jun 2019 17:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4ABCA89336
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 17:54:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 473CF72167; Wed,  5 Jun 2019 17:54:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110844] AMDGPU Resets and blackscreens couple minutes into any
- game regardless of wine/proton/native - sound keeps playing
-Date: Wed, 05 Jun 2019 17:54:05 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: alexdeucher@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110844-502-OUGOCwStl0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110844-502@http.bugs.freedesktop.org/>
-References: <bug-110844-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5CA89322
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 17:54:26 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C5A19200AA;
+ Wed,  5 Jun 2019 19:54:24 +0200 (CEST)
+Date: Wed, 5 Jun 2019 19:54:23 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Dingchen Zhang <dingchen.zhang@amd.com>
+Subject: Re: [PATCH 2/2] drm: Set crc->opened = false before setting crc
+ source to NULL.
+Message-ID: <20190605175423.GB20307@ravnborg.org>
+References: <20190605170639.8368-1-dingchen.zhang@amd.com>
+ <20190605170639.8368-2-dingchen.zhang@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190605170639.8368-2-dingchen.zhang@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=zd2uoN0lAAAA:8
+ a=OKjHR3uSGCQdXQEvTkoA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,92 +46,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2075331256=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2075331256==
-Content-Type: multipart/alternative; boundary="15597572452.eACDc07D.7423"
-Content-Transfer-Encoding: 7bit
-
-
---15597572452.eACDc07D.7423
-Date: Wed, 5 Jun 2019 17:54:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110844
-
---- Comment #4 from Alex Deucher <alexdeucher@gmail.com> ---
-You said it started happening for week or two ago.  What component(s) did y=
-ou
-update at that time?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15597572452.eACDc07D.7423
-Date: Wed, 5 Jun 2019 17:54:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844">bug 11084=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
-</span></b>
-        <pre>You said it started happening for week or two ago.  What compo=
-nent(s) did you
-update at that time?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15597572452.eACDc07D.7423--
-
---===============2075331256==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2075331256==--
+SGkgRGluZ2NoZW4KCkkgZG8gbm90IGtub3cgdGhpcyBjb2RlLCBzbyBwbGVhc2UgYXdhaXQgZmVl
+ZGJhY2sgZnJvbSBvdGhlcnMgb24gdGhlCnBhdGNoIGl0c2VsZi4KCk9uIFdlZCwgSnVuIDA1LCAy
+MDE5IGF0IDAxOjA2OjM5UE0gLTA0MDAsIERpbmdjaGVuIFpoYW5nIHdyb3RlOgo+IHRvIHRlcm1p
+bmF0ZSB0aGUgd2hpbGUtbG9vcCBpbiBkcm1fZHBfYXV4X2NyY193b3JrIHdoZW4gZHJtX2RwX3N0
+YXJ0L3N0b3BfY3JjCj4gYXJlIGNhbGxlZCBpbiB0aGUgaG9vayB0byBzZXQgY3JjIHNvdXJjZS4K
+PiAKPiBDYzpMZW8gTGkgPHN1bnBlbmcubGlAYW1kLmNvbT4sIEhhcnJ5IDxIYXJyeS5XZW50bGFu
+ZEBhbWQuY29tPiwgTmljayA8TmljaG9sYXMuS2F6bGF1c2thc0BhbWQuY29tPgpPbmx5IG9uZSBw
+YWlyIG9mIG5hbWUvZW1haWwgcGVyIGxpbmUuCkFuZCB0cnkgdG8gdXNlIHRoZSBmdWxsIG5hbWUg
+YXMgcmVwb3J0ZWQgYnkgc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5wbAoKCVNhbQpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
