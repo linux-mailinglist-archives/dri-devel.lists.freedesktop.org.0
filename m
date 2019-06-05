@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE96365E1
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 22:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65ED9365F8
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 22:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43FB3892AA;
-	Wed,  5 Jun 2019 20:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B524895E1;
+	Wed,  5 Jun 2019 20:50:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F26FC892AA
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 20:46:02 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8EA74896C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 20:50:09 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E95F372167; Wed,  5 Jun 2019 20:46:02 +0000 (UTC)
+ id 8B47172167; Wed,  5 Jun 2019 20:50:09 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110844] AMDGPU Resets and blackscreens couple minutes into any
- game regardless of wine/proton/native - sound keeps playing
-Date: Wed, 05 Jun 2019 20:46:03 +0000
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Wed, 05 Jun 2019 20:50:09 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
-X-Bugzilla-Who: nathaniel.horn@protonmail.com
+X-Bugzilla-Who: u9vata@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110844-502-yxf6mE5Yh1@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110844-502@http.bugs.freedesktop.org/>
-References: <bug-110844-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110781-502-AsfVmNpeoi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,42 +53,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0001684796=="
+Content-Type: multipart/mixed; boundary="===============1271762817=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0001684796==
-Content-Type: multipart/alternative; boundary="15597675620.40Ee.15474"
+--===============1271762817==
+Content-Type: multipart/alternative; boundary="15597678093.6499.17524"
 Content-Transfer-Encoding: 7bit
 
 
---15597675620.40Ee.15474
-Date: Wed, 5 Jun 2019 20:46:02 +0000
+--15597678093.6499.17524
+Date: Wed, 5 Jun 2019 20:50:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110844
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
 
---- Comment #5 from nathaniel.horn@protonmail.com ---
-(In reply to Alex Deucher from comment #4)
-> You said it started happening for week or two ago.  What component(s) did
-> you update at that time?
+--- Comment #39 from Richard Thier <u9vata@gmail.com> ---
+First I went on to strace a bit and measure directly...
 
-tbh I dont really know what it could have been.=20
-Im on arch and i just did a pacman -Syu.=20
-Im thinking its probably mesa or the kernel.=20
-The problem is that my gpu apparently resets while trying to play a game.
+10 sec glxgears - lastfast 17.x:
+
+- 2105 ioctl calls
+- 6 DRM_IOCTL_RADEON_GEM_CREATE
+- 7 DRM_IOCTL_GEM_CLOSE
+
+10 sec glxgears - patched 19.x:
+
+- 2916 ioctl calls
+- 712 DRM_IOCTL_RADEON_GEM_CREATE
+- 713 DRM_IOCTL_GEM_CLOSE
+
+In comparison this is the unpatched 19.x originally (10 sec):
+
+-> 12466 (any) ioctl calls
+-> 3111 DRM_IOCTL_RADEON_GEM_CREATE
+-> 3112 DRM_IOCTL_GEM_CLOSE
+
+Surely it is already an order of magnitude better now, but maybe still not =
+as
+best as it should be. As I told you, when bisecting there was a point I saw
+this happening and it was hinting there are two issues - but one is much
+smaller.
+
+glxgears however runs roughly the same FPS now. Maybe things start to slow =
+down
+if I run out of CPU power as glxgears don't run out now - neither tuxracer,=
+ but
+will try heavy things like mount&blade: warband... it was working well befo=
+re..
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15597675620.40Ee.15474
-Date: Wed, 5 Jun 2019 20:46:02 +0000
+--15597678093.6499.17524
+Date: Wed, 5 Jun 2019 20:50:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,31 +128,52 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844#c5">Commen=
-t # 5</a>
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c39">Comme=
+nt # 39</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844">bug 11084=
-4</a>
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nathaniel.horn&#64;protonmail.com" title=3D"nathaniel.horn&#64;protonmail.c=
-om">nathaniel.horn&#64;protonmail.com</a>
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
 </span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-0844#c4">comment #4</a>)
-<span class=3D"quote">&gt; You said it started happening for week or two ag=
-o.  What component(s) did
-&gt; you update at that time?</span >
+        <pre>First I went on to strace a bit and measure directly...
 
-tbh I dont really know what it could have been.=20
-Im on arch and i just did a pacman -Syu.=20
-Im thinking its probably mesa or the kernel.=20
-The problem is that my gpu apparently resets while trying to play a game.</=
-pre>
+10 sec glxgears - lastfast 17.x:
+
+- 2105 ioctl calls
+- 6 DRM_IOCTL_RADEON_GEM_CREATE
+- 7 DRM_IOCTL_GEM_CLOSE
+
+10 sec glxgears - patched 19.x:
+
+- 2916 ioctl calls
+- 712 DRM_IOCTL_RADEON_GEM_CREATE
+- 713 DRM_IOCTL_GEM_CLOSE
+
+In comparison this is the unpatched 19.x originally (10 sec):
+
+-&gt; 12466 (any) ioctl calls
+-&gt; 3111 DRM_IOCTL_RADEON_GEM_CREATE
+-&gt; 3112 DRM_IOCTL_GEM_CLOSE
+
+Surely it is already an order of magnitude better now, but maybe still not =
+as
+best as it should be. As I told you, when bisecting there was a point I saw
+this happening and it was hinting there are two issues - but one is much
+smaller.
+
+glxgears however runs roughly the same FPS now. Maybe things start to slow =
+down
+if I run out of CPU power as glxgears don't run out now - neither tuxracer,=
+ but
+will try heavy things like mount&amp;blade: warband... it was working well =
+before..</pre>
         </div>
       </p>
 
@@ -142,9 +187,9 @@ pre>
     </body>
 </html>=
 
---15597675620.40Ee.15474--
+--15597678093.6499.17524--
 
---===============0001684796==
+--===============1271762817==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -154,4 +199,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0001684796==--
+--===============1271762817==--
