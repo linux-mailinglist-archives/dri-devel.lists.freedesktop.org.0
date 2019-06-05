@@ -1,59 +1,119 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEDF35A09
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 11:59:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5CF35A2D
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 12:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB8F897BC;
-	Wed,  5 Jun 2019 09:59:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99B25897D0;
+	Wed,  5 Jun 2019 10:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F14B897BC
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 09:59:10 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id BCE74AE14;
- Wed,  5 Jun 2019 09:59:08 +0000 (UTC)
-Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
- documentation
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190604111330.25324-1-tzimmermann@suse.de>
- <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23122897D0
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 10:08:48 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id f9so4107556wre.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2019 03:08:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+ :organization:message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Ee9sQgDlJ7WVB1kKR9DD1z2IshKBwn92LIm4HguEtGo=;
+ b=ZKQvDfKCml+vLG3xYYyfivcgvoDXw2r4YP7vkXPd/LheZyuhxAIlFC0YoNuQ3GW8Zw
+ F+Slmf8kPU80cmWJQp+ZdTOK3usqhjPNYHzNqXxZ+Unqpgl2RwtRv8qJ7pNttzfRfURb
+ 5OUm0JtW565kLIdWaafPluJL+lEdJbKJVeQ4h3+NfCvWOD2pFUAdd36pUhrhai1F5GzV
+ /SeVTm4ia4ywUiTe75XZXRgypqCCxvkFIeE6BydPjxHMrGuiBOWhdt7EHmYMNAOcZM3w
+ 6BtnBNm1d9UPJzx2pcTIf04jT4q5TiIj6l9gdSivHGZMl7iGW1W9J47ZVRU2/NloE/rh
+ Dzkg==
+X-Gm-Message-State: APjAAAWU+iNAKduI+UtYIP8ZhamavBjQ3moPR62yk2yYZLwin/L4nBaF
+ jmze7qlyeOGYKFHDFD7mIwDVw4fOMYrM0g==
+X-Google-Smtp-Source: APXvYqx1hKf42PoxZ63Rno3fhQL4Vad3lofhuJdju74v4whkCPrT7hx0Xaig+iHhhiNnp34D3rPulA==
+X-Received: by 2002:a05:6000:124b:: with SMTP id
+ j11mr4215521wrx.157.1559729326497; 
+ Wed, 05 Jun 2019 03:08:46 -0700 (PDT)
+Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr.
+ [90.63.244.31])
+ by smtp.gmail.com with ESMTPSA id s11sm15312583wro.17.2019.06.05.03.08.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 05 Jun 2019 03:08:45 -0700 (PDT)
+Subject: Re: [PATCH] drm/panfrost: make devfreq optional again
+To: Ezequiel Garcia <ezequiel@collabora.com>, robh@kernel.org,
+ tomeu.vizoso@collabora.com
+References: <20190531123746.613-1-narmstrong@baylibre.com>
+ <be303348776eba2674bb23ea971da54d0eafe7fc.camel@collabora.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
-Date: Wed, 5 Jun 2019 11:59:04 +0200
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <822d6c83-393d-25d1-4692-0b3d1eb469bd@baylibre.com>
+Date: Wed, 5 Jun 2019 12:08:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
+In-Reply-To: <be303348776eba2674bb23ea971da54d0eafe7fc.camel@collabora.com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:openpgp:autocrypt:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Ee9sQgDlJ7WVB1kKR9DD1z2IshKBwn92LIm4HguEtGo=;
+ b=n8eLuL2SZ/6ri3A0WdL4fI2pFIRua15Oh1LoWCvtwJSA0JxW6VVlzFe4L+k/7vMw7m
+ KA7GJWmZ8GOmHm6Iji0q9hR3OWM2KKjjjQMjrYs7blyBGa51fBgKPls/QgrQjlfRNfxM
+ YcFB+JOr7OEEIZdcjcV0t7laJRrvouh7NqpOvx0nujKganXfc3LgAVGYMB8yTdLiHeSP
+ shve+iPAYy5wWpT6S8HHu8dghD4C9bM/14HJm0Ni211QfX6m7zNwlnNCEL4V7iVlJocc
+ CdKNhkwgLAYrtmroOsjxV/yQU9YZ1picWqOtAOWlR0uXMJlgEEfI+puFtObQVOo95eCa
+ vszQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,112 +126,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: maxime.ripard@bootlin.com, sean@poorly.run, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0891144293=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0891144293==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cwG4XZyrs1BKbgF15DdlYCFGGE1vy1byA"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cwG4XZyrs1BKbgF15DdlYCFGGE1vy1byA
-Content-Type: multipart/mixed; boundary="vI46v976G8cbVSg3rrlmfwA1PH1TRdsax";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- maxime.ripard@bootlin.com, sean@poorly.run, dri-devel@lists.freedesktop.org
-Message-ID: <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
-Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
- documentation
-References: <20190604111330.25324-1-tzimmermann@suse.de>
- <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
-In-Reply-To: <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
-
---vI46v976G8cbVSg3rrlmfwA1PH1TRdsax
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 05.06.19 um 11:03 schrieb Gerd Hoffmann:
-> On Tue, Jun 04, 2019 at 01:13:30PM +0200, Thomas Zimmermann wrote:
->> The documentation tools interpret drm_gem_vram_mm_funcs as function an=
-d
->> there appears to be no way of inline-documenting constants.
->=20
->> -/**
->> +/*
->>   * drm_gem_vram_mm_funcs - Functions for &struct drm_vram_mm
->=20
-> "struct drm_gem_vram_mm_funcs" ?
->=20
-> (see include/drm/drm_gem.h where struct drm_gem_object_funcs is
-> documented that way).
-
-The documented source line is
-
-  const struct drm_vram_mm_funcs drm_gem_vram_mm_funcs =3D {
-
-and I tried to document the purpose of the constant 'drm_gem_vram_mm_func=
-s'.
-
-Documenting global constants is not described in the kernel guide and I
-could not find a source-code example either. Function and struct style
-with '-' didn't work; member-field style with '@' neither. The only way
-seems to be adding it to an .rst file in Documentation. But then it's
-not part of the API documentation, but somewhere in the text.
-
-Best regards
-Thomas
-
-
-> cheers,
->   Gerd
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---vI46v976G8cbVSg3rrlmfwA1PH1TRdsax--
-
---cwG4XZyrs1BKbgF15DdlYCFGGE1vy1byA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz3kmgACgkQaA3BHVML
-eiP4fgf/fqwFH0VsJrnvqrV3lbYrUcOl3mg3flNMg9qr+A8IuyhxZrnLpuQ4usjp
-zi73eYhrX8J7yGPxZe04RIdyKXhoawHgDkkIUA46FMV4AvnlvwCshR/dNIB+XasQ
-J0qhUk/UTMCz8bI7xsIE6yS9cHlKcpHVmIGJUd94KpjKRd4XQZRphwPNeJpUeKKU
-HRuD8KiO7QQZe1CmowhFJdEiEynY6n+g8MIG7w0efWZHP4Qa0qt1H08L+JiChxBT
-iOfSGrHczV2Obut/Ku5QAg42QZcMSYF5CHBnADx2KiZyFzRHNqm3tTQq6eNU+kNG
-fk+mv5pMeKkiMxbbrpGhs7GVRMOA7Q==
-=Eb31
------END PGP SIGNATURE-----
-
---cwG4XZyrs1BKbgF15DdlYCFGGE1vy1byA--
-
---===============0891144293==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0891144293==--
+T24gMDMvMDYvMjAxOSAyMTo1NCwgRXplcXVpZWwgR2FyY2lhIHdyb3RlOgo+IE9uIEZyaSwgMjAx
+OS0wNS0zMSBhdCAxNDozNyArMDIwMCwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4+IERldmZyZXEg
+cnVudGltZSB1c2FnZSB3YXMgbWFkZSBtYW5kYXRvcnksIHRodXMgbWFraW5nIHBhbmZyb3N0IGZh
+aWwgdG8gcHJvYmUKPj4gb24gQW1sb2dpYyBTOTEyIFNvQ3MgbWlzc2luIHRoZSAib3BlcmF0aW5n
+LXBvaW50cy12MiIgcHJvcGVydHkuCj4+IE1ha2UgaXQgb3B0aW9uYWwgYWdhaW4sIGxlYXZpbmcg
+UE1fREVWRlJFUSBpcyBzZWxlY3RlZCBieSBkZWZhdWx0Lgo+Pgo+PiBGaXhlczogZjM2MTdiNDQ5
+ZCAoImRybS9wYW5mcm9zdDogU2VsZWN0IGRldmZyZXEiKQo+PiBTaWduZWQtb2ZmLWJ5OiBOZWls
+IEFybXN0cm9uZyA8bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4+IC0tLQo+PiAgZHJpdmVycy9n
+cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYyB8IDEzICsrKysrKysrKysrKy0KPj4g
+IDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Cj4+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYwo+PiBpbmRleCAyOWZj
+ZmZkZjJkNTcuLmRjNzVmOTlhZDUzYiAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Bh
+bmZyb3N0L3BhbmZyb3N0X2RldmZyZXEuYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJv
+c3QvcGFuZnJvc3RfZGV2ZnJlcS5jCj4+IEBAIC0xNDAsNyArMTQwLDkgQEAgaW50IHBhbmZyb3N0
+X2RldmZyZXFfaW5pdChzdHJ1Y3QgcGFuZnJvc3RfZGV2aWNlICpwZmRldikKPj4gIAkJcmV0dXJu
+IDA7Cj4+ICAKPj4gIAlyZXQgPSBkZXZfcG1fb3BwX29mX2FkZF90YWJsZSgmcGZkZXYtPnBkZXYt
+PmRldik7Cj4+IC0JaWYgKHJldCkKPj4gKwlpZiAocmV0ID09IC1FTk9ERVYpIC8qIE9wdGlvbmFs
+LCBjb250aW51ZSB3aXRob3V0IGRldmZyZXEgKi8KPj4gKwkJcmV0dXJuIDA7Cj4+ICsJZWxzZQo+
+PiAgCQlyZXR1cm4gcmV0Owo+PiAgCj4gCj4gVGhpcyBsb29rcyBpbmNvcnJlY3QsIHNob3VsZCBi
+ZToKPiAKPiAgICAgICAgZWxzZSBpZiAocmV0KQo+ICAgICAgICAgICAgICAgICByZXR1cm4gcmV0
+Owo+IAo+IE90aGVyd2lzZSwgaWYgcmV0ID09IDAsIHdlIGFyZSBiYWlsaW5nIG91dC4KCkluZGVl
+ZCwgdGhhbmtzIGZvciBzcG90dGluZyB0aGlzLi4uCgpXaWxsIHJlc2VuZC4KCk5laWwKCj4gCj4g
+VGhhbmtzLAo+IEV6ZQo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
