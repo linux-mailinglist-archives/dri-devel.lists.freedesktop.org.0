@@ -2,60 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BFA3581C
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 09:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF8335853
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 10:13:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 729D488007;
-	Wed,  5 Jun 2019 07:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C697895CA;
+	Wed,  5 Jun 2019 08:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28A288007
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 07:56:20 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 130AFAF2D;
- Wed,  5 Jun 2019 07:56:19 +0000 (UTC)
-Subject: Re: [PATCH 1/8] drm/ast: Unpin cursor BO during cleanup
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, kraxel@redhat.com, 
- airlied@redhat.com, daniel@ffwll.ch, maxime.ripard@bootlin.com,
- sean@poorly.run, sam@ravnborg.org, christian.koenig@amd.com
-References: <20190604154201.14460-1-tzimmermann@suse.de>
- <20190604154201.14460-2-tzimmermann@suse.de>
- <b2c1776f-c1b3-c6ce-db6a-8db247bc25f6@linux.intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <f1344207-5650-cfaa-c841-2178f99a342a@suse.de>
-Date: Wed, 5 Jun 2019 09:56:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <b2c1776f-c1b3-c6ce-db6a-8db247bc25f6@linux.intel.com>
+X-Greylist: delayed 573 seconds by postgrey-1.36 at gabe;
+ Wed, 05 Jun 2019 08:12:57 UTC
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61C0A895CA
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 08:12:57 +0000 (UTC)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 80DE5200753;
+ Wed,  5 Jun 2019 10:03:23 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com
+ [165.114.16.14])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 71EB0200746;
+ Wed,  5 Jun 2019 10:03:19 +0200 (CEST)
+Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
+ by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 87F1D402D5;
+ Wed,  5 Jun 2019 16:03:14 +0800 (SGT)
+From: sandor.yu@nxp.com
+To: hjc@rock-chips.com, heiko@sntech.de, airlied@linux.ie, daniel@ffwll.ch,
+ sandor.yu@nxp.com
+Subject: [PATCH] DRM: Rockchip: correct rate in the struct drm_dp_link
+ assignment
+Date: Wed,  5 Jun 2019 16:04:24 +0800
+Message-Id: <20190605080424.28731-1-sandor.yu@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,117 +45,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0818741858=="
+Cc: Sandor Yu <Sandor.yu@nxp.com>, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0818741858==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Ii5kohPc2k1R9VndKhFsgIO3QRBFn7AmC"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Ii5kohPc2k1R9VndKhFsgIO3QRBFn7AmC
-Content-Type: multipart/mixed; boundary="d6XQltpGtzV2ocgVzymJ0BFwRBiNKBWdX";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, kraxel@redhat.com,
- airlied@redhat.com, daniel@ffwll.ch, maxime.ripard@bootlin.com,
- sean@poorly.run, sam@ravnborg.org, christian.koenig@amd.com
-Cc: dri-devel@lists.freedesktop.org
-Message-ID: <f1344207-5650-cfaa-c841-2178f99a342a@suse.de>
-Subject: Re: [PATCH 1/8] drm/ast: Unpin cursor BO during cleanup
-References: <20190604154201.14460-1-tzimmermann@suse.de>
- <20190604154201.14460-2-tzimmermann@suse.de>
- <b2c1776f-c1b3-c6ce-db6a-8db247bc25f6@linux.intel.com>
-In-Reply-To: <b2c1776f-c1b3-c6ce-db6a-8db247bc25f6@linux.intel.com>
-
---d6XQltpGtzV2ocgVzymJ0BFwRBiNKBWdX
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 05.06.19 um 09:45 schrieb Maarten Lankhorst:
-> Op 04-06-2019 om 17:41 schreef Thomas Zimmermann:
->> The unpin operation was missing from ast_cursor_fini(). Fixed now.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/ast/ast_mode.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_=
-mode.c
->> index fb700d620b64..41741cd6cd15 100644
->> --- a/drivers/gpu/drm/ast/ast_mode.c
->> +++ b/drivers/gpu/drm/ast/ast_mode.c
->> @@ -959,6 +959,7 @@ static void ast_cursor_fini(struct drm_device *dev=
-)
->>  	struct drm_gem_vram_object *gbo =3D
->>  		drm_gem_vram_of_gem(ast->cursor_cache);
->>  	drm_gem_vram_kunmap_at(gbo, &ast->cache_kmap);
->> +	drm_gem_vram_unpin(gbo);
->>  	drm_gem_object_put_unlocked(ast->cursor_cache);
->>  }
->> =20
->=20
-> Fixes tag?
-
-I didn't add one as it would be the original commit 312fec1405dd5. Since
-the code is only called during driver shutdown, I don't think it ever
-was a problem. Unpinning the cursor is still the correct thing to do.
-
-Best regards
-Thomas
-
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---d6XQltpGtzV2ocgVzymJ0BFwRBiNKBWdX--
-
---Ii5kohPc2k1R9VndKhFsgIO3QRBFn7AmC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz3dZ0ACgkQaA3BHVML
-eiOyFQf/VojPlvULJ6qLB+I9CKJbqMZucDNbPVAl/FctyyKxx24/ReGi3mpwL1Tq
-tHaQGdsmw/fvqgzMiftlID1l4F4hDJlYeHO/CwuCHmVNGBTXby03fbmKwb8wARgx
-ub9cKi6wzhpnush2Ye2yeY0lWHrSH3C8vZJt3GZUYbxZUDNEEApifktwXboxgTYw
-892bImHNEYr1yfGZUC4HOauRRdVcGvkMPKwBVQQ6qP/RDcDznt2EGc2fsxx+cb+j
-IcACtrIcnaHWS1s0dsV5+46IOWB+ApI9ETjiGWAu04jVtsDX4gXmXV2FxRUfqReN
-uLNt4tMBTDGTnEDMzLmXtgIBPTdRCQ==
-=wITH
------END PGP SIGNATURE-----
-
---Ii5kohPc2k1R9VndKhFsgIO3QRBFn7AmC--
-
---===============0818741858==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0818741858==--
+RnJvbTogU2FuZG9yIFl1IDxTYW5kb3IueXVAbnhwLmNvbT4KCnZhcmlhYmxlIG9mIHJhdGUgaW4g
+dGhlIHN0cnVjdCBkcm1fZHBfbGluayBzaG91bGQgYXNzaWduIHRvCjE2MjAwMC8yNzAwMDAvNTQw
+MDAwLzgxMDAwMC4KClNpZ25lZC1vZmYtYnk6IFNhbmRvciBZdSA8U2FuZG9yLnl1QG54cC5jb20+
+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2Nkbi1kcC1yZWcuYyB8IDQgKystLQogMSBm
+aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLXJlZy5jIGIvZHJpdmVycy9ncHUvZHJt
+L3JvY2tjaGlwL2Nkbi1kcC1yZWcuYwppbmRleCA2YzhiMTRmLi4wYTJhZWJlIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLXJlZy5jCisrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9yb2NrY2hpcC9jZG4tZHAtcmVnLmMKQEAgLTU0Myw3ICs1NDMsNyBAQCBzdGF0aWMgaW50
+IGNkbl9kcF9nZXRfdHJhaW5pbmdfc3RhdHVzKHN0cnVjdCBjZG5fZHBfZGV2aWNlICpkcCkKIAlp
+ZiAocmV0KQogCQlnb3RvIGVycl9nZXRfdHJhaW5pbmdfc3RhdHVzOwogCi0JZHAtPmxpbmsucmF0
+ZSA9IHN0YXR1c1swXTsKKwlkcC0+bGluay5yYXRlID0gZHJtX2RwX2J3X2NvZGVfdG9fbGlua19y
+YXRlKHN0YXR1c1swXSk7CiAJZHAtPmxpbmsubnVtX2xhbmVzID0gc3RhdHVzWzFdOwogCiBlcnJf
+Z2V0X3RyYWluaW5nX3N0YXR1czoKQEAgLTY0Nyw3ICs2NDcsNyBAQCBpbnQgY2RuX2RwX2NvbmZp
+Z192aWRlbyhzdHJ1Y3QgY2RuX2RwX2RldmljZSAqZHApCiAJYml0X3Blcl9waXggPSAodmlkZW8t
+PmNvbG9yX2ZtdCA9PSBZQ0JDUl80XzJfMikgPwogCQkgICAgICAodmlkZW8tPmNvbG9yX2RlcHRo
+ICogMikgOiAodmlkZW8tPmNvbG9yX2RlcHRoICogMyk7CiAKLQlsaW5rX3JhdGUgPSBkcm1fZHBf
+YndfY29kZV90b19saW5rX3JhdGUoZHAtPmxpbmsucmF0ZSkgLyAxMDAwOworCWxpbmtfcmF0ZSA9
+IGRwLT5saW5rLnJhdGUgLyAxMDAwOwogCiAJcmV0ID0gY2RuX2RwX3JlZ193cml0ZShkcCwgQk5E
+X0hTWU5DMlZTWU5DLCBWSUZfQllQQVNTX0lOVEVSTEFDRSk7CiAJaWYgKHJldCkKLS0gCjIuNy40
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
