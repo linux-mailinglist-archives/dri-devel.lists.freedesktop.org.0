@@ -1,68 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F018735CA1
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 14:23:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF3635CE9
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 14:32:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBAF1898E4;
-	Wed,  5 Jun 2019 12:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07985893A7;
+	Wed,  5 Jun 2019 12:32:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5958F898E4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 12:23:01 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id r18so5496799edo.7
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2019 05:23:01 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A60A893A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 12:32:30 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id f9so4553058wre.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2019 05:32:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=kn7L2PqRa1fGEOO9Zxax19qGHTC2cJnJMInOPgMzeKs=;
- b=r898PdsFZGAREQ0XISfwooqaIwrs9HmEq9LN+obpAH6LyZ/l645X0ahrFkKqml/LpJ
- Ytw8zMF1Z8ddyLkvdsAkfM4XC+ejEwstd14aWzdfLS4C/NcEFLir9aMtf4AlS9iNoTxF
- iVLK6CHGp4lGXKoXMuN7qk3//Cf2GsJGlfOkM5Yci3ChVVmaVowgTKAwY1u2SLVaUhFV
- cQloWZQFq94DzDeEsi+/3inm5tdbeXnU2sSI6lOl/7MqB3BDOq8gq0N3KVXMNPJOx1/K
- aaAYiib+UFKBuJVF44khrptYe625mO8wyJBTSieY+ecGMOctO6HDjqqjQURUCnmrInfo
- bMhQ==
-X-Gm-Message-State: APjAAAWvPDI+4TWsBf/HUiOuydrico1IgMv5Lq86R91SjGoEk4iAwenY
- 2w3kAMgaIzq07pO/DU/ciWHq5Q==
-X-Google-Smtp-Source: APXvYqxSH/zkD/h6sKRvHharGsaYNwbos67OvbuVupAmgBDFYXgLxqjWvfdInzHGD1vuxOUTsRjoww==
-X-Received: by 2002:a05:6402:1819:: with SMTP id
- g25mr33808810edy.56.1559737379986; 
- Wed, 05 Jun 2019 05:22:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id r9sm5062445eds.61.2019.06.05.05.22.58
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 05 Jun 2019 05:22:59 -0700 (PDT)
-Date: Wed, 5 Jun 2019 14:22:57 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Subject: Re: [PATCH V2] drm/vkms: Avoid extra discount in the timestamp value
-Message-ID: <20190605122257.GQ21222@phenom.ffwll.local>
-Mail-Followup-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Simon Ser <simon.ser@intel.com>,
- Ville Syrjala <ville.syrjala@linux.intel.com>,
- Shayenne Moura <shayenneluzmoura@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 18oliveira.charles@gmail.com
-References: <20190605024543.pcsnkf74mmgfhtuh@smtp.gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=sw9JR06JZ57t4yBCRtXvLW9qRBe7pjypKPz7MOiwkU8=;
+ b=CV45hRgnLT7ih802GXvHMESq65WMPMmEm/uhgw9CngYGELsmL0BGGbay5CpJULamtz
+ W0Annx8XGvod3e/bzVUJBdHkKgAA+FFJMt/nMJepbzC0KD95f/ANE6wzHU2CwdjN2kSV
+ rdox42OdArOvS7V8wSO9QXOhjF73JhekU7OTJ+fh+l2j58sMZNaRpnY79oh0t/uIkAK+
+ A/9IpXBMJ7TtH2DwCg9MQp3mMwjwWYpIOR2nogCgi8Q3shlldeSPibXlaQW2mRbRwUmc
+ wB8WPxEjsVoHG28QG6qZb1bGbv7oiRYgrfUP0ASwROhu0a26U8+bTTsDwi25H/4mjpgM
+ zlkw==
+X-Gm-Message-State: APjAAAVvnkje2ZBHj11b0Rvc2cJqWtUA1tKdlbYpIK4DHKjXqkGlvlmb
+ SzkgjbTCj8e7GrvpWAlJrqs=
+X-Google-Smtp-Source: APXvYqyqEgrwO0WLMyQZjSmA5mnM9l7C+0JD4jO726mjZZNqRenLj2ruodh7P/zsCne2D/FWgy/ONA==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr11537728wrm.286.1559737948944; 
+ Wed, 05 Jun 2019 05:32:28 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+ by smtp.gmail.com with ESMTPSA id j123sm30222914wmb.32.2019.06.05.05.32.27
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 05 Jun 2019 05:32:28 -0700 (PDT)
+Date: Wed, 5 Jun 2019 14:32:26 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH] gpu: host1x: Do not output error message for deferred
+ probe
+Message-ID: <20190605123226.GA724@ulmo>
+References: <20190604153150.22265-1-thierry.reding@gmail.com>
+ <21c2443c-9166-edc0-5d7b-46b9e3c48e70@gmail.com>
+ <20190605082848.GB10944@ulmo>
+ <1654b4cb-930c-dbc7-b40d-1f854ff2ac69@gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190605024543.pcsnkf74mmgfhtuh@smtp.gmail.com>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1654b4cb-930c-dbc7-b40d-1f854ff2ac69@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=kn7L2PqRa1fGEOO9Zxax19qGHTC2cJnJMInOPgMzeKs=;
- b=JA89mj9LtX/N7h/odMfvFdmQTVWkpB+/hAE8l3AaDFbfhzVkI0Oy43kpxX8jQpzBEt
- SbBr0vvdZFJRPGbB/VO47hbZ0Nhs+ROK46P1Gf1TALc3nVYUUrKgWDDv65ETI3G7aeUF
- Vizn5WJyb8jur9B45ljnu7e1s6ik1ATeJT+x4=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=sw9JR06JZ57t4yBCRtXvLW9qRBe7pjypKPz7MOiwkU8=;
+ b=HTYo2FsRiuBCAiPRg2yy7xKszew6j36PEGAPmNL3moIG2ZAKFJULOASjQQnlE9C4WX
+ hvehgu9FJQoVxnWlmr5HIxBwbNp5Zp7BEM9bEK/bsne6FXVKLUHRJwAYewafqLsf8K4J
+ dVtu8GgfOyaHwflVvnPL5xT3O7LJCv6paUYY9bLPGAQnvyefzGS2jw0h2YIOYl4djHxi
+ BZswMcpVXkBrQ9eYmcvrqkZcWzzdkAslbEmCPrUE0JgV3qoCQhTyYTZvrmknZIsuyZLQ
+ zLnKQNHUQ/qDG6sq/B5bgwgz5qgRZxGYv4Ofzoo0ijJvBrBwpxuHnpX9Dm+HAOcd+Xa5
+ knZQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,100 +71,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Simon Ser <simon.ser@intel.com>, Shayenne Moura <shayenneluzmoura@gmail.com>,
- 18oliveira.charles@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1676642646=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMDQsIDIwMTkgYXQgMTE6NDU6NDNQTSAtMDMwMCwgUm9kcmlnbyBTaXF1ZWly
-YSB3cm90ZToKPiBBZnRlciB0aGUgY29tbWl0IGRlZjM1ZTdjNTkyNiAoImRybS92a21zOiBCdWdm
-aXggZXh0cmEgdmJsYW5rIGZyYW1lIikKPiBzb21lIG9mIHRoZSBjcmMgdGVzdHMgc3RhcnRlZCB0
-byBmYWlsIGluIHRoZSB2a21zIHdpdGggdGhlIGZvbGxvd2luZwo+IGVycm9yOgo+IAo+ICBbZHJt
-OmRybV9jcnRjX2FkZF9jcmNfZW50cnkgW2RybV1dICpFUlJPUiogT3ZlcmZsb3cgb2YgQ1JDIGJ1
-ZmZlciwKPiAgICAgdXNlcnNwYWNlIHJlYWRzIHRvbyBzbG93Lgo+ICBbZHJtXSBmYWlsZWQgdG8g
-cXVldWUgdmttc19jcmNfd29ya19oYW5kbGUKPiAgLi4uCj4gCj4gVGhlIGFmb3JlbWVudGlvbmVk
-IGNvbW1pdCBmaXhlZCB0aGUgZXh0cmEgdmJsYW5rIGFkZGVkIGJ5Cj4gYGRybV9jcnRjX2FybV92
-YmxhbmtfZXZlbnQoKWAgd2hpY2ggaXMgaW52b2tlZCBpbnNpZGUKPiBgdmttc19jcnRjX2F0b21p
-Y19mbHVzaCgpYCBpZiB0aGUgdmJsYW5rIGV2ZW50IGNvdW50IHdhcyB6ZXJvLCBvdGhlcndpc2UK
-PiBgZHJtX2NydGNfc2VuZF92YmxhbmtfZXZlbnQoKWAgaXMgaW52b2tlZC4gVGhlIGZpeCB3YXMg
-aW1wbGVtZW50ZWQgaW4KPiBgdmttc19nZXRfdmJsYW5rX3RpbWVzdGFtcCgpYCBieSBzdWJ0cmFj
-dGluZyBvbmUgcGVyaW9kIGZyb20gdGhlIGN1cnJlbnQKPiB0aW1lc3RhbXAsIGFzIHRoZSBjb2Rl
-IHNuaXBwZXQgYmVsb3cgaWxsdXN0cmF0ZXM6Cj4gCj4gIGlmICghaW5fdmJsYW5rX2lycSkKPiAg
-ICp2YmxhbmtfdGltZSAtPSBvdXRwdXQtPnBlcmlvZF9uczsKPiAKPiBUaGUgYWJvdmUgZml4IHdv
-cmtzIHdlbGwgd2hlbiBgZHJtX2NydGNfYXJtX3ZibGFua19ldmVudCgpYCBpcyBpbnZva2VkLgo+
-IEhvd2V2ZXIsIGl0IGRvZXMgbm90IHByb3Blcmx5IHdvcmsgd2hlbiBgZHJtX2NydGNfc2VuZF92
-YmxhbmtfZXZlbnQoKWAKPiBleGVjdXRlcyBzaW5jZSBpdCBzdWJ0cmFjdHMgdGhlIGNvcnJlY3Qg
-dGltZXN0YW1wLCB3aGljaCBpdCBzaG91bGRuJ3QuCj4gSW4gdGhpcyBjYXNlLCB0aGUgYGRybV9j
-cnRjX2FjY3VyYXRlX3ZibGFua19jb3VudCgpYCBmdW5jdGlvbiB3aWxsCj4gcmV0dXJucyB0aGUg
-d3JvbmcgZnJhbWUgbnVtYmVyLCB3aGljaCBnZW5lcmF0ZXMgdGhlIGFmb3JlbWVudGlvbmVkCj4g
-ZXJyb3IuIFN1Y2ggZGVjcmVhc2UgaW4gYGdldF92YmxhbmtfdGltZXN0YW1wKClgIHByb2R1Y2Ug
-YSBuZWdhdGl2ZQo+IG51bWJlciBpbiB0aGUgZm9sbG93aW5nIGNhbGN1bGF0aW9uIHdpdGhpbiBg
-ZHJtX3VwZGF0ZV92YmxhbmtfY291bnQoKWA6Cj4gCj4gIHU2NCBkaWZmX25zID0ga3RpbWVfdG9f
-bnMoa3RpbWVfc3ViKHRfdmJsYW5rLCB2YmxhbmstPnRpbWUpKTsKPiAKPiBBZnRlciB0aGlzIG9w
-ZXJhdGlvbiwgdGhlIERJVl9ST1VORF9DTE9TRVNUX1VMTCBtYWNybyBpcyBpbnZva2VkIHVzaW5n
-Cj4gZGlmZl9ucyB3aXRoIGEgbmVnYXRpdmUgbnVtYmVyLCB3aGljaCBnZW5lcmF0ZXMgYW4gdW5k
-ZWZpbmVkIHJlc3VsdDsKPiB0aGVyZWZvcmUsIHRoZSByZXR1cm5lZCBmcmFtZSBpcyBhIGh1Z2Ug
-YW5kIGluY29ycmVjdCBudW1iZXIuIEZpbmFsbHksCj4gdGhlIGNvZGUgYmVsb3cgaXMgcGFydCBv
-ZiB0aGUgYHZrbXNfY3JjX3dvcmtfaGFuZGxlKClgLCBub3RlIHRoYXQgdGhlCj4gd2hpbGUgbG9v
-cCBkZXBlbmRzIG9uIHRoZSByZXR1cm5lZCB2YWx1ZSBmcm9tCj4gYGRybV9jcnRjX2FjY3VyYXRl
-X3ZibGFua19jb3VudCgpYCB3aGljaCBtYXkgY2F1c2UgdGhlIGxvb3AgdG8gdGFrZSBhCj4gbG9u
-ZyB0aW1lIHRvIGZpbmlzaCBpbiBjYXNlIG9mIGh1Z2UgdmFsdWUuCj4gCj4gIGZyYW1lX2VuZCA9
-IGRybV9jcnRjX2FjY3VyYXRlX3ZibGFua19jb3VudChjcnRjKTsKPiAgd2hpbGUgKGZyYW1lX3N0
-YXJ0IDw9IGZyYW1lX2VuZCkKPiAgICBkcm1fY3J0Y19hZGRfY3JjX2VudHJ5KGNydGMsIHRydWUs
-IGZyYW1lX3N0YXJ0KyssICZjcmMzMik7Cj4gCj4gVGhpcyBjb21taXQgZml4ZXMgdGhpcyBpc3N1
-ZSBieSBjaGVja2luZyBpZiB0aGUgdmJsYW5rIHRpbWVzdGFtcAo+IGNvcnJlc3BvbmRpbmcgdG8g
-dGhlIGN1cnJlbnQgc29mdHdhcmUgdmJsYW5rIGNvdW50ZXIgaXMgZXF1YWwgdG8gdGhlCj4gY3Vy
-cmVudCB2Ymxhbms7IGlmIHRoZXkgYXJlIGVxdWFsLCBpdCBtZWFucyB0aGF0Cj4gYGRybV9jcnRj
-X3NlbmRfdmJsYW5rX2V2ZW50KClgIHdhcyBpbnZva2VkIGFuZCB2a21zIGRvZXMgbm90IG5lZWQg
-dG8KPiBkaXNjb3VudCB0aGUgZXh0cmEgdmJsYW5rLCBvdGhlcndpc2UsIGBkcm1fY3J0Y19hcm1f
-dmJsYW5rX2V2ZW50KClgIHdhcwo+IGV4ZWN1dGVkIGFuZCB2a21zIGhhdmUgdG8gZGlzY291bnQg
-dGhlIGV4dHJhIHZibGFuay4gVGhpcyBmaXggbWFkZSB0aGUKPiBDUkMgdGVzdHMgd29yayBhZ2Fp
-biB3aGVyZWFzIGtlZXAgYWxsIHRlc3RzIGZyb20ga21zX2ZsaXAgd29ya2luZyBhcwo+IHdlbGwu
-Cj4gCj4gVjI6IFVwZGF0ZSBjb21taXQgbWVzc2FnZQo+IAo+IFNpZ25lZC1vZmYtYnk6IFJvZHJp
-Z28gU2lxdWVpcmEgPHJvZHJpZ29zaXF1ZWlyYW1lbG9AZ21haWwuY29tPgo+IFNpZ25lZC1vZmYt
-Ynk6IFNoYXllbm5lIE1vdXJhIDxzaGF5ZW5uZWx1em1vdXJhQGdtYWlsLmNvbT4KClRoYW5rcyBh
-IGxvdCBmb3IgdHlwaW5nIHVwIHRoaXMgY29tbWl0IG1lc3NhZ2UuIEknbSBzdGlsbCBub3QgZm9s
-bG93aW5nCndoYXQncyBnb2luZyBvbiAodGhpcyBzdHVmZiBpcyB0cmlja3kpLCBidXQgbm93IEkg
-dGhpbmsgSSBjYW4gYXQgbGVhc3QgYXNrCnVzZWZ1bCBzY2VuYXJpb3MuCgpGb3IgbXkgdW5kZXJz
-dGFuZGluZzogVGhpbmdzIGdvIHdyb25nIHdoZW4gaW4gdGhlIGZ1bmN0aW9uCnZrbXNfY3J0Y19h
-dG9taWNfZmx1c2goKSB0aGUgY2FsbCB0byBkcm1fY3J0Y192YmxhbmtfZ2V0KCkgcmV0dXJucyAw
-LCBhbmQKd2UgY2FsbCBkcm1fY3J0Y19zZW5kX3ZibGFua19ldmVudCgpIGRpcmVjdGx5PyBJJ20g
-bm90IDEwMCUgZnJvbSB5b3VyCmRlc2NyaXB0aW9uIGFib3ZlIHdoZXRoZXIgdGhhdCdzIHRoZSBm
-YWlsdXJlIGNhc2Ugd2hlcmUgZXZlcnl0aGluZyBibG93cwp1cC4KClRoZSBvdGhlciBwYXJ0IEkn
-bSBoYXZpbmcgYSBoYXJkIHRpbWUgdW5kZXJzdGFuZGluZzogSWYgd2UgYXJlIGluIHRoZSBjYXNl
-CndoZXJlIHdlIGNhbGwgZHJtX2NydGNfc2VuZF92YmxhbmtfZXZlbnQoKSBkaXJlY3RseSwgaG93
-IGRvIHdlIGVuZCB1cCBpbgp0aGUgdmttc19nZXRfdmJsYW5rX3RpbWVzdGFtcCgpLgoKRnJvbSB3
-aGF0IEkgY2FuIHNlZSB0aGVyZSdzIG5vdCBjYWxsZXIgdG8gd2hlcmUgd2Ugc2FtcGxlIGEgbmV3
-IHZibGFuayAuLi4KSSB0aGluayBhIGZ1bGwgYmFja3RyYWNlIHRoYXQgaGl0cyB0aGUgbmV3IGNv
-bmRpdGlvbiB5b3UncmUgYWRkaW5nIHRvCnVuZGVyc3RhbmQgd2hlbiBleGFjdGx5IHdlJ3JlIGhp
-dHRpbmcgaXQgd291bGQgYmUgcGVyZmVjdC4KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS92a21z
-L3ZrbXNfY3J0Yy5jIHwgNCArKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykK
-PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcnRjLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vdmttcy92a21zX2NydGMuYwo+IGluZGV4IDc1MDg4MTVmYWMxMS4uM2NlNjBl
-NjY2NzNlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfY3J0Yy5jCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcnRjLmMKPiBAQCAtNzQsOSArNzQsMTMg
-QEAgYm9vbCB2a21zX2dldF92YmxhbmtfdGltZXN0YW1wKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-IHVuc2lnbmVkIGludCBwaXBlLAo+ICB7Cj4gIAlzdHJ1Y3Qgdmttc19kZXZpY2UgKnZrbXNkZXYg
-PSBkcm1fZGV2aWNlX3RvX3ZrbXNfZGV2aWNlKGRldik7Cj4gIAlzdHJ1Y3Qgdmttc19vdXRwdXQg
-Km91dHB1dCA9ICZ2a21zZGV2LT5vdXRwdXQ7Cj4gKwlzdHJ1Y3QgZHJtX3ZibGFua19jcnRjICp2
-YmxhbmsgPSAmZGV2LT52YmxhbmtbcGlwZV07Cj4gIAo+ICAJKnZibGFua190aW1lID0gb3V0cHV0
-LT52YmxhbmtfaHJ0aW1lci5ub2RlLmV4cGlyZXM7Cj4gIAo+ICsJaWYgKCp2YmxhbmtfdGltZSA9
-PSB2YmxhbmstPnRpbWUpCj4gKwkJcmV0dXJuIHRydWU7CgpPaywgSSB0aGluayB3aXRoIHRoZSBh
-Ym92ZSBJIGRvIG5vdyBoYXZlIGEgcm91Z2ggaWRlYSB3aGF0J3MgZ29pbmcgd3JvbmcuCkkgdGhp
-bmsgdGhhdCB3b3VsZCBiZSBhIGJ1ZyBpbiB0aGUgZHJtX3ZibGFuay5jLiBPciBhdCBsZWFzdCBp
-dCBjb3VsZCBiZSwKSSB0aGluayBJIGZpcnN0IG5lZWQgdG8gYmV0dGVyIHVuZGVyc3RhbmQgc3Rp
-bGwgd2hhdCdzIGdvaW5nIG9uIGhlcmUgdG8KZGVjaWRlZCB0aGF0LgoKSSBoYXZlIGEgYml0IGEg
-aHVuY2ggdGhpcyBpcyBmYWxsb3V0IGZyb20gb3VyIHZibGFuayBmdWRnaW5nLCBidXQgSSBndWVz
-cwp3ZSdsbCBzZWUuCgpJdCdzIGRlZmluaXRlbHkgY2xlYXIgdGhhdCB0aGluZ3MgYmxvdyB1cCBp
-ZiB0aGUgdmJsYW5rIHRpbWUgc29tZWhvdyBnb2VzCmJhY2t3YXJkcywgYnV0IEkgZG9uJ3QgdW5k
-ZXJzdGFuZCB5ZXQgaG93IHRoYXQncyBwb3NzaWJsZS4KLURhbmllbAo+ICsKPiAgCWlmICghaW5f
-dmJsYW5rX2lycSkKPiAgCQkqdmJsYW5rX3RpbWUgLT0gb3V0cHV0LT5wZXJpb2RfbnM7Cj4gIAo+
-IC0tIAo+IDIuMjEuMAo+IAoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwg
-SW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1676642646==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
+Content-Disposition: inline
+
+
+--XsQoSWH+UP9D9v3l
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 05, 2019 at 02:25:43PM +0300, Dmitry Osipenko wrote:
+> 05.06.2019 11:28, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Jun 04, 2019 at 07:07:42PM +0300, Dmitry Osipenko wrote:
+> >> 04.06.2019 18:31, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> From: Thierry Reding <treding@nvidia.com>
+> >>>
+> >>> When deferring probe, avoid logging a confusing error message. While =
+at
+> >>> it, make the error message more informational.
+> >>>
+> >>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >>> ---
+> >>>  drivers/gpu/host1x/dev.c | 5 ++++-
+> >>>  1 file changed, 4 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> >>> index c55e2d634887..5a3f797240d4 100644
+> >>> --- a/drivers/gpu/host1x/dev.c
+> >>> +++ b/drivers/gpu/host1x/dev.c
+> >>> @@ -247,8 +247,11 @@ static int host1x_probe(struct platform_device *=
+pdev)
+> >>> =20
+> >>>  	host->clk =3D devm_clk_get(&pdev->dev, NULL);
+> >>>  	if (IS_ERR(host->clk)) {
+> >>> -		dev_err(&pdev->dev, "failed to get clock\n");
+> >>>  		err =3D PTR_ERR(host->clk);
+> >>> +
+> >>> +		if (err !=3D -EPROBE_DEFER)
+> >>> +			dev_err(&pdev->dev, "failed to get clock: %d\n", err);
+> >>> +
+> >>>  		return err;
+> >>>  	}
+> >>
+> >> The clock driver should be available at the time of host1x's probing on
+> >> all Tegra's because it is one of essential core drivers that become
+> >> available early during boot.
+> >=20
+> > That's the currently baked-in assumption. However, there can be any
+> > number of reasons for why the clocks may not show up as early as
+> > expected, as evidenced in the case of Tegra186.
+> >=20
+> >> I guess you're making this change for T186, is it because the BPMP
+> >> driver's probe getting deferred? If yes, won't it be possible to fix t=
+he
+> >> defer of the clock driver instead of making such changes in the affect=
+ed
+> >> drivers?
+> >=20
+> > The reason why this is now happening on Tegra186 is because the BPMP is
+> > bound to an IOMMU to avoid getting faults from the new no-bypass policy
+> > that the ARM SMMU driver is implementing as of v5.2-rc1.
+> >=20
+> > As a result of binding to an IOMMU, the first probe of the BPMP driver
+> > will get deferred, so any driver trying to request a clock after that
+> > and before BPMP gets probed successfully the next time, any clk_get()
+> > calls will fail with -EPROBE_DEFER.
+> >=20
+> > This is a bit unfortunate, but like I said, these kinds of things can
+> > happen, and probe deferral was designed specifically to deal with that
+> > kind of situation so that we wouldn't have to rely on all of these
+> > built-in assumptions that occasionally break.
+> >=20
+> > The driver also already handles deferred probe properly. The only thing
+> > that this patch really changes is to no longer consider -EPROBE_DEFER an
+> > error. It's in fact a pretty common situation in many drivers and should
+> > not warrant a kernel log message.
+>=20
+> You're trying to mask symptoms instead of curing the decease and it looks
+> like the decease could be cured.
+
+There's nothing here to cure. -EPROBE_DEFER was designed specifically to
+avoid having to play these kinds of games with initcall levels.
+
+What this patch tries to do is just to avoid printing an error message
+for something that is not an error. -EPROBE_DEFER is totally expected to
+happen, it's normal, it's not something that we should bother users with
+because things end up sorting themselves out in the end.
+
+> Won't something like this work for you?
+
+I'm sure we could find a number of ways to fix this. But there's no need
+to fix this because it's not broken. What is broken is that we output an
+error message when this happens and make an elephant out of a fly.
+
+Thierry
+
+> From fbeabba5f1151e96edc38620db67593585558ca0 Mon Sep 17 00:00:00 2001
+> From: Dmitry Osipenko <digetx@gmail.com>
+> Date: Wed, 5 Jun 2019 14:02:00 +0300
+> Subject: [PATCH 1/2] iommu/arm-smmu: Move driver registration to subsys l=
+evel
+>=20
+> On some platforms there is a dependency on the IOMMU availability that
+> comes up early during of the boot process. One example is NVIDIA Tegra186
+> which uses firmware, called BPMP, which manages lots of core functions
+> like system clocks for example. That firmware driver require IOMMU
+> functionality and hence the driver's probing is getting deferred because
+> the ARM's SMMU driver is probed later, thus all the drivers that depend
+> on the BPMP availability are also getting deferred on Tegra186. Let's move
+> SMMU driver's registration to an earlier boot stage, allowing drivers like
+> BPMP to probe successfully without the defer.
+>=20
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/iommu/arm-smmu.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/iommu/arm-smmu.c b/drivers/iommu/arm-smmu.c
+> index 5e54cc0a28b3..08919f2fdf04 100644
+> --- a/drivers/iommu/arm-smmu.c
+> +++ b/drivers/iommu/arm-smmu.c
+> @@ -2410,4 +2410,9 @@ static struct platform_driver arm_smmu_driver =3D {
+>  	.probe	=3D arm_smmu_device_probe,
+>  	.shutdown =3D arm_smmu_device_shutdown,
+>  };
+> -builtin_platform_driver(arm_smmu_driver);
+> +
+> +static int __init arm_smmu_init(void)
+> +{
+> +	return platform_driver_register(&arm_smmu_driver);
+> +}
+> +subsys_initcall(arm_smmu_init);
+> --=20
+> 2.21.0
+>=20
+> From 12ec90e22405b6d5574cbfcbd33b92736ad6bfe4 Mon Sep 17 00:00:00 2001
+> From: Dmitry Osipenko <digetx@gmail.com>
+> Date: Wed, 5 Jun 2019 14:13:15 +0300
+> Subject: [PATCH 2/2] firmware/tegra: Move driver registration to subsys-s=
+ync
+>  level
+>=20
+> The BPMP driver depends on the ARM SMMU driver which is now getting
+> probed from the subsys level, hence let's move the BPMP's probing to
+> the subsys-sync level in order to avoid probe deferring of the BPMP's
+> driver.
+>=20
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/firmware/tegra/bpmp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/firmware/tegra/bpmp.c b/drivers/firmware/tegra/bpmp.c
+> index dd775e8ba5a0..3f649e12f9f6 100644
+> --- a/drivers/firmware/tegra/bpmp.c
+> +++ b/drivers/firmware/tegra/bpmp.c
+> @@ -883,4 +883,4 @@ static int __init tegra_bpmp_init(void)
+>  {
+>  	return platform_driver_register(&tegra_bpmp_driver);
+>  }
+> -core_initcall(tegra_bpmp_init);
+> +subsys_initcall_sync(tegra_bpmp_init);
+> --=20
+> 2.21.0
+>=20
+>=20
+
+--XsQoSWH+UP9D9v3l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz3tlcACgkQ3SOs138+
+s6HoIg//TpvVX6jsZE4AVoQy09MOZMZkG2ANwQRMkNqg+b37kOSWIRhZ+/T775bn
+8U2DkT9rhKQTE45nf7pvpVhVEw4eGkb4PmBtjYlN21KGmtuKSmdl8wAiyg8XqJsf
+QthU+ONiDOQhmHtmtPi0sRrdvPfscod7c+k4oyWhxrE8Nz7I7bjDyBtiU1a4GPwM
+9liEUV87ueiU/UA1EaDmRLYzA3Lx6Pn+XIeRdKjeHJ8pBM4Q160qfkGBfn3rX0jM
+GfCj7OzM1p3ylh1dMpgMthfetiVSxTKogyYhhmDJYhDgPROXabQUSMwbB1ex+sUH
+JSmqE9N89tFx/cwaF8o+6PZ1Hfn5XSBuoe4hVvUGu4xjyVCJiizHKyG9E+JVED5E
+sGxmFdDPo3/oQpbROwdJfQlyxAjqb/2ct8VXdfJiSm+U3MQ5C/yd4519jTHeG4Hi
+dayOayost6++cTVXgc5SJDJ19IHNUclH8DHP8iYhqdZhG1xz6NsK4ZyIfdeZ7SY7
+XbnOOtNtiSbm2Zjc70ok3rev0Z9WoIPNVCxLiFroyrIXbjNerGdfvHgBsEqAUmJi
+9cEYSCyqntXEo9ay8C2q7a2UVXrYqsatTBHR6kbh3/AsnHNUnwVPnN8kjG7HsJLA
+vU3vL/uaSs+H7AzfJpTKopH40Lv/IwLqnnkK7NldGKDf5Bc56x4=
+=JIcB
+-----END PGP SIGNATURE-----
+
+--XsQoSWH+UP9D9v3l--
+
+--===============1676642646==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1676642646==--
