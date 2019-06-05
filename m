@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A036093
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 17:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A963C360A7
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 17:58:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721E589CE3;
-	Wed,  5 Jun 2019 15:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F1E89C1E;
+	Wed,  5 Jun 2019 15:58:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0455689CF4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 15:54:20 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00C9872167; Wed,  5 Jun 2019 15:54:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110845] [DC-only][regression] cannot select full refresh rate
- on 5.2rc - 144Hz 2560x1440
-Date: Wed, 05 Jun 2019 15:54:20 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110845-502-4WwFGAG4Rq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110845-502@http.bugs.freedesktop.org/>
-References: <bug-110845-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8852989C1E
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 15:58:55 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 682AB3084268;
+ Wed,  5 Jun 2019 15:58:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-131.ams2.redhat.com
+ [10.36.117.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F03211018A2C;
+ Wed,  5 Jun 2019 15:58:48 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D145016E1A; Wed,  5 Jun 2019 17:58:47 +0200 (CEST)
+Date: Wed, 5 Jun 2019 17:58:47 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
+ documentation
+Message-ID: <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
+References: <20190604111330.25324-1-tzimmermann@suse.de>
+ <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
+ <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Wed, 05 Jun 2019 15:58:55 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +52,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1407460355=="
+Cc: maxime.ripard@bootlin.com, sean@poorly.run, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1407460355==
-Content-Type: multipart/alternative; boundary="15597500592.1BE3A6.12208"
-Content-Transfer-Encoding: 7bit
-
-
---15597500592.1BE3A6.12208
-Date: Wed, 5 Jun 2019 15:54:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110845
-
---- Comment #1 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-My guess is that this is probably related to the:
-
-https://patchwork.freedesktop.org/patch/306397/
-
-patch. It might not be defaulting to 8bpc as the maximum, limiting you to 1=
-20Hz
-at 1440p.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15597500592.1BE3A6.12208
-Date: Wed, 5 Jun 2019 15:54:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [DC-only][regression] cannot select full refresh rate on =
-5.2rc - 144Hz 2560x1440"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110845#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [DC-only][regression] cannot select full refresh rate on =
-5.2rc - 144Hz 2560x1440"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110845">bug 11084=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
-</span></b>
-        <pre>My guess is that this is probably related to the:
-
-<a href=3D"https://patchwork.freedesktop.org/patch/306397/">https://patchwo=
-rk.freedesktop.org/patch/306397/</a>
-
-patch. It might not be defaulting to 8bpc as the maximum, limiting you to 1=
-20Hz
-at 1440p.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15597500592.1BE3A6.12208--
-
---===============1407460355==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1407460355==--
+T24gV2VkLCBKdW4gMDUsIDIwMTkgYXQgMTE6NTk6MDRBTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
+bm4gd3JvdGU6Cj4gSGkKPiAKPiBBbSAwNS4wNi4xOSB1bSAxMTowMyBzY2hyaWViIEdlcmQgSG9m
+Zm1hbm46Cj4gPiBPbiBUdWUsIEp1biAwNCwgMjAxOSBhdCAwMToxMzozMFBNICswMjAwLCBUaG9t
+YXMgWmltbWVybWFubiB3cm90ZToKPiA+PiBUaGUgZG9jdW1lbnRhdGlvbiB0b29scyBpbnRlcnBy
+ZXQgZHJtX2dlbV92cmFtX21tX2Z1bmNzIGFzIGZ1bmN0aW9uIGFuZAo+ID4+IHRoZXJlIGFwcGVh
+cnMgdG8gYmUgbm8gd2F5IG9mIGlubGluZS1kb2N1bWVudGluZyBjb25zdGFudHMuCj4gPiAKPiA+
+PiAtLyoqCj4gPj4gKy8qCj4gPj4gICAqIGRybV9nZW1fdnJhbV9tbV9mdW5jcyAtIEZ1bmN0aW9u
+cyBmb3IgJnN0cnVjdCBkcm1fdnJhbV9tbQo+ID4gCj4gPiAic3RydWN0IGRybV9nZW1fdnJhbV9t
+bV9mdW5jcyIgPwo+ID4gCj4gPiAoc2VlIGluY2x1ZGUvZHJtL2RybV9nZW0uaCB3aGVyZSBzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3MgaXMKPiA+IGRvY3VtZW50ZWQgdGhhdCB3YXkpLgo+IAo+
+IFRoZSBkb2N1bWVudGVkIHNvdXJjZSBsaW5lIGlzCj4gCj4gICBjb25zdCBzdHJ1Y3QgZHJtX3Zy
+YW1fbW1fZnVuY3MgZHJtX2dlbV92cmFtX21tX2Z1bmNzID0gewo+IAo+IGFuZCBJIHRyaWVkIHRv
+IGRvY3VtZW50IHRoZSBwdXJwb3NlIG9mIHRoZSBjb25zdGFudCAnZHJtX2dlbV92cmFtX21tX2Z1
+bmNzJy4KCkFoLiAgTWlzc2VkIHRoYXQgZGV0YWlsLgoKPiBEb2N1bWVudGluZyBnbG9iYWwgY29u
+c3RhbnRzIGlzIG5vdCBkZXNjcmliZWQgaW4gdGhlIGtlcm5lbCBndWlkZSBhbmQgSQo+IGNvdWxk
+IG5vdCBmaW5kIGEgc291cmNlLWNvZGUgZXhhbXBsZSBlaXRoZXIuIEZ1bmN0aW9uIGFuZCBzdHJ1
+Y3Qgc3R5bGUKPiB3aXRoICctJyBkaWRuJ3Qgd29yazsgbWVtYmVyLWZpZWxkIHN0eWxlIHdpdGgg
+J0AnIG5laXRoZXIuIFRoZSBvbmx5IHdheQo+IHNlZW1zIHRvIGJlIGFkZGluZyBpdCB0byBhbiAu
+cnN0IGZpbGUgaW4gRG9jdW1lbnRhdGlvbi4gQnV0IHRoZW4gaXQncwo+IG5vdCBwYXJ0IG9mIHRo
+ZSBBUEkgZG9jdW1lbnRhdGlvbiwgYnV0IHNvbWV3aGVyZSBpbiB0aGUgdGV4dC4KCk9rLCBwYXRj
+aCBpcyBmaW5lIHRoZW4uCgpBY2tlZC1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5j
+b20+CgooY2FuIHlvdSBjb21taXQgJiBwdXNoIHlvdXJzZWxmIG1lYW53aGlsZT8pCgpjaGVlcnMs
+CiAgR2VyZAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
