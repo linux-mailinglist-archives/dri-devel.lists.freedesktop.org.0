@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8B136062
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 17:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3CD3608B
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 17:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E417B89C9D;
-	Wed,  5 Jun 2019 15:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C642E89CF3;
+	Wed,  5 Jun 2019 15:49:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 23FBB89C9D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 15:37:28 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6358B89CF3
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 15:49:41 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1B17072167; Wed,  5 Jun 2019 15:37:28 +0000 (UTC)
+ id 5B5E772167; Wed,  5 Jun 2019 15:49:41 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110844] AMDGPU Resets and blackscreens couple minutes into any
- game regardless of wine/proton/native - sound keeps playing
-Date: Wed, 05 Jun 2019 15:37:28 +0000
+Subject: [Bug 110845] [DC-only][regression] cannot select full refresh rate
+ on 5.2rc - 144Hz 2560x1440
+Date: Wed, 05 Jun 2019 15:49:41 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -27,8 +27,8 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: nathaniel.horn@protonmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mcoffin13@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
@@ -36,8 +36,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-110844-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110845-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,62 +52,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1493477270=="
+Content-Type: multipart/mixed; boundary="===============0851667252=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1493477270==
-Content-Type: multipart/alternative; boundary="15597490480.0b3E.6336"
+--===============0851667252==
+Content-Type: multipart/alternative; boundary="15597497810.dE98D8dbE.10576"
 Content-Transfer-Encoding: 7bit
 
 
---15597490480.0b3E.6336
-Date: Wed, 5 Jun 2019 15:37:28 +0000
+--15597497810.dE98D8dbE.10576
+Date: Wed, 5 Jun 2019 15:49:41 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110844
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110845
 
-            Bug ID: 110844
-           Summary: AMDGPU Resets and blackscreens couple minutes into any
-                    game regardless of wine/proton/native - sound keeps
-                    playing
+            Bug ID: 110845
+           Summary: [DC-only][regression] cannot select full refresh rate
+                    on 5.2rc - 144Hz 2560x1440
            Product: DRI
            Version: unspecified
           Hardware: x86-64 (AMD64)
                 OS: Linux (All)
             Status: NEW
-          Severity: major
+          Severity: normal
           Priority: medium
          Component: DRM/AMDgpu
           Assignee: dri-devel@lists.freedesktop.org
-          Reporter: nathaniel.horn@protonmail.com
+          Reporter: mcoffin13@gmail.com
 
-Created attachment 144461
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144461&action=3Dedit
-the relevant dmesg bit.
+Somewhere between 5.1 and amd-staging-drm-next for 5.2-rc1, I stopped being
+able to set my Acer XV272U 144Hz 1440p display in its 144Hz setting at
+2560x1440 resolution.
 
-When i start a game on arch linux with kernel 5.1.7 with the AMDGPU driver =
-it
-loads up fine but after a couple minutes my monitor blackscreens. The audio=
- of
-the game keeps playing but i cant close it nor does any other input work
-either.=20
-This issue has existed for about a week or two now. When playing games on
-windows I have no issues.=20
+1920x1080@144Hz still works.
 
-Attached is the log of dmesg/journalctl
+This only happens under the display core driver. Setting amdgpu.dc=3D0 fixe=
+s it,
+but that is not needed on the 5.1 kernel.
+
+I will bisect tonight when I get home and have access to my AMD card.
+
+Card: XFX RX 590
+Kernel: current AMD-staging-drm-next HEAD.
+
+The issue occurs both in Xfce4, and in sway (wayland), so I=E2=80=99m assum=
+ing that the
+desktop environment has little to do with the issue.
+
+Sorry for bad formatting on mobile, I wanted to get this in and filed with =
+the
+5.2 release coming up.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15597490480.0b3E.6336
-Date: Wed, 5 Jun 2019 15:37:28 +0000
+--15597497810.dE98D8dbE.10576
+Date: Wed, 5 Jun 2019 15:49:41 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -124,16 +130,16 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844">110844</a>
+   title=3D"NEW - [DC-only][regression] cannot select full refresh rate on =
+5.2rc - 144Hz 2560x1440"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110845">110845</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>AMDGPU Resets and blackscreens couple minutes into any game r=
-egardless of wine/proton/native - sound keeps playing
+          <td>[DC-only][regression] cannot select full refresh rate on 5.2r=
+c - 144Hz 2560x1440
           </td>
         </tr>
 
@@ -169,7 +175,7 @@ egardless of wine/proton/native - sound keeps playing
 
         <tr>
           <th>Severity</th>
-          <td>major
+          <td>normal
           </td>
         </tr>
 
@@ -193,27 +199,34 @@ egardless of wine/proton/native - sound keeps playing
 
         <tr>
           <th>Reporter</th>
-          <td>nathaniel.horn&#64;protonmail.com
+          <td>mcoffin13&#64;gmail.com
           </td>
         </tr></table>
       <p>
         <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144461=
-" name=3D"attach_144461" title=3D"the relevant dmesg bit.">attachment 14446=
-1</a> <a href=3D"attachment.cgi?id=3D144461&amp;action=3Dedit" title=3D"the=
- relevant dmesg bit.">[details]</a></span>
-the relevant dmesg bit.
+        <pre>Somewhere between 5.1 and amd-staging-drm-next for 5.2-rc1, I =
+stopped being
+able to set my Acer XV272U 144Hz 1440p display in its 144Hz setting at
+2560x1440 resolution.
 
-When i start a game on arch linux with kernel 5.1.7 with the AMDGPU driver =
-it
-loads up fine but after a couple minutes my monitor blackscreens. The audio=
- of
-the game keeps playing but i cant close it nor does any other input work
-either.=20
-This issue has existed for about a week or two now. When playing games on
-windows I have no issues.=20
+1920x1080&#64;144Hz still works.
 
-Attached is the log of dmesg/journalctl</pre>
+This only happens under the display core driver. Setting amdgpu.dc=3D0 fixe=
+s it,
+but that is not needed on the 5.1 kernel.
+
+I will bisect tonight when I get home and have access to my AMD card.
+
+Card: XFX RX 590
+Kernel: current AMD-staging-drm-next HEAD.
+
+The issue occurs both in Xfce4, and in sway (wayland), so I=E2=80=99m assum=
+ing that the
+desktop environment has little to do with the issue.
+
+Sorry for bad formatting on mobile, I wanted to get this in and filed with =
+the
+5.2 release coming up.</pre>
         </div>
       </p>
 
@@ -227,9 +240,9 @@ Attached is the log of dmesg/journalctl</pre>
     </body>
 </html>=
 
---15597490480.0b3E.6336--
+--15597497810.dE98D8dbE.10576--
 
---===============1493477270==
+--===============0851667252==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -239,4 +252,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1493477270==--
+--===============0851667252==--
