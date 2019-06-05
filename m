@@ -2,120 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D197D35D63
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 14:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5B435D72
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 15:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A437A8936C;
-	Wed,  5 Jun 2019 12:59:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0823897E0;
+	Wed,  5 Jun 2019 13:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B32A18936C
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 12:59:25 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id 22so2195265wmg.2
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2019 05:59:25 -0700 (PDT)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA1B5897E0
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 13:04:44 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id e16so11132908wrn.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2019 06:04:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=+hIy5lz3bZE6/4kzO9THbc36Q37XAualXeaWZ2EfADA=;
- b=aKiqeBc+pn8uuLKi9MUZPmybdq2HyG9uLRVhQ0NltOvZba8eTgrFX5wl2lGkrPdMU5
- s7y8f45jtuSd0R5Jr16WsHj2ipV0Ed0jBVPp5CA4LWeAkWaS1rALOAZjcWW+ARuUt/qu
- SUoj4jla9tJRUiTn+MiM06GHNqKhJ1n5s/w2GrMBQ5hzP+D8FbA3qJjnL2JRPDMlO1YO
- ydQ/BqWBlGxFE/fQlmMpTBxo9ebEHX8DP3lzFxjQigl0R16jfGvHbixVnil5Dj5Jo+Py
- YeHNaVkwIu7ZAgVKPQMStCiQaG99DB7tCDMU5CbZ2xsJRrq6sOGvfyt0qcXvQIs0xiCJ
- DqfQ==
-X-Gm-Message-State: APjAAAUxkkyzOi2On7ARW3RZYYWvpSWctGOiY32SCiDr1dhKbCQnII3a
- WavBZGeyXpEppUyIXSYel6//lg==
-X-Google-Smtp-Source: APXvYqwdZDOCXe1vp00morQ7HQ4vgg8AuSLfNqYZs+v50KZbkBiR5LoZf5WJovfE26zO7Cz702XaOA==
-X-Received: by 2002:a05:600c:c4:: with SMTP id
- u4mr10619368wmm.96.1559739564243; 
- Wed, 05 Jun 2019 05:59:24 -0700 (PDT)
-Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr.
- [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id e7sm3610569wmd.0.2019.06.05.05.59.23
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 05 Jun 2019 05:59:23 -0700 (PDT)
-Subject: Re: [PATCH 1/5] drm/bridge: dw-hdmi: allow ycbcr420 modes for >=
- 0x200a
-To: Andrzej Hajda <a.hajda@samsung.com>, Laurent.pinchart@ideasonboard.com
-References: <20190520133753.23871-1-narmstrong@baylibre.com>
- <CGME20190520133802epcas3p3e8d19d3c79e027362ac1e4cc3c09c10f@epcas3p3.samsung.com>
- <20190520133753.23871-2-narmstrong@baylibre.com>
- <020c82bc-15fd-6e23-a093-62abfa9b466d@samsung.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <956ecdbd-2ea3-6dc9-d2fa-dbba797dddc0@baylibre.com>
-Date: Wed, 5 Jun 2019 14:59:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=lAKBlOxlAH9WcvbsBPb/zMFiOJhs5Y0DjvXcIr6sgOc=;
+ b=SMwbOQ/dC+2t3HfRuD4R4ZB+r7nsCMnGAZGCJnr60iTUC6t6N4Qg8GV4fK7ZtkweM9
+ sTzH5cElV0iKZyaOg5HAYLiIfqqZAZNtzpCNUf4b6NvCNwwshpZ4bwZs1J6CK2fn1s9v
+ 9IVpKR0xZUqz36bmLFUUMMacbvUInUALnijbBx0BHp8lBLZRhbnidqvDEdUmWL5PhVOu
+ uo8lPvOIOpyywusEMS9udP16ZHtpWI2/9hl/N2FOSV2QmtJBj8aAAySpB75axv28zFxV
+ mQ5/g8w06SxHYv6vLX04YJQIPz9CCbxHNB90X/BDEEbZVlLxbTZVjcxRwDvIJN6+GD2N
+ CKLQ==
+X-Gm-Message-State: APjAAAUBLXUyg7g/tAbPOpUaR2rkDGQDy5PMQFl1KP/j822qk56boYS0
+ 51krP49QtHz3odigSzIX3tky1mni
+X-Google-Smtp-Source: APXvYqw5fihAiwZA2gzf4WmfhckYWDdRa+S9nj1ItPIhxigIU+y49G6EKapnmKalES1MO7rywQos5w==
+X-Received: by 2002:a5d:4346:: with SMTP id u6mr24577798wrr.287.1559739883302; 
+ Wed, 05 Jun 2019 06:04:43 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+ by smtp.gmail.com with ESMTPSA id d2sm15434184wmb.9.2019.06.05.06.04.42
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 05 Jun 2019 06:04:42 -0700 (PDT)
+Date: Wed, 5 Jun 2019 15:04:41 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH] gpu: host1x: Do not output error message for deferred
+ probe
+Message-ID: <20190605130441.GB1012@ulmo>
+References: <20190604153150.22265-1-thierry.reding@gmail.com>
+ <21c2443c-9166-edc0-5d7b-46b9e3c48e70@gmail.com>
+ <20190605082848.GB10944@ulmo>
+ <1654b4cb-930c-dbc7-b40d-1f854ff2ac69@gmail.com>
+ <20190605123226.GA724@ulmo>
+ <60f6e811-e4de-7bc6-fc9d-53a8bb8aff53@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <020c82bc-15fd-6e23-a093-62abfa9b466d@samsung.com>
-Content-Language: en-US
+In-Reply-To: <60f6e811-e4de-7bc6-fc9d-53a8bb8aff53@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:openpgp:autocrypt:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=+hIy5lz3bZE6/4kzO9THbc36Q37XAualXeaWZ2EfADA=;
- b=yaFsxj8cVltdMdMOm4VNDMwGqqVbV6ErdfwbnPTJBtqUaQbZD8Im/B8ofS6ylkFu7F
- BAIdnPGR73fkkg7hvy9dBA0QI3PsYzJim/+FaSnIfBnV7ImTnlwP/aa+D6ETrRebMYum
- p7N9/qJHNLmRQYu+uouQbI7SQy7VJ5WUFg6YuZDTPj2LBRoWtp9mGfKyXxoYn339p5B2
- MrYkChuKavCyNmLZiiPSbNWr7BG8/3f/6sAiRP6uvJRug3iW2uU4JOnz+wA1n9tjU1Py
- edH4RlRkFUUziKsl3PAiYw52XGeU3rCJCc4m3MRiCfkVcBbubQNZ+OFCcnQeoWfFWwNs
- 2YQA==
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=lAKBlOxlAH9WcvbsBPb/zMFiOJhs5Y0DjvXcIr6sgOc=;
+ b=Fi81MJ26VtstSELgcDAOY8S7jjbLdELT2Eh6O8M+JOGfnbs0Aevja24PQVlgYK1DwV
+ SqRv3dokc6Se3y7KcNoViZxEdLP+HVxy2bxvE4p9jxjLLLf1FNTfQYuaZ5bVnomv5wYH
+ V6PTIrqRMGoBFApuJzG7twHkkpGbDQHTraidcRdZuTmP3bayixvLkZBLFIu2xVMJ9BtE
+ CHxVL5DUXqee+poRyZEV8+wDu1/3I8rWuSatV0cSP/DoveX5kWDuXQYKXlSILe25Aw+m
+ L1aEwuoB5zZyvszGjN2rC3gPMzKdaD2Xg5SWd3i6E/5GKPVJf/OKP7TRNy9C0InTKxOP
+ HLTg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -128,50 +73,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, maxime.ripard@bootlin.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- hverkuil@xs4all.nl, linux-amlogic@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2136662726=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjIvMDUvMjAxOSAwODowNywgQW5kcnplaiBIYWpkYSB3cm90ZToKPiBPbiAyMC4wNS4yMDE5
-IDE1OjM3LCBOZWlsIEFybXN0cm9uZyB3cm90ZToKPj4gTm93IHRoZSBEVy1IRE1JIENvbnRyb2xs
-ZXIgc3VwcG9ydHMgdGhlIEhETUkyLjAgbW9kZXMsIGVuYWJsZSBzdXBwb3J0Cj4+IGZvciB0aGVz
-ZSBtb2RlcyBpbiB0aGUgY29ubmVjdG9yIGlmIHRoZSBwbGF0Zm9ybSBzdXBwb3J0cyB0aGVtLgo+
-PiBXZSBsaW1pdCB0aGVzZSBtb2RlcyB0byBEVy1IRE1JIElQIHZlcnNpb24gPj0gMHgyMDBhIHdo
-aWNoCj4+IGFyZSBkZXNpZ25lZCB0byBzdXBwb3J0IEhETUkyLjAgZGlzcGxheSBtb2Rlcy4KPj4K
-Pj4gU2lnbmVkLW9mZi1ieTogTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29t
-Pgo+PiBUZXN0ZWQtYnk6IEhlaWtvIFN0dWVibmVyIDxoZWlrb0BzbnRlY2guZGU+Cj4+IC0tLQo+
-PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmMgfCA2ICsrKysrKwo+
-PiAgaW5jbHVkZS9kcm0vYnJpZGdlL2R3X2hkbWkuaCAgICAgICAgICAgICAgfCAxICsKPj4gIDIg
-ZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2Uvc3lub3BzeXMvZHctaGRtaS5jCj4+IGluZGV4IGFiNzk2OGM4ZjZhMi4uYjUwYzQ5Y2FmN2Fl
-IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWku
-Ywo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWkuYwo+PiBA
-QCAtMjYyOSw2ICsyNjI5LDEyIEBAIF9fZHdfaGRtaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2
-aWNlICpwZGV2LAo+PiAgCWlmIChoZG1pLT5waHkub3BzLT5zZXR1cF9ocGQpCj4+ICAJCWhkbWkt
-PnBoeS5vcHMtPnNldHVwX2hwZChoZG1pLCBoZG1pLT5waHkuZGF0YSk7Cj4+ICAKPj4gKwlpZiAo
-aGRtaS0+dmVyc2lvbiA+PSAweDIwMGEpCj4+ICsJCWhkbWktPmNvbm5lY3Rvci55Y2Jjcl80MjBf
-YWxsb3dlZCA9Cj4+ICsJCQloZG1pLT5wbGF0X2RhdGEtPnljYmNyXzQyMF9hbGxvd2VkOwo+PiAr
-CWVsc2UKPj4gKwkJaGRtaS0+Y29ubmVjdG9yLnljYmNyXzQyMF9hbGxvd2VkID0gZmFsc2U7Cj4+
-ICsKPiAKPiAKPiBJIHN1c3BlY3QgZWxzZSBjbGF1c2UgY2FuIGJlIGRyb3BwZWQuCgpZb3UgYXJl
-IHJpZ2h0LCB0aGFua3MgZm9yIHRoZSByZXZpZXcuCgpEbyB5b3UgaGF2ZSBjb21tZW50cyBvbiB0
-aGUgcGF0Y2hlcyAyLCAzICYgNCBvZiBzZXJpZSA/CgpUaGFua3MsCk5laWwKCj4gCj4gQmVzaWRl
-IHRoaXM6Cj4gCj4gUmV2aWV3ZWQtYnk6IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5j
-b20+Cj4gCj4gwqAtLQo+IFJlZ2FyZHMKPiBBbmRyemVqCj4gCj4gCj4+ICAJbWVtc2V0KCZwZGV2
-aW5mbywgMCwgc2l6ZW9mKHBkZXZpbmZvKSk7Cj4+ICAJcGRldmluZm8ucGFyZW50ID0gZGV2Owo+
-PiAgCXBkZXZpbmZvLmlkID0gUExBVEZPUk1fREVWSURfQVVUTzsKPj4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvZHJtL2JyaWRnZS9kd19oZG1pLmggYi9pbmNsdWRlL2RybS9icmlkZ2UvZHdfaGRtaS5o
-Cj4+IGluZGV4IDY2ZTcwNzcwY2NlNS4uMGYwZTgyNjM4ZmJlIDEwMDY0NAo+PiAtLS0gYS9pbmNs
-dWRlL2RybS9icmlkZ2UvZHdfaGRtaS5oCj4+ICsrKyBiL2luY2x1ZGUvZHJtL2JyaWRnZS9kd19o
-ZG1pLmgKPj4gQEAgLTEzMCw2ICsxMzAsNyBAQCBzdHJ1Y3QgZHdfaGRtaV9wbGF0X2RhdGEgewo+
-PiAgCQkJCQkgICBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSk7Cj4+ICAJdW5z
-aWduZWQgbG9uZyBpbnB1dF9idXNfZm9ybWF0Owo+PiAgCXVuc2lnbmVkIGxvbmcgaW5wdXRfYnVz
-X2VuY29kaW5nOwo+PiArCWJvb2wgeWNiY3JfNDIwX2FsbG93ZWQ7Cj4+ICAKPj4gIAkvKiBWZW5k
-b3IgUEhZIHN1cHBvcnQgKi8KPj4gIAljb25zdCBzdHJ1Y3QgZHdfaGRtaV9waHlfb3BzICpwaHlf
-b3BzOwo+IAo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2136662726==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RASg3xLB4tUQ4RcS"
+Content-Disposition: inline
+
+
+--RASg3xLB4tUQ4RcS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 05, 2019 at 03:40:28PM +0300, Dmitry Osipenko wrote:
+> 05.06.2019 15:32, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Wed, Jun 05, 2019 at 02:25:43PM +0300, Dmitry Osipenko wrote:
+> >> 05.06.2019 11:28, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>> On Tue, Jun 04, 2019 at 07:07:42PM +0300, Dmitry Osipenko wrote:
+> >>>> 04.06.2019 18:31, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >>>>> From: Thierry Reding <treding@nvidia.com>
+> >>>>>
+> >>>>> When deferring probe, avoid logging a confusing error message. Whil=
+e at
+> >>>>> it, make the error message more informational.
+> >>>>>
+> >>>>> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> >>>>> ---
+> >>>>>  drivers/gpu/host1x/dev.c | 5 ++++-
+> >>>>>  1 file changed, 4 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+> >>>>> index c55e2d634887..5a3f797240d4 100644
+> >>>>> --- a/drivers/gpu/host1x/dev.c
+> >>>>> +++ b/drivers/gpu/host1x/dev.c
+> >>>>> @@ -247,8 +247,11 @@ static int host1x_probe(struct platform_device=
+ *pdev)
+> >>>>> =20
+> >>>>>  	host->clk =3D devm_clk_get(&pdev->dev, NULL);
+> >>>>>  	if (IS_ERR(host->clk)) {
+> >>>>> -		dev_err(&pdev->dev, "failed to get clock\n");
+> >>>>>  		err =3D PTR_ERR(host->clk);
+> >>>>> +
+> >>>>> +		if (err !=3D -EPROBE_DEFER)
+> >>>>> +			dev_err(&pdev->dev, "failed to get clock: %d\n", err);
+> >>>>> +
+> >>>>>  		return err;
+> >>>>>  	}
+> >>>>
+> >>>> The clock driver should be available at the time of host1x's probing=
+ on
+> >>>> all Tegra's because it is one of essential core drivers that become
+> >>>> available early during boot.
+> >>>
+> >>> That's the currently baked-in assumption. However, there can be any
+> >>> number of reasons for why the clocks may not show up as early as
+> >>> expected, as evidenced in the case of Tegra186.
+> >>>
+> >>>> I guess you're making this change for T186, is it because the BPMP
+> >>>> driver's probe getting deferred? If yes, won't it be possible to fix=
+ the
+> >>>> defer of the clock driver instead of making such changes in the affe=
+cted
+> >>>> drivers?
+> >>>
+> >>> The reason why this is now happening on Tegra186 is because the BPMP =
+is
+> >>> bound to an IOMMU to avoid getting faults from the new no-bypass poli=
+cy
+> >>> that the ARM SMMU driver is implementing as of v5.2-rc1.
+> >>>
+> >>> As a result of binding to an IOMMU, the first probe of the BPMP driver
+> >>> will get deferred, so any driver trying to request a clock after that
+> >>> and before BPMP gets probed successfully the next time, any clk_get()
+> >>> calls will fail with -EPROBE_DEFER.
+> >>>
+> >>> This is a bit unfortunate, but like I said, these kinds of things can
+> >>> happen, and probe deferral was designed specifically to deal with that
+> >>> kind of situation so that we wouldn't have to rely on all of these
+> >>> built-in assumptions that occasionally break.
+> >>>
+> >>> The driver also already handles deferred probe properly. The only thi=
+ng
+> >>> that this patch really changes is to no longer consider -EPROBE_DEFER=
+ an
+> >>> error. It's in fact a pretty common situation in many drivers and sho=
+uld
+> >>> not warrant a kernel log message.
+> >>
+> >> You're trying to mask symptoms instead of curing the decease and it lo=
+oks
+> >> like the decease could be cured.
+> >=20
+> > There's nothing here to cure. -EPROBE_DEFER was designed specifically to
+> > avoid having to play these kinds of games with initcall levels.
+> >=20
+> > What this patch tries to do is just to avoid printing an error message
+> > for something that is not an error. -EPROBE_DEFER is totally expected to
+> > happen, it's normal, it's not something that we should bother users with
+> > because things end up sorting themselves out in the end.
+> >=20
+> >> Won't something like this work for you?
+> >=20
+> > I'm sure we could find a number of ways to fix this. But there's no need
+> > to fix this because it's not broken. What is broken is that we output an
+> > error message when this happens and make an elephant out of a fly.
+>=20
+> Sure, this is absolutely not critical and deferred probe is doing its job.
+> But don't you agree that it's better to fix the root of the annoyance once
+> and for all?
+
+=46rom my point of view deferred probe is the once and for all fix. Back
+before we had deferred probe, doing these kinds of initcall reordering
+tricks was fairly common and while such a change may fix one setup, it
+often ended up breaking others.
+
+Sorry, this is a lesson that we already learned a couple of years ago,
+no need to rehash it.
+
+Thierry
+
+--RASg3xLB4tUQ4RcS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlz3veUACgkQ3SOs138+
+s6Hh+w//eO5keGAMTV4qZAt72d2BjYxR7OOAwcU80WLg3bR6MBQBnV4NZLLwlB8+
+C87QuKUrGah4F7JeqJ5ZSmcFyGMMk1mClRyE0D4fGuCq7UtTz9bbrBQEPlpdNx+c
+ZEzu5rklNdq9a4noJsJi4e6z1AIxXlATZM1ALGjw+8WPZXLC7m/GFotTwTHSXJQK
+UusdJIVpMTeVdLwBmqjLi72rmJHGP8nR3sMd7YRMeyO8MUdFr+tnSioQnLLLdLSM
+xQlwxqV1n6TLUXetLLA3fHUzuq1nlfxOG/450gdqf4S9Zcr/uRXOs9atWX48E7R7
+Hx3LuJTFlo0WuwtLgH1GxSUB0cLySVPMb0GXk25/jgjndC6sHjqtix4UxTAnkpO9
+Bz9V/6/KnTZ8hJ7M/5I5HB/cy6Ao1YTQOWFfp8Bc4XIbQKYDxml6UQ2fUhPMsX9/
+/ci9I1xeZI85zjp+qA1/TCjpjVbvuZKwzouS6YfgL6sEZ8PD7KzqhDaklKH3NeGX
++EdygSWSPTV0pCUkhFNCR/2XVFnrgU8w3WVxyCdYAtXaj7EU8/UiAnUQ16MKJXky
+INAo4mEY0cTr3gm7dRWBmq5MSGlm2fGqlyw2duZkjytcq2dvpiyaMYLMmus3JSO5
+LI76ZrmOQlAgpNedCWtDS/1XyM6VEMnVmhr+rdFM4PLTn5D6TgU=
+=PAYe
+-----END PGP SIGNATURE-----
+
+--RASg3xLB4tUQ4RcS--
+
+--===============2136662726==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2136662726==--
