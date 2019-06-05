@@ -2,31 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4014C36CD1
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 09:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8B136062
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 17:37:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 147368972C;
-	Thu,  6 Jun 2019 07:03:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E417B89C9D;
+	Wed,  5 Jun 2019 15:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTP id B6F2689C84
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 15:14:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D7F0374;
- Wed,  5 Jun 2019 08:14:57 -0700 (PDT)
-Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- AFD3E3F246; Wed,  5 Jun 2019 08:14:52 -0700 (PDT)
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 11/13] drivers: Introduce variants for bus_find_device()
-Date: Wed,  5 Jun 2019 16:13:48 +0100
-Message-Id: <1559747630-28065-12-git-send-email-suzuki.poulose@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559747630-28065-1-git-send-email-suzuki.poulose@arm.com>
-References: <1559747630-28065-1-git-send-email-suzuki.poulose@arm.com>
-X-Mailman-Approved-At: Thu, 06 Jun 2019 07:03:45 +0000
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 23FBB89C9D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 15:37:28 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1B17072167; Wed,  5 Jun 2019 15:37:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110844] AMDGPU Resets and blackscreens couple minutes into any
+ game regardless of wine/proton/native - sound keeps playing
+Date: Wed, 05 Jun 2019 15:37:28 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: nathaniel.horn@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-110844-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,123 +53,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oliver Neukum <oneukum@suse.com>,
- rafael@kernel.org, Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- linux-i2c@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-rockchip@lists.infradead.org,
- Wolfram Sang <wsa@the-dreams.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug Ledford <dledford@redhat.com>, devicetree@vger.kernel.org,
- suzuki.poulose@arm.com, David Airlie <airlied@linux.ie>,
- Mark Brown <broonie@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, linux-spi@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1493477270=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2ltaWxhciB0byB0aGUgY2xhc3NfZmluZF9kZXZpY2VfYnlfKigpIGludHJvZHVjZSB0aGUgdmFy
-aWFudHMKZm9yIGJ1c19maW5kX2RldmljZSgpIHRvIGF1dG9tYXRpY2FsbHkgc2VhcmNoIGZvciBk
-ZXZpY2UgYnkKZ2VuZXJpYyBkZXZpY2UgcHJvcGVydGllcy4KCkhlcmUgaXMgdGhlIGxpc3Qgb2Yg
-bmV3IGhlbHBlcnMgOgoKCWJ1c19maW5kX2RldmljZV9ieV9vZl9ub2RlCglidXNfZmluZF9kZXZp
-Y2VfYnlfZndub2RlCglidXNfZmluZF9kZXZpY2VfYnlfZGV2dAoJYnVzX2ZpbmRfbmV4dF9kZXZp
-Y2UKCldoaWxlIGF0IGl0IGNvbnZlcnQgdGhlIGJ1c19maW5kX2RldmljZV9ieV9uYW1lIHRvIHN0
-YXRpYyBpbmxpbmUKcmV1c2luZyB0aGUgZ2VuZXJpYyBoZWxwZXIgdG8gbWF0Y2ggdGhlIG5hbWUu
-CgpDYzogQWxleGFuZGVyIFNoaXNoa2luIDxhbGV4YW5kZXIuc2hpc2hraW5AbGludXguaW50ZWwu
-Y29tPgpDYzogQW5kcmV3IEx1bm4gPGFuZHJld0BsdW5uLmNoPgpDYzogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsQGZmd2xsLmNoPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzog
-IkRhdmlkIFMuIE1pbGxlciIgPGRhdmVtQGRhdmVtbG9mdC5uZXQ+CkNjOiBkZXZpY2V0cmVlQHZn
-ZXIua2VybmVsLm9yZwpDYzogRG91ZyBMZWRmb3JkIDxkbGVkZm9yZEByZWRoYXQuY29tPgpDYzog
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogRmxvcmlhbiBGYWluZWxsaSA8Zi5m
-YWluZWxsaUBnbWFpbC5jb20+CkNjOiBGcmFuayBSb3dhbmQgPGZyb3dhbmQubGlzdEBnbWFpbC5j
-b20+CkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpD
-YzogSGVpa28gU3R1ZWJuZXIgPGhlaWtvQHNudGVjaC5kZT4KQ2M6IEphc29uIEd1bnRob3JwZSA8
-amdnQHppZXBlLmNhPgpDYzogTGlhbSBHaXJkd29vZCA8bGdpcmR3b29kQGdtYWlsLmNvbT4KQ2M6
-IGxpbnV4LWkyY0B2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LXJvY2tjaGlwQGxpc3RzLmluZnJh
-ZGVhZC5vcmcKQ2M6IGxpbnV4LXNwaUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LXVzYkB2Z2Vy
-Lmtlcm5lbC5vcmcKQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51
-eC5pbnRlbC5jb20+CkNjOiBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+CkNjOiBNYXRo
-aWV1IFBvaXJpZXIgPG1hdGhpZXUucG9pcmllckBsaW5hcm8ub3JnPgpDYzogTWF4aW1lIFJpcGFy
-ZCA8bWF4aW1lLnJpcGFyZEBib290bGluLmNvbT4KQ2M6IE9saXZlciBOZXVrdW0gPG9uZXVrdW1A
-c3VzZS5jb20+CkNjOiAiUmFmYWVsIEouIFd5c29ja2kiIDxyYWZhZWxAa2VybmVsLm9yZz4KQ2M6
-IFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+CkNjOiBTZWJhc3RpYW4gQW5kcnplaiBT
-aWV3aW9yIDxiaWdlYXN5QGxpbnV0cm9uaXguZGU+CkNjOiBTcmluaXZhcyBLYW5kYWdhdGxhIDxz
-cmluaXZhcy5rYW5kYWdhdGxhQGxpbmFyby5vcmc+CkNjOiBUYWthc2hpIEl3YWkgPHRpd2FpQHN1
-c2UuY29tPgpDYzogV29sZnJhbSBTYW5nIDx3c2FAdGhlLWRyZWFtcy5kZT4KU2lnbmVkLW9mZi1i
-eTogU3V6dWtpIEsgUG91bG9zZSA8c3V6dWtpLnBvdWxvc2VAYXJtLmNvbT4KLS0tCiBkcml2ZXJz
-L2Jhc2UvYnVzLmMgICAgIHwgMjQgLS0tLS0tLS0tLS0tLS0tLS0tLQogaW5jbHVkZS9saW51eC9k
-ZXZpY2UuaCB8IDY0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDYxIGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmFzZS9idXMuYyBiL2RyaXZlcnMvYmFzZS9idXMuYwpp
-bmRleCBkZjNjYWM3Li5hMWQxZTgyIDEwMDY0NAotLS0gYS9kcml2ZXJzL2Jhc2UvYnVzLmMKKysr
-IGIvZHJpdmVycy9iYXNlL2J1cy5jCkBAIC0zNDIsMzAgKzM0Miw2IEBAIHN0cnVjdCBkZXZpY2Ug
-KmJ1c19maW5kX2RldmljZShzdHJ1Y3QgYnVzX3R5cGUgKmJ1cywKIH0KIEVYUE9SVF9TWU1CT0xf
-R1BMKGJ1c19maW5kX2RldmljZSk7CiAKLXN0YXRpYyBpbnQgbWF0Y2hfbmFtZShzdHJ1Y3QgZGV2
-aWNlICpkZXYsIGNvbnN0IHZvaWQgKmRhdGEpCi17Ci0JY29uc3QgY2hhciAqbmFtZSA9IGRhdGE7
-Ci0KLQlyZXR1cm4gc3lzZnNfc3RyZXEobmFtZSwgZGV2X25hbWUoZGV2KSk7Ci19Ci0KLS8qKgot
-ICogYnVzX2ZpbmRfZGV2aWNlX2J5X25hbWUgLSBkZXZpY2UgaXRlcmF0b3IgZm9yIGxvY2F0aW5n
-IGEgcGFydGljdWxhciBkZXZpY2Ugb2YgYSBzcGVjaWZpYyBuYW1lCi0gKiBAYnVzOiBidXMgdHlw
-ZQotICogQHN0YXJ0OiBEZXZpY2UgdG8gYmVnaW4gd2l0aAotICogQG5hbWU6IG5hbWUgb2YgdGhl
-IGRldmljZSB0byBtYXRjaAotICoKLSAqIFRoaXMgaXMgc2ltaWxhciB0byB0aGUgYnVzX2ZpbmRf
-ZGV2aWNlKCkgZnVuY3Rpb24gYWJvdmUsIGJ1dCBpdCBoYW5kbGVzCi0gKiBzZWFyY2hpbmcgYnkg
-YSBuYW1lIGF1dG9tYXRpY2FsbHksIG5vIG5lZWQgdG8gd3JpdGUgYW5vdGhlciBzdHJjbXAgbWF0
-Y2hpbmcKLSAqIGZ1bmN0aW9uLgotICovCi1zdHJ1Y3QgZGV2aWNlICpidXNfZmluZF9kZXZpY2Vf
-YnlfbmFtZShzdHJ1Y3QgYnVzX3R5cGUgKmJ1cywKLQkJCQkgICAgICAgc3RydWN0IGRldmljZSAq
-c3RhcnQsIGNvbnN0IGNoYXIgKm5hbWUpCi17Ci0JcmV0dXJuIGJ1c19maW5kX2RldmljZShidXMs
-IHN0YXJ0LCAodm9pZCAqKW5hbWUsIG1hdGNoX25hbWUpOwotfQotRVhQT1JUX1NZTUJPTF9HUEwo
-YnVzX2ZpbmRfZGV2aWNlX2J5X25hbWUpOwotCiAvKioKICAqIHN1YnN5c19maW5kX2RldmljZV9i
-eV9pZCAtIGZpbmQgYSBkZXZpY2Ugd2l0aCBhIHNwZWNpZmljIGVudW1lcmF0aW9uIG51bWJlcgog
-ICogQHN1YnN5czogc3Vic3lzdGVtCmRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RldmljZS5o
-IGIvaW5jbHVkZS9saW51eC9kZXZpY2UuaAppbmRleCA0Mzk2ZWRjLi4xMGRlNzlkIDEwMDY0NAot
-LS0gYS9pbmNsdWRlL2xpbnV4L2RldmljZS5oCisrKyBiL2luY2x1ZGUvbGludXgvZGV2aWNlLmgK
-QEAgLTE3NSw5ICsxNzUsNjcgQEAgaW50IGJ1c19mb3JfZWFjaF9kZXYoc3RydWN0IGJ1c190eXBl
-ICpidXMsIHN0cnVjdCBkZXZpY2UgKnN0YXJ0LCB2b2lkICpkYXRhLAogc3RydWN0IGRldmljZSAq
-YnVzX2ZpbmRfZGV2aWNlKHN0cnVjdCBidXNfdHlwZSAqYnVzLCBzdHJ1Y3QgZGV2aWNlICpzdGFy
-dCwKIAkJCSAgICAgICBjb25zdCB2b2lkICpkYXRhLAogCQkJICAgICAgIGludCAoKm1hdGNoKShz
-dHJ1Y3QgZGV2aWNlICpkZXYsIGNvbnN0IHZvaWQgKmRhdGEpKTsKLXN0cnVjdCBkZXZpY2UgKmJ1
-c19maW5kX2RldmljZV9ieV9uYW1lKHN0cnVjdCBidXNfdHlwZSAqYnVzLAotCQkJCSAgICAgICBz
-dHJ1Y3QgZGV2aWNlICpzdGFydCwKLQkJCQkgICAgICAgY29uc3QgY2hhciAqbmFtZSk7CisvKioK
-KyAqIGJ1c19maW5kX2RldmljZV9ieV9uYW1lIC0gZGV2aWNlIGl0ZXJhdG9yIGZvciBsb2NhdGlu
-ZyBhIHBhcnRpY3VsYXIgZGV2aWNlCisgKiBvZiBhIHNwZWNpZmljIG5hbWUuCisgKiBAYnVzOiBi
-dXMgdHlwZQorICogQHN0YXJ0OiBEZXZpY2UgdG8gYmVnaW4gd2l0aAorICogQG5hbWU6IG5hbWUg
-b2YgdGhlIGRldmljZSB0byBtYXRjaAorICovCitzdGF0aWMgaW5saW5lIHN0cnVjdCBkZXZpY2Ug
-KmJ1c19maW5kX2RldmljZV9ieV9uYW1lKHN0cnVjdCBidXNfdHlwZSAqYnVzLAorCQkJCQkJICAg
-ICBzdHJ1Y3QgZGV2aWNlICpzdGFydCwKKwkJCQkJCSAgICAgY29uc3QgY2hhciAqbmFtZSkKK3sK
-KwlyZXR1cm4gYnVzX2ZpbmRfZGV2aWNlKGJ1cywgc3RhcnQsIG5hbWUsIGRldmljZV9tYXRjaF9u
-YW1lKTsKK30KKworLyoqCisgKiBidXNfZmluZF9kZXZpY2VfYnlfb2Zfbm9kZSA6IGRldmljZSBp
-dGVyYXRvciBmb3IgbG9jYXRpbmcgYSBwYXJ0aWN1bGFyIGRldmljZQorICogbWF0Y2hpbmcgdGhl
-IG9mX25vZGUuCisgKiBAYnVzOiBidXMgdHlwZQorICogQG5wOiBvZl9ub2RlIG9mIHRoZSBkZXZp
-Y2UgdG8gbWF0Y2guCisgKi8KK3N0YXRpYyBpbmxpbmUgc3RydWN0IGRldmljZSAqCitidXNfZmlu
-ZF9kZXZpY2VfYnlfb2Zfbm9kZShzdHJ1Y3QgYnVzX3R5cGUgKmJ1cywgY29uc3Qgc3RydWN0IGRl
-dmljZV9ub2RlICpucCkKK3sKKwlyZXR1cm4gYnVzX2ZpbmRfZGV2aWNlKGJ1cywgTlVMTCwgbnAs
-IGRldmljZV9tYXRjaF9vZl9ub2RlKTsKK30KKworLyoqCisgKiBidXNfZmluZF9kZXZpY2VfYnlf
-Zndub2RlIDogZGV2aWNlIGl0ZXJhdG9yIGZvciBsb2NhdGluZyBhIHBhcnRpY3VsYXIgZGV2aWNl
-CisgKiBtYXRjaGluZyB0aGUgZndub2RlLgorICogQGJ1czogYnVzIHR5cGUKKyAqIEBmd25vZGU6
-IGZ3bm9kZSBvZiB0aGUgZGV2aWNlIHRvIG1hdGNoLgorICovCitzdGF0aWMgaW5saW5lIHN0cnVj
-dCBkZXZpY2UgKgorYnVzX2ZpbmRfZGV2aWNlX2J5X2Z3bm9kZShzdHJ1Y3QgYnVzX3R5cGUgKmJ1
-cywgY29uc3Qgc3RydWN0IGZ3bm9kZV9oYW5kbGUgKmZ3bm9kZSkKK3sKKwlyZXR1cm4gYnVzX2Zp
-bmRfZGV2aWNlKGJ1cywgTlVMTCwgZndub2RlLCBkZXZpY2VfbWF0Y2hfZndub2RlKTsKK30KKwor
-LyoqCisgKiBidXNfZmluZF9kZXZpY2VfYnlfZGV2dCA6IGRldmljZSBpdGVyYXRvciBmb3IgbG9j
-YXRpbmcgYSBwYXJ0aWN1bGFyIGRldmljZQorICogbWF0Y2hpbmcgdGhlIGRldmljZSB0eXBlLgor
-ICogQGJ1czogYnVzIHR5cGUKKyAqIEBzdGFydDogZGV2aWNlIHRvIHN0YXJ0IHRoZSBzZWFyY2gg
-ZnJvbQorICogQGRldnQ6IGRldmljZSB0eXBlIG9mIHRoZSBkZXZpY2UgdG8gbWF0Y2guCisgKi8K
-K3N0YXRpYyBpbmxpbmUgc3RydWN0IGRldmljZSAqCitidXNfZmluZF9kZXZpY2VfYnlfZGV2dChz
-dHJ1Y3QgYnVzX3R5cGUgKmJ1cywgc3RydWN0IGRldmljZSAqc3RhcnQsIGRldl90IGRldnQpCit7
-CisJcmV0dXJuIGJ1c19maW5kX2RldmljZShidXMsIHN0YXJ0LCAmZGV2dCwgZGV2aWNlX21hdGNo
-X2RldnQpOworfQorCisvKioKKyAqIGJ1c19maW5kX25leHRfZGV2aWNlIC0gRmluZCB0aGUgbmV4
-dCBkZXZpY2UgYWZ0ZXIgYSBnaXZlbiBkZXZpY2UgaW4gYQorICogZ2l2ZW4gYnVzLgorICovCitz
-dGF0aWMgaW5saW5lIHN0cnVjdCBkZXZpY2UgKgorYnVzX2ZpbmRfbmV4dF9kZXZpY2Uoc3RydWN0
-IGJ1c190eXBlICpidXMsc3RydWN0IGRldmljZSAqY3VyKQoreworCXJldHVybiBidXNfZmluZF9k
-ZXZpY2UoYnVzLCBjdXIsIE5VTEwsIGRldmljZV9tYXRjaF9hbnkpOworfQorCiBzdHJ1Y3QgZGV2
-aWNlICpzdWJzeXNfZmluZF9kZXZpY2VfYnlfaWQoc3RydWN0IGJ1c190eXBlICpidXMsIHVuc2ln
-bmVkIGludCBpZCwKIAkJCQkJc3RydWN0IGRldmljZSAqaGludCk7CiBpbnQgYnVzX2Zvcl9lYWNo
-X2RydihzdHJ1Y3QgYnVzX3R5cGUgKmJ1cywgc3RydWN0IGRldmljZV9kcml2ZXIgKnN0YXJ0LAot
-LSAKMi43LjQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1493477270==
+Content-Type: multipart/alternative; boundary="15597490480.0b3E.6336"
+Content-Transfer-Encoding: 7bit
+
+
+--15597490480.0b3E.6336
+Date: Wed, 5 Jun 2019 15:37:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110844
+
+            Bug ID: 110844
+           Summary: AMDGPU Resets and blackscreens couple minutes into any
+                    game regardless of wine/proton/native - sound keeps
+                    playing
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: nathaniel.horn@protonmail.com
+
+Created attachment 144461
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144461&action=3Dedit
+the relevant dmesg bit.
+
+When i start a game on arch linux with kernel 5.1.7 with the AMDGPU driver =
+it
+loads up fine but after a couple minutes my monitor blackscreens. The audio=
+ of
+the game keeps playing but i cant close it nor does any other input work
+either.=20
+This issue has existed for about a week or two now. When playing games on
+windows I have no issues.=20
+
+Attached is the log of dmesg/journalctl
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15597490480.0b3E.6336
+Date: Wed, 5 Jun 2019 15:37:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
+me regardless of wine/proton/native - sound keeps playing"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844">110844</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>AMDGPU Resets and blackscreens couple minutes into any game r=
+egardless of wine/proton/native - sound keeps playing
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>nathaniel.horn&#64;protonmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144461=
+" name=3D"attach_144461" title=3D"the relevant dmesg bit.">attachment 14446=
+1</a> <a href=3D"attachment.cgi?id=3D144461&amp;action=3Dedit" title=3D"the=
+ relevant dmesg bit.">[details]</a></span>
+the relevant dmesg bit.
+
+When i start a game on arch linux with kernel 5.1.7 with the AMDGPU driver =
+it
+loads up fine but after a couple minutes my monitor blackscreens. The audio=
+ of
+the game keeps playing but i cant close it nor does any other input work
+either.=20
+This issue has existed for about a week or two now. When playing games on
+windows I have no issues.=20
+
+Attached is the log of dmesg/journalctl</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15597490480.0b3E.6336--
+
+--===============1493477270==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1493477270==--
