@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5AD36317
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 20:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16BA3632F
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 20:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFED0892D6;
-	Wed,  5 Jun 2019 18:06:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5059F89199;
+	Wed,  5 Jun 2019 18:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 87D6A892D6
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 18:06:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7F41E72167; Wed,  5 Jun 2019 18:06:06 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110845] [DC-only][regression] cannot select full refresh rate
- on 5.2rc - 144Hz 2560x1440
-Date: Wed, 05 Jun 2019 18:06:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mcoffin13@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110845-502-Kg0YTkimGC@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110845-502@http.bugs.freedesktop.org/>
-References: <bug-110845-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+ [209.85.208.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C49A89199
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 18:13:26 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id m10so7045958edv.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Jun 2019 11:13:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iJ53PaI8+9jeQCm4hFGUrcqLN4yRtDQ/2v2EcX+jyKU=;
+ b=MiSo6wYZwm3yEsNYipb4U2Xw17y0dsxaQiqfMKtlwBhGyC3I6a0UiEdSf+n2AeHq1A
+ xutByrv6CZhCic5x7TlUInMb3yAL7gEOWj4XBaLfL7aVrziroOuS7DoXukM2k2Ad4cF9
+ j6TPSP0kMPOZYylQuEZsu3yFHMi8EZWWleRgwMr4+GW7IrCGQ+ZeIla8QUPHGfl65f8I
+ 875wcXf9PE9pokdIdcbR/mD77TSQ9QTHbdCMyiukreVgpTghMB6RQpGXPZG2USOBQwrr
+ e7RwzHxp9z+qSKBsuMyn2ZThGChWkT4if1VXPMLQ9OJvfT8tAMF+lyY2bgHvJeg6IemB
+ wkdQ==
+X-Gm-Message-State: APjAAAUeICZ8leT6nvbIPKnWH/+eEHC8UOc4GW4EvUmF7Ke/WhAFPB63
+ eGGSuhD3xe9r0RiCWsMwVvd5DMj2mtA=
+X-Google-Smtp-Source: APXvYqzyfMpXoLLW8wFY/idqNj+eOmiMbl45RLYeFCm/0gRK9rakfrfwl1ixEvUmhk8fvbQtAU3kIg==
+X-Received: by 2002:aa7:c343:: with SMTP id j3mr36233522edr.10.1559758404554; 
+ Wed, 05 Jun 2019 11:13:24 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl.
+ [84.106.84.65])
+ by smtp.gmail.com with ESMTPSA id g22sm534002ejk.32.2019.06.05.11.13.23
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 05 Jun 2019 11:13:23 -0700 (PDT)
+Subject: Re: [PATCH 3/4] drm/i915/dsi: Move vlv/icl_dphy_param_init call out
+ of intel_dsi_vbt_init
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+References: <20190524163020.17099-1-hdegoede@redhat.com>
+ <20190524163020.17099-4-hdegoede@redhat.com>
+ <20190604173533.GI5942@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <053c071b-fb41-4054-a949-0355cb5849c7@redhat.com>
+Date: Wed, 5 Jun 2019 20:13:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190604173533.GI5942@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,92 +63,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1102940452=="
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1102940452==
-Content-Type: multipart/alternative; boundary="15597579660.EdCbdB6.11205"
-Content-Transfer-Encoding: 7bit
-
-
---15597579660.EdCbdB6.11205
-Date: Wed, 5 Jun 2019 18:06:06 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110845
-
---- Comment #3 from Matt Coffin <mcoffin13@gmail.com> ---
-Thanks. I will test tonight with the patch applied when I have access to an=
- AMD
-card.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15597579660.EdCbdB6.11205
-Date: Wed, 5 Jun 2019 18:06:06 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [DC-only][regression] cannot select full refresh rate on =
-5.2rc - 144Hz 2560x1440"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110845#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [DC-only][regression] cannot select full refresh rate on =
-5.2rc - 144Hz 2560x1440"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110845">bug 11084=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mcoffin13&#64;gmail.com" title=3D"Matt Coffin &lt;mcoffin13&#64;gmail.com&g=
-t;"> <span class=3D"fn">Matt Coffin</span></a>
-</span></b>
-        <pre>Thanks. I will test tonight with the patch applied when I have=
- access to an AMD
-card.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15597579660.EdCbdB6.11205--
-
---===============1102940452==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1102940452==--
+SGksCgpPbiAwNC0wNi0xOSAxOTozNSwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgo+IE9uIEZyaSwg
+TWF5IDI0LCAyMDE5IGF0IDA2OjMwOjE5UE0gKzAyMDAsIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4+
+IFRoZSB2bHYvaWNsX2RwaHlfcGFyYW1faW5pdCBjYWxscyBkbyB2YXJpb3VzIGNhbGN1bGF0aW9u
+cyB0byBzZXQgZHBoeQo+PiBwYXJhbWV0ZXJzIGJhc2VkIG9uIHRoZSBwY2xrLgo+Pgo+PiBNb3Zl
+IHRoZSBjYWxsaW5nIG9mIHZsdi9pY2xfZHBoeV9wYXJhbV9pbml0IHRvIHZsdl9kc2lfaW5pdCB0
+byBnaXZlCj4+IHZsdl9kc2lfaW5pdCBhIGNoYW5jZSB0byB0d2VhayB0aGUgcGNsayBiZWZvcmUg
+dGhlc2UgY2FsY3VsYXRpb25zIGFyZSBkb25lLgo+Pgo+PiBUaGlzIGFsc28gcmVtb3ZlcyB0aGUg
+c2luZ2xlICJpZiAoSVNfSUNFTEFLRShkZXZfcHJpdikpIiBjaGVjayBmcm9tCj4+IGludGVsX2Rz
+aV92YnRfaW5pdCBtYWtpbmcgaXQgZnVsbHkgcGxhdGZvcm0gYWdub3N0aWMuCj4+Cj4+IFNpZ25l
+ZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+Cj4+IC0tLQo+PiAg
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ljbF9kc2kuYyAgICAgICB8IDEgKwo+PiAgIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2ludGVsX2RzaS5oICAgICB8IDIgKysKPj4gICBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9pbnRlbF9kc2lfdmJ0LmMgfCA5ICsrLS0tLS0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L3Zsdl9kc2kuYyAgICAgICB8IDIgKysKPj4gICA0IGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0
+aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2ljbF9kc2kuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ljbF9kc2kuYwo+PiBpbmRl
+eCA5ZDk2MmVhMWU2MzUuLjBmNDNlZjA3ZWZlYyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvaWNsX2RzaS5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ljbF9kc2ku
+Ywo+PiBAQCAtMTQ1NSw2ICsxNDU1LDcgQEAgdm9pZCBpY2xfZHNpX2luaXQoc3RydWN0IGRybV9p
+OTE1X3ByaXZhdGUgKmRldl9wcml2KQo+PiAgIAkJZ290byBlcnI7Cj4+ICAgCX0KPj4gICAKPj4g
+KwlpY2xfZHBoeV9wYXJhbV9pbml0KGludGVsX2RzaSk7Cj4gCj4gSSB0aGluayB3ZSBzaG91bGQg
+bW92ZSB0aGUgZW50aXJlIGZ1bmN0aW9uIGludG8gdGhpcyBmaWxlLgoKSSB3YXMgdGhpbmtpbmcg
+dGhlIHNhbWUgdGhpbmcgd2hlbiBJIHdhcyB3cml0aW5nIHRoZSBwYXRjaCwgYnV0IEkgd2FzCm5v
+dCAxMDAlIHN1cmUuIEknbSBnbGFkIHRoYXQgeW91IHRoaW5rIHRoZSBzYW1lLCBJIHdpbGwgcG9z
+dCBhCm5ldyB2ZXJzaW9uIHdpdGggdGhpcyBmaXhlZCAoYm90aCBvZiB0aGVtKS4KClJlZ2FyZHMs
+CgpIYW5zCgoKCj4gCj4+ICAgCXJldHVybjsKPj4gICAKPj4gICBlcnI6Cj4+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2kuaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2ludGVsX2RzaS5oCj4+IGluZGV4IDcwNWE2MDkwNTBjMC4uYTU4ZDNkOTg4ZDlmIDEwMDY0NAo+
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2kuaAo+PiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pbnRlbF9kc2kuaAo+PiBAQCAtMTkyLDUgKzE5Miw3IEBAIGJvb2wgaW50
+ZWxfZHNpX3ZidF9pbml0KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSwgdTE2IHBhbmVsX2lk
+KTsKPj4gICB2b2lkIGludGVsX2RzaV92YnRfZXhlY19zZXF1ZW5jZShzdHJ1Y3QgaW50ZWxfZHNp
+ICppbnRlbF9kc2ksCj4+ICAgCQkJCSBlbnVtIG1pcGlfc2VxIHNlcV9pZCk7Cj4+ICAgdm9pZCBp
+bnRlbF9kc2lfbXNsZWVwKHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSwgaW50IG1zZWMpOwo+
+PiArdm9pZCBpY2xfZHBoeV9wYXJhbV9pbml0KHN0cnVjdCBpbnRlbF9kc2kgKmludGVsX2RzaSk7
+Cj4+ICt2b2lkIHZsdl9kcGh5X3BhcmFtX2luaXQoc3RydWN0IGludGVsX2RzaSAqaW50ZWxfZHNp
+KTsKPj4gICAKPj4gICAjZW5kaWYgLyogX0lOVEVMX0RTSV9IICovCj4+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2lfdmJ0LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9pbnRlbF9kc2lfdmJ0LmMKPj4gaW5kZXggMzQ0OGU4ZDUxMDU3Li4wMjJiZjU5NDE4ZGYgMTAw
+NjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX2RzaV92YnQuYwo+PiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2lfdmJ0LmMKPj4gQEAgLTU3OCw3ICs1Nzgs
+NyBAQCBzdGF0aWMgdm9pZCBpbnRlbF9kc2lfbG9nX3BhcmFtcyhzdHJ1Y3QgaW50ZWxfZHNpICpp
+bnRlbF9kc2kpCj4+ICAgI2RlZmluZSBJQ0xfSFNfWkVST19DTlRfTUFYCTB4Zgo+PiAgICNkZWZp
+bmUgSUNMX0VYSVRfWkVST19DTlRfTUFYCTB4Nwo+PiAgIAo+PiAtc3RhdGljIHZvaWQgaWNsX2Rw
+aHlfcGFyYW1faW5pdChzdHJ1Y3QgaW50ZWxfZHNpICppbnRlbF9kc2kpCj4+ICt2b2lkIGljbF9k
+cGh5X3BhcmFtX2luaXQoc3RydWN0IGludGVsX2RzaSAqaW50ZWxfZHNpKQo+PiAgIHsKPj4gICAJ
+c3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGludGVsX2RzaS0+YmFzZS5iYXNlLmRldjsKPj4gICAJ
+c3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShkZXYpOwo+PiBAQCAt
+Njc3LDcgKzY3Nyw3IEBAIHN0YXRpYyB2b2lkIGljbF9kcGh5X3BhcmFtX2luaXQoc3RydWN0IGlu
+dGVsX2RzaSAqaW50ZWxfZHNpKQo+PiAgIAlpbnRlbF9kc2lfbG9nX3BhcmFtcyhpbnRlbF9kc2kp
+Owo+PiAgIH0KPj4gICAKPj4gLXN0YXRpYyB2b2lkIHZsdl9kcGh5X3BhcmFtX2luaXQoc3RydWN0
+IGludGVsX2RzaSAqaW50ZWxfZHNpKQo+PiArdm9pZCB2bHZfZHBoeV9wYXJhbV9pbml0KHN0cnVj
+dCBpbnRlbF9kc2kgKmludGVsX2RzaSkKPj4gICB7Cj4+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpk
+ZXYgPSBpbnRlbF9kc2ktPmJhc2UuYmFzZS5kZXY7Cj4+ICAgCXN0cnVjdCBkcm1faTkxNV9wcml2
+YXRlICpkZXZfcHJpdiA9IHRvX2k5MTUoZGV2KTsKPj4gQEAgLTkxNCwxMSArOTE0LDYgQEAgYm9v
+bCBpbnRlbF9kc2lfdmJ0X2luaXQoc3RydWN0IGludGVsX2RzaSAqaW50ZWxfZHNpLCB1MTYgcGFu
+ZWxfaWQpCj4+ICAgCj4+ICAgCWludGVsX2RzaS0+YnVyc3RfbW9kZV9yYXRpbyA9IGJ1cnN0X21v
+ZGVfcmF0aW87Cj4+ICAgCj4+IC0JaWYgKElOVEVMX0dFTihkZXZfcHJpdikgPj0gMTEpCj4+IC0J
+CWljbF9kcGh5X3BhcmFtX2luaXQoaW50ZWxfZHNpKTsKPj4gLQllbHNlCj4+IC0JCXZsdl9kcGh5
+X3BhcmFtX2luaXQoaW50ZWxfZHNpKTsKPj4gLQo+PiAgIAkvKiBkZWxheXMgaW4gVkJUIGFyZSBp
+biB1bml0IG9mIDEwMHVzLCBzbyBuZWVkIHRvIGNvbnZlcnQKPj4gICAJICogaGVyZSBpbiBtcwo+
+PiAgIAkgKiBEZWxheSAoMTAwdXMpICogMTAwIC8xMDAwID0gRGVsYXkgLyAxMCAobXMpICovCj4+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS92bHZfZHNpLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS92bHZfZHNpLmMKPj4gaW5kZXggZmNlOGI1OGY3ZjkzLi4zMzI5Y2NmM2IzNDYg
+MTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L3Zsdl9kc2kuYwo+PiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS92bHZfZHNpLmMKPj4gQEAgLTE3ODIsNiArMTc4Miw4IEBAIHZv
+aWQgdmx2X2RzaV9pbml0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikKPj4gICAJ
+CWdvdG8gZXJyOwo+PiAgIAl9Cj4+ICAgCj4+ICsJdmx2X2RwaHlfcGFyYW1faW5pdChpbnRlbF9k
+c2kpOwo+IAo+IGRpdHRvCj4gCj4+ICsKPj4gICAJLyoKPj4gICAJICogSW4gY2FzZSBvZiBCWVQg
+d2l0aCBDUkMgUE1JQywgd2UgbmVlZCB0byB1c2UgR1BJTyBmb3IKPj4gICAJICogUGFuZWwgY29u
+dHJvbC4KPj4gLS0gCj4+IDIuMjEuMAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
