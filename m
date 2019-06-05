@@ -1,46 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F3235D01
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 14:39:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D141A35D03
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Jun 2019 14:40:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6690F89938;
-	Wed,  5 Jun 2019 12:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA29B890F2;
+	Wed,  5 Jun 2019 12:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 19FEF89956
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 12:39:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 16DCF72167; Wed,  5 Jun 2019 12:39:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA93B890F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 12:40:12 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id B416228479
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Jun 2019 12:40:12 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id B2A8C2896F; Wed,  5 Jun 2019 12:40:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105684] Loading amdgpu hits general protection fault: 0000 [#1]
- SMP NOPTI
-Date: Wed, 05 Jun 2019 12:39:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+Subject: [Bug 203817] New: Raven Ridge VEGA8 stuck on 400Mhz on battery
+Date: Wed, 05 Jun 2019 12:40:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: j.frenzel@openthinclient.com
-X-Bugzilla-Status: REOPENED
+X-Bugzilla-Who: haxk612@gmail.com
+X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105684-502-RGd6WPsXPR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105684-502@http.bugs.freedesktop.org/>
-References: <bug-105684-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-203817-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +61,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0858255116=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0858255116==
-Content-Type: multipart/alternative; boundary="15597383570.941b.30448"
-Content-Transfer-Encoding: 7bit
-
-
---15597383570.941b.30448
-Date: Wed, 5 Jun 2019 12:39:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105684
-
---- Comment #47 from J=C3=B6rn Frenzel <j.frenzel@openthinclient.com> ---
-Hi,
-
-the problem seems to be gone in newer kernel version. I just tested a SUSE
-tumbleweed with kernel 5.1.5-1 .=20
-
-This is a satisfactory answer for me.
-
-Regards, J=C3=B6rn
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15597383570.941b.30448
-Date: Wed, 5 Jun 2019 12:39:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Loading amdgpu hits general protection fault: 0000 [=
-#1] SMP NOPTI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105684#c47">Comme=
-nt # 47</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Loading amdgpu hits general protection fault: 0000 [=
-#1] SMP NOPTI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105684">bug 10568=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-j.frenzel&#64;openthinclient.com" title=3D"J=C3=B6rn Frenzel &lt;j.frenzel&=
-#64;openthinclient.com&gt;"> <span class=3D"fn">J=C3=B6rn Frenzel</span></a>
-</span></b>
-        <pre>Hi,
-
-the problem seems to be gone in newer kernel version. I just tested a SUSE
-tumbleweed with kernel 5.1.5-1 .=20
-
-This is a satisfactory answer for me.
-
-Regards, J=C3=B6rn</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15597383570.941b.30448--
-
---===============0858255116==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0858255116==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM4MTcKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjAzODE3CiAgICAgICAgICAgU3VtbWFyeTogUmF2ZW4gUmlkZ2UgVkVH
+QTggc3R1Y2sgb24gNDAwTWh6IG9uIGJhdHRlcnkKICAgICAgICAgICBQcm9kdWN0OiBEcml2ZXJz
+CiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4ycmMzCiAgICAg
+ICAgICBIYXJkd2FyZTogQWxsCiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAgICAg
+ICBUcmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2ZXJp
+dHk6IG5vcm1hbAogICAgICAgICAgUHJpb3JpdHk6IFAxCiAgICAgICAgIENvbXBvbmVudDogVmlk
+ZW8oRFJJIC0gbm9uIEludGVsKQogICAgICAgICAgQXNzaWduZWU6IGRyaXZlcnNfdmlkZW8tZHJp
+QGtlcm5lbC1idWdzLm9zZGwub3JnCiAgICAgICAgICBSZXBvcnRlcjogaGF4azYxMkBnbWFpbC5j
+b20KICAgICAgICBSZWdyZXNzaW9uOiBObwoKQ3JlYXRlZCBhdHRhY2htZW50IDI4MzExNQogIC0t
+PiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9MjgzMTE1JmFj
+dGlvbj1lZGl0CmRtZXNnCgpJIGtub3cgdGhpcyBoYXMgYmVlbiBhbiBpc3N1ZSBiZWZvcmUgNS4y
+IEl0IHdhcyBpc3N1ZSBzaW5jZSBpIGdvdCB0aGUgbGFwdG9wLgpUaGUgY29vbGluZyBvbiB0aGlz
+IGxhcHRvcCAoQWNlciBOaXRybyA1IEFONTE1LTQyKSBpcyBhbWF6aW5nIHNvIHRoaXMgaXMgbm90
+CmZyb20gdGhlcm1hbCByZWFzb25zLgpUaGlzIGNhdXNlcyBHTk9NRSB0byBsYWcgc2xpZ2h0bHkg
+b24gYmF0dGVyeSBhbmQgaXQgaXMgbm90IGZ1biB0byBjb2RlIG9uCnNsaWdodGx5IGxhZ2d5IHN5
+c3RlbSBmb3IgZXhhbXBsZSB3aGVuIHlvdSByZXNpemUgd2luZG93LiBZZXMgdGhlcmUgaXMgYnVn
+IGluCkdOT01FIHRoYXQgaXQgc2xvd3MgZG93biBhZnRlciAyMCBzZWNvbmRzIHdoaWNoIGkgcmVw
+b3J0ZWQgYW5kIHRoZXkgYXJlIHdvcmtpbmcKb24gc29sdXRpb24gYnV0IGV2ZW4gd2l0aCB0aGUg
+d29ya2Fyb3VuZCB0aGUgcGVyZm9ybWFuY2Ugc3RpbGwgaXNudCBhcyBnb29kIGFzCm9uIEFDIHBv
+d2VyIGZvciB0aGUgZXh0cmVtZSBkb3duIGNsb2NrLgpHUFUgY2xvY2tzIGFyZSBhcyB0aGV5IHNo
+b3VsZCBiZSBvbiBBQyBwb3dlci4KSSBrbm93IENQVSBpcyBzdHVjayBhdCAxLjZHaHogb24gYmF0
+dGVyeSB3aGljaCBpc250IGFtYXppbmcgYnV0IGlzIGRvbmUgZm9yCkJhdHRlcnkgc28gdGhpcyBt
+aWdodCBiZSBsaW1pdGVkIGZyb20gVmVuZG9yIHRvbyBidXQgaSBkaWRudCBmaW5kIGFueXRoaW5n
+CmFib3V0IHRoaXMgb24gaW50ZXJuZXQuCkkgdHJpZWQgdG8gZm9yY2UgaGlnaCBwb3dlciBzdGF0
+ZSB0byB0aGUgR1BVIHdoaWNoIHdvcmtlZCBhbmQgdGhlIEdQVSBnb2VzIHRvCml0cyBtYXggbm90
+IHByb2JsZW0gYW5kIGRvZXNudCBlYXQgdGhhdCBtdWNoIG1vcmUgYmF0dGVyeS4KCi0tIApZb3Ug
+YXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNz
+aWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
