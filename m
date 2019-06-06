@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 229BB373FA
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 14:18:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF4D3854C
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 09:44:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B21896AF;
-	Thu,  6 Jun 2019 12:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA95E89A5C;
+	Fri,  7 Jun 2019 07:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C3F896AF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 12:18:18 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 80CE3288DA
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 12:18:18 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 7F0582890F; Thu,  6 Jun 2019 12:18:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
- 4.19/4.20/5.0
-Date: Thu, 06 Jun 2019 12:18:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: steffen.klee@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201539-2300-2yX7St6dC6@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
-References: <bug-201539-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DA0893EC
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 13:22:32 +0000 (UTC)
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [88.116.7.198] ([88.116.7.198]) by web-mail.gmx.net
+ (3c-app-gmx-bs71.server.lan [172.19.170.216]) (via HTTP); Thu, 6 Jun 2019
+ 15:22:28 +0200
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+Message-ID: <trinity-ca1cf7b6-fd09-40b9-859b-d3ed3836a193-1559827348935@3c-app-gmx-bs71>
+From: Moesl.Hannes@gmx.at
+To: dri-devel@lists.freedesktop.org
+Subject: drm/imx: 'flip_done timed out' on i.MX6D+ and kernel v4.19.48
+Date: Thu, 6 Jun 2019 15:22:28 +0200
+Importance: normal
+Sensitivity: Normal
+X-Priority: 3
+X-Provags-ID: V03:K1:72LrIfp+6i0zcXj/MNjtlpzWY9JU2uNyGJ/I3/0vKGDI0MjxYWRYnfqPNEC1+4qEuJivg
+ GQDeT3dUfO+07Zj05xTwaPlSoQ95gHogAykc1CvloB+n6PJm/VkdfhaT/S/B8aqq7VyM8n1QeQuI
+ WF7BGpIOmmmpO+LxgcQr+ql9oEPWgtRnAtQeL4UFuJOwTK3G/KBGinujuLlGbU1J127rk4s4w2Gz
+ /b51q7CiCDD9ErbF7JRvgZZ+lWbNSuR8SPgLo7z5cnirjQGdcxO3UgN9C2SAJeeqjFiK3clCBc4g
+ rM=
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zGfWD7zRjBM=:+UnlHJ0XJ/rhQjfsoa5FCR
+ LATgTP2eSwaQgEwB0BtvUUqulxNwpJnt5LEptvubG3TWX7OUOI6woCZcQ8L4b8qcPh0X4j6zz
+ IuA0/XKh/EVPzjGpK2/OMEYhAwMZppY5O9Wgd1NGC0yE6CRsL63+q0w6NE6Y3fxtLTSzU/JRF
+ WR1ZD3y3OdAK8ekogefSZb4ma0qylz3zlEn0GqUCnCam20aifNLus2Q1PWgK/itKAPxVaNIg0
+ z3dQBhqYw7E9fUNKT6Gy98zH2VTMzAe8p7h27VZYpmlEg/PY2xtTyKt3DnAlp6fqvL9CFmDT/
+ YFd0knsundTUCKzorocmERWgWkzlZ0b9bAKrzNlvN5R1NrlzQstEbbJttWEneI1bDBIHsTmsb
+ tC0Ut7YJbJIGndwTLG1qgre0pT50k2ud3JsbxP+SPQmfHUEbdun4zsU8J1kqhmw1ojjY+R/5n
+ ymumsBX/7QGaJwWcjiuuns93qdpanPu7I4JT8mJy3C2zlY93qGb4qJOYbnXDWssTd9fBfCsAh
+ PGdytfjR3VvHwUi2q6vPIp4/wD7dOmEG6nooKGGB4L0YGiy8t5i/6KSqXN8i+zjtWZg6fN5wG
+ Gzhd5RSBS0DrhbFZZfFUHr0HDsrTztHmadWYnyNMrcg/mcl11TTUrjxw==
+X-Mailman-Approved-At: Fri, 07 Jun 2019 07:43:41 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gmx.net; s=badeba3b8450; t=1559827349;
+ bh=3GgRE/7gk1yOPllVBPwhjW/tx18nLQL+X62wfUBb3bQ=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=kQkd9UgLhqgOGzoPE/qwMtrpB09fGGCtcr8IaB6u0ChxB1buNZiC7A9/Vo2DpfIN5
+ TgDpyPup4EctUYPAJp3En0dsjpRSSgQYtYZ8yDXkE1A9vtUuTYfpXlaDpvXY6gAWCL
+ 4thZSAJAtMMopUPDwaVDaEnzMwXV7aWW+4oGiRMg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,22 +61,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1924262001=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE1MzkKCi0tLSBD
-b21tZW50ICMxNiBmcm9tIFN0ZWZmZW4gS2xlZSAoc3RlZmZlbi5rbGVlQGdtYWlsLmNvbSkgLS0t
-CihJbiByZXBseSB0byBkYW5nbGluZ3BvaW50ZXJleGNlcHRpb25AZ21haWwuY29tIGZyb20gY29t
-bWVudCAjMTUpCj4gQFN0ZWZmZW4gLSBUcnkgbXkgc3RlcHMgaW4gdGhlIGxpbmsgbWF0ZSwgaXQg
-bWF5IHNvbHZlIHlvdXIgcHJvYmxlbS4gIEFsZXgKPiBEdWNoZXIgaGltc2VsZiBnYXZlIG1lIHRo
-ZSB0aXAgb24gZml4aW5nIGl0LgoKQXMgZmFyIGFzIEkgdW5kZXJzdGFuZCwgeW91IGhhZCBpc3N1
-ZXMgd2l0aCBmaXJtd2FyZSBsb2FkaW5nLiBIb3dldmVyLCBmaXJtd2FyZQppcyBsb2FkaW5nIGZp
-bmUgb24gbXkgZW5kOgpbZHJtXSBGb3VuZCBVVkQgZmlybXdhcmUgVmVyc2lvbjogMS42NCBGYW1p
-bHkgSUQ6IDkKW2RybV0gRm91bmQgVkNFIGZpcm13YXJlIFZlcnNpb246IDUwLjEwIEJpbmFyeSBJ
-RDogMgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdh
-dGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1924262001==
+Content-Type: text/html; charset=UTF-8
+
+<html><head></head><body><div style="font-family: Verdana;font-size: 12.0px;"><div>
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif"><span lang="EN-US" style="font-size:10.0pt"><span style="font-family:&quot;Verdana&quot;,sans-serif">Hi,</span></span></span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">We observed the following error on an i.MX6D+ CPU during start of X. As a result, the screen goes blank.</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">-------</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">[ 3599.200886] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:30:crtc-0] flip_done timed out</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">[ 3610.080885] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:30:crtc-0] flip_done timed out</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">[ 3620.320849] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:45:LVDS-1] flip_done timed out</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">[ 3630.560864] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:28:plane-0] flip_done timed out</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">-------</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">The error happens quite randomly but it can be reliably reproduced by repeatedly restarting X . On our system, the error occurs somewhere between 80 and 300 restarts of X.</span></span></p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">We first observed the issue using kernel 4.14.123. Updating to 4.19.48 did not solve the issue unfortunately.</span></span></p>
+
+<p>&nbsp;</p>
+
+<p><span style="font-size:11pt"><span style="font-family:Calibri,sans-serif">Cheers,</span></span></p>
+
+<div><span lang="EN-US" style="font-size:11.0pt"><span style="font-family:&quot;Calibri&quot;,sans-serif">Hannes Moesl</span></span></div>
+</div></div></body></html>
+
+--===============1924262001==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1924262001==--
