@@ -1,45 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8AE36E91
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 10:26:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C83F36E9D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 10:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF0D897BC;
-	Thu,  6 Jun 2019 08:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E243896AF;
+	Thu,  6 Jun 2019 08:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8C63789709
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:26:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 88B2E72167; Thu,  6 Jun 2019 08:26:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110751] AMD Radeon HD 7670M, power_profile: Invalid argument
-Date: Thu, 06 Jun 2019 08:26:34 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/Radeon
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: qa_contact component product assigned_to
-Message-ID: <bug-110751-502-RyPpS7EBHF@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110751-502@http.bugs.freedesktop.org/>
-References: <bug-110751-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF9B89270
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:27:35 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id y57so1688983qtk.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 01:27:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xjfm4NWwc99jN8Dg0kWxRzRed9ZkvyJyZbRJ4tOZzFc=;
+ b=pOYEX0T6EchBko+Lh/XOGIdIgbYXLuBDvhzN6eYQ6W6HqL8dgYHfoMjQXk61L1Ey9s
+ UyZ1jnO6/eHlhein9WW2RCcYbuaXQkugIWzPOBbwelf2wWRFakk4zGGleDPVlmqbMQNZ
+ GNvr9COZ5hrNeJbPq93Sf/XuTR8pFj/u8z4vo+1p+KO7R6GW1baL8STt/VHuZRotvejz
+ RAFHomE/81PytmhzoU8/JqnpWeiHtDDvU6lDiIrcxlCSOUpHJemBYefSMKQRimEcGSxw
+ Yc55O+yugx964IUSwmpgGjIhs9f+avYSxN2IXsJZDyfTvTmYG6k3RsZu8LPwLHyO1jwJ
+ UZKg==
+X-Gm-Message-State: APjAAAVWx41n+UVCf6/VHc2OcG6tS9vuaILjr/LBg0eY82Q25HxMWzM8
+ tuWbIkqui/GAshzlRTRH7bFEsgmXIBdRNPDleYCoZw==
+X-Google-Smtp-Source: APXvYqzaTeporuL3AXmDOxS0lUa+JftyX1jBmPODF1/+JuUv/kCALT07zX45ss/j0NHnJItIlvL7jZ3nhhvro+6l6EY=
+X-Received: by 2002:ac8:7545:: with SMTP id b5mr30624720qtr.234.1559809654402; 
+ Thu, 06 Jun 2019 01:27:34 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190605194556.16744-1-daniel.vetter@ffwll.ch>
+ <20190606081241.GT5942@intel.com>
+In-Reply-To: <20190606081241.GT5942@intel.com>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Thu, 6 Jun 2019 10:27:23 +0200
+Message-ID: <CA+M3ks41OnehTCHxz2TwJ3DA1ODNLNFhPsFs-k0bLX6Brye6sw@mail.gmail.com>
+Subject: Re: [PATCH] drm/crc-debugfs: User irqsafe spinlock in
+ drm_crtc_add_crc_entry
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xjfm4NWwc99jN8Dg0kWxRzRed9ZkvyJyZbRJ4tOZzFc=;
+ b=uh82ZdlHNwj1OLCvW2K3Xohx3Au+0uQWhmav0KEnmSGanMlOTsNWPqbSLUOtNRs1uA
+ l8ATl5AeOh78easfM4BYZ9SvkfhGQrKjr8NIlCJCWId9Msdvf2nWs4GdOeUtogBJjKzv
+ QqxDewGXX/mHCbN+C59EqnpC/Hv+MdayDo5lspzbxRe+jE1p3vfcVDG4jmF72Sb2tqWh
+ HPjexxK+i28bGMZ3j+teTD/K+aKBGAq6c3CURpzvifQeuyJofEFbFLbHLdquMlKXQayN
+ 21E1mvRh4ta/KXgtvvQkPSLqfa2wsGZX6ZUXzrUYwN6Bjx0b1ITxMEOTCgo+ngnVDB8m
+ 1YPw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,152 +64,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0742001882=="
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0742001882==
-Content-Type: multipart/alternative; boundary="15598095943.FAF59F.27969"
-Content-Transfer-Encoding: 7bit
-
-
---15598095943.FAF59F.27969
-Date: Thu, 6 Jun 2019 08:26:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110751
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         QA Contact|xorg-team@lists.x.org       |
-          Component|Driver/Radeon               |DRM/Radeon
-            Product|xorg                        |DRI
-           Assignee|xorg-driver-ati@lists.x.org |dri-devel@lists.freedesktop
-                   |                            |.org
-
---- Comment #4 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-The attached dmesg output shows no sign of the radeon driver being loaded. =
-The
-attached Xorg log file is from a system with Intel and Nvidia GPUs, no Rade=
-on.
-Please attach the information corresponding to the reported problem.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15598095943.FAF59F.27969
-Date: Thu, 6 Jun 2019 08:26:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Radeon HD 7670M, power_profile: Invalid argument"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110751">bug 11075=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">QA Contact</td>
-           <td>xorg-team&#64;lists.x.org
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>Driver/Radeon
-           </td>
-           <td>DRM/Radeon
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Product</td>
-           <td>xorg
-           </td>
-           <td>DRI
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Assignee</td>
-           <td>xorg-driver-ati&#64;lists.x.org
-           </td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Radeon HD 7670M, power_profile: Invalid argument"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110751#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD Radeon HD 7670M, power_profile: Invalid argument"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110751">bug 11075=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>The attached dmesg output shows no sign of the radeon driver b=
-eing loaded. The
-attached Xorg log file is from a system with Intel and Nvidia GPUs, no Rade=
-on.
-Please attach the information corresponding to the reported problem.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15598095943.FAF59F.27969--
-
---===============0742001882==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0742001882==--
+TGUgamV1LiA2IGp1aW4gMjAxOSDDoCAxMDoxMiwgVmlsbGUgU3lyasOkbMOkCjx2aWxsZS5zeXJq
+YWxhQGxpbnV4LmludGVsLmNvbT4gYSDDqWNyaXQgOgo+Cj4gT24gV2VkLCBKdW4gMDUsIDIwMTkg
+YXQgMDk6NDU6NTZQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+IFdlIGNhbiBiZSBj
+YWxsZWQgZnJvbSBhbnkgY29udGV4dCwgd2UgbmVlZCB0byBiZSBwcmVwYXJlZC4KPiA+Cj4gPiBO
+b3RpY2VkIHRoaXMgd2hpbGUgaGFja2luZyBvbiB2a21zLCB3aGljaCBjYWxscyB0aGlzIGZ1bmN0
+aW9uIGZyb20gYQo+ID4gbm9ybWFsIHdvcmtlci4gV2hpY2ggcmVhbGx5IHVwc2V0cyBsb2NrZGVw
+Lgo+ID4KPiA+IENjOiBSb2RyaWdvIFNpcXVlaXJhIDxyb2RyaWdvc2lxdWVpcmFtZWxvQGdtYWls
+LmNvbT4KPiA+IENjOiBUb21ldSBWaXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+
+ID4gQ2M6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+Cj4gPiBDYzog
+QmVuamFtaW4gR2FpZ25hcmQgPGJlbmphbWluLmdhaWduYXJkQGxpbmFyby5vcmc+Cj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPgo+IFJl
+dmlld2VkLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29t
+PgoKUmV2aWV3ZWQtYnk6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5h
+cm8ub3JnPgoKPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzX2NyYy5j
+IHwgNSArKystLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
+b25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmc19j
+cmMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmc19jcmMuYwo+ID4gaW5kZXggNTg1MTY5
+ZjBkY2M1Li43ZjM1YjViYTE5MjQgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2RlYnVnZnNfY3JjLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmc19jcmMu
+Ywo+ID4gQEAgLTM5Niw4ICszOTYsOSBAQCBpbnQgZHJtX2NydGNfYWRkX2NyY19lbnRyeShzdHJ1
+Y3QgZHJtX2NydGMgKmNydGMsIGJvb2wgaGFzX2ZyYW1lLAo+ID4gICAgICAgc3RydWN0IGRybV9j
+cnRjX2NyYyAqY3JjID0gJmNydGMtPmNyYzsKPiA+ICAgICAgIHN0cnVjdCBkcm1fY3J0Y19jcmNf
+ZW50cnkgKmVudHJ5Owo+ID4gICAgICAgaW50IGhlYWQsIHRhaWw7Cj4gPiArICAgICB1bnNpZ25l
+ZCBsb25nIGZsYWdzOwo+ID4KPiA+IC0gICAgIHNwaW5fbG9jaygmY3JjLT5sb2NrKTsKPiA+ICsg
+ICAgIHNwaW5fbG9ja19pcnFzYXZlKCZjcmMtPmxvY2ssIGZsYWdzKTsKPiA+Cj4gPiAgICAgICAv
+KiBDYWxsZXIgbWF5IG5vdCBoYXZlIG5vdGljZWQgeWV0IHRoYXQgdXNlcnNwYWNlIGhhcyBzdG9w
+cGVkIHJlYWRpbmcgKi8KPiA+ICAgICAgIGlmICghY3JjLT5lbnRyaWVzKSB7Cj4gPiBAQCAtNDI4
+LDcgKzQyOSw3IEBAIGludCBkcm1fY3J0Y19hZGRfY3JjX2VudHJ5KHN0cnVjdCBkcm1fY3J0YyAq
+Y3J0YywgYm9vbCBoYXNfZnJhbWUsCj4gPiAgICAgICBoZWFkID0gKGhlYWQgKyAxKSAmIChEUk1f
+Q1JDX0VOVFJJRVNfTlIgLSAxKTsKPiA+ICAgICAgIGNyYy0+aGVhZCA9IGhlYWQ7Cj4gPgo+ID4g
+LSAgICAgc3Bpbl91bmxvY2soJmNyYy0+bG9jayk7Cj4gPiArICAgICBzcGluX3VubG9ja19pcnFy
+ZXN0b3JlKCZjcmMtPmxvY2ssIGZsYWdzKTsKPiA+Cj4gPiAgICAgICB3YWtlX3VwX2ludGVycnVw
+dGlibGUoJmNyYy0+d3EpOwo+ID4KPiA+IC0tCj4gPiAyLjIwLjEKPiA+Cj4gPiBfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxp
+bmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPgo+IC0tCj4g
+VmlsbGUgU3lyasOkbMOkCj4gSW50ZWwKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
