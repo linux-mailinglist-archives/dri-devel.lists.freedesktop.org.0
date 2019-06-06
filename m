@@ -1,42 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 092F437524
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 15:24:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEE837565
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 15:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BBAA893B9;
-	Thu,  6 Jun 2019 13:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD7A88894;
+	Thu,  6 Jun 2019 13:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8565893B9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 13:24:52 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2019 06:24:52 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 06 Jun 2019 06:24:49 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 06 Jun 2019 16:24:49 +0300
-Date: Thu, 6 Jun 2019 16:24:49 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Mario Kleiner <mario.kleiner.de@gmail.com>
-Subject: Re: [PATCH 2/2] drm/edid: Ignore "DFP 1.x" bit for EDID 1.2 and
- earlier
-Message-ID: <20190606132449.GW5942@intel.com>
-References: <20190529110204.2384-1-ville.syrjala@linux.intel.com>
- <20190529110204.2384-2-ville.syrjala@linux.intel.com>
- <CADnq5_OC_fOj6RAagFp2-LuBYp4o3KZJ5NPScKwiu0MY1H1EVw@mail.gmail.com>
- <CAEsyxyig_2YappaFkekMEWBnG-L9pJULPWj0p-vooVV8BdqHiw@mail.gmail.com>
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30A7B88894
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 13:38:58 +0000 (UTC)
+X-Originating-IP: 90.88.144.139
+Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr
+ [90.88.144.139]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 1027924000D;
+ Thu,  6 Jun 2019 13:38:49 +0000 (UTC)
+Date: Thu, 6 Jun 2019 15:38:49 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 2/2] drm: panel-orientation-quirks: Add quirk for GPD
+ MicroPC
+Message-ID: <20190606133849.2edsrkkryq6mks6x@flea>
+References: <20190524125759.14131-1-hdegoede@redhat.com>
+ <20190524125759.14131-2-hdegoede@redhat.com>
+ <20190606091440.qomxukz72puwq7vy@flea>
+ <e2077be3-c637-daf2-27dc-b1461c77f796@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAEsyxyig_2YappaFkekMEWBnG-L9pJULPWj0p-vooVV8BdqHiw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e2077be3-c637-daf2-27dc-b1461c77f796@redhat.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,65 +43,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============1994927825=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBNYXkgMjksIDIwMTkgYXQgMDY6NTA6NDBQTSArMDIwMCwgTWFyaW8gS2xlaW5lciB3
-cm90ZToKPiBPbiBXZWQsIE1heSAyOSwgMjAxOSBhdCA3OjAyIEFNIFZpbGxlIFN5cmphbGEKPiA8
-dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+ID4KPiA+IEZyb206IFZpbGxl
-IFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gPgo+ID4gRnJvbSBW
-RVNBIEVESUQgaW1wbGVtZW50YXRpb24gZ3VpZGUgdjEuMDoKPiA+ICJGb3IgRURJRCB2ZXJzaW9u
-IDEgcmV2aXNpb24gMiBvciBlYXJsaWVyIGRhdGEgc3RydWN0dXJlcyB3aGVuIG9mZnNldCAxNGgK
-PiA+ICBiaXQgNyBpcyBzZXQgdG8gb25lLCB0aGUgdmFsdWUgb2YgYml0cyA2LTAgYXJlIHVuZGVm
-aW5lZCwgYW5kIHRoZXJlZm9yZQo+ID4gIGNhbm5vdCBiZSBpbnRlcnByZXRlZCB0byBtZWFuIGFu
-eXRoaW5nLiIKPiA+Cj4gPiBBbmQgc2luY2UgRURJRCAxLjQgcmVkZWZpbmVzIHRoYXQgYml0IGxl
-dCdzIGNvbnN1bHQgaXQgb25seSBmb3IKPiA+IEVESUQgMS4zLgo+ID4KPiA+IENjOiBNYXJpbyBL
-bGVpbmVyIDxtYXJpby5rbGVpbmVyLmRlQGdtYWlsLmNvbT4KPiA+IFNpZ25lZC1vZmYtYnk6IFZp
-bGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4gCj4gWWVzLiBT
-ZXJpZXMgaXM6Cj4gUmV2aWV3ZWQtYnk6IE1hcmlvIEtsZWluZXIgPG1hcmlvLmtsZWluZXIuZGVA
-Z21haWwuY29tPgo+IAo+IC1tYXJpbwo+IAo+IE9uIFdlZCwgTWF5IDI5LCAyMDE5IGF0IDM6NTAg
-UE0gQWxleCBEZXVjaGVyIDxhbGV4ZGV1Y2hlckBnbWFpbC5jb20+IHdyb3RlOgo+ID4KPiA+IE9u
-IFdlZCwgTWF5IDI5LCAyMDE5IGF0IDc6MDIgQU0gVmlsbGUgU3lyamFsYQo+ID4gPHZpbGxlLnN5
-cmphbGFAbGludXguaW50ZWwuY29tPiB3cm90ZToKPiA+ID4KPiA+ID4gRnJvbTogVmlsbGUgU3ly
-asOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiA+ID4KPiA+ID4gRnJvbSBW
-RVNBIEVESUQgaW1wbGVtZW50YXRpb24gZ3VpZGUgdjEuMDoKPiA+ID4gIkZvciBFRElEIHZlcnNp
-b24gMSByZXZpc2lvbiAyIG9yIGVhcmxpZXIgZGF0YSBzdHJ1Y3R1cmVzIHdoZW4gb2Zmc2V0IDE0
-aAo+ID4gPiAgYml0IDcgaXMgc2V0IHRvIG9uZSwgdGhlIHZhbHVlIG9mIGJpdHMgNi0wIGFyZSB1
-bmRlZmluZWQsIGFuZCB0aGVyZWZvcmUKPiA+ID4gIGNhbm5vdCBiZSBpbnRlcnByZXRlZCB0byBt
-ZWFuIGFueXRoaW5nLiIKPiA+ID4KPiA+ID4gQW5kIHNpbmNlIEVESUQgMS40IHJlZGVmaW5lcyB0
-aGF0IGJpdCBsZXQncyBjb25zdWx0IGl0IG9ubHkgZm9yCj4gPiA+IEVESUQgMS4zLgo+ID4gPgo+
-ID4gPiBDYzogTWFyaW8gS2xlaW5lciA8bWFyaW8ua2xlaW5lci5kZUBnbWFpbC5jb20+Cj4gPiA+
-IFNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRl
-bC5jb20+Cj4gPgo+ID4gU2VyaWVzIGlzOgo+ID4gUmV2aWV3ZWQtYnk6IEFsZXggRGV1Y2hlciA8
-YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KClRoYW5rcy4gU2VyaWVzIHB1c2hlZCB0byBkcm0t
-bWlzYy1uZXh0LgoKPiA+Cj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9lZGlk
-LmMgfCA0ICsrLS0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
-ZXRpb25zKC0pCj4gPiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Vk
-aWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCj4gPiA+IGluZGV4IGRkNjAxZWQ2YTMw
-ZS4uYzMyOTZhNzJmZmY5IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Vk
-aWQuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+ID4gPiBAQCAtNDU2
-OSw4ICs0NTY5LDggQEAgdTMyIGRybV9hZGRfZGlzcGxheV9pbmZvKHN0cnVjdCBkcm1fY29ubmVj
-dG9yICpjb25uZWN0b3IsIGNvbnN0IHN0cnVjdCBlZGlkICplZGkKPiA+ID4gICAgICAgICAgKiB0
-ZWxscyB1cyB0byBhc3N1bWUgOCBicGMgY29sb3IgZGVwdGggaWYgdGhlIEVESUQgZG9lc24ndCBo
-YXZlCj4gPiA+ICAgICAgICAgICogZXh0ZW5zaW9ucyB3aGljaCB0ZWxsIG90aGVyd2lzZS4KPiA+
-ID4gICAgICAgICAgKi8KPiA+ID4gLSAgICAgICBpZiAoKGluZm8tPmJwYyA9PSAwKSAmJiAoZWRp
-ZC0+cmV2aXNpb24gPCA0KSAmJgo+ID4gPiAtICAgICAgICAgICAoZWRpZC0+aW5wdXQgJiBEUk1f
-RURJRF9ESUdJVEFMX0RGUF8xX1gpKSB7Cj4gPiA+ICsgICAgICAgaWYgKGluZm8tPmJwYyA9PSAw
-ICYmIGVkaWQtPnJldmlzaW9uID09IDMgJiYKPiA+ID4gKyAgICAgICAgICAgZWRpZC0+aW5wdXQg
-JiBEUk1fRURJRF9ESUdJVEFMX0RGUF8xX1gpIHsKPiA+ID4gICAgICAgICAgICAgICAgIGluZm8t
-PmJwYyA9IDg7Cj4gPiA+ICAgICAgICAgICAgICAgICBEUk1fREVCVUcoIiVzOiBBc3NpZ25pbmcg
-REZQIHNpbmsgY29sb3IgZGVwdGggYXMgJWQgYnBjLlxuIiwKPiA+ID4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICBjb25uZWN0b3ItPm5hbWUsIGluZm8tPmJwYyk7Cj4gPiA+IC0tCj4gPiA+IDIu
-MjEuMAo+ID4gPgo+ID4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwo+ID4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiA+IGRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRlbApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1994927825==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="h6zh3tujx4gdoncr"
+Content-Disposition: inline
+
+
+--h6zh3tujx4gdoncr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Jun 06, 2019 at 01:13:40PM +0200, Hans de Goede wrote:
+> On 06-06-19 11:14, Maxime Ripard wrote:
+> > On Fri, May 24, 2019 at 02:57:59PM +0200, Hans de Goede wrote:
+> > > GPD has done it again, make a nice device (good), use way too generic
+> > > DMI strings (bad) and use a portrait screen rotated 90 degrees (ugly).
+> > >
+> > > Because of the too generic DMI strings this entry is also doing bios-date
+> > > matching, so the gpd_micropc data struct may very well need to be updated
+> > > with some extra bios-dates in the future.
+> > >
+> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >
+> > For both patches,
+> > Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+>
+> Thank you, I've pushed both to drm-misc-next now.
+>
+> Can you add them to drm-misc-fixes please ?
+>
+> (AFAIK I'm not supposed to do that myself)
+
+You definitely can :)
+
+Now that it's in next though, it's pretty hard to come back in time. I
+guess we could just apply it in fixes and let git figure it out, or
+revert the one in next. I'm not sure which one is preferred
+though.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--h6zh3tujx4gdoncr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPkXaQAKCRDj7w1vZxhR
+xQjvAP0cmcmqp+J2CrGBXJbqmM6+GeMXv8wugDLya3TBPr/kqAD/UoYwEWVxjStP
+7PxHT9y12hzVafYKKbTXekaGQsbgKAk=
+=6nkP
+-----END PGP SIGNATURE-----
+
+--h6zh3tujx4gdoncr--
+
+--===============1994927825==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1994927825==--
