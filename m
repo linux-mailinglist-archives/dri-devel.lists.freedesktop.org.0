@@ -2,58 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB27538591
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 09:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C4E237DA7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 21:53:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4C9D89C1B;
-	Fri,  7 Jun 2019 07:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E1E892BC;
+	Thu,  6 Jun 2019 19:53:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-it1-x144.google.com (mail-it1-x144.google.com
- [IPv6:2607:f8b0:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3ADF892BC
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 19:53:40 +0000 (UTC)
-Received: by mail-it1-x144.google.com with SMTP id a186so1973994itg.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 12:53:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QvRzAt8oUa+QOs8oktnGNElZis2955KPPjFl8TJj1Sc=;
- b=oaoMCKE2EHPDBxo9QH/dUzAIFnHOb2GqzMhhRMVm4OH4hg0AVAeEUzgiI1F2A53JSL
- gFynjyg1ZjfTlgf1BND1NINhqfh4rQwNjUKDVWZmbHhOQWG+/4dq2RuQMN1lXWHHRO0q
- UWRbSI21wheHRAPXgoWBOFbCVV4mstRcyzfjTXMEwUYGB4C14XvwvQc5/JiUyW1gYBJb
- LsNpWndGFG2XO6GZMygZZw/wcVeSigDph8wM+AR0enGJkk0csG5fuez2MqhVkyxOyk7y
- pHFaxnDK2r6Ylcdydais2+Ktjy8QFyGwGErtLhazwtgvCyOl6gj4rNnxaDBcm7dKI0uY
- BBOA==
-X-Gm-Message-State: APjAAAX2UhHX216fILN0gLiNAz3LmbK6MWtiHw3IqPWvzWXNAv2gUrzw
- HNWna6aVcit5U6KA9iZjUHk2G95oJCbRK4Kqi8U=
-X-Google-Smtp-Source: APXvYqy7pWNl4Q+X7LS21yrTMp4Kqd7zvq75fu/BksKKF+n8OdJGBkq6cgEp1ESBftQ0uehnGbsNv9eC+vjhoHPBetU=
-X-Received: by 2002:a24:97d2:: with SMTP id k201mr1379721ite.151.1559850820180; 
- Thu, 06 Jun 2019 12:53:40 -0700 (PDT)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E611D892C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 19:53:50 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 45KbvF48Xvz9sDX;
+ Fri,  7 Jun 2019 05:53:45 +1000 (AEST)
+Date: Fri, 7 Jun 2019 05:53:34 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Jason Gunthorpe <jgg@mellanox.com>
+Subject: Re: RFC: Run a dedicated hmm.git for 5.3
+Message-ID: <20190607055334.2bdea125@canb.auug.org.au>
+In-Reply-To: <20190606152543.GE17392@mellanox.com>
+References: <20190523155207.GC5104@redhat.com>
+ <20190523163429.GC12159@ziepe.ca>
+ <20190523173302.GD5104@redhat.com>
+ <20190523175546.GE12159@ziepe.ca>
+ <20190523182458.GA3571@redhat.com>
+ <20190523191038.GG12159@ziepe.ca>
+ <20190524064051.GA28855@infradead.org>
+ <20190524124455.GB16845@ziepe.ca>
+ <20190525155210.8a9a66385ac8169d0e144225@linux-foundation.org>
+ <20190527191247.GA12540@ziepe.ca>
+ <20190606152543.GE17392@mellanox.com>
 MIME-Version: 1.0
-References: <20190605070507.11417-1-andrew.smirnov@gmail.com>
- <CGME20190605070535epcas2p36fee13315966e45d425c073162aa1aae@epcas2p3.samsung.com>
- <20190605070507.11417-7-andrew.smirnov@gmail.com>
- <28ddfb42-db9a-f095-9230-d324db5ee483@samsung.com>
-In-Reply-To: <28ddfb42-db9a-f095-9230-d324db5ee483@samsung.com>
-From: Andrey Smirnov <andrew.smirnov@gmail.com>
-Date: Thu, 6 Jun 2019 12:53:28 -0700
-Message-ID: <CAHQ1cqGEe9cT18UNtjkRDACrwYr8YRJ3Ec6eGaR8Qp+-QgqTdQ@mail.gmail.com>
-Subject: Re: [PATCH v3 06/15] drm/bridge: tc358767: Simplify AUX data read
-To: Andrzej Hajda <a.hajda@samsung.com>
-X-Mailman-Approved-At: Fri, 07 Jun 2019 07:43:40 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=QvRzAt8oUa+QOs8oktnGNElZis2955KPPjFl8TJj1Sc=;
- b=N+cqBcIV8wCw3ILXUCLZHVe/s4oVuQ8zay6aGrYPCg/Q0/LfbnGZ3xrbjVNC2YrE+E
- gSa1nR+/Nq1cCJ7Jznj/Mh+Brk11hVeOkfmo7Mu9L8hig5pyoGV3hzJCKKy15b2Ux4YT
- zAAWOLCfUwPmGNGUKX5hvU8UhLJUAuxnsWIb0vjJMTLwE9WVVid8S/axVQwSWwX/zwPe
- y0b8JzAyRKGSbTtq2I4s4PrRaPLbKrmGieixcUCvQN3oCK9J8zhbUjhFim3HibPIkckH
- W6ktf0tSNKqYlGcNECmzAZgznIdXds66vzYJebSmZfwWa8gCf3MmmOyqUZ2k3M+KpybO
- +vOA==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1559850827;
+ bh=d6SJxU0/ScjlRTFzNoaL9FcILbaOOHmHAty3CZ/Vh/M=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BjNv3BPoFFPjmA7YQV4rHasyQ0759LKCjrVwNHart/HO5uj6qphC7gz5KmZdB56+B
+ +HwcAvXphavYyjktKp2nK/jcsCuzQMXr5tqUTMfnT+ev0DFZx39i29fZZF8dgmZc/X
+ +9wCz+J4sHwuFLYcUDhILzckHTzdJn0r+exASPB5apFMQMHzlQXGO7rv4vH9K294gK
+ DO22P0PGbGBiNs9bXbMEll8eNKCkiScDLyAPZh+OSYddhH9pzQnsx+RyjoatvzPYzs
+ e6q3RHbjuSYXsBnUkV4GqSVVxHyycbvDTvvdYsR/a32WxXzAqT9enp//v76sEKQZFE
+ jQf8GDy1+/pRA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,59 +58,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cory Tusar <cory.tusar@zii.aero>, Archit Taneja <architt@codeaurora.org>,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Chris Healy <cphealy@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mike Marciniszyn <mike.marciniszyn@intel.com>,
+ Doug Ledford <dledford@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Kaike Wan <kaike.wan@intel.com>,
+ Christoph Hellwig <hch@infradead.org>, Leon Romanovsky <leonro@mellanox.com>,
+ Jerome Glisse <jglisse@redhat.com>, Moni Shoua <monis@mellanox.com>,
+ Artemy Kovalyov <artemyko@mellanox.com>, Dave Airlie <airlied@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: multipart/mixed; boundary="===============1337183434=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gNiwgMjAxOSBhdCAzOjU5IEFNIEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ft
-c3VuZy5jb20+IHdyb3RlOgo+Cj4gT24gMDUuMDYuMjAxOSAwOTowNCwgQW5kcmV5IFNtaXJub3Yg
-d3JvdGU6Cj4gPiBTaW1wbGlmeSBBVVggZGF0YSByZWFkIGJ5IHJlbW92aW5nIGluZGV4IGFyaXRo
-bWV0aWMgYW5kIHNoaWZ0aW5nIHdpdGgKPiA+IGEgaGVscGVyIGZ1bmN0aW9ucyB0aGF0IGRvZXMg
-dGhyZWUgdGhpbmdzOgo+ID4KPiA+ICAgICAxLiBGZXRjaCBkYXRhIGZyb20gdXAgdG8gNCAzMi1i
-aXQgcmVnaXN0ZXJzIGZyb20gdGhlIGNoaXAKPiA+ICAgICAyLiBPcHRpb25hbGx5IGZpeCBkYXRh
-IGVuZGlhbm5lc3MgKG5vdCBuZWVkZWQgb24gTEUgaG9zdHMpCj4gPiAgICAgMy4gQ29weSByZWFk
-IGRhdGEgaW50byB1c2VyIHByb3ZpZGVkIGFycmF5Lgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IEFu
-ZHJleSBTbWlybm92IDxhbmRyZXcuc21pcm5vdkBnbWFpbC5jb20+Cj4gPiBDYzogQXJjaGl0IFRh
-bmVqYSA8YXJjaGl0dEBjb2RlYXVyb3JhLm9yZz4KPiA+IENjOiBBbmRyemVqIEhhamRhIDxhLmhh
-amRhQHNhbXN1bmcuY29tPgo+ID4gQ2M6IExhdXJlbnQgUGluY2hhcnQgPExhdXJlbnQucGluY2hh
-cnRAaWRlYXNvbmJvYXJkLmNvbT4KPiA+IENjOiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWlu
-ZW5AdGkuY29tPgo+ID4gQ2M6IEFuZHJleSBHdXNha292IDxhbmRyZXkuZ3VzYWtvdkBjb2dlbnRl
-bWJlZGRlZC5jb20+Cj4gPiBDYzogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5k
-ZT4KPiA+IENjOiBDb3J5IFR1c2FyIDxjb3J5LnR1c2FyQHppaS5hZXJvPgo+ID4gQ2M6IENocmlz
-IEhlYWx5IDxjcGhlYWx5QGdtYWlsLmNvbT4KPiA+IENjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBw
-ZW5ndXRyb25peC5kZT4KPiA+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4g
-PiBDYzogbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+ID4gLS0tCj4gPiAgZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jIHwgNDAgKysrKysrKysrKysrKysrKysrKysrLS0tLS0t
-LS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMo
-LSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5j
-IGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jCj4gPiBpbmRleCBlMTk3Y2UwZmIx
-NjYuLmRhNDdkODFlNzEwOSAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-dGMzNTg3NjcuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jCj4g
-PiBAQCAtMzIxLDYgKzMyMSwyOSBAQCBzdGF0aWMgaW50IHRjX2F1eF9nZXRfc3RhdHVzKHN0cnVj
-dCB0Y19kYXRhICp0YywgdTggKnJlcGx5KQo+ID4gICAgICAgcmV0dXJuIDA7Cj4gPiAgfQo+ID4K
-PiA+ICtzdGF0aWMgaW50IHRjX2F1eF9yZWFkX2RhdGEoc3RydWN0IHRjX2RhdGEgKnRjLCB2b2lk
-ICpkYXRhLCBzaXplX3Qgc2l6ZSkKPiA+ICt7Cj4gPiArICAgICB1MzIgYXV4cmRhdGFbRFBfQVVY
-X01BWF9QQVlMT0FEX0JZVEVTIC8gc2l6ZW9mKHUzMildOwo+ID4gKyAgICAgaW50IHJldCwgaSwg
-Y291bnQgPSBESVZfUk9VTkRfVVAoc2l6ZSwgc2l6ZW9mKHUzMikpOwo+ID4gKwo+ID4gKyAgICAg
-cmV0ID0gcmVnbWFwX2J1bGtfcmVhZCh0Yy0+cmVnbWFwLCBEUDBfQVVYUkRBVEEoMCksIGF1eHJk
-YXRhLCBjb3VudCk7Cj4gPiArICAgICBpZiAocmV0KQo+ID4gKyAgICAgICAgICAgICByZXR1cm4g
-cmV0Owo+ID4gKwo+ID4gKyAgICAgZm9yIChpID0gMDsgaSA8IGNvdW50OyBpKyspIHsKPiA+ICsg
-ICAgICAgICAgICAgLyoKPiA+ICsgICAgICAgICAgICAgICogT3VyIHJlZ21hcCBpcyBjb25maWd1
-cmVkIGFzIExFIGZvciByZWdpc3RlciBkYXRhLAo+ID4gKyAgICAgICAgICAgICAgKiBzbyB3ZSBu
-ZWVkIHVuZG8gYW55IGJ5dGUgc3dhcHBpbmcgdGhhdCBtaWdodCBoYXZlCj4gPiArICAgICAgICAg
-ICAgICAqIGhhcHBlbmVkIHRvIHByZXNlcnZlIG9yaWdpbmFsIGJ5dGUgb3JkZXIuCj4gPiArICAg
-ICAgICAgICAgICAqLwo+ID4gKyAgICAgICAgICAgICBsZTMyX3RvX2NwdXMoJmF1eHJkYXRhW2ld
-KTsKPiA+ICsgICAgIH0KPiA+ICsKPiA+ICsgICAgIG1lbWNweShkYXRhLCBhdXhyZGF0YSwgc2l6
-ZSk7Cj4gPiArCj4gPiArICAgICByZXR1cm4gc2l6ZTsKPiA+ICt9Cj4gPiArCj4KPgo+IEhtbSwg
-Y2Fubm90IHdlIGp1c3QgdXNlIHJlZ21hcF9yYXdfcmVhZD8KCkknbGwgZ2l2ZSBpdCBhIHRyeSBp
-biB2NC4KClRoYW5rcywKQW5kcmV5IFNtaXJub3YKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+--===============1337183434==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/l+KwJlP++eQB4BpW/9k.220"; protocol="application/pgp-signature"
+
+--Sig_/l+KwJlP++eQB4BpW/9k.220
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Jason,
+
+On Thu, 6 Jun 2019 15:25:49 +0000 Jason Gunthorpe <jgg@mellanox.com> wrote:
+>
+> On Mon, May 27, 2019 at 04:12:47PM -0300, Jason Gunthorpe wrote:
+> > On Sat, May 25, 2019 at 03:52:10PM -0700, Andrew Morton wrote: =20
+> > > On Fri, 24 May 2019 09:44:55 -0300 Jason Gunthorpe <jgg@ziepe.ca> wro=
+te:
+> > >  =20
+> > > > Now that -mm merged the basic hmm API skeleton I think running like
+> > > > this would get us quickly to the place we all want: comprehensive i=
+n tree
+> > > > users of hmm.
+> > > >=20
+> > > > Andrew, would this be acceptable to you? =20
+> > >=20
+> > > Sure.  Please take care not to permit this to reduce the amount of
+> > > exposure and review which the core HMM pieces get. =20
+> >=20
+> > Certainly, thanks all
+> >=20
+> > Jerome: I started a HMM branch on v5.2-rc2 in the rdma.git here:
+> >=20
+> > git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
+> > https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git/log/?h=3D=
+hmm =20
+>=20
+> I did a first round of collecting patches for hmm.git
+>=20
+> Andrew, I'm checking linux-next and to stay co-ordinated, I see the
+> patches below are in your tree and now also in hmm.git. Can you please
+> drop them from your tree?=20
+>=20
+> 5b693741de2ace mm/hmm.c: suppress compilation warnings when CONFIG_HUGETL=
+B_PAGE is not set
+> b2870fb882599a mm/hmm.c: only set FAULT_FLAG_ALLOW_RETRY for non-blocking
+> dff7babf8ae9f1 mm/hmm.c: support automatic NUMA balancing
+>=20
+> I checked that the other two patches in -next also touching hmm.c are
+> best suited to go through your tree:
+>=20
+> a76b9b318a7180 mm/devm_memremap_pages: fix final page put race
+> fc64c058d01b98 mm/memremap: rename and consolidate SECTION_SIZE
+>=20
+> StephenR: Can you pick up the hmm branch from rdma.git for linux-next for
+> this cycle? As above we are moving the patches from -mm to hmm.git, so
+> there will be a conflict in -next until Andrew adjusts his tree,
+> thanks!
+
+I have added the hmm branch from today with currently just you as the
+contact.  I also removed the three commits above from Andrew's tree.
+
+Thanks for adding your subsystem tree as a participant of linux-next.  As
+you may know, this is not a judgement of your code.  The purpose of
+linux-next is for integration testing and to lower the impact of
+conflicts between subsystems in the next merge window.=20
+
+You will need to ensure that the patches/commits in your tree/series have
+been:
+     * submitted under GPL v2 (or later) and include the Contributor's
+        Signed-off-by,
+     * posted to the relevant mailing list,
+     * reviewed by you (or another maintainer of your subsystem tree),
+     * successfully unit tested, and=20
+     * destined for the current or next Linux merge window.
+
+Basically, this should be just what you would send to Linus (or ask him
+to fetch).  It is allowed to be rebased if you deem it necessary.
+
+--=20
+Cheers,
+Stephen Rothwell=20
+sfr@canb.auug.org.au
+
+--Sig_/l+KwJlP++eQB4BpW/9k.220
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlz5bz4ACgkQAVBC80lX
+0Gz42ggAjd2XdELh29gxYaa3AGGZx68tH5E3qcBVYvxP3IEAfi0bUSvxNXFhstk6
+YaxWX9oxbApTS2Uj3++jezF4Xjj2Y73HGUjGLQ3Otw3Mnqcf6jXCMx8Z++gM7yyC
+VCZzpR+3xAuAY21M7Ov9ZplyOO2h0UgAm8zaMi5hxEyGVAKjncUBDg4Y0qrh0UAl
+AnZKxV4zQyp4/PvVuYFQa+g8igqB+cGfBLY36wP0k2p3f7btC0m1JSgADRiqg0lA
+reZ+53oVo8c90IhdJp2lysklnxwDvfGMcl5S93eBGYfT0TdJ0XWriIgIy+uwt6mx
+VsgPHJUvyidpJbGyRC/m2LJnhvk19w==
+=dJb7
+-----END PGP SIGNATURE-----
+
+--Sig_/l+KwJlP++eQB4BpW/9k.220--
+
+--===============1337183434==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1337183434==--
