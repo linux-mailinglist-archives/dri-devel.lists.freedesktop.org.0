@@ -2,41 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066C037160
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 12:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1116A3717A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 12:20:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47BAE8928D;
-	Thu,  6 Jun 2019 10:13:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD9D689317;
+	Thu,  6 Jun 2019 10:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lb3-smtp-cloud7.xs4all.net (lb3-smtp-cloud7.xs4all.net
- [194.109.24.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CC8D8928D
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 10:13:23 +0000 (UTC)
-Received: from [192.168.2.10] ([46.9.252.75])
- by smtp-cloud7.xs4all.net with ESMTPA
- id YpOXhyGU13qlsYpOahlotZ; Thu, 06 Jun 2019 12:13:21 +0200
-Subject: Re: [PATCH 5/8] drivers: media: coda: fix warning same module names
-To: Anders Roxell <anders.roxell@linaro.org>, mchehab@kernel.org,
- p.zabel@pengutronix.de
-References: <20190606094722.23816-1-anders.roxell@linaro.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d6b79ee0-07c6-ad81-16b0-8cf929cc214d@xs4all.nl>
-Date: Thu, 6 Jun 2019 12:13:17 +0200
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0AD2189317
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 10:20:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 2DD1D2A6042;
+ Thu,  6 Jun 2019 12:20:28 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id fdGjsCWmYX8E; Thu,  6 Jun 2019 12:20:27 +0200 (CEST)
+Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.245.116])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id 890AE2A6016;
+ Thu,  6 Jun 2019 12:20:27 +0200 (CEST)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.92)
+ (envelope-from <michel@daenzer.net>)
+ id 1hYpVT-0000xB-8V; Thu, 06 Jun 2019 12:20:27 +0200
+Subject: Re: [PATCH 1/2] update drm.h
+To: zhoucm1 <zhoucm1@amd.com>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)" <David1.Zhou@amd.com>
+References: <20190522090800.15908-1-david1.zhou@amd.com>
+ <17e558ac-bda8-0541-b102-2fd730ce4753@amd.com>
+ <f95b85cd-80ee-576a-248a-409f512e8d38@amd.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Openpgp: preference=signencrypt
+Autocrypt: addr=michel@daenzer.net; prefer-encrypt=mutual; keydata=
+ mQGiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
+ LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
+ 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
+ /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
+ WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
+ Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
+ V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
+ AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPLQjTWljaGVsIERh
+ ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD6IXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
+ AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
+ jqtGUnnSbyuTQfIySkK5AQ0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
+ qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
+ bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
+ CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
+ GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
+ YsYrX5xfLgTZC5abhhztpYhGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAn2Ufk2d6/3p4
+ Cuyz/NX7KpL2dQ8WAJ9UD5JEakhfofed8PSqOM7jOO3LCA==
+Message-ID: <96dea97c-dfa8-1e89-1b83-9a425b93e36e@daenzer.net>
+Date: Thu, 6 Jun 2019 12:20:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190606094722.23816-1-anders.roxell@linaro.org>
-Content-Language: en-US
-X-CMAE-Envelope: MS4wfF4tKlHxT213q5iKkMxyEhwvsl3wRabWeNLK5xiL8WKLAag63A3TOZyGmKvKw2GQ0WfyjxjXTEd9W8wEzukVk+psIlgFMWLll5pj2JsOATa9DeAuydvZ
- ddjJv6cbw+Yx00MItRjqmMci92xnhEnHpv1M2w59zA1NDNGjmRLSq3cAdtQxlM27/Up8XeGggGd09JeaXKionqZ4Ox8OkYGd75CEkMLwS0I9oFo2oaXlp2qm
- zHxHG7t/dsOA8w/WL8cjzmpNJprbOGialY+uHK0qhAd6ngo3E2+LWOtDMpiv8+29lafVg2h2MXmbJqTrD08YPp+dHbGmMooIEajhJOaXAsTO9DMXSW1DnGgb
- Mi+uPtNhxzXZNVHnKkgZylEAS1Gj9Btw1D2qstbFAGFqawel2DS7gaY7PnQwOyvQDUehTrtumQUrh09usYJrS95kgXOPsOuu9vdTrS9bCu3XLxvP83rFa7K4
- iRkei2i0QauBZ+765x4Q0YbU2MzvUEyEC/yU99imriRBIOT799HstalWgtztqFMWEOMUBGV6QT9McaXUQxxn1zJjzrhgJj6CwFejoRwRWeYKwsW9fgpwBWwy
- NgSZjZuEljrA0R8Der2ECk2NLkklIrPaIzz4+7f45/5Rg3AxiqHLmyd3gj/w7qDJjczZSXQntVVEXmhKhlGVziBa2olD9SYqZW5ea+F4y5ryBoJJXKeRqJdT
- tylLYuM7/v98g46LHLxat4QbrH4tbb0OQ6PVAoOzoPM+fU4eOOTZ318lqx8uL7K4w+bXwy6AyagH24lDBaWhhE6Ak0oPkTiWkzj+zIMgcHnUBVj2qyaZ+tGz
- 49QGEH34eopVfAjGrY27QDYRwjAXHkE34k/PrX5pFSdpYBaRZmp7Cy7hsJ65WK3Eqac5SwfaayWzyuqV27vo48JIPhsH5LTGMqwPFbq3mOKKvs5I0+GRKlB3
- Xzk7eNEZqr4/hN04KmzKR9jYfWw=
+In-Reply-To: <f95b85cd-80ee-576a-248a-409f512e8d38@amd.com>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,41 +71,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: andrew@lunn.ch, linux-fbdev@vger.kernel.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, lee.jones@linaro.org, marex@denx.de,
- f.fainelli@gmail.com, vivien.didelot@gmail.com, linux-media@vger.kernel.org,
- b.zolnierkie@samsung.com, broonie@kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- lgirdwood@gmail.com, shawnguo@kernel.org, davem@davemloft.net,
- hkallweit1@gmail.com
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNi82LzE5IDExOjQ3IEFNLCBBbmRlcnMgUm94ZWxsIHdyb3RlOgo+IFdoZW4gYnVpbGRpbmcg
-d2l0aCBDT05GSUdfVklERU9fQ09EQSBhbmQgQ09ORklHX0NPREFfRlMgZW5hYmxlZCBhcwo+IGxv
-YWRhYmxlIG1vZHVsZXMsIHdlIHNlZSB0aGUgZm9sbG93aW5nIHdhcm5pbmc6Cj4gCj4gd2Fybmlu
-Zzogc2FtZSBtb2R1bGUgbmFtZXMgZm91bmQ6Cj4gICBmcy9jb2RhL2NvZGEua28KPiAgIGRyaXZl
-cnMvbWVkaWEvcGxhdGZvcm0vY29kYS9jb2RhLmtvCj4gCj4gUmV3b3JrIHNvIG1lZGlhIGNvZGEg
-bWF0Y2hlcyB0aGUgY29uZmlnIGZyYWdtZW50LiBMZWF2aW5nIENPREFfRlMgYXMgaXMKPiBzaW5j
-ZSB0aGF0cyBhIHdlbGwga25vd24gbW9kdWxlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZGVycyBS
-b3hlbGwgPGFuZGVycy5yb3hlbGxAbGluYXJvLm9yZz4KPiAtLS0KPiAgZHJpdmVycy9tZWRpYS9w
-bGF0Zm9ybS9jb2RhL01ha2VmaWxlIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEv
-cGxhdGZvcm0vY29kYS9NYWtlZmlsZSBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vY29kYS9NYWtl
-ZmlsZQo+IGluZGV4IDU0ZTlhNzNhOTJhYi4uNTg4ZTZiZjdjMTkwIDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vY29kYS9NYWtlZmlsZQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEv
-cGxhdGZvcm0vY29kYS9NYWtlZmlsZQo+IEBAIC0xLDYgKzEsNiBAQAo+ICAjIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkKPiAgCj4gLWNvZGEtb2JqcyA6PSBjb2RhLWNvbW1v
-bi5vIGNvZGEtYml0Lm8gY29kYS1nZGkubyBjb2RhLWgyNjQubyBjb2RhLW1wZWcyLm8gY29kYS1t
-cGVnNC5vIGNvZGEtanBlZy5vCj4gK3ZpZGVvLWNvZGEtb2JqcyA6PSBjb2RhLWNvbW1vbi5vIGNv
-ZGEtYml0Lm8gY29kYS1nZGkubyBjb2RhLWgyNjQubyBjb2RhLW1wZWcyLm8gY29kYS1tcGVnNC5v
-IGNvZGEtanBlZy5vCj4gIAo+IC1vYmotJChDT05GSUdfVklERU9fQ09EQSkgKz0gY29kYS5vCj4g
-K29iai0kKENPTkZJR19WSURFT19DT0RBKSArPSB2aWRlby1jb2RhLm8KCkhvdyBhYm91dCBpbXgt
-Y29kYT8gdmlkZW8tY29kYSBzdWdnZXN0cyBpdCBpcyBwYXJ0IG9mIHRoZSB2aWRlbyBzdWJzeXN0
-ZW0sCndoaWNoIGl0IGlzbid0LgoKUmVnYXJkcywKCglIYW5zCgo+ICBvYmotJChDT05GSUdfVklE
-RU9fSU1YX1ZET0EpICs9IGlteC12ZG9hLm8KPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gMjAxOS0wNS0yNCA3OjE1IGEubS4sIHpob3VjbTEgd3JvdGU6Cj4gYW55b25lIGNhbiBwaWNr
+IHVwIHRvIGdpdGxhYiBmb3IgbGliZHJtPwoKQ2FuIHlvdSBjcmVhdGUgYSBtZXJnZSByZXF1ZXN0
+PwoKCi0tIApFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAgICAgICAgICB8ICAgICAgICAg
+ICAgICBodHRwczovL3d3dy5hbWQuY29tCkxpYnJlIHNvZnR3YXJlIGVudGh1c2lhc3QgICAgICAg
+ICAgICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3BlcgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
