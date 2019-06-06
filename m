@@ -1,60 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E416D377CB
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 17:25:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8481E38560
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 09:45:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C313891A4;
-	Thu,  6 Jun 2019 15:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3D489A77;
+	Fri,  7 Jun 2019 07:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB36891A4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 15:25:42 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id s22so1671955qkj.12
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 08:25:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ujllQUBFctGmQpL1wBwKth15x8ZrZ5+Xk7O+WkgFp+Q=;
- b=GRtb3YOXhWXnuraLV0OlJv10lj49ctn2YJ2YCjFPtBBlaia8nreDSeMi3Z51v2UbOt
- y7udMQGvhzxljDP3W2WrlIqxX549xMtIVS1dLZVebJUncM7BK/99gdkgDF3dUhbWnHcV
- c/UtahapU11UQwclgSTEZDkb71x1ep7g9MlVmUFnw/nrk+F5M1JBzRz6P/5g1b45FTOx
- pceWnr/doGm+RylyEgeiN/8Jcj41CeP0Vo7GVnPVsnDd1wIwbwn6qbVKtSwYHfDKzhT+
- UPMO5+Mi5Q5k/CVMy9amkQwt8g5NtFLAOejVvIO30fjMSh3yGrzTDnH2bGhqOMd2Yo5G
- K2MQ==
-X-Gm-Message-State: APjAAAVWfZxN/DyyuduWBf59k8BW5NZs3poe6xeywF8ab5nGkMHcM+xn
- r4fqzjF7IEeoMF8vEvgVvO0=
-X-Google-Smtp-Source: APXvYqyQxST0W/3RcbWzU/tUMARNBj/p/EtasiOddlmH9pLsXVmrIUykZYMWFMwLITqPlLuC/xQrlA==
-X-Received: by 2002:ae9:f10a:: with SMTP id k10mr38662337qkg.66.1559834741385; 
- Thu, 06 Jun 2019 08:25:41 -0700 (PDT)
-Received: from smtp.gmail.com ([187.121.151.146])
- by smtp.gmail.com with ESMTPSA id e63sm1020073qkd.57.2019.06.06.08.25.38
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 06 Jun 2019 08:25:40 -0700 (PDT)
-Date: Thu, 6 Jun 2019 12:25:36 -0300
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/vkms: Forward timer right after drm_crtc_handle_vblank
-Message-ID: <20190606152536.km7q4zasqe4mt7br@smtp.gmail.com>
-References: <20190606084404.12014-1-daniel.vetter@ffwll.ch>
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr140055.outbound.protection.outlook.com [40.107.14.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13BC6891AA
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 15:25:52 +0000 (UTC)
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (10.171.182.144) by
+ VI1PR05MB6333.eurprd05.prod.outlook.com (20.179.25.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.12; Thu, 6 Jun 2019 15:25:49 +0000
+Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::c16d:129:4a40:9ba1]) by VI1PR05MB4141.eurprd05.prod.outlook.com
+ ([fe80::c16d:129:4a40:9ba1%6]) with mapi id 15.20.1965.011; Thu, 6 Jun 2019
+ 15:25:49 +0000
+From: Jason Gunthorpe <jgg@mellanox.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>
+Subject: Re: RFC: Run a dedicated hmm.git for 5.3
+Thread-Topic: RFC: Run a dedicated hmm.git for 5.3
+Thread-Index: AQHVHHwepzoj9aeiT0uMK+ZOBPXi0w==
+Date: Thu, 6 Jun 2019 15:25:49 +0000
+Message-ID: <20190606152543.GE17392@mellanox.com>
+References: <20190523155207.GC5104@redhat.com>
+ <20190523163429.GC12159@ziepe.ca> <20190523173302.GD5104@redhat.com>
+ <20190523175546.GE12159@ziepe.ca> <20190523182458.GA3571@redhat.com>
+ <20190523191038.GG12159@ziepe.ca> <20190524064051.GA28855@infradead.org>
+ <20190524124455.GB16845@ziepe.ca>
+ <20190525155210.8a9a66385ac8169d0e144225@linux-foundation.org>
+ <20190527191247.GA12540@ziepe.ca>
+In-Reply-To: <20190527191247.GA12540@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: MN2PR01CA0022.prod.exchangelabs.com (2603:10b6:208:10c::35)
+ To VI1PR05MB4141.eurprd05.prod.outlook.com
+ (2603:10a6:803:4d::16)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [156.34.55.100]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5a638c50-562c-4409-f22b-08d6ea9340bd
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:VI1PR05MB6333; 
+x-ms-traffictypediagnostic: VI1PR05MB6333:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <VI1PR05MB6333E902FD50A38DF264B3ABCF170@VI1PR05MB6333.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 00603B7EEF
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(346002)(396003)(136003)(376002)(39860400002)(366004)(199004)(189003)(43544003)(446003)(26005)(2616005)(476003)(11346002)(36756003)(186003)(486006)(6436002)(966005)(76176011)(14454004)(102836004)(6506007)(5660300002)(478600001)(1076003)(6306002)(386003)(52116002)(99286004)(54906003)(110136005)(86362001)(316002)(33656002)(8936002)(3846002)(6116002)(6246003)(66066001)(68736007)(305945005)(229853002)(6512007)(6486002)(66946007)(2906002)(53936002)(73956011)(66476007)(256004)(66556008)(71200400001)(71190400001)(7416002)(81156014)(8676002)(66446008)(4326008)(81166006)(64756008)(7736002)(25786009);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB6333;
+ H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: AbJMCQcRGx9GTjWdfJZrJkodaWaHU/JEUcYmTQNuI1w1hmmo5HaPZy3bzn+RxLTsmKB0jVP1VQbc+d43iYsdABOBAIMEr+PtjtaBEvdAFdcPsDKQ+6DO9h2ebIQvO8hoR4BKKkEZkMXy0rXbyC8ttg3Btv1bAaeJRHu/eIqndvUulVfqWVvMIuAqQV325AsIPDHoQ1kOg7lazgufEpym7HhgzStKIDX4uVCOppK7EqQi8i03qsmqDwP/KNXZIj6r8Zh69frCkB4cLPnFQJpdxt4YjyUOe8bQTlatVlvhDKh9pjNZ7QrqohJdoXaTko913JGpSQSiX7hy+90BxykxTKbQX76IpD9XiKwGq1gnczsUXNsnegLddEcBdPVmZ+em85ZXCNwb/HKkYmU/3+qr78ma9nsCxBm9GB4q0qvHXeY=
+Content-ID: <994523D7B122E1489B649951953089FD@eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190606084404.12014-1-daniel.vetter@ffwll.ch>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a638c50-562c-4409-f22b-08d6ea9340bd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2019 15:25:49.2982 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jgg@mellanox.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6333
+X-Mailman-Approved-At: Fri, 07 Jun 2019 07:43:40 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ujllQUBFctGmQpL1wBwKth15x8ZrZ5+Xk7O+WkgFp+Q=;
- b=TLQI4hrXPz9WVAJxPBKwRzClt1gEos3Y+Tg/kEPT23qPUN1XaucDdq6LGdML0QQSz2
- NixRsxDMgT3Ju9SXKWUQ9uqYQinska8P9kn4wNaaCSK/TsBwzwxIf5pl2kn0lYx2p05E
- dKmsz1Ro56ZFBk2IkG5V9uG7vAx4G1I4Rd/6uVbXc3jM1DH8jVd/r8Es1mGJAw+dhuQV
- k0rTdvVnuq2aZDuGIPHklK9W7/gI0rKQRiE4QDBcQYc5qpzP7mwzkJCldN2m9CpsbQ1w
- mugQA5xWVuvKXOq4l1cp3QJJA3FPDp2SLyw85B6ION5W0inXtDyV28VRE+W6tch0rbAH
- dmiA==
+ d=Mellanox.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XWcAHdRQnqzHGJAKFZ2q4k/hoMaigFKEFslTi5hvcF0=;
+ b=iKCdZuFeCZfsiVUojWwWi4mal8IjuxvXWQpE5dHU4Rmio4RRjWH/hAOHy/xB7P66oIaBEaAY+rfYQIBHwaq+CyJkyPxjGEQS50Kva4mCMadlJ550q3Au751OvJlyAlL4BbcmppOjnRGuN8051tv8c+GP+c5HlPds9xqx8wqOvJA=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=jgg@mellanox.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,179 +96,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shayenne Moura <shayenneluzmoura@gmail.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1071705407=="
+Cc: Mike Marciniszyn <mike.marciniszyn@intel.com>,
+ Doug Ledford <dledford@redhat.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Dennis Dalessandro <dennis.dalessandro@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Kaike Wan <kaike.wan@intel.com>,
+ Christoph Hellwig <hch@infradead.org>, Leon Romanovsky <leonro@mellanox.com>,
+ Jerome Glisse <jglisse@redhat.com>, Moni Shoua <monis@mellanox.com>,
+ Artemy Kovalyov <artemyko@mellanox.com>, Dave Airlie <airlied@redhat.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1071705407==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="snvga7vro42c4ic7"
-Content-Disposition: inline
-
-
---snvga7vro42c4ic7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Daniel,
-
-Thanks for the patch, and for the great explanation embedded to it.
-
-I tested it here, and everything worked like a charm.
-
-Is it ok if I push it to drm-misc?
-
-Tested-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-
-On 06/06, Daniel Vetter wrote:
-> In
->=20
-> commit def35e7c592616bc09be328de8795e5e624a3cf8
-> Author: Shayenne Moura <shayenneluzmoura@gmail.com>
-> Date:   Wed Jan 30 14:06:36 2019 -0200
->=20
->     drm/vkms: Bugfix extra vblank frame
->=20
-> we fixed the vblank counter to give accurate results outside of
-> drm_crtc_handle_vblank, which fixed bugs around vblank timestamps
-> being off-by-one and causing the vblank counter to jump when it
-> shouldn't.
->=20
-> The trouble is that this completely broke crc generation. Shayenne and
-> Rodrigo tracked this down to the vblank timestamp going backwards in
-> time somehow. Which then resulted in an underflow in drm_vblank.c
-> code, which resulted in all kinds of things breaking really badly.
->=20
-> The reason for this is that once we've called drm_crtc_handle_vblank
-> and the hrtimer isn't forwarded yet, we're returning a vblank
-> timestamp in the past. This race is really hard to hit since it's
-> small, except when you enable crc generation: In that case there's a
-> call to drm_crtc_accurate_vblank right in-betwen, so we're guaranteed
-> to hit the bug.
->=20
-> The fix is to roll the hrtimer forward _before_ we do the vblank
-> processing (which has a side-effect of incrementing the vblank
-> counter), and we always subtract one frame from the hrtimer - since
-> now it's always one frame in the future.
->=20
-> To make sure we don't hit this again also add a WARN_ON checking for
-> whether our timestamp is somehow moving into the past, which is never
-> should.
->=20
-> This also aligns more with how real hw works:
-> 1. first all registers are updated with the new timestamp/vblank
-> counter values.
-> 2. then an interrupt is generated
-> 3. kernel interrupt handler eventually fires.
->=20
-> So doing this aligns vkms closer with what drm_vblank.c expects.
-> Document this also in a comment.
->=20
-> Cc: Shayenne Moura <shayenneluzmoura@gmail.com>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_crtc.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index 7508815fac11..1bbe099b7db8 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -15,6 +15,10 @@ static enum hrtimer_restart vkms_vblank_simulate(struc=
-t hrtimer *timer)
-> =20
->  	spin_lock(&output->lock);
-> =20
-> +	ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
-> +					  output->period_ns);
-> +	WARN_ON(ret_overrun !=3D 1);
-> +
->  	ret =3D drm_crtc_handle_vblank(crtc);
->  	if (!ret)
->  		DRM_ERROR("vkms failure on handling vblank");
-> @@ -35,10 +39,6 @@ static enum hrtimer_restart vkms_vblank_simulate(struc=
-t hrtimer *timer)
->  			DRM_WARN("failed to queue vkms_crc_work_handle");
->  	}
-> =20
-> -	ret_overrun =3D hrtimer_forward_now(&output->vblank_hrtimer,
-> -					  output->period_ns);
-> -	WARN_ON(ret_overrun !=3D 1);
-> -
->  	spin_unlock(&output->lock);
-> =20
->  	return HRTIMER_RESTART;
-> @@ -74,11 +74,21 @@ bool vkms_get_vblank_timestamp(struct drm_device *dev=
-, unsigned int pipe,
->  {
->  	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(dev);
->  	struct vkms_output *output =3D &vkmsdev->output;
-> +	struct drm_vblank_crtc *vblank =3D &dev->vblank[pipe];
-> =20
->  	*vblank_time =3D output->vblank_hrtimer.node.expires;
-> =20
-> -	if (!in_vblank_irq)
-> -		*vblank_time -=3D output->period_ns;
-> +	if (WARN_ON(*vblank_time =3D=3D vblank->time))
-> +		return true;
-> +
-> +	/*
-> +	 * To prevent races we roll the hrtimer forward before we do any
-> +	 * interrupt processing - this is how real hw works (the interrupt is
-> +	 * only generated after all the vblank registers are updated) and what
-> +	 * the vblank core expects. Therefore we need to always correct the
-> +	 * timestampe by one frame.
-> +	 */
-> +	*vblank_time -=3D output->period_ns;
-> =20
->  	return true;
->  }
-> --=20
-> 2.20.1
->=20
-
---=20
-Rodrigo Siqueira
-https://siqueira.tech
-
---snvga7vro42c4ic7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAlz5MHAACgkQWJzP/com
-vP9f8A/8D7cAQE44SlGxsFNbdnkSQ+7b50A8TAjIhLDuVUVWVdfUvFPvuGR7qWHk
-kCuCeCPLwlu/HEy9Ih1eJ5s7ZyYyF6vKnoKTzud44R58W/0A+hHnRYgGHVdtRrIB
-t4tzRm+Q6rygfU9MFisJ6VXNpXdb2cs1UbncAACY6lbCZJ7DVll0DJLQV6KNV7XX
-diuLpGiE7MdCjhF73zc1hupVJ5ywlMSu8cuNiTOVJAtYiDFoQ2QKA7zSIlXZgONx
-NT9fGMdc57SgGjfnJ8+bZ8Y03DYdXj7VdHOJAPxnu1I534qkBdLCHaWmoZWAbzxL
-+zY7+IGNte9qmVs0fdluweX2ZztYPCPulWDT+j2OqiX4ofunFFsxNjnuYmWWHnvS
-LTYwswJKkSpT/EjgH1y3TYxjdVx6F75FVpeB3eDPBO4aHoFpA3lTJMxFvCcLvbnU
-t8OSwJeUJrojvt3vzgPYmNM0QP2u80/xQ46Ak7cu5nyGQjMJvFFn/8qMNkny6fyj
-tpxir6T8TU9XSlVFcm0F1iv5E/E/gXzdXP/Rhk0g/OJfxzIUMFBK2NfAQQfypxg7
-whI5+vzTiF3Np5P5cN9N5DTmpIvURcL3pKgnQMvmLs2m3IP7bdVJjMAOdV/ndhO4
-PiSXKVWvZ0JRRQdu+zmglBkJCkRATyYHIVMRcl+7QK2CbiFGvY0=
-=t5lC
------END PGP SIGNATURE-----
-
---snvga7vro42c4ic7--
-
---===============1071705407==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1071705407==--
+T24gTW9uLCBNYXkgMjcsIDIwMTkgYXQgMDQ6MTI6NDdQTSAtMDMwMCwgSmFzb24gR3VudGhvcnBl
+IHdyb3RlOgo+IE9uIFNhdCwgTWF5IDI1LCAyMDE5IGF0IDAzOjUyOjEwUE0gLTA3MDAsIEFuZHJl
+dyBNb3J0b24gd3JvdGU6Cj4gPiBPbiBGcmksIDI0IE1heSAyMDE5IDA5OjQ0OjU1IC0wMzAwIEph
+c29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNhPiB3cm90ZToKPiA+IAo+ID4gPiBOb3cgdGhhdCAt
+bW0gbWVyZ2VkIHRoZSBiYXNpYyBobW0gQVBJIHNrZWxldG9uIEkgdGhpbmsgcnVubmluZyBsaWtl
+Cj4gPiA+IHRoaXMgd291bGQgZ2V0IHVzIHF1aWNrbHkgdG8gdGhlIHBsYWNlIHdlIGFsbCB3YW50
+OiBjb21wcmVoZW5zaXZlIGluIHRyZWUKPiA+ID4gdXNlcnMgb2YgaG1tLgo+ID4gPiAKPiA+ID4g
+QW5kcmV3LCB3b3VsZCB0aGlzIGJlIGFjY2VwdGFibGUgdG8geW91Pwo+ID4gCj4gPiBTdXJlLiAg
+UGxlYXNlIHRha2UgY2FyZSBub3QgdG8gcGVybWl0IHRoaXMgdG8gcmVkdWNlIHRoZSBhbW91bnQg
+b2YKPiA+IGV4cG9zdXJlIGFuZCByZXZpZXcgd2hpY2ggdGhlIGNvcmUgSE1NIHBpZWNlcyBnZXQu
+Cj4gCj4gQ2VydGFpbmx5LCB0aGFua3MgYWxsCj4gCj4gSmVyb21lOiBJIHN0YXJ0ZWQgYSBITU0g
+YnJhbmNoIG9uIHY1LjItcmMyIGluIHRoZSByZG1hLmdpdCBoZXJlOgo+IAo+IGdpdDovL2dpdC5r
+ZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9yZG1hL3JkbWEuZ2l0Cj4gaHR0cHM6
+Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvcmRtYS9yZG1hLmdpdC9s
+b2cvP2g9aG1tCgpJIGRpZCBhIGZpcnN0IHJvdW5kIG9mIGNvbGxlY3RpbmcgcGF0Y2hlcyBmb3Ig
+aG1tLmdpdAoKQW5kcmV3LCBJJ20gY2hlY2tpbmcgbGludXgtbmV4dCBhbmQgdG8gc3RheSBjby1v
+cmRpbmF0ZWQsIEkgc2VlIHRoZQpwYXRjaGVzIGJlbG93IGFyZSBpbiB5b3VyIHRyZWUgYW5kIG5v
+dyBhbHNvIGluIGhtbS5naXQuIENhbiB5b3UgcGxlYXNlCmRyb3AgdGhlbSBmcm9tIHlvdXIgdHJl
+ZT8gCgo1YjY5Mzc0MWRlMmFjZSBtbS9obW0uYzogc3VwcHJlc3MgY29tcGlsYXRpb24gd2Fybmlu
+Z3Mgd2hlbiBDT05GSUdfSFVHRVRMQl9QQUdFIGlzIG5vdCBzZXQKYjI4NzBmYjg4MjU5OWEgbW0v
+aG1tLmM6IG9ubHkgc2V0IEZBVUxUX0ZMQUdfQUxMT1dfUkVUUlkgZm9yIG5vbi1ibG9ja2luZwpk
+ZmY3YmFiZjhhZTlmMSBtbS9obW0uYzogc3VwcG9ydCBhdXRvbWF0aWMgTlVNQSBiYWxhbmNpbmcK
+CkkgY2hlY2tlZCB0aGF0IHRoZSBvdGhlciB0d28gcGF0Y2hlcyBpbiAtbmV4dCBhbHNvIHRvdWNo
+aW5nIGhtbS5jIGFyZQpiZXN0IHN1aXRlZCB0byBnbyB0aHJvdWdoIHlvdXIgdHJlZToKCmE3NmI5
+YjMxOGE3MTgwIG1tL2Rldm1fbWVtcmVtYXBfcGFnZXM6IGZpeCBmaW5hbCBwYWdlIHB1dCByYWNl
+CmZjNjRjMDU4ZDAxYjk4IG1tL21lbXJlbWFwOiByZW5hbWUgYW5kIGNvbnNvbGlkYXRlIFNFQ1RJ
+T05fU0laRQoKU3RlcGhlblI6IENhbiB5b3UgcGljayB1cCB0aGUgaG1tIGJyYW5jaCBmcm9tIHJk
+bWEuZ2l0IGZvciBsaW51eC1uZXh0IGZvcgp0aGlzIGN5Y2xlPyBBcyBhYm92ZSB3ZSBhcmUgbW92
+aW5nIHRoZSBwYXRjaGVzIGZyb20gLW1tIHRvIGhtbS5naXQsIHNvCnRoZXJlIHdpbGwgYmUgYSBj
+b25mbGljdCBpbiAtbmV4dCB1bnRpbCBBbmRyZXcgYWRqdXN0cyBoaXMgdHJlZSwKdGhhbmtzIQoK
+UmVnYXJkcywKSmFzb24KKGhhc2hlcyBhcmUgZnJvbSB0b2RheSdzIGxpbnV4LW5leHQpCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
