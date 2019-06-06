@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D11A38103
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 00:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17DD38168
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 00:58:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50C9789A62;
-	Thu,  6 Jun 2019 22:41:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A2E89A76;
+	Thu,  6 Jun 2019 22:58:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 847C289A62
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 22:41:09 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id z25so5555624edq.9
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 15:41:09 -0700 (PDT)
+Received: from mail-it1-x141.google.com (mail-it1-x141.google.com
+ [IPv6:2607:f8b0:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745E889A76
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 22:58:35 +0000 (UTC)
+Received: by mail-it1-x141.google.com with SMTP id r135so2592461ith.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 15:58:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JhgexSOQCk69aVM20s4eSvr2Wf1I3NzyL+87Su9CLwA=;
- b=SrbT9P8kZZDaOowObpX/REV6Z4KE8AXP3stM5K3btOE+w1DPgmMDDoyPB2w2C0frXZ
- Cv+6tdTQ3ra8bFYvOkU3Vvl0aLTDAB82GX9c+DnDJRpKoLiVsCrJvNrN7RcPXqoEiQ2U
- i8yyugOQkJwPuXZvLgdm1G9ZZ64wquRThzAp99q/KwJmWHfu2lunZb2q6xgxuCQppvPI
- rhG+nRnqb3aPs3fPkVGGrI+GQN15ckdlasyqJls2OzzSu26bh4Ma9WRy8Ph3xMR7tPhp
- BeNEk3qx9zeKnGQQcA5EkOpMHWb60ctoIjni2U8I7M0CdRTUdxtOGfFdEZ///FthcMXd
- rjbw==
-X-Gm-Message-State: APjAAAVuRJAzxlXDe6HnkCfb+4ZgioQWedsBfGUnKmkhYbuBXvRcDNlK
- DTf7jY7lRWvJEVOgMVCkxCk=
-X-Google-Smtp-Source: APXvYqxerrRP5WRy+rml8eMGfURU7CFX2ih4mnTm2wD+X3V2ToEbFqcEecsAb4P/596kEGg6E9fFWw==
-X-Received: by 2002:a17:906:4cc3:: with SMTP id
- q3mr19346590ejt.27.1559860868078; 
- Thu, 06 Jun 2019 15:41:08 -0700 (PDT)
-Received: from smtp.gmail.com ([187.121.151.146])
- by smtp.gmail.com with ESMTPSA id j2sm56764ejc.43.2019.06.06.15.41.04
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 06 Jun 2019 15:41:07 -0700 (PDT)
-Date: Thu, 6 Jun 2019 19:41:01 -0300
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Brian Starkey <brian.starkey@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Daniel Vetter <daniel@ffwll.ch>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simon Ser <contact@emersion.fr>
-Subject: [PATCH 2/2] drm/vkms: Add support for writeback
-Message-ID: <0acd74232d988970668298be0111c485bc68ec87.1559860606.git.rodrigosiqueiramelo@gmail.com>
-References: <cover.1559860606.git.rodrigosiqueiramelo@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nZyg+4+QNKbKPq0WwkGA+iMce1tFBIQolx/rr5mhJFU=;
+ b=UzWXSnlK/NWZ2Z82H+s2hXQQ8i/+axK9bYdctk6XubX+FARxpxPjyc1Gjd0HofexBB
+ w4T1wCvfrN7iGWW9RvseSSw3JVeLNkeV4hKLra2MYMtQ0vUaFOUfnKy0RVPFgLjdf2vb
+ HhfnQuEZdm557/ZrjJt7z9gG3EctTFuUZu67Djp7KuqWjWap74A2vQjhXHp3vqnIpgWi
+ kmQdfdIT+iPcYQdQrI2QHk0NuygNxNuwnIYdZ/Wdi+abdANLtnIEphnBQwE3LDvfPrL8
+ QpigVq/pa2RqKoM8VcoSYmNZt0W4zg3Girpb3p7WeHZ2moBqSaFqbscHzSEw34FdrGZg
+ AmtQ==
+X-Gm-Message-State: APjAAAW4j0qUXVxkaLrZxu3Ij2Swn3tg9ozVku0jzUq/A2hMtXq6Onn5
+ C17OoEqI6YpFO78+auRcSZYGES+0hhU=
+X-Google-Smtp-Source: APXvYqyMAGgOUwGtWTV1MWYZSXVdTV9RWWBvZPvmF+yxBNAoH/DUrGQrBjDxZd8o+IhweXiMFIO4gg==
+X-Received: by 2002:a02:3b55:: with SMTP id i21mr33004562jaf.128.1559861914339; 
+ Thu, 06 Jun 2019 15:58:34 -0700 (PDT)
+Received: from mail-it1-f172.google.com (mail-it1-f172.google.com.
+ [209.85.166.172])
+ by smtp.gmail.com with ESMTPSA id a198sm101273ita.2.2019.06.06.15.58.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 06 Jun 2019 15:58:33 -0700 (PDT)
+Received: by mail-it1-f172.google.com with SMTP id a186so2693766itg.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 15:58:32 -0700 (PDT)
+X-Received: by 2002:a02:9143:: with SMTP id b3mr9564655jag.12.1559861912576;
+ Thu, 06 Jun 2019 15:58:32 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1559860606.git.rodrigosiqueiramelo@gmail.com>
-User-Agent: NeoMutt/20180716
+References: <20190604204207.168085-1-dianders@chromium.org>
+ <20190604204207.168085-2-dianders@chromium.org>
+ <20190606164221.GI17077@art_vandelay>
+In-Reply-To: <20190606164221.GI17077@art_vandelay>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 6 Jun 2019 15:58:21 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xt6Oad9yQHZz+nwANV1MCvGc6XCgOf8HawimVQtwWsEg@mail.gmail.com>
+Message-ID: <CAD=FV=Xt6Oad9yQHZz+nwANV1MCvGc6XCgOf8HawimVQtwWsEg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] drm/rockchip: dw_hdmi: Handle suspend/resume
+To: Sean Paul <sean@poorly.run>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=JhgexSOQCk69aVM20s4eSvr2Wf1I3NzyL+87Su9CLwA=;
- b=Gu2p9ICSRNK3e7zFb7NBBVp4Ff1fWLEZnTnzBaOxFQiL8kAo84Tc1N3CPv/kKiyJS3
- EWITAf0/4yF/XIeuKimpj8+sxz7CpJiLiK6WUcEnu0EIBjRyn4fYENf6SsnTXIM9ZhNw
- 03G+rVbSNoh52i31iN1c0/aUPFQ//NJRo3v959iCh90eFxqnB6H+EUcNvuA6DHHCQeOu
- UvAFLYHSS0eOMN+mpC+QTUCmd7T0tLzDBtj7jUGsAitK/aqbJs19L2xHt9gaDuPf4zvo
- Xgvjq5xPpZPbuS5AxtCUO5ZhV0I3eEy4Gxt8BZrwgbPz4eAktdaShWJk5NRkD3ihPqlu
- ML0A==
+ d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=nZyg+4+QNKbKPq0WwkGA+iMce1tFBIQolx/rr5mhJFU=;
+ b=SQ6VQ7xXspnotBNh7TJpasqfkB9SD+WXfZFDbmWBNN4+1xeq/tt2vj7xg9kOfp8Jn+
+ 2tqwB/HzqlKfvSfg7a25R8OwV1bJh1loaTbudTWz8QmBkGkLMkmobmKogKb/+FnTOa1g
+ /sie1KrlCOWdVZiWWJLXrlxPkf/E1T1lI1Wqo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,376 +72,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1684726871=="
+Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Matthias Kaehlcke <mka@chromium.org>,
+ Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1684726871==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ewog5ol6fvorzftb"
-Content-Disposition: inline
-
-
---ewog5ol6fvorzftb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-This patch implements the necessary functions to add writeback support
-for vkms. This feature is useful for testing compositors if you don=E2=80=
-=99t
-have hardware with writeback support.
-
-Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
----
- drivers/gpu/drm/vkms/Makefile         |   9 +-
- drivers/gpu/drm/vkms/vkms_crtc.c      |   5 +
- drivers/gpu/drm/vkms/vkms_drv.c       |  10 ++
- drivers/gpu/drm/vkms/vkms_drv.h       |  12 ++
- drivers/gpu/drm/vkms/vkms_output.c    |   6 +
- drivers/gpu/drm/vkms/vkms_writeback.c | 165 ++++++++++++++++++++++++++
- 6 files changed, 206 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/vkms/vkms_writeback.c
-
-diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-index 89f09bec7b23..90eb7acd618d 100644
---- a/drivers/gpu/drm/vkms/Makefile
-+++ b/drivers/gpu/drm/vkms/Makefile
-@@ -1,4 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0-only
--vkms-y :=3D vkms_drv.o vkms_plane.o vkms_output.o vkms_crtc.o vkms_gem.o v=
-kms_crc.o
-+vkms-y :=3D \
-+	vkms_drv.o \
-+	vkms_plane.o \
-+	vkms_output.o \
-+	vkms_crtc.o \
-+	vkms_gem.o \
-+	vkms_crc.o \
-+	vkms_writeback.o
-=20
- obj-$(CONFIG_DRM_VKMS) +=3D vkms.o
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_c=
-rtc.c
-index 1bbe099b7db8..ce797e265b1b 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -23,6 +23,11 @@ static enum hrtimer_restart vkms_vblank_simulate(struct =
-hrtimer *timer)
- 	if (!ret)
- 		DRM_ERROR("vkms failure on handling vblank");
-=20
-+	if (output->writeback_status =3D=3D WB_START) {
-+		drm_writeback_signal_completion(&output->wb_connector, 0);
-+		output->writeback_status =3D WB_STOP;
-+	}
-+
- 	if (state && output->crc_enabled) {
- 		u64 frame =3D drm_crtc_accurate_vblank_count(crtc);
-=20
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_dr=
-v.c
-index 92296bd8f623..d5917d5a45e3 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -29,6 +29,10 @@ bool enable_cursor;
- module_param_named(enable_cursor, enable_cursor, bool, 0444);
- MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
-=20
-+int enable_writeback;
-+module_param_named(enable_writeback, enable_writeback, int, 0444);
-+MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback connector");
-+
- static const struct file_operations vkms_driver_fops =3D {
- 	.owner		=3D THIS_MODULE,
- 	.open		=3D drm_open,
-@@ -123,6 +127,12 @@ static int __init vkms_init(void)
- 		goto out_fini;
- 	}
-=20
-+	vkms_device->output.writeback_status =3D WB_DISABLED;
-+	if (enable_writeback) {
-+		vkms_device->output.writeback_status =3D WB_STOP;
-+		DRM_INFO("Writeback connector enabled");
-+	}
-+
- 	ret =3D vkms_modeset_init(vkms_device);
- 	if (ret)
- 		goto out_fini;
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_dr=
-v.h
-index e81073dea154..ca1f9ee63ec8 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -7,6 +7,7 @@
- #include <drm/drm.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_encoder.h>
-+#include <drm/drm_writeback.h>
- #include <linux/hrtimer.h>
-=20
- #define XRES_MIN    20
-@@ -60,14 +61,22 @@ struct vkms_crtc_state {
- 	u64 frame_end;
- };
-=20
-+enum wb_status {
-+	WB_DISABLED,
-+	WB_START,
-+	WB_STOP,
-+};
-+
- struct vkms_output {
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
- 	struct drm_connector connector;
-+	struct drm_writeback_connector wb_connector;
- 	struct hrtimer vblank_hrtimer;
- 	ktime_t period_ns;
- 	struct drm_pending_vblank_event *event;
- 	bool crc_enabled;
-+	enum wb_status writeback_status;
- 	/* ordered wq for crc_work */
- 	struct workqueue_struct *crc_workq;
- 	/* protects concurrent access to crc_data */
-@@ -141,4 +150,7 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const=
- char *source_name,
- 			   size_t *values_cnt);
- void vkms_crc_work_handle(struct work_struct *work);
-=20
-+/* Writeback */
-+int enable_writeback_connector(struct vkms_device *vkmsdev);
-+
- #endif /* _VKMS_DRV_H_ */
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms=
-_output.c
-index 1442b447c707..1fc1d4e9585c 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -91,6 +91,12 @@ int vkms_output_init(struct vkms_device *vkmsdev, int in=
-dex)
- 		goto err_attach;
- 	}
-=20
-+	if (vkmsdev->output.writeback_status !=3D WB_DISABLED) {
-+		ret =3D enable_writeback_connector(vkmsdev);
-+		if (ret)
-+			DRM_ERROR("Failed to init writeback connector\n");
-+	}
-+
- 	drm_mode_config_reset(dev);
-=20
- 	return 0;
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/v=
-kms_writeback.c
-new file mode 100644
-index 000000000000..f7b962ae5646
---- /dev/null
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -0,0 +1,165 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+
-+#include "vkms_drv.h"
-+#include <drm/drm_writeback.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+
-+static const struct drm_connector_funcs vkms_wb_connector_funcs =3D {
-+	.fill_modes =3D drm_helper_probe_single_connector_modes,
-+	.destroy =3D drm_connector_cleanup,
-+	.reset =3D drm_atomic_helper_connector_reset,
-+	.atomic_duplicate_state =3D drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state =3D drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int vkms_wb_encoder_atomic_check(struct drm_encoder *encoder,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state)
-+{
-+	struct drm_framebuffer *fb;
-+	const struct drm_display_mode *mode =3D &crtc_state->mode;
-+
-+	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
-+		return 0;
-+
-+	fb =3D conn_state->writeback_job->fb;
-+	if (fb->width !=3D mode->hdisplay || fb->height !=3D mode->vdisplay) {
-+		DRM_DEBUG_KMS("Invalid framebuffer size %ux%u\n",
-+			      fb->width, fb->height);
-+		return -EINVAL;
-+	}
-+
-+	if (fb->format->format !=3D DRM_FORMAT_XRGB8888) {
-+		struct drm_format_name_buf format_name;
-+
-+		DRM_DEBUG_KMS("Invalid pixel format %s\n",
-+			      drm_get_format_name(fb->format->format,
-+						  &format_name));
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct drm_encoder_helper_funcs vkms_wb_encoder_helper_funcs =
-=3D {
-+	.atomic_check =3D vkms_wb_encoder_atomic_check,
-+};
-+
-+static int vkms_wb_connector_get_modes(struct drm_connector *connector)
-+{
-+	struct drm_device *dev =3D connector->dev;
-+
-+	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
-+				    dev->mode_config.max_height);
-+}
-+
-+static int vkms_wb_prepare_job(struct drm_writeback_connector *wb_connecto=
-r,
-+			       struct drm_writeback_job *job)
-+{
-+	struct vkms_gem_object *vkms_obj;
-+	struct drm_gem_object *gem_obj;
-+	int ret;
-+
-+	if (!job->fb)
-+		return 0;
-+
-+	gem_obj =3D drm_gem_fb_get_obj(job->fb, 0);
-+	ret =3D vkms_gem_vmap(gem_obj);
-+	if (ret) {
-+		DRM_ERROR("vmap failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	vkms_obj =3D drm_gem_to_vkms_gem(gem_obj);
-+	job->priv =3D vkms_obj->vaddr;
-+
-+	return 0;
-+}
-+
-+static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
-+				struct drm_writeback_job *job)
-+{
-+	struct drm_gem_object *gem_obj;
-+
-+	if (!job->fb)
-+		return;
-+
-+	gem_obj =3D drm_gem_fb_get_obj(job->fb, 0);
-+	vkms_gem_vunmap(gem_obj);
-+}
-+
-+static void vkms_wb_atomic_commit(struct drm_connector *conn,
-+				  struct drm_connector_state *state)
-+{
-+	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(conn->dev);
-+	struct vkms_output *output =3D &vkmsdev->output;
-+	struct drm_writeback_connector *wb_conn =3D &output->wb_connector;
-+	struct drm_connector_state *conn_state =3D wb_conn->base.state;
-+	void *priv_data =3D conn_state->writeback_job->priv;
-+	struct vkms_crc_data *primary_data =3D NULL;
-+	struct drm_framebuffer *fb =3D NULL;
-+	struct vkms_gem_object *vkms_obj;
-+	struct drm_gem_object *gem_obj;
-+	struct drm_plane *plane;
-+
-+	if (!conn_state)
-+		return;
-+
-+	if (!conn_state->writeback_job || !conn_state->writeback_job->fb) {
-+		output->writeback_status =3D WB_STOP;
-+		DRM_DEBUG_DRIVER("Disable writeback\n");
-+		return;
-+	}
-+
-+	drm_for_each_plane(plane, &vkmsdev->drm) {
-+		struct vkms_plane_state *vplane_state;
-+		struct vkms_crc_data *plane_data;
-+
-+		vplane_state =3D to_vkms_plane_state(plane->state);
-+		plane_data =3D vplane_state->crc_data;
-+
-+		if (drm_framebuffer_read_refcount(&plane_data->fb) =3D=3D 0)
-+			continue;
-+
-+		if (plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY)
-+			primary_data =3D plane_data;
-+	}
-+
-+	if (!primary_data)
-+		return;
-+
-+	fb =3D &primary_data->fb;
-+	gem_obj =3D drm_gem_fb_get_obj(fb, 0);
-+	vkms_obj =3D drm_gem_to_vkms_gem(gem_obj);
-+
-+	if (!vkms_obj->vaddr || !priv_data)
-+		return;
-+
-+	memcpy(priv_data, vkms_obj->vaddr, vkms_obj->gem.size);
-+	drm_writeback_queue_job(wb_conn, state);
-+	output->writeback_status =3D WB_START;
-+}
-+
-+static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs =
-=3D {
-+	.get_modes =3D vkms_wb_connector_get_modes,
-+	.prepare_writeback_job =3D vkms_wb_prepare_job,
-+	.cleanup_writeback_job =3D vkms_wb_cleanup_job,
-+	.atomic_commit =3D vkms_wb_atomic_commit,
-+};
-+
-+int enable_writeback_connector(struct vkms_device *vkmsdev)
-+{
-+	struct drm_writeback_connector *wb =3D &vkmsdev->output.wb_connector;
-+
-+	vkmsdev->output.wb_connector.encoder.possible_crtcs =3D 1;
-+	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
-+
-+	return drm_writeback_connector_init(&vkmsdev->drm, wb,
-+					    &vkms_wb_connector_funcs,
-+					    &vkms_wb_encoder_helper_funcs,
-+					    vkms_formats,
-+					    ARRAY_SIZE(vkms_formats));
-+}
-+
---=20
-2.21.0
-
---ewog5ol6fvorzftb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAlz5ln0ACgkQWJzP/com
-vP/aSRAAvqLHOXEBF8r6ep6wmjTQhYCq1LUd6oQko0ZZrcIX/Bkso+qVx4hzPbul
-YhGrqVe+SsTtPHGUG2fncUcjNvAgwlYPItFHrpYfwZo+z5zCvmmnNke4ObG5KYf1
-OBFsKcL8NzWLt6/YDY4600m64q0oM3boRI3qkbrdrxTlttz9AKcWN7GSZrjOMM/o
-/2TpoKT1VktEUze8UElEajdghvg/IzUVEmSJzJtsuYo2JwMZaZivyvIjlMy4egNW
-XfIWJctjrmlddHUUUmmDXdzkrks6CqovMUhTjrokCwthRCslbrLAgUAFSATnIJdH
-8m33tJOBSJbmIGUD1g7Y3sR39G88EOk5DQ3cRNvzJRtCXWNzVStMnB9g7eXeTQdX
-6lrsdARuDeYdKcIGzn4+O6BZ6e/YFnBFWVnuvkkZY5YkC6Vg7XopQEIDmLIafeJD
-aITLkW9Enr8NOo7sVbE88nv08ZNy0vLQ+GfdfNZxksFww4Fvz3kO/gONvghrrCMD
-Exwb+BoitMu3O4gUD6FAWon8fOGD5b0MP47nd+fJNZfbRLy+W/JLvhgcu7VAWdjI
-EQmgQSA+pfAzvC81ZGeP2PYNIuRZC2dFyzBhISHOi21D9eKibhEPzxI4Skr+UAM0
-LfYEuaGhXFpSonWpvYZv8yuZZNAS+pDXyJb2vvyR8iAYllVuOUA=
-=WXYt
------END PGP SIGNATURE-----
-
---ewog5ol6fvorzftb--
-
---===============1684726871==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1684726871==--
+SGksCgpPbiBUaHUsIEp1biA2LCAyMDE5IGF0IDk6NDIgQU0gU2VhbiBQYXVsIDxzZWFuQHBvb3Js
+eS5ydW4+IHdyb3RlOgo+Cj4gT24gVHVlLCBKdW4gMDQsIDIwMTkgYXQgMDE6NDI6MDdQTSAtMDcw
+MCwgRG91Z2xhcyBBbmRlcnNvbiB3cm90ZToKPiA+IE9uIFJvY2tjaGlwIHJrMzI4OC1iYXNlZCBD
+aHJvbWVib29rcyB3aGVuIHlvdSBkbyBhIHN1c3BlbmQvcmVzdW1lCj4gPiBjeWNsZToKPiA+Cj4g
+PiAxLiBZb3UgbG9zZSB0aGUgYWJpbGl0eSB0byBkZXRlY3QgYW4gSERNSSBkZXZpY2UgYmVpbmcg
+cGx1Z2dlZCBpbi4KPiA+Cj4gPiAyLiBJZiB5b3UncmUgdXNpbmcgdGhlIGkyYyBidXMgYnVpbHQg
+aW4gdG8gZHdfaGRtaSB0aGVuIGl0IHN0b3BzCj4gPiB3b3JraW5nLgo+ID4KPiA+IExldCdzIGNh
+bGwgdGhlIGNvcmUgZHctaGRtaSdzIHN1c3BlbmQvcmVzdW1lIGZ1bmN0aW9ucyB0byByZXN0b3Jl
+Cj4gPiB0aGluZ3MuCj4gPgo+ID4gTk9URTogaW4gZG93bnN0cmVhbSBDaHJvbWUgT1MgKGJhc2Vk
+IG9uIGtlcm5lbCAzLjE0KSB3ZSB1c2VkIHRoZQo+ID4gImxhdGUvZWFybHkiIHZlcnNpb25zIG9m
+IHN1c3BlbmQvcmVzdW1lIGJlY2F1c2Ugd2UgZm91bmQgdGhhdCB0aGUgVk9QCj4gPiB3YXMgc29t
+ZXRpbWVzIHJlc3VtaW5nIGJlZm9yZSBkd19oZG1pIGFuZCB0aGVuIGNhbGxpbmcgaW50byB1cyBi
+ZWZvcmUKPiA+IHdlIHdlcmUgZnVsbHkgcmVzdW1lZC4gIEZvciBub3cgSSBoYXZlIGdvbmUgYmFj
+ayB0byB0aGUgbm9ybWFsCj4gPiBzdXNwZW5kL3Jlc3VtZSBiZWNhdXNlIEkgY2FuJ3QgcmVwcm9k
+dWNlIHRoZSBwcm9ibGVtcy4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBEb3VnbGFzIEFuZGVyc29u
+IDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+Cj4gPiAtLS0KPiA+Cj4gPiBDaGFuZ2VzIGluIHYzOgo+
+ID4gLSBkd19oZG1pX3Jlc3VtZSgpIGlzIG5vdyBhIHZvaWQgZnVuY3Rpb24gKExhdXJlbnQpCj4g
+Pgo+ID4gQ2hhbmdlcyBpbiB2MjoKPiA+IC0gQWRkIGZvcmdvdHRlbiBzdGF0aWMgKExhdXJlbnQp
+Cj4gPiAtIE5vIGVtcHR5IHN0dWIgZm9yIHN1c3BlbmQgKExhdXJlbnQpCj4gPgo+ID4gIGRyaXZl
+cnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMgfCAxNCArKysrKysrKysrKysr
+Kwo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspCj4gPgo+ID4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5jCj4gPiBpbmRleCA0Y2RjOWY4NmMy
+ZTUuLjdiYjBmOTIyYjMwMyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
+cC9kd19oZG1pLXJvY2tjaGlwLmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9k
+d19oZG1pLXJvY2tjaGlwLmMKPiA+IEBAIC01NDIsMTEgKzU0MiwyNSBAQCBzdGF0aWMgaW50IGR3
+X2hkbWlfcm9ja2NoaXBfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiAg
+ICAgICByZXR1cm4gMDsKPiA+ICB9Cj4gPgo+ID4gK3N0YXRpYyBpbnQgX19tYXliZV91bnVzZWQg
+ZHdfaGRtaV9yb2NrY2hpcF9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQo+ID4gK3sKPiA+ICsg
+ICAgIHN0cnVjdCByb2NrY2hpcF9oZG1pICpoZG1pID0gZGV2X2dldF9kcnZkYXRhKGRldik7Cj4g
+PiArCj4gPiArICAgICBkd19oZG1pX3Jlc3VtZShoZG1pLT5oZG1pKTsKPgo+IFRoZSByb2NrY2hp
+cCBkcml2ZXIgaXMgYWxyZWFkeSB1c2luZyB0aGUgYXRvbWljIHN1c3BlbmQvcmVzdW1lIGhlbHBl
+cnMgKHZpYSB0aGUKPiBtb2Rlc2V0IGhlbHBlcnMpLiBXb3VsZCB5b3UgYmUgYWJsZSB0byBhY2Nv
+bXBsaXNoIHRoZSBzYW1lIHRoaW5nIGJ5IGp1c3QgbW92aW5nCj4gdGhpcyBjYWxsIGludG8gdGhl
+IGVuY29kZXIgZW5hYmxlIGNhbGxiYWNrPwo+Cj4gLmVuYWJsZSBpcyBjYWxsZWQgb24gcmVzdW1l
+IHZpYSB0aGUgYXRvbWljIGNvbW1pdCBmcmFtZXdvcmssIHNvIGV2ZXJ5dGhpbmcgaXMKPiBvcmRl
+cmVkIHByb3Blcmx5LiBPZiBjb3Vyc2UsIHRoaXMgd291bGQgcmVzZXQgdGhlIGR3X2hkbWkgYnJp
+ZGdlIG9uIGVhY2ggZW5hYmxlLAo+IGJ1dCBJIGRvbid0IHRoaW5rIHRoYXQgd291bGQgYmUgYSBw
+cm9ibGVtPwoKSSB0cmllZCBhbmQgaXQgc29ydGEga2luZGEgaGFsZiB3b3JrZWQsIGJ1dC4uLgoK
+MS4gT25lIG9mIHRoZSBwcm9ibGVtcyBzb2x2ZWQgYnkgdGhpcyBwYXRjaCBpcyBtYWtpbmcgImhv
+dCBwbHVnCmRldGVjdCIgd29yayBhZnRlciBzdXNwZW5kIC8gcmVzdW1lLiAgQUtBOiBpZiB5b3Ug
+aGF2ZSBub3RoaW5nIHBsdWdnZWQKaW4gdG8gdGhlIEhETUkgcG9ydCBhbmQgdGhlbiBzdXNwZW5k
+L3Jlc3VtZSB5b3UgbmVlZCB0byBiZSBhYmxlIHRvCmRldGVjdCB3aGVuIHNvbWV0aGluZyBpcyBw
+bHVnZ2VkIGluLiAgV2hlbiBub3RoaW5nIGlzIHBsdWdnZWQgaW4gdGhlbgp0aGUgIi5lbmFibGUi
+IGlzbid0IGNhbGxlZCBhdCByZXN1bWUgdGltZS4KCjIuIEknbSBub3Qgc28gY29udmluY2VkIGFi
+b3V0IHRoZSB3aG9sZSBvcmRlcmluZyBiZWluZyBjb3JyZWN0LgpVbmZvcnR1bmF0ZWx5IG9uIG15
+IHN5c3RlbSAoQ2hyb21lIE9TIHJ1bm5pbmcgdGhlIGNocm9tZW9zLTQuMTkKa2VybmVsKSB3ZSBl
+bmQgdXAgZ2V0dGluZyBhbiBpMmMgdHJhbnNmZXIgYmVmb3JlIHRoZSAiLmVuYWJsZSIgaXMKY2Fs
+bGVkLiAgSSBwdXQgYSBkdW1wX3N0YWNrKCkgaW4gdGhlIGkyYyB0cmFuc2ZlcjoKClsgICA0Mi4y
+MTI1MTZdIENQVTogMCBQSUQ6IDE0NzkgQ29tbTogRHJtVGhyZWFkIFRhaW50ZWQ6IEcgICAgICAg
+ICBDCiAgICAgNC4xOS40NyAjNjAKWyAgIDQyLjIyMTE4Ml0gSGFyZHdhcmUgbmFtZTogUm9ja2No
+aXAgKERldmljZSBUcmVlKQpbICAgNDIuMjI2NDQ5XSBbPGMwMjExYTY0Pl0gKHVud2luZF9iYWNr
+dHJhY2UpIGZyb20gWzxjMDIwY2YwYz5dCihzaG93X3N0YWNrKzB4MjAvMHgyNCkKWyAgIDQyLjIz
+NTExNF0gWzxjMDIwY2YwYz5dIChzaG93X3N0YWNrKSBmcm9tIFs8YzBhMWI4ZDQ+XQooZHVtcF9z
+dGFjaysweDg0LzB4YTQpClsgICA0Mi4yNDMxOTVdIFs8YzBhMWI4ZDQ+XSAoZHVtcF9zdGFjaykg
+ZnJvbSBbPGMwNjdkN2M0Pl0KKGR3X2hkbWlfaTJjX3dhaXQrMHg2Yy8weGE4KQpbICAgNDIuMjUx
+ODU4XSBbPGMwNjdkN2M0Pl0gKGR3X2hkbWlfaTJjX3dhaXQpIGZyb20gWzxjMDY3ZDlhOD5dCihk
+d19oZG1pX2kyY194ZmVyKzB4MWE4LzB4MzBjKQpbICAgNDIuMjYxMjk4XSBbPGMwNjdkOWE4Pl0g
+KGR3X2hkbWlfaTJjX3hmZXIpIGZyb20gWzxjMDc5ODcwND5dCihfX2kyY190cmFuc2ZlcisweDNh
+OC8weDVkOCkKWyAgIDQyLjI3MDU0M10gWzxjMDc5ODcwND5dIChfX2kyY190cmFuc2ZlcikgZnJv
+bSBbPGMwNzk4OWM4Pl0KKGkyY190cmFuc2ZlcisweDk0LzB4YzQpClsgICA0Mi4yNzkyMDRdIFs8
+YzA3OTg5Yzg+XSAoaTJjX3RyYW5zZmVyKSBmcm9tIFs8YzA2NGU2YjA+XQooZHJtX2RvX3Byb2Jl
+X2RkY19lZGlkKzB4YmMvMHgxMWMpClsgICA0Mi4yODg2NDJdIFs8YzA2NGU2YjA+XSAoZHJtX2Rv
+X3Byb2JlX2RkY19lZGlkKSBmcm9tIFs8YzA2NGU3NDQ+XQooZHJtX3Byb2JlX2RkYysweDM0LzB4
+NWMpClsgICA0Mi4yOTgwODFdIFs8YzA2NGU3NDQ+XSAoZHJtX3Byb2JlX2RkYykgZnJvbSBbPGMw
+NjUxYjk4Pl0KKGRybV9nZXRfZWRpZCsweDYwLzB4MmUwKQpbICAgNDIuMzA2NzQzXSBbPGMwNjUx
+Yjk4Pl0gKGRybV9nZXRfZWRpZCkgZnJvbSBbPGMwNjdkNzEwPl0KKGR3X2hkbWlfY29ubmVjdG9y
+X2dldF9tb2RlcysweDMwLzB4NzgpClsgICA0Mi4zMTY2NjldIFs8YzA2N2Q3MTA+XSAoZHdfaGRt
+aV9jb25uZWN0b3JfZ2V0X21vZGVzKSBmcm9tCls8YzA2MzRmMzg+XSAoZHJtX2hlbHBlcl9wcm9i
+ZV9zaW5nbGVfY29ubmVjdG9yX21vZGVzKzB4MjE4LzB4NWMwKQpbICAgNDIuMzI5NDEzXSBbPGMw
+NjM0ZjM4Pl0gKGRybV9oZWxwZXJfcHJvYmVfc2luZ2xlX2Nvbm5lY3Rvcl9tb2RlcykKZnJvbSBb
+PGMwNjViMzhjPl0gKGRybV9tb2RlX2dldGNvbm5lY3RvcisweDE0NC8weDQxOCkKWyAgIDQyLjM0
+MTU3M10gWzxjMDY1YjM4Yz5dIChkcm1fbW9kZV9nZXRjb25uZWN0b3IpIGZyb20gWzxjMDY0Njg0
+ND5dCihkcm1faW9jdGxfa2VybmVsKzB4YTAvMHhmMCkKWyAgIDQyLjM1MTMwM10gWzxjMDY0Njg0
+ND5dIChkcm1faW9jdGxfa2VybmVsKSBmcm9tIFs8YzA2NDZkMzQ+XQooZHJtX2lvY3RsKzB4MzJj
+LzB4M2MwKQpbICAgNDIuMzYwMDYzXSBbPGMwNjQ2ZDM0Pl0gKGRybV9pb2N0bCkgZnJvbSBbPGMw
+M2VkMGNjPl0gKHZmc19pb2N0bCsweDI4LzB4NDQpClsgICA0Mi4zNjc5NDZdIFs8YzAzZWQwY2M+
+XSAodmZzX2lvY3RsKSBmcm9tIFs8YzAzZWRlZTg+XQooZG9fdmZzX2lvY3RsKzB4NzE4LzB4OGIw
+KQpbICAgNDIuMzc2MzE1XSBbPGMwM2VkZWU4Pl0gKGRvX3Zmc19pb2N0bCkgZnJvbSBbPGMwM2Vl
+MGRjPl0KKGtzeXNfaW9jdGwrMHg1Yy8weDg0KQpbICAgNDIuMzg0NTg3XSBbPGMwM2VlMGRjPl0g
+KGtzeXNfaW9jdGwpIGZyb20gWzxjMDNlZTExYz5dIChzeXNfaW9jdGwrMHgxOC8weDFjKQpbICAg
+NDIuMzkyNTcwXSBbPGMwM2VlMTFjPl0gKHN5c19pb2N0bCkgZnJvbSBbPGMwMjAxMWQ0Pl0KKF9f
+c3lzX3RyYWNlX3JldHVybisweDAvMHgxMCkKCi4uLkkgc2VlIHNldmVyYWwgdHJhbnNmZXJzIGZh
+aWwgYW5kIHRoZW4gZmluYWxseSBhIGZldyBzZWNvbmRzIGxhdGVyCmZpbmFsbHkgc2VlIHRoZSAu
+ZW5hYmxlIGNhbGw6CgpbICAgNDQuMDIxNTAxXSBET1VHOiBkd19oZG1pX3JvY2tjaGlwX2VuY29k
+ZXJfZW5hYmxlIHN0YXJ0ClsgICA0NC4wMjc3OTJdIERPVUc6IGR3X2hkbWlfcm9ja2NoaXBfZW5j
+b2Rlcl9lbmFibGUgZW5kCgpJIGNhbiBnYXRoZXIgbW9yZSBpbmZvIGlmIGl0J3MgdXNlZnVsLgoK
+PT09CgouLi5hbnkgY2hhbmNlIHdlIGNhbiBrZWVwIHRoZSBwYXRjaCBhcy1pcywgb3IgZG8geW91
+IGhhdmUgaWRlYXMgb2YgaG93CnRvIHNvbHZlIHRoZSBhYm92ZSBwcm9ibGVtcz8KCgpUaGFua3Mh
+CgotRG91ZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
