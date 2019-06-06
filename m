@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2331B36E0D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 10:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205E938570
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 09:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7912A8932A;
-	Thu,  6 Jun 2019 08:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670CF89B20;
+	Fri,  7 Jun 2019 07:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 489438932A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:03:29 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id D0632AFD1;
- Thu,  6 Jun 2019 08:03:27 +0000 (UTC)
-Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
- documentation
-To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20190604111330.25324-1-tzimmermann@suse.de>
- <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
- <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
- <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
- <3b574a1c-8dee-962f-e2ad-4959e75321d7@suse.de>
- <20190606074515.wlyzzlqdv7r2urum@sirius.home.kraxel.org>
- <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <26d3e769-d995-1683-2382-e28f97239286@suse.de>
-Date: Thu, 6 Jun 2019 10:03:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0CD889709
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:04:36 +0000 (UTC)
+Received: from mail-pg1-f199.google.com ([209.85.215.199])
+ by youngberry.canonical.com with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.76) (envelope-from <kai.heng.feng@canonical.com>)
+ id 1hYnNy-0005Z6-QG
+ for dri-devel@lists.freedesktop.org; Thu, 06 Jun 2019 08:04:35 +0000
+Received: by mail-pg1-f199.google.com with SMTP id 21so1097366pgl.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 01:04:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=AiCZ+eWnELxsFCfkNHpZ8uErbdptfu0aYCu6DgRNOow=;
+ b=hozCA4VGLUGL5AqGkZxY8UGeGP2Sqmp5OvOlPspHkpu2rB0l7qjmBDp3Y5TdqXNORG
+ HotJxX3I/vDr5pldWujCcxGRPi0KmGUzMFVq3IiytaFNz1hy+uwwbH/HuGgYFk+1DX5o
+ i3pc1WgXMa5MEcSRUOADzNLevq4blfQVRjkTSVQisyAGGhRyXM08pbLYhRvuw9k/Bat+
+ DvhJVUbWAgVx+XE7pm4X4Lq5RUqfg5tHDxOg8w3Pnaa0jkGstwhJb8BwyJeg2WIoiwZW
+ XCs6QPQxWA/jpXMS+9Df+bRgryII+r8jWYq33o3gKADe4SDTUqfW1GLGXHm+fftaUt3y
+ k4kA==
+X-Gm-Message-State: APjAAAVO/wKBKmBxWo6ta/cT7CeXobXpPyhOFxoWxxzKAXL3VLwIgkZJ
+ aDin9pY2IJU6JH6RVSPlFUj8FonQp/R6g6cJX72Q+NMGpv74JROUtQlmgrwtwKs5H5jHI2efO+H
+ HwKYknTKu21TA1HOlBC6RQAbTJyKM6S7A9um+INXPy8lLog==
+X-Received: by 2002:a17:902:3fa5:: with SMTP id
+ a34mr47447530pld.317.1559808273091; 
+ Thu, 06 Jun 2019 01:04:33 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzSL9CxDGC2OiUM9isEnbmxV2GSn8dHls2aVW2WpOdz4AmFmP6Zv/jGob/jsAUodbFR9junzg==
+X-Received: by 2002:a17:902:3fa5:: with SMTP id
+ a34mr47447510pld.317.1559808272766; 
+ Thu, 06 Jun 2019 01:04:32 -0700 (PDT)
+Received: from 2001-b011-380f-115a-4031-dc0c-76c4-a6d1.dynamic-ip6.hinet.net
+ (2001-b011-380f-115a-4031-dc0c-76c4-a6d1.dynamic-ip6.hinet.net.
+ [2001:b011:380f:115a:4031:dc0c:76c4:a6d1])
+ by smtp.gmail.com with ESMTPSA id n70sm1047794pjb.4.2019.06.06.01.04.30
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 06 Jun 2019 01:04:32 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: [PATCH] drm/edid: Add 6 bpc quirk for SDC panel in Lenovo G50
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <20190402033037.21877-1-kai.heng.feng@canonical.com>
+Date: Thu, 6 Jun 2019 16:04:29 +0800
+Message-Id: <54557F79-6DE1-4AA4-895A-C0F014926590@canonical.com>
+References: <20190402033037.21877-1-kai.heng.feng@canonical.com>
+To: maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
+ sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Mailman-Approved-At: Fri, 07 Jun 2019 07:43:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,159 +70,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============0575228061=="
+Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0575228061==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf
-Content-Type: multipart/mixed; boundary="E6SGxB8hdbnobH4WMBiEpsnTQBrm8RSs7";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <26d3e769-d995-1683-2382-e28f97239286@suse.de>
-Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
- documentation
-References: <20190604111330.25324-1-tzimmermann@suse.de>
- <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
- <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
- <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
- <3b574a1c-8dee-962f-e2ad-4959e75321d7@suse.de>
- <20190606074515.wlyzzlqdv7r2urum@sirius.home.kraxel.org>
- <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
-In-Reply-To: <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
-
---E6SGxB8hdbnobH4WMBiEpsnTQBrm8RSs7
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 06.06.19 um 09:49 schrieb Daniel Vetter:
-> On Thu, Jun 6, 2019 at 9:45 AM Gerd Hoffmann <kraxel@redhat.com> wrote:=
-
->>
->> On Thu, Jun 06, 2019 at 08:39:12AM +0200, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 05.06.19 um 17:58 schrieb Gerd Hoffmann:
->>>> On Wed, Jun 05, 2019 at 11:59:04AM +0200, Thomas Zimmermann wrote:
->>>>> Hi
->>>>>
->>>>> Am 05.06.19 um 11:03 schrieb Gerd Hoffmann:
->>>>>> On Tue, Jun 04, 2019 at 01:13:30PM +0200, Thomas Zimmermann wrote:=
-
->>>>>>> The documentation tools interpret drm_gem_vram_mm_funcs as functi=
-on and
->>>>>>> there appears to be no way of inline-documenting constants.
->>>>>>
->>>>>>> -/**
->>>>>>> +/*
->>>>>>>   * drm_gem_vram_mm_funcs - Functions for &struct drm_vram_mm
->>>>>>
->>>>>> "struct drm_gem_vram_mm_funcs" ?
->>>>>>
->>>>>> (see include/drm/drm_gem.h where struct drm_gem_object_funcs is
->>>>>> documented that way).
->>>>>
->>>>> The documented source line is
->>>>>
->>>>>   const struct drm_vram_mm_funcs drm_gem_vram_mm_funcs =3D {
->>>>>
->>>>> and I tried to document the purpose of the constant 'drm_gem_vram_m=
-m_funcs'.
->>>>
->>>> Ah.  Missed that detail.
->>>>
->>>>> Documenting global constants is not described in the kernel guide a=
-nd I
->>>>> could not find a source-code example either. Function and struct st=
-yle
->>>>> with '-' didn't work; member-field style with '@' neither. The only=
- way
->>>>> seems to be adding it to an .rst file in Documentation. But then it=
-'s
->>>>> not part of the API documentation, but somewhere in the text.
->>>>
->>>> Ok, patch is fine then.
->>>>
->>>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
->>>
->>> Thanks.
->>>
->>>> (can you commit & push yourself meanwhile?)
->>>
->>> Not yet. The respective bug report is still open.
->>
->> Ok, I'll push it then.
->=20
-> You should have commit rights for drm-misc, I just checked. At least
-> there's a tzimmermann account in the drm-misc group.
-
-Thanks for the update.
-
-Gerd, if you haven't pushed it yet I'm going to add this patch to the tre=
-e.
-
-Best regards
-Thomas
-
-> https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html=
-
->=20
-> ... to get you going. If things don't work pls ping on #dri-devel on fr=
-eenode.
-> -Daniel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---E6SGxB8hdbnobH4WMBiEpsnTQBrm8RSs7--
-
---0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz4yMsACgkQaA3BHVML
-eiMAXAf/S6oFLlC3M3ccbJRyE+s3+kczMJLuZzRtLPbEkTk+6j8g2TXmc/Fdh1P5
-jcXhgbUeF1K1LmGpbCO6Eb+C4lrU1koYA99jxhI0mIX+mtj7G6mROE7XbN51ZZ0A
-2Db0M3gmDUjjeAUbU0GFxmRsewhNibE/tufbV83yaZotVkYPugCsfm08R32LfphH
-VxoqQ86ryzYMPWjGpr+JyQMq/yHAAKW7RGEbnSIYIqxycQA9IFTCc/yemklW8tLo
-xVFfAcUeyqfdoM0cxJf7Bg34ClOVadSptrvGDaA42VkR04u6Ohif9kI4BGNegJX5
-FGu7BwiDf+PfRjqA26HVtwJkdHiO5w==
-=m9Hd
------END PGP SIGNATURE-----
-
---0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf--
-
---===============0575228061==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0575228061==--
+SGksCgphdCAxMTozMCwgS2FpLUhlbmcgRmVuZyA8a2FpLmhlbmcuZmVuZ0BjYW5vbmljYWwuY29t
+PiB3cm90ZToKCj4gQW5vdGhlciBwYW5lbCB0aGF0IG5lZWRzIDZCUEMgcXVpcmsuCgpQbGVhc2Ug
+aW5jbHVkZSB0aGlzIHBhdGNoIGlmIHBvc3NpYmxlLgoKS2FpLUhlbmcKCj4KPiBCdWdMaW5rOiBo
+dHRwczovL2J1Z3MubGF1bmNocGFkLm5ldC9idWdzLzE4MTk5NjgKPiBDYzogPHN0YWJsZUB2Z2Vy
+Lmtlcm5lbC5vcmc+ICMgdjQuOCsKPiBTaWduZWQtb2ZmLWJ5OiBLYWktSGVuZyBGZW5nIDxrYWku
+aGVuZy5mZW5nQGNhbm9uaWNhbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
+ZC5jIHwgMyArKysKPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9l
+ZGlkLmMKPiBpbmRleCA5OTBiMTkwOWY5ZDcuLjFjYjRkMDA1MmVmZSAxMDA2NDQKPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRp
+ZC5jCj4gQEAgLTE2Niw2ICsxNjYsOSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGVkaWRfcXVpcmsg
+ewo+ICAJLyogTWVkaW9uIE1EIDMwMjE3IFBHICovCj4gIAl7ICJNRUQiLCAweDdiOCwgRURJRF9R
+VUlSS19QUkVGRVJfTEFSR0VfNzUgfSwKPgo+ICsJLyogTGVub3ZvIEc1MCAqLwo+ICsJeyAiU0RD
+IiwgMTg1MTQsIEVESURfUVVJUktfRk9SQ0VfNkJQQyB9LAo+ICsKPiAgCS8qIFBhbmVsIGluIFNh
+bXN1bmcgTlA3MDBHN0EtUzAxUEwgbm90ZWJvb2sgcmVwb3J0cyA2YnBjICovCj4gIAl7ICJTRUMi
+LCAweGQwMzMsIEVESURfUVVJUktfRk9SQ0VfOEJQQyB9LAo+Cj4gLS0gCj4gMi4xNy4xCgoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
