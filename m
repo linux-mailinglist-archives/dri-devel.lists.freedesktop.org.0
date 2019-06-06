@@ -2,49 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5A436F9C
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 11:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926E136FA1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 11:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD100893B9;
-	Thu,  6 Jun 2019 09:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75426893A2;
+	Thu,  6 Jun 2019 09:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6F2893B9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 09:13:55 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 06 Jun 2019 02:13:54 -0700
-X-ExtLoop1: 1
-Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
- by orsmga004.jf.intel.com with ESMTP; 06 Jun 2019 02:13:53 -0700
-Received: from irsmsx104.ger.corp.intel.com ([169.254.5.227]) by
- IRSMSX154.ger.corp.intel.com ([169.254.12.45]) with mapi id 14.03.0415.000;
- Thu, 6 Jun 2019 10:13:52 +0100
-From: "Ser, Simon" <simon.ser@intel.com>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>, "sunpeng.li@amd.com"
- <sunpeng.li@amd.com>, "Nicholas.Kazlauskas@amd.com"
- <Nicholas.Kazlauskas@amd.com>, "alsa-devel@alsa-project.org"
- <alsa-devel@alsa-project.org>, "Harry.Wentland@amd.com"
- <Harry.Wentland@amd.com>
-Subject: Re: Linking ALSA playback devices and DRM connectors
-Thread-Topic: Linking ALSA playback devices and DRM connectors
-Thread-Index: AQHVGub3qPpDIp0ZmkGUsrmQWEy2vqaLifwAgAK/x4A=
-Date: Thu, 6 Jun 2019 09:13:51 +0000
-Message-ID: <ccd5d702b4c15cb14e3ec44758cce8880e28b74c.camel@intel.com>
-References: <f69f48bd4b9b2dc6f8228cd47406882c71758cdf.camel@intel.com>
- <157c9015-32c8-2c1d-236f-48da16f43399@gmail.com>
-In-Reply-To: <157c9015-32c8-2c1d-236f-48da16f43399@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.72.181]
-Content-ID: <16891106A53CAF4DA96BEA4EBDA5A24C@intel.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38DC5893A2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 09:14:45 +0000 (UTC)
+X-Originating-IP: 90.88.144.139
+Received: from localhost (aaubervilliers-681-1-24-139.w90-88.abo.wanadoo.fr
+ [90.88.144.139]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 1B4A31C0011;
+ Thu,  6 Jun 2019 09:14:40 +0000 (UTC)
+Date: Thu, 6 Jun 2019 11:14:40 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 2/2] drm: panel-orientation-quirks: Add quirk for GPD
+ MicroPC
+Message-ID: <20190606091440.qomxukz72puwq7vy@flea>
+References: <20190524125759.14131-1-hdegoede@redhat.com>
+ <20190524125759.14131-2-hdegoede@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20190524125759.14131-2-hdegoede@redhat.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,50 +41,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: multipart/mixed; boundary="===============0453124665=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDE5LTA2LTA0IGF0IDE3OjE1ICswMjAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3Rl
-Og0KPiBBbSAwNC4wNi4xOSB1bSAxNzowNSBzY2hyaWViIFNlciwgU2ltb246DQo+ID4gSGksDQo+
-ID4gDQo+ID4gSSdtIHRyeWluZyB0byBsaW5rIEFMU0EgcGxheWJhY2sgZGV2aWNlcyBhbmQgRFJN
-IGNvbm5lY3RvcnMuIEluIG90aGVyDQo+ID4gd29yZHMsIEknZCBsaWtlIHRvIGJlIGFibGUgdG8g
-a25vdyB3aGljaCBBTFNBIGRldmljZSBJIHNob3VsZCBvcGVuIHRvDQo+ID4gcGxheSBhdWRpbyBv
-biBhIGdpdmVuIGNvbm5lY3Rvci4NCj4gPiANCj4gPiBVbmZvcnR1bmF0ZWx5LCBJIGhhdmVuJ3Qg
-Zm91bmQgYSB3YXkgdG8gZXh0cmFjdCB0aGlzIGluZm9ybWF0aW9uLiBJDQo+ID4ga25vdyAvcHJv
-Yy9hc291bmQvY2FyZE4vZWxkKiBleHBvc2UgdGhlIEVESUQtbGlrZSBkYXRhLiBIb3dldmVyIGJ5
-DQo+ID4gbG9va2luZyBhdCB0aGUgQUxTQSBBUEkgKGFsc286IGFwbGF5IC1sIGFuZCAtTCkgSSBj
-YW4ndCBmaW5kIGEgd2F5IHRvDQo+ID4gZmlndXJlIG91dCB3aGljaCBQQ00gZGV2aWNlIG1hcHMg
-dG8gdGhlIEVMRC4NCj4gPiANCj4gPiBBbSBJIG1pc3Npbmcgc29tZXRoaW5nPw0KPiANCj4gSXMg
-dGhhdCBhY3R1YWxseSBmaXhlZCBvbiBhbGwgaGFyZHdhcmU/IE9yIGRvIHdlIG1heWJlIGhhdmUg
-c29tZSANCj4gaGFyZHdhcmUgd2l0aCBvbmx5IG9uZSBhdWRpbyBjb2RlYyBhbmQgbXVsdGlwbGUg
-Y29ubmVjdG9ycz8NCj4gDQo+ID4gSWYgbm90LCB3aGF0IHdvdWxkIGJlIHRoZSBiZXN0IHdheSB0
-byBleHBvc2UgdGhpcz8NCj4gPiANCj4gPiAtIEEgc3ltbGluayB0byB0aGUgQUxTQSBhdWRpbyBQ
-Q00gZGV2aWNlIGluDQo+ID4gICAgL3N5cy9jbGFzcy9kcm0vY2FyZE4tQ09OTkVDVE9SPw0KPiA+
-IC0gQSBzeW1saW5rIHRvIHRoZSBEUk0gY29ubmVjdG9yIGluIC9zeXMvY2xhc3Mvc291bmQvcGNt
-Kj8NCj4gDQo+IElmIGl0J3MgZml4ZWQgdGhhbiB0aG9zZSB0d28gb3B0aW9ucyBzb3VuZCBzYW5l
-IHRvIG1lLg0KPiANCj4gPiAtIEEgRFJNIGNvbm5lY3RvciBwcm9wZXJ0eT8NCj4gDQo+IElmIGl0
-J3MgY29uZmlndXJhYmxlIHRoYW4gdGhhdCBzb3VuZHMgbGlrZSBhIGdvb2Qgb3B0aW9uIHRvIG1l
-Lg0KDQpJJ20gc3RpbGwgbm90IHN1cmUgd2hldGhlciB0aGlzIGlzIGZpeGVkIG9uIGFsbCBoYXJk
-d2FyZSBvciBub3QuDQoNClZpbGxlLCBvbiB0aGlzIG9sZCBJbnRlbCBodywgaXMgdGhlIHNpbmds
-ZSBjb25uZWN0b3IgdGhhdCBnZXRzIHRoZQ0KYXVkaW8gY29uZmlndXJhYmxlPw0KDQpBZGRpdGlv
-bmFsIHRob3VnaHQ6IHNpbmNlIEkgbmVlZCB0aGlzIGZvciB0aGUgSUdUIHRlc3Qgc3VpdGUgSSBk
-b24ndA0KcmVhbGx5IGNhcmUgaG93IHRoaXMgaW5mbyBpcyBleHBvc2VkIGFzIGxvbmcgYXMgaXQn
-cyBleHBvc2VkLCBidXQgb3RoZXINCnVzZXJzcGFjZSBwcm9ncmFtcyAoREVzKSBhcmUgcHJvYmFi
-bHkgaW50ZXJlc3RlZCBpbiB0aGlzIGluZm9ybWF0aW9uDQp0b28uIFRoaXMgd291bGQgYWxsb3cg
-dXNlcnMgdG8gYWN0dWFsbHkgaGF2ZSB0aGUgbmFtZSBvZiB0aGUgbW9uaXRvciBpbg0KdGhlIGF1
-ZGlvIG91dHB1dCBzZWxlY3Rpb24gVUkuIEhhdmluZyBzb21ldGhpbmcgdGhhdCBkb2Vzbid0IGRl
-cGVuZCBvbg0Kc3lzZnMgd291bGQgYmUgYmV0dGVyIGZvciB0aGlzLg0KDQpXb3VsZCB0aGVyZSBi
-ZSBhIHdheSB0byBleHBvc2Ugc29tZSBpbmZvIGFib3V0IHRoZSBtb25pdG9yIGluIHRoZSBBTFNB
-DQpBUEk/DQoNCj4gQW55d2F5IGFkZGVkIG91ciBEQyB0ZWFtLCBzdHVmZiBsaWtlIHRoYXQgaXMg
-dGhlaXIgY29uc3RydWN0aW9uIHNpdGUuDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHJpc3RpYW4uDQo+
-IA0KPiA+IC0gU29tZWhvdyBleHBvc2UgdGhlIGNvbm5lY3RvciBuYW1lIHZpYSB0aGUgQUxTQSBB
-UEk/DQo+ID4gLSBFeHBvc2UgdGhlIGNvbm5lY3RvciBFRElEIHZpYSBBTFNBPw0KPiA+IC0gT3Ro
-ZXIgaWRlYXM/DQo+ID4gDQo+ID4gVGhhbmtzIQ0KPiA+IA0KPiA+IFNpbW9uIFNlcg0KPiA+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdA0KPiA+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4g
-PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0453124665==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="x6pw66kal3z3a3li"
+Content-Disposition: inline
+
+
+--x6pw66kal3z3a3li
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, May 24, 2019 at 02:57:59PM +0200, Hans de Goede wrote:
+> GPD has done it again, make a nice device (good), use way too generic
+> DMI strings (bad) and use a portrait screen rotated 90 degrees (ugly).
+>
+> Because of the too generic DMI strings this entry is also doing bios-date
+> matching, so the gpd_micropc data struct may very well need to be updated
+> with some extra bios-dates in the future.
+>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+
+For both patches,
+Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--x6pw66kal3z3a3li
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPjZgAAKCRDj7w1vZxhR
+xbBXAQCOJ2wgV19cdDYHKCWgkr3K+piif4YmS5cYfRgY09kgAAEA2J8f6ugs86uI
+XT0AvMd/b5e0fYJOpM1YQVbqPDddOQA=
+=7X95
+-----END PGP SIGNATURE-----
+
+--x6pw66kal3z3a3li--
+
+--===============0453124665==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0453124665==--
