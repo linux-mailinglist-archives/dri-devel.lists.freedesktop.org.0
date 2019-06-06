@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97DD380A6
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 00:28:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DD2380FF
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 00:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF5889A5E;
-	Thu,  6 Jun 2019 22:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5235E89A5C;
+	Thu,  6 Jun 2019 22:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D91389A34
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 22:28:14 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id m10so5543728edv.6
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 15:28:14 -0700 (PDT)
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F78189A5C
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 22:40:19 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id s57so139430qte.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Jun 2019 15:40:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yYxrzPGYeHw5OKnXexCCG8lNOTvG3IHbPNWAvBtpsmI=;
- b=URVVIrAtm1HTCVi/Uf8XRpleIpjtRBahC4QhAGS3WXPEnnGKkV+YU+QWzg7UGI6e8R
- kCr1JTRMcPvGICKHY+B7v2+m8Q/9GJlpG+foNGTlTtqHnME/0X9ZxdWGPPC71I/+fPfD
- 1WmuTF4VjkKL0UsMB6ZAtO9MsSwL7T5QTkrvuZA23BYOsToENMIYeA7u/mf1IaGSuQQp
- Kkq9Js4xClorC2VQcvC1LAqlAVKNxkBuObai+cCGyNitplby6xSjls9zzZJcmoKH58qe
- kxP1jM/PkKZ0/A6lgaoCjKBIfT7Hd6hJ1VH4d7RQ4neR6P/iNry3Ho3OheYD6c11hyxl
- x81w==
-X-Gm-Message-State: APjAAAVOEnfENJ9fjwb4j3GBqsj9+FkLmzOuQxuRVKSSF/CcEOBdTUIA
- WsvrLTvXizAenI0DDpvRegc0dIXfDb0=
-X-Google-Smtp-Source: APXvYqya5iuaAVBG4/Y8pQZn1MIUN7WvXIgg0l+2jYiXmlKsCr0QTO5WDuvg20W4/5j4LhfZ8LqGEQ==
-X-Received: by 2002:a17:906:720e:: with SMTP id
- m14mr43943502ejk.84.1559860092786; 
- Thu, 06 Jun 2019 15:28:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id z10sm54228edl.35.2019.06.06.15.28.11
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=X04iGhDQzw+yQxS/c88O+hKoiyR84ubnTVeo0JYdCO8=;
+ b=unbmp9liRqYHjJ9vnU5+khhBV5pW8G6QLjpkRXXDNl3+ssQ5OZrpPiZWklMhyNQDkI
+ 698AHwKDYg/I2jsJXVzBf6MgtpQQgUbj4PUXKJLHcockQtkaGZetD5VwHVqeQlaWN4nU
+ 7b3tY7+vvxu/fgyPBVumb7R1JJZiqCSLaIIV8s5t9MFMESGbg5whplT2mIvSRQry+Heo
+ Qc5yL9p0T6T214tefpQwQ4rqdm4lgxPWT7YziCjvtsKvpF8BmraDs0IV2lJGDkMVaukv
+ TJ4H/cCyR9XSgog3t8X/JaG58ziFpaQkuSCXTZAR0PR+i/+3hykyVZWQaTiBw7DDl7Kb
+ zY3w==
+X-Gm-Message-State: APjAAAWtTuIIFurvfnN3j7EVov9D4uyOV8afLjLUbaTEaAGI7hA2O1L2
+ CxtcOqB1g7eQ0I438VRDumE=
+X-Google-Smtp-Source: APXvYqxsUjIa/bzBg+ectDFHonbB3fvpMVWwMiFC9WyWojB2K3od3AKrLhj5ninduUP/gVHZ7yiAYQ==
+X-Received: by 2002:a0c:ed4b:: with SMTP id v11mr40088143qvq.126.1559860818713; 
+ Thu, 06 Jun 2019 15:40:18 -0700 (PDT)
+Received: from smtp.gmail.com ([187.121.151.146])
+ by smtp.gmail.com with ESMTPSA id c18sm105921qkm.78.2019.06.06.15.40.15
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 06 Jun 2019 15:28:12 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 10/10] drm/vkms: No need for ->pages_lock in crc work anymore
-Date: Fri,  7 Jun 2019 00:27:51 +0200
-Message-Id: <20190606222751.32567-11-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190606222751.32567-1-daniel.vetter@ffwll.ch>
-References: <20190606222751.32567-1-daniel.vetter@ffwll.ch>
+ Thu, 06 Jun 2019 15:40:18 -0700 (PDT)
+Date: Thu, 6 Jun 2019 19:40:13 -0300
+From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Brian Starkey <brian.starkey@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Simon Ser <contact@emersion.fr>
+Subject: [PATCH 0/2] drm/vkms: Introduces writeback support
+Message-ID: <cover.1559860606.git.rodrigosiqueiramelo@gmail.com>
 MIME-Version: 1.0
+User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yYxrzPGYeHw5OKnXexCCG8lNOTvG3IHbPNWAvBtpsmI=;
- b=dPNMoNct0kA7A9xkJw+pe9BnOmIKZKimsUUdU+ILk47MVwLz4GSja4AZ2NpOBKi4BE
- g7bW2mZZiQlprq1A13wXN88BIH6eA6Jg2NKEIOJwCIQrWz0kTrla8RcBuv3xAfYo/zIV
- OeTpux51DgfEg/LBhZve+m+ShhzTKA5v2rMTQ=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :user-agent;
+ bh=X04iGhDQzw+yQxS/c88O+hKoiyR84ubnTVeo0JYdCO8=;
+ b=AwO+LEHwNcOjItvoP+6RgLmB/qXyyEalhoWC967tTiNj9hmgsQAOnXLqpCvE/LgIrW
+ 7LxBC0iHC0hdkuKNSaFVfUcmFmFitowIF/tRuTvWUXcHKMUz0mLqTPm9Ss0m/SfPDNfk
+ uViw3s2aPk9pKyeA4f/yRoMyaaP1q/RUikSq+4GQbL+tMyrojZGXNU4cxKqDeDThHKh5
+ ah9Njc/fnFkfljlJDoZtuG8jw++nrpbDxjgFLb/Y+nDOgXBCEXVX6kPfkb9MNo3apGGN
+ NHeHSg3fu8MyZaGcdMasrp20RMaYPp6VrSfzQMwB4r62AMDs4YnSYFtsoBTelMv+nqQd
+ 3HVg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,47 +67,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1644089792=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UncmUgbm93IGd1YXJhbnRlZWQgdG8gbm8gbG9uZ2VyIHJhY2UgYWdhaW5zdCBwcmVwYXJlX2Zi
-L2NsZWFudXBfZmIsCndoaWNoIG1lYW5zIHdlIGNhbiBhY2Nlc3MgLT52YWRkciB3aXRob3V0IGhh
-dmluZyB0byBob2xkIGEgbG9jay4KCkJlZm9yZSB0aGUgcHJldmlvdXMgcGF0Y2hlcyBpdCB3YXMg
-ZmFpcmx5IGVhc3kgdG8gb2JzZXJ2ZSB0aGUgY3Vyc29yCi0+dmFkZHIgYmVpbmcgaW52YWxpZCwg
-YnV0IHRoYXQncyBub3cgZ29uZSwgc28gd2UgY2FuIHVwZ3JhZGUgdG8gYQpmdWxsIFdBUk5fT04u
-CgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4K
-Q2M6IFJvZHJpZ28gU2lxdWVpcmEgPHJvZHJpZ29zaXF1ZWlyYW1lbG9AZ21haWwuY29tPgpDYzog
-SGFuZWVuIE1vaGFtbWVkIDxoYW1vaGFtbWVkLnNhQGdtYWlsLmNvbT4KQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbEBmZndsbC5jaD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2NyYy5j
-IHwgMTMgKystLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTEg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcmMu
-YyBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfY3JjLmMKaW5kZXggMGQzMWNmYzMyMDQyLi40
-YjMxNDZkODMyNjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfY3JjLmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19jcmMuYwpAQCAtOTcsMTYgKzk3LDEwIEBA
-IHN0YXRpYyB2b2lkIGNvbXBvc2VfY3Vyc29yKHN0cnVjdCB2a21zX2NyY19kYXRhICpjdXJzb3Jf
-Y3JjLAogCWN1cnNvcl9vYmogPSBkcm1fZ2VtX2ZiX2dldF9vYmooJmN1cnNvcl9jcmMtPmZiLCAw
-KTsKIAljdXJzb3Jfdmttc19vYmogPSBkcm1fZ2VtX3RvX3ZrbXNfZ2VtKGN1cnNvcl9vYmopOwog
-Ci0JbXV0ZXhfbG9jaygmY3Vyc29yX3ZrbXNfb2JqLT5wYWdlc19sb2NrKTsKLQlpZiAoIWN1cnNv
-cl92a21zX29iai0+dmFkZHIpIHsKLQkJRFJNX1dBUk4oImN1cnNvciBwbGFuZSB2YWRkciBpcyBO
-VUxMIik7Ci0JCWdvdG8gb3V0OwotCX0KKwlpZiAoV0FSTl9PTighY3Vyc29yX3ZrbXNfb2JqLT52
-YWRkcikpCisJCXJldHVybjsKIAogCWJsZW5kKHZhZGRyX291dCwgY3Vyc29yX3ZrbXNfb2JqLT52
-YWRkciwgcHJpbWFyeV9jcmMsIGN1cnNvcl9jcmMpOwotCi1vdXQ6Ci0JbXV0ZXhfdW5sb2NrKCZj
-dXJzb3Jfdmttc19vYmotPnBhZ2VzX2xvY2spOwogfQogCiBzdGF0aWMgdWludDMyX3QgX3ZrbXNf
-Z2V0X2NyYyhzdHJ1Y3Qgdmttc19jcmNfZGF0YSAqcHJpbWFyeV9jcmMsCkBAIC0xMjMsMTUgKzEx
-NywxMiBAQCBzdGF0aWMgdWludDMyX3QgX3ZrbXNfZ2V0X2NyYyhzdHJ1Y3Qgdmttc19jcmNfZGF0
-YSAqcHJpbWFyeV9jcmMsCiAJCXJldHVybiAwOwogCX0KIAotCW11dGV4X2xvY2soJnZrbXNfb2Jq
-LT5wYWdlc19sb2NrKTsKIAlpZiAoV0FSTl9PTighdmttc19vYmotPnZhZGRyKSkgewotCQltdXRl
-eF91bmxvY2soJnZrbXNfb2JqLT5wYWdlc19sb2NrKTsKIAkJa2ZyZWUodmFkZHJfb3V0KTsKIAkJ
-cmV0dXJuIGNyYzsKIAl9CiAKIAltZW1jcHkodmFkZHJfb3V0LCB2a21zX29iai0+dmFkZHIsIHZr
-bXNfb2JqLT5nZW0uc2l6ZSk7Ci0JbXV0ZXhfdW5sb2NrKCZ2a21zX29iai0+cGFnZXNfbG9jayk7
-CiAKIAlpZiAoY3Vyc29yX2NyYykKIAkJY29tcG9zZV9jdXJzb3IoY3Vyc29yX2NyYywgcHJpbWFy
-eV9jcmMsIHZhZGRyX291dCk7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1644089792==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cmukgb7fz6z6a5r7"
+Content-Disposition: inline
+
+
+--cmukgb7fz6z6a5r7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+This patchset introduces the writeback connector to vkms. The first
+patch is required for enabling the virtual encoder to be compatible with
+the crtc when we have multiple encoders. The second patch adds the
+required implementation to enable writeback in the vkms. With this
+patchset, vkms can successfully pass all the kms_writeback tests from
+IGT.
+
+Rodrigo Siqueira (2):
+  drm/vkms: Use index instead of 0 in possible crtc
+  drm/vkms: Add support for writeback
+
+ drivers/gpu/drm/vkms/Makefile         |   9 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c      |   5 +
+ drivers/gpu/drm/vkms/vkms_drv.c       |  12 +-
+ drivers/gpu/drm/vkms/vkms_drv.h       |  16 ++-
+ drivers/gpu/drm/vkms/vkms_output.c    |  12 +-
+ drivers/gpu/drm/vkms/vkms_plane.c     |   4 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c | 165 ++++++++++++++++++++++++++
+ 7 files changed, 214 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/vkms_writeback.c
+
+--=20
+2.21.0
+
+--cmukgb7fz6z6a5r7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAlz5lk0ACgkQWJzP/com
+vP+dqA/9HI1pPOrEyDIDVVJXSpLTTija/8sRarCwikNphSgn/0b7lDcISbEFDYFj
+qgFkYToECrof2TEd5dQbIOTEZ3CzVmtlECSmAk/2Bv3Fm47OfhRXN33m2mgKha4A
++6S1Mr5HYCF/+OsOgMQQNNEi8kqRUuan+Tf5oKlfLKuP8bCBIv0cfRgq+yvkcQRE
+6qvyMCE3TS19H7Qr9EsTXUJ5Hvr5hFs/0uHfPDAZgoEqj4DXIvICFMwDhKI3txXj
+ZhXxKPJn4a6wluSpDAJuuJwan9ARUlxgT3KQR4k881yg95Q/qlG+xzbq3DrsWbLQ
+jogEDXKYFiqKDXTfy77Re1/28YHLRrcWOQSMlDk+4dVWBVIKPGSpHQuBIl86WGrs
+Jovl9ePplJW+ltCP+KEaO9Q+9nOhE3xXVIUurLN+wREBjc/SIFlNZho/N5C6U1Mu
+DIWBNlUgG8l4Gnd4yJo6q4RwqoVnexXBx+7z6IdmN7RXpKh7fJaGyUKys89uz2ZJ
+n2zLhLBgwLqE0H8hRZtAa3TNui2xOFH8M3tS3qHSZLnH/dt414EC2wUQjLUX/5Ln
+OWnKSXV2S8j/WS381V7L2F8JPe1fcYmtIBCW10+3y63QUQgWyYvIE6GH8yKGmb7y
+V2d5ImBPgcrMlaSm+UZ45rEGG5qOfV3v/rOg4jzVjRUcbq3SOTM=
+=yMZ+
+-----END PGP SIGNATURE-----
+
+--cmukgb7fz6z6a5r7--
+
+--===============1644089792==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1644089792==--
