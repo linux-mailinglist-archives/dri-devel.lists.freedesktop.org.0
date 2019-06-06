@@ -2,40 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7109136C11
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 08:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7D836C66
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 08:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C06EE892A7;
-	Thu,  6 Jun 2019 06:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F23F289319;
+	Thu,  6 Jun 2019 06:39:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 65686892A7
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 06:12:34 +0000 (UTC)
-X-UUID: a73ae1321c6046df80c67682ae788815-20190606
-X-UUID: a73ae1321c6046df80c67682ae788815-20190606
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 485898404; Thu, 06 Jun 2019 14:12:31 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 6 Jun 2019 14:12:29 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 6 Jun 2019 14:12:29 +0800
-Message-ID: <1559801548.20098.8.camel@mtksdaap41>
-Subject: Re: [PATCH v3, 08/27] drm/mediatek: add mutex sof into ddp private
- data
-From: CK Hu <ck.hu@mediatek.com>
-To: <yongqiang.niu@mediatek.com>
-Date: Thu, 6 Jun 2019 14:12:28 +0800
-In-Reply-To: <1559734986-7379-9-git-send-email-yongqiang.niu@mediatek.com>
-References: <1559734986-7379-1-git-send-email-yongqiang.niu@mediatek.com>
- <1559734986-7379-9-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E00189319
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 06:39:18 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 9709AAF84;
+ Thu,  6 Jun 2019 06:39:16 +0000 (UTC)
+Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
+ documentation
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20190604111330.25324-1-tzimmermann@suse.de>
+ <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
+ <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
+ <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <3b574a1c-8dee-962f-e2ad-4959e75321d7@suse.de>
+Date: Thu, 6 Jun 2019 08:39:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MTK: N
+In-Reply-To: <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,85 +68,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: maxime.ripard@bootlin.com, sean@poorly.run, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1276025180=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCk9uIFdlZCwgMjAxOS0wNi0wNSBhdCAxOTo0MiArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gbXV0ZXggc29mIHdpbGwgYmUgZGRwIHByaXZhdGUg
-ZGF0YQo+IAo+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVk
-aWF0ZWsuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHAu
-YyB8IDQ0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDM2IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jIGIvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kcm1fZGRwLmMKPiBpbmRleCA4YmRlMmNmLi5lMWE1MTBmIDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcC5jCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwLmMKPiBAQCAtMTQ5LDggKzE0OSwyMCBAQCBz
-dHJ1Y3QgbXRrX2Rpc3BfbXV0ZXggewo+ICAJYm9vbCBjbGFpbWVkOwo+ICB9Owo+ICAKPiArZW51
-bSBtdGtfZGRwX211dGV4X3NvZl9pZCB7Cj4gKwlERFBfTVVURVhfU09GX1NJTkdMRV9NT0RFLAo+
-ICsJRERQX01VVEVYX1NPRl9EU0kwLAo+ICsJRERQX01VVEVYX1NPRl9EU0kxLAo+ICsJRERQX01V
-VEVYX1NPRl9EUEkwLAo+ICsJRERQX01VVEVYX1NPRl9EUEkxLAo+ICsJRERQX01VVEVYX1NPRl9E
-U0kyLAo+ICsJRERQX01VVEVYX1NPRl9EU0kzLAo+ICsJRERQX01VVEVYX1NPRl9NQVgsCgpERFBf
-TVVURVhfU09GX01BWCBjYW4gYmUgcmVtb3ZlZC4KClJlZ2FyZHMsCkNLCgo+ICt9Owo+ICsKPiAg
-c3RydWN0IG10a19kZHBfZGF0YSB7Cj4gIAljb25zdCB1bnNpZ25lZCBpbnQgKm11dGV4X21vZDsK
-PiArCWNvbnN0IHVuc2lnbmVkIGludCAqbXV0ZXhfc29mOwo+ICAJY29uc3QgdW5zaWduZWQgaW50
-IG11dGV4X21vZF9yZWc7Cj4gIH07Cj4gIAo+IEBAIC0yMDksMTggKzIyMSwzMSBAQCBzdHJ1Y3Qg
-bXRrX2RkcCB7Cj4gIAlbRERQX0NPTVBPTkVOVF9XRE1BMV0gPSBNVDgxNzNfTVVURVhfTU9EX0RJ
-U1BfV0RNQTEsCj4gIH07Cj4gIAo+ICtzdGF0aWMgY29uc3QgdW5zaWduZWQgaW50IG10MjcxMl9t
-dXRleF9zb2ZbRERQX01VVEVYX1NPRl9NQVhdID0gewo+ICsJW0REUF9NVVRFWF9TT0ZfU0lOR0xF
-X01PREVdID0gTVVURVhfU09GX1NJTkdMRV9NT0RFLAo+ICsJW0REUF9NVVRFWF9TT0ZfRFNJMF0g
-PSBNVVRFWF9TT0ZfRFNJMCwKPiArCVtERFBfTVVURVhfU09GX0RTSTFdID0gTVVURVhfU09GX0RT
-STEsCj4gKwlbRERQX01VVEVYX1NPRl9EUEkwXSA9IE1VVEVYX1NPRl9EUEkwLAo+ICsJW0REUF9N
-VVRFWF9TT0ZfRFBJMV0gPSBNVVRFWF9TT0ZfRFBJMSwKPiArCVtERFBfTVVURVhfU09GX0RTSTJd
-ID0gTVVURVhfU09GX0RTSTIsCj4gKwlbRERQX01VVEVYX1NPRl9EU0kzXSA9IE1VVEVYX1NPRl9E
-U0kzLAo+ICt9Owo+ICsKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZGRwX2RhdGEgbXQyNzAx
-X2RkcF9kcml2ZXJfZGF0YSA9IHsKPiAgCS5tdXRleF9tb2QgPSBtdDI3MDFfbXV0ZXhfbW9kLAo+
-ICsJLm11dGV4X3NvZiA9IG10MjcxMl9tdXRleF9zb2YsCj4gIAkubXV0ZXhfbW9kX3JlZyA9IE1U
-MjcwMV9ESVNQX01VVEVYMF9NT0QwLAo+ICB9Owo+ICAKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBt
-dGtfZGRwX2RhdGEgbXQyNzEyX2RkcF9kcml2ZXJfZGF0YSA9IHsKPiAgCS5tdXRleF9tb2QgPSBt
-dDI3MTJfbXV0ZXhfbW9kLAo+ICsJLm11dGV4X3NvZiA9IG10MjcxMl9tdXRleF9zb2YsCj4gIAku
-bXV0ZXhfbW9kX3JlZyA9IE1UMjcwMV9ESVNQX01VVEVYMF9NT0QwLAo+ICB9Owo+ICAKPiAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBtdGtfZGRwX2RhdGEgbXQ4MTczX2RkcF9kcml2ZXJfZGF0YSA9IHsK
-PiAgCS5tdXRleF9tb2QgPSBtdDgxNzNfbXV0ZXhfbW9kLAo+ICsJLm11dGV4X3NvZiA9IG10Mjcx
-Ml9tdXRleF9zb2YsCj4gIAkubXV0ZXhfbW9kX3JlZyA9IE1UMjcwMV9ESVNQX01VVEVYMF9NT0Qw
-LAo+ICB9Owo+ICAKPiBAQCAtNDYyLDI4ICs0ODcsMjkgQEAgdm9pZCBtdGtfZGlzcF9tdXRleF9h
-ZGRfY29tcChzdHJ1Y3QgbXRrX2Rpc3BfbXV0ZXggKm11dGV4LAo+ICAJc3RydWN0IG10a19kZHAg
-KmRkcCA9IGNvbnRhaW5lcl9vZihtdXRleCwgc3RydWN0IG10a19kZHAsCj4gIAkJCQkJICAgbXV0
-ZXhbbXV0ZXgtPmlkXSk7Cj4gIAl1bnNpZ25lZCBpbnQgcmVnOwo+ICsJdW5zaWduZWQgaW50IHNv
-Zl9pZDsKPiAgCXVuc2lnbmVkIGludCBvZmZzZXQ7Cj4gIAo+ICAJV0FSTl9PTigmZGRwLT5tdXRl
-eFttdXRleC0+aWRdICE9IG11dGV4KTsKPiAgCj4gIAlzd2l0Y2ggKGlkKSB7Cj4gIAljYXNlIERE
-UF9DT01QT05FTlRfRFNJMDoKPiAtCQlyZWcgPSBNVVRFWF9TT0ZfRFNJMDsKPiArCQlzb2ZfaWQg
-PSBERFBfTVVURVhfU09GX0RTSTA7Cj4gIAkJYnJlYWs7Cj4gIAljYXNlIEREUF9DT01QT05FTlRf
-RFNJMToKPiAtCQlyZWcgPSBNVVRFWF9TT0ZfRFNJMDsKPiArCQlzb2ZfaWQgPSBERFBfTVVURVhf
-U09GX0RTSTA7Cj4gIAkJYnJlYWs7Cj4gIAljYXNlIEREUF9DT01QT05FTlRfRFNJMjoKPiAtCQly
-ZWcgPSBNVVRFWF9TT0ZfRFNJMjsKPiArCQlzb2ZfaWQgPSBERFBfTVVURVhfU09GX0RTSTI7Cj4g
-IAkJYnJlYWs7Cj4gIAljYXNlIEREUF9DT01QT05FTlRfRFNJMzoKPiAtCQlyZWcgPSBNVVRFWF9T
-T0ZfRFNJMzsKPiArCQlzb2ZfaWQgPSBERFBfTVVURVhfU09GX0RTSTM7Cj4gIAkJYnJlYWs7Cj4g
-IAljYXNlIEREUF9DT01QT05FTlRfRFBJMDoKPiAtCQlyZWcgPSBNVVRFWF9TT0ZfRFBJMDsKPiAr
-CQlzb2ZfaWQgPSBERFBfTVVURVhfU09GX0RQSTA7Cj4gIAkJYnJlYWs7Cj4gIAljYXNlIEREUF9D
-T01QT05FTlRfRFBJMToKPiAtCQlyZWcgPSBNVVRFWF9TT0ZfRFBJMTsKPiArCQlzb2ZfaWQgPSBE
-RFBfTVVURVhfU09GX0RQSTE7Cj4gIAkJYnJlYWs7Cj4gIAlkZWZhdWx0Ogo+ICAJCWlmIChkZHAt
-PmRhdGEtPm11dGV4X21vZFtpZF0gPCAzMikgewo+IEBAIC01MDEsNyArNTI3LDggQEAgdm9pZCBt
-dGtfZGlzcF9tdXRleF9hZGRfY29tcChzdHJ1Y3QgbXRrX2Rpc3BfbXV0ZXggKm11dGV4LAo+ICAJ
-CXJldHVybjsKPiAgCX0KPiAgCj4gLQl3cml0ZWxfcmVsYXhlZChyZWcsIGRkcC0+cmVncyArIERJ
-U1BfUkVHX01VVEVYX1NPRihtdXRleC0+aWQpKTsKPiArCXdyaXRlbF9yZWxheGVkKGRkcC0+ZGF0
-YS0+bXV0ZXhfc29mW3NvZl9pZF0sCj4gKwkJICAgICAgIGRkcC0+cmVncyArIERJU1BfUkVHX01V
-VEVYX1NPRihtdXRleC0+aWQpKTsKPiAgfQo+ICAKPiAgdm9pZCBtdGtfZGlzcF9tdXRleF9yZW1v
-dmVfY29tcChzdHJ1Y3QgbXRrX2Rpc3BfbXV0ZXggKm11dGV4LAo+IEBAIC01MjIsNyArNTQ5LDgg
-QEAgdm9pZCBtdGtfZGlzcF9tdXRleF9yZW1vdmVfY29tcChzdHJ1Y3QgbXRrX2Rpc3BfbXV0ZXgg
-Km11dGV4LAo+ICAJY2FzZSBERFBfQ09NUE9ORU5UX0RQSTA6Cj4gIAljYXNlIEREUF9DT01QT05F
-TlRfRFBJMToKPiAgCQl3cml0ZWxfcmVsYXhlZChNVVRFWF9TT0ZfU0lOR0xFX01PREUsCj4gLQkJ
-CSAgICAgICBkZHAtPnJlZ3MgKyBESVNQX1JFR19NVVRFWF9TT0YobXV0ZXgtPmlkKSk7Cj4gKwkJ
-CSAgICAgICBkZHAtPnJlZ3MgKwo+ICsJCQkgICAgICAgRElTUF9SRUdfTVVURVhfU09GKG11dGV4
-LT5pZCkpOwo+ICAJCWJyZWFrOwo+ICAJZGVmYXVsdDoKPiAgCQlpZiAoZGRwLT5kYXRhLT5tdXRl
-eF9tb2RbaWRdIDwgMzIpIHsKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1276025180==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="dJfrPCua9c8dLWYmoEdcvVoqOcIlv2vp4"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dJfrPCua9c8dLWYmoEdcvVoqOcIlv2vp4
+Content-Type: multipart/mixed; boundary="YQhMjOjdsKBvbB2KM33UKFJxvC6KRFQFj";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: maxime.ripard@bootlin.com, sean@poorly.run,
+ dri-devel@lists.freedesktop.org
+Message-ID: <3b574a1c-8dee-962f-e2ad-4959e75321d7@suse.de>
+Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
+ documentation
+References: <20190604111330.25324-1-tzimmermann@suse.de>
+ <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
+ <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
+ <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
+In-Reply-To: <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
+
+--YQhMjOjdsKBvbB2KM33UKFJxvC6KRFQFj
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 05.06.19 um 17:58 schrieb Gerd Hoffmann:
+> On Wed, Jun 05, 2019 at 11:59:04AM +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 05.06.19 um 11:03 schrieb Gerd Hoffmann:
+>>> On Tue, Jun 04, 2019 at 01:13:30PM +0200, Thomas Zimmermann wrote:
+>>>> The documentation tools interpret drm_gem_vram_mm_funcs as function =
+and
+>>>> there appears to be no way of inline-documenting constants.
+>>>
+>>>> -/**
+>>>> +/*
+>>>>   * drm_gem_vram_mm_funcs - Functions for &struct drm_vram_mm
+>>>
+>>> "struct drm_gem_vram_mm_funcs" ?
+>>>
+>>> (see include/drm/drm_gem.h where struct drm_gem_object_funcs is
+>>> documented that way).
+>>
+>> The documented source line is
+>>
+>>   const struct drm_vram_mm_funcs drm_gem_vram_mm_funcs =3D {
+>>
+>> and I tried to document the purpose of the constant 'drm_gem_vram_mm_f=
+uncs'.
+>=20
+> Ah.  Missed that detail.
+>=20
+>> Documenting global constants is not described in the kernel guide and =
+I
+>> could not find a source-code example either. Function and struct style=
+
+>> with '-' didn't work; member-field style with '@' neither. The only wa=
+y
+>> seems to be adding it to an .rst file in Documentation. But then it's
+>> not part of the API documentation, but somewhere in the text.
+>=20
+> Ok, patch is fine then.
+>=20
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Thanks.
+
+> (can you commit & push yourself meanwhile?)
+
+Not yet. The respective bug report is still open.
+
+Best regards
+Thomas
+
+> cheers,
+>   Gerd
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--YQhMjOjdsKBvbB2KM33UKFJxvC6KRFQFj--
+
+--dJfrPCua9c8dLWYmoEdcvVoqOcIlv2vp4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz4tRMACgkQaA3BHVML
+eiNtpAf7BL/+LphncTkXfJ3Z92Trmv0ZycZFfVb/65VctruGBQs1HOiVc9f/ZnPq
+8CFAnJjZ7CUD2xTmJRYRRu7Fn4UMAZEb6/IkqUmZrDGrk/YikPyPD0m02M0bKvAo
+TFFuDy1R1nc23W8Th/GehMsaor4rvxmUo5rR7JUHNPU5l2CH65TQy6+SPH4Rnz2q
+iOIuqoLnstEPc7owDiJB2nv/7zXPYNwXnpRQRHqWCMqWjISfSFF4oIGxjIV78zJR
+Y0DAoBIh04cH81zoJuSlXyo9rK8RYmwWTx0gQi64h3ugaK5zRKKZU7FSizmZt5l7
+TSSSviqwDYVhvQfAdiplcr3PX7jjqA==
+=+iu0
+-----END PGP SIGNATURE-----
+
+--dJfrPCua9c8dLWYmoEdcvVoqOcIlv2vp4--
+
+--===============1276025180==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1276025180==--
