@@ -2,102 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C30D36E01
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 10:01:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2331B36E0D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 10:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87247892E3;
-	Thu,  6 Jun 2019 08:01:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7912A8932A;
+	Thu,  6 Jun 2019 08:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4FE892E3
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:01:16 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20190606080114euoutp01cdace6a388a5941029525c14c71f01e2~ljS3_rn9-0300903009euoutp01v
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:01:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20190606080114euoutp01cdace6a388a5941029525c14c71f01e2~ljS3_rn9-0300903009euoutp01v
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20190606080114eucas1p240801a4725f31c59eb76659d8820b91e~ljS3fcY9F0719807198eucas1p2L;
- Thu,  6 Jun 2019 08:01:14 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 43.75.04377.948C8FC5; Thu,  6
- Jun 2019 09:01:13 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20190606080113eucas1p13327c9bf0596dd2c744f776097153856~ljS2qt3t21310413104eucas1p1x;
- Thu,  6 Jun 2019 08:01:13 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20190606080112eusmtrp149b65493e76b2ab5da42abc6b123dc11~ljS2a-qkd1821018210eusmtrp1e;
- Thu,  6 Jun 2019 08:01:12 +0000 (GMT)
-X-AuditID: cbfec7f4-5632c9c000001119-b7-5cf8c84957ac
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id D2.B1.04140.848C8FC5; Thu,  6
- Jun 2019 09:01:12 +0100 (BST)
-Received: from [106.120.51.74] (unknown [106.120.51.74]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20190606080112eusmtip140c235a6cb15654cc48c0e0e95a858bc~ljS1oYSpx2518925189eusmtip1f;
- Thu,  6 Jun 2019 08:01:11 +0000 (GMT)
-Subject: Re: [PATCH v3 02/15] drm/bridge: tc358767: Simplify polling in
- tc_main_link_setup()
-To: Andrey Smirnov <andrew.smirnov@gmail.com>, dri-devel@lists.freedesktop.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <90e382a9-6613-64e8-1916-30000ef7654a@samsung.com>
-Date: Thu, 6 Jun 2019 10:00:55 +0200
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 489438932A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:03:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id D0632AFD1;
+ Thu,  6 Jun 2019 08:03:27 +0000 (UTC)
+Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
+ documentation
+To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20190604111330.25324-1-tzimmermann@suse.de>
+ <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
+ <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
+ <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
+ <3b574a1c-8dee-962f-e2ad-4959e75321d7@suse.de>
+ <20190606074515.wlyzzlqdv7r2urum@sirius.home.kraxel.org>
+ <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <26d3e769-d995-1683-2382-e28f97239286@suse.de>
+Date: Thu, 6 Jun 2019 10:03:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190605070507.11417-3-andrew.smirnov@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHKsWRmVeSWpSXmKPExsWy7djPc7qeJ37EGLx6b2TR3GFr0XSogdWi
- qeMtq8WPK4dZLA7uOc5kceXrezaLB3NvMll0TlzCbnF51xw2i7v3TrBYrJ9/i82B2+NyXy+T
- x4Op/5k8ds66y+4xu2Mmq8f97uNMHv1/DTyO39jO5PF5k5zHualnmQI4o7hsUlJzMstSi/Tt
- ErgyDrUkFjQJVLy/Gt/A2MPbxcjJISFgInH3RAdzFyMXh5DACkaJAz9eskE4Xxgl7jQcZwap
- EhL4zCjx8FMyTMfeRe2sEEXLGSXufX7NDuG8ZZR4v/8vC0iVsECcxOmb+9hBbBGBAIlPTTvB
- xjILfGWSOHBpIhNIgk1AU+Lv5ptsIDavgJ3E9YWLwOIsAioS614sBLNFBSIk7h/bwApRIyhx
- cuYTsAWcQPXN39eCnccsIC/RvHU2lC0ucevJfCaQZRICj9gl9n25yQxxt4vEi45HbBC2sMSr
- 41vYIWwZidOTe1gg7HqJ+ytamCGaOxgltm7YCdVsLXH4+EWgKziANmhKrN+lD2JKCDhKbH/K
- DWHySdx4KwhxAp/EpG3TmSHCvBIdbUIQMxQl7p/dCjVPXGLpha9sExiVZiF5bBaSZ2YheWYW
- wtoFjCyrGMVTS4tz01OLjfJSy/WKE3OLS/PS9ZLzczcxAlPZ6X/Hv+xg3PUn6RCjAAejEg+v
- xMbvMUKsiWXFlbmHGCU4mJVEeBNvf4kR4k1JrKxKLcqPLyrNSS0+xCjNwaIkzlvN8CBaSCA9
- sSQ1OzW1ILUIJsvEwSnVwFj895DV0fzm3IIHuyNCLUuC7pQyZ/84/PeS2ASXQ2GnVtfME+zl
- qDrGdv+v9seqUzsjDvf1XEjYYut4pG3L+/ptJVbVgQ3PpM9v8+I33Z7WNyusMnnx22VHj30N
- iIxM0z03kXfpilAhjTWeIVU1v2yWr9xY9fVvtZPmG/vZ+aXvdLeq7l0YMkuJpTgj0VCLuag4
- EQDboClrYQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMIsWRmVeSWpSXmKPExsVy+t/xu7oeJ37EGDzeY2bR3GFr0XSogdWi
- qeMtq8WPK4dZLA7uOc5kceXrezaLB3NvMll0TlzCbnF51xw2i7v3TrBYrJ9/i82B2+NyXy+T
- x4Op/5k8ds66y+4xu2Mmq8f97uNMHv1/DTyO39jO5PF5k5zHualnmQI4o/RsivJLS1IVMvKL
- S2yVog0tjPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyDrUkFjQJVLy/Gt/A2MPb
- xcjJISFgIrF3UTtrFyMXh5DAUkaJhf9+MEEkxCV2z3/LDGELS/y51sUGUfSaUWLG6WUsIAlh
- gTiJ0zf3sYPYIgJ+El3zDjCBFDELfGeSmLh8LwtEx1FGiWPLZoFVsQloSvzdfJMNxOYVsJO4
- vnAR2DoWARWJdS8WgtmiAhESZ96vYIGoEZQ4OfMJmM0JVN/8fS3YScwC6hJ/5l2CsuUlmrfO
- hrLFJW49mc80gVFoFpL2WUhaZiFpmYWkZQEjyypGkdTS4tz03GIjveLE3OLSvHS95PzcTYzA
- CN527OeWHYxd74IPMQpwMCrx8Eps/B4jxJpYVlyZe4hRgoNZSYQ38faXGCHelMTKqtSi/Pii
- 0pzU4kOMpkDPTWSWEk3OByaXvJJ4Q1NDcwtLQ3Njc2MzCyVx3g6BgzFCAumJJanZqakFqUUw
- fUwcnFINjKU3OxlSWI43F1478PaZjunbUrUpVkEVf3YGP84V0rzhzGzry6ou/zCeb2JbqH6r
- 6r6tcftLY+b3iShy8QbmFd/zCD8kYPgstoA71LMtQWal3JqiA0+m5HhwHX940G5XhsTqO0Iv
- 87fUxRVeU/duiHtkErS4a+vRL6rVL3jUDNpVTs4/X66gxFKckWioxVxUnAgAPUXuD/YCAAA=
-X-CMS-MailID: 20190606080113eucas1p13327c9bf0596dd2c744f776097153856
-X-Msg-Generator: CA
-X-RootMTR: 20190605070527epcas1p36d630a4be138dd07791047c4d45a716f
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190605070527epcas1p36d630a4be138dd07791047c4d45a716f
-References: <20190605070507.11417-1-andrew.smirnov@gmail.com>
- <CGME20190605070527epcas1p36d630a4be138dd07791047c4d45a716f@epcas1p3.samsung.com>
- <20190605070507.11417-3-andrew.smirnov@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=samsung.com; 
- s=mail20170921; t=1559808074;
- bh=MAN58sTDz07tsLX8C4vgD27ti2cafy/nMvtO+uKybQw=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=J4dVqirl/Wr/Fh/zjEuv+l0vKC17E4O/vtvvE5hx9/WXHmA7m8gnxOMghjZ0r3vv4
- h9CUAfMPXzr8ZcsYFqb4WPKuL+TZdKsq9KfWf6jkxYUm6eR2T0UQQsLEmwuz+d9hRd
- Oq8k6FwBtmtD6IHP470DbJSFSS+FAtN1VnF9tft8=
+In-Reply-To: <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,51 +71,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cory Tusar <cory.tusar@zii.aero>, Archit Taneja <architt@codeaurora.org>,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- linux-kernel@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Chris Healy <cphealy@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============0575228061=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDUuMDYuMjAxOSAwOTowNCwgQW5kcmV5IFNtaXJub3Ygd3JvdGU6Cj4gUmVwbGFjZSBleHBs
-aWNpdCBwb2xsaW5nIGxvb3Agd2l0aCBlcXVpdmFsZW50IGNhbGwgdG8KPiB0Y19wb2xsX3RpbWVv
-dXQoKSBmb3IgYnJldml0eS4gTm8gZnVuY3Rpb25hbCBjaGFuZ2UgaW50ZW5kZWQuCj4KPiBTaWdu
-ZWQtb2ZmLWJ5OiBBbmRyZXkgU21pcm5vdiA8YW5kcmV3LnNtaXJub3ZAZ21haWwuY29tPgo+IENj
-OiBBcmNoaXQgVGFuZWphIDxhcmNoaXR0QGNvZGVhdXJvcmEub3JnPgo+IENjOiBBbmRyemVqIEhh
-amRhIDxhLmhhamRhQHNhbXN1bmcuY29tPgo+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxMYXVyZW50
-LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4gQ2M6IFRvbWkgVmFsa2VpbmVuIDx0b21pLnZh
-bGtlaW5lbkB0aS5jb20+Cj4gQ2M6IEFuZHJleSBHdXNha292IDxhbmRyZXkuZ3VzYWtvdkBjb2dl
-bnRlbWJlZGRlZC5jb20+Cj4gQ2M6IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXgu
-ZGU+Cj4gQ2M6IENvcnkgVHVzYXIgPGNvcnkudHVzYXJAemlpLmFlcm8+Cj4gQ2M6IENocmlzIEhl
-YWx5IDxjcGhlYWx5QGdtYWlsLmNvbT4KPiBDYzogTHVjYXMgU3RhY2ggPGwuc3RhY2hAcGVuZ3V0
-cm9uaXguZGU+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGlu
-dXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L3RjMzU4NzY3LmMgfCAxNSArKysrKy0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5z
-ZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS90YzM1ODc2Ny5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5j
-Cj4gaW5kZXggZmI4YTE5NDJlYzU0Li41ZTFlNzNhOTE2OTYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRn
-ZS90YzM1ODc2Ny5jCj4gQEAgLTc3NCw3ICs3NzQsNiBAQCBzdGF0aWMgaW50IHRjX21haW5fbGlu
-a19lbmFibGUoc3RydWN0IHRjX2RhdGEgKnRjKQo+ICAJc3RydWN0IGRldmljZSAqZGV2ID0gdGMt
-PmRldjsKPiAgCXVuc2lnbmVkIGludCByYXRlOwo+ICAJdTMyIGRwX3BoeV9jdHJsOwo+IC0JaW50
-IHRpbWVvdXQ7Cj4gIAl1MzIgdmFsdWU7Cj4gIAlpbnQgcmV0Owo+ICAJdTggdG1wWzhdOwo+IEBA
-IC04MzEsMTUgKzgzMCwxMSBAQCBzdGF0aWMgaW50IHRjX21haW5fbGlua19lbmFibGUoc3RydWN0
-IHRjX2RhdGEgKnRjKQo+ICAJZHBfcGh5X2N0cmwgJj0gfihEUF9QSFlfUlNUIHwgUEhZX00xX1JT
-VCB8IFBIWV9NMF9SU1QpOwo+ICAJdGNfd3JpdGUoRFBfUEhZX0NUUkwsIGRwX3BoeV9jdHJsKTsK
-PiAgCj4gLQl0aW1lb3V0ID0gMTAwMDsKPiAtCWRvIHsKPiAtCQl0Y19yZWFkKERQX1BIWV9DVFJM
-LCAmdmFsdWUpOwo+IC0JCXVkZWxheSgxKTsKPiAtCX0gd2hpbGUgKCghKHZhbHVlICYgUEhZX1JE
-WSkpICYmICgtLXRpbWVvdXQpKTsKPiAtCj4gLQlpZiAodGltZW91dCA9PSAwKSB7Cj4gLQkJZGV2
-X2VycihkZXYsICJ0aW1lb3V0IHdhaXRpbmcgZm9yIHBoeSBiZWNvbWUgcmVhZHkiKTsKPiAtCQly
-ZXR1cm4gLUVUSU1FRE9VVDsKPiArCXJldCA9IHRjX3BvbGxfdGltZW91dCh0YywgRFBfUEhZX0NU
-UkwsIFBIWV9SRFksIFBIWV9SRFksIDEsIDEwMDApOwo+ICsJaWYgKHJldCkgewo+ICsJCWlmIChy
-ZXQgPT0gLUVUSU1FRE9VVCkKPiArCQkJZGV2X2VycihkZXYsICJ0aW1lb3V0IHdhaXRpbmcgZm9y
-IHBoeSBiZWNvbWUgcmVhZHkiKTsKPiArCQlyZXR1cm4gcmV0OwoKClJldmlld2VkLWJ5OiBBbmRy
-emVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29tPgoKwqAtLQpSZWdhcmRzCkFuZHJ6ZWoKCgo+
-ICAJfQo+ICAKPiAgCS8qIFNldCBtaXNjOiA4IGJpdHMgcGVyIGNvbG9yICovCgoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0575228061==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf
+Content-Type: multipart/mixed; boundary="E6SGxB8hdbnobH4WMBiEpsnTQBrm8RSs7";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <26d3e769-d995-1683-2382-e28f97239286@suse.de>
+Subject: Re: [PATCH] drm: Ignore drm_gem_vram_mm_funcs in generated
+ documentation
+References: <20190604111330.25324-1-tzimmermann@suse.de>
+ <20190605090308.efdkhxqnaydorubm@sirius.home.kraxel.org>
+ <fe2df569-da1f-a54c-8a8e-e921a979278f@suse.de>
+ <20190605155847.gabpvcoc6zf3twfv@sirius.home.kraxel.org>
+ <3b574a1c-8dee-962f-e2ad-4959e75321d7@suse.de>
+ <20190606074515.wlyzzlqdv7r2urum@sirius.home.kraxel.org>
+ <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
+In-Reply-To: <CAKMK7uFdge88oqrm0X5p1VmDKk3bbRs9O8ToOy3VwSFEp7LuNA@mail.gmail.com>
+
+--E6SGxB8hdbnobH4WMBiEpsnTQBrm8RSs7
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 06.06.19 um 09:49 schrieb Daniel Vetter:
+> On Thu, Jun 6, 2019 at 9:45 AM Gerd Hoffmann <kraxel@redhat.com> wrote:=
+
+>>
+>> On Thu, Jun 06, 2019 at 08:39:12AM +0200, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 05.06.19 um 17:58 schrieb Gerd Hoffmann:
+>>>> On Wed, Jun 05, 2019 at 11:59:04AM +0200, Thomas Zimmermann wrote:
+>>>>> Hi
+>>>>>
+>>>>> Am 05.06.19 um 11:03 schrieb Gerd Hoffmann:
+>>>>>> On Tue, Jun 04, 2019 at 01:13:30PM +0200, Thomas Zimmermann wrote:=
+
+>>>>>>> The documentation tools interpret drm_gem_vram_mm_funcs as functi=
+on and
+>>>>>>> there appears to be no way of inline-documenting constants.
+>>>>>>
+>>>>>>> -/**
+>>>>>>> +/*
+>>>>>>>   * drm_gem_vram_mm_funcs - Functions for &struct drm_vram_mm
+>>>>>>
+>>>>>> "struct drm_gem_vram_mm_funcs" ?
+>>>>>>
+>>>>>> (see include/drm/drm_gem.h where struct drm_gem_object_funcs is
+>>>>>> documented that way).
+>>>>>
+>>>>> The documented source line is
+>>>>>
+>>>>>   const struct drm_vram_mm_funcs drm_gem_vram_mm_funcs =3D {
+>>>>>
+>>>>> and I tried to document the purpose of the constant 'drm_gem_vram_m=
+m_funcs'.
+>>>>
+>>>> Ah.  Missed that detail.
+>>>>
+>>>>> Documenting global constants is not described in the kernel guide a=
+nd I
+>>>>> could not find a source-code example either. Function and struct st=
+yle
+>>>>> with '-' didn't work; member-field style with '@' neither. The only=
+ way
+>>>>> seems to be adding it to an .rst file in Documentation. But then it=
+'s
+>>>>> not part of the API documentation, but somewhere in the text.
+>>>>
+>>>> Ok, patch is fine then.
+>>>>
+>>>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>>>
+>>> Thanks.
+>>>
+>>>> (can you commit & push yourself meanwhile?)
+>>>
+>>> Not yet. The respective bug report is still open.
+>>
+>> Ok, I'll push it then.
+>=20
+> You should have commit rights for drm-misc, I just checked. At least
+> there's a tzimmermann account in the drm-misc group.
+
+Thanks for the update.
+
+Gerd, if you haven't pushed it yet I'm going to add this patch to the tre=
+e.
+
+Best regards
+Thomas
+
+> https://drm.pages.freedesktop.org/maintainer-tools/getting-started.html=
+
+>=20
+> ... to get you going. If things don't work pls ping on #dri-devel on fr=
+eenode.
+> -Daniel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--E6SGxB8hdbnobH4WMBiEpsnTQBrm8RSs7--
+
+--0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz4yMsACgkQaA3BHVML
+eiMAXAf/S6oFLlC3M3ccbJRyE+s3+kczMJLuZzRtLPbEkTk+6j8g2TXmc/Fdh1P5
+jcXhgbUeF1K1LmGpbCO6Eb+C4lrU1koYA99jxhI0mIX+mtj7G6mROE7XbN51ZZ0A
+2Db0M3gmDUjjeAUbU0GFxmRsewhNibE/tufbV83yaZotVkYPugCsfm08R32LfphH
+VxoqQ86ryzYMPWjGpr+JyQMq/yHAAKW7RGEbnSIYIqxycQA9IFTCc/yemklW8tLo
+xVFfAcUeyqfdoM0cxJf7Bg34ClOVadSptrvGDaA42VkR04u6Ohif9kI4BGNegJX5
+FGu7BwiDf+PfRjqA26HVtwJkdHiO5w==
+=m9Hd
+-----END PGP SIGNATURE-----
+
+--0FKGBk8Dsn7R4rKGVfTOCMPY4DTpuFrkf--
+
+--===============0575228061==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0575228061==--
