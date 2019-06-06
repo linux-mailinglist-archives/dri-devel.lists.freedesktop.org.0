@@ -2,42 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E51938563
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 09:45:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9473536E19
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Jun 2019 10:05:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B599089A8C;
-	Fri,  7 Jun 2019 07:43:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0D689349;
+	Thu,  6 Jun 2019 08:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 431 seconds by postgrey-1.36 at gabe;
- Thu, 06 Jun 2019 08:12:53 UTC
-Received: from mx1.bachmann.info (mx1.bachmann.info [185.67.228.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB041895C4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:12:53 +0000 (UTC)
-IronPort-SDR: N44m5eoQq8/vvDYwKA+6vjCWd8JXboxo+GgWh3mlzwQOoUJGvuJPjRXs4OgRoB2fGDmSRlx4ze
- 3LlgkxoWPQcg==
-X-IronPort-AV: E=Sophos;i="5.63,558,1557180000"; d="scan'208,217";a="234750"
-Received: from atfkex01.bachmann.at (10.10.10.61) by atfkex01.bachmann.at
- (10.10.10.61) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 6 Jun
- 2019 10:05:38 +0200
-Received: from atfkex01.bachmann.at ([fe80::6079:2a3f:2cd5:6f85]) by
- atfkex01.bachmann.at ([fe80::6079:2a3f:2cd5:6f85%12]) with mapi id
- 15.00.1473.003; Thu, 6 Jun 2019 10:05:37 +0200
-From: MOESL.Hannes <Hannes.MOESL@bachmann.info>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: drm/imx: 'flip_done timed out' on i.MX6D+ and kernel v4.19.48
-Thread-Topic: drm/imx: 'flip_done timed out' on i.MX6D+ and kernel v4.19.48
-Thread-Index: AdUcOvIxGhhvURkzSZGhESfGVauyfA==
-Date: Thu, 6 Jun 2019 08:05:37 +0000
-Message-ID: <67694ebedbdb46ab8a0f44fbfffca9bf@atfkex01.bachmann.at>
-Accept-Language: de-AT, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.11.20.62]
+Received: from foss.arm.com (foss.arm.com [217.140.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1B27D89349
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Jun 2019 08:05:49 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7A21341;
+ Thu,  6 Jun 2019 01:05:48 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.72.51.249])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A74F03F246;
+ Thu,  6 Jun 2019 01:05:48 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id 05B66682572; Thu,  6 Jun 2019 09:05:47 +0100 (BST)
+Date: Thu, 6 Jun 2019 09:05:46 +0100
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Dave Airlie <airlied@gmail.com>
+Subject: Re: [GIT PULL] v5.2 fixes for Arm drivers
+Message-ID: <20190606080546.GA25620@e110455-lin.cambridge.arm.com>
+References: <20190604144205.GO15316@e110455-lin.cambridge.arm.com>
+ <CAPM=9tw+xO6QPcCdtFE_4t5wVrwY0CHdZ4YFNrb13SqOUHVcEA@mail.gmail.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 07 Jun 2019 07:43:40 +0000
+Content-Disposition: inline
+In-Reply-To: <CAPM=9tw+xO6QPcCdtFE_4t5wVrwY0CHdZ4YFNrb13SqOUHVcEA@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,152 +44,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2104197966=="
+Cc: Wen He <wen.he_1@nxp.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI devel <dri-devel@lists.freedesktop.org>,
+ "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
+ MaliDP Maintainers <malidp@foss.arm.com>,
+ "Lowry Li \(Arm Technology China\)" <lowry.li@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2104197966==
-Content-Language: de-DE
-Content-Type: multipart/alternative;
-	boundary="_000_67694ebedbdb46ab8a0f44fbfffca9bfatfkex01bachmannat_"
-
---_000_67694ebedbdb46ab8a0f44fbfffca9bfatfkex01bachmannat_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-We observed the following error on an i.MX6D+ CPU during start of X. As a r=
-esult, the screen goes blank.
-
--------
-[ 3599.200886] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:30:=
-crtc-0] flip_done timed out
-[ 3610.080885] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:=
-30:crtc-0] flip_done timed out
-[ 3620.320849] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNE=
-CTOR:45:LVDS-1] flip_done timed out
-[ 3630.560864] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE=
-:28:plane-0] flip_done timed out
--------
-
-The error happens quite randomly but it can be reliably reproduced by repea=
-tedly restarting X . On our system, the error occurs somewhere between 80 a=
-nd 300 restarts of X.
-We first observed the issue using kernel 4.14.123. Updating to 4.19.48 did =
-not solve the issue unfortunately.
-
-Cheers,
-Hannes Moesl
-
-
---_000_67694ebedbdb46ab8a0f44fbfffca9bfatfkex01bachmannat_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Verdana;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.E-MailFormatvorlage17
-	{mso-style-type:personal-compose;
-	font-family:"Verdana",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:70.85pt 70.85pt 2.0cm 70.85pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"DE" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.0pt;font-=
-family:&quot;Verdana&quot;,sans-serif">Hi,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">We observed the following error=
- on an i.MX6D&#43; CPU during start of X. As a result, the screen goes blan=
-k.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-------<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">[ 3599.200886] [drm:drm_atomic_=
-helper_wait_for_flip_done] *ERROR* [CRTC:30:crtc-0] flip_done timed out<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">[ 3610.080885] [drm:drm_atomic_=
-helper_wait_for_dependencies] *ERROR* [CRTC:30:crtc-0] flip_done timed out<=
-o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">[ 3620.320849] [drm:drm_atomic_=
-helper_wait_for_dependencies] *ERROR* [CONNECTOR:45:LVDS-1] flip_done timed=
- out<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">[ 3630.560864] [drm:drm_atomic_=
-helper_wait_for_dependencies] *ERROR* [PLANE:28:plane-0] flip_done timed ou=
-t<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-------<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">The error happens quite randoml=
-y but it can be reliably reproduced by repeatedly restarting X . On our sys=
-tem, the error occurs somewhere between 80 and 300 restarts of X.<o:p></o:p=
-></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">We first observed the issue usi=
-ng kernel 4.14.123. Updating to 4.19.48 did not solve the issue unfortunate=
-ly.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Cheers,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hannes Moesl<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
-
---_000_67694ebedbdb46ab8a0f44fbfffca9bfatfkex01bachmannat_--
-
---===============2104197966==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2104197966==--
+T24gVGh1LCBKdW4gMDYsIDIwMTkgYXQgMTI6MTE6MTRQTSArMTAwMCwgRGF2ZSBBaXJsaWUgd3Jv
+dGU6Cj4gSGkgTGl2aXUsCgpIaSBEYXZlLAoKPiAKPiBkaW06IGM0M2RlNjM2YTQ2OSAoImRybS9r
+b21lZGE6IFBvdGVudGlhbCBlcnJvciBwb2ludGVyIGRlcmVmZXJlbmNlIik6Cj4gY29tbWl0dGVy
+IFNpZ25lZC1vZmYtYnkgbWlzc2luZy4KPiBkaW06IGM0M2RlNjM2YTQ2OSAoImRybS9rb21lZGE6
+IFBvdGVudGlhbCBlcnJvciBwb2ludGVyIGRlcmVmZXJlbmNlIik6Cj4gU0hBMSBpbiBmaXhlcyBs
+aW5lIG5vdCBmb3VuZDoKPiBkaW06ICAgICA3ZDMxYjllN2E1NTAgKCJkcm0va29tZWRhOiBBZGQg
+a29tZWRhX3BsYW5lL3BsYW5lX2hlbHBlcl9mdW5jcyIpCj4gCj4gVGhlc2UgYXJlIHJlYWwsIHBs
+ZWFzZSBmaXggYW5kIHJlc3VibWl0LgoKU29ycnkgYWJvdXQgdGhhdCwgdGhpcyBpcyBub3cgZml4
+ZWQhIFBsZWFzZSBwdWxsIQoKQmVzdCByZWdhcmRzLApMaXZpdQoKCj4gCj4gRGF2ZS4KCgpUaGUg
+Zm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IDJhM2UwYjcxNjI5NmE1MDRkOWU2NWZlYTdh
+Y2IzNzljODZmZTQyODM6CgogIE1lcmdlIHRhZyAnaW14LWRybS1maXhlcy0yMDE5LTA1LTI5JyBv
+ZiBnaXQ6Ly9naXQucGVuZ3V0cm9uaXguZGUvZ2l0L3B6YS9saW51eCBpbnRvIGRybS1maXhlcyAo
+MjAxOS0wNS0zMSAwOToxNToyNSArMTAwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBv
+c2l0b3J5IGF0OgoKICBnaXQ6Ly9saW51eC1hcm0ub3JnL2xpbnV4LWxkLmdpdCBtYWxpZHAtZml4
+ZXMKCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0byA2ZDEwZGM2MTdiNDEyOGMwNmZjMmE4
+OGI0N2ZkYTBhMTgzZmZlMzZjOgoKICBkcm0va29tZWRhOiBQb3RlbnRpYWwgZXJyb3IgcG9pbnRl
+ciBkZXJlZmVyZW5jZSAoMjAxOS0wNi0wNiAwOTowMDoyOSArMDEwMCkKCi0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KRGFuIENh
+cnBlbnRlciAoMSk6CiAgICAgIGRybS9rb21lZGE6IFBvdGVudGlhbCBlcnJvciBwb2ludGVyIGRl
+cmVmZXJlbmNlCgpMb3dyeSBMaSAoQXJtIFRlY2hub2xvZ3kgQ2hpbmEpICgxKToKICAgICAgZHJt
+L2tvbWVkYTogZml4aW5nIG9mIERNQSBtYXBwaW5nIHNnIHNlZ21lbnQgd2FybmluZwoKUm9iaW4g
+TXVycGh5ICgyKToKICAgICAgZHJtL2FybS9oZGxjZDogQWN0dWFsbHkgdmFsaWRhdGUgQ1JUQyBt
+b2RlcwogICAgICBkcm0vYXJtL2hkbGNkOiBBbGxvdyBhIGJpdCBvZiBjbG9jayB0b2xlcmFuY2UK
+CldlbiBIZSAoMSk6CiAgICAgIGRybS9hcm0vbWFsaS1kcDogQWRkIGEgbG9vcCBhcm91bmQgdGhl
+IHNlY29uZCBzZXQgQ1ZBTCBhbmQgdHJ5IDUgdGltZXMKCll1ZUhhaWJpbmcgKDEpOgogICAgICBk
+cm0va29tZWRhOiByZW1vdmUgc2V0IGJ1dCBub3QgdXNlZCB2YXJpYWJsZSAna2NydGMnCgpqYW1l
+cyBxaWFuIHdhbmcgKEFybSBUZWNobm9sb2d5IENoaW5hKSAoMSk6CiAgICAgIGRybS9rb21lZGE6
+IENvbnN0aWZ5IHRoZSB1c2FnZSBvZiBrb21lZGFfY29tcG9uZW50L3BpcGVsaW5lL2Rldl9mdW5j
+cwoKIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEvZDcxL2Q3MV9jb21wb25lbnQu
+YyB8ICA4ICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9k
+NzFfZGV2LmMgICAgICAgfCAgNCArKy0tCiBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29t
+ZWRhL2tvbWVkYV9jcnRjLmMgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNw
+bGF5L2tvbWVkYS9rb21lZGFfZGV2LmMgICAgICAgIHwgIDYgKysrKystCiBkcml2ZXJzL2dwdS9k
+cm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuaCAgICAgICAgfCAgOCArKysrKy0tLQog
+ZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGlwZWxpbmUuYyAgIHwg
+IDQgKystLQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGlwZWxp
+bmUuaCAgIHwgMTAgKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVk
+YS9rb21lZGFfcGxhbmUuYyAgICAgIHwgIDQgKy0tLQogZHJpdmVycy9ncHUvZHJtL2FybS9oZGxj
+ZF9jcnRjLmMgICAgICAgICAgICAgICAgICAgICAgIHwgMTQgKysrKysrKy0tLS0tLS0KIGRyaXZl
+cnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jICAgICAgICAgICAgICAgICAgICAgICB8IDEzICsr
+KysrKysrKysrKy0KIDEwIGZpbGVzIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDI5IGRlbGV0
+aW9ucygtKQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
