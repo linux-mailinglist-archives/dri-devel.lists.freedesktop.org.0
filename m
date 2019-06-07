@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35B538BC7
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 15:38:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4BD38BCA
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 15:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7BF89DA2;
-	Fri,  7 Jun 2019 13:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 914D589D8A;
+	Fri,  7 Jun 2019 13:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id ADABA89DA2
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 13:38:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A3A5D72167; Fri,  7 Jun 2019 13:38:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Fri, 07 Jun 2019 13:38:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: ashark@linuxcomp.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110795-502-XP3Ox5bujY@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
-References: <bug-110795-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20B1789D8A
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 13:38:40 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown
+ [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F88E334;
+ Fri,  7 Jun 2019 15:38:38 +0200 (CEST)
+Date: Fri, 7 Jun 2019 16:38:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH 2/5] drm/bridge: add encoder support to specify bridge
+ input format
+Message-ID: <20190607133818.GM7593@pendragon.ideasonboard.com>
+References: <20190520133753.23871-1-narmstrong@baylibre.com>
+ <20190520133753.23871-3-narmstrong@baylibre.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190520133753.23871-3-narmstrong@baylibre.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1559914718;
+ bh=cZWJM1dGWVBJvNXv07QLU66jY8fTal7gs4kQKfSyIAw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZO4rdF0cZmRzSCRE2r/yzqMnESSU+RYfuDkWC5d0d9ZFpoTzj5PIr9xSnI0SsdqXl
+ Qf7nRCBMJPzAk5ykLUE9R8QeUFQdvrXnyxb6Z46Nr4nBzNk2IX1NxzjZQDuCw8Mp3e
+ mf5k1OAOoyidAQCAKMXgWF/m2rKG5dBXjLcyOnkU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,99 +48,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0894790700=="
+Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, maxime.ripard@bootlin.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ hverkuil@xs4all.nl, linux-amlogic@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0894790700==
-Content-Type: multipart/alternative; boundary="15599146930.2a8603.30572"
-Content-Transfer-Encoding: 7bit
-
-
---15599146930.2a8603.30572
-Date: Fri, 7 Jun 2019 13:38:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
-
---- Comment #9 from Andrew Shark <ashark@linuxcomp.ru> ---
-@Rolf, my script is specifically targeted at pro variant. I do not understa=
-nd
-your desire to use amd bundled archive for All-Open stack, because All-Open=
- is
-already provided by Ubuntu repos.
-However, you can just remove "--pro" from the end of the script in line:
-./amdgpu-install --pro --opencl=3Dlagacy,pal --no-dkms
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15599146930.2a8603.30572
-Date: Fri, 7 Jun 2019 13:38:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ashark&#64;linuxcomp.ru" title=3D"Andrew Shark &lt;ashark&#64;linuxcomp.ru&=
-gt;"> <span class=3D"fn">Andrew Shark</span></a>
-</span></b>
-        <pre>&#64;Rolf, my script is specifically targeted at pro variant. =
-I do not understand
-your desire to use amd bundled archive for All-Open stack, because All-Open=
- is
-already provided by Ubuntu repos.
-However, you can just remove &quot;--pro&quot; from the end of the script i=
-n line:
-./amdgpu-install --pro --opencl=3Dlagacy,pal --no-dkms</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15599146930.2a8603.30572--
-
---===============0894790700==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0894790700==--
+SGkgTmVpbCwKClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLgoKT24gTW9uLCBNYXkgMjAsIDIwMTkg
+YXQgMDM6Mzc6NTBQTSArMDIwMCwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4gVGhpcyBwYXRjaCBh
+ZGRzIGEgbmV3IGZvcm1hdF9zZXQoKSBjYWxsYmFjayB0byB0aGUgYnJpZGdlIG9wcyBwZXJtaXR0
+aW5nCj4gdGhlIGVuY29kZXIgdG8gc3BlY2lmeSB0aGUgbmV3IGlucHV0IGZvcm1hdCBhbmQgZW5j
+b2RpbmcuCj4gCj4gVGhpcyBhbGxvd3Mgc3VwcG9ydGluZyB0aGUgdmVyeSBzcGVjaWZpYyBIRE1J
+Mi4wIFlVVjQyMCBvdXRwdXQgbW9kZQo+IHdoZW4gdGhlIGJyaWRnZSBjYW5ub3QgY29udmVydCBm
+cm9tIFJHQiBvciBZVVY0NDQgdG8gWVVWNDIwLgo+IAo+IEluIHRoaXMgY2FzZSwgdGhlIGVuY29k
+ZSBtdXN0IGRvd25zYW1wbGUgYmVmb3JlIHRoZSBicmlkZ2UgYW5kIG11c3QKPiBzcGVjaWZ5IHRo
+ZSBicmlkZ2UgdGhlIG5ldyBpbnB1dCBidXMgZm9ybWF0IGRpZmZlcnMuCj4gCj4gVGhpcyB3aWxs
+IGFsc28gaGVscCBzdXBwb3J0aW5nIHRoZSBZVVY0MjAgbW9kZSB3aGVyZSB0aGUgYnJpZGdlIGNh
+bm5vdAo+IGRvd25zYW1wbGUsIGFuZCBhbHNvIHN1cHBvcnQgMTBiaXQsIDEyYml0IGFuZCAxNmJp
+dCBvdXRwdXQgbW9kZXMKPiB3aGVuIHRoZSBicmlkZ2UgY2Fubm90IGNvbnZlcnQgYmV0d2VlbiBk
+aWZmZXJlbnQgYml0IGRlcHRocy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBOZWlsIEFybXN0cm9uZyA8
+bmFybXN0cm9uZ0BiYXlsaWJyZS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fYnJp
+ZGdlLmMgfCAzNSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBpbmNsdWRl
+L2RybS9kcm1fYnJpZGdlLmggICAgIHwgMTkgKysrKysrKysrKysrKysrKysrKwo+ICAyIGZpbGVz
+IGNoYW5nZWQsIDU0IGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9icmlkZ2UuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYnJpZGdlLmMKPiBpbmRleCAx
+MzhiMjcxMWQzODkuLjMzYmU3NGE5NzdmNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2JyaWRnZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9icmlkZ2UuYwo+IEBAIC0z
+MDcsNiArMzA3LDQxIEBAIHZvaWQgZHJtX2JyaWRnZV9tb2RlX3NldChzdHJ1Y3QgZHJtX2JyaWRn
+ZSAqYnJpZGdlLAo+ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX2JyaWRnZV9tb2RlX3NldCk7Cj4g
+IAo+ICsvKioKPiArICogZHJtX2JyaWRnZV9mb3JtYXRfc2V0IC0gc2V0dXAgd2l0aCBwcm9wb3Nl
+ZCBpbnB1dCBmb3JtYXQgYW5kIGVuY29kaW5nIGZvcgo+ICsgKgkJCSAgIGFsbCBicmlkZ2VzIGlu
+IHRoZSBlbmNvZGVyIGNoYWluCj4gKyAqIEBicmlkZ2U6IGJyaWRnZSBjb250cm9sIHN0cnVjdHVy
+ZQo+ICsgKiBAaW5wdXRfYnVzX2Zvcm1hdDogcHJvcG9zZWQgaW5wdXQgYnVzIGZvcm1hdCBmb3Ig
+dGhlIGJyaWRnZQo+ICsgKiBAaW5wdXRfZW5jb2Rpbmc6IHByb3Bvc2VkIGlucHV0IGVuY29kaW5n
+IGZvciB0aGlzIGJyaWRnZQo+ICsgKgo+ICsgKiBDYWxscyAmZHJtX2JyaWRnZV9mdW5jcy5mb3Jt
+YXRfc2V0IG9wIGZvciBhbGwgdGhlIGJyaWRnZXMgaW4gdGhlCj4gKyAqIGVuY29kZXIgY2hhaW4s
+IHN0YXJ0aW5nIGZyb20gdGhlIGZpcnN0IGJyaWRnZSB0byB0aGUgbGFzdC4KPiArICoKPiArICog
+Tm90ZTogdGhlIGJyaWRnZSBwYXNzZWQgc2hvdWxkIGJlIHRoZSBvbmUgY2xvc2VzdCB0byB0aGUg
+ZW5jb2Rlcgo+ICsgKgo+ICsgKiBSRVRVUk5TOgo+ICsgKiB0cnVlIG9uIHN1Y2Nlc3MsIGZhbHNl
+IGlmIG9uZSBvZiB0aGUgYnJpZGdlIGNhbm5vdCBoYW5kbGUgdGhlIGZvcm1hdAoKSSB3b3VsZCBy
+ZXR1cm4gYW4gaW50IHRvIHByb3BhZ2F0ZSB0aGUgZmFpbHVyZSByZWFzb24gdXBzdHJlYW0uIEl0
+IHdpbGwKcmVhY2ggdGhlIGNvbW1pdCB0YWlsIGhhbmRsZXIgaW4gYW55IGNhc2UsIHNvIHdpbGwg
+YmUgZHJvcHBlZCB0aGVyZSwgYnV0CmNvdWxkIGhlbHAgZGVidWdnaW5nIGlzc3VlcyBpZiB3ZSBw
+cmludCBpdCBpbiB0aGUgcmlnaHQgcGxhY2UuCgo+ICsgKi8KPiArYm9vbCBkcm1fYnJpZGdlX2Zv
+cm1hdF9zZXQoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKPiArCQkJICAgY29uc3QgdTMyIGlu
+cHV0X2J1c19mb3JtYXQsCj4gKwkJCSAgIGNvbnN0IHUzMiBpbnB1dF9lbmNvZGluZykKCllvdSBk
+b24ndCBuZWVkIGEgY29uc3QgaGVyZS4KCj4gK3sKPiArCWJvb2wgcmV0ID0gdHJ1ZTsKPiArCj4g
+KwlpZiAoIWJyaWRnZSkKPiArCQlyZXR1cm4gdHJ1ZTsKPiArCj4gKwlpZiAoYnJpZGdlLT5mdW5j
+cy0+Zm9ybWF0X3NldCkKPiArCQlyZXQgPSBicmlkZ2UtPmZ1bmNzLT5mb3JtYXRfc2V0KGJyaWRn
+ZSwgaW5wdXRfYnVzX2Zvcm1hdCwKPiArCQkJCQkJaW5wdXRfZW5jb2RpbmcpOwo+ICsJaWYgKCFy
+ZXQpCj4gKwkJcmV0dXJuIHJldDsKPiArCj4gKwlyZXR1cm4gZHJtX2JyaWRnZV9mb3JtYXRfc2V0
+KGJyaWRnZS0+bmV4dCwgaW5wdXRfYnVzX2Zvcm1hdCwKPiArCQkJCSAgICAgaW5wdXRfZW5jb2Rp
+bmcpOwoKSSBkb24ndCB0aGluayB0aGlzIHdpbGwgc2NhbGUuIEl0J3Mgbm90IHRoYXQgdW5jb21t
+b24gZm9yIGJyaWRnZXMgdG8KY2hhbmdlIHRoZSBmb3JtYXQgKG1vc3QgbGlrZWx5IGNvbnZlcnRp
+bmcgZnJvbSBZVVYgdG8gUkdCIG9yIHRoZSBvdGhlcgp3YXkgYXJvdW5kLCBvciByZWR1Y2luZyB0
+aGUgbnVtYmVyIG9mIGJpdHMgcGVyIHNhbXBsZSkgYW5kIHRoZSBlbmNvZGluZy4KV2UgdGh1cyBj
+YW4ndCBwcm9wYWdhdGUgaXQgZnJvbSBicmlkZ2UgdG8gYnJpZGdlIGFuZCBleHBlY3QgdGhhdCB0
+bwp3b3JrLgoKQXQgdGhlIHZlcnkgbGVhc3QsIHRoZSBicmlkZ2Ugc2hvdWxkIHJlcG9ydCBpdHMg
+b3V0cHV0IGJ1cyBmb3JtYXQgYW5kCmVuY29kaW5nLCB0byBiZSBhcHBsaWVkIHRvIHRoZSBuZXh0
+IGJyaWRnZSwgYnV0IHRoaXMgd29uJ3QgYWxsb3cKY2hlY2tpbmcgaWYgdGhlIGNvbmZpZ3VyYXRp
+b24gY2FuIGJlIGFwcGxpZWQgYWhlYWQgb2YgdGltZSwgcmVzdWx0aW5nIGluCnBvc3NpYmxlIGZh
+aWx1cmVzIG9mIGEgY29tbWl0IHRhaWwgaGFuZGxlci4gSSB3b25kZXIgaWYgdGhpcyB3b3VsZG4n
+dCBiZQphIGdvb2QgdGltZSB0byBpbnRyb2R1Y2UgYnJpZGdlIHN0YXRlcy4uLgoKPiArfQo+ICtF
+WFBPUlRfU1lNQk9MKGRybV9icmlkZ2VfZm9ybWF0X3NldCk7Cj4gKwo+ICAvKioKPiAgICogZHJt
+X2JyaWRnZV9wcmVfZW5hYmxlIC0gcHJlcGFyZXMgZm9yIGVuYWJsaW5nIGFsbAo+ICAgKgkJCSAg
+IGJyaWRnZXMgaW4gdGhlIGVuY29kZXIgY2hhaW4KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
+ZHJtX2JyaWRnZS5oIGIvaW5jbHVkZS9kcm0vZHJtX2JyaWRnZS5oCj4gaW5kZXggZDQ0Mjg5MTNh
+NGUxLi43YTc5ZTYxYjc4MjUgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2JyaWRnZS5o
+Cj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2JyaWRnZS5oCj4gQEAgLTE5OCw2ICsxOTgsMjIgQEAg
+c3RydWN0IGRybV9icmlkZ2VfZnVuY3Mgewo+ICAJdm9pZCAoKm1vZGVfc2V0KShzdHJ1Y3QgZHJt
+X2JyaWRnZSAqYnJpZGdlLAo+ICAJCQkgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1v
+ZGUsCj4gIAkJCSBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqYWRqdXN0ZWRfbW9kZSk7
+Cj4gKwo+ICsJLyoqCj4gKwkgKiBAZm9ybWF0X3NldDoKPiArCSAqCj4gKwkgKiBUaGlzIGNhbGxi
+YWNrIHNob3VsZCBjb25maWd1cmUgdGhlIGJyaWRnZSBmb3IgdGhlIGdpdmVuIGlucHV0IGJ1cwo+
+ICsJICogZm9ybWF0IGFuZCBlbmNvZGluZy4gSXQgaXMgY2FsbGVkIGFmdGVyIHRoZSBAZm9ybWF0
+X3NldCBjYWxsYmFjawo+ICsJICogZm9yIHRoZSBwcmVjZWRpbmcgZWxlbWVudCBpbiB0aGUgZGlz
+cGxheSBwaXBlbGluZSBoYXMgYmVlbiBjYWxsZWQKPiArCSAqIGFscmVhZHkuIElmIHRoZSBicmlk
+Z2UgaXMgdGhlIGZpcnN0IGVsZW1lbnQgdGhlbiB0aGlzIHdvdWxkIGJlCj4gKwkgKiAmZHJtX2Vu
+Y29kZXJfaGVscGVyX2Z1bmNzLmZvcm1hdF9zZXQuIFRoZSBkaXNwbGF5IHBpcGUgKGkuZS4KPiAr
+CSAqIGNsb2NrcyBhbmQgdGltaW5nIHNpZ25hbHMpIGlzIG9mZiB3aGVuIHRoaXMgZnVuY3Rpb24g
+aXMgY2FsbGVkLgo+ICsJICoKPiArCSAqIEByZXR1cm5zOiB0cnVlIGluIHN1Y2Nlc3MsIGZhbHNl
+IGlzIGEgYnJpZGdlIHJlZnVzZXMgdGhlIGZvcm1hdAo+ICsJICovCj4gKwlib29sICgqZm9ybWF0
+X3NldCkoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSwKPiArCQkJICAgY29uc3QgdTMyIGlucHV0
+X2J1c19mb3JtYXQsCj4gKwkJCSAgIGNvbnN0IHUzMiBpbnB1dF9lbmNvZGluZyk7Cj4gIAkvKioK
+PiAgCSAqIEBwcmVfZW5hYmxlOgo+ICAJICoKPiBAQCAtMzExLDYgKzMyNyw5IEBAIHZvaWQgZHJt
+X2JyaWRnZV9wb3N0X2Rpc2FibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSk7Cj4gIHZvaWQg
+ZHJtX2JyaWRnZV9tb2RlX3NldChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+ICAJCQkgY29u
+c3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGUsCj4gIAkJCSBjb25zdCBzdHJ1Y3QgZHJt
+X2Rpc3BsYXlfbW9kZSAqYWRqdXN0ZWRfbW9kZSk7Cj4gK2Jvb2wgZHJtX2JyaWRnZV9mb3JtYXRf
+c2V0KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gKwkJCSAgIGNvbnN0IHUzMiBpbnB1dF9i
+dXNfZm9ybWF0LAo+ICsJCQkgICBjb25zdCB1MzIgaW5wdXRfZW5jb2RpbmcpOwo+ICB2b2lkIGRy
+bV9icmlkZ2VfcHJlX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKTsKPiAgdm9pZCBk
+cm1fYnJpZGdlX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKTsKPiAgCgotLSAKUmVn
+YXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
