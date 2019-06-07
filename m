@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8AC3844F
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 08:28:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCA438472
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 08:36:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B595189954;
-	Fri,  7 Jun 2019 06:28:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DBF4899F0;
+	Fri,  7 Jun 2019 06:36:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1AB89954
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 06:28:19 +0000 (UTC)
-X-Originating-IP: 90.89.68.76
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
- (Authenticated sender: maxime.ripard@bootlin.com)
- by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id A363840003;
- Fri,  7 Jun 2019 06:28:03 +0000 (UTC)
-Date: Fri, 7 Jun 2019 08:28:02 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Harald Geyer <harald@ccbib.org>
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: a64: enable ANX6345 bridge
- on Teres-I
-Message-ID: <20190607062802.m5wslx3imiqooq5a@flea>
-References: <20190604122150.29D6468B05@newverein.lst.de>
- <20190604122308.98D4868B20@newverein.lst.de>
- <CA+E=qVckHLqRngsfK=AcvstrD0ymEfRkYyhS_kBtZ3YWdE3L=g@mail.gmail.com>
- <20190605101317.GA9345@lst.de>
- <20190605120237.ekmytfxcwbjaqy3x@flea>
- <E1hYsvP-0000PY-Pz@stardust.g4.wien.funkfeuer.at>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25DE989A1A
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 06:36:47 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2336A72167; Fri,  7 Jun 2019 06:36:47 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Fri, 07 Jun 2019 06:36:47 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-bTmbCnspjD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <E1hYsvP-0000PY-Pz@stardust.g4.wien.funkfeuer.at>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,96 +53,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- arm-linux <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0323557509=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMDYsIDIwMTkgYXQgMDM6NTk6MjdQTSArMDIwMCwgSGFyYWxkIEdleWVyIHdy
-b3RlOgo+IEd1eXMsIHRoaXMgZGlzY3Vzc2lvbiBpcyBnZXR0aW5nIGhlYXRlZCBmb3Igbm8gcmVh
-c29uLiBMZXQncyBwdXQKPiBwZXJzb25hbCBmcnVzdHJhdGlvbnMgYXNpZGUgYW5kIGRpc2N1c3Mg
-dGhlIGlzc3VlIG9uIGl0cyBtZXJpdHM6Cj4KPiBNYXhpbWUgUmlwYXJkIHdyaXRlczoKPiA+IE9u
-IFdlZCwgSnVuIDA1LCAyMDE5IGF0IDEyOjEzOjE3UE0gKzAyMDAsIFRvcnN0ZW4gRHV3ZSB3cm90
-ZToKPiA+ID4gT24gVHVlLCBKdW4gMDQsIDIwMTkgYXQgMDg6MDg6NDBBTSAtMDcwMCwgVmFzaWx5
-IEtob3J1emhpY2sgd3JvdGU6Cj4gPiA+ID4gT24gVHVlLCBKdW4gNCwgMjAxOSBhdCA1OjIzIEFN
-IFRvcnN0ZW4gRHV3ZSA8ZHV3ZUBsc3QuZGU+IHdyb3RlOgo+ID4gPiA+ID4KPiA+ID4gPiA+IFRl
-cmVzLUkgaGFzIGFuIGFueDYzNDUgYnJpZGdlIGNvbm5lY3RlZCB0byB0aGUgUkdCNjY2IExDRCBv
-dXRwdXQsIGFuZAo+ID4gPiA+ID4gdGhlIEkyQyBjb250cm9sbGluZyBzaWduYWxzIGFyZSBjb25u
-ZWN0ZWQgdG8gSTJDMCBidXMuIGVEUCBvdXRwdXQgZ29lcwo+ID4gPiA+ID4gdG8gYW4gSW5ub2x1
-eCBOMTE2QkdFIHBhbmVsLgo+ID4gPiA+ID4KPiA+ID4gPiA+IEVuYWJsZSBpdCBpbiB0aGUgZGV2
-aWNlIHRyZWUuCj4gPiA+ID4gPgo+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSWNlbm93eSBaaGVu
-ZyA8aWNlbm93eUBhb3NjLmlvPgo+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogVG9yc3RlbiBEdXdl
-IDxkdXdlQHN1c2UuZGU+Cj4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+ICAuLi4vYm9vdC9kdHMvYWxs
-d2lubmVyL3N1bjUwaS1hNjQtdGVyZXMtaS5kdHMgICAgICB8IDY1ICsrKysrKysrKysrKysrKysr
-KysrLS0KPiA+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgNjEgaW5zZXJ0aW9ucygrKSwgNCBkZWxl
-dGlvbnMoLSkKPiA+ID4gPiA+Cj4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290
-L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC10ZXJlcy1pLmR0cyBiL2FyY2gvYXJtNjQvYm9vdC9k
-dHMvYWxsd2lubmVyL3N1bjUwaS1hNjQtdGVyZXMtaS5kdHMKPiA+ID4gPiA+IGluZGV4IDBlYzQ2
-Yjk2OWE3NS4uYTBhZDQzOGIwMzdmIDEwMDY0NAo+ID4gPiA+ID4gLS0tIGEvYXJjaC9hcm02NC9i
-b290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC10ZXJlcy1pLmR0cwo+ID4gPiA+ID4gKysrIGIv
-YXJjaC9hcm02NC9ib290L2R0cy9hbGx3aW5uZXIvc3VuNTBpLWE2NC10ZXJlcy1pLmR0cwo+ID4g
-PiA+ID4gQEAgLTY1LDYgKzY1LDIxIEBACj4gPiA+ID4gPiAgICAgICAgICAgICAgICAgfTsKPiA+
-ID4gPiA+ICAgICAgICAgfTsKPiA+ID4gPiA+Cj4gPiA+ID4gPiArICAgICAgIHBhbmVsOiBwYW5l
-bCB7Cj4gPiA+ID4gPiArICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9Imlubm9sdXgsbjExNmJn
-ZSIsICJzaW1wbGUtcGFuZWwiOwo+ID4gPiA+Cj4gPiA+ID4gSXQncyBzdGlsbCAic2ltcGxlLXBh
-bmVsIi4gSSBiZWxpZXZlIEkgYWxyZWFkeSBtZW50aW9uZWQgdGhhdCBSb2IKPiA+ID4gPiBhc2tl
-ZCBpdCB0byBiZSBlZHAtY29ubmVjdG9yLgo+Cj4gQWN0dWFsbHkganVzdCBkcm9wcGluZyB0aGUg
-InNpbXBsZS1wYW5lbCIgY29tcGF0aWJsZSB3b3VsZCBiZSBhIHBvb3IKPiBjaG9pY2UuIEV2ZW4g
-aWYgImVkcC1jb25uZWN0b3IiIGlzIHNwZWNpZmllZCBhcyBiaW5kaW5nIGFuZCBpbXBsZW1lbnRl
-ZCBpbiBhCj4gZHJpdmVyLCB0aGVyZSBhcmUgb2xkZXIga2VybmVsIHZlcnNpb25zIGFuZCBvdGhl
-ciBvcGVyYXRpbmcgc3lzdGVtcyB0bwo+IGtlZXAgaW4gbWluZC4KCldoaWNoIG9sZGVyIGtlcm5l
-bHM/IFRoaXMgaXMgYSBuZXcgYmluZGluZywgYWRkaW5nIGEgbmV3IGRyaXZlciwgc28gaWYKYW4g
-b2xkZXIga2VybmVsIHVzZXMgYSBzZXBhcmF0ZSBkcml2ZXIgd2l0aCBpdHMgb3duIGJpbmRpbmcs
-IGdvb2QgZm9yCnRoZW0sIGJ1dCB3ZSBkb24ndCBoYXZlIHRvIHN1cHBvcnQgaXQuCgo+IElmIHRo
-ZSBIVyB3b3JrcyB3aXRoICJzaW1wbGUtcGFuZWwiIGRyaXZlciBzYXRpc2ZhY3RvcmlseSwKPiB3
-ZSBzaG91bGQgZGVmaW5pdGVseSBrZWVwIHRoZSBjb21wYXRpYmxlIGFzIGEgZmFsbCBiYWNrIGZv
-ciBjYXNlcyB3aGVyZQo+IHRoZSBlZHAtY29ubmVjdG9yIGRyaXZlciBpcyB1bmF2YWlsYWJsZS4K
-Pgo+IElmIHRoaW5rIHZhbGlkIGNvbXBhdGlibGUgcHJvcGVydGllcyB3b3VsZCBiZToKPiBjb21w
-YXRpYmxlID0gImlubm9sdXgsbjExNmJnZSIsICJzaW1wbGUtcGFuZWwiOwo+IGNvbXBhdGlibGUg
-PSAiZWRwLWNvbm5lY3RvciIsICJzaW1wbGUtcGFuZWwiOwoKQSBjb25uZWN0b3IgaXNuJ3QgYSBw
-YW5lbC4KCj4gY29tcGF0aWJsZSA9ICJpbm5vbHV4LG4xMTZiZ2UiLCAiZWRwLWNvbm5lY3RvciIs
-ICJzaW1wbGUtcGFuZWwiOwoKQW5kIHRoZSBpbm5vbHV4LG4xMTZiZ2UgaXMgY2VydGFpbmx5IG5v
-dCBhIGNvbm5lY3RvciBlaXRoZXIuCgo+IGNvbXBhdGlibGUgPSAiZWRwLWNvbm5lY3RvciIsICJp
-bm5vbHV4LG4xMTZiZ2UiLCAic2ltcGxlLXBhbmVsIjsKPgo+IEkgY2FuJ3QgbWFrZSB1cCBteSBt
-aW5kIHdoaWNoIG9uZSBJIHByZWZlcmUuIEhvd2V2ZXIgbmVpdGhlciBvZiB0aGVzZQo+IHZhcmlh
-bnRzIHJlcXVpcmVzIGFjdHVhbGx5IGltcGxtZW50aW5nIGFuIGVkcC1jb25uZWN0b3IgZHJpdmVy
-LgoKTm8tb25lIGFza2VkIHRvIGRvIGFuIGVkcC1jb25uZWN0b3IgZHJpdmVyLiBZb3Ugc2hvdWxk
-IHVzZSBpdCBpbiB5b3VyCkRULCBidXQgaWYgeW91IHdhbnQgdG8gaGF2ZSBzb21lIGNvZGUgaW4g
-eW91ciBkcml2ZXIgdGhhdCBwYXJzZXMgdGhlCkRUIGRpcmVjdGx5LCBJJ20gdG90YWxseSBmaW5l
-IHdpdGggdGhhdC4KCj4gQW5kIGVhY2ggb2YgdGhlc2UgdmFyaWFudHMgaXMgY2xlYXJseSBwcmVm
-ZXJhYmxlIHRvIHNoaXBwaW5nIERUcwo+IHdpdGhvdXQgZGVzY3JpcHRpb24gb2YgdGhlIHBhbmVs
-IGF0IGFsbCBhbmQgY29tcGxpZXMgd2l0aCBiaW5kaW5ncwo+IGFmdGVyIGFkZGluZyBhIHN0dWIg
-Zm9yICJlZHAtY29ubmVjdG9yIi4KCkkgZ3Vlc3MgeW91IHNob3VsZCBkZXNjcmliZSB3aHkgZG8g
-eW91IHRoaW5rIGl0J3MgImNsZWFyIiwgYmVjYXVzZSBJJ20Kbm90IHN1cmUgdGhpcyBpcyBvYnZp
-b3VzIGZvciBldmVyeW9uZSBoZXJlLiBlRFAgYWxsb3dzIHRvIGRpc2NvdmVyCndoaWNoIGRldmlj
-ZSBpcyBvbiB0aGUgb3RoZXIgc2lkZSBhbmQgaXRzIHN1cHBvcnRlZCB0aW1pbmdzLCBqdXN0IGxp
-a2UKSERNSSBmb3IgZXhhbXBsZSAob3IgcmVndWxhciBEUCwgZm9yIHRoYXQgbWF0dGVyKS4gV291
-bGQgeW91IHRoaW5rCml0J3MgY2xlYXJseSBwcmVmZXJhYmxlIHRvIHNoaXAgYSBEVCB3aXRoIHRo
-ZSBEUC9IRE1JIG1vbml0b3IKY29ubmVjdGVkIG9uIHRoZSBvdGhlciBzaWRlIGV4cG9zZWQgYXMg
-YSBwYW5lbCBhcyB3ZWxsPwoKPiA+IEFuZCB0aGUgRFQgaXMgY29uc2lkZXJlZCBhbiBBQkksIHNv
-IHllYWgsIHdlIHdpbGwgd2l0aGVsZCBldmVyeXRoaW5nCj4gPiB0aGF0IGRvZXNuJ3QgZml0IHdo
-YXQgd2Ugd291bGQgbGlrZS4KPgo+IEkgZmFpbCB0byBzZWUgaG93IHRoZSBwYXRjaCBpbiBkaXNj
-dXNzaW9uIGFkZHMgbmV3IEFCSS4KClRoZSBiaW5kaW5nIGl0c2VsZiBpcyB0aGUgQUJJLCBhbmQg
-d2Ugd2lsbCBoYXZlIHRvIHN1cHBvcnQgdGhhdApiaW5kaW5nIGZvciBwcmV0dHkgbXVjaCBmb3Jl
-dmVyLgoKPiBXaGlsZSBJIHVuZGVyc3RhbmQgdGhlIG5lZWQgdG8gcGVzdGVyIGNvbnRyaWJ1dG9y
-cyBmb3IgbW9yZSB3b3JrLAo+IG91dHJpZ2h0IGJsb2NraW5nIERUcywgdGhhdCBwcm9wZXJseSBk
-ZXNjcmliZSB0aGUgSFcKClByb3Blcmx5IGlzIGFyZ3VhYmxlLgoKPiBhbmQgY29tcGx5IHdpdGgg
-ZXhpc3RpbmcgYmluZGluZ3MKCkFuZCB0aGF0J3MgYmluZGluZ3MgbWVhbnQgZm9yIGFub3RoZXIg
-dXNlLWNhc2UuCgpNYXhpbWUKCi0tCk1heGltZSBSaXBhcmQsIEJvb3RsaW4KRW1iZWRkZWQgTGlu
-dXggYW5kIEtlcm5lbCBlbmdpbmVlcmluZwpodHRwczovL2Jvb3RsaW4uY29tCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0323557509==
+Content-Type: multipart/alternative; boundary="15598894072.610446.21680"
+Content-Transfer-Encoding: 7bit
+
+
+--15598894072.610446.21680
+Date: Fri, 7 Jun 2019 06:36:47 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+
+--- Comment #46 from Richard Thier <u9vata@gmail.com> ---
+In comparison this is the unpatched 19.x originally (10 sec):
+
+-> 12466 (any) ioctl calls
+-> 3111 DRM_IOCTL_RADEON_GEM_CREATE
+-> 3112 DRM_IOCTL_GEM_CLOSE
+
+^^Sorry these values were bad, it is not this much and I don't know how I
+measured this back then but I cannot do it anymore.
+
+
+Actually it is not that easy to find the "more minor" issue, but I still fe=
+el
+it is there. The only way for finding it is to bisect in this way:
+
+-> bisect ...
+-> apply patches of Marek
+-> See if result has 7-8 CREATE calls or a bit more
+-> stash away patches
+-> bisect ...
+
+Only this way it is properly measurable because "measuring" without the pat=
+ch
+in place is much harder to do by naked eye.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15598894072.610446.21680
+Date: Fri, 7 Jun 2019 06:36:47 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c46">Comme=
+nt # 46</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>In comparison this is the unpatched 19.x originally (10 sec):
+
+-&gt; 12466 (any) ioctl calls
+-&gt; 3111 DRM_IOCTL_RADEON_GEM_CREATE
+-&gt; 3112 DRM_IOCTL_GEM_CLOSE
+
+^^Sorry these values were bad, it is not this much and I don't know how I
+measured this back then but I cannot do it anymore.
+
+
+Actually it is not that easy to find the &quot;more minor&quot; issue, but =
+I still feel
+it is there. The only way for finding it is to bisect in this way:
+
+-&gt; bisect ...
+-&gt; apply patches of Marek
+-&gt; See if result has 7-8 CREATE calls or a bit more
+-&gt; stash away patches
+-&gt; bisect ...
+
+Only this way it is properly measurable because &quot;measuring&quot; witho=
+ut the patch
+in place is much harder to do by naked eye.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15598894072.610446.21680--
+
+--===============0323557509==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0323557509==--
