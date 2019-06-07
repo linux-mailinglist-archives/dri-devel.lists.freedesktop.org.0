@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD80C3A596
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2019 14:54:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 108633A59B
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2019 14:54:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5FD089260;
-	Sun,  9 Jun 2019 12:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 344F289276;
+	Sun,  9 Jun 2019 12:54:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo6-p02-ob.smtp.rzone.de (mo6-p02-ob.smtp.rzone.de
- [IPv6:2a01:238:20a:202:5302::8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B35689D52
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 11:11:32 +0000 (UTC)
+ [IPv6:2a01:238:20a:202:5302::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C813D89D4D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 11:11:28 +0000 (UTC)
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0pAwkq13LM="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 44.22 DYNA|AUTH)
- with ESMTPSA id i01b98v57BBEPaR
+ with ESMTPSA id i01b98v57BBEPaS
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with
  521 ECDH bits, eq. 15360 bits RSA))
  (Client did not present a certificate);
@@ -26,27 +26,27 @@ To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, tomi.valkeinen@ti.com,
  imirkin@alum.mit.edu, marek.belisko@gmail.com,
  Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v3 3/5] dt-bindings: drm/panel: simple: add ortustech,
- com37h3m05dtc panel
-Date: Fri,  7 Jun 2019 13:11:09 +0200
-Message-Id: <a650cb8df1bdf58ec3c8a182532692db16b77f70.1559905870.git.hns@goldelico.com>
+Subject: [PATCH v3 4/5] dt-bindings: drm/panel: simple: add ortustech,
+ com37h3m99dtc panel
+Date: Fri,  7 Jun 2019 13:11:10 +0200
+Message-Id: <3e0720fbddfd7b35ad8551440544411485d8ad9f.1559905870.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1559905870.git.hns@goldelico.com>
 References: <cover.1559905870.git.hns@goldelico.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Sun, 09 Jun 2019 12:54:16 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- t=1559905891; 
+ t=1559905886; 
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=YxaKPjqXcTdJ1RT47nqVNBUPSDUyfTIHs2pr3yZQlAE=;
- b=cRKjObgBcY8fSYVoWg9Qs9P02d6Ff6SNVEKnJpJaPlHIV5aP9DsY0wy4Frmagc+UW3
- 5d3D21oNq1qR9xkjHx/25ptZgO7ejH3916u+Yz8r/IWMeWzEYqtE2Q17pwddWFVems5n
- IFr0AjHT/6O6JLjYb08VK2ok5XcFFv8EeKQjxKHRQ+nNuWxtcDhAYp0iWqbMq7ZP6HYj
- kQgjPdwXQ4cLXIGvDj6YhInTF+AZ8vxEs/kzzwuVQ/RS3Zxpa33dDqhuo7ez1ZljQCC4
- gRe1KGLVqpUUrpjMZbXIKMcja5a0YiqFT45/sjvbDMAwg0BYku9zjp5sVzUTIZy4rttv
- 9qVQ==
+ bh=Cxs1oKAktwTpHgDSYgztm2PF82fkAQ8JedBNamziUPE=;
+ b=dYs7alpr4ksAdDdREAh11KBvGUMwvmPO/yry5w5PyCFYSblL46PgFV91wqvy5/Mzf0
+ SfWuEqmX7riecJT+jb4zd/7/gw/PQG1WLu30t3GTeKmpbIXosDovXDr19D4ybs1YKWQQ
+ 3/ft82f7klyO48Qa8JQsYRKebXxTXUaf9N3HkpsU8//8cDgPH2MkutnRCTguqsCw58Al
+ j7Mv3AV5Rd+DMUVBJhbjyBj4eYn6DMFXdUq8tGAeU+Ornu7rFArLQ4f3UzMunDIiTJ8V
+ R4QDoS6X6L7weAjSAY9S6lz2mLbfPIptE1T4/JUo5VJJibMpvY6KXSUn1kuUTl9EYJ7S
+ Ur4A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,18 +68,18 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 U2lnbmVkLW9mZi1ieTogSC4gTmlrb2xhdXMgU2NoYWxsZXIgPGhuc0Bnb2xkZWxpY28uY29tPgot
-LS0KIC4uLi9kaXNwbGF5L3BhbmVsL29ydHVzdGVjaCxjb20zN2gzbTA1ZHRjLnR4dCAgICAgICAg
+LS0KIC4uLi9kaXNwbGF5L3BhbmVsL29ydHVzdGVjaCxjb20zN2gzbTk5ZHRjLnR4dCAgICAgICAg
 fCAxMiArKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspCiBjcmVh
 dGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
-cGFuZWwvb3J0dXN0ZWNoLGNvbTM3aDNtMDVkdGMudHh0CgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
+cGFuZWwvb3J0dXN0ZWNoLGNvbTM3aDNtOTlkdGMudHh0CgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
 dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvb3J0dXN0ZWNoLGNvbTM3aDNt
-MDVkdGMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFu
-ZWwvb3J0dXN0ZWNoLGNvbTM3aDNtMDVkdGMudHh0Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
-IDAwMDAwMDAwMDAwMC4uYzE2OTA3YzAyZjgwCi0tLSAvZGV2L251bGwKKysrIGIvRG9jdW1lbnRh
+OTlkdGMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFu
+ZWwvb3J0dXN0ZWNoLGNvbTM3aDNtOTlkdGMudHh0Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4
+IDAwMDAwMDAwMDAwMC4uMDZhNzNjM2Y0NmI1Ci0tLSAvZGV2L251bGwKKysrIGIvRG9jdW1lbnRh
 dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvb3J0dXN0ZWNoLGNvbTM3aDNt
-MDVkdGMudHh0CkBAIC0wLDAgKzEsMTIgQEAKK09ydHVzVGVjaCBDT00zN0gzTTA1RFRDIEJsYW52
+OTlkdGMudHh0CkBAIC0wLDAgKzEsMTIgQEAKK09ydHVzVGVjaCBDT00zN0gzTTk5RFRDIEJsYW52
 aWV3IDMuNyIgVkdBIHBvcnRyYWl0IFRGVC1MQ0QgcGFuZWwKKworUmVxdWlyZWQgcHJvcGVydGll
-czoKKy0gY29tcGF0aWJsZTogc2hvdWxkIGJlICJvcnR1c3RlY2gsY29tMzdoM20wNWR0YyIKKwor
+czoKKy0gY29tcGF0aWJsZTogc2hvdWxkIGJlICJvcnR1c3RlY2gsY29tMzdoM205OWR0YyIKKwor
 T3B0aW9uYWwgcHJvcGVydGllczoKKy0gZW5hYmxlLWdwaW9zOiBHUElPIHBpbiB0byBlbmFibGUg
 b3IgZGlzYWJsZSB0aGUgcGFuZWwKKy0gYmFja2xpZ2h0OiBwaGFuZGxlIG9mIHRoZSBiYWNrbGln
 aHQgZGV2aWNlIGF0dGFjaGVkIHRvIHRoZSBwYW5lbAorLSBwb3dlci1zdXBwbHk6IHBoYW5kbGUg
