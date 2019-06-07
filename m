@@ -1,88 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A367A39841
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jun 2019 00:10:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DBA39848
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jun 2019 00:10:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0576D89177;
-	Fri,  7 Jun 2019 22:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD8D89183;
+	Fri,  7 Jun 2019 22:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FF3A89177
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 22:09:57 +0000 (UTC)
-Received: from [192.168.0.20]
- (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE2DC334;
- Sat,  8 Jun 2019 00:09:54 +0200 (CEST)
-Subject: Re: [PATCH v3 05/10] drm: rcar-du: lvds: Remove LVDS double-enable
- checks
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190528141234.15425-6-laurent.pinchart+renesas@ideasonboard.com>
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
-Organization: Ideas on Board
-Message-ID: <49ecf05d-cb25-0d61-b158-da8a43b6706f@ideasonboard.com>
-Date: Fri, 7 Jun 2019 23:09:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DDF6F89189
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 22:10:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DA22D72167; Fri,  7 Jun 2019 22:10:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109887] vega56 undervolting/overclocking voltage issues
+Date: Fri, 07 Jun 2019 22:10:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jrdoane@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109887-502-nNBaXFjSTc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109887-502@http.bugs.freedesktop.org/>
+References: <bug-109887-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190528141234.15425-6-laurent.pinchart+renesas@ideasonboard.com>
-Content-Language: en-GB
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1559945395;
- bh=ecavjF1sYBhZ1kRTb6ZPoNVpFpUPMOQ7R71824syAMI=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=sxOIvajC8npDtRDTfPvMf//2YahqAHbMyOLSQdhmN1MeYFlHGpmCynNqVHxXkxcbn
- zKacTRPDZXuXV87icL62waWcYAUGm3pb2PB5vwL07XBVBRkJgooRF0BkLS9uQKTrL2
- p3sX7LWt8IrzhYhgs6arQnZE4PLPcoYk5UwB7Qc4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,74 +52,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham@ideasonboard.com
-Cc: linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0404855727=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudCwKCk9uIDI4LzA1LzIwMTkgMTU6MTIsIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6
-Cj4gVGhlIERSTSBjb3JlIGFuZCBEVSBkcml2ZXIgZ3VhcmFudGVlIHRoYXQgdGhlIExWRFMgYnJp
-ZGdlIHdpbGwgbm90IGJlCj4gZG91YmxlLWVuYWJsZWQgb3IgZG91YmxlLWRpc2FibGVkLiBSZW1v
-dmUgdGhlIGNvcnJlc3BvbmRpbmcgdW5uZWNlc3NhcnkKPiBjaGVja3MuCgpJJ20gZ2xhZCB0byBo
-ZWFyIGl0IC0gdGhhdCdzIHF1aXRlIGEgZmV3IFdBUk5fT04ncyByZW1vdmVkIHdoaWNoCmhvcGVm
-dWxseSBpcyBhIGdvb2QgdGhpbmchCgo+IAo+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hh
-cnQgPGxhdXJlbnQucGluY2hhcnQrcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPgo+IFJldmlld2Vk
-LWJ5OiBKYWNvcG8gTW9uZGkgPGphY29wb0BqbW9uZGkub3JnPj4gVGVzdGVkLWJ5OiBKYWNvcG8g
-TW9uZGkgPGphY29wbytyZW5lc2FzQGptb25kaS5vcmc+CgpSZXZpZXdlZC1ieTogS2llcmFuIEJp
-bmdoYW0gPGtpZXJhbi5iaW5naGFtK3JlbmVzYXNAaWRlYXNvbmJvYXJkLmNvbT4KCgo+IC0tLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYyB8IDE5IC0tLS0tLS0tLS0tLS0t
-LS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDE5IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9y
-Y2FyLWR1L3JjYXJfbHZkcy5jCj4gaW5kZXggNjIwYjUxYWFiMjkxLi5hMzMxZjBjMzIxODcgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYwo+IEBAIC02Myw3ICs2Myw2IEBAIHN0
-cnVjdCByY2FyX2x2ZHMgewo+ICAJCXN0cnVjdCBjbGsgKmV4dGFsOwkJLyogRXh0ZXJuYWwgY2xv
-Y2sgKi8KPiAgCQlzdHJ1Y3QgY2xrICpkb3RjbGtpblsyXTsJLyogRXh0ZXJuYWwgRFUgY2xvY2tz
-ICovCj4gIAl9IGNsb2NrczsKPiAtCWJvb2wgZW5hYmxlZDsKPiAgCj4gIAlzdHJ1Y3QgZHJtX2Rp
-c3BsYXlfbW9kZSBkaXNwbGF5X21vZGU7Cj4gIAllbnVtIHJjYXJfbHZkc19tb2RlIG1vZGU7Cj4g
-QEAgLTM2OCwxNSArMzY3LDEyIEBAIGludCByY2FyX2x2ZHNfY2xrX2VuYWJsZShzdHJ1Y3QgZHJt
-X2JyaWRnZSAqYnJpZGdlLCB1bnNpZ25lZCBsb25nIGZyZXEpCj4gIAo+ICAJZGV2X2RiZyhsdmRz
-LT5kZXYsICJlbmFibGluZyBMVkRTIFBMTCwgZnJlcT0lbHVIelxuIiwgZnJlcSk7Cj4gIAo+IC0J
-V0FSTl9PTihsdmRzLT5lbmFibGVkKTsKPiAtCj4gIAlyZXQgPSBjbGtfcHJlcGFyZV9lbmFibGUo
-bHZkcy0+Y2xvY2tzLm1vZCk7Cj4gIAlpZiAocmV0IDwgMCkKPiAgCQlyZXR1cm4gcmV0Owo+ICAK
-PiAgCV9fcmNhcl9sdmRzX3BsbF9zZXR1cF9kM19lMyhsdmRzLCBmcmVxLCB0cnVlKTsKPiAgCj4g
-LQlsdmRzLT5lbmFibGVkID0gdHJ1ZTsKPiAgCXJldHVybiAwOwo+ICB9Cj4gIEVYUE9SVF9TWU1C
-T0xfR1BMKHJjYXJfbHZkc19jbGtfZW5hYmxlKTsKPiBAQCAtMzkwLDEzICszODYsOSBAQCB2b2lk
-IHJjYXJfbHZkc19jbGtfZGlzYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICAKPiAg
-CWRldl9kYmcobHZkcy0+ZGV2LCAiZGlzYWJsaW5nIExWRFMgUExMXG4iKTsKPiAgCj4gLQlXQVJO
-X09OKCFsdmRzLT5lbmFibGVkKTsKPiAtCj4gIAlyY2FyX2x2ZHNfd3JpdGUobHZkcywgTFZEUExM
-Q1IsIDApOwo+ICAKPiAgCWNsa19kaXNhYmxlX3VucHJlcGFyZShsdmRzLT5jbG9ja3MubW9kKTsK
-PiAtCj4gLQlsdmRzLT5lbmFibGVkID0gZmFsc2U7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTF9HUEwo
-cmNhcl9sdmRzX2Nsa19kaXNhYmxlKTsKPiAgCj4gQEAgLTQxNyw4ICs0MDksNiBAQCBzdGF0aWMg
-dm9pZCByY2FyX2x2ZHNfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UpCj4gIAl1MzIg
-bHZkY3IwOwo+ICAJaW50IHJldDsKPiAgCj4gLQlXQVJOX09OKGx2ZHMtPmVuYWJsZWQpOwo+IC0K
-PiAgCXJldCA9IGNsa19wcmVwYXJlX2VuYWJsZShsdmRzLT5jbG9ja3MubW9kKTsKPiAgCWlmIChy
-ZXQgPCAwKQo+ICAJCXJldHVybjsKPiBAQCAtNTA3LDE2ICs0OTcsMTIgQEAgc3RhdGljIHZvaWQg
-cmNhcl9sdmRzX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICAJCWRybV9wYW5l
-bF9wcmVwYXJlKGx2ZHMtPnBhbmVsKTsKPiAgCQlkcm1fcGFuZWxfZW5hYmxlKGx2ZHMtPnBhbmVs
-KTsKPiAgCX0KPiAtCj4gLQlsdmRzLT5lbmFibGVkID0gdHJ1ZTsKPiAgfQo+ICAKPiAgc3RhdGlj
-IHZvaWQgcmNhcl9sdmRzX2Rpc2FibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKPiAgewo+
-ICAJc3RydWN0IHJjYXJfbHZkcyAqbHZkcyA9IGJyaWRnZV90b19yY2FyX2x2ZHMoYnJpZGdlKTsK
-PiAgCj4gLQlXQVJOX09OKCFsdmRzLT5lbmFibGVkKTsKPiAtCj4gIAlpZiAobHZkcy0+cGFuZWwp
-IHsKPiAgCQlkcm1fcGFuZWxfZGlzYWJsZShsdmRzLT5wYW5lbCk7Cj4gIAkJZHJtX3BhbmVsX3Vu
-cHJlcGFyZShsdmRzLT5wYW5lbCk7Cj4gQEAgLTUyNyw4ICs1MTMsNiBAQCBzdGF0aWMgdm9pZCBy
-Y2FyX2x2ZHNfZGlzYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICAJcmNhcl9sdmRz
-X3dyaXRlKGx2ZHMsIExWRFBMTENSLCAwKTsKPiAgCj4gIAljbGtfZGlzYWJsZV91bnByZXBhcmUo
-bHZkcy0+Y2xvY2tzLm1vZCk7Cj4gLQo+IC0JbHZkcy0+ZW5hYmxlZCA9IGZhbHNlOwo+ICB9Cj4g
-IAo+ICBzdGF0aWMgYm9vbCByY2FyX2x2ZHNfbW9kZV9maXh1cChzdHJ1Y3QgZHJtX2JyaWRnZSAq
-YnJpZGdlLAo+IEBAIC01OTIsOCArNTc2LDYgQEAgc3RhdGljIHZvaWQgcmNhcl9sdmRzX21vZGVf
-c2V0KHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gIHsKPiAgCXN0cnVjdCByY2FyX2x2ZHMg
-Kmx2ZHMgPSBicmlkZ2VfdG9fcmNhcl9sdmRzKGJyaWRnZSk7Cj4gIAo+IC0JV0FSTl9PTihsdmRz
-LT5lbmFibGVkKTsKPiAtCj4gIAlsdmRzLT5kaXNwbGF5X21vZGUgPSAqYWRqdXN0ZWRfbW9kZTsK
-PiAgCj4gIAlyY2FyX2x2ZHNfZ2V0X2x2ZHNfbW9kZShsdmRzKTsKPiBAQCAtNzkzLDcgKzc3NSw2
-IEBAIHN0YXRpYyBpbnQgcmNhcl9sdmRzX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBk
-ZXYpCj4gIAo+ICAJbHZkcy0+ZGV2ID0gJnBkZXYtPmRldjsKPiAgCWx2ZHMtPmluZm8gPSBvZl9k
-ZXZpY2VfZ2V0X21hdGNoX2RhdGEoJnBkZXYtPmRldik7Cj4gLQlsdmRzLT5lbmFibGVkID0gZmFs
-c2U7Cj4gIAo+ICAJcmV0ID0gcmNhcl9sdmRzX3BhcnNlX2R0KGx2ZHMpOwo+ICAJaWYgKHJldCA8
-IDApCj4gCgotLSAKUmVnYXJkcwotLQpLaWVyYW4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============0404855727==
+Content-Type: multipart/alternative; boundary="15599454223.b36b.23010"
+Content-Transfer-Encoding: 7bit
+
+
+--15599454223.b36b.23010
+Date: Fri, 7 Jun 2019 22:10:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109887
+
+--- Comment #6 from Jon Doane <jrdoane@gmail.com> ---
+I'm also having this particular issue with a Vega 64. It appears that setti=
+ng
+any non-stock voltage to any of the power states will cause the voltage at =
+any
+clock to jump to 1.20v. I haven't been able to find a way around it yet.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15599454223.b36b.23010
+Date: Fri, 7 Jun 2019 22:10:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887">bug 10988=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jrdoane&#64;gmail.com" title=3D"Jon Doane &lt;jrdoane&#64;gmail.com&gt;"> <=
+span class=3D"fn">Jon Doane</span></a>
+</span></b>
+        <pre>I'm also having this particular issue with a Vega 64. It appea=
+rs that setting
+any non-stock voltage to any of the power states will cause the voltage at =
+any
+clock to jump to 1.20v. I haven't been able to find a way around it yet.</p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15599454223.b36b.23010--
+
+--===============0404855727==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0404855727==--
