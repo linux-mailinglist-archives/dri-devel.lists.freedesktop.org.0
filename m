@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E61386B3
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 11:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93322386D5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 11:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 418DA89C84;
-	Fri,  7 Jun 2019 09:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1D1789CF1;
+	Fri,  7 Jun 2019 09:13:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E63D589C84
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 09:03:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E2C3572167; Fri,  7 Jun 2019 09:03:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Fri, 07 Jun 2019 09:03:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-qV4Ti7X2Pc@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 475 seconds by postgrey-1.36 at gabe;
+ Fri, 07 Jun 2019 09:13:56 UTC
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AB41489CE2
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 09:13:56 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 519CE28;
+ Fri,  7 Jun 2019 02:06:00 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 154723F246;
+ Fri,  7 Jun 2019 02:06:00 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id CA7E168240D; Fri,  7 Jun 2019 10:05:58 +0100 (BST)
+Date: Fri, 7 Jun 2019 10:05:58 +0100
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
+Subject: Re: [PATCH v2 1/2] drm/komeda: Adds SMMU support
+Message-ID: <20190607090558.GA4173@e110455-lin.cambridge.arm.com>
+References: <1559814765-18455-1-git-send-email-lowry.li@arm.com>
+ <1559814765-18455-2-git-send-email-lowry.li@arm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1559814765-18455-2-git-send-email-lowry.li@arm.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,92 +46,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1007195393=="
+Cc: nd <nd@arm.com>, "airlied@linux.ie" <airlied@linux.ie>,
+ "Jonathan Chai \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Julien Yin \(Arm Technology China\)" <Julien.Yin@arm.com>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>,
+ "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
+ Ayan Halder <Ayan.Halder@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1007195393==
-Content-Type: multipart/alternative; boundary="15598981952.5B64dBE7.28619"
-Content-Transfer-Encoding: 7bit
-
-
---15598981952.5B64dBE7.28619
-Date: Fri, 7 Jun 2019 09:03:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #21 from tempel.julian@gmail.com ---
-I'm open to trying out other patches, e.g. concerning double buffering for =
-the
-cursor. :)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15598981952.5B64dBE7.28619
-Date: Fri, 7 Jun 2019 09:03:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c21">Comme=
-nt # 21</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>I'm open to trying out other patches, e.g. concerning double b=
-uffering for the
-cursor. :)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15598981952.5B64dBE7.28619--
-
---===============1007195393==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1007195393==--
+SGkgTG93cnksCgpPbiBUaHUsIEp1biAwNiwgMjAxOSBhdCAxMDo1MzowNUFNICswMTAwLCBMb3dy
+eSBMaSAoQXJtIFRlY2hub2xvZ3kgQ2hpbmEpIHdyb3RlOgo+IEZyb206ICJMb3dyeSBMaSAoQXJt
+IFRlY2hub2xvZ3kgQ2hpbmEpIiA8TG93cnkuTGlAYXJtLmNvbT4KPiAKPiBBZGRzIGlvbW11X2Nv
+bm5lY3QgYW5kIGRpc2Nvbm5lY3QgZm9yIFNNTVUgc3VwcG9ydCwgYW5kIGNvbmZpZ3VyZXMKPiBU
+QlUgdHJhbnNsYXRpb24gb25jZSBTTU1VIGhhcyBiZWVuIGF0dGFjaGVkIHRvIHRoZSBkaXNwbGF5
+IGRldmljZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMb3dyeSBMaSAoQXJtIFRlY2hub2xvZ3kgQ2hp
+bmEpIDxsb3dyeS5saUBhcm0uY29tPgo+IC0tLQo+ICAuLi4vZ3B1L2RybS9hcm0vZGlzcGxheS9r
+b21lZGEvZDcxL2Q3MV9jb21wb25lbnQuYyB8ICA1ICsrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYXJt
+L2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfZGV2LmMgICB8IDQ5ICsrKysrKysrKysrKysrKysrKysr
+KysKPiAgZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZGV2LmMgICAg
+fCAxOCArKysrKysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVk
+YV9kZXYuaCAgICB8ICA3ICsrKysKPiAgLi4uL2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRh
+X2ZyYW1lYnVmZmVyLmMgICAgfCAgMiArCj4gIC4uLi9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tv
+bWVkYV9mcmFtZWJ1ZmZlci5oICAgIHwgIDIgKwo+ICA2IGZpbGVzIGNoYW5nZWQsIDgzIGluc2Vy
+dGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tv
+bWVkYS9kNzEvZDcxX2NvbXBvbmVudC5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tv
+bWVkYS9kNzEvZDcxX2NvbXBvbmVudC5jCj4gaW5kZXggNGUyNmE4MC4uNGE0OGRkNiAxMDA2NDQK
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfY29tcG9u
+ZW50LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFf
+Y29tcG9uZW50LmMKPiBAQCAtMjE1LDYgKzIxNSw4IEBAIHN0YXRpYyB2b2lkIGQ3MV9sYXllcl91
+cGRhdGUoc3RydWN0IGtvbWVkYV9jb21wb25lbnQgKmMsCj4gIAltYWxpZHBfd3JpdGUzMihyZWcs
+IExBWUVSX0ZNVCwga2ZiLT5mb3JtYXRfY2Fwcy0+aHdfaWQpOwo+ICAJbWFsaWRwX3dyaXRlMzIo
+cmVnLCBCTEtfSU5fU0laRSwgSFZfU0laRShzdC0+aHNpemUsIHN0LT52c2l6ZSkpOwo+ICAKPiAr
+CWlmIChrZmItPmlzX3ZhKQo+ICsJCWN0cmwgfD0gTF9UQlVfRU47Cj4gIAltYWxpZHBfd3JpdGUz
+Ml9tYXNrKHJlZywgQkxLX0NPTlRST0wsIGN0cmxfbWFzaywgY3RybCk7Cj4gIH0KPiAgCj4gQEAg
+LTM0OCw2ICszNTAsOSBAQCBzdGF0aWMgdm9pZCBkNzFfd2JfbGF5ZXJfdXBkYXRlKHN0cnVjdCBr
+b21lZGFfY29tcG9uZW50ICpjLAo+ICAJCQkgICAgICAgZmItPnBpdGNoZXNbaV0gJiAweEZGRkYp
+Owo+ICAJfQo+ICAKPiArCWlmIChrZmItPmlzX3ZhKQo+ICsJCWN0cmwgfD0gTFdfVEJVX0VOOwo+
+ICsKPiAgCW1hbGlkcF93cml0ZTMyKHJlZywgTEFZRVJfRk1ULCBrZmItPmZvcm1hdF9jYXBzLT5o
+d19pZCk7Cj4gIAltYWxpZHBfd3JpdGUzMihyZWcsIEJMS19JTl9TSVpFLCBIVl9TSVpFKHN0LT5o
+c2l6ZSwgc3QtPnZzaXplKSk7Cj4gIAltYWxpZHBfd3JpdGUzMihyZWcsIEJMS19JTlBVVF9JRDAs
+IHRvX2Q3MV9pbnB1dF9pZCgmc3RhdGUtPmlucHV0c1swXSkpOwo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfZGV2LmMgYi9kcml2ZXJzL2dw
+dS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2Q3MS9kNzFfZGV2LmMKPiBpbmRleCA4ZTY4MmM3Li4x
+YjllNzM0IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
+ZDcxL2Q3MV9kZXYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
+ZDcxL2Q3MV9kZXYuYwo+IEBAIC01MTcsNiArNTE3LDUzIEBAIHN0YXRpYyB2b2lkIGQ3MV9pbml0
+X2ZtdF90Ymwoc3RydWN0IGtvbWVkYV9kZXYgKm1kZXYpCj4gIAl0YWJsZS0+bl9mb3JtYXRzID0g
+QVJSQVlfU0laRShkNzFfZm9ybWF0X2NhcHNfdGFibGUpOwo+ICB9Cj4gIAo+ICtzdGF0aWMgaW50
+IGQ3MV9jb25uZWN0X2lvbW11KHN0cnVjdCBrb21lZGFfZGV2ICptZGV2KQo+ICt7Cj4gKwlzdHJ1
+Y3QgZDcxX2RldiAqZDcxID0gbWRldi0+Y2hpcF9kYXRhOwo+ICsJdTMyIF9faW9tZW0gKnJlZyA9
+IGQ3MS0+Z2N1X2FkZHI7Cj4gKwl1MzIgY2hlY2tfYml0cyA9IChkNzEtPm51bV9waXBlbGluZXMg
+PT0gMikgPwo+ICsJCQkgR0NVX1NUQVRVU19UQ1MwIHwgR0NVX1NUQVRVU19UQ1MxIDogR0NVX1NU
+QVRVU19UQ1MwOwo+ICsJaW50IGksIHJldDsKPiArCj4gKwlpZiAoIWQ3MS0+aW50ZWdyYXRlc190
+YnUpCj4gKwkJcmV0dXJuIC0xOwo+ICsKPiArCW1hbGlkcF93cml0ZTMyX21hc2socmVnLCBCTEtf
+Q09OVFJPTCwgMHg3LCBUQlVfQ09OTkVDVF9NT0RFKTsKPiArCj4gKwlyZXQgPSBkcF93YWl0X2Nv
+bmQoaGFzX2JpdHMoY2hlY2tfYml0cywgbWFsaWRwX3JlYWQzMihyZWcsIEJMS19TVEFUVVMpKSwK
+PiArCQkJMTAwLCAxMDAwLCAxMDAwKTsKPiArCWlmIChyZXQgPD0gMCkgewoKWW91IGRvbid0IHdh
+bnQgdG8gcmV0dXJuIC1FVElNRURPVVQgaWYgZHBfd2FpdF9jb25kKCkgcmV0dXJucyB6ZXJvLiBN
+YXliZQpmb2xsb3cgdGhlIHNhbWUgZmxvdyBhcyBpbiBkNzFfZGlzY29ubmVjdF9pb21tdSgpID8K
+Cj4gKwkJRFJNX0VSUk9SKCJjb25uZWN0IHRvIFRDVSB0aW1lb3V0IVxuIik7Cj4gKwkJbWFsaWRw
+X3dyaXRlMzJfbWFzayhyZWcsIEJMS19DT05UUk9MLCAweDcsIElOQUNUSVZFX01PREUpOwo+ICsJ
+CXJldHVybiAtRVRJTUVET1VUOwo+ICsJfQo+ICsKPiArCWZvciAoaSA9IDA7IGkgPCBkNzEtPm51
+bV9waXBlbGluZXM7IGkrKykKPiArCQltYWxpZHBfd3JpdGUzMl9tYXNrKGQ3MS0+cGlwZXNbaV0t
+PmxwdV9hZGRyLCBMUFVfVEJVX0NPTlRST0wsCj4gKwkJCQkgICAgTFBVX1RCVV9DVFJMX1RMQlBF
+TiwgTFBVX1RCVV9DVFJMX1RMQlBFTik7Cj4gKwlyZXR1cm4gMDsKPiArfQo+ICsKPiArc3RhdGlj
+IGludCBkNzFfZGlzY29ubmVjdF9pb21tdShzdHJ1Y3Qga29tZWRhX2RldiAqbWRldikKPiArewo+
+ICsJc3RydWN0IGQ3MV9kZXYgKmQ3MSA9IG1kZXYtPmNoaXBfZGF0YTsKPiArCXUzMiBfX2lvbWVt
+ICpyZWcgPSBkNzEtPmdjdV9hZGRyOwo+ICsJdTMyIGNoZWNrX2JpdHMgPSAoZDcxLT5udW1fcGlw
+ZWxpbmVzID09IDIpID8KPiArCQkJIEdDVV9TVEFUVVNfVENTMCB8IEdDVV9TVEFUVVNfVENTMSA6
+IEdDVV9TVEFUVVNfVENTMDsKPiArCWludCByZXQ7Cj4gKwo+ICsJbWFsaWRwX3dyaXRlMzJfbWFz
+ayhyZWcsIEJMS19DT05UUk9MLCAweDcsIFRCVV9ESVNDT05ORUNUX01PREUpOwo+ICsKPiArCXJl
+dCA9IGRwX3dhaXRfY29uZCgoKG1hbGlkcF9yZWFkMzIocmVnLCBCTEtfU1RBVFVTKSAmIGNoZWNr
+X2JpdHMpID09IDApLAo+ICsJCQkxMDAsIDEwMDAsIDEwMDApOwo+ICsJaWYgKHJldCA8IDApIHsK
+PiArCQlEUk1fRVJST1IoImRpc2Nvbm5lY3QgZnJvbSBUQ1UgdGltZW91dCFcbiIpOwo+ICsJCW1h
+bGlkcF93cml0ZTMyX21hc2socmVnLCBCTEtfQ09OVFJPTCwgMHg3LCBJTkFDVElWRV9NT0RFKTsK
+PiArCX0KPiArCj4gKwlyZXR1cm4gcmV0Owo+ICt9Cj4gKwo+ICBzdGF0aWMgc3RydWN0IGtvbWVk
+YV9kZXZfZnVuY3MgZDcxX2NoaXBfZnVuY3MgPSB7Cj4gIAkuaW5pdF9mb3JtYXRfdGFibGUgPSBk
+NzFfaW5pdF9mbXRfdGJsLAo+ICAJLmVudW1fcmVzb3VyY2VzCT0gZDcxX2VudW1fcmVzb3VyY2Vz
+LAo+IEBAIC01MjcsNiArNTc0LDggQEAgc3RhdGljIHZvaWQgZDcxX2luaXRfZm10X3RibChzdHJ1
+Y3Qga29tZWRhX2RldiAqbWRldikKPiAgCS5vbl9vZmZfdmJsYW5rCT0gZDcxX29uX29mZl92Ymxh
+bmssCj4gIAkuY2hhbmdlX29wbW9kZQk9IGQ3MV9jaGFuZ2Vfb3Btb2RlLAo+ICAJLmZsdXNoCQk9
+IGQ3MV9mbHVzaCwKPiArCS5jb25uZWN0X2lvbW11CT0gZDcxX2Nvbm5lY3RfaW9tbXUsCj4gKwku
+ZGlzY29ubmVjdF9pb21tdSA9IGQ3MV9kaXNjb25uZWN0X2lvbW11LAo+ICB9Owo+ICAKPiAgc3Ry
+dWN0IGtvbWVkYV9kZXZfZnVuY3MgKgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJt
+L2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxh
+eS9rb21lZGEva29tZWRhX2Rldi5jCj4gaW5kZXggYzkyZTE2MS4uZTgwZTY3MyAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuYwo+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Rldi5jCj4gQEAg
+LTI1Myw2ICsyNTMsMTkgQEAgc3RydWN0IGtvbWVkYV9kZXYgKmtvbWVkYV9kZXZfY3JlYXRlKHN0
+cnVjdCBkZXZpY2UgKmRldikKPiAgCWRldi0+ZG1hX3Bhcm1zID0gJm1kZXYtPmRtYV9wYXJtczsK
+PiAgCWRtYV9zZXRfbWF4X3NlZ19zaXplKGRldiwgRE1BX0JJVF9NQVNLKDMyKSk7Cj4gIAo+ICsJ
+bWRldi0+aW9tbXUgPSBpb21tdV9nZXRfZG9tYWluX2Zvcl9kZXYobWRldi0+ZGV2KTsKPiArCWlm
+ICghbWRldi0+aW9tbXUpCj4gKwkJRFJNX0lORk8oImNvbnRpbnVlIHdpdGhvdXQgSU9NTVUgc3Vw
+cG9ydCFcbiIpOwo+ICsKPiArCWlmIChtZGV2LT5pb21tdSAmJiBtZGV2LT5mdW5jcy0+Y29ubmVj
+dF9pb21tdSkgewo+ICsJCWVyciA9IG1kZXYtPmZ1bmNzLT5jb25uZWN0X2lvbW11KG1kZXYpOwo+
+ICsJCWlmIChlcnIpIHsKPiArCQkJbWRldi0+aW9tbXUgPSBOVUxMOwo+ICsJCQlEUk1fRVJST1Io
+ImNvbm5lY3QgaW9tbXUgZmFpbGVkLlxuIik7CgpJIHRob3VnaHQgeW91J3JlIGdvaW5nIHRvIHJl
+bW92ZSB0aGVzZSBleHRyYSBEUk1fRVJST1JzLgoKQmVzdCByZWdhcmRzLApMaXZpdQoKPiArCQkJ
+Z290byBlcnJfY2xlYW51cDsKPiArCQl9Cj4gKwl9Cj4gKwo+ICAJZXJyID0gc3lzZnNfY3JlYXRl
+X2dyb3VwKCZkZXYtPmtvYmosICZrb21lZGFfc3lzZnNfYXR0cl9ncm91cCk7Cj4gIAlpZiAoZXJy
+KSB7Cj4gIAkJRFJNX0VSUk9SKCJjcmVhdGUgc3lzZnMgZ3JvdXAgZmFpbGVkLlxuIik7Cj4gQEAg
+LTI4Miw2ICsyOTUsMTEgQEAgdm9pZCBrb21lZGFfZGV2X2Rlc3Ryb3koc3RydWN0IGtvbWVkYV9k
+ZXYgKm1kZXYpCj4gIAlkZWJ1Z2ZzX3JlbW92ZV9yZWN1cnNpdmUobWRldi0+ZGVidWdmc19yb290
+KTsKPiAgI2VuZGlmCj4gIAo+ICsJaWYgKG1kZXYtPmlvbW11ICYmIG1kZXYtPmZ1bmNzLT5kaXNj
+b25uZWN0X2lvbW11KQo+ICsJCWlmIChtZGV2LT5mdW5jcy0+ZGlzY29ubmVjdF9pb21tdShtZGV2
+KSkKPiArCQkJRFJNX0VSUk9SKCJkaXNjb25uZWN0IGlvbW11IGZhaWxlZC5cbiIpOwo+ICsJbWRl
+di0+aW9tbXUgPSBOVUxMOwo+ICsKPiAgCWZvciAoaSA9IDA7IGkgPCBtZGV2LT5uX3BpcGVsaW5l
+czsgaSsrKSB7Cj4gIAkJa29tZWRhX3BpcGVsaW5lX2Rlc3Ryb3kobWRldiwgbWRldi0+cGlwZWxp
+bmVzW2ldKTsKPiAgCQltZGV2LT5waXBlbGluZXNbaV0gPSBOVUxMOwo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9kZXYuaCBiL2RyaXZlcnMv
+Z3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Rldi5oCj4gaW5kZXggODNhY2U3MS4u
+ZGFjMWVkYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRh
+L2tvbWVkYV9kZXYuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
+a29tZWRhX2Rldi5oCj4gQEAgLTkyLDYgKzkyLDEwIEBAIHN0cnVjdCBrb21lZGFfZGV2X2Z1bmNz
+IHsKPiAgCWludCAoKmVudW1fcmVzb3VyY2VzKShzdHJ1Y3Qga29tZWRhX2RldiAqbWRldik7Cj4g
+IAkvKiogQGNsZWFudXA6IGNhbGwgdG8gY2hpcCB0byBjbGVhbnVwIGtvbWVkYV9kZXYtPmNoaXAg
+ZGF0YSAqLwo+ICAJdm9pZCAoKmNsZWFudXApKHN0cnVjdCBrb21lZGFfZGV2ICptZGV2KTsKPiAr
+CS8qKiBAY29ubmVjdF9pb21tdTogT3B0aW9uYWwsIGNvbm5lY3QgdG8gZXh0ZXJuYWwgaW9tbXUg
+Ki8KPiArCWludCAoKmNvbm5lY3RfaW9tbXUpKHN0cnVjdCBrb21lZGFfZGV2ICptZGV2KTsKPiAr
+CS8qKiBAZGlzY29ubmVjdF9pb21tdTogT3B0aW9uYWwsIGRpc2Nvbm5lY3QgdG8gZXh0ZXJuYWwg
+aW9tbXUgKi8KPiArCWludCAoKmRpc2Nvbm5lY3RfaW9tbXUpKHN0cnVjdCBrb21lZGFfZGV2ICpt
+ZGV2KTsKPiAgCS8qKgo+ICAJICogQGlycV9oYW5kbGVyOgo+ICAJICoKPiBAQCAtMTg0LDYgKzE4
+OCw5IEBAIHN0cnVjdCBrb21lZGFfZGV2IHsKPiAgCSAqLwo+ICAJdm9pZCAqY2hpcF9kYXRhOwo+
+ICAKPiArCS8qKiBAaW9tbXU6IGlvbW11IGRvbWFpbiAqLwo+ICsJc3RydWN0IGlvbW11X2RvbWFp
+biAqaW9tbXU7Cj4gKwo+ICAJLyoqIEBkZWJ1Z2ZzX3Jvb3Q6IHJvb3QgZGlyZWN0b3J5IG9mIGtv
+bWVkYSBkZWJ1Z2ZzICovCj4gIAlzdHJ1Y3QgZGVudHJ5ICpkZWJ1Z2ZzX3Jvb3Q7Cj4gIH07Cj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Zy
+YW1lYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9m
+cmFtZWJ1ZmZlci5jCj4gaW5kZXggZDU4MjJhMy4uMzYwYWI3MCAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1ZmZlci5jCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZnJhbWVidWZmZXIu
+Ywo+IEBAIC0yMDEsNiArMjAxLDggQEAgc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqCj4gIAkJZ290
+byBlcnJfY2xlYW51cDsKPiAgCX0KPiAgCj4gKwlrZmItPmlzX3ZhID0gbWRldi0+aW9tbXUgPyB0
+cnVlIDogZmFsc2U7Cj4gKwo+ICAJcmV0dXJuICZrZmItPmJhc2U7Cj4gIAo+ICBlcnJfY2xlYW51
+cDoKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21l
+ZGFfZnJhbWVidWZmZXIuaCBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29t
+ZWRhX2ZyYW1lYnVmZmVyLmgKPiBpbmRleCA2Y2JiMmY2Li5mNDA0NmUyIDEwMDY0NAo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ZyYW1lYnVmZmVyLmgK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1
+ZmZlci5oCj4gQEAgLTIxLDYgKzIxLDggQEAgc3RydWN0IGtvbWVkYV9mYiB7Cj4gIAkgKiBleHRl
+bmRzIGRybV9mb3JtYXRfaW5mbyBmb3Iga29tZWRhIHNwZWNpZmljIGluZm9ybWF0aW9uCj4gIAkg
+Ki8KPiAgCWNvbnN0IHN0cnVjdCBrb21lZGFfZm9ybWF0X2NhcHMgKmZvcm1hdF9jYXBzOwo+ICsJ
+LyoqIEBpc192YTogaWYgc21tdSBpcyBlbmFibGVkLCBpdCB3aWxsIGJlIHRydWUgKi8KPiArCWJv
+b2wgaXNfdmE7Cj4gIAkvKiogQGFsaWduZWRfdzogYWxpZ25lZCBmcmFtZSBidWZmZXIgd2lkdGgg
+Ki8KPiAgCXUzMiBhbGlnbmVkX3c7Cj4gIAkvKiogQGFsaWduZWRfaDogYWxpZ25lZCBmcmFtZSBi
+dWZmZXIgaGVpZ2h0ICovCj4gLS0gCj4gMS45LjEKPiAKCi0tIAo9PT09PT09PT09PT09PT09PT09
+PQp8IEkgd291bGQgbGlrZSB0byB8CnwgZml4IHRoZSB3b3JsZCwgIHwKfCBidXQgdGhleSdyZSBu
+b3QgfAp8IGdpdmluZyBtZSB0aGUgICB8CiBcIHNvdXJjZSBjb2RlISAgLwogIC0tLS0tLS0tLS0t
+LS0tLQogICAgwq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
