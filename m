@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E38392B4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 19:02:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5828392B8
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 19:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20C9B892DC;
-	Fri,  7 Jun 2019 17:02:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CABD89307;
+	Fri,  7 Jun 2019 17:03:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFB1892DC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 17:02:08 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Jun 2019 10:02:07 -0700
-X-ExtLoop1: 1
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by fmsmga008.fm.intel.com with SMTP; 07 Jun 2019 10:02:04 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 07 Jun 2019 20:02:04 +0300
-Date: Fri, 7 Jun 2019 20:02:04 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Ser, Simon" <simon.ser@intel.com>
-Subject: Re: Linking ALSA playback devices and DRM connectors
-Message-ID: <20190607170204.GA5942@intel.com>
-References: <f69f48bd4b9b2dc6f8228cd47406882c71758cdf.camel@intel.com>
- <157c9015-32c8-2c1d-236f-48da16f43399@gmail.com>
- <ccd5d702b4c15cb14e3ec44758cce8880e28b74c.camel@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8ECEC89307
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 17:03:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 85F2272167; Fri,  7 Jun 2019 17:03:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110856] Freesync causes in-game blackscreens when game has low
+ fps.
+Date: Fri, 07 Jun 2019 17:03:03 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: mokurai82@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110856-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ccd5d702b4c15cb14e3ec44758cce8880e28b74c.camel@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,45 +52,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Nicholas.Kazlauskas@amd.com" <Nicholas.Kazlauskas@amd.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1233216250=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMDYsIDIwMTkgYXQgMDk6MTM6NTFBTSArMDAwMCwgU2VyLCBTaW1vbiB3cm90
-ZToKPiBPbiBUdWUsIDIwMTktMDYtMDQgYXQgMTc6MTUgKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcg
-d3JvdGU6Cj4gPiBBbSAwNC4wNi4xOSB1bSAxNzowNSBzY2hyaWViIFNlciwgU2ltb246Cj4gPiA+
-IEhpLAo+ID4gPiAKPiA+ID4gSSdtIHRyeWluZyB0byBsaW5rIEFMU0EgcGxheWJhY2sgZGV2aWNl
-cyBhbmQgRFJNIGNvbm5lY3RvcnMuIEluIG90aGVyCj4gPiA+IHdvcmRzLCBJJ2QgbGlrZSB0byBi
-ZSBhYmxlIHRvIGtub3cgd2hpY2ggQUxTQSBkZXZpY2UgSSBzaG91bGQgb3BlbiB0bwo+ID4gPiBw
-bGF5IGF1ZGlvIG9uIGEgZ2l2ZW4gY29ubmVjdG9yLgo+ID4gPiAKPiA+ID4gVW5mb3J0dW5hdGVs
-eSwgSSBoYXZlbid0IGZvdW5kIGEgd2F5IHRvIGV4dHJhY3QgdGhpcyBpbmZvcm1hdGlvbi4gSQo+
-ID4gPiBrbm93IC9wcm9jL2Fzb3VuZC9jYXJkTi9lbGQqIGV4cG9zZSB0aGUgRURJRC1saWtlIGRh
-dGEuIEhvd2V2ZXIgYnkKPiA+ID4gbG9va2luZyBhdCB0aGUgQUxTQSBBUEkgKGFsc286IGFwbGF5
-IC1sIGFuZCAtTCkgSSBjYW4ndCBmaW5kIGEgd2F5IHRvCj4gPiA+IGZpZ3VyZSBvdXQgd2hpY2gg
-UENNIGRldmljZSBtYXBzIHRvIHRoZSBFTEQuCj4gPiA+IAo+ID4gPiBBbSBJIG1pc3Npbmcgc29t
-ZXRoaW5nPwo+ID4gCj4gPiBJcyB0aGF0IGFjdHVhbGx5IGZpeGVkIG9uIGFsbCBoYXJkd2FyZT8g
-T3IgZG8gd2UgbWF5YmUgaGF2ZSBzb21lIAo+ID4gaGFyZHdhcmUgd2l0aCBvbmx5IG9uZSBhdWRp
-byBjb2RlYyBhbmQgbXVsdGlwbGUgY29ubmVjdG9ycz8KPiA+IAo+ID4gPiBJZiBub3QsIHdoYXQg
-d291bGQgYmUgdGhlIGJlc3Qgd2F5IHRvIGV4cG9zZSB0aGlzPwo+ID4gPiAKPiA+ID4gLSBBIHN5
-bWxpbmsgdG8gdGhlIEFMU0EgYXVkaW8gUENNIGRldmljZSBpbgo+ID4gPiAgICAvc3lzL2NsYXNz
-L2RybS9jYXJkTi1DT05ORUNUT1I/Cj4gPiA+IC0gQSBzeW1saW5rIHRvIHRoZSBEUk0gY29ubmVj
-dG9yIGluIC9zeXMvY2xhc3Mvc291bmQvcGNtKj8KPiA+IAo+ID4gSWYgaXQncyBmaXhlZCB0aGFu
-IHRob3NlIHR3byBvcHRpb25zIHNvdW5kIHNhbmUgdG8gbWUuCj4gPiAKPiA+ID4gLSBBIERSTSBj
-b25uZWN0b3IgcHJvcGVydHk/Cj4gPiAKPiA+IElmIGl0J3MgY29uZmlndXJhYmxlIHRoYW4gdGhh
-dCBzb3VuZHMgbGlrZSBhIGdvb2Qgb3B0aW9uIHRvIG1lLgo+IAo+IEknbSBzdGlsbCBub3Qgc3Vy
-ZSB3aGV0aGVyIHRoaXMgaXMgZml4ZWQgb24gYWxsIGhhcmR3YXJlIG9yIG5vdC4KPiAKPiBWaWxs
-ZSwgb24gdGhpcyBvbGQgSW50ZWwgaHcsIGlzIHRoZSBzaW5nbGUgY29ubmVjdG9yIHRoYXQgZ2V0
-cyB0aGUKPiBhdWRpbyBjb25maWd1cmFibGU/CgpUaGUgZm9yY2UtYXVkaW8gcHJvcGVydHkgY2Fu
-IGJlIHVzZWQgZm9yIHRoYXQuIFRoYXQgaXMsIHlvdSBjYW4gZm9yY2UKYXVkaW8gb2ZmIGZvciBh
-bGwgdGhlIGNvbm5lY3RvciB3aGVyZSB5b3UgZG9uJ3Qgd2FudCBhdWRpbyBhbmQgdGhlbgppdCBz
-aG91bGQgZ2V0IGF1dG9tYWdpY2FsbHkgcm91dGVkIHRvIHRoZSByZW1haW5pbmcgY29ubmVjdG9y
-LgoKLS0gClZpbGxlIFN5cmrDpGzDpApJbnRlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1233216250==
+Content-Type: multipart/alternative; boundary="15599269830.D0CBaCE.14872"
+Content-Transfer-Encoding: 7bit
+
+
+--15599269830.D0CBaCE.14872
+Date: Fri, 7 Jun 2019 17:03:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110856
+
+            Bug ID: 110856
+           Summary: Freesync causes in-game blackscreens when game has low
+                    fps.
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: critical
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: mokurai82@gmail.com
+
+When I play games on my Benq EX2303R 144hz monitor, the monitor shows
+blackscreens/turns of for a few seconds in low fps scenarios like in-game m=
+enus
+or during stutters. This is probably when the monitor exits it's VRR window.
+Freesync is working normally with the same hardware and software but an Acer
+XG270HU Freesync 1 monitor.
+
+I have The following hardware:
+an ASUS Strix Vega 64 8GB GPU
+Benq EX3203r Freesync 2 Monitor
+Lindy premium displayport cable.
+Ryzen 7 1800x Stock clocks with SMT
+
+Software:
+MESA - 19.0.4-1
+Operating System: Manjaro Linux=20
+KDE Plasma Version: 5.15.5
+KDE Frameworks Version: 5.58.0
+Qt Version: 5.12.3
+Kernel Version: 5.2.0-1-MANJARO
+OS Type: 64-bit
+Processors: 16 =C3=97 AMD Ryzen 7 1800X Eight-Core Processor
+Memory: 15,7 GiB of RAM
+
+(Hi, I'm new to filing bugs so I'm not sure if this is the right place to p=
+ost
+this.
+If it's the wrong place please tell me where I can file this in.)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15599269830.D0CBaCE.14872
+Date: Fri, 7 Jun 2019 17:03:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
+s."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856">110856</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Freesync causes in-game blackscreens when game has low fps.
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>mokurai82&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>When I play games on my Benq EX2303R 144hz monitor, the monito=
+r shows
+blackscreens/turns of for a few seconds in low fps scenarios like in-game m=
+enus
+or during stutters. This is probably when the monitor exits it's VRR window.
+Freesync is working normally with the same hardware and software but an Acer
+XG270HU Freesync 1 monitor.
+
+I have The following hardware:
+an ASUS Strix Vega 64 8GB GPU
+Benq EX3203r Freesync 2 Monitor
+Lindy premium displayport cable.
+Ryzen 7 1800x Stock clocks with SMT
+
+Software:
+MESA - 19.0.4-1
+Operating System: Manjaro Linux=20
+KDE Plasma Version: 5.15.5
+KDE Frameworks Version: 5.58.0
+Qt Version: 5.12.3
+Kernel Version: 5.2.0-1-MANJARO
+OS Type: 64-bit
+Processors: 16 =C3=97 AMD Ryzen 7 1800X Eight-Core Processor
+Memory: 15,7 GiB of RAM
+
+(Hi, I'm new to filing bugs so I'm not sure if this is the right place to p=
+ost
+this.
+If it's the wrong place please tell me where I can file this in.)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15599269830.D0CBaCE.14872--
+
+--===============1233216250==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1233216250==--
