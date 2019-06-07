@@ -2,60 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1034938D74
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 16:38:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31AE338D8F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 16:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A61589B48;
-	Fri,  7 Jun 2019 14:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1133A89B5F;
+	Fri,  7 Jun 2019 14:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6E5C89B48
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 14:38:07 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id r23so415329vkd.12
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Jun 2019 07:38:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TKjcG7F74rIiLByNRNXlvSG6M2lGgmcbBTtJHkAJ5zo=;
- b=YZclW1kuEJ4XuTVarUjvovwJ2fUW/h0y/GWYL4lkyvf2RIqpbGBBsD/BZVPQosp2Rg
- S9tKBn/7bb4BwBU38fiH+eN/ZFNDUv6Xo5bcmRGY5iZTlFasjBLuXnFcmymgCuRf7puS
- WRH88d0rQUKDt4m34aKepb8f/lI8QvooOAcBSe5ZIxaIiAt8VfQ6TJkJaSXjkWnUQwBL
- Nt0wh/b1aPDIhdvpPlTNJB11qe1qTRonbYSkjkEipkm1XapH8GsgsmxoaJg33Ox7bD8G
- WCwunjS1lOehXH9+UnyO1QWEZAV0+0kLbZTrnaIsjgYfYQJXHfMnmSNQv0VpELw1GdPL
- gqwg==
-X-Gm-Message-State: APjAAAWdmyT71PsszZSh/DCcjLD4zCKoDIBkeqMfQIQ1eJmxoOx2Whcd
- Fdegvh4sg0yzCg3+Yo1EPjl64KL3nV+UydCzZB4=
-X-Google-Smtp-Source: APXvYqwOY2ArH7hx4LrnjaOK2c33/ATMBEzkouFb1iNTFL0VBn2w9Q4reHBa7XBt8fTGdXwDLzjzr0fCY6PsxovHzp4=
-X-Received: by 2002:a1f:12d5:: with SMTP id 204mr8721141vks.4.1559918286637;
- Fri, 07 Jun 2019 07:38:06 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7D96C89B98
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 14:43:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7A97D72167; Fri,  7 Jun 2019 14:43:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Fri, 07 Jun 2019 14:43:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-VV4lLs1kPs@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <cover.1559860606.git.rodrigosiqueiramelo@gmail.com>
- <e3bc263b273d91182e0577ed820b1c4f096834ec.1559860606.git.rodrigosiqueiramelo@gmail.com>
- <20190607073957.GB21222@phenom.ffwll.local>
-In-Reply-To: <20190607073957.GB21222@phenom.ffwll.local>
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Date: Fri, 7 Jun 2019 11:37:55 -0300
-Message-ID: <CADKXj+7OLRLrGo+YbxZjR7f90WNPPjT_rkcyt3GrxomCAjOjHA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/vkms: Use index instead of 0 in possible crtc
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Brian Starkey <brian.starkey@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Simon Ser <contact@emersion.fr>, dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=TKjcG7F74rIiLByNRNXlvSG6M2lGgmcbBTtJHkAJ5zo=;
- b=NFCzRvA7xNGXFJIiBAGsFIew1vbH/17AMDoG4G0Z0LDcyOjXCE4LF0R8qHY3CvI1H6
- NVZSIY6YpynXHyOycMicg5UGDAT4WIt+k74SkUmCmiCbUh9X5EUBtvUEekb8zmN57KfT
- eYGkIZ6KMvS7vS3yyKkJ/CvCdx6BmOcoy2CPYJBfJKbnpiLRiPFY0vCbh2ahi272nknF
- Bt83j4br8JxQRV9f7VP3knUKXEeh75MfPrmswl3y+AxqCj4KQrNr0hyP0wuDego20FBr
- K/lKhiOHvWMNR3mvUgkdEotSgJH/z5h6SyHdydQSEJWFtAYx/jYYLLq6gYKK6wOcUwak
- ccsw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,101 +53,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0079799096=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gNywgMjAxOSBhdCA0OjQwIEFNIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4gd3JvdGU6Cj4KPiBPbiBUaHUsIEp1biAwNiwgMjAxOSBhdCAwNzo0MDozOFBNIC0wMzAw
-LCBSb2RyaWdvIFNpcXVlaXJhIHdyb3RlOgo+ID4gV2hlbiB2a21zIGNhbGxzIGRybV91bml2ZXJz
-YWxfcGxhbmVfaW5pdCgpLCBpdCBzZXRzIDAgZm9yIHRoZQo+ID4gcG9zc2libGVfY3J0Y3MgcGFy
-YW1ldGVyIHdoaWNoIHdvcmtzIHdlbGwgZm9yIGEgc2luZ2xlIGVuY29kZXIgYW5kCj4gPiBjb25u
-ZWN0b3I7IGhvd2V2ZXIsIHRoaXMgYXBwcm9hY2ggaXMgbm90IGZsZXhpYmxlIGFuZCBkb2VzIG5v
-dCBmaXQgd2VsbAo+ID4gZm9yIHZrbXMuIFRoaXMgY29tbWl0IGFkZHMgYW4gaW5kZXggcGFyYW1l
-dGVyIGZvciB2a21zX3BsYW5lX2luaXQoKQo+ID4gd2hpY2ggbWFrZXMgY29kZSBmbGV4aWJsZSBh
-bmQgZW5hYmxlcyB2a21zIHRvIHN1cHBvcnQgb3RoZXIgRFJNIGZlYXR1cmVzLgo+ID4KPiA+IFNp
-Z25lZC1vZmYtYnk6IFJvZHJpZ28gU2lxdWVpcmEgPHJvZHJpZ29zaXF1ZWlyYW1lbG9AZ21haWwu
-Y29tPgo+Cj4gSSB0aGluayBhIGNvcmUgcGF0Y2ggdG8gV0FSTl9PTiBpZiB0aGlzIGlzIE5VTEwg
-d291bGQgYmUgZ29vZC4gU2luY2UKPiB0aGF0J3MgaW5kZWVkIGEgYml0IGJyb2tlbiAuLi4gV2Un
-ZCBuZWVkIHRvIGNoZWNrIGFsbCBjYWxsZXJzIHRvIG1ha2Ugc3VyZQo+IHRoZXJlJ3Mgbm90IG90
-aGVyIHN1Y2ggYnVncyBhbnl3aGVyZSBvZmMuCj4gLURhbmllbAoKRG8geW91IG1lYW4gYWRkIFdB
-Uk5fT04gaW4gYGRybV91bml2ZXJzYWxfcGxhbmVfaW5pdCgpYCBpZgpgcG9zc2libGVfY3J0Y3Ng
-IGlzIGVxdWFsIHRvIHplcm8/Cgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmtt
-c19kcnYuYyAgICB8IDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5oICAg
-IHwgNCArKy0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19vdXRwdXQuYyB8IDYgKysr
-LS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19wbGFuZS5jICB8IDQgKystLQo+ID4g
-IDQgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+ID4KPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5jIGIvZHJpdmVycy9n
-cHUvZHJtL3ZrbXMvdmttc19kcnYuYwo+ID4gaW5kZXggNzM4ZGQ2MjA2ZDg1Li45MjI5NmJkOGY2
-MjMgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5jCj4gPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5jCj4gPiBAQCAtOTIsNyArOTIsNyBA
-QCBzdGF0aWMgaW50IHZrbXNfbW9kZXNldF9pbml0KHN0cnVjdCB2a21zX2RldmljZSAqdmttc2Rl
-dikKPiA+ICAgICAgIGRldi0+bW9kZV9jb25maWcubWF4X2hlaWdodCA9IFlSRVNfTUFYOwo+ID4g
-ICAgICAgZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGggPSAyNDsKPiA+Cj4gPiAtICAg
-ICByZXR1cm4gdmttc19vdXRwdXRfaW5pdCh2a21zZGV2KTsKPiA+ICsgICAgIHJldHVybiB2a21z
-X291dHB1dF9pbml0KHZrbXNkZXYsIDApOwo+ID4gIH0KPiA+Cj4gPiAgc3RhdGljIGludCBfX2lu
-aXQgdmttc19pbml0KHZvaWQpCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZrbXMv
-dmttc19kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfZHJ2LmgKPiA+IGluZGV4IDgx
-ZjFjZmJlYjkzNi4uZTgxMDczZGVhMTU0IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3ZrbXMvdmttc19kcnYuaAo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19kcnYu
-aAo+ID4gQEAgLTExMywxMCArMTEzLDEwIEBAIGJvb2wgdmttc19nZXRfdmJsYW5rX3RpbWVzdGFt
-cChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgcGlwZSwKPiA+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgaW50ICptYXhfZXJyb3IsIGt0aW1lX3QgKnZibGFua190aW1l
-LAo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIGluX3ZibGFua19pcnEpOwo+
-ID4KPiA+IC1pbnQgdmttc19vdXRwdXRfaW5pdChzdHJ1Y3Qgdmttc19kZXZpY2UgKnZrbXNkZXYp
-Owo+ID4gK2ludCB2a21zX291dHB1dF9pbml0KHN0cnVjdCB2a21zX2RldmljZSAqdmttc2Rldiwg
-aW50IGluZGV4KTsKPiA+Cj4gPiAgc3RydWN0IGRybV9wbGFuZSAqdmttc19wbGFuZV9pbml0KHN0
-cnVjdCB2a21zX2RldmljZSAqdmttc2RldiwKPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgZW51bSBkcm1fcGxhbmVfdHlwZSB0eXBlKTsKPiA+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgZW51bSBkcm1fcGxhbmVfdHlwZSB0eXBlLCBpbnQgaW5kZXgpOwo+ID4KPiA+
-ICAvKiBHZW0gc3R1ZmYgKi8KPiA+ICBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnZrbXNfZ2VtX2Ny
-ZWF0ZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS92a21zL3ZrbXNfb3V0cHV0LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX291dHB1
-dC5jCj4gPiBpbmRleCAzYjE2MmIyNTMxMmUuLjE0NDJiNDQ3YzcwNyAxMDA2NDQKPiA+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfb3V0cHV0LmMKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS92a21zL3ZrbXNfb3V0cHV0LmMKPiA+IEBAIC0zNiw3ICszNiw3IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3Mgdmttc19jb25uX2hlbHBlcl9mdW5j
-cyA9IHsKPiA+ICAgICAgIC5nZXRfbW9kZXMgICAgPSB2a21zX2Nvbm5fZ2V0X21vZGVzLAo+ID4g
-IH07Cj4gPgo+ID4gLWludCB2a21zX291dHB1dF9pbml0KHN0cnVjdCB2a21zX2RldmljZSAqdmtt
-c2RldikKPiA+ICtpbnQgdmttc19vdXRwdXRfaW5pdChzdHJ1Y3Qgdmttc19kZXZpY2UgKnZrbXNk
-ZXYsIGludCBpbmRleCkKPiA+ICB7Cj4gPiAgICAgICBzdHJ1Y3Qgdmttc19vdXRwdXQgKm91dHB1
-dCA9ICZ2a21zZGV2LT5vdXRwdXQ7Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0g
-JnZrbXNkZXYtPmRybTsKPiA+IEBAIC00NiwxMiArNDYsMTIgQEAgaW50IHZrbXNfb3V0cHV0X2lu
-aXQoc3RydWN0IHZrbXNfZGV2aWNlICp2a21zZGV2KQo+ID4gICAgICAgc3RydWN0IGRybV9wbGFu
-ZSAqcHJpbWFyeSwgKmN1cnNvciA9IE5VTEw7Cj4gPiAgICAgICBpbnQgcmV0Owo+ID4KPiA+IC0g
-ICAgIHByaW1hcnkgPSB2a21zX3BsYW5lX2luaXQodmttc2RldiwgRFJNX1BMQU5FX1RZUEVfUFJJ
-TUFSWSk7Cj4gPiArICAgICBwcmltYXJ5ID0gdmttc19wbGFuZV9pbml0KHZrbXNkZXYsIERSTV9Q
-TEFORV9UWVBFX1BSSU1BUlksIGluZGV4KTsKPiA+ICAgICAgIGlmIChJU19FUlIocHJpbWFyeSkp
-Cj4gPiAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKHByaW1hcnkpOwo+ID4KPiA+ICAgICAg
-IGlmIChlbmFibGVfY3Vyc29yKSB7Cj4gPiAtICAgICAgICAgICAgIGN1cnNvciA9IHZrbXNfcGxh
-bmVfaW5pdCh2a21zZGV2LCBEUk1fUExBTkVfVFlQRV9DVVJTT1IpOwo+ID4gKyAgICAgICAgICAg
-ICBjdXJzb3IgPSB2a21zX3BsYW5lX2luaXQodmttc2RldiwgRFJNX1BMQU5FX1RZUEVfQ1VSU09S
-LCBpbmRleCk7Cj4gPiAgICAgICAgICAgICAgIGlmIChJU19FUlIoY3Vyc29yKSkgewo+ID4gICAg
-ICAgICAgICAgICAgICAgICAgIHJldCA9IFBUUl9FUlIoY3Vyc29yKTsKPiA+ICAgICAgICAgICAg
-ICAgICAgICAgICBnb3RvIGVycl9jdXJzb3I7Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3ZrbXMvdmttc19wbGFuZS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19wbGFuZS5j
-Cj4gPiBpbmRleCAwZTY3ZDJkNDJmMGMuLjIwZmZjNTJmOTE5NCAxMDA2NDQKPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS92a21zL3ZrbXNfcGxhbmUuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L3ZrbXMvdmttc19wbGFuZS5jCj4gPiBAQCAtMTY4LDcgKzE2OCw3IEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgZHJtX3BsYW5lX2hlbHBlcl9mdW5jcyB2a21zX3ByaW1hcnlfaGVscGVyX2Z1bmNzID0g
-ewo+ID4gIH07Cj4gPgo+ID4gIHN0cnVjdCBkcm1fcGxhbmUgKnZrbXNfcGxhbmVfaW5pdChzdHJ1
-Y3Qgdmttc19kZXZpY2UgKnZrbXNkZXYsCj4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGVudW0gZHJtX3BsYW5lX3R5cGUgdHlwZSkKPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgZW51bSBkcm1fcGxhbmVfdHlwZSB0eXBlLCBpbnQgaW5kZXgpCj4gPiAgewo+ID4g
-ICAgICAgc3RydWN0IGRybV9kZXZpY2UgKmRldiA9ICZ2a21zZGV2LT5kcm07Cj4gPiAgICAgICBj
-b25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2hlbHBlcl9mdW5jcyAqZnVuY3M7Cj4gPiBAQCAtMTkwLDcg
-KzE5MCw3IEBAIHN0cnVjdCBkcm1fcGxhbmUgKnZrbXNfcGxhbmVfaW5pdChzdHJ1Y3Qgdmttc19k
-ZXZpY2UgKnZrbXNkZXYsCj4gPiAgICAgICAgICAgICAgIGZ1bmNzID0gJnZrbXNfcHJpbWFyeV9o
-ZWxwZXJfZnVuY3M7Cj4gPiAgICAgICB9Cj4gPgo+ID4gLSAgICAgcmV0ID0gZHJtX3VuaXZlcnNh
-bF9wbGFuZV9pbml0KGRldiwgcGxhbmUsIDAsCj4gPiArICAgICByZXQgPSBkcm1fdW5pdmVyc2Fs
-X3BsYW5lX2luaXQoZGV2LCBwbGFuZSwgMSA8PCBpbmRleCwKPiA+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAmdmttc19wbGFuZV9mdW5jcywKPiA+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBmb3JtYXRzLCBuZm9ybWF0cywKPiA+ICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCB0eXBlLCBOVUxMKTsKPiA+IC0tCj4gPiAy
-LjIxLjAKPgo+Cj4KPiAtLQo+IERhbmllbCBWZXR0ZXIKPiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50
-ZWwgQ29ycG9yYXRpb24KPiBodHRwOi8vYmxvZy5mZndsbC5jaAoKCgotLSAKClJvZHJpZ28gU2lx
-dWVpcmEKaHR0cHM6Ly9zaXF1ZWlyYS50ZWNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0079799096==
+Content-Type: multipart/alternative; boundary="15599186213.eF3a8.14049"
+Content-Transfer-Encoding: 7bit
+
+
+--15599186213.eF3a8.14049
+Date: Fri, 7 Jun 2019 14:43:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+
+--- Comment #51 from Richard Thier <u9vata@gmail.com> ---
+> I do have an old 1024x768 monitor with VGA input,
+> I might give it a spin this weekend.
+
+But didn't the LCD also supports smaler resolutions natively? Most of them =
+do
+even if their best native is more exotic ratios and stuff. Then you just ne=
+ed
+to change with xrandr to something smaller.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15599186213.eF3a8.14049
+Date: Fri, 7 Jun 2019 14:43:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c51">Comme=
+nt # 51</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; I do have an old 1024x768 monitor w=
+ith VGA input,
+&gt; I might give it a spin this weekend.</span >
+
+But didn't the LCD also supports smaler resolutions natively? Most of them =
+do
+even if their best native is more exotic ratios and stuff. Then you just ne=
+ed
+to change with xrandr to something smaller.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15599186213.eF3a8.14049--
+
+--===============0079799096==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0079799096==--
