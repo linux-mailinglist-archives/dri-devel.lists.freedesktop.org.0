@@ -1,88 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57F038EDA
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 17:21:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB91538EF3
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 17:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC54E89DFA;
-	Fri,  7 Jun 2019 15:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4F5C89310;
+	Fri,  7 Jun 2019 15:25:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57EA889DFA
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 15:21:51 +0000 (UTC)
-Received: from [192.168.1.31] (cpe-70-114-128-244.austin.res.rr.com
- [70.114.128.244])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4ACCB208C3;
- Fri,  7 Jun 2019 15:21:50 +0000 (UTC)
-Subject: Re: [PATCHv16 1/3] ARM:dt-bindings:display Intel FPGA Video and Image
- Processing Suite
-To: "Hean-Loong, Ong" <hean.loong.ong@intel.com>,
- Rob Herring <robh+dt@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <20190607143022.427-1-hean.loong.ong@intel.com>
- <20190607143022.427-2-hean.loong.ong@intel.com>
-From: Dinh Nguyen <dinguyen@kernel.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=dinguyen@kernel.org; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <9695f3e1-92ab-23ce-5922-71fbb7d8149f@kernel.org>
-Date: Fri, 7 Jun 2019 10:21:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8812E89320
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 15:25:50 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 850AE72167; Fri,  7 Jun 2019 15:25:50 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Fri, 07 Jun 2019 15:25:50 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-iHHcFOwxs7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190607143022.427-2-hean.loong.ong@intel.com>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1559920911;
- bh=C4wSxFGlR6b9yxuGgWtjERfZiktf9Nic7InAMLS2vlc=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=f0Y+3vyWwKNie94rK4lNNs5Gjz8Njf4YDzV52+JvXjDibV6vA1j7g+A8+RGBRvj5T
- aaSxRqJeEcqn1xYFeeR6+oHhuwoUYd3Ykl5qUZS+uRVrtj+BgoL4Wi95MUwVr4wQ7s
- jMGhgXO4r5jl56S4D74j47sX5KRVgaB83H5rtT5g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,87 +53,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chin.liang.see@intel.com, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0696788362=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSGVhbi1Mb29uZzoKClBsZWFzZSBmb3JtYXQgeW91ciBjb21taXQgbWVzc2FnZSBsaWtlIHRo
-aXM6Cgo8Q29tbWl0IG1lc3NhZ2U+CgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2Vy
-bmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogT25nLCBIZWFuIExvb25nIDxoZWFuLmxvb25nLm9uZ0Bp
-bnRlbC5jb20+Ci0tLQpWMTU6CnYxNDoKCgpUaGUgdmVyc2lvbiBoaXN0b3J5IG5lZWRzIGdvIGFm
-dGVyIHRoZSAtLS0KCkRpbmgKCk9uIDYvNy8xOSA5OjMwIEFNLCBIZWFuLUxvb25nLCBPbmcgd3Jv
-dGU6Cj4gRnJvbTogIk9uZywgSGVhbiBMb29uZyIgPGhlYW4ubG9vbmcub25nQGludGVsLmNvbT4K
-PiAKPiBEZXZpY2UgdHJlZSBiaW5kaW5nIGZvciBJbnRlbCBGUEdBIFZpZGVvIGFuZCBJbWFnZSBQ
-cm9jZXNzaW5nIFN1aXRlLgo+IFRoZSBiaW5kaW5ncyB3b3VsZCBzZXQgdGhlIG1heCB3aWR0aCwg
-bWF4IGhlaWdodCwKPiBiaXRzIHBlciBwaXhlbCBhbmQgbWVtb3J5IHBvcnQgd2lkdGguCj4gVGhl
-IGRldmljZSB0cmVlIGJpbmRpbmcgb25seSBzdXBwb3J0cyB0aGUgSW50ZWwKPiBBcnJpYTEwIGRl
-dmtpdCBhbmQgaXRzIHZhcmlhbnRzLiBWZW5kb3IgbmFtZSByZXRhaW5lZCBhcyBhbHRyLgo+IAo+
-IFJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+IAo+IFYxNToKPiBS
-ZXZpZXdlZAo+IAo+IFYxNDoKPiBObyBDaGFuZ2UKPiAKPiBWMTM6Cj4gTm8gY2hhbmdlCj4gCj4g
-VjEyOgo+IFdyYXAgY29tbWVudHMgYW5kIGZpeCBjb21taXQgbWVzc2FnZQo+IAo+IFYxMToKPiBO
-byBjaGFuZ2UKPiAKPiBWMTA6Cj4gTm8gY2hhbmdlCj4gCj4gVjk6Cj4gUmVtb3ZlIERpc3BsYXkg
-cG9ydCBub2RlCj4gCj4gVjg6Cj4gKkFkZCBwb3J0IHRvIERpc3BsYXkgcG9ydCBkZWNvZGVyCj4g
-Cj4gVjc6Cj4gKkZpeCBPRiBncmFwaCBmb3IgYmV0dGVyIGRlc2NyaXB0aW9uCj4gKkFkZCBkZXNj
-cmlwdGlvbiBmb3IgZW5jb2Rlcgo+IAo+IFY2Ogo+ICpEZXNjcmlwdGlvbiBoYXZlIG5vdCBkZXNj
-cmliZSBEVCBkZXZpY2UgaW4gZ2VuZXJhbAo+IAo+IFY1Ogo+ICpyZW1vdmUgYmluZGluZ3MgZm9y
-IGJpdHMgcGVyIHN5bWJvbCBhcyBpdCBoYXMgb25seSBvbmUgdmFsdWUgd2hpY2ggaXMgOAo+IAo+
-IFY0Ogo+ICpmaXggcHJvcGVydGllcyB0aGF0IGRvZXMgbm90IGRlc2NyaWJlIHRoZSB2YWx1ZXMK
-PiAKPiBWMzoKPiAqT0YgZ3JhcGggbm90IGluIGFjY29yZGFuY2UgdG8gZ3JhcGgudHh0Cj4gCj4g
-VjI6Cj4gKlJlbW92ZSBMaW51eCBkcml2ZXIgZGVzY3JpcHRpb24KPiAKPiBWMToKPiAqTWlzc2lu
-ZyB2ZW5kb3IgcHJlZml4Cj4gCj4gU2lnbmVkLW9mZi1ieTogT25nLCBIZWFuIExvb25nIDxoZWFu
-Lmxvb25nLm9uZ0BpbnRlbC5jb20+Cj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9kaXNwbGF5L2FsdHIs
-dmlwLWZiMi50eHQgICAgICAgICB8IDYzICsrKysrKysrKysrKysrKysrKysKPiAgMSBmaWxlIGNo
-YW5nZWQsIDYzIGluc2VydGlvbnMoKykKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRp
-b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FsdHIsdmlwLWZiMi50eHQKPiAKPiBkaWZm
-IC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYWx0cix2
-aXAtZmIyLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2Fs
-dHIsdmlwLWZiMi50eHQKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAw
-MC4uODlhM2I5ZTE2NmE4Cj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2FsdHIsdmlwLWZiMi50eHQKPiBAQCAtMCwwICsxLDYz
-IEBACj4gK0ludGVsIFZpZGVvIGFuZCBJbWFnZSBQcm9jZXNzaW5nKFZJUCkgRnJhbWUgQnVmZmVy
-IElJIGJpbmRpbmdzCj4gKwo+ICtTdXBwb3J0ZWQgaGFyZHdhcmU6IEludGVsIEZQR0EgU29DIEFy
-cmlhMTAgYW5kIGFib3ZlIHdpdGggZGlzcGxheSBwb3J0IElQCj4gKwo+ICtUaGUgVmlkZW8gRnJh
-bWUgQnVmZmVyIElJIGluIFZpZGVvIEltYWdlIFByb2Nlc3NpbmcgKFZJUCkgc3VpdGUgaXMgYW4g
-SVAgY29yZQo+ICt0aGF0IGludGVyZmFjZXMgYmV0d2VlbiBzeXN0ZW0gbWVtb3J5IGFuZCBBdmFs
-b24tU1QgdmlkZW8gcG9ydHMuIFRoZSBJUCBjb3JlCj4gK2NhbiBiZSBjb25maWd1cmVkIHRvIHN1
-cHBvcnQgdGhlIG1lbW9yeSByZWFkZXIgKGZyb20gbWVtb3J5IHRvIEF2YWxvbi1TVCkKPiArYW5k
-L29yIG1lbW9yeSB3cml0ZXIgKGZyb20gQXZhbG9uLVNUIHRvIG1lbW9yeSkgaW50ZXJmYWNlcy4K
-PiArCj4gK01vcmUgaW5mb3JtYXRpb24gdGhlIEZQR0EgdmlkZW8gSVAgY29tcG9uZW50IGNhbiBi
-ZSBhY3F1aXJlZCBmcm9tCj4gK2h0dHBzOi8vd3d3LmFsdGVyYS5jb20vY29udGVudC9kYW0vYWx0
-ZXJhLXd3dy9nbG9iYWwvZW5fVVMvcGRmc1wKPiArL2xpdGVyYXR1cmUvdWcvdWdfdmlwLnBkZgo+
-ICsKPiArRFQtQmluZGluZ3M6Cj4gKz09PT09PT09PT09PT0KPiArUmVxdWlyZWQgcHJvcGVydGll
-czoKPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICstIGNvbXBhdGlibGU6ICJhbHRy
-LHZpcC1mcmFtZS1idWZmZXItMi4wIgo+ICstIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFu
-ZCBsZW5ndGggb2YgdGhlIGZyYW1lYnVmZmVyIGNvbnRyb2xsZXIncwo+ICsJcmVnaXN0ZXJzLgo+
-ICstIGFsdHIsbWF4LXdpZHRoOiBUaGUgbWF4aW11bSB3aWR0aCBvZiB0aGUgZnJhbWVidWZmZXIg
-aW4gcGl4ZWxzLgo+ICstIGFsdHIsbWF4LWhlaWdodDogVGhlIG1heGltdW0gaGVpZ2h0IG9mIHRo
-ZSBmcmFtZWJ1ZmZlciBpbiBwaXhlbHMuCj4gKy0gYWx0cixtZW0tcG9ydC13aWR0aCA9IHRoZSBi
-dXMgd2lkdGggb2YgdGhlIGF2YWxvbiBtYXN0ZXIgcG9ydAo+ICsJb24gdGhlIGZyYW1lIHJlYWRl
-cgo+ICsKPiArT3B0aW9uYWwgc3ViLW5vZGVzOgo+ICstIHBvcnRzOiBUaGUgY29ubmVjdGlvbiB0
-byB0aGUgZW5jb2Rlcgo+ICsKPiArQ29ubmVjdGlvbnMgYmV0d2VlbiB0aGUgRnJhbWUgQnVmZmVy
-IElJIGFuZCBvdGhlciB2aWRlbyBJUCBjb3JlcyBpbiB0aGUgc3lzdGVtCj4gK2FyZSBtb2RlbGxl
-ZCB1c2luZyB0aGUgT0YgZ3JhcGggRFQgYmluZGluZ3MuIFRoZSBGcmFtZSBCdWZmZXIgSUkgbm9k
-ZSBoYXMgdXAKPiArdG8gdHdvIE9GIGdyYXBoIHBvcnRzLiBXaGVuIHRoZSBtZW1vcnkgd3JpdGVy
-IGludGVyZmFjZSBpcyBlbmFibGVkLCBwb3J0IDAKPiArbWFwcyB0byB0aGUgQXZhbG9uLVNUIElu
-cHV0IChkaW4pIHBvcnQuIFdoZW4gdGhlIG1lbW9yeSByZWFkZXIgaW50ZXJmYWNlIGlzCj4gK2Vu
-YWJsZWQsIHBvcnQgMSBtYXBzIHRvIHRoZSBBdmFsb24tU1QgT3V0cHV0IChkb3V0KSBwb3J0Lgo+
-ICsKPiArVGhlIGVuY29kZXIgaXMgYnVpbHQgaW50byB0aGUgRlBHQSBIVyBkZXNpZ24gYW5kIHRo
-ZXJlZm9yZSB3b3VsZCBub3QKPiArYmUgYWNjZXNzaWJsZSBmcm9tIHRoZSBERFIuCj4gKwo+ICsJ
-CVBvcnQgMAkJCQlQb3J0MQo+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0KPiArQVJSSUExMCBBVkFMT05fU1QgKERJTikJCUFWQUxPTl9T
-VCAoRE9VVCkKPiArCj4gK1JlcXVpcmVkIFByb3BlcnRpZXMgRXhhbXBsZToKPiArLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQo+ICsKPiArZnJhbWVidWZmZXJAMTAwMDAwMjgwIHsKPiArCQlj
-b21wYXRpYmxlID0gImFsdHIsdmlwLWZyYW1lLWJ1ZmZlci0yLjAiOwo+ICsJCXJlZyA9IDwweDAw
-MDAwMDAxIDB4MDAwMDAyODAgMHgwMDAwMDA0MD47Cj4gKwkJYWx0cixtYXgtd2lkdGggPSA8MTI4
-MD47Cj4gKwkJYWx0cixtYXgtaGVpZ2h0ID0gPDcyMD47Cj4gKwkJYWx0cixtZW0tcG9ydC13aWR0
-aCA9IDwxMjg+Owo+ICsKPiArCQlwb3J0cyB7Cj4gKwkJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsK
-PiArCQkJCSNzaXplLWNlbGxzID0gPDA+Owo+ICsKPiArCQkJcG9ydEAxIHsKPiArCQkJCXJlZyA9
-IDwxPjsKPiArCQkJCQlmYl9vdXRwdXQ6IGVuZHBvaW50IHsKPiArCQkJCQkJcmVtb3RlLWVuZHBv
-aW50ID0gPCZkcF9lbmNvZGVyX2lucHV0PjsKPiArCQkJCQl9Owo+ICsJCQl9Owo+ICsJCX07Cj4g
-K307Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0696788362==
+Content-Type: multipart/alternative; boundary="15599211502.8bCDcA78.24241"
+Content-Transfer-Encoding: 7bit
+
+
+--15599211502.8bCDcA78.24241
+Date: Fri, 7 Jun 2019 15:25:50 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+
+--- Comment #55 from Alex Deucher <alexdeucher@gmail.com> ---
+Performance will be better because the 3D engine is rendering to a smaller
+surface (e.g., 640x480) regardless of whether you are fullscreen or windowe=
+d.=20
+The size of the rendered image is what impact 3D performance.  The scaler is
+fixed function hw so it doesn't impact the 3D engine directly other than us=
+ing
+some memory bandwidth to read the source image.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15599211502.8bCDcA78.24241
+Date: Fri, 7 Jun 2019 15:25:50 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c55">Comme=
+nt # 55</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Performance will be better because the 3D engine is rendering =
+to a smaller
+surface (e.g., 640x480) regardless of whether you are fullscreen or windowe=
+d.=20
+The size of the rendered image is what impact 3D performance.  The scaler is
+fixed function hw so it doesn't impact the 3D engine directly other than us=
+ing
+some memory bandwidth to read the source image.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15599211502.8bCDcA78.24241--
+
+--===============0696788362==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0696788362==--
