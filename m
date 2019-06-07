@@ -2,35 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DBE38E27
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 16:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3CA38E2A
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 16:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2968589D4B;
-	Fri,  7 Jun 2019 14:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020F989D73;
+	Fri,  7 Jun 2019 14:56:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB9F189D4B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 14:54:54 +0000 (UTC)
-Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
- [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay10.mail.gandi.net (Postfix) with ESMTPSA id EC5BD240009;
- Fri,  7 Jun 2019 14:54:48 +0000 (UTC)
-Date: Fri, 7 Jun 2019 16:54:48 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v2 2/2] drm: panel-orientation-quirks: Add quirk for GPD
- MicroPC
-Message-ID: <20190607145448.uj5rluis73rhyqdh@flea>
-References: <20190524125759.14131-1-hdegoede@redhat.com>
- <20190524125759.14131-2-hdegoede@redhat.com>
- <20190606091440.qomxukz72puwq7vy@flea>
- <e2077be3-c637-daf2-27dc-b1461c77f796@redhat.com>
- <20190606133849.2edsrkkryq6mks6x@flea>
- <fc5e247f-a6d1-b512-1187-ea2c7d48d461@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1029389D7D
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 14:56:46 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0D27D72167; Fri,  7 Jun 2019 14:56:46 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Fri, 07 Jun 2019 14:56:46 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-QM0xkNrtPT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <fc5e247f-a6d1-b512-1187-ea2c7d48d461@redhat.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,88 +53,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1198239908=="
+Content-Type: multipart/mixed; boundary="===============2012456123=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1198239908==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lqypapa6i4zcwa4m"
-Content-Disposition: inline
+--===============2012456123==
+Content-Type: multipart/alternative; boundary="15599194060.d03e5.17048"
+Content-Transfer-Encoding: 7bit
 
 
---lqypapa6i4zcwa4m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15599194060.d03e5.17048
+Date: Fri, 7 Jun 2019 14:56:46 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-On Thu, Jun 06, 2019 at 04:03:57PM +0200, Hans de Goede wrote:
-> Hi,
->
-> On 06-06-19 15:38, Maxime Ripard wrote:
-> > On Thu, Jun 06, 2019 at 01:13:40PM +0200, Hans de Goede wrote:
-> > > On 06-06-19 11:14, Maxime Ripard wrote:
-> > > > On Fri, May 24, 2019 at 02:57:59PM +0200, Hans de Goede wrote:
-> > > > > GPD has done it again, make a nice device (good), use way too generic
-> > > > > DMI strings (bad) and use a portrait screen rotated 90 degrees (ugly).
-> > > > >
-> > > > > Because of the too generic DMI strings this entry is also doing bios-date
-> > > > > matching, so the gpd_micropc data struct may very well need to be updated
-> > > > > with some extra bios-dates in the future.
-> > > > >
-> > > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > >
-> > > > For both patches,
-> > > > Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
-> > >
-> > > Thank you, I've pushed both to drm-misc-next now.
-> > >
-> > > Can you add them to drm-misc-fixes please ?
-> > >
-> > > (AFAIK I'm not supposed to do that myself)
-> >
-> > You definitely can :)
-> >
-> > Now that it's in next though, it's pretty hard to come back in time. I
-> > guess we could just apply it in fixes and let git figure it out, or
-> > revert the one in next. I'm not sure which one is preferred
-> > though.
->
-> I thought that the procedure was to get it in -next and then cherry-pick
-> into -fixes?
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
 
-If you feel like something should be in fixes, you can definitely
-apply it there only.
+--- Comment #52 from Alex Deucher <alexdeucher@gmail.com> ---
+(In reply to Richard Thier from comment #51)
+> > I do have an old 1024x768 monitor with VGA input,
+> > I might give it a spin this weekend.
+>=20
+> But didn't the LCD also supports smaler resolutions natively? Most of them
+> do even if their best native is more exotic ratios and stuff. Then you ju=
+st
+> need to change with xrandr to something smaller.
 
-> Git should sort this out without issues when Linus merges -next; or
-> when we back-merge Linus' tree.
+Generally panels only have a single native mode.  The GPU has a scaler that=
+ can
+scale a smaller image to the native timing.  Many LCD monitors also have a
+scaler built in to provide the same functionality.
 
-Yeah, looking at the doc, cherry-picking is the one encouraged, so
-feel free to cherry-pick them in drm-misc-fixes.
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-Maxime
+--15599194060.d03e5.17048
+Date: Fri, 7 Jun 2019 14:56:46 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c52">Comme=
+nt # 52</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>(In reply to Richard Thier from <a href=3D"show_bug.cgi?id=3D1=
+10781#c51">comment #51</a>)
+<span class=3D"quote">&gt; &gt; I do have an old 1024x768 monitor with VGA =
+input,
+&gt; &gt; I might give it a spin this weekend.
+&gt;=20
+&gt; But didn't the LCD also supports smaler resolutions natively? Most of =
+them
+&gt; do even if their best native is more exotic ratios and stuff. Then you=
+ just
+&gt; need to change with xrandr to something smaller.</span >
 
---lqypapa6i4zcwa4m
-Content-Type: application/pgp-signature; name="signature.asc"
+Generally panels only have a single native mode.  The GPU has a scaler that=
+ can
+scale a smaller image to the native timing.  Many LCD monitors also have a
+scaler built in to provide the same functionality.</pre>
+        </div>
+      </p>
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXPp6uAAKCRDj7w1vZxhR
-xQqqAQCUI6lb8xZEpVjThpfNbiEiGzlm4JUaHjDLb93uBg+NXQEA/PTqlJck/sZE
-uqyiPndTm0ujkuQ0ixa7QF6F3BKWMw8=
-=cGaU
------END PGP SIGNATURE-----
+      <hr>
+      <span>You are receiving this mail because:</span>
 
---lqypapa6i4zcwa4m--
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
 
---===============1198239908==
+--15599194060.d03e5.17048--
+
+--===============2012456123==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -134,4 +164,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1198239908==--
+--===============2012456123==--
