@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D6A38878
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 13:05:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DEE38877
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 13:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9045F89D44;
-	Fri,  7 Jun 2019 11:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0817B89B9A;
+	Fri,  7 Jun 2019 11:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8158C89CAC
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 11:05:21 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7E80D72167; Fri,  7 Jun 2019 11:05:21 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110313] [CI][SHARDS] igt@kms_lease@lease-uevent - fail - Failed
- assertion: igt_lease_change_detected(uevent_monitor, 1)
-Date: Fri, 07 Jun 2019 11:05:21 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mika.kahola@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110313-502-VXelbCI6ei@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110313-502@http.bugs.freedesktop.org/>
-References: <bug-110313-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FC7489B9A
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 11:04:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 07 Jun 2019 04:04:58 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+ by fmsmga001.fm.intel.com with ESMTP; 07 Jun 2019 04:04:56 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@cs.helsinki.fi>, Harish
+ Chegondi <harish.chegondi@intel.com>
+Subject: Re: DRM/AST regression (likely 4.14 -> 4.19+),
+ providing EDID manually fails
+In-Reply-To: <alpine.DEB.2.20.1906041106090.29321@whs-18.cs.helsinki.fi>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <alpine.DEB.2.20.1905262211270.24390@whs-18.cs.helsinki.fi>
+ <878surn919.wl-ashutosh.dixit@intel.com> <87sgsz593p.fsf@intel.com>
+ <alpine.DEB.2.20.1905291127350.24401@whs-18.cs.helsinki.fi>
+ <878sup5zmh.fsf@intel.com> <20190604061511.GA22758@intel.com>
+ <alpine.DEB.2.20.1906041106090.29321@whs-18.cs.helsinki.fi>
+Date: Fri, 07 Jun 2019 14:08:00 +0300
+Message-ID: <871s051wmn.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,90 +47,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0040135480=="
+Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0040135480==
-Content-Type: multipart/alternative; boundary="15599055211.CD0eA0.26207"
-Content-Transfer-Encoding: 7bit
-
-
---15599055211.CD0eA0.26207
-Date: Fri, 7 Jun 2019 11:05:21 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110313
-
---- Comment #5 from Mika Kahola <mika.kahola@intel.com> ---
-It seems that we haven't seen this bug for a while now. Can we close this o=
-ne?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15599055211.CD0eA0.26207
-Date: Fri, 7 Jun 2019 11:05:21 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][SHARDS] igt&#64;kms_lease&#64;lease-uevent - fail - =
-Failed assertion: igt_lease_change_detected(uevent_monitor, 1)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110313#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][SHARDS] igt&#64;kms_lease&#64;lease-uevent - fail - =
-Failed assertion: igt_lease_change_detected(uevent_monitor, 1)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110313">bug 11031=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mika.kahola&#64;intel.com" title=3D"Mika Kahola &lt;mika.kahola&#64;intel.c=
-om&gt;"> <span class=3D"fn">Mika Kahola</span></a>
-</span></b>
-        <pre>It seems that we haven't seen this bug for a while now. Can we=
- close this one?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15599055211.CD0eA0.26207--
-
---===============0040135480==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0040135480==--
+T24gVHVlLCAwNCBKdW4gMjAxOSwgSWxwbyBKw6RydmluZW4gPGlscG8uamFydmluZW5AY3MuaGVs
+c2lua2kuZmk+IHdyb3RlOgo+IFllcywgaWYgaXQgYXBwbGllcyBmaW5lIHRvIDUuMS4gLi4uQWxz
+bywgaXQgd2lsbCB0YWtlIGEgd2VlayBvciBzby4KClBsZWFzZSB0cnkgdGhlc2UgdHdvIHBhdGNo
+ZXMgaW5zdGVhZDoKaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Nlcmllcy82MTc2
+NC8KCkJSLApKYW5pLgoKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBTb3VyY2UgR3JhcGhp
+Y3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
