@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5828392B8
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 19:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18185392C0
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Jun 2019 19:05:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CABD89307;
-	Fri,  7 Jun 2019 17:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B69898AA;
+	Fri,  7 Jun 2019 17:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8ECEC89307
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 17:03:03 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E6AB8898AA
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Jun 2019 17:05:15 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 85F2272167; Fri,  7 Jun 2019 17:03:03 +0000 (UTC)
+ id DEB4B72168; Fri,  7 Jun 2019 17:05:15 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110856] Freesync causes in-game blackscreens when game has low
  fps.
-Date: Fri, 07 Jun 2019 17:03:03 +0000
+Date: Fri, 07 Jun 2019 17:05:16 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
@@ -31,12 +31,13 @@ X-Bugzilla-Severity: critical
 X-Bugzilla-Who: mokurai82@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110856-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: priority
+Message-ID: <bug-110856-502-bPwqkaAZ7J@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110856-502@http.bugs.freedesktop.org/>
+References: <bug-110856-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1233216250=="
+Content-Type: multipart/mixed; boundary="===============0436782783=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1233216250==
-Content-Type: multipart/alternative; boundary="15599269830.D0CBaCE.14872"
+--===============0436782783==
+Content-Type: multipart/alternative; boundary="15599271151.Da53.16180"
 Content-Transfer-Encoding: 7bit
 
 
---15599269830.D0CBaCE.14872
-Date: Fri, 7 Jun 2019 17:03:03 +0000
+--15599271151.Da53.16180
+Date: Fri, 7 Jun 2019 17:05:15 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,55 +73,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110856
 
-            Bug ID: 110856
-           Summary: Freesync causes in-game blackscreens when game has low
-                    fps.
-           Product: DRI
-           Version: XOrg git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: critical
-          Priority: medium
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: mokurai82@gmail.com
+Arek Tumas <mokurai82@gmail.com> changed:
 
-When I play games on my Benq EX2303R 144hz monitor, the monitor shows
-blackscreens/turns of for a few seconds in low fps scenarios like in-game m=
-enus
-or during stutters. This is probably when the monitor exits it's VRR window.
-Freesync is working normally with the same hardware and software but an Acer
-XG270HU Freesync 1 monitor.
-
-I have The following hardware:
-an ASUS Strix Vega 64 8GB GPU
-Benq EX3203r Freesync 2 Monitor
-Lindy premium displayport cable.
-Ryzen 7 1800x Stock clocks with SMT
-
-Software:
-MESA - 19.0.4-1
-Operating System: Manjaro Linux=20
-KDE Plasma Version: 5.15.5
-KDE Frameworks Version: 5.58.0
-Qt Version: 5.12.3
-Kernel Version: 5.2.0-1-MANJARO
-OS Type: 64-bit
-Processors: 16 =C3=97 AMD Ryzen 7 1800X Eight-Core Processor
-Memory: 15,7 GiB of RAM
-
-(Hi, I'm new to filing bugs so I'm not sure if this is the right place to p=
-ost
-this.
-If it's the wrong place please tell me where I can file this in.)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Priority|medium                      |high
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15599269830.D0CBaCE.14872
-Date: Fri, 7 Jun 2019 17:03:03 +0000
+--15599271151.Da53.16180
+Date: Fri, 7 Jun 2019 17:05:15 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -131,114 +95,32 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:mokurai82=
+&#64;gmail.com" title=3D"Arek Tumas &lt;mokurai82&#64;gmail.com&gt;"> <span=
+ class=3D"fn">Arek Tumas</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
 s."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856">110856</a>
-          </td>
-        </tr>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856">bug 11085=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>Freesync causes in-game blackscreens when game has low fps.
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>critical
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>mokurai82&#64;gmail.com
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">Priority</td>
+           <td>medium
+           </td>
+           <td>high
+           </td>
+         </tr></table>
       <p>
-        <div>
-        <pre>When I play games on my Benq EX2303R 144hz monitor, the monito=
-r shows
-blackscreens/turns of for a few seconds in low fps scenarios like in-game m=
-enus
-or during stutters. This is probably when the monitor exits it's VRR window.
-Freesync is working normally with the same hardware and software but an Acer
-XG270HU Freesync 1 monitor.
-
-I have The following hardware:
-an ASUS Strix Vega 64 8GB GPU
-Benq EX3203r Freesync 2 Monitor
-Lindy premium displayport cable.
-Ryzen 7 1800x Stock clocks with SMT
-
-Software:
-MESA - 19.0.4-1
-Operating System: Manjaro Linux=20
-KDE Plasma Version: 5.15.5
-KDE Frameworks Version: 5.58.0
-Qt Version: 5.12.3
-Kernel Version: 5.2.0-1-MANJARO
-OS Type: 64-bit
-Processors: 16 =C3=97 AMD Ryzen 7 1800X Eight-Core Processor
-Memory: 15,7 GiB of RAM
-
-(Hi, I'm new to filing bugs so I'm not sure if this is the right place to p=
-ost
-this.
-If it's the wrong place please tell me where I can file this in.)</pre>
-        </div>
       </p>
 
 
@@ -251,9 +133,9 @@ If it's the wrong place please tell me where I can file this in.)</pre>
     </body>
 </html>=
 
---15599269830.D0CBaCE.14872--
+--15599271151.Da53.16180--
 
---===============1233216250==
+--===============0436782783==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -263,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1233216250==--
+--===============0436782783==--
