@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C313A0B4
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jun 2019 18:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8333A0EC
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jun 2019 19:50:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91D648925D;
-	Sat,  8 Jun 2019 16:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C764C8922B;
+	Sat,  8 Jun 2019 17:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 250FE89235
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jun 2019 16:43:24 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 37FD08922B
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jun 2019 17:50:13 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1C61E72167; Sat,  8 Jun 2019 16:43:24 +0000 (UTC)
+ id 303AC72167; Sat,  8 Jun 2019 17:50:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
- 11.x and 19.x
-Date: Sat, 08 Jun 2019 16:43:24 +0000
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Sat, 08 Jun 2019 17:50:13 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110781-502-1az1gfjo7k@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
-References: <bug-110781-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110659-502-PEwfcHbrMs@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,60 +53,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1447607628=="
+Content-Type: multipart/mixed; boundary="===============0642001462=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1447607628==
-Content-Type: multipart/alternative; boundary="15600122040.47DD1B.1409"
+--===============0642001462==
+Content-Type: multipart/alternative; boundary="15600162132.e3BCa7.18122"
 Content-Transfer-Encoding: 7bit
 
 
---15600122040.47DD1B.1409
-Date: Sat, 8 Jun 2019 16:43:24 +0000
+--15600162132.e3BCa7.18122
+Date: Sat, 8 Jun 2019 17:50:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
 
---- Comment #61 from Richard Thier <u9vata@gmail.com> ---
-I still get some slowdown when playing Mount&Blade: Warband which worked
-before, but there is some chances it is something else or not even in mesa.
-
-On my last system I was playing it with wine 1.8 and now with latest
-wine-staging 4.x so there are just too many variables.
-
-I have played a bit of Urban Terror though and it became smooth and playable
-once again. Many times I actually get 60FPS top and 18-20 FPS when looking =
-at
-big areas.
-
-Before our patches Urban Terror was running like a slideshow and completely
-unplayable.
-
-Also I have built my mesa using -O3 now - and updated my blog with knowledge
-about how to add params for the compiler such as debug symbols or this. I t=
-hink
-the latter have helped a bit more FPS too, but still there is always room f=
-or
-improvement.
-
-The original problem this bug was about seems solved now.
-
-PS.: I have issues/glitches with HYPERZ turned on. Should I open a different
-bug report for that one? I think it belongs somewhere else as it might be no
-even a regession and I feel it never worked for my card.
+--- Comment #22 from tempel.julian@gmail.com ---
+The Witcher 3 is affected as well (a bit less obvious, but still quite bad =
+vs.
+modesetting or amdgpu.dc=3D0). So, it seems this is a real dealbreaker for
+playing games on Linux, which imho justifies to raise this ticket's priorit=
+y.
+:(
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15600122040.47DD1B.1409
-Date: Sat, 8 Jun 2019 16:43:24 +0000
+--15600162132.e3BCa7.18122
+Date: Sat, 8 Jun 2019 17:50:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -122,47 +102,26 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c61">Comme=
-nt # 61</a>
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c22">Comme=
+nt # 22</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
-1</a>
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
 </span></b>
-        <pre>I still get some slowdown when playing Mount&amp;Blade: Warban=
-d which worked
-before, but there is some chances it is something else or not even in mesa.
-
-On my last system I was playing it with wine 1.8 and now with latest
-wine-staging 4.x so there are just too many variables.
-
-I have played a bit of Urban Terror though and it became smooth and playable
-once again. Many times I actually get 60FPS top and 18-20 FPS when looking =
-at
-big areas.
-
-Before our patches Urban Terror was running like a slideshow and completely
-unplayable.
-
-Also I have built my mesa using -O3 now - and updated my blog with knowledge
-about how to add params for the compiler such as debug symbols or this. I t=
-hink
-the latter have helped a bit more FPS too, but still there is always room f=
-or
-improvement.
-
-The original problem this bug was about seems solved now.
-
-PS.: I have issues/glitches with HYPERZ turned on. Should I open a different
-bug report for that one? I think it belongs somewhere else as it might be no
-even a regession and I feel it never worked for my card.</pre>
+        <pre>The Witcher 3 is affected as well (a bit less obvious, but sti=
+ll quite bad vs.
+modesetting or amdgpu.dc=3D0). So, it seems this is a real dealbreaker for
+playing games on Linux, which imho justifies to raise this ticket's priorit=
+y.
+:(</pre>
         </div>
       </p>
 
@@ -176,9 +135,9 @@ even a regession and I feel it never worked for my card.</pre>
     </body>
 </html>=
 
---15600122040.47DD1B.1409--
+--15600162132.e3BCa7.18122--
 
---===============1447607628==
+--===============0642001462==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -188,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1447607628==--
+--===============0642001462==--
