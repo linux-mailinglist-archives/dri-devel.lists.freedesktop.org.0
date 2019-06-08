@@ -1,51 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02133A5BA
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2019 14:55:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7164E3A5BD
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Jun 2019 14:55:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EF4489322;
-	Sun,  9 Jun 2019 12:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC2A189362;
+	Sun,  9 Jun 2019 12:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AADD891CC
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jun 2019 04:50:06 +0000 (UTC)
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16]
- helo=dragon.dunlab)
- by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1hZTIq-0003jj-6K; Sat, 08 Jun 2019 04:50:04 +0000
-Subject: Re: [PATCHv16 3/3] ARM:drm ivip Intel FPGA Video and Image Processing
- Suite
-To: "Hean-Loong, Ong" <hean.loong.ong@intel.com>,
- Rob Herring <robh+dt@kernel.org>, Dinh Nguyen <dinguyen@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-References: <20190607143022.427-1-hean.loong.ong@intel.com>
- <20190607143022.427-4-hean.loong.ong@intel.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <bc42cad0-8c03-4e22-4475-c25f2e824944@infradead.org>
-Date: Fri, 7 Jun 2019 21:50:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from smtp.bonedaddy.net (smtp.bonedaddy.net [45.33.94.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB13B891FF;
+ Sat,  8 Jun 2019 05:11:00 +0000 (UTC)
+Received: from chianamo (n58-108-67-123.per1.wa.optusnet.com.au
+ [58.108.67.123])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: pabs3@bonedaddy.net)
+ by smtp.bonedaddy.net (Postfix) with ESMTPSA id C49E6180041;
+ Sat,  8 Jun 2019 01:10:54 -0400 (EDT)
+Message-ID: <24d1a13799ae7e0331ff668d9b170c4920d7d762.camel@bonedaddy.net>
+Subject: Re: [PATCH 2/2] drm: add fallback override/firmware EDID modes
+ workaround
+From: Paul Wise <pabs3@bonedaddy.net>
+To: Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@intel.com>
+In-Reply-To: <20190607151021.GJ21222@phenom.ffwll.local>
+References: <20190607110513.12072-1-jani.nikula@intel.com>
+ <20190607110513.12072-2-jani.nikula@intel.com>
+ <20190607151021.GJ21222@phenom.ffwll.local>
+Date: Sat, 08 Jun 2019 13:10:51 +0800
 MIME-Version: 1.0
-In-Reply-To: <20190607143022.427-4-hean.loong.ong@intel.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Sun, 09 Jun 2019 12:54:17 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=gwZHN6g8rrJZZNXc5XgsWcgNpvLcubn0e/88oGuv6nA=; b=Q0wF09O3nya3WaZACBVPt/lVP
- UxWlscZ4Ii2/bdHaA47KI7ySk2JnjiSpsFyrdjtW57qnC7JiYFXDt/0TN4bx04QSZphix1/xhgZPD
- Bnmqo+95y/pkeohfeD/h/QD8SXP9mODnBy8wMSvUAQ7AMCP6TvMfNNyjbPLNqMgCrKBrjWjFZGCQE
- Geql4V7BmpM566hjQcUr2essMDn1Q6thYrsEwhkKtFRCTHOmVogJvb7orUP0+vTiiaTOdy8jXIvV4
- aKXPA03ijb9l4XW8LiogXE6vnA8Uo9mcuIWKML52Z6h0Qz/dm5RJBqe5QTx00IidFPn+ZVDyJUq6L
- tuSAozzXg==;
+User-Agent: Evolution 3.30.5-1.1 
+X-Mailman-Approved-At: Sun, 09 Jun 2019 12:54:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,32 +44,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chin.liang.see@intel.com, Ong@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ stable@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Harish Chegondi <harish.chegondi@intel.com>,
+ Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@cs.helsinki.fi>
+Content-Type: multipart/mixed; boundary="===============1058750152=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNi83LzE5IDc6MzAgQU0sIEhlYW4tTG9vbmcsIE9uZyB3cm90ZToKPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2l2aXAvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9pdmlwL0tjb25m
-aWcKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMC4uMWIyYWY4NWZl
-NzU3Cj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pdmlwL0tjb25maWcK
-PiBAQCAtMCwwICsxLDE0IEBACj4gK2NvbmZpZyBEUk1fSVZJUAo+ICsgICAgICAgIHRyaXN0YXRl
-ICJJbnRlbCBGR1BBIFZpZGVvIGFuZCBJbWFnZSBQcm9jZXNzaW5nIgo+ICsgICAgICAgIGRlcGVu
-ZHMgb24gRFJNICYmIE9GCj4gKyAgICAgICAgc2VsZWN0IERSTV9HRU1fQ01BX0hFTFBFUgo+ICsg
-ICAgICAgIHNlbGVjdCBEUk1fS01TX0hFTFBFUgo+ICsgICAgICAgIHNlbGVjdCBEUk1fS01TX0ZC
-X0hFTFBFUgo+ICsgICAgICAgIHNlbGVjdCBEUk1fS01TX0NNQV9IRUxQRVIKPiArICAgICAgICBo
-ZWxwCj4gKwkJQ2hvb3NlIHRoaXMgb3B0aW9uIGlmIHlvdSBoYXZlIGFuIEludGVsIEZQR0EgQXJy
-aWEgMTAgc3lzdGVtCj4gKwkJYW5kIGFib3ZlIHdpdGggYW4gSW50ZWwgRGlzcGxheSBQb3J0IElQ
-LiBUaGlzIGRvZXMgbm90IHN1cHBvcnQKPiArCQlsZWdhY3kgSW50ZWwgRlBHQSBDeWNsb25lIFYg
-ZGlzcGxheSBwb3J0LiBDdXJyZW50bHkgb25seSBzaW5nbGUKPiArCQlmcmFtZSBidWZmZXIgaXMg
-c3VwcG9ydGVkLiBOb3RlIHRoYXQgQUNQSSBhbmQgWF84NiBhcmNoaXRlY3R1cmUKPiArCQlpcyBu
-b3Qgc3VwcG9ydGVkIGZvciBBcnJpYTEwLiBJZiBNIGlzIHNlbGVjdGVkIHRoZSBtb2R1bGUgd2ls
-bCBiZQo+ICsJCWNhbGxlZCBpdmlwLgoKQWNjb3JkaW5nIHRvIERvY3VtZW50YXRpb24vcHJvY2Vz
-cy9jb2Rpbmctc3R5bGUucnN0LCBLY29uZmlnIGhlbHAgdGV4dCBzaG91bGQgYmUKaW5kZW50ZWQg
-d2l0aCAxIHRhYiArIDIgc3BhY2VzLCBub3QgMiB0YWJzLgoKLS0gCn5SYW5keQpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1058750152==
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-bpYT9ku/9oKoEROB5ndj"
+
+
+--=-bpYT9ku/9oKoEROB5ndj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2019-06-07 at 17:10 +0200, Daniel Vetter wrote:
+
+> As discussed on irc, we need tested-by here from the reporters since
+> there's way too many losing and frustrangingly few winning moves here.
+
+Tested-by: Paul Wise <pabs3@bonedaddy.net>
+
+I've tested these two patches on top of Linux v5.2-rc3 and the EDID
+override works correctly on an Intel Ironlake GPU with a monitor that
+lost its EDID a while ago.
+
+I'll test that it also works with an nVidia GPU & noveau drivers later
+today once that system is available.
+
+https://patchwork.freedesktop.org/series/61764/
+
+--=20
+bye,
+pabs
+
+https://bonedaddy.net/pabs3/
+
+--=-bpYT9ku/9oKoEROB5ndj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEYQsotVz8/kXqG1Y7MRa6Xp/6aaMFAlz7Q1cACgkQMRa6Xp/6
+aaMi+Q//UJMU9LZGRUgS7CLCu9aZDIbXy5nZ9tGjVhJKxx/mHsfFRsxMIrxBt0pV
+bisxaCn+zL8aqY/vWRpNL/EdHyl7R5pSmpxuOrKb/GX0vBk9bO40IwEJu9QdHWgQ
+oL0TXkUAHa4erVFNJIqQ/+Zm6bXjlD85rpRGFqaPffhHxD5gdwmZh0nd2kEjIC3/
+zlpdfE6Ip5vxLUzFt0hwcqmbSLp9YHL+XlGySwV27aG3HucVxp6eZl8hms3q/GPk
+0PTpfZfZRVb/u3DIoB/hdgMn0RiKPdoYJ7/QT6g2mhA0gvK36mdz/0LAOhG5BstZ
+LhKHTJZsZWnEBk+i5hkGbNGnPmfaCrG5H5qnl2u6Zi+illfLQ1P8tRbN9iRL2YVp
+9l2d2CRCqcq42ANglgjXNS46DlnessW9JWY9GBph4n6RWm4WPHL96H8swpLClCWV
+4PJOG8tLGfcATGdEZY42Id8VYTA+csEwe1GT7MaP4/gqbBqcuLoa7xwAdmZZV/H/
+mxcwWuf6uyUIFXR2UDNFySw5g6Z+OLduVoKwj7ZZIbqcGyIlH80eq4jEUnfoliP0
+P9kk3OD3/QWOfEg0ImFFqRR3v/yAvc71aj4oTXmg4HM8O6OnUaVsdE83AQxPv9/f
+gWYMxt+yVPNke7cNyMqxa88dN1664HH0yxU0MldnySf0ST7hD+E=
+=hCLl
+-----END PGP SIGNATURE-----
+
+--=-bpYT9ku/9oKoEROB5ndj--
+
+
+--===============1058750152==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1058750152==--
+
