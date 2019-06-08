@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7458B3A086
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Jun 2019 17:48:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C313A0B4
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Jun 2019 18:43:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7887B89254;
-	Sat,  8 Jun 2019 15:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91D648925D;
+	Sat,  8 Jun 2019 16:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0131089254
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Jun 2019 15:48:51 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:57465
- helo=[192.168.10.179])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hZdTd-0003Xv-8V; Sat, 08 Jun 2019 17:41:53 +0200
-Subject: Re: [PATCH] drm/fb-helper: Unexport cmdline helpers
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20190607185211.25040-1-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <d197eef2-ab82-0562-1216-661079aac347@tronnes.org>
-Date: Sat, 8 Jun 2019 17:41:49 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 250FE89235
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Jun 2019 16:43:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1C61E72167; Sat,  8 Jun 2019 16:43:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
+ 11.x and 19.x
+Date: Sat, 08 Jun 2019 16:43:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110781-502-1az1gfjo7k@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
+References: <bug-110781-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190607185211.25040-1-daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=i7Q29gk8g2k9D8CJSCJLm2/mtGpe3ZsZhfu6AZwZIsY=; 
- b=ojNKDg+fAxbDd3Uf/eBUiP1Nvtt92N7k/umj9cvJydg+r4QTXfGgmwU4hkuDAaP4afUJw//BDB6ig+cW/0JomQDc9Giag6Ch58u2a7HQlKldllPIFH35ZmQJQurbH1FJ5qoOLtaSrpkrxLuZS3QX78B/ASIdAP+yf0Rbah3de8lx38/AG4+D5XH/E58dvmyCYNcxySXhupyl5YueRLi1gU4W1lkTgEHopz3Y3f9oUnV3s9NMHFz3JW+PdrLZRW3hBJkF6e78WILQRvaa0oR6C9bdRI4JTYTAFVImpIAH1z5NiPIYL7WRvE/K3l53iyF8oRHKqRStaUh9u547vaElvA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,73 +53,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1447607628=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMDcuMDYuMjAxOSAyMC41Miwgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBObyBsb25nZXIg
-bmVlZGVkIHNpbmNlIHRoZSBpOTE1IGluaXRpYWwgY29uZmlnIGxvZ2ljIHdhcyBwdWxsZWQgaW50
-bwo+IHRoZSBzaGFyZWQgaGVscGVyIGJ5IE5vcmFsZi4KPiAKCkknbSBmaXhpbmcgdGhpcyB3aGVu
-IEkgbW92ZSB0aGUgbW9kZXNldCBjb2RlIHRvIGRybV9jbGllbnQuIEkgaG9wZSBJIGNhbgphcHBs
-eSB0aGUgcmVtYWluaW5nIGJpdHMgdGhpcyB3ZWVrIChzZW50IGEgdjgpLiBUaGUgQ0kgZ2F2ZSBt
-ZSBhIGZhaWx1cmUKb24gdjcgYW5kIHRoZSB0cnlib3QgaGFzIGdpdmVuIG1lIHdlaXJkL2NoYW5n
-aW5nIGZhaWx1cmVzIHRoaXMgd2VlayB3aGVuCkkgaGF2ZSB0cmllZCB0byBmaW5kIHdoaWNoIHBh
-dGNoIGl0IGNob2tlcyBvbi4gSSBkb24ndCB0aGluayB0aGVyZSdzIGFueQp3cm9uZyB3aXRoIHRo
-ZSBwYXRjaHNldCBzaW5jZSBpdCBoYXMgYmVlbiBjbGVhcmVkIGJ5IHRoZSBDSSBzZXZlcmFsCnRp
-bWVzLCBhbmQgdGhlIHBhdGNoZXMgaW4gcXVlc3Rpb24gaGFzIG5vdCBiZWVuIGNoYW5nZWQuIFdl
-bGwsIHdlJ2xsIHNlZS4KCk5vcmFsZi4KCj4gU3BvdHRlZCB3aGlsZSByZXZpZXdpbmcgcGF0Y2hl
-cyBmcm9tIFZpbGxlLgo+IAo+IENjOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9y
-Zz4KPiBDYzogVmlsbGUgU3lyamFsYSA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+Cj4g
-U2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4g
-LS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMgfCA5ICsrKysrLS0tLQo+ICBp
-bmNsdWRlL2RybS9kcm1fZmJfaGVscGVyLmggICAgIHwgNSAtLS0tLQo+ICAyIGZpbGVzIGNoYW5n
-ZWQsIDUgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVs
-cGVyLmMKPiBpbmRleCBiOWI3YzA2Y2JjNGYuLjk1MDc5ZDVjMDdiOCAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9mYl9oZWxwZXIuYwo+IEBAIC0yMTM4LDcgKzIxMzgsOSBAQCBzdGF0aWMgaW50IGRybV9mYl9o
-ZWxwZXJfcHJvYmVfY29ubmVjdG9yX21vZGVzKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxw
-ZXIsCj4gIAlyZXR1cm4gY291bnQ7Cj4gIH0KPiAgCj4gLXN0cnVjdCBkcm1fZGlzcGxheV9tb2Rl
-ICpkcm1faGFzX3ByZWZlcnJlZF9tb2RlKHN0cnVjdCBkcm1fZmJfaGVscGVyX2Nvbm5lY3RvciAq
-ZmJfY29ubmVjdG9yLCBpbnQgd2lkdGgsIGludCBoZWlnaHQpCj4gK3N0YXRpYyBzdHJ1Y3QgZHJt
-X2Rpc3BsYXlfbW9kZSAqCj4gK2RybV9oYXNfcHJlZmVycmVkX21vZGUoc3RydWN0IGRybV9mYl9o
-ZWxwZXJfY29ubmVjdG9yICpmYl9jb25uZWN0b3IsCj4gKwkJICAgICAgIGludCB3aWR0aCwgaW50
-IGhlaWdodCkKPiAgewo+ICAJc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKm1vZGU7Cj4gIAo+IEBA
-IC0yMTUxLDE0ICsyMTUzLDE0IEBAIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpkcm1faGFzX3By
-ZWZlcnJlZF9tb2RlKHN0cnVjdCBkcm1fZmJfaGVscGVyX2Nvbm5lY3RvciAqCj4gIAl9Cj4gIAly
-ZXR1cm4gTlVMTDsKPiAgfQo+IC1FWFBPUlRfU1lNQk9MKGRybV9oYXNfcHJlZmVycmVkX21vZGUp
-Owo+ICAKPiAgc3RhdGljIGJvb2wgZHJtX2hhc19jbWRsaW5lX21vZGUoc3RydWN0IGRybV9mYl9o
-ZWxwZXJfY29ubmVjdG9yICpmYl9jb25uZWN0b3IpCj4gIHsKPiAgCXJldHVybiBmYl9jb25uZWN0
-b3ItPmNvbm5lY3Rvci0+Y21kbGluZV9tb2RlLnNwZWNpZmllZDsKPiAgfQo+ICAKPiAtc3RydWN0
-IGRybV9kaXNwbGF5X21vZGUgKmRybV9waWNrX2NtZGxpbmVfbW9kZShzdHJ1Y3QgZHJtX2ZiX2hl
-bHBlcl9jb25uZWN0b3IgKmZiX2hlbHBlcl9jb25uKQo+ICtzdGF0aWMgc3RydWN0IGRybV9kaXNw
-bGF5X21vZGUgKgo+ICtkcm1fcGlja19jbWRsaW5lX21vZGUoc3RydWN0IGRybV9mYl9oZWxwZXJf
-Y29ubmVjdG9yICpmYl9oZWxwZXJfY29ubikKPiAgewo+ICAJc3RydWN0IGRybV9jbWRsaW5lX21v
-ZGUgKmNtZGxpbmVfbW9kZTsKPiAgCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICptb2RlOwo+IEBA
-IC0yMjA4LDcgKzIyMTAsNiBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqZHJtX3BpY2tfY21k
-bGluZV9tb2RlKHN0cnVjdCBkcm1fZmJfaGVscGVyX2Nvbm5lY3RvciAqZgo+ICAJbGlzdF9hZGQo
-Jm1vZGUtPmhlYWQsICZmYl9oZWxwZXJfY29ubi0+Y29ubmVjdG9yLT5tb2Rlcyk7Cj4gIAlyZXR1
-cm4gbW9kZTsKPiAgfQo+IC1FWFBPUlRfU1lNQk9MKGRybV9waWNrX2NtZGxpbmVfbW9kZSk7Cj4g
-IAo+ICBzdGF0aWMgYm9vbCBkcm1fY29ubmVjdG9yX2VuYWJsZWQoc3RydWN0IGRybV9jb25uZWN0
-b3IgKmNvbm5lY3RvciwgYm9vbCBzdHJpY3QpCj4gIHsKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9k
-cm0vZHJtX2ZiX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oCj4gaW5kZXgg
-NmIzMzRmNGQ4YTIyLi41YTdlNWQxMzE5MTMgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJt
-X2ZiX2hlbHBlci5oCj4gKysrIGIvaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oCj4gQEAgLTI4
-OSwxMSArMjg5LDYgQEAgaW50IGRybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWcoc3RydWN0IGRy
-bV9mYl9oZWxwZXIgKmZiX2hlbHBlciwgaW50IGJwcF9zZWwpOwo+ICBpbnQgZHJtX2ZiX2hlbHBl
-cl9zaW5nbGVfYWRkX2FsbF9jb25uZWN0b3JzKHN0cnVjdCBkcm1fZmJfaGVscGVyICpmYl9oZWxw
-ZXIpOwo+ICBpbnQgZHJtX2ZiX2hlbHBlcl9kZWJ1Z19lbnRlcihzdHJ1Y3QgZmJfaW5mbyAqaW5m
-byk7Cj4gIGludCBkcm1fZmJfaGVscGVyX2RlYnVnX2xlYXZlKHN0cnVjdCBmYl9pbmZvICppbmZv
-KTsKPiAtc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKgo+IC1kcm1faGFzX3ByZWZlcnJlZF9tb2Rl
-KHN0cnVjdCBkcm1fZmJfaGVscGVyX2Nvbm5lY3RvciAqZmJfY29ubmVjdG9yLAo+IC0JCQlpbnQg
-d2lkdGgsIGludCBoZWlnaHQpOwo+IC1zdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqCj4gLWRybV9w
-aWNrX2NtZGxpbmVfbW9kZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlcl9jb25uZWN0b3IgKmZiX2hlbHBl
-cl9jb25uKTsKPiAgCj4gIGludCBkcm1fZmJfaGVscGVyX2FkZF9vbmVfY29ubmVjdG9yKHN0cnVj
-dCBkcm1fZmJfaGVscGVyICpmYl9oZWxwZXIsIHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0
-b3IpOwo+ICBpbnQgZHJtX2ZiX2hlbHBlcl9yZW1vdmVfb25lX2Nvbm5lY3RvcihzdHJ1Y3QgZHJt
-X2ZiX2hlbHBlciAqZmJfaGVscGVyLAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+
+--===============1447607628==
+Content-Type: multipart/alternative; boundary="15600122040.47DD1B.1409"
+Content-Transfer-Encoding: 7bit
+
+
+--15600122040.47DD1B.1409
+Date: Sat, 8 Jun 2019 16:43:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
+
+--- Comment #61 from Richard Thier <u9vata@gmail.com> ---
+I still get some slowdown when playing Mount&Blade: Warband which worked
+before, but there is some chances it is something else or not even in mesa.
+
+On my last system I was playing it with wine 1.8 and now with latest
+wine-staging 4.x so there are just too many variables.
+
+I have played a bit of Urban Terror though and it became smooth and playable
+once again. Many times I actually get 60FPS top and 18-20 FPS when looking =
+at
+big areas.
+
+Before our patches Urban Terror was running like a slideshow and completely
+unplayable.
+
+Also I have built my mesa using -O3 now - and updated my blog with knowledge
+about how to add params for the compiler such as debug symbols or this. I t=
+hink
+the latter have helped a bit more FPS too, but still there is always room f=
+or
+improvement.
+
+The original problem this bug was about seems solved now.
+
+PS.: I have issues/glitches with HYPERZ turned on. Should I open a different
+bug report for that one? I think it belongs somewhere else as it might be no
+even a regession and I feel it never worked for my card.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15600122040.47DD1B.1409
+Date: Sat, 8 Jun 2019 16:43:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c61">Comme=
+nt # 61</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
+.x and 19.x"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>I still get some slowdown when playing Mount&amp;Blade: Warban=
+d which worked
+before, but there is some chances it is something else or not even in mesa.
+
+On my last system I was playing it with wine 1.8 and now with latest
+wine-staging 4.x so there are just too many variables.
+
+I have played a bit of Urban Terror though and it became smooth and playable
+once again. Many times I actually get 60FPS top and 18-20 FPS when looking =
+at
+big areas.
+
+Before our patches Urban Terror was running like a slideshow and completely
+unplayable.
+
+Also I have built my mesa using -O3 now - and updated my blog with knowledge
+about how to add params for the compiler such as debug symbols or this. I t=
+hink
+the latter have helped a bit more FPS too, but still there is always room f=
+or
+improvement.
+
+The original problem this bug was about seems solved now.
+
+PS.: I have issues/glitches with HYPERZ turned on. Should I open a different
+bug report for that one? I think it belongs somewhere else as it might be no
+even a regession and I feel it never worked for my card.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15600122040.47DD1B.1409--
+
+--===============1447607628==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1447607628==--
