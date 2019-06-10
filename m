@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9BA3BA53
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 19:06:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9603BAC2
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 19:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A1A8915F;
-	Mon, 10 Jun 2019 17:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A4A28916B;
+	Mon, 10 Jun 2019 17:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
- [209.85.217.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C6978915E
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 17:06:44 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id q64so5882355vsd.1
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 10:06:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PpwjNS7E93o0KstTK4sEY4JIOYOLeOSZR80dUIcLP0w=;
- b=YXNh4+NWOw3D5fF/z9B+6wNzMZ8FXCtPqY5WID2lAF0QWio+BsVfsBX4tT5kEsO5lw
- sP2B8uhHm+WI54oBKFblxJ+4Fpazd0t7p0dKl4kyS2LrKbOeLumhjEVVKpMjaosH0cmk
- rjtgRLsATOGZc/Y06DvgtcOz06r5kX2HHnRqFmte+Y6JFgjleVMIKHbsR1Y5dUAEGQHC
- 3QlcqfAQsNV1ZT9OGs/kRDQ338DWSYUrGSP6SmOWcM/VFihFUcD4iN/MUT35XUqqtUcA
- q+l0Uch6fACrzq0iftAvHXelzqu0mt5HS0c67TlJ+tPGcBbjN+PeakUfFfpvQ2zl0voX
- SrwA==
-X-Gm-Message-State: APjAAAU95doGndApXmipUPXY/HbY1za7i9pdLHUKh5TwqYnhuK4LAiVj
- uQy/8wewGkGWzkWXOY2xC2kcceg=
-X-Google-Smtp-Source: APXvYqyKl/C75sHiS/nodJGDMQmTpLRFclKZKjtMgKo5rrlJPvBLL3Kn0Vpt2Jka+ZiR/otX3tQG2A==
-X-Received: by 2002:a67:7381:: with SMTP id o123mr9172587vsc.186.1560186403377; 
- Mon, 10 Jun 2019 10:06:43 -0700 (PDT)
-Received: from localhost.localdomain ([64.188.179.199])
- by smtp.googlemail.com with ESMTPSA id w188sm1272244vkw.21.2019.06.10.10.06.41
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 10 Jun 2019 10:06:42 -0700 (PDT)
-From: Rob Herring <robh@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 64D9089165
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 17:13:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 611C572167; Mon, 10 Jun 2019 17:13:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH] drm/panfrost: Add support for mapping BOs on GPU page
- faults
-Date: Mon, 10 Jun 2019 11:04:40 -0600
-Message-Id: <20190610170440.28525-1-robh@kernel.org>
-X-Mailer: git-send-email 2.20.1
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Mon, 10 Jun 2019 17:13:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: samueldgv@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-Lw5qrQgSdi@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -55,177 +52,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Steven Price <steven.price@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1789844013=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIG1pZGdhcmQvYmlmcm9zdCBHUFVzIG5lZWQgdG8gYWxsb2NhdGUgR1BVIG1lbW9yeSB3aGlj
-aCBpcyBhbGxvY2F0ZWQKb24gR1BVIHBhZ2UgZmF1bHRzIGFuZCBub3QgcGlubmVkIGluIG1lbW9y
-eS4gVGhlIHZlbmRvciBkcml2ZXIgY2FsbHMKdGhpcyBmdW5jdGlvbmFsaXR5IEdST1dfT05fR1BG
-LgoKVGhpcyBpbXBsZW1lbnRhdGlvbiBhc3N1bWVzIHRoYXQgQk9zIGFsbG9jYXRlZCB3aXRoIHRo
-ZQpQQU5GUk9TVF9CT19OT01BUCBmbGFnIGFyZSBuZXZlciBtbWFwcGVkIG9yIGV4cG9ydGVkLiBC
-b3RoIG9mIHRob3NlIG1heQphY3R1YWxseSB3b3JrLCBidXQgSSdtIHVuc3VyZSBpZiB0aGVyZSdz
-IHNvbWUgaW50ZXJhY3Rpb24gdGhlcmUuIEl0CndvdWxkIGNhdXNlIHRoZSB3aG9sZSBvYmplY3Qg
-dG8gYmUgcGlubmVkIGluIG1lbW9yeSB3aGljaCB3b3VsZCBkZWZlYXQKdGhlIHBvaW50IG9mIHRo
-aXMuCgpJc3N1ZXMvcXVlc3Rpb25zL3Rob3VnaHRzOgoKV2hhdCdzIHRoZSBkaWZmZXJlbmNlIGJl
-dHdlZW4gaV9tYXBwaW5nIGFuZCBmX21hcHBpbmc/CgpXaGF0IGtpbmQgb2YgY2xlYW4tdXAgb24g
-Y2xvc2UgaXMgbmVlZGVkPyBCYXNlZCBvbiB2Z2VtIGZhdWx0cywgdGhlcmUKZG9lc24ndCBzZWVt
-IHRvIGJlIGFueSByZWZjb3VudGluZy4gQXNzdW1lIHVzZXJzcGFjZSBpcyByZXNwb25zaWJsZSBm
-b3IKbm90IGZyZWVpbmcgdGhlIEJPIHdoaWxlIGEgcGFnZSBmYXVsdCBjYW4gb2NjdXI/CgpXaGF0
-IGFib3V0IGV2aWN0aW9ucz8gTmVlZCB0byBjYWxsIG1hcHBpbmdfc2V0X3VuZXZpY3RhYmxlKCk/
-IE1heWJlIHdlCndhbnQgdGhlc2UgcGFnZXMgdG8gYmUgc3dhcHBhYmxlLCBidXQgdGhlbiB3ZSBu
-ZWVkIHNvbWUgbm90aWZpY2F0aW9uIHRvCnVubWFwIHRoZW0uCgpObyBuZWVkIGZvciBydW50aW1l
-IFBNLCBiZWNhdXNlIGZhdWx0cyBzaG91bGQgb25seSBvY2N1ciBkdXJpbmcgam9iCnN1Ym1pdD8K
-Ck5lZWQgdG8gZmF1bHQgaW4gMk1CIHNlY3Rpb25zIHdoZW4gcG9zc2libGUuIEl0IHNlZW1zIHRo
-aXMgaGFzIHRvIGJlCmRvbmUgYnkgZ2V0dGluZyBhbiBhcnJheSBvZiBzdHJ1Y3QgcGFnZXMgYW5k
-IHRoZW4gY29udmVydGluZyB0byBhCnNjYXR0ZXJsaXN0LiBOb3Qgc3VyZSBpZiB0aGVyZSBpcyBh
-IGJldHRlciB3YXkgdG8gZG8gdGhhdC4gVGhlcmUncyBhbHNvCnNvbWUgZXJyYXRhIG9uIFQ2MDQg
-bmVlZGluZyB0byBmYXVsdCBpbiBhdCBsZWFzdCA4IHBhZ2VzIGF0IGEgdGltZSB3aGljaAppc24n
-dCBoYW5kbGVkLgoKQ2M6IFJvYmluIE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+CkNjOiBT
-dGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgpDYzogQWx5c3NhIFJvc2VuendlaWcg
-PGFseXNzYUByb3Nlbnp3ZWlnLmlvPgpDYzogVG9tZXUgVml6b3NvIDx0b21ldUB0b21ldXZpem9z
-by5uZXQ+ClNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQoK
-IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9UT0RPICAgICAgICAgICB8ICAyIC0KIGRyaXZlcnMv
-Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyB8IDIyICsrKysrLS0KIGRyaXZlcnMvZ3B1
-L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9nZW0uYyB8ICAzICstCiBkcml2ZXJzL2dwdS9kcm0vcGFu
-ZnJvc3QvcGFuZnJvc3RfZ2VtLmggfCAgOCArKysKIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
-YW5mcm9zdF9tbXUuYyB8IDc2ICsrKysrKysrKysrKysrKysrKysrKysrLS0KIGluY2x1ZGUvdWFw
-aS9kcm0vcGFuZnJvc3RfZHJtLmggICAgICAgICB8ICAyICsKIDYgZmlsZXMgY2hhbmdlZCwgMTAw
-IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9wYW5mcm9zdC9UT0RPIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L1RPRE8KaW5kZXgg
-YzJlNDRhZGQzN2Q4Li42NDEyOWJmNzM5MzMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9w
-YW5mcm9zdC9UT0RPCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9UT0RPCkBAIC0xNCw4
-ICsxNCw2IEBACiAgIFRoZSBoYXJkIHBhcnQgaXMgaGFuZGxpbmcgd2hlbiBtb3JlIGFkZHJlc3Mg
-c3BhY2VzIGFyZSBuZWVkZWQgdGhhbiB3aGF0CiAgIHRoZSBoL3cgcHJvdmlkZXMuCiAKLS0gU3Vw
-cG9ydCBwaW5uaW5nIHBhZ2VzIG9uIGRlbWFuZCAoR1BVIHBhZ2UgZmF1bHRzKS4KLQogLSBTdXBw
-b3J0IHVzZXJzcGFjZSBjb250cm9sbGVkIEdQVSB2aXJ0dWFsIGFkZHJlc3Nlcy4gTmVlZGVkIGZv
-ciBWdWxrYW4uIChUb21ldSkKIAogLSBTdXBwb3J0IGZvciBtYWR2aXNlIGFuZCBhIHNocmlua2Vy
-LgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jIGIv
-ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCmluZGV4IGQxMWUyMjgxZGRl
-Ni4uZjA4ZDQxZDUxODZhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFu
-ZnJvc3RfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5j
-CkBAIC00NCw5ICs0NCwxMSBAQCBzdGF0aWMgaW50IHBhbmZyb3N0X2lvY3RsX2NyZWF0ZV9ibyhz
-dHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogewogCWludCByZXQ7CiAJc3RydWN0
-IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbTsKKwlzdHJ1Y3QgcGFuZnJvc3RfZ2VtX29iamVj
-dCAqYm87CiAJc3RydWN0IGRybV9wYW5mcm9zdF9jcmVhdGVfYm8gKmFyZ3MgPSBkYXRhOwogCi0J
-aWYgKCFhcmdzLT5zaXplIHx8IGFyZ3MtPmZsYWdzIHx8IGFyZ3MtPnBhZCkKKwlpZiAoIWFyZ3Mt
-PnNpemUgfHwgYXJncy0+cGFkIHx8CisJICAgIChhcmdzLT5mbGFncyAmIH5QQU5GUk9TVF9CT19O
-T01BUCkpCiAJCXJldHVybiAtRUlOVkFMOwogCiAJc2htZW0gPSBkcm1fZ2VtX3NobWVtX2NyZWF0
-ZV93aXRoX2hhbmRsZShmaWxlLCBkZXYsIGFyZ3MtPnNpemUsCkBAIC01NCwxMSArNTYsMTYgQEAg
-c3RhdGljIGludCBwYW5mcm9zdF9pb2N0bF9jcmVhdGVfYm8oc3RydWN0IGRybV9kZXZpY2UgKmRl
-diwgdm9pZCAqZGF0YSwKIAlpZiAoSVNfRVJSKHNobWVtKSkKIAkJcmV0dXJuIFBUUl9FUlIoc2ht
-ZW0pOwogCi0JcmV0ID0gcGFuZnJvc3RfbW11X21hcCh0b19wYW5mcm9zdF9ibygmc2htZW0tPmJh
-c2UpKTsKLQlpZiAocmV0KQotCQlnb3RvIGVycl9mcmVlOworCWJvID0gdG9fcGFuZnJvc3RfYm8o
-JnNobWVtLT5iYXNlKTsKIAotCWFyZ3MtPm9mZnNldCA9IHRvX3BhbmZyb3N0X2JvKCZzaG1lbS0+
-YmFzZSktPm5vZGUuc3RhcnQgPDwgUEFHRV9TSElGVDsKKwlpZiAoIShhcmdzLT5mbGFncyAmIFBB
-TkZST1NUX0JPX05PTUFQKSkgeworCQlyZXQgPSBwYW5mcm9zdF9tbXVfbWFwKGJvKTsKKwkJaWYg
-KHJldCkKKwkJCWdvdG8gZXJyX2ZyZWU7CisJfSBlbHNlCisJCWJvLT5ub19tYXAgPSAxOworCisJ
-YXJncy0+b2Zmc2V0ID0gYm8tPm5vZGUuc3RhcnQgPDwgUEFHRV9TSElGVDsKIAogCXJldHVybiAw
-OwogCkBAIC0yNjksNiArMjc2LDExIEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfaW9jdGxfbW1hcF9i
-byhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCQlyZXR1cm4gLUVOT0VOVDsK
-IAl9CiAKKwlpZiAodG9fcGFuZnJvc3RfYm8oZ2VtX29iaiktPm5vX21hcCkgeworCQlEUk1fREVC
-VUcoIkNhbid0IG1tYXAgJ25vX21hcCcgR0VNIEJPICVkXG4iLCBhcmdzLT5oYW5kbGUpOworCQly
-ZXR1cm4gLUVJTlZBTDsKKwl9CisKIAlyZXQgPSBkcm1fZ2VtX2NyZWF0ZV9tbWFwX29mZnNldChn
-ZW1fb2JqKTsKIAlpZiAocmV0ID09IDApCiAJCWFyZ3MtPm9mZnNldCA9IGRybV92bWFfbm9kZV9v
-ZmZzZXRfYWRkcigmZ2VtX29iai0+dm1hX25vZGUpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2dlbS5jCmluZGV4IDg4Njg3NWFlMzFkMy4uZWQwYjRmNzk2MTBhIDEwMDY0NAotLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5jCkBAIC0xOSw3ICsxOSw4IEBAIHN0YXRpYyB2
-b2lkIHBhbmZyb3N0X2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikK
-IAlzdHJ1Y3QgcGFuZnJvc3RfZ2VtX29iamVjdCAqYm8gPSB0b19wYW5mcm9zdF9ibyhvYmopOwog
-CXN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2ID0gb2JqLT5kZXYtPmRldl9wcml2YXRlOwog
-Ci0JcGFuZnJvc3RfbW11X3VubWFwKGJvKTsKKwlpZiAoIWJvLT5ub19tYXApCisJCXBhbmZyb3N0
-X21tdV91bm1hcChibyk7CiAKIAlzcGluX2xvY2soJnBmZGV2LT5tbV9sb2NrKTsKIAlkcm1fbW1f
-cmVtb3ZlX25vZGUoJmJvLT5ub2RlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5m
-cm9zdC9wYW5mcm9zdF9nZW0uaCBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9n
-ZW0uaAppbmRleCAwNDUwMDBlYjVmY2YuLmFhMjEwZDdjYmYzZiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dlbS5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9w
-YW5mcm9zdC9wYW5mcm9zdF9nZW0uaApAQCAtMTEsNiArMTEsNyBAQCBzdHJ1Y3QgcGFuZnJvc3Rf
-Z2VtX29iamVjdCB7CiAJc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0IGJhc2U7CiAKIAlzdHJ1
-Y3QgZHJtX21tX25vZGUgbm9kZTsKKwl1bnNpZ25lZCBub19tYXA6IDE7CiB9OwogCiBzdGF0aWMg
-aW5saW5lCkBAIC0xOSw2ICsyMCwxMyBAQCBzdHJ1Y3QgIHBhbmZyb3N0X2dlbV9vYmplY3QgKnRv
-X3BhbmZyb3N0X2JvKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQogCXJldHVybiBjb250YWlu
-ZXJfb2YodG9fZHJtX2dlbV9zaG1lbV9vYmoob2JqKSwgc3RydWN0IHBhbmZyb3N0X2dlbV9vYmpl
-Y3QsIGJhc2UpOwogfQogCitzdGF0aWMgaW5saW5lCitzdHJ1Y3QgIHBhbmZyb3N0X2dlbV9vYmpl
-Y3QgKmRybV9tbV9ub2RlX3RvX3BhbmZyb3N0X2JvKHN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZSkK
-K3sKKwlyZXR1cm4gY29udGFpbmVyX29mKG5vZGUsIHN0cnVjdCBwYW5mcm9zdF9nZW1fb2JqZWN0
-LCBub2RlKTsKK30KKworCiBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKnBhbmZyb3N0X2dlbV9jcmVh
-dGVfb2JqZWN0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHNpemVfdCBzaXplKTsKIAogc3RydWN0
-IGRybV9nZW1fb2JqZWN0ICoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9w
-YW5mcm9zdF9tbXUuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYwpp
-bmRleCA0MWQxODRmYWIwN2YuLjVhMzY0OTVhMzhmMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X21tdS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9z
-dC9wYW5mcm9zdF9tbXUuYwpAQCAtMyw2ICszLDcgQEAKIC8qIENvcHlyaWdodCAoQykgMjAxOSBB
-cm0gTHRkLiAqLwogI2luY2x1ZGUgPGxpbnV4L2JpdGZpZWxkLmg+CiAjaW5jbHVkZSA8bGludXgv
-ZGVsYXkuaD4KKyNpbmNsdWRlIDxsaW51eC9kbWEtbWFwcGluZy5oPgogI2luY2x1ZGUgPGxpbnV4
-L2ludGVycnVwdC5oPgogI2luY2x1ZGUgPGxpbnV4L2lvLmg+CiAjaW5jbHVkZSA8bGludXgvaW9w
-b2xsLmg+CkBAIC0xMCw2ICsxMSw3IEBACiAjaW5jbHVkZSA8bGludXgvaW9tbXUuaD4KICNpbmNs
-dWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4KICNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1l
-Lmg+CisjaW5jbHVkZSA8bGludXgvc2htZW1fZnMuaD4KICNpbmNsdWRlIDxsaW51eC9zaXplcy5o
-PgogCiAjaW5jbHVkZSAicGFuZnJvc3RfZGV2aWNlLmgiCkBAIC0yNzcsNiArMjc5LDYwIEBAIHN0
-YXRpYyBjb25zdCBzdHJ1Y3QgaW9tbXVfZ2F0aGVyX29wcyBtbXVfdGxiX29wcyA9IHsKIAkudGxi
-X3N5bmMJPSBtbXVfdGxiX3N5bmNfY29udGV4dCwKIH07CiAKK3N0YXRpYyBzdHJ1Y3QgZHJtX21t
-X25vZGUgKmFkZHJfdG9fZHJtX21tX25vZGUoc3RydWN0IHBhbmZyb3N0X2RldmljZSAqcGZkZXYs
-IGludCBhcywgdTY0IGFkZHIpCit7CisJc3RydWN0IGRybV9tbV9ub2RlICpub2RlOworCXU2NCBv
-ZmZzZXQgPSBhZGRyID4+IFBBR0VfU0hJRlQ7CisKKwlkcm1fbW1fZm9yX2VhY2hfbm9kZShub2Rl
-LCAmcGZkZXYtPm1tKSB7CisJCWlmIChvZmZzZXQgPj0gbm9kZS0+c3RhcnQgJiYgb2Zmc2V0IDwg
-KG5vZGUtPnN0YXJ0ICsgbm9kZS0+c2l6ZSkpCisJCQlyZXR1cm4gbm9kZTsKKwl9CisJcmV0dXJu
-IE5VTEw7Cit9CisKK2ludCBwYW5mcm9zdF9tbXVfbWFwX2ZhdWx0X2FkZHIoc3RydWN0IHBhbmZy
-b3N0X2RldmljZSAqcGZkZXYsIGludCBhcywgdTY0IGFkZHIpCit7CisJc3RydWN0IHBhZ2UgKnBh
-Z2U7CisJZG1hX2FkZHJfdCBkbWFfYWRkcjsKKwlzdHJ1Y3QgZHJtX21tX25vZGUgKm5vZGU7CisJ
-c3RydWN0IHBhbmZyb3N0X2dlbV9vYmplY3QgKmJvOworCXN0cnVjdCBpb19wZ3RhYmxlX29wcyAq
-b3BzID0gcGZkZXYtPm1tdS0+cGd0Ymxfb3BzOworCXBnb2ZmX3QgcGFnZV9vZmZzZXQgPSBhZGRy
-ID4+IFBBR0VfU0hJRlQ7CisKKwlhZGRyICY9IFBBR0VfTUFTSzsKKworCW5vZGUgPSBhZGRyX3Rv
-X2RybV9tbV9ub2RlKHBmZGV2LCBhcywgYWRkcik7CisJaWYgKCFub2RlKQorCQlyZXR1cm4gLUVO
-T0VOVDsKKworCXBhZ2Vfb2Zmc2V0IC09IG5vZGUtPnN0YXJ0OworCWJvID0gZHJtX21tX25vZGVf
-dG9fcGFuZnJvc3RfYm8obm9kZSk7CisJaWYgKFdBUk5fT04oIWJvLT5ub19tYXApKQorCQlyZXR1
-cm4gLUVJTlZBTDsKKworCWRldl9pbmZvKHBmZGV2LT5kZXYsICJtYXBwaW5nIHBhZ2UgZmF1bHQg
-QCAlbGx4IiwgYWRkcik7CisKKwlwYWdlID0gc2htZW1fcmVhZF9tYXBwaW5nX3BhZ2UoYm8tPmJh
-c2UuYmFzZS5maWxwLT5mX21hcHBpbmcsCisJCQkJICAgICAgIHBhZ2Vfb2Zmc2V0KTsKKwlpZiAo
-SVNfRVJSKHBhZ2UpKQorCQlyZXR1cm4gUFRSX0VSUihwYWdlKTsKKworCWRtYV9hZGRyID0gZG1h
-X21hcF9wYWdlKHBmZGV2LT5kZXYsIHBhZ2UsIDAsIFBBR0VfU0laRSwgRE1BX0JJRElSRUNUSU9O
-QUwpOworCisJbXV0ZXhfbG9jaygmcGZkZXYtPm1tdS0+bG9jayk7CisKKwlvcHMtPm1hcChvcHMs
-IGFkZHIsIGRtYV9hZGRyLCBQQUdFX1NJWkUsIElPTU1VX1dSSVRFIHwgSU9NTVVfUkVBRCk7CisK
-KwltbXVfd3JpdGUocGZkZXYsIE1NVV9JTlRfQ0xFQVIsIEJJVChhcykpOworCisJbW11X2h3X2Rv
-X29wZXJhdGlvbihwZmRldiwgYXMsIGFkZHIsIFBBR0VfU0laRSwgQVNfQ09NTUFORF9GTFVTSF9Q
-VCk7CisKKwltdXRleF91bmxvY2soJnBmZGV2LT5tbXUtPmxvY2spOworCisJcmV0dXJuIDA7Cit9
-CisKIHN0YXRpYyBjb25zdCBjaGFyICphY2Nlc3NfdHlwZV9uYW1lKHN0cnVjdCBwYW5mcm9zdF9k
-ZXZpY2UgKnBmZGV2LAogCQl1MzIgZmF1bHRfc3RhdHVzKQogewpAQCAtMzAyLDEzICszNTgsMTEg
-QEAgc3RhdGljIGlycXJldHVybl90IHBhbmZyb3N0X21tdV9pcnFfaGFuZGxlcihpbnQgaXJxLCB2
-b2lkICpkYXRhKQogewogCXN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2ID0gZGF0YTsKIAl1
-MzIgc3RhdHVzID0gbW11X3JlYWQocGZkZXYsIE1NVV9JTlRfU1RBVCk7Ci0JaW50IGk7CisJaW50
-IGksIHJldDsKIAogCWlmICghc3RhdHVzKQogCQlyZXR1cm4gSVJRX05PTkU7CiAKLQlkZXZfZXJy
-KHBmZGV2LT5kZXYsICJtbXUgaXJxIHN0YXR1cz0leFxuIiwgc3RhdHVzKTsKLQogCWZvciAoaSA9
-IDA7IHN0YXR1czsgaSsrKSB7CiAJCXUzMiBtYXNrID0gQklUKGkpIHwgQklUKGkgKyAxNik7CiAJ
-CXU2NCBhZGRyOwpAQCAtMzI5LDYgKzM4MywxNyBAQCBzdGF0aWMgaXJxcmV0dXJuX3QgcGFuZnJv
-c3RfbW11X2lycV9oYW5kbGVyKGludCBpcnEsIHZvaWQgKmRhdGEpCiAJCWFjY2Vzc190eXBlID0g
-KGZhdWx0X3N0YXR1cyA+PiA4KSAmIDB4MzsKIAkJc291cmNlX2lkID0gKGZhdWx0X3N0YXR1cyA+
-PiAxNik7CiAKKwkJLyogUGFnZSBmYXVsdCBvbmx5ICovCisJCWlmICgoc3RhdHVzICYgbWFzaykg
-PT0gQklUKGkpKSB7CisJCQlXQVJOX09OKGV4Y2VwdGlvbl90eXBlIDwgMHhDMSB8fCBleGNlcHRp
-b25fdHlwZSA+IDB4QzQpOworCisJCQlyZXQgPSBwYW5mcm9zdF9tbXVfbWFwX2ZhdWx0X2FkZHIo
-cGZkZXYsIGksIGFkZHIpOworCQkJaWYgKCFyZXQpIHsKKwkJCQlzdGF0dXMgJj0gfm1hc2s7CisJ
-CQkJY29udGludWU7CisJCQl9CisJCX0KKwogCQkvKiB0ZXJtaW5hbCBmYXVsdCwgcHJpbnQgaW5m
-byBhYm91dCB0aGUgZmF1bHQgKi8KIAkJZGV2X2VycihwZmRldi0+ZGV2LAogCQkJIlVuaGFuZGxl
-ZCBQYWdlIGZhdWx0IGluIEFTJWQgYXQgVkEgMHglMDE2bGxYXG4iCkBAIC0zNzAsOCArNDM1LDkg
-QEAgaW50IHBhbmZyb3N0X21tdV9pbml0KHN0cnVjdCBwYW5mcm9zdF9kZXZpY2UgKnBmZGV2KQog
-CWlmIChpcnEgPD0gMCkKIAkJcmV0dXJuIC1FTk9ERVY7CiAKLQllcnIgPSBkZXZtX3JlcXVlc3Rf
-aXJxKHBmZGV2LT5kZXYsIGlycSwgcGFuZnJvc3RfbW11X2lycV9oYW5kbGVyLAotCQkJICAgICAg
-IElSUUZfU0hBUkVELCAibW11IiwgcGZkZXYpOworCWVyciA9IGRldm1fcmVxdWVzdF90aHJlYWRl
-ZF9pcnEocGZkZXYtPmRldiwgaXJxLCBOVUxMLAorCQkJCQlwYW5mcm9zdF9tbXVfaXJxX2hhbmRs
-ZXIsCisJCQkJCUlSUUZfT05FU0hPVCwgIm1tdSIsIHBmZGV2KTsKIAogCWlmIChlcnIpIHsKIAkJ
-ZGV2X2VycihwZmRldi0+ZGV2LCAiZmFpbGVkIHRvIHJlcXVlc3QgbW11IGlycSIpOwpkaWZmIC0t
-Z2l0IGEvaW5jbHVkZS91YXBpL2RybS9wYW5mcm9zdF9kcm0uaCBiL2luY2x1ZGUvdWFwaS9kcm0v
-cGFuZnJvc3RfZHJtLmgKaW5kZXggYTUyZTAyODNiOTBkLi42ZDgzYmFhMGU0YzEgMTAwNjQ0Ci0t
-LSBhL2luY2x1ZGUvdWFwaS9kcm0vcGFuZnJvc3RfZHJtLmgKKysrIGIvaW5jbHVkZS91YXBpL2Ry
-bS9wYW5mcm9zdF9kcm0uaApAQCAtNzEsNiArNzEsOCBAQCBzdHJ1Y3QgZHJtX3BhbmZyb3N0X3dh
-aXRfYm8gewogCV9fczY0IHRpbWVvdXRfbnM7CS8qIGFic29sdXRlICovCiB9OwogCisjZGVmaW5l
-IFBBTkZST1NUX0JPX05PTUFQCTEKKwogLyoqCiAgKiBzdHJ1Y3QgZHJtX3BhbmZyb3N0X2NyZWF0
-ZV9ibyAtIGlvY3RsIGFyZ3VtZW50IGZvciBjcmVhdGluZyBQYW5mcm9zdCBCT3MuCiAgKgotLSAK
-Mi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1789844013==
+Content-Type: multipart/alternative; boundary="15601868371.6f2efD.31651"
+Content-Transfer-Encoding: 7bit
+
+
+--15601868371.6f2efD.31651
+Date: Mon, 10 Jun 2019 17:13:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #30 from Sam <samueldgv@mailbox.org> ---
+Update: I can now confirm, at least in my case, that the freezes DO occur u=
+sing
+the parameters above, and also with all of them (shown below), while doing
+another test round on Pillars of Eternity.
+
+amdgpu.dc=3D1=20
+amdgpu.vm_update_mode=3D0=20
+amdgpu.dpm=3D-1=20
+amdgpu.ppfeaturemask=3D0xffffffff=20
+amdgpu.vm_fault_stop=3D2=20
+amdgpu.vm_debug=3D1=20
+amdgpu.gpu_recovery=3D0=20
+
+I was continuously writing dmesg to a file but yet again I didn't get any
+messages/warnings/errors.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15601868371.6f2efD.31651
+Date: Mon, 10 Jun 2019 17:13:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c30">Comme=
+nt # 30</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samueldgv&#64;mailbox.org" title=3D"Sam &lt;samueldgv&#64;mailbox.org&gt;">=
+ <span class=3D"fn">Sam</span></a>
+</span></b>
+        <pre>Update: I can now confirm, at least in my case, that the freez=
+es DO occur using
+the parameters above, and also with all of them (shown below), while doing
+another test round on Pillars of Eternity.
+
+amdgpu.dc=3D1=20
+amdgpu.vm_update_mode=3D0=20
+amdgpu.dpm=3D-1=20
+amdgpu.ppfeaturemask=3D0xffffffff=20
+amdgpu.vm_fault_stop=3D2=20
+amdgpu.vm_debug=3D1=20
+amdgpu.gpu_recovery=3D0=20
+
+I was continuously writing dmesg to a file but yet again I didn't get any
+messages/warnings/errors.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15601868371.6f2efD.31651--
+
+--===============1789844013==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1789844013==--
