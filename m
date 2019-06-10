@@ -1,45 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADB93B5B2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 15:03:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E062F3C08F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 02:29:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F44689144;
-	Mon, 10 Jun 2019 13:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F3189144;
+	Tue, 11 Jun 2019 00:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4193789144
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 13:03:43 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3E23372167; Mon, 10 Jun 2019 13:03:43 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110883] [Regression linux 5.2-rc4][bisected] hang on boot
-Date: Mon, 10 Jun 2019 13:03:43 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: freedesktop@sibrenvasse.nl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110883-502-R0aBa4yGlJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110883-502@http.bugs.freedesktop.org/>
-References: <bug-110883-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B109788F1E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 13:09:17 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id 33so2271898qtr.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 06:09:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=4F5p4XvqxWD0TPhx038sRdW6UkfS+pQjYQgLxUjnBMI=;
+ b=Q7tt6WuyqZEt2JgG/6Tm/SNE3X5VLbYuuSp6X4l/QC+/eS1HNbmaUagVs6VLRwdG8q
+ Fd5//nwSubb0SZSMkrHv84Vf9m2QEqn4aj3YFTFYu8czV51zgCZxB6m0KLpCs2wKmlb/
+ 4g8NkNAB1xeCspiRzVfzema9haluX8NkiGAcw8aI3/88wHCsIp/cE1ZyxYwIhrlptDST
+ JLBbtBSREdUnm+5EZ10YkUUI/uuim4L4UJ0g+3XP/A7K2vQHU4YMrfSqiWbm4MwYvbSq
+ xDktRSp6uHum/GWYArBa0ua8dRSIzcjkjAbTbSp5SXC9XWLusY7O0dC3khToxxmRg9pU
+ Ce0w==
+X-Gm-Message-State: APjAAAWba9F6Ss/0YquMxOTd7PeJBSmg2e7knZUdVVTMYkdSWr50+xcy
+ 53GllHTh80o8WMAnR5rwzaenow==
+X-Google-Smtp-Source: APXvYqyfdzwD7zPoXm7GvJhg1KqfurFKZJX3W/vApYwm27bMvAhRfi5kk7rnbLbo+akkzc5tVyXK/g==
+X-Received: by 2002:ac8:1af4:: with SMTP id h49mr51085239qtk.183.1560172156644; 
+ Mon, 10 Jun 2019 06:09:16 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-55-100.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.55.100])
+ by smtp.gmail.com with ESMTPSA id v30sm1245889qtk.45.2019.06.10.06.09.16
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 10 Jun 2019 06:09:16 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1haK31-0006cK-Gt; Mon, 10 Jun 2019 10:09:15 -0300
+Date: Mon, 10 Jun 2019 10:09:15 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Ralph Campbell <rcampbell@nvidia.com>
+Subject: Re: [PATCH v2 hmm 02/11] mm/hmm: Use hmm_mirror not mm as an
+ argument for hmm_range_register
+Message-ID: <20190610130915.GA18468@ziepe.ca>
+References: <20190606184438.31646-1-jgg@ziepe.ca>
+ <20190606184438.31646-3-jgg@ziepe.ca>
+ <4a391bd4-287c-5f13-3bca-c6a46ff8d08c@nvidia.com>
+ <e460ddf5-9ed3-7f3b-98ce-526c12fdb8b1@nvidia.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <e460ddf5-9ed3-7f3b-98ce-526c12fdb8b1@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Tue, 11 Jun 2019 00:29:12 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=4F5p4XvqxWD0TPhx038sRdW6UkfS+pQjYQgLxUjnBMI=;
+ b=BhIIjcgOeQFdpsXOGxWnmGvjoyeGrIjjevpQNRl/I2/FM8ihdN5hXQobSh95XYjgPy
+ BcVai4r/g1HxBTsXAlAV0qer0KY857kzqTHnHg2h6eEGGmmeCl7I6rNfu1lMP1j2s+65
+ HMCq4j4xGVfZGz9FHAfQJXTacr+yVjc2YESaxykFfinvyANrOti3zkztW1T11pGgbt+m
+ ogx8XVpNVzdJsodX6ozViM6hnDCL71wrSt/am17+Hfd0sGLK4ljxB0UQChBHCVSbWxea
+ 5/soEI9XcHDofveKfkWMk8uTfUv0yVeOC28YGBJDNyrnMAdm6q1bApQkogtXbzNnCf+V
+ garw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,92 +80,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1255898746=="
+Cc: Andrea Arcangeli <aarcange@redhat.com>, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, Felix.Kuehling@amd.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1255898746==
-Content-Type: multipart/alternative; boundary="15601718231.4b59aB8eA.6764"
-Content-Transfer-Encoding: 7bit
-
-
---15601718231.4b59aB8eA.6764
-Date: Mon, 10 Jun 2019 13:03:43 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110883
-
---- Comment #2 from Sibren Vasse <freedesktop@sibrenvasse.nl> ---
-Created attachment 144493
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144493&action=3Dedit
-xorg log
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15601718231.4b59aB8eA.6764
-Date: Mon, 10 Jun 2019 13:03:43 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Regression linux 5.2-rc4][bisected] hang on boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110883#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Regression linux 5.2-rc4][bisected] hang on boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110883">bug 11088=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-freedesktop&#64;sibrenvasse.nl" title=3D"Sibren Vasse &lt;freedesktop&#64;s=
-ibrenvasse.nl&gt;"> <span class=3D"fn">Sibren Vasse</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144493=
-" name=3D"attach_144493" title=3D"xorg log">attachment 144493</a> <a href=
-=3D"attachment.cgi?id=3D144493&amp;action=3Dedit" title=3D"xorg log">[detai=
-ls]</a></span>
-xorg log</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15601718231.4b59aB8eA.6764--
-
---===============1255898746==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1255898746==--
+T24gRnJpLCBKdW4gMDcsIDIwMTkgYXQgMDM6Mzk6MDZQTSAtMDcwMCwgUmFscGggQ2FtcGJlbGwg
+d3JvdGU6Cj4gPiA+ICvCoMKgwqAgcmFuZ2UtPmhtbSA9IGhtbTsKPiA+ID4gK8KgwqDCoCBrcmVm
+X2dldCgmaG1tLT5rcmVmKTsKPiA+ID4gwqDCoMKgwqDCoCAvKiBJbml0aWFsaXplIHJhbmdlIHRv
+IHRyYWNrIENQVSBwYWdlIHRhYmxlIHVwZGF0ZXMuICovCj4gPiA+IMKgwqDCoMKgwqAgbXV0ZXhf
+bG9jaygmaG1tLT5sb2NrKTsKPiA+ID4gCj4gCj4gSSBmb3Jnb3QgdG8gYWRkIHRoYXQgSSB0aGlu
+ayB5b3UgY2FuIGRlbGV0ZSB0aGUgZHVwbGljYXRlCj4gICAgICJyYW5nZS0+aG1tID0gaG1tOyIK
+PiBoZXJlIGJldHdlZW4gdGhlIG11dGV4X2xvY2svdW5sb2NrLgoKRG9uZSwgdGhhbmtzCgpKYXNv
+bgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
