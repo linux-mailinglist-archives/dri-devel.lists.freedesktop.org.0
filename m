@@ -1,45 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BC43B1E6
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 11:24:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A21F3C084
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 02:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73F1C890EA;
-	Mon, 10 Jun 2019 09:24:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B7B389143;
+	Tue, 11 Jun 2019 00:29:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0680D890EA
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 09:24:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0351A72167; Mon, 10 Jun 2019 09:24:06 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110871] hellobugzilla
-Date: Mon, 10 Jun 2019 09:24:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: juby.juby91@gmail.com
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-110871-502-MV8R5OgtFD@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110871-502@http.bugs.freedesktop.org/>
-References: <bug-110871-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20857890E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 09:27:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id AE1E227DF85
+Subject: Re: [PATCH] drm/bridge: analogix-anx78xx: Drop of_gpio.h include
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+References: <20190609223254.8523-1-linus.walleij@linaro.org>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <42ee6735-20f4-8b48-abac-d88a1f0db7ec@collabora.com>
+Date: Mon, 10 Jun 2019 11:27:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190609223254.8523-1-linus.walleij@linaro.org>
+Content-Language: en-GB
+X-Mailman-Approved-At: Tue, 11 Jun 2019 00:29:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,95 +41,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1514607889=="
+Cc: Jose Abreu <Jose.Abreu@synopsys.com>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1514607889==
-Content-Type: multipart/alternative; boundary="15601586451.D15B.14223"
-Content-Transfer-Encoding: 7bit
-
-
---15601586451.D15B.14223
-Date: Mon, 10 Jun 2019 09:24:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110871
-
-Juby <juby.juby91@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15601586451.D15B.14223
-Date: Mon, 10 Jun 2019 09:24:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:juby.juby=
-91&#64;gmail.com" title=3D"Juby &lt;juby.juby91&#64;gmail.com&gt;"> <span c=
-lass=3D"fn">Juby</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_ASSIGNED "
-   title=3D"ASSIGNED - hellobugzilla"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110871">bug 11087=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>ASSIGNED
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15601586451.D15B.14223--
-
---===============1514607889==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1514607889==--
+SGksCgpPbiAxMC82LzE5IDA6MzIsIExpbnVzIFdhbGxlaWogd3JvdGU6Cj4gVGhpcyBpbmNsdWRl
+IGlzIG9ubHkgdXNlZCBmb3Igc29tZSBncGlvIGRyaXZlcnMgYW5kIGNvbnN1bWVycwo+IHRoYXQg
+bG9vayB1cCBHUElPIG51bWJlcnMgZGlyZWN0bHkgZnJvbSB0aGUgZGV2aWNlIHRyZWUuCj4gVGhp
+cyBkcml2ZXIgZG9lcyBub3QgdXNlIGl0IGFuZCBvbmx5IG5lZWRzIDxsaW51eC9ncGlvL2NvbnN1
+bWVyLmg+Lgo+IERlbGV0ZSB0aGUgdW51c2VkIGluY2x1ZGUuCj4gCj4gQ2M6IEVucmljIEJhbGxl
+dGJvIGkgU2VycmEgPGVucmljLmJhbGxldGJvQGNvbGxhYm9yYS5jb20+Cj4gQ2M6IEpvc2UgQWJy
+ZXUgPEpvc2UuQWJyZXVAc3lub3BzeXMuY29tPgo+IFNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxl
+aWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KClJldmlld2VkLWJ5OiBFbnJpYyBCYWxsZXRi
+byBpIFNlcnJhIDxlbnJpYy5iYWxsZXRib0Bjb2xsYWJvcmEuY29tPgoKPiAtLS0KPiAgZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC1hbng3OHh4LmMgfCAxIC0KPiAgMSBmaWxlIGNoYW5n
+ZWQsIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9hbmFsb2dpeC1hbng3OHh4LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4LWFu
+eDc4eHguYwo+IGluZGV4IGMwOWFhZjkzYWUxYi4uNjFiNTEyMmU1YTUyIDEwMDY0NAo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgtYW54Nzh4eC5jCj4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC1hbng3OHh4LmMKPiBAQCAtMjAsNyArMjAsNiBAQAo+
+ICAjaW5jbHVkZSA8bGludXgvaTJjLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4KPiAg
+I2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgo+IC0jaW5jbHVkZSA8bGludXgvb2ZfZ3Bpby5oPgo+
+ICAjaW5jbHVkZSA8bGludXgvb2ZfaXJxLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9vZl9wbGF0Zm9y
+bS5oPgo+ICAjaW5jbHVkZSA8bGludXgvcmVnbWFwLmg+Cj4gCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
