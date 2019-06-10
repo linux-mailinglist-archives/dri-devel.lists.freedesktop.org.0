@@ -2,65 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDD73BFE5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 01:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223C03C01D
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 01:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87A95890D3;
-	Mon, 10 Jun 2019 23:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802AA88EFF;
+	Mon, 10 Jun 2019 23:41:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A42890D3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 23:37:46 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id e5so4251633pls.13
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 16:37:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lwYUN/KUyzUQQmKgro+g5eqK3FeGewhxwiwrsgABWdM=;
- b=SUAOsmgIgkQvSV7jv/bUxRvJS7327cFqkc259tL3lgTAkRphmNWoudeZ2kinfaDx7Z
- q8VVj8qUXhPvC8h8bxJO3d7AXCSl9LF8mG3CR4fnWdE6ypWYQ9mXUrsn6sEwXcQOdu0P
- 6rpCz1OfN9nT70lawgSjuXuwJaDk57ulOUl+5hjFyepSqA1jVKs5bVgiQfo1yEwh0tnw
- Qp3n6H5krxtneR2DrE8/35vCSxVxsWhP465sYP/nlgLJVH5NWQlhBtmuxIfFJ6etr0iy
- Xhp4zv56iwVpKvrL6iTJh2NfHhZBkzCqWUZgQoFaEMEY0jhuSQjz3xWNQQ6x3cZ3A7fB
- Y7JA==
-X-Gm-Message-State: APjAAAW1KWKWTZI/DWhL5CAPaNsIkMNvbtSKwgbiCx+EDh3w4hTCp9Em
- K3Xbld+nX4NxAR33p6GR6mWNdQ==
-X-Google-Smtp-Source: APXvYqzXs66MLOw7Ug1WtaUrdzJynS7SOfkyQfCnYQ3Tk82lp8vcxCASVc5yQ0uIfTU53qcM/aLF/Q==
-X-Received: by 2002:a17:902:9f93:: with SMTP id
- g19mr57526892plq.223.1560209865771; 
- Mon, 10 Jun 2019 16:37:45 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
- by smtp.gmail.com with ESMTPSA id p27sm7658412pfq.136.2019.06.10.16.37.44
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 16:37:45 -0700 (PDT)
-From: Matthias Kaehlcke <mka@chromium.org>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: [PATCH 2/2] backlight: pwm_bl: Get number of brightness levels for
- CIE 1931 from the device tree
-Date: Mon, 10 Jun 2019 16:37:39 -0700
-Message-Id: <20190610233739.29477-2-mka@chromium.org>
-X-Mailer: git-send-email 2.22.0.rc2.383.gf4fbbf30c2-goog
-In-Reply-To: <20190610233739.29477-1-mka@chromium.org>
-References: <20190610233739.29477-1-mka@chromium.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4226788EFF
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 23:41:47 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 39F1472167; Mon, 10 Jun 2019 23:41:47 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110885] [OverDrive] Add option to change acoustic limit
+Date: Mon, 10 Jun 2019 23:41:47 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: magist3r@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110885-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lwYUN/KUyzUQQmKgro+g5eqK3FeGewhxwiwrsgABWdM=;
- b=JNH8X5fVDnaksMRrJIPAhSlbONYaT+Qzmac4p+4aIJ9MyL8CBR4CbOBSaLfJ/lVSWz
- pvy14bPyQRVfCaYdY6N70JiL3c1/7002idQAVcssXH4SBW+0u1+C1Vpj0J8C56+lsuaW
- rD6bAgc+3gw9fyJeWeljeJYPPMzpJKROpovfA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,95 +51,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-pwm@vger.kernel.org, Brian Norris <briannorris@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- linux-leds@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0517861416=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tbWl0IDg4YmE5NWJlZGI3OSAoImJhY2tsaWdodDogcHdtX2JsOiBDb21wdXRlIGJyaWdodG5l
-c3Mgb2YgTEVECmxpbmVhcmx5IHRvIGh1bWFuIGV5ZSIpIHVzZXMgcHdtX3BlcmlvZCAvIGh3ZWln
-aHQzMihwd21fcGVyaW9kKSBhcwphcyBoZXVyaXN0aWMgdG8gZGV0ZXJtaW5lIHRoZSBudW1iZXIg
-b2YgYnJpZ2h0bmVzcyBsZXZlbHMgd2hlbiB0aGUgRFQKZG9lc24ndCBwcm92aWRlIGEgYnJpZ2h0
-bmVzcyBsZXZlbCB0YWJsZS4gVGhpcyBoZXVyaXN0aWMgaXMgYnJva2VuCmFuZCBjYW4gcmVzdWx0
-IGluIGV4Y2Vzc2l2ZWx5IGxhcmdlIGJyaWdodG5lc3MgdGFibGVzLgoKSW5zdGVhZCBvZiB1c2lu
-ZyB0aGUgaGV1cmlzdGljIHRyeSB0byByZXRyaWV2ZSB0aGUgbnVtYmVyIG9mCmJyaWdodG5lc3Mg
-bGV2ZWxzIGZyb20gdGhlIGRldmljZSB0cmVlIChwcm9wZXJ0eSAnbWF4LWJyaWdodG5lc3MnCisg
-MSkuIElmIHRoZSB2YWx1ZSBpcyBub3Qgc3BlY2lmaWVkIHVzZSBhIGRlZmF1bHQgb2YgMjU2IGxl
-dmVscy4KCkZpeGVzOiA4OGJhOTViZWRiNzkgKCJiYWNrbGlnaHQ6IHB3bV9ibDogQ29tcHV0ZSBi
-cmlnaHRuZXNzIG9mIExFRCBsaW5lYXJseSB0byBodW1hbiBleWUiKQpTaWduZWQtb2ZmLWJ5OiBN
-YXR0aGlhcyBLYWVobGNrZSA8bWthQGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL3ZpZGVvL2Jh
-Y2tsaWdodC9wd21fYmwuYyB8IDU5ICsrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tCiAx
-IGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMzggZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMgYi9kcml2ZXJzL3ZpZGVvL2Jh
-Y2tsaWdodC9wd21fYmwuYwppbmRleCBmYjQ1Zjg2NmI5MjMuLjI5MTNjYmU5Y2ZjYiAxMDA2NDQK
-LS0tIGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMKKysrIGIvZHJpdmVycy92aWRl
-by9iYWNrbGlnaHQvcHdtX2JsLmMKQEAgLTE5NCwzOCArMTk0LDE5IEBAIGludCBwd21fYmFja2xp
-Z2h0X2JyaWdodG5lc3NfZGVmYXVsdChzdHJ1Y3QgZGV2aWNlICpkZXYsCiAJCQkJICAgICBzdHJ1
-Y3QgcGxhdGZvcm1fcHdtX2JhY2tsaWdodF9kYXRhICpkYXRhLAogCQkJCSAgICAgdW5zaWduZWQg
-aW50IHBlcmlvZCkKIHsKLQl1bnNpZ25lZCBpbnQgY291bnRlciA9IDA7Ci0JdW5zaWduZWQgaW50
-IGksIG47CisJdW5zaWduZWQgaW50IGk7CisJdW5zaWduZWQgaW50IG5sZXZlbHMgPSBkYXRhLT5t
-YXhfYnJpZ2h0bmVzcyArIDE7CiAJdTY0IHJldHZhbDsKIAotCS8qCi0JICogQ291bnQgdGhlIG51
-bWJlciBvZiBiaXRzIG5lZWRlZCB0byByZXByZXNlbnQgdGhlIHBlcmlvZCBudW1iZXIuIFRoZQot
-CSAqIG51bWJlciBvZiBiaXRzIGlzIHVzZWQgdG8gY2FsY3VsYXRlIHRoZSBudW1iZXIgb2YgbGV2
-ZWxzIHVzZWQgZm9yIHRoZQotCSAqIGJyaWdodG5lc3MtbGV2ZWxzIHRhYmxlLCB0aGUgcHVycG9z
-ZSBvZiB0aGlzIGNhbGN1bGF0aW9uIGlzIGhhdmUgYQotCSAqIHByZS1jb21wdXRlZCB0YWJsZSB3
-aXRoIGVub3VnaCBsZXZlbHMgdG8gZ2V0IGxpbmVhciBicmlnaHRuZXNzCi0JICogcGVyY2VwdGlv
-bi4gVGhlIHBlcmlvZCBpcyBkaXZpZGVkIGJ5IHRoZSBudW1iZXIgb2YgYml0cyBzbyBmb3IgYQot
-CSAqIDgtYml0IFBXTSB3ZSBoYXZlIDI1NSAvIDggPSAzMiBicmlnaHRuZXNzIGxldmVscyBvciBm
-b3IgYSAxNi1iaXQgUFdNCi0JICogd2UgaGF2ZSA2NTUzNSAvIDE2ID0gNDA5NiBicmlnaHRuZXNz
-IGxldmVscy4KLQkgKgotCSAqIE5vdGUgdGhhdCB0aGlzIG1ldGhvZCBpcyBiYXNlZCBvbiBlbXBp
-cmljYWwgdGVzdGluZyBvbiBkaWZmZXJlbnQKLQkgKiBkZXZpY2VzIHdpdGggUFdNIG9mIDggYW5k
-IDE2IGJpdHMgb2YgcmVzb2x1dGlvbi4KLQkgKi8KLQluID0gcGVyaW9kOwotCXdoaWxlIChuKSB7
-Ci0JCWNvdW50ZXIgKz0gbiAlIDI7Ci0JCW4gPj49IDE7Ci0JfQotCi0JZGF0YS0+bWF4X2JyaWdo
-dG5lc3MgPSBESVZfUk9VTkRfVVAocGVyaW9kLCBjb3VudGVyKTsKLQlkYXRhLT5sZXZlbHMgPSBk
-ZXZtX2tjYWxsb2MoZGV2LCBkYXRhLT5tYXhfYnJpZ2h0bmVzcywKKwlkYXRhLT5sZXZlbHMgPSBk
-ZXZtX2tjYWxsb2MoZGV2LCBubGV2ZWxzLAogCQkJCSAgICBzaXplb2YoKmRhdGEtPmxldmVscyks
-IEdGUF9LRVJORUwpOwogCWlmICghZGF0YS0+bGV2ZWxzKQogCQlyZXR1cm4gLUVOT01FTTsKIAog
-CS8qIEZpbGwgdGhlIHRhYmxlIHVzaW5nIHRoZSBjaWUxOTMxIGFsZ29yaXRobSAqLwotCWZvciAo
-aSA9IDA7IGkgPCBkYXRhLT5tYXhfYnJpZ2h0bmVzczsgaSsrKSB7CisJZm9yIChpID0gMDsgaSA8
-IG5sZXZlbHM7IGkrKykgewogCQlyZXR2YWwgPSBjaWUxOTMxKChpICogUFdNX0xVTUlOQU5DRV9T
-Q0FMRSkgLwotCQkJCSBkYXRhLT5tYXhfYnJpZ2h0bmVzcywgUFdNX0xVTUlOQU5DRV9TQ0FMRSkg
-KgorCQkJCSBubGV2ZWxzLCBQV01fTFVNSU5BTkNFX1NDQUxFKSAqCiAJCQkJIHBlcmlvZDsKIAkJ
-cmV0dmFsID0gRElWX1JPVU5EX0NMT1NFU1RfVUxMKHJldHZhbCwgUFdNX0xVTUlOQU5DRV9TQ0FM
-RSk7CiAJCWlmIChyZXR2YWwgPiBVSU5UX01BWCkKQEAgLTIzMyw4ICsyMTQsNyBAQCBpbnQgcHdt
-X2JhY2tsaWdodF9icmlnaHRuZXNzX2RlZmF1bHQoc3RydWN0IGRldmljZSAqZGV2LAogCQlkYXRh
-LT5sZXZlbHNbaV0gPSAodW5zaWduZWQgaW50KXJldHZhbDsKIAl9CiAKLQlkYXRhLT5kZnRfYnJp
-Z2h0bmVzcyA9IGRhdGEtPm1heF9icmlnaHRuZXNzIC8gMjsKLQlkYXRhLT5tYXhfYnJpZ2h0bmVz
-cy0tOworCWRhdGEtPmRmdF9icmlnaHRuZXNzID0gbmxldmVscyAvIDI7CiAKIAlyZXR1cm4gMDsK
-IH0KQEAgLTI3Miw4ICsyNTIsMTMgQEAgc3RhdGljIGludCBwd21fYmFja2xpZ2h0X3BhcnNlX2R0
-KHN0cnVjdCBkZXZpY2UgKmRldiwKIAkgKiBzZXQgYSBkZWZhdWx0IHRhYmxlIG9mIGJyaWdodG5l
-c3MgbGV2ZWxzIHdpbGwgYmUgdXNlZC4KIAkgKi8KIAlwcm9wID0gb2ZfZmluZF9wcm9wZXJ0eShu
-b2RlLCAiYnJpZ2h0bmVzcy1sZXZlbHMiLCAmbGVuZ3RoKTsKLQlpZiAoIXByb3ApCisJaWYgKCFw
-cm9wKSB7CisJCWlmIChvZl9wcm9wZXJ0eV9yZWFkX3UzMihub2RlLCAibWF4LWJyaWdodG5lc3Mi
-LAorCQkJCQkgJmRhdGEtPm1heF9icmlnaHRuZXNzKSkKKwkJCWRhdGEtPm1heF9icmlnaHRuZXNz
-ID0gMjU1OworCiAJCXJldHVybiAwOworCX0KIAogCWRhdGEtPm1heF9icmlnaHRuZXNzID0gbGVu
-Z3RoIC8gc2l6ZW9mKHUzMik7CiAKQEAgLTU2NSwxMyArNTUwLDEwIEBAIHN0YXRpYyBpbnQgcHdt
-X2JhY2tsaWdodF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCiAJCQlwYi0+
-bGV2ZWxzID0gZGF0YS0+bGV2ZWxzOwogCQl9Ci0JfSBlbHNlIGlmICghZGF0YS0+bWF4X2JyaWdo
-dG5lc3MpIHsKKwl9IGVsc2UgaWYgKG5vZGUpIHsKIAkJLyoKLQkJICogSWYgbm8gYnJpZ2h0bmVz
-cyBsZXZlbHMgYXJlIHByb3ZpZGVkIGFuZCBtYXhfYnJpZ2h0bmVzcyBpcwotCQkgKiBub3Qgc2V0
-LCB1c2UgdGhlIGRlZmF1bHQgYnJpZ2h0bmVzcyB0YWJsZS4gRm9yIHRoZSBEVCBjYXNlLAotCQkg
-KiBtYXhfYnJpZ2h0bmVzcyBpcyBzZXQgdG8gMCB3aGVuIGJyaWdodG5lc3MgbGV2ZWxzIGlzIG5v
-dAotCQkgKiBzcGVjaWZpZWQuIEZvciB0aGUgbm9uLURUIGNhc2UsIG1heF9icmlnaHRuZXNzIGlz
-IHVzdWFsbHkKLQkJICogc2V0IHRvIHNvbWUgdmFsdWUuCisJCSAqIElmIG5vIGJyaWdodG5lc3Mg
-bGV2ZWxzIGFyZSBwcm92aWRlZCB1c2UgdGhlIGRlZmF1bHQKKwkJICogYnJpZ2h0bmVzcyB0YWJs
-ZS4KIAkJICovCiAKIAkJLyogR2V0IHRoZSBQV00gcGVyaW9kIChpbiBuYW5vc2Vjb25kcykgKi8K
-QEAgLTU5MSwxMiArNTczLDEzIEBAIHN0YXRpYyBpbnQgcHdtX2JhY2tsaWdodF9wcm9iZShzdHJ1
-Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCiAJCQlwYi0+bGV2ZWxzID0gZGF0YS0+bGV2ZWxz
-OwogCQl9Ci0JfSBlbHNlIHsKLQkJLyoKLQkJICogVGhhdCBvbmx5IGhhcHBlbnMgZm9yIHRoZSBu
-b24tRFQgY2FzZSwgd2hlcmUgcGxhdGZvcm0gZGF0YQotCQkgKiBzZXRzIHRoZSBtYXhfYnJpZ2h0
-bmVzcyB2YWx1ZS4KLQkJICovCisJfSBlbHNlIGlmIChkYXRhLT5tYXhfYnJpZ2h0bmVzcykgewor
-CQkvKiBub24tRFQgY2FzZSwgbWF4X2JyaWdodG5lc3MgdmFsdWUgc2V0IGluIHBsYXRmb3JtIGRh
-dGEuICovCiAJCXBiLT5zY2FsZSA9IGRhdGEtPm1heF9icmlnaHRuZXNzOworCX0gZWxzZSB7CisJ
-CWRldl9lcnIoJnBkZXYtPmRldiwgIm1heCBicmlnaHRuZXNzIGlzIG5vdCBzcGVjaWZpZWRcbiIp
-OworCQlyZXQgPSAtRUlOVkFMOworCQlnb3RvIGVycl9hbGxvYzsKIAl9CiAKIAlwYi0+bHRoX2Jy
-aWdodG5lc3MgPSBkYXRhLT5sdGhfYnJpZ2h0bmVzcyAqIChzdGF0ZS5wZXJpb2QgLyBwYi0+c2Nh
-bGUpOwotLSAKMi4yMi4wLnJjMi4zODMuZ2Y0ZmJiZjMwYzItZ29vZwoKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0517861416==
+Content-Type: multipart/alternative; boundary="15602101070.9E9caD2f1.26276"
+Content-Transfer-Encoding: 7bit
+
+
+--15602101070.9E9caD2f1.26276
+Date: Mon, 10 Jun 2019 23:41:47 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110885
+
+            Bug ID: 110885
+           Summary: [OverDrive] Add option to change acoustic limit
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: magist3r@gmail.com
+
+Please add the ability to change the acoustic limit. My RX580 has an acoust=
+ic
+limit of 1360 MHz, and even with slight overclocking (1400 MHz) it becomes
+really noisy on high load.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15602101070.9E9caD2f1.26276
+Date: Mon, 10 Jun 2019 23:41:47 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [OverDrive] Add option to change acoustic limit"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110885">110885</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[OverDrive] Add option to change acoustic limit
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>magist3r&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Please add the ability to change the acoustic limit. My RX580 =
+has an acoustic
+limit of 1360 MHz, and even with slight overclocking (1400 MHz) it becomes
+really noisy on high load.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15602101070.9E9caD2f1.26276--
+
+--===============0517861416==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0517861416==--
