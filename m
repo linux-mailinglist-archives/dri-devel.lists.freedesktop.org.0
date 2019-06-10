@@ -1,49 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5795F3B6E9
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 16:08:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED183B6EE
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 16:08:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34FE98921C;
-	Mon, 10 Jun 2019 14:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE4689228;
+	Mon, 10 Jun 2019 14:08:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9DE38921C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 14:08:31 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7DFF9207E0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 14:08:31 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id 33so2532055qtr.8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 07:08:31 -0700 (PDT)
-X-Gm-Message-State: APjAAAWELOt827r8PeJLhh7m9gJAj80EpqhciDcmOuToZzRHT4lOciV+
- /r+dUnPR7j9wqhYCcfPZJfIeFzjCujihBYOCEA==
-X-Google-Smtp-Source: APXvYqwdmbIhrtP+pr3yrvnj14E//+SCvlZ+lu7Dlfsx/qGVpGKwwe0HArJH9qd9/w8lHnj9WUoC+gOD/kPrLD5jix4=
-X-Received: by 2002:a0c:b786:: with SMTP id l6mr32634676qve.148.1560175710719; 
- Mon, 10 Jun 2019 07:08:30 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F089B89226
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 14:08:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id ECCC372167; Mon, 10 Jun 2019 14:08:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110822] [Bisected]Booting with kernel version 5.1.0 or higher
+ on RX 580 hangs
+Date: Mon, 10 Jun 2019 14:08:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: gobinda.joy@gmail.com
+X-Bugzilla-Status: VERIFIED
+X-Bugzilla-Resolution: WORKSFORME
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110822-502-bem63h246Q@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
+References: <bug-110822-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190529095233.26277-1-boris.brezillon@collabora.com>
- <20190529095233.26277-3-boris.brezillon@collabora.com>
-In-Reply-To: <20190529095233.26277-3-boris.brezillon@collabora.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 10 Jun 2019 08:08:19 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJcFULN2YSu94CJXafEt5xSu+JLPXBsp584nECEafW9Cw@mail.gmail.com>
-Message-ID: <CAL_JsqJcFULN2YSu94CJXafEt5xSu+JLPXBsp584nECEafW9Cw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] drm/panfrost: Add a module parameter to expose
- unstable ioctls
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1560175711;
- bh=zhSQbVzzY3ThEbhr4aPdx5brOQ5ZHahWbsAR7ocDHDw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CXBNPVKyIMpyee9oX5i4n7lD05Y9L18dqBFgUuKeYkFNRyU1FJDmL9vGEupC6dFiT
- ts8zDoqDMCegpbiwt17UxGUj4/e6MErmRCE+VOiNaxeLGcxXxF7JAMaItWe7sKPM9V
- y+/xRhEt36JDZha+qrNI7xMrpFXFOMfauM0V1vk8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,60 +53,415 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Steven Price <steven.price@arm.com>, kernel@collabora.com,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0966017410=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-K0RhbmllbCBhbmQgRGF2aWQKCk9uIFdlZCwgTWF5IDI5LCAyMDE5IGF0IDM6NTIgQU0gQm9yaXMg
-QnJlemlsbG9uCjxib3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4gd3JvdGU6Cj4KPiBXZSBw
-bGFuIHRvIGV4cG9zZSBwZXJmb3JtYW5jZSBjb3VudGVycyB0aHJvdWdoIDIgZHJpdmVyIHNwZWNp
-ZmljCj4gaW9jdGxzIHVudGlsIHRoZXJlJ3MgYSBzb2x1dGlvbiB0byBleHBvc2UgdGhlbSBpbiBh
-IGdlbmVyaWMgd2F5Lgo+IEluIG9yZGVyIHRvIGJlIGFibGUgdG8gZGVwcmVjYXRlIHRob3NlIGlv
-Y3RscyB3aGVuIHRoaXMgbmV3Cj4gaW5mcmFzdHJ1Y3R1cmUgaXMgaW4gcGxhY2Ugd2UgYWRkIGFu
-IHVuc2FmZSBtb2R1bGUgcGFyYW1ldGVyIHRoYXQKPiB3aWxsIGtlZXAgdGhvc2UgaW9jdGxzIGhp
-ZGRlbiB1bmxlc3MgaXQncyBzZXQgdG8gdHJ1ZSAod2hpY2ggYWxzbwo+IGhhcyB0aGUgZWZmZWN0
-IG9mIHRhaW50aW5nIHRoZSBrZXJuZWwpLgo+Cj4gQWxsIHVuc3RhYmxlIGlvY3RsIGhhbmRsZXJz
-IHNob3VsZCB1c2UgcGFuZnJvc3RfdW5zdGFibGVfaW9jdGxfY2hlY2soKQo+IHRvIGNoZWNrIHdo
-ZXRoZXIgdGhleSdyZSBzdXBwb3NlZCB0byBoYW5kbGUgdGhlIHJlcXVlc3Qgb3IgcmVqZWN0IGl0
-Cj4gd2l0aCBFTk9TWVMuCj4KPiBTdWdnZXN0ZWQtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxp
-a292QGNvbGxhYm9yYS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogQm9yaXMgQnJlemlsbG9uIDxib3Jp
-cy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4KCkRhbmllbCwgRGF2aWQsIEFueSBpc3N1ZXMgd2l0
-aCB0aGlzIGFwcHJvYWNoIGZvciBhbiB1bnN0YWJsZSBpbnRlcmZhY2U/Cgo+IC0tLQo+IENobmFn
-ZXMgaW4gdjM6Cj4gKiBOZXcgcGF0Y2gKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0
-L3BhbmZyb3N0X2RldmljZS5oIHwgIDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2Rydi5jICAgIHwgMTEgKysrKysrKysrKysKPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMyBp
-bnNlcnRpb25zKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2RldmljZS5oIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rldmlj
-ZS5oCj4gaW5kZXggODA3NGYyMjEwMzRiLi4wMzExNjhmODNiZDIgMTAwNjQ0Cj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5oCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2RldmljZS5oCj4gQEAgLTExNSw2ICsxMTUsOCBAQCBz
-dGF0aWMgaW5saW5lIGJvb2wgcGFuZnJvc3RfbW9kZWxfZXEoc3RydWN0IHBhbmZyb3N0X2Rldmlj
-ZSAqcGZkZXYsIHMzMiBpZCkKPiAgICAgICAgIHJldHVybiAhcGFuZnJvc3RfbW9kZWxfY21wKHBm
-ZGV2LCBpZCk7Cj4gIH0KPgo+ICtpbnQgcGFuZnJvc3RfdW5zdGFibGVfaW9jdGxfY2hlY2sodm9p
-ZCk7Cj4gKwo+ICBpbnQgcGFuZnJvc3RfZGV2aWNlX2luaXQoc3RydWN0IHBhbmZyb3N0X2Rldmlj
-ZSAqcGZkZXYpOwo+ICB2b2lkIHBhbmZyb3N0X2RldmljZV9maW5pKHN0cnVjdCBwYW5mcm9zdF9k
-ZXZpY2UgKnBmZGV2KTsKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3Qv
-cGFuZnJvc3RfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMK
-PiBpbmRleCBkMTFlMjI4MWRkZTYuLjc1NDg4MWVjZThkNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
-cGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKPiBAQCAtMjAsNiArMjAsOSBAQAo+ICAjaW5jbHVkZSAi
-cGFuZnJvc3Rfam9iLmgiCj4gICNpbmNsdWRlICJwYW5mcm9zdF9ncHUuaCIKPgo+ICtzdGF0aWMg
-Ym9vbCB1bnN0YWJsZV9pb2N0bHM7Cj4gK21vZHVsZV9wYXJhbV91bnNhZmUodW5zdGFibGVfaW9j
-dGxzLCBib29sLCAwNjAwKTsKPiArCj4gIHN0YXRpYyBpbnQgcGFuZnJvc3RfaW9jdGxfZ2V0X3Bh
-cmFtKHN0cnVjdCBkcm1fZGV2aWNlICpkZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUg
-KmZpbGUpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBkcm1fcGFuZnJvc3RfZ2V0X3BhcmFtICpwYXJh
-bSA9IGRhdGE7Cj4gQEAgLTI5Nyw2ICszMDAsMTQgQEAgc3RhdGljIGludCBwYW5mcm9zdF9pb2N0
-bF9nZXRfYm9fb2Zmc2V0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCj4gICAg
-ICAgICByZXR1cm4gMDsKPiAgfQo+Cj4gK2ludCBwYW5mcm9zdF91bnN0YWJsZV9pb2N0bF9jaGVj
-ayh2b2lkKQo+ICt7Cj4gKyAgICAgICBpZiAoIXVuc3RhYmxlX2lvY3RscykKPiArICAgICAgICAg
-ICAgICAgcmV0dXJuIC1FTk9TWVM7Cj4gKwo+ICsgICAgICAgcmV0dXJuIDA7Cj4gK30KPiArCj4g
-IHN0YXRpYyBpbnQKPiAgcGFuZnJvc3Rfb3BlbihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1
-Y3QgZHJtX2ZpbGUgKmZpbGUpCj4gIHsKPiAtLQo+IDIuMjAuMQo+Cl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0966017410==
+Content-Type: multipart/alternative; boundary="15601757211.E029.20381"
+Content-Transfer-Encoding: 7bit
+
+
+--15601757211.E029.20381
+Date: Mon, 10 Jun 2019 14:08:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
+
+--- Comment #15 from Gobinda Joy <gobinda.joy@gmail.com> ---
+(In reply to b6khqjqov4 from comment #14)
+> (In reply to b6khqjqov4 from comment #13)
+> > Your bug sounds like mine which came after I bought and added a used RX=
+580
+> > to my system. Since then had random full system freezes (I think only w=
+hen I
+> > was using Firefox or the internal Steam Chromium browser) and desktop h=
+angs
+> > where Cinnamon would crash and nothing except the mouse pointer would be
+> > movable. No error in logs at first, but then I found this after the sys=
+tem
+> > hanged instead of a hard freeze:
+> >=20
+> > $ journalctl -p3:
+> >=20
+> > <pre>
+> > ...
+> > Jun 09 06:45:34 test systemd-coredump[1383]: Process 1328 (Web Content)=
+ of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1332:
+> >                                              #0  0x00007f04ecd3ed36 n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> >                                              #1  0x0000000000000000 n/a=
+ (n/a)
+> > Jun 09 06:45:35 test systemd-coredump[1374]: Process 1106 (firefox.real=
+) of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1124:
+> >                                              #0  0x00007fd89155036f rai=
+se
+> > (libpthread.so.0)
+> >                                              #1  0x00007fd88b6b3a5f n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> > Jun 09 06:45:35 test systemd-coredump[1384]: Process 1162 (Web Content)=
+ of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1164:
+> >                                              #0  0x00007ffb32c6ad36 n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> >                                              #1  0x0000000000000000 n/a=
+ (n/a)
+> > Jun 09 06:45:38 test systemd-coredump[1385]: Process 1237 (Web Content)=
+ of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1241:
+> >                                              #0  0x00007f9aa7f3ed36 n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> >                                              #1  0x0000000000000000 n/a=
+ (n/a)
+> > Jun 09 06:47:31 test systemd-coredump[1640]: Process 1536 (Web Content)=
+ of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1536:
+> >                                              #0  0x00007f830d3ee3e7 n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> > Jun 09 06:47:32 test systemd-coredump[1650]: Process 1603 (Web Content)=
+ of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1606:
+> >                                              #0  0x00007f8f129ebd36 n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> >                                              #1  0x0000000000000000 n/a=
+ (n/a)
+> > Jun 09 06:47:32 test systemd-coredump[1639]: Process 1410 (firefox.real=
+) of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1410:
+> >                                              #0  0x00007fe94ed5f36f rai=
+se
+> > (libpthread.so.0)
+> >                                              #1  0x00007fe948ec2a5f n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> > Jun 09 06:47:32 test systemd-coredump[1649]: Process 1467 (Web Content)=
+ of
+> > user 1000 dumped core.
+> >=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> >                                              Stack trace of thread 1469:
+> >                                              #0  0x00007fb2790c2d36 n/a
+> > (/home/test/tor-browser_en-US/Browser/libxul.so)
+> >                                              #1  0x0000000000000000 n/a=
+ (n/a)
+> > ...
+> > </pre>
+> >=20
+> > My system:
+> > - MSI B450 Tomahawk
+> > - Athlon 200GE (yes, this CPU will be upgraded to a Ryzen 3000 one of c=
+ourse
+> > ;))
+> > - RX 580 4G Nitro+
+> > - G.Skill Aegis DIMM Kit 16GB, DDR4-3000, CL16-18-18-38 (F4-3000C16D-16=
+GISB)
+> >=20
+> > My fix: 2 things I can remember I did which are maybe the fix:
+> > 1.) I disabled integrated graphics in the BIOS.
+> > 2.) I installed amd-ucode.
+> >=20
+> > No hangs/freezes or anything since my fix. I'll report back here should=
+ I
+> > encounter a crash/freeze/hang again.
+>=20
+> Addition:
+> Arch (through Antergos) with all latest updates:
+> - $ uname: 5.1.7-arch1-1-ARCH
+> - $ glxinfo | grep version:
+> server glx version string: 1.4
+> client glx version string: 1.4
+> GLX version: 1.4
+>     Max core profile version: 4.5
+>     Max compat profile version: 4.5
+>     Max GLES1 profile version: 1.1
+>     Max GLES[23] profile version: 3.2
+> OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.0.6
+> OpenGL core profile shading language version string: 4.50
+> OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.0.6
+> OpenGL shading language version string: 4.50
+> OpenGL ES profile version string: OpenGL ES 3.2 Mesa 19.0.6
+> OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
+>     GL_EXT_shader_implicit_conversions, GL_EXT_shader_integer_mix,
+
+I have already updated Intel microcode installed from here:
+https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files which is
+the latest I can find.
+
+Also there is no more BIOS updates for my motherboard. You would notice tha=
+t I
+have bisected this bug to a specific commit.=20
+
+That is puzzling to me because The specified commit adds a call to
+pcie_bandwidth_available() which replaces value already obtained by another
+call to pcie_get_width_cap() just before. What's is the point of using 2
+function to get result from same source. Also why is this related to powerp=
+lay
+(DPM).
+
+Also after reverting the commit I have no issue whatsoever with my gpu. No
+hangs or freezes in game or in normal desktop uses.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15601757211.E029.20381
+Date: Mon, 10 Jun 2019 14:08:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED WORKSFORME - [Bisected]Booting with kernel version 5.1=
+.0 or higher on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c15">Comme=
+nt # 15</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_VERIFIED  bz_closed"
+   title=3D"VERIFIED WORKSFORME - [Bisected]Booting with kernel version 5.1=
+.0 or higher on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gobinda.joy&#64;gmail.com" title=3D"Gobinda Joy &lt;gobinda.joy&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Gobinda Joy</span></a>
+</span></b>
+        <pre>(In reply to b6khqjqov4 from <a href=3D"show_bug.cgi?id=3D1108=
+22#c14">comment #14</a>)
+<span class=3D"quote">&gt; (In reply to b6khqjqov4 from <a href=3D"show_bug=
+.cgi?id=3D110822#c13">comment #13</a>)
+&gt; &gt; Your bug sounds like mine which came after I bought and added a u=
+sed RX580
+&gt; &gt; to my system. Since then had random full system freezes (I think =
+only when I
+&gt; &gt; was using Firefox or the internal Steam Chromium browser) and des=
+ktop hangs
+&gt; &gt; where Cinnamon would crash and nothing except the mouse pointer w=
+ould be
+&gt; &gt; movable. No error in logs at first, but then I found this after t=
+he system
+&gt; &gt; hanged instead of a hard freeze:
+&gt; &gt;=20
+&gt; &gt; $ journalctl -p3:
+&gt; &gt;=20
+&gt; &gt; &lt;pre&gt;
+&gt; &gt; ...
+&gt; &gt; Jun 09 06:45:34 test systemd-coredump[1383]: Process 1328 (Web Co=
+ntent) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1332:
+&gt; &gt;                                              #0  0x00007f04ecd3ed=
+36 n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt;                                              #1  0x00000000000000=
+00 n/a (n/a)
+&gt; &gt; Jun 09 06:45:35 test systemd-coredump[1374]: Process 1106 (firefo=
+x.real) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1124:
+&gt; &gt;                                              #0  0x00007fd8915503=
+6f raise
+&gt; &gt; (libpthread.so.0)
+&gt; &gt;                                              #1  0x00007fd88b6b3a=
+5f n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt; Jun 09 06:45:35 test systemd-coredump[1384]: Process 1162 (Web Co=
+ntent) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1164:
+&gt; &gt;                                              #0  0x00007ffb32c6ad=
+36 n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt;                                              #1  0x00000000000000=
+00 n/a (n/a)
+&gt; &gt; Jun 09 06:45:38 test systemd-coredump[1385]: Process 1237 (Web Co=
+ntent) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1241:
+&gt; &gt;                                              #0  0x00007f9aa7f3ed=
+36 n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt;                                              #1  0x00000000000000=
+00 n/a (n/a)
+&gt; &gt; Jun 09 06:47:31 test systemd-coredump[1640]: Process 1536 (Web Co=
+ntent) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1536:
+&gt; &gt;                                              #0  0x00007f830d3ee3=
+e7 n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt; Jun 09 06:47:32 test systemd-coredump[1650]: Process 1603 (Web Co=
+ntent) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1606:
+&gt; &gt;                                              #0  0x00007f8f129ebd=
+36 n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt;                                              #1  0x00000000000000=
+00 n/a (n/a)
+&gt; &gt; Jun 09 06:47:32 test systemd-coredump[1639]: Process 1410 (firefo=
+x.real) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1410:
+&gt; &gt;                                              #0  0x00007fe94ed5f3=
+6f raise
+&gt; &gt; (libpthread.so.0)
+&gt; &gt;                                              #1  0x00007fe948ec2a=
+5f n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt; Jun 09 06:47:32 test systemd-coredump[1649]: Process 1467 (Web Co=
+ntent) of
+&gt; &gt; user 1000 dumped core.
+&gt; &gt;=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+&gt; &gt;                                              Stack trace of threa=
+d 1469:
+&gt; &gt;                                              #0  0x00007fb2790c2d=
+36 n/a
+&gt; &gt; (/home/test/tor-browser_en-US/Browser/libxul.so)
+&gt; &gt;                                              #1  0x00000000000000=
+00 n/a (n/a)
+&gt; &gt; ...
+&gt; &gt; &lt;/pre&gt;
+&gt; &gt;=20
+&gt; &gt; My system:
+&gt; &gt; - MSI B450 Tomahawk
+&gt; &gt; - Athlon 200GE (yes, this CPU will be upgraded to a Ryzen 3000 on=
+e of course
+&gt; &gt; ;))
+&gt; &gt; - RX 580 4G Nitro+
+&gt; &gt; - G.Skill Aegis DIMM Kit 16GB, DDR4-3000, CL16-18-18-38 (F4-3000C=
+16D-16GISB)
+&gt; &gt;=20
+&gt; &gt; My fix: 2 things I can remember I did which are maybe the fix:
+&gt; &gt; 1.) I disabled integrated graphics in the BIOS.
+&gt; &gt; 2.) I installed amd-ucode.
+&gt; &gt;=20
+&gt; &gt; No hangs/freezes or anything since my fix. I'll report back here =
+should I
+&gt; &gt; encounter a crash/freeze/hang again.
+&gt;=20
+&gt; Addition:
+&gt; Arch (through Antergos) with all latest updates:
+&gt; - $ uname: 5.1.7-arch1-1-ARCH
+&gt; - $ glxinfo | grep version:
+&gt; server glx version string: 1.4
+&gt; client glx version string: 1.4
+&gt; GLX version: 1.4
+&gt;     Max core profile version: 4.5
+&gt;     Max compat profile version: 4.5
+&gt;     Max GLES1 profile version: 1.1
+&gt;     Max GLES[23] profile version: 3.2
+&gt; OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.0.6
+&gt; OpenGL core profile shading language version string: 4.50
+&gt; OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.0.6
+&gt; OpenGL shading language version string: 4.50
+&gt; OpenGL ES profile version string: OpenGL ES 3.2 Mesa 19.0.6
+&gt; OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3=
+.20
+&gt;     GL_EXT_shader_implicit_conversions, GL_EXT_shader_integer_mix,</sp=
+an >
+
+I have already updated Intel microcode installed from here:
+<a href=3D"https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Fi=
+les">https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files</a=
+> which is
+the latest I can find.
+
+Also there is no more BIOS updates for my motherboard. You would notice tha=
+t I
+have bisected this bug to a specific commit.=20
+
+That is puzzling to me because The specified commit adds a call to
+pcie_bandwidth_available() which replaces value already obtained by another
+call to pcie_get_width_cap() just before. What's is the point of using 2
+function to get result from same source. Also why is this related to powerp=
+lay
+(DPM).
+
+Also after reverting the commit I have no issue whatsoever with my gpu. No
+hangs or freezes in game or in normal desktop uses.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15601757211.E029.20381--
+
+--===============0966017410==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0966017410==--
