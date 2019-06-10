@@ -1,31 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A799B3AF5D
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 09:15:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 905313B1DD
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Jun 2019 11:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88E8588F06;
-	Mon, 10 Jun 2019 07:15:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2BD2890EA;
+	Mon, 10 Jun 2019 09:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1A95E88F06
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 07:15:34 +0000 (UTC)
-Received: from localhost (p54B33062.dip0.t-ipconnect.de [84.179.48.98])
- by pokefinder.org (Postfix) with ESMTPSA id 0E8762C077A;
- Mon, 10 Jun 2019 09:15:33 +0200 (CEST)
-Date: Mon, 10 Jun 2019 09:15:32 +0200
-From: Wolfram Sang <wsa@the-dreams.de>
-To: Peter Rosin <peda@axentia.se>
-Subject: Re: [PATCH 00/34] treewide: simplify getting the adapter of an I2C
- client
-Message-ID: <20190610071532.GB2673@kunai>
-References: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
- <661f1084-da4e-75f0-e632-335134932801@axentia.se>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 55D57890EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 09:21:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4E91A72167; Mon, 10 Jun 2019 09:21:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110871] hello
+Date: Mon, 10 Jun 2019 09:21:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: juby.juby91@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110871-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <661f1084-da4e-75f0-e632-335134932801@axentia.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,78 +51,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
- "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-leds@vger.kernel.org" <linux-leds@vger.kernel.org>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1758631706=="
+Content-Type: multipart/mixed; boundary="===============1533010515=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1758631706==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5/uDoXvLw7AC5HRs"
-Content-Disposition: inline
+--===============1533010515==
+Content-Type: multipart/alternative; boundary="15601584841.93fc5DA4.13699"
+Content-Transfer-Encoding: 7bit
 
 
---5/uDoXvLw7AC5HRs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15601584841.93fc5DA4.13699
+Date: Mon, 10 Jun 2019 09:21:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi Peter,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110871
 
-> Similar things go on in:
->=20
-> drivers/hwmon/lm90.c
-> drivers/leds/leds-is31fl319x.c
-> drivers/of/unittest.c
+            Bug ID: 110871
+           Summary: hello
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: Windows (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: juby.juby91@gmail.com
 
-Right. I'll fix them, too.
+hello bugzilla
 
-> And drivers/rtc/rtc-fm3130.c has a couple of these:
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-These are fixed in patch 26 of this series.
+--15601584841.93fc5DA4.13699
+Date: Mon, 10 Jun 2019 09:21:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Thanks and happy hacking,
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - hello"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110871">110871</a>
+          </td>
+        </tr>
 
-   Wolfram
+        <tr>
+          <th>Summary</th>
+          <td>hello
+          </td>
+        </tr>
 
---5/uDoXvLw7AC5HRs
-Content-Type: application/pgp-signature; name="signature.asc"
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
 
------BEGIN PGP SIGNATURE-----
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlz+A5QACgkQFA3kzBSg
-KbYJ9A/8DYTbi6b0TbOp28F+nJSr8CHl41QgvGx/BuNEd1CKh7IiZjPg9sa3l14s
-3zzM5PQhqmR0ff/VzdUS7LJpAK6+ZN6NK8PqxZdgo0Zfm1TgJpYnwdlcEhASGDqQ
-5ttT6o7v/At/zuq8Oa1jL4DMyD3oFS2iXzhq3jydOemRGShD0REUpYVhSPdIBunD
-L+pNcqvwzGZmHgbwT50Flj7+tO1UB2Y9a8Q2KNKdbT1OXO+4yBgz5sJNT4nhCPQB
-2NSaYzPRXpVyzceBHQrT2RbYfR/LjaprvcZNg81cK3oa6mpSTbF7XAMOzMqRFmJj
-MMHHDJYejycQ8vBVCS5y2tpsgmZSocn/6oZDHntMJ0+ytyXxaxcibnYERDGc4SZC
-GaLHEF90ULPzLT/Ar0aD3jWM0q6mn3wgj3OZOmtXZnkinENc2zKqlk5a7K8KcJVP
-2hEqnYC3XjMKX3QcgOxMduau0A71LN2w6eUOa4C4InE/flgR9gcVQ14ll6Gmsi29
-OyasroZ/QMwCatiqo8r71RTo/9GVoum+g9myGBPalukTaicXIZIwu6cli7Ne94Cm
-+nKmaL/VtYvEhh0MpjsVM3LYBa0mtlim419eCoys2ZEHrGyJiSypq+jDLxmJbl/0
-Xt5XhDpZiUMxj+7YmzLVJ8LfoVvxJrQlNk7WO8VtlG3BO7s8rOI=
-=VRPd
------END PGP SIGNATURE-----
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
 
---5/uDoXvLw7AC5HRs--
+        <tr>
+          <th>OS</th>
+          <td>Windows (All)
+          </td>
+        </tr>
 
---===============1758631706==
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>juby.juby91&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>hello bugzilla</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15601584841.93fc5DA4.13699--
+
+--===============1533010515==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -119,4 +205,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1758631706==--
+--===============1533010515==--
