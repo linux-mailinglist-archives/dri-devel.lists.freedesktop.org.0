@@ -1,46 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6F43CCC5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 15:15:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B403CCCE
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 15:21:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B22FB891B9;
-	Tue, 11 Jun 2019 13:15:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA6BC890DD;
+	Tue, 11 Jun 2019 13:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 98ABF891B9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 13:15:27 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9582772167; Tue, 11 Jun 2019 13:15:27 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110896] [CI][RESUME] igt@kms_chamelium@hdmi-audio - warn - Home
- directory not accessible: Permission denied
-Date: Tue, 11 Jun 2019 13:15:27 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: martin.peres@free.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: contact@emersion.fr
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: assigned_to status_whiteboard
-Message-ID: <bug-110896-502-fT47axoJzn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110896-502@http.bugs.freedesktop.org/>
-References: <bug-110896-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D90890DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 13:20:58 +0000 (UTC)
+X-Originating-IP: 90.88.159.246
+Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
+ [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 517D7E0003;
+ Tue, 11 Jun 2019 13:20:50 +0000 (UTC)
+Date: Tue, 11 Jun 2019 15:20:49 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 3/6] drm/modes: Allow to specify rotation and
+ reflection on the commandline
+Message-ID: <20190611132049.njlrgbtobzgyzyzh@flea>
+References: <cover.87b91639451f23d4ab68a7c9812f2dd158869025.1555591281.git-series.maxime.ripard@bootlin.com>
+ <ba320b3a13c4444102b77c4d00f7c1dc810adc3c.1555591281.git-series.maxime.ripard@bootlin.com>
+ <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
+ <e2edb1dc-f719-93f0-5205-ecb7b44b057e@tronnes.org>
 MIME-Version: 1.0
+In-Reply-To: <e2edb1dc-f719-93f0-5205-ecb7b44b057e@tronnes.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,126 +43,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0722447825=="
+Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0175479219=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0722447825==
-Content-Type: multipart/alternative; boundary="15602589272.14E7afef.1026"
-Content-Transfer-Encoding: 7bit
+--===============0175479219==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="mdnmry45awvilud2"
+Content-Disposition: inline
 
 
---15602589272.14E7afef.1026
-Date: Tue, 11 Jun 2019 13:15:27 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--mdnmry45awvilud2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110896
+Hi Noralf,
 
-Martin Peres <martin.peres@free.fr> changed:
+On Fri, Apr 19, 2019 at 10:53:28AM +0200, Noralf Tr=F8nnes wrote:
+> Den 18.04.2019 18.40, skrev Noralf Tr=F8nnes:
+> >
+> >
+> > Den 18.04.2019 14.41, skrev Maxime Ripard:
+> >> Rotations and reflections setup are needed in some scenarios to initia=
+lise
+> >> properly the initial framebuffer. Some drivers already had a bunch of
+> >> quirks to deal with this, such as either a private kernel command line
+> >> parameter (omapdss) or on the device tree (various panels).
+> >>
+> >> In order to accomodate this, let's create a video mode parameter to de=
+al
+> >> with the rotation and reflexion.
+> >>
+> >> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_client_modeset.c |  10 +++-
+> >>  drivers/gpu/drm/drm_modes.c          | 110 ++++++++++++++++++++++----=
+--
+> >>  include/drm/drm_connector.h          |   9 ++-
+> >>  3 files changed, 109 insertions(+), 20 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/dr=
+m_client_modeset.c
+> >> index f2869c82510c..15145d2c86d5 100644
+> >> --- a/drivers/gpu/drm/drm_client_modeset.c
+> >> +++ b/drivers/gpu/drm/drm_client_modeset.c
+> >> @@ -823,6 +823,7 @@ EXPORT_SYMBOL(drm_client_modeset_probe);
+> >>  bool drm_client_panel_rotation(struct drm_mode_set *modeset, unsigned=
+ int *rotation)
+> >>  {
+> >>  	struct drm_connector *connector =3D modeset->connectors[0];
+> >> +	struct drm_cmdline_mode *cmdline;
+> >>  	struct drm_plane *plane =3D modeset->crtc->primary;
+> >>  	u64 valid_mask =3D 0;
+> >>  	unsigned int i;
+> >> @@ -844,6 +845,15 @@ bool drm_client_panel_rotation(struct drm_mode_se=
+t *modeset, unsigned int *rotat
+> >>  		*rotation =3D DRM_MODE_ROTATE_0;
+> >>  	}
+> >>
+> >> +	/**
+> >> +	 * We want the rotation on the command line to overwrite
+> >> +	 * whatever comes from the panel.
+> >> +	 */
+> >> +	cmdline =3D &connector->cmdline_mode;
+> >> +	if (cmdline->specified &&
+> >> +	    cmdline->rotation !=3D DRM_MODE_ROTATE_0)
+> >
+> > I believe you need to drop that second check, otherwise rotate=3D0 will
+> > not overwrite panel rotation.
+> >
+> >> +		*rotation =3D cmdline->rotation;
+>
+> I remembered that you wanted this to propagate to DRM userspace. That's
+> not happening here.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Assignee|dri-devel@lists.freedesktop |contact@emersion.fr
-                   |.org                        |
-         Whiteboard|                            |ReadyForDev
+It's propated to the userspace through the plane's rotation property,
+I just checked.
 
---- Comment #1 from Martin Peres <martin.peres@free.fr> ---
-Assigning Simon since he wrote the test, and it should not need to warn abo=
-ut
-permission issues UNLESS it needed to dump results and couldn't.
+> The only way I see for that to happen, is to set
+> ->panel_orientation. And to repeat myself, imo that makes
+> 'orientation' a better name for this video=3D option.
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+orientation and rotation are two different things to me. The
+orientation of a panel for example is absolute, while the rotation is
+a transformation. In this particular case, I think that both the
+orientation and the rotation should be taken into account, with the
+orientation being the default state, and the hardware / panel will
+tell us that, while the rotation would be a transformation from that
+default to whatever the user wants.
 
---15602589272.14E7afef.1026
-Date: Tue, 11 Jun 2019 13:15:27 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+More importantly, the orientation is a property of the hardware (ie,
+how the display has been assembled), while the rotation is a software
+construct.
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:martin.pe=
-res&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.fr&gt;"> <=
-span class=3D"fn">Martin Peres</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-audio - warn =
-- Home directory not accessible: Permission denied"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110896">bug 11089=
-6</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
+And if the property being used to expose that is the rotation, I guess
+it would make sense to just use the same name and remain consistent.
 
-         <tr>
-           <td style=3D"text-align:right;">Assignee</td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-           <td>contact&#64;emersion.fr
-           </td>
-         </tr>
+Maxime
 
-         <tr>
-           <td style=3D"text-align:right;">Whiteboard</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>ReadyForDev
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-audio - warn =
-- Home directory not accessible: Permission denied"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110896#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-audio - warn =
-- Home directory not accessible: Permission denied"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110896">bug 11089=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-martin.peres&#64;free.fr" title=3D"Martin Peres &lt;martin.peres&#64;free.f=
-r&gt;"> <span class=3D"fn">Martin Peres</span></a>
-</span></b>
-        <pre>Assigning Simon since he wrote the test, and it should not nee=
-d to warn about
-permission issues UNLESS it needed to dump results and couldn't.</pre>
-        </div>
-      </p>
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
+--mdnmry45awvilud2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-      <hr>
-      <span>You are receiving this mail because:</span>
+-----BEGIN PGP SIGNATURE-----
 
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXP+qrAAKCRDj7w1vZxhR
+xe5PAQDCQaIDsixvc62mOwJmH8N2VDKLgwxZHb4VAkAg2RCODwD9GaVUIrYgsH4V
+8gU7LihF1xKwFgXm4nWPMTkv3/PVmAE=
+=ch9K
+-----END PGP SIGNATURE-----
 
---15602589272.14E7afef.1026--
+--mdnmry45awvilud2--
 
---===============0722447825==
+--===============0175479219==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -182,4 +177,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0722447825==--
+--===============0175479219==--
