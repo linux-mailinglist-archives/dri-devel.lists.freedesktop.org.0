@@ -2,24 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DCE3C571
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 09:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0016B3C576
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 09:55:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3FF8914F;
-	Tue, 11 Jun 2019 07:53:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFFE989117;
+	Tue, 11 Jun 2019 07:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A03318914F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 07:53:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40B8989117
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 07:55:35 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 2414EACC1;
- Tue, 11 Jun 2019 07:53:56 +0000 (UTC)
-Subject: Re: [PATCH v1 3/4] drm/mga: drop use of drmP.h
+ by mx1.suse.de (Postfix) with ESMTP id CB1ABAEFD;
+ Tue, 11 Jun 2019 07:55:33 +0000 (UTC)
+Subject: Re: [PATCH v1 0/4] drm/{mga,mgag200}: drop use of drmP.h
 To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 References: <20190608081923.6274-1-sam@ravnborg.org>
- <20190608081923.6274-4-sam@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -47,12 +46,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
  VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
  iNx9uqqx
-Message-ID: <9fe19f06-c732-351c-0d41-521ecab4e781@suse.de>
-Date: Tue, 11 Jun 2019 09:53:51 +0200
+Message-ID: <3a36ad4b-7654-aa23-d2e9-71714e14feb5@suse.de>
+Date: Tue, 11 Jun 2019 09:55:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190608081923.6274-4-sam@ravnborg.org>
+In-Reply-To: <20190608081923.6274-1-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,170 +65,77 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>
-Content-Type: multipart/mixed; boundary="===============2079848820=="
+Content-Type: multipart/mixed; boundary="===============1435858322=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2079848820==
+--===============1435858322==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="FFxMMksCco43Y9cOqIFarepjTP3uosMVD"
+ boundary="Ev1GG0igjXSpbyEGklOCFUrB03S7PB1v7"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---FFxMMksCco43Y9cOqIFarepjTP3uosMVD
-Content-Type: multipart/mixed; boundary="GXj505p25BDar6K39WLqud7NPWeS7cPVo";
+--Ev1GG0igjXSpbyEGklOCFUrB03S7PB1v7
+Content-Type: multipart/mixed; boundary="xyhcs00Y6RDXzKT4yttJGxp3VVW9M9ZNr";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <9fe19f06-c732-351c-0d41-521ecab4e781@suse.de>
-Subject: Re: [PATCH v1 3/4] drm/mga: drop use of drmP.h
+Message-ID: <3a36ad4b-7654-aa23-d2e9-71714e14feb5@suse.de>
+Subject: Re: [PATCH v1 0/4] drm/{mga,mgag200}: drop use of drmP.h
 References: <20190608081923.6274-1-sam@ravnborg.org>
- <20190608081923.6274-4-sam@ravnborg.org>
-In-Reply-To: <20190608081923.6274-4-sam@ravnborg.org>
+In-Reply-To: <20190608081923.6274-1-sam@ravnborg.org>
 
---GXj505p25BDar6K39WLqud7NPWeS7cPVo
+--xyhcs00Y6RDXzKT4yttJGxp3VVW9M9ZNr
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 08.06.19 um 10:19 schrieb Sam Ravnborg:
-> Drop the use of the deprecated drmP.h header file.
-> Clean up list of include files and sort them.
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: David Airlie <airlied@linux.ie>
-> ---
->  drivers/gpu/drm/mga/mga_dma.c   | 2 --
->  drivers/gpu/drm/mga/mga_drv.c   | 7 +++----
->  drivers/gpu/drm/mga/mga_ioc32.c | 3 +--
->  drivers/gpu/drm/mga/mga_irq.c   | 2 --
->  drivers/gpu/drm/mga/mga_state.c | 2 --
->  drivers/gpu/drm/mga/mga_warp.c  | 4 +---
->  6 files changed, 5 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dm=
-a.c
-> index 123be2f3a151..139554a3733d 100644
-> --- a/drivers/gpu/drm/mga/mga_dma.c
-> +++ b/drivers/gpu/drm/mga/mga_dma.c
-> @@ -37,8 +37,6 @@
-> =20
->  #include <linux/delay.h>
-> =20
-> -#include <drm/drmP.h>
-> -#include <drm/mga_drm.h>
->  #include "mga_drv.h"
-> =20
->  #define MGA_DEFAULT_USEC_TIMEOUT	10000
-> diff --git a/drivers/gpu/drm/mga/mga_drv.c b/drivers/gpu/drm/mga/mga_dr=
-v.c
-> index 6e1d1054ad06..71128e6f6ae9 100644
-> --- a/drivers/gpu/drm/mga/mga_drv.c
-> +++ b/drivers/gpu/drm/mga/mga_drv.c
-> @@ -31,12 +31,11 @@
-> =20
->  #include <linux/module.h>
-> =20
-> -#include <drm/drmP.h>
-> -#include <drm/mga_drm.h>
-> -#include "mga_drv.h"
-> -
-> +#include <drm/drm_drv.h>
->  #include <drm/drm_pciids.h>
-> =20
-> +#include "mga_drv.h"
-> +
+Thanks a lot. There's some bike shedding in my other replies, but general=
+ly
 
-Unless it violates an existing convention, I'd suggest the following
-order for headers (here and in the other patches):
+  Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
- c file header ("mga_foo.h" for mga_foo.c)
- driver header ("mga_drv.h")
- public linux/drm headers
- other driver headers ("mga_nonfoo.h", etc)
-
-I know that it's nitpicking, but this maximizes the chance that the
-driver's header files include all dependencies they need.
-
-Best regards
+Best regard
 Thomas
 
-
->  static struct pci_device_id pciidlist[] =3D {
->  	mga_PCI_IDS
->  };
-> diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_=
-ioc32.c
-> index 245fb2e359cf..6ccd270789c6 100644
-> --- a/drivers/gpu/drm/mga/mga_ioc32.c
-> +++ b/drivers/gpu/drm/mga/mga_ioc32.c
-> @@ -30,10 +30,9 @@
->   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
-NGS
->   * IN THE SOFTWARE.
->   */
-> +
->  #include <linux/compat.h>
-> =20
-> -#include <drm/drmP.h>
-> -#include <drm/mga_drm.h>
->  #include "mga_drv.h"
-> =20
->  typedef struct drm32_mga_init {
-> diff --git a/drivers/gpu/drm/mga/mga_irq.c b/drivers/gpu/drm/mga/mga_ir=
-q.c
-> index c6a3fab5b0c4..7c48f4d090ac 100644
-> --- a/drivers/gpu/drm/mga/mga_irq.c
-> +++ b/drivers/gpu/drm/mga/mga_irq.c
-> @@ -31,8 +31,6 @@
->   *    Eric Anholt <anholt@FreeBSD.org>
->   */
-> =20
-> -#include <drm/drmP.h>
-> -#include <drm/mga_drm.h>
->  #include "mga_drv.h"
-> =20
->  u32 mga_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
-> diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga_=
-state.c
-> index 296a1db7e5ee..77a0b006f066 100644
-> --- a/drivers/gpu/drm/mga/mga_state.c
-> +++ b/drivers/gpu/drm/mga/mga_state.c
-> @@ -32,8 +32,6 @@
->   *    Gareth Hughes <gareth@valinux.com>
->   */
-> =20
-> -#include <drm/drmP.h>
-> -#include <drm/mga_drm.h>
->  #include "mga_drv.h"
-> =20
->  /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/drivers/gpu/drm/mga/mga_warp.c b/drivers/gpu/drm/mga/mga_w=
-arp.c
-> index 0b76352260a9..b5ef1d2c8b1c 100644
-> --- a/drivers/gpu/drm/mga/mga_warp.c
-> +++ b/drivers/gpu/drm/mga/mga_warp.c
-> @@ -29,11 +29,9 @@
-> =20
->  #include <linux/firmware.h>
->  #include <linux/ihex.h>
-> -#include <linux/platform_device.h>
->  #include <linux/module.h>
-> +#include <linux/platform_device.h>
-> =20
-> -#include <drm/drmP.h>
-> -#include <drm/mga_drm.h>
->  #include "mga_drv.h"
-> =20
->  #define FIRMWARE_G200 "matrox/g200_warp.fw"
+Am 08.06.19 um 10:19 schrieb Sam Ravnborg:
+> Drop use of the deprecated drmP.h header file.
+> Also drop use of drm_os_linux.h as it is deprecated too,
+> and was pulled in via drmP.h
+>=20
+> Build tested with allmodconfig, allyesconfig on
+> various architectures.
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>=20
+> Sam Ravnborg (4):
+>       drm/mga: drop dependency on drm_os_linux.h
+>       drm/mga: make header file self contained
+>       drm/mga: drop use of drmP.h
+>       drm/mgag200: drop use of drmP.h
+>=20
+>  drivers/gpu/drm/mga/mga_dma.c            | 14 ++++++++------
+>  drivers/gpu/drm/mga/mga_drv.c            |  7 +++----
+>  drivers/gpu/drm/mga/mga_drv.h            | 25 +++++++++++++++++++++---=
+-
+>  drivers/gpu/drm/mga/mga_ioc32.c          |  3 +--
+>  drivers/gpu/drm/mga/mga_irq.c            | 10 ++++------
+>  drivers/gpu/drm/mga/mga_state.c          |  8 +++-----
+>  drivers/gpu/drm/mga/mga_warp.c           |  4 +---
+>  drivers/gpu/drm/mgag200/mgag200_cursor.c |  3 ++-
+>  drivers/gpu/drm/mgag200/mgag200_drv.c    | 10 +++++++---
+>  drivers/gpu/drm/mgag200/mgag200_drv.h    |  8 +++-----
+>  drivers/gpu/drm/mgag200/mgag200_fb.c     |  8 +++++---
+>  drivers/gpu/drm/mgag200/mgag200_i2c.c    |  6 ++++--
+>  drivers/gpu/drm/mgag200/mgag200_main.c   |  4 +++-
+>  drivers/gpu/drm/mgag200/mgag200_mode.c   |  3 ++-
+>  drivers/gpu/drm/mgag200/mgag200_ttm.c    |  3 ++-
+>  15 files changed, 69 insertions(+), 47 deletions(-)
+>=20
 >=20
 
 --=20
@@ -240,28 +146,28 @@ GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
 HRB 21284 (AG N=C3=BCrnberg)
 
 
---GXj505p25BDar6K39WLqud7NPWeS7cPVo--
+--xyhcs00Y6RDXzKT4yttJGxp3VVW9M9ZNr--
 
---FFxMMksCco43Y9cOqIFarepjTP3uosMVD
+--Ev1GG0igjXSpbyEGklOCFUrB03S7PB1v7
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz/XhAACgkQaA3BHVML
-eiMNiwf/ZsuM//NLg6DK+YhtS3ho8o8t/kDtkh1IhAgyJFkQj9bTj8IBMAxUTurJ
-8NRCcRWtzJy7D3u7Ouq29AO36OkpFtLdqIp4W8vPZkH6U3IW8I2+oPguoJzjfFyY
-RjOrhsarmsRMhkHlD/9HTwAKpcYVPCjwWTD+WKm37mBiALMNcXQ1WhfJpNVnPQ4g
-LYcFWKfeGvKFnFTW87juvn7MbBrWiMqoV3usHDNQjithH4u41WxAWWA308fkGY2X
-1KCzyQW2+hIWL0XCv+vf4XPzDeIzqCpp0OA1vjkZ+xhz2jqgG+Q/e7o+hc8FQjnJ
-1/Y99mKExGufX2ZMda7DPafJJSjBJw==
-=0VTL
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz/XnQACgkQaA3BHVML
+eiMfDwf+KBqwIPHTB+PlZxjVeQaDpVJcwIqsle++3c8CF0sE3N0ZyPaLtwzlz9lc
+/Ysk0simc5NZhelILM2pkW2UE6fw6/IiR5tZf+6GF5wfJWpWsRqkIsfTsCcejBZL
+txKnNIABo2gRGVVR3PzGDZY0BPw5aoxxn1iAYTXobUskLPkptckvsgYG7u8Aislh
+03s1V2p78VAT7M13vSN7L+6pcaWswbqH57BTjxlmP/w6qX3ogDfbiuzbLhyKkdCx
+qWvvp4euJ0w0RPusrOCIeX3ey0SPiYyL4zSXHt8tqnloF+Qiuz/Zg5Um+eQff1//
+LJrfn8RI/48cC11jd1RTfijfOI2LkA==
+=1x1n
 -----END PGP SIGNATURE-----
 
---FFxMMksCco43Y9cOqIFarepjTP3uosMVD--
+--Ev1GG0igjXSpbyEGklOCFUrB03S7PB1v7--
 
---===============2079848820==
+--===============1435858322==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -271,4 +177,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2079848820==--
+--===============1435858322==--
