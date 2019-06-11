@@ -1,40 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C25041678
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 22:56:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 425F541CC7
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55821891FA;
-	Tue, 11 Jun 2019 20:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BC75892A8;
+	Wed, 12 Jun 2019 06:53:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 506CD891FA
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 20:56:49 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 9DCDE2003C;
- Tue, 11 Jun 2019 22:56:46 +0200 (CEST)
-Date: Tue, 11 Jun 2019 22:56:45 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v5 05/11] drm: Add helpers to kick off self refresh mode
- in drivers
-Message-ID: <20190611205645.GB18315@ravnborg.org>
-References: <20190611160844.257498-1-sean@poorly.run>
- <20190611160844.257498-6-sean@poorly.run>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190611160844.257498-6-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8
- a=e5mUnYsNAAAA:8 a=XvEOI8gEYBJ6QEm4CnUA:9 a=CjuIK1q_8ugA:10
- a=xmb-EsYY8bH0VWELuYED:22 a=Vxmtnl_E_bksehYqCbjh:22
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 575448921B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 21:00:16 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id w34so7614092pga.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 14:00:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:message-id:mime-version:subject:date
+ :in-reply-to:cc:to:references;
+ bh=nUPaXZb2EyHCiKOm64w17o/WMgOXwq3cvo71tUNaOwE=;
+ b=gJ6f995ZHJ4IPn4J3TmjPmNjbinpxnvfTRCRvb71XufDNtcbMRsOH1S4fOZV8fx987
+ 4xnyQNE3YH5w1L2t0+nvVckHPiJ9Ppb6QI00BGoxk0FDsh526MgdQpPNAqwzOCFgMDh4
+ k0sCuRNX+Fg3CJboIZFpynR0yLM9jpCtQTxEIzeQZuEg8W5DAIqZbdsx825XM0c1L7+t
+ qP7pP8AC900Aj61uM5HMUDHrED9KnYF3NFO0epCof3JJTZtAfzkeM+WgBJhLK+LkSwcy
+ gVfWa/a4YPg808RyZ5D9EO0l1jcLo9mWGGePIBdC6Q3Kn0sewptowqahG2mhqDOqfPaK
+ hOug==
+X-Gm-Message-State: APjAAAUQhSJYFIwGrCk5kQGdt3Vwm+bt8MNiL9imx9qWNp5aluE89XKG
+ 4f8dJJ0SA7XYUkspd24jJ/5yjA==
+X-Google-Smtp-Source: APXvYqw4YBmB5zv3pmuSF2o1Ro24lhPZ3aL8+7Yz5YYkMM5A75U9mLeByV4nZS/X2MAaqVMFGY5qAQ==
+X-Received: by 2002:a63:4419:: with SMTP id r25mr22692286pga.247.1560286815720; 
+ Tue, 11 Jun 2019 14:00:15 -0700 (PDT)
+Received: from cabot.adilger.ext (S0106a84e3fe4b223.cg.shawcable.net.
+ [70.77.216.213])
+ by smtp.gmail.com with ESMTPSA id l1sm14357897pgj.67.2019.06.11.14.00.13
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 14:00:14 -0700 (PDT)
+From: Andreas Dilger <adilger@dilger.ca>
+Message-Id: <6DCAE4F8-3BEC-45F2-A733-F4D15850B7F3@dilger.ca>
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [PATCH V2] include: linux: Regularise the use of FIELD_SIZEOF
+ macro
+Date: Tue, 11 Jun 2019 15:00:10 -0600
+In-Reply-To: <20190611134831.a60c11f4b691d14d04a87e29@linux-foundation.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20190611193836.2772-1-shyam.saini@amarulasolutions.com>
+ <20190611134831.a60c11f4b691d14d04a87e29@linux-foundation.org>
+X-Mailer: Apple Mail (2.3273)
+X-Mailman-Approved-At: Wed, 12 Jun 2019 06:53:42 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dilger-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+ :references;
+ bh=nUPaXZb2EyHCiKOm64w17o/WMgOXwq3cvo71tUNaOwE=;
+ b=1PkfIHxoAL100GHTIJPtUgnC6vtovLyncp9xFBxlnggPu12+zsDGgnLaBjug3WcCRF
+ ADQVr3JetSynDAQbtUt6ErvLUOeaCpig1636+Ma6Jq/Pzq9Wm8vruTUnsCFntkIJGXPX
+ wWnf8ZOx9s4y5y8Qm3ZvQvL2os1TOwaLQLvbm9ZJou9U0nJzedf/8LPDMnNkHoMmIRvm
+ 0JVJjUBp99ct05cqa2egnpZd13j2INZwnsHocqWKQQe5RqyURZIMrPteLnuZG4T+3ubQ
+ FsvDJpuZH3QIeO3XlnkM7vdfDShdyMdLnG6hcUpiZJVNutSS2SeLa5Fxo2XceNqs4ysr
+ 0rpg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,154 +71,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zain Wang <wzz@rock-chips.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
- Jose Souza <jose.souza@intel.com>, Tomasz Figa <tfiga@chromium.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <seanpaul@chromium.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: keescook@chromium.org, kvm@vger.kernel.org,
+ kernel-hardening@lists.openwall.com, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, devel@lists.orangefs.org,
+ linux-mips@vger.kernel.org, Shyam Saini <shyam.saini@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-sctp@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bpf@vger.kernel.org,
+ linux-ext4 <linux-ext4@vger.kernel.org>, intel-gvt-dev@lists.freedesktop.org,
+ Alexey Dobriyan <adobriyan@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ mayhs11saini@gmail.com
+Content-Type: multipart/mixed; boundary="===============1808244748=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2Vhbi4KClNtYWxsIHRoaW5ncyBoZXJlIGFuZCB0aGVyZS4gRGlkIG5vdCBzdGFyZSBhdCB0
-aGlzIGxvbmcgZW5vdWdoIHRvCnVuZGVyc3RhbmQgdGhlIGNvZGUsIGJ1dCBhZGRlZCBzb21lIGZl
-ZWRiYWNrIGFueXdheS4KCglTYW0KPiAgCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9N
-YWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQo+IGluZGV4IGQzNmZlYjRhNjIzMzAu
-LjlkNjMwYTI4YTc4ODAgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL01ha2VmaWxlCj4gQEAgLTQzLDcgKzQzLDcgQEAgZHJtX2tt
-c19oZWxwZXIteSA6PSBkcm1fY3J0Y19oZWxwZXIubyBkcm1fZHBfaGVscGVyLm8gZHJtX2RzYy5v
-IGRybV9wcm9iZV9oZWxwZXIKPiAgCQlkcm1fc2ltcGxlX2ttc19oZWxwZXIubyBkcm1fbW9kZXNl
-dF9oZWxwZXIubyBcCj4gIAkJZHJtX3NjZGNfaGVscGVyLm8gZHJtX2dlbV9mcmFtZWJ1ZmZlcl9o
-ZWxwZXIubyBcCj4gIAkJZHJtX2F0b21pY19zdGF0ZV9oZWxwZXIubyBkcm1fZGFtYWdlX2hlbHBl
-ci5vIFwKPiAtCQlkcm1fZm9ybWF0X2hlbHBlci5vCj4gKwkJZHJtX2Zvcm1hdF9oZWxwZXIubyBk
-cm1fc2VsZl9yZWZyZXNoX2hlbHBlci5vCgpXZSByZWFsbHkgc2hvdWxkIGhhdmUgb25seSBvbmUg
-Lm8gZmlsZSBwZXIgbGluZSBhbmQgc29ydCB0aGVtLgpUaGUgY3VycmVudCB3YXkgdG8gZG8gdGhp
-bmdzIGlzIGFza2luZyBmb3IgY29uZmxpY3RzLgpBbnl3YXksIHRoYXQgYmF0dGxlIGlzIGZvciBh
-bm90aGVyIGRheS4KCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hl
-bHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPiBpbmRleCBlNThi
-ZTY5OTYwNjkyLi5iYzQzY2MwOGNkYzExIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fYXRvbWljX2hlbHBlci5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVs
-cGVyLmMKPiBAQCAtMzMsNiArMzMsNyBAQAo+ICAjaW5jbHVkZSA8ZHJtL2RybV9kYW1hZ2VfaGVs
-cGVyLmg+Cj4gICNpbmNsdWRlIDxkcm0vZHJtX2RldmljZS5oPgo+ICAjaW5jbHVkZSA8ZHJtL2Ry
-bV9wbGFuZV9oZWxwZXIuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1fc2VsZl9yZWZyZXNoX2hlbHBl
-ci5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV92
-YmxhbmsuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fd3JpdGViYWNrLmg+ClBsZWFzZSBhZGQgaGVh
-ZGVyIGZpbGUgaW4gYWxwaGFiZXRpYyBvcmRlci4KSXQgZ29lcyBiZWxvdyBkcm1fcHJpbnQuaAoK
-PiAtLS0gL2Rldi9udWxsCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zZWxmX3JlZnJlc2hf
-aGVscGVyLmMKPiBAQCAtMCwwICsxLDIxMyBAQAo+ICsvKiBTUERYLUxpY2Vuc2UtSWRlbnRpZmll
-cjogTUlUICovCj4gKy8qCj4gKyAqIENvcHlyaWdodCAoQykgMjAxOSBHb29nbGUsIEluYy4KPiAr
-ICoKPiArICogQXV0aG9yczoKPiArICogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+
-Cj4gKyAqLwo+ICsjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWMuaD4KPiArI2luY2x1ZGUgPGRybS9k
-cm1fYXRvbWljX2hlbHBlci5oPgo+ICsjaW5jbHVkZSA8ZHJtL2RybV9jb25uZWN0b3IuaD4KPiAr
-I2luY2x1ZGUgPGRybS9kcm1fY3J0Yy5oPgo+ICsjaW5jbHVkZSA8ZHJtL2RybV9kZXZpY2UuaD4K
-PiArI2luY2x1ZGUgPGRybS9kcm1fbW9kZV9jb25maWcuaD4KPiArI2luY2x1ZGUgPGRybS9kcm1f
-bW9kZXNldF9sb2NrLmg+Cj4gKyNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+Cj4gKyNpbmNsdWRl
-IDxkcm0vZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2JpdG9w
-cy5oPgo+ICsjaW5jbHVkZSA8bGludXgvc2xhYi5oPgo+ICsjaW5jbHVkZSA8bGludXgvd29ya3F1
-ZXVlLmg+CgpOaXQ6ClR5cGljYWwgaW5jbHVkZSBvcmRlciBpczoKCiNpbmNsdWRlIDxsaW51eC8q
-PgoKI2luY2x1ZGUgPGRybS8qPgoKI2luY2x1ZGUgIioiCgpXaXRoIGFuIGVtcHR5IGxpbmVzIGJl
-dHdlZW4gdGhlIGJsb2Nrcy4KQW5kIHNvcnRlZCB3aXRoaW4gdGhlIGJsb2NrLgoKPiArCj4gKy8q
-Kgo+ICsgKiBET0M6IG92ZXJ2aWV3Cj4gKyAqCj4gKyAqIFRoaXMgaGVscGVyIGxpYnJhcnkgcHJv
-dmlkZXMgYW4gZWFzeSB3YXkgZm9yIGRyaXZlcnMgdG8gbGV2ZXJhZ2UgdGhlIGF0b21pYwo+ICsg
-KiBmcmFtZXdvcmsgdG8gaW1wbGVtZW50IHBhbmVsIHNlbGYgcmVmcmVzaCAoU1IpIHN1cHBvcnQu
-IERyaXZlcnMgYXJlCj4gKyAqIHJlc3BvbnNpYmxlIGZvciBpbml0aWFsaXppbmcgYW5kIGNsZWFu
-aW5nIHVwIHRoZSBTUiBoZWxwZXJzIG9uIGxvYWQvdW5sb2FkCj4gKyAqIChzZWUgJmRybV9zZWxm
-X3JlZnJlc2hfaGVscGVyX2luaXQvJmRybV9zZWxmX3JlZnJlc2hfaGVscGVyX2NsZWFudXApLgo+
-ICsgKiBUaGUgY29ubmVjdG9yIGlzIHJlc3BvbnNpYmxlIGZvciBzZXR0aW5nCj4gKyAqICZkcm1f
-Y29ubmVjdG9yX3N0YXRlLnNlbGZfcmVmcmVzaF9hd2FyZSB0byB0cnVlIGF0IHJ1bnRpbWUgaWYg
-aXQgaXMgU1ItYXdhcmUKPiArICogKG1lYW5pbmcgaXQga25vd3MgaG93IHRvIGluaXRpYXRlIHNl
-bGYgcmVmcmVzaCBvbiB0aGUgcGFuZWwpLgo+ICsgKgo+ICsgKiBPbmNlIGEgY3J0YyBoYXMgZW5h
-YmxlZCBTUiB1c2luZyAmZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXJfaW5pdCwgdGhlCj4gKyAqIGhl
-bHBlcnMgd2lsbCBtb25pdG9yIGFjdGl2aXR5IGFuZCBjYWxsIGJhY2sgaW50byB0aGUgZHJpdmVy
-IHRvIGVuYWJsZS9kaXNhYmxlCj4gKyAqIFNSIGFzIGFwcHJvcHJpYXRlLiBUaGUgYmVzdCB3YXkg
-dG8gdGhpbmsgYWJvdXQgdGhpcyBpcyB0aGF0IGl0J3MgYSBEUE1TCj4gKyAqIG9uL29mZiByZXF1
-ZXN0IHdpdGggJmRybV9jcnRjX3N0YXRlLnNlbGZfcmVmcmVzaF9hY3RpdmUgc2V0IGluIGNydGMg
-c3RhdGUKPiArICogdGhhdCB0ZWxscyB5b3UgdG8gZGlzYWJsZS9lbmFibGUgU1Igb24gdGhlIHBh
-bmVsIGluc3RlYWQgb2YgcG93ZXItY3ljbGluZyBpdC4KPiArICoKPiArICogRHVyaW5nIFNSLCBk
-cml2ZXJzIG1heSBjaG9vc2UgdG8gZnVsbHkgZGlzYWJsZSB0aGVpciBjcnRjL2VuY29kZXIvYnJp
-ZGdlCj4gKyAqIGhhcmR3YXJlIChpbiB3aGljaCBjYXNlIG5vIGRyaXZlciBjaGFuZ2VzIGFyZSBu
-ZWNlc3NhcnkpLCBvciB0aGV5IGNhbiBpbnNwZWN0Cj4gKyAqICZkcm1fY3J0Y19zdGF0ZS5zZWxm
-X3JlZnJlc2hfYWN0aXZlIGlmIHRoZXkgd2FudCB0byBlbnRlciBsb3cgcG93ZXIgbW9kZQo+ICsg
-KiB3aXRob3V0IGZ1bGwgZGlzYWJsZSAoaW4gY2FzZSBmdWxsIGRpc2FibGUvZW5hYmxlIGlzIHRv
-byBzbG93KS4KPiArICoKPiArICogU1Igd2lsbCBiZSBkZWFjdGl2YXRlZCBpZiB0aGVyZSBhcmUg
-YW55IGF0b21pYyB1cGRhdGVzIGFmZmVjdGluZyB0aGUKPiArICogcGlwZSB0aGF0IGlzIGluIFNS
-IG1vZGUuIElmIGEgY3J0YyBpcyBkcml2aW5nIG11bHRpcGxlIGNvbm5lY3RvcnMsIGFsbAo+ICsg
-KiBjb25uZWN0b3JzIG11c3QgYmUgU1IgYXdhcmUgYW5kIGFsbCB3aWxsIGVudGVyL2V4aXQgU1Ig
-bW9kZSBhdCB0aGUgc2FtZSB0aW1lLgo+ICsgKgo+ICsgKiBJZiB0aGUgY3J0YyBhbmQgY29ubmVj
-dG9yIGFyZSBTUiBhd2FyZSwgYnV0IHRoZSBwYW5lbCBjb25uZWN0ZWQgZG9lcyBub3QKPiArICog
-c3VwcG9ydCBpdCAob3IgaXMgb3RoZXJ3aXNlIHVuYWJsZSB0byBlbnRlciBTUiksIHRoZSBkcml2
-ZXIgc2hvdWxkIGZhaWwKPiArICogYXRvbWljX2NoZWNrIHdoZW4gJmRybV9jcnRjX3N0YXRlLnNl
-bGZfcmVmcmVzaF9hY3RpdmUgaXMgdHJ1ZS4KPiArICovCj4gKwo+ICtzdHJ1Y3QgZHJtX3NlbGZf
-cmVmcmVzaF9kYXRhIHsKPiArCXN0cnVjdCBkcm1fY3J0YyAqY3J0YzsKPiArCXN0cnVjdCBkZWxh
-eWVkX3dvcmsgZW50cnlfd29yazsKPiArCXN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzYXZlX3N0
-YXRlOwo+ICsJdW5zaWduZWQgaW50IGVudHJ5X2RlbGF5X21zOwo+ICt9Owo+ICsKPiArc3RhdGlj
-IHZvaWQgZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXJfZW50cnlfd29yayhzdHJ1Y3Qgd29ya19zdHJ1
-Y3QgKndvcmspCj4gK3sKPiArCXN0cnVjdCBkcm1fc2VsZl9yZWZyZXNoX2RhdGEgKnNyX2RhdGEg
-PSBjb250YWluZXJfb2YoCj4gKwkJCQl0b19kZWxheWVkX3dvcmsod29yayksCj4gKwkJCQlzdHJ1
-Y3QgZHJtX3NlbGZfcmVmcmVzaF9kYXRhLCBlbnRyeV93b3JrKTsKPiArCXN0cnVjdCBkcm1fY3J0
-YyAqY3J0YyA9IHNyX2RhdGEtPmNydGM7Cj4gKwlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0gY3J0
-Yy0+ZGV2Owo+ICsJc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4IGN0eDsKPiArCXN0cnVj
-dCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZTsKPiArCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
-Owo+ICsJc3RydWN0IGRybV9jb25uZWN0b3Jfc3RhdGUgKmNvbm5fc3RhdGU7Cj4gKwlzdHJ1Y3Qg
-ZHJtX2NydGNfc3RhdGUgKmNydGNfc3RhdGU7Cj4gKwlpbnQgaSwgcmV0OwpUaGlzIGZ1bmN0aW9u
-IGlzIGNhbGxlZCBmcm9tIGEgd29ya3F1ZXVlLgpKdXN0IHdvbmRlcmluZyBpZiB0aGlzIHJlcXVp
-cmUgYW55IGxvY2tpbmc/CihNYXliZSBJIG1pc3NlZCBpdCwgYnJvd3NlZCB0aGUgY29kZSB3aXRo
-b3V0IGEgZGV0YWlsZWQgcmV2aWV3KQoKPiArCj4gKwlkcm1fbW9kZXNldF9hY3F1aXJlX2luaXQo
-JmN0eCwgMCk7Cj4gKwo+ICsJc3RhdGUgPSBkcm1fYXRvbWljX3N0YXRlX2FsbG9jKGRldik7Cj4g
-KwlpZiAoIXN0YXRlKSB7Cj4gKwkJcmV0ID0gLUVOT01FTTsKPiArCQlnb3RvIG91dDsKPiArCX0K
-PiArCj4gK3JldHJ5Ogo+ICsJc3RhdGUtPmFjcXVpcmVfY3R4ID0gJmN0eDsKPiArCj4gKwljcnRj
-X3N0YXRlID0gZHJtX2F0b21pY19nZXRfY3J0Y19zdGF0ZShzdGF0ZSwgY3J0Yyk7Cj4gKwlpZiAo
-SVNfRVJSKGNydGNfc3RhdGUpKSB7Cj4gKwkJcmV0ID0gUFRSX0VSUihjcnRjX3N0YXRlKTsKPiAr
-CQlnb3RvIG91dDsKPiArCX0KPiArCj4gKwlpZiAoIWNydGNfc3RhdGUtPmVuYWJsZSkKPiArCQln
-b3RvIG91dDsKPiArCj4gKwlyZXQgPSBkcm1fYXRvbWljX2FkZF9hZmZlY3RlZF9jb25uZWN0b3Jz
-KHN0YXRlLCBjcnRjKTsKPiArCWlmIChyZXQpCj4gKwkJZ290byBvdXQ7Cj4gKwo+ICsJZm9yX2Vh
-Y2hfbmV3X2Nvbm5lY3Rvcl9pbl9zdGF0ZShzdGF0ZSwgY29ubiwgY29ubl9zdGF0ZSwgaSkgewo+
-ICsJCWlmICghY29ubl9zdGF0ZS0+c2VsZl9yZWZyZXNoX2F3YXJlKQo+ICsJCQlnb3RvIG91dDsK
-PiArCX0KPiArCj4gKwljcnRjX3N0YXRlLT5hY3RpdmUgPSBmYWxzZTsKPiArCWNydGNfc3RhdGUt
-PnNlbGZfcmVmcmVzaF9hY3RpdmUgPSB0cnVlOwo+ICsKPiArCXJldCA9IGRybV9hdG9taWNfY29t
-bWl0KHN0YXRlKTsKPiArCWlmIChyZXQpCj4gKwkJZ290byBvdXQ7Cj4gKwo+ICtvdXQ6Cj4gKwlp
-ZiAocmV0ID09IC1FREVBRExLKSB7Cj4gKwkJZHJtX2F0b21pY19zdGF0ZV9jbGVhcihzdGF0ZSk7
-Cj4gKwkJcmV0ID0gZHJtX21vZGVzZXRfYmFja29mZigmY3R4KTsKPiArCQlpZiAoIXJldCkKPiAr
-CQkJZ290byByZXRyeTsKPiArCX0KPiArCj4gKwlkcm1fYXRvbWljX3N0YXRlX3B1dChzdGF0ZSk7
-Cj4gKwlkcm1fbW9kZXNldF9kcm9wX2xvY2tzKCZjdHgpOwo+ICsJZHJtX21vZGVzZXRfYWNxdWly
-ZV9maW5pKCZjdHgpOwo+ICt9Cj4gKwoKPiArCj4gKy8qKgo+ICsgKiBkcm1fc2VsZl9yZWZyZXNo
-X2hlbHBlcl9pbml0IC0gSW5pdGlhbGl6ZXMgc2VsZiByZWZyZXNoIGhlbHBlcnMgZm9yIGEgY3J0
-Ywo+ICsgKiBAY3J0YzogdGhlIGNydGMgd2hpY2ggc3VwcG9ydHMgc2VsZiByZWZyZXNoIHN1cHBv
-cnRlZCBkaXNwbGF5cwo+ICsgKiBAZW50cnlfZGVsYXlfbXM6IGFtb3VudCBvZiBpbmFjdGl2aXR5
-IHRvIHdhaXQgYmVmb3JlIGVudGVyaW5nIHNlbGYgcmVmcmVzaAo+ICsgKi8KPiAraW50IGRybV9z
-ZWxmX3JlZnJlc2hfaGVscGVyX2luaXQoc3RydWN0IGRybV9jcnRjICpjcnRjLAo+ICsJCQkJIHVu
-c2lnbmVkIGludCBlbnRyeV9kZWxheV9tcykKCk1pc3NpbmcgZG9jdW1lbnRhdGlvbiBvZiByZXR1
-cm4gY29kZS4KCj4gK3sKPiArCXN0cnVjdCBkcm1fc2VsZl9yZWZyZXNoX2RhdGEgKnNyX2RhdGEg
-PSBjcnRjLT5zZWxmX3JlZnJlc2hfZGF0YTsKPiArCj4gKwkvKiBIZWxwZXIgaXMgYWxyZWFkeSBp
-bml0aWFsaXplZCAqLwo+ICsJaWYgKFdBUk5fT04oc3JfZGF0YSkpCj4gKwkJcmV0dXJuIC1FSU5W
-QUw7Cj4gKwo+ICsJc3JfZGF0YSA9IGt6YWxsb2Moc2l6ZW9mKCpzcl9kYXRhKSwgR0ZQX0tFUk5F
-TCk7Cj4gKwlpZiAoIXNyX2RhdGEpCj4gKwkJcmV0dXJuIC1FTk9NRU07Cj4gKwo+ICsJSU5JVF9E
-RUxBWUVEX1dPUksoJnNyX2RhdGEtPmVudHJ5X3dvcmssCj4gKwkJCSAgZHJtX3NlbGZfcmVmcmVz
-aF9oZWxwZXJfZW50cnlfd29yayk7Cj4gKwlzcl9kYXRhLT5lbnRyeV9kZWxheV9tcyA9IGVudHJ5
-X2RlbGF5X21zOwo+ICsJc3JfZGF0YS0+Y3J0YyA9IGNydGM7Cj4gKwo+ICsJY3J0Yy0+c2VsZl9y
-ZWZyZXNoX2RhdGEgPSBzcl9kYXRhOwo+ICsJcmV0dXJuIDA7Cj4gK30KPiArRVhQT1JUX1NZTUJP
-TChkcm1fc2VsZl9yZWZyZXNoX2hlbHBlcl9pbml0KTsKPiArCj4gIAo+ICAvKioKPiBkaWZmIC0t
-Z2l0IGEvaW5jbHVkZS9kcm0vZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaCBiL2luY2x1ZGUvZHJt
-L2RybV9zZWxmX3JlZnJlc2hfaGVscGVyLmgKPiBuZXcgZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4
-IDAwMDAwMDAwMDAwMDAuLjQwNWU4NmZiODQ2MWUKPiAtLS0gL2Rldi9udWxsCj4gKysrIGIvaW5j
-bHVkZS9kcm0vZHJtX3NlbGZfcmVmcmVzaF9oZWxwZXIuaAo+IEBAIC0wLDAgKzEsMjIgQEAKPiAr
-LyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IE1JVCAqLwo+ICsvKgo+ICsgKiBDb3B5cmlnaHQg
-KEMpIDIwMTkgR29vZ2xlLCBJbmMuCj4gKyAqCj4gKyAqIEF1dGhvcnM6Cj4gKyAqIFNlYW4gUGF1
-bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+ICsgKi8KPiArI2lmbmRlZiBEUk1fU0VMRl9SRUZS
-RVNIX0hFTFBFUl9IXwo+ICsjZGVmaW5lIERSTV9TRUxGX1JFRlJFU0hfSEVMUEVSX0hfCj4gKwo+
-ICtzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZTsKT0sKCj4gK3N0cnVjdCBkcm1fY29ubmVjdG9yOwo+
-ICtzdHJ1Y3QgZHJtX2RldmljZTsKPiArc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4OwpU
-aGUgdGhyZWUgYWJvdmUgYXJlIG5vdCBuZWVkZWQuCgpzdHJ1Y3QgZHJtX2NydGM7Ck1pc3NpbmcK
-Cj4gKwo+ICt2b2lkIGRybV9zZWxmX3JlZnJlc2hfaGVscGVyX2FsdGVyX3N0YXRlKHN0cnVjdCBk
-cm1fYXRvbWljX3N0YXRlICpzdGF0ZSk7Cj4gKwo+ICtpbnQgZHJtX3NlbGZfcmVmcmVzaF9oZWxw
-ZXJfaW5pdChzdHJ1Y3QgZHJtX2NydGMgKmNydGMsCj4gKwkJCQkgICAgIHVuc2lnbmVkIGludCBl
-bnRyeV9kZWxheV9tcyk7Cj4gKwo+ICt2b2lkIGRybV9zZWxmX3JlZnJlc2hfaGVscGVyX2NsZWFu
-dXAoc3RydWN0IGRybV9jcnRjICpjcnRjKTsKPiArI2VuZGlmCj4gLS0gCj4gU2VhbiBQYXVsLCBT
-b2Z0d2FyZSBFbmdpbmVlciwgR29vZ2xlIC8gQ2hyb21pdW0gT1MKPiAKPiBfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1808244748==
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_31ECB8A0-2497-4644-8BE0-DFE1190172F7";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+
+--Apple-Mail=_31ECB8A0-2497-4644-8BE0-DFE1190172F7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+On Jun 11, 2019, at 2:48 PM, Andrew Morton <akpm@linux-foundation.org> =
+wrote:
+>=20
+> On Wed, 12 Jun 2019 01:08:36 +0530 Shyam Saini =
+<shyam.saini@amarulasolutions.com> wrote:
+>=20
+>> Currently, there are 3 different macros, namely sizeof_field, =
+SIZEOF_FIELD
+>> and FIELD_SIZEOF which are used to calculate the size of a member of
+>> structure, so to bring uniformity in entire kernel source tree lets =
+use
+>> FIELD_SIZEOF and replace all occurrences of other two macros with =
+this.
+>>=20
+>> For this purpose, redefine FIELD_SIZEOF in include/linux/stddef.h and
+>> tools/testing/selftests/bpf/bpf_util.h and remove its defination from
+>> include/linux/kernel.h
+>>=20
+>> In favour of FIELD_SIZEOF, this patch also deprecates other two =
+similar
+>> macros sizeof_field and SIZEOF_FIELD.
+>>=20
+>> For code compatibility reason, retain sizeof_field macro as a wrapper =
+macro
+>> to FIELD_SIZEOF
+>=20
+> As Alexey has pointed out, C structs and unions don't have fields -
+> they have members.  So this is an opportunity to switch everything to
+> a new member_sizeof().
+>=20
+> What do people think of that and how does this impact the patch =
+footprint?
+
+I did a check, and FIELD_SIZEOF() is used about 350x, while =
+sizeof_field()
+is about 30x, and SIZEOF_FIELD() is only about 5x.
+
+That said, I'm much more in favour of "sizeof_field()" or =
+"sizeof_member()"
+than FIELD_SIZEOF().  Not only does that better match "offsetof()", with
+which it is closely related, but is also closer to the original =
+"sizeof()".
+
+Since this is a rather trivial change, it can be split into a number of
+patches to get approval/landing via subsystem maintainers, and there is =
+no
+huge urgency to remove the original macros until the users are gone.  It
+would make sense to remove SIZEOF_FIELD() and sizeof_field() quickly so
+they don't gain more users, and the remaining FIELD_SIZEOF() users can =
+be
+whittled away as the patches come through the maintainer trees.
+
+Cheers, Andreas
+
+
+
+
+
+
+--Apple-Mail=_31ECB8A0-2497-4644-8BE0-DFE1190172F7
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAl0AFloACgkQcqXauRfM
+H+AuLxAAgNkosRb8jCBUvSkSZcRIz6m3CRCKyZBz9EPhtA2ihZfEB+0hz1uGmXS5
+opkX/nM8cIIrc2g/uiWBq6RVg8FFJxC3qVRDhPqDJ5b6jq6Q5WjV98HwBljIKIEM
+EWXmiEtnxAQAWrNcYoI0HAI5nMUxpIHxo0+hWnfLhk/fTPoUwgLgZawDmn+pwcND
+DU07/6GM67fcfUGYxZKD43X6a/s2lkR28Nn3MN7o2Y/exOm6J0otNWB4Vsu7d6t/
+cScoBhni7d5c02FbLXTpab1n/Sjq/+Ijd3yp3ooxjoFvhfqx6YoBYL5fKxZx29HO
+AXautmzcIwSccj17hB9lIvq/lLdXBL/k9qiKBcIzImCLxSa9+hMJFcl4gH3Qo4i7
+J+7jzFHXnFnx9g5J4rka5VIlGpbBM85N35g8vJZFGVc/juJm6r6YXA+48kKI6hZB
+uFH8fNhjYJGDFyiCh637pF5CObUattAasEPN8O8mQ3qxZKg8C/9jvOLgHlI9W9iK
+ijBEDk0atDHpIJe3dlUw/fQA7LZ4bvXe07VUBqnBUd+/+7KBLZxLkfnygJXf8nzX
+k0TILorUWagkDNgpBE/vwV1ER8UzU6NRxz/w4e6/N/mufG7iPcxZjCTtfJUS3GLW
+hPKj3bi6qV6cw+EyroLHp9igONkqhvnPjEFx5a4YA3gAxQ8viSE=
+=5D1y
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_31ECB8A0-2497-4644-8BE0-DFE1190172F7--
+
+--===============1808244748==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1808244748==--
