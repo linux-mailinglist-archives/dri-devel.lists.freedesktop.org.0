@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197CD41739
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 23:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73A141757
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 23:56:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C15789217;
-	Tue, 11 Jun 2019 21:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE4789110;
+	Tue, 11 Jun 2019 21:55:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 62CC589217
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 21:53:37 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5F77B72167; Tue, 11 Jun 2019 21:53:37 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110844] AMDGPU Resets and blackscreens couple minutes into any
- game regardless of wine/proton/native - sound keeps playing
-Date: Tue, 11 Jun 2019 21:53:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: nathaniel.horn@protonmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110844-502-mMLQ82BrvJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110844-502@http.bugs.freedesktop.org/>
-References: <bug-110844-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+ [209.85.222.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CDD389110
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 21:55:58 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id c11so8688438qkk.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 14:55:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=sPtz3BqdiTBkbWwtR0/UrKDxgV+sZMQrD6twsVTFc4U=;
+ b=P8Q43NTR0GXkmU/Ppg1xFLG91SGBl8O+Vgc0k3tujUBZ+VQ/Dxp8AjmHgIKo3HyBGm
+ /FhiaDH0Ph9qpdL27WZUqTOQbkLaWFz6tXFFfFrMR+cUG3OuJE6+gUWoRO09auTsMF5M
+ /f+tIx2zA6Lk363ThzV71nfRpero+15cMTMmUAy+BOCGFnsuPADGTB4zOjseVAHaNlrg
+ 1WfOcP26dPrciICJfB0UlISghJJGfTtSn7UhJnM2HwJNHUcBFwjgDxsI18BbV+eG77eG
+ 0u1HQa7xf0if0vON3MH815Nb4kzkMNTlkRgHCWiX+wji3DgAErniYW3/vUf5SIjCB9Pf
+ MKRA==
+X-Gm-Message-State: APjAAAW+ws4lEzRYQzcmxwQksb01ldS4nx5nC+sFpQrqF7NCaI9QbfB4
+ iy8UFZ2dfz2M/KzfyysAPA==
+X-Google-Smtp-Source: APXvYqxzcnLdJ4B7Arm6EZke3/gqxzSlYdTwCd01UFloU9lha7IwBhMaG2twe1MNISi/vJK4eDe/aw==
+X-Received: by 2002:a37:e402:: with SMTP id y2mr42991762qkf.200.1560290157124; 
+ Tue, 11 Jun 2019 14:55:57 -0700 (PDT)
+Received: from localhost ([64.188.179.199])
+ by smtp.gmail.com with ESMTPSA id i30sm5956849qtb.18.2019.06.11.14.55.56
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 11 Jun 2019 14:55:56 -0700 (PDT)
+Date: Tue, 11 Jun 2019 15:55:54 -0600
+From: Rob Herring <robh@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v5 1/2] dt-bindings: Add doc for the Ingenic JZ47xx LCD
+ controller driver
+Message-ID: <20190611215554.GA23791@bogus>
+References: <20190603152331.23160-1-paul@crapouillou.net>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190603152331.23160-1-paul@crapouillou.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,134 +58,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0739254991=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Artur Rojek <contact@artur-rojek.eu>, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Paul Cercueil <paul@crapouillou.net>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, od@zcrc.me,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0739254991==
-Content-Type: multipart/alternative; boundary="15602900171.BEF160.12739"
-Content-Transfer-Encoding: 7bit
-
-
---15602900171.BEF160.12739
-Date: Tue, 11 Jun 2019 21:53:37 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110844
-
---- Comment #6 from nathaniel.horn@protonmail.com ---
-(In reply to Alex Deucher from comment #4)
-> You said it started happening for week or two ago.  What component(s) did
-> you update at that time?
-
-Ive been trying to fix my issue a bit more in the past couple of days but
-nothing seems to work.=20
-
-Ive tried it with the lts kernel, kernel 4.19 and the latest kernel on both
-arch and void linux. I've also tried mesa-stable and mesa-git on arch with =
-both
-llvm 8 and 9 in combination with both kernels but the issue still persists.=
-=20
-
-see also the attachment showing the dmesg bit, google tells me that the iss=
-ue
-likely revolves around this part specifically -=20
-
-Jun 05 13:38:10 yuki kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
-sdma0 timeout, signaled seq=3D18824, emitted seq=3D18826
-Jun 05 13:38:10 yuki kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Pro=
-cess
-information: process  pid 0 thread  pid 0
-Jun 05 13:38:10 yuki kernel: amdgpu 0000:0a:00.0: GPU reset begin!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15602900171.BEF160.12739
-Date: Tue, 11 Jun 2019 21:53:37 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Resets and blackscreens couple minutes into any ga=
-me regardless of wine/proton/native - sound keeps playing"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110844">bug 11084=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nathaniel.horn&#64;protonmail.com" title=3D"nathaniel.horn&#64;protonmail.c=
-om">nathaniel.horn&#64;protonmail.com</a>
-</span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D11=
-0844#c4">comment #4</a>)
-<span class=3D"quote">&gt; You said it started happening for week or two ag=
-o.  What component(s) did
-&gt; you update at that time?</span >
-
-Ive been trying to fix my issue a bit more in the past couple of days but
-nothing seems to work.=20
-
-Ive tried it with the lts kernel, kernel 4.19 and the latest kernel on both
-arch and void linux. I've also tried mesa-stable and mesa-git on arch with =
-both
-llvm 8 and 9 in combination with both kernels but the issue still persists.=
-=20
-
-see also the attachment showing the dmesg bit, google tells me that the iss=
-ue
-likely revolves around this part specifically -=20
-
-Jun 05 13:38:10 yuki kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring
-sdma0 timeout, signaled seq=3D18824, emitted seq=3D18826
-Jun 05 13:38:10 yuki kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Pro=
-cess
-information: process  pid 0 thread  pid 0
-Jun 05 13:38:10 yuki kernel: amdgpu 0000:0a:00.0: GPU reset begin!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15602900171.BEF160.12739--
-
---===============0739254991==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0739254991==--
+T24gTW9uLCAgMyBKdW4gMjAxOSAxNzoyMzozMCArMDIwMCwgUGF1bCBDZXJjdWVpbCB3cm90ZToK
+PiBBZGQgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIGRldmljZXRyZWUgYmluZGluZ3Mgb2YgdGhlIExD
+RCBjb250cm9sbGVyIHByZXNlbnQgaW4KPiB0aGUgSlo0N3h4IGZhbWlseSBvZiBTb0NzIGZyb20g
+SW5nZW5pYy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWls
+bG91Lm5ldD4KPiBUZXN0ZWQtYnk6IEFydHVyIFJvamVrIDxjb250YWN0QGFydHVyLXJvamVrLmV1
+Pgo+IC0tLQo+IAo+IE5vdGVzOgo+ICAgICB2MjogUmVtb3ZlIGluZ2VuaWMscGFuZWwgcHJvcGVy
+dHkuCj4gICAgIAo+ICAgICB2MzogLSBSZW5hbWUgY29tcGF0aWJsZSBzdHJpbmdzIGZyb20gaW5n
+ZW5pYyxqejQ3WFgtZHJtIHRvIGluZ2VuaWMsano0N1hYLWxjZAo+ICAgICAgICAgLSBUaGUgaW5n
+ZW5pYyxsY2QtbW9kZSBwcm9wZXJ0eSBpcyBub3cgcmVhZCBmcm9tIHRoZSBwYW5lbCBub2RlIGlu
+c3RlYWQKPiAgICAgCSAgb2YgZnJvbSB0aGUgZHJpdmVyIG5vZGUKPiAgICAgCj4gICAgIHY0OiBS
+ZW1vdmUgaW5nZW5pYyxsY2QtbW9kZSBwcm9wZXJ0eSBjb21wbGV0ZWx5Lgo+ICAgICAKPiAgICAg
+djU6IE5vIGNoYW5nZQo+IAo+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9pbmdlbmljLGxjZC50eHQg
+ICAgICAgICAgfCA0NCArKysrKysrKysrKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA0NCBp
+bnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9pbmdlbmljLGxjZC50eHQKPiAKClBsZWFzZSBhZGQgQWNrZWQt
+YnkvUmV2aWV3ZWQtYnkgdGFncyB3aGVuIHBvc3RpbmcgbmV3IHZlcnNpb25zLiBIb3dldmVyLAp0
+aGVyZSdzIG5vIG5lZWQgdG8gcmVwb3N0IHBhdGNoZXMgKm9ubHkqIHRvIGFkZCB0aGUgdGFncy4g
+VGhlIHVwc3RyZWFtCm1haW50YWluZXIgd2lsbCBkbyB0aGF0IGZvciBhY2tzIHJlY2VpdmVkIG9u
+IHRoZSB2ZXJzaW9uIHRoZXkgYXBwbHkuCgpJZiBhIHRhZyB3YXMgbm90IGFkZGVkIG9uIHB1cnBv
+c2UsIHBsZWFzZSBzdGF0ZSB3aHkgYW5kIHdoYXQgY2hhbmdlZC4KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
