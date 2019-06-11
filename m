@@ -2,59 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077B83CBD7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 14:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A5F3CC1F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 14:49:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 885CE891DD;
-	Tue, 11 Jun 2019 12:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9357C8916D;
+	Tue, 11 Jun 2019 12:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98B2E891C1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 12:37:05 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id w33so19849406edb.10
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 05:37:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=9Uj/6DI0Li7N+qtd/z7EgExKGaoD3X/kBeua+J6hilE=;
- b=RvH8AD94VCSN0HsQULpgFJpRvo+0RaT1T0ks5hYNnKDrsBNwxxGRW8YFx5BT7hzUx8
- dA64cQeKmGHQIn4rz+gkQlFEV91KgW02yYporeI04GZ595/e/i/WbfciLTUx7nZXJgfj
- m8G62VR/2bJKrZdLKfx3UkHN9VPeiz7GM2iDN8LvDn+PfLNVU8FA7p3x4tWukPeZbcc3
- F5bb3iSE1NsJt9oDGx3zZkP/ftDEmheu9pR6gSODCvxQIwjylSVgbP6GZFQLGqXUQZEt
- P7pfBK1bkSmzHijA4kjojKhCCWnJ5xfzn5uE8ffF1OOnvP8iSYQnKFv4RG0ho93eyrq1
- ABXA==
-X-Gm-Message-State: APjAAAWz3J047Weh8huxlIFWgf0Asp62xFLAk8HBxysuTl3PHvKSFujW
- rDSdIacDhs98DuM2snFCKAcHMA==
-X-Google-Smtp-Source: APXvYqztuyzDA+sP3dTQyBFQxRL/L08cSgtbytDvls38hGmdWwRaFhves8qyWayP3FJr9yzT+/GyBg==
-X-Received: by 2002:a17:906:e2c7:: with SMTP id
- gr7mr16917328ejb.9.1560256624221; 
- Tue, 11 Jun 2019 05:37:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id e26sm200784eje.29.2019.06.11.05.37.03
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 11 Jun 2019 05:37:03 -0700 (PDT)
-Date: Tue, 11 Jun 2019 14:37:01 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm: Reverse lock order in pan_display_legacy()
-Message-ID: <20190611123701.GE2458@phenom.ffwll.local>
-References: <20190611115716.7052-1-tzimmermann@suse.de>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A55C58916D
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 12:49:42 +0000 (UTC)
+X-Originating-IP: 90.88.159.246
+Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
+ [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 6E576E000B;
+ Tue, 11 Jun 2019 12:49:33 +0000 (UTC)
+Date: Tue, 11 Jun 2019 14:49:33 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 3/6] drm/modes: Allow to specify rotation and
+ reflection on the commandline
+Message-ID: <20190611124933.2g6l3d7nx6lqft6k@flea>
+References: <cover.87b91639451f23d4ab68a7c9812f2dd158869025.1555591281.git-series.maxime.ripard@bootlin.com>
+ <ba320b3a13c4444102b77c4d00f7c1dc810adc3c.1555591281.git-series.maxime.ripard@bootlin.com>
+ <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190611115716.7052-1-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=9Uj/6DI0Li7N+qtd/z7EgExKGaoD3X/kBeua+J6hilE=;
- b=UbR5cAzoG2T8v5FTB7oqOYa7WiIMs2qhioNNOd/a2+RbaTJ352HOE3+1mHiaXNmu9k
- AlJGDSxGypO+ieJTQDdrD7i5jZEaV20IniqmaJqAuv/n5FcL6I+a2PlGOaYapEgBKNak
- n5rXWj2wv/CdC7obCoNNTObJy5jwXCYtbSAAk=
+In-Reply-To: <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,103 +42,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============2144273989=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMTEsIDIwMTkgYXQgMDE6NTc6MTZQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1h
-bm4gd3JvdGU6Cj4gQWNxdWlyaW5nIGRybV9jbGllbnRfZGV2Lm1vZGVzZXRfbXV0ZXggYWZ0ZXIg
-dGhlIGxvY2tzIGluIGRybV9mYl9oZWxwZXIuZGV2Cj4gY3JlYXRlcyBhIGRlYWRsb2NrIHdpdGgg
-ZHJtX3NldHVwX2NydGNzKCkgYXMgc2hvd24gYmVsb3c6Cj4gCj4gICBbICAgIDQuOTU5MzE5XSBm
-YmNvbjogcmFkZW9uZHJtZmIgKGZiMCkgaXMgcHJpbWFyeSBkZXZpY2UKPiAgIFsgICAgNC45OTM5
-NTJdIENvbnNvbGU6IHN3aXRjaGluZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAyNDB4
-NjcKPiAgIFsgICAgNC45OTQwNDBdCj4gICBbICAgIDQuOTk0MDQxXSA9PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KPiAgIFsgICAgNC45OTQwNDFd
-IFdBUk5JTkc6IHBvc3NpYmxlIGNpcmN1bGFyIGxvY2tpbmcgZGVwZW5kZW5jeSBkZXRlY3RlZAo+
-ICAgWyAgICA0Ljk5NDA0Ml0gNS4yLjAtcmM0LTEtZGVmYXVsdCsgIzM5IFRhaW50ZWQ6IEcgICAg
-ICAgICAgICBFCj4gICBbICAgIDQuOTk0MDQzXSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgIFsgICAgNC45OTQwNDNdIHN5c3RlbWQtdWRl
-dmQvMzY5IGlzIHRyeWluZyB0byBhY3F1aXJlIGxvY2s6Cj4gICBbICAgIDQuOTk0MDQ0XSAwMDAw
-MDAwMGZiNjIyYWNiICgmY2xpZW50LT5tb2Rlc2V0X211dGV4KXsrLisufSwgYXQ6IGRybV9mYl9o
-ZWxwZXJfcGFuX2Rpc3BsYXkrMHgxMDMvMHgxZjAgW2RybV9rbXNfaGVscGVyXQo+ICAgWyAgICA0
-Ljk5NDA1NV0KPiAgIFsgICAgNC45OTQwNTVdIGJ1dCB0YXNrIGlzIGFscmVhZHkgaG9sZGluZyBs
-b2NrOgo+ICAgWyAgICA0Ljk5NDA1NV0gMDAwMDAwMDAyODc2N2FlNCAoY3J0Y193d19jbGFzc19t
-dXRleCl7Ky4rLn0sIGF0OiBkcm1fbW9kZXNldF9sb2NrKzB4NDIvMHhmMCBbZHJtXQo+ICAgWyAg
-ICA0Ljk5NDA3Ml0KPiAgIFsgICAgNC45OTQwNzJdIHdoaWNoIGxvY2sgYWxyZWFkeSBkZXBlbmRz
-IG9uIHRoZSBuZXcgbG9jay4KPiAgIFsgICAgNC45OTQwNzJdCj4gICBbICAgIDQuOTk0MDcyXQo+
-ICAgWyAgICA0Ljk5NDA3Ml0gdGhlIGV4aXN0aW5nIGRlcGVuZGVuY3kgY2hhaW4gKGluIHJldmVy
-c2Ugb3JkZXIpIGlzOgo+ICAgWyAgICA0Ljk5NDA3M10KPiAgIFsgICAgNC45OTQwNzNdIC0+ICMz
-IChjcnRjX3d3X2NsYXNzX211dGV4KXsrLisufToKPiAgIFsgICAgNC45OTQwNzZdICAgICAgICBs
-b2NrX2FjcXVpcmUrMHg5ZS8weDE3MAo+ICAgWyAgICA0Ljk5NDA3OV0gICAgICAgIF9fd3dfbXV0
-ZXhfbG9jay5jb25zdHByb3AuMTgrMHg5Ny8weGY0MAo+ICAgWyAgICA0Ljk5NDA4MF0gICAgICAg
-IHd3X211dGV4X2xvY2srMHgzMC8weDkwCj4gICBbICAgIDQuOTk0MDkxXSAgICAgICAgZHJtX21v
-ZGVzZXRfbG9jaysweDQyLzB4ZjAgW2RybV0KPiAgIFsgICAgNC45OTQxMDJdICAgICAgICBkcm1f
-bW9kZXNldF9sb2NrX2FsbF9jdHgrMHgxZi8weGUwIFtkcm1dCj4gICBbICAgIDQuOTk0MTEzXSAg
-ICAgICAgZHJtX21vZGVzZXRfbG9ja19hbGwrMHg1ZS8weDFhMCBbZHJtXQo+ICAgWyAgICA0Ljk5
-NDE2M10gICAgICAgIGludGVsX21vZGVzZXRfaW5pdCsweDYwYi8weGRhMCBbaTkxNV0KPiAgIC4u
-Cj4gICBbICAgIDQuOTk0MjUzXQo+ICAgWyAgICA0Ljk5NDI1M10gLT4gIzIgKGNydGNfd3dfY2xh
-c3NfYWNxdWlyZSl7Ky4rLn06Cj4gICBbICAgIDQuOTk0MjU1XSAgICAgICAgbG9ja19hY3F1aXJl
-KzB4OWUvMHgxNzAKPiAgIFsgICAgNC45OTQyNzBdICAgICAgICBkcm1fbW9kZXNldF9hY3F1aXJl
-X2luaXQrMHhjYy8weDEwMCBbZHJtXQo+ICAgWyAgICA0Ljk5NDI4MF0gICAgICAgIGRybV9tb2Rl
-c2V0X2xvY2tfYWxsKzB4NDQvMHgxYTAgW2RybV0KPiAgIFsgICAgNC45OTQzMjBdICAgICAgICBp
-bnRlbF9tb2Rlc2V0X2luaXQrMHg2MGIvMHhkYTAgW2k5MTVdCj4gICAuLgo+ICAgWyAgICA0Ljk5
-NDQwM10KPiAgIFsgICAgNC45OTQ0MDNdIC0+ICMxICgmZGV2LT5tb2RlX2NvbmZpZy5tdXRleCl7
-Ky4rLn06Cj4gICBbICAgIDQuOTk0NDA1XSAgICAgICAgbG9ja19hY3F1aXJlKzB4OWUvMHgxNzAK
-PiAgIFsgICAgNC45OTQ0MDhdICAgICAgICBfX211dGV4X2xvY2srMHg2Mi8weDhjMAo+ICAgWyAg
-ICA0Ljk5NDQxM10gICAgICAgIGRybV9zZXR1cF9jcnRjcysweDE3Yy8weGM1MCBbZHJtX2ttc19o
-ZWxwZXJdCj4gICBbICAgIDQuOTk0NDE4XSAgICAgICAgX19kcm1fZmJfaGVscGVyX2luaXRpYWxf
-Y29uZmlnX2FuZF91bmxvY2srMHgzNC8weDUzMCBbZHJtX2ttc19oZWxwZXJdCj4gICBbICAgIDQu
-OTk0NDUwXSAgICAgICAgcmFkZW9uX2ZiZGV2X2luaXQrMHgxMTAvMHgxMzAgW3JhZGVvbl0KPiAg
-IC4uCj4gICBbICAgIDQuOTk0NTM1XQo+ICAgWyAgICA0Ljk5NDUzNV0gLT4gIzAgKCZjbGllbnQt
-Pm1vZGVzZXRfbXV0ZXgpeysuKy59Ogo+ICAgWyAgICA0Ljk5NDUzN10gICAgICAgIF9fbG9ja19h
-Y3F1aXJlKzB4YTg1LzB4ZTkwCj4gICBbICAgIDQuOTk0NTM4XSAgICAgICAgbG9ja19hY3F1aXJl
-KzB4OWUvMHgxNzAKPiAgIFsgICAgNC45OTQ1NDBdICAgICAgICBfX211dGV4X2xvY2srMHg2Mi8w
-eDhjMAo+ICAgWyAgICA0Ljk5NDU0NV0gICAgICAgIGRybV9mYl9oZWxwZXJfcGFuX2Rpc3BsYXkr
-MHgxMDMvMHgxZjAgW2RybV9rbXNfaGVscGVyXQo+ICAgWyAgICA0Ljk5NDU0N10gICAgICAgIGZi
-X3Bhbl9kaXNwbGF5KzB4OTIvMHgxMjAKPiAgIFsgICAgNC45OTQ1NDldICAgICAgICBiaXRfdXBk
-YXRlX3N0YXJ0KzB4MWEvMHg0MAo+ICAgWyAgICA0Ljk5NDU1MF0gICAgICAgIGZiY29uX3N3aXRj
-aCsweDM5Mi8weDU4MAo+ICAgWyAgICA0Ljk5NDU1Ml0gICAgICAgIHJlZHJhd19zY3JlZW4rMHgx
-MmMvMHgyMjAKPiAgIFsgICAgNC45OTQ1NTNdICAgICAgICBkb19iaW5kX2Nvbl9kcml2ZXIuY29s
-ZC4zMCsweGUxLzB4MTBkCj4gICBbICAgIDQuOTk0NTU0XSAgICAgICAgZG9fdGFrZV9vdmVyX2Nv
-bnNvbGUrMHgxMTMvMHgxOTAKPiAgIFsgICAgNC45OTQ1NTVdICAgICAgICBkb19mYmNvbl90YWtl
-b3ZlcisweDU4LzB4YjAKPiAgIFsgICAgNC45OTQ1NTddICAgICAgICBub3RpZmllcl9jYWxsX2No
-YWluKzB4NDcvMHg3MAo+ICAgWyAgICA0Ljk5NDU1OF0gICAgICAgIGJsb2NraW5nX25vdGlmaWVy
-X2NhbGxfY2hhaW4rMHg0NC8weDYwCj4gICBbICAgIDQuOTk0NTU5XSAgICAgICAgcmVnaXN0ZXJf
-ZnJhbWVidWZmZXIrMHgyMzEvMHgzMTAKPiAgIFsgICAgNC45OTQ1NjRdICAgICAgICBfX2RybV9m
-Yl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5kX3VubG9jaysweDJmZC8weDUzMCBbZHJtX2ttc19o
-ZWxwZXJdCj4gICBbICAgIDQuOTk0NTkwXSAgICAgICAgcmFkZW9uX2ZiZGV2X2luaXQrMHgxMTAv
-MHgxMzAgW3JhZGVvbl0KPiAgIC4uCj4gCj4gVGhpcyBwcm9ibGVtIHdhcyBpbnRyb2R1Y2VkIGlu
-Cj4gCj4gICBkODEyOTRhZmUJZHJtL2ZiLWhlbHBlcjogUmVtb3ZlIGRybV9mYl9oZWxwZXJfY3J0
-Ywo+IAo+IFJldmVyc2luZyB0aGUgbG9jayBvcmRlcmluZyBpbiBwYW5fZGlzcGxheV9sZWdhY3ko
-KSBmaXhlcyB0aGUgaXNzdWUuIFRoZSBmaXgKPiB3YXMgc3VnZ2VzdGVkIGJ5IERhbmllbCBWZXR0
-ZXIuCj4gCj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
-c2UuZGU+Cj4gRml4ZXM6IGQ4MTI5NGFmZWVjZGFjYzhkODQ4MDRiYTBiY2IzZDM5ZTY0ZDBmMjcK
-CkkgdGhpbmsgZm9yIG9jZCBjb25zaXN0ZW5jeSBpdCBiZSBuaWNlIHRvIHB1bGwgdGhlIGxvY2sg
-b3V0IGZyb20gYm90aApwYW5fZGlzcGxheV9hdG9taWMgYW5kIHBhbl9kaXNhcGx5X2xlZ2FjeSBh
-bmQgbW92ZSBpdCBpbnRvCmRybV9mYl9oZWxwZXJfcGFuX2Rpc3BsYXkuIExpa2Ugd2UgZG8gZHJt
-X2ZiX2hlbHBlcl9kcG1zIG9yCmRybV9mYl9oZWxwZXJfc2V0Y21hcCBvciByZXN0b3JlX2ZiZGV2
-X21vZGVfZm9yY2UuCgpFaXRoZXIgd2F5IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWwudmV0dGVyQGZmd2xsLmNoPgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxw
-ZXIuYyB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0
-aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5j
-IGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYwo+IGluZGV4IDdiMzg4Njc0YTQ1Ni4u
-ZDY5OTFmMDdjYjE3IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVy
-LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4gQEAgLTE1ODYsOCAr
-MTU4Niw4IEBAIHN0YXRpYyBpbnQgcGFuX2Rpc3BsYXlfbGVnYWN5KHN0cnVjdCBmYl92YXJfc2Ny
-ZWVuaW5mbyAqdmFyLAo+ICAJc3RydWN0IGRybV9tb2RlX3NldCAqbW9kZXNldDsKPiAgCWludCBy
-ZXQgPSAwOwo+ICAKPiAtCWRybV9tb2Rlc2V0X2xvY2tfYWxsKGZiX2hlbHBlci0+ZGV2KTsKPiAg
-CW11dGV4X2xvY2soJmNsaWVudC0+bW9kZXNldF9tdXRleCk7Cj4gKwlkcm1fbW9kZXNldF9sb2Nr
-X2FsbChmYl9oZWxwZXItPmRldik7Cj4gIAlkcm1fY2xpZW50X2Zvcl9lYWNoX21vZGVzZXQobW9k
-ZXNldCwgY2xpZW50KSB7Cj4gIAkJbW9kZXNldC0+eCA9IHZhci0+eG9mZnNldDsKPiAgCQltb2Rl
-c2V0LT55ID0gdmFyLT55b2Zmc2V0Owo+IEBAIC0xNjAwLDggKzE2MDAsOCBAQCBzdGF0aWMgaW50
-IHBhbl9kaXNwbGF5X2xlZ2FjeShzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZhciwKPiAgCQkJ
-fQo+ICAJCX0KPiAgCX0KPiAtCW11dGV4X3VubG9jaygmY2xpZW50LT5tb2Rlc2V0X211dGV4KTsK
-PiAgCWRybV9tb2Rlc2V0X3VubG9ja19hbGwoZmJfaGVscGVyLT5kZXYpOwo+ICsJbXV0ZXhfdW5s
-b2NrKCZjbGllbnQtPm1vZGVzZXRfbXV0ZXgpOwo+ICAKPiAgCXJldHVybiByZXQ7Cj4gIH0KPiAt
-LSAKPiAyLjIxLjAKPiAKCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRl
-bCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============2144273989==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qcampvemx35tqlo2"
+Content-Disposition: inline
+
+
+--qcampvemx35tqlo2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Noralf,
+
+On Thu, Apr 18, 2019 at 06:40:42PM +0200, Noralf Tr=F8nnes wrote:
+> Den 18.04.2019 14.41, skrev Maxime Ripard:
+> > +	/**
+> > +	 * We want the rotation on the command line to overwrite
+> > +	 * whatever comes from the panel.
+> > +	 */
+> > +	cmdline =3D &connector->cmdline_mode;
+> > +	if (cmdline->specified &&
+> > +	    cmdline->rotation !=3D DRM_MODE_ROTATE_0)
+>
+> I believe you need to drop that second check, otherwise rotate=3D0 will
+> not overwrite panel rotation.
+
+Good catch :)
+
+> > +		} else if (!strncmp(option, "reflect_x", delim - option)) {
+> > +			rotation |=3D DRM_MODE_REFLECT_X;
+> > +			sep =3D delim;
+> > +		} else if (!strncmp(option, "reflect_y", delim - option)) {
+>
+> I think you should drop reflect_x and _y for now since they're not
+> supported. People like me that only reads code and not documentation
+> (ahem..) will get the impression that this should work.
+
+I'm not sure what you mean here, this is definitely supposed to
+work. Is there a limitation you're thinking of?
+
+> Documentation/fb/modedb.txt needs to be updated with this new video=3D op=
+tion.
+
+Will do, thanks!
+
+maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--qcampvemx35tqlo2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXP+jXQAKCRDj7w1vZxhR
+xfvrAP9E0DKrTicqOvNTKzLaonrYJBPMZrJqQy+sMFs5mjktOQEAt/lC2+QSLYLS
+AvMY9R0PCv5cW1OINZYN9NIDKX6x/wM=
+=SS1e
+-----END PGP SIGNATURE-----
+
+--qcampvemx35tqlo2--
+
+--===============2144273989==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2144273989==--
