@@ -2,56 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086DA3C732
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 11:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B2B3C749
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 11:36:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E5D89083;
-	Tue, 11 Jun 2019 09:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD93689083;
+	Tue, 11 Jun 2019 09:36:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADC2589083
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 09:27:15 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 36D19B008;
- Tue, 11 Jun 2019 09:27:14 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: drm-tip: Possible deadlock in DRM FB helpers
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-To: dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <498800f6-5e1b-58ed-a995-42314687dbf9@suse.de>
-Date: Tue, 11 Jun 2019 11:27:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6210789067
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 09:35:59 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id z24so11231192oto.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 02:35:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1ys2/x86grn3l+gO87UdSJrfbDFYI6N35nsknFZ0b/U=;
+ b=T5vFjTi1Sn/NKAHcxfR50uyLONOv80AcqaA5gp+gVh1nSYQzbc1ce2u+RR8AA5tDId
+ oecS8Ib9/dS+ZHIai+HK5JCw/F/fRIQ3nrgYSbclXsEH0trGf/VjLXcZp6NPJWR86FhX
+ Q7HShCohM5Fffl6gMfyHwfjo8mSxEerWbJOSyk1hOlT85f+y9OZjn1s6fbmJBndrjlxq
+ 9bcVZ9kWsxOORGfwgXXlY/ysDKVrnmnatjdFVvgrLNLFiJKJX7fEkxWYIlLJOk4OuS5n
+ Ffx1oxDYumQM+xzNxr5WOVLQf/UdtIsPCD/DmLc1ZwH9oJbtcuY20Ci4KjNEqJ+LHHDB
+ 2J3Q==
+X-Gm-Message-State: APjAAAVGP995Sl3Rys8ZupsxbuUWRCRx4MaPeVWqGZ8s0rdRUddyf36c
+ qlQCilACo2nVFnT4r6OiyRpSJS2AXfjtP9kAtn8MAFd9
+X-Google-Smtp-Source: APXvYqxuzYjR4IPG+eQhK2DNKu1IVbYX/YLvpCeaCObiaOyjAGZxDX0W1sHI3ePfXh/0B7aXon2xO1bD766U0JYZQWs=
+X-Received: by 2002:a05:6830:ce:: with SMTP id
+ x14mr15711645oto.188.1560245758271; 
+ Tue, 11 Jun 2019 02:35:58 -0700 (PDT)
 MIME-Version: 1.0
+References: <498800f6-5e1b-58ed-a995-42314687dbf9@suse.de>
+In-Reply-To: <498800f6-5e1b-58ed-a995-42314687dbf9@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 11 Jun 2019 11:35:46 +0200
+Message-ID: <CAKMK7uHAc1kfUwKZxsQ4rhaL5tMehSpK2oLfrGs4pYW-tr9EiQ@mail.gmail.com>
+Subject: Re: drm-tip: Possible deadlock in DRM FB helpers
+To: Thomas Zimmermann <tzimmermann@suse.de>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1ys2/x86grn3l+gO87UdSJrfbDFYI6N35nsknFZ0b/U=;
+ b=UggdOptSxV7JA+MpRyXQP4fKpIQ22SFH/xVaEElHHpL3cv7eMSOKZffQfpcpZAq5j0
+ R+5/zIsDTn6MZIt83F2TWrF45jJcp9hudqqV7tQ4kIA6XkYk0V6hBaTMaA20QHplPOVo
+ yo7YD5G5QWNOb9zZejNvoeJW20kLOSbI0Mu/0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,370 +60,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1771664998=="
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1771664998==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="pPZ319LiXH99mgBnmC0k0sD7uCLSEgUjZ"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pPZ319LiXH99mgBnmC0k0sD7uCLSEgUjZ
-Content-Type: multipart/mixed; boundary="fb5exwa0TC6Nyags9985nk6IO9iBzqTrS";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <498800f6-5e1b-58ed-a995-42314687dbf9@suse.de>
-Subject: drm-tip: Possible deadlock in DRM FB helpers
-
---fb5exwa0TC6Nyags9985nk6IO9iBzqTrS
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-since a few days, I get a deadlock warning about the DRM FB helpers in
-drm-tip. I was able to trace the problem back to
-
-  d81294afe drm/fb-helper: Remove drm_fb_helper_crtc
-
-It moves around some lock operations, which breaks non-atomic drivers
-(radeon, mgag200, ast). An lspci and dmesg snippet from my test system
-is included below.
-
-Best regards
-Thomas
-
-
- * lspci -v
-
-01:00.0 VGA compatible controller: Advanced Micro Devices, Inc.
-[AMD/ATI] Oland [Radeon HD 8570 / R7 240/340 OEM] (prog-if 00 [VGA
-controller])
-        Subsystem: Dell Radeon R5 240 OEM
-        Flags: bus master, fast devsel, latency 0, IRQ 32
-        Memory at e0000000 (64-bit, prefetchable) [size=3D256M]
-        Memory at f7c00000 (64-bit, non-prefetchable) [size=3D256K]
-        I/O ports at e000 [size=3D256]
-        Expansion ROM at 000c0000 [disabled] [size=3D128K]
-        Capabilities: [48] Vendor Specific Information: Len=3D08 <?>
-        Capabilities: [50] Power Management version 3
-        Capabilities: [58] Express Legacy Endpoint, MSI 00
-        Capabilities: [a0] MSI: Enable+ Count=3D1/1 Maskable- 64bit+
-        Capabilities: [100] Vendor Specific Information: ID=3D0001 Rev=3D=
-1
-Len=3D010 <?>
-        Capabilities: [150] Advanced Error Reporting
-        Capabilities: [200] Resizable BAR <?>
-        Capabilities: [270] Secondary PCI Express <?>
-        Kernel driver in use: radeon
-        Kernel modules: radeon, amdgpu
-
- * dmesg
-
-
-[    4.959319] fbcon: radeondrmfb (fb0) is primary device
-[    4.993952] Console: switching to colour frame buffer device 240x67
-[    4.994040]
-[    4.994041] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[    4.994041] WARNING: possible circular locking dependency detected
-[    4.994042] 5.2.0-rc4-1-default+ #39 Tainted: G            E
-[    4.994043] ------------------------------------------------------
-[    4.994043] systemd-udevd/369 is trying to acquire lock:
-[    4.994044] 00000000fb622acb (&client->modeset_mutex){+.+.}, at:
-drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_helper]
-[    4.994055]
-[    4.994055] but task is already holding lock:
-[    4.994055] 0000000028767ae4 (crtc_ww_class_mutex){+.+.}, at:
-drm_modeset_lock+0x42/0xf0 [drm]
-[    4.994072]
-[    4.994072] which lock already depends on the new lock.
-[    4.994072]
-[    4.994072]
-[    4.994072] the existing dependency chain (in reverse order) is:
-[    4.994073]
-[    4.994073] -> #3 (crtc_ww_class_mutex){+.+.}:
-[    4.994076]        lock_acquire+0x9e/0x170
-[    4.994079]        __ww_mutex_lock.constprop.18+0x97/0xf40
-[    4.994080]        ww_mutex_lock+0x30/0x90
-[    4.994091]        drm_modeset_lock+0x42/0xf0 [drm]
-[    4.994102]        drm_modeset_lock_all_ctx+0x1f/0xe0 [drm]
-[    4.994113]        drm_modeset_lock_all+0x5e/0x1a0 [drm]
-[    4.994163]        intel_modeset_init+0x60b/0xda0 [i915]
-[    4.994196]        i915_driver_load+0xd17/0x1730 [i915]
-[    4.994228]        i915_pci_probe+0x44/0x130 [i915]
-[    4.994231]        local_pci_probe+0x42/0x80
-[    4.994232]        pci_device_probe+0xf1/0x170
-[    4.994234]        really_probe+0xef/0x390
-[    4.994235]        driver_probe_device+0xb4/0x100
-[    4.994237]        device_driver_attach+0x4f/0x60
-[    4.994238]        __driver_attach+0x88/0x140
-[    4.994239]        bus_for_each_dev+0x66/0x90
-[    4.994240]        bus_add_driver+0x134/0x1e0
-[    4.994241]        driver_register+0x6b/0xb0
-[    4.994244]        do_one_initcall+0x5d/0x2b4
-[    4.994246]        do_init_module+0x5a/0x220
-[    4.994248]        load_module+0x17d4/0x1a90
-[    4.994249]        __do_sys_finit_module+0x8f/0xd0
-[    4.994251]        do_syscall_64+0x60/0x1c0
-[    4.994252]        entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[    4.994253]
-[    4.994253] -> #2 (crtc_ww_class_acquire){+.+.}:
-[    4.994255]        lock_acquire+0x9e/0x170
-[    4.994270]        drm_modeset_acquire_init+0xcc/0x100 [drm]
-[    4.994280]        drm_modeset_lock_all+0x44/0x1a0 [drm]
-[    4.994320]        intel_modeset_init+0x60b/0xda0 [i915]
-[    4.994352]        i915_driver_load+0xd17/0x1730 [i915]
-[    4.994385]        i915_pci_probe+0x44/0x130 [i915]
-[    4.994387]        local_pci_probe+0x42/0x80
-[    4.994387]        pci_device_probe+0xf1/0x170
-[    4.994389]        really_probe+0xef/0x390
-[    4.994390]        driver_probe_device+0xb4/0x100
-[    4.994391]        device_driver_attach+0x4f/0x60
-[    4.994392]        __driver_attach+0x88/0x140
-[    4.994393]        bus_for_each_dev+0x66/0x90
-[    4.994394]        bus_add_driver+0x134/0x1e0
-[    4.994395]        driver_register+0x6b/0xb0
-[    4.994396]        do_one_initcall+0x5d/0x2b4
-[    4.994398]        do_init_module+0x5a/0x220
-[    4.994399]        load_module+0x17d4/0x1a90
-[    4.994400]        __do_sys_finit_module+0x8f/0xd0
-[    4.994402]        do_syscall_64+0x60/0x1c0
-[    4.994403]        entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[    4.994403]
-[    4.994403] -> #1 (&dev->mode_config.mutex){+.+.}:
-[    4.994405]        lock_acquire+0x9e/0x170
-[    4.994408]        __mutex_lock+0x62/0x8c0
-[    4.994413]        drm_setup_crtcs+0x17c/0xc50 [drm_kms_helper]
-[    4.994418]
-__drm_fb_helper_initial_config_and_unlock+0x34/0x530 [drm_kms_helper]
-[    4.994450]        radeon_fbdev_init+0x110/0x130 [radeon]
-[    4.994477]        radeon_modeset_init.cold.12+0x198/0x4ec [radeon]
-[    4.994500]        radeon_driver_load_kms+0xc1/0x250 [radeon]
-[    4.994508]        drm_dev_register+0x10f/0x150 [drm]
-[    4.994517]        drm_get_pci_dev+0x95/0x190 [drm]
-[    4.994519]        local_pci_probe+0x42/0x80
-[    4.994520]        pci_device_probe+0xf1/0x170
-[    4.994521]        really_probe+0xef/0x390
-[    4.994522]        driver_probe_device+0xb4/0x100
-[    4.994523]        device_driver_attach+0x4f/0x60
-[    4.994524]        __driver_attach+0x88/0x140
-[    4.994525]        bus_for_each_dev+0x66/0x90
-[    4.994526]        bus_add_driver+0x134/0x1e0
-[    4.994527]        driver_register+0x6b/0xb0
-[    4.994528]        do_one_initcall+0x5d/0x2b4
-[    4.994530]        do_init_module+0x5a/0x220
-[    4.994531]        load_module+0x17d4/0x1a90
-[    4.994532]        __do_sys_finit_module+0x8f/0xd0
-[    4.994533]        do_syscall_64+0x60/0x1c0
-[    4.994535]        entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[    4.994535]
-[    4.994535] -> #0 (&client->modeset_mutex){+.+.}:
-[    4.994537]        __lock_acquire+0xa85/0xe90
-[    4.994538]        lock_acquire+0x9e/0x170
-[    4.994540]        __mutex_lock+0x62/0x8c0
-[    4.994545]        drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_help=
-er]
-[    4.994547]        fb_pan_display+0x92/0x120
-[    4.994549]        bit_update_start+0x1a/0x40
-[    4.994550]        fbcon_switch+0x392/0x580
-[    4.994552]        redraw_screen+0x12c/0x220
-[    4.994553]        do_bind_con_driver.cold.30+0xe1/0x10d
-[    4.994554]        do_take_over_console+0x113/0x190
-[    4.994555]        do_fbcon_takeover+0x58/0xb0
-[    4.994557]        notifier_call_chain+0x47/0x70
-[    4.994558]        blocking_notifier_call_chain+0x44/0x60
-[    4.994559]        register_framebuffer+0x231/0x310
-[    4.994564]
-__drm_fb_helper_initial_config_and_unlock+0x2fd/0x530 [drm_kms_helper]
-[    4.994590]        radeon_fbdev_init+0x110/0x130 [radeon]
-[    4.994615]        radeon_modeset_init.cold.12+0x198/0x4ec [radeon]
-[    4.994638]        radeon_driver_load_kms+0xc1/0x250 [radeon]
-[    4.994647]        drm_dev_register+0x10f/0x150 [drm]
-[    4.994655]        drm_get_pci_dev+0x95/0x190 [drm]
-[    4.994657]        local_pci_probe+0x42/0x80
-[    4.994658]        pci_device_probe+0xf1/0x170
-[    4.994659]        really_probe+0xef/0x390
-[    4.994660]        driver_probe_device+0xb4/0x100
-[    4.994661]        device_driver_attach+0x4f/0x60
-[    4.994662]        __driver_attach+0x88/0x140
-[    4.994663]        bus_for_each_dev+0x66/0x90
-[    4.994664]        bus_add_driver+0x134/0x1e0
-[    4.994665]        driver_register+0x6b/0xb0
-[    4.994666]        do_one_initcall+0x5d/0x2b4
-[    4.994668]        do_init_module+0x5a/0x220
-[    4.994669]        load_module+0x17d4/0x1a90
-[    4.994670]        __do_sys_finit_module+0x8f/0xd0
-[    4.994671]        do_syscall_64+0x60/0x1c0
-[    4.994673]        entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[    4.994673]
-[    4.994673] other info that might help us debug this:
-[    4.994673]
-[    4.994673] Chain exists of:
-[    4.994673]   &client->modeset_mutex --> crtc_ww_class_acquire -->
-crtc_ww_class_mutex
-[    4.994673]
-[    4.994675]  Possible unsafe locking scenario:
-[    4.994675]
-[    4.994675]        CPU0                    CPU1
-[    4.994676]        ----                    ----
-[    4.994676]   lock(crtc_ww_class_mutex);
-[    4.994677]                                lock(crtc_ww_class_acquire)=
-;
-[    4.994677]                                lock(crtc_ww_class_mutex);
-[    4.994678]   lock(&client->modeset_mutex);
-[    4.994679]
-[    4.994679]  *** DEADLOCK ***
-[    4.994679]
-[    4.994679] 11 locks held by systemd-udevd/369:
-[    4.994680]  #0: 000000002a864971 (&dev->mutex){....}, at:
-device_driver_attach+0x1d/0x60
-[    4.994682]  #1: 0000000079b4fff6 (drm_global_mutex){+.+.}, at:
-drm_dev_register+0x27/0x150 [drm]
-[    4.994691]  #2: 00000000ae4b249f (registration_lock){+.+.}, at:
-register_framebuffer+0x29/0x310
-[    4.994694]  #3: 00000000baa4b33b (console_lock){+.+.}, at:
-register_framebuffer+0x2ad/0x310
-[    4.994696]  #4: 0000000052aa04e9 (&fb_info->lock){+.+.}, at:
-lock_fb_info+0x18/0x40
-[    4.994698]  #5: 00000000ee198c3a ((fb_notifier_list).rwsem){++++},
-at: blocking_notifier_call_chain+0x2a/0x60
-[    4.994701]  #6: 00000000283d5679 (&helper->lock){+.+.}, at:
-drm_fb_helper_pan_display+0x48/0x1f0 [drm_kms_helper]
-[    4.994707]  #7: 000000007cd70e4c (&dev->master_mutex){+.+.}, at:
-drm_master_internal_acquire+0x1b/0x40 [drm]
-[    4.994715]  #8: 0000000069bce718 (&dev->mode_config.mutex){+.+.},
-at: drm_modeset_lock_all+0x3a/0x1a0 [drm]
-[    4.994726]  #9: 00000000aa42b785 (crtc_ww_class_acquire){+.+.}, at:
-drm_modeset_lock_all+0x44/0x1a0 [drm]
-[    4.994738]  #10: 0000000028767ae4 (crtc_ww_class_mutex){+.+.}, at:
-drm_modeset_lock+0x42/0xf0 [drm]
-[    4.994750]
-[    4.994750] stack backtrace:
-[    4.994752] CPU: 7 PID: 369 Comm: systemd-udevd Tainted: G
- E     5.2.0-rc4-1-default+ #39
-[    4.994752] Hardware name: Dell Inc. OptiPlex 9020/0N4YC8, BIOS A24
-10/24/2018
-[    4.994753] Call Trace:
-[    4.994756]  dump_stack+0x85/0xc0
-[    4.994758]  print_circular_bug.cold.62+0x15c/0x195
-[    4.994760]  check_prevs_add+0x7ff/0xf40
-[    4.994763]  ? find_held_lock+0x34/0xa0
-[    4.994774]  ? drm_modeset_lock+0x42/0xf0 [drm]
-[    4.994775]  __lock_acquire+0xa85/0xe90
-[    4.994777]  lock_acquire+0x9e/0x170
-[    4.994782]  ? drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_helper]
-[    4.994788]  ? drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_helper]
-[    4.994790]  __mutex_lock+0x62/0x8c0
-[    4.994795]  ? drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_helper]
-[    4.994796]  ? ww_mutex_lock+0x30/0x90
-[    4.994798]  ? _cond_resched+0x15/0x30
-[    4.994799]  ? ww_mutex_lock+0x30/0x90
-[    4.994810]  ? drm_modeset_lock+0x42/0xf0 [drm]
-[    4.994816]  ? drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_helper]
-[    4.994821]  drm_fb_helper_pan_display+0x103/0x1f0 [drm_kms_helper]
-[    4.994823]  fb_pan_display+0x92/0x120
-[    4.994825]  bit_update_start+0x1a/0x40
-[    4.994826]  fbcon_switch+0x392/0x580
-[    4.994829]  redraw_screen+0x12c/0x220
-[    4.994831]  do_bind_con_driver.cold.30+0xe1/0x10d
-[    4.994833]  do_take_over_console+0x113/0x190
-[    4.994835]  do_fbcon_takeover+0x58/0xb0
-[    4.994836]  notifier_call_chain+0x47/0x70
-[    4.994838]  blocking_notifier_call_chain+0x44/0x60
-[    4.994839]  ? lock_fb_info+0x18/0x40
-[    4.994841]  register_framebuffer+0x231/0x310
-[    4.994847]  __drm_fb_helper_initial_config_and_unlock+0x2fd/0x530
-[drm_kms_helper]
-[    4.994873]  radeon_fbdev_init+0x110/0x130 [radeon]
-[    4.994899]  radeon_modeset_init.cold.12+0x198/0x4ec [radeon]
-[    4.994923]  radeon_driver_load_kms+0xc1/0x250 [radeon]
-[    4.994932]  drm_dev_register+0x10f/0x150 [drm]
-[    4.994942]  drm_get_pci_dev+0x95/0x190 [drm]
-[    4.994944]  local_pci_probe+0x42/0x80
-[    4.994946]  pci_device_probe+0xf1/0x170
-[    4.994948]  really_probe+0xef/0x390
-[    4.994949]  driver_probe_device+0xb4/0x100
-[    4.994951]  device_driver_attach+0x4f/0x60
-[    4.994952]  __driver_attach+0x88/0x140
-[    4.994953]  ? device_driver_attach+0x60/0x60
-[    4.994954]  bus_for_each_dev+0x66/0x90
-[    4.994956]  bus_add_driver+0x134/0x1e0
-[    4.994957]  ? 0xffffffffc0870000
-[    4.994959]  driver_register+0x6b/0xb0
-[    4.994960]  ? 0xffffffffc0870000
-[    4.994961]  do_one_initcall+0x5d/0x2b4
-[    4.994964]  do_init_module+0x5a/0x220
-[    4.994966]  load_module+0x17d4/0x1a90
-[    4.994970]  ? __do_sys_finit_module+0x8f/0xd0
-[    4.994971]  __do_sys_finit_module+0x8f/0xd0
-[    4.994974]  do_syscall_64+0x60/0x1c0
-[    4.994976]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[    4.994977] RIP: 0033:0x7f10b1261449
-[    4.994978] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00
-48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f
-05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 1f 4a 0c 00 f7 d8 64 89 01 48
-[    4.994979] RSP: 002b:00007ffd6e07fd78 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[    4.994980] RAX: ffffffffffffffda RBX: 00005627690c73d0 RCX:
-00007f10b1261449
-[    4.994981] RDX: 0000000000000000 RSI: 00007f10b13c289d RDI:
-000000000000000e
-[    4.994982] RBP: 0000000000020000 R08: 0000000000000000 R09:
-00005627690ce930
-[    4.994982] R10: 000000000000000e R11: 0000000000000246 R12:
-00007f10b13c289d
-[    4.994983] R13: 0000000000000000 R14: 00005627690feba0 R15:
-00005627690c73d0
-
-
-
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---fb5exwa0TC6Nyags9985nk6IO9iBzqTrS--
-
---pPZ319LiXH99mgBnmC0k0sD7uCLSEgUjZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz/c+0ACgkQaA3BHVML
-eiOPJgf+J5e+DIRuIugz5m9SQoP27wqq6d/MuF3EjXL85HeKfS2CcTM7nEgJ2u48
-zqSYRi+gB0bJW8yKkyN+X7aXgufT6YfKJ0ias8AiNlsAJNDWk15BLxLjTIWGyVDN
-Jhd0c2VKjRe02VbO3b7lhu+ML6+NtCQzWSPv2XdZHaHvcfGWbEnIn0JeF/IvbiB0
-KaXO+Jz/K5qAO0Tn0/h6e0AOS5/p4JyOt4jiSkwyucaJ5ah764zHtqs0991kw7bx
-Yt8OP4y6JLTg535uRc6NMR/jo7gBAyIIP69cjxW4gkOVXptDu/6d39cs4c/lHPwh
-vIOEFyJ3zrH4WcHpZVPeGCoER+Xa7g==
-=wCZD
------END PGP SIGNATURE-----
-
---pPZ319LiXH99mgBnmC0k0sD7uCLSEgUjZ--
-
---===============1771664998==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1771664998==--
+T24gVHVlLCBKdW4gMTEsIDIwMTkgYXQgMTE6MjcgQU0gVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+IHdyb3RlOgo+Cj4gSGksCj4KPiBzaW5jZSBhIGZldyBkYXlzLCBJIGdl
+dCBhIGRlYWRsb2NrIHdhcm5pbmcgYWJvdXQgdGhlIERSTSBGQiBoZWxwZXJzIGluCj4gZHJtLXRp
+cC4gSSB3YXMgYWJsZSB0byB0cmFjZSB0aGUgcHJvYmxlbSBiYWNrIHRvCj4KPiAgIGQ4MTI5NGFm
+ZSBkcm0vZmItaGVscGVyOiBSZW1vdmUgZHJtX2ZiX2hlbHBlcl9jcnRjCj4KPiBJdCBtb3ZlcyBh
+cm91bmQgc29tZSBsb2NrIG9wZXJhdGlvbnMsIHdoaWNoIGJyZWFrcyBub24tYXRvbWljIGRyaXZl
+cnMKPiAocmFkZW9uLCBtZ2FnMjAwLCBhc3QpLiBBbiBsc3BjaSBhbmQgZG1lc2cgc25pcHBldCBm
+cm9tIG15IHRlc3Qgc3lzdGVtCj4gaXMgaW5jbHVkZWQgYmVsb3cuCgpGcm9tIGEgcXVpY2sgbG9v
+ayB0aGUgY2xpZW50LT5tb2Rlc2V0X211dGV4IGlzIHRha2VuIHRvbyBkZWVwIGluIHRoZQpjYWxs
+Y2hhaW4gZm9yIHBhbl9zZXQuIEl0IG5lZWRzIHRvIGJlIG1vdmVkIG91dCwgb3V0c2lkZSBvZiBh
+bGwgdGhlCmNvcmUga21zIGxvY2tpbmcsIGxpa2Ugd2l0aCBmYl9oZWxwZXJfZHBtcy4gSSB0aGlu
+ayB0aGF0IHNob3VsZCBmaXgKdGhlIGlzc3VlLgotRGFuaWVsCgo+IEJlc3QgcmVnYXJkcwo+IFRo
+b21hcwo+Cj4KPiAgKiBsc3BjaSAtdgo+Cj4gMDE6MDAuMCBWR0EgY29tcGF0aWJsZSBjb250cm9s
+bGVyOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuCj4gW0FNRC9BVEldIE9sYW5kIFtSYWRl
+b24gSEQgODU3MCAvIFI3IDI0MC8zNDAgT0VNXSAocHJvZy1pZiAwMCBbVkdBCj4gY29udHJvbGxl
+cl0pCj4gICAgICAgICBTdWJzeXN0ZW06IERlbGwgUmFkZW9uIFI1IDI0MCBPRU0KPiAgICAgICAg
+IEZsYWdzOiBidXMgbWFzdGVyLCBmYXN0IGRldnNlbCwgbGF0ZW5jeSAwLCBJUlEgMzIKPiAgICAg
+ICAgIE1lbW9yeSBhdCBlMDAwMDAwMCAoNjQtYml0LCBwcmVmZXRjaGFibGUpIFtzaXplPTI1Nk1d
+Cj4gICAgICAgICBNZW1vcnkgYXQgZjdjMDAwMDAgKDY0LWJpdCwgbm9uLXByZWZldGNoYWJsZSkg
+W3NpemU9MjU2S10KPiAgICAgICAgIEkvTyBwb3J0cyBhdCBlMDAwIFtzaXplPTI1Nl0KPiAgICAg
+ICAgIEV4cGFuc2lvbiBST00gYXQgMDAwYzAwMDAgW2Rpc2FibGVkXSBbc2l6ZT0xMjhLXQo+ICAg
+ICAgICAgQ2FwYWJpbGl0aWVzOiBbNDhdIFZlbmRvciBTcGVjaWZpYyBJbmZvcm1hdGlvbjogTGVu
+PTA4IDw/Pgo+ICAgICAgICAgQ2FwYWJpbGl0aWVzOiBbNTBdIFBvd2VyIE1hbmFnZW1lbnQgdmVy
+c2lvbiAzCj4gICAgICAgICBDYXBhYmlsaXRpZXM6IFs1OF0gRXhwcmVzcyBMZWdhY3kgRW5kcG9p
+bnQsIE1TSSAwMAo+ICAgICAgICAgQ2FwYWJpbGl0aWVzOiBbYTBdIE1TSTogRW5hYmxlKyBDb3Vu
+dD0xLzEgTWFza2FibGUtIDY0Yml0Kwo+ICAgICAgICAgQ2FwYWJpbGl0aWVzOiBbMTAwXSBWZW5k
+b3IgU3BlY2lmaWMgSW5mb3JtYXRpb246IElEPTAwMDEgUmV2PTEKPiBMZW49MDEwIDw/Pgo+ICAg
+ICAgICAgQ2FwYWJpbGl0aWVzOiBbMTUwXSBBZHZhbmNlZCBFcnJvciBSZXBvcnRpbmcKPiAgICAg
+ICAgIENhcGFiaWxpdGllczogWzIwMF0gUmVzaXphYmxlIEJBUiA8Pz4KPiAgICAgICAgIENhcGFi
+aWxpdGllczogWzI3MF0gU2Vjb25kYXJ5IFBDSSBFeHByZXNzIDw/Pgo+ICAgICAgICAgS2VybmVs
+IGRyaXZlciBpbiB1c2U6IHJhZGVvbgo+ICAgICAgICAgS2VybmVsIG1vZHVsZXM6IHJhZGVvbiwg
+YW1kZ3B1Cj4KPiAgKiBkbWVzZwo+Cj4KPiBbICAgIDQuOTU5MzE5XSBmYmNvbjogcmFkZW9uZHJt
+ZmIgKGZiMCkgaXMgcHJpbWFyeSBkZXZpY2UKPiBbICAgIDQuOTkzOTUyXSBDb25zb2xlOiBzd2l0
+Y2hpbmcgdG8gY29sb3VyIGZyYW1lIGJ1ZmZlciBkZXZpY2UgMjQweDY3Cj4gWyAgICA0Ljk5NDA0
+MF0KPiBbICAgIDQuOTk0MDQxXSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0KPiBbICAgIDQuOTk0MDQxXSBXQVJOSU5HOiBwb3NzaWJsZSBjaXJj
+dWxhciBsb2NraW5nIGRlcGVuZGVuY3kgZGV0ZWN0ZWQKPiBbICAgIDQuOTk0MDQyXSA1LjIuMC1y
+YzQtMS1kZWZhdWx0KyAjMzkgVGFpbnRlZDogRyAgICAgICAgICAgIEUKPiBbICAgIDQuOTk0MDQz
+XSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+PiBbICAgIDQuOTk0MDQzXSBzeXN0ZW1kLXVkZXZkLzM2OSBpcyB0cnlpbmcgdG8gYWNxdWlyZSBs
+b2NrOgo+IFsgICAgNC45OTQwNDRdIDAwMDAwMDAwZmI2MjJhY2IgKCZjbGllbnQtPm1vZGVzZXRf
+bXV0ZXgpeysuKy59LCBhdDoKPiBkcm1fZmJfaGVscGVyX3Bhbl9kaXNwbGF5KzB4MTAzLzB4MWYw
+IFtkcm1fa21zX2hlbHBlcl0KPiBbICAgIDQuOTk0MDU1XQo+IFsgICAgNC45OTQwNTVdIGJ1dCB0
+YXNrIGlzIGFscmVhZHkgaG9sZGluZyBsb2NrOgo+IFsgICAgNC45OTQwNTVdIDAwMDAwMDAwMjg3
+NjdhZTQgKGNydGNfd3dfY2xhc3NfbXV0ZXgpeysuKy59LCBhdDoKPiBkcm1fbW9kZXNldF9sb2Nr
+KzB4NDIvMHhmMCBbZHJtXQo+IFsgICAgNC45OTQwNzJdCj4gWyAgICA0Ljk5NDA3Ml0gd2hpY2gg
+bG9jayBhbHJlYWR5IGRlcGVuZHMgb24gdGhlIG5ldyBsb2NrLgo+IFsgICAgNC45OTQwNzJdCj4g
+WyAgICA0Ljk5NDA3Ml0KPiBbICAgIDQuOTk0MDcyXSB0aGUgZXhpc3RpbmcgZGVwZW5kZW5jeSBj
+aGFpbiAoaW4gcmV2ZXJzZSBvcmRlcikgaXM6Cj4gWyAgICA0Ljk5NDA3M10KPiBbICAgIDQuOTk0
+MDczXSAtPiAjMyAoY3J0Y193d19jbGFzc19tdXRleCl7Ky4rLn06Cj4gWyAgICA0Ljk5NDA3Nl0g
+ICAgICAgIGxvY2tfYWNxdWlyZSsweDllLzB4MTcwCj4gWyAgICA0Ljk5NDA3OV0gICAgICAgIF9f
+d3dfbXV0ZXhfbG9jay5jb25zdHByb3AuMTgrMHg5Ny8weGY0MAo+IFsgICAgNC45OTQwODBdICAg
+ICAgICB3d19tdXRleF9sb2NrKzB4MzAvMHg5MAo+IFsgICAgNC45OTQwOTFdICAgICAgICBkcm1f
+bW9kZXNldF9sb2NrKzB4NDIvMHhmMCBbZHJtXQo+IFsgICAgNC45OTQxMDJdICAgICAgICBkcm1f
+bW9kZXNldF9sb2NrX2FsbF9jdHgrMHgxZi8weGUwIFtkcm1dCj4gWyAgICA0Ljk5NDExM10gICAg
+ICAgIGRybV9tb2Rlc2V0X2xvY2tfYWxsKzB4NWUvMHgxYTAgW2RybV0KPiBbICAgIDQuOTk0MTYz
+XSAgICAgICAgaW50ZWxfbW9kZXNldF9pbml0KzB4NjBiLzB4ZGEwIFtpOTE1XQo+IFsgICAgNC45
+OTQxOTZdICAgICAgICBpOTE1X2RyaXZlcl9sb2FkKzB4ZDE3LzB4MTczMCBbaTkxNV0KPiBbICAg
+IDQuOTk0MjI4XSAgICAgICAgaTkxNV9wY2lfcHJvYmUrMHg0NC8weDEzMCBbaTkxNV0KPiBbICAg
+IDQuOTk0MjMxXSAgICAgICAgbG9jYWxfcGNpX3Byb2JlKzB4NDIvMHg4MAo+IFsgICAgNC45OTQy
+MzJdICAgICAgICBwY2lfZGV2aWNlX3Byb2JlKzB4ZjEvMHgxNzAKPiBbICAgIDQuOTk0MjM0XSAg
+ICAgICAgcmVhbGx5X3Byb2JlKzB4ZWYvMHgzOTAKPiBbICAgIDQuOTk0MjM1XSAgICAgICAgZHJp
+dmVyX3Byb2JlX2RldmljZSsweGI0LzB4MTAwCj4gWyAgICA0Ljk5NDIzN10gICAgICAgIGRldmlj
+ZV9kcml2ZXJfYXR0YWNoKzB4NGYvMHg2MAo+IFsgICAgNC45OTQyMzhdICAgICAgICBfX2RyaXZl
+cl9hdHRhY2grMHg4OC8weDE0MAo+IFsgICAgNC45OTQyMzldICAgICAgICBidXNfZm9yX2VhY2hf
+ZGV2KzB4NjYvMHg5MAo+IFsgICAgNC45OTQyNDBdICAgICAgICBidXNfYWRkX2RyaXZlcisweDEz
+NC8weDFlMAo+IFsgICAgNC45OTQyNDFdICAgICAgICBkcml2ZXJfcmVnaXN0ZXIrMHg2Yi8weGIw
+Cj4gWyAgICA0Ljk5NDI0NF0gICAgICAgIGRvX29uZV9pbml0Y2FsbCsweDVkLzB4MmI0Cj4gWyAg
+ICA0Ljk5NDI0Nl0gICAgICAgIGRvX2luaXRfbW9kdWxlKzB4NWEvMHgyMjAKPiBbICAgIDQuOTk0
+MjQ4XSAgICAgICAgbG9hZF9tb2R1bGUrMHgxN2Q0LzB4MWE5MAo+IFsgICAgNC45OTQyNDldICAg
+ICAgICBfX2RvX3N5c19maW5pdF9tb2R1bGUrMHg4Zi8weGQwCj4gWyAgICA0Ljk5NDI1MV0gICAg
+ICAgIGRvX3N5c2NhbGxfNjQrMHg2MC8weDFjMAo+IFsgICAgNC45OTQyNTJdICAgICAgICBlbnRy
+eV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0OS8weGJlCj4gWyAgICA0Ljk5NDI1M10KPiBb
+ICAgIDQuOTk0MjUzXSAtPiAjMiAoY3J0Y193d19jbGFzc19hY3F1aXJlKXsrLisufToKPiBbICAg
+IDQuOTk0MjU1XSAgICAgICAgbG9ja19hY3F1aXJlKzB4OWUvMHgxNzAKPiBbICAgIDQuOTk0Mjcw
+XSAgICAgICAgZHJtX21vZGVzZXRfYWNxdWlyZV9pbml0KzB4Y2MvMHgxMDAgW2RybV0KPiBbICAg
+IDQuOTk0MjgwXSAgICAgICAgZHJtX21vZGVzZXRfbG9ja19hbGwrMHg0NC8weDFhMCBbZHJtXQo+
+IFsgICAgNC45OTQzMjBdICAgICAgICBpbnRlbF9tb2Rlc2V0X2luaXQrMHg2MGIvMHhkYTAgW2k5
+MTVdCj4gWyAgICA0Ljk5NDM1Ml0gICAgICAgIGk5MTVfZHJpdmVyX2xvYWQrMHhkMTcvMHgxNzMw
+IFtpOTE1XQo+IFsgICAgNC45OTQzODVdICAgICAgICBpOTE1X3BjaV9wcm9iZSsweDQ0LzB4MTMw
+IFtpOTE1XQo+IFsgICAgNC45OTQzODddICAgICAgICBsb2NhbF9wY2lfcHJvYmUrMHg0Mi8weDgw
+Cj4gWyAgICA0Ljk5NDM4N10gICAgICAgIHBjaV9kZXZpY2VfcHJvYmUrMHhmMS8weDE3MAo+IFsg
+ICAgNC45OTQzODldICAgICAgICByZWFsbHlfcHJvYmUrMHhlZi8weDM5MAo+IFsgICAgNC45OTQz
+OTBdICAgICAgICBkcml2ZXJfcHJvYmVfZGV2aWNlKzB4YjQvMHgxMDAKPiBbICAgIDQuOTk0Mzkx
+XSAgICAgICAgZGV2aWNlX2RyaXZlcl9hdHRhY2grMHg0Zi8weDYwCj4gWyAgICA0Ljk5NDM5Ml0g
+ICAgICAgIF9fZHJpdmVyX2F0dGFjaCsweDg4LzB4MTQwCj4gWyAgICA0Ljk5NDM5M10gICAgICAg
+IGJ1c19mb3JfZWFjaF9kZXYrMHg2Ni8weDkwCj4gWyAgICA0Ljk5NDM5NF0gICAgICAgIGJ1c19h
+ZGRfZHJpdmVyKzB4MTM0LzB4MWUwCj4gWyAgICA0Ljk5NDM5NV0gICAgICAgIGRyaXZlcl9yZWdp
+c3RlcisweDZiLzB4YjAKPiBbICAgIDQuOTk0Mzk2XSAgICAgICAgZG9fb25lX2luaXRjYWxsKzB4
+NWQvMHgyYjQKPiBbICAgIDQuOTk0Mzk4XSAgICAgICAgZG9faW5pdF9tb2R1bGUrMHg1YS8weDIy
+MAo+IFsgICAgNC45OTQzOTldICAgICAgICBsb2FkX21vZHVsZSsweDE3ZDQvMHgxYTkwCj4gWyAg
+ICA0Ljk5NDQwMF0gICAgICAgIF9fZG9fc3lzX2Zpbml0X21vZHVsZSsweDhmLzB4ZDAKPiBbICAg
+IDQuOTk0NDAyXSAgICAgICAgZG9fc3lzY2FsbF82NCsweDYwLzB4MWMwCj4gWyAgICA0Ljk5NDQw
+M10gICAgICAgIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5LzB4YmUKPiBbICAg
+IDQuOTk0NDAzXQo+IFsgICAgNC45OTQ0MDNdIC0+ICMxICgmZGV2LT5tb2RlX2NvbmZpZy5tdXRl
+eCl7Ky4rLn06Cj4gWyAgICA0Ljk5NDQwNV0gICAgICAgIGxvY2tfYWNxdWlyZSsweDllLzB4MTcw
+Cj4gWyAgICA0Ljk5NDQwOF0gICAgICAgIF9fbXV0ZXhfbG9jaysweDYyLzB4OGMwCj4gWyAgICA0
+Ljk5NDQxM10gICAgICAgIGRybV9zZXR1cF9jcnRjcysweDE3Yy8weGM1MCBbZHJtX2ttc19oZWxw
+ZXJdCj4gWyAgICA0Ljk5NDQxOF0KPiBfX2RybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5k
+X3VubG9jaysweDM0LzB4NTMwIFtkcm1fa21zX2hlbHBlcl0KPiBbICAgIDQuOTk0NDUwXSAgICAg
+ICAgcmFkZW9uX2ZiZGV2X2luaXQrMHgxMTAvMHgxMzAgW3JhZGVvbl0KPiBbICAgIDQuOTk0NDc3
+XSAgICAgICAgcmFkZW9uX21vZGVzZXRfaW5pdC5jb2xkLjEyKzB4MTk4LzB4NGVjIFtyYWRlb25d
+Cj4gWyAgICA0Ljk5NDUwMF0gICAgICAgIHJhZGVvbl9kcml2ZXJfbG9hZF9rbXMrMHhjMS8weDI1
+MCBbcmFkZW9uXQo+IFsgICAgNC45OTQ1MDhdICAgICAgICBkcm1fZGV2X3JlZ2lzdGVyKzB4MTBm
+LzB4MTUwIFtkcm1dCj4gWyAgICA0Ljk5NDUxN10gICAgICAgIGRybV9nZXRfcGNpX2RldisweDk1
+LzB4MTkwIFtkcm1dCj4gWyAgICA0Ljk5NDUxOV0gICAgICAgIGxvY2FsX3BjaV9wcm9iZSsweDQy
+LzB4ODAKPiBbICAgIDQuOTk0NTIwXSAgICAgICAgcGNpX2RldmljZV9wcm9iZSsweGYxLzB4MTcw
+Cj4gWyAgICA0Ljk5NDUyMV0gICAgICAgIHJlYWxseV9wcm9iZSsweGVmLzB4MzkwCj4gWyAgICA0
+Ljk5NDUyMl0gICAgICAgIGRyaXZlcl9wcm9iZV9kZXZpY2UrMHhiNC8weDEwMAo+IFsgICAgNC45
+OTQ1MjNdICAgICAgICBkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDRmLzB4NjAKPiBbICAgIDQuOTk0
+NTI0XSAgICAgICAgX19kcml2ZXJfYXR0YWNoKzB4ODgvMHgxNDAKPiBbICAgIDQuOTk0NTI1XSAg
+ICAgICAgYnVzX2Zvcl9lYWNoX2RldisweDY2LzB4OTAKPiBbICAgIDQuOTk0NTI2XSAgICAgICAg
+YnVzX2FkZF9kcml2ZXIrMHgxMzQvMHgxZTAKPiBbICAgIDQuOTk0NTI3XSAgICAgICAgZHJpdmVy
+X3JlZ2lzdGVyKzB4NmIvMHhiMAo+IFsgICAgNC45OTQ1MjhdICAgICAgICBkb19vbmVfaW5pdGNh
+bGwrMHg1ZC8weDJiNAo+IFsgICAgNC45OTQ1MzBdICAgICAgICBkb19pbml0X21vZHVsZSsweDVh
+LzB4MjIwCj4gWyAgICA0Ljk5NDUzMV0gICAgICAgIGxvYWRfbW9kdWxlKzB4MTdkNC8weDFhOTAK
+PiBbICAgIDQuOTk0NTMyXSAgICAgICAgX19kb19zeXNfZmluaXRfbW9kdWxlKzB4OGYvMHhkMAo+
+IFsgICAgNC45OTQ1MzNdICAgICAgICBkb19zeXNjYWxsXzY0KzB4NjAvMHgxYzAKPiBbICAgIDQu
+OTk0NTM1XSAgICAgICAgZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NDkvMHhiZQo+
+IFsgICAgNC45OTQ1MzVdCj4gWyAgICA0Ljk5NDUzNV0gLT4gIzAgKCZjbGllbnQtPm1vZGVzZXRf
+bXV0ZXgpeysuKy59Ogo+IFsgICAgNC45OTQ1MzddICAgICAgICBfX2xvY2tfYWNxdWlyZSsweGE4
+NS8weGU5MAo+IFsgICAgNC45OTQ1MzhdICAgICAgICBsb2NrX2FjcXVpcmUrMHg5ZS8weDE3MAo+
+IFsgICAgNC45OTQ1NDBdICAgICAgICBfX211dGV4X2xvY2srMHg2Mi8weDhjMAo+IFsgICAgNC45
+OTQ1NDVdICAgICAgICBkcm1fZmJfaGVscGVyX3Bhbl9kaXNwbGF5KzB4MTAzLzB4MWYwIFtkcm1f
+a21zX2hlbHBlcl0KPiBbICAgIDQuOTk0NTQ3XSAgICAgICAgZmJfcGFuX2Rpc3BsYXkrMHg5Mi8w
+eDEyMAo+IFsgICAgNC45OTQ1NDldICAgICAgICBiaXRfdXBkYXRlX3N0YXJ0KzB4MWEvMHg0MAo+
+IFsgICAgNC45OTQ1NTBdICAgICAgICBmYmNvbl9zd2l0Y2grMHgzOTIvMHg1ODAKPiBbICAgIDQu
+OTk0NTUyXSAgICAgICAgcmVkcmF3X3NjcmVlbisweDEyYy8weDIyMAo+IFsgICAgNC45OTQ1NTNd
+ICAgICAgICBkb19iaW5kX2Nvbl9kcml2ZXIuY29sZC4zMCsweGUxLzB4MTBkCj4gWyAgICA0Ljk5
+NDU1NF0gICAgICAgIGRvX3Rha2Vfb3Zlcl9jb25zb2xlKzB4MTEzLzB4MTkwCj4gWyAgICA0Ljk5
+NDU1NV0gICAgICAgIGRvX2ZiY29uX3Rha2VvdmVyKzB4NTgvMHhiMAo+IFsgICAgNC45OTQ1NTdd
+ICAgICAgICBub3RpZmllcl9jYWxsX2NoYWluKzB4NDcvMHg3MAo+IFsgICAgNC45OTQ1NThdICAg
+ICAgICBibG9ja2luZ19ub3RpZmllcl9jYWxsX2NoYWluKzB4NDQvMHg2MAo+IFsgICAgNC45OTQ1
+NTldICAgICAgICByZWdpc3Rlcl9mcmFtZWJ1ZmZlcisweDIzMS8weDMxMAo+IFsgICAgNC45OTQ1
+NjRdCj4gX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2srMHgyZmQvMHg1
+MzAgW2RybV9rbXNfaGVscGVyXQo+IFsgICAgNC45OTQ1OTBdICAgICAgICByYWRlb25fZmJkZXZf
+aW5pdCsweDExMC8weDEzMCBbcmFkZW9uXQo+IFsgICAgNC45OTQ2MTVdICAgICAgICByYWRlb25f
+bW9kZXNldF9pbml0LmNvbGQuMTIrMHgxOTgvMHg0ZWMgW3JhZGVvbl0KPiBbICAgIDQuOTk0NjM4
+XSAgICAgICAgcmFkZW9uX2RyaXZlcl9sb2FkX2ttcysweGMxLzB4MjUwIFtyYWRlb25dCj4gWyAg
+ICA0Ljk5NDY0N10gICAgICAgIGRybV9kZXZfcmVnaXN0ZXIrMHgxMGYvMHgxNTAgW2RybV0KPiBb
+ICAgIDQuOTk0NjU1XSAgICAgICAgZHJtX2dldF9wY2lfZGV2KzB4OTUvMHgxOTAgW2RybV0KPiBb
+ICAgIDQuOTk0NjU3XSAgICAgICAgbG9jYWxfcGNpX3Byb2JlKzB4NDIvMHg4MAo+IFsgICAgNC45
+OTQ2NThdICAgICAgICBwY2lfZGV2aWNlX3Byb2JlKzB4ZjEvMHgxNzAKPiBbICAgIDQuOTk0NjU5
+XSAgICAgICAgcmVhbGx5X3Byb2JlKzB4ZWYvMHgzOTAKPiBbICAgIDQuOTk0NjYwXSAgICAgICAg
+ZHJpdmVyX3Byb2JlX2RldmljZSsweGI0LzB4MTAwCj4gWyAgICA0Ljk5NDY2MV0gICAgICAgIGRl
+dmljZV9kcml2ZXJfYXR0YWNoKzB4NGYvMHg2MAo+IFsgICAgNC45OTQ2NjJdICAgICAgICBfX2Ry
+aXZlcl9hdHRhY2grMHg4OC8weDE0MAo+IFsgICAgNC45OTQ2NjNdICAgICAgICBidXNfZm9yX2Vh
+Y2hfZGV2KzB4NjYvMHg5MAo+IFsgICAgNC45OTQ2NjRdICAgICAgICBidXNfYWRkX2RyaXZlcisw
+eDEzNC8weDFlMAo+IFsgICAgNC45OTQ2NjVdICAgICAgICBkcml2ZXJfcmVnaXN0ZXIrMHg2Yi8w
+eGIwCj4gWyAgICA0Ljk5NDY2Nl0gICAgICAgIGRvX29uZV9pbml0Y2FsbCsweDVkLzB4MmI0Cj4g
+WyAgICA0Ljk5NDY2OF0gICAgICAgIGRvX2luaXRfbW9kdWxlKzB4NWEvMHgyMjAKPiBbICAgIDQu
+OTk0NjY5XSAgICAgICAgbG9hZF9tb2R1bGUrMHgxN2Q0LzB4MWE5MAo+IFsgICAgNC45OTQ2NzBd
+ICAgICAgICBfX2RvX3N5c19maW5pdF9tb2R1bGUrMHg4Zi8weGQwCj4gWyAgICA0Ljk5NDY3MV0g
+ICAgICAgIGRvX3N5c2NhbGxfNjQrMHg2MC8weDFjMAo+IFsgICAgNC45OTQ2NzNdICAgICAgICBl
+bnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0OS8weGJlCj4gWyAgICA0Ljk5NDY3M10K
+PiBbICAgIDQuOTk0NjczXSBvdGhlciBpbmZvIHRoYXQgbWlnaHQgaGVscCB1cyBkZWJ1ZyB0aGlz
+Ogo+IFsgICAgNC45OTQ2NzNdCj4gWyAgICA0Ljk5NDY3M10gQ2hhaW4gZXhpc3RzIG9mOgo+IFsg
+ICAgNC45OTQ2NzNdICAgJmNsaWVudC0+bW9kZXNldF9tdXRleCAtLT4gY3J0Y193d19jbGFzc19h
+Y3F1aXJlIC0tPgo+IGNydGNfd3dfY2xhc3NfbXV0ZXgKPiBbICAgIDQuOTk0NjczXQo+IFsgICAg
+NC45OTQ2NzVdICBQb3NzaWJsZSB1bnNhZmUgbG9ja2luZyBzY2VuYXJpbzoKPiBbICAgIDQuOTk0
+Njc1XQo+IFsgICAgNC45OTQ2NzVdICAgICAgICBDUFUwICAgICAgICAgICAgICAgICAgICBDUFUx
+Cj4gWyAgICA0Ljk5NDY3Nl0gICAgICAgIC0tLS0gICAgICAgICAgICAgICAgICAgIC0tLS0KPiBb
+ICAgIDQuOTk0Njc2XSAgIGxvY2soY3J0Y193d19jbGFzc19tdXRleCk7Cj4gWyAgICA0Ljk5NDY3
+N10gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2soY3J0Y193d19jbGFzc19hY3F1
+aXJlKTsKPiBbICAgIDQuOTk0Njc3XSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9j
+ayhjcnRjX3d3X2NsYXNzX211dGV4KTsKPiBbICAgIDQuOTk0Njc4XSAgIGxvY2soJmNsaWVudC0+
+bW9kZXNldF9tdXRleCk7Cj4gWyAgICA0Ljk5NDY3OV0KPiBbICAgIDQuOTk0Njc5XSAgKioqIERF
+QURMT0NLICoqKgo+IFsgICAgNC45OTQ2NzldCj4gWyAgICA0Ljk5NDY3OV0gMTEgbG9ja3MgaGVs
+ZCBieSBzeXN0ZW1kLXVkZXZkLzM2OToKPiBbICAgIDQuOTk0NjgwXSAgIzA6IDAwMDAwMDAwMmE4
+NjQ5NzEgKCZkZXYtPm11dGV4KXsuLi4ufSwgYXQ6Cj4gZGV2aWNlX2RyaXZlcl9hdHRhY2grMHgx
+ZC8weDYwCj4gWyAgICA0Ljk5NDY4Ml0gICMxOiAwMDAwMDAwMDc5YjRmZmY2IChkcm1fZ2xvYmFs
+X211dGV4KXsrLisufSwgYXQ6Cj4gZHJtX2Rldl9yZWdpc3RlcisweDI3LzB4MTUwIFtkcm1dCj4g
+WyAgICA0Ljk5NDY5MV0gICMyOiAwMDAwMDAwMGFlNGIyNDlmIChyZWdpc3RyYXRpb25fbG9jayl7
+Ky4rLn0sIGF0Ogo+IHJlZ2lzdGVyX2ZyYW1lYnVmZmVyKzB4MjkvMHgzMTAKPiBbICAgIDQuOTk0
+Njk0XSAgIzM6IDAwMDAwMDAwYmFhNGIzM2IgKGNvbnNvbGVfbG9jayl7Ky4rLn0sIGF0Ogo+IHJl
+Z2lzdGVyX2ZyYW1lYnVmZmVyKzB4MmFkLzB4MzEwCj4gWyAgICA0Ljk5NDY5Nl0gICM0OiAwMDAw
+MDAwMDUyYWEwNGU5ICgmZmJfaW5mby0+bG9jayl7Ky4rLn0sIGF0Ogo+IGxvY2tfZmJfaW5mbysw
+eDE4LzB4NDAKPiBbICAgIDQuOTk0Njk4XSAgIzU6IDAwMDAwMDAwZWUxOThjM2EgKChmYl9ub3Rp
+Zmllcl9saXN0KS5yd3NlbSl7KysrK30sCj4gYXQ6IGJsb2NraW5nX25vdGlmaWVyX2NhbGxfY2hh
+aW4rMHgyYS8weDYwCj4gWyAgICA0Ljk5NDcwMV0gICM2OiAwMDAwMDAwMDI4M2Q1Njc5ICgmaGVs
+cGVyLT5sb2NrKXsrLisufSwgYXQ6Cj4gZHJtX2ZiX2hlbHBlcl9wYW5fZGlzcGxheSsweDQ4LzB4
+MWYwIFtkcm1fa21zX2hlbHBlcl0KPiBbICAgIDQuOTk0NzA3XSAgIzc6IDAwMDAwMDAwN2NkNzBl
+NGMgKCZkZXYtPm1hc3Rlcl9tdXRleCl7Ky4rLn0sIGF0Ogo+IGRybV9tYXN0ZXJfaW50ZXJuYWxf
+YWNxdWlyZSsweDFiLzB4NDAgW2RybV0KPiBbICAgIDQuOTk0NzE1XSAgIzg6IDAwMDAwMDAwNjli
+Y2U3MTggKCZkZXYtPm1vZGVfY29uZmlnLm11dGV4KXsrLisufSwKPiBhdDogZHJtX21vZGVzZXRf
+bG9ja19hbGwrMHgzYS8weDFhMCBbZHJtXQo+IFsgICAgNC45OTQ3MjZdICAjOTogMDAwMDAwMDBh
+YTQyYjc4NSAoY3J0Y193d19jbGFzc19hY3F1aXJlKXsrLisufSwgYXQ6Cj4gZHJtX21vZGVzZXRf
+bG9ja19hbGwrMHg0NC8weDFhMCBbZHJtXQo+IFsgICAgNC45OTQ3MzhdICAjMTA6IDAwMDAwMDAw
+Mjg3NjdhZTQgKGNydGNfd3dfY2xhc3NfbXV0ZXgpeysuKy59LCBhdDoKPiBkcm1fbW9kZXNldF9s
+b2NrKzB4NDIvMHhmMCBbZHJtXQo+IFsgICAgNC45OTQ3NTBdCj4gWyAgICA0Ljk5NDc1MF0gc3Rh
+Y2sgYmFja3RyYWNlOgo+IFsgICAgNC45OTQ3NTJdIENQVTogNyBQSUQ6IDM2OSBDb21tOiBzeXN0
+ZW1kLXVkZXZkIFRhaW50ZWQ6IEcKPiAgRSAgICAgNS4yLjAtcmM0LTEtZGVmYXVsdCsgIzM5Cj4g
+WyAgICA0Ljk5NDc1Ml0gSGFyZHdhcmUgbmFtZTogRGVsbCBJbmMuIE9wdGlQbGV4IDkwMjAvME40
+WUM4LCBCSU9TIEEyNAo+IDEwLzI0LzIwMTgKPiBbICAgIDQuOTk0NzUzXSBDYWxsIFRyYWNlOgo+
+IFsgICAgNC45OTQ3NTZdICBkdW1wX3N0YWNrKzB4ODUvMHhjMAo+IFsgICAgNC45OTQ3NThdICBw
+cmludF9jaXJjdWxhcl9idWcuY29sZC42MisweDE1Yy8weDE5NQo+IFsgICAgNC45OTQ3NjBdICBj
+aGVja19wcmV2c19hZGQrMHg3ZmYvMHhmNDAKPiBbICAgIDQuOTk0NzYzXSAgPyBmaW5kX2hlbGRf
+bG9jaysweDM0LzB4YTAKPiBbICAgIDQuOTk0Nzc0XSAgPyBkcm1fbW9kZXNldF9sb2NrKzB4NDIv
+MHhmMCBbZHJtXQo+IFsgICAgNC45OTQ3NzVdICBfX2xvY2tfYWNxdWlyZSsweGE4NS8weGU5MAo+
+IFsgICAgNC45OTQ3NzddICBsb2NrX2FjcXVpcmUrMHg5ZS8weDE3MAo+IFsgICAgNC45OTQ3ODJd
+ICA/IGRybV9mYl9oZWxwZXJfcGFuX2Rpc3BsYXkrMHgxMDMvMHgxZjAgW2RybV9rbXNfaGVscGVy
+XQo+IFsgICAgNC45OTQ3ODhdICA/IGRybV9mYl9oZWxwZXJfcGFuX2Rpc3BsYXkrMHgxMDMvMHgx
+ZjAgW2RybV9rbXNfaGVscGVyXQo+IFsgICAgNC45OTQ3OTBdICBfX211dGV4X2xvY2srMHg2Mi8w
+eDhjMAo+IFsgICAgNC45OTQ3OTVdICA/IGRybV9mYl9oZWxwZXJfcGFuX2Rpc3BsYXkrMHgxMDMv
+MHgxZjAgW2RybV9rbXNfaGVscGVyXQo+IFsgICAgNC45OTQ3OTZdICA/IHd3X211dGV4X2xvY2sr
+MHgzMC8weDkwCj4gWyAgICA0Ljk5NDc5OF0gID8gX2NvbmRfcmVzY2hlZCsweDE1LzB4MzAKPiBb
+ICAgIDQuOTk0Nzk5XSAgPyB3d19tdXRleF9sb2NrKzB4MzAvMHg5MAo+IFsgICAgNC45OTQ4MTBd
+ICA/IGRybV9tb2Rlc2V0X2xvY2srMHg0Mi8weGYwIFtkcm1dCj4gWyAgICA0Ljk5NDgxNl0gID8g
+ZHJtX2ZiX2hlbHBlcl9wYW5fZGlzcGxheSsweDEwMy8weDFmMCBbZHJtX2ttc19oZWxwZXJdCj4g
+WyAgICA0Ljk5NDgyMV0gIGRybV9mYl9oZWxwZXJfcGFuX2Rpc3BsYXkrMHgxMDMvMHgxZjAgW2Ry
+bV9rbXNfaGVscGVyXQo+IFsgICAgNC45OTQ4MjNdICBmYl9wYW5fZGlzcGxheSsweDkyLzB4MTIw
+Cj4gWyAgICA0Ljk5NDgyNV0gIGJpdF91cGRhdGVfc3RhcnQrMHgxYS8weDQwCj4gWyAgICA0Ljk5
+NDgyNl0gIGZiY29uX3N3aXRjaCsweDM5Mi8weDU4MAo+IFsgICAgNC45OTQ4MjldICByZWRyYXdf
+c2NyZWVuKzB4MTJjLzB4MjIwCj4gWyAgICA0Ljk5NDgzMV0gIGRvX2JpbmRfY29uX2RyaXZlci5j
+b2xkLjMwKzB4ZTEvMHgxMGQKPiBbICAgIDQuOTk0ODMzXSAgZG9fdGFrZV9vdmVyX2NvbnNvbGUr
+MHgxMTMvMHgxOTAKPiBbICAgIDQuOTk0ODM1XSAgZG9fZmJjb25fdGFrZW92ZXIrMHg1OC8weGIw
+Cj4gWyAgICA0Ljk5NDgzNl0gIG5vdGlmaWVyX2NhbGxfY2hhaW4rMHg0Ny8weDcwCj4gWyAgICA0
+Ljk5NDgzOF0gIGJsb2NraW5nX25vdGlmaWVyX2NhbGxfY2hhaW4rMHg0NC8weDYwCj4gWyAgICA0
+Ljk5NDgzOV0gID8gbG9ja19mYl9pbmZvKzB4MTgvMHg0MAo+IFsgICAgNC45OTQ4NDFdICByZWdp
+c3Rlcl9mcmFtZWJ1ZmZlcisweDIzMS8weDMxMAo+IFsgICAgNC45OTQ4NDddICBfX2RybV9mYl9o
+ZWxwZXJfaW5pdGlhbF9jb25maWdfYW5kX3VubG9jaysweDJmZC8weDUzMAo+IFtkcm1fa21zX2hl
+bHBlcl0KPiBbICAgIDQuOTk0ODczXSAgcmFkZW9uX2ZiZGV2X2luaXQrMHgxMTAvMHgxMzAgW3Jh
+ZGVvbl0KPiBbICAgIDQuOTk0ODk5XSAgcmFkZW9uX21vZGVzZXRfaW5pdC5jb2xkLjEyKzB4MTk4
+LzB4NGVjIFtyYWRlb25dCj4gWyAgICA0Ljk5NDkyM10gIHJhZGVvbl9kcml2ZXJfbG9hZF9rbXMr
+MHhjMS8weDI1MCBbcmFkZW9uXQo+IFsgICAgNC45OTQ5MzJdICBkcm1fZGV2X3JlZ2lzdGVyKzB4
+MTBmLzB4MTUwIFtkcm1dCj4gWyAgICA0Ljk5NDk0Ml0gIGRybV9nZXRfcGNpX2RldisweDk1LzB4
+MTkwIFtkcm1dCj4gWyAgICA0Ljk5NDk0NF0gIGxvY2FsX3BjaV9wcm9iZSsweDQyLzB4ODAKPiBb
+ICAgIDQuOTk0OTQ2XSAgcGNpX2RldmljZV9wcm9iZSsweGYxLzB4MTcwCj4gWyAgICA0Ljk5NDk0
+OF0gIHJlYWxseV9wcm9iZSsweGVmLzB4MzkwCj4gWyAgICA0Ljk5NDk0OV0gIGRyaXZlcl9wcm9i
+ZV9kZXZpY2UrMHhiNC8weDEwMAo+IFsgICAgNC45OTQ5NTFdICBkZXZpY2VfZHJpdmVyX2F0dGFj
+aCsweDRmLzB4NjAKPiBbICAgIDQuOTk0OTUyXSAgX19kcml2ZXJfYXR0YWNoKzB4ODgvMHgxNDAK
+PiBbICAgIDQuOTk0OTUzXSAgPyBkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDYwLzB4NjAKPiBbICAg
+IDQuOTk0OTU0XSAgYnVzX2Zvcl9lYWNoX2RldisweDY2LzB4OTAKPiBbICAgIDQuOTk0OTU2XSAg
+YnVzX2FkZF9kcml2ZXIrMHgxMzQvMHgxZTAKPiBbICAgIDQuOTk0OTU3XSAgPyAweGZmZmZmZmZm
+YzA4NzAwMDAKPiBbICAgIDQuOTk0OTU5XSAgZHJpdmVyX3JlZ2lzdGVyKzB4NmIvMHhiMAo+IFsg
+ICAgNC45OTQ5NjBdICA/IDB4ZmZmZmZmZmZjMDg3MDAwMAo+IFsgICAgNC45OTQ5NjFdICBkb19v
+bmVfaW5pdGNhbGwrMHg1ZC8weDJiNAo+IFsgICAgNC45OTQ5NjRdICBkb19pbml0X21vZHVsZSsw
+eDVhLzB4MjIwCj4gWyAgICA0Ljk5NDk2Nl0gIGxvYWRfbW9kdWxlKzB4MTdkNC8weDFhOTAKPiBb
+ICAgIDQuOTk0OTcwXSAgPyBfX2RvX3N5c19maW5pdF9tb2R1bGUrMHg4Zi8weGQwCj4gWyAgICA0
+Ljk5NDk3MV0gIF9fZG9fc3lzX2Zpbml0X21vZHVsZSsweDhmLzB4ZDAKPiBbICAgIDQuOTk0OTc0
+XSAgZG9fc3lzY2FsbF82NCsweDYwLzB4MWMwCj4gWyAgICA0Ljk5NDk3Nl0gIGVudHJ5X1NZU0NB
+TExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ5LzB4YmUKPiBbICAgIDQuOTk0OTc3XSBSSVA6IDAwMzM6
+MHg3ZjEwYjEyNjE0NDkKPiBbICAgIDQuOTk0OTc4XSBDb2RlOiAwMCBjMyA2NiAyZSAwZiAxZiA4
+NCAwMCAwMCAwMCAwMCAwMCAwZiAxZiA0NCAwMCAwMAo+IDQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5
+IGQ2IDQ4IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmCj4gMDUgPDQ4
+PiAzZCAwMSBmMCBmZiBmZiA3MyAwMSBjMyA0OCA4YiAwZCAxZiA0YSAwYyAwMCBmNyBkOCA2NCA4
+OSAwMSA0OAo+IFsgICAgNC45OTQ5NzldIFJTUDogMDAyYjowMDAwN2ZmZDZlMDdmZDc4IEVGTEFH
+UzogMDAwMDAyNDYgT1JJR19SQVg6Cj4gMDAwMDAwMDAwMDAwMDEzOQo+IFsgICAgNC45OTQ5ODBd
+IFJBWDogZmZmZmZmZmZmZmZmZmZkYSBSQlg6IDAwMDA1NjI3NjkwYzczZDAgUkNYOgo+IDAwMDA3
+ZjEwYjEyNjE0NDkKPiBbICAgIDQuOTk0OTgxXSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAw
+MDAwN2YxMGIxM2MyODlkIFJESToKPiAwMDAwMDAwMDAwMDAwMDBlCj4gWyAgICA0Ljk5NDk4Ml0g
+UkJQOiAwMDAwMDAwMDAwMDIwMDAwIFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6Cj4gMDAwMDU2
+Mjc2OTBjZTkzMAo+IFsgICAgNC45OTQ5ODJdIFIxMDogMDAwMDAwMDAwMDAwMDAwZSBSMTE6IDAw
+MDAwMDAwMDAwMDAyNDYgUjEyOgo+IDAwMDA3ZjEwYjEzYzI4OWQKPiBbICAgIDQuOTk0OTgzXSBS
+MTM6IDAwMDAwMDAwMDAwMDAwMDAgUjE0OiAwMDAwNTYyNzY5MGZlYmEwIFIxNToKPiAwMDAwNTYy
+NzY5MGM3M2QwCj4KPgo+Cj4KPiAtLQo+IFRob21hcyBaaW1tZXJtYW5uCj4gR3JhcGhpY3MgRHJp
+dmVyIERldmVsb3Blcgo+IFNVU0UgTGludXggR21iSCwgTWF4ZmVsZHN0cmFzc2UgNSwgOTA0MDkg
+TnVlcm5iZXJnLCBHZXJtYW55Cj4gR0Y6IEZlbGl4IEltZW5kw7ZyZmZlciwgTWFyeSBIaWdnaW5z
+LCBTcmkgUmFzaWFoCj4gSFJCIDIxMjg0IChBRyBOw7xybmJlcmcpCj4KCgotLSAKRGFuaWVsIFZl
+dHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KKzQxICgwKSA3OSAzNjUg
+NTcgNDggLSBodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
