@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF373CCAE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 15:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32843CCBD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 15:14:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0979E8907B;
-	Tue, 11 Jun 2019 13:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA2289196;
+	Tue, 11 Jun 2019 13:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C7A8907B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 13:12:08 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52258
- helo=[192.168.10.173])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hagZK-0004MX-TO; Tue, 11 Jun 2019 15:12:06 +0200
-Subject: Re: [PATCH] drm/fb-helper: Unexport cmdline helpers
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20190607185211.25040-1-daniel.vetter@ffwll.ch>
- <d197eef2-ab82-0562-1216-661079aac347@tronnes.org>
- <20190611080656.GQ21222@phenom.ffwll.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <ec562b12-5ddf-0a97-e2e4-ce733b3a32a7@tronnes.org>
-Date: Tue, 11 Jun 2019 15:12:00 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C5E7D89196
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 13:14:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BBBBC72167; Tue, 11 Jun 2019 13:14:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110896] [CI][RESUME] igt@kms_chamelium@hdmi-audio - warn - Home
+ directory not accessible: Permission denied
+Date: Tue, 11 Jun 2019 13:14:15 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: martin.peres@free.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110896-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190611080656.GQ21222@phenom.ffwll.local>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=E+VIDyfiCfR1EcxUWF1XORe6SzNiWBviK2+7C1/kiEY=; 
- b=P4j6jtr6FDSMz2SF4nRug3EPUphmefEk/jGWUyLU5fduPTm9L6LitSdig6lXnf5mY0xccH4V5jZcbHBeZNhqjqgE8qz5bT8yWcORTFts7x3evhBOpNu2Ap4hAMyPNuun/nIxUBp4vkQE8ic7wp38N4uZgoOxh1j1YXCP+MCrnollc12PE9TDq+y8DJQJ6CSGxGmJ0GyDEDJHwBkcX8utl/S0+cMV6paxaYqx53PaaATXhqly66orbEt+9psTk2+eIqvXmI4dsQ2lZnF6xSyElZfhtfyytczENvoGl3UI3RHQQ6+h9rXrQpaTvc9Pb9Nj2R22NnDT2rdslRe+RnsksQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,87 +52,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1972358794=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTEuMDYuMjAxOSAxMC4wNiwgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBPbiBTYXQsIEp1
-biAwOCwgMjAxOSBhdCAwNTo0MTo0OVBNICswMjAwLCBOb3JhbGYgVHLDuG5uZXMgd3JvdGU6Cj4+
-Cj4+Cj4+IERlbiAwNy4wNi4yMDE5IDIwLjUyLCBza3JldiBEYW5pZWwgVmV0dGVyOgo+Pj4gTm8g
-bG9uZ2VyIG5lZWRlZCBzaW5jZSB0aGUgaTkxNSBpbml0aWFsIGNvbmZpZyBsb2dpYyB3YXMgcHVs
-bGVkIGludG8KPj4+IHRoZSBzaGFyZWQgaGVscGVyIGJ5IE5vcmFsZi4KPj4+Cj4+Cj4+IEknbSBm
-aXhpbmcgdGhpcyB3aGVuIEkgbW92ZSB0aGUgbW9kZXNldCBjb2RlIHRvIGRybV9jbGllbnQuIEkg
-aG9wZSBJIGNhbgo+PiBhcHBseSB0aGUgcmVtYWluaW5nIGJpdHMgdGhpcyB3ZWVrIChzZW50IGEg
-djgpLiBUaGUgQ0kgZ2F2ZSBtZSBhIGZhaWx1cmUKPj4gb24gdjcgYW5kIHRoZSB0cnlib3QgaGFz
-IGdpdmVuIG1lIHdlaXJkL2NoYW5naW5nIGZhaWx1cmVzIHRoaXMgd2VlayB3aGVuCj4+IEkgaGF2
-ZSB0cmllZCB0byBmaW5kIHdoaWNoIHBhdGNoIGl0IGNob2tlcyBvbi4gSSBkb24ndCB0aGluayB0
-aGVyZSdzIGFueQo+PiB3cm9uZyB3aXRoIHRoZSBwYXRjaHNldCBzaW5jZSBpdCBoYXMgYmVlbiBj
-bGVhcmVkIGJ5IHRoZSBDSSBzZXZlcmFsCj4+IHRpbWVzLCBhbmQgdGhlIHBhdGNoZXMgaW4gcXVl
-c3Rpb24gaGFzIG5vdCBiZWVuIGNoYW5nZWQuIFdlbGwsIHdlJ2xsIHNlZS4KPiAKPiBDSSBpcyBo
-YXZpbmcgYSBiaXQgYSBiYWQgdGltZSByaWdodCBub3csIHRiaCBJJ2Qgc2F5IGdvIGFoZWFkLiBX
-aXRoIHlvdXIKPiBjdXJyZW50IHBhdGNoc2V0IEknbSBub3Qgc2VlaW5nIGFueXRoaW5nIHRoYXQg
-Y291bGQgYWZmZWN0IGk5MTUgbXVjaC4KPiAKCkFoIHRoYXQgZXhwbGFpbnMgbXkgY29uZmxpY3Rp
-bmcgQ0kgcmVzdWx0cy4gQW55d2F5IHRoZSBDSSBhZ3JlZWQgbm93IHNvCkkgaGF2ZSBhcHBsaWVk
-IHRoZSBwYXRjaGVzIGJlZm9yZSBpdCBjaGFuZ2VzIGl0cyBtaW5kIDotKQoKTm9yYWxmLgoKPiBB
-bmQgeWVhaCBJIGNhbiBqdXN0IHdhaXQgYW5kIHRocm93IHRoaXMgb25lIG91dCBmcm9tIG15IHBh
-dGNoIHBpbGUgd2hlbgo+IHlvdXIgc3R1ZmYgaGFzIGxhbmRlZC4KPiAtRGFuaWVsCj4gCj4gIAo+
-PiBOb3JhbGYuCj4+Cj4+PiBTcG90dGVkIHdoaWxlIHJldmlld2luZyBwYXRjaGVzIGZyb20gVmls
-bGUuCj4+Pgo+Pj4gQ2M6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgo+Pj4g
-Q2M6IFZpbGxlIFN5cmphbGEgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Pj4gU2ln
-bmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4+PiAt
-LS0KPj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIHwgOSArKysrKy0tLS0KPj4+
-ICBpbmNsdWRlL2RybS9kcm1fZmJfaGVscGVyLmggICAgIHwgNSAtLS0tLQo+Pj4gIDIgZmlsZXMg
-Y2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQo+Pj4KPj4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9mYl9oZWxwZXIuYwo+Pj4gaW5kZXggYjliN2MwNmNiYzRmLi45NTA3OWQ1YzA3YjggMTAwNjQ0
-Cj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCj4+PiBAQCAtMjEzOCw3ICsyMTM4LDkgQEAgc3Rh
-dGljIGludCBkcm1fZmJfaGVscGVyX3Byb2JlX2Nvbm5lY3Rvcl9tb2RlcyhzdHJ1Y3QgZHJtX2Zi
-X2hlbHBlciAqZmJfaGVscGVyLAo+Pj4gIAlyZXR1cm4gY291bnQ7Cj4+PiAgfQo+Pj4gIAo+Pj4g
-LXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpkcm1faGFzX3ByZWZlcnJlZF9tb2RlKHN0cnVjdCBk
-cm1fZmJfaGVscGVyX2Nvbm5lY3RvciAqZmJfY29ubmVjdG9yLCBpbnQgd2lkdGgsIGludCBoZWln
-aHQpCj4+PiArc3RhdGljIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICoKPj4+ICtkcm1faGFzX3By
-ZWZlcnJlZF9tb2RlKHN0cnVjdCBkcm1fZmJfaGVscGVyX2Nvbm5lY3RvciAqZmJfY29ubmVjdG9y
-LAo+Pj4gKwkJICAgICAgIGludCB3aWR0aCwgaW50IGhlaWdodCkKPj4+ICB7Cj4+PiAgCXN0cnVj
-dCBkcm1fZGlzcGxheV9tb2RlICptb2RlOwo+Pj4gIAo+Pj4gQEAgLTIxNTEsMTQgKzIxNTMsMTQg
-QEAgc3RydWN0IGRybV9kaXNwbGF5X21vZGUgKmRybV9oYXNfcHJlZmVycmVkX21vZGUoc3RydWN0
-IGRybV9mYl9oZWxwZXJfY29ubmVjdG9yICoKPj4+ICAJfQo+Pj4gIAlyZXR1cm4gTlVMTDsKPj4+
-ICB9Cj4+PiAtRVhQT1JUX1NZTUJPTChkcm1faGFzX3ByZWZlcnJlZF9tb2RlKTsKPj4+ICAKPj4+
-ICBzdGF0aWMgYm9vbCBkcm1faGFzX2NtZGxpbmVfbW9kZShzdHJ1Y3QgZHJtX2ZiX2hlbHBlcl9j
-b25uZWN0b3IgKmZiX2Nvbm5lY3RvcikKPj4+ICB7Cj4+PiAgCXJldHVybiBmYl9jb25uZWN0b3It
-PmNvbm5lY3Rvci0+Y21kbGluZV9tb2RlLnNwZWNpZmllZDsKPj4+ICB9Cj4+PiAgCj4+PiAtc3Ry
-dWN0IGRybV9kaXNwbGF5X21vZGUgKmRybV9waWNrX2NtZGxpbmVfbW9kZShzdHJ1Y3QgZHJtX2Zi
-X2hlbHBlcl9jb25uZWN0b3IgKmZiX2hlbHBlcl9jb25uKQo+Pj4gK3N0YXRpYyBzdHJ1Y3QgZHJt
-X2Rpc3BsYXlfbW9kZSAqCj4+PiArZHJtX3BpY2tfY21kbGluZV9tb2RlKHN0cnVjdCBkcm1fZmJf
-aGVscGVyX2Nvbm5lY3RvciAqZmJfaGVscGVyX2Nvbm4pCj4+PiAgewo+Pj4gIAlzdHJ1Y3QgZHJt
-X2NtZGxpbmVfbW9kZSAqY21kbGluZV9tb2RlOwo+Pj4gIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9k
-ZSAqbW9kZTsKPj4+IEBAIC0yMjA4LDcgKzIyMTAsNiBAQCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9k
-ZSAqZHJtX3BpY2tfY21kbGluZV9tb2RlKHN0cnVjdCBkcm1fZmJfaGVscGVyX2Nvbm5lY3RvciAq
-Zgo+Pj4gIAlsaXN0X2FkZCgmbW9kZS0+aGVhZCwgJmZiX2hlbHBlcl9jb25uLT5jb25uZWN0b3It
-Pm1vZGVzKTsKPj4+ICAJcmV0dXJuIG1vZGU7Cj4+PiAgfQo+Pj4gLUVYUE9SVF9TWU1CT0woZHJt
-X3BpY2tfY21kbGluZV9tb2RlKTsKPj4+ICAKPj4+ICBzdGF0aWMgYm9vbCBkcm1fY29ubmVjdG9y
-X2VuYWJsZWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwgYm9vbCBzdHJpY3QpCj4+
-PiAgewo+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaCBiL2luY2x1
-ZGUvZHJtL2RybV9mYl9oZWxwZXIuaAo+Pj4gaW5kZXggNmIzMzRmNGQ4YTIyLi41YTdlNWQxMzE5
-MTMgMTAwNjQ0Cj4+PiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZmJfaGVscGVyLmgKPj4+ICsrKyBi
-L2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaAo+Pj4gQEAgLTI4OSwxMSArMjg5LDYgQEAgaW50
-IGRybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWcoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hl
-bHBlciwgaW50IGJwcF9zZWwpOwo+Pj4gIGludCBkcm1fZmJfaGVscGVyX3NpbmdsZV9hZGRfYWxs
-X2Nvbm5lY3RvcnMoc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlcik7Cj4+PiAgaW50IGRy
-bV9mYl9oZWxwZXJfZGVidWdfZW50ZXIoc3RydWN0IGZiX2luZm8gKmluZm8pOwo+Pj4gIGludCBk
-cm1fZmJfaGVscGVyX2RlYnVnX2xlYXZlKHN0cnVjdCBmYl9pbmZvICppbmZvKTsKPj4+IC1zdHJ1
-Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqCj4+PiAtZHJtX2hhc19wcmVmZXJyZWRfbW9kZShzdHJ1Y3Qg
-ZHJtX2ZiX2hlbHBlcl9jb25uZWN0b3IgKmZiX2Nvbm5lY3RvciwKPj4+IC0JCQlpbnQgd2lkdGgs
-IGludCBoZWlnaHQpOwo+Pj4gLXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICoKPj4+IC1kcm1fcGlj
-a19jbWRsaW5lX21vZGUoc3RydWN0IGRybV9mYl9oZWxwZXJfY29ubmVjdG9yICpmYl9oZWxwZXJf
-Y29ubik7Cj4+PiAgCj4+PiAgaW50IGRybV9mYl9oZWxwZXJfYWRkX29uZV9jb25uZWN0b3Ioc3Ry
-dWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
-Y3Rvcik7Cj4+PiAgaW50IGRybV9mYl9oZWxwZXJfcmVtb3ZlX29uZV9jb25uZWN0b3Ioc3RydWN0
-IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlciwKPj4+Cj4gCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1972358794==
+Content-Type: multipart/alternative; boundary="15602588550.6b90E0166.731"
+Content-Transfer-Encoding: 7bit
+
+
+--15602588550.6b90E0166.731
+Date: Tue, 11 Jun 2019 13:14:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110896
+
+            Bug ID: 110896
+           Summary: [CI][RESUME] igt@kms_chamelium@hdmi-audio - warn -
+                    Home directory not accessible: Permission denied
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: martin.peres@free.fr
+
+https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_6222/re-icl-u/igt@kms_chame=
+lium@hdmi-audio.html
+
+Starting subtest: hdmi-audio
+Home directory not accessible: Permission denied
+Subtest hdmi-audio: SUCCESS (8.492s)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15602588550.6b90E0166.731
+Date: Tue, 11 Jun 2019 13:14:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-audio - warn =
+- Home directory not accessible: Permission denied"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110896">110896</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>[CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-audio - warn - Ho=
+me directory not accessible: Permission denied
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>martin.peres&#64;free.fr
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre><a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/CI_DRM_622=
+2/re-icl-u/igt&#64;kms_chamelium&#64;hdmi-audio.html">https://intel-gfx-ci.=
+01.org/tree/drm-tip/CI_DRM_6222/re-icl-u/igt&#64;kms_chamelium&#64;hdmi-aud=
+io.html</a>
+
+Starting subtest: hdmi-audio
+Home directory not accessible: Permission denied
+Subtest hdmi-audio: SUCCESS (8.492s)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15602588550.6b90E0166.731--
+
+--===============1972358794==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1972358794==--
