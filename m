@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D0FC3C050
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 02:05:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C19543C097
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 02:29:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B118912C;
-	Tue, 11 Jun 2019 00:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D99A989174;
+	Tue, 11 Jun 2019 00:29:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0B56B89131
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 00:05:18 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 054FF72167; Tue, 11 Jun 2019 00:05:18 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110885] [OverDrive] Add option to change acoustic limit
-Date: Tue, 11 Jun 2019 00:05:18 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: a9016009@gmx.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_severity
-Message-ID: <bug-110885-502-8PnV1KnkEh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110885-502@http.bugs.freedesktop.org/>
-References: <bug-110885-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E702689132
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 00:23:02 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id a3so5895201pgb.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Jun 2019 17:23:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ys/QIuTzESKgIhK+4lqN2GBOgNe/RQ4XjHnrFVNq/bg=;
+ b=GB1kbzop1bOG+SYAWI8z4TEbwYilJZEMslK9iMy+ZaNnnrZN4diq1pX2cgcS5GhDKI
+ 0uZWgfbtKbg+PCO1TGv69VGsvGEMWqdV6JaoebS97/SBoOoKCTFU7+Bdqgb3Vu8PTHxn
+ 2Py5vsRYDiscHuJ0vnDFVUOgwGWZHGoxE53m6BWfXeeGvcK26H9IHKrnRHQd/YysLMdT
+ 9txojLigpMGCF+Y+sHgfteDxfCgNbPZDcZOF2UZvvwi7/UTFSktM/OX+/wCkfBQaCsUO
+ M1HigCzdhnaVhfmIfmGfRl4Gj8CXYA3TpNnpUTuzUwi16z2KOibhow7qqMpcCRB4nO0R
+ noBA==
+X-Gm-Message-State: APjAAAXGxENk0a89r2terxI97gdZOOz2TWx3C8i6bkAIrmCXlxallkug
+ W7tauu75osJ5T+spCddqtwJQ3Q==
+X-Google-Smtp-Source: APXvYqyFDNopqPX7XaEAu7EG9CwttGgKSVT073ogwDm3kj5G1I2Zurlp7yaWcrSslQANYBeJiel1uQ==
+X-Received: by 2002:a17:90a:25c8:: with SMTP id
+ k66mr2852849pje.129.1560212582590; 
+ Mon, 10 Jun 2019 17:23:02 -0700 (PDT)
+Received: from exogeni.mtv.corp.google.com
+ ([2620:15c:202:1:5be8:f2a6:fd7b:7459])
+ by smtp.gmail.com with ESMTPSA id t4sm540317pjq.19.2019.06.10.17.23.00
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 10 Jun 2019 17:23:01 -0700 (PDT)
+From: Derek Basehore <dbasehore@chromium.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] Panel rotation patches
+Date: Mon, 10 Jun 2019 17:22:51 -0700
+Message-Id: <20190611002256.186969-1-dbasehore@chromium.org>
+X-Mailer: git-send-email 2.22.0.rc2.383.gf4fbbf30c2-goog
 MIME-Version: 1.0
+X-Mailman-Approved-At: Tue, 11 Jun 2019 00:29:12 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ys/QIuTzESKgIhK+4lqN2GBOgNe/RQ4XjHnrFVNq/bg=;
+ b=f5ipcdNBMgeYN6xIkspolGbToPlj9rnUy85L/384p3yAVGYdbKT3rIYX2R9DTVe5DZ
+ BYJNhX2Lc4MpUKIIZ8Uvygx+l7dI/iqp1tjbx6cPL9JzfUDgJZKWqECoYuYfsfw24UwA
+ BoOUkWOPjP/ynt3LEWf2YKuM3gT243RbvpPTQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,95 +65,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1137951309=="
+Cc: Derek Basehore <dbasehore@chromium.org>, maxime.ripard@bootlin.com,
+ sam@ravnborg.org, intel-gfx@lists.freedesktop.org, airlied@linux.ie,
+ thierry.reding@gmail.com, matthias.bgg@gmail.com,
+ dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
+ linux-mediatek@lists.infradead.org, sean@poorly.run,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1137951309==
-Content-Type: multipart/alternative; boundary="15602115172.fe3241e.30734"
-Content-Transfer-Encoding: 7bit
-
-
---15602115172.fe3241e.30734
-Date: Tue, 11 Jun 2019 00:05:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110885
-
-Andre Klapper <a9016009@gmx.de> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Severity|normal                      |enhancement
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15602115172.fe3241e.30734
-Date: Tue, 11 Jun 2019 00:05:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
-#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
-s=3D"fn">Andre Klapper</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [OverDrive] Add option to change acoustic limit"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110885">bug 11088=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Severity</td>
-           <td>normal
-           </td>
-           <td>enhancement
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15602115172.fe3241e.30734--
-
---===============1137951309==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1137951309==--
+VGhpcyBhZGRzIHRoZSBwbHVtYmluZyBmb3IgcmVhZGluZyBwYW5lbCByb3RhdGlvbiBmcm9tIHRo
+ZSBkZXZpY2V0cmVlCmFuZCBzZXRzIHVwIGFkZGluZyBhIHBhbmVsIHByb3BlcnR5IGZvciB0aGUg
+cGFuZWwgb3JpZW50YXRpb24gb24KTWVkaWF0ZWsgU29DcyB3aGVuIGEgcm90YXRpb24gaXMgcHJl
+c2VudC4KCkRlcmVrIEJhc2Vob3JlICg1KToKICBkcm0vcGFuZWw6IEFkZCBoZWxwZXIgZm9yIHJl
+YWRpbmcgRFQgcm90YXRpb24KICBkdC1iaW5kaW5nczogZGlzcGxheS9wYW5lbDogRXhwYW5kIHJv
+dGF0aW9uIGRvY3VtZW50YXRpb24KICBkcm0vcGFuZWw6IEFkZCBhdHRhY2gvZGV0YWNoIGNhbGxi
+YWNrcwogIGRybS9jb25uZWN0b3I6IFNwbGl0IG91dCBvcmllbnRhdGlvbiBxdWlyayBkZXRlY3Rp
+b24KICBkcm0vbXRrOiBhZGQgcGFuZWwgb3JpZW50YXRpb24gcHJvcGVydHkKCiAuLi4vYmluZGlu
+Z3MvZGlzcGxheS9wYW5lbC9wYW5lbC50eHQgICAgICAgICAgfCAzMiArKysrKysrKysrKwogZHJp
+dmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYyAgICAgICAgICAgICAgIHwgMTYgKystLS0tCiBk
+cml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsLmMgICAgICAgICAgICAgICAgICAgfCA1NSArKysrKysr
+KysrKysrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS92bHZfZHNpLmMgICAgICAgICAgICAg
+ICAgfCAxMyArKystLQogZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgICAg
+ICAgIHwgIDggKysrCiBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmggICAgICAgICAgICAgICAg
+ICAgfCAgMiArLQogaW5jbHVkZS9kcm0vZHJtX3BhbmVsLmggICAgICAgICAgICAgICAgICAgICAg
+IHwgMTEgKysrKwogNyBmaWxlcyBjaGFuZ2VkLCAxMjAgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRp
+b25zKC0pCgotLSAKMi4yMi4wLnJjMi4zODMuZ2Y0ZmJiZjMwYzItZ29vZwoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
