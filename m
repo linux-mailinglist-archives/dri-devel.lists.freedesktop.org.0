@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD633D4EC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 20:04:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A88AF3D4EE
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 20:04:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3589E891E3;
-	Tue, 11 Jun 2019 18:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F20891E2;
+	Tue, 11 Jun 2019 18:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 45411891E3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:04:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 37250891E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:04:34 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4071372167; Tue, 11 Jun 2019 18:04:04 +0000 (UTC)
+ id 340AB72167; Tue, 11 Jun 2019 18:04:34 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110862] Dual-monitors invalid state after turning on
-Date: Tue, 11 Jun 2019 18:04:04 +0000
+Date: Tue, 11 Jun 2019 18:04:34 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110862-502-mnhS3rG9T8@http.bugs.freedesktop.org/>
+Message-ID: <bug-110862-502-FnPA2Trttu@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110862-502@http.bugs.freedesktop.org/>
 References: <bug-110862-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1600783873=="
+Content-Type: multipart/mixed; boundary="===============1680059381=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1600783873==
-Content-Type: multipart/alternative; boundary="15602762440.b4ef20.11610"
+--===============1680059381==
+Content-Type: multipart/alternative; boundary="15602762741.a0D3.11708"
 Content-Transfer-Encoding: 7bit
 
 
---15602762440.b4ef20.11610
-Date: Tue, 11 Jun 2019 18:04:04 +0000
+--15602762741.a0D3.11708
+Date: Tue, 11 Jun 2019 18:04:34 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110862
 
---- Comment #3 from denisgolovan@yandex.ru ---
-Created attachment 144506
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144506&action=3Dedit
-xorg.log after bug occured
+--- Comment #4 from denisgolovan@yandex.ru ---
+Created attachment 144507
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144507&action=3Dedit
+dmesg after bug occured
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15602762440.b4ef20.11610
-Date: Tue, 11 Jun 2019 18:04:04 +0000
+--15602762741.a0D3.11708
+Date: Tue, 11 Jun 2019 18:04:34 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Dual-monitors invalid state after turning on"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110862#c3">Commen=
-t # 3</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110862#c4">Commen=
+t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Dual-monitors invalid state after turning on"
@@ -110,11 +110,11 @@ t # 3</a>
 denisgolovan&#64;yandex.ru" title=3D"denisgolovan&#64;yandex.ru">denisgolov=
 an&#64;yandex.ru</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144506=
-" name=3D"attach_144506" title=3D"xorg.log after bug occured">attachment 14=
-4506</a> <a href=3D"attachment.cgi?id=3D144506&amp;action=3Dedit" title=3D"=
-xorg.log after bug occured">[details]</a></span>
-xorg.log after bug occured</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144507=
+" name=3D"attach_144507" title=3D"dmesg after bug occured">attachment 14450=
+7</a> <a href=3D"attachment.cgi?id=3D144507&amp;action=3Dedit" title=3D"dme=
+sg after bug occured">[details]</a></span>
+dmesg after bug occured</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ xorg.log after bug occured</pre>
     </body>
 </html>=
 
---15602762440.b4ef20.11610--
+--15602762741.a0D3.11708--
 
---===============1600783873==
+--===============1680059381==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1600783873==--
+--===============1680059381==--
