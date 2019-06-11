@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99753C55E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 09:48:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DCE3C571
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 09:54:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D26389153;
-	Tue, 11 Jun 2019 07:48:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3FF8914F;
+	Tue, 11 Jun 2019 07:53:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19F5D8914F
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 07:48:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03318914F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 07:53:57 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 6792CAD2A;
- Tue, 11 Jun 2019 07:48:21 +0000 (UTC)
-Subject: Re: [PATCH v1 1/4] drm/mga: drop dependency on drm_os_linux.h
+ by mx1.suse.de (Postfix) with ESMTP id 2414EACC1;
+ Tue, 11 Jun 2019 07:53:56 +0000 (UTC)
+Subject: Re: [PATCH v1 3/4] drm/mga: drop use of drmP.h
 To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 References: <20190608081923.6274-1-sam@ravnborg.org>
- <20190608081923.6274-2-sam@ravnborg.org>
+ <20190608081923.6274-4-sam@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -47,12 +47,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
  VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
  iNx9uqqx
-Message-ID: <2a7f442c-af70-9209-e678-0689469bb308@suse.de>
-Date: Tue, 11 Jun 2019 09:48:16 +0200
+Message-ID: <9fe19f06-c732-351c-0d41-521ecab4e781@suse.de>
+Date: Tue, 11 Jun 2019 09:53:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190608081923.6274-2-sam@ravnborg.org>
+In-Reply-To: <20190608081923.6274-4-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,30 +66,30 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>
-Content-Type: multipart/mixed; boundary="===============1333602335=="
+Content-Type: multipart/mixed; boundary="===============2079848820=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1333602335==
+--===============2079848820==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="uoS6AW898rEgtX0HfMvrnggLppeukiv8y"
+ boundary="FFxMMksCco43Y9cOqIFarepjTP3uosMVD"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uoS6AW898rEgtX0HfMvrnggLppeukiv8y
-Content-Type: multipart/mixed; boundary="VWUtngvuR0Us1x39JOkNrBTBobksx9FtF";
+--FFxMMksCco43Y9cOqIFarepjTP3uosMVD
+Content-Type: multipart/mixed; boundary="GXj505p25BDar6K39WLqud7NPWeS7cPVo";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <2a7f442c-af70-9209-e678-0689469bb308@suse.de>
-Subject: Re: [PATCH v1 1/4] drm/mga: drop dependency on drm_os_linux.h
+Message-ID: <9fe19f06-c732-351c-0d41-521ecab4e781@suse.de>
+Subject: Re: [PATCH v1 3/4] drm/mga: drop use of drmP.h
 References: <20190608081923.6274-1-sam@ravnborg.org>
- <20190608081923.6274-2-sam@ravnborg.org>
-In-Reply-To: <20190608081923.6274-2-sam@ravnborg.org>
+ <20190608081923.6274-4-sam@ravnborg.org>
+In-Reply-To: <20190608081923.6274-4-sam@ravnborg.org>
 
---VWUtngvuR0Us1x39JOkNrBTBobksx9FtF
+--GXj505p25BDar6K39WLqud7NPWeS7cPVo
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -97,175 +97,139 @@ Content-Transfer-Encoding: quoted-printable
 Hi
 
 Am 08.06.19 um 10:19 schrieb Sam Ravnborg:
-> Opencode all macros used from the deprecated drm_os_linux.h header file=
-=2E
-> The DRM_WAIT_ON used 3 * HZ as timeout.
-> This was translated to 30 msec.
+> Drop the use of the deprecated drmP.h header file.
+> Clean up list of include files and sort them.
 >=20
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: David Airlie <airlied@linux.ie>
 > ---
->  drivers/gpu/drm/mga/mga_dma.c   | 12 ++++++++----
->  drivers/gpu/drm/mga/mga_drv.h   | 12 ++++++++----
->  drivers/gpu/drm/mga/mga_irq.c   |  8 ++++----
->  drivers/gpu/drm/mga/mga_state.c |  6 +++---
->  4 files changed, 23 insertions(+), 15 deletions(-)
+>  drivers/gpu/drm/mga/mga_dma.c   | 2 --
+>  drivers/gpu/drm/mga/mga_drv.c   | 7 +++----
+>  drivers/gpu/drm/mga/mga_ioc32.c | 3 +--
+>  drivers/gpu/drm/mga/mga_irq.c   | 2 --
+>  drivers/gpu/drm/mga/mga_state.c | 2 --
+>  drivers/gpu/drm/mga/mga_warp.c  | 4 +---
+>  6 files changed, 5 insertions(+), 15 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_dm=
 a.c
-> index 1ffdafea27e4..123be2f3a151 100644
+> index 123be2f3a151..139554a3733d 100644
 > --- a/drivers/gpu/drm/mga/mga_dma.c
 > +++ b/drivers/gpu/drm/mga/mga_dma.c
-> @@ -35,6 +35,8 @@
->   * \author Gareth Hughes <gareth@valinux.com>
->   */
+> @@ -37,8 +37,6 @@
 > =20
-> +#include <linux/delay.h>
-> +
->  #include <drm/drmP.h>
->  #include <drm/mga_drm.h>
+>  #include <linux/delay.h>
+> =20
+> -#include <drm/drmP.h>
+> -#include <drm/mga_drm.h>
 >  #include "mga_drv.h"
-> @@ -62,7 +64,7 @@ int mga_do_wait_for_idle(drm_mga_private_t *dev_priv)=
+> =20
+>  #define MGA_DEFAULT_USEC_TIMEOUT	10000
+> diff --git a/drivers/gpu/drm/mga/mga_drv.c b/drivers/gpu/drm/mga/mga_dr=
+v.c
+> index 6e1d1054ad06..71128e6f6ae9 100644
+> --- a/drivers/gpu/drm/mga/mga_drv.c
+> +++ b/drivers/gpu/drm/mga/mga_drv.c
+> @@ -31,12 +31,11 @@
+> =20
+>  #include <linux/module.h>
+> =20
+> -#include <drm/drmP.h>
+> -#include <drm/mga_drm.h>
+> -#include "mga_drv.h"
+> -
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_pciids.h>
+> =20
+> +#include "mga_drv.h"
+> +
 
->  			MGA_WRITE8(MGA_CRTC_INDEX, 0);
->  			return 0;
->  		}
-> -		DRM_UDELAY(1);
-> +		udelay(1);
->  	}
-> =20
->  #if MGA_DMA_DEBUG
-> @@ -114,7 +116,7 @@ void mga_do_dma_flush(drm_mga_private_t *dev_priv)
->  		status =3D MGA_READ(MGA_STATUS) & MGA_ENGINE_IDLE_MASK;
->  		if (status =3D=3D MGA_ENDPRDMASTS)
->  			break;
-> -		DRM_UDELAY(1);
-> +		udelay(1);
->  	}
-> =20
->  	if (primary->tail =3D=3D primary->last_flush) {
-> @@ -1120,7 +1122,7 @@ int mga_dma_buffers(struct drm_device *dev, void =
-*data,
->  	 */
->  	if (d->send_count !=3D 0) {
->  		DRM_ERROR("Process %d trying to send %d buffers via drmDMA\n",
-> -			  DRM_CURRENTPID, d->send_count);
-> +			  task_pid_nr(current), d->send_count);
->  		return -EINVAL;
->  	}
-> =20
-> @@ -1128,7 +1130,9 @@ int mga_dma_buffers(struct drm_device *dev, void =
-*data,
->  	 */
->  	if (d->request_count < 0 || d->request_count > dma->buf_count) {
->  		DRM_ERROR("Process %d trying to get %d buffers (of %d max)\n",
-> -			  DRM_CURRENTPID, d->request_count, dma->buf_count);
-> +			  task_pid_nr(current),
-> +			  d->request_count,
-> +			  dma->buf_count);
->  		return -EINVAL;
->  	}
-> =20
-> diff --git a/drivers/gpu/drm/mga/mga_drv.h b/drivers/gpu/drm/mga/mga_dr=
-v.h
-> index a45bb22275a7..7844a9e463f6 100644
-> --- a/drivers/gpu/drm/mga/mga_drv.h
-> +++ b/drivers/gpu/drm/mga/mga_drv.h
-> @@ -199,10 +199,14 @@ extern long mga_compat_ioctl(struct file *filp, u=
-nsigned int cmd,
-> =20
->  #define mga_flush_write_combine()	wmb()
-> =20
-> -#define MGA_READ8(reg)		DRM_READ8(dev_priv->mmio, (reg))
-> -#define MGA_READ(reg)		DRM_READ32(dev_priv->mmio, (reg))
-> -#define MGA_WRITE8(reg, val)	DRM_WRITE8(dev_priv->mmio, (reg), (val))
-> -#define MGA_WRITE(reg, val)	DRM_WRITE32(dev_priv->mmio, (reg), (val))
-> +#define MGA_READ8(reg) \
-> +	readb(((void __iomem *)dev_priv->mmio->handle) + (reg))
-> +#define MGA_READ(reg) \
-> +	readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
-> +#define MGA_WRITE8(reg, val) \
-> +	writeb(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
-> +#define MGA_WRITE(reg, val) \
-> +	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+Unless it violates an existing convention, I'd suggest the following
+order for headers (here and in the other patches):
 
-Addition is not defined or implementation specific for type void* IIRC.
-Compilers tend to treat it like u8*. Maybe cast mmio->handle to (u8
-__iomem *) instead?
+ c file header ("mga_foo.h" for mga_foo.c)
+ driver header ("mga_drv.h")
+ public linux/drm headers
+ other driver headers ("mga_nonfoo.h", etc)
+
+I know that it's nitpicking, but this maximizes the chance that the
+driver's header files include all dependencies they need.
 
 Best regards
 Thomas
 
+
+>  static struct pci_device_id pciidlist[] =3D {
+>  	mga_PCI_IDS
+>  };
+> diff --git a/drivers/gpu/drm/mga/mga_ioc32.c b/drivers/gpu/drm/mga/mga_=
+ioc32.c
+> index 245fb2e359cf..6ccd270789c6 100644
+> --- a/drivers/gpu/drm/mga/mga_ioc32.c
+> +++ b/drivers/gpu/drm/mga/mga_ioc32.c
+> @@ -30,10 +30,9 @@
+>   * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
+NGS
+>   * IN THE SOFTWARE.
+>   */
+> +
+>  #include <linux/compat.h>
 > =20
->  #define DWGREG0		0x1c00
->  #define DWGREG0_END	0x1dff
+> -#include <drm/drmP.h>
+> -#include <drm/mga_drm.h>
+>  #include "mga_drv.h"
+> =20
+>  typedef struct drm32_mga_init {
 > diff --git a/drivers/gpu/drm/mga/mga_irq.c b/drivers/gpu/drm/mga/mga_ir=
 q.c
-> index 693ba708cfed..c6a3fab5b0c4 100644
+> index c6a3fab5b0c4..7c48f4d090ac 100644
 > --- a/drivers/gpu/drm/mga/mga_irq.c
 > +++ b/drivers/gpu/drm/mga/mga_irq.c
-> @@ -122,19 +122,19 @@ int mga_driver_fence_wait(struct drm_device *dev,=
- unsigned int *sequence)
->  {
->  	drm_mga_private_t *dev_priv =3D (drm_mga_private_t *) dev->dev_privat=
-e;
->  	unsigned int cur_fence;
-> -	int ret =3D 0;
+> @@ -31,8 +31,6 @@
+>   *    Eric Anholt <anholt@FreeBSD.org>
+>   */
 > =20
->  	/* Assume that the user has missed the current sequence number
->  	 * by about a day rather than she wants to wait for years
->  	 * using fences.
->  	 */
-> -	DRM_WAIT_ON(ret, dev_priv->fence_queue, 3 * HZ,
-> +	wait_event_timeout(dev_priv->fence_queue,
->  		    (((cur_fence =3D atomic_read(&dev_priv->last_fence_retired))
-> -		      - *sequence) <=3D (1 << 23)));
-> +		      - *sequence) <=3D (1 << 23)),
-> +		    msecs_to_jiffies(30));
+> -#include <drm/drmP.h>
+> -#include <drm/mga_drm.h>
+>  #include "mga_drv.h"
 > =20
->  	*sequence =3D cur_fence;
-> =20
-> -	return ret;
-> +	return 0;
->  }
-> =20
->  void mga_driver_irq_preinstall(struct drm_device *dev)
+>  u32 mga_get_vblank_counter(struct drm_device *dev, unsigned int pipe)
 > diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga_=
 state.c
-> index e5f6b735f575..296a1db7e5ee 100644
+> index 296a1db7e5ee..77a0b006f066 100644
 > --- a/drivers/gpu/drm/mga/mga_state.c
 > +++ b/drivers/gpu/drm/mga/mga_state.c
-> @@ -1016,7 +1016,7 @@ int mga_getparam(struct drm_device *dev, void *da=
-ta, struct drm_file *file_priv)
->  		return -EINVAL;
->  	}
+> @@ -32,8 +32,6 @@
+>   *    Gareth Hughes <gareth@valinux.com>
+>   */
 > =20
-> -	DRM_DEBUG("pid=3D%d\n", DRM_CURRENTPID);
-> +	DRM_DEBUG("pid=3D%d\n", task_pid_nr(current));
+> -#include <drm/drmP.h>
+> -#include <drm/mga_drm.h>
+>  #include "mga_drv.h"
 > =20
->  	switch (param->param) {
->  	case MGA_PARAM_IRQ_NR:
-> @@ -1048,7 +1048,7 @@ static int mga_set_fence(struct drm_device *dev, =
-void *data, struct drm_file *fi
->  		return -EINVAL;
->  	}
+>  /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/drivers/gpu/drm/mga/mga_warp.c b/drivers/gpu/drm/mga/mga_w=
+arp.c
+> index 0b76352260a9..b5ef1d2c8b1c 100644
+> --- a/drivers/gpu/drm/mga/mga_warp.c
+> +++ b/drivers/gpu/drm/mga/mga_warp.c
+> @@ -29,11 +29,9 @@
 > =20
-> -	DRM_DEBUG("pid=3D%d\n", DRM_CURRENTPID);
-> +	DRM_DEBUG("pid=3D%d\n", task_pid_nr(current));
+>  #include <linux/firmware.h>
+>  #include <linux/ihex.h>
+> -#include <linux/platform_device.h>
+>  #include <linux/module.h>
+> +#include <linux/platform_device.h>
 > =20
->  	/* I would normal do this assignment in the declaration of fence,
->  	 * but dev_priv may be NULL.
-> @@ -1077,7 +1077,7 @@ file_priv)
->  		return -EINVAL;
->  	}
+> -#include <drm/drmP.h>
+> -#include <drm/mga_drm.h>
+>  #include "mga_drv.h"
 > =20
-> -	DRM_DEBUG("pid=3D%d\n", DRM_CURRENTPID);
-> +	DRM_DEBUG("pid=3D%d\n", task_pid_nr(current));
-> =20
->  	mga_driver_fence_wait(dev, fence);
->  	return 0;
+>  #define FIRMWARE_G200 "matrox/g200_warp.fw"
 >=20
 
 --=20
@@ -276,28 +240,28 @@ GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
 HRB 21284 (AG N=C3=BCrnberg)
 
 
---VWUtngvuR0Us1x39JOkNrBTBobksx9FtF--
+--GXj505p25BDar6K39WLqud7NPWeS7cPVo--
 
---uoS6AW898rEgtX0HfMvrnggLppeukiv8y
+--FFxMMksCco43Y9cOqIFarepjTP3uosMVD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz/XMQACgkQaA3BHVML
-eiP4MQf9HV7UQsWyMX3eyve+6Ir4jgDrcAAN6/gMUM1mffV7n4CgAXbKfiKAJ2n5
-vR/eEI+4MeHJvzXzEuIoz7rSEiQqukzCfCaLgPKbG2j2jo4tRrbvOEAab+SbeQdu
-8DvrxOFmlDdfRZ2QBZSsJuAblkstzJ+rR6X20nJVOjawlTt2Whqy32lbEg9RyEAZ
-iujZBKdiuzx+xXtf8QeOr2wG5AfIvYr1yVK1XxCnt7LK06YE0sRdqQoguU2yIX1d
-PAUtKusODcvFU/iwNK9zn49CsHxtu8ZoFUJsqavGG1kNCLUdJTyQ4S/p6DH86Pgt
-6bFvBIj/AmndayZ+u30JQiVMXqNL3w==
-=6Hho
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz/XhAACgkQaA3BHVML
+eiMNiwf/ZsuM//NLg6DK+YhtS3ho8o8t/kDtkh1IhAgyJFkQj9bTj8IBMAxUTurJ
+8NRCcRWtzJy7D3u7Ouq29AO36OkpFtLdqIp4W8vPZkH6U3IW8I2+oPguoJzjfFyY
+RjOrhsarmsRMhkHlD/9HTwAKpcYVPCjwWTD+WKm37mBiALMNcXQ1WhfJpNVnPQ4g
+LYcFWKfeGvKFnFTW87juvn7MbBrWiMqoV3usHDNQjithH4u41WxAWWA308fkGY2X
+1KCzyQW2+hIWL0XCv+vf4XPzDeIzqCpp0OA1vjkZ+xhz2jqgG+Q/e7o+hc8FQjnJ
+1/Y99mKExGufX2ZMda7DPafJJSjBJw==
+=0VTL
 -----END PGP SIGNATURE-----
 
---uoS6AW898rEgtX0HfMvrnggLppeukiv8y--
+--FFxMMksCco43Y9cOqIFarepjTP3uosMVD--
 
---===============1333602335==
+--===============2079848820==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -307,4 +271,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1333602335==--
+--===============2079848820==--
