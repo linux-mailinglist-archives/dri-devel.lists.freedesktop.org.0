@@ -1,36 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B403CCCE
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 15:21:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A123CCF1
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 15:29:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6BC890DD;
-	Tue, 11 Jun 2019 13:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89536891BE;
+	Tue, 11 Jun 2019 13:29:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D90890DD
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 13:20:58 +0000 (UTC)
-X-Originating-IP: 90.88.159.246
-Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
- [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 517D7E0003;
- Tue, 11 Jun 2019 13:20:50 +0000 (UTC)
-Date: Tue, 11 Jun 2019 15:20:49 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH v3 3/6] drm/modes: Allow to specify rotation and
- reflection on the commandline
-Message-ID: <20190611132049.njlrgbtobzgyzyzh@flea>
-References: <cover.87b91639451f23d4ab68a7c9812f2dd158869025.1555591281.git-series.maxime.ripard@bootlin.com>
- <ba320b3a13c4444102b77c4d00f7c1dc810adc3c.1555591281.git-series.maxime.ripard@bootlin.com>
- <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
- <e2edb1dc-f719-93f0-5205-ecb7b44b057e@tronnes.org>
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86F58891BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 13:29:09 +0000 (UTC)
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:24340
+ helo=[192.168.10.173])
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
+ id 1hagpn-0002bb-Kj; Tue, 11 Jun 2019 15:29:07 +0200
+Subject: Re: [PATCH] drm: Reverse lock order in pan_display_legacy()
+To: Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+References: <20190611115716.7052-1-tzimmermann@suse.de>
+ <20190611123701.GE2458@phenom.ffwll.local>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <fc01251c-3f1f-2e1b-36a3-8563b28f7f20@tronnes.org>
+Date: Tue, 11 Jun 2019 15:29:03 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <e2edb1dc-f719-93f0-5205-ecb7b44b057e@tronnes.org>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190611123701.GE2458@phenom.ffwll.local>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=MdxQ9GxYSMPJyaZ6r4VQWkEGQWEGuXZE8eo4LzLURJM=; 
+ b=pTiz3r/JCNFOkut5Wq1BtNksvz6RAIl0hn4c02KS2YNKLinJkwQtEqJ8q+0x5PYDSTTBLDalS50TLcPp542NWmlXiXLwxTGTji3Hu8oh8R2r62zdrotdpIF13Olyd22brnfbC5B0Kfoffwu6DbM+AiAm8V04VirVmyvVSd0GOHUOd65lWFX1qdWqwz7Ae0suRnLVHfj1BxWbFzaF15GbRDuS9Cf6hgoAA/HTo9HBMdtWepnpwOyrOMgrEpWTEDSdP3dXJA8NeRs4dNqhNo0FVuiQajpYVyrv5dkR4/SBb9f9Td/smjb6B2Njh/H2AWPg5H7ARgM/+9EYOXa7A/TiCA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,138 +46,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Sean Paul <seanpaul@chromium.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0175479219=="
+Cc: sam@ravnborg.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0175479219==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mdnmry45awvilud2"
-Content-Disposition: inline
-
-
---mdnmry45awvilud2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Noralf,
-
-On Fri, Apr 19, 2019 at 10:53:28AM +0200, Noralf Tr=F8nnes wrote:
-> Den 18.04.2019 18.40, skrev Noralf Tr=F8nnes:
-> >
-> >
-> > Den 18.04.2019 14.41, skrev Maxime Ripard:
-> >> Rotations and reflections setup are needed in some scenarios to initia=
-lise
-> >> properly the initial framebuffer. Some drivers already had a bunch of
-> >> quirks to deal with this, such as either a private kernel command line
-> >> parameter (omapdss) or on the device tree (various panels).
-> >>
-> >> In order to accomodate this, let's create a video mode parameter to de=
-al
-> >> with the rotation and reflexion.
-> >>
-> >> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
-> >> ---
-> >>  drivers/gpu/drm/drm_client_modeset.c |  10 +++-
-> >>  drivers/gpu/drm/drm_modes.c          | 110 ++++++++++++++++++++++----=
---
-> >>  include/drm/drm_connector.h          |   9 ++-
-> >>  3 files changed, 109 insertions(+), 20 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/dr=
-m_client_modeset.c
-> >> index f2869c82510c..15145d2c86d5 100644
-> >> --- a/drivers/gpu/drm/drm_client_modeset.c
-> >> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> >> @@ -823,6 +823,7 @@ EXPORT_SYMBOL(drm_client_modeset_probe);
-> >>  bool drm_client_panel_rotation(struct drm_mode_set *modeset, unsigned=
- int *rotation)
-> >>  {
-> >>  	struct drm_connector *connector =3D modeset->connectors[0];
-> >> +	struct drm_cmdline_mode *cmdline;
-> >>  	struct drm_plane *plane =3D modeset->crtc->primary;
-> >>  	u64 valid_mask =3D 0;
-> >>  	unsigned int i;
-> >> @@ -844,6 +845,15 @@ bool drm_client_panel_rotation(struct drm_mode_se=
-t *modeset, unsigned int *rotat
-> >>  		*rotation =3D DRM_MODE_ROTATE_0;
-> >>  	}
-> >>
-> >> +	/**
-> >> +	 * We want the rotation on the command line to overwrite
-> >> +	 * whatever comes from the panel.
-> >> +	 */
-> >> +	cmdline =3D &connector->cmdline_mode;
-> >> +	if (cmdline->specified &&
-> >> +	    cmdline->rotation !=3D DRM_MODE_ROTATE_0)
-> >
-> > I believe you need to drop that second check, otherwise rotate=3D0 will
-> > not overwrite panel rotation.
-> >
-> >> +		*rotation =3D cmdline->rotation;
->
-> I remembered that you wanted this to propagate to DRM userspace. That's
-> not happening here.
-
-It's propated to the userspace through the plane's rotation property,
-I just checked.
-
-> The only way I see for that to happen, is to set
-> ->panel_orientation. And to repeat myself, imo that makes
-> 'orientation' a better name for this video=3D option.
-
-orientation and rotation are two different things to me. The
-orientation of a panel for example is absolute, while the rotation is
-a transformation. In this particular case, I think that both the
-orientation and the rotation should be taken into account, with the
-orientation being the default state, and the hardware / panel will
-tell us that, while the rotation would be a transformation from that
-default to whatever the user wants.
-
-More importantly, the orientation is a property of the hardware (ie,
-how the display has been assembled), while the rotation is a software
-construct.
-
-And if the property being used to expose that is the rotation, I guess
-it would make sense to just use the same name and remain consistent.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---mdnmry45awvilud2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXP+qrAAKCRDj7w1vZxhR
-xe5PAQDCQaIDsixvc62mOwJmH8N2VDKLgwxZHb4VAkAg2RCODwD9GaVUIrYgsH4V
-8gU7LihF1xKwFgXm4nWPMTkv3/PVmAE=
-=ch9K
------END PGP SIGNATURE-----
-
---mdnmry45awvilud2--
-
---===============0175479219==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0175479219==--
+CgpEZW4gMTEuMDYuMjAxOSAxNC4zNywgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBPbiBUdWUsIEp1
+biAxMSwgMjAxOSBhdCAwMTo1NzoxNlBNICswMjAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToK
+Pj4gQWNxdWlyaW5nIGRybV9jbGllbnRfZGV2Lm1vZGVzZXRfbXV0ZXggYWZ0ZXIgdGhlIGxvY2tz
+IGluIGRybV9mYl9oZWxwZXIuZGV2Cj4+IGNyZWF0ZXMgYSBkZWFkbG9jayB3aXRoIGRybV9zZXR1
+cF9jcnRjcygpIGFzIHNob3duIGJlbG93Ogo+Pgo+PiAgIFsgICAgNC45NTkzMTldIGZiY29uOiBy
+YWRlb25kcm1mYiAoZmIwKSBpcyBwcmltYXJ5IGRldmljZQo+PiAgIFsgICAgNC45OTM5NTJdIENv
+bnNvbGU6IHN3aXRjaGluZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAyNDB4NjcKPj4g
+ICBbICAgIDQuOTk0MDQwXQo+PiAgIFsgICAgNC45OTQwNDFdID09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+PiAgIFsgICAgNC45OTQwNDFdIFdB
+Uk5JTkc6IHBvc3NpYmxlIGNpcmN1bGFyIGxvY2tpbmcgZGVwZW5kZW5jeSBkZXRlY3RlZAo+PiAg
+IFsgICAgNC45OTQwNDJdIDUuMi4wLXJjNC0xLWRlZmF1bHQrICMzOSBUYWludGVkOiBHICAgICAg
+ICAgICAgRQo+PiAgIFsgICAgNC45OTQwNDNdIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+PiAgIFsgICAgNC45OTQwNDNdIHN5c3RlbWQtdWRl
+dmQvMzY5IGlzIHRyeWluZyB0byBhY3F1aXJlIGxvY2s6Cj4+ICAgWyAgICA0Ljk5NDA0NF0gMDAw
+MDAwMDBmYjYyMmFjYiAoJmNsaWVudC0+bW9kZXNldF9tdXRleCl7Ky4rLn0sIGF0OiBkcm1fZmJf
+aGVscGVyX3Bhbl9kaXNwbGF5KzB4MTAzLzB4MWYwIFtkcm1fa21zX2hlbHBlcl0KPj4gICBbICAg
+IDQuOTk0MDU1XQo+PiAgIFsgICAgNC45OTQwNTVdIGJ1dCB0YXNrIGlzIGFscmVhZHkgaG9sZGlu
+ZyBsb2NrOgo+PiAgIFsgICAgNC45OTQwNTVdIDAwMDAwMDAwMjg3NjdhZTQgKGNydGNfd3dfY2xh
+c3NfbXV0ZXgpeysuKy59LCBhdDogZHJtX21vZGVzZXRfbG9jaysweDQyLzB4ZjAgW2RybV0KPj4g
+ICBbICAgIDQuOTk0MDcyXQo+PiAgIFsgICAgNC45OTQwNzJdIHdoaWNoIGxvY2sgYWxyZWFkeSBk
+ZXBlbmRzIG9uIHRoZSBuZXcgbG9jay4KPj4gICBbICAgIDQuOTk0MDcyXQo+PiAgIFsgICAgNC45
+OTQwNzJdCj4+ICAgWyAgICA0Ljk5NDA3Ml0gdGhlIGV4aXN0aW5nIGRlcGVuZGVuY3kgY2hhaW4g
+KGluIHJldmVyc2Ugb3JkZXIpIGlzOgo+PiAgIFsgICAgNC45OTQwNzNdCj4+ICAgWyAgICA0Ljk5
+NDA3M10gLT4gIzMgKGNydGNfd3dfY2xhc3NfbXV0ZXgpeysuKy59Ogo+PiAgIFsgICAgNC45OTQw
+NzZdICAgICAgICBsb2NrX2FjcXVpcmUrMHg5ZS8weDE3MAo+PiAgIFsgICAgNC45OTQwNzldICAg
+ICAgICBfX3d3X211dGV4X2xvY2suY29uc3Rwcm9wLjE4KzB4OTcvMHhmNDAKPj4gICBbICAgIDQu
+OTk0MDgwXSAgICAgICAgd3dfbXV0ZXhfbG9jaysweDMwLzB4OTAKPj4gICBbICAgIDQuOTk0MDkx
+XSAgICAgICAgZHJtX21vZGVzZXRfbG9jaysweDQyLzB4ZjAgW2RybV0KPj4gICBbICAgIDQuOTk0
+MTAyXSAgICAgICAgZHJtX21vZGVzZXRfbG9ja19hbGxfY3R4KzB4MWYvMHhlMCBbZHJtXQo+PiAg
+IFsgICAgNC45OTQxMTNdICAgICAgICBkcm1fbW9kZXNldF9sb2NrX2FsbCsweDVlLzB4MWEwIFtk
+cm1dCj4+ICAgWyAgICA0Ljk5NDE2M10gICAgICAgIGludGVsX21vZGVzZXRfaW5pdCsweDYwYi8w
+eGRhMCBbaTkxNV0KPj4gICAuLgo+PiAgIFsgICAgNC45OTQyNTNdCj4+ICAgWyAgICA0Ljk5NDI1
+M10gLT4gIzIgKGNydGNfd3dfY2xhc3NfYWNxdWlyZSl7Ky4rLn06Cj4+ICAgWyAgICA0Ljk5NDI1
+NV0gICAgICAgIGxvY2tfYWNxdWlyZSsweDllLzB4MTcwCj4+ICAgWyAgICA0Ljk5NDI3MF0gICAg
+ICAgIGRybV9tb2Rlc2V0X2FjcXVpcmVfaW5pdCsweGNjLzB4MTAwIFtkcm1dCj4+ICAgWyAgICA0
+Ljk5NDI4MF0gICAgICAgIGRybV9tb2Rlc2V0X2xvY2tfYWxsKzB4NDQvMHgxYTAgW2RybV0KPj4g
+ICBbICAgIDQuOTk0MzIwXSAgICAgICAgaW50ZWxfbW9kZXNldF9pbml0KzB4NjBiLzB4ZGEwIFtp
+OTE1XQo+PiAgIC4uCj4+ICAgWyAgICA0Ljk5NDQwM10KPj4gICBbICAgIDQuOTk0NDAzXSAtPiAj
+MSAoJmRldi0+bW9kZV9jb25maWcubXV0ZXgpeysuKy59Ogo+PiAgIFsgICAgNC45OTQ0MDVdICAg
+ICAgICBsb2NrX2FjcXVpcmUrMHg5ZS8weDE3MAo+PiAgIFsgICAgNC45OTQ0MDhdICAgICAgICBf
+X211dGV4X2xvY2srMHg2Mi8weDhjMAo+PiAgIFsgICAgNC45OTQ0MTNdICAgICAgICBkcm1fc2V0
+dXBfY3J0Y3MrMHgxN2MvMHhjNTAgW2RybV9rbXNfaGVscGVyXQo+PiAgIFsgICAgNC45OTQ0MThd
+ICAgICAgICBfX2RybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5kX3VubG9jaysweDM0LzB4
+NTMwIFtkcm1fa21zX2hlbHBlcl0KPj4gICBbICAgIDQuOTk0NDUwXSAgICAgICAgcmFkZW9uX2Zi
+ZGV2X2luaXQrMHgxMTAvMHgxMzAgW3JhZGVvbl0KPj4gICAuLgo+PiAgIFsgICAgNC45OTQ1MzVd
+Cj4+ICAgWyAgICA0Ljk5NDUzNV0gLT4gIzAgKCZjbGllbnQtPm1vZGVzZXRfbXV0ZXgpeysuKy59
+Ogo+PiAgIFsgICAgNC45OTQ1MzddICAgICAgICBfX2xvY2tfYWNxdWlyZSsweGE4NS8weGU5MAo+
+PiAgIFsgICAgNC45OTQ1MzhdICAgICAgICBsb2NrX2FjcXVpcmUrMHg5ZS8weDE3MAo+PiAgIFsg
+ICAgNC45OTQ1NDBdICAgICAgICBfX211dGV4X2xvY2srMHg2Mi8weDhjMAo+PiAgIFsgICAgNC45
+OTQ1NDVdICAgICAgICBkcm1fZmJfaGVscGVyX3Bhbl9kaXNwbGF5KzB4MTAzLzB4MWYwIFtkcm1f
+a21zX2hlbHBlcl0KPj4gICBbICAgIDQuOTk0NTQ3XSAgICAgICAgZmJfcGFuX2Rpc3BsYXkrMHg5
+Mi8weDEyMAo+PiAgIFsgICAgNC45OTQ1NDldICAgICAgICBiaXRfdXBkYXRlX3N0YXJ0KzB4MWEv
+MHg0MAo+PiAgIFsgICAgNC45OTQ1NTBdICAgICAgICBmYmNvbl9zd2l0Y2grMHgzOTIvMHg1ODAK
+Pj4gICBbICAgIDQuOTk0NTUyXSAgICAgICAgcmVkcmF3X3NjcmVlbisweDEyYy8weDIyMAo+PiAg
+IFsgICAgNC45OTQ1NTNdICAgICAgICBkb19iaW5kX2Nvbl9kcml2ZXIuY29sZC4zMCsweGUxLzB4
+MTBkCj4+ICAgWyAgICA0Ljk5NDU1NF0gICAgICAgIGRvX3Rha2Vfb3Zlcl9jb25zb2xlKzB4MTEz
+LzB4MTkwCj4+ICAgWyAgICA0Ljk5NDU1NV0gICAgICAgIGRvX2ZiY29uX3Rha2VvdmVyKzB4NTgv
+MHhiMAo+PiAgIFsgICAgNC45OTQ1NTddICAgICAgICBub3RpZmllcl9jYWxsX2NoYWluKzB4NDcv
+MHg3MAo+PiAgIFsgICAgNC45OTQ1NThdICAgICAgICBibG9ja2luZ19ub3RpZmllcl9jYWxsX2No
+YWluKzB4NDQvMHg2MAo+PiAgIFsgICAgNC45OTQ1NTldICAgICAgICByZWdpc3Rlcl9mcmFtZWJ1
+ZmZlcisweDIzMS8weDMxMAo+PiAgIFsgICAgNC45OTQ1NjRdICAgICAgICBfX2RybV9mYl9oZWxw
+ZXJfaW5pdGlhbF9jb25maWdfYW5kX3VubG9jaysweDJmZC8weDUzMCBbZHJtX2ttc19oZWxwZXJd
+Cj4+ICAgWyAgICA0Ljk5NDU5MF0gICAgICAgIHJhZGVvbl9mYmRldl9pbml0KzB4MTEwLzB4MTMw
+IFtyYWRlb25dCj4+ICAgLi4KPj4KPj4gVGhpcyBwcm9ibGVtIHdhcyBpbnRyb2R1Y2VkIGluCj4+
+Cj4+ICAgZDgxMjk0YWZlCWRybS9mYi1oZWxwZXI6IFJlbW92ZSBkcm1fZmJfaGVscGVyX2NydGMK
+Pj4KPj4gUmV2ZXJzaW5nIHRoZSBsb2NrIG9yZGVyaW5nIGluIHBhbl9kaXNwbGF5X2xlZ2FjeSgp
+IGZpeGVzIHRoZSBpc3N1ZS4gVGhlIGZpeAo+PiB3YXMgc3VnZ2VzdGVkIGJ5IERhbmllbCBWZXR0
+ZXIuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
+dXNlLmRlPgo+PiBGaXhlczogZDgxMjk0YWZlZWNkYWNjOGQ4NDgwNGJhMGJjYjNkMzllNjRkMGYy
+Nwo+IAo+IEkgdGhpbmsgZm9yIG9jZCBjb25zaXN0ZW5jeSBpdCBiZSBuaWNlIHRvIHB1bGwgdGhl
+IGxvY2sgb3V0IGZyb20gYm90aAo+IHBhbl9kaXNwbGF5X2F0b21pYyBhbmQgcGFuX2Rpc2FwbHlf
+bGVnYWN5IGFuZCBtb3ZlIGl0IGludG8KPiBkcm1fZmJfaGVscGVyX3Bhbl9kaXNwbGF5LiBMaWtl
+IHdlIGRvIGRybV9mYl9oZWxwZXJfZHBtcyBvcgo+IGRybV9mYl9oZWxwZXJfc2V0Y21hcCBvciBy
+ZXN0b3JlX2ZiZGV2X21vZGVfZm9yY2UuCgpJcyAnbG9jaycgcmVmZXJyaW5nIHRvIG1vZGVzZXRf
+bXV0ZXg/IElmIHNvIGl0IGNhbid0IGJlIG1vdmVkIG91dApiZWNhdXNlIHBhbl9kaXNwbGF5X2F0
+b21pYygpIGNhbGxzIGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfZm9yY2UoKQp3aGljaCBpbiB0
+dXJuIHRha2VzIHRoZSBtb2Rlc2V0X211dGV4IGxvY2suCgpUaGUgbG9ja2luZyBpbiBfcGFuX2Rp
+c3BsYXkgaXNuJ3Qgc28gbmljZSBsb29raW5nLCBidXQgSSBmaWd1cmVkIHRoYXQgbm8Kb3RoZXIg
+Y2xpZW50IHdvdWxkIG5lZWQgdG8gZG8gcGFubmluZyBzbyBJIGtlcHQgdGhlIHVnbGluZXNzIGlu
+CmRybV9mYl9oZWxwZXIgaW5zdGVhZCBvZiBhZGRpbmcgY29tcGxleGl0eSB0byBkcm1fY2xpZW50
+LgoKVGhhbmtzIGZvciBmaXhpbmcgdGhpcyBUaG9tYXMuCkRvIHlvdSBoYXZlIGNvbW1pdCByaWdo
+dHMgb3Igc2hvdWxkIEkgYXBwbHkgdGhpcz8KCkFja2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5v
+cmFsZkB0cm9ubmVzLm9yZz4KCk5vcmFsZi4KCj4gCj4gRWl0aGVyIHdheSBSZXZpZXdlZC1ieTog
+RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPiAKPj4gLS0tCj4+ICBkcml2
+ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jIHwgNCArKy0tCj4+ICAxIGZpbGUgY2hhbmdlZCwg
+MiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVy
+LmMKPj4gaW5kZXggN2IzODg2NzRhNDU2Li5kNjk5MWYwN2NiMTcgMTAwNjQ0Cj4+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9mYl9oZWxwZXIuYwo+PiBAQCAtMTU4Niw4ICsxNTg2LDggQEAgc3RhdGljIGludCBwYW5fZGlz
+cGxheV9sZWdhY3koc3RydWN0IGZiX3Zhcl9zY3JlZW5pbmZvICp2YXIsCj4+ICAJc3RydWN0IGRy
+bV9tb2RlX3NldCAqbW9kZXNldDsKPj4gIAlpbnQgcmV0ID0gMDsKPj4gIAo+PiAtCWRybV9tb2Rl
+c2V0X2xvY2tfYWxsKGZiX2hlbHBlci0+ZGV2KTsKPj4gIAltdXRleF9sb2NrKCZjbGllbnQtPm1v
+ZGVzZXRfbXV0ZXgpOwo+PiArCWRybV9tb2Rlc2V0X2xvY2tfYWxsKGZiX2hlbHBlci0+ZGV2KTsK
+Pj4gIAlkcm1fY2xpZW50X2Zvcl9lYWNoX21vZGVzZXQobW9kZXNldCwgY2xpZW50KSB7Cj4+ICAJ
+CW1vZGVzZXQtPnggPSB2YXItPnhvZmZzZXQ7Cj4+ICAJCW1vZGVzZXQtPnkgPSB2YXItPnlvZmZz
+ZXQ7Cj4+IEBAIC0xNjAwLDggKzE2MDAsOCBAQCBzdGF0aWMgaW50IHBhbl9kaXNwbGF5X2xlZ2Fj
+eShzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZhciwKPj4gIAkJCX0KPj4gIAkJfQo+PiAgCX0K
+Pj4gLQltdXRleF91bmxvY2soJmNsaWVudC0+bW9kZXNldF9tdXRleCk7Cj4+ICAJZHJtX21vZGVz
+ZXRfdW5sb2NrX2FsbChmYl9oZWxwZXItPmRldik7Cj4+ICsJbXV0ZXhfdW5sb2NrKCZjbGllbnQt
+Pm1vZGVzZXRfbXV0ZXgpOwo+PiAgCj4+ICAJcmV0dXJuIHJldDsKPj4gIH0KPj4gLS0gCj4+IDIu
+MjEuMAo+Pgo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
