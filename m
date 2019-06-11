@@ -1,46 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CBA3C9EC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 13:23:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 528073C9F5
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 13:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF82C890F2;
-	Tue, 11 Jun 2019 11:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5A72890F7;
+	Tue, 11 Jun 2019 11:29:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5685F8918A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 11:23:55 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5283F72167; Tue, 11 Jun 2019 11:23:55 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
- 11.x and 19.x
-Date: Tue, 11 Jun 2019 11:23:55 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: rsalvaterra@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110781-502-T1nVJZBMew@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
-References: <bug-110781-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C201890F7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 11:29:06 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id k8so4907730eds.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 04:29:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KWiSkWv/DkQjaVk1HaiNhqwbIu727aF1qlGWvhFG594=;
+ b=AMrB9/CTAMmcOR6OmIrpb8XhUN+0rVI2U42LSy+9ViFvqpZ/UO/oWd2XOnvAP0kw9s
+ SXblsEGeVpxwtlTtimILonNVH+MOqNFrQB+fiSuN3RTqzvucH7/EVwjZIVk8KpS9+xch
+ wu4RkQ5CCJitpFnL+x64cPD5sq/rZ4S5PwZfr8GoTc8pvkJxEjeoYXpjikJ/zRPO2ywc
+ eSJJpIPuVAF04Jlq0tT2AsZqq15gUQ4xvoJX1snIumzFPEcdrLo8luQRO6HNNzCSICht
+ /VVJy/wqi4mn00EVcOjUNlLfj4mEO4HIgS3tXcwnlx6VzHJhsgpzy2RwBSpum1T6XFrZ
+ QjbA==
+X-Gm-Message-State: APjAAAV3ra1K2DouK+UQ9ggGhYn0m83mAVL/efPP7Sbs+YCEED7NOtxQ
+ 0hxdQe57vKzm2psuQWXVZdX/DRYzNy0=
+X-Google-Smtp-Source: APXvYqyI4/K5WMxqov4d43jeJHlEso7Rt7Mrx8FqYsZI2yoEd2sX6tC0wmDJjWDgWo57RI0oL6edeQ==
+X-Received: by 2002:a50:8bcc:: with SMTP id n12mr57208517edn.6.1560252544942; 
+ Tue, 11 Jun 2019 04:29:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id m16sm2209247ejj.57.2019.06.11.04.29.03
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 11 Jun 2019 04:29:04 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/fb: document dirty helper better
+Date: Tue, 11 Jun 2019 13:28:59 +0200
+Message-Id: <20190611112859.16375-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KWiSkWv/DkQjaVk1HaiNhqwbIu727aF1qlGWvhFG594=;
+ b=iNxcLzipxnIPrjN+4Jl7kDD1SCdZB35yt3GiA5m8Cjw3oIqdLBjV6AJV8kaUv6kJqt
+ xD2UKwlMroqOuwmLPStTtUfcRFar2RDu9Fj3DjVEY4jWvpdAxqHwynl+dNglvGr0Pvuv
+ wGkGOIRMtxxO+Ai/n1rAa3M06V54YgTJ2sEdk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,130 +62,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1558543636=="
+Cc: David Lechner <david@lechnology.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Hans de Goede <hdegoede@redhat.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1558543636==
-Content-Type: multipart/alternative; boundary="15602522353.033fE.16314"
-Content-Transfer-Encoding: 7bit
-
-
---15602522353.033fE.16314
-Date: Tue, 11 Jun 2019 11:23:55 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
-
---- Comment #63 from Rui Salvaterra <rsalvaterra@gmail.com> ---
-(In reply to Richard Thier from comment #62)
-> Added a blog post about the whole issue and its solving process here:
->=20
-> http://ballmerpeak.web.elte.hu/devblog/debugging-mesa-and-the-linux-3d-
-> graphics-stack.html
->=20
-> I have linked to this bug report and every other place and people where
-> communications were done for solving this slowdown issue.
->=20
-> I just wanted to put things together as it might be valuable for others
-> wanting to do similar things - I was and still is a rookie for these thin=
-gs
-> after all.
-
-Nice article! I'll read it thoroughly when I get home, probably while also
-testing your v3 and trying to squeeze some performance numbers out of my pa=
-tch.
-;)
-
-Cheers!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15602522353.033fE.16314
-Date: Tue, 11 Jun 2019 11:23:55 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c63">Comme=
-nt # 63</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rsalvaterra&#64;gmail.com" title=3D"Rui Salvaterra &lt;rsalvaterra&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Rui Salvaterra</span></a>
-</span></b>
-        <pre>(In reply to Richard Thier from <a href=3D"show_bug.cgi?id=3D1=
-10781#c62">comment #62</a>)
-<span class=3D"quote">&gt; Added a blog post about the whole issue and its =
-solving process here:
-&gt;=20
-&gt; <a href=3D"http://ballmerpeak.web.elte.hu/devblog/debugging-mesa-and-t=
-he-linux-3d">http://ballmerpeak.web.elte.hu/devblog/debugging-mesa-and-the-=
-linux-3d</a>-
-&gt; graphics-stack.html
-&gt;=20
-&gt; I have linked to this bug report and every other place and people where
-&gt; communications were done for solving this slowdown issue.
-&gt;=20
-&gt; I just wanted to put things together as it might be valuable for others
-&gt; wanting to do similar things - I was and still is a rookie for these t=
-hings
-&gt; after all.</span >
-
-Nice article! I'll read it thoroughly when I get home, probably while also
-testing your v3 and trying to squeeze some performance numbers out of my pa=
-tch.
-;)
-
-Cheers!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15602522353.033fE.16314--
-
---===============1558543636==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1558543636==--
+QXBwYXJlbnRseSBsaXR0bGUgbm9uZSBmYWN0IHRoYXQgdGhlcmUncyBubyBuZWVkIHRvIGhhbmQt
+cm9sbCB5b3VyIG93bgphbnltb3JlLiBDYydpbmcgYSBidW5jaCBvZiBkcml2ZXIgcGVvcGxlIHdo
+byBtaWdodCB3YW50IHRvIGtub3cgdGhpcwp0b28uCgpDYzogUm9iIENsYXJrIDxyb2JkY2xhcmtA
+Z21haWwuY29tPgpDYzogU2ViYXN0aWFuIFJlaWNoZWwgPHNlYmFzdGlhbi5yZWljaGVsQGNvbGxh
+Ym9yYS5jb20+CkNjOiBUb21pIFZhbGtlaW5lbiA8dG9taS52YWxrZWluZW5AdGkuY29tPgpDYzog
+TWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6
+IE1heGltZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9vdGxpbi5jb20+CkNjOiBTZWFuIFBhdWwg
+PHNlYW5AcG9vcmx5LnJ1bj4KQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgpD
+YzogRGF2aWQgTGVjaG5lciA8ZGF2aWRAbGVjaG5vbG9neS5jb20+CkNjOiBOb3JhbGYgVHLDuG5u
+ZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KQ2M6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhh
+dC5jb20+ClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwu
+Y29tPgotLS0KIGluY2x1ZGUvZHJtL2RybV9mcmFtZWJ1ZmZlci5oIHwgMyArKysKIDEgZmlsZSBj
+aGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZnJh
+bWVidWZmZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9mcmFtZWJ1ZmZlci5oCmluZGV4IGMyMzAxNjc0
+OGUzZi4uYzBlMDI1NmUzZTk4IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZnJhbWVidWZm
+ZXIuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fZnJhbWVidWZmZXIuaApAQCAtODcsNiArODcsOSBA
+QCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyX2Z1bmNzIHsKIAkgKiBmb3IgbW9yZSBpbmZvcm1hdGlv
+biBhcyBhbGwgdGhlIHNlbWFudGljcyBhbmQgYXJndW1lbnRzIGhhdmUgYSBvbmUgdG8KIAkgKiBv
+bmUgbWFwcGluZyBvbiB0aGlzIGZ1bmN0aW9uLgogCSAqCisJICogQXRvbWljIGRyaXZlcnMgc2hv
+dWxkIHVzZSBkcm1fYXRvbWljX2hlbHBlcl9kaXJ0eWZiKCkgdG8gaW1wbGVtZW50CisJICogdGhp
+cyBob29rLgorCSAqCiAJICogUkVUVVJOUzoKIAkgKgogCSAqIDAgb24gc3VjY2VzcyBvciBhIG5l
+Z2F0aXZlIGVycm9yIGNvZGUgb24gZmFpbHVyZS4KLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
