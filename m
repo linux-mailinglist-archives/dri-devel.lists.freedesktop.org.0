@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F443C3DD
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 08:18:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9CD3C4AD
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 09:07:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 629E08914F;
-	Tue, 11 Jun 2019 06:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D778389150;
+	Tue, 11 Jun 2019 07:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 25A7F890DB
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 06:18:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D60B68914F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 07:06:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 22D7772167; Tue, 11 Jun 2019 06:18:11 +0000 (UTC)
+ id D2FCC72167; Tue, 11 Jun 2019 07:06:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110886] After S3 resume, kernel:
- [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
- [CRTC:57:crtc-0] flip_done timed out
-Date: Tue, 11 Jun 2019 06:18:11 +0000
+Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
+Date: Tue, 11 Jun 2019 07:06:58 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: 19.1
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kai.heng.feng@canonical.com
+X-Bugzilla-Who: gw.fossdev@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110886-502-0oDytkwHCI@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
-References: <bug-110886-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110783-502-QnKYnPQUNT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
+References: <bug-110783-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -54,37 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0356280996=="
+Content-Type: multipart/mixed; boundary="===============0061752114=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0356280996==
-Content-Type: multipart/alternative; boundary="15602338910.d47FcEE6.30762"
+--===============0061752114==
+Content-Type: multipart/alternative; boundary="15602368172.6EDEAdE.7671"
 Content-Transfer-Encoding: 7bit
 
 
---15602338910.d47FcEE6.30762
-Date: Tue, 11 Jun 2019 06:18:11 +0000
+--15602368172.6EDEAdE.7671
+Date: Tue, 11 Jun 2019 07:06:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
 
---- Comment #1 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
-Created attachment 144498
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144498&action=3Dedit
-Full kernel log
+--- Comment #3 from Gert Wollny <gw.fossdev@gmail.com> ---
+R600 doesn't implement TGSI_OPCODE_DIV and in the Gentoo bug this is the one
+reported as being triggered. If think for glsl this is lowered, so maybe th=
+ere
+is some compiler option missing in the vdpau state tracker.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15602338910.d47FcEE6.30762
-Date: Tue, 11 Jun 2019 06:18:11 +0000
+--15602368172.6EDEAdE.7671
+Date: Tue, 11 Jun 2019 07:06:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -100,25 +99,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c1">Commen=
-t # 1</a>
+   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
-6</a>
+   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
+3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
-64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
+gw.fossdev&#64;gmail.com" title=3D"Gert Wollny &lt;gw.fossdev&#64;gmail.com=
+&gt;"> <span class=3D"fn">Gert Wollny</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144498=
-" name=3D"attach_144498" title=3D"Full kernel log">attachment 144498</a> <a=
- href=3D"attachment.cgi?id=3D144498&amp;action=3Dedit" title=3D"Full kernel=
- log">[details]</a></span>
-Full kernel log</pre>
+        <pre>R600 doesn't implement TGSI_OPCODE_DIV and in the Gentoo bug t=
+his is the one
+reported as being triggered. If think for glsl this is lowered, so maybe th=
+ere
+is some compiler option missing in the vdpau state tracker.</pre>
         </div>
       </p>
 
@@ -132,9 +129,9 @@ Full kernel log</pre>
     </body>
 </html>=
 
---15602338910.d47FcEE6.30762--
+--15602368172.6EDEAdE.7671--
 
---===============0356280996==
+--===============0061752114==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +141,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0356280996==--
+--===============0061752114==--
