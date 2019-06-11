@@ -1,45 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC0C3D6F2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 21:39:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3AD41CF6
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:56:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A31889204;
-	Tue, 11 Jun 2019 19:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE2818934F;
+	Wed, 12 Jun 2019 06:55:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A388C891D9
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 19:38:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9F9FA72167; Tue, 11 Jun 2019 19:38:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110381] Failed to updateMST allocation table forpipe idx:0
-Date: Tue, 11 Jun 2019 19:38:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: john.e.francis@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110381-502-OK6BQqcukx@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110381-502@http.bugs.freedesktop.org/>
-References: <bug-110381-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9596891FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 19:44:33 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id i34so16025234qta.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 12:44:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=0wVahQWOtZqsHwcjYboXhZ8xmvq6TDZROratpn9jK+o=;
+ b=GonJ9rO7fFgD6eDWF1ISHnLNWmwtmlL09Kwv9JwGnqf1KvlR5mesG0YUdCdVt4TNtF
+ TZ1vHekvWS7vx9zGGx30IFAeRdiimTRJhPiaoStJd7L2BoVD/VSdKcxOvLk2kvgyKe5+
+ IWlqRIhGqBa3sD3lwnTmziuci+XXbdBcvYrVFWu0Xd7MXJOL7R32Tk1/pb7n264MzV1V
+ 2PrZbj04E1Zp3bKTUSnjMo3cCIQnvxiGgZBRj3TNGEiASQKKwDo0RSPVTRCFqI6tYqXi
+ Tun17W7lb7/HljIG66RJb0ByDPKFZFT5o3r3ZvTz7NkdMquO7UuD+7WtQGMD5fTpAbZo
+ cCYg==
+X-Gm-Message-State: APjAAAXljjg0MoiaiCJRGVX8Pf1PBTPP0acG9B5ogA4yCkgiLVpxQEfH
+ l+yhCDfjFggrVdNvq3HcG+B1wg==
+X-Google-Smtp-Source: APXvYqxN1rsrdbPLpnUSRUIFougVtrUocqVp5o5RzenZEH/EseHKCc1Fa1UBz9VWttmJTii4ojTTrg==
+X-Received: by 2002:ac8:4619:: with SMTP id p25mr33781429qtn.73.1560282272851; 
+ Tue, 11 Jun 2019 12:44:32 -0700 (PDT)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-55-100.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.55.100])
+ by smtp.gmail.com with ESMTPSA id z1sm8154500qth.7.2019.06.11.12.44.32
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 11 Jun 2019 12:44:32 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+ (envelope-from <jgg@ziepe.ca>)
+ id 1hamh5-0007DI-P7; Tue, 11 Jun 2019 16:44:31 -0300
+Date: Tue, 11 Jun 2019 16:44:31 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v2 hmm 02/11] mm/hmm: Use hmm_mirror not mm as an
+ argument for hmm_range_register
+Message-ID: <20190611194431.GC29375@ziepe.ca>
+References: <20190606184438.31646-1-jgg@ziepe.ca>
+ <20190606184438.31646-3-jgg@ziepe.ca>
+ <20190608085425.GB32185@infradead.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190608085425.GB32185@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Wed, 12 Jun 2019 06:53:41 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=0wVahQWOtZqsHwcjYboXhZ8xmvq6TDZROratpn9jK+o=;
+ b=lg2OoIxPWMt+YSmGaILIbusgcWDifxTW7e65EX3sxhPnEuWqY6ckfwdIVK6bxYaj4D
+ /Se9H+/UoWB8E+yMPOmrgaYspQrEAAZyUYnQxUu+iqUlSZ1Me2XihuQrIKfgMT8rinY6
+ YIYI4Q3iwlrjTv+fj0zBV+Br3GlIUBY2JhCCOIewMutojUG5+eNPUgQQrVAs+ekBpROY
+ HQE4TKOpYj3dFgp7sSamfF8zqcH+Rfq/54vQXhisztrLw7tHaNKZCI7Nac/f1kKE67PU
+ BtZBqAhXEkoTT4hsun+6H9rzcpJKSh0DE3SM+Cfh1UZgPU0RBSVysGgTWs/dUH2Pz8yj
+ LNfA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,285 +77,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0608157885=="
+Cc: Andrea Arcangeli <aarcange@redhat.com>,
+ Ralph Campbell <rcampbell@nvidia.com>, linux-rdma@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, Felix.Kuehling@amd.com,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Jerome Glisse <jglisse@redhat.com>, amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0608157885==
-Content-Type: multipart/alternative; boundary="15602819371.2f6C4C.25250"
-Content-Transfer-Encoding: 7bit
-
-
---15602819371.2f6C4C.25250
-Date: Tue, 11 Jun 2019 19:38:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110381
-
---- Comment #6 from John Francis <john.e.francis@gmail.com> ---
-I get this on kernel 5.1.8 when I use a KVM switch with DisplayPort
-daisy-chained MST monitors. It occurs when I switch back.
-
-I can workaround by powering off the last monitor in the chain, and then
-powering it back on.=20
-
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.438966] [drm] Failed to updateMST
-allocation table forpipe idx:0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687046] WARNING: CPU: 8 PID: 3551=
- at
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2361
-update_mst_stream_alloc_table+0x143/0x150 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687047] Modules linked in: tcp_di=
-ag
-inet_diag ipt_MASQUERADE nf_conntrack_netlink nfnetlink xfrm_user xfrm_algo
-iptable_nat xt_addrtype iptable_filter bpfilter xt_conntrack nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 br_netfilter bridge stp llc over=
-lay
-intel_rapl nls_iso8859_1 x86_pkg_temp_thermal intel_powerclamp coretemp
-kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel
-aesni_intel aes_x86_64 crypto_simd cryptd glue_helper intel_cstate
-intel_rapl_perf snd_hda_codec_realtek snd_hda_codec_generic snd_hda_codec_h=
-dmi
-ledtrig_audio eeepc_wmi asus_wmi sparse_keymap video amdgpu wmi_bmof
-snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi
-snd_seq_midi_event chash mxm_wmi gpu_sched snd_rawmidi amd_iommu_v2 ttm
-drm_kms_helper cp210x usbserial snd_seq drm snd_seq_device i2c_algo_bit
-snd_timer fb_sys_fops syscopyarea sysfillrect sysimgblt snd mei_me soundcore
-mei joydev input_leds mac_hid sch_fq_codel parport_pc ppdev lp parport
-ip_tables
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687068]  x_tables autofs4 raid10
-raid1 raid0 multipath linear raid456 async_raid6_recov async_memcpy async_pq
-async_xor async_tx uas xor usb_storage raid6_pq libcrc32c hid_generic usbhid
-hid r8169 lpc_ich i2c_i801 e1000e realtek ahci libahci wmi
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687078] CPU: 8 PID: 3551 Comm:
-gnome-shell Kdump: loaded Tainted: G        W         5.1.8-050108-generic
-#201906090832
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687078] Hardware name: System
-manufacturer System Product Name/X79-DELUXE, BIOS 4805 02/02/2016
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687121] RIP:
-0010:update_mst_stream_alloc_table+0x143/0x150 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687122] Code: 00 48 83 c0 10 48 8=
-3 f8
-60 75 dd 48 8b 44 24 68 65 48 33 04 25 28 00 00 00 75 16 48 8d 65 d8 5b 41 =
-5c
-41 5d 41 5e 41 5f 5d c3 <0f> 0b e9 09 ff ff ff e8 01 10 12 d1 90 0f 1f 44 0=
-0 00
-55 48 89 e5
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687123] RSP: 0018:ffff9efc03faf650
-EFLAGS: 00010202
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687124] RAX: 0000000000000002 RBX:
-ffff9120f30085c0 RCX: 0000000000000000
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687124] RDX: ffff9efc03faf73c RSI:
-ffff912613584400 RDI: ffff9efc03faf6b0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687125] RBP: ffff9efc03faf6e8 R08:
-ffff9126145f0200 R09: ffff91245c560800
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687125] R10: 0000000000000001 R11:
-ffff9efc03faf650 R12: ffff912614459000
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687126] R13: ffff9126145f0200 R14:
-ffff9126145f0200 R15: 0000000000000002
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687127] FS:  00007ff189d41cc0(000=
-0)
-GS:ffff91261ea00000(0000) knlGS:0000000000000000
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687127] CS:  0010 DS: 0000 ES: 00=
-00
-CR0: 0000000080050033
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687128] CR2: 00007fdda4457000 CR3:
-00000006d63d2006 CR4: 00000000001606e0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687128] Call Trace:
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687172]=20
-core_link_enable_stream+0x4c0/0x10d0 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687216]  ?
-dig_connect_to_otg+0x75/0xe0 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687258]=20
-dce110_apply_ctx_to_hw+0x441/0x4b0 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687298]  dc_commit_state+0x2cf/0x=
-5a0
-[amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687312]  ?
-drm_calc_timestamping_constants+0x106/0x150 [drm]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687355]=20
-amdgpu_dm_atomic_commit_tail+0x1c8/0xa40 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687358]  ?
-ttm_bo_handle_move_mem+0x10f/0x500 [ttm]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687361]  ?
-ttm_bo_validate+0x11b/0x130 [ttm]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687404]  ? bw_calcs+0x106f/0x1e50
-[amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687435]  ?
-amdgpu_bo_pin_restricted+0x61/0x270 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687438]  ? _cond_resched+0x19/0x30
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687439]  ?
-wait_for_completion_timeout+0x38/0x140
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687441]  ? _cond_resched+0x19/0x30
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687442]  ?
-wait_for_completion_interruptible+0x35/0x1a0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687450]  commit_tail+0x42/0x70
-[drm_kms_helper]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687454]  ? commit_tail+0x42/0x70
-[drm_kms_helper]
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15602819371.2f6C4C.25250
-Date: Tue, 11 Jun 2019 19:38:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Failed to updateMST allocation table forpipe idx:0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110381#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Failed to updateMST allocation table forpipe idx:0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110381">bug 11038=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-john.e.francis&#64;gmail.com" title=3D"John Francis &lt;john.e.francis&#64;=
-gmail.com&gt;"> <span class=3D"fn">John Francis</span></a>
-</span></b>
-        <pre>I get this on kernel 5.1.8 when I use a KVM switch with Displa=
-yPort
-daisy-chained MST monitors. It occurs when I switch back.
-
-I can workaround by powering off the last monitor in the chain, and then
-powering it back on.=20
-
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.438966] [drm] Failed to updateMST
-allocation table forpipe idx:0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687046] WARNING: CPU: 8 PID: 3551=
- at
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:2361
-update_mst_stream_alloc_table+0x143/0x150 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687047] Modules linked in: tcp_di=
-ag
-inet_diag ipt_MASQUERADE nf_conntrack_netlink nfnetlink xfrm_user xfrm_algo
-iptable_nat xt_addrtype iptable_filter bpfilter xt_conntrack nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 br_netfilter bridge stp llc over=
-lay
-intel_rapl nls_iso8859_1 x86_pkg_temp_thermal intel_powerclamp coretemp
-kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel
-aesni_intel aes_x86_64 crypto_simd cryptd glue_helper intel_cstate
-intel_rapl_perf snd_hda_codec_realtek snd_hda_codec_generic snd_hda_codec_h=
-dmi
-ledtrig_audio eeepc_wmi asus_wmi sparse_keymap video amdgpu wmi_bmof
-snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_seq_midi
-snd_seq_midi_event chash mxm_wmi gpu_sched snd_rawmidi amd_iommu_v2 ttm
-drm_kms_helper cp210x usbserial snd_seq drm snd_seq_device i2c_algo_bit
-snd_timer fb_sys_fops syscopyarea sysfillrect sysimgblt snd mei_me soundcore
-mei joydev input_leds mac_hid sch_fq_codel parport_pc ppdev lp parport
-ip_tables
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687068]  x_tables autofs4 raid10
-raid1 raid0 multipath linear raid456 async_raid6_recov async_memcpy async_pq
-async_xor async_tx uas xor usb_storage raid6_pq libcrc32c hid_generic usbhid
-hid r8169 lpc_ich i2c_i801 e1000e realtek ahci libahci wmi
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687078] CPU: 8 PID: 3551 Comm:
-gnome-shell Kdump: loaded Tainted: G        W         5.1.8-050108-generic
-#201906090832
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687078] Hardware name: System
-manufacturer System Product Name/X79-DELUXE, BIOS 4805 02/02/2016
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687121] RIP:
-0010:update_mst_stream_alloc_table+0x143/0x150 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687122] Code: 00 48 83 c0 10 48 8=
-3 f8
-60 75 dd 48 8b 44 24 68 65 48 33 04 25 28 00 00 00 75 16 48 8d 65 d8 5b 41 =
-5c
-41 5d 41 5e 41 5f 5d c3 &lt;0f&gt; 0b e9 09 ff ff ff e8 01 10 12 d1 90 0f 1=
-f 44 00 00
-55 48 89 e5
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687123] RSP: 0018:ffff9efc03faf650
-EFLAGS: 00010202
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687124] RAX: 0000000000000002 RBX:
-ffff9120f30085c0 RCX: 0000000000000000
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687124] RDX: ffff9efc03faf73c RSI:
-ffff912613584400 RDI: ffff9efc03faf6b0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687125] RBP: ffff9efc03faf6e8 R08:
-ffff9126145f0200 R09: ffff91245c560800
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687125] R10: 0000000000000001 R11:
-ffff9efc03faf650 R12: ffff912614459000
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687126] R13: ffff9126145f0200 R14:
-ffff9126145f0200 R15: 0000000000000002
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687127] FS:  00007ff189d41cc0(000=
-0)
-GS:ffff91261ea00000(0000) knlGS:0000000000000000
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687127] CS:  0010 DS: 0000 ES: 00=
-00
-CR0: 0000000080050033
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687128] CR2: 00007fdda4457000 CR3:
-00000006d63d2006 CR4: 00000000001606e0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687128] Call Trace:
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687172]=20
-core_link_enable_stream+0x4c0/0x10d0 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687216]  ?
-dig_connect_to_otg+0x75/0xe0 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687258]=20
-dce110_apply_ctx_to_hw+0x441/0x4b0 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687298]  dc_commit_state+0x2cf/0x=
-5a0
-[amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687312]  ?
-drm_calc_timestamping_constants+0x106/0x150 [drm]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687355]=20
-amdgpu_dm_atomic_commit_tail+0x1c8/0xa40 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687358]  ?
-ttm_bo_handle_move_mem+0x10f/0x500 [ttm]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687361]  ?
-ttm_bo_validate+0x11b/0x130 [ttm]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687404]  ? bw_calcs+0x106f/0x1e50
-[amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687435]  ?
-amdgpu_bo_pin_restricted+0x61/0x270 [amdgpu]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687438]  ? _cond_resched+0x19/0x30
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687439]  ?
-wait_for_completion_timeout+0x38/0x140
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687441]  ? _cond_resched+0x19/0x30
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687442]  ?
-wait_for_completion_interruptible+0x35/0x1a0
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687450]  commit_tail+0x42/0x70
-[drm_kms_helper]
-Jun 11 15:29:05 u24b6-nzxt kernel: [97725.687454]  ? commit_tail+0x42/0x70
-[drm_kms_helper]</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15602819371.2f6C4C.25250--
-
---===============0608157885==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0608157885==--
+T24gU2F0LCBKdW4gMDgsIDIwMTkgYXQgMDE6NTQ6MjVBTSAtMDcwMCwgQ2hyaXN0b3BoIEhlbGx3
+aWcgd3JvdGU6Cj4gRllJLCBJIHZlcnkgbXVjaCBkaXNhZ3JlZSB3aXRoIHRoZSBkaXJlY3Rpb24g
+dGhpcyBpcyBtb3ZpbmcuCj4gCj4gc3RydWN0IGhtbV9taXJyb3IgbGl0ZXJhbGx5IGlzIGEgdHJp
+dmlhbCBkdXBsaWNhdGlvbiBvZiB0aGUKPiBtbXVfbm90aWZpZXJzLiAgQWxsIHRoZXNlIGRyaXZl
+cnMgc2hvdWxkIGp1c3QgdXNlIHRoZSBtbXVfbm90aWZpZXJzCj4gZGlyZWN0bHkgZm9yIHRoZSBt
+aXJyb3JpbmcgcGFydCBpbnN0ZWFkIG9mIGJ1aWxkaW5nIGEgdGhpbmcgd3JhcHBlcgo+IHRoYXQg
+YWRkcyBub3RoaW5nIGJ1dCBoZWxwaW5nIHRvIG1hbmFnZSB0aGUgbGlmZXRpbWUgb2Ygc3RydWN0
+IGhtbSwKPiB3aGljaCBzaG91bGRuJ3QgZXhpc3QgdG8gc3RhcnQgd2l0aC4KCkNocmlzdG9waDog
+V2hhdCBkbyB5b3UgdGhpbmsgYWJvdXQgdGhpcyBza2V0Y2ggYmVsb3c/CgpJdCB3b3VsZCByZXBs
+YWNlIHRoZSBobW1fcmFuZ2UvbWlycm9yL2V0YyB3aXRoIGEgZGlmZmVyZW50IHdheSB0bwpidWls
+ZCB0aGUgc2FtZSBsb2NraW5nIHNjaGVtZSB1c2luZyBzb21lIG9wdGlvbmFsIGhlbHBlcnMgbGlu
+a2VkIHRvCnRoZSBtbXUgbm90aWZpZXI/CgooanVzdCBhIHNrZXRjaCwgc3RpbGwgbmVlZHMgYSBs
+b3QgbW9yZSB0aGlua2luZykKCkphc29uCgpGcm9tIDVhOTFkMTdiYzNiOGZjYWE2ODVhYmRkYWFh
+ZTVjNWFlYTZmODJkY2EgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCkZyb206IEphc29uIEd1bnRo
+b3JwZSA8amdnQG1lbGxhbm94LmNvbT4KRGF0ZTogVHVlLCAxMSBKdW4gMjAxOSAxNjozMzozMyAt
+MDMwMApTdWJqZWN0OiBbUEFUQ0hdIFJGQyBtbTogUHJvdmlkZSBoZWxwZXJzIHRvIGltcGxlbWVu
+dCB0aGUgY29tbW9uIG1tdV9ub3RpZmllcgogbG9ja2luZwoKTWFueSB1c2VycyBvZiBtbXVfbm90
+aWZpZXJzIHJlcXVpcmUgYSByZWFkL3dyaXRlIGxvY2sgdGhhdCBpcyB3cml0ZSBsb2NrZWQKZHVy
+aW5nIHRoZSBpbnZhbGlkYXRlX3JhbmdlX3N0YXJ0L2VuZCBwZXJpb2QgdG8gcHJvdGVjdCBhZ2Fp
+bnN0IGEgcGFyYWxsZWwKdGhyZWFkIHJlYWRpbmcgdGhlIHBhZ2UgdGFibGVzIHdoaWxlIGFub3Ro
+ZXIgdGhyZWFkIGlzIGludmFsaWRhdGluZyB0aGVtLgoKa3ZtIHVzZXMgYSBjb2xsaXNpb24tcmV0
+cnkgbG9jayBidWlsdCB3aXRoIHNvbWV0aGluZyBsaWtlIGEgc2VxdWVuY2UKY291bnQsIGFuZCBt
+YW55IG1tdV9ub3RpZmllcnMgdXNlcnMgaGF2ZSBjb3BpZWQgdGhpcyBhcHByb2FjaCB3aXRoIHZh
+cmlvdXMKbGV2ZWxzIG9mIHN1Y2Nlc3MuCgpQcm92aWRlIGEgY29tbW9uIHNldCBvZiBoZWxwZXJz
+IHRoYXQgYnVpbGQgYSBzbGVlcGFibGUgcmVhZCBzaWRlIGxvY2sKdXNpbmcgYSBjb2xsaXNpb24g
+cmV0cnkgc2NoZW1lLiBUaGUgZ2VuZXJhbCB1c2FnZSBwYXR0ZXJuIGlzOgoKZHJpdmVyIHBhZ2Vm
+YXVsdCgpOgogIHN0cnVjdCBtbXVfaW52bG9ja19zdGF0ZSBzdCA9IE1NVV9JTlZMT0NLX1NUQVRF
+X0lOSVQ7CgphZ2FpbjoKICBtbXVfaW52bG9ja193cml0ZV9zdGFydF9hbmRfbG9jaygmZHJpdmVy
+LT5tbiwgJnN0KQoKICAvKiByZWFkIHZtYXMgYW5kIHBhZ2UgZGF0YSB1bmRlciBtbWFwX3NlbSAq
+LwogIC8qIG1heWJlIHNsZWVwICovCgogIHRha2VfbG9jaygmZHJpdmVyLT5sb2NrKTsKICBpZiAo
+bW5faW52bG9ja19lbmRfd3JpdGVfYW5kX3VubG9jaygmZHJpdmVyLT5tbiwgJnN0KSkgewogICAg
+ICB1bmxvY2soJmRyaXZlci0+bG9jayk7CiAgICAgIGdvdG8gYWdhaW47CiAgfQogIC8qIG1ha2Ug
+ZGF0YSB2aXNpYmxlIHRvIHRoZSBkZXZpY2UgKi8KICAvKiBkb2VzIG5vdCBzbGVlcCAqLwogIHVu
+bG9jaygmZHJpdmVyLT5sb2NrKTsKClRoZSBkcml2ZXIgaXMgcmVzcG9uc2libGUgdG8gcHJvdmlk
+ZSB0aGUgJ2RyaXZlci0+bG9jaycsIHdoaWNoIGlzIHRoZSBzYW1lCmxvY2sgaXQgbXVzdCBob2xk
+IGR1cmluZyBpbnZhbGlkYXRlX3JhbmdlX3N0YXJ0LiBCeSBob2xkaW5nIHRoaXMgbG9jayB0aGUK
+c2VxdWVuY2UgY291bnQgaXMgZnVsbHkgbG9ja2VkLCBhbmQgaW52YWxpZGF0aW9ucyBhcmUgcHJl
+dmVudGVkLCBzbyBpdCBpcwpzYWZlIHRvIG1ha2UgdGhlIHdvcmsgdmlzaWJsZSB0byB0aGUgZGV2
+aWNlLgoKU2luY2UgaXQgaXMgcG9zc2libGUgZm9yIHRoaXMgdG8gbGl2ZSBsb2NrIGl0IHVzZXMg
+dGhlIHdyaXRlIHNpZGUgb2YgdGhlCm1tYXBfc2VtIHRvIGNyZWF0ZSBhIHNsb3cgcGF0aCBpZiB0
+aGVyZSBhcmUgcmVwZWF0ZWQgY29sbGlzaW9ucy4KClRoaXMgaXMgYmFzZWQgb2ZmIHRoZSBkZXNp
+Z24gb2YgdGhlIGhtbV9yYW5nZSBhbmQgdGhlIFJETUEgT0RQIGxvY2tpbmcKc2NoZW1lLCB3aXRo
+IHNvbWUgYWRkaXRpb25hbCByZWZpbmVtZW50cy4KClNpZ25lZC1vZmYtYnk6IEphc29uIEd1bnRo
+b3JwZSA8amdnQG1lbGxhbm94LmNvbT4KLS0tCiBpbmNsdWRlL2xpbnV4L21tdV9ub3RpZmllci5o
+IHwgODMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiBtbS9tbXVfbm90aWZp
+ZXIuYyAgICAgICAgICAgIHwgNzEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAyIGZp
+bGVzIGNoYW5nZWQsIDE1NCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51
+eC9tbXVfbm90aWZpZXIuaCBiL2luY2x1ZGUvbGludXgvbW11X25vdGlmaWVyLmgKaW5kZXggYjZj
+MDA0YmQ5ZjZhZDkuLjA0MTdmOTQ1MmYyYTA5IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L21t
+dV9ub3RpZmllci5oCisrKyBiL2luY2x1ZGUvbGludXgvbW11X25vdGlmaWVyLmgKQEAgLTYsNiAr
+Niw3IEBACiAjaW5jbHVkZSA8bGludXgvc3BpbmxvY2suaD4KICNpbmNsdWRlIDxsaW51eC9tbV90
+eXBlcy5oPgogI2luY2x1ZGUgPGxpbnV4L3NyY3UuaD4KKyNpbmNsdWRlIDxsaW51eC9zY2hlZC5o
+PgogCiBzdHJ1Y3QgbW11X25vdGlmaWVyOwogc3RydWN0IG1tdV9ub3RpZmllcl9vcHM7CkBAIC0y
+MjcsOCArMjI4LDkwIEBAIHN0cnVjdCBtbXVfbm90aWZpZXJfb3BzIHsKIHN0cnVjdCBtbXVfbm90
+aWZpZXIgewogCXN0cnVjdCBobGlzdF9ub2RlIGhsaXN0OwogCWNvbnN0IHN0cnVjdCBtbXVfbm90
+aWZpZXJfb3BzICpvcHM7CisKKwkvKgorCSAqIG1tdV9pbnZsb2NrIGlzIGEgc2V0IG9mIGhlbHBl
+cnMgdG8gYWxsb3cgdGhlIGNhbGxlciB0byBwcm92aWRlIGEKKwkgKiByZWFkL3dyaXRlIGxvY2sg
+c2NoZW1lIHdoZXJlIHRoZSB3cml0ZSBzaWRlIG9mIHRoZSBsb2NrIGlzIGhlbGQKKwkgKiBiZXR3
+ZWVuIGludmFsaWRhdGVfc3RhcnQgLT4gZW5kLCBhbmQgdGhlIHJlYWQgc2lkZSBjYW4gYmUgb2J0
+YWluZWQKKwkgKiBvbiBzb21lIG90aGVyIHRocmVhZC4gVGhpcyBpcyBhIGNvbW1vbiB1c2FnZSBw
+YXR0ZXJuIGZvciBtbXUKKwkgKiBub3RpZmllciB1c2VycyB0aGF0IHdhbnQgdG8gbG9jayBhZ2Fp
+bnN0IGNoYW5nZXMgdG8gdGhlIG1tdS4KKwkgKi8KKwlzdHJ1Y3QgbW1fc3RydWN0ICptbTsKKwl1
+bnNpZ25lZCBpbnQgYWN0aXZlX2ludmFsaWRhdGVzOworCXNlcWNvdW50X3QgaW52YWxpZGF0ZV9z
+ZXE7CisJd2FpdF9xdWV1ZV9oZWFkX3Qgd3E7CiB9OwogCitzdHJ1Y3QgbW11X2ludmxvY2tfc3Rh
+dGUKK3sKKwl1bnNpZ25lZCBsb25nIHRpbWVvdXQ7CisJdW5zaWduZWQgaW50IHVwZGF0ZV9zZXE7
+CisJYm9vbCB3cml0ZV9sb2NrZWQ7Cit9OworCisjZGVmaW5lIE1NVV9JTlZMT0NLX1NUQVRFX0lO
+SVQgey50aW1lb3V0ID0gbXNlY3NfdG9famlmZmllcygxMDAwKX0KKworLy8gRklYTUU6IG5lZWRz
+IGEgc2VxY291bnQgaGVscGVyCitzdGF0aWMgaW5saW5lIGJvb2wgaXNfbG9ja2VkX3NlcWNvdW50
+KGNvbnN0IHNlcWNvdW50X3QgKnMpCit7CisJcmV0dXJuIHMtPnNlcXVlbmNlICYgMTsKK30KKwor
+dm9pZCBtbXVfaW52bG9ja193cml0ZV9zdGFydF9hbmRfbG9jayhzdHJ1Y3QgbW11X25vdGlmaWVy
+ICptbiwKKwkJCQkgICAgICBzdHJ1Y3QgbW11X2ludmxvY2tfc3RhdGUgKnN0KTsKK2Jvb2wgbW11
+X2ludmxvY2tfd3JpdGVfZW5kKHN0cnVjdCBtbXVfbm90aWZpZXIgKm1uKTsKKworLyoqCisgKiBt
+bXVfaW52bG9ja19pbnZfc3RhcnQgLSBDYWxsIGR1cmluZyBpbnZhbGlkYXRlX3JhbmdlX3N0YXJ0
+CisgKiBAbW4gLSBtbXVfbm90aWZpZXIKKyAqIEBsb2NrIC0gVHJ1ZSBpZiB0aGUgc3VwcGxpZWQg
+cmFuZ2UgaXMgaW50ZXJlc3RpbmcgYW5kIHNob3VsZCBjYXVzZSB0aGUKKyAqICAgICAgICAgd3Jp
+dGUgc2lkZSBvZiB0aGUgbG9jayBsb2NrIHRvIGJlIGhlbGQuCisgKgorICogVXBkYXRlcyB0aGUg
+bG9ja2luZyBzdGF0ZSBhcyBwYXJ0IG9mIHRoZSBpbnZhbGlkYXRlX3JhbmdlX3N0YXJ0IGNhbGxi
+YWNrLgorICogVGhpcyBtdXN0IGJlIGNhbGxlZCB1bmRlciBhIHVzZXIgc3VwcGxpZWQgbG9jaywg
+YW5kIGl0IG11c3QgYmUgY2FsbGVkIGZvcgorICogZXZlcnkgaW52YWxpZGF0ZV9yYW5nZV9zdGFy
+dC4KKyAqLworc3RhdGljIGlubGluZSB2b2lkIG1tdV9pbnZsb2NrX2ludl9zdGFydChzdHJ1Y3Qg
+bW11X25vdGlmaWVyICptbiwgYm9vbCBsb2NrKQoreworCWlmIChsb2NrICYmICFtbi0+YWN0aXZl
+X2ludmFsaWRhdGVzKQorCQl3cml0ZV9zZXFjb3VudF9iZWdpbigmbW4tPmludmFsaWRhdGVfc2Vx
+KTsKKwltbi0+YWN0aXZlX2ludmFsaWRhdGVzKys7Cit9CisKKy8qKgorICogbW11X2ludmxvY2tf
+aW52X3N0YXJ0IC0gQ2FsbCBkdXJpbmcgaW52YWxpZGF0ZV9yYW5nZV9zdGFydAorICogQG1uIC0g
+bW11X25vdGlmaWVyCisgKgorICogVXBkYXRlcyB0aGUgbG9ja2luZyBzdGF0ZSBhcyBwYXJ0IG9m
+IHRoZSBpbnZhbGlkYXRlX3JhbmdlX3N0YXJ0IGNhbGxiYWNrLgorICogVGhpcyBtdXN0IGJlIGNh
+bGxlZCB1bmRlciBhIHVzZXIgc3VwcGxpZWQgbG9jaywgYW5kIGl0IG11c3QgYmUgY2FsbGVkIGZv
+cgorICogZXZlcnkgaW52YWxpZGF0ZV9yYW5nZV9lbmQuCisgKi8KK3N0YXRpYyBpbmxpbmUgdm9p
+ZCBtbXVfaW52bG9ja19pbnZfZW5kKHN0cnVjdCBtbXVfbm90aWZpZXIgKm1uKQoreworCW1uLT5h
+Y3RpdmVfaW52YWxpZGF0ZXMrKzsKKwlpZiAoIW1uLT5hY3RpdmVfaW52YWxpZGF0ZXMgJiYKKwkg
+ICAgaXNfbG9ja2VkX3NlcWNvdW50KCZtbi0+aW52YWxpZGF0ZV9zZXEpKSB7CisJCXdyaXRlX3Nl
+cWNvdW50X2VuZCgmbW4tPmludmFsaWRhdGVfc2VxKTsKKwkJd2FrZV91cF9hbGwoJm1uLT53cSk7
+CisJfQorfQorCisvKioKKyAqIG1tdV9pbnZsb2NrX3dyaXRlX25lZWRzX3JldHJ5IC0gQ2hlY2sg
+aWYgdGhlIHdyaXRlIGxvY2sgaGFzIGNvbGxpZGVkCisgKiBAbW4gLSBtbXVfbm90aWZpZXIKKyAq
+IEBzdCAtIGxvY2sgc3RhdGUgc2V0IGJ5IG1tdV9pbnZsb2NrX3dyaXRlX3N0YXJ0X2FuZF9sb2Nr
+KCkKKyAqCisgKiBUaGUgbmxvY2sgdXNlcyBhIGNvbGxpc2lvbiByZXRyeSBzY2hlbWUgZm9yIHRo
+ZSBmYXN0IHBhdGguIElmIGEgcGFyYWxsZWwKKyAqIGludmFsaWRhdGUgaGFzIGNvbGxpZGVkIHdp
+dGggdGhlIGxvY2sgdGhlbiBpdCBzaG91bGQgYmUgcmVzdGFydGVkIGFnYWluCisgKiBmcm9tIG1t
+dV9pbnZsb2NrX3dyaXRlX3N0YXJ0X2FuZF9sb2NrKCkKKyAqLworc3RhdGljIGlubGluZSBib29s
+IG1tdV9pbnZsb2NrX3dyaXRlX25lZWRzX3JldHJ5KHN0cnVjdCBtbXVfbm90aWZpZXIgKm1uLAor
+CQkJCQkJIHN0cnVjdCBtbXVfaW52bG9ja19zdGF0ZSAqc3QpCit7CisJcmV0dXJuICFzdC0+d3Jp
+dGVfbG9ja2VkICYmCisJICAgICAgIHJlYWRfc2VxY291bnRfcmV0cnkoJm1uLT5pbnZhbGlkYXRl
+X3NlcSwgc3QtPnVwZGF0ZV9zZXEpOworfQorCiBzdGF0aWMgaW5saW5lIGludCBtbV9oYXNfbm90
+aWZpZXJzKHN0cnVjdCBtbV9zdHJ1Y3QgKm1tKQogewogCXJldHVybiB1bmxpa2VseShtbS0+bW11
+X25vdGlmaWVyX21tKTsKZGlmZiAtLWdpdCBhL21tL21tdV9ub3RpZmllci5jIGIvbW0vbW11X25v
+dGlmaWVyLmMKaW5kZXggZWUzNjA2ODA3N2I2ZTUuLjNkYjhjZGQ3MjExMjg1IDEwMDY0NAotLS0g
+YS9tbS9tbXVfbm90aWZpZXIuYworKysgYi9tbS9tbXVfbm90aWZpZXIuYwpAQCAtMjQ3LDYgKzI0
+NywxMSBAQCBzdGF0aWMgaW50IGRvX21tdV9ub3RpZmllcl9yZWdpc3RlcihzdHJ1Y3QgbW11X25v
+dGlmaWVyICptbiwKIAogCUJVR19PTihhdG9taWNfcmVhZCgmbW0tPm1tX3VzZXJzKSA8PSAwKTsK
+IAorCW1uLT5tbSA9IG1tOworCW1uLT5hY3RpdmVfaW52YWxpZGF0ZXMgPSAwOworCXNlcWNvdW50
+X2luaXQoJm1uLT5pbnZhbGlkYXRlX3NlcSk7CisJaW5pdF93YWl0cXVldWVfaGVhZCgmbW4tPndx
+KTsKKwogCXJldCA9IC1FTk9NRU07CiAJbW11X25vdGlmaWVyX21tID0ga21hbGxvYyhzaXplb2Yo
+c3RydWN0IG1tdV9ub3RpZmllcl9tbSksIEdGUF9LRVJORUwpOwogCWlmICh1bmxpa2VseSghbW11
+X25vdGlmaWVyX21tKSkKQEAgLTQwNSwzICs0MTAsNjkgQEAgbW11X25vdGlmaWVyX3JhbmdlX3Vw
+ZGF0ZV90b19yZWFkX29ubHkoY29uc3Qgc3RydWN0IG1tdV9ub3RpZmllcl9yYW5nZSAqcmFuZ2Up
+CiAJcmV0dXJuIHJhbmdlLT52bWEtPnZtX2ZsYWdzICYgVk1fUkVBRDsKIH0KIEVYUE9SVF9TWU1C
+T0xfR1BMKG1tdV9ub3RpZmllcl9yYW5nZV91cGRhdGVfdG9fcmVhZF9vbmx5KTsKKworLyoqCisg
+KiBtbV9pbnZsb2NrX3N0YXJ0X3dyaXRlX2FuZF9sb2NrIC0gU3RhcnQgYSByZWFkIGNyaXRpY2Fs
+IHNlY3Rpb24KKyAqIEBtbiAtIG1tdV9ub3RpZmllcgorICogQHN0IC0gbG9jayBzdGF0ZSBzZXQg
+aW5pdGlhbGl6ZWQgYnkgTU1VX0lOVkxPQ0tfU1RBVEVfSU5JVAorICoKKyAqIFRoaXMgc2hvdWxk
+IGJlIGNhbGxlZCB3aXRoIHRoZSBtbWFwIHNlbSB1bmxvY2tlZC4gSXQgd2lsbCB3YWl0IGZvciBh
+bnkKKyAqIHBhcmFsbGVsIGludmFsaWRhdGlvbnMgdG8gY29tcGxldGUgYW5kIHJldHVybiB3aXRo
+IHRoZSBtbWFwX3NlbSBsb2NrZWQuIFRoZQorICogbW1hcF9zZW0gbWF5IGJlIGxvY2tlZCBmb3Ig
+cmVhZCBvciB3cml0ZS4KKyAqCisgKiBUaGUgY3JpdGljYWwgc2VjdGlvbiBtdXN0IGFsd2F5cyBi
+ZSBlbmRlZCBieQorICogbW5faW52bG9ja19lbmRfd3JpdGVfYW5kX3VubG9jaygpLgorICovCit2
+b2lkIG1tX2ludmxvY2tfc3RhcnRfd3JpdGVfYW5kX2xvY2soc3RydWN0IG1tdV9ub3RpZmllciAq
+bW4sIHN0cnVjdCBtbXVfaW52bG9ja19zdGF0ZSAqc3QpCit7CisJbG9uZyByZXQ7CisKKwlpZiAo
+c3QtPnRpbWVvdXQgPT0gMCkKKwkJZ290byB3cml0ZV9vdXQ7CisKKwlyZXQgPSB3YWl0X2V2ZW50
+X3RpbWVvdXQoCisJCW1uLT53cSwgIWlzX2xvY2tlZF9zZXFjb3VudCgmbW4tPmludmFsaWRhdGVf
+c2VxKSwgc3QtPnRpbWVvdXQpOworCWlmIChyZXQgPT0gMCkKKwkJZ290byB3cml0ZV9vdXQ7CisK
+KwlpZiAocmV0ID09IDEpCisJCXN0LT50aW1lb3V0ID0gMDsKKwllbHNlCisJCXN0LT50aW1lb3V0
+ID0gcmV0OworCWRvd25fcmVhZCgmbW4tPm1tLT5tbWFwX3NlbSk7CisJcmV0dXJuOworCit3cml0
+ZV9vdXQ6CisJLyoKKwkgKiBJZiB3ZSByYW4gb3V0IG9mIHRpbWUgdGhlbiBmYWxsIGJhY2sgdG8g
+dXNpbmcgdGhlIG1tYXBfc2VtIHdyaXRlCisJICogc2lkZSB0byBibG9jayBjb25jdXJyZW50IGlu
+dmFsaWRhdGlvbnMuIFRoZSBzZXFjb3VudCBpcyBhbgorCSAqIG9wdGltaXphdGlvbiB0byB0cnkg
+YW5kIGF2b2lkIHRoaXMgZXhwZW5zaXZlIGxvY2suCisJICovCisJZG93bl93cml0ZSgmbW4tPm1t
+LT5tbWFwX3NlbSk7CisJc3QtPndyaXRlX2xvY2tlZCA9IHRydWU7Cit9CitFWFBPUlRfU1lNQk9M
+X0dQTChtbV9pbnZsb2NrX3N0YXJ0X3dyaXRlX2FuZF9sb2NrKTsKKworLyoqCisgKiBtbl9pbnZs
+b2NrX2VuZF93cml0ZV9hbmRfdW5sb2NrIC0gRW5kIGEgcmVhZCBjcml0aWNhbCBzZWN0aW9uCisg
+KiBAbW4gLSBtbXVfbm90aWZpZXIKKyAqIEBzdCAtIGxvY2sgc3RhdGUgc2V0IGJ5IG1tdV9pbnZs
+b2NrX3dyaXRlX3N0YXJ0X2FuZF9sb2NrKCkKKyAqCisgKiBUaGlzIGNvbXBsZXRlcyB0aGUgcmVh
+ZCBzaWRlIGNyaXRpY2FsIHNlY3Rpb24uIElmIGl0IHJldHVybnMgZmFsc2UgdGhlCisgKiBjYWxs
+ZXIgbXVzdCBjYWxsIG1tX2ludmxvY2tfc3RhcnRfd3JpdGVfYW5kX2xvY2sgYWdhaW4uICBVcG9u
+IHN1Y2Nlc3MgdGhlCisgKiBtbWFwX3NlbSBpcyB1bmxvY2tlZC4KKyAqCisgKiBUaGUgY2FsbGVy
+IG11c3QgaG9sZCB0aGUgc2FtZSBsb2NrIHRoYXQgaXMgaGVsZCB3aGlsZSBjYWxsaW5nCisgKiBt
+bXVfaW52bG9ja19pbnZfc3RhcnQoKQorICovCitib29sIG1uX2ludmxvY2tfZW5kX3dyaXRlX2Fu
+ZF91bmxvY2soc3RydWN0IG1tdV9ub3RpZmllciAqbW4sCisJCQkJICAgICBzdHJ1Y3QgbW11X2lu
+dmxvY2tfc3RhdGUgKnN0KQoreworCWlmIChzdC0+d3JpdGVfbG9ja2VkKSB7CisJCXVwX3dyaXRl
+KCZtbi0+bW0tPm1tYXBfc2VtKTsKKwkJcmV0dXJuIHRydWU7CisJfQorCXVwX3JlYWQoJm1uLT5t
+bS0+bW1hcF9zZW0pOworCXJldHVybiBtbXVfaW52bG9ja193cml0ZV9uZWVkc19yZXRyeShtbiwg
+c3QpOworfQorRVhQT1JUX1NZTUJPTF9HUEwobW5faW52bG9ja19lbmRfd3JpdGVfYW5kX3VubG9j
+ayk7Ci0tIAoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
