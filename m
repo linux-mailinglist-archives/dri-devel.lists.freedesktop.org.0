@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0E13D310
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 18:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA2A3D32C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 19:01:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C887B8922E;
-	Tue, 11 Jun 2019 16:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2C3489187;
+	Tue, 11 Jun 2019 17:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7F8848922A
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 16:56:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7CC0172167; Tue, 11 Jun 2019 16:56:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
-Date: Tue, 11 Jun 2019 16:56:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: evo8800@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109206-502-hQsVBo3P6N@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
-References: <bug-109206-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C14589202
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 17:01:27 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id j2so7810272pfe.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 10:01:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=D/6K52cqkgjun9QL50SRby3oaZewpSvBQVwA1lCewfo=;
+ b=VBmbmXmdi28iW+no7A+InzhGFgFn4fWaGPwmPSY9wVmYqoBtXfsIc+1CEBHuXgXzB1
+ jS90FMX5MO9XidceZX7CjhhNdXqsGIa/3qQU0Wl9DxQ5iSN2Ky6r2/Z/2y+7EBNjcnN/
+ lPp8SNIuHwTrlHrREUS39UsbRLetaSH9lY4y8SimY007gNwNBpDPfVAZ549NvAPOeun+
+ D4AYueOQ/qlG28ERnFnGtC++sYX9LAOZwq9q+C3iP0IN/pFKaXSr2vSeosMS3MFrwrzr
+ IR//oOj0wUgB5Uc4bjxHN64fouWRhnuXV1RksTIpaOKxt9IxJCQ+41FOFcUFMRv7EKHU
+ 12Qg==
+X-Gm-Message-State: APjAAAWxoe58UrurG0US+q2Gy2eWuFgX+DbwWuNYTUoCzwhnsFJO5/JG
+ dfN6OZU3GwA00WCqCWDk9ANqDQ==
+X-Google-Smtp-Source: APXvYqwqnW/JGe6b0ykApW2Df5C6hfjZci1Q+jK6X2Ei83loTkx83Y/j5N8snl0nAtPHXvq5b2N3cg==
+X-Received: by 2002:a63:4e10:: with SMTP id c16mr20869964pgb.214.1560272486514; 
+ Tue, 11 Jun 2019 10:01:26 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
+ by smtp.gmail.com with ESMTPSA id p1sm5962781pff.74.2019.06.11.10.01.25
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 10:01:25 -0700 (PDT)
+Date: Tue, 11 Jun 2019 10:01:23 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH 2/2] backlight: pwm_bl: Get number of brightness levels
+ for CIE 1931 from the device tree
+Message-ID: <20190611170123.GD137143@google.com>
+References: <20190610233739.29477-1-mka@chromium.org>
+ <20190610233739.29477-2-mka@chromium.org>
+ <20190611153314.cj6j6l4kcl4kk4t2@holly.lan>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190611153314.cj6j6l4kcl4kk4t2@holly.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=D/6K52cqkgjun9QL50SRby3oaZewpSvBQVwA1lCewfo=;
+ b=XtFdaHCTpTDf0qQhQfuAjHKGqAns0vrUqrQg02/8jVmR8p0ZzKKlHKnR9VJJBokSNm
+ ZgAQrr+A/h9J30599wfzOGisk8Qu8DlWAbSCBG5dzc6KA8829UtBGHKxwnkcRV2MXxbW
+ ILseuhOSbtocL+Hw4Y3nT83V4Ab6Y2qlkb2SU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,89 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1635802105=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Douglas Anderson <dianders@chromium.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Brian Norris <briannorris@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pwm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1635802105==
-Content-Type: multipart/alternative; boundary="15602722095.69291.2200"
-Content-Transfer-Encoding: 7bit
-
-
---15602722095.69291.2200
-Date: Tue, 11 Jun 2019 16:56:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
-
---- Comment #49 from Talha Khan <evo8800@gmail.com> ---
-I updated my kernel to 5.1.7 and did not need to run dracut to rebuild my
-initramfs. I was able to boot just fine.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15602722095.69291.2200
-Date: Tue, 11 Jun 2019 16:56:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c49">Comme=
-nt # 49</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-evo8800&#64;gmail.com" title=3D"Talha Khan &lt;evo8800&#64;gmail.com&gt;"> =
-<span class=3D"fn">Talha Khan</span></a>
-</span></b>
-        <pre>I updated my kernel to 5.1.7 and did not need to run dracut to=
- rebuild my
-initramfs. I was able to boot just fine.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15602722095.69291.2200--
-
---===============1635802105==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1635802105==--
+SGkgRGFuaWVsLAoKT24gVHVlLCBKdW4gMTEsIDIwMTkgYXQgMDQ6MzM6MTRQTSArMDEwMCwgRGFu
+aWVsIFRob21wc29uIHdyb3RlOgo+IE9uIE1vbiwgSnVuIDEwLCAyMDE5IGF0IDA0OjM3OjM5UE0g
+LTA3MDAsIE1hdHRoaWFzIEthZWhsY2tlIHdyb3RlOgo+ID4gQ29tbWl0IDg4YmE5NWJlZGI3OSAo
+ImJhY2tsaWdodDogcHdtX2JsOiBDb21wdXRlIGJyaWdodG5lc3Mgb2YgTEVECj4gPiBsaW5lYXJs
+eSB0byBodW1hbiBleWUiKSB1c2VzIHB3bV9wZXJpb2QgLyBod2VpZ2h0MzIocHdtX3BlcmlvZCkg
+YXMKPiA+IGFzIGhldXJpc3RpYyB0byBkZXRlcm1pbmUgdGhlIG51bWJlciBvZiBicmlnaHRuZXNz
+IGxldmVscyB3aGVuIHRoZSBEVAo+ID4gZG9lc24ndCBwcm92aWRlIGEgYnJpZ2h0bmVzcyBsZXZl
+bCB0YWJsZS4gVGhpcyBoZXVyaXN0aWMgaXMgYnJva2VuCj4gPiBhbmQgY2FuIHJlc3VsdCBpbiBl
+eGNlc3NpdmVseSBsYXJnZSBicmlnaHRuZXNzIHRhYmxlcy4KPiA+IAo+ID4gSW5zdGVhZCBvZiB1
+c2luZyB0aGUgaGV1cmlzdGljIHRyeSB0byByZXRyaWV2ZSB0aGUgbnVtYmVyIG9mCj4gPiBicmln
+aHRuZXNzIGxldmVscyBmcm9tIHRoZSBkZXZpY2UgdHJlZSAocHJvcGVydHkgJ21heC1icmlnaHRu
+ZXNzJwo+ID4gKyAxKS4gSWYgdGhlIHZhbHVlIGlzIG5vdCBzcGVjaWZpZWQgdXNlIGEgZGVmYXVs
+dCBvZiAyNTYgbGV2ZWxzLgo+IAo+IEknbGwgbG9vayBhdCB0aGUgY29kZSB0b21vcnJvdyBidXQg
+d2h5IDI1Nj8KPiAKPiBUbyBtZSBpdCBmZWVscyBzaW11bHRhbmVvdXNseSB0b28gYmlnIGZvciBh
+IHNpbXBsZSA4LWJpdCBQV00gYW5kIHRvbwo+IHNtYWxsIGZvciBhbmltYXRlZCBiYWNrbGlnaHQg
+ZWZmZWN0cy4KCkkgYWdyZWUgdGhlcmUgaXMgbm8gb25lLXNpemUtZml0cy1pdC1hbGwgZGVmYXVs
+dCwgMjU2IHNlZW1lZCBsaWtlIGEKcG9zc2libGUgY29tcHJvbWlzZS4KCj4gSSBjZXJ0YWlubHkg
+YWdyZWUgdGhhdCBhbiBvdmVycmlkZSBjb3VsZCBiZSB1c2VmdWwgYnV0IEknbSBub3QgY2xlYXIg
+d2h5Cj4gZGVyaXZpbmcgYSBkZWZhdWx0IGJhc2VkIG9uIHRoZSBwZXJpb2QgaXMgYm9ndXMgKGFu
+ZCB0aGUgZGVzY3JpcHRpb24gaXMKPiBtZXJlbHkgY29uY2VybmVkIGFib3V0IHVzZWxlc3NseSBi
+aWcgdGFibGVzKS4KCk1heWJlIGl0J3Mgbm90IG5lY2Vzc2FyaWx5IGJvZ3VzLCBidXQgdGhlIGN1
+cnJlbnQgaGV1cmlzdGljIHRoYXQKY291bnRzIHRoZSBudW1iZXIgb2Ygc2V0IGJpdHMgKGh3ZWln
+aHQoKSkgaW4gdGhlIHBlcmlvZCBjZXJ0YWlubHkgaXMuCgpJSVVDIHRoZSBwZXJpb2QgcHJvdmlk
+ZXMgYSBjbHVlIGFib3V0IHRoZSBQV00gcmVzb2x1dGlvbiwgYmVjYXVzZSBpdAp3b3VsZCBiZSBo
+YXJkL2ltcG9zc2libGUgdG8gYWNjb21vZGF0ZSB0aGUgaGlnaCByZXNvbHV0aW9uIGluIHNob3J0
+ZXIKcGVyaW9kcy4KCj4gLyoKPiAgKiBPbmNlIHdlIGhhdmUgNDA5NiBsZXZlbHMgdGhlcmUncyBs
+aXR0bGUgcG9pbnQgZ29pbmcgbXVjaCBoaWdoZXIuLi4KPiAgKiBuZWl0aGVyIGludGVyYWN0aXZl
+IHNsaWRlcnMgbm9yIGFuaW1hdGlvbiBiZW5lZml0cyBmcm9tIGhhdmluZwo+ICAqIG1vcmUgdmFs
+dWVzIGluIHRoZSB0YWJsZS4KPiAgKi8KPiBtYXhfYnJpZ2h0bmVzcyA9IG1pbihESVZfUk9VTkRf
+VVAocGVyaW9kLCBmZnMocGVyaW9kKSwgNDA5Nik7CgpJIHdhcyBhbHNvIGNvbnNpZGVyaW5nIHNv
+bWV0aGluZyBhbG9uZyB0aGVzZSBsaW5lcywgYnV0IHdhc24ndCBzdXJlCmlmIHRoZXJlIGlzIGlu
+ZGVlZCBhIHJlbGF0aW9uIGJldHdlZW4gdGhlIHBlcmlvZCBhbmQgdGhlIFBXTQpyZXNvbHV0aW9u
+LiBJIHRha2UgeW91ciBzdWdnZXN0aW9uIGFzIGEgY29uZmlybWF0aW9uIDopCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
