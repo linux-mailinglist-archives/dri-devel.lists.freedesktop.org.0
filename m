@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07DB141CEB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:56:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AECC241CD8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:55:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 778FB8929B;
-	Wed, 12 Jun 2019 06:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8E6D8928F;
+	Wed, 12 Jun 2019 06:53:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72E489204;
- Tue, 11 Jun 2019 21:28:10 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id x21so2485621otq.12;
- Tue, 11 Jun 2019 14:28:10 -0700 (PDT)
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
+ [IPv6:2607:f8b0:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6951891E2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 21:28:03 +0000 (UTC)
+Received: by mail-pf1-x443.google.com with SMTP id j2so8234244pfe.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 14:28:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yfYsg0/cES0OHcG6fX5W9snm90ggOgAM9kXY3QBEhu4=;
- b=dVr3UxQivP9+G/sHHivWWKE2OO3yfwwq3++88jYUUTfjw2a7ICVuz8MglPpNBnuM9J
- iE/4O/olKxO3Mfc2yca7QIn/bXjXRlT6elknNqp81lgi9Ut42sMAOb7vAhCS5HuKH1W8
- Bmv9fNkLiTiCOBCtLK2Vf2HT5JekXWmgfJ31vBrRFdeXE5ijW/qb4nsO2zxZWBKGxud9
- BNIwqob++V+8HO3exX6ZRt22LfNWVYnTj8xP1ZBxkqnUbGxwsoa6aTZCtkY+iQDFJbel
- Icvd+/JZEXEOUNnKvw8RAb2wQ2wYwIGr4raGRVRMht7WGDb3c3lQ36n8ik+eGU11YFVp
- FQaQ==
-X-Gm-Message-State: APjAAAUXGzt1bAfNjcde6ejdHp6pYMrgn86VPS5TcujKFkWPB/PG34D9
- meCYYcDkQioMU+a9azencxBiJTEnF8XV6YY6UY0=
-X-Google-Smtp-Source: APXvYqwZE6DuGW97Wtdkbau380s5wncliqmuWNA2I8e3nRFVHn0Gyt7oiNVh7GBK4ctz/0QIVrifVcW0qHRMDnaPYKk=
-X-Received: by 2002:a9d:7b43:: with SMTP id f3mr18847440oto.337.1560288490020; 
- Tue, 11 Jun 2019 14:28:10 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:from:message-id:mime-version:subject:date
+ :in-reply-to:cc:to:references;
+ bh=kHOmEXm44ofEStTL89clw86zKCfMK7pxZweKkVj60zc=;
+ b=CkENN53+tMfyCJyezNAj2ygwfO9yCZG1DsoEyh5Lhht9k/2nvCZnfpJm2oCZDY7lHw
+ R5c7HGTqcI+GWJMr3O0l4cibFvINg86UCR667mp92dJpT9t27liKJI03lZ2Exl/08NDW
+ jocO2hYIoy2qj6XbZSYMetv+UmDPHNwxIT+tk1FI4kKGmTwpUadeVjo//k92YMRGGgut
+ l/uSR3/4o5b2Fppx2Dmx8DDHWA+6vaG099uT9rxEdowLsIwAsa5Ch1W2heLMPH1WWRDn
+ RVweMTcAWI4D75DTaKJTAoglnV7vHh35pNHOyc7tNMoOaoeQ/aYgVIDOToWCAz9tdzSD
+ b5CQ==
+X-Gm-Message-State: APjAAAXWZqannLQYCrx12fGyh7um40QqNo0rUuZKdnC4+cJlTzvm+rHi
+ oNyOfKfA7IlflcnexZbtrtQ+Qg==
+X-Google-Smtp-Source: APXvYqx8fSWzb0HB5KPULCR4fAdvphiu+yCLRaPJ3mwALDMWZWEo99vzBDgf+T6A9kZ8B2J2ELLLxQ==
+X-Received: by 2002:a17:90a:a505:: with SMTP id
+ a5mr29364827pjq.27.1560288483342; 
+ Tue, 11 Jun 2019 14:28:03 -0700 (PDT)
+Received: from cabot.adilger.ext (S0106a84e3fe4b223.cg.shawcable.net.
+ [70.77.216.213])
+ by smtp.gmail.com with ESMTPSA id a192sm6068716pfa.84.2019.06.11.14.28.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 11 Jun 2019 14:28:02 -0700 (PDT)
+From: Andreas Dilger <adilger@dilger.ca>
+Message-Id: <315FEA4D-41B1-4C5B-89AA-7ABA93D66E0A@dilger.ca>
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Subject: Re: [PATCH V2] include: linux: Regularise the use of FIELD_SIZEOF
+ macro
+Date: Tue, 11 Jun 2019 15:28:00 -0600
+In-Reply-To: <20190611140907.899bebb12a3d731da24a9ad1@linux-foundation.org>
+To: Andrew Morton <akpm@linux-foundation.org>
 References: <20190611193836.2772-1-shyam.saini@amarulasolutions.com>
  <20190611134831.a60c11f4b691d14d04a87e29@linux-foundation.org>
  <6DCAE4F8-3BEC-45F2-A733-F4D15850B7F3@dilger.ca>
  <20190611140907.899bebb12a3d731da24a9ad1@linux-foundation.org>
-In-Reply-To: <20190611140907.899bebb12a3d731da24a9ad1@linux-foundation.org>
-From: Shyam Saini <mayhs11saini@gmail.com>
-Date: Wed, 12 Jun 2019 02:57:58 +0530
-Message-ID: <CAOfkYf5_HTN1HO0gQY9iGchK5Anf6oVx7knzMhL1hWpv4gV20Q@mail.gmail.com>
-Subject: Re: [PATCH V2] include: linux: Regularise the use of FIELD_SIZEOF
- macro
-To: Andrew Morton <akpm@linux-foundation.org>
-X-Mailman-Approved-At: Wed, 12 Jun 2019 06:53:42 +0000
+X-Mailer: Apple Mail (2.3273)
+X-Mailman-Approved-At: Wed, 12 Jun 2019 06:53:41 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=yfYsg0/cES0OHcG6fX5W9snm90ggOgAM9kXY3QBEhu4=;
- b=uikxw7UtyOptEVyjeY2qK4xy247KZZSlixb4FYF44cy5IOYuGfhYNz0auK7eAN3lSf
- RDykMi53c/UWnKOss3Gbf99f02SgcsLInyU9jZT7mZ9OHg9hKC6fNrTncVfEUwMvFzyT
- LcQoyh1B+GWH1wcVdCBdLQqRjW9xbNzL/XHVXJwKNd+h41OfOLBnxXrK/w2EGMY7Sdql
- Ev+iISe8afAaHYadIsKtGIEgMDX6CnpwHgbsBe+aUSzQIjTpiqosNwjLo3ub7MMP5bSh
- sv6W0b+fg0PHcDLs3IdJMwn13c7joqsHqAOaS3kYpN0/uUkfhOoBhUB3X+c5vOw3dtMp
- LbTg==
+ d=dilger-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+ :references;
+ bh=kHOmEXm44ofEStTL89clw86zKCfMK7pxZweKkVj60zc=;
+ b=BNyH/I0aTFapdWvAUe1tA6vh4V7SGGnKW9i2iryYsCgfyNFoPcnfrRh6ENitI8pQJy
+ ceJmUE14+hVNBM9WC+xAjbbK0ncjBtDNhZsREXS8wFJSFtJTAC+2kp/Gx/2pDb6cUMf8
+ JpUjBxKEfOQvrL9m9kMePR3M4fWdfHCrRVaSTbbHZtX1SELIRUg9HXb/1sKatJNSwuF+
+ QO1DomLI907tfm1bq218gSHTCncrOyxsRkBkmStrHKSsQYkjWyIsW3ZSK9J+lpNXxDiR
+ oojDQ9O14TWNGl2rGOpuLibgYG5bNECymjz1Ygn5Bb6fBc1ArnndD5ref2xpl4j3WuJU
+ Jxfw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,50 +74,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andreas Dilger <adilger@dilger.ca>, Kees Cook <keescook@chromium.org>,
- kvm@vger.kernel.org, Kernel Hardening <kernel-hardening@lists.openwall.com>,
- Network Development <netdev@vger.kernel.org>, intel-gfx@lists.freedesktop.org,
- devel@lists.orangefs.org, linux-kernel <linux-kernel@vger.kernel.org>,
- Shyam Saini <shyam.saini@amarulasolutions.com>, linux-mips@vger.kernel.org,
- linux-mm <linux-mm@kvack.org>, linux-sctp@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>, bpf <bpf@vger.kernel.org>,
+Cc: keescook@chromium.org, kvm@vger.kernel.org,
+ kernel-hardening@lists.openwall.com, netdev@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, devel@lists.orangefs.org,
+ linux-mips@vger.kernel.org, Shyam Saini <shyam.saini@amarulasolutions.com>,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-sctp@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bpf@vger.kernel.org,
  linux-ext4 <linux-ext4@vger.kernel.org>, intel-gvt-dev@lists.freedesktop.org,
- Alexey Dobriyan <adobriyan@gmail.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Alexey Dobriyan <adobriyan@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ mayhs11saini@gmail.com
+Content-Type: multipart/mixed; boundary="===============1820100519=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5kcmV3LAoKPgo+IE9uIFR1ZSwgMTEgSnVuIDIwMTkgMTU6MDA6MTAgLTA2MDAgQW5kcmVh
-cyBEaWxnZXIgPGFkaWxnZXJAZGlsZ2VyLmNhPiB3cm90ZToKPgo+ID4gPj4gdG8gRklFTERfU0la
-RU9GCj4gPiA+Cj4gPiA+IEFzIEFsZXhleSBoYXMgcG9pbnRlZCBvdXQsIEMgc3RydWN0cyBhbmQg
-dW5pb25zIGRvbid0IGhhdmUgZmllbGRzIC0KPiA+ID4gdGhleSBoYXZlIG1lbWJlcnMuICBTbyB0
-aGlzIGlzIGFuIG9wcG9ydHVuaXR5IHRvIHN3aXRjaCBldmVyeXRoaW5nIHRvCj4gPiA+IGEgbmV3
-IG1lbWJlcl9zaXplb2YoKS4KPiA+ID4KPiA+ID4gV2hhdCBkbyBwZW9wbGUgdGhpbmsgb2YgdGhh
-dCBhbmQgaG93IGRvZXMgdGhpcyBpbXBhY3QgdGhlIHBhdGNoIGZvb3RwcmludD8KPiA+Cj4gPiBJ
-IGRpZCBhIGNoZWNrLCBhbmQgRklFTERfU0laRU9GKCkgaXMgdXNlZCBhYm91dCAzNTB4LCB3aGls
-ZSBzaXplb2ZfZmllbGQoKQo+ID4gaXMgYWJvdXQgMzB4LCBhbmQgU0laRU9GX0ZJRUxEKCkgaXMg
-b25seSBhYm91dCA1eC4KPgo+IEVyay4gIFNvcnJ5LCBJIHNob3VsZCBoYXZlIGdyZXBwZWQuCj4K
-PiA+IFRoYXQgc2FpZCwgSSdtIG11Y2ggbW9yZSBpbiBmYXZvdXIgb2YgInNpemVvZl9maWVsZCgp
-IiBvciAic2l6ZW9mX21lbWJlcigpIgo+ID4gdGhhbiBGSUVMRF9TSVpFT0YoKS4gIE5vdCBvbmx5
-IGRvZXMgdGhhdCBiZXR0ZXIgbWF0Y2ggIm9mZnNldG9mKCkiLCB3aXRoCj4gPiB3aGljaCBpdCBp
-cyBjbG9zZWx5IHJlbGF0ZWQsIGJ1dCBpcyBhbHNvIGNsb3NlciB0byB0aGUgb3JpZ2luYWwgInNp
-emVvZigpIi4KPiA+Cj4gPiBTaW5jZSB0aGlzIGlzIGEgcmF0aGVyIHRyaXZpYWwgY2hhbmdlLCBp
-dCBjYW4gYmUgc3BsaXQgaW50byBhIG51bWJlciBvZgo+ID4gcGF0Y2hlcyB0byBnZXQgYXBwcm92
-YWwvbGFuZGluZyB2aWEgc3Vic3lzdGVtIG1haW50YWluZXJzLCBhbmQgdGhlcmUgaXMgbm8KPiA+
-IGh1Z2UgdXJnZW5jeSB0byByZW1vdmUgdGhlIG9yaWdpbmFsIG1hY3JvcyB1bnRpbCB0aGUgdXNl
-cnMgYXJlIGdvbmUuICBJdAo+ID4gd291bGQgbWFrZSBzZW5zZSB0byByZW1vdmUgU0laRU9GX0ZJ
-RUxEKCkgYW5kIHNpemVvZl9maWVsZCgpIHF1aWNrbHkgc28KPiA+IHRoZXkgZG9uJ3QgZ2FpbiBt
-b3JlIHVzZXJzLCBhbmQgdGhlIHJlbWFpbmluZyBGSUVMRF9TSVpFT0YoKSB1c2VycyBjYW4gYmUK
-PiA+IHdoaXR0bGVkIGF3YXkgYXMgdGhlIHBhdGNoZXMgY29tZSB0aHJvdWdoIHRoZSBtYWludGFp
-bmVyIHRyZWVzLgo+Cj4gSW4gdGhhdCBjYXNlIEknZCBzYXkgbGV0J3MgbGl2ZSB3aXRoIEZJRUxE
-X1NJWkVPRigpIGFuZCByZW1vdmUKPiBzaXplb2ZfZmllbGQoKSBhbmQgU0laRU9GX0ZJRUxEKCku
-Cj4KPiBJJ20gYSBiaXQgc3VycHJpc2VkIHRoYXQgdGhlIEZJRUxEX1NJWkVPRigpIGRlZmluaXRp
-b24gZW5kcyB1cCBpbgo+IHN0ZGRlZi5oIHJhdGhlciB0aGFuIGluIGtlcm5lbC5oIHdoZXJlIHN1
-Y2ggdGhpbmdzIGFyZSBub3JtYWxseQo+IGRlZmluZWQuICBXaHkgaXMgdGhhdD8KClRoYW5rcyBm
-b3IgcG9pbnRpbmcgb3V0IHRoaXMsIEkgd2FzIG5vdCBhd2FyZSBpZiB0aGlzIGlzIGEgY29udmVu
-dGlvbi4KQW55d2F5LCBJJ2xsIGtlZXAgRklFTERfU0laRU9GIGRlZmluaXRpb24gaW4ga2VybmVs
-LmggaW4gbmV4dCB2ZXJzaW9uLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============1820100519==
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_5B427BF6-3A60-46C7-A8F9-EE572E3F0487";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+
+--Apple-Mail=_5B427BF6-3A60-46C7-A8F9-EE572E3F0487
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+On Jun 11, 2019, at 3:09 PM, Andrew Morton <akpm@linux-foundation.org> =
+wrote:
+>=20
+> On Tue, 11 Jun 2019 15:00:10 -0600 Andreas Dilger <adilger@dilger.ca> =
+wrote:
+>=20
+>>>> to FIELD_SIZEOF
+>>>=20
+>>> As Alexey has pointed out, C structs and unions don't have fields -
+>>> they have members.  So this is an opportunity to switch everything =
+to
+>>> a new member_sizeof().
+>>>=20
+>>> What do people think of that and how does this impact the patch =
+footprint?
+>>=20
+>> I did a check, and FIELD_SIZEOF() is used about 350x, while =
+sizeof_field()
+>> is about 30x, and SIZEOF_FIELD() is only about 5x.
+>=20
+> Erk.  Sorry, I should have grepped.
+>=20
+>> That said, I'm much more in favour of "sizeof_field()" or =
+"sizeof_member()"
+>> than FIELD_SIZEOF().  Not only does that better match "offsetof()", =
+with
+>> which it is closely related, but is also closer to the original =
+"sizeof()".
+>>=20
+>> Since this is a rather trivial change, it can be split into a number =
+of
+>> patches to get approval/landing via subsystem maintainers, and there =
+is no
+>> huge urgency to remove the original macros until the users are gone.  =
+It
+>> would make sense to remove SIZEOF_FIELD() and sizeof_field() quickly =
+so
+>> they don't gain more users, and the remaining FIELD_SIZEOF() users =
+can be
+>> whittled away as the patches come through the maintainer trees.
+>=20
+> In that case I'd say let's live with FIELD_SIZEOF() and remove
+> sizeof_field() and SIZEOF_FIELD().
+
+The real question is whether we want to live with a sub-standard macro =
+for
+the next 20 years rather than taking the opportunity to clean it up now?
+
+> I'm a bit surprised that the FIELD_SIZEOF() definition ends up in
+> stddef.h rather than in kernel.h where such things are normally
+> defined.  Why is that?
+
+Cheers, Andreas
+
+
+
+
+
+
+--Apple-Mail=_5B427BF6-3A60-46C7-A8F9-EE572E3F0487
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - http://gpgtools.org
+
+iQIzBAEBCAAdFiEEDb73u6ZejP5ZMprvcqXauRfMH+AFAl0AHOAACgkQcqXauRfM
+H+BPvRAAvxlKWQUZz2tRSIBu/vtfIKMWVyY8fctru8Y1oH+Slx4hWvJ/xxYWjMIa
+LJJgybj3MjwTd30FmSWmmQmKDyjo5oWGelOeLzVfueI8blZIaDcUYT1rrM9h7F4G
+RD22ST6XCWjj5oAmVBW/XHxRIFD6uHtwOnby9a4LgkFOehdkDBhopfAMduEZrW7P
+qNa2T0M660SXtmt8dy89Ynb+sge7iinnRyPKkxNaweIXYGVtZzoScRFNK0vSZjbm
+TgVIKwFyLDbdX1bJFQHZDWnfchCRqQrrmHyIl+wAGTccpfen4bGhDqW0wU1+rQpv
+G2RL1z+N2WiWwKx/TmdPatglD2Hqr73jKfvi7X+DzkJ0nJdYMKnNRpe3S2rZwFjf
+MHpmP35Ql2/96bDulYuirHOVvSrrXF/RXZLUp6MuTu2rGankXETXgiP0lkKcmOZW
+gvA0pFTKFD8YaGf0NU9jS/OUOjYpqhMkBSK2C3d0UdRMCQzRWAudLzM9quRH7vCm
+SfRD6QWHQfOELlKMenRptxYEi8IM3+3R4G1g3VmR7YCegpayslXiSKpgnBAqw4W0
+Z4q6nJ/YOwNTjwzs9ndgCZfGpW6JxKYY0DuQe7ld+ngnXNdVrH1X5pZz9ASV9Wli
+CowwSgwFlqOSkmcy52L7pRGDGSI/yWwzl6QHtjT8o0e30S27eCs=
+=UFIV
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_5B427BF6-3A60-46C7-A8F9-EE572E3F0487--
+
+--===============1820100519==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1820100519==--
