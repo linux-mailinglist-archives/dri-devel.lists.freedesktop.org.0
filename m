@@ -1,74 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7CC3CB88
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 14:30:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE7A3CBA3
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 14:32:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6F288E4B;
-	Tue, 11 Jun 2019 12:30:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C419B890BE;
+	Tue, 11 Jun 2019 12:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3C488E4B
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 12:30:44 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id k21so16488518edq.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 05:30:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=98w8kwDvoFHXd9IwMdM47Fy1DAIHUsUmNhEulT8HBK4=;
- b=LPsUC9sVuGH2m2WrWYd+YHkIFQycDXP7hT2ampB5ev7okCGnhbXn9720McH4wEqh6S
- F5+ctpnyvp8NMCgF/vK6tBQQVTaoMfgQ5kp1b1PDvIW5GohLkpqoXDIRlSwbdhCccROQ
- XWVMdDOLSJX/VIwwA+PCAgdcSlo/QByxEL0/qyRVhX/oMm7U8FIvrvKNESwnJXsJ4P7Q
- jFiiVtLT5Vq1rvZQpT7DnSfm2PSxUQs0TXF5EWB+yM07angjpZXrtD5Wrzf/UHOhem6I
- 4hbWIbAWmiCAWH0IEs4wkpV9kfSMpGVBKbIFCm46RP6hhhEzB9ThcrEg3qRZCpv+TT5w
- Zbvg==
-X-Gm-Message-State: APjAAAUzOothBQ/xiY0JsurvDnqbP6Lqn0HYAcPd35q5nH8+cDd7xjrp
- UBoSCmm7IcLDfk28/WWF0OKUxg==
-X-Google-Smtp-Source: APXvYqzHQupV7Rmfh5ij3V00vLmNZH3ALvTxarM+XMmPX3T/9+vt9lBZBgQcrNIWb/U3FURLETC1mw==
-X-Received: by 2002:a50:8465:: with SMTP id 92mr3529325edp.151.1560256242889; 
- Tue, 11 Jun 2019 05:30:42 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id a9sm3781447edc.44.2019.06.11.05.30.39
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 11 Jun 2019 05:30:40 -0700 (PDT)
-Date: Tue, 11 Jun 2019 14:30:38 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
-Subject: Re: [PATCH v2 2/2] drm/komeda: Adds komeda_kms_drop_master
-Message-ID: <20190611123038.GC2458@phenom.ffwll.local>
-Mail-Followup-To: "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- Brian Starkey <Brian.Starkey@arm.com>,
- Ayan Halder <Ayan.Halder@arm.com>,
- "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
- nd <nd@arm.com>
-References: <1560251589-31827-1-git-send-email-lowry.li@arm.com>
- <1560251589-31827-3-git-send-email-lowry.li@arm.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 903BF891DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 12:32:06 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 0643BAEB7;
+ Tue, 11 Jun 2019 12:32:04 +0000 (UTC)
+Subject: Re: [PATCH 6/8] drm/mgag200: Rewrite cursor handling
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20190604154201.14460-1-tzimmermann@suse.de>
+ <20190604154201.14460-7-tzimmermann@suse.de>
+ <20190605095817.ijhq3z7oaptd3wff@sirius.home.kraxel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <81937cd8-1b1f-007b-97e3-18a3b586b87f@suse.de>
+Date: Tue, 11 Jun 2019 14:31:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1560251589-31827-3-git-send-email-lowry.li@arm.com>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=98w8kwDvoFHXd9IwMdM47Fy1DAIHUsUmNhEulT8HBK4=;
- b=TDdftQpZMVzC4IfNr/u5BN6jeQVrrMKS019h77cvrJUOFVDKizki1g/tr26F8MSQ1q
- AO6qkfOfPQ6Yl+Ziymqed6eoJg3Un/jdD0/+RcRSsG0gKsD3mahTEkGa1ajRe0wgjIlz
- eijyc4arZLtf6hLGJtDiOguGvpspBBv2uf6bs=
+In-Reply-To: <20190605095817.ijhq3z7oaptd3wff@sirius.home.kraxel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,64 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nd <nd@arm.com>, "airlied@linux.ie" <airlied@linux.ie>,
- Liviu Dudau <Liviu.Dudau@arm.com>,
- "Jonathan Chai \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Julien Yin \(Arm Technology China\)" <Julien.Yin@arm.com>,
- "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- Ayan Halder <Ayan.Halder@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: maxime.ripard@bootlin.com, sam@ravnborg.org,
+ dri-devel@lists.freedesktop.org, airlied@redhat.com, sean@poorly.run,
+ christian.koenig@amd.com
+Content-Type: multipart/mixed; boundary="===============2126297936=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMTEsIDIwMTkgYXQgMTE6MTM6NDVBTSArMDAwMCwgTG93cnkgTGkgKEFybSBU
-ZWNobm9sb2d5IENoaW5hKSB3cm90ZToKPiBGcm9tOiAiTG93cnkgTGkgKEFybSBUZWNobm9sb2d5
-IENoaW5hKSIgPExvd3J5LkxpQGFybS5jb20+Cj4gCj4gVGhlIGtvbWVkYSBpbnRlcm5hbCByZXNv
-dXJjZXMgKHBpcGVsaW5lcykgYXJlIHNoYXJlZCBiZXR3ZWVuIGNydGNzLAo+IGFuZCByZXNvdXJj
-ZXMgcmVsZWFzZSBieSBkaXNhYmxlX2NydGMuIFRoaXMgY29tbWl0IGlzIHdvcmtpbmcgZm9yIG9u
-Y2UKPiB1c2VyIGZvcmdvdCBkaXNhYmxpbmcgY3J0YyBsaWtlIGFwcCBxdWl0IGFibm9tYWxseSwg
-YW5kIHRoZW4gdGhlCj4gcmVzb3VyY2VzIGNhbiBub3QgYmUgdXNlZCBieSBhbm90aGVyIGNydGMu
-IEFkZHMgZHJvcF9tYXN0ZXIgdG8KPiBzaHV0ZG93biB0aGUgZGV2aWNlIGFuZCBtYWtlIHN1cmUg
-YWxsIHRoZSBrb21lZGEgcmVzb3VyY2VzIGhhdmUgYmVlbgo+IHJlbGVhc2VkIGFuZCBjYW4gYmUg
-dXNlZCBmb3IgdGhlIG5leHQgdXNhZ2UuCj4gCj4gU2lnbmVkLW9mZi1ieTogTG93cnkgTGkgKEFy
-bSBUZWNobm9sb2d5IENoaW5hKSA8bG93cnkubGlAYXJtLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfa21zLmMgfCAxMyArKysrKysrKysrKysr
-Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jIGIvZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfa21zLmMKPiBpbmRleCA4NTQzODYwLi42
-NDdiY2U1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
-a29tZWRhX2ttcy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9r
-b21lZGFfa21zLmMKPiBAQCAtNTQsMTEgKzU0LDI0IEBAIHN0YXRpYyBpcnFyZXR1cm5fdCBrb21l
-ZGFfa21zX2lycV9oYW5kbGVyKGludCBpcnEsIHZvaWQgKmRhdGEpCj4gIAlyZXR1cm4gc3RhdHVz
-Owo+ICB9Cj4gIAo+ICsvKiBLb21lZGEgaW50ZXJuYWwgcmVzb3VyY2VzIChwaXBlbGluZXMpIGFy
-ZSBzaGFyZWQgYmV0d2VlbiBjcnRjcywgYW5kIHJlc291cmNlcwo+ICsgKiBhcmUgcmVsZWFzZWQg
-YnkgZGlzYWJsZV9jcnRjLiBCdXQgaWYgdXNlciBmb3JnZXQgZGlzYWJsaW5nIGNydGMgbGlrZSBh
-cHAgcXVpdAo+ICsgKiBhYm5vcm1hbGx5LCB0aGUgcmVzb3VyY2VzIGNhbiBub3QgYmUgdXNlZCBi
-eSBhbm90aGVyIGNydGMuCj4gKyAqIFVzZSBkcm9wX21hc3RlciB0byBzaHV0ZG93biB0aGUgZGV2
-aWNlIGFuZCBtYWtlIHN1cmUgYWxsIHRoZSBrb21lZGEgcmVzb3VyY2VzCj4gKyAqIGhhdmUgYmVl
-biByZWxlYXNlZCwgYW5kIGNhbiBiZSB1c2VkIGZvciB0aGUgbmV4dCB1c2FnZS4KPiArICovCgpO
-by4gSWYgd2Ugd2FudCB0aGlzLCB3ZSBuZWVkIHRvIGltcGxlbWVudCB0aGlzIGFjcm9zcyBkcml2
-ZXJzLCBub3Qgd2l0aApwZXItdmVuZG9yIGhhY2tzLgoKVGhlIGtlcm5lbGRvYyBzaG91bGQgaGF2
-ZSBiZWVuIGEgc29saWQgaGludDogIk9ubHkgdXNlZCBieSB2bXdnZnguIgotRGFuaWVsCgo+ICtz
-dGF0aWMgdm9pZCBrb21lZGFfa21zX2Ryb3BfbWFzdGVyKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-Cj4gKwkJCQkgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdikKPiArewo+ICsJZHJtX2F0b21p
-Y19oZWxwZXJfc2h1dGRvd24oZGV2KTsKPiArfQo+ICsKPiAgc3RhdGljIHN0cnVjdCBkcm1fZHJp
-dmVyIGtvbWVkYV9rbXNfZHJpdmVyID0gewo+ICAJLmRyaXZlcl9mZWF0dXJlcyA9IERSSVZFUl9H
-RU0gfCBEUklWRVJfTU9ERVNFVCB8IERSSVZFUl9BVE9NSUMgfAo+ICAJCQkgICBEUklWRVJfUFJJ
-TUUgfCBEUklWRVJfSEFWRV9JUlEsCj4gIAkubGFzdGNsb3NlCQkJPSBkcm1fZmJfaGVscGVyX2xh
-c3RjbG9zZSwKPiAgCS5pcnFfaGFuZGxlcgkJCT0ga29tZWRhX2ttc19pcnFfaGFuZGxlciwKPiAr
-CS5tYXN0ZXJfZHJvcAkJCT0ga29tZWRhX2ttc19kcm9wX21hc3RlciwKPiAgCS5nZW1fZnJlZV9v
-YmplY3RfdW5sb2NrZWQJPSBkcm1fZ2VtX2NtYV9mcmVlX29iamVjdCwKPiAgCS5nZW1fdm1fb3Bz
-CQkJPSAmZHJtX2dlbV9jbWFfdm1fb3BzLAo+ICAJLmR1bWJfY3JlYXRlCQkJPSBrb21lZGFfZ2Vt
-X2NtYV9kdW1iX2NyZWF0ZSwKPiAtLSAKPiAxLjkuMQo+IAo+IF9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdh
-cmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============2126297936==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="tluQswj7F3ajOplnbLr0Ys4nj1XtL1Kea"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--tluQswj7F3ajOplnbLr0Ys4nj1XtL1Kea
+Content-Type: multipart/mixed; boundary="tHYDbfqI5XEPiAxS21ZByPi5K9vZLR2ay";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: airlied@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Message-ID: <81937cd8-1b1f-007b-97e3-18a3b586b87f@suse.de>
+Subject: Re: [PATCH 6/8] drm/mgag200: Rewrite cursor handling
+References: <20190604154201.14460-1-tzimmermann@suse.de>
+ <20190604154201.14460-7-tzimmermann@suse.de>
+ <20190605095817.ijhq3z7oaptd3wff@sirius.home.kraxel.org>
+In-Reply-To: <20190605095817.ijhq3z7oaptd3wff@sirius.home.kraxel.org>
+
+--tHYDbfqI5XEPiAxS21ZByPi5K9vZLR2ay
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 05.06.19 um 11:58 schrieb Gerd Hoffmann:
+> On Tue, Jun 04, 2019 at 05:41:59PM +0200, Thomas Zimmermann wrote:
+>> The cursor handling in mgag200 is complicated to understand. It touche=
+s a
+>> number of different BOs, but doesn't really use all of them.
+>>
+>> Rewriting the cursor update reduces the amount of cursor state. There =
+are
+>> two BOs for double-buffered HW updates. The source BO updates the one =
+that
+>> is currently not displayed and then switches buffers. Explicit BO lock=
+ing
+>> has been removed from the code. BOs are simply pinned and unpinned in =
+video
+>> RAM.
+>=20
+> Cursors are not that big after all, so maybe pin the two BOs for
+> double-buffering permanently in vram to simplify things further?
+>=20
+> Also factoring out the code which updates the two BOs to a separate
+> function should help making the code more readable.
+
+The cursor handling in the ast driver is similar, but uses one single BO
+to hold both cursor buffers. I'm thinking about how to turn both
+implementations into a generic helper for legacy cursors (i.e., low
+number of colors or palette). This would also be helpful for my work on
+fbdev porting.
+
+One idea is to adapt deferred I/O. DRM would expose an ARGB shadow
+buffer to userspace and let the mmap implementation update the HW
+buffers (including dithering, palette setup, etc.).
+
+Best regards
+Thomas
+
+> But even as-is the patch is a step into the right direction.
+>=20
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>=20
+> cheers,
+>   Gerd
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--tHYDbfqI5XEPiAxS21ZByPi5K9vZLR2ay--
+
+--tluQswj7F3ajOplnbLr0Ys4nj1XtL1Kea
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAlz/nz8ACgkQaA3BHVML
+eiNa9gf/SNOFobhCi+7O8JDpgcmKuRJJH11j+sTKXzoeVqVPNqnVzE/UEsm2JN6O
+Qpnxvl8DK+IHkerlMY7vvfdd63DZpNThwqA/YkpIqDs3MM9V8FXgutQCOd4TVtTI
++Gj5VO7noI6aGvEdon2AEigTeIihtDmOgg4ZgtiUpmlijUjpb8Eo8Hl0RWD/uRtj
+DCPgLXPUdlwrDHJi3SHtKrDBKygWsBMCtLV7zOZ5U1V2Txt0lk6tYQW4JKosyL+2
+hz+3RL8TWNTO801CvnrHRyJw0C5HU+Vh//uwLi8jfnOYK8z9wMtgZgz+aqCzRG6V
+7RAswk3oVI79Qu4ERZpjr4vf2KHfEg==
+=R0Mi
+-----END PGP SIGNATURE-----
+
+--tluQswj7F3ajOplnbLr0Ys4nj1XtL1Kea--
+
+--===============2126297936==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2126297936==--
