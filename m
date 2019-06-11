@@ -2,45 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7793D572
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 20:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF423D576
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 20:27:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 625188924B;
-	Tue, 11 Jun 2019 18:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4256890E9;
+	Tue, 11 Jun 2019 18:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0493F89265
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:24:37 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EFB7872167; Tue, 11 Jun 2019 18:24:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110781] Radeon: heavy r300 performance drop regression between
- 11.x and 19.x
-Date: Tue, 11 Jun 2019 18:24:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110781-502-y0NljvaSe9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110781-502@http.bugs.freedesktop.org/>
-References: <bug-110781-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852C2890E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:27:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id B3A2940D6F;
+ Tue, 11 Jun 2019 20:27:07 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -3.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.1 tagged_above=-999 required=6.31
+ tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1]
+ autolearn=ham autolearn_force=no
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id smfTGIN7o__R; Tue, 11 Jun 2019 20:26:58 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35]) (Authenticated sender: mb878879)
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B2F543F86C;
+ Tue, 11 Jun 2019 20:26:57 +0200 (CEST)
+Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 198C3361A96;
+ Tue, 11 Jun 2019 20:26:57 +0200 (CEST)
+Subject: Re: [PATCH v4 3/9] mm: Add write-protect and clean utilities for
+ address space ranges
+To: Nadav Amit <nadav.amit@gmail.com>
+References: <20190611122454.3075-1-thellstrom@vmwopensource.org>
+ <20190611122454.3075-4-thellstrom@vmwopensource.org>
+ <1CDAE797-4686-4041-938F-DE0456FFF451@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28VMware=29?=
+ <thellstrom@vmwopensource.org>
+Organization: VMware Inc.
+Message-ID: <ac0b0ef5-8f76-5e55-2be2-f1860878841a@vmwopensource.org>
+Date: Tue, 11 Jun 2019 20:26:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <1CDAE797-4686-4041-938F-DE0456FFF451@gmail.com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=vmwopensource.org; s=mail; t=1560277617;
+ bh=l3W/AqRf84wNp6P4sWXjTRud8TI0AhrSO/bC0PKM5fg=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=vl6XdSWYGKdFQN7iy2I6478NTemupw3IjgYmmFrjGfarW9AUCkwCHczkOJHx4UA/2
+ L1Dz4hmwgBEYT3Z08isg+RMbIw9Oui5bwMskWFMMLeuhAIytZWixxGvFKerujCko3C
+ 0o5dD+7XGLhFoCpoAA3Z0Lw4LMccKlNHHMGaNQt0=
+X-Mailman-Original-Authentication-Results: ste-pvt-msa1.bahnhof.se;
+ dkim=pass (1024-bit key;
+ unprotected) header.d=vmwopensource.org header.i=@vmwopensource.org
+ header.b=vl6XdSWY; 
+ dkim-atps=neutral
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,135 +75,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0982733766=="
+Cc: Thomas Hellstrom <thellstrom@vmware.com>, Michal Hocko <mhocko@suse.com>,
+ Rik van Riel <riel@surriel.com>, "VMware, Inc." <pv-drivers@vmware.com>,
+ Minchan Kim <minchan@kernel.org>, Will Deacon <will.deacon@arm.com>,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Peter Zijlstra <peterz@infradead.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ linux-graphics-maintainer@vmware.com, Matthew Wilcox <willy@infradead.org>,
+ Huang Ying <ying.huang@intel.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Ralph Campbell <rcampbell@nvidia.com>, Souptick Joarder <jrdr.linux@gmail.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0982733766==
-Content-Type: multipart/alternative; boundary="15602774760.955Fd8.14512"
-Content-Transfer-Encoding: 7bit
-
-
---15602774760.955Fd8.14512
-Date: Tue, 11 Jun 2019 18:24:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110781
-
---- Comment #66 from Richard Thier <u9vata@gmail.com> ---
-> Yes, I think it's a good idea to open a new bug.
-
-Added seperate bug for working on HyperZ glitches:
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
-> By the way, I have a vague memory of HiZ on the R4xx being exclusive (i.e=
-.,
-> only the first app to use the Z-buffer gets HiZ), but I could be complete=
-ly wrong.
-
-It is exclusive, but not to the first app it seems. The code to get hyperZ
-ownership is in the buffer clearing function and I see it with my bare eyes
-right now so I think not only the first app can get it, but if you exit that
-automatically some of the next one (that gets clear called first).
-
-> It worked fine here, too.
-
-Is there any indicator to look for? Like shader files on disk at some place=
-s or
-near the runned binary or current dir or whatever with this or that name?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15602774760.955Fd8.14512
-Date: Tue, 11 Jun 2019 18:24:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781#c66">Comme=
-nt # 66</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon: heavy r300 performance drop regression between 11=
-.x and 19.x"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110781">bug 11078=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre><span class=3D"quote">&gt; Yes, I think it's a good idea to op=
-en a new bug.</span >
-
-Added seperate bug for working on HyperZ glitches:
-
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"show_bug.cgi?id=3D110897">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110897</a>
-
-<span class=3D"quote">&gt; By the way, I have a vague memory of HiZ on the =
-R4xx being exclusive (i.e.,
-&gt; only the first app to use the Z-buffer gets HiZ), but I could be compl=
-etely wrong.</span >
-
-It is exclusive, but not to the first app it seems. The code to get hyperZ
-ownership is in the buffer clearing function and I see it with my bare eyes
-right now so I think not only the first app can get it, but if you exit that
-automatically some of the next one (that gets clear called first).
-
-<span class=3D"quote">&gt; It worked fine here, too.</span >
-
-Is there any indicator to look for? Like shader files on disk at some place=
-s or
-near the runned binary or current dir or whatever with this or that name?</=
-pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15602774760.955Fd8.14512--
-
---===============0982733766==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0982733766==--
+SGksIE5hZGF2LAoKT24gNi8xMS8xOSA3OjIxIFBNLCBOYWRhdiBBbWl0IHdyb3RlOgo+PiBPbiBK
+dW4gMTEsIDIwMTksIGF0IDU6MjQgQU0sIFRob21hcyBIZWxsc3Ryw7ZtIChWTXdhcmUpIDx0aGVs
+bHN0cm9tQHZtd29wZW5zb3VyY2Uub3JnPiB3cm90ZToKPj4KPj4gRnJvbTogVGhvbWFzIEhlbGxz
+dHJvbSA8dGhlbGxzdHJvbUB2bXdhcmUuY29tPgo+Pgo+IFsgc25pcCBdCj4KPj4gKy8qKgo+PiAr
+ICogYXBwbHlfcHRfd3Jwcm90ZWN0IC0gTGVhZiBwdGUgY2FsbGJhY2sgdG8gd3JpdGUtcHJvdGVj
+dCBhIHB0ZQo+PiArICogQHB0ZTogUG9pbnRlciB0byB0aGUgcHRlCj4+ICsgKiBAdG9rZW46IFBh
+Z2UgdGFibGUgdG9rZW4sIHNlZSBhcHBseV90b19wZm5fcmFuZ2UoKQo+PiArICogQGFkZHI6IFRo
+ZSB2aXJ0dWFsIHBhZ2UgYWRkcmVzcwo+PiArICogQGNsb3N1cmU6IFBvaW50ZXIgdG8gYSBzdHJ1
+Y3QgcGZuX3JhbmdlX2FwcGx5IGVtYmVkZGVkIGluIGEKPj4gKyAqIHN0cnVjdCBhcHBseV9hcwo+
+PiArICoKPj4gKyAqIFRoZSBmdW5jdGlvbiB3cml0ZS1wcm90ZWN0cyBhIHB0ZSBhbmQgcmVjb3Jk
+cyB0aGUgcmFuZ2UgaW4KPj4gKyAqIHZpcnR1YWwgYWRkcmVzcyBzcGFjZSBvZiB0b3VjaGVkIHB0
+ZXMgZm9yIGVmZmljaWVudCByYW5nZSBUTEIgZmx1c2hlcy4KPj4gKyAqCj4+ICsgKiBSZXR1cm46
+IEFsd2F5cyB6ZXJvLgo+PiArICovCj4+ICtzdGF0aWMgaW50IGFwcGx5X3B0X3dycHJvdGVjdChw
+dGVfdCAqcHRlLCBwZ3RhYmxlX3QgdG9rZW4sCj4+ICsJCQkgICAgICB1bnNpZ25lZCBsb25nIGFk
+ZHIsCj4+ICsJCQkgICAgICBzdHJ1Y3QgcGZuX3JhbmdlX2FwcGx5ICpjbG9zdXJlKQo+PiArewo+
+PiArCXN0cnVjdCBhcHBseV9hcyAqYWFzID0gY29udGFpbmVyX29mKGNsb3N1cmUsIHR5cGVvZigq
+YWFzKSwgYmFzZSk7Cj4+ICsJcHRlX3QgcHRlbnQgPSAqcHRlOwo+PiArCj4+ICsJaWYgKHB0ZV93
+cml0ZShwdGVudCkpIHsKPj4gKwkJcHRlX3Qgb2xkX3B0ZSA9IHB0ZXBfbW9kaWZ5X3Byb3Rfc3Rh
+cnQoYWFzLT52bWEsIGFkZHIsIHB0ZSk7Cj4+ICsKPj4gKwkJcHRlbnQgPSBwdGVfd3Jwcm90ZWN0
+KG9sZF9wdGUpOwo+PiArCQlwdGVwX21vZGlmeV9wcm90X2NvbW1pdChhYXMtPnZtYSwgYWRkciwg
+cHRlLCBvbGRfcHRlLCBwdGVudCk7Cj4+ICsJCWFhcy0+dG90YWwrKzsKPj4gKwkJYWFzLT5zdGFy
+dCA9IG1pbihhYXMtPnN0YXJ0LCBhZGRyKTsKPj4gKwkJYWFzLT5lbmQgPSBtYXgoYWFzLT5lbmQs
+IGFkZHIgKyBQQUdFX1NJWkUpOwo+PiArCX0KPj4gKwo+PiArCXJldHVybiAwOwo+PiArfQo+PiAr
+Cj4+ICsvKioKPj4gKyAqIHN0cnVjdCBhcHBseV9hc19jbGVhbiAtIENsb3N1cmUgc3RydWN0dXJl
+IGZvciBhcHBseV9hc19jbGVhbgo+PiArICogQGJhc2U6IHN0cnVjdCBhcHBseV9hcyB3ZSBkZXJp
+dmUgZnJvbQo+PiArICogQGJpdG1hcF9wZ29mZjogQWRkcmVzc19zcGFjZSBQYWdlIG9mZnNldCBv
+ZiB0aGUgZmlyc3QgYml0IGluIEBiaXRtYXAKPj4gKyAqIEBiaXRtYXA6IEJpdG1hcCB3aXRoIG9u
+ZSBiaXQgZm9yIGVhY2ggcGFnZSBvZmZzZXQgaW4gdGhlIGFkZHJlc3Nfc3BhY2UgcmFuZ2UKPj4g
+KyAqIGNvdmVyZWQuCj4+ICsgKiBAc3RhcnQ6IEFkZHJlc3Nfc3BhY2UgcGFnZSBvZmZzZXQgb2Yg
+Zmlyc3QgbW9kaWZpZWQgcHRlIHJlbGF0aXZlCj4+ICsgKiB0byBAYml0bWFwX3Bnb2ZmCj4+ICsg
+KiBAZW5kOiBBZGRyZXNzX3NwYWNlIHBhZ2Ugb2Zmc2V0IG9mIGxhc3QgbW9kaWZpZWQgcHRlIHJl
+bGF0aXZlCj4+ICsgKiB0byBAYml0bWFwX3Bnb2ZmCj4+ICsgKi8KPj4gK3N0cnVjdCBhcHBseV9h
+c19jbGVhbiB7Cj4+ICsJc3RydWN0IGFwcGx5X2FzIGJhc2U7Cj4+ICsJcGdvZmZfdCBiaXRtYXBf
+cGdvZmY7Cj4+ICsJdW5zaWduZWQgbG9uZyAqYml0bWFwOwo+PiArCXBnb2ZmX3Qgc3RhcnQ7Cj4+
+ICsJcGdvZmZfdCBlbmQ7Cj4+ICt9Owo+PiArCj4+ICsvKioKPj4gKyAqIGFwcGx5X3B0X2NsZWFu
+IC0gTGVhZiBwdGUgY2FsbGJhY2sgdG8gY2xlYW4gYSBwdGUKPj4gKyAqIEBwdGU6IFBvaW50ZXIg
+dG8gdGhlIHB0ZQo+PiArICogQHRva2VuOiBQYWdlIHRhYmxlIHRva2VuLCBzZWUgYXBwbHlfdG9f
+cGZuX3JhbmdlKCkKPj4gKyAqIEBhZGRyOiBUaGUgdmlydHVhbCBwYWdlIGFkZHJlc3MKPj4gKyAq
+IEBjbG9zdXJlOiBQb2ludGVyIHRvIGEgc3RydWN0IHBmbl9yYW5nZV9hcHBseSBlbWJlZGRlZCBp
+biBhCj4+ICsgKiBzdHJ1Y3QgYXBwbHlfYXNfY2xlYW4KPj4gKyAqCj4+ICsgKiBUaGUgZnVuY3Rp
+b24gY2xlYW5zIGEgcHRlIGFuZCByZWNvcmRzIHRoZSByYW5nZSBpbgo+PiArICogdmlydHVhbCBh
+ZGRyZXNzIHNwYWNlIG9mIHRvdWNoZWQgcHRlcyBmb3IgZWZmaWNpZW50IFRMQiBmbHVzaGVzLgo+
+PiArICogSXQgYWxzbyByZWNvcmRzIGRpcnR5IHB0ZXMgaW4gYSBiaXRtYXAgcmVwcmVzZW50aW5n
+IHBhZ2Ugb2Zmc2V0cwo+PiArICogaW4gdGhlIGFkZHJlc3Nfc3BhY2UsIGFzIHdlbGwgYXMgdGhl
+IGZpcnN0IGFuZCBsYXN0IG9mIHRoZSBiaXRzCj4+ICsgKiB0b3VjaGVkLgo+PiArICoKPj4gKyAq
+IFJldHVybjogQWx3YXlzIHplcm8uCj4+ICsgKi8KPj4gK3N0YXRpYyBpbnQgYXBwbHlfcHRfY2xl
+YW4ocHRlX3QgKnB0ZSwgcGd0YWJsZV90IHRva2VuLAo+PiArCQkJICB1bnNpZ25lZCBsb25nIGFk
+ZHIsCj4+ICsJCQkgIHN0cnVjdCBwZm5fcmFuZ2VfYXBwbHkgKmNsb3N1cmUpCj4+ICt7Cj4+ICsJ
+c3RydWN0IGFwcGx5X2FzICphYXMgPSBjb250YWluZXJfb2YoY2xvc3VyZSwgdHlwZW9mKCphYXMp
+LCBiYXNlKTsKPj4gKwlzdHJ1Y3QgYXBwbHlfYXNfY2xlYW4gKmNsZWFuID0gY29udGFpbmVyX29m
+KGFhcywgdHlwZW9mKCpjbGVhbiksIGJhc2UpOwo+PiArCXB0ZV90IHB0ZW50ID0gKnB0ZTsKPj4g
+Kwo+PiArCWlmIChwdGVfZGlydHkocHRlbnQpKSB7Cj4+ICsJCXBnb2ZmX3QgcGdvZmYgPSAoKGFk
+ZHIgLSBhYXMtPnZtYS0+dm1fc3RhcnQpID4+IFBBR0VfU0hJRlQpICsKPj4gKwkJCWFhcy0+dm1h
+LT52bV9wZ29mZiAtIGNsZWFuLT5iaXRtYXBfcGdvZmY7Cj4+ICsJCXB0ZV90IG9sZF9wdGUgPSBw
+dGVwX21vZGlmeV9wcm90X3N0YXJ0KGFhcy0+dm1hLCBhZGRyLCBwdGUpOwo+PiArCj4+ICsJCXB0
+ZW50ID0gcHRlX21rY2xlYW4ob2xkX3B0ZSk7Cj4+ICsJCXB0ZXBfbW9kaWZ5X3Byb3RfY29tbWl0
+KGFhcy0+dm1hLCBhZGRyLCBwdGUsIG9sZF9wdGUsIHB0ZW50KTsKPj4gKwo+PiArCQlhYXMtPnRv
+dGFsKys7Cj4+ICsJCWFhcy0+c3RhcnQgPSBtaW4oYWFzLT5zdGFydCwgYWRkcik7Cj4+ICsJCWFh
+cy0+ZW5kID0gbWF4KGFhcy0+ZW5kLCBhZGRyICsgUEFHRV9TSVpFKTsKPj4gKwo+PiArCQlfX3Nl
+dF9iaXQocGdvZmYsIGNsZWFuLT5iaXRtYXApOwo+PiArCQljbGVhbi0+c3RhcnQgPSBtaW4oY2xl
+YW4tPnN0YXJ0LCBwZ29mZik7Cj4+ICsJCWNsZWFuLT5lbmQgPSBtYXgoY2xlYW4tPmVuZCwgcGdv
+ZmYgKyAxKTsKPj4gKwl9Cj4+ICsKPj4gKwlyZXR1cm4gMDsKPiBVc3VhbGx5LCB3aGVuIGEgUFRF
+IGlzIHdyaXRlLXByb3RlY3RlZCwgb3Igd2hlbiBhIGRpcnR5LWJpdCBpcyBjbGVhcmVkLCB0aGUK
+PiBUTEIgZmx1c2ggbXVzdCBiZSBkb25lIHdoaWxlIHRoZSBwYWdlLXRhYmxlIGxvY2sgZm9yIHRo
+YXQgc3BlY2lmaWMgdGFibGUgaXMKPiB0YWtlbiAoaS5lLiwgd2l0aGluIGFwcGx5X3B0X2NsZWFu
+KCkgYW5kIGFwcGx5X3B0X3dycHJvdGVjdCgpIGluIHRoaXMgY2FzZSkuCj4KPiBPdGhlcndpc2Us
+IGluIHRoZSBjYXNlIG9mIGFwcGx5X3B0X2NsZWFuKCkgZm9yIGV4YW1wbGUsIGFub3RoZXIgY29y
+ZSBtaWdodAo+IHNob3J0bHkgYWZ0ZXIgKGJlZm9yZSB0aGUgVExCIGZsdXNoKSB3cml0ZSB0byB0
+aGUgc2FtZSBwYWdlIHdob3NlIFBURSB3YXMKPiBjaGFuZ2VkLiBUaGUgZGlydHktYml0IGluIHN1
+Y2ggY2FzZSBtaWdodCBub3QgYmUgc2V0LCBhbmQgdGhlIGNoYW5nZSBnZXQKPiBsb3N0LgoKSG1t
+LiBMZXQncyBhc3N1bWUgdGhhdCB3YXMgdGhlIGNhc2UsIHdlIGhhdmUgdHdvIHBvc3NpYmxlIHNp
+dHVhdGlvbnM6CgpBOiBwdF9jbGVhbgoKMS4gVGhhdCBjb3JlJ3MgVExCIGVudHJ5IGlzIGludmFs
+aWQuIEl0IHdpbGwgc2V0IHRoZSBQVEUgZGlydHkgYml0IGFuZCAKY29udGludWUuIFRoZSBkaXJ0
+eSBiaXQgd2lsbCBwcm9iYWJseSByZW1haW4gc2V0IGFmdGVyIHRoZSBUTEIgZmx1c2guCjIuIFRo
+YXQgY29yZSdzIFRMQiBlbnRyeSBpcyB2YWxpZC4gSXQgd2lsbCBqdXN0IGNvbnRpbnVlLiBUaGUg
+ZGlydHkgYml0IAp3aWxsIHJlbWFpbiBjbGVhciBhZnRlciB0aGUgVExCIGZsdXNoLgoKQnV0IEkg
+ZmFpbCB0byBzZWUgaG93IGhhdmluZyB0aGUgVExCIGZsdXNoIHdpdGhpbiB0aGUgcGFnZSB0YWJs
+ZSBsb2NrIAp3b3VsZCBoZWxwIGluIHRoaXMgY2FzZS4gU2luY2UgdGhlIHdyaXRpbmcgY29yZSB3
+aWxsIG5ldmVyIGF0dGVtcHQgdG8gCnRha2UgaXQ/IEluIGFueSBjYXNlLCBpZiBzdWNoIGEgcmFj
+ZSBvY2N1cnMsIHRoZSBjb3JyZXNwb25kaW5nIGJpdCBpbiAKdGhlIGJpdG1hcCB3b3VsZCBoYXZl
+IGJlZW4gc2V0IGFuZCB3ZSd2ZSByZWNvcmRlZCB0aGF0IHRoZSBwYWdlIGlzIGRpcnR5LgoKQjog
+d3Jwcm90ZWN0IHNpdHVhdGlvbiwgdGhlIHNpdHVhdGlvbiBpcyBhIGJpdCBkaWZmZXJlbnQ6Cgox
+LiBUaGF0IGNvcmUncyBUTEIgZW50cnkgaXMgaW52YWxpZC4gSXQgd2lsbCByZWFkIHRoZSBQVEUs
+IGNhdXNlIGEgZmF1bHQgCmFuZCBibG9jayBpbiBta3dyaXRlKCkgb24gYW4gZXh0ZXJuYWwgYWRk
+cmVzcyBzcGFjZSBsb2NrIHdoaWNoIGlzIGhlbGQgCm92ZXIgdGhpcyBvcGVyYXRpb24uIChJcyBp
+dCB0aGlzIHNpdHVhdGlvbiB0aGF0IGlzIHlvdXIgbWFpbiBjb25jZXJuPykKMi4gVGhhdCBjb3Jl
+J3MgVExCIGVudHJ5IGlzIHZhbGlkLiBJdCB3aWxsIGp1c3QgY29udGludWUgcmVnYXJkbGVzcyBv
+ZiAKYW55IGxvY2tzLgoKRm9yIGJvdGggbWt3cml0ZSgpIGFuZCBkaXJ0eSgpIGlmIHdlIGFjdCBv
+biB0aGUgcmVjb3JkZWQgcGFnZXMgKmFmdGVyKiAKdGhlIFRMQiBmbHVzaCwgd2UncmUgT0suIFRo
+ZSBkaWZmZXJlbmNlIGlzIHRoYXQganVzdCBhZnRlciB0aGUgVExCIGZsdXNoIAp0aGVyZSBzaG91
+bGQgYmUgbm8gd3JpdGUtZW5hYmxlZCBQVEVzIGluIHRoZSB3cml0ZS1wcm90ZWN0IGNhc2UsIGJ1
+dCAKdGhlcmUgbWF5IGJlIGRpcnR5IFBURXMgaW4gdGhlIHB0X2NsZWFuIGNhc2UuIFNvbWV0aGlu
+ZyB0aGF0IGlzIAptZW50aW9uZWQgaW4gdGhlIGRvY3MgYWxyZWFkeS4KCj4KPiBEb2VzIHRoaXMg
+ZnVuY3Rpb24gcmVnYXJkcyBhIGNlcnRhaW4gdXNlLWNhc2UgaW4gd2hpY2ggZGVmZXJyaW5nIHRo
+ZSBUTEIKPiBmbHVzaGVzIGlzIGZpbmU/IElmIHNvLCBhc3NlcnRpb25zIGFuZCBkb2N1bWVudGF0
+aW9uIG9mIHRoZSByZWxhdGVkCj4gYXNzdW1wdGlvbiB3b3VsZCBiZSB1c2VmdWwuCgpJZiBJIHVu
+ZGVyc3RhbmQgeW91ciBjb21tZW50IGNvcnJlY3RseSwgdGhlIHBhZ2UgdGFibGUgbG9jayBpcyBz
+b21ldGltZXMgCnVzZWQgYXMgdGhlIGxvY2sgaW4gQjEsIGJsb2NraW5nIGEgcG9zc2libGUgc29m
+dHdhcmUgZmF1bHQgdW50aWwgdGhlIFRMQiAKZmx1c2ggaGFzIGhhcHBlbmVkLsKgIEhlcmUgd2Ug
+YXNzdW1lIGFuIGV4dGVybmFsIGFkZHJlc3Mgc3BhY2UgbG9jayB0YWtlbiAKYm90aCBhcm91bmQg
+dGhlIHdycHJvdGVjdCBvcGVyYXRpb24gYW5kIGluIG1rd3JpdGUoKS4gV291bGQgaXQgYmUgT0sg
+aWYgCkkgYWRkIGNvbW1lbnRzIGFib3V0IHRoZSBuZWNlc3NpdHkgb2YgYW4gZXh0ZXJuYWwgbG9j
+ayB0byB0aGUgZG9jPyBPayAKd2l0aCBhIGZvbGxvdy11cCBwYXRjaD8KClRoYW5rcywKVGhvbWFz
+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
