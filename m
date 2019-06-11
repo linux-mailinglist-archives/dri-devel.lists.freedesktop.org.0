@@ -1,63 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9096A3C13F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 04:32:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D093C141
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 04:37:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F65289130;
-	Tue, 11 Jun 2019 02:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014E9890E9;
+	Tue, 11 Jun 2019 02:37:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AFB5890EA;
- Tue, 11 Jun 2019 02:32:50 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id x2so11893780qtr.0;
- Mon, 10 Jun 2019 19:32:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wRV0kBqdILRCqeHSeK97VSmtYfGbD9edblmCbM1qxm0=;
- b=T/7+8NU2PTnfK5erxEOlIl/ystfHCmyjMmL2bbcdwsiws8vydrtbcKIwTDT1qBbGtZ
- wLQVQXSzDstg8CnDpf5cEayN/+a2xpN/qm4Ka0/dCrgAgs6HPET5V2zPwwaj7NuYy4iT
- Ji70qGiH1TFS0K77bkjOxCF1f0cu8m6dxodnLg7zoJEHvQ3BgqoaeDCy5vLOz0bwlyxV
- NlEo61hjTEhbg2QsO1MIgDQvsdUcT+sYu84oTj9tRirkJn10QgIHKF7MeCiB98RWesZr
- /AkLdBtAeUyTn49jdVJQFdAHHhBP4vDQMXC7YsDUNuIFHI/JEu8naAYUKBfcpGXj6C0t
- dQxQ==
-X-Gm-Message-State: APjAAAU8z7cQ0EmnVgwqgGW54CgKFZaNutIZE52/LKIvSZQ8qv0/13yv
- Loa6zlkXTOa0WYPZghQ/FC5a5S4PG4s=
-X-Google-Smtp-Source: APXvYqxS+bCVBAoKLTWOpdDHiiLe4HHk/FsGNjdKGHmQNzJd+JatWw8zJYNEZGMq3mUMPZ2/OT8chg==
-X-Received: by 2002:ac8:2318:: with SMTP id a24mr60568616qta.60.1560220369327; 
- Mon, 10 Jun 2019 19:32:49 -0700 (PDT)
-Received: from athos.fios-router.home
- (pool-173-68-20-215.nycmny.fios.verizon.net. [173.68.20.215])
- by smtp.gmail.com with ESMTPSA id h26sm3523543qta.58.2019.06.10.19.32.48
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 10 Jun 2019 19:32:48 -0700 (PDT)
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- bskeggs@redhat.com
-Subject: [PATCH 2/2] drm/nouveau/kms/nv50-: enable modern color management
- properties
-Date: Mon, 10 Jun 2019 22:32:45 -0400
-Message-Id: <20190611023245.13625-2-imirkin@alum.mit.edu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190611023245.13625-1-imirkin@alum.mit.edu>
-References: <20190611023245.13625-1-imirkin@alum.mit.edu>
+Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BD7E6890E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 02:37:11 +0000 (UTC)
+X-UUID: 2c1d25838fb1433284a40b1bbfb111c5-20190611
+X-UUID: 2c1d25838fb1433284a40b1bbfb111c5-20190611
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLS)
+ with ESMTP id 141375310; Tue, 11 Jun 2019 10:37:09 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS33N1.mediatek.inc (172.27.4.75) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 11 Jun 2019 10:37:08 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 11 Jun 2019 10:37:07 +0800
+Message-ID: <1560220627.32395.1.camel@mtksdaap41>
+Subject: Re: [v4 5/7] drm/mediatek: add mt8183 dsi driver support
+From: CK Hu <ck.hu@mediatek.com>
+To: Jitao Shi <jitao.shi@mediatek.com>
+Date: Tue, 11 Jun 2019 10:37:07 +0800
+In-Reply-To: <20190601092615.67917-6-jitao.shi@mediatek.com>
+References: <20190601092615.67917-1-jitao.shi@mediatek.com>
+ <20190601092615.67917-6-jitao.shi@mediatek.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wRV0kBqdILRCqeHSeK97VSmtYfGbD9edblmCbM1qxm0=;
- b=bfp9bAQfZX8XOrappUTSsVW3NqNcfAmHXKUKE5nAnpFOHLkoH7bWkTznWiWLeJqGra
- euAJgrjOCPmCexx8S7QWQ2VZ7EcWSt9d16wRprqFd35YAWv1PKrt2ZYemY/F23o1FugN
- 1sQJ7T9SeSkRncgU6Hxcg8epzMtTLew5Jw/a8YAONPMe/LyEUM6rlwN/VkBJTKmYZowH
- vxLUrq4O4r3wMYWxUhvDlaaUSJlDiOOknGoRt5S+oo79SyHz3DsHylQ/UEjYrRBcu6iU
- VDj1RlgFSONEI6+PmWIgp8NIxj7I/0oh6jvSfpyfSkwIXrWa9oBNILYdo3VMv0jbOACB
- L+9g==
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,30 +47,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, stonea168@163.com,
+ dri-devel@lists.freedesktop.org, yingjoe.chen@mediatek.com,
+ Ajay Kumar <ajaykumar.rs@samsung.com>, Vincent Palatin <vpalatin@chromium.org>,
+ cawa.cheng@mediatek.com, Russell King <rmk+kernel@arm.linux.org.uk>, Thierry
+ Reding <treding@nvidia.com>, linux-pwm@vger.kernel.org,
+ Sascha Hauer <kernel@pengutronix.de>, Pawel Moll <pawel.moll@arm.com>,
+ Ian Campbell <ijc+devicetree@hellion.org.uk>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Andy
+ Yan <andy.yan@rock-chips.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ eddie.huang@mediatek.com, linux-arm-kernel@lists.infradead.org,
+ Rahul Sharma <rahul.sharma@samsung.com>, srv_heupstream@mediatek.com,
+ linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rm9yIEdGMTE5OkdWMTAwLCB3ZSBjYW4gZW5hYmxlIERFR0FNTUEvQ1RNL0dBTU1BLiBGb3IgZWFy
-bGllciBHUFVzLCBhcwp0aGVyZSBpcyBubyBDVE0sIGhhdmluZyBib3RoIGRlZ2FtbWEgYW5kIGdh
-bW1hIGlzIGEgYml0IHBvaW50bGVzcy4gTGF0ZXIKR1BVcyBjdXJyZW50bHkgbGFjayBhbiBpbXBs
-ZW1lbnRhdGlvbi4KClNpZ25lZC1vZmYtYnk6IElsaWEgTWlya2luIDxpbWlya2luQGFsdW0ubWl0
-LmVkdT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oZWFkLmMgfCA1ICsr
-KysrCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvaGVhZC5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZl
-YXUvZGlzcG52NTAvaGVhZC5jCmluZGV4IDA2ZWUyMzgyM2E2OC4uZjQyYWE3OWYyZjQwIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9oZWFkLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvaGVhZC5jCkBAIC00OTksNiArNDk5LDExIEBA
-IG52NTBfaGVhZF9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGluZGV4KQogCQkJ
-CSAgJm52NTBfaGVhZF9mdW5jLCAiaGVhZC0lZCIsIGhlYWQtPmJhc2UuaW5kZXgpOwogCWRybV9j
-cnRjX2hlbHBlcl9hZGQoY3J0YywgJm52NTBfaGVhZF9oZWxwKTsKIAlkcm1fbW9kZV9jcnRjX3Nl
-dF9nYW1tYV9zaXplKGNydGMsIDI1Nik7CisJaWYgKGRpc3AtPmRpc3AtPm9iamVjdC5vY2xhc3Mg
-Pj0gR0YxMTBfRElTUCAmJgorCSAgICBkaXNwLT5kaXNwLT5vYmplY3Qub2NsYXNzIDwgR1YxMDBf
-RElTUCkKKwkJZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQoY3J0YywgMjU2LCB0cnVlLCAyNTYp
-OworCWVsc2UKKwkJZHJtX2NydGNfZW5hYmxlX2NvbG9yX21nbXQoY3J0YywgMCwgZmFsc2UsIDI1
-Nik7CiAKIAlpZiAoaGVhZC0+ZnVuYy0+b2x1dF9zZXQpIHsKIAkJcmV0ID0gbnY1MF9sdXRfaW5p
-dChkaXNwLCAmZHJtLT5jbGllbnQubW11LCAmaGVhZC0+b2x1dCk7Ci0tIAoyLjIxLjAKCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+SGksIEppdGFvOgoKT24gU2F0LCAyMDE5LTA2LTAxIGF0IDE3OjI2ICswODAwLCBKaXRhbyBTaGkg
+d3JvdGU6Cj4gQWRkIG10ODE4MyBkc2kgZHJpdmVyIGRhdGEuIEVuYWJsZSBzaXplIGNvbnRyb2wg
+YW5kCj4gcmVnIGNvbW1pdCBjb250cm9sLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEppdGFvIFNoaSA8
+aml0YW8uc2hpQG1lZGlhdGVrLmNvbT4KPiBSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1QG1lZGlh
+dGVrLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyB8IDgg
+KysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1n
+aXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIGIvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kc2kuYwo+IGluZGV4IDE4YTE5MjY1NmE4OS4uYWJmNmRkZWM1ZGI2IDEw
+MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4gQEAgLTEyMjUsMTEgKzEyMjUsMTkg
+QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZHNpX2RyaXZlcl9kYXRhIG10MjcwMV9kc2lfZHJp
+dmVyX2RhdGEgPSB7Cj4gIAkucmVnX2NtZHFfb2ZmID0gMHgxODAsCj4gIH07Cj4gIAo+ICtzdGF0
+aWMgY29uc3Qgc3RydWN0IG10a19kc2lfZHJpdmVyX2RhdGEgbXQ4MTgzX2RzaV9kcml2ZXJfZGF0
+YSA9IHsKPiArCS5yZWdfY21kcV9vZmYgPSAweDIwMCwKPiArCS5oYXNfc2hhZG93X2N0bCA9IHRy
+dWUsCj4gKwkuaGFzX3NpemVfY3RsID0gdHJ1ZSwKPiArfTsKPiArCj4gIHN0YXRpYyBjb25zdCBz
+dHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19kc2lfb2ZfbWF0Y2hbXSA9IHsKPiAgCXsgLmNvbXBhdGli
+bGUgPSAibWVkaWF0ZWssbXQyNzAxLWRzaSIsCj4gIAkgIC5kYXRhID0gJm10MjcwMV9kc2lfZHJp
+dmVyX2RhdGEgfSwKPiAgCXsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTczLWRzaSIsCj4g
+IAkgIC5kYXRhID0gJm10ODE3M19kc2lfZHJpdmVyX2RhdGEgfSwKPiArCXsgLmNvbXBhdGlibGUg
+PSAibWVkaWF0ZWssbXQ4MTgzLWRzaSIsCgpJIGRvZXMgbm90IGZpbmQgIm1lZGlhdGVrLG10ODE4
+My1kc2kiIGluIGJpbmRpbmcgZG9jdW1lbnQsIHNvIHBsZWFzZQpzZW5kIGEgcGF0Y2ggdG8gYWRk
+IHRoaXMgaW4gYmluZGluZyBkb2N1bWVudC4KClJlZ2FyZHMsCkNLCgo+ICsJICAuZGF0YSA9ICZt
+dDgxODNfZHNpX2RyaXZlcl9kYXRhIH0sCj4gIAl7IH0sCj4gIH07Cj4gIAoKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
