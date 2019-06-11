@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83723D506
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 20:07:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2AAA3D508
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Jun 2019 20:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB17891D5;
-	Tue, 11 Jun 2019 18:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46F04891DA;
+	Tue, 11 Jun 2019 18:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 26291891D5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:07:16 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 580D5891DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:07:21 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 22E9272167; Tue, 11 Jun 2019 18:07:16 +0000 (UTC)
+ id 54AD672167; Tue, 11 Jun 2019 18:07:21 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Tue, 11 Jun 2019 18:07:16 +0000
+Subject: [Bug 110862] Dual-monitors invalid state after turning on
+Date: Tue, 11 Jun 2019 18:07:21 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Who: denisgolovan@yandex.ru
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110897-502-9FjA23oH2I@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110862-502-sXISjWsb4a@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110862-502@http.bugs.freedesktop.org/>
+References: <bug-110862-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,52 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0089107121=="
+Content-Type: multipart/mixed; boundary="===============2040083396=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0089107121==
-Content-Type: multipart/alternative; boundary="15602764361.66F9CF.12468"
+--===============2040083396==
+Content-Type: multipart/alternative; boundary="15602764411.6DFA.12512"
 Content-Transfer-Encoding: 7bit
 
 
---15602764361.66F9CF.12468
-Date: Tue, 11 Jun 2019 18:07:16 +0000
+--15602764411.6DFA.12512
+Date: Tue, 11 Jun 2019 18:07:21 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110862
 
---- Comment #1 from Richard Thier <u9vata@gmail.com> ---
-Created attachment 144510
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144510&action=3Dedit
-Second screenshot (visible tile boundary - zbuffer is completely wasted bel=
-ow)
-
-Added second screenshot. You can see the tile here where the blue gear is.
-Above the line that tile starts and above the line from the next tile-line
-there is good z-buffer always.
-
-Here I am after some seconds so the whole zbuffer became unusable at this p=
-oint
-and that is why things are black. In games that have a skybox I tend to see=
- the
-skybox instead or far away things instead of black!
-
-Resolution is 1024x768 so you can even measure the size of the tile. I thin=
-k it
-is 32x32 or similar.
+--- Comment #7 from denisgolovan@yandex.ru ---
+Created attachment 144511
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144511&action=3Dedit
+dmesg after successfull X restart
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15602764361.66F9CF.12468
-Date: Tue, 11 Jun 2019 18:07:16 +0000
+--15602764411.6DFA.12512
+Date: Tue, 11 Jun 2019 18:07:21 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,42 +98,23 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c1">Commen=
-t # 1</a>
+   title=3D"NEW - Dual-monitors invalid state after turning on"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110862#c7">Commen=
+t # 7</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
+   title=3D"NEW - Dual-monitors invalid state after turning on"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110862">bug 11086=
+2</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
+denisgolovan&#64;yandex.ru" title=3D"denisgolovan&#64;yandex.ru">denisgolov=
+an&#64;yandex.ru</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144510=
-" name=3D"attach_144510" title=3D"Second screenshot (visible tile boundary =
-- zbuffer is completely wasted below)">attachment 144510</a> <a href=3D"att=
-achment.cgi?id=3D144510&amp;action=3Dedit" title=3D"Second screenshot (visi=
-ble tile boundary - zbuffer is completely wasted below)">[details]</a></spa=
-n>
-Second screenshot (visible tile boundary - zbuffer is completely wasted bel=
-ow)
-
-Added second screenshot. You can see the tile here where the blue gear is.
-Above the line that tile starts and above the line from the next tile-line
-there is good z-buffer always.
-
-Here I am after some seconds so the whole zbuffer became unusable at this p=
-oint
-and that is why things are black. In games that have a skybox I tend to see=
- the
-skybox instead or far away things instead of black!
-
-Resolution is 1024x768 so you can even measure the size of the tile. I thin=
-k it
-is 32x32 or similar.</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144511=
+" name=3D"attach_144511" title=3D"dmesg after successfull X restart">attach=
+ment 144511</a> <a href=3D"attachment.cgi?id=3D144511&amp;action=3Dedit" ti=
+tle=3D"dmesg after successfull X restart">[details]</a></span>
+dmesg after successfull X restart</pre>
         </div>
       </p>
 
@@ -163,9 +128,9 @@ is 32x32 or similar.</pre>
     </body>
 </html>=
 
---15602764361.66F9CF.12468--
+--15602764411.6DFA.12512--
 
---===============0089107121==
+--===============2040083396==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -175,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0089107121==--
+--===============2040083396==--
