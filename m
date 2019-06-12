@@ -1,63 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B1A433A9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:31:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F3142CC3
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 18:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42F3F89359;
-	Thu, 13 Jun 2019 07:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27C9989789;
+	Wed, 12 Jun 2019 16:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF99892D8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 16:45:40 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id r6so11794174oti.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 09:45:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CNP0NMj08mCW8K02m4hUNCl6YwEYelJXNU37gxYzY+0=;
- b=lA74XTAQjao9lxu+EPESGAs7dIK+h7uyGPdZ/juiyCksUykGRmpek4ASilRe0QJOcJ
- rUW+HL/Yi1SFsrAM5p4oBkjaeI4eYrpz8fGgmEarF4b1MOzR69/QMvKd/QmatNhl4Um6
- jqvt6RGralChvqfsxuZqLcXljRNdn4k81lcN90YrL+jTmZa4Pp3Zxgfwfy1jFPq1Di5+
- ZHS6NkEBRQLwWbRy27Z0k8Xr2RK07EyzqHnj+gM+G+N6w2LVxYaJGoFKM4t4vY6YoxCO
- eR6A6YT3QW4QBdG6aIwxSCQ1kO6UzmlgFlwaNUFj5Os4FCI74rBgvxD689fay1vCS7RU
- Pn5g==
-X-Gm-Message-State: APjAAAUHfDZRmWdO8bg5M85PwhMgKoHv61W06R+meVub4BOTGqnT0AZu
- 07QtZY+Aa61cz76pxOvrOUi4oZPHtHk7AUGqHZM=
-X-Google-Smtp-Source: APXvYqzkwPKG3MvQBPORpC53QvynuIczHv42PmmLzCUVFQwWpdtKUdtJiqMBX55VXg2Id5JAuafgUPageUVjwVdpsQE=
-X-Received: by 2002:a05:6830:16:: with SMTP id
- c22mr4458945otp.116.1560357939699; 
- Wed, 12 Jun 2019 09:45:39 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E75D89789
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 16:53:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 68DEF72168; Wed, 12 Jun 2019 16:53:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110883] [Regression linux 5.2-rc4][bisected] hang on boot
+Date: Wed, 12 Jun 2019 16:53:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: freedesktop@sibrenvasse.nl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110883-502-nGhESbV52H@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110883-502@http.bugs.freedesktop.org/>
+References: <bug-110883-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190611110052.iw6qbw2yvypxus6t@shell.armlinux.org.uk>
- <E1haeXI-0001y0-S5@rmk-PC.armlinux.org.uk>
- <CAGngYiWT5xsVgP4R=LPozpxFwdoCtpGSn76fwWEDiNXtYzBA9g@mail.gmail.com>
- <20190612162812.ovy6wu3fmck5mmp4@shell.armlinux.org.uk>
- <CAGngYiWiKUknxkMxyoKVDHk07EiPGdxVaOiXfTd3ieDow3roAA@mail.gmail.com>
- <20190612164219.vkzprvfp4mesycct@shell.armlinux.org.uk>
-In-Reply-To: <20190612164219.vkzprvfp4mesycct@shell.armlinux.org.uk>
-From: Sven Van Asbroeck <thesven73@gmail.com>
-Date: Wed, 12 Jun 2019 12:45:28 -0400
-Message-ID: <CAGngYiXq9YtFFxjff8eK6o8ydiVum_jWQ5ZEmACqB=XjYg+KZg@mail.gmail.com>
-Subject: Re: [PATCH 04/13] drm/i2c: tda998x: derive CTS_N value from aclk
- sample rate ratio
-To: Russell King - ARM Linux admin <linux@armlinux.org.uk>
-X-Mailman-Approved-At: Thu, 13 Jun 2019 07:27:23 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=CNP0NMj08mCW8K02m4hUNCl6YwEYelJXNU37gxYzY+0=;
- b=uHaGts3gBALAB3zQeYki0mD6HTaUYL/fV1IULiIc/mAqZ9HsROqnpdDXF+qrzp4w0n
- 2SZQpdEsyu5vmDGy0VvB+MG9BDtP3aBEw/kRWyC/C4PLkhQGrQhxbmLMhyTfll1s9PfT
- BEezMNgz9bUkONT+qNKS2Ps+nxDVXJkTbKpMgZNyVh/+2d1yjoizb4irXMhQZLsmEyJP
- MC7B99KGyRgH4ZnA9xUKFyf18aD26Icf7w339M0TwKECIMt8dQnXciU9998/ZbEkEIgg
- RXCoM+9EGs6mRkzI2SA3l4HC8sSp72d3G75bNunbbsbu0hjfov1UVSNbTJcFakpdWn+V
- /WCA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,19 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>, Mark Brown <broonie@kernel.org>,
- Jyri Sarha <jsarha@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1947329360=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdW4gMTIsIDIwMTkgYXQgMTI6NDIgUE0gUnVzc2VsbCBLaW5nIC0gQVJNIExpbnV4
-IGFkbWluCjxsaW51eEBhcm1saW51eC5vcmcudWs+IHdyb3RlOgo+Cj4gSSB0aGluayB5b3UncmUg
-Y29uZnVzaW5nIHRkYTk5OHhfZGVyaXZlX2N0c19uKCkgYW5kIHRkYTk5OHhfZ2V0X2FkaXYoKS4K
-PiB0ZGE5OTh4X2Rlcml2ZV9jdHNfbigpIG9ubHkgcmV0dXJucyAwIG9yIC1FSU5WQUwuCj4KClRy
-dWUuIEFwb2xvZ2llcyBmb3IgdGhlIGNvbmZ1c2lvbi4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1947329360==
+Content-Type: multipart/alternative; boundary="15603583981.E488B.4052"
+Content-Transfer-Encoding: 7bit
+
+
+--15603583981.E488B.4052
+Date: Wed, 12 Jun 2019 16:53:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110883
+
+--- Comment #7 from Sibren Vasse <freedesktop@sibrenvasse.nl> ---
+> Does https://patchwork.freedesktop.org/patch/309712/ work?
+
+Yes, it does.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15603583981.E488B.4052
+Date: Wed, 12 Jun 2019 16:53:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression linux 5.2-rc4][bisected] hang on boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110883#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression linux 5.2-rc4][bisected] hang on boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110883">bug 11088=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;sibrenvasse.nl" title=3D"Sibren Vasse &lt;freedesktop&#64;s=
+ibrenvasse.nl&gt;"> <span class=3D"fn">Sibren Vasse</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; Does <a href=3D"https://patchwork.f=
+reedesktop.org/patch/309712/">https://patchwork.freedesktop.org/patch/30971=
+2/</a> work?</span >
+
+Yes, it does.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603583981.E488B.4052--
+
+--===============1947329360==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1947329360==--
