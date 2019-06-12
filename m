@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673BF430B8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 22:03:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 734C2430E8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 22:18:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA77B8893B;
-	Wed, 12 Jun 2019 20:03:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 987B2891AC;
+	Wed, 12 Jun 2019 20:18:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6ADE8893B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 20:03:01 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id i10so14020389iol.13
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 13:03:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=16R+lMSY5pBpB8q63uewba4Oxaq2icAAD80YZXnbXdE=;
- b=H/+ydRC+b1kZjjl3A93SeRBsd5CTdeyNoKLBy4taTtbxJ59PSNJX0Hw9b4pGCB4cNV
- f01gQ4gHBIOlPvqnofEDXJ+fNQmPux3+fEEO//Vr6VlBfQJjo8cuaNDWAfbeA4N/FqeN
- 22pAqeBT0aJ/IZMBxsm26hpiVMNeQCc9WJPfhI6dTOE6et6AMS+iMAojPkJsca7ZE/PH
- EmaV5K7R8g0+qQFTHY3h3fr+puOrN5m7zrDb0s1xNg0l8jCkhZsQNx+Sz05pqTe9W6OY
- N0IMDWpQbQVF3zzan9W6abmN6oGK548mW0TCURlI1D2H9Bkd6L02p8T55/ziIqNI8ylc
- 3l+A==
-X-Gm-Message-State: APjAAAX7pGdqCh4KiM2fUKI/0aBc3lGfNqsfNOQX5TEY55NilLL09EB0
- GmKmQOPRDOHFH+LaCdlgyYLZP2fubxVPqw==
-X-Google-Smtp-Source: APXvYqzp0YCKrf+mAr42TtaHrHZ010JGnFFqP1LFzYHn3qGD0GpbFcH9eNVU3eirwCqd+WGG5MxySg==
-X-Received: by 2002:a5e:a90f:: with SMTP id c15mr56661630iod.133.1560369780915; 
- Wed, 12 Jun 2019 13:03:00 -0700 (PDT)
-Received: from andres-vr.valvesoftware.com (135-23-65-40.cpe.pppoe.ca.
- [135.23.65.40])
- by smtp.gmail.com with ESMTPSA id e5sm313676ioq.22.2019.06.12.13.02.59
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 12 Jun 2019 13:02:59 -0700 (PDT)
-From: Andres Rodriguez <andresx7@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5BEC0891AC
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 20:18:30 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5298972167; Wed, 12 Jun 2019 20:18:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/edid: parse CEA blocks embedded in DisplayID
-Date: Wed, 12 Jun 2019 16:02:45 -0400
-Message-Id: <20190612200245.8536-1-andresx7@gmail.com>
-X-Mailer: git-send-email 2.19.1
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Wed, 12 Jun 2019 20:18:30 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-b1wNytgZ9M@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=16R+lMSY5pBpB8q63uewba4Oxaq2icAAD80YZXnbXdE=;
- b=Q6i/5UBfJzB+3dK/czXqTslqb4QmjgeYY+Lp6hSR/6A0Du/ppIecv3u7uEbr2vp3dJ
- Pq2y6Q5RY92tfPZijGFZzHM+jAJEZlCd4YEIZYpqk+SXrMoPl+UMoo9XMA4sDAN1Gquv
- Z1KK2HB1nxq8AdgS1nz1+EvSVOurrnQGWKNCoyMke5ApFRSBK0SldzyyzN8rEW+JqzKB
- 84EITeVoxRNtvvarHlzaX0tlhuiUeREPVCQ1FDZBivKCNsxW44Ydqe6exmsaf8SobiDn
- IHAS6Qw+exFwAiAwJILF3daANISODinboZ6rFIvSpW5PbDG5Pk61mlYJ/fA3gMCi/j6F
- ytPA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,90 +53,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andres Rodriguez <andresx7@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0454542472=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGlzcGxheUlEIGJsb2NrcyBhbGxvdyBlbWJlZGRpbmcgb2YgQ0VBIGJsb2Nrcy4gVGhlIHBheWxv
-YWRzIGFyZQppZGVudGljYWwgdG8gdHJhZGl0aW9uYWwgdG9wIGxldmVsIENFQSBleHRlbnNpb24g
-YmxvY2tzLCBidXQgdGhlIGhlYWRlcgppcyBzbGlnaHRseSBkaWZmZXJlbnQuCgpUaGlzIGNoYW5n
-ZSBhbGxvd3MgdGhlIENFQSBwYXJzZXIgdG8gZmluZCBhIENFQSBibG9jayBpbnNpZGUgYSBEaXNw
-bGF5SUQKYmxvY2suIEFkZGl0aW9uYWxseSwgaXQgYWRkcyBzdXBwb3J0IGZvciBwYXJzaW5nIHRo
-ZSBlbWJlZGRlZCBDVEEKaGVhZGVyLiBObyBmdXJ0aGVyIGNoYW5nZXMgYXJlIG5lY2Vzc2FyeSBk
-dWUgdG8gcGF5bG9hZCBwYXJpdHkuCgpUaGlzIGNoYW5nZSBlbmFibGVzIGF1ZGlvIHN1cHBvcnQg
-Zm9yIHRoZSBWYWx2ZSBJbmRleCBITUQuCgpTaWduZWQtb2ZmLWJ5OiBBbmRyZXMgUm9kcmlndWV6
-IDxhbmRyZXN4N0BnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgIHwg
-NzkgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLQogaW5jbHVkZS9kcm0vZHJt
-X2Rpc3BsYXlpZC5oIHwgIDEgKwogMiBmaWxlcyBjaGFuZ2VkLCA3MiBpbnNlcnRpb25zKCspLCA4
-IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKaW5kZXggNjQ5Y2ZkOGI0MjAwLi4zZTcxYzZhZTQ4
-ZDQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZWRpZC5jCkBAIC0xMzM5LDYgKzEzMzksOCBAQCBNT0RVTEVfUEFSTV9ERVND
-KGVkaWRfZml4dXAsCiAKIHN0YXRpYyB2b2lkIGRybV9nZXRfZGlzcGxheWlkKHN0cnVjdCBkcm1f
-Y29ubmVjdG9yICpjb25uZWN0b3IsCiAJCQkgICAgICBzdHJ1Y3QgZWRpZCAqZWRpZCk7CitzdGF0
-aWMgdTggKmRybV9maW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVk
-aWQpOworc3RhdGljIGludCB2YWxpZGF0ZV9kaXNwbGF5aWQodTggKmRpc3BsYXlpZCwgaW50IGxl
-bmd0aCwgaW50IGlkeCk7CiAKIHN0YXRpYyBpbnQgZHJtX2VkaWRfYmxvY2tfY2hlY2tzdW0oY29u
-c3QgdTggKnJhd19lZGlkKQogewpAQCAtMjg4NSw3ICsyODg3LDQwIEBAIHN0YXRpYyB1OCAqZHJt
-X2ZpbmRfZWRpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQsIGludCBleHRfaWQp
-CiAKIHN0YXRpYyB1OCAqZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAq
-ZWRpZCkKIHsKLQlyZXR1cm4gZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oZWRpZCwgQ0VBX0VYVCk7
-CisJaW50IHJldDsKKwlpbnQgaWR4ID0gMTsKKwlpbnQgbGVuZ3RoID0gRURJRF9MRU5HVEg7CisJ
-c3RydWN0IGRpc3BsYXlpZF9ibG9jayAqYmxvY2s7CisJdTggKmNlYSA9IE5VTEw7CisJdTggKmRp
-c3BsYXlpZCA9IE5VTEw7CisKKwljZWEgPSBkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihlZGlkLCBD
-RUFfRVhUKTsKKworCS8qIENFQSBibG9ja3MgY2FuIGFsc28gYmUgZm91bmQgZW1iZWRkZWQgaW4g
-YSBEaXNwbGF5SUQgYmxvY2sgKi8KKwlpZiAoIWNlYSkgeworCQlkaXNwbGF5aWQgPSBkcm1fZmlu
-ZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGVkaWQpOworCQlpZiAoIWRpc3BsYXlpZCkKKwkJCXJldHVy
-biBOVUxMOworCisJCXJldCA9IHZhbGlkYXRlX2Rpc3BsYXlpZChkaXNwbGF5aWQsIGxlbmd0aCwg
-aWR4KTsKKwkJaWYgKHJldCkKKwkJCXJldHVybiBOVUxMOworCisJCWlkeCArPSBzaXplb2Yoc3Ry
-dWN0IGRpc3BsYXlpZF9oZHIpOworCQl3aGlsZSAoYmxvY2sgPSAoc3RydWN0IGRpc3BsYXlpZF9i
-bG9jayAqKSZkaXNwbGF5aWRbaWR4XSwKKwkJICAgICAgIGlkeCArIHNpemVvZihzdHJ1Y3QgZGlz
-cGxheWlkX2Jsb2NrKSA8PSBsZW5ndGggJiYKKwkJICAgICAgIGlkeCArIHNpemVvZihzdHJ1Y3Qg
-ZGlzcGxheWlkX2Jsb2NrKSArIGJsb2NrLT5udW1fYnl0ZXMgPD0gbGVuZ3RoICYmCisJCSAgICAg
-ICBibG9jay0+bnVtX2J5dGVzID4gMCkgeworCQkJaWR4ICs9IGJsb2NrLT5udW1fYnl0ZXMgKyBz
-aXplb2Yoc3RydWN0IGRpc3BsYXlpZF9ibG9jayk7CisJCQlzd2l0Y2ggKGJsb2NrLT50YWcpIHsK
-KwkJCWNhc2UgREFUQV9CTE9DS19DVEE6CisJCQkJY2VhID0gKHU4ICopYmxvY2s7CisJCQkJYnJl
-YWs7CisJCQl9CisJCX0KKwl9CisKKwlyZXR1cm4gY2VhOwogfQogCiBzdGF0aWMgdTggKmRybV9m
-aW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQpCkBAIC0zNjE2
-LDEzICszNjUxLDM4IEBAIGNlYV9yZXZpc2lvbihjb25zdCB1OCAqY2VhKQogc3RhdGljIGludAog
-Y2VhX2RiX29mZnNldHMoY29uc3QgdTggKmNlYSwgaW50ICpzdGFydCwgaW50ICplbmQpCiB7Ci0J
-LyogRGF0YSBibG9jayBvZmZzZXQgaW4gQ0VBIGV4dGVuc2lvbiBibG9jayAqLwotCSpzdGFydCA9
-IDQ7Ci0JKmVuZCA9IGNlYVsyXTsKLQlpZiAoKmVuZCA9PSAwKQotCQkqZW5kID0gMTI3OwotCWlm
-ICgqZW5kIDwgNCB8fCAqZW5kID4gMTI3KQotCQlyZXR1cm4gLUVSQU5HRTsKKworCS8qIERpc3Bs
-YXlJRCBDVEEgZXh0ZW5zaW9uIGJsb2NrcyBhbmQgdG9wLWxldmVsIENFQSBFRElECisJICogYmxv
-Y2tzIGhlYWRlcnMgZGlmZmVyIGluIHR3byBieXRlIGRlZmluaXRpb25zOgorCSAqICAgMSkgQnl0
-ZSAyIG9mIHRoZSBoZWFkZXIgc3BlY2lmaWVzIGxlbmd0aCBkaWZmZXJlbnRseSwKKwkgKiAgIDIp
-IEJ5dGUgMyBpcyBvbmx5IHByZXNlbnQgaW4gdGhlIENFQSB0b3AgbGV2ZWwgYmxvY2suCisJICoK
-KwkgKiBUaGUgZGlmZmVyZW50IGRlZmluaXRpb25zIGZvciBieXRlIDIgZm9sbG93LgorCSAqCisJ
-ICogRGlzcGxheUlEIENUQSBleHRlbnNpb24gYmxvY2sgZGVmaW5lcyBieXRlIDIgYXM6CisJICog
-ICBOdW1iZXIgb2YgcGF5bG9hZCBieXRlcworCSAqCisJICogQ0VBIEVESUQgYmxvY2sgZGVmaW5l
-cyBieXRlIDIgYXM6CisJICogICBCeXRlIG51bWJlciAoZGVjaW1hbCkgd2l0aGluIHRoaXMgYmxv
-Y2sgd2hlcmUgdGhlIDE4LWJ5dGUKKwkgKiAgIERURHMgYmVnaW4uIElmIG5vIG5vbi1EVEQgZGF0
-YSBpcyBwcmVzZW50IGluIHRoaXMgZXh0ZW5zaW9uCisJICogICBibG9jaywgdGhlIHZhbHVlIHNo
-b3VsZCBiZSBzZXQgdG8gMDRoICh0aGUgYnl0ZSBhZnRlciBuZXh0KS4KKwkgKiAgIElmIHNldCB0
-byAwMGgsIHRoZXJlIGFyZSBubyBEVERzIHByZXNlbnQgaW4gdGhpcyBibG9jayBhbmQKKwkgKiAg
-IG5vIG5vbi1EVEQgZGF0YS4KKwkgKi8KKwlpZiAoY2VhWzBdID09IERBVEFfQkxPQ0tfQ1RBKSB7
-CisJCSpzdGFydCA9IDM7CisJCSplbmQgPSAqc3RhcnQgKyBjZWFbMl07CisJfSBlbHNlIGlmIChj
-ZWFbMF0gPT0gQ0VBX0VYVCkgeworCQkqc3RhcnQgPSA0OworCQkqZW5kID0gY2VhWzJdOworCQkv
-KiBEYXRhIGJsb2NrIG9mZnNldCBpbiBDRUEgZXh0ZW5zaW9uIGJsb2NrICovCisJCWlmICgqZW5k
-ID09IDApCisJCQkqZW5kID0gMTI3OworCQlpZiAoKmVuZCA8IDQgfHwgKmVuZCA+IDEyNykKKwkJ
-CXJldHVybiAtRVJBTkdFOworCX0gZWxzZQorCQlyZXR1cm4gLUVOT1RTVVBQOworCiAJcmV0dXJu
-IDA7CiB9CiAKQEAgLTUyNDAsNiArNTMwMCw5IEBAIHN0YXRpYyBpbnQgZHJtX3BhcnNlX2Rpc3Bs
-YXlfaWQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKIAkJY2FzZSBEQVRBX0JMT0NL
-X1RZUEVfMV9ERVRBSUxFRF9USU1JTkc6CiAJCQkvKiBoYW5kbGVkIGluIG1vZGUgZ2F0aGVyaW5n
-IGNvZGUuICovCiAJCQlicmVhazsKKwkJY2FzZSBEQVRBX0JMT0NLX0NUQToKKwkJCS8qIGhhbmRs
-ZWQgaW4gdGhlIGNlYSBwYXJzZXIgY29kZS4gKi8KKwkJCWJyZWFrOwogCQlkZWZhdWx0OgogCQkJ
-RFJNX0RFQlVHX0tNUygiZm91bmQgRGlzcGxheUlEIHRhZyAweCV4LCB1bmhhbmRsZWRcbiIsIGJs
-b2NrLT50YWcpOwogCQkJYnJlYWs7CmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxh
-eWlkLmggYi9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmgKaW5kZXggYzBkNGRmNmE2MDZmLi5j
-N2FmODU3ZjQ3NjQgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9kaXNwbGF5aWQuaAorKysg
-Yi9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmgKQEAgLTQwLDYgKzQwLDcgQEAKICNkZWZpbmUg
-REFUQV9CTE9DS19ESVNQTEFZX0lOVEVSRkFDRSAweDBmCiAjZGVmaW5lIERBVEFfQkxPQ0tfU1RF
-UkVPX0RJU1BMQVlfSU5URVJGQUNFIDB4MTAKICNkZWZpbmUgREFUQV9CTE9DS19USUxFRF9ESVNQ
-TEFZIDB4MTIKKyNkZWZpbmUgREFUQV9CTE9DS19DVEEgMHg4MQogCiAjZGVmaW5lIERBVEFfQkxP
-Q0tfVkVORE9SX1NQRUNJRklDIDB4N2YKIAotLSAKMi4xOS4xCgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0454542472==
+Content-Type: multipart/alternative; boundary="15603707100.dd4E.19142"
+Content-Transfer-Encoding: 7bit
+
+
+--15603707100.dd4E.19142
+Date: Wed, 12 Jun 2019 20:18:30 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #12 from Richard Thier <u9vata@gmail.com> ---
+Hi Cosiek!
+
+What card is that (lspci output maybe)? Is HyperZ just good without any cha=
+nges
+to stock mesa? Your card seems to be also reported as RC410 like mine, but =
+you
+have much-much more FPS for some reason. Is this also a laptop?
+
+> I just want to warn you that there may be some more bugs in r300 driver.
+
+I also know about one more that affects specifically the "Total War" games.
+Both Rome: Total War 1 and Medieval: Total War 2. I see very bad "tiling" b=
+ut
+from the size of the bad tiles I kind of think it is likely maybe some kind=
+ of
+texture format or something similar that goes wrong. I haven't even started=
+ the
+analysis because better do one thing at a time... It is good that you point=
+ me
+towards this issue too as who knows if this is maybe not the one affecting =
+the
+game maybe?
+
+Also I have found out only now how "easy" is to gdb the userland driver! Al=
+l I
+need to do is to know proper function names and I can breakpoint them easily
+after answering yes to gdb when it asks me that it does not find the functi=
+on
+yet but if it should set breakpoint when the shared object is loaded... Bef=
+ore
+this I just used printfs and stuff... Both have use cases of course.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15603707100.dd4E.19142
+Date: Wed, 12 Jun 2019 20:18:30 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c12">Comme=
+nt # 12</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>Hi Cosiek!
+
+What card is that (lspci output maybe)? Is HyperZ just good without any cha=
+nges
+to stock mesa? Your card seems to be also reported as RC410 like mine, but =
+you
+have much-much more FPS for some reason. Is this also a laptop?
+
+<span class=3D"quote">&gt; I just want to warn you that there may be some m=
+ore bugs in r300 driver.</span >
+
+I also know about one more that affects specifically the &quot;Total War&qu=
+ot; games.
+Both Rome: Total War 1 and Medieval: Total War 2. I see very bad &quot;tili=
+ng&quot; but
+from the size of the bad tiles I kind of think it is likely maybe some kind=
+ of
+texture format or something similar that goes wrong. I haven't even started=
+ the
+analysis because better do one thing at a time... It is good that you point=
+ me
+towards this issue too as who knows if this is maybe not the one affecting =
+the
+game maybe?
+
+Also I have found out only now how &quot;easy&quot; is to gdb the userland =
+driver! All I
+need to do is to know proper function names and I can breakpoint them easily
+after answering yes to gdb when it asks me that it does not find the functi=
+on
+yet but if it should set breakpoint when the shared object is loaded... Bef=
+ore
+this I just used printfs and stuff... Both have use cases of course.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603707100.dd4E.19142--
+
+--===============0454542472==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0454542472==--
