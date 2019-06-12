@@ -2,45 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A592642D95
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 19:33:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399B942DA2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 19:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DFE897E9;
-	Wed, 12 Jun 2019 17:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 180CB897E4;
+	Wed, 12 Jun 2019 17:40:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5873A897E7
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 17:33:25 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5524672167; Wed, 12 Jun 2019 17:33:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Wed, 12 Jun 2019 17:33:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cosiekvfj@o2.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-x7Wx2Wt1M0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1DEA897EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 17:40:30 +0000 (UTC)
+Received: from 201.86.169.251.dynamic.adsl.gvt.net.br ([201.86.169.251]
+ helo=coco.lan)
+ by casper.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+ id 1hb7ER-0000RS-UF; Wed, 12 Jun 2019 17:40:20 +0000
+Date: Wed, 12 Jun 2019 14:40:15 -0300
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 33/33] docs: EDID/HOWTO.txt: convert it and rename to
+ howto.rst
+Message-ID: <20190612144015.033247db@coco.lan>
+In-Reply-To: <20190611093701.44344d00@lwn.net>
+References: <cover.1560045490.git.mchehab+samsung@kernel.org>
+ <74bec0b5b7c32c8d84adbaf9ff208803475198e5.1560045490.git.mchehab+samsung@kernel.org>
+ <20190611083731.GS21222@phenom.ffwll.local>
+ <20190611060215.232af2bb@coco.lan>
+ <20190611093701.44344d00@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=QttHRjHJ7MdlFs6psyes3YVzvNlpLf2MWMHYPysLwuw=; b=QddYO1C9EJA++Jit0trZp/JUNF
+ 3wVeuwLM40EQ05IVR/ZKCgmmPouY6r5zSG+wmAaz1KZ5W5tzKVwYSr0Sa2M/r5RGDbAUMyWFebE51
+ yUdq8Cevmj2flA/1vVfKKTtjyWhpFG/F+mk7tba3WWhkJ39a3kKwoxJ/Si70HAjOFrvOAbbwxKbOG
+ sHKz4WruU56R1I4yQ+aDgF1epxWJUU/4Fi6IiwSL+HFDUMlbw055MCsq2e+Te1UTA9/dlCvQLbmZr
+ zLdQ31mezeTlD2m8JCZ4WmNrfzKeg3e3Hl5RmZArBYmv2kVUs0v/Q29KZE+KZPnOxyIxgAA3ZJ6Rb
+ IioY5hIQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,132 +56,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0087749257=="
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mauro Carvalho Chehab <mchehab@infradead.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0087749257==
-Content-Type: multipart/alternative; boundary="15603608051.d153fd27B.6499"
-Content-Transfer-Encoding: 7bit
-
-
---15603608051.d153fd27B.6499
-Date: Wed, 12 Jun 2019 17:33:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
---- Comment #10 from cosiekvfj@o2.pl ---
->Was it looking similar? Was it solved for your case?
-
-I didn't report that bug. Someone just wrote in that thread that HyperZ was=
- not
-enabled due to lack of testing, so I ran some piglid tests. :)
-
-I just want to warn you that there may be some more bugs in r300 driver. For
-example: https://bugs.freedesktop.org/show_bug.cgi?id=3D98869 There was
-workaround put in place to resolve this bug (So no proper fix for underlying
-issue. See this mailing list conversation:
-https://lists.freedesktop.org/archives/mesa-dev/2017-February/143980.html).=
- But
-later I found out that after some upgrades game started crashing. But never
-really figured out why. And didn't test it after that as I already finished
-that game :)
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101382
-
-I'm glad for your r300 work! :)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15603608051.d153fd27B.6499
-Date: Wed, 12 Jun 2019 17:33:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cosiekvfj&#64;o2.pl" title=3D"cosiekvfj&#64;o2.pl">cosiekvfj&#64;o2.pl</a>
-</span></b>
-        <pre><span class=3D"quote">&gt;Was it looking similar? Was it solve=
-d for your case?</span >
-
-I didn't report that bug. Someone just wrote in that thread that HyperZ was=
- not
-enabled due to lack of testing, so I ran some piglid tests. :)
-
-I just want to warn you that there may be some more bugs in r300 driver. For
-example: <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Electronic Super Joy graphic artefacts (regres=
-sion,bisected)"
-   href=3D"show_bug.cgi?id=3D98869">https://bugs.freedesktop.org/show_bug.c=
-gi?id=3D98869</a> There was
-workaround put in place to resolve this bug (So no proper fix for underlying
-issue. See this mailing list conversation:
-<a href=3D"https://lists.freedesktop.org/archives/mesa-dev/2017-February/14=
-3980.html">https://lists.freedesktop.org/archives/mesa-dev/2017-February/14=
-3980.html</a>). But
-later I found out that after some upgrades game started crashing. But never
-really figured out why. And didn't test it after that as I already finished
-that game :)
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [r300] Electronic super joy crash on startup(regression)"
-   href=3D"show_bug.cgi?id=3D101382">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D101382</a>
-
-I'm glad for your r300 work! :)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15603608051.d153fd27B.6499--
-
---===============0087749257==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0087749257==--
+RW0gVHVlLCAxMSBKdW4gMjAxOSAwOTozNzowMSAtMDYwMApKb25hdGhhbiBDb3JiZXQgPGNvcmJl
+dEBsd24ubmV0PiBlc2NyZXZldToKCj4gT24gVHVlLCAxMSBKdW4gMjAxOSAwNjowMjoxNSAtMDMw
+MAo+IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYitzYW1zdW5nQGtlcm5lbC5vcmc+IHdy
+b3RlOgo+IAo+ID4gSm9uLCBwbGVhc2UgY29ycmVjdCBtZSBpZiBJJyB3cm9uZywgYnUgSSBndWVz
+cyB0aGUgcGxhbiBpcyB0byBwbGFjZSB0aGVtIAo+ID4gc29tZXdoZXJlIHVuZGVyIERvY3VtZW50
+YXRpb24vYWRtaW4tZ3VpZGUvLiAgCj4gCj4gVGhhdCBtYWtlcyBzZW5zZSB0byBtZS4KPiAKPiA+
+IElmIHNvLCBwZXJoYXBzIGNyZWF0aW5nIGEgRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9kcm0g
+ZGlyIHRoZXJlIGFuZCAKPiA+IHBsYWNlIGRvY3MgbGlrZSBFRElEL0hPV1RPLnR4dCwgc3ZnYS50
+eHQsIGV0YyB3b3VsZCB3b3JrLiAgCj4gCj4gTWF5YmUgImdyYXBoaWNzIiBvciAiZGlzcGxheSIg
+cmF0aGVyIHRoYW4gImRybSIsIHdoaWNoIG1heSBub3QgZW50aXJlbHkKPiBhcHBsaWNhYmxlIHRv
+IGFsbCBvZiB0aG9zZSBkb2NzIG9yIGFzIGZhbWlsaWFyIHRvIGFsbCBhZG1pbnM/CgpJdCBpcyB1
+cCB0byBEYW5pZWwvRGF2aWQgdG8gZGVjaWRlLiBQZXJzb25hbGx5LCBJIGFncmVlIHdpdGggeW91
+IHRoYXQKZWl0aGVyICJncmFwaGljcyIgb3IgImRpc3BsYXkiIHdvdWxkIGJlIGJldHRlciBhdCB0
+aGUgYWRtaW4gZ3VpZGUuCgo+IAo+ID4gQnR3LCB0aGF0J3Mgb25lIG9mIHRoZSByZWFzb25zWzFd
+IHdoeSBJIG9wdGVkIHRvIGtlZXAgdGhlIGZpbGVzIHdoZXJlIHRoZXkKPiA+IGFyZTogcHJvcGVy
+bHkgb3JnYW5pemluZyB0aGUgY29udmVydGVkIGRvY3VtZW50cyBjYWxsIGZvciBzdWNoIGtpbmQK
+PiA+IG9mIGRpc2N1c3Npb25zLiBPbiBteSBleHBlcmllbmNlLCBkaXNjdXNzaW5nIG5hbWVzIGFu
+ZCBkaXJlY3RvcnkgbG9jYXRpb25zCj4gPiBjYW4gZ2VuZXJhdGUgd2FybSBkaXNjdXNzaW9ucyBh
+bmQgdGFrZSBhIGxvdCBvZiB0aW1lIHRvIHJlYWNoIGNvbnNlbnN1cy4gIAo+IAo+IE1vdmluZyBk
+b2NzIGlzIGEgcGFpbjsgbXkgbGlmZSB3b3VsZCBjZXJ0YWlubHkgYmUgZWFzaWVyIGlmIEkgd2Vy
+ZSBoYXBweQo+IHRvIGp1c3QgbGV0IGV2ZXJ5dGhpbmcgbGllIHdoZXJlIGl0IGZlbGwgOikgIEJ1
+dCBpdCdzIGZhciBmcm9tIHRoZSBoYXJkZXN0Cj4gcHJvYmxlbSB3ZSBzb2x2ZSBpbiBrZXJuZWwg
+ZGV2ZWxvcG1lbnQsIEkgYXNzdW1lIHdlIGNhbiBmaWd1cmUgaXQgb3V0LgoKWWVhaCwgaXQgaXMg
+ZG9hYmxlLiBJJ20gaGFwcHkgdG8gd3JpdGUgdGhlIHJlbmFtZSBwYXRjaGVzIGFuZCBldmVuIHRy
+eQp0byBzcGxpdCBzb21lIGRvY3VtZW50cyBhdCB0aGUgcGxhY2VzIEknbSBtb3JlIGZhbWlsaWFy
+IHdpdGgsIGJ1dCwgSU1ITywKd2Ugc2hvdWxkIGRvIHNvbWUgZGlzY3Vzc2lvbnMgYmVmb3JlIHNv
+bWUgb2Ygc3VjaCByZW5hbWVzLgoKRm9yIGV4YW1wbGUsIERhbmllbCBzYWlkIHRoYXQ6Cgo+ID4g
+PiBZZWFoIGF0bSB3ZSdyZSBkb2luZyBhIGJhZCBqb2Igb2Yga2VlcGluZyB0aGUga2FwaSBhbmQg
+dWFwaSBwYXJ0cwo+ID4gPiBzZXBhcmF0ZS4gQnV0IHRoZSBwbGFuIGF0IGxlYXN0IGlzIHRvIG1v
+dmUgYWxsIHRoZSBncHUgcmVsYXRlZCB1YXBpIHN0dWZmCj4gPiA+IGludG8gRG9jdW1lbnRhdGlv
+bi9ncHUvZHJtLXVhcGkucnN0LiBOb3Qgc3VyZSB0aGVyZSdzIHZhbHVlIGluIG1vdmluZyB0aGF0
+Cj4gPiA+IG91dCBvZiB0aGUgZ3B1IGZvbGRlciAuLi4KCkZyb20gdGhlIGNvbnZlcnNpb25zIEkn
+dmUgbWFkZSBzbyBmYXIsIGFsbW9zdCBhbGwgZHJpdmVyIHN1YnN5c3RlbXMKcHV0IGV2ZXJ5dGhp
+bmcgdW5kZXIgRG9jdW1lbnRhdGlvbi88c3Vic3lzdGVtOiBrQVBJLCB1QVBJLCBhZG1pbiBpbmZv
+LApkcml2ZXItc3BlY2lmaWMgdGVjaG5pY2FsIGluZm8uCgpJdCBzaG91bGQgYmUgZG9hYmxlIHRv
+IHBsYWNlIGtBUEkgYW5kIHVBUEkgb24gZGlmZmVyZW50IGJvb2tzLCBidXQgdGhlcmUKd2lsbCBi
+ZSBsb3RzIG9mIGNyb3NzLXJlZmVyZW5jZSBsaW5rcyBiZXR3ZWVuIHRoZW0sIG9uIHByb3Blcmx5
+LXdyaXR0ZW4KZG9jcy4KCkhvd2V2ZXIsIG90aGVyIGFkbWluLWd1aWRlIHN0dWZmIHVuZGVyIGRy
+aXZlcnMgYXJlIHVzdWFsbHkgaW4gdGhlIG1pZGRsZQpvZiB0aGUgZG9jdW1lbnRzLiBGb3IgZXhh
+bXBsZSwgb24gbWVkaWEsIHdlIGhhdmUgc29tZSBhdCB0aGUgdUFQSSBndWlkZSwKbGlrZSB0aGUg
+RGV2aWNlIE5hbWluZyBpdGVtOgoKCWh0dHBzOi8vbGludXh0di5vcmcvZG93bmxvYWRzL3Y0bC1k
+dmItYXBpcy1uZXcvdWFwaS92NGwvb3Blbi5odG1sI2RldmljZS1uYW1pbmcKCkJ1dCBzcGxpdHRp
+bmcgaXQgZnJvbSB1QVBJIGd1aWRlIGlzIG5vdCBhbiBlYXN5IHRhc2suCgpBdCB0aGUgZHJpdmVy
+J3Mgc3BlY2lmaWMgZG9jdW1lbnRhdGlvbiBpcyBldmVuIG1lc3NpZXIuCgpPaywgc3BsaXR0aW5n
+IGlzIGRvYWJsZSwgYnV0IHJlcXVpcmUgbG90cyBvZiBkZWRpY2F0aW9uLCBhbmQgSSdtIG5vdApj
+b252aW5jZWQgaWYgaXQgd291bGQgbWFrZSBtdWNoIGRpZmZlcmVuY2UgaW4gcHJhY3RpY2UuCgpU
+aGFua3MsCk1hdXJvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
