@@ -1,53 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D56042B3E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 17:48:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EDE43677
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 15:26:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F02389722;
-	Wed, 12 Jun 2019 15:48:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F59289A1A;
+	Thu, 13 Jun 2019 13:26:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D3D1896FA;
- Wed, 12 Jun 2019 15:48:38 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id x25so10948608ljh.2;
- Wed, 12 Jun 2019 08:48:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=egLmzvFvuH7umpryaRiKQTMJKxMOQs+vksrcongQ4LQ=;
- b=g5PnEYy2LLGUa+ACEVVCxg1qITk55Wtt8owCKguJ9wMOgnJto/BWlR0KpY82uQUH9r
- g9pQydIiTK3wv9GENY/Qzw4O+ChXkFfb0R3kXAEb2US7WKiUrr8/3LzT58x8/I1VT8LK
- 9Bx9rEI4ESEUmvmMFkcqjCvVb+k2Q6kOVr4Fapn6ESHnzcAbfPM7WGQpcmhP5eH/WkD9
- zfiJqx3XRTHGvK5ytPQI2W3XTnP710fsXVPisvS9W4bJVYtUZOW4dLAlixV2HtXI1fLT
- 8KARtNWzUSutP3Q7QDAENk9wl3HUC+bBxLWP0Vgt//d8WDd6KA+pmELr9MiyDKAqsMw0
- OawA==
-X-Gm-Message-State: APjAAAUJtyDJovjE0iZn8vmZlYJEmWGN6S+KCVncpvKgJPZvSsXzXQ3g
- 78NFnwNDNLXb8uqxTQ6zx6X4XcYwRCEJLymKuBQ=
-X-Google-Smtp-Source: APXvYqzdgKlBr6O7bUcJ1KNXiIRBhmen407Ja4tGhBi37W50vDjNVkFdRrkTlnKtujg9tXOcIfAruvDPh95oBr3n90Q=
-X-Received: by 2002:a2e:995a:: with SMTP id r26mr3802476ljj.107.1560354517333; 
- Wed, 12 Jun 2019 08:48:37 -0700 (PDT)
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9E3089A1A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 13:26:19 +0000 (UTC)
+Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
+ [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 88D46240015;
+ Thu, 13 Jun 2019 13:26:09 +0000 (UTC)
+Date: Wed, 12 Jun 2019 17:54:06 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v3 3/6] drm/modes: Allow to specify rotation and
+ reflection on the commandline
+Message-ID: <20190612155406.kjv6z7jk74bblfts@flea>
+References: <cover.87b91639451f23d4ab68a7c9812f2dd158869025.1555591281.git-series.maxime.ripard@bootlin.com>
+ <ba320b3a13c4444102b77c4d00f7c1dc810adc3c.1555591281.git-series.maxime.ripard@bootlin.com>
+ <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
+ <20190611124933.2g6l3d7nx6lqft6k@flea>
+ <1d0d6259-54cb-9a26-003d-2a35b8a40f3f@tronnes.org>
 MIME-Version: 1.0
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 12 Jun 2019 12:48:36 -0300
-Message-ID: <CAOMZO5D6PHofMSCWM58sviuZgftN_e5PzL41htgODgNo=GEOjg@mail.gmail.com>
-Subject: etnaviv: Possible circular lockingon i.MX6QP
-To: Lucas Stach <l.stach@pengutronix.de>,
- Christian Gmeiner <christian.gmeiner@gmail.com>, 
- Russell King - ARM Linux <linux@armlinux.org.uk>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=egLmzvFvuH7umpryaRiKQTMJKxMOQs+vksrcongQ4LQ=;
- b=j7i+BBF8fx6UyWLpocF6r8IKc+bG6pjhqXjEZNz+tXllIKUYqYWd46zd/hfKV2W6B4
- sC5G1MB5fTNEPOwaD1fiE1qM4k6kqYi4f8zPQcEhMIUpoaggLISXyLDObZjvDFv5rCDs
- 1dEkH3+1Npm9ogsNTUxj0utNJAAXte41/cJ/O7dQUIfOx+P4fT3jpem0P3le7iUIlMd/
- /r6XiWDxzpookPtayrDr+tNEguNKaZ3N3oWW9rawKaMe/FiGxmGNmt6YeeihwN4NxDVD
- y7q1IclqgmOflV/mdz00a2ViJNbUE7jriPsyJkGOrGcy8WGX39AB4JI1MYAOyTPkVGp/
- a59A==
+In-Reply-To: <1d0d6259-54cb-9a26-003d-2a35b8a40f3f@tronnes.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,92 +42,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0400506826=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiBhIGlteDZxcC13YW5kYm9hcmQgSSBnZXQgdGhlIHdhcm5pbmcgYmVsb3cgYWJvdXQg
-YSBwb3NzaWJsZQpjaXJjdWxhciBsb2NraW5nIGRlcGVuZGVuY3kgcnVubmluZyA1LjEuOSBidWls
-dCBmcm9tCmlteF92Nl92N19kZWZjb25maWcuCgpTdWNoIHdhcm5pbmcgZG9lcyBub3QgaGFwcGVu
-IG9uIHRoZSBpbXg2cSBvciBpbXg2c29sbyB2YXJpYW50cyBvZgp3YW5kYm9hcmQgdGhvdWdoLgoK
-QW55IGlkZWFzPwoKVGhhbmtzLAoKRmFiaW8gRXN0ZXZhbQoKKiogKG1hdGNoYm94LXBhbmVsOjcw
-OCk6IFdBUk5JTkcgKio6IEZhaWxlZCB0byBsb2FkIGFwcGxldCAiYmF0dGVyeSIKKC91c3IvbGli
-L21hdGNoYm94LXBhbmVsL2xpYmJhdHRlcnkuc286IGNhbm5vdCBvcGVuIHNoYXJlZCBvYmplY3QK
-ZmlsZTogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeSkuCm1hdGNoYm94LXdtOiBYIGVycm9yIHdh
-cm5pbmcgKDB4ZTAwMDAzKTogQmFkV2luZG93IChpbnZhbGlkIFdpbmRvdwpwYXJhbWV0ZXIpIChv
-cGNvZGU6IDEyKQpldG5hdml2LWdwdSAxMzQwMDAuZ3B1OiBNTVUgZmF1bHQgc3RhdHVzIDB4MDAw
-MDAwMDEKZXRuYXZpdi1ncHUgMTM0MDAwLmdwdTogTU1VIDAgZmF1bHQgYWRkciAweDA4MDVmZmMw
-Cgo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
-V0FSTklORzogcG9zc2libGUgY2lyY3VsYXIgbG9ja2luZyBkZXBlbmRlbmN5IGRldGVjdGVkCjUu
-MS45ICM1OCBOb3QgdGFpbnRlZAotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0Ka3dvcmtlci8wOjEvMjkgaXMgdHJ5aW5nIHRvIGFjcXVpcmUgbG9j
-azoKKHB0cnZhbCkgKCYoJmdwdS0+ZmVuY2Vfc3BpbmxvY2spLT5ybG9jayl7LS4uLn0sIGF0Ogpk
-bWFfZmVuY2VfcmVtb3ZlX2NhbGxiYWNrKzB4MTQvMHg1MAoKYnV0IHRhc2sgaXMgYWxyZWFkeSBo
-b2xkaW5nIGxvY2s6CihwdHJ2YWwpICgmKCZzY2hlZC0+am9iX2xpc3RfbG9jayktPnJsb2NrKXst
-Li4ufSwgYXQ6IGRybV9zY2hlZF9zdG9wKzB4MWMvMHgxMjQKCndoaWNoIGxvY2sgYWxyZWFkeSBk
-ZXBlbmRzIG9uIHRoZSBuZXcgbG9jay4KCgp0aGUgZXhpc3RpbmcgZGVwZW5kZW5jeSBjaGFpbiAo
-aW4gcmV2ZXJzZSBvcmRlcikgaXM6CgotPiAjMSAoJigmc2NoZWQtPmpvYl9saXN0X2xvY2spLT5y
-bG9jayl7LS4uLn06CiAgICAgICBkcm1fc2NoZWRfcHJvY2Vzc19qb2IrMHg1Yy8weDFjOAogICAg
-ICAgZG1hX2ZlbmNlX3NpZ25hbCsweGRjLzB4MWQ0CiAgICAgICBpcnFfaGFuZGxlcisweGQwLzB4
-MWUwCiAgICAgICBfX2hhbmRsZV9pcnFfZXZlbnRfcGVyY3B1KzB4NDgvMHgzNjAKICAgICAgIGhh
-bmRsZV9pcnFfZXZlbnRfcGVyY3B1KzB4MjgvMHg3YwogICAgICAgaGFuZGxlX2lycV9ldmVudCsw
-eDM4LzB4NWMKICAgICAgIGhhbmRsZV9mYXN0ZW9pX2lycSsweGMwLzB4MTdjCiAgICAgICBnZW5l
-cmljX2hhbmRsZV9pcnErMHgyMC8weDM0CiAgICAgICBfX2hhbmRsZV9kb21haW5faXJxKzB4NjQv
-MHhlMAogICAgICAgZ2ljX2hhbmRsZV9pcnErMHg0Yy8weGE4CiAgICAgICBfX2lycV9zdmMrMHg3
-MC8weDk4CiAgICAgICBjcHVpZGxlX2VudGVyX3N0YXRlKzB4MTY4LzB4NWE0CiAgICAgICBjcHVp
-ZGxlX2VudGVyX3N0YXRlKzB4MTY4LzB4NWE0CiAgICAgICBkb19pZGxlKzB4MjIwLzB4MmMwCiAg
-ICAgICBjcHVfc3RhcnR1cF9lbnRyeSsweDE4LzB4MjAKICAgICAgIHN0YXJ0X2tlcm5lbCsweDNl
-NC8weDQ5OAoKLT4gIzAgKCYoJmdwdS0+ZmVuY2Vfc3BpbmxvY2spLT5ybG9jayl7LS4uLn06CiAg
-ICAgICBfcmF3X3NwaW5fbG9ja19pcnFzYXZlKzB4MzgvMHg0YwogICAgICAgZG1hX2ZlbmNlX3Jl
-bW92ZV9jYWxsYmFjaysweDE0LzB4NTAKICAgICAgIGRybV9zY2hlZF9zdG9wKzB4OTgvMHgxMjQK
-ICAgICAgIGV0bmF2aXZfc2NoZWRfdGltZWRvdXRfam9iKzB4N2MvMHhiNAogICAgICAgZHJtX3Nj
-aGVkX2pvYl90aW1lZG91dCsweDM0LzB4NWMKICAgICAgIHByb2Nlc3Nfb25lX3dvcmsrMHgyYWMv
-MHg3MDQKICAgICAgIHdvcmtlcl90aHJlYWQrMHgyYy8weDU3NAogICAgICAga3RocmVhZCsweDEz
-NC8weDE0OAogICAgICAgcmV0X2Zyb21fZm9yaysweDE0LzB4MjAKICAgICAgICAgKG51bGwpCgpv
-dGhlciBpbmZvIHRoYXQgbWlnaHQgaGVscCB1cyBkZWJ1ZyB0aGlzOgoKIFBvc3NpYmxlIHVuc2Fm
-ZSBsb2NraW5nIHNjZW5hcmlvOgoKICAgICAgIENQVTAgICAgICAgICAgICAgICAgICAgIENQVTEK
-ICAgICAgIC0tLS0gICAgICAgICAgICAgICAgICAgIC0tLS0KICBsb2NrKCYoJnNjaGVkLT5qb2Jf
-bGlzdF9sb2NrKS0+cmxvY2spOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9jaygm
-KCZncHUtPmZlbmNlX3NwaW5sb2NrKS0+cmxvY2spOwogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgbG9jaygmKCZzY2hlZC0+am9iX2xpc3RfbG9jayktPnJsb2NrKTsKICBsb2NrKCYoJmdw
-dS0+ZmVuY2Vfc3BpbmxvY2spLT5ybG9jayk7CgogKioqIERFQURMT0NLICoqKgoKMyBsb2NrcyBo
-ZWxkIGJ5IGt3b3JrZXIvMDoxLzI5OgogIzA6IChwdHJ2YWwpICgod3FfY29tcGxldGlvbilldmVu
-dHMpeysuKy59LCBhdDogcHJvY2Vzc19vbmVfd29yaysweDFmNC8weDcwNAogIzE6IChwdHJ2YWwp
-ICgod29ya19jb21wbGV0aW9uKSgmKCZzY2hlZC0+d29ya190ZHIpLT53b3JrKSl7Ky4rLn0sCmF0
-OiBwcm9jZXNzX29uZV93b3JrKzB4MWY0LzB4NzA0CiAjMjogKHB0cnZhbCkgKCYoJnNjaGVkLT5q
-b2JfbGlzdF9sb2NrKS0+cmxvY2spey0uLi59LCBhdDoKZHJtX3NjaGVkX3N0b3ArMHgxYy8weDEy
-NAoKc3RhY2sgYmFja3RyYWNlOgpDUFU6IDAgUElEOiAyOSBDb21tOiBrd29ya2VyLzA6MSBOb3Qg
-dGFpbnRlZCA1LjEuOSAjNTgKSGFyZHdhcmUgbmFtZTogRnJlZXNjYWxlIGkuTVg2IFF1YWQvRHVh
-bExpdGUgKERldmljZSBUcmVlKQpXb3JrcXVldWU6IGV2ZW50cyBkcm1fc2NoZWRfam9iX3RpbWVk
-b3V0Cls8YzAxMTI3NDg+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBjZmJjPl0gKHNo
-b3dfc3RhY2srMHgxMC8weDE0KQpbPGMwMTBjZmJjPl0gKHNob3dfc3RhY2spIGZyb20gWzxjMGJk
-MzFlYz5dIChkdW1wX3N0YWNrKzB4ZDgvMHgxMTApCls8YzBiZDMxZWM+XSAoZHVtcF9zdGFjaykg
-ZnJvbSBbPGMwMTdhMjJjPl0KKHByaW50X2NpcmN1bGFyX2J1Zy5jb25zdHByb3AuMTkrMHgxYmMv
-MHgyZjApCls8YzAxN2EyMmM+XSAocHJpbnRfY2lyY3VsYXJfYnVnLmNvbnN0cHJvcC4xOSkgZnJv
-bSBbPGMwMTdkNDA4Pl0KKF9fbG9ja19hY3F1aXJlKzB4MTc3OC8weDFmMzgpCls8YzAxN2Q0MDg+
-XSAoX19sb2NrX2FjcXVpcmUpIGZyb20gWzxjMDE3ZTNhND5dIChsb2NrX2FjcXVpcmUrMHhjYy8w
-eDFlOCkKWzxjMDE3ZTNhND5dIChsb2NrX2FjcXVpcmUpIGZyb20gWzxjMGJmNDEzND5dIChfcmF3
-X3NwaW5fbG9ja19pcnFzYXZlKzB4MzgvMHg0YykKWzxjMGJmNDEzND5dIChfcmF3X3NwaW5fbG9j
-a19pcnFzYXZlKSBmcm9tIFs8YzA2OTI3MTA+XQooZG1hX2ZlbmNlX3JlbW92ZV9jYWxsYmFjaysw
-eDE0LzB4NTApCls8YzA2OTI3MTA+XSAoZG1hX2ZlbmNlX3JlbW92ZV9jYWxsYmFjaykgZnJvbSBb
-PGMwNWQyNWI0Pl0KKGRybV9zY2hlZF9zdG9wKzB4OTgvMHgxMjQpCls8YzA1ZDI1YjQ+XSAoZHJt
-X3NjaGVkX3N0b3ApIGZyb20gWzxjMDY0YTNlOD5dCihldG5hdml2X3NjaGVkX3RpbWVkb3V0X2pv
-YisweDdjLzB4YjQpCls8YzA2NGEzZTg+XSAoZXRuYXZpdl9zY2hlZF90aW1lZG91dF9qb2IpIGZy
-b20gWzxjMDVkMjk2ND5dCihkcm1fc2NoZWRfam9iX3RpbWVkb3V0KzB4MzQvMHg1YykKWzxjMDVk
-Mjk2ND5dIChkcm1fc2NoZWRfam9iX3RpbWVkb3V0KSBmcm9tIFs8YzAxNDY4ZWM+XQoocHJvY2Vz
-c19vbmVfd29yaysweDJhYy8weDcwNCkKWzxjMDE0NjhlYz5dIChwcm9jZXNzX29uZV93b3JrKSBm
-cm9tIFs8YzAxNDZkNzA+XSAod29ya2VyX3RocmVhZCsweDJjLzB4NTc0KQpbPGMwMTQ2ZDcwPl0g
-KHdvcmtlcl90aHJlYWQpIGZyb20gWzxjMDE0Y2Q4OD5dIChrdGhyZWFkKzB4MTM0LzB4MTQ4KQpb
-PGMwMTRjZDg4Pl0gKGt0aHJlYWQpIGZyb20gWzxjMDEwMTBiND5dIChyZXRfZnJvbV9mb3JrKzB4
-MTQvMHgyMCkKRXhjZXB0aW9uIHN0YWNrKDB4ZTgxZjdmYjAgdG8gMHhlODFmN2ZmOCkKN2ZhMDog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMDAwMDAwMDAgMDAwMDAwMDAgMDAw
-MDAwMDAgMDAwMDAwMDAKN2ZjMDogMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAg
-MDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAKN2ZlMDogMDAwMDAwMDAgMDAwMDAw
-MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMTMgMDAwMDAwMDAKZXRuYXZpdi1ncHUgMTM0MDAw
-LmdwdTogcmVjb3ZlciBodW5nIEdQVSEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0400506826==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3wxmvvtbskp5zcmd"
+Content-Disposition: inline
+
+
+--3wxmvvtbskp5zcmd
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Wed, Jun 12, 2019 at 02:43:44PM +0200, Noralf Tr=F8nnes wrote:
+> Den 11.06.2019 14.49, skrev Maxime Ripard:
+> >>> +		} else if (!strncmp(option, "reflect_x", delim - option)) {
+> >>> +			rotation |=3D DRM_MODE_REFLECT_X;
+> >>> +			sep =3D delim;
+> >>> +		} else if (!strncmp(option, "reflect_y", delim - option)) {
+> >>
+> >> I think you should drop reflect_x and _y for now since they're not
+> >> supported. People like me that only reads code and not documentation
+> >> (ahem..) will get the impression that this should work.
+> >
+> > I'm not sure what you mean here, this is definitely supposed to
+> > work. Is there a limitation you're thinking of?
+> >
+>
+> It's this one in drm_client_panel_rotation() which limits rotation to
+> DRM_MODE_ROTATE_180:
+>
+> 	/*
+> 	 * TODO: support 90 / 270 degree hardware rotation,
+> 	 * depending on the hardware this may require the framebuffer
+> 	 * to be in a specific tiling format.
+> 	 */
+> 	if (*rotation !=3D DRM_MODE_ROTATE_180 || !plane->rotation_property)
+> 		return false;
+
+Indeed, it doesn't work anymore since I rebased on your work. I'll fix
+this, thanks!
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--3wxmvvtbskp5zcmd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQEgHgAKCRDj7w1vZxhR
+xVtoAP4s4HFc5+Xz+AXPD/wlio4qU+eBrbfl4+JEmTmEajYFegD/ZE7kOWnv9p2h
+CSwUuDXLN0UExixZ6eKQuhZLzV4pdAg=
+=axG9
+-----END PGP SIGNATURE-----
+
+--3wxmvvtbskp5zcmd--
+
+--===============0400506826==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0400506826==--
