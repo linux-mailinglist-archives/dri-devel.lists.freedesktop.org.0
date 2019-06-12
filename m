@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326C1419EF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 03:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E71A41A05
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 03:46:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42E45891E1;
-	Wed, 12 Jun 2019 01:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A878891A4;
+	Wed, 12 Jun 2019 01:46:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B789E891E1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 01:22:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B43D472167; Wed, 12 Jun 2019 01:22:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Wed, 12 Jun 2019 01:22:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-wGrybNBhtl@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F6F2890AF;
+ Wed, 12 Jun 2019 01:46:22 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 45NqTj2JQyz9s3l;
+ Wed, 12 Jun 2019 11:46:16 +1000 (AEST)
+Date: Wed, 12 Jun 2019 11:46:15 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexdeucher@gmail.com>
+Subject: linux-next: manual merge of the drm-misc tree with the amdgpu tree
+Message-ID: <20190612114615.69a78655@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1560303979;
+ bh=45fFLXH707RuVC+r3D6MLgxoOcS6lkh37RpWxE6pCG0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=B6QwwN/MyJhRc5MMmVS5hkIY9b39wOmRJadZWnU5zcqPPAPA4hHEloUCMAWYBViPQ
+ jcZpSLvRzM3ER0McWYKxgj6wbQbhuUkr3v28xFMyVwIah3gPZap9nl3NoM9FyWWq5S
+ QpTdngwyezRCRmX2vrkycFA6oa0ERop0npao5FLouZ+VhcZEuHaTjZVm23OuKjVzLO
+ e5uIJQoJpVGJK0miUSdMuGf3iuu1zpHBUb6BOPMt8lF/V7tONYwYTGx1ImlU4TaHzp
+ wd8vWYUvTVcKkGq3PeN5LhH8xwkPVt9nqE2EUQHEWDipuccgdkhPgQGaeWWgmvtE2T
+ Lk+lojGVFEzVw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,210 +48,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0805987366=="
+Cc: Dave Airlie <airlied@linux.ie>, Charlene Liu <charlene.liu@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============2063793286=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============2063793286==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/4P5AwUEph_+1clfAOt0GSyc"; protocol="application/pgp-signature"
 
---===============0805987366==
-Content-Type: multipart/alternative; boundary="15603025591.CADc.9906"
-Content-Transfer-Encoding: 7bit
-
-
---15603025591.CADc.9906
-Date: Wed, 12 Jun 2019 01:22:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/4P5AwUEph_+1clfAOt0GSyc
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+Hi all,
 
---- Comment #9 from Richard Thier <u9vata@gmail.com> ---
-So these does not seem to happen at any time:
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-        /* Emit clear packets. */
-        r300_emit_gpu_flush(r300, r300->gpu_flush.size, r300->gpu_flush.sta=
-te);
-        r300->gpu_flush.dirty =3D FALSE;
+  drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
 
-        if (r300->zmask_clear.dirty) {
-            fprintf(stderr, "KUL-AKVA\n");
-            r300_emit_zmask_clear(r300, r300->zmask_clear.size,
-                                  r300->zmask_clear.state);
-            r300->zmask_clear.dirty =3D FALSE;
-        }=20=20=20
-        if (r300->hiz_clear.dirty) {
-            fprintf(stderr, "KUL-AKVA2\n");
-            r300_emit_hiz_clear(r300, r300->hiz_clear.size,
-                                r300->hiz_clear.state);
-            r300->hiz_clear.dirty =3D FALSE;
-        }=20=20=20
-        if (r300->cmask_clear.dirty) {
-            r300_emit_cmask_clear(r300, r300->cmask_clear.size,
-                                  r300->cmask_clear.state);
-            r300->cmask_clear.dirty =3D FALSE;
-        }
+between commit:
 
-At least not with glxgears. But I kind of get the impression that the inten=
-tion
-of the code is to end up here as earlier we set things as dirty:
+  c7c7192c56d2 ("drm/amd/display: add audio related regs")
 
-            /* Setup Hyper-Z clears. */
-            if (r300->hyperz_enabled) {
-                if (zmask_clear) {
-                    hyperz_dcv =3D hyperz->zb_depthclearvalue =3D
-                        r300_depth_clear_value(fb->zsbuf->format, depth,
-stencil);
-                    r300_mark_atom_dirty(r300, &r300->zmask_clear);
-                    r300_mark_atom_dirty(r300, &r300->gpu_flush);
-                    buffers &=3D ~PIPE_CLEAR_DEPTHSTENCIL;
-/* FIXME: REMOVE KUL* LOGS: */
-                    fprintf(stderr, "KUL-A\n");
-                }
+from the amdgpu tree and commit:
 
-                if (hiz_clear) {
-                    r300->hiz_clear_value =3D r300_hiz_clear_value(depth);
-                    r300_mark_atom_dirty(r300, &r300->hiz_clear);
-                    r300_mark_atom_dirty(r300, &r300->gpu_flush);
-                }
-                r300->num_z_clears++;
-            }
+  4fc4dca8320e ("drm/amd: drop use of drmp.h in os_types.h")
 
-Looking at mark_atom_dirty it seems to set the flag. I do not know who dele=
-tes
-it but it got deleted. Also I have printed what is the value of "buffers" w=
-here
-we enter the "KUL-C" code path (according to my log scheme) and the value is
-buffers=3D4 which is the first (0th) color buffer. It is not some new kind,=
- but
-above this check I see only one place where this could get zeroed and maybe
-that is not happening for this card but for others it does.
+from the drm-misc tree.
 
-What bugs me is that the dirtyness of zmask_clear and hiz_clear also go away
-somewhere, but I am too tired to see where. Just wanted to write down all t=
-he
-stuff so far and at least provide the logs and insights.
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15603025591.CADc.9906
-Date: Wed, 12 Jun 2019 01:22:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+diff --cc drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
+index d43d5d924c19,9b078a71de2e..000000000000
+--- a/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dce_audio.c
+@@@ -22,7 -22,9 +22,10 @@@
+   * Authors: AMD
+   *
+   */
++=20
++ #include <linux/slab.h>
++=20
+ +#include "../dc.h"
+  #include "reg_helper.h"
+  #include "dce_audio.h"
+  #include "dce/dce_11_0_d.h"
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>So these does not seem to happen at any time:
+--Sig_/4P5AwUEph_+1clfAOt0GSyc
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-        /* Emit clear packets. */
-        r300_emit_gpu_flush(r300, r300-&gt;gpu_flush.size, r300-&gt;gpu_flu=
-sh.state);
-        r300-&gt;gpu_flush.dirty =3D FALSE;
+-----BEGIN PGP SIGNATURE-----
 
-        if (r300-&gt;zmask_clear.dirty) {
-            fprintf(stderr, &quot;KUL-AKVA\n&quot;);
-            r300_emit_zmask_clear(r300, r300-&gt;zmask_clear.size,
-                                  r300-&gt;zmask_clear.state);
-            r300-&gt;zmask_clear.dirty =3D FALSE;
-        }=20=20=20
-        if (r300-&gt;hiz_clear.dirty) {
-            fprintf(stderr, &quot;KUL-AKVA2\n&quot;);
-            r300_emit_hiz_clear(r300, r300-&gt;hiz_clear.size,
-                                r300-&gt;hiz_clear.state);
-            r300-&gt;hiz_clear.dirty =3D FALSE;
-        }=20=20=20
-        if (r300-&gt;cmask_clear.dirty) {
-            r300_emit_cmask_clear(r300, r300-&gt;cmask_clear.size,
-                                  r300-&gt;cmask_clear.state);
-            r300-&gt;cmask_clear.dirty =3D FALSE;
-        }
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0AWWgACgkQAVBC80lX
+0GyInAf9EkndAclA4v6jGiJ3ikxT3HRWH+0v8pKJ0AH0Q2+KPoLfPRfVMdOWEAbb
+2L6jAiiPL2a2RCFSnsFMbxP6Ki48DQiJM2lhw/VA54Y8Db1XGXmN+0pmGCE1dvbc
+0Bksmtcn/Hek8uE7GmM4ZfTLW8vnca7aey+KqC8bFt3oYntotcA2wYq5k0b8zuXV
+vFZzj12lS5+N+f41zoYVBLwaHKB7h9mdwcQlPFRAl5YTySnXXieR2TL4h3Vzs16E
+vtohgcJWUqiJSkAFwahAyW43Zt18BdD3kmgZqSpv0JgkWxXhrcTbUvSnbSTiRUmX
+YaxywF9MrIjMLwZzCG3GT1Knbeph/w==
+=dUfW
+-----END PGP SIGNATURE-----
 
-At least not with glxgears. But I kind of get the impression that the inten=
-tion
-of the code is to end up here as earlier we set things as dirty:
+--Sig_/4P5AwUEph_+1clfAOt0GSyc--
 
-            /* Setup Hyper-Z clears. */
-            if (r300-&gt;hyperz_enabled) {
-                if (zmask_clear) {
-                    hyperz_dcv =3D hyperz-&gt;zb_depthclearvalue =3D
-                        r300_depth_clear_value(fb-&gt;zsbuf-&gt;format, dep=
-th,
-stencil);
-                    r300_mark_atom_dirty(r300, &amp;r300-&gt;zmask_clear);
-                    r300_mark_atom_dirty(r300, &amp;r300-&gt;gpu_flush);
-                    buffers &amp;=3D ~PIPE_CLEAR_DEPTHSTENCIL;
-/* FIXME: REMOVE KUL* LOGS: */
-                    fprintf(stderr, &quot;KUL-A\n&quot;);
-                }
-
-                if (hiz_clear) {
-                    r300-&gt;hiz_clear_value =3D r300_hiz_clear_value(depth=
-);
-                    r300_mark_atom_dirty(r300, &amp;r300-&gt;hiz_clear);
-                    r300_mark_atom_dirty(r300, &amp;r300-&gt;gpu_flush);
-                }
-                r300-&gt;num_z_clears++;
-            }
-
-Looking at mark_atom_dirty it seems to set the flag. I do not know who dele=
-tes
-it but it got deleted. Also I have printed what is the value of &quot;buffe=
-rs&quot; where
-we enter the &quot;KUL-C&quot; code path (according to my log scheme) and t=
-he value is
-buffers=3D4 which is the first (0th) color buffer. It is not some new kind,=
- but
-above this check I see only one place where this could get zeroed and maybe
-that is not happening for this card but for others it does.
-
-What bugs me is that the dirtyness of zmask_clear and hiz_clear also go away
-somewhere, but I am too tired to see where. Just wanted to write down all t=
-he
-stuff so far and at least provide the logs and insights.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15603025591.CADc.9906--
-
---===============0805987366==
+--===============2063793286==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -266,4 +135,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0805987366==--
+--===============2063793286==--
