@@ -2,38 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A4141EA6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 10:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2988A41EB3
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 10:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9232A893B9;
-	Wed, 12 Jun 2019 08:08:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A631893D5;
+	Wed, 12 Jun 2019 08:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB97C893B9
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 08:08:33 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 12 Jun 2019 01:08:32 -0700
-X-ExtLoop1: 1
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
- by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2019 01:08:29 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime.ripard@bootlin.com>, Noralf =?utf-8?Q?Tr=C3=B8nn?=
- =?utf-8?Q?es?= <noralf@tronnes.org>
-Subject: Re: [PATCH v3 3/6] drm/modes: Allow to specify rotation and
- reflection on the commandline
-In-Reply-To: <20190611132049.njlrgbtobzgyzyzh@flea>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.87b91639451f23d4ab68a7c9812f2dd158869025.1555591281.git-series.maxime.ripard@bootlin.com>
- <ba320b3a13c4444102b77c4d00f7c1dc810adc3c.1555591281.git-series.maxime.ripard@bootlin.com>
- <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
- <e2edb1dc-f719-93f0-5205-ecb7b44b057e@tronnes.org>
- <20190611132049.njlrgbtobzgyzyzh@flea>
-Date: Wed, 12 Jun 2019 11:11:30 +0300
-Message-ID: <87d0jjxlxp.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0421B893C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 08:12:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 00B8172167; Wed, 12 Jun 2019 08:12:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
+Date: Wed, 12 Jun 2019 08:12:04 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: christian.koenig@amd.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110795-502-mFVGVhG8VP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
+References: <bug-110795-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -47,87 +52,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Sean Paul <seanpaul@chromium.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0145580275=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxMSBKdW4gMjAxOSwgTWF4aW1lIFJpcGFyZCA8bWF4aW1lLnJpcGFyZEBib290bGlu
-LmNvbT4gd3JvdGU6Cj4gSGkgTm9yYWxmLAo+Cj4gT24gRnJpLCBBcHIgMTksIDIwMTkgYXQgMTA6
-NTM6MjhBTSArMDIwMCwgTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+PiBEZW4gMTguMDQuMjAxOSAx
-OC40MCwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+PiA+Cj4+ID4KPj4gPiBEZW4gMTguMDQuMjAx
-OSAxNC40MSwgc2tyZXYgTWF4aW1lIFJpcGFyZDoKPj4gPj4gUm90YXRpb25zIGFuZCByZWZsZWN0
-aW9ucyBzZXR1cCBhcmUgbmVlZGVkIGluIHNvbWUgc2NlbmFyaW9zIHRvIGluaXRpYWxpc2UKPj4g
-Pj4gcHJvcGVybHkgdGhlIGluaXRpYWwgZnJhbWVidWZmZXIuIFNvbWUgZHJpdmVycyBhbHJlYWR5
-IGhhZCBhIGJ1bmNoIG9mCj4+ID4+IHF1aXJrcyB0byBkZWFsIHdpdGggdGhpcywgc3VjaCBhcyBl
-aXRoZXIgYSBwcml2YXRlIGtlcm5lbCBjb21tYW5kIGxpbmUKPj4gPj4gcGFyYW1ldGVyIChvbWFw
-ZHNzKSBvciBvbiB0aGUgZGV2aWNlIHRyZWUgKHZhcmlvdXMgcGFuZWxzKS4KPj4gPj4KPj4gPj4g
-SW4gb3JkZXIgdG8gYWNjb21vZGF0ZSB0aGlzLCBsZXQncyBjcmVhdGUgYSB2aWRlbyBtb2RlIHBh
-cmFtZXRlciB0byBkZWFsCj4+ID4+IHdpdGggdGhlIHJvdGF0aW9uIGFuZCByZWZsZXhpb24uCj4+
-ID4+Cj4+ID4+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9v
-dGxpbi5jb20+Cj4+ID4+IC0tLQo+PiA+PiAgZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9k
-ZXNldC5jIHwgIDEwICsrKy0KPj4gPj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYyAgICAg
-ICAgICB8IDExMCArKysrKysrKysrKysrKysrKysrKysrLS0tLS0tCj4+ID4+ICBpbmNsdWRlL2Ry
-bS9kcm1fY29ubmVjdG9yLmggICAgICAgICAgfCAgIDkgKystCj4+ID4+ICAzIGZpbGVzIGNoYW5n
-ZWQsIDEwOSBpbnNlcnRpb25zKCspLCAyMCBkZWxldGlvbnMoLSkKPj4gPj4KPj4gPj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYwo+PiA+PiBpbmRleCBmMjg2OWM4MjUxMGMuLjE1MTQ1
-ZDJjODZkNSAxMDA2NDQKPj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnRfbW9k
-ZXNldC5jCj4+ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50X21vZGVzZXQuYwo+
-PiA+PiBAQCAtODIzLDYgKzgyMyw3IEBAIEVYUE9SVF9TWU1CT0woZHJtX2NsaWVudF9tb2Rlc2V0
-X3Byb2JlKTsKPj4gPj4gIGJvb2wgZHJtX2NsaWVudF9wYW5lbF9yb3RhdGlvbihzdHJ1Y3QgZHJt
-X21vZGVfc2V0ICptb2Rlc2V0LCB1bnNpZ25lZCBpbnQgKnJvdGF0aW9uKQo+PiA+PiAgewo+PiA+
-PiAgCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IgPSBtb2Rlc2V0LT5jb25uZWN0b3Jz
-WzBdOwo+PiA+PiArCXN0cnVjdCBkcm1fY21kbGluZV9tb2RlICpjbWRsaW5lOwo+PiA+PiAgCXN0
-cnVjdCBkcm1fcGxhbmUgKnBsYW5lID0gbW9kZXNldC0+Y3J0Yy0+cHJpbWFyeTsKPj4gPj4gIAl1
-NjQgdmFsaWRfbWFzayA9IDA7Cj4+ID4+ICAJdW5zaWduZWQgaW50IGk7Cj4+ID4+IEBAIC04NDQs
-NiArODQ1LDE1IEBAIGJvb2wgZHJtX2NsaWVudF9wYW5lbF9yb3RhdGlvbihzdHJ1Y3QgZHJtX21v
-ZGVfc2V0ICptb2Rlc2V0LCB1bnNpZ25lZCBpbnQgKnJvdGF0Cj4+ID4+ICAJCSpyb3RhdGlvbiA9
-IERSTV9NT0RFX1JPVEFURV8wOwo+PiA+PiAgCX0KPj4gPj4KPj4gPj4gKwkvKioKPj4gPj4gKwkg
-KiBXZSB3YW50IHRoZSByb3RhdGlvbiBvbiB0aGUgY29tbWFuZCBsaW5lIHRvIG92ZXJ3cml0ZQo+
-PiA+PiArCSAqIHdoYXRldmVyIGNvbWVzIGZyb20gdGhlIHBhbmVsLgo+PiA+PiArCSAqLwo+PiA+
-PiArCWNtZGxpbmUgPSAmY29ubmVjdG9yLT5jbWRsaW5lX21vZGU7Cj4+ID4+ICsJaWYgKGNtZGxp
-bmUtPnNwZWNpZmllZCAmJgo+PiA+PiArCSAgICBjbWRsaW5lLT5yb3RhdGlvbiAhPSBEUk1fTU9E
-RV9ST1RBVEVfMCkKPj4gPgo+PiA+IEkgYmVsaWV2ZSB5b3UgbmVlZCB0byBkcm9wIHRoYXQgc2Vj
-b25kIGNoZWNrLCBvdGhlcndpc2Ugcm90YXRlPTAgd2lsbAo+PiA+IG5vdCBvdmVyd3JpdGUgcGFu
-ZWwgcm90YXRpb24uCj4+ID4KPj4gPj4gKwkJKnJvdGF0aW9uID0gY21kbGluZS0+cm90YXRpb247
-Cj4+Cj4+IEkgcmVtZW1iZXJlZCB0aGF0IHlvdSB3YW50ZWQgdGhpcyB0byBwcm9wYWdhdGUgdG8g
-RFJNIHVzZXJzcGFjZS4gVGhhdCdzCj4+IG5vdCBoYXBwZW5pbmcgaGVyZS4KPgo+IEl0J3MgcHJv
-cGF0ZWQgdG8gdGhlIHVzZXJzcGFjZSB0aHJvdWdoIHRoZSBwbGFuZSdzIHJvdGF0aW9uIHByb3Bl
-cnR5LAo+IEkganVzdCBjaGVja2VkLgo+Cj4+IFRoZSBvbmx5IHdheSBJIHNlZSBmb3IgdGhhdCB0
-byBoYXBwZW4sIGlzIHRvIHNldAo+PiAtPnBhbmVsX29yaWVudGF0aW9uLiBBbmQgdG8gcmVwZWF0
-IG15c2VsZiwgaW1vIHRoYXQgbWFrZXMKPj4gJ29yaWVudGF0aW9uJyBhIGJldHRlciBuYW1lIGZv
-ciB0aGlzIHZpZGVvPSBvcHRpb24uCj4KPiBvcmllbnRhdGlvbiBhbmQgcm90YXRpb24gYXJlIHR3
-byBkaWZmZXJlbnQgdGhpbmdzIHRvIG1lLiBUaGUKPiBvcmllbnRhdGlvbiBvZiBhIHBhbmVsIGZv
-ciBleGFtcGxlIGlzIGFic29sdXRlLCB3aGlsZSB0aGUgcm90YXRpb24gaXMKPiBhIHRyYW5zZm9y
-bWF0aW9uLiBJbiB0aGlzIHBhcnRpY3VsYXIgY2FzZSwgSSB0aGluayB0aGF0IGJvdGggdGhlCj4g
-b3JpZW50YXRpb24gYW5kIHRoZSByb3RhdGlvbiBzaG91bGQgYmUgdGFrZW4gaW50byBhY2NvdW50
-LCB3aXRoIHRoZQo+IG9yaWVudGF0aW9uIGJlaW5nIHRoZSBkZWZhdWx0IHN0YXRlLCBhbmQgdGhl
-IGhhcmR3YXJlIC8gcGFuZWwgd2lsbAo+IHRlbGwgdXMgdGhhdCwgd2hpbGUgdGhlIHJvdGF0aW9u
-IHdvdWxkIGJlIGEgdHJhbnNmb3JtYXRpb24gZnJvbSB0aGF0Cj4gZGVmYXVsdCB0byB3aGF0ZXZl
-ciB0aGUgdXNlciB3YW50cy4KPgo+IE1vcmUgaW1wb3J0YW50bHksIHRoZSBvcmllbnRhdGlvbiBp
-cyBhIHByb3BlcnR5IG9mIHRoZSBoYXJkd2FyZSAoaWUsCj4gaG93IHRoZSBkaXNwbGF5IGhhcyBi
-ZWVuIGFzc2VtYmxlZCksIHdoaWxlIHRoZSByb3RhdGlvbiBpcyBhIHNvZnR3YXJlCj4gY29uc3Ry
-dWN0LgoKRldJVywgYWdyZWVkLiBUaGUgaW1tdXRhYmxlIG9yaWVudGF0aW9uIHByb3BlcnR5IGlz
-IGV4cG9zZWQgdXNpbmcgdGhlCmRybV9jb25uZWN0b3JfaW5pdF9wYW5lbF9vcmllbnRhdGlvbl9w
-cm9wZXJ0eSgpIGNhbGwuIFlvdSB0aGVuIHJvdGF0ZSB0bwp0YWtlIHRoZSBvcmllbnRhdGlvbiBp
-bnRvIGFjY291bnQsIHRvIG5vdCBkaXNwbGF5IHN0dWZmIHNpZGV3YXlzIG9yCnVwc2lkZSBkb3du
-IHdydCB0aGUgbmF0dXJhbCBvcmllbnRhdGlvbiBvZiB0aGUgZGV2aWNlLgoKQlIsCkphbmkuCgo+
-Cj4gQW5kIGlmIHRoZSBwcm9wZXJ0eSBiZWluZyB1c2VkIHRvIGV4cG9zZSB0aGF0IGlzIHRoZSBy
-b3RhdGlvbiwgSSBndWVzcwo+IGl0IHdvdWxkIG1ha2Ugc2Vuc2UgdG8ganVzdCB1c2UgdGhlIHNh
-bWUgbmFtZSBhbmQgcmVtYWluIGNvbnNpc3RlbnQuCj4KPiBNYXhpbWUKPgo+IC0tCj4gTWF4aW1l
-IFJpcGFyZCwgQm9vdGxpbgo+IEVtYmVkZGVkIExpbnV4IGFuZCBLZXJuZWwgZW5naW5lZXJpbmcK
-PiBodHRwczovL2Jvb3RsaW4uY29tCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCgotLSAKSmFuaSBOaWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdy
-YXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============0145580275==
+Content-Type: multipart/alternative; boundary="15603271231.DCc11.23298"
+Content-Transfer-Encoding: 7bit
+
+
+--15603271231.DCc11.23298
+Date: Wed, 12 Jun 2019 08:12:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
+
+Christian K=C3=B6nig <christian.koenig@amd.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |INVALID
+             Status|NEW                         |RESOLVED
+
+--- Comment #14 from Christian K=C3=B6nig <christian.koenig@amd.com> ---
+(In reply to Rolf from comment #12)
+> Perhaps I'm trying to do something unnecessary under Ubuntu?
+
+Yes, exactly that seems to be the case here.
+
+Either the drivers coming with Ubuntu should be sufficient or you should us=
+e a
+PPA to get bleeding edge drivers.
+
+As Alex already noted as well the -pro drivers are for workstation use cases
+where the user has a specific version of a distribution.
+
+Marking this bug as invalid for now.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15603271231.DCc11.23298
+Date: Wed, 12 Jun 2019 08:12:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:christian=
+.koenig&#64;amd.com" title=3D"Christian K=C3=B6nig &lt;christian.koenig&#64=
+;amd.com&gt;"> <span class=3D"fn">Christian K=C3=B6nig</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+christian.koenig&#64;amd.com" title=3D"Christian K=C3=B6nig &lt;christian.k=
+oenig&#64;amd.com&gt;"> <span class=3D"fn">Christian K=C3=B6nig</span></a>
+</span></b>
+        <pre>(In reply to Rolf from <a href=3D"show_bug.cgi?id=3D110795#c12=
+">comment #12</a>)
+<span class=3D"quote">&gt; Perhaps I'm trying to do something unnecessary u=
+nder Ubuntu?</span >
+
+Yes, exactly that seems to be the case here.
+
+Either the drivers coming with Ubuntu should be sufficient or you should us=
+e a
+PPA to get bleeding edge drivers.
+
+As Alex already noted as well the -pro drivers are for workstation use cases
+where the user has a specific version of a distribution.
+
+Marking this bug as invalid for now.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603271231.DCc11.23298--
+
+--===============0145580275==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0145580275==--
