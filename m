@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DAD42A77
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 17:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8595242A9D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 17:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 298C7896B5;
-	Wed, 12 Jun 2019 15:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3DB7896DD;
+	Wed, 12 Jun 2019 15:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52F0F896B0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 15:13:15 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 4543B803BC;
- Wed, 12 Jun 2019 17:13:13 +0200 (CEST)
-Date: Wed, 12 Jun 2019 17:13:12 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Shobhit Kukreti <shobhitkukreti@gmail.com>
-Subject: Re: [PATCH] video: backlight: Replace old GPIO APIs with GPIO
- Consumer APIs for sky81542-backlight driver
-Message-ID: <20190612151312.GB5030@ravnborg.org>
-References: <20190612043229.GA18179@t-1000>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A9017896D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 15:16:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A579772167; Wed, 12 Jun 2019 15:16:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
+Date: Wed, 12 Jun 2019 15:16:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gw.fossdev@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110783-502-gG17kkV4Yp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
+References: <bug-110783-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190612043229.GA18179@t-1000>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=COmZixlhozaZKkr9zfUA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,22 +52,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, Lee Jones <lee.jones@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1454658684=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU2hvYmhpdAoKPiAtCWlmIChncGlvX2lzX3ZhbGlkKHBkYXRhLT5ncGlvX2VuYWJsZSkpIHsK
-PiAtCQlyZXQgPSBkZXZtX2dwaW9fcmVxdWVzdF9vbmUoZGV2LCBwZGF0YS0+Z3Bpb19lbmFibGUs
-Cj4gLQkJCQkJR1BJT0ZfT1VUX0lOSVRfSElHSCwgInNreTgxNDUyLWVuIik7CgoKPiArCXBkYXRh
-LT5ncGlvZF9lbmFibGUgPSBkZXZtX2dwaW9kX2dldChkZXYsICJzazgxNDUyLWVuIiwgR1BJT0Rf
-T1VUX0hJR0gpOwo+ICsJaWYgKElTX0VSUihwZGF0YS0+Z3Bpb2RfZW5hYmxlKSkgewo+ICsJCWxv
-bmcgcmV0ID0gUFRSX0VSUihwZGF0YS0+Z3Bpb2RfZW5hYmxlKTsKCkluIHRoZSBvbGQgY29kZSB0
-aGUgcHJvcGVydHkgd2FzIG5hbWVkICJza3k4MTQ1Mi1lbiIuCkluIHRoZSBuZXcgY29kZSB0aGUg
-cHJvcGVydHkgaXMgbmFtZWQgInNrODE0NTItZW4iLgoKTW9zdCBsaWtlbHkgYSBidWcuCgoJU2Ft
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1454658684==
+Content-Type: multipart/alternative; boundary="15603526141.De74ab609.28381"
+Content-Transfer-Encoding: 7bit
+
+
+--15603526141.De74ab609.28381
+Date: Wed, 12 Jun 2019 15:16:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
+
+--- Comment #6 from Gert Wollny <gw.fossdev@gmail.com> ---
+The commit that added TGSI shaders with DIV were introduced with=20
+  f6ac0b5d7187
+   gallium/auxiliary/vl: Add compute shader to support video compositor ren=
+der
+
+and the use of the shaders was enabled with=20
+  9364d66cb7f7
+    gallium/auxiliary/vl: Add video compositor compute shader render
+
+The simplest approach is probably to add the lowering to RCP + MUL in the
+GLSL-TO-TGSI stage.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15603526141.De74ab609.28381
+Date: Wed, 12 Jun 2019 15:16:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gw.fossdev&#64;gmail.com" title=3D"Gert Wollny &lt;gw.fossdev&#64;gmail.com=
+&gt;"> <span class=3D"fn">Gert Wollny</span></a>
+</span></b>
+        <pre>The commit that added TGSI shaders with DIV were introduced wi=
+th=20
+  f6ac0b5d7187
+   gallium/auxiliary/vl: Add compute shader to support video compositor ren=
+der
+
+and the use of the shaders was enabled with=20
+  9364d66cb7f7
+    gallium/auxiliary/vl: Add video compositor compute shader render
+
+The simplest approach is probably to add the lowering to RCP + MUL in the
+GLSL-TO-TGSI stage.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603526141.De74ab609.28381--
+
+--===============1454658684==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1454658684==--
