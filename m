@@ -2,53 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479D241A7C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 04:47:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A51041AAE
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 05:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A580891E1;
-	Wed, 12 Jun 2019 02:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24117891C7;
+	Wed, 12 Jun 2019 03:24:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191C5891E1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 02:47:37 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id CEF4128718
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 02:47:36 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id C29D428897; Wed, 12 Jun 2019 02:47:36 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 203627] [Regression] Boot fails with linux-firmware 20190514
-Date: Wed, 12 Jun 2019 02:47:36 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mezin.alexander@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-203627-2300-jmBgPo5U5i@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-203627-2300@https.bugzilla.kernel.org/>
-References: <bug-203627-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985FF891C7;
+ Wed, 12 Jun 2019 03:24:30 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 11 Jun 2019 20:24:29 -0700
+X-ExtLoop1: 1
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.116])
+ by orsmga003.jf.intel.com with ESMTP; 11 Jun 2019 20:24:26 -0700
+Date: Wed, 12 Jun 2019 11:22:36 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+Subject: Re: [PATCH] drm/i915/gvt: remove duplicate entry of trace
+Message-ID: <20190612032236.GH9684@zhen-hp.sh.intel.com>
+References: <20190526075633.GA9245@hari-Inspiron-1545>
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+In-Reply-To: <20190526075633.GA9245@hari-Inspiron-1545>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,19 +42,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Zhi Wang <zhi.a.wang@intel.com>
+Content-Type: multipart/mixed; boundary="===============1441322091=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM2MjcKCi0tLSBD
-b21tZW50ICM1IGZyb20gQWxla3NhbmRyIE1lemluIChtZXppbi5hbGV4YW5kZXJAZ21haWwuY29t
-KSAtLS0KKEluIHJlcGx5IHRvIEFsZWtzYW5kciBNZXppbiBmcm9tIGNvbW1lbnQgIzIpCj4gdmVn
-YTEwX3Nvcy5iaW4KPiAKPiBDb3B5aW5nIHRoYXQgZmlsZSBmcm9tIHByZXZpb3VzIGZpcm13YXJl
-IHJlbGVhc2UgaW50byAvbGliL2Zpcm13YXJlL2FtZGdwdQo+IG1ha2VzIHRoZSBzeXN0ZW0gYm9v
-dCBhZ2FpbiB3aXRoIDQuMTkuNDUKCjQuMTkuNTAgLSBzdGlsbCBkb2Vzbid0IGJvb3Qgd2l0aCBj
-dXJyZW50IHZlZ2ExMF9zb3MuYmluCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
-Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1441322091==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="JSVXQxoTSdH0Ya++"
+Content-Disposition: inline
+
+
+--JSVXQxoTSdH0Ya++
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2019.05.26 13:26:33 +0530, Hariprasad Kelam wrote:
+> Remove duplicate include of trace.h
+>=20
+> Issue identified by includecheck
+>=20
+> Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/trace_points.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/gvt/trace_points.c b/drivers/gpu/drm/i9=
+15/gvt/trace_points.c
+> index a3deed69..569f5e3 100644
+> --- a/drivers/gpu/drm/i915/gvt/trace_points.c
+> +++ b/drivers/gpu/drm/i915/gvt/trace_points.c
+> @@ -32,5 +32,4 @@
+> =20
+>  #ifndef __CHECKER__
+>  #define CREATE_TRACE_POINTS
+> -#include "trace.h"
+>  #endif
+> --=20
+
+This actually caused build issue like
+ERROR: "__tracepoint_gma_index" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_render_mmio" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_gvt_command" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_spt_guest_change" [drivers/gpu/drm/i915/i915.ko] undef=
+ined!
+ERROR: "__tracepoint_gma_translate" [drivers/gpu/drm/i915/i915.ko] undefine=
+d!
+ERROR: "__tracepoint_spt_alloc" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_spt_change" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_oos_sync" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_write_ir" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_propagate_event" [drivers/gpu/drm/i915/i915.ko] undefi=
+ned!
+ERROR: "__tracepoint_inject_msi" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_spt_refcount" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_spt_free" [drivers/gpu/drm/i915/i915.ko] undefined!
+ERROR: "__tracepoint_oos_change" [drivers/gpu/drm/i915/i915.ko] undefined!
+scripts/Makefile.modpost:91: recipe for target '__modpost' failed
+
+Looks we need fix like below.
+
+Subject: [PATCH] drm/i915/gvt: remove duplicate include of trace.h
+
+This removes duplicate include of trace.h. Found by Hariprasad Kelam
+with includecheck.
+
+Reported-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+Signed-off-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gvt/trace_points.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gvt/trace_points.c b/drivers/gpu/drm/i915=
+/gvt/trace_points.c
+index a3deed692b9c..fe552e877e09 100644
+--- a/drivers/gpu/drm/i915/gvt/trace_points.c
++++ b/drivers/gpu/drm/i915/gvt/trace_points.c
+@@ -28,8 +28,6 @@
+  *
+  */
+=20
+-#include "trace.h"
+-
+ #ifndef __CHECKER__
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
+--=20
+2.20.1
+
+--=20
+Open Source Technology Center, Intel ltd.
+
+$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+
+--JSVXQxoTSdH0Ya++
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXQBv/AAKCRCxBBozTXgY
+J6qvAJ9q4SpHBMazUVGyrExwIyT3tac9zQCbB8m/t9a9wlOqkm0W0bss9NDOds0=
+=lNiG
+-----END PGP SIGNATURE-----
+
+--JSVXQxoTSdH0Ya++--
+
+--===============1441322091==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1441322091==--
