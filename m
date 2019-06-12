@@ -1,65 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91A641CBD
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:54:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE84D41B3F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 06:35:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E68C89258;
-	Wed, 12 Jun 2019 06:53:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E53E28922A;
+	Wed, 12 Jun 2019 04:35:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5763389228
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 04:32:36 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id bh12so6068272plb.4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 21:32:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=Gi3mDxR3p0ZPS7IaY56ES2NCsCqRSQPkF06LoVX96Pc=;
- b=AVbh+a6jnf9+V4Eo2OzvB1sEwHVQD2YIJ8nb7oaRKZ720yQa68l6hvA7DcKOZlWX/P
- 4sK4VpC0VWlJeWoMNbtv+nQS6OMRbqFp0Yd0cfuesZG1rxSPVF1p0OeLPCimYBYEXFoB
- YOc+KFhEKS6VsMR3QwlJwobQPmSbSx3IjoZSzzulbDi7FWLDkhYf4tXMy2VmZKycwk1Z
- a0K+h7KaNaEetGVA/NnbURDPb0zw7YxEcPVCKwbha0Hvx313TBNaIM4wd1Hhox32Eq62
- MuAMtTz8pMkI2/JwomflF23ovuNJMDOuhVqFQjLuUijCGbhdzX824/n9CDbuCl+ZRDAd
- FTvg==
-X-Gm-Message-State: APjAAAXcT4B8aDNiJYtCcQa3Hb7rHceYv+UJAtbPJ1K9nKlAev6Kd6SN
- e9XAmApwoPP4o3hi7HteyKc=
-X-Google-Smtp-Source: APXvYqyeuILtzaoARRnenHNmShOEyKE52XbGxT5jLX6IelfR3GZQa2gB2Eo7nRtKHLFuooXYKI2Dtw==
-X-Received: by 2002:a17:902:324:: with SMTP id
- 33mr79707494pld.284.1560313955774; 
- Tue, 11 Jun 2019 21:32:35 -0700 (PDT)
-Received: from t-1000 ([185.245.87.246])
- by smtp.gmail.com with ESMTPSA id g13sm17479422pfi.93.2019.06.11.21.32.34
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 21:32:34 -0700 (PDT)
-Date: Tue, 11 Jun 2019 21:32:32 -0700
-From: Shobhit Kukreti <shobhitkukreti@gmail.com>
-To: Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] video: backlight: Replace old GPIO APIs with GPIO Consumer
- APIs for sky81542-backlight driver
-Message-ID: <20190612043229.GA18179@t-1000>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 427608922A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 04:35:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3ED2872167; Wed, 12 Jun 2019 04:35:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110822] [Bisected]Booting with kernel version 5.1.0 or higher
+ on RX 580 hangs
+Date: Wed, 12 Jun 2019 04:35:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: gobinda.joy@gmail.com
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110822-502-jSVusQC26X@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
+References: <bug-110822-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Mailman-Approved-At: Wed, 12 Jun 2019 06:53:41 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent;
- bh=Gi3mDxR3p0ZPS7IaY56ES2NCsCqRSQPkF06LoVX96Pc=;
- b=gNVDRmDWh7hw7//+H/pAoGU2CxvTHA3HycQQbqtGp5BpLIWi2rFWt23NR+vsdCm47y
- VZkHvvBIAXRWRrljCpcXkFSq/LBaVsjsdPimT8cbgglWabfWGiXOASXYsyio5qRY4Fdo
- Wc9n1nFKaVKFk14hlPRF1NaxmNhzqUDcZy4Nq38mlqe5Lslww7cPOfeR58sepMbv7cbN
- KqJK+DKX2HOady+ZUed7Ft50ECiKOeJUCKvM7UEBi7D/xzThzNndIyGYOPxVIxTUciQD
- m3ZAIkdMPGkmDrKCTaO60cLzpB05ycGsj/z8xndtJHy7sci2W1Hcdu3LtqgkVw+marwK
- 6Mww==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,70 +53,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: shobhitkukreti@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1821774607=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UG9ydCB0aGUgc2t5ODE0NTItYmFja2xpZ2h0IGRyaXZlciB0byBhZGhlcmUgdG8gbmV3IGdwaW8g
-ZGVzY3JpcHRvciBiYXNlZApBUElzLiBNb2RpZmllZCB0aGUgZmlsZSBza3k4MTQ1Mi1iYWNrbGln
-aHQuYyBhbmQgc2t5ODE0NTItYmFja2xpZ2h0LmguClRoZSBncGlvIGRlc2NyaXB0b3IgcHJvcGVy
-dHkgaW4gZGV2aWNlIHRyZWUgc2hvdWxkIGJlICJza3k4MTQ1Mi1lbi1ncGlvcyIKClJlbW92ZWQg
-dW5uZWNlc3NhcnkgaGVhZGVyIGZpbGVzICJsaW51eC9ncGlvLmgiIGFuZCAibGludXgvb2ZfZ3Bp
-by5oIi4KClNpZ25lZC1vZmYtYnk6IFNob2JoaXQgS3VrcmV0aSA8c2hvYmhpdGt1a3JldGlAZ21h
-aWwuY29tPgotLS0KIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3NreTgxNDUyLWJhY2tsaWdodC5j
-ICAgICB8IDI0ICsrKysrKysrKysrKy0tLS0tLS0tLS0tLQogaW5jbHVkZS9saW51eC9wbGF0Zm9y
-bV9kYXRhL3NreTgxNDUyLWJhY2tsaWdodC5oIHwgIDQgKysrLQogMiBmaWxlcyBjaGFuZ2VkLCAx
-NSBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Zp
-ZGVvL2JhY2tsaWdodC9za3k4MTQ1Mi1iYWNrbGlnaHQuYyBiL2RyaXZlcnMvdmlkZW8vYmFja2xp
-Z2h0L3NreTgxNDUyLWJhY2tsaWdodC5jCmluZGV4IGQ0MTRjN2EuLjEyZWY2MjggMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3NreTgxNDUyLWJhY2tsaWdodC5jCisrKyBiL2Ry
-aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3NreTgxNDUyLWJhY2tsaWdodC5jCkBAIC0xOSwxMiArMTks
-MTAgQEAKIAogI2luY2x1ZGUgPGxpbnV4L2JhY2tsaWdodC5oPgogI2luY2x1ZGUgPGxpbnV4L2Vy
-ci5oPgotI2luY2x1ZGUgPGxpbnV4L2dwaW8uaD4KICNpbmNsdWRlIDxsaW51eC9pbml0Lmg+CiAj
-aW5jbHVkZSA8bGludXgva2VybmVsLmg+CiAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+CiAjaW5j
-bHVkZSA8bGludXgvb2YuaD4KLSNpbmNsdWRlIDxsaW51eC9vZl9ncGlvLmg+CiAjaW5jbHVkZSA8
-bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+CiAjaW5jbHVkZSA8bGludXgvcmVnbWFwLmg+CiAjaW5j
-bHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9za3k4MTQ1Mi1iYWNrbGlnaHQuaD4KQEAgLTE5Myw3
-ICsxOTEsNiBAQCBzdGF0aWMgc3RydWN0IHNreTgxNDUyX2JsX3BsYXRmb3JtX2RhdGEgKnNreTgx
-NDUyX2JsX3BhcnNlX2R0KAogCXBkYXRhLT5pZ25vcmVfcHdtID0gb2ZfcHJvcGVydHlfcmVhZF9i
-b29sKG5wLCAic2t5d29ya3MsaWdub3JlLXB3bSIpOwogCXBkYXRhLT5kcHdtX21vZGUgPSBvZl9w
-cm9wZXJ0eV9yZWFkX2Jvb2wobnAsICJza3l3b3JrcyxkcHdtLW1vZGUiKTsKIAlwZGF0YS0+cGhh
-c2Vfc2hpZnQgPSBvZl9wcm9wZXJ0eV9yZWFkX2Jvb2wobnAsICJza3l3b3JrcyxwaGFzZS1zaGlm
-dCIpOwotCXBkYXRhLT5ncGlvX2VuYWJsZSA9IG9mX2dldF9ncGlvKG5wLCAwKTsKIAogCXJldCA9
-IG9mX3Byb3BlcnR5X2NvdW50X3UzMl9lbGVtcyhucCwgImxlZC1zb3VyY2VzIik7CiAJaWYgKHJl
-dCA8IDApIHsKQEAgLTI3NCwxMyArMjcxLDE3IEBAIHN0YXRpYyBpbnQgc2t5ODE0NTJfYmxfcHJv
-YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKIAkJaWYgKElTX0VSUihwZGF0YSkpCiAJ
-CQlyZXR1cm4gUFRSX0VSUihwZGF0YSk7CiAJfQotCi0JaWYgKGdwaW9faXNfdmFsaWQocGRhdGEt
-PmdwaW9fZW5hYmxlKSkgewotCQlyZXQgPSBkZXZtX2dwaW9fcmVxdWVzdF9vbmUoZGV2LCBwZGF0
-YS0+Z3Bpb19lbmFibGUsCi0JCQkJCUdQSU9GX09VVF9JTklUX0hJR0gsICJza3k4MTQ1Mi1lbiIp
-OwotCQlpZiAocmV0IDwgMCkgewotCQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gcmVxdWVzdCBH
-UElPLiBlcnI9JWRcbiIsIHJldCk7Ci0JCQlyZXR1cm4gcmV0OworCXBkYXRhLT5ncGlvZF9lbmFi
-bGUgPSBkZXZtX2dwaW9kX2dldChkZXYsICJzazgxNDUyLWVuIiwgR1BJT0RfT1VUX0hJR0gpOwor
-CWlmIChJU19FUlIocGRhdGEtPmdwaW9kX2VuYWJsZSkpIHsKKwkJbG9uZyByZXQgPSBQVFJfRVJS
-KHBkYXRhLT5ncGlvZF9lbmFibGUpOworCisJCS8qKgorCQkgKiBncGlvZF9lbmFibGUgaXMgb3B0
-aW9uYWwgaW4gZGV2aWNlIHRyZWUuCisJCSAqIFJldHVybiBlcnJvciBvbmx5IGlmIGdwaW8gd2Fz
-IGFzc2lnbmVkIGluIGRldmljZSB0cmVlCisJCSAqLworCQlpZiAocmV0ICE9IC1FTk9FTlQpIHsK
-KwkJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHJlcXVlc3QgR1BJTy4gZXJyPSVsZFxuIiwgcmV0
-KTsKKwkJCXJldHVybiBQVFJfRVJSKHBkYXRhLT5ncGlvZF9lbmFibGUpOwogCQl9CiAJfQogCkBA
-IC0zMjMsOCArMzI0LDcgQEAgc3RhdGljIGludCBza3k4MTQ1Ml9ibF9yZW1vdmUoc3RydWN0IHBs
-YXRmb3JtX2RldmljZSAqcGRldikKIAliZC0+cHJvcHMuYnJpZ2h0bmVzcyA9IDA7CiAJYmFja2xp
-Z2h0X3VwZGF0ZV9zdGF0dXMoYmQpOwogCi0JaWYgKGdwaW9faXNfdmFsaWQocGRhdGEtPmdwaW9f
-ZW5hYmxlKSkKLQkJZ3Bpb19zZXRfdmFsdWVfY2Fuc2xlZXAocGRhdGEtPmdwaW9fZW5hYmxlLCAw
-KTsKKwlncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAocGRhdGEtPmdwaW9kX2VuYWJsZSwgMCk7CiAK
-IAlyZXR1cm4gMDsKIH0KZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9z
-a3k4MTQ1Mi1iYWNrbGlnaHQuaCBiL2luY2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9za3k4MTQ1
-Mi1iYWNrbGlnaHQuaAppbmRleCAxMjMxZTliLi5kYzRjYjg1IDEwMDY0NAotLS0gYS9pbmNsdWRl
-L2xpbnV4L3BsYXRmb3JtX2RhdGEvc2t5ODE0NTItYmFja2xpZ2h0LmgKKysrIGIvaW5jbHVkZS9s
-aW51eC9wbGF0Zm9ybV9kYXRhL3NreTgxNDUyLWJhY2tsaWdodC5oCkBAIC0yMCw2ICsyMCw4IEBA
-CiAjaWZuZGVmIF9TS1k4MTQ1Ml9CQUNLTElHSFRfSAogI2RlZmluZSBfU0tZODE0NTJfQkFDS0xJ
-R0hUX0gKIAorI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4KKwogLyoqCiAgKiBzdHJ1
-Y3Qgc2t5ODE0NTJfcGxhdGZvcm1fZGF0YQogICogQG5hbWU6CWJhY2tsaWdodCBkcml2ZXIgbmFt
-ZS4KQEAgLTM0LDcgKzM2LDcgQEAKICAqLwogc3RydWN0IHNreTgxNDUyX2JsX3BsYXRmb3JtX2Rh
-dGEgewogCWNvbnN0IGNoYXIgKm5hbWU7Ci0JaW50IGdwaW9fZW5hYmxlOworCXN0cnVjdCBncGlv
-X2Rlc2MgKmdwaW9kX2VuYWJsZTsKIAl1bnNpZ25lZCBpbnQgZW5hYmxlOwogCWJvb2wgaWdub3Jl
-X3B3bTsKIAlib29sIGRwd21fbW9kZTsKLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1821774607==
+Content-Type: multipart/alternative; boundary="15603141191.7A3E4dF0.7317"
+Content-Transfer-Encoding: 7bit
+
+
+--15603141191.7A3E4dF0.7317
+Date: Wed, 12 Jun 2019 04:35:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
+
+--- Comment #18 from Gobinda Joy <gobinda.joy@gmail.com> ---
+(In reply to b6khqjqov4 from comment #17)
+> (In reply to Gobinda Joy from comment #16)
+> > This doesn't seems like the same bug. For instance, in my case the whole
+> > boot process hangs check the attached log files. In your case you can b=
+oot
+> > the system but problem arise when you load the GPU maybe. Not the same =
+bug.
+>=20
+> You could still try disabling the integrated graphics in the BIOS. AFAICR=
+ I
+> could always log in into the Cinnamon desktop and only then I would get a
+> hard freeze within minutes up to several hours, not within the boot proce=
+ss
+> itself, so maybe indeed not the same bug. The RX 590 needed additional
+> commits to be supported in Linux, so maybe similar but different issues.
+> (I assume you can you boot without the RX 590 using your CPU's integrated
+> graphics without any issues with the problematic commit/it really is a RX=
+590
+> issue, well it must be I guess since it's in AMDgpu and you tested it.)
+>=20
+> Because of the Athlon 200GE my 3000 MHz RAM is also running at slower
+> 2133MHz, but even at the, in fact, safe 2133, that should not be the reas=
+on
+> for the hangs/freezes, as the proof is that you fixed it by bisecting and=
+ I
+> fixed my freezes with my mentioned method.=20
+>=20
+> I don't know anything about the calls of those functions and I hope your =
+bug
+> report is on the devs' radar, especially that you found out the problemat=
+ic
+> commit ad51c46e, now.
+>=20
+> PS: Fortunately I still have had no freezes/any issues since my fixes
+> (5.1.8-arch1-1-ARCH now).
+
+I'm using a discrete GPU so obviously the integrated GPU is disabled. Also =
+I'm
+using Vt-D to passthrough a LAN card and a sound card to my windows VM. I d=
+on't
+use that for gaming though. Only use fedora/wine for gaming. Need the windo=
+ws
+VM for some work related stuff and sometimes music as the sound card driver=
+ is
+superior in windows.
+
+My 24GB DDR3 Ram is running at 1600 (10-10-10-26 maybe haven't checked in a
+while). And you are right slow ram shouldn't be the reason for freezes or
+hangs. Apart from that previous kernel was perfect for me. Since your card =
+is
+RX590 you do need the new commits/kernel to support that. I was happy with
+kernel 5.0.17 until fedora decided to push 5.1+ kernel through update.
+
+I am not sure about those function calls myself. But as I read through the
+source they are traversing the PCIe tree for the min bandwidth bottleneck or
+limiter. and using that to set the max bandwidth for the device in context.
+
+What I don't get is why they are using 2 calls to get the bandwidth reading.
+Since both function walking the PCIe tree what's the point. Also it seems l=
+ike
+the call to pcie_bandwidth_available() function is casing the freeze/hangs =
+in
+my system. So that's counts for something.
+
+I hope devs noticed this too. As they asked me to bisect this. If they don'=
+t I
+did all this for nothing. Sorry, not for nothing as I can now run the latest
+kernel with that commit reverted.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15603141191.7A3E4dF0.7317
+Date: Wed, 12 Jun 2019 04:35:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [Bisected]Booting with kernel version 5.1.0 or highe=
+r on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c18">Comme=
+nt # 18</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [Bisected]Booting with kernel version 5.1.0 or highe=
+r on RX 580 hangs"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+gobinda.joy&#64;gmail.com" title=3D"Gobinda Joy &lt;gobinda.joy&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Gobinda Joy</span></a>
+</span></b>
+        <pre>(In reply to b6khqjqov4 from <a href=3D"show_bug.cgi?id=3D1108=
+22#c17">comment #17</a>)
+<span class=3D"quote">&gt; (In reply to Gobinda Joy from <a href=3D"show_bu=
+g.cgi?id=3D110822#c16">comment #16</a>)
+&gt; &gt; This doesn't seems like the same bug. For instance, in my case th=
+e whole
+&gt; &gt; boot process hangs check the attached log files. In your case you=
+ can boot
+&gt; &gt; the system but problem arise when you load the GPU maybe. Not the=
+ same bug.
+&gt;=20
+&gt; You could still try disabling the integrated graphics in the BIOS. AFA=
+ICR I
+&gt; could always log in into the Cinnamon desktop and only then I would ge=
+t a
+&gt; hard freeze within minutes up to several hours, not within the boot pr=
+ocess
+&gt; itself, so maybe indeed not the same bug. The RX 590 needed additional
+&gt; commits to be supported in Linux, so maybe similar but different issue=
+s.
+&gt; (I assume you can you boot without the RX 590 using your CPU's integra=
+ted
+&gt; graphics without any issues with the problematic commit/it really is a=
+ RX590
+&gt; issue, well it must be I guess since it's in AMDgpu and you tested it.)
+&gt;=20
+&gt; Because of the Athlon 200GE my 3000 MHz RAM is also running at slower
+&gt; 2133MHz, but even at the, in fact, safe 2133, that should not be the r=
+eason
+&gt; for the hangs/freezes, as the proof is that you fixed it by bisecting =
+and I
+&gt; fixed my freezes with my mentioned method.=20
+&gt;=20
+&gt; I don't know anything about the calls of those functions and I hope yo=
+ur bug
+&gt; report is on the devs' radar, especially that you found out the proble=
+matic
+&gt; commit ad51c46e, now.
+&gt;=20
+&gt; PS: Fortunately I still have had no freezes/any issues since my fixes
+&gt; (5.1.8-arch1-1-ARCH now).</span >
+
+I'm using a discrete GPU so obviously the integrated GPU is disabled. Also =
+I'm
+using Vt-D to passthrough a LAN card and a sound card to my windows VM. I d=
+on't
+use that for gaming though. Only use fedora/wine for gaming. Need the windo=
+ws
+VM for some work related stuff and sometimes music as the sound card driver=
+ is
+superior in windows.
+
+My 24GB DDR3 Ram is running at 1600 (10-10-10-26 maybe haven't checked in a
+while). And you are right slow ram shouldn't be the reason for freezes or
+hangs. Apart from that previous kernel was perfect for me. Since your card =
+is
+RX590 you do need the new commits/kernel to support that. I was happy with
+kernel 5.0.17 until fedora decided to push 5.1+ kernel through update.
+
+I am not sure about those function calls myself. But as I read through the
+source they are traversing the PCIe tree for the min bandwidth bottleneck or
+limiter. and using that to set the max bandwidth for the device in context.
+
+What I don't get is why they are using 2 calls to get the bandwidth reading.
+Since both function walking the PCIe tree what's the point. Also it seems l=
+ike
+the call to pcie_bandwidth_available() function is casing the freeze/hangs =
+in
+my system. So that's counts for something.
+
+I hope devs noticed this too. As they asked me to bisect this. If they don'=
+t I
+did all this for nothing. Sorry, not for nothing as I can now run the latest
+kernel with that commit reverted.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603141191.7A3E4dF0.7317--
+
+--===============1821774607==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1821774607==--
