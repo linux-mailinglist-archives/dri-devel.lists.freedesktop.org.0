@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67FFE43356
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722664335A
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:28:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF579892C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD03B892C9;
 	Thu, 13 Jun 2019 07:27:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9505489258;
- Wed, 12 Jun 2019 10:39:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E644B8924C;
+ Wed, 12 Jun 2019 10:45:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29FDA28;
- Wed, 12 Jun 2019 03:39:19 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B34A28;
+ Wed, 12 Jun 2019 03:45:45 -0700 (PDT)
 Received: from C02TF0J2HF1T.local (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0039F3F246;
- Wed, 12 Jun 2019 03:40:38 -0700 (PDT)
-Date: Wed, 12 Jun 2019 11:38:49 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9D343F246;
+ Wed, 12 Jun 2019 03:47:05 -0700 (PDT)
+Date: Wed, 12 Jun 2019 11:45:17 +0100
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v16 15/16] vfio/type1, arm64: untag user pointers in
- vaddr_get_pfn
-Message-ID: <20190612103848.GA28951@C02TF0J2HF1T.local>
+Subject: Re: [PATCH v16 09/16] fs, arm64: untag user pointers in
+ fs/userfaultfd.c
+Message-ID: <20190612104517.GB28951@C02TF0J2HF1T.local>
 References: <cover.1559580831.git.andreyknvl@google.com>
- <c529e1eeea7700beff197c4456da6a882ce2efb7.1559580831.git.andreyknvl@google.com>
+ <7d6fef00d7daf647b5069101da8cf5a202da75b0.1559580831.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c529e1eeea7700beff197c4456da6a882ce2efb7.1559580831.git.andreyknvl@google.com>
+In-Reply-To: <7d6fef00d7daf647b5069101da8cf5a202da75b0.1559580831.git.andreyknvl@google.com>
 User-Agent: Mutt/1.11.2 (2019-01-07)
 X-Mailman-Approved-At: Thu, 13 Jun 2019 07:27:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,16 +73,16 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdW4gMDMsIDIwMTkgYXQgMDY6NTU6MTdQTSArMDIwMCwgQW5kcmV5IEtvbm92YWxv
+T24gTW9uLCBKdW4gMDMsIDIwMTkgYXQgMDY6NTU6MTFQTSArMDIwMCwgQW5kcmV5IEtvbm92YWxv
 diB3cm90ZToKPiBUaGlzIHBhdGNoIGlzIGEgcGFydCBvZiBhIHNlcmllcyB0aGF0IGV4dGVuZHMg
 YXJtNjQga2VybmVsIEFCSSB0byBhbGxvdyB0bwo+IHBhc3MgdGFnZ2VkIHVzZXIgcG9pbnRlcnMg
 KHdpdGggdGhlIHRvcCBieXRlIHNldCB0byBzb21ldGhpbmcgZWxzZSBvdGhlcgo+IHRoYW4gMHgw
-MCkgYXMgc3lzY2FsbCBhcmd1bWVudHMuCj4gCj4gdmFkZHJfZ2V0X3BmbigpIHVzZXMgcHJvdmlk
+MCkgYXMgc3lzY2FsbCBhcmd1bWVudHMuCj4gCj4gdXNlcmZhdWx0ZmQgY29kZSB1c2UgcHJvdmlk
 ZWQgdXNlciBwb2ludGVycyBmb3Igdm1hIGxvb2t1cHMsIHdoaWNoIGNhbgo+IG9ubHkgYnkgZG9u
-ZSB3aXRoIHVudGFnZ2VkIHBvaW50ZXJzLgo+IAo+IFVudGFnIHVzZXIgcG9pbnRlcnMgaW4gdGhp
-cyBmdW5jdGlvbi4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgS29ub3ZhbG92IDxhbmRyZXlr
-bnZsQGdvb2dsZS5jb20+CgpSZXZpZXdlZC1ieTogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1h
-cmluYXNAYXJtLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+ZSB3aXRoIHVudGFnZ2VkIHBvaW50ZXJzLgo+IAo+IFVudGFnIHVzZXIgcG9pbnRlcnMgaW4gdmFs
+aWRhdGVfcmFuZ2UoKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgS29ub3ZhbG92IDxhbmRy
+ZXlrbnZsQGdvb2dsZS5jb20+CgpSZXZpZXdlZC1ieTogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGlu
+Lm1hcmluYXNAYXJtLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
