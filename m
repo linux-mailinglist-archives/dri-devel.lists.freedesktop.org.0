@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E2841E18
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 09:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B7041E1D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 09:44:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B8BC89385;
-	Wed, 12 Jun 2019 07:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC70C89369;
+	Wed, 12 Jun 2019 07:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
- [209.85.167.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E441589385
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 07:44:05 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id b11so11281006lfa.5
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 00:44:05 -0700 (PDT)
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+ [209.85.208.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D855D89369
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 07:44:38 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id a21so14196626ljh.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 00:44:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FJx8u6P0hBbbSm0i3xS5/ivknGurjcnK61cV5tUoLhs=;
- b=UHJX7aGiTW3qTGfRmCNoMarIE57FqsPlSTxEoElec0+O5Ji0kq5aG2XEzdNDuvDE7L
- MU4vpRFNeXMPnc6cyjTvsRugjfED58pEQSCXN1YhzGqlyXBZj4R0XS12opdccUm1By4T
- zsnyiPdCPhSahNCLA+WZJXarWMr514zBmYAGPj0YyuDJK/gF9DmHaBbsI8T0TuD4WtWJ
- 7grjHGHpnmcG9Mohq74E61XdvvymTh+etjBstfXiRwVDhHISyZwhREplGuARfXH2qLEQ
- 9x34lS5vOKeZ0Nw7k1YEMUuX+yP6PV6R84lh6xdmd8WHMDqCeru0+FS0eyAixU/TJ4zi
- HQyQ==
-X-Gm-Message-State: APjAAAUxizqlsFrQFcSARBe/QRA2bEQRYWb8FKeYswVxotX0JKJeT3ou
- z0X45p/tYoWNgYivivyJXccIEiUyU7PE1SzFTeM=
-X-Google-Smtp-Source: APXvYqxF6hhnbaCtmV+hKyaw3zTnE02ygJ/YA3cG2hs70YnjKeXj++vsLZQrdyYYnQUsSMeN7rVTULCGrRiNHPpf3Fk=
-X-Received: by 2002:a19:6e41:: with SMTP id q1mr32791062lfk.20.1560325444170; 
- Wed, 12 Jun 2019 00:44:04 -0700 (PDT)
+ bh=X8qI+K1xZjRK+NdOOz86FF5j+ZtlRB7/6DTVTXKF734=;
+ b=Q5gzM1K4jfwHzYjsepfKsRM5nUN2mboVrC5yi8cyKHyggTuT32w595GYQiumHvqGY1
+ 9GN1TnCRxczHTj/uLUtnOUmsXgJkIZOoaaR+U55tOLRGxLXBjlUwkbq4JCAAHJI831Sk
+ f6iZTjnf8whtrSLyyInPMpU108BQev1x8grEBPvyuZi+9pFjiDyIWTjnwexJalSuL2us
+ e7ek3gyk0tF0U0ZkyXlq02P9kH927m9uShVN71P/ZfMjUEjt0gopGnjwUSx1m6ODbyD1
+ ongNVUqhW/5sQdvAIJqGKqc2mZ50sV20/ZeHP+rpNSiZGInvluFKNC6mgogBEHyuYNRD
+ dQZA==
+X-Gm-Message-State: APjAAAWvUks8D4JFcLAdtoGitAfnj8ti8asExMmHHmkDBDFAKBRX1gLR
+ MEWVqyfqcDKWfN1tDTpNv0C/WtsMLAbgpUYlsFM=
+X-Google-Smtp-Source: APXvYqwqjvmsWovfy3c/DnJKFE/85y6DDp5DqVaHiqxmI7nQIoKcXFnH2pWr0W3phGJ5tzE4bmOKa0Deili3rUO1d5Q=
+X-Received: by 2002:a2e:91c5:: with SMTP id u5mr3517346ljg.65.1560325477287;
+ Wed, 12 Jun 2019 00:44:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-8-jacopo+renesas@jmondi.org>
-In-Reply-To: <20190606142220.1392-8-jacopo+renesas@jmondi.org>
+ <20190606142220.1392-9-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190606142220.1392-9-jacopo+renesas@jmondi.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 12 Jun 2019 09:43:51 +0200
-Message-ID: <CAMuHMdVxm8KcYr3EebKJ-DFeuE3=UW_yNvTMBbV7c6DyGr6HyQ@mail.gmail.com>
-Subject: Re: [PATCH 07/20] clk: renesas: r8a77990: Add CMM clocks
+Date: Wed, 12 Jun 2019 09:44:24 +0200
+Message-ID: <CAMuHMdX1c81RMbURNnCRW7OtZbDfSWsKSY+rMc_1GADuLom=ew@mail.gmail.com>
+Subject: Re: [PATCH 08/20] clk: renesas: r8a77995: Add CMM clocks
 To: Jacopo Mondi <jacopo+renesas@jmondi.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -65,9 +65,9 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gNiwgMjAxOSBhdCA0OjI1IFBNIEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVz
+T24gVGh1LCBKdW4gNiwgMjAxOSBhdCA0OjIyIFBNIEphY29wbyBNb25kaSA8amFjb3BvK3JlbmVz
 YXNAam1vbmRpLm9yZz4gd3JvdGU6Cj4gQWRkIGNsb2NrIGRlZmluaXRpb25zIGZvciBDTU0gdW5p
-dHMgb24gUmVuZXNhcyBSLUNhciBHZW4zIEUzLgo+Cj4gU2lnbmVkLW9mZi1ieTogSmFjb3BvIE1v
+dHMgb24gUmVuZXNhcyBSLUNhciBHZW4zIEQzLgo+Cj4gU2lnbmVkLW9mZi1ieTogSmFjb3BvIE1v
 bmRpIDxqYWNvcG8rcmVuZXNhc0BqbW9uZGkub3JnPgoKUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRl
 cmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+CmkuZS4gd2lsbCBxdWV1ZSBpbiBjbGst
 cmVuZXNhcy1mb3ItdjUuMy4KCkdye29ldGplLGVldGluZ31zLAoKICAgICAgICAgICAgICAgICAg
