@@ -1,28 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C0041DB6
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 09:27:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0346541DD8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 09:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 732658932A;
-	Wed, 12 Jun 2019 07:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B75589110;
+	Wed, 12 Jun 2019 07:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 553158932A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 07:27:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C251289110
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 07:35:38 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id A4B0AAF22;
- Wed, 12 Jun 2019 07:27:27 +0000 (UTC)
-Subject: Re: [PATCH 6/8] drm/mgag200: Rewrite cursor handling
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20190604154201.14460-1-tzimmermann@suse.de>
- <20190604154201.14460-7-tzimmermann@suse.de>
- <20190605095817.ijhq3z7oaptd3wff@sirius.home.kraxel.org>
- <81937cd8-1b1f-007b-97e3-18a3b586b87f@suse.de>
- <CAKMK7uEwoCFWxtD-ktZSxjhS2TyOEoRovBX18gk3doGyCCrS2Q@mail.gmail.com>
+ by mx1.suse.de (Postfix) with ESMTP id 63CACAEC8;
+ Wed, 12 Jun 2019 07:35:37 +0000 (UTC)
+Subject: Re: [PATCH v2 5/9] drm/ast: Pin framebuffer BO during dirty update
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20190611130344.18988-1-tzimmermann@suse.de>
+ <20190611130344.18988-6-tzimmermann@suse.de>
+ <20190611202953.GA18315@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -50,12 +48,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
  VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
  iNx9uqqx
-Message-ID: <87d444a2-f897-8989-5453-ebacaaa15964@suse.de>
-Date: Wed, 12 Jun 2019 09:27:21 +0200
+Message-ID: <038d4a58-1980-3b76-ea53-9b354980723a@suse.de>
+Date: Wed, 12 Jun 2019 09:35:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEwoCFWxtD-ktZSxjhS2TyOEoRovBX18gk3doGyCCrS2Q@mail.gmail.com>
+In-Reply-To: <20190611202953.GA18315@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,126 +66,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============1455406402=="
+Cc: maxime.ripard@bootlin.com, dri-devel@lists.freedesktop.org,
+ kraxel@redhat.com, airlied@redhat.com, sean@poorly.run
+Content-Type: multipart/mixed; boundary="===============1723008435=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1455406402==
+--===============1723008435==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="9LRM2JVeLFnvRK3TvxTd21MH7nx4gZWby"
+ boundary="sS1Hx6bimTLHfU3dFmBTCIDfRh4yrrh3F"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---9LRM2JVeLFnvRK3TvxTd21MH7nx4gZWby
-Content-Type: multipart/mixed; boundary="llavWl5OMI0NLCz0JoeGaLM6jfONF0vh6";
+--sS1Hx6bimTLHfU3dFmBTCIDfRh4yrrh3F
+Content-Type: multipart/mixed; boundary="7802NKn3Mlxyu3awESru6TcD03evH4NhX";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
- Sam Ravnborg <sam@ravnborg.org>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>, dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <87d444a2-f897-8989-5453-ebacaaa15964@suse.de>
-Subject: Re: [PATCH 6/8] drm/mgag200: Rewrite cursor handling
-References: <20190604154201.14460-1-tzimmermann@suse.de>
- <20190604154201.14460-7-tzimmermann@suse.de>
- <20190605095817.ijhq3z7oaptd3wff@sirius.home.kraxel.org>
- <81937cd8-1b1f-007b-97e3-18a3b586b87f@suse.de>
- <CAKMK7uEwoCFWxtD-ktZSxjhS2TyOEoRovBX18gk3doGyCCrS2Q@mail.gmail.com>
-In-Reply-To: <CAKMK7uEwoCFWxtD-ktZSxjhS2TyOEoRovBX18gk3doGyCCrS2Q@mail.gmail.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: kraxel@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
+ sean@poorly.run, dri-devel@lists.freedesktop.org
+Message-ID: <038d4a58-1980-3b76-ea53-9b354980723a@suse.de>
+Subject: Re: [PATCH v2 5/9] drm/ast: Pin framebuffer BO during dirty update
+References: <20190611130344.18988-1-tzimmermann@suse.de>
+ <20190611130344.18988-6-tzimmermann@suse.de>
+ <20190611202953.GA18315@ravnborg.org>
+In-Reply-To: <20190611202953.GA18315@ravnborg.org>
 
---llavWl5OMI0NLCz0JoeGaLM6jfONF0vh6
+--7802NKn3Mlxyu3awESru6TcD03evH4NhX
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 11.06.19 um 17:33 schrieb Daniel Vetter:
-> On Tue, Jun 11, 2019 at 2:32 PM Thomas Zimmermann <tzimmermann@suse.de>=
- wrote:
->>
->> Hi
->>
->> Am 05.06.19 um 11:58 schrieb Gerd Hoffmann:
->>> On Tue, Jun 04, 2019 at 05:41:59PM +0200, Thomas Zimmermann wrote:
->>>> The cursor handling in mgag200 is complicated to understand. It touc=
-hes a
->>>> number of different BOs, but doesn't really use all of them.
->>>>
->>>> Rewriting the cursor update reduces the amount of cursor state. Ther=
-e are
->>>> two BOs for double-buffered HW updates. The source BO updates the on=
-e that
->>>> is currently not displayed and then switches buffers. Explicit BO lo=
-cking
->>>> has been removed from the code. BOs are simply pinned and unpinned i=
-n video
->>>> RAM.
->>>
->>> Cursors are not that big after all, so maybe pin the two BOs for
->>> double-buffering permanently in vram to simplify things further?
->>>
->>> Also factoring out the code which updates the two BOs to a separate
->>> function should help making the code more readable.
->>
->> The cursor handling in the ast driver is similar, but uses one single =
-BO
->> to hold both cursor buffers. I'm thinking about how to turn both
->> implementations into a generic helper for legacy cursors (i.e., low
->> number of colors or palette). This would also be helpful for my work o=
-n
->> fbdev porting.
->>
->> One idea is to adapt deferred I/O. DRM would expose an ARGB shadow
->> buffer to userspace and let the mmap implementation update the HW
->> buffers (including dithering, palette setup, etc.).
+Am 11.06.19 um 22:29 schrieb Sam Ravnborg:
+> Hi Thomas.
 >=20
-> No mmap games needed with kms, we expect userspace to give us an ioctl
-> call in all cases. fbdev is the legacy horrors that works differently.
+> On Tue, Jun 11, 2019 at 03:03:40PM +0200, Thomas Zimmermann wrote:
+>> Another explicit lock operation of a GEM VRAM BO is located in AST's
+>> framebuffer update code. Instead of locking the BO, we pin it to where=
+ver
+>> it is.
+>>
+>> v2:
+>> 	* update with pin flag of 0
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>  drivers/gpu/drm/ast/ast_fb.c | 33 ++++++++++++++++-----------------
+>>  1 file changed, 16 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_fb.c b/drivers/gpu/drm/ast/ast_fb=
+=2Ec
+>> index 05f45222b702..b404b51c2c55 100644
+>> --- a/drivers/gpu/drm/ast/ast_fb.c
+>> +++ b/drivers/gpu/drm/ast/ast_fb.c
+>> @@ -48,32 +48,31 @@ static void ast_dirty_update(struct ast_fbdev *afb=
+dev,
+>>  			     int x, int y, int width, int height)
+>>  {
+>>  	int i;
+>> -	struct drm_gem_object *obj;
+>>  	struct drm_gem_vram_object *gbo;
+>>  	int src_offset, dst_offset;
+>>  	int bpp =3D afbdev->afb.base.format->cpp[0];
+>> -	int ret =3D -EBUSY;
+>> +	int ret;
+>>  	u8 *dst;
+>>  	bool unmap =3D false;
+>>  	bool store_for_later =3D false;
+>>  	int x2, y2;
+>>  	unsigned long flags;
+>> =20
+>> -	obj =3D afbdev->afb.obj;
+>> -	gbo =3D drm_gem_vram_of_gem(obj);
+>> -
+>> -	/* Try to lock the BO. If we fail with -EBUSY then
+>> -	 * the BO is being moved and we should store up the
+>> -	 * damage until later.
+>> -	 */
+>> -	if (drm_can_sleep())
+>> -		ret =3D drm_gem_vram_lock(gbo, true);
+>> -	if (ret) {
+>> -		if (ret !=3D -EBUSY)
+>> -			return;
+>> -
+>> +	gbo =3D drm_gem_vram_of_gem(afbdev->afb.obj);
+>> +
+>> +	if (drm_can_sleep()) {
+>=20
+> While touching this code, anyway we could get rid of drm_can_sleep()?
+> I only ask because Daniel V. said that we should not use it.
+> This was some months ago during some ehader file clean-up, so nothing
+> in particular related to the ast driver.
 
-Thanks for clarifying this. Conversion should be much easier this way. I
-saw the dirty callback and the DIRTYFB ioctl, but I don't saw anything
-in Weston that calls it. So I assumed that it's obsolete or optional.
+I'm aware of what is commented in the header and the todo file. Do you
+have a link to this discussion?
+
+In any case, I'd prefer to fix this in a separate patch set. I have
+patches that replace the ast and mgag200 fbdev consoles with generic
+code. That might be the right place.
 
 Best regards
 Thomas
 
-> So for cursors, assuming you have universal cursors, you just need to
-> update the shadowed copy in the prepare_fb plane hook. For
-> non-universal plane drivers you need to do that somewhere in your
-> set/move_cursor hooks (I think both of them). Aside: For non-cursors
-> there's also the dirtyfb ioctl, which serves the same purpose.
 >=20
-> Cheers, Daniel
+> 	Sam
 >=20
->>
->> Best regards
->> Thomas
->>
->>> But even as-is the patch is a step into the right direction.
->>>
->>> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
->>>
->>> cheers,
->>>   Gerd
->>>
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->> HRB 21284 (AG N=C3=BCrnberg)
->>
->=20
->=20
+>> +		/* We pin the BO so it won't be moved during the
+>> +		 * update. The actual location, video RAM or system
+>> +		 * memory, is not important.
+>> +		 */
+>> +		ret =3D drm_gem_vram_pin(gbo, 0);
+>> +		if (ret) {
+>> +			if (ret !=3D -EBUSY)
+>> +				return;
+>> +			store_for_later =3D true;
+>> +		}
+>> +	} else
+>>  		store_for_later =3D true;
+>> -	}
+>> =20
+>>  	x2 =3D x + width - 1;
+>>  	y2 =3D y + height - 1;
+>> @@ -126,7 +125,7 @@ static void ast_dirty_update(struct ast_fbdev *afb=
+dev,
+>>  		drm_gem_vram_kunmap(gbo);
+>> =20
+>>  out:
+>> -	drm_gem_vram_unlock(gbo);
+>> +	drm_gem_vram_unpin(gbo);
+>>  }
+>> =20
+>>  static void ast_fillrect(struct fb_info *info,
+>> --=20
+>> 2.21.0
 
 --=20
 Thomas Zimmermann
@@ -197,28 +212,28 @@ GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
 HRB 21284 (AG N=C3=BCrnberg)
 
 
---llavWl5OMI0NLCz0JoeGaLM6jfONF0vh6--
+--7802NKn3Mlxyu3awESru6TcD03evH4NhX--
 
---9LRM2JVeLFnvRK3TvxTd21MH7nx4gZWby
+--sS1Hx6bimTLHfU3dFmBTCIDfRh4yrrh3F
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0AqV0ACgkQaA3BHVML
-eiNqpgf7BK1D+zaJQc8vwvAo+1qXPLNbiHmqvJekPC1dF1a19ZmDIIYj2fYnjd4G
-Vhi0n5CaWhoygHedrX0J5eGzmTRfloO+wyM8mBPsGhXtXyFIncr40ibE6mZytUtB
-I1FKmE+hCrBxLScbWAryPnjkNrjUZNHtyAuds4Kab00bjRzCBLvJPKUxPkllPrh/
-NFHKDSD9EuUcM+1acZAe1buBNONI5STrmSL8bp62tlhGCE4bpXYKcOM+NuCK6Fny
-3edS3DORBMynw68KF57XJNoMhDafXvhe8GJdRR9g9kHrb7YsEe1AZlU1dJsq3bJu
-7pJ/WfideDKS0LXvec1QQk5TRHzQcg==
-=bSz6
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0Aq0QACgkQaA3BHVML
+eiPCMgf+JZwpv65SgpuqG4Bd8WJaFA7FFXW6fGbj2pbg2HRPU8yzjeC0tVaYk3P1
+j5S51yYyyZw2hxe5tGMw6nNjbDcn4TKLe1fJCpCq8RIgg3fdd29550ERB8QQp45g
+4YlnmvbRI2KTaKNhuPXBxjy6xOvFxB/ZDOtaaGEtjcxKDmTsszR8oFME4A+RLviN
+ZnUU5gV4W8bg0hDrjZOLx+MjAodTF9owH5kzdFdaS90V95zxxYGTchQbZMNOiR8D
+41xGBVadmQ+5lIRI8oxMYX0c1LqeWOtBjTj2QNUdawPSlMXSQDqDIaFcmgbdOPi4
+R9o2S6qT5YXErMzfNL0WHXQKYeye1w==
+=6T4g
 -----END PGP SIGNATURE-----
 
---9LRM2JVeLFnvRK3TvxTd21MH7nx4gZWby--
+--sS1Hx6bimTLHfU3dFmBTCIDfRh4yrrh3F--
 
---===============1455406402==
+--===============1723008435==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -228,4 +243,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1455406402==--
+--===============1723008435==--
