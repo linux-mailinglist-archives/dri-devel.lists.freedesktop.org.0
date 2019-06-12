@@ -2,54 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8623F425EC
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 14:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73614262B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 14:43:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3204B892DC;
-	Wed, 12 Jun 2019 12:33:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC3EC892B5;
+	Wed, 12 Jun 2019 12:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3EF9892DC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 12:33:51 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x5CCXk6w089106;
- Wed, 12 Jun 2019 07:33:46 -0500
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x5CCXkAj094123
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 12 Jun 2019 07:33:46 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 12
- Jun 2019 07:33:45 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 12 Jun 2019 07:33:45 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x5CCXh29052198;
- Wed, 12 Jun 2019 07:33:43 -0500
-Subject: Re: [PATCH v5 00/15] tc358767 driver improvements
-To: Andrey Smirnov <andrew.smirnov@gmail.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20190612083252.15321-1-andrew.smirnov@gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <91d5be5b-916a-905b-783f-9911424df45b@ti.com>
-Date: Wed, 12 Jun 2019 15:33:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C49892B5
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 12:43:55 +0000 (UTC)
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:63749
+ helo=[192.168.10.173])
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
+ id 1hb2bZ-0000iN-Gb; Wed, 12 Jun 2019 14:43:53 +0200
+Subject: Re: [PATCH v3 3/6] drm/modes: Allow to specify rotation and
+ reflection on the commandline
+To: Maxime Ripard <maxime.ripard@bootlin.com>
+References: <cover.87b91639451f23d4ab68a7c9812f2dd158869025.1555591281.git-series.maxime.ripard@bootlin.com>
+ <ba320b3a13c4444102b77c4d00f7c1dc810adc3c.1555591281.git-series.maxime.ripard@bootlin.com>
+ <9ccb7573-d46e-4b90-7caa-7b8cd7b8e7a2@tronnes.org>
+ <20190611124933.2g6l3d7nx6lqft6k@flea>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <1d0d6259-54cb-9a26-003d-2a35b8a40f3f@tronnes.org>
+Date: Wed, 12 Jun 2019 14:43:44 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190612083252.15321-1-andrew.smirnov@gmail.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1560342826;
- bh=C5ukbZB3W88dRDJsXql7AfOwN6+01AO8bczZY4+rJR0=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=hEp+lukknjcfoaeyLMSGrX1xyeeDiXTBsOTC4dwNU5Lky6NkFCDpgUA/E8A65ZplJ
- RqpSWejMKg0+KwqoqMns1hYn3LmUJRkEaHy6C/Xv5bZkNyTP2POTitfFlBecnvlYRa
- ao3izFpnGgRHDkR17aHxC5J6Jcj+QB2PTHFn/e1Y=
+In-Reply-To: <20190611124933.2g6l3d7nx6lqft6k@flea>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=V5xuatLmbSWIhlTDBXotDYiBA61Br0Wwkxd5ZecpoWY=; 
+ b=cf+Quw9u4Bo/zkT5FEW6xYNWSxkfUOIDgJNiU9PydnT1YUwT4r/FWs8p0ifrsFKA+gKdWX15eUBxUO2IjYCiPK7pz5Ig5lh2frtP+Fd/3vQKJOPjD08oMEBpEEsbaPUi76JXCzkLW3QMJ4qz8B6wHpei3JY+2IylAnTdBbOROs9ZyhrbLysHA6PjjYwV+hIBUrVBSVlxrvtcqlQbruEuIPRfDo+Yuf4UETmzsY+3KvnF4d4FBF71i+a2X1ibLtjqUMi036ESDZtpu1GR/9GTenyL+YH6NzINEgdGHmiaR2XtyLRgZmEErhbCB24dJg5O5I4pVH3T5LIVQq/7/FQzyg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,26 +49,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cory Tusar <cory.tusar@zii.aero>,
- Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Chris Healy <cphealy@gmail.com>
+Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAxMi8wNi8yMDE5IDExOjMyLCBBbmRyZXkgU21pcm5vdiB3cm90ZToKPiBFdmVyeW9u
-ZToKPiAKPiBUaGlzIHNlcmllcyBjb250YWlucyB2YXJpb3VzIGltcHJvdmVtZW50cyAoYXQgbGVh
-c3QgaW4gbXkgbWluZCkgYW5kCj4gZml4ZXMgdGhhdCBJIG1hZGUgdG8gdGMzNTg3Njcgd2hpbGUg
-d29ya2luZyB3aXRoIHRoZSBjb2RlIG9mIHRoZQo+IGRyaXZlci4gSG9wZWZ1bHkgZWFjaCBwYXRj
-aCBpcyBzZWxmIGV4cGxhbmF0b3J5LgoKSSBoYXZlbid0IGhhZCB0aW1lIHRvIGRlYnVnLCBidXQg
-SSBkaWQgYSBxdWljayB0ZXN0IHdpdGggdGhlIHNlcmllcywgYW5kIApFRElEIHJlYWQgbm8gbG9u
-Z2VyIHdvcmtzIG9uIG15IHNldHVwLiBkcm1fZ2V0X2VkaWQoKSByZXR1cm5zIDAuIEkgbmVlZCAK
-dG8gZGlnIGluIGZ1cnRoZXIuCgogIFRvbWkKCi0tIApUZXhhcyBJbnN0cnVtZW50cyBGaW5sYW5k
-IE95LCBQb3Jra2FsYW5rYXR1IDIyLCAwMDE4MCBIZWxzaW5raS4KWS10dW5udXMvQnVzaW5lc3Mg
-SUQ6IDA2MTU1MjEtNC4gS290aXBhaWtrYS9Eb21pY2lsZTogSGVsc2lua2kKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+CgpEZW4gMTEuMDYuMjAxOSAxNC40OSwgc2tyZXYgTWF4aW1lIFJpcGFyZDoKPiBIaSBOb3JhbGYs
+Cj4gCj4gT24gVGh1LCBBcHIgMTgsIDIwMTkgYXQgMDY6NDA6NDJQTSArMDIwMCwgTm9yYWxmIFRy
+w7hubmVzIHdyb3RlOgo+PiBEZW4gMTguMDQuMjAxOSAxNC40MSwgc2tyZXYgTWF4aW1lIFJpcGFy
+ZDoKPj4+ICsJLyoqCj4+PiArCSAqIFdlIHdhbnQgdGhlIHJvdGF0aW9uIG9uIHRoZSBjb21tYW5k
+IGxpbmUgdG8gb3ZlcndyaXRlCj4+PiArCSAqIHdoYXRldmVyIGNvbWVzIGZyb20gdGhlIHBhbmVs
+Lgo+Pj4gKwkgKi8KPj4+ICsJY21kbGluZSA9ICZjb25uZWN0b3ItPmNtZGxpbmVfbW9kZTsKPj4+
+ICsJaWYgKGNtZGxpbmUtPnNwZWNpZmllZCAmJgo+Pj4gKwkgICAgY21kbGluZS0+cm90YXRpb24g
+IT0gRFJNX01PREVfUk9UQVRFXzApCj4+Cj4+IEkgYmVsaWV2ZSB5b3UgbmVlZCB0byBkcm9wIHRo
+YXQgc2Vjb25kIGNoZWNrLCBvdGhlcndpc2Ugcm90YXRlPTAgd2lsbAo+PiBub3Qgb3ZlcndyaXRl
+IHBhbmVsIHJvdGF0aW9uLgo+IAo+IEdvb2QgY2F0Y2ggOikKPiAKPj4+ICsJCX0gZWxzZSBpZiAo
+IXN0cm5jbXAob3B0aW9uLCAicmVmbGVjdF94IiwgZGVsaW0gLSBvcHRpb24pKSB7Cj4+PiArCQkJ
+cm90YXRpb24gfD0gRFJNX01PREVfUkVGTEVDVF9YOwo+Pj4gKwkJCXNlcCA9IGRlbGltOwo+Pj4g
+KwkJfSBlbHNlIGlmICghc3RybmNtcChvcHRpb24sICJyZWZsZWN0X3kiLCBkZWxpbSAtIG9wdGlv
+bikpIHsKPj4KPj4gSSB0aGluayB5b3Ugc2hvdWxkIGRyb3AgcmVmbGVjdF94IGFuZCBfeSBmb3Ig
+bm93IHNpbmNlIHRoZXkncmUgbm90Cj4+IHN1cHBvcnRlZC4gUGVvcGxlIGxpa2UgbWUgdGhhdCBv
+bmx5IHJlYWRzIGNvZGUgYW5kIG5vdCBkb2N1bWVudGF0aW9uCj4+IChhaGVtLi4pIHdpbGwgZ2V0
+IHRoZSBpbXByZXNzaW9uIHRoYXQgdGhpcyBzaG91bGQgd29yay4KPiAKPiBJJ20gbm90IHN1cmUg
+d2hhdCB5b3UgbWVhbiBoZXJlLCB0aGlzIGlzIGRlZmluaXRlbHkgc3VwcG9zZWQgdG8KPiB3b3Jr
+LiBJcyB0aGVyZSBhIGxpbWl0YXRpb24geW91J3JlIHRoaW5raW5nIG9mPwo+IAoKSXQncyB0aGlz
+IG9uZSBpbiBkcm1fY2xpZW50X3BhbmVsX3JvdGF0aW9uKCkgd2hpY2ggbGltaXRzIHJvdGF0aW9u
+IHRvCkRSTV9NT0RFX1JPVEFURV8xODA6CgoJLyoKCSAqIFRPRE86IHN1cHBvcnQgOTAgLyAyNzAg
+ZGVncmVlIGhhcmR3YXJlIHJvdGF0aW9uLAoJICogZGVwZW5kaW5nIG9uIHRoZSBoYXJkd2FyZSB0
+aGlzIG1heSByZXF1aXJlIHRoZSBmcmFtZWJ1ZmZlcgoJICogdG8gYmUgaW4gYSBzcGVjaWZpYyB0
+aWxpbmcgZm9ybWF0LgoJICovCglpZiAoKnJvdGF0aW9uICE9IERSTV9NT0RFX1JPVEFURV8xODAg
+fHwgIXBsYW5lLT5yb3RhdGlvbl9wcm9wZXJ0eSkKCQlyZXR1cm4gZmFsc2U7CgpOb3JhbGYuCgo+
+PiBEb2N1bWVudGF0aW9uL2ZiL21vZGVkYi50eHQgbmVlZHMgdG8gYmUgdXBkYXRlZCB3aXRoIHRo
+aXMgbmV3IHZpZGVvPSBvcHRpb24uCj4gCj4gV2lsbCBkbywgdGhhbmtzIQo+IAo+IG1heGltZQo+
+IAo+IC0tCj4gTWF4aW1lIFJpcGFyZCwgQm9vdGxpbgo+IEVtYmVkZGVkIExpbnV4IGFuZCBLZXJu
+ZWwgZW5naW5lZXJpbmcKPiBodHRwczovL2Jvb3RsaW4uY29tCj4gCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
