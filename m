@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99EA441F0C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 10:29:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E1C4335F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:28:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F62E89444;
-	Wed, 12 Jun 2019 08:29:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C036892D8;
+	Thu, 13 Jun 2019 07:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC58689444
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 08:29:35 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 5A659AF1A;
- Wed, 12 Jun 2019 08:29:34 +0000 (UTC)
-Subject: Re: [PATCH v2 1/9] drm/gem-vram: Support pinning buffers to current
- location
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190611130344.18988-1-tzimmermann@suse.de>
- <20190611130344.18988-2-tzimmermann@suse.de>
- <20190612081332.2p7zvoiz6dzs3sho@sirius.home.kraxel.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <434228c1-4480-1c40-0ff4-668c26cbf554@suse.de>
-Date: Wed, 12 Jun 2019 10:29:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2EF4892D8
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 08:33:04 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id d30so8525431pgm.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 01:33:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gSrUr04JKpLIpOwomhEOW56Uag0Ke/jp4vOdSmNT5bQ=;
+ b=rokHGaEF5PcSEVlZlTaC/Arz76GjSDcPRIFK8HIuupkxV4HeUFs5Y/JtYPPAP3Wn/u
+ UmNBp0th6HiI8Wb8bkPpyI7p5oFikadHBeG3g+zNFrceXIwz0nSmVHym9K0d1K/UIaDk
+ HjI7hN6eJ5borQhxSPdzfxF+74jt5wSKZSkpGiamv5YZMYxLtK8PF9wYWxmlSSdjbpMS
+ yL5XmU4FHCrBSsmSxRs0jTiGC371Hc3L6cfuQ1wcmk2odvoX+bmXgdAQILSy3j4b11bC
+ 0Ghq8X+RpV0q+5ZIbLDFgG36XiwwFdMdpdgJv8Y41B6rx8A5gYzRlYxYveky7CBV2Lsr
+ JyhQ==
+X-Gm-Message-State: APjAAAVTc7iw142hqXjLtFornDN1zLcTrAEuSBm2DyOCt8UM/JxLW70j
+ qoY9hTuaV3wyrJjtL0G6aEZwcGa3Uvc=
+X-Google-Smtp-Source: APXvYqzT5VWa0aU04CQjd4fZk88OgtGA8DIKZsZZPPIUSO8gik3ubA2W6EhNUG7OikMEye7/Q6NSDQ==
+X-Received: by 2002:a63:570c:: with SMTP id l12mr24528172pgb.252.1560328383919; 
+ Wed, 12 Jun 2019 01:33:03 -0700 (PDT)
+Received: from localhost.lan (c-24-22-235-96.hsd1.wa.comcast.net.
+ [24.22.235.96])
+ by smtp.gmail.com with ESMTPSA id d21sm18845991pfr.162.2019.06.12.01.33.02
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 12 Jun 2019 01:33:03 -0700 (PDT)
+From: Andrey Smirnov <andrew.smirnov@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 00/15] tc358767 driver improvements
+Date: Wed, 12 Jun 2019 01:32:37 -0700
+Message-Id: <20190612083252.15321-1-andrew.smirnov@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190612081332.2p7zvoiz6dzs3sho@sirius.home.kraxel.org>
+X-Mailman-Approved-At: Thu, 13 Jun 2019 07:27:23 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gSrUr04JKpLIpOwomhEOW56Uag0Ke/jp4vOdSmNT5bQ=;
+ b=f9TVrYhBQ/zkEya2XKd2pjH3MjRqUwg7uD3yMnCmOsA7SHlmsUUON085Zmv/NPLNHB
+ ONWQ3QSC2uMyH7UsZGTRCRHlqTVF1CSx++o9uDs3kiCrf14y72Lg1lKnmyLLmJDE9Ris
+ mBa+LCFmyzbI0QOZfyDFirHmMnF2AKkLh1419cV85Be7g09IvkwBl/xQd6XP1i4LR8FA
+ vXxp/J0Yk+/sVtbG9iTKaq2rwPcSJpu8/PKGohMf3VpNjQ4TuAACF7uCD3+K/qaq9bDU
+ tx65e9M5g2yv8SMo6w24Ih+eIh25mQqqIUiY9IZbT6hrAhqfXbY1FzJSgGULwptRT+sf
+ R/xA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,149 +67,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: maxime.ripard@bootlin.com, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org, airlied@redhat.com, sean@poorly.run
-Content-Type: multipart/mixed; boundary="===============0408117560=="
+Cc: Cory Tusar <cory.tusar@zii.aero>, Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+ linux-kernel@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Chris Healy <cphealy@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0408117560==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="1j33j8JIHHKJz5cDugChTJBuHCoWXwiOv"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1j33j8JIHHKJz5cDugChTJBuHCoWXwiOv
-Content-Type: multipart/mixed; boundary="NEchDcCxEkhji34HPtXgnntTtHxCGceWJ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: airlied@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <434228c1-4480-1c40-0ff4-668c26cbf554@suse.de>
-Subject: Re: [PATCH v2 1/9] drm/gem-vram: Support pinning buffers to current
- location
-References: <20190611130344.18988-1-tzimmermann@suse.de>
- <20190611130344.18988-2-tzimmermann@suse.de>
- <20190612081332.2p7zvoiz6dzs3sho@sirius.home.kraxel.org>
-In-Reply-To: <20190612081332.2p7zvoiz6dzs3sho@sirius.home.kraxel.org>
-
---NEchDcCxEkhji34HPtXgnntTtHxCGceWJ
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 12.06.19 um 10:13 schrieb Gerd Hoffmann:
-> On Tue, Jun 11, 2019 at 03:03:36PM +0200, Thomas Zimmermann wrote:
->> Pinning a buffer prevents it from being moved to a different memory
->> location. For some operations, such as buffer updates, it is not
->> important where the buffer is located. Setting the pin function's
->> pl_flag argument to 0 will pin the buffer to whereever it is stored.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/drm_gem_vram_helper.c | 12 ++++++++----
->>  1 file changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/d=
-rm_gem_vram_helper.c
->> index 42ad80888df7..214f54b8920b 100644
->> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
->> @@ -224,7 +224,9 @@ EXPORT_SYMBOL(drm_gem_vram_offset);
->>   *
->>   * Pinning a buffer object ensures that it is not evicted from
->>   * a memory region. A pinned buffer object has to be unpinned before
->> - * it can be pinned to another region.
->> + * it can be pinned to another region. If the pl_flag argument is 0,
->> + * the buffer is pinned at its current location (video RAM or system
->> + * memory).
->>   *
->>   * Returns:
->>   * 0 on success, or
->> @@ -242,7 +244,9 @@ int drm_gem_vram_pin(struct drm_gem_vram_object *g=
-bo, unsigned long pl_flag)
->>  	if (gbo->pin_count)
->>  		goto out;
->> =20
->> -	drm_gem_vram_placement(gbo, pl_flag);
->> +	if (pl_flag)
->> +		drm_gem_vram_placement(gbo, pl_flag);
->> +
->>  	for (i =3D 0; i < gbo->placement.num_placement; ++i)
->>  		gbo->placements[i].flags |=3D TTM_PL_FLAG_NO_EVICT;
->> =20
->> @@ -691,7 +695,7 @@ int drm_gem_vram_driver_gem_prime_pin(struct drm_g=
-em_object *gem)
->>  {
->>  	struct drm_gem_vram_object *gbo =3D drm_gem_vram_of_gem(gem);
->> =20
->> -	return drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM);
->> +	return drm_gem_vram_pin(gbo, 0);
-
-The only use case for these Prime helpers is fbdev console emulation. I
-have another patch set that replaces the ast and mgag200 consoles with
-generic code. During the console updates it temporarily pins the BO via
-this Prime funcation, which might move the BO into scarce VRAM
-unnecessarily. Can we leave it like this and add a comment explaining
-the decision?
-
-Best regards
-Thomas
-
-> Not sure this is a good idea here.  If the bo happens to be in sysram
-> it can't be displayed any more.
->=20
->> -	ret =3D drm_gem_vram_pin(gbo, DRM_GEM_VRAM_PL_FLAG_VRAM);
->> +	ret =3D drm_gem_vram_pin(gbo, 0);
->=20
-> Likewise.
->=20
-> cheers,
->   Gerd
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---NEchDcCxEkhji34HPtXgnntTtHxCGceWJ--
-
---1j33j8JIHHKJz5cDugChTJBuHCoWXwiOv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0At+0ACgkQaA3BHVML
-eiNXzQgAqB76+eSotFG0s7l6w2MmQg9nG+T9+oQXwg0dkDi0CNncTD64fweLeSS6
-NvRmtyXmutt72vKe0n2zw3ne1+3SyjbgChLl4GManaWICwpwTumTtU/COUSpi182
-qu9dPL2y0kS3tYA3P0P8wd4jyqOAngqUEvNw8Addr4aEIlvTB6zYwrO/Rm2jf8dY
-9cjyrxUZ64SJDvjC6kqSKQX653RQMZ7Nps9jyF1GUa3yYc1rJ6UDjjz+OuVRpbvr
-u9i/77OGBoayHMQDSzOgwz+G13TgarGzY8GsHzSPzc67twUBe6A4VrY3Eu1SUZ20
-izvRMG/q6Bd47J3TeC+xugHOgjPwMw==
-=eVQt
------END PGP SIGNATURE-----
-
---1j33j8JIHHKJz5cDugChTJBuHCoWXwiOv--
-
---===============0408117560==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0408117560==--
+RXZlcnlvbmU6CgpUaGlzIHNlcmllcyBjb250YWlucyB2YXJpb3VzIGltcHJvdmVtZW50cyAoYXQg
+bGVhc3QgaW4gbXkgbWluZCkgYW5kCmZpeGVzIHRoYXQgSSBtYWRlIHRvIHRjMzU4NzY3IHdoaWxl
+IHdvcmtpbmcgd2l0aCB0aGUgY29kZSBvZiB0aGUKZHJpdmVyLiBIb3BlZnVseSBlYWNoIHBhdGNo
+IGlzIHNlbGYgZXhwbGFuYXRvcnkuCgpGZWVkYmFjayBpcyB3ZWxjb21lIQoKVGhhbmtzLApBbmRy
+ZXkgU21pcm5vdgoKQ2hhbmdlcyBzaW5jZSBbdjRdOgoKICAgIC0gdGNfcGxsdXBkYXRlX3BsbGVu
+KCkgcmVuYW1lZCB0byB0Y19wbGx1cGRhdGUoKQoKICAgIC0gQ29sbGVjdGVkIFJldmlld2VkLWJ5
+cyBmcm9tIEFuZHJ6ZWogZm9yIHRoZSByZXN0IG9mIHRoZSBzZXJpZXMKCkNoYW5nZXMgc2luY2Ug
+W3YzXToKCiAgICAtIENvbGxlY3RlZCBSZXZpZXdlZC1ieXMgZnJvbSBBbmRyemVqCiAgICAKICAg
+IC0gRHJvcHBlZCBleHBsaWNpdCBjaGVjayBmb3IgLUVUSU1FRE9VVCBpbiAiZHJtL2JyaWRnZTog
+dGMzNTg3Njc6CiAgICAgIFNpbXBsaWZ5IHBvbGxpbmcgaW4gdGNfbWFpbl9saW5rX3NldHVwKCki
+IGZvciBjb25zaXN0ZW5jeQoKICAgIC0gQVVYIHRyYW5zZmVyIGNvZGUgY29udmVydGVkIHRvIHVz
+ZXIgcmVnbWFwX3Jhd19yZWFkKCksCiAgICAgIHJlZ21hcF9yYXdfd3JpdGUoKQoKQ2hhbmdlcyBz
+aW5jZSBbdjJdOgoKICAgIC0gUGF0Y2hzZXQgcmViYXNlZCBvbiB0b3Agb2YgdjQgb2YgVG9taSdz
+IHNlcmllcyB0aGF0IHJlY2VudGx5CiAgICAgIHdlbnQgaW4gKGh0dHBzOi8vcGF0Y2h3b3JrLmZy
+ZWVkZXNrdG9wLm9yZy9zZXJpZXMvNTgxNzYvI3JldjUpCiAgICAgIAogICAgLSBBVVggdHJhbnNm
+ZXIgY29kZSBjb252ZXJ0ZWQgdG8gdXNlciByZWdtYXBfYnVsa19yZWFkKCksCiAgICAgIHJlZ21h
+cF9idWxrX3dyaXRlKCkKCkNoYW5nZXMgc2luY2UgW3YxXToKCiAgICAtIFBhdGNoc2V0IHJlYmFz
+ZWQgb24gdG9wIG9mCiAgICAgIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJp
+ZXMvNTgxNzYvCiAgICAgIAogICAgLSBQYXRjaGVzIHRvIHJlbW92ZSBib3RoIHRjX3dyaXRlKCkg
+YW5kIHRjX3JlYWQoKSBoZWxwZXJzIGFkZGVkCgogICAgLSBQYXRjaGVzIHRvIHJld29yayBBVVgg
+dHJhbnNmZXIgY29kZSBhZGRlZAoKICAgIC0gQm90aCAiZHJtL2JyaWRnZTogdGMzNTg3Njc6IFNp
+bXBsaWZ5IHBvbGxpbmcgaW4KICAgICAgdGNfbWFpbl9saW5rX3NldHVwKCkiIGFuZCAiZHJtL2Jy
+aWRnZTogdGMzNTg3Njc6IFNpbXBsaWZ5CiAgICAgIHBvbGxpbmcgaW4gdGNfbGlua190cmFpbmlu
+ZygpIiBjaGFuZ2VkIHRvIHVzZSB0Y19wb2xsX3RpbWVvdXQoKQogICAgICBpbnN0ZWFkIG9mIHJl
+Z21hcF9yZWFkX3BvbGxfdGltZW91dCgpCgpbdjRdIGxrbWwua2VybmVsLm9yZy9yLzIwMTkwNjA3
+MDQ0NTUwLjEzMzYxLTEtYW5kcmV3LnNtaXJub3ZAZ21haWwuY29tClt2M10gbGttbC5rZXJuZWwu
+b3JnL3IvMjAxOTA2MDUwNzA1MDcuMTE0MTctMS1hbmRyZXcuc21pcm5vdkBnbWFpbC5jb20KW3Yy
+XSBsa21sLmtlcm5lbC5vcmcvci8yMDE5MDMyMjAzMjkwMS4xMjA0NS0xLWFuZHJldy5zbWlybm92
+QGdtYWlsLmNvbQpbdjFdIGxrbWwua2VybmVsLm9yZy9yLzIwMTkwMjI2MTkzNjA5Ljk4NjItMS1h
+bmRyZXcuc21pcm5vdkBnbWFpbC5jb20KCkFuZHJleSBTbWlybm92ICgxNSk6CiAgZHJtL2JyaWRn
+ZTogdGMzNTg3Njc6IFNpbXBsaWZ5IHRjX3BvbGxfdGltZW91dCgpCiAgZHJtL2JyaWRnZTogdGMz
+NTg3Njc6IFNpbXBsaWZ5IHBvbGxpbmcgaW4gdGNfbWFpbl9saW5rX3NldHVwKCkKICBkcm0vYnJp
+ZGdlOiB0YzM1ODc2NzogU2ltcGxpZnkgcG9sbGluZyBpbiB0Y19saW5rX3RyYWluaW5nKCkKICBk
+cm0vYnJpZGdlOiB0YzM1ODc2NzogU2ltcGxpZnkgdGNfc2V0X3ZpZGVvX21vZGUoKQogIGRybS9i
+cmlkZ2U6IHRjMzU4NzY3OiBEcm9wIGN1c3RvbSB0Y193cml0ZSgpL3RjX3JlYWQoKSBhY2Nlc3Nv
+cnMKICBkcm0vYnJpZGdlOiB0YzM1ODc2NzogU2ltcGxpZnkgQVVYIGRhdGEgcmVhZAogIGRybS9i
+cmlkZ2U6IHRjMzU4NzY3OiBTaW1wbGlmeSBBVVggZGF0YSB3cml0ZQogIGRybS9icmlkZ2U6IHRj
+MzU4NzY3OiBJbmNyZWFzZSBBVVggdHJhbnNmZXIgbGVuZ3RoIGxpbWl0CiAgZHJtL2JyaWRnZTog
+dGMzNTg3Njc6IFVzZSByZXBvcnRlZCBBVVggdHJhbnNmZXIgc2l6ZQogIGRybS9icmlkZ2U6IHRj
+MzU4NzY3OiBBZGQgc3VwcG9ydCBmb3IgYWRkcmVzcy1vbmx5IEkyQyB0cmFuc2ZlcnMKICBkcm0v
+YnJpZGdlOiB0YzM1ODc2NzogSW50cm9kdWNlIHRjX3NldF9zeXNwbGxwYXJhbSgpCiAgZHJtL2Jy
+aWRnZTogdGMzNTg3Njc6IEludHJvZHVjZSB0Y19wbGx1cGRhdGUoKQogIGRybS9icmlkZ2U6IHRj
+MzU4NzY3OiBTaW1wbGlmeSB0Y19hdXhfd2FpdF9idXN5KCkKICBkcm0vYnJpZGdlOiB0YzM1ODc2
+NzogRHJvcCB1bm5lY2Vzc2FyeSA4IGJ5dGUgYnVmZmVyCiAgZHJtL2JyaWRnZTogdGMzNTg3Njc6
+IFJlcGxhY2UgbWFnaWMgbnVtYmVyIGluIHRjX21haW5fbGlua19lbmFibGUoKQoKIGRyaXZlcnMv
+Z3B1L2RybS9icmlkZ2UvdGMzNTg3NjcuYyB8IDY0OCArKysrKysrKysrKysrKysrKy0tLS0tLS0t
+LS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAzNzIgaW5zZXJ0aW9ucygrKSwgMjc2IGRlbGV0aW9ucygt
+KQoKLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
