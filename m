@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5334743127
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 22:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251884314F
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 23:04:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693638924C;
-	Wed, 12 Jun 2019 20:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21DA989267;
+	Wed, 12 Jun 2019 21:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 30CAE89257
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 20:55:42 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9F52789267
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 21:04:30 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2D2D672167; Wed, 12 Jun 2019 20:55:42 +0000 (UTC)
+ id 9C2BE72167; Wed, 12 Jun 2019 21:04:30 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
  macrotiles?)
-Date: Wed, 12 Jun 2019 20:55:42 +0000
+Date: Wed, 12 Jun 2019 21:04:30 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-kH0X1T6udk@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110897-502-kKDXRrt0dW@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
 References: <bug-110897-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1915488776=="
+Content-Type: multipart/mixed; boundary="===============0651484161=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1915488776==
-Content-Type: multipart/alternative; boundary="15603729421.8f8A1.22926"
+--===============0651484161==
+Content-Type: multipart/alternative; boundary="15603734701.13EB0c7Fa.24049"
 Content-Transfer-Encoding: 7bit
 
 
---15603729421.8f8A1.22926
-Date: Wed, 12 Jun 2019 20:55:42 +0000
+--15603734701.13EB0c7Fa.24049
+Date: Wed, 12 Jun 2019 21:04:30 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,35 +73,36 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
 
---- Comment #13 from cosiekvfj@o2.pl ---
-01:05.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-RC410M [Mobility Radeon Xpress 200M] (prog-if 00 [VGA controller])
-        Subsystem: Packard Bell B.V. RC410M [Mobility Radeon Xpress 200M]
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
-Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap+ 66MHz+ UDF- FastB2B+ ParErr- DEVSEL=3Dmedium >TAbort-
-<TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 66 (2000ns min), Cache Line Size: 32 bytes
-        Interrupt: pin A routed to IRQ 17
-        Region 0: Memory at d0000000 (32-bit, prefetchable) [size=3D256M]
-        Region 1: I/O ports at 9000 [size=3D256]
-        Region 2: Memory at c0000000 (32-bit, non-prefetchable) [size=3D64K]
-        [virtual] Expansion ROM at 000c0000 [disabled] [size=3D128K]
-        Capabilities: [50] Power Management version 2
-                Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=3D0mA
-PME(D0-,D1-,D2-,D3hot-,D3cold-)
-                Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
-        Capabilities: [80] MSI: Enable- Count=3D1/1 Maskable- 64bit-
-                Address: 00000000  Data: 0000
-        Kernel driver in use: radeon
-        Kernel modules: radeon
+--- Comment #14 from cosiekvfj@o2.pl ---
+Created attachment 144524
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144524&action=3Dedit
+bigger glxgears window
+
+>Is HyperZ just good without any changes to stock mesa?
+yes, mesa is from manjaro repo, and I think that it's the same build as in =
+arch
+repo.
+
+>Your card seems to be also reported as RC410 like mine, but you have much-=
+much more FPS for some reason.
+It's because window size of glxgears ;) We could test that if you want. But=
+ we
+need to agree on window size ;)
+
+>Is this also a laptop?
+Yes.
+
+I also tried to resize window to try to get some artifacts. Apart from some
+flickering during resizing, image was good. Flickering was also present wit=
+hout
+HyperZ.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15603729421.8f8A1.22926
-Date: Wed, 12 Jun 2019 20:55:42 +0000
+--15603734701.13EB0c7Fa.24049
+Date: Wed, 12 Jun 2019 21:04:30 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -119,8 +120,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
 tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c13">Comme=
-nt # 13</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c14">Comme=
+nt # 14</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
@@ -130,29 +131,31 @@ tiles?)"
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 cosiekvfj&#64;o2.pl" title=3D"cosiekvfj&#64;o2.pl">cosiekvfj&#64;o2.pl</a>
 </span></b>
-        <pre>01:05.0 VGA compatible controller: Advanced Micro Devices, Inc=
-. [AMD/ATI]
-RC410M [Mobility Radeon Xpress 200M] (prog-if 00 [VGA controller])
-        Subsystem: Packard Bell B.V. RC410M [Mobility Radeon Xpress 200M]
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr-
-Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap+ 66MHz+ UDF- FastB2B+ ParErr- DEVSEL=3Dmedium &gt;TAbor=
-t-
-&lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
-        Latency: 66 (2000ns min), Cache Line Size: 32 bytes
-        Interrupt: pin A routed to IRQ 17
-        Region 0: Memory at d0000000 (32-bit, prefetchable) [size=3D256M]
-        Region 1: I/O ports at 9000 [size=3D256]
-        Region 2: Memory at c0000000 (32-bit, non-prefetchable) [size=3D64K]
-        [virtual] Expansion ROM at 000c0000 [disabled] [size=3D128K]
-        Capabilities: [50] Power Management version 2
-                Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=3D0mA
-PME(D0-,D1-,D2-,D3hot-,D3cold-)
-                Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
-        Capabilities: [80] MSI: Enable- Count=3D1/1 Maskable- 64bit-
-                Address: 00000000  Data: 0000
-        Kernel driver in use: radeon
-        Kernel modules: radeon</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144524=
+" name=3D"attach_144524" title=3D"bigger glxgears window">attachment 144524=
+</a> <a href=3D"attachment.cgi?id=3D144524&amp;action=3Dedit" title=3D"bigg=
+er glxgears window">[details]</a></span>
+bigger glxgears window
+
+<span class=3D"quote">&gt;Is HyperZ just good without any changes to stock =
+mesa?</span >
+yes, mesa is from manjaro repo, and I think that it's the same build as in =
+arch
+repo.
+
+<span class=3D"quote">&gt;Your card seems to be also reported as RC410 like=
+ mine, but you have much-much more FPS for some reason.</span >
+It's because window size of glxgears ;) We could test that if you want. But=
+ we
+need to agree on window size ;)
+
+<span class=3D"quote">&gt;Is this also a laptop?</span >
+Yes.
+
+I also tried to resize window to try to get some artifacts. Apart from some
+flickering during resizing, image was good. Flickering was also present wit=
+hout
+HyperZ.</pre>
         </div>
       </p>
 
@@ -166,9 +169,9 @@ PME(D0-,D1-,D2-,D3hot-,D3cold-)
     </body>
 </html>=
 
---15603729421.8f8A1.22926--
+--15603734701.13EB0c7Fa.24049--
 
---===============1915488776==
+--===============0651484161==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -178,4 +181,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1915488776==--
+--===============0651484161==--
