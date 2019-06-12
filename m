@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEBA43675
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 15:26:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4F042B07
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 17:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E57E89A0E;
-	Thu, 13 Jun 2019 13:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13758970E;
+	Wed, 12 Jun 2019 15:36:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 453BC89A0E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 13:26:04 +0000 (UTC)
-X-Originating-IP: 90.88.159.246
-Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
- [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id B10E040003;
- Thu, 13 Jun 2019 13:25:51 +0000 (UTC)
-Date: Wed, 12 Jun 2019 17:34:23 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Torsten Duwe <duwe@lst.de>
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: a64: enable ANX6345 bridge
- on Teres-I
-Message-ID: <20190612153423.jjcxsturjip3pn56@flea>
-References: <20190604122150.29D6468B05@newverein.lst.de>
- <20190604122308.98D4868B20@newverein.lst.de>
- <CA+E=qVckHLqRngsfK=AcvstrD0ymEfRkYyhS_kBtZ3YWdE3L=g@mail.gmail.com>
- <20190605101317.GA9345@lst.de>
- <20190605120237.ekmytfxcwbjaqy3x@flea>
- <E1hYsvP-0000PY-Pz@stardust.g4.wien.funkfeuer.at>
- <20190607062802.m5wslx3imiqooq5a@flea>
- <20190607094030.GA12373@lst.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 570798970B
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 15:36:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5384772167; Wed, 12 Jun 2019 15:36:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110906] [Regression 5.2-rc4] Frozen screen with `Memory manager
+ not clean during takedown.`
+Date: Wed, 12 Jun 2019 15:36:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-110906-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190607094030.GA12373@lst.de>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,114 +53,362 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Harald Geyer <harald@ccbib.org>, Sean Paul <seanpaul@chromium.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- arm-linux <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1114226112=="
+Content-Type: multipart/mixed; boundary="===============0412538313=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1114226112==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="l4e2w5m2mlsciqb7"
-Content-Disposition: inline
+--===============0412538313==
+Content-Type: multipart/alternative; boundary="15603537782.d9a5.30183"
+Content-Transfer-Encoding: 7bit
 
 
---l4e2w5m2mlsciqb7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15603537782.d9a5.30183
+Date: Wed, 12 Jun 2019 15:36:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-On Fri, Jun 07, 2019 at 11:40:30AM +0200, Torsten Duwe wrote:
-> On Fri, Jun 07, 2019 at 08:28:02AM +0200, Maxime Ripard wrote:
-> > On Thu, Jun 06, 2019 at 03:59:27PM +0200, Harald Geyer wrote:
-> > >
-> > > If think valid compatible properties would be:
-> > > compatible = "innolux,n116bge", "simple-panel";
-> > > compatible = "edp-connector", "simple-panel";
-> >
-> > A connector isn't a panel.
-> >
-> > > compatible = "innolux,n116bge", "edp-connector", "simple-panel";
-> >
-> > And the innolux,n116bge is certainly not a connector either.
-> >
-> > > compatible = "edp-connector", "innolux,n116bge", "simple-panel";
-> > >
-> > > I can't make up my mind which one I prefere. However neither of these
-> > > variants requires actually implmenting an edp-connector driver.
-> >
-> > No-one asked to do an edp-connector driver. You should use it in your
-> > DT, but if you want to have some code in your driver that parses the
-> > DT directly, I'm totally fine with that.
->
-> I must admit I fail to understand what that extra node would be good for.
-> Logically, the eDP far side is connected to the well-known n116bge.
-> Inside the laptop case it might as well be a flat ribbon cable or
-> soldered directly.
-> In good intention, that's all I wanted to express in the DT. I don't
-> know whether the relevant mechanical dimensions of the panel and the
-> connector are standardised, so whether one could in theory assemble it
-> with a different panel than the one it came with.
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110906
 
-Because the panel that comes with the Teres-I is always the
-same. However, that's not true for all the devices out there using the
-bridge, starting with the pinebook.
+            Bug ID: 110906
+           Summary: [Regression 5.2-rc4] Frozen screen with `Memory
+                    manager not clean during takedown.`
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: pmenzel+bugs.freedesktop.org@molgen.mpg.de
 
-> OTOH, as I checked during the discussion with anarsoul, the panel's
-> supply voltage is permanently connected to the main 3.3V rail.
+Created attachment 144521
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144521&action=3Dedit
+Linux kernel 5.2-rc4 messages
 
-Again, that may be the case on the Teres-I, but not necessarily on
-other boards.
+There is a regression between Linux 5.2-rc3 and 5.2-rc4.
 
-> We already agreed that the eDP output port must not neccessarily be
-> specified, this setup is a good example why: because the panel is
-> always powered, the anx6345 can always pull valid EDID data from it
-> so at this stage there's no need for any OS driver to reach beyond
-> the bridge. IIRC even the backlight got switched off for the blank
-> screen without.
+The screen just freezes with start-up messages (mainly systemd notification=
+s),
+and the login screen is not shown. Logging in remotely using SSH is possibl=
+e.
+The X server cannot start as no screens are found. Linux logs the messages
+below.
 
-That's not really the outcome of the discussion we had here though:
-https://patchwork.freedesktop.org/patch/305035/
+[   11.452246] ------------[ cut here ]------------
+[   11.452697] Memory manager not clean during takedown.
+[   11.453131] WARNING: CPU: 3 PID: 180 at drivers/gpu/drm/drm_mm.c:939
+drm_mm_takedown+0x20/0x30 [drm]
+[   11.453917] Modules linked in: amdgpu(+) input_leds led_class gpu_sched =
+ttm
+drm_kms_helper x86_pkg_temp_thermal snd_hda_codec_realtek snd_hda_codec_hdmi
+snd_hda_codec_generic kvm_intel snd_hda_intel snd_hda_codec kvm snd_hda_core
+drm snd_pcm snd_timer wmi_bmof snd fb_sys_fops wmi syscopyarea irqbypass
+soundcore sysfillrect sysimgblt video crc32c_intel nfsd auth_rpcgss
+oid_registry nfs_acl lockd grace sunrpc ip_tables x_tables unix ipv6 autofs4
+[   11.457343] CPU: 3 PID: 180 Comm: systemd-udevd Not tainted
+5.2.0-rc4.mx64.270 #1
+[   11.458004] Hardware name: Dell Inc. OptiPlex 5040/0R790T, BIOS 1.2.7
+01/15/2016
+[   11.458653] RIP: 0010:drm_mm_takedown+0x20/0x30 [drm]
+[   11.459081] Code: ff ff e8 a3 1d e3 e0 0f 1f 00 0f 1f 44 00 00 48 8b 47 =
+38
+48 83 c7 38 48 39 c7 75 02 f3 c3 48 c7 c7 00 1f 27 a0 e8 00 1b e3 e0 <0f> 0=
+b c3
+0f 1f 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41
+[   11.460680] RSP: 0018:ffffc9000127fa48 EFLAGS: 00010282
+[   11.461110] RAX: 0000000000000000 RBX: ffff8882515c4030 RCX:
+0000000000000006
+[   11.461735] RDX: 0000000000000007 RSI: 0000000000000096 RDI:
+ffff8882543964c0
+[   11.462319] RBP: ffff88824db4fa00 R08: 00000000000002e6 R09:
+0000000000000038
+[   11.462943] R10: 0000000000000000 R11: ffffc9000127f8e8 R12:
+ffff8882515c41c0
+[   11.463527] R13: 0000000000000000 R14: 0000000000000170 R15:
+ffff8882405a7500
+[   11.464151] FS:  00007fa1d302e840(0000) GS:ffff888254380000(0000)
+knlGS:0000000000000000
+[   11.464844] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   11.465316] CR2: 00007fa1d04b9860 CR3: 000000024a60c001 CR4:
+00000000003606e0
+[   11.465941] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[   11.466526] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[   11.467151] Call Trace:
+[   11.467410]  amdgpu_vram_mgr_fini+0x27/0xa0 [amdgpu]
+[   11.467864]  ttm_bo_clean_mm+0xa5/0xe0 [ttm]
+[   11.468248]  amdgpu_ttm_fini+0x72/0xd0 [amdgpu]
+[   11.468690]  amdgpu_bo_fini+0xe/0x30 [amdgpu]
+[   11.469083]  gmc_v6_0_sw_fini+0x26/0x50 [amdgpu]
+[   11.469490]  amdgpu_device_fini+0x368/0x4b0 [amdgpu]
+[   11.469966]  amdgpu_driver_unload_kms+0xb4/0x150 [amdgpu]
+[   11.470435]  amdgpu_driver_load_kms+0x169/0x310 [amdgpu]
+[   11.470917]  drm_dev_register+0x118/0x1b0 [drm]
+[   11.471316]  amdgpu_pci_probe+0xcb/0x160 [amdgpu]
+[   11.471748]  local_pci_probe+0x42/0x90
+[   11.472062]  pci_device_probe+0x143/0x1b0
+[   11.472396]  really_probe+0x1b6/0x2b0
+[   11.472744]  driver_probe_device+0x50/0xf0
+[   11.473085]  device_driver_attach+0x4f/0x60
+[   11.473433]  __driver_attach+0x6c/0xb0
+[   11.473786]  ? device_driver_attach+0x60/0x60
+[   11.474148]  bus_for_each_dev+0x76/0xc0
+[   11.474468]  bus_add_driver+0x176/0x1f0
+[   11.474829]  ? 0xffffffffa07ae000
+[   11.475107]  driver_register+0x5b/0xe0
+[   11.475420]  ? 0xffffffffa07ae000
+[   11.475740]  do_one_initcall+0x4f/0x200
+[   11.476061]  ? _cond_resched+0x15/0x40
+[   11.476374]  ? kmem_cache_alloc_trace+0xdf/0x1f0
+[   11.476798]  do_init_module+0x5b/0x214
+[   11.477111]  load_module+0x1d98/0x2170
+[   11.477425]  __se_sys_finit_module+0xb1/0xd0
+[   11.477819]  do_syscall_64+0x48/0x130
+[   11.478126]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   11.478544] RIP: 0033:0x7fa1d1e45d19
+[   11.478884] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 =
+89
+f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3=
+d 01
+f0 ff ff 73 01 c3 48 8b 0d 3f 21 2c 00 f7 d8 64 89 01 48
+[   11.480441] RSP: 002b:00007fffb682ee38 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[   11.481091] RAX: ffffffffffffffda RBX: 0000000000681350 RCX:
+00007fa1d1e45d19
+[   11.481715] RDX: 0000000000000000 RSI: 00007fa1d279154b RDI:
+0000000000000015
+[   11.482299] RBP: 00007fa1d279154b R08: 0000000000000000 R09:
+0000000000000000
+[   11.482914] R10: 0000000000000015 R11: 0000000000000246 R12:
+0000000000000000
+[   11.483498] R13: 0000000000677e00 R14: 0000000000020000 R15:
+000000000067a800
+[   11.484124] ---[ end trace c489a0ac8a25869d ]---
 
-> All I wanted to say is that "there's usually an n116bge behind it";
-> but this is mostly redundant.
->
-> So, shall we just drop the output port specification (along with the
-> panel node) in order to get one step further?
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-Depending on the outcome of the discussion above, yes or no :)
+--15603537782.d9a5.30183
+Date: Wed, 12 Jun 2019 15:36:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Maxime
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Regression 5.2-rc4] Frozen screen with `Memory manager n=
+ot clean during takedown.`"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110906">110906</a>
+          </td>
+        </tr>
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+        <tr>
+          <th>Summary</th>
+          <td>[Regression 5.2-rc4] Frozen screen with `Memory manager not c=
+lean during takedown.`
+          </td>
+        </tr>
 
---l4e2w5m2mlsciqb7
-Content-Type: application/pgp-signature; name="signature.asc"
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
 
------BEGIN PGP SIGNATURE-----
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
 
-iHQEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQEbfwAKCRDj7w1vZxhR
-xXboAP9taP8cVAug0AmgG1n+5b7orZtPN+yeWqkQV/4rx6fcdgD3Tma8ZrLudyMc
-SNeQDRS8FMpPCWr42VcLCNdIMRk6CA==
-=j/Ze
------END PGP SIGNATURE-----
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
 
---l4e2w5m2mlsciqb7--
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
 
---===============1114226112==
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144521=
+" name=3D"attach_144521" title=3D"Linux kernel 5.2-rc4 messages">attachment=
+ 144521</a> <a href=3D"attachment.cgi?id=3D144521&amp;action=3Dedit" title=
+=3D"Linux kernel 5.2-rc4 messages">[details]</a></span>
+Linux kernel 5.2-rc4 messages
+
+There is a regression between Linux 5.2-rc3 and 5.2-rc4.
+
+The screen just freezes with start-up messages (mainly systemd notification=
+s),
+and the login screen is not shown. Logging in remotely using SSH is possibl=
+e.
+The X server cannot start as no screens are found. Linux logs the messages
+below.
+
+[   11.452246] ------------[ cut here ]------------
+[   11.452697] Memory manager not clean during takedown.
+[   11.453131] WARNING: CPU: 3 PID: 180 at drivers/gpu/drm/drm_mm.c:939
+drm_mm_takedown+0x20/0x30 [drm]
+[   11.453917] Modules linked in: amdgpu(+) input_leds led_class gpu_sched =
+ttm
+drm_kms_helper x86_pkg_temp_thermal snd_hda_codec_realtek snd_hda_codec_hdmi
+snd_hda_codec_generic kvm_intel snd_hda_intel snd_hda_codec kvm snd_hda_core
+drm snd_pcm snd_timer wmi_bmof snd fb_sys_fops wmi syscopyarea irqbypass
+soundcore sysfillrect sysimgblt video crc32c_intel nfsd auth_rpcgss
+oid_registry nfs_acl lockd grace sunrpc ip_tables x_tables unix ipv6 autofs4
+[   11.457343] CPU: 3 PID: 180 Comm: systemd-udevd Not tainted
+5.2.0-rc4.mx64.270 #1
+[   11.458004] Hardware name: Dell Inc. OptiPlex 5040/0R790T, BIOS 1.2.7
+01/15/2016
+[   11.458653] RIP: 0010:drm_mm_takedown+0x20/0x30 [drm]
+[   11.459081] Code: ff ff e8 a3 1d e3 e0 0f 1f 00 0f 1f 44 00 00 48 8b 47 =
+38
+48 83 c7 38 48 39 c7 75 02 f3 c3 48 c7 c7 00 1f 27 a0 e8 00 1b e3 e0 &lt;0f=
+&gt; 0b c3
+0f 1f 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 41
+[   11.460680] RSP: 0018:ffffc9000127fa48 EFLAGS: 00010282
+[   11.461110] RAX: 0000000000000000 RBX: ffff8882515c4030 RCX:
+0000000000000006
+[   11.461735] RDX: 0000000000000007 RSI: 0000000000000096 RDI:
+ffff8882543964c0
+[   11.462319] RBP: ffff88824db4fa00 R08: 00000000000002e6 R09:
+0000000000000038
+[   11.462943] R10: 0000000000000000 R11: ffffc9000127f8e8 R12:
+ffff8882515c41c0
+[   11.463527] R13: 0000000000000000 R14: 0000000000000170 R15:
+ffff8882405a7500
+[   11.464151] FS:  00007fa1d302e840(0000) GS:ffff888254380000(0000)
+knlGS:0000000000000000
+[   11.464844] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   11.465316] CR2: 00007fa1d04b9860 CR3: 000000024a60c001 CR4:
+00000000003606e0
+[   11.465941] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[   11.466526] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[   11.467151] Call Trace:
+[   11.467410]  amdgpu_vram_mgr_fini+0x27/0xa0 [amdgpu]
+[   11.467864]  ttm_bo_clean_mm+0xa5/0xe0 [ttm]
+[   11.468248]  amdgpu_ttm_fini+0x72/0xd0 [amdgpu]
+[   11.468690]  amdgpu_bo_fini+0xe/0x30 [amdgpu]
+[   11.469083]  gmc_v6_0_sw_fini+0x26/0x50 [amdgpu]
+[   11.469490]  amdgpu_device_fini+0x368/0x4b0 [amdgpu]
+[   11.469966]  amdgpu_driver_unload_kms+0xb4/0x150 [amdgpu]
+[   11.470435]  amdgpu_driver_load_kms+0x169/0x310 [amdgpu]
+[   11.470917]  drm_dev_register+0x118/0x1b0 [drm]
+[   11.471316]  amdgpu_pci_probe+0xcb/0x160 [amdgpu]
+[   11.471748]  local_pci_probe+0x42/0x90
+[   11.472062]  pci_device_probe+0x143/0x1b0
+[   11.472396]  really_probe+0x1b6/0x2b0
+[   11.472744]  driver_probe_device+0x50/0xf0
+[   11.473085]  device_driver_attach+0x4f/0x60
+[   11.473433]  __driver_attach+0x6c/0xb0
+[   11.473786]  ? device_driver_attach+0x60/0x60
+[   11.474148]  bus_for_each_dev+0x76/0xc0
+[   11.474468]  bus_add_driver+0x176/0x1f0
+[   11.474829]  ? 0xffffffffa07ae000
+[   11.475107]  driver_register+0x5b/0xe0
+[   11.475420]  ? 0xffffffffa07ae000
+[   11.475740]  do_one_initcall+0x4f/0x200
+[   11.476061]  ? _cond_resched+0x15/0x40
+[   11.476374]  ? kmem_cache_alloc_trace+0xdf/0x1f0
+[   11.476798]  do_init_module+0x5b/0x214
+[   11.477111]  load_module+0x1d98/0x2170
+[   11.477425]  __se_sys_finit_module+0xb1/0xd0
+[   11.477819]  do_syscall_64+0x48/0x130
+[   11.478126]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[   11.478544] RIP: 0033:0x7fa1d1e45d19
+[   11.478884] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 =
+89
+f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 &lt;48=
+&gt; 3d 01
+f0 ff ff 73 01 c3 48 8b 0d 3f 21 2c 00 f7 d8 64 89 01 48
+[   11.480441] RSP: 002b:00007fffb682ee38 EFLAGS: 00000246 ORIG_RAX:
+0000000000000139
+[   11.481091] RAX: ffffffffffffffda RBX: 0000000000681350 RCX:
+00007fa1d1e45d19
+[   11.481715] RDX: 0000000000000000 RSI: 00007fa1d279154b RDI:
+0000000000000015
+[   11.482299] RBP: 00007fa1d279154b R08: 0000000000000000 R09:
+0000000000000000
+[   11.482914] R10: 0000000000000015 R11: 0000000000000246 R12:
+0000000000000000
+[   11.483498] R13: 0000000000677e00 R14: 0000000000020000 R15:
+000000000067a800
+[   11.484124] ---[ end trace c489a0ac8a25869d ]---</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603537782.d9a5.30183--
+
+--===============0412538313==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -164,4 +418,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1114226112==--
+--===============0412538313==--
