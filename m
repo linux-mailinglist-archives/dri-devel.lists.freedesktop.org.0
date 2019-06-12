@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734C2430E8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 22:18:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B955D43357
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:27:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 987B2891AC;
-	Wed, 12 Jun 2019 20:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6252C892B6;
+	Thu, 13 Jun 2019 07:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5BEC0891AC
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 20:18:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5298972167; Wed, 12 Jun 2019 20:18:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Wed, 12 Jun 2019 20:18:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-b1wNytgZ9M@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9648A89262
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 20:47:10 +0000 (UTC)
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16]
+ helo=midway.dunlab)
+ by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+ id 1hbA9C-000305-2J; Wed, 12 Jun 2019 20:47:06 +0000
+Subject: Re: linux-next: Tree for Jun 12 (amdgpu: dcn10_hw_sequencer)
+To: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>
+References: <20190612170027.13dbb84b@canb.auug.org.au>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <9b4f8e15-8f9f-51d9-c355-9c2e453921e3@infradead.org>
+Date: Wed, 12 Jun 2019 13:47:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190612170027.13dbb84b@canb.auug.org.au>
+Content-Language: en-US
+X-Mailman-Approved-At: Thu, 13 Jun 2019 07:27:23 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8WWENblypPDMsQ59pJNiVEtFrFCNg58U3zxKaLpaFTQ=; b=PsNSMjSfNbFfdWphzo5pEuc16P
+ tYmuUhf5z7/LnJHcCERNlRHBS/3tz7afG43iyyTQActU1unUuEQ9u6P6OGfY0ST3gNSD7BvT59hOQ
+ YyN3NRp5tKaouLgMGOd1wHIg2HvhKTWy4cF5SYJjGXbt8RqV74RcNHwMBKpKLaf66ZkLHenXOvm8+
+ 7mIRuZKI97lrkqNh6LO6OSpCfrundVQEPBGV45cmQStWX1C9t+W7v5YTC0CnqY38K9t4SOOePFxxG
+ KOlmRIYFAbz6mQcRp4LXOfOqjaryv/Lk+RBVUwf1qXxxE9NiSA3qp5byYyY3hu5zLsv0Z24pOeYrU
+ TDGPQ/FQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,150 +55,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0454542472=="
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0454542472==
-Content-Type: multipart/alternative; boundary="15603707100.dd4E.19142"
-Content-Transfer-Encoding: 7bit
-
-
---15603707100.dd4E.19142
-Date: Wed, 12 Jun 2019 20:18:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
---- Comment #12 from Richard Thier <u9vata@gmail.com> ---
-Hi Cosiek!
-
-What card is that (lspci output maybe)? Is HyperZ just good without any cha=
-nges
-to stock mesa? Your card seems to be also reported as RC410 like mine, but =
-you
-have much-much more FPS for some reason. Is this also a laptop?
-
-> I just want to warn you that there may be some more bugs in r300 driver.
-
-I also know about one more that affects specifically the "Total War" games.
-Both Rome: Total War 1 and Medieval: Total War 2. I see very bad "tiling" b=
-ut
-from the size of the bad tiles I kind of think it is likely maybe some kind=
- of
-texture format or something similar that goes wrong. I haven't even started=
- the
-analysis because better do one thing at a time... It is good that you point=
- me
-towards this issue too as who knows if this is maybe not the one affecting =
-the
-game maybe?
-
-Also I have found out only now how "easy" is to gdb the userland driver! Al=
-l I
-need to do is to know proper function names and I can breakpoint them easily
-after answering yes to gdb when it asks me that it does not find the functi=
-on
-yet but if it should set breakpoint when the shared object is loaded... Bef=
-ore
-this I just used printfs and stuff... Both have use cases of course.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15603707100.dd4E.19142
-Date: Wed, 12 Jun 2019 20:18:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>Hi Cosiek!
-
-What card is that (lspci output maybe)? Is HyperZ just good without any cha=
-nges
-to stock mesa? Your card seems to be also reported as RC410 like mine, but =
-you
-have much-much more FPS for some reason. Is this also a laptop?
-
-<span class=3D"quote">&gt; I just want to warn you that there may be some m=
-ore bugs in r300 driver.</span >
-
-I also know about one more that affects specifically the &quot;Total War&qu=
-ot; games.
-Both Rome: Total War 1 and Medieval: Total War 2. I see very bad &quot;tili=
-ng&quot; but
-from the size of the bad tiles I kind of think it is likely maybe some kind=
- of
-texture format or something similar that goes wrong. I haven't even started=
- the
-analysis because better do one thing at a time... It is good that you point=
- me
-towards this issue too as who knows if this is maybe not the one affecting =
-the
-game maybe?
-
-Also I have found out only now how &quot;easy&quot; is to gdb the userland =
-driver! All I
-need to do is to know proper function names and I can breakpoint them easily
-after answering yes to gdb when it asks me that it does not find the functi=
-on
-yet but if it should set breakpoint when the shared object is loaded... Bef=
-ore
-this I just used printfs and stuff... Both have use cases of course.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15603707100.dd4E.19142--
-
---===============0454542472==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0454542472==--
+T24gNi8xMi8xOSAxMjowMCBBTSwgU3RlcGhlbiBSb3Rod2VsbCB3cm90ZToKPiBIaSBhbGwsCj4g
+Cj4gQ2hhbmdlcyBzaW5jZSAyMDE5MDYxMToKPiAKCm9uIHg4Nl82NDoKCi4uL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfaHdfc2VxdWVuY2VyLmM6
+IEluIGZ1bmN0aW9uIOKAmGRjbjEwX2FwcGx5X2N0eF9mb3Jfc3VyZmFjZeKAmToKLi4vZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlzcGxheS9kYy9kY24xMC9kY24xMF9od19zZXF1ZW5j
+ZXIuYzoyMzc4OjM6IGVycm9yOiBpbXBsaWNpdCBkZWNsYXJhdGlvbiBvZiBmdW5jdGlvbiDigJh1
+ZGVsYXnigJkgWy1XZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCiAgIHVkZWxh
+eSh1bmRlcmZsb3dfY2hlY2tfZGVsYXlfdXMpOwogICBeCgoKCi0tIAp+UmFuZHkKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
