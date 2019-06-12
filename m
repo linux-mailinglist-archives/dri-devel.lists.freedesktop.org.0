@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67937431EA
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 01:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5733431EB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 01:51:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 798028925B;
-	Wed, 12 Jun 2019 23:49:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1898B8925D;
+	Wed, 12 Jun 2019 23:51:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8FD768925B
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 23:49:17 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C560B8925D
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 23:51:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 86DE672167; Wed, 12 Jun 2019 23:49:17 +0000 (UTC)
+ id C21F572167; Wed, 12 Jun 2019 23:51:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Wed, 12 Jun 2019 23:49:17 +0000
+Date: Wed, 12 Jun 2019 23:51:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution: WONTFIX
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution
-Message-ID: <bug-110795-502-zw4XQFjbRX@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110795-502-Gf3FkmD05p@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
 References: <bug-110795-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0365134930=="
+Content-Type: multipart/mixed; boundary="===============0994295196=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0365134930==
-Content-Type: multipart/alternative; boundary="15603833570.9a6d35.3132"
+--===============0994295196==
+Content-Type: multipart/alternative; boundary="15603834992.3F947e02c.3424"
 Content-Transfer-Encoding: 7bit
 
 
---15603833570.9a6d35.3132
-Date: Wed, 12 Jun 2019 23:49:17 +0000
+--15603834992.3F947e02c.3424
+Date: Wed, 12 Jun 2019 23:51:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,29 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
 
-Rolf <rolf@lagrangepoint.io> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|INVALID                     |WONTFIX
-
---- Comment #15 from Rolf <rolf@lagrangepoint.io> ---
-I have a Linux workstation and it's a development workstation. Your driver =
-page
-(https://www.amd.com/en/support/graphics/amd-radeon-2nd-generation-vega/amd=
--radeon-2nd-generation-vega/amd-radeon-vii)
-is where people go for up-to-date drivers on Windows. It clearly has a Linux
-sections as well, so this is very confusing. I still have no idea if I shou=
-ld
-be using the pro or normal drivers. I am very appreciative to Alex for
-providing a script that gives me choice on Ubuntu 19.04.
+--- Comment #16 from Rolf <rolf@lagrangepoint.io> ---
+Btw, it would be very nice to list these PPAs on the driver page. Where are
+they documented? It's not like I can build the driver for myself without
+source.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15603833570.9a6d35.3132
-Date: Wed, 12 Jun 2019 23:49:17 +0000
+--15603834992.3F947e02c.3424
+Date: Wed, 12 Jun 2019 23:51:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,37 +93,14 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:rolf&#64;=
-lagrangepoint.io" title=3D"Rolf &lt;rolf&#64;lagrangepoint.io&gt;"> <span c=
-lass=3D"fn">Rolf</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED WONTFIX - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>INVALID
-           </td>
-           <td>WONTFIX
-           </td>
-         </tr></table>
+    <body>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
    title=3D"RESOLVED WONTFIX - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c15">Comme=
-nt # 15</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c16">Comme=
+nt # 16</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
    title=3D"RESOLVED WONTFIX - Unable to install on latest Ubuntu (19.04)"
@@ -145,17 +110,10 @@ nt # 15</a>
 rolf&#64;lagrangepoint.io" title=3D"Rolf &lt;rolf&#64;lagrangepoint.io&gt;"=
 > <span class=3D"fn">Rolf</span></a>
 </span></b>
-        <pre>I have a Linux workstation and it's a development workstation.=
- Your driver page
-(<a href=3D"https://www.amd.com/en/support/graphics/amd-radeon-2nd-generati=
-on-vega/amd-radeon-2nd-generation-vega/amd-radeon-vii">https://www.amd.com/=
-en/support/graphics/amd-radeon-2nd-generation-vega/amd-radeon-2nd-generatio=
-n-vega/amd-radeon-vii</a>)
-is where people go for up-to-date drivers on Windows. It clearly has a Linux
-sections as well, so this is very confusing. I still have no idea if I shou=
-ld
-be using the pro or normal drivers. I am very appreciative to Alex for
-providing a script that gives me choice on Ubuntu 19.04.</pre>
+        <pre>Btw, it would be very nice to list these PPAs on the driver pa=
+ge. Where are
+they documented? It's not like I can build the driver for myself without
+source.</pre>
         </div>
       </p>
 
@@ -169,9 +127,9 @@ providing a script that gives me choice on Ubuntu 19.04.</pre>
     </body>
 </html>=
 
---15603833570.9a6d35.3132--
+--15603834992.3F947e02c.3424--
 
---===============0365134930==
+--===============0994295196==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -181,4 +139,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0365134930==--
+--===============0994295196==--
