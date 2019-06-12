@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B86F41CDF
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:55:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 326C1419EF
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 03:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB5A0892EE;
-	Wed, 12 Jun 2019 06:54:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42E45891E1;
+	Wed, 12 Jun 2019 01:22:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
- [IPv6:2607:f8b0:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98050891D4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 01:22:14 +0000 (UTC)
-Received: by mail-pf1-x442.google.com with SMTP id p184so5268650pfp.7
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Jun 2019 18:22:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Ky1cJOwHZ56JNmGYppilpULLontDldd/s3eyGI0m6U0=;
- b=YMWcM3+6GvqFwFLg61NG4U817O5g3XLwZKk1g9kCCI6AlGdbt8zLZlIkjjnv4deyd3
- nrRg7nHlbW+9W47cQCM0hVX9K1hlj8mH2abSHXIpy+ctNJZXXBWR7oq2YycVE7G5uHsj
- f2mGhtBDyIASgCzK++VsX5EoDq0l1kqX6135n3hyZFt6JqU2NKtBnxgVNCgofnVkj4nz
- 1syP2cMVxp/5HuYuHXrSuR8kJjj9EuwiY4SnnfOtI+OnxlEaMnH/vU0U10rzdzfrmFYo
- o5AcYH5WpoMwYhEGmOPF/nXM4/NZTplEHda22L8/q4wyV6WRmia4gfVbWtTjvMLyarJf
- neVQ==
-X-Gm-Message-State: APjAAAUwBt8BOQ2a2j8Wc9JnpwTW/DqEBoRAVnx1KtjC8uQP8lA5Q4OT
- 1ScOZVtgc7bxD7VoDucTHmI=
-X-Google-Smtp-Source: APXvYqxoq0tlHQ6kgp/iduVCCMwBl8mA/veWFn8EQTI1GGwQscJmgo9L2tHZ8aJxWuG53y/8ArR7IA==
-X-Received: by 2002:aa7:8d89:: with SMTP id i9mr44034763pfr.77.1560302534005; 
- Tue, 11 Jun 2019 18:22:14 -0700 (PDT)
-Received: from Asurada-Nvidia.nvidia.com (thunderhill.nvidia.com.
- [216.228.112.22])
- by smtp.gmail.com with ESMTPSA id y22sm13265319pgj.38.2019.06.11.18.22.13
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 11 Jun 2019 18:22:13 -0700 (PDT)
-From: Nicolin Chen <nicoleotsuka@gmail.com>
-To: sumit.semwal@linaro.org,
-	christian.koenig@amd.com
-Subject: [PATCH] dma-buf: refcount the attachment for cache_sgt_mapping
-Date: Tue, 11 Jun 2019 18:22:19 -0700
-Message-Id: <20190612012219.21652-1-nicoleotsuka@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Wed, 12 Jun 2019 06:53:41 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=Ky1cJOwHZ56JNmGYppilpULLontDldd/s3eyGI0m6U0=;
- b=DvB/JIM6X6sMQrH9Y8WL3U7oZvQIzwOIQk+La/XXrFHdO15QBkDIKLqeaET/1Ep74o
- SYyudSUvfV/5cHstBLovWzTLk8PYGV8V8yD5CEHNEAIARQkpbLLgfqnBR4oR41W2wO3J
- 4Bd6YcsJ30dwxmRisE9z6XiwSsb4f7F17W7AF/av2kAw/RcJ6WBelqHl1Dxy/FCH7GN/
- BnxXrrhyjzQn4wnwzmD+gWjr3Pit/qteQKKVrx4mbeliQKt5sA8MUxPfhUtHhfMdekWm
- Q/+29RX8dzEnm6sqmipV6wWmXH6Wut8hHHnjVr5/QvgbcCZny47E5We2DyfpkBL6I0Qo
- p5HQ==
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B789E891E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 01:22:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B43D472167; Wed, 12 Jun 2019 01:22:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Wed, 12 Jun 2019 01:22:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-wGrybNBhtl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,75 +53,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, daniel.vetter@ffwll.ch,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0805987366=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tbWl0IGYxM2UxNDNlNzQ0NCAoImRtYS1idWY6IHN0YXJ0IGNhY2hpbmcgb2Ygc2dfdGFibGUg
-b2JqZWN0cyB2MiIpCmFkZGVkIGEgc3VwcG9ydCBvZiBjYWNoaW5nIHRoZSBzZ3QgcG9pbnRlciBp
-bnRvIGFuIGF0dGFjaCBwb2ludGVyIHRvCmxldCB1c2VycyByZXVzZSB0aGUgc2d0IHBvaW50ZXIg
-d2l0aG91dCBhbm90aGVyIG1hcHBpbmcuIEhvd2V2ZXIsIGl0Cm1pZ2h0IG5vdCB0b3RhbGx5IHdv
-cmsgYXMgbW9zdCBvZiBkbWEtYnVmIGNhbGxlcnMgYXJlIGRvaW5nIGF0dGFjaCgpCmFuZCBtYXBf
-YXR0YWNobWVudCgpIGJhY2stdG8tYmFjaywgdXNpbmcgZHJtX3ByaW1lLmMgZm9yIGV4YW1wbGU6
-CiAgICBkcm1fZ2VtX3ByaW1lX2ltcG9ydF9kZXYoKSB7CiAgICAgICAgYXR0YWNoID0gZG1hX2J1
-Zl9hdHRhY2goKSB7CiAgICAgICAgICAgIC8qIEFsbG9jYXRpbmcgYSBuZXcgYXR0YWNoICovCiAg
-ICAgICAgICAgIGF0dGFjaCA9IGt6YWxsb2MoKTsKICAgICAgICAgICAgLyogLi4uLiAqLwogICAg
-ICAgICAgICByZXR1cm4gYXR0YWNoOwogICAgICAgIH0KICAgICAgICBkbWFfYnVmX21hcF9hdHRh
-Y2htZW50KGF0dGFjaCwgZGlyZWN0aW9uKSB7CiAgICAgICAgICAgIC8qIGF0dGFjaC0+c2d0IHdv
-dWxkIGJlIGFsd2F5cyBlbXB0eSBhcyBhdHRhY2ggaXMgbmV3ICovCiAgICAgICAgICAgIGlmIChh
-dHRhY2gtPnNndCkgewogICAgICAgICAgICAgICAgLyogUmV1c2UgYXR0YWNoLT5zZ3QgKi8KICAg
-ICAgICAgICAgfQogICAgICAgICAgICAvKiBPdGhlcndpc2UsIG1hcCBpdCAqLwogICAgICAgICAg
-ICBhdHRhY2gtPnNndCA9IG1hcCgpOwogICAgICAgIH0KICAgIH0KClNvLCBmb3IgYSBjYWNoZV9z
-Z3RfbWFwcGluZyB1c2UgY2FzZSwgaXQgd291bGQgbmVlZCB0byBnZXQgdGhlIHNhbWUKYXR0YWNo
-bWVudCBwb2ludGVyIGluIG9yZGVyIHRvIHJldXNlIGl0cyBzZ3QgcG9pbnRlci4gU28gdGhpcyBw
-YXRjaAphZGRzIGEgcmVmY291bnQgdG8gdGhlIGF0dGFjaCgpIGZ1bmN0aW9uIGFuZCBsZXRzIGl0
-IHNlYXJjaCBmb3IgdGhlCmV4aXN0aW5nIGF0dGFjaCBwb2ludGVyIGJ5IG1hdGNoaW5nIHRoZSBk
-ZXYgcG9pbnRlci4KClNpZ25lZC1vZmYtYnk6IE5pY29saW4gQ2hlbiA8bmljb2xlb3RzdWthQGdt
-YWlsLmNvbT4KLS0tCiBkcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIHwgMjMgKysrKysrKysrKysr
-KysrKysrKysrKysKIGluY2x1ZGUvbGludXgvZG1hLWJ1Zi5oICAgfCAgMiArKwogMiBmaWxlcyBj
-aGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2Rt
-YS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKaW5kZXggZjQxMDRhMjFiMDY5Li5k
-MDI2MDU1M2EzMWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKKysrIGIv
-ZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwpAQCAtNTU5LDYgKzU1OSwyMSBAQCBzdHJ1Y3QgZG1h
-X2J1Zl9hdHRhY2htZW50ICpkbWFfYnVmX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAog
-CWlmIChXQVJOX09OKCFkbWFidWYgfHwgIWRldikpCiAJCXJldHVybiBFUlJfUFRSKC1FSU5WQUwp
-OwogCisJLyogY2FjaGVfc2d0X21hcHBpbmcgcmVxdWlyZXMgdG8gcmV1c2UgdGhlIHNhbWUgYXR0
-YWNobWVudCBwb2ludGVyICovCisJaWYgKGRtYWJ1Zi0+b3BzLT5jYWNoZV9zZ3RfbWFwcGluZykg
-eworCQltdXRleF9sb2NrKCZkbWFidWYtPmxvY2spOworCisJCS8qIFNlYXJjaCBmb3IgZXhpc3Rp
-bmcgYXR0YWNobWVudCBhbmQgaW5jcmVhc2UgaXRzIHJlZmNvdW50ICovCisJCWxpc3RfZm9yX2Vh
-Y2hfZW50cnkoYXR0YWNoLCAmZG1hYnVmLT5hdHRhY2htZW50cywgbm9kZSkgeworCQkJaWYgKGRl
-diAhPSBhdHRhY2gtPmRldikKKwkJCQljb250aW51ZTsKKwkJCWF0b21pY19pbmNfbm90X3plcm8o
-JmF0dGFjaC0+cmVmY291bnQpOworCQkJZ290byB1bmxvY2tfYXR0YWNoOworCQl9CisKKwkJbXV0
-ZXhfdW5sb2NrKCZkbWFidWYtPmxvY2spOworCX0KKwogCWF0dGFjaCA9IGt6YWxsb2Moc2l6ZW9m
-KCphdHRhY2gpLCBHRlBfS0VSTkVMKTsKIAlpZiAoIWF0dGFjaCkKIAkJcmV0dXJuIEVSUl9QVFIo
-LUVOT01FTSk7CkBAIC01NzUsNiArNTkwLDkgQEAgc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAq
-ZG1hX2J1Zl9hdHRhY2goc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwKIAl9CiAJbGlzdF9hZGQoJmF0
-dGFjaC0+bm9kZSwgJmRtYWJ1Zi0+YXR0YWNobWVudHMpOwogCisJYXRvbWljX3NldCgmYXR0YWNo
-LT5yZWZjb3VudCwgMSk7CisKK3VubG9ja19hdHRhY2g6CiAJbXV0ZXhfdW5sb2NrKCZkbWFidWYt
-PmxvY2spOwogCiAJcmV0dXJuIGF0dGFjaDsKQEAgLTU5OSw2ICs2MTcsMTEgQEAgdm9pZCBkbWFf
-YnVmX2RldGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2ht
-ZW50ICphdHRhY2gpCiAJaWYgKFdBUk5fT04oIWRtYWJ1ZiB8fCAhYXR0YWNoKSkKIAkJcmV0dXJu
-OwogCisJLyogRGVjcmVhc2UgdGhlIHJlZmNvdW50IGZvciBjYWNoZV9zZ3RfbWFwcGluZyB1c2Ug
-Y2FzZXMgKi8KKwlpZiAoZG1hYnVmLT5vcHMtPmNhY2hlX3NndF9tYXBwaW5nICYmCisJICAgIGF0
-b21pY19kZWNfcmV0dXJuKCZhdHRhY2gtPnJlZmNvdW50KSkKKwkJcmV0dXJuOworCiAJaWYgKGF0
-dGFjaC0+c2d0KQogCQlkbWFidWYtPm9wcy0+dW5tYXBfZG1hX2J1ZihhdHRhY2gsIGF0dGFjaC0+
-c2d0LCBhdHRhY2gtPmRpcik7CiAKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5o
-IGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgKaW5kZXggOGEzMjc1NjZkN2Y0Li42NWYxMjIxMmNh
-MmUgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCisrKyBiL2luY2x1ZGUvbGlu
-dXgvZG1hLWJ1Zi5oCkBAIC0zMzMsNiArMzMzLDcgQEAgc3RydWN0IGRtYV9idWYgewogICogQGRl
-djogZGV2aWNlIGF0dGFjaGVkIHRvIHRoZSBidWZmZXIuCiAgKiBAbm9kZTogbGlzdCBvZiBkbWFf
-YnVmX2F0dGFjaG1lbnQuCiAgKiBAc2d0OiBjYWNoZWQgbWFwcGluZy4KKyAqIEByZWZjb3VudDog
-cmVmY291bnQgb2YgdGhlIGF0dGFjaG1lbnQgZm9yIHRoZSBzYW1lIGRldmljZS4KICAqIEBkaXI6
-IGRpcmVjdGlvbiBvZiBjYWNoZWQgbWFwcGluZy4KICAqIEBwcml2OiBleHBvcnRlciBzcGVjaWZp
-YyBhdHRhY2htZW50IGRhdGEuCiAgKgpAQCAtMzUwLDYgKzM1MSw3IEBAIHN0cnVjdCBkbWFfYnVm
-X2F0dGFjaG1lbnQgewogCXN0cnVjdCBkZXZpY2UgKmRldjsKIAlzdHJ1Y3QgbGlzdF9oZWFkIG5v
-ZGU7CiAJc3RydWN0IHNnX3RhYmxlICpzZ3Q7CisJYXRvbWljX3QgcmVmY291bnQ7CiAJZW51bSBk
-bWFfZGF0YV9kaXJlY3Rpb24gZGlyOwogCXZvaWQgKnByaXY7CiB9OwotLSAKMi4xNy4xCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0805987366==
+Content-Type: multipart/alternative; boundary="15603025591.CADc.9906"
+Content-Transfer-Encoding: 7bit
+
+
+--15603025591.CADc.9906
+Date: Wed, 12 Jun 2019 01:22:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #9 from Richard Thier <u9vata@gmail.com> ---
+So these does not seem to happen at any time:
+
+        /* Emit clear packets. */
+        r300_emit_gpu_flush(r300, r300->gpu_flush.size, r300->gpu_flush.sta=
+te);
+        r300->gpu_flush.dirty =3D FALSE;
+
+        if (r300->zmask_clear.dirty) {
+            fprintf(stderr, "KUL-AKVA\n");
+            r300_emit_zmask_clear(r300, r300->zmask_clear.size,
+                                  r300->zmask_clear.state);
+            r300->zmask_clear.dirty =3D FALSE;
+        }=20=20=20
+        if (r300->hiz_clear.dirty) {
+            fprintf(stderr, "KUL-AKVA2\n");
+            r300_emit_hiz_clear(r300, r300->hiz_clear.size,
+                                r300->hiz_clear.state);
+            r300->hiz_clear.dirty =3D FALSE;
+        }=20=20=20
+        if (r300->cmask_clear.dirty) {
+            r300_emit_cmask_clear(r300, r300->cmask_clear.size,
+                                  r300->cmask_clear.state);
+            r300->cmask_clear.dirty =3D FALSE;
+        }
+
+At least not with glxgears. But I kind of get the impression that the inten=
+tion
+of the code is to end up here as earlier we set things as dirty:
+
+            /* Setup Hyper-Z clears. */
+            if (r300->hyperz_enabled) {
+                if (zmask_clear) {
+                    hyperz_dcv =3D hyperz->zb_depthclearvalue =3D
+                        r300_depth_clear_value(fb->zsbuf->format, depth,
+stencil);
+                    r300_mark_atom_dirty(r300, &r300->zmask_clear);
+                    r300_mark_atom_dirty(r300, &r300->gpu_flush);
+                    buffers &=3D ~PIPE_CLEAR_DEPTHSTENCIL;
+/* FIXME: REMOVE KUL* LOGS: */
+                    fprintf(stderr, "KUL-A\n");
+                }
+
+                if (hiz_clear) {
+                    r300->hiz_clear_value =3D r300_hiz_clear_value(depth);
+                    r300_mark_atom_dirty(r300, &r300->hiz_clear);
+                    r300_mark_atom_dirty(r300, &r300->gpu_flush);
+                }
+                r300->num_z_clears++;
+            }
+
+Looking at mark_atom_dirty it seems to set the flag. I do not know who dele=
+tes
+it but it got deleted. Also I have printed what is the value of "buffers" w=
+here
+we enter the "KUL-C" code path (according to my log scheme) and the value is
+buffers=3D4 which is the first (0th) color buffer. It is not some new kind,=
+ but
+above this check I see only one place where this could get zeroed and maybe
+that is not happening for this card but for others it does.
+
+What bugs me is that the dirtyness of zmask_clear and hiz_clear also go away
+somewhere, but I am too tired to see where. Just wanted to write down all t=
+he
+stuff so far and at least provide the logs and insights.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15603025591.CADc.9906
+Date: Wed, 12 Jun 2019 01:22:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>So these does not seem to happen at any time:
+
+        /* Emit clear packets. */
+        r300_emit_gpu_flush(r300, r300-&gt;gpu_flush.size, r300-&gt;gpu_flu=
+sh.state);
+        r300-&gt;gpu_flush.dirty =3D FALSE;
+
+        if (r300-&gt;zmask_clear.dirty) {
+            fprintf(stderr, &quot;KUL-AKVA\n&quot;);
+            r300_emit_zmask_clear(r300, r300-&gt;zmask_clear.size,
+                                  r300-&gt;zmask_clear.state);
+            r300-&gt;zmask_clear.dirty =3D FALSE;
+        }=20=20=20
+        if (r300-&gt;hiz_clear.dirty) {
+            fprintf(stderr, &quot;KUL-AKVA2\n&quot;);
+            r300_emit_hiz_clear(r300, r300-&gt;hiz_clear.size,
+                                r300-&gt;hiz_clear.state);
+            r300-&gt;hiz_clear.dirty =3D FALSE;
+        }=20=20=20
+        if (r300-&gt;cmask_clear.dirty) {
+            r300_emit_cmask_clear(r300, r300-&gt;cmask_clear.size,
+                                  r300-&gt;cmask_clear.state);
+            r300-&gt;cmask_clear.dirty =3D FALSE;
+        }
+
+At least not with glxgears. But I kind of get the impression that the inten=
+tion
+of the code is to end up here as earlier we set things as dirty:
+
+            /* Setup Hyper-Z clears. */
+            if (r300-&gt;hyperz_enabled) {
+                if (zmask_clear) {
+                    hyperz_dcv =3D hyperz-&gt;zb_depthclearvalue =3D
+                        r300_depth_clear_value(fb-&gt;zsbuf-&gt;format, dep=
+th,
+stencil);
+                    r300_mark_atom_dirty(r300, &amp;r300-&gt;zmask_clear);
+                    r300_mark_atom_dirty(r300, &amp;r300-&gt;gpu_flush);
+                    buffers &amp;=3D ~PIPE_CLEAR_DEPTHSTENCIL;
+/* FIXME: REMOVE KUL* LOGS: */
+                    fprintf(stderr, &quot;KUL-A\n&quot;);
+                }
+
+                if (hiz_clear) {
+                    r300-&gt;hiz_clear_value =3D r300_hiz_clear_value(depth=
+);
+                    r300_mark_atom_dirty(r300, &amp;r300-&gt;hiz_clear);
+                    r300_mark_atom_dirty(r300, &amp;r300-&gt;gpu_flush);
+                }
+                r300-&gt;num_z_clears++;
+            }
+
+Looking at mark_atom_dirty it seems to set the flag. I do not know who dele=
+tes
+it but it got deleted. Also I have printed what is the value of &quot;buffe=
+rs&quot; where
+we enter the &quot;KUL-C&quot; code path (according to my log scheme) and t=
+he value is
+buffers=3D4 which is the first (0th) color buffer. It is not some new kind,=
+ but
+above this check I see only one place where this could get zeroed and maybe
+that is not happening for this card but for others it does.
+
+What bugs me is that the dirtyness of zmask_clear and hiz_clear also go away
+somewhere, but I am too tired to see where. Just wanted to write down all t=
+he
+stuff so far and at least provide the logs and insights.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15603025591.CADc.9906--
+
+--===============0805987366==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0805987366==--
