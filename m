@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251884314F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 23:04:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A92C643169
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 23:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21DA989267;
-	Wed, 12 Jun 2019 21:04:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD0589267;
+	Wed, 12 Jun 2019 21:18:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F52789267
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 21:04:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9C2BE72167; Wed, 12 Jun 2019 21:04:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Wed, 12 Jun 2019 21:04:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cosiekvfj@o2.pl
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110897-502-kKDXRrt0dW@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3543089255;
+ Wed, 12 Jun 2019 21:18:14 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 187362001E;
+ Wed, 12 Jun 2019 23:18:09 +0200 (CEST)
+Date: Wed, 12 Jun 2019 23:18:07 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Derek Basehore <dbasehore@chromium.org>
+Subject: Re: [PATCH 1/5] drm/panel: Add helper for reading DT rotation
+Message-ID: <20190612211807.GA13155@ravnborg.org>
+References: <20190611040350.90064-1-dbasehore@chromium.org>
+ <20190611040350.90064-2-dbasehore@chromium.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190611040350.90064-2-dbasehore@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8
+ a=Ikd4Dj_1AAAA:8 a=t_KA93f0VNsUmkpjo_oA:9 a=CjuIK1q_8ugA:10
+ a=xmb-EsYY8bH0VWELuYED:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,132 +46,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0651484161=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Maxime Ripard <maxime.ripard@bootlin.com>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-mediatek@lists.infradead.org, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0651484161==
-Content-Type: multipart/alternative; boundary="15603734701.13EB0c7Fa.24049"
-Content-Transfer-Encoding: 7bit
-
-
---15603734701.13EB0c7Fa.24049
-Date: Wed, 12 Jun 2019 21:04:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
---- Comment #14 from cosiekvfj@o2.pl ---
-Created attachment 144524
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144524&action=3Dedit
-bigger glxgears window
-
->Is HyperZ just good without any changes to stock mesa?
-yes, mesa is from manjaro repo, and I think that it's the same build as in =
-arch
-repo.
-
->Your card seems to be also reported as RC410 like mine, but you have much-=
-much more FPS for some reason.
-It's because window size of glxgears ;) We could test that if you want. But=
- we
-need to agree on window size ;)
-
->Is this also a laptop?
-Yes.
-
-I also tried to resize window to try to get some artifacts. Apart from some
-flickering during resizing, image was good. Flickering was also present wit=
-hout
-HyperZ.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15603734701.13EB0c7Fa.24049
-Date: Wed, 12 Jun 2019 21:04:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c14">Comme=
-nt # 14</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cosiekvfj&#64;o2.pl" title=3D"cosiekvfj&#64;o2.pl">cosiekvfj&#64;o2.pl</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144524=
-" name=3D"attach_144524" title=3D"bigger glxgears window">attachment 144524=
-</a> <a href=3D"attachment.cgi?id=3D144524&amp;action=3Dedit" title=3D"bigg=
-er glxgears window">[details]</a></span>
-bigger glxgears window
-
-<span class=3D"quote">&gt;Is HyperZ just good without any changes to stock =
-mesa?</span >
-yes, mesa is from manjaro repo, and I think that it's the same build as in =
-arch
-repo.
-
-<span class=3D"quote">&gt;Your card seems to be also reported as RC410 like=
- mine, but you have much-much more FPS for some reason.</span >
-It's because window size of glxgears ;) We could test that if you want. But=
- we
-need to agree on window size ;)
-
-<span class=3D"quote">&gt;Is this also a laptop?</span >
-Yes.
-
-I also tried to resize window to try to get some artifacts. Apart from some
-flickering during resizing, image was good. Flickering was also present wit=
-hout
-HyperZ.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15603734701.13EB0c7Fa.24049--
-
---===============0651484161==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0651484161==--
+SGkgRGVyZWsuCgpPbiBNb24sIEp1biAxMCwgMjAxOSBhdCAwOTowMzo0NlBNIC0wNzAwLCBEZXJl
+ayBCYXNlaG9yZSB3cm90ZToKPiBUaGlzIGFkZHMgYSBoZWxwZXIgZnVuY3Rpb24gZm9yIHJlYWRp
+bmcgdGhlIHJvdGF0aW9uIChwYW5lbAo+IG9yaWVudGF0aW9uKSBmcm9tIHRoZSBkZXZpY2UgdHJl
+ZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBEZXJlayBCYXNlaG9yZSA8ZGJhc2Vob3JlQGNocm9taXVt
+Lm9yZz4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbC5jIHwgNDEgKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBpbmNsdWRlL2RybS9kcm1fcGFuZWwuaCAg
+ICAgfCAgNyArKysrKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKQo+IAo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsLmMgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3BhbmVsLmMKPiBpbmRleCBkYmQ1Yjg3M2U4ZjIuLjNiNjg5Y2U0YTUxYSAxMDA2NDQK
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3BhbmVsLmMKPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vZHJtX3BhbmVsLmMKPiBAQCAtMTcyLDYgKzE3Miw0NyBAQCBzdHJ1Y3QgZHJtX3BhbmVsICpv
+Zl9kcm1fZmluZF9wYW5lbChjb25zdCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wKQo+ICAJcmV0dXJu
+IEVSUl9QVFIoLUVQUk9CRV9ERUZFUik7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTChvZl9kcm1fZmlu
+ZF9wYW5lbCk7Cj4gKwo+ICsvKioKPiArICogb2ZfZHJtX2dldF9wYW5lbF9vcmllbnRhdGlvbiAt
+IGxvb2sgdXAgdGhlIHJvdGF0aW9uIG9mIHRoZSBwYW5lbCB1c2luZyBhCj4gKyAqIGRldmljZSB0
+cmVlIG5vZGUKPiArICogQG5wOiBkZXZpY2UgdHJlZSBub2RlIG9mIHRoZSBwYW5lbAo+ICsgKiBA
+b3JpZW50YXRpb246IG9yaWVudGF0aW9uIGVudW0gdG8gYmUgZmlsbGVkIGluClRoZSBjb21tZW50
+IHNheXMgImVudW0iIGJ1dCB0aGUgdHlwZSB1c2VkIGlzIGFuIGludC4KV2h5IG5vdCB1c2UgZW51
+bSBkcm1fcGFuZWxfb3JpZW50YXRpb24/Cgo+ICsgKgo+ICsgKiBMb29rcyB1cCB0aGUgcm90YXRp
+b24gb2YgYSBwYW5lbCBpbiB0aGUgZGV2aWNlIHRyZWUuIFRoZSByb3RhdGlvbiBpbiB0aGUKPiAr
+ICogZGV2aWNlIHRyZWUgaXMgY291bnRlciBjbG9ja3dpc2UuCj4gKyAqCj4gKyAqIFJldHVybjog
+MCB3aGVuIGEgdmFsaWQgcm90YXRpb24gdmFsdWUgKDAsIDkwLCAxODAsIG9yIDI3MCkgaXMgcmVh
+ZCBvciB0aGUKPiArICogcm90YXRpb24gcHJvcGVydHkgZG9lc24ndCBleGlzdC4gLUVFUlJPUiBv
+dGhlcndpc2UuCj4gKyAqLwpJbml0aWFsbHkgSSByZWFkIC1FRVJPT1IgYXMgYSBzcGVjaWZpYyBl
+cnJvciBjb2RlLgpCdXQgSSBndWVzIHRoZSBzZW1hbnRpYyBpcyB0byBzYXkgdGhhdCBhIG5lZ2F0
+aXZlIGVycm9yIGNvZGUgaXMgcmV0dXJuZWQKaWYgc29tZXRoaW5nIHdhcyB3cm9uZy4KQXMgd2Ug
+ZG8gbm90IHVzZSB0aGUgIi1FRVJST1IiIHN5bnRheCBhbnl3aGVyZSBlbHNlIGluIGRybSwgcGxl
+YXNlCnJld29yZCBsaWtlIHdlIGRvIGluIG90aGVyIHBsYWNlcy4KCgpBbHNvIC0gaXQgaXMgd29y
+dGggdG8gbWVudGlvbiB0aGF0IHRoZSByb3RhdGlvbiByZXR1cm5lZCBpcwpEUk1fTU9ERV9QQU5F
+TF9PUklFTlRBVElPTl9VTktOT1dOIGlmIHRoZSBwcm9wZXJ0eSBpcyBub3Qgc3BlY2lmaWVkLgpJ
+IHdvbmRlciBpZiB0aGlzIGlzIGNvcnJlY3QsIGFzIG5vIHByb3BlcnR5IGNvdWxkIGFsc28gYmVl
+bgppbnRlcnByZXRhdGVkIGFzIERSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX05PUk1BTC4KQW5k
+IGluIG1vc3QgY2FzZXMgdGhlIHJvYXRpb24gcHJvcGVydHkgaXMgb3B0aW9uYWwsIHNvIG9uZSBj
+b3VsZAphc3N1bWUgdGhhdCBubyBwcm9wZXJ0eSBlcXVhbHMgMCBkZWdyZWUuCgoKCVNhbQoKPiAr
+aW50IG9mX2RybV9nZXRfcGFuZWxfb3JpZW50YXRpb24oY29uc3Qgc3RydWN0IGRldmljZV9ub2Rl
+ICpucCwgaW50ICpvcmllbnRhdGlvbikKPiArewo+ICsJaW50IHJvdGF0aW9uLCByZXQ7Cj4gKwo+
+ICsJcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzIobnAsICJyb3RhdGlvbiIsICZyb3RhdGlvbik7
+Cj4gKwlpZiAocmV0ID09IC1FSU5WQUwpIHsKPiArCQkvKiBEb24ndCByZXR1cm4gYW4gZXJyb3Ig
+aWYgdGhlcmUncyBubyByb3RhdGlvbiBwcm9wZXJ0eS4gKi8KPiArCQkqb3JpZW50YXRpb24gPSBE
+Uk1fTU9ERV9QQU5FTF9PUklFTlRBVElPTl9VTktOT1dOOwo+ICsJCXJldHVybiAwOwo+ICsJfQo+
+ICsKPiArCWlmIChyZXQgPCAwKQo+ICsJCXJldHVybiByZXQ7Cj4gKwo+ICsJaWYgKHJvdGF0aW9u
+ID09IDApCj4gKwkJKm9yaWVudGF0aW9uID0gRFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fTk9S
+TUFMOwo+ICsJZWxzZSBpZiAocm90YXRpb24gPT0gOTApCj4gKwkJKm9yaWVudGF0aW9uID0gRFJN
+X01PREVfUEFORUxfT1JJRU5UQVRJT05fUklHSFRfVVA7Cj4gKwllbHNlIGlmIChyb3RhdGlvbiA9
+PSAxODApCj4gKwkJKm9yaWVudGF0aW9uID0gRFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fQk9U
+VE9NX1VQOwo+ICsJZWxzZSBpZiAocm90YXRpb24gPT0gMjcwKQo+ICsJCSpvcmllbnRhdGlvbiA9
+IERSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9OX0xFRlRfVVA7Cj4gKwllbHNlCj4gKwkJcmV0dXJu
+IC1FSU5WQUw7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4gK30KPiArRVhQT1JUX1NZTUJPTChvZl9kcm1f
+Z2V0X3BhbmVsX29yaWVudGF0aW9uKTsKPiAgI2VuZGlmCj4gIAo+ICBNT0RVTEVfQVVUSE9SKCJU
+aGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPiIpOwo+IGRpZmYgLS1naXQgYS9pbmNs
+dWRlL2RybS9kcm1fcGFuZWwuaCBiL2luY2x1ZGUvZHJtL2RybV9wYW5lbC5oCj4gaW5kZXggOGM3
+MzhjMGU2ZTlmLi4xMzYzMWIyZWZiYWEgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3Bh
+bmVsLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fcGFuZWwuaAo+IEBAIC0xOTcsMTEgKzE5Nywx
+OCBAQCBpbnQgZHJtX3BhbmVsX2RldGFjaChzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCk7Cj4gIAo+
+ICAjaWYgZGVmaW5lZChDT05GSUdfT0YpICYmIGRlZmluZWQoQ09ORklHX0RSTV9QQU5FTCkKPiAg
+c3RydWN0IGRybV9wYW5lbCAqb2ZfZHJtX2ZpbmRfcGFuZWwoY29uc3Qgc3RydWN0IGRldmljZV9u
+b2RlICpucCk7Cj4gK2ludCBvZl9kcm1fZ2V0X3BhbmVsX29yaWVudGF0aW9uKGNvbnN0IHN0cnVj
+dCBkZXZpY2Vfbm9kZSAqbnAsCj4gKwkJCQkgaW50ICpvcmllbnRhdGlvbik7Cj4gICNlbHNlCj4g
+IHN0YXRpYyBpbmxpbmUgc3RydWN0IGRybV9wYW5lbCAqb2ZfZHJtX2ZpbmRfcGFuZWwoY29uc3Qg
+c3RydWN0IGRldmljZV9ub2RlICpucCkKPiAgewo+ICAJcmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7
+Cj4gIH0KPiAraW50IG9mX2RybV9nZXRfcGFuZWxfb3JpZW50YXRpb24oY29uc3Qgc3RydWN0IGRl
+dmljZV9ub2RlICpucCwKPiArCQkJCSBpbnQgKm9yaWVudGF0aW9uKQo+ICt7Cj4gKwlyZXR1cm4g
+LUVOT0RFVjsKPiArfQo+ICAjZW5kaWYKPiAgCj4gICNlbmRpZgo+IC0tIAo+IDIuMjIuMC5yYzIu
+MzgzLmdmNGZiYmYzMGMyLWdvb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
