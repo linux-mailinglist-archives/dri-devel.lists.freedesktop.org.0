@@ -1,47 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640EE41B65
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 06:57:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B45841BE8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Jun 2019 08:01:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 550D5891D6;
-	Wed, 12 Jun 2019 04:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C306A891B1;
+	Wed, 12 Jun 2019 06:01:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DC734891D6
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 04:57:24 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D683472167; Wed, 12 Jun 2019 04:57:24 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAFEE891B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 06:01:51 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 9F22428961
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 06:01:51 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 92CA128969; Wed, 12 Jun 2019 06:01:51 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110749] [Vega 11] [amdgpu retry page fault
- VM_L2_PROTECTION_FAULT_STATUS] System lock up during playing Steam version of
- Saints Row 3
-Date: Wed, 12 Jun 2019 04:57:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+Subject: [Bug 203865] New: Crash in nouveau when loading game Big Pharma.
+Date: Wed, 12 Jun 2019 06:01:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: evvke@hotmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: leslie_alistair@hotmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110749-502-B3MHOxbbAE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110749-502@http.bugs.freedesktop.org/>
-References: <bug-110749-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-203865-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,94 +61,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0111892736=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0111892736==
-Content-Type: multipart/alternative; boundary="15603154441.E6CffCC.8743"
-Content-Transfer-Encoding: 7bit
-
-
---15603154441.E6CffCC.8743
-Date: Wed, 12 Jun 2019 04:57:24 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110749
-
---- Comment #4 from Cyrax <evvke@hotmail.com> ---
-Created attachment 144516
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144516&action=3Dedit
-dmesg event umr dumps as usual
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15603154441.E6CffCC.8743
-Date: Wed, 12 Jun 2019 04:57:24 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega 11] [amdgpu retry page fault VM_L2_PROTECTION_FAULT=
-_STATUS] System lock up during playing Steam version of Saints Row 3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110749#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega 11] [amdgpu retry page fault VM_L2_PROTECTION_FAULT=
-_STATUS] System lock up during playing Steam version of Saints Row 3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110749">bug 11074=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-evvke&#64;hotmail.com" title=3D"Cyrax &lt;evvke&#64;hotmail.com&gt;"> <span=
- class=3D"fn">Cyrax</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144516=
-" name=3D"attach_144516" title=3D"dmesg event umr dumps as usual">attachmen=
-t 144516</a> <a href=3D"attachment.cgi?id=3D144516&amp;action=3Dedit" title=
-=3D"dmesg event umr dumps as usual">[details]</a></span>
-dmesg event umr dumps as usual</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15603154441.E6CffCC.8743--
-
---===============0111892736==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0111892736==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM4NjUKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjAzODY1CiAgICAgICAgICAgU3VtbWFyeTogQ3Jhc2ggaW4gbm91dmVh
+dSB3aGVuIGxvYWRpbmcgZ2FtZSBCaWcgUGhhcm1hLgogICAgICAgICAgIFByb2R1Y3Q6IERyaXZl
+cnMKICAgICAgICAgICBWZXJzaW9uOiAyLjUKICAgIEtlcm5lbCBWZXJzaW9uOiA1LjAuMgogICAg
+ICAgICAgSGFyZHdhcmU6IEFsbAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAg
+ICAgVHJlZTogTWFpbmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVy
+aXR5OiBub3JtYWwKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZp
+ZGVvKERSSSAtIG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRy
+aUBrZXJuZWwtYnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGxlc2xpZV9hbGlzdGFp
+ckBob3RtYWlsLmNvbQogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQg
+MjgzMjExCiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9p
+ZD0yODMyMTEmYWN0aW9uPWVkaXQKZG1lc2cgb2YgdGhlIHRyYWNlLgoKTG9hZGluZyB0aGUgc3Rl
+YW0gZ2FtZSBCaWcgUGhhcm1hIGNyYXNoZXMgYW5kIG1ha2VzIHRoZSBHVUkgdW5yZXNwb25zaXZl
+LiAKCkF0dGFjaGVkIGlzIGEgZG1lc2cgbG9nIHdpdGggYSBiYWNrdHJhY2UuCgotLSAKWW91IGFy
+ZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2ln
+bmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
