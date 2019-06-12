@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9E543671
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 15:25:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 289CB4338F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:30:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C74E989970;
-	Thu, 13 Jun 2019 13:25:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAD96893EC;
+	Thu, 13 Jun 2019 07:28:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 003F089970
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 13:25:53 +0000 (UTC)
-X-Originating-IP: 90.88.159.246
-Received: from localhost (aaubervilliers-681-1-40-246.w90-88.abo.wanadoo.fr
- [90.88.159.246]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 1CBDAE0008;
- Thu, 13 Jun 2019 13:25:40 +0000 (UTC)
-Date: Wed, 12 Jun 2019 17:20:22 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: a64: enable ANX6345 bridge
- on Teres-I
-Message-ID: <20190612152022.c3cfhp4cauhzhfyr@flea>
-References: <20190604122150.29D6468B05@newverein.lst.de>
- <20190604122308.98D4868B20@newverein.lst.de>
- <CA+E=qVckHLqRngsfK=AcvstrD0ymEfRkYyhS_kBtZ3YWdE3L=g@mail.gmail.com>
- <20190605101317.GA9345@lst.de>
- <20190605120237.ekmytfxcwbjaqy3x@flea>
- <E1hYsvP-0000PY-Pz@stardust.g4.wien.funkfeuer.at>
- <20190607062802.m5wslx3imiqooq5a@flea>
- <CGME20190607094103epcas1p4babbb11ec050974a62f2af79bc64d752@epcas1p4.samsung.com>
- <20190607094030.GA12373@lst.de>
- <66707fcc-b48e-02d3-5ed7-6b7e77d53266@samsung.com>
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D57A288AD9
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 15:24:37 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id d126so9872606pfd.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Jun 2019 08:24:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=UxzaaNLVCxNwcIkw4ex6Ju3hVEPaJ+emMvKOGmC9qMI=;
+ b=HEPCxOdEKTW6af+StIEGp3Fd3bEyHvOrCWedvgCB9g/JMoza1ZAa2ZYAF4Yi+bujDy
+ 64pxpp8lsLmR2D9VajA+A8se5ZYAm88F7cB5fAwSTvy5qIYdbuhrlh+B51FUtvWkRETh
+ rk5tILdLTvnryixWeGkU4sNor16dVu7Q1A4/KP0LWwCeTt7X7VMR0GTGRWuR5LRXCL96
+ RuSmgA+IIIgPrc+ms1uERS1BpsP8rAZxcQjXZDAKKJS5RGpXqCPO6kVGp6GRdVZkRDcV
+ bTr1oU0j+ObuQXevCZJq69yJa7apKTfyBQN+JFfEkJQ/j6CRtShDiCFV9oWrnnpLnOLO
+ UUmQ==
+X-Gm-Message-State: APjAAAWrx0u3qFXqw5tY7+5NFY+5P0TDcPCVJ3+Y8GXeGnlH7cZoO6dK
+ VeTeZHomGx85uKAodsNAAOQ=
+X-Google-Smtp-Source: APXvYqxDgzJM8AbueExnH9dnAzgDMH9HHmxFVX9HxWBKNeUq8IA3AzcFpwNH8K/wzmt0O/UwKGymsw==
+X-Received: by 2002:a17:90a:8c87:: with SMTP id
+ b7mr30376173pjo.139.1560353077304; 
+ Wed, 12 Jun 2019 08:24:37 -0700 (PDT)
+Received: from t-1000 (c-98-210-58-162.hsd1.ca.comcast.net. [98.210.58.162])
+ by smtp.gmail.com with ESMTPSA id n184sm22483972pfn.21.2019.06.12.08.24.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 12 Jun 2019 08:24:36 -0700 (PDT)
+Date: Wed, 12 Jun 2019 08:24:34 -0700
+From: Shobhit Kukreti <shobhitkukreti@gmail.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH] video: backlight: Replace old GPIO APIs with GPIO
+ Consumer APIs for sky81542-backlight driver
+Message-ID: <20190612152433.GA24293@t-1000>
+References: <20190612043229.GA18179@t-1000>
+ <20190612102615.f4zbprojjxfuahqc@holly.lan>
 MIME-Version: 1.0
-In-Reply-To: <66707fcc-b48e-02d3-5ed7-6b7e77d53266@samsung.com>
-User-Agent: NeoMutt/20180716
+Content-Disposition: inline
+In-Reply-To: <20190612102615.f4zbprojjxfuahqc@holly.lan>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Mailman-Approved-At: Thu, 13 Jun 2019 07:27:23 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=UxzaaNLVCxNwcIkw4ex6Ju3hVEPaJ+emMvKOGmC9qMI=;
+ b=jrSOxf6VyXOjwQBASNZtIMe7+X12r8nxUR5SfQx3gd+pPuvslRsrat8KdgkxmZhFsp
+ NAG3362sIvEwjYEAgSB68+PD9i5jApJel5AfsnAfFDvS9xcWOW6jGoUloNakaspZnglL
+ XKnpK3KGiMT7H4JaOjYNJ6mlbNYEuUwi2n/Xb072GmzrM3fvyj5UY0LjqoKFnZNBeiGM
+ s1+oRwiVvZstsaEFNMqq5kiZw4idX2kRhbPXXqPeqQ3qaVFUcci2l3lis5SoDWesJIBS
+ 7qdVM5i1jnYjzMhH9LLIGq12K9XFxgLZKH7tDHiYb/OCTx45iLWmvdcT89PSdWR0Vg8X
+ tZZQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,138 +72,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Harald Geyer <harald@ccbib.org>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- arm-linux <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============0930956222=="
+Cc: Jingoo Han <jingoohan1@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0930956222==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kbzg5qkkfku6tqsr"
-Content-Disposition: inline
-
-
---kbzg5qkkfku6tqsr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Wed, Jun 12, 2019 at 12:00:21PM +0200, Andrzej Hajda wrote:
-> On 07.06.2019 11:40, Torsten Duwe wrote:
-> > On Fri, Jun 07, 2019 at 08:28:02AM +0200, Maxime Ripard wrote:
-> >> On Thu, Jun 06, 2019 at 03:59:27PM +0200, Harald Geyer wrote:
-> >>> If think valid compatible properties would be:
-> >>> compatible =3D "innolux,n116bge", "simple-panel";
-> >>> compatible =3D "edp-connector", "simple-panel";
-> >> A connector isn't a panel.
-> >>
-> >>> compatible =3D "innolux,n116bge", "edp-connector", "simple-panel";
-> >> And the innolux,n116bge is certainly not a connector either.
-> >>
-> >>> compatible =3D "edp-connector", "innolux,n116bge", "simple-panel";
-> >>>
-> >>> I can't make up my mind which one I prefere. However neither of these
-> >>> variants requires actually implmenting an edp-connector driver.
-> >> No-one asked to do an edp-connector driver. You should use it in your
-> >> DT, but if you want to have some code in your driver that parses the
-> >> DT directly, I'm totally fine with that.
-> > I must admit I fail to understand what that extra node would be good fo=
-r.
-> > Logically, the eDP far side is connected to the well-known n116bge.
-> > Inside the laptop case it might as well be a flat ribbon cable or
-> > soldered directly.
-> > In good intention, that's all I wanted to express in the DT. I don't
-> > know whether the relevant mechanical dimensions of the panel and the
-> > connector are standardised, so whether one could in theory assemble it
-> > with a different panel than the one it came with.
-> >
-> > OTOH, as I checked during the discussion with anarsoul, the panel's
-> > supply voltage is permanently connected to the main 3.3V rail.
-> > We already agreed that the eDP output port must not neccessarily be
-> > specified, this setup is a good example why: because the panel is
-> > always powered, the anx6345 can always pull valid EDID data from it
-> > so at this stage there's no need for any OS driver to reach beyond
-> > the bridge. IIRC even the backlight got switched off for the blank
-> > screen without.
-> >
-> > All I wanted to say is that "there's usually an n116bge behind it";
-> > but this is mostly redundant.
-> >
-> > So, shall we just drop the output port specification (along with the
-> > panel node) in order to get one step further?
->
-> I am not sure if I understand whole discussion here, but I also do not
-> understand whole edp-connector thing.
-
-The context is this one:
-https://patchwork.freedesktop.org/patch/257352/?series=3D51182&rev=3D1
-https://patchwork.freedesktop.org/patch/283012/?series=3D56163&rev=3D1
-https://patchwork.freedesktop.org/patch/286468/?series=3D56776&rev=3D2
-
-TL;DR: This bridge is being used on ARM laptops that can come with
-different eDP panels. Some of these panels require a regulator to be
-enabled for the panel to work, and this is obviously something that
-should be in the DT.
-
-However, we can't really describe the panel itself, since the vendor
-uses several of them and just relies on the eDP bus to do its job at
-retrieving the EDIDs. A generic panel isn't really working either
-since that would mean having a generic behaviour for all the panels
-connected to that bus, which isn't there either.
-
-The connector allows to expose this nicely.
-
-> According to VESA[1] eDP is "Internal display interface" - there is no
-> external connector for eDP, the way it is connected is integrator's
-> decision, but it is fixed - ie end user do not plug/unplug it.
-
-I'm not sure if you mean DRM or DT connector here though. In DRM,
-we're doing this all the time for panels. I'm literaly typing this
-=66rom a laptop that has a screen with an eDP connector.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---kbzg5qkkfku6tqsr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQEYNgAKCRDj7w1vZxhR
-xagZAP9+AZ8uzanMLNIT15MfMeCtszC85MU2JHwDCbzueao68wD/WPbzy8s2BkPf
-pRPeI1xiny1h0ObfHZ8o1OdpRlKPHQg=
-=nu8d
------END PGP SIGNATURE-----
-
---kbzg5qkkfku6tqsr--
-
---===============0930956222==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0930956222==--
+T24gV2VkLCBKdW4gMTIsIDIwMTkgYXQgMTE6MjY6MTVBTSArMDEwMCwgRGFuaWVsIFRob21wc29u
+IHdyb3RlOgo+IEhpIFNob2JoaXQKPiAKPiBUaGFua3MgZm9yIHRoZSBwYXRjaC4gRmVlZGJhY2sg
+YmVsb3cuLi4KCiAgSGkgRGFuZWlsLCAJCgogIFlvdSBwcm92aWRlZCBzb21lIHZhbHVhYmxlIGZl
+ZWRiYWNrLiBUaGFuayB5b3UgZm9yIHlvdXIgdGltZSBhbmQKICBlZmZvcnQuCQo+IAo+IAo+IE9u
+IFR1ZSwgSnVuIDExLCAyMDE5IGF0IDA5OjMyOjMyUE0gLTA3MDAsIFNob2JoaXQgS3VrcmV0aSB3
+cm90ZToKPiA+IFBvcnQgdGhlIHNreTgxNDUyLWJhY2tsaWdodCBkcml2ZXIgdG8gYWRoZXJlIHRv
+IG5ldyBncGlvIGRlc2NyaXB0b3IgYmFzZWQKPiA+IEFQSXMuIE1vZGlmaWVkIHRoZSBmaWxlIHNr
+eTgxNDUyLWJhY2tsaWdodC5jIGFuZCBza3k4MTQ1Mi1iYWNrbGlnaHQuaC4KPiA+IFRoZSBncGlv
+IGRlc2NyaXB0b3IgcHJvcGVydHkgaW4gZGV2aWNlIHRyZWUgc2hvdWxkIGJlICJza3k4MTQ1Mi1l
+bi1ncGlvcyIKPiAKPiBUaGF0IGlzIGNvbnRyYWRpY3RlZCBieSB0aGUgZGV2aWNlIHRyZWUgYmlu
+ZGluZ3MuIFRoZSBwcm9wZXJ0eSBzaG91bGQKPiByZW1haW4gImdwaW9zIiBhcyBpdCB3YXMgYmVm
+b3JlIHRoaXMgY29udmVyc2lvbi4KCiBZb3UgYXJlIGNvcnJlY3QuIAkKPiAKPiAKPiA+IFJlbW92
+ZWQgdW5uZWNlc3NhcnkgaGVhZGVyIGZpbGVzICJsaW51eC9ncGlvLmgiIGFuZCAibGludXgvb2Zf
+Z3Bpby5oIi4KPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogU2hvYmhpdCBLdWtyZXRpIDxzaG9iaGl0
+a3VrcmV0aUBnbWFpbC5jb20+Cj4gCj4gV2hhdCBsZXZlbCBvZiB0ZXN0aW5nIGhhdmUgeW91IGRv
+bmU/IElzIHRoaXMgYSBmaXggZm9yIGhhcmR3YXJlIHlvdSBvd24KPiBvciBhIGNsZWFudXAgYWZ0
+ZXIgc2VhcmNoaW5nIHRoZSBzb3VyY2VzPwo+IAogIEkgZGlkIG5vdCB0aGUgdGVzdCBvbiBhY3R1
+YWwgaGFyZHdhcmUuIEkgd2FzIHRyeWluZyB0byBkbyBhIGNsZWFuIHVwIGFuZCBib290IG9uIAog
+IFFFTVUvcm9jazk2MCBib2FyZC4gSSB3aWxsIGRyb3AgdGhlIHBhdGNoIHVudGlsIEkgY2FuIGZp
+bmQgIHRoZSAgc2s4MTQ1MiAKICBoYXJkd2FyZSB0byB0ZXN0IGl0LgogIAo+IAo+ID4gLS0tCj4g
+PiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvc2t5ODE0NTItYmFja2xpZ2h0LmMgICAgIHwgMjQg
+KysrKysrKysrKysrLS0tLS0tLS0tLS0tCj4gPiAgaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRh
+L3NreTgxNDUyLWJhY2tsaWdodC5oIHwgIDQgKysrLQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMTUg
+aW5zZXJ0aW9ucygrKSwgMTMgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL3ZpZGVvL2JhY2tsaWdodC9za3k4MTQ1Mi1iYWNrbGlnaHQuYyBiL2RyaXZlcnMvdmlkZW8v
+YmFja2xpZ2h0L3NreTgxNDUyLWJhY2tsaWdodC5jCj4gPiBpbmRleCBkNDE0YzdhLi4xMmVmNjI4
+IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvc2t5ODE0NTItYmFja2xp
+Z2h0LmMKPiA+ICsrKyBiL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3NreTgxNDUyLWJhY2tsaWdo
+dC5jCj4gPiBAQCAtMTksMTIgKzE5LDEwIEBACj4gPiAgCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2Jh
+Y2tsaWdodC5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9lcnIuaD4KPiA+IC0jaW5jbHVkZSA8bGlu
+dXgvZ3Bpby5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9pbml0Lmg+Cj4gPiAgI2luY2x1ZGUgPGxp
+bnV4L2tlcm5lbC5oPgo+ID4gICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiA+ICAjaW5jbHVk
+ZSA8bGludXgvb2YuaD4KPiA+IC0jaW5jbHVkZSA8bGludXgvb2ZfZ3Bpby5oPgo+ID4gICNpbmNs
+dWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4KPiA+ICAjaW5jbHVkZSA8bGludXgvcmVnbWFw
+Lmg+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RhdGEvc2t5ODE0NTItYmFja2xpZ2h0
+Lmg+Cj4gPiBAQCAtMTkzLDcgKzE5MSw2IEBAIHN0YXRpYyBzdHJ1Y3Qgc2t5ODE0NTJfYmxfcGxh
+dGZvcm1fZGF0YSAqc2t5ODE0NTJfYmxfcGFyc2VfZHQoCj4gPiAgCXBkYXRhLT5pZ25vcmVfcHdt
+ID0gb2ZfcHJvcGVydHlfcmVhZF9ib29sKG5wLCAic2t5d29ya3MsaWdub3JlLXB3bSIpOwo+ID4g
+IAlwZGF0YS0+ZHB3bV9tb2RlID0gb2ZfcHJvcGVydHlfcmVhZF9ib29sKG5wLCAic2t5d29ya3Ms
+ZHB3bS1tb2RlIik7Cj4gPiAgCXBkYXRhLT5waGFzZV9zaGlmdCA9IG9mX3Byb3BlcnR5X3JlYWRf
+Ym9vbChucCwgInNreXdvcmtzLHBoYXNlLXNoaWZ0Iik7Cj4gPiAtCXBkYXRhLT5ncGlvX2VuYWJs
+ZSA9IG9mX2dldF9ncGlvKG5wLCAwKTsKPiA+ICAKPiA+ICAJcmV0ID0gb2ZfcHJvcGVydHlfY291
+bnRfdTMyX2VsZW1zKG5wLCAibGVkLXNvdXJjZXMiKTsKPiA+ICAJaWYgKHJldCA8IDApIHsKPiA+
+IEBAIC0yNzQsMTMgKzI3MSwxNyBAQCBzdGF0aWMgaW50IHNreTgxNDUyX2JsX3Byb2JlKHN0cnVj
+dCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiAgCQlpZiAoSVNfRVJSKHBkYXRhKSkKPiA+ICAJ
+CQlyZXR1cm4gUFRSX0VSUihwZGF0YSk7Cj4gPiAgCX0KPiA+IC0KPiA+IC0JaWYgKGdwaW9faXNf
+dmFsaWQocGRhdGEtPmdwaW9fZW5hYmxlKSkgewo+ID4gLQkJcmV0ID0gZGV2bV9ncGlvX3JlcXVl
+c3Rfb25lKGRldiwgcGRhdGEtPmdwaW9fZW5hYmxlLAo+ID4gLQkJCQkJR1BJT0ZfT1VUX0lOSVRf
+SElHSCwgInNreTgxNDUyLWVuIik7Cj4gPiAtCQlpZiAocmV0IDwgMCkgewo+ID4gLQkJCWRldl9l
+cnIoZGV2LCAiZmFpbGVkIHRvIHJlcXVlc3QgR1BJTy4gZXJyPSVkXG4iLCByZXQpOwo+ID4gLQkJ
+CXJldHVybiByZXQ7Cj4gPiArCXBkYXRhLT5ncGlvZF9lbmFibGUgPSBkZXZtX2dwaW9kX2dldChk
+ZXYsICJzazgxNDUyLWVuIiwgR1BJT0RfT1VUX0hJR0gpOwo+IAo+IEFzIGFib3ZlLi4uIEkgdGhp
+bmsgdGhlIHNlY29uZCBhcmd1bWVudCBoZXJlIG5lZWRzIHRvIGJlIE5VTEwgaW4gb3JkZXIKPiB0
+byBwcmVzZXJ2ZSB0aGUgY3VycmVudCBEVCBiaW5kaW5ncy4KICAKICBZb3UgYXJlIGNvcnJlY3Qu
+IEkgd2FzIHRlc3RpbmcgdGhpcyBkcml2ZXIgd2l0aCBhIGN1c3RvbSBkdGIgaW4gcm9jazk2MCBi
+b2FyZCBhbmQgbmFtZWQKICB0aGUgcHJvcGVydHkgYXMgYWJvdmUgaW4gdGhlIGR0cy4gSXQgc2hv
+dWxkIGJlIE5VTEwuCgo+IAo+ID4gKwlpZiAoSVNfRVJSKHBkYXRhLT5ncGlvZF9lbmFibGUpKSB7
+Cj4gPiArCQlsb25nIHJldCA9IFBUUl9FUlIocGRhdGEtPmdwaW9kX2VuYWJsZSk7Cj4gPiArCj4g
+PiArCQkvKioKPiAKPiBOaXRwaWNraW5nLi4uIGJ1dCBubyBzZWNvbmQgc3RhciBoZXJlLiBUaGF0
+J3MgYSB0cmlnZ2VyIHN5bWJvbGQgZm9yCj4gZG9jdW1lbnRhdGlvbiBwcm9jZXNzb3JzLgoKICBU
+aGF0IGlzIGEgZ3JlYXQgZmVlZGJhY2suIEkgd2lsbCBrZWVwIHRoYXQgaW4gbWluZC4KPiAKPiA+
+ICsJCSAqIGdwaW9kX2VuYWJsZSBpcyBvcHRpb25hbCBpbiBkZXZpY2UgdHJlZS4KPiA+ICsJCSAq
+IFJldHVybiBlcnJvciBvbmx5IGlmIGdwaW8gd2FzIGFzc2lnbmVkIGluIGRldmljZSB0cmVlCj4g
+Cj4gQWxzbyBuaXRwaWNraW5nIGJ1dCBJIGhhZCB0byByZWFkIHRoaXMgYSBmZXcgdGltZXMgYmVj
+YXVzZQo+IGdwaW9kX2VuYWJsZSBpcyBub3QgaW4gZGV2aWNlIHRyZWUsIGdwaW9zIGlzLgoKICBZ
+b3UgYXJlIGNvcnJlY3QuIEkgd2lsbCBtYWtlIG5lY2Vzc2FyeSBjaGFuZ2VzLgo+IAo+IFRoaXMg
+aXMgYSBjb21tb24gcGF0dGVybiBzbyB0aGUgY29tbWVudCBjYW4gYmUgdmVyeSBzaG9ydC4gU29t
+ZXRoaW5nCj4gbGlrZToKPiAKPiAgICAgVGhpcyBEVCBwcm9wZXJ0eSBpcyBvcHRpb25hbCBzbyBu
+byBuZWVkIHRvIHByb3BhZ2F0ZSBFTk9FTlQKCglOb3RlZC4KPiAKPiAKPiA+ICsJCSAqLwo+ID4g
+KwkJaWYgKHJldCAhPSAtRU5PRU5UKSB7Cj4gPiArCQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8g
+cmVxdWVzdCBHUElPLiBlcnI9JWxkXG4iLCByZXQpOwo+ID4gKwkJCXJldHVybiBQVFJfRVJSKHBk
+YXRhLT5ncGlvZF9lbmFibGUpOwo+ID4gIAkJfQo+ID4gIAl9Cj4gPiAgCj4gPiBAQCAtMzIzLDgg
+KzMyNCw3IEBAIHN0YXRpYyBpbnQgc2t5ODE0NTJfYmxfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9ybV9k
+ZXZpY2UgKnBkZXYpCj4gPiAgCWJkLT5wcm9wcy5icmlnaHRuZXNzID0gMDsKPiA+ICAJYmFja2xp
+Z2h0X3VwZGF0ZV9zdGF0dXMoYmQpOwo+ID4gIAo+ID4gLQlpZiAoZ3Bpb19pc192YWxpZChwZGF0
+YS0+Z3Bpb19lbmFibGUpKQo+ID4gLQkJZ3Bpb19zZXRfdmFsdWVfY2Fuc2xlZXAocGRhdGEtPmdw
+aW9fZW5hYmxlLCAwKTsKPiA+ICsJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKHBkYXRhLT5ncGlv
+ZF9lbmFibGUsIDApOwo+ID4gIAo+ID4gIAlyZXR1cm4gMDsKPiA+ICB9Cj4gPiBkaWZmIC0tZ2l0
+IGEvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL3NreTgxNDUyLWJhY2tsaWdodC5oIGIvaW5j
+bHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL3NreTgxNDUyLWJhY2tsaWdodC5oCj4gPiBpbmRleCAx
+MjMxZTliLi5kYzRjYjg1IDEwMDY0NAo+ID4gLS0tIGEvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9k
+YXRhL3NreTgxNDUyLWJhY2tsaWdodC5oCj4gPiArKysgYi9pbmNsdWRlL2xpbnV4L3BsYXRmb3Jt
+X2RhdGEvc2t5ODE0NTItYmFja2xpZ2h0LmgKPiA+IEBAIC0yMCw2ICsyMCw4IEBACj4gPiAgI2lm
+bmRlZiBfU0tZODE0NTJfQkFDS0xJR0hUX0gKPiA+ICAjZGVmaW5lIF9TS1k4MTQ1Ml9CQUNLTElH
+SFRfSAo+ID4gIAo+ID4gKyNpbmNsdWRlIDxsaW51eC9ncGlvL2NvbnN1bWVyLmg+Cj4gPiArCj4g
+Cj4gVGhpcyBoZWFlciBmaWxlIHNob3VsZCBiZSBpbmNsdWRlZCBmcm9tIHRoZSBDIGZpbGUuLi4g
+aXQgaXMgbm90IHJlcXVpcmVkCj4gdG8gcGFyc2UgdGhlIGhlYWRlci4KIAogIEkgYXBwcmVjaWF0
+ZSB0aGUgZmVlZGJhY2suIEkgd2lsbCBrZWVwIHRoYXQgaW4gbWluZCB0byBhdm9pZCBmdXR1cmUK
+ICBlcnJvcnMuIAo+IAo+IAo+IERhbmllbC4KPiAKPiAKPiA+ICAvKioKPiA+ICAgKiBzdHJ1Y3Qg
+c2t5ODE0NTJfcGxhdGZvcm1fZGF0YQo+ID4gICAqIEBuYW1lOgliYWNrbGlnaHQgZHJpdmVyIG5h
+bWUuCj4gPiBAQCAtMzQsNyArMzYsNyBAQAo+ID4gICAqLwo+ID4gIHN0cnVjdCBza3k4MTQ1Ml9i
+bF9wbGF0Zm9ybV9kYXRhIHsKPiA+ICAJY29uc3QgY2hhciAqbmFtZTsKPiA+IC0JaW50IGdwaW9f
+ZW5hYmxlOwo+ID4gKwlzdHJ1Y3QgZ3Bpb19kZXNjICpncGlvZF9lbmFibGU7Cj4gPiAgCXVuc2ln
+bmVkIGludCBlbmFibGU7Cj4gPiAgCWJvb2wgaWdub3JlX3B3bTsKPiA+ICAJYm9vbCBkcHdtX21v
+ZGU7Cj4gPiAtLSAKPiA+IDIuNy40Cj4gPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
