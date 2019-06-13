@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D585E433BF
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:35:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B13D6433C0
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:35:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF5489798;
-	Thu, 13 Jun 2019 07:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2A0989381;
+	Thu, 13 Jun 2019 07:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 94DF28979F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:35:15 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E6F5B8935B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:35:34 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 919C072167; Thu, 13 Jun 2019 07:35:15 +0000 (UTC)
+ id E3B2B72167; Thu, 13 Jun 2019 07:35:34 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110883] [Regression linux 5.2-rc4][bisected] hang on boot
-Date: Thu, 13 Jun 2019 07:35:15 +0000
+Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
+Date: Thu, 13 Jun 2019 07:35:35 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: 19.1
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gw.fossdev@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110883-502-D8V06Q9GFG@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110883-502@http.bugs.freedesktop.org/>
-References: <bug-110883-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110783-502-wreiP2GV57@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
+References: <bug-110783-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,35 +52,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0008699100=="
+Content-Type: multipart/mixed; boundary="===============0650475723=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0008699100==
-Content-Type: multipart/alternative; boundary="15604113155.d80C5F0c.14330"
+--===============0650475723==
+Content-Type: multipart/alternative; boundary="15604113342.87C0eA0E.14330"
 Content-Transfer-Encoding: 7bit
 
 
---15604113155.d80C5F0c.14330
-Date: Thu, 13 Jun 2019 07:35:15 +0000
+--15604113342.87C0eA0E.14330
+Date: Thu, 13 Jun 2019 07:35:34 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110883
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
 
---- Comment #8 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-*** Bug 110906 has been marked as a duplicate of this bug. ***
+--- Comment #12 from Gert Wollny <gw.fossdev@gmail.com> ---
+I might add that the DIV is lowered in glsl to RCP+MUL before it is transla=
+ted
+to TGSI, so no need for it there.=20
+
+When I look at the bicubic shader with the offending opcodes, I have to say
+that using DIV there is a bit lazy, because the DIVs act on constants or
+uniforms or combinations of these, and it would probably be better to pass =
+them
+reciprocal value in (I just don't know (yet) where the constants are actual=
+ly
+passed in to change this).
+
+Anyway, since there is already a CAP for TEX_LZ I was able to create a simp=
+le
+fix:=20
+   https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1084
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15604113155.d80C5F0c.14330
-Date: Thu, 13 Jun 2019 07:35:15 +0000
+--15604113342.87C0eA0E.14330
+Date: Thu, 13 Jun 2019 07:35:34 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,24 +111,35 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [Regression linux 5.2-rc4][bisected] hang on boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110883#c8">Commen=
-t # 8</a>
+   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c12">Comme=
+nt # 12</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [Regression linux 5.2-rc4][bisected] hang on boot"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110883">bug 11088=
+   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
 3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+gw.fossdev&#64;gmail.com" title=3D"Gert Wollny &lt;gw.fossdev&#64;gmail.com=
+&gt;"> <span class=3D"fn">Gert Wollny</span></a>
 </span></b>
-        <pre>*** <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - [Regression 5.2-rc4] Frozen screen with `M=
-emory manager not clean during takedown.`"
-   href=3D"show_bug.cgi?id=3D110906">Bug 110906</a> has been marked as a du=
-plicate of this bug. ***</pre>
+        <pre>I might add that the DIV is lowered in glsl to RCP+MUL before =
+it is translated
+to TGSI, so no need for it there.=20
+
+When I look at the bicubic shader with the offending opcodes, I have to say
+that using DIV there is a bit lazy, because the DIVs act on constants or
+uniforms or combinations of these, and it would probably be better to pass =
+them
+reciprocal value in (I just don't know (yet) where the constants are actual=
+ly
+passed in to change this).
+
+Anyway, since there is already a CAP for TEX_LZ I was able to create a simp=
+le
+fix:=20
+   <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1084"=
+>https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1084</a></pre>
         </div>
       </p>
 
@@ -127,9 +153,9 @@ plicate of this bug. ***</pre>
     </body>
 </html>=
 
---15604113155.d80C5F0c.14330--
+--15604113342.87C0eA0E.14330--
 
---===============0008699100==
+--===============0650475723==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -139,4 +165,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0008699100==--
+--===============0650475723==--
