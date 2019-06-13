@@ -2,44 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DA14348A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 11:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CD243486
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 11:13:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64CC4897FB;
-	Thu, 13 Jun 2019 09:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDF1896C4;
+	Thu, 13 Jun 2019 09:13:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B1A21897FB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 09:15:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AE40472167; Thu, 13 Jun 2019 09:15:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110856] Freesync causes in-game blackscreens when game has low
- fps.
-Date: Thu, 13 Jun 2019 09:15:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: mokurai82@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110856-502-7KUKcNGxvR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110856-502@http.bugs.freedesktop.org/>
-References: <bug-110856-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67473896C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 09:13:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2019 02:13:53 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+ by fmsmga001.fm.intel.com with ESMTP; 13 Jun 2019 02:13:52 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Andres Rodriguez <andresx7@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/edid: parse CEA blocks embedded in DisplayID
+In-Reply-To: <20190612200245.8536-1-andresx7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190612200245.8536-1-andresx7@gmail.com>
+Date: Thu, 13 Jun 2019 12:16:51 +0300
+Message-ID: <871rzxyhdo.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,102 +41,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0390469370=="
+Cc: Andres Rodriguez <andresx7@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0390469370==
-Content-Type: multipart/alternative; boundary="15604173021.CDaa6dF.24008"
-Content-Transfer-Encoding: 7bit
-
-
---15604173021.CDaa6dF.24008
-Date: Thu, 13 Jun 2019 09:15:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110856
-
---- Comment #3 from Arek Tumas <mokurai82@gmail.com> ---
-Created attachment 144528
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144528&action=3Dedit
-Xorg.0.log file
-
-This is the Xorg.0.log file during a Rocket League session with kernel vers=
-ion
-5.1.4-1-MANJARO
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604173021.CDaa6dF.24008
-Date: Thu, 13 Jun 2019 09:15:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
-s."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
-s."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856">bug 11085=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mokurai82&#64;gmail.com" title=3D"Arek Tumas &lt;mokurai82&#64;gmail.com&gt=
-;"> <span class=3D"fn">Arek Tumas</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144528=
-" name=3D"attach_144528" title=3D"Xorg.0.log file">attachment 144528</a> <a=
- href=3D"attachment.cgi?id=3D144528&amp;action=3Dedit" title=3D"Xorg.0.log =
-file">[details]</a></span>
-Xorg.0.log file
-
-This is the Xorg.0.log file during a Rocket League session with kernel vers=
-ion
-5.1.4-1-MANJARO</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604173021.CDaa6dF.24008--
-
---===============0390469370==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0390469370==--
+T24gV2VkLCAxMiBKdW4gMjAxOSwgQW5kcmVzIFJvZHJpZ3VleiA8YW5kcmVzeDdAZ21haWwuY29t
+PiB3cm90ZToKPiBEaXNwbGF5SUQgYmxvY2tzIGFsbG93IGVtYmVkZGluZyBvZiBDRUEgYmxvY2tz
+LiBUaGUgcGF5bG9hZHMgYXJlCj4gaWRlbnRpY2FsIHRvIHRyYWRpdGlvbmFsIHRvcCBsZXZlbCBD
+RUEgZXh0ZW5zaW9uIGJsb2NrcywgYnV0IHRoZSBoZWFkZXIKPiBpcyBzbGlnaHRseSBkaWZmZXJl
+bnQuCj4KPiBUaGlzIGNoYW5nZSBhbGxvd3MgdGhlIENFQSBwYXJzZXIgdG8gZmluZCBhIENFQSBi
+bG9jayBpbnNpZGUgYSBEaXNwbGF5SUQKPiBibG9jay4gQWRkaXRpb25hbGx5LCBpdCBhZGRzIHN1
+cHBvcnQgZm9yIHBhcnNpbmcgdGhlIGVtYmVkZGVkIENUQQo+IGhlYWRlci4gTm8gZnVydGhlciBj
+aGFuZ2VzIGFyZSBuZWNlc3NhcnkgZHVlIHRvIHBheWxvYWQgcGFyaXR5Lgo+Cj4gVGhpcyBjaGFu
+Z2UgZW5hYmxlcyBhdWRpbyBzdXBwb3J0IGZvciB0aGUgVmFsdmUgSW5kZXggSE1ELgo+Cj4gU2ln
+bmVkLW9mZi1ieTogQW5kcmVzIFJvZHJpZ3VleiA8YW5kcmVzeDdAZ21haWwuY29tPgo+IC0tLQo+
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyAgfCA3OSArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKystLS0tCj4gIGluY2x1ZGUvZHJtL2RybV9kaXNwbGF5aWQuaCB8ICAxICsKPiAg
+MiBmaWxlcyBjaGFuZ2VkLCA3MiBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+Cj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZWRpZC5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
+bV9lZGlkLmMKPiBpbmRleCA2NDljZmQ4YjQyMDAuLjNlNzFjNmFlNDhkNCAxMDA2NDQKPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+ZWRpZC5jCj4gQEAgLTEzMzksNiArMTMzOSw4IEBAIE1PRFVMRV9QQVJNX0RFU0MoZWRpZF9maXh1
+cCwKPiAgCj4gIHN0YXRpYyB2b2lkIGRybV9nZXRfZGlzcGxheWlkKHN0cnVjdCBkcm1fY29ubmVj
+dG9yICpjb25uZWN0b3IsCj4gIAkJCSAgICAgIHN0cnVjdCBlZGlkICplZGlkKTsKPiArc3RhdGlj
+IHU4ICpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlk
+KTsKPiArc3RhdGljIGludCB2YWxpZGF0ZV9kaXNwbGF5aWQodTggKmRpc3BsYXlpZCwgaW50IGxl
+bmd0aCwgaW50IGlkeCk7Cj4gIAo+ICBzdGF0aWMgaW50IGRybV9lZGlkX2Jsb2NrX2NoZWNrc3Vt
+KGNvbnN0IHU4ICpyYXdfZWRpZCkKPiAgewo+IEBAIC0yODg1LDcgKzI4ODcsNDAgQEAgc3RhdGlj
+IHU4ICpkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwgaW50
+IGV4dF9pZCkKPiAgCj4gIHN0YXRpYyB1OCAqZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihjb25zdCBz
+dHJ1Y3QgZWRpZCAqZWRpZCkKPiAgewo+IC0JcmV0dXJuIGRybV9maW5kX2VkaWRfZXh0ZW5zaW9u
+KGVkaWQsIENFQV9FWFQpOwo+ICsJaW50IHJldDsKPiArCWludCBpZHggPSAxOwo+ICsJaW50IGxl
+bmd0aCA9IEVESURfTEVOR1RIOwo+ICsJc3RydWN0IGRpc3BsYXlpZF9ibG9jayAqYmxvY2s7Cj4g
+Kwl1OCAqY2VhID0gTlVMTDsKPiArCXU4ICpkaXNwbGF5aWQgPSBOVUxMOwoKVW5uZWNlc3Nhcnkg
+aW5pdGlhbGl6YXRpb25zLgoKPiArCj4gKwljZWEgPSBkcm1fZmluZF9lZGlkX2V4dGVuc2lvbihl
+ZGlkLCBDRUFfRVhUKTsKPiArCj4gKwkvKiBDRUEgYmxvY2tzIGNhbiBhbHNvIGJlIGZvdW5kIGVt
+YmVkZGVkIGluIGEgRGlzcGxheUlEIGJsb2NrICovCj4gKwlpZiAoIWNlYSkgewoKSXQncyBjdXN0
+b21hcnkgdG8gcmV0dXJuIGVhcmx5IHRvIHJlZHVjZSBpbmRlbnQgb24gdGhlIGZvbGxvd2luZyBj
+b2RlLAppLmUuCgoJaWYgKGNlYSkKCQlyZXR1cm4gY2VhOwoKPiArCQlkaXNwbGF5aWQgPSBkcm1f
+ZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGVkaWQpOwo+ICsJCWlmICghZGlzcGxheWlkKQo+ICsJ
+CQlyZXR1cm4gTlVMTDsKPiArCj4gKwkJcmV0ID0gdmFsaWRhdGVfZGlzcGxheWlkKGRpc3BsYXlp
+ZCwgbGVuZ3RoLCBpZHgpOwo+ICsJCWlmIChyZXQpCj4gKwkJCXJldHVybiBOVUxMOwo+ICsKPiAr
+CQlpZHggKz0gc2l6ZW9mKHN0cnVjdCBkaXNwbGF5aWRfaGRyKTsKPiArCQl3aGlsZSAoYmxvY2sg
+PSAoc3RydWN0IGRpc3BsYXlpZF9ibG9jayAqKSZkaXNwbGF5aWRbaWR4XSwKPiArCQkgICAgICAg
+aWR4ICsgc2l6ZW9mKHN0cnVjdCBkaXNwbGF5aWRfYmxvY2spIDw9IGxlbmd0aCAmJgo+ICsJCSAg
+ICAgICBpZHggKyBzaXplb2Yoc3RydWN0IGRpc3BsYXlpZF9ibG9jaykgKyBibG9jay0+bnVtX2J5
+dGVzIDw9IGxlbmd0aCAmJgo+ICsJCSAgICAgICBibG9jay0+bnVtX2J5dGVzID4gMCkgewoKSSdt
+IHN1cmUgdGhlcmUncyBhIGZvciBsb29wIGluIHRoZXJlIHNvbWV3aGVyZSBkZXNwZXJhdGUgdG8g
+Z2V0IG91dC4gVGhlCmFib3ZlIGlzIHVubmVjZXNzYXJpbHkgdHJpY2t5LgoKPiArCQkJaWR4ICs9
+IGJsb2NrLT5udW1fYnl0ZXMgKyBzaXplb2Yoc3RydWN0IGRpc3BsYXlpZF9ibG9jayk7Cj4gKwkJ
+CXN3aXRjaCAoYmxvY2stPnRhZykgewo+ICsJCQljYXNlIERBVEFfQkxPQ0tfQ1RBOgo+ICsJCQkJ
+Y2VhID0gKHU4ICopYmxvY2s7Cj4gKwkJCQlicmVhazsKPiArCQkJfQoKTG9va3MgbGlrZSBhbiBp
+ZiBzdGF0ZW1lbnQgaGVyZS4gV2h5IGRvIHlvdSBjb250aW51ZSB0aGUgd2hpbGUgbG9vcAphZnRl
+ciB5b3UndmUgZm91bmQgdGhlIGJsb2NrPwoKQlIsCkphbmkuCgo+ICsJCX0KPiArCX0KPiArCj4g
+KwlyZXR1cm4gY2VhOwo+ICB9Cj4gIAo+ICBzdGF0aWMgdTggKmRybV9maW5kX2Rpc3BsYXlpZF9l
+eHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQpCj4gQEAgLTM2MTYsMTMgKzM2NTEsMzgg
+QEAgY2VhX3JldmlzaW9uKGNvbnN0IHU4ICpjZWEpCj4gIHN0YXRpYyBpbnQKPiAgY2VhX2RiX29m
+ZnNldHMoY29uc3QgdTggKmNlYSwgaW50ICpzdGFydCwgaW50ICplbmQpCj4gIHsKPiAtCS8qIERh
+dGEgYmxvY2sgb2Zmc2V0IGluIENFQSBleHRlbnNpb24gYmxvY2sgKi8KPiAtCSpzdGFydCA9IDQ7
+Cj4gLQkqZW5kID0gY2VhWzJdOwo+IC0JaWYgKCplbmQgPT0gMCkKPiAtCQkqZW5kID0gMTI3Owo+
+IC0JaWYgKCplbmQgPCA0IHx8ICplbmQgPiAxMjcpCj4gLQkJcmV0dXJuIC1FUkFOR0U7Cj4gKwo+
+ICsJLyogRGlzcGxheUlEIENUQSBleHRlbnNpb24gYmxvY2tzIGFuZCB0b3AtbGV2ZWwgQ0VBIEVE
+SUQKPiArCSAqIGJsb2NrcyBoZWFkZXJzIGRpZmZlciBpbiB0d28gYnl0ZSBkZWZpbml0aW9uczoK
+PiArCSAqICAgMSkgQnl0ZSAyIG9mIHRoZSBoZWFkZXIgc3BlY2lmaWVzIGxlbmd0aCBkaWZmZXJl
+bnRseSwKPiArCSAqICAgMikgQnl0ZSAzIGlzIG9ubHkgcHJlc2VudCBpbiB0aGUgQ0VBIHRvcCBs
+ZXZlbCBibG9jay4KPiArCSAqCj4gKwkgKiBUaGUgZGlmZmVyZW50IGRlZmluaXRpb25zIGZvciBi
+eXRlIDIgZm9sbG93Lgo+ICsJICoKPiArCSAqIERpc3BsYXlJRCBDVEEgZXh0ZW5zaW9uIGJsb2Nr
+IGRlZmluZXMgYnl0ZSAyIGFzOgo+ICsJICogICBOdW1iZXIgb2YgcGF5bG9hZCBieXRlcwo+ICsJ
+ICoKPiArCSAqIENFQSBFRElEIGJsb2NrIGRlZmluZXMgYnl0ZSAyIGFzOgo+ICsJICogICBCeXRl
+IG51bWJlciAoZGVjaW1hbCkgd2l0aGluIHRoaXMgYmxvY2sgd2hlcmUgdGhlIDE4LWJ5dGUKPiAr
+CSAqICAgRFREcyBiZWdpbi4gSWYgbm8gbm9uLURURCBkYXRhIGlzIHByZXNlbnQgaW4gdGhpcyBl
+eHRlbnNpb24KPiArCSAqICAgYmxvY2ssIHRoZSB2YWx1ZSBzaG91bGQgYmUgc2V0IHRvIDA0aCAo
+dGhlIGJ5dGUgYWZ0ZXIgbmV4dCkuCj4gKwkgKiAgIElmIHNldCB0byAwMGgsIHRoZXJlIGFyZSBu
+byBEVERzIHByZXNlbnQgaW4gdGhpcyBibG9jayBhbmQKPiArCSAqICAgbm8gbm9uLURURCBkYXRh
+Lgo+ICsJICovCj4gKwlpZiAoY2VhWzBdID09IERBVEFfQkxPQ0tfQ1RBKSB7Cj4gKwkJKnN0YXJ0
+ID0gMzsKPiArCQkqZW5kID0gKnN0YXJ0ICsgY2VhWzJdOwo+ICsJfSBlbHNlIGlmIChjZWFbMF0g
+PT0gQ0VBX0VYVCkgewo+ICsJCSpzdGFydCA9IDQ7Cj4gKwkJKmVuZCA9IGNlYVsyXTsKPiArCQkv
+KiBEYXRhIGJsb2NrIG9mZnNldCBpbiBDRUEgZXh0ZW5zaW9uIGJsb2NrICovCj4gKwkJaWYgKCpl
+bmQgPT0gMCkKPiArCQkJKmVuZCA9IDEyNzsKPiArCQlpZiAoKmVuZCA8IDQgfHwgKmVuZCA+IDEy
+NykKPiArCQkJcmV0dXJuIC1FUkFOR0U7Cj4gKwl9IGVsc2UKPiArCQlyZXR1cm4gLUVOT1RTVVBQ
+Owo+ICsKPiAgCXJldHVybiAwOwo+ICB9Cj4gIAo+IEBAIC01MjQwLDYgKzUzMDAsOSBAQCBzdGF0
+aWMgaW50IGRybV9wYXJzZV9kaXNwbGF5X2lkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0
+b3IsCj4gIAkJY2FzZSBEQVRBX0JMT0NLX1RZUEVfMV9ERVRBSUxFRF9USU1JTkc6Cj4gIAkJCS8q
+IGhhbmRsZWQgaW4gbW9kZSBnYXRoZXJpbmcgY29kZS4gKi8KPiAgCQkJYnJlYWs7Cj4gKwkJY2Fz
+ZSBEQVRBX0JMT0NLX0NUQToKPiArCQkJLyogaGFuZGxlZCBpbiB0aGUgY2VhIHBhcnNlciBjb2Rl
+LiAqLwo+ICsJCQlicmVhazsKPiAgCQlkZWZhdWx0Ogo+ICAJCQlEUk1fREVCVUdfS01TKCJmb3Vu
+ZCBEaXNwbGF5SUQgdGFnIDB4JXgsIHVuaGFuZGxlZFxuIiwgYmxvY2stPnRhZyk7Cj4gIAkJCWJy
+ZWFrOwo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmggYi9pbmNsdWRl
+L2RybS9kcm1fZGlzcGxheWlkLmgKPiBpbmRleCBjMGQ0ZGY2YTYwNmYuLmM3YWY4NTdmNDc2NCAx
+MDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmgKPiArKysgYi9pbmNsdWRl
+L2RybS9kcm1fZGlzcGxheWlkLmgKPiBAQCAtNDAsNiArNDAsNyBAQAo+ICAjZGVmaW5lIERBVEFf
+QkxPQ0tfRElTUExBWV9JTlRFUkZBQ0UgMHgwZgo+ICAjZGVmaW5lIERBVEFfQkxPQ0tfU1RFUkVP
+X0RJU1BMQVlfSU5URVJGQUNFIDB4MTAKPiAgI2RlZmluZSBEQVRBX0JMT0NLX1RJTEVEX0RJU1BM
+QVkgMHgxMgo+ICsjZGVmaW5lIERBVEFfQkxPQ0tfQ1RBIDB4ODEKPiAgCj4gICNkZWZpbmUgREFU
+QV9CTE9DS19WRU5ET1JfU1BFQ0lGSUMgMHg3ZgoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVu
+IFNvdXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
