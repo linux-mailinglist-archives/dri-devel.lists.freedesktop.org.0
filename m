@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F17143C54
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 17:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5A843CCB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 17:38:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 116C589B3C;
-	Thu, 13 Jun 2019 15:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5F889B30;
+	Thu, 13 Jun 2019 15:38:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4D25089B3C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 15:35:23 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B9DA389B30
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 15:38:32 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 499F772167; Thu, 13 Jun 2019 15:35:23 +0000 (UTC)
+ id B0C9772167; Thu, 13 Jun 2019 15:38:32 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
  macrotiles?)
-Date: Thu, 13 Jun 2019 15:35:23 +0000
+Date: Thu, 13 Jun 2019 15:38:32 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110897-502-0U96PRLqHk@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-Opi6bQKcy7@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
 References: <bug-110897-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0890189788=="
+Content-Type: multipart/mixed; boundary="===============1244013976=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0890189788==
-Content-Type: multipart/alternative; boundary="15604401231.12dFe89d.21391"
+--===============1244013976==
+Content-Type: multipart/alternative; boundary="15604403120.084d95512.21694"
 Content-Transfer-Encoding: 7bit
 
 
---15604401231.12dFe89d.21391
-Date: Thu, 13 Jun 2019 15:35:23 +0000
+--15604403120.084d95512.21694
+Date: Thu, 13 Jun 2019 15:38:32 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,34 +73,26 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
 
---- Comment #22 from Richard Thier <u9vata@gmail.com> ---
-Created attachment 144532
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144532&action=3Dedit
-should not affect anything patch
+--- Comment #23 from Richard Thier <u9vata@gmail.com> ---
+Or can it be that literally I had a short term hardware error in my card
+because of running in this hot summer for very long periods. I could be ram
+corruption too that just got solved now for some reason. Also I can image z=
+ram
+and hiz maybe seperate small static rams that were not used for years so it=
+ had
+to get some warmup time - quite the opposite of the overuse?
 
-Interestingly now I am running with this patch, but I never saw this code p=
-ath
-taken ever so it should not count.
-
-Also I have compiled with this setup and it works still:
-
-meson configure build/ -Dc_args=3D"-O2 -Ofast" -Dcpp_args=3D"-O2 -Ofast"
--Dc_link_args=3D"-O2 -Ofast" -Dcpp_link_args=3D"-O2 -Ofast"
-
-I have yet to try with -O3 so far now, but it more and more looks this is j=
-ust
-some kind of rare heisenbug. When it is not happening I cannot even make it
-work..
-
-Also now that the bug only seem to appear very rarely it is much harder to
-debug and I think its impact is much smaller too...
+In any ways. The performance is sometime a bit better, sometimes measurably
+better and now I do not see any glitches. Weird. I think I make this bug to=
+ be
+a "minor" one as maybe it is not really a real bug?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15604401231.12dFe89d.21391
-Date: Thu, 13 Jun 2019 15:35:23 +0000
+--15604403120.084d95512.21694
+Date: Thu, 13 Jun 2019 15:38:32 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -118,8 +110,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
 tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c22">Comme=
-nt # 22</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c23">Comme=
+nt # 23</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
@@ -130,32 +122,19 @@ tiles?)"
 u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
  <span class=3D"fn">Richard Thier</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144532=
-" name=3D"attach_144532" title=3D"should not affect anything patch">attachm=
-ent 144532</a> <a href=3D"attachment.cgi?id=3D144532&amp;action=3Dedit" tit=
-le=3D"should not affect anything patch">[details]</a></span> <a href=3D'pag=
-e.cgi?id=3Dsplinter.html&amp;bug=3D110897&amp;attachment=3D144532'>[review]=
-</a>
-should not affect anything patch
+        <pre>Or can it be that literally I had a short term hardware error =
+in my card
+because of running in this hot summer for very long periods. I could be ram
+corruption too that just got solved now for some reason. Also I can image z=
+ram
+and hiz maybe seperate small static rams that were not used for years so it=
+ had
+to get some warmup time - quite the opposite of the overuse?
 
-Interestingly now I am running with this patch, but I never saw this code p=
-ath
-taken ever so it should not count.
-
-Also I have compiled with this setup and it works still:
-
-meson configure build/ -Dc_args=3D&quot;-O2 -Ofast&quot; -Dcpp_args=3D&quot=
-;-O2 -Ofast&quot;
--Dc_link_args=3D&quot;-O2 -Ofast&quot; -Dcpp_link_args=3D&quot;-O2 -Ofast&q=
-uot;
-
-I have yet to try with -O3 so far now, but it more and more looks this is j=
-ust
-some kind of rare heisenbug. When it is not happening I cannot even make it
-work..
-
-Also now that the bug only seem to appear very rarely it is much harder to
-debug and I think its impact is much smaller too...</pre>
+In any ways. The performance is sometime a bit better, sometimes measurably
+better and now I do not see any glitches. Weird. I think I make this bug to=
+ be
+a &quot;minor&quot; one as maybe it is not really a real bug?</pre>
         </div>
       </p>
 
@@ -169,9 +148,9 @@ debug and I think its impact is much smaller too...</pre>
     </body>
 </html>=
 
---15604401231.12dFe89d.21391--
+--15604403120.084d95512.21694--
 
---===============0890189788==
+--===============1244013976==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -181,4 +160,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0890189788==--
+--===============1244013976==--
