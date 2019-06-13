@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13D6433C0
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:35:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DEE433CF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:41:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A0989381;
-	Thu, 13 Jun 2019 07:35:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57EB989704;
+	Thu, 13 Jun 2019 07:41:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E6F5B8935B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:35:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E3B2B72167; Thu, 13 Jun 2019 07:35:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEF289704
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:41:03 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 8EFBF28B0D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:41:03 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 8131B28AD2; Thu, 13 Jun 2019 07:41:03 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=ham version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
-Date: Thu, 13 Jun 2019 07:35:35 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 203879] hard freeze on high single threaded load when Xorg is
+ active (AMD Ryzen 7 2700X CPU, AMD Radeon RX 580 GPU)
+Date: Thu, 13 Jun 2019 07:41:03 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 19.1
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gw.fossdev@gmail.com
+X-Bugzilla-Who: michel@daenzer.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110783-502-wreiP2GV57@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
-References: <bug-110783-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+Message-ID: <bug-203879-2300-Sh7AiK606q@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-203879-2300@https.bugzilla.kernel.org/>
+References: <bug-203879-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,117 +62,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0650475723=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0650475723==
-Content-Type: multipart/alternative; boundary="15604113342.87C0eA0E.14330"
-Content-Transfer-Encoding: 7bit
-
-
---15604113342.87C0eA0E.14330
-Date: Thu, 13 Jun 2019 07:35:34 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
-
---- Comment #12 from Gert Wollny <gw.fossdev@gmail.com> ---
-I might add that the DIV is lowered in glsl to RCP+MUL before it is transla=
-ted
-to TGSI, so no need for it there.=20
-
-When I look at the bicubic shader with the offending opcodes, I have to say
-that using DIV there is a bit lazy, because the DIVs act on constants or
-uniforms or combinations of these, and it would probably be better to pass =
-them
-reciprocal value in (I just don't know (yet) where the constants are actual=
-ly
-passed in to change this).
-
-Anyway, since there is already a CAP for TEX_LZ I was able to create a simp=
-le
-fix:=20
-   https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1084
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604113342.87C0eA0E.14330
-Date: Thu, 13 Jun 2019 07:35:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gw.fossdev&#64;gmail.com" title=3D"Gert Wollny &lt;gw.fossdev&#64;gmail.com=
-&gt;"> <span class=3D"fn">Gert Wollny</span></a>
-</span></b>
-        <pre>I might add that the DIV is lowered in glsl to RCP+MUL before =
-it is translated
-to TGSI, so no need for it there.=20
-
-When I look at the bicubic shader with the offending opcodes, I have to say
-that using DIV there is a bit lazy, because the DIVs act on constants or
-uniforms or combinations of these, and it would probably be better to pass =
-them
-reciprocal value in (I just don't know (yet) where the constants are actual=
-ly
-passed in to change this).
-
-Anyway, since there is already a CAP for TEX_LZ I was able to create a simp=
-le
-fix:=20
-   <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1084"=
->https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1084</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604113342.87C0eA0E.14330--
-
---===============0650475723==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0650475723==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM4NzkKCi0tLSBD
+b21tZW50ICMyIGZyb20gTWljaGVsIETDpG56ZXIgKG1pY2hlbEBkYWVuemVyLm5ldCkgLS0tClRo
+YXQgc291bmRzIGxpa2UgYSBnZW5lcmFsIENQVSByZWxhdGVkIHN0YWJpbGl0eSBpc3N1ZSwgbm90
+IGRpcmVjdGx5IHJlbGF0ZWQgdG8KdGhlIGFtZGdwdSBkcml2ZXIuCgotLSAKWW91IGFyZSByZWNl
+aXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9m
+IHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
