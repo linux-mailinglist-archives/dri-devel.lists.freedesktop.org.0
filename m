@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7FB44FBE
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 01:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CA54562C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 09:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 576CF892A5;
-	Thu, 13 Jun 2019 23:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A31E8989E;
+	Fri, 14 Jun 2019 07:22:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2CD5A890C2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 23:02:07 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 24AAD72167; Thu, 13 Jun 2019 23:02:07 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110856] Freesync causes in-game blackscreens when game has low
- fps.
-Date: Thu, 13 Jun 2019 23:02:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: rropid@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110856-502-wMzlPMsHW6@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110856-502@http.bugs.freedesktop.org/>
-References: <bug-110856-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B496892B2;
+ Thu, 13 Jun 2019 23:06:53 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d02d70d0000>; Thu, 13 Jun 2019 16:06:53 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 13 Jun 2019 16:06:53 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 13 Jun 2019 16:06:53 -0700
+Received: from [10.110.48.28] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 13 Jun
+ 2019 23:06:48 +0000
+Subject: Re: [Nouveau] [PATCH 02/22] mm: remove the struct hmm_device
+ infrastructure
+To: Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, Jason Gunthorpe
+ <jgg@mellanox.com>, Ben Skeggs <bskeggs@redhat.com>
+References: <20190613094326.24093-1-hch@lst.de>
+ <20190613094326.24093-3-hch@lst.de>
+X-Nvconfidentiality: public
+From: John Hubbard <jhubbard@nvidia.com>
+Message-ID: <5a11b5a1-cfb2-f9a1-493e-ed153de7f00b@nvidia.com>
+Date: Thu, 13 Jun 2019 16:06:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190613094326.24093-3-hch@lst.de>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 14 Jun 2019 07:21:24 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nvidia.com; s=n1; 
+ t=1560467213; bh=cGbQpSJeY7EVdecrn1B4tdD7hDPwyzG0O3MV1AM9XS8=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=k7gBpDBH28H0UPXm/LwiNKu0hTT0acLapve5cjM4dS/oE6ZVNYmwnPX6eZ1IBLBk5
+ FaGoLiYRcnAB14i7X74VljXHrRLRUzcvaMywNiBB41s9wEKQX/tEy3nCG/IGKVGiRl
+ AD/kzl4An8dw76LgLOSTpr6GRU+k7qjNEiiMvVCOWWDxfV2POtjYEN4x4fEQBVkt4s
+ w4fj3ThbmIEucaN47ISk4Wy4FipBObRrSm95UkSAAEnuZHlIoHv4MjV9u+xnt0TGcA
+ yAyoTlbvf9SebsSJFi4g4WQpsjzz4+CxSeUNYwWe+JCM2b7eq3Hz8n8DP45hXh+hWa
+ L//lTcvzR3KxQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,147 +68,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1940246980=="
+Cc: linux-nvdimm@lists.01.org, linux-pci@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1940246980==
-Content-Type: multipart/alternative; boundary="15604669270.0B4c7Ad.22284"
-Content-Transfer-Encoding: 7bit
-
-
---15604669270.0B4c7Ad.22284
-Date: Thu, 13 Jun 2019 23:02:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110856
-
---- Comment #10 from Ropid <rropid@gmail.com> ---
-Those Xorg config options you tried to use do not exist on the
-xf86-video-amdgpu driver (I mean "CustomEDID" etc.). Those EDID options you
-used are unique Nvidia driver config options and do not exist in any other
-driver.
-
-If you are intersted, you can find a list about possible Xorg options for
-amdgpu by running "man 4 amdgpu", and then there's more general stuff
-documented in "man xorg.conf". There is sadly nothing about EDID anywhere.
-
-For the open drivers that use kernel-mode-setting, you need to tell the dri=
-ver
-about your EDID file on the kernel command line. That's the only way to do =
-it.
-
-In the /etc/mkinitcpio.conf file you shared, you made a mistake on the
-"MODULES=3D..." line. You need to remove that "drm_kms_helper..." text from=
- that
-line. That text you added there has to go onto the kernel command line, not
-into mkinitcpio.conf.
-
-The only thing you have to do in /etc/mkinitcpio.conf is what you already d=
-id
-on the "FILES=3D..." line.
-
-About that "drm_kms_helper..." kernel command line parameter, where you hav=
-e to
-add it is your boot loader's configuration file. I don't know how that work=
-s on
-Manjaro.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604669270.0B4c7Ad.22284
-Date: Thu, 13 Jun 2019 23:02:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
-s."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
-s."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856">bug 11085=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rropid&#64;gmail.com" title=3D"Ropid &lt;rropid&#64;gmail.com&gt;"> <span c=
-lass=3D"fn">Ropid</span></a>
-</span></b>
-        <pre>Those Xorg config options you tried to use do not exist on the
-xf86-video-amdgpu driver (I mean &quot;CustomEDID&quot; etc.). Those EDID o=
-ptions you
-used are unique Nvidia driver config options and do not exist in any other
-driver.
-
-If you are intersted, you can find a list about possible Xorg options for
-amdgpu by running &quot;man 4 amdgpu&quot;, and then there's more general s=
-tuff
-documented in &quot;man xorg.conf&quot;. There is sadly nothing about EDID =
-anywhere.
-
-For the open drivers that use kernel-mode-setting, you need to tell the dri=
-ver
-about your EDID file on the kernel command line. That's the only way to do =
-it.
-
-In the /etc/mkinitcpio.conf file you shared, you made a mistake on the
-&quot;MODULES=3D...&quot; line. You need to remove that &quot;drm_kms_helpe=
-r...&quot; text from that
-line. That text you added there has to go onto the kernel command line, not
-into mkinitcpio.conf.
-
-The only thing you have to do in /etc/mkinitcpio.conf is what you already d=
-id
-on the &quot;FILES=3D...&quot; line.
-
-About that &quot;drm_kms_helper...&quot; kernel command line parameter, whe=
-re you have to
-add it is your boot loader's configuration file. I don't know how that work=
-s on
-Manjaro.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604669270.0B4c7Ad.22284--
-
---===============1940246980==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1940246980==--
+T24gNi8xMy8xOSAyOjQzIEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiBUaGlzIGNvZGUg
+aXMgYSB0cml2aWFsIHdyYXBwZXIgYXJvdW5kIGRldmljZSBtb2RlbCBoZWxwZXJzLCB3aGljaAo+
+IHNob3VsZCBoYXZlIGJlZW4gaW50ZWdyYXRlZCBpbnRvIHRoZSBkcml2ZXIgZGV2aWNlIG1vZGVs
+IHVzYWdlIGZyb20KPiB0aGUgc3RhcnQuICBBc3N1bWluZyBpdCBhY3R1YWxseSBoYWQgdXNlcnMs
+IHdoaWNoIGl0IG5ldmVyIGhhZCBzaW5jZQo+IHRoZSBjb2RlIHdhcyBhZGRlZCBtb3JlIHRoYW4g
+MSAxLzIgeWVhcnMgYWdvLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBIZWxsd2lnIDxo
+Y2hAbHN0LmRlPgo+IC0tLQo+ICBpbmNsdWRlL2xpbnV4L2htbS5oIHwgMjAgLS0tLS0tLS0tLS0t
+Cj4gIG1tL2htbS5jICAgICAgICAgICAgfCA4MCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMDAgZGVsZXRpb25zKC0pCj4g
+CgpZZXMuIFRoaXMgY29kZSBpcyBkZWZpbml0ZWx5IHVubmVjZXNzYXJ5LCBhbmQgaXQncyBhIGdv
+b2QgaG91c2VjbGVhbmluZyBoZXJlLgoKKEFzIHRvIHRoZSBoaXN0b3J5OiBJIGtub3cgdGhhdCB0
+aGVyZSB3YXMgc29tZSBlYXJseSAiSE1NIGR1bW15IGRldmljZSIgCnRlc3Rpbmcgd2hlbiB0aGUg
+SE1NIGNvZGUgd2FzIG11Y2ggeW91bmdlciwgYnV0IHN1Y2ggdGVzdGluZyBoYXMgbG9uZyBzaW5j
+ZQpiZWVuIHN1cGVyc2VkZWQgYnkgbW9yZSBlbGFib3JhdGUgdGVzdGluZyB3aXRoIHJlYWwgZHJp
+dmVycy4pCgoKUmV2aWV3ZWQtYnk6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4g
+CgoKdGhhbmtzLAotLSAKSm9obiBIdWJiYXJkCk5WSURJQQoKPiBkaWZmIC0tZ2l0IGEvaW5jbHVk
+ZS9saW51eC9obW0uaCBiL2luY2x1ZGUvbGludXgvaG1tLmgKPiBpbmRleCAwZmE4ZWEzNGNjZWYu
+LjQ4NjdiOWRhMWI2YyAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2htbS5oCj4gKysrIGIv
+aW5jbHVkZS9saW51eC9obW0uaAo+IEBAIC03MTcsMjYgKzcxNyw2IEBAIHN0YXRpYyBpbmxpbmUg
+dW5zaWduZWQgbG9uZyBobW1fZGV2bWVtX3BhZ2VfZ2V0X2RydmRhdGEoY29uc3Qgc3RydWN0IHBh
+Z2UgKnBhZ2UpCj4gIHsKPiAgCXJldHVybiBwYWdlLT5obW1fZGF0YTsKPiAgfQo+IC0KPiAtCj4g
+LS8qCj4gLSAqIHN0cnVjdCBobW1fZGV2aWNlIC0gZmFrZSBkZXZpY2UgdG8gaGFuZyBkZXZpY2Ug
+bWVtb3J5IG9udG8KPiAtICoKPiAtICogQGRldmljZTogZGV2aWNlIHN0cnVjdAo+IC0gKiBAbWlu
+b3I6IGRldmljZSBtaW5vciBudW1iZXIKPiAtICovCj4gLXN0cnVjdCBobW1fZGV2aWNlIHsKPiAt
+CXN0cnVjdCBkZXZpY2UJCWRldmljZTsKPiAtCXVuc2lnbmVkIGludAkJbWlub3I7Cj4gLX07Cj4g
+LQo+IC0vKgo+IC0gKiBBIGRldmljZSBkcml2ZXIgdGhhdCB3YW50cyB0byBoYW5kbGUgbXVsdGlw
+bGUgZGV2aWNlcyBtZW1vcnkgdGhyb3VnaCBhCj4gLSAqIHNpbmdsZSBmYWtlIGRldmljZSBjYW4g
+dXNlIGhtbV9kZXZpY2UgdG8gZG8gc28uIFRoaXMgaXMgcHVyZWx5IGEgaGVscGVyIGFuZAo+IC0g
+KiBpdCBpcyBub3Qgc3RyaWN0bHkgbmVlZGVkLCBpbiBvcmRlciB0byBtYWtlIHVzZSBvZiBhbnkg
+SE1NIGZ1bmN0aW9uYWxpdHkuCj4gLSAqLwo+IC1zdHJ1Y3QgaG1tX2RldmljZSAqaG1tX2Rldmlj
+ZV9uZXcodm9pZCAqZHJ2ZGF0YSk7Cj4gLXZvaWQgaG1tX2RldmljZV9wdXQoc3RydWN0IGhtbV9k
+ZXZpY2UgKmhtbV9kZXZpY2UpOwo+ICAjZW5kaWYgLyogQ09ORklHX0RFVklDRV9QUklWQVRFIHx8
+IENPTkZJR19ERVZJQ0VfUFVCTElDICovCj4gICNlbHNlIC8qIElTX0VOQUJMRUQoQ09ORklHX0hN
+TSkgKi8KPiAgc3RhdGljIGlubGluZSB2b2lkIGhtbV9tbV9kZXN0cm95KHN0cnVjdCBtbV9zdHJ1
+Y3QgKm1tKSB7fQo+IGRpZmYgLS1naXQgYS9tbS9obW0uYyBiL21tL2htbS5jCj4gaW5kZXggODg2
+YjE4Njk1Yjk3Li5mZjI1OThlYjczNzcgMTAwNjQ0Cj4gLS0tIGEvbW0vaG1tLmMKPiArKysgYi9t
+bS9obW0uYwo+IEBAIC0xNDk5LDg0ICsxNDk5LDQgQEAgc3RydWN0IGhtbV9kZXZtZW0gKmhtbV9k
+ZXZtZW1fYWRkX3Jlc291cmNlKGNvbnN0IHN0cnVjdCBobW1fZGV2bWVtX29wcyAqb3BzLAo+ICAJ
+cmV0dXJuIGRldm1lbTsKPiAgfQo+ICBFWFBPUlRfU1lNQk9MX0dQTChobW1fZGV2bWVtX2FkZF9y
+ZXNvdXJjZSk7Cj4gLQo+IC0vKgo+IC0gKiBBIGRldmljZSBkcml2ZXIgdGhhdCB3YW50cyB0byBo
+YW5kbGUgbXVsdGlwbGUgZGV2aWNlcyBtZW1vcnkgdGhyb3VnaCBhCj4gLSAqIHNpbmdsZSBmYWtl
+IGRldmljZSBjYW4gdXNlIGhtbV9kZXZpY2UgdG8gZG8gc28uIFRoaXMgaXMgcHVyZWx5IGEgaGVs
+cGVyCj4gLSAqIGFuZCBpdCBpcyBub3QgbmVlZGVkIHRvIG1ha2UgdXNlIG9mIGFueSBITU0gZnVu
+Y3Rpb25hbGl0eS4KPiAtICovCj4gLSNkZWZpbmUgSE1NX0RFVklDRV9NQVggMjU2Cj4gLQo+IC1z
+dGF0aWMgREVDTEFSRV9CSVRNQVAoaG1tX2RldmljZV9tYXNrLCBITU1fREVWSUNFX01BWCk7Cj4g
+LXN0YXRpYyBERUZJTkVfU1BJTkxPQ0soaG1tX2RldmljZV9sb2NrKTsKPiAtc3RhdGljIHN0cnVj
+dCBjbGFzcyAqaG1tX2RldmljZV9jbGFzczsKPiAtc3RhdGljIGRldl90IGhtbV9kZXZpY2VfZGV2
+dDsKPiAtCj4gLXN0YXRpYyB2b2lkIGhtbV9kZXZpY2VfcmVsZWFzZShzdHJ1Y3QgZGV2aWNlICpk
+ZXZpY2UpCj4gLXsKPiAtCXN0cnVjdCBobW1fZGV2aWNlICpobW1fZGV2aWNlOwo+IC0KPiAtCWht
+bV9kZXZpY2UgPSBjb250YWluZXJfb2YoZGV2aWNlLCBzdHJ1Y3QgaG1tX2RldmljZSwgZGV2aWNl
+KTsKPiAtCXNwaW5fbG9jaygmaG1tX2RldmljZV9sb2NrKTsKPiAtCWNsZWFyX2JpdChobW1fZGV2
+aWNlLT5taW5vciwgaG1tX2RldmljZV9tYXNrKTsKPiAtCXNwaW5fdW5sb2NrKCZobW1fZGV2aWNl
+X2xvY2spOwo+IC0KPiAtCWtmcmVlKGhtbV9kZXZpY2UpOwo+IC19Cj4gLQo+IC1zdHJ1Y3QgaG1t
+X2RldmljZSAqaG1tX2RldmljZV9uZXcodm9pZCAqZHJ2ZGF0YSkKPiAtewo+IC0Jc3RydWN0IGht
+bV9kZXZpY2UgKmhtbV9kZXZpY2U7Cj4gLQo+IC0JaG1tX2RldmljZSA9IGt6YWxsb2Moc2l6ZW9m
+KCpobW1fZGV2aWNlKSwgR0ZQX0tFUk5FTCk7Cj4gLQlpZiAoIWhtbV9kZXZpY2UpCj4gLQkJcmV0
+dXJuIEVSUl9QVFIoLUVOT01FTSk7Cj4gLQo+IC0Jc3Bpbl9sb2NrKCZobW1fZGV2aWNlX2xvY2sp
+Owo+IC0JaG1tX2RldmljZS0+bWlub3IgPSBmaW5kX2ZpcnN0X3plcm9fYml0KGhtbV9kZXZpY2Vf
+bWFzaywgSE1NX0RFVklDRV9NQVgpOwo+IC0JaWYgKGhtbV9kZXZpY2UtPm1pbm9yID49IEhNTV9E
+RVZJQ0VfTUFYKSB7Cj4gLQkJc3Bpbl91bmxvY2soJmhtbV9kZXZpY2VfbG9jayk7Cj4gLQkJa2Zy
+ZWUoaG1tX2RldmljZSk7Cj4gLQkJcmV0dXJuIEVSUl9QVFIoLUVCVVNZKTsKPiAtCX0KPiAtCXNl
+dF9iaXQoaG1tX2RldmljZS0+bWlub3IsIGhtbV9kZXZpY2VfbWFzayk7Cj4gLQlzcGluX3VubG9j
+aygmaG1tX2RldmljZV9sb2NrKTsKPiAtCj4gLQlkZXZfc2V0X25hbWUoJmhtbV9kZXZpY2UtPmRl
+dmljZSwgImhtbV9kZXZpY2UlZCIsIGhtbV9kZXZpY2UtPm1pbm9yKTsKPiAtCWhtbV9kZXZpY2Ut
+PmRldmljZS5kZXZ0ID0gTUtERVYoTUFKT1IoaG1tX2RldmljZV9kZXZ0KSwKPiAtCQkJCQlobW1f
+ZGV2aWNlLT5taW5vcik7Cj4gLQlobW1fZGV2aWNlLT5kZXZpY2UucmVsZWFzZSA9IGhtbV9kZXZp
+Y2VfcmVsZWFzZTsKPiAtCWRldl9zZXRfZHJ2ZGF0YSgmaG1tX2RldmljZS0+ZGV2aWNlLCBkcnZk
+YXRhKTsKPiAtCWhtbV9kZXZpY2UtPmRldmljZS5jbGFzcyA9IGhtbV9kZXZpY2VfY2xhc3M7Cj4g
+LQlkZXZpY2VfaW5pdGlhbGl6ZSgmaG1tX2RldmljZS0+ZGV2aWNlKTsKPiAtCj4gLQlyZXR1cm4g
+aG1tX2RldmljZTsKPiAtfQo+IC1FWFBPUlRfU1lNQk9MKGhtbV9kZXZpY2VfbmV3KTsKPiAtCj4g
+LXZvaWQgaG1tX2RldmljZV9wdXQoc3RydWN0IGhtbV9kZXZpY2UgKmhtbV9kZXZpY2UpCj4gLXsK
+PiAtCXB1dF9kZXZpY2UoJmhtbV9kZXZpY2UtPmRldmljZSk7Cj4gLX0KPiAtRVhQT1JUX1NZTUJP
+TChobW1fZGV2aWNlX3B1dCk7Cj4gLQo+IC1zdGF0aWMgaW50IF9faW5pdCBobW1faW5pdCh2b2lk
+KQo+IC17Cj4gLQlpbnQgcmV0Owo+IC0KPiAtCXJldCA9IGFsbG9jX2NocmRldl9yZWdpb24oJmht
+bV9kZXZpY2VfZGV2dCwgMCwKPiAtCQkJCSAgSE1NX0RFVklDRV9NQVgsCj4gLQkJCQkgICJobW1f
+ZGV2aWNlIik7Cj4gLQlpZiAocmV0KQo+IC0JCXJldHVybiByZXQ7Cj4gLQo+IC0JaG1tX2Rldmlj
+ZV9jbGFzcyA9IGNsYXNzX2NyZWF0ZShUSElTX01PRFVMRSwgImhtbV9kZXZpY2UiKTsKPiAtCWlm
+IChJU19FUlIoaG1tX2RldmljZV9jbGFzcykpIHsKPiAtCQl1bnJlZ2lzdGVyX2NocmRldl9yZWdp
+b24oaG1tX2RldmljZV9kZXZ0LCBITU1fREVWSUNFX01BWCk7Cj4gLQkJcmV0dXJuIFBUUl9FUlIo
+aG1tX2RldmljZV9jbGFzcyk7Cj4gLQl9Cj4gLQlyZXR1cm4gMDsKPiAtfQo+IC0KPiAtZGV2aWNl
+X2luaXRjYWxsKGhtbV9pbml0KTsKPiAgI2VuZGlmIC8qIENPTkZJR19ERVZJQ0VfUFJJVkFURSB8
+fCBDT05GSUdfREVWSUNFX1BVQkxJQyAqLwo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
