@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74BDF433F3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 10:04:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7AC43402
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 10:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36DF8897CD;
-	Thu, 13 Jun 2019 08:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA09897C3;
+	Thu, 13 Jun 2019 08:16:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0559B897CD
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 08:04:16 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id w25so15241266ioc.8
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 01:04:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=koN+00G7CU0eh11NaVYbCwU6i9zCMJjXz116ZdVU+xU=;
- b=flLl3bLxUEshs/nOGV/3CbxoMcNnjM8I/IqH07gaV+Xxk3YS3+ZzjsAdJpuSYU5CBd
- UnCTIc1y+YLh36NOvkg50wgjV6/XfAb2szSpvym9jKjDQ1penSJjUzQTxNKC2uMBIMfP
- hz3X0nv4/VDE9oattxpWue/oj9NtBc8pDmRVNS5gmqCUg2aCwplTkvEHQRyhq3yZsC7N
- 0Wb+qH0aRFePqarCUBYmCgP47s4HTz1/SmuMDAhq+kEptpQ2I0rv5cBfOMCsNDQZxBnO
- BKCEEJl+A2kPyh9Jk0KWQzRdAT1ReHzfxgTJsNU/zqU5YxTvzO/Q1eSZs/B7VN7eYkWv
- cplw==
-X-Gm-Message-State: APjAAAXSew8twrDQwCPJXDXmYC7eAsHm8VU6CxxzP5KqDvISfMRIKjAg
- 5+8OFN3KL9u+Tj6APcHi4SkqG8MhK4IssqkaD4J14w==
-X-Google-Smtp-Source: APXvYqzpYyrAAPRFueEyS+j4+BBscppU+Zr9W00YE1s8AZSWRgXHWdfv0Q00CHduNxq6esClfTmSm5lW1IAFFoTPsuo=
-X-Received: by 2002:a6b:6b14:: with SMTP id g20mr51062517ioc.28.1560413055231; 
- Thu, 13 Jun 2019 01:04:15 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 52795897C3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 08:16:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4F0EF72167; Thu, 13 Jun 2019 08:16:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
+Date: Thu, 13 Jun 2019 08:16:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution
+Message-ID: <bug-110795-502-B3pc2gUe5V@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
+References: <bug-110795-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190520090318.27570-1-jagan@amarulasolutions.com>
- <20190520090318.27570-3-jagan@amarulasolutions.com>
- <20190523203754.2lhi37veeh4rwiy3@flea>
- <CAMty3ZBvJ-7Ndq7NSfNMSFX=8hjYVhYsdA=nfyw5mMxOf6vW1Q@mail.gmail.com>
- <20190530104242.d6ktwv7lip27vc3x@flea>
-In-Reply-To: <20190530104242.d6ktwv7lip27vc3x@flea>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 13 Jun 2019 13:34:04 +0530
-Message-ID: <CAMty3ZCwS4BS5Lig4O8G3dE3RbJu6m1Ux3-ZS4rT-cPEAjXSFw@mail.gmail.com>
-Subject: Re: [PATCH v10 02/11] drm/sun4i: dsi: Update start value in video
- start delay
-To: Maxime Ripard <maxime.ripard@bootlin.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=koN+00G7CU0eh11NaVYbCwU6i9zCMJjXz116ZdVU+xU=;
- b=lTEEDc27WypEUHtSdTgUvnXupW5/VUK3QMCoMTGJX3XVCWkkoxUv9sl4p2XYpfv+Xs
- hYfL5X/8NXtBbC3/bWgFrTBB0dXM8s71qpMZInzNpqc90yYlOvYCoL84/ErHox3e01cg
- ACU5CrA5DnCLwUy7BivPu5L8ln3CYfqM38Pjg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,162 +52,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhushan Shah <bshah@mykolab.com>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- =?UTF-8?B?5Z2a5a6a5YmN6KGM?= <powerpan@qq.com>, Chen-Yu Tsai <wens@csie.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0664316126=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBNYXkgMzEsIDIwMTkgYXQgMTI6MjMgQU0gTWF4aW1lIFJpcGFyZAo8bWF4aW1lLnJp
-cGFyZEBib290bGluLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIE1heSAyNCwgMjAxOSBhdCAwMzo1
-NTo0MlBNICswNTMwLCBKYWdhbiBUZWtpIHdyb3RlOgo+ID4gT24gRnJpLCBNYXkgMjQsIDIwMTkg
-YXQgMjowNyBBTSBNYXhpbWUgUmlwYXJkIDxtYXhpbWUucmlwYXJkQGJvb3RsaW4uY29tPiB3cm90
-ZToKPiA+ID4KPiA+ID4gT24gTW9uLCBNYXkgMjAsIDIwMTkgYXQgMDI6MzM6MDlQTSArMDUzMCwg
-SmFnYW4gVGVraSB3cm90ZToKPiA+ID4gPiBzdGFydCB2YWx1ZSBpbiB2aWRlbyBzdGFydCBkZWxh
-eSBjb21wdXRhdGlvbiBkb25lIGluIGJlbG93IGNvbW1pdAo+ID4gPiA+IGlzIGFzIHBlciB0aGUg
-bGVnYWN5IGJzcCBkcml2ZXJzL3ZpZGVvL3N1bnhpL2xlZ2FjeS4uCj4gPiA+ID4gImRybS9zdW40
-aTogZHNpOiBDaGFuZ2UgdGhlIHN0YXJ0IGRlbGF5IGNhbGN1bGF0aW9uIgo+ID4gPiA+IChzaGEx
-OiBkYTY3NmM2YWE2NDEzZDU5YWIwYTgwYzk3YmJjMjczMDI1ZTY0MGIyKQo+ID4gPiA+Cj4gPiA+
-ID4gVGhpcyBleGlzdGluZyBzdGFydCBkZWxheSBjb21wdXRhdGlvbiBnaXZlcyBzdGFydCB2YWx1
-ZSBvZiAzNSwKPiA+ID4gPiBmb3IgImJhbmFuYXBpLHMwNzB3djIwLWN0MTYiIHBhbmVsIHRpbWlu
-Z3Mgd2hpY2ggaW5kZWVkIHRyaWdnZXIKPiA+ID4gPiBwYW5lbCBmbGlwX2RvbmUgdGltZWQgb3V0
-IGFzOgo+ID4gPiA+Cj4gPiA+ID4gIFdBUk5JTkc6IENQVTogMCBQSUQ6IDMxIGF0IGRyaXZlcnMv
-Z3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jOjE0MjkgZHJtX2F0b21pY19oZWxwZXJfd2FpdF9m
-b3JfdmJsYW5rcy5wYXJ0LjErMHgyOTgvMHgyYTAKPiA+ID4gPiAgW0NSVEM6NDY6Y3J0Yy0wXSB2
-Ymxhbmsgd2FpdCB0aW1lZCBvdXQKPiA+ID4gPiAgTW9kdWxlcyBsaW5rZWQgaW46Cj4gPiA+ID4g
-IENQVTogMCBQSUQ6IDMxIENvbW06IGt3b3JrZXIvMDoxIFRhaW50ZWQ6IEcgICAgICAgIFcgICAg
-ICAgICA1LjEuMC1uZXh0LTIwMTkwNTE0LTAwMDI1LWdmOTI4YmM3Y2MxNDYgIzE1Cj4gPiA+ID4g
-IEhhcmR3YXJlIG5hbWU6IEFsbHdpbm5lciBzdW44aSBGYW1pbHkKPiA+ID4gPiAgV29ya3F1ZXVl
-OiBldmVudHMgZGVmZXJyZWRfcHJvYmVfd29ya19mdW5jCj4gPiA+ID4gIFs8YzAxMGVkNTQ+XSAo
-dW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBiNzZjPl0gKHNob3dfc3RhY2srMHgxMC8weDE0
-KQo+ID4gPiA+ICBbPGMwMTBiNzZjPl0gKHNob3dfc3RhY2spIGZyb20gWzxjMDY4OGM5MD5dIChk
-dW1wX3N0YWNrKzB4ODQvMHg5OCkKPiA+ID4gPiAgWzxjMDY4OGM5MD5dIChkdW1wX3N0YWNrKSBm
-cm9tIFs8YzAxMWQ5ZTQ+XSAoX193YXJuKzB4ZmMvMHgxMTQpCj4gPiA+ID4gIFs8YzAxMWQ5ZTQ+
-XSAoX193YXJuKSBmcm9tIFs8YzAxMWRhNDA+XSAod2Fybl9zbG93cGF0aF9mbXQrMHg0NC8weDY4
-KQo+ID4gPiA+ICBbPGMwMTFkYTQwPl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzA0MGNk
-NTA+XSAoZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5rcy5wYXJ0LjErMHgyOTgvMHgy
-YTApCj4gPiA+ID4gIFs8YzA0MGNkNTA+XSAoZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJs
-YW5rcy5wYXJ0LjEpIGZyb20gWzxjMDQwZTY5ND5dIChkcm1fYXRvbWljX2hlbHBlcl9jb21taXRf
-dGFpbF9ycG0rMHg1Yy8weDZjKQo+ID4gPiA+ICBbPGMwNDBlNjk0Pl0gKGRybV9hdG9taWNfaGVs
-cGVyX2NvbW1pdF90YWlsX3JwbSkgZnJvbSBbPGMwNDBlNGRjPl0gKGNvbW1pdF90YWlsKzB4NDAv
-MHg2YykKPiA+ID4gPiAgWzxjMDQwZTRkYz5dIChjb21taXRfdGFpbCkgZnJvbSBbPGMwNDBlNWNj
-Pl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCsweGJjLzB4MTI4KQo+ID4gPiA+ICBbPGMwNDBl
-NWNjPl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCkgZnJvbSBbPGMwNDExYjY0Pl0gKHJlc3Rv
-cmVfZmJkZXZfbW9kZV9hdG9taWMrMHgxY2MvMHgxZGMpCj4gPiA+ID4gIFs8YzA0MTFiNjQ+XSAo
-cmVzdG9yZV9mYmRldl9tb2RlX2F0b21pYykgZnJvbSBbPGMwNDExY2IwPl0gKGRybV9mYl9oZWxw
-ZXJfcGFuX2Rpc3BsYXkrMHhhYy8weDFkMCkKPiA+ID4gPiAgWzxjMDQxMWNiMD5dIChkcm1fZmJf
-aGVscGVyX3Bhbl9kaXNwbGF5KSBmcm9tIFs8YzAzYTRlODQ+XSAoZmJfcGFuX2Rpc3BsYXkrMHhj
-Yy8weDEzNCkKPiA+ID4gPiAgWzxjMDNhNGU4ND5dIChmYl9wYW5fZGlzcGxheSkgZnJvbSBbPGMw
-M2IxMjE0Pl0gKGJpdF91cGRhdGVfc3RhcnQrMHgxNC8weDMwKQo+ID4gPiA+ICBbPGMwM2IxMjE0
-Pl0gKGJpdF91cGRhdGVfc3RhcnQpIGZyb20gWzxjMDNhZmU5ND5dIChmYmNvbl9zd2l0Y2grMHgz
-ZDgvMHg0ZTApCj4gPiA+ID4gIFs8YzAzYWZlOTQ+XSAoZmJjb25fc3dpdGNoKSBmcm9tIFs8YzAz
-ZWM5MzA+XSAocmVkcmF3X3NjcmVlbisweDE3NC8weDIzOCkKPiA+ID4gPiAgWzxjMDNlYzkzMD5d
-IChyZWRyYXdfc2NyZWVuKSBmcm9tIFs8YzAzYWNlYjQ+XSAoZmJjb25fcHJlcGFyZV9sb2dvKzB4
-M2M0LzB4NDAwKQo+ID4gPiA+ICBbPGMwM2FjZWI0Pl0gKGZiY29uX3ByZXBhcmVfbG9nbykgZnJv
-bSBbPGMwM2FkMmI4Pl0gKGZiY29uX2luaXQrMHgzYzgvMHg1YWMpCj4gPiA+ID4gIFs8YzAzYWQy
-Yjg+XSAoZmJjb25faW5pdCkgZnJvbSBbPGMwM2ViOGEwPl0gKHZpc3VhbF9pbml0KzB4YmMvMHgx
-MDQpCj4gPiA+ID4gIFs8YzAzZWI4YTA+XSAodmlzdWFsX2luaXQpIGZyb20gWzxjMDNlZDFiOD5d
-IChkb19iaW5kX2Nvbl9kcml2ZXIrMHgxYjAvMHgzOTApCj4gPiA+ID4gIFs8YzAzZWQxYjg+XSAo
-ZG9fYmluZF9jb25fZHJpdmVyKSBmcm9tIFs8YzAzZWQ3ODA+XSAoZG9fdGFrZV9vdmVyX2NvbnNv
-bGUrMHgxM2MvMHgxYzQpCj4gPiA+ID4gIFs8YzAzZWQ3ODA+XSAoZG9fdGFrZV9vdmVyX2NvbnNv
-bGUpIGZyb20gWzxjMDNhZDgwMD5dIChkb19mYmNvbl90YWtlb3ZlcisweDc0LzB4Y2MpCj4gPiA+
-ID4gIFs8YzAzYWQ4MDA+XSAoZG9fZmJjb25fdGFrZW92ZXIpIGZyb20gWzxjMDEzYzljOD5dIChu
-b3RpZmllcl9jYWxsX2NoYWluKzB4NDQvMHg4NCkKPiA+ID4gPiAgWzxjMDEzYzljOD5dIChub3Rp
-Zmllcl9jYWxsX2NoYWluKSBmcm9tIFs8YzAxM2NkMjA+XSAoX19ibG9ja2luZ19ub3RpZmllcl9j
-YWxsX2NoYWluKzB4NDgvMHg2MCkKPiA+ID4gPiAgWzxjMDEzY2QyMD5dIChfX2Jsb2NraW5nX25v
-dGlmaWVyX2NhbGxfY2hhaW4pIGZyb20gWzxjMDEzY2Q1MD5dIChibG9ja2luZ19ub3RpZmllcl9j
-YWxsX2NoYWluKzB4MTgvMHgyMCkKPiA+ID4gPiAgWzxjMDEzY2Q1MD5dIChibG9ja2luZ19ub3Rp
-Zmllcl9jYWxsX2NoYWluKSBmcm9tIFs8YzAzYTZlNDQ+XSAocmVnaXN0ZXJfZnJhbWVidWZmZXIr
-MHgxZTAvMHgyZjgpCj4gPiA+ID4gIFs8YzAzYTZlNDQ+XSAocmVnaXN0ZXJfZnJhbWVidWZmZXIp
-IGZyb20gWzxjMDQxNTNjMD5dIChfX2RybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWdfYW5kX3Vu
-bG9jaysweDJmYy8weDUwYykKPiA+ID4gPiAgWzxjMDQxNTNjMD5dIChfX2RybV9mYl9oZWxwZXJf
-aW5pdGlhbF9jb25maWdfYW5kX3VubG9jaykgZnJvbSBbPGMwNDE1OGM4Pl0gKGRybV9mYmRldl9j
-bGllbnRfaG90cGx1ZysweGU4LzB4MWI4KQo+ID4gPiA+ICBbPGMwNDE1OGM4Pl0gKGRybV9mYmRl
-dl9jbGllbnRfaG90cGx1ZykgZnJvbSBbPGMwNDE1YTIwPl0gKGRybV9mYmRldl9nZW5lcmljX3Nl
-dHVwKzB4ODgvMHgxMTgpCj4gPiA+ID4gIFs8YzA0MTVhMjA+XSAoZHJtX2ZiZGV2X2dlbmVyaWNf
-c2V0dXApIGZyb20gWzxjMDQzZjA2MD5dIChzdW40aV9kcnZfYmluZCsweDEyOC8weDE2MCkKPiA+
-ID4gPiAgWzxjMDQzZjA2MD5dIChzdW40aV9kcnZfYmluZCkgZnJvbSBbPGMwNDRiNWIwPl0gKHRy
-eV90b19icmluZ191cF9tYXN0ZXIrMHgxNjQvMHgxYTApCj4gPiA+ID4gIFs8YzA0NGI1YjA+XSAo
-dHJ5X3RvX2JyaW5nX3VwX21hc3RlcikgZnJvbSBbPGMwNDRiNjgwPl0gKF9fY29tcG9uZW50X2Fk
-ZCsweDk0LzB4MTQwKQo+ID4gPiA+ICBbPGMwNDRiNjgwPl0gKF9fY29tcG9uZW50X2FkZCkgZnJv
-bSBbPGMwNDQ1ZTFjPl0gKHN1bjZpX2RzaV9wcm9iZSsweDE0NC8weDIzNCkKPiA+ID4gPiAgWzxj
-MDQ0NWUxYz5dIChzdW42aV9kc2lfcHJvYmUpIGZyb20gWzxjMDQ1MmYwYz5dIChwbGF0Zm9ybV9k
-cnZfcHJvYmUrMHg0OC8weDljKQo+ID4gPiA+ICBbPGMwNDUyZjBjPl0gKHBsYXRmb3JtX2Rydl9w
-cm9iZSkgZnJvbSBbPGMwNDUxMmU0Pl0gKHJlYWxseV9wcm9iZSsweDFkYy8weDJjOCkKPiA+ID4g
-PiAgWzxjMDQ1MTJlND5dIChyZWFsbHlfcHJvYmUpIGZyb20gWzxjMDQ1MTUzMD5dIChkcml2ZXJf
-cHJvYmVfZGV2aWNlKzB4NjAvMHgxNjApCj4gPiA+ID4gIFs8YzA0NTE1MzA+XSAoZHJpdmVyX3By
-b2JlX2RldmljZSkgZnJvbSBbPGMwNDRmN2JjPl0gKGJ1c19mb3JfZWFjaF9kcnYrMHg3NC8weGI4
-KQo+ID4gPiA+ICBbPGMwNDRmN2JjPl0gKGJ1c19mb3JfZWFjaF9kcnYpIGZyb20gWzxjMDQ1MTA5
-ND5dIChfX2RldmljZV9hdHRhY2grMHhkMC8weDEzYykKPiA+ID4gPiAgWzxjMDQ1MTA5ND5dIChf
-X2RldmljZV9hdHRhY2gpIGZyb20gWzxjMDQ1MDQ4Yz5dIChidXNfcHJvYmVfZGV2aWNlKzB4ODQv
-MHg4YykKPiA+ID4gPiAgWzxjMDQ1MDQ4Yz5dIChidXNfcHJvYmVfZGV2aWNlKSBmcm9tIFs8YzA0
-NTA5MTg+XSAoZGVmZXJyZWRfcHJvYmVfd29ya19mdW5jKzB4NjQvMHg5MCkKPiA+ID4gPiAgWzxj
-MDQ1MDkxOD5dIChkZWZlcnJlZF9wcm9iZV93b3JrX2Z1bmMpIGZyb20gWzxjMDEzNTk3MD5dIChw
-cm9jZXNzX29uZV93b3JrKzB4MjA0LzB4NDIwKQo+ID4gPiA+ICBbPGMwMTM1OTcwPl0gKHByb2Nl
-c3Nfb25lX3dvcmspIGZyb20gWzxjMDEzNjkwYz5dICh3b3JrZXJfdGhyZWFkKzB4Mjc0LzB4NWEw
-KQo+ID4gPiA+ICBbPGMwMTM2OTBjPl0gKHdvcmtlcl90aHJlYWQpIGZyb20gWzxjMDEzYjNkOD5d
-IChrdGhyZWFkKzB4MTFjLzB4MTRjKQo+ID4gPiA+ICBbPGMwMTNiM2Q4Pl0gKGt0aHJlYWQpIGZy
-b20gWzxjMDEwMTBlOD5dIChyZXRfZnJvbV9mb3JrKzB4MTQvMHgyYykKPiA+ID4gPiAgRXhjZXB0
-aW9uIHN0YWNrKDB4ZGU1MzlmYjAgdG8gMHhkZTUzOWZmOCkKPiA+ID4gPiAgOWZhMDogICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAg
-MDAwMDAwMDAKPiA+ID4gPiAgOWZjMDogMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAw
-MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAKPiA+ID4gPiAgOWZlMDogMDAw
-MDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMTMgMDAwMDAwMDAKPiA+ID4g
-PiAgLS0tWyBlbmQgdHJhY2UgNzU1ZTEwZjYyYjgzZjM5NiBdLS0tCj4gPiA+ID4gIENvbnNvbGU6
-IHN3aXRjaGluZyB0byBjb2xvdXIgZnJhbWUgYnVmZmVyIGRldmljZSAxMDB4MzAKPiA+ID4gPiAg
-W2RybTpkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl9kZXBlbmRlbmNpZXNdICpFUlJPUiogW0NS
-VEM6NDY6Y3J0Yy0wXSBmbGlwX2RvbmUgdGltZWQgb3V0Cj4gPiA+ID4gIFtkcm06ZHJtX2F0b21p
-Y19oZWxwZXJfd2FpdF9mb3JfZGVwZW5kZW5jaWVzXSAqRVJST1IqIFtDT05ORUNUT1I6NDg6RFNJ
-LTFdIGZsaXBfZG9uZSB0aW1lZCBvdXQKPiA+ID4gPiAgW2RybTpkcm1fYXRvbWljX2hlbHBlcl93
-YWl0X2Zvcl9kZXBlbmRlbmNpZXNdICpFUlJPUiogW1BMQU5FOjMwOnBsYW5lLTBdIGZsaXBfZG9u
-ZSB0aW1lZCBvdXQKPiA+ID4gPgo+ID4gPiA+IEJ1dCB0aGUgZXhwZWN0ZWQgc3RhcnQgZGVsYXkg
-dmFsdWUgaXMgMSB3aGljaCBpcyBjb25maXJtZWQgZnJvbQo+ID4gPiA+IG5ldyBic3AgWzJdLgo+
-ID4gPgo+ID4gPiBJZiB5b3UncmUgc2F5aW5nIHRoYXQgdGhlICJsZWdhY3kiIGxpbmsgKHNlY29u
-ZCBvbmUpIGlzIHRoZSBuZXcgQlNQLgo+ID4KPiA+IFdpbGwgdXBkYXRlLCB0aGFua3MuCj4gPgo+
-ID4gPgo+ID4gPiA+IFRoZSBpbXBvcnRhbnQgYW5kIHVuY2xlYXIgbm90ZSBvbiBsZWdhY3kgYW5k
-IG5ldyBic3AgY29kZXMgWzFdIFsyXQo+ID4gPiA+IGlzIGJvdGggdXNlIHNpbWlsYXIgc3RhcnQg
-Y29tcHV0YXRpb24gaW5pdGlhbGx5IGJ1dCBpdCBsYXRlciByZWFzc2lnbgo+ID4gPiA+IGl0IHRv
-IDEgaW4gbmV3IGJzcC4KPiA+ID4KPiA+ID4gVGhlbiBzdGFydF9kZWxheSBpcyBuZXZlciByZWFz
-c2lnbmVkIHRvIDEgaW4gdGhhdCBsaW5rLCBhbmQgaXMgY2xhbXBlZAo+ID4gPiBiZXR3ZWVuIDgg
-YW5kIDEwMCBhcyB0aGUgY29kZSB0aGF0IHlvdSBhcmUgcmVtb3ZpbmcgaXMgZG9pbmcuCj4gPgo+
-ID4gUGxlYXNlIHNlZSB0aGUgbGluayBvbmUgbW9yZSBwbGVhc2UKPiA+IGh0dHBzOi8vZ2l0aHVi
-LmNvbS9CUEktU0lOT1ZPSVAvQlBJLU0yTS1ic3AvYmxvYi9tYXN0ZXIvbGludXgtc3VueGkvZHJp
-dmVycy92aWRlby9zdW54aS9kaXNwL2RlL2xvd2xldmVsX3N1bjhpdzUvZGVfZHNpLmMjTDgwNwo+
-ID4KPiA+ID4KPiA+ID4gPiBVbmZvcnR1bmF0ZWx5IHdlIGRvbid0IGhhdmUgYW55IGV2aWRlbmNl
-IG9yIGRvY3VtZW50YXRpb24gZm9yIHRoaXMKPiA+ID4gPiByZWFzc2lnbm1lbnQgdG8gMSBpbiBu
-ZXcgYnNwLCBidXQgaXQgaXMgd29ya2luZyB3aXRoIGFsbCBzdXBwb3J0ZWQKPiA+ID4gPiBwYW5l
-bHMgaW4gQTMzLCBBNjQuCj4gPiA+Cj4gPiA+IE5vLCBpdCdzIG5vdC4gVGhhdCB3YXMgYWRkZWQg
-dG8gZml4IGEgcGFuZWwgdGhhdCBpcyBzdXBwb3J0ZWQgdG9kYXkuCj4gPgo+ID4gTm8sIEkgaGF2
-ZSBzZWUgdGhpcyBpbiBBMzMsIEE2NC4gYW5kIHRoZXNlIGFyZSBjb250cm9sbGVyIGRyaXZlcnMK
-PiA+IHJpZ2h0LCBpZiBpdCBwYW5lbCBmaXggYW5kIGl0IHNob3VsZCBiZSBwYXJ0IG9mIHBhbmVs
-IGRyaXZlciBpc24ndAo+ID4gaXQ/Cj4KPiBJJ20gbm90IHN1cmUgdG8gZm9sbG93IHRoYXQgYXJn
-dW1lbnQuIFlvdSdyZSBzdWJtaXR0aW5nIHRoYXQgZml4IHRvCj4gYWxsb3cgb3RoZXIgcGFuZWxz
-IHRvIHdvcmssIHJpZ2h0PyBTbyBzdXJlbHksIHNvbWUgaXNzdWVzIHRoYXQgY2FuIGJlCj4gZm91
-bmQgdXNpbmcgYSBnaXZlbiBwYW5lbCBtaWdodCBub3QgYmUgc29sZWx5IGZpeGVkIGluIHRoZSBw
-YW5lbCBkcml2ZXIuCgpJJ20gbm90IHN1cmUgSSB1bmRlcnN0YW5kIHRoaXMuIEkgaGF2ZSBiZWVu
-IHZlcmlmeWluZyBkaWZmZXJlbnQgcGFuZWxzCnRvIGNoZWNrIGFjcm9zcy4gYW5kIHRoaXMgY2hh
-bmdlIGxpdGVyYWxseSBpbiBCU1AgYW5kIHRoZSBCU1AgY29kZSBpcwp1c2luZyB0aGlzIGJhc2Vk
-IG9uIHRoZSBsb2dzIGNvbmZpcm1hdGlvbi4gYWxsIHRoZSBsb2dzIGFuZCB3b3JraW5nCmNvbmRp
-dGlvbnMgc2hvd3MgdGhhdCB0aGUgZml4IHdvdWxkIHJlcXVpcmVkIGluIGRzaS4KCj4KPiA+IFdl
-IGNhbiBldmVuIHNlZSB0aGUgc2FtZSBpbiBwaW42NCBsb25nc2xlZXAga2VybmVsIGFuZCBvdGhl
-cnMuCj4gPgo+ID4gaHR0cHM6Ly9naXRodWIuY29tL0JQSS1TSU5PVk9JUC9CUEktTTJNLWJzcC9i
-bG9iL21hc3Rlci9saW51eC1zdW54aS9kcml2ZXJzL3ZpZGVvL3N1bnhpL2Rpc3AvZGUvbG93bGV2
-ZWxfc3VuOGl3NS9kZV9kc2kuYyNMODA3Cj4gPiBodHRwczovL2dpdGh1Yi5jb20vbG9uZ3NsZWVw
-L2xpbnV4LXBpbmU2NC9ibG9iL3BpbmU2NC1oYWNrcy0xLjIvZHJpdmVycy92aWRlby9zdW54aS9k
-aXNwMi9kaXNwL2RlL2xvd2xldmVsX3N1bjUwaXcxL2RlX2RzaS5jI0w3MzAKPgo+IFllYWgsIGFu
-ZCBib3RoIG9mIHRoZXNlIGhhdmUgdGhlIGxlZ2FjeSBkcml2ZXIgcGFydCB3aXRoIHRoZSBjbGFt
-cGluZwo+IHRvby4KClllcywgYm90aCBsZWdhY3kgaGFzIGNsYW1waW5nLCBidXQgbm90IHVzaW5n
-LiB0aGV5IHVzZWQgaXQgaW4gbmV3CnZlcnNpb24gZHJpdmVyIHdoaWNoIEknbSByZWZlcnJpbmcg
-YWJvdmUuCgo+Cj4gSSdsbCB0ZXN0IHRoZXNlIHBhdGNoZXMgYWdhaW4gc29tZSB0aW1lIG5leHQg
-d2VlawoKQW55IGhlbHAgb24gdGhlIHRlc3RpbmcuCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0664316126==
+Content-Type: multipart/alternative; boundary="15604138022.Ac343b.18242"
+Content-Transfer-Encoding: 7bit
+
+
+--15604138022.Ac343b.18242
+Date: Thu, 13 Jun 2019 08:16:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
+
+Andre Klapper <a9016009@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|WONTFIX                     |INVALID
+
+--- Comment #17 from Andre Klapper <a9016009@gmx.de> ---
+(In reply to Rolf from comment #15)
+> Your driver page
+> (https://www.amd.com/en/support/graphics/amd-radeon-2nd-generation-vega/a=
+md-
+> radeon-2nd-generation-vega/amd-radeon-vii)
+
+No, as we do not run AMD.com. You are on freedesktop.org and not AMD.com.
+You are asking the wrong people.
+https://en.wikipedia.org/wiki/Advanced_Micro_Devices
+https://en.wikipedia.org/wiki/Freedesktop.org
+
+(In reply to Rolf from comment #16)
+> Btw, it would be very nice to list these PPAs on the driver page.
+
+Feel free to talk to AMD about that. You are asking the wrong people.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15604138022.Ac343b.18242
+Date: Thu, 13 Jun 2019 08:16:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>WONTFIX
+           </td>
+           <td>INVALID
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c17">Comme=
+nt # 17</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>(In reply to Rolf from <a href=3D"show_bug.cgi?id=3D110795#c15=
+">comment #15</a>)
+<span class=3D"quote">&gt; Your driver page
+&gt; (<a href=3D"https://www.amd.com/en/support/graphics/amd-radeon-2nd-gen=
+eration-vega/amd">https://www.amd.com/en/support/graphics/amd-radeon-2nd-ge=
+neration-vega/amd</a>-
+&gt; radeon-2nd-generation-vega/amd-radeon-vii)</span >
+
+No, as we do not run AMD.com. You are on freedesktop.org and not AMD.com.
+You are asking the wrong people.
+<a href=3D"https://en.wikipedia.org/wiki/Advanced_Micro_Devices">https://en=
+.wikipedia.org/wiki/Advanced_Micro_Devices</a>
+<a href=3D"https://en.wikipedia.org/wiki/Freedesktop.org">https://en.wikipe=
+dia.org/wiki/Freedesktop.org</a>
+
+(In reply to Rolf from <a href=3D"show_bug.cgi?id=3D110795#c16">comment #16=
+</a>)
+<span class=3D"quote">&gt; Btw, it would be very nice to list these PPAs on=
+ the driver page.</span >
+
+Feel free to talk to AMD about that. You are asking the wrong people.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15604138022.Ac343b.18242--
+
+--===============0664316126==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0664316126==--
