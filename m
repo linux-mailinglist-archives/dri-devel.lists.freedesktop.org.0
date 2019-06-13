@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73113449F3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 19:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A452C44A3D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 20:05:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EA5889358;
-	Thu, 13 Jun 2019 17:52:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CD7D89624;
+	Thu, 13 Jun 2019 18:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
- [IPv6:2607:f8b0:4864:20::d44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A144A89358
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 17:52:43 +0000 (UTC)
-Received: by mail-io1-xd44.google.com with SMTP id k20so18888046ios.10
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 10:52:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gvGUQ+AYQTyaqjvXsdL4JYvhkFYlzyBpmZ5bo6N/5Tw=;
- b=HmQHuHL1runT9ReSr/nlz3uCkjp+vfKM2GNkpaUyxqVvBn9imXkc+FhR5ROuQRHiay
- PMzPyerC9QOXaXL8PN3GAdPz2xltFWfseZwfAh2wUiJhzftN77SOfpN+e0ZEZqRb+iek
- MRv7gyIkJwfMKQCt14b4KQAQlrHeFPQrUJJo9S9LB0KWailVOrSl20/RRY+qRrVHRSNO
- WHJTSirhhD3/WtYvZTOVOuyMk+7g/oqcYsEi51/LzusDRdDUTTZBqrdklwl4T0SEJB1z
- m5ULpdavDFdDup202ySKaTTHPvpFWdH59XyZRP4rB2wPBf4unaETk9EG32ZG06eBhVdx
- rf5Q==
-X-Gm-Message-State: APjAAAXuHRmGybu+DH4vIqt4GfuzNSdn0plk8B4fDUm1ty4T6i1XS95v
- H2Gtv5HE0FAkIglsJKtImmwzHczh5V0=
-X-Google-Smtp-Source: APXvYqzm0169S08QmnzM+YTymxDkTWLrp7+waXf4pvATJ2gbegeYq04X2KVul0DwuVTHK3rR9pijZw==
-X-Received: by 2002:a6b:8dcf:: with SMTP id p198mr13781169iod.46.1560448362691; 
- Thu, 13 Jun 2019 10:52:42 -0700 (PDT)
-Received: from andres-vr.valvesoftware.com (135-23-65-40.cpe.pppoe.ca.
- [135.23.65.40])
- by smtp.gmail.com with ESMTPSA id t4sm676833iop.0.2019.06.13.10.52.41
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 13 Jun 2019 10:52:42 -0700 (PDT)
-From: Andres Rodriguez <andresx7@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E1AC089624
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 18:05:14 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DE98B72167; Thu, 13 Jun 2019 18:05:14 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/edid: parse CEA blocks embedded in DisplayID
-Date: Thu, 13 Jun 2019 13:52:38 -0400
-Message-Id: <20190613175238.8060-1-andresx7@gmail.com>
-X-Mailer: git-send-email 2.19.1
+Subject: [Bug 110914] Heavy corruption on R300 with modesetting and GLAMOR
+Date: Thu, 13 Jun 2019 18:05:14 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rsalvaterra@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-110914-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gvGUQ+AYQTyaqjvXsdL4JYvhkFYlzyBpmZ5bo6N/5Tw=;
- b=Uei8lM7HdhdZEdD74ZopJCG3vI7gPMCeeDhbX937X1Bpm1kJ3sTgrZGHgb6GMkOd1c
- 1HicVemLMety6J4jpUjhe1ScmrJK2IPZGJxXyHuxPhespkd3Ah09AiB2n7xjfp5WPj6t
- hDtvbjL6yFH/dCnQvyxpbgEVRgawucsbI7T8RyO9v5yqdGesEUCo8sS+5B10hRJhlVWM
- s1QkOZpT+4inMlj5nQhxluahFHGGmGWt81b2whcoLNU64RUkoqRm50jkfa1PnTPpmUXF
- lH+UYXnFv3E62pQwEFQSlfM0jFyMYvuKgGsG0qLE0E00Aon2eAiDMeK46RPTyhdWkldN
- gsmQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,97 +52,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andres Rodriguez <andresx7@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0032077001=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RGlzcGxheUlEIGJsb2NrcyBhbGxvdyBlbWJlZGRpbmcgb2YgQ0VBIGJsb2Nrcy4gVGhlIHBheWxv
-YWRzIGFyZQppZGVudGljYWwgdG8gdHJhZGl0aW9uYWwgdG9wIGxldmVsIENFQSBleHRlbnNpb24g
-YmxvY2tzLCBidXQgdGhlIGhlYWRlcgppcyBzbGlnaHRseSBkaWZmZXJlbnQuCgpUaGlzIGNoYW5n
-ZSBhbGxvd3MgdGhlIENFQSBwYXJzZXIgdG8gZmluZCBhIENFQSBibG9jayBpbnNpZGUgYSBEaXNw
-bGF5SUQKYmxvY2suIEFkZGl0aW9uYWxseSwgaXQgYWRkcyBzdXBwb3J0IGZvciBwYXJzaW5nIHRo
-ZSBlbWJlZGRlZCBDVEEKaGVhZGVyLiBObyBmdXJ0aGVyIGNoYW5nZXMgYXJlIG5lY2Vzc2FyeSBk
-dWUgdG8gcGF5bG9hZCBwYXJpdHkuCgpUaGlzIGNoYW5nZSBlbmFibGVzIGF1ZGlvIHN1cHBvcnQg
-Zm9yIHRoZSBWYWx2ZSBJbmRleCBITUQuCgpTaWduZWQtb2ZmLWJ5OiBBbmRyZXMgUm9kcmlndWV6
-IDxhbmRyZXN4N0BnbWFpbC5jb20+Ci0tLQoKdjI6IFJldmlldyBmZWVkYmFjayBmcm9tIEphbmku
-CgogZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgIHwgNzUgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrLS0tLQogaW5jbHVkZS9kcm0vZHJtX2Rpc3BsYXlpZC5oIHwgMTAgKysrKysK
-IDIgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-ZWRpZC5jCmluZGV4IDY0OWNmZDhiNDIwMC4uOGVjZDdmNzA4MjVkIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpA
-QCAtMTMzOSw2ICsxMzM5LDggQEAgTU9EVUxFX1BBUk1fREVTQyhlZGlkX2ZpeHVwLAogCiBzdGF0
-aWMgdm9pZCBkcm1fZ2V0X2Rpc3BsYXlpZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
-LAogCQkJICAgICAgc3RydWN0IGVkaWQgKmVkaWQpOworc3RhdGljIHU4ICpkcm1fZmluZF9kaXNw
-bGF5aWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkKTsKK3N0YXRpYyBpbnQgdmFs
-aWRhdGVfZGlzcGxheWlkKHU4ICpkaXNwbGF5aWQsIGludCBsZW5ndGgsIGludCBpZHgpOwogCiBz
-dGF0aWMgaW50IGRybV9lZGlkX2Jsb2NrX2NoZWNrc3VtKGNvbnN0IHU4ICpyYXdfZWRpZCkKIHsK
-QEAgLTI4ODUsNyArMjg4NywzNiBAQCBzdGF0aWMgdTggKmRybV9maW5kX2VkaWRfZXh0ZW5zaW9u
-KGNvbnN0IHN0cnVjdCBlZGlkICplZGlkLCBpbnQgZXh0X2lkKQogCiBzdGF0aWMgdTggKmRybV9m
-aW5kX2NlYV9leHRlbnNpb24oY29uc3Qgc3RydWN0IGVkaWQgKmVkaWQpCiB7Ci0JcmV0dXJuIGRy
-bV9maW5kX2VkaWRfZXh0ZW5zaW9uKGVkaWQsIENFQV9FWFQpOworCWludCByZXQ7CisJaW50IGlk
-eCA9IDE7CisJaW50IGxlbmd0aCA9IEVESURfTEVOR1RIOworCXN0cnVjdCBkaXNwbGF5aWRfYmxv
-Y2sgKmJsb2NrOworCXU4ICpjZWE7CisJdTggKmRpc3BsYXlpZDsKKworCS8qIExvb2sgZm9yIGEg
-dG9wIGxldmVsIENFQSBleHRlbnNpb24gYmxvY2sgKi8KKwljZWEgPSBkcm1fZmluZF9lZGlkX2V4
-dGVuc2lvbihlZGlkLCBDRUFfRVhUKTsKKwlpZiAoY2VhKQorCQlyZXR1cm4gY2VhOworCisJLyog
-Q0VBIGJsb2NrcyBjYW4gYWxzbyBiZSBmb3VuZCBlbWJlZGRlZCBpbiBhIERpc3BsYXlJRCBibG9j
-ayAqLworCWRpc3BsYXlpZCA9IGRybV9maW5kX2Rpc3BsYXlpZF9leHRlbnNpb24oZWRpZCk7CisJ
-aWYgKCFkaXNwbGF5aWQpCisJCXJldHVybiBOVUxMOworCisJcmV0ID0gdmFsaWRhdGVfZGlzcGxh
-eWlkKGRpc3BsYXlpZCwgbGVuZ3RoLCBpZHgpOworCWlmIChyZXQpCisJCXJldHVybiBOVUxMOwor
-CisJaWR4ICs9IHNpemVvZihzdHJ1Y3QgZGlzcGxheWlkX2hkcik7CisJZm9yX2VhY2hfZGlzcGxh
-eWlkX2RiKGRpc3BsYXlpZCwgYmxvY2ssIGlkeCwgbGVuZ3RoKSB7CisJCWlmIChibG9jay0+dGFn
-ID09IERBVEFfQkxPQ0tfQ1RBKSB7CisJCQljZWEgPSAodTggKilibG9jazsKKwkJCWJyZWFrOwor
-CQl9CisJfQorCisJcmV0dXJuIGNlYTsKIH0KIAogc3RhdGljIHU4ICpkcm1fZmluZF9kaXNwbGF5
-aWRfZXh0ZW5zaW9uKGNvbnN0IHN0cnVjdCBlZGlkICplZGlkKQpAQCAtMzYxNiwxMyArMzY0Nywz
-OCBAQCBjZWFfcmV2aXNpb24oY29uc3QgdTggKmNlYSkKIHN0YXRpYyBpbnQKIGNlYV9kYl9vZmZz
-ZXRzKGNvbnN0IHU4ICpjZWEsIGludCAqc3RhcnQsIGludCAqZW5kKQogewotCS8qIERhdGEgYmxv
-Y2sgb2Zmc2V0IGluIENFQSBleHRlbnNpb24gYmxvY2sgKi8KLQkqc3RhcnQgPSA0OwotCSplbmQg
-PSBjZWFbMl07Ci0JaWYgKCplbmQgPT0gMCkKLQkJKmVuZCA9IDEyNzsKLQlpZiAoKmVuZCA8IDQg
-fHwgKmVuZCA+IDEyNykKLQkJcmV0dXJuIC1FUkFOR0U7CisKKwkvKiBEaXNwbGF5SUQgQ1RBIGV4
-dGVuc2lvbiBibG9ja3MgYW5kIHRvcC1sZXZlbCBDRUEgRURJRAorCSAqIGJsb2NrIGhlYWRlciBk
-ZWZpbml0aW9ucyBkaWZmZXIgaW4gdGhlIGZvbGxvd2luZyBieXRlczoKKwkgKiAgIDEpIEJ5dGUg
-MiBvZiB0aGUgaGVhZGVyIHNwZWNpZmllcyBsZW5ndGggZGlmZmVyZW50bHksCisJICogICAyKSBC
-eXRlIDMgaXMgb25seSBwcmVzZW50IGluIHRoZSBDRUEgdG9wIGxldmVsIGJsb2NrLgorCSAqCisJ
-ICogVGhlIGRpZmZlcmVudCBkZWZpbml0aW9ucyBmb3IgYnl0ZSAyIGZvbGxvdy4KKwkgKgorCSAq
-IERpc3BsYXlJRCBDVEEgZXh0ZW5zaW9uIGJsb2NrIGRlZmluZXMgYnl0ZSAyIGFzOgorCSAqICAg
-TnVtYmVyIG9mIHBheWxvYWQgYnl0ZXMKKwkgKgorCSAqIENFQSBFRElEIGJsb2NrIGRlZmluZXMg
-Ynl0ZSAyIGFzOgorCSAqICAgQnl0ZSBudW1iZXIgKGRlY2ltYWwpIHdpdGhpbiB0aGlzIGJsb2Nr
-IHdoZXJlIHRoZSAxOC1ieXRlCisJICogICBEVERzIGJlZ2luLiBJZiBubyBub24tRFREIGRhdGEg
-aXMgcHJlc2VudCBpbiB0aGlzIGV4dGVuc2lvbgorCSAqICAgYmxvY2ssIHRoZSB2YWx1ZSBzaG91
-bGQgYmUgc2V0IHRvIDA0aCAodGhlIGJ5dGUgYWZ0ZXIgbmV4dCkuCisJICogICBJZiBzZXQgdG8g
-MDBoLCB0aGVyZSBhcmUgbm8gRFREcyBwcmVzZW50IGluIHRoaXMgYmxvY2sgYW5kCisJICogICBu
-byBub24tRFREIGRhdGEuCisJICovCisJaWYgKGNlYVswXSA9PSBEQVRBX0JMT0NLX0NUQSkgewor
-CQkqc3RhcnQgPSAzOworCQkqZW5kID0gKnN0YXJ0ICsgY2VhWzJdOworCX0gZWxzZSBpZiAoY2Vh
-WzBdID09IENFQV9FWFQpIHsKKwkJLyogRGF0YSBibG9jayBvZmZzZXQgaW4gQ0VBIGV4dGVuc2lv
-biBibG9jayAqLworCQkqc3RhcnQgPSA0OworCQkqZW5kID0gY2VhWzJdOworCQlpZiAoKmVuZCA9
-PSAwKQorCQkJKmVuZCA9IDEyNzsKKwkJaWYgKCplbmQgPCA0IHx8ICplbmQgPiAxMjcpCisJCQly
-ZXR1cm4gLUVSQU5HRTsKKwl9IGVsc2UKKwkJcmV0dXJuIC1FTk9UU1VQUDsKKwogCXJldHVybiAw
-OwogfQogCkBAIC01MjQwLDYgKzUyOTYsOSBAQCBzdGF0aWMgaW50IGRybV9wYXJzZV9kaXNwbGF5
-X2lkKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCiAJCWNhc2UgREFUQV9CTE9DS19U
-WVBFXzFfREVUQUlMRURfVElNSU5HOgogCQkJLyogaGFuZGxlZCBpbiBtb2RlIGdhdGhlcmluZyBj
-b2RlLiAqLwogCQkJYnJlYWs7CisJCWNhc2UgREFUQV9CTE9DS19DVEE6CisJCQkvKiBoYW5kbGVk
-IGluIHRoZSBjZWEgcGFyc2VyIGNvZGUuICovCisJCQlicmVhazsKIAkJZGVmYXVsdDoKIAkJCURS
-TV9ERUJVR19LTVMoImZvdW5kIERpc3BsYXlJRCB0YWcgMHgleCwgdW5oYW5kbGVkXG4iLCBibG9j
-ay0+dGFnKTsKIAkJCWJyZWFrOwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2Rpc3BsYXlp
-ZC5oIGIvaW5jbHVkZS9kcm0vZHJtX2Rpc3BsYXlpZC5oCmluZGV4IGMwZDRkZjZhNjA2Zi4uOWQz
-Yjc0NWMzMTA3IDEwMDY0NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZGlzcGxheWlkLmgKKysrIGIv
-aW5jbHVkZS9kcm0vZHJtX2Rpc3BsYXlpZC5oCkBAIC00MCw2ICs0MCw3IEBACiAjZGVmaW5lIERB
-VEFfQkxPQ0tfRElTUExBWV9JTlRFUkZBQ0UgMHgwZgogI2RlZmluZSBEQVRBX0JMT0NLX1NURVJF
-T19ESVNQTEFZX0lOVEVSRkFDRSAweDEwCiAjZGVmaW5lIERBVEFfQkxPQ0tfVElMRURfRElTUExB
-WSAweDEyCisjZGVmaW5lIERBVEFfQkxPQ0tfQ1RBIDB4ODEKIAogI2RlZmluZSBEQVRBX0JMT0NL
-X1ZFTkRPUl9TUEVDSUZJQyAweDdmCiAKQEAgLTkwLDQgKzkxLDEzIEBAIHN0cnVjdCBkaXNwbGF5
-aWRfZGV0YWlsZWRfdGltaW5nX2Jsb2NrIHsKIAlzdHJ1Y3QgZGlzcGxheWlkX2Jsb2NrIGJhc2U7
-CiAJc3RydWN0IGRpc3BsYXlpZF9kZXRhaWxlZF90aW1pbmdzXzEgdGltaW5nc1swXTsKIH07CisK
-KyNkZWZpbmUgZm9yX2VhY2hfZGlzcGxheWlkX2RiKGRpc3BsYXlpZCwgYmxvY2ssIGlkeCwgbGVu
-Z3RoKSBcCisJZm9yICgoYmxvY2spID0gKHN0cnVjdCBkaXNwbGF5aWRfYmxvY2sgKikmKGRpc3Bs
-YXlpZClbaWR4XTsgXAorCSAgICAgKGlkeCkgKyBzaXplb2Yoc3RydWN0IGRpc3BsYXlpZF9ibG9j
-aykgPD0gKGxlbmd0aCkgJiYgXAorCSAgICAgKGlkeCkgKyBzaXplb2Yoc3RydWN0IGRpc3BsYXlp
-ZF9ibG9jaykgKyAoYmxvY2spLT5udW1fYnl0ZXMgPD0gKGxlbmd0aCkgJiYgXAorCSAgICAgKGJs
-b2NrKS0+bnVtX2J5dGVzID4gMDsgXAorCSAgICAgKGlkeCkgKz0gKGJsb2NrKS0+bnVtX2J5dGVz
-ICsgc2l6ZW9mKHN0cnVjdCBkaXNwbGF5aWRfYmxvY2spLCBcCisJICAgICAoYmxvY2spID0gKHN0
-cnVjdCBkaXNwbGF5aWRfYmxvY2sgKikmKGRpc3BsYXlpZClbaWR4XSkKKwogI2VuZGlmCi0tIAoy
-LjE5LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0032077001==
+Content-Type: multipart/alternative; boundary="15604491141.eEaf4.32723"
+Content-Transfer-Encoding: 7bit
+
+
+--15604491141.eEaf4.32723
+Date: Thu, 13 Jun 2019 18:05:14 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110914
+
+            Bug ID: 110914
+           Summary: Heavy corruption on R300 with modesetting and GLAMOR
+           Product: Mesa
+           Version: git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/r300
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: rsalvaterra@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 144533
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144533&action=3Dedit
+Corrupted login screen (lightdm on Ubuntu MATE 19.04)
+
+There's heavy corruption when using modesetting and GLAMOR on R300 (Radeon
+Xpress 200M). R500 (Mobility Radeon X1600) works fine. Attached is a photo
+displaying the problem.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15604491141.eEaf4.32723
+Date: Thu, 13 Jun 2019 18:05:14 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Heavy corruption on R300 with modesetting and GLAMOR"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110914">110914</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Heavy corruption on R300 with modesetting and GLAMOR
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/r300
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>rsalvaterra&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144533=
+" name=3D"attach_144533" title=3D"Corrupted login screen (lightdm on Ubuntu=
+ MATE 19.04)">attachment 144533</a> <a href=3D"attachment.cgi?id=3D144533&a=
+mp;action=3Dedit" title=3D"Corrupted login screen (lightdm on Ubuntu MATE 1=
+9.04)">[details]</a></span>
+Corrupted login screen (lightdm on Ubuntu MATE 19.04)
+
+There's heavy corruption when using modesetting and GLAMOR on R300 (Radeon
+Xpress 200M). R500 (Mobility Radeon X1600) works fine. Attached is a photo
+displaying the problem.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15604491141.eEaf4.32723--
+
+--===============0032077001==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0032077001==--
