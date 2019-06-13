@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB06442AF
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 18:25:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93863442F9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 18:28:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85B5892FF;
-	Thu, 13 Jun 2019 16:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E7989233;
+	Thu, 13 Jun 2019 16:27:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CF3168931F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 16:25:28 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CB9BA72167; Thu, 13 Jun 2019 16:25:28 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
-Date: Thu, 13 Jun 2019 16:25:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gw.fossdev@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110783-502-4aynWlGFYa@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
-References: <bug-110783-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 716C4891AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 16:27:57 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 269F3367;
+ Thu, 13 Jun 2019 09:27:57 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0759D3F694;
+ Thu, 13 Jun 2019 09:27:57 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id BDC80682579; Thu, 13 Jun 2019 17:27:55 +0100 (BST)
+Date: Thu, 13 Jun 2019 17:27:55 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] malidp: no need to check return value of debugfs_create
+ functions
+Message-ID: <20190613162755.GR4173@e110455-lin.cambridge.arm.com>
+References: <20190613132829.GB4863@kroah.com>
+ <20190613145221.GP4173@e110455-lin.cambridge.arm.com>
+ <20190613155713.GA4632@kroah.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190613155713.GA4632@kroah.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,94 +46,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1941122725=="
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1941122725==
-Content-Type: multipart/alternative; boundary="15604431285.dD9e37.25146"
-Content-Transfer-Encoding: 7bit
-
-
---15604431285.dD9e37.25146
-Date: Thu, 13 Jun 2019 16:25:28 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
-
---- Comment #14 from Gert Wollny <gw.fossdev@gmail.com> ---
-Well, I already pointed out that the fix is by no means complete, because e=
-ven
-if I provide a TGSI that doesn't use TEX_LZ, I still have to take care of t=
-he
-DIV, which is a bit more tedious and there is currently no CAP.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604431285.dD9e37.25146
-Date: Thu, 13 Jun 2019 16:25:28 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c14">Comme=
-nt # 14</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gw.fossdev&#64;gmail.com" title=3D"Gert Wollny &lt;gw.fossdev&#64;gmail.com=
-&gt;"> <span class=3D"fn">Gert Wollny</span></a>
-</span></b>
-        <pre>Well, I already pointed out that the fix is by no means comple=
-te, because even
-if I provide a TGSI that doesn't use TEX_LZ, I still have to take care of t=
-he
-DIV, which is a bit more tedious and there is currently no CAP.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604431285.dD9e37.25146--
-
---===============1941122725==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1941122725==--
+T24gVGh1LCBKdW4gMTMsIDIwMTkgYXQgMDU6NTc6MTNQTSArMDIwMCwgR3JlZyBLcm9haC1IYXJ0
+bWFuIHdyb3RlOgo+IE9uIFRodSwgSnVuIDEzLCAyMDE5IGF0IDAzOjUyOjIyUE0gKzAxMDAsIExp
+dml1IER1ZGF1IHdyb3RlOgo+ID4gT24gVGh1LCBKdW4gMTMsIDIwMTkgYXQgMDM6Mjg6MjlQTSAr
+MDIwMCwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOgo+ID4gPiBXaGVuIGNhbGxpbmcgZGVidWdm
+cyBmdW5jdGlvbnMsIHRoZXJlIGlzIG5vIG5lZWQgdG8gZXZlciBjaGVjayB0aGUKPiA+ID4gcmV0
+dXJuIHZhbHVlLiAgVGhlIGZ1bmN0aW9uIGNhbiB3b3JrIG9yIG5vdCwgYnV0IHRoZSBjb2RlIGxv
+Z2ljIHNob3VsZAo+ID4gPiBuZXZlciBkbyBzb21ldGhpbmcgZGlmZmVyZW50IGJhc2VkIG9uIHRo
+aXMuCj4gPiAKPiA+IEkgcmVtZW1iZXIgd2hlbiB3cml0aW5nIHRoaXMgY29kZSBhbmQgdGVzdGlu
+ZyBub3QgZnVsbHkgY29tcGxldGUgY29kZSB0aGF0IGxlZnQKPiA+IG5vZGVzIGFyb3VuZCBvbiBy
+ZW1vdmluZyB0aGUgbW9kdWxlIHRoYXQgdGhlcmUgd2VyZSBlcnJvcnMgYmVpbmcgcmV0dXJuZWQg
+YnkKPiA+IGRlYnVnZnNfY3JlYXRlX2ZpbGUoKS4gSGFzIHRoYXQgY2hhbmdlZCBzaW5jZSAyIHll
+YXJzIGFnbz8gOikKPiAKPiBFcnJvcnMgY2FuIGJlIHJldHVybmVkIGlmIHlvdSBkbyBzb21ldGhp
+bmcgZm9vbGlzaDoKPiAJLSBwYXNzIGFuIGVycm9yIGFzIGEgcGFyZW50IHBvaW50ZXIKPiAJLSBw
+YXNzIGEgbmFtZSB0aGF0IGlzIGFscmVhZHkgcHJlc2VudAoKVGhhdCBpcyB3aGF0IEkgd2FzIGhp
+dHRpbmcgcHJldmlvdXNseS4gSWYgd2UgZm9sbG93IHRoZSBuZXcgYWR2aWNlIG9mIG5vdApjaGVj
+a2luZyBmb3IgZXJyb3JzIGRvZXMgdGhpcyBtZWFuIEkgY2FuIG5vdyBzdGFydCB0byBoaWRlIGRl
+YnVnZnMgZW50cmllcwpieSB0b3VjaGluZyBzb21lIGRlYnVnZnMgZmlsZXMgYmVmb3JlIG1vZHVs
+ZXMgZ2V0IGxvYWRlZD8KCkJlc3QgcmVnYXJkcywKTGl2aXUKCj4gb3IgaWYgdGhlIHN5c3RlbSBp
+cyBvdXQgb2YgcmVzb3VyY2VzCj4gCS0gY2FuIG5vdCBpbmNyZW1lbnQgc3VwZXJibG9jayByZWZl
+cmVuY2UKPiAJLSBvdXQgb2YgbWVtb3J5IHRvIGNyZWF0ZSBhbiBpbm9kZQo+IAo+IElmIHRob3Nl
+IGxhc3QgdHdvIHRoaW5ncyBhcmUgaGFwcGVuaW5nLCB0aGVuIHlvdXIgc3lzdGVtIGlzIGNyYXNo
+aW5nCj4gYWxyZWFkeSwgZGVidWdmcyBpcyB0aGUgbGVhc3Qgb2YgeW91ciB3b3JyaWVzIDopCj4g
+Cj4gPiA+IENjOiBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KPiA+ID4gQ2M6IEJy
+aWFuIFN0YXJrZXkgPGJyaWFuLnN0YXJrZXlAYXJtLmNvbT4KPiA+ID4gQ2M6IERhdmlkIEFpcmxp
+ZSA8YWlybGllZEBsaW51eC5pZT4KPiA+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4KPiA+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gU2ln
+bmVkLW9mZi1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9y
+Zz4KPiA+IAo+ID4gQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5kdWRhdUBhcm0uY29tPgo+
+ID4gCj4gPiBJJ2xsIHB1bGwgaXQgaW50byB0aGUgbWFsaWRwIHRyZWUuCj4gCj4gV29uZGVyZnVs
+LCB0aGFua3MhCj4gCj4gZ3JlZyBrLWgKCi0tIAo9PT09PT09PT09PT09PT09PT09PQp8IEkgd291
+bGQgbGlrZSB0byB8CnwgZml4IHRoZSB3b3JsZCwgIHwKfCBidXQgdGhleSdyZSBub3QgfAp8IGdp
+dmluZyBtZSB0aGUgICB8CiBcIHNvdXJjZSBjb2RlISAgLwogIC0tLS0tLS0tLS0tLS0tLQogICAg
+wq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
