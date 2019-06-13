@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BEDE455C0
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 09:23:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7FB44FBE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 01:02:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286C489533;
-	Fri, 14 Jun 2019 07:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 576CF892A5;
+	Thu, 13 Jun 2019 23:02:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com
- [IPv6:2607:f8b0:4864:20::849])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED1589356
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 22:34:20 +0000 (UTC)
-Received: by mail-qt1-x849.google.com with SMTP id 97so444024qtb.16
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 15:34:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=LEbx6Py1LlxNnYNfMUQLEHmXYGAjBktMwzf11o00qiQ=;
- b=pzw5VNwFwL+neUO/0GybSILme1+wuJh93TdNI0No7GCFegjBTmhjMK2pfr3CUm4GBC
- Xa3oSXz3Xx/28pH7hOQD9uGmTDFl0Lc+GJNLh/ona72WTmOH3Gp94agj9jnsuC3eNRSj
- m6/rKywEaNFD3ohMiiftcp/jW5dcVYSGIyMMqIjlfQLkmpo0OCAkWhAFvMakL80Zy/Sf
- kx+DJ8699RtbSBJ3TID2XkQ1Kq7gU2c4N9n2aTdRmHEAZ1EGteRrytLxAhPLHIwwVeaQ
- bA7soskQ1ruPqZQd77FHEor3l/ppWgEgmlPcsX7svV4d1QUJe++qWQ0U+Nw8Sb6HH1EX
- a4VA==
-X-Gm-Message-State: APjAAAUtH3ewNQt1pYATPekCypd3bVSTv2OpMrPtwOUaHduXiJz8HIMf
- UQfFQMU4I96HpQoGYEJicjn3RlS3Mw==
-X-Google-Smtp-Source: APXvYqzPVM+hxKCGgOVop12/mUhf51zpio33hHg87tz8aaGPy+G5h7ILBQFuMHAA1crz0uCPLsKvZ9lqaw==
-X-Received: by 2002:a0c:d196:: with SMTP id e22mr5472255qvh.75.1560465259477; 
- Thu, 13 Jun 2019 15:34:19 -0700 (PDT)
-Date: Thu, 13 Jun 2019 15:34:08 -0700
-In-Reply-To: <20190613223408.139221-1-fengc@google.com>
-Message-Id: <20190613223408.139221-4-fengc@google.com>
-Mime-Version: 1.0
-References: <20190613223408.139221-1-fengc@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v5 3/3] dma-buf: add show_fdinfo handler
-From: Chenbo Feng <fengc@google.com>
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-X-Mailman-Approved-At: Fri, 14 Jun 2019 07:21:24 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc;
- bh=LEbx6Py1LlxNnYNfMUQLEHmXYGAjBktMwzf11o00qiQ=;
- b=Smy3Jh0xPWHxt5WDJ+8KkM+LzEnH7FyKOFRSiuheeGSq98m3pPRdHAqXEezsiMyAbX
- 1h4Uqu90fX9XGFJZwaDpIJGGL+QNNxoCI0Jdr6XBxHiS9fCvNMKc+RtJGZbq9JNibFdQ
- Buruwhxy9ly9ARec8g9nh9YNono+ejunCF26DFpBY3UFknHuMr16eMHyiYH/7sHg18xO
- 3AcP7YZU7rRfP5sniNezbdqmdA7tNJgEh/s8YmsiPBXOjyzcWAGFHCUmdn1v+yk2Ff+O
- B4pPLKgZuC/08CFWCguu+2yNzdZ8oxCTdJxtBsekaTar8Ydc5dl0iMrnBm9xABuYz7Ei
- Jzlw==
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2CD5A890C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 23:02:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 24AAD72167; Thu, 13 Jun 2019 23:02:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110856] Freesync causes in-game blackscreens when game has low
+ fps.
+Date: Thu, 13 Jun 2019 23:02:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: rropid@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110856-502-wMzlPMsHW6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110856-502@http.bugs.freedesktop.org/>
+References: <bug-110856-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,37 +53,147 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-team@android.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1940246980=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR3JlZyBIYWNrbWFubiA8Z2hhY2ttYW5uQGdvb2dsZS5jb20+CgpUaGUgc2hvd19mZGlu
-Zm8gaGFuZGxlciBleHBvcnRzIHRoZSBzYW1lIGluZm9ybWF0aW9uIGF2YWlsYWJsZSB0aHJvdWdo
-CmRlYnVnZnMgb24gYSBwZXItYnVmZmVyIGJhc2lzLgoKU2lnbmVkLW9mZi1ieTogR3JlZyBIYWNr
-bWFubiA8Z2hhY2ttYW5uQGdvb2dsZS5jb20+ClNpZ25lZC1vZmYtYnk6IENoZW5ibyBGZW5nIDxm
-ZW5nY0Bnb29nbGUuY29tPgotLS0KIGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCAxNSArKysr
-KysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMK
-aW5kZXggMmM4NjJlMzZjOTQ3Li40OWE1Y2I3YzcwNWQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1h
-LWJ1Zi9kbWEtYnVmLmMKKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwpAQCAtMzk3LDYg
-KzM5NywyMCBAQCBzdGF0aWMgbG9uZyBkbWFfYnVmX2lvY3RsKHN0cnVjdCBmaWxlICpmaWxlLAog
-CX0KIH0KIAorc3RhdGljIHZvaWQgZG1hX2J1Zl9zaG93X2ZkaW5mbyhzdHJ1Y3Qgc2VxX2ZpbGUg
-Km0sIHN0cnVjdCBmaWxlICpmaWxlKQoreworCXN0cnVjdCBkbWFfYnVmICpkbWFidWYgPSBmaWxl
-LT5wcml2YXRlX2RhdGE7CisKKwlzZXFfcHJpbnRmKG0sICJzaXplOlx0JXp1XG4iLCBkbWFidWYt
-PnNpemUpOworCS8qIERvbid0IGNvdW50IHRoZSB0ZW1wb3JhcnkgcmVmZXJlbmNlIHRha2VuIGlu
-c2lkZSBwcm9jZnMgc2VxX3Nob3cgKi8KKwlzZXFfcHJpbnRmKG0sICJjb3VudDpcdCVsZFxuIiwg
-ZmlsZV9jb3VudChkbWFidWYtPmZpbGUpIC0gMSk7CisJc2VxX3ByaW50ZihtLCAiZXhwX25hbWU6
-XHQlc1xuIiwgZG1hYnVmLT5leHBfbmFtZSk7CisJbXV0ZXhfbG9jaygmZG1hYnVmLT5sb2NrKTsK
-KwlpZiAoZG1hYnVmLT5uYW1lKQorCQlzZXFfcHJpbnRmKG0sICJuYW1lOlx0JXNcbiIsIGRtYWJ1
-Zi0+bmFtZSk7CisJbXV0ZXhfdW5sb2NrKCZkbWFidWYtPmxvY2spOworfQorCiBzdGF0aWMgY29u
-c3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBkbWFfYnVmX2ZvcHMgPSB7CiAJLnJlbGVhc2UJPSBk
-bWFfYnVmX3JlbGVhc2UsCiAJLm1tYXAJCT0gZG1hX2J1Zl9tbWFwX2ludGVybmFsLApAQCAtNDA2
-LDYgKzQyMCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIGRtYV9idWZf
-Zm9wcyA9IHsKICNpZmRlZiBDT05GSUdfQ09NUEFUCiAJLmNvbXBhdF9pb2N0bAk9IGRtYV9idWZf
-aW9jdGwsCiAjZW5kaWYKKwkuc2hvd19mZGluZm8JPSBkbWFfYnVmX3Nob3dfZmRpbmZvLAogfTsK
-IAogLyoKLS0gCjIuMjIuMC40MTAuZ2Q4ZmRiZTIxYjUtZ29vZwoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1940246980==
+Content-Type: multipart/alternative; boundary="15604669270.0B4c7Ad.22284"
+Content-Transfer-Encoding: 7bit
+
+
+--15604669270.0B4c7Ad.22284
+Date: Thu, 13 Jun 2019 23:02:07 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110856
+
+--- Comment #10 from Ropid <rropid@gmail.com> ---
+Those Xorg config options you tried to use do not exist on the
+xf86-video-amdgpu driver (I mean "CustomEDID" etc.). Those EDID options you
+used are unique Nvidia driver config options and do not exist in any other
+driver.
+
+If you are intersted, you can find a list about possible Xorg options for
+amdgpu by running "man 4 amdgpu", and then there's more general stuff
+documented in "man xorg.conf". There is sadly nothing about EDID anywhere.
+
+For the open drivers that use kernel-mode-setting, you need to tell the dri=
+ver
+about your EDID file on the kernel command line. That's the only way to do =
+it.
+
+In the /etc/mkinitcpio.conf file you shared, you made a mistake on the
+"MODULES=3D..." line. You need to remove that "drm_kms_helper..." text from=
+ that
+line. That text you added there has to go onto the kernel command line, not
+into mkinitcpio.conf.
+
+The only thing you have to do in /etc/mkinitcpio.conf is what you already d=
+id
+on the "FILES=3D..." line.
+
+About that "drm_kms_helper..." kernel command line parameter, where you hav=
+e to
+add it is your boot loader's configuration file. I don't know how that work=
+s on
+Manjaro.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15604669270.0B4c7Ad.22284
+Date: Thu, 13 Jun 2019 23:02:07 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
+s."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Freesync causes in-game blackscreens when game has low fp=
+s."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110856">bug 11085=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rropid&#64;gmail.com" title=3D"Ropid &lt;rropid&#64;gmail.com&gt;"> <span c=
+lass=3D"fn">Ropid</span></a>
+</span></b>
+        <pre>Those Xorg config options you tried to use do not exist on the
+xf86-video-amdgpu driver (I mean &quot;CustomEDID&quot; etc.). Those EDID o=
+ptions you
+used are unique Nvidia driver config options and do not exist in any other
+driver.
+
+If you are intersted, you can find a list about possible Xorg options for
+amdgpu by running &quot;man 4 amdgpu&quot;, and then there's more general s=
+tuff
+documented in &quot;man xorg.conf&quot;. There is sadly nothing about EDID =
+anywhere.
+
+For the open drivers that use kernel-mode-setting, you need to tell the dri=
+ver
+about your EDID file on the kernel command line. That's the only way to do =
+it.
+
+In the /etc/mkinitcpio.conf file you shared, you made a mistake on the
+&quot;MODULES=3D...&quot; line. You need to remove that &quot;drm_kms_helpe=
+r...&quot; text from that
+line. That text you added there has to go onto the kernel command line, not
+into mkinitcpio.conf.
+
+The only thing you have to do in /etc/mkinitcpio.conf is what you already d=
+id
+on the &quot;FILES=3D...&quot; line.
+
+About that &quot;drm_kms_helper...&quot; kernel command line parameter, whe=
+re you have to
+add it is your boot loader's configuration file. I don't know how that work=
+s on
+Manjaro.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15604669270.0B4c7Ad.22284--
+
+--===============1940246980==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1940246980==--
