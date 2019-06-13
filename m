@@ -2,39 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A6A432F5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 08:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D6B6432FA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 08:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A42B89228;
-	Thu, 13 Jun 2019 06:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C673989267;
+	Thu, 13 Jun 2019 06:46:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 02BB489228
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 06:31:25 +0000 (UTC)
-X-UUID: 58c713b7ac094cbb99b115b77087896c-20190613
-X-UUID: 58c713b7ac094cbb99b115b77087896c-20190613
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 934902771; Thu, 13 Jun 2019 14:31:21 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 13 Jun 2019 14:31:19 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 13 Jun 2019 14:31:18 +0800
-Message-ID: <1560407478.7597.5.camel@mtksdaap41>
-Subject: Re: [GIT,PULL] mediatek drm fixes for 5.2
-From: CK Hu <ck.hu@mediatek.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 13 Jun 2019 14:31:18 +0800
-In-Reply-To: <20190612162538.GA8035@phenom.ffwll.local>
-References: <1560325868.3259.6.camel@mtksdaap41>
- <20190612162538.GA8035@phenom.ffwll.local>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20C6389267
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 06:46:05 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 6EF62AA71;
+ Thu, 13 Jun 2019 06:46:03 +0000 (UTC)
+Subject: Re: [PATCH 2/2] drm/ast: Drop fb_debug_enter/leave
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20190612091253.26413-1-daniel.vetter@ffwll.ch>
+ <20190612091253.26413-2-daniel.vetter@ffwll.ch>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <d5fc5fa6-ae80-e82d-e0f7-94b9559e5af9@suse.de>
+Date: Thu, 13 Jun 2019 08:45:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MTK: N
+In-Reply-To: <20190612091253.26413-2-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,58 +66,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sam Bobroff <sbobroff@linux.ibm.com>, YueHaibing <yuehaibing@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============0425675523=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERhbmllbDoKCk9uIFdlZCwgMjAxOS0wNi0xMiBhdCAxODoyNSArMDIwMCwgRGFuaWVsIFZl
-dHRlciB3cm90ZToKPiBPbiBXZWQsIEp1biAxMiwgMjAxOSBhdCAwMzo1MTowOFBNICswODAwLCBD
-SyBIdSB3cm90ZToKPiA+IEhpIERhdmUsIERhbmllbDoKPiA+IAo+ID4gVGhpcyBpbmNsdWRlIHVu
-YmluZCBlcnJvciBmaXgsIGNsb2NrIGNvbnRyb2wgZmxvdyByZWZpbmVtZW50LCBhbmQgUFJJTUUK
-PiA+IG1tYXAgd2l0aCBwYWdlIG9mZnNldC4KPiA+IAo+ID4gUmVnYXJkcywKPiA+IENLCj4gPiAK
-PiA+IFRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQKPiA+IGExODgzMzljYTVhMzk2
-YWNjNTg4ZTU4NTFlZDdlMTlmNjZiMGViZDk6Cj4gPiAKPiA+ICAgTGludXggNS4yLXJjMSAoMjAx
-OS0wNS0xOSAxNTo0NzowOSAtMDcwMCkKPiA+IAo+ID4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0
-IHJlcG9zaXRvcnkgYXQ6Cj4gPiAKPiA+ICAgaHR0cHM6Ly9naXRodWIuY29tL2NraHUtbWVkaWF0
-ZWsvbGludXguZ2l0LXRhZ3MuZ2l0Cj4gPiBtZWRpYXRlay1kcm0tZml4ZXMtNS4yCj4gCj4gRm9y
-IG5leHQgdGltZSBhcm91bmQsIHBsZWFzZSBtYWtlIHRoaXMgYSBzaWduZWQgYW5ub3RhdGVkIHRh
-Zy4gYW5ub3RhdGVkCj4gYmVjYXVzZSB0aGVuIGl0J3MgbGVzcyB0eXBpbmcgZm9yIG1lLCBhbmQg
-c2lnbmVkIGJlY2F1c2UgaXQncyBvbiBhIHNlcnZlcgo+IHdlIGRvbid0IG5lY2Vzc2FyaWx5IHRy
-dXN0LgoKT0ssIEknZCBtYWtlIGEgc2lnbmVkIGFubm90YXRlZCB0YWcgaW4gbmV4dCB0aW1lLgoK
-PiAKPiA+IAo+ID4gZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDI0NThkOWQ2ZDk0YmU5
-ODJiOTE3ZTkzYzYxYTg5YjQ0MjZmMzJlMzE6Cj4gPiAKPiA+ICAgZHJtL21lZGlhdGVrOiBjYWxs
-IG10a19kc2lfc3RvcCgpIGFmdGVyIG10a19kcm1fY3J0Y19hdG9taWNfZGlzYWJsZSgpCj4gPiAo
-MjAxOS0wNi0wNCAwOTo1NDo0MiArMDgwMCkKPiA+IAo+ID4gLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ID4gSHNpbi1ZaSBX
-YW5nICg1KToKPiA+ICAgICAgIGRybS9tZWRpYXRlazogZml4IHVuYmluZCBmdW5jdGlvbnMKPiA+
-ICAgICAgIGRybS9tZWRpYXRlazogdW5iaW5kIGNvbXBvbmVudHMgaW4gbXRrX2RybV91bmJpbmQo
-KQo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBjYWxsIGRybV9hdG9taWNfaGVscGVyX3NodXRkb3du
-KCkgd2hlbiB1bmJpbmRpbmcKPiA+IGRyaXZlcgo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBjbGVh
-ciBudW1fcGlwZXMgd2hlbiB1bmJpbmQgZHJpdmVyCj4gPiAgICAgICBkcm0vbWVkaWF0ZWs6IGNh
-bGwgbXRrX2RzaV9zdG9wKCkgYWZ0ZXIKPiA+IG10a19kcm1fY3J0Y19hdG9taWNfZGlzYWJsZSgp
-Cj4gPiAKPiA+IFlvbmdxaWFuZyBOaXUgKDIpOgo+ID4gICAgICAgZHJtL21lZGlhdGVrOiBhZGp1
-c3QgZGRwIGNsb2NrIGNvbnRyb2wgZmxvdwo+ID4gICAgICAgZHJtL21lZGlhdGVrOiByZXNwZWN0
-IHBhZ2Ugb2Zmc2V0IGZvciBQUklNRSBtbWFwIGNhbGxzCj4gCj4gWW91IG1pZ2h0IHdhbnQgdG8g
-bG9vayBpbnRvIGFsbCB0aGUgcmVjZW50bHkgYWRkZWQgaGVscGVycyBmb3IgbW1hcCwgSQo+IGRv
-bid0IHRoaW5rIG10ayBkb2VzIGFueXRoaW5nIHNwZWNpYWwgaGVyZS4KCklmIHlvdSBtZWFuIHVz
-aW5nIGRybV9nZW1fcHJpbWVfbW1hcCBhcyB0aGUgaW1wbGVtZW50YXRpb24gb2YKZHJtX2RyaXZl
-ci0+Z2VtX3ByaW1lX21tYXAsIEkgdGhpbmsgd2UgaGF2ZSBkaXNjdXNzZWQgaW4gWzFdIHRoYXQK
-bWVkaWF0ZWsgZHJtIHN0aWxsIG5lZWQgaXRzIG93biBpbXBsZW1lbnRhdGlvbi4KClsxXSBodHRw
-czovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwNjU3MDA3LwoKUmVnYXJkcywKQ0sKCj4g
-Cj4gCj4gPiAKPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9jcnRjLmMgfCAz
-MAo+ID4gKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZHJ2LmMgIHwgIDggKysrLS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9k
-cm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyAgfCAgNyArKysrKystCj4gPiAgZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgIHwgMTIgKysrKysrKysrKystCj4gPiAgNCBmaWxl
-cyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAzMSBkZWxldGlvbnMoLSkKPiAKPiBQdWxsZWQs
-IHRoYW5rcy4KPiAtRGFuaWVsCj4gCj4gPiAKPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCj4gPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gPiBkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo+IAoKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0425675523==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="GrErnbjl08T4cSMZEYhYTGmE6tWoUIZH4"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--GrErnbjl08T4cSMZEYhYTGmE6tWoUIZH4
+Content-Type: multipart/mixed; boundary="ARPRk6gyjrTX0CflyxvkV3LMmJNpGYzI0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie
+ <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sam Bobroff <sbobroff@linux.ibm.com>, Sam Ravnborg <sam@ravnborg.org>,
+ YueHaibing <yuehaibing@huawei.com>
+Message-ID: <d5fc5fa6-ae80-e82d-e0f7-94b9559e5af9@suse.de>
+Subject: Re: [PATCH 2/2] drm/ast: Drop fb_debug_enter/leave
+References: <20190612091253.26413-1-daniel.vetter@ffwll.ch>
+ <20190612091253.26413-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20190612091253.26413-2-daniel.vetter@ffwll.ch>
+
+--ARPRk6gyjrTX0CflyxvkV3LMmJNpGYzI0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Am 12.06.19 um 11:12 schrieb Daniel Vetter:
+> ast doesn't implement the mode_set_base_atomic hook this would need,
+> so this is dead code.
+>=20
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Sam Bobroff <sbobroff@linux.ibm.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/gpu/drm/ast/ast_fb.c | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/ast/ast_fb.c b/drivers/gpu/drm/ast/ast_fb.=
+c
+> index 05f45222b702..5480caecde86 100644
+> --- a/drivers/gpu/drm/ast/ast_fb.c
+> +++ b/drivers/gpu/drm/ast/ast_fb.c
+> @@ -166,8 +166,6 @@ static struct fb_ops astfb_ops =3D {
+>  	.fb_pan_display =3D drm_fb_helper_pan_display,
+>  	.fb_blank =3D drm_fb_helper_blank,
+>  	.fb_setcmap =3D drm_fb_helper_setcmap,
+> -	.fb_debug_enter =3D drm_fb_helper_debug_enter,
+> -	.fb_debug_leave =3D drm_fb_helper_debug_leave,
+>  };
+> =20
+>  static int astfb_create_object(struct ast_fbdev *afbdev,
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--ARPRk6gyjrTX0CflyxvkV3LMmJNpGYzI0--
+
+--GrErnbjl08T4cSMZEYhYTGmE6tWoUIZH4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0B8SkACgkQaA3BHVML
+eiM9XwgAnayZI4rnnxYYBsm1hUMbhu37SQSUeomkBWAvh/WdvCInFh3+yQFgUMUm
+WtE4KXAaeslmXz4oWWAt6Wd+WBPFf1ewY9d05KZ48KDe+n9V4Vr7X47sisHwJly/
+6ibQxlLHOIkFjX5cyV4d66NUoQw9k7hgWhq79Z5PE+Sgo8uNV7bVsxfflCEzWWpV
+ajZwlDtG5uTKrVbwYJCCN2adUatoquLGYJF/HL0LXYJFBk330yv6gg1vG7grnS/J
+Uph6gCP4RA6ADkbEOo/TGVuJi4MgBbgyaRV7orixZjjHMUPLxZINmJg6TJQqeDaH
+fRi83guw6qyLbIHrImkFc/kBFgIQgg==
+=swYE
+-----END PGP SIGNATURE-----
+
+--GrErnbjl08T4cSMZEYhYTGmE6tWoUIZH4--
+
+--===============0425675523==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0425675523==--
