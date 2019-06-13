@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF1E44E10
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 23:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA7444E11
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 23:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5548930C;
-	Thu, 13 Jun 2019 21:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2928930B;
+	Thu, 13 Jun 2019 21:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 917688930C
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 21:04:11 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1CF5F8930F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 21:04:35 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8E5AE72167; Thu, 13 Jun 2019 21:04:11 +0000 (UTC)
+ id 19A8A72167; Thu, 13 Jun 2019 21:04:35 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Thu, 13 Jun 2019 21:04:11 +0000
+Date: Thu, 13 Jun 2019 21:04:35 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-44dCmkgprG@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-109955-502-cewJ6fivlY@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
 References: <bug-109955-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0334570473=="
+Content-Type: multipart/mixed; boundary="===============0974528064=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0334570473==
-Content-Type: multipart/alternative; boundary="15604598513.a3b3dA4fD.14220"
+--===============0974528064==
+Content-Type: multipart/alternative; boundary="15604598751.18b1f3E4d.14388"
 Content-Transfer-Encoding: 7bit
 
 
---15604598513.a3b3dA4fD.14220
-Date: Thu, 13 Jun 2019 21:04:11 +0000
+--15604598751.18b1f3E4d.14388
+Date: Thu, 13 Jun 2019 21:04:35 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,28 +72,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
 
---- Comment #31 from Sam <samueldgv@mailbox.org> ---
-I have attached another trace I managed to get today at 22:24 while playing
-Pillars Of Eternity (OpenGL)=20
-
-It didn't freeze the whole as usual, just the whole Plasma and X sessions, =
-so
-the other TTYs were accessible. This is the first occurrence of this happen=
-ing.
-I was using the latest kernel default from the openSUSE Kernel:stable repo
-(5.1.9-5.1), as per request on
-https://bugzilla.opensuse.org/show_bug.cgi?id=3D1136293
-
-To note that, as in the other dmesgs attached, the crash seems to be caused=
- by
-amdgpu. Should the bug category be moved there?
+--- Comment #32 from Sam <samueldgv@mailbox.org> ---
+Created attachment 144535
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144535&action=3Dedit
+dmesg from the freeze which didn't completely bork everything. It starts on
+line 1181
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15604598513.a3b3dA4fD.14220
-Date: Thu, 13 Jun 2019 21:04:11 +0000
+--15604598751.18b1f3E4d.14388
+Date: Thu, 13 Jun 2019 21:04:35 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,8 +100,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c31">Comme=
-nt # 31</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c32">Comme=
+nt # 32</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
@@ -121,22 +111,14 @@ nt # 31</a>
 samueldgv&#64;mailbox.org" title=3D"Sam &lt;samueldgv&#64;mailbox.org&gt;">=
  <span class=3D"fn">Sam</span></a>
 </span></b>
-        <pre>I have attached another trace I managed to get today at 22:24 =
-while playing
-Pillars Of Eternity (OpenGL)=20
-
-It didn't freeze the whole as usual, just the whole Plasma and X sessions, =
-so
-the other TTYs were accessible. This is the first occurrence of this happen=
-ing.
-I was using the latest kernel default from the openSUSE Kernel:stable repo
-(5.1.9-5.1), as per request on
-<a href=3D"https://bugzilla.opensuse.org/show_bug.cgi?id=3D1136293">https:/=
-/bugzilla.opensuse.org/show_bug.cgi?id=3D1136293</a>
-
-To note that, as in the other dmesgs attached, the crash seems to be caused=
- by
-amdgpu. Should the bug category be moved there?</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144535=
+" name=3D"attach_144535" title=3D"dmesg from the freeze which didn't comple=
+tely bork everything. It starts on line 1181">attachment 144535</a> <a href=
+=3D"attachment.cgi?id=3D144535&amp;action=3Dedit" title=3D"dmesg from the f=
+reeze which didn't completely bork everything. It starts on line 1181">[det=
+ails]</a></span>
+dmesg from the freeze which didn't completely bork everything. It starts on
+line 1181</pre>
         </div>
       </p>
 
@@ -150,9 +132,9 @@ amdgpu. Should the bug category be moved there?</pre>
     </body>
 </html>=
 
---15604598513.a3b3dA4fD.14220--
+--15604598751.18b1f3E4d.14388--
 
---===============0334570473==
+--===============0974528064==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -162,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0334570473==--
+--===============0974528064==--
