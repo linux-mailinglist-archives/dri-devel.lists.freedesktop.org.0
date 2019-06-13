@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42A9435E8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 14:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739AA435F3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 14:35:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05508899BB;
-	Thu, 13 Jun 2019 12:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80732899BC;
+	Thu, 13 Jun 2019 12:35:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EB420899BB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 12:32:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6EF81899BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 12:35:20 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E7F9C72167; Thu, 13 Jun 2019 12:32:04 +0000 (UTC)
+ id 6BBA972167; Thu, 13 Jun 2019 12:35:20 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
  macrotiles?)
-Date: Thu, 13 Jun 2019 12:32:05 +0000
+Date: Thu, 13 Jun 2019 12:35:20 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-yoNQ2jgexT@http.bugs.freedesktop.org/>
+Message-ID: <bug-110897-502-x1cve3cxdJ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
 References: <bug-110897-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1743221403=="
+Content-Type: multipart/mixed; boundary="===============1059726596=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1743221403==
-Content-Type: multipart/alternative; boundary="15604291241.AC8eB1.8111"
+--===============1059726596==
+Content-Type: multipart/alternative; boundary="15604293201.d45B4.8436"
 Content-Transfer-Encoding: 7bit
 
 
---15604291241.AC8eB1.8111
-Date: Thu, 13 Jun 2019 12:32:04 +0000
+--15604293201.d45B4.8436
+Date: Thu, 13 Jun 2019 12:35:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,46 +73,35 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
 
---- Comment #20 from cosiekvfj@o2.pl ---
->I have less and less of an idea when this thing happens.
+--- Comment #21 from cosiekvfj@o2.pl ---
+No wait. That reminds me of this weird behavior I had in
+https://bugs.freedesktop.org/show_bug.cgi?id=3D101382
 
-My first thought was maybe compositor or 64 vs 32 bit os. I'm using xfwm wi=
-th
-compositing turned off. I also changed the CPU in this laptop ;) and I'm us=
-ing
-64 bit os.
+17.1.2-1 crash(different)
+17.1.1-1 crash(different)
+17.1.0-1 crash(different)
+17.0.5-1 working
+17.0.4-2 working
+17.0.4-1 crash
+17.0.3-2 working
+17.0.3-1 crash
+17.0.2-2 working
+17.0.2-1 crash
+17.0.1-2 crash
+17.0.1-1 crash
+17.0.0-3 crash
+17.0.0-2 crash
+17.0.0-1 crash
+13.0.4-2 crash
 
-     *-cpu
-          description: CPU
-          product: Intel(R) Core(TM)2 CPU         T5500  @ 1.66GHz
-          vendor: Intel Corp.
-          physical id: 4
-          bus info: cpu@0
-          slot: U23
-          size: 1666MHz
-          capacity: 1667MHz
-          width: 64 bits
-          clock: 100MHz
-          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8
-apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss =
-ht
-tm pbe syscall nx x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl c=
-puid
-aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 cx16 xtpr pdcm lahf_lm p=
-ti
-dtherm cpufreq
-
-
-But after you told us that glxgears "magically" works sometimes for you the=
-n I
-have no idea.
+Seemingly without any changes to r300 code=E2=80=A6
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15604291241.AC8eB1.8111
-Date: Thu, 13 Jun 2019 12:32:04 +0000
+--15604293201.d45B4.8436
+Date: Thu, 13 Jun 2019 12:35:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -130,8 +119,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
 tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c20">Comme=
-nt # 20</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c21">Comme=
+nt # 21</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
@@ -141,39 +130,31 @@ tiles?)"
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 cosiekvfj&#64;o2.pl" title=3D"cosiekvfj&#64;o2.pl">cosiekvfj&#64;o2.pl</a>
 </span></b>
-        <pre><span class=3D"quote">&gt;I have less and less of an idea when=
- this thing happens.</span >
+        <pre>No wait. That reminds me of this weird behavior I had in
+<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [r300] Electronic super joy crash on startup(regression)"
+   href=3D"show_bug.cgi?id=3D101382">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D101382</a>
 
-My first thought was maybe compositor or 64 vs 32 bit os. I'm using xfwm wi=
-th
-compositing turned off. I also changed the CPU in this laptop ;) and I'm us=
-ing
-64 bit os.
+17.1.2-1 crash(different)
+17.1.1-1 crash(different)
+17.1.0-1 crash(different)
+17.0.5-1 working
+17.0.4-2 working
+17.0.4-1 crash
+17.0.3-2 working
+17.0.3-1 crash
+17.0.2-2 working
+17.0.2-1 crash
+17.0.1-2 crash
+17.0.1-1 crash
+17.0.0-3 crash
+17.0.0-2 crash
+17.0.0-1 crash
+13.0.4-2 crash
 
-     *-cpu
-          description: CPU
-          product: Intel(R) Core(TM)2 CPU         T5500  &#64; 1.66GHz
-          vendor: Intel Corp.
-          physical id: 4
-          bus info: cpu&#64;0
-          slot: U23
-          size: 1666MHz
-          capacity: 1667MHz
-          width: 64 bits
-          clock: 100MHz
-          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8
-apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss =
-ht
-tm pbe syscall nx x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl c=
-puid
-aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 cx16 xtpr pdcm lahf_lm p=
-ti
-dtherm cpufreq
-
-
-But after you told us that glxgears &quot;magically&quot; works sometimes f=
-or you then I
-have no idea.</pre>
+Seemingly without any changes to r300 code=E2=80=A6</pre>
         </div>
       </p>
 
@@ -187,9 +168,9 @@ have no idea.</pre>
     </body>
 </html>=
 
---15604291241.AC8eB1.8111--
+--15604293201.d45B4.8436--
 
---===============1743221403==
+--===============1059726596==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -199,4 +180,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1743221403==--
+--===============1059726596==--
