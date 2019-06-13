@@ -2,43 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD6643308
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0496B433AE
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3DC892B2;
-	Thu, 13 Jun 2019 07:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E78A98970B;
+	Thu, 13 Jun 2019 07:30:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 271EE892B1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:00:18 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B1273B2DD4;
- Thu, 13 Jun 2019 07:00:17 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
- [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6553360C8B;
- Thu, 13 Jun 2019 07:00:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8253211AB8; Thu, 13 Jun 2019 09:00:16 +0200 (CEST)
-Date: Thu, 13 Jun 2019 09:00:16 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Emil Velikov <emil.l.velikov@gmail.com>
-Subject: Re: [PATCH 12/13] drm/virtio: drop DRM_AUTH usage from the driver
-Message-ID: <20190613070016.sllkspqodporxtvp@sirius.home.kraxel.org>
-References: <20190527081741.14235-1-emil.l.velikov@gmail.com>
- <20190527081741.14235-12-emil.l.velikov@gmail.com>
- <CACvgo51+WknrTjzEhc6EitJV5EA0f9SXznQMkw3Y_ixPHSOLPQ@mail.gmail.com>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D63D8966B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:30:51 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id B2204AF0F;
+ Thu, 13 Jun 2019 07:30:49 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kraxel@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
+ sean@poorly.run, sam@ravnborg.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/9] Remove explicit locking and kmap arguments from GEM
+ VRAM interface
+Date: Thu, 13 Jun 2019 09:30:32 +0200
+Message-Id: <20190613073041.29350-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACvgo51+WknrTjzEhc6EitJV5EA0f9SXznQMkw3Y_ixPHSOLPQ@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 13 Jun 2019 07:00:17 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,26 +38,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMDYsIDIwMTkgYXQgMTE6NTk6MTVBTSArMDEwMCwgRW1pbCBWZWxpa292IHdy
-b3RlOgo+IE9uIE1vbiwgMjcgTWF5IDIwMTkgYXQgMDk6MTksIEVtaWwgVmVsaWtvdiA8ZW1pbC5s
-LnZlbGlrb3ZAZ21haWwuY29tPiB3cm90ZToKPiA+Cj4gPiBGcm9tOiBFbWlsIFZlbGlrb3YgPGVt
-aWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgo+ID4KPiA+IFRoZSBhdXRoZW50aWNhdGlvbiBjYW4g
-YmUgY2lyY3VtdmVudGVkLCBieSBkZXNpZ24sIGJ5IHVzaW5nIHRoZSByZW5kZXIKPiA+IG5vZGUu
-Cj4gPgo+ID4gRnJvbSB0aGUgZHJpdmVyIFBPViB0aGVyZSBpcyBubyBkaXN0aW5jdGlvbiBiZXR3
-ZWVuIHByaW1hcnkgYW5kIHJlbmRlcgo+ID4gbm9kZXMsIHRodXMgd2UgY2FuIGRyb3AgdGhlIHRv
-a2VuLgo+ID4KPiA+IENjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiA+IENj
-OiB2aXJ0dWFsaXphdGlvbkBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwo+ID4gQ2M6IERhdmlk
-IEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxA
-ZmZ3bGwuY2g+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBj
-b2xsYWJvcmEuY29tPgoKQWNrZWQtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29t
-PgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+RHJpdmVycyBzaG91bGQgbm90IGhhdmUgdG8gY2FyZSBhYm91dCBpbnRlcm5hbCBsb2NraW5nIG9m
+IEdFTSBWUkFNIG9iamVjdHMKYW5kIHRoZWlyIG1lbW9yeS1tYXBwaW5nIHN0cnVjdHVyZXMuIFRo
+aXMgcGF0Y2ggc2V0IHJlbW92ZXMgYm90aCBmcm9tIHRoZQpHRU0gVlJBTSBpbnRlcmZhY2UuCgpU
+aGlzIGFmZmVjdHMgdGhlIGFzdCBhbmQgbWdhZzIwMCBkcml2ZXJzLiBJbiBwbGFjZXMgd2hlcmUg
+R0VNIG9iamVjdHMgYXJlCmJlaW5nIGxvY2tlZCBieSB0aGUgZHJpdmVyLCB0aGUgcGF0Y2ggY29u
+dmVydHMgdGhlIGxvY2sgb3BlcmF0aW9uIHRvIGEgcGluCm9wZXJhdGlvbi4gVGhlIGxvY2tpbmcg
+cHJldmVudGVkIHRoZSBtZW1vcnkgbWFuYWdlciBmcm9tIG1vdmluZyB0aGUgb2JqZWN0LApzbyBw
+aW5uaW5nIGlzIG1vcmUgYXBwcm9wcmlhdGUuCgpGb3IgdGhlIG1lbW9yeSBtYXBwaW5ncywgYWxs
+IGJvb2sta2VlcGluZyBpcyBkb25lIGJ5IHRoZSBpbXBsZW1lbnRhdGlvbgpvZiBHRU0gVlJBTS4g
+RXhwbGljaXQga21hcCBvYmplY3RzIGFyZSByZW1vdmVkIGZyb20gdGhlIG1vZHVsZSdzIHB1Ymxp
+YwppbnRlcmZhY2VzLiBUaGlzIGNoYW5nZSBtb3N0bHkgYWZmZWN0cyB0aGUgY3Vyc29yIGhhbmRs
+aW5nIGluIGFzdCBhbmQKbWdhZzIwMCwgd2hpY2ggaXMgYmVpbmcgc2ltcGxpZmllZCBieSB0aGlz
+IHBhdGNoIHNldC4KCkZ1dHVyZSBkaXJlY3Rpb25zOiB3aXRoIHRoZXNlIHBhdGNoZXMgaW4gcGxh
+Y2UsIG1vcmUgY29kZSBpbiBtb2RlIHNldHRpbmcKYW5kIGZiZGV2IGVtdWxhdGlvbiBjYW4gYmUg
+c2hhcmVkIGJldHdlZW4gYXN0IGFuZCBtZ2FnMjAwLgoKVGhlIHBhdGNoZXMgaGF2ZSBiZWVuIHRl
+c3RlZCBvbiBhc3QgYW5kIG1nYWcyMDAgaGFyZHdhcmUuCgp2MzoKCSogZG9jdW1lbnQgUFJJTUUg
+cGluIGZsYWdzCgkqIHBpbiBjdXJzb3IgQk9zIGF0IGN1cnJlbnQgbG9jYXRpb24KdjI6CgkqIHN1
+cHBvcnQgcGlubmluZyBCT3MgYXQgY3VycmVudCBsb2NhdGlvbgoJKiBwaW4gUFJJTUUgYnVmZmVy
+cyB0byBjdXJyZW50IGxvY2F0aW9uCgpUaG9tYXMgWmltbWVybWFubiAoOSk6CiAgZHJtL2dlbS12
+cmFtOiBTdXBwb3J0IHBpbm5pbmcgYnVmZmVycyB0byBjdXJyZW50IGxvY2F0aW9uCiAgZHJtL2Fz
+dDogVW5waW4gY3Vyc29yIEJPIGR1cmluZyBjbGVhbnVwCiAgZHJtL2FzdDogUmVtb3ZlIG9ic29s
+ZXRlIG9yIHVudXNlZCBjdXJzb3Igc3RhdGUKICBkcm0vYXN0OiBQaW4gYW5kIG1hcCBjdXJzb3Ig
+c291cmNlIEJPIGR1cmluZyB1cGRhdGUKICBkcm0vYXN0OiBQaW4gZnJhbWVidWZmZXIgQk8gZHVy
+aW5nIGRpcnR5IHVwZGF0ZQogIGRybS9tZ2FnMjAwOiBQaW4gZnJhbWVidWZmZXIgQk8gZHVyaW5n
+IGRpcnR5IHVwZGF0ZQogIGRybS9tZ2FnMjAwOiBSZXdyaXRlIGN1cnNvciBoYW5kbGluZwogIGRy
+bTogUmVtb3ZlIGxvY2sgaW50ZXJmYWNlcyBmcm9tIEdFTSBWUkFNIGhlbHBlcnMKICBkcm06IFJl
+bW92ZSBmdW5jdGlvbnMgd2l0aCBrbWFwLW9iamVjdCBhcmd1bWVudCBmcm9tIEdFTSBWUkFNIGhl
+bHBlcnMKCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCAgICAgICAgICAgIHwgICA3IC0K
+IGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2ZiLmMgICAgICAgICAgICAgfCAgMzMgKystLS0KIGRy
+aXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUuYyAgICAgICAgICAgfCAgNjUgKysrKy0tLS0KIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMgICAgfCAxNzkgKysrLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfY3Vyc29yLmMgfCAx
+NjUgKysrKysrKysrLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAw
+X2Rydi5oICAgIHwgICAzIC0KIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZmIuYyAg
+ICAgfCAgMjcgKystLQogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tYWluLmMgICB8
+ICAgNCArLQogaW5jbHVkZS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5oICAgICAgICB8ICAgOSAt
+LQogOSBmaWxlcyBjaGFuZ2VkLCAxNTUgaW5zZXJ0aW9ucygrKSwgMzM3IGRlbGV0aW9ucygtKQoK
+LS0KMi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
