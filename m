@@ -2,31 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D07433B6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74659433BB
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 09:33:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB707896B5;
-	Thu, 13 Jun 2019 07:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB588967F;
+	Thu, 13 Jun 2019 07:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A33208966B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:30:53 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 46235AF5D;
- Thu, 13 Jun 2019 07:30:52 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com, airlied@redhat.com, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
- sean@poorly.run, sam@ravnborg.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 9/9] drm: Remove functions with kmap-object argument from
- GEM VRAM helpers
-Date: Thu, 13 Jun 2019 09:30:41 +0200
-Message-Id: <20190613073041.29350-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190613073041.29350-1-tzimmermann@suse.de>
-References: <20190613073041.29350-1-tzimmermann@suse.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60FED89668
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 07:33:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5BB3772167; Thu, 13 Jun 2019 07:33:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 99970] DRI3 steam login window is empty
+Date: Thu, 13 Jun 2019 07:33:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-99970-502-wD4bZ99yjP@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-99970-502@http.bugs.freedesktop.org/>
+References: <bug-99970-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -40,88 +52,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1345881651=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIEdFTSBWUkFNIGZ1bmN0aW9ucyB3aXRoIGttYXAtb2JqZWN0IGFyZ3VtZW50IGFyZSBub3Qg
-cmVxdXJpZWQgYW55Cmxvbmdlci4gUmVtb3ZlIHRoZW0uCgpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
-WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbV92cmFtX2hlbHBlci5jIHwgNTAgKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiBpbmNs
-dWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmggICAgIHwgIDQgLS0tCiAyIGZpbGVzIGNoYW5n
-ZWQsIDggaW5zZXJ0aW9ucygrKSwgNDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
-X3ZyYW1faGVscGVyLmMKaW5kZXggNGNhZTUyMDU0ZTYxLi40ZGU3ODJjYTI2YjIgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYwpAQCAtMjc5LDEyICsyNzksMTEgQEAgaW50IGRy
-bV9nZW1fdnJhbV91bnBpbihzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCAqZ2JvKQogRVhQT1JU
-X1NZTUJPTChkcm1fZ2VtX3ZyYW1fdW5waW4pOwogCiAvKioKLSAqIGRybV9nZW1fdnJhbV9rbWFw
-X2F0KCkgLSBNYXBzIGEgR0VNIFZSQU0gb2JqZWN0IGludG8ga2VybmVsIGFkZHJlc3Mgc3BhY2UK
-KyAqIGRybV9nZW1fdnJhbV9rbWFwKCkgLSBNYXBzIGEgR0VNIFZSQU0gb2JqZWN0IGludG8ga2Vy
-bmVsIGFkZHJlc3Mgc3BhY2UKICAqIEBnYm86CXRoZSBHRU0gVlJBTSBvYmplY3QKICAqIEBtYXA6
-CWVzdGFibGlzaCBhIG1hcHBpbmcgaWYgbmVjZXNzYXJ5CiAgKiBAaXNfaW9tZW06CXJldHVybnMg
-dHJ1ZSBpZiB0aGUgbWFwcGVkIG1lbW9yeSBpcyBJL08gbWVtb3J5LCBvciBmYWxzZSBcCiAJb3Ro
-ZXJ3aXNlOyBjYW4gYmUgTlVMTAotICogQGttYXA6CXRoZSBtYXBwaW5nJ3Mga21hcCBvYmplY3QK
-ICAqCiAgKiBUaGlzIGZ1bmN0aW9uIG1hcHMgdGhlIGJ1ZmZlciBvYmplY3QgaW50byB0aGUga2Vy
-bmVsJ3MgYWRkcmVzcyBzcGFjZQogICogb3IgcmV0dXJucyB0aGUgY3VycmVudCBtYXBwaW5nLiBJ
-ZiB0aGUgcGFyYW1ldGVyIG1hcCBpcyBmYWxzZSwgdGhlCkBAIC0yOTYsMTAgKzI5NSwxMSBAQCBF
-WFBPUlRfU1lNQk9MKGRybV9nZW1fdnJhbV91bnBpbik7CiAgKiBOVUxMIGlmIG5vdCBtYXBwZWQs
-IG9yCiAgKiBhbiBFUlJfUFRSKCktZW5jb2RlZCBlcnJvciBjb2RlIG90aGVyd2lzZS4KICAqLwot
-dm9pZCAqZHJtX2dlbV92cmFtX2ttYXBfYXQoc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdi
-bywgYm9vbCBtYXAsCi0JCQkgICBib29sICppc19pb21lbSwgc3RydWN0IHR0bV9ib19rbWFwX29i
-aiAqa21hcCkKK3ZvaWQgKmRybV9nZW1fdnJhbV9rbWFwKHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2Jq
-ZWN0ICpnYm8sIGJvb2wgbWFwLAorCQkJYm9vbCAqaXNfaW9tZW0pCiB7CiAJaW50IHJldDsKKwlz
-dHJ1Y3QgdHRtX2JvX2ttYXBfb2JqICprbWFwID0gJmdiby0+a21hcDsKIAogCWlmIChrbWFwLT52
-aXJ0dWFsIHx8ICFtYXApCiAJCWdvdG8gb3V0OwpAQCAtMzE3LDU2ICszMTcsMjIgQEAgdm9pZCAq
-ZHJtX2dlbV92cmFtX2ttYXBfYXQoc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibywgYm9v
-bCBtYXAsCiAJfQogCXJldHVybiB0dG1fa21hcF9vYmpfdmlydHVhbChrbWFwLCBpc19pb21lbSk7
-CiB9Ci1FWFBPUlRfU1lNQk9MKGRybV9nZW1fdnJhbV9rbWFwX2F0KTsKLQotLyoqCi0gKiBkcm1f
-Z2VtX3ZyYW1fa21hcCgpIC0gTWFwcyBhIEdFTSBWUkFNIG9iamVjdCBpbnRvIGtlcm5lbCBhZGRy
-ZXNzIHNwYWNlCi0gKiBAZ2JvOgl0aGUgR0VNIFZSQU0gb2JqZWN0Ci0gKiBAbWFwOgllc3RhYmxp
-c2ggYSBtYXBwaW5nIGlmIG5lY2Vzc2FyeQotICogQGlzX2lvbWVtOglyZXR1cm5zIHRydWUgaWYg
-dGhlIG1hcHBlZCBtZW1vcnkgaXMgSS9PIG1lbW9yeSwgb3IgZmFsc2UgXAotCW90aGVyd2lzZTsg
-Y2FuIGJlIE5VTEwKLSAqCi0gKiBUaGlzIGZ1bmN0aW9uIG1hcHMgdGhlIGJ1ZmZlciBvYmplY3Qg
-aW50byB0aGUga2VybmVsJ3MgYWRkcmVzcyBzcGFjZQotICogb3IgcmV0dXJucyB0aGUgY3VycmVu
-dCBtYXBwaW5nLiBJZiB0aGUgcGFyYW1ldGVyIG1hcCBpcyBmYWxzZSwgdGhlCi0gKiBmdW5jdGlv
-biBvbmx5IHF1ZXJpZXMgdGhlIGN1cnJlbnQgbWFwcGluZywgYnV0IGRvZXMgbm90IGVzdGFibGlz
-aCBhCi0gKiBuZXcgb25lLgotICoKLSAqIFJldHVybnM6Ci0gKiBUaGUgYnVmZmVycyB2aXJ0dWFs
-IGFkZHJlc3MgaWYgbWFwcGVkLCBvcgotICogTlVMTCBpZiBub3QgbWFwcGVkLCBvcgotICogYW4g
-RVJSX1BUUigpLWVuY29kZWQgZXJyb3IgY29kZSBvdGhlcndpc2UuCi0gKi8KLXZvaWQgKmRybV9n
-ZW1fdnJhbV9rbWFwKHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm8sIGJvb2wgbWFwLAot
-CQkJYm9vbCAqaXNfaW9tZW0pCi17Ci0JcmV0dXJuIGRybV9nZW1fdnJhbV9rbWFwX2F0KGdibywg
-bWFwLCBpc19pb21lbSwgJmdiby0+a21hcCk7Ci19CiBFWFBPUlRfU1lNQk9MKGRybV9nZW1fdnJh
-bV9rbWFwKTsKIAogLyoqCi0gKiBkcm1fZ2VtX3ZyYW1fa3VubWFwX2F0KCkgLSBVbm1hcHMgYSBH
-RU0gVlJBTSBvYmplY3QKKyAqIGRybV9nZW1fdnJhbV9rdW5tYXAoKSAtIFVubWFwcyBhIEdFTSBW
-UkFNIG9iamVjdAogICogQGdibzoJdGhlIEdFTSBWUkFNIG9iamVjdAotICogQGttYXA6CXRoZSBt
-YXBwaW5nJ3Mga21hcCBvYmplY3QKICAqLwotdm9pZCBkcm1fZ2VtX3ZyYW1fa3VubWFwX2F0KHN0
-cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm8sCi0JCQkgICAgc3RydWN0IHR0bV9ib19rbWFw
-X29iaiAqa21hcCkKK3ZvaWQgZHJtX2dlbV92cmFtX2t1bm1hcChzdHJ1Y3QgZHJtX2dlbV92cmFt
-X29iamVjdCAqZ2JvKQogeworCXN0cnVjdCB0dG1fYm9fa21hcF9vYmogKmttYXAgPSAmZ2JvLT5r
-bWFwOworCiAJaWYgKCFrbWFwLT52aXJ0dWFsKQogCQlyZXR1cm47CiAKIAl0dG1fYm9fa3VubWFw
-KGttYXApOwogCWttYXAtPnZpcnR1YWwgPSBOVUxMOwogfQotRVhQT1JUX1NZTUJPTChkcm1fZ2Vt
-X3ZyYW1fa3VubWFwX2F0KTsKLQotLyoqCi0gKiBkcm1fZ2VtX3ZyYW1fa3VubWFwKCkgLSBVbm1h
-cHMgYSBHRU0gVlJBTSBvYmplY3QKLSAqIEBnYm86CXRoZSBHRU0gVlJBTSBvYmplY3QKLSAqLwot
-dm9pZCBkcm1fZ2VtX3ZyYW1fa3VubWFwKHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm8p
-Ci17Ci0JZHJtX2dlbV92cmFtX2t1bm1hcF9hdChnYm8sICZnYm8tPmttYXApOwotfQogRVhQT1JU
-X1NZTUJPTChkcm1fZ2VtX3ZyYW1fa3VubWFwKTsKIAogLyoqCmRpZmYgLS1naXQgYS9pbmNsdWRl
-L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVs
-cGVyLmgKaW5kZXggMWQ0YWE4N2Y4ZGZhLi45NTgxZWEwYTRmN2UgMTAwNjQ0Ci0tLSBhL2luY2x1
-ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fZ2VtX3Zy
-YW1faGVscGVyLmgKQEAgLTgxLDEyICs4MSw4IEBAIHU2NCBkcm1fZ2VtX3ZyYW1fbW1hcF9vZmZz
-ZXQoc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibyk7CiBzNjQgZHJtX2dlbV92cmFtX29m
-ZnNldChzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCAqZ2JvKTsKIGludCBkcm1fZ2VtX3ZyYW1f
-cGluKHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm8sIHVuc2lnbmVkIGxvbmcgcGxfZmxh
-Zyk7CiBpbnQgZHJtX2dlbV92cmFtX3VucGluKHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpn
-Ym8pOwotdm9pZCAqZHJtX2dlbV92cmFtX2ttYXBfYXQoc3RydWN0IGRybV9nZW1fdnJhbV9vYmpl
-Y3QgKmdibywgYm9vbCBtYXAsCi0JCQkgICBib29sICppc19pb21lbSwgc3RydWN0IHR0bV9ib19r
-bWFwX29iaiAqa21hcCk7CiB2b2lkICpkcm1fZ2VtX3ZyYW1fa21hcChzdHJ1Y3QgZHJtX2dlbV92
-cmFtX29iamVjdCAqZ2JvLCBib29sIG1hcCwKIAkJCWJvb2wgKmlzX2lvbWVtKTsKLXZvaWQgZHJt
-X2dlbV92cmFtX2t1bm1hcF9hdChzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCAqZ2JvLAotCQkJ
-ICAgIHN0cnVjdCB0dG1fYm9fa21hcF9vYmogKmttYXApOwogdm9pZCBkcm1fZ2VtX3ZyYW1fa3Vu
-bWFwKHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm8pOwogCiBpbnQgZHJtX2dlbV92cmFt
-X2ZpbGxfY3JlYXRlX2R1bWIoc3RydWN0IGRybV9maWxlICpmaWxlLAotLSAKMi4yMS4wCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1345881651==
+Content-Type: multipart/alternative; boundary="15604112322.E026a7.14328"
+Content-Transfer-Encoding: 7bit
+
+
+--15604112322.E026a7.14328
+Date: Thu, 13 Jun 2019 07:33:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D99970
+
+--- Comment #8 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to cosiekvfj from comment #7)
+> Is is worth to try to fix DRI3 and EXA for this driver or is it better to
+> stick to DRI2?
+
+I'd say the latter.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15604112322.E026a7.14328
+Date: Thu, 13 Jun 2019 07:33:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - DRI3 steam login window is empty"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D99970#c8">Comment=
+ # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - DRI3 steam login window is empty"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D99970">bug 99970<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to cosiekvfj from <a href=3D"show_bug.cgi?id=3D99970=
+#c7">comment #7</a>)
+<span class=3D"quote">&gt; Is is worth to try to fix DRI3 and EXA for this =
+driver or is it better to
+&gt; stick to DRI2?</span >
+
+I'd say the latter.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15604112322.E026a7.14328--
+
+--===============1345881651==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1345881651==--
