@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA7E455BE
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 09:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B4945616
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 09:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B756C89580;
-	Fri, 14 Jun 2019 07:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDFF489911;
+	Fri, 14 Jun 2019 07:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ale.deltatee.com (ale.deltatee.com [207.54.116.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B03B6891DB
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 20:12:32 +0000 (UTC)
-Received: from s01061831bf6ec98c.cg.shawcable.net ([68.147.80.180]
- helo=[192.168.6.132])
- by ale.deltatee.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <logang@deltatee.com>)
- id 1hbW5G-00040b-8N; Thu, 13 Jun 2019 14:12:31 -0600
-To: Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jason Gunthorpe <jgg@mellanox.com>, Ben Skeggs <bskeggs@redhat.com>
-References: <20190613094326.24093-1-hch@lst.de>
- <20190613094326.24093-9-hch@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <d9e24f8e-986d-e7b8-cf1d-9344ba51719e@deltatee.com>
-Date: Thu, 13 Jun 2019 14:12:26 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D53A8928B
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 20:13:16 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id 33so15945653qtr.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 13:13:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=wvS6rY6fiOclRJfIV/D2hBg/6UXfJIIPm4B4bACKZz8=;
+ b=uAlICKHkutKsJ44Na9YqSls8KX/BN+9JPrpnqbd3q7q/5aAlO8ZM24Sts+TA3RqVqH
+ /CmciqPAcBbskyvjZgo1JiABwzKrWdgaP9OmXeiT11t4jEpRBUlbyuQ09G5hlZN1+TWF
+ G9wY/5SgmZUbiT49kPZhiCONKBvwCLeKrz5rynx7soCHHJlMKeeuj1Nj2qTUIHPIMMte
+ l6Z1Ouh27G9OGXopZ4+HOA+wGnVsmz5NjHxais6Y9ibgwpOoYRLUi5AO22oEkJ5Nt8aG
+ FY6C2B3kGCxKQ5O0okvIMNrdAzfAqsYVdHbcw8W7DN+UnGN8DRRgzuwzQ9Ye577JNy14
+ YMYg==
+X-Gm-Message-State: APjAAAWepNa7bjO4yc6us8rr0/n+Lb3SmPRHkbqXQcW9AZGE7QojQ6tP
+ W5nr2iSukvc0EIlofsdf4fZ/2iDqhObvfJpprYp8hw==
+X-Google-Smtp-Source: APXvYqxWyFG99Ct6+QLgIzYtC2nFrJPWli73Mpub+sqBtV6mrY7PVaaQNI1DAnxScJGvgATRbOeFqOwsixGDdCryNzE=
+X-Received: by 2002:a0c:add8:: with SMTP id x24mr5123019qvc.167.1560456795436; 
+ Thu, 13 Jun 2019 13:13:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190613094326.24093-9-hch@lst.de>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 68.147.80.180
-X-SA-Exim-Rcpt-To: nouveau@lists.freedesktop.org, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-nvdimm@lists.01.org, bskeggs@redhat.com,
- jgg@mellanox.com, jglisse@redhat.com, dan.j.williams@intel.com, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- GREYLIST_ISWHITE autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH 08/22] memremap: pass a struct dev_pagemap to ->kill
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+From: Nathan Huckleberry <nhuck@google.com>
+Date: Thu, 13 Jun 2019 13:13:04 -0700
+Message-ID: <CAJkfWY50geqLZv=dnchNEGp4i1yy0QfmTSz30uL6DXJXAq3VuA@mail.gmail.com>
+Subject: Cleanup of -Wunused-const-variable in
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+To: jsanka@codeaurora.org, robdclark@gmail.com, sean@poorly.run, 
+ airlied@linux.ie, daniel@ffwll.ch
 X-Mailman-Approved-At: Fri, 14 Jun 2019 07:21:24 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=wvS6rY6fiOclRJfIV/D2hBg/6UXfJIIPm4B4bACKZz8=;
+ b=HYg9YO4tNI0fAvnYBqGA4GHJTrCc+LilCgHH9hKNNNHCrPFgKufk5stqe+dbMkNVqr
+ HqerBE0ZU1S9XNvUlRzSNM2WVfb2xR/bOlOfyodDJ4rOQ6cuoFu9mjF0jIs9YfSSrNsZ
+ yiYSGIAs1Q2l35lfEnbUESGmL4kEUxqLPcRnrXfi/sUCae4UDijczQOtXXl0ooIXVmir
+ tqIrBRxS9WHRSWV1q+R2sX9hRJ1aua7zkTpBanPHAR3BJpvZ2+aI+uUalMJGZWoCGDiN
+ +3FBbwVNVFJ4zzxiidZrklYOyVcH1E+ivsDndTFaNYnLVHR535KTDmdvYbZ1Rvcjvo5e
+ i9yw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,21 +61,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nvdimm@lists.01.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, clang-built-linux@googlegroups.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAyMDE5LTA2LTEzIDM6NDMgYS5tLiwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gUGFz
-c2luZyB0aGUgYWN0dWFsIHR5cGVkIHN0cnVjdHVyZSBsZWFkcyB0byBtb3JlIHVuZGVyc3RhbmRh
-YmxlIGNvZGUKPiB2cyB0aGUgYWN0dWFsIHJlZmVyZW5jZXMuCgpIYSwgb2ssIEkgb3JpZ2luYWxs
-eSBzdWdnZXN0ZWQgdGhpcyB0byBEYW4gd2hlbiBoZSBpbnRyb2R1Y2VkIHRoZQpjYWxsYmFja1sx
-XS4KClJldmlld2VkLWJ5OiBMb2dhbiBHdW50aG9ycGUgPGxvZ2FuZ0BkZWx0YXRlZS5jb20+CgpM
-b2dhbgoKWzFdCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvOGYwY2FlODItMTMwZi04YTY0
-LWNmYmQtZmRhNWZkNzZiYjc5QGRlbHRhdGVlLmNvbS9ULyN1CgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SGV5IGFsbCwKCkknbSBsb29raW5nIGludG8gY2xlYW5pbmcgdXAgaWdub3JlZCB3YXJuaW5ncyBp
+biB0aGUga2VybmVsIHNvIHdlIGNhbgpyZW1vdmUgY29tcGlsZXIgZmxhZ3MgdG8gaWdub3JlIHdh
+cm5pbmdzLgoKVGhlcmUgYXJlIHNldmVyYWwgdW51c2VkIHZhcmlhYmxlcyBpbiBkcHVfZm9ybWF0
+cy5jCignZHB1X2Zvcm1hdF9tYXBfdGlsZScsICdkcHVfZm9ybWF0X21hcF9wMDEwJywKJ2RwdV9m
+b3JtYXRfbWFwX3AwMTBfdWJ3YycsICdkcHVfZm9ybWF0X21hcF90cDEwX3Vid2MnKS4KVGhleSBs
+b29rIGxpa2UgbW9kaWZpZXJzIHRoYXQgd2VyZSBuZXZlciBpbXBsZW1lbnRlZC4gSSdkIGxpa2Ug
+dG8KcmVtb3ZlIHRoZXNlIHZhcmlhYmxlcyBpZiB0aGVyZSBhcmUgbm8gcGxhbnMgbW92aW5nIGZv
+cndhcmQgdG8KaW1wbGVtZW50IHRoZW0uIE90aGVyd2lzZSBJJ2xsIGp1c3QgbGVhdmUgdGhlbS4K
+Cmh0dHBzOi8vZ2l0aHViLmNvbS9DbGFuZ0J1aWx0TGludXgvbGludXgvaXNzdWVzLzUyOAoKVGhh
+bmtzLApOYXRoYW4gSHVja2xlYmVycnkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
