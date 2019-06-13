@@ -1,44 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0CF434A8
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 11:29:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFFD434A9
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 11:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 478DE89789;
-	Thu, 13 Jun 2019 09:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5056289829;
+	Thu, 13 Jun 2019 09:29:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 38F2B89789
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 09:29:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 30BFD72167; Thu, 13 Jun 2019 09:29:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110904] [VKMS] vblank counter error
-Date: Thu, 13 Jun 2019 09:29:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/other
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: oleg.vasilev@intel.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110904-502-KEjnKbSmCE@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110904-502@http.bugs.freedesktop.org/>
-References: <bug-110904-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1540F89829;
+ Thu, 13 Jun 2019 09:29:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 13 Jun 2019 02:29:43 -0700
+X-ExtLoop1: 1
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+ by fmsmga001.fm.intel.com with ESMTP; 13 Jun 2019 02:29:40 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 13 Jun 2019 12:32:39 +0300
+Message-ID: <87y325x22w.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,127 +39,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0437769275=="
+Cc: , dim-tools@lists.freedesktop.org,
+ Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0437769275==
-Content-Type: multipart/alternative; boundary="15604181510.061F.25104"
-Content-Transfer-Encoding: 7bit
-
-
---15604181510.061F.25104
-Date: Thu, 13 Jun 2019 09:29:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110904
-
-Oleg Vasilev <oleg.vasilev@intel.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #1 from Oleg Vasilev <oleg.vasilev@intel.com> ---
-Fixed by https://patchwork.freedesktop.org/patch/308881/?series=3D61703&rev=
-=3D1
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604181510.061F.25104
-Date: Thu, 13 Jun 2019 09:29:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:oleg.vasi=
-lev&#64;intel.com" title=3D"Oleg Vasilev &lt;oleg.vasilev&#64;intel.com&gt;=
-"> <span class=3D"fn">Oleg Vasilev</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [VKMS] vblank counter error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110904">bug 11090=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [VKMS] vblank counter error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110904#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [VKMS] vblank counter error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110904">bug 11090=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-oleg.vasilev&#64;intel.com" title=3D"Oleg Vasilev &lt;oleg.vasilev&#64;inte=
-l.com&gt;"> <span class=3D"fn">Oleg Vasilev</span></a>
-</span></b>
-        <pre>Fixed by <a href=3D"https://patchwork.freedesktop.org/patch/30=
-8881/?series=3D61703&amp;rev=3D1">https://patchwork.freedesktop.org/patch/3=
-08881/?series=3D61703&amp;rev=3D1</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604181510.061F.25104--
-
---===============0437769275==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0437769275==--
+CkhpIERhdmUsIERhbmllbCwgb24gYmVoYWxmIG9mIEpvb25hcywKCmRybS1pbnRlbC1maXhlcy0y
+MDE5LTA2LTEzOgpkcm0vaTkxNSBmaXhlcyBmb3IgdjUuMi1yYzU6Ci0gRml4IERNQyBmaXJtd2Fy
+ZSBpbnB1dCB2YWxpZGF0aW9uIHRvIGF2b2lkIGJ1ZmZlciBvdmVyZmxvdwotIEZpeCBwZXJmIHJl
+Z2lzdGVyIGFjY2VzcyB3aGl0ZWxpc3QgZm9yIHVzZXJzcGFjZQotIEZpeCBEU0kgcGFuZWwgb24g
+R1BEIE1pY3JvUEMKLSBGaXggcGVyLXBpeGVsIGFscGhhIHdpdGggQ0NTCi0gRml4IEhETUkgYXVk
+aW8gZm9yIFNEVk8KCkJSLApKYW5pLgoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1p
+dCBkMWZkYjZkOGY2YTQxMDlhNDI2MzE3NmM4NGI4OTkwNzZhNWY4MDA4OgoKICBMaW51eCA1LjIt
+cmM0ICgyMDE5LTA2LTA4IDIwOjI0OjQ2IC0wNzAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0
+IHJlcG9zaXRvcnkgYXQ6CgogIGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0t
+aW50ZWwgdGFncy9kcm0taW50ZWwtZml4ZXMtMjAxOS0wNi0xMwoKZm9yIHlvdSB0byBmZXRjaCBj
+aGFuZ2VzIHVwIHRvIGM1Y2MwYmY4NzBjZmI4MGIyNzg5OWU5MTZiNDM5N2NlMTFjNjFkOTY6Cgog
+IGRybS9pOTE1L3BlcmY6IGZpeCB3aGl0ZWxpc3Qgb24gR2VuMTArICgyMDE5LTA2LTEyIDEwOjQy
+OjIyICswMzAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQpkcm0vaTkxNSBmaXhlcyBmb3IgdjUuMi1yYzU6Ci0gRml4IERN
+QyBmaXJtd2FyZSBpbnB1dCB2YWxpZGF0aW9uIHRvIGF2b2lkIGJ1ZmZlciBvdmVyZmxvdwotIEZp
+eCBwZXJmIHJlZ2lzdGVyIGFjY2VzcyB3aGl0ZWxpc3QgZm9yIHVzZXJzcGFjZQotIEZpeCBEU0kg
+cGFuZWwgb24gR1BEIE1pY3JvUEMKLSBGaXggcGVyLXBpeGVsIGFscGhhIHdpdGggQ0NTCi0gRml4
+IEhETUkgYXVkaW8gZm9yIFNEVk8KCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KSGFucyBkZSBHb2VkZSAoMSk6CiAgICAgIGRy
+bS9pOTE1L2RzaTogVXNlIGEgZnV6enkgY2hlY2sgZm9yIGJ1cnN0IG1vZGUgY2xvY2sgY2hlY2sK
+Ckxpb25lbCBMYW5kd2VybGluICgxKToKICAgICAgZHJtL2k5MTUvcGVyZjogZml4IHdoaXRlbGlz
+dCBvbiBHZW4xMCsKCkx1Y2FzIERlIE1hcmNoaSAoMSk6CiAgICAgIGRybS9pOTE1L2RtYzogcHJv
+dGVjdCBhZ2FpbnN0IHJlYWRpbmcgcmFuZG9tIG1lbW9yeQoKVmlsbGUgU3lyasOkbMOkICgyKToK
+ICAgICAgZHJtL2k5MTU6IEZpeCBwZXItcGl4ZWwgYWxwaGEgd2l0aCBDQ1MKICAgICAgZHJtL2k5
+MTUvc2R2bzogSW1wbGVtZW50IHByb3BlciBIRE1JIGF1ZGlvIHN1cHBvcnQgZm9yIFNEVk8KCiBk
+cml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3BlcmYuYyAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2k5MTVfcmVnLmggICAgICAgIHwgIDEgKwogZHJpdmVycy9ncHUvZHJtL2k5MTUv
+aW50ZWxfY3NyLmMgICAgICAgfCAxOCArKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2k5MTUv
+aW50ZWxfZGlzcGxheS5jICAgfCAxNCArKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50
+ZWxfZHJ2LmggICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9kc2lfdmJ0
+LmMgICB8IDExICsrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX3Nkdm8uYyAgICAg
+IHwgNTggKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLQogZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaW50ZWxfc2R2b19yZWdzLmggfCAgMyArKwogOCBmaWxlcyBjaGFuZ2VkLCA5MSBpbnNl
+cnRpb25zKCspLCAxNiBkZWxldGlvbnMoLSkKCi0tIApKYW5pIE5pa3VsYSwgSW50ZWwgT3BlbiBT
+b3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
