@@ -1,40 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D6344AFD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 20:45:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB0A44B02
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 20:45:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A0A897D7;
-	Thu, 13 Jun 2019 18:45:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A69F08982E;
+	Thu, 13 Jun 2019 18:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87953897D7;
- Thu, 13 Jun 2019 18:44:59 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 93BD620024;
- Thu, 13 Jun 2019 20:44:57 +0200 (CEST)
-Date: Thu, 13 Jun 2019 20:44:56 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-Subject: Re: Drop use of DRM_WAIT_ON() [Was: drm/drm_vblank: Change EINVAL by
- the correct errno]
-Message-ID: <20190613184456.GB2385@ravnborg.org>
-References: <20190613021054.cdewdb3azy6zuoyw@smtp.gmail.com>
- <20190613050403.GA21502@ravnborg.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A9BFC89811
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 18:45:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A788C72167; Thu, 13 Jun 2019 18:45:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 105113] [hawaii, radeonsi, clover] Running Piglit
+ cl/program/execute/{, tail-}calls{, -struct,
+ -workitem-id}.cl cause GPU VM error and ring stalled GPU lockup
+Date: Thu, 13 Jun 2019 18:45:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jv356@scarletmail.rutgers.edu
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-105113-502-9yY23pfy5d@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105113-502@http.bugs.freedesktop.org/>
+References: <bug-105113-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190613050403.GA21502@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=pGLkceISAAAA:8
- a=e5mUnYsNAAAA:8 a=MGE9myiAT6FqPCjaB2EA:9 a=QEXdDO2ut3YA:10
- a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,74 +54,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0299837644=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9kcmlnbyBldCBhbC4KCk9uIFRodSwgSnVuIDEzLCAyMDE5IGF0IDA3OjA0OjAzQU0gKzAy
-MDAsIFNhbSBSYXZuYm9yZyB3cm90ZToKPiBIaSBSb2RyaWdvLgo+IAo+IE9uIFdlZCwgSnVuIDEy
-LCAyMDE5IGF0IDExOjEwOjU0UE0gLTAzMDAsIFJvZHJpZ28gU2lxdWVpcmEgd3JvdGU6Cj4gPiBG
-b3IgaGlzdG9yaWNhbCByZWFzb24sIHRoZSBmdW5jdGlvbiBkcm1fd2FpdF92YmxhbmtfaW9jdGwg
-YWx3YXlzIHJldHVybgo+ID4gLUVJTlZBTCBpZiBzb21ldGhpbmcgZ2V0cyB3cm9uZy4gVGhpcyBz
-Y2VuYXJpbyBsaW1pdHMgdGhlIGZsZXhpYmlsaXR5Cj4gPiBmb3IgdGhlIHVzZXJzcGFjZSBtYWtl
-IGRldGFpbGVkIHZlcmlmaWNhdGlvbiBvZiB0aGUgcHJvYmxlbSBhbmQgdGFrZQo+ID4gc29tZSBh
-Y3Rpb24uIEluIHBhcnRpY3VsYXIsIHRoZSB2YWxpZGF0aW9uIG9mIOKAnGlmICghZGV2LT5pcnFf
-ZW5hYmxlZCnigJ0KPiA+IGluIHRoZSBkcm1fd2FpdF92YmxhbmtfaW9jdGwgaXMgcmVzcG9uc2li
-bGUgZm9yIGNoZWNraW5nIGlmIHRoZSBkcml2ZXIKPiA+IHN1cHBvcnQgdmJsYW5rIG9yIG5vdC4g
-SWYgdGhlIGRyaXZlciBkb2VzIG5vdCBzdXBwb3J0IFZCbGFuaywgdGhlCj4gPiBmdW5jdGlvbiBk
-cm1fd2FpdF92YmxhbmtfaW9jdGwgcmV0dXJucyBFSU5WQUwgd2hpY2ggZG9lcyBub3QgcmVwcmVz
-ZW50Cj4gPiB0aGUgcmVhbCBpc3N1ZTsgdGhpcyBwYXRjaCBjaGFuZ2VzIHRoaXMgYmVoYXZpb3Ig
-YnkgcmV0dXJuIEVPUE5PVFNVUFAuCj4gPiBBZGRpdGlvbmFsbHksIHNvbWUgb3BlcmF0aW9ucyBh
-cmUgdW5zdXBwb3J0ZWQgYnkgdGhpcyBmdW5jdGlvbiwgYW5kCj4gPiByZXR1cm5zIEVJTlZBTDsg
-dGhpcyBwYXRjaCBhbHNvIGNoYW5nZXMgdGhlIHJldHVybiB2YWx1ZSB0byBFT1BOT1RTVVBQCj4g
-PiBpbiB0aGlzIGNhc2UuIExhc3RseSwgdGhlIGZ1bmN0aW9uIGRybV93YWl0X3ZibGFua19pb2N0
-bCBpcyBpbnZva2VkIGJ5Cj4gPiBsaWJkcm0sIHdoaWNoIGlzIHVzZWQgYnkgbWFueSBjb21wb3Np
-dG9yczsgYmVjYXVzZSBvZiB0aGlzLCBpdCBpcwo+ID4gaW1wb3J0YW50IHRvIGNoZWNrIGlmIHRo
-aXMgY2hhbmdlIGJyZWFrcyBhbnkgY29tcG9zaXRvci4gSW4gdGhpcyBzZW5zZSwKPiA+IHRoZSBm
-b2xsb3dpbmcgcHJvamVjdHMgd2VyZSBleGFtaW5lZDoKPiA+IAo+ID4gKiBEcm0taHdjb21wb3Nl
-cgo+ID4gKiBLd2luCj4gPiAqIFN3YXkKPiA+ICogV2xyb290cwo+ID4gKiBXYXlsYW5kLWNvcmUK
-PiA+ICogV2VzdG9uCj4gPiAqIFhvcmcgKDY3IGRpZmZlcmVudCBkcml2ZXJzKQo+ID4gCj4gPiBG
-b3IgZWFjaCByZXBvc2l0b3J5IHRoZSB2ZXJpZmljYXRpb24gaGFwcGVuZWQgaW4gdGhyZWUgc3Rl
-cHM6Cj4gPiAKPiA+ICogVXBkYXRlIHRoZSBtYWluIGJyYW5jaAo+ID4gKiBMb29rIGZvciBhbnkg
-b2NjdXJyZW5jZSAiZHJtV2FpdFZCbGFuayIgd2l0aCB0aGUgY29tbWFuZDoKPiA+ICAgZ2l0IGdy
-ZXAgLW4gImRybVdhaXRWQmxhbmsiCj4gPiAqIExvb2sgaW4gdGhlIGdpdCBoaXN0b3J5IG9mIHRo
-ZSBwcm9qZWN0IHdpdGggdGhlIGNvbW1hbmQ6Cj4gPiAgIGdpdCBsb2cgLVNkcm1XYWl0VkJsYW5r
-Cj4gPiAKPiA+IEZpbmFsbHksIG5vbmUgb2YgdGhlIGFib3ZlIHByb2plY3RzIHZhbGlkYXRlIHRo
-ZSB1c2Ugb2YgRUlOVkFMIHdoaWNoCj4gPiBtYWtlIHNhZmUsIGF0IGxlYXN0IGZvciB0aGVzZSBw
-cm9qZWN0cywgdG8gY2hhbmdlIHRoZSByZXR1cm4gdmFsdWVzLgo+ID4gCj4gPiBDaGFuZ2Ugc2lu
-Y2UgVjI6Cj4gPiAgRGFuaWVsIFZldHRlciBhbmQgQ2hyaXMgV2lsc29uCj4gPiAgLSBSZXBsYWNl
-IEVOT1RUWSBieSBFT1BOT1RTVVBQCj4gPiAgLSBSZXR1cm4gRUlOVkFMIGlmIHRoZSBwYXJhbWV0
-ZXJzIGFyZSB3cm9uZwo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBSb2RyaWdvIFNpcXVlaXJhIDxy
-b2RyaWdvc2lxdWVpcmFtZWxvQGdtYWlsLmNvbT4KPiA+IC0tLQo+ID4gVXBkYXRlOgo+ID4gICBO
-b3cgSUdUIGhhcyBhIHdheSB0byB2YWxpZGF0ZSBpZiBhIGRyaXZlciBoYXMgdmJsYW5rIHN1cHBv
-cnQgb3Igbm90Lgo+ID4gICBTZWU6IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9kcm0v
-aWd0LWdwdS10b29scy9jb21taXQvMmQyNDRhZWQ2OTE2NTc1M2YzYWRiYmQ2NDY4ZGIwNzNkYzFh
-Y2Y5QQo+ID4gCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyB8IDQgKystLQo+ID4g
-IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gPiAKPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jIGIvZHJpdmVycy9ncHUv
-ZHJtL2RybV92YmxhbmsuYwo+ID4gaW5kZXggMGQ3MDRiZGRiMWE2Li5kNzZhNzgzYTdkNGIgMTAw
-NjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jCj4gPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jCj4gPiBAQCAtMTU3OCwxMCArMTU3OCwxMCBAQCBpbnQg
-ZHJtX3dhaXRfdmJsYW5rX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEs
-Cj4gPiAgCXVuc2lnbmVkIGludCBmbGFncywgcGlwZSwgaGlnaF9waXBlOwo+ID4gIAo+ID4gIAlp
-ZiAoIWRldi0+aXJxX2VuYWJsZWQpCj4gPiAtCQlyZXR1cm4gLUVJTlZBTDsKPiA+ICsJCXJldHVy
-biAtRU9QTk9UU1VQUDsKPiA+ICAKPiA+ICAJaWYgKHZibHdhaXQtPnJlcXVlc3QudHlwZSAmIF9E
-Uk1fVkJMQU5LX1NJR05BTCkKPiA+IC0JCXJldHVybiAtRUlOVkFMOwo+ID4gKwkJcmV0dXJuIC1F
-T1BOT1RTVVBQOwo+ID4gIAo+ID4gIAlpZiAodmJsd2FpdC0+cmVxdWVzdC50eXBlICYKPiA+ICAJ
-ICAgIH4oX0RSTV9WQkxBTktfVFlQRVNfTUFTSyB8IF9EUk1fVkJMQU5LX0ZMQUdTX01BU0sgfAo+
-IAo+IFdoZW4gdG91Y2hpbmcgdGhpcyBmdW5jdGlvbiwgY291bGQgSSBhc2sgeW91IHRvIHRha2Ug
-YSBsb29rIGF0Cj4gZWxpbWluYXRpbmcgdGhlIHVzZSBvZiBEUk1fV0FJVF9PTigpPwo+IEl0IGNv
-bWVzIGZyb20gdGhlIGRlcHJlY2F0ZWQgZHJtX29zX2xpbnV4LmggaGVhZGVyLCBhbmQgaXQgaXMg
-b25seSBvZgo+IHRoZSBmZXcgcmVtYWluaW5nIHVzZXJzIG9mIERSTV9XQUlUX09OKCkuCj4gCj4g
-QmVsb3cgeW91IGNhbiBmaW5kIG15IHVudGVzdGVkIGZpcnN0IHRyeSAtIHdoZXJlIEkgZGlkIGFu
-IGF0dGVtcHQgbm90IHRvCj4gY2hhbmdlIGJlaGF2aW91ci4KCmludGVsLWdmeCBkaWQgbm90IGxp
-a2UgdGhlIHBhdGNoIC0gc28gbm8gbmVlZCB0byBzcGVuZCB0aW1lIGxvb2tpbmcgYXQKdGhlIHBh
-dGNoIHVudGlsIEkgaGF2ZSB0aGF0IGZpeGVkLgoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0299837644==
+Content-Type: multipart/alternative; boundary="15604515545.E5cEc.3629"
+Content-Transfer-Encoding: 7bit
+
+
+--15604515545.E5cEc.3629
+Date: Thu, 13 Jun 2019 18:45:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105113
+
+Jan Vesely <jv356@scarletmail.rutgers.edu> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
+
+--- Comment #13 from Jan Vesely <jv356@scarletmail.rutgers.edu> ---
+Relocations are now handled in the new radeonsi linker (merged in
+77b05cc42df29472a7852b90575a19e8991815cd and co.)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15604515545.E5cEc.3629
+Date: Thu, 13 Jun 2019 18:45:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:jv356&#64=
+;scarletmail.rutgers.edu" title=3D"Jan Vesely &lt;jv356&#64;scarletmail.rut=
+gers.edu&gt;"> <span class=3D"fn">Jan Vesely</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [hawaii, radeonsi, clover] Running Piglit cl/p=
+rogram/execute/{,tail-}calls{,-struct,-workitem-id}.cl cause GPU VM error a=
+nd ring stalled GPU lockup"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105113">bug 10511=
+3</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [hawaii, radeonsi, clover] Running Piglit cl/p=
+rogram/execute/{,tail-}calls{,-struct,-workitem-id}.cl cause GPU VM error a=
+nd ring stalled GPU lockup"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105113#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - [hawaii, radeonsi, clover] Running Piglit cl/p=
+rogram/execute/{,tail-}calls{,-struct,-workitem-id}.cl cause GPU VM error a=
+nd ring stalled GPU lockup"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105113">bug 10511=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jv356&#64;scarletmail.rutgers.edu" title=3D"Jan Vesely &lt;jv356&#64;scarle=
+tmail.rutgers.edu&gt;"> <span class=3D"fn">Jan Vesely</span></a>
+</span></b>
+        <pre>Relocations are now handled in the new radeonsi linker (merged=
+ in
+77b05cc42df29472a7852b90575a19e8991815cd and co.)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15604515545.E5cEc.3629--
+
+--===============0299837644==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0299837644==--
