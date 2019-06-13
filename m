@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D352B435D9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 14:24:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E42A9435E8
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Jun 2019 14:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 597B3899B7;
-	Thu, 13 Jun 2019 12:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05508899BB;
+	Thu, 13 Jun 2019 12:32:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F186899B3;
- Thu, 13 Jun 2019 12:24:05 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7AF0821773;
- Thu, 13 Jun 2019 12:24:04 +0000 (UTC)
-Date: Thu, 13 Jun 2019 14:24:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] msm: no need to check return value of debugfs_create functions
-Message-ID: <20190613122402.GA30678@kroah.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EB420899BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 12:32:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E7F9C72167; Thu, 13 Jun 2019 12:32:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Thu, 13 Jun 2019 12:32:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: cosiekvfj@o2.pl
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-yoNQ2jgexT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1560428645;
- bh=ylIuBR5yn6EAKJkZL96zcsc3cHp7vPCBtpQ1H9nxhuw=;
- h=Date:From:To:Cc:Subject:From;
- b=bOyO5TaMLcD0owl1N4BpMw+OuphlFIoRdk4t2MUxea63aPdOd4AEEX4AqEpA3dQ7m
- w5iTYcM5zYoJtkOXRloA2EmL3kF0apL5Bh9eocOjtVdJ8XQiYxb754ToOL69plriSm
- XLPV4JpzEVCah0M5xam9cIbABra6qCiTXCVOWXes=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,61 +53,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1743221403=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiBjYWxsaW5nIGRlYnVnZnMgZnVuY3Rpb25zLCB0aGVyZSBpcyBubyBuZWVkIHRvIGV2ZXIg
-Y2hlY2sgdGhlCnJldHVybiB2YWx1ZS4gIFRoZSBmdW5jdGlvbiBjYW4gd29yayBvciBub3QsIGJ1
-dCB0aGUgY29kZSBsb2dpYyBzaG91bGQKbmV2ZXIgZG8gc29tZXRoaW5nIGRpZmZlcmVudCBiYXNl
-ZCBvbiB0aGlzLgoKQ2M6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KQ2M6IFNlYW4g
-UGF1bCA8c2VhbkBwb29ybHkucnVuPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4Lmll
-PgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogbGludXgtYXJtLW1zbUB2
-Z2VyLmtlcm5lbC5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGZy
-ZWVkcmVub0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTogR3JlZyBLcm9haC1I
-YXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-bXNtL21zbV9wZXJmLmMgfCAxNSArKy0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20v
-bXNtX3JkLmMgICB8IDE1ICsrLS0tLS0tLS0tLS0tLQogMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2Vy
-dGlvbnMoKyksIDI2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9t
-c20vbXNtX3BlcmYuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX3BlcmYuYwppbmRleCA1YWIy
-MWJkMmRlY2IuLjk1OTQ4Y2ZlN2ExMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9t
-c21fcGVyZi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX3BlcmYuYwpAQCAtMjA1LDcg
-KzIwNSw2IEBAIGludCBtc21fcGVyZl9kZWJ1Z2ZzX2luaXQoc3RydWN0IGRybV9taW5vciAqbWlu
-b3IpCiB7CiAJc3RydWN0IG1zbV9kcm1fcHJpdmF0ZSAqcHJpdiA9IG1pbm9yLT5kZXYtPmRldl9w
-cml2YXRlOwogCXN0cnVjdCBtc21fcGVyZl9zdGF0ZSAqcGVyZjsKLQlzdHJ1Y3QgZGVudHJ5ICpl
-bnQ7CiAKIAkvKiBvbmx5IGNyZWF0ZSBvbiBmaXJzdCBtaW5vcjogKi8KIAlpZiAocHJpdi0+cGVy
-ZikKQEAgLTIyMCwxOSArMjE5LDkgQEAgaW50IG1zbV9wZXJmX2RlYnVnZnNfaW5pdChzdHJ1Y3Qg
-ZHJtX21pbm9yICptaW5vcikKIAltdXRleF9pbml0KCZwZXJmLT5yZWFkX2xvY2spOwogCXByaXYt
-PnBlcmYgPSBwZXJmOwogCi0JZW50ID0gZGVidWdmc19jcmVhdGVfZmlsZSgicGVyZiIsIFNfSUZS
-RUcgfCBTX0lSVUdPLAotCQkJbWlub3ItPmRlYnVnZnNfcm9vdCwgcGVyZiwgJnBlcmZfZGVidWdm
-c19mb3BzKTsKLQlpZiAoIWVudCkgewotCQlEUk1fRVJST1IoIkNhbm5vdCBjcmVhdGUgL3N5cy9r
-ZXJuZWwvZGVidWcvZHJpLyVwZC9wZXJmXG4iLAotCQkJCW1pbm9yLT5kZWJ1Z2ZzX3Jvb3QpOwot
-CQlnb3RvIGZhaWw7Ci0JfQotCisJZGVidWdmc19jcmVhdGVfZmlsZSgicGVyZiIsIFNfSUZSRUcg
-fCBTX0lSVUdPLCBtaW5vci0+ZGVidWdmc19yb290LAorCQkJICAgIHBlcmYsICZwZXJmX2RlYnVn
-ZnNfZm9wcyk7CiAJcmV0dXJuIDA7Ci0KLWZhaWw6Ci0JbXNtX3BlcmZfZGVidWdmc19jbGVhbnVw
-KHByaXYpOwotCXJldHVybiAtMTsKIH0KIAogdm9pZCBtc21fcGVyZl9kZWJ1Z2ZzX2NsZWFudXAo
-c3RydWN0IG1zbV9kcm1fcHJpdmF0ZSAqcHJpdikKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tc20vbXNtX3JkLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9yZC5jCmluZGV4IGQyMTE3
-MjkzM2Q5Mi4uNDZmN2ViNmE3ZWFhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL21z
-bV9yZC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX3JkLmMKQEAgLTI0NCw3ICsyNDQs
-NiBAQCBzdGF0aWMgdm9pZCByZF9jbGVhbnVwKHN0cnVjdCBtc21fcmRfc3RhdGUgKnJkKQogc3Rh
-dGljIHN0cnVjdCBtc21fcmRfc3RhdGUgKnJkX2luaXQoc3RydWN0IGRybV9taW5vciAqbWlub3Is
-IGNvbnN0IGNoYXIgKm5hbWUpCiB7CiAJc3RydWN0IG1zbV9yZF9zdGF0ZSAqcmQ7Ci0Jc3RydWN0
-IGRlbnRyeSAqZW50OwogCWludCByZXQgPSAwOwogCiAJcmQgPSBremFsbG9jKHNpemVvZigqcmQp
-LCBHRlBfS0VSTkVMKTsKQEAgLTI1OCwyMCArMjU3LDEwIEBAIHN0YXRpYyBzdHJ1Y3QgbXNtX3Jk
-X3N0YXRlICpyZF9pbml0KHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yLCBjb25zdCBjaGFyICpuYW1l
-KQogCiAJaW5pdF93YWl0cXVldWVfaGVhZCgmcmQtPmZpZm9fZXZlbnQpOwogCi0JZW50ID0gZGVi
-dWdmc19jcmVhdGVfZmlsZShuYW1lLCBTX0lGUkVHIHwgU19JUlVHTywKLQkJCW1pbm9yLT5kZWJ1
-Z2ZzX3Jvb3QsIHJkLCAmcmRfZGVidWdmc19mb3BzKTsKLQlpZiAoIWVudCkgewotCQlEUk1fRVJS
-T1IoIkNhbm5vdCBjcmVhdGUgL3N5cy9rZXJuZWwvZGVidWcvZHJpLyVwZC8lc1xuIiwKLQkJCQlt
-aW5vci0+ZGVidWdmc19yb290LCBuYW1lKTsKLQkJcmV0ID0gLUVOT01FTTsKLQkJZ290byBmYWls
-OwotCX0KKwlkZWJ1Z2ZzX2NyZWF0ZV9maWxlKG5hbWUsIFNfSUZSRUcgfCBTX0lSVUdPLCBtaW5v
-ci0+ZGVidWdmc19yb290LCByZCwKKwkJCSAgICAmcmRfZGVidWdmc19mb3BzKTsKIAogCXJldHVy
-biByZDsKLQotZmFpbDoKLQlyZF9jbGVhbnVwKHJkKTsKLQlyZXR1cm4gRVJSX1BUUihyZXQpOwog
-fQogCiBpbnQgbXNtX3JkX2RlYnVnZnNfaW5pdChzdHJ1Y3QgZHJtX21pbm9yICptaW5vcikKLS0g
-CjIuMjIuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1743221403==
+Content-Type: multipart/alternative; boundary="15604291241.AC8eB1.8111"
+Content-Transfer-Encoding: 7bit
+
+
+--15604291241.AC8eB1.8111
+Date: Thu, 13 Jun 2019 12:32:04 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #20 from cosiekvfj@o2.pl ---
+>I have less and less of an idea when this thing happens.
+
+My first thought was maybe compositor or 64 vs 32 bit os. I'm using xfwm wi=
+th
+compositing turned off. I also changed the CPU in this laptop ;) and I'm us=
+ing
+64 bit os.
+
+     *-cpu
+          description: CPU
+          product: Intel(R) Core(TM)2 CPU         T5500  @ 1.66GHz
+          vendor: Intel Corp.
+          physical id: 4
+          bus info: cpu@0
+          slot: U23
+          size: 1666MHz
+          capacity: 1667MHz
+          width: 64 bits
+          clock: 100MHz
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8
+apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss =
+ht
+tm pbe syscall nx x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl c=
+puid
+aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 cx16 xtpr pdcm lahf_lm p=
+ti
+dtherm cpufreq
+
+
+But after you told us that glxgears "magically" works sometimes for you the=
+n I
+have no idea.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15604291241.AC8eB1.8111
+Date: Thu, 13 Jun 2019 12:32:04 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c20">Comme=
+nt # 20</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cosiekvfj&#64;o2.pl" title=3D"cosiekvfj&#64;o2.pl">cosiekvfj&#64;o2.pl</a>
+</span></b>
+        <pre><span class=3D"quote">&gt;I have less and less of an idea when=
+ this thing happens.</span >
+
+My first thought was maybe compositor or 64 vs 32 bit os. I'm using xfwm wi=
+th
+compositing turned off. I also changed the CPU in this laptop ;) and I'm us=
+ing
+64 bit os.
+
+     *-cpu
+          description: CPU
+          product: Intel(R) Core(TM)2 CPU         T5500  &#64; 1.66GHz
+          vendor: Intel Corp.
+          physical id: 4
+          bus info: cpu&#64;0
+          slot: U23
+          size: 1666MHz
+          capacity: 1667MHz
+          width: 64 bits
+          clock: 100MHz
+          capabilities: fpu fpu_exception wp vme de pse tsc msr pae mce cx8
+apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss =
+ht
+tm pbe syscall nx x86-64 constant_tsc arch_perfmon pebs bts rep_good nopl c=
+puid
+aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 cx16 xtpr pdcm lahf_lm p=
+ti
+dtherm cpufreq
+
+
+But after you told us that glxgears &quot;magically&quot; works sometimes f=
+or you then I
+have no idea.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15604291241.AC8eB1.8111--
+
+--===============1743221403==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1743221403==--
