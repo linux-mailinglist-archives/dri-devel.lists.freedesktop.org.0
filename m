@@ -1,46 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8259462BF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:30:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0EA3462C4
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:30:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A97589AAE;
-	Fri, 14 Jun 2019 15:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7CF896FA;
+	Fri, 14 Jun 2019 15:30:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7C44F89AB2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:30:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 799FD72167; Fri, 14 Jun 2019 15:30:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Fri, 14 Jun 2019 15:30:05 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-xF8ZZ1IeK9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72267892EF;
+ Fri, 14 Jun 2019 15:30:34 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CD9E42175B;
+ Fri, 14 Jun 2019 15:30:33 +0000 (UTC)
+Date: Fri, 14 Jun 2019 17:30:32 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH 12/16] staging/comedi: mark as broken
+Message-ID: <20190614153032.GD18049@kroah.com>
+References: <20190614134726.3827-1-hch@lst.de>
+ <20190614134726.3827-13-hch@lst.de>
+ <20190614140239.GA7234@kroah.com> <20190614144857.GA9088@lst.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190614144857.GA9088@lst.de>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1560526234;
+ bh=yHr9pq/10KysBErHEUNYe66X5QjENZmZbRJgZ95Q5/o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YQSkaSpALbREELFlyjYwtyXX2zZ40opkg5+4KefS4XBIuG2ytKNe/HlyefrPeKCy0
+ E/FugLo4jefFccnnPx66ACowyYQe8Bea79xHMfRvngOsTctElVKuYIxt72NvyX9Rye
+ Xmh7GqKPGUeRorB/KJsSF7isbiZer4sAIhDPDf20=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,108 +49,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0372621359=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, devel@driverdev.osuosl.org, linux-s390@vger.kernel.org,
+ linux-rdma@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-media@vger.kernel.org, Intel Linux Wireless <linuxwifi@intel.com>,
+ intel-gfx@lists.freedesktop.org, Ian Abbott <abbotti@mev.co.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, H Hartley Sweeten <hsweeten@visionengravers.com>,
+ iommu@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0372621359==
-Content-Type: multipart/alternative; boundary="15605262052.1eC0C4b5.10924"
-Content-Transfer-Encoding: 7bit
-
-
---15605262052.1eC0C4b5.10924
-Date: Fri, 14 Jun 2019 15:30:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
---- Comment #32 from Richard Thier <u9vata@gmail.com> ---
-If my card has no "hiz_ram" what that means? Can anyone explain if I am rig=
-ht?
-
-This is what I suspect so far:
-
-- Zcompression I get still, because the card has zmask_ram
-- No hierarchical Z (hiz) at all because there is no hiz_ram
-
-I do not see from the docs if there are specialties if enabing zmask_ram on=
-ly,
-but not enabling hiz.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15605262052.1eC0C4b5.10924
-Date: Fri, 14 Jun 2019 15:30:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c32">Comme=
-nt # 32</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>If my card has no &quot;hiz_ram&quot; what that means? Can any=
-one explain if I am right?
-
-This is what I suspect so far:
-
-- Zcompression I get still, because the card has zmask_ram
-- No hierarchical Z (hiz) at all because there is no hiz_ram
-
-I do not see from the docs if there are specialties if enabing zmask_ram on=
-ly,
-but not enabling hiz.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15605262052.1eC0C4b5.10924--
-
---===============0372621359==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0372621359==--
+T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDQ6NDg6NTdQTSArMDIwMCwgQ2hyaXN0b3BoIEhlbGx3
+aWcgd3JvdGU6Cj4gT24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDQ6MDI6MzlQTSArMDIwMCwgR3Jl
+ZyBLSCB3cm90ZToKPiA+IFBlcmhhcHMgYSBoaW50IGFzIHRvIGhvdyB3ZSBjYW4gZml4IHRoaXMg
+dXA/ICBUaGlzIGlzIHRoZSBmaXJzdCB0aW1lCj4gPiBJJ3ZlIGhlYXJkIG9mIHRoZSBjb21lZGkg
+Y29kZSBub3QgaGFuZGxpbmcgZG1hIHByb3Blcmx5Lgo+IAo+IEl0IGNhbiBiZSBmaXhlZCBieToK
+PiAKPiAgYSkgbmV2ZXIgY2FsbGluZyB2aXJ0X3RvX3BhZ2UgKG9yIHZtYWxsb2NfdG9fcGFnZSBm
+b3IgdGhhdCBtYXR0ZXIpCj4gICAgIG9uIGRtYSBhbGxvY2F0aW9uCj4gIGIpIG5ldmVyIHJlbWFw
+cGluZyBkbWEgYWxsb2NhdGlvbiB3aXRoIGNvbmZsaWN0aW5nIGNhY2hlIG1vZGVzCj4gICAgIChu
+byByZW1hcHBpbmcgc2hvdWxkIGJlIGRvYWJsZSBhZnRlciBhKSBhbnl3YXkpLgoKT2ssIGZhaXIg
+ZW5vdWdoLCBoYXZlIGFueSBwb2ludGVycyBvZiBkcml2ZXJzL2NvcmUgY29kZSB0aGF0IGRvZXMg
+dGhpcwpjb3JyZWN0bHk/ICBJIGNhbiBwdXQgaXQgb24gbXkgdG9kbyBsaXN0LCBidXQgbWlnaHQg
+dGFrZSBhIHdlZWsgb3Igc28uLi4KCklhbiwgd2FudCB0byBsb29rIGludG8gZG9pbmcgdGhpcyBz
+b29uZXI/Cgp0aGFua3MsCgpncmVnIGstaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWw=
