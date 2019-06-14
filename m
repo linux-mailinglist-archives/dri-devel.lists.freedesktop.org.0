@@ -2,44 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358564543F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 07:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C2845456
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 07:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C3DA89256;
-	Fri, 14 Jun 2019 05:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34FED89241;
+	Fri, 14 Jun 2019 05:54:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9DE7689241
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 05:48:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9AA1E72167; Fri, 14 Jun 2019 05:48:33 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Fri, 14 Jun 2019 05:48:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jirislaby@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: qa_contact component product version
-Message-ID: <bug-109955-502-CklXwMBE4T@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from smtp.codeaurora.org (smtp.codeaurora.org [198.145.29.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A309389241
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 05:54:36 +0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+ id 67A3060A24; Fri, 14 Jun 2019 05:54:36 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [10.131.117.43]
+ (blr-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: rnayak@smtp.codeaurora.org)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 254356079C;
+ Fri, 14 Jun 2019 05:54:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 254356079C
+Subject: Re: [RFC v2 01/11] OPP: Don't overwrite rounded clk rate
+To: Viresh Kumar <viresh.kumar@linaro.org>, swboyd@chromium.org,
+ vincent.guittot@linaro.org, mturquette@baylibre.com
+References: <20190320094918.20234-1-rnayak@codeaurora.org>
+ <20190320094918.20234-2-rnayak@codeaurora.org>
+ <20190611105432.x3nzqiib35t6mvyg@vireshk-i7>
+ <c173a57d-a4de-99f7-e8d8-28a7612f4ca3@codeaurora.org>
+ <20190612082506.m735bsk7bjijf2yg@vireshk-i7>
+ <20190613095419.lfjeko7nmxtix2n4@vireshk-i7>
+From: Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <b29c1754-d719-4d7b-806f-9ea25a8b528f@codeaurora.org>
+Date: Fri, 14 Jun 2019 11:24:28 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190613095419.lfjeko7nmxtix2n4@vireshk-i7>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1560491676;
+ bh=wd1M0evBIXLEcGJx9iw3rlVbAxOCmtJoFg2feFLTumI=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=bOnuHxO8vepWrGxy5wP0hMkl/8iRkQ6gb+h6IQ12M7loZUuxZRddpRhAciAGH/8MA
+ P+k2GbzqrJRMRiTFRr/zTMtT2zr2AE7SArtWjGKwQx+UjmDMIPlCcxdqeSFAYgBsYn
+ OY3USkRnR3WlbVrgBCedBeGlRZJBMeTDyCd4v9PI=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=codeaurora.org; s=default; t=1560491675;
+ bh=wd1M0evBIXLEcGJx9iw3rlVbAxOCmtJoFg2feFLTumI=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=Q1sGLGHqf3Og6g5QfKfG4218AP0shAWBRRrGCeuKdQJBYFYQQ/S/aPj6MOLclGqJ5
+ KfHv4VOLijzIkPbNk0r6sDct0BGaiOvf5sl9xTqTkwSFeVR26QSejf2TOJ6fKEGnok
+ sgNekPch6PEJN8RCCUSSNLedhogOCiYDnRe9dgoU=
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ dmarc=none (p=none dis=none)
+ header.from=codeaurora.org
+X-Mailman-Original-Authentication-Results: pdx-caf-mail.web.codeaurora.org;
+ spf=none
+ smtp.mailfrom=rnayak@codeaurora.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,232 +77,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0081388390=="
+Cc: ulf.hansson@linaro.org, dianders@chromium.org, linux-scsi@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, rafael@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-spi@vger.kernel.org, linux-serial@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0081388390==
-Content-Type: multipart/alternative; boundary="15604913131.BB81EAC.23610"
-Content-Transfer-Encoding: 7bit
-
-
---15604913131.BB81EAC.23610
-Date: Fri, 14 Jun 2019 05:48:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
-Jiri Slaby <jirislaby@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         QA Contact|dri-devel@lists.freedesktop |
-                   |.org                        |
-          Component|Drivers/Gallium/radeonsi    |DRM/AMDgpu
-            Product|Mesa                        |DRI
-            Version|18.3                        |unspecified
-
---- Comment #33 from Jiri Slaby <jirislaby@gmail.com> ---
-(In reply to Sam from comment #32)
-> Created attachment 144535 [details]
-> dmesg from the freeze which didn't completely bork everything. It starts =
-on
-> line 1181
-
-Attaching the relevant part inline:
-
-> [drm:amdgpu_dm_commit_planes.isra.0 [amdgpu]] *ERROR* Waiting for fences =
-timed out.
-> [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled seq=
-=3D726226, emitted seq=3D726228
-> [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: process P=
-illarsOfEterni pid 12250 thread PillarsOfE:cs0 pid 12254
-> amdgpu 0000:1e:00.0: GPU reset begin!
-> [drm:amdgpu_dm_commit_planes.isra.0 [amdgpu]] *ERROR* Waiting for fences =
-timed out.
-> amdgpu 0000:1e:00.0: GPU BACO reset
-> amdgpu 0000:1e:00.0: GPU reset succeeded, trying to resume
-> [drm] PCIE GART of 512M enabled (table at 0x000000F400900000).
-> [drm:amdgpu_device_gpu_recover [amdgpu]] *ERROR* VRAM is lost!
-> [drm] PSP is resuming...
-> [drm] reserve 0x400000 from 0xf400d00000 for PSP TMR SIZE
-> [drm] UVD and UVD ENC initialized successfully.
-> [drm] VCE initialized successfully.
-> [drm] recover vram bo from shadow start
-> [drm] recover vram bo from shadow done
-> [drm] Skip scheduling IBs!
-> [drm] Skip scheduling IBs!
-> amdgpu 0000:1e:00.0: GPU reset(2) succeeded!
-> [drm] Skip scheduling IBs!
-> ...
-> [drm] Skip scheduling IBs!
-> [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
-> [drm] Skip scheduling IBs!
-> ...
-> [drm] Skip scheduling IBs!
-> [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
-> [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
-> [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604913131.BB81EAC.23610
-Date: Fri, 14 Jun 2019 05:48:33 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:jirislaby=
-&#64;gmail.com" title=3D"Jiri Slaby &lt;jirislaby&#64;gmail.com&gt;"> <span=
- class=3D"fn">Jiri Slaby</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">QA Contact</td>
-           <td>dri-devel&#64;lists.freedesktop.org
-           </td>
-           <td>
-               &nbsp;
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>Drivers/Gallium/radeonsi
-           </td>
-           <td>DRM/AMDgpu
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Product</td>
-           <td>Mesa
-           </td>
-           <td>DRI
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>18.3
-           </td>
-           <td>unspecified
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c33">Comme=
-nt # 33</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jirislaby&#64;gmail.com" title=3D"Jiri Slaby &lt;jirislaby&#64;gmail.com&gt=
-;"> <span class=3D"fn">Jiri Slaby</span></a>
-</span></b>
-        <pre>(In reply to Sam from <a href=3D"show_bug.cgi?id=3D109955#c32"=
->comment #32</a>)
-<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
-gi?id=3D144535" name=3D"attach_144535" title=3D"dmesg from the freeze which=
- didn't completely bork everything. It starts on line 1181">attachment 1445=
-35</a> <a href=3D"attachment.cgi?id=3D144535&amp;action=3Dedit" title=3D"dm=
-esg from the freeze which didn't completely bork everything. It starts on l=
-ine 1181">[details]</a></span>
-&gt; dmesg from the freeze which didn't completely bork everything. It star=
-ts on
-&gt; line 1181</span >
-
-Attaching the relevant part inline:
-
-<span class=3D"quote">&gt; [drm:amdgpu_dm_commit_planes.isra.0 [amdgpu]] *E=
-RROR* Waiting for fences timed out.
-&gt; [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled =
-seq=3D726226, emitted seq=3D726228
-&gt; [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process information: proces=
-s PillarsOfEterni pid 12250 thread PillarsOfE:cs0 pid 12254
-&gt; amdgpu 0000:1e:00.0: GPU reset begin!
-&gt; [drm:amdgpu_dm_commit_planes.isra.0 [amdgpu]] *ERROR* Waiting for fenc=
-es timed out.
-&gt; amdgpu 0000:1e:00.0: GPU BACO reset
-&gt; amdgpu 0000:1e:00.0: GPU reset succeeded, trying to resume
-&gt; [drm] PCIE GART of 512M enabled (table at 0x000000F400900000).
-&gt; [drm:amdgpu_device_gpu_recover [amdgpu]] *ERROR* VRAM is lost!
-&gt; [drm] PSP is resuming...
-&gt; [drm] reserve 0x400000 from 0xf400d00000 for PSP TMR SIZE
-&gt; [drm] UVD and UVD ENC initialized successfully.
-&gt; [drm] VCE initialized successfully.
-&gt; [drm] recover vram bo from shadow start
-&gt; [drm] recover vram bo from shadow done
-&gt; [drm] Skip scheduling IBs!
-&gt; [drm] Skip scheduling IBs!
-&gt; amdgpu 0000:1e:00.0: GPU reset(2) succeeded!
-&gt; [drm] Skip scheduling IBs!
-&gt; ...
-&gt; [drm] Skip scheduling IBs!
-&gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -12=
-5!
-&gt; [drm] Skip scheduling IBs!
-&gt; ...
-&gt; [drm] Skip scheduling IBs!
-&gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -12=
-5!
-&gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -12=
-5!
-&gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -12=
-5!</span ></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604913131.BB81EAC.23610--
-
---===============0081388390==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0081388390==--
+Cj4gTm93LCB0aGUgcmVxdWVzdCB0byBjaGFuZ2UgdGhlIGZyZXF1ZW5jeSBzdGFydHMgZnJvbSBj
+cHVmcmVxCj4gZ292ZXJub3JzLCBsaWtlIHNjaGVkdXRpbCB3aGVuIHRoZXkgY2FsbHM6Cj4gCj4g
+X19jcHVmcmVxX2RyaXZlcl90YXJnZXQocG9saWN5LCA1OTkgTUh6LCBDUFVGUkVRX1JFTEFUSU9O
+X0wpOwo+IAo+IENQVUZSRVFfUkVMQVRJT05fTCBtZWFuczogbG93ZXN0IGZyZXF1ZW5jeSBhdCBv
+ciBhYm92ZSB0YXJnZXQuIEFuZCBzbwo+IEkgd291bGQgZXhwZWN0IHRoZSBmcmVxdWVuY3kgdG8g
+Z2V0IHNldCB0byA2MDBNSHogKGlmIHdlIGxvb2sgYXQgY2xvY2sKPiBkcml2ZXIpIG9yIDcwME1I
+eiAoaWYgd2UgbG9vayBhdCBPUFAgdGFibGUpLiBJIHRoaW5rIHdlIHNob3VsZCBkZWNpZGUKPiB0
+aGlzIHRoaW5nIGZyb20gdGhlIE9QUCB0YWJsZSBvbmx5IGFzIHRoYXQncyB3aGF0IHRoZSBwbGF0
+Zm9ybSBndXlzCj4gd2FudCB1cyB0byB1c2UuIFNvLCB3ZSBzaG91bGQgZW5kIHVwIHdpdGggNzAw
+IE1Iei4KPiAKPiBUaGVuIHdlIGxhbmQgaW50byBkZXZfcG1fb3BwX3NldF9yYXRlKCksIHdoaWNo
+IGRvZXMgdGhpcyAod2hpY2ggaXMKPiBjb2RlIGNvcGllZCBmcm9tIGVhcmxpZXIgdmVyc2lvbiBv
+ZiBjcHVmcmVxLWR0IGRyaXZlcik6CgpzbyBiZWZvcmUgd2UgbGFuZCBpbnRvIGRldl9wbV9vcHBf
+c2V0X3JhdGUoKSBmcm9tIGEgX19jcHVmcmVxX2RyaXZlcl90YXJnZXQoKQpJIGd1ZXNzIHdlIGRv
+IGhhdmUgYSBjcHVmcmVxIGRyaXZlciBjYWxsYmFjayB0aGF0IGdldHMgY2FsbGVkIGluIGJldHdl
+ZW4/CndoaWNoIGlzIGVpdGhlciAudGFyZ2V0X2luZGV4IG9yIC50YXJnZXQKCkluIGNhc2Ugb2Yg
+LnRhcmdldF9pbmRleCwgdGhlIGNwdWZyZXEgY29yZSBsb29rcyBmb3IgYSBPUFAgaW5kZXgKYW5k
+IHdlIHdvdWxkIGxhbmQgdXAgd2l0aCA3MDBNaHogaSBndWVzcywgc28gd2UgYXJlIGdvb2QuCgpJ
+biBjYXNlIG9mIC50YXJnZXQgdGhvdWdoIHRoZSAncmVsYXRpb24nIENQVUZSRVFfUkVMQVRJT05f
+TCBkb2VzIGdldCBwYXNzZWQgb3Zlcgp0byB0aGUgY3B1ZnJlcSBkcml2ZXIgd2hpY2ggSSBhbSBn
+dWVzc2luZyBpcyBleHBlY3RlZCB0byBoYW5kbGUgaXQgaW4gc29tZSB3YXkgdG8KbWFrZSBzdXJl
+IHRoZSB0YXJnZXQgZnJlcXVlbmN5IHNldCBpcyBub3QgbGVzcyB0aGFuIHdoYXRzIHJlcXVlc3Rl
+ZD8gaW5zdGVhZCBvZgpzaW1wbHkgcGFzc2luZyB0aGUgcmVxdWVzdGVkIGZyZXF1ZW5jeSBvdmVy
+IHRvIGRldl9wbV9vcHBfc2V0X3JhdGUoKT8KCkxvb2tpbmcgYXQgYWxsIHRoZSBleGlzdGluZyBj
+cHVmcmVxIGRyaXZlcnMgdXBzdHJlYW0sIHdoaWxlIG1vc3Qgc3VwcG9ydCAudGFyZ2V0X2luZGV4
+CnRoZSAzIHdoaWNoIGRvIHN1cHBvcnQgLnRhcmdldCBzZWVtIHRvIGNvbXBsZXRlbHkgaWdub3Jl
+IHRoaXMgJ3JlbGF0aW9uJyBpbnB1dCB0aGF0J3MKcGFzc2VkIHRvIHRoZW0uCgpkcml2ZXJzL2Nw
+dWZyZXEvY3BwY19jcHVmcmVxLmM6CS50YXJnZXQgPSBjcHBjX2NwdWZyZXFfc2V0X3RhcmdldCwK
+ZHJpdmVycy9jcHVmcmVxL2NwdWZyZXEtbmZvcmNlMi5jOgkudGFyZ2V0ID0gbmZvcmNlMl90YXJn
+ZXQsCmRyaXZlcnMvY3B1ZnJlcS9wY2MtY3B1ZnJlcS5jOgkudGFyZ2V0ID0gcGNjX2NwdWZyZXFf
+dGFyZ2V0LAoKPiBUaGlzIGtpbmQgb2YgYmVoYXZpb3IgKGludHJvZHVjZWQgYnkgdGhpcyBwYXRj
+aCkgaXMgaW1wb3J0YW50IGZvcgo+IG90aGVyIGRldmljZXMgd2hpY2ggd2FudCB0byBydW4gYXQg
+dGhlIG5lYXJlc3QgZnJlcXVlbmN5IHRvIHRhcmdldAo+IG9uZSwgYnV0IG5vdCBmb3IgQ1BVcy9H
+UFVzLiBTbywgd2UgbmVlZCB0byB0YWcgdGhlc2UgSU8gZGV2aWNlcwo+IHNlcGFyYXRlbHksIG1h
+eWJlIGZyb20gRFQgPyBTbyB3ZSBzZWxlY3QgdGhlIGNsb3Nlc3QgbWF0Y2ggaW5zdGVhZCBvZgo+
+IG1vc3Qgb3B0aW1hbCBvbmUuCgp5ZXMgd2UgZG8gbmVlZCBzb21lIHdheSB0byBkaXN0aW5ndWlz
+aCBiZXR3ZWVuIENQVS9HUFUgZGV2aWNlcyBhbmQgb3RoZXIKSU8gZGV2aWNlcy4gQ1BVL0dQVSBj
+YW4gYWx3YXlzIHJ1biBhdCBmbWF4IGZvciBhIGdpdmVuIHZvbHRhZ2UsIHRoYXQncyBub3QgdHJ1
+ZQpmb3IgSU8gZGV2aWNlcyBhbmQgSSBkb24ndCBzZWUgaG93IHdlIGNhbiBzYXRpc2Z5IGJvdGgg
+Y2FzZXMgd2l0aG91dApjbGVhcmx5IGtub3dpbmcgaWYgd2UgYXJlIHNlcnZpbmcgYSBwcm9jZXNz
+b3Igb3IgYW4gSU8gZGV2aWNlLCB1bmxlc3MgdGhlCmhpZ2hlciBsYXllcnMgKGNwdWZyZXEvZGV2
+ZnJlcSkgYXJlIGFibGUgdG8gaGFuZGxlIHRoaXMgc29tZWhvdyB3aXRob3V0CmV4cGVjdGluZyB0
+aGUgT1BQIGxheWVyIHRvIGhhbmRsZSB0aGUgZGlmZmVyZW5jZXMuCgotLSAKUVVBTENPTU0gSU5E
+SUEsIG9uIGJlaGFsZiBvZiBRdWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBpcyBhIG1l
+bWJlcgpvZiBDb2RlIEF1cm9yYSBGb3J1bSwgaG9zdGVkIGJ5IFRoZSBMaW51eCBGb3VuZGF0aW9u
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
