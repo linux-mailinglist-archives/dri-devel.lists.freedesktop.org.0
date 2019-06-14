@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A67B46CF6
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 01:30:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39A446CFE
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 01:46:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE27D89568;
-	Fri, 14 Jun 2019 23:30:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E19A1890D3;
+	Fri, 14 Jun 2019 23:46:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 60ABB895C8
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 23:30:39 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4FC73721A2; Fri, 14 Jun 2019 23:30:39 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Fri, 14 Jun 2019 23:30:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-eFcbezLoUn@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B4F4D890D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 23:46:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 44DFD10A2E3A;
+ Fri, 14 Jun 2019 16:46:01 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id JbNKQOdbyxDP; Fri, 14 Jun 2019 16:46:00 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 1929110A2E39;
+ Fri, 14 Jun 2019 16:46:00 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 427962FE21C7; Fri, 14 Jun 2019 16:45:58 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] vc4: no need to check return value of debugfs_create
+ functions
+In-Reply-To: <20190613114548.GC13119@kroah.com>
+References: <20190613114548.GC13119@kroah.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Fri, 14 Jun 2019 16:45:56 -0700
+Message-ID: <87imt7hgsr.fsf@anholt.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,149 +48,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0340472079=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0409037927=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0409037927==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---===============0340472079==
-Content-Type: multipart/alternative; boundary="15605550392.ff412.7691"
-Content-Transfer-Encoding: 7bit
+--=-=-=
+Content-Type: text/plain
 
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
 
---15605550392.ff412.7691
-Date: Fri, 14 Jun 2019 23:30:39 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+> When calling debugfs functions, there is no need to ever check the
+> return value.  The function can work or not, but the code logic should
+> never do something different based on this.
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+Applied to drm-misc-next.  Thanks!
 
---- Comment #42 from Richard Thier <u9vata@gmail.com> ---
-(In reply to Marek Ol=C5=A1=C3=A1k from comment #40)
-> I'm afraid nobody remembers anymore how HyperZ works on r300. I can answer
-> basic questions if you have any.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Hi!
+-----BEGIN PGP SIGNATURE-----
 
-Currently I have added this to radeon_drm_winsys.c:
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl0EMbQACgkQtdYpNtH8
+nuhqbw/+MpnwSuNagv1O7lVADj9cFlbGrIIg4UF498j5u0Ota12ez2d+LhuG5VQ9
+QGhyGDXQeY8ffTMDKCYxXUUkvNI1VqDcqRR00HznYp8S0XHLjJ4h9oS7gX5EZilQ
+ELFBoJpZZiNC+SvFUg18Nl+vP8K9+ZL4hbcplj7wnlg/bS1M+RGz26xPdwMykR/r
+Rsl0u4Ct8LDy3xknPIuuxUiI5yns3r0lPZH4cM8MJV8vptqcDJi8ef4iWCbz8zEg
++phm5+F6UPd48oZhXmF/6z6TfqgeQwZdRzYwRSUPkcumedEd08VprQY0NmP1VPwW
+XWzTHz0xET64Nd+0bmN1BdTOHF7SHzqHW2EqwV7xhh6M2uX6XDvKGDrGvZaPbu6C
+7ix03mrXJ823j3DcJ7k+4mwgcxGj6t2FAKtItLCc+e5KWba3rF5+QICiN1LUBgVE
+A/mkQSlsIDE107kBcrLijGaQs5CAneJU0NrOIreX9fjY629Lm52zxzQLAU1xYLt8
+7R8DROp+8gs6dGvD9tXhOKeuHW8TOpJc07rNTGJmWs3xO6gg2LbEU5f8uIiYjeDw
+PG81Hv6BHB5hpGhmBszMs93x0l7PgX1hxoOwmEtfAykLLndmyzyFsk9877QsJQp8
+ccVh7TV6ymLQtHOzwpqyMF7KxN4ik8m4GgGDXZBYjcyII3dqvRE=
+=1gM7
+-----END PGP SIGNATURE-----
+--=-=-=--
 
-385     if (ws->gen =3D=3D DRV_R300) {
-386         if (!radeon_get_drm_value(ws->fd, RADEON_INFO_NUM_GB_PIPES,
-387                                   "GB pipe count",
-388                                   &ws->info.r300_num_gb_pipes))
-389             return false;
-390 +       // FIXME: only works for my own setup (prenex):
-391 +       ws->info.r300_num_gb_pipes=3D1;
-
-Now I have no problems so far. It can be that HyperZ code is just good as-i=
-s,
-but for some resoun the radeon_get_drm_value returns a bad gb_pipes number.
-
-Currently testing with this a bit more throughly before moving further, but
-everything seems to work so far, just this is not a proper fix.
-
-Some questions I can have:
-
-1.) Is there any way to ensure how many pipes a card has? One pipeline seem=
-s to
-be really few for a GPU, but this is a mobile integrated card.
-
-2.) Can the other indicated pipes be existing on my card but turned off for
-some reason?
-
-3.) radeon_get_drm_value - is this in the kernel source tree? I will have a
-look later on the code behind it.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15605550392.ff412.7691
-Date: Fri, 14 Jun 2019 23:30:39 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c42">Comme=
-nt # 42</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>(In reply to Marek Ol=C5=A1=C3=A1k from <a href=3D"show_bug.cg=
-i?id=3D110897#c40">comment #40</a>)
-<span class=3D"quote">&gt; I'm afraid nobody remembers anymore how HyperZ w=
-orks on r300. I can answer
-&gt; basic questions if you have any.</span >
-
-Hi!
-
-Currently I have added this to radeon_drm_winsys.c:
-
-385     if (ws-&gt;gen =3D=3D DRV_R300) {
-386         if (!radeon_get_drm_value(ws-&gt;fd, RADEON_INFO_NUM_GB_PIPES,
-387                                   &quot;GB pipe count&quot;,
-388                                   &amp;ws-&gt;info.r300_num_gb_pipes))
-389             return false;
-390 +       // FIXME: only works for my own setup (prenex):
-391 +       ws-&gt;info.r300_num_gb_pipes=3D1;
-
-Now I have no problems so far. It can be that HyperZ code is just good as-i=
-s,
-but for some resoun the radeon_get_drm_value returns a bad gb_pipes number.
-
-Currently testing with this a bit more throughly before moving further, but
-everything seems to work so far, just this is not a proper fix.
-
-Some questions I can have:
-
-1.) Is there any way to ensure how many pipes a card has? One pipeline seem=
-s to
-be really few for a GPU, but this is a mobile integrated card.
-
-2.) Can the other indicated pipes be existing on my card but turned off for
-some reason?
-
-3.) radeon_get_drm_value - is this in the kernel source tree? I will have a
-look later on the code behind it.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15605550392.ff412.7691--
-
---===============0340472079==
+--===============0409037927==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -205,4 +99,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0340472079==--
+--===============0409037927==--
