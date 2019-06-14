@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C33460BA
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 16:28:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43785460DE
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 16:33:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A30C589991;
-	Fri, 14 Jun 2019 14:28:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DDBE8997A;
+	Fri, 14 Jun 2019 14:33:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9420C8995F
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:28:50 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E96A389971
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:33:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9092A72167; Fri, 14 Jun 2019 14:28:50 +0000 (UTC)
+ id E649D72167; Fri, 14 Jun 2019 14:33:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
-Date: Fri, 14 Jun 2019 14:28:50 +0000
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Fri, 14 Jun 2019 14:33:47 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 19.1
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: angrypenguinpoland@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110783-502-4U4iEvawE1@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
-References: <bug-110783-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109955-502-pQlgsWEWAH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,39 +52,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1946358514=="
+Content-Type: multipart/mixed; boundary="===============0032405569=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1946358514==
-Content-Type: multipart/alternative; boundary="15605225301.5a87.26529"
+--===============0032405569==
+Content-Type: multipart/alternative; boundary="15605228260.Bdc4c.28303"
 Content-Transfer-Encoding: 7bit
 
 
---15605225301.5a87.26529
-Date: Fri, 14 Jun 2019 14:28:50 +0000
+--15605228260.Bdc4c.28303
+Date: Fri, 14 Jun 2019 14:33:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
 
---- Comment #15 from AngryPenguin <angrypenguinpoland@gmail.com> ---
-Hi.
+--- Comment #34 from Alex Deucher <alexdeucher@gmail.com> ---
+(In reply to Jiri Slaby from comment #33)
+> > amdgpu 0000:1e:00.0: GPU reset(2) succeeded!
+> > [drm] Skip scheduling IBs!
+> > ...
+> > [drm] Skip scheduling IBs!
+> > [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
+> > [drm] Skip scheduling IBs!
+> > ...
+> > [drm] Skip scheduling IBs!
+> > [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
+> > [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
+> > [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parser -125!
 
-I can confirm, this fix my issue with vaapi and vdpau.
-
-Thanks.
+The GPU reset was successful.  You need to restart your desktop environment=
+ to
+recover.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15605225301.5a87.26529
-Date: Fri, 14 Jun 2019 14:28:50 +0000
+--15605228260.Bdc4c.28303
+Date: Fri, 14 Jun 2019 14:33:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -100,23 +111,39 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c15">Comme=
-nt # 15</a>
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c34">Comme=
+nt # 34</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
-3</a>
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-angrypenguinpoland&#64;gmail.com" title=3D"AngryPenguin &lt;angrypenguinpol=
-and&#64;gmail.com&gt;"> <span class=3D"fn">AngryPenguin</span></a>
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>Hi.
+        <pre>(In reply to Jiri Slaby from <a href=3D"show_bug.cgi?id=3D1099=
+55#c33">comment #33</a>)
+<span class=3D"quote">&gt; &gt; amdgpu 0000:1e:00.0: GPU reset(2) succeeded!
+&gt; &gt; [drm] Skip scheduling IBs!
+&gt; &gt; ...
+&gt; &gt; [drm] Skip scheduling IBs!
+&gt; &gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parse=
+r -125!
+&gt; &gt; [drm] Skip scheduling IBs!
+&gt; &gt; ...
+&gt; &gt; [drm] Skip scheduling IBs!
+&gt; &gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parse=
+r -125!
+&gt; &gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parse=
+r -125!
+&gt; &gt; [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize parse=
+r -125!</span >
 
-I can confirm, this fix my issue with vaapi and vdpau.
-
-Thanks.</pre>
+The GPU reset was successful.  You need to restart your desktop environment=
+ to
+recover.</pre>
         </div>
       </p>
 
@@ -130,9 +157,9 @@ Thanks.</pre>
     </body>
 </html>=
 
---15605225301.5a87.26529--
+--15605228260.Bdc4c.28303--
 
---===============1946358514==
+--===============0032405569==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +169,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1946358514==--
+--===============0032405569==--
