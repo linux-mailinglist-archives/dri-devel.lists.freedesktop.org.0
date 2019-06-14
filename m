@@ -2,69 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A09446294
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8259462BF
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4391F89B0C;
-	Fri, 14 Jun 2019 15:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A97589AAE;
+	Fri, 14 Jun 2019 15:30:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73BA189A94
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:22:47 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id p26so4060176edr.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:22:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=dXndqQ1AQICqmvtwsrmWxtGA2LkxXy4opA3uGDC+gYY=;
- b=uTA1aTmjf3H5ksfsHXhvqfwSSpzAGTkKeLBsVskFOb01IfgK1dVVpVtxGtLcbn/AxD
- /i0907XQaGObKag6iF/iQtU0w2IS74auXuTClQHXuy8Ox7BSLLfQRcJ5wiFIWJjLqwBQ
- /H2+R3YQ+iEGlg7/LHsWmBuXJEII0wMfswUKxz84tABVgEuLBA8oZASB6aCDdSRoOiJi
- EvJ8wM8eMEoKvdfQEKwCzTsObX/4tvejqnlPK0at+kb1OhLJLq7p4pZtlM41r22ypsR8
- UsuEBzTd0rzN6/+qsq7QRSpHSoLKB5/dh9CA8rzoBSgh6iYzQvs3YPNwkuJ+pjmh7I8A
- c/WQ==
-X-Gm-Message-State: APjAAAU7xQ/rVKZChoApY0x4lBFU3rRumxsIQsZfleaotlhjYICV6chu
- 9ncI1p9Evw+GuDsiRDn4WYZRsQ==
-X-Google-Smtp-Source: APXvYqxF89aMMU3nddTZFQ4L9VrL8aHf/ROCuBn3TO1QrfZw98b4GBGGD0sKAyq4iPcPF7wNLQzXUw==
-X-Received: by 2002:aa7:d781:: with SMTP id s1mr30705429edq.20.1560525766105; 
- Fri, 14 Jun 2019 08:22:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id x10sm972203edd.73.2019.06.14.08.22.44
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 08:22:45 -0700 (PDT)
-Date: Fri, 14 Jun 2019 17:22:42 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH 3/6] drm/gem: use new ww_mutex_(un)lock_for_each macros
-Message-ID: <20190614152242.GC23020@phenom.ffwll.local>
-Mail-Followup-To: Peter Zijlstra <peterz@infradead.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, yuq825@gmail.com, eric@anholt.net,
- thellstrom@vmware.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
- lima@lists.freedesktop.org
-References: <20190614124125.124181-1-christian.koenig@amd.com>
- <20190614124125.124181-4-christian.koenig@amd.com>
- <20190614131916.GQ3436@hirez.programming.kicks-ass.net>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C44F89AB2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:30:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 799FD72167; Fri, 14 Jun 2019 15:30:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Fri, 14 Jun 2019 15:30:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-xF8ZZ1IeK9@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190614131916.GQ3436@hirez.programming.kicks-ass.net>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=dXndqQ1AQICqmvtwsrmWxtGA2LkxXy4opA3uGDC+gYY=;
- b=d8QFLc0X7BeHMuw1YHf2wvaXSPx8ffwCsfn7Hjqz39LN3vc4CJeI2ACBnDIX2FkzWw
- OTH8nK0RQ6od8ZYHbWp3zjNiXm+xm6eUDfn96nxnWMJzwyqBJgnxBpOAAO6uJZOr5Lp8
- q1Xk6rvZTnEUtRsYFmKR23cVC6ZYlwk9T31S0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,105 +53,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thellstrom@vmware.com, lima@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, yuq825@gmail.com, linux+etnaviv@armlinux.org.uk
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0372621359=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDM6MTk6MTZQTSArMDIwMCwgUGV0ZXIgWmlqbHN0cmEg
-d3JvdGU6Cj4gT24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDI6NDE6MjJQTSArMDIwMCwgQ2hyaXN0
-aWFuIEvDtm5pZyB3cm90ZToKPiA+IFVzZSB0aGUgcHJvdmlkZWQgbWFjcm9zIGluc3RlYWQgb2Yg
-aW1wbGVtZW50aW5nIGRlYWRsb2NrIGhhbmRsaW5nIG9uIG91ciBvd24uCj4gPiAKPiA+IFNpZ25l
-ZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiA+
-IC0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgfCA0OSArKysrKysrKysrLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9u
-cygrKSwgMzcgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vZHJtX2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYwo+ID4gaW5kZXggNTBkZTEz
-OGM4OWUwLi42ZTQ2MjNkM2JlZTIgMTAwNjQ0Cj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbS5jCj4gPiBAQCAtMTMwNyw1
-MSArMTMwNywyNiBAQCBpbnQKPiA+ICBkcm1fZ2VtX2xvY2tfcmVzZXJ2YXRpb25zKHN0cnVjdCBk
-cm1fZ2VtX29iamVjdCAqKm9ianMsIGludCBjb3VudCwKPiA+ICAJCQkgIHN0cnVjdCB3d19hY3F1
-aXJlX2N0eCAqYWNxdWlyZV9jdHgpCj4gPiAgewo+ID4gLQlpbnQgY29udGVuZGVkID0gLTE7Cj4g
-PiArCXN0cnVjdCB3d19tdXRleCAqY29udGVuZGVkOwo+ID4gIAlpbnQgaSwgcmV0Owo+ID4gIAo+
-ID4gIAl3d19hY3F1aXJlX2luaXQoYWNxdWlyZV9jdHgsICZyZXNlcnZhdGlvbl93d19jbGFzcyk7
-Cj4gPiAgCj4gPiAtcmV0cnk6Cj4gPiAtCWlmIChjb250ZW5kZWQgIT0gLTEpIHsKPiA+IC0JCXN0
-cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqID0gb2Jqc1tjb250ZW5kZWRdOwo+ID4gLQo+ID4gLQkJ
-cmV0ID0gd3dfbXV0ZXhfbG9ja19zbG93X2ludGVycnVwdGlibGUoJm9iai0+cmVzdi0+bG9jaywK
-PiA+IC0JCQkJCQkgICAgICAgYWNxdWlyZV9jdHgpOwo+ID4gLQkJaWYgKHJldCkgewo+ID4gLQkJ
-CXd3X2FjcXVpcmVfZG9uZShhY3F1aXJlX2N0eCk7Cj4gPiAtCQkJcmV0dXJuIHJldDsKPiA+IC0J
-CX0KPiA+IC0JfQo+ID4gLQo+ID4gLQlmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkrKykgewo+ID4g
-LQkJaWYgKGkgPT0gY29udGVuZGVkKQo+ID4gLQkJCWNvbnRpbnVlOwo+ID4gLQo+ID4gLQkJcmV0
-ID0gd3dfbXV0ZXhfbG9ja19pbnRlcnJ1cHRpYmxlKCZvYmpzW2ldLT5yZXN2LT5sb2NrLAo+ID4g
-LQkJCQkJCSAgYWNxdWlyZV9jdHgpOwo+ID4gLQkJaWYgKHJldCkgewo+ID4gLQkJCWludCBqOwo+
-ID4gLQo+ID4gLQkJCWZvciAoaiA9IDA7IGogPCBpOyBqKyspCj4gPiAtCQkJCXd3X211dGV4X3Vu
-bG9jaygmb2Jqc1tqXS0+cmVzdi0+bG9jayk7Cj4gPiAtCj4gPiAtCQkJaWYgKGNvbnRlbmRlZCAh
-PSAtMSAmJiBjb250ZW5kZWQgPj0gaSkKPiA+IC0JCQkJd3dfbXV0ZXhfdW5sb2NrKCZvYmpzW2Nv
-bnRlbmRlZF0tPnJlc3YtPmxvY2spOwo+ID4gLQo+ID4gLQkJCWlmIChyZXQgPT0gLUVERUFETEsp
-IHsKPiA+IC0JCQkJY29udGVuZGVkID0gaTsKPiA+IC0JCQkJZ290byByZXRyeTsKPiA+IC0JCQl9
-Cj4gPiAtCj4gPiAtCQkJd3dfYWNxdWlyZV9kb25lKGFjcXVpcmVfY3R4KTsKPiA+IC0JCQlyZXR1
-cm4gcmV0Owo+ID4gLQkJfQo+ID4gLQl9Cj4gCj4gSSBub3RlIGFsbCB0aGUgc2l0ZXMgeW91IHVz
-ZSB0aGlzIG9uIGFyZSBzaW1wbGUgaWR4IGl0ZXJhdG9yczsgc28gaG93Cj4gYWJvdXQgc29tZXRo
-aW5nIGxpa2Ugc286Cj4gCj4gaW50IHd3X211dGV4X3VubG9ja19hbGwoaW50IGNvdW50LCB2b2lk
-ICpkYXRhLCBzdHJ1Y3Qgd3dfbXV0ZXggKigqZnVuYykoaW50LCB2b2lkICopKQo+IHsKPiAJaW50
-IGk7Cj4gCj4gCWZvciAoaSA9IDA7IGkgPCBjb3VudDsgaSsrKSB7Cj4gCQlsb2NrID0gZnVuYyhp
-LCBkYXRhKTsKPiAJCXd3X211dGV4X3VubG9jayhsb2NrKTsKPiAJfQo+IH0KPiAKPiBpbnQgd3df
-bXV0ZXhfbG9ja19hbGwoaW50IGNvdW50LCBzdHJ1Y3Qgd3dfYWNxdWlyZV9jb250ZXh0ICphY3F1
-aXJlX2N0eCwgYm9vbCBpbnRyLAo+IAkJICAgICAgdm9pZCAqZGF0YSwgc3RydWN0IHd3X211dGV4
-ICooKmZ1bmMpKGludCwgdm9pZCAqKSkKPiB7Cj4gCWludCBpLCByZXQsIGNvbnRlbmRlZCA9IC0x
-Owo+IAlzdHJ1Y3Qgd3dfbXV0ZXggKmxvY2s7Cj4gCj4gcmV0cnk6Cj4gCWlmIChjb250ZW5kZWQg
-IT0gLTEpIHsKPiAJCWxvY2sgPSBmdW5jKGNvbnRlbmRlZCwgZGF0YSk7Cj4gCQlpZiAoaW50cikK
-PiAJCQlyZXQgPSB3d19tdXRleF9sb2NrX3Nsb3dfaW50ZXJydXB0aWJsZShsb2NrLCBhY3F1aXJl
-X2N0eCk7Cj4gCQllbHNlCj4gCQkJcmV0ID0gd3dfbXV0ZXhfbG9ja19zbG93KGxvY2ssIGFjcXVp
-cmVfY3R4KSwgMDsKPiAKPiAJCWlmIChyZXQpIHsKPiAJCQl3d19hY3F1aXJlX2RvbmUoYWNxdWly
-ZV9jdHgpOwo+IAkJCXJldHVybiByZXQ7Cj4gCQl9Cj4gCX0KPiAKPiAJZm9yIChpID0gMDsgaSA8
-IGNvdW50OyBpKyspIHsKPiAJCWlmIChpID09IGNvbnRlbmRlZCkKPiAJCQljb250aW51ZTsKPiAK
-PiAJCWxvY2sgPSBmdW5jKGksIGRhdGEpOwo+IAkJaWYgKGludHIpCj4gCQkJcmV0ID0gd3dfbXV0
-ZXhfbG9ja19pbnRlcnJ1cHRpYmxlKGxvY2ssIGFjcXVpcmVfY3R4KTsKPiAJCWVsc2UKPiAJCQly
-ZXQgPSB3d19tdXRleF9sb2NrKGxvY2ssIGFjcXVpcmVfY3R4KSwgMDsKPiAKPiAJCWlmIChyZXQp
-IHsKPiAJCQl3d19tdXRleF91bmxvY2tfYWxsKGksIGRhdGEsIGZ1bmMpOwo+IAkJCWlmIChjb250
-ZW5kZWQgPiBpKSB7Cj4gCQkJCWxvY2sgPSBmdW5jKGNvbnRlbmRlZCwgZGF0YSk7Cj4gCQkJCXd3
-X211dGV4X3VubG9jayhsb2NrKTsKPiAJCQl9Cj4gCj4gCQkJaWYgKHJldCA9PSAtRURFQURMSykg
-ewo+IAkJCQljb250ZW5kZWQgPSBpOwo+IAkJCQlnb3RvIHJldHJ5Owo+IAkJCX0KPiAKPiAJCQl3
-d19hY3F1aXJlX2RvbmUoYWNxdWlyZV9jdHgpOwo+IAkJCXJldHVybiByZXQ7Cj4gCQl9Cj4gCX0K
-PiAKPiAJd3dfYWNxdWlyZV9kb25lKGFjcXVpcmVfY3R4KTsKPiAJcmV0dXJuIDA7Cj4gfQo+IAo+
-ID4gKwl3d19tdXRleF9sb2NrX2Zvcl9lYWNoKGZvciAoaSA9IDA7IGkgPCBjb3VudDsgaSsrKSwK
-PiA+ICsJCQkgICAgICAgJm9ianNbaV0tPnJlc3YtPmxvY2ssIGNvbnRlbmRlZCwgcmV0LCB0cnVl
-LAo+ID4gKwkJCSAgICAgICBhY3F1aXJlX2N0eCkKPiA+ICsJCWlmIChyZXQpCj4gPiArCQkJZ290
-byBlcnJvcjsKPiAKPiB3aGljaCB0aGVuIGJlY29tZXM6Cj4gCj4gc3RydWN0IHd3X211dGV4ICpn
-ZW1fd3dfbXV0ZXhfZnVuYyhpbnQgaSwgdm9pZCAqZGF0YSkKPiB7Cj4gCXN0cnVjdCBkcm1fZ2Vt
-X29iamVjdCAqKm9ianMgPSBkYXRhOwo+IAlyZXR1cm4gJm9ianNbaV0tPnJlc3YtPmxvY2s7Cj4g
-fQo+IAo+IAlyZXQgPSB3d19tdXRleF9sb2NrX2FsbChjb3VudCwgYWNxdWlyZV9jdHgsIHRydWUs
-IG9ianMsIGdlbV93d19tdXRleF9mdW5jKTsKPiAKPiA+ICAJd3dfYWNxdWlyZV9kb25lKGFjcXVp
-cmVfY3R4KTsKPiA+ICAKPiA+ICAJcmV0dXJuIDA7Cj4gPiArCj4gPiArZXJyb3I6Cj4gPiArCXd3
-X211dGV4X3VubG9ja19mb3JfZWFjaChmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkrKyksCj4gPiAr
-CQkJCSAmb2Jqc1tpXS0+cmVzdi0+bG9jaywgY29udGVuZGVkKTsKPiA+ICsJd3dfYWNxdWlyZV9k
-b25lKGFjcXVpcmVfY3R4KTsKPiA+ICsJcmV0dXJuIHJldDsKPiA+ICB9Cj4gPiAgRVhQT1JUX1NZ
-TUJPTChkcm1fZ2VtX2xvY2tfcmVzZXJ2YXRpb25zKTsKCkFub3RoZXIgaWRlYSwgZW50aXJlbHkg
-dW50ZXN0ZWQgKEkgZ3Vlc3MgbWFraW5nIHN1cmUgdGhhdCB3ZSBjYW4gdXNlIHRoZQpzYW1lIGl0
-ZXJhdG9yIGZvciBib3RoIGxvY2tpbmcgYW5kIHVubG9ja2luZyBpbiB0aGUgY29udGVuZGVkIGNh
-c2Ugd2lsbCBiZQpmdW4pLCBidXQgbWF5YmUgc29tZXRoaW5nIGxpa2UgdGhpczoKCglXV19NVVRF
-WF9MT0NLX0JFR0lOKCk7Cglkcml2ZXJfZm9yX2VhY2hfbG9vcCAoaXRlciwgcG9zKSB7CgkJV1df
-TVVURVhfTE9DSygmcG9zLT53d19tdXRleCk7Cgl9CglXV19NVVRFWF9MT0NLX0VORCgpOwoKVGhh
-dCB3YXkgd2UgY2FuIHJldXNlIGFueSBhbmQgYWxsIGl0ZXJhdG9ycyB0aGF0J2xsIGV2ZXIgc2hv
-dyB1cCBhdCBsZWFzdC4KSXQncyBzdGlsbCBob3JyaWJsZSBiZWNhdXNlIHRoZSBtYWNyb3MgbmVl
-ZCB0byBqdW1wIGFyb3VuZCBiZXR3ZWVuIGFsbCBvZgp0aGVtLiBXb3VsZCBhbHNvIG1ha2UgdGhp
-cyB1c2VmdWwgZm9yIG1vcmUgY2FzZXMsIHdoZXJlIG1heWJlIHlvdSBuZWVkIHRvCnRyeWxvY2sg
-c29tZSBscnUgbG9jayB0byBnZXQgYXQgeW91ciBuZXh0IHd3X211dGV4LCBvciBkbyBzb21lCmty
-ZWZfZ2V0X3VubGVzc196ZXJvLiBCdWZmZXIgZXZpY3Rpb24gbG9vcHMgdGVuZCB0byBhY3F1aXJl
-IHRoZXNlLCBhbmQKdGhhdCB3b3VsZCBhbGwgZ2V0IHVnbHkgcmVhbCBmYXN0IGlmIHdlJ2QgbmVl
-ZCB0byBzdHVmZiBpdCBpbnRvIHNvbWUKaXRlcmF0b3IgYXJndW1lbnQuCgpUaGlzIGlzIGtpbmRh
-IHdoYXQgd2Ugd2VudCB3aXRoIGZvciBtb2Rlc2V0IGxvY2tzIHdpdGgKRFJNX01PREVTRVRfTE9D
-S19BTExfQkVHSU4vRU5ELCB5b3UgY2FuIGdyYWIgbW9yZSBsb2NrcyBpbiBiZXR3ZWVuIHRoZQpw
-YWlyIGF0IGxlYXN0LiBCdXQgaXQncyBhIGxvdCBtb3JlIGxpbWl0ZWQgdXNlLWNhc2VzLCBtYXli
-ZSB0b28gZnJhZ2lsZSBhbgppZGVhIGZvciB3d19tdXRleCBpbiBmdWxsIGdlbmVyYWxpdHkuCgpO
-b3QgZ29pbmcgdG8gdHlwZSB0aGlzIG91dCBiZWNhdXNlIHRvbyBtdWNoIHcvZSBtb2RlIGhlcmUg
-YWxyZWFkeSwgYnV0IEkKY2FuIGdpdmUgaXQgYSBzdGFiIG5leHQgd2Vlay4KLURhbmllbAotLSAK
-RGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDov
-L2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============0372621359==
+Content-Type: multipart/alternative; boundary="15605262052.1eC0C4b5.10924"
+Content-Transfer-Encoding: 7bit
+
+
+--15605262052.1eC0C4b5.10924
+Date: Fri, 14 Jun 2019 15:30:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #32 from Richard Thier <u9vata@gmail.com> ---
+If my card has no "hiz_ram" what that means? Can anyone explain if I am rig=
+ht?
+
+This is what I suspect so far:
+
+- Zcompression I get still, because the card has zmask_ram
+- No hierarchical Z (hiz) at all because there is no hiz_ram
+
+I do not see from the docs if there are specialties if enabing zmask_ram on=
+ly,
+but not enabling hiz.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15605262052.1eC0C4b5.10924
+Date: Fri, 14 Jun 2019 15:30:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c32">Comme=
+nt # 32</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>If my card has no &quot;hiz_ram&quot; what that means? Can any=
+one explain if I am right?
+
+This is what I suspect so far:
+
+- Zcompression I get still, because the card has zmask_ram
+- No hierarchical Z (hiz) at all because there is no hiz_ram
+
+I do not see from the docs if there are specialties if enabing zmask_ram on=
+ly,
+but not enabling hiz.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15605262052.1eC0C4b5.10924--
+
+--===============0372621359==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0372621359==--
