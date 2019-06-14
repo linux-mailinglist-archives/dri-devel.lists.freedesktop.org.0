@@ -2,33 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D7E4603D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 16:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54966474F2
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 16:02:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B27AE89915;
-	Fri, 14 Jun 2019 14:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30C8B891C2;
+	Sun, 16 Jun 2019 14:01:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57A47898F5
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:12:15 +0000 (UTC)
-X-Originating-IP: 90.88.23.150
-Received: from localhost (aaubervilliers-681-1-81-150.w90-88.abo.wanadoo.fr
- [90.88.23.150]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 0E6D6E0012;
- Fri, 14 Jun 2019 14:12:11 +0000 (UTC)
-Date: Fri, 14 Jun 2019 16:12:11 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH v4 02/12] drm/client: Restrict the plane_state scope
-Message-ID: <20190614141211.rl7ihqgzllcai634@flea>
-References: <cover.5fc7840dc8fb24744516c13acb8c8aa18e44c0d0.1560514379.git-series.maxime.ripard@bootlin.com>
- <4f6344cb770047cf5808791d849bbc0cbd330e54.1560514379.git-series.maxime.ripard@bootlin.com>
- <87wohouz90.fsf@intel.com>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Fri, 14 Jun 2019 14:22:04 UTC
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [207.82.80.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C9489954
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:22:04 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-171-6ZL5OlDfPHWG6RvRpXiEQg-1; Fri, 14 Jun 2019 15:15:45 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Fri, 14 Jun 2019 15:15:44 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
+ Fri, 14 Jun 2019 15:15:44 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Christoph Hellwig' <hch@lst.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ "Ian Abbott" <abbotti@mev.co.uk>, H Hartley Sweeten
+ <hsweeten@visionengravers.com>
+Subject: RE: [PATCH 16/16] dma-mapping: use exact allocation in
+ dma_alloc_contiguous
+Thread-Topic: [PATCH 16/16] dma-mapping: use exact allocation in
+ dma_alloc_contiguous
+Thread-Index: AQHVIrfpTFjppS25RkWUhwqPPyqZ4qabLzdw
+Date: Fri, 14 Jun 2019 14:15:44 +0000
+Message-ID: <a90cf7ec5f1c4166b53c40e06d4d832a@AcuMS.aculab.com>
+References: <20190614134726.3827-1-hch@lst.de>
+ <20190614134726.3827-17-hch@lst.de>
+In-Reply-To: <20190614134726.3827-17-hch@lst.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-In-Reply-To: <87wohouz90.fsf@intel.com>
-User-Agent: NeoMutt/20180716
+X-MC-Unique: 6ZL5OlDfPHWG6RvRpXiEQg-1
+X-Mimecast-Spam-Score: 0
+X-Mailman-Approved-At: Sun, 16 Jun 2019 14:01:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,126 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Sean Paul <seanpaul@chromium.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1651225889=="
+Cc: "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ Intel Linux Wireless <linuxwifi@intel.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+ "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1651225889==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="aamkoqa56liih3yy"
-Content-Disposition: inline
-
-
---aamkoqa56liih3yy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Jani,
-
-On Fri, Jun 14, 2019 at 03:28:59PM +0300, Jani Nikula wrote:
-> On Fri, 14 Jun 2019, Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > The drm_client_modeset_commit_atomic function uses two times the
-> > plane_state variable in inner blocks of code, but the variable has a scope
-> > global to this function.
-> >
-> > This will lead to inadvertent devs to reuse the variable in the second
-> > block with the value left by the first, without any warning from the
-> > compiler since value would have been initialized.
-> >
-> > Fix this by moving the variable declaration to the proper scope.
->
-> This is an improvement, but I'd consider renaming also to not shadow
-> variables.
->
-> > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
-> > ---
-> >  drivers/gpu/drm/drm_client_modeset.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> > index 006bf7390e7d..8264c3a732b0 100644
-> > --- a/drivers/gpu/drm/drm_client_modeset.c
-> > +++ b/drivers/gpu/drm/drm_client_modeset.c
-> > @@ -861,7 +861,6 @@ EXPORT_SYMBOL(drm_client_panel_rotation);
-> >  static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active)
-> >  {
-> >  	struct drm_device *dev = client->dev;
-> > -	struct drm_plane_state *plane_state;
-> >  	struct drm_plane *plane;
-> >  	struct drm_atomic_state *state;
-> >  	struct drm_modeset_acquire_ctx ctx;
-> > @@ -879,6 +878,8 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
-> >  	state->acquire_ctx = &ctx;
-> >  retry:
-> >  	drm_for_each_plane(plane, dev) {
-> > +		struct drm_plane_state *plane_state;
-> > +
-> >  		plane_state = drm_atomic_get_plane_state(state, plane);
-> >  		if (IS_ERR(plane_state)) {
-> >  			ret = PTR_ERR(plane_state);
-> > @@ -901,6 +902,8 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
-> >  		unsigned int rotation;
-> >
-> >  		if (drm_client_panel_rotation(mode_set, &rotation)) {
-> > +			struct drm_plane_state *plane_state;
-> > +
-
-That's not super clear from that patch, but this variable will not
-shadow the first one.
-
-The code layout is pretty much this one:
-
-loop () {
-  struct drm_plane_state *plane_state;
-
-  [...]
-}
-
-loop () {
-  loop () {
-    struct drm_plane_state *plane_state;
-
-    [...]
-  }
-}
-
-so the shadowing doesn't exist
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---aamkoqa56liih3yy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQOrOwAKCRDj7w1vZxhR
-xW5mAP9nvSTCf8R9NI55hn+KNljdsPykl3kNnrUaeBJVZsFCNAEAh28Ek8xCtB8e
-7jJcsFN+S2aAIDQUEeSc7Ip8zgJZ0wY=
-=34/H
------END PGP SIGNATURE-----
-
---aamkoqa56liih3yy--
-
---===============1651225889==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1651225889==--
+RnJvbTogQ2hyaXN0b3BoIEhlbGx3aWcKPiBTZW50OiAxNCBKdW5lIDIwMTkgMTQ6NDcKPiAKPiBN
+YW55IGFyY2hpdGVjdHVyZXMgKGUuZy4gYXJtLCBtNjggYW5kIHNoKSBoYXZlIGFsd2F5cyB1c2Vk
+IGV4YWN0Cj4gYWxsb2NhdGlvbiBpbiB0aGVpciBkbWEgY29oZXJlbnQgYWxsb2NhdG9yLCB3aGlj
+aCBhdm9pZHMgYSBsb3Qgb2YKPiBtZW1vcnkgd2FzdGUgZXNwZWNpYWxseSBmb3IgbGFyZ2VyIGFs
+bG9jYXRpb25zLiAgTGlmdCB0aGlzIGJlaGF2aW9yCj4gaW50byB0aGUgZ2VuZXJpYyBhbGxvY2F0
+b3Igc28gdGhhdCBkbWEtZGlyZWN0IGFuZCB0aGUgZ2VuZXJpYyBJT01NVQo+IGNvZGUgYmVuZWZp
+dCBmcm9tIHRoaXMgYmVoYXZpb3IgYXMgd2VsbC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rv
+cGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KPiAtLS0KPiAgaW5jbHVkZS9saW51eC9kbWEtY29udGln
+dW91cy5oIHwgIDggKysrKystLS0KPiAga2VybmVsL2RtYS9jb250aWd1b3VzLmMgICAgICAgIHwg
+MTcgKysrKysrKysrKystLS0tLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCsp
+LCA5IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1jb250
+aWd1b3VzLmggYi9pbmNsdWRlL2xpbnV4L2RtYS1jb250aWd1b3VzLmgKPiBpbmRleCBjMDVkNGU2
+NjE0ODkuLjJlNTQyZTMxNGFjZiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RtYS1jb250
+aWd1b3VzLmgKPiArKysgYi9pbmNsdWRlL2xpbnV4L2RtYS1jb250aWd1b3VzLmgKPiBAQCAtMTYx
+LDE1ICsxNjEsMTcgQEAgc3RhdGljIGlubGluZSBzdHJ1Y3QgcGFnZSAqZG1hX2FsbG9jX2NvbnRp
+Z3VvdXMoc3RydWN0IGRldmljZSAqZGV2LCBzaXplX3Qgc2l6ZSwKPiAgCQlnZnBfdCBnZnApCj4g
+IHsKPiAgCWludCBub2RlID0gZGV2ID8gZGV2X3RvX25vZGUoZGV2KSA6IE5VTUFfTk9fTk9ERTsK
+PiAtCXNpemVfdCBhbGlnbiA9IGdldF9vcmRlcihQQUdFX0FMSUdOKHNpemUpKTsKPiArCXZvaWQg
+KmNwdV9hZGRyID0gYWxsb2NfcGFnZXNfZXhhY3Rfbm9kZShub2RlLCBzaXplLCBnZnApOwo+IAo+
+IC0JcmV0dXJuIGFsbG9jX3BhZ2VzX25vZGUobm9kZSwgZ2ZwLCBhbGlnbik7Cj4gKwlpZiAoIWNw
+dV9hZGRyKQo+ICsJCXJldHVybiBOVUxMOwo+ICsJcmV0dXJuIHZpcnRfdG9fcGFnZShwKTsKPiAg
+fQoKRG9lcyB0aGlzIHN0aWxsIGd1YXJhbnRlZSB0aGF0IHJlcXVlc3RzIGZvciAxNmsgd2lsbCBu
+b3QgY3Jvc3MgYSAxNmsgYm91bmRhcnk/Ckl0IGxvb2tzIGxpa2UgeW91IGFyZSBsb3NpbmcgdGhl
+IGFsaWdubWVudCBwYXJhbWV0ZXIuCgpUaGVyZSBtYXkgYmUgZHJpdmVycyBhbmQgaGFyZHdhcmUg
+dGhhdCBhbHNvIHJlcXVpcmUgMTJrIGFsbG9jYXRlcwp0byBub3QgY3Jvc3MgMTZrIGJvdW5kYXJp
+ZXMgKGV0YykuCgoJRGF2aWQKCi0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5
+IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLClJlZ2lzdHJhdGlv
+biBObzogMTM5NzM4NiAoV2FsZXMpCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
