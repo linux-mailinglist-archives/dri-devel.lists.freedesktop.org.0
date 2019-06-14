@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB10A4539D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 06:36:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B516453A1
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 06:41:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0103892FB;
-	Fri, 14 Jun 2019 04:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C33028924F;
+	Fri, 14 Jun 2019 04:41:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8EF3C892FB
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 04:36:45 +0000 (UTC)
-X-UUID: 35caa85aa7e1427882304655521008d3-20190614
-X-UUID: 35caa85aa7e1427882304655521008d3-20190614
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 164960653; Fri, 14 Jun 2019 12:36:41 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 14 Jun 2019 12:36:40 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 14 Jun 2019 12:36:39 +0800
-Message-ID: <1560486999.16718.15.camel@mtksdaap41>
-Subject: Re: [PATCH v3, 16/27] drm/mediatek: add component DITHER
-From: CK Hu <ck.hu@mediatek.com>
-To: <yongqiang.niu@mediatek.com>
-Date: Fri, 14 Jun 2019 12:36:39 +0800
-In-Reply-To: <1559734986-7379-17-git-send-email-yongqiang.niu@mediatek.com>
-References: <1559734986-7379-1-git-send-email-yongqiang.niu@mediatek.com>
- <1559734986-7379-17-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFC1B8924F;
+ Fri, 14 Jun 2019 04:41:38 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 45Q7H15S2fz9s4Y;
+ Fri, 14 Jun 2019 14:41:33 +1000 (AEST)
+Date: Fri, 14 Jun 2019 14:41:33 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Dave Airlie <airlied@linux.ie>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20190614144133.5dbea6bf@canb.auug.org.au>
 MIME-Version: 1.0
-X-MTK: N
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1560487295;
+ bh=/d+ryYV/vaMZn5qaMRIajjQqgkaOkU1+4KD1BOAynSs=;
+ h=Date:From:To:Cc:Subject:From;
+ b=ebM/DX4zLGPWz7/mr0RvODiffTm/dcL/MPUPUpk+LC6wNRIk3kjJGJoglIScrpqCy
+ r/M+e4hgy/ZIawLiYi53HZ/Xur/igR5L8pyMLV6InoUHvp00VivhbnvCImLZpANVXQ
+ 9zhff4W4bqkCVjZwGcEsZ7CQZVFQO8e7BLU41UIo8CzYTmsoMHxjugddxnpjrbMvoD
+ twVFzcCycM2XKD7PKoSKN6ibJe90uACbnVbXwBw8o/cIWqhX0p7Z6JubFO7Bhm3zgU
+ 1tx0JNTyFDC02/I1l3oRKGgwz/N4sqp+s6zp/IG8SU+u6CrBDtOVzGrTlALeynp3IU
+ pScU0mZe71oWw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,81 +48,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sean Paul <seanpaul@chromium.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Content-Type: multipart/mixed; boundary="===============0342211103=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCk9uIFdlZCwgMjAxOS0wNi0wNSBhdCAxOTo0MiArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gVGhpcyBwYXRjaCBhZGQgY29tcG9uZW50IERJVEhF
-UgoKUmV2aWV3ZWQtYnk6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+Cgo+IAo+IFNpZ25lZC1v
-ZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPgo+IC0tLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jIHwgMzIgKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysKPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-cm1fZGRwX2NvbXAuaCB8ICAyICsrCj4gIDIgZmlsZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygr
-KQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBf
-Y29tcC5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuYwo+IGlu
-ZGV4IDVhMGVjMGYuLjk4OTAyNGQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcm1fZGRwX2NvbXAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZHJtX2RkcF9jb21wLmMKPiBAQCAtNDcsNiArNDcsMTIgQEAKPiAgI2RlZmluZSBDQ09SUl9S
-RUxBWV9NT0RFCQkJQklUKDApCj4gICNkZWZpbmUgRElTUF9DQ09SUl9TSVpFCQkJCTB4MDAzMAo+
-ICAKPiArI2RlZmluZSBESVNQX0RJVEhFUl9FTgkJCQkweDAwMDAKPiArI2RlZmluZSBESVRIRVJf
-RU4JCQkJQklUKDApCj4gKyNkZWZpbmUgRElTUF9ESVRIRVJfQ0ZHCQkJCTB4MDAyMAo+ICsjZGVm
-aW5lIERJVEhFUl9SRUxBWV9NT0RFCQkJQklUKDApCj4gKyNkZWZpbmUgRElTUF9ESVRIRVJfU0la
-RQkJCTB4MDAzMAo+ICsKPiAgI2RlZmluZSBESVNQX0dBTU1BX0VOCQkJCTB4MDAwMAo+ICAjZGVm
-aW5lIERJU1BfR0FNTUFfQ0ZHCQkJCTB4MDAyMAo+ICAjZGVmaW5lIERJU1BfR0FNTUFfU0laRQkJ
-CQkweDAwMzAKPiBAQCAtMTU1LDYgKzE2MSwyNCBAQCBzdGF0aWMgdm9pZCBtdGtfY2NvcnJfc3Rv
-cChzdHJ1Y3QgbXRrX2RkcF9jb21wICpjb21wKQo+ICAJd3JpdGVsX3JlbGF4ZWQoMHgwLCBjb21w
-LT5yZWdzICsgRElTUF9DQ09SUl9FTik7Cj4gIH0KPiAgCj4gK3N0YXRpYyB2b2lkIG10a19kaXRo
-ZXJfY29uZmlnKHN0cnVjdCBtdGtfZGRwX2NvbXAgKmNvbXAsIHVuc2lnbmVkIGludCB3LAo+ICsJ
-CQkgICAgICB1bnNpZ25lZCBpbnQgaCwgdW5zaWduZWQgaW50IHZyZWZyZXNoLAo+ICsJCQkgICAg
-ICB1bnNpZ25lZCBpbnQgYnBjKQo+ICt7Cj4gKwl3cml0ZWwoaCA8PCAxNiB8IHcsIGNvbXAtPnJl
-Z3MgKyBESVNQX0RJVEhFUl9TSVpFKTsKPiArCXdyaXRlbChESVRIRVJfUkVMQVlfTU9ERSwgY29t
-cC0+cmVncyArIERJU1BfRElUSEVSX0NGRyk7Cj4gK30KPiArCj4gK3N0YXRpYyB2b2lkIG10a19k
-aXRoZXJfc3RhcnQoc3RydWN0IG10a19kZHBfY29tcCAqY29tcCkKPiArewo+ICsJd3JpdGVsKERJ
-VEhFUl9FTiwgY29tcC0+cmVncyArIERJU1BfRElUSEVSX0VOKTsKPiArfQo+ICsKPiArc3RhdGlj
-IHZvaWQgbXRrX2RpdGhlcl9zdG9wKHN0cnVjdCBtdGtfZGRwX2NvbXAgKmNvbXApCj4gK3sKPiAr
-CXdyaXRlbF9yZWxheGVkKDB4MCwgY29tcC0+cmVncyArIERJU1BfRElUSEVSX0VOKTsKPiArfQo+
-ICsKPiAgc3RhdGljIHZvaWQgbXRrX2dhbW1hX2NvbmZpZyhzdHJ1Y3QgbXRrX2RkcF9jb21wICpj
-b21wLCB1bnNpZ25lZCBpbnQgdywKPiAgCQkJICAgICB1bnNpZ25lZCBpbnQgaCwgdW5zaWduZWQg
-aW50IHZyZWZyZXNoLAo+ICAJCQkgICAgIHVuc2lnbmVkIGludCBicGMpCj4gQEAgLTIwOSw2ICsy
-MzMsMTIgQEAgc3RhdGljIHZvaWQgbXRrX2dhbW1hX3NldChzdHJ1Y3QgbXRrX2RkcF9jb21wICpj
-b21wLAo+ICAJLnN0b3AgPSBtdGtfY2NvcnJfc3RvcCwKPiAgfTsKPiAgCj4gK3N0YXRpYyBjb25z
-dCBzdHJ1Y3QgbXRrX2RkcF9jb21wX2Z1bmNzIGRkcF9kaXRoZXIgPSB7Cj4gKwkuY29uZmlnID0g
-bXRrX2RpdGhlcl9jb25maWcsCj4gKwkuc3RhcnQgPSBtdGtfZGl0aGVyX3N0YXJ0LAo+ICsJLnN0
-b3AgPSBtdGtfZGl0aGVyX3N0b3AsCj4gK307Cj4gKwo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IG10
-a19kZHBfY29tcF9mdW5jcyBkZHBfZ2FtbWEgPSB7Cj4gIAkuZ2FtbWFfc2V0ID0gbXRrX2dhbW1h
-X3NldCwKPiAgCS5jb25maWcgPSBtdGtfZ2FtbWFfY29uZmlnLAo+IEBAIC0yMzQsNiArMjY0LDcg
-QEAgc3RhdGljIHZvaWQgbXRrX2dhbW1hX3NldChzdHJ1Y3QgbXRrX2RkcF9jb21wICpjb21wLAo+
-ICAJW01US19ESVNQX0NDT1JSXSA9ICJjY29yciIsCj4gIAlbTVRLX0RJU1BfQUFMXSA9ICJhYWwi
-LAo+ICAJW01US19ESVNQX0dBTU1BXSA9ICJnYW1tYSIsCj4gKwlbTVRLX0RJU1BfRElUSEVSXSA9
-ICJkaXRoZXIiLAo+ICAJW01US19ESVNQX1VGT0VdID0gInVmb2UiLAo+ICAJW01US19EU0ldID0g
-ImRzaSIsCj4gIAlbTVRLX0RQSV0gPSAiZHBpIiwKPiBAQCAtMjU2LDYgKzI4Nyw3IEBAIHN0cnVj
-dCBtdGtfZGRwX2NvbXBfbWF0Y2ggewo+ICAJW0REUF9DT01QT05FTlRfQ0NPUlJdCT0geyBNVEtf
-RElTUF9DQ09SUiwJMCwgJmRkcF9jY29yciB9LAo+ICAJW0REUF9DT01QT05FTlRfQ09MT1IwXQk9
-IHsgTVRLX0RJU1BfQ09MT1IsCTAsIE5VTEwgfSwKPiAgCVtERFBfQ09NUE9ORU5UX0NPTE9SMV0J
-PSB7IE1US19ESVNQX0NPTE9SLAkxLCBOVUxMIH0sCj4gKwlbRERQX0NPTVBPTkVOVF9ESVRIRVJd
-CT0geyBNVEtfRElTUF9ESVRIRVIsCTAsICZkZHBfZGl0aGVyIH0sCj4gIAlbRERQX0NPTVBPTkVO
-VF9EUEkwXQk9IHsgTVRLX0RQSSwJCTAsIE5VTEwgfSwKPiAgCVtERFBfQ09NUE9ORU5UX0RQSTFd
-CT0geyBNVEtfRFBJLAkJMSwgTlVMTCB9LAo+ICAJW0REUF9DT01QT05FTlRfRFNJMF0JPSB7IE1U
-S19EU0ksCQkwLCBOVUxMIH0sCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRl
-ay9tdGtfZHJtX2RkcF9jb21wLmggYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9k
-ZHBfY29tcC5oCj4gaW5kZXggZDdlZjQ4MC4uMTU4YzFlNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5oCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuaAo+IEBAIC0zMCw2ICszMCw3IEBAIGVudW0g
-bXRrX2RkcF9jb21wX3R5cGUgewo+ICAJTVRLX0RJU1BfV0RNQSwKPiAgCU1US19ESVNQX0NPTE9S
-LAo+ICAJTVRLX0RJU1BfQ0NPUlIsCj4gKwlNVEtfRElTUF9ESVRIRVIsCj4gIAlNVEtfRElTUF9B
-QUwsCj4gIAlNVEtfRElTUF9HQU1NQSwKPiAgCU1US19ESVNQX1VGT0UsCj4gQEAgLTQ5LDYgKzUw
-LDcgQEAgZW51bSBtdGtfZGRwX2NvbXBfaWQgewo+ICAJRERQX0NPTVBPTkVOVF9DQ09SUiwKPiAg
-CUREUF9DT01QT05FTlRfQ09MT1IwLAo+ICAJRERQX0NPTVBPTkVOVF9DT0xPUjEsCj4gKwlERFBf
-Q09NUE9ORU5UX0RJVEhFUiwKPiAgCUREUF9DT01QT05FTlRfRFBJMCwKPiAgCUREUF9DT01QT05F
-TlRfRFBJMSwKPiAgCUREUF9DT01QT05FTlRfRFNJMCwKCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============0342211103==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_//+.8RdugmHQfla=VfC_BGU/"; protocol="application/pgp-signature"
+
+--Sig_//+.8RdugmHQfla=VfC_BGU/
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
+
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4031:18: error:=
+ initialization of 'int (*)(struct drm_connector *, struct drm_atomic_state=
+ *)' from incompatible pointer type 'int (*)(struct drm_connector *, struct=
+ drm_connector_state *)' [-Werror=3Dincompatible-pointer-types]
+  .atomic_check =3D amdgpu_dm_connector_atomic_check,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4031:18: note: =
+(near initialization for 'amdgpu_dm_connector_helper_funcs.atomic_check')
+
+Caused by commit
+
+  6f3b62781bbd ("drm: Convert connector_helper_funcs->atomic_check to accep=
+t drm_atomic_state")
+
+interacting with commit
+
+  88694af9e4d1 ("drm/amd/display: Expose HDR output metadata for supported =
+connectors")
+
+from the drm tree.
+
+I added the following merge fix patch:
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Fri, 14 Jun 2019 14:27:12 +1000
+Subject: [PATCH] fixup for "drm: Convert connector_helper_funcs->atomic_che=
+ck
+ to accept drm_atomic_state"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gp=
+u/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 413bf22e9585..b3a083c9a11c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -3976,9 +3976,10 @@ is_hdr_metadata_different(const struct drm_connector=
+_state *old_state,
+=20
+ static int
+ amdgpu_dm_connector_atomic_check(struct drm_connector *conn,
+-				 struct drm_connector_state *new_con_state)
++				 struct drm_atomic_state *state)
+ {
+-	struct drm_atomic_state *state =3D new_con_state->state;
++	struct drm_connector_state *new_con_state =3D
++		drm_atomic_get_new_connector_state(state, conn);
+ 	struct drm_connector_state *old_con_state =3D
+ 		drm_atomic_get_old_connector_state(state, conn);
+ 	struct drm_crtc *crtc =3D new_con_state->crtc;
+--=20
+2.20.1
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_//+.8RdugmHQfla=VfC_BGU/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0DJX0ACgkQAVBC80lX
+0GxcLAgAljvrK6Ifl9wqiaYaz9OxA/w0ZH1f0ia1PUmQSyjwkPD5cYLtWrpvIjpy
+b9CuAwupRZuY8mjiygi/S0PMdUUEarl3/l2C2daY5BM5US23Vtt5g9g1LEmzbmru
+6L0Ya+tmjHgq7K8hQBNnRShoZhG5k1C+Mx02WFQ+EacdaRdo6lmMRclMihGbeOGs
+JmBE+Q8M0xN8XLuhqWF4sm69DXCKMmojWDiYmhfGyd9XbhYHENIVFiyWHGSRlc3R
+6zsyH+QENQIEo1/5c+UnAKRilOho8au0+aLfRxQh0Dg21Q5ytv4ii4DHu9n/R3VM
+KuEb7sBzmVu0AYkQnultJTy2cm6Nbg==
+=IVWq
+-----END PGP SIGNATURE-----
+
+--Sig_//+.8RdugmHQfla=VfC_BGU/--
+
+--===============0342211103==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0342211103==--
