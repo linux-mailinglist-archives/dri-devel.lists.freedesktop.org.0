@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E68346235
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A5E4623C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:11:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27BC989402;
-	Fri, 14 Jun 2019 15:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF13A892A5;
+	Fri, 14 Jun 2019 15:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C91B789402
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:10:51 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id m10so3979007edv.6
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:10:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=ICHPjKZYIh5LzjgbWLdqrfD0NMZPEjYXFMNvE+SToGI=;
- b=sSOpZGzyk6VM1AqCEphohG6KicNMFEseKIqEfIO4l6ftaqcx6Tz0aSrIwURwye1S54
- H8IExv19YHPKhfsWCHt86XOBd69rGq1flaNHNGJsLjrRkVIsJ/Xpvn/suIR/WgjJW5c2
- 15RgW+JYvCqrAjINlpdYpqqeKqVFKBcldHr6y8hVNGfo6O6PJN42mw1gBN9uNXWG4rlX
- V6frzg1eXsdqmT/wzQS2j1w1Muzq6vsHxYrP/hOSY8r+KtxnYfClkzuUtotiOnXrZRng
- 4TN52q0Z1EfNE0G4gNVpKp/RoZE6107tNsjy0q+tRutblVE/nDDVUpcCLX579Y5hifdC
- yzRA==
-X-Gm-Message-State: APjAAAXrpUmwBOcdTglfjjYamgfCcP4zD7olVHhUpdfkg3n/bX/iObVP
- PjELdbzOdRRtenO3XcpIGWSxpw==
-X-Google-Smtp-Source: APXvYqwiUoUIi5LfU0PStY9S4OfA2GyIR1AZoUE/LT4vJqMsIiuC8H8Q+bNv7nEaEsxZo6U9DL6vOQ==
-X-Received: by 2002:a17:906:6545:: with SMTP id
- u5mr84102776ejn.102.1560525050447; 
- Fri, 14 Jun 2019 08:10:50 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id hk1sm639832ejb.36.2019.06.14.08.10.49
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 08:10:49 -0700 (PDT)
-Date: Fri, 14 Jun 2019 17:10:47 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] drm: debugfs: make drm_debugfs_create_files() never
- fail
-Message-ID: <20190614151047.GB23020@phenom.ffwll.local>
-References: <20190614095110.3716-1-gregkh@linuxfoundation.org>
- <20190614095110.3716-2-gregkh@linuxfoundation.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CC1A6892A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:11:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C3A9472167; Fri, 14 Jun 2019 15:11:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Fri, 14 Jun 2019 15:11:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110897-502-0LmyXl4CD3@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190614095110.3716-2-gregkh@linuxfoundation.org>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ICHPjKZYIh5LzjgbWLdqrfD0NMZPEjYXFMNvE+SToGI=;
- b=Xp7Z94cPw+3nga1LcpKhLaWzVK0hsskFoS8lCDMpD2umllJcu1gKAo5eCVE8N88Bja
- Iw1uKGS0Gd4Xx1i7p25YYoHJoGKUdG2kbVgUeblDfdFoVpqq50fAogIpWfPpjZBTXbqr
- 7VdjV2eEO6Q8GD1ZsBdq1oZMdYCgGad9f1cj0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,61 +53,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0925737907=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMTE6NTE6MTBBTSArMDIwMCwgR3JlZyBLcm9haC1IYXJ0
-bWFuIHdyb3RlOgo+IEFzIHN0YXRlZCBiZWZvcmUsIHRoZXJlIGlzIG5vIG5lZWQgdG8gY2FyZSBp
-ZiBhIGRlYnVnZnMgZnVuY3Rpb24KPiBzdWNjZWVkcyBvciBub3QsIGFuZCBubyBjb2RlIGxvZ2lj
-IGluIHRoZSBrZXJuZWwgc2hvdWxkIGV2ZXIgY2hhbmdlCj4gYmFzZWQgb24gYSBkZWJ1Z2ZzIGZ1
-bmN0aW9uIHJldHVybiB2YWx1ZSwgc28gbWFrZQo+IGRybV9kZWJ1Z2ZzX2NyZWF0ZV9maWxlcygp
-IG5ldmVyIGZhaWwuICBJZiBpdCBlbmNvdW50ZXJzIGFuCj4gb2RkL3JhcmUvaW1wb3NzaWJsZSBl
-cnJvciAoaS5lLiBvdXQgb2YgbWVtb3J5LCBvciBhIGR1cGxpY2F0ZSBkZWJ1Z2ZzCj4gZmlsZW5h
-bWUgdG8gYmUgY3JlYXRlZCksIGp1c3Qga2VlcCBvbiBtb3ZpbmcgYXMgaWYgbm90aGluZyBpbXBy
-b3BlciBoYWQKPiBoYXBwZW5lZC4KPiAKPiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4u
-bGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KPiBDYzogTWF4aW1lIFJpcGFyZCA8bWF4aW1lLnJp
-cGFyZEBib290bGluLmNvbT4KPiBDYzogU2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+Cj4gQ2M6
-IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPgo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gU2ln
-bmVkLW9mZi1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9y
-Zz4KCkFwcGxpZWQgdGhpcyBvbmUgdG8gZHJtLW1pc2MtbmV4dCwgdGhhbmtzLgotRGFuaWVsCgo+
-IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyB8IDI2ICsrKysrKy0tLS0tLS0t
-LS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDIwIGRlbGV0
-aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZGVidWdmcy5jCj4gaW5kZXggNTE1NTY5MDAyYzg2Li4wMDll
-MWMwYWM3YjQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzLmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYwo+IEBAIC0xNzMsOSArMTczLDggQEAg
-aW50IGRybV9kZWJ1Z2ZzX2NyZWF0ZV9maWxlcyhjb25zdCBzdHJ1Y3QgZHJtX2luZm9fbGlzdCAq
-ZmlsZXMsIGludCBjb3VudCwKPiAgCQkJICAgICBzdHJ1Y3QgZGVudHJ5ICpyb290LCBzdHJ1Y3Qg
-ZHJtX21pbm9yICptaW5vcikKPiAgewo+ICAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IG1pbm9y
-LT5kZXY7Cj4gLQlzdHJ1Y3QgZGVudHJ5ICplbnQ7Cj4gIAlzdHJ1Y3QgZHJtX2luZm9fbm9kZSAq
-dG1wOwo+IC0JaW50IGksIHJldDsKPiArCWludCBpOwo+ICAKPiAgCWZvciAoaSA9IDA7IGkgPCBj
-b3VudDsgaSsrKSB7Cj4gIAkJdTMyIGZlYXR1cmVzID0gZmlsZXNbaV0uZHJpdmVyX2ZlYXR1cmVz
-Owo+IEBAIC0xODUsMjIgKzE4NCwxMyBAQCBpbnQgZHJtX2RlYnVnZnNfY3JlYXRlX2ZpbGVzKGNv
-bnN0IHN0cnVjdCBkcm1faW5mb19saXN0ICpmaWxlcywgaW50IGNvdW50LAo+ICAJCQljb250aW51
-ZTsKPiAgCj4gIAkJdG1wID0ga21hbGxvYyhzaXplb2Yoc3RydWN0IGRybV9pbmZvX25vZGUpLCBH
-RlBfS0VSTkVMKTsKPiAtCQlpZiAodG1wID09IE5VTEwpIHsKPiAtCQkJcmV0ID0gLTE7Cj4gLQkJ
-CWdvdG8gZmFpbDsKPiAtCQl9Cj4gLQkJZW50ID0gZGVidWdmc19jcmVhdGVfZmlsZShmaWxlc1tp
-XS5uYW1lLCBTX0lGUkVHIHwgU19JUlVHTywKPiAtCQkJCQkgIHJvb3QsIHRtcCwgJmRybV9kZWJ1
-Z2ZzX2ZvcHMpOwo+IC0JCWlmICghZW50KSB7Cj4gLQkJCURSTV9FUlJPUigiQ2Fubm90IGNyZWF0
-ZSAvc3lzL2tlcm5lbC9kZWJ1Zy9kcmkvJXBkLyVzXG4iLAo+IC0JCQkJICByb290LCBmaWxlc1tp
-XS5uYW1lKTsKPiAtCQkJa2ZyZWUodG1wKTsKPiAtCQkJcmV0ID0gLTE7Cj4gLQkJCWdvdG8gZmFp
-bDsKPiAtCQl9Cj4gKwkJaWYgKHRtcCA9PSBOVUxMKQo+ICsJCQljb250aW51ZTsKPiAgCj4gIAkJ
-dG1wLT5taW5vciA9IG1pbm9yOwo+IC0JCXRtcC0+ZGVudCA9IGVudDsKPiArCQl0bXAtPmRlbnQg
-PSBkZWJ1Z2ZzX2NyZWF0ZV9maWxlKGZpbGVzW2ldLm5hbWUsCj4gKwkJCQkJCVNfSUZSRUcgfCBT
-X0lSVUdPLCByb290LCB0bXAsCj4gKwkJCQkJCSZkcm1fZGVidWdmc19mb3BzKTsKPiAgCQl0bXAt
-PmluZm9fZW50ID0gJmZpbGVzW2ldOwo+ICAKPiAgCQltdXRleF9sb2NrKCZtaW5vci0+ZGVidWdm
-c19sb2NrKTsKPiBAQCAtMjA4LDEwICsxOTgsNiBAQCBpbnQgZHJtX2RlYnVnZnNfY3JlYXRlX2Zp
-bGVzKGNvbnN0IHN0cnVjdCBkcm1faW5mb19saXN0ICpmaWxlcywgaW50IGNvdW50LAo+ICAJCW11
-dGV4X3VubG9jaygmbWlub3ItPmRlYnVnZnNfbG9jayk7Cj4gIAl9Cj4gIAlyZXR1cm4gMDsKPiAt
-Cj4gLWZhaWw6Cj4gLQlkcm1fZGVidWdmc19yZW1vdmVfZmlsZXMoZmlsZXMsIGNvdW50LCBtaW5v
-cik7Cj4gLQlyZXR1cm4gcmV0Owo+ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX2RlYnVnZnNfY3Jl
-YXRlX2ZpbGVzKTsKPiAgCj4gLS0gCj4gMi4yMi4wCj4gCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0
-d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0925737907==
+Content-Type: multipart/alternative; boundary="15605251120.10830.6005"
+Content-Transfer-Encoding: 7bit
+
+
+--15605251120.10830.6005
+Date: Fri, 14 Jun 2019 15:11:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #31 from Richard Thier <u9vata@gmail.com> ---
+Created attachment 144545
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144545&action=3Dedit
+Really no cmask ram it seems
+
+I have faked to have hiz ram and cmask ram just to see what happens.
+When I am turning on MSAA now I get this glitches from the shared screensho=
+t so
+I guess it is right that my card is just not having CMASK_RAM.
+
+  122     case CHIP_RS480:
+  123         caps->zmask_ram =3D RV3xx_ZMASK_SIZE;
+  124         caps->has_cmask =3D TRUE; /* guessed because there is also Hi=
+Z */
+  125         caps->hiz_ram =3D R300_HIZ_LIMIT;
+  126         break;
+
+hiz_ram faking seems to have no effect whatsoever.
+
+I have also tried this hack - but it did not help:
+
+diff --git a/src/gallium/drivers/r300/r300_emit.c
+b/src/gallium/drivers/r300/r300_emit.c
+index 80c959b95d0..48fafecfdda 100644
+--- a/src/gallium/drivers/r300/r300_emit.c
++++ b/src/gallium/drivers/r300/r300_emit.c
+@@ -1224,6 +1224,10 @@ void r300_emit_hiz_clear(struct r300_context *r300,
+unsigned size, void *state)
+     tex =3D r300_resource(fb->zsbuf->texture);
+
+     BEGIN_CS(size);
++    // FIXME: Remove this hack!
++    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
+     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_HIZ, 2);
+     OUT_CS(0);
+     OUT_CS(tex->tex.hiz_dwords[fb->zsbuf->u.tex.level]);
+@@ -1246,6 +1250,9 @@ void r300_emit_zmask_clear(struct r300_context *r300,
+unsigned size, void *state
+     tex =3D r300_resource(fb->zsbuf->texture);
+
+     BEGIN_CS(size);
++    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
+     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_ZMASK, 2);
+     OUT_CS(0);
+     OUT_CS(tex->tex.zmask_dwords[fb->zsbuf->u.tex.level]);
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15605251120.10830.6005
+Date: Fri, 14 Jun 2019 15:11:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c31">Comme=
+nt # 31</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144545=
+" name=3D"attach_144545" title=3D"Really no cmask ram it seems">attachment =
+144545</a> <a href=3D"attachment.cgi?id=3D144545&amp;action=3Dedit" title=
+=3D"Really no cmask ram it seems">[details]</a></span>
+Really no cmask ram it seems
+
+I have faked to have hiz ram and cmask ram just to see what happens.
+When I am turning on MSAA now I get this glitches from the shared screensho=
+t so
+I guess it is right that my card is just not having CMASK_RAM.
+
+  122     case CHIP_RS480:
+  123         caps-&gt;zmask_ram =3D RV3xx_ZMASK_SIZE;
+  124         caps-&gt;has_cmask =3D TRUE; /* guessed because there is also=
+ HiZ */
+  125         caps-&gt;hiz_ram =3D R300_HIZ_LIMIT;
+  126         break;
+
+hiz_ram faking seems to have no effect whatsoever.
+
+I have also tried this hack - but it did not help:
+
+diff --git a/src/gallium/drivers/r300/r300_emit.c
+b/src/gallium/drivers/r300/r300_emit.c
+index 80c959b95d0..48fafecfdda 100644
+--- a/src/gallium/drivers/r300/r300_emit.c
++++ b/src/gallium/drivers/r300/r300_emit.c
+&#64;&#64; -1224,6 +1224,10 &#64;&#64; void r300_emit_hiz_clear(struct r300=
+_context *r300,
+unsigned size, void *state)
+     tex =3D r300_resource(fb-&gt;zsbuf-&gt;texture);
+
+     BEGIN_CS(size);
++    // FIXME: Remove this hack!
++    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
+     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_HIZ, 2);
+     OUT_CS(0);
+     OUT_CS(tex-&gt;tex.hiz_dwords[fb-&gt;zsbuf-&gt;u.tex.level]);
+&#64;&#64; -1246,6 +1250,9 &#64;&#64; void r300_emit_zmask_clear(struct r30=
+0_context *r300,
+unsigned size, void *state
+     tex =3D r300_resource(fb-&gt;zsbuf-&gt;texture);
+
+     BEGIN_CS(size);
++    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
++        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
+     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_ZMASK, 2);
+     OUT_CS(0);
+     OUT_CS(tex-&gt;tex.zmask_dwords[fb-&gt;zsbuf-&gt;u.tex.level]);</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15605251120.10830.6005--
+
+--===============0925737907==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0925737907==--
