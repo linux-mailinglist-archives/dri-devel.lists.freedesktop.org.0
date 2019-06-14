@@ -2,56 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95368452A7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 05:19:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B47452BD
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 05:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE8989304;
-	Fri, 14 Jun 2019 03:19:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468CC89301;
+	Fri, 14 Jun 2019 03:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06D6889304
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 03:19:18 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id d4so1253524edr.13
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 20:19:18 -0700 (PDT)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC7589301
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 03:21:48 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id m10so1319794edv.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 20:21:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NPwG/+sK6rrlYN0ObMy3YjCUZytnPkU+C+L+wuAauYY=;
- b=q+gZZXl6ejnSUBc8F1TK5J4UIrDTgbL9XhGjPzFcZHvdVqKNp02qZUOgOZ7I7iTrKt
- AviioACU6QWHEBIke8wppoDqwu0NTF6i+t/HWFA+4cHoECsdXSKlPDSO8CeI7fKwd1qs
- OG62staS9P4npqYzK7O/lb2HiiZGMq9nqNUifqqVpoENS7TOHK9lgOOwDKqMnM6p/XpL
- oT+S6rrQhCJTMewTJTA4hnBTYY3R0rTllika2UTdbky0JlyOgI7Jy0rDQxuefHDggjBs
- /PBGrW42Cka8tRrTGdG4ID76xJFtXSMUNex7vgRxWCexxrvsPjqIocbtcSSRuadxWpJQ
- m1WA==
-X-Gm-Message-State: APjAAAUOgLlUuVyMCTB7y+tAlY4j5oEIgI8VJZW4PDs4S1jGYCroIpb3
- Z+2hO0r+N5OeaXl89iWtJ5VzTu0gDEA=
-X-Google-Smtp-Source: APXvYqy60bIKBhC3MyKd0sY5KcmQRHWcTeOKx9bT8fOpHQZN0p8wUw99croMG4Y+BEPUihKEaMtrYw==
-X-Received: by 2002:a17:906:5399:: with SMTP id
- g25mr63766654ejo.247.1560482356772; 
- Thu, 13 Jun 2019 20:19:16 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com.
- [209.85.221.52])
- by smtp.gmail.com with ESMTPSA id z40sm473762edb.61.2019.06.13.20.19.16
+ bh=gVoHYq0itV3pYTA3eOtXIMDIVkYyR0cLDLEAE/xIlME=;
+ b=Fl4jGl6nPyFMd/w8rmZcxQYNjwaPiQRYKmy8t+bw34HkxpCLMAhKj++bZMXSsqDgby
+ 6M9cDiPago6HMOBN7AE0eICNS01UY40wf0wZReZlKlZNjTjo2tVFqYOWyNOzz70GhiwN
+ 53cpU5VM82OKT5P9JuyjCkd5qx9tpmeZmM8cpNX1C+pW9/M5bJSCWrrkwa7BJarNoiS4
+ 4NTult5vu+gJHR7m/eBRMCx//LavEHw/n3jN6QZWRKF5Etk20C+3rbbTHCnYimCvDYKJ
+ vbxACSRF04+9yAfWzjj162YY9zw4NLznkIp0bGOMBaviBRPMtI667W11xDS+81egqj/c
+ 1FjA==
+X-Gm-Message-State: APjAAAVEf2WMrNYHTPgqdELL5VyElX4fZAshQKJr/6Ylekf2T8qX2//A
+ Yu2y0GBM6bfL/rTbqfoSXev3R1wvzdA=
+X-Google-Smtp-Source: APXvYqzz+nbsoiv8zK+4rFMkcOHZYByzfebqx3EOH7UVFkJ/3RYlYzzWSdwRjl5xB5bk6wcu+kRPcA==
+X-Received: by 2002:a50:9875:: with SMTP id h50mr38431130edb.258.1560482505942; 
+ Thu, 13 Jun 2019 20:21:45 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com.
+ [209.85.221.41])
+ by smtp.gmail.com with ESMTPSA id n5sm326319ejc.62.2019.06.13.20.21.45
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 20:19:16 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id n4so835186wrw.13
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 20:19:16 -0700 (PDT)
-X-Received: by 2002:adf:fd01:: with SMTP id e1mr2697971wrr.167.1560482355808; 
- Thu, 13 Jun 2019 20:19:15 -0700 (PDT)
+ Thu, 13 Jun 2019 20:21:45 -0700 (PDT)
+Received: by mail-wr1-f41.google.com with SMTP id v14so887535wrr.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 20:21:45 -0700 (PDT)
+X-Received: by 2002:adf:dc43:: with SMTP id m3mr3389739wrj.279.1560482505069; 
+ Thu, 13 Jun 2019 20:21:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190613185241.22800-1-jagan@amarulasolutions.com>
- <20190613185241.22800-3-jagan@amarulasolutions.com>
-In-Reply-To: <20190613185241.22800-3-jagan@amarulasolutions.com>
+ <20190613185241.22800-4-jagan@amarulasolutions.com>
+In-Reply-To: <20190613185241.22800-4-jagan@amarulasolutions.com>
 From: Chen-Yu Tsai <wens@csie.org>
-Date: Fri, 14 Jun 2019 11:19:04 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65xuXc4C1jOyM1GbEFVDam5P-6NN0ZhtzwzA7qU5F3nJQ@mail.gmail.com>
-Message-ID: <CAGb2v65xuXc4C1jOyM1GbEFVDam5P-6NN0ZhtzwzA7qU5F3nJQ@mail.gmail.com>
-Subject: Re: [linux-sunxi] [PATCH 2/9] drm/sun4i: tcon: Add TCON LCD support
- for R40
+Date: Fri, 14 Jun 2019 11:21:32 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65mR0DwAuf_YvDS-dwx2RpEdBeV-5R44zgWn83GNEgp6w@mail.gmail.com>
+Message-ID: <CAGb2v65mR0DwAuf_YvDS-dwx2RpEdBeV-5R44zgWn83GNEgp6w@mail.gmail.com>
+Subject: Re: [PATCH 3/9] ARM: dts: sun8i: r40: Use tcon top clock index macros
 To: Jagan Teki <jagan@amarulasolutions.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -79,13 +77,14 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMjo1MyBBTSBKYWdhbiBUZWtpIDxqYWdhbkBhbWFydWxh
-c29sdXRpb25zLmNvbT4gd3JvdGU6Cj4KPiBUQ09OIExDRDAsIExDRDEgaW4gYWxsd2lubmVyIFI0
-MCwgYXJlIHVzZWQgZm9yIG1hbmFnaW5nCj4gTENEIGludGVyZmFjZXMgbGlrZSBSR0IsIExWRFMg
-YW5kIERTSS4KPgo+IExpa2UgVENPTiBUVjAsIFRWMSB0aGVzZSBMQ0QwLCBMQ0QxIGFyZSBhbHNv
-IG1hbmFnZWQgdmlhCj4gdGNvbiB0b3AuCj4KPiBBZGQgc3VwcG9ydCBmb3IgaXQsIGluIHRjb24g
-ZHJpdmVyLgo+Cj4gU2lnbmVkLW9mZi1ieTogSmFnYW4gVGVraSA8amFnYW5AYW1hcnVsYXNvbHV0
-aW9ucy5jb20+CgpSZXZpZXdlZC1ieTogQ2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUub3JnPgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMjo1NCBBTSBKYWdhbiBUZWtpIDxqYWdhbkBhbWFydWxh
+c29sdXRpb25zLmNvbT4gd3JvdGU6Cj4KPiB0Y29uX3R2MCwgdGNvbl90djEgbm9kZXMgaGF2ZSBh
+IGNsb2NrIG5hbWVzIG9mIHRjb24tY2gwLAo+IHRjb24tY2gxIHdoaWNoIGFyZSByZWZlcnJpbmcg
+dGNvbl90b3AgY2xvY2tzIHZpYSBpbmRleAo+IG51bWJlcnMgbGlrZSAwLCAxIHdpdGggQ0xLX1RD
+T05fVFYwIGFuZCBDTEtfVENPTl9UVjEKPiByZXNwZWN0aXZlbHkuCj4KPiBVc2UgdGhlIG1hY3Jv
+IGluIHBsYWNlIG9mIGluZGV4IG51bWJlcnMsIGZvciBtb3JlIGNvZGUKPiByZWFkYWJpbGl0eS4K
+Pgo+IFNpZ25lZC1vZmYtYnk6IEphZ2FuIFRla2kgPGphZ2FuQGFtYXJ1bGFzb2x1dGlvbnMuY29t
+PgoKUmV2aWV3ZWQtYnk6IENoZW4tWXUgVHNhaSA8d2Vuc0Bjc2llLm9yZz4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
