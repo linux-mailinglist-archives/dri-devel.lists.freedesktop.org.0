@@ -1,64 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D673446336
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:46:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B6846354
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:49:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0157489A5D;
-	Fri, 14 Jun 2019 15:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6857F89A88;
+	Fri, 14 Jun 2019 15:49:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D089889A5D;
- Fri, 14 Jun 2019 15:46:32 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id i2so1196202plt.1;
- Fri, 14 Jun 2019 08:46:32 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3C4896A3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:49:13 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id p15so4119452eds.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:49:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
  :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=KRgtgULPK891tOGG5t4dUW4/Zs8Jf3twwJrLAvaHXCM=;
- b=k0dyOcq3/1144WNKaqlyAeB8hYcfqD7YLik0FUFRcC5Uk5VjFNbY7T5Z8qtzNRIawC
- 19OOa3ur+3Ru8oSh1o14HUqKS5GcrCdTfCGZY0+uHm6qkZmV17H3aLDyYajmKx9qJHIw
- fDIiAk0GkdPxYSTd9xi0cMV4aoaOKSXiPltErKQEOLOqDUUJ4Ckhpz/sC/Tty0tfULYJ
- ajkJ7cazcyaPctuWrDFeBZVOiz7snXWAzGNGUKwPsbJg3kQ/c7BXLlG/N1l0yTYqbx0h
- jZRqygRRzhi6fH9VTLY1TLUkPzhjJUXXQ3FwNIPSZ615knleeR2HsHG4xcyspvDKwTVS
- qfFQ==
-X-Gm-Message-State: APjAAAVpbnIoD0Atv6MiJEvo0wXyEI/taI3cdxvbaIJLLV1nQby2un6P
- BpuPpTiyVhhb9J4+tSFyuY4=
-X-Google-Smtp-Source: APXvYqwiq+8hGeYQ6L6Er98x3qaWhr3zME6PrQeoyZkRUO5Spda7XFFJhNph3wuEpCh6CNK8gyW1Eg==
-X-Received: by 2002:a17:902:b705:: with SMTP id
- d5mr57674507pls.274.1560526722616; 
- Fri, 14 Jun 2019 08:38:42 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:180::1:b330])
- by smtp.gmail.com with ESMTPSA id w36sm7563630pgl.62.2019.06.14.08.38.41
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Jun 2019 08:38:41 -0700 (PDT)
-Date: Fri, 14 Jun 2019 08:38:37 -0700
-From: Tejun Heo <tj@kernel.org>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [BUG] lockdep splat with kernfs lockdep annotations and slab
- mutex from drm patch??
-Message-ID: <20190614153837.GE538958@devbig004.ftw2.facebook.com>
-References: <20190614093914.58f41d8f@gandalf.local.home>
- <156052491337.7796.17642747687124632554@skylake-alporthouse-com>
+ bh=WMhGjxuVtuf0F8KDL3nbxQoc9njA9k3qau9tg2X3yAA=;
+ b=sJWnRTIHW434228zoRtzGGcyONv/SyWbbA95AYy9H+xbv9Ew/w7UvcEm7HTE+leAMC
+ lwK6EdZVWyE9CySYa0YUdvowcFDmruft0vVogFbeYpIE+Q2hU29ThpJ+H8XJecseYQdu
+ 15pZLYLmgFCULQdMKD0ulkqGKiyKhDOF79OF26WRqkSGulzcTRLg+JK326JpzTeEMAeP
+ W0IfdRsj9VzPC5o26OP0pcc/KFlOKD8dpC/HvyFfu7Aol8enAFSQVj0+JjXtdXXXGJ1+
+ bWxTm1dw4Ul0dfQNTqbFH0ARo/mInOiqToT3zU89OQb0kP6GuVs9NDhf6xxwDgNlxv7i
+ dbYA==
+X-Gm-Message-State: APjAAAV4L9tQUJxlo/N1t+bncSy3biWt8VO6CnlQv6Ev3dmpNk/jCNxp
+ VbKmSQo8F8oZ8XWVjDxXSQg7+Q==
+X-Google-Smtp-Source: APXvYqwqySG+ecseJcUqqDFe816zUE+/QDNkXq4GXIyUEuo8sgOjrHBH2z+X+n6BU9iVGGNS2h8WYg==
+X-Received: by 2002:a50:90e7:: with SMTP id
+ d36mr102011187eda.202.1560527352212; 
+ Fri, 14 Jun 2019 08:49:12 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id z22sm986362edz.6.2019.06.14.08.49.11
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 08:49:11 -0700 (PDT)
+Date: Fri, 14 Jun 2019 17:49:09 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [pull] amdgpu drm-fixes-5.2
+Message-ID: <20190614154909.GD23020@phenom.ffwll.local>
+References: <20190613021856.3307-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <156052491337.7796.17642747687124632554@skylake-alporthouse-com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20190613021856.3307-1-alexander.deucher@amd.com>
+X-Operating-System: Linux phenom 4.19.0-5-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
+ d=ffwll.ch; s=google;
  h=sender:date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=KRgtgULPK891tOGG5t4dUW4/Zs8Jf3twwJrLAvaHXCM=;
- b=o3Lri5DsGsWuggMDg29Bi3ENUTlvH+3GmvfvzTZGh2sF3pkpez5DNm8bBAnAUaEWZZ
- 3c1JTmWV/+H4DwAEWKuf8SIhFlrkKgyxGA08WQUxcLuuBDucCsPpX5ou261vea4IAUD4
- WQYvESfcDZvmL6S+6IRwxsPQuEsCTmLfTKe3hQlII+Ia2XdlgWmUu3rLDCHGq83/HVlt
- NK28IS/TYC5hON8cjCk4En/YfFspE72vU+HJ/iEGlOPHFGTMVicpAIpXo9xI/uzf5A0u
- 364X1XL7JKHiGgzJ2Q9GwBwCLBz0Bd91qQovHCccul8GepD3nt7DLEeGJOYTE9baEEe6
- mZyA==
+ bh=WMhGjxuVtuf0F8KDL3nbxQoc9njA9k3qau9tg2X3yAA=;
+ b=ZFhug7pNQ7rl3MAs0kWexJPI2B3+yaBRjXRanM4ZRKaw1t7e2uKKTRwiNxXU5AVASf
+ KSN2O1tQmJwBGk3RtomhEOnHtwFlBGgxEFzXmj6u8paYT05MJhY19jSYbMTTeWjhCwjg
+ hLH4NJQ4l3sYmCnTMYUVSNs1pKvlmOMxZOo98=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,30 +67,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, daniel.vetter@ffwll.ch,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpPbiBGcmksIEp1biAxNCwgMjAxOSBhdCAwNDowODozM1BNICswMTAwLCBDaHJpcyBX
-aWxzb24gd3JvdGU6Cj4gI2lmZGVmIENPTkZJR19NRU1DRwo+ICAgICAgICAgaWYgKHNsYWJfc3Rh
-dGUgPj0gRlVMTCAmJiBlcnIgPj0gMCAmJiBpc19yb290X2NhY2hlKHMpKSB7Cj4gICAgICAgICAg
-ICAgICAgIHN0cnVjdCBrbWVtX2NhY2hlICpjOwo+IAo+ICAgICAgICAgICAgICAgICBtdXRleF9s
-b2NrKCZzbGFiX211dGV4KTsKPiAKPiBzbyBpdCBoYXBwZW5zIHRvIGhpdCB0aGUgZXJyb3IgKyBG
-VUxMIGNhc2Ugd2l0aCB0aGUgYWRkaXRpb25hbCBzbGFiY2FjaGVzPwo+IAo+IEFueXdheSwgYWNj
-b3JkaW5nIHRvIGxvY2tkZXAsIGl0IGlzIGRhbmdlcm91cyB0byB1c2UgdGhlIHNsYWJfbXV0ZXgg
-aW5zaWRlCj4gc2xhYl9hdHRyX3N0b3JlKCkuCgpEaWRuJ3QgcmVhbGx5IGxvb2sgaW50byB0aGUg
-Y29kZSBidXQgaXQgbG9va3MgbGlrZSBzbGFiX211dGV4IGlzIGhlbGQKd2hpbGUgdHJ5aW5nIHRv
-IHJlbW92ZSBzeXNmcyBmaWxlcy4gIHN5c2ZzIGZpbGUgcmVtb3ZhbCBmbHVzaGVzCm9uLWdvaW5n
-IGFjY2Vzc2VzLCBzbyBpZiBhIGZpbGUgb3BlcmF0aW9uIHRoZW4gdHJpZXMgdG8gZ3JhYiBhIG11
-dGV4CndoaWNoIGlzIGhlbGQgZHVyaW5nIHJlbW92YWwsIGl0IGxlYWRzIHRvIGEgZGVhZGxvY2su
-CgpUaGFua3MuCgotLSAKdGVqdW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+T24gV2VkLCBKdW4gMTIsIDIwMTkgYXQgMDk6MTg6NTZQTSAtMDUwMCwgQWxleCBEZXVjaGVyIHdy
+b3RlOgo+IEhpIERhdmUsIERhbmllbCwKPiAKPiBGaXhlcyBmb3IgNS4yOgo+IC0gRXh0ZW5kIHBy
+ZXZpb3VzIHZjZSBmaXggZm9yIHJlc3VtZSB0byB1dmQgYW5kIHZjbgo+IC0gRml4IGJvdW5kcyBj
+aGVja2luZyBpbiByYXMgZGVidWdmcyBpbnRlcmZhY2UKPiAtIEZpeCBhIHJlZ3Jlc3Npb24gb24g
+U0kgdXNpbmcgYW1kZ3B1Cj4gCj4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA2
+NzFlMmVlNWVlMjEyNzE3OWNhODg0YjQzOWFiNjAwMWE2MjNlZGQ2Ogo+IAo+ICAgTWVyZ2UgYnJh
+bmNoICdsaW51eC01LjInIG9mIGdpdDovL2dpdGh1Yi5jb20vc2tlZ2dzYi9saW51eCBpbnRvIGRy
+bS1maXhlcyAoMjAxOS0wNi0wNyAxNzoxNjowMCArMTAwMCkKClNvbWVob3cgbWlzc2VkIHRoaXMg
+b25lLCBidXQganVzdCBmb3VuZCBpdCBiZWZvcmUgSSB3YW50ZWQgdG8gcHVzaCBvdXQgdGhlCi1m
+aXhlcyBwdWxsIHRvIExpbnVzIC4uLgoKPiBhcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3Np
+dG9yeSBhdDoKPiAKPiAgIGdpdDovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfmFnZDVmL2xpbnV4
+IGRybS1maXhlcy01LjIKClB1bGxlZCwgdGhhbmtzLgotRGFuaWVsCgo+IAo+IGZvciB5b3UgdG8g
+ZmV0Y2ggY2hhbmdlcyB1cCB0byBmM2E1MjMxYzhmMTRhY2Q0Mjg0NWU5ZTYwZjUwNmI0ZTk0OGYw
+ZTY4Ogo+IAo+ICAgZHJtL2FtZGdwdTogcmV0dXJuIDAgYnkgZGVmYXVsdCBpbiBhbWRncHVfcG1f
+bG9hZF9zbXVfZmlybXdhcmUgKDIwMTktMDYtMTIgMjA6Mzk6NDkgLTA1MDApCj4gCj4gLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQo+IEFsZXggRGV1Y2hlciAoMSk6Cj4gICAgICAgZHJtL2FtZGdwdTogcmV0dXJuIDAgYnkgZGVm
+YXVsdCBpbiBhbWRncHVfcG1fbG9hZF9zbXVfZmlybXdhcmUKPiAKPiBEYW4gQ2FycGVudGVyICgx
+KToKPiAgICAgICBkcm0vYW1kZ3B1OiBGaXggYm91bmRzIGNoZWNraW5nIGluIGFtZGdwdV9yYXNf
+aXNfc3VwcG9ydGVkKCkKPiAKPiBTaGlyaXNoIFMgKDEpOgo+ICAgICAgIGRybS9hbWRncHUve3V2
+ZCx2Y259OiBmZXRjaCByaW5nJ3MgcmVhZF9wdHIgYWZ0ZXIgYWxsb2MKPiAKPiAgZHJpdmVycy9n
+cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3BtLmMgIHwgNCArKy0tCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV9yYXMuaCB8IDIgKysKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X3Zjbi5jIHwgNCArKystCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
+L3V2ZF92Nl8wLmMgICB8IDUgKysrKy0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvdXZk
+X3Y3XzAuYyAgIHwgNSArKysrLQo+ICA1IGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyks
+IDUgZGVsZXRpb25zKC0pCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50
+ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
