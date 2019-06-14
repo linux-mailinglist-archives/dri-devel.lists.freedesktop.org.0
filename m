@@ -1,34 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDFB45747
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 10:18:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCA84578E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 10:32:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BB28932B;
-	Fri, 14 Jun 2019 08:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9F6889349;
+	Fri, 14 Jun 2019 08:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27DFD8932B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:18:24 +0000 (UTC)
-X-Originating-IP: 37.177.88.254
-Received: from uno.localdomain (unknown [37.177.88.254])
- (Authenticated sender: jacopo@jmondi.org)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 3EF2DE0005;
- Fri, 14 Jun 2019 08:18:07 +0000 (UTC)
-Date: Fri, 14 Jun 2019 10:19:13 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 20/20] drm: rcar-du: kms: Update CMM in atomic commit tail
-Message-ID: <20190614081913.n5yxpotto5fzl7sh@uno.localdomain>
-References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-21-jacopo+renesas@jmondi.org>
- <20190607120633.GI7593@pendragon.ideasonboard.com>
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3404789349
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:32:39 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id r12so151605edo.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 01:32:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to:user-agent;
+ bh=CXuTJX2Tu0FWoW9TRe6upWELUnjuP4VynW51q1e22Bc=;
+ b=paAXhEpQQyZsXtmzZVQlRvkT9AajPbm2vcFxhQSb3NJ4tg8zx8p7s93tDYFdeNG7dP
+ 5M2fQG59xQ166wCoM37wfTBD43GdTQOeVLhlBE7Sq3gmFMpmTmUF01LV7AHfbBA3xuot
+ vLiLPuOt1lU4hg/ppMY9mYHKXDxA6RmjuKpSPM+j1QClGdtxO66AM3R/swN/ZoykhJNb
+ L+8aGjYFmu0fVXKZIjZvA5rMQWBbn/agqo9XR9o1PqFkkWoe3m00JPuWvJq74PKvNm7S
+ +ZnoAbRWtzwjZd6PBd+aZhpbHYj/S0LDbPWIjR44KzYAXAfLCH6Yc0x/1qsSmpfAKNbO
+ 1/IQ==
+X-Gm-Message-State: APjAAAXJAe93gxs8a5JDxejCrj9o9j6yBZevzakHpVNVcUpzPgdj5hkU
+ vPpjw172FPmvF+tJLRfGX1mtog==
+X-Google-Smtp-Source: APXvYqwFmK0FQJN7SjMIIjU8xeebrCUf3pEa87UasPdQtRju3+SblF7r8V8YrxmvHBQJXUlGdg67Yg==
+X-Received: by 2002:a50:a56d:: with SMTP id z42mr79151554edb.241.1560501157810; 
+ Fri, 14 Jun 2019 01:32:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id j25sm656252edq.68.2019.06.14.01.32.36
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 01:32:36 -0700 (PDT)
+Date: Fri, 14 Jun 2019 10:32:34 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH] drm/ioctl: Ditch DRM_UNLOCKED except for the legacy
+ vblank ioctl
+Message-ID: <20190614083234.GV23020@phenom.ffwll.local>
+References: <20190529093038.27911-1-daniel.vetter@ffwll.ch>
+ <20190605120835.2798-1-daniel.vetter@ffwll.ch>
+ <CACvgo51HiCgtQEtRx7kFwQhz+2NyDnbkwGqA=hk-kwKOd0PtWA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190607120633.GI7593@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+Content-Disposition: inline
+In-Reply-To: <CACvgo51HiCgtQEtRx7kFwQhz+2NyDnbkwGqA=hk-kwKOd0PtWA@mail.gmail.com>
+X-Operating-System: Linux phenom 4.19.0-5-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=CXuTJX2Tu0FWoW9TRe6upWELUnjuP4VynW51q1e22Bc=;
+ b=ffcSSembtzSQF4uZVTzvnJ2Ulo+Q0ykomh9D356+dkWiqn8gZWaki1pX6XlVyf3thj
+ NjlOhnwZR3ujjTJrw5k8k51PrYqMteafYOqO0mgSTGmr2RKqKAb1suDV1CYzNTBhJU65
+ 5wH02Xm0KD+nkb32ADk/w0mNyNIH53amhb7Q0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,153 +71,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
- koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: multipart/mixed; boundary="===============0736129616=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0736129616==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cvgh7guoqqbi6mcf"
-Content-Disposition: inline
-
-
---cvgh7guoqqbi6mcf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Fri, Jun 07, 2019 at 03:06:33PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Thu, Jun 06, 2019 at 04:22:20PM +0200, Jacopo Mondi wrote:
-> > Update CMM settings at in the atomic commit tail helper method.
-> >
-> > The CMM is updated with new gamma values provided to the driver
-> > in the GAMMA_LUT blob property.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 36 +++++++++++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > index 5a910a04e1d9..29a2020a46b5 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > @@ -21,6 +21,7 @@
-> >  #include <linux/of_platform.h>
-> >  #include <linux/wait.h>
-> >
-> > +#include "rcar_cmm.h"
-> >  #include "rcar_du_crtc.h"
-> >  #include "rcar_du_drv.h"
-> >  #include "rcar_du_encoder.h"
-> > @@ -367,6 +368,38 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-> >   * Atomic Check and Update
-> >   */
-> >
-> > +static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
-> > +					     struct drm_crtc_state *old_state)
-> > +{
-> > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-> > +	struct rcar_cmm_config cmm_config = {};
-> > +
-> > +	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
-> > +		return;
-> > +
-> > +	if (!crtc->state->gamma_lut) {
-> > +		cmm_config.lut.enable = false;
-> > +		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> > +
-> > +		return;
-> > +	}
-> > +
-> > +	cmm_config.lut.enable = true;
-> > +	cmm_config.lut.table = (struct drm_color_lut *)
-> > +			       crtc->state->gamma_lut->data;
-> > +
-> > +	/* Set LUT table size to 0 if entries should not be updated. */
-> > +	if (!old_state->gamma_lut ||
-> > +	    (old_state->gamma_lut->base.id !=
-> > +	    crtc->state->gamma_lut->base.id))
-> > +		cmm_config.lut.size = crtc->state->gamma_lut->length
-> > +				    / sizeof(cmm_config.lut.table[0]);
->
-> Do you need to call rcar_cmm_setup() at all in this case ?
->
-
-Do you mean in case the lut.size field is set to 0 ?
-I considered it useful when the CMM has to be re-enabled without
-updateing the LUT table entries? It is not required in your opinion?
-
-Thanks
-   j
-
-> > +	else
-> > +		cmm_config.lut.size = 0;
-> > +
-> > +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> > +}
-> > +
-> >  static int rcar_du_atomic_check(struct drm_device *dev,
-> >  				struct drm_atomic_state *state)
-> >  {
-> > @@ -409,6 +442,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> >  			rcdu->dpad1_source = rcrtc->index;
-> >  	}
-> >
-> > +	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
-> > +		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
-> > +
-> >  	/* Apply the atomic update. */
-> >  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-> >  	drm_atomic_helper_commit_planes(dev, old_state,
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---cvgh7guoqqbi6mcf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DWIEACgkQcjQGjxah
-VjzwpQ//WMAXXg0Iqe84pOeR3FpXuQ4vkqCDArzdNFG5VcdNm4npoe6ZnjnSy7Ae
-dPhB8oQVdcRmjmGbNvre5amsEmxONrfcGwiyzCJhoW8T28sztdv0LGzSoTHV6ejt
-0xY2qG02Ek0UPOWwiCMzvfxCK+hJEbXEukD31pDOoVc1EoB3P7FEI1NLe5MJZVKD
-Encdf+0v8nCnbrRG2oWCvBp3CJy5UuBLbu+EuAr6rawekdHYulJCjtolDqKQO7jr
-fPMR5vfNm2MsWr7em2vdeI2O/zmPw5ixIWyauAz4Kzz2CC+7elXSFona/gMYpry0
-xKKJso48zJ3NcZlwjDhXDtKuu5vE21r4qmvVmxGFFphxGdXIIudOWqIUo+0N+2Jr
-fQKK7HpGK4XsG7Vv/lJkgDEntZYBRj99QqE+2u0fzbAryUv9Sl//RlHBxUZRGdl7
-Vbp3QdCgJZvS7qGsR6s1dMi5lCfWbiP8k3nQGb7MaW1hWmjTeUSswSCdorOxWSfZ
-y4SVNfGKP7g+gWaeBZidUrDiveV8hz8RaB3a84LTPC0UYd78VYJLHUwmgKGtd1Ti
-ipIfzhCoY8UcHJn/3EiiuiQJMd4tiw6b/vkB79fdPp8lMTDlAaglS3uPSW1REsAc
-OS0k2lCyh+L/sW0um5QPM8DeLUa3psCuDgzi0u043tLe1pqFnDk=
-=jqfj
------END PGP SIGNATURE-----
-
---cvgh7guoqqbi6mcf--
-
---===============0736129616==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0736129616==--
+T24gRnJpLCBKdW4gMDcsIDIwMTkgYXQgMTE6MjQ6MDFBTSArMDEwMCwgRW1pbCBWZWxpa292IHdy
+b3RlOgo+IE9uIFdlZCwgNSBKdW4gMjAxOSBhdCAxMzowOCwgRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBmZndsbC5jaD4gd3JvdGU6Cj4gPgo+ID4gVGhpcyBjb21wbGV0ZXMgRW1pbCdzIHNl
+cmllcyBvZiByZW1vdmluZyBEUk1fVU5MT0NLRUQgZnJvbSBtb2Rlcm4KPiA+IGRyaXZlcnMuIEl0
+J3MgZW50aXJlbHkgY2FyZ28tY3VsdGVkIHNpbmNlIHdlIGlnbm9yZSBpdCBvbgo+ID4gbm9uLURS
+SVZFUl9MRUdBQ1kgZHJpdmVycyBzaW5jZToKPiA+Cj4gPiBjb21taXQgZWE0ODc4MzVlODg3NmFi
+ZjdhZDkwOTYzNmUzMDhjODAxYTJiY2RhNgo+ID4gQXV0aG9yOiBEYW5pZWwgVmV0dGVyIDxkYW5p
+ZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gRGF0ZTogICBNb24gU2VwIDI4IDIxOjQyOjQwIDIwMTUg
+KzAyMDAKPiA+Cj4gPiAgICAgZHJtOiBFbmZvcmNlIHVubG9ja2VkIGlvY3RsIG9wZXJhdGlvbiBm
+b3Iga21zIGRyaXZlciBpb2N0bHMKPiA+Cj4gPiBOb3cganVzdGlmeWluZyB3aHkgd2UgY2FuIGRv
+IHRoaXMgZm9yIGxlZ2FjeSBkcml2ZXMgdG9vIChhbmQgaGVuY2UKPiA+IGNsb3NlIHRoZSBzb3Vy
+Y2Ugb2YgYWxsIHRoZSBib2d1cyBjb3B5cGFzdGluZykgaXMgYSBiaXQgbW9yZSBpbnZvbHZlZC4K
+PiA+IERSTV9VTkxPQ0tFRCB3YXMgaW50cm9kdWNlZCBpbjoKPiA+Cj4gPiBjb21taXQgZWQ4YjY3
+MDQwOTY1ZTRmZTY5NWRiMzMzZDU5MTRlMThlYTVmMTQ2Zgo+ID4gQXV0aG9yOiBBcm5kIEJlcmdt
+YW5uIDxhcm5kQGFybmRiLmRlPgo+ID4gRGF0ZTogICBXZWQgRGVjIDE2IDIyOjE3OjA5IDIwMDkg
+KzAwMDAKPiA+Cj4gPiAgICAgZHJtOiBjb252ZXJ0IGRybV9pb2N0bCB0byB1bmxvY2tlZF9pb2N0
+bAo+ID4KPiA+IEFzIGEgaW1tZWRpYXRlIGhhY2sgdG8ga2VlcCBpODEwIGhhcHB5LCB3aGljaCB3
+b3VsZCBoYXZlIGRlYWRsb2NrZWQKPiA+IHdpdGhvdXQgdGhpcyB0cmlja2VyeS4gVGhlIG9sZCBC
+S0wgaXMgYXV0b21hdGljYWxseSBkcm9wcGVkIGluCj4gPiBzY2hlZHVsZSgpLCBhbmQgaGVuY2Ug
+dGhlIGk4MTAgdnMuIG1tYXBfc2VtIGRlYWRsb2NrIGRpZG4ndCBhY3R1YWxseQo+ID4gY2F1c2Ug
+YSByZWFsIGRlYWRsb2NrLiBCdXQgd2l0aCBhIG11dGV4IGl0IHdvdWxkLiBUaGUgc29sdXRpb24g
+d2FzIHRvCj4gPiBhbm5vdGF0ZSB0aGVzZSBhcyBEUk1fVU5MT0NLRUQgYW5kIG1hcmsgaTgxMCB1
+bnNhZmUgb24gU01QIG1hY2hpbmVzLgo+ID4KPiA+IFRoaXMgY29udmVyc2lvbiBjYXVzZWQgYSBy
+ZWdyZXNzaW9uLCBiZWNhdXNlIHVubGlrZSB0aGUgQktMIGEgbXV0ZXgKPiA+IGlzbid0IGRyb3Bw
+ZWQgb3ZlciBzY2hlZHVsZSAodGhhdCB0aGluZyBhZ2FpbiksIHdoaWNoIGNhdXNlZCBhIHZibGFu
+awo+ID4gd2FpdCBpbiBvbmUgdGhyZWFkIHRvIGJsb2NrIHRoZSBlbnRpcmUgZGVza3RvcCBhbmQg
+YWxsIGl0cyBhcHBzLiBCYWNrCj4gPiB0aGVuIHdlIGRpZCB2Ymxhbmsgc2NoZWR1bGluZyBieSBi
+bG9ja2luZyBpbiB0aGUgY2xpZW50LCBhd2Vzb21lIGlzbid0Cj4gPiBpdC4gVGhpcyB3YXMgZml4
+ZWQgcXVpY2tseSBpbiAob2sgbm90IHNvIHF1aWNrbHksIHRvb2sgMiB5ZWFycyk6Cj4gPgo+ID4g
+Y29tbWl0IDhmNGZmMmIwNmFmY2Q2ZjE1MTg2ODQ3NGE0MzJjNjAzMDU3ZWFmNTYKPiA+IEF1dGhv
+cjogSWxpamEgSGFkemljIDxpaGFkemljQHJlc2VhcmNoLmJlbGwtbGFicy5jb20+Cj4gPiBEYXRl
+OiAgIE1vbiBPY3QgMzEgMTc6NDY6MTggMjAxMSAtMDQwMAo+ID4KPiA+ICAgICBkcm06IGRvIG5v
+dCBzbGVlcCBvbiB2Ymxhbmsgd2hpbGUgaG9sZGluZyBhIG11dGV4Cj4gPgo+ID4gQWxsIHRoZSBv
+dGhlciBEUk1fVU5MT0NLRUQgYW5ub3RhdGlvbnMgZm9yIGFsbCB0aGUgY29yZSBpb2N0bHMgd2Fz
+Cj4gPiB3b3JrIHRvIHJlYWNoIGZpbmVyLWdyYWluZWQgbG9ja2luZyBmb3IgbW9kZXJuIGRyaXZl
+cnMuIFRoaXMgdG9vawo+ID4geWVhcnMsIGFuZCBjdWxtaW5hdGVkIGluOgo+ID4KPiA+IGNvbW1p
+dCBmZGQ1Yjg3N2U5ZWJjMjAyOWUxMzczYjRhM2NkMDU3MzI5YTlhYjdhCj4gPiBBdXRob3I6IERh
+bmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gPiBEYXRlOiAgIFNhdCBEZWMg
+MTAgMjI6NTI6NTQgMjAxNiArMDEwMAo+ID4KPiA+ICAgICBkcm06IEVuZm9yY2UgQktMLWxlc3Mg
+aW9jdGxzIGZvciBtb2Rlcm4gZHJpdmVycwo+ID4KPiA+IERSTV9VTkxPQ0tFRCB3YXMgbmV2ZXIg
+cmVxdWlyZWQgYnkgYW55IGxlZ2FjeSBkcml2ZXJzLCBleGNlcHQgZm9yIHRoZQo+ID4gdmJsYW5r
+X3dhaXQgSU9DVEwuIFRoZXJlZm9yZSB3ZSB3aWxsIG5vdCByZWdyZXNzIHRoZXNlIG9sZCBkcml2
+ZXJzIGJ5Cj4gPiBnb2luZyBiYWNrIHRvIHdoZXJlIHdlJ3ZlIGJlZW4gaW4gMjAxMS4gRm9yIGFs
+bCBtb2Rlcm4gZHJpdmVycyBub3RoaW5nCj4gPiB3aWxsIGNoYW5nZS4KPiA+Cj4gPiBUbyBtYWtl
+IHRoaXMgcGVyZmVjdGx5IGNsZWFyLCBhbHNvIGFkZCBhIGNvbW1lbnQgdG8gRFJNX1VOTE9DS0VE
+Lgo+ID4KPiA+IHYyOiBEb24ndCBmb3JnZXQgYWJvdXQgZHJtX2lvYzMyLmMgKE1pY2hlbCkuIE5v
+dCBhIHNvdXJjZSBvZiBjb3B5cGFzdGEKPiA+IG1pc3Rha2VzIHdoZW4gY3JlYXRpbmcgZHJpdmVy
+IGlvY3RsIHRhYmxlcywgYnV0IGJldHRlciB0byBiZQo+ID4gY29uc2lzdGVudC4KPiA+Cj4gUGVy
+c29uYWxseSBJIHdvdWxkIG9taXQgdGhlICJOb3QgYSBzb3VyY2Ugb2YgY29wdXBhc3RhLi4uIiBu
+b3RlLgo+IAo+ID4gQ2M6IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+Cj4gPiBD
+YzogRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBnbWFpbC5jb20+Cj4gPiBTaWduZWQtb2Zm
+LWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiAKPiBEb3VibGUt
+Y2hlY2tlZCB0aGF0IG9ubHkgdGhlIFZCTEFDSyBpb2N0bCByZXRhaW5lZCBpdHMgYW5ub3RhdGlv
+biBhbmQKPiBhbGwgb3RoZXIgY29yZSBpb2N0bHMgYXJlIERSTV9VTkxPQ0tFRCBmcmVlLgo+IFRl
+Y2huaWNhbGx5IHdpdGggdGhpcyBjaGFuZ2UgVU1TIGRyaXZlcnMgd2lsbCBzdGFydCB1c2luZyBh
+IGxvY2sgb24KPiB0aGUgbGlzdGVkIGlvY3Rscy4gSSBkbyBub3QgZXhwZWN0IHRoaXMgdG8gYmUg
+YSBwcm9ibGVtIGFuZCBhZG1pdHRlZGx5Cj4gSSBkaWQgbm90IGF1ZGl0IGV4aXN0aW5nIHVzZXJz
+cGFjZS4KPiAKPiBUaGF0IHNhaWQsIHRoZSBwYXRjaCBsb29rcyByZWFzb25hYmxlOgo+IEFja2Vk
+LWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgoKQW55b25lIGVs
+c2UgdXAgZm9yIGFja3MvcmV2aWV3cz8KCj4gRGFuaWVsLCBjYW4geW91IGFwcGx5IGFueSBvdXRz
+dGFuZGluZyBEUk1fVU5MT0NLRUQgcGF0Y2hlcyBmcm9tIG15IHNlcmllcz8KCllvdSBoYXZlIGRy
+bS1taXNjIGNvbW1pdCByaWdodHMsIHNvIEknbSBhc3N1bWluZyB5b3UnbGwgcHVzaCB0aGVtCnlv
+dXJzZWxmLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRl
+bCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
