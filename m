@@ -2,35 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0054588E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 11:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0175A4589A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 11:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16CF892EE;
-	Fri, 14 Jun 2019 09:25:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 764D48944A;
+	Fri, 14 Jun 2019 09:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFE90892EF;
- Fri, 14 Jun 2019 09:25:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2019 02:25:37 -0700
-X-ExtLoop1: 1
-Received: from mtayar-mobl.ger.corp.intel.com (HELO [10.252.34.38])
- ([10.252.34.38])
- by orsmga002.jf.intel.com with ESMTP; 14 Jun 2019 02:25:32 -0700
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PULL] topic/remove-fbcon-notifiers for v5.3
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Lee Jones <lee.jones@linaro.org>
-Message-ID: <887603f2-57a4-5a15-faa3-62634fe4b296@linux.intel.com>
-Date: Fri, 14 Jun 2019 11:25:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEDE8944A
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 09:26:40 +0000 (UTC)
+X-Originating-IP: 37.177.88.254
+Received: from uno.localdomain (unknown [37.177.88.254])
+ (Authenticated sender: jacopo@jmondi.org)
+ by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 1B0CBC0019;
+ Fri, 14 Jun 2019 09:26:34 +0000 (UTC)
+Date: Fri, 14 Jun 2019 11:27:45 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+ koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+ VenkataRajesh.Kalakodima@in.bosch.com,
+ Harsha.ManjulaMallikarjun@in.bosch.com,
+ linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 19/20] drm: rcar-du: crtc: Register GAMMA_LUT properties
+Message-ID: <20190614092745.wznk3iv5dgehmjsb@uno.localdomain>
+References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
+ <20190606142220.1392-20-jacopo+renesas@jmondi.org>
+ <20190607120304.GH7593@pendragon.ideasonboard.com>
+ <20190614081507.3ky4pcyijjxnr7mp@uno.localdomain>
+ <20190614084251.GW23020@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Language: en-US
+In-Reply-To: <20190614084251.GW23020@phenom.ffwll.local>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,100 +50,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- dim-tools@lists.freedesktop.org, Jingoo Han <jingoohan1@gmail.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jiri Slaby <jslaby@suse.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1690204451=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgYWxsLAoKQXMgZGlzY3Vzc2VkIHdpdGggRGFuaWVsIFYsIEknbSBqdXN0IGRvaW5nIHRoZSBw
-YXBlcndvcmsgaGVyZSBhcyBkcm0tbWlzYyBtYWludGFpbmVyLgoKVGhpcyBpcyB0aGUgdG9waWMg
-cHVsbCByZXF1ZXN0IGZvciB0aGUgZmJkZXYgbm90aWZpZXIgcmVtb3ZhbC4KCkJhciwgcGxlYXNl
-IG1ha2UgYSBmaW5hbCBjaGVjayBhbmQgcHVsbCBpbnRvIHlvdXIgZmJkZXYgdHJlZS4KCkxlZSwg
-cGxlYXNlIG1ha2UgYSBmaW5hbCBjaGVjayBhbmQgcHVsbCBpbnRvIHlvdXIgYmFja2xpZ2h0IHRy
-ZWUuCgpHcmVnLCB0aGlzIGlzIGp1c3QgZnlpLCB5b3UgYWxyZWFkeSBhY2tlZCBhbGwgdGhlIHZ0
-IGFuZCBzdGFnaW5nIHBhdGNoZXMgaW4gaGVyZQp0byBsYW5kIHRocm91Z2ggb3RoZXIgdHJlZXMu
-CgpJJ2xsIHB1bGwgdGhpcyBpbnRvIGRybS1taXNjLW5leHQgb25jZSBCYXJ0ICYgTGVlIGFja2Vk
-IGl0LgoKQ2hlZXJzLCBNYWFydGVuLgoKdG9waWMvcmVtb3ZlLWZiY29uLW5vdGlmaWVycy0yMDE5
-LTA2LTE0LTE6Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KdG9waWMvcmVtb3ZlLWZiY29uLW5vdGlmaWVyczoKLSByZW1vdmUg
-ZmJkZXYgbm90aWZpZXIgdXNhZ2UgZm9yIGZiY29uLCBhcyBwcmVwIHdvcmsgdG8gY2xlYW4gdXAg
-dGhlIGZiY29uIGxvY2tpbmcKLSBhc3NvcnRlZCBsb2NraW5nIGNoZWNrcyBpbiB2dC9jb25zb2xl
-IGNvZGUKLSBhc3NvcnRlZCBub3RpZmllciBhbmQgY2xlYW51cHMgaW4gZmJkZXYgYW5kIGJhY2ts
-aWdodCBjb2RlCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0IGQxZmRiNmQ4ZjZh
-NDEwOWE0MjYzMTc2Yzg0Yjg5OTA3NmE1ZjgwMDg6CgogIExpbnV4IDUuMi1yYzQgKDIwMTktMDYt
-MDggMjA6MjQ6NDYgLTA3MDApCgphcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBh
-dDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjIHRhZ3MvdG9w
-aWMvcmVtb3ZlLWZiY29uLW5vdGlmaWVycy0yMDE5LTA2LTE0LTEKCmZvciB5b3UgdG8gZmV0Y2gg
-Y2hhbmdlcyB1cCB0byAxZGNmZjRhZTY1MTg1ZThjMDMwMDk3MmY2ZDhkMzlkOWE5ZGIyYmRhOgoK
-ICBiYWNrbGlnaHQ6IHNpbXBsaWZ5IGxjZCBub3RpZmllciAoMjAxOS0wNi0xMyAxMDowNzoyMCAr
-MDIwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0KRGFuaWVsIFZldHRlciAoMzMpOgogICAgICBkdW1teWNvbjogU3ByaW5r
-bGUgbG9ja2luZyBjaGVja3MKICAgICAgZmJkZXY6IGxvY2tpbmcgY2hlY2sgZm9yIGZiX3NldF9z
-dXNwZW5kCiAgICAgIHZ0OiBtaWdodF9zbGVlcCgpIGFubm90YXRpb24gZm9yIGRvX2JsYW5rX3Nj
-cmVlbgogICAgICB2dDogTW9yZSBsb2NraW5nIGNoZWNrcwogICAgICBmYmRldi9zYTExMDBmYjog
-UmVtb3ZlIGRlYWQgY29kZQogICAgICBmYmRldi9jeWJlcjIwMDA6IFJlbW92ZSBzdHJ1Y3QgZGlz
-cGxheQogICAgICBmYmRldi9hdHkxMjhmYjogUmVtb3ZlIGRlYWQgY29kZQogICAgICBmYmNvbjog
-cy9zdHJ1Y3QgZGlzcGxheS9zdHJ1Y3QgZmJjb25fZGlzcGxheS8KICAgICAgZmJjb246IFJlbW92
-ZSBmYmNvbl9oYXNfZXhpdGVkCiAgICAgIGZiY29uOiBjYWxsIGZiY29uX2ZiXyh1bilyZWdpc3Rl
-cmVkIGRpcmVjdGx5CiAgICAgIGZiZGV2L3NoX21vYmlsZTogcmVtb3ZlIHNoX21vYmlsZV9sY2Rj
-X2Rpc3BsYXlfbm90aWZ5CiAgICAgIGZiZGV2L29tYXA6IHN5c2ZzIGZpbGVzIGNhbid0IGRpc2Fw
-cGVhciBiZWZvcmUgdGhlIGRldmljZSBpcyBnb25lCiAgICAgIGZiZGV2OiBzeXNmcyBmaWxlcyBj
-YW4ndCBkaXNhcHBlYXIgYmVmb3JlIHRoZSBkZXZpY2UgaXMgZ29uZQogICAgICBzdGFnaW5nL29s
-cGM6IGxvY2tfZmJfaW5mbyBjYW4ndCBmYWlsCiAgICAgIGZiZGV2L2F0eWZiOiBsb2NrX2ZiX2lu
-Zm8gY2FuJ3QgZmFpbAogICAgICBmYmRldjogbG9ja19mYl9pbmZvIGNhbm5vdCBmYWlsCiAgICAg
-IGZiY29uOiBjYWxsIGZiY29uX2ZiX2JpbmQgZGlyZWN0bHkKICAgICAgZmJkZXY6IG1ha2UgdW5y
-ZWdpc3Rlci91bmxpbmsgZnVuY3Rpb25zIG5vdCBmYWlsCiAgICAgIGZiZGV2OiB1bmlmeSB1bmxp
-bmtfZnJhbWVidWZmZXIgcGF0aHMKICAgICAgZmJkZXYvc2hfbW9iOiBSZW1vdmUgZmIgbm90aWZp
-ZXIgY2FsbGJhY2sKICAgICAgZmJkZXY6IGRpcmVjdGx5IGNhbGwgZmJjb25fc3VzcGVuZGVkL3Jl
-c3VtZWQKICAgICAgZmJjb246IENhbGwgZmJjb25fbW9kZV9kZWxldGVkL25ld19tb2RlbGlzdCBk
-aXJlY3RseQogICAgICBmYmRldjogQ2FsbCBmYmNvbl9nZXRfcmVxdWlyZW1lbnQgZGlyZWN0bHkK
-ICAgICAgUmV2ZXJ0ICJiYWNrbGlnaHQvZmJjb246IEFkZCBGQl9FVkVOVF9DT05CTEFOSyIKICAg
-ICAgZmJtZW06IHB1bGwgZmJjb25fZmJfYmxhbmtlZCBvdXQgb2YgZmJfYmxhbmsKICAgICAgZmJk
-ZXY6IHJlbW92ZSBGQklORk9fTUlTQ19VU0VSRVZFTlQgYXJvdW5kIGZiX2JsYW5rCiAgICAgIGZi
-OiBGbGF0dGVuIGNvbnRyb2wgZmxvdyBpbiBmYl9zZXRfdmFyCiAgICAgIGZiY29uOiByZXBsYWNl
-IEZCX0VWRU5UX01PREVfQ0hBTkdFL19BTEwgd2l0aCBkaXJlY3QgY2FsbHMKICAgICAgdmdhc3dp
-dGNoZXJvbzogY2FsbCBmYmNvbl9yZW1hcF9hbGwgZGlyZWN0bHkKICAgICAgZmJjb246IENhbGwg
-Y29uMmZiX21hcCBmdW5jdGlvbnMgZGlyZWN0bHkKICAgICAgZmJjb246IERvY3VtZW50IHdoYXQg
-SSBsZWFybmVkIGFib3V0IGZiY29uIGxvY2tpbmcKICAgICAgc3RhZ2luZy9vbHBjX2Rjb246IEFk
-ZCBkcm0gY29udmVyc2lvbiB0byBUT0RPCiAgICAgIGJhY2tsaWdodDogc2ltcGxpZnkgbGNkIG5v
-dGlmaWVyCgogYXJjaC9hcm0vbWFjaC1weGEvYW0yMDBlcGQuYyAgICAgICAgICAgICAgICAgICAg
-fCAgMTMgKy0KIGRyaXZlcnMvZ3B1L3ZnYS92Z2Ffc3dpdGNoZXJvby5jICAgICAgICAgICAgICAg
-IHwgIDExICstCiBkcml2ZXJzL21lZGlhL3BjaS9pdnR2L2l2dHZmYi5jICAgICAgICAgICAgICAg
-ICB8ICAgNiArLQogZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYyAgICAgICAgICAg
-ICAgfCAgIDQgKy0KIGRyaXZlcnMvc3RhZ2luZy9vbHBjX2Rjb24vVE9ETyAgICAgICAgICAgICAg
-ICAgIHwgICA3ICsKIGRyaXZlcnMvc3RhZ2luZy9vbHBjX2Rjb24vb2xwY19kY29uLmMgICAgICAg
-ICAgIHwgICA2ICstCiBkcml2ZXJzL3R0eS92dC92dC5jICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB8ICAxOCArKwogZHJpdmVycy92aWRlby9iYWNrbGlnaHQvYmFja2xpZ2h0LmMgICAgICAg
-ICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2xjZC5jICAgICAgICAgICAg
-ICAgICAgIHwgIDEyIC0KIGRyaXZlcnMvdmlkZW8vY29uc29sZS9kdW1teWNvbi5jICAgICAgICAg
-ICAgICAgIHwgICA2ICsKIGRyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0eTEyOGZiLmMgICAgICAg
-ICAgICAgIHwgIDY0IC0tLS0KIGRyaXZlcnMvdmlkZW8vZmJkZXYvYXR5L2F0eWZiX2Jhc2UuYyAg
-ICAgICAgICAgIHwgICAzICstCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2NvcmUvZmJjbWFwLmMgICAg
-ICAgICAgICAgICB8ICAgNiArLQogZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiY29uLmMgICAg
-ICAgICAgICAgICAgfCAzMTMgKysrKysrKystLS0tLS0tLS0tLQogZHJpdmVycy92aWRlby9mYmRl
-di9jb3JlL2ZiY29uLmggICAgICAgICAgICAgICAgfCAgIDYgKy0KIGRyaXZlcnMvdmlkZW8vZmJk
-ZXYvY29yZS9mYm1lbS5jICAgICAgICAgICAgICAgIHwgMzk5ICsrKysrKysrKy0tLS0tLS0tLS0t
-LS0tLQogZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2Zic3lzZnMuYyAgICAgICAgICAgICAgfCAg
-MjAgKy0KIGRyaXZlcnMvdmlkZW8vZmJkZXYvY3liZXIyMDAwZmIuYyAgICAgICAgICAgICAgIHwg
-ICAxIC0KIGRyaXZlcnMvdmlkZW8vZmJkZXYvbmVvZmIuYyAgICAgICAgICAgICAgICAgICAgIHwg
-ICA5ICstCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L29tYXAyL29tYXBmYi9vbWFwZmItc3lzZnMuYyB8
-ICAyMSArLQogZHJpdmVycy92aWRlby9mYmRldi9zYTExMDBmYi5jICAgICAgICAgICAgICAgICAg
-fCAgMjUgLS0KIGRyaXZlcnMvdmlkZW8vZmJkZXYvc2F2YWdlL3NhdmFnZWZiX2RyaXZlci5jICAg
-IHwgICA5ICstCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3NoX21vYmlsZV9sY2RjZmIuYyAgICAgICAg
-ICB8IDEzMiArLS0tLS0tLQogZHJpdmVycy92aWRlby9mYmRldi9zaF9tb2JpbGVfbGNkY2ZiLmgg
-ICAgICAgICAgfCAgIDUgLQogaW5jbHVkZS9saW51eC9jb25zb2xlX3N0cnVjdC5oICAgICAgICAg
-ICAgICAgICAgfCAgIDUgKy0KIGluY2x1ZGUvbGludXgvZmIuaCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHwgIDQ1ICstLQogaW5jbHVkZS9saW51eC9mYmNvbi5oICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgfCAgMzAgKysKIDI3IGZpbGVzIGNoYW5nZWQsIDM5NiBpbnNlcnRpb25zKCsp
-LCA3ODIgZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+
+--===============1690204451==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="sj54nnncvdq22ppw"
+Content-Disposition: inline
+
+
+--sj54nnncvdq22ppw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Daniel,
+
+On Fri, Jun 14, 2019 at 10:42:51AM +0200, Daniel Vetter wrote:
+> On Fri, Jun 14, 2019 at 10:15:52AM +0200, Jacopo Mondi wrote:
+> > Hi Laurent,
+> >    thanks for review
+> >
+> > On Fri, Jun 07, 2019 at 03:03:04PM +0300, Laurent Pinchart wrote:
+> > > Hi Jacopo,
+> > >
+> > > Thank you for the patch.
+> > >
+> > > On Thu, Jun 06, 2019 at 04:22:19PM +0200, Jacopo Mondi wrote:
+> > > > Enable the GAMMA_LUT KMS property using the framework helpers to
+> > > > register the proeprty and the associated gamma table size maximum size.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > > > index e6d3df37c827..c920fb5dba65 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> > > > @@ -1207,6 +1207,9 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+> > > >  	    rcdu->cmms[swindex]) {
+> > > >  		rcrtc->cmm = rcdu->cmms[swindex];
+> > > >  		rgrp->cmms_mask |= BIT(hwindex % 2);
+> > > > +
+> > > > +		drm_mode_crtc_set_gamma_size(crtc, CMM_GAMMA_LUT_SIZE);
+> > > > +		drm_crtc_enable_color_mgmt(crtc, 0, false, CMM_GAMMA_LUT_SIZE);
+> > >
+> > > This change looks good, but you also need to add support for legacy API.
+> > > According to the function's documentation,
+> > >
+> > >  * Drivers should use drm_atomic_helper_legacy_gamma_set() to implement the
+> > >  * legacy &drm_crtc_funcs.gamma_set callback.
+> > >
+> >
+> > Drivers 'shuld' or drivers 'shall' ?
+> > Isn't this required only to support the 'legacy APIs' ? Do we want that?
+>
+> You're calling drm_mode_crtc_set_gamma_size, which is only useful for the
+> legacy ioctls. should here = assuming your hw supports something that
+> legacy gamma ioctl can use. Feel free to patch up the docs.
+
+Oh, I see. I should either leave the old API alone without calling
+drm_mode_crtc_set_gamma_size(), or set the .gamma_set callback to
+point to drm_atomic_helper_legacy_gamma_set(), which translates the
+old gamma table interface to a blob property and attach it to a crtc
+state which is then commited and applied through the atomic helpers.
+
+So I would change the doc to prescribe that if the driver intends to
+support the legacy SETGAMMA/GETGAMMA IOCTLs it should declare the
+gamma table size with drm_mode_crtc_set_gamma_size() first, and set
+the .gamma_set crtc callback to drm_atomic_helper_legacy_gamma_set(),
+which translates the legacy interface to a GAMMA_LUT property blob
+and commit it.
+
+If that works, I'll make a small patch to the documentation in v2.
+
+Thanks
+  j
+
+
+> -Daniel
+>
+> >
+> > Thanks
+> >    j
+> >
+> > > >  	}
+> > > >
+> > > >  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+> > > >
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Laurent Pinchart
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+--sj54nnncvdq22ppw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DaJEACgkQcjQGjxah
+VjyZGw//cZKIgD3YBAnD/okoI7Ik01icCdrGdWWeIC9/Z0xJL8Dby8DaDoHJqfoS
+A8QEj+V8gJKXy5NBC2OUScmMxIHV1bR05HrMd11+sVHlcGdt/g9c/A5BRVG8R0P9
+V4SKMzy9foDWYr6weedp6+PKpV0rV3BoexzpEAU7Op6rd+foNuxSH9tKaabzWcfs
+C+zK4ptII8U4eNZUf7bAuLojs8PdZFTwfMyTwdeztmUg9KvQIZvUTkPNdIOA41kj
+R5joK3EOA5El7uKl/L9kJbRnpiNlJJoihNtc2bO8i7ApzX6hNods2nj0ackJTnlM
+0/VUceYdSFCwAypt8fBAUBVy9HfG1MhQnEGW3rvlgm46yzHytSVo8Mz8vTFOYN+p
+hQG8FE822naJpMITM4aAddW/LKkKUXKyYNkn9Fvf+8EjGgXMBgEauQ56WUlxXKrk
+YpslnrXSzWJrmtGnshFgsnbM95zJ3TB9YtuVzVl++M5yAv8fMo2JC8Q8PROy/+S1
+B5sltyBaoA9SZPJ7y88JoEZCsT20f+1UfXch4kkP32BIm54IlCF7vDe99/WTsfCQ
+nqNBg1M5QZt4g3OLy/mVXMoZ/mZAV3XrSmXBSKjPaHr7l5Yz8n8eAeh7QzIJWc/C
+cui0ZFX8PCPJOsI+wDPggV/Tc8/OuJ4qaMLAPvoIces8BA2M6I8=
+=jBlM
+-----END PGP SIGNATURE-----
+
+--sj54nnncvdq22ppw--
+
+--===============1690204451==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1690204451==--
