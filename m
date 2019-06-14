@@ -1,34 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9680D4570C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 10:15:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F4A45737
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 10:16:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE7689336;
-	Fri, 14 Jun 2019 08:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3223489613;
+	Fri, 14 Jun 2019 08:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD26489336
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:15:13 +0000 (UTC)
-X-Originating-IP: 37.177.88.254
-Received: from uno.localdomain (unknown [37.177.88.254])
- (Authenticated sender: jacopo@jmondi.org)
- by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 399AA1BF207;
- Fri, 14 Jun 2019 08:14:53 +0000 (UTC)
-Date: Fri, 14 Jun 2019 10:15:52 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 19/20] drm: rcar-du: crtc: Register GAMMA_LUT properties
-Message-ID: <20190614081507.3ky4pcyijjxnr7mp@uno.localdomain>
-References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-20-jacopo+renesas@jmondi.org>
- <20190607120304.GH7593@pendragon.ideasonboard.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DB63A895E2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:16:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D624A72167; Fri, 14 Jun 2019 08:16:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110918] handicaped issue
+Date: Fri, 14 Jun 2019 08:16:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: minor
+X-Bugzilla-Who: to_naugachiya@bihar.gov.in
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-110918-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190607120304.GH7593@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,102 +51,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: muroya@ksk.co.jp, VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
- koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- kieran.bingham+renesas@ideasonboard.com,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: multipart/mixed; boundary="===============1897153112=="
+Content-Type: multipart/mixed; boundary="===============1492631885=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1897153112==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="khgtppfahw6u47d7"
-Content-Disposition: inline
+--===============1492631885==
+Content-Type: multipart/alternative; boundary="15605002141.Ac3eBCCDb.26427"
+Content-Transfer-Encoding: 7bit
 
 
---khgtppfahw6u47d7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--15605002141.Ac3eBCCDb.26427
+Date: Fri, 14 Jun 2019 08:16:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi Laurent,
-   thanks for review
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110918
 
-On Fri, Jun 07, 2019 at 03:03:04PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Thu, Jun 06, 2019 at 04:22:19PM +0200, Jacopo Mondi wrote:
-> > Enable the GAMMA_LUT KMS property using the framework helpers to
-> > register the proeprty and the associated gamma table size maximum size.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > index e6d3df37c827..c920fb5dba65 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > @@ -1207,6 +1207,9 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
-> >  	    rcdu->cmms[swindex]) {
-> >  		rcrtc->cmm = rcdu->cmms[swindex];
-> >  		rgrp->cmms_mask |= BIT(hwindex % 2);
-> > +
-> > +		drm_mode_crtc_set_gamma_size(crtc, CMM_GAMMA_LUT_SIZE);
-> > +		drm_crtc_enable_color_mgmt(crtc, 0, false, CMM_GAMMA_LUT_SIZE);
->
-> This change looks good, but you also need to add support for legacy API.
-> According to the function's documentation,
->
->  * Drivers should use drm_atomic_helper_legacy_gamma_set() to implement the
->  * legacy &drm_crtc_funcs.gamma_set callback.
->
+            Bug ID: 110918
+           Summary: handicaped issue
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: Linux (All)
+            Status: NEW
+          Severity: minor
+          Priority: medium
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: to_naugachiya@bihar.gov.in
 
-Drivers 'shuld' or drivers 'shall' ?
-Isn't this required only to support the 'legacy APIs' ? Do we want that?
+when going to handicaped is yes then alert massege is top up hadicaped type=
+ is
+required
 
-Thanks
-   j
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-> >  	}
-> >
-> >  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+--15605002141.Ac3eBCCDb.26427
+Date: Fri, 14 Jun 2019 08:16:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
---khgtppfahw6u47d7
-Content-Type: application/pgp-signature; name="signature.asc"
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - handicaped issue"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110918">110918</a>
+          </td>
+        </tr>
 
------BEGIN PGP SIGNATURE-----
+        <tr>
+          <th>Summary</th>
+          <td>handicaped issue
+          </td>
+        </tr>
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DV7gACgkQcjQGjxah
-Vjz5Jg//aFLz0tKq8wZCeVMJnKKzD7XcpXLs8B+mK1kVLNxct1Exnl2h4SIPmr1s
-/49MgCXJkN5/Aljw/y0WqifR4S4QvT5jFvuC/hc3Q1ggY0ycGxEICHSXXNyooV/a
-VpxHLQpgtadlRtUWpdxIYErbD/o8idWN39UWueI4zRkDSrfWAbjWjsH/86hrAq3R
-FMmfTaKbzddFytvX1Lh4x3gcKoO/64AvDwZoT/IMrVpINFZRTKw2sT7T7HeUFbh7
-f94rAsGPrX/z0u+xcYucQoUeXLG4XCx3Xy95yzYdmNmLxwy5SW44QF9IVWM+cR6z
-PaSfwATFHDRp5Shaq+kXhdPUlVHQTldm7McKw128xswE3oeChu1mFUseZxzJx6pi
-jUL8aHE4FEdZ1C1fy6F7eaSf6Kha4uklxea5Fdl5gl/uRf9RK+5sJC+T6BaKy2J9
-/fA2xnKXYbxeZabLGkeDp2mHSLv8w7fnv/AxcuW1O4+omnWzCMN364J5oUvfIs61
-aRRi3T5lb7zi16Jcy88yjXnQXOFqNDx9+noFaJ0wv1nUOv4bX4h7l/q+PDd37onE
-fdfxdEd9TsypZaVifSssDMRl1tkLFAgSkTtX1QmeJlqLz9Nfpo9YFeE4xxpiARcc
-Zh6mYjr2gpp7336mA1agpxJgiibvViHLPgh3gBFq9bVdcOza5Hw=
-=G1Ty
------END PGP SIGNATURE-----
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
 
---khgtppfahw6u47d7--
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
 
---===============1897153112==
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>minor
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>to_naugachiya&#64;bihar.gov.in
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>when going to handicaped is yes then alert massege is top up h=
+adicaped type is
+required</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15605002141.Ac3eBCCDb.26427--
+
+--===============1492631885==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -146,4 +209,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1897153112==--
+--===============1492631885==--
