@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE4245DF6
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 15:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D51245DF9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 15:21:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3108789812;
-	Fri, 14 Jun 2019 13:19:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64823893EC;
+	Fri, 14 Jun 2019 13:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1184 seconds by postgrey-1.36 at gabe;
- Fri, 14 Jun 2019 13:19:39 UTC
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E33A89812;
- Fri, 14 Jun 2019 13:19:39 +0000 (UTC)
-Received: from j217100.upc-j.chello.nl ([24.132.217.100]
- helo=hirez.programming.kicks-ass.net)
- by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1hbm6x-0007w5-1o; Fri, 14 Jun 2019 13:19:19 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
- id F03D820245B51; Fri, 14 Jun 2019 15:19:16 +0200 (CEST)
-Date: Fri, 14 Jun 2019 15:19:16 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 3/6] drm/gem: use new ww_mutex_(un)lock_for_each macros
-Message-ID: <20190614131916.GQ3436@hirez.programming.kicks-ass.net>
-References: <20190614124125.124181-1-christian.koenig@amd.com>
- <20190614124125.124181-4-christian.koenig@amd.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AB5B489467
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 13:20:58 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A7F9172167; Fri, 14 Jun 2019 13:20:58 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Fri, 14 Jun 2019 13:20:58 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-PvRwUBunTC@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190614124125.124181-4-christian.koenig@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=J27b+HrlctMzcBwFIcA+Fda937PR3Aw4zcivd7d9+UI=; b=bLymlhl3W46V0GdF77FYVHhqZb
- fOoDaDU3o7LR/EN8DoFEjda8u2W8HILBZOqJYlwb4K8+AdK9uaRK99WklFqCR6GUw5IfBrAhSjMzR
- jNk8l5LnEFd7+3hofHl/+8WfRX9oDmsl0A/EQoEROP7mlGqR6ZGtPCLXzSLUJMLoaGvghudrjaDrJ
- dp6N5LQNtMFHZoa/i8nqd3FEgbKQmBMxWr2r2kRYDM+tgpza25AGOjptXaeChq3WW8vidR/PZO/Ku
- BghMnb8Wx/tXIGSY5cTuS48kQ3BV5cXPxWi0gC7HRyTVABcdmgeUtz9LSL/iQmr9w57qMMBZqGwo8
- /MXfEiNA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,77 +53,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thellstrom@vmware.com, lima@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, yuq825@gmail.com, linux+etnaviv@armlinux.org.uk
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1578488879=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDI6NDE6MjJQTSArMDIwMCwgQ2hyaXN0aWFuIEvDtm5p
-ZyB3cm90ZToKPiBVc2UgdGhlIHByb3ZpZGVkIG1hY3JvcyBpbnN0ZWFkIG9mIGltcGxlbWVudGlu
-ZyBkZWFkbG9jayBoYW5kbGluZyBvbiBvdXIgb3duLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9n
-cHUvZHJtL2RybV9nZW0uYyB8IDQ5ICsrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMzcgZGVsZXRpb25zKC0p
-Cj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2dlbS5jCj4gaW5kZXggNTBkZTEzOGM4OWUwLi42ZTQ2MjNkM2JlZTIgMTAwNjQ0
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fZ2VtLmMKPiBAQCAtMTMwNyw1MSArMTMwNywyNiBAQCBpbnQKPiAgZHJtX2dlbV9sb2Nr
-X3Jlc2VydmF0aW9ucyhzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKipvYmpzLCBpbnQgY291bnQsCj4g
-IAkJCSAgc3RydWN0IHd3X2FjcXVpcmVfY3R4ICphY3F1aXJlX2N0eCkKPiAgewo+IC0JaW50IGNv
-bnRlbmRlZCA9IC0xOwo+ICsJc3RydWN0IHd3X211dGV4ICpjb250ZW5kZWQ7Cj4gIAlpbnQgaSwg
-cmV0Owo+ICAKPiAgCXd3X2FjcXVpcmVfaW5pdChhY3F1aXJlX2N0eCwgJnJlc2VydmF0aW9uX3d3
-X2NsYXNzKTsKPiAgCj4gLXJldHJ5Ogo+IC0JaWYgKGNvbnRlbmRlZCAhPSAtMSkgewo+IC0JCXN0
-cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqID0gb2Jqc1tjb250ZW5kZWRdOwo+IC0KPiAtCQlyZXQg
-PSB3d19tdXRleF9sb2NrX3Nsb3dfaW50ZXJydXB0aWJsZSgmb2JqLT5yZXN2LT5sb2NrLAo+IC0J
-CQkJCQkgICAgICAgYWNxdWlyZV9jdHgpOwo+IC0JCWlmIChyZXQpIHsKPiAtCQkJd3dfYWNxdWly
-ZV9kb25lKGFjcXVpcmVfY3R4KTsKPiAtCQkJcmV0dXJuIHJldDsKPiAtCQl9Cj4gLQl9Cj4gLQo+
-IC0JZm9yIChpID0gMDsgaSA8IGNvdW50OyBpKyspIHsKPiAtCQlpZiAoaSA9PSBjb250ZW5kZWQp
-Cj4gLQkJCWNvbnRpbnVlOwo+IC0KPiAtCQlyZXQgPSB3d19tdXRleF9sb2NrX2ludGVycnVwdGli
-bGUoJm9ianNbaV0tPnJlc3YtPmxvY2ssCj4gLQkJCQkJCSAgYWNxdWlyZV9jdHgpOwo+IC0JCWlm
-IChyZXQpIHsKPiAtCQkJaW50IGo7Cj4gLQo+IC0JCQlmb3IgKGogPSAwOyBqIDwgaTsgaisrKQo+
-IC0JCQkJd3dfbXV0ZXhfdW5sb2NrKCZvYmpzW2pdLT5yZXN2LT5sb2NrKTsKPiAtCj4gLQkJCWlm
-IChjb250ZW5kZWQgIT0gLTEgJiYgY29udGVuZGVkID49IGkpCj4gLQkJCQl3d19tdXRleF91bmxv
-Y2soJm9ianNbY29udGVuZGVkXS0+cmVzdi0+bG9jayk7Cj4gLQo+IC0JCQlpZiAocmV0ID09IC1F
-REVBRExLKSB7Cj4gLQkJCQljb250ZW5kZWQgPSBpOwo+IC0JCQkJZ290byByZXRyeTsKPiAtCQkJ
-fQo+IC0KPiAtCQkJd3dfYWNxdWlyZV9kb25lKGFjcXVpcmVfY3R4KTsKPiAtCQkJcmV0dXJuIHJl
-dDsKPiAtCQl9Cj4gLQl9CgpJIG5vdGUgYWxsIHRoZSBzaXRlcyB5b3UgdXNlIHRoaXMgb24gYXJl
-IHNpbXBsZSBpZHggaXRlcmF0b3JzOyBzbyBob3cKYWJvdXQgc29tZXRoaW5nIGxpa2Ugc286Cgpp
-bnQgd3dfbXV0ZXhfdW5sb2NrX2FsbChpbnQgY291bnQsIHZvaWQgKmRhdGEsIHN0cnVjdCB3d19t
-dXRleCAqKCpmdW5jKShpbnQsIHZvaWQgKikpCnsKCWludCBpOwoKCWZvciAoaSA9IDA7IGkgPCBj
-b3VudDsgaSsrKSB7CgkJbG9jayA9IGZ1bmMoaSwgZGF0YSk7CgkJd3dfbXV0ZXhfdW5sb2NrKGxv
-Y2spOwoJfQp9CgppbnQgd3dfbXV0ZXhfbG9ja19hbGwoaW50IGNvdW50LCBzdHJ1Y3Qgd3dfYWNx
-dWlyZV9jb250ZXh0ICphY3F1aXJlX2N0eCwgYm9vbCBpbnRyLAoJCSAgICAgIHZvaWQgKmRhdGEs
-IHN0cnVjdCB3d19tdXRleCAqKCpmdW5jKShpbnQsIHZvaWQgKikpCnsKCWludCBpLCByZXQsIGNv
-bnRlbmRlZCA9IC0xOwoJc3RydWN0IHd3X211dGV4ICpsb2NrOwoKcmV0cnk6CglpZiAoY29udGVu
-ZGVkICE9IC0xKSB7CgkJbG9jayA9IGZ1bmMoY29udGVuZGVkLCBkYXRhKTsKCQlpZiAoaW50cikK
-CQkJcmV0ID0gd3dfbXV0ZXhfbG9ja19zbG93X2ludGVycnVwdGlibGUobG9jaywgYWNxdWlyZV9j
-dHgpOwoJCWVsc2UKCQkJcmV0ID0gd3dfbXV0ZXhfbG9ja19zbG93KGxvY2ssIGFjcXVpcmVfY3R4
-KSwgMDsKCgkJaWYgKHJldCkgewoJCQl3d19hY3F1aXJlX2RvbmUoYWNxdWlyZV9jdHgpOwoJCQly
-ZXR1cm4gcmV0OwoJCX0KCX0KCglmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkrKykgewoJCWlmIChp
-ID09IGNvbnRlbmRlZCkKCQkJY29udGludWU7CgoJCWxvY2sgPSBmdW5jKGksIGRhdGEpOwoJCWlm
-IChpbnRyKQoJCQlyZXQgPSB3d19tdXRleF9sb2NrX2ludGVycnVwdGlibGUobG9jaywgYWNxdWly
-ZV9jdHgpOwoJCWVsc2UKCQkJcmV0ID0gd3dfbXV0ZXhfbG9jayhsb2NrLCBhY3F1aXJlX2N0eCks
-IDA7CgoJCWlmIChyZXQpIHsKCQkJd3dfbXV0ZXhfdW5sb2NrX2FsbChpLCBkYXRhLCBmdW5jKTsK
-CQkJaWYgKGNvbnRlbmRlZCA+IGkpIHsKCQkJCWxvY2sgPSBmdW5jKGNvbnRlbmRlZCwgZGF0YSk7
-CgkJCQl3d19tdXRleF91bmxvY2sobG9jayk7CgkJCX0KCgkJCWlmIChyZXQgPT0gLUVERUFETEsp
-IHsKCQkJCWNvbnRlbmRlZCA9IGk7CgkJCQlnb3RvIHJldHJ5OwoJCQl9CgoJCQl3d19hY3F1aXJl
-X2RvbmUoYWNxdWlyZV9jdHgpOwoJCQlyZXR1cm4gcmV0OwoJCX0KCX0KCgl3d19hY3F1aXJlX2Rv
-bmUoYWNxdWlyZV9jdHgpOwoJcmV0dXJuIDA7Cn0KCj4gKwl3d19tdXRleF9sb2NrX2Zvcl9lYWNo
-KGZvciAoaSA9IDA7IGkgPCBjb3VudDsgaSsrKSwKPiArCQkJICAgICAgICZvYmpzW2ldLT5yZXN2
-LT5sb2NrLCBjb250ZW5kZWQsIHJldCwgdHJ1ZSwKPiArCQkJICAgICAgIGFjcXVpcmVfY3R4KQo+
-ICsJCWlmIChyZXQpCj4gKwkJCWdvdG8gZXJyb3I7Cgp3aGljaCB0aGVuIGJlY29tZXM6CgpzdHJ1
-Y3Qgd3dfbXV0ZXggKmdlbV93d19tdXRleF9mdW5jKGludCBpLCB2b2lkICpkYXRhKQp7CglzdHJ1
-Y3QgZHJtX2dlbV9vYmplY3QgKipvYmpzID0gZGF0YTsKCXJldHVybiAmb2Jqc1tpXS0+cmVzdi0+
-bG9jazsKfQoKCXJldCA9IHd3X211dGV4X2xvY2tfYWxsKGNvdW50LCBhY3F1aXJlX2N0eCwgdHJ1
-ZSwgb2JqcywgZ2VtX3d3X211dGV4X2Z1bmMpOwoKPiAgCXd3X2FjcXVpcmVfZG9uZShhY3F1aXJl
-X2N0eCk7Cj4gIAo+ICAJcmV0dXJuIDA7Cj4gKwo+ICtlcnJvcjoKPiArCXd3X211dGV4X3VubG9j
-a19mb3JfZWFjaChmb3IgKGkgPSAwOyBpIDwgY291bnQ7IGkrKyksCj4gKwkJCQkgJm9ianNbaV0t
-PnJlc3YtPmxvY2ssIGNvbnRlbmRlZCk7Cj4gKwl3d19hY3F1aXJlX2RvbmUoYWNxdWlyZV9jdHgp
-Owo+ICsJcmV0dXJuIHJldDsKPiAgfQo+ICBFWFBPUlRfU1lNQk9MKGRybV9nZW1fbG9ja19yZXNl
-cnZhdGlvbnMpOwo+ICAKPiAtLSAKPiAyLjE3LjEKPiAKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1578488879==
+Content-Type: multipart/alternative; boundary="15605184582.F2113.9633"
+Content-Transfer-Encoding: 7bit
+
+
+--15605184582.F2113.9633
+Date: Fri, 14 Jun 2019 13:20:58 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #29 from Richard Thier <u9vata@gmail.com> ---
+Okay this is weird for me:
+
+  /* src/gallium/drivers/r300/r300_texture_desc.c */
+  399             /* Get the HIZ buffer size in dwords. */
+  400             hiz_numdw =3D (stride * height) / (8*8 * pipes);
+  401=20
+  402             /* Check whether we have enough HIZ memory. */
+  403             if (hiz_numdw <=3D screen->caps.hiz_ram * pipes) {
+  404                 tex->tex.hiz_dwords[i] =3D hiz_numdw;
+  405                 tex->tex.hiz_stride_in_pixels[i] =3D stride;
+  406             } else {
+  407                 tex->tex.hiz_dwords[i] =3D 0;
+  408                 tex->tex.hiz_stride_in_pixels[i] =3D 0;
+  409             }
+
+  (gdb) p hiz_numdw
+  $35 =3D 1128
+  (gdb) p screen->caps.hiz_ram
+  $36 =3D 0
+  (gdb)
+
+(!) Is it normal to have zero hiz_ram on this
+card???????????????????????????????????????????????
+
+Btw:
+
+info.r300_num_z_pipes =3D=3D 1
+info.r300_num_gb_pipes =3D=3D 3 (this is in the pipes var)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15605184582.F2113.9633
+Date: Fri, 14 Jun 2019 13:20:58 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c29">Comme=
+nt # 29</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>Okay this is weird for me:
+
+  /* src/gallium/drivers/r300/r300_texture_desc.c */
+  399             /* Get the HIZ buffer size in dwords. */
+  400             hiz_numdw =3D (stride * height) / (8*8 * pipes);
+  401=20
+  402             /* Check whether we have enough HIZ memory. */
+  403             if (hiz_numdw &lt;=3D screen-&gt;caps.hiz_ram * pipes) {
+  404                 tex-&gt;tex.hiz_dwords[i] =3D hiz_numdw;
+  405                 tex-&gt;tex.hiz_stride_in_pixels[i] =3D stride;
+  406             } else {
+  407                 tex-&gt;tex.hiz_dwords[i] =3D 0;
+  408                 tex-&gt;tex.hiz_stride_in_pixels[i] =3D 0;
+  409             }
+
+  (gdb) p hiz_numdw
+  $35 =3D 1128
+  (gdb) p screen-&gt;caps.hiz_ram
+  $36 =3D 0
+  (gdb)
+
+(!) Is it normal to have zero hiz_ram on this
+card???????????????????????????????????????????????
+
+Btw:
+
+info.r300_num_z_pipes =3D=3D 1
+info.r300_num_gb_pipes =3D=3D 3 (this is in the pipes var)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15605184582.F2113.9633--
+
+--===============1578488879==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1578488879==--
