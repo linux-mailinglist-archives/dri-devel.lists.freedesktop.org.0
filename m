@@ -2,50 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09AC4750B
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 16:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC9046203
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:05:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82F4892AC;
-	Sun, 16 Jun 2019 14:02:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D1B8892A0;
+	Fri, 14 Jun 2019 15:05:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [207.82.80.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E677899DC
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:01:27 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id uk-mta-6-Ae-vvi9EMKOPr28p6sbQQA-1;
- Fri, 14 Jun 2019 16:01:23 +0100
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b::d117) by AcuMS.aculab.com
- (fd9f:af1c:a25b::d117) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri,
- 14 Jun 2019 16:01:22 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Fri, 14 Jun 2019 16:01:22 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christoph Hellwig' <hch@lst.de>
-Subject: RE: [PATCH 16/16] dma-mapping: use exact allocation in
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E7C56892A0;
+ Fri, 14 Jun 2019 15:05:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E8F2344;
+ Fri, 14 Jun 2019 08:05:37 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B1F93F246;
+ Fri, 14 Jun 2019 08:05:34 -0700 (PDT)
+Subject: Re: [PATCH 16/16] dma-mapping: use exact allocation in
  dma_alloc_contiguous
-Thread-Topic: [PATCH 16/16] dma-mapping: use exact allocation in
- dma_alloc_contiguous
-Thread-Index: AQHVIrfpTFjppS25RkWUhwqPPyqZ4qabLzdw///7eICAABIeYA==
-Date: Fri, 14 Jun 2019 15:01:22 +0000
-Message-ID: <d93fd4c2c1584d92a05dd641929f6d63@AcuMS.aculab.com>
+To: 'Christoph Hellwig' <hch@lst.de>, David Laight <David.Laight@ACULAB.COM>
 References: <20190614134726.3827-1-hch@lst.de>
  <20190614134726.3827-17-hch@lst.de>
  <a90cf7ec5f1c4166b53c40e06d4d832a@AcuMS.aculab.com>
  <20190614145001.GB9088@lst.de>
-In-Reply-To: <20190614145001.GB9088@lst.de>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <4113cd5f-5c13-e9c7-bc5e-dcf0b60e7054@arm.com>
+Date: Fri, 14 Jun 2019 16:05:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MC-Unique: Ae-vvi9EMKOPr28p6sbQQA-1
-X-Mimecast-Spam-Score: 0
-X-Mailman-Approved-At: Sun, 16 Jun 2019 14:01:48 +0000
+In-Reply-To: <20190614145001.GB9088@lst.de>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,27 +63,32 @@ Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  H Hartley Sweeten <hsweeten@visionengravers.com>,
  "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogJ0NocmlzdG9waCBIZWxsd2lnJwo+IFNlbnQ6IDE0IEp1bmUgMjAxOSAxNTo1MAo+IFRv
-OiBEYXZpZCBMYWlnaHQKPiBPbiBGcmksIEp1biAxNCwgMjAxOSBhdCAwMjoxNTo0NFBNICswMDAw
-LCBEYXZpZCBMYWlnaHQgd3JvdGU6Cj4gPiBEb2VzIHRoaXMgc3RpbGwgZ3VhcmFudGVlIHRoYXQg
-cmVxdWVzdHMgZm9yIDE2ayB3aWxsIG5vdCBjcm9zcyBhIDE2ayBib3VuZGFyeT8KPiA+IEl0IGxv
-b2tzIGxpa2UgeW91IGFyZSBsb3NpbmcgdGhlIGFsaWdubWVudCBwYXJhbWV0ZXIuCj4gCj4gVGhl
-IERNQSBBUEkgbmV2ZXIgZ2F2ZSB5b3UgYWxpZ25tZW50IGd1YXJhbnRlZXMgdG8gc3RhcnQgd2l0
-aCwKPiBhbmQgeW91IGNhbiBnZXQgbm90IG5hdHVyYWxseSBhbGlnbmVkIG1lbW9yeSBmcm9tIG1h
-bnkgb2Ygb3VyCj4gY3VycmVudCBpbXBsZW1lbnRhdGlvbnMuCgpIbW1tLi4uCkkgdGhvdWdodCB0
-aGF0IHdhcyBldmVuIGRvY3VtZW50ZWQuCgpJJ20gcHJldHR5IHN1cmUgdGhlcmUgaXMgYSBsb3Qg
-b2YgY29kZSBvdXQgdGhlcmUgdGhhdCBtYWtlcyB0aGF0IGFzc3VtcHRpb24uCldpdGhvdXQgaXQg
-bWFueSBkcml2ZXJzIHdpbGwgaGF2ZSB0byBhbGxvY2F0ZSBhbG1vc3QgZG91YmxlIHRoZQphbW91
-bnQgb2YgbWVtb3J5IHRoZXkgYWN0dWFsbHkgbmVlZCBpbiBvcmRlciB0byBnZXQgdGhlIHJlcXVp
-cmVkIGFsaWdubWVudC4KU28gaW5zdGVhZCBvZiBzYXZpbmcgbWVtb3J5IHlvdSdsbCBhY3R1YWxs
-eSBtYWtlIG1vcmUgYmUgdXNlZC4KCglEYXZpZAoKLQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNp
-ZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsK
-UmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gMTQvMDYvMjAxOSAxNTo1MCwgJ0NocmlzdG9waCBIZWxsd2lnJyB3cm90ZToKPiBPbiBGcmks
+IEp1biAxNCwgMjAxOSBhdCAwMjoxNTo0NFBNICswMDAwLCBEYXZpZCBMYWlnaHQgd3JvdGU6Cj4+
+IERvZXMgdGhpcyBzdGlsbCBndWFyYW50ZWUgdGhhdCByZXF1ZXN0cyBmb3IgMTZrIHdpbGwgbm90
+IGNyb3NzIGEgMTZrIGJvdW5kYXJ5Pwo+PiBJdCBsb29rcyBsaWtlIHlvdSBhcmUgbG9zaW5nIHRo
+ZSBhbGlnbm1lbnQgcGFyYW1ldGVyLgo+IAo+IFRoZSBETUEgQVBJIG5ldmVyIGdhdmUgeW91IGFs
+aWdubWVudCBndWFyYW50ZWVzIHRvIHN0YXJ0IHdpdGgsCj4gYW5kIHlvdSBjYW4gZ2V0IG5vdCBu
+YXR1cmFsbHkgYWxpZ25lZCBtZW1vcnkgZnJvbSBtYW55IG9mIG91cgo+IGN1cnJlbnQgaW1wbGVt
+ZW50YXRpb25zLgoKV2VsbCwgYXBhcnQgZnJvbSB0aGUgYml0IGluIERNQS1BUEktSE9XVE8gd2hp
+Y2ggaGFzIHNhaWQgdGhpcyBzaW5jZSAKZm9yZXZlciAod2VsbCwgYmVmb3JlIEdpdCBoaXN0b3J5
+LCBhdCBsZWFzdCk6CgoiVGhlIENQVSB2aXJ0dWFsIGFkZHJlc3MgYW5kIHRoZSBETUEgYWRkcmVz
+cyBhcmUgYm90aApndWFyYW50ZWVkIHRvIGJlIGFsaWduZWQgdG8gdGhlIHNtYWxsZXN0IFBBR0Vf
+U0laRSBvcmRlciB3aGljaAppcyBncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gdGhlIHJlcXVlc3Rl
+ZCBzaXplLiAgVGhpcyBpbnZhcmlhbnQKZXhpc3RzIChmb3IgZXhhbXBsZSkgdG8gZ3VhcmFudGVl
+IHRoYXQgaWYgeW91IGFsbG9jYXRlIGEgY2h1bmsKd2hpY2ggaXMgc21hbGxlciB0aGFuIG9yIGVx
+dWFsIHRvIDY0IGtpbG9ieXRlcywgdGhlIGV4dGVudCBvZiB0aGUKYnVmZmVyIHlvdSByZWNlaXZl
+IHdpbGwgbm90IGNyb3NzIGEgNjRLIGJvdW5kYXJ5LiIKClRoYXQgc2FpZCwgSSBkb24ndCBiZWxp
+ZXZlIHRoaXMgcGFydGljdWxhciBwYXRjaCBzaG91bGQgbWFrZSBhbnkgCmFwcHJlY2lhYmxlIGRp
+ZmZlcmVuY2UgLSBhbGxvY19wYWdlc19leGFjdCgpIGlzIHN0aWxsIGdvaW5nIHRvIGdpdmUgYmFj
+ayAKdGhlIHNhbWUgYmFzZSBhZGRyZXNzIGFzIHRoZSByb3VuZGVkIHVwIG92ZXItYWxsb2NhdGlv
+biB3b3VsZCwgYW5kIApQQUdFX0FMSUdOKClpbmcgdGhlIHNpemUgcGFzc2VkIHRvIGdldF9vcmRl
+cigpIGFscmVhZHkgc2VlbWVkIHRvIGJlIApwb2ludGxlc3MuCgpSb2Jpbi4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
