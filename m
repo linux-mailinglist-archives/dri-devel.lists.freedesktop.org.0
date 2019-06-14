@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49A0464E4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 18:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A4F4656D
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 19:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F35F89B84;
-	Fri, 14 Jun 2019 16:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFA1B89B0D;
+	Fri, 14 Jun 2019 17:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
- [209.85.222.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37F9A89B84
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 16:47:06 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id p144so2058938qke.11
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 09:47:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=IOo1pvRWjmacOSCq3ogqjxZuWWdGzC13ArgyKbSDaEM=;
- b=IQ5YS7ea4vUcHViHLIgJm8NWsA5UvdV0r8DVI8osuxZ0YcUQ7W9LegsmBj1e5C03oi
- M7aYQrqWDHuBJVFgFGSbEycGwVfrCqh2bM5GnJ4cbo5HaFUQkeegZro0qP8fwhVFdFAX
- snwAqTNlqK3edMw+tBGvbjv9eQZYXeN23s1UzkjzAaRrh+xdf8XBTyFEppvktOFF68wp
- JT7fZE1/U/jYRWYcwQCr8cn8430ego4/MZYgralUZrCADVY37yxILHwYwjIt1RqSHZye
- iGrg4B9Ex8uq1ihX2Uvh21MYbPFnfX43so/E0JHmBtPwaohp8kZrcKN0uJm5GNyilEi8
- b7OQ==
-X-Gm-Message-State: APjAAAWo0fBQNZHsew2+1RDFesYmsuAIw4mjbVJiewtKh8PjX53eEcdW
- yAyiX/ULjCIWjLOQFdN9mw==
-X-Google-Smtp-Source: APXvYqwI93cayeCpqkq1zgPJZnyXYH8EbxpzVgERa0diD8d8GwuLWqKf0sVGvoLXazEVSJSYS9lgBg==
-X-Received: by 2002:a37:d8e:: with SMTP id 136mr63465224qkn.259.1560530825285; 
- Fri, 14 Jun 2019 09:47:05 -0700 (PDT)
-Received: from localhost ([64.188.179.243])
- by smtp.gmail.com with ESMTPSA id j184sm1878283qkc.65.2019.06.14.09.47.04
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 09:47:04 -0700 (PDT)
-Date: Fri, 14 Jun 2019 10:47:02 -0600
-From: Rob Herring <robh@kernel.org>
-To: Justin Swartz <justin.swartz@risingedge.co.za>
-Subject: Re: [PATCH] drm/rockchip: dw_hdmi: add basic rk3228 support
-Message-ID: <20190614164702.GA20322@bogus>
-References: <20190522224631.25164-1-justin.swartz@risingedge.co.za>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8CCCC89B11
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 17:13:10 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 832AB72167; Fri, 14 Jun 2019 17:13:10 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110914] Heavy corruption on R300 with modesetting and GLAMOR
+Date: Fri, 14 Jun 2019 17:13:10 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rsalvaterra@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110914-502-6nTsLD2sUh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110914-502@http.bugs.freedesktop.org/>
+References: <bug-110914-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190522224631.25164-1-justin.swartz@risingedge.co.za>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,28 +52,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Justin Swartz <justin.swartz@risingedge.co.za>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0238771661=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMiBNYXkgMjAxOSAyMjo0NjoyOSArMDAwMCwgSnVzdGluIFN3YXJ0eiB3cm90ZToK
-PiBMaWtlIHRoZSBSSzMzMjgsIFJLMzIyeCBTb0NzIG9mZmVyIGEgU3lub3BzaXMgRGVzaWduV2Fy
-ZSBIRE1JIHRyYW5zbWl0dGVyCj4gYW5kIGFuIElubm9zaWxpY29uIEhETUkgUEhZLgo+IAo+IEFk
-ZCBhIG5ldyBkd19oZG1pX3BsYXRfZGF0YSBzdHJ1Y3QsIHJrMzIyOF9oZG1pX2Rydl9kYXRhLgo+
-IEFzc2lnbiBhIHNldCBvZiBtb3N0bHkgZ2VuZXJpYyByazMyMjhfaGRtaV9waHlfb3BzIGZ1bmN0
-aW9ucy4KPiBBZGQgZHdfaGRtaV9yazMyMjhfc2V0dXBfaHBkKCkgdG8gZW5hYmxlIHRoZSBIRE1J
-IEhQRCBhbmQgRERDIGxpbmVzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEp1c3RpbiBTd2FydHogPGp1
-c3Rpbi5zd2FydHpAcmlzaW5nZWRnZS5jby56YT4KPiAtLS0KPiAgLi4uL2JpbmRpbmdzL2Rpc3Bs
-YXkvcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC50eHQgfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMgICAgICAgIHwgNTMgKysrKysrKysrKysrKysr
-KysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDU0IGluc2VydGlvbnMoKykKPiAKClJldmlld2Vk
-LWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0238771661==
+Content-Type: multipart/alternative; boundary="15605323900.70bA1.5444"
+Content-Transfer-Encoding: 7bit
+
+
+--15605323900.70bA1.5444
+Date: Fri, 14 Jun 2019 17:13:10 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110914
+
+--- Comment #3 from Rui Salvaterra <rsalvaterra@gmail.com> ---
+Created attachment 144546
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144546&action=3Dedit
+Xorg log
+
+Xorg log attached.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15605323900.70bA1.5444
+Date: Fri, 14 Jun 2019 17:13:10 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Heavy corruption on R300 with modesetting and GLAMOR"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110914#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Heavy corruption on R300 with modesetting and GLAMOR"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110914">bug 11091=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rsalvaterra&#64;gmail.com" title=3D"Rui Salvaterra &lt;rsalvaterra&#64;gmai=
+l.com&gt;"> <span class=3D"fn">Rui Salvaterra</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144546=
+" name=3D"attach_144546" title=3D"Xorg log">attachment 144546</a> <a href=
+=3D"attachment.cgi?id=3D144546&amp;action=3Dedit" title=3D"Xorg log">[detai=
+ls]</a></span>
+Xorg log
+
+Xorg log attached.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15605323900.70bA1.5444--
+
+--===============0238771661==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0238771661==--
