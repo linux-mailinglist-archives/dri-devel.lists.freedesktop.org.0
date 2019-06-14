@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A5E4623C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9775E4623E
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 17:12:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF13A892A5;
-	Fri, 14 Jun 2019 15:11:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3C12892A6;
+	Fri, 14 Jun 2019 15:12:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CC1A6892A6
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:11:52 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C3A9472167; Fri, 14 Jun 2019 15:11:52 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Fri, 14 Jun 2019 15:11:52 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110897-502-0LmyXl4CD3@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B91F892A6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:12:51 +0000 (UTC)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 04EC3217D6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 15:12:51 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id x2so2884616qtr.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 08:12:50 -0700 (PDT)
+X-Gm-Message-State: APjAAAWLjcEV0i1zfStOfV02TY26TRDvjFUKMEw4ufDGUtnP6lxlD+Ou
+ S46hmUfGhowiN81wIojeqos1DlLMXjQErYFvMg==
+X-Google-Smtp-Source: APXvYqxsvzWBrZIsLaq5eG0h1SPxjmx8lUC/1ZM4CBw8Theis6v5V4NDZjLtbM/5bXQ7hhl0eGhT065S1yWmWeQoaN0=
+X-Received: by 2002:aed:3b33:: with SMTP id p48mr74213700qte.143.1560525170254; 
+ Fri, 14 Jun 2019 08:12:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190529095233.26277-1-boris.brezillon@collabora.com>
+ <20190529151619.GC32127@rosenzweig.io>
+In-Reply-To: <20190529151619.GC32127@rosenzweig.io>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Fri, 14 Jun 2019 09:12:39 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLtruq2ZFApGGUADCyEhQrGXOUV9Va-1bNqfCG+AOijGw@mail.gmail.com>
+Message-ID: <CAL_JsqLtruq2ZFApGGUADCyEhQrGXOUV9Va-1bNqfCG+AOijGw@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] drm/panfrost: Expose perf counters to userspace
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1560525171;
+ bh=qYR7occjgMpisDSZQIvc3dlm7y68eI/T8MK1pIOruA0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=2rUB/wxJsDCIQiePKt3M4+DjlfT8+MSM37J0MjQwy1kWGE4k9WKXAfCRE0O83mrHd
+ IxJGLmRJYuZtvB9yETPbCEMxyTpgXgEk2doMwM/SjSZnSRlSgLhoi3k56WfkfWVVmN
+ 8EWyKWaRQo1xS9Esc5KDFaVllnrsBOVXR9dhceFI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,186 +54,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0925737907=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0925737907==
-Content-Type: multipart/alternative; boundary="15605251120.10830.6005"
-Content-Transfer-Encoding: 7bit
-
-
---15605251120.10830.6005
-Date: Fri, 14 Jun 2019 15:11:52 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
-
---- Comment #31 from Richard Thier <u9vata@gmail.com> ---
-Created attachment 144545
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144545&action=3Dedit
-Really no cmask ram it seems
-
-I have faked to have hiz ram and cmask ram just to see what happens.
-When I am turning on MSAA now I get this glitches from the shared screensho=
-t so
-I guess it is right that my card is just not having CMASK_RAM.
-
-  122     case CHIP_RS480:
-  123         caps->zmask_ram =3D RV3xx_ZMASK_SIZE;
-  124         caps->has_cmask =3D TRUE; /* guessed because there is also Hi=
-Z */
-  125         caps->hiz_ram =3D R300_HIZ_LIMIT;
-  126         break;
-
-hiz_ram faking seems to have no effect whatsoever.
-
-I have also tried this hack - but it did not help:
-
-diff --git a/src/gallium/drivers/r300/r300_emit.c
-b/src/gallium/drivers/r300/r300_emit.c
-index 80c959b95d0..48fafecfdda 100644
---- a/src/gallium/drivers/r300/r300_emit.c
-+++ b/src/gallium/drivers/r300/r300_emit.c
-@@ -1224,6 +1224,10 @@ void r300_emit_hiz_clear(struct r300_context *r300,
-unsigned size, void *state)
-     tex =3D r300_resource(fb->zsbuf->texture);
-
-     BEGIN_CS(size);
-+    // FIXME: Remove this hack!
-+    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
-     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_HIZ, 2);
-     OUT_CS(0);
-     OUT_CS(tex->tex.hiz_dwords[fb->zsbuf->u.tex.level]);
-@@ -1246,6 +1250,9 @@ void r300_emit_zmask_clear(struct r300_context *r300,
-unsigned size, void *state
-     tex =3D r300_resource(fb->zsbuf->texture);
-
-     BEGIN_CS(size);
-+    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
-     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_ZMASK, 2);
-     OUT_CS(0);
-     OUT_CS(tex->tex.zmask_dwords[fb->zsbuf->u.tex.level]);
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15605251120.10830.6005
-Date: Fri, 14 Jun 2019 15:11:52 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c31">Comme=
-nt # 31</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144545=
-" name=3D"attach_144545" title=3D"Really no cmask ram it seems">attachment =
-144545</a> <a href=3D"attachment.cgi?id=3D144545&amp;action=3Dedit" title=
-=3D"Really no cmask ram it seems">[details]</a></span>
-Really no cmask ram it seems
-
-I have faked to have hiz ram and cmask ram just to see what happens.
-When I am turning on MSAA now I get this glitches from the shared screensho=
-t so
-I guess it is right that my card is just not having CMASK_RAM.
-
-  122     case CHIP_RS480:
-  123         caps-&gt;zmask_ram =3D RV3xx_ZMASK_SIZE;
-  124         caps-&gt;has_cmask =3D TRUE; /* guessed because there is also=
- HiZ */
-  125         caps-&gt;hiz_ram =3D R300_HIZ_LIMIT;
-  126         break;
-
-hiz_ram faking seems to have no effect whatsoever.
-
-I have also tried this hack - but it did not help:
-
-diff --git a/src/gallium/drivers/r300/r300_emit.c
-b/src/gallium/drivers/r300/r300_emit.c
-index 80c959b95d0..48fafecfdda 100644
---- a/src/gallium/drivers/r300/r300_emit.c
-+++ b/src/gallium/drivers/r300/r300_emit.c
-&#64;&#64; -1224,6 +1224,10 &#64;&#64; void r300_emit_hiz_clear(struct r300=
-_context *r300,
-unsigned size, void *state)
-     tex =3D r300_resource(fb-&gt;zsbuf-&gt;texture);
-
-     BEGIN_CS(size);
-+    // FIXME: Remove this hack!
-+    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
-     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_HIZ, 2);
-     OUT_CS(0);
-     OUT_CS(tex-&gt;tex.hiz_dwords[fb-&gt;zsbuf-&gt;u.tex.level]);
-&#64;&#64; -1246,6 +1250,9 &#64;&#64; void r300_emit_zmask_clear(struct r30=
-0_context *r300,
-unsigned size, void *state
-     tex =3D r300_resource(fb-&gt;zsbuf-&gt;texture);
-
-     BEGIN_CS(size);
-+    OUT_CS_REG(R300_ZB_ZCACHE_CTLSTAT,
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FLUSH_FLUSH_AND_FREE |
-+        R300_ZB_ZCACHE_CTLSTAT_ZC_FREE_FREE);
-     OUT_CS_PKT3(R300_PACKET3_3D_CLEAR_ZMASK, 2);
-     OUT_CS(0);
-     OUT_CS(tex-&gt;tex.zmask_dwords[fb-&gt;zsbuf-&gt;u.tex.level]);</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15605251120.10830.6005--
-
---===============0925737907==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0925737907==--
+T24gV2VkLCBNYXkgMjksIDIwMTkgYXQgOToxNiBBTSBBbHlzc2EgUm9zZW56d2VpZyA8YWx5c3Nh
+QHJvc2VuendlaWcuaW8+IHdyb3RlOgo+Cj4gV29vaG9vISBQYXRjaGVzIDEtMyBhcmUgUi1iOyBw
+YXRjaCA0IGlzIEEtYi4gRXhjaXRpbmcgcHJvZ3Jlc3MhIEhvcGluZwo+IHRvIGhlYXIgd2hhdCBS
+b2IgYW5kIFN0ZXZlbiB0aGluayA6KQoKQWxsIGxvb2tzIGZpbmUgdG8gbWUsIGJ1dCB0aGVyZSdz
+IGEga2J1aWxkIGVycm9yIG9uIHBhdGNoIDQgdGhhdCBuZWVkcwp0byBiZSBmaXhlZC4KClJvYgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
