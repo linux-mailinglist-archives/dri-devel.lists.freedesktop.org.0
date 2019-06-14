@@ -1,31 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C3DE458A8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 11:29:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 108B8458CA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 11:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FB1F89487;
-	Fri, 14 Jun 2019 09:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3C8894E7;
+	Fri, 14 Jun 2019 09:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6BD089487
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 09:29:47 +0000 (UTC)
-Received: from we0305.dip.tu-dresden.de ([141.76.177.49] helo=phil.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1hbiWc-00044s-Js; Fri, 14 Jun 2019 11:29:34 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH 2/4] drm/rockchip: Enable DRM InfoFrame support on RK3328
- and RK3399
-Date: Fri, 14 Jun 2019 11:29:33 +0200
-Message-ID: <4131981.039HHiXCja@phil>
-In-Reply-To: <VI1PR03MB42062F51FD88AEB6DADD8734AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
-References: <VI1PR03MB420621617DDEAB3596700DE0AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
- <VI1PR03MB42062F51FD88AEB6DADD8734AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF58C894E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 09:34:54 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id q186so1520135oia.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 02:34:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IAxytmldJ+LQ9oXsinyPkN3ds2MZTOAfP2wyBRBDeRg=;
+ b=fsU96ZtEeLxoFSg6qoBdmeqOJv7sKtooJmSvPlrH/bL3S1JS2mCs7RssP6wgKnrVBo
+ 4KfWItxNOkiLyzgGnL6NXHisv/YfQo0whTuMW97eXJyl++TqokXXaxkTuXXpIcxe+jjV
+ l0iMQFNqwn7d1aikoAKR7OdH0/5BiOYip1f6JcO6D3+k3LUkbO9Td2VFGSLMQXA8o+nj
+ 7s2W/uTkPLupeIqcwU2Nat//PXcD8iDTN7verX1KQKAG5ES044nxTv3r+HDb8/OYWnTn
+ AXcaBjvSWGC6GOQc/BHojdBBHy6+MtbJ8WmH/1QOHTRQVSwJuxACWr01fAtBTv50XYNI
+ GgFA==
+X-Gm-Message-State: APjAAAUQwP/t+HdCoQ0hNY/FQF1b3kRsHuw8NsaZS5Bp8c72fZeLV3Pb
+ EmbEcRDYu1hQbSQNxYctYnWsv7Zv76ApM6UK6bBv9Q==
+X-Google-Smtp-Source: APXvYqx0gEvUPXqD1kFmi82P0JHBq+bBkwG2UJTph0n99wSE1/UssVfy4El7T5U0s3E2JMVdYGMfQQOJu9WMwgcxsYc=
+X-Received: by 2002:aca:f513:: with SMTP id t19mr1276030oih.76.1560504894070; 
+ Fri, 14 Jun 2019 02:34:54 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190613223408.139221-1-fengc@google.com>
+In-Reply-To: <20190613223408.139221-1-fengc@google.com>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Fri, 14 Jun 2019 15:04:42 +0530
+Message-ID: <CAO_48GF1qzJFHavwt384MBcyyJRrFiZgYj1OHonUWMAcrm6DTw@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] Improve the dma-buf tracking
+To: Chenbo Feng <fengc@google.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=IAxytmldJ+LQ9oXsinyPkN3ds2MZTOAfP2wyBRBDeRg=;
+ b=znWyHu/m14+5GXaF3gP7yu7SWXJTq+Wsj2nJNhc8A0PpJXKWYMOxGBSzVgS3mNhdto
+ pIVE++2S8C4JJTU4WjXsC1kHn7wjVXe46T1Q6kfftlp7QWt09aT1nNuG2RkrQEB/cwUE
+ BN5szDO+xZfoBJzWbSPWpS/dcQxVeL1F9QpTJSU12unEdVDilC3LI0FWMn5LQa6QoF62
+ IyLlVJD452ywDx+di8zbmOYrjVE0AYWCczQVyNnuNZbTqPg2w1bPhp5TGL+dG3+zm4vh
+ Rnvs6oqsivrAR6bIwx8FKP6rEVsUh+jFuN9GlkQ8Jvs4KmgDFlinHxXOP+H4zL/k15fV
+ XHhQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,43 +62,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
- "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
- "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
- "khilman@baylibre.com" <khilman@baylibre.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "wens@csie.org" <wens@csie.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "zhengyang@rock-chips.com" <zhengyang@rock-chips.com>
+Cc: Android Kernel Team <kernel-team@android.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gU29ubnRhZywgMjYuIE1haSAyMDE5LCAyMzoyMDowNSBDRVNUIHNjaHJpZWIgSm9uYXMgS2Fy
-bG1hbjoKPiBUaGlzIHBhdGNoIGVuYWJsZXMgRHluYW1pYyBSYW5nZSBhbmQgTWFzdGVyaW5nIElu
-Zm9GcmFtZSBvbiBSSzMzMjggYW5kIFJLMzM5OS4KPiAKPiBDYzogU2FuZHkgSHVhbmcgPGhqY0By
-b2NrLWNoaXBzLmNvbT4KPiBDYzogSGVpa28gU3R1ZWJuZXIgPGhlaWtvQHNudGVjaC5kZT4KPiBT
-aWduZWQtb2ZmLWJ5OiBKb25hcyBLYXJsbWFuIDxqb25hc0Brd2lib28uc2U+CgpSZXZpZXdlZC1i
-eTogSGVpa28gU3R1ZWJuZXIgPGhlaWtvQHNudGVjaC5kZT4KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1
-L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMgfCAyICsrCj4gIDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tj
-aGlwL2R3X2hkbWktcm9ja2NoaXAuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1p
-LXJvY2tjaGlwLmMKPiBpbmRleCA0Y2RjOWY4NmMyZTUuLjFmMzFmMzcyNmYwNCAxMDA2NDQKPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwo+IEBAIC00MDUsNiAr
-NDA1LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkd19oZG1pX3BsYXRfZGF0YSByazMzMjhfaGRt
-aV9kcnZfZGF0YSA9IHsKPiAgCS5waHlfb3BzID0gJnJrMzMyOF9oZG1pX3BoeV9vcHMsCj4gIAku
-cGh5X25hbWUgPSAiaW5ub19kd19oZG1pX3BoeTIiLAo+ICAJLnBoeV9mb3JjZV92ZW5kb3IgPSB0
-cnVlLAo+ICsJLmRybV9pbmZvZnJhbWUgPSB0cnVlLAo+ICB9Owo+ICAKPiAgc3RhdGljIHN0cnVj
-dCByb2NrY2hpcF9oZG1pX2NoaXBfZGF0YSByazMzOTlfY2hpcF9kYXRhID0gewo+IEBAIC00MTks
-NiArNDIwLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkd19oZG1pX3BsYXRfZGF0YSByazMzOTlf
-aGRtaV9kcnZfZGF0YSA9IHsKPiAgCS5jdXJfY3RyICAgID0gcm9ja2NoaXBfY3VyX2N0ciwKPiAg
-CS5waHlfY29uZmlnID0gcm9ja2NoaXBfcGh5X2NvbmZpZywKPiAgCS5waHlfZGF0YSA9ICZyazMz
-OTlfY2hpcF9kYXRhLAo+ICsJLmRybV9pbmZvZnJhbWUgPSB0cnVlLAo+ICB9Owo+ICAKPiAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgZHdfaGRtaV9yb2NrY2hpcF9kdF9pZHNbXSA9
-IHsKPiAtLSAKPiAyLjE3LjEKPiAKPiAKCgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+SGkgQ2hlbmJvLAoKT24gRnJpLCAxNCBKdW4gMjAxOSBhdCAwNDowNCwgQ2hlbmJvIEZlbmcgPGZl
+bmdjQGdvb2dsZS5jb20+IHdyb3RlOgo+Cj4gQ3VycmVudGx5LCBhbGwgZG1hLWJ1ZnMgc2hhcmUg
+dGhlIHNhbWUgYW5vbnltb3VzIGlub2RlLiBXaGlsZSB3ZSBjYW4gY291bnQKPiBob3cgbWFueSBk
+bWEtYnVmIGZkcyBvciBtYXBwaW5ncyBhIHByb2Nlc3MgaGFzLCB3ZSBjYW4ndCBnZXQgdGhlIHNp
+emUgb2YKPiB0aGUgYmFja2luZyBidWZmZXJzIG9yIHRlbGwgaWYgdHdvIGVudHJpZXMgcG9pbnQg
+dG8gdGhlIHNhbWUgZG1hLWJ1Zi4gQW5kCj4gaW4gZGVidWdmcywgd2UgY2FuIGdldCBhIHBlci1i
+dWZmZXIgYnJlYWtkb3duIG9mIHNpemUgYW5kIHJlZmVyZW5jZSBjb3VudCwKPiBidXQgY2FuJ3Qg
+dGVsbCB3aGljaCBwcm9jZXNzZXMgYXJlIGFjdHVhbGx5IGhvbGRpbmcgdGhlIHJlZmVyZW5jZXMg
+dG8gZWFjaAo+IGJ1ZmZlci4KClRoYW5rcyBmb3IgdGhlIHNlcmllczsgYXBwbGllZCB0byBkcm0t
+bWlzYy1uZXh0Lgo+CgpCZXN0LApTdW1pdC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
