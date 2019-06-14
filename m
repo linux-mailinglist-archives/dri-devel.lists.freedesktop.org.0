@@ -2,40 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A029246152
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 16:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2BC46166
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 16:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B40489998;
-	Fri, 14 Jun 2019 14:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6AB4893EA;
+	Fri, 14 Jun 2019 14:46:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0D93899A7
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:45:32 +0000 (UTC)
-X-Originating-IP: 90.88.23.150
-Received: from localhost (aaubervilliers-681-1-81-150.w90-88.abo.wanadoo.fr
- [90.88.23.150]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id D7332E0004;
- Fri, 14 Jun 2019 14:45:26 +0000 (UTC)
-Date: Fri, 14 Jun 2019 16:45:26 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH v10 01/11] drm/sun4i: dsi: Fix TCON DRQ set bits
-Message-ID: <20190614144526.lorg3saj4wjopgne@flea>
-References: <20190520090318.27570-1-jagan@amarulasolutions.com>
- <20190520090318.27570-2-jagan@amarulasolutions.com>
- <20190523203407.o5obg2wtj7wwau6a@flea>
- <CAMty3ZDDYEOvSbi7kmacjJZS6f3whpaGd4xsf4OUkXmBbTE3Qg@mail.gmail.com>
- <20190529145450.qnitxpmpr2a2xemk@flea>
- <CAMty3ZB89cPc8AycFPuNTfPC1dot4cNgN87v+rtQVW2zQh8uZg@mail.gmail.com>
- <20190604100011.cqkhpwmmmwh3vr3y@flea>
- <CAMty3ZAFdg1Ow8ececmqF2L0ckitkLdqUPmME3fGBoOaP32kzA@mail.gmail.com>
- <20190613125630.2b2fvvtvrcjlx4lv@flea>
- <CAMty3ZCNJK+Wcdw3AXKjUQZTD=PWijq9caNsTzpz+pSEqpUy_A@mail.gmail.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27BF5893EA
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:46:37 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190614144635euoutp019217c77f8939d48ce2ff14249ee838cf~oF-E4vWLU3111131111euoutp01k
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Jun 2019 14:46:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20190614144635euoutp019217c77f8939d48ce2ff14249ee838cf~oF-E4vWLU3111131111euoutp01k
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20190614144635eucas1p28ee07a5d9cdfdaad65acfe24a5ebeead~oF-EYApa_1628416284eucas1p2D;
+ Fri, 14 Jun 2019 14:46:35 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id FB.B4.04377.A43B30D5; Fri, 14
+ Jun 2019 15:46:34 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190614144634eucas1p1b04dcfcc040c3c886d2b33592c501d3b~oF-DiByud2594525945eucas1p1i;
+ Fri, 14 Jun 2019 14:46:34 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20190614144633eusmtrp125c1f4b0e707a8b9c37c4f82f4ea609f~oF-DShgZ32478124781eusmtrp1l;
+ Fri, 14 Jun 2019 14:46:33 +0000 (GMT)
+X-AuditID: cbfec7f4-113ff70000001119-56-5d03b34aff7d
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 63.7E.04140.943B30D5; Fri, 14
+ Jun 2019 15:46:33 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20190614144633eusmtip2c1e4bdf527f13540f414f141abcab773~oF-DDsfl72665126651eusmtip2b;
+ Fri, 14 Jun 2019 14:46:33 +0000 (GMT)
+From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] video: fbdev: s3c-fb: add COMPILE_TEST support
+To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <e771b89b-0e38-a712-b635-8d53cbf95a8e@samsung.com>
+Date: Fri, 14 Jun 2019 16:46:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZCNJK+Wcdw3AXKjUQZTD=PWijq9caNsTzpz+pSEqpUy_A@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprMKsWRmVeSWpSXmKPExsWy7djP87pem5ljDX716Ftc+fqezWLFl5ns
+ Fif6PrBaXN41h82BxWPnrLvsHve7jzN5fN4kF8AcxWWTkpqTWZZapG+XwJWx7VcXa8EytooP
+ j04yNzCuYe1i5OSQEDCReD7zHUsXIxeHkMAKRom/y5ayQjhfGCVOne+Gcj4zSvxumsMO07Jk
+ 4zVmiMRyRomD8y4yQThvgVrW/2cCqWITsJKY2L6KEcQWFrCXOPfxMjOILSKQILFi+gywOLOA
+ qsSu5qVgNq+AnUTjhwtgG1iA4icn/mABsUUFIiTuH9vAClEjKHFy5hMWiF5xiVtP5jNB2PIS
+ 29/OAbtIQuAzm8Smr8vYIE51kWi7cwHKFpZ4dXwL1AsyEqcn97BANKwD+rrjBVT3dkaJ5ZP/
+ QXVYSxw+fhFoNQfQCk2J9bv0IcKOEpsmfWYDCUsI8EnceCsIcQSfxKRt05khwrwSHW1CENVq
+ EhuWbWCDWdu1cyUzhO0hcfzCbdYJjIqzkLw2C8lrs5C8NgvhhgWMLKsYxVNLi3PTU4uN8lLL
+ 9YoTc4tL89L1kvNzNzECk8rpf8e/7GDc9SfpEKMAB6MSD++MPuZYIdbEsuLK3EOMEhzMSiK8
+ 86yBQrwpiZVVqUX58UWlOanFhxilOViUxHmrGR5ECwmkJ5akZqemFqQWwWSZODilGhiLpTi8
+ qrir9/U7cxRcWZwjJlWimii+8M3dC4vDFpyz582uLDTcJPPI3qcjUtV7x/3qGQYnJZWCCgIy
+ TBJfFJ0+nL/Lb2bBteInV5qanre9SX8n6RNb3jh5w2THWvVH55J+O/zedyJr7aLfopONA0p8
+ 9W1YFd8o/SjI/ZubUBFf5j5hww6HJ0osxRmJhlrMRcWJAADZtJMmAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmkeLIzCtJLcpLzFFi42I5/e/4PV3PzcyxBvuPW1lc+fqezWLFl5ns
+ Fif6PrBaXN41h82BxWPnrLvsHve7jzN5fN4kF8AcpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFn
+ ZGKpZ2hsHmtlZKqkb2eTkpqTWZZapG+XoJex7VcXa8EytooPj04yNzCuYe1i5OSQEDCRWLLx
+ GnMXIxeHkMBSRonFEx4BORxACRmJ4+vLIGqEJf5c62KDqHnNKPFl8UEmkASbgJXExPZVjCC2
+ sIC9xLmPl5lBbBGBBImnr+ezgdjMAqoSu5qXgtXwCthJNH64wA5iswDFT078wQJiiwpESJx5
+ v4IFokZQ4uTMJywQveoSf+ZdYoawxSVuPZnPBGHLS2x/O4d5AqPALCQts5C0zELSMgtJywJG
+ llWMIqmlxbnpucVGesWJucWleel6yfm5mxiBEbHt2M8tOxi73gUfYhTgYFTi4Z3RxxwrxJpY
+ VlyZe4hRgoNZSYR3njVQiDclsbIqtSg/vqg0J7X4EKMp0EMTmaVEk/OB0ZpXEm9oamhuYWlo
+ bmxubGahJM7bIXAwRkggPbEkNTs1tSC1CKaPiYNTqoHxclSB3XpJjtALbt42StKZha8srRab
+ 5jY7dHO5Cx86Fv339P+0GULvLZ+ZLPOO3SwSsHTRNnFnYaMJBpb32G9Nk78rudtYKqrmef6t
+ Xy4tG1ccDfjCXuPCcPTDRBbRF0H1b1Yyv9H8GO5x0ujtyakr697t8+U85/pud8qaKzP9vuj8
+ Eety/BirxFKckWioxVxUnAgA5gf4Y54CAAA=
+X-CMS-MailID: 20190614144634eucas1p1b04dcfcc040c3c886d2b33592c501d3b
+X-Msg-Generator: CA
+X-RootMTR: 20190614144634eucas1p1b04dcfcc040c3c886d2b33592c501d3b
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190614144634eucas1p1b04dcfcc040c3c886d2b33592c501d3b
+References: <CGME20190614144634eucas1p1b04dcfcc040c3c886d2b33592c501d3b@eucas1p1.samsung.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=samsung.com; 
+ s=mail20170921; t=1560523595;
+ bh=edGrKerInuyqgGn3ETDAt2iEy82hinQGhNb+6fYCtcU=;
+ h=From:Subject:To:Cc:Date:References:From;
+ b=TS7kM82q6hQJjJbje5WzdFCxB8dwooDceDWlvxgUuqAdll7hFzqQlGsEH0o90K3ZF
+ FSlxvnha6ucuQBMK8j8rsZq8HfXmlD5V09Nkz0Ysld0g0SyegFbfJ4jML4VtoTmld0
+ 1CVNqt2BRG6+po6wxSUYRNDEKxwnN16F0FvqY34s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,202 +104,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhushan Shah <bshah@mykolab.com>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- =?utf-8?B?5Z2a5a6a5YmN6KGM?= <powerpan@qq.com>, Chen-Yu Tsai <wens@csie.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1236515583=="
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1236515583==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a2qaubfige6iysy4"
-Content-Disposition: inline
-
-
---a2qaubfige6iysy4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Jun 14, 2019 at 12:03:13PM +0530, Jagan Teki wrote:
-> On Thu, Jun 13, 2019 at 6:56 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> >
-> > On Wed, Jun 05, 2019 at 01:17:11PM +0530, Jagan Teki wrote:
-> > > On Tue, Jun 4, 2019 at 3:30 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > >
-> > > > On Wed, May 29, 2019 at 11:44:56PM +0530, Jagan Teki wrote:
-> > > > > On Wed, May 29, 2019 at 8:24 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > > >
-> > > > > > On Fri, May 24, 2019 at 03:48:51PM +0530, Jagan Teki wrote:
-> > > > > > > On Fri, May 24, 2019 at 2:04 AM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > > > > >
-> > > > > > > > On Mon, May 20, 2019 at 02:33:08PM +0530, Jagan Teki wrote:
-> > > > > > > > > According to "DRM kernel-internal display mode structure" in
-> > > > > > > > > include/drm/drm_modes.h the current driver is trying to include
-> > > > > > > > > sync timings along with front porch value while checking and
-> > > > > > > > > computing drq set bits in non-burst mode.
-> > > > > > > > >
-> > > > > > > > > mode->hsync_end - mode->hdisplay => horizontal front porch + sync
-> > > > > > > > >
-> > > > > > > > > With adding additional sync timings, the dsi controller leads to
-> > > > > > > > > wrong drq set bits for "bananapi,s070wv20-ct16" panel which indeed
-> > > > > > > > > trigger panel flip_done timed out as:
-> > > > > > > > >
-> > > > > > > > >  WARNING: CPU: 0 PID: 31 at drivers/gpu/drm/drm_atomic_helper.c:1429 drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0
-> > > > > > > > >  [CRTC:46:crtc-0] vblank wait timed out
-> > > > > > > > >  Modules linked in:
-> > > > > > > > >  CPU: 0 PID: 31 Comm: kworker/0:1 Not tainted 5.1.0-next-20190514-00026-g01f0c75b902d-dirty #13
-> > > > > > > > >  Hardware name: Allwinner sun8i Family
-> > > > > > > > >  Workqueue: events deferred_probe_work_func
-> > > > > > > > >  [<c010ed54>] (unwind_backtrace) from [<c010b76c>] (show_stack+0x10/0x14)
-> > > > > > > > >  [<c010b76c>] (show_stack) from [<c0688c70>] (dump_stack+0x84/0x98)
-> > > > > > > > >  [<c0688c70>] (dump_stack) from [<c011d9e4>] (__warn+0xfc/0x114)
-> > > > > > > > >  [<c011d9e4>] (__warn) from [<c011da40>] (warn_slowpath_fmt+0x44/0x68)
-> > > > > > > > >  [<c011da40>] (warn_slowpath_fmt) from [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0)
-> > > > > > > > >  [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1) from [<c040e694>] (drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
-> > > > > > > > >  [<c040e694>] (drm_atomic_helper_commit_tail_rpm) from [<c040e4dc>] (commit_tail+0x40/0x6c)
-> > > > > > > > >  [<c040e4dc>] (commit_tail) from [<c040e5cc>] (drm_atomic_helper_commit+0xbc/0x128)
-> > > > > > > > >  [<c040e5cc>] (drm_atomic_helper_commit) from [<c0411b64>] (restore_fbdev_mode_atomic+0x1cc/0x1dc)
-> > > > > > > > >  [<c0411b64>] (restore_fbdev_mode_atomic) from [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa0)
-> > > > > > > > >  [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0415774>] (drm_fb_helper_set_par+0x30/0x54)
-> > > > > > > > >  [<c0415774>] (drm_fb_helper_set_par) from [<c03ad450>] (fbcon_init+0x560/0x5ac)
-> > > > > > > > >  [<c03ad450>] (fbcon_init) from [<c03eb8a0>] (visual_init+0xbc/0x104)
-> > > > > > > > >  [<c03eb8a0>] (visual_init) from [<c03ed1b8>] (do_bind_con_driver+0x1b0/0x390)
-> > > > > > > > >  [<c03ed1b8>] (do_bind_con_driver) from [<c03ed780>] (do_take_over_console+0x13c/0x1c4)
-> > > > > > > > >  [<c03ed780>] (do_take_over_console) from [<c03ad800>] (do_fbcon_takeover+0x74/0xcc)
-> > > > > > > > >  [<c03ad800>] (do_fbcon_takeover) from [<c013c9c8>] (notifier_call_chain+0x44/0x84)
-> > > > > > > > >  [<c013c9c8>] (notifier_call_chain) from [<c013cd20>] (__blocking_notifier_call_chain+0x48/0x60)
-> > > > > > > > >  [<c013cd20>] (__blocking_notifier_call_chain) from [<c013cd50>] (blocking_notifier_call_chain+0x18/0x20)
-> > > > > > > > >  [<c013cd50>] (blocking_notifier_call_chain) from [<c03a6e44>] (register_framebuffer+0x1e0/0x2f8)
-> > > > > > > > >  [<c03a6e44>] (register_framebuffer) from [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock+0x2fc/0x50c)
-> > > > > > > > >  [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock) from [<c04158c8>] (drm_fbdev_client_hotplug+0xe8/0x1b8)
-> > > > > > > > >  [<c04158c8>] (drm_fbdev_client_hotplug) from [<c0415a20>] (drm_fbdev_generic_setup+0x88/0x118)
-> > > > > > > > >  [<c0415a20>] (drm_fbdev_generic_setup) from [<c043f060>] (sun4i_drv_bind+0x128/0x160)
-> > > > > > > > >  [<c043f060>] (sun4i_drv_bind) from [<c044b598>] (try_to_bring_up_master+0x164/0x1a0)
-> > > > > > > > >  [<c044b598>] (try_to_bring_up_master) from [<c044b668>] (__component_add+0x94/0x140)
-> > > > > > > > >  [<c044b668>] (__component_add) from [<c0445e1c>] (sun6i_dsi_probe+0x144/0x234)
-> > > > > > > > >  [<c0445e1c>] (sun6i_dsi_probe) from [<c0452ef4>] (platform_drv_probe+0x48/0x9c)
-> > > > > > > > >  [<c0452ef4>] (platform_drv_probe) from [<c04512cc>] (really_probe+0x1dc/0x2c8)
-> > > > > > > > >  [<c04512cc>] (really_probe) from [<c0451518>] (driver_probe_device+0x60/0x160)
-> > > > > > > > >  [<c0451518>] (driver_probe_device) from [<c044f7a4>] (bus_for_each_drv+0x74/0xb8)
-> > > > > > > > >  [<c044f7a4>] (bus_for_each_drv) from [<c045107c>] (__device_attach+0xd0/0x13c)
-> > > > > > > > >  [<c045107c>] (__device_attach) from [<c0450474>] (bus_probe_device+0x84/0x8c)
-> > > > > > > > >  [<c0450474>] (bus_probe_device) from [<c0450900>] (deferred_probe_work_func+0x64/0x90)
-> > > > > > > > >  [<c0450900>] (deferred_probe_work_func) from [<c0135970>] (process_one_work+0x204/0x420)
-> > > > > > > > >  [<c0135970>] (process_one_work) from [<c013690c>] (worker_thread+0x274/0x5a0)
-> > > > > > > > >  [<c013690c>] (worker_thread) from [<c013b3d8>] (kthread+0x11c/0x14c)
-> > > > > > > > >  [<c013b3d8>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
-> > > > > > > > >  Exception stack(0xde539fb0 to 0xde539ff8)
-> > > > > > > > >  9fa0:                                     00000000 00000000 00000000 00000000
-> > > > > > > > >  9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> > > > > > > > >  9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> > > > > > > > >  ---[ end trace b57eb1e5c64c6b8b ]---
-> > > > > > > > >  random: fast init done
-> > > > > > > > >  [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:46:crtc-0] flip_done timed out
-> > > > > > > > >  [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:48:DSI-1] flip_done timed out
-> > > > > > > > >  [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:30:plane-0] flip_done timed out
-> > > > > > > > >
-> > > > > > > > > But according to Allwinner A33, A64 BSP code [1] [3] the TCON DRQ for
-> > > > > > > > > non-burst DSI mode can be computed based on "horizontal front porch"
-> > > > > > > > > value only (no sync timings included).
-> > > > > > > > >
-> > > > > > > > > Detailed evidence for drq set bits based on A33 BSP [1] [2]
-> > > > > > > > >
-> > > > > > > > > => panel->lcd_ht - panel->lcd_x - panel->lcd_hbp - 20
-> > > > > > > > > => (tt->hor_front_porch + lcdp->panel_info.lcd_hbp +
-> > > > > > > > > lcdp->panel_info.lcd_x) - panel->lcd_x - panel->lcd_hbp - 20
-> > > > > > > > > => tt->hor_front_porch - 20
-> > > > > > > >
-> > > > > > > > The thing is, while your explanation on the DRM side is sound,
-> > > > > > > > Allwinner has been using the hbp field of their panel description to
-> > > > > > > > store what DRM calls the backporch and the sync period.
-> > > > > > >
-> > > > > > > Exactly, hbp = backporch + sync
-> > > > > > > https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L2046
-> > > > > > >
-> > > > > > > And the above computation is rely on that as well. If you can see the
-> > > > > > > final out of the above computation you can get the front porch value
-> > > > > > > (w/o sync )
-> > > > > >
-> > > > > > As I was saying, you are explaining it well for DRM, but in order for
-> > > > > > your last formula (the one coming from the BSP) to make sense, you
-> > > > > > have to explain that the horizontal back porch for Allwinner contains
-> > > > > > the sync period, otherwise your expansion of lcd_ht doesn't make
-> > > > > > sense.
-> > > > >
-> > > > > I'm not sure why we need to take care of back porch since the formula
-> > > > > clearly evaluating a result as front porch, without sync timing (as
-> > > > > current code included this sync), I keep the hbp and trying to
-> > > > > substitute the lcd_ht value so the end result would cancel hbp.
-> > > >
-> > > > Because it changes how lcd_ht expands. In the DRM case, it will expand
-> > > > to the displayed area, the front porch, the sync period and the back
-> > > > porch.
-> > > >
-> > > > In your case, you expand it to the displayed area, the front porch and
-> > > > the back porch, precisely because in Allwinner's case, the back porch
-> > > > has the sync period.
-> > >
-> > > I understand the point, but technically it matter about the final
-> > > computation result.  May be we can even manage the same computation in
-> > > back porch, but I'm not sure. Since the final output doesn't involve
-> > > any sync length, why we can include that ie what I'm not sure.
-> >
-> > We have the following formula:
-> > lcd_ht - lcd_x - lcd_hbp - 20
-> >
-> > Using the concepts as they are defined in DRM, this expands to:
-> > x + hbp + hsync + hfp - x - hbp - 20
->
-> Here is diff between allwinner hbp vs hbp in DRM.
->
-> Say hbp in DRM can call it hbackporch, so
->
-> => x + hbackporch + hsync + hfp - -x - hbp - 20
->
-> (and here we need to substitute hbp formula from allwinner since the
-> actual equation would coming from there
-> https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L2046)
-
-And this is precisely what needs to be said, with an explanation about
-where that hor_back_porch is being used later on, and what impact it
-could have.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---a2qaubfige6iysy4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQOzBgAKCRDj7w1vZxhR
-xe5sAQDQ/mAL8NjF8xehhe4V+7x59/0jNvqQJwYo4TzdH8BGDgD/e6Oa9PRc3cD4
-+CyAQ4Rb95jwy+YSRoTlpZqIYoC4uwo=
-=wWH7
------END PGP SIGNATURE-----
-
---a2qaubfige6iysy4--
-
---===============1236515583==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1236515583==--
+QWRkIENPTVBJTEVfVEVTVCBzdXBwb3J0IHRvIHMzYy1mYiBkcml2ZXIgZm9yIGJldHRlciBjb21w
+aWxlCnRlc3RpbmcgY292ZXJhZ2UuCgpDYzogSmluZ29vIEhhbiA8amluZ29vaGFuMUBnbWFpbC5j
+b20+ClNpZ25lZC1vZmYtYnk6IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtp
+ZUBzYW1zdW5nLmNvbT4KLS0tCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcgfCAgICAzICsr
+LQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKSW5kZXg6
+IGIvZHJpdmVycy92aWRlby9mYmRldi9LY29uZmlnCj09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGEvZHJpdmVycy92
+aWRlby9mYmRldi9LY29uZmlnCisrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZwpAQCAt
+MTg3Nyw3ICsxODc3LDggQEAgY29uZmlnIEZCX1RNSU9fQUNDRUxMCiAKIGNvbmZpZyBGQl9TM0MK
+IAl0cmlzdGF0ZSAiU2Ftc3VuZyBTM0MgZnJhbWVidWZmZXIgc3VwcG9ydCIKLQlkZXBlbmRzIG9u
+IEZCICYmIChDUFVfUzNDMjQxNiB8fCBBUkNIX1MzQzY0WFgpCisJZGVwZW5kcyBvbiBGQiAmJiBI
+QVZFX0NMSyAmJiBIQVNfSU9NRU0KKwlkZXBlbmRzIG9uIChDUFVfUzNDMjQxNiB8fCBBUkNIX1Mz
+QzY0WFgpIHx8IENPTVBJTEVfVEVTVAogCXNlbGVjdCBGQl9DRkJfRklMTFJFQ1QKIAlzZWxlY3Qg
+RkJfQ0ZCX0NPUFlBUkVBCiAJc2VsZWN0IEZCX0NGQl9JTUFHRUJMSVQKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
