@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1BC74504C
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 01:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F0245610
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Jun 2019 09:24:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 315F8892C6;
-	Thu, 13 Jun 2019 23:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D06C78982A;
+	Fri, 14 Jun 2019 07:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2063F892C6
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Jun 2019 23:46:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1CFC872167; Thu, 13 Jun 2019 23:46:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Thu, 13 Jun 2019 23:46:38 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: rolf@lagrangepoint.io
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110795-502-T9gDyF7THK@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
-References: <bug-110795-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from hqemgate16.nvidia.com (hqemgate16.nvidia.com [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F29498929F;
+ Fri, 14 Jun 2019 00:12:05 +0000 (UTC)
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d02e6550000>; Thu, 13 Jun 2019 17:12:05 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Thu, 13 Jun 2019 17:12:05 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Thu, 13 Jun 2019 17:12:05 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL108.nvidia.com
+ (172.18.146.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 00:12:04 +0000
+Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 14 Jun
+ 2019 00:12:00 +0000
+Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 14 Jun 2019 00:12:00 +0000
+Received: from rcampbell-dev.nvidia.com (Not Verified[10.110.48.66]) by
+ hqnvemgw01.nvidia.com with Trustwave SEG (v7, 5, 8, 10121)
+ id <B5d02e64f0000>; Thu, 13 Jun 2019 17:11:59 -0700
+From: Ralph Campbell <rcampbell@nvidia.com>
+To: Jerome Glisse <jglisse@redhat.com>, David Airlie <airlied@linux.ie>, "Ben
+ Skeggs" <bskeggs@redhat.com>, Jason Gunthorpe <jgg@mellanox.com>
+Subject: [PATCH] drm/nouveau/dmem: missing mutex_lock in error path
+Date: Thu, 13 Jun 2019 17:11:21 -0700
+Message-ID: <20190614001121.23950-1-rcampbell@nvidia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-NVConfidentiality: public
+X-Mailman-Approved-At: Fri, 14 Jun 2019 07:21:24 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nvidia.com; s=n1; 
+ t=1560471125; bh=2rNJ7DTMjMPhOlVosuT+dcn+kIR1ESSVOR99OmM6ZKM=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+ Content-Type;
+ b=neN3kBOM4fwFzxxjmxWL1ltp+tFO8bAcbqFK/NkF6ljwaGDjCyCUNjyfFcYeKG9T4
+ 5LdGR7QCJzezPlMCmrdKYb1uNBS/iIAEnpK1hMJVC4YlXEsNnr9L2qFHaYil+aBIyJ
+ 60wMyDHM5XN/zwZxTsCkESQujXLaoeWvhG5kKgnBZubuDk3cxpKMsqfWLQComwBkgO
+ y8MOe90H/Rqb7zeWBsQG5hqIu9N7CqlNp/FIgtnz3xiNXN0ispWt/+exKroPpJ9wCJ
+ Pz57q/vucsb+GtG/qX1XENQ8dZu+F/CYr0G+CV/G3g2ekKciae45Ha0N3zk6j+9N+U
+ gbTCIFIddddug==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,102 +66,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1892757036=="
+Cc: nouveau@lists.freedesktop.org, Ralph
+ Campbell <rcampbell@nvidia.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1892757036==
-Content-Type: multipart/alternative; boundary="15604695981.FbC0CFe.25939"
-Content-Transfer-Encoding: 7bit
-
-
---15604695981.FbC0CFe.25939
-Date: Thu, 13 Jun 2019 23:46:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
-
---- Comment #20 from Rolf <rolf@lagrangepoint.io> ---
-@Andre, thank you for the clarification. My bug may have been correctly fil=
-ed,
-but it seems I vented my frustration with AMD in the wrong direction. I did
-think, and I think most people following that link would as well, that the
-people working the bugs in this category were AMD. For that I am sorry.=20
-
-Thanks again to Alex and Andrew for your help and patience. Switching over =
-to
-Linux has been quite an adventure!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15604695981.FbC0CFe.25939
-Date: Thu, 13 Jun 2019 23:46:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c20">Comme=
-nt # 20</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rolf&#64;lagrangepoint.io" title=3D"Rolf &lt;rolf&#64;lagrangepoint.io&gt;"=
-> <span class=3D"fn">Rolf</span></a>
-</span></b>
-        <pre>&#64;Andre, thank you for the clarification. My bug may have b=
-een correctly filed,
-but it seems I vented my frustration with AMD in the wrong direction. I did
-think, and I think most people following that link would as well, that the
-people working the bugs in this category were AMD. For that I am sorry.=20
-
-Thanks again to Alex and Andrew for your help and patience. Switching over =
-to
-Linux has been quite an adventure!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15604695981.FbC0CFe.25939--
-
---===============1892757036==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1892757036==--
+SW4gbm91dmVhdV9kbWVtX3BhZ2VzX2FsbG9jKCksIHRoZSBkcm0tPmRtZW0tPm11dGV4IGlzIHVu
+bG9ja2VkIGJlZm9yZQpjYWxsaW5nIG5vdXZlYXVfZG1lbV9jaHVua19hbGxvYygpLgpSZWFjcXVp
+cmUgdGhlIGxvY2sgYmVmb3JlIGNvbnRpbnVpbmcgdG8gdGhlIG5leHQgcGFnZS4KClNpZ25lZC1v
+ZmYtYnk6IFJhbHBoIENhbXBiZWxsIDxyY2FtcGJlbGxAbnZpZGlhLmNvbT4KLS0tCgpJIGZvdW5k
+IHRoaXMgd2hpbGUgdGVzdGluZyBKYXNvbiBHdW50aG9ycGUncyBobW0gdHJlZSBidXQgdGhpcyBp
+cwppbmRlcGVuZGFudCBvZiB0aG9zZSBjaGFuZ2VzLiBJIGd1ZXNzIGl0IGNvdWxkIGdvIHRocm91
+Z2gKRGF2aWQgQWlybGllJ3MgdHJlZSBmb3Igbm91dmVhdSBvciBKYXNvbidzIHRyZWUuCgogZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kbWVtLmMgfCAzICsrLQogMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1lbS5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+bm91dmVhdV9kbWVtLmMKaW5kZXggMjdhYTRlNzJhYmU5Li4wMGY3MjM2YWYxYjkgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1lbS5jCisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfZG1lbS5jCkBAIC0zNzksOSArMzc5LDEwIEBAIG5vdXZl
+YXVfZG1lbV9wYWdlc19hbGxvYyhzdHJ1Y3Qgbm91dmVhdV9kcm0gKmRybSwKIAkJCXJldCA9IG5v
+dXZlYXVfZG1lbV9jaHVua19hbGxvYyhkcm0pOwogCQkJaWYgKHJldCkgewogCQkJCWlmIChjKQot
+CQkJCQlicmVhazsKKwkJCQkJcmV0dXJuIDA7CiAJCQkJcmV0dXJuIHJldDsKIAkJCX0KKwkJCW11
+dGV4X2xvY2soJmRybS0+ZG1lbS0+bXV0ZXgpOwogCQkJY29udGludWU7CiAJCX0KIAotLSAKMi4y
+MC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
