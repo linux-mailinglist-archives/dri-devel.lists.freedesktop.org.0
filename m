@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 417E947256
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 00:10:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0C047259
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 00:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5459489031;
-	Sat, 15 Jun 2019 22:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31B1A89031;
+	Sat, 15 Jun 2019 22:15:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B8E33890E8
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 22:10:53 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8EF6C8924F
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 22:15:02 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B5B9272167; Sat, 15 Jun 2019 22:10:53 +0000 (UTC)
+ id 8BEFE72167; Sat, 15 Jun 2019 22:15:02 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Sat, 15 Jun 2019 22:10:53 +0000
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sat, 15 Jun 2019 22:15:02 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: chris@hodapp.email
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-jhgK0bE4Oi@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110674-502-auT1ak0GnM@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,58 +52,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1305591073=="
+Content-Type: multipart/mixed; boundary="===============0690889479=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1305591073==
-Content-Type: multipart/alternative; boundary="15606366535.ECED4dcEB.22459"
+--===============0690889479==
+Content-Type: multipart/alternative; boundary="15606369023.B7e9.23589"
 Content-Transfer-Encoding: 7bit
 
 
---15606366535.ECED4dcEB.22459
-Date: Sat, 15 Jun 2019 22:10:53 +0000
+--15606369023.B7e9.23589
+Date: Sat, 15 Jun 2019 22:15:02 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #53 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-(In reply to Richard Thier from comment #52)
-> (In reply to Marek Ol=C5=A1=C3=A1k from comment #45)
-> > The problem might be in the kernel. See function rs400_gpu_init. I thin=
-k it
-> > should call r300_gpu_init instead of r420_pipes_init.
->=20
-> Aaaahhhhh.... Am I this blind? Now I see exactly this.
->=20
-> Also in dmesg log I see RS400 being written out so yes I end up here and
-> according to my own links this seem to be the problem that the
-> rs400_gpu_init should not do the r420_pipes_init, because it is not r420
-> yet....
-> Now after investigating I think I should indeed end up here with the
-> rs400_asic, but yes the 420 pipe setup is wrong - at least for my card.
->=20
-> I will run with this patched and see what happens. The machine can compile
-> the kernel through the night for testing this...
-
-If you do NOT 'make mrproper' and change only radeon/amdgpu stuff it should
-only take some minutes (seconds) on your system/CPU.
-
-> This seems to be the real core of the issue.
-
-We hear from you. ;-)
+--- Comment #39 from Chris Hodapp <chris@hodapp.email> ---
+The fact that amdgpu is getting less functional over time with this high-end
+part _is_ definitely annoying, but let's all keep in mind that this is not =
+an
+official support channel from AMD, it's the issue tracker for an open source
+project that AMD contribute to. AMD don't actually owe us anything though t=
+his
+channel. Instead, the way to pressure them for concrete answers is actually=
+ to
+choose an option from https://www.amd.com/en/support/contact.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15606366535.ECED4dcEB.22459
-Date: Sat, 15 Jun 2019 22:10:53 +0000
+--15606369023.B7e9.23589
+Date: Sat, 15 Jun 2019 22:15:02 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -120,50 +104,29 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c53">Comme=
-nt # 53</a>
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c39">Comme=
+nt # 39</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
+chris&#64;hodapp.email" title=3D"Chris Hodapp &lt;chris&#64;hodapp.email&gt=
+;"> <span class=3D"fn">Chris Hodapp</span></a>
 </span></b>
-        <pre>(In reply to Richard Thier from <a href=3D"show_bug.cgi?id=3D1=
-10897#c52">comment #52</a>)
-<span class=3D"quote">&gt; (In reply to Marek Ol=C5=A1=C3=A1k from <a href=
-=3D"show_bug.cgi?id=3D110897#c45">comment #45</a>)
-&gt; &gt; The problem might be in the kernel. See function rs400_gpu_init. =
-I think it
-&gt; &gt; should call r300_gpu_init instead of r420_pipes_init.
-&gt;=20
-&gt; Aaaahhhhh.... Am I this blind? Now I see exactly this.
-&gt;=20
-&gt; Also in dmesg log I see RS400 being written out so yes I end up here a=
-nd
-&gt; according to my own links this seem to be the problem that the
-&gt; rs400_gpu_init should not do the r420_pipes_init, because it is not r4=
-20
-&gt; yet....
-&gt; Now after investigating I think I should indeed end up here with the
-&gt; rs400_asic, but yes the 420 pipe setup is wrong - at least for my card.
-&gt;=20
-&gt; I will run with this patched and see what happens. The machine can com=
-pile
-&gt; the kernel through the night for testing this...</span >
-
-If you do NOT 'make mrproper' and change only radeon/amdgpu stuff it should
-only take some minutes (seconds) on your system/CPU.
-
-<span class=3D"quote">&gt; This seems to be the real core of the issue.</sp=
-an >
-
-We hear from you. ;-)</pre>
+        <pre>The fact that amdgpu is getting less functional over time with=
+ this high-end
+part _is_ definitely annoying, but let's all keep in mind that this is not =
+an
+official support channel from AMD, it's the issue tracker for an open source
+project that AMD contribute to. AMD don't actually owe us anything though t=
+his
+channel. Instead, the way to pressure them for concrete answers is actually=
+ to
+choose an option from <a href=3D"https://www.amd.com/en/support/contact">ht=
+tps://www.amd.com/en/support/contact</a>.</pre>
         </div>
       </p>
 
@@ -177,9 +140,9 @@ We hear from you. ;-)</pre>
     </body>
 </html>=
 
---15606366535.ECED4dcEB.22459--
+--15606369023.B7e9.23589--
 
---===============1305591073==
+--===============0690889479==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -189,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1305591073==--
+--===============0690889479==--
