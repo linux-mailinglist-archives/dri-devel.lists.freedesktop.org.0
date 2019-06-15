@@ -1,40 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD2B471BA
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 20:52:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3410471FB
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 22:02:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 635B489272;
-	Sat, 15 Jun 2019 18:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D350D8929F;
+	Sat, 15 Jun 2019 20:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F09389272
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 18:52:05 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 619AF2184B;
- Sat, 15 Jun 2019 18:52:04 +0000 (UTC)
-Date: Sat, 15 Jun 2019 20:52:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saiyam Doshi <saiyamdoshi.in@gmail.com>
-Subject: Re: [PATCH v1] staging: android: fix style problem
-Message-ID: <20190615185202.GA10201@kroah.com>
-References: <20190615184605.GA7671@ahmlpt0706>
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 046B18929F
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 20:02:03 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id C6EF128723
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 20:02:02 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id BB377287B3; Sat, 15 Jun 2019 20:02:02 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 203905] New: amdgpu:actual_brightness has unreal/wrong value
+Date: Sat, 15 Jun 2019 20:02:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bjo@nord-west.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-203905-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190615184605.GA7671@ahmlpt0706>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1560624724;
- bh=ZiyxNZ22/8DOyepnR7kpKn7cjCxVk7M7EDGwbpRg+to=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fXVijOEqPXod63gWGjwgnqNzXtTCmDh+lf+l8NWvk2ei0bYrDZ6uGnF99szd9YpB8
- J/TlFi3tLXWU4uuUlCci5RsVU1yuskt+w+5tKDmybNQS6dwCNDTleQQAPXvJe2ZKu4
- lbX/BXma7LFdNtS5cS+bqJw4ASnK3PyGy5kuPmZI=
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,20 +61,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBKdW4gMTYsIDIwMTkgYXQgMTI6MTY6MDVBTSArMDUzMCwgU2FpeWFtIERvc2hpIHdy
-b3RlOgo+IGNoZWNrcGF0Y2ggcmVwb3J0ZWQgIldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
-ZXJzIi4KPiBUaGlzIHBhdGNoIGZpeGVzIGl0IGJ5IGFsaWduaW5nIGZ1bmN0aW9uIGFyZ3VtZW50
-cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTYWl5YW0gRG9zaGkgPHNhaXlhbWRvc2hpLmluQGdtYWls
-LmNvbT4KPiAtLS0KPiBDaGFuZ2VzIGluIHYxOgo+ICogVXBkYXRlZCBhcyBwZXIgcmV2aWV3IGNv
-bW1lbnQuIE5vdyBmdW5jdGlvbiBhcmd1bWVudHMKPiAgIHVzZXMgdHdvIGxpbmVzLCBvbmUgbGVz
-cyBsaW5lIHRoYW4gcHJldmlvdXMgc3VibWlzc2lvbi4KCkl0J3MgcmVhbGx5ICJ2MiIsIGJ1dCB0
-aGF0J3MgZmluZSA6KQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDM5MDUKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjAzOTA1CiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1OmFjdHVhbF9i
+cmlnaHRuZXNzIGhhcyB1bnJlYWwvd3JvbmcgdmFsdWUKICAgICAgICAgICBQcm9kdWN0OiBEcml2
+ZXJzCiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4xLjkKICAg
+ICAgICAgIEhhcmR3YXJlOiBBbGwKICAgICAgICAgICAgICAgIE9TOiBMaW51eAogICAgICAgICAg
+ICAgIFRyZWU6IE1haW5saW5lCiAgICAgICAgICAgIFN0YXR1czogTkVXCiAgICAgICAgICBTZXZl
+cml0eTogbm9ybWFsCiAgICAgICAgICBQcmlvcml0eTogUDEKICAgICAgICAgQ29tcG9uZW50OiBW
+aWRlbyhEUkkgLSBub24gSW50ZWwpCiAgICAgICAgICBBc3NpZ25lZTogZHJpdmVyc192aWRlby1k
+cmlAa2VybmVsLWJ1Z3Mub3NkbC5vcmcKICAgICAgICAgIFJlcG9ydGVyOiBiam9Abm9yZC13ZXN0
+Lm9yZwogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpSYWRlb24gUjUvUjYvUjcgR3JhcGhpY3MgaW4g
+YSBUaGlua3BhZCBBMjc1IGhhcyB3cm9uZyB2YWx1ZXMgb24KYWN0dWFsX2JyaWdodG5lc3Mgb2Yg
+YW1kZ3B1X2JsMC4gV2hpbGUgbWF4X2JyaWdodG5lc3MgaXMgMjU1IGFuZCBpdCBjYW4gYmUgc2V0
+CnRvIDI1NSwgYWN0dWFsX2JyaWdodG5lc3MgcmVwb3J0cyBhIDUgZGlnaXQgbnVtYmVyIGxpa2Ug
+MTI0NzAuIEFzIGEgcmVzdWx0LAp0b29scyB3aGljaCB3YW50IHRvIGNoYW5nZSB0aGUgYnJpZ2h0
+bmVzcyByZWxhdGVkIHRvIGFjdHVhbF9icmlnaHRuZXNzIGZhaWwsIGFzCmJyaWdodG5lc3MgZG9l
+cyBub3QgYWNjZXB0IGFueSA1IGRpZ2l0IG51bWJlciwKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0
+aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1
+Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
