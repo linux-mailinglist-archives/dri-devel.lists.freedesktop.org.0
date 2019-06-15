@@ -1,58 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A88F46F64
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 12:04:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D2746FC3
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 13:18:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDDFD8936B;
-	Sat, 15 Jun 2019 10:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCDBE8933E;
+	Sat, 15 Jun 2019 11:18:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
- [IPv6:2607:f8b0:4864:20::d42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59CA78919F;
- Sat, 15 Jun 2019 10:03:56 +0000 (UTC)
-Received: by mail-io1-xd42.google.com with SMTP id r185so5245775iod.6;
- Sat, 15 Jun 2019 03:03:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/BZLcUYIXO69E10MoLpsp/lKWuSuwKRf7l2KwVx9+yE=;
- b=s80Iy+z4QYvBWUiFKFBDTPdOO8Y7jghV4nL0PUsG1v0QyqxoBTVHEA+vRHY/oWB28y
- 3y1gbxfJoqYXHJh7aYbSvdE1twRkINj2zOFdfYXHOZ3ds8NnDz1T0M8nma5JClsfAB8d
- dKLFp6RztR6OFH5cOjjGUcawHvwtwq4XtgpPxua24+A1iclSpAUEsCuxA6bt0euEZ0y0
- QvnxqJRYI0r/PRdn8L3cnuBDWZHhrB6rcYShRFAoja18SEeMreM5ogNYsMVCZ0esNpW4
- sqZxWxtl4eOk14pnfzsio6ak7v9bEd4NXsOfBUrBRiqJEVi60YLf7+V6bNMVPq083tWq
- ihpg==
-X-Gm-Message-State: APjAAAUbIH6UWExexgfawPQpnXFAIkcOMI9boi89i2KMnROy4gmCQMku
- DP1QrpV+2C/LqFuzgvHGF6uiVbDQB3wonF9pbFEsnAvq
-X-Google-Smtp-Source: APXvYqyopbQEahXufBWppiYKUUB8w1v/w1kVviMfZ9MPtc9L4VhQtUm9WZ3cJNlQ4X8Ojg7jIuHh/9tTF12LchPYSnw=
-X-Received: by 2002:a6b:3883:: with SMTP id
- f125mr58423972ioa.109.1560593035603; 
- Sat, 15 Jun 2019 03:03:55 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 42B7C8933E
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 11:18:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0E7FC72167; Sat, 15 Jun 2019 11:18:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110924] Alien: Isolation - Flashing squares in upper half of
+ screen when HDAO enabled
+Date: Sat, 15 Jun 2019 11:18:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chewi@gentoo.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-110924-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-44-daniel.vetter@ffwll.ch>
-In-Reply-To: <20190614203615.12639-44-daniel.vetter@ffwll.ch>
-From: Qiang Yu <yuq825@gmail.com>
-Date: Sat, 15 Jun 2019 18:03:44 +0800
-Message-ID: <CAKGbVbsnN2Bqv1uHLjWBOq_docup41edUS_PGOAyPPDgu3E9eg@mail.gmail.com>
-Subject: Re: [PATCH 43/59] drm/lima: Drop resv argument from
- lima_bo_create_struct
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=/BZLcUYIXO69E10MoLpsp/lKWuSuwKRf7l2KwVx9+yE=;
- b=FhKA5yaubUyz/qIX5IAdS6eKGFM72nFYZoES9IM+SqghnhJFWrWqypjh7NUp502bA4
- xLatCTCTJMIGKqRhCq5LXaCeeBOzLIkMW5r9NNHdEGItgoPCgWjqHahlcgCiJFEStg3u
- M4KRiSLcFz3zmI3QeelzqRO7u18oMM0UNwGPxcME48k4W/C7Mcv43Tpl5sJ5NxegZ7MK
- NOxrjewABt3xCWp2gZ5PXZ1SuIV+wS71mxHjpalmcpQy36pNqeEQjGf7lqpHeeyNYFZW
- tTaenrdCQ6iOGsARnjxabLX7uyqDQks4zi5O+Ly47Ldlr/5/i8Iiom5WJ87LaYIDX7tA
- RMDQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,86 +53,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- lima@lists.freedesktop.org, DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1777609047=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TG9va3MgZ29vZCBmb3IgbWUsIHBhdGNoIGlzOgpSZXZpZXdlZC1ieTogUWlhbmcgWXUgPHl1cTgy
-NUBnbWFpbC5jb20+CgpSZWdhcmRzLApRaWFuZwoKT24gU2F0LCBKdW4gMTUsIDIwMTkgYXQgNDoz
-NyBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IEl0
-IHdhcyBvbmx5IHVzZWQgZm9yIHByaW1lIGltcG9ydCwgd2hpY2ggaXMgbm93IGhhbmRsZWQgYnkK
-PiBkcm1fcHJpbWUuYy4KPgo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52
-ZXR0ZXJAaW50ZWwuY29tPgo+IENjOiBRaWFuZyBZdSA8eXVxODI1QGdtYWlsLmNvbT4KPiBDYzog
-bGltYUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2xpbWEv
-bGltYV9nZW0uYyAgICAgICB8IDIgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW1f
-cHJpbWUuYyB8IDMgKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfb2JqZWN0LmMgICAg
-fCA5ICsrKy0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX29iamVjdC5oICAgIHwg
-MyArLS0KPiAgNCBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygt
-KQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZ2VtLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vbGltYS9saW1hX2dlbS5jCj4gaW5kZXggNDc3YzBmNzY2NjYzLi5mZDFhMDI0
-NzAzZDIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW0uYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfZ2VtLmMKPiBAQCAtMjQsNyArMjQsNyBAQCBp
-bnQgbGltYV9nZW1fY3JlYXRlX2hhbmRsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3Qg
-ZHJtX2ZpbGUgKmZpbGUsCj4gICAgICAgICBzdHJ1Y3QgbGltYV9ibyAqYm87Cj4gICAgICAgICBz
-dHJ1Y3QgbGltYV9kZXZpY2UgKmxkZXYgPSB0b19saW1hX2RldihkZXYpOwo+Cj4gLSAgICAgICBi
-byA9IGxpbWFfYm9fY3JlYXRlKGxkZXYsIHNpemUsIGZsYWdzLCBOVUxMLCBOVUxMKTsKPiArICAg
-ICAgIGJvID0gbGltYV9ib19jcmVhdGUobGRldiwgc2l6ZSwgZmxhZ3MsIE5VTEwpOwo+ICAgICAg
-ICAgaWYgKElTX0VSUihibykpCj4gICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGJvKTsK
-Pgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX2dlbV9wcmltZS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9nZW1fcHJpbWUuYwo+IGluZGV4IDljNmQ5ZjFkYmE1
-NS4uZTNlYjI1MWUwYTEyIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFf
-Z2VtX3ByaW1lLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX2dlbV9wcmltZS5j
-Cj4gQEAgLTE4LDggKzE4LDcgQEAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpsaW1hX2dlbV9wcmlt
-ZV9pbXBvcnRfc2dfdGFibGUoCj4gICAgICAgICBzdHJ1Y3QgbGltYV9kZXZpY2UgKmxkZXYgPSB0
-b19saW1hX2RldihkZXYpOwo+ICAgICAgICAgc3RydWN0IGxpbWFfYm8gKmJvOwo+Cj4gLSAgICAg
-ICBibyA9IGxpbWFfYm9fY3JlYXRlKGxkZXYsIGF0dGFjaC0+ZG1hYnVmLT5zaXplLCAwLCBzZ3Qs
-Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgIGF0dGFjaC0+ZG1hYnVmLT5yZXN2KTsKPiAr
-ICAgICAgIGJvID0gbGltYV9ib19jcmVhdGUobGRldiwgYXR0YWNoLT5kbWFidWYtPnNpemUsIDAs
-IHNndCk7Cj4gICAgICAgICBpZiAoSVNfRVJSKGJvKSkKPiAgICAgICAgICAgICAgICAgcmV0dXJu
-IEVSUl9DQVNUKGJvKTsKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbGltYS9saW1h
-X29iamVjdC5jIGIvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGltYV9vYmplY3QuYwo+IGluZGV4IDVj
-NDFmODU5YTcyZi4uODcxMjNiMWQwODNjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9s
-aW1hL2xpbWFfb2JqZWN0LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX29iamVj
-dC5jCj4gQEAgLTMzLDggKzMzLDcgQEAgdm9pZCBsaW1hX2JvX2Rlc3Ryb3koc3RydWN0IGxpbWFf
-Ym8gKmJvKQo+ICAgICAgICAga2ZyZWUoYm8pOwo+ICB9Cj4KPiAtc3RhdGljIHN0cnVjdCBsaW1h
-X2JvICpsaW1hX2JvX2NyZWF0ZV9zdHJ1Y3Qoc3RydWN0IGxpbWFfZGV2aWNlICpkZXYsIHUzMiBz
-aXplLCB1MzIgZmxhZ3MsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgc3RydWN0IHJlc2VydmF0aW9uX29iamVjdCAqcmVzdikKPiArc3RhdGljIHN0cnVjdCBs
-aW1hX2JvICpsaW1hX2JvX2NyZWF0ZV9zdHJ1Y3Qoc3RydWN0IGxpbWFfZGV2aWNlICpkZXYsIHUz
-MiBzaXplLCB1MzIgZmxhZ3MpCj4gIHsKPiAgICAgICAgIHN0cnVjdCBsaW1hX2JvICpibzsKPiAg
-ICAgICAgIGludCBlcnI7Cj4gQEAgLTQ3LDcgKzQ2LDYgQEAgc3RhdGljIHN0cnVjdCBsaW1hX2Jv
-ICpsaW1hX2JvX2NyZWF0ZV9zdHJ1Y3Qoc3RydWN0IGxpbWFfZGV2aWNlICpkZXYsIHUzMiBzaXpl
-LAo+Cj4gICAgICAgICBtdXRleF9pbml0KCZiby0+bG9jayk7Cj4gICAgICAgICBJTklUX0xJU1Rf
-SEVBRCgmYm8tPnZhKTsKPiAtICAgICAgIGJvLT5nZW0ucmVzdiA9IHJlc3Y7Cj4KPiAgICAgICAg
-IGVyciA9IGRybV9nZW1fb2JqZWN0X2luaXQoZGV2LT5kZGV2LCAmYm8tPmdlbSwgc2l6ZSk7Cj4g
-ICAgICAgICBpZiAoZXJyKSB7Cj4gQEAgLTU5LDE0ICs1NywxMyBAQCBzdGF0aWMgc3RydWN0IGxp
-bWFfYm8gKmxpbWFfYm9fY3JlYXRlX3N0cnVjdChzdHJ1Y3QgbGltYV9kZXZpY2UgKmRldiwgdTMy
-IHNpemUsCj4gIH0KPgo+ICBzdHJ1Y3QgbGltYV9ibyAqbGltYV9ib19jcmVhdGUoc3RydWN0IGxp
-bWFfZGV2aWNlICpkZXYsIHUzMiBzaXplLAo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB1MzIgZmxhZ3MsIHN0cnVjdCBzZ190YWJsZSAqc2d0LAo+IC0gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBzdHJ1Y3QgcmVzZXJ2YXRpb25fb2JqZWN0ICpyZXN2KQo+ICsgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB1MzIgZmxhZ3MsIHN0cnVjdCBzZ190YWJsZSAqc2d0KQo+ICB7
-Cj4gICAgICAgICBpbnQgaSwgZXJyOwo+ICAgICAgICAgc2l6ZV90IG5wYWdlczsKPiAgICAgICAg
-IHN0cnVjdCBsaW1hX2JvICpibywgKnJldDsKPgo+IC0gICAgICAgYm8gPSBsaW1hX2JvX2NyZWF0
-ZV9zdHJ1Y3QoZGV2LCBzaXplLCBmbGFncywgcmVzdik7Cj4gKyAgICAgICBibyA9IGxpbWFfYm9f
-Y3JlYXRlX3N0cnVjdChkZXYsIHNpemUsIGZsYWdzKTsKPiAgICAgICAgIGlmIChJU19FUlIoYm8p
-KQo+ICAgICAgICAgICAgICAgICByZXR1cm4gYm87Cj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2xpbWEvbGltYV9vYmplY3QuaCBiL2RyaXZlcnMvZ3B1L2RybS9saW1hL2xpbWFfb2Jq
-ZWN0LmgKPiBpbmRleCA2NzM4NzI0YWZiN2IuLjMxY2EyZDhkYzBhMSAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX29iamVjdC5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2xpbWEvbGltYV9vYmplY3QuaAo+IEBAIC0yNyw4ICsyNyw3IEBAIHRvX2xpbWFfYm8oc3RydWN0
-IGRybV9nZW1fb2JqZWN0ICpvYmopCj4gIH0KPgo+ICBzdHJ1Y3QgbGltYV9ibyAqbGltYV9ib19j
-cmVhdGUoc3RydWN0IGxpbWFfZGV2aWNlICpkZXYsIHUzMiBzaXplLAo+IC0gICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB1MzIgZmxhZ3MsIHN0cnVjdCBzZ190YWJsZSAqc2d0LAo+IC0gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgcmVzZXJ2YXRpb25fb2JqZWN0ICpyZXN2
-KTsKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdTMyIGZsYWdzLCBzdHJ1Y3Qgc2df
-dGFibGUgKnNndCk7Cj4gIHZvaWQgbGltYV9ib19kZXN0cm95KHN0cnVjdCBsaW1hX2JvICpibyk7
-Cj4gIHZvaWQgKmxpbWFfYm9fdm1hcChzdHJ1Y3QgbGltYV9ibyAqYm8pOwo+ICB2b2lkIGxpbWFf
-Ym9fdnVubWFwKHN0cnVjdCBsaW1hX2JvICpibyk7Cj4gLS0KPiAyLjIwLjEKPgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1777609047==
+Content-Type: multipart/alternative; boundary="15605975010.B7eef8.6943"
+Content-Transfer-Encoding: 7bit
+
+
+--15605975010.B7eef8.6943
+Date: Sat, 15 Jun 2019 11:18:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110924
+
+            Bug ID: 110924
+           Summary: Alien: Isolation - Flashing squares in upper half of
+                    screen when HDAO enabled
+           Product: Mesa
+           Version: git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: chewi@gentoo.org
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 144551
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144551&action=3Dedit
+Screenshot showing artifacts
+
+This game worked perfectly for me around a year ago. Now it shows strange
+flashing/moving mostly black squares in the upper half of the screen when H=
+DAO
+is enabled. Please see the attached screenshot. It looks worse when you mov=
+e.
+Choosing "standard" SSAO instead makes the problem go away.
+
+I'm not alone, here is another Steam user reporting the same thing:
+https://steamcommunity.com/app/214490/discussions/0/1735468061769831062/
+
+Here are my system details:
+OpenGL vendor string: X.Org
+OpenGL renderer string: AMD Radeon (TM) RX 480 Graphics (POLARIS10, DRM 3.3=
+0.0,
+5.1.10-00004-g8b7bb440229b, LLVM 8.0.0)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.2.0-devel
+(git-749c544b84)
+OpenGL core profile shading language version string: 4.50
+
+It still happens with Mesa as far back as 18.2.0. Anything earlier just cra=
+shes
+on my system but the other user reported he was using 18.1.9. I have tried
+against LLVM 6, 7, and 8 with no change. I have also booted into a Fedora 28
+Live USB system, chrooted into my Gentoo system, and it still happens. It's
+possibly down a change in the game itself although I can't verify that and I
+don't think it's seeing many changes these days.
+
+Sorry if I've assigned this to the wrong component but it's hard to say whe=
+re
+the problem lies.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15605975010.B7eef8.6943
+Date: Sat, 15 Jun 2019 11:18:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Alien: Isolation - Flashing squares in upper half of scre=
+en when HDAO enabled"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110924">110924</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Alien: Isolation - Flashing squares in upper half of screen w=
+hen HDAO enabled
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>chewi&#64;gentoo.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144551=
+" name=3D"attach_144551" title=3D"Screenshot showing artifacts">attachment =
+144551</a> <a href=3D"attachment.cgi?id=3D144551&amp;action=3Dedit" title=
+=3D"Screenshot showing artifacts">[details]</a></span>
+Screenshot showing artifacts
+
+This game worked perfectly for me around a year ago. Now it shows strange
+flashing/moving mostly black squares in the upper half of the screen when H=
+DAO
+is enabled. Please see the attached screenshot. It looks worse when you mov=
+e.
+Choosing &quot;standard&quot; SSAO instead makes the problem go away.
+
+I'm not alone, here is another Steam user reporting the same thing:
+<a href=3D"https://steamcommunity.com/app/214490/discussions/0/173546806176=
+9831062/">https://steamcommunity.com/app/214490/discussions/0/1735468061769=
+831062/</a>
+
+Here are my system details:
+OpenGL vendor string: X.Org
+OpenGL renderer string: AMD Radeon (TM) RX 480 Graphics (POLARIS10, DRM 3.3=
+0.0,
+5.1.10-00004-g8b7bb440229b, LLVM 8.0.0)
+OpenGL core profile version string: 4.5 (Core Profile) Mesa 19.2.0-devel
+(git-749c544b84)
+OpenGL core profile shading language version string: 4.50
+
+It still happens with Mesa as far back as 18.2.0. Anything earlier just cra=
+shes
+on my system but the other user reported he was using 18.1.9. I have tried
+against LLVM 6, 7, and 8 with no change. I have also booted into a Fedora 28
+Live USB system, chrooted into my Gentoo system, and it still happens. It's
+possibly down a change in the game itself although I can't verify that and I
+don't think it's seeing many changes these days.
+
+Sorry if I've assigned this to the wrong component but it's hard to say whe=
+re
+the problem lies.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15605975010.B7eef8.6943--
+
+--===============1777609047==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1777609047==--
