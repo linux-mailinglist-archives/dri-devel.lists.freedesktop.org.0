@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8A0470FF
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 17:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007E54713D
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 18:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7841D89292;
-	Sat, 15 Jun 2019 15:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31492892C9;
+	Sat, 15 Jun 2019 16:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96A3589292
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 15:43:08 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:54329
- helo=[192.168.10.173])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hcApe-0007lG-Kc; Sat, 15 Jun 2019 17:43:06 +0200
-Subject: Re: [PATCH v4 12/12] drm/vc4: hdmi: Set default state margin at reset
-To: Maxime Ripard <maxime.ripard@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>
-References: <cover.5fc7840dc8fb24744516c13acb8c8aa18e44c0d0.1560514379.git-series.maxime.ripard@bootlin.com>
- <a8f01d3653f3ed4166a4d88dcc5d6e905fa2e602.1560514379.git-series.maxime.ripard@bootlin.com>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <d1436630-928c-aca0-a874-50cb500b2220@tronnes.org>
-Date: Sat, 15 Jun 2019 17:43:02 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 58F11892C9
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 16:21:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 55FAB72167; Sat, 15 Jun 2019 16:21:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 104437] RX480 + SME  = amdgpu init failed + null dereference
+Date: Sat, 15 Jun 2019 16:21:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sarnex@gentoo.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-104437-502-4qkaNWJzCl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-104437-502@http.bugs.freedesktop.org/>
+References: <bug-104437-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <a8f01d3653f3ed4166a4d88dcc5d6e905fa2e602.1560514379.git-series.maxime.ripard@bootlin.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=vmQiT47B7iuP+pBGI4QPqK4T6SL+9D+i09dO0tJaMPw=; 
- b=StIRNfqA3b0HwhkyL03TQS1Szupe8RMVlatYuRK24jqfPBymODFtmz9bC1Q2JNxKfBx8EgfbVjiFi3ZGNnCbA+BGdnXu1XFMHMjGxKyx4hqQsbm9nf8SzRFlyYoW9pyuFDzhxr7P/xY3owl6XzWvqHxqhjxmvmEIZxeikAzD1wfkUj9dcJv2pKwwT5T36v03/QdhKjoaynM+iItnLdcvvnPbmB0EAoL9QSHS1f8ffq28LQllEEnKytIh3EZkKZZtoPwBsns5ZI34mY1YiXdbldXml02JBmwO62rybqSgr47U5PUQwrPb6uY6Tp3mtg2Gd9pQDQarqcPMjcSAdIIRsg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,21 +52,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eben@raspberrypi.org, dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1864444748=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTQuMDYuMjAxOSAxNC4xMywgc2tyZXYgTWF4aW1lIFJpcGFyZDoKPiBOb3cgdGhhdCB0
-aGUgVFYgbWFyZ2lucyBhcmUgcHJvcGVybHkgcGFyc2VkIGFuZCBmaWxsZWQgaW50bwo+IGRybV9j
-bWRsaW5lX21vZGUsIHdlIGp1c3QgbmVlZCB0byBpbml0aWFsaXNlIHRoZSBmaXJzdCBzdGF0ZSBh
-dCByZXNldCB0bwo+IGdldCB0aG9zZSB2YWx1ZXMgYW5kIHN0YXJ0IHVzaW5nIHRoZW0uCj4gCj4g
-U2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lLnJpcGFyZEBib290bGluLmNvbT4K
-PiAtLS0KClJldmlld2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4K
+
+--===============1864444748==
+Content-Type: multipart/alternative; boundary="15606156812.B0Fd1Efca.25722"
+Content-Transfer-Encoding: 7bit
+
+
+--15606156812.B0Fd1Efca.25722
+Date: Sat, 15 Jun 2019 16:21:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D104437
+
+--- Comment #1 from Nick Sarnie <sarnex@gentoo.org> ---
+Created attachment 144553
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144553&action=3Dedit
+dmesg_sme.txt
+
+Same issue using 5.1.9, RX Vega 64 and Ryzen 2700x.
+
+[   19.998488] [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* sw_init of IP
+block <vega10_ih> failed -12
+[   19.998490] amdgpu 0000:0c:00.0: amdgpu_device_ip_init failed
+[   19.998492] amdgpu 0000:0c:00.0: Fatal error during GPU init
+[   19.998493] [drm] amdgpu: finishing device.
+[   19.998601] [drm] amdgpu: ttm finalized
+
+
+I've attached my dmesg as well.
+
+Thanks,
+Sarnex
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15606156812.B0Fd1Efca.25722
+Date: Sat, 15 Jun 2019 16:21:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 + SME =3D amdgpu init failed + null dereference"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104437#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - RX480 + SME =3D amdgpu init failed + null dereference"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104437">bug 10443=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sarnex&#64;gentoo.org" title=3D"Nick Sarnie &lt;sarnex&#64;gentoo.org&gt;">=
+ <span class=3D"fn">Nick Sarnie</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144553=
+" name=3D"attach_144553" title=3D"dmesg_sme.txt">attachment 144553</a> <a h=
+ref=3D"attachment.cgi?id=3D144553&amp;action=3Dedit" title=3D"dmesg_sme.txt=
+">[details]</a></span>
+dmesg_sme.txt
+
+Same issue using 5.1.9, RX Vega 64 and Ryzen 2700x.
+
+[   19.998488] [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* sw_init of IP
+block &lt;vega10_ih&gt; failed -12
+[   19.998490] amdgpu 0000:0c:00.0: amdgpu_device_ip_init failed
+[   19.998492] amdgpu 0000:0c:00.0: Fatal error during GPU init
+[   19.998493] [drm] amdgpu: finishing device.
+[   19.998601] [drm] amdgpu: ttm finalized
+
+
+I've attached my dmesg as well.
+
+Thanks,
+Sarnex</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15606156812.B0Fd1Efca.25722--
+
+--===============1864444748==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1864444748==--
