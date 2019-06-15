@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE2947168
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 19:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A13C84716A
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Jun 2019 19:32:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 654C1890BD;
-	Sat, 15 Jun 2019 17:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3684A890BD;
+	Sat, 15 Jun 2019 17:32:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7A6B890BD
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 17:31:52 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3A8812183F;
- Sat, 15 Jun 2019 17:31:51 +0000 (UTC)
-Date: Sat, 15 Jun 2019 19:31:49 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Saiyam Doshi <saiyamdoshi.in@gmail.com>
-Subject: Re: [PATCH] staging: android: fix style problem
-Message-ID: <20190615173149.GA4914@kroah.com>
-References: <20190614194156.GA21401@ahmlpt0706>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8901E89272
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Jun 2019 17:32:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 85B5D72167; Sat, 15 Jun 2019 17:32:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
+Date: Sat, 15 Jun 2019 17:32:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: ashark@linuxcomp.ru
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110795-502-1xdSVMj1zS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
+References: <bug-110795-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190614194156.GA21401@ahmlpt0706>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1560619911;
- bh=ki57qw7fa8b6x/4E3LJnw7yuNUaGH8nau7t+aC1ZAH0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aeFnGqUIDNpedj/qDPE4wh7ak9hIYNjSBa3kWK5VyzOnnxc+xVwloYeLy3Cm+i0uP
- utmqIVBnbOH3PlmlHY19qfyLFZ9T9ZEvr81M4lyNG/QOom3p1dM3fT6hF2ffYyAGvu
- a40JBYA7ekfR/IZVekqD05iWqfD2D0UWKoZTm5dw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,31 +52,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1924193962=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBKdW4gMTUsIDIwMTkgYXQgMDE6MTE6NTZBTSArMDUzMCwgU2FpeWFtIERvc2hpIHdy
-b3RlOgo+IGNoZWNrcGF0Y2ggcmVwb3J0ZWQgIldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
-ZXJzIi4gVGhpcwo+IHBhdGNoIGZpeGVzIGl0IGJ5IGFsaWduaW5nIGZ1bmN0aW9uIGFyZ3VtZW50
-cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTYWl5YW0gRG9zaGkgPHNhaXlhbWRvc2hpLmluQGdtYWls
-LmNvbT4KPiAtLS0KPiAgZHJpdmVycy9zdGFnaW5nL2FuZHJvaWQvaW9uL2lvbl9jaHVua19oZWFw
-LmMgfCA0ICsrKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvYW5kcm9pZC9pb24vaW9uX2No
-dW5rX2hlYXAuYyBiL2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2lvbi9pb25fY2h1bmtfaGVhcC5j
-Cj4gaW5kZXggM2NkZGU5YzFhNzE3Li42YWNlYWIyZTc3ZTQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9zdGFnaW5nL2FuZHJvaWQvaW9uL2lvbl9jaHVua19oZWFwLmMKPiArKysgYi9kcml2ZXJzL3N0
-YWdpbmcvYW5kcm9pZC9pb24vaW9uX2NodW5rX2hlYXAuYwo+IEBAIC0xMDcsNyArMTA3LDkgQEAg
-c3RhdGljIHN0cnVjdCBpb25faGVhcF9vcHMgY2h1bmtfaGVhcF9vcHMgPSB7Cj4gIAkudW5tYXBf
-a2VybmVsID0gaW9uX2hlYXBfdW5tYXBfa2VybmVsLAo+ICB9Owo+ICAKPiAtc3RydWN0IGlvbl9o
-ZWFwICppb25fY2h1bmtfaGVhcF9jcmVhdGUocGh5c19hZGRyX3QgYmFzZSwgc2l6ZV90IHNpemUs
-IHNpemVfdCBjaHVua19zaXplKQo+ICtzdHJ1Y3QgaW9uX2hlYXAgKmlvbl9jaHVua19oZWFwX2Ny
-ZWF0ZShwaHlzX2FkZHJfdCBiYXNlLAo+ICsJCQkJICAgICAgIHNpemVfdCBzaXplLAo+ICsJCQkJ
-ICAgICAgIHNpemVfdCBjaHVua19zaXplKQoKSnVzdCBicmVhayB0aGUgbGluZSBhdCAic2l6ZV90
-IHNpemUsIiwgbm8gbmVlZCBmb3IgMyBsaW5lcyB3aGVuIDIgd2lsbApkby4KCnRoYW5rcywKCmdy
-ZWcgay1oCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1924193962==
+Content-Type: multipart/alternative; boundary="15606199552.f54E.5550"
+Content-Transfer-Encoding: 7bit
+
+
+--15606199552.f54E.5550
+Date: Sat, 15 Jun 2019 17:32:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
+
+--- Comment #22 from Andrew Shark <ashark@linuxcomp.ru> ---
+Created attachment 144555
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144555&action=3Dedit
+Script to modify packages to be able to use with ubuntu 19.04
+
+Now script automatically installs all pro components without open component=
+s.
+The exceptions are: amdgpu-core, libdrm-amdgpu-amdgpu1, libdrm-amdgpu-commo=
+n,=20
+libdrm2-amdgpu, libwayland-amdgpu-client0, libwayland-amdgpu-server0.
+Separated uninstaller commands to another file.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15606199552.f54E.5550
+Date: Sat, 15 Jun 2019 17:32:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c22">Comme=
+nt # 22</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ashark&#64;linuxcomp.ru" title=3D"Andrew Shark &lt;ashark&#64;linuxcomp.ru&=
+gt;"> <span class=3D"fn">Andrew Shark</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144555=
+" name=3D"attach_144555" title=3D"Script to modify packages to be able to u=
+se with ubuntu 19.04">attachment 144555</a> <a href=3D"attachment.cgi?id=3D=
+144555&amp;action=3Dedit" title=3D"Script to modify packages to be able to =
+use with ubuntu 19.04">[details]</a></span> <a href=3D'page.cgi?id=3Dsplint=
+er.html&amp;bug=3D110795&amp;attachment=3D144555'>[review]</a>
+Script to modify packages to be able to use with ubuntu 19.04
+
+Now script automatically installs all pro components without open component=
+s.
+The exceptions are: amdgpu-core, libdrm-amdgpu-amdgpu1, libdrm-amdgpu-commo=
+n,=20
+libdrm2-amdgpu, libwayland-amdgpu-client0, libwayland-amdgpu-server0.
+Separated uninstaller commands to another file.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15606199552.f54E.5550--
+
+--===============1924193962==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1924193962==--
