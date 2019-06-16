@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B24475B8
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 18:05:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81673475C6
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 18:08:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E923890CD;
-	Sun, 16 Jun 2019 16:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA0E988584;
+	Sun, 16 Jun 2019 16:08:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C55F6890BE
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 16:05:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0ADA6890D7
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 16:08:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C249872167; Sun, 16 Jun 2019 16:05:49 +0000 (UTC)
+ id 0531272167; Sun, 16 Jun 2019 16:08:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 16 Jun 2019 16:05:49 +0000
+Date: Sun, 16 Jun 2019 16:08:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.mimetype
-Message-ID: <bug-110674-502-UPm4vay1nm@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-rKNqsMCTZW@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0441255318=="
+Content-Type: multipart/mixed; boundary="===============1520382311=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0441255318==
-Content-Type: multipart/alternative; boundary="15607011491.F14AA9db.19765"
+--===============1520382311==
+Content-Type: multipart/alternative; boundary="15607013024.C0cBF.20754"
 Content-Transfer-Encoding: 7bit
 
 
---15607011491.F14AA9db.19765
-Date: Sun, 16 Jun 2019 16:05:49 +0000
+--15607013024.C0cBF.20754
+Date: Sun, 16 Jun 2019 16:08:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,19 +72,16 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
-Alex Deucher <alexdeucher@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
- Attachment #144438|text/x-log                  |text/plain
-          mime type|                            |
+--- Comment #40 from Alex Deucher <alexdeucher@gmail.com> ---
+Please attach your full dmesg output.  Are you passing any parameters to the
+driver?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15607011491.F14AA9db.19765
-Date: Sun, 16 Jun 2019 16:05:49 +0000
+--15607013024.C0cBF.20754
+Date: Sun, 16 Jun 2019 16:08:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -95,31 +92,27 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
-er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
- <span class=3D"fn">Alex Deucher</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c40">Comme=
+nt # 40</a>
+              on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
 4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Attachment #144438 mime type</td>
-           <td>text/x-log
-           </td>
-           <td>text/plain
-           </td>
-         </tr></table>
-      <p>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Please attach your full dmesg output.  Are you passing any par=
+ameters to the
+driver?</pre>
+        </div>
       </p>
 
 
@@ -132,9 +125,9 @@ er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
     </body>
 </html>=
 
---15607011491.F14AA9db.19765--
+--15607013024.C0cBF.20754--
 
---===============0441255318==
+--===============1520382311==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0441255318==--
+--===============1520382311==--
