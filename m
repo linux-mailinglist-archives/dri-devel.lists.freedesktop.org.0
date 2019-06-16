@@ -1,31 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549C2474CF
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 15:41:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35408474FD
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 16:02:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9B98917E;
-	Sun, 16 Jun 2019 13:41:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3720C8923C;
+	Sun, 16 Jun 2019 14:02:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3DC689142
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 13:41:36 +0000 (UTC)
-Received: from ip5f5a6320.dynamic.kabel-deutschland.de ([95.90.99.32]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.89) (envelope-from <heiko@sntech.de>)
- id 1hcVPP-0006LO-9I; Sun, 16 Jun 2019 15:41:23 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 1/2] drm/rockchip: Properly adjust to a true clock in
- adjusted_mode
-Date: Sun, 16 Jun 2019 15:41:22 +0200
-Message-ID: <2111307.tjTOxoAehH@diego>
-In-Reply-To: <20190614224730.98622-1-dianders@chromium.org>
-References: <20190614224730.98622-1-dianders@chromium.org>
+Received: from mail.daemonic.se (mail.daemonic.se [176.58.89.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A673891AF
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 13:53:07 +0000 (UTC)
+Received: from cid.daemonic.se (localhost [IPv6:::1])
+ by mail.daemonic.se (Postfix) with ESMTP id 45RbQT2D09z3klB;
+ Sun, 16 Jun 2019 13:53:05 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at daemonic.se
+Received: from mail.daemonic.se ([IPv6:::1]) (using TLS with cipher
+ ECDHE-RSA-AES128-GCM-SHA256)
+ by cid.daemonic.se (mailscanner.daemonic.se [IPv6:::1]) (amavisd-new,
+ port 10587)
+ with ESMTPS id P_O1uTvlBDwU; Sun, 16 Jun 2019 13:53:04 +0000 (UTC)
+Received: from vivi.daemonic.se (vivi.daemonic.se [IPv6:2001:470:dca9:2::4])
+ by mail.daemonic.se (Postfix) with ESMTPSA id 45RbQS3qzDz3kl9;
+ Sun, 16 Jun 2019 13:53:04 +0000 (UTC)
+Subject: Re: [PATCH libdrm 2/2] meson.build: Fix meson script on FreeBSD
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20190602181600.83963-1-zeising@daemonic.se>
+ <20190602181600.83963-3-zeising@daemonic.se>
+ <CACvgo52ZrYEq+R4gpLFfMsaGy+uWQ0gPBUA2PVHe=7ihu0rr-g@mail.gmail.com>
+From: Niclas Zeising <zeising@daemonic.se>
+Message-ID: <1e6f4e2b-c697-0099-a99a-aea22ff3096f@daemonic.se>
+Date: Sun, 16 Jun 2019 15:52:56 +0200
+User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <CACvgo52ZrYEq+R4gpLFfMsaGy+uWQ0gPBUA2PVHe=7ihu0rr-g@mail.gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Sun, 16 Jun 2019 14:01:48 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=daemonic.se; h=
+ content-transfer-encoding:content-language:content-type
+ :content-type:in-reply-to:mime-version:user-agent:date:date
+ :message-id:from:from:references:subject:subject:received
+ :received; s=20151023; t=1560693184; bh=2k0omCqE9X/menDuSi9dytU8
+ d6YcZrGXNrOQsJ1xdQo=; b=KwXmXbm09hoWaFNbEGbf5y+qnRRm1ridtbAmfhfe
+ LvK6039CYLHKOpcAjFuGZN31MMLpkrbN0gtYz+5BrfSurxS312aZh3oY7uY2qfuX
+ C1p4j3iQNvbHHEPoo68ARHb8LC4B7pjGsbLqsGoTd98/cwJPNxmpAnCpjrMBnki5
+ d70=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,31 +60,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, urjaman@gmail.com,
- linux-rockchip@lists.infradead.org, seanpaul@chromium.org,
- Yakir Yang <ykk@rock-chips.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gU2Ftc3RhZywgMTUuIEp1bmkgMjAxOSwgMDA6NDc6MjkgQ0VTVCBzY2hyaWViIERvdWdsYXMg
-QW5kZXJzb246Cj4gV2hlbiBmaXhpbmcgdXAgdGhlIGNsb2NrIGluIHZvcF9jcnRjX21vZGVfZml4
-dXAoKSB3ZSdyZSBub3QgZG9pbmcgaXQKPiBxdWl0ZSBjb3JyZWN0bHkuICBTcGVjaWZpY2FsbHkg
-aWYgd2UndmUgZ290IHRoZSB0cnVlIGNsb2NrIDI2NjY2NjY2NyBIeiwKPiB3ZSdsbCBwZXJmb3Jt
-IHRoaXMgY2FsY3VsYXRpb246Cj4gICAgMjY2NjY2NjY3IC8gMTAwMCA9PiAyNjY2NjYKPiAKPiBM
-YXRlciB3aGVuIHdlIHRyeSB0byBzZXQgdGhlIGNsb2NrIHdlJ2xsIGRvIGNsa19zZXRfcmF0ZSgy
-NjY2NjYgKgo+IDEwMDApLiAgVGhlIGNvbW1vbiBjbG9jayBmcmFtZXdvcmsgd29uJ3QgYWN0dWFs
-bHkgcGljayB0aGUgcHJvcGVyIGNsb2NrCj4gaW4gdGhpcyBjYXNlIHNpbmNlIGl0IGFsd2F5cyB3
-YW50cyBjbG9ja3MgPD0gdGhlIHNwZWNpZmllZCBvbmUuCj4gCj4gTGV0J3Mgc29sdmUgdGhpcyBi
-eSB1c2luZyBESVZfUk9VTkRfVVAuCj4gCj4gRml4ZXM6IGI1OWI4ZGUzMTQ5NyAoImRybS9yb2Nr
-Y2hpcDogcmV0dXJuIGEgdHJ1ZSBjbG9jayByYXRlIHRvIGFkanVzdGVkX21vZGUiKQo+IFNpZ25l
-ZC1vZmYtYnk6IERvdWdsYXMgQW5kZXJzb24gPGRpYW5kZXJzQGNocm9taXVtLm9yZz4KPiBTaWdu
-ZWQtb2ZmLWJ5OiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNocm9taXVtLm9yZz4KPiBSZXZpZXdlZC1i
-eTogWWFraXIgWWFuZyA8eWtrQHJvY2stY2hpcHMuY29tPgoKSSBnYXZlIGJvdGggcGF0Y2hlcyBh
-IHRlc3RydW4gb24gcmszMjg4LCByazMzMjggYW5kIHJrMzM5OSBhbmQKYXBwbGllZCB0aGVtIHRv
-IGRybS1taXNjLW5leHQgdGhlcmVhZnRlcgoKClRoYW5rcwpIZWlrbwoKCgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gMjAxOS0wNi0xNiAxNToxNiwgRW1pbCBWZWxpa292IHdyb3RlOgo+IE9uIE1vbiwgMyBKdW4g
+MjAxOSBhdCAwODo0MSwgTmljbGFzIFplaXNpbmcgPHplaXNpbmdAZGFlbW9uaWMuc2U+IHdyb3Rl
+Ogo+Pgo+PiBGcmVlQlNEIHJlcXVpcmVzIHN5cy90eXBlcy5oIGZvciBzeXMvc3lzY3RsLmgsIGFk
+ZCBpdCBhcyBwYXJ0IG9mIHRoZQo+PiBpbmNsdWRlcyB3aGVuIGNoZWNraW5nIGZvciBoZWFkZXJz
+Lgo+PiBJbnN0ZWFkIG9mIHNwbGl0dGluZyBvdXQgdGhlIGNoZWNrIGZvciBzeXMvc3lzY3RsLmgg
+ZnJvbSB0aGUgb3RoZXIKPj4gaGVhZGVyIGNoZWNrcywganVzdCBhZGQgc3lzL3R5cGVzLmggdG8g
+YWxsIGhlYWRlciBjaGVja3MuCj4+Cj4gSWYgaGVhZGVyIFggZGVwZW5kcyBvbiBZLCB0aGVuIHRo
+ZSBmb3JtZXIgc2hvdWxkIGluY2x1ZGUgWS4KPiBDYW4geW91IHBsZWFzZSBmaWxlIGEgRnJlZUJT
+RCBidWc/CgpUaGlzIGlzIGhvdyBpdCdzIGRvY3VtZW50ZWQgaW4gdGhlIHN5c2N0bCgzKSBtYW51
+YWwgb24gRnJlZUJTRC4gIEkgd2lsbCAKYXNrIGFyb3VuZCB3aHkgdGhhdCBpcywgYnV0IEkgZG9u
+J3QgZXhwZWN0IGl0IHRvIGNoYW5nZS4KCj4gCj4gVGhhdCBzYWlkLCB0aGUgd29ya2Fyb3VuZCBp
+cyBzYWZlLCBzbyBJJ2xsIHNwbGl0IGl0IG91dCArIGFkZCBhIGNvbW1lbnQuCj4gSSdsbCBzZW5k
+IHYyIGluIGEgc2Vjb25kLgo+IAo+PiBGcmVlQlNEIGRvZXNuJ3Qgbm9ybWFsbHkgc2hpcCBiYXNo
+LCB0cnkgcmVndWxhciBzaCBpbnN0ZWFkIGlmIHdlIGNhbid0Cj4+IGZpbmQgYmFzaC4KPiAKPiBB
+Y3R1YWxseSBub3Qgc3VyZSB3aHkgd2UncmUgbG9va2luZyBmb3IgYmFzaC4gVGhlIGxvdCB3b3Jr
+cyBmaW5lIHdpdGgKPiBiYXNoLCB6c2gsIGRhc2gsIGtzaCB5b3UtbmFtZSBpdC4KPiBXaWxsIGlu
+Y2x1ZGUgdGhvc2Ugd2l0aCB2Mi4KCkFzIGxvbmcgYXMgaXQncyBvbmx5IHVzaW5nIHBvc2l4IHN0
+dWZmLCBGcmVlQlNEIC9iaW4vc2ggc2hvdWxkIHdvcmsgCmZpbmUsIGFzIHNob3VsZCB0aG9zZSBv
+dGhlcnMsIEkgdGhpbmsuCkkgaGFkIG5vIHByb2JsZW1zIHJ1bm5pbmcgdGhlIHRlc3RzIHdpdGgg
+RnJlZUJTRCAvYmluL3NoIHdoZW4gSSB0cmllZCwgCmF0IGxlYXN0LgpSZWdhcmRzCi0tIApOaWNs
+YXMgWmVpc2luZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
