@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB819474F5
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 16:02:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FF747458
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 13:21:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFD0C89226;
-	Sun, 16 Jun 2019 14:01:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABA889155;
+	Sun, 16 Jun 2019 11:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD91A89208
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 11:05:17 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id p11so6850820wre.7
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 04:05:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jYpdMxao6pliYnnD2x77IZriJWD7lFq0HxazhfUGYeM=;
- b=VWpAe2VAEwsWgW7+vKlyTrqcdlsD8BpKPIBjDPpJBOV9QnXAU7StO1xUukSxoqQT01
- FRPFu/V5A/yVlSDVbmCsXkEXvLwrN+55NMP/DB78OwgvlSls55UyeUu+Mc8/MSg9MADO
- CIO0FzTiAiUhL5UttwkdMvXZltgKWFjSi37WTAk9cOf60BxHe3n2cGFxwhWA9ZvBGg+u
- hPGgy8Zb5WSljBwfXeZFjWAoahYmxgQ3eF0yCuKo6CFtFlMmecrU+8dmOsUckSI+hOSe
- yWF3GCLRX5vG4cuXSscPYHn4wekyVuY08yQHkTEU3LzdUx8+hMrzxgnxU2ukEr5+/KZN
- zE/Q==
-X-Gm-Message-State: APjAAAWwOslfKCnpy5GmYDcS+a/4AY/t6HWLV6i8/FrW3dy8/a7vy6bE
- k83SyalThZyj3ExgxNfdmwQ=
-X-Google-Smtp-Source: APXvYqzzqx42PAT4ueneqpG+etvE0yFc0vTzd9YPvagfFq04jv7+a+XjTXMN2fn6y898d3uHmGL14w==
-X-Received: by 2002:adf:ef8d:: with SMTP id d13mr55684452wro.60.1560683116461; 
- Sun, 16 Jun 2019 04:05:16 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-52-202.static.triera.net.
- [86.58.52.202])
- by smtp.gmail.com with ESMTPSA id t1sm8457650wra.74.2019.06.16.04.05.13
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sun, 16 Jun 2019 04:05:14 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@googlegroups.com, megous@megous.com
-Subject: Re: [linux-sunxi] [PATCH v6 5/6] drm: sun4i: Add support for enabling
- DDC I2C bus to sun8i_dw_hdmi glue
-Date: Sun, 16 Jun 2019 13:05:13 +0200
-Message-ID: <1823986.m04BvQ5ALy@jernej-laptop>
-In-Reply-To: <20190527162237.18495-6-megous@megous.com>
-References: <20190527162237.18495-1-megous@megous.com>
- <20190527162237.18495-6-megous@megous.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 29DAC89190
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 11:21:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2743C72167; Sun, 16 Jun 2019 11:21:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Sun, 16 Jun 2019 11:21:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-0woGiWnJbj@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sun, 16 Jun 2019 14:01:48 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jYpdMxao6pliYnnD2x77IZriJWD7lFq0HxazhfUGYeM=;
- b=UwFN84U/ghpHYCjJsDjNhvd0IG6uo6P/Ch88x8naJcdJ3LA2P+oVvUyG2OddL1IfWo
- Txz07ZLzHPkSr8t6uXZYv+JBxeYlPaL1q6TjnJV5i5NsIHi8otj703Hw439tfzCJmkx9
- bhtZwyBGnDAfKH75NBMd9QFWoSzIRXN7SWKl/tUPS9VsqMtLYoA7ZItlJ0Qe6h6Gc1H4
- qSmX/Z0FQ6FbVAP6j62fzdvl7Kx7qsJb3yVW+gAouv+ZrB1JfGLTsGPbBCjmTDsQIrUA
- xMoN/N5HJ9atne/L4VNVvkuBNudrkBYAjRmGwG1yPEPswZ9FqVwy4LkjPSgvi+gf6yz3
- NADw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,102 +53,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Jose Abreu <joabreu@synopsys.com>,
- Alexandre Torgue <alexandre.torgue@st.com>, devicetree@vger.kernel.org,
- Maxime Ripard <maxime.ripard@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, David Airlie <airlied@linux.ie>,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- "David S. Miller" <davem@davemloft.net>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1108237368=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgT25kcmVqIQoKRG5lIHBvbmVkZWxqZWssIDI3LiBtYWogMjAxOSBvYiAxODoyMjozNiBDRVNU
-IGplIG1lZ291cyB2aWEgbGludXgtc3VueGkgCm5hcGlzYWwoYSk6Cj4gRnJvbTogT25kcmVqIEpp
-cm1hbiA8bWVnb3VzQG1lZ291cy5jb20+Cj4gCj4gT3JhbmdlIFBpIDMgYm9hcmQgcmVxdWlyZXMg
-ZW5hYmxpbmcgYSB2b2x0YWdlIHNoaWZ0aW5nIGNpcmN1aXQgdmlhIEdQSU8KPiBmb3IgdGhlIERE
-QyBidXMgdG8gYmUgdXNhYmxlLgo+IAo+IEFkZCBzdXBwb3J0IGZvciBoZG1pLWNvbm5lY3RvciBu
-b2RlJ3Mgb3B0aW9uYWwgZGRjLWVuLWdwaW9zIHByb3BlcnR5IHRvCj4gc3VwcG9ydCB0aGlzIHVz
-ZSBjYXNlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE9uZHJlaiBKaXJtYW4gPG1lZ291c0BtZWdvdXMu
-Y29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdfaGRtaS5jIHwgNTUg
-KysrKysrKysrKysrKysrKysrKysrKysrKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44
-aV9kd19oZG1pLmggfCAgMyArKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDU1IGluc2VydGlvbnMoKyks
-IDMgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9z
-dW44aV9kd19oZG1pLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9kd19oZG1pLmMg
-aW5kZXggMzlkODUwOWQ5NmEwLi41OWI4MWJhMDJkOTYKPiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N1
-bjRpL3N1bjhpX2R3X2hkbWkuYwo+IEBAIC05OCw2ICs5OCwzMCBAQCBzdGF0aWMgdTMyIHN1bjhp
-X2R3X2hkbWlfZmluZF9wb3NzaWJsZV9jcnRjcyhzdHJ1Y3QKPiBkcm1fZGV2aWNlICpkcm0sIHJl
-dHVybiBjcnRjczsKPiAgfQo+IAo+ICtzdGF0aWMgaW50IHN1bjhpX2R3X2hkbWlfZmluZF9jb25u
-ZWN0b3JfcGRldihzdHJ1Y3QgZGV2aWNlICpkZXYsCj4gKwkJCQkJICAgICBzdHJ1Y3QgCnBsYXRm
-b3JtX2RldmljZSAqKnBkZXZfb3V0KQo+ICt7Cj4gKwlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpw
-ZGV2Owo+ICsJc3RydWN0IGRldmljZV9ub2RlICpyZW1vdGU7Cj4gKwo+ICsJcmVtb3RlID0gb2Zf
-Z3JhcGhfZ2V0X3JlbW90ZV9ub2RlKGRldi0+b2Zfbm9kZSwgMSwgLTEpOwo+ICsJaWYgKCFyZW1v
-dGUpCj4gKwkJcmV0dXJuIC1FTk9ERVY7Cj4gKwo+ICsJaWYgKCFvZl9kZXZpY2VfaXNfY29tcGF0
-aWJsZShyZW1vdGUsICJoZG1pLWNvbm5lY3RvciIpKSB7Cj4gKwkJb2Zfbm9kZV9wdXQocmVtb3Rl
-KTsKPiArCQlyZXR1cm4gLUVOT0RFVjsKPiArCX0KPiArCj4gKwlwZGV2ID0gb2ZfZmluZF9kZXZp
-Y2VfYnlfbm9kZShyZW1vdGUpOwo+ICsJb2Zfbm9kZV9wdXQocmVtb3RlKTsKPiArCWlmICghcGRl
-dikKPiArCQlyZXR1cm4gLUVOT0RFVjsKPiArCj4gKwkqcGRldl9vdXQgPSBwZGV2Owo+ICsJcmV0
-dXJuIDA7Cj4gK30KPiArCj4gIHN0YXRpYyBpbnQgc3VuOGlfZHdfaGRtaV9iaW5kKHN0cnVjdCBk
-ZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+ICAJCQkgICAgICB2b2lkICpkYXRh
-KQo+ICB7Cj4gQEAgLTE1MSwxNiArMTc1LDI5IEBAIHN0YXRpYyBpbnQgc3VuOGlfZHdfaGRtaV9i
-aW5kKHN0cnVjdCBkZXZpY2UgKmRldiwKPiBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsIHJldHVybiBQ
-VFJfRVJSKGhkbWktPnJlZ3VsYXRvcik7Cj4gIAl9Cj4gCj4gKwlyZXQgPSBzdW44aV9kd19oZG1p
-X2ZpbmRfY29ubmVjdG9yX3BkZXYoZGV2LCAmaGRtaS0+Y29ubmVjdG9yX3BkZXYpOwo+ICsJaWYg
-KCFyZXQpIHsKPiArCQloZG1pLT5kZGNfZW4gPSBncGlvZF9nZXRfb3B0aW9uYWwoJmhkbWktPmNv
-bm5lY3Rvcl9wZGV2LQo+ZGV2LAo+ICsJCQkJCQkgICJkZGMtZW4iLCAKR1BJT0RfT1VUX0hJR0gp
-Owo+ICsJCWlmIChJU19FUlIoaGRtaS0+ZGRjX2VuKSkgewo+ICsJCQlwbGF0Zm9ybV9kZXZpY2Vf
-cHV0KGhkbWktPmNvbm5lY3Rvcl9wZGV2KTsKPiArCQkJZGV2X2VycihkZXYsICJDb3VsZG4ndCBn
-ZXQgZGRjLWVuIGdwaW9cbiIpOwo+ICsJCQlyZXR1cm4gUFRSX0VSUihoZG1pLT5kZGNfZW4pOwo+
-ICsJCX0KPiArCX0KPiArCj4gIAlyZXQgPSByZWd1bGF0b3JfZW5hYmxlKGhkbWktPnJlZ3VsYXRv
-cik7Cj4gIAlpZiAocmV0KSB7Cj4gIAkJZGV2X2VycihkZXYsICJGYWlsZWQgdG8gZW5hYmxlIHJl
-Z3VsYXRvclxuIik7Cj4gLQkJcmV0dXJuIHJldDsKPiArCQlnb3RvIGVycl91bnJlZl9kZGNfZW47
-Cj4gIAl9Cj4gCj4gKwlncGlvZF9zZXRfdmFsdWUoaGRtaS0+ZGRjX2VuLCAxKTsKCldoeSBkb24n
-dCB5b3UgZG8gdGhhdCBpbnNpZGUgaWYgY2xhdXNlIHdoZXJlIGhkbWktPmRkY19lbiBpcyBhc3Np
-Z25lZD8gSXQncyAKbm90IHVzZWZ1bCBvdGhlcndpc2UgYW55d2F5LgoKQmVzaWRlcywgeW91IHdv
-dWxkIHRoZW4gb25seSBuZWVkIHRvIGFkanVzdCBvbmUgZ290byBsYWJlbCBpbiBlcnJvciBwYXRo
-LgoKPiArCj4gIAlyZXQgPSByZXNldF9jb250cm9sX2RlYXNzZXJ0KGhkbWktPnJzdF9jdHJsKTsK
-PiAgCWlmIChyZXQpIHsKPiAgCQlkZXZfZXJyKGRldiwgIkNvdWxkIG5vdCBkZWFzc2VydCBjdHJs
-IHJlc2V0IApjb250cm9sXG4iKTsKPiAtCQlnb3RvIGVycl9kaXNhYmxlX3JlZ3VsYXRvcjsKPiAr
-CQlnb3RvIGVycl9kaXNhYmxlX2RkY19lbjsKPiAgCX0KPiAKPiAgCXJldCA9IGNsa19wcmVwYXJl
-X2VuYWJsZShoZG1pLT5jbGtfdG1kcyk7Cj4gQEAgLTIxMyw4ICsyNTAsMTQgQEAgc3RhdGljIGlu
-dCBzdW44aV9kd19oZG1pX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LAo+IHN0cnVjdCBkZXZpY2Ug
-Km1hc3RlciwgY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGhkbWktPmNsa190bWRzKTsKPiAgZXJyX2Fz
-c2VydF9jdHJsX3Jlc2V0Ogo+ICAJcmVzZXRfY29udHJvbF9hc3NlcnQoaGRtaS0+cnN0X2N0cmwp
-Owo+IC1lcnJfZGlzYWJsZV9yZWd1bGF0b3I6Cj4gK2Vycl9kaXNhYmxlX2RkY19lbjoKPiArCWdw
-aW9kX3NldF92YWx1ZShoZG1pLT5kZGNfZW4sIDApOwo+ICAJcmVndWxhdG9yX2Rpc2FibGUoaGRt
-aS0+cmVndWxhdG9yKTsKPiArZXJyX3VucmVmX2RkY19lbjoKPiArCWlmIChoZG1pLT5kZGNfZW4p
-Cj4gKwkJZ3Bpb2RfcHV0KGhkbWktPmRkY19lbik7Cj4gKwo+ICsJcGxhdGZvcm1fZGV2aWNlX3B1
-dChoZG1pLT5jb25uZWN0b3JfcGRldik7Cj4gCj4gIAlyZXR1cm4gcmV0Owo+ICB9Cj4gQEAgLTIy
-OCw3ICsyNzEsMTMgQEAgc3RhdGljIHZvaWQgc3VuOGlfZHdfaGRtaV91bmJpbmQoc3RydWN0IGRl
-dmljZSAqZGV2LAo+IHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgc3VuOGlfaGRtaV9waHlfcmVtb3Zl
-KGhkbWkpOwo+ICAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGhkbWktPmNsa190bWRzKTsKPiAgCXJl
-c2V0X2NvbnRyb2xfYXNzZXJ0KGhkbWktPnJzdF9jdHJsKTsKPiArCWdwaW9kX3NldF92YWx1ZSho
-ZG1pLT5kZGNfZW4sIDApOwo+ICAJcmVndWxhdG9yX2Rpc2FibGUoaGRtaS0+cmVndWxhdG9yKTsK
-PiArCj4gKwlpZiAoaGRtaS0+ZGRjX2VuKQo+ICsJCWdwaW9kX3B1dChoZG1pLT5kZGNfZW4pOwo+
-ICsKPiArCXBsYXRmb3JtX2RldmljZV9wdXQoaGRtaS0+Y29ubmVjdG9yX3BkZXYpOwo+ICB9Cj4g
-Cj4gIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY29tcG9uZW50X29wcyBzdW44aV9kd19oZG1pX29wcyA9
-IHsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaAo+
-IGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaCBpbmRleCA3MjBjNWFhOGFk
-YzEuLmRhZDY2YjgzMDFjMgo+IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9z
-dW44aV9kd19oZG1pLmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdfaGRt
-aS5oCj4gQEAgLTksNiArOSw3IEBACj4gICNpbmNsdWRlIDxkcm0vYnJpZGdlL2R3X2hkbWkuaD4K
-PiAgI2luY2x1ZGUgPGRybS9kcm1fZW5jb2Rlci5oPgo+ICAjaW5jbHVkZSA8bGludXgvY2xrLmg+
-Cj4gKyNpbmNsdWRlIDxsaW51eC9ncGlvL2NvbnN1bWVyLmg+Cj4gICNpbmNsdWRlIDxsaW51eC9y
-ZWdtYXAuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPgo+ICAjaW5j
-bHVkZSA8bGludXgvcmVzZXQuaD4KPiBAQCAtMTkwLDYgKzE5MSw4IEBAIHN0cnVjdCBzdW44aV9k
-d19oZG1pIHsKPiAgCXN0cnVjdCByZWd1bGF0b3IJCSpyZWd1bGF0b3I7Cj4gIAljb25zdCBzdHJ1
-Y3Qgc3VuOGlfZHdfaGRtaV9xdWlya3MgKnF1aXJrczsKPiAgCXN0cnVjdCByZXNldF9jb250cm9s
-CQkqcnN0X2N0cmw7Cj4gKwlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlCQkqY29ubmVjdG9yX3BkZXY7
-CgpJdCBzZWVtcyB0aGF0IGNvbm5lY3Rvcl9wZGV2IGlzIG5lZWRlZCBvbmx5IGR1cmluZyBpbnRp
-YWxpemF0aW9uLiBXaHkgZG8geW91IApzdG9yZSBpdD8KCkJlc3QgcmVnYXJkcywKSmVybmVqCgo+
-ICsJc3RydWN0IGdwaW9fZGVzYwkJKmRkY19lbjsKPiAgfTsKPiAKPiAgc3RhdGljIGlubGluZSBz
-dHJ1Y3Qgc3VuOGlfZHdfaGRtaSAqCgoKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+
+--===============1108237368==
+Content-Type: multipart/alternative; boundary="15606840841.0dCc9Fd0.3577"
+Content-Transfer-Encoding: 7bit
+
+
+--15606840841.0dCc9Fd0.3577
+Date: Sun, 16 Jun 2019 11:21:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #55 from Richard Thier <u9vata@gmail.com> ---
+(In reply to Dieter N=C3=BCtzel from comment #53)
+
+> If you do NOT 'make mrproper' and change only radeon/amdgpu stuff it shou=
+ld
+> only take some minutes (seconds) on your system/CPU.
+
+I was dumb-enough that last time I have cleaned the kernel build dir of min=
+e to
+save some space haha. This way it took around 50 minutes.
+
+> > This seems to be the real core of the issue.
+>=20
+> We hear from you. ;-)
+
+I am testing right now, at least the system and X have started but will try
+some games and look for what the logs say. I have also added some extra log=
+ging
+for my liking just to gain more insightful information as I actually have t=
+wo
+ideas for fixing this.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15606840841.0dCc9Fd0.3577
+Date: Sun, 16 Jun 2019 11:21:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c55">Comme=
+nt # 55</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
+d=3D110897#c53">comment #53</a>)
+
+<span class=3D"quote">&gt; If you do NOT 'make mrproper' and change only ra=
+deon/amdgpu stuff it should
+&gt; only take some minutes (seconds) on your system/CPU.</span >
+
+I was dumb-enough that last time I have cleaned the kernel build dir of min=
+e to
+save some space haha. This way it took around 50 minutes.
+
+<span class=3D"quote">&gt; &gt; This seems to be the real core of the issue.
+&gt;=20
+&gt; We hear from you. ;-)</span >
+
+I am testing right now, at least the system and X have started but will try
+some games and look for what the logs say. I have also added some extra log=
+ging
+for my liking just to gain more insightful information as I actually have t=
+wo
+ideas for fixing this.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15606840841.0dCc9Fd0.3577--
+
+--===============1108237368==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1108237368==--
