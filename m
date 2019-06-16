@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6C647598
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 17:44:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD33F4759E
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 17:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6351A891B7;
-	Sun, 16 Jun 2019 15:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F27A890C8;
+	Sun, 16 Jun 2019 15:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5460A891C1
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 15:44:14 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2E852890D7
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 15:47:11 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5063472167; Sun, 16 Jun 2019 15:44:14 +0000 (UTC)
+ id 2BFE672167; Sun, 16 Jun 2019 15:47:11 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
  macrotiles?)
-Date: Sun, 16 Jun 2019 15:44:14 +0000
+Date: Sun, 16 Jun 2019 15:47:11 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-kR7wGmcXwp@http.bugs.freedesktop.org/>
+Message-ID: <bug-110897-502-mkyx9joT7g@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
 References: <bug-110897-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0278786465=="
+Content-Type: multipart/mixed; boundary="===============0491526599=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0278786465==
-Content-Type: multipart/alternative; boundary="15606998543.b9ADAC.15250"
+--===============0491526599==
+Content-Type: multipart/alternative; boundary="15607000312.1a37Fe.16521"
 Content-Transfer-Encoding: 7bit
 
 
---15606998543.b9ADAC.15250
-Date: Sun, 16 Jun 2019 15:44:14 +0000
+--15607000312.1a37Fe.16521
+Date: Sun, 16 Jun 2019 15:47:11 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,66 +73,21 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
 
---- Comment #58 from Richard Thier <u9vata@gmail.com> ---
-I still have some dmesg logs around from my other debugging session and in
-every one of those I get 3 pipes despite different kernel versions from 4.4=
- to
-latest 5.x
+--- Comment #59 from Richard Thier <u9vata@gmail.com> ---
+> the glitches are the same (I know about some already),
+> everything works that worked before...
 
-Also looking at git blame I can see that relevant code paths were last touc=
-hed
-10 years ago with a big drm related commit. So nothing has changed in the c=
-ode
-it seems. Ok... I didn't check if the register number in the header is chan=
-ged
-or not, just hoped not, but the code itself is doing the same 10 year old
-things here. Even the FIXME saying if this is good or not (when calling
-r420_pipes_init in rs400_init) is that old.
-
-[drm] initializing kernel modesetting (RS400 0x1002:0x5A62 0x1043:0x1392)
-
-^^You seem to be also 5A62 here. In the code of r420_pipes_init, there are =
-some
-hardcoded cases for some other similar values that force a single-pipe inst=
-ead
-of reading from the register but you do not fall into those. The last two
-numbers are different in your case, but that does not count for that code p=
-ath
-that decides the pipe number - except if the small variance in the last two
-means that your card gives back proper values in the register from which you
-can read the pipe num.
-
-Btw running with r300_init call instead of the r420 pipe initializaion is g=
-oing
-good so far: performance is the same, the glitches are the same (I know abo=
-ut
-some already), everything works that worked before...
-
-One possible solution might be to just use r300_init for r400, but I have no
-idea if that breaks some r400 cards. I only have my RC410 but no other... An
-other appoach is to add one more special cases for the r420_pipes_init that
-specifically checks for 5A62 and forces a single pipeline despite what is r=
-ead
-from the register.
-
-Also there was one time where things were working for me before changes but=
- I
-do not know what the pipe value was back then. So yes, there is SOME chance
-that this register can also return 1 in my case too, but it seems most of t=
-he
-time (99% at least if not 100%) it returns 3.
-
-I will prepare both patches and then let others decide which direction to t=
-ake.
-I think taking the r300_init direction is maybe better because of hopeful
-backwards compatibility in general.
+I was kinda hoping maybe some glitches I know can go away if the init code =
+does
+the r300_init but that is not the case sadly. Quite the same overall system,
+but now have 1 pipes reported in dmesg.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15606998543.b9ADAC.15250
-Date: Sun, 16 Jun 2019 15:44:14 +0000
+--15607000312.1a37Fe.16521
+Date: Sun, 16 Jun 2019 15:47:11 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -150,8 +105,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
 tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c58">Comme=
-nt # 58</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c59">Comme=
+nt # 59</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
@@ -162,59 +117,14 @@ tiles?)"
 u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
  <span class=3D"fn">Richard Thier</span></a>
 </span></b>
-        <pre>I still have some dmesg logs around from my other debugging se=
-ssion and in
-every one of those I get 3 pipes despite different kernel versions from 4.4=
- to
-latest 5.x
+        <pre><span class=3D"quote">&gt; the glitches are the same (I know a=
+bout some already),
+&gt; everything works that worked before...</span >
 
-Also looking at git blame I can see that relevant code paths were last touc=
-hed
-10 years ago with a big drm related commit. So nothing has changed in the c=
-ode
-it seems. Ok... I didn't check if the register number in the header is chan=
-ged
-or not, just hoped not, but the code itself is doing the same 10 year old
-things here. Even the FIXME saying if this is good or not (when calling
-r420_pipes_init in rs400_init) is that old.
-
-[drm] initializing kernel modesetting (RS400 0x1002:0x5A62 0x1043:0x1392)
-
-^^You seem to be also 5A62 here. In the code of r420_pipes_init, there are =
-some
-hardcoded cases for some other similar values that force a single-pipe inst=
-ead
-of reading from the register but you do not fall into those. The last two
-numbers are different in your case, but that does not count for that code p=
-ath
-that decides the pipe number - except if the small variance in the last two
-means that your card gives back proper values in the register from which you
-can read the pipe num.
-
-Btw running with r300_init call instead of the r420 pipe initializaion is g=
-oing
-good so far: performance is the same, the glitches are the same (I know abo=
-ut
-some already), everything works that worked before...
-
-One possible solution might be to just use r300_init for r400, but I have no
-idea if that breaks some r400 cards. I only have my RC410 but no other... An
-other appoach is to add one more special cases for the r420_pipes_init that
-specifically checks for 5A62 and forces a single pipeline despite what is r=
-ead
-from the register.
-
-Also there was one time where things were working for me before changes but=
- I
-do not know what the pipe value was back then. So yes, there is SOME chance
-that this register can also return 1 in my case too, but it seems most of t=
-he
-time (99% at least if not 100%) it returns 3.
-
-I will prepare both patches and then let others decide which direction to t=
-ake.
-I think taking the r300_init direction is maybe better because of hopeful
-backwards compatibility in general.</pre>
+I was kinda hoping maybe some glitches I know can go away if the init code =
+does
+the r300_init but that is not the case sadly. Quite the same overall system,
+but now have 1 pipes reported in dmesg.</pre>
         </div>
       </p>
 
@@ -228,9 +138,9 @@ backwards compatibility in general.</pre>
     </body>
 </html>=
 
---15606998543.b9ADAC.15250--
+--15607000312.1a37Fe.16521--
 
---===============0278786465==
+--===============0491526599==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -240,4 +150,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0278786465==--
+--===============0491526599==--
