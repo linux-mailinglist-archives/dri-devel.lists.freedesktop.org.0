@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBBCF47407
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 11:54:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACA147449
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 12:51:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C211C8925A;
-	Sun, 16 Jun 2019 09:54:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F2789091;
+	Sun, 16 Jun 2019 10:51:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F11C48925A
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 09:54:49 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:58965
- helo=[192.168.10.173])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hcRs7-0006zi-J2; Sun, 16 Jun 2019 11:54:47 +0200
-Subject: Re: [PATCH v4 10/12] drm/modes: Parse overscan properties
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-To: Maxime Ripard <maxime.ripard@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>
-References: <cover.5fc7840dc8fb24744516c13acb8c8aa18e44c0d0.1560514379.git-series.maxime.ripard@bootlin.com>
- <c16d281d1dc69ee60e95169807e7e2ab2992f133.1560514379.git-series.maxime.ripard@bootlin.com>
- <00dfc10e-a95e-be07-0179-8cfeb6ca9908@tronnes.org>
-Message-ID: <e2790a57-02be-78e8-5ce8-00a62c1861bf@tronnes.org>
-Date: Sun, 16 Jun 2019 11:54:41 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2CD4F890DD
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 10:50:59 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 23853721A2; Sun, 16 Jun 2019 10:50:59 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110117] Waking from Suspend causes screen to appear with grey
+ static (like a TV with no signal)
+Date: Sun, 16 Jun 2019 10:50:59 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freazav@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110117-502-QrGPEVXQp1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110117-502@http.bugs.freedesktop.org/>
+References: <bug-110117-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <00dfc10e-a95e-be07-0179-8cfeb6ca9908@tronnes.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject;
- bh=LdjeAlOQzVBWRv8DE1bRFqLDMjm3jAs6C/dQeQ+Ykwg=; 
- b=cXVL7cks/UhjdERaLmDa6vfLg9FzeT5Rvn8NGnHJ151cMVpx6Gi0FLdv1jduKosJlAqc6hs3cVew2ThZGyqiJu+qxUtcsdvcnqpPv07FjLYGsLWesg6gyxjKGmZd5EjhSCeRunt6LzXfRzfWa47oAqKY1KymA8AtdVFrY5cnHKtVTZUqIkcMS7/v/imJsVSaI8U6jPlJlDCI3yVmi2HWvKftiaTJmtLPftGQmrXUlxT5W3/dRv4SYsHktwH+G+3m0vzNjoOb2o8nWbTxoEykFKmhr58Uu5D+g4b0MFaCQRO1h9SCWzXAJ08Rk5j0y5pND12AZT8+hqJGdm2n7TfiSQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,88 +53,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- linux-arm-kernel@lists.infradead.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, eben@raspberrypi.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0491571643=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTUuMDYuMjAxOSAxNy40MCwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IAo+IAo+IERl
-biAxNC4wNi4yMDE5IDE0LjEzLCBza3JldiBNYXhpbWUgUmlwYXJkOgo+PiBQcm9wZXJseSBjb25m
-aWd1cmluZyB0aGUgb3ZlcnNjYW4gcHJvcGVydGllcyBtaWdodCBiZSBuZWVkZWQgZm9yIHRoZQo+
-PiBpbml0aWFsIHNldHVwIG9mIHRoZSBmcmFtZWJ1ZmZlciBmb3IgZGlzcGxheSB0aGF0IHN0aWxs
-IGhhdmUgb3ZlcnNjYW4uCj4+IExldCdzIGFsbG93IGZvciBtb3JlIHByb3BlcnRpZXMgb24gdGhl
-IGtlcm5lbCBjb21tYW5kIGxpbmUgdG8gc2V0dXAgZWFjaAo+PiBtYXJnaW4uCj4gCj4gVGhpcyBh
-bHNvIG5lZWRzIHRvIGJlIGRvY3VtZW50ZWQgaW4gRG9jdW1lbnRhdGlvbi9mYi9tb2RlZGIudHh0
-Cj4gCj4+Cj4+IFJldmlld2VkLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9y
-Zz4KPj4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lLnJpcGFyZEBib290bGlu
-LmNvbT4KPj4gLS0tCj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX21vZGVzLmMgfCA0NCArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KPj4gIGluY2x1ZGUvZHJtL2RybV9jb25u
-ZWN0b3IuaCB8IDEyICsrKysrLS0tLS0KPj4gIDIgZmlsZXMgY2hhbmdlZCwgNTAgaW5zZXJ0aW9u
-cygrKSwgNiBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fbW9kZXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYwo+PiBpbmRleCBiOTJiN2Rm
-Njc4NGEuLjI1ZDJiYTU5NTc1MCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9t
-b2Rlcy5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fbW9kZXMuYwo+PiBAQCAtMTYwOSw2
-ICsxNjA5LDUwIEBAIHN0YXRpYyBpbnQgZHJtX21vZGVfcGFyc2VfY21kbGluZV9vcHRpb25zKGNo
-YXIgKnN0ciwgc2l6ZV90IGxlbiwKPj4gIAkJfSBlbHNlIGlmICghc3RybmNtcChvcHRpb24sICJy
-ZWZsZWN0X3kiLCBkZWxpbSAtIG9wdGlvbikpIHsKPj4gIAkJCXJvdGF0aW9uIHw9IERSTV9NT0RF
-X1JFRkxFQ1RfWTsKPj4gIAkJCXNlcCA9IGRlbGltOwo+PiArCQl9IGVsc2UgaWYgKCFzdHJuY21w
-KG9wdGlvbiwgIm1hcmdpbl9yaWdodCIsIGRlbGltIC0gb3B0aW9uKSkgewo+IAo+IEkgd29uZGVy
-IGlmIHRoaXMgc2hvdWxkIGJlIGNhbGxlZCB0dl9tYXJnaW5fcmlnaHQgdG8gZGlzdGluZ3Vpc2gg
-aXQgZnJvbQo+ICdtJyAodGhlIG1vZGUgc3BlY2lmaWVyKSB3aGljaCBhbHNvIGlzIGEgbWFyZ2lu
-PyBPciBjYW4gdGhlc2UgbWFyZ2lucyBiZQo+IHJldXNlZCBvbiBvdGhlciBkaXNwbGF5IHR5cGVz
-IGxhdGVyIG9uPyBBIGxpdHRsZSBzdHVwaWQgdG8gaGF2ZSBib3RoCj4gJ3R2X21hcmdpbl9yaWdo
-dCcgYW5kICdtYXJnaW5fcmlnaHQnLgoKQW5kIGFmdGVyIGEgbmlnaHRzIHNsZWVwIEkgdGhpbmsg
-J21hcmdpbl9yaWdodCcgaXMganVzdCBmaW5lIGFzIGxvbmcgYXMKaXQncyBkb2N1bWVudGVkIGlu
-IG1vZGVkYi50eHQgYXMgVFYgbWFyZ2lucy4KClNvIHdpdGggYW4gbW9kZWRiLnR4dCBlbnRyeSBh
-bmQgdGhlIHN0cnVjdCBjaGFuZ2UgbW92ZWQgdG8gcGF0Y2ggODoKClJldmlld2VkLWJ5OiBOb3Jh
-bGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4KCj4gCj4+ICsJCQljb25zdCBjaGFyICp2
-YWx1ZSA9IGRlbGltICsgMTsKPj4gKwkJCXVuc2lnbmVkIGludCBtYXJnaW47Cj4+ICsKPj4gKwkJ
-CW1hcmdpbiA9IHNpbXBsZV9zdHJ0b2wodmFsdWUsICZzZXAsIDEwKTsKPj4gKwo+PiArCQkJLyog
-TWFrZSBzdXJlIHdlIGhhdmUgcGFyc2VkIHNvbWV0aGluZyAqLwo+PiArCQkJaWYgKHNlcCA9PSB2
-YWx1ZSkKPj4gKwkJCQlyZXR1cm4gLUVJTlZBTDsKPj4gKwo+PiArCQkJbW9kZS0+dHZfbWFyZ2lu
-cy5yaWdodCA9IG1hcmdpbjsKPj4gKwkJfSBlbHNlIGlmICghc3RybmNtcChvcHRpb24sICJtYXJn
-aW5fbGVmdCIsIGRlbGltIC0gb3B0aW9uKSkgewo+PiArCQkJY29uc3QgY2hhciAqdmFsdWUgPSBk
-ZWxpbSArIDE7Cj4+ICsJCQl1bnNpZ25lZCBpbnQgbWFyZ2luOwo+PiArCj4+ICsJCQltYXJnaW4g
-PSBzaW1wbGVfc3RydG9sKHZhbHVlLCAmc2VwLCAxMCk7Cj4+ICsKPj4gKwkJCS8qIE1ha2Ugc3Vy
-ZSB3ZSBoYXZlIHBhcnNlZCBzb21ldGhpbmcgKi8KPj4gKwkJCWlmIChzZXAgPT0gdmFsdWUpCj4+
-ICsJCQkJcmV0dXJuIC1FSU5WQUw7Cj4+ICsKPj4gKwkJCW1vZGUtPnR2X21hcmdpbnMubGVmdCA9
-IG1hcmdpbjsKPj4gKwkJfSBlbHNlIGlmICghc3RybmNtcChvcHRpb24sICJtYXJnaW5fdG9wIiwg
-ZGVsaW0gLSBvcHRpb24pKSB7Cj4+ICsJCQljb25zdCBjaGFyICp2YWx1ZSA9IGRlbGltICsgMTsK
-Pj4gKwkJCXVuc2lnbmVkIGludCBtYXJnaW47Cj4+ICsKPj4gKwkJCW1hcmdpbiA9IHNpbXBsZV9z
-dHJ0b2wodmFsdWUsICZzZXAsIDEwKTsKPj4gKwo+PiArCQkJLyogTWFrZSBzdXJlIHdlIGhhdmUg
-cGFyc2VkIHNvbWV0aGluZyAqLwo+PiArCQkJaWYgKHNlcCA9PSB2YWx1ZSkKPj4gKwkJCQlyZXR1
-cm4gLUVJTlZBTDsKPj4gKwo+PiArCQkJbW9kZS0+dHZfbWFyZ2lucy50b3AgPSBtYXJnaW47Cj4+
-ICsJCX0gZWxzZSBpZiAoIXN0cm5jbXAob3B0aW9uLCAibWFyZ2luX2JvdHRvbSIsIGRlbGltIC0g
-b3B0aW9uKSkgewo+PiArCQkJY29uc3QgY2hhciAqdmFsdWUgPSBkZWxpbSArIDE7Cj4+ICsJCQl1
-bnNpZ25lZCBpbnQgbWFyZ2luOwo+PiArCj4+ICsJCQltYXJnaW4gPSBzaW1wbGVfc3RydG9sKHZh
-bHVlLCAmc2VwLCAxMCk7Cj4+ICsKPj4gKwkJCS8qIE1ha2Ugc3VyZSB3ZSBoYXZlIHBhcnNlZCBz
-b21ldGhpbmcgKi8KPj4gKwkJCWlmIChzZXAgPT0gdmFsdWUpCj4+ICsJCQkJcmV0dXJuIC1FSU5W
-QUw7Cj4+ICsKPj4gKwkJCW1vZGUtPnR2X21hcmdpbnMuYm90dG9tID0gbWFyZ2luOwo+PiAgCQl9
-IGVsc2Ugewo+PiAgCQkJcmV0dXJuIC1FSU5WQUw7Cj4+ICAJCX0KPj4gZGlmZiAtLWdpdCBhL2lu
-Y2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCBiL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaAo+
-PiBpbmRleCBjNThhMzViMzRjMWEuLjY4NDFjNDZlNjc4MSAxMDA2NDQKPj4gLS0tIGEvaW5jbHVk
-ZS9kcm0vZHJtX2Nvbm5lY3Rvci5oCj4+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9jb25uZWN0b3Iu
-aAo+PiBAQCAtNTA1LDEyICs1MDUsNyBAQCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl90dl9tYXJnaW5z
-IHsKPj4gICAqLwo+PiAgc3RydWN0IGRybV90dl9jb25uZWN0b3Jfc3RhdGUgewo+PiAgCWVudW0g
-ZHJtX21vZGVfc3ViY29ubmVjdG9yIHN1YmNvbm5lY3RvcjsKPj4gLQlzdHJ1Y3Qgewo+PiAtCQl1
-bnNpZ25lZCBpbnQgbGVmdDsKPj4gLQkJdW5zaWduZWQgaW50IHJpZ2h0Owo+PiAtCQl1bnNpZ25l
-ZCBpbnQgdG9wOwo+PiAtCQl1bnNpZ25lZCBpbnQgYm90dG9tOwo+PiAtCX0gbWFyZ2luczsKPj4g
-KwlzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl90dl9tYXJnaW5zIG1hcmdpbnM7Cj4+ICAJdW5zaWduZWQg
-aW50IG1vZGU7Cj4+ICAJdW5zaWduZWQgaW50IGJyaWdodG5lc3M7Cj4+ICAJdW5zaWduZWQgaW50
-IGNvbnRyYXN0Owo+IAo+IEFzIG1lbnRpb25lZCB0aGlzIG5lZWRzIG1vdmluZyB0byBwYXRjaCA4
-Lgo+IAo+IE5vcmFsZi4KPiAKPj4gQEAgLTEwMzksNiArMTAzNCwxMSBAQCBzdHJ1Y3QgZHJtX2Nt
-ZGxpbmVfbW9kZSB7Cj4+ICAJICogRFJNX01PREVfUk9UQVRFXzE4MCBhcmUgc3VwcG9ydGVkIGF0
-IHRoZSBtb21lbnQuCj4+ICAJICovCj4+ICAJdW5zaWduZWQgaW50IHJvdGF0aW9uOwo+PiArCj4+
-ICsJLyoqCj4+ICsJICogQHR2X21hcmdpbnM6IFRWIG1hcmdpbnMgdG8gYXBwbHkgdG8gdGhlIG1v
-ZGUuCj4+ICsJICovCj4+ICsJc3RydWN0IGRybV9jb25uZWN0b3JfdHZfbWFyZ2lucyB0dl9tYXJn
-aW5zOwo+PiAgfTsKPj4gIAo+PiAgLyoqCj4+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0491571643==
+Content-Type: multipart/alternative; boundary="15606822592.ddBDf.30782"
+Content-Transfer-Encoding: 7bit
+
+
+--15606822592.ddBDf.30782
+Date: Sun, 16 Jun 2019 10:50:59 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110117
+
+--- Comment #13 from Alexey Shindin <freazav@gmail.com> ---
+I can confirm this behavior at Ubuntu 18.04.2 LTS with Acer PH517-61 notebo=
+ok.
+
+The minor addition is that the issue concerns only the built-in display. In=
+ two
+display configuration after wake up the external display seems to be normal.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15606822592.ddBDf.30782
+Date: Sun, 16 Jun 2019 10:50:59 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
+tic (like a TV with no signal)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
+tic (like a TV with no signal)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117">bug 11011=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freazav&#64;gmail.com" title=3D"Alexey Shindin &lt;freazav&#64;gmail.com&gt=
+;"> <span class=3D"fn">Alexey Shindin</span></a>
+</span></b>
+        <pre>I can confirm this behavior at Ubuntu 18.04.2 LTS with Acer PH=
+517-61 notebook.
+
+The minor addition is that the issue concerns only the built-in display. In=
+ two
+display configuration after wake up the external display seems to be normal=
+.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15606822592.ddBDf.30782--
+
+--===============0491571643==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0491571643==--
