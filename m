@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81673475C6
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 18:08:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C66F64760D
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Jun 2019 19:22:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA0E988584;
-	Sun, 16 Jun 2019 16:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4BE890DD;
+	Sun, 16 Jun 2019 17:22:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0ADA6890D7
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 16:08:23 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 74C8C890E4
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Jun 2019 17:22:09 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0531272167; Sun, 16 Jun 2019 16:08:23 +0000 (UTC)
+ id 7150372167; Sun, 16 Jun 2019 17:22:09 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 16 Jun 2019 16:08:23 +0000
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Sun, 16 Jun 2019 17:22:09 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-rKNqsMCTZW@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110897-502-ZK34Pz7fx9@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,36 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1520382311=="
+Content-Type: multipart/mixed; boundary="===============0164594577=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1520382311==
-Content-Type: multipart/alternative; boundary="15607013024.C0cBF.20754"
+--===============0164594577==
+Content-Type: multipart/alternative; boundary="15607057292.106c608f.1209"
 Content-Transfer-Encoding: 7bit
 
 
---15607013024.C0cBF.20754
-Date: Sun, 16 Jun 2019 16:08:22 +0000
+--15607057292.106c608f.1209
+Date: Sun, 16 Jun 2019 17:22:09 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
 
---- Comment #40 from Alex Deucher <alexdeucher@gmail.com> ---
-Please attach your full dmesg output.  Are you passing any parameters to the
-driver?
+--- Comment #60 from Richard Thier <u9vata@gmail.com> ---
+Created attachment 144559
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144559&action=3Dedit
+Fix variant 1 (delegate to r300 init)
+
+Added a possible drm patch for kernel source tree. This version is the one =
+that
+delegates the rs400_gpu_init call to the r300_gpu_init directly.
+
+Tested at my machine only so far. Tried to comment things as good as possib=
+le.
+
+I will make an other variant soon!
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15607013024.C0cBF.20754
-Date: Sun, 16 Jun 2019 16:08:22 +0000
+--15607057292.106c608f.1209
+Date: Sun, 16 Jun 2019 17:22:09 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,21 +108,36 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c40">Comme=
-nt # 40</a>
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c60">Comme=
+nt # 60</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
 </span></b>
-        <pre>Please attach your full dmesg output.  Are you passing any par=
-ameters to the
-driver?</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144559=
+" name=3D"attach_144559" title=3D"Fix variant 1 (delegate to r300 init)">at=
+tachment 144559</a> <a href=3D"attachment.cgi?id=3D144559&amp;action=3Dedit=
+" title=3D"Fix variant 1 (delegate to r300 init)">[details]</a></span> <a h=
+ref=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D110897&amp;attachment=3D144559=
+'>[review]</a>
+Fix variant 1 (delegate to r300 init)
+
+Added a possible drm patch for kernel source tree. This version is the one =
+that
+delegates the rs400_gpu_init call to the r300_gpu_init directly.
+
+Tested at my machine only so far. Tried to comment things as good as possib=
+le.
+
+I will make an other variant soon!</pre>
         </div>
       </p>
 
@@ -125,9 +151,9 @@ driver?</pre>
     </body>
 </html>=
 
---15607013024.C0cBF.20754--
+--15607057292.106c608f.1209--
 
---===============1520382311==
+--===============0164594577==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -137,4 +163,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1520382311==--
+--===============0164594577==--
