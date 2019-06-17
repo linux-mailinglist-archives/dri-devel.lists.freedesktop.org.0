@@ -1,35 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8968248608
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 16:52:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5DD48626
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 16:54:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFC38892EA;
-	Mon, 17 Jun 2019 14:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC708932B;
+	Mon, 17 Jun 2019 14:54:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9EE6892EA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 14:51:58 +0000 (UTC)
-X-Originating-IP: 90.88.23.150
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605F78931E
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 14:54:28 +0000 (UTC)
 Received: from localhost (aaubervilliers-681-1-81-150.w90-88.abo.wanadoo.fr
  [90.88.23.150]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 439E6E0011;
- Mon, 17 Jun 2019 14:51:55 +0000 (UTC)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id C497C240018;
+ Mon, 17 Jun 2019 14:54:20 +0000 (UTC)
+Date: Mon, 17 Jun 2019 16:54:20 +0200
 From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <seanpaul@chromium.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v5 12/12] drm/vc4: hdmi: Set default state margin at reset
-Date: Mon, 17 Jun 2019 16:51:39 +0200
-Message-Id: <44e24172e300be6a41578517021ef6a6e90ed682.1560783090.git-series.maxime.ripard@bootlin.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.5190d070d1439d762d7ab273f4ae2573087fee20.1560783090.git-series.maxime.ripard@bootlin.com>
-References: <cover.5190d070d1439d762d7ab273f4ae2573087fee20.1560783090.git-series.maxime.ripard@bootlin.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [linux-sunxi] Re: [PATCH v2 5/9] drm/sun4i: tcon_top: Register
+ clock gates in probe
+Message-ID: <20190617145420.e7yfrmmhdhift5id@flea>
+References: <20190614164324.9427-1-jagan@amarulasolutions.com>
+ <20190614164324.9427-6-jagan@amarulasolutions.com>
+ <20190617114503.pclqsf6bo3ih47nt@flea>
+ <CAGb2v66RU=m0iA9VoBiYbake+mDoiiGcd5gGGXvNCBjhY2n+Dw@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAGb2v66RU=m0iA9VoBiYbake+mDoiiGcd5gGGXvNCBjhY2n+Dw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -42,38 +41,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: eben@raspberrypi.org, dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============0144185239=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tm93IHRoYXQgdGhlIFRWIG1hcmdpbnMgYXJlIHByb3Blcmx5IHBhcnNlZCBhbmQgZmlsbGVkIGlu
-dG8KZHJtX2NtZGxpbmVfbW9kZSwgd2UganVzdCBuZWVkIHRvIGluaXRpYWxpc2UgdGhlIGZpcnN0
-IHN0YXRlIGF0IHJlc2V0IHRvCmdldCB0aG9zZSB2YWx1ZXMgYW5kIHN0YXJ0IHVzaW5nIHRoZW0u
-CgpSZXZpZXdlZC1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+ClNpZ25l
-ZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9vdGxpbi5jb20+Ci0tLQog
-ZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jIHwgOCArKysrKysrLQogMSBmaWxlIGNoYW5n
-ZWQsIDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS92YzQvdmM0X2hkbWkuYyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hkbWkuYwpp
-bmRleCA2YmVhYzFjYTFmMjcuLjRhOWM4YzlmZTJiMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3ZjNC92YzRfaGRtaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hkbWkuYwpA
-QCAtMjU4LDExICsyNTgsMTcgQEAgc3RhdGljIGludCB2YzRfaGRtaV9jb25uZWN0b3JfZ2V0X21v
-ZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCiAJcmV0dXJuIHJldDsKIH0KIAor
-c3RhdGljIHZvaWQgdmM0X2hkbWlfY29ubmVjdG9yX3Jlc2V0KHN0cnVjdCBkcm1fY29ubmVjdG9y
-ICpjb25uZWN0b3IpCit7CisJZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX3Jlc2V0KGNvbm5l
-Y3Rvcik7CisJZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX3R2X3Jlc2V0KGNvbm5lY3Rvcik7
-Cit9CisKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9mdW5jcyB2YzRfaGRtaV9j
-b25uZWN0b3JfZnVuY3MgPSB7CiAJLmRldGVjdCA9IHZjNF9oZG1pX2Nvbm5lY3Rvcl9kZXRlY3Qs
-CiAJLmZpbGxfbW9kZXMgPSBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMs
-CiAJLmRlc3Ryb3kgPSB2YzRfaGRtaV9jb25uZWN0b3JfZGVzdHJveSwKLQkucmVzZXQgPSBkcm1f
-YXRvbWljX2hlbHBlcl9jb25uZWN0b3JfcmVzZXQsCisJLnJlc2V0ID0gdmM0X2hkbWlfY29ubmVj
-dG9yX3Jlc2V0LAogCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gZHJtX2F0b21pY19oZWxwZXJf
-Y29ubmVjdG9yX2R1cGxpY2F0ZV9zdGF0ZSwKIAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBkcm1f
-YXRvbWljX2hlbHBlcl9jb25uZWN0b3JfZGVzdHJveV9zdGF0ZSwKIH07Ci0tIApnaXQtc2VyaWVz
-IDAuOS4xCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0144185239==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jzvxnzdlcqa2ksrf"
+Content-Disposition: inline
+
+
+--jzvxnzdlcqa2ksrf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jun 17, 2019 at 09:01:33PM +0800, Chen-Yu Tsai wrote:
+> On Mon, Jun 17, 2019 at 7:45 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> >
+> > On Fri, Jun 14, 2019 at 10:13:20PM +0530, Jagan Teki wrote:
+> > > TCON TOP have clock gates for TV0, TV1, dsi and right
+> > > now these are register during bind call.
+> > >
+> > > Of which, dsi clock gate would required during DPHY probe
+> > > but same can miss to get since tcon top is not bound at
+> > > that time.
+> > >
+> > > To solve, this circular dependency move the clock gate
+> > > registration from bind to probe so-that DPHY can get the
+> > > dsi gate clock on time.
+> >
+> > It's not really clear to me what the circular dependency is?
+> >
+> > if you have a chain that is:
+> >
+> > tcon-top +-> DSI
+> >          +-> D-PHY
+> >
+> > There's no loop, right?
+>
+> Looking at how the DTSI patch structures things (without going into
+> whether it is correct or accurate):
+>
+> The D-PHY is not part of the component graph. However it requests
+> the DSI gate clock from the TCON-TOP.
+>
+> The TCON-TOP driver, in its current form, only registers the clocks
+> it provides at component bind time. Thus the D-PHY can't successfully
+> probe until the TCON-TOP has been bound.
+>
+> The DSI interface requires the D-PHY to bind. It will return -EPROBE_DEFER
+> if it cannot request it. This in turn goes into the error path of
+> component_bind_all, which unbinds all previous components.
+>
+> So it's actually
+>
+>     D-PHY -> TCON-TOP -> DSI
+>       ^                   |
+>       |--------------------
+>
+> I've not checked, but I suspect there's no possibility of having other
+> drivers probe (to deal with deferred probing) within component_bind_all.
+> Otherwise we shouldn't run into this weird circular dependency issue.
+>
+
+Ah, yes, that makes sense. It should be cleraer in the commit log then.
+
+Thanks!
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--jzvxnzdlcqa2ksrf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQepmwAKCRDj7w1vZxhR
+xYw9AQDHLFtmVu3MFQ1SBBQaIYnHJKObnT7QFiGqQdKlvtmJPQEAnVAr+0qvuMbJ
+nxfnMe/iGRf/aI9F/dseertWbl3c1AQ=
+=Vhms
+-----END PGP SIGNATURE-----
+
+--jzvxnzdlcqa2ksrf--
+
+--===============0144185239==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0144185239==--
