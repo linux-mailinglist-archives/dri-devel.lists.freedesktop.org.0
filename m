@@ -1,28 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F373A49475
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 23:39:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B52414948A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 23:48:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DBE86E0B1;
-	Mon, 17 Jun 2019 21:39:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8BA3892DE;
+	Mon, 17 Jun 2019 21:48:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683556E0B1;
- Mon, 17 Jun 2019 21:39:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: koike) with ESMTPSA id 0BCAD283954
-From: Helen Koike <helen.koike@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH v9 2/2] drm/i915: update cursors asynchronously through atomic
-Date: Mon, 17 Jun 2019 18:38:54 -0300
-Message-Id: <20190617213854.32330-2-helen.koike@collabora.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190617213854.32330-1-helen.koike@collabora.com>
-References: <20190617213854.32330-1-helen.koike@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E877892DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 21:48:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 678C1721A2; Mon, 17 Jun 2019 21:48:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Mon, 17 Jun 2019 21:48:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-110897-502-q6ccSLbowR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -36,161 +53,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tfiga@chromium.org, mcasas@google.com, zhenyu.z.wang@intel.com,
- David Airlie <airlied@linux.ie>, daniel.vetter@ffwll.ch,
- linux-kernel@vger.kernel.org, tina.zhang@intel.com,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Helen Koike <helen.koike@collabora.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>, kernel@collabora.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1595025281=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogR3VzdGF2byBQYWRvdmFuIDxndXN0YXZvLnBhZG92YW5AY29sbGFib3JhLmNvbT4KClJl
-cGxhY2UgdGhlIGxlZ2FjeSBjdXJzb3IgaW1wbGVtZW50YXRpb24gYnkgdGhlIGFzeW5jIGNhbGxi
-YWNrcwoKU2lnbmVkLW9mZi1ieTogR3VzdGF2byBQYWRvdmFuIDxndXN0YXZvLnBhZG92YW5AY29s
-bGFib3JhLmNvbT4KU2lnbmVkLW9mZi1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMu
-YmFsbGV0Ym9AY29sbGFib3JhLmNvbT4KU2lnbmVkLW9mZi1ieTogSGVsZW4gS29pa2UgPGhlbGVu
-LmtvaWtlQGNvbGxhYm9yYS5jb20+CgotLS0KCkNoYW5nZXMgaW4gdjk6CiAtIHY4OiBodHRwczov
-L3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwODQzMzk3LwogLSByZWJhc2VkIGFuZCBmaXhl
-ZCBjb25mbGljdHMgb24gdG9wIG9mIGRybS10aXAKCkNoYW5nZXMgaW4gdjg6CiAtIHY3OiBodHRw
-czovL2xrbWwub3JnL2xrbWwvMjAxOC82LzgvMTY4CiAtIHY3IHdhcyBzcGxpdGVkIGluIHR3bywg
-b25lIHRoYXQgYWRkcyB0aGUgYXN5bmMgY2FsbGJhY2tzIGFuZCBhbm90aGVyCiB0aGF0IHVwZGF0
-ZXMgdGhlIGN1cnNvci4KIC0gVXBkYXRlIGNvbW1lbnQgaW4gaW50ZWxfcG0uYyB0aGF0IHdhcyBy
-ZWZlcmVuY2luZwogaW50ZWxfcGxhbmVfYXRvbWljX2FzeW5jX3VwZGF0ZSgpCgpDaGFuZ2VzIGlu
-IHY3OiBOb25lCkNoYW5nZXMgaW4gdjY6IE5vbmUKQ2hhbmdlcyBpbiB2NTogTm9uZQpDaGFuZ2Vz
-IGluIHY0OiBOb25lCkNoYW5nZXMgaW4gdjM6IE5vbmUKCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2Rpc3BsYXkuYyB8IDE2NSArLS0tLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJz
-L2dwdS9kcm0vaTkxNS9pbnRlbF9wbS5jICAgICAgICAgICAgICB8ICAgMiArLQogMiBmaWxlcyBj
-aGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDE2MSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3BsYXkuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jCmluZGV4IGJmNTA1YjcwYTAzNy4uOGFl
-ZThmMGY4M2NiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2Rpc3BsYXkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rpc3Bs
-YXkuYwpAQCAtMTM1MDUsNiArMTM1MDUsMTAgQEAgc3RhdGljIGludCBpbnRlbF9hdG9taWNfY2hl
-Y2soc3RydWN0IGRybV9kZXZpY2UgKmRldiwKIAlpZiAocmV0KQogCQlnb3RvIGZhaWw7CiAKKwlp
-ZiAoX3N0YXRlLT5sZWdhY3lfY3Vyc29yX3VwZGF0ZSkKKwkJX3N0YXRlLT5hc3luY191cGRhdGUg
-PSAhZHJtX2F0b21pY19oZWxwZXJfYXN5bmNfY2hlY2soZGV2LAorCQkJCQkJCQkgICAgIF9zdGF0
-ZSk7CisKIAlpbnRlbF9mYmNfY2hvb3NlX2NydGMoZGV2X3ByaXYsIHN0YXRlKTsKIAlyZXQgPSBj
-YWxjX3dhdGVybWFya19kYXRhKHN0YXRlKTsKIAlpZiAocmV0KQpAQCAtMTQwMjIsMzQgKzE0MDI2
-LDYgQEAgc3RhdGljIGludCBpbnRlbF9hdG9taWNfY29tbWl0KHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsCiAJaTkxNV9zd19mZW5jZV9pbml0KCZpbnRlbF9zdGF0ZS0+Y29tbWl0X3JlYWR5LAogCQkJ
-ICAgaW50ZWxfYXRvbWljX2NvbW1pdF9yZWFkeSk7CiAKLQkvKgotCSAqIFRoZSBpbnRlbF9sZWdh
-Y3lfY3Vyc29yX3VwZGF0ZSgpIGZhc3QgcGF0aCB0YWtlcyBjYXJlCi0JICogb2YgYXZvaWRpbmcg
-dGhlIHZibGFuayB3YWl0cyBmb3Igc2ltcGxlIGN1cnNvcgotCSAqIG1vdmVtZW50IGFuZCBmbGlw
-cy4gRm9yIGN1cnNvciBvbi9vZmYgYW5kIHNpemUgY2hhbmdlcywKLQkgKiB3ZSB3YW50IHRvIHBl
-cmZvcm0gdGhlIHZibGFuayB3YWl0cyBzbyB0aGF0IHdhdGVybWFyawotCSAqIHVwZGF0ZXMgaGFw
-cGVuIGR1cmluZyB0aGUgY29ycmVjdCBmcmFtZXMuIEdlbjkrIGhhdmUKLQkgKiBkb3VibGUgYnVm
-ZmVyZWQgd2F0ZXJtYXJrcyBhbmQgc28gc2hvdWxkbid0IG5lZWQgdGhpcy4KLQkgKgotCSAqIFVu
-c2V0IHN0YXRlLT5sZWdhY3lfY3Vyc29yX3VwZGF0ZSBiZWZvcmUgdGhlIGNhbGwgdG8KLQkgKiBk
-cm1fYXRvbWljX2hlbHBlcl9zZXR1cF9jb21taXQoKSBiZWNhdXNlIG90aGVyd2lzZQotCSAqIGRy
-bV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX2ZsaXBfZG9uZSgpIGlzIGEgbm9vcCBhbmQKLQkgKiB3
-ZSBnZXQgRklGTyB1bmRlcnJ1bnMgYmVjYXVzZSB3ZSBkaWRuJ3Qgd2FpdAotCSAqIGZvciB2Ymxh
-bmsuCi0JICoKLQkgKiBGSVhNRSBkb2luZyB3YXRlcm1hcmtzIGFuZCBmYiBjbGVhbnVwIGZyb20g
-YSB2Ymxhbmsgd29ya2VyCi0JICogKGFzc3VtaW5nIHdlIGhhZCBhbnkpIHdvdWxkIHNvbHZlIHRo
-ZXNlIHByb2JsZW1zLgotCSAqLwotCWlmIChJTlRFTF9HRU4oZGV2X3ByaXYpIDwgOSAmJiBzdGF0
-ZS0+bGVnYWN5X2N1cnNvcl91cGRhdGUpIHsKLQkJc3RydWN0IGludGVsX2NydGNfc3RhdGUgKm5l
-d19jcnRjX3N0YXRlOwotCQlzdHJ1Y3QgaW50ZWxfY3J0YyAqY3J0YzsKLQkJaW50IGk7Ci0KLQkJ
-Zm9yX2VhY2hfbmV3X2ludGVsX2NydGNfaW5fc3RhdGUoaW50ZWxfc3RhdGUsIGNydGMsIG5ld19j
-cnRjX3N0YXRlLCBpKQotCQkJaWYgKG5ld19jcnRjX3N0YXRlLT53bS5uZWVkX3Bvc3R2YmxfdXBk
-YXRlIHx8Ci0JCQkgICAgbmV3X2NydGNfc3RhdGUtPnVwZGF0ZV93bV9wb3N0KQotCQkJCXN0YXRl
-LT5sZWdhY3lfY3Vyc29yX3VwZGF0ZSA9IGZhbHNlOwotCX0KLQogCXJldCA9IGludGVsX2F0b21p
-Y19wcmVwYXJlX2NvbW1pdChkZXYsIHN0YXRlKTsKIAlpZiAocmV0KSB7CiAJCURSTV9ERUJVR19B
-VE9NSUMoIlByZXBhcmluZyBzdGF0ZSBmYWlsZWQgd2l0aCAlaVxuIiwgcmV0KTsKQEAgLTE0NTU1
-LDEzOSArMTQ1MzEsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9mdW5jcyBpOHh4
-X3BsYW5lX2Z1bmNzID0gewogCS5mb3JtYXRfbW9kX3N1cHBvcnRlZCA9IGk4eHhfcGxhbmVfZm9y
-bWF0X21vZF9zdXBwb3J0ZWQsCiB9OwogCi1zdGF0aWMgaW50Ci1pbnRlbF9sZWdhY3lfY3Vyc29y
-X3VwZGF0ZShzdHJ1Y3QgZHJtX3BsYW5lICpwbGFuZSwKLQkJCSAgIHN0cnVjdCBkcm1fY3J0YyAq
-Y3J0YywKLQkJCSAgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiLAotCQkJICAgaW50IGNydGNf
-eCwgaW50IGNydGNfeSwKLQkJCSAgIHVuc2lnbmVkIGludCBjcnRjX3csIHVuc2lnbmVkIGludCBj
-cnRjX2gsCi0JCQkgICB1MzIgc3JjX3gsIHUzMiBzcmNfeSwKLQkJCSAgIHUzMiBzcmNfdywgdTMy
-IHNyY19oLAotCQkJICAgc3RydWN0IGRybV9tb2Rlc2V0X2FjcXVpcmVfY3R4ICpjdHgpCi17Ci0J
-c3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmRldl9wcml2ID0gdG9faTkxNShjcnRjLT5kZXYpOwot
-CWludCByZXQ7Ci0Jc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqb2xkX3BsYW5lX3N0YXRlLCAqbmV3
-X3BsYW5lX3N0YXRlOwotCXN0cnVjdCBpbnRlbF9wbGFuZSAqaW50ZWxfcGxhbmUgPSB0b19pbnRl
-bF9wbGFuZShwbGFuZSk7Ci0Jc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqb2xkX2ZiOwotCXN0cnVj
-dCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlID0KLQkJdG9faW50ZWxfY3J0Y19zdGF0ZShj
-cnRjLT5zdGF0ZSk7Ci0Jc3RydWN0IGludGVsX2NydGNfc3RhdGUgKm5ld19jcnRjX3N0YXRlOwot
-Ci0JLyoKLQkgKiBXaGVuIGNydGMgaXMgaW5hY3RpdmUgb3IgdGhlcmUgaXMgYSBtb2Rlc2V0IHBl
-bmRpbmcsCi0JICogd2FpdCBmb3IgaXQgdG8gY29tcGxldGUgaW4gdGhlIHNsb3dwYXRoCi0JICov
-Ci0JaWYgKCFjcnRjX3N0YXRlLT5iYXNlLmFjdGl2ZSB8fCBuZWVkc19tb2Rlc2V0KCZjcnRjX3N0
-YXRlLT5iYXNlKSB8fAotCSAgICBjcnRjX3N0YXRlLT51cGRhdGVfcGlwZSkKLQkJZ290byBzbG93
-OwotCi0Jb2xkX3BsYW5lX3N0YXRlID0gcGxhbmUtPnN0YXRlOwotCS8qCi0JICogRG9uJ3QgZG8g
-YW4gYXN5bmMgdXBkYXRlIGlmIHRoZXJlIGlzIGFuIG91dHN0YW5kaW5nIGNvbW1pdCBtb2RpZnlp
-bmcKLQkgKiB0aGUgcGxhbmUuICBUaGlzIHByZXZlbnRzIG91ciBhc3luYyB1cGRhdGUncyBjaGFu
-Z2VzIGZyb20gZ2V0dGluZwotCSAqIG92ZXJyaWRkZW4gYnkgYSBwcmV2aW91cyBzeW5jaHJvbm91
-cyB1cGRhdGUncyBzdGF0ZS4KLQkgKi8KLQlpZiAob2xkX3BsYW5lX3N0YXRlLT5jb21taXQgJiYK
-LQkgICAgIXRyeV93YWl0X2Zvcl9jb21wbGV0aW9uKCZvbGRfcGxhbmVfc3RhdGUtPmNvbW1pdC0+
-aHdfZG9uZSkpCi0JCWdvdG8gc2xvdzsKLQotCS8qCi0JICogSWYgYW55IHBhcmFtZXRlcnMgY2hh
-bmdlIHRoYXQgbWF5IGFmZmVjdCB3YXRlcm1hcmtzLAotCSAqIHRha2UgdGhlIHNsb3dwYXRoLiBP
-bmx5IGNoYW5naW5nIGZiIG9yIHBvc2l0aW9uIHNob3VsZCBiZQotCSAqIGluIHRoZSBmYXN0cGF0
-aC4KLQkgKi8KLQlpZiAob2xkX3BsYW5lX3N0YXRlLT5jcnRjICE9IGNydGMgfHwKLQkgICAgb2xk
-X3BsYW5lX3N0YXRlLT5zcmNfdyAhPSBzcmNfdyB8fAotCSAgICBvbGRfcGxhbmVfc3RhdGUtPnNy
-Y19oICE9IHNyY19oIHx8Ci0JICAgIG9sZF9wbGFuZV9zdGF0ZS0+Y3J0Y193ICE9IGNydGNfdyB8
-fAotCSAgICBvbGRfcGxhbmVfc3RhdGUtPmNydGNfaCAhPSBjcnRjX2ggfHwKLQkgICAgIW9sZF9w
-bGFuZV9zdGF0ZS0+ZmIgIT0gIWZiKQotCQlnb3RvIHNsb3c7Ci0KLQluZXdfcGxhbmVfc3RhdGUg
-PSBpbnRlbF9wbGFuZV9kdXBsaWNhdGVfc3RhdGUocGxhbmUpOwotCWlmICghbmV3X3BsYW5lX3N0
-YXRlKQotCQlyZXR1cm4gLUVOT01FTTsKLQotCW5ld19jcnRjX3N0YXRlID0gdG9faW50ZWxfY3J0
-Y19zdGF0ZShpbnRlbF9jcnRjX2R1cGxpY2F0ZV9zdGF0ZShjcnRjKSk7Ci0JaWYgKCFuZXdfY3J0
-Y19zdGF0ZSkgewotCQlyZXQgPSAtRU5PTUVNOwotCQlnb3RvIG91dF9mcmVlOwotCX0KLQotCWRy
-bV9hdG9taWNfc2V0X2ZiX2Zvcl9wbGFuZShuZXdfcGxhbmVfc3RhdGUsIGZiKTsKLQotCW5ld19w
-bGFuZV9zdGF0ZS0+c3JjX3ggPSBzcmNfeDsKLQluZXdfcGxhbmVfc3RhdGUtPnNyY195ID0gc3Jj
-X3k7Ci0JbmV3X3BsYW5lX3N0YXRlLT5zcmNfdyA9IHNyY193OwotCW5ld19wbGFuZV9zdGF0ZS0+
-c3JjX2ggPSBzcmNfaDsKLQluZXdfcGxhbmVfc3RhdGUtPmNydGNfeCA9IGNydGNfeDsKLQluZXdf
-cGxhbmVfc3RhdGUtPmNydGNfeSA9IGNydGNfeTsKLQluZXdfcGxhbmVfc3RhdGUtPmNydGNfdyA9
-IGNydGNfdzsKLQluZXdfcGxhbmVfc3RhdGUtPmNydGNfaCA9IGNydGNfaDsKLQotCXJldCA9IGlu
-dGVsX3BsYW5lX2F0b21pY19jaGVja193aXRoX3N0YXRlKGNydGNfc3RhdGUsIG5ld19jcnRjX3N0
-YXRlLAotCQkJCQkJICB0b19pbnRlbF9wbGFuZV9zdGF0ZShvbGRfcGxhbmVfc3RhdGUpLAotCQkJ
-CQkJICB0b19pbnRlbF9wbGFuZV9zdGF0ZShuZXdfcGxhbmVfc3RhdGUpKTsKLQlpZiAocmV0KQot
-CQlnb3RvIG91dF9mcmVlOwotCi0JcmV0ID0gbXV0ZXhfbG9ja19pbnRlcnJ1cHRpYmxlKCZkZXZf
-cHJpdi0+ZHJtLnN0cnVjdF9tdXRleCk7Ci0JaWYgKHJldCkKLQkJZ290byBvdXRfZnJlZTsKLQot
-CXJldCA9IGludGVsX3BsYW5lX3Bpbl9mYih0b19pbnRlbF9wbGFuZV9zdGF0ZShuZXdfcGxhbmVf
-c3RhdGUpKTsKLQlpZiAocmV0KQotCQlnb3RvIG91dF91bmxvY2s7Ci0KLQlpbnRlbF9mYl9vYmpf
-Zmx1c2goaW50ZWxfZmJfb2JqKGZiKSwgT1JJR0lOX0ZMSVApOwotCi0Jb2xkX2ZiID0gb2xkX3Bs
-YW5lX3N0YXRlLT5mYjsKLQlpOTE1X2dlbV90cmFja19mYihpbnRlbF9mYl9vYmoob2xkX2ZiKSwg
-aW50ZWxfZmJfb2JqKGZiKSwKLQkJCSAgaW50ZWxfcGxhbmUtPmZyb250YnVmZmVyX2JpdCk7Ci0K
-LQkvKiBTd2FwIHBsYW5lIHN0YXRlICovCi0JcGxhbmUtPnN0YXRlID0gbmV3X3BsYW5lX3N0YXRl
-OwotCi0JLyoKLQkgKiBXZSBjYW5ub3Qgc3dhcCBjcnRjX3N0YXRlIGFzIGl0IG1heSBiZSBpbiB1
-c2UgYnkgYW4gYXRvbWljIGNvbW1pdCBvcgotCSAqIHBhZ2UgZmxpcCB0aGF0J3MgcnVubmluZyBz
-aW11bHRhbmVvdXNseS4gSWYgd2Ugc3dhcCBjcnRjX3N0YXRlIGFuZAotCSAqIGRlc3Ryb3kgdGhl
-IG9sZCBzdGF0ZSwgd2Ugd2lsbCBjYXVzZSBhIHVzZS1hZnRlci1mcmVlIHRoZXJlLgotCSAqCi0J
-ICogT25seSB1cGRhdGUgYWN0aXZlX3BsYW5lcywgd2hpY2ggaXMgbmVlZGVkIGZvciBvdXIgaW50
-ZXJuYWwKLQkgKiBib29ra2VlcGluZy4gRWl0aGVyIHZhbHVlIHdpbGwgZG8gdGhlIHJpZ2h0IHRo
-aW5nIHdoZW4gdXBkYXRpbmcKLQkgKiBwbGFuZXMgYXRvbWljYWxseS4gSWYgdGhlIGN1cnNvciB3
-YXMgcGFydCBvZiB0aGUgYXRvbWljIHVwZGF0ZSB0aGVuCi0JICogd2Ugd291bGQgaGF2ZSB0YWtl
-biB0aGUgc2xvd3BhdGguCi0JICovCi0JY3J0Y19zdGF0ZS0+YWN0aXZlX3BsYW5lcyA9IG5ld19j
-cnRjX3N0YXRlLT5hY3RpdmVfcGxhbmVzOwotCi0JaWYgKHBsYW5lLT5zdGF0ZS0+dmlzaWJsZSkK
-LQkJaW50ZWxfdXBkYXRlX3BsYW5lKGludGVsX3BsYW5lLCBjcnRjX3N0YXRlLAotCQkJCSAgIHRv
-X2ludGVsX3BsYW5lX3N0YXRlKHBsYW5lLT5zdGF0ZSkpOwotCWVsc2UKLQkJaW50ZWxfZGlzYWJs
-ZV9wbGFuZShpbnRlbF9wbGFuZSwgY3J0Y19zdGF0ZSk7Ci0KLQlpbnRlbF9wbGFuZV91bnBpbl9m
-Yih0b19pbnRlbF9wbGFuZV9zdGF0ZShvbGRfcGxhbmVfc3RhdGUpKTsKLQotb3V0X3VubG9jazoK
-LQltdXRleF91bmxvY2soJmRldl9wcml2LT5kcm0uc3RydWN0X211dGV4KTsKLW91dF9mcmVlOgot
-CWlmIChuZXdfY3J0Y19zdGF0ZSkKLQkJaW50ZWxfY3J0Y19kZXN0cm95X3N0YXRlKGNydGMsICZu
-ZXdfY3J0Y19zdGF0ZS0+YmFzZSk7Ci0JaWYgKHJldCkKLQkJaW50ZWxfcGxhbmVfZGVzdHJveV9z
-dGF0ZShwbGFuZSwgbmV3X3BsYW5lX3N0YXRlKTsKLQllbHNlCi0JCWludGVsX3BsYW5lX2Rlc3Ry
-b3lfc3RhdGUocGxhbmUsIG9sZF9wbGFuZV9zdGF0ZSk7Ci0JcmV0dXJuIHJldDsKLQotc2xvdzoK
-LQlyZXR1cm4gZHJtX2F0b21pY19oZWxwZXJfdXBkYXRlX3BsYW5lKHBsYW5lLCBjcnRjLCBmYiwK
-LQkJCQkJICAgICAgY3J0Y194LCBjcnRjX3ksIGNydGNfdywgY3J0Y19oLAotCQkJCQkgICAgICBz
-cmNfeCwgc3JjX3ksIHNyY193LCBzcmNfaCwgY3R4KTsKLX0KLQogc3RhdGljIGNvbnN0IHN0cnVj
-dCBkcm1fcGxhbmVfZnVuY3MgaW50ZWxfY3Vyc29yX3BsYW5lX2Z1bmNzID0gewotCS51cGRhdGVf
-cGxhbmUgPSBpbnRlbF9sZWdhY3lfY3Vyc29yX3VwZGF0ZSwKKwkudXBkYXRlX3BsYW5lID0gZHJt
-X2F0b21pY19oZWxwZXJfdXBkYXRlX3BsYW5lLAogCS5kaXNhYmxlX3BsYW5lID0gZHJtX2F0b21p
-Y19oZWxwZXJfZGlzYWJsZV9wbGFuZSwKIAkuZGVzdHJveSA9IGludGVsX3BsYW5lX2Rlc3Ryb3ks
-CiAJLmF0b21pY19kdXBsaWNhdGVfc3RhdGUgPSBpbnRlbF9wbGFuZV9kdXBsaWNhdGVfc3RhdGUs
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9wbS5jIGIvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvaW50ZWxfcG0uYwppbmRleCBkOWE3YTEzY2UzMmEuLmJmMzc4MTk3ZjU5ZiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfcG0uYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9pbnRlbF9wbS5jCkBAIC04MjUsNyArODI1LDcgQEAgc3RhdGljIGJvb2wg
-aW50ZWxfd21fcGxhbmVfdmlzaWJsZShjb25zdCBzdHJ1Y3QgaW50ZWxfY3J0Y19zdGF0ZSAqY3J0
-Y19zdGF0ZSwKIAkgKiBjYW4gaGFwcGVuIGZhc3RlciB0aGFuIHRoZSB2cmVmcmVzaCByYXRlLCBh
-bmQgdGhlIGN1cnJlbnQKIAkgKiB3YXRlcm1hcmsgY29kZSBkb2Vzbid0IGhhbmRsZSB0aGF0IGNv
-cnJlY3RseS4gQ3Vyc29yIHVwZGF0ZXMKIAkgKiB3aGljaCBzZXQvY2xlYXIgdGhlIGZiIG9yIGNo
-YW5nZSB0aGUgY3Vyc29yIHNpemUgYXJlIGdvaW5nCi0JICogdG8gZ2V0IHRocm90dGxlZCBieSBp
-bnRlbF9sZWdhY3lfY3Vyc29yX3VwZGF0ZSgpIHRvIHdvcmsKKwkgKiB0byBnZXQgdGhyb3R0bGVk
-IGJ5IGludGVsX3BsYW5lX2F0b21pY19hc3luY191cGRhdGUoKSB0byB3b3JrCiAJICogYXJvdW5k
-IHRoaXMgcHJvYmxlbSB3aXRoIHRoZSB3YXRlcm1hcmsgY29kZS4KIAkgKi8KIAlpZiAocGxhbmUt
-PmlkID09IFBMQU5FX0NVUlNPUikKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1595025281==
+Content-Type: multipart/alternative; boundary="15608081342.bFD5DeB.24047"
+Content-Transfer-Encoding: 7bit
+
+
+--15608081342.bFD5DeB.24047
+Date: Mon, 17 Jun 2019 21:48:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+Richard Thier <u9vata@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144572|0                           |1
+        is obsolete|                            |
+
+--- Comment #70 from Richard Thier <u9vata@gmail.com> ---
+Created attachment 144573
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144573&action=3Dedit
+Sent patch
+
+I have tried, let me know if it didn't succeed or anything need to be chang=
+ed
+for next time.
+
+For reference, this was the command I used (with this attached file)
+
+git send-email 0001-drm-radeon-Fix-rs400_gpu_init-for-ATI-mobility-radeo.pa=
+tch
+--to=3D'amd-gfx@lists.freedesktop.org'
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15608081342.bFD5DeB.24047
+Date: Mon, 17 Jun 2019 21:48:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:u9vata&#6=
+4;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;"> <span cl=
+ass=3D"fn">Richard Thier</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144572 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c70">Comme=
+nt # 70</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144573=
+" name=3D"attach_144573" title=3D"Sent patch">attachment 144573</a> <a href=
+=3D"attachment.cgi?id=3D144573&amp;action=3Dedit" title=3D"Sent patch">[det=
+ails]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D110897&am=
+p;attachment=3D144573'>[review]</a>
+Sent patch
+
+I have tried, let me know if it didn't succeed or anything need to be chang=
+ed
+for next time.
+
+For reference, this was the command I used (with this attached file)
+
+git send-email 0001-drm-radeon-Fix-rs400_gpu_init-for-ATI-mobility-radeo.pa=
+tch
+--to=3D'<a href=3D"mailto:amd-gfx&#64;lists.freedesktop.org">amd-gfx&#64;li=
+sts.freedesktop.org</a>'</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15608081342.bFD5DeB.24047--
+
+--===============1595025281==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1595025281==--
