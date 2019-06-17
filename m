@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F42A49A0C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 09:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E0C48A15
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 19:28:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F186E0F5;
-	Tue, 18 Jun 2019 07:12:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBBF891AC;
+	Mon, 17 Jun 2019 17:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 22A0C89259;
- Mon, 17 Jun 2019 17:18:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A9B7128;
- Mon, 17 Jun 2019 10:18:20 -0700 (PDT)
-Received: from arrakis.emea.arm.com (arrakis.cambridge.arm.com [10.1.196.78])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id
- 08B543F246; Mon, 17 Jun 2019 10:18:15 -0700 (PDT)
-Date: Mon, 17 Jun 2019 18:18:13 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Evgenii Stepanov <eugenis@google.com>
-Subject: Re: [PATCH v17 03/15] arm64: Introduce prctl() options to control
- the tagged user addresses ABI
-Message-ID: <20190617171813.GC34565@arrakis.emea.arm.com>
-References: <cover.1560339705.git.andreyknvl@google.com>
- <a7a2933bea5fe57e504891b7eec7e9432e5e1c1a.1560339705.git.andreyknvl@google.com>
- <20190617135636.GC1367@arrakis.emea.arm.com>
- <CAFKCwrjJ+0ijNKa3ioOP7xa91QmZU0NhkO=tNC-Q_ThC69vTug@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1A7F2891AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 17:28:40 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1797972167; Mon, 17 Jun 2019 17:28:40 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110914] Heavy corruption on R300 with modesetting and GLAMOR
+Date: Mon, 17 Jun 2019 17:28:40 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rsalvaterra@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110914-502-imWiUsJddc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110914-502@http.bugs.freedesktop.org/>
+References: <bug-110914-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAFKCwrjJ+0ijNKa3ioOP7xa91QmZU0NhkO=tNC-Q_ThC69vTug@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Approved-At: Tue, 18 Jun 2019 07:12:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,72 +52,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, kvm@vger.kernel.org,
- Szabolcs Nagy <Szabolcs.Nagy@arm.com>, Will Deacon <will.deacon@arm.com>,
- dri-devel@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- Khalid Aziz <khalid.aziz@oracle.com>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jacob Bramley <Jacob.Bramley@arm.com>, Leon Romanovsky <leon@kernel.org>,
- linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Dmitry Vyukov <dvyukov@google.com>, Dave Martin <Dave.Martin@arm.com>,
- linux-media@vger.kernel.org, Kevin Brodsky <kevin.brodsky@arm.com>,
- Kees Cook <keescook@chromium.org>, Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
- Andrey Konovalov <andreyknvl@google.com>,
- Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Kostya Serebryany <kcc@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yishai Hadas <yishaih@mellanox.com>, LKML <linux-kernel@vger.kernel.org>,
- Jens Wiklander <jens.wiklander@linaro.org>, Lee Smith <Lee.Smith@arm.com>,
- Alexander Deucher <Alexander.Deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>, enh <enh@google.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Christian Koenig <Christian.Koenig@amd.com>,
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0151056407=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdW4gMTcsIDIwMTkgYXQgMDk6NTc6MzZBTSAtMDcwMCwgRXZnZW5paSBTdGVwYW5v
-diB3cm90ZToKPiBPbiBNb24sIEp1biAxNywgMjAxOSBhdCA2OjU2IEFNIENhdGFsaW4gTWFyaW5h
-cyA8Y2F0YWxpbi5tYXJpbmFzQGFybS5jb20+IHdyb3RlOgo+ID4gT24gV2VkLCBKdW4gMTIsIDIw
-MTkgYXQgMDE6NDM6MjBQTSArMDIwMCwgQW5kcmV5IEtvbm92YWxvdiB3cm90ZToKPiA+ID4gRnJv
-bTogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1hcmluYXNAYXJtLmNvbT4KPiA+ID4KPiA+ID4g
-SXQgaXMgbm90IGRlc2lyYWJsZSB0byByZWxheCB0aGUgQUJJIHRvIGFsbG93IHRhZ2dlZCB1c2Vy
-IGFkZHJlc3NlcyBpbnRvCj4gPiA+IHRoZSBrZXJuZWwgaW5kaXNjcmltaW5hdGVseS4gVGhpcyBw
-YXRjaCBpbnRyb2R1Y2VzIGEgcHJjdGwoKSBpbnRlcmZhY2UKPiA+ID4gZm9yIGVuYWJsaW5nIG9y
-IGRpc2FibGluZyB0aGUgdGFnZ2VkIEFCSSB3aXRoIGEgZ2xvYmFsIHN5c2N0bCBjb250cm9sCj4g
-PiA+IGZvciBwcmV2ZW50aW5nIGFwcGxpY2F0aW9ucyBmcm9tIGVuYWJsaW5nIHRoZSByZWxheGVk
-IEFCSSAobWVhbnQgZm9yCj4gPiA+IHRlc3RpbmcgdXNlci1zcGFjZSBwcmN0bCgpIHJldHVybiBl
-cnJvciBjaGVja2luZyB3aXRob3V0IHJlY29uZmlndXJpbmcKPiA+ID4gdGhlIGtlcm5lbCkuIFRo
-ZSBBQkkgcHJvcGVydGllcyBhcmUgaW5oZXJpdGVkIGJ5IHRocmVhZHMgb2YgdGhlIHNhbWUKPiA+
-ID4gYXBwbGljYXRpb24gYW5kIGZvcmsoKSdlZCBjaGlsZHJlbiBidXQgY2xlYXJlZCBvbiBleGVj
-dmUoKS4KPiA+ID4KPiA+ID4gVGhlIFBSX1NFVF9UQUdHRURfQUREUl9DVFJMIHdpbGwgYmUgZXhw
-YW5kZWQgaW4gdGhlIGZ1dHVyZSB0byBoYW5kbGUKPiA+ID4gTVRFLXNwZWNpZmljIHNldHRpbmdz
-IGxpa2UgaW1wcmVjaXNlIHZzIHByZWNpc2UgZXhjZXB0aW9ucy4KPiA+ID4KPiA+ID4gU2lnbmVk
-LW9mZi1ieTogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1hcmluYXNAYXJtLmNvbT4KPiA+Cj4g
-PiBBIHF1ZXN0aW9uIGZvciB0aGUgdXNlci1zcGFjZSBmb2xrOiBpZiBhbiBhcHBsaWNhdGlvbiBv
-cHRzIGluIHRvIHRoaXMKPiA+IEFCSSwgd291bGQgeW91IHdhbnQgdGhlIHNpZ2NvbnRleHQuZmF1
-bHRfYWRkcmVzcyBhbmQvb3Igc2lnaW5mby5zaV9hZGRyCj4gPiB0byBjb250YWluIHRoZSB0YWc/
-IFdlIGN1cnJlbnRseSBjbGVhciBpdCBlYXJseSBpbiB0aGUgYXJtNjQgZW50cnkuUyBidXQKPiA+
-IHdlIGNvdWxkIGZpbmQgYSB3YXkgdG8gcGFzcyBpdCBkb3duIGlmIG5lZWRlZC4KPiAKPiBGb3Ig
-SFdBU2FuIHRoaXMgd291bGQgbm90IGJlIHVzZWZ1bCBiZWNhdXNlIHdlIGluc3RydW1lbnQgbWVt
-b3J5Cj4gYWNjZXNzZXMgd2l0aCBleHBsaWNpdCBjaGVja3MgYW55d2F5LiBGb3IgTVRFLCBvbiB0
-aGUgb3RoZXIgaGFuZCwgaXQKPiB3b3VsZCBiZSB2ZXJ5IGNvbnZlbmllbnQgdG8ga25vdyB0aGUg
-ZmF1bHQgYWRkcmVzcyB0YWcgd2l0aG91dAo+IGRpc2Fzc2VtYmxpbmcgdGhlIGNvZGUuCgpJIGNv
-dWxkIGFzIHRoaXMgZGlmZmVyZW50bHk6IGRvZXMgYW55dGhpbmcgYnJlYWsgaWYsIG9uY2UgdGhl
-IHVzZXIKb3B0cyBpbiB0byBUQkksIGZhdWx0X2FkZHJlc3MgYW5kL29yIHNpX2FkZHIgaGF2ZSBu
-b24temVybyB0b3AgYnl0ZT8KCkFsdGVybmF0aXZlbHksIHdlIGNvdWxkIHByZXNlbnQgdGhlIG9y
-aWdpbmFsIEZBUl9FTDEgcmVnaXN0ZXIgYXMgYQpzZXBhcmF0ZSBmaWVsZCBhcyB3ZSBkbyB3aXRo
-IEVTUl9FTDEsIGluZGVwZW5kZW50bHkgb2Ygd2hldGhlciB0aGUgdXNlcgpvcHRlZCBpbiB0byBU
-Qkkgb3Igbm90LgoKLS0gCkNhdGFsaW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0151056407==
+Content-Type: multipart/alternative; boundary="15607925200.Cc2b.6485"
+Content-Transfer-Encoding: 7bit
+
+
+--15607925200.Cc2b.6485
+Date: Mon, 17 Jun 2019 17:28:40 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110914
+
+--- Comment #6 from Rui Salvaterra <rsalvaterra@gmail.com> ---
+Created attachment 144571
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144571&action=3Dedit
+Xorg log (radeon DDX + AccelMethod glamor)
+
+With the radeon DDX and the following xorg.conf:
+
+rui@turionx2:/etc/X11$ cat xorg.conf
+Section "Device"
+        Identifier  "Radeon"
+        Driver "radeon"
+        Option "AccelMethod" "glamor"
+EndSection
+rui@turionx2:/etc/X11$
+
+I get the exact same corruption. Log attached.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15607925200.Cc2b.6485
+Date: Mon, 17 Jun 2019 17:28:40 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Heavy corruption on R300 with modesetting and GLAMOR"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110914#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Heavy corruption on R300 with modesetting and GLAMOR"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110914">bug 11091=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rsalvaterra&#64;gmail.com" title=3D"Rui Salvaterra &lt;rsalvaterra&#64;gmai=
+l.com&gt;"> <span class=3D"fn">Rui Salvaterra</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144571=
+" name=3D"attach_144571" title=3D"Xorg log (radeon DDX + AccelMethod glamor=
+)">attachment 144571</a> <a href=3D"attachment.cgi?id=3D144571&amp;action=
+=3Dedit" title=3D"Xorg log (radeon DDX + AccelMethod glamor)">[details]</a>=
+</span>
+Xorg log (radeon DDX + AccelMethod glamor)
+
+With the radeon DDX and the following xorg.conf:
+
+rui&#64;turionx2:/etc/X11$ cat xorg.conf
+Section &quot;Device&quot;
+        Identifier  &quot;Radeon&quot;
+        Driver &quot;radeon&quot;
+        Option &quot;AccelMethod&quot; &quot;glamor&quot;
+EndSection
+rui&#64;turionx2:/etc/X11$
+
+I get the exact same corruption. Log attached.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15607925200.Cc2b.6485--
+
+--===============0151056407==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0151056407==--
