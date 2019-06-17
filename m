@@ -1,37 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F279485BA
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 16:41:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DCF485D5
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 16:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E02AC89276;
-	Mon, 17 Jun 2019 14:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11495892BB;
+	Mon, 17 Jun 2019 14:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F91D89272;
- Mon, 17 Jun 2019 14:41:15 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 73FDF804A8;
- Mon, 17 Jun 2019 16:41:11 +0200 (CEST)
-Date: Mon, 17 Jun 2019 16:41:09 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] drm/amd/display: include missing linux/delay.h
-Message-ID: <20190617144109.GA14528@ravnborg.org>
-References: <20190617123915.926526-1-arnd@arndb.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AADFE89276
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 14:43:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A7C2B72167; Mon, 17 Jun 2019 14:43:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110831] [AMD TAHITI XT][amd-staging-drm-next][bisected] broken
+ since 5.2-rc1 rebase
+Date: Mon, 17 Jun 2019 14:43:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: highest
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110831-502-UT4hvNksyj@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110831-502@http.bugs.freedesktop.org/>
+References: <bug-110831-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190617123915.926526-1-arnd@arndb.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=5bNecMADuYMHRIO7LrIA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,44 +53,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Eric Yang <eric.yang2@amd.com>, Thomas Lim <Thomas.Lim@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- Tony Cheng <tony.cheng@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Charlene Liu <charlene.liu@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0958124763=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQXJuZC4KCk9uIE1vbiwgSnVuIDE3LCAyMDE5IGF0IDAyOjM4OjU1UE0gKzAyMDAsIEFybmQg
-QmVyZ21hbm4gd3JvdGU6Cj4gU29tZSByYW5kY29uZmlnIGJ1aWxkcyBmYWlsIHRvIGNvbXBpbGUg
-dGhlIGRjbjEwIGNvZGUgYmVjYXVzZSBvZgo+IGEgbWlzc2luZyBkZWNsYXJhdGlvbjoKPiAKPiBk
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2h3X3Nl
-cXVlbmNlci5jOiBJbiBmdW5jdGlvbiAnZGNuMTBfYXBwbHlfY3R4X2Zvcl9zdXJmYWNlJzoKPiBk
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9kaXNwbGF5L2RjL2RjbjEwL2RjbjEwX2h3X3Nl
-cXVlbmNlci5jOjIzNzg6MzogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9u
-ICd1ZGVsYXknIFstV2Vycm9yPWltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQo+IAo+IElu
-Y2x1ZGUgdGhlIGFwcHJvcHJpYXRlIGtlcm5lbCBoZWFkZXIuCj4gCj4gRml4ZXM6IDllZDQzZWY4
-NGQ5ZCAoImRybS9hbWQvZGlzcGxheTogQWRkIFVuZGVyZmxvdyBBc3NlcnRzIHRvIGRjIikKPiBT
-aWduZWQtb2ZmLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IC0tLQo+ICBkcml2
-ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZGNuMTAvZGNuMTBfaHdfc2VxdWVuY2VyLmMgfCAx
-ICsKPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9od19zZXF1ZW5jZXIuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9od19zZXF1ZW5jZXIu
-Ywo+IGluZGV4IDFhYzlhNGYwMzk5MC4uZDg3ZGRjN2RlOWM2IDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9od19zZXF1ZW5jZXIuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kY24xMC9kY24xMF9od19zZXF1ZW5j
-ZXIuYwo+IEBAIC0yMiw2ICsyMiw3IEBACj4gICAqIEF1dGhvcnM6IEFNRAo+ICAgKgo+ICAgKi8K
-PiArI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+Cj4gIAo+ICAjaW5jbHVkZSA8bGludXgvZGVsYXku
-aD4KPiAgI2luY2x1ZGUgImRtX3NlcnZpY2VzLmgiCgpTb21ldGhpbmcgaGFzIGdvbmUgd3Jvbmcg
-aGVyZSwgYXMgeW91IGFkZCBhIHNlY29uZCBpbmNsdWRlIG9mIGxpbnV4L2RlbGF5LmguCgpXZSBo
-YWQgdGhpcyBwcm9ibGVtIGJlZm9yZSwgd2hpY2ggQWxleCBmaXhlZCBieSBhcHBseWluZyBhIHBh
-dGNoIHRvCmluY2x1ZGUgbGludXgvZGVsYXkuaAoKCglTYW0KX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0958124763==
+Content-Type: multipart/alternative; boundary="15607826191.29d1dA76.12233"
+Content-Transfer-Encoding: 7bit
+
+
+--15607826191.29d1dA76.12233
+Date: Mon, 17 Jun 2019 14:43:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110831
+
+--- Comment #4 from Alex Deucher <alexdeucher@gmail.com> ---
+Created attachment 144570
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144570&action=3Dedit
+possible fix
+
+Does this patch help?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15607826191.29d1dA76.12233
+Date: Mon, 17 Jun 2019 14:43:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD TAHITI XT][amd-staging-drm-next][bisected] broken si=
+nce 5.2-rc1 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110831#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [AMD TAHITI XT][amd-staging-drm-next][bisected] broken si=
+nce 5.2-rc1 rebase"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110831">bug 11083=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
+com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144570=
+" name=3D"attach_144570" title=3D"possible fix">attachment 144570</a> <a hr=
+ef=3D"attachment.cgi?id=3D144570&amp;action=3Dedit" title=3D"possible fix">=
+[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D11083=
+1&amp;attachment=3D144570'>[review]</a>
+possible fix
+
+Does this patch help?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15607826191.29d1dA76.12233--
+
+--===============0958124763==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0958124763==--
