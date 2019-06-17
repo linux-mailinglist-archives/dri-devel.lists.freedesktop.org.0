@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5B74848D
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 15:53:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27277484A2
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 15:55:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7E7F8924F;
-	Mon, 17 Jun 2019 13:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2793892B6;
+	Mon, 17 Jun 2019 13:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8751F89259
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 13:53:39 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7433989292
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 13:55:14 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 838D372167; Mon, 17 Jun 2019 13:53:39 +0000 (UTC)
+ id 3284A721A9; Mon, 17 Jun 2019 13:55:14 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding with
- yuv420p10le
-Date: Mon, 17 Jun 2019 13:53:39 +0000
+Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
+ power profile]
+Date: Mon, 17 Jun 2019 13:55:13 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: magist3r@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: high
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110702-502-GQopY48Alv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110702-502@http.bugs.freedesktop.org/>
-References: <bug-110702-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-102646-502-UyqmcaKA4d@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
+References: <bug-102646-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,42 +53,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0110013287=="
+Content-Type: multipart/mixed; boundary="===============0211793732=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0110013287==
-Content-Type: multipart/alternative; boundary="15607796193.5Ffc1FBbD.3324"
+--===============0211793732==
+Content-Type: multipart/alternative; boundary="15607797142.266ef8.3526"
 Content-Transfer-Encoding: 7bit
 
 
---15607796193.5Ffc1FBbD.3324
-Date: Mon, 17 Jun 2019 13:53:39 +0000
+--15607797142.266ef8.3526
+Date: Mon, 17 Jun 2019 13:55:14 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
+https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
 
---- Comment #6 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
-amd.com> ---
-I can't reproduce it here, but maybe my test file (from
-https://github.com/mpv-player/mpv/issues/4736#issuecomment-333505294) isn't
-good to trigger the bug.
-
-Does the issue occur with the file above? And could you test with a differe=
-nt
-player?
+--- Comment #96 from magist3r <magist3r@gmail.com> ---
+(In reply to tempel.julian from comment #95)
+> but it forces VRAM into highest state with amdgpu.dc=3D1
+Yes, and this is what the kernel code does to prevent flickering. My patch =
+is
+only about doing the same thing with PP_OVERDRIVE_MASK enabled.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15607796193.5Ffc1FBbD.3324
-Date: Mon, 17 Jun 2019 13:53:39 +0000
+--15607797142.266ef8.3526
+Date: Mon, 17 Jun 2019 13:55:14 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,30 +101,27 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
-0le"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702#c6">Commen=
-t # 6</a>
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c96">Comme=
+nt # 96</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
-0le"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">bug 11070=
-2</a>
+   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
+ower profile]"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
+magist3r&#64;gmail.com" title=3D"magist3r &lt;magist3r&#64;gmail.com&gt;"> =
+<span class=3D"fn">magist3r</span></a>
 </span></b>
-        <pre>I can't reproduce it here, but maybe my test file (from
-<a href=3D"https://github.com/mpv-player/mpv/issues/4736#issuecomment-33350=
-5294">https://github.com/mpv-player/mpv/issues/4736#issuecomment-333505294<=
-/a>) isn't
-good to trigger the bug.
-
-Does the issue occur with the file above? And could you test with a differe=
-nt
-player?</pre>
+        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
+02646#c95">comment #95</a>)
+<span class=3D"quote">&gt; but it forces VRAM into highest state with amdgp=
+u.dc=3D1</span >
+Yes, and this is what the kernel code does to prevent flickering. My patch =
+is
+only about doing the same thing with PP_OVERDRIVE_MASK enabled.</pre>
         </div>
       </p>
 
@@ -141,9 +135,9 @@ player?</pre>
     </body>
 </html>=
 
---15607796193.5Ffc1FBbD.3324--
+--15607797142.266ef8.3526--
 
---===============0110013287==
+--===============0211793732==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -153,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0110013287==--
+--===============0211793732==--
