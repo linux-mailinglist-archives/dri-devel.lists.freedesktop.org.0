@@ -2,39 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE15487C6
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 17:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E4E48832
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 18:04:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188518919A;
-	Mon, 17 Jun 2019 15:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECC0989177;
+	Mon, 17 Jun 2019 16:03:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97C248913D;
- Mon, 17 Jun 2019 15:47:57 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:50461
- helo=[192.168.10.173])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hctrP-0002ej-M6; Mon, 17 Jun 2019 17:47:55 +0200
-Subject: Re: [PATCH 01/59] drm/todo: Improve drm_gem_object funcs todo
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-2-daniel.vetter@ffwll.ch>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <f326e4e2-2cc3-6e90-f9d3-96b5c8c8b070@tronnes.org>
-Date: Mon, 17 Jun 2019 17:47:50 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 156638918F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 16:03:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1272872167; Mon, 17 Jun 2019 16:03:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding with
+ yuv420p10le
+Date: Mon, 17 Jun 2019 16:03:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: irherder@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110702-502-dlhnwz0Rnq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110702-502@http.bugs.freedesktop.org/>
+References: <bug-110702-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190614203615.12639-2-daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=PjT+afcywmfzdbjrOqqXaV5K4mA8CVx532HIf8ZAUaI=; 
- b=uhgtKjVb5hPh52uyzajzncDnB2Q5suif51trCMrl807I552Mqgzsd/EITHuVYHqKvwLseMoQFwrimkfbwKGYFGrtQZbwG0c7fwwOfDbQ0k3MSwbPoOrsSZ7IygOPCgLXF1yeBYWc12/Nyorx/rtoWo84pOkol6qtYmFb3p96UxwMoyylWfeUbeHrN96299z3Y1Icdcrtuvq/rtSQiIxc53IUogCMrnqvyIo1tLkPLAFUplNxoTDGwhht4rCTJPsBgnD9d5/wgIRy9OVF0pLbAY3k79+yCuULrigTC/g2E8llaKCgn/vAU0SLgsgXwFDUSeU8I6lNSR52+YwxgicMOg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,38 +53,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1009036699=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTQuMDYuMjAxOSAyMi4zNSwgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBXZSdyZSBraW5k
-YSBnb2luZyBpbiB0aGUgd3JvbmcgZGlyZWN0aW9uLiBTcG90dGVkIHdoaWxlIHR5cGluZyBiZXR0
-ZXIKPiBnZW0vcHJpbWUgZG9jcy4KPiAKPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJt
-YW5uQHN1c2UuZGU+Cj4gQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+IENj
-OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo+IENjOiBOb3JhbGYgVHLDuG5uZXMgPG5v
-cmFsZkB0cm9ubmVzLm9yZz4KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwu
-dmV0dGVyQGludGVsLmNvbT4KPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgfCA0
-ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQg
-YS9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0
-Cj4gaW5kZXggYjRhNzZjMjcwM2U1Li4yMzU4M2YwZTM3NTUgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1l
-bnRhdGlvbi9ncHUvdG9kby5yc3QKPiArKysgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAo+
-IEBAIC0yMjgsNiArMjI4LDEwIEBAIHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcwo+ICBHRU0g
-b2JqZWN0cyBjYW4gbm93IGhhdmUgYSBmdW5jdGlvbiB0YWJsZSBpbnN0ZWFkIG9mIGhhdmluZyB0
-aGUgY2FsbGJhY2tzIG9uIHRoZQo+ICBEUk0gZHJpdmVyIHN0cnVjdC4gVGhpcyBpcyBub3cgdGhl
-IHByZWZlcnJlZCB3YXkgYW5kIGRyaXZlcnMgY2FuIGJlIG1vdmVkIG92ZXIuCj4gIAo+ICtVbmZv
-cnR1bmF0ZWx5IHNvbWUgb2YgdGhlIHJlY2VudGx5IGFkZGVkIEdFTSBoZWxwZXJzIGFyZSBnb2lu
-ZyBpbiB0aGUgd3JvbmcKPiArZGlyZWN0aW9uIGJ5IGFkZGluZyBPUFMgbWFjcm9zIHRoYXQgdXNl
-IHRoZSBvbGQsIGRlcHJlY2F0ZWQgaG9va3MuIFNlZQo+ICtEUk1fR0VNX0NNQV9WTUFQX0RSSVZF
-Ul9PUFMsIERSTV9HRU1fU0hNRU1fRFJJVkVSX09QUywgYW5kIERSTV9HRU1fVlJBTV9EUklWRVJf
-UFJJTUUuCj4gKwoKQm90aCBEUk1fR0VNX0NNQV9WTUFQX0RSSVZFUl9PUFMgYW5kIERSTV9HRU1f
-U0hNRU1fRFJJVkVSX09QUyB1c2UgdGhlCkdFTSB2dGFibGUuIE9yIGFtIEkgbWlzc2luZyBzb21l
-dGhpbmcgaGVyZT8KCk5vcmFsZi4KCj4gIFVzZSBEUk1fTU9ERVNFVF9MT0NLX0FMTF8qIGhlbHBl
-cnMgaW5zdGVhZCBvZiBib2lsZXJwbGF0ZQo+ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgCj4gCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1009036699==
+Content-Type: multipart/alternative; boundary="15607874370.Bdd6ad0.24941"
+Content-Transfer-Encoding: 7bit
+
+
+--15607874370.Bdd6ad0.24941
+Date: Mon, 17 Jun 2019 16:03:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
+
+--- Comment #7 from asavah <irherder@gmail.com> ---
+The sample provided in the post above is not triggering the crash.
+However a sample was provided to me that reliably crashes.
+https://drive.google.com/open?id=3D1bDhF6U5ccW-K1G63fl1qnO-98kopMJyw
+ryzen 2400g
+linux 5.1.10
+mesa 19.1.0
+ffmpeg 4.0.3
+libva 2.5.0.pre1 (from git)
+kodi 19 (from git)
+
+I have a stacktrace but it's quite useless, if needed I could rebuild all t=
+he
+packages with debug info and reproduce.
+I don't have another player on the affected system atm.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15607874370.Bdd6ad0.24941
+Date: Mon, 17 Jun 2019 16:03:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
+0le"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
+0le"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">bug 11070=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+irherder&#64;gmail.com" title=3D"asavah &lt;irherder&#64;gmail.com&gt;"> <s=
+pan class=3D"fn">asavah</span></a>
+</span></b>
+        <pre>The sample provided in the post above is not triggering the cr=
+ash.
+However a sample was provided to me that reliably crashes.
+<a href=3D"https://drive.google.com/open?id=3D1bDhF6U5ccW-K1G63fl1qnO-98kop=
+MJyw">https://drive.google.com/open?id=3D1bDhF6U5ccW-K1G63fl1qnO-98kopMJyw<=
+/a>
+ryzen 2400g
+linux 5.1.10
+mesa 19.1.0
+ffmpeg 4.0.3
+libva 2.5.0.pre1 (from git)
+kodi 19 (from git)
+
+I have a stacktrace but it's quite useless, if needed I could rebuild all t=
+he
+packages with debug info and reproduce.
+I don't have another player on the affected system atm.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15607874370.Bdd6ad0.24941--
+
+--===============1009036699==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1009036699==--
