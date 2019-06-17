@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9F9499F5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 09:12:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 773BF47E3A
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 11:22:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7E46E0DF;
-	Tue, 18 Jun 2019 07:12:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC9089190;
+	Mon, 17 Jun 2019 09:22:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.daemonic.se (mail.daemonic.se [IPv6:2607:f740:d:20::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99E9C890B6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 09:20:46 +0000 (UTC)
-Received: from cid.daemonic.se (localhost [IPv6:::1])
- by mail.daemonic.se (Postfix) with ESMTP id 45S5Km67m1z3kkc;
- Mon, 17 Jun 2019 09:20:44 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at daemonic.se
-Received: from mail.daemonic.se ([IPv6:::1]) (using TLS with cipher
- ECDHE-RSA-AES128-GCM-SHA256)
- by cid.daemonic.se (mailscanner.daemonic.se [IPv6:::1]) (amavisd-new,
- port 10587)
- with ESMTPS id kL_ElVJ9-usL; Mon, 17 Jun 2019 09:20:43 +0000 (UTC)
-Received: from garnet.daemonic.se (host-90-236-237-150.mobileonline.telia.com
- [90.236.237.150])
- by mail.daemonic.se (Postfix) with ESMTPSA id 45S5Kl2Jp2z3c7W;
- Mon, 17 Jun 2019 09:20:43 +0000 (UTC)
-Subject: Re: [PATCH libdrm v2 4/4] meson.build: Fix meson script on FreeBSD
-To: Eric Engestrom <eric.engestrom@intel.com>,
- Emil Velikov <emil.l.velikov@gmail.com>
-References: <20190616132343.26370-1-emil.l.velikov@gmail.com>
- <20190616132343.26370-4-emil.l.velikov@gmail.com>
- <20190617091435.35ftj5twdxpspxnr@intel.com>
-From: Niclas Zeising <zeising@daemonic.se>
-Message-ID: <ca1171ab-ebbe-23f2-15c7-552bbf6aaf38@daemonic.se>
-Date: Mon, 17 Jun 2019 11:20:43 +0200
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 738D289190
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 09:22:45 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7052C72167; Mon, 17 Jun 2019 09:22:45 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Mon, 17 Jun 2019 09:22:45 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-110897-502-CM8NLgHrXI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190617091435.35ftj5twdxpspxnr@intel.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Tue, 18 Jun 2019 07:12:01 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=daemonic.se; h=
- content-transfer-encoding:content-language:content-type
- :content-type:in-reply-to:mime-version:user-agent:date:date
- :message-id:from:from:references:subject:subject:received
- :received; s=20151023; t=1560763243; bh=MI+rbqmS0ph6IQJMNG1AUsGd
- HYlDFDutxQCHJ3eX0Uc=; b=DQ1xeVa0sXBAtFTOsjRVMpu1RKQDBH0eFNvFJ2wh
- Rt44/2cCb13NRxyCzeVq+KVwfpzG3yiXrMC5Wec78gOaReLcXqLvQAvBHK4nGoQS
- 8XpSPcImov71ZeWIRxCpfxmkX2sY8fQQwNEAwhAiKTwlaeLgUjGzuCqIOZ90/Jwd
- YfU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,34 +53,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0336096618=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNi0xNyAxMToxNCwgRXJpYyBFbmdlc3Ryb20gd3JvdGU6Cj4gT24gU3VuZGF5LCAy
-MDE5LTA2LTE2IDE0OjIzOjQzICswMTAwLCBFbWlsIFZlbGlrb3Ygd3JvdGU6Cj4+IEZyb206IE5p
-Y2xhcyBaZWlzaW5nIDx6ZWlzaW5nQGRhZW1vbmljLnNlPgo+Pgo+PiBGcmVlQlNEIHJlcXVpcmVz
-IHN5cy90eXBlcy5oIGZvciBzeXMvc3lzY3RsLmgsIGFkZCBpdCBhcyBwYXJ0IG9mIHRoZQo+PiBp
-bmNsdWRlcyB3aGVuIGNoZWNraW5nIGZvciBoZWFkZXJzLgo+PiBJbnN0ZWFkIG9mIHNwbGl0dGlu
-ZyBvdXQgdGhlIGNoZWNrIGZvciBzeXMvc3lzY3RsLmggZnJvbSB0aGUgb3RoZXIKPj4gaGVhZGVy
-IGNoZWNrcywganVzdCBhZGQgc3lzL3R5cGVzLmggdG8gYWxsIGhlYWRlciBjaGVja3MuCj4+Cj4+
-IHYyIFtFbWlsXQo+PiAgIC0gYWRkIGlubGluZSBjb21tZW50Cj4+ICAgLSBkcm9wIGJhc2gvc2gg
-aHVuawo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwubC52ZWxpa292QGdt
-YWlsLmNvbT4KPiAKPiBTZXJpZXMgaXM6Cj4gUmV2aWV3ZWQtYnk6IEVyaWMgRW5nZXN0cm9tIDxl
-cmljLmVuZ2VzdHJvbUBpbnRlbC5jb20+Cj4gCj4gQnV0IEkgYWdyZWUgd2l0aCBFbWlsLCBpdCdz
-IGEgRnJlZUJTRCBidWcgZm9yIGl0IHRvIG5vdCBpbmNsdWRlCj4gYSByZXF1aXJlZCBoZWFkZXIs
-IHRoaXMgc2hvdWxkIGFsc28gYmUgZml4ZWQgdXBzdHJlYW0uCgpJJ20gbm90IHN1cmUgaWYgbXkg
-ZS1tYWlscyBhcmUgZ2V0dGluZyB0byB0aGUgbWFpbGluZyBsaXN0LiAgVGhpcyBpcyB0aGUgCndh
-eSBpdCdzIGRvY3VtZW50ZWQgaW4gRnJlZUJTRCwgYW5kIHRoZXJlIGlzIGEgbG90IG9mIGxlZ2Fj
-eSByZWFzb25zIGl0IAppcyB0aGlzIHdheS4gIEkgZG91YnQgaXQgd2lsbCBjaGFuZ2UsIGFuZCBl
-dmVuIGlmIGl0IGRvZXMsIHRoZXJlIHdpbGwgYmUgCmFib3V0IDUgeWVhcnMgb2YgdHJhbnNpdGlv
-biBwZXJpb2QgYmVmb3JlIGFsbCBzdXBwb3J0ZWQgcmVsZWFzZXMgaGFzIHRoZSAKY2hhbmdlLCBt
-b3N0IGxpa2VseS4KClRoaXMgaXMgdGhlIGZpcnN0IHRpbWUsIHRvIG15IGtub3dsZWRnZSwgdGhp
-cyBpc3N1ZSBoYXMgY29tZSB1cC4KCihJJ20gbm90IHNheWluZyBJIGRpc2FncmVlIHdpdGggeW91
-LCBqdXN0IHNheWluZyBpdCdzIHByb2JhYmx5IGVhc2llciB0byAKcGF0Y2ggaGVyZSByYXRoZXIg
-dGhhbiB0cnkgdG8gY2hhbmdlIHVwc3RyZWFtLikKClJlZ2FyZHMKLS0gCk5pY2xhcwpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0336096618==
+Content-Type: multipart/alternative; boundary="15607633655.f3DEa228.19175"
+Content-Transfer-Encoding: 7bit
+
+
+--15607633655.f3DEa228.19175
+Date: Mon, 17 Jun 2019 09:22:45 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+Michel D=C3=A4nzer <michel@daenzer.net> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|michel@daenzer.net          |
+
+--- Comment #66 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+Removing myself from the CC list again, as I get updates via the mailing li=
+st
+anyway.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15607633655.f3DEa228.19175
+Date: Mon, 17 Jun 2019 09:22:45 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
+4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
+ <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>michel&#64;daenzer.net
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c66">Comme=
+nt # 66</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>Removing myself from the CC list again, as I get updates via t=
+he mailing list
+anyway.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15607633655.f3DEa228.19175--
+
+--===============0336096618==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0336096618==--
