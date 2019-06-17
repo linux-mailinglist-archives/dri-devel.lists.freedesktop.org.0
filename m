@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0F349A0B
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 09:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC0A490E9
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 22:09:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9FD46E0F4;
-	Tue, 18 Jun 2019 07:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B0688830;
+	Mon, 17 Jun 2019 20:09:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ale.deltatee.com (ale.deltatee.com [207.54.116.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18ECF6E090;
- Mon, 17 Jun 2019 20:08:19 +0000 (UTC)
-Received: from guinness.priv.deltatee.com ([172.16.1.162])
- by ale.deltatee.com with esmtp (Exim 4.89)
- (envelope-from <logang@deltatee.com>)
- id 1hcxvM-0004o2-QE; Mon, 17 Jun 2019 14:08:17 -0600
-To: Christoph Hellwig <hch@lst.de>, Dan Williams <dan.j.williams@intel.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jason Gunthorpe <jgg@mellanox.com>, Ben Skeggs <bskeggs@redhat.com>
-References: <20190617122733.22432-1-hch@lst.de>
- <20190617122733.22432-9-hch@lst.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <d68c5e4c-b2de-95c3-0b75-1f2391b25a34@deltatee.com>
-Date: Mon, 17 Jun 2019 14:08:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
+ [IPv6:2607:f8b0:4864:20::744])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB28888BBA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 20:09:37 +0000 (UTC)
+Received: by mail-qk1-x744.google.com with SMTP id c11so7026156qkk.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 13:09:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rnuYMa6vIBfYmE14DNuXdWYP2V9cYpPN1XP5Rkgp6fA=;
+ b=kOHCBoVbWc8t1zemkUi9uN79cYKeg3zzScN85dlZ+7SK/xAKepneo4n96ISBnvTfQa
+ fh/h1/yVLi915xM6R7ESadFMezhaonGD0T4luUqvrqJh9Gj0cSt1OQCfya9Vpr/VFDEt
+ HaUfNvHUiwbaAAhddUC5a1/oQK10KAEQ7tmmu0YvL8lgy0/2kC+lhkgQAzbGkUHtwR5Y
+ +xp89OOWgKkI1D5AoAPyxhspGK9M82kTXucYSxtI43tOvcAgTWrExt5Z4QxuL8xlhAk4
+ NScd+fyld1npcltZYGm0MIqvZnL9RvyW7p+czMZT5wfRkEWobyX7NitnU3wKDNWkRMar
+ SINg==
+X-Gm-Message-State: APjAAAUmClBMpa4VJjE0OsNkaeyS8C3+49gcT8c6A046i39epnI4Q8Dp
+ X5DQsyceiAbK1b6bT4LuWKK47Qw17t8=
+X-Google-Smtp-Source: APXvYqzsEntNgVAPgcjag9ZN8RYTpVZ7OhVksMaCG0wgtxyD8CuLCaHM1I/CD5xcFOVbil7MXHowtw==
+X-Received: by 2002:a37:4d82:: with SMTP id a124mr19092881qkb.72.1560802177050; 
+ Mon, 17 Jun 2019 13:09:37 -0700 (PDT)
+Received: from rosewood.cam.corp.google.com ([100.100.175.19])
+ by smtp.gmail.com with ESMTPSA id n5sm7962291qta.29.2019.06.17.13.09.36
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 17 Jun 2019 13:09:36 -0700 (PDT)
+From: Sean Paul <sean@poorly.run>
+To: dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org
+Subject: [PATCH 03/13] drm/msm/phy/dsi_phy: Set pll to NULL in case
+ initialization fails
+Date: Mon, 17 Jun 2019 16:09:17 -0400
+Message-Id: <20190617200920.133104-1-sean@poorly.run>
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+In-Reply-To: <20190617200405.131843-1-sean@poorly.run>
+References: <20190617200405.131843-1-sean@poorly.run>
 MIME-Version: 1.0
-In-Reply-To: <20190617122733.22432-9-hch@lst.de>
-Content-Language: en-CA
-X-SA-Exim-Connect-IP: 172.16.1.162
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-nvdimm@lists.01.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-mm@kvack.org, bskeggs@redhat.com,
- jgg@mellanox.com, jglisse@redhat.com, dan.j.williams@intel.com, hch@lst.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- GREYLIST_ISWHITE autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH 08/25] memremap: move dev_pagemap callbacks into a
- separate structure
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
-X-Mailman-Approved-At: Tue, 18 Jun 2019 07:12:01 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=rnuYMa6vIBfYmE14DNuXdWYP2V9cYpPN1XP5Rkgp6fA=;
+ b=IpQnUzLOlbu+Z8jGufVfx562/7WbHg41yXFqDIQIi/BDind+eo4DiBrXchQ5WX0KqX
+ HEyXsjSljsaXbvdxgD4jW9j8AigGx1JbUhrbQUsTZkB+qPxKxCw8ryGoMYEjnkqcLq97
+ Yy53/Ir6PneTDgVfMIHrUb7XbYotmhcfaxyxeYef2LS3RXeaM2fmVjMvAl838spPVeAJ
+ Eaj5KkvdmS5lsvBNwM5JYTVgP9eXdfmVI3+cgtAhMVj9+j0dskQCbI4r70QX3UwtO+Mf
+ LuQqvX0Rm4FcOt0rALKeSDiy1SwjGsiBXzPSxbBlarDBruZG1U/VAwHYDmtBDMGwzxBR
+ nFLQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,41 +69,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nvdimm@lists.01.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Sean Paul <seanpaul@chromium.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAyMDE5LTA2LTE3IDY6MjcgYS5tLiwgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6Cj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvcGNpL3AycGRtYS5jIGIvZHJpdmVycy9wY2kvcDJwZG1hLmMKPiBp
-bmRleCBhOTgxMjZhZDljM2EuLmUwODM1NjdkMjZlZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3Bj
-aS9wMnBkbWEuYwo+ICsrKyBiL2RyaXZlcnMvcGNpL3AycGRtYS5jCj4gQEAgLTEwMCw3ICsxMDAs
-NyBAQCBzdGF0aWMgdm9pZCBwY2lfcDJwZG1hX3BlcmNwdV9jbGVhbnVwKHN0cnVjdCBwZXJjcHVf
-cmVmICpyZWYpCj4gIAlzdHJ1Y3QgcDJwZG1hX3BhZ2VtYXAgKnAycF9wZ21hcCA9IHRvX3AycF9w
-Z21hcChyZWYpOwo+ICAKPiAgCXdhaXRfZm9yX2NvbXBsZXRpb24oJnAycF9wZ21hcC0+cmVmX2Rv
-bmUpOwo+IC0JcGVyY3B1X3JlZl9leGl0KCZwMnBfcGdtYXAtPnJlZik7Cj4gKwlwZXJjcHVfcmVm
-X2V4aXQocmVmKTsKPiAgfQo+ICAKPiAgc3RhdGljIHZvaWQgcGNpX3AycGRtYV9yZWxlYXNlKHZv
-aWQgKmRhdGEpCj4gQEAgLTE1Miw2ICsxNTIsMTEgQEAgc3RhdGljIGludCBwY2lfcDJwZG1hX3Nl
-dHVwKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQo+ICAJcmV0dXJuIGVycm9yOwo+ICB9Cj4gIAo+ICtz
-dGF0aWMgY29uc3Qgc3RydWN0IGRldl9wYWdlbWFwX29wcyBwY2lfcDJwZG1hX3BhZ2VtYXBfb3Bz
-ID0gewo+ICsJLmtpbGwJCT0gcGNpX3AycGRtYV9wZXJjcHVfa2lsbCwKPiArCS5jbGVhbnVwCT0g
-cGNpX3AycGRtYV9wZXJjcHVfY2xlYW51cCwKPiArfTsKPiArCj4gIC8qKgo+ICAgKiBwY2lfcDJw
-ZG1hX2FkZF9yZXNvdXJjZSAtIGFkZCBtZW1vcnkgZm9yIHVzZSBhcyBwMnAgbWVtb3J5Cj4gICAq
-IEBwZGV2OiB0aGUgZGV2aWNlIHRvIGFkZCB0aGUgbWVtb3J5IHRvCj4gQEAgLTIwNyw4ICsyMTIs
-NiBAQCBpbnQgcGNpX3AycGRtYV9hZGRfcmVzb3VyY2Uoc3RydWN0IHBjaV9kZXYgKnBkZXYsIGlu
-dCBiYXIsIHNpemVfdCBzaXplLAo+ICAJcGdtYXAtPnR5cGUgPSBNRU1PUllfREVWSUNFX1BDSV9Q
-MlBETUE7Cj4gIAlwZ21hcC0+cGNpX3AycGRtYV9idXNfb2Zmc2V0ID0gcGNpX2J1c19hZGRyZXNz
-KHBkZXYsIGJhcikgLQo+ICAJCXBjaV9yZXNvdXJjZV9zdGFydChwZGV2LCBiYXIpOwo+IC0JcGdt
-YXAtPmtpbGwgPSBwY2lfcDJwZG1hX3BlcmNwdV9raWxsOwo+IC0JcGdtYXAtPmNsZWFudXAgPSBw
-Y2lfcDJwZG1hX3BlcmNwdV9jbGVhbnVwOwoKSSBqdXN0IG5vdGljZWQgdGhpcyBpcyBtaXNzaW5n
-IGEgbGluZSB0byBzZXQgcGdtYXAtPm9wcyB0bwpwY2lfcDJwZG1hX3BhZ2VtYXBfb3BzLiBJIG11
-c3QgaGF2ZSBnb3R0ZW4gY29uZnVzZWQgYnkgdGhlIG90aGVyIHVzZXJzCmluIG15IG9yaWdpbmFs
-IHJldmlldy4gVGhvdWdoIEknbSBub3Qgc3VyZSBob3cgdGhpcyBjb21waWxlcyBhcyB0aGUgbmV3
-CnN0cnVjdCBpcyBzdGF0aWMgYW5kIHVudXNlZC4gSG93ZXZlciwgaXQgaXMgcmVuZGVyZWQgbW9v
-dCBpbiBQYXRjaCAxNgp3aGVuIHRoaXMgaXMgYWxsIHJlbW92ZWQuCgpMb2dhbgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+RnJvbTogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1bS5vcmc+CgpXZSBoYXZlIGlmICghcGh5
+LT5wbGwpIGNoZWNrcyBzY2F0dGVyZWQgdGhyb3VnaCB0aGUgZHJpdmVyIGFuZCBpZgpwaHktPnBs
+bCBpcyBhbiBlcnJvciBwb2ludGVyLCB0aG9zZSBjaGVja3Mgd2lsbCBwYXNzIGFuZCBiYWQgdGhp
+bmdzIHdpbGwKaGFwcGVuIDooCgpTaWduZWQtb2ZmLWJ5OiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNo
+cm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2RzaS9waHkvZHNpX3BoeS5jIHwg
+NCArKystCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHkuYyBiL2RyaXZl
+cnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5LmMKaW5kZXggMTc2MDQ4M2IyNDdlLi42NDkx
+YjBjZWFiMjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHNpL3BoeS9kc2lfcGh5
+LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kc2kvcGh5L2RzaV9waHkuYwpAQCAtNjE2LDEw
+ICs2MTYsMTIgQEAgc3RhdGljIGludCBkc2lfcGh5X2RyaXZlcl9wcm9iZShzdHJ1Y3QgcGxhdGZv
+cm1fZGV2aWNlICpwZGV2KQogCQlnb3RvIGZhaWw7CiAKIAlwaHktPnBsbCA9IG1zbV9kc2lfcGxs
+X2luaXQocGRldiwgcGh5LT5jZmctPnR5cGUsIHBoeS0+aWQpOwotCWlmIChJU19FUlJfT1JfTlVM
+TChwaHktPnBsbCkpCisJaWYgKElTX0VSUl9PUl9OVUxMKHBoeS0+cGxsKSkgewogCQlEUk1fREVW
+X0lORk8oZGV2LAogCQkJIiVzOiBwbGwgaW5pdCBmYWlsZWQ6ICVsZCwgbmVlZCBzZXBhcmF0ZSBw
+bGwgY2xrIGRyaXZlclxuIiwKIAkJCV9fZnVuY19fLCBQVFJfRVJSKHBoeS0+cGxsKSk7CisJCXBo
+eS0+cGxsID0gTlVMTDsKKwl9CiAKIAlkc2lfcGh5X2Rpc2FibGVfcmVzb3VyY2UocGh5KTsKIAot
+LSAKU2VhbiBQYXVsLCBTb2Z0d2FyZSBFbmdpbmVlciwgR29vZ2xlIC8gQ2hyb21pdW0gT1MKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
