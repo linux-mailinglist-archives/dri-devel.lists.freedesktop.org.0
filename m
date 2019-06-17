@@ -1,45 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D454951E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 00:22:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C11149A09
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 09:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C789F89FC8;
-	Mon, 17 Jun 2019 22:22:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD396E0F2;
+	Tue, 18 Jun 2019 07:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F22189FC8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 22:22:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9C15572167; Mon, 17 Jun 2019 22:22:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104437] RX480 + SME  = amdgpu init failed + null dereference
-Date: Mon, 17 Jun 2019 22:22:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sarnex@gentoo.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-104437-502-Uryev0PMUS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104437-502@http.bugs.freedesktop.org/>
-References: <bug-104437-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6F26E0B7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 22:47:29 +0000 (UTC)
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16]
+ helo=midway.dunlab)
+ by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+ id 1hd0P6-0004pi-Aw; Mon, 17 Jun 2019 22:47:08 +0000
+Subject: Re: [PATCH v3 2/7] lib/hexdump.c: Relax rowsize checks in
+ hex_dump_to_buffer
+To: Alastair D'Silva <alastair@au1.ibm.com>, alastair@d-silva.org
+References: <20190617020430.8708-1-alastair@au1.ibm.com>
+ <20190617020430.8708-3-alastair@au1.ibm.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <94413756-c927-a4ca-dd59-47e3cc87d58d@infradead.org>
+Date: Mon, 17 Jun 2019 15:47:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <20190617020430.8708-3-alastair@au1.ibm.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Tue, 18 Jun 2019 07:12:01 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oWCvapawJTmHWfTi4W/xQzd/vam+JtASkBkdfBDmQPA=; b=n2EkBbCtepqSck3LcKcBk9ucLP
+ OopaIKVxH7Ft5pKUkNM6axeXE0K/dN0KlZBFHBkuZUjcuBojBVwA6eyj3zIf/SrSJ0AXP+ap36Tfr
+ X0WYpzcQ34E0H9clamwWKVPA2G5AqZgtlebPbdol2VZl3hzV0WHHKTyO/DPw8RjqxrUZIc7QdVFKM
+ vHCGFyYLYGCxZF9eADucfOb8FK17P9rwh5jOCnBGSKiVmNRqoUfswvbapl0LJeUcbgsSotAmzefsG
+ BuQwk3FdoCSOiq6Zwz2/pJMld3yRBwfY9eWtfMYCawPt2uqyoLPRXHwia2hme5jMcDzrgP6F97p9i
+ 1TAbXIzA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,91 +56,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1544579781=="
+Cc: linux-fbdev@vger.kernel.org, Stanislaw Gruszka <sgruszka@redhat.com>,
+ Petr Mladek <pmladek@suse.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, devel@driverdev.osuosl.org,
+ linux-scsi@vger.kernel.org, Jassi Brar <jassisinghbrar@gmail.com>,
+ ath10k@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@oracle.com>, Jose Abreu <Jose.Abreu@synopsys.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-fsdevel@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Kalle Valo <kvalo@codeaurora.org>, Karsten Keil <isdn@linux-pingi.de>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ David Laight <David.Laight@ACULAB.COM>, netdev@vger.kernel.org,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1544579781==
-Content-Type: multipart/alternative; boundary="15608101501.3E7708c.30532"
-Content-Transfer-Encoding: 7bit
-
-
---15608101501.3E7708c.30532
-Date: Mon, 17 Jun 2019 22:22:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104437
-
---- Comment #3 from Nick Sarnie <sarnex@gentoo.org> ---
-Sorry, filed https://bugs.freedesktop.org/show_bug.cgi?id=3D110929
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15608101501.3E7708c.30532
-Date: Mon, 17 Jun 2019 22:22:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX480 + SME =3D amdgpu init failed + null dereference"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104437#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX480 + SME =3D amdgpu init failed + null dereference"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104437">bug 10443=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-sarnex&#64;gentoo.org" title=3D"Nick Sarnie &lt;sarnex&#64;gentoo.org&gt;">=
- <span class=3D"fn">Nick Sarnie</span></a>
-</span></b>
-        <pre>Sorry, filed <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - sw_init of IP block &lt;vega10_ih&gt; failed -12 when usi=
-ng Secure Memory Encryption (SME) with Vega 64"
-   href=3D"show_bug.cgi?id=3D110929">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110929</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15608101501.3E7708c.30532--
-
---===============1544579781==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1544579781==--
+SGksCkp1c3QgYSBjb21tZW50IHN0eWxlIG5pdCBiZWxvdy4uLgoKT24gNi8xNi8xOSA3OjA0IFBN
+LCBBbGFzdGFpciBEJ1NpbHZhIHdyb3RlOgo+IEZyb206IEFsYXN0YWlyIEQnU2lsdmEgPGFsYXN0
+YWlyQGQtc2lsdmEub3JnPgo+IAo+IFRoaXMgcGF0Y2ggcmVtb3ZlcyB0aGUgaGFyZGNvZGVkIHJv
+dyBsaW1pdHMgYW5kIGFsbG93cyBmb3IKPiBvdGhlciBsZW5ndGhzLiBUaGVzZSBsZW5ndGhzIG11
+c3Qgc3RpbGwgYmUgYSBtdWx0aXBsZSBvZgo+IGdyb3Vwc2l6ZS4KPiAKPiBUaGlzIGFsbG93cyBz
+dHJ1Y3RzIHRoYXQgYXJlIG5vdCAxNi8zMiBieXRlcyB0byBkaXNwbGF5IG9uCj4gYSBzaW5nbGUg
+bGluZS4KPiAKPiBUaGlzIHBhdGNoIGFsc28gZXhwYW5kcyB0aGUgc2VsZi10ZXN0cyB0byB0ZXN0
+IHJvdyBzaXplcwo+IHVwIHRvIDY0IGJ5dGVzICh0aG91Z2ggdGhleSBjYW4gbm93IGJlIGFyYml0
+cmFyaWx5IGxvbmcpLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFsYXN0YWlyIEQnU2lsdmEgPGFsYXN0
+YWlyQGQtc2lsdmEub3JnPgo+IC0tLQo+ICBsaWIvaGV4ZHVtcC5jICAgICAgfCA0OCArKysrKysr
+KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0KPiAgbGliL3Rlc3RfaGV4ZHVtcC5j
+IHwgNTIgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLQo+ICAy
+IGZpbGVzIGNoYW5nZWQsIDc1IGluc2VydGlvbnMoKyksIDI1IGRlbGV0aW9ucygtKQo+IAo+IGRp
+ZmYgLS1naXQgYS9saWIvaGV4ZHVtcC5jIGIvbGliL2hleGR1bXAuYwo+IGluZGV4IDgxYjcwZWQz
+NzIwOS4uMzk0MzUwN2JjMGU5IDEwMDY0NAo+IC0tLSBhL2xpYi9oZXhkdW1wLmMKPiArKysgYi9s
+aWIvaGV4ZHVtcC5jCgo+IEBAIC0yNDYsMTcgKzI0OCwyOSBAQCB2b2lkIHByaW50X2hleF9kdW1w
+KGNvbnN0IGNoYXIgKmxldmVsLCBjb25zdCBjaGFyICpwcmVmaXhfc3RyLCBpbnQgcHJlZml4X3R5
+cGUsCj4gIHsKPiAgCWNvbnN0IHU4ICpwdHIgPSBidWY7Cj4gIAlpbnQgaSwgbGluZWxlbiwgcmVt
+YWluaW5nID0gbGVuOwo+IC0JdW5zaWduZWQgY2hhciBsaW5lYnVmWzMyICogMyArIDIgKyAzMiAr
+IDFdOwo+ICsJdW5zaWduZWQgY2hhciAqbGluZWJ1ZjsKPiArCXVuc2lnbmVkIGludCBsaW5lYnVm
+X2xlbjsKPiAgCj4gLQlpZiAocm93c2l6ZSAhPSAxNiAmJiByb3dzaXplICE9IDMyKQo+IC0JCXJv
+d3NpemUgPSAxNjsKPiArCWlmIChyb3dzaXplICUgZ3JvdXBzaXplKQo+ICsJCXJvd3NpemUgLT0g
+cm93c2l6ZSAlIGdyb3Vwc2l6ZTsKPiArCj4gKwkvKiBXb3JzdCBjYXNlIGxpbmUgbGVuZ3RoOgo+
+ICsJICogMiBoZXggY2hhcnMgKyBzcGFjZSBwZXIgYnl0ZSBpbiwgMiBzcGFjZXMsIDEgY2hhciBw
+ZXIgYnl0ZSBpbiwgTlVMTAo+ICsJICovCgpBY2NvcmRpbmcgdG8gRG9jdW1lbnRhdGlvbi9wcm9j
+ZXNzL2NvZGluZy1zdHlsZS5yc3Q6CgpUaGUgcHJlZmVycmVkIHN0eWxlIGZvciBsb25nIChtdWx0
+aS1saW5lKSBjb21tZW50cyBpczoKCi4uIGNvZGUtYmxvY2s6OiBjCgoJLyoKCSAqIFRoaXMgaXMg
+dGhlIHByZWZlcnJlZCBzdHlsZSBmb3IgbXVsdGktbGluZQoJICogY29tbWVudHMgaW4gdGhlIExp
+bnV4IGtlcm5lbCBzb3VyY2UgY29kZS4KCSAqIFBsZWFzZSB1c2UgaXQgY29uc2lzdGVudGx5LgoJ
+ICoKCSAqIERlc2NyaXB0aW9uOiAgQSBjb2x1bW4gb2YgYXN0ZXJpc2tzIG9uIHRoZSBsZWZ0IHNp
+ZGUsCgkgKiB3aXRoIGJlZ2lubmluZyBhbmQgZW5kaW5nIGFsbW9zdC1ibGFuayBsaW5lcy4KCSAq
+LwoKCmV4Y2VwdCBpbiBuZXR3b3JraW5nIHNvZnR3YXJlLgoKCj4gKwlsaW5lYnVmX2xlbiA9IHJv
+d3NpemUgKiAzICsgMiArIHJvd3NpemUgKyAxOwo+ICsJbGluZWJ1ZiA9IGt6YWxsb2MobGluZWJ1
+Zl9sZW4sIEdGUF9LRVJORUwpOwo+ICsJaWYgKCFsaW5lYnVmKSB7Cj4gKwkJcHJpbnRrKCIlcyVz
+aGV4ZHVtcDogQ291bGQgbm90IGFsbG9jICV1IGJ5dGVzIGZvciBidWZmZXJcbiIsCj4gKwkJCWxl
+dmVsLCBwcmVmaXhfc3RyLCBsaW5lYnVmX2xlbik7Cj4gKwkJcmV0dXJuOwo+ICsJfQoKCi0tIAp+
+UmFuZHkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
