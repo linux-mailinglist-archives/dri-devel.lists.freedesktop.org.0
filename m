@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39B1C484B4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 15:58:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CFB484E8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 16:07:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0147A88A72;
-	Mon, 17 Jun 2019 13:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFE089267;
+	Mon, 17 Jun 2019 14:07:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 157AC89061
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 13:58:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 129AD72168; Mon, 17 Jun 2019 13:58:08 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109693] Hang of the graphics driver and assertion on
- si_upload_vertex_buffer_descriptors
-Date: Mon, 17 Jun 2019 13:58:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109693-502-HN4UznusD3@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109693-502@http.bugs.freedesktop.org/>
-References: <bug-109693-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 523 seconds by postgrey-1.36 at gabe;
+ Mon, 17 Jun 2019 14:07:28 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1E689265;
+ Mon, 17 Jun 2019 14:07:28 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id F14C65C04DF;
+ Mon, 17 Jun 2019 15:58:43 +0200 (CEST)
 MIME-Version: 1.0
+Date: Mon, 17 Jun 2019 15:58:43 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 15/59] drm/fsl-dcu: Drop drm_gem_prime_export/import
+In-Reply-To: <20190614203615.12639-16-daniel.vetter@ffwll.ch>
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-16-daniel.vetter@ffwll.ch>
+Message-ID: <57ea243c6e034407387e77848a87f199@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.7
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=agner.ch; s=dkim; t=1560779923;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=s/Q4idLo02AfEPc1nXkpiE2tiIrkYX2YazxlVyMGAIs=;
+ b=wJZP8A1u/jgKUQEG/7PiPctnVIuPwzmHltVLs+g2gm9j8NJuvHC9l+LIr4DTn00YIfEGJf
+ 6PM1b2GCxqM3RJDhpXsiQ0YiO8GRNBQVM2mEKfFQc8A5osoJ/c7KuNgi0e/XF6jL4AqH/D
+ prMxQMuLELPxGBoKXTTjkgnYMIU+eCo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,136 +50,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0047607971=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Alison Wang <alison.wang@nxp.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0047607971==
-Content-Type: multipart/alternative; boundary="15607798880.C8ad0BC.3755"
-Content-Transfer-Encoding: 7bit
-
-
---15607798880.C8ad0BC.3755
-Date: Mon, 17 Jun 2019 13:58:08 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109693
-
-Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |NOTOURBUG
-
---- Comment #3 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
-amd.com> ---
-The issue was a problem in gst code and was fixed in their code (see
-https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/issues/543#note_1=
-75823)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15607798880.C8ad0BC.3755
-Date: Mon, 17 Jun 2019 13:58:08 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:pierre-er=
-ic.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer &lt;pier=
-re-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre-Eric Pel=
-loux-Prayer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Hang of the graphics driver and assertion =
-on si_upload_vertex_buffer_descriptors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109693">bug 10969=
-3</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>NOTOURBUG
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Hang of the graphics driver and assertion =
-on si_upload_vertex_buffer_descriptors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109693#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Hang of the graphics driver and assertion =
-on si_upload_vertex_buffer_descriptors"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109693">bug 10969=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>The issue was a problem in gst code and was fixed in their cod=
-e (see
-<a href=3D"https://gitlab.freedesktop.org/gstreamer/gst-plugins-base/issues=
-/543#note_175823">https://gitlab.freedesktop.org/gstreamer/gst-plugins-base=
-/issues/543#note_175823</a>)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15607798880.C8ad0BC.3755--
-
---===============0047607971==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0047607971==--
+T24gMTQuMDYuMjAxOSAyMjozNSwgRGFuaWVsIFZldHRlciB3cm90ZToKPiBUaGV5J3JlIHRoZSBk
+ZWZhdWx0Lgo+IAo+IEFzaWRlOiBXb3VsZCBiZSByZWFsbHkgbmljZSB0byBzd2l0Y2ggdGhlIG90
+aGVycyBvdmVyIHRvCj4gZHJtX2dlbV9vYmplY3RfZnVuY3MuCgpBY2tlZC1ieTogU3RlZmFuIEFn
+bmVyIDxzdGVmYW5AYWduZXIuY2g+CgotLQpTdGVmYW4KCj4gCj4gU2lnbmVkLW9mZi1ieTogRGFu
+aWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IFN0ZWZhbiBBZ25lciA8
+c3RlZmFuQGFnbmVyLmNoPgo+IENjOiBBbGlzb24gV2FuZyA8YWxpc29uLndhbmdAbnhwLmNvbT4K
+PiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fZHJ2LmMgfCAyIC0t
+Cj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9kcnYuYwo+IGIvZHJpdmVycy9ncHUvZHJt
+L2ZzbC1kY3UvZnNsX2RjdV9kcm1fZHJ2LmMKPiBpbmRleCBkMThmZjcyOWQ3ZjYuLjY2MTcyNWQ4
+ZjdkYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9k
+cnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9mc2wtZGN1L2ZzbF9kY3VfZHJtX2Rydi5jCj4g
+QEAgLTE0Myw4ICsxNDMsNiBAQCBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgZnNsX2RjdV9kcm1f
+ZHJpdmVyID0gewo+ICAJLmdlbV92bV9vcHMJCT0gJmRybV9nZW1fY21hX3ZtX29wcywKPiAgCS5w
+cmltZV9oYW5kbGVfdG9fZmQJPSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCwKPiAgCS5wcmlt
+ZV9mZF90b19oYW5kbGUJPSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwKPiAtCS5nZW1fcHJp
+bWVfaW1wb3J0CT0gZHJtX2dlbV9wcmltZV9pbXBvcnQsCj4gLQkuZ2VtX3ByaW1lX2V4cG9ydAk9
+IGRybV9nZW1fcHJpbWVfZXhwb3J0LAo+ICAJLmdlbV9wcmltZV9nZXRfc2dfdGFibGUJPSBkcm1f
+Z2VtX2NtYV9wcmltZV9nZXRfc2dfdGFibGUsCj4gIAkuZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJs
+ZSA9IGRybV9nZW1fY21hX3ByaW1lX2ltcG9ydF9zZ190YWJsZSwKPiAgCS5nZW1fcHJpbWVfdm1h
+cAkJPSBkcm1fZ2VtX2NtYV9wcmltZV92bWFwLApfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
