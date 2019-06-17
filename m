@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54FD48E70
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 21:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8885A48FB1
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 21:40:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50388892B9;
-	Mon, 17 Jun 2019 19:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D2E189AB2;
+	Mon, 17 Jun 2019 19:40:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4FF3892B9
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 19:25:29 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id l15so1029856otn.9
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 12:25:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HNxPoXz08Bkv6XLKAsIWbiHb1gnesryRGgT+tAFHLoc=;
- b=T+3uhMGJ1k6x0du/Ns4kOXOVqLJCRbCMM/gdPetgdufPuZB8icE5MpOnbXaeAGq2FV
- Iap1SY3JZj/BLC5kIdMlxD2PFsVqOM5iC61POos8gNucphQJokR48X+yFXWQk6/SJTmb
- 3JeMjwmeFoi3MiLMWsMwe4wW59pfklDZLCmvpFRnu48M7ZLN9kmqJyrJpDAMeVvkmT5P
- PZhP2sVZKkeYSUearyDo+hmTWIn/jgVc7JlH8GMqjiTPhUN6tbokyNSDlAzDXpSHj9jg
- ESJ5sIUQ2f814kJhiYAc8VamLsblTy1PWTlEZ43nFNvsop+n58jpizPVIZHdsqTNt179
- a/Vg==
-X-Gm-Message-State: APjAAAU4bwdiX22Q/VH5vWm1f6f4hhzPfsP4y9yjARHWVVLpEOcGvTo+
- nvuBBvQowmKipDnh15mnJ+Pq7xvvP7Le8sdGKkuqYA==
-X-Google-Smtp-Source: APXvYqyQusXzMIvOnOSDlzozCSKeY3iIGkQ0PmM8jIAxg1c9m+Lhh4LXmnIB3y6iM6i/y/0k5RVphJmN2SXJiVLtpbU=
-X-Received: by 2002:a9d:7a8b:: with SMTP id l11mr55333952otn.247.1560799528939; 
- Mon, 17 Jun 2019 12:25:28 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A40E89B3C
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 19:40:06 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 43C1C72168; Mon, 17 Jun 2019 19:40:06 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Mon, 17 Jun 2019 19:40:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: u9vata@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-110897-502-I56R7B13ax@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190617122733.22432-1-hch@lst.de>
- <20190617122733.22432-11-hch@lst.de>
-In-Reply-To: <20190617122733.22432-11-hch@lst.de>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Mon, 17 Jun 2019 12:25:17 -0700
-Message-ID: <CAPcyv4jtZSK7bgQX_Sm1E-Thqmyhs30SrZKoSApjghRLL12Ngg@mail.gmail.com>
-Subject: Re: [PATCH 10/25] memremap: lift the devmap_enable manipulation into
- devm_memremap_pages
-To: Christoph Hellwig <hch@lst.de>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=HNxPoXz08Bkv6XLKAsIWbiHb1gnesryRGgT+tAFHLoc=;
- b=zsU6x4/n004yGk33kbKQd/6ii5ctCApqWKr2xXu2QHfi+ncPf+6aOer/hnDk2UAkcB
- jGunUn0he2nTR0uU2859WbUUtlv6pvLc41AXK2T6AWHriY76vgq0YRD//La6/nHXzo1Z
- YPIa/GBGOk0VXAfuIX+0DmRt+mlbZWG/S7zDJ2J1W8prL2gnJon9QkcM3fcOMMdwSo4e
- 4OrGQSbgcfUmMeefb3e2ZPd0f7T54UdNfjjuNpUJ/GMYEaMNtkVI6YVgubTvq1/bIgZo
- qVrNws/T9AqY75DGEixSkuSqStvevZuszwTUzd/rSGi9BdsaPARyVCoYryGFhOd3HmF5
- Pgcg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,47 +53,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nvdimm <linux-nvdimm@lists.01.org>, nouveau@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jason Gunthorpe <jgg@mellanox.com>, Ben Skeggs <bskeggs@redhat.com>,
- linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1805232213=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdW4gMTcsIDIwMTkgYXQgNToyOCBBTSBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxz
-dC5kZT4gd3JvdGU6Cj4KPiBKdXN0IGNoZWNrIGlmIHRoZXJlIGlzIGEgLT5wYWdlX2ZyZWUgb3Bl
-cmF0aW9uIHNldCBhbmQgdGFrZSBjYXJlIG9mIHRoZQo+IHN0YXRpYyBrZXkgZW5hYmxlLCBhcyB3
-ZWxsIGFzIHRoZSBwdXQgdXNpbmcgZGV2aWNlIG1hbmFnZWQgcmVzb3VyY2VzLgo+IEFsc28gY2hl
-Y2sgdGhhdCBhIC0+cGFnZV9mcmVlIGlzIHByb3ZpZGVkIGZvciB0aGUgcGdtYXBzIHR5cGVzIHRo
-YXQKPiByZXF1aXJlIGl0LCBhbmQgY2hlY2sgZm9yIGEgdmFsaWQgdHlwZSBhcyB3ZWxsIHdoaWxl
-IHdlIGFyZSBhdCBpdC4KPgo+IE5vdGUgdGhhdCB0aGlzIGFsc28gZml4ZXMgdGhlIGZhY3QgdGhh
-dCBobW0gbmV2ZXIgY2FsbGVkCj4gZGV2X3BhZ2VtYXBfcHV0X29wcyBhbmQgdGh1cyB3b3VsZCBs
-ZWF2ZSB0aGUgc2xvdyBwYXRoIGVuYWJsZWQgZm9yZXZlciwKPiBldmVuIGFmdGVyIGEgZGV2aWNl
-IGRyaXZlciB1bmxvYWQgb3IgZGlzYWJsZS4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdG9waCBI
-ZWxsd2lnIDxoY2hAbHN0LmRlPgo+IC0tLQo+ICBkcml2ZXJzL252ZGltbS9wbWVtLmMgfCAyMyAr
-KystLS0tLS0tLS0tLS0tLQo+ICBpbmNsdWRlL2xpbnV4L21tLmggICAgfCAxMCAtLS0tLS0tLQo+
-ICBrZXJuZWwvbWVtcmVtYXAuYyAgICAgfCA1NyArKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0tLS0tLS0tLS0tLS0tCj4gIG1tL2htbS5jICAgICAgICAgICAgICB8ICAyIC0tCj4gIDQgZmls
-ZXMgY2hhbmdlZCwgMzkgaW5zZXJ0aW9ucygrKSwgNTMgZGVsZXRpb25zKC0pCj4KWy4uXQo+IGRp
-ZmYgLS1naXQgYS9rZXJuZWwvbWVtcmVtYXAuYyBiL2tlcm5lbC9tZW1yZW1hcC5jCj4gaW5kZXgg
-YmE3MTU2YmQ1MmQxLi43MjcyMDI3ZmJkZDcgMTAwNjQ0Cj4gLS0tIGEva2VybmVsL21lbXJlbWFw
-LmMKPiArKysgYi9rZXJuZWwvbWVtcmVtYXAuYwpbLi5dCj4gQEAgLTE5MCw2ICsyMTksMTIgQEAg
-dm9pZCAqZGV2bV9tZW1yZW1hcF9wYWdlcyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZf
-cGFnZW1hcCAqcGdtYXApCj4gICAgICAgICAgICAgICAgIHJldHVybiBFUlJfUFRSKC1FSU5WQUwp
-Owo+ICAgICAgICAgfQo+Cj4gKyAgICAgICBpZiAocGdtYXAtPnR5cGUgIT0gTUVNT1JZX0RFVklD
-RV9QQ0lfUDJQRE1BKSB7CgpPbmNlIHdlIGhhdmUgTUVNT1JZX0RFVklDRV9ERVZEQVggdGhlbiB0
-aGlzIGNoZWNrIG5lZWRzIHRvIGJlIGZpeGVkIHVwCnRvIHNraXAgdGhhdCBjYXNlIGFzIHdlbGws
-IG90aGVyd2lzZToKCiBNaXNzaW5nIHBhZ2VfZnJlZSBtZXRob2QKIFdBUk5JTkc6IENQVTogMTkg
-UElEOiAxNTE4IGF0IGtlcm5lbC9tZW1yZW1hcC5jOjMzCmRldm1fbWVtcmVtYXBfcGFnZXMrMHg3
-NDUvMHg3ZDAKIFJJUDogMDAxMDpkZXZtX21lbXJlbWFwX3BhZ2VzKzB4NzQ1LzB4N2QwCiBDYWxs
-IFRyYWNlOgogIGRldl9kYXhfcHJvYmUrMHhjNi8weDFlMCBbZGV2aWNlX2RheF0KICByZWFsbHlf
-cHJvYmUrMHhlZi8weDM5MAogID8gZHJpdmVyX2FsbG93c19hc3luY19wcm9iaW5nKzB4NTAvMHg1
-MAogIGRyaXZlcl9wcm9iZV9kZXZpY2UrMHhiNC8weDEwMApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1805232213==
+Content-Type: multipart/alternative; boundary="15608004061.4D7870A.30845"
+Content-Transfer-Encoding: 7bit
+
+
+--15608004061.4D7870A.30845
+Date: Mon, 17 Jun 2019 19:40:06 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+Richard Thier <u9vata@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144559|0                           |1
+        is obsolete|                            |
+ Attachment #144560|0                           |1
+        is obsolete|                            |
+
+--- Comment #68 from Richard Thier <u9vata@gmail.com> ---
+Created attachment 144572
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144572&action=3Dedit
+Added back rs400_mc_wait_for_idle - maybe final patch?
+
+I was actually thinking about keeping that part, but it was a do-or-don't
+decision. Added a patch that is basically variant 1, but keeps the mentioned
+rs400_mc_wait_for_idle call parts untouched. Also I have obsoleted the earl=
+ier
+two variants.
+
+Is this final patch for this issue maybe? I do not know if anyone still have
+glitches with HyperZ on r300 (I do not have any at all), but this kind of h=
+eavy
+glitches should at least go away now completely for everyone.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15608004061.4D7870A.30845
+Date: Mon, 17 Jun 2019 19:40:06 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:u9vata&#6=
+4;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;"> <span cl=
+ass=3D"fn">Richard Thier</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144559 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144560 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c68">Comme=
+nt # 68</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
+ <span class=3D"fn">Richard Thier</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144572=
+" name=3D"attach_144572" title=3D"Added back rs400_mc_wait_for_idle - maybe=
+ final patch?">attachment 144572</a> <a href=3D"attachment.cgi?id=3D144572&=
+amp;action=3Dedit" title=3D"Added back rs400_mc_wait_for_idle - maybe final=
+ patch?">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bu=
+g=3D110897&amp;attachment=3D144572'>[review]</a>
+Added back rs400_mc_wait_for_idle - maybe final patch?
+
+I was actually thinking about keeping that part, but it was a do-or-don't
+decision. Added a patch that is basically variant 1, but keeps the mentioned
+rs400_mc_wait_for_idle call parts untouched. Also I have obsoleted the earl=
+ier
+two variants.
+
+Is this final patch for this issue maybe? I do not know if anyone still have
+glitches with HyperZ on r300 (I do not have any at all), but this kind of h=
+eavy
+glitches should at least go away now completely for everyone.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15608004061.4D7870A.30845--
+
+--===============1805232213==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1805232213==--
