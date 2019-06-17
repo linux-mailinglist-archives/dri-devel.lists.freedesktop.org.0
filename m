@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222B447DEE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 11:09:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABFD47E10
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 11:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1C8A89175;
-	Mon, 17 Jun 2019 09:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC638919B;
+	Mon, 17 Jun 2019 09:14:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 729D489192
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 09:09:07 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6F99472167; Mon, 17 Jun 2019 09:09:07 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104437] RX480 + SME  = amdgpu init failed + null dereference
-Date: Mon, 17 Jun 2019 09:09:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-104437-502-7B6jaG1g6d@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104437-502@http.bugs.freedesktop.org/>
-References: <bug-104437-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801408919B
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 09:14:38 +0000 (UTC)
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2019 02:14:37 -0700
+X-ExtLoop1: 1
+Received: from ffonarex-mobl1.ccr.corp.intel.com (HELO intel.com)
+ ([10.252.2.222])
+ by fmsmga004.fm.intel.com with ESMTP; 17 Jun 2019 02:14:36 -0700
+Date: Mon, 17 Jun 2019 10:14:35 +0100
+From: Eric Engestrom <eric.engestrom@intel.com>
+To: Emil Velikov <emil.l.velikov@gmail.com>
+Subject: Re: [PATCH libdrm v2 4/4] meson.build: Fix meson script on FreeBSD
+Message-ID: <20190617091435.35ftj5twdxpspxnr@intel.com>
+References: <20190616132343.26370-1-emil.l.velikov@gmail.com>
+ <20190616132343.26370-4-emil.l.velikov@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190616132343.26370-4-emil.l.velikov@gmail.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. 1134945 - Pipers Way,
+ Swindon SN3 1RJ
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,96 +46,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0923149500=="
+Cc: Niclas Zeising <zeising@daemonic.se>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0923149500==
-Content-Type: multipart/alternative; boundary="15607625472.Ffa156.16281"
-Content-Transfer-Encoding: 7bit
-
-
---15607625472.Ffa156.16281
-Date: Mon, 17 Jun 2019 09:09:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104437
-
---- Comment #2 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to Nick Sarnie from comment #1)
->=20
-> Same issue [...]
-
-The symptoms are clearly different, therefore please file your own report.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15607625472.Ffa156.16281
-Date: Mon, 17 Jun 2019 09:09:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX480 + SME =3D amdgpu init failed + null dereference"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104437#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX480 + SME =3D amdgpu init failed + null dereference"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104437">bug 10443=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to Nick Sarnie from <a href=3D"show_bug.cgi?id=3D104=
-437#c1">comment #1</a>)
-<span class=3D"quote">&gt;=20
-&gt; Same issue [...]</span >
-
-The symptoms are clearly different, therefore please file your own report.<=
-/pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15607625472.Ffa156.16281--
-
---===============0923149500==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0923149500==--
+T24gU3VuZGF5LCAyMDE5LTA2LTE2IDE0OjIzOjQzICswMTAwLCBFbWlsIFZlbGlrb3Ygd3JvdGU6
+Cj4gRnJvbTogTmljbGFzIFplaXNpbmcgPHplaXNpbmdAZGFlbW9uaWMuc2U+Cj4gCj4gRnJlZUJT
+RCByZXF1aXJlcyBzeXMvdHlwZXMuaCBmb3Igc3lzL3N5c2N0bC5oLCBhZGQgaXQgYXMgcGFydCBv
+ZiB0aGUKPiBpbmNsdWRlcyB3aGVuIGNoZWNraW5nIGZvciBoZWFkZXJzLgo+IEluc3RlYWQgb2Yg
+c3BsaXR0aW5nIG91dCB0aGUgY2hlY2sgZm9yIHN5cy9zeXNjdGwuaCBmcm9tIHRoZSBvdGhlcgo+
+IGhlYWRlciBjaGVja3MsIGp1c3QgYWRkIHN5cy90eXBlcy5oIHRvIGFsbCBoZWFkZXIgY2hlY2tz
+Lgo+IAo+IHYyIFtFbWlsXQo+ICAtIGFkZCBpbmxpbmUgY29tbWVudAo+ICAtIGRyb3AgYmFzaC9z
+aCBodW5rCj4gCj4gU2lnbmVkLW9mZi1ieTogRW1pbCBWZWxpa292IDxlbWlsLmwudmVsaWtvdkBn
+bWFpbC5jb20+CgpTZXJpZXMgaXM6ClJldmlld2VkLWJ5OiBFcmljIEVuZ2VzdHJvbSA8ZXJpYy5l
+bmdlc3Ryb21AaW50ZWwuY29tPgoKQnV0IEkgYWdyZWUgd2l0aCBFbWlsLCBpdCdzIGEgRnJlZUJT
+RCBidWcgZm9yIGl0IHRvIG5vdCBpbmNsdWRlCmEgcmVxdWlyZWQgaGVhZGVyLCB0aGlzIHNob3Vs
+ZCBhbHNvIGJlIGZpeGVkIHVwc3RyZWFtLgoKPiAtLS0KPiAgbWVzb24uYnVpbGQgfCA1ICsrKyst
+Cj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBk
+aWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAo+IGluZGV4IGVkNDA3MDA5Li4x
+NGY4MmIxZiAxMDA2NDQKPiAtLS0gYS9tZXNvbi5idWlsZAo+ICsrKyBiL21lc29uLmJ1aWxkCj4g
+QEAgLTE3OSw5ICsxNzksMTIgQEAgZWxzZQo+ICAgIGRlcF9ydCA9IFtdCj4gIGVuZGlmCj4gIGRl
+cF9tID0gY2MuZmluZF9saWJyYXJ5KCdtJywgcmVxdWlyZWQgOiBmYWxzZSkKPiArIyBGcm9tIE5p
+Y2xhcyBaZWlzaW5nOgo+ICsjIEZyZWVCU0QgcmVxdWlyZXMgc3lzL3R5cGVzLmggZm9yIHN5cy9z
+eXNjdGwuaCwgYWRkIGl0IGFzIHBhcnQgb2YgdGhlCj4gKyMgaW5jbHVkZXMgd2hlbiBjaGVja2lu
+ZyBmb3IgaGVhZGVycy4KPiAgZm9yZWFjaCBoZWFkZXIgOiBbJ3N5cy9zeXNjdGwuaCcsICdzeXMv
+c2VsZWN0LmgnLCAnYWxsb2NhLmgnXQo+ICAgIGNvbmZpZy5zZXQoJ0hBVkVfJyArIGhlYWRlci51
+bmRlcnNjb3JpZnkoKS50b191cHBlcigpLAo+IC0gICAgY2MuY29tcGlsZXMoJyNpbmNsdWRlIDxA
+MEA+Jy5mb3JtYXQoaGVhZGVyKSwgbmFtZSA6ICdAMEAgd29ya3MnLmZvcm1hdChoZWFkZXIpKSkK
+PiArICAgIGNjLmNvbXBpbGVzKCcjaW5jbHVkZSA8c3lzL3R5cGVzLmg+XG4jaW5jbHVkZSA8QDBA
+PicuZm9ybWF0KGhlYWRlciksIG5hbWUgOiAnQDBAIHdvcmtzJy5mb3JtYXQoaGVhZGVyKSkpCj4g
+IGVuZGZvcmVhY2gKPiAgaWYgY2MuaGFzX2hlYWRlcl9zeW1ib2woJ3N5cy9zeXNtYWNyb3MuaCcs
+ICdtYWpvcicpCj4gICAgY29uZmlnLnNldDEwKCdNQUpPUl9JTl9TWVNNQUNST1MnLCB0cnVlKQo+
+IC0tIAo+IDIuMjEuMAo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
