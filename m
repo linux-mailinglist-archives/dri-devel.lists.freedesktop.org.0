@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AEC4917A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 22:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A668491AA
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 22:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 244BC89F73;
-	Mon, 17 Jun 2019 20:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D384D8940E;
+	Mon, 17 Jun 2019 20:49:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8287C89F75
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 20:36:57 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id 65so7691304oid.13
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 13:36:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WUuONrlgmwtIZdvsw0S0/4Mq9T1WyA1gy6J4VLXnacI=;
- b=W7Z3mnM1tqs9eR0nb0Hte3QcDZklUxMe/TdBD3NUniucM7xkznR9gqvBfEY2mgkgoP
- wvmTS/72LNZxoaLAa+12lG4/b8gkZDadA1KvcYG9MOlXyrVKMJ8P4aO1KBi376jUSs/m
- jTrveoT65h91GtqanYVaM7agX2PbwzQmagcMImTH/56+u4R0w0hGpdxrGSvrUOA4DNlv
- UGI5aYhVu58+M8lAnfV0/fAgQRIi31tlOkiDsNV0/rrPj88K2lTzCcHIdwO9c+sq2m4g
- LJ152iQBNWz4VHxFyf2ayeLZJ0H7xJhPt/zZU4jUlIXc2tqkURghpf+Gv6kTWOz0k195
- cuJQ==
-X-Gm-Message-State: APjAAAWk+Csw6SzA64ZqrT5dENdrIesy1fHnpZQXt+Q/NqPib0a2H5jL
- ncvspWXUV39WwBL9UTXiQYYm/8mHq8AVh7lo6QrD/g==
-X-Google-Smtp-Source: APXvYqyP6F9zlBzZPah8lr14kIAj+Xnb/4HPIraAg3Phba4tJ1HESSkAprhGKci8EGOWV3IPPT/MSOptYr7l5lvozUE=
-X-Received: by 2002:aca:3006:: with SMTP id w6mr9263oiw.5.1560803816566; Mon,
- 17 Jun 2019 13:36:56 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A309089FC9
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 20:49:33 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A012872167; Mon, 17 Jun 2019 20:49:33 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Mon, 17 Jun 2019 20:49:33 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: maraeo@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-oVnAnn0l7O@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190617122733.22432-1-hch@lst.de>
- <20190617122733.22432-8-hch@lst.de>
- <CAPcyv4hbGfOawfafqQ-L1CMr6OMFGmnDtdgLTXrgQuPxYNHA2w@mail.gmail.com>
- <20190617195404.GA20275@lst.de>
-In-Reply-To: <20190617195404.GA20275@lst.de>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Mon, 17 Jun 2019 13:36:44 -0700
-Message-ID: <CAPcyv4jhhEbLDi82gVw7GLASEtqU=U7Ty67AGwTijmzMqw8X8Q@mail.gmail.com>
-Subject: Re: [PATCH 07/25] memremap: validate the pagemap type passed to
- devm_memremap_pages
-To: Christoph Hellwig <hch@lst.de>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=intel-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=WUuONrlgmwtIZdvsw0S0/4Mq9T1WyA1gy6J4VLXnacI=;
- b=iJnOfDSpsfcRrkO7Z3UmtsU/3SdEZ7eTfjySEwglR4kCk3eP1rlaXEv8n0WSdyQhgA
- KaWNKrnvNbK3Ivdrsdf3WrCRENxklnMUOfkYt77DH4iUmhsBJjRM+eotXHjLnTJ0fpft
- IRATZl7xjDYDdLodZoW7pDj5e/et1XUyWXubUfGW4vRD1RKoqQhNZy2/KBjKy8cusMgh
- 2woSBHrnLGC1xQF+N5ZRLi9uSQi5GRNsM2OXCHe8Pv4k1LMuUVnyUieU8WnCi9CQp/zd
- XBqL0kuZ9/hoegyaGxXD87pJJNEmxb5JL0BejjNLkP1oeIbdjPfVsh40yBVMT2gDQuUx
- ng8g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,25 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-nvdimm <linux-nvdimm@lists.01.org>, nouveau@lists.freedesktop.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Linux MM <linux-mm@kvack.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jason Gunthorpe <jgg@mellanox.com>, Ben Skeggs <bskeggs@redhat.com>,
- linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0831713073=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdW4gMTcsIDIwMTkgYXQgMTI6NTkgUE0gQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBs
-c3QuZGU+IHdyb3RlOgo+Cj4gT24gTW9uLCBKdW4gMTcsIDIwMTkgYXQgMTI6MDI6MDlQTSAtMDcw
-MCwgRGFuIFdpbGxpYW1zIHdyb3RlOgo+ID4gTmVlZCBhIGxlYWQgaW4gcGF0Y2ggdGhhdCBpbnRy
-b2R1Y2VzIE1FTU9SWV9ERVZJQ0VfREVWREFYLCBvdGhlcndpc2U6Cj4KPiBPciBtYXliZSBhIE1F
-TU9SWV9ERVZJQ0VfREVGQVVMVCA9IDAgc2hhcmVkIGJ5IGZzZGF4IGFuZCBwMnBkbWE/CgpJIHRo
-b3VnaHQgYWJvdXQgdGhhdCwgYnV0IGl0IHNlZW1zIGlzX3BjaV9wMnBkbWFfcGFnZSgpIG5lZWRz
-IHRoZQpkaXN0aW5jdGlvbiBiZXR3ZWVuIHRoZSAyIHR5cGVzLgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0831713073==
+Content-Type: multipart/alternative; boundary="15608045731.3a9f2Bf.12060"
+Content-Transfer-Encoding: 7bit
+
+
+--15608045731.3a9f2Bf.12060
+Date: Mon, 17 Jun 2019 20:49:33 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #69 from Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> ---
+Can you send it to amd-gfx@lists.freedesktop.org adding the "drm/radeon: "
+commit prefix and your Signed-off-by?
+
+Thanks.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15608045731.3a9f2Bf.12060
+Date: Mon, 17 Jun 2019 20:49:33 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c69">Comme=
+nt # 69</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+maraeo&#64;gmail.com" title=3D"Marek Ol=C5=A1=C3=A1k &lt;maraeo&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Marek Ol=C5=A1=C3=A1k</span></a>
+</span></b>
+        <pre>Can you send it to <a href=3D"mailto:amd-gfx&#64;lists.freedes=
+ktop.org">amd-gfx&#64;lists.freedesktop.org</a> adding the &quot;drm/radeon=
+: &quot;
+commit prefix and your Signed-off-by?
+
+Thanks.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15608045731.3a9f2Bf.12060--
+
+--===============0831713073==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0831713073==--
