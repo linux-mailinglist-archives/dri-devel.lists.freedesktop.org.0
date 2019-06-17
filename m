@@ -2,54 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7942348BDA
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 20:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8626C48BEE
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Jun 2019 20:30:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9051C8937C;
-	Mon, 17 Jun 2019 18:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F1DF893D5;
+	Mon, 17 Jun 2019 18:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE1689385;
- Mon, 17 Jun 2019 18:23:50 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id v129so6760734vsb.11;
- Mon, 17 Jun 2019 11:23:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZXQ0LKa2kKKOH6Jd6ML5cq62COS5m0X8d7iDzgsXaDA=;
- b=Ljq37sGWF8SPI4q0bCuw9XnrKmUnZ7EDiwjliptkdKv+6tQZhLJiSzMtY6UjaK73dQ
- M6qyyvoAe/uXV6z3sbjkJJJxftXLYoZ3YKA6I1zfDd9Womyrp1QcNBXfhlzC99XsZUgR
- RM+hBr024IS2KcSC+PCJRWJFnWT5aOSRik8xMHswQJ/r+MeiZu7Ez9a7TAaRniEVe4ph
- bNxtbdfGH69Rdb3bNuFThn73QinOfxRlL4IRAtDZnf2Whk2DOPJi9ZJQZv1ZeQc019+P
- woF35hMo7Gipt5qXqYk/xEuhUMWMvdn+097WaPOARqJdAwPxqQZOyozPDx5RBcwguyRW
- rs7g==
-X-Gm-Message-State: APjAAAVu3DYxpKeR9VWTZk56veUS5wI9hvY8tCTQgMsrttjb8yXdX94P
- NbggC6Hm/lfbkfBHgMfYmrh4oLLrQwgnc3nP4Qp6VLCP
-X-Google-Smtp-Source: APXvYqzXunJgsFckU7ALDo77FHWmiQDlXW+RlXkiepmwj9JR78DD360d2qoX9EMc/HINBdPHQLa6xYE5jv8d8Ss1OuQ=
-X-Received: by 2002:a67:ebcb:: with SMTP id y11mr21547282vso.138.1560795829802; 
- Mon, 17 Jun 2019 11:23:49 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 89ABF893DB
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 18:30:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8671B72167; Mon, 17 Jun 2019 18:30:29 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
+ macrotiles?)
+Date: Mon, 17 Jun 2019 18:30:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r300
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: maraeo@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110897-502-9L560xPvTD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
+References: <bug-110897-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
-In-Reply-To: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Mon, 17 Jun 2019 19:21:38 +0100
-Message-ID: <CACvgo52x4X3X8W1+z+stDMhYA2DEH=euKy+kVCo67Qu8EBxgEQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 00/59] prime doc polish and ... a few cleanups
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=ZXQ0LKa2kKKOH6Jd6ML5cq62COS5m0X8d7iDzgsXaDA=;
- b=VaBKh6x94pK0aIbd6FheYYuWBCKtUQj8QLMEoU4ymJxyUdbnBRDY8k3rWgmWpe8jFC
- DVnwK9sx30rXlLJpD/5TFloE53Ou7ATdY/fque8xVTusVKcjz17FYTvQzjRlkkdFURCf
- VqWAg9mhuCCe8jMbgW28coxZJvgWYEkHfLkMpnJTce2SD4MkaPB4rMzqOj/IMzmb4zWY
- otp7DiziGQbPilLnwEhFwo8gkuSS/H/MZ4VYSK9wGOe9fevxNWis6mbVh52bfNe7kh6h
- DtfhG0Dfa3JS9ICPywlHtJuUWkKdemJ7f/9w03NkRjnYiLhUQqaeiFV5oPUwwlNq4LMf
- QSNg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,86 +53,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1357526573=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKT24gRnJpLCAxNCBKdW4gMjAxOSBhdCAyMTozNiwgRGFuaWVsIFZldHRlciA8
-ZGFuaWVsLnZldHRlckBmZndsbC5jaD4gd3JvdGU6Cj4KPiBIaSBhbGwsCj4KPiBTbyBJIGZpZ3Vy
-ZWQgbGV0J3MgZ2V0IGdvaW5nIGFuZCBwb2xpc2ggdGhlIGRvY3MgZm9yIHRoZSBsYXN0IHBhcnQg
-b2YgZHJtCj4gY29yZS9oZWxwZXJzIHRoYXQgaGFzbid0IHlldCBzZWVuIHNvbWUgbmVhdCBwb2xp
-c2ggbGFzdCBmZXcgeWVhcnMuIFdpdGgKPiB0aGUgZ29hbCB0byBtYWtlIGRvY3MgZm9yIGRyaXZl
-ciBrYXBpIGEgcmVxdWlyZW1lbnQgaGVuY2Vmb3J0aCAtIHNlZSBsYXN0Cj4gcGF0Y2guIEFzaWRl
-IGZyb20gdGhhdCBmaW5hbCBkb2MgcGF0Y2ggSSBhbHNvIGluY2x1ZGVkIHNvbWUgdG9kby5yc3QK
-PiB1cGRhdGVzLCBidW5jaCBvZiB0aGluZ3MgaGF2ZSBwcm9ncmVzc2VkIHF1aXRlIGEgYml0Lgo+
-Cj4gT2YgY291cnNlIHNwb3R0ZWQgc29tZSBsb3dlci1oYW5naW5nIGZydWl0IHRvIHVudGFuZ2xl
-IHRoZSBwcmltZSBoZWxwZXJzCj4gYW5kIGludGVyZmFjZXMsIGFuZCBkZWNpZGVkIHRvIGF0IGxl
-YXN0IGZpeCBhIGZldyBvZiB0aG9zZS4KPgo+IFBhdGNoIHNlcmllcyBzdXJ2aXZlZCBzb21lIGxp
-Z2h0IHRlc3Rpbmcgb24gaTkxNSt2Z2VtLCBidXQgdGhhdCdzIGl0LiBTbwo+IHJldmlldywgdGVz
-dGluZywgY29tbWVudHMgYW5kIGFueXRoaW5nIGVsc2UgcmVhbGx5IGhpZ2hnbHkgd2VsY29tZS4K
-Pgo+IENoZWVycywgRGFuaWVsCj4KPiBEYW5pZWwgVmV0dGVyICg1OSk6CkkgdGhpbmsgdGhpcyBp
-cyB0aGUgbGFyZ2VzIHNlcmllcyBmcm9tIHlvdSBzbyBmYXIuIEFzIGFscmVhZHkKbWVudGlvbmVk
-IC0gbWlnaHQgYmUgZ29vZCBpZGVhIHRvIHNwbGl0IHRoaXMgdXAgYSBiaXQgYW5kIG1lcmdlIGl0
-CmludG8gYSBmZXcgcGllY2VzPwpTaG91bGQgbWFrZSB0aGUgY2h1cm4gbXVjaCBtb3JlIG1hbmFn
-ZWFibGUuCgo+ICAgZHJtL3ByaW1lOiBVbmNvbmRpdGlvbmFsbHkgc2V0IHVwIHRoZSBwcmltZSBm
-aWxlIHByaXZhdGUKPiAgIGRybS9wcmltZTogTWFrZSBEUklWRVJfUFJJTUUgYSBuby1vcAo+ICAg
-ZHJtL3ByaW1lOiBBY3R1YWxseSByZW1vdmUgRFJJVkVSX1BSSU1FIGV2ZXJ5d2hlcmUKUGF0Y2gg
-c2V0IzEKUmV2aWV3ZWQtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5j
-b20+Cgo+ICAgZHJtL2FybS9rb21lZGE6IFJlbW92ZSBEUklWRVJfSEFWRV9JUlEKPiAgIGRybS9v
-bWFwZHJtOiBkcm9wIGZiX2RlYnVnX2VudGVyL2xlYXZlCkknZCBrZWVwIHRoZXNlIHNlcGFyYXRl
-IC0gZWFjaCBvbmUgaXM6ClJldmlld2VkLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBj
-b2xsYWJvcmEuY29tPgoKPiAgIGRybS9hcmM6IERyb3AgZHJtX2dlbV9wcmltZV9leHBvcnQvaW1w
-b3J0Cj4gICBkcm0vYXJtOiBEcm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJt
-L2F0bWVsOiBEcm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL2V0bmF2aXY6
-IERyb3AgZHJtX2dlbV9wcmltZV9leHBvcnQvaW1wb3J0Cj4gICBkcm0vZXh5bm9zOiBEcm9wIGRy
-bV9nZW1fcHJpbWVfZXhwb3J0Cj4gICBkcm0vZnNsLWRjdTogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4
-cG9ydC9pbXBvcnQKPiAgIGRybS9oaXNpbGljb246IERyb3AgZHJtX2dlbV9wcmltZV9leHBvcnQv
-aW1wb3J0Cj4gICBkcm0vaW14OiBEcm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAg
-ZHJtL21jZGU6IERyb3AgZHJtX2dlbV9wcmltZV9leHBvcnQvaW1wb3J0Cj4gICBkcm0vbXRrOiBE
-cm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL21lc29uOiBEcm9wIGRybV9n
-ZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL21zbTogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4
-cG9ydC9pbXBvcnQKPiAgIGRybS9teHNmYjogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4cG9ydC9pbXBv
-cnQKPiAgIGRybS9ub3V2ZWF1OiBEcm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAg
-ZHJtL3BsMTExOiBEcm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL3F4bDog
-RHJvcCBkcm1fZ2VtX3ByaW1lX2V4cG9ydC9pbXBvcnQKPiAgIGRybS9yY2FyLWR1OiBEcm9wIGRy
-bV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL3JvY2tjaGlwOiBEcm9wIGRybV9nZW1f
-cHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL3NobW9iOiBEcm9wIGRybV9nZW1fcHJpbWVfZXhw
-b3J0L2ltcG9ydAo+ICAgZHJtL3N0aTogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4cG9ydC9pbXBvcnQK
-PiAgIGRybS9zdG06IERyb3AgZHJtX2dlbV9wcmltZV9leHBvcnQvaW1wb3J0Cj4gICBkcm0vdGls
-Y2RjOiBEcm9wIGRybV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL3R2ZTIwMDA6IERy
-b3AgZHJtX2dlbV9wcmltZV9leHBvcnQvaW1wb3J0Cj4gICBkcm0vdmJveHZpZGVvOiBEcm9wIGRy
-bV9nZW1fcHJpbWVfZXhwb3J0L2ltcG9ydAo+ICAgZHJtL3ZjMzogRHJvcCBkcm1fZ2VtX3ByaW1l
-X2ltcG9ydAo+ICAgZHJtL3JhZGVvbjogRHJvcCBkcm1fZ2VtX3ByaW1lX2ltcG9ydAo+ICAgZHJt
-L3ZnZW06IERyb3AgZHJtX2dlbV9wcmltZV9leHBvcnQKPiAgIGRybS92aXJ0aW86IERyb3AgZHJt
-X2dlbV9wcmltZV9leHBvcnQvaW1wb3J0Cj4gICBkcm0veGVuOiBEcm9wIGRybV9nZW1fcHJpbWVf
-ZXhwb3J0L2ltcG9ydAo+ICAgZHJtL3p0ZTogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4cG9ydC9pbXBv
-cnQKPiAgIGRybS92cmFtLWhlbHBlcjogRHJvcCBkcm1fZ2VtX3ByaW1lX2V4cG9ydC9pbXBvcnQK
-ClRoZSBhYm92ZSBhcmUgY29tcGxldGVseSBvcnRob2dvbmFsIG9mIHRoZSBwcmVjZWRpbmcgcHJp
-bWUgcGF0Y2hlcy4gRm9yIHRoaXMgbG90ClJldmlld2VkLWJ5OiBFbWlsIFZlbGlrb3YgPGVtaWwu
-dmVsaWtvdkBjb2xsYWJvcmEuY29tPgoKSSdsbCBnZXQgdG8gdGhlIHJlc3QgdG9tb3Jyb3cuCgpI
-VEgKRW1pbAoKPiAgIGRybS90b2RvOiBJbXByb3ZlIGRybV9nZW1fb2JqZWN0IGZ1bmNzIHRvZG8K
-PiAgIGRybS9nZW06IFVuZXhwb3J0IGRybV9nZW1fKHVuKXBpbi92KHVuKW1hcAoKPiAgIGRybS9w
-cmltZTogVXBkYXRlIGRvY3MKCj4gICBkcm0vcHJpbWU6IEFsaWduIGdlbV9wcmltZV9leHBvcnQg
-d2l0aCBvYmpfZnVuY3MuZXhwb3J0Cgo+ICAgZHJtL3ByaW1lOiBhdXRvbWF0aWNhbGx5IHNldCBn
-ZW1fb2JqLT5yZXN2IG9uIGltcG9ydAo+ICAgZHJtL2V0bmF2aXY6IERyb3AgcmVzdiBhcmd1bWVu
-dCBmcm9tIGV0bmF2aXZfZ2VtX25ld19pbXBsCj4gICBkcm0vbGltYTogRHJvcCByZXN2IGFyZ3Vt
-ZW50IGZyb20gbGltYV9ib19jcmVhdGVfc3RydWN0Cj4gICBkcm0vbWVkaWF0ZWs6IFVzZSBkcm1f
-YXRvbWljX2hlbHBlcl93YWl0X2Zvcl9mZW5jZXMKPiAgIGRybS9tc206IERyb3Agcm9iaiBmcm9t
-IG1zbV9nZW1fbmV3X2ltcGwKPiAgIGRybS9wYW5mcm9zdDogZG9uJ3Qgc2V0IGdlbV9vYmotPnJl
-c3YgZm9yIHByaW1lIGltcG9ydCBhbnltb3JlCj4gICBkcm0vdmM0OiBEb24gc2V0IGdlbV9vYmot
-PnJlc3YgaW4gcHJpbWUgaW1wb3J0IGFueW1vcmUKPiAgIGRybS92Z2VtOiBEaXRjaCBhdHRhY2gg
-dHJpY2tlcnkgaW4gdGhlIGZlbmNlIGlvY3RsCj4gICBkcm0vbXNtOiBVc2UgZHJtX2dlbV9mYl9w
-cmVwYXJlX2ZiCj4gICBkcm0vdmM0OiBVc2UgZHJtX2dlbV9mYl9wcmVwYXJlX2ZiCj4gICBkcm0v
-cmFkZW9uOiBGaWxsIG91dCBnZW1fb2JqZWN0LT5yZXN2Cj4gICBkcm0vbm91dmVhdTogRmlsbCBv
-dXQgZ2VtX29iamVjdC0+cmVzdgo+ICAgZHJtL2FtZGdwdTogRmlsbCBvdXQgZ2VtX29iamVjdC0+
-cmVzdgo+ICAgZHJtL3ByaW1lOiBEaXRjaCBnZW1fcHJpbWVfcmVzX29iaiBob29rCj4gICBkcm0v
-dG9kbzogcmVtb3ZlIGdlbV9wcmltZV9pbXBvcnQvZXhwb3J0IHRvZG8KPiAgIGRybS90b2RvOiBV
-cGRhdGUgYmFja2xpZ2h0IHRvZG8KPiAgIGRybS90b2RvOiBVcGRhdGUgbW1hcCB0b2RvCj4gICBk
-cm0vdG9kbzogQWRkIG5ldyBkZWJ1Z2ZzIHRvZG8KPiAgIGRybS9kb2M6IERvY3VtZW50IGthcGkg
-ZG9jIGV4cGVjdGF0aW9ucwo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+
+--===============1357526573==
+Content-Type: multipart/alternative; boundary="15607962291.Ca5cE.18279"
+Content-Transfer-Encoding: 7bit
+
+
+--15607962291.Ca5cE.18279
+Date: Mon, 17 Jun 2019 18:30:29 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+
+--- Comment #67 from Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> ---
+Keep the rs400_mc_wait_for_idle call.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15607962291.Ca5cE.18279
+Date: Mon, 17 Jun 2019 18:30:29 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c67">Comme=
+nt # 67</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
+tiles?)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+maraeo&#64;gmail.com" title=3D"Marek Ol=C5=A1=C3=A1k &lt;maraeo&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Marek Ol=C5=A1=C3=A1k</span></a>
+</span></b>
+        <pre>Keep the rs400_mc_wait_for_idle call.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15607962291.Ca5cE.18279--
+
+--===============1357526573==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1357526573==--
