@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B9C494E5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 00:12:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390904951B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 00:21:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D31989F6B;
-	Mon, 17 Jun 2019 22:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C23789FA6;
+	Mon, 17 Jun 2019 22:21:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4D0789F6B;
- Mon, 17 Jun 2019 22:12:35 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:52035
- helo=[192.168.10.173])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hczrd-00019I-Rj; Tue, 18 Jun 2019 00:12:33 +0200
-Subject: Re: [PATCH 01/59] drm/todo: Improve drm_gem_object funcs todo
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-2-daniel.vetter@ffwll.ch>
- <f326e4e2-2cc3-6e90-f9d3-96b5c8c8b070@tronnes.org>
- <20190617162951.GJ12905@phenom.ffwll.local>
- <fd97eea4-32cd-81a4-6b3e-076a1d524a4a@tronnes.org>
- <20190617212046.GL12905@phenom.ffwll.local>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <5c42e332-6f80-9fa3-54f6-39d0c11df3f5@tronnes.org>
-Date: Tue, 18 Jun 2019 00:12:28 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D157889FA5
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Jun 2019 22:21:50 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C934C72167; Mon, 17 Jun 2019 22:21:50 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110929] sw_init of IP block <vega10_ih> failed -12 when using
+ Secure Memory Encryption (SME) with Vega 64
+Date: Mon, 17 Jun 2019 22:21:50 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: sarnex@gentoo.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-110929-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190617212046.GL12905@phenom.ffwll.local>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=fr4k4DbVEbadH/HfMMLsXQzIYCRGhxfPm1fZO/Xf9Rc=; 
- b=N+st6qMlFzbXMwRrOn8X3mFyXnk/GVU5KLVk+1XhA3LhG64bjYLBg8qeg3kLuPpiiaq/mbCyqpInP2C7v9Q8XJh8MIJGWWXy4sE9A6F6nmcDYKuuKStMVTGm8Y3g75pEy8qFl0oRQ7V4A2nbKW+Qt/YiR3N3K1h2/wMPjJ5x99fOb1p9m6e1qJt6LDdFA54TNxcNxMCesO6ACQWh9SSP1zYKqQ4UhXS3/NPCgdNhG7MQSIae0b0LULE4sFLS7IQTYzne3qgKzI6yDz7TEduxcGZYy7ONcqfmB7171K2bHT3473EKkJ/cN3Fy1eHepU3vmx52GKsHAmyCEPs2DLPzgQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,96 +53,209 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0359780222=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMTcuMDYuMjAxOSAyMy4yMCwgc2tyZXYgRGFuaWVsIFZldHRlcjoKPiBPbiBNb24sIEp1
-biAxNywgMjAxOSBhdCAwNjo1NDowNFBNICswMjAwLCBOb3JhbGYgVHLDuG5uZXMgd3JvdGU6Cj4+
-Cj4+Cj4+IERlbiAxNy4wNi4yMDE5IDE4LjI5LCBza3JldiBEYW5pZWwgVmV0dGVyOgo+Pj4gT24g
-TW9uLCBKdW4gMTcsIDIwMTkgYXQgMDU6NDc6NTBQTSArMDIwMCwgTm9yYWxmIFRyw7hubmVzIHdy
-b3RlOgo+Pj4+Cj4+Pj4KPj4+PiBEZW4gMTQuMDYuMjAxOSAyMi4zNSwgc2tyZXYgRGFuaWVsIFZl
-dHRlcjoKPj4+Pj4gV2UncmUga2luZGEgZ29pbmcgaW4gdGhlIHdyb25nIGRpcmVjdGlvbi4gU3Bv
-dHRlZCB3aGlsZSB0eXBpbmcgYmV0dGVyCj4+Pj4+IGdlbS9wcmltZSBkb2NzLgo+Pj4+Pgo+Pj4+
-PiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4+Pj4+IENjOiBH
-ZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPj4+Pj4gQ2M6IFJvYiBIZXJyaW5nIDxy
-b2JoQGtlcm5lbC5vcmc+Cj4+Pj4+IENjOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVz
-Lm9yZz4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBp
-bnRlbC5jb20+Cj4+Pj4+IC0tLQo+Pj4+PiAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgfCA0
-ICsrKysKPj4+Pj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKPj4+Pj4KPj4+Pj4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0IGIvRG9jdW1lbnRhdGlvbi9n
-cHUvdG9kby5yc3QKPj4+Pj4gaW5kZXggYjRhNzZjMjcwM2U1Li4yMzU4M2YwZTM3NTUgMTAwNjQ0
-Cj4+Pj4+IC0tLSBhL0RvY3VtZW50YXRpb24vZ3B1L3RvZG8ucnN0Cj4+Pj4+ICsrKyBiL0RvY3Vt
-ZW50YXRpb24vZ3B1L3RvZG8ucnN0Cj4+Pj4+IEBAIC0yMjgsNiArMjI4LDEwIEBAIHN0cnVjdCBk
-cm1fZ2VtX29iamVjdF9mdW5jcwo+Pj4+PiAgR0VNIG9iamVjdHMgY2FuIG5vdyBoYXZlIGEgZnVu
-Y3Rpb24gdGFibGUgaW5zdGVhZCBvZiBoYXZpbmcgdGhlIGNhbGxiYWNrcyBvbiB0aGUKPj4+Pj4g
-IERSTSBkcml2ZXIgc3RydWN0LiBUaGlzIGlzIG5vdyB0aGUgcHJlZmVycmVkIHdheSBhbmQgZHJp
-dmVycyBjYW4gYmUgbW92ZWQgb3Zlci4KPj4+Pj4gIAo+Pj4+PiArVW5mb3J0dW5hdGVseSBzb21l
-IG9mIHRoZSByZWNlbnRseSBhZGRlZCBHRU0gaGVscGVycyBhcmUgZ29pbmcgaW4gdGhlIHdyb25n
-Cj4+Pj4+ICtkaXJlY3Rpb24gYnkgYWRkaW5nIE9QUyBtYWNyb3MgdGhhdCB1c2UgdGhlIG9sZCwg
-ZGVwcmVjYXRlZCBob29rcy4gU2VlCj4+Pj4+ICtEUk1fR0VNX0NNQV9WTUFQX0RSSVZFUl9PUFMs
-IERSTV9HRU1fU0hNRU1fRFJJVkVSX09QUywgYW5kIERSTV9HRU1fVlJBTV9EUklWRVJfUFJJTUUu
-Cj4+Pj4+ICsKPj4+Pgo+Pj4+IEJvdGggRFJNX0dFTV9DTUFfVk1BUF9EUklWRVJfT1BTIGFuZCBE
-Uk1fR0VNX1NITUVNX0RSSVZFUl9PUFMgdXNlIHRoZQo+Pj4+IEdFTSB2dGFibGUuIE9yIGFtIEkg
-bWlzc2luZyBzb21ldGhpbmcgaGVyZT8KPj4+Cj4+PiBnZW0gdnRhYmxlIEkgbWVhbiBkcm1fZ2Vt
-X29iamVjdF9mdW5jcy4gV2hpY2ggdGhlc2UgbWFjcm9zIGRlZmluaXRlbHkKPj4+IGFyZW4ndCB1
-c2VmdWwgZm9yLgo+Pgo+PiAjZGVmaW5lIERSTV9HRU1fQ01BX1ZNQVBfRFJJVkVSX09QUyBcCj4+
-IAkuZ2VtX2NyZWF0ZV9vYmplY3QJPSBkcm1fY21hX2dlbV9jcmVhdGVfb2JqZWN0X2RlZmF1bHRf
-ZnVuY3MsIFwKPj4gCS5kdW1iX2NyZWF0ZQkJPSBkcm1fZ2VtX2NtYV9kdW1iX2NyZWF0ZSwgXAo+
-PiAJLnByaW1lX2hhbmRsZV90b19mZAk9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLCBcCj4+
-IAkucHJpbWVfZmRfdG9faGFuZGxlCT0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUsIFwKPj4g
-CS5nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlID0gZHJtX2dlbV9jbWFfcHJpbWVfaW1wb3J0X3Nn
-X3RhYmxlX3ZtYXAsIFwKPj4gCS5nZW1fcHJpbWVfbW1hcAkJPSBkcm1fZ2VtX3ByaW1lX21tYXAK
-Pj4KPj4gX19kcm1fZ2VtX2NtYV9jcmVhdGUoKSBjYWxscyAtPmdlbV9jcmVhdGVfb2JqZWN0Lgo+
-Pgo+PiBkcm1fY21hX2dlbV9jcmVhdGVfb2JqZWN0X2RlZmF1bHRfZnVuY3MoKSBzZXRzOgo+PiAJ
-Y21hX29iai0+YmFzZS5mdW5jcyA9ICZkcm1fY21hX2dlbV9kZWZhdWx0X2Z1bmNzOwo+Pgo+PiBz
-dGF0aWMgY29uc3Qgc3RydWN0IGRybV9nZW1fb2JqZWN0X2Z1bmNzIGRybV9jbWFfZ2VtX2RlZmF1
-bHRfZnVuY3MgPSB7Cj4+IAkuZnJlZSA9IGRybV9nZW1fY21hX2ZyZWVfb2JqZWN0LAo+PiAJLnBy
-aW50X2luZm8gPSBkcm1fZ2VtX2NtYV9wcmludF9pbmZvLAo+PiAJLmdldF9zZ190YWJsZSA9IGRy
-bV9nZW1fY21hX3ByaW1lX2dldF9zZ190YWJsZSwKPj4gCS52bWFwID0gZHJtX2dlbV9jbWFfcHJp
-bWVfdm1hcCwKPj4gCS52bV9vcHMgPSAmZHJtX2dlbV9jbWFfdm1fb3BzLAo+PiB9Owo+Pgo+PiBU
-aGUgR0VNIFNITUVNIGhlbHBlciB3YXMgbWFkZSBhZnRlciBkcm1fZ2VtX29iamVjdF9mdW5jcyBj
-YW1lIGFib3V0IHNvCj4+IGl0IHNldHMgdGhlIGRlZmF1bHQgdnRhYmxlIGluIGRybV9nZW1fc2ht
-ZW1fY3JlYXRlKCk6Cj4+IAkJb2JqLT5mdW5jcyA9ICZkcm1fZ2VtX3NobWVtX2Z1bmNzOwo+Pgo+
-PiBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9nZW1fb2JqZWN0X2Z1bmNzIGRybV9nZW1fc2htZW1f
-ZnVuY3MgPSB7Cj4+IAkuZnJlZSA9IGRybV9nZW1fc2htZW1fZnJlZV9vYmplY3QsCj4+IAkucHJp
-bnRfaW5mbyA9IGRybV9nZW1fc2htZW1fcHJpbnRfaW5mbywKPj4gCS5waW4gPSBkcm1fZ2VtX3No
-bWVtX3BpbiwKPj4gCS51bnBpbiA9IGRybV9nZW1fc2htZW1fdW5waW4sCj4+IAkuZ2V0X3NnX3Rh
-YmxlID0gZHJtX2dlbV9zaG1lbV9nZXRfc2dfdGFibGUsCj4+IAkudm1hcCA9IGRybV9nZW1fc2ht
-ZW1fdm1hcCwKPj4gCS52dW5tYXAgPSBkcm1fZ2VtX3NobWVtX3Z1bm1hcCwKPj4gCS52bV9vcHMg
-PSAmZHJtX2dlbV9zaG1lbV92bV9vcHMsCj4+IH07Cj4+Cj4+ICNkZWZpbmUgRFJNX0dFTV9TSE1F
-TV9EUklWRVJfT1BTIFwKPj4gCS5wcmltZV9oYW5kbGVfdG9fZmQJPSBkcm1fZ2VtX3ByaW1lX2hh
-bmRsZV90b19mZCwgXAo+PiAJLnByaW1lX2ZkX3RvX2hhbmRsZQk9IGRybV9nZW1fcHJpbWVfZmRf
-dG9faGFuZGxlLCBcCj4+IAkuZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSA9IGRybV9nZW1fc2ht
-ZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlLCBcCj4+IAkuZ2VtX3ByaW1lX21tYXAJCT0gZHJtX2dl
-bV9wcmltZV9tbWFwLCBcCj4+IAkuZHVtYl9jcmVhdGUJCT0gZHJtX2dlbV9zaG1lbV9kdW1iX2Ny
-ZWF0ZQo+Pgo+PiBTbyB0aGUgdHdvIGRyaXZlciBvcHMgbWFjcm9lcyBvbmx5IHNldCB0aGUgbmVj
-ZXNzYXJ5IGJpdHMgdG8gZW5hYmxlCj4+IHByaW1lIGltcG9ydC9leHBvcnQvbW1hcCBhbmQgZHVt
-YiBidWZmZXIgY3JlYXRpb24sIGxlYXZpbmcgdGhlIHJlc3QgdG8KPj4gZHJtX2dlbV9vYmplY3Rf
-ZnVuY3MuCj4+IEhhdmUgd2UgZGVwcmVjYXRlZCBhbnkgb2YgdGhlc2UgaG9va3M/Cj4gCj4gVWgg
-SSB3YXMgYmxpbmQgOi0vIFVuZm9ydHVuYXRlbHkgSSBwdXNoZWQgdGhhdCBwYXRjaCBhbHJlYWR5
-LCBJJ2xsIGZvbGxvdwo+IHVwIHdpdGggYSBwYXRjaCB0byBmaXggaXQuIHZyYW0gaGVscGVycyBh
-cmUgbm90IGZvbGxvd2luZyBsYXRlc3QgYmVzdAo+IHByYWN0aWNlcyB0aG91Z2gsIHJpZ2h0PwoK
-UmlnaHQuCgo+IAo+IEFsc28gSSBndWVzcyBhIGxvdCBtb3JlIG9mIHRoZSBjbWEgaGVscGVyIHVz
-aW5nIGRyaXZlcnMgY291bGQgYmUgY3V0IG92ZXIKPiB0byB0aGUgdm1hcCBvbmVzPwoKRFJNX0dF
-TV9DTUFfVk1BUF9EUklWRVJfT1BTIGlzIGZvciBkcml2ZXJzIHRoYXQgbmVlZCBhIHZpcnR1YWwg
-YWRkcmVzcwphbHNvIG9uIGltcG9ydGVkIGJ1ZmZlcnMuIEN1cnJlbnRseSBvbmx5IHRpbnlkcm0g
-ZHJpdmVycyByZXF1aXJlIHRoaXMuCgpPdGhlciBkcml2ZXJzIHRoYXQgZG9uJ3QgY2hhbmdlIHRo
-ZSBkZWZhdWx0cyBjb3VsZCB1c2UgdGhpczoKCiNkZWZpbmUgRFJNX0dFTV9DTUFfRFJJVkVSX09Q
-UyBcCgkuZ2VtX2NyZWF0ZV9vYmplY3QJPSBkcm1fY21hX2dlbV9jcmVhdGVfb2JqZWN0X2RlZmF1
-bHRfZnVuY3MsIFwKCS5kdW1iX2NyZWF0ZQkJPSBkcm1fZ2VtX2NtYV9kdW1iX2NyZWF0ZSwgXAoJ
-LnByaW1lX2hhbmRsZV90b19mZAk9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLCBcCgkucHJp
-bWVfZmRfdG9faGFuZGxlCT0gZHJtX2dlbV9wcmltZV9mZF90b19oYW5kbGUsIFwKCS5nZW1fcHJp
-bWVfaW1wb3J0X3NnX3RhYmxlID0gZHJtX2dlbV9jbWFfcHJpbWVfaW1wb3J0X3NnX3RhYmxlLCBc
-CgkuZ2VtX3ByaW1lX21tYXAJCT0gZHJtX2dlbV9wcmltZV9tbWFwCgpJIHNlZSB0aGF0IGFzcGVl
-ZCBpcyBhIGdvb2QgZmlyc3QgY2FuZGlkYXRlIGZvciB1c2luZyBzdWNoIGEgbWFjcm8gc2luY2UK
-aXQncyBhbHJlYWR5IG9wZW4gY29kaW5nIGl0LgoKTm9yYWxmLgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0359780222==
+Content-Type: multipart/alternative; boundary="15608101100.BAedEEE.29710"
+Content-Transfer-Encoding: 7bit
+
+
+--15608101100.BAedEEE.29710
+Date: Mon, 17 Jun 2019 22:21:50 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110929
+
+            Bug ID: 110929
+           Summary: sw_init of IP block <vega10_ih> failed -12 when using
+                    Secure Memory Encryption (SME) with Vega 64
+           Product: DRI
+           Version: DRI git
+          Hardware: x86-64 (AMD64)
+                OS: All
+            Status: NEW
+          Severity: major
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: sarnex@gentoo.org
+
+Created attachment 144574
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144574&action=3Dedit
+dmesg_sme
+
+Hi all,
+
+If I turn on SME for my Ryzen 2700x CPU, I get the following error during b=
+oot:
+
+[   19.998488] [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* sw_init of IP
+block <vega10_ih> failed -12
+[   19.998490] amdgpu 0000:0c:00.0: amdgpu_device_ip_init failed
+[   19.998492] amdgpu 0000:0c:00.0: Fatal error during GPU init
+[   19.998493] [drm] amdgpu: finishing device.
+[   19.998601] [drm] amdgpu: ttm finalized
+
+I've attached the full dmesg.
+
+I am using a Vega 64, Gentoo, Mesa/DRI* git, and kernel 5.1.x.
+
+I can test any patches or provide any more information.
+
+Thanks,
+Sarnex
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15608101100.BAedEEE.29710
+Date: Mon, 17 Jun 2019 22:21:50 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - sw_init of IP block &lt;vega10_ih&gt; failed -12 when usi=
+ng Secure Memory Encryption (SME) with Vega 64"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110929">110929</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>sw_init of IP block &lt;vega10_ih&gt; failed -12 when using S=
+ecure Memory Encryption (SME) with Vega 64
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>sarnex&#64;gentoo.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144574=
+" name=3D"attach_144574" title=3D"dmesg_sme">attachment 144574</a> <a href=
+=3D"attachment.cgi?id=3D144574&amp;action=3Dedit" title=3D"dmesg_sme">[deta=
+ils]</a></span>
+dmesg_sme
+
+Hi all,
+
+If I turn on SME for my Ryzen 2700x CPU, I get the following error during b=
+oot:
+
+[   19.998488] [drm:amdgpu_device_init.cold [amdgpu]] *ERROR* sw_init of IP
+block &lt;vega10_ih&gt; failed -12
+[   19.998490] amdgpu 0000:0c:00.0: amdgpu_device_ip_init failed
+[   19.998492] amdgpu 0000:0c:00.0: Fatal error during GPU init
+[   19.998493] [drm] amdgpu: finishing device.
+[   19.998601] [drm] amdgpu: ttm finalized
+
+I've attached the full dmesg.
+
+I am using a Vega 64, Gentoo, Mesa/DRI* git, and kernel 5.1.x.
+
+I can test any patches or provide any more information.
+
+Thanks,
+Sarnex</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15608101100.BAedEEE.29710--
+
+--===============0359780222==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0359780222==--
