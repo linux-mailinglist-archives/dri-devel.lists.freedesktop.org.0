@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66D64A11F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 14:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3024A140
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 14:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40ED86E15E;
-	Tue, 18 Jun 2019 12:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE21D6E157;
+	Tue, 18 Jun 2019 12:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3759D6E15E
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 12:48:55 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 344CD72167; Tue, 18 Jun 2019 12:48:55 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110831] [AMD TAHITI XT][amd-staging-drm-next][bisected] broken
- since 5.2-rc1 rebase
-Date: Tue, 18 Jun 2019 12:48:55 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-110831-502-ZI91BLD4Sk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110831-502@http.bugs.freedesktop.org/>
-References: <bug-110831-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23D676E157
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 12:58:44 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5ICwcCV017719;
+ Tue, 18 Jun 2019 12:58:38 GMT
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2t4r3tmcgg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jun 2019 12:58:38 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5ICuRgp090773;
+ Tue, 18 Jun 2019 12:56:36 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 2t5mgbxb29-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jun 2019 12:56:36 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5ICuWbl031932;
+ Tue, 18 Jun 2019 12:56:32 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 18 Jun 2019 05:56:32 -0700
+Date: Tue, 18 Jun 2019 15:56:23 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] drm: return -EFAULT if copy_one_buf() fails
+Message-ID: <20190618125623.GA24896@mwanda>
 MIME-Version: 1.0
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906180106
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906180107
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
+ bh=VN1nlMuLCcvI+mqE18BsBbvixn8Eid8foVg4TrsGDOU=;
+ b=Jw1oD4jYzSIQ/3hgo/6oZt6Rlx7VNXOMTIpAmMDTdVZIoIEODjjTskwOO6NQ0PxhpFcA
+ tEG4wowNMlAPi6z0eSLjGJjfwAsuXjjKgEr6tptuYpoywTcd9Xd+RvuLMpS1Rq3mCiKe
+ DqJvM/SAr/tx65B32Q8LZFoRNWq1H/BwtXszFbLmrfVDLUX+DlcTzrQXr/0cQe9XAY8u
+ wMMTvfSbcPlYPnSiOSPxHG/pvJVIyDySqgKgfDaQtcngHk2mDcsPix+2MeOhn8dJjo86
+ 89d/TWMRXsgdVF3RrH9kpUAlzXZeDJyKkbJSdzUod27WW41aD3ICj8VCmnSRpJp9nyQJ Ug== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,105 +76,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0797899198=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0797899198==
-Content-Type: multipart/alternative; boundary="15608621352.f29f8ACC.8741"
-Content-Transfer-Encoding: 7bit
-
-
---15608621352.f29f8ACC.8741
-Date: Tue, 18 Jun 2019 12:48:55 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110831
-
-Sylvain BERTRAND <sylvain.bertrand@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |FIXED
-             Status|NEW                         |RESOLVED
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15608621352.f29f8ACC.8741
-Date: Tue, 18 Jun 2019 12:48:55 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:sylvain.b=
-ertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertrand&#64;g=
-mail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [AMD TAHITI XT][amd-staging-drm-next][bisected=
-] broken since 5.2-rc1 rebase"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110831">bug 11083=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15608621352.f29f8ACC.8741--
-
---===============0797899198==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0797899198==--
+VGhlIGNvcHlfdG9fdXNlcigpIGZ1bmN0aW9uIHJldHVybnMgdGhlIG51bWJlciBvZiBieXRlcyBy
+ZW1haW5pbmcgdG8gYmUKY29waWVkLCBidXQgd2Ugd2FudCB0byByZXR1cm4gLUVGQVVMVC4gIFRo
+aXMgZnVuY3Rpb24gaXMgY2FsbGVkIGZyb20KX19kcm1fbGVnYWN5X2luZm9idWZzKCkgd2hpY2gg
+ZXhwZWN0cyBuZWdhdGl2ZSBlcnJvciBjb2Rlcy4KCkZpeGVzOiA1Yzc2NDBhYjYyNTggKCJzd2l0
+Y2ggY29tcGF0X2RybV9pbmZvYnVmcygpIHRvIGRybV9pb2N0bF9rZXJuZWwoKSIpClNpZ25lZC1v
+ZmYtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KLS0tClRoaXMg
+Z29lcyB0aHJvdWdoIEFsJ3MgdHJlZSBhbmQgbm90IHRocm91Z2ggZHJtLiAgUHJlc3VtYWJseSB0
+aGlzIHBhdGNoCndpbGwganVzdCBnZXQgZm9sZGVkIGludG8gdGhlIG9yaWdpbmFsLgoKIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fYnVmcy5jIHwgNSArKysrLQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0
+aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+YnVmcy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9idWZzLmMKaW5kZXggNjhkYWNmODQyMmM2Li44
+Y2U5ZDczZmFiNGYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYnVmcy5jCisrKyBi
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fYnVmcy5jCkBAIC0xMzUxLDcgKzEzNTEsMTAgQEAgc3RhdGlj
+IGludCBjb3B5X29uZV9idWYodm9pZCAqZGF0YSwgaW50IGNvdW50LCBzdHJ1Y3QgZHJtX2J1Zl9l
+bnRyeSAqZnJvbSkKIAkJCQkgLnNpemUgPSBmcm9tLT5idWZfc2l6ZSwKIAkJCQkgLmxvd19tYXJr
+ID0gZnJvbS0+bG93X21hcmssCiAJCQkJIC5oaWdoX21hcmsgPSBmcm9tLT5oaWdoX21hcmt9Owot
+CXJldHVybiBjb3B5X3RvX3VzZXIodG8sICZ2LCBvZmZzZXRvZihzdHJ1Y3QgZHJtX2J1Zl9kZXNj
+LCBmbGFncykpOworCisJaWYgKGNvcHlfdG9fdXNlcih0bywgJnYsIG9mZnNldG9mKHN0cnVjdCBk
+cm1fYnVmX2Rlc2MsIGZsYWdzKSkpCisJCXJldHVybiAtRUZBVUxUOworCXJldHVybiAwOwogfQog
+CiBpbnQgZHJtX2xlZ2FjeV9pbmZvYnVmcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpk
+YXRhLAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
