@@ -1,30 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF934A276
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 15:38:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB104A28A
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Jun 2019 15:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B986E171;
-	Tue, 18 Jun 2019 13:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB12E6E138;
+	Tue, 18 Jun 2019 13:41:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF8326E171
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 13:38:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: ezequiel) with ESMTPSA id 8A3DD263ABB
-Message-ID: <1560aa16c5655f7eeab7c8e900b8e0be391e7976.camel@collabora.com>
-Subject: Re: [RFC/WIP] drm/rockchip: Support CRTC gamma LUT
-From: Ezequiel Garcia <ezequiel@collabora.com>
-To: Doug Anderson <dianders@chromium.org>
-Date: Tue, 18 Jun 2019 10:38:10 -0300
-In-Reply-To: <CAD=FV=U84U0TaC=VUXeggCDJJNkPOJYmOL0JNT1Lf7Gecv-5Aw@mail.gmail.com>
-References: <20190613192244.5447-1-ezequiel@collabora.com>
- <CAD=FV=U84U0TaC=VUXeggCDJJNkPOJYmOL0JNT1Lf7Gecv-5Aw@mail.gmail.com>
-Organization: Collabora
-User-Agent: Evolution 3.30.5-1.1 
+Received: from pokefinder.org (sauhun.de [88.99.104.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 15BAE6E138
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 13:41:32 +0000 (UTC)
+Received: from localhost (p5486CE06.dip0.t-ipconnect.de [84.134.206.6])
+ by pokefinder.org (Postfix) with ESMTPSA id 95E122C047A;
+ Tue, 18 Jun 2019 15:41:30 +0200 (CEST)
+Date: Tue, 18 Jun 2019 15:41:30 +0200
+From: Wolfram Sang <wsa@the-dreams.de>
+To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH] docs: fix some broken references due to txt->rst renames
+Message-ID: <20190618134130.GA4516@kunai>
+References: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <6f09587b7678f2fb378d736f45a02ffa9412cc99.1560864716.git.mchehab+samsung@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -37,71 +36,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: JacopoMondi <jacopo@jmondi.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Sean Paul <seanpaul@chromium.org>, kernel@collabora.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ajay Gupta <ajayg@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
+ intel-gfx@lists.freedesktop.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@infradead.org>, linux-i2c@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Li Yang <leoyang.li@nxp.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Otto Sabart <ottosabart@seberm.com>
+Content-Type: multipart/mixed; boundary="===============0758588320=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDE5LTA2LTE0IGF0IDEzOjA1IC0wNzAwLCBEb3VnIEFuZGVyc29uIHdyb3RlOgo+
-IEhpLAo+IAo+IE9uIFRodSwgSnVuIDEzLCAyMDE5IGF0IDEyOjIzIFBNIEV6ZXF1aWVsIEdhcmNp
-YSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4gd3JvdGU6Cj4gPiBAQCAtMTc0NCw2ICsxNzkzLDQx
-IEBAIGludCByb2NrY2hpcF9kcm1fd2FpdF92YWN0X2VuZChzdHJ1Y3QgZHJtX2NydGMgKmNydGMs
-IHVuc2lnbmVkIGludCBtc3RpbWVvdXQpCj4gPiAgfQo+ID4gIEVYUE9SVF9TWU1CT0wocm9ja2No
-aXBfZHJtX3dhaXRfdmFjdF9lbmQpOwo+ID4gCj4gPiArc3RhdGljIGludCB2b3BfZ2FtbWFfbHV0
-X3JlcXVlc3Qoc3RydWN0IGRldmljZSAqZGV2LAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgc3RydWN0IHJlc291cmNlICpyZXMsIHN0cnVjdCB2b3AgKnZvcCkKPiA+ICt7Cj4g
-PiArICAgICAgIHJlc291cmNlX3NpemVfdCBvZmZzZXQgPSB2b3AtPmRhdGEtPmdhbW1hX2x1dF9h
-ZGRyX29mZjsKPiA+ICsgICAgICAgcmVzb3VyY2Vfc2l6ZV90IHNpemUgPSBWT1BfR0FNTUFfTFVU
-X1NJWkUgKiA0Owo+ID4gKwo+ID4gKyAgICAgICAvKgo+ID4gKyAgICAgICAgKiBTb21lIFNvQ3Mg
-KGUuZy4gUkszMjg4KSBoYXZlIHRoZSBnYW1tYSBMVVQgYWRkcmVzcyBhZnRlcgo+ID4gKyAgICAg
-ICAgKiB0aGUgTU1VIHJlZ2lzdGVycywgd2hpY2ggbWVhbnMgd2UgY2FuJ3QgcmVxdWVzdCBhbmQg
-aW9yZW1hcAo+ID4gKyAgICAgICAgKiB0aGUgZW50aXJlIHJlZ2lzdGVyIHNldC4gT3RoZXIgKGUu
-Zy4gUkszMzk5KSBoYXZlIGdhbW1hIExVVAo+ID4gKyAgICAgICAgKiBhZGRyZXNzIGJlZm9yZSBN
-TVUuCj4gPiArICAgICAgICAqCj4gPiArICAgICAgICAqIFRoZXJlZm9yZSwgd2UgbmVlZCB0byBy
-ZXF1ZXN0IGFuZCBpb3JlbWFwIHRob3NlIHRoYXQgaGF2ZW4ndAo+ID4gKyAgICAgICAgKiBiZWVu
-IGFscmVhZHkuCj4gPiArICAgICAgICAqLwo+ID4gKyAgICAgICBpZiAodm9wLT5sZW4gPj0gKG9m
-ZnNldCArIHNpemUpKSB7Cj4gPiArICAgICAgICAgICAgICAgdm9wLT5sdXRfcmVncyA9IHZvcC0+
-cmVncyArIG9mZnNldDsKPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gMDsKPiA+ICsgICAgICAg
-fQo+ID4gKwo+ID4gKyAgICAgICBpZiAoIWRldm1fcmVxdWVzdF9tZW1fcmVnaW9uKGRldiwgcmVz
-LT5zdGFydCArIG9mZnNldCwKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBzaXplLCBkZXZfbmFtZShkZXYpKSkgewo+ID4gKyAgICAgICAgICAgICAgIGRldl93YXJuKGRl
-diwgImNhbid0IHJlcXVlc3QgZ2FtbWEgbHV0IHJlZ2lvblxuIik7Cj4gPiArICAgICAgICAgICAg
-ICAgcmV0dXJuIC1FQlVTWTsKPiA+ICsgICAgICAgfQo+ID4gKwo+ID4gKyAgICAgICB2b3AtPmx1
-dF9yZWdzID0gZGV2bV9pb3JlbWFwKGRldiwgcmVzLT5zdGFydCArIG9mZnNldCwgc2l6ZSk7Cj4g
-PiArICAgICAgIGlmICghdm9wLT5sdXRfcmVncykgewo+ID4gKyAgICAgICAgICAgICAgIGRldl9l
-cnIoZGV2LCAiY2FuJ3QgaW9yZW1hcCBnYW1tYSBsdXQgYWRkcmVzc1xuIik7Cj4gPiArICAgICAg
-ICAgICAgICAgZGV2bV9yZWxlYXNlX21lbV9yZWdpb24oZGV2LCByZXMtPnN0YXJ0ICsgb2Zmc2V0
-LCBzaXplKTsKPiA+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiA+ICsgICAgICAg
-fQo+IAo+IEknbSBjdXJpb3VzIGhlcmUuICBJIHdhcyBhbHdheXMgdW5kZXIgdGhlIGltcHJlc3Np
-b24gdGhhdCB5b3Ugd2VyZQo+IHN1cHBvc2VkIHRvIHNwZWNpZnkgYWxsIG9mIHlvdXIgbWVtb3J5
-IHJlZ2lvbnMgaW4gdGhlIGRldmljZSB0cmVlLgo+IC4uLmJ1dCBoZXJlIHRoZSBkZXZpY2UgdHJl
-ZSBvbiByazMyODggc2F5czoKPiAKPiB2b3BiOiB2b3BAZmY5MzAwMDAgewo+ICAgICBjb21wYXRp
-YmxlID0gInJvY2tjaGlwLHJrMzI4OC12b3AiOwo+ICAgICByZWcgPSA8MHgwIDB4ZmY5MzAwMDAg
-MHgwIDB4MTljPjsKPiAgICAgLi4uCj4gfTsKPiAKPiAuLi5hbmQgd2UncmUgbm93IG1hcHBpbmcg
-NDA5NiBieXRlcyBzdGFydGluZyBhdCAweGZmOTMxMDAwLiAgSXMgdGhhdAo+IHJlYWxseSBsZWdp
-dD8gIFdvdWxkbid0IGl0IGJlIGJldHRlciB0byBwdXQgdGhpcyBleHRyYSBtZW1vcnkgcmFuZ2Ug
-aW4KPiB0aGUgZHRzPwo+IAo+IEhybSwgYnV0IHRoZW4gSSBndWVzcyB5b3UgbmVlZCB0byBmaWd1
-cmUgb3V0IHdoYXQgdG8gZG8gYWJvdXQgb2xkZXIKPiBkZXZpY2UgdHJlZXMuICBEbyB5b3UgZGlz
-YWJsZSB0aGUgZ2FtbWEgTFVUIGZlYXR1cmU/ICAuLi5vciBkbyB5b3UgZG8KPiBleGFjdGx5IHdo
-YXQgdGhlIGNvZGUgaGVyZSBpcyBkb2luZyBhbmQganVzdCBtYXAgaXQgYW55d2F5PyAgSSBndWVz
-cwo+IHlvdSBjb3VsZCBqdXN0IGtlZXAgdGhlIGNvZGUgaGVyZSAoYW5kIGl0J2xsIHdvcmsgZmlu
-ZSksIGJ1dCBtYXliZSBpbgo+IHBhcmFsbGVsIHdlIHNob3VsZCBhZGQgaXQgdG8gdGhlIC5kdHMg
-ZmlsZSBhbmQgYmluZGluZ3M/Cj4gCgpNYXliZSB3ZSBjYW4gc2VlIGhvdyBpdCB3b3VsZCBsb29r
-IGFkZGluZyB0aGUgTFVUIGFzIGEgc2VwYXJhdGUKKG9wdGlvbmFsKSByZXNvdXJjZSBpbiB0aGUg
-ZGV2aWNldHJlZSwgYW5kIGRyb3BwaW5nIHN1cHBvcnQgZm9yIFJLMzM5OSwKd2hpY2ggZG9lc24n
-dCBzZWVtIHRvIHdvcmsuCgpJJ20gdGFraW5nIGEgbG9vayBhdCBKYWNvcG8ncyBxdWVzdGlvbiBv
-biBhdG9taWNfZmx1c2ggdnMuCmF0b21pY19jb21taXRfdGFpbCwgYW5kIHdpbGwgcHJlcGFyZSBh
-IHYyLgoKPiAtLS0KPiAKPiBJIHdpbGwgc2F5IHRoYXQsIHRob3VnaCBJIGRvbid0IGtub3cgbXVj
-aCAoYW55dGhpbmc/KSBhYm91dCBnYW1tYQo+IExVVHMsIEkgcmFuIHRoZSBDaHJvbWUgT1MgImdh
-bW1hX3Rlc3QiIHByb2dyYW0gYW5kIHNhdyBhIHByZXR0eSBSR0IKPiBncmFkaWVudCBvbiB0aGUg
-Ym90aCB0aGUgaW50ZXJuYWwgc2NyZWVuIGFuZCBIRE1JIG1vbml0b3Igb24gbXkKPiByazMyODgt
-dmV5cm9uLWplcnJ5LiAgVGh1czoKPiAKPiBUZXN0ZWQtYnk6IERvdWdsYXMgQW5kZXJzb24gPGRp
-YW5kZXJzQGNocm9taXVtLm9yZz4KClRoYW5rcywKRXplcXVpZWwKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0758588320==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
+Content-Disposition: inline
+
+
+--d6Gm4EdcadzBjdND
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 18, 2019 at 10:33:58AM -0300, Mauro Carvalho Chehab wrote:
+> There are three left-overs from the recent file renames,
+> probably due to some other conflicting patch.
+>=20
+> Fix them.
+>=20
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+Thanks!
+
+Acked-by: Wolfram Sang <wsa@the-dreams.de>
+
+
+--d6Gm4EdcadzBjdND
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0I6gIACgkQFA3kzBSg
+KbYPmw//S9ererLqN6V1mN1Ixbn0CfKZGd1MAB4a/0PZiXPpCngdRfAog04KBXjI
+xYSX76wEzxv0+SiwU8kElhD15w/9Vjm9vZ8SCYRv2xBSE7W3xd+fv2gDAQf+pb2p
+bHJ5pTs8PRCqJcVLmZirsJ2vvOA1C6NYmb9Sjb4hH4u4+i9fqc0RKjOrO2OZCHx2
+3T6xcu0INuJm1RNX0gHHk06mGjfMUm6unYYHJkOMeup4HTUqDmYvX4U1g/3sIAIy
+kOPwW1ggkEJDebdxyc1uNft0yZKznjx7iOkP/p6wacCUI56jmCMniAt36f76OV8L
+C9Bks/dr9tp4M3z0Jbxa9oJWhc+e8KA/WNgXXnyCCDVg1idhaGgWkW59S05Spu0H
+PgprhEo5QYdT1GvEO28eP+kuFKi7HN5VvOJy794jFkjOPH0A9HK/f1CXmjp9cv3V
+nZhMOzohbh18AXwOG3T4eF9gL3u0WsPK2EH35oFjxH7ty6tmV5CkpVBgzWH1EBxq
+K44uWCs6H6SX3e0Cq5FRgGdvjlpFwQZT4Hbf3IfmukTzurdCi9YSPI228IdLmCPa
+uncvdbThBK4o/O6ndCqx04bEmPEUJdzcYuBlqi38lTonwzN4jvOyabM65Mt/HhW7
+4sy6hg/cLkPuX8tBpKWJoT13jqVTjRvjnxemkSq06yAmOznSxs4=
+=lZcZ
+-----END PGP SIGNATURE-----
+
+--d6Gm4EdcadzBjdND--
+
+--===============0758588320==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0758588320==--
