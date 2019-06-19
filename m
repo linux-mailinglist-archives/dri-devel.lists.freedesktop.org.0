@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADD6B4B058
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 05:07:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EBA4B0A8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 06:20:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C50606E284;
-	Wed, 19 Jun 2019 03:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3904A6E285;
+	Wed, 19 Jun 2019 04:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CB84F6E287
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 03:07:37 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C8C6572167; Wed, 19 Jun 2019 03:07:37 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110897] HyperZ is broken for r300 (bad z for some micro and
- macrotiles?)
-Date: Wed, 19 Jun 2019 03:07:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r300
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: u9vata@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110897-502-dN5ZVqhGhs@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110897-502@http.bugs.freedesktop.org/>
-References: <bug-110897-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECBA86E285
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 04:19:57 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 45TBYf35Zlz9s5c;
+ Wed, 19 Jun 2019 14:19:49 +1000 (AEST)
+Date: Wed, 19 Jun 2019 14:19:49 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>
+Subject: linux-next: manual merge of the drm tree with the kbuild tree
+Message-ID: <20190619141949.38e661e6@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1560917994;
+ bh=g6BHo34pUX0+bJ8ZlovsR9z8dAhrs6fACHHPO6QK9y4=;
+ h=Date:From:To:Cc:Subject:From;
+ b=io9j1o88CHlJEueVOt9s6av7KEt0qMoYDINMNNniZKW9as5JvkLSSlGcDXAets7eG
+ wLmBk4jbLuiUTetuKZb34isHF8j4G+28qqKAwwKUTzAiNWjp6CylzMQ7JbgpuNNGPF
+ hYdwgw5ZVXty0qPSwU0sAGNvVCemunwRblhVpq+LB2BYbajkaTph+kuVkTYiFldLJY
+ vuLVEM8Th+5w5XPUM3NRJLExKDoniWylW+X0rkWXfGX1rGXbpJ5dIlMVTn7dVQ9guM
+ J5ERJeZcXNJSrKe9kbiRplFPKz6Hd2XLTc388rzcmw6qUXukmpRHEsHYUi1NwEtroU
+ ZqhkDrqW0AXHQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,93 +47,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0705659382=="
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============1350695538=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1350695538==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/OFXYsSUCIef=lutNjM1jqkt"; protocol="application/pgp-signature"
 
---===============0705659382==
-Content-Type: multipart/alternative; boundary="15609136573.f4Aa.13502"
-Content-Transfer-Encoding: 7bit
-
-
---15609136573.f4Aa.13502
-Date: Wed, 19 Jun 2019 03:07:37 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/OFXYsSUCIef=lutNjM1jqkt
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110897
+Hi all,
 
---- Comment #71 from Richard Thier <u9vata@gmail.com> ---
-Made a similar writeup on this topic too:
+Today's linux-next merge of the drm tree got a conflict in:
 
-http://ballmerpeak.web.elte.hu/devblog/debugging-hyperz-and-fixing-a-radeon=
--drm-linux-kernel-module.html
+  drivers/gpu/drm/i915/Makefile.header-test
 
-Also tried to document all relevant information if it ever helps anyone.
+between commit:
+
+  e846f0dc57f4 ("kbuild: add support for ensuring headers are self-containe=
+d")
+
+from the kbuild tree and commits:
+
+  112ed2d31a46 ("drm/i915: Move GraphicsTechnology files under gt/")
+  d91e657876a9 ("drm/i915: Introduce struct intel_wakeref")
+  aab30b85c97a ("drm/i915: ensure more headers remain self-contained")
+  b375d0ef2589 ("drm/i915: extract intel_vdsc.h from intel_drv.h and i915_d=
+rv.h")
+
+from the drm tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15609136573.f4Aa.13502
-Date: Wed, 19 Jun 2019 03:07:37 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+diff --cc drivers/gpu/drm/i915/Makefile.header-test
+index 639b596a06a9,3a9663002d4a..000000000000
+--- a/drivers/gpu/drm/i915/Makefile.header-test
++++ b/drivers/gpu/drm/i915/Makefile.header-test
+@@@ -2,18 -2,28 +2,28 @@@
+  # Copyright =C2=A9 2019 Intel Corporation
+ =20
+  # Test the headers are compilable as standalone units
+ -header_test :=3D \
+ +header-test-$(CONFIG_DRM_I915_WERROR) :=3D \
+  	i915_active_types.h \
++ 	i915_debugfs.h \
++ 	i915_drv.h \
+  	i915_gem_context_types.h \
++ 	i915_gem_pm.h \
++ 	i915_irq.h \
++ 	i915_params.h \
+  	i915_priolist_types.h \
++ 	i915_reg.h \
+  	i915_scheduler_types.h \
+  	i915_timeline_types.h \
++ 	i915_utils.h \
++ 	intel_acpi.h \
++ 	intel_atomic.h \
+  	intel_atomic_plane.h \
+  	intel_audio.h \
++ 	intel_bios.h \
+  	intel_cdclk.h \
+  	intel_color.h \
++ 	intel_combo_phy.h \
+  	intel_connector.h \
+- 	intel_context_types.h \
+  	intel_crt.h \
+  	intel_csr.h \
+  	intel_ddi.h \
+@@@ -31,7 -54,22 +54,12 @@@
+  	intel_pipe_crc.h \
+  	intel_pm.h \
+  	intel_psr.h \
++ 	intel_quirks.h \
++ 	intel_runtime_pm.h \
+  	intel_sdvo.h \
++ 	intel_sideband.h \
+  	intel_sprite.h \
+  	intel_tv.h \
+- 	intel_workarounds_types.h
++ 	intel_uncore.h \
++ 	intel_vdsc.h \
++ 	intel_wakeref.h
+ -
+ -quiet_cmd_header_test =3D HDRTEST $@
+ -      cmd_header_test =3D echo "\#include \"$(<F)\"" > $@
+ -
+ -header_test_%.c: %.h
+ -	$(call cmd,header_test)
+ -
+ -i915-$(CONFIG_DRM_I915_WERROR) +=3D $(foreach h,$(header_test),$(patsubst=
+ %.h,header_test_%.o,$(h)))
+ -
+ -clean-files +=3D $(foreach h,$(header_test),$(patsubst %.h,header_test_%.=
+c,$(h)))
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897#c71">Comme=
-nt # 71</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HyperZ is broken for r300 (bad z for some micro and macro=
-tiles?)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110897">bug 11089=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-u9vata&#64;gmail.com" title=3D"Richard Thier &lt;u9vata&#64;gmail.com&gt;">=
- <span class=3D"fn">Richard Thier</span></a>
-</span></b>
-        <pre>Made a similar writeup on this topic too:
+--Sig_/OFXYsSUCIef=lutNjM1jqkt
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<a href=3D"http://ballmerpeak.web.elte.hu/devblog/debugging-hyperz-and-fixi=
-ng-a-radeon-drm-linux-kernel-module.html">http://ballmerpeak.web.elte.hu/de=
-vblog/debugging-hyperz-and-fixing-a-radeon-drm-linux-kernel-module.html</a>
+-----BEGIN PGP SIGNATURE-----
 
-Also tried to document all relevant information if it ever helps anyone.</p=
-re>
-        </div>
-      </p>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0Jt+UACgkQAVBC80lX
+0Gx+uQf+L8n3u5sfawCr66p/2odPMstJFLPc8WDFbPTrUzA0EkMogFFF9N4qSX99
+jK/JEsqhY3gFNOqLYFJfFmQlzOe4ImpsoGX+dFk0y3LZXXw6yMOCinXrxZ/mYlwH
+y2EOsPV2679Fnw9DyZWkGoRykM07d7hTkdKBmYQbA32zFudw0NUBpiBg2NGZtNWa
+NU8Eo331pfp6ppyHCLHObpbQgOB1m02zGDSh2DsO6FVzIrTK85hcAlOFBykIwUlZ
+BrwzqrywRzDNuMctR0NzFnAFcOurqu4bPn80QZIhMIXxHHhUNtx+CK58Cz3HQuQ+
+oPqA1jo/aZKODh7fRm71VKXbfeNPcg==
+=d5sv
+-----END PGP SIGNATURE-----
 
+--Sig_/OFXYsSUCIef=lutNjM1jqkt--
 
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15609136573.f4Aa.13502--
-
---===============0705659382==
+--===============1350695538==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -149,4 +184,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0705659382==--
+--===============1350695538==--
