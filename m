@@ -1,57 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6E34B9ED
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 15:27:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2384B9F2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 15:30:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6FA6E3DF;
-	Wed, 19 Jun 2019 13:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B40EB6E406;
+	Wed, 19 Jun 2019 13:30:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B06E06E3DF
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 13:27:54 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id z15so12094340lfh.13
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 06:27:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WLdN0ETsTns+dZs6DKliEgFh9OL/ylVkF+bq8ufBcyM=;
- b=QfZeN3QeQeuNpPRzPMhquHZVDMiOSDUNu2Jyrc3HpJqLbY1Ol3H+D6GV8Y0iRWQs/+
- lk17a7x19MR+Ro+KuYm+uPnF8XLuTRED9qOx85U9mBKp9PiG+3CHGjYBveUXckgJcR3v
- 9AhuUyr1dPDsQ+UrNgQ5cctUWSzk87BqWujBiiJ8MrNfN5pOhzTAMgRfbbU1guJLt95Q
- yxoq7u0hbc4+e5Hd/uAYf8Fn5va2SHy3CpPm1I8K0n/0zA1T4aQ7QVENOSoWEqFBlZRY
- nxyB3DBObZSw2IUwzQJRZeuBB7Ud+8HOF+ByTGzermk/kHKQLQ/MlCWisZCsah4VtMP3
- JZDg==
-X-Gm-Message-State: APjAAAUv56+G5Zkh2jdhSp7fewdf6ZFjpNy5wv6ib7e+1zku81h4YNWC
- APS4fxoX0u0bjUep14xrhxAycs+M+l36+ccUV5A=
-X-Google-Smtp-Source: APXvYqxut0jGXYnHUHWRv5exjD18glXwg/4LLtkINuNKm47kn0WiC3XuzDKL/3Rf31Idbf0hTMmRP8e2v6I90koglFw=
-X-Received: by 2002:ac2:4303:: with SMTP id l3mr6008405lfh.107.1560950873078; 
- Wed, 19 Jun 2019 06:27:53 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7FF696E409
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 13:30:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7D22372167; Wed, 19 Jun 2019 13:30:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding with
+ yuv420p10le
+Date: Wed, 19 Jun 2019 13:30:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110702-502-sRrhjQ5zpQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110702-502@http.bugs.freedesktop.org/>
+References: <bug-110702-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <1560864646-1468-1-git-send-email-robert.chiras@nxp.com>
- <1560864646-1468-3-git-send-email-robert.chiras@nxp.com>
-In-Reply-To: <1560864646-1468-3-git-send-email-robert.chiras@nxp.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 19 Jun 2019 10:28:05 -0300
-Message-ID: <CAOMZO5C_4QxioSx4JEAV+1dDxYJgdTCzmBLZyUCB4dWeRqLFng@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/panel: Add support for Raydium RM67191 panel
- driver
-To: Robert Chiras <robert.chiras@nxp.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=WLdN0ETsTns+dZs6DKliEgFh9OL/ylVkF+bq8ufBcyM=;
- b=GmkC7RYJkON0ALUMtKgH2gM5xUOoLg9yKMZPDrhQgh675JhIF5GiBOMPHn6FKGc2R1
- VA1L7FLv+M+owW5JSsAP+D2lbp9goB92wEiu2BeXPjIRbutyBjFbxSqGC7CIGftPRGz4
- N06BOYoWDuVwXxAhFgqscXMf7/wr67Cnd5kgh10xstwS1vaipNIzQJ4xi3Qa0XikISKS
- 6kr9gsE0C+TvdR9EyCuGpdHOeWGCnF9NgAxBkTgnJ6+Z0LyyWBnFDdlN64ZM52YplIif
- 3wxKSuC8rUqyOH87RNPyzM9OXapx5ym3eGFRZ/467U902446tetXoLxrdr8I9/KtPQgR
- zs3Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,29 +53,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2139994670=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9iZXJ0LAoKT24gVHVlLCBKdW4gMTgsIDIwMTkgYXQgMTA6MzEgQU0gUm9iZXJ0IENoaXJh
-cyA8cm9iZXJ0LmNoaXJhc0BueHAuY29tPiB3cm90ZToKCj4gK3N0YXRpYyBjb25zdCBzdHJ1Y3Qg
-ZGlzcGxheV90aW1pbmcgcmFkX2RlZmF1bHRfdGltaW5nID0gewo+ICsgICAgICAgLnBpeGVsY2xv
-Y2sgPSB7IDY2MDAwMDAwLCAxMzIwMDAwMDAsIDEzMjAwMDAwMCB9LAo+ICsgICAgICAgLmhhY3Rp
-dmUgPSB7IDEwODAsIDEwODAsIDEwODAgfSwKPiArICAgICAgIC5oZnJvbnRfcG9yY2ggPSB7IDIw
-LCAyMCwgMjAgfSwKPiArICAgICAgIC5oc3luY19sZW4gPSB7IDIsIDIsIDIgfSwKPiArICAgICAg
-IC5oYmFja19wb3JjaCA9IHsgMzQsIDM0LCAzNCB9LAo+ICsgICAgICAgLnZhY3RpdmUgPSB7IDE5
-MjAsIDE5MjAsIDE5MjAgfSwKPiArICAgICAgIC52ZnJvbnRfcG9yY2ggPSB7IDEwLCAxMCwgMTAg
-fSwKPiArICAgICAgIC52c3luY19sZW4gPSB7IDIsIDIsIDIgfSwKPiArICAgICAgIC52YmFja19w
-b3JjaCA9IHsgNCwgNCwgNCB9LAoKQXJlIHlvdSBzdXJlIHRoYXQgdGhlIHN5bmNfbGVuIGFuZCBw
-b3JjaCBwYXJhbWV0ZXJzIGFyZSB0aGUgc2FtZSBmb3IKYm90aCA2Nk1IeiBhbmQgMTMyTUh6Pwpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============2139994670==
+Content-Type: multipart/alternative; boundary="15609510392.e7DBAA.16773"
+Content-Transfer-Encoding: 7bit
+
+
+--15609510392.e7DBAA.16773
+Date: Wed, 19 Jun 2019 13:30:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
+
+--- Comment #11 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
+@amd.com> ---
+(In reply to Christian K=C3=B6nig from comment #10)
+> (In reply to Pierre-Eric Pelloux-Prayer from comment #9)
+> > The driver fails when trying to allocate a buffer for this video with a
+> > ENOMEM error (the requested size is 3 GB).
+>=20
+> Well that strongly sounds like we miscalculated the necessary size somewh=
+ere.
+
+Indeed.
+The size is computed by the `calc_ctx_size_h265_main10()` function.
+
+I'm not familiar enough with hevc to fix it though (but the calculation see=
+ms
+to overflow because context_buffer_size_per_ctb_row is 1GB and is multiplie=
+d by
+max_references (=3D 23) and the result is stored in an unsigned int).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15609510392.e7DBAA.16773
+Date: Wed, 19 Jun 2019 13:30:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
+0le"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702#c11">Comme=
+nt # 11</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
+0le"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">bug 11070=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Christian K=C3=B6nig from <a href=3D"show_bug.cgi=
+?id=3D110702#c10">comment #10</a>)
+<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
+href=3D"show_bug.cgi?id=3D110702#c9">comment #9</a>)
+&gt; &gt; The driver fails when trying to allocate a buffer for this video =
+with a
+&gt; &gt; ENOMEM error (the requested size is 3 GB).
+&gt;=20
+&gt; Well that strongly sounds like we miscalculated the necessary size som=
+ewhere.</span >
+
+Indeed.
+The size is computed by the `calc_ctx_size_h265_main10()` function.
+
+I'm not familiar enough with hevc to fix it though (but the calculation see=
+ms
+to overflow because context_buffer_size_per_ctb_row is 1GB and is multiplie=
+d by
+max_references (=3D 23) and the result is stored in an unsigned int).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15609510392.e7DBAA.16773--
+
+--===============2139994670==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2139994670==--
