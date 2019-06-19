@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DAD4AFE4
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 04:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CF14AFEB
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 04:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9216E27E;
-	Wed, 19 Jun 2019 02:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBCC6E27F;
+	Wed, 19 Jun 2019 02:17:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482236E27E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 02:13:04 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id s22so9932191qkj.12
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 19:13:04 -0700 (PDT)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E39CB6E27F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 02:17:41 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id e3so24607471edr.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 19:17:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=K5XTkXKQdVXT5qElZb9yJKrTukexv/N3eB+GX56hIKk=;
- b=ZfsjAk0yoOQ9fbNP7k8hxPO70LRKMCR+RZ5yBOeiHMN/4QPcUIKzFBA2iovszRZMkg
- BIlhKdel35419OurHN+rwlgkj1Y724ztaRbLJHfkjdsCuEhtmwdfLDoG/GEljLEtMUbM
- mRG38eIUFNCFh2IvCxAJO7sJXGJLUxv6MbdHnr/grFMD+tjmIzUESLKQdiMxf9R4Ydrp
- xpkwx/Jjmf+zOtU/xwO6c9qoI2CgWiR+ZiAqXJN5+2WXCRNcTNrcACFydqZoDhzvADE6
- CcMpZm9frETDg79R+UWZGFWIzG1vTxY6wEw8U98qJj0jrp6QV+FcUlvtLNuiPJGX/SdI
- gebw==
-X-Gm-Message-State: APjAAAUmj2WCi0833yucncfxWcN5bXnp8y3xPyj/HwtaZrTKkJldSpPc
- DhgYObr9raljILtDg538ffw=
-X-Google-Smtp-Source: APXvYqx/vcK1Yw2wEKXU/AmzAYnSw02mAlnW+kcnEyE4keZnNxYrIXBHs8Zqp+5kdPbHoHfBLx6enw==
-X-Received: by 2002:a37:4c4e:: with SMTP id z75mr23299392qka.230.1560910383298; 
- Tue, 18 Jun 2019 19:13:03 -0700 (PDT)
+ bh=M9Qva161FZElXztDQcOXpRrTkzAjxL70acGAEB3fgxs=;
+ b=iMlCJuSmyD3MaSfZEzCaN6/q2Kx6l46JOLhf8b7u/DJFOlwzTItIY/HBjQBLmGsUrP
+ /XejmlznJ8VxIMaBJjaLmwlETx0q4gqvW6mc9N2BzaZrIrLNwxyG3RfFEc256yJOSakA
+ x7j9oH/HhKkjsJwEXs/Xmv/sQSUzWkPRfKKWtvjtsFlCgbUO3KFtzUQ0MZ7Sks4kfcdT
+ LtXgbycZbR3uUT5Yo1D+vwOripONgjbfaY/Vk6mBTQQoFrZIxpSa0wAhqXVcA5GQjVd6
+ WoeqPO76GMtbrvq/jvVfGRKsXdiJn1GPism/g2gKh5AK68ymnyEIxz2+R8XMggmK6I3d
+ qk/w==
+X-Gm-Message-State: APjAAAXh5mfT472dqBraP+7h+ykigA/Si+HMfcBtIHvob5qRsAGTTnQF
+ TtSekdiSE2r5s8npZjTFjUs=
+X-Google-Smtp-Source: APXvYqyd2cBRhSSMrQkBhcsmXdLEmdy0ure04Ykv8/FUhhFIlNHjJYaJBl50eGf95GLDmIY8RI7WNA==
+X-Received: by 2002:a17:907:2130:: with SMTP id
+ qo16mr27367796ejb.235.1560910660519; 
+ Tue, 18 Jun 2019 19:17:40 -0700 (PDT)
 Received: from smtp.gmail.com ([187.121.151.146])
- by smtp.gmail.com with ESMTPSA id k33sm9612289qte.69.2019.06.18.19.13.00
+ by smtp.gmail.com with ESMTPSA id f24sm5226504edf.30.2019.06.18.19.17.37
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 18 Jun 2019 19:13:02 -0700 (PDT)
-Date: Tue, 18 Jun 2019 23:12:58 -0300
+ Tue, 18 Jun 2019 19:17:39 -0700 (PDT)
+Date: Tue, 18 Jun 2019 23:17:34 -0300
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 04/10] drm/vkms: Move format arrays to vkms_plane.c
-Message-ID: <20190619021258.s4l6nxofib2iqujv@smtp.gmail.com>
+Subject: Re: [PATCH 07/10] drm/vkms: Dont flush crc worker when we change crc
+ status
+Message-ID: <20190619021734.xhjn2ydx7y4tokgq@smtp.gmail.com>
 References: <20190606222751.32567-1-daniel.vetter@ffwll.ch>
- <20190606222751.32567-5-daniel.vetter@ffwll.ch>
+ <20190606222751.32567-8-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20190606222751.32567-5-daniel.vetter@ffwll.ch>
+In-Reply-To: <20190606222751.32567-8-daniel.vetter@ffwll.ch>
 User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=K5XTkXKQdVXT5qElZb9yJKrTukexv/N3eB+GX56hIKk=;
- b=dHDl/yRqIt5dspaqla2XFmtp7QHr5r6MHl2Cqdno1KdNEehM9R0SkDPvRksa/e3tuS
- WDRZnIRAf7kWtQSp0R1D+L80pqksJZm+1A7xOgPAxsN/EJD4EXmO4GoxeuwEHsrqjbuU
- 8xJvFDPR13Yo+/LP7jpd9VBDkTatC8uC30oJkQjGjbRyvXxQkmMt9tpcHPHFDxPOJI/s
- 4cC5/wcjOc3yO3JLFyyatXDpLZFyygSDjECLps5afYHixncBjhgs/D+UXIwnk6WIFacj
- 7sE9gEFNyyo+J6WnoaskULE4iW9PtUL/wmGs8x9l4eQu6kQzA8XJyjZ8DVsY8nxcKfCV
- zhEQ==
+ bh=M9Qva161FZElXztDQcOXpRrTkzAjxL70acGAEB3fgxs=;
+ b=kVxsS5CrIU1Und/aaqcESpN4tUrbabWJWbHAcrdOsSIJC14l87TDDgbXeIKv4jqdXt
+ T0sYwjeTl4sk9xtptNPDs41+R8LbcTBTWE3kwT+M3aLS2PJATqaKDcX672lD8DHQDot2
+ gbNUFUvO0iYkmUSlbDiNq81749VolstPhfvzrgGCwREyIIFokHEkoRpQrGbYM5Y8DStN
+ HzX5QZaNAT2dF8MvxlxfZhRecUXVk5Ta5LiFlnqx1sI1I2dum2rkXoc0WtB6et6WuFw1
+ i/G/m+Q2ox+Tv1NzKCeQrm+F2eDJcwqM4vQ6IJVNxxkrP9GbRCy2wlKuZLR44cMOtz3Z
+ eMVA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,109 +73,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Daniel Vetter <daniel.vetter@intel.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Haneen Mohammed <hamohammed.sa@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0694191439=="
+Content-Type: multipart/mixed; boundary="===============1415463570=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0694191439==
+--===============1415463570==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xgbkumsvetbzxoyx"
+	protocol="application/pgp-signature"; boundary="clcnsybfld6pw3q7"
 Content-Disposition: inline
 
 
---xgbkumsvetbzxoyx
+--clcnsybfld6pw3q7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On 06/07, Daniel Vetter wrote:
-> No need to have them multiple times.
+> The crc core code can cope with some late crc, the race is kinda
+> unavoidable. So no need to flush pending workers, they'll complete in
+> time.
 >=20
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
 > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/vkms/vkms_drv.h   | 8 --------
->  drivers/gpu/drm/vkms/vkms_plane.c | 8 ++++++++
->  2 files changed, 8 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/vkms/vkms_crc.c | 3 ---
+>  1 file changed, 3 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index 43d3f98289fe..2a35299bfb89 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -20,14 +20,6 @@
+> diff --git a/drivers/gpu/drm/vkms/vkms_crc.c b/drivers/gpu/drm/vkms/vkms_=
+crc.c
+> index 96806cd35ad4..9d15e5e85830 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crc.c
+> @@ -249,9 +249,6 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const =
+char *src_name)
 > =20
->  extern bool enable_cursor;
+>  	ret =3D vkms_crc_parse_source(src_name, &enabled);
 > =20
-> -static const u32 vkms_formats[] =3D {
-> -	DRM_FORMAT_XRGB8888,
-> -};
+> -	/* make sure nothing is scheduled on crtc workq */
+> -	flush_workqueue(out->crc_workq);
 > -
-> -static const u32 vkms_cursor_formats[] =3D {
-> -	DRM_FORMAT_ARGB8888,
-> -};
-> -
->  struct vkms_crc_data {
->  	struct drm_framebuffer fb;
->  	struct drm_rect src, dst;
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index 0e67d2d42f0c..0fceb6258422 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -6,6 +6,14 @@
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
-> =20
-> +static const u32 vkms_formats[] =3D {
-> +	DRM_FORMAT_XRGB8888,
-> +};
-> +
-> +static const u32 vkms_cursor_formats[] =3D {
-> +	DRM_FORMAT_ARGB8888,
-> +};
-> +
->  static struct drm_plane_state *
->  vkms_plane_duplicate_state(struct drm_plane *plane)
->  {
+>  	spin_lock_irq(&out->lock);
+>  	out->crc_enabled =3D enabled;
+>  	spin_unlock_irq(&out->lock);
 > --=20
 > 2.20.1
 >=20
+Hi,
 
-Applied to the drm-misc-next branch.
-
-Thanks.
+I tried to apply this patch, but git complained about it. I fixed the
+problem manually (it was very simple), but I noticed that dim did not
+add the tag "Link". Because of this, I decided to check with you before
+I apply this patch. Is it ok to fix conflict without dim? Is it ok apply
+a patch without the tag Link?
 
 --=20
 Rodrigo Siqueira
 https://siqueira.tech
 
---xgbkumsvetbzxoyx
+--clcnsybfld6pw3q7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0JmioACgkQWJzP/com
-vP9p6RAAip9skZZc7b42V/0pjwruSJJVzcpCiyFXAcWs9VZHk3h58MnAPIBNgxNl
-ICcpWe3/ZiIUtG22MNGdlA/sxXtQWJneBlBl7lUyY5UluJy0m+9F499RlqIFLui8
-QmLfqVY+HhXzs5GN/pHLTOPkA8fg9CPmbGJsnUQr8vKLck4WnUwm3gDAlXB5A1ri
-uM5omAEjwWl09a7D9Zx1a3fmq+bT6gY9al+reGtA9SekA0asepGWlTHI3yl3+YGi
-viBJjKAVZzngmcO6e1p2NDq+3epeO3Cz5hlkpHvxW3SKwu/t6+I/OfcBcx14W7qk
-DR7Oqh1ehjYr1COnOcVzajE/aeWOJyW+Aw7di+6vlwUZLjkEc5Kqj9KsuKxEop5n
-Q540UxHx+m8ZLeRno7D/J9fpGsHotOGkaDNZkSx8vwYP/+7UlZl8So4nyV1DaFgh
-j/RBY66blfRjhKZiKLR5fJeRRaGuniSyB/Nd/kyWMHoVp/E07L9Fla3VSbsiOU9T
-ItL5ck8fnGIDVKIhTEwrjUeRBkqo4sxAflpLmY0iIBy1FDaU8a3odXNAbDZljuN+
-ROMyt88Zyz408W9Ay89w0FkeuH7k+oBw5DuubJwfN2ywJWKQdH4aELYLf4LD26sb
-IAOXKC0KWgBrqHbfHfx2rB6jqNUHXCR/ndo3k1xmy7C7FLQ4y3E=
-=LGJH
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0Jmz4ACgkQWJzP/com
+vP9FhA/+MYPao8GHuL+l3+1pHPTokNTnahWHmBJkY4XxtX47ESOfdfvk4+lLcLYd
+1+R3USOVGllL28yPahxprSMKYRuiyl5xx53+QAscC4CfIZxwMiJVJA044y3xdgYQ
+7ZdTQ4pAaBWI7V4V2MoqwrzAtX0JdtyusXB2hDmGsCFnacMytdlUuP4i0XWf3XwV
+6DB/P2oGlRTOBAVo2v0RNuhQypYMELK5epmMvA1nFYC/6bSmhqW3PIT+tL7QY4aH
+YNwo8Tq2pPlf6jb/xhD8DbkSNp8CpQjTPpriXRRpA0Qwj347fEAcR2XqVOqAXBBS
+j+SXUo/iHUiD+J58cF6A0kz0RZsDP8n/AxnkgcgWE+FuG5yi9ny96bT261y2zvZq
+u0SqPhJtyYmNhQ+di9HD45OK7qEG9e+M2wsqPLXmWuLssHxfTR36lfG/msvoRS2e
+qW/a86/qr+JMDEud4LjCzPZJ8JIgXN9HxfjGkiKed+5a+T2rjiSM71pW195bgvf0
+/eLoCJsU9acJ4KQZbqBt2AJQXaVBVXOFo8/WkrrVFEORu1WTDvQ+aEY/OQ8+Pxk0
+4VIJWPYzIu8CM2UAEKlr1j1fcatjZK3Zk9Yygh8rLa4CGQqNyH5VAzUp2qsvEfI8
+ADSyd8YW4SE83OjiBfJchmFIrLLjAVm9zY7YEO8m0jkr+Rj+eKU=
+=DLn9
 -----END PGP SIGNATURE-----
 
---xgbkumsvetbzxoyx--
+--clcnsybfld6pw3q7--
 
---===============0694191439==
+--===============1415463570==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -183,4 +165,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0694191439==--
+--===============1415463570==--
