@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CAD34B9BD
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 15:22:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A314B9E1
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 15:26:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7DC46E3CE;
-	Wed, 19 Jun 2019 13:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD1B6E3EF;
+	Wed, 19 Jun 2019 13:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 83E6E6E3CE
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 13:22:53 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7B9E772167; Wed, 19 Jun 2019 13:22:53 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110949] Continuious warnings from agd5f 5.3-wip branch
-Date: Wed, 19 Jun 2019 13:22:53 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mike@fireburn.co.uk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-110949-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21EF46E3D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 13:25:50 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 9B5C520023;
+ Wed, 19 Jun 2019 15:25:47 +0200 (CEST)
+Date: Wed, 19 Jun 2019 15:25:46 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Robert Chiras <robert.chiras@nxp.com>
+Subject: Re: [PATCH v2 2/2] drm/panel: Add support for Raydium RM67191 panel
+ driver
+Message-ID: <20190619132546.GB31903@ravnborg.org>
+References: <1560864646-1468-1-git-send-email-robert.chiras@nxp.com>
+ <1560864646-1468-3-git-send-email-robert.chiras@nxp.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1560864646-1468-3-git-send-email-robert.chiras@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=8AirrxEcAAAA:8
+ a=7gkXJVJtAAAA:8 a=Ec1C81j2VkJbqId89Q8A:9 a=CjuIK1q_8ugA:10
+ a=ST-jHhOKWsTCqRlWije3:22 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,297 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1252147577=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-imx@nxp.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1252147577==
-Content-Type: multipart/alternative; boundary="15609505730.c3cFfF.15923"
-Content-Transfer-Encoding: 7bit
-
-
---15609505730.c3cFfF.15923
-Date: Wed, 19 Jun 2019 13:22:53 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110949
-
-            Bug ID: 110949
-           Summary: Continuious warnings from agd5f 5.3-wip branch
-           Product: DRI
-           Version: XOrg git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: mike@fireburn.co.uk
-
-Created attachment 144594
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144594&action=3Dedit
-Compressed log
-
-Jun 19 14:20:01 quark kernel: [drm] pstate TEST_DEBUG_DATA: 0x36F6F00F
-Jun 19 14:20:01 quark kernel: WARNING: CPU: 6 PID: 229 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:872
-dcn10_verify_allow_pstate_change_high+0x20/0x240
-Jun 19 14:20:01 quark kernel: Modules linked in:
-Jun 19 14:20:01 quark kernel: CPU: 6 PID: 229 Comm: kworker/u32:8 Tainted: =
-G=20=20=20
-    W         5.2.0-rc2-agd5f+ #380
-Jun 19 14:20:01 quark kernel: Hardware name: System manufacturer System Pro=
-duct
-Name/ROG STRIX X470-I GAMING, BIOS 2202 04/11/2019
-Jun 19 14:20:01 quark kernel: Workqueue: events_unbound commit_work
-Jun 19 14:20:01 quark kernel: RIP:
-0010:dcn10_verify_allow_pstate_change_high+0x20/0x240
-Jun 19 14:20:01 quark kernel: Code: 66 2e 0f 1f 84 00 00 00 00 00 55 53 48 =
-89
-fb 48 8b 87 80 02 00 00 48 8b b8 b0 01 00 00 e8 28 02 01 00 84 c0 0f 85 1b =
-02
-00 00 <0f> 0b 80 bb 97 01 00 00 00 0f 84 0c 02 00 00 48 8b 83 80 02 00 00
-Jun 19 14:20:01 quark kernel: RSP: 0018:ffffc9000049fb00 EFLAGS: 00010246
-Jun 19 14:20:01 quark kernel: RAX: 0000000000000000 RBX: ffff8887fbc38000 R=
-CX:
-0000000000000000
-Jun 19 14:20:01 quark kernel: RDX: 0000000000000000 RSI: ffff888800b96148 R=
-DI:
-00000000ffffffff
-Jun 19 14:20:01 quark kernel: RBP: ffffc9000049fb78 R08: 0000000000000400 R=
-09:
-00000000000140f9
-Jun 19 14:20:01 quark kernel: R10: 0000000000000007 R11: 0000000000000000 R=
-12:
-ffff8887fbc38000
-Jun 19 14:20:01 quark kernel: R13: ffff8887fb404800 R14: 0000000000000001 R=
-15:
-0000000000000004
-Jun 19 14:20:01 quark kernel: FS:  0000000000000000(0000)
-GS:ffff888800b80000(0000) knlGS:0000000000000000
-Jun 19 14:20:01 quark kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
-0033
-Jun 19 14:20:01 quark kernel: CR2: 00007fcaaf660368 CR3: 00000007efd26000 C=
-R4:
-00000000003406a0
-Jun 19 14:20:01 quark kernel: Call Trace:
-Jun 19 14:20:01 quark kernel:  ? dc_commit_updates_for_stream+0xa7e/0xec0
-Jun 19 14:20:01 quark kernel:  ?
-amdgpu_dm_commit_planes.constprop.0+0x70c/0x910
-Jun 19 14:20:01 quark kernel:  ? amdgpu_dm_atomic_commit_tail+0x359/0xde0
-Jun 19 14:20:01 quark kernel:  ? load_balance+0x177/0x9e0
-Jun 19 14:20:01 quark kernel:  ? sched_clock_cpu+0x10/0xd0
-Jun 19 14:20:01 quark kernel:  ? preempt_count_add+0x74/0xa0
-Jun 19 14:20:01 quark kernel:  ? _raw_spin_lock_irq+0xf/0x30
-Jun 19 14:20:01 quark kernel:  ? _raw_spin_unlock_irq+0xe/0x20
-Jun 19 14:20:01 quark kernel:  ? wait_for_completion_timeout+0xe3/0x110
-Jun 19 14:20:01 quark kernel:  ? _raw_spin_unlock_irq+0xe/0x20
-Jun 19 14:20:01 quark kernel:  ? finish_task_switch+0x7a/0x240
-Jun 19 14:20:01 quark kernel:  ? __update_idle_core+0x1b/0xa0
-Jun 19 14:20:01 quark kernel:  ? commit_tail+0x34/0x60
-Jun 19 14:20:01 quark kernel:  ? commit_tail+0x34/0x60
-Jun 19 14:20:01 quark kernel:  ? process_one_work+0x199/0x310
-Jun 19 14:20:01 quark kernel:  ? worker_thread+0x45/0x3c0
-Jun 19 14:20:01 quark kernel:  ? kthread+0xf8/0x130
-Jun 19 14:20:01 quark kernel:  ? wq_update_unbound_numa+0x10/0x10
-Jun 19 14:20:01 quark kernel:  ? kthread_park+0x80/0x80
-Jun 19 14:20:01 quark kernel:  ? ret_from_fork+0x1f/0x30
-Jun 19 14:20:01 quark kernel: ---[ end trace 25db1648dbe2f9f1 ]---
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15609505730.c3cFfF.15923
-Date: Wed, 19 Jun 2019 13:22:53 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Continuious warnings from agd5f 5.3-wip branch"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110949">110949</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Continuious warnings from agd5f 5.3-wip branch
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>mike&#64;fireburn.co.uk
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144594=
-" name=3D"attach_144594" title=3D"Compressed log">attachment 144594</a> <a =
-href=3D"attachment.cgi?id=3D144594&amp;action=3Dedit" title=3D"Compressed l=
-og">[details]</a></span>
-Compressed log
-
-Jun 19 14:20:01 quark kernel: [drm] pstate TEST_DEBUG_DATA: 0x36F6F00F
-Jun 19 14:20:01 quark kernel: WARNING: CPU: 6 PID: 229 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:872
-dcn10_verify_allow_pstate_change_high+0x20/0x240
-Jun 19 14:20:01 quark kernel: Modules linked in:
-Jun 19 14:20:01 quark kernel: CPU: 6 PID: 229 Comm: kworker/u32:8 Tainted: =
-G=20=20=20
-    W         5.2.0-rc2-agd5f+ #380
-Jun 19 14:20:01 quark kernel: Hardware name: System manufacturer System Pro=
-duct
-Name/ROG STRIX X470-I GAMING, BIOS 2202 04/11/2019
-Jun 19 14:20:01 quark kernel: Workqueue: events_unbound commit_work
-Jun 19 14:20:01 quark kernel: RIP:
-0010:dcn10_verify_allow_pstate_change_high+0x20/0x240
-Jun 19 14:20:01 quark kernel: Code: 66 2e 0f 1f 84 00 00 00 00 00 55 53 48 =
-89
-fb 48 8b 87 80 02 00 00 48 8b b8 b0 01 00 00 e8 28 02 01 00 84 c0 0f 85 1b =
-02
-00 00 &lt;0f&gt; 0b 80 bb 97 01 00 00 00 0f 84 0c 02 00 00 48 8b 83 80 02 0=
-0 00
-Jun 19 14:20:01 quark kernel: RSP: 0018:ffffc9000049fb00 EFLAGS: 00010246
-Jun 19 14:20:01 quark kernel: RAX: 0000000000000000 RBX: ffff8887fbc38000 R=
-CX:
-0000000000000000
-Jun 19 14:20:01 quark kernel: RDX: 0000000000000000 RSI: ffff888800b96148 R=
-DI:
-00000000ffffffff
-Jun 19 14:20:01 quark kernel: RBP: ffffc9000049fb78 R08: 0000000000000400 R=
-09:
-00000000000140f9
-Jun 19 14:20:01 quark kernel: R10: 0000000000000007 R11: 0000000000000000 R=
-12:
-ffff8887fbc38000
-Jun 19 14:20:01 quark kernel: R13: ffff8887fb404800 R14: 0000000000000001 R=
-15:
-0000000000000004
-Jun 19 14:20:01 quark kernel: FS:  0000000000000000(0000)
-GS:ffff888800b80000(0000) knlGS:0000000000000000
-Jun 19 14:20:01 quark kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
-0033
-Jun 19 14:20:01 quark kernel: CR2: 00007fcaaf660368 CR3: 00000007efd26000 C=
-R4:
-00000000003406a0
-Jun 19 14:20:01 quark kernel: Call Trace:
-Jun 19 14:20:01 quark kernel:  ? dc_commit_updates_for_stream+0xa7e/0xec0
-Jun 19 14:20:01 quark kernel:  ?
-amdgpu_dm_commit_planes.constprop.0+0x70c/0x910
-Jun 19 14:20:01 quark kernel:  ? amdgpu_dm_atomic_commit_tail+0x359/0xde0
-Jun 19 14:20:01 quark kernel:  ? load_balance+0x177/0x9e0
-Jun 19 14:20:01 quark kernel:  ? sched_clock_cpu+0x10/0xd0
-Jun 19 14:20:01 quark kernel:  ? preempt_count_add+0x74/0xa0
-Jun 19 14:20:01 quark kernel:  ? _raw_spin_lock_irq+0xf/0x30
-Jun 19 14:20:01 quark kernel:  ? _raw_spin_unlock_irq+0xe/0x20
-Jun 19 14:20:01 quark kernel:  ? wait_for_completion_timeout+0xe3/0x110
-Jun 19 14:20:01 quark kernel:  ? _raw_spin_unlock_irq+0xe/0x20
-Jun 19 14:20:01 quark kernel:  ? finish_task_switch+0x7a/0x240
-Jun 19 14:20:01 quark kernel:  ? __update_idle_core+0x1b/0xa0
-Jun 19 14:20:01 quark kernel:  ? commit_tail+0x34/0x60
-Jun 19 14:20:01 quark kernel:  ? commit_tail+0x34/0x60
-Jun 19 14:20:01 quark kernel:  ? process_one_work+0x199/0x310
-Jun 19 14:20:01 quark kernel:  ? worker_thread+0x45/0x3c0
-Jun 19 14:20:01 quark kernel:  ? kthread+0xf8/0x130
-Jun 19 14:20:01 quark kernel:  ? wq_update_unbound_numa+0x10/0x10
-Jun 19 14:20:01 quark kernel:  ? kthread_park+0x80/0x80
-Jun 19 14:20:01 quark kernel:  ? ret_from_fork+0x1f/0x30
-Jun 19 14:20:01 quark kernel: ---[ end trace 25db1648dbe2f9f1 ]---</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15609505730.c3cFfF.15923--
-
---===============1252147577==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1252147577==--
+T24gVHVlLCBKdW4gMTgsIDIwMTkgYXQgMDQ6MzA6NDZQTSArMDMwMCwgUm9iZXJ0IENoaXJhcyB3
+cm90ZToKPiBUaGlzIHBhdGNoIGFkZHMgUmF5ZGl1bSBSTTY3MTkxIFRGVCBMQ0QgcGFuZWwgZHJp
+dmVyIChNSVBJLURTSQo+IHByb3RvY29sKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQ2hp
+cmFzIDxyb2JlcnQuY2hpcmFzQG54cC5jb20+ClBsZWFzZSBpbmNsdWRlIGluIHRoZSBjaGFuZ2Vs
+b2cgYSBsaXN0IG9mIHdoYXQgd2FzIHVwZGF0ZWQgLSBsaWtlIHRoaXM6Cgp2MjoKLSBhZGRlZCBr
+Y29uaWYgc3ltYm9sIHNvcnRlZCAoc2FtKQotIGFub3RoZXIgbml0cGljayAoZm9vKQotIGV0YwoK
+SW4gZ2VuZXJhbCB0cnkgdG8gbmFtbWUgd2hvIGdhdmUgZmVlZGJhY2sgdG8gZ2l2ZSB0aGVtIHNv
+bWUgY3JlZGl0LgoKV2hvIGlzIG1haW50YWluZXIgZm9yIHRoaXMgb253YXJkcz8KCj4gLS0tCj4g
+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9LY29uZmlnICAgICAgICAgICAgICAgICB8ICAgOSArCj4g
+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9NYWtlZmlsZSAgICAgICAgICAgICAgICB8ICAgMSArCj4g
+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1yYXlkaXVtLXJtNjcxOTEuYyB8IDcwOSArKysr
+KysrKysrKysrKysrKysrKysrKysrKwo+ICAzIGZpbGVzIGNoYW5nZWQsIDcxOSBpbnNlcnRpb25z
+KCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtcmF5
+ZGl1bS1ybTY3MTkxLmMKPiAKPiArc3RhdGljIGludCByYWRfcGFuZWxfcHJlcGFyZShzdHJ1Y3Qg
+ZHJtX3BhbmVsICpwYW5lbCkKPiArewo+ICsJc3RydWN0IHJhZF9wYW5lbCAqcmFkID0gdG9fcmFk
+X3BhbmVsKHBhbmVsKTsKPiArCj4gKwlpZiAocmFkLT5wcmVwYXJlZCkKPiArCQlyZXR1cm4gMDsK
+PiArCj4gKwlpZiAocmFkLT5yZXNldCkgewo+ICsJCWdwaW9kX3NldF92YWx1ZV9jYW5zbGVlcChy
+YWQtPnJlc2V0LCAxKTsKPiArCQl1c2xlZXBfcmFuZ2UoMzAwMCwgNTAwMCk7Cj4gKwkJZ3Bpb2Rf
+c2V0X3ZhbHVlX2NhbnNsZWVwKHJhZC0+cmVzZXQsIDApOwoKU28gd3JpdGluZyBhIDAgd2lsbCBy
+ZWxlYXNlIHJlc2V0Lgo+ICsJCXVzbGVlcF9yYW5nZSgxODAwMCwgMjAwMDApOwo+ICsJfQo+ICsK
+PiArCXJhZC0+cHJlcGFyZWQgPSB0cnVlOwo+ICsKPiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICtz
+dGF0aWMgaW50IHJhZF9wYW5lbF91bnByZXBhcmUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCj4g
+K3sKPiArCXN0cnVjdCByYWRfcGFuZWwgKnJhZCA9IHRvX3JhZF9wYW5lbChwYW5lbCk7Cj4gKwo+
+ICsJaWYgKCFyYWQtPnByZXBhcmVkKQo+ICsJCXJldHVybiAwOwo+ICsKPiArCWlmIChyYWQtPnJl
+c2V0KSB7Cj4gKwkJZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVwKHJhZC0+cmVzZXQsIDEpOwo+ICsJ
+CXVzbGVlcF9yYW5nZSgxNTAwMCwgMTcwMDApOwo+ICsJCWdwaW9kX3NldF92YWx1ZV9jYW5zbGVl
+cChyYWQtPnJlc2V0LCAwKTsKTG9va3Mgc3RyYW5nZSB0aGF0IHJlc2V0IGlzIHJlbGVhc2VkIGlu
+IHVucHJlcGFyZS4KSSB3b3VsZCBleHBlY3QgaXQgdG8gc3RheSByZXNldCB0byBtaW5pbWl6ZSBw
+b3dlciBldGMuCgo+ICsKPiArCXJldCA9IGRybV9kaXNwbGF5X2luZm9fc2V0X2J1c19mb3JtYXRz
+KCZjb25uZWN0b3ItPmRpc3BsYXlfaW5mbywKPiArCQkJCQkgICAgICAgcmFkX2J1c19mb3JtYXRz
+LAo+ICsJCQkJCSAgICAgICBBUlJBWV9TSVpFKHJhZF9idXNfZm9ybWF0cykpOwoKT3RoZXIgZHJp
+dmVycyBoYXMgdGhpcyBhcyB0aGUgbGFzdCBzdGVtZW50IGluIHRoZWlyIGVuYWJsZSBmdW5jdGlv
+bi4KSSBkaWQgbm90IGNoZWNrIHdoeSwgYnV0IG1heWJlIHNvbWV0aGluZyB0byBpbnZlc3QgYSBm
+ZXcgbWludXRlcyBpbnRvLgpCZSBkaWZmZXJlbnQgb25seSBpZiB0aGVyZSBpcyBhIHJlYXNvbiB0
+byBkbyBzby4KCj4gKwlpZiAocmV0KQo+ICsJCXJldHVybiByZXQ7Cj4gKwo+ICsJZHJtX21vZGVf
+cHJvYmVkX2FkZChwYW5lbC0+Y29ubmVjdG9yLCBtb2RlKTsKPiArCj4gKwlyZXR1cm4gMTsKPiAr
+fQo+ICsKPiArCj4gKyNpZmRlZiBDT05GSUdfUE0KPiArc3RhdGljIGludCByYWRfcGFuZWxfc3Vz
+cGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpCj4gK3sKPiArCXN0cnVjdCByYWRfcGFuZWwgKnJhZCA9
+IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwo+ICsKPiArCWlmICghcmFkLT5yZXNldCkKPiArCQlyZXR1
+cm4gMDsKPiArCj4gKwlkZXZtX2dwaW9kX3B1dChkZXYsIHJhZC0+cmVzZXQpOwo+ICsJcmFkLT5y
+ZXNldCA9IE5VTEw7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4gK30KPiArCj4gK3N0YXRpYyBpbnQgcmFk
+X3BhbmVsX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCj4gK3sKPiArCXN0cnVjdCByYWRfcGFu
+ZWwgKnJhZCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwo+ICsKPiArCWlmIChyYWQtPnJlc2V0KQo+
+ICsJCXJldHVybiAwOwo+ICsKPiArCXJhZC0+cmVzZXQgPSBkZXZtX2dwaW9kX2dldChkZXYsICJy
+ZXNldCIsIEdQSU9EX09VVF9MT1cpOwo+ICsJaWYgKElTX0VSUihyYWQtPnJlc2V0KSkKPiArCQly
+YWQtPnJlc2V0ID0gTlVMTDsKPiArCj4gKwlyZXR1cm4gUFRSX0VSUl9PUl9aRVJPKHJhZC0+cmVz
+ZXQpOwo+ICt9Cj4gKwo+ICsjZW5kaWYKClVzZSBfX21heWJlX3VudXNlZCBmb3IgdGhlIHR3IGZ1
+bmN0aW9ucyBhYm92ZS4KQW5kIGxvb3NlIHRoZSBpZmRlZi4uLgoKPiArCj4gK3N0YXRpYyBjb25z
+dCBzdHJ1Y3QgZGV2X3BtX29wcyByYWRfcG1fb3BzID0gewo+ICsJU0VUX1JVTlRJTUVfUE1fT1BT
+KHJhZF9wYW5lbF9zdXNwZW5kLCByYWRfcGFuZWxfcmVzdW1lLCBOVUxMKQo+ICsJU0VUX1NZU1RF
+TV9TTEVFUF9QTV9PUFMocmFkX3BhbmVsX3N1c3BlbmQsIHJhZF9wYW5lbF9yZXN1bWUpCj4gK307
+Cj4gKwo+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCByYWRfb2ZfbWF0Y2hbXSA9
+IHsKPiArCXsgLmNvbXBhdGlibGUgPSAicmF5ZGl1bSxybTY3MTkxIiwgfSwKPiArCXsgfQpXZSBv
+ZnRlbiwgYnV0IG5vdCBhbHdheXMsIHdyaXRlIHRoaXMgYXMgeyAvKiBzZW50aW5hbCAqLyB9LAoK
+PiArfTsKPiArTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgcmFkX29mX21hdGNoKTsKPiArCj4gK3N0
+YXRpYyBzdHJ1Y3QgbWlwaV9kc2lfZHJpdmVyIHJhZF9wYW5lbF9kcml2ZXIgPSB7Cj4gKwkuZHJp
+dmVyID0gewo+ICsJCS5uYW1lID0gInBhbmVsLXJheWRpdW0tcm02NzE5MSIsCj4gKwkJLm9mX21h
+dGNoX3RhYmxlID0gcmFkX29mX21hdGNoLAo+ICsJCS5wbQk9ICZyYWRfcG1fb3BzLAo+ICsJfSwK
+PiArCS5wcm9iZSA9IHJhZF9wYW5lbF9wcm9iZSwKPiArCS5yZW1vdmUgPSByYWRfcGFuZWxfcmVt
+b3ZlLAo+ICsJLnNodXRkb3duID0gcmFkX3BhbmVsX3NodXRkb3duLAo+ICt9Owo+ICttb2R1bGVf
+bWlwaV9kc2lfZHJpdmVyKHJhZF9wYW5lbF9kcml2ZXIpOwo+ICsKPiArTU9EVUxFX0FVVEhPUigi
+Um9iZXJ0IENoaXJhcyA8cm9iZXJ0LmNoaXJhc0BueHAuY29tPiIpOwo+ICtNT0RVTEVfREVTQ1JJ
+UFRJT04oIkRSTSBEcml2ZXIgZm9yIFJheWRpdW0gUk02NzE5MSBNSVBJIERTSSBwYW5lbCIpOwo+
+ICtNT0RVTEVfTElDRU5TRSgiR1BMIHYyIik7CgpXaXRoIHRoZSBhYm92ZSB0cml2aWFsaXRpZXMg
+Y29uc2lkZXJlZC9maXhlZDoKUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
+Lm9yZz4KCglTYW0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
