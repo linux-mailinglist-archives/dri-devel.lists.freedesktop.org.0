@@ -2,36 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414C04B5FB
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 12:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053694B60B
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 12:16:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EFC66E352;
-	Wed, 19 Jun 2019 10:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D376E354;
+	Wed, 19 Jun 2019 10:16:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6548C6E352;
- Wed, 19 Jun 2019 10:11:39 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 261ED344;
- Wed, 19 Jun 2019 03:11:39 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 509BE3F738;
- Wed, 19 Jun 2019 03:13:25 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id C4F75682189; Wed, 19 Jun 2019 11:11:37 +0100 (BST)
-Date: Wed, 19 Jun 2019 11:11:37 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 11/59] drm/arm: Drop drm_gem_prime_export/import
-Message-ID: <20190619101137.GB17204@e110455-lin.cambridge.arm.com>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-12-daniel.vetter@ffwll.ch>
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614166E354
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 10:16:49 +0000 (UTC)
+Received: from localhost (aaubervilliers-681-1-81-150.w90-88.abo.wanadoo.fr
+ [90.88.23.150]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 287CB240010;
+ Wed, 19 Jun 2019 10:16:41 +0000 (UTC)
+Date: Wed, 19 Jun 2019 12:16:41 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH v5 07/12] drm/modes: Allow to specify rotation and
+ reflection on the commandline
+Message-ID: <20190619101641.5wimygyv7uoorylw@flea>
+References: <cover.5190d070d1439d762d7ab273f4ae2573087fee20.1560783090.git-series.maxime.ripard@bootlin.com>
+ <777da16e42db757c1f5b414b5ca34507097fed5c.1560783090.git-series.maxime.ripard@bootlin.com>
+ <a106a40f-4918-e9b6-2d58-f7ad9d7b191d@tronnes.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190614203615.12639-12-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <a106a40f-4918-e9b6-2d58-f7ad9d7b191d@tronnes.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,67 +40,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- "James \(Qian\) Wang" <james.qian.wang@arm.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: eben@raspberrypi.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1050780690=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMTA6MzU6MjdQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBUaGV5J3JlIHRoZSBkZWZhdWx0Lgo+IAo+IEFzaWRlOiBXb3VsZCBiZSByZWFsbHkg
-bmljZSB0byBzd2l0Y2ggdGhlIG90aGVycyBvdmVyIHRvCj4gZHJtX2dlbV9vYmplY3RfZnVuY3Mu
-Cj4gCj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5j
-b20+Cj4gQ2M6ICJKYW1lcyAoUWlhbikgV2FuZyIgPGphbWVzLnFpYW4ud2FuZ0Bhcm0uY29tPgo+
-IENjOiBMaXZpdSBEdWRhdSA8bGl2aXUuZHVkYXVAYXJtLmNvbT4KPiBDYzogQnJpYW4gU3Rhcmtl
-eSA8YnJpYW4uc3RhcmtleUBhcm0uY29tPgoKQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5k
-dWRhdUBhcm0uY29tPgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVk
-YS9rb21lZGFfa21zLmMgfCAyIC0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMg
-ICAgICAgICAgICAgICAgIHwgMiAtLQo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9kcnYu
-YyAgICAgICAgICAgICAgICB8IDIgLS0KPiAgMyBmaWxlcyBjaGFuZ2VkLCA2IGRlbGV0aW9ucygt
-KQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tv
-bWVkYV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2tt
-cy5jCj4gaW5kZXggYjlkNjk5Y2M3YmJmLi40NWYwNWJjOTQ0ODcgMTAwNjQ0Cj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfa21zLmMKPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9rbXMuYwo+IEBAIC02Myw4ICs2
-Myw2IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBrb21lZGFfa21zX2RyaXZlciA9IHsKPiAg
-CS5kdW1iX2NyZWF0ZQkJCT0ga29tZWRhX2dlbV9jbWFfZHVtYl9jcmVhdGUsCj4gIAkucHJpbWVf
-aGFuZGxlX3RvX2ZkCQk9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLAo+ICAJLnByaW1lX2Zk
-X3RvX2hhbmRsZQkJPSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwKPiAtCS5nZW1fcHJpbWVf
-ZXhwb3J0CQk9IGRybV9nZW1fcHJpbWVfZXhwb3J0LAo+IC0JLmdlbV9wcmltZV9pbXBvcnQJCT0g
-ZHJtX2dlbV9wcmltZV9pbXBvcnQsCj4gIAkuZ2VtX3ByaW1lX2dldF9zZ190YWJsZQkJPSBkcm1f
-Z2VtX2NtYV9wcmltZV9nZXRfc2dfdGFibGUsCj4gIAkuZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJs
-ZQk9IGRybV9nZW1fY21hX3ByaW1lX2ltcG9ydF9zZ190YWJsZSwKPiAgCS5nZW1fcHJpbWVfdm1h
-cAkJCT0gZHJtX2dlbV9jbWFfcHJpbWVfdm1hcCwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2FybS9oZGxjZF9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vaGRsY2RfZHJ2LmMKPiBp
-bmRleCBiMTI2NTU1ODk1ZDguLjI3YzQ2YTI4MzhjNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vYXJtL2hkbGNkX2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9oZGxjZF9k
-cnYuYwo+IEBAIC0yNDAsOCArMjQwLDYgQEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIGhkbGNk
-X2RyaXZlciA9IHsKPiAgCS5kdW1iX2NyZWF0ZSA9IGRybV9nZW1fY21hX2R1bWJfY3JlYXRlLAo+
-ICAJLnByaW1lX2hhbmRsZV90b19mZCA9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLAo+ICAJ
-LnByaW1lX2ZkX3RvX2hhbmRsZSA9IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlLAo+IC0JLmdl
-bV9wcmltZV9leHBvcnQgPSBkcm1fZ2VtX3ByaW1lX2V4cG9ydCwKPiAtCS5nZW1fcHJpbWVfaW1w
-b3J0ID0gZHJtX2dlbV9wcmltZV9pbXBvcnQsCj4gIAkuZ2VtX3ByaW1lX2dldF9zZ190YWJsZSA9
-IGRybV9nZW1fY21hX3ByaW1lX2dldF9zZ190YWJsZSwKPiAgCS5nZW1fcHJpbWVfaW1wb3J0X3Nn
-X3RhYmxlID0gZHJtX2dlbV9jbWFfcHJpbWVfaW1wb3J0X3NnX3RhYmxlLAo+ICAJLmdlbV9wcmlt
-ZV92bWFwID0gZHJtX2dlbV9jbWFfcHJpbWVfdm1hcCwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9kcnYu
-Ywo+IGluZGV4IDVkY2NjNzEzMDczOS4uM2VjZGYxMzExMzM1IDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9t
-YWxpZHBfZHJ2LmMKPiBAQCAtNTc0LDggKzU3NCw2IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZl
-ciBtYWxpZHBfZHJpdmVyID0gewo+ICAJLmR1bWJfY3JlYXRlID0gbWFsaWRwX2R1bWJfY3JlYXRl
-LAo+ICAJLnByaW1lX2hhbmRsZV90b19mZCA9IGRybV9nZW1fcHJpbWVfaGFuZGxlX3RvX2ZkLAo+
-ICAJLnByaW1lX2ZkX3RvX2hhbmRsZSA9IGRybV9nZW1fcHJpbWVfZmRfdG9faGFuZGxlLAo+IC0J
-LmdlbV9wcmltZV9leHBvcnQgPSBkcm1fZ2VtX3ByaW1lX2V4cG9ydCwKPiAtCS5nZW1fcHJpbWVf
-aW1wb3J0ID0gZHJtX2dlbV9wcmltZV9pbXBvcnQsCj4gIAkuZ2VtX3ByaW1lX2dldF9zZ190YWJs
-ZSA9IGRybV9nZW1fY21hX3ByaW1lX2dldF9zZ190YWJsZSwKPiAgCS5nZW1fcHJpbWVfaW1wb3J0
-X3NnX3RhYmxlID0gZHJtX2dlbV9jbWFfcHJpbWVfaW1wb3J0X3NnX3RhYmxlLAo+ICAJLmdlbV9w
-cmltZV92bWFwID0gZHJtX2dlbV9jbWFfcHJpbWVfdm1hcCwKPiAtLSAKPiAyLjIwLjEKPiAKCi0t
-IAo9PT09PT09PT09PT09PT09PT09PQp8IEkgd291bGQgbGlrZSB0byB8CnwgZml4IHRoZSB3b3Js
-ZCwgIHwKfCBidXQgdGhleSdyZSBub3QgfAp8IGdpdmluZyBtZSB0aGUgICB8CiBcIHNvdXJjZSBj
-b2RlISAgLwogIC0tLS0tLS0tLS0tLS0tLQogICAgwq9cXyjjg4QpXy/CrwpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1050780690==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ooppuouaxuwtdyr6"
+Content-Disposition: inline
+
+
+--ooppuouaxuwtdyr6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 18, 2019 at 07:47:04PM +0200, Noralf Tr=F8nnes wrote:
+> > diff --git a/Documentation/fb/modedb.rst b/Documentation/fb/modedb.rst
+> > index 3c2397293977..3e8a6f79dcd7 100644
+> > --- a/Documentation/fb/modedb.rst
+> > +++ b/Documentation/fb/modedb.rst
+> > @@ -53,6 +53,17 @@ Specifying the option multiple times for different p=
+orts is possible, e.g.::
+> >
+> >      video=3DLVDS-1:d video=3DHDMI-1:D
+> >
+> > +Options can also be passed after the mode, using commas as separator.
+> > +
+> > +       Sample usage: 720x480,rotate=3D180 - 720x480 mode, rotated by 1=
+80 degrees
+> > +
+> > +Valid options are:
+> > +
+> > +  - reflect_x (boolean): Perform an axial symetry on the X axis
+> > +  - reflect_y (boolean): Perform an axial symetry on the Y axis
+>
+> 2x s/symetry/symmetry/
+>
+> Reviewed-by: Noralf Tr=F8nnes <noralf@tronnes.org>
+
+I've fixed it and applied, thanks for your reviews!
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--ooppuouaxuwtdyr6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQoLiQAKCRDj7w1vZxhR
+xevQAP4oliKdO/dVf2wqkYiOCk1yfQAhaUSoOLmGztmMGEjb4AD/Zr2FZZ5eP3ET
+0J1ZV2aXZiVrrgLgXVqKIsVUPwxKlwE=
+=8ysB
+-----END PGP SIGNATURE-----
+
+--ooppuouaxuwtdyr6--
+
+--===============1050780690==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1050780690==--
