@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1932C4AFE1
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 04:10:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DAD4AFE4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Jun 2019 04:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27F2A6E27A;
-	Wed, 19 Jun 2019 02:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9216E27E;
+	Wed, 19 Jun 2019 02:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCB286E27A
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 02:10:37 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id d4so24627296edr.13
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 19:10:37 -0700 (PDT)
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482236E27E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Jun 2019 02:13:04 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id s22so9932191qkj.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Jun 2019 19:13:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=urJuQnFtlxDLCZVzeNDwE562IYnNP8kOvDGk4FlmAj8=;
- b=Az/h8c7t/LPYdhIATvWDD3QGSKsP/dZVXLfbs9D93lkLvlYhX9yrkHZDrqpAH5I6ZE
- ijgTIEPAQkEuY63K0LSAftXS5g8tW65B9W0fMR+hwiCg3jWsm9TVP9oyCpjWMv5AhKjS
- 0HUIjvvqdKTRh1c+MMEZ4AM5GWupXuOG1fc1vZF7ONO11du3bOv9LuqqVkBuy96odTcS
- sYxOlEfx8bm04FSE0QnM7VTyNMpUCVF4Rirv6JctZ4zvInOckHurRL5mdMHAlsmpxJOn
- RsIrYiLPpekn26RlpydurwNw1v1Bua+cQpgPntfQektXaKbZ7PhRGDR5mEOEvxIemWW/
- bg5g==
-X-Gm-Message-State: APjAAAVI5wc/DK7wzSP/HJr5DqOTH7jYRHoLPvTNJ3X6jN42QvGkPPXB
- ujV23T69Tiqj/LX8go5SF/X0NLrLr0M=
-X-Google-Smtp-Source: APXvYqwTPSCHlpP6tuEyLSOpm1kjyUpSGagSccvUjMoaHCIqUbcRQ2I70KE9ClHshfmQRqsbG1YE6A==
-X-Received: by 2002:a17:906:1804:: with SMTP id
- v4mr1791206eje.188.1560910236431; 
- Tue, 18 Jun 2019 19:10:36 -0700 (PDT)
+ bh=K5XTkXKQdVXT5qElZb9yJKrTukexv/N3eB+GX56hIKk=;
+ b=ZfsjAk0yoOQ9fbNP7k8hxPO70LRKMCR+RZ5yBOeiHMN/4QPcUIKzFBA2iovszRZMkg
+ BIlhKdel35419OurHN+rwlgkj1Y724ztaRbLJHfkjdsCuEhtmwdfLDoG/GEljLEtMUbM
+ mRG38eIUFNCFh2IvCxAJO7sJXGJLUxv6MbdHnr/grFMD+tjmIzUESLKQdiMxf9R4Ydrp
+ xpkwx/Jjmf+zOtU/xwO6c9qoI2CgWiR+ZiAqXJN5+2WXCRNcTNrcACFydqZoDhzvADE6
+ CcMpZm9frETDg79R+UWZGFWIzG1vTxY6wEw8U98qJj0jrp6QV+FcUlvtLNuiPJGX/SdI
+ gebw==
+X-Gm-Message-State: APjAAAUmj2WCi0833yucncfxWcN5bXnp8y3xPyj/HwtaZrTKkJldSpPc
+ DhgYObr9raljILtDg538ffw=
+X-Google-Smtp-Source: APXvYqx/vcK1Yw2wEKXU/AmzAYnSw02mAlnW+kcnEyE4keZnNxYrIXBHs8Zqp+5kdPbHoHfBLx6enw==
+X-Received: by 2002:a37:4c4e:: with SMTP id z75mr23299392qka.230.1560910383298; 
+ Tue, 18 Jun 2019 19:13:03 -0700 (PDT)
 Received: from smtp.gmail.com ([187.121.151.146])
- by smtp.gmail.com with ESMTPSA id w11sm1630496ejk.63.2019.06.18.19.10.33
+ by smtp.gmail.com with ESMTPSA id k33sm9612289qte.69.2019.06.18.19.13.00
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 18 Jun 2019 19:10:35 -0700 (PDT)
-Date: Tue, 18 Jun 2019 23:10:31 -0300
+ Tue, 18 Jun 2019 19:13:02 -0700 (PDT)
+Date: Tue, 18 Jun 2019 23:12:58 -0300
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Oleg Vasilev <oleg.vasilev@intel.com>
-Subject: Re: [PATCH 3/3] drm/vkms: add crc sources list
-Message-ID: <20190619021031.gqq3pndevmhixftx@smtp.gmail.com>
-References: <20190613121802.2193-1-oleg.vasilev@intel.com>
- <20190613121802.2193-3-oleg.vasilev@intel.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 04/10] drm/vkms: Move format arrays to vkms_plane.c
+Message-ID: <20190619021258.s4l6nxofib2iqujv@smtp.gmail.com>
+References: <20190606222751.32567-1-daniel.vetter@ffwll.ch>
+ <20190606222751.32567-5-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20190613121802.2193-3-oleg.vasilev@intel.com>
+In-Reply-To: <20190606222751.32567-5-daniel.vetter@ffwll.ch>
 User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=urJuQnFtlxDLCZVzeNDwE562IYnNP8kOvDGk4FlmAj8=;
- b=mMAK0Sz3NZ1anTLHjc2S0tO9BwDSvrkJl+kHE2++KDxamRryTIaV0cFydM0MD2vZwJ
- C0Jc4fINM1NtwfOfqTPvPSHlvjoeRuoE/FpteI/8SOlEcWklkfWuJQ9onbk7uy6hTvBh
- G6AVMHErlwBy0JE9X6VzyBf/+yLhT+RaugfVmImGdDqb1EMI0peWF8zkM2nHiGnapafz
- ydnaU1J0rnM6KSYrBYz6Krh/18Y/9/TiGMtGjeQnFfCgvK7LzKfP36GCLG8FBQxDfYyK
- RzQkBpGUGHRtkEbQta1L9ttei3elZOgpr6oSZatMCqgKM/F54Ifa2TTV3QnuE9ijzZik
- nbLA==
+ bh=K5XTkXKQdVXT5qElZb9yJKrTukexv/N3eB+GX56hIKk=;
+ b=dHDl/yRqIt5dspaqla2XFmtp7QHr5r6MHl2Cqdno1KdNEehM9R0SkDPvRksa/e3tuS
+ WDRZnIRAf7kWtQSp0R1D+L80pqksJZm+1A7xOgPAxsN/EJD4EXmO4GoxeuwEHsrqjbuU
+ 8xJvFDPR13Yo+/LP7jpd9VBDkTatC8uC30oJkQjGjbRyvXxQkmMt9tpcHPHFDxPOJI/s
+ 4cC5/wcjOc3yO3JLFyyatXDpLZFyygSDjECLps5afYHixncBjhgs/D+UXIwnk6WIFacj
+ 7sE9gEFNyyo+J6WnoaskULE4iW9PtUL/wmGs8x9l4eQu6kQzA8XJyjZ8DVsY8nxcKfCV
+ zhEQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,127 +68,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Shayenne Moura <shayenneluzmoura@gmail.com>,
- dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1861875205=="
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>
+Content-Type: multipart/mixed; boundary="===============0694191439=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1861875205==
+--===============0694191439==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cr4dg3qspd3barbx"
+	protocol="application/pgp-signature"; boundary="xgbkumsvetbzxoyx"
 Content-Disposition: inline
 
 
---cr4dg3qspd3barbx
+--xgbkumsvetbzxoyx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 06/13, Oleg Vasilev wrote:
-> Other drivers are able to list crc sources when accessing
-> /sys/kernel/debug/dri/.../crtc-0/crc/control
+On 06/07, Daniel Vetter wrote:
+> No need to have them multiple times.
 >=20
-> Even though VKMS now supports only 'auto' mode, it is more consistent to
-> have the list available to the userspace.
->=20
-> Signed-off-by: Oleg Vasilev <oleg.vasilev@intel.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/vkms/vkms_crc.c  | 9 +++++++++
->  drivers/gpu/drm/vkms/vkms_crtc.c | 1 +
->  drivers/gpu/drm/vkms/vkms_drv.h  | 2 ++
->  3 files changed, 12 insertions(+)
+>  drivers/gpu/drm/vkms/vkms_drv.h   | 8 --------
+>  drivers/gpu/drm/vkms/vkms_plane.c | 8 ++++++++
+>  2 files changed, 8 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_crc.c b/drivers/gpu/drm/vkms/vkms_=
-crc.c
-> index bc717a8888b5..819313ef80b6 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crc.c
-> @@ -220,6 +220,15 @@ void vkms_crc_work_handle(struct work_struct *work)
->  	spin_unlock_irqrestore(&out->state_lock, flags);
->  }
-> =20
-> +static const char * const pipe_crc_sources[] =3D {"auto"};
-> +
-> +const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-> +					size_t *count)
-> +{
-> +	*count =3D ARRAY_SIZE(pipe_crc_sources);
-> +	return pipe_crc_sources;
-> +}
-> +
->  static int vkms_crc_parse_source(const char *src_name, bool *enabled)
->  {
->  	int ret =3D 0;
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms=
-_crtc.c
-> index 1bbe099b7db8..4d11292bc6f3 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -147,6 +147,7 @@ static const struct drm_crtc_funcs vkms_crtc_funcs =
-=3D {
->  	.atomic_destroy_state   =3D vkms_atomic_crtc_destroy_state,
->  	.enable_vblank		=3D vkms_enable_vblank,
->  	.disable_vblank		=3D vkms_disable_vblank,
-> +	.get_crc_sources	=3D vkms_get_crc_sources,
->  	.set_crc_source		=3D vkms_set_crc_source,
->  	.verify_crc_source	=3D vkms_verify_crc_source,
->  };
 > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
 drv.h
-> index 81f1cfbeb936..891f2d63d74f 100644
+> index 43d3f98289fe..2a35299bfb89 100644
 > --- a/drivers/gpu/drm/vkms/vkms_drv.h
 > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -136,6 +136,8 @@ int vkms_gem_vmap(struct drm_gem_object *obj);
->  void vkms_gem_vunmap(struct drm_gem_object *obj);
+> @@ -20,14 +20,6 @@
 > =20
->  /* CRC Support */
-> +const char *const *vkms_get_crc_sources(struct drm_crtc *crtc,
-> +					size_t *count);
->  int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name);
->  int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_nam=
-e,
->  			   size_t *values_cnt);
+>  extern bool enable_cursor;
+> =20
+> -static const u32 vkms_formats[] =3D {
+> -	DRM_FORMAT_XRGB8888,
+> -};
+> -
+> -static const u32 vkms_cursor_formats[] =3D {
+> -	DRM_FORMAT_ARGB8888,
+> -};
+> -
+>  struct vkms_crc_data {
+>  	struct drm_framebuffer fb;
+>  	struct drm_rect src, dst;
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
+s_plane.c
+> index 0e67d2d42f0c..0fceb6258422 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -6,6 +6,14 @@
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_gem_framebuffer_helper.h>
+> =20
+> +static const u32 vkms_formats[] =3D {
+> +	DRM_FORMAT_XRGB8888,
+> +};
+> +
+> +static const u32 vkms_cursor_formats[] =3D {
+> +	DRM_FORMAT_ARGB8888,
+> +};
+> +
+>  static struct drm_plane_state *
+>  vkms_plane_duplicate_state(struct drm_plane *plane)
+>  {
 > --=20
-> 2.21.0
+> 2.20.1
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-Applied to drm-misc-next.
+Applied to the drm-misc-next branch.
 
-Thanks
+Thanks.
 
 --=20
 Rodrigo Siqueira
 https://siqueira.tech
 
---cr4dg3qspd3barbx
+--xgbkumsvetbzxoyx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0JmZcACgkQWJzP/com
-vP8CvBAAs3EgwxUEIaNT7S1eZcw5vRNwZ/T+HfBCgqOQCVR4iSRp0Mawp3QQj88I
-KRZOnnwbhf2ndDKzDtPQqsu8ipJ0xcT+3nH9Md6aPw8WvHSYZzspQcW/m7SLh8u7
-D4g8JkSqrgRaMf5+XJgklOuxwmWa5kK9iSLU8voIgxcVofYNVav8nfzqkSTR4qp4
-urxaRUJfmMpWAR23dcgsbxE2I9UIfoYjfK5y8ha7T8MPsk4/MuwgrxXecm0g3UMC
-eIcodtLK6VD2Rxx/3OTnopoAUa2Vj4sHuRBYIYYduNtv7RAWmiSVHL2/UAsmqAys
-4sJx/90OqPr7B3ovL+MDAH3KI0L+IcEXk5gGJP6pfsWOm4LuOc9Doz83DMMUaGpx
-qliEY3lrrblnY4RvyZIkkfWWuG3E2kIdXcLN7qcYzmL7Zqb3VIaFuA55iQe1u/oq
-UUmTZeH6KrO3w/248wYviWc7ktTM7nDleZQRYC5MTieOwGaYzoTpgx7Jsxceaszr
-piI16GyHUNOzWk5PucL/UxRZev8l+U0thTAXtrLJ8WUJvpPeTV9q0UdpS7Opij9q
-xArmlpQSTBGxhcRZk25N3YW9gtEk3h64P2ZgKaNeTtQ42yIdqky6c+TVRFO1yB57
-mF+2wIPTMdHmtCqsmXO4vS744w1ijrwhbyohayFlralMOwzUG5g=
-=RWdN
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0JmioACgkQWJzP/com
+vP9p6RAAip9skZZc7b42V/0pjwruSJJVzcpCiyFXAcWs9VZHk3h58MnAPIBNgxNl
+ICcpWe3/ZiIUtG22MNGdlA/sxXtQWJneBlBl7lUyY5UluJy0m+9F499RlqIFLui8
+QmLfqVY+HhXzs5GN/pHLTOPkA8fg9CPmbGJsnUQr8vKLck4WnUwm3gDAlXB5A1ri
+uM5omAEjwWl09a7D9Zx1a3fmq+bT6gY9al+reGtA9SekA0asepGWlTHI3yl3+YGi
+viBJjKAVZzngmcO6e1p2NDq+3epeO3Cz5hlkpHvxW3SKwu/t6+I/OfcBcx14W7qk
+DR7Oqh1ehjYr1COnOcVzajE/aeWOJyW+Aw7di+6vlwUZLjkEc5Kqj9KsuKxEop5n
+Q540UxHx+m8ZLeRno7D/J9fpGsHotOGkaDNZkSx8vwYP/+7UlZl8So4nyV1DaFgh
+j/RBY66blfRjhKZiKLR5fJeRRaGuniSyB/Nd/kyWMHoVp/E07L9Fla3VSbsiOU9T
+ItL5ck8fnGIDVKIhTEwrjUeRBkqo4sxAflpLmY0iIBy1FDaU8a3odXNAbDZljuN+
+ROMyt88Zyz408W9Ay89w0FkeuH7k+oBw5DuubJwfN2ywJWKQdH4aELYLf4LD26sb
+IAOXKC0KWgBrqHbfHfx2rB6jqNUHXCR/ndo3k1xmy7C7FLQ4y3E=
+=LGJH
 -----END PGP SIGNATURE-----
 
---cr4dg3qspd3barbx--
+--xgbkumsvetbzxoyx--
 
---===============1861875205==
+--===============0694191439==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -199,4 +183,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1861875205==--
+--===============0694191439==--
