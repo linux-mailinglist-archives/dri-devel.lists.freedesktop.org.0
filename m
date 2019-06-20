@@ -1,32 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5332B4CD73
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2019 14:10:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 667C14CDB8
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2019 14:28:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0B976E291;
-	Thu, 20 Jun 2019 12:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57D246E3DA;
+	Thu, 20 Jun 2019 12:28:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D717F6E291;
- Thu, 20 Jun 2019 12:10:32 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2019 05:10:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,396,1557212400"; d="scan'208";a="181848119"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
- by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2019 05:10:29 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-Subject: [PULL] drm-intel-fixes
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 20 Jun 2019 15:13:22 +0300
-Message-ID: <87pnn8sbdp.fsf@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCEEE6E3FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2019 12:28:37 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D987F72167; Thu, 20 Jun 2019 12:28:37 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110949] Continuious warnings from agd5f 5.3-wip branch
+Date: Thu, 20 Jun 2019 12:28:38 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110949-502-nxRb1sil3Y@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110949-502@http.bugs.freedesktop.org/>
+References: <bug-110949-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -40,40 +52,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: , dim-tools@lists.freedesktop.org,
- Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1565541820=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhdmUgJiBEYW5pZWwgLQoKZHJtLWludGVsLWZpeGVzLTIwMTktMDYtMjA6CmRybS9pOTE1
-IGZpeGVzIGZvciB2NS4yLXJjNjoKLSBHVlQ6IEZpeCByZXNlcnZlZCBQVklORk8gcmVnaXN0ZXIg
-d3JpdGUgKFdlaW5hbikKLSBBdm9pZCBjbG9iYmVyaW5nIE0vTiB2YWx1ZXMgaW4gZmFzdHNldCBm
-dXp6eSBjaGVja3MgKFZpbGxlKQoKQlIsCkphbmkuCgpUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2lu
-Y2UgY29tbWl0IDllMGJhYmYyYzA2YzczY2RhMmMwY2QzN2ExNjUzZDgyM2FkYjQwZWM6CgogIExp
-bnV4IDUuMi1yYzUgKDIwMTktMDYtMTYgMDg6NDk6NDUgLTEwMDApCgphcmUgYXZhaWxhYmxlIGlu
-IHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoKCiAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3RvcC5vcmcv
-ZHJtL2RybS1pbnRlbCB0YWdzL2RybS1pbnRlbC1maXhlcy0yMDE5LTA2LTIwCgpmb3IgeW91IHRv
-IGZldGNoIGNoYW5nZXMgdXAgdG8gNDc1ZGY1ZDBmM2ViMmQwMzFlNDUwNWY4NGQ4ZmJhNzViYWFm
-MmU4MDoKCiAgZHJtL2k5MTU6IERvbid0IGNsb2JiZXIgTS9OIHZhbHVlcyBkdXJpbmcgZmFzdHNl
-dCBjaGVjayAoMjAxOS0wNi0xOSAxNTo1NzowOSArMDMwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KZHJtL2k5MTUgZml4
-ZXMgZm9yIHY1LjItcmM2OgotIEdWVDogRml4IHJlc2VydmVkIFBWSU5GTyByZWdpc3RlciB3cml0
-ZSAoV2VpbmFuKQotIEF2b2lkIGNsb2JiZXJpbmcgTS9OIHZhbHVlcyBpbiBmYXN0c2V0IGZ1enp5
-IGNoZWNrcyAoVmlsbGUpCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkphbmkgTmlrdWxhICgxKToKICAgICAgTWVyZ2UgdGFn
-ICdndnQtZml4ZXMtMjAxOS0wNi0xOScgb2YgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2d2dC1s
-aW51eCBpbnRvIGRybS1pbnRlbC1maXhlcwoKVmlsbGUgU3lyasOkbMOkICgxKToKICAgICAgZHJt
-L2k5MTU6IERvbid0IGNsb2JiZXIgTS9OIHZhbHVlcyBkdXJpbmcgZmFzdHNldCBjaGVjawoKV2Vp
-bmFuIExpICgxKToKICAgICAgZHJtL2k5MTUvZ3Z0OiBpZ25vcmUgdW5leHBlY3RlZCBwdmluZm8g
-d3JpdGUKCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvaGFuZGxlcnMuYyAgfCAxNSArKysrKysr
-Ky0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfZGlzcGxheS5jIHwgMzggKysrKysr
-KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDM4IGluc2Vy
-dGlvbnMoKyksIDE1IGRlbGV0aW9ucygtKQoKLS0gCkphbmkgTmlrdWxhLCBJbnRlbCBPcGVuIFNv
-dXJjZSBHcmFwaGljcyBDZW50ZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVs
+
+--===============1565541820==
+Content-Type: multipart/alternative; boundary="15610337171.25615.31346"
+Content-Transfer-Encoding: 7bit
+
+
+--15610337171.25615.31346
+Date: Thu, 20 Jun 2019 12:28:37 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110949
+
+--- Comment #3 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
+Seems like there's still issues with dropping the check depending on the AS=
+IC
+revision and probably userspace that's being used.
+
+I can revert this for now while investigating the issue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15610337171.25615.31346
+Date: Thu, 20 Jun 2019 12:28:37 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Continuious warnings from agd5f 5.3-wip branch"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110949#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Continuious warnings from agd5f 5.3-wip branch"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110949">bug 11094=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
+kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
+/a>
+</span></b>
+        <pre>Seems like there's still issues with dropping the check depend=
+ing on the ASIC
+revision and probably userspace that's being used.
+
+I can revert this for now while investigating the issue.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15610337171.25615.31346--
+
+--===============1565541820==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1565541820==--
