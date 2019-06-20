@@ -2,33 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223974CBFE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2019 12:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB104CC17
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2019 12:40:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A88E26E3C6;
-	Thu, 20 Jun 2019 10:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100806E573;
+	Thu, 20 Jun 2019 10:40:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 44C806E3C6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2019 10:35:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 44774360;
- Thu, 20 Jun 2019 03:35:26 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0948A3F718;
- Thu, 20 Jun 2019 03:35:26 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id C177B681DA9; Thu, 20 Jun 2019 11:35:24 +0100 (BST)
-Date: Thu, 20 Jun 2019 11:35:24 +0100
-From: Liviu Dudau <Liviu.Dudau@arm.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [GIT PULL] mali-dp and komeda patches for drm-next
-Message-ID: <20190620103524.GF17204@e110455-lin.cambridge.arm.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D5B906E573
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2019 10:40:01 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D206372167; Thu, 20 Jun 2019 10:40:01 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Thu, 20 Jun 2019 10:40:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-pJSN8z5lwq@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.11.4 (2019-03-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,102 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "james qian wang \(Arm Technology China\)" <james.qian.wang@arm.com>,
- "Lowry Li \(Arm Technology China\)" <lowry.li@arm.com>,
- MaliDP Maintainers <malidp@foss.arm.com>, LKML <linux-kernel@vger.kernel.org>,
- DRI devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0513958198=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRFJNIG1haW50YWluZXJzLAoKUGlja2luZyB1cCBwYWNlIG9uIHRoZSB1cHN0cmVhbWluZyBv
-ZiBLb21lZGEgZHJpdmVyLCB3aXRoIHF1aXRlIGEgbG90Cm9mIG5ldyBmZWF0dXJlcyBhZGRlZCB0
-aGlzIHRpbWUuIE9uIHRvcCBvZiB0aGF0IHdlIGhhdmUgdGhlIHNtYWxsCmNsZWFudXBzIGFuZCBp
-bXByb3ZlZCB1c2FnZSBvZiB0aGUgZGVidWdmcyBmdW5jdGlvbnMuIFBsZWFzZSBwdWxsIQoKQmVz
-dCByZWdhcmRzLApMaXZpdQoKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgNTJk
-MmQ0NGVlZTgwOTFlNzQwZDBkMjc1ZGYxMzExZmI4MzczYzlhOToKCiAgTWVyZ2UgdjUuMi1yYzUg
-aW50byBkcm0tbmV4dCAoMjAxOS0wNi0xOSAxMjowNzoyOSArMDIwMCkKCmFyZSBhdmFpbGFibGUg
-aW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9saW51eC1hcm0ub3JnL2xpbnV4LWxk
-LmdpdCBmb3ItdXBzdHJlYW0vbWFsaS1kcAoKZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRv
-IDM0NGYwMGU0ZDdkNjUzOGMxODYyNTA1YjI1YjY2MmI0N2M5ZTBiYjA6CgogIGRybS9rb21lZGE6
-IE1ha2UgS29tZWRhIGludGVycnVwdHMgc2hhcmVhYmxlICgyMDE5LTA2LTE5IDE3OjA0OjIxICsw
-MTAwKQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQpBcm5kIEJlcmdtYW5uICgxKToKICAgICAgZHJtL2tvbWVkYTogZml4IDMy
-LWJpdCBrb21lZGFfY3J0Y191cGRhdGVfY2xvY2tfcmF0aW8KCkF5YW4gSGFsZGVyICgxKToKICAg
-ICAgZHJtL2tvbWVkYTogTWFrZSBLb21lZGEgaW50ZXJydXB0cyBzaGFyZWFibGUKCkdyZWcgS3Jv
-YWgtSGFydG1hbiAoMik6CiAgICAgIGtvbWVkYTogbm8gbmVlZCB0byBjaGVjayByZXR1cm4gdmFs
-dWUgb2YgZGVidWdmc19jcmVhdGUgZnVuY3Rpb25zCiAgICAgIG1hbGlkcDogbm8gbmVlZCB0byBj
-aGVjayByZXR1cm4gdmFsdWUgb2YgZGVidWdmc19jcmVhdGUgZnVuY3Rpb25zCgpMaXZpdSBEdWRh
-dSAoMSk6CiAgICAgIGFybS9rb21lZGE6IENvbnZlcnQgZHBfd2FpdF9jb25kKCkgdG8gcmV0dXJu
-IGFuIGVycm9yIGNvZGUuCgpMb3dyeSBMaSAoQXJtIFRlY2hub2xvZ3kgQ2hpbmEpICgxMCk6CiAg
-ICAgIGRybS9rb21lZGE6IENyZWF0ZXMgcGxhbmUgYWxwaGEgYW5kIGJsZW5kIG1vZGUgcHJvcGVy
-dGllcwogICAgICBkcm0va29tZWRhOiBDbGVhciBlbmFibGUgYml0IGluIENVX0lOUFVUeF9DT05U
-Uk9MCiAgICAgIGRybS9rb21lZGE6IEFkZCByb3RhdGlvbiBzdXBwb3J0IG9uIEtvbWVkYSBkcml2
-ZXIKICAgICAgZHJtL2tvbWVkYTogQWRkcyBsaW1pdGF0aW9uIGNoZWNrIGZvciBBRkJDIHdpZGUg
-YmxvY2sgbm90IHN1cHBvcnQgUm90OTAKICAgICAgZHJtL2tvbWVkYTogVXBkYXRlIEhXIHVwLXNh
-bXBsaW5nIG9uIEQ3MQogICAgICBkcm0va29tZWRhOiBFbmFibGUgY29sb3ItZW5jb2RpbmcgKFlV
-ViBmb3JtYXQpIHN1cHBvcnQKICAgICAgZHJtL2tvbWVkYTogQWRkcyBTTU1VIHN1cHBvcnQKICAg
-ICAgZHQvYmluZGluZ3M6IGRybS9rb21lZGE6IEFkZHMgU01NVSBzdXBwb3J0IGZvciBENzEgZGV2
-aWNldHJlZQogICAgICBkcm0va29tZWRhOiBBZGRzIHpvcmRlciBzdXBwb3J0CiAgICAgIGRybS9r
-b21lZGE6IEFkZCBzbGF2ZSBwaXBlbGluZSBzdXBwb3J0CgpqYW1lcyBxaWFuIHdhbmcgKEFybSBU
-ZWNobm9sb2d5IENoaW5hKSAoMjEpOgogICAgICBkcm0va29tZWRhOiBBZGQgd3JpdGViYWNrIHN1
-cHBvcnQKICAgICAgZHJtL2tvbWVkYTogQWRkZWQgQUZCQyBzdXBwb3J0IGZvciBrb21lZGEgZHJp
-dmVyCiAgICAgIGRybS9rb21lZGE6IEF0dGFjaCBzY2FsZXIgdG8gZHJtIGFzIHByaXZhdGUgb2Jq
-ZWN0CiAgICAgIGRybS9rb21lZGE6IEFkZCB0aGUgaW5pdGlhbCBzY2FsZXIgc3VwcG9ydCBmb3Ig
-Q09SRQogICAgICBkcm0va29tZWRhOiBJbXBsZW1lbnQgRDcxIHNjYWxlciBzdXBwb3J0CiAgICAg
-IGRybS9rb21lZGE6IEFkZCB3cml0ZWJhY2sgc2NhbGluZyBzdXBwb3J0CiAgICAgIGRybS9rb21l
-ZGE6IEFkZCBlbmdpbmUgY2xvY2sgcmVxdWlyZW1lbnQgY2hlY2sgZm9yIHRoZSBkb3duc2NhbGlu
-ZwogICAgICBkcm0va29tZWRhOiBBZGQgaW1hZ2UgZW5oYW5jZW1lbnQgc3VwcG9ydAogICAgICBk
-cm0va29tZWRhOiBBZGQga29tZWRhX2ZiX2NoZWNrX3NyY19jb29yZHMKICAgICAgZHJtL2tvbWVk
-YTogQWRkIGZvcm1hdCBzdXBwb3J0IGZvciBZMEwyLCBQMDEwLCBZVVY0MjBfOC8xMEJJVAogICAg
-ICBkcm0va29tZWRhOiBVbmlmeSBtY2xrL3BjbGsvcGlwZWxpbmUtPmFjbGsgdG8gb25lIE1DTEsK
-ICAgICAgZHJtL2tvbWVkYTogUmVuYW1lIG1haW4gZW5naW5lIGNsayBuYW1lICJtY2xrIiB0byAi
-YWNsayIKICAgICAgZHQvYmluZGluZ3M6IGRybS9rb21lZGE6IFVuaWZ5IG1jbGsvcGNsay9waXBl
-bGluZS0+YWNsayB0byBvbmUgQUNMSwogICAgICBkcm0va29tZWRhOiBBZGQgY29tcG9uZW50IGtv
-bWVkYV9tZXJnZXIKICAgICAgZHJtL2tvbWVkYTogQWRkIHNwbGl0IHN1cHBvcnQgZm9yIHNjYWxl
-cgogICAgICBkcm0va29tZWRhOiBBZGQgbGF5ZXIgc3BsaXQgc3VwcG9ydAogICAgICBkcm0va29t
-ZWRhOiBSZWZpbmUgZnVuY3Rpb24gdG9fZDcxX2lucHV0X2lkCiAgICAgIGRybS9rb21lZGE6IEFj
-Y2VwdCBudWxsIHdyaXRlYmFjayBjb25maWd1cmF0aW9ucyBmb3Igd3JpdGViYWNrCiAgICAgIGRy
-bS9rb21lZGE6IEFkZCBuZXcgY29tcG9uZW50IGtvbWVkYV9zcGxpdHRlcgogICAgICBkcm0va29t
-ZWRhOiBFbmFibGUgd3JpdGViYWNrIHNwbGl0IHN1cHBvcnQKICAgICAgZHJtL2tvbWVkYTogQ29y
-cmVjdCBwcmludGsgZm9ybWF0IHNwZWNpZmllciBmb3IgInNpemVfdCIKCiAuLi4vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9kaXNwbGF5L2FybSxrb21lZGEudHh0ICAgICB8ICAyMyArLQogZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2luY2x1ZGUvbWFsaWRwX2lvLmggICAgfCAgIDcgKwogZHJpdmVy
-cy9ncHUvZHJtL2FybS9kaXNwbGF5L2luY2x1ZGUvbWFsaWRwX3V0aWxzLmggfCAgIDUgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEvTWFrZWZpbGUgICAgICAgIHwgICAyICsK
-IC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9kNzEvZDcxX2NvbXBvbmVudC5jIHwgNTgy
-ICsrKysrKysrKysrKysrKysrLQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9k
-NzEvZDcxX2Rldi5jICAgfCAxNDIgKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9r
-b21lZGEvZDcxL2Q3MV9kZXYuaCAgIHwgICAyICsKIC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tv
-bWVkYS9rb21lZGFfY29sb3JfbWdtdC5jIHwgIDY3ICsrCiAuLi4vZ3B1L2RybS9hcm0vZGlzcGxh
-eS9rb21lZGEva29tZWRhX2NvbG9yX21nbXQuaCB8ICAxNyArCiBkcml2ZXJzL2dwdS9kcm0vYXJt
-L2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRjLmMgICB8IDE1NCArKysrLQogZHJpdmVycy9ncHUv
-ZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZGV2LmMgICAgfCAgNTkgKy0KIGRyaXZlcnMv
-Z3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Rldi5oICAgIHwgIDEzICstCiAuLi4v
-ZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZm9ybWF0X2NhcHMuYyAgICB8ICA1OCArKwog
-Li4uL2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Zvcm1hdF9jYXBzLmggICAgfCAgMjQg
-Ky0KIC4uLi9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9mcmFtZWJ1ZmZlci5jICAgIHwg
-MTc1ICsrKysrLQogLi4uL2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ZyYW1lYnVmZmVy
-LmggICAgfCAgMTMgKy0KIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRh
-X2ttcy5jICAgIHwgMTMwICsrKy0KIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
-a29tZWRhX2ttcy5oICAgIHwgIDcxICsrLQogLi4uL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRh
-L2tvbWVkYV9waXBlbGluZS5jICAgfCAgNjYgKy0KIC4uLi9ncHUvZHJtL2FybS9kaXNwbGF5L2tv
-bWVkYS9rb21lZGFfcGlwZWxpbmUuaCAgIHwgMTExICsrKy0KIC4uLi9kcm0vYXJtL2Rpc3BsYXkv
-a29tZWRhL2tvbWVkYV9waXBlbGluZV9zdGF0ZS5jIHwgNjc5ICsrKysrKysrKysrKysrKysrKysr
-LQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcGxhbmUuYyAgfCAx
-OTEgKysrKystCiAuLi4vZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfcHJpdmF0ZV9vYmou
-YyAgICB8IDE1NCArKysrKwogLi4uL2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX3diX2Nv
-bm5lY3Rvci5jICAgfCAxOTkgKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9kcnYu
-YyAgICAgICAgICAgICAgICAgICB8ICAxMSArLQogMjUgZmlsZXMgY2hhbmdlZCwgMjcyOCBpbnNl
-cnRpb25zKCspLCAyMjcgZGVsZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY29sb3JfbWdtdC5jCiBjcmVhdGUgbW9k
-ZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY29sb3Jf
-bWdtdC5oCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tv
-bWVkYS9rb21lZGFfd2JfY29ubmVjdG9yLmMKCgotLSAKPT09PT09PT09PT09PT09PT09PT0KfCBJ
-IHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8CnwgYnV0IHRoZXkncmUgbm90IHwK
-fCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEgIC8KICAtLS0tLS0tLS0tLS0tLS0K
-ICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+
+--===============0513958198==
+Content-Type: multipart/alternative; boundary="15610272012.89F3Bc.14674"
+Content-Transfer-Encoding: 7bit
+
+
+--15610272012.89F3Bc.14674
+Date: Thu, 20 Jun 2019 10:40:01 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #23 from tempel.julian@gmail.com ---
+Any news on this? I'd really like to have this sorted out before I
+wholeheartedly recommended Navi for Linux gaming.
+I can imagine that Navi causes a ton of work, but still this issue is painf=
+ul.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15610272012.89F3Bc.14674
+Date: Thu, 20 Jun 2019 10:40:01 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c23">Comme=
+nt # 23</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>Any news on this? I'd really like to have this sorted out befo=
+re I
+wholeheartedly recommended Navi for Linux gaming.
+I can imagine that Navi causes a ton of work, but still this issue is painf=
+ul.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15610272012.89F3Bc.14674--
+
+--===============0513958198==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0513958198==--
