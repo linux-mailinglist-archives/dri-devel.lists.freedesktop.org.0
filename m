@@ -1,39 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314064C890
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2019 09:44:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB544C8C0
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Jun 2019 09:57:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA0166E509;
-	Thu, 20 Jun 2019 07:44:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C43696E501;
+	Thu, 20 Jun 2019 07:57:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAF16E501
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2019 07:44:35 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 16CD83058F5B;
- Thu, 20 Jun 2019 07:44:33 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
- [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F25B5C21E;
- Thu, 20 Jun 2019 07:44:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8100A17538; Thu, 20 Jun 2019 09:44:25 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 6/6] drm/vram: drop drm_gem_vram_driver_gem_prime_mmap
-Date: Thu, 20 Jun 2019 09:44:24 +0200
-Message-Id: <20190620074424.1677-7-kraxel@redhat.com>
-In-Reply-To: <20190620074424.1677-1-kraxel@redhat.com>
-References: <20190620074424.1677-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 20 Jun 2019 07:44:35 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A7356E501
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Jun 2019 07:57:53 +0000 (UTC)
+X-Originating-IP: 90.88.23.150
+Received: from localhost (aaubervilliers-681-1-81-150.w90-88.abo.wanadoo.fr
+ [90.88.23.150]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 45FB72000A;
+ Thu, 20 Jun 2019 07:57:50 +0000 (UTC)
+Date: Thu, 20 Jun 2019 09:57:49 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [RFC PATCH 1/4] dt-bindings: display: Convert common panel
+ bindings to DT schema
+Message-ID: <20190620075749.o6i76exxhe2xbpfo@flea>
+References: <20190619215156.27795-1-robh@kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20190619215156.27795-1-robh@kernel.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,53 +40,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- open list <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Gerd Hoffmann <kraxel@redhat.com>, Sean Paul <sean@poorly.run>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: multipart/mixed; boundary="===============1460645140=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHdyYXBwZXIgZG9lc24ndCBkbyBhbnl0aGluZyBhbnkgbW9yZSwgZHJvcCBpdC4KClNpZ25l
-ZC1vZmYtYnk6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgotLS0KIGluY2x1ZGUv
-ZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaCAgICAgfCAgNCArLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-ZHJtX2dlbV92cmFtX2hlbHBlci5jIHwgMTcgLS0tLS0tLS0tLS0tLS0tLS0KIDIgZmlsZXMgY2hh
-bmdlZCwgMSBpbnNlcnRpb24oKyksIDIwIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2luY2x1
-ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9o
-ZWxwZXIuaAppbmRleCA3YjlmNTBiYTNmY2UuLjJhZGE2NzFhMmE2YiAxMDA2NDQKLS0tIGEvaW5j
-bHVkZS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9nZW1f
-dnJhbV9oZWxwZXIuaApAQCAtMTM3LDggKzEzNyw2IEBAIHZvaWQgZHJtX2dlbV92cmFtX2RyaXZl
-cl9nZW1fcHJpbWVfdW5waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwogdm9pZCAqZHJt
-X2dlbV92cmFtX2RyaXZlcl9nZW1fcHJpbWVfdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9i
-aik7CiB2b2lkIGRybV9nZW1fdnJhbV9kcml2ZXJfZ2VtX3ByaW1lX3Z1bm1hcChzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKm9iaiwKIAkJCQkJICB2b2lkICp2YWRkcik7Ci1pbnQgZHJtX2dlbV92cmFt
-X2RyaXZlcl9nZW1fcHJpbWVfbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKLQkJCQkg
-ICAgICAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpOwogCiAjZGVmaW5lIERSTV9HRU1fVlJB
-TV9EUklWRVJfUFJJTUUgXAogCS5nZW1fcHJpbWVfZXhwb3J0ID0gZHJtX2dlbV9wcmltZV9leHBv
-cnQsIFwKQEAgLTE0Nyw2ICsxNDUsNiBAQCBpbnQgZHJtX2dlbV92cmFtX2RyaXZlcl9nZW1fcHJp
-bWVfbW1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKIAkuZ2VtX3ByaW1lX3VucGluICA9
-IGRybV9nZW1fdnJhbV9kcml2ZXJfZ2VtX3ByaW1lX3VucGluLCBcCiAJLmdlbV9wcmltZV92bWFw
-CSAgPSBkcm1fZ2VtX3ZyYW1fZHJpdmVyX2dlbV9wcmltZV92bWFwLCBcCiAJLmdlbV9wcmltZV92
-dW5tYXAgPSBkcm1fZ2VtX3ZyYW1fZHJpdmVyX2dlbV9wcmltZV92dW5tYXAsIFwKLQkuZ2VtX3By
-aW1lX21tYXAJICA9IGRybV9nZW1fdnJhbV9kcml2ZXJfZ2VtX3ByaW1lX21tYXAKKwkuZ2VtX3By
-aW1lX21tYXAJICA9IGRybV9nZW1fcHJpbWVfbW1hcAogCiAjZW5kaWYKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbV92cmFtX2hlbHBlci5jCmluZGV4IDJlNDc0ZGVlMzBkZi4uZDc4NzYxODAyMzc0IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jCisrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKQEAgLTYxOSwyMCArNjE5LDMgQEAgdm9p
-ZCBkcm1fZ2VtX3ZyYW1fZHJpdmVyX2dlbV9wcmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2Jq
-ZWN0ICpnZW0sCiAJZHJtX2dlbV92cmFtX3VucGluKGdibyk7CiB9CiBFWFBPUlRfU1lNQk9MKGRy
-bV9nZW1fdnJhbV9kcml2ZXJfZ2VtX3ByaW1lX3Z1bm1hcCk7Ci0KLS8qKgotICogZHJtX2dlbV92
-cmFtX2RyaXZlcl9nZW1fcHJpbWVfbW1hcCgpIC0gXAotCUltcGxlbWVudHMgJnN0cnVjdCBkcm1f
-ZHJpdmVyLmdlbV9wcmltZV9tbWFwCi0gKiBAZ2VtOglUaGUgR0VNIG9iamVjdCB0byBtYXAKLSAq
-IEB2bWE6CVRoZSBWTUEgZGVzY3JpYmluZyB0aGUgbWFwcGluZwotICoKLSAqIFJldHVybnM6Ci0g
-KiAwIG9uIHN1Y2Nlc3MsIG9yCi0gKiBhIG5lZ2F0aXZlIGVycm5vIGNvZGUgb3RoZXJ3aXNlLgot
-ICovCi1pbnQgZHJtX2dlbV92cmFtX2RyaXZlcl9nZW1fcHJpbWVfbW1hcChzdHJ1Y3QgZHJtX2dl
-bV9vYmplY3QgKmdlbSwKLQkJCQkgICAgICAgc3RydWN0IHZtX2FyZWFfc3RydWN0ICp2bWEpCi17
-Ci0JcmV0dXJuIGRybV9nZW1fcHJpbWVfbW1hcChnZW0sIHZtYSk7Ci19Ci1FWFBPUlRfU1lNQk9M
-KGRybV9nZW1fdnJhbV9kcml2ZXJfZ2VtX3ByaW1lX21tYXApOwotLSAKMi4xOC4xCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1460645140==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4oxwmcz4cekh22my"
+Content-Disposition: inline
+
+
+--4oxwmcz4cekh22my
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Jun 19, 2019 at 03:51:53PM -0600, Rob Herring wrote:
+> Convert the common panel bindings to DT schema consolidating scattered
+> definitions to a single schema file.
+>
+> The 'simple-panel' binding just a collection of properties and not a
+> complete binding itself. All of the 'simple-panel' properties are
+> covered by the panel-common.txt binding with the exception of the
+> 'no-hpd' property, so add that to the schema.
+>
+> As there are lots of references to simple-panel.txt, just keep the file
+> with a reference to panel-common.yaml for now until all the bindings are
+> converted.
+>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Reviewed-by: Maxime Ripard <maxime.ripard@bootlin.com>
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--4oxwmcz4cekh22my
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXQs8fQAKCRDj7w1vZxhR
+xWqfAQC4mg5/Loj8+ISTLoz6dZc1DK9gRuM+Zd0n3nqR5qy78gEA6zQubCUl5ZuG
+Q2QwmDebJXYojsaueg4Yq1I2Jd28oQE=
+=8Jp7
+-----END PGP SIGNATURE-----
+
+--4oxwmcz4cekh22my--
+
+--===============1460645140==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1460645140==--
