@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3304F0AA
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 00:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3D44F0D3
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 00:35:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26FD66E92F;
-	Fri, 21 Jun 2019 22:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 020E289DB5;
+	Fri, 21 Jun 2019 22:35:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
- [195.113.26.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 906CC6E92F
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2019 22:13:29 +0000 (UTC)
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
- id 2CCC2805DE; Sat, 22 Jun 2019 00:13:15 +0200 (CEST)
-Date: Sat, 22 Jun 2019 00:13:25 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: Re: [PATCH 2/3] backlight/arcxcnn fix vendor prefix
-Message-ID: <20190621221325.GA2343@amd>
-References: <1541592640-18478-1-git-send-email-bdodge09@gmail.com>
- <1541592640-18478-3-git-send-email-bdodge09@gmail.com>
- <20181111113053.GF27666@amd>
- <e372391c-1fd5-41ec-b766-7669fffb928d@gmail.com>
- <c4477220-7159-b5a8-16ea-4f4dbb645ced@linaro.org>
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DB4D89DB5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2019 22:35:37 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.76) (envelope-from <colin.king@canonical.com>)
+ id 1heS86-0000Or-EG; Fri, 21 Jun 2019 22:35:34 +0000
+From: Colin King <colin.king@canonical.com>
+To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Thomas Hellstrom <thellstrom@vmware.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: fix memory leak when too many retries have
+ occurred
+Date: Fri, 21 Jun 2019 23:35:34 +0100
+Message-Id: <20190621223534.14283-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <c4477220-7159-b5a8-16ea-4f4dbb645ced@linaro.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,82 +39,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mark.rutland@arm.com, devicetree@vger.kernel.org,
- Brian Dodge <bdodge09@gmail.com>, jingoohan1@gmail.com,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
- jacek.anaszewski@gmail.com, Peter Bacon <pbacon@psemi.com>,
- lee.jones@linaro.org, linux-leds@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============2011993797=="
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2011993797==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VbJkn9YxBvnuCH5J"
-Content-Disposition: inline
-
-
---VbJkn9YxBvnuCH5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> [Sorry to those receiving this twice... had to dig this out from the
-> archives and sent it to the lists from the wrong mailer]
->=20
-> On 27/11/2018 00:44, Brian Dodge wrote:
-> >Thank you Pavel, that is a good point.
-> >
-> >The chip vendor has indicated that there is no reason to maintain the
-> >old/improper prefix and wishes to go forward (only) with the "arctic"
-> >prefix and any existing dts files are or will be updated.
->=20
-> Looks like this patch series has fallen into the cracks a little.
->=20
-> I think I assumed this info would end in the description of patch v2 1/3 =
-(in
-> order to answer Rob's feedback) and I sat and waited for a respin. On the
-> other hand... I didn't actually say that explicitly anywhere! So... I'd
-> recommend a respin perhaps with a small bit of text explaining how the
-> vendor can state that any existing dts files will be updated. This is a
-> peripheral device so these strings are probably embedded into OEM
-> devicetrees rather than exclusively under the control of the vendor.
-
-So in next email you give good reason not to apply this :-).
-
-Anyway, this is Doc*/devicetree/, so not my area.
-									Pavel
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---VbJkn9YxBvnuCH5J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl0NVoUACgkQMOfwapXb+vKcPQCeMXZLMpPGhmvkuIH+olZhfCFk
-CVIAoLN12wP5S77RinlmdQ/jZIZqwCWD
-=7Nqr
------END PGP SIGNATURE-----
-
---VbJkn9YxBvnuCH5J--
-
---===============2011993797==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2011993797==--
+RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KCkN1cnJlbnRs
+eSB3aGVuIHRvbyBtYW55IHJldHJpZXMgaGF2ZSBvY2N1cnJlZCB0aGVyZSBpcyBhIG1lbW9yeQps
+ZWFrIG9uIHRoZSBhbGxvY2F0aW9uIGZvciByZXBseSBvbiB0aGUgZXJyb3IgcmV0dXJuIHBhdGgu
+IEZpeAp0aGlzIGJ5IGtmcmVlJ2luZyByZXBseSBiZWZvcmUgcmV0dXJuaW5nLgoKQWRkcmVzc2Vz
+LUNvdmVyaXR5OiAoIlJlc291cmNlIGxlYWsiKQpGaXhlczogYTljZDljMDQ0YWE5ICgiZHJtL3Zt
+d2dmeDogQWRkIGEgY2hlY2sgdG8gaGFuZGxlIGhvc3QgbWVzc2FnZSBmYWlsdXJlIikKU2lnbmVk
+LW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KLS0tCiBk
+cml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9tc2cuYyB8IDQgKysrLQogMSBmaWxlIGNoYW5n
+ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jIGIvZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdn
+ZnhfbXNnLmMKaW5kZXggOGI5MjcwZjMxNDA5Li44YjYxZjE2ZjUwY2YgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X21zZy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92
+bXdnZngvdm13Z2Z4X21zZy5jCkBAIC0zMDEsOCArMzAxLDEwIEBAIHN0YXRpYyBpbnQgdm13X3Jl
+Y3ZfbXNnKHN0cnVjdCBycGNfY2hhbm5lbCAqY2hhbm5lbCwgdm9pZCAqKm1zZywKIAkJYnJlYWs7
+CiAJfQogCi0JaWYgKHJldHJpZXMgPT0gUkVUUklFUykKKwlpZiAocmV0cmllcyA9PSBSRVRSSUVT
+KSB7CisJCWtmcmVlKHJlcGx5KTsKIAkJcmV0dXJuIC1FSU5WQUw7CisJfQogCiAJKm1zZ19sZW4g
+PSByZXBseV9sZW47CiAJKm1zZyAgICAgPSByZXBseTsKLS0gCjIuMjAuMQoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
