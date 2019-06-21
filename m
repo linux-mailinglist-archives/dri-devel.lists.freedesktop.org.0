@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441534EFEF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2019 22:17:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9804EFF4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2019 22:18:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E775B6E91F;
-	Fri, 21 Jun 2019 20:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E12556E922;
+	Fri, 21 Jun 2019 20:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1A5596E91F
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2019 20:17:34 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5FC256E923
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2019 20:18:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0EDCF72168; Fri, 21 Jun 2019 20:17:34 +0000 (UTC)
+ id 5CA3A72167; Fri, 21 Jun 2019 20:18:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Fri, 21 Jun 2019 20:17:34 +0000
+Date: Fri, 21 Jun 2019 20:18:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-nWhsm7VpWv@http.bugs.freedesktop.org/>
+Message-ID: <bug-110674-502-kIcvmJDsMV@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1725357422=="
+Content-Type: multipart/mixed; boundary="===============1297699148=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1725357422==
-Content-Type: multipart/alternative; boundary="15611482540.E025D.2888"
+--===============1297699148==
+Content-Type: multipart/alternative; boundary="15611483193.6CFD6.3418"
 Content-Transfer-Encoding: 7bit
 
 
---15611482540.E025D.2888
-Date: Fri, 21 Jun 2019 20:17:34 +0000
+--15611483193.6CFD6.3418
+Date: Fri, 21 Jun 2019 20:18:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,19 +72,26 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #42 from Matt Coffin <mcoffin13@gmail.com> ---
-For what it's worth, I've experienced a bunch of issues similar to this with
-OVERDRIVE enabled. You can try disabling it by setting the following in
-modprobe.d or your kernel launch line
+--- Comment #43 from Matt Coffin <mcoffin13@gmail.com> ---
+(In reply to Matt Coffin from comment #42)
+> For what it's worth, I've experienced a bunch of issues similar to this w=
+ith
+> OVERDRIVE enabled. You can try disabling it by setting the following in
+> modprobe.d or your kernel launch line
+>=20
+> amdgpu.ppfeaturemask=3D0xfffdbfff
 
-amdgpu.ppfeaturemask=3D0xfffdbfff
+Also worth noting that I've found that using `fancontrol` creates a race
+condition if you have the OD fuzzy fan control enabled, so try just maxing =
+out
+the fans via the sysfs hwmon interface instead just as a test.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15611482540.E025D.2888
-Date: Fri, 21 Jun 2019 20:17:34 +0000
+--15611483193.6CFD6.3418
+Date: Fri, 21 Jun 2019 20:18:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +108,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c42">Comme=
-nt # 42</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c43">Comme=
+nt # 43</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -112,12 +119,19 @@ nt # 42</a>
 mcoffin13&#64;gmail.com" title=3D"Matt Coffin &lt;mcoffin13&#64;gmail.com&g=
 t;"> <span class=3D"fn">Matt Coffin</span></a>
 </span></b>
-        <pre>For what it's worth, I've experienced a bunch of issues simila=
-r to this with
-OVERDRIVE enabled. You can try disabling it by setting the following in
-modprobe.d or your kernel launch line
+        <pre>(In reply to Matt Coffin from <a href=3D"show_bug.cgi?id=3D110=
+674#c42">comment #42</a>)
+<span class=3D"quote">&gt; For what it's worth, I've experienced a bunch of=
+ issues similar to this with
+&gt; OVERDRIVE enabled. You can try disabling it by setting the following in
+&gt; modprobe.d or your kernel launch line
+&gt;=20
+&gt; amdgpu.ppfeaturemask=3D0xfffdbfff</span >
 
-amdgpu.ppfeaturemask=3D0xfffdbfff</pre>
+Also worth noting that I've found that using `fancontrol` creates a race
+condition if you have the OD fuzzy fan control enabled, so try just maxing =
+out
+the fans via the sysfs hwmon interface instead just as a test.</pre>
         </div>
       </p>
 
@@ -131,9 +145,9 @@ amdgpu.ppfeaturemask=3D0xfffdbfff</pre>
     </body>
 </html>=
 
---15611482540.E025D.2888--
+--15611483193.6CFD6.3418--
 
---===============1725357422==
+--===============1297699148==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +157,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1725357422==--
+--===============1297699148==--
