@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E244EEBC
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2019 20:20:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ACD4EEC4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Jun 2019 20:26:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA02E6E90C;
-	Fri, 21 Jun 2019 18:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE40A6E90F;
+	Fri, 21 Jun 2019 18:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 339 seconds by postgrey-1.36 at gabe;
- Fri, 21 Jun 2019 18:20:47 UTC
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B6346E90C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2019 18:20:46 +0000 (UTC)
-Received: from callcc.thunk.org (guestnat-104-133-0-109.corp.google.com
- [104.133.0.109] (may be forged)) (authenticated bits=0)
- (User authenticated as tytso@ATHENA.MIT.EDU)
- by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x5LIDgGF021070
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Jun 2019 14:13:44 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
- id 441B9420484; Fri, 21 Jun 2019 14:13:42 -0400 (EDT)
-Date: Fri, 21 Jun 2019 14:13:42 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: shuah <shuah@kernel.org>
-Subject: Re: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-Message-ID: <20190621181342.GA17166@mit.edu>
-Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>, shuah <shuah@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- Brendan Higgins <brendanhiggins@google.com>,
- gregkh@linuxfoundation.org, jpoimboe@redhat.com,
- keescook@google.com, kieran.bingham@ideasonboard.com,
- mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
- sboyd@kernel.org, yamada.masahiro@socionext.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
- Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
- amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
- jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
- khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
- mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
- richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
- wfg@linux.intel.com
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
- <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9F5AC6E913
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Jun 2019 18:26:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9C1CE72167; Fri, 21 Jun 2019 18:26:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110117] Waking from Suspend causes screen to appear with grey
+ static (like a TV with no signal)
+Date: Fri, 21 Jun 2019 18:26:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: firesand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110117-502-RvWC3gDKFX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110117-502@http.bugs.freedesktop.org/>
+References: <bug-110117-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,53 +53,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, peterz@infradead.org,
- amir73il@gmail.com, Brendan Higgins <brendanhiggins@google.com>,
- dri-devel@lists.freedesktop.org, Alexander.Levin@microsoft.com,
- yamada.masahiro@socionext.com, mpe@ellerman.id.au,
- linux-kselftest@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
- linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
- kieran.bingham@ideasonboard.com, wfg@linux.intel.com, joel@jms.id.au,
- rientjes@google.com, jdike@addtoit.com, dan.carpenter@oracle.com,
- devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org, Tim.Bird@sony.com,
- linux-um@lists.infradead.org, rostedt@goodmis.org, julia.lawall@lip6.fr,
- jpoimboe@redhat.com, kunit-dev@googlegroups.com, richard@nod.at,
- sboyd@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, mcgrof@kernel.org, keescook@google.com,
- linux-fsdevel@vger.kernel.org, logang@deltatee.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1585867827=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMjEsIDIwMTkgYXQgMDg6NTk6NDhBTSAtMDYwMCwgc2h1YWggd3JvdGU6Cj4g
-PiA+ICMjIyBCdXQgd2FpdCEgRG9lc24ndCBrc2VsZnRlc3Qgc3VwcG9ydCBpbiBrZXJuZWwgdGVz
-dGluZz8hCj4gPiA+Cj4gPiA+IC4uLi4KPiAKPiBJIHRoaW5rIEkgY29tbWVudGVkIG9uIHRoaXMg
-YmVmb3JlLiBJIGFncmVlIHdpdGggdGhlIHN0YXRlbWVudCB0aGF0Cj4gdGhlcmUgaXMgbm8gb3Zl
-cmxhcCBiZXR3ZWVuIEtzZWxmdGVzdCBhbmQgS1VuaXQuIEkgd291bGQgbGlrZSBzZWUgdGhpcwo+
-IHJlbW92ZWQuIEtzZWxmdGVzdCBtb2R1bGUgc3VwcG9ydCBzdXBwb3J0cyB1c2UtY2FzZXMgS1Vu
-aXQgd29uJ3QgYmUgYWJsZQo+IHRvLiBJIGNhbiBidWlsZCBhbiBrZXJuZWwgd2l0aCBLc2VsZnRl
-c3QgdGVzdCBtb2R1bGVzIGFuZCB1c2UgaXQgaW4gdGhlCj4gZmlsZWQgdG8gbG9hZCBhbmQgcnVu
-IHRlc3RzIGlmIEkgbmVlZCB0byBkZWJ1ZyBhIHByb2JsZW0gYW5kIGdldCBkYXRhCj4gZnJvbSBh
-IHN5c3RlbS4gSSBjYW4ndCBkbyB0aGF0IHdpdGggS1VuaXQuCj4gCj4gSW4gbXkgbWluZCwgSSBh
-bSBub3Qgdmlld2luZyB0aGlzIGFzIHdoaWNoIGlzIGJldHRlci4gS3NlbGZ0ZXN0IGFuZAo+IEtV
-bml0IGJvdGggaGF2ZSB0aGVpciBwbGFjZSBpbiB0aGUga2VybmVsIGRldmVsb3BtZW50IHByb2Nl
-c3MuIEl0IGlzbid0Cj4gcHJvZHVjdGl2ZSBhbmQvb3IgbmVjZXNzYXJ5IHRvIGNvbXBhcmluZyBL
-c2VsZnRlc3QgYW5kIEtVbml0IHdpdGhvdXQgYQo+IGdvb2QgdW5kZXJzdGFuZGluZyBvZiB0aGUg
-cHJvYmxlbSBzcGFjZXMgZm9yIGVhY2ggb2YgdGhlc2UuCj4KPiBJIHdvdWxkIHN0cm9uZ2x5IHJl
-Y29tbWVuZCBub3QgbWFraW5nIHJlZmVyZW5jZSB0byBLc2VsZnRlc3QgYW5kIHRhbGsKPiBhYm91
-dCB3aGF0IEtVbml0IG9mZmVycy4KClNodWFoLAoKSnVzdCB0byByZWNhbGwgdGhlIGhpc3Rvcnks
-IHRoaXMgc2VjdGlvbiBvZiB0aGUgRkFRIHdhcyBhZGRlZCB0byByZWJ1dAp0aGUgKioqdmVyeSoq
-KiBzdHJvbmcgc3RhdGVtZW50cyB0aGF0IEZyYW5rIG1hZGUgdGhhdCB0aGVyZSB3YXMKb3Zlcmxh
-cCBiZXR3ZWVuIEtzZWxmdGVzdCBhbmQgS3VuaXQsIGFuZCB0aGF0IGhhdmluZyB0b28gbWFueSB3
-YXlzIGZvcgprZXJuZWwgZGV2ZWxvcGVycyB0byBkbyB0aGUgaWRlbnRpY2FsIHRoaW5nIHdhcyBo
-YXJtZnVsIChoZSBzYWlkIGl0CndhcyB0b28gbXVjaCBvZiBhIGJ1cmRlbiBvbiBhIGtlcm5lbCBk
-ZXZlbG9wZXIpIC0tLSBhbmQgdGhpcyB3YXMgYW4KYXJndW1lbnQgZm9yIG5vdCBpbmNsdWRpbmcg
-S3VuaXQgaW4gdGhlIHVwc3RyZWFtIGtlcm5lbC4KCklmIHdlJ3JlIHBhc3QgdGhhdCBvYmplY3Rp
-b24sIHRoZW4gcGVyaGFwcyB0aGlzIHNlY3Rpb24gY2FuIGJlCmRyb3BwZWQsIGJ1dCB0aGVyZSdz
-IGEgdmVyeSBnb29kIHJlYXNvbiB3aHkgaXQgd2FzIHRoZXJlLiAgSSB3b3VsZG4ndApCcmVuZGFu
-IHRvIGJlIGFjY3VzZWQgb2YgaWdub3JpbmcgZmVlZGJhY2sgZnJvbSB0aG9zZSB3aG8gcmV2aWV3
-ZWQgaGlzCnBhdGNoZXMuICAgOi0pCgoJCQkJCQktIFRlZApfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1585867827==
+Content-Type: multipart/alternative; boundary="15611415802.B2f1.18153"
+Content-Transfer-Encoding: 7bit
+
+
+--15611415802.B2f1.18153
+Date: Fri, 21 Jun 2019 18:26:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110117
+
+--- Comment #14 from edo hikmahtiar <firesand@gmail.com> ---
+happened to me too using Opensuse Tumbleweed with kernel 5.1.7 and MESA 19.=
+0.5,
+I have been try to disable power management in amdgpu via kernel paramater =
+but
+still happen.
+this happen to me while I play some game(s) such Mutant Zero Year and Uboat=
+ on
+the STEAM, while other games seems doesnt trigger this static greyed display
+such as The Witcher 3
+I cant log/reproduce any error messages since I'm using the laptop display
+(Acer Predator Helios 500 Ryzen 2700 with vega56)
+but maybe I can show my recorded video taken from my phone while this displ=
+ay
+glitch happened.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15611415802.B2f1.18153
+Date: Fri, 21 Jun 2019 18:26:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
+tic (like a TV with no signal)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Waking from Suspend causes screen to appear with grey sta=
+tic (like a TV with no signal)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110117">bug 11011=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+firesand&#64;gmail.com" title=3D"edo hikmahtiar &lt;firesand&#64;gmail.com&=
+gt;"> <span class=3D"fn">edo hikmahtiar</span></a>
+</span></b>
+        <pre>happened to me too using Opensuse Tumbleweed with kernel 5.1.7=
+ and MESA 19.0.5,
+I have been try to disable power management in amdgpu via kernel paramater =
+but
+still happen.
+this happen to me while I play some game(s) such Mutant Zero Year and Uboat=
+ on
+the STEAM, while other games seems doesnt trigger this static greyed display
+such as The Witcher 3
+I cant log/reproduce any error messages since I'm using the laptop display
+(Acer Predator Helios 500 Ryzen 2700 with vega56)
+but maybe I can show my recorded video taken from my phone while this displ=
+ay
+glitch happened.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15611415802.B2f1.18153--
+
+--===============1585867827==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1585867827==--
