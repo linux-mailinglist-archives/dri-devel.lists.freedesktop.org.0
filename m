@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A184F31B
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 03:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7554F321
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 03:47:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB8566E949;
-	Sat, 22 Jun 2019 01:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B25426E8BF;
+	Sat, 22 Jun 2019 01:47:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 84D7B6E949
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 01:32:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id EA9056E8BF
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 01:47:34 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 815C772167; Sat, 22 Jun 2019 01:32:24 +0000 (UTC)
+ id DF7EC72167; Sat, 22 Jun 2019 01:47:34 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110957] wsa-amdgpu package has empty copyright file
-Date: Sat, 22 Jun 2019 01:32:24 +0000
+Subject: [Bug 110958] Mentioning 32 bit OS support in Release page
+Date: Sat, 22 Jun 2019 01:47:35 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110957-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110958-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,32 +51,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2082491605=="
+Content-Type: multipart/mixed; boundary="===============0215911992=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2082491605==
-Content-Type: multipart/alternative; boundary="15611671441.2A32b5fBe.17976"
+--===============0215911992==
+Content-Type: multipart/alternative; boundary="15611680540.38c72B9.19945"
 Content-Transfer-Encoding: 7bit
 
 
---15611671441.2A32b5fBe.17976
-Date: Sat, 22 Jun 2019 01:32:24 +0000
+--15611680540.38c72B9.19945
+Date: Sat, 22 Jun 2019 01:47:34 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110957
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110958
 
-            Bug ID: 110957
-           Summary: wsa-amdgpu package has empty copyright file
+            Bug ID: 110958
+           Summary: Mentioning 32 bit OS support in Release page
            Product: DRI
            Version: unspecified
           Hardware: Other
-                OS: Linux (All)
+                OS: All
             Status: NEW
           Severity: enhancement
           Priority: medium
@@ -85,15 +85,27 @@ https://bugs.freedesktop.org/show_bug.cgi?id=3D110957
           Reporter: ashark@linuxcomp.ru
 
 19.20-812932 release for Ubuntu
-In wsa-amdgpu_19.20-812932_amd64.deb and wsa-amdgpu_19.20-812932_i386.deb
-copyright file is empty.
+
+Release page
+https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20-unified sa=
+ys
+that it supports ubuntu x86_64, but actually it can be installed on ubuntu =
+x86.
+
+In case you do not want to support ubuntu x86, then why include several 32-=
+bit
+meta packages? For example, there are amdgpu-pro-hwe:i386 and amdgpu-pro-li=
+b32.
+You could drop amdgpu-pro-hwe:i386 then.
+
+Or is that made intentionally?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15611671441.2A32b5fBe.17976
-Date: Sat, 22 Jun 2019 01:32:24 +0000
+--15611680540.38c72B9.19945
+Date: Sat, 22 Jun 2019 01:47:34 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,14 +121,14 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - wsa-amdgpu package has empty copyright file"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110957">110957</a>
+   title=3D"NEW - Mentioning 32 bit OS support in Release page"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110958">110958</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>wsa-amdgpu package has empty copyright file
+          <td>Mentioning 32 bit OS support in Release page
           </td>
         </tr>
 
@@ -140,7 +152,7 @@ Auto-Submitted: auto-generated
 
         <tr>
           <th>OS</th>
-          <td>Linux (All)
+          <td>All
           </td>
         </tr>
 
@@ -182,8 +194,21 @@ Auto-Submitted: auto-generated
       <p>
         <div>
         <pre>19.20-812932 release for Ubuntu
-In wsa-amdgpu_19.20-812932_amd64.deb and wsa-amdgpu_19.20-812932_i386.deb
-copyright file is empty.</pre>
+
+Release page
+<a href=3D"https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20=
+-unified">https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20-=
+unified</a> says
+that it supports ubuntu x86_64, but actually it can be installed on ubuntu =
+x86.
+
+In case you do not want to support ubuntu x86, then why include several 32-=
+bit
+meta packages? For example, there are amdgpu-pro-hwe:i386 and amdgpu-pro-li=
+b32.
+You could drop amdgpu-pro-hwe:i386 then.
+
+Or is that made intentionally?</pre>
         </div>
       </p>
 
@@ -197,9 +222,9 @@ copyright file is empty.</pre>
     </body>
 </html>=
 
---15611671441.2A32b5fBe.17976--
+--15611680540.38c72B9.19945--
 
---===============2082491605==
+--===============0215911992==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -209,4 +234,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2082491605==--
+--===============0215911992==--
