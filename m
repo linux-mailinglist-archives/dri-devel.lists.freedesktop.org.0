@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B594F374
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 05:51:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D19884F379
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 05:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21CC06E953;
-	Sat, 22 Jun 2019 03:51:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4866E954;
+	Sat, 22 Jun 2019 03:54:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 724A96E953
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 03:51:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D5CA16E954
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 03:54:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6F68272167; Sat, 22 Jun 2019 03:51:02 +0000 (UTC)
+ id D263972167; Sat, 22 Jun 2019 03:54:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110964] Documentation update about provided Open Vulkan
- implementation
-Date: Sat, 22 Jun 2019 03:51:02 +0000
+Subject: [Bug 110965] Documentation update about not provided PX package
+Date: Sat, 22 Jun 2019 03:54:37 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -27,7 +26,7 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
+X-Bugzilla-Severity: trivial
 X-Bugzilla-Who: ashark@linuxcomp.ru
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -36,7 +35,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110964-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110965-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,35 +51,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1942959516=="
+Content-Type: multipart/mixed; boundary="===============1738755404=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1942959516==
-Content-Type: multipart/alternative; boundary="15611754621.39399.5544"
+--===============1738755404==
+Content-Type: multipart/alternative; boundary="15611756771.Bfc0.6828"
 Content-Transfer-Encoding: 7bit
 
 
---15611754621.39399.5544
-Date: Sat, 22 Jun 2019 03:51:02 +0000
+--15611756771.Bfc0.6828
+Date: Sat, 22 Jun 2019 03:54:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110964
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110965
 
-            Bug ID: 110964
-           Summary: Documentation update about provided Open Vulkan
-                    implementation
+            Bug ID: 110965
+           Summary: Documentation update about not provided PX package
            Product: DRI
            Version: unspecified
           Hardware: Other
                 OS: All
             Status: NEW
-          Severity: enhancement
+          Severity: trivial
           Priority: medium
          Component: DRM/AMDgpu-pro
           Assignee: dri-devel@lists.freedesktop.org
@@ -88,17 +86,19 @@ https://bugs.freedesktop.org/show_bug.cgi?id=3D110964
 
 19.20-812932 release for Ubuntu
 
-Current version of
-https://amdgpu-install.readthedocs.io/en/latest/install-overview.html#stack=
--variants
-and amdgpu-doc miss info about Open Vulkan implementation provided.
+PX package xserver-xorg-video-modesetting-amdgpu-pro is not provided, so ma=
+ybe
+just remove any mentioning about it from installer script and from
+documentation? Here:
+https://amdgpu-install.readthedocs.io/en/latest/install-installing.html#px-=
+platform-support-ubuntu-only
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15611754621.39399.5544
-Date: Sat, 22 Jun 2019 03:51:02 +0000
+--15611756771.Bfc0.6828
+Date: Sat, 22 Jun 2019 03:54:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,15 +114,14 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Documentation update about provided Open Vulkan implement=
-ation"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110964">110964</a>
+   title=3D"NEW - Documentation update about not provided PX package"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110965">110965</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>Documentation update about provided Open Vulkan implementation
+          <td>Documentation update about not provided PX package
           </td>
         </tr>
 
@@ -158,7 +157,7 @@ ation"
 
         <tr>
           <th>Severity</th>
-          <td>enhancement
+          <td>trivial
           </td>
         </tr>
 
@@ -189,11 +188,14 @@ ation"
         <div>
         <pre>19.20-812932 release for Ubuntu
 
-Current version of
-<a href=3D"https://amdgpu-install.readthedocs.io/en/latest/install-overview=
-.html#stack-variants">https://amdgpu-install.readthedocs.io/en/latest/insta=
-ll-overview.html#stack-variants</a>
-and amdgpu-doc miss info about Open Vulkan implementation provided.</pre>
+PX package xserver-xorg-video-modesetting-amdgpu-pro is not provided, so ma=
+ybe
+just remove any mentioning about it from installer script and from
+documentation? Here:
+<a href=3D"https://amdgpu-install.readthedocs.io/en/latest/install-installi=
+ng.html#px-platform-support-ubuntu-only">https://amdgpu-install.readthedocs=
+.io/en/latest/install-installing.html#px-platform-support-ubuntu-only</a></=
+pre>
         </div>
       </p>
 
@@ -207,9 +209,9 @@ and amdgpu-doc miss info about Open Vulkan implementation provided.</pre>
     </body>
 </html>=
 
---15611754621.39399.5544--
+--15611756771.Bfc0.6828--
 
---===============1942959516==
+--===============1738755404==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -219,4 +221,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1942959516==--
+--===============1738755404==--
