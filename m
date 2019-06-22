@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDE04F7AC
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 19:57:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6C24F7AE
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 19:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E57D76E98C;
-	Sat, 22 Jun 2019 17:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99F206E4C2;
+	Sat, 22 Jun 2019 17:58:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE6E26E975
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 17:57:21 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B9006E91B
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 17:57:22 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DAC5E72167; Sat, 22 Jun 2019 17:57:21 +0000 (UTC)
+ id 95C1972167; Sat, 22 Jun 2019 17:57:22 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110956] List of 19.20-812932 release mistakes
+Subject: [Bug 110967] Naming packages with pro suffix depending if open or
+ close source
 Date: Sat, 22 Jun 2019 17:57:22 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: dep_changed
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: enhancement
 X-Bugzilla-Who: fdo-bugs@engestrom.ch
-X-Bugzilla-Status: NEW
+X-Bugzilla-Status: REOPENED
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110956-502-ib8eV1hdKf@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110956-502@http.bugs.freedesktop.org/>
-References: <bug-110956-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110967-502-inLvJjbQuC@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110967-502@http.bugs.freedesktop.org/>
+References: <bug-110967-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1262288025=="
+Content-Type: multipart/mixed; boundary="===============1402825929=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1262288025==
-Content-Type: multipart/alternative; boundary="15612262415.cFFD2.2019"
+--===============1402825929==
+Content-Type: multipart/alternative; boundary="15612262422.73c5d4C1A.2018"
 Content-Transfer-Encoding: 7bit
 
 
---15612262415.cFFD2.2019
-Date: Sat, 22 Jun 2019 17:57:21 +0000
+--15612262422.73c5d4C1A.2018
+Date: Sat, 22 Jun 2019 17:57:22 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110956
-Bug 110956 depends on bug 110965, which changed state.
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110967
 
-Bug 110965 Summary: Documentation update about not provided PX package
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110965
+Eric Engestrom <fdo-bugs@engestrom.ch> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
          Resolution|INVALID                     |---
+             Status|RESOLVED                    |REOPENED
+
+--- Comment #2 from Eric Engestrom <fdo-bugs@engestrom.ch> ---
+TIL AMD does its support via our bugzilla...
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15612262415.cFFD2.2019
-Date: Sat, 22 Jun 2019 17:57:21 +0000
+--15612262422.73c5d4C1A.2018
+Date: Sat, 22 Jun 2019 17:57:22 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,18 +99,16 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - List of 19.20-812932 release mistakes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110956">Bug 11095=
-6</a>
-          depends on
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:fdo-bugs&=
+#64;engestrom.ch" title=3D"Eric Engestrom &lt;fdo-bugs&#64;engestrom.ch&gt;=
+"> <span class=3D"fn">Eric Engestrom</span></a>
+</span> changed
           <a class=3D"bz_bug_link=20
           bz_status_REOPENED "
-   title=3D"REOPENED - Documentation update about not provided PX package"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110965">bug 11096=
-5</a>,
-          which changed state.
+   title=3D"REOPENED - Naming packages with pro suffix depending if open or=
+ close source"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110967">bug 11096=
+7</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -118,21 +118,40 @@ Auto-Submitted: auto-generated
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>RESOLVED
-           </td>
-           <td>REOPENED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>INVALID
            </td>
            <td>---
            </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>RESOLVED
+           </td>
+           <td>REOPENED
+           </td>
          </tr></table>
       <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Naming packages with pro suffix depending if open or=
+ close source"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110967#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Naming packages with pro suffix depending if open or=
+ close source"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110967">bug 11096=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+fdo-bugs&#64;engestrom.ch" title=3D"Eric Engestrom &lt;fdo-bugs&#64;engestr=
+om.ch&gt;"> <span class=3D"fn">Eric Engestrom</span></a>
+</span></b>
+        <pre>TIL AMD does its support via our bugzilla...</pre>
+        </div>
       </p>
 
 
@@ -145,9 +164,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15612262415.cFFD2.2019--
+--15612262422.73c5d4C1A.2018--
 
---===============1262288025==
+--===============1402825929==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +176,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1262288025==--
+--===============1402825929==--
