@@ -1,60 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7400D4F8F1
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2019 01:28:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 521134F8F5
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Jun 2019 01:35:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 696F789D7F;
-	Sat, 22 Jun 2019 23:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91AD589D43;
+	Sat, 22 Jun 2019 23:35:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A7E789B3B;
- Sat, 22 Jun 2019 23:28:37 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id p15so15606643eds.8;
- Sat, 22 Jun 2019 16:28:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OvdGvB+gsBI8ix8GBbVgoDhcwK+AHVAdtlmUns+BMLk=;
- b=LyMLgqUAAeAaQWCUcJiWVtDo7c+QCT9IAicQNxn8VfaVVuQh3aBgjP+mK+gOs4hP+U
- 3mSJd3qV5W4VviXiv3qwYEOYNN2TxqPYVYYnJQlrk5BDNRESUYLSKUvn+IxyBEK+lEcm
- kfbevW6rA+PhR5HhuGZqjS9t9UDp8vGqEdRD/QBVbX9a7gFDMxpV+1W3RODpscrQA3a+
- It2RPqK0AqkP0kHF1sFFhk44Dza+YBbYQkbw3nQZdiMPOlCGiK0jZo7kof5My5G4hpJh
- sOKP8PpcDqtnPuaRj35Dlr/Q5qHhMQFQ4Dnj+9cBRi/sC+Wph9TxvqEGIFoG020YTxBr
- nNLw==
-X-Gm-Message-State: APjAAAV9tsNs/WSbKkGK8BAjBDoAjLMI30Ad4/sQMleDlHl3Z1lxCdCz
- +ldjJoo40Sp5wm7S75r9zk+P43ud7Go45ejF71o=
-X-Google-Smtp-Source: APXvYqwFLKK+g33AoATUdqVfqMxrjCm4EjDKVf4RHDoYPxn6MRppHUMZNpsmcSWHp1P/TWzfaasoZ54TfRUwqU9nxlo=
-X-Received: by 2002:a50:9468:: with SMTP id q37mr26168041eda.163.1561246115698; 
- Sat, 22 Jun 2019 16:28:35 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 05FB289D43
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 23:35:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id ECB7772167; Sat, 22 Jun 2019 23:35:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110971] GPU HANG: ecode 6:1:0xfffffffe, in spring-main [8656],
+ hang on rcs0
+Date: Sat, 22 Jun 2019 23:35:02 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/i915
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: Chris.Rebischke@archlinux.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-110971-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190616132930.6942-1-masneyb@onstation.org>
- <20190616132930.6942-3-masneyb@onstation.org>
- <CAL_Jsq+Ne=NEcLbO6C19iOny4bwm_m5QEtcsM78ZDeBmDUVO_Q@mail.gmail.com>
- <CAF6AEGs6By9-LGRBAPw2OwR9tRKJtEiZVgS2WVWRXmOK1VxNLA@mail.gmail.com>
- <20190621021444.GA13972@onstation.org>
-In-Reply-To: <20190621021444.GA13972@onstation.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sat, 22 Jun 2019 16:28:20 -0700
-Message-ID: <CAF6AEGuVKtAu60kLYNKOsy3=hT0FDbJ5vvEJE6gFLAodpU5MGA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] dt-bindings: display: msm: gmu: add optional ocmem
- property
-To: Brian Masney <masneyb@onstation.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=OvdGvB+gsBI8ix8GBbVgoDhcwK+AHVAdtlmUns+BMLk=;
- b=l/U6ztiWvim6OPcpsFWv+8/nGMbNqRUP5HKW49NEuFiQ/2hm5kLZ4LOKVe4Dj9kDLL
- h4stuhYillm96itObs7iUJZP+sT2TCufg4Cy9p25mhyv6xk4YFzCeWHzshYvdTM8syLa
- XYDbgwvCQeZu1v0+Tf5TFOCIPu5oOP2Q9Z8BPZ8kuhFuBc9wZ4J6AgH/ubHeiOsmjlnK
- 2vm3QYGxJaVtJCyuCKlORFWR7xKSgmDUFAailHSENSEr0KXCUDn+AOsswOX+362EHKpm
- DyjZE3VP2vqTXGZV7DJwj3grRVINabDTJQsScoIEKyoY5yJYNXK/JoU80CGqQRw3VJNU
- Jquw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,89 +53,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- freedreno <freedreno@lists.freedesktop.org>,
- Jonathan Marek <jonathan@marek.ca>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Andy Gross <agross@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- David Brown <david.brown@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Sean Paul <sean@poorly.run>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0196572259=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMjAsIDIwMTkgYXQgNzoxNCBQTSBCcmlhbiBNYXNuZXkgPG1hc25leWJAb25z
-dGF0aW9uLm9yZz4gd3JvdGU6Cj4KPiBPbiBXZWQsIEp1biAxOSwgMjAxOSBhdCAwMToyMToyMFBN
-IC0wNzAwLCBSb2IgQ2xhcmsgd3JvdGU6Cj4gPiBPbiBXZWQsIEp1biAxOSwgMjAxOSBhdCAxOjE3
-IFBNIFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4gPgo+ID4gPiBP
-biBTdW4sIEp1biAxNiwgMjAxOSBhdCA3OjI5IEFNIEJyaWFuIE1hc25leSA8bWFzbmV5YkBvbnN0
-YXRpb24ub3JnPiB3cm90ZToKPiA+ID4gPgo+ID4gPiA+IFNvbWUgQTN4eCBhbmQgQTR4eCBBZHJl
-bm8gR1BVcyBkbyBub3QgaGF2ZSBHTUVNIGluc2lkZSB0aGUgR1BVIGNvcmUgYW5kCj4gPiA+ID4g
-bXVzdCB1c2UgdGhlIE9uIENoaXAgTUVNb3J5IChPQ01FTSkgaW4gb3JkZXIgdG8gYmUgZnVuY3Rp
-b25hbC4gQWRkIHRoZQo+ID4gPiA+IG9wdGlvbmFsIG9jbWVtIHByb3BlcnR5IHRvIHRoZSBBZHJl
-bm8gR3JhcGhpY3MgTWFuYWdlbWVudCBVbml0IGJpbmRpbmdzLgo+ID4gPiA+Cj4gPiA+ID4gU2ln
-bmVkLW9mZi1ieTogQnJpYW4gTWFzbmV5IDxtYXNuZXliQG9uc3RhdGlvbi5vcmc+Cj4gPiA+ID4g
-LS0tCj4gPiA+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21z
-bS9nbXUudHh0IHwgNCArKysrCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
-KykKPiA+ID4gPgo+ID4gPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvZGlzcGxheS9tc20vZ211LnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9kaXNwbGF5L21zbS9nbXUudHh0Cj4gPiA+ID4gaW5kZXggOTBhZjViMGE1NmE5Li5j
-NzQ2Yjk1ZTk1ZDQgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL2Rpc3BsYXkvbXNtL2dtdS50eHQKPiA+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tc20vZ211LnR4dAo+ID4gPiA+IEBAIC0zMSw2
-ICszMSwxMCBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzOgo+ID4gPiA+ICAtIGlvbW11czogcGhhbmRs
-ZSB0byB0aGUgYWRyZW5vIGlvbW11Cj4gPiA+ID4gIC0gb3BlcmF0aW5nLXBvaW50cy12MjogcGhh
-bmRsZSB0byB0aGUgT1BQIG9wZXJhdGluZyBwb2ludHMKPiA+ID4gPgo+ID4gPiA+ICtPcHRpb25h
-bCBwcm9wZXJ0aWVzOgo+ID4gPiA+ICstIG9jbWVtOiBwaGFuZGxlIHRvIHRoZSBPbiBDaGlwIE1l
-bW9yeSAoT0NNRU0pIHRoYXQncyBwcmVzZW50IG9uIHNvbWUgU25hcGRyYWdvbgo+ID4gPiA+ICsg
-ICAgICAgICBTb0NzLiBTZWUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3NvYy9x
-Y29tL3Fjb20sb2NtZW0ueWFtbC4KPiA+ID4KPiA+ID4gV2UgYWxyZWFkeSBoYXZlIGEgY291cGxl
-IG9mIHNpbWlsYXIgcHJvcGVydGllcy4gTGV0cyBzdGFuZGFyZGl6ZSBvbgo+ID4gPiAnc3JhbScg
-YXMgdGhhdCBpcyB3aGF0IFRJIGFscmVhZHkgdXNlcy4KPiA+ID4KPiA+ID4gQWxzbywgaXMgdGhl
-IHdob2xlIE9DTUVNIGFsbG9jYXRlZCB0byB0aGUgR01VPyBJZiBub3QgeW91IHNob3VsZCBoYXZl
-Cj4gPiA+IGNoaWxkIG5vZGVzIHRvIHN1YmRpdmlkZSB0aGUgbWVtb3J5Lgo+ID4gPgo+ID4KPiA+
-IGlpcmMsIGRvd25zdHJlYW0gYSBsYXJnZSBjaHVuayBvZiBPQ01FTSBpcyBzdGF0aWNhbGx5IGFs
-bG9jYXRlZCBmb3IKPiA+IEdQVS4uIHRoZSByZW1haW5kZXIgaXMgZHluYW1pY2FsbHkgYWxsb2Nh
-dGVkIGZvciBkaWZmZXJlbnQgdXNlLWNhc2VzLgo+ID4gVGhlIHVwc3RyZWFtIGRyaXZlciBCcmlh
-biBpcyBwcm9wb3Npbmcgb25seSBoYW5kbGVzIHRoZSBzdGF0aWMKPiA+IGFsbG9jYXRpb24gY2Fz
-ZQo+Cj4gSXQgYXBwZWFycyB0aGF0IHRoZSBHUFUgZXhwZWN0cyB0byB1c2UgYSBzcGVjaWZpYyBy
-ZWdpb24gb2Ygb2NtZW0sCj4gc3BlY2lmaWNhbGx5IHN0YXJ0aW5nIGF0IDAuIFRoZSBmcmVlZHJl
-bm8gZHJpdmVyIGFsbG9jYXRlcyAxTUIgb2YKPiBvY21lbSBvbiB0aGUgTmV4dXMgNSBzdGFydGlu
-ZyBhdCBvY21lbSBhZGRyZXNzIDAuIEFzIGEgdGVzdCwgSQo+IGNoYW5nZWQgdGhlIHN0YXJ0aW5n
-IGFkZHJlc3MgdG8gMC41TUIgYW5kIGttc2N1YmUgc2hvd3Mgb25seSBoYWxmIHRoZQo+IGN1YmUs
-IGFuZCBmb3VyIHdpZGUgYmxhY2sgYmFycyBhY3Jvc3MgdGhlIHNjcmVlbjoKPgo+IGh0dHBzOi8v
-d3d3LmZsaWNrci5jb20vcGhvdG9zL21hc25leWIvNDgxMDA1MzQzODEvCj4KPiA+IChhbmQgSSBk
-b24ndCB0aGluayB3ZSBoYXZlIHVwc3RyZWFtIHN1cHBvcnQgZm9yIHRoZSB2YXJpb3VzIGF1ZGlv
-IGFuZAo+ID4gdmlkZW8gdXNlLWNhc2VzIHRoYXQgdXNlZCBkeW5hbWljIE9DTUVNIGFsbG9jYXRp
-b24gZG93bnN0cmVhbSkKPgo+IFRoYXQncyBteSB1bmRlcnN0YW5kaW5nIGFzIHdlbGwuCj4KPiA+
-IEFsdGhvdWdoIG1heWJlIHdlIHNob3VsZCBzdGlsbCBoYXZlIGEgY2hpbGQgbm9kZSB0byBzZXBh
-cmF0ZSB0aGUKPiA+IHN0YXRpY2FsbHkgYW5kIGR5bmFtaWNhbGx5IGFsbG9jYXRlZCBwYXJ0cz8g
-IEknbSBub3Qgc3VyZSB3aGF0IHdvdWxkCj4gPiBtYWtlIHRoZSBtb3N0IHNlbnNlLi4KPgo+IEdp
-dmVuIHRoYXQgdGhlIEdQVSBpcyBleHBlY3RpbmcgYSBmaXhlZCBhZGRyZXNzIGluIG9jbWVtLCBw
-ZXJoYXBzIGl0Cj4gbWFrZXMgc2Vuc2UgdG8gaGF2ZSB0aGUgY2hpbGQgbm9kZS4gSG93IGFib3V0
-IHRoaXMgYmFzZWQgb24gdGhlCj4gc3JhbS9zcmFtLnR4dCBiaW5kaW5ncz8KPgo+ICAgb2NtZW06
-IG9jbWVtQGZkZDAwMDAwIHsKPiAgICAgY29tcGF0aWJsZSA9ICJxY29tLG1zbTg5NzQtb2NtZW0i
-Owo+Cj4gICAgIHJlZyA9IDwweGZkZDAwMDAwIDB4MjAwMD4sIDwweGZlYzAwMDAwIDB4MTgwMDAw
-PjsKPiAgICAgcmVnLW5hbWVzID0gImN0cmwiLCAibWVtIjsKPgo+ICAgICBjbG9ja3MgPSA8JnJw
-bWNjIFJQTV9TTURfT0NNRU1HWF9DTEs+LCA8Jm1tY2MgT0NNRU1DWF9PQ01FTU5PQ19DTEs+Owo+
-ICAgICBjbG9jay1uYW1lcyA9ICJjb3JlIiwgImlmYWNlIjsKPgo+ICAgICBnbXUtc3JhbUAwIHsK
-PiAgICAgICByZWcgPSA8MHgwIDB4MTAwMDAwPjsKPiAgICAgICBwb29sOwo+ICAgICB9Owo+Cj4g
-ICAgIG1pc2Mtc3JhbUAwIHsKPiAgICAgICByZWcgPSA8MHgxMDAwMDAgMHgwODAwMDA+Owo+ICAg
-ICAgIGV4cG9ydDsKPiAgICAgfTsKPiAgIH07Cj4KPiBJIG1hcmtlZCB0aGUgbWlzYyBwb29sIGFz
-IGV4cG9ydCBzaW5jZSBJJ3ZlIHNlZW4gaW4gdGhlIGRvd25zdHJlYW0gb2NtZW0KPiBzb3VyY2Vz
-IGEgcmVmZXJlbmNlIHRvIHRoZWlyIGNsb3NlZCBsaWJzZW5zb3JzIHRoYXQgcnVucyBpbiB1c2Vy
-c3BhY2UuCj4KPiBMb29raW5nIGF0IHRoZSBzcmFtIGJpbmRpbmdzIGxlZCBtZSB0byB0aGUgZ2Vu
-YWxsb2MgQVBJCj4gKERvY3VtZW50YXRpb24vY29yZS1hcGkvZ2VuYWxsb2MucnN0KS4gSSB3b25k
-ZXIgaWYgdGhpcyBpcyB0aGUgd2F5IHRoYXQKPiB0aGlzIHNob3VsZCBiZSBkb25lPwoKd29uJ3Qg
-Y2xhaW0gdG8gYmUgYSBkdCBleHBlcnQsIGJ1dCB0aGlzIHNlZW1zIHNvbWV3aGF0IHNhbmUuLiAg
-bWF5YmUKZHJvcCB0aGUgZXhwb3J0IHVudGlsIGEgdXNlLWNhc2UgY29tZXMgYWxvbmcgZm9yIHRo
-YXQuLiBvciBldmVuIHRoZQplbnRpcmUgc2Vjb25kIGNoaWxkIG5vZGU/ICBJIGd1ZXNzIHRoYXQg
-Y29tZXMgZG93biB0byB3aGF0IHJvYmhlciBhbmQKb3RoZXJzIHByZWZlciwgSSBjYW4ndCByZWFs
-bHkgc3BlY3VsYXRlIHRvbyBtdWNoIGFib3V0IHRoZSBub24tZ3B1CnVzZS1jYXNlcyBmb3Igb2Nt
-ZW0gKG9yIGlmIHRoZXknbGwgZXZlciBiZSB1cHN0cmVhbSkKCkJSLAotUgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0196572259==
+Content-Type: multipart/alternative; boundary="15612465030.e28cB6.16963"
+Content-Transfer-Encoding: 7bit
+
+
+--15612465030.e28cB6.16963
+Date: Sat, 22 Jun 2019 23:35:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110971
+
+            Bug ID: 110971
+           Summary: GPU HANG: ecode 6:1:0xfffffffe, in spring-main [8656],
+                    hang on rcs0
+           Product: Mesa
+           Version: 19.1
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: critical
+          Priority: medium
+         Component: Drivers/DRI/i915
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: Chris.Rebischke@archlinux.org
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 144614
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144614&action=3Dedit
+crash dump from /sys/class/drm/card0/error
+
+I get unspecified GPU hangs while playing games. It mostly occurs when my C=
+PU
+starts throttling:
+
+[ 5838.889104] mce: CPU0: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5838.889108] mce: CPU2: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5838.889110] mce: CPU3: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5838.889112] mce: CPU1: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5900.819612] mce: CPU2: Core temperature above threshold, cpu clock throt=
+tled
+(total events =3D 16235)
+[ 5900.819613] mce: CPU3: Core temperature above threshold, cpu clock throt=
+tled
+(total events =3D 16235)
+[ 5900.827685] mce: CPU2: Core temperature/speed normal
+[ 5900.827686] mce: CPU3: Core temperature/speed normal
+[ 6138.891505] mce: CPU1: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6138.891506] mce: CPU0: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6138.891528] mce: CPU2: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6138.891529] mce: CPU3: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6176.479565] i915 0000:00:02.0: GPU HANG: ecode 6:1:0xfffffffe, in
+spring-main [8656], hang on rcs0
+[ 6176.479570] [drm] GPU hangs can indicate a bug anywhere in the entire gfx
+stack, including userspace.
+[ 6176.479572] [drm] Please file a _new_ bug report on bugs.freedesktop.org
+against DRI -> DRM/Intel
+[ 6176.479573] [drm] drm/i915 developers can then reassign to the right
+component if it's not a kernel issue.
+[ 6176.479574] [drm] The gpu crash dump is required to analyze gpu hangs, so
+please always attach it.
+[ 6176.479575] [drm] GPU crash dump saved to /sys/class/drm/card0/error
+[ 6176.479642] i915 0000:00:02.0: Resetting chip for hang on rcs0
+[ 6422.644956] i915 0000:00:02.0: Resetting chip for hang on rcs0
+[ 6438.888919] mce: CPU3: Package temperature/speed normal
+[ 6438.888920] mce: CPU2: Package temperature/speed normal
+[ 6438.888924] mce: CPU1: Package temperature/speed normal
+[ 6438.888926] mce: CPU0: Package temperature/speed normal
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15612465030.e28cB6.16963
+Date: Sat, 22 Jun 2019 23:35:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - GPU HANG: ecode 6:1:0xfffffffe, in spring-main [8656], ha=
+ng on rcs0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110971">110971</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>GPU HANG: ecode 6:1:0xfffffffe, in spring-main [8656], hang o=
+n rcs0
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.1
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/DRI/i915
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>Chris.Rebischke&#64;archlinux.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144614=
+" name=3D"attach_144614" title=3D"crash dump from /sys/class/drm/card0/erro=
+r">attachment 144614</a> <a href=3D"attachment.cgi?id=3D144614&amp;action=
+=3Dedit" title=3D"crash dump from /sys/class/drm/card0/error">[details]</a>=
+</span>
+crash dump from /sys/class/drm/card0/error
+
+I get unspecified GPU hangs while playing games. It mostly occurs when my C=
+PU
+starts throttling:
+
+[ 5838.889104] mce: CPU0: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5838.889108] mce: CPU2: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5838.889110] mce: CPU3: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5838.889112] mce: CPU1: Package temperature above threshold, cpu clock
+throttled (total events =3D 100749)
+[ 5900.819612] mce: CPU2: Core temperature above threshold, cpu clock throt=
+tled
+(total events =3D 16235)
+[ 5900.819613] mce: CPU3: Core temperature above threshold, cpu clock throt=
+tled
+(total events =3D 16235)
+[ 5900.827685] mce: CPU2: Core temperature/speed normal
+[ 5900.827686] mce: CPU3: Core temperature/speed normal
+[ 6138.891505] mce: CPU1: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6138.891506] mce: CPU0: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6138.891528] mce: CPU2: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6138.891529] mce: CPU3: Package temperature above threshold, cpu clock
+throttled (total events =3D 171156)
+[ 6176.479565] i915 0000:00:02.0: GPU HANG: ecode 6:1:0xfffffffe, in
+spring-main [8656], hang on rcs0
+[ 6176.479570] [drm] GPU hangs can indicate a bug anywhere in the entire gfx
+stack, including userspace.
+[ 6176.479572] [drm] Please file a _new_ bug report on bugs.freedesktop.org
+against DRI -&gt; DRM/Intel
+[ 6176.479573] [drm] drm/i915 developers can then reassign to the right
+component if it's not a kernel issue.
+[ 6176.479574] [drm] The gpu crash dump is required to analyze gpu hangs, so
+please always attach it.
+[ 6176.479575] [drm] GPU crash dump saved to /sys/class/drm/card0/error
+[ 6176.479642] i915 0000:00:02.0: Resetting chip for hang on rcs0
+[ 6422.644956] i915 0000:00:02.0: Resetting chip for hang on rcs0
+[ 6438.888919] mce: CPU3: Package temperature/speed normal
+[ 6438.888920] mce: CPU2: Package temperature/speed normal
+[ 6438.888924] mce: CPU1: Package temperature/speed normal
+[ 6438.888926] mce: CPU0: Package temperature/speed normal</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15612465030.e28cB6.16963--
+
+--===============0196572259==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0196572259==--
