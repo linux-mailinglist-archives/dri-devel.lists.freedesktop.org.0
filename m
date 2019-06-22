@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548EB4F357
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 05:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E8F4F35A
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 05:32:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE266E950;
-	Sat, 22 Jun 2019 03:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E4336E951;
+	Sat, 22 Jun 2019 03:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 810176E950
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 03:19:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4FCD76E951
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 03:32:18 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 77A4C72167; Sat, 22 Jun 2019 03:19:56 +0000 (UTC)
+ id 4C17272167; Sat, 22 Jun 2019 03:32:18 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110962] Wrong dependencies cause force dependency on amdgpu-dkms
-Date: Sat, 22 Jun 2019 03:19:56 +0000
+Subject: [Bug 110963] Wrong condition and wrong variable substitution in
+ libgl1-amdgpu-mesa-dri in postinst script
+Date: Sat, 22 Jun 2019 03:32:18 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +36,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110962-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110963-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,29 +52,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0419632477=="
+Content-Type: multipart/mixed; boundary="===============1035005925=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0419632477==
-Content-Type: multipart/alternative; boundary="15611735960.9Ec3.1179"
+--===============1035005925==
+Content-Type: multipart/alternative; boundary="15611743381.316ff.2715"
 Content-Transfer-Encoding: 7bit
 
 
---15611735960.9Ec3.1179
-Date: Sat, 22 Jun 2019 03:19:56 +0000
+--15611743381.316ff.2715
+Date: Sat, 22 Jun 2019 03:32:18 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110962
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110963
 
-            Bug ID: 110962
-           Summary: Wrong dependencies cause force dependency on
-                    amdgpu-dkms
+            Bug ID: 110963
+           Summary: Wrong condition and wrong variable substitution in
+                    libgl1-amdgpu-mesa-dri in postinst script
            Product: DRI
            Version: unspecified
           Hardware: Other
@@ -87,34 +88,23 @@ https://bugs.freedesktop.org/show_bug.cgi?id=3D110962
 
 19.20-812932 release for Ubuntu
 
-amdgpu-pro(-hwe) and amdgpu-pro-lib32 depend on amdgpu(-hwe), but actually =
-they
-should depend on amdgpu-lib(-hwe) (just like open variant packages). Becaus=
-e of
-that even when running installer with --no-dkms, it still is in packages li=
-st
-(because amdgpu(-hwe) depends on it).
-Is it intentional or just a mistake?
-I think this is a mistake, because if you want force dependency on amdgpu-d=
-kms
-with pro stack, you would make all other checks in amdgpu installer script.=
- But
-because user giver "--no-dkms", such checks are skipped there.
+In libgl1-amdgpu-mesa-dri in postinst script there is such condition:
+    # Support I+A hybrid graphics=20
+    if [ -f ... ] && [ "str1" !=3D "str2" ]; then
+You just compare two different strings? I guess you wanted to compare folder
+contents. But now that second condition will always be true.
 
-Also, I was repacking amdgpu-pro packages (ubuntu archive) to Arch Linux. A=
-m I
-correct, that amdgpu-dkms package was made with Ubuntu LTS slowness in mind,
-and is absolutely unneeded for Arch Linux? Am I right that I do not loose a=
-ny
-functionality abilities (maybe that allows you to watch gpu's load, like
-wattman) even for pro stack if I omit amdgpu-dkms?
+Further there is:
+    if [ "${f%%/*}" =3D ... ]; then
+there is extra percent symbol, you should remove it. Btw, in rpm release
+variant in scriptlet there is no such mistake.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15611735960.9Ec3.1179
-Date: Sat, 22 Jun 2019 03:19:56 +0000
+--15611743381.316ff.2715
+Date: Sat, 22 Jun 2019 03:32:18 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -130,14 +120,16 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Wrong dependencies cause force dependency on amdgpu-dkms"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110962">110962</a>
+   title=3D"NEW - Wrong condition and wrong variable substitution in libgl1=
+-amdgpu-mesa-dri in postinst script"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110963">110963</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>Wrong dependencies cause force dependency on amdgpu-dkms
+          <td>Wrong condition and wrong variable substitution in libgl1-amd=
+gpu-mesa-dri in postinst script
           </td>
         </tr>
 
@@ -204,27 +196,17 @@ Auto-Submitted: auto-generated
         <div>
         <pre>19.20-812932 release for Ubuntu
 
-amdgpu-pro(-hwe) and amdgpu-pro-lib32 depend on amdgpu(-hwe), but actually =
-they
-should depend on amdgpu-lib(-hwe) (just like open variant packages). Becaus=
-e of
-that even when running installer with --no-dkms, it still is in packages li=
-st
-(because amdgpu(-hwe) depends on it).
-Is it intentional or just a mistake?
-I think this is a mistake, because if you want force dependency on amdgpu-d=
-kms
-with pro stack, you would make all other checks in amdgpu installer script.=
- But
-because user giver &quot;--no-dkms&quot;, such checks are skipped there.
+In libgl1-amdgpu-mesa-dri in postinst script there is such condition:
+    # Support I+A hybrid graphics=20
+    if [ -f ... ] &amp;&amp; [ &quot;str1&quot; !=3D &quot;str2&quot; ]; th=
+en
+You just compare two different strings? I guess you wanted to compare folder
+contents. But now that second condition will always be true.
 
-Also, I was repacking amdgpu-pro packages (ubuntu archive) to Arch Linux. A=
-m I
-correct, that amdgpu-dkms package was made with Ubuntu LTS slowness in mind,
-and is absolutely unneeded for Arch Linux? Am I right that I do not loose a=
-ny
-functionality abilities (maybe that allows you to watch gpu's load, like
-wattman) even for pro stack if I omit amdgpu-dkms?</pre>
+Further there is:
+    if [ &quot;${f%%/*}&quot; =3D ... ]; then
+there is extra percent symbol, you should remove it. Btw, in rpm release
+variant in scriptlet there is no such mistake.</pre>
         </div>
       </p>
 
@@ -238,9 +220,9 @@ wattman) even for pro stack if I omit amdgpu-dkms?</pre>
     </body>
 </html>=
 
---15611735960.9Ec3.1179--
+--15611743381.316ff.2715--
 
---===============0419632477==
+--===============1035005925==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -250,4 +232,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0419632477==--
+--===============1035005925==--
