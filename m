@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E0B4F345
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 04:48:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 548EB4F357
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 05:20:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BF1D6E94F;
-	Sat, 22 Jun 2019 02:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE266E950;
+	Sat, 22 Jun 2019 03:19:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3545D6E94F
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 02:48:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 810176E950
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 03:19:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2B44772167; Sat, 22 Jun 2019 02:48:09 +0000 (UTC)
+ id 77A4C72167; Sat, 22 Jun 2019 03:19:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110961] Are provoded libdrm packages completely open source?
-Date: Sat, 22 Jun 2019 02:48:09 +0000
+Subject: [Bug 110962] Wrong dependencies cause force dependency on amdgpu-dkms
+Date: Sat, 22 Jun 2019 03:19:56 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110961-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110962-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,28 +51,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0877522379=="
+Content-Type: multipart/mixed; boundary="===============0419632477=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0877522379==
-Content-Type: multipart/alternative; boundary="15611716890.50dbDD.28264"
+--===============0419632477==
+Content-Type: multipart/alternative; boundary="15611735960.9Ec3.1179"
 Content-Transfer-Encoding: 7bit
 
 
---15611716890.50dbDD.28264
-Date: Sat, 22 Jun 2019 02:48:09 +0000
+--15611735960.9Ec3.1179
+Date: Sat, 22 Jun 2019 03:19:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110961
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110962
 
-            Bug ID: 110961
-           Summary: Are provoded libdrm packages completely open source?
+            Bug ID: 110962
+           Summary: Wrong dependencies cause force dependency on
+                    amdgpu-dkms
            Product: DRI
            Version: unspecified
           Hardware: Other
@@ -86,45 +87,34 @@ https://bugs.freedesktop.org/show_bug.cgi?id=3D110961
 
 19.20-812932 release for Ubuntu
 
-Provided libdrm related packages have MIT licence. But are they built
-completely from open source? In the changelog I can see that it is some
-amd-mainline-hybrid-master20190125. And actually if I omit these packages w=
-hile
-using proprietay OpenGL, applications crashes; and clinfo utility crashes w=
-ith
-segfault. I tested it in Ubuntu 18.04.2, in Ubuntu 19.04 and in Arch Linux.=
- In
-Ubuntu 19.04 the repo's libraries have the same version as provided in bund=
-led
-archive. But it was still failing with them (I even tried to place repo's
-libraries to /opt location, it did not help).
+amdgpu-pro(-hwe) and amdgpu-pro-lib32 depend on amdgpu(-hwe), but actually =
+they
+should depend on amdgpu-lib(-hwe) (just like open variant packages). Becaus=
+e of
+that even when running installer with --no-dkms, it still is in packages li=
+st
+(because amdgpu(-hwe) depends on it).
+Is it intentional or just a mistake?
+I think this is a mistake, because if you want force dependency on amdgpu-d=
+kms
+with pro stack, you would make all other checks in amdgpu installer script.=
+ But
+because user giver "--no-dkms", such checks are skipped there.
 
-I want to avoid needing of installation of these libdrm packages
-(libdrm-amdgpu-amdgpu1, libdrm-amdgpu-common, libdrm2-amdgpu) because I am
-repacking amdgpu-pro for arch linux. Is that possible?
-
-If not, then why do not name these packages and their libraries with -pro
-prefix?
-
-Ideally, I want it to use libdrm provided by arch linux. In that case I cou=
-ld
-even repack all other files to the normal system paths instead of placing a=
-ll
-to /opt.
-
-List of packages that I still use for Arch are:
-libdrm-amdgpu-amdgpu1: provides libdrm_amdgpu.so.1.0.0
-libdrm-amdgpu-common: provides amdgpu.ids file that slightly differs from
-Arch's standard one
-libdrm2-amdgpu: provides 91-amdgpu-pro-modeset.rules libdrm.so.2.4.0
-libkms.so.1.0.0
+Also, I was repacking amdgpu-pro packages (ubuntu archive) to Arch Linux. A=
+m I
+correct, that amdgpu-dkms package was made with Ubuntu LTS slowness in mind,
+and is absolutely unneeded for Arch Linux? Am I right that I do not loose a=
+ny
+functionality abilities (maybe that allows you to watch gpu's load, like
+wattman) even for pro stack if I omit amdgpu-dkms?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15611716890.50dbDD.28264
-Date: Sat, 22 Jun 2019 02:48:09 +0000
+--15611735960.9Ec3.1179
+Date: Sat, 22 Jun 2019 03:19:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -140,14 +130,14 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Are provoded libdrm packages completely open source?"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110961">110961</a>
+   title=3D"NEW - Wrong dependencies cause force dependency on amdgpu-dkms"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110962">110962</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>Are provoded libdrm packages completely open source?
+          <td>Wrong dependencies cause force dependency on amdgpu-dkms
           </td>
         </tr>
 
@@ -214,38 +204,27 @@ Auto-Submitted: auto-generated
         <div>
         <pre>19.20-812932 release for Ubuntu
 
-Provided libdrm related packages have MIT licence. But are they built
-completely from open source? In the changelog I can see that it is some
-amd-mainline-hybrid-master20190125. And actually if I omit these packages w=
-hile
-using proprietay OpenGL, applications crashes; and clinfo utility crashes w=
-ith
-segfault. I tested it in Ubuntu 18.04.2, in Ubuntu 19.04 and in Arch Linux.=
- In
-Ubuntu 19.04 the repo's libraries have the same version as provided in bund=
-led
-archive. But it was still failing with them (I even tried to place repo's
-libraries to /opt location, it did not help).
+amdgpu-pro(-hwe) and amdgpu-pro-lib32 depend on amdgpu(-hwe), but actually =
+they
+should depend on amdgpu-lib(-hwe) (just like open variant packages). Becaus=
+e of
+that even when running installer with --no-dkms, it still is in packages li=
+st
+(because amdgpu(-hwe) depends on it).
+Is it intentional or just a mistake?
+I think this is a mistake, because if you want force dependency on amdgpu-d=
+kms
+with pro stack, you would make all other checks in amdgpu installer script.=
+ But
+because user giver &quot;--no-dkms&quot;, such checks are skipped there.
 
-I want to avoid needing of installation of these libdrm packages
-(libdrm-amdgpu-amdgpu1, libdrm-amdgpu-common, libdrm2-amdgpu) because I am
-repacking amdgpu-pro for arch linux. Is that possible?
-
-If not, then why do not name these packages and their libraries with -pro
-prefix?
-
-Ideally, I want it to use libdrm provided by arch linux. In that case I cou=
-ld
-even repack all other files to the normal system paths instead of placing a=
-ll
-to /opt.
-
-List of packages that I still use for Arch are:
-libdrm-amdgpu-amdgpu1: provides libdrm_amdgpu.so.1.0.0
-libdrm-amdgpu-common: provides amdgpu.ids file that slightly differs from
-Arch's standard one
-libdrm2-amdgpu: provides 91-amdgpu-pro-modeset.rules libdrm.so.2.4.0
-libkms.so.1.0.0</pre>
+Also, I was repacking amdgpu-pro packages (ubuntu archive) to Arch Linux. A=
+m I
+correct, that amdgpu-dkms package was made with Ubuntu LTS slowness in mind,
+and is absolutely unneeded for Arch Linux? Am I right that I do not loose a=
+ny
+functionality abilities (maybe that allows you to watch gpu's load, like
+wattman) even for pro stack if I omit amdgpu-dkms?</pre>
         </div>
       </p>
 
@@ -259,9 +238,9 @@ libkms.so.1.0.0</pre>
     </body>
 </html>=
 
---15611716890.50dbDD.28264--
+--15611735960.9Ec3.1179--
 
---===============0877522379==
+--===============0419632477==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -271,4 +250,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0877522379==--
+--===============0419632477==--
