@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D534F7A2
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 19:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0544F7A7
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 19:57:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E21826E977;
-	Sat, 22 Jun 2019 17:57:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEE466E982;
+	Sat, 22 Jun 2019 17:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1228B6E4D4
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 17:57:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id F2B2C6E4C5
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 17:57:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0F7F672168; Sat, 22 Jun 2019 17:57:17 +0000 (UTC)
+ id EFA1B72167; Sat, 22 Jun 2019 17:57:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110956] List of 19.20-812932 release mistakes
+Subject: [Bug 110959] Broken link to Homepage of some packages
 Date: Sat, 22 Jun 2019 17:57:17 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: dep_changed
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: enhancement
 X-Bugzilla-Who: fdo-bugs@engestrom.ch
-X-Bugzilla-Status: NEW
+X-Bugzilla-Status: REOPENED
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110956-502-Gf8YZ8feRL@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110956-502@http.bugs.freedesktop.org/>
-References: <bug-110956-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-110959-502-TJavtIbBFn@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110959-502@http.bugs.freedesktop.org/>
+References: <bug-110959-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +52,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0691492603=="
+Content-Type: multipart/mixed; boundary="===============0613858367=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0691492603==
-Content-Type: multipart/alternative; boundary="15612262370.2d6D5DaB3.2018"
+--===============0613858367==
+Content-Type: multipart/alternative; boundary="15612262360.AcaF4.2019"
 Content-Transfer-Encoding: 7bit
 
 
---15612262370.2d6D5DaB3.2018
-Date: Sat, 22 Jun 2019 17:57:17 +0000
+--15612262360.AcaF4.2019
+Date: Sat, 22 Jun 2019 17:57:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110956
-Bug 110956 depends on bug 110957, which changed state.
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110959
 
-Bug 110957 Summary: wsa-amdgpu package has empty copyright file
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110957
+Eric Engestrom <fdo-bugs@engestrom.ch> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
          Resolution|INVALID                     |---
+             Status|RESOLVED                    |REOPENED
+
+--- Comment #2 from Eric Engestrom <fdo-bugs@engestrom.ch> ---
+TIL AMD does its support via our bugzilla...
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15612262370.2d6D5DaB3.2018
-Date: Sat, 22 Jun 2019 17:57:17 +0000
+--15612262360.AcaF4.2019
+Date: Sat, 22 Jun 2019 17:57:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,18 +98,15 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - List of 19.20-812932 release mistakes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110956">Bug 11095=
-6</a>
-          depends on
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:fdo-bugs&=
+#64;engestrom.ch" title=3D"Eric Engestrom &lt;fdo-bugs&#64;engestrom.ch&gt;=
+"> <span class=3D"fn">Eric Engestrom</span></a>
+</span> changed
           <a class=3D"bz_bug_link=20
           bz_status_REOPENED "
-   title=3D"REOPENED - wsa-amdgpu package has empty copyright file"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110957">bug 11095=
-7</a>,
-          which changed state.
+   title=3D"REOPENED - Broken link to Homepage of some packages"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110959">bug 11095=
+9</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -118,21 +116,38 @@ Auto-Submitted: auto-generated
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>RESOLVED
-           </td>
-           <td>REOPENED
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Resolution</td>
            <td>INVALID
            </td>
            <td>---
            </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>RESOLVED
+           </td>
+           <td>REOPENED
+           </td>
          </tr></table>
       <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Broken link to Homepage of some packages"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110959#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - Broken link to Homepage of some packages"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110959">bug 11095=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+fdo-bugs&#64;engestrom.ch" title=3D"Eric Engestrom &lt;fdo-bugs&#64;engestr=
+om.ch&gt;"> <span class=3D"fn">Eric Engestrom</span></a>
+</span></b>
+        <pre>TIL AMD does its support via our bugzilla...</pre>
+        </div>
       </p>
 
 
@@ -145,9 +160,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15612262370.2d6D5DaB3.2018--
+--15612262360.AcaF4.2019--
 
---===============0691492603==
+--===============0613858367==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +172,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0691492603==--
+--===============0613858367==--
