@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E583D4F719
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 18:37:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5236B4F728
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 18:48:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA9476E4C9;
-	Sat, 22 Jun 2019 16:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57E286E42B;
+	Sat, 22 Jun 2019 16:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9AA1E89148
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 16:37:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 851A76E42B
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 16:48:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 91C1772167; Sat, 22 Jun 2019 16:37:49 +0000 (UTC)
+ id 7CD9972167; Sat, 22 Jun 2019 16:48:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110956] List of 19.20-812932 release mistakes
-Date: Sat, 22 Jun 2019 16:37:49 +0000
+Date: Sat, 22 Jun 2019 16:48:39 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: DRM/AMDgpu-pro
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: imirkin@alum.mit.edu
+X-Bugzilla-Who: fdo-bugs@engestrom.ch
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110956-502-Ey4QQFYhmU@http.bugs.freedesktop.org/>
+Message-ID: <bug-110956-502-lXjt05wdOg@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110956-502@http.bugs.freedesktop.org/>
 References: <bug-110956-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0916800220=="
+Content-Type: multipart/mixed; boundary="===============0022028279=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0916800220==
-Content-Type: multipart/alternative; boundary="15612214690.5dEc730B7.23274"
+--===============0022028279==
+Content-Type: multipart/alternative; boundary="15612221190.fdC44F.24945"
 Content-Transfer-Encoding: 7bit
 
 
---15612214690.5dEc730B7.23274
-Date: Sat, 22 Jun 2019 16:37:49 +0000
+--15612221190.fdC44F.24945
+Date: Sat, 22 Jun 2019 16:48:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,24 +72,26 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110956
 
---- Comment #5 from Ilia Mirkin <imirkin@alum.mit.edu> ---
-(In reply to Eric Engestrom from comment #3)
-> I'll close the ones that are clearly something the Ubuntu packager needs =
-to
-> do as INVALID; I hope you don't take it badly, this was just the wrong bug
-> tracker ;)
+--- Comment #6 from Eric Engestrom <fdo-bugs@engestrom.ch> ---
+(In reply to Ilia Mirkin from comment #5)
+> I think it's the right bugracker. Note that DRM/AMDgpu-pro component. It's
+> meant for the AMD developers who very much have control (or at least
+> influence) over these things.
 
-I think it's the right bugracker. Note that DRM/AMDgpu-pro component. It's
-meant for the AMD developers who very much have control (or at least influe=
-nce)
-over these things.
+Something just dawned on me: as amdgpu-pro is closed source, is it only ever
+distributed as ubuntu packages, and therefore AMD are the ones making these
+packages?
+
+If so, I think I need to apologize, and all your bugs can be re-opened, sor=
+ry
+:/
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15612214690.5dEc730B7.23274
-Date: Sat, 22 Jun 2019 16:37:49 +0000
+--15612221190.fdC44F.24945
+Date: Sat, 22 Jun 2019 16:48:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -106,29 +108,31 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - List of 19.20-812932 release mistakes"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110956#c5">Commen=
-t # 5</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110956#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - List of 19.20-812932 release mistakes"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110956">bug 11095=
 6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-imirkin&#64;alum.mit.edu" title=3D"Ilia Mirkin &lt;imirkin&#64;alum.mit.edu=
-&gt;"> <span class=3D"fn">Ilia Mirkin</span></a>
+fdo-bugs&#64;engestrom.ch" title=3D"Eric Engestrom &lt;fdo-bugs&#64;engestr=
+om.ch&gt;"> <span class=3D"fn">Eric Engestrom</span></a>
 </span></b>
-        <pre>(In reply to Eric Engestrom from <a href=3D"show_bug.cgi?id=3D=
-110956#c3">comment #3</a>)
-<span class=3D"quote">&gt; I'll close the ones that are clearly something t=
-he Ubuntu packager needs to
-&gt; do as INVALID; I hope you don't take it badly, this was just the wrong=
- bug
-&gt; tracker ;)</span >
+        <pre>(In reply to Ilia Mirkin from <a href=3D"show_bug.cgi?id=3D110=
+956#c5">comment #5</a>)
+<span class=3D"quote">&gt; I think it's the right bugracker. Note that DRM/=
+AMDgpu-pro component. It's
+&gt; meant for the AMD developers who very much have control (or at least
+&gt; influence) over these things.</span >
 
-I think it's the right bugracker. Note that DRM/AMDgpu-pro component. It's
-meant for the AMD developers who very much have control (or at least influe=
-nce)
-over these things.</pre>
+Something just dawned on me: as amdgpu-pro is closed source, is it only ever
+distributed as ubuntu packages, and therefore AMD are the ones making these
+packages?
+
+If so, I think I need to apologize, and all your bugs can be re-opened, sor=
+ry
+:/</pre>
         </div>
       </p>
 
@@ -142,9 +146,9 @@ over these things.</pre>
     </body>
 </html>=
 
---15612214690.5dEc730B7.23274--
+--15612221190.fdC44F.24945--
 
---===============0916800220==
+--===============0022028279==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -154,4 +158,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0916800220==--
+--===============0022028279==--
