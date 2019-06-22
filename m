@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19884F379
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 05:54:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D81B4F37A
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Jun 2019 06:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC4866E954;
-	Sat, 22 Jun 2019 03:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 991216E952;
+	Sat, 22 Jun 2019 04:06:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D5CA16E954
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 03:54:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0BDE06E952
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Jun 2019 04:06:25 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D263972167; Sat, 22 Jun 2019 03:54:37 +0000 (UTC)
+ id 08F3072168; Sat, 22 Jun 2019 04:06:24 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110965] Documentation update about not provided PX package
-Date: Sat, 22 Jun 2019 03:54:37 +0000
+Subject: [Bug 110966] Documentation update about required lunar sdk
+Date: Sat, 22 Jun 2019 04:06:24 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110965-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110966-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -51,28 +51,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1738755404=="
+Content-Type: multipart/mixed; boundary="===============0149579496=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1738755404==
-Content-Type: multipart/alternative; boundary="15611756771.Bfc0.6828"
+--===============0149579496==
+Content-Type: multipart/alternative; boundary="15611763831.553DC99.7858"
 Content-Transfer-Encoding: 7bit
 
 
---15611756771.Bfc0.6828
-Date: Sat, 22 Jun 2019 03:54:37 +0000
+--15611763831.553DC99.7858
+Date: Sat, 22 Jun 2019 04:06:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110965
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110966
 
-            Bug ID: 110965
-           Summary: Documentation update about not provided PX package
+            Bug ID: 110966
+           Summary: Documentation update about required lunar sdk
            Product: DRI
            Version: unspecified
           Hardware: Other
@@ -84,21 +84,31 @@ https://bugs.freedesktop.org/show_bug.cgi?id=3D110965
           Assignee: dri-devel@lists.freedesktop.org
           Reporter: ashark@linuxcomp.ru
 
-19.20-812932 release for Ubuntu
+Release page
+https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20-unified sa=
+ys:
+To use the Vulkan driver in this stack, Vulkan SDK version v1.1.106.0 needs=
+ to
+be installed. The SDK can be downloaded from:
+https://vulkan.lunarg.com/sdk/home
 
-PX package xserver-xorg-video-modesetting-amdgpu-pro is not provided, so ma=
-ybe
-just remove any mentioning about it from installer script and from
-documentation? Here:
-https://amdgpu-install.readthedocs.io/en/latest/install-installing.html#px-=
-platform-support-ubuntu-only
+But in 19.20-812932 release for Ubuntu in
+vulkan-amdgpu-pro_19.20-812932_amd64.deb in
+opt/amdgpu-pro/etc/vulkan/icd.d/amd_icd64.json I can see:
+"api_version" : "1.1.108"
+
+So I guess that it may require a newer version.
+
+And is it even required? In Arch Linux there was a package created for this
+https://aur.archlinux.org/packages/lunarg-vulkan-sdk/ and I am wondering if
+that should be deleted.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15611756771.Bfc0.6828
-Date: Sat, 22 Jun 2019 03:54:37 +0000
+--15611763831.553DC99.7858
+Date: Sat, 22 Jun 2019 04:06:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -114,14 +124,14 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Documentation update about not provided PX package"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110965">110965</a>
+   title=3D"NEW - Documentation update about required lunar sdk"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110966">110966</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>Documentation update about not provided PX package
+          <td>Documentation update about required lunar sdk
           </td>
         </tr>
 
@@ -186,16 +196,27 @@ Auto-Submitted: auto-generated
         </tr></table>
       <p>
         <div>
-        <pre>19.20-812932 release for Ubuntu
+        <pre>Release page
+<a href=3D"https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20=
+-unified">https://www.amd.com/en/support/kb/release-notes/rn-rad-lin-19-20-=
+unified</a> says:
+To use the Vulkan driver in this stack, Vulkan SDK version v1.1.106.0 needs=
+ to
+be installed. The SDK can be downloaded from:
+<a href=3D"https://vulkan.lunarg.com/sdk/home">https://vulkan.lunarg.com/sd=
+k/home</a>
 
-PX package xserver-xorg-video-modesetting-amdgpu-pro is not provided, so ma=
-ybe
-just remove any mentioning about it from installer script and from
-documentation? Here:
-<a href=3D"https://amdgpu-install.readthedocs.io/en/latest/install-installi=
-ng.html#px-platform-support-ubuntu-only">https://amdgpu-install.readthedocs=
-.io/en/latest/install-installing.html#px-platform-support-ubuntu-only</a></=
-pre>
+But in 19.20-812932 release for Ubuntu in
+vulkan-amdgpu-pro_19.20-812932_amd64.deb in
+opt/amdgpu-pro/etc/vulkan/icd.d/amd_icd64.json I can see:
+&quot;api_version&quot; : &quot;1.1.108&quot;
+
+So I guess that it may require a newer version.
+
+And is it even required? In Arch Linux there was a package created for this
+<a href=3D"https://aur.archlinux.org/packages/lunarg-vulkan-sdk/">https://a=
+ur.archlinux.org/packages/lunarg-vulkan-sdk/</a> and I am wondering if
+that should be deleted.</pre>
         </div>
       </p>
 
@@ -209,9 +230,9 @@ pre>
     </body>
 </html>=
 
---15611756771.Bfc0.6828--
+--15611763831.553DC99.7858--
 
---===============1738755404==
+--===============0149579496==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -221,4 +242,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1738755404==--
+--===============0149579496==--
