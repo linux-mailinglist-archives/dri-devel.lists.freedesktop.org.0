@@ -2,66 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1ED524B7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 09:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F25450B71
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 15:04:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0B96E059;
-	Tue, 25 Jun 2019 07:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8D6C899D6;
+	Mon, 24 Jun 2019 13:04:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C92F1899D6
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 12:55:07 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id q26so9972011lfc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 05:55:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WNEPAJU0PKDjx+XnMY/T0wpxzKSr9Cr3EplpOoCn4Mg=;
- b=XSi24v2SPgYunA5VpVzeKp3TG/7AWrWqXTP7FBCQCPtjwHmCflOTgbWb2YWSzwomqx
- gDdyn6yPkoLDnATKPIH1cuqqRYnhxzpb4hkb2C+fvRbUigyh83u+a1TNiFqz7B+a+VbI
- m6/VmLhXTqEIGvGsHliLo5dcdkFMophfCNZ/DZbtMmwidEoH1J5JdD59zVd1o697zs9x
- O7TuWB42utdtTGzEvwsjPPpRC7fiTX1ECkrGBkM3j3SBB8F/3Z2zRn2VywMc3GwRiVg9
- JKW7EkM71R2VnpREpEKZM0emrjye/uiBPrzuP1PqRL4Od+EG8GH6nYkJ3nFaV/BFKHma
- RDbQ==
-X-Gm-Message-State: APjAAAXtz/FLSXFkSTOt8TiocESQHaFvpaUEMoOkuQvaB7bnfDYBAj53
- x9ZfpqTlNspp+wrYx+GqVaM=
-X-Google-Smtp-Source: APXvYqzSDGrndyCxLDg8GGelDuwS8V7x7tQBjK5jsA9NOeIRgsbr70QnRs0ab8nFHEci1xRTIgnoYA==
-X-Received: by 2002:a19:ca0e:: with SMTP id a14mr20824806lfg.19.1561380906306; 
- Mon, 24 Jun 2019 05:55:06 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-79-162-197.pppoe.mtu-net.ru.
- [91.79.162.197])
- by smtp.googlemail.com with ESMTPSA id u13sm1568415lfl.61.2019.06.24.05.55.05
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 24 Jun 2019 05:55:05 -0700 (PDT)
-Subject: Re: [PATCH v1 1/3] gpu: host1x: Remove implicit IOMMU backing on
- client's registration
-To: Christoph Hellwig <hch@infradead.org>
-References: <20190623173743.24088-1-digetx@gmail.com>
- <20190624070413.GA23846@infradead.org>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e7ecff74-ef8e-fd7e-1be2-0f3c60abc6f8@gmail.com>
-Date: Mon, 24 Jun 2019 15:55:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33DC589354
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 13:04:48 +0000 (UTC)
+X-Originating-IP: 90.88.16.156
+Received: from localhost (aaubervilliers-681-1-41-156.w90-88.abo.wanadoo.fr
+ [90.88.16.156]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id A525D4000B;
+ Mon, 24 Jun 2019 13:04:42 +0000 (UTC)
+Date: Mon, 24 Jun 2019 15:04:42 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [linux-sunxi] Re: [PATCH v10 04/11] drm/sun4i: tcon: Compute
+ DCLK dividers based on format, lanes
+Message-ID: <20190624130442.ww4l3zctykr4i2e2@flea>
+References: <20190520090318.27570-1-jagan@amarulasolutions.com>
+ <20190520090318.27570-5-jagan@amarulasolutions.com>
+ <20190523204823.mx7l4ozklzdh7npn@flea>
+ <CAMty3ZA0S=+8NBrQZvP6sFdzSYWqhNZL_KjkJAQ0jTc2RVivrw@mail.gmail.com>
+ <20190604143016.fcx3ezmga244xakp@flea>
+ <CAMty3ZAAK4RoE6g_LAZ-Q38On_1s_TTOz65YG7PVd88mwp-+4Q@mail.gmail.com>
+ <20190613131626.7zbwvrvd4e7eafrc@flea>
+ <CAMty3ZBDkMJkZm8FudNB1wQ+L-q3XVKa3zR2M0wZ5Uncdy_Ayg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190624070413.GA23846@infradead.org>
-Content-Language: en-US
-X-Mailman-Approved-At: Tue, 25 Jun 2019 07:27:07 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WNEPAJU0PKDjx+XnMY/T0wpxzKSr9Cr3EplpOoCn4Mg=;
- b=RO8plrW1jTvcIU9jaiUr7gbc5+mACH0QXHLY3czL8SgaIhkmOlLNLRThMiAUSqB5Ly
- 8Z0H2FubYRIdzrxk5ZZKDi0MOMaGgn1Cy6DM5Tz5+bBIcstMxY7a0zn93hYlohOi0cx+
- dRaClftcITthbkuf+GMufHq115LKWsPXfIEUGwLbRij2EgfffrDvbyyJjL0tVAxcFR8E
- ABEkxVK/PMW83c2/h7KNA7UkXGfLNPIwfswHio2wX8A0cwQhFG882iRx/C0v6KbAzR8U
- +MFGbBVbfaGX2wbnqHofSk2s1nDCMO6eNmZ/C42BFo9Ak8BkTwY5yq9hUB6/b/pEabsk
- Tj3w==
+In-Reply-To: <CAMty3ZBDkMJkZm8FudNB1wQ+L-q3XVKa3zR2M0wZ5Uncdy_Ayg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,27 +47,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Bhushan Shah <bshah@mykolab.com>, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>,
+ =?utf-8?B?5Z2a5a6a5YmN6KGM?= <powerpan@qq.com>, Chen-Yu Tsai <wens@csie.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============0931086263=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MjQuMDYuMjAxOSAxMDowNCwgQ2hyaXN0b3BoIEhlbGx3aWcg0L/QuNGI0LXRgjoKPiBEb24ndCB3
-ZSBoYXZlIGEgZGV2aWNlIHRyZWUgcHJvYmxlbSBoZXJlIGlmIHRoZXJlIGlzIGEgZG9tYWluIGNv
-dmVyaW5nCj4gdGhlbT8gIEkgdGhvdWdoIHdlIHNob3VsZCBvbmx5IHBpY2sgdXAgYW4gSU9NTVUg
-Zm9yIGEgZ2l2ZW4gZGV2aWNlCj4gaWYgRFQgZXhwbGljaXRseSBhc2tlZCBmb3IgdGhhdD8KPiAK
-ClRoZXJlIGlzIG5vIHNwZWNpZmljIGRvbWFpbiB0aGF0ICJjb3ZlcmluZyB0aGVtIi4gVGhlIElP
-TU1VIGRvbWFpbiBpcyBhbGxvY2F0ZWQKZHluYW1pY2FsbHkgZHVyaW5nIG9mIHRoZSBUZWdyYSBE
-Uk0ncyBkcml2ZXIgaW5pdGlhbGl6YXRpb24gKHNlZSB0ZWdyYV9kcm1fbG9hZCkgYW5kCnRoZW4g
-YWxsIG9mIERSTSBkZXZpY2VzIGFyZSBhdHRhY2hlZCB0byB0aGF0IGRvbWFpbiBvbmNlIGFsbCBv
-ZiB0aGUgRFJNIHN1Yi1kcml2ZXJzCmFyZSBwcm9iZWQgc3VjY2Vzc2Z1bGx5LiBPbiBUZWdyYSBT
-b0NzIGl0J3MgdXAgdG8gc29mdHdhcmUgKGRyaXZlcikgdG8gZGVjaWRlIGhvdyB0bwpzZXBhcmF0
-ZSBoYXJkd2FyZSBkZXZpY2VzIGZyb20gZWFjaCBvdGhlciwgaW4gYSBjYXNlIG9mIERSTSB3ZSdy
-ZSBwdXR0aW5nIGFsbCB0aGUKcmVsZXZhbnQgZ3JhcGhpY3MgZGV2aWNlcyBpbnRvIGEgc2luZ2xl
-IGRvbWFpbi4gSXMgaXQgZXZlbiBwb3NzaWJsZSB0byBleHByZXNzIElPTU1VCmRvbWFpbiAobm90
-IGdyb3VwISkgYXNzaWdubWVudHMgaW4gYSBkZXZpY2UtdHJlZT8KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0931086263==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="64nk6adhvcpcvxlq"
+Content-Disposition: inline
+
+
+--64nk6adhvcpcvxlq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Fri, Jun 14, 2019 at 05:33:23PM +0530, Jagan Teki wrote:
+> On Thu, Jun 13, 2019 at 7:28 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> >
+> > On Wed, Jun 05, 2019 at 01:11:44PM +0530, Jagan Teki wrote:
+> > > On Tue, Jun 4, 2019 at 8:00 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> > > >
+> > > > On Fri, May 24, 2019 at 03:37:36PM +0530, Jagan Teki wrote:
+> > > > > On Fri, May 24, 2019 at 2:18 AM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> > > > > >
+> > > > > > On Mon, May 20, 2019 at 02:33:11PM +0530, Jagan Teki wrote:
+> > > > > > > pll-video => pll-mipi => tcon0 => tcon0-pixel-clock is the typical
+> > > > > > > MIPI clock topology in Allwinner DSI controller.
+> > > > > > >
+> > > > > > > TCON dotclock driver is computing the desired DCLK divider based on
+> > > > > > > panel pixel clock along with input DCLK min, max divider values from
+> > > > > > > tcon driver and that would eventually set the pll-mipi clock rate.
+> > > > > > >
+> > > > > > > The current code is passing dsi min and max divider value as 4 via
+> > > > > > > tcon driver which would ended-up triggering below vblank wait timed out
+> > > > > > > warning on "bananapi,s070wv20-ct16" panel.
+> > > > > > >
+> > > > > > >  WARNING: CPU: 0 PID: 31 at drivers/gpu/drm/drm_atomic_helper.c:1429 drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0
+> > > > > > >  [CRTC:46:crtc-0] vblank wait timed out
+> > > > > > >  Modules linked in:
+> > > > > > >  CPU: 0 PID: 31 Comm: kworker/0:1 Not tainted 5.1.0-next-20190514-00025-g5186cdf10757-dirty #6
+> > > > > > >  Hardware name: Allwinner sun8i Family
+> > > > > > >  Workqueue: events deferred_probe_work_func
+> > > > > > >  [<c010ed54>] (unwind_backtrace) from [<c010b76c>] (show_stack+0x10/0x14)
+> > > > > > >  [<c010b76c>] (show_stack) from [<c0688c70>] (dump_stack+0x84/0x98)
+> > > > > > >  [<c0688c70>] (dump_stack) from [<c011d9e4>] (__warn+0xfc/0x114)
+> > > > > > >  [<c011d9e4>] (__warn) from [<c011da40>] (warn_slowpath_fmt+0x44/0x68)
+> > > > > > >  [<c011da40>] (warn_slowpath_fmt) from [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0)
+> > > > > > >  [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1) from [<c040e694>] (drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
+> > > > > > >  [<c040e694>] (drm_atomic_helper_commit_tail_rpm) from [<c040e4dc>] (commit_tail+0x40/0x6c)
+> > > > > > >  [<c040e4dc>] (commit_tail) from [<c040e5cc>] (drm_atomic_helper_commit+0xbc/0x128)
+> > > > > > >  [<c040e5cc>] (drm_atomic_helper_commit) from [<c0411b64>] (restore_fbdev_mode_atomic+0x1cc/0x1dc)
+> > > > > > >  [<c0411b64>] (restore_fbdev_mode_atomic) from [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa0)
+> > > > > > >  [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0415774>] (drm_fb_helper_set_par+0x30/0x54)
+> > > > > > >  [<c0415774>] (drm_fb_helper_set_par) from [<c03ad450>] (fbcon_init+0x560/0x5ac)
+> > > > > > >  [<c03ad450>] (fbcon_init) from [<c03eb8a0>] (visual_init+0xbc/0x104)
+> > > > > > >  [<c03eb8a0>] (visual_init) from [<c03ed1b8>] (do_bind_con_driver+0x1b0/0x390)
+> > > > > > >  [<c03ed1b8>] (do_bind_con_driver) from [<c03ed780>] (do_take_over_console+0x13c/0x1c4)
+> > > > > > >  [<c03ed780>] (do_take_over_console) from [<c03ad800>] (do_fbcon_takeover+0x74/0xcc)
+> > > > > > >  [<c03ad800>] (do_fbcon_takeover) from [<c013c9c8>] (notifier_call_chain+0x44/0x84)
+> > > > > > >  [<c013c9c8>] (notifier_call_chain) from [<c013cd20>] (__blocking_notifier_call_chain+0x48/0x60)
+> > > > > > >  [<c013cd20>] (__blocking_notifier_call_chain) from [<c013cd50>] (blocking_notifier_call_chain+0x18/0x20)
+> > > > > > >  [<c013cd50>] (blocking_notifier_call_chain) from [<c03a6e44>] (register_framebuffer+0x1e0/0x2f8)
+> > > > > > >  [<c03a6e44>] (register_framebuffer) from [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock+0x2fc/0x50c)
+> > > > > > >  [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock) from [<c04158c8>] (drm_fbdev_client_hotplug+0xe8/0x1b8)
+> > > > > > >  [<c04158c8>] (drm_fbdev_client_hotplug) from [<c0415a20>] (drm_fbdev_generic_setup+0x88/0x118)
+> > > > > > >  [<c0415a20>] (drm_fbdev_generic_setup) from [<c043f060>] (sun4i_drv_bind+0x128/0x160)
+> > > > > > >  [<c043f060>] (sun4i_drv_bind) from [<c044b588>] (try_to_bring_up_master+0x164/0x1a0)
+> > > > > > >  [<c044b588>] (try_to_bring_up_master) from [<c044b658>] (__component_add+0x94/0x140)
+> > > > > > >  [<c044b658>] (__component_add) from [<c0445e0c>] (sun6i_dsi_probe+0x144/0x234)
+> > > > > > >  [<c0445e0c>] (sun6i_dsi_probe) from [<c0452ee4>] (platform_drv_probe+0x48/0x9c)
+> > > > > > >  [<c0452ee4>] (platform_drv_probe) from [<c04512bc>] (really_probe+0x1dc/0x2c8)
+> > > > > > >  [<c04512bc>] (really_probe) from [<c0451508>] (driver_probe_device+0x60/0x160)
+> > > > > > >  [<c0451508>] (driver_probe_device) from [<c044f794>] (bus_for_each_drv+0x74/0xb8)
+> > > > > > >  [<c044f794>] (bus_for_each_drv) from [<c045106c>] (__device_attach+0xd0/0x13c)
+> > > > > > >  [<c045106c>] (__device_attach) from [<c0450464>] (bus_probe_device+0x84/0x8c)
+> > > > > > >  [<c0450464>] (bus_probe_device) from [<c04508f0>] (deferred_probe_work_func+0x64/0x90)
+> > > > > > >  [<c04508f0>] (deferred_probe_work_func) from [<c0135970>] (process_one_work+0x204/0x420)
+> > > > > > >  [<c0135970>] (process_one_work) from [<c013690c>] (worker_thread+0x274/0x5a0)
+> > > > > > >  [<c013690c>] (worker_thread) from [<c013b3d8>] (kthread+0x11c/0x14c)
+> > > > > > >  [<c013b3d8>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+> > > > > > >  Exception stack(0xde539fb0 to 0xde539ff8)
+> > > > > > >  9fa0:                                     00000000 00000000 00000000 00000000
+> > > > > > >  9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> > > > > > >  9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> > > > > > >  ---[ end trace 4017fea4906ab391 ]---
+> > > > > > >
+> > > > > > > But accordingly to Allwinner A33, A64 BSP codes [1] [2] this divider
+> > > > > > > is clearly using 'format/lanes' for dsi divider value, dsi_clk.clk_div
+> > > > > > >
+> > > > > > > Which would compute the pll_freq and set a clock rate for it in
+> > > > > > > [3] and [4] respectively.
+> > > > > > >
+> > > > > > > The same issue has reproduced in A33, A64 with 4-lane and 2-lane devices
+> > > > > > > and got fixed with this computation logic 'format/lanes', so this patch
+> > > > > > > using dclk min and max dividers as per BSP.
+> > > > > > >
+> > > > > > > [1] https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L1106
+> > > > > > > [2] https://github.com/BPI-SINOVOIP/BPI-M64-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp2/disp/de/lowlevel_sun50iw1/disp_al.c#L213
+> > > > > > > [3] https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L1127
+> > > > > > > [4] https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L1161
+> > > > > >
+> > > > > > In that mail, I've pointed out that clk_div isn't used for the TCON dclk divider:
+> > > > > > http://lists.infradead.org/pipermail/linux-arm-kernel/2019-February/629596.html
+> > > > > >
+> > > > > > The only reply you've sent is that you indeed see that the divider is
+> > > > > > set to 4 in the BSP, but you're now saying that the BSP can change
+> > > > > > it. If so, then please point exactly the flaw in the explanation in
+> > > > > > that mail.
+> > > > >
+> > > > > Frankly, I have explained these details in commit message and previous
+> > > > > version patch[1] with print messages on the code.
+> > > > >
+> > > > > BSP has tcon_div and dsi_div. dsi_div is dynamic which depends on
+> > > > > bpp/lanes and it indeed depends on PLL computation (not tcon_div),
+> > > > > anyway I have explained again on this initial link you mentioned.
+> > > > > Please have a look and get back.
+> > > >
+> > > > I'll have a look, thanks.
+> > > >
+> > > > I've given your patches a try on my setup though, and this patch
+> > > > breaks it with vblank timeouts and some horizontal lines that looks
+> > > > like what should be displayed, but blinking and on the right of the
+> > > > display. The previous ones are fine though.
+> > >
+> > > Would you please send me the link of panel driver.
+> >
+> > It's drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+>
+> Look like this panel work even w/o any vendor sequence. it's similar
+> to the 4-lane panel I have with RGB888, so the dclk div is 6, is it
+> working with this divider?
+
+It works with 4, it doesn't work with 6.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--64nk6adhvcpcvxlq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRDKagAKCRDj7w1vZxhR
+xSnsAQDSjTYk4/ovePP454whMzty+sMvdA/WQQCiOWH7paNxqgD9FVu8VfO0oE3i
+nVCnuuPtQszscLp4YZe21UBBxeGOngw=
+=eQHZ
+-----END PGP SIGNATURE-----
+
+--64nk6adhvcpcvxlq--
+
+--===============0931086263==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0931086263==--
