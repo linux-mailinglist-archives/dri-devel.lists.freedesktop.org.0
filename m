@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6947D51EFE
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 01:15:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 882D151F0C
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 01:20:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB4089EA9;
-	Mon, 24 Jun 2019 23:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D51C789E35;
+	Mon, 24 Jun 2019 23:20:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C469689EA9
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 23:15:32 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id bi6so7723249plb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 16:15:32 -0700 (PDT)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAA189E35
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 23:20:31 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id j2so8364601pfe.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 16:20:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
  :message-id:mime-version;
- bh=2IMAKyHpnPJ1yDvedXi3maHRvnqNVDYJ2coEjzpqvcg=;
- b=dXJSU1tBUkZSF32XP2sbkgCULGj05C6wMPk0wv3RO8phKVM3C+wFLjgBlCJaYNExs5
- 8IEue5xy05Voa8/dfw9p8NlRbRSJ+qfTnuYQlCKft5bNKPuVrxeW/7EK9itL9rSJiCU5
- eSHLVecZ4nEnbAp4L0reWnQECeqKQUIJkptNuF+ALMLCx7ZNbOB2K8vCRMfXYyndhOYZ
- clRzcqIW8F9AE9koQWdMzCDDrl+8mNZVoBxfUP2f7RmbhWTo6KdS2PC4oCXaM7usrWoM
- pKqGSnITN8rRPdXpsJY7wQYGn9IjetWt/cBst2PGhk9WH96C6DJpEmQ7+DNW2NIzoFEx
- yfRg==
-X-Gm-Message-State: APjAAAXRumA/OQDufK7u6BCXxEhllIML5AevjdabbKtC+9xIRFvj9nrl
- hseMObcuiewy0x+uzxuJ8L892A==
-X-Google-Smtp-Source: APXvYqwROTeApbbRvj7XZr2xOey7lePNY05i1p2vtda9bu6wK0pvM2dbxuFwX8hcBJqIgVsFRVqElQ==
-X-Received: by 2002:a17:902:42d:: with SMTP id
- 42mr144122426ple.228.1561418132182; 
- Mon, 24 Jun 2019 16:15:32 -0700 (PDT)
+ bh=CLMq9SkPZ0LrpMbu6uM6UrnywucO78/fC+4xJdWuUjU=;
+ b=nO9P2kGNDWS/sj9vcAiplDJ4c05Ny44APrQ7CQaT579Z75FqPFuIOEPy2RHBrbFsNc
+ YipCAxbAzUD2vi9A2K3TXq5sgcrM4mOoELUp5sENPj/SHM9nyNBf8z018A7A7Tu7hn32
+ /J9YbktKr6c6xP+EUpJtEBW77+90Kxxxg6Uu2BnZy41h+AeBtz/lD2b995wyvKiw4/mC
+ p6XmrHNvFMcWjKBxHbGBeAIBwRo9I6+a3bTLIfBgMIcb1BOBMs7dfdRasSkHQVSLEzKf
+ SaVb9x2ZUvx88D5niFv3kCGMrKiNsDjEhqwtXcwVMIWCRXlEg3tMj6Tpiskyf3hKqGCS
+ 983Q==
+X-Gm-Message-State: APjAAAXUd14qob64sKUW7eJit1E05qaQxXCYjPFwU2QH+1yBLljut5q2
+ IpaEc7gFq/7CerIbuQCR4p/VnA==
+X-Google-Smtp-Source: APXvYqw0AZKgg6EjKTiDXtbpUIU8qcxoTXpR5EwI5qJzAJRAtq9DzupQa5ZaWWS4hAxfXE0scVi4uw==
+X-Received: by 2002:a63:c60:: with SMTP id 32mr13363428pgm.42.1561418431055;
+ Mon, 24 Jun 2019 16:20:31 -0700 (PDT)
 Received: from localhost ([2601:602:9200:a1a5:559b:6f10:667f:4354])
- by smtp.googlemail.com with ESMTPSA id v9sm16566583pgj.69.2019.06.24.16.15.31
+ by smtp.googlemail.com with ESMTPSA id m19sm1137712pjn.3.2019.06.24.16.20.30
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 24 Jun 2019 16:15:31 -0700 (PDT)
+ Mon, 24 Jun 2019 16:20:30 -0700 (PDT)
 From: Kevin Hilman <khilman@baylibre.com>
 To: 86zhm782g5.fsf@baylibre.com, Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: [PATCH 4/9] drm: meson: vpp: use proper macros instead of magic
- constants
-In-Reply-To: <86tvcf82eu.fsf@baylibre.com>
-References: <86zhm782g5.fsf@baylibre.com> <86tvcf82eu.fsf@baylibre.com>
-Date: Mon, 24 Jun 2019 16:15:28 -0700
-Message-ID: <7h36jyy3qn.fsf@baylibre.com>
+Subject: Re: [PATCH 8/9] drm: meson: add macro used to enable HDMI PLL
+In-Reply-To: <86o92n82e1.fsf@baylibre.com>
+References: <86zhm782g5.fsf@baylibre.com> <86o92n82e1.fsf@baylibre.com>
+Date: Mon, 24 Jun 2019 16:20:29 -0700
+Message-ID: <7hwohawoxu.fsf@baylibre.com>
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:in-reply-to:references:date:message-id
  :mime-version;
- bh=2IMAKyHpnPJ1yDvedXi3maHRvnqNVDYJ2coEjzpqvcg=;
- b=fNoiNIAlRLn2QPb90BjGH37+vFNKA/mLAyGEzncUaIUNKlz7FLzTUan3SXPxa1rNq8
- 7saw0x1+SkHrlvHHaLtCzAuR7AUl5tVeWeM7dauo2/iU1K+AVzbwctFJ5zSEeVx94FuT
- 7MMlmAJrW3AOOmVZ7ElmnT16ufcPs1Zow5dWLjMaqdWX+cWwAom1Wk+c0lBAehDJdbr2
- unMFbvikaH6zQO3eS25IrkX5zlnygUySo3Ybd8VG/p9wqDGJZ0CibWSLbx/Bn46+GRrn
- C9SbdikcTznE1mRjY+HDMes2guFt2BWypwoXZuPoBwsmUusAWHuddfXUtfS0d8dJlRFd
- Hhqg==
+ bh=CLMq9SkPZ0LrpMbu6uM6UrnywucO78/fC+4xJdWuUjU=;
+ b=dLg/cSRkJPUZwFWpsP5zrU6X5hseY4oEeFd0LoCR7LGMnXqC0nzPoFAzqz9Y7u/41c
+ PVqSleEbaPIgcPu0aCXcvA8ErwL0FqzRVDuGb0m2YwMJ9cLF7LbUaVxZP6q/2kesoXRK
+ /jWxwhBmthWot8HMFhTMtiLMF/eWvtwCGW/6JkkiTuKr3iAewjAgK3i9kIFHThWf575k
+ 4wEOAr5iRNfUAvL3Xq4eB6rRA+mjQFjipz3E7czZd/g0cvHAaH3Btayr9Z60UV90p37m
+ CkV51ozzeK7L+hUT1HzMKJCGHN2tVbrbHL8lyYsoK6oeRmrOC9eKXS9fiv1ZYUi9XD+Z
+ 9m5Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,21 +75,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 SnVsaWVuIE1hc3NvbiA8am1hc3NvbkBiYXlsaWJyZS5jb20+IHdyaXRlczoKCj4gVGhpcyBwYXRj
-aCBhZGQgbmV3IG1hY3JvcyB3aGljaCBhcmUgdXNlZCB0byBzZXQgdGhlIGZvbGxvd2luZwo+IHJl
-Z2lzdGVyczoKPiAtIFZQUF9PU0RfU0NBTEVfQ09FRl9JRFgKPiAtIFZQUF9ET0xCWV9DVFJMCj4g
-LSBWUFBfT0ZJRk9fU0laRQo+IC0gVlBQX0hPTERfTElORVMKPiAtIFZQUF9TQ19NSVNDCj4gLSBW
-UFBfVkFESl9DVFJMCj4KPiBTaWduZWQtb2ZmLWJ5OiBKdWxpZW4gTWFzc29uIDxqbWFzc29uQGJh
-eWxpYnJlLmNvbT4KClsuLi5dCgo+IEBAIC05NywyMCArOTcsMjIgQEAgdm9pZCBtZXNvbl92cHBf
-aW5pdChzdHJ1Y3QgbWVzb25fZHJtICpwcml2KQo+ICAJZWxzZSBpZiAobWVzb25fdnB1X2lzX2Nv
-bXBhdGlibGUocHJpdiwgImFtbG9naWMsbWVzb24tZ3htLXZwdSIpKSB7Cj4gIAkJd3JpdGVsX2Jp
-dHNfcmVsYXhlZCgweGZmIDw8IDE2LCAweGZmIDw8IDE2LAo+ICAJCQkJICAgIHByaXYtPmlvX2Jh
-c2UgKyBfUkVHKFZJVV9NSVNDX0NUUkwxKSk7Cj4gLQkJd3JpdGVsX3JlbGF4ZWQoMHgyMDAwMCwg
-cHJpdi0+aW9fYmFzZSArIF9SRUcoVlBQX0RPTEJZX0NUUkwpKTsKPiAtCQl3cml0ZWxfcmVsYXhl
-ZCgweDEwMjAwODAsCj4gKwkJd3JpdGVsX3JlbGF4ZWQoVlBQX1BQU19EVU1NWV9EQVRBX01PREUs
-Cj4gKwkJCSAgICAgICBwcml2LT5pb19iYXNlICsgX1JFRyhWUFBfRE9MQllfQ1RSTCkpOwo+ICsJ
-CXdyaXRlbF9yZWxheGVkKDB4MTA4MDgwLAoKbml0OiBzdGlsbCBhIG1hZ2ljIGNvbnN0YW50IGhl
-cmUsIGFuZCBpdCdzIG5vdCBvYnZpb3VzIHdoeSBpdCdzCmRpZmZlcmVudCBmcm9tIHRoZSBjdXJy
-ZW50IG9uZS4KCktldmluCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+aCBhZGQgbmV3IG1hY3JvIEhISV9IRE1JX1BMTF9DTlRMX0VOIHdoaWNoIGlzIHVzZWQgdG8gZW5h
+YmxlCj4gSERNSSBQTEwuCj4KPiBTaWduZWQtb2ZmLWJ5OiBKdWxpZW4gTWFzc29uIDxqbWFzc29u
+QGJheWxpYnJlLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX3ZjbGsu
+YyB8IDMgKystCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
+LSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fdmNsay5jIGIv
+ZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX3ZjbGsuYwo+IGluZGV4IGU3YzJiNDM5ZDBmNy4u
+YmU2ZTE1MmZjNzVhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92
+Y2xrLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fdmNsay5jCj4gQEAgLTk2
+LDYgKzk2LDcgQEAKPiAgI2RlZmluZSBISElfVkRBQ19DTlRMMQkJMHgyRjggLyogMHhiZSBvZmZz
+ZXQgaW4gZGF0YSBzaGVldCAqLwo+ICAKPiAgI2RlZmluZSBISElfSERNSV9QTExfQ05UTAkweDMy
+MCAvKiAweGM4IG9mZnNldCBpbiBkYXRhIHNoZWV0ICovCj4gKyNkZWZpbmUgSEhJX0hETUlfUExM
+X0NOVExfRU4JQklUKDMwKQo+ICAjZGVmaW5lIEhISV9IRE1JX1BMTF9DTlRMMgkweDMyNCAvKiAw
+eGM5IG9mZnNldCBpbiBkYXRhIHNoZWV0ICovCj4gICNkZWZpbmUgSEhJX0hETUlfUExMX0NOVEwz
+CTB4MzI4IC8qIDB4Y2Egb2Zmc2V0IGluIGRhdGEgc2hlZXQgKi8KPiAgI2RlZmluZSBISElfSERN
+SV9QTExfQ05UTDQJMHgzMkMgLyogMHhjYiBvZmZzZXQgaW4gZGF0YSBzaGVldCAqLwo+IEBAIC00
+NjgsNyArNDY5LDcgQEAgdm9pZCBtZXNvbl9oZG1pX3BsbF9zZXRfcGFyYW1zKHN0cnVjdCBtZXNv
+bl9kcm0gKnByaXYsIHVuc2lnbmVkIGludCBtLAo+ICAKPiAgCQkvKiBFbmFibGUgYW5kIHVucmVz
+ZXQgKi8KPiAgCQlyZWdtYXBfdXBkYXRlX2JpdHMocHJpdi0+aGhpLCBISElfSERNSV9QTExfQ05U
+TCwKPiAtCQkJCSAgIDB4NyA8PCAyOCwgMHg0IDw8IDI4KTsKPiArCQkJCSAgIDB4NyA8PCAyOCwg
+SEhJX0hETUlfUExMX0NOVExfRU4pOwoKc3RpbGwgdXNpbmcgYSBtYWdpYyBjb25zdCBmb3IgdGhl
+IG1hc2suICBDYW4gdXNlIEdFTk1BU0soKSBmb3IgdGhpcz8KCktldmluCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
