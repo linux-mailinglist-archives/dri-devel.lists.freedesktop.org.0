@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB9051069
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 17:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FB65106A
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 17:30:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCE389B49;
-	Mon, 24 Jun 2019 15:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E32089C37;
+	Mon, 24 Jun 2019 15:29:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CEBE89B49
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 15:29:50 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id B739820027;
- Mon, 24 Jun 2019 17:29:46 +0200 (CEST)
-Date: Mon, 24 Jun 2019 17:29:44 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Inki Dae <daeinki@gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/exynos: trigger build of all modules
-Message-ID: <20190624152944.GA20945@ravnborg.org>
-References: <20190622115623.16314-1-sam@ravnborg.org>
- <20190622115623.16314-3-sam@ravnborg.org>
- <CAAQKjZPqunjVctjFJdwJMEmz7DHT8mDgMQ-_a3sw6BGO9K2q2w@mail.gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 86E8F89C37
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 15:29:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8462072167; Mon, 24 Jun 2019 15:29:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110981] Glitches with amdgpu driver and QtWebEngine
+Date: Mon, 24 Jun 2019 15:29:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@trummer.xyz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110981-502-wTlnhsxWrV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110981-502@http.bugs.freedesktop.org/>
+References: <bug-110981-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAAQKjZPqunjVctjFJdwJMEmz7DHT8mDgMQ-_a3sw6BGO9K2q2w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=YRlpexu18wrs5fNeD8wA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,29 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jingoo Han <jingoohan1@gmail.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1686210185=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSW5raQoKRnJvbSBjaGFuZ2Vsb2c6Cj4gPgo+ID4gSW5jbHVkZSBmaXggb2YgZXh5bm9zIGJ1
-aWxkIGZvciBhbHBoYS4KPiA+CgoKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5
-bm9zL2V4eW5vc19kcm1fZmJkZXYuYyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2Ry
-bV9mYmRldi5jCj4gPiBpbmRleCBhZWZjZDYyNGZlMzIuLmIwODc3Yjk3MjkxYyAxMDA2NDQKPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jCj4gPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmJkZXYuYwo+ID4gQEAgLTEwLDYg
-KzEwLDcgQEAKPiA+Cj4gPiAgI2luY2x1ZGUgPGxpbnV4L2NvbnNvbGUuaD4KPiA+ICAjaW5jbHVk
-ZSA8bGludXgvZG1hLW1hcHBpbmcuaD4KPiA+ICsjaW5jbHVkZSA8bGludXgvdm1hbGxvYy5oPgo+
-IAo+IElzIHRoaXMgY2hhbmdlIHJlbGF0ZWQgdG8gdGhpcyBwYXRjaD8KClRoaXMgaXMgdGhlIGFi
-b3ZlIG1lbnRpb25lZCBmaXguCkFscGhhIG9mdGVuIG5lZWRzIG9uZSB0byBwdWxsIGluIHZtYWxs
-b2MuaCAtIHdoZXJlIGFsbCBvdGhlcgphcmNoaXRlY3R1cmVzIGdldCBpdCBpbmRpcmVjdCB2aWEg
-b3RoZXIgaGVhZGVycy4KSSBoYXZlIG5ldmVyIGJvdGhlcmVkIHRvIGZpbmQgb3V0IHdoeSBhbHBh
-IG5lZWRzIG1vcmUgaGVhZGVycyBmaWxlcywKYnV0IEkgYWx3YXlzIG1ha2Ugc3VyZSB0byB0ZXN0
-IHRoaW5ncyB1c2luZyBhbHBoYSBzbyAwLWRheSBkbyBub3QgeWVsbCBhdCBtZS4KCglTYW0KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1686210185==
+Content-Type: multipart/alternative; boundary="15613901960.bD13fA34.21646"
+Content-Transfer-Encoding: 7bit
+
+
+--15613901960.bD13fA34.21646
+Date: Mon, 24 Jun 2019 15:29:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110981
+
+--- Comment #2 from freedesktop@trummer.xyz ---
+Created attachment 144622
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144622&action=3Dedit
+embedded video 1 - correct
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15613901960.bD13fA34.21646
+Date: Mon, 24 Jun 2019 15:29:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Glitches with amdgpu driver and QtWebEngine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110981#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Glitches with amdgpu driver and QtWebEngine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110981">bug 11098=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;trummer.xyz" title=3D"freedesktop&#64;trummer.xyz">freedesk=
+top&#64;trummer.xyz</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144622=
+" name=3D"attach_144622" title=3D"embedded video 1 - correct">attachment 14=
+4622</a> <a href=3D"attachment.cgi?id=3D144622&amp;action=3Dedit" title=3D"=
+embedded video 1 - correct">[details]</a></span>
+embedded video 1 - correct</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15613901960.bD13fA34.21646--
+
+--===============1686210185==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1686210185==--
