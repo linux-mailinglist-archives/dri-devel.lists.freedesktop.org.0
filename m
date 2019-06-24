@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B38251AF0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 20:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E4151AFF
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 20:54:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7464389D99;
-	Mon, 24 Jun 2019 18:48:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6C8289D8D;
+	Mon, 24 Jun 2019 18:54:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E4E6089D99
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 18:48:06 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DC4FF72167; Mon, 24 Jun 2019 18:48:06 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110984] Vulkan shows stuttering issues on Vega 10 w/
- gnome-shell on Wayland
-Date: Mon, 24 Jun 2019 18:48:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: lyude@redhat.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-110984-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82E4A89D8D
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 18:54:12 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id m30so8034108pff.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 11:54:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=b5H8RtrC0Gc1uC0P9BdPRFehSMvKPE2eLTGWQg50TOo=;
+ b=qfLFdXPG0XbkvUifI0wmAZdQg1sH+9l+5y4q5hBdNftaqvJBG3U1GuuDpSenMQCGzk
+ LFAAaBqIHpglPvkPyRsA2dVH4kwtq6VeTEa20Xudxc/29YWwpJSRqCAO5I7Y+f72xAaM
+ /pdexg9sWqdf/CTudLctCC8EMvpyrEO+ju3ZpBbpObQdfeNbugSupnItHFiPsBZnaPft
+ HGGEGlN9ieNo4sCXJnjEnuIyBS7H2F8ovpdQlfj0IM1XVeE25G4wkLtqoaM1d7JVctvv
+ vIHqLxhSP8JiBJ1rLJaBykn5G+RbFDISsxACl1PGHH9cxyyvvkW5hn7CpylZf4wgNh4W
+ 49lw==
+X-Gm-Message-State: APjAAAV7iwTSVKzgxQxZ0TzrE4LTU9daZV5u1xh36mz+NYCk+olFWSnD
+ SjccREy1Knl2lcCP4Swsv9Nxnqj26KY=
+X-Google-Smtp-Source: APXvYqyXn1SQMUZwvxp4v/17SbLT1K8S5ekQlOyMcC+7be/m4tA2Bnx7hthlNDGzX/lhBeNI08UitQ==
+X-Received: by 2002:a17:90a:8a0b:: with SMTP id
+ w11mr26442545pjn.125.1561402452192; 
+ Mon, 24 Jun 2019 11:54:12 -0700 (PDT)
+Received: from localhost ([2620:15c:202:1:75a:3f6e:21d:9374])
+ by smtp.gmail.com with ESMTPSA id l7sm14434756pfl.9.2019.06.24.11.54.10
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 24 Jun 2019 11:54:11 -0700 (PDT)
+Date: Mon, 24 Jun 2019 11:54:08 -0700
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Subject: Re: [PATCH 4/4] backlight: pwm_bl: Set scale type for brightness
+ curves specified in the DT
+Message-ID: <20190624185408.GB137143@google.com>
+References: <20190613194326.180889-1-mka@chromium.org>
+ <20190613194326.180889-5-mka@chromium.org>
+ <9ea1bb40-95a6-7a67-a8a6-ecc77a70e547@linaro.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <9ea1bb40-95a6-7a67-a8a6-ecc77a70e547@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=b5H8RtrC0Gc1uC0P9BdPRFehSMvKPE2eLTGWQg50TOo=;
+ b=VRfzqrCH2jFEWWjjlDlGd02Xe8ZQsb0AVWLLZIFUZPGPtVv9VLFJ+zz8bC8OUOaOUx
+ Oqcae7vUarDSmjpET3Ghcc9JlKP5Vf1bg21hv25Rq8NQJgF9ue1AbbSuNNetGP6GzyMs
+ qfJaOC3Qph/i6rx21qTIWZqCKCXB8QBPi1VFQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,201 +69,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1268989426=="
+Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Brian Norris <briannorris@chromium.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1268989426==
-Content-Type: multipart/alternative; boundary="15614020860.9e25b4E.24908"
-Content-Transfer-Encoding: 7bit
-
-
---15614020860.9e25b4E.24908
-Date: Mon, 24 Jun 2019 18:48:06 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110984
-
-            Bug ID: 110984
-           Summary: Vulkan shows stuttering issues on Vega 10 w/
-                    gnome-shell on Wayland
-           Product: DRI
-           Version: DRI git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: major
-          Priority: medium
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: lyude@redhat.com
-
-When testing the latest kernel from drm-tip (as of writing, this is
-294d5056c1f3 ("drm-tip: 2019y-06m-24d-17h-20m-57s UTC integration manifest"=
-) ),
-running vulkan-cube on a gnome-shell wayland session (so, since vulkan-cube
-doesn't support native wayland this means it's running through Xwayland) sh=
-ows
-pretty significant stuttering issues. See the video here for what it looks
-like:
-
-https://people.freedesktop.org/~lyudess/archive/06-24-2019/VID_20190624_140=
-614.mp4
-
-This was reproduced with a Vega 10 Pro SSG:
-
-26:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Vega 10 XT [Radeon PRO SSG] [1002:6862]
-
-Mesa version: 19.0.6-1.fc30
-gnome-shell version: 3.32.2-2.fc30
-Xwayland version: 1.20.4-3.fc30
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15614020860.9e25b4E.24908
-Date: Mon, 24 Jun 2019 18:48:06 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Vulkan shows stuttering issues on Vega 10 w/ gnome-shell =
-on Wayland"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110984">110984</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Vulkan shows stuttering issues on Vega 10 w/ gnome-shell on W=
-ayland
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>major
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>lyude&#64;redhat.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>When testing the latest kernel from drm-tip (as of writing, th=
-is is
-294d5056c1f3 (&quot;drm-tip: 2019y-06m-24d-17h-20m-57s UTC integration mani=
-fest&quot;) ),
-running vulkan-cube on a gnome-shell wayland session (so, since vulkan-cube
-doesn't support native wayland this means it's running through Xwayland) sh=
-ows
-pretty significant stuttering issues. See the video here for what it looks
-like:
-
-<a href=3D"https://people.freedesktop.org/~lyudess/archive/06-24-2019/VID_2=
-0190624_140614.mp4">https://people.freedesktop.org/~lyudess/archive/06-24-2=
-019/VID_20190624_140614.mp4</a>
-
-This was reproduced with a Vega 10 Pro SSG:
-
-26:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Vega 10 XT [Radeon PRO SSG] [1002:6862]
-
-Mesa version: 19.0.6-1.fc30
-gnome-shell version: 3.32.2-2.fc30
-Xwayland version: 1.20.4-3.fc30</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15614020860.9e25b4E.24908--
-
---===============1268989426==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1268989426==--
+SGkgRGFuaWVsLAoKT24gRnJpLCBKdW4gMjEsIDIwMTkgYXQgMDI6MTA6MTlQTSArMDEwMCwgRGFu
+aWVsIFRob21wc29uIHdyb3RlOgo+IE9uIDEzLzA2LzIwMTkgMjA6NDMsIE1hdHRoaWFzIEthZWhs
+Y2tlIHdyb3RlOgo+ID4gQ2hlY2sgaWYgYSBicmlnaHRuZXNzIGN1cnZlIHNwZWNpZmllZCBpbiB0
+aGUgZGV2aWNlIHRyZWUgaXMgbGluZWFyIG9yCj4gPiBub3QgYW5kIHNldCB0aGUgY29ycmVzcG9u
+ZGluZyBwcm9wZXJ0eSBhY2NvcmRpbmdseS4gVGhpcyBtYWtlcyB0aGUKPiA+IHNjYWxlIHR5cGUg
+YXZhaWxhYmxlIHRvIHVzZXJzcGFjZSB2aWEgdGhlICdzY2FsZScgc3lzZnMgYXR0cmlidXRlLgo+
+ID4gCj4gPiBUbyBkZXRlcm1pbmUgaWYgYSBjdXJ2ZSBpcyBsaW5lYXIgaXQgaXMgY29tcGFyZWQg
+dG8gYSBpbnRlcnBvbGF0ZWQgbGluZWFyCj4gPiBjdXJ2ZSBiZXR3ZWVuIG1pbiBhbmQgbWF4IGJy
+aWdodG5lc3MuIFRoZSBjdXJ2ZSBpcyBjb25zaWRlcmVkIGxpbmVhciBpZgo+ID4gbm8gdmFsdWUg
+ZGV2aWF0ZXMgbW9yZSB0aGFuICsvLTUlIG9mICR7YnJpZ2h0bmVzc19yYW5nZX0gZnJvbSB0aGVp
+cgo+ID4gaW50ZXJwb2xhdGVkIHZhbHVlLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGlh
+cyBLYWVobGNrZSA8bWthQGNocm9taXVtLm9yZz4KPiA+IC0tLQo+ID4gICBkcml2ZXJzL3ZpZGVv
+L2JhY2tsaWdodC9wd21fYmwuYyB8IDI1ICsrKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICAg
+MSBmaWxlIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKykKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jIGIvZHJpdmVycy92aWRlby9iYWNrbGlnaHQv
+cHdtX2JsLmMKPiA+IGluZGV4IGYwNjdmZTdhYTM1ZC4uOTEyNDA3YjZkNjdmIDEwMDY0NAo+ID4g
+LS0tIGEvZHJpdmVycy92aWRlby9iYWNrbGlnaHQvcHdtX2JsLmMKPiA+ICsrKyBiL2RyaXZlcnMv
+dmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jCj4gPiBAQCAtNDA0LDYgKzQwNCwyNiBAQCBpbnQgcHdt
+X2JhY2tsaWdodF9icmlnaHRuZXNzX2RlZmF1bHQoc3RydWN0IGRldmljZSAqZGV2LAo+ID4gICB9
+Cj4gPiAgICNlbmRpZgo+ID4gK3N0YXRpYyBib29sIHB3bV9iYWNrbGlnaHRfaXNfbGluZWFyKHN0
+cnVjdCBwbGF0Zm9ybV9wd21fYmFja2xpZ2h0X2RhdGEgKmRhdGEpCj4gPiArewo+ID4gKwl1bnNp
+Z25lZCBpbnQgbmxldmVscyA9IGRhdGEtPm1heF9icmlnaHRuZXNzICsgMTsKPiA+ICsJdW5zaWdu
+ZWQgaW50IG1pbl92YWwgPSBkYXRhLT5sZXZlbHNbMF07Cj4gPiArCXVuc2lnbmVkIGludCBtYXhf
+dmFsID0gZGF0YS0+bGV2ZWxzW25sZXZlbHMgLSAxXTsKPiA+ICsJdW5zaWduZWQgaW50IHNsb3Bl
+ID0gKDEwMCAqIChtYXhfdmFsIC0gbWluX3ZhbCkpIC8gbmxldmVsczsKPiAKPiBXaHkgMTAwIChy
+YXRoZXIgdGhhbiBhIHBvd2VyIG9mIDIpPwoKSSBndWVzcyBpdCBjYW1lIGZyb20gdGhlIGRlY2lt
+YWwgcGFydCBvZiBteSBicmFpbiwgSSBjYW4gY2hhbmdlIGl0IHRvCjEyOCA7LSkKCj4gSXQgd291
+bGQgYWxzbyBiZSBnb29kIHRvIGhhdmUgYSBjb21tZW50IGhlcmUgc2F5aW5nIHdoYXQgdGhlIG1h
+eGltdW0KPiBxdWFudGl6YXRpb24gZXJyb3IgaXMuIERvZXNuJ3QgaGF2ZSB0byBiZSBvdmVyIGNv
+bXBsZXgganVzdCBtZW50aW9uaW5nCj4gc29tZXRoaW5nIGxpa2UgdGhlIGZvbGxvd2luZyAoYXNz
+dW1pbmcgeW91IGFncmVlIHRoYXQgaXRzIHRydWUgOy0pICk6Cj4gCj4gICBNdWx0aXBseWluZyBi
+eSBYWFggbWVhbnMgdGhhdCBldmVuIGluIHBhdGhhbG9naWNhbCBjYXNlcyBzdWNoIGFzCj4gICAo
+bWF4X3ZhbCAtIG1pbl92YWwpID09IG5sZXZlbHMgdGhlbiB0aGUgZXJyb3IgYXQgbWF4X3ZhbCBp
+cyBsZXNzIHRoYW4KPiAgIDElLgoKU291bmRzIGdvb2QsIHRoYW5rcyBmb3IgdGhlIHN1Z2dlc3Rp
+b24hCgo+IFdpdGggYSBzdWl0YWJsZSBjb21tZW50IGluIHRoZSBmaXhlZCBwb2ludCBjb2RlOgo+
+IEFja2VkLWJ5OiBEYW5pZWwgVGhvbXBzb24gPGRhbmllbC50aG9tcHNvbkBsaW5hcm8ub3JnPgoK
+VGhhbmtzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
