@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9C350759
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 12:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287B9508C5
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 12:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB80989AAD;
-	Mon, 24 Jun 2019 10:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E99689ABA;
+	Mon, 24 Jun 2019 10:23:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B737289A74
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 10:11:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A3EEA89A9A
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 10:23:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AF7FD72167; Mon, 24 Jun 2019 10:11:55 +0000 (UTC)
+ id 9FE7972167; Mon, 24 Jun 2019 10:23:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 105651] Vega64 doesn't output properly onto dell up2715k at
  5120x2880
-Date: Mon, 24 Jun 2019 10:11:55 +0000
+Date: Mon, 24 Jun 2019 10:23:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105651-502-e9U3ZHx0wu@http.bugs.freedesktop.org/>
+Message-ID: <bug-105651-502-vfdSZMm09z@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-105651-502@http.bugs.freedesktop.org/>
 References: <bug-105651-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1705555413=="
+Content-Type: multipart/mixed; boundary="===============1131695137=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1705555413==
-Content-Type: multipart/alternative; boundary="15613711150.e701A3d.26174"
+--===============1131695137==
+Content-Type: multipart/alternative; boundary="15613718030.CAbf.28131"
 Content-Transfer-Encoding: 7bit
 
 
---15613711150.e701A3d.26174
-Date: Mon, 24 Jun 2019 10:11:55 +0000
+--15613718030.CAbf.28131
+Date: Mon, 24 Jun 2019 10:23:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,15 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D105651
 
---- Comment #4 from spgle212@gmail.com ---
-For this to work the TILE property (blob) of the connector has to be expose=
-d.
-modetest does not return it.
+--- Comment #5 from spgle212@gmail.com ---
+xrandr --props also does not return the tile property.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15613711150.e701A3d.26174
-Date: Mon, 24 Jun 2019 10:11:55 +0000
+--15613718030.CAbf.28131
+Date: Mon, 24 Jun 2019 10:23:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +99,8 @@ Auto-Submitted: auto-generated
           bz_status_REOPENED "
    title=3D"REOPENED - Vega64 doesn't output properly onto dell up2715k at =
 5120x2880"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105651#c4">Commen=
-t # 4</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105651#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_REOPENED "
    title=3D"REOPENED - Vega64 doesn't output properly onto dell up2715k at =
@@ -113,9 +111,7 @@ t # 4</a>
 spgle212&#64;gmail.com" title=3D"spgle212&#64;gmail.com">spgle212&#64;gmail=
 .com</a>
 </span></b>
-        <pre>For this to work the TILE property (blob) of the connector has=
- to be exposed.
-modetest does not return it.</pre>
+        <pre>xrandr --props also does not return the tile property.</pre>
         </div>
       </p>
 
@@ -129,9 +125,9 @@ modetest does not return it.</pre>
     </body>
 </html>=
 
---15613711150.e701A3d.26174--
+--15613718030.CAbf.28131--
 
---===============1705555413==
+--===============1131695137==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -141,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1705555413==--
+--===============1131695137==--
