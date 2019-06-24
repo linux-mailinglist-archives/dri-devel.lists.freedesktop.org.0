@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA22F5096A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 13:07:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F97C5099E
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 13:19:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17E9789ACC;
-	Mon, 24 Jun 2019 11:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786C089A57;
+	Mon, 24 Jun 2019 11:19:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C4A989ACC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 11:07:05 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45XRM85VVCz9s4Y;
- Mon, 24 Jun 2019 21:07:00 +1000 (AEST)
-Date: Mon, 24 Jun 2019 21:06:59 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Andrew Morton <akpm@linux-foundation.org>, Dave Airlie
- <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: manual merge of the akpm-current tree with the drm
- tree
-Message-ID: <20190624210659.152a20bb@canb.auug.org.au>
-In-Reply-To: <20190624204908.64a33862@canb.auug.org.au>
-References: <20190624204908.64a33862@canb.auug.org.au>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC9189A57
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 11:19:07 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi
+ [81.175.216.236])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFAF6323;
+ Mon, 24 Jun 2019 13:19:04 +0200 (CEST)
+Date: Mon, 24 Jun 2019 14:16:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: [PATCH 0/4] drm/bridge: dw-hdmi: Add support for HDR metadata
+Message-ID: <20190624111636.GB5737@pendragon.ideasonboard.com>
+References: <VI1PR03MB420621617DDEAB3596700DE0AC1C0@VI1PR03MB4206.eurprd03.prod.outlook.com>
+ <085dc3be-20e5-b2fe-4c02-bf4a4d1473da@baylibre.com>
+ <20190621090125.GX12905@phenom.ffwll.local>
+ <20190623233017.GI6124@pendragon.ideasonboard.com>
+ <58243243-fbd8-e67b-a050-baa9757be43e@baylibre.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <58243243-fbd8-e67b-a050-baa9757be43e@baylibre.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1561374422;
- bh=JieXE9Fx9kjQx6ywEnMBUTJMQ3pLDeJ7IgxRZjmvcIE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eCGkVTgqmckXx94y9YfdKpigTWnhXbrlq8oul9ukEJp6mmRYxWad16wxggowuU6Fx
- WalAJzjoArz3XX5TO/QlhSfgHGSEZ2LA5b8PzpQlFfXf/3B9YBJmYbPaHFU2A5qsd7
- KitqbkdAg9aOkvDaLReVBw9RYiYfycnpq0AWZzpGJ/pVvVwRv6Q/EPYNeykVqhOiBq
- gGSSjXmDq9o8cUrMdSKOARUBXo4/baPLwjGbR5iJ6cnBATdJvS/12ivSan7Il5DHn1
- nyzTKKJ62mIiIVE2sdPlrq90jg7lsaRwRXnIB4/zgTneAkZoZoTJSjSPy8PtAsJ48z
- J4nDCGVUcSiJQ==
+ d=ideasonboard.com; s=mail; t=1561375144;
+ bh=B6Kyd/rtGoZ/rniG3OdECkB1xfXOxJ86TGPqPhSRnd0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UZF7L0OtkFEm3c6C+yr3wAtoXGqgyjsN+/jO8N8+hVRxpmtdm0UeHhiq9u/KmNJ53
+ tf5FCstcqBXEsD1X9/2hGyciTHm324pnEmUb6nl1k81izWnQWdxWrOro6z+BInLdNX
+ RsH6bRzDPzqY1b5vj7Nmpm6VW2dI+bpQdY6UkrM4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,219 +50,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>
-Content-Type: multipart/mixed; boundary="===============1617477009=="
+Cc: "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+ "khilman@baylibre.com" <khilman@baylibre.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "wens@csie.org" <wens@csie.org>,
+ "zhengyang@rock-chips.com" <zhengyang@rock-chips.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1617477009==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Zu5Xbr4/KoBLXq8r1M+zMXU"; protocol="application/pgp-signature"
-
---Sig_/Zu5Xbr4/KoBLXq8r1M+zMXU
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-On Mon, 24 Jun 2019 20:49:08 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> Today's linux-next merge of the akpm-current tree got a conflict in:
->=20
->   mm/memory.c
->=20
-> between commit:
->=20
->   29875a52915e ("mm: Add an apply_to_pfn_range interface")
->=20
-> from the drm tree and commit:
->=20
->   e972cea08fb3 ("mm/pgtable: drop pgtable_t variable from pte_fn_t functi=
-ons")
->=20
-> from the akpm-current tree.
->=20
-> I fixed it up (see below my signature, then added the following merge
-> resolution patch as well) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Mon, 24 Jun 2019 20:40:46 +1000
-> Subject: [PATCH] merge fixup for "mm: Add an apply_to_pfn_range interface"
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> ---
->  include/linux/mm.h    | 2 +-
->  mm/as_dirty_helpers.c | 8 ++------
->  2 files changed, 3 insertions(+), 7 deletions(-)
->=20
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 87d53de3dee4..4404e18443ef 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2673,7 +2673,7 @@ extern int apply_to_page_range(struct mm_struct *mm=
-, unsigned long address,
->  			       unsigned long size, pte_fn_t fn, void *data);
-> =20
->  struct pfn_range_apply;
-> -typedef int (*pter_fn_t)(pte_t *pte, pgtable_t token, unsigned long addr,
-> +typedef int (*pter_fn_t)(pte_t *pte, unsigned long addr,
->  			 struct pfn_range_apply *closure);
->  struct pfn_range_apply {
->  	struct mm_struct *mm;
-> diff --git a/mm/as_dirty_helpers.c b/mm/as_dirty_helpers.c
-> index f600e31534fb..7c863626c2a4 100644
-> --- a/mm/as_dirty_helpers.c
-> +++ b/mm/as_dirty_helpers.c
-> @@ -26,7 +26,6 @@ struct apply_as {
->  /**
->   * apply_pt_wrprotect - Leaf pte callback to write-protect a pte
->   * @pte: Pointer to the pte
-> - * @token: Page table token, see apply_to_pfn_range()
->   * @addr: The virtual page address
->   * @closure: Pointer to a struct pfn_range_apply embedded in a
->   * struct apply_as
-> @@ -36,8 +35,7 @@ struct apply_as {
->   *
->   * Return: Always zero.
->   */
-> -static int apply_pt_wrprotect(pte_t *pte, pgtable_t token,
-> -			      unsigned long addr,
-> +static int apply_pt_wrprotect(pte_t *pte, unsigned long addr,
->  			      struct pfn_range_apply *closure)
->  {
->  	struct apply_as *aas =3D container_of(closure, typeof(*aas), base);
-> @@ -78,7 +76,6 @@ struct apply_as_clean {
->  /**
->   * apply_pt_clean - Leaf pte callback to clean a pte
->   * @pte: Pointer to the pte
-> - * @token: Page table token, see apply_to_pfn_range()
->   * @addr: The virtual page address
->   * @closure: Pointer to a struct pfn_range_apply embedded in a
->   * struct apply_as_clean
-> @@ -91,8 +88,7 @@ struct apply_as_clean {
->   *
->   * Return: Always zero.
->   */
-> -static int apply_pt_clean(pte_t *pte, pgtable_t token,
-> -			  unsigned long addr,
-> +static int apply_pt_clean(pte_t *pte, unsigned long addr,
->  			  struct pfn_range_apply *closure)
->  {
->  	struct apply_as *aas =3D container_of(closure, typeof(*aas), base);
-> --=20
-> 2.20.1
->=20
-> --=20
-> Cheers,
-> Stephen Rothwell
->=20
-> diff --cc mm/memory.c
-> index 462aa47f8878,f8a75528658a..e7e37fcbd687
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@@ -2037,12 -2036,11 +2035,11 @@@ static int apply_to_pte_range(struct pf
->   {
->   	pte_t *pte;
->   	int err;
-> - 	pgtable_t token;
->   	spinlock_t *uninitialized_var(ptl);
->  =20
->  -	pte =3D (mm =3D=3D &init_mm) ?
->  +	pte =3D (closure->mm =3D=3D &init_mm) ?
->   		pte_alloc_kernel(pmd, addr) :
->  -		pte_alloc_map_lock(mm, pmd, addr, &ptl);
->  +		pte_alloc_map_lock(closure->mm, pmd, addr, &ptl);
->   	if (!pte)
->   		return -ENOMEM;
->  =20
-> @@@ -2050,10 -2048,8 +2047,8 @@@
->  =20
->   	arch_enter_lazy_mmu_mode();
->  =20
-> - 	token =3D pmd_pgtable(*pmd);
-> -=20
->   	do {
-> - 		err =3D closure->ptefn(pte++, token, addr, closure);
->  -		err =3D fn(pte++, addr, data);
-> ++		err =3D closure->ptefn(pte++, addr, closure);
->   		if (err)
->   			break;
->   	} while (addr +=3D PAGE_SIZE, addr !=3D end);
-
-I also needed this:
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Mon, 24 Jun 2019 21:04:14 +1000
-Subject: [PATCH] another fixup for "mm: Add an apply_to_pfn_range interface"
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- mm/memory.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/mm/memory.c b/mm/memory.c
-index e7e37fcbd687..81d71fbfca5a 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2189,14 +2189,13 @@ struct page_range_apply {
-  * Callback wrapper to enable use of apply_to_pfn_range for
-  * the apply_to_page_range interface
-  */
--static int apply_to_page_range_wrapper(pte_t *pte, pgtable_t token,
--				       unsigned long addr,
-+static int apply_to_page_range_wrapper(pte_t *pte, unsigned long addr,
- 				       struct pfn_range_apply *pter)
- {
- 	struct page_range_apply *pra =3D
- 		container_of(pter, typeof(*pra), pter);
-=20
--	return pra->fn(pte, token, addr, pra->data);
-+	return pra->fn(pte, addr, pra->data);
- }
-=20
- /*
---=20
-2.20.1
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/Zu5Xbr4/KoBLXq8r1M+zMXU
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0QrtMACgkQAVBC80lX
-0Gx/fggAlp4Muec97qYio3yQWl5B4oPemTyqmCIoI0omcU5Kf7EogGncwWJnpFnX
-imENfTQKxvY2naCnglA4XBPucjU8maev/KYhvzV/0I9l2ONlyZMg3xY8mOznjmVr
-WQhE5W5sBOiRg31KeaYWjhoslTS9GRNrN2KdgUYSw/EkGpJH+sbX1rrZABN3Co+R
-/soSq13b7MUVP3cHhfM7cgEkFT3uSRYdrzialmdhBUgVHSrkdl1J+nsWlmxW0t/p
-oRBG/X0pLte+Q/bklj6A6FOyTb/XJ2ycqAZSewhM4M9bnPcsK4x+qE08G3chddSV
-ympOzM506hubWFvOlw1r0dNnrlC2JA==
-=l+kP
------END PGP SIGNATURE-----
-
---Sig_/Zu5Xbr4/KoBLXq8r1M+zMXU--
-
---===============1617477009==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1617477009==--
+SGkgTmVpbCwKCk9uIE1vbiwgSnVuIDI0LCAyMDE5IGF0IDEwOjE5OjM0QU0gKzAyMDAsIE5laWwg
+QXJtc3Ryb25nIHdyb3RlOgo+IEhpIERhbmllbCwgTGF1cmVudCwgQW5kcnplaiwKPiAKPiBPbiAy
+NC8wNi8yMDE5IDAxOjMwLCBMYXVyZW50IFBpbmNoYXJ0IHdyb3RlOgo+ID4gT24gRnJpLCBKdW4g
+MjEsIDIwMTkgYXQgMTE6MDE6MjVBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+PiBP
+biBUaHUsIEp1biAyMCwgMjAxOSBhdCAwNDo0MDoxMlBNICswMjAwLCBOZWlsIEFybXN0cm9uZyB3
+cm90ZToKPiA+Pj4gSGkgQW5kcnplaiwKPiA+Pj4KPiA+Pj4gR2VudGxlIHBpbmcsIGNvdWxkIHlv
+dSByZXZpZXcgdGhlIGR3LWhkbWkgY2hhbmdlcyBoZXJlID8KPiA+Pgo+ID4+IGJ0dyBub3Qgc3Vy
+ZSB5b3UgYWJzb2x1dGVseSBuZWVkIHJldmlldyBmcm9tIEFuZHJ6ZWosIHdlJ3JlIGN1cnJlbnRs
+eSBhCj4gPj4gYml0IHVuZGVyc3VwcGxpZWQgd2l0aCBicmlkZ2UgcmV2aWV3ZXJzIEkgdGhpbmsg
+Li4uIEJldHRlciB0byByYW1wIHVwCj4gPj4gbW9yZS4KPiA+IAo+ID4gSSB0cnkgdG8gcmV2aWV3
+IERSTSBicmlkZ2UgcGF0Y2hlcyB3aGVuIHBvc3NpYmxlLCBidXQgZHctaGRtaSBpcyBhCj4gPiBz
+cGVjaWFsIGNhc2UuIEkgd2FzIHRvbGQgYnkgdGhlIHN1cHBsaWVyIG9mIGFuIFNvQyBkYXRhc2hl
+ZXQgdGhhdAo+ID4gY29udGFpbnMgdGhlIEhETUkgZW5jb2RlciBJUCBjb3JlIGRvY3VtZW50YXRp
+b24gdGhhdCBTeW5vcHN5cyByZXF1aXJlZAo+ID4gdGhlbSB0byByb3V0ZSBhbGwgY29udHJpYnV0
+aW9ucyBtYWRlIGJhc2VkIG9uIHRoYXQgZG9jdW1lbnRhdGlvbiB0aHJvdWdoCj4gPiBTeW5vcHN5
+cycgaW50ZXJuYWwgbGVnYWwgcmV2aWV3IGJlZm9yZSBwdWJsaXNoaW5nIHRoZW0uIEkgdGh1cyBk
+ZWNpZGVkCj4gPiB0byBub3QgY29udHJpYnV0ZSB0byB0aGUgZHJpdmVyIGFueW1vcmUsIGF0IGxl
+YXN0IGZvciBhcmVhcyB0aGF0IHJlcXVpcmUKPiA+IGFjY2VzcyB0byBkb2N1bWVudGF0aW9uLgo+
+IAo+IEknZCBsaWtlIHRvIHByb3Bvc2UgbXlzZWxmIGFzIGNvLW1haW50YWluZXIgb2YgdGhlIERS
+TSBicmlkZ2Ugc3Vic3lzdGVtIGlmCj4gZXZlcnlib2R5IGFncmVlcywgZm9sbG93aW5nIHRoZSBl
+eGNlbGxlbnQgd29yayBMYXVyZW50IGFuZCBBbmRyemVqIGRpZC4KPiBJIGhhdmUgYSB2ZXJ5IGxp
+dHRsZSBrbm93bGVkZ2Ugb2YgRFNJLCAmIG90aGVyIGJyaWRnZSBkcml2ZXJzLCBidXQgSSdsbCBk
+bwo+IG15IGJlc3QuCj4gCj4gRm9yIHRoZSBkdy1oZG1pIGRyaXZlciwgd2UgaGF2ZSBhIGJpZyBy
+b2FkbWFwIGluY2x1ZGluZyA6Cj4gLSBIRFIgKHRoaXMgcGF0Y2hzZXQpCj4gLSBIRENQIDEvMgo+
+IC0gWVVWNDIwLCBZVVY0MjIsIFlVVjQ0LCAxMGJpdC8xMmJpdC8xNmJpdCBIRE1JIG91dHB1dAo+
+IC0gRW5oYW5jZWQgYXVkaW8gc3VwcG9ydCBhbmQgRUxEIG5vdGlmaWNhdGlvbiB0byBBU29DCj4g
+Li4uCgpZb3UncmUgbW9yZSB0aGFuIHdlbGNvbWUgYXMgYSBEUk0gYnJpZGdlIG1haW50YWluZXIs
+IGVzcGVjaWFsbHkgZ2l2ZW4KdGhhdCB5b3UgaGF2ZSBqdXN0IHZvbHVudGVlcmVkIHRvIGltcGxl
+bWVudCBicmlkZ2Ugc3RhdGVzIGFuZCBmb3JtYXQKbmVnb3RpYXRpb24sIHJpZ2h0ID8gOy0pCgo+
+IEhhdmluZyBhIG1vcmUgYWN0aXZlIG1haW50YWluZXIvcmV2aWV3ZXIgdGVhbSB3b3VsZCBiZSBu
+ZWVkZWQsIGF0IGxlYXN0IGZvcgo+IHRoZSBkdy1oZG1pIGJyaWRnZS4KPiAKPiBJJ2xsIGFsc28g
+cHJvcG9zZSBKb25hcyBLYXJsbWFuIDxqb25hc0Brd2lib28uc2U+IGFzIHJldmlld2VyIHNpbmNl
+IGhlIGlzIHZlcnkKPiBhY3RpdmUgZm9yIHRoZSBtdWx0aW1lZGlhIHN1cHBvcnQgb24gUm9ja0No
+aXAsIEFsbHdpbm5lciBhbmQgQW1sb2dpYyBTb0NzLgo+IEknbGwgYWxzbyBwcm9wb3NlIEplcm5l
+aiBTa3JhYmVjQHNpb2wubmV0IDxqZXJuZWouc2tyYWJlY0BzaW9sLm5ldD4sIGlmIGhlIHdhbnRz
+LAo+IGFzIHJldmlld2VyIHNpbmNlIGhlIGlzIHZlcnkgYWN0aXZlIG9uIHRoZSBBbGx3aW5uZXIg
+U29DcyBzaWRlLgo+IAo+ID4+PiBPbiAyNi8wNS8yMDE5IDIzOjE4LCBKb25hcyBLYXJsbWFuIHdy
+b3RlOgo+ID4+Pj4gQWRkIHN1cHBvcnQgZm9yIEhEUiBtZXRhZGF0YSB1c2luZyB0aGUgaGRyX291
+dHB1dF9tZXRhZGF0YSBjb25uZWN0b3IgcHJvcGVydHksCj4gPj4+PiBjb25maWd1cmUgRHluYW1p
+YyBSYW5nZSBhbmQgTWFzdGVyaW5nIEluZm9GcmFtZSBhY2NvcmRpbmdseS4KPiA+Pj4+Cj4gPj4+
+PiBBIGRybV9pbmZvZnJhbWUgZmxhZyBpcyBhZGRlZCB0byBkd19oZG1pX3BsYXRfZGF0YSB0aGF0
+IHBsYXRmb3JtIGRyaXZlcnMKPiA+Pj4+IGNhbiB1c2UgdG8gc2lnbmFsIHdoZW4gRHluYW1pYyBS
+YW5nZSBhbmQgTWFzdGVyaW5nIGluZm9mcmFtZXMgaXMgc3VwcG9ydGVkLgo+ID4+Pj4gVGhpcyBm
+bGFnIGlzIG5lZWRlZCBiZWNhdXNlIEFtbG9naWMgR1hCQiBhbmQgR1hMIHJlcG9ydCBzYW1lIERX
+LUhETUkgdmVyc2lvbiwKPiA+Pj4+IGFuZCBvbmx5IEdYTCBzdXBwb3J0IERSTSBJbmZvRnJhbWUu
+Cj4gPj4+Pgo+ID4+Pj4gVGhlIGZpcnN0IHBhdGNoIGFkZCBmdW5jdGlvbmFsaXR5IHRvIGNvbmZp
+Z3VyZSBEUk0gSW5mb0ZyYW1lIGJhc2VkIG9uIHRoZQo+ID4+Pj4gaGRyX291dHB1dF9tZXRhZGF0
+YSBjb25uZWN0b3IgcHJvcGVydHkuCj4gPj4+Pgo+ID4+Pj4gVGhlIHJlbWFpbmluZyBwYXRjaGVz
+IHNldHMgdGhlIGRybV9pbmZvZnJhbWUgZmxhZyBvbiBzb21lIFNvQ3Mgc3VwcG9ydGluZwo+ID4+
+Pj4gRHluYW1pYyBSYW5nZSBhbmQgTWFzdGVyaW5nIEluZm9GcmFtZS4KPiA+Pj4+Cj4gPj4+PiBO
+b3RlIHRoYXQgdGhpcyB3YXMgYmFzZWQgb24gdG9wIG9mIGRybS1taXNjLW5leHQgYW5kIE5laWwg
+QXJtc3Ryb25nJ3MKPiA+Pj4+ICJkcm0vbWVzb246IEFkZCBzdXBwb3J0IGZvciBIRE1JMi4wIFlV
+VjQyMCA0azYwIiBzZXJpZXMgYXQgWzFdCj4gPj4+Pgo+ID4+Pj4gWzFdIGh0dHBzOi8vcGF0Y2h3
+b3JrLmZyZWVkZXNrdG9wLm9yZy9zZXJpZXMvNTg3MjUvI3JldjIKPiA+Pj4+Cj4gPj4+PiBKb25h
+cyBLYXJsbWFuICg0KToKPiA+Pj4+ICAgZHJtL2JyaWRnZTogZHctaGRtaTogQWRkIER5bmFtaWMg
+UmFuZ2UgYW5kIE1hc3RlcmluZyBJbmZvRnJhbWUgc3VwcG9ydAo+ID4+Pj4gICBkcm0vcm9ja2No
+aXA6IEVuYWJsZSBEUk0gSW5mb0ZyYW1lIHN1cHBvcnQgb24gUkszMzI4IGFuZCBSSzMzOTkKPiA+
+Pj4+ICAgZHJtL21lc29uOiBFbmFibGUgRFJNIEluZm9GcmFtZSBzdXBwb3J0IG9uIEdYTCwgR1hN
+IGFuZCBHMTJBCj4gPj4+PiAgIGRybS9zdW40aTogRW5hYmxlIERSTSBJbmZvRnJhbWUgc3VwcG9y
+dCBvbiBINgo+ID4+Pj4KPiA+Pj4+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3
+LWhkbWkuYyAgIHwgMTA5ICsrKysrKysrKysrKysrKysrKysrCj4gPj4+PiAgZHJpdmVycy9ncHUv
+ZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmggICB8ICAzNyArKysrKysrCj4gPj4+PiAgZHJp
+dmVycy9ncHUvZHJtL21lc29uL21lc29uX2R3X2hkbWkuYyAgICAgICB8ICAgNSArCj4gPj4+PiAg
+ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYyB8ICAgMiArCj4gPj4+
+PiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuYyAgICAgICB8ICAgMiArCj4g
+Pj4+PiAgZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaCAgICAgICB8ICAgMSAr
+Cj4gPj4+PiAgaW5jbHVkZS9kcm0vYnJpZGdlL2R3X2hkbWkuaCAgICAgICAgICAgICAgICB8ICAg
+MSArCj4gPj4+PiAgNyBmaWxlcyBjaGFuZ2VkLCAxNTcgaW5zZXJ0aW9ucygrKQoKLS0gClJlZ2Fy
+ZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
