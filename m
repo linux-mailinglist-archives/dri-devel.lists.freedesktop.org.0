@@ -2,32 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A1E50C27
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 15:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD9E50C50
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 15:48:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9964489B29;
-	Mon, 24 Jun 2019 13:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1B1389B27;
+	Mon, 24 Jun 2019 13:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2D7A89B33
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 13:41:45 +0000 (UTC)
-X-Originating-IP: 90.88.16.156
-Received: from localhost (aaubervilliers-681-1-41-156.w90-88.abo.wanadoo.fr
- [90.88.16.156]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 19ED160011;
- Mon, 24 Jun 2019 13:41:40 +0000 (UTC)
-Date: Mon, 24 Jun 2019 15:41:40 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/connector: Fix warning in debug message
-Message-ID: <20190624134140.j4emmtixu2qgjgah@flea>
-References: <20190624084016.12937-1-maxime.ripard@bootlin.com>
- <20190624084433.GO12905@phenom.ffwll.local>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67EE589B27
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 13:48:22 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id e8so13528283otl.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 06:48:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+uN3ZdNecYkZZywtBCk6xfgsjONjcAYLDvbq6bCWYzc=;
+ b=Sma4M9JuSAXGOae2QAqByfV98fl+1wuTJAFAHp1b5gwhUQAP3kgsfkr7VeQFSNn22N
+ eNYqJQPSUnBoa7XWzDFLSD2eSEwXonKB9XSteJRpiouEy5JiSbiNzLt7v8bjWLXmcm9j
+ ilXpL+hHEpeCb2Ylv6uo1VDhbz1lRnWGjxr2QdZn/xXsRxpkphmmwEXDX+iWtANARgWV
+ qFVIbxZnmIGcWhoxjr+cMjZqDrxP0WeEb9PS7A7UTEGiaqT9YG50+3o8BNSxnyu/B0fn
+ T53TUjEYqcVY4x5/rekidWNDk//A0+/gAiOfToGzai8HZoh3KerbJXlkZ5nlOOBxaWWQ
+ GknA==
+X-Gm-Message-State: APjAAAUmamdXnYIo5nmOFIPxF7NaSabV8ogC5qaPzi5kBDQBUtxKTUFt
+ vLwqcvsp/fWP8FCTWUlpYjjnsBIDXpkXFVhHLoM=
+X-Google-Smtp-Source: APXvYqxvIEYyfIw8fJzQ+oFXk794TtbdsM9+wOmIw9UGwPsDx5aR6FMVfm+LM/BYSxdQl1/0E4YtcwQWghaFTbdxScM=
+X-Received: by 2002:a9d:6ac9:: with SMTP id m9mr14676117otq.242.1561384101506; 
+ Mon, 24 Jun 2019 06:48:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190624084433.GO12905@phenom.ffwll.local>
-User-Agent: NeoMutt/20180716
+References: <20190622115623.16314-1-sam@ravnborg.org>
+ <20190622115623.16314-3-sam@ravnborg.org>
+In-Reply-To: <20190622115623.16314-3-sam@ravnborg.org>
+From: Inki Dae <daeinki@gmail.com>
+Date: Mon, 24 Jun 2019 22:47:45 +0900
+Message-ID: <CAAQKjZPqunjVctjFJdwJMEmz7DHT8mDgMQ-_a3sw6BGO9K2q2w@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] drm/exynos: trigger build of all modules
+To: Sam Ravnborg <sam@ravnborg.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+uN3ZdNecYkZZywtBCk6xfgsjONjcAYLDvbq6bCWYzc=;
+ b=rsLrGqf7i07wsWZriIVpKJpjUI1jXYHk8HAzXPT3OzzU2JXFHqZ4f80QPbuqIFfMZg
+ wcadl+H4pLjWlJwM44/BbtnXxLqzltwPsOQJHPaFompN0p58g4p39IBbJLvuY1JCje5s
+ zBm6W1w7A6UBUKv3AFbYYzPJrUs7T4HAEpFyNyd7CJTaMafg9TkgsoCSYcZpsppltifN
+ jYXnicI/OgTVj3qVqzfpwRZ85oDIl6BGSbaD36Y1YzYNgF/Ne57lw+qN0woLzZW+bIPM
+ 7vu+MOZZBGZ88FlfA1/YF1Xy5wGZ74I70sMojVPKEf8SrxhLm8NK/VuuXYUJgvuwXwji
+ epVQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,79 +63,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
- Nick Desaulniers <ndesaulniers@google.com>, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1521794732=="
+Cc: David Airlie <airlied@linux.ie>, Jingoo Han <jingoohan1@gmail.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1521794732==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3cjsmwxqlccxfppx"
-Content-Disposition: inline
-
-
---3cjsmwxqlccxfppx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Jun 24, 2019 at 10:44:33AM +0200, Daniel Vetter wrote:
-> On Mon, Jun 24, 2019 at 10:40:16AM +0200, Maxime Ripard wrote:
-> > The commit 3aeeb13d8996 ("drm/modes: Support modes names on the command
-> > line") added name support to the DRM modes, and added that name to the
-> > debug message.
-> >
-> > However, that code tests for whether or not the name variable is NULL and
-> > only prints it if it's not. Except that that variable is an array, so it
-> > will never be NULL.
-> >
-> > The original intent was to print it only when the name has been specified.
-> > Just printing the array directly will achieve the same thing since the
-> > drm_cmdline_mode structure that holds it is itself contained in
-> > drm_connector, that is allocated with its whole content zero'd.
-> >
-> > That means that if the name is not declared, the array will be all zeros,
-> > which will not print anything.
-> >
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> > Fixes: 3aeeb13d8996 ("drm/modes: Support modes names on the command line")
-> > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-Applied,
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---3cjsmwxqlccxfppx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRDTFAAKCRDj7w1vZxhR
-xWgnAP97nRT06dHI9QwiTFmYjPio9Ok6Jg4/RZMB58v77AJU1gD+OpqVJcTXXZ6Y
-4kVapjShBM1Nu84E9UzD7c0rewhD5gk=
-=JXQs
------END PGP SIGNATURE-----
-
---3cjsmwxqlccxfppx--
-
---===============1521794732==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1521794732==--
+SEkgU2FtLAoKMjAxOeuFhCA27JuUIDIy7J28ICjthqApIOyYpO2bhCA4OjU2LCBTYW0gUmF2bmJv
+cmcgPHNhbUByYXZuYm9yZy5vcmc+64uY7J20IOyekeyEsToKPgo+IEFkZCBDT01QSUxFX1RFU1Qg
+ZGVwZW5kZW5jeSB0byBmb3JjZSBleHlub3MgZHJpdmVyIHRvCj4gYnVpbHQgZm9yIG1vcmUgdGhh
+biBhcm0gYW5kIHRvIGJ1aWx0IG1vZHVsZXMKPiB0aGF0IG90aGVyd2lzZSByZXF1aXJlZCBvdGhl
+ciBzeW1ib2xzIHRvIGJlIGRlLXNlbGVjdGVkLgo+Cj4gVGhpcyB3aWxsIGluY3JlYXNlIGJ1aWxk
+IGNvdmVyYWdlIG9mIHRoZSBleHlub3MgZHJpdmVyCj4gdGh1cyBhbGxvd2luZyBtb3N0IHRyaXZp
+YWwgYnVpbGQgZXJyb3JzIHRvIGJlIGRldGVjdGVkL2ZpeGVkIGVhcmx5Lgo+Cj4gVGhpcyBpbnRy
+b2R1Y2VzIG9uZSB3YXJuaW5nIHdoZW4gYnVpbHQgdXNpbmcgc2g6Cj4gZXh5bm9zN19kcm1fZGVj
+b24uYzogSW4gZnVuY3Rpb24g4oCYZGVjb25fcmVtb3Zl4oCZOgo+IGV4eW5vczdfZHJtX2RlY29u
+LmM6NzY5OjI0OiB3YXJuaW5nOiB1bnVzZWQgdmFyaWFibGUg4oCYY3R44oCZCj4gICBzdHJ1Y3Qg
+ZGVjb25fY29udGV4dCAqY3R4ID0gZGV2X2dldF9kcnZkYXRhKCZwZGV2LT5kZXYpOwo+Cj4gVGhp
+cyBpcyBkdWUgdG8gdGhlIGRlZmluaXRpb24gb2YgaW91bm1hcCgpIGluIHNoLAo+IGFuZCBub3Ro
+aW5nIHRoYXQgZXh5bm9zIGRyaXZlciBjYW4gZml4Lgo+Cj4gSW5jbHVkZSBmaXggb2YgZXh5bm9z
+IGJ1aWxkIGZvciBhbHBoYS4KPgo+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJh
+dm5ib3JnLm9yZz4KPiBDYzogSW5raSBEYWUgPGlua2kuZGFlQHNhbXN1bmcuY29tPgo+IENjOiBK
+b29ueW91bmcgU2hpbSA8ankwOTIyLnNoaW1Ac2Ftc3VuZy5jb20+Cj4gQ2M6IFNldW5nLVdvbyBL
+aW0gPHN3MDMxMi5raW1Ac2Ftc3VuZy5jb20+Cj4gQ2M6IEt5dW5nbWluIFBhcmsgPGt5dW5nbWlu
+LnBhcmtAc2Ftc3VuZy5jb20+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4K
+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBLdWtqaW4gS2ltIDxr
+Z2VuZUBrZXJuZWwub3JnPgo+IENjOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5v
+cmc+Cj4gQ2M6IEppbmdvbyBIYW4gPGppbmdvb2hhbjFAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vZXh5bm9zL0tjb25maWcgICAgICAgICAgICB8IDYgKysrLS0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jIHwgMSArCj4gIDIgZmlsZXMgY2hh
+bmdlZCwgNCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9leHlub3MvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvS2Nv
+bmZpZwo+IGluZGV4IGNiZTU4ZDMwN2QxYy4uNjBjZTRhOGFkOWUxIDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9leHlub3MvS2NvbmZpZwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlu
+b3MvS2NvbmZpZwo+IEBAIC0xLDcgKzEsNyBAQAo+ICAjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
+OiBHUEwtMi4wLW9ubHkKPiAgY29uZmlnIERSTV9FWFlOT1MKPiAgICAgICAgIHRyaXN0YXRlICJE
+Uk0gU3VwcG9ydCBmb3IgU2Ftc3VuZyBTb0MgRVhZTk9TIFNlcmllcyIKPiAtICAgICAgIGRlcGVu
+ZHMgb24gT0YgJiYgRFJNICYmIChBUkNIX1MzQzY0WFggfHwgQVJDSF9TNVBWMjEwIHx8IEFSQ0hf
+RVhZTk9TIHx8IEFSQ0hfTVVMVElQTEFURk9STSkKPiArICAgICAgIGRlcGVuZHMgb24gT0YgJiYg
+RFJNICYmIChBUkNIX1MzQzY0WFggfHwgQVJDSF9TNVBWMjEwIHx8IEFSQ0hfRVhZTk9TIHx8IEFS
+Q0hfTVVMVElQTEFURk9STSB8fCBDT01QSUxFX1RFU1QpCj4gICAgICAgICBzZWxlY3QgRFJNX0tN
+U19IRUxQRVIKPiAgICAgICAgIHNlbGVjdCBWSURFT01PREVfSEVMUEVSUwo+ICAgICAgICAgc2Vs
+ZWN0IFNORF9TT0NfSERNSV9DT0RFQyBpZiBTTkRfU09DCj4gQEAgLTg2LDcgKzg2LDcgQEAgY29t
+bWVudCAiU3ViLWRyaXZlcnMiCj4KPiAgY29uZmlnIERSTV9FWFlOT1NfRzJECj4gICAgICAgICBi
+b29sICJHMkQiCj4gLSAgICAgICBkZXBlbmRzIG9uIFZJREVPX1NBTVNVTkdfUzVQX0cyRD1uCj4g
+KyAgICAgICBkZXBlbmRzIG9uIFZJREVPX1NBTVNVTkdfUzVQX0cyRD1uIHx8IENPTVBJTEVfVEVT
+VAo+ICAgICAgICAgc2VsZWN0IEZSQU1FX1ZFQ1RPUgo+ICAgICAgICAgaGVscAo+ICAgICAgICAg
+ICBDaG9vc2UgdGhpcyBvcHRpb24gaWYgeW91IHdhbnQgdG8gdXNlIEV4eW5vcyBHMkQgZm9yIERS
+TS4KPiBAQCAtMTE0LDcgKzExNCw3IEBAIGNvbmZpZyBEUk1fRVhZTk9TX1NDQUxFUgo+Cj4gIGNv
+bmZpZyBEUk1fRVhZTk9TX0dTQwo+ICAgICAgICAgYm9vbCAiR1NjYWxlciIKPiAtICAgICAgIGRl
+cGVuZHMgb24gVklERU9fU0FNU1VOR19FWFlOT1NfR1NDPW4KPiArICAgICAgIGRlcGVuZHMgb24g
+VklERU9fU0FNU1VOR19FWFlOT1NfR1NDPW4gfHwgQ09NUElMRV9URVNUCj4gICAgICAgICBzZWxl
+Y3QgRFJNX0VYWU5PU19JUFAKPiAgICAgICAgIGhlbHAKPiAgICAgICAgICAgQ2hvb3NlIHRoaXMg
+b3B0aW9uIGlmIHlvdSB3YW50IHRvIHVzZSBFeHlub3MgR1NDIGZvciBEUk0uCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRldi5jIGIvZHJpdmVycy9n
+cHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2ZiZGV2LmMKPiBpbmRleCBhZWZjZDYyNGZlMzIuLmIw
+ODc3Yjk3MjkxYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19k
+cm1fZmJkZXYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9mYmRl
+di5jCj4gQEAgLTEwLDYgKzEwLDcgQEAKPgo+ICAjaW5jbHVkZSA8bGludXgvY29uc29sZS5oPgo+
+ICAjaW5jbHVkZSA8bGludXgvZG1hLW1hcHBpbmcuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3ZtYWxs
+b2MuaD4KCklzIHRoaXMgY2hhbmdlIHJlbGF0ZWQgdG8gdGhpcyBwYXRjaD8KClRoYW5rcywKSW5r
+aSBEYWUKCj4KPiAgI2luY2x1ZGUgPGRybS9kcm1fY3J0Yy5oPgo+ICAjaW5jbHVkZSA8ZHJtL2Ry
+bV9mYl9oZWxwZXIuaD4KPiAtLQo+IDIuMjAuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
