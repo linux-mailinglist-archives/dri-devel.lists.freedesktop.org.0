@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73507510D5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 17:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E1C5148F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 17:43:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BA3F89C93;
-	Mon, 24 Jun 2019 15:40:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C39BA89C98;
+	Mon, 24 Jun 2019 15:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74E2C89C93
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 15:40:18 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1752A89C38;
- Mon, 24 Jun 2019 15:40:18 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-153.ams2.redhat.com
- [10.36.116.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00C1619723;
- Mon, 24 Jun 2019 15:40:16 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Sean Paul <seanpaul@chromium.org>
-Subject: [PATCH] drm: panel-orientation-quirks: Add extra quirk table entry
- for GPD MicroPC
-Date: Mon, 24 Jun 2019 17:40:14 +0200
-Message-Id: <20190624154014.8557-2-hdegoede@redhat.com>
-In-Reply-To: <20190624154014.8557-1-hdegoede@redhat.com>
-References: <20190624154014.8557-1-hdegoede@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 26B5B89C98
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 15:43:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 23FD672167; Mon, 24 Jun 2019 15:43:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110981] Glitches with amdgpu driver and QtWebEngine
+Date: Mon, 24 Jun 2019 15:43:11 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@trummer.xyz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110981-502-5ApFnfO42m@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110981-502@http.bugs.freedesktop.org/>
+References: <bug-110981-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 24 Jun 2019 15:40:18 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,43 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1078081898=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TmV3ZXIgR1BEIE1pY3JvUEMgQklPUyB2ZXJzaW9ucyBoYXZlIHByb3BlciBETUkgc3RyaW5ncywg
-YWRkIGFuIGV4dHJhIHF1aXJrCnRhYmxlIGVudHJ5IGZvciB0aGVzZSBuZXcgc3RyaW5ncy4gVGhp
-cyBpcyBnb29kIG5ld3MsIGFzIHRoaXMgbWVhbnMgdGhhdCB3ZQpubyBsb25nZXIgaGF2ZSB0byB1
-cGRhdGUgdGhlIEJJT1MgZGF0ZXMgbGlzdCB3aXRoIGV2ZXJ5IEJJT1MgdXBkYXRlLgoKRml4ZXM6
-IDY1MmI4YjA4NjUzOCgiZHJtOiBwYW5lbC1vcmllbnRhdGlvbi1xdWlya3M6IEFkZCBxdWlyayBm
-b3IgR1BEIE1pY3JvUEMiKQpTaWduZWQtb2ZmLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUBy
-ZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWxfb3JpZW50YXRpb25fcXVp
-cmtzLmMgfCAxMiArKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCsp
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wYW5lbF9vcmllbnRhdGlvbl9xdWly
-a3MuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWxfb3JpZW50YXRpb25fcXVpcmtzLmMKaW5k
-ZXggZDhhMGJjZDAyZjM0Li5mZmQ5NWJmZWFhOTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fcGFuZWxfb3JpZW50YXRpb25fcXVpcmtzLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9wYW5lbF9vcmllbnRhdGlvbl9xdWlya3MuYwpAQCAtOTAsNiArOTAsMTIgQEAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBkcm1fZG1pX3BhbmVsX29yaWVudGF0aW9uX2RhdGEgaXR3b3Jrc190dzg5MSA9
-IHsKIAkub3JpZW50YXRpb24gPSBEUk1fTU9ERV9QQU5FTF9PUklFTlRBVElPTl9SSUdIVF9VUCwK
-IH07CiAKK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2RtaV9wYW5lbF9vcmllbnRhdGlvbl9kYXRh
-IGxjZDcyMHgxMjgwX3JpZ2h0c2lkZV91cCA9IHsKKwkud2lkdGggPSA3MjAsCisJLmhlaWdodCA9
-IDEyODAsCisJLm9yaWVudGF0aW9uID0gRFJNX01PREVfUEFORUxfT1JJRU5UQVRJT05fUklHSFRf
-VVAsCit9OworCiBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kbWlfcGFuZWxfb3JpZW50YXRpb25f
-ZGF0YSBsY2Q4MDB4MTI4MF9yaWdodHNpZGVfdXAgPSB7CiAJLndpZHRoID0gODAwLAogCS5oZWln
-aHQgPSAxMjgwLApAQCAtMTIzLDYgKzEyOSwxMiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRtaV9z
-eXN0ZW1faWQgb3JpZW50YXRpb25fZGF0YVtdID0gewogCQkgIERNSV9FWEFDVF9NQVRDSChETUlf
-Qk9BUkRfTkFNRSwgIkRlZmF1bHQgc3RyaW5nIiksCiAJCX0sCiAJCS5kcml2ZXJfZGF0YSA9ICh2
-b2lkICopJmdwZF9taWNyb3BjLAorCX0sIHsJLyogR1BEIE1pY3JvUEMgKGxhdGVyIEJJT1MgdmVy
-c2lvbnMgd2l0aCBwcm9wZXIgRE1JIHN0cmluZ3MpICovCisJCS5tYXRjaGVzID0geworCQkgIERN
-SV9FWEFDVF9NQVRDSChETUlfU1lTX1ZFTkRPUiwgIkdQRCIpLAorCQkgIERNSV9FWEFDVF9NQVRD
-SChETUlfUFJPRFVDVF9OQU1FLCAiTWljcm9QQyIpLAorCQl9LAorCQkuZHJpdmVyX2RhdGEgPSAo
-dm9pZCAqKSZsY2Q3MjB4MTI4MF9yaWdodHNpZGVfdXAsCiAJfSwgewkvKgogCQkgKiBHUEQgUG9j
-a2V0LCBub3RlIHRoYXQgdGhlIHRoZSBETUkgZGF0YSBpcyBsZXNzIGdlbmVyaWMgdGhlbgogCQkg
-KiBpdCBzZWVtcywgZGV2aWNlcyB3aXRoIGEgYm9hcmQtdmVuZG9yIG9mICJBTUkgQ29ycG9yYXRp
-b24iCi0tIAoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1078081898==
+Content-Type: multipart/alternative; boundary="15613909911.2a88edCd3.23995"
+Content-Transfer-Encoding: 7bit
+
+
+--15613909911.2a88edCd3.23995
+Date: Mon, 24 Jun 2019 15:43:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110981
+
+--- Comment #7 from freedesktop@trummer.xyz ---
+Yes, Mesa was upgraded to 19.0.5 in the snapshot from June 3rd:
+https://lists.opensuse.org/opensuse-factory/2019-06/msg00078.html
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15613909911.2a88edCd3.23995
+Date: Mon, 24 Jun 2019 15:43:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Glitches with amdgpu driver and QtWebEngine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110981#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Glitches with amdgpu driver and QtWebEngine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110981">bug 11098=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;trummer.xyz" title=3D"freedesktop&#64;trummer.xyz">freedesk=
+top&#64;trummer.xyz</a>
+</span></b>
+        <pre>Yes, Mesa was upgraded to 19.0.5 in the snapshot from June 3rd:
+<a href=3D"https://lists.opensuse.org/opensuse-factory/2019-06/msg00078.htm=
+l">https://lists.opensuse.org/opensuse-factory/2019-06/msg00078.html</a></p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15613909911.2a88edCd3.23995--
+
+--===============1078081898==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1078081898==--
