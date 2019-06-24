@@ -2,54 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6854FF36
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 04:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C95F50243
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Jun 2019 08:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6035C898C4;
-	Mon, 24 Jun 2019 02:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 961158957B;
+	Mon, 24 Jun 2019 06:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 365E2898C4
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 02:18:46 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id E147328B0B
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 02:18:45 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id E040E28733; Mon, 24 Jun 2019 02:18:45 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
- 4.19/4.20/5.0
-Date: Mon, 24 Jun 2019 02:18:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: supasean@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201539-2300-lmXKACcteG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
-References: <bug-201539-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C74C88957B
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Jun 2019 06:26:30 +0000 (UTC)
+Received: from localhost (unknown [116.247.127.123])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BADB821670;
+ Mon, 24 Jun 2019 06:26:28 +0000 (UTC)
+Date: Mon, 24 Jun 2019 05:23:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: Re: [PATCH v2 00/28] drivers: Consolidate device lookup helpers
+Message-ID: <20190624032348.GA28919@kroah.com>
+References: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Disposition: inline
+In-Reply-To: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1561357590;
+ bh=Y3tO6322kAem1bdW9lZFU/O4PG4zUOyQ61thLFj0Jx0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=htFsW7qr6Qj9QwJdRe7RCHfnZ1bTieWWNheSEb5znLJ2xvRAs926/5WkNObf13eOF
+ f3OKqYo54tR7NHcQVz9j+FG0XLC9I6A5qk22IxM5o6MLYsUqvAD7GrqdiYxru9PazM
+ LqtBNk2+xJkrOZ8sAG0XTIBTwG2p30iIdIpXUqXw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,36 +46,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Andrew Lunn <andrew@lunn.ch>, Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+ rafael@kernel.org, Will Deacon <will.deacon@arm.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, dri-devel@lists.freedesktop.org,
+ Pavel Machek <pavel@ucw.cz>, Stefan Schmidt <stefan@datenfreihafen.org>,
+ Wolfram Sang <wsa@the-dreams.de>, linux-acpi@vger.kernel.org,
+ Doug Ledford <dledford@redhat.com>, Jiri Slaby <jslaby@suse.com>,
+ Tomas Winkler <tomas.winkler@intel.com>, Dan Murphy <dmurphy@ti.com>,
+ linux-usb@vger.kernel.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+ Joe Perches <joe@perches.com>, linux-wpan@vger.kernel.org,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, "Rafael J . Wysocki " <rjw@rjwysocki.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ linux-i2c@vger.kernel.org, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-rockchip@lists.infradead.org,
+ Len Brown <lenb@kernel.org>, Corey Minyard <minyard@acm.org>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Oliver Neukum <oneukum@suse.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Hartmut Knaack <knaack.h@gmx.de>,
+ Jonathan Cameron <jic23@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Thor Thayer <thor.thayer@linux.intel.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ linux-fpga@vger.kernel.org, Heiko Carstens <heiko.carstens@de.ibm.com>,
+ Elie Morisse <syniurge@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-rtc@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ David Kershner <david.kershner@unisys.com>,
+ Grygorii Strashko <grygorii.strashko@ti.com>, Arnd Bergmann <arnd@arndb.de>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Harald Freudenberger <freude@linux.ibm.com>, Felipe Balbi <balbi@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Grant Likely <grant.likely@arm.com>,
+ Peter Rosin <peda@axentia.se>, Alexander Aring <alex.aring@gmail.com>,
+ Sebastian Ott <sebott@linux.ibm.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Andreas Noever <andreas.noever@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ linux-leds@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Nehal Shah <nehal-bakulchandra.shah@amd.com>,
+ devicetree@vger.kernel.org, Alan Tull <atull@kernel.org>,
+ Michael Jamet <michael.jamet@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Alessandro Zummo <a.zummo@towertech.it>, Takashi Iwai <tiwai@suse.com>,
+ Moritz Fischer <mdf@kernel.org>, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE1MzkKCi0tLSBD
-b21tZW50ICMxOSBmcm9tIFNlYW4gQmlya2hvbHogKHN1cGFzZWFuQGhvdG1haWwuY29tKSAtLS0K
-SSd2ZSBkb25lIGEgYml0IG9mIGRpZ2dpbmcgYW5kIEkndmUgbWFuYWdlZCB0byBnZXQgYSBwcm9w
-ZXIgaHlzdGVyZXNpcyB2YWx1ZSB0bwphcHBlYXIgaW4gYSA1LjEuMTQga2VybmVsIGJ1aWx0IGZy
-b20gc291cmNlLgoKSSBub3cgaGF2ZSB0aGlzIG91dHB1dCBmcm9tIHNlbnNvcnM6CgphbWRncHUt
-cGNpLTAxMDAKQWRhcHRlcjogUENJIGFkYXB0ZXIKdmRkZ2Z4OiAgICAgICArMS4wMCBWICAKZmFu
-MTogICAgICAgICAgICAgTi9BICAobWluID0gICAgMCBSUE0sIG1heCA9ICAgIDAgUlBNKQp0ZW1w
-MTogICAgICAgICs2Ni4wwrBDICAoY3JpdCA9ICsxMDQwMDAuMMKwQywgaHlzdCA9ICs5MC4wwrBD
-KQpwb3dlcjE6ICAgICAgIDI5LjAyIFcgIChjYXAgPSAyMDguMDAgVykKCkkgZG9uJ3Qga25vdyB3
-aHkgcHJvcGVyIHZhbHVlcyBhcmUgbm90IHNldCBhdXRvbWF0aWNhbGx5IGJlY2F1c2UgSSd2ZSBm
-b3VuZCB0aGUKY29ycmVjdCB2YWx1ZXMgaW4gdG9ucyBvZiBzb3VyY2UgZmlsZXMgYnV0IG5vbmUg
-b2YgdGhlICNkZWZpbmVzIGFwcGVhciB0byBiZQp1c2VkPyAgQW5kIG11Y2ggb2YgdGhlIHNvdXJj
-ZSBkb2Vzbid0IGFwcGVhciB0byBkaWZmZXIgYmV0d2VlbiA1LjEuMTQgYW5kCjQuMTgueAoKSSBt
-b2RpZmllZCAoa2VybmVsIHNyYykvZHJpdmVycy9ncHUvZHJtL2FtZC9wb3dlcnBsYXkvaW5jL3Bw
-X3RoZXJtYWwuaCBhbmQKY2hhbmdlZCB0aGUgdmFsdWVzIG9mIC0yNzMxNTAgdG8gOTAwMDAuICBU
-aGlzIGNvcnJlY3RzIHRoZSBoeXN0ZXJlc2lzIHZhbHVlIGJ1dApJJ20gc3RpbGwgc2VhcmNoaW5n
-IGZvciB3aGVyZSB0aGUgY3JpdGljYWwgdGVtcCB2YWx1ZSBpcyBhY3R1YWxseSBzZXQuCgpJICp0
-aGluayogZml4aW5nIHRoZXNlIHZhbHVlcyBtYXkgZml4IHRoZSBmYW4gcHJvYmxlbSBiZWNhdXNl
-IHdoeSB3b3VsZCBhIGZhbgpzcGluIHVwIGlmIGl0cyBub3doZXJlIG5lYXIgdGhlIGNyaXRpY2Fs
-IG9yIGh5c3RlcmVzaXMgdmFsdWVzPyAgTm8gbmVlZC4gCkV4Y2VwdCB3aGVuIHRoZSBjcml0aWNh
-bCB2YWx1ZSBpcyAxOXggdGhlIHRlbXAgb2YgdGhlIHN1biwgdGhlIGNhcmQgZ2V0cyBzbyBob3QK
-aXQgcHJvdGVjdHMgaXRzZWxmIGJ5IG1heGluZyB0aGUgZmFucyBmb3IgYSBzaG9ydCBidXJzdC4g
-IFRoYXQgaXMgbXkgdGhlb3J5CmFueXdheSwgaG9wZSB0byBiZSBhYmxlIHRvIHRlc3QgaXQgc29v
-biBidXQgbm8gcHJvbWlzZXMuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1
-c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDY6NTM6NTVQTSArMDEwMCwgU3V6dWtpIEsgUG91bG9z
+ZSB3cm90ZToKPiBXZSBoYXZlIGRldmljZSBpdGVyYXRvcnMgdG8gZmluZCBhIHBhcnRpY3VsYXIg
+ZGV2aWNlIG1hdGNoaW5nIGEgY3JpdGVyaWEKPiBmb3IgYSBnaXZlbiBidXMvY2xhc3MvZHJpdmVy
+LiBpLmUsIHtidXMsY2xhc3MsZHJpdmVyfV9maW5kX2RldmljZSgpIEFQSXMuCj4gVGhlIG1hdGNo
+aW5nIGNyaXRlcmlhIGlzIGEgZnVuY3Rpb24gcG9pbnRlciBmb3IgdGhlIEFQSXMuIE9mdGVuIHRo
+ZSBsb29rdXAKPiBpcyBiYXNlZCBvbiBhIGdlbmVyaWMgcHJvcGVydHkgb2YgYSBkZXZpY2UgKGUu
+ZywgbmFtZSwgZndub2RlLCBvZiBub2RlIHBvaW50ZXIKPiBvciBkZXZpY2UgdHlwZSkgcmF0aGVy
+IHRoYW4gYSBkcml2ZXIgc3BlY2lmaWMgaW5mb3JtYXRpb24uIEhvd2V2ZXIsIGVhY2ggZHJpdmVy
+Cj4gd3JpdGVzIHVwIGl0cyBvd24gIm1hdGNoIiBmdW5jdGlvbiwgc3BpbGxpbmcgdGhlIHNpbWls
+YXIgbWF0Y2ggZnVuY3Rpb25zIGFsbAo+IG92ZXIgdGhlIGRyaXZlciBzdWJzeXN0ZW1zLgo+IAo+
+IEFkZGl0aW9uYWxseSB0aGUgcHJvdG90eXBlIGZvciB0aGUgIm1hdGNoIiBmdW5jdGlvbnMgYWNj
+ZXB0ZWQgYnkgdGhlIGFib3ZlIEFQSXMKPiBoYXZlIGEgbWludXRlIGRpZmZlcmVuY2Ugd2hpY2gg
+cHJldmVudHMgdXMgb3RoZXJ3aXNlIHNoYXJpbmcgdGhlIG1hdGNoIGZ1bmN0aW9ucy4KPiBpLmUs
+Cj4gCWludCAoKm1hdGNoKShzdHJ1Y3QgZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEpIGZvciB7YnVz
+L2RyaXZlcn1fZmluZF9kZXZpY2UoKQo+IAkgIHZzCj4gCWludCAoKm1hdGNoKShzdHJ1Y3QgZGV2
+aWNlICpkZXYsIGNvbnN0IHZvaWQgKikgZm9yIGNsYXNzX2ZpbmRfZGV2aWNlKCkKPiAKPiBJZiB3
+ZSBwcm9tb3RlIHRoZSBmb3JtZXIgdG8gYWNjZXB0IGEgImNvbnN0IHZvaWQqIiBwYXJhbWV0ZXIs
+IHdlIGNvdWxkIHNoYXJlIG9uZQo+IHNpbmdsZSBtYXRjaCBmdW5jdGlvbiBmb3IgYWxsIHRoZSBo
+ZWxwZXJzLiBUaGlzIHNlcmllcyBhY2hpZXZlcyB0aGUgZm9sbG93aW5nOgo+IAo+ICBhKSBbUGF0
+Y2hlcyAwMy0wNV0gVW5pZnkgdGhlIHByb3RvdHlwZSBmb3IgIm1hdGNoIiBmdW5jdGlvbnMgYWNj
+ZXB0ZWQgYnkgdGhlCj4gICAgICBkZXZpY2UgbG9va3VwIEFQSXMuCgpJJ3ZlIGFwcGxpZWQgdGhl
+IGZpcnN0IDYgcGF0Y2hlcyBvZiB0aGlzIHNlcmllcyB0byBteSB0cmVlIG5vdy4gIExldCdzCnNl
+ZSBob3cgdGhhdCBnb2VzLCBhbmQgdGhpcyBzaG91bGQgZ2l2ZSB5b3UgYSBtb3JlIHNvbGlkIGJh
+c2UgdG8gcmVkbwp0aGUgcmVzdCBvZiB0aGUgc2VyaWVzIG9mZiBvZi4KCnRoYW5rcywKCmdyZWcg
+ay1oCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
