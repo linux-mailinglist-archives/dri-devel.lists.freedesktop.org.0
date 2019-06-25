@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB2F556A4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 20:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36790556A5
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 20:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBB896E1BD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD5BF6E1D7;
 	Tue, 25 Jun 2019 18:02:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E662E6E1BD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 18:02:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4915A6E1BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 18:02:39 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 8D2A6286276
+ (Authenticated sender: bbeckett) with ESMTPSA id DE8FC28627D
 From: Robert Beckett <bob.beckett@collabora.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 3/4] drm/vblank: estimate vblank while disabling vblank if
- interrupt disabled
-Date: Tue, 25 Jun 2019 18:59:14 +0100
-Message-Id: <b96132cef4b63118df1026a99b3c345692e3de26.1561483965.git.bob.beckett@collabora.com>
+Subject: [PATCH v3 4/4] drm/imx: only send event on crtc disable if kept
+ disabled
+Date: Tue, 25 Jun 2019 18:59:15 +0100
+Message-Id: <6599f538740632c5524bab86514b8ba026798537.1561483965.git.bob.beckett@collabora.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <cover.1561483965.git.bob.beckett@collabora.com>
 References: <cover.1561483965.git.bob.beckett@collabora.com>
@@ -47,34 +47,22 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgaW50ZXJydXB0cyBhcmUgZGlzYWJsZWQgKGUuZy4gdmlhIHZibGFua19kaXNhYmxlX2ZuKSBh
-bmQgd2UgY29tZSB0bwpkaXNhYmxlIHZibGFuaywgdXBkYXRlIHRoZSB2YmxhbmsgY291bnQgdG8g
-YmVzdCBndWVzcyBhcyB0byB3aGF0IGl0CndvdWxkIGJlIGhhZCB0aGUgaW50ZXJydXB0cyByZW1h
-aW5lZCBlbmFibGVkLCBhbmQgdXBkYXRlIHRoZSB0aW1lc2FtcCB0bwpub3cuCgpUaGlzIGF2b2lk
-cyBhIHN0YWxlIHZibGFuayBldmVudCBiZWluZyBzZW50IHdoaWxlIGRpc2FibGluZyBjcnRjcyBk
-dXJpbmcKYXRvbWljIG1vZGVzZXQuCgpGaXhlczogNjgwMzZiMDhiOTFiYyAoImRybS92Ymxhbms6
-IERvIG5vdCB1cGRhdGUgdmJsYW5rIGNvdW50IGlmIGludGVycnVwdHMKYXJlIGFscmVhZHkgZGlz
-YWJsZWQuIikKClNpZ25lZC1vZmYtYnk6IFJvYmVydCBCZWNrZXR0IDxib2IuYmVja2V0dEBjb2xs
-YWJvcmEuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMgfCAxNiArKysrKysr
-KysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fdmJsYW5rLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX3ZibGFuay5jCmluZGV4IDdkYWJiMmJkYjczMy4uZGI2OGI4Y2JmNzk3IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3ZibGFuay5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9kcm1fdmJsYW5rLmMKQEAgLTM3NSw5ICszNzUsMjMgQEAgdm9pZCBkcm1fdmJsYW5rX2Rpc2Fi
-bGVfYW5kX3NhdmUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgaW50IHBpcGUpCiAJ
-ICogaW50ZXJydXB0cyB3ZXJlIGVuYWJsZWQuIFRoaXMgYXZvaWRzIGNhbGxpbmcgdGhlIC0+ZGlz
-YWJsZV92YmxhbmsoKQogCSAqIG9wZXJhdGlvbiBpbiBhdG9taWMgY29udGV4dCB3aXRoIHRoZSBo
-YXJkd2FyZSBwb3RlbnRpYWxseSBydW50aW1lCiAJICogc3VzcGVuZGVkLgorCSAqIElmIGludGVy
-cnVwdHMgYXJlIGRpc2FibGVkIChlLmcuIHZpYSBibGFua19kaXNhYmxlX2ZuKSB0aGVuIG1ha2UK
-KwkgKiBiZXN0IGd1ZXNzIGFzIHRvIHdoYXQgaXQgd291bGQgYmUgbm93IGFuZCBtYWtlIHN1cmUg
-d2UgaGF2ZSBhbiB1cAorCSAqIHRvIGRhdGUgdGltZXN0YW1wLgogCSAqLwotCWlmICghdmJsYW5r
-LT5lbmFibGVkKQorCWlmICghdmJsYW5rLT5lbmFibGVkKSB7CisJCWt0aW1lX3Qgbm93ID0ga3Rp
-bWVfZ2V0KCk7CisJCXUzMiBkaWZmID0gMDsKKwkJaWYgKHZibGFuay0+ZnJhbWVkdXJfbnMpIHsK
-KwkJCXU2NCBkaWZmX25zID0ga3RpbWVfdG9fbnMoa3RpbWVfc3ViKG5vdywgdmJsYW5rLT50aW1l
-KSk7CisJCQlkaWZmID0gRElWX1JPVU5EX0NMT1NFU1RfVUxMKGRpZmZfbnMsCisJCQkJCQkgICAg
-IHZibGFuay0+ZnJhbWVkdXJfbnMpOworCQl9CisKKwkJc3RvcmVfdmJsYW5rKGRldiwgcGlwZSwg
-ZGlmZiwgbm93LCB2YmxhbmstPmNvdW50KTsKKwogCQlnb3RvIG91dDsKKwl9CiAKIAkvKgogCSAq
-IFVwZGF0ZSB0aGUgY291bnQgYW5kIHRpbWVzdGFtcCB0byBtYWludGFpbiB0aGUKLS0gCjIuMTgu
-MAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+VGhlIGV2ZW50IHdpbGwgYmUgc2VudCBhcyBwYXJ0IG9mIHRoZSB2YmxhbmsgZW5hYmxlIGR1cmlu
+ZyB0aGUgbW9kZXNldAppZiB0aGUgY3J0YyBpcyBub3QgYmVpbmcga2VwdCBkaXNhYmxlZC4KCkZp
+eGVzOiA1ZjJmOTExNTc4ZmIgKCJkcm0vaW14OiBhdG9taWMgcGhhc2UgMyBzdGVwIDE6IFVzZSBh
+dG9taWMgY29uZmlndXJhdGlvbiIpCgpTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQmVja2V0dCA8Ym9i
+LmJlY2tldHRAY29sbGFib3JhLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaW14L2lwdXYzLWNy
+dGMuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaXB1djMtY3J0Yy5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2lteC9pcHV2My1jcnRjLmMKaW5kZXggZTA0ZDZlZmZmMWI1Li5jNDM2YTI4ZDUw
+ZTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaXB1djMtY3J0Yy5jCisrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9pbXgvaXB1djMtY3J0Yy5jCkBAIC05NCw3ICs5NCw3IEBAIHN0YXRpYyB2
+b2lkIGlwdV9jcnRjX2F0b21pY19kaXNhYmxlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YywKIAlkcm1f
+Y3J0Y192Ymxhbmtfb2ZmKGNydGMpOwogCiAJc3Bpbl9sb2NrX2lycSgmY3J0Yy0+ZGV2LT5ldmVu
+dF9sb2NrKTsKLQlpZiAoY3J0Yy0+c3RhdGUtPmV2ZW50KSB7CisJaWYgKGNydGMtPnN0YXRlLT5l
+dmVudCAmJiAhY3J0Yy0+c3RhdGUtPmFjdGl2ZSkgewogCQlkcm1fY3J0Y19zZW5kX3ZibGFua19l
+dmVudChjcnRjLCBjcnRjLT5zdGF0ZS0+ZXZlbnQpOwogCQljcnRjLT5zdGF0ZS0+ZXZlbnQgPSBO
+VUxMOwogCX0KLS0gCjIuMTguMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
