@@ -2,61 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E80525D3
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 10:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC57525DE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 10:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 327336E087;
-	Tue, 25 Jun 2019 08:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 830BE6E08A;
+	Tue, 25 Jun 2019 08:04:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0FB7E6E087;
- Tue, 25 Jun 2019 08:02:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 2ECC82A6046;
- Tue, 25 Jun 2019 10:02:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id yipPP5i60ewE; Tue, 25 Jun 2019 10:02:41 +0200 (CEST)
-Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.245.116])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 65AEB2A6045;
- Tue, 25 Jun 2019 10:02:41 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.92)
- (envelope-from <michel@daenzer.net>)
- id 1hfgPX-0007vW-UL; Tue, 25 Jun 2019 10:02:39 +0200
-Subject: Re: [PATCH libdrm 0/9] amdgpu:
-To: christian.koenig@amd.com
-References: <20190624165406.13682-1-michel@daenzer.net>
- <b48aae10-c1db-b76b-ddde-9c0a47028633@gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=michel@daenzer.net; prefer-encrypt=mutual; keydata=
- mQGiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
- LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
- 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
- /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
- WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
- Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
- V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
- AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPLQjTWljaGVsIERh
- ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD6IXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
- AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
- jqtGUnnSbyuTQfIySkK5AQ0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
- qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
- bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
- CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
- GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
- YsYrX5xfLgTZC5abhhztpYhGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAn2Ufk2d6/3p4
- Cuyz/NX7KpL2dQ8WAJ9UD5JEakhfofed8PSqOM7jOO3LCA==
-Message-ID: <6e737397-9b3d-b66c-7948-59b5acdbca60@daenzer.net>
-Date: Tue, 25 Jun 2019 10:02:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA5986E08A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 08:04:18 +0000 (UTC)
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 4DA1F240021;
+ Tue, 25 Jun 2019 08:04:10 +0000 (UTC)
+Date: Tue, 25 Jun 2019 10:05:26 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH v2 2/3] drm/rockchip: Add optional support for CRTC gamma
+ LUT
+Message-ID: <20190625080526.osfzjb32pt6f5pxu@uno.localdomain>
+References: <20190621211346.1324-1-ezequiel@collabora.com>
+ <20190621211346.1324-3-ezequiel@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <b48aae10-c1db-b76b-ddde-9c0a47028633@gmail.com>
-Content-Language: en-CA
+In-Reply-To: <20190621211346.1324-3-ezequiel@collabora.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,35 +39,353 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-rockchip@lists.infradead.org,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Sean Paul <seanpaul@chromium.org>, Rob Herring <robh+dt@kernel.org>,
+ kernel@collabora.com
+Content-Type: multipart/mixed; boundary="===============1826616607=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNi0yNCA3OjMxIHAubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gUGF0Y2hl
-cyAjMSAtICMzIGxvb2sgZ29vZCB0byBtZSwgYnV0IEknbSBub3Qgc3VyZSBpZiB0aGUgcmVzdCBp
-cyBzdWNoIGEKPiBnb29kIGlkZWEuCj4gCj4gQmFzaWNhbGx5IHlvdSBub3Qgb25seSB3YW50IHRv
-IHVzZSB0aGUgc2FtZSBGRCBmb3IgQ1MsIGJ1dCBhbHNvIGZvcgo+IGJhc2ljYWxseSBhbGwgYnVm
-ZmVyIGZ1bmN0aW9ucyBhbmQgYXMgZmFyIGFzIEkgY2FuIHNlZSB3ZSBicmVhayB0aGF0IGhlcmUu
-CgpIb3cgc28/IFRoZSBjb3JlIEZEIGlzIHVzZWQgZm9yIGV2ZXJ5dGhpbmcgZXhjZXB0IGZsaW5r
-IGFuZAphbWRncHVfYm9faGFuZGxlX3R5cGVfa21zX3VzZXIuCgoKPiBJIHdvdWxkIHJhdGhlciBh
-ZGQgYSBuZXcgZnVuY3Rpb24gdG8gZXhwb3J0IHRoZSBLTVMgaGFuZGxlIGZvciBhIGNlcnRhaW4K
-PiBCTy9GRCBwYWlyLiBFeHBvcnRpbmcgdGhlIGhhbmRsZSBiYXNlZCBvbiBhIHR5cGUgd2FzIGFs
-c28gbGlrZSB0cnlpbmcgdG8KPiBzcXVlZXplIGEgcm91bmQgcGlnIHRocm91Z2ggYSBzcXVhcmUg
-aG9sZSBpbiB0aGUgZmlyc3QgcGxhY2UuCj4gCj4gS01TLCBmbGluayBhbmQgRE1BLWJ1ZiBmZCBh
-cmUgZnVuZGFtZW50YWxseSBkaWZmZXJlbnQgYW5kIHNob3VsZG4ndCBiZQo+IGhhbmRsZWQgYnkg
-dGhlIHNhbWUgZnVuY3Rpb24gaW4gdGhlIGZpcnN0IHBsYWNlLgoKSSBkb24ndCByZWFsbHkgc2Vl
-IHRoZSBwcm9ibGVtLiByYWRlb25zaSAmIFJBRFYgYXJlIHVzaW5nCmFtZGdwdV9ib19oYW5kbGVf
-dHlwZV9rbXMgdG8gZ2V0IGhhbmRsZXMgZm9yIGNvbW1hbmQgc3RyZWFtIHN1Ym1pc3Npb24sCnNv
-IHRob3NlIGhhbmRsZXMgaGF2ZSB0byBiZSB2YWxpZCBmb3IgdGhlIGNvcmUgRkQuIE5vdyB0aGVy
-ZSdzCmFtZGdwdV9ib19oYW5kbGVfdHlwZV9rbXNfdXNlciB0byBnZXQgYSBoYW5kbGUgdmFsaWQg
-Zm9yIHRoZSBGRCBwYXNzZWQKdG8gYW1kZ3B1X2RldmljZV9pbml0aWFsaXplLiBDYW4geW91IGRl
-c2NyaWJlIGEgc2NlbmFyaW8gd2hlcmUgYSBoYW5kbGUKdmFsaWQgZm9yIHlldCBhbm90aGVyIGZp
-bGUgZGVzY3JpcHRpb24gaXMgbmVlZGVkPwoKCi0tIApFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIg
-ICAgICAgICAgICAgICB8ICAgICAgICAgICAgICBodHRwczovL3d3dy5hbWQuY29tCkxpYnJlIHNv
-ZnR3YXJlIGVudGh1c2lhc3QgICAgICAgICAgICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRl
-dmVsb3BlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1826616607==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rltoquubbfop2tn7"
+Content-Disposition: inline
+
+
+--rltoquubbfop2tn7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Ezequiel,
+
+On Fri, Jun 21, 2019 at 06:13:45PM -0300, Ezequiel Garcia wrote:
+> Add an optional CRTC gamma LUT support, and enable it on RK3288.
+> This is currently enabled via a separate address resource,
+> which needs to be specified in the devicetree.
+>
+> The address resource is required because on some SoCs, such as
+> RK3288, the LUT address is after the MMU address, and the latter
+> is supported by a different driver. This prevents the DRM driver
+> from requesting an entire register space.
+>
+> The current implementation works for RGB 10-bit tables, as that
+> is what seems to work on RK3288.
+>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+> Changes from v1:
+> * drop explicit linear LUT after finding a proper
+>   way to disable gamma correction.
+> * avoid setting gamma is the CRTC is not active.
+> * s/int/unsigned int as suggested by Jacopo.
+> * only enable color management and set gamma size
+>   if gamma LUT is supported, suggested by Doug.
+> * drop the reg-names usage, and instead just use indexed reg
+>   specifiers, suggested by Doug.
+>
+> Changes from RFC:
+> * Request (an optional) address resource for the LUT.
+> * Drop support for RK3399, which doesn't seem to work
+>   out of the box and needs more research.
+> * Support pass-thru setting when GAMMA_LUT is NULL.
+> * Add a check for the gamma size, as suggested by Ilia.
+> * Move gamma setting to atomic_commit_tail, as pointed
+>   out by Jacopo/Laurent, is the correct way.
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.c  |   3 +
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 114 ++++++++++++++++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h |   7 ++
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c |   2 +
+>  4 files changed, 126 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> index 1c69066b6894..bf9ad6240971 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> @@ -16,6 +16,7 @@
+>  #include "rockchip_drm_fb.h"
+>  #include "rockchip_drm_gem.h"
+>  #include "rockchip_drm_psr.h"
+> +#include "rockchip_drm_vop.h"
+>
+>  static int rockchip_drm_fb_dirty(struct drm_framebuffer *fb,
+>  				 struct drm_file *file,
+> @@ -128,6 +129,8 @@ rockchip_atomic_helper_commit_tail_rpm(struct drm_atomic_state *old_state)
+>
+>  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+>
+> +	rockchip_drm_vop_gamma_set(old_state);
+> +
+>  	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+>
+>  	drm_atomic_helper_commit_planes(dev, old_state,
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index 12ed5265a90b..cfa70773a9bc 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -137,6 +137,7 @@ struct vop {
+>
+>  	uint32_t *regsbak;
+>  	void __iomem *regs;
+> +	void __iomem *lut_regs;
+>
+>  	/* physical map length of vop register */
+>  	uint32_t len;
+> @@ -1153,6 +1154,102 @@ static void vop_wait_for_irq_handler(struct vop *vop)
+>  	synchronize_irq(vop->irq);
+>  }
+>
+> +static bool vop_dsp_lut_is_enable(struct vop *vop)
+> +{
+> +	return vop_read_reg(vop, 0, &vop->data->common->dsp_lut_en);
+> +}
+> +
+> +static void vop_crtc_write_gamma_lut(struct vop *vop, struct drm_crtc *crtc)
+> +{
+> +	struct drm_color_lut *lut = crtc->state->gamma_lut->data;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < crtc->gamma_size; i++) {
+> +		u32 word;
+> +
+> +		word = (drm_color_lut_extract(lut[i].red, 10) << 20) |
+> +		       (drm_color_lut_extract(lut[i].green, 10) << 10) |
+> +			drm_color_lut_extract(lut[i].blue, 10);
+> +		writel(word, vop->lut_regs + i * 4);
+> +	}
+> +}
+> +
+> +static void vop_crtc_gamma_set(struct vop *vop, struct drm_crtc *crtc,
+> +			       struct drm_crtc_state *old_state)
+> +{
+> +	unsigned int idle;
+> +	int ret;
+> +
+> +	/*
+> +	 * In order to write the LUT to the internal RAM memory,
+> +	 * we need to first make sure the dsp_lut_en bit is cleared.
+> +	 */
+> +	spin_lock(&vop->reg_lock);
+> +	VOP_REG_SET(vop, common, dsp_lut_en, 0);
+> +	vop_cfg_done(vop);
+> +	spin_unlock(&vop->reg_lock);
+> +
+> +	/*
+> +	 * If the CRTC is not active, dsp_lut_en will not get cleared.
+
+Did you mean "dsp_lut_en will not get enabled" ?
+
+Beacuse I see dsp_lut_en being set to 0, and not activated if
+!crtc->state->active. Am I confused?
+
+Apart from that:
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+> +	 * Apparently we still need to do the above step to for
+> +	 * gamma correction to be disabled.
+> +	 */
+> +	if (!crtc->state->active)
+> +		return;
+> +
+> +	ret = readx_poll_timeout(vop_dsp_lut_is_enable, vop,
+> +			   idle, !idle, 5, 30 * 1000);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(vop->dev, "display LUT RAM enable timeout!\n");
+> +		return;
+> +	}
+> +
+> +	spin_lock(&vop->reg_lock);
+> +
+> +	if (crtc->state->gamma_lut &&
+> +	   (!old_state->gamma_lut || (crtc->state->gamma_lut->base.id !=
+> +				      old_state->gamma_lut->base.id)))
+> +		vop_crtc_write_gamma_lut(vop, crtc);
+> +
+> +	VOP_REG_SET(vop, common, dsp_lut_en, 1);
+> +	vop_cfg_done(vop);
+> +	spin_unlock(&vop->reg_lock);
+> +}
+> +
+> +static int vop_crtc_atomic_check(struct drm_crtc *crtc,
+> +				   struct drm_crtc_state *crtc_state)
+> +{
+> +	struct vop *vop = to_vop(crtc);
+> +
+> +	if (vop->lut_regs && crtc_state->color_mgmt_changed &&
+> +	    crtc_state->gamma_lut) {
+> +		unsigned int len;
+> +
+> +		len = drm_color_lut_size(crtc_state->gamma_lut);
+> +		if (len != crtc->gamma_size) {
+> +			DRM_DEBUG_KMS("Invalid LUT size; got %d, expected %d\n",
+> +				      len, crtc->gamma_size);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +void rockchip_drm_vop_gamma_set(struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *old_crtc_state;
+> +	struct drm_crtc *crtc;
+> +	unsigned int i;
+> +
+> +	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
+> +		struct vop *vop = to_vop(crtc);
+> +
+> +		if (vop->lut_regs && crtc->state->color_mgmt_changed)
+> +			vop_crtc_gamma_set(vop, crtc, old_crtc_state);
+> +	}
+> +}
+> +
+>  static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+>  				  struct drm_crtc_state *old_crtc_state)
+>  {
+> @@ -1205,6 +1302,7 @@ static void vop_crtc_atomic_flush(struct drm_crtc *crtc,
+>
+>  static const struct drm_crtc_helper_funcs vop_crtc_helper_funcs = {
+>  	.mode_fixup = vop_crtc_mode_fixup,
+> +	.atomic_check = vop_crtc_atomic_check,
+>  	.atomic_flush = vop_crtc_atomic_flush,
+>  	.atomic_enable = vop_crtc_atomic_enable,
+>  	.atomic_disable = vop_crtc_atomic_disable,
+> @@ -1323,6 +1421,7 @@ static const struct drm_crtc_funcs vop_crtc_funcs = {
+>  	.disable_vblank = vop_crtc_disable_vblank,
+>  	.set_crc_source = vop_crtc_set_crc_source,
+>  	.verify_crc_source = vop_crtc_verify_crc_source,
+> +	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  };
+>
+>  static void vop_fb_unref_worker(struct drm_flip_work *work, void *val)
+> @@ -1480,6 +1579,10 @@ static int vop_create_crtc(struct vop *vop)
+>  		goto err_cleanup_planes;
+>
+>  	drm_crtc_helper_add(crtc, &vop_crtc_helper_funcs);
+> +	if (vop->lut_regs) {
+> +		drm_mode_crtc_set_gamma_size(crtc, vop_data->lut_size);
+> +		drm_crtc_enable_color_mgmt(crtc, 0, false, vop_data->lut_size);
+> +	}
+>
+>  	/*
+>  	 * Create drm_planes for overlay windows with possible_crtcs restricted
+> @@ -1776,6 +1879,17 @@ static int vop_bind(struct device *dev, struct device *master, void *data)
+>  	if (IS_ERR(vop->regs))
+>  		return PTR_ERR(vop->regs);
+>
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	if (res) {
+> +		if (!vop_data->lut_size) {
+> +			DRM_DEV_ERROR(dev, "no gamma LUT size defined\n");
+> +			return -EINVAL;
+> +		}
+> +		vop->lut_regs = devm_ioremap_resource(dev, res);
+> +		if (IS_ERR(vop->lut_regs))
+> +			return PTR_ERR(vop->lut_regs);
+> +	}
+> +
+>  	vop->regsbak = devm_kzalloc(dev, vop->len, GFP_KERNEL);
+>  	if (!vop->regsbak)
+>  		return -ENOMEM;
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> index 2149a889c29d..bd1bcd5a14e9 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> @@ -7,6 +7,8 @@
+>  #ifndef _ROCKCHIP_DRM_VOP_H
+>  #define _ROCKCHIP_DRM_VOP_H
+>
+> +#include <drm/drm_atomic.h>
+> +
+>  /*
+>   * major: IP major version, used for IP structure
+>   * minor: big feature change under same structure
+> @@ -67,6 +69,7 @@ struct vop_common {
+>  	struct vop_reg dither_down_mode;
+>  	struct vop_reg dither_down_en;
+>  	struct vop_reg dither_up;
+> +	struct vop_reg dsp_lut_en;
+>  	struct vop_reg gate_en;
+>  	struct vop_reg mmu_en;
+>  	struct vop_reg out_mode;
+> @@ -170,6 +173,7 @@ struct vop_data {
+>  	const struct vop_win_yuv2yuv_data *win_yuv2yuv;
+>  	const struct vop_win_data *win;
+>  	unsigned int win_size;
+> +	unsigned int lut_size;
+>
+>  #define VOP_FEATURE_OUTPUT_RGB10	BIT(0)
+>  #define VOP_FEATURE_INTERNAL_RGB	BIT(1)
+> @@ -373,4 +377,7 @@ static inline int scl_vop_cal_lb_mode(int width, bool is_yuv)
+>  }
+>
+>  extern const struct component_ops vop_component_ops;
+> +
+> +void rockchip_drm_vop_gamma_set(struct drm_atomic_state *state);
+> +
+>  #endif /* _ROCKCHIP_DRM_VOP_H */
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> index 7b9c74750f6d..30d49eff3670 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> @@ -593,6 +593,7 @@ static const struct vop_common rk3288_common = {
+>  	.dither_down_en = VOP_REG(RK3288_DSP_CTRL1, 0x1, 2),
+>  	.pre_dither_down = VOP_REG(RK3288_DSP_CTRL1, 0x1, 1),
+>  	.dither_up = VOP_REG(RK3288_DSP_CTRL1, 0x1, 6),
+> +	.dsp_lut_en = VOP_REG(RK3288_DSP_CTRL1, 0x1, 0),
+>  	.data_blank = VOP_REG(RK3288_DSP_CTRL0, 0x1, 19),
+>  	.dsp_blank = VOP_REG(RK3288_DSP_CTRL0, 0x3, 18),
+>  	.out_mode = VOP_REG(RK3288_DSP_CTRL0, 0xf, 0),
+> @@ -641,6 +642,7 @@ static const struct vop_data rk3288_vop = {
+>  	.output = &rk3288_output,
+>  	.win = rk3288_vop_win_data,
+>  	.win_size = ARRAY_SIZE(rk3288_vop_win_data),
+> +	.lut_size = 1024,
+>  };
+>
+>  static const int rk3368_vop_intrs[] = {
+> --
+> 2.20.1
+>
+
+--rltoquubbfop2tn7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0R1cUACgkQcjQGjxah
+VjxEsA//WWN38GEWFA1feOeQTUdnz0REX2tU9aaBlaSs4roaEUz8mnbHhQfYsnLI
+g7P5e5NHlHAXIiKNEP5RudE+ffw21x1fWfZLrdj6wJphjiFL1GnNnERpqvp3LpN3
+57u5h37fZL9kEBfXr0jGaSKS5j6UZsfvC2nai2fOeEtUZ4UrrAZTGcSvVXMFOuMI
+p+vYastQLxgNr2GWkFxtXBQZ1petIIBkAlJYi8nhdKBxNTVbTK2F434iThrvZqsM
+40DhFFulWBJqsADrLUpQvF5v2GdBNXIoaGb5qiWkJvii3a2L3xdbtpF6QIJMe/Tt
+HxmpG4fKwQ/ZQ8vUYTgmOJ+Pw+rE9KWMy+3lErcT4FDIQkxzTQWeO/dOp/g7N7I5
+NaORLP/CLCiq66ijmhFk64iV28CHcJbcP1mLTV1Zes0pr5aW9hf9OG1HjrBkRwuc
+xXydPt6dOCUYTrzF21o/8Lv5KgXY72/EnFMs2H5cxEJarFqHtsX1L7ZfHHVJ+tnN
+Cn/UuXmaF+m9/I7httvbHegMBRekW2pWq0Ei5C8oKDyAP2dcuEQDKsfEZzzvwZom
+wqJwC3R3fbaPYDnIXyLQgncjRrakoI643lFWSHoJqRw8I/CS/nGNqyZz9/vsYN83
+VJTe816NCO2Crgvw5SYygsUotCMMg6fWojiUPfLIMjJQHr4MCQQ=
+=QmDy
+-----END PGP SIGNATURE-----
+
+--rltoquubbfop2tn7--
+
+--===============1826616607==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1826616607==--
