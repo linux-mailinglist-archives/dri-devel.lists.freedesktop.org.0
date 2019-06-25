@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F4452268
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 07:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370195226F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 07:01:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4958F89F24;
-	Tue, 25 Jun 2019 05:01:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B249189F2A;
+	Tue, 25 Jun 2019 05:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0092.hostedemail.com
- [216.40.44.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B17689F0B;
- Tue, 25 Jun 2019 05:01:39 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (smtprelay0008.hostedemail.com
+ [216.40.44.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACD5C89F27;
+ Tue, 25 Jun 2019 05:01:47 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay02.hostedemail.com (Postfix) with ESMTP id 443B3C1DC84;
- Tue, 25 Jun 2019 05:01:37 +0000 (UTC)
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id 8D503180295A0;
+ Tue, 25 Jun 2019 05:01:46 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
 X-Spam-Summary: 
-X-HE-Tag: sock17_81d375461e95b
-X-Filterd-Recvd-Size: 2811
+X-HE-Tag: line56_832b716e87755
+X-Filterd-Recvd-Size: 3467
 Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com
  [23.242.196.136]) (Authenticated sender: joe@perches.com)
- by omf20.hostedemail.com (Postfix) with ESMTPA;
- Tue, 25 Jun 2019 05:01:32 +0000 (UTC)
-Message-ID: <3ae4c1a4a72f8ee6b75c45adfbe543fc0a7b5da1.camel@perches.com>
-Subject: Re: [PATCH v4 0/7] Hexdump Enhancements
+ by omf09.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 25 Jun 2019 05:01:41 +0000 (UTC)
+Message-ID: <3340b520a57e00a483eae170be97316c8d18c22c.camel@perches.com>
+Subject: Re: [PATCH v4 4/7] lib/hexdump.c: Replace ascii bool in
+ hex_dump_to_buffer with flags
 From: Joe Perches <joe@perches.com>
 To: Alastair D'Silva <alastair@au1.ibm.com>, alastair@d-silva.org
-Date: Mon, 24 Jun 2019 22:01:30 -0700
-In-Reply-To: <20190625031726.12173-1-alastair@au1.ibm.com>
+Date: Mon, 24 Jun 2019 22:01:40 -0700
+In-Reply-To: <20190625031726.12173-5-alastair@au1.ibm.com>
 References: <20190625031726.12173-1-alastair@au1.ibm.com>
+ <20190625031726.12173-5-alastair@au1.ibm.com>
 User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,18 +73,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gVHVlLCAyMDE5LTA2LTI1IGF0IDEzOjE3ICsxMDAwLCBBbGFzdGFpciBEJ1NpbHZhIHdyb3Rl
-Ogo+IEZyb206IEFsYXN0YWlyIEQnU2lsdmEgPGFsYXN0YWlyQGQtc2lsdmEub3JnPgo+IAo+IEFw
-b2xvZ2llcyBmb3IgdGhlIGxhcmdlIENDIGxpc3QsIGl0J3MgYSBoZWFkcyB1cCBmb3IgdGhvc2Ug
-cmVzcG9uc2libGUKPiBmb3Igc3Vic3lzdGVtcyB3aGVyZSBhIHByb3RvdHlwZSBjaGFuZ2UgaW4g
-Z2VuZXJpYyBjb2RlIGNhdXNlcyBhIGNoYW5nZQo+IGluIHRob3NlIHN1YnN5c3RlbXMuCltdCj4g
-VGhlIGRlZmF1bHQgYmVoYXZpb3VyIG9mIGhleGR1bXAgaXMgdW5jaGFuZ2VkLCBob3dldmVyLCB0
-aGUgcHJvdG90eXBlCj4gZm9yIGhleF9kdW1wX3RvX2J1ZmZlcigpIGhhcyBjaGFuZ2VkLCBhbmQg
-cHJpbnRfaGV4X2R1bXAoKSBoYXMgYmVlbgo+IHJlbmFtZWQgdG8gcHJpbnRfaGV4X2R1bXBfZXh0
-KCksIHdpdGggYSB3cmFwcGVyIHJlcGxhY2luZyBpdCBmb3IKPiBjb21wYXRpYmlsaXR5IHdpdGgg
-ZXhpc3RpbmcgY29kZSwgd2hpY2ggd291bGQgaGF2ZSBiZWVuIHRvbyBpbnZhc2l2ZSB0bwo+IGNo
-YW5nZS4KCkkgYmVsaWV2ZSB0aGlzIGNvdmVyIGxldHRlciBpcyBtaXNsZWFkaW5nLgoKVGhlIHBv
-aW50IG9mIHRoZSB3cmFwcGVyIGlzIHRvIGF2b2lkIHVubmVjZXNzYXJ5IGNoYW5nZXMKaW4gZXhp
-c3RpbmcKY29kZS4KCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+Ogo+IEZyb206IEFsYXN0YWlyIEQnU2lsdmEgPGFsYXN0YWlyQGQtc2lsdmEub3JnPgo+IAo+IElu
+IG9yZGVyIHRvIHN1cHBvcnQgYWRkaXRpb25hbCBmZWF0dXJlcywgcmVuYW1lIGhleF9kdW1wX3Rv
+X2J1ZmZlciB0bwo+IGhleF9kdW1wX3RvX2J1ZmZlcl9leHQsIGFuZCByZXBsYWNlIHRoZSBhc2Np
+aSBib29sIHBhcmFtZXRlciB3aXRoIGZsYWdzLgpbXQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vaTkxNS9pbnRlbF9lbmdpbmVfY3MuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVs
+X2VuZ2luZV9jcy5jCltdCj4gQEAgLTEzMzgsOSArMTMzOCw4IEBAIHN0YXRpYyB2b2lkIGhleGR1
+bXAoc3RydWN0IGRybV9wcmludGVyICptLCBjb25zdCB2b2lkICpidWYsIHNpemVfdCBsZW4pCj4g
+IAkJfQo+ICAKPiAgCQlXQVJOX09OX09OQ0UoaGV4X2R1bXBfdG9fYnVmZmVyKGJ1ZiArIHBvcywg
+bGVuIC0gcG9zLAo+IC0JCQkJCQlyb3dzaXplLCBzaXplb2YodTMyKSwKPiAtCQkJCQkJbGluZSwg
+c2l6ZW9mKGxpbmUpLAo+IC0JCQkJCQlmYWxzZSkgPj0gc2l6ZW9mKGxpbmUpKTsKPiArCQkJCQkJ
+cm93c2l6ZSwgc2l6ZW9mKHUzMiksIGxpbmUsCj4gKwkJCQkJCXNpemVvZihsaW5lKSkgPj0gc2l6
+ZW9mKGxpbmUpKTsKCkh1aD8gIFdoeSBkbyB0aGlzPwoKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9p
+c2RuL2hhcmR3YXJlL21JU0ROL21JU0ROaXNhci5jIGIvZHJpdmVycy9pc2RuL2hhcmR3YXJlL21J
+U0ROL21JU0ROaXNhci5jCltdCj4gQEAgLTcwLDggKzcwLDkgQEAgc2VuZF9tYm94KHN0cnVjdCBp
+c2FyX2h3ICppc2FyLCB1OCBoaXMsIHU4IGNyZWcsIHU4IGxlbiwgdTggKm1zZykKPiAgCQkJaW50
+IGwgPSAwOwo+ICAKPiAgCQkJd2hpbGUgKGwgPCAoaW50KWxlbikgewo+IC0JCQkJaGV4X2R1bXBf
+dG9fYnVmZmVyKG1zZyArIGwsIGxlbiAtIGwsIDMyLCAxLAo+IC0JCQkJCQkgICBpc2FyLT5sb2cs
+IDI1NiwgMSk7Cj4gKwkJCQloZXhfZHVtcF90b19idWZmZXJfZXh0KG1zZyArIGwsIGxlbiAtIGws
+IDMyLCAxLAo+ICsJCQkJCQkgICAgICAgaXNhci0+bG9nLCAyNTYsCj4gKwkJCQkJCSAgICAgICBI
+RVhEVU1QX0FTQ0lJKTsKCkFnYWluLCB3aHkgZG8gYW55IG9mIHRoZXNlPwoKVGhlIHBvaW50IG9m
+IHRoZSB3cmFwcGVyIGlzIHRvIGF2b2lkIGNoYW5naW5nIHRoZXNlLgoKCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
