@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139555295F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 12:25:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9895299D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 12:31:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33C856E0CC;
-	Tue, 25 Jun 2019 10:25:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AE346E0C9;
+	Tue, 25 Jun 2019 10:31:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7F45D6E0C9
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 10:25:02 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B5DB76E0C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 10:31:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7178F72167; Tue, 25 Jun 2019 10:25:02 +0000 (UTC)
+ id AE68672167; Tue, 25 Jun 2019 10:31:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Tue, 25 Jun 2019 10:25:02 +0000
+Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
+ opening 'mailto:'
+Date: Tue, 25 Jun 2019 10:31:46 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: etienne_lorrain@yahoo.fr
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: security
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: julieglenn233@gmail.com
 X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Resolution: FIXED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110795-502-ib1sPJjt3f@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
-References: <bug-110795-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_file_loc
+Message-ID: <bug-107877-502-eBRcnfUuu1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
+References: <bug-107877-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,48 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1611747145=="
+Content-Type: multipart/mixed; boundary="===============1095200516=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1611747145==
-Content-Type: multipart/alternative; boundary="15614583020.F83d886D.16619"
+--===============1095200516==
+Content-Type: multipart/alternative; boundary="15614587060.99A65A4CA.17399"
 Content-Transfer-Encoding: 7bit
 
 
---15614583020.F83d886D.16619
-Date: Tue, 25 Jun 2019 10:25:02 +0000
+--15614587060.99A65A4CA.17399
+Date: Tue, 25 Jun 2019 10:31:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
 
---- Comment #24 from Etienne Lorrain <etienne_lorrain@yahoo.fr> ---
-The script (attached to this bug) to install latest AMD drivers on ubuntu 1=
-9.04
-for a RX590 on a Ryzen threadripper works for me, but leads to a Segmentati=
-on
-fault at address 0x0 of /usr/lib/xorg/Xorg seen in .local/share/xorg/Xorg.0=
-.log
+Routerloginnet <julieglenn233@gmail.com> changed:
 
-Solution for me was to:
-sudo mv /usr/share/X11/xorg.conf.d/10-amdgpu.conf
-/usr/share/X11/xorg.conf.d/10-amdgpu.conf.bak
-sudo mv /usr/share/X11/xorg.conf.d/00-amdgpu.conf
-/usr/share/X11/xorg.conf.d/00-amdgpu.conf.bak
-as proposed by axlc in https://community.amd.com/thread/227165
-Then I had to reboot the PC, no more "loop login".
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                URL|http://download-alexa.com   |https://routerloginnet.tips
+                   |                            |/
+
+--- Comment #27 from Routerloginnet <julieglenn233@gmail.com> ---
+What a helpful technical post! I think Wireless Router is the best one to
+achieve uninterrupted WiFi while blogging. I had some issues with my router
+which I was unable to fix on my own. Then, I opt for
+https://routerloginnet.tips/ website which is truly helpful in fixing all my
+router issues.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15614583020.F83d886D.16619
-Date: Tue, 25 Jun 2019 10:25:02 +0000
+--15614587060.99A65A4CA.17399
+Date: Tue, 25 Jun 2019 10:31:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,38 +103,56 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:julieglen=
+n233&#64;gmail.com" title=3D"Routerloginnet &lt;julieglenn233&#64;gmail.com=
+&gt;"> <span class=3D"fn">Routerloginnet</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">URL</td>
+           <td>http://download-alexa.com
+           </td>
+           <td>https://routerloginnet.tips/
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c24">Comme=
-nt # 24</a>
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877#c27">Comme=
+nt # 27</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
+   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
+ for opening 'mailto:'"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
+7</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-etienne_lorrain&#64;yahoo.fr" title=3D"Etienne Lorrain &lt;etienne_lorrain&=
-#64;yahoo.fr&gt;"> <span class=3D"fn">Etienne Lorrain</span></a>
+julieglenn233&#64;gmail.com" title=3D"Routerloginnet &lt;julieglenn233&#64;=
+gmail.com&gt;"> <span class=3D"fn">Routerloginnet</span></a>
 </span></b>
-        <pre>The script (attached to this bug) to install latest AMD driver=
-s on ubuntu 19.04
-for a RX590 on a Ryzen threadripper works for me, but leads to a Segmentati=
-on
-fault at address 0x0 of /usr/lib/xorg/Xorg seen in .local/share/xorg/Xorg.0=
-.log
-
-Solution for me was to:
-sudo mv /usr/share/X11/xorg.conf.d/10-amdgpu.conf
-/usr/share/X11/xorg.conf.d/10-amdgpu.conf.bak
-sudo mv /usr/share/X11/xorg.conf.d/00-amdgpu.conf
-/usr/share/X11/xorg.conf.d/00-amdgpu.conf.bak
-as proposed by axlc in <a href=3D"https://community.amd.com/thread/227165">=
-https://community.amd.com/thread/227165</a>
-Then I had to reboot the PC, no more &quot;loop login&quot;.</pre>
+        <pre>What a helpful technical post! I think Wireless Router is the =
+best one to
+achieve uninterrupted WiFi while blogging. I had some issues with my router
+which I was unable to fix on my own. Then, I opt for
+<a href=3D"https://routerloginnet.tips/">https://routerloginnet.tips/</a> w=
+ebsite which is truly helpful in fixing all my
+router issues.</pre>
         </div>
       </p>
 
@@ -149,9 +166,9 @@ Then I had to reboot the PC, no more &quot;loop login&quot;.</pre>
     </body>
 </html>=
 
---15614583020.F83d886D.16619--
+--15614587060.99A65A4CA.17399--
 
---===============1611747145==
+--===============1095200516==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -161,4 +178,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1611747145==--
+--===============1095200516==--
