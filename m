@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B50C54E7B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 14:12:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC3DF54E7E
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 14:12:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4460A6E0EB;
-	Tue, 25 Jun 2019 12:12:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2240C6E0ED;
+	Tue, 25 Jun 2019 12:12:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 210DE6E0EB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 12:12:10 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1D4A372167; Tue, 25 Jun 2019 12:12:10 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110795] Unable to install on latest Ubuntu (19.04)
-Date: Tue, 25 Jun 2019 12:12:10 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: etienne_lorrain@yahoo.fr
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: INVALID
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110795-502-iLEoHD60VR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110795-502@http.bugs.freedesktop.org/>
-References: <bug-110795-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6764A6E0E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 12:12:34 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id a128so12358963oib.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 05:12:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xtX13vSVbmx57mGL/Q0hXK8kpnRo7HFPa5oOdLxipaM=;
+ b=UzyjuZNk+b2sR2bsWkW0vJFUacaBlKi5g5qOkk1+LXN3O+uzyFp51Asz7e87ODb5jR
+ Us+C7QQFpXEfAtoQsXPKb7U2sYFEa3DH4RG+Hhit7eaHKzm0gN2YH2vs1RdjUskIx62P
+ YlrJ+V92UqlssB2sJbo3Ko/TYcZHK/kjmKoOCTA68bOskeVlrMN9c3lJx83ACoDib/Vw
+ bXP48izLWEh0xISm/R2xcwFt5u8+p6CjnuPSVskP9vR0RRPKGhuTgl1+MJq78c3uUqUR
+ FYvJFGDWbyWDoh7rCwvZZZspd+dO8Lcct3rdvtRMSA6z2v9FajJLGhaEJJseVijJgEm7
+ IKBQ==
+X-Gm-Message-State: APjAAAVV9zq6sT5pGOv3EH4Ux9O4Nak/FGn9cetX1shPJdOIy4UDxhcR
+ TBB8WtsKlbzzQRDGAmz59L6hlLyEst8BtulgN/4QCQ==
+X-Google-Smtp-Source: APXvYqzIF0shhnL3kTWbxYnFTIfJoQ9NWdzzlYJbdr7wT1RELz57W5jZU6ihqAiJYZbsgta0nM0Q5SDLuZyhNwwIoP0=
+X-Received: by 2002:aca:b58b:: with SMTP id
+ e133mr14182998oif.147.1561464753642; 
+ Tue, 25 Jun 2019 05:12:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190624165012.GH3436@hirez.programming.kicks-ass.net>
+ <CAHc6FU7j5iW7WQoxN_OSfvK4zxv_MxTWJpiNsqFW8TEDMX1rjw@mail.gmail.com>
+ <20190625103430.GW3402@hirez.programming.kicks-ass.net>
+In-Reply-To: <20190625103430.GW3402@hirez.programming.kicks-ass.net>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Tue, 25 Jun 2019 14:12:22 +0200
+Message-ID: <CAHc6FU6zUCdQZ1AfN2KYcPYVKc5bwvc0bD7=-KZpFXws+F9QZQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH] wake_up_var() memory ordering
+To: Peter Zijlstra <peterz@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,139 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0332250287=="
+Cc: Martin Brandenburg <martin@omnibond.com>, linux-cachefs@redhat.com,
+ Mike Snitzer <snitzer@redhat.com>, linux-aio@kvack.org,
+ David Airlie <airlied@linux.ie>,
+ samba-technical <samba-technical@lists.samba.org>,
+ Will Deacon <will.deacon@arm.com>, dri-devel@lists.freedesktop.org,
+ David Howells <dhowells@redhat.com>, Chris Mason <clm@fb.com>,
+ dm-devel@redhat.com, keyrings@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+ linux-afs@lists.infradead.org, Alasdair Kergon <agk@redhat.com>,
+ Mike Marshall <hubcap@omnibond.com>, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-rdma@vger.kernel.org,
+ James Morris <jmorris@namei.org>, cluster-devel <cluster-devel@redhat.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Paul McKenney <paulmck@linux.vnet.ibm.com>, intel-gfx@lists.freedesktop.org,
+ devel@lists.orangefs.org, "Serge E. Hallyn" <serge@hallyn.com>,
+ Santosh Shilimkar <santosh.shilimkar@oracle.com>,
+ Johan Hedberg <johan.hedberg@gmail.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Sean Wang <sean.wang@mediatek.com>, Josef Bacik <josef@toxicpanda.com>,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-mediatek@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Sterba <dsterba@suse.com>,
+ MauroCarvalho Chehab <mchehab@kernel.org>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ linux-arm-kernel@lists.infradead.org, "J. Bruce Fields" <bfields@fieldses.org>,
+ Linux NFS Mailing List <linux-nfs@vger.kernel.org>, netdev@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Steve French <sfrench@samba.org>,
+ linux-bluetooth@vger.kernel.org, LSM <linux-security-module@vger.kernel.org>,
+ Benjamin LaHaise <bcrl@kvack.org>, Bob Peterson <rpeterso@redhat.com>,
+ linux-media@vger.kernel.org, Anna Schumaker <anna.schumaker@netapp.com>,
+ linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0332250287==
-Content-Type: multipart/alternative; boundary="15614647301.cb9Efeeec.2317"
-Content-Transfer-Encoding: 7bit
-
-
---15614647301.cb9Efeeec.2317
-Date: Tue, 25 Jun 2019 12:12:10 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110795
-
---- Comment #25 from Etienne Lorrain <etienne_lorrain@yahoo.fr> ---
-(In reply to Etienne Lorrain from comment #24)
-> The script (attached to this bug) to install latest AMD drivers on ubuntu
-> 19.04 for a RX590 on a Ryzen threadripper works for me, but leads to a
-> Segmentation fault at address 0x0 of /usr/lib/xorg/Xorg seen in
-> .local/share/xorg/Xorg.0.log
->=20
-> Solution for me was to:
-> sudo mv /usr/share/X11/xorg.conf.d/10-amdgpu.conf
-> /usr/share/X11/xorg.conf.d/10-amdgpu.conf.bak
-> sudo mv /usr/share/X11/xorg.conf.d/00-amdgpu.conf
-> /usr/share/X11/xorg.conf.d/00-amdgpu.conf.bak
-> as proposed by axlc in https://community.amd.com/thread/227165
-> Then I had to reboot the PC, no more "loop login".
-
-A shorter solution is to comment out (by adding # as first char) the line:
-ModulePath "/opt/amdgpu/lib/xorg/modules"
-in 00-amdgpu.conf and rename both files as their original names.
-
-Maybe to use /usr/lib/xorg/modules/libglamoregl.so instead of
-/opt/amdgpu/lib/xorg/modules/libglamoregl.so, different files with same nam=
-es.
-Or to use /usr/lib/xorg/modules/drivers/amdgpu_drv.so instead of
-/opt/amdgpu/lib/xorg/modules/drivers/amdgpu_drv.so, different files with sa=
-me
-names.
-There is only two real files in /opt/amdgpu/lib/xorg/modules/.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15614647301.cb9Efeeec.2317
-Date: Tue, 25 Jun 2019 12:12:10 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795#c25">Comme=
-nt # 25</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Unable to install on latest Ubuntu (19.04)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110795">bug 11079=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-etienne_lorrain&#64;yahoo.fr" title=3D"Etienne Lorrain &lt;etienne_lorrain&=
-#64;yahoo.fr&gt;"> <span class=3D"fn">Etienne Lorrain</span></a>
-</span></b>
-        <pre>(In reply to Etienne Lorrain from <a href=3D"show_bug.cgi?id=
-=3D110795#c24">comment #24</a>)
-<span class=3D"quote">&gt; The script (attached to this bug) to install lat=
-est AMD drivers on ubuntu
-&gt; 19.04 for a RX590 on a Ryzen threadripper works for me, but leads to a
-&gt; Segmentation fault at address 0x0 of /usr/lib/xorg/Xorg seen in
-&gt; .local/share/xorg/Xorg.0.log
-&gt;=20
-&gt; Solution for me was to:
-&gt; sudo mv /usr/share/X11/xorg.conf.d/10-amdgpu.conf
-&gt; /usr/share/X11/xorg.conf.d/10-amdgpu.conf.bak
-&gt; sudo mv /usr/share/X11/xorg.conf.d/00-amdgpu.conf
-&gt; /usr/share/X11/xorg.conf.d/00-amdgpu.conf.bak
-&gt; as proposed by axlc in <a href=3D"https://community.amd.com/thread/227=
-165">https://community.amd.com/thread/227165</a>
-&gt; Then I had to reboot the PC, no more &quot;loop login&quot;.</span >
-
-A shorter solution is to comment out (by adding # as first char) the line:
-ModulePath &quot;/opt/amdgpu/lib/xorg/modules&quot;
-in 00-amdgpu.conf and rename both files as their original names.
-
-Maybe to use /usr/lib/xorg/modules/libglamoregl.so instead of
-/opt/amdgpu/lib/xorg/modules/libglamoregl.so, different files with same nam=
-es.
-Or to use /usr/lib/xorg/modules/drivers/amdgpu_drv.so instead of
-/opt/amdgpu/lib/xorg/modules/drivers/amdgpu_drv.so, different files with sa=
-me
-names.
-There is only two real files in /opt/amdgpu/lib/xorg/modules/.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15614647301.cb9Efeeec.2317--
-
---===============0332250287==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0332250287==--
+T24gVHVlLCAyNSBKdW4gMjAxOSBhdCAxMjozNiwgUGV0ZXIgWmlqbHN0cmEgPHBldGVyekBpbmZy
+YWRlYWQub3JnPiB3cm90ZToKPiBPbiBUdWUsIEp1biAyNSwgMjAxOSBhdCAxMToxOTozNUFNICsw
+MjAwLCBBbmRyZWFzIEdydWVuYmFjaGVyIHdyb3RlOgo+ID4gPiBkaWZmIC0tZ2l0IGEvZnMvZ2Zz
+Mi9nbG9wcy5jIGIvZnMvZ2ZzMi9nbG9wcy5jCj4gPiA+IGluZGV4IGNmNGM3NjcwMDViMS4uNjY2
+NjI5ZWE1ZGE3IDEwMDY0NAo+ID4gPiAtLS0gYS9mcy9nZnMyL2dsb3BzLmMKPiA+ID4gKysrIGIv
+ZnMvZ2ZzMi9nbG9wcy5jCj4gPiA+IEBAIC0yMjcsNiArMjI3LDcgQEAgc3RhdGljIHZvaWQgZ2Zz
+Ml9jbGVhcl9nbG9wX3BlbmRpbmcoc3RydWN0IGdmczJfaW5vZGUgKmlwKQo+ID4gPiAgICAgICAg
+ICAgICAgICAgcmV0dXJuOwo+ID4gPgo+ID4gPiAgICAgICAgIGNsZWFyX2JpdF91bmxvY2soR0lG
+X0dMT1BfUEVORElORywgJmlwLT5pX2ZsYWdzKTsKPiA+ID4gKyAgICAgICBzbXBfbWJfX2FmdGVy
+X2F0b21pYygpOwo+ID4gPiAgICAgICAgIHdha2VfdXBfYml0KCZpcC0+aV9mbGFncywgR0lGX0dM
+T1BfUEVORElORyk7Cj4gPgo+ID4gVGhpcyBzaG91bGQgYmVjb21lIGNsZWFyX2FuZF93YWtlX3Vw
+X2JpdCBhcyB3ZWxsLCByaWdodD8gVGhlcmUgYXJlCj4gPiBzZXZlcmFsIG1vcmUgaW5zdGFuY2Vz
+IG9mIHRoZSBzYW1lIHBhdHRlcm4uCj4KPiBPbmx5IGlmIHdlIGRvIGFzIERhdmlkIHN1Z2dlc3Rl
+ZCBhbmQgbWFrZSBjbGVhbl9hbmRfd2FrZV91cF9iaXQoKQo+IHByb3ZpZGUgdGhlIFJFTEVBU0Ug
+YmFycmllci4KCihJdCdzIGNsZWFyX2FuZF93YWtlX3VwX2JpdCwgbm90IGNsZWFuX2FuZF93YWtl
+X3VwX2JpdC4pCgo+IFRoYXQgaXMsIGN1cnJlbnRseSBjbGVhcl9hbmRfd2FrZV91cF9iaXQoKSBp
+cwo+Cj4gICAgICAgICBjbGVhcl9iaXQoKQo+ICAgICAgICAgc21wX21iX19hZnRlcl9hdG9taWMo
+KTsKPiAgICAgICAgIHdha2VfdXBfYml0KCk7Cj4KPiBCdXQgdGhlIGFib3ZlIGlzOgo+Cj4gICAg
+ICAgICBjbGVhcl9iaXRfdW5sb2NrKCk7Cj4gICAgICAgICBzbXBfbWJfX2FmdGVyX2F0b21pYygp
+Owo+ICAgICAgICAgd2FrZV91cF9iaXQoKQo+Cj4gdGhlIGRpZmZlcmVuY2UgaXMgdGhhdCBfdW5s
+b2NrKCkgdXNlcyBSRUxFQVNFIHNlbWFudGljcywgd2hlcmUKPiBjbGVhcl9iaXQoKSBkb2VzIG5v
+dC4KPgo+IFRoZSBkaWZmZXJlbmNlIGlzIGlsbHVzdHJhdGVkIHdpdGggc29tZXRoaW5nIGxpa2U6
+Cj4KPiAgICAgICAgIGNvbmQgPSB0cnVlOwo+ICAgICAgICAgY2xlYXJfYml0KCkKPiAgICAgICAg
+IHNtcF9tYl9fYWZ0ZXJfYXRvbWljKCk7Cj4gICAgICAgICB3YWtlX3VwX2JpdCgpOwo+Cj4gSW4g
+dGhpcyBjYXNlLCBhIHJlbW90ZSBDUFUgY2FuIGZpcnN0IG9ic2VydmUgdGhlIGNsZWFyX2JpdCgp
+IGFuZCB0aGVuCj4gdGhlICdjb25kID0gdHJ1ZScgc3RvcmUuIFdoZW4gd2UgdXNlIGNsZWFyX2Jp
+dF91bmxvY2soKSB0aGlzIGlzIG5vdAo+IHBvc3NpYmxlLCBiZWNhdXNlIHRoZSBSRUxFQVNFIGJh
+cnJpZXIgZW5zdXJlcyB0aGF0IGV2ZXJ5dGhpbmcgYmVmb3JlLAo+IHN0YXlzIGJlZm9yZS4KCk5v
+dyBJJ20gY29uZnVzZWQgYmVjYXVzZSBjbGVhcl9hbmRfd2FrZV91cF9iaXQoKSBpbiBtYWlubGlu
+ZSBkb2VzIHVzZQpjbGVhcl9iaXRfdW5sb2NrKCksIHNvIGl0J3MgdGhlIGV4YWN0IG9wcG9zaXRl
+IG9mIHdoYXQgeW91IGp1c3Qgc2FpZC4KClRoYW5rcywKQW5kcmVhcwpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
