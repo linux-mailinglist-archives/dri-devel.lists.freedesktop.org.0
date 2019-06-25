@@ -1,66 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77D0551D1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 16:36:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 364C3551D9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Jun 2019 16:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7A06E128;
-	Tue, 25 Jun 2019 14:36:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6E916E125;
+	Tue, 25 Jun 2019 14:37:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7628D6E128
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 14:36:33 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id p11so18157988wre.7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 07:36:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=nsiDQwwlUMya2NaloHB/g19Qxbl0uFlPZzS2rBPQg0o=;
- b=dKUgTQ6ZdOF5ZX+bGeAsBjP8ak3cwKvb3lZ2dvGrLYaowkR72Uu+xP06j4RnQSgQ5r
- OZUhOyehwJLRhtD4J79cWjYHMwq8FLVDfFX1qau5uajDFrDIVJ/knikvHCcvMtR3d7YS
- gtBgRvEG5fwXEdFCkY6oE0BeXKgPPEwVRkqtvDVcKC7h6sLjFQ1VfvtGHrDREOOUqr/9
- pFbpxf5jLNJifZ/cxjWgOsNu3+gl+g+u4PeieaZaIrmlO6O63yMlUrP0PGouhqWELf5C
- EYw0VoK0QBnkpoR4Lzn3DgJ3KatAqSpgwDgeayzMw4hebezxJfXzUu1lNjKX27hSETMy
- Iabw==
-X-Gm-Message-State: APjAAAV+vpPmBXkWmnSqjnGVv+uHjf36zWS+BVx2hMQiQJsAJeFdT5LN
- i6chyAHX0V5LsCmKRTzIeg0=
-X-Google-Smtp-Source: APXvYqzE/KqmSHY/7SiUS9iovra9CVFDhj9vICfRnFQA0hPN0anCAybqfL9mPZfG6BMjXepF3DTZMA==
-X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr18069221wrq.350.1561473392182; 
- Tue, 25 Jun 2019 07:36:32 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id e11sm32885267wrc.9.2019.06.25.07.36.28
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 07:36:31 -0700 (PDT)
-Subject: Re: [PATCH 1/2] dma-buf: add reservation_context for deadlock handling
-To: peterz@infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20190625135507.80548-1-christian.koenig@amd.com>
- <20190625141624.GU12905@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <9d64929c-0343-e6b0-a4fe-3af541abbd6a@gmail.com>
-Date: Tue, 25 Jun 2019 16:36:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 195BC6E125
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 14:37:54 +0000 (UTC)
+X-Originating-IP: 90.88.16.156
+Received: from localhost (aaubervilliers-681-1-41-156.w90-88.abo.wanadoo.fr
+ [90.88.16.156]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id B6C476000A;
+ Tue, 25 Jun 2019 14:37:47 +0000 (UTC)
+Date: Tue, 25 Jun 2019 16:37:47 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [linux-sunxi] Re: [PATCH v10 04/11] drm/sun4i: tcon: Compute
+ DCLK dividers based on format, lanes
+Message-ID: <20190625143747.3czd7sit4waz75b6@flea>
+References: <20190520090318.27570-1-jagan@amarulasolutions.com>
+ <20190520090318.27570-5-jagan@amarulasolutions.com>
+ <20190523204823.mx7l4ozklzdh7npn@flea>
+ <CAMty3ZA0S=+8NBrQZvP6sFdzSYWqhNZL_KjkJAQ0jTc2RVivrw@mail.gmail.com>
+ <20190604143016.fcx3ezmga244xakp@flea>
+ <CAMty3ZAAK4RoE6g_LAZ-Q38On_1s_TTOz65YG7PVd88mwp-+4Q@mail.gmail.com>
+ <20190613131626.7zbwvrvd4e7eafrc@flea>
+ <CAMty3ZBDkMJkZm8FudNB1wQ+L-q3XVKa3zR2M0wZ5Uncdy_Ayg@mail.gmail.com>
+ <20190624130442.ww4l3zctykr4i2e2@flea>
+ <CAMty3ZB+eZUh5mr-LMZuEd_wrwLCN0mbf7arcRQHj8=uUNNq=Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190625141624.GU12905@phenom.ffwll.local>
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=reply-to:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=nsiDQwwlUMya2NaloHB/g19Qxbl0uFlPZzS2rBPQg0o=;
- b=FMd9lD9eHd2C7+rF9Z5/RFn3UymwzrNeQp5IKv6P1zaqVvzj68sYc4Voh5gAHtfxde
- /6H1YkcdttQ1T5VaUryqBJXX4c34dBce43gHOuIQBWOcxegzsIR5iA3QGZ/stAJaiY/v
- SfJmxDnEPHGeSCr3yRl0e82GKcey6ZCelZGchrFpA3/pwV2v9AZnX56QQpVtZXQNWnLI
- vUKnzbpWnnfwOLD4DHLzY/cJqFP6PpTEZjkRrDVyhJAQgs1boNehX56VDVPiJdSrvuHx
- WdbjlDPmYh0l0lWUFIeVYZ/rcw6b6p8zFV5SJXku4XyXGqgzJ16vqkcdkeoQb5xyuQgU
- 1xzw==
+In-Reply-To: <CAMty3ZB+eZUh5mr-LMZuEd_wrwLCN0mbf7arcRQHj8=uUNNq=Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,158 +49,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Bhushan Shah <bshah@mykolab.com>, David Airlie <airlied@linux.ie>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>,
+ =?utf-8?B?5Z2a5a6a5YmN6KGM?= <powerpan@qq.com>, Chen-Yu Tsai <wens@csie.org>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============1952593228=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjUuMDYuMTkgdW0gMTY6MTYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFR1ZSwgSnVu
-IDI1LCAyMDE5IGF0IDAzOjU1OjA2UE0gKzAyMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
-IFRoZSB3d19tdXRleCBmcmFtZXdvcmsgYWxsb3dzIGZvciBkZXRlY3RpbmcgZGVhZGxvY2tzIHdo
-ZW4gbXVsdGlwbGUKPj4gdGhyZWFkcyB0cnkgdG8gYWNxdWlyZSB0aGUgc2FtZSBzZXQgb2YgbG9j
-a3MgaW4gZGlmZmVyZW50IG9yZGVyLgo+Pgo+PiBUaGUgcHJvYmxlbSBpcyB0aGF0IGhhbmRsaW5n
-IHRob3NlIGRlYWRsb2NrcyB3YXMgdGhlIGJ1cmRlbiBvZiB0aGUgdXNlciBvZgo+PiB0aGUgd3df
-bXV0ZXggaW1wbGVtZW50YXRpb24gYW5kIGF0IGxlYXN0IHNvbWUgdXNlcnMgZGlkbid0IGdvdCB0
-aGF0IHJpZ2h0Cj4+IG9uIHRoZSBmaXJzdCB0cnkuCj4+Cj4+IFNvIGludHJvZHVjZSBhIG5ldyBy
-ZXNlcnZhdGlvbl9jb250ZXh0IG9iamVjdCB3aGljaCBjYW4gYmUgdXNlZCB0bwo+PiBzaW1wbGlm
-eSB0aGUgZGVhZGxvY2sgaGFuZGxpbmcuIFRoaXMgaXMgZG9uZSBieSB0cmFja2luZyBhbGwgbG9j
-a2VkCj4+IHJlc2VydmF0aW9uIG9iamVjdHMgaW4gdGhlIGNvbnRleHQgYXMgd2VsbCBhcyB0aGUg
-bGFzdCBjb250ZW5kZWQKPj4gcmVzZXJ2YXRpb24gb2JqZWN0Lgo+Pgo+PiBXaGVuIGEgZGVhZGxv
-Y2sgb2NjdXJzZSB3ZSBub3cgdW5sb2NrIGFsbCBwcmV2aW91c2x5IGxvY2tlZCBvYmplY3QgYW5k
-Cj4+IGFjcXVpcmUgdGhlIGNvbnRlbmRlZCBsb2NrIGluIHRoZSBzbG93IHBhdGguIEFmdGVyIHRo
-aXMgaXMgZG9uZSAtRURFQURMSwo+PiBpcyBzdGlsbCByZXR1cm5lZCB0byBzaWduYWwgdGhhdCBh
-bGwgb3RoZXIgbG9ja3Mgbm93IG5lZWQgdG8gYmUKPj4gcmUtYWNxdWlyZWQgYWdhaW4uCj4+Cj4+
-IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
-bT4KPj4gLS0tCj4+ICAgZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9uLmMgfCA4MiArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+PiAgIGluY2x1ZGUvbGludXgvcmVzZXJ2YXRp
-b24uaCAgIHwgMzggKysrKysrKysrKysrKysrKwo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMTIwIGlu
-c2VydGlvbnMoKykKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlv
-bi5jIGIvZHJpdmVycy9kbWEtYnVmL3Jlc2VydmF0aW9uLmMKPj4gaW5kZXggNGQzMmUyYzY3ODYy
-Li45ZTUzZTQyYjA1M2EgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlv
-bi5jCj4+ICsrKyBiL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jCj4+IEBAIC01NSw2ICs1
-NSw4OCBAQCBFWFBPUlRfU1lNQk9MKHJlc2VydmF0aW9uX3NlcWNvdW50X2NsYXNzKTsKPj4gICBj
-b25zdCBjaGFyIHJlc2VydmF0aW9uX3NlcWNvdW50X3N0cmluZ1tdID0gInJlc2VydmF0aW9uX3Nl
-cWNvdW50IjsKPj4gICBFWFBPUlRfU1lNQk9MKHJlc2VydmF0aW9uX3NlcWNvdW50X3N0cmluZyk7
-Cj4+ICAgCj4+ICsvKioKPj4gKyAqIHJlc2VydmF0aW9uX2NvbnRleHRfaW5pdCAtIGluaXRpYWxp
-emUgYSByZXNlcnZhdGlvbiBjb250ZXh0Cj4+ICsgKiBAY3R4OiB0aGUgY29udGV4dCB0byBpbml0
-aWFsaXplCj4+ICsgKgo+PiArICogU3RhcnQgdXNpbmcgdGhpcyByZXNlcnZhdGlvbiBjb250ZXh0
-IHRvIGxvY2sgcmVzZXJ2YXRpb24gb2JqZWN0cyBmb3IgdXBkYXRlLgo+IEJ1bmNoIG9mIGh5cGVy
-bGlua3MgaGVyZSBmb3IgbW9yZSBjb25zaXN0ZW50IHN0b3J5IHdvdWxkIGJlIHJlYWxseSBuaWNl
-IGluCj4gdGhlIGtlcm5lbGRvYy4KPgo+PiArICovCj4+ICt2b2lkIHJlc2VydmF0aW9uX2NvbnRl
-eHRfaW5pdChzdHJ1Y3QgcmVzZXJ2YXRpb25fY29udGV4dCAqY3R4KQo+PiArewo+PiArCXd3X2Fj
-cXVpcmVfaW5pdCgmY3R4LT5jdHgsICZyZXNlcnZhdGlvbl93d19jbGFzcyk7Cj4+ICsJaW5pdF9s
-bGlzdF9oZWFkKCZjdHgtPmxvY2tlZCk7Cj4+ICsJY3R4LT5jb250ZW5kZWQgPSBOVUxMOwo+PiAr
-fQo+PiArRVhQT1JUX1NZTUJPTChyZXNlcnZhdGlvbl9jb250ZXh0X2luaXQpOwo+PiArCj4+ICsv
-KioKPj4gKyAqIHJlc2VydmF0aW9uX2NvbnRleHRfdW5sb2NrX2FsbCAtIHVubG9jayBhbGwgcmVz
-ZXJ2YXRpb24gb2JqZWN0cwo+PiArICogQGN0eDogdGhlIGNvbnRleHQgd2hpY2ggaG9sZHMgdGhl
-IHJlc2VydmF0aW9uIG9iamVjdHMKPj4gKyAqCj4+ICsgKiBVbmxvY2tzIGFsbCByZXNlcnZhdGlv
-biBvYmplY3RzIGxvY2tlZCB3aXRoIHRoaXMgY29udGV4dC4KPj4gKyAqLwo+PiArdm9pZCByZXNl
-cnZhdGlvbl9jb250ZXh0X3VubG9ja19hbGwoc3RydWN0IHJlc2VydmF0aW9uX2NvbnRleHQgKmN0
-eCkKPiBJJ2QganVzdCBjYWxsIHRoaXMgcmVzZXJ2YXRpb25fdW5sb2NrX2FsbCBvciBzby4gRmVl
-bCBmcmVlIHRvIGlnbm9yZSB0aGUKPiBiaWtlc2hlZC4KPgo+PiArewo+PiArCXN0cnVjdCByZXNl
-cnZhdGlvbl9vYmplY3QgKm9iaiwgKm5leHQ7Cj4+ICsKPj4gKwlpZiAoY3R4LT5jb250ZW5kZWQp
-Cj4+ICsJCXd3X211dGV4X3VubG9jaygmY3R4LT5jb250ZW5kZWQtPmxvY2spOwo+PiArCWN0eC0+
-Y29udGVuZGVkID0gTlVMTDsKPj4gKwo+PiArCWxsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUob2Jq
-LCBuZXh0LCBjdHgtPmxvY2tlZC5maXJzdCwgbG9ja2VkKQo+PiArCQl3d19tdXRleF91bmxvY2so
-Jm9iai0+bG9jayk7Cj4+ICsJaW5pdF9sbGlzdF9oZWFkKCZjdHgtPmxvY2tlZCk7Cj4+ICt9Cj4+
-ICtFWFBPUlRfU1lNQk9MKHJlc2VydmF0aW9uX2NvbnRleHRfdW5sb2NrX2FsbCk7Cj4+ICsKPj4g
-Ky8qKgo+PiArICogcmVzZXJ2YXRpb25fY29udGV4dF9sb2NrIC0gbG9jayBhIHJlc2VydmF0aW9u
-IG9iamVjdCB3aXRoIGRlYWRsb2NrIGhhbmRsaW5nCj4+ICsgKiBAY3R4OiB0aGUgY29udGV4dCB3
-aGljaCBzaG91bGQgYmUgdXNlZCB0byBsb2NrIHRoZSBvYmplY3QKPj4gKyAqIEBvYmo6IHRoZSBv
-YmplY3Qgd2hpY2ggbmVlZHMgdG8gYmUgbG9ja2VkCj4+ICsgKiBAaW50ZXJydXB0aWJsZTogaWYg
-d2Ugc2hvdWxkIHdhaXQgaW50ZXJydXB0aWJsZSBvciBub3QKPj4gKyAqCj4+ICsgKiBVc2UgQGN0
-eCB0byBsb2NrIHRoZSByZXNlcnZhdGlvbiBvYmplY3QuIElmIGEgZGVhZGxvY2sgaXMgZGV0ZWN0
-ZWQgd2UgYmFja29mZgo+PiArICogYnkgcmVsZWFzaW5nIGFsbCBsb2NrZWQgb2JqZWN0cyBhbmQg
-dXNlIHRoZSBzbG93IHBhdGggdG8gbG9jayB0aGUgcmVzZXJ2YXRpb24KPj4gKyAqIG9iamVjdC4g
-QWZ0ZXIgc3VjY2Vzc2Z1bGx5IGxvY2tpbmcgaW4gdGhlIHNsb3cgcGF0aCAtRURFQURMSyBpcyBy
-ZXR1cm5lZCB0bwo+PiArICogc2lnbmFsIHRoYXQgYWxsIG90aGVyIGxvY2tzIG11c3QgYmUgcmUt
-dGFrZW4gYXMgd2VsbC4KPj4gKyAqLwo+PiAraW50IHJlc2VydmF0aW9uX2NvbnRleHRfbG9jayhz
-dHJ1Y3QgcmVzZXJ2YXRpb25fY29udGV4dCAqY3R4LAo+PiArCQkJICAgICBzdHJ1Y3QgcmVzZXJ2
-YXRpb25fb2JqZWN0ICpvYmosCj4+ICsJCQkgICAgIGJvb2wgaW50ZXJydXB0aWJsZSkKPiByZXNl
-cnZhdGlvbl9sb2NrX2N0eCBpcyB3aGF0IHdlIGdlbmVyYWxseSB1c2VkIGluIGRybV9tb2Rlc2V0
-X2xvY2ssIEkgbGlrZQo+IHRoYXQgYmlrZXNoZWQgYSBiaXQgYmV0dGVyLgoKQWN0dWFsbHkgZG9l
-c24ndCBzb3VuZCB0aGF0IGdvb2QgaWYgeW91IGFzayBtZS4KCklzIHJlc2VydmF0aW9uX2xvY2tf
-Y3R4IHRoZSBuYW1lIG9mIHRoZSBmdW5jdGlvbiBvciB0aGUgbmFtZSBvZiB0aGUgCnN0cnVjdHVy
-ZT8KCj4gQWxzbyB0byBzdGF5IGluIHN0eWxlIEkgdGhpbmsgdGhlIGV4cGxpY2l0IHNldCBvZiBm
-dW5jdGlvbnMgaXMgbXVjaAo+IGJldHRlciwgaS5lLiByZXNlcnZhdGlvbl9sb2NrX2N0eCwgcmVz
-ZXJ2YXRpb25fbG9ja19pbnRlcnJ1cHRpYmxlX2N0eCBhbmQKPiByZXNlcnZhdGlvbl90cnlsb2Nr
-X2N0eCAobGF0ZXIgdXNlZnVsIGZvciBscnUgYXBwbGljYXRpb25zIHdoZXJlIHlvdSBzdGlsbAo+
-IHdhbnQgdG8gZHJvcCB0aGUgZW50aXJlIHBpbGUgd2l0aCByZXNydmF0aW9uX3VubG9ja19jdHgp
-LgoKVGhlIHByb2JsZW0gaXMgdGhhdCBJIHRoZW4gd2lsbCBkdXBsaWNhdGUgYSBsb3Qgb2YgbG9n
-aWMgYmV0d2VlbiAKcmVzZXJ2YXRpb25fbG9ja19jdHggYW5kIHJlc2VydmF0aW9uX2xvY2tfaW50
-ZXJydXB0aWJsZV9jdHguCgo+IFRoYXQncyB3aGF0IGFsbCB0aGUgb3RoZXIgbG9ja2luZyB0aGlu
-Z3MgZG8uIHR0bV9ib19yZXNlcnZlIGhhcyBhIGxvbmcKPiBsaXN0IG9mIHBhcmFtZXRlcnMsIGFu
-ZCBJIGNhbiBuZXZlciByZW1lbWJlciB3aGljaCBpcyB3aGljaC4gSSBkb24ndCB0aGluawo+IHRo
-YXQncyBhIGdyZWF0IHN0eWxlLgoKWWVhaCwgSSBkb24ndCByZWFsbHkgbGlrZSB0aGF0IGVpdGhl
-ci4gSXQgaXMgb25lIG9mIHRoZSByZWFzb25zIHdoeSBJIAp3YW50IHRvIGdldCByaWQgb2YgaXQu
-CgpCdXQgZHVwbGljYXRpbmcgaW1wbGVtZW50YXRpb25zIGlzIG5vdCBhIGdvb2QgaWRlYSBlaXRo
-ZXIuIFdlIGNvdWxkIGdvIApkb3duIHRoZSB3YWl0X2V2ZW50Xyogd2FpdCBvZiBkb2luZyB0aGlu
-cyBhbmQgaW1wbGVtZW50IGV2ZXJ5dGhpbmcgaW4gCm1hY3JvcywgYnV0IEkgZG9uJ3QgcmVhbGx5
-IGxpa2UgdGhhdCBlaXRoZXIuCgo+IEFub3RoZXIgb3B0aW9uIGZvciBpbnRlcnJ1cHRpYmxlIHZz
-LiBub3QgaXMgdG8gc3RvcmUgdGhhdCBpbiB0aGUKPiByZXNlcnZhdGlvbl9jb250ZXh0IGFuZCBk
-dHJ0LiBTaW5jZSBnZW5lcmFsbHkgaW50ZXJydXB0aWJsZSBvciBub3QgaXMgYQo+IHByb3Blcnkg
-b2YgdGhlIHRvcC1sZXZlbCBoYW5kbGVyIC0geW91IG5lZWQgYmUgYWJsZSB0byBwYXNzIEVERUFE
-TENLIGFsbAo+IHRoZSB3YXkgdXAgYW55d2F5Lgo+Cj4+ICt7Cj4+ICsJaW50IHJldCA9IDA7Cj4+
-ICsKPj4gKwlpZiAodW5saWtlbHkoY3R4LT5jb250ZW5kZWQgPT0gb2JqKSkKPj4gKwkJY3R4LT5j
-b250ZW5kZWQgPSBOVUxMOwo+IEltbyBjbGVhbmVyIHRvIGhhbmRsZSB0aGF0IHdpdGggRUFMUkVB
-RFkgZmlsdGVyaW5nIGZyb20gdGhlIHd3X211dGV4X2xvY2suCgpIb3cgZG8geW91IHdhbnQgdG8g
-ZG8gdGhpcz8gRUFMUkVBRFkgaGFuZGxpbmcgaXMgZGlmZmVyZW50IGZvciBkaWZmZXJlbnQgCnVz
-ZXJzIG9mIHRoaXMgQVBJLgoKQ2hyaXN0aWFuLgoKPgo+PiArCWVsc2UgaWYgKGludGVycnVwdGli
-bGUpCj4+ICsJCXJldCA9IHd3X211dGV4X2xvY2tfaW50ZXJydXB0aWJsZSgmb2JqLT5sb2NrLCAm
-Y3R4LT5jdHgpOwo+PiArCWVsc2UKPj4gKwkJcmV0ID0gd3dfbXV0ZXhfbG9jaygmb2JqLT5sb2Nr
-LCAmY3R4LT5jdHgpOwo+PiArCj4+ICsJaWYgKGxpa2VseSghcmV0KSkgewo+PiArCQkvKiBkb24n
-dCB1c2UgbGxpc3RfYWRkIGhlcmUsIHdlIGhhdmUgc2VwYXJhdGUgbG9ja2luZyAqLwo+PiArCQlv
-YmotPmxvY2tlZC5uZXh0ID0gY3R4LT5sb2NrZWQuZmlyc3Q7Cj4+ICsJCWN0eC0+bG9ja2VkLmZp
-cnN0ID0gJm9iai0+bG9ja2VkOwo+PiArCQlyZXR1cm4gMDsKPj4gKwl9Cj4+ICsJaWYgKHVubGlr
-ZWx5KHJldCAhPSAtRURFQURMSykpCj4+ICsJCXJldHVybiByZXQ7Cj4+ICsKPj4gKwlyZXNlcnZh
-dGlvbl9jb250ZXh0X3VubG9ja19hbGwoY3R4KTsKPj4gKwo+PiArCWlmIChpbnRlcnJ1cHRpYmxl
-KSB7Cj4+ICsJCXJldCA9IHd3X211dGV4X2xvY2tfc2xvd19pbnRlcnJ1cHRpYmxlKCZvYmotPmxv
-Y2ssICZjdHgtPmN0eCk7Cj4+ICsJCWlmICh1bmxpa2VseShyZXQpKQo+PiArCQkJcmV0dXJuIHJl
-dDsKPj4gKwl9IGVsc2Ugewo+PiArCQl3d19tdXRleF9sb2NrX3Nsb3coJm9iai0+bG9jaywgJmN0
-eC0+Y3R4KTsKPj4gKwl9Cj4+ICsKPj4gKwljdHgtPmNvbnRlbmRlZCA9IG9iajsKPj4gKwlyZXR1
-cm4gLUVERUFETEs7Cj4+ICt9Cj4+ICtFWFBPUlRfU1lNQk9MKHJlc2VydmF0aW9uX2NvbnRleHRf
-bG9jayk7Cj4+ICsKPj4gICAvKioKPj4gICAgKiByZXNlcnZhdGlvbl9vYmplY3RfcmVzZXJ2ZV9z
-aGFyZWQgLSBSZXNlcnZlIHNwYWNlIHRvIGFkZCBzaGFyZWQgZmVuY2VzIHRvCj4+ICAgICogYSBy
-ZXNlcnZhdGlvbl9vYmplY3QuCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3Jlc2VydmF0
-aW9uLmggYi9pbmNsdWRlL2xpbnV4L3Jlc2VydmF0aW9uLmgKPj4gaW5kZXggZWU3NTA3NjVjYzk0
-Li5hOGE1MmU1ZDNlODAgMTAwNjQ0Cj4+IC0tLSBhL2luY2x1ZGUvbGludXgvcmVzZXJ2YXRpb24u
-aAo+PiArKysgYi9pbmNsdWRlL2xpbnV4L3Jlc2VydmF0aW9uLmgKPj4gQEAgLTQ0LDExICs0NCw0
-OCBAQAo+PiAgICNpbmNsdWRlIDxsaW51eC9zbGFiLmg+Cj4+ICAgI2luY2x1ZGUgPGxpbnV4L3Nl
-cWxvY2suaD4KPj4gICAjaW5jbHVkZSA8bGludXgvcmN1cGRhdGUuaD4KPj4gKyNpbmNsdWRlIDxs
-aW51eC9sbGlzdC5oPgo+PiAgIAo+PiAgIGV4dGVybiBzdHJ1Y3Qgd3dfY2xhc3MgcmVzZXJ2YXRp
-b25fd3dfY2xhc3M7Cj4+ICAgZXh0ZXJuIHN0cnVjdCBsb2NrX2NsYXNzX2tleSByZXNlcnZhdGlv
-bl9zZXFjb3VudF9jbGFzczsKPj4gICBleHRlcm4gY29uc3QgY2hhciByZXNlcnZhdGlvbl9zZXFj
-b3VudF9zdHJpbmdbXTsKPj4gICAKPj4gKy8qKgo+PiArICogc3RydWN0IHJlc2VydmF0aW9uX2Nv
-bnRleHQgLSBjb250ZXh0IHRvIGxvY2sgcmVzZXJ2YXRpb24gb2JqZWN0cwo+PiArICogQGN0eDog
-d3dfYWNxdWlyZV9jdHggdXNlZCBmb3IgZGVhZGxvY2sgZGV0ZWN0aW9uCj4+ICsgKiBAbG9ja2Vk
-OiBsaXN0IG9mIHJlc2VydmF0aW9uIG9iamVjdHMgbG9ja2VkIGluIHRoaXMgY29udGV4dAo+PiAr
-ICogQGNvbnRlbmRlZDogY29udGVuZGVkIHJlc2VydmF0aW9uIG9iamVjdAo+PiArICovCj4+ICtz
-dHJ1Y3QgcmVzZXJ2YXRpb25fY29udGV4dCB7Cj4+ICsJc3RydWN0IHd3X2FjcXVpcmVfY3R4IGN0
-eDsKPj4gKwlzdHJ1Y3QgbGxpc3RfaGVhZCBsb2NrZWQ7Cj4+ICsJc3RydWN0IHJlc2VydmF0aW9u
-X29iamVjdCAqY29udGVuZGVkOwo+PiArfTsKPj4gKwo+PiArLyoqCj4+ICsgKiByZXNlcnZhdGlv
-bl9jb250ZXh0X2RvbmUgLSB3cmFwcGVyIGZvciB3d19hY3F1aXJlX2RvbmUKPj4gKyAqIEBjdHg6
-IHRoZSByZXNlcnZhdGlvbiBjb250ZXh0IHdoaWNoIGlzIGRvbmUgd2l0aCBsb2NraW5nCj4+ICsg
-Ki8KPj4gK3N0YXRpYyBpbmxpbmUgdm9pZCByZXNlcnZhdGlvbl9jb250ZXh0X2RvbmUoc3RydWN0
-IHJlc2VydmF0aW9uX2NvbnRleHQgKmN0eCkKPj4gK3sKPj4gKwl3d19hY3F1aXJlX2RvbmUoJmN0
-eC0+Y3R4KTsKPj4gK30KPj4gKwo+PiArLyoqCj4+ICsgKiByZXNlcnZhdGlvbl9jb250ZXh0X2Zp
-bmkgLSB3cmFwcGVyIGZvciB3d19hY3F1aXJlX2ZpbmkKPj4gKyAqIEBjdHg6IHRoZSByZXNlcnZh
-dGlvbiBjb250ZXh0IHdoaWNoIGlzIGZpbmlzaGVkCj4+ICsgKi8KPj4gK3N0YXRpYyBpbmxpbmUg
-dm9pZCByZXNlcnZhdGlvbl9jb250ZXh0X2Zpbmkoc3RydWN0IHJlc2VydmF0aW9uX2NvbnRleHQg
-KmN0eCkKPj4gK3sKPj4gKwl3d19hY3F1aXJlX2ZpbmkoJmN0eC0+Y3R4KTsKPj4gK30KPj4gKwo+
-PiArdm9pZCByZXNlcnZhdGlvbl9jb250ZXh0X2luaXQoc3RydWN0IHJlc2VydmF0aW9uX2NvbnRl
-eHQgKmN0eCk7Cj4+ICt2b2lkIHJlc2VydmF0aW9uX2NvbnRleHRfdW5sb2NrX2FsbChzdHJ1Y3Qg
-cmVzZXJ2YXRpb25fY29udGV4dCAqY3R4KTsKPj4gK2ludCByZXNlcnZhdGlvbl9jb250ZXh0X2xv
-Y2soc3RydWN0IHJlc2VydmF0aW9uX2NvbnRleHQgKmN0eCwKPj4gKwkJCSAgICAgc3RydWN0IHJl
-c2VydmF0aW9uX29iamVjdCAqb2JqLAo+PiArCQkJICAgICBib29sIGludGVycnVwdGlibGUpOwo+
-IE5lZWRzIGEgX19tdXN0X2NoZWNrLgo+Cj4+ICsKPj4gICAvKioKPj4gICAgKiBzdHJ1Y3QgcmVz
-ZXJ2YXRpb25fb2JqZWN0X2xpc3QgLSBhIGxpc3Qgb2Ygc2hhcmVkIGZlbmNlcwo+PiAgICAqIEBy
-Y3U6IGZvciBpbnRlcm5hbCB1c2UKPj4gQEAgLTcxLDYgKzEwOCw3IEBAIHN0cnVjdCByZXNlcnZh
-dGlvbl9vYmplY3RfbGlzdCB7Cj4+ICAgICovCj4+ICAgc3RydWN0IHJlc2VydmF0aW9uX29iamVj
-dCB7Cj4+ICAgCXN0cnVjdCB3d19tdXRleCBsb2NrOwo+PiArCXN0cnVjdCBsbGlzdF9ub2RlIGxv
-Y2tlZDsKPj4gICAJc2VxY291bnRfdCBzZXE7Cj4+ICAgCj4+ICAgCXN0cnVjdCBkbWFfZmVuY2Ug
-X19yY3UgKmZlbmNlX2V4Y2w7Cj4gQXNpZGUgZnJvbSB0aGUgbml0cyZiaWtlc2hlZHMsIEkgbGlr
-ZS4KPiAtRGFuaWVsCj4KPj4gLS0gCj4+IDIuMTcuMQo+PgoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1952593228==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4qhko7umufjvzvnc"
+Content-Disposition: inline
+
+
+--4qhko7umufjvzvnc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jun 24, 2019 at 09:32:11PM +0530, Jagan Teki wrote:
+> On Mon, Jun 24, 2019 at 6:34 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> >
+> > On Fri, Jun 14, 2019 at 05:33:23PM +0530, Jagan Teki wrote:
+> > > On Thu, Jun 13, 2019 at 7:28 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> > > >
+> > > > On Wed, Jun 05, 2019 at 01:11:44PM +0530, Jagan Teki wrote:
+> > > > > On Tue, Jun 4, 2019 at 8:00 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> > > > > >
+> > > > > > On Fri, May 24, 2019 at 03:37:36PM +0530, Jagan Teki wrote:
+> > > > > > > On Fri, May 24, 2019 at 2:18 AM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> > > > > > > >
+> > > > > > > > On Mon, May 20, 2019 at 02:33:11PM +0530, Jagan Teki wrote:
+> > > > > > > > > pll-video => pll-mipi => tcon0 => tcon0-pixel-clock is the typical
+> > > > > > > > > MIPI clock topology in Allwinner DSI controller.
+> > > > > > > > >
+> > > > > > > > > TCON dotclock driver is computing the desired DCLK divider based on
+> > > > > > > > > panel pixel clock along with input DCLK min, max divider values from
+> > > > > > > > > tcon driver and that would eventually set the pll-mipi clock rate.
+> > > > > > > > >
+> > > > > > > > > The current code is passing dsi min and max divider value as 4 via
+> > > > > > > > > tcon driver which would ended-up triggering below vblank wait timed out
+> > > > > > > > > warning on "bananapi,s070wv20-ct16" panel.
+> > > > > > > > >
+> > > > > > > > >  WARNING: CPU: 0 PID: 31 at drivers/gpu/drm/drm_atomic_helper.c:1429 drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0
+> > > > > > > > >  [CRTC:46:crtc-0] vblank wait timed out
+> > > > > > > > >  Modules linked in:
+> > > > > > > > >  CPU: 0 PID: 31 Comm: kworker/0:1 Not tainted 5.1.0-next-20190514-00025-g5186cdf10757-dirty #6
+> > > > > > > > >  Hardware name: Allwinner sun8i Family
+> > > > > > > > >  Workqueue: events deferred_probe_work_func
+> > > > > > > > >  [<c010ed54>] (unwind_backtrace) from [<c010b76c>] (show_stack+0x10/0x14)
+> > > > > > > > >  [<c010b76c>] (show_stack) from [<c0688c70>] (dump_stack+0x84/0x98)
+> > > > > > > > >  [<c0688c70>] (dump_stack) from [<c011d9e4>] (__warn+0xfc/0x114)
+> > > > > > > > >  [<c011d9e4>] (__warn) from [<c011da40>] (warn_slowpath_fmt+0x44/0x68)
+> > > > > > > > >  [<c011da40>] (warn_slowpath_fmt) from [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1+0x298/0x2a0)
+> > > > > > > > >  [<c040cd50>] (drm_atomic_helper_wait_for_vblanks.part.1) from [<c040e694>] (drm_atomic_helper_commit_tail_rpm+0x5c/0x6c)
+> > > > > > > > >  [<c040e694>] (drm_atomic_helper_commit_tail_rpm) from [<c040e4dc>] (commit_tail+0x40/0x6c)
+> > > > > > > > >  [<c040e4dc>] (commit_tail) from [<c040e5cc>] (drm_atomic_helper_commit+0xbc/0x128)
+> > > > > > > > >  [<c040e5cc>] (drm_atomic_helper_commit) from [<c0411b64>] (restore_fbdev_mode_atomic+0x1cc/0x1dc)
+> > > > > > > > >  [<c0411b64>] (restore_fbdev_mode_atomic) from [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked+0x54/0xa0)
+> > > > > > > > >  [<c04156f8>] (drm_fb_helper_restore_fbdev_mode_unlocked) from [<c0415774>] (drm_fb_helper_set_par+0x30/0x54)
+> > > > > > > > >  [<c0415774>] (drm_fb_helper_set_par) from [<c03ad450>] (fbcon_init+0x560/0x5ac)
+> > > > > > > > >  [<c03ad450>] (fbcon_init) from [<c03eb8a0>] (visual_init+0xbc/0x104)
+> > > > > > > > >  [<c03eb8a0>] (visual_init) from [<c03ed1b8>] (do_bind_con_driver+0x1b0/0x390)
+> > > > > > > > >  [<c03ed1b8>] (do_bind_con_driver) from [<c03ed780>] (do_take_over_console+0x13c/0x1c4)
+> > > > > > > > >  [<c03ed780>] (do_take_over_console) from [<c03ad800>] (do_fbcon_takeover+0x74/0xcc)
+> > > > > > > > >  [<c03ad800>] (do_fbcon_takeover) from [<c013c9c8>] (notifier_call_chain+0x44/0x84)
+> > > > > > > > >  [<c013c9c8>] (notifier_call_chain) from [<c013cd20>] (__blocking_notifier_call_chain+0x48/0x60)
+> > > > > > > > >  [<c013cd20>] (__blocking_notifier_call_chain) from [<c013cd50>] (blocking_notifier_call_chain+0x18/0x20)
+> > > > > > > > >  [<c013cd50>] (blocking_notifier_call_chain) from [<c03a6e44>] (register_framebuffer+0x1e0/0x2f8)
+> > > > > > > > >  [<c03a6e44>] (register_framebuffer) from [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock+0x2fc/0x50c)
+> > > > > > > > >  [<c04153c0>] (__drm_fb_helper_initial_config_and_unlock) from [<c04158c8>] (drm_fbdev_client_hotplug+0xe8/0x1b8)
+> > > > > > > > >  [<c04158c8>] (drm_fbdev_client_hotplug) from [<c0415a20>] (drm_fbdev_generic_setup+0x88/0x118)
+> > > > > > > > >  [<c0415a20>] (drm_fbdev_generic_setup) from [<c043f060>] (sun4i_drv_bind+0x128/0x160)
+> > > > > > > > >  [<c043f060>] (sun4i_drv_bind) from [<c044b588>] (try_to_bring_up_master+0x164/0x1a0)
+> > > > > > > > >  [<c044b588>] (try_to_bring_up_master) from [<c044b658>] (__component_add+0x94/0x140)
+> > > > > > > > >  [<c044b658>] (__component_add) from [<c0445e0c>] (sun6i_dsi_probe+0x144/0x234)
+> > > > > > > > >  [<c0445e0c>] (sun6i_dsi_probe) from [<c0452ee4>] (platform_drv_probe+0x48/0x9c)
+> > > > > > > > >  [<c0452ee4>] (platform_drv_probe) from [<c04512bc>] (really_probe+0x1dc/0x2c8)
+> > > > > > > > >  [<c04512bc>] (really_probe) from [<c0451508>] (driver_probe_device+0x60/0x160)
+> > > > > > > > >  [<c0451508>] (driver_probe_device) from [<c044f794>] (bus_for_each_drv+0x74/0xb8)
+> > > > > > > > >  [<c044f794>] (bus_for_each_drv) from [<c045106c>] (__device_attach+0xd0/0x13c)
+> > > > > > > > >  [<c045106c>] (__device_attach) from [<c0450464>] (bus_probe_device+0x84/0x8c)
+> > > > > > > > >  [<c0450464>] (bus_probe_device) from [<c04508f0>] (deferred_probe_work_func+0x64/0x90)
+> > > > > > > > >  [<c04508f0>] (deferred_probe_work_func) from [<c0135970>] (process_one_work+0x204/0x420)
+> > > > > > > > >  [<c0135970>] (process_one_work) from [<c013690c>] (worker_thread+0x274/0x5a0)
+> > > > > > > > >  [<c013690c>] (worker_thread) from [<c013b3d8>] (kthread+0x11c/0x14c)
+> > > > > > > > >  [<c013b3d8>] (kthread) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+> > > > > > > > >  Exception stack(0xde539fb0 to 0xde539ff8)
+> > > > > > > > >  9fa0:                                     00000000 00000000 00000000 00000000
+> > > > > > > > >  9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> > > > > > > > >  9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> > > > > > > > >  ---[ end trace 4017fea4906ab391 ]---
+> > > > > > > > >
+> > > > > > > > > But accordingly to Allwinner A33, A64 BSP codes [1] [2] this divider
+> > > > > > > > > is clearly using 'format/lanes' for dsi divider value, dsi_clk.clk_div
+> > > > > > > > >
+> > > > > > > > > Which would compute the pll_freq and set a clock rate for it in
+> > > > > > > > > [3] and [4] respectively.
+> > > > > > > > >
+> > > > > > > > > The same issue has reproduced in A33, A64 with 4-lane and 2-lane devices
+> > > > > > > > > and got fixed with this computation logic 'format/lanes', so this patch
+> > > > > > > > > using dclk min and max dividers as per BSP.
+> > > > > > > > >
+> > > > > > > > > [1] https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L1106
+> > > > > > > > > [2] https://github.com/BPI-SINOVOIP/BPI-M64-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp2/disp/de/lowlevel_sun50iw1/disp_al.c#L213
+> > > > > > > > > [3] https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L1127
+> > > > > > > > > [4] https://github.com/BPI-SINOVOIP/BPI-M2M-bsp/blob/master/linux-sunxi/drivers/video/sunxi/disp/de/disp_lcd.c#L1161
+> > > > > > > >
+> > > > > > > > In that mail, I've pointed out that clk_div isn't used for the TCON dclk divider:
+> > > > > > > > http://lists.infradead.org/pipermail/linux-arm-kernel/2019-February/629596.html
+> > > > > > > >
+> > > > > > > > The only reply you've sent is that you indeed see that the divider is
+> > > > > > > > set to 4 in the BSP, but you're now saying that the BSP can change
+> > > > > > > > it. If so, then please point exactly the flaw in the explanation in
+> > > > > > > > that mail.
+> > > > > > >
+> > > > > > > Frankly, I have explained these details in commit message and previous
+> > > > > > > version patch[1] with print messages on the code.
+> > > > > > >
+> > > > > > > BSP has tcon_div and dsi_div. dsi_div is dynamic which depends on
+> > > > > > > bpp/lanes and it indeed depends on PLL computation (not tcon_div),
+> > > > > > > anyway I have explained again on this initial link you mentioned.
+> > > > > > > Please have a look and get back.
+> > > > > >
+> > > > > > I'll have a look, thanks.
+> > > > > >
+> > > > > > I've given your patches a try on my setup though, and this patch
+> > > > > > breaks it with vblank timeouts and some horizontal lines that looks
+> > > > > > like what should be displayed, but blinking and on the right of the
+> > > > > > display. The previous ones are fine though.
+> > > > >
+> > > > > Would you please send me the link of panel driver.
+> > > >
+> > > > It's drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
+> > >
+> > > Look like this panel work even w/o any vendor sequence. it's similar
+> > > to the 4-lane panel I have with RGB888, so the dclk div is 6, is it
+> > > working with this divider?
+> >
+> > It works with 4, it doesn't work with 6.
+>
+> Can be the pixel clock with associated timings can make this diff.
+> Would you send me the pixel clock, pll_rate and timings this panel
+> used it from BSP?
+
+This board never had an Allwinner BSP
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--4qhko7umufjvzvnc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRIxuwAKCRDj7w1vZxhR
+xVscAP9pbjUMb+7sqNoi00MHqD8g9+AnFhyeTBWi07kSntTxvgEAqbLn4ybIstfr
+Lzg/6w2mQ3encbcK4zDbkflqVuTtnQ4=
+=Qu0L
+-----END PGP SIGNATURE-----
+
+--4qhko7umufjvzvnc--
+
+--===============1952593228==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1952593228==--
