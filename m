@@ -1,62 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D50956280
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 08:42:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 377C856287
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 08:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5AB6E28F;
-	Wed, 26 Jun 2019 06:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024BB6E291;
+	Wed, 26 Jun 2019 06:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B816E28F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 06:42:00 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id c14so876223plo.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Jun 2019 23:42:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=97fNQhRc8wq4ewqRwHUZivSXGNy3wo+DiktNt6BuM1o=;
- b=PzT0b2tIY5CM73Fl8z2qGfqMlmlpMwrS4IpWxS7NAkcjKThWORfOLvO2lD5ZHem8ke
- 9DO137Q0Yv/Mbush8J1y3/IhHJ9vTr+b4RN3TAXxSLDpSzE9Kda3QEXVhwC0HqXjcGPb
- KpCTUCE6fNQw3aml/W6/wI42Nh5SuVKkFrQpkNubMXhe3wC0Ec7HwxDy4Ka9GI9sKh3g
- 3CJ42v8pwJD98ScX8mg+grhpoSxj+QzAUV7DcLd4D96uBAKK3RAgkWltcZxrCk4R8BNK
- V5C8AYeFVPtAT2YXqzQvRl7KXOzytdlbs3Yri7L+I2liIeqVnKGlqhHTk6mf6oeAkJYE
- Gt4A==
-X-Gm-Message-State: APjAAAVDCEXrpJLAyqDS0LtgwYCmJydRnrZ29ay+hZybS+jjEhp1U1sa
- kvKrh2OB+IEDXh6GxSOmi8PmTmU1jHcX90Q+B7Cc+Q==
-X-Google-Smtp-Source: APXvYqybmTOAarjOR0jsvnzpNTD7C7S9tNEkokPreMksaC4ZkzPoppWa0LA/1WlZ/NQmXAUQqe9Hs4JcwK0nevbM4K4=
-X-Received: by 2002:a17:902:1004:: with SMTP id
- b4mr3503891pla.325.1561531318934; 
- Tue, 25 Jun 2019 23:41:58 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 985C46E291
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 06:43:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 94C6972167; Wed, 26 Jun 2019 06:43:08 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110984] Vulkan shows stuttering issues on Vega 10 w/
+ gnome-shell on Wayland
+Date: Wed, 26 Jun 2019 06:43:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: fourdan@xfce.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTOURBUG
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110984-502-xHZsgLTHdV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110984-502@http.bugs.freedesktop.org/>
+References: <bug-110984-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-2-brendanhiggins@google.com>
- <20190620001526.93426218BE@mail.kernel.org>
- <CAFd5g46Jhxsz6_VXHEVYvTeDRwwzgKpr=aUWLL5b3S4kUukb8g@mail.gmail.com>
- <20190625214427.GN19023@42.do-not-panic.com>
- <CAFd5g47OABqN127cPKqoCOA_Wr9w=LFh_0XkF7LXu2iY9sFkSw@mail.gmail.com>
- <20190625230253.GQ19023@42.do-not-panic.com>
-In-Reply-To: <20190625230253.GQ19023@42.do-not-panic.com>
-From: Brendan Higgins <brendanhiggins@google.com>
-Date: Tue, 25 Jun 2019 23:41:47 -0700
-Message-ID: <CAFd5g45fSdpytudDyD3Yo1ti=kU_JJ6S9yz53_L=pnZTjQFU9A@mail.gmail.com>
-Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
-To: Luis Chamberlain <mcgrof@kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=97fNQhRc8wq4ewqRwHUZivSXGNy3wo+DiktNt6BuM1o=;
- b=m8w/QLFUOkV2r8nM4dXom4nB8yKJb7/7QTMOMQn0qijo9CexrHeK+bR0MPOk7K64RN
- oMDOQhVkXnI4UYsxoZERTzMchuU8ZuSXQVbe7PD7GBq58swJ1B0wl9zg2T1jDJjIFcpW
- O/5R7uaHiYc5vvAJDPHpVhmTpcBeCykDYFrlkLu92iDqXDEGHmkNFrPVme8ha3yeMa+9
- SSjqnz+drMupIrIAA5p2oUG6JB/gHz+XdzOb+NPLguWQM152NiUsdJnj04d+wIazVHoY
- RqDDXsDiktD7TWekl63ZaXNaVelF0ltlqznPeRmml4YQVzfq60nVLckHZybN7zV2zT1m
- aBEw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,132 +53,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sasha Levin <Alexander.Levin@microsoft.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- shuah <shuah@kernel.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
- Frank Rowand <frowand.list@gmail.com>, Knut Omang <knut.omang@oracle.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, wfg@linux.intel.com,
- Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
- Jeff Dike <jdike@addtoit.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-kbuild <linux-kbuild@vger.kernel.org>, "Bird,
- Timothy" <Tim.Bird@sony.com>, linux-um@lists.infradead.org,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Josh Poimboeuf <jpoimboe@redhat.com>, kunit-dev@googlegroups.com,
- Theodore Ts'o <tytso@mit.edu>, Richard Weinberger <richard@nod.at>,
- Stephen Boyd <sboyd@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Kees Cook <keescook@google.com>, linux-fsdevel@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>, Kevin Hilman <khilman@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0620763487=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMjUsIDIwMTkgYXQgNDowMiBQTSBMdWlzIENoYW1iZXJsYWluIDxtY2dyb2ZA
-a2VybmVsLm9yZz4gd3JvdGU6Cj4KPiBPbiBUdWUsIEp1biAyNSwgMjAxOSBhdCAwMzoxNDo0NVBN
-IC0wNzAwLCBCcmVuZGFuIEhpZ2dpbnMgd3JvdGU6Cj4gPiBPbiBUdWUsIEp1biAyNSwgMjAxOSBh
-dCAyOjQ0IFBNIEx1aXMgQ2hhbWJlcmxhaW4gPG1jZ3JvZkBrZXJuZWwub3JnPiB3cm90ZToKPiA+
-ID4gU2luY2UgaXRzIGEgbmV3IGFyY2hpdGVjdHVyZSBhbmQgc2luY2UgeW91IHNlZW0gdG8gaW1w
-bHkgbW9zdCB0ZXN0cwo+ID4gPiBkb24ndCByZXF1aXJlIGxvY2tpbmcgb3IgZXZlbiBJUlFzIGRp
-c2FibGVkLCBJIHRoaW5rIGl0cyB3b3J0aCB0bwo+ID4gPiBjb25zaWRlciB0aGUgaW1wYWN0IG9m
-IGFkZGluZyBzdWNoIGV4dHJlbWUgbG9ja2luZyByZXF1aXJlbWVudHMgZm9yCj4gPiA+IGFuIGlu
-aXRpYWwgcmFtcCB1cC4KPiA+Cj4gPiBGYWlyIGVub3VnaCwgSSBjYW4gc2VlIHRoZSBwb2ludCBv
-ZiBub3Qgd2FudGluZyB0byB1c2UgaXJxIGRpc2FibGVkCj4gPiB1bnRpbCB3ZSBnZXQgc29tZW9u
-ZSBjb21wbGFpbmluZyBhYm91dCBpdCwgYnV0IEkgdGhpbmsgbWFraW5nIGl0Cj4gPiB0aHJlYWQg
-c2FmZSBpcyByZWFzb25hYmxlLiBJdCBtZWFucyB0aGVyZSBpcyBvbmUgbGVzcyB0aGluZyB0byBj
-b25mdXNlCj4gPiBhIEtVbml0IHVzZXIgYW5kIHRoZSBvbmx5IHBlbmFsdHkgcGFpZCBpcyBzb21l
-IHZlcnkgbWlub3IgcGVyZm9ybWFuY2UuCj4KPiBPbmUgcmVhc29uIEknbSByZWFsbHkgZXhjaXRl
-ZCBhYm91dCBrdW5pdCBpcyBzcGVlZC4uLiBzbyBieSBhbGwgbWVhbnMgSQo+IHRoaW5rIHdlJ3Jl
-IGF0IGEgZ29vZCBwb2ludCB0byBhbmFseXplIHBlcmZvcm1hbmNlIG9wdGltaXphdGlvbnNtIGlm
-Cj4gdGhleSBkbyBtYWtlIHNlbnNlLgoKWWVhaCwgYnV0IEkgdGhpbmsgdGhlcmUgYXJlIG11Y2gg
-bG93ZXIgaGFuZ2luZyBmcnVpdCB0aGFuIHRoaXMgKGFzIHlvdQpwb2ludCBvdXQgYmVsb3cpLiBJ
-IGFtIGFsbCBmb3IgbWFraW5nL2tlZXBpbmcgS1VuaXQgc3VwZXIgZmFzdCwgYnV0IEkKYWxzbyBk
-b24ndCB3YW50IHRvIHdhc3RlIHRpbWUgd2l0aCBwcmVtYXR1cmUgb3B0aW1pemF0aW9ucyBhbmQg
-SSB0aGluawpoYXZpbmcgdGhyZWFkIHNhZmUgZXhwZWN0YXRpb25zIGFuZCBub24tdGhyZWFkIHNh
-ZmUgZXhwZWN0YXRpb25zIGh1cnRzCnVzYWJpbGl0eS4KClN0aWxsLCBJIGFtIG9uIGJvYXJkIHdp
-dGggbWFraW5nIHRoaXMgYSBtdXRleCBpbnN0ZWFkIG9mIGEgc3BpbmxvY2sgZm9yIG5vdy4KCj4g
-V2hpbGUgb24gdGhlIHRvcGljIG9mIHBhcmFsbGl6YXRpb24sIHdoYXQgYWJvdXQgc3VwcG9ydCBm
-b3IgcnVubmluZwo+IGRpZmZlcmVudCB0ZXN0IGNhc2VzIGluIHBhcmFsbGVsPyBPciBhdCB0aGUg
-dmVyeSBsZWFzdCBkaWZmZXJlbnQga3VuaXQKPiBtb2R1bGVzIGluIHBhcmFsbGVsLiAgRmV3IHF1
-ZXN0aW9ucyBjb21lIHVwIGJhc2VkIG9uIHRoaXMgcHJvc3BlY3Q6Cj4KPiAgICogV2h5IG5vdCBz
-dXBwb3J0IHBhcmFsbGVsaXNtIGZyb20gdGhlIHN0YXJ0PwoKSnVzdCBiZWNhdXNlIGl0IGlzIG1v
-cmUgd29yayBhbmQgdGhlcmUgaXNuJ3QgbXVjaCB0byBnYWluIGZyb20gaXQgcmlnaHQgbm93LgoK
-U29tZSBudW1iZXJzOgpJIGN1cnJlbnRseSBoYXZlIGEgY29sbGVjdGlvbiBvZiA4NiB0ZXN0IGNh
-c2VzIGluIHRoZSBicmFuY2ggdGhhdCB0aGlzCnBhdGNoc2V0IGlzIGZyb20uIEkgdHVybmVkIG9u
-IFBSSU5US19USU1FIGFuZCBsb29rZWQgYXQgdGhlIGZpcnN0CktVbml0IG91dHB1dCBhbmQgdGhl
-IGxhc3QuIE9uIFVNTCwgc3RhcnQgdGltZSB3YXMgMC4wOTAwMDAsIGFuZCBlbmQKdGltZSB3YXMg
-MC4wOTAwMDAuIExvb2tzIGxpa2Ugc2NoZWRfY2xvY2sgaXMgbm90IHZlcnkgZ29vZCBvbiBVTUwu
-CgpTdGlsbCBpdCBzZWVtcyBxdWl0ZSBsaWtlbHkgdGhhdCBhbGwgb2YgdGhlc2UgdGVzdHMgcnVu
-IGFyb3VuZCAwLjAxCnNlY29uZHMgb3IgbGVzcyBvbiBVTUw6IEkgcmFuIEtVbml0IHdpdGggb25s
-eSAyIHRlc3QgY2FzZXMgZW5hYmxlZAp0aHJlZSB0aW1lcyBhbmQgZ290IGFuIGF2ZXJhZ2UgcnVu
-dGltZSBvZiAxLjU1ODY3IHNlY29uZHMgd2l0aCBhCnN0YW5kYXJkIGRldmlhdGlvbiBvZiAwLjAz
-NDY3NDcuIEkgdGhlbiByYW4gaXQgYW5vdGhlciB0aHJlZSB0aW1lcwp3aXRoIGFsbCB0ZXN0IGNh
-c2VzIGVuYWJsZWQgYW5kIGdvdCBhbiBhdmVyYWdlIHJ1bnRpbWUgb2YgMS41MzUKc2Vjb25kcyB3
-aXRoIGEgc3RhbmRhcmQgZGV2aWF0aW9uIG9mIDAuMDE1MDk5Ny4gVGhlIHNlY29uZCBhdmVyYWdl
-IGlzCmxlc3MsIGJ1dCB0aGF0IGRvZXNuJ3QgcmVhbGx5IG1lYW4gYW55dGhpbmcgYmVjYXVzZSBp
-dCBpcyB3ZWxsIHdpdGhpbgpvbmUgc3RhbmRhcmQgZGV2aWF0aW9uIHdpdGggYSB2ZXJ5IHNtYWxs
-IHNhbXBsZSBzaXplLiBOZXZlcnRoZWxlc3MsIHdlCmNhbiBjb25jbHVkZSB0aGF0IHRoZSBhY3R1
-YWwgcnVudGltZSBvZiB0aG9zZSA4NCB0ZXN0IGNhc2VzIGlzIG1vc3QKbGlrZWx5IHdpdGhpbiBv
-bmUgc3RhbmRhcmQgZGV2aWF0aW9uLCBzbyBvbiB0aGUgb3JkZXIgb2YgMC4wMSBzZWNvbmRzLgoK
-T24geDg2IHJ1bm5pbmcgb24gUUVNVSwgZmlyc3QgbWVzc2FnZSBmcm9tIEtVbml0IHdhcyBwcmlu
-dGVkIGF0CjAuMTk0MjUxIGFuZCB0aGUgbGFzdCBLVW5pdCBtZXNzYWdlIHdhcyBwcmludGVkIGF0
-IDAuMzQwOTE1LCBtZWFuaW5nCnRoYXQgYWxsIDg2IHRlc3QgY2FzZXMgcmFuIGluIGFib3V0IDAu
-MTQ2NjY0IHNlY29uZHMuCgpJbiBhbnkgY2FzZSwgcnVubmluZyBLVW5pdCB0ZXN0cyBpbiBwYXJh
-bGxlbCBpcyBkZWZpbml0ZWx5IHNvbWV0aGluZyBJCnBsYW4gb24gYWRkaW5nIGl0IGV2ZW50dWFs
-bHksIGJ1dCBpdCBqdXN0IGRvZXNuJ3QgcmVhbGx5IHNlZW0gd29ydGggaXQKcmlnaHQgbm93LiBJ
-IGZpbmQgdGhlIGluY3JlbWVudGFsIGJ1aWxkIHRpbWUgb2YgdGhlIGtlcm5lbCB0bwp0eXBpY2Fs
-bHkgYmUgYmV0d2VlbiAzIGFuZCAzMCBzZWNvbmRzLCBhbmQgYSBjbGVhbiBidWlsZCB0byBiZSBi
-ZXR3ZWVuCjMwIHNlY29uZHMgdG8gc2V2ZXJhbCBtaW51dGVzLCBkZXBlbmRpbmcgb24gdGhlIG51
-bWJlciBvZiBhdmFpbGFibGUKY29yZXMsIHNvIEkgZG9uJ3QgdGhpbmsgbW9zdCB1c2VycyB3b3Vs
-ZCBldmVuIG5vdGljZSB0aGUgYW1vdW50IG9mCnJ1bnRpbWUgY29udHJpYnV0ZWQgYnkgdGhlIGFj
-dHVhbCB1bml0IHRlc3RzIHVudGlsIHdlIHN0YXJ0IGdldHRpbmcKaW50byB0aGUgMTAwMHMgb2Yg
-dGVzdCBjYXNlcy4gSSBkb24ndCBzdXNwZWN0IGl0IHdpbGwgYmVjb21lIGFuIGlzc3VlCnVudGls
-IHdlIGdldCBpbnRvIHRoZSAxMCwwMDBzIG9mIHRlc3QgY2FzZXMuIEkgdGhpbmsgd2UgYXJlIGEg
-cHJldHR5Cmxvbmcgd2F5IG9mZiBmcm9tIHRoYXQuCgo+ICAgKiBBcmUgeW91IG9wcG9zZWQgdG8g
-ZXZlbnR1YWxseSBoYXZpbmcgdGhpcyBhZGRlZD8gRm9yIGluc3RhbmNlLCB0aGVyZSBpcwo+ICAg
-ICBlbm91Z2ggY29kZSBvbiBsaWIvdGVzdF9rbW9kLmMgZm9yIGJhdGNoaW5nIHRvbnMgb2Yga3Ro
-cmVhZHMgZWFjaAo+ICAgICBvbmUgcnVubmluZyBpdHMgb3duIHRoaW5nIGZvciB0ZXN0aW5nIHB1
-cnBvc2VzIHdoaWNoIGNvdWxkIGJlIHVzZWQKPiAgICAgYXMgdGVtcGxhdGUuCgpJIGFtIG5vdCBv
-cHBvc2VkIHRvIGFkZGluZyBpdCBldmVudHVhbGx5IGF0IGFsbC4gSSBhY3R1YWxseSBwbGFuIG9u
-CmRvaW5nIHNvLCBqdXN0IG5vdCBpbiB0aGlzIHBhdGNoc2V0LiBUaGVyZSBhcmUgYSBsb3Qgb2Yg
-YWRkaXRpb25hbApmZWF0dXJlcywgaW1wcm92ZW1lbnRzLCBhbmQgc3VnYXIgdGhhdCBJIHJlYWxs
-eSB3YW50IHRvIGFkZCwgc28gbXVjaApzbyB0aGF0IG1vc3Qgb2YgaXQgZG9lc24ndCBiZWxvbmcg
-aW4gdGhpcyBwYXRjaHNldDsgSSBqdXN0IHRoaW5rIHRoaXMKaXMgb25lIG9mIHRob3NlIHRoaW5n
-cyB0aGF0IGJlbG9uZ3MgaW4gYSBmb2xsb3cgdXAuIEkgdHJpZWQgdG8gYm9pbApkb3duIHRoaXMg
-cGF0Y2hzZXQgdG8gYXMgc21hbGwgYXMgSSBjb3VsZCB3aGlsZSBzdGlsbCBiZWluZyB1c2VmdWw7
-CnRoaXMgaXMgYmFzaWNhbGx5IGFuIE1WUC4gTWF5YmUgYWZ0ZXIgdGhpcyBwYXRjaHNldCBnZXRz
-IG1lcmdlZCBJCnNob3VsZCBwb3N0IGEgbGlzdCBvZiB0aGluZ3MgSSBoYXZlIHJlYWR5IGZvciBy
-ZXZpZXcsIG9yIHdvdWxkIGxpa2UgdG8Kd29yayBvbiwgYW5kIHBlb3BsZSBjYW4gY29tbWVudCBv
-biB3aGF0IHRoaW5ncyB0aGV5IHdhbnQgdG8gc2VlIG5leHQuCgo+ICAgKiBJZiB3ZSBldmVudHVh
-bGx5ICpkaWQqIHN1cHBvcnQgaXQ6Cj4gICAgIC0gV291bGQgbG9ncyBiZSBza2V3ZWQ/CgpQcm9i
-YWJseSwgYmVmb3JlIEkgd2VudCB3aXRoIHRoZSBUQVAgYXBwcm9hY2gsIEkgd2FzIHRhZ2dpbmcg
-ZWFjaAptZXNzYWdlIHdpdGggdGhlIHRlc3QgY2FzZSBpdCBjYW1lIGZyb20gYW5kIEkgY291bGQg
-aGF2ZSBwYXJzZWQgaXQgYW5kCmFzc2VtYmxlZCBhIGNvaGVyZW50IHZpZXcgb2YgdGhlIGxvZ3Mg
-dXNpbmcgdGhhdDsgbm93IHRoYXQgSSBhbSB1c2luZwpUQVAgY29uZm9ybWluZyBvdXRwdXQsIHRo
-YXQgd29uJ3Qgd29yay4gSSBoYXZlbid0IHJlYWxseSB0aG91Z2h0IHRvbwpoYXJkIGFib3V0IGhv
-dyB0byBhZGRyZXNzIGl0LCBidXQgdGhlcmUgYXJlIHdheXMuIEZvciB0aGUgVU1MIHVzZXJzLCBJ
-CmFtIHBsYW5uaW5nIG9uIGFkZGluZyBhIGZlYXR1cmUgdG8gZ3VhcmFudGVlIGhlcm1ldGljaXR5
-IGJldHdlZW4gdGVzdHMKcnVubmluZyBpbiBkaWZmZXJlbnQgbW9kdWxlcyBieSBhZGRpbmcgYSBm
-ZWF0dXJlIHRoYXQgYWxsb3dzIGEgc2luZ2xlCmtlcm5lbCB0byBiZSBidWlsdCB3aXRoIGFsbCB0
-ZXN0cyBpbmNsdWRlZCwgYW5kIHRoZW4gZGV0ZXJtaW5lIHdoaWNoCnRlc3RzIGdldCBydW4gYnkg
-cGFzc2luZyBpbiBjb21tYW5kIGxpbmUgYXJndW1lbnRzIG9yIHNvbWV0aGluZy4gVGhpcwp3YXkg
-eW91IGNhbiBnZXQgdGhlIGlzb2xhdGlvbiBmcm9tIHJ1bm5pbmcgdGVzdHMgaW4gc2VwYXJhdGUK
-ZW52aXJvbm1lbnRzIHdpdGhvdXQgaW5jcmVhc2luZyB0aGUgYnVpbGQgY29zdC4gV2UgY291bGQg
-YWxzbyB1c2UgdGhpcwptZXRob2QgdG8gYWNoaWV2ZSBwYXJhbGxlbGlzbSBieSBkaXNwYXRjaGlu
-ZyBtdWx0aXBsZSBrZXJuZWxzIGF0IG9uY2UuClRoYXQgb25seSB3b3JrcyBmb3IgVU1MLCBidXQg
-SSBpbWFnaW5lIHlvdSBjb3VsZCBkbyBzb21ldGhpbmcgc2ltaWxhcgpmb3IgdXNlcnMgcnVubmlu
-ZyB0ZXN0cyB1bmRlciBxZW11LgoKPiAgICAgLSBDb3VsZCB3ZSBoYXZlIGEgd2F5IHRvIHF1ZXJ5
-OiBnaXZlIG1lIGxvZyBmb3Igb25seSBrdW5pdCBtb2R1bGUKPiAgICAgICBuYW1lZCAiZm9vIj8K
-ClllYWgsIEkgdGhpbmsgdGhhdCB3b3VsZCBtYWtlIHNlbnNlIGFzIHBhcnQgb2YgdGhlIGhlcm1l
-dGljaXR5IHRoaW5nIEkKbWVudGlvbmVkIGFib3ZlLgoKSG9wZSB0aGF0IHNlZW1zIHJlYXNvbmFi
-bGUhCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0620763487==
+Content-Type: multipart/alternative; boundary="15615313881.5c6dDee.548"
+Content-Transfer-Encoding: 7bit
+
+
+--15615313881.5c6dDee.548
+Date: Wed, 26 Jun 2019 06:43:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110984
+
+--- Comment #2 from Olivier Fourdan <fourdan@xfce.org> ---
+(In reply to Michel D=C3=A4nzer from comment #1)
+> This is an Xwayland issue, due to it only using a single buffer for sendi=
+ng
+> contents to the Wayland server.
+
+Xwayland being hardware agnostic, if Xwayland was the problem, I'd expect t=
+he
+issue to occur with any hardware., and yet I don't see this on intel for
+example.
+
+Lyude, you mention this is with drm-tip, can you confirm if this started wi=
+th
+the DRM update or does it occur with the current stable code as well?
+
+Last thing, with single buffer, I would expect tearing more than stuttering,
+from the screencast, it looks like it's flipping to a back buffer which was=
+n't
+updated in time.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15615313881.5c6dDee.548
+Date: Wed, 26 Jun 2019 06:43:08 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Vulkan shows stuttering issues on Vega 10 =
+w/ gnome-shell on Wayland"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110984#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Vulkan shows stuttering issues on Vega 10 =
+w/ gnome-shell on Wayland"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110984">bug 11098=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+fourdan&#64;xfce.org" title=3D"Olivier Fourdan &lt;fourdan&#64;xfce.org&gt;=
+"> <span class=3D"fn">Olivier Fourdan</span></a>
+</span></b>
+        <pre>(In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi?i=
+d=3D110984#c1">comment #1</a>)
+<span class=3D"quote">&gt; This is an Xwayland issue, due to it only using =
+a single buffer for sending
+&gt; contents to the Wayland server.</span >
+
+Xwayland being hardware agnostic, if Xwayland was the problem, I'd expect t=
+he
+issue to occur with any hardware., and yet I don't see this on intel for
+example.
+
+Lyude, you mention this is with drm-tip, can you confirm if this started wi=
+th
+the DRM update or does it occur with the current stable code as well?
+
+Last thing, with single buffer, I would expect tearing more than stuttering,
+from the screencast, it looks like it's flipping to a back buffer which was=
+n't
+updated in time.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15615313881.5c6dDee.548--
+
+--===============0620763487==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0620763487==--
