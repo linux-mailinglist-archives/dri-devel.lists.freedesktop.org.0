@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75BB56AA8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 15:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816E056AA9
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 15:34:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0CC6E434;
-	Wed, 26 Jun 2019 13:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5295B6E433;
+	Wed, 26 Jun 2019 13:34:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A47506E436
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 13:34:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 058A66E436
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 13:34:45 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A13C472167; Wed, 26 Jun 2019 13:34:43 +0000 (UTC)
+ id 02ACE72167; Wed, 26 Jun 2019 13:34:44 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111002] helloooooooooo
-Date: Wed, 26 Jun 2019 13:34:43 +0000
+Subject: [Bug 111000] gears width twisted
+Date: Wed, 26 Jun 2019 13:34:45 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,11 +33,10 @@ X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: version component product resolution bug_status
- bug_group
-Message-ID: <bug-111002-502-yBOyH75yZk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111002-502@http.bugs.freedesktop.org/>
-References: <bug-111002-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: resolution bug_group bug_status component product
+Message-ID: <bug-111000-502-McVDrVsD1r@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111000-502@http.bugs.freedesktop.org/>
+References: <bug-111000-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,36 +52,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1402653456=="
+Content-Type: multipart/mixed; boundary="===============0385989170=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1402653456==
-Content-Type: multipart/alternative; boundary="15615560832.Ca1D87.11736"
+--===============0385989170==
+Content-Type: multipart/alternative; boundary="15615560840.8Ebe.11736"
 Content-Transfer-Encoding: 7bit
 
 
---15615560832.Ca1D87.11736
-Date: Wed, 26 Jun 2019 13:34:43 +0000
+--15615560840.8Ebe.11736
+Date: Wed, 26 Jun 2019 13:34:44 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111002
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111000
 
 Andre Klapper <a9016009@gmx.de> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-            Version|DRI git                     |unspecified
+         Resolution|---                         |INVALID
+              Group|                            |spam
+             Status|NEW                         |RESOLVED
           Component|General                     |Two
             Product|DRI                         |Spam
-         Resolution|---                         |INVALID
-             Status|NEW                         |RESOLVED
-              Group|                            |spam
 
 --- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
 Go away and test somewhere else.
@@ -91,8 +89,8 @@ Go away and test somewhere else.
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15615560832.Ca1D87.11736
-Date: Wed, 26 Jun 2019 13:34:43 +0000
+--15615560840.8Ebe.11736
+Date: Wed, 26 Jun 2019 13:34:44 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,9 +107,9 @@ s=3D"fn">Andre Klapper</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - helloooooooooo"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111002">bug 11100=
-2</a>
+   title=3D"RESOLVED INVALID - gears width twisted"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111000">bug 11100=
+0</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -121,10 +119,27 @@ s=3D"fn">Andre Klapper</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>DRI git
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
-           <td>unspecified
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
            </td>
          </tr>
 
@@ -142,44 +157,19 @@ s=3D"fn">Andre Klapper</span></a>
            </td>
            <td>Spam
            </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>INVALID
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Group</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>spam
-           </td>
          </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - helloooooooooo"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111002#c1">Commen=
+   title=3D"RESOLVED INVALID - gears width twisted"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111000#c1">Commen=
 t # 1</a>
               on <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - helloooooooooo"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111002">bug 11100=
-2</a>
+   title=3D"RESOLVED INVALID - gears width twisted"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111000">bug 11100=
+0</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
 span class=3D"fn">Andre Klapper</span></a>
@@ -198,9 +188,9 @@ span class=3D"fn">Andre Klapper</span></a>
     </body>
 </html>=
 
---15615560832.Ca1D87.11736--
+--15615560840.8Ebe.11736--
 
---===============1402653456==
+--===============0385989170==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -210,4 +200,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1402653456==--
+--===============0385989170==--
