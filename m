@@ -1,46 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9A856296
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 08:49:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8AF5644A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 10:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7CDA6E297;
-	Wed, 26 Jun 2019 06:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367F86E2FD;
+	Wed, 26 Jun 2019 08:14:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id CAFCA6E297
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 06:49:10 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C7BC972167; Wed, 26 Jun 2019 06:49:10 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110984] Vulkan shows stuttering issues on Vega 10 w/
- gnome-shell on Wayland
-Date: Wed, 26 Jun 2019 06:49:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: fourdan@xfce.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110984-502-MhhzkOhMjc@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110984-502@http.bugs.freedesktop.org/>
-References: <bug-110984-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 132326E294
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 06:50:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id 2DC2D285638
+Subject: Re: [PATCH 0/2] Associate ddc adapters with connectors
+To: Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Inki Dae <inki.dae@samsung.com>,
+ David Airlie <airlied@linux.ie>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Kukjin Kim <kgene@kernel.org>, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, m.szyprowski@samsung.com
+References: <cover.1561452052.git.andrzej.p@collabora.com>
+ <20190625100351.52ddptvb2gizaepi@shell.armlinux.org.uk>
+ <817ccfba-754c-6a28-8d75-63f70605fd43@collabora.com>
+ <20190625133639.GA16031@arch-x1c3>
+ <20190625140755.GT12905@phenom.ffwll.local>
+ <20190625141032.5jiy2oekb3olaejd@shell.armlinux.org.uk>
+ <20190625142031.GV12905@phenom.ffwll.local>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <3fb19371-db7d-f9dc-31a7-1ccd126f6784@collabora.com>
+Date: Wed, 26 Jun 2019 08:50:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
+In-Reply-To: <20190625142031.GV12905@phenom.ffwll.local>
+Content-Language: en-US
+X-Mailman-Approved-At: Wed, 26 Jun 2019 08:12:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +55,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0557217011=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0557217011==
-Content-Type: multipart/alternative; boundary="15615317501.7DcefA6f2.2249"
-Content-Transfer-Encoding: 7bit
-
-
---15615317501.7DcefA6f2.2249
-Date: Wed, 26 Jun 2019 06:49:10 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110984
-
---- Comment #3 from Olivier Fourdan <fourdan@xfce.org> ---
-, I can reproduce on intel(In reply to Olivier Fourdan from comment #2)
-> Xwayland being hardware agnostic, if Xwayland was the problem, I'd expect
-> the issue to occur with any hardware., and yet I don't see this on intel =
-for
-> example.
-
-I take that back, I reproduced on intel as well.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15615317501.7DcefA6f2.2249
-Date: Wed, 26 Jun 2019 06:49:10 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Vulkan shows stuttering issues on Vega 10 =
-w/ gnome-shell on Wayland"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110984#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Vulkan shows stuttering issues on Vega 10 =
-w/ gnome-shell on Wayland"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110984">bug 11098=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-fourdan&#64;xfce.org" title=3D"Olivier Fourdan &lt;fourdan&#64;xfce.org&gt;=
-"> <span class=3D"fn">Olivier Fourdan</span></a>
-</span></b>
-        <pre>, I can reproduce on intel(In reply to Olivier Fourdan from <a=
- href=3D"show_bug.cgi?id=3D110984#c2">comment #2</a>)
-<span class=3D"quote">&gt; Xwayland being hardware agnostic, if Xwayland wa=
-s the problem, I'd expect
-&gt; the issue to occur with any hardware., and yet I don't see this on int=
-el for
-&gt; example.</span >
-
-I take that back, I reproduced on intel as well.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15615317501.7DcefA6f2.2249--
-
---===============0557217011==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0557217011==--
+VyBkbml1IDI1LjA2LjIwMTkgb8KgMTY6MjAsIERhbmllbCBWZXR0ZXIgcGlzemU6Cj4gT24gVHVl
+LCBKdW4gMjUsIDIwMTkgYXQgMDM6MTA6MzJQTSArMDEwMCwgUnVzc2VsbCBLaW5nIC0gQVJNIExp
+bnV4IGFkbWluIHdyb3RlOgo+PiBPbiBUdWUsIEp1biAyNSwgMjAxOSBhdCAwNDowNzo1NVBNICsw
+MjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4gT3RoZXJ3aXNlIEkgbGlrZSB0aGlzLiBCaWdn
+ZXN0IHByb2JsZW0gSSdtIHNlZWluZyBoZXJlIGlzIHJvbGxpbmcgdGhpcyBvdXQKPj4+IGV2ZXJ5
+d2hlcmUsIHRoaXMgaXMgYSBsb3Qgb2Ygd29yay4gQW5kIHdpdGhvdXQgd2lkZXNwcmVhZCBhZG9w
+dGlvbnMgaXQncwo+Pj4gbm90IHRlcnJpYmx5IHVzZWZ1bCBmb3IgdXNlcnNwYWNlLgo+Pgo+PiBU
+aGVyZSB3aWxsIGJlIGNhc2VzIHdoZXJlIGl0J3Mgbm90IHBvc3NpYmxlLCBiZWNhdXNlIHRoZSBJ
+MkMgYnVzIGlzCj4+IGhpZGRlbiBiZWhpbmQgYSBjaGlwIHRoYXQgZG9lc24ndCBnaXZlIHlvdSBk
+aXJlY3QgYWNjZXNzIHRvIHRoZSBEREMKPj4gYnVzLgo+IAo+IE9oIHN1cmUsIHBsdXMgbG90cyBv
+ZiBjb25uZWN0b3JzIHdoZXJlIHRoZXJlJ3MganVzdCBub3QgZGRjIGJ1cyBhdCBhbGwuCj4gQnV0
+IGlmIHdlIG9ubHkgcm9sbCB0aGlzIG91dCBmb3IgYSBoYW5kZnVsIG9mIGRyaXZlcnMgaXQncyBh
+bHNvIG5vdCBncmVhdCwKPiB0aGF0J3Mgd2hhdCBJIG1lYW50LiBMb29raW5nIGF0Cj4gCj4gJCBn
+aXQgZ3JlcCBkcm1fZG9fZ2V0X2VkaWQKPiAKPiB0aGVyZSdzIG9ubHkgdmVyeSBmZXcgZHJpdmVy
+cyB3aGVyZSB0aGUgZGRjIGJ1cyBpcyBoaWRkZW4uIFRoZXJlJ3MgYSBsb3QKPiBtb3JlIHdoZXJl
+IGl0J3Mgbm90LCBhbmQgSSB0aGluayBhIGJpZyBzZXJpZXMgdG8gdGFja2xlIHRob3NlIHdvdWxk
+IHNlcnZlCj4gZXh0cmVtZWx5IHdlbGwgdG8gbWFrZSBhIGNhc2UgZm9yIHRoaXMgc3lzZnMgbGlu
+ay4KPiAtRGFuaWVsCj4gCgpJIHdpbGwgcmVzcG9uZCB3aXRoIGEgdjMgdGhlbiwgaW5jbHVkaW5n
+IGFzIG1hbnkgZHJpdmVycyBhcyBwb3NzaWJsZS4KVGhvc2Ugd2lsbCBiZSBjb21waWxlLXRlc3Rl
+ZCBvbmx5LCB0aG91Z2guCgpBbmRyemVqCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
