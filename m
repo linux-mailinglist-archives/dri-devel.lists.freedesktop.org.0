@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF2A4564F8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 10:58:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7968D56580
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 11:14:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BECFB6E331;
-	Wed, 26 Jun 2019 08:58:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 922EC6E33A;
+	Wed, 26 Jun 2019 09:14:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A4D6E331
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 08:58:35 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1hg3l8-0006dR-FY; Wed, 26 Jun 2019 10:58:30 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1hg3l5-0008VO-Se; Wed, 26 Jun 2019 10:58:27 +0200
-Date: Wed, 26 Jun 2019 10:58:27 +0200
-From: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH] backlight: pwm_bl: Set pin to sleep state when powered
- down
-Message-ID: <20190626085827.fija4kfzb5uhwosi@pengutronix.de>
-References: <20190522163428.7078-1-paul@crapouillou.net>
- <5b0f8bb3-e7b0-52c1-1f2f-9709992b76fc@linaro.org>
- <20190621135608.GB11839@ulmo>
- <20190624112844.fmwbfpdxjkst3u7r@holly.lan>
- <20190625093839.GB1516@ulmo>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1D1496E33C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 09:08:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1562472167; Wed, 26 Jun 2019 09:08:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110994] [vega10] *ERROR* Failed to initialize parser -125! ,
+ running libreoffice
+Date: Wed, 26 Jun 2019 09:08:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jason@jasonplayne.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110994-502-uOC3p0zThM@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110994-502@http.bugs.freedesktop.org/>
+References: <bug-110994-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190625093839.GB1516@ulmo>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,58 +53,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Cercueil <paul@crapouillou.net>, od@zcrc.me, kernel@pengutronix.de,
- Lee Jones <lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0062102006=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdW4gMjUsIDIwMTkgYXQgMTE6Mzg6MzlBTSArMDIwMCwgVGhpZXJyeSBSZWRpbmcg
-d3JvdGU6Cj4gT24gTW9uLCBKdW4gMjQsIDIwMTkgYXQgMTI6Mjg6NDRQTSArMDEwMCwgRGFuaWVs
-IFRob21wc29uIHdyb3RlOgo+ID4gWy4uLl0gYWx0aG91Z2ggZ2l2ZW4gcHdtLWJhY2tsaWdodCBp
-cyBlc3NlbnRpYWxseSBhIHdyYXBwZXIgZHJpdmVyCj4gPiByb3VuZCBhIFBXTSBJIHdvbmRlcmVk
-IHdoeSB0aGUgcGluY3RybCB3YXMgb24gdGhlIGJhY2tsaWdodCBub2RlCj4gPiAocmF0aGVyIHRo
-YW4gdGhlIFBXTSBub2RlKS4KPiAKPiBJIGFncmVlIHdpdGggdGhpcy4gV2UncmUgZGVmaW5pbmcg
-dGhlIHBpbiBjb250cm9sIHN0YXRlIGZvciB0aGUgUFdNIHBpbiwKPiBzbyBpbiBteSBvcGluaW9u
-IGl0IHNob3VsZCBiZSB0aGUgUFdNIGRyaXZlciB0aGF0IGNvbnRyb2xzIGl0Lgo+IAo+IE9uZSBy
-ZWFzb24gd2h5IEkgdGhpbmsgdGhpcyBpcyBpbXBvcnRhbnQgaXMgaWYgd2UgZXZlciBlbmQgdXAg
-d2l0aCBhCj4gZGV2aWNlIHRoYXQgcmVxdWlyZXMgcGlucyBmcm9tIHR3byBkaWZmZXJlbnQgY29u
-dHJvbGxlcnMgdG8gYmUKPiBjb25maWd1cmVkIGF0IHJ1bnRpbWUsIHRoZW4gaG93IHdvdWxkIHdl
-IG1vZGVsIHRoYXQ/IFNpbmNlIHBpbiBjb250cm9sCj4gc3RhdGVzIGNhbm5vdCBiZSBhZ2dyZWdh
-dGVkLCBzbyB5b3UnZCBoYXZlIHRvIGhhdmUgbXVsdGlwbGUgImRlZmF1bHQiCj4gc3RhdGVzLCBl
-YWNoIGZvciB0aGUgcGlucyB0aGF0IHRoZXkgY29udHJvbC4KCkkgdGhvdWdodCB5b3UgY2FuIGRv
-OgoKCXBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7CglwaW5jdHJsLTAgPSA8JnBpbmN0cmxfaW5f
-Zmlyc3RfcGluY29udHJvbGxlcj4sIDwmcGluY3RybF9pbl9hbm90aGVyX2NvbnRyb2xsZXI+OwoK
-aWYgdHdvIChvciBtb3JlKSBjb250cm9sbGVycyBhcmUgaW52b2x2ZWQuCiAKPiBPbiB0aGUgb3Ro
-ZXIgaGFuZCBpZiB3ZSBhc3NvY2lhdGUgdGhlIHBpbiBjb250cm9sIHN0YXRlcyB3aXRoIGVhY2gg
-b2YKPiB0aGUgcmVzb3VyY2VzIHRoYXQgbmVlZCB0aG9zZSBzdGF0ZXMsIHRoZW4gd2hlbiB0aG9z
-ZSByZXNvdXJjZXMgYXJlCj4gY29udHJvbGxlZCwgdGhleSB3aWxsIGF1dG9tYXRpY2FsbHkga25v
-dyBob3cgdG8gZGVhbCB3aXRoIHRoZSBzdGF0ZXMuCj4gVGhlIHRvcC1sZXZlbCBkZXZpY2UgKGku
-ZS4gYmFja2xpZ2h0KSBkb2Vzbid0IG5lZWQgdG8gY29uY2VybiBpdHNlbGYKPiB3aXRoIHRob3Nl
-IGRldGFpbHMuCgpTbyB0aGUgb3B0aW9ucyBhcmU6CgogYSkgcHV0ICJhY3RpdmUiIGFuZCAiaW5h
-Y3RpdmUiIHBpbmN0cmxzIGludG8gdGhlIHB3bS1ub2RlLCBhbmQgbm90aGluZwogICAgcmVsYXRl
-ZCB0byB0aGUgaW52b2x2ZWQgUFdNIHBpbnMgaW4gdGhlIGNvbnN1bWVyCgogYikgcHV0IHRoZSBQ
-V00gcGluIGNvbmZpZyBpbiB0aGUgY29uc3VtZXIncyAiZGVmYXVsdCIgcGluY3RybCAoYW5kCiAg
-ICBtYXliZSBsZWF2ZSBpdCBvdXQgaW50ICJpbml0IiBpZiB5b3Ugd2FudCBzbW9vdGggdGFraW5n
-IG92ZXIpLgoKKE9yIG1heWJlIHVzZSAiZW5hYmxlZCIgYW5kICJkaXNhYmxlZCIgaW4gYSkgdG8g
-bWF0Y2ggdGhlIHB3bV9zdGF0ZXMKLmVuYWJsZWQ/KQoKVGhlIGFkdmFudGFnZXMgSSBzZWUgaW4g
-Yikgb3ZlciBhKSBhcmU6CgogLSAiZGVmYXVsdCIgYW5kICJpbml0IiBhcmUgYSBrbm93biBwaW5j
-dHJsIGNvbmNlcHQgdGhhdCBtb3N0IHBlb3BsZQogICBzaG91bGQgaGF2ZSB1bmRlcnN0b29kLgoK
-IC0gWW91IGhhdmUgYWxsIHBpbmN0cmwgY29uZmlnIGZvciB0aGUgYmFja2xpZ2h0IGluIGEgc2lu
-Z2xlIHBsYWNlLgoKIC0gbm9uZSBvZiB0aGUgaW52b2x2ZWQgZHJpdmVyIG11c3QgZXhwbGljaXRs
-eSBoYW5kbGUgcGluY3RybCBzdHVmZgoKWW91IHByZXN1bWUgdGhhdCBiKSBiZWluZyBjb21tb25s
-eSBkb25lIGlzIGEgc2lnbiBvZiAib3VyIGRldmljZSB0cmVlcwphbmQga2VybmVsIHN1YnN5c3Rl
-bXMgc3RpbGwgbWF0dXJpbmciLiBCdXQgbWF5YmUgaXQncyBvbmx5IHRoYXQgdGhlCmNhcGFiaWxp
-dGllcyBwcm92aWRlZCBieSBwaW5jdHJsIHN1YnN5c3RlbSB3aXRob3V0IGV4dHJhIGVmZm9ydCBp
-cyBnb29kCmVub3VnaD8KCkJlc3QgcmVnYXJkcwpVd2UKCi0tIApQZW5ndXRyb25peCBlLksuICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCBVd2UgS2xlaW5lLUvDtm5pZyAgICAgICAgICAgIHwK
-SW5kdXN0cmlhbCBMaW51eCBTb2x1dGlvbnMgICAgICAgICAgICAgICAgIHwgaHR0cDovL3d3dy5w
-ZW5ndXRyb25peC5kZS8gIHwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+
+--===============0062102006==
+Content-Type: multipart/alternative; boundary="15615401220.5b03A6e.25445"
+Content-Transfer-Encoding: 7bit
+
+
+--15615401220.5b03A6e.25445
+Date: Wed, 26 Jun 2019 09:08:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110994
+
+--- Comment #5 from Jason Playne <jason@jasonplayne.com> ---
+(In reply to Jason Playne from comment #4)
+> (In reply to Jason Playne from comment #2)
+> > This is has just started effecting me too. Playing "Hellblade: Senuas
+> > Sacrifice" on steam (so steam play / radv / dxvk)
+> >=20
+> > mesa via pkppa
+> >=20
+> > kernel 5.1.15-050115-generic (ubuntu kernel ppa)
+> > libdrm-amdgpu1:amd64                2.4.98+git1906260630.4
+> > mesa-vulkan-drivers:amd64           19.2~git1906240730.3b6
+> >=20
+> > this wasn't happening 2 days ago, now it happens consistantly
+>=20
+> Sorry, its via the oibaf ppa.
+
+changing over to the padoka-stable ppa the problem still exists...
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15615401220.5b03A6e.25445
+Date: Wed, 26 Jun 2019 09:08:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [vega10] *ERROR* Failed to initialize parser -125! , runn=
+ing libreoffice"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110994#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [vega10] *ERROR* Failed to initialize parser -125! , runn=
+ing libreoffice"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110994">bug 11099=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jason&#64;jasonplayne.com" title=3D"Jason Playne &lt;jason&#64;jasonplayne.=
+com&gt;"> <span class=3D"fn">Jason Playne</span></a>
+</span></b>
+        <pre>(In reply to Jason Playne from <a href=3D"show_bug.cgi?id=3D11=
+0994#c4">comment #4</a>)
+<span class=3D"quote">&gt; (In reply to Jason Playne from <a href=3D"show_b=
+ug.cgi?id=3D110994#c2">comment #2</a>)
+&gt; &gt; This is has just started effecting me too. Playing &quot;Hellblad=
+e: Senuas
+&gt; &gt; Sacrifice&quot; on steam (so steam play / radv / dxvk)
+&gt; &gt;=20
+&gt; &gt; mesa via pkppa
+&gt; &gt;=20
+&gt; &gt; kernel 5.1.15-050115-generic (ubuntu kernel ppa)
+&gt; &gt; libdrm-amdgpu1:amd64                2.4.98+git1906260630.4
+&gt; &gt; mesa-vulkan-drivers:amd64           19.2~git1906240730.3b6
+&gt; &gt;=20
+&gt; &gt; this wasn't happening 2 days ago, now it happens consistantly
+&gt;=20
+&gt; Sorry, its via the oibaf ppa.</span >
+
+changing over to the padoka-stable ppa the problem still exists...</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15615401220.5b03A6e.25445--
+
+--===============0062102006==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0062102006==--
