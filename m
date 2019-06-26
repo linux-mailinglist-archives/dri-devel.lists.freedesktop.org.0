@@ -2,105 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A19565FD
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 11:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7050356606
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 11:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FA696E345;
-	Wed, 26 Jun 2019 09:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBCE6E346;
+	Wed, 26 Jun 2019 09:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD556E345
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 09:56:22 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20190626095621euoutp0215f66e4d28be46df9c1ae961e86b550a~rtxFctZOU0681706817euoutp02g
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 09:56:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20190626095621euoutp0215f66e4d28be46df9c1ae961e86b550a~rtxFctZOU0681706817euoutp02g
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20190626095620eucas1p14bfef993fc308e8e3cf36688cbac4b15~rtxE1lwZU0280502805eucas1p1l;
- Wed, 26 Jun 2019 09:56:20 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id AE.AE.04325.441431D5; Wed, 26
- Jun 2019 10:56:20 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20190626095619eucas1p2d17e9b495f3bdebf27b06c3fcec52ad8~rtxEHWQyy0312703127eucas1p2y;
- Wed, 26 Jun 2019 09:56:19 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20190626095619eusmtrp2c277c1fcef3823b35811e8632b7e7722~rtxD4-cjB0511105111eusmtrp2j;
- Wed, 26 Jun 2019 09:56:19 +0000 (GMT)
-X-AuditID: cbfec7f5-b8fff700000010e5-47-5d13414449d4
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 7D.90.04140.341431D5; Wed, 26
- Jun 2019 10:56:19 +0100 (BST)
-Received: from [106.120.51.74] (unknown [106.120.51.74]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20190626095618eusmtip26d78c3c13eebcac38721956ffff22091~rtxDJsg3V2662626626eusmtip26;
- Wed, 26 Jun 2019 09:56:18 +0000 (GMT)
-Subject: Re: [PATCH v2 1/2] drm/bridge/synopsys: dw-hdmi: Handle audio for
- more clock rates
-To: Doug Anderson <dianders@chromium.org>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <a94d9554-fc93-a2d0-9a30-9604db8c123e@samsung.com>
-Date: Wed, 26 Jun 2019 11:56:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00EF56E346
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 09:58:47 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id z23so1421063wma.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 02:58:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=aZ/7nxuWyF4ZUl2CqjmctPnbH8K3jsESHhf+wgkM5qA=;
+ b=q3V+JBeCl3Z8A4nhJZ9ldQVcgjnxdzdeiGltkcjLsojBldPzJqlDHXTgTiPLYWRjzb
+ SstpJjvHMChXekgKaasJT/ANe7vE0A9eT+okqe1cGK+tO9GT1WGCujGA57vCRqtYqjdr
+ Ot1ujIy87QUGGKFwYAkjH3oX2Ue7+bXZ8YYuKB2wBfD357jPVcCRoJ4FaCStN622NFVr
+ t+q3ttS3oZccAq0LbeBjnrwatvruuY58bhiA6aAuHlUGTdn+EEOE6fymlJJeH20pQQTR
+ Jg6qhv9QlWYTChtgaE3AeU8r87UYo9ZuBjulWk2FL8bsgWEEDNk8Mc92Kl5h0jkianc7
+ bdbw==
+X-Gm-Message-State: APjAAAVB3SXgQfcXl2lGRM/iJsPgaxMieO7EqmLfncEKEnfA3eMY7XZE
+ vaREboQRowyTujdtmWQC8pE=
+X-Google-Smtp-Source: APXvYqxpADgvHeAMQy31SKVTn0YPx5Afl1rct9+YwAAUniseVINEQHv2KOaVu/Z6OQY1C75pyR2P0w==
+X-Received: by 2002:a1c:dc46:: with SMTP id t67mr1956191wmg.159.1561543126566; 
+ Wed, 26 Jun 2019 02:58:46 -0700 (PDT)
+Received: from localhost (p2E5BEF36.dip0.t-ipconnect.de. [46.91.239.54])
+ by smtp.gmail.com with ESMTPSA id 128sm2413396wme.12.2019.06.26.02.58.45
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 26 Jun 2019 02:58:45 -0700 (PDT)
+Date: Wed, 26 Jun 2019 11:58:44 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] backlight: pwm_bl: Set pin to sleep state when powered
+ down
+Message-ID: <20190626095844.GA6362@ulmo>
+References: <20190522163428.7078-1-paul@crapouillou.net>
+ <5b0f8bb3-e7b0-52c1-1f2f-9709992b76fc@linaro.org>
+ <20190621135608.GB11839@ulmo>
+ <20190624112844.fmwbfpdxjkst3u7r@holly.lan>
+ <20190625093839.GB1516@ulmo>
+ <20190626085827.fija4kfzb5uhwosi@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WJBkYfRznh6aAyvgKgHb8-AG0hMORdKA0BXCL89wG_7w@mail.gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa1BMYRjHvXvOnk47bU6bpkdF2dGHomIY85LJrQ9njBkMH4w0LM5Uo032
- SBJakm6KiLTRGrNpU7mUShlkM11Qo6tc29xTTaM2ppmydves0bf/8zz/3/s8/5mXJmTJlAcd
- FXOQU8UoouWUhKxunGgLCF3jGr4oV0/hrLYWEc6qvivC5uocAmub31C49cYTCneNj1DY/HFQ
- jIc+PiVw9+8BArcMdZM4PUfngDvrrlB41GgmsHHgMcKG7DCsn6hC+P2dVrTahR3pTXFgC8sS
- 2QJ1O8k+/HWNZAvS8sVs87kOEVvzyyhm+zKbRGylLonVXeqm2PqsCyRb01NIsGMVczdJt0tW
- 7uWiow5xqqCQXZLI5gujROwHn8OfBjMoNeqcnYEcaWCWQvpkHZmBJLSM0SO4W9wpEgoTgu8d
- RWKhGLMUb1PRP2TwWY8dKUZQOfbD7hpGUHq1xMHqcmXCobXZRFj1LMYPvqoHCKuJYErF0Pjl
- PWkdUJbBVOVryqqlTAhc71fbYJLxhexLGhvsxmwDU20FEjwu0JL/2cY6MpvhTO2UzUMw3lAz
- fMWu3eHNZ60tBDDlNPQ/yLPfHQoF9WZC0K7wo+meg6C9wFxrBaw6Cfr0pwgBTkNQdafWDgRD
- Q1O7JSdt2eAHt+uChPYaeNFbZmsD4wy9wy7CDc5wvjqPENpSSDstE9zzoK+1yv6gOxS9HKfO
- IblmWjLNtDSaaWk0//deQ+RN5M7F8coIjl8Sw8UH8golHxcTEbhnv7ICWb7m8z9N4/fRo8nd
- BsTQSO4kVXvLwmVixSE+QWlAQBPyWdIiBRMuk+5VJBzhVPt3quKiOd6APGlS7i5NnGEMkzER
- ioPcPo6L5VT/piLa0UONQuO6jw7sfCd56zfiv2KVW9rS9am5bVt1Gwe3zK9Zuzu2XMtzntqL
- Z0+MpBSfNxybSc+/ZTS11C/fciAh7/LxMH1iw0+fdcG9Ev9lmU83vCg+kaNmk+4tV2oLS+gF
- u2YHJAelxneEdKkXxl8cdVrmvNoUcnLON02JV8MrXz6VT+/bESon+UjFYn9CxSv+AmQsCT6W
- AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGKsWRmVeSWpSXmKPExsVy+t/xe7rOjsKxBpfnC1r0njvJZNG7bSOT
- xf9tE5kt5p+4xWZxdtlBNosrX9+zWfx/9JrV4s2jI8wWV7+/ZLY4+eYqi0XnxCXsFpd3zWGz
- +PTgP7PFg5f7GS0O9UVbrPi5ldHi7oazjA6CHu9vtLJ7zFtT7TG74SKLx95vC1g8ZnfMZPU4
- MeESk8f2bw9YPe53H2fy2Lyk3mPJtKtsHgd6J7N4bL82j9nj8ya5AN4oPZui/NKSVIWM/OIS
- W6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYwTkz8xF9xTqHj8uoutgfGy
- ZBcjJ4eEgInE61PXWLoYuTiEBJYySnSdW8oOkRCX2D3/LTOELSzx51oXG0TRa0aJlXuPsYAk
- hAViJc6e+AJWJCKgKfGs4SUzSBGzwFpWicW9pxghOrqZJLYtncoEUsUGVPV38002EJtXwE5i
- 0cMGsHUsAqoSfdNmgU0SFYiQmL2rgQWiRlDi5MwnYDanQKBEz86/YDXMAuoSf+ZdgrLlJba/
- nQNli0vcejKfaQKj0Cwk7bOQtMxC0jILScsCRpZVjCKppcW56bnFRnrFibnFpXnpesn5uZsY
- gWli27GfW3Ywdr0LPsQowMGoxMPbIC8UK8SaWFZcmXuIUYKDWUmEd2miQKwQb0piZVVqUX58
- UWlOavEhRlOg5yYyS4km5wNTWF5JvKGpobmFpaG5sbmxmYWSOG+HwMEYIYH0xJLU7NTUgtQi
- mD4mDk4pYDTJdyVkpiQkme9fqbTggoPX7OnKSes2XYuUnP/p+i7ZDcneqS8XXzIuPbDmQO7P
- 2eXncxZkW9lPEzPdLzb5UE2084Fsj5UvgnIsVVlnR38oWsH2k1u0jzuy6V/h/8zuXq1HPw+J
- R3s7/dU7dmSu3O4/v3d8YZflfx/2XdvwvlmJD3N1bmLQeSWW4oxEQy3mouJEAAnGQcIpAwAA
-X-CMS-MailID: 20190626095619eucas1p2d17e9b495f3bdebf27b06c3fcec52ad8
-X-Msg-Generator: CA
-X-RootMTR: 20190619211151epcas3p4dbb163c034afa4063869c761b93e24b1
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190619211151epcas3p4dbb163c034afa4063869c761b93e24b1
-References: <CGME20190619211151epcas3p4dbb163c034afa4063869c761b93e24b1@epcas3p4.samsung.com>
- <20190619210718.134951-1-dianders@chromium.org>
- <bec87373-48cc-0c55-9662-a74a7d2a47a0@samsung.com>
- <CAD=FV=WJBkYfRznh6aAyvgKgHb8-AG0hMORdKA0BXCL89wG_7w@mail.gmail.com>
+In-Reply-To: <20190626085827.fija4kfzb5uhwosi@pengutronix.de>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=samsung.com; 
- s=mail20170921; t=1561542981;
- bh=Hk7za34B6PtC3S7miNX/a+oGyxVJXmwKHDbecortBKc=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=o8SrkhJl7F3EciyZZ8tAVTRp/vCSsciUyEUwNJkp0PIAWUdSZbmvtubfdWbA4cxQf
- dk3iqkM/quo23adh7MC8wN7iH02ejeP3rdwYUFbjXz3ejC7I/7HbyS/0faf8Oow6XZ
- YDKmE2SYxte1goj2aAqVCCY3WhxYQa/U1BhUwSzw=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=aZ/7nxuWyF4ZUl2CqjmctPnbH8K3jsESHhf+wgkM5qA=;
+ b=CDgg39YEWJpx2FRGHNkWzn9a6zNGoUw09/FYa5+bfOKHpCRDku0dy2qA5M4f4fBSL4
+ ClFkMQCXz7ZoS153C4Fj68KczSqxJFKdA9Th6Ns+8SxFfEYuZ/aQQaXpClgsoygufeiO
+ 0xg5IQAVfN6lIixcCN1vfV3a+x0hL62SA8iC+r6Xk3T66tfLqJsyEFRCOJ+xHtwcJskX
+ 80jC62/NSUkV1qhNfpq8+bNLlxFKhJSVJGjRPLspuQOU2hC3j75dccThDJGA4Gk53Yh9
+ FdWqKP6FUNY8ukQoyNx3+aGYsAZ9MNSHS/ELbDMa/mVRWQdCOfA9T8YAbA1gAO6vlHhl
+ +p6Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,92 +73,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Dylan Reid <dgreid@chromium.org>, Jerome Brunet <jbrunet@baylibre.com>,
- Sam Ravnborg <sam@ravnborg.org>, Cheng-Yi Chiang <cychiang@chromium.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>, od@zcrc.me, kernel@pengutronix.de,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: multipart/mixed; boundary="===============1800291161=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjUuMDYuMjAxOSAxODoyNiwgRG91ZyBBbmRlcnNvbiB3cm90ZToKPiBIaSwKPgo+Cj4gT24g
-VHVlLCBKdW4gMjUsIDIwMTkgYXQgOTowNyBBTSBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1
-bmcuY29tPiB3cm90ZToKPj4gT24gMTkuMDYuMjAxOSAyMzowNywgRG91Z2xhcyBBbmRlcnNvbiB3
-cm90ZToKPj4+IExldCdzIGFkZCBzb21lIGJldHRlciBzdXBwb3J0IGZvciBIRE1JIGF1ZGlvIHRv
-IGR3X2hkbWkuCj4+PiBTcGVjaWZpY2FsbHk6Cj4+Pgo+Pj4gMS4gRm9yIDQ0LjEga0h6IGF1ZGlv
-IHRoZSBvbGQgY29kZSBtYWRlIHRoZSBhc3N1bXB0aW9uIHRoYXQgYW4gTiBvZgo+Pj4gNjI3MiB3
-YXMgcmlnaHQgbW9zdCBvZiB0aGUgdGltZS4gIFRoYXQgd2Fzbid0IHRydWUgYW5kIHRoZSBuZXcg
-dGFibGUKPj4+IHNob3VsZCBwaWNrIGEgbW9yZSBpZGVhbCB2YWx1ZS4KPj4KPj4gV2h5PyBJIGFz
-ayBiZWNhdXNlIGl0IGlzIGFnYWluc3QgcmVjb21tZW5kYXRpb24gZnJvbSBIRE1JIHNwZWNzLgo+
-IFRoZSBwbGFjZSB3aGVyZSBpdCBkb2VzIG1hdHRlciAoYW5kIHdoeSBJIG9yaWdpbmFsbHkgZGlk
-IHRoaXMgd29yaykgaXMKPiB3aGVuIHlvdSBkb24ndCBoYXZlIGF1dG8tQ1RTLiAgSW4gc3VjaCBh
-IGNhc2UgeW91IHJlYWxseSBuZWVkICJOIiBhbmQKPiAiQ1RTIiB0byBtYWtlIHRoZSBtYXRoIHdv
-cmsgYW5kIGJvdGggYmUgaW50ZWdyYWwuICBUaGlzIG1ha2VzIHN1cmUKPiB0aGF0IHlvdSBkb24n
-dCBzbG93bHkgYWNjdW11bGF0ZSBvZmZzZXRzLiAgSSdtIGhvcGluZyB0aGF0IHRoaXMgcG9pbnQK
-PiBzaG91bGQgYmUgbm9uLWNvbnRyb3ZlcnNpYWwgc28gSSB3b24ndCBhcmd1ZSBpdCBtb3JlLgo+
-Cj4gSSBhbSBhbiBhZG1pdHRlZCBub24tZXhwZXJ0LCBidXQgSSBoYXZlIGEgZmVlbGluZyB0aGF0
-IHdpdGggQXV0by1DVFMKPiBlaXRoZXIgdGhlIG9sZCBudW1iZXIgb3IgdGhlIG5ldyBudW1iZXJz
-IHdvdWxkIHByb2R1Y2UgcHJldHR5IG11Y2ggdGhlCj4gc2FtZSBleHBlcmllbmNlLgoKCkJlY2F1
-c2UgQXV0by1DVFMgbWVjaGFuaXNtIHdpbGwgYWx0ZXJuYXRlIGJldHdlZW4gdHdvIG9yIG1vcmUg
-Q1RTIHZhbHVlcwpldmVyeSBmcmFtZSwgdGh1cyBpdCB3aWxsIGNvbXBlbnNhdGUgbm9uLXJhdGlv
-bmFsIGNsb2NrIHJlbGF0aW9uc2hpcC4KCgo+ICAgQUtBOiBhbnlvbmUgdXNpbmcgYXV0by1DVFMg
-d29uJ3Qgbm90aWNlIGFueSBjaGFuZ2UKPiBhdCBhbGwuICBJIGd1ZXNzIHRoZSBxdWVzdGlvbiBp
-czogd2l0aCBBdXRvLUNUUyBzaG91bGQgeW91IHBpY2sgdGhlCj4gImlkZWFsIiA2MjcyIG9yIGEg
-dmFsdWUgdGhhdCBhbGxvd3MgQ1RTIHRvIGJlIHRoZSBjbG9zZXN0IHRvIGludGVncmFsCj4gYXMg
-cG9zc2libGUuICBCeSByZWFkaW5nIGJldHdlZW4gdGhlIGxpbmVzIG9mIHRoZSBzcGVjLCBJIGRl
-Y2lkZWQgdGhhdAo+IGl0IHdhcyBzbGlnaHRseSBtb3JlIGltcG9ydGFudCB0byBhbGxvdyBmb3Ig
-YW4gaW50ZWdyYWwgQ1RTLiAgSWYKPiBhY2hpZXZpbmcgYW4gaW50ZWdyYWwgQ1RTIHdhc24ndCBh
-IGdvYWwgdGhlbiB0aGUgc3BlYyB3b3VsZG4ndCBldmVuCj4gaGF2ZSBsaXN0ZWQgc3BlY2lhbCBj
-YXNlcyBmb3IgYW55IG9mIHRoZSBjbG9jayByYXRlcy4gIFdlIHdvdWxkIGp1c3QKPiBiZSB1c2lu
-ZyB0aGUgaWRlYWwgTiBhbmQgQXV0by1DVFMgYW5kIGJlIGRvbmUgd2l0aCBpdC4gIFRoZSB3aG9s
-ZQo+IHBvaW50IG9mIHRoZSB0YWJsZXMgdGhleSBsaXN0IGlzIHRvIG1ha2UgQ1RTIGludGVncmFs
-LgoKClNwZWNpZmljYXRpb24gcmVjb21tZW5kcyBtYW55IGNvbnRyYWRpY3RvcnkgdGhpbmdzIHdp
-dGhvdXQgZXhwbGljaXQKcHJpb3JpdGl6YXRpb24sIGF0IGxlYXN0IEkgaGF2ZSBub3QgZm91bmQg
-aXQuCgpTbyB3ZSBzaG91bGQgcmVsYXkgb24gb3VyIGludHVpdGlvbi4KCkkgZ3Vlc3MgdGhhdCB3
-aXRoIGF1dG8tY3RzIE4gd2Ugc2hvdWxkIGZvbGxvdyByZWNvbW1lbmRhdGlvbiAtIEkgZ3Vlc3MK
-bW9zdCBzaW5rcyBoYXZlIGJlZW4gYmV0dGVyIHRlc3RlZCB3aXRoIHJlY29tbWVuZGVkIHZhbHVl
-cy4KClNvIHdoYXQgd2l0aCBub24tYXV0by1jdHMgY2FzZToKCjEuIEhvdyBtYW55IGRldmljZXMg
-ZG8gbm90IGhhdmUgYXV0by1jdHM/IGhvdyBtYW55IGFsdGVybmF0aXZlIFRNRFMKY2xvY2tzIHdl
-IGhhdmU/IE1heWJlIGl0IGlzIHRoZW9yZXRpY2FsIHByb2JsZW0uCgoyLiBBbHRlcm5hdGluZyBD
-VFMgaW4gc29mdHdhcmUgaXMgcG9zc2libGUsIGJ1dCBxdWl0ZQpjb21wbGljYXRlZC9hbm5veWlu
-ZywgYnV0IGF0IGxlYXN0IGl0IHdpbGwgZm9sbG93IHJlY29tbWVuZGF0aW9uIDopCgoKUmVnYXJk
-cwoKQW5kcnplagoKCj4KPgo+Pj4gMi4gVGhlIG5ldyB0YWJsZSBoYXMgdmFsdWVzIGZyb20gdGhl
-IEhETUkgc3BlYyBmb3IgMjk3IE1IeiBhbmQgNTk0Cj4+PiBNSHouCj4+Pgo+Pj4gMy4gVGhlcmUg
-aXMgbm93IGNvZGUgdG8gdHJ5IHRvIGNvbWUgdXAgd2l0aCBhIG1vcmUgaWRlYSBOL0NUUyBmb3IK
-Pj4+IGNsb2NrIHJhdGVzIHRoYXQgYXJlbid0IGluIHRoZSB0YWJsZS4gIFRoaXMgY29kZSBpcyBh
-IGJpdCBzbG93IGJlY2F1c2UKPj4+IGl0IGl0ZXJhdGVzIG92ZXIgZXZlcnkgcG9zc2libGUgdmFs
-dWUgb2YgTiBhbmQgcGlja3MgdGhlIGJlc3Qgb25lLCBidXQKPj4+IGl0IHNob3VsZCBtYWtlIGEg
-Z29vZCBmYWxsYmFjay4KPj4+Cj4+PiBOT1RFUzoKPj4+IC0gVGhlIG9kZGVzdCBwYXJ0IG9mIHRo
-aXMgcGF0Y2ggY29tZXMgYWJvdXQgYmVjYXVzZSBjb21wdXRpbmcgdGhlCj4+PiAgIGlkZWFsIE4v
-Q1RTIG1lYW5zIGtub3dpbmcgdGhlIF9leGFjdF8gY2xvY2sgcmF0ZSwgbm90IGEgcm91bmRlZAo+
-Pj4gICB2ZXJzaW9uIG9mIGl0LiAgVGhlIGRybSBmcmFtZXdvcmsgbWFrZXMgdGhpcyBoYXJkZXIg
-Ynkgcm91bmRpbmcKPj4+ICAgcmF0ZXMgdG8ga0h6LCBidXQgZXZlbiBpZiBpdCBkaWRuJ3QgdGhl
-cmUgbWlnaHQgYmUgY2FzZXMgd2hlcmUgdGhlCj4+PiAgIGlkZWFsIHJhdGUgY291bGQgb25seSBi
-ZSBjYWxjdWxhdGVkIGlmIHdlIGtuZXcgdGhlIHJlYWwKPj4+ICAgKG5vbi1pbnRlZ3JhbCkgcmF0
-ZS4gIFRoaXMgbWVhbnMgdGhhdCBpbiBjYXNlcyB3aGVyZSB3ZSBrbm93IChvcgo+Pj4gICBiZWxp
-ZXZlKSB0aGF0IHRoZSB0cnVlIHJhdGUgaXMgc29tZXRoaW5nIG90aGVyIHRoYW4gdGhlIHJhdGUg
-d2UgYXJlCj4+PiAgIHRvbGQgYnkgZHJtLgo+Pj4gLSBUaGlzIHBhdGNoIG1ha2VzIG11Y2ggbGVz
-cyBvZiBhIGRpZmZlcmVuY2UgYWZ0ZXIgdGhlIHBhdGNoCj4+PiAgICgiZHJtL2JyaWRnZTogZHct
-aGRtaTogVXNlIGF1dG9tYXRpYyBDVFMgZ2VuZXJhdGlvbiBtb2RlIHdoZW4gdXNpbmcKPj4+ICAg
-bm9uLUFIQiBhdWRpbyIpLCBhdCBsZWFzdCBpZiB5b3UncmUgdXNpbmcgSTJTIGF1ZGlvLiAgVGhl
-IG1haW4gZ29hbAo+Pj4gICBvZiBwaWNraW5nIGEgZ29vZCBOIGlzIHRvIG1ha2UgaXQgcG9zc2li
-bGUgdG8gZ2V0IGEgbmljZSBpbnRlZ3JhbAo+Pj4gICBDVFMgdmFsdWUsIGJ1dCBpZiBDVFMgaXMg
-YXV0b21hdGljIHRoZW4gdGhhdCdzIG11Y2ggbGVzcyBjcml0aWNhbC4KPj4KPj4gQXMgSSBzYWlk
-IGFib3ZlIEhETUkgcmVjb21tZW5kYXRpb25zIGFyZSBkaWZmZXJlbnQgZnJvbSB0aG9zZSBmcm9t
-IHlvdXIKPj4gcGF0Y2guIFBsZWFzZSBlbGFib3JhdGUgd2h5Pwo+Pgo+PiBCdHcgSSd2ZSBzZWVu
-IHlvdXIgb2xkIHBhdGNoZXMgaW50cm9kdWNpbmcgcmVjb21tZW5kZWQgTi9DVFMgY2FsY3VsYXRp
-b24KPj4gaGVscGVycyBpbiBIRE1JIGZyYW1ld29yaywgdW5mb3J0dW5hdGVseSBhYmFuZG9uZWQg
-ZHVlIHRvIGxhY2sgb2YgaW50ZXJlc3QuCj4+Cj4+IE1heWJlIHJlc3VycmVjdGluZyB0aGVtIHdv
-dWxkIGJlIGEgZ29vZCBpZGVhLCB3aXRoIGFzc3VtcHRpb24gdGhlcmUgd2lsbAo+PiBiZSB1c2Vy
-cyA6KQo+IEkgaGF2ZSBvbGQgcGF0Y2hlcyBpbnRyb2R1Y2luZyB0aGlzIGludG8gdGhlIEhETUkg
-ZnJhbWV3b3JrPyAgSSBkb24ndAo+IHJlbWVtYmVyIHRoZW0gLyBjYW4ndCBmaW5kIHRoZW0uICBD
-YW4geW91IHByb3ZpZGUgYSBwb2ludGVyPwo+Cj4gLURvdWcKPgo+CgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1800291161==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gBBFr7Ir9EOA20Yy"
+Content-Disposition: inline
+
+
+--gBBFr7Ir9EOA20Yy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 26, 2019 at 10:58:27AM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> On Tue, Jun 25, 2019 at 11:38:39AM +0200, Thierry Reding wrote:
+> > On Mon, Jun 24, 2019 at 12:28:44PM +0100, Daniel Thompson wrote:
+> > > [...] although given pwm-backlight is essentially a wrapper driver
+> > > round a PWM I wondered why the pinctrl was on the backlight node
+> > > (rather than the PWM node).
+> >=20
+> > I agree with this. We're defining the pin control state for the PWM pin,
+> > so in my opinion it should be the PWM driver that controls it.
+> >=20
+> > One reason why I think this is important is if we ever end up with a
+> > device that requires pins from two different controllers to be
+> > configured at runtime, then how would we model that? Since pin control
+> > states cannot be aggregated, so you'd have to have multiple "default"
+> > states, each for the pins that they control.
+>=20
+> I thought you can do:
+>=20
+> 	pinctrl-names =3D "default";
+> 	pinctrl-0 =3D <&pinctrl_in_first_pincontroller>, <&pinctrl_in_another_co=
+ntroller>;
+>=20
+> if two (or more) controllers are involved.
+
+You're right. Both the bindings say that this can be done and the code
+is also there to parse multiple states per pinctrl-* entry.
+
+> > On the other hand if we associate the pin control states with each of
+> > the resources that need those states, then when those resources are
+> > controlled, they will automatically know how to deal with the states.
+> > The top-level device (i.e. backlight) doesn't need to concern itself
+> > with those details.
+>=20
+> So the options are:
+>=20
+>  a) put "active" and "inactive" pinctrls into the pwm-node, and nothing
+>     related to the involved PWM pins in the consumer
+>=20
+>  b) put the PWM pin config in the consumer's "default" pinctrl (and
+>     maybe leave it out int "init" if you want smooth taking over).
+
+You can't put it into the "default" state because that state is applied
+before the consumer driver's ->probe().
+
+>=20
+> (Or maybe use "enabled" and "disabled" in a) to match the pwm_states
+> .enabled?)
+
+Yeah, I think this is what we'll need to do in order to implement the
+explicit behaviour that we need here.
+
+> The advantages I see in b) over a) are:
+>=20
+>  - "default" and "init" are a known pinctrl concept that most people
+>    should have understood.
+
+The problem is that they won't work in this case. The "init" state will
+be applied before the consumer driver's ->probe() if it exists. If it
+doesn't then "default" will be applied instead. Both cases are not
+something that we want if we want to take over the existing
+configuration.
+
+>  - You have all pinctrl config for the backlight in a single place.
+
+Depending on your point of view this could be considered a disadvantage.
+
+>  - none of the involved driver must explicitly handle pinctrl stuff
+
+Like I said, none of the automatic state handling is flexible enough for
+this situation. Also, my understanding is that even if you use the
+standard pinctrl state names ("default" and "idle") you still need to
+explicitly select them at the right time. "default" will always be
+applied before the consumer driver's ->probe(), but if you want to go to
+the "idle" state you have to make that explicit. Now, there are helpers
+to simplify this a bit, but you still need to implement suspend/resume
+callbacks (or however you want to deal with it) that call these helpers.
+
+In the case of PWM I think what we want is to select an "active" and
+"idle" state on enable and disable, respectively. I suppose we could add
+some infrastructure to help with this, such as perhaps scanning the
+device tree for per-PWM pin control states at PWM chip registration time
+and then adding helpers to select these states at the driver's
+discretion. I don't think we can add generic code to do this because the
+exact time when the pin control state needs to be applied may vary from
+one PWM controller to another.
+
+> You presume that b) being commonly done is a sign of "our device trees
+> and kernel subsystems still maturing". But maybe it's only that the
+> capabilities provided by pinctrl subsystem without extra effort is good
+> enough?
+
+Like I pointed out above, I don't think that's the case. But I don't
+want to overcomplicate things, so if you can prove that it can be done
+with the existing pinctrl helpers, I'd be happy to be proven wrong.
+
+Thierry
+
+--gBBFr7Ir9EOA20Yy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl0TQdEACgkQ3SOs138+
+s6Ex3RAAjClObHbY4caZt7PjHEVLwZp9p0uGXYE7ZemSo5DwnYe5KNVqX+Kez3jS
+JDE/DK7UMkD1Xwf6HuYsZ1u/pwHE0Af7FE+TeM16T26zvPS2K1bSjytshBIXcLkp
+kgfWKEQMgNF11bUZ03aFz833Po0sK+2LFzjhNCugRi1owXQ0910iefni03Jmna4g
+4ZHqaQx7oetefd22xPHgpgHR43WN3qG/Ykz2gn2yxE/RLaojTiv+QC3B3/s6pCmL
+SrlbkuqGJSUehGRJhVmxBC5CkQaJjV4L3JVysKl6Svf6e1RBZOeoiyS6eGv7xR7/
+th556XLjVZggDCMurtRwEppxjZPVhi0ohl9sCD4kHpF35ZgQ5A/ZEvH/IjU5xFdW
+Cros48qyEq4TlKqzUpYpJ2m7cpq0CCv+EGdGo51eHICBIvjvT1cy/DftCc13x2z4
+16ButDJ+3xc75gVjHfVtIyH6g5jSrV0pYlOE1mC1FUj9uOPS+yqo0U5Q8l9ElzI/
+VpHIhLU6jw2iOPVhrOFoJ2gIr86+cuwXqxAK3Rf7ccmI4P3DQeKK1S2ci+uY/SHe
+IOlQT3ITZUjZKA57iQQIMc+Stb1SICEFcZFtybT6/jmmootTjgUnARLbmnPsE5QI
+g4TArRprq3PzZQvmANv9QnWsLgTlum6hlul3j0gspYFDX4iyjes=
+=b0SN
+-----END PGP SIGNATURE-----
+
+--gBBFr7Ir9EOA20Yy--
+
+--===============1800291161==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1800291161==--
