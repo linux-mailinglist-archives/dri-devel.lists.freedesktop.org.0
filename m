@@ -1,63 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CED56741
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 12:57:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B3B56746
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Jun 2019 12:58:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E24C96E382;
-	Wed, 26 Jun 2019 10:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C70E66E37F;
+	Wed, 26 Jun 2019 10:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78B336E382
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 10:57:26 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id f15so2225179wrp.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 03:57:26 -0700 (PDT)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F387B6E37F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 10:58:50 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id 205so1704894ljj.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Jun 2019 03:58:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=0Mp2X3uUYygyUZH2VQNMWqRZzz0G4HZjkY+o2sLP3XQ=;
- b=USIO/dPjpdDl+p0gO4/IZfsL/bDOl+CT1HZUI5cu3NxXG4Hyz+4LiPmHFb9zFfEimK
- Cczmq2vk+3c3wNuGnKxxapnRIeL8RSfZRD6jGeodUUl0bnD4wJDEYnRAL1kh5K0hvy46
- 5qemzFkeUbuQOYr8a7ZjuPSUZMuarBWFXzD//1kEK08uzuTsn73XMP/TSgHzeWljS5s8
- DwLQiYdMUcMZCYHeC30Q79knZAgvFOCvjaZ+k4ktZN/s7SLeC3zvtWTTsZCk1kyfddlu
- cW6z8+jagadoef3+l0jljwoJfYTPGpFOvxdbySd8y40GSFkNEn6xa11VYJiEnO8bTCWc
- Q/0Q==
-X-Gm-Message-State: APjAAAWlhOMX0s1g369v9cIYvAaYY+hi9YK2VS9Aod0k5LTQvB/Tewdt
- LFJykqdE1x13H398Lz7t9jxj9jFM79o=
-X-Google-Smtp-Source: APXvYqxcKact6y2VazDjACaBwBoZt6ULVQ4X5ODPEEv4/9be/yXk+6/uGqYXkvXA+UqI2vBKCeNLog==
-X-Received: by 2002:adf:d843:: with SMTP id k3mr3288112wrl.332.1561546644641; 
- Wed, 26 Jun 2019 03:57:24 -0700 (PDT)
-Received: from dell ([2.27.35.164])
- by smtp.gmail.com with ESMTPSA id q12sm19839064wrp.50.2019.06.26.03.57.24
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 26 Jun 2019 03:57:24 -0700 (PDT)
-Date: Wed, 26 Jun 2019 11:57:22 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1] backlight: gpio_backlight: Enable ACPI enumeration
-Message-ID: <20190626105722.GP21119@dell>
-References: <20190619152127.11670-1-andriy.shevchenko@linux.intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vBnSNkpp1XS13FbQfXNNjthLGvaxRDnVZe4G6iUXAtU=;
+ b=hqZ5IboL1CBoZbK0Recp630B2wAy78fFz0ulcfgLHVBE0n0p2bZwwiiukA3Q0QuND/
+ l7Pc0TZYcRn3qsUDxoKcS0hQhZWxZz78u0UFhX4jMu65uKGFLJoYfa0I/O6Nueambzn7
+ WczwgrVKGWSMWriXMaqzxV9PLOiXg52956Z9isoAUHPZmlU2nscfVsGY1AUDC1Ok2jG4
+ ks2QxTOnrJe9UdP/aZxv7M78tVf0pVQ4DDvb0dTC+hPIsTNu7wXfPCMjco4nQKpwf3+j
+ CFuVT9lu7qBlMjnAZgvcvtChEu7OglyLpDwwU9icCeBBsG1LM6N1zVmSkO3s5Q1AYClA
+ jwSA==
+X-Gm-Message-State: APjAAAWknihJGKVPckQdAQA2PtwjV7n0a4YByUu3toW8xbWEIjTyc5TS
+ RsK85IYqoqVdGEXkGjmoq5aQt1lsAxZQrB17Su4=
+X-Google-Smtp-Source: APXvYqxgoOFc17kD7+phBGYs9B/nP1o8ns/3dGiVnoxKpmtsSjv06Im4LhGmDTJDnuu5JdispKhyHp6RMeFmjrm7eYo=
+X-Received: by 2002:a2e:8650:: with SMTP id i16mr2529260ljj.178.1561546729355; 
+ Wed, 26 Jun 2019 03:58:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190619152127.11670-1-andriy.shevchenko@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <1561544420-15572-1-git-send-email-robert.chiras@nxp.com>
+ <1561544420-15572-2-git-send-email-robert.chiras@nxp.com>
+In-Reply-To: <1561544420-15572-2-git-send-email-robert.chiras@nxp.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Wed, 26 Jun 2019 07:58:39 -0300
+Message-ID: <CAOMZO5AKOgcRcyOyz71MyHY5VbGF2OCSdVfREwoNPrVk8rbVAA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: display: panel: Add support for
+ Raydium RM67191 panel
+To: Robert Chiras <robert.chiras@nxp.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=0Mp2X3uUYygyUZH2VQNMWqRZzz0G4HZjkY+o2sLP3XQ=;
- b=bFkuHeWiQ22Q+3CdGwrV356cFF1YsEeZVIrZg5WR9FqoA1+b4nLh5tYJqHZtlJ+I3M
- +wLP0HESSCvKzp9wdWdGUWdhx+1mSe4fuRKM6U5Qipfc+4YrjG9Hm4M/nfyEMEelgw3a
- uI8ElEbvfhcy/pjsUlYO2K3SA7aocIOh3w7L5oymPGJZzt/WYhchgQmASk5yfFRuJQMw
- 9+wSnQuB4ZtaTBFEXkNl1kSvfCo3ssHrwPcL2yMM9qTrhKSI5RXxbnXoP5D4vbbF8JAe
- E6k9YfwgHDzvpKjgRzZigEsfstabObirQxhCRgKde80pi8CsW7UU3rH1v2rQWe+1ntzj
- StBQ==
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=vBnSNkpp1XS13FbQfXNNjthLGvaxRDnVZe4G6iUXAtU=;
+ b=GaqgAuFEfvv3hBS0MaU6uk4aVJXr6o+2pG+er+XZSrXJmKaX1hSvGbNyogXUrcLE1F
+ 8uPyzO20cWhgn+6ogJWZGBUDgM/+hmdodS2rGfiJw+hYmHysEcAjmj6xP3Fee5JK8Emq
+ loi84Jm74kjpfhji/XqX0xwnoCYYdgWSjGLQq8wzHtt2nSe0/KvZ6HHheCZpk8jL9kN5
+ ePK310T6x5hfCUeiiB+CAwL2vR/E5Nd3/aRMdJydETRe0FPBo9xfRQRHMxYNWqCI5m8P
+ pUZHLmizbJuiS5WGXpaGO86UWbuiqs23zbiILID8Ga3NGnYbkerHBO9gQa2OE40nmKrC
+ g3Rw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,23 +64,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ NXP Linux Team <linux-imx@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAxOSBKdW4gMjAxOSwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOgoKPiBBQ1BJIGFsbG93
-cyB0byBlbnVtZXJhdGUgc3BlY2lmaWMgZGV2aWNlcyBieSB1c2luZyBjb21wYXRpYmxlIHN0cmlu
-Z3MuCj4gRW5hYmxlIHRoYXQgZW51bWVyYXRpb24gZm9yIEdQSU8gYmFzZWQgYmFja2xpZ2h0IGRl
-dmljZXMuCj4gCj4gU2lnbmVkLW9mZi1ieTogQW5keSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNo
-ZW5rb0BsaW51eC5pbnRlbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L2dw
-aW9fYmFja2xpZ2h0LmMgfCAyMyArKysrKysrKystLS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hh
-bmdlZCwgOSBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkKCkFwcGxpZWQsIHRoYW5rcy4K
-Ci0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KTGluYXJvIFNlcnZpY2VzIFRlY2huaWNhbCBMZWFk
-CkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBUk0gU29DcwpGb2xsb3cg
-TGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gV2VkLCBKdW4gMjYsIDIwMTkgYXQgNzoyMSBBTSBSb2JlcnQgQ2hpcmFzIDxyb2JlcnQuY2hp
+cmFzQG54cC5jb20+IHdyb3RlOgo+Cj4gQWRkIGR0LWJpbmRpbmdzIGRvY3VtZW50YXRpb24gZm9y
+IFJheWRpdW0gUk02NzE5MSBEU0kgcGFuZWwuCj4KPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgQ2hp
+cmFzIDxyb2JlcnQuY2hpcmFzQG54cC5jb20+Cj4gUmV2aWV3ZWQtYnk6IFNhbSBSYXZuYm9yZyA8
+c2FtQHJhdm5ib3JnLm9yZz4KClJldmlld2VkLWJ5OiBGYWJpbyBFc3RldmFtIDxmZXN0ZXZhbUBn
+bWFpbC5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
