@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883AF57D36
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 09:36:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4355C57D3B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 09:37:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F03C56E818;
-	Thu, 27 Jun 2019 07:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1D206E815;
+	Thu, 27 Jun 2019 07:36:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFFC6E816;
- Thu, 27 Jun 2019 07:35:58 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id r15so827338lfm.11;
- Thu, 27 Jun 2019 00:35:58 -0700 (PDT)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E2A76E811;
+ Thu, 27 Jun 2019 07:36:57 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id 131so1282367ljf.4;
+ Thu, 27 Jun 2019 00:36:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=7LaMgU7lYlTTq4vX0F62OnAdP2BPs36Q4zFTrM+xfWM=;
- b=GABMX3pJ1rAD5kmO+2HuHWVH8E5r/JAwu4OlU5Lh5F0P/XlwpTJUx0Cma9SX74K4lb
- hOCBZRotAlyUOCo1dwxXuECI4TDj57umaA3AU4NaA+BOoh1syzgfrTXnD6UDJEtacEoz
- 8NseyxTvg5bJwX/BqDe6B+UNxLue5LB5EuJhY3IjuY6dUnLoJGtK4acTcLZtlcK7r94b
- BOJOhe9XaH0j2h8ZBA0lEP9tVGkT1iV/AFN0xEacaGdPThHLnAYv8d+b13Pg8sapYAVI
- 7zeY4YEU6hQ7o7hT6maC/EFw1X+uYWJUIrORmzhfJvEk6LDYHZZFxy3t8iTMliWoKHgp
- uLUQ==
-X-Gm-Message-State: APjAAAVHt6RGpNfWr0eGy+NnKnJ8jX/aK2XFj7NUDcCbrIIM2noCE8Ck
- 55zDe4diBM2M6LvmRdOZxaKjMdqx
-X-Google-Smtp-Source: APXvYqwimau8EroDWhePxAfL9GMh87MNDgMiEbn3T6yy7V8vWusOin2c7ApygArs0ZzigHrzNEY3Kg==
-X-Received: by 2002:ac2:5922:: with SMTP id v2mr261503lfi.180.1561620956752;
- Thu, 27 Jun 2019 00:35:56 -0700 (PDT)
+ bh=HEi2fpVTFwJEiLRLLQyi012bkoNHALIBMdoqRrJqmqc=;
+ b=Ji9wkJBxAO3cHcrsd32ihPj7WPBHE1zuwki6dP90nT1pDMAJZJPKfAS/kVSpilOE9U
+ 9+atrcydJ992GaVGEivB7fEpsw0Pm4p/k+n57NSkcsyYU3BjFMe0qEnIMBW94Ci7H5rI
+ ewF/dW9GIwt82r6HtXbSrzJUYNj+1Gfv1Yv2xIugAf5IsvAJbueb9Wa2QmjfGiRWFvdp
+ jdpALuMmHZ+valpc/twblSzBG7T3bI7X2481wTAgDgt4gzRlZWn5f2XGZEsThOhfCwUM
+ Z8uKODKC3BD3ZUMjzTqqs5ii43v/fNLFpSebwhis1Bk9PzT/+GelBivuVYJJ6jFvuGgI
+ 8c3A==
+X-Gm-Message-State: APjAAAWW54oPQMK0BlBGKajhrCYN+R0jk4/L46y6RKVxuiCiXf6b0CG6
+ R7UdXxwAdSfWlzelUdIvrjw=
+X-Google-Smtp-Source: APXvYqxv14eq5yKd+jfGYQEuseS9it3DoVZQLKetzae2LKU/qmOxhrsoki3uz70BA29GNWFEnqS8KQ==
+X-Received: by 2002:a2e:8741:: with SMTP id q1mr1659960ljj.144.1561621015700; 
+ Thu, 27 Jun 2019 00:36:55 -0700 (PDT)
 Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v2sm190292lfi.52.2019.06.27.00.35.56
+ by smtp.gmail.com with ESMTPSA id 2sm213790lji.94.2019.06.27.00.36.55
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 00:35:56 -0700 (PDT)
-Date: Thu, 27 Jun 2019 10:35:47 +0300
+ Thu, 27 Jun 2019 00:36:55 -0700 (PDT)
+Date: Thu, 27 Jun 2019 10:36:51 +0300
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [RFC][PATCH 0/2] drm: PATH prop for all connectors?
-Message-ID: <20190627103547.67cd8868@eldfell.localdomain>
-In-Reply-To: <20190613204208.GR23020@phenom.ffwll.local>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Subject: Re: [RFC][PATCH 1/2] drm: Improve PATH prop docs
+Message-ID: <20190627103651.1683e3f2@eldfell.localdomain>
+In-Reply-To: <20190613184335.7970-2-ville.syrjala@linux.intel.com>
 References: <20190613184335.7970-1-ville.syrjala@linux.intel.com>
- <20190613204208.GR23020@phenom.ffwll.local>
+ <20190613184335.7970-2-ville.syrjala@linux.intel.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
  :mime-version;
- bh=7LaMgU7lYlTTq4vX0F62OnAdP2BPs36Q4zFTrM+xfWM=;
- b=RICox4np91ERiK98nqkCdlp4Xg7k+l0a0C6GseCgKDxxiCi2gHgqvMl0Uw3t+JjElu
- eylZHxxZzXq5JA8zi2aAqWMIjEAZDJtyZoWQMDHXcuob1t+IcSJ1hnFcNCIItThEuXNl
- TBjNDyUEUVyimbRc/UgaoECLorOIKYON3drsivOJYFgh2B2KomJ+h9r9FaUq+6sO6LHq
- zE7djqyK2r9zVIDmyGhQMT7xCHQhZtw6v4EuAHSgARgd/kFuaH9X+lxjlykxECKAznC5
- YJzvRLcDvMLp8wmkT8QyXtpmsFJXOBTMrAKyjsCG71p1ksSBUbywZERQwX9ms31kxGwU
- wjjQ==
+ bh=HEi2fpVTFwJEiLRLLQyi012bkoNHALIBMdoqRrJqmqc=;
+ b=t03TgFN15Jvxp74Fj7cxdSeHK0DQzoSFEpLQWyLR66SfjlKSPGmiNy1q0pIAlwlORf
+ JtlxnuA1X4ZRghd6jIi7RkKy9vtxJpS25ewDp9v+p7/y4weTOFqfAd/A3mnDPlLRmi46
+ UW7FGadLaDoQf8Fes4oi1a9a1JVFQ6Ua3+wq/vLXgWP6JBqlTQ3RJ4ufB0YkB4EsyAdr
+ BKbyoLVy+Z61E9GSsM1HN2aSP0lrN4QbB27zcBSURwIQdIA2G8sXHSP2l114vG982fLC
+ WazdHncDmWW3UQIpkbbkw1Sr5E7W0boChJEfJyRO71TOozdq6evMNWBN+PZCy56OR/ys
+ rWdQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,97 +69,106 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1264152971=="
+Content-Type: multipart/mixed; boundary="===============0120089913=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1264152971==
+--===============0120089913==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/wGF4miNzbv/L0CFmuwxXMfZ"; protocol="application/pgp-signature"
+ boundary="Sig_/nAQXwzCRVEDMW=0s/4izYYe"; protocol="application/pgp-signature"
 
---Sig_/wGF4miNzbv/L0CFmuwxXMfZ
+--Sig_/nAQXwzCRVEDMW=0s/4izYYe
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 13 Jun 2019 22:42:08 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+On Thu, 13 Jun 2019 21:43:34 +0300
+Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
 
-> On Thu, Jun 13, 2019 at 09:43:33PM +0300, Ville Syrjala wrote:
-> > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> >=20
-> > Here's a possible apporoach for providing userspace with
-> > some stable connector identifiers. Combine with the bus
-> > name of the GPU and you should have some kind of real
-> > physical path description. Unfortunately the ship has
-> > sailed for MST connectors because userspace is already
-> > parsing the property and expects to find certain things
-> > there. So if we want stable names for those we'd probably
-> > have introduce another PATH prop (PHYS_PATH?).
-> >=20
-> > I suppose one alternative would to make the connector=20
-> > type_id stable. Currently that is being populated by drm=20
-> > core and it's just a global counter. Not sure how badly
-> > things would turn out if we'd allow each driver to set
-> > that. It could result in conflicting xrandr connector
-> > names between different GPUs which I suppose would
-> > confuse existing userspace? =20
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 >=20
-> I think the only reason this global id stuff exists is because with
-> original xrandr, that stuff was global. And then it got copypasted
-> forever.
+> The PATH blob is already being parsed by userspace for MST connectors
+> so the layout of the blob is now uabi. Let's document what it should
+> look like.
 >=20
-> Would need to do a bunch of reviewing, but I'd expect we'll get away with
-> just making all these allocators per-device.
+> Also add a clear note saying non-MST connectors can have a PATH prop
+> too.
+>=20
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Ilia Mirkin <imirkin@alum.mit.edu>
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index e17586aaa80f..ce3926e9ad11 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -899,7 +899,16 @@ static const struct drm_prop_enum_list hdmi_colorspa=
+ces[] =3D {
+>   * 	connected. Used by DP MST. This should be set by calling
+>   * 	drm_connector_set_path_property(), in the case of DP MST with the
+>   * 	path property the MST manager created. Userspace cannot change this
+> - * 	property.
+> + * 	property. The value must be an ASCII string.
+> + *
+> + * 	For DP MST connectors the path string follows the pattern
+> + * 	"mst:<base connector ID>[-<mst port>]...", where the base connector =
+ID
+> + * 	identifies the DP connector on the source device, and the mst ports
+> + * 	are the port numbers in the DP MST topology.
 
 Hi,
 
-I'm not sure I'm that optimistic... I assume most userspace uses type_id
-for naming already and might rely on uniqueness. Weston uses type_id,
-but does not rely on uniqueness yet, since it only handles one device
-so far.
+what exactly is the connector ID as already used here for MST? Is it
+not persistent?
 
-The bigger problem to me however is changing the meaning of type_id,
-causing old kernels do one thing and new kernels do another thing. When
-userspace uses type_id for connector naming, it may use that name in
-configuration files. Weston does, but again is not affected because it
-doesn't support using multiple devices yet. If someone has two gfx
-cards in his machine, making type_id per-device changes the numbering,
-meaning the user's configuration does not apply anymore or applies
-wrong. I suppose it doesn't matter if the naming was already
-unreliable, since it is reliable if the drivers/devices happened to
-probe in the same order every boot.
+I assume the MST port numbers are persistent as long as the physical
+topology does not change.
 
-Are connector names in xrandr still using type_id in their names? That
-would be a sure blocker, I think.
+> + *
+> + * 	For non-DP MST connectors the format is freeform, as long as it
+> + * 	uniquely identifies the physical path, remains stable across
+> + * 	kernel releases, and does not start with "mst:".
+
+Maybe the requirements for "persistent name" should be clarified more:
+- remains stable across kernel releases
+- is immune to driver loading/initialisation order changes
+- is immune to adding or removing other hardware (e.g. graphics cards)
+
+Maybe also some explicit words about what to do with dynamic non-MST
+connectors?
 
 
 Thanks,
 pq
 
---Sig_/wGF4miNzbv/L0CFmuwxXMfZ
+--Sig_/nAQXwzCRVEDMW=0s/4izYYe
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl0UcdMACgkQI1/ltBGq
-qqd0/Q//RlTC3ZUhYvLszKWH+MxGXbG1y917+H4YacqZBa1Dt+v4n5l87A0atOjD
-UnFqzvWJ3X/94NviRSOj1pQ4c82sCf8jXV49vaKlDLpU64PzRr6B/YJnTmcbL74T
-UdG97nYXU79Himl44OJdEjbHiaiGdbvA0+l45LIKZ6h8brTmkUNnMcpO3o6WQ+Yk
-Lsf9jvvz4wLfEotqbGdc5pbyHJz+vgRZfWIKuHHCCHgx2zjhdG+X1FK81gxXaA29
-otDUD6/yY39zsW+ZESo3ZBFSlH9QNXq7eCNH36YlYqjXtXY0QJ7mZ56/FP0RgAap
-kHs/X8BBaEGL3dWY8YLKgIZKSSqU77SHWYhTbAhcaPSz07xSgXrWvfYyYev1EIbe
-K8BlP7Hf6K9G4rI6drOuwe5Ue9gD7ImCC0NGKiJPCAml1/nEDuJF5uIF+FyIXZeS
-+isIdPUjGzqGtM1TlqUr938odITyL2YrMITQjHBjy+LhFN2mamyA3aUX5ilYQXUB
-x8DRzvp1yrinakJgC3y8ya76+px2/qSoDDORkhrvzODod7gGWIlyDiePaCwxMY8M
-Ln8NFsUmuc+/MV8AbtHDSRVzwKTMQJCFc0vZNu6CdW70u1VXbi6bvDklZ7fErIhd
-u1IKHI3ghQooT1Nu3PJyKNdbzMwi3UU5zHD/insp4Cq6VWzOGAM=
-=QjzZ
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl0UchMACgkQI1/ltBGq
+qqfA9w//ZEhfCvv5BoYQ9CZkRRRaTJmCtYNeUPpnJH3TnGXxVI8PAaKM7YXlJDsd
+K/zZDrjxlVwV9U9jFsg3fqcN52GYWRbRGMHX3hhFboQln1j6Q5pbGltfyRRo2yvM
+1Wx7Enx2gE9jj+1M0WYsxTkRW7iPkQu6+NMJn1qyaSi1S9ysUg67xrbHrLjybSNE
+xKJLwGhfhU6IiY2bMDs/0NthC8+3Oi0c0lu7XdL2wDUOFrnZ6RbSy2JySYHoFw3c
+rBZhekCToiko/PcPuFLvoH09b9fdrsVBjiNInElqRR5juD+MKerMsLv5tb5kCrzp
+6EM+6Igq2vRo8LyGTstZUDBwCLZUSpmHNtZN7JqGOZaC1Caeu821WYTFdB15nktr
+dgGcjRap/OTYnFUzHr2I5w8y/oF9nqIK0B9GLPYZgvhO/3b28s6H80LzcDG5FcEe
+AeFYmvdYwZ3f5ld3qlnjoq7c7/bxfy/fMdHOtvMZ/9BjAbc0nhnYrugscibImI/O
+cS7yU41zu8q0WrH+a546Mzwnt/gFXPutvR0W0fX+q9fYRZUKf6Bo4APhXAOQ7dpc
+F3f9dxqkpd2FXDfutNoxImw1biSQ3bqQcE5hr2cPuMhbMcN6P5GP8cOEZrWv5wW8
+P1pvE6SNTxiuJkAROoWhbogR6hrLt/QgnUqFtQVfccwiZh5KR3s=
+=jq+1
 -----END PGP SIGNATURE-----
 
---Sig_/wGF4miNzbv/L0CFmuwxXMfZ--
+--Sig_/nAQXwzCRVEDMW=0s/4izYYe--
 
---===============1264152971==
+--===============0120089913==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -169,4 +178,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1264152971==--
+--===============0120089913==--
