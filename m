@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1449B585D3
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 17:33:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8BE5840F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 16:01:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B96E6E056;
-	Thu, 27 Jun 2019 15:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 133F56E44D;
+	Thu, 27 Jun 2019 14:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id EC8966E36D
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 13:54:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8458B360;
- Thu, 27 Jun 2019 06:54:47 -0700 (PDT)
-Received: from [10.1.196.133] (e112269-lin.cambridge.arm.com [10.1.196.133])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 829F23F246;
- Thu, 27 Jun 2019 06:54:46 -0700 (PDT)
-Subject: Re: [PATCH] drm/panfrost: Add AArch64 page table format support
-To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-References: <20190513144012.17243-1-robh@kernel.org>
- <CAAObsKADkCLUDSJ9aAxQ_WAotFYTuUuVhifKA5Y+dWjOfmmP4w@mail.gmail.com>
- <deb3aa13-36ea-acdf-b3bd-3380cbe75fda@arm.com>
- <CAAObsKDOvnLU+k5jDbAibq58uh_6-Af4c1STw4Bd0AfDQrYOEw@mail.gmail.com>
- <CAL_JsqLqZ-R+bkEkqsyn1ir9KQ14FwR=uATJJZFRs_t1dkOgLg@mail.gmail.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <d5adbbae-0dcd-0c31-2a8a-29ff535ead0f@arm.com>
-Date: Thu, 27 Jun 2019 14:54:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 792E66E435
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 14:01:48 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7614D72167; Thu, 27 Jun 2019 14:01:48 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108917] gamma adjustments cause stuttering with amdgpu.dc=1,
+ especially problematic with RedShift etc.
+Date: Thu, 27 Jun 2019 14:01:48 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108917-502-Pe2MCaXu31@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108917-502@http.bugs.freedesktop.org/>
+References: <bug-108917-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLqZ-R+bkEkqsyn1ir9KQ14FwR=uATJJZFRs_t1dkOgLg@mail.gmail.com>
-Content-Language: en-GB
-X-Mailman-Approved-At: Thu, 27 Jun 2019 15:33:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,20 +53,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robin Murphy <robin.murphy@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1481642051=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvMDYvMjAxOSAxNDoyMCwgUm9iIEhlcnJpbmcgd3JvdGU6ClsuLi5dCj4gSSB3b3VsZG4n
-dCBoYXZlIGV4cGVjdGVkIEFTX1RSQU5TQ0ZHX0FEUk1PREVfTEVHQUNZIHRvIHdvcmsgYW5kIGlm
-IGl0Cj4gZGlkIGl0IHdhcyBieSBjaGFuY2UuIFNvIEkgZG9uJ3QgdGhpbmsgaXQgaXMgc29tZXRo
-aW5nIHdlIHdhbnQgdG8KPiBzdXBwb3J0LgoKQWN0dWFsbHkgbGVnYWN5IG1vZGUgaXMgc3VwcG9y
-dGVkIG9uIChtb3N0PykgQmlmcm9zdCBHUFVzLiBCdXQgYmVzdCB0bwpmb2xsb3cgdGhlIGxlYWQg
-b2Yga2Jhc2UgaGVyZSBhcyB0aGF0IHdpbGwgYmUgd2hhdCBoYXMgYmVlbiB0ZXN0ZWQuCgpTdGV2
-ZQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1481642051==
+Content-Type: multipart/alternative; boundary="15616441082.Aa0Af063.8369"
+Content-Transfer-Encoding: 7bit
+
+
+--15616441082.Aa0Af063.8369
+Date: Thu, 27 Jun 2019 14:01:48 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108917
+
+--- Comment #13 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+Sounds like the stutter with compton could be at least partly a compton
+(configuration?) issue then.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15616441082.Aa0Af063.8369
+Date: Thu, 27 Jun 2019 14:01:48 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
+pecially problematic with RedShift etc."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108917#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
+pecially problematic with RedShift etc."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108917">bug 10891=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>Sounds like the stutter with compton could be at least partly =
+a compton
+(configuration?) issue then.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15616441082.Aa0Af063.8369--
+
+--===============1481642051==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1481642051==--
