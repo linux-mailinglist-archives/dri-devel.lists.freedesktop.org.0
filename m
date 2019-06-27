@@ -2,45 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE4D58113
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 13:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7179358138
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 13:15:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF156E0CF;
-	Thu, 27 Jun 2019 11:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0815F6E0CD;
+	Thu, 27 Jun 2019 11:15:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A73676E0CD
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 11:02:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A399772167; Thu, 27 Jun 2019 11:02:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108917] gamma adjustments cause stuttering with amdgpu.dc=1,
- especially problematic with RedShift etc.
-Date: Thu, 27 Jun 2019 11:02:26 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108917-502-THgmWyW1za@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108917-502@http.bugs.freedesktop.org/>
-References: <bug-108917-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 530726E0CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 11:15:11 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id v24so1882187ljg.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 04:15:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5TqvPz8DpORGx1+vi8ExXWSK0FXpNg/HXwHTY32b52w=;
+ b=WupmN98qonvqNdSEv+tjfDwLz244m4WU6OUT3527n5zwsoLFvCyaqHvJvkeyEaeB2a
+ uE/wxfDpG0fWsS9kD2MgSvWR+hr4e++LerSUh/2zSt4GRZ9sVPsTHE6gTm1tVsyYZgDL
+ wA+hCwQjV3nV6bB4wZuBWu/hjrqKl/Y3Es4z4rulafueaoB/J3L9p+AyJj02sXXSHOyT
+ o8RLE4348kBOuYI2Ky3pPYrXTCQc1+Z944NMXLZDjOQt1dfLz2Dlfn5GoeBdClFiXITk
+ tOSoz0f+uv1VM0kgq651grkf6/oNLmCxKgJGKm/7oKVn5pWh0RGsLn1sAFyooAC8lLVy
+ Je9w==
+X-Gm-Message-State: APjAAAWj4R28ZkcMKQl9FGVlZ3PSxNBozWbzjI0rDEqLxzHVgY95yjAT
+ NvqQMGk1c8cRZ/dG1p3BzOEMhHh12QGQ+81zeWYSHA==
+X-Google-Smtp-Source: APXvYqyVA9C7Y1iH92FooDzDgEr3HQuytpfeJym/aOuE5hBX0/swTw0Rz9L0rgrDIJ1qob4Es/otbtAluqfU9XSMIXs=
+X-Received: by 2002:a2e:a0cf:: with SMTP id f15mr2303238ljm.180.1561634109728; 
+ Thu, 27 Jun 2019 04:15:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190625163434.13620-1-brgl@bgdev.pl>
+ <20190625163434.13620-4-brgl@bgdev.pl>
+In-Reply-To: <20190625163434.13620-4-brgl@bgdev.pl>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 27 Jun 2019 12:14:58 +0100
+Message-ID: <CACRpkdZm35HOxBqDN0dfAyiMPFAPOguPrzuPUwS14kZM-VJV4A@mail.gmail.com>
+Subject: Re: [PATCH 03/12] backlight: gpio: pull the non-pdata device probing
+ code into probe()
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=5TqvPz8DpORGx1+vi8ExXWSK0FXpNg/HXwHTY32b52w=;
+ b=Oh8LTD8m7IDgDorBBc7V+VvCco9ShEfKtubYx65x1T5UADxUHneIwXm5D34fbeGt8A
+ ixjCx/VH3pF/bQ6ZHMg9PHCQmjkpCAiXVk/t5qsh/Qqm5tx9SPGzVhjOT8gQTzjQQrfi
+ lAGtQ9fEG9oF9K1v8oeREAXC0uuw/SL0BJN950l/xiDxO5+wGYpYmT+5VPl0QUp7nSue
+ aAMKG7ngQmAlBgnfr7IMamGqNGSDVnT6ZsHyoFmoAYfgNHCqJ4qfQ4AxjZkWYV30/+vx
+ p6K15ZkS7XsSbBvwsLCURk/PDZbWbvX4UVyTadC7wxBwmODusUKB4z9LZEZdJG1mVlPF
+ JTEg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,121 +64,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0162261170=="
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ David Lechner <david@lechnology.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Kevin Hilman <khilman@kernel.org>,
+ Sekhar Nori <nsekhar@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-fbdev@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0162261170==
-Content-Type: multipart/alternative; boundary="15616333461.C453c45C.5794"
-Content-Transfer-Encoding: 7bit
-
-
---15616333461.C453c45C.5794
-Date: Thu, 27 Jun 2019 11:02:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108917
-
---- Comment #12 from tempel.julian@gmail.com ---
-It seems some recent (kernel?) updates have mitigated the issue a lot when
-running "redshift -t 4500:4500 -l 1:1", the transition phase is now free of
-stutter. After that, there is still regular stutter though for subsequent g=
-amma
-adjustments by RedShift when Compton with vsync is active.
-
-What is really interesting: There is kwin-lowlatency as a kwin fork with vs=
-ync
-adjustments:
-https://github.com/tildearrow/kwin-lowlatency
-With its compositing, the performance issues of atomic modesetting seem to =
-be
-entirely missing. There is zero stutter when opening windows etc., and also
-continuous RedShift adjustments don't stutter. At the same time, there is z=
-ero
-tearing.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15616333461.C453c45C.5794
-Date: Thu, 27 Jun 2019 11:02:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
-pecially problematic with RedShift etc."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108917#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
-pecially problematic with RedShift etc."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108917">bug 10891=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>It seems some recent (kernel?) updates have mitigated the issu=
-e a lot when
-running &quot;redshift -t 4500:4500 -l 1:1&quot;, the transition phase is n=
-ow free of
-stutter. After that, there is still regular stutter though for subsequent g=
-amma
-adjustments by RedShift when Compton with vsync is active.
-
-What is really interesting: There is kwin-lowlatency as a kwin fork with vs=
-ync
-adjustments:
-<a href=3D"https://github.com/tildearrow/kwin-lowlatency">https://github.co=
-m/tildearrow/kwin-lowlatency</a>
-With its compositing, the performance issues of atomic modesetting seem to =
-be
-entirely missing. There is zero stutter when opening windows etc., and also
-continuous RedShift adjustments don't stutter. At the same time, there is z=
-ero
-tearing.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15616333461.C453c45C.5794--
-
---===============0162261170==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0162261170==--
+T24gVHVlLCBKdW4gMjUsIDIwMTkgYXQgNTozNCBQTSBCYXJ0b3N6IEdvbGFzemV3c2tpIDxicmds
+QGJnZGV2LnBsPiB3cm90ZToKCj4gRnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3
+c2tpQGJheWxpYnJlLmNvbT4KPgo+IFRoZXJlJ3Mgbm8gZ29vZCByZWFzb24gdG8gaGF2ZSB0aGUg
+Z2VuZXJpYyBwcm9iaW5nIGNvZGUgaW4gYSBzZXBhcmF0ZQo+IHJvdXRpbmUuIFRoaXMgZnVuY3Rp
+b24gaXMgc2hvcnQgYW5kIGlzIGlubGluZWQgYnkgdGhlIGNvbXBpbGVyIGFueXdheS4KPiBNb3Zl
+IGl0IGludG8gcHJvYmUgdW5kZXIgdGhlIHBkYXRhLXNwZWNpZmljIHBhcnQuCj4KPiBTaWduZWQt
+b2ZmLWJ5OiBCYXJ0b3N6IEdvbGFzemV3c2tpIDxiZ29sYXN6ZXdza2lAYmF5bGlicmUuY29tPgoK
+UmV2aWV3ZWQtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KCllv
+dXJzLApMaW51cyBXYWxsZWlqCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
