@@ -1,38 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F275457F7C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 11:43:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E15357F82
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 11:45:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CAE6E84A;
-	Thu, 27 Jun 2019 09:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33B9E6E202;
+	Thu, 27 Jun 2019 09:45:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E404C6E84A
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 09:43:37 +0000 (UTC)
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1hgQwI-0008Tt-De; Thu, 27 Jun 2019 11:43:34 +0200
-Message-ID: <1561628613.2587.40.camel@pengutronix.de>
-Subject: Re: etnaviv: Possible circular lockingon i.MX6QP
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Fabio Estevam <festevam@gmail.com>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, Russell King - ARM Linux
- <linux@armlinux.org.uk>
-Date: Thu, 27 Jun 2019 11:43:33 +0200
-In-Reply-To: <CAOMZO5D6PHofMSCWM58sviuZgftN_e5PzL41htgODgNo=GEOjg@mail.gmail.com>
-References: <CAOMZO5D6PHofMSCWM58sviuZgftN_e5PzL41htgODgNo=GEOjg@mail.gmail.com>
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 645C76E202
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 09:45:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6185272167; Thu, 27 Jun 2019 09:45:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111013] *ERROR* displayport link status failed/*ERROR* clock
+ recovery failed
+Date: Thu, 27 Jun 2019 09:45:09 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111013-502-cVl3yJSf7n@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111013-502@http.bugs.freedesktop.org/>
+References: <bug-111013-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,117 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0586363498=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRmFiaW8sCgpBbSBNaXR0d29jaCwgZGVuIDEyLjA2LjIwMTksIDEyOjQ4IC0wMzAwIHNjaHJp
-ZWIgRmFiaW8gRXN0ZXZhbToKPiBIaSwKPiAKPiBPbiBhIGlteDZxcC13YW5kYm9hcmQgSSBnZXQg
-dGhlIHdhcm5pbmcgYmVsb3cgYWJvdXQgYSBwb3NzaWJsZQo+IGNpcmN1bGFyIGxvY2tpbmcgZGVw
-ZW5kZW5jeSBydW5uaW5nIDUuMS45IGJ1aWx0IGZyb20KPiBpbXhfdjZfdjdfZGVmY29uZmlnLgo+
-IAo+IFN1Y2ggd2FybmluZyBkb2VzIG5vdCBoYXBwZW4gb24gdGhlIGlteDZxIG9yIGlteDZzb2xv
-IHZhcmlhbnRzIG9mCj4gd2FuZGJvYXJkIHRob3VnaC4KPiAKPiBBbnkgaWRlYXM/CgpUaGUgaXNz
-dWUgcmVwb3J0ZWQgYnkgbG9ja2RlcCBpcyByZWFsLiBZb3UgcHJvYmFibHkgb25seSBzZWUgaXQg
-b24gUVAKYXMgaXQncyB1bmNvdmVyZWQgZHVlIHRvIGEgTU1VIGV4Y2VwdGlvbiB0cmlnZ2VyZWQg
-R1BVIGhhbmcuIE1NVXYxCmNvcmVzIGxpa2UgdGhlIG9uZXMgb24gdGhlIG9sZGVyIGkuTVg2IGFy
-ZSB1bmFibGUgdG8gc2lnbmFsIE1NVQpleGNlcHRpb25zIGJ1dCBqdXN0IHJlYWQgdGhlIGR1bW15
-IHBhZ2UuCgpTb21lIGdpdCBoaXN0b3J5IGRpZ2dpbmcgc2hvd3MgdGhhdCB0aGUgYnVnIGhhcyBi
-ZWVuIGludHJvZHVjZWQgd2l0aAozNzQxNTQwZTA0MTMgKGRybS9zY2hlZDogUmV3b3JrIEhXIGZl
-bmNlIHByb2Nlc3NpbmcuKSwgd2hpY2ggaXMgcGFydCBvZiBrZXJuZWwgNS4xLiBUaGUgZml4IGlz
-IDU5MTgwNDVjNGVkNCAoZHJtL3NjaGVkdWxlcjogcmV3b3JrIGpvYiBkZXN0cnVjdGlvbiksIHdo
-aWNoIGlzIG5vdCBpbiBhbnkgcmVsZWFzZWQga2VybmVsIHlldCBhbmQgc2VlbXMgdG8gYmUgdG9v
-IGJpZyBmb3Igc3RhYmxlLCBzbyBJJ20gbm90IHJlYWxseSBzdXJlIHdoYXQgdG8gZG8gYXQgdGhp
-cyBwb2ludC4KClJlZ2FyZHMsCkx1Y2FzCgo+ICBUaGFua3MsCj4gCj4gRmFiaW8gRXN0ZXZhbQo+
-IAo+ICoqIChtYXRjaGJveC1wYW5lbDo3MDgpOiBXQVJOSU5HICoqOiBGYWlsZWQgdG8gbG9hZCBh
-cHBsZXQgImJhdHRlcnkiCj4gKC91c3IvbGliL21hdGNoYm94LXBhbmVsL2xpYmJhdHRlcnkuc286
-IGNhbm5vdCBvcGVuIHNoYXJlZCBvYmplY3QKPiBmaWxlOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0
-b3J5KS4KPiBtYXRjaGJveC13bTogWCBlcnJvciB3YXJuaW5nICgweGUwMDAwMyk6IEJhZFdpbmRv
-dyAoaW52YWxpZCBXaW5kb3cKPiBwYXJhbWV0ZXIpIChvcGNvZGU6IDEyKQo+IGV0bmF2aXYtZ3B1
-IDEzNDAwMC5ncHU6IE1NVSBmYXVsdCBzdGF0dXMgMHgwMDAwMDAwMQo+IGV0bmF2aXYtZ3B1IDEz
-NDAwMC5ncHU6IE1NVSAwIGZhdWx0IGFkZHIgMHgwODA1ZmZjMAo+IAo+ID09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+IFdBUk5JTkc6IHBvc3Np
-YmxlIGNpcmN1bGFyIGxvY2tpbmcgZGVwZW5kZW5jeSBkZXRlY3RlZAo+IDUuMS45ICM1OCBOb3Qg
-dGFpbnRlZAo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQo+IGt3b3JrZXIvMDoxLzI5IGlzIHRyeWluZyB0byBhY3F1aXJlIGxvY2s6Cj4gKHB0
-cnZhbCkgKCYoJmdwdS0+ZmVuY2Vfc3BpbmxvY2spLT5ybG9jayl7LS4uLn0sIGF0Ogo+IGRtYV9m
-ZW5jZV9yZW1vdmVfY2FsbGJhY2srMHgxNC8weDUwCj4gCj4gYnV0IHRhc2sgaXMgYWxyZWFkeSBo
-b2xkaW5nIGxvY2s6Cj4gKHB0cnZhbCkgKCYoJnNjaGVkLT5qb2JfbGlzdF9sb2NrKS0+cmxvY2sp
-ey0uLi59LCBhdDoKPiBkcm1fc2NoZWRfc3RvcCsweDFjLzB4MTI0Cj4gCj4gd2hpY2ggbG9jayBh
-bHJlYWR5IGRlcGVuZHMgb24gdGhlIG5ldyBsb2NrLgo+IAo+IAo+IHRoZSBleGlzdGluZyBkZXBl
-bmRlbmN5IGNoYWluIChpbiByZXZlcnNlIG9yZGVyKSBpczoKPiAKPiAtPiAjMSAoJigmc2NoZWQt
-PmpvYl9saXN0X2xvY2spLT5ybG9jayl7LS4uLn06Cj4gwqDCoMKgwqDCoMKgwqBkcm1fc2NoZWRf
-cHJvY2Vzc19qb2IrMHg1Yy8weDFjOAo+IMKgwqDCoMKgwqDCoMKgZG1hX2ZlbmNlX3NpZ25hbCsw
-eGRjLzB4MWQ0Cj4gwqDCoMKgwqDCoMKgwqBpcnFfaGFuZGxlcisweGQwLzB4MWUwCj4gwqDCoMKg
-wqDCoMKgwqBfX2hhbmRsZV9pcnFfZXZlbnRfcGVyY3B1KzB4NDgvMHgzNjAKPiDCoMKgwqDCoMKg
-wqDCoGhhbmRsZV9pcnFfZXZlbnRfcGVyY3B1KzB4MjgvMHg3Ywo+IMKgwqDCoMKgwqDCoMKgaGFu
-ZGxlX2lycV9ldmVudCsweDM4LzB4NWMKPiDCoMKgwqDCoMKgwqDCoGhhbmRsZV9mYXN0ZW9pX2ly
-cSsweGMwLzB4MTdjCj4gwqDCoMKgwqDCoMKgwqBnZW5lcmljX2hhbmRsZV9pcnErMHgyMC8weDM0
-Cj4gwqDCoMKgwqDCoMKgwqBfX2hhbmRsZV9kb21haW5faXJxKzB4NjQvMHhlMAo+IMKgwqDCoMKg
-wqDCoMKgZ2ljX2hhbmRsZV9pcnErMHg0Yy8weGE4Cj4gwqDCoMKgwqDCoMKgwqBfX2lycV9zdmMr
-MHg3MC8weDk4Cj4gwqDCoMKgwqDCoMKgwqBjcHVpZGxlX2VudGVyX3N0YXRlKzB4MTY4LzB4NWE0
-Cj4gwqDCoMKgwqDCoMKgwqBjcHVpZGxlX2VudGVyX3N0YXRlKzB4MTY4LzB4NWE0Cj4gwqDCoMKg
-wqDCoMKgwqBkb19pZGxlKzB4MjIwLzB4MmMwCj4gwqDCoMKgwqDCoMKgwqBjcHVfc3RhcnR1cF9l
-bnRyeSsweDE4LzB4MjAKPiDCoMKgwqDCoMKgwqDCoHN0YXJ0X2tlcm5lbCsweDNlNC8weDQ5OAo+
-IAo+IC0+ICMwICgmKCZncHUtPmZlbmNlX3NwaW5sb2NrKS0+cmxvY2spey0uLi59Ogo+IMKgwqDC
-oMKgwqDCoMKgX3Jhd19zcGluX2xvY2tfaXJxc2F2ZSsweDM4LzB4NGMKPiDCoMKgwqDCoMKgwqDC
-oGRtYV9mZW5jZV9yZW1vdmVfY2FsbGJhY2srMHgxNC8weDUwCj4gwqDCoMKgwqDCoMKgwqBkcm1f
-c2NoZWRfc3RvcCsweDk4LzB4MTI0Cj4gwqDCoMKgwqDCoMKgwqBldG5hdml2X3NjaGVkX3RpbWVk
-b3V0X2pvYisweDdjLzB4YjQKPiDCoMKgwqDCoMKgwqDCoGRybV9zY2hlZF9qb2JfdGltZWRvdXQr
-MHgzNC8weDVjCj4gwqDCoMKgwqDCoMKgwqBwcm9jZXNzX29uZV93b3JrKzB4MmFjLzB4NzA0Cj4g
-wqDCoMKgwqDCoMKgwqB3b3JrZXJfdGhyZWFkKzB4MmMvMHg1NzQKPiDCoMKgwqDCoMKgwqDCoGt0
-aHJlYWQrMHgxMzQvMHgxNDgKPiDCoMKgwqDCoMKgwqDCoHJldF9mcm9tX2ZvcmsrMHgxNC8weDIw
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgKG51bGwpCj4gCj4gb3RoZXIgaW5mbyB0aGF0IG1pZ2h0IGhl
-bHAgdXMgZGVidWcgdGhpczoKPiAKPiDCoFBvc3NpYmxlIHVuc2FmZSBsb2NraW5nIHNjZW5hcmlv
-Ogo+IAo+IMKgwqDCoMKgwqDCoMKgQ1BVMMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBDUFUxCj4gwqDCoMKgwqDCoMKgwqAtLS0twqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoC0tLS0KPiDCoCBsb2NrKCYoJnNjaGVkLT5qb2JfbGlzdF9sb2NrKS0+
-cmxvY2spOwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgbG9jaygmKCZncHUtPmZlbmNlX3NwaW5sb2NrKS0+cmxvY2spOwo+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgbG9jaygmKCZzY2hlZC0+am9iX2xpc3RfbG9jayktPnJsb2NrKTsKPiDCoCBsb2NrKCYoJmdw
-dS0+ZmVuY2Vfc3BpbmxvY2spLT5ybG9jayk7Cj4gCj4gwqAqKiogREVBRExPQ0sgKioqCj4gCj4g
-MyBsb2NrcyBoZWxkIGJ5IGt3b3JrZXIvMDoxLzI5Ogo+IMKgIzA6IChwdHJ2YWwpICgod3FfY29t
-cGxldGlvbilldmVudHMpeysuKy59LCBhdDoKPiBwcm9jZXNzX29uZV93b3JrKzB4MWY0LzB4NzA0
-Cj4gwqAjMTogKHB0cnZhbCkgKCh3b3JrX2NvbXBsZXRpb24pKCYoJnNjaGVkLT53b3JrX3Rkcikt
-PndvcmspKXsrLisufSwKPiBhdDogcHJvY2Vzc19vbmVfd29yaysweDFmNC8weDcwNAo+IMKgIzI6
-IChwdHJ2YWwpICgmKCZzY2hlZC0+am9iX2xpc3RfbG9jayktPnJsb2NrKXstLi4ufSwgYXQ6Cj4g
-ZHJtX3NjaGVkX3N0b3ArMHgxYy8weDEyNAo+IAo+IHN0YWNrIGJhY2t0cmFjZToKPiBDUFU6IDAg
-UElEOiAyOSBDb21tOiBrd29ya2VyLzA6MSBOb3QgdGFpbnRlZCA1LjEuOSAjNTgKPiBIYXJkd2Fy
-ZSBuYW1lOiBGcmVlc2NhbGUgaS5NWDYgUXVhZC9EdWFsTGl0ZSAoRGV2aWNlIFRyZWUpCj4gV29y
-a3F1ZXVlOiBldmVudHMgZHJtX3NjaGVkX2pvYl90aW1lZG91dAo+IFs8YzAxMTI3NDg+XSAodW53
-aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBjZmJjPl0KPiAoc2hvd19zdGFjaysweDEwLzB4MTQp
-Cj4gWzxjMDEwY2ZiYz5dIChzaG93X3N0YWNrKSBmcm9tIFs8YzBiZDMxZWM+XSAoZHVtcF9zdGFj
-aysweGQ4LzB4MTEwKQo+IFs8YzBiZDMxZWM+XSAoZHVtcF9zdGFjaykgZnJvbSBbPGMwMTdhMjJj
-Pl0KPiAocHJpbnRfY2lyY3VsYXJfYnVnLmNvbnN0cHJvcC4xOSsweDFiYy8weDJmMCkKPiBbPGMw
-MTdhMjJjPl0gKHByaW50X2NpcmN1bGFyX2J1Zy5jb25zdHByb3AuMTkpIGZyb20gWzxjMDE3ZDQw
-OD5dCj4gKF9fbG9ja19hY3F1aXJlKzB4MTc3OC8weDFmMzgpCj4gWzxjMDE3ZDQwOD5dIChfX2xv
-Y2tfYWNxdWlyZSkgZnJvbSBbPGMwMTdlM2E0Pl0KPiAobG9ja19hY3F1aXJlKzB4Y2MvMHgxZTgp
-Cj4gWzxjMDE3ZTNhND5dIChsb2NrX2FjcXVpcmUpIGZyb20gWzxjMGJmNDEzND5dCj4gKF9yYXdf
-c3Bpbl9sb2NrX2lycXNhdmUrMHgzOC8weDRjKQo+IFs8YzBiZjQxMzQ+XSAoX3Jhd19zcGluX2xv
-Y2tfaXJxc2F2ZSkgZnJvbSBbPGMwNjkyNzEwPl0KPiAoZG1hX2ZlbmNlX3JlbW92ZV9jYWxsYmFj
-aysweDE0LzB4NTApCj4gWzxjMDY5MjcxMD5dIChkbWFfZmVuY2VfcmVtb3ZlX2NhbGxiYWNrKSBm
-cm9tIFs8YzA1ZDI1YjQ+XQo+IChkcm1fc2NoZWRfc3RvcCsweDk4LzB4MTI0KQo+IFs8YzA1ZDI1
-YjQ+XSAoZHJtX3NjaGVkX3N0b3ApIGZyb20gWzxjMDY0YTNlOD5dCj4gKGV0bmF2aXZfc2NoZWRf
-dGltZWRvdXRfam9iKzB4N2MvMHhiNCkKPiBbPGMwNjRhM2U4Pl0gKGV0bmF2aXZfc2NoZWRfdGlt
-ZWRvdXRfam9iKSBmcm9tIFs8YzA1ZDI5NjQ+XQo+IChkcm1fc2NoZWRfam9iX3RpbWVkb3V0KzB4
-MzQvMHg1YykKPiBbPGMwNWQyOTY0Pl0gKGRybV9zY2hlZF9qb2JfdGltZWRvdXQpIGZyb20gWzxj
-MDE0NjhlYz5dCj4gKHByb2Nlc3Nfb25lX3dvcmsrMHgyYWMvMHg3MDQpCj4gWzxjMDE0NjhlYz5d
-IChwcm9jZXNzX29uZV93b3JrKSBmcm9tIFs8YzAxNDZkNzA+XQo+ICh3b3JrZXJfdGhyZWFkKzB4
-MmMvMHg1NzQpCj4gWzxjMDE0NmQ3MD5dICh3b3JrZXJfdGhyZWFkKSBmcm9tIFs8YzAxNGNkODg+
-XSAoa3RocmVhZCsweDEzNC8weDE0OCkKPiBbPGMwMTRjZDg4Pl0gKGt0aHJlYWQpIGZyb20gWzxj
-MDEwMTBiND5dIChyZXRfZnJvbV9mb3JrKzB4MTQvMHgyMCkKPiBFeGNlcHRpb24gc3RhY2soMHhl
-ODFmN2ZiMCB0byAweGU4MWY3ZmY4KQo+IDdmYTA6wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAwMDAwMDAwMCAw
-MDAwMDAwMCAwMDAwMDAwMAo+IDAwMDAwMDAwCj4gN2ZjMDogMDAwMDAwMDAgMDAwMDAwMDAgMDAw
-MDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAKPiAwMDAwMDAwMAo+IDdm
-ZTA6IDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDEzIDAwMDAwMDAw
-Cj4gZXRuYXZpdi1ncHUgMTM0MDAwLmdwdTogcmVjb3ZlciBodW5nIEdQVSEKPiBfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGV0bmF2aXYgbWFpbGluZyBs
-aXN0Cj4gZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2V0bmF2aXYKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0586363498==
+Content-Type: multipart/alternative; boundary="15616287092.0e863B52C.24551"
+Content-Transfer-Encoding: 7bit
+
+
+--15616287092.0e863B52C.24551
+Date: Thu, 27 Jun 2019 09:45:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111013
+
+--- Comment #1 from Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de=
+> ---
+The system was in storage for a while, so no idea, when it started. It does=
+ not
+seem to happen with 4.19. Earliest Linux version I found in the logs showing
+these errors is 5.2-rc2.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15616287092.0e863B52C.24551
+Date: Thu, 27 Jun 2019 09:45:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - *ERROR* displayport link status failed/*ERROR* clock reco=
+very failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111013#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - *ERROR* displayport link status failed/*ERROR* clock reco=
+very failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111013">bug 11101=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pm=
+enzel+bugs.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul =
+Menzel</span></a>
+</span></b>
+        <pre>The system was in storage for a while, so no idea, when it sta=
+rted. It does not
+seem to happen with 4.19. Earliest Linux version I found in the logs showing
+these errors is 5.2-rc2.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15616287092.0e863B52C.24551--
+
+--===============0586363498==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0586363498==--
