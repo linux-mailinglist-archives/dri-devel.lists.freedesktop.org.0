@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7F95855F
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 17:16:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 892B158566
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 17:17:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C546E4EA;
-	Thu, 27 Jun 2019 15:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB616E4F5;
+	Thu, 27 Jun 2019 15:17:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2C46E4EA
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 15:16:40 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 37FBF30842B0;
- Thu, 27 Jun 2019 15:16:35 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C67135D9D2;
- Thu, 27 Jun 2019 15:16:34 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4EE0A11AAF; Thu, 27 Jun 2019 17:16:33 +0200 (CEST)
-Date: Thu, 27 Jun 2019 17:16:33 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 1/5] gem/vram: pin to vram in vmap
-Message-ID: <20190627151633.j3xf3lkihklb2wzh@sirius.home.kraxel.org>
-References: <20190627122348.5833-1-kraxel@redhat.com>
- <20190627122348.5833-2-kraxel@redhat.com>
- <8a52b578-b255-3e11-3a0c-0b68f0cb649e@suse.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 67D516E507
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 15:17:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 15FAE72167; Thu, 27 Jun 2019 15:17:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Thu, 27 Jun 2019 15:17:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-ZCnrVnIVC2@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <8a52b578-b255-3e11-3a0c-0b68f0cb649e@suse.de>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 27 Jun 2019 15:16:40 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,24 +53,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
- Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2051789384=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCj4gIDEpIEludHJvZHVjZSBhIGRlZmF1bHRfcGxhY2VtZW50IGZpZWxkIGluIHN0cnVj
-dCBkcm1fZ2VtX3ZyYW1faGVscGVyCj4gd2hlcmUgdGhpcyBmbGFnIGNhbiBiZSBjb25maWd1cmVk
-LiBJJ2QgZmF2b3IgdGhpcyBvcHRpb24uCgo+ICAyKSBJbnRyb2R1Y2UgYSBzZXBhcmF0ZSBjYWxs
-YmFjayBmdW5jdGlvbiBmb3IgcGlubmluZyB0byB2cmFtLiBUaGUKPiBkcml2ZXIgd291bGQgaGF2
-ZSB0byBzZXQgdGhlIGNvcnJlY3QgZnVuY3Rpb24gcG9pbnRlcnMuCgo+ICAzKSBQaW4gdGhlIGZi
-IGNvbnNvbGUgYnVmZmVyIG1hbnVhbGx5IGZyb20gd2l0aGluIHRoZSBib2NocyBkcml2ZXIuCgpI
-bW0uICBCZWZvcmUgY2FsbGluZyBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgpIHRoZSBibyBkb2Vz
-bid0IGV4aXN0IHlldAphbmQgd2hlbiB0aGUgZnVuY3Rpb24gcmV0dXJucyBpdCBpcyBhbHJlYWR5
-IHZtYXBwZWQgYW5kIHBpbm5lZCBJIHRoaW5rLgoKU28gKDMpIGlzbid0IGVhc2lseSBkb2FibGUu
-ICAoMSkgbG9va3MgYmVzdCB0byBtZS4KCmNoZWVycywKICBHZXJkCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============2051789384==
+Content-Type: multipart/alternative; boundary="15616486400.CB2Ea957.23769"
+Content-Transfer-Encoding: 7bit
+
+
+--15616486400.CB2Ea957.23769
+Date: Thu, 27 Jun 2019 15:17:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #24 from tempel.julian@gmail.com ---
+I've mentioned kwin-lowlatency in this ticket:
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108917#add_comment
+
+It can be used as some kind of workaround for this wine issue, as the stutt=
+er
+doesn't occur when kwin compositing (and thus vsync) is enabled on top of t=
+he
+games' vsync.
+
+Of course this is far from being optimal, as
+1. It breaks FreeSync.
+2. There is an additional backbuffer queue, causing additional input (or
+perhaps better output) latency.
+3. It may introduce additional stutter when framerate drops below refreshra=
+te
+
+---
+
+FreeSync situation for wine games seems really terrible with due to this bu=
+g.
+:(
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15616486400.CB2Ea957.23769
+Date: Thu, 27 Jun 2019 15:17:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c24">Comme=
+nt # 24</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>I've mentioned kwin-lowlatency in this ticket:
+<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - gamma adjustments cause stuttering with amdgpu.dc=3D1, es=
+pecially problematic with RedShift etc."
+   href=3D"show_bug.cgi?id=3D108917">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D108917</a>#add_comment
+
+It can be used as some kind of workaround for this wine issue, as the stutt=
+er
+doesn't occur when kwin compositing (and thus vsync) is enabled on top of t=
+he
+games' vsync.
+
+Of course this is far from being optimal, as
+1. It breaks FreeSync.
+2. There is an additional backbuffer queue, causing additional input (or
+perhaps better output) latency.
+3. It may introduce additional stutter when framerate drops below refreshra=
+te
+
+---
+
+FreeSync situation for wine games seems really terrible with due to this bu=
+g.
+:(</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15616486400.CB2Ea957.23769--
+
+--===============2051789384==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2051789384==--
