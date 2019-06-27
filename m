@@ -1,59 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F665824E
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 14:15:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BA758253
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 14:16:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0A106E179;
-	Thu, 27 Jun 2019 12:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7329F6E183;
+	Thu, 27 Jun 2019 12:16:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C388B6E161;
- Thu, 27 Jun 2019 12:15:37 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 4939BAE9A;
- Thu, 27 Jun 2019 12:15:36 +0000 (UTC)
-Subject: Re: [PATCH 01/59] drm/todo: Improve drm_gem_object funcs todo
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-2-daniel.vetter@ffwll.ch>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <bc19d6ca-8cce-11da-f6a0-46e97910d916@suse.de>
-Date: Thu, 27 Jun 2019 14:15:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F1E6E183
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 12:16:46 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C895430820EA;
+ Thu, 27 Jun 2019 12:16:42 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
+ [10.36.116.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BB0C5D719;
+ Thu, 27 Jun 2019 12:16:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 96AC711AAF; Thu, 27 Jun 2019 14:16:40 +0200 (CEST)
+Date: Thu, 27 Jun 2019 14:16:40 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH 0/7] gem_bo.resv prime unification, leftovers
+Message-ID: <20190627121640.3yrpbfcynhuzblqw@sirius.home.kraxel.org>
+References: <20190625204208.5614-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <20190614203615.12639-2-daniel.vetter@ffwll.ch>
+Content-Disposition: inline
+In-Reply-To: <20190625204208.5614-1-daniel.vetter@ffwll.ch>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Thu, 27 Jun 2019 12:16:46 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,120 +49,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: multipart/mixed; boundary="===============1746707936=="
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1746707936==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="NW7mm1suUVrQxujJVbSQ1h2Ml0Im0bcO8"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NW7mm1suUVrQxujJVbSQ1h2Ml0Im0bcO8
-Content-Type: multipart/mixed; boundary="pkWeKZaMpVbSxYczRoMiMaVD43hbhFmxd";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-Message-ID: <bc19d6ca-8cce-11da-f6a0-46e97910d916@suse.de>
-Subject: Re: [PATCH 01/59] drm/todo: Improve drm_gem_object funcs todo
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-2-daniel.vetter@ffwll.ch>
-In-Reply-To: <20190614203615.12639-2-daniel.vetter@ffwll.ch>
-
---pkWeKZaMpVbSxYczRoMiMaVD43hbhFmxd
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 14.06.19 um 22:35 schrieb Daniel Vetter:
-> We're kinda going in the wrong direction. Spotted while typing better
-> gem/prime docs.
->=20
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  Documentation/gpu/todo.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index b4a76c2703e5..23583f0e3755 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -228,6 +228,10 @@ struct drm_gem_object_funcs
->  GEM objects can now have a function table instead of having the callba=
-cks on the
->  DRM driver struct. This is now the preferred way and drivers can be mo=
-ved over.
-> =20
-> +Unfortunately some of the recently added GEM helpers are going in the =
-wrong
-> +direction by adding OPS macros that use the old, deprecated hooks. See=
-
-> +DRM_GEM_CMA_VMAP_DRIVER_OPS, DRM_GEM_SHMEM_DRIVER_OPS, and DRM_GEM_VRA=
-M_DRIVER_PRIME.
-
-There's currently only bochs using DRM_GEM_VRAM_DRIVER_PRIME.
-
-Best regards
-Thomas
-
-> +
->  Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
->  ---------------------------------------------------------
-> =20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---pkWeKZaMpVbSxYczRoMiMaVD43hbhFmxd--
-
---NW7mm1suUVrQxujJVbSQ1h2Ml0Im0bcO8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0Us2cACgkQaA3BHVML
-eiM49wgAk02al8+u6YeolTyj78GoyVaMg2g/cIKl3AQ7Qa1fWMolQmPKF6Wq8vie
-wJ15cn43m/JA8EcGtFLq7k6WejRt9pXWKfDAlG0/KJPsOhrZfpKrQwRF/PyzB2D7
-u6an4niwXh7/MYWtCNSBGIxPnefIZJSv1NbKysQmrdeoiVdfIA8kuSEe3DdY9hkv
-rG0ba01ShctahI1rXK4dNE6ROcOA68xidRqa/h3G5gWZ2VRw63P4z7W6f7YdOTIa
-/j/oKHCr8eBX890IPCHeW+3mlbJFI9Vm16zKrFXlu5mPYYzLoVwepEu0/iQhPGqP
-kZ9BHmydBvEC7gBVblltqy148liyPQ==
-=bNji
------END PGP SIGNATURE-----
-
---NW7mm1suUVrQxujJVbSQ1h2Ml0Im0bcO8--
-
---===============1746707936==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1746707936==--
+T24gVHVlLCBKdW4gMjUsIDIwMTkgYXQgMTA6NDI6MDFQTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
+cm90ZToKPiBIaSBhbGwsCj4gCj4gSGVyZSdzIHRoZSB1bm1lcmdlZCBsZWZ0b3ZlcnMgZnJvbSBt
+eSBiaWcgcHJpbWUgY2xlYW51cCBzZXJpZXM6Cj4gLSB1c2luZyB0aGUgcHJlcGFyZV9mYiBoZWxw
+ZXIgaW4gdmM0Jm1zbSwgbm93IGhvcGVmdWxseSBmaXhlZCB1cC4gVGhlCj4gICBoZWxwZXIgc2hv
+dWxkIGJlIG5vdyBldmVuIG1vcmUgdXNlZnVsLgo+IAo+IC0gYW1kJm52IGRyaXZlciAtPmdlbV9w
+cmltZV9yZXNfb2JqIGNhbGxiYWNrIHJlbW92YWwuIEkgdGhpbmsgdGhpcyBvbmUKPiAgIG1pZ2h0
+IGhhdmUgZnVuY3Rpb25hbCBjb25mbGljdHMgd2l0aCBHZXJkJ3MgcGF0Y2ggc2VyaWVzIHRvIGVt
+YmVkCj4gICBkcm1fZ2VtX29iamVjdCBpbiB0dG1fYm8sIG9yIGF0IGxlYXN0IG5lZWRzIHRvIGJl
+IHJlLXJldmlld2VkIGJlZm9yZSB3ZQo+ICAgbWVyZ2UgdGhlIDJuZCBzZXJpZXMuCgpMb29rcyBh
+bGwgc2FuZSB0byBtZS4KCkFja2VkLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNv
+bT4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
