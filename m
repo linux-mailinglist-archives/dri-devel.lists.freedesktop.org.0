@@ -1,65 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17DBE57F47
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 11:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D953457F76
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 11:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB0D66E83F;
-	Thu, 27 Jun 2019 09:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02E76E850;
+	Thu, 27 Jun 2019 09:41:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BCCC6E83F
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 09:24:57 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id f15so1700212wrp.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 02:24:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=LDEo8sY3vpdehIJiLNOJb41+3SEg4OJB1McKdbsbLIA=;
- b=Ot2OqYGi+GADSi2XsFs92H+Lwwn2SsVs85kJpIOr+8IlSf4KvhSRTYLPmKDFfzhXkR
- T/4+ZYhrnz/VC31PqvGRb756ocm6urr0JdQrS2sl9vkVwklJpxWdZ4+xh7YYY5w9778i
- 9Cpnk9PUXTVOGvu1sSVMwrpuhvWQgkFPYfITrv4+3X9MNIBFTfv5lVoH9OhZeco971aY
- oVJfMXM4JH4cABZ3ojcqk+UBoyGryYEbNeH+j9JnTRqxdRpa1Py4vXTvoi7IqJ+dN4se
- CuHbOwaAOzuXaaSlT967BwA+IdYI2Whl7t8Jjk7blhwCH7BsCZALp30zJ4n1ctjXuhAf
- uc8A==
-X-Gm-Message-State: APjAAAX+QTIGY0Q5vKkDl0i30paicjT7ElMrvTQrR3RZ1yyUu7/uWehI
- KqVLaxcLWb+uVOugAs7rYpUgkA==
-X-Google-Smtp-Source: APXvYqwlvlqQ9PBpwP6Ua8UBVUJ+rHq8wSy378IO2LZ07NL/lYMF4gUKV993A67XO9U+QjopyAUeqg==
-X-Received: by 2002:adf:cc85:: with SMTP id p5mr2224711wrj.47.1561627496119;
- Thu, 27 Jun 2019 02:24:56 -0700 (PDT)
-Received: from dell ([2.27.35.164])
- by smtp.gmail.com with ESMTPSA id h84sm5790048wmf.43.2019.06.27.02.24.55
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 27 Jun 2019 02:24:55 -0700 (PDT)
-Date: Thu, 27 Jun 2019 10:24:53 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Subject: Re: [PATCH 3/4] backlight: pwm_bl: Set scale type for CIE 1931 curves
-Message-ID: <20190627092453.GB2000@dell>
-References: <20190613194326.180889-1-mka@chromium.org>
- <20190613194326.180889-4-mka@chromium.org>
- <61ed137c-31bb-c695-4174-0484fe667d6c@linaro.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CAC626E84E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 09:41:51 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C0CB872167; Thu, 27 Jun 2019 09:41:51 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111013] *ERROR* displayport link status failed/*ERROR* clock
+ recovery failed
+Date: Thu, 27 Jun 2019 09:41:51 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111013-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <61ed137c-31bb-c695-4174-0484fe667d6c@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=LDEo8sY3vpdehIJiLNOJb41+3SEg4OJB1McKdbsbLIA=;
- b=rxjj862CxQk8EcoCFKXxBXec7q2dUTnfV23dSWU3s6L44wRwVyzKQI9LaItmJJBCYr
- CCunUbf0DyHes+96gfl0uMFK7u1ofaigi6tzk8foroRtjW67UkxmOjGR6pS8kxcMHMQf
- gfDC+UhYjbyEUkiMyFnCXp19uDzY8x/EIFJkHM36kWk82KVh6kEh17ORV4Ap0dqDjQeP
- eodW+lpOR5ylkyFRmF441elJYxUkOm61ILlY1XXEY0Qjg+u0/dV1FxmGel1jFTcSljsA
- mWoLPSgxDbcZ1/DraVDtzbuYhHkXnZ+w/hbhz5oruBYDlQJrnauT9rMlNjkp6tmEGn5i
- i8sg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,57 +53,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jingoo Han <jingoohan1@gmail.com>, Brian Norris <briannorris@chromium.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1285135161=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMSBKdW4gMjAxOSwgRGFuaWVsIFRob21wc29uIHdyb3RlOgoKPiBPbiAxMy8wNi8y
-MDE5IDIwOjQzLCBNYXR0aGlhcyBLYWVobGNrZSB3cm90ZToKPiA+IEZvciBiYWNrbGlnaHQgY3Vy
-dmVzIGNhbGN1bGF0ZWQgd2l0aCB0aGUgQ0lFIDE5MzEgYWxnb3JpdGhtIHNldAo+ID4gdGhlIGJy
-aWdodG5lc3Mgc2NhbGUgdHlwZSBwcm9wZXJ0eSBhY2NvcmRpbmdseS4gVGhpcyBtYWtlcyB0aGUK
-PiA+IHNjYWxlIHR5cGUgYXZhaWxhYmxlIHRvIHVzZXJzcGFjZSB2aWEgdGhlICdzY2FsZScgc3lz
-ZnMgYXR0cmlidXRlLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGlhcyBLYWVobGNrZSA8
-bWthQGNocm9taXVtLm9yZz4KPiAKPiBJJ2QgbGlrZSB0byBrZWVwIGRpc2N1c3Npb24gb24gcGF0
-Y2ggMiBvcGVuIGEgYml0IGxvbmdlciAoaXQncyBub3QgcGFydCBvZgo+IHRoZSB0aHJlYWQgYmVs
-b3cgcGF0Y2ggMiBidXQgUGF2ZWwgaGFkIGNvbmNlcm5zIGFib3V0IHRoZSBzeXNmcyBpbnRlcmZh
-Y2UpCj4gc28gdGhpcyBhY2sgd29uJ3QgcmVhbGx5IHB1c2ggdGhpbmdzIGZvcndhcmQgYnV0IEZX
-SVc6Cj4gCj4gQWNrZWQtYnk6IERhbmllbCBUaG9tcHNvbiA8ZGFuaWVsLnRob21wc29uQGxpbmFy
-by5vcmc+CgpEb2VzIHRoaXMgZGVwZW5kIG9uIHBhdGNoIDIsIG9yIGlzIGl0IG9ydGhvZ29uYWw/
-Cgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jIHwgNSArKysr
-LQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4g
-PiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYyBiL2Ry
-aXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9ibC5jCj4gPiBpbmRleCBmYjQ1Zjg2NmI5MjMuLmYw
-NjdmZTdhYTM1ZCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L3B3bV9i
-bC5jCj4gPiArKysgYi9kcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9wd21fYmwuYwo+ID4gQEAgLTU1
-Myw2ICs1NTMsOCBAQCBzdGF0aWMgaW50IHB3bV9iYWNrbGlnaHRfcHJvYmUoc3RydWN0IHBsYXRm
-b3JtX2RldmljZSAqcGRldikKPiA+ICAgCQlnb3RvIGVycl9hbGxvYzsKPiA+ICAgCX0KPiA+ICsJ
-bWVtc2V0KCZwcm9wcywgMCwgc2l6ZW9mKHN0cnVjdCBiYWNrbGlnaHRfcHJvcGVydGllcykpOwo+
-ID4gKwo+ID4gICAJaWYgKGRhdGEtPmxldmVscykgewo+ID4gICAJCS8qCj4gPiAgIAkJICogRm9y
-IHRoZSBEVCBjYXNlLCBvbmx5IHdoZW4gYnJpZ2h0bmVzcyBsZXZlbHMgaXMgZGVmaW5lZAo+ID4g
-QEAgLTU5MSw2ICs1OTMsOCBAQCBzdGF0aWMgaW50IHB3bV9iYWNrbGlnaHRfcHJvYmUoc3RydWN0
-IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiA+ICAgCQkJcGItPmxldmVscyA9IGRhdGEtPmxldmVs
-czsKPiA+ICAgCQl9Cj4gPiArCj4gPiArCQlwcm9wcy5zY2FsZSA9IEJBQ0tMSUdIVF9TQ0FMRV9D
-SUUxOTMxOwo+ID4gICAJfSBlbHNlIHsKPiA+ICAgCQkvKgo+ID4gICAJCSAqIFRoYXQgb25seSBo
-YXBwZW5zIGZvciB0aGUgbm9uLURUIGNhc2UsIHdoZXJlIHBsYXRmb3JtIGRhdGEKPiA+IEBAIC02
-MDEsNyArNjA1LDYgQEAgc3RhdGljIGludCBwd21fYmFja2xpZ2h0X3Byb2JlKHN0cnVjdCBwbGF0
-Zm9ybV9kZXZpY2UgKnBkZXYpCj4gPiAgIAlwYi0+bHRoX2JyaWdodG5lc3MgPSBkYXRhLT5sdGhf
-YnJpZ2h0bmVzcyAqIChzdGF0ZS5wZXJpb2QgLyBwYi0+c2NhbGUpOwo+ID4gLQltZW1zZXQoJnBy
-b3BzLCAwLCBzaXplb2Yoc3RydWN0IGJhY2tsaWdodF9wcm9wZXJ0aWVzKSk7Cj4gPiAgIAlwcm9w
-cy50eXBlID0gQkFDS0xJR0hUX1JBVzsKPiA+ICAgCXByb3BzLm1heF9icmlnaHRuZXNzID0gZGF0
-YS0+bWF4X2JyaWdodG5lc3M7Cj4gPiAgIAlibCA9IGJhY2tsaWdodF9kZXZpY2VfcmVnaXN0ZXIo
-ZGV2X25hbWUoJnBkZXYtPmRldiksICZwZGV2LT5kZXYsIHBiLAo+ID4gCj4gCgotLSAKTGVlIEpv
-bmVzIFvmnY7nkLzmlq9dCkxpbmFybyBTZXJ2aWNlcyBUZWNobmljYWwgTGVhZApMaW5hcm8ub3Jn
-IOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQVJNIFNvQ3MKRm9sbG93IExpbmFybzogRmFj
-ZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============1285135161==
+Content-Type: multipart/alternative; boundary="15616285110.f4628936C.23982"
+Content-Transfer-Encoding: 7bit
+
+
+--15616285110.f4628936C.23982
+Date: Thu, 27 Jun 2019 09:41:51 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111013
+
+            Bug ID: 111013
+           Summary: *ERROR* displayport link status failed/*ERROR* clock
+                    recovery failed
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: pmenzel+bugs.freedesktop.org@molgen.mpg.de
+
+Created attachment 144652
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144652&action=3Dedit
+Linux 5.2-rc6 messages (dmesg)
+
+Using Linux 5.2-rc6 and the card below
+
+    $ lspci -nn -s 01:00.0
+    01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
+[AMD/ATI] Oland XT [Radeon HD 8670 / R7 250/350] [1002:6610] (rev 81)
+
+turning off and then back on the MST monitor Dell UP3214Q connected over DP,
+the errors below are shown. Sometimes it happens that the display won=E2=80=
+=99t come
+back up.
+
+[Wed Jun 26 15:50:41 2019] usb 1-10: USB disconnect, device number 4
+
+=E2=86=92 turned monitor off
+
+next morning turn it on:
+
+[Thu Jun 27 10:39:39 2019] [drm:dce_v6_0_encoder_mode_set [amdgpu]] *ERROR*
+Couldn't read Speaker Allocation Data Block: -2
+[Thu Jun 27 10:39:39 2019] [drm:dce_v6_0_encoder_mode_set [amdgpu]] *ERROR*
+Couldn't read SADs: -2
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+displayport link status failed
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+clock recovery failed
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+displayport link status failed
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+clock recovery failed
+
+Please help me how to get to the bottom of why the clock recovery failed.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15616285110.f4628936C.23982
+Date: Thu, 27 Jun 2019 09:41:51 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - *ERROR* displayport link status failed/*ERROR* clock reco=
+very failed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111013">111013</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>*ERROR* displayport link status failed/*ERROR* clock recovery=
+ failed
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144652=
+" name=3D"attach_144652" title=3D"Linux 5.2-rc6 messages (dmesg)">attachmen=
+t 144652</a> <a href=3D"attachment.cgi?id=3D144652&amp;action=3Dedit" title=
+=3D"Linux 5.2-rc6 messages (dmesg)">[details]</a></span>
+Linux 5.2-rc6 messages (dmesg)
+
+Using Linux 5.2-rc6 and the card below
+
+    $ lspci -nn -s 01:00.0
+    01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
+[AMD/ATI] Oland XT [Radeon HD 8670 / R7 250/350] [1002:6610] (rev 81)
+
+turning off and then back on the MST monitor Dell UP3214Q connected over DP,
+the errors below are shown. Sometimes it happens that the display won=E2=80=
+=99t come
+back up.
+
+[Wed Jun 26 15:50:41 2019] usb 1-10: USB disconnect, device number 4
+
+=E2=86=92 turned monitor off
+
+next morning turn it on:
+
+[Thu Jun 27 10:39:39 2019] [drm:dce_v6_0_encoder_mode_set [amdgpu]] *ERROR*
+Couldn't read Speaker Allocation Data Block: -2
+[Thu Jun 27 10:39:39 2019] [drm:dce_v6_0_encoder_mode_set [amdgpu]] *ERROR*
+Couldn't read SADs: -2
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+displayport link status failed
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+clock recovery failed
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+displayport link status failed
+[Thu Jun 27 10:39:40 2019] [drm:amdgpu_atombios_dp_link_train [amdgpu]] *ER=
+ROR*
+clock recovery failed
+
+Please help me how to get to the bottom of why the clock recovery failed.</=
+pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15616285110.f4628936C.23982--
+
+--===============1285135161==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1285135161==--
