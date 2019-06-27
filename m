@@ -1,37 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4DF57DF2
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 10:12:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9E257E35
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 10:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 776476E506;
-	Thu, 27 Jun 2019 08:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 193D36E82A;
+	Thu, 27 Jun 2019 08:27:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD26B6E835
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 08:12:12 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6BEDF8552A;
- Thu, 27 Jun 2019 08:12:12 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61D9C5D707;
- Thu, 27 Jun 2019 08:12:07 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8AFDE16E08; Thu, 27 Jun 2019 10:12:06 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/bochs: fix framebuffer setup.
-Date: Thu, 27 Jun 2019 10:12:06 +0200
-Message-Id: <20190627081206.23135-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 27 Jun 2019 08:12:12 +0000 (UTC)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DF1D6E4E8;
+ Thu, 27 Jun 2019 08:27:40 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id E35D7B077;
+ Thu, 27 Jun 2019 08:27:38 +0000 (UTC)
+Subject: Re: [PATCH 40/59] drm/vram-helper: Drop drm_gem_prime_export/import
+To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-41-daniel.vetter@ffwll.ch>
+ <20190617082438.s5eypq5lf6s33nyz@sirius.home.kraxel.org>
+ <20190617135912.GB12905@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <e51754b0-542c-b1bb-9d5b-e53daf6d92eb@suse.de>
+Date: Thu, 27 Jun 2019 10:27:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
+MIME-Version: 1.0
+In-Reply-To: <20190617135912.GB12905@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,61 +67,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR BOCHS VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1798994089=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGRyaXZlciBkb2Vzbid0IGNvbnNpZGVyIGZyYW1lYnVmZmVyIHBpdGNoIGFuZCBvZmZzZXQs
-IGxlYWRpbmcgdG8gYQp3cm9uZyBkaXNwbGF5IGluIGNhc2Ugb2Zmc2V0ICE9IDAgb3IgcGl0Y2gg
-IT0gd2lkdGggKiBicHAuICBGaXggaXQuCgpTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxr
-cmF4ZWxAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHMuaCAgICAg
-fCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2h3LmMgIHwgMTQgKysrKysrKysr
-Ky0tLS0KIGRyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19rbXMuYyB8ICAzICsrLQogMyBmaWxl
-cyBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Nocy5oIGIvZHJpdmVycy9ncHUvZHJtL2JvY2hzL2Jv
-Y2hzLmgKaW5kZXggY2MzNWQ0OTIxNDJjLi4yYTY1NDM0NTAwZWUgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9ib2Nocy9ib2Nocy5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2No
-cy5oCkBAIC04Niw3ICs4Niw3IEBAIHZvaWQgYm9jaHNfaHdfc2V0bW9kZShzdHJ1Y3QgYm9jaHNf
-ZGV2aWNlICpib2NocywKIHZvaWQgYm9jaHNfaHdfc2V0Zm9ybWF0KHN0cnVjdCBib2Noc19kZXZp
-Y2UgKmJvY2hzLAogCQkJY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0KTsKIHZv
-aWQgYm9jaHNfaHdfc2V0YmFzZShzdHJ1Y3QgYm9jaHNfZGV2aWNlICpib2NocywKLQkJICAgICAg
-aW50IHgsIGludCB5LCB1NjQgYWRkcik7CisJCSAgICAgIGludCB4LCBpbnQgeSwgaW50IHN0cmlk
-ZSwgdTY0IGFkZHIpOwogaW50IGJvY2hzX2h3X2xvYWRfZWRpZChzdHJ1Y3QgYm9jaHNfZGV2aWNl
-ICpib2Nocyk7CiAKIC8qIGJvY2hzX21tLmMgKi8KZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ib2Nocy9ib2Noc19ody5jIGIvZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2h3LmMKaW5k
-ZXggNzkxYWIyZjc5OTQ3Li5lYmZlYTg3NDRmZTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9ib2Nocy9ib2Noc19ody5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19ody5j
-CkBAIC0yNTUsMTYgKzI1NSwyMiBAQCB2b2lkIGJvY2hzX2h3X3NldGZvcm1hdChzdHJ1Y3QgYm9j
-aHNfZGV2aWNlICpib2NocywKIH0KIAogdm9pZCBib2Noc19od19zZXRiYXNlKHN0cnVjdCBib2No
-c19kZXZpY2UgKmJvY2hzLAotCQkgICAgICBpbnQgeCwgaW50IHksIHU2NCBhZGRyKQorCQkgICAg
-ICBpbnQgeCwgaW50IHksIGludCBzdHJpZGUsIHU2NCBhZGRyKQogewotCXVuc2lnbmVkIGxvbmcg
-b2Zmc2V0ID0gKHVuc2lnbmVkIGxvbmcpYWRkciArCisJdW5zaWduZWQgbG9uZyBvZmZzZXQ7CisJ
-dW5zaWduZWQgaW50IHZ4LCB2eSwgdndpZHRoOworCisJYm9jaHMtPnN0cmlkZSA9IHN0cmlkZTsK
-KwlvZmZzZXQgPSAodW5zaWduZWQgbG9uZylhZGRyICsKIAkJeSAqIGJvY2hzLT5zdHJpZGUgKwog
-CQl4ICogKGJvY2hzLT5icHAgLyA4KTsKLQlpbnQgdnkgPSBvZmZzZXQgLyBib2Nocy0+c3RyaWRl
-OwotCWludCB2eCA9IChvZmZzZXQgJSBib2Nocy0+c3RyaWRlKSAqIDggLyBib2Nocy0+YnBwOwor
-CXZ5ID0gb2Zmc2V0IC8gYm9jaHMtPnN0cmlkZTsKKwl2eCA9IChvZmZzZXQgJSBib2Nocy0+c3Ry
-aWRlKSAqIDggLyBib2Nocy0+YnBwOworCXZ3aWR0aCA9IHN0cmlkZSAqIDggLyBib2Nocy0+YnBw
-OwogCiAJRFJNX0RFQlVHX0RSSVZFUigieCAlZCwgeSAlZCwgYWRkciAlbGx4IC0+IG9mZnNldCAl
-bHgsIHZ4ICVkLCB2eSAlZFxuIiwKIAkJCSB4LCB5LCBhZGRyLCBvZmZzZXQsIHZ4LCB2eSk7CisJ
-Ym9jaHNfZGlzcGlfd3JpdGUoYm9jaHMsIFZCRV9ESVNQSV9JTkRFWF9WSVJUX1dJRFRILCB2d2lk
-dGgpOwogCWJvY2hzX2Rpc3BpX3dyaXRlKGJvY2hzLCBWQkVfRElTUElfSU5ERVhfWF9PRkZTRVQs
-IHZ4KTsKIAlib2Noc19kaXNwaV93cml0ZShib2NocywgVkJFX0RJU1BJX0lOREVYX1lfT0ZGU0VU
-LCB2eSk7CiB9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfa21zLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfa21zLmMKaW5kZXggNTkwNGVkZGM4M2E1Li5i
-YzE5ZGJkNTMxZWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ib2Nocy9ib2Noc19rbXMu
-YworKysgYi9kcml2ZXJzL2dwdS9kcm0vYm9jaHMvYm9jaHNfa21zLmMKQEAgLTM2LDcgKzM2LDgg
-QEAgc3RhdGljIHZvaWQgYm9jaHNfcGxhbmVfdXBkYXRlKHN0cnVjdCBib2Noc19kZXZpY2UgKmJv
-Y2hzLAogCWJvY2hzX2h3X3NldGJhc2UoYm9jaHMsCiAJCQkgc3RhdGUtPmNydGNfeCwKIAkJCSBz
-dGF0ZS0+Y3J0Y195LAotCQkJIGdiby0+Ym8ub2Zmc2V0KTsKKwkJCSBzdGF0ZS0+ZmItPnBpdGNo
-ZXNbMF0sCisJCQkgc3RhdGUtPmZiLT5vZmZzZXRzWzBdICsgZ2JvLT5iby5vZmZzZXQpOwogCWJv
-Y2hzX2h3X3NldGZvcm1hdChib2Nocywgc3RhdGUtPmZiLT5mb3JtYXQpOwogfQogCi0tIAoyLjE4
-LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1798994089==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="wMydacYR0DTQCWxiVGYgvSXJgc07WuHFA"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wMydacYR0DTQCWxiVGYgvSXJgc07WuHFA
+Content-Type: multipart/mixed; boundary="Z0SImBY5s1zzeVZowdbaaQby8g0UAEa7n";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Sean Paul <sean@poorly.run>
+Message-ID: <e51754b0-542c-b1bb-9d5b-e53daf6d92eb@suse.de>
+Subject: Re: [PATCH 40/59] drm/vram-helper: Drop drm_gem_prime_export/import
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-41-daniel.vetter@ffwll.ch>
+ <20190617082438.s5eypq5lf6s33nyz@sirius.home.kraxel.org>
+ <20190617135912.GB12905@phenom.ffwll.local>
+In-Reply-To: <20190617135912.GB12905@phenom.ffwll.local>
+
+--Z0SImBY5s1zzeVZowdbaaQby8g0UAEa7n
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 17.06.19 um 15:59 schrieb Daniel Vetter:
+> On Mon, Jun 17, 2019 at 10:24:38AM +0200, Gerd Hoffmann wrote:
+>>   Hi,
+>>
+>>> Aside: Would be really nice to switch the others over to
+>>> drm_gem_object_funcs.
+>>
+>> While most callbacks are pretty straight forward (just hook the same
+>> callbacks into the drm_gem_object_funcs. struct) the mmap bits are a
+>> bit more obscure.
+>>
+>> First, there seem to be two ways to mmap a gem buffer:
+>>
+>>   (1) drm_driver->fops->mmap, and
+>>   (2) drm_driver->gem_prime_mmap.
+>>
+>> drm_gem_object_funcs has just a single vm_ops ...
+>>
+>> Also it is not obvious how one would convert something which basically=
+
+>> calls ttm_bo_mmap() in drm_driver->fops->mmap to the new interface.
+>=20
+> Yeah the mmap side is still a mess, but my series here was getting a bi=
+t
+> too long already. There's a bunch of problems here:
+>=20
+> drm_driver->gem_prime_mmap could be nuked and instead we use
+> drm_gem_prime_mmap everywhere. Especially the various versions in helpe=
+rs
+> really don't add much.
+>=20
+> The trouble is that removing the hook outright isn't quite right, becau=
+se
+> it also signals "is mmap allowed on this dma-buf". I'm kinda tempted to=
+
+> just make that a hard requirement, and force people who can't support m=
+map
+> on the dma-buf (or who need begin/end_cpu_access hooks) to supply their=
+
+> own set of dma_buf_ops.
+>=20
+> Second one is drm_driver->fops->mmap. That one we need to keep, but thi=
+s
+> isn't mmap on a buffer, but mmap on the entire drm_device. The one whic=
+h
+> should be replaced by drm_gem_object_funcs.vm_ops is
+> drm_driver->gem_vm_ops.
+
+=46rom what I've seen in fbdev drivers, it's an mmap of the framebuffer
+memory, which typically is the same as the device's memory but doesn't
+have to. And it's only valid for/while the current display mode (e.g.,
+mgafb doesn't set fixes.smem_length until you configure a mode).
+
+I guess it should be legal to just mmap the shadow FB from the fbcon
+emulation.
+
+Best regards
+Thomas
+
+> Hope that explains a bit better what's going on here. Step one here for=
+
+> mmap is definitely to roll out drm_gem_prime_mmap as far as possible, s=
+o
+> it's easier to understand where the exceptions are.
+>=20
+> Cheers, Daniel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--Z0SImBY5s1zzeVZowdbaaQby8g0UAEa7n--
+
+--wMydacYR0DTQCWxiVGYgvSXJgc07WuHFA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0UffQACgkQaA3BHVML
+eiNbewf7BwzOgKKoTeMAagNJnmeGtX1Is2UMCJZKkDH8tg2onQusCJBMiZGdskDt
+kK58CrnznuFthJl2amFWXvqKh5iuBJ/30AinPuAGW0MJeuUgYPenGX9kIvLIeruV
+kOpKYC8EiHKUtcqSWF6ay8f5ooYcEibL6ucm01MlBo4v4WiWGdkMIvqdlRig7D7I
+4dNsTiMNsOdHoJHswrg/rcoN8YegcY6WqFUistZfRUrIto4XSx6iUwBbI493StuB
+G9+oskgAzIDP1N7Yvi59///RLUWt16uyecRV56bkzgOWqqH5uBQ0EFjZ6VqIR+Bm
++7rqLZr7ftCCEAXR5z+AeoioAI4QgQ==
+=izsP
+-----END PGP SIGNATURE-----
+
+--wMydacYR0DTQCWxiVGYgvSXJgc07WuHFA--
+
+--===============1798994089==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1798994089==--
