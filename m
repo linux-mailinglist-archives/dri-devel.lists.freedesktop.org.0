@@ -1,37 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23B958FB4
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 03:26:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5A9589F3
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 20:28:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3197F6E873;
-	Fri, 28 Jun 2019 01:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723346E373;
+	Thu, 27 Jun 2019 18:28:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEB556E3EF
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 18:21:26 +0000 (UTC)
-From: Paul Cercueil <paul@crapouillou.net>
-To: David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/3] DRM: ingenic: Add support for panels with 8-bit serial bus
-Date: Thu, 27 Jun 2019 20:21:14 +0200
-Message-Id: <20190627182114.27299-3-paul@crapouillou.net>
-In-Reply-To: <20190627182114.27299-1-paul@crapouillou.net>
-References: <20190627182114.27299-1-paul@crapouillou.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3786E373
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 18:28:21 +0000 (UTC)
+Received: from earth.universe (unknown [185.62.205.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 9D92F205F4;
+ Thu, 27 Jun 2019 18:28:19 +0000 (UTC)
+Received: by earth.universe (Postfix, from userid 1000)
+ id 66ADF3C08D5; Thu, 27 Jun 2019 20:28:17 +0200 (CEST)
+Date: Thu, 27 Jun 2019 20:28:17 +0200
+From: Sebastian Reichel <sre@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH 00/34] treewide: simplify getting the adapter of an I2C
+ client
+Message-ID: <20190627182817.5vrfmuzn7kanvtwu@earth.universe>
+References: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 28 Jun 2019 01:25:51 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=crapouillou.net; 
- s=mail; t=1561659685; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EMTPz/E0Re9ZEDNi6A5HiGlO3zDC+PQxFDkb/cLcYIA=;
- b=FWiVkKJKVlCD9C4SuMljhAEFNZ3ed4WkettXKTs3mgvlVmcUH7Ec9RnU8ATnFJiC6cWZt7
- ueoUze9d2nkIl1kmFHgKbk+zvWTmZA4/R3+9+aiabjtu7Bjw/mN7U5PY1y5MQDtUd7aZMx
- 0QYJr6gEps52Z46YbvmNzHEHfgOteEU=
+In-Reply-To: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1561660100;
+ bh=taqyQ1APEgX+EVCAzATmMcA2vqF2xWfz1x10hWSRsgI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hR15WHn5VGnYjJBJF3P3KfFz2mIU6gWMdyBW1J9JfNrAe3Wkox4nvnMreFyFc8Oga
+ gHHKlRxzScRITQpZl1lYB4jheGTy3CTkrWujVUNozMy3/DQtRu1+16z5GQ7OQZL9gE
+ dfQ26EIv4VN+fxjVF3qFiQDlpLL05BiHlURmYc7g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,33 +48,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devel@driverdev.osuosl.org, linux-rtc@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-iio@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-i2c@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0063366596=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHN1cHBvcnQgZm9yIHRoZSBMQ0QgcGFuZWxzIHdpdGggYSBzZXJpYWwgOC1iaXQgYnVzLCB3
-aGVyZSB0aGUgY29sb3IKY29tcG9uZW50cyBvZiBlYWNoIDI0LWJpdCBwaXhlbCBhcmUgc2VudCBz
-ZXF1ZW50aWFsbHkuCgpTaWduZWQtb2ZmLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWls
-bG91Lm5ldD4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5jIHwgNCAr
-KysrCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYyBiL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmlj
-L2luZ2VuaWMtZHJtLmMKaW5kZXggZGE5NjZmM2RjMWY3Li5jZTFmYWUzYTc4YTkgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2luZ2VuaWMvaW5nZW5pYy1kcm0uYwpAQCAtNDI2LDYgKzQyNiw5IEBAIHN0YXRpYyB2
-b2lkIGluZ2VuaWNfZHJtX2VuY29kZXJfYXRvbWljX21vZGVfc2V0KHN0cnVjdCBkcm1fZW5jb2Rl
-ciAqZW5jb2RlciwKIAkJCWNhc2UgTUVESUFfQlVTX0ZNVF9SR0I4ODhfMVgyNDoKIAkJCQljZmcg
-fD0gSlpfTENEX0NGR19NT0RFX0dFTkVSSUNfMjRCSVQ7CiAJCQkJYnJlYWs7CisJCQljYXNlIE1F
-RElBX0JVU19GTVRfUkdCODg4XzNYODoKKwkJCQljZmcgfD0gSlpfTENEX0NGR19NT0RFXzhCSVRf
-U0VSSUFMOworCQkJCWJyZWFrOwogCQkJZGVmYXVsdDoKIAkJCQlicmVhazsKIAkJCX0KQEAgLTQ1
-MSw2ICs0NTQsNyBAQCBzdGF0aWMgaW50IGluZ2VuaWNfZHJtX2VuY29kZXJfYXRvbWljX2NoZWNr
-KHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKIAljYXNlIE1FRElBX0JVU19GTVRfUkdCNTY1
-XzFYMTY6CiAJY2FzZSBNRURJQV9CVVNfRk1UX1JHQjY2Nl8xWDE4OgogCWNhc2UgTUVESUFfQlVT
-X0ZNVF9SR0I4ODhfMVgyNDoKKwljYXNlIE1FRElBX0JVU19GTVRfUkdCODg4XzNYODoKIAkJcmV0
-dXJuIDA7CiAJZGVmYXVsdDoKIAkJcmV0dXJuIC1FSU5WQUw7Ci0tIAoyLjIxLjAuNTkzLmc1MTFl
-YzM0NWUxOAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0063366596==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dtrjmbi6re7vojrt"
+Content-Disposition: inline
+
+
+--dtrjmbi6re7vojrt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sat, Jun 08, 2019 at 12:55:39PM +0200, Wolfram Sang wrote:
+> While preparing a refactoring series, I noticed that some drivers use a
+> complicated way of determining the adapter of a client. The easy way is
+> to use the intended pointer: client->adapter
+>=20
+> These drivers do:
+> 	to_i2c_adapter(client->dev.parent);
+>=20
+> The I2C core populates the parent pointer as:
+> 	client->dev.parent =3D &client->adapter->dev;
+>=20
+> Now take into consideration that
+> 	to_i2c_adapter(&adapter->dev);
+>=20
+> is a complicated way of saying 'adapter', then we can even formally
+> prove that the complicated expression can be simplified by using
+> client->adapter.
+>=20
+> The conversion was done using a coccinelle script with some manual
+> indentation fixes applied on top.
+>=20
+> To avoid a brown paper bag mistake, I double checked this on a Renesas
+> Salvator-XS board (R-Car M3N) and verified both expression result in the
+> same pointer. Other than that, the series is only build tested.
+>=20
+> A branch can be found here:
+>=20
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/no_to_ada=
+pter
+>=20
+> Please apply the patches to the individual subsystem trees. There are no
+> dependencies.
+>=20
+> Thanks and kind regards,
+>=20
+>    Wolfram
+
+Thanks, I queued the patches prefixed with "power: supply: [...]".
+
+-- Sebastian
+
+> Wolfram Sang (34):
+>   clk: clk-cdce706: simplify getting the adapter of a client
+>   gpu: drm: bridge: sii9234: simplify getting the adapter of a client
+>   iio: light: bh1780: simplify getting the adapter of a client
+>   leds: leds-pca955x: simplify getting the adapter of a client
+>   leds: leds-tca6507: simplify getting the adapter of a client
+>   media: i2c: ak881x: simplify getting the adapter of a client
+>   media: i2c: mt9m001: simplify getting the adapter of a client
+>   media: i2c: mt9m111: simplify getting the adapter of a client
+>   media: i2c: mt9p031: simplify getting the adapter of a client
+>   media: i2c: ov2640: simplify getting the adapter of a client
+>   media: i2c: tw9910: simplify getting the adapter of a client
+>   misc: fsa9480: simplify getting the adapter of a client
+>   misc: isl29003: simplify getting the adapter of a client
+>   misc: tsl2550: simplify getting the adapter of a client
+>   mtd: maps: pismo: simplify getting the adapter of a client
+>   power: supply: bq24190_charger: simplify getting the adapter of a client
+>   power: supply: bq24257_charger: simplify getting the adapter of a client
+>   power: supply: bq25890_charger: simplify getting the adapter of a client
+>   power: supply: max14656_charger_detector: simplify getting the adapter
+>     of a client
+>   power: supply: max17040_battery: simplify getting the adapter of a clie=
+nt
+>   power: supply: max17042_battery: simplify getting the adapter of a clie=
+nt
+>   power: supply: rt5033_battery: simplify getting the adapter of a client
+>   power: supply: rt9455_charger: simplify getting the adapter of a client
+>   power: supply: sbs-manager: simplify getting the adapter of a client
+>   regulator: max8952: simplify getting the adapter of a client
+>   rtc: fm3130: simplify getting the adapter of a client
+>   rtc: m41t80: simplify getting the adapter of a client
+>   rtc: rv8803: simplify getting the adapter of a client
+>   rtc: rx8010: simplify getting the adapter of a client
+>   rtc: rx8025: simplify getting the adapter of a client
+>   staging: media: soc_camera: imx074: simplify getting the adapter of a c=
+lient
+>   staging: media: soc_camera: mt9t031: simplify getting the adapter of a =
+client
+>   staging: media: soc_camera: soc_mt9v022: simplify getting the adapter
+>     of a client
+>   usb: typec: tcpm: fusb302: simplify getting the adapter of a client
+>=20
+>  drivers/clk/clk-cdce706.c                        | 2 +-
+>  drivers/gpu/drm/bridge/sii9234.c                 | 4 ++--
+>  drivers/iio/light/bh1780.c                       | 2 +-
+>  drivers/leds/leds-pca955x.c                      | 2 +-
+>  drivers/leds/leds-tca6507.c                      | 2 +-
+>  drivers/media/i2c/ak881x.c                       | 2 +-
+>  drivers/media/i2c/mt9m001.c                      | 2 +-
+>  drivers/media/i2c/mt9m111.c                      | 2 +-
+>  drivers/media/i2c/mt9p031.c                      | 2 +-
+>  drivers/media/i2c/ov2640.c                       | 2 +-
+>  drivers/media/i2c/tw9910.c                       | 3 +--
+>  drivers/misc/fsa9480.c                           | 2 +-
+>  drivers/misc/isl29003.c                          | 2 +-
+>  drivers/misc/tsl2550.c                           | 2 +-
+>  drivers/mtd/maps/pismo.c                         | 2 +-
+>  drivers/power/supply/bq24190_charger.c           | 2 +-
+>  drivers/power/supply/bq24257_charger.c           | 2 +-
+>  drivers/power/supply/bq25890_charger.c           | 2 +-
+>  drivers/power/supply/max14656_charger_detector.c | 2 +-
+>  drivers/power/supply/max17040_battery.c          | 2 +-
+>  drivers/power/supply/max17042_battery.c          | 2 +-
+>  drivers/power/supply/rt5033_battery.c            | 2 +-
+>  drivers/power/supply/rt9455_charger.c            | 2 +-
+>  drivers/power/supply/sbs-manager.c               | 2 +-
+>  drivers/regulator/max8952.c                      | 2 +-
+>  drivers/rtc/rtc-fm3130.c                         | 8 +++-----
+>  drivers/rtc/rtc-m41t80.c                         | 2 +-
+>  drivers/rtc/rtc-rv8803.c                         | 2 +-
+>  drivers/rtc/rtc-rx8010.c                         | 2 +-
+>  drivers/rtc/rtc-rx8025.c                         | 2 +-
+>  drivers/staging/media/soc_camera/imx074.c        | 2 +-
+>  drivers/staging/media/soc_camera/mt9t031.c       | 2 +-
+>  drivers/staging/media/soc_camera/soc_mt9v022.c   | 2 +-
+>  drivers/usb/typec/tcpm/fusb302.c                 | 3 +--
+>  34 files changed, 37 insertions(+), 41 deletions(-)
+>=20
+> --=20
+> 2.19.1
+>=20
+
+--dtrjmbi6re7vojrt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl0VCsEACgkQ2O7X88g7
++poEpxAAm77/GZ4czva5lDqclyAk1YfbiV55qi+jow32xQwZ17FXo8Ch9G11Qrwl
+famQPiB/pD3r3m2TfihhFAcFjOGiwl9GxQJ+4at64Atab2w5BWh9zwDQWdtT80jF
+3ytFncogbL36MVBgIv5YQUZQiqIiZlUei6lTOnnyfv3PLtvNVbIodxSVYp5qJWMy
+M+qrdy6tAVsuK6yqAwPRhfjBzlmlLZVudUZqbAWKMbK1YBt0rkkSNw9xpF1pLrv6
+zLbGdmBngoivDyNJldn+5bhMiwsDyxf/8E7eblcAMkO/D1oPrb51zV92FFX7qyzT
+eI5KRHwY88XkUuIK25aDnO1bR3eDn3RDcxtW8MMMeRihWX3gNSL+hKZ24XGxOgz5
+L3tL9nm6X6sHg867+V5voAxNACnbgFT/Mrzhal4HGbN8adctDoaSEuiMPAQlAkEG
+PbW3c2B0n+Bav3XksRT4h19t7drSk4a3aR04I/GHc3l9jDQicnDr4DwiVaPpd1UF
+gpPhBXgO4NSZr5yUEzoVOSOsW6WS2k5SFV+sQjU1C5R+oXBH59J9oIMlOOaNKo0w
+rTXxOtxQ38vqyMiQZBLwoTh1remxiOBp+5lwmYWGWYpBDVcr9HB+kzNJPFxDVk5A
+YgiEzXje0LsgjUBgpmiq5YPAmsNIntDezydWTc20Otk1+Vgotgo=
+=CJhg
+-----END PGP SIGNATURE-----
+
+--dtrjmbi6re7vojrt--
+
+--===============0063366596==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0063366596==--
