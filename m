@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 345C357D32
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 09:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883AF57D36
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Jun 2019 09:36:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55CE86E802;
-	Thu, 27 Jun 2019 07:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F03C56E818;
+	Thu, 27 Jun 2019 07:35:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13BA96E802
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 07:33:55 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id w13so6122867eds.4
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Jun 2019 00:33:55 -0700 (PDT)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFFC6E816;
+ Thu, 27 Jun 2019 07:35:58 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id r15so827338lfm.11;
+ Thu, 27 Jun 2019 00:35:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=tLNysIjqJMP/mK9y+DIXXFwzjP5Ou11V/UspTzYdVK0=;
- b=riik5LHbIQv53o+IhzcmHuheVygcFV5Z6NYebSdWpdZqCnvaffSUjofNFBrkdbbOGw
- iUzW1dsK5Fu3t15fDGi7QsPhaDcKvrqDmXL4pJGxxVSODsEFM37Uo9EgoRY9+oUw3kBp
- I18T91olonxko4i3wTO1IuzWD1H74vFGFG43zn41Dhwlwmb26qiiy6ra9UQeH4tzHpVS
- f82Ldlu+uBZ3LD7ZpJhBpKTc6Y6NoUIL8pE4tjSMR74IhzJT59Becrc3pP1vhZFqekoU
- kLXu3Lyw6P+24yKaG8nC1lAMLyvzeI5QoGYIfPBiz3X7zrO3LVO10ExwR+42S3K+AREx
- /xow==
-X-Gm-Message-State: APjAAAWaHuRcgVBA+l4LPlhC+GpbPuPD2zLjShjv4dEMAVRZbSblgQa8
- ZzFq09JTkN8kzZg1Kq5LGLFXvgnWrfI=
-X-Google-Smtp-Source: APXvYqwG6R+UHTALZumeRa4w9v8ON7MeW8EUQe4/+q7SHI3NUn/meIr3r5q41a3H1NRGe04l3jZznA==
-X-Received: by 2002:a17:906:43c4:: with SMTP id
- j4mr1702763ejn.227.1561620833734; 
- Thu, 27 Jun 2019 00:33:53 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id y4sm469332edb.64.2019.06.27.00.33.52
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=7LaMgU7lYlTTq4vX0F62OnAdP2BPs36Q4zFTrM+xfWM=;
+ b=GABMX3pJ1rAD5kmO+2HuHWVH8E5r/JAwu4OlU5Lh5F0P/XlwpTJUx0Cma9SX74K4lb
+ hOCBZRotAlyUOCo1dwxXuECI4TDj57umaA3AU4NaA+BOoh1syzgfrTXnD6UDJEtacEoz
+ 8NseyxTvg5bJwX/BqDe6B+UNxLue5LB5EuJhY3IjuY6dUnLoJGtK4acTcLZtlcK7r94b
+ BOJOhe9XaH0j2h8ZBA0lEP9tVGkT1iV/AFN0xEacaGdPThHLnAYv8d+b13Pg8sapYAVI
+ 7zeY4YEU6hQ7o7hT6maC/EFw1X+uYWJUIrORmzhfJvEk6LDYHZZFxy3t8iTMliWoKHgp
+ uLUQ==
+X-Gm-Message-State: APjAAAVHt6RGpNfWr0eGy+NnKnJ8jX/aK2XFj7NUDcCbrIIM2noCE8Ck
+ 55zDe4diBM2M6LvmRdOZxaKjMdqx
+X-Google-Smtp-Source: APXvYqwimau8EroDWhePxAfL9GMh87MNDgMiEbn3T6yy7V8vWusOin2c7ApygArs0ZzigHrzNEY3Kg==
+X-Received: by 2002:ac2:5922:: with SMTP id v2mr261503lfi.180.1561620956752;
+ Thu, 27 Jun 2019 00:35:56 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id v2sm190292lfi.52.2019.06.27.00.35.56
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 00:33:52 -0700 (PDT)
-Date: Thu, 27 Jun 2019 09:33:50 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-Subject: Re: [PATCH 4/7] drm/radeon: Fill out gem_object->resv
-Message-ID: <20190627073350.GG12905@phenom.ffwll.local>
-References: <20190625204208.5614-1-daniel.vetter@ffwll.ch>
- <20190625204208.5614-5-daniel.vetter@ffwll.ch>
- <4cfa949e-1a20-149c-0758-e1bd97fd3cf5@amd.com>
- <20190626082312.GI12905@phenom.ffwll.local>
+ Thu, 27 Jun 2019 00:35:56 -0700 (PDT)
+Date: Thu, 27 Jun 2019 10:35:47 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC][PATCH 0/2] drm: PATH prop for all connectors?
+Message-ID: <20190627103547.67cd8868@eldfell.localdomain>
+In-Reply-To: <20190613204208.GR23020@phenom.ffwll.local>
+References: <20190613184335.7970-1-ville.syrjala@linux.intel.com>
+ <20190613204208.GR23020@phenom.ffwll.local>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190626082312.GI12905@phenom.ffwll.local>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=tLNysIjqJMP/mK9y+DIXXFwzjP5Ou11V/UspTzYdVK0=;
- b=fLVnEsfUO+WHd+R9nv5V5nWAoBBQ0DBsVSiN8yUyDXlatdUtFyMXl804Yv13uwevS9
- xlhnMFgJvkeDWsHMhRmGhWdtggKpBRAuzDdW+2JKlnCZeklfdyCQbTCo35wvKMDZM5j/
- 0IxGObx7DXm8fkSrNySTMv80LX9vYhD+Y2IAE=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=7LaMgU7lYlTTq4vX0F62OnAdP2BPs36Q4zFTrM+xfWM=;
+ b=RICox4np91ERiK98nqkCdlp4Xg7k+l0a0C6GseCgKDxxiCi2gHgqvMl0Uw3t+JjElu
+ eylZHxxZzXq5JA8zi2aAqWMIjEAZDJtyZoWQMDHXcuob1t+IcSJ1hnFcNCIItThEuXNl
+ TBjNDyUEUVyimbRc/UgaoECLorOIKYON3drsivOJYFgh2B2KomJ+h9r9FaUq+6sO6LHq
+ zE7djqyK2r9zVIDmyGhQMT7xCHQhZtw6v4EuAHSgARgd/kFuaH9X+lxjlykxECKAznC5
+ YJzvRLcDvMLp8wmkT8QyXtpmsFJXOBTMrAKyjsCG71p1ksSBUbywZERQwX9ms31kxGwU
+ wjjQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,103 +68,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1264152971=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdW4gMjYsIDIwMTkgYXQgMTA6MjM6MTJBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBPbiBXZWQsIEp1biAyNiwgMjAxOSBhdCAwNzoxMDoyMUFNICswMDAwLCBLb2VuaWcs
-IENocmlzdGlhbiB3cm90ZToKPiA+IFRob3NlIHBhdGNoZXMgd291bGQgYmVjb21lIHN1cGVyZmx1
-b3VzIHdoZW4gbWVyZ2luZyBHZXJkJ3Mgd29yay4KPiAKPiBOb3QgZW50aXJlbHksIHRoZXkgc3Rp
-bGwgcmVtb3ZlIHRoZSBnZW1fcHJpbWVfcmVzX29iai4gU2V0dGluZyB1cAo+IGdlbV9iby5yZXN2
-IGlzIG9ubHkgb25lIGhhbGYgb2Ygd2hhdCB0aGVzZSBkbyBoZXJlLiBBbmQgeWVhaCBJIHRoaW5r
-IHRoYXQKPiBzaW5nbGUgYWRkaXRpb24gY2FuIGJlIHJlbW92ZWQgYWdhaW4gd2hlbiBHZXJkJ3Mg
-c3R1ZmYgbGFuZHMuCj4gIAo+ID4gQnV0IEknbSBub3Qgc3VyZSBpZiB0aGF0IGlzIGdvaW5nIHRv
-IGZseSBzb29uIG9yIG5vdC4KPiAKPiBJIHRoaW5rIHItYiBmcm9tIFRob21hcyBaaW1tZXJtYW5u
-IChvciBzb21lIG90aGVyIHR0bStnZW0gc3Rha2Vob2xkZXIpIGFuZAo+IHdlJ3JlIGdvb2QgdG8g
-bGFuZCB0aGVtLiBUaG9tYXMgSGVsbHN0cm9tIG1lbGxvd2VkIGRvd24gaGlzICJuYWNrIiB0bwo+
-ICJJJ2xsIGxvb2sgYXQgdGhpcyBpbiBBdWd1c3QgYWdhaW4gYW5kIGNvdXJzZS1jb3JyZWN0IGlm
-IG5lY2Vzc2FyeSIuCgpKdXN0IHBpbmdlZCBHZXJkIG9uIHRoaXMsIHNvIHdlIGNhbiBzdGFydCBj
-b29yZGluYXRpb24uCgpidHcgcGxhbm5pbmcgdG8gcmV2aWV3IHRoaXMgZnJvbSBhbWQgc2lkZSwg
-SSdkIGxpa2UgdG8gZGl0Y2gKZ2VtX3ByaW1lX3Jlc19vYmogZXNwZWNpYWxseSB3aXRoIEdlcmQg
-c2VyaWVzIGl0J3MgcG9pbnRsZXNzLgotRGFuaWVsCgo+IC1EYW5pZWwKPiAKPiA+IAo+ID4gQ2hy
-aXN0aWFuLgo+ID4gCj4gPiBBbSAyNS4wNi4xOSB1bSAyMjo0MiBzY2hyaWViIERhbmllbCBWZXR0
-ZXI6Cj4gPiA+IFRoYXQgd2F5IHdlIGNhbiBkaXRjaCBvdXIgZ2VtX3ByaW1lX3Jlc19vYmogaW1w
-bGVtZW50YXRpb24uIFNpbmNlIHR0bQo+ID4gPiBhYnNvbHV0ZWx5IG5lZWRzIHRoZSByaWdodCBy
-ZXNlcnZhdGlvbiBvYmplY3QgYWxsIHRoZSBib2lsZXJwbGF0ZSBpcwo+ID4gPiBhbHJlYWR5IHRo
-ZXJlIGFuZCB3ZSBqdXN0IGhhdmUgdG8gd2lyZSBpdCB1cCBjb3JyZWN0bHkuCj4gPiA+Cj4gPiA+
-IE5vdGUgdGhhdCBnZW0vcHJpbWUgZG9lc24ndCBjYXJlIHdoZW4gd2UgZG8gdGhpcywgYXMgbG9u
-ZyBhcyB3ZSBkbyBpdAo+ID4gPiBiZWZvcmUgdGhlIGJvIGlzIHJlZ2lzdGVyZWQgYW5kIHNvbWVv
-bmUgY2FuIGNhbGwgdGhlIGhhbmRsZTJmZCBpb2N0bAo+ID4gPiBvbiBpdC4KPiA+ID4KPiA+ID4g
-QXNpZGU6IHR0bV9idWZmZXJfb2JqZWN0LnR0bV9yZXN2IGNvdWxkIHByb2JhYmx5IGJlIGRpdGNo
-ZWQgaW4gZmF2b3VyCj4gPiA+IG9mIGFsd2F5cyBwYXNzaW5nIGEgbm9uLU5VTEwgcmVzdiB0byB0
-dG1fYm9faW5pdCgpLiBBdCBsZWFzdCBmb3IgZ2VtCj4gPiA+IGRyaXZlcnMgdGhhdCB3b3VsZCBh
-dm9pZCBoYXZpbmcgdHdvIG9mIHRoZXNlLCBvbiBpbiB0dG1fYnVmZmVyX29iamVjdAo+ID4gPiBh
-bmQgdGhlIG90aGVyIGluIGRybV9nZW1fb2JqZWN0LCBvbmUganVzdCB0aGVyZSBmb3IgY29uZnVz
-aW9uLgo+ID4gPgo+ID4gPiBSZXZpZXdlZC1ieTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZA
-Y29sbGFib3JhLmNvbT4KPiA+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-LnZldHRlckBpbnRlbC5jb20+Cj4gPiA+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVj
-aGVyQGFtZC5jb20+Cj4gPiA+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4KPiA+ID4gQ2M6ICJEYXZpZCAoQ2h1bk1pbmcpIFpob3UiIDxEYXZpZDEuWmhv
-dUBhbWQuY29tPgo+ID4gPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4g
-LS0tCj4gPiA+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmMgICAgfCAyIC0t
-Cj4gPiA+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fb2JqZWN0LmMgfCAxICsKPiA+
-ID4gICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9wcmltZS5jICB8IDcgLS0tLS0tLQo+
-ID4gPiAgIDMgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDkgZGVsZXRpb25zKC0pCj4g
-PiA+Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kcnYu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jCj4gPiA+IGluZGV4IDQ0MDNl
-NzZlMWFlMC4uYTRhNzhkZmRlZjM3IDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-cmFkZW9uL3JhZGVvbl9kcnYuYwo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3Jh
-ZGVvbl9kcnYuYwo+ID4gPiBAQCAtMTUyLDcgKzE1Miw2IEBAIHN0cnVjdCBkcm1fZ2VtX29iamVj
-dCAqcmFkZW9uX2dlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUoc3RydWN0IGRybV9kZXZpY2UgKmRl
-diwKPiA+ID4gICAJCQkJCQkJc3RydWN0IHNnX3RhYmxlICpzZyk7Cj4gPiA+ICAgaW50IHJhZGVv
-bl9nZW1fcHJpbWVfcGluKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKTsKPiA+ID4gICB2b2lk
-IHJhZGVvbl9nZW1fcHJpbWVfdW5waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ID4g
-PiAtc3RydWN0IHJlc2VydmF0aW9uX29iamVjdCAqcmFkZW9uX2dlbV9wcmltZV9yZXNfb2JqKHN0
-cnVjdCBkcm1fZ2VtX29iamVjdCAqKTsKPiA+ID4gICB2b2lkICpyYWRlb25fZ2VtX3ByaW1lX3Zt
-YXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ID4gPiAgIHZvaWQgcmFkZW9uX2dlbV9w
-cmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHZvaWQgKnZhZGRyKTsKPiA+
-ID4gICAKPiA+ID4gQEAgLTU2Niw3ICs1NjUsNiBAQCBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIg
-a21zX2RyaXZlciA9IHsKPiA+ID4gICAJLmdlbV9wcmltZV9leHBvcnQgPSByYWRlb25fZ2VtX3By
-aW1lX2V4cG9ydCwKPiA+ID4gICAJLmdlbV9wcmltZV9waW4gPSByYWRlb25fZ2VtX3ByaW1lX3Bp
-biwKPiA+ID4gICAJLmdlbV9wcmltZV91bnBpbiA9IHJhZGVvbl9nZW1fcHJpbWVfdW5waW4sCj4g
-PiA+IC0JLmdlbV9wcmltZV9yZXNfb2JqID0gcmFkZW9uX2dlbV9wcmltZV9yZXNfb2JqLAo+ID4g
-PiAgIAkuZ2VtX3ByaW1lX2dldF9zZ190YWJsZSA9IHJhZGVvbl9nZW1fcHJpbWVfZ2V0X3NnX3Rh
-YmxlLAo+ID4gPiAgIAkuZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSA9IHJhZGVvbl9nZW1fcHJp
-bWVfaW1wb3J0X3NnX3RhYmxlLAo+ID4gPiAgIAkuZ2VtX3ByaW1lX3ZtYXAgPSByYWRlb25fZ2Vt
-X3ByaW1lX3ZtYXAsCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3Jh
-ZGVvbl9vYmplY3QuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX29iamVjdC5jCj4g
-PiA+IGluZGV4IDIxZjczZmM4NmYzOC4uN2EyYmFkODQzZjhhIDEwMDY0NAo+ID4gPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuYwo+ID4gPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9vYmplY3QuYwo+ID4gPiBAQCAtMjYyLDYgKzI2Miw3IEBA
-IGludCByYWRlb25fYm9fY3JlYXRlKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2LAo+ID4gPiAg
-IAlyID0gdHRtX2JvX2luaXQoJnJkZXYtPm1tYW4uYmRldiwgJmJvLT50Ym8sIHNpemUsIHR5cGUs
-Cj4gPiA+ICAgCQkJJmJvLT5wbGFjZW1lbnQsIHBhZ2VfYWxpZ24sICFrZXJuZWwsIGFjY19zaXpl
-LAo+ID4gPiAgIAkJCXNnLCByZXN2LCAmcmFkZW9uX3R0bV9ib19kZXN0cm95KTsKPiA+ID4gKwli
-by0+Z2VtX2Jhc2UucmVzdiA9IGJvLT50Ym8ucmVzdjsKPiA+ID4gICAJdXBfcmVhZCgmcmRldi0+
-cG0ubWNsa19sb2NrKTsKPiA+ID4gICAJaWYgKHVubGlrZWx5KHIgIT0gMCkpIHsKPiA+ID4gICAJ
-CXJldHVybiByOwo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
-b25fcHJpbWUuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3ByaW1lLmMKPiA+ID4g
-aW5kZXggZGVhZmZjZTUwYTJlLi44Y2UzZTgwNDVkNDIgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3ByaW1lLmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9yYWRlb25fcHJpbWUuYwo+ID4gPiBAQCAtMTE3LDEzICsxMTcsNiBAQCB2b2lk
-IHJhZGVvbl9nZW1fcHJpbWVfdW5waW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopCj4gPiA+
-ICAgfQo+ID4gPiAgIAo+ID4gPiAgIAo+ID4gPiAtc3RydWN0IHJlc2VydmF0aW9uX29iamVjdCAq
-cmFkZW9uX2dlbV9wcmltZV9yZXNfb2JqKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQo+ID4g
-PiAtewo+ID4gPiAtCXN0cnVjdCByYWRlb25fYm8gKmJvID0gZ2VtX3RvX3JhZGVvbl9ibyhvYmop
-Owo+ID4gPiAtCj4gPiA+IC0JcmV0dXJuIGJvLT50Ym8ucmVzdjsKPiA+ID4gLX0KPiA+ID4gLQo+
-ID4gPiAgIHN0cnVjdCBkbWFfYnVmICpyYWRlb25fZ2VtX3ByaW1lX2V4cG9ydChzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKmdvYmosCj4gPiA+ICAgCQkJCQlpbnQgZmxhZ3MpCj4gPiA+ICAgewo+ID4g
-Cj4gCj4gLS0gCj4gRGFuaWVsIFZldHRlcgo+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
-b3JhdGlvbgo+IGh0dHA6Ly9ibG9nLmZmd2xsLmNoCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2Fy
-ZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+--===============1264152971==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/wGF4miNzbv/L0CFmuwxXMfZ"; protocol="application/pgp-signature"
+
+--Sig_/wGF4miNzbv/L0CFmuwxXMfZ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 13 Jun 2019 22:42:08 +0200
+Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Thu, Jun 13, 2019 at 09:43:33PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+> >=20
+> > Here's a possible apporoach for providing userspace with
+> > some stable connector identifiers. Combine with the bus
+> > name of the GPU and you should have some kind of real
+> > physical path description. Unfortunately the ship has
+> > sailed for MST connectors because userspace is already
+> > parsing the property and expects to find certain things
+> > there. So if we want stable names for those we'd probably
+> > have introduce another PATH prop (PHYS_PATH?).
+> >=20
+> > I suppose one alternative would to make the connector=20
+> > type_id stable. Currently that is being populated by drm=20
+> > core and it's just a global counter. Not sure how badly
+> > things would turn out if we'd allow each driver to set
+> > that. It could result in conflicting xrandr connector
+> > names between different GPUs which I suppose would
+> > confuse existing userspace? =20
+>=20
+> I think the only reason this global id stuff exists is because with
+> original xrandr, that stuff was global. And then it got copypasted
+> forever.
+>=20
+> Would need to do a bunch of reviewing, but I'd expect we'll get away with
+> just making all these allocators per-device.
+
+Hi,
+
+I'm not sure I'm that optimistic... I assume most userspace uses type_id
+for naming already and might rely on uniqueness. Weston uses type_id,
+but does not rely on uniqueness yet, since it only handles one device
+so far.
+
+The bigger problem to me however is changing the meaning of type_id,
+causing old kernels do one thing and new kernels do another thing. When
+userspace uses type_id for connector naming, it may use that name in
+configuration files. Weston does, but again is not affected because it
+doesn't support using multiple devices yet. If someone has two gfx
+cards in his machine, making type_id per-device changes the numbering,
+meaning the user's configuration does not apply anymore or applies
+wrong. I suppose it doesn't matter if the naming was already
+unreliable, since it is reliable if the drivers/devices happened to
+probe in the same order every boot.
+
+Are connector names in xrandr still using type_id in their names? That
+would be a sure blocker, I think.
+
+
+Thanks,
+pq
+
+--Sig_/wGF4miNzbv/L0CFmuwxXMfZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl0UcdMACgkQI1/ltBGq
+qqd0/Q//RlTC3ZUhYvLszKWH+MxGXbG1y917+H4YacqZBa1Dt+v4n5l87A0atOjD
+UnFqzvWJ3X/94NviRSOj1pQ4c82sCf8jXV49vaKlDLpU64PzRr6B/YJnTmcbL74T
+UdG97nYXU79Himl44OJdEjbHiaiGdbvA0+l45LIKZ6h8brTmkUNnMcpO3o6WQ+Yk
+Lsf9jvvz4wLfEotqbGdc5pbyHJz+vgRZfWIKuHHCCHgx2zjhdG+X1FK81gxXaA29
+otDUD6/yY39zsW+ZESo3ZBFSlH9QNXq7eCNH36YlYqjXtXY0QJ7mZ56/FP0RgAap
+kHs/X8BBaEGL3dWY8YLKgIZKSSqU77SHWYhTbAhcaPSz07xSgXrWvfYyYev1EIbe
+K8BlP7Hf6K9G4rI6drOuwe5Ue9gD7ImCC0NGKiJPCAml1/nEDuJF5uIF+FyIXZeS
++isIdPUjGzqGtM1TlqUr938odITyL2YrMITQjHBjy+LhFN2mamyA3aUX5ilYQXUB
+x8DRzvp1yrinakJgC3y8ya76+px2/qSoDDORkhrvzODod7gGWIlyDiePaCwxMY8M
+Ln8NFsUmuc+/MV8AbtHDSRVzwKTMQJCFc0vZNu6CdW70u1VXbi6bvDklZ7fErIhd
+u1IKHI3ghQooT1Nu3PJyKNdbzMwi3UU5zHD/insp4Cq6VWzOGAM=
+=QjzZ
+-----END PGP SIGNATURE-----
+
+--Sig_/wGF4miNzbv/L0CFmuwxXMfZ--
+
+--===============1264152971==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1264152971==--
