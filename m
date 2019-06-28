@@ -1,34 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EF65996E
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 13:51:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B8659A00
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 14:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874096E8E9;
-	Fri, 28 Jun 2019 11:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7A6C6E8EC;
+	Fri, 28 Jun 2019 12:06:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD0316E8E9
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 11:51:48 +0000 (UTC)
-X-Originating-IP: 86.250.200.211
-Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9590440009;
- Fri, 28 Jun 2019 11:51:45 +0000 (UTC)
-Date: Fri, 28 Jun 2019 13:51:45 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 0/1] drm: panel-orientation-quirks: Add extra quirk table
- entry GPD MicroPC
-Message-ID: <20190628115145.g7hqqit2zad3z2wf@flea>
-References: <20190624154014.8557-1-hdegoede@redhat.com>
- <5215f91a-377a-78f1-dc73-7f9ae7531d56@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <5215f91a-377a-78f1-dc73-7f9ae7531d56@redhat.com>
-User-Agent: NeoMutt/20180716
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF626E8EA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 12:06:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id 93077263955
+From: Robert Beckett <bob.beckett@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 0/2] handle vblank when disabling ctc with interrupt
+ disabled 
+Date: Fri, 28 Jun 2019 13:05:30 +0100
+Message-Id: <cover.1561722822.git.bob.beckett@collabora.com>
+X-Mailer: git-send-email 2.18.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,77 +33,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <seanpaul@chromium.org>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1573100027=="
+Cc: Robert Beckett <bob.beckett@collabora.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1573100027==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="k2js3lnbagke543w"
-Content-Disposition: inline
-
-
---k2js3lnbagke543w
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Jun 28, 2019 at 12:04:30PM +0200, Hans de Goede wrote:
-> Hi all,
->
-> On 24-06-19 17:40, Hans de Goede wrote:
-> > Hi All,
-> >
-> > Good news I have a contact inside GPD now and from now on their BIOS-es
-> > will have proper sys_vendor and product_name DMI strings. This means that
-> > we no longer need to do BIOS date matches and add a new BIOS date to
-> > drm_panel_orientation_quirks.c for each BIOS update.
-> >
-> > The second batch of GPD MicroPC-s being delivered to users already uses
-> > these new strings, this patch adds a quirk for the 90 degree mounted
-> > LCD panel using the new DMI strings.
-> >
-> > It would be nice to get this into 5.2, but it is not that urgent, so
-> > I believe that it is best to push this to drm-misc-next-fixes and then
-> > it can get added to 5.2.y once it hits Torvald's tree.
-> >
-> > If someone can give this a review (it is a trivial patch really) and
-> > give me an Acked-by then I'll push this to drm-misc-next-fixes.
->
-> Maarten, Maxime, ping? Can I get an Acked-by (or Reviewed-by) for this
-> please so that I can push it to drm-misc-next-fixes ?
-
-Acked-by: Maxime Ripard <maxime.ripard@bootlin.com>
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---k2js3lnbagke543w
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRX/SwAKCRDj7w1vZxhR
-xcLGAQDWuN90T+zToRV5X4gWGunQSqfMMii3zbxlNY8Gq8r7nAEA+ZoGtPPWYEcg
-ItoAjaC5K589IwmpV3CnIQLYJJ/ZxAM=
-=dyqR
------END PGP SIGNATURE-----
-
---k2js3lnbagke543w--
-
---===============1573100027==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1573100027==--
+QWRkIHdhcm5pbmcgd2hlbiBhYm91dCB0byBzZW5kIHN0YWxlIHZibGFuay4KUmV2ZXJ0IGNoYW5n
+ZSB0aGF0IHN0b3BzIHZibGFuayBpbmZvIGJlaW5nIHVwZGF0ZWQgaWYgaW50ZXJydXB0cyBhbHJl
+YWR5CmRpc2FibGVkLiBUaGlzIGZpeGVzIGEgc3RhbGUgdmJsYW5rIHRpbWVzdGFtcCBpc3N1ZSBz
+ZWVuIG9uIGRybS9pbXguCgoKQ2hhbmdlcyBzaW5jZSB2MjoKU3BsaXQgdXAgdGhlIHBhdGNoIGlu
+IHRvIHNtYWxsZXIgcGllY2VzLgpBZGQgd2FybmluZyB3aGVuIGFib3V0IHRvIHNlbmQgYm9ndXMg
+dmJsYW5rIGV2ZW50LgpVcGRhdGUgdmJsYW5rIHRvIGJlc3QgZ3Vlc3MgaW5mbyBkdXJpbmcgZHJt
+X3ZibGFua19kaXNhYmxlX2FuZF9zYXZlLgoKQ2hhbmdlcyBzaW5jZSB2MzoKVXBkYXRlIGNvdmVy
+IGxldHRlciB0ZXh0IHRvIGRlc2NyaWJlIHJlbWFpbmluZyBhY3Rpb25zLgpEcm9wIGRybS9pbXgg
+cGF0Y2hlcyBhcyB0aGV5IGhhdmUgbm93IGJlZW4gbWVyZ2VkLgpSZXBsYWNlIHZibGFuayBpbmZv
+IGVzdGltYXRpb24gcGF0Y2ggd2l0aCBhIHJldmVydCBvZiB0aGUgaXNzdWUgdGhhdApjYXVzZWQg
+dGhlIG5lZWQgZm9yIGVzdGltYXRpb24uCgpSb2JlcnQgQmVja2V0dCAoMik6CiAgZHJtL3ZibGFu
+azogd2FybiBvbiBzZW5kaW5nIHN0YWxlIGV2ZW50CiAgUmV2ZXJ0ICJkcm0vdmJsYW5rOiBEbyBu
+b3QgdXBkYXRlIHZibGFuayBjb3VudCBpZiBpbnRlcnJ1cHRzIGFyZQogICAgYWxyZWFkeSBkaXNh
+YmxlZC4iCgogZHJpdmVycy9ncHUvZHJtL2RybV92YmxhbmsuYyB8IDM1ICsrKysrKysrKysrKysr
+KysrKysrKysrKystLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwg
+MTAgZGVsZXRpb25zKC0pCgotLSAKMi4xOC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
