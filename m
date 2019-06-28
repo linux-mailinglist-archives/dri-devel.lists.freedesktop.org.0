@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876FD597CF
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 11:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D275E5B130
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 20:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48126E8AB;
-	Fri, 28 Jun 2019 09:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B04989D02;
+	Sun, 30 Jun 2019 18:26:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id AE36E6E8AB
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 09:44:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A6BDC72167; Fri, 28 Jun 2019 09:44:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110822] [Bisected]Booting with kernel version 5.1.0 or higher
- on RX 580 hangs
-Date: Fri, 28 Jun 2019 09:44:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: gobinda.joy@gmail.com
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110822-502-KcdAAqqsdv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110822-502@http.bugs.freedesktop.org/>
-References: <bug-110822-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E003E6E8C0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 10:03:04 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id g135so8491961wme.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 03:03:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tkIKqohD1pWyDDJZwRAR+FLcGS0BmuKJrepunlcK85k=;
+ b=SL8EuResNgz8DNu0CBxnAOURsgYzRX1P1PDHsTFdc629Fs4pF8QU9Bm6QsnHOeIBNY
+ hKDv8ZNwobzyu7LlTwxLD+mMJ8H3lKQVjaqxXkPpK3ek9qkq+VgWC27qpXvjGyO2GW5R
+ oOgmIqp34zmk6mxEkWjcjxQ+RJlCcoHrRLMI5+3C1aGnMWkCWSNYrRGxP0b3RNc/pCWF
+ GL6BCHf7GPtdzWkFGscCH8RXMVYK/2kuj+x4cb/Uwb+UOr44RJCos05TgbLInFXR8ZQ1
+ 84cgSKjaj8YVZnQbMNftyPjWAV3db8ra4drxHatRXjNgQQfUKH7UpD/J/7oq3/yw579V
+ bsgA==
+X-Gm-Message-State: APjAAAVb8GUPEEgdsMuDY575AWkhDWNBgQ94XBmUxgcV4lA9i1uRE530
+ 7qW+RbTmUTMatbjN13Mz56RxkA==
+X-Google-Smtp-Source: APXvYqwhcFL6tQPvDpqRgEZ6o9MP/TYJoYCPuvCjDURwYT5TSOIYtMdW/bnH9RbLDIM8UWBC5Gscrg==
+X-Received: by 2002:a1c:a848:: with SMTP id r69mr6526253wme.12.1561716183015; 
+ Fri, 28 Jun 2019 03:03:03 -0700 (PDT)
+Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
+ by smtp.gmail.com with ESMTPSA id l124sm1628874wmf.36.2019.06.28.03.03.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 28 Jun 2019 03:03:02 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH RFT 0/4] backlight: gpio: simplify the driver
+Date: Fri, 28 Jun 2019 12:02:49 +0200
+Message-Id: <20190628100253.8385-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+X-Mailman-Approved-At: Sun, 30 Jun 2019 18:26:11 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tkIKqohD1pWyDDJZwRAR+FLcGS0BmuKJrepunlcK85k=;
+ b=wqzma/SfPs0SNGTJrk5pSZ/CDzjE4TIsL1pUirIMru6Dd+k6VggDOtK8vTsC1hGLBl
+ LkxecZDEuCSeCquLFAOPUsgoDKzm5faSmD1FnVCT7mAIophBAoibWoibsUUid8aXk7z1
+ ReoaPn8iXq3u3x4tzSeci7yYCYibuOp7i9fH0JjNnW3tsNULnII/S3nTg5NJTPxm6n+L
+ XQCn7bneeug8DsDsEwH6nFbR7aM+12R56vcL/hhU8Afv3LItBO/gwcnghPvcETXmMDOX
+ reWrBAZ8fCMca+WmYEPAZ1tOiCj8kYRTNDsyKdttCYERhyT/eh212yuCPYf61oXc6OCd
+ SFIg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,89 +71,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1391828595=="
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1391828595==
-Content-Type: multipart/alternative; boundary="15617150590.62B0.11730"
-Content-Transfer-Encoding: 7bit
-
-
---15617150590.62B0.11730
-Date: Fri, 28 Jun 2019 09:44:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110822
-
---- Comment #21 from Gobinda Joy <gobinda.joy@gmail.com> ---
-The latest drm-next (drm-next-5.3-2019-06-27) kernel still have this bug.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15617150590.62B0.11730
-Date: Fri, 28 Jun 2019 09:44:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [Bisected]Booting with kernel version 5.1.0 or highe=
-r on RX 580 hangs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822#c21">Comme=
-nt # 21</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [Bisected]Booting with kernel version 5.1.0 or highe=
-r on RX 580 hangs"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110822">bug 11082=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gobinda.joy&#64;gmail.com" title=3D"Gobinda Joy &lt;gobinda.joy&#64;gmail.c=
-om&gt;"> <span class=3D"fn">Gobinda Joy</span></a>
-</span></b>
-        <pre>The latest drm-next (drm-next-5.3-2019-06-27) kernel still hav=
-e this bug.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15617150590.62B0.11730--
-
---===============1391828595==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1391828595==--
+RnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KCldo
+aWxlIHdvcmtpbmcgb24gbXkgb3RoZXIgc2VyaWVzIHJlbGF0ZWQgdG8gZ3Bpby1iYWNrbGlnaHRb
+MV0gSSBub3RpY2VkCnRoYXQgd2UgY291bGQgc2ltcGxpZnkgdGhlIGRyaXZlciBpZiB3ZSBtYWRl
+IHRoZSBvbmx5IHVzZXIgb2YgcGxhdGZvcm0KZGF0YSB1c2UgR1BJTyBsb29rdXBzIGFuZCBkZXZp
+Y2UgcHJvcGVydGllcy4gVGhpcyBzZXJpZXMgdHJpZXMgdG8gZG8KdGhhdC4KClRoZSBmaXJzdCBw
+YXRjaCBzZXRzIHVwIGFsbCB0aGUgcmVxdWlyZWQgc3RydWN0dXJlcyBpbiB0aGUgYm9hcmQgZmls
+ZSwKdGhlIHNlY29uZCBtb2RpZmllcyB0aGUgYmFja2xpZ2h0IGRyaXZlciwgdGhlIHRoaXJkIGFu
+ZCBmb3VydGggcmVtb3ZlCnRoZSBsZWZ0b3ZlcnMuCgpUaGlzIHNlcmllcyBkZXBlbmRzIG9uIHRo
+ZSB0aHJlZSBmaXJzdCBwYXRjaGVzIGZyb20gWzFdLgoKSSBkb24ndCBoYXZlIGFjY2VzcyB0byB0
+aGlzIEhXIGJ1dCBob3BlZnVsbHkgdGhpcyB3b3Jrcy4gT25seSBjb21waWxlCnRlc3RlZC4KClsx
+XSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAxOS82LzI1LzkwMAoKQmFydG9zeiBHb2xhc3pld3Nr
+aSAoNCk6CiAgc2g6IGVjb3ZlYzI0OiBhZGQgYWRkaXRpb25hbCBwcm9wZXJ0aWVzIHRvIHRoZSBi
+YWNrbGlnaHQgZGV2aWNlCiAgYmFja2xpZ2h0OiBncGlvOiBzaW1wbGlmeSB0aGUgcGxhdGZvcm0g
+ZGF0YSBoYW5kbGluZwogIHNoOiBlY292ZWMyNDogZG9uJ3Qgc2V0IHVudXNlZCBmaWVsZHMgaW4g
+cGxhdGZvcm0gZGF0YQogIGJhY2tsaWdodDogZ3BpbzogcmVtb3ZlIHVudXNlZCBmaWVsZHMgZnJv
+bSBwbGF0Zm9ybSBkYXRhCgogYXJjaC9zaC9ib2FyZHMvbWFjaC1lY292ZWMyNC9zZXR1cC5jICAg
+ICAgICAgfCAzMyArKysrKysrKysrLS0tLQogZHJpdmVycy92aWRlby9iYWNrbGlnaHQvZ3Bpb19i
+YWNrbGlnaHQuYyAgICAgfCA0NiArKysrKystLS0tLS0tLS0tLS0tLQogaW5jbHVkZS9saW51eC9w
+bGF0Zm9ybV9kYXRhL2dwaW9fYmFja2xpZ2h0LmggfCAgMyAtLQogMyBmaWxlcyBjaGFuZ2VkLCAz
+OCBpbnNlcnRpb25zKCspLCA0NCBkZWxldGlvbnMoLSkKCi0tIAoyLjIxLjAKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
