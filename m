@@ -2,84 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3FB59F9D
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 17:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C8C5A00C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 17:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 869A46E95C;
-	Fri, 28 Jun 2019 15:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6EFC6E956;
+	Fri, 28 Jun 2019 15:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750075.outbound.protection.outlook.com [40.107.75.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D7B89842;
- Fri, 28 Jun 2019 15:49:18 +0000 (UTC)
-Received: from DM6PR12MB3209.namprd12.prod.outlook.com (20.179.105.33) by
- DM6PR12MB4025.namprd12.prod.outlook.com (10.255.175.90) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.18; Fri, 28 Jun 2019 15:49:07 +0000
-Received: from DM6PR12MB3209.namprd12.prod.outlook.com
- ([fe80::41da:969f:dbb5:cd25]) by DM6PR12MB3209.namprd12.prod.outlook.com
- ([fe80::41da:969f:dbb5:cd25%2]) with mapi id 15.20.2008.018; Fri, 28 Jun 2019
- 15:49:07 +0000
-From: "Abramov, Slava" <Slava.Abramov@amd.com>
-To: Colin King <colin.king@canonical.com>, "Wang, Kevin(Yang)"
- <Kevin1.Wang@amd.com>, Rex Zhu <rex.zhu@amd.com>, "Quan, Evan"
- <Evan.Quan@amd.com>, "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>, "Zhou, David(ChunMing)"
- <David1.Zhou@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH][next] drm/amd/powerplay: fix out of memory check on
- od8_settings
-Thread-Topic: [PATCH][next] drm/amd/powerplay: fix out of memory check on
- od8_settings
-Thread-Index: AQHVLcggwxoCrhU+BkiwhUlh4PXsHKaxNnaq
-Date: Fri, 28 Jun 2019 15:49:07 +0000
-Message-ID: <DM6PR12MB32096A1C759F688B42A8519FFEFC0@DM6PR12MB3209.namprd12.prod.outlook.com>
-References: <20190628151354.14107-1-colin.king@canonical.com>
-In-Reply-To: <20190628151354.14107-1-colin.king@canonical.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [165.204.55.251]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e9f86e6c-dc14-4ac4-5d30-08d6fbe02787
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM6PR12MB4025; 
-x-ms-traffictypediagnostic: DM6PR12MB4025:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DM6PR12MB4025142D145668E852737139FEFC0@DM6PR12MB4025.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3173;
-x-forefront-prvs: 00826B6158
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(346002)(376002)(39860400002)(396003)(366004)(136003)(189003)(199004)(229853002)(6246003)(8676002)(446003)(7696005)(2501003)(11346002)(9686003)(81156014)(81166006)(476003)(486006)(54896002)(6306002)(52536014)(71200400001)(6436002)(71190400001)(76116006)(68736007)(73956011)(91956017)(64756008)(66446008)(66476007)(66556008)(74316002)(66946007)(55016002)(8936002)(6606003)(5660300002)(53936002)(6116002)(7736002)(256004)(3846002)(2906002)(54906003)(110136005)(316002)(33656002)(606006)(236005)(478600001)(966005)(72206003)(14454004)(25786009)(66066001)(99286004)(76176011)(19627405001)(4326008)(6506007)(53546011)(102836004)(26005)(186003)(2201001)(86362001)(921003)(1121003);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB4025;
- H:DM6PR12MB3209.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: uk93kDoqn93oG8bgKzHhUhgthTuVkJAiWaUZd455xvqe/aqIXwuMnWyjCrtFE/9EbMiCseZiey13zHN5SbKRrPqTB5EuZwv33T9eVYu/A6g+nqLca4Cmwx1SVZfKhmtH90edhC1javRC/uIhrhGwLVU7JccHPjRtkZjqQL37og/+CGyWYrsgd2kwtjlLNKR3bKc9v+v7E5G0LZq90sVD7IgCW8Qa0tHxrrL8zglZX6ArNj1kEbt9YufZNVD4T85lGeWKNVF+uiZwaTMRw5ST8lpgOj/U93IO8toMrD8VNjodfZ4bFCRH2oFMNmvj6JLylRJKhRi8sejx0IM9+j9rG0rNC1XEXHD2aXeU9wpV/8cfCjXWSyA8gSeBzLce8oUowAicr+4OE6f+1YCYL2MoK7LkCRjogVD/gMIDeNhCKPE=
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02156E956
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 15:55:48 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id e5so13558345iok.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 08:55:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qvsku1LsJlCMNeTol53NqA/7OgT8tqKKHqYv+Wh37GE=;
+ b=V+2KlzZ0uLdauIEiGkKYhCoLxoEPgzAOcnF20v7r9nACOKGMDSACpzCC6P4RYWycHZ
+ pjigPmIEZiPSu4vir/OvMSb9HK5Y7ZfO1AkGiSDmx1N6v609lKu/7A4xM4hCAz8tsEWJ
+ n2oxszkQgF2RloywSySUe6ZbkyEm2WxhCJvV8RUSPGb/IbwxOYikSmSZ991ii+XOE+Gw
+ ZIuyG+pI0ByYHnoG0Wg/XZ9XlxXdQa7gbV3JWQoj07BINL4Ic/KVocnTZC/X7A39tQbM
+ wrExbpLsPihXeco8MxqSiav6fmqttRTIcVqSRJN92CGQP23UY3ZpJbL8VEBatFDzDLSl
+ PtLA==
+X-Gm-Message-State: APjAAAWgqBVHMFqPlpiNwo5N8L26Zi7EDnUziui+8dWC9OQl6AKCJA7b
+ fAIgtKuUwbQghZyMpADC+Ybzwse3UJU=
+X-Google-Smtp-Source: APXvYqyMJwr0uO1E/mG/wt4AtmEBat0GTPktA9qTwpBwst2iMET3Vk8jvZ6F/fF+PpA2seHzKIWYlQ==
+X-Received: by 2002:a5e:d612:: with SMTP id w18mr11283295iom.279.1561737347590; 
+ Fri, 28 Jun 2019 08:55:47 -0700 (PDT)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com.
+ [209.85.166.42])
+ by smtp.gmail.com with ESMTPSA id z1sm2184019ioh.52.2019.06.28.08.55.44
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 28 Jun 2019 08:55:45 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id w25so13515721ioc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 08:55:44 -0700 (PDT)
+X-Received: by 2002:a5d:96d8:: with SMTP id r24mr1014520iol.269.1561737344434; 
+ Fri, 28 Jun 2019 08:55:44 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9f86e6c-dc14-4ac4-5d30-08d6fbe02787
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2019 15:49:07.2723 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sabramov@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4025
+References: <20190401171724.215780-1-dianders@chromium.org>
+ <20190626130007.GE23428@ravnborg.org>
+ <CAD=FV=U4UU8q+CS76uuuGUP=EVnE6+BTUf8U=j7uwfczNgkrZw@mail.gmail.com>
+In-Reply-To: <CAD=FV=U4UU8q+CS76uuuGUP=EVnE6+BTUf8U=j7uwfczNgkrZw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 28 Jun 2019 08:55:38 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Vi2C7s2oWBDD0n+HK=_SuBYhRM9saMK-y6Qa0+k-g17w@mail.gmail.com>
+Message-ID: <CAD=FV=Vi2C7s2oWBDD0n+HK=_SuBYhRM9saMK-y6Qa0+k-g17w@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] drm/panel: simple: Add mode support to devicetree
+To: Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u72mdB+1VYZ6CBG7K4gBeOlxJCHlN/L4A05sQbDki6g=;
- b=qH9K8dXlf2nY1y6otEC2GTP9PEyx4YjpnOD/NgMO8bsFl+mfo6fEm2VXxNdRrauoVLi1BPs7r8YzGSX9t35UJ9D4nvxRynV6865HG8Ad7nHN0JS3h7sNh/I6Y/ZJbI2hNHTepFug0ssuQeAcSQNWLEUnqwzRhlLvFPfGYxkE3YA=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Slava.Abramov@amd.com; 
+ d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=qvsku1LsJlCMNeTol53NqA/7OgT8tqKKHqYv+Wh37GE=;
+ b=CzTrUukzMMeVRGwtHonyk2yl+qyq6WCscFXVn/MC+4gnXi3vA+3kMHy6iRQGqVZrU5
+ w20Qcluka+u28ayDtwVRqBQcrYz+4pCRRXefNm0+pAj+0E4hSBY3IzGe9/jYZeN6+zm7
+ 0cy9PihW6uY+H+FazttpKeB7XOxwJRVWhPe0M=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,167 +72,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============0828944034=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Brian Norris <briannorris@chromium.org>, David Airlie <airlied@linux.ie>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?UTF-8?Q?Enric_Balletb=C3=B2?= <enric.balletbo@collabora.com>,
+ Klaus Goger <klaus.goger@theobroma-systems.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Matthias Kaehlcke <mka@chromium.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0828944034==
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_DM6PR12MB32096A1C759F688B42A8519FFEFC0DM6PR12MB3209namp_"
-
---_000_DM6PR12MB32096A1C759F688B42A8519FFEFC0DM6PR12MB3209namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Acked-by: Slava Abramov <slava.abramov@amd.com>
-
-________________________________
-From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> on behalf of Colin Ki=
-ng <colin.king@canonical.com>
-Sent: Friday, June 28, 2019 11:13:54 AM
-To: Wang, Kevin(Yang); Rex Zhu; Quan, Evan; Deucher, Alexander; Koenig, Chr=
-istian; Zhou, David(ChunMing); David Airlie; Daniel Vetter; amd-gfx@lists.f=
-reedesktop.org; dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/amd/powerplay: fix out of memory check on od8_se=
-ttings
-
-From: Colin Ian King <colin.king@canonical.com>
-
-The null pointer check on od8_settings is currently the opposite of what
-it is intended to do. Fix this by adding in the missing ! operator.
-
-Addressed-Coverity: ("Resource leak")
-Fixes: 0c83d32c565c ("drm/amd/powerplay: simplified od_settings for each as=
-ic")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/amd/powerplay/vega20_ppt.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/powerplay/vega20_ppt.c b/drivers/gpu/drm/a=
-md/powerplay/vega20_ppt.c
-index 0f14fe14ecd8..eb9e6b3a5265 100644
---- a/drivers/gpu/drm/amd/powerplay/vega20_ppt.c
-+++ b/drivers/gpu/drm/amd/powerplay/vega20_ppt.c
-@@ -1501,8 +1501,7 @@ static int vega20_set_default_od8_setttings(struct sm=
-u_context *smu)
-                 return -EINVAL;
-
-         od8_settings =3D kzalloc(sizeof(struct vega20_od8_settings), GFP_K=
-ERNEL);
--
--       if (od8_settings)
-+       if (!od8_settings)
-                 return -ENOMEM;
-
-         smu->od_settings =3D (void *)od8_settings;
---
-2.20.1
-
-_______________________________________________
-amd-gfx mailing list
-amd-gfx@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-
---_000_DM6PR12MB32096A1C759F688B42A8519FFEFC0DM6PR12MB3209namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
-n-bottom:0;} --></style>
-</head>
-<body dir=3D"ltr">
-<div id=3D"divtagdefaultwrapper" style=3D"font-size:12pt;color:#000000;font=
--family:Calibri,Helvetica,sans-serif;" dir=3D"ltr">
-<p style=3D"margin-top:0;margin-bottom:0"><span style=3D"font-family: Calib=
-ri, Helvetica, sans-serif, EmojiFont, &quot;Apple Color Emoji&quot;, &quot;=
-Segoe UI Emoji&quot;, NotoColorEmoji, &quot;Segoe UI Symbol&quot;, &quot;An=
-droid Emoji&quot;, EmojiSymbols; font-size: 16px;">Acked-by: Slava Abramov =
-&lt;slava.abramov@amd.com&gt;</span><br>
-</p>
-</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> amd-gfx &lt;amd-gfx-b=
-ounces@lists.freedesktop.org&gt; on behalf of Colin King &lt;colin.king@can=
-onical.com&gt;<br>
-<b>Sent:</b> Friday, June 28, 2019 11:13:54 AM<br>
-<b>To:</b> Wang, Kevin(Yang); Rex Zhu; Quan, Evan; Deucher, Alexander; Koen=
-ig, Christian; Zhou, David(ChunMing); David Airlie; Daniel Vetter; amd-gfx@=
-lists.freedesktop.org; dri-devel@lists.freedesktop.org<br>
-<b>Cc:</b> kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org<br=
->
-<b>Subject:</b> [PATCH][next] drm/amd/powerplay: fix out of memory check on=
- od8_settings</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">From: Colin Ian King &lt;colin.king@canonical.com&=
-gt;<br>
-<br>
-The null pointer check on od8_settings is currently the opposite of what<br=
->
-it is intended to do. Fix this by adding in the missing ! operator.<br>
-<br>
-Addressed-Coverity: (&quot;Resource leak&quot;)<br>
-Fixes: 0c83d32c565c (&quot;drm/amd/powerplay: simplified od_settings for ea=
-ch asic&quot;)<br>
-Signed-off-by: Colin Ian King &lt;colin.king@canonical.com&gt;<br>
----<br>
-&nbsp;drivers/gpu/drm/amd/powerplay/vega20_ppt.c | 3 &#43;--<br>
-&nbsp;1 file changed, 1 insertion(&#43;), 2 deletions(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/amd/powerplay/vega20_ppt.c b/drivers/gpu/drm/a=
-md/powerplay/vega20_ppt.c<br>
-index 0f14fe14ecd8..eb9e6b3a5265 100644<br>
---- a/drivers/gpu/drm/amd/powerplay/vega20_ppt.c<br>
-&#43;&#43;&#43; b/drivers/gpu/drm/amd/powerplay/vega20_ppt.c<br>
-@@ -1501,8 &#43;1501,7 @@ static int vega20_set_default_od8_setttings(struc=
-t smu_context *smu)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; return -EINVAL;<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; od8_settings =3D kzalloc(s=
-izeof(struct vega20_od8_settings), GFP_KERNEL);<br>
--<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (od8_settings)<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!od8_settings)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; smu-&gt;od_settings =3D (v=
-oid *)od8_settings;<br>
--- <br>
-2.20.1<br>
-<br>
-_______________________________________________<br>
-amd-gfx mailing list<br>
-amd-gfx@lists.freedesktop.org<br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/amd-gfx">https://=
-lists.freedesktop.org/mailman/listinfo/amd-gfx</a></div>
-</span></font></div>
-</body>
-</html>
-
---_000_DM6PR12MB32096A1C759F688B42A8519FFEFC0DM6PR12MB3209namp_--
-
---===============0828944034==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0828944034==--
+SGksCgpPbiBXZWQsIEp1biAyNiwgMjAxOSBhdCA3OjQxIEFNIERvdWcgQW5kZXJzb24gPGRpYW5k
+ZXJzQGNocm9taXVtLm9yZz4gd3JvdGU6Cj4KPiBIaSwKPgo+IE9uIFdlZCwgSnVuIDI2LCAyMDE5
+IGF0IDY6MDAgQU0gU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPiB3cm90ZToKPiA+Cj4g
+PiBIaSBEb3VnbGFzLgo+ID4KPiA+IE9uIE1vbiwgQXByIDAxLCAyMDE5IGF0IDEwOjE3OjE3QU0g
+LTA3MDAsIERvdWdsYXMgQW5kZXJzb24gd3JvdGU6Cj4gPiA+IEknbSByZXZpdmluZyBTZWFuIFBh
+dWwncyBvbGQgcGF0Y2hzZXQgdG8gZ2V0IG1vZGUgc3VwcG9ydCBpbiBkZXZpY2UKPiA+ID4gdHJl
+ZS4gIFRoZSBjb3ZlciBsZXR0ZXIgZm9yIGhpcyB2MyBpcyBhdDoKPiA+ID4gaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvYXJjaGl2ZXMvZHJpLWRldmVsLzIwMTgtRmVicnVhcnkvMTY1MTYy
+Lmh0bWwKPiA+ID4KPiA+ID4gTm8gY29kZSBpcyBkaWZmZXJlbnQgYmV0d2VlbiB2NCBhbmQgdjUs
+IGp1c3QgY29tbWl0IG1lc3NhZ2VzIGFuZCB0ZXh0Cj4gPiA+IGluIHRoZSBiaW5kaW5ncy4KPiA+
+ID4KPiA+ID4gSSd2ZSBwdWxsZWQgdG9nZXRoZXIgdGhlIHBhdGNoZXMgdGhhdCBkaWRuJ3QgbGFu
+ZCBpbiB2MywgYWRkcmVzc2VkCj4gPiA+IG91dHN0YW5kaW5nIGZlZWRiYWNrLCBhbmQgcmVwb3N0
+ZWQuICBBdG9wIHRoZW0gSSd2ZSBhZGRlZCBwYXRjaGVzIGZvcgo+ID4gPiByazMyODgtdmV5cm9u
+LWNocm9tZWJvb2sgKHVzZWQgZm9yIGphcSwgamVycnksIG1pZ2h0eSwgc3BlZWR5KSBhbmQKPiA+
+ID4gcmszMjg4LXZlcnlvbi1taW5uaWUuCj4gPiA+Cj4gPiA+IFBsZWFzZSBsZXQgbWUga25vdyBo
+b3cgdGhleSBsb29rLgo+ID4gPgo+ID4gPiBJbiBnZW5lcmFsIEkgaGF2ZSBhZGRlZCBwZW9wbGUg
+dG8gdGhlIHdob2xlIHNlcmllcyB3aG8gSSB0aGluayB3b3VsZAo+ID4gPiBsaWtlIHRoZSB3aG9s
+ZSBzZXJpZXMgYW5kIHRoZW4gbGV0IGdldF9tYWludGFpbmVyIHBpY2sgZXh0cmEgcGVvcGxlIGl0
+Cj4gPiA+IHRoaW5rcyBhcmUgcmVsZXZhbnQgdG8gZWFjaCBpbmRpdmlkdWFsIHBhdGNoLiAgSWYg
+SSBzZWUgeW91IHJlc3BvbmQgdG8KPiA+ID4gYW55IG9mIHRoZSBwYXRjaGVzIGluIHRoZSBzZXJp
+ZXMsIHRob3VnaCwgSSdsbCBhZGQgeW91IHRvIHRoZSB3aG9sZQo+ID4gPiBzZXJpZXMgQ2MgbGlz
+dCBuZXh0IHRpbWUuCj4gPiA+Cj4gPiA+IENoYW5nZXMgaW4gdjU6Cj4gPiA+IC0gUmVtb3ZlZCBi
+aXQgYWJvdXQgT1MgbWF5IGlnbm9yZSAoUm9iL0V6ZXF1aWVsKQo+ID4gPiAtIEFkZGVkIEhlaWtv
+J3MgVGVzdGVkLWJ5Cj4gPiA+IC0gSXQncyBub3QganVzdCBqZXJyeSwgaXQncyBtb3N0IHJrMzI4
+OCBDaHJvbWVib29rcyAoSGVpa28pCj4gPgo+ID4gV2hhdCBhcmUgdGhlIHBsYW5zIHRvIG1vdmUg
+Zm9yd2FyZCB3aXRoIHRoaXM/Cj4gPiBPciBkaWQgeW91IGRyb3AgdGhlIHdob2xlIGlkZWEgYWdh
+aW4/Cj4KPiBBdCB0aGUgbW9tZW50IEknbSBibG9ja2VkIG9uIFRoaWVycnkgcmVzcG9uZGluZywg
+ZWl0aGVyIHRha2luZyB0aGUKPiBwYXRjaCBvciB0ZWxsaW5nIG1lIHdoYXQgSSBuZWVkIHRvIGRv
+IHRvIGZpeCBpdC4gIEkgc2F3IFNlYW4gUGF1bCBwaW5nCj4gVGhpZXJyeSBvbiBJUkMgb24gSnVu
+ZSAzcmQgYW5kIGFzIGZhciBhcyBJIGNvdWxkIHRlbGwgdGhlcmUgd2FzIG5vCj4gcmVzcG9uc2Uu
+Cj4KPiBodHRwczovL3Blb3BsZS5mcmVlZGVza3RvcC5vcmcvfmNicmlsbC9kcmktbG9nLz9jaGFu
+bmVsPWRyaS1kZXZlbCZoaWdobGlnaHRfbmFtZXM9JmRhdGU9MjAxOS0wNi0wMyZzaG93X2h0bWw9
+dHJ1ZQo+Cj4gLi4uYW5kIGFzIHlvdSBjYW4gc2VlIEhlaWtvIHBpbmdlZCB0aGlzIHRocmVhZCBv
+biBKdW5lIDE0dGguCj4KPiBUaGllcnJ5OiBjYW4geW91IGhlbHAgZ2l2ZSB1cyBzb21lIGRpcmVj
+dGlvbj8gIEFyZSB5b3UgdW5pbnRlcmVzdGVkIGluCj4gcmV2aWV3aW5nIHRoZW0gYW5kIHdvdWxk
+IHByZWZlciB0aGF0IEkgZmluZCBzb21lb25lIHRvIGxhbmQgdGhlbSBpbgo+IGRybS1taXNjIGRp
+cmVjdGx5PwoKU2FtOiBPaCEgIEkgaGFkbid0IG5vdGljZWQgdGhhdCB5b3UndmUgYmVlbiBhZGRl
+ZCBhcyBhIHBhbmVsCm1haW50YWluZXIgaW4gY29tbWl0IGVmMGRiOTRmOTRhMCAoIk1BSU5UQUlO
+RVJTOiBBZGQgU2FtIGFzIHJldmlld2VyCmZvciBkcm0vcGFuZWwiKS4gIERvZXMgdGhhdCBtZWFu
+IHlvdSBhcmUgYWJsZSB0byBwcm92aWRlIHNvbWUgYWR2aWNlCmZvciBob3cgdG8gbGFuZCB0aGlz
+IHNlcmllcz8gIEFzIGZhciBhcyBJIGtub3cgZXZlcnl0aGluZyBpcyBpbiBvcmRlcgpmb3IgaXQg
+dG8gbGFuZCwgYnV0IGlmIHlvdSBhcmUgYXdhcmUgb2Ygc29tZXRoaW5nIEkgbmVlZCB0byBkbyB0
+byBzcGluCml0IHRoZW4gcGxlYXNlIGxldCBtZSBrbm93IQoKVGhhbmtzIQoKLURvdWcKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
