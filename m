@@ -1,67 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB4C5B148
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 20:27:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AAC659821
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 12:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B625789DC7;
-	Sun, 30 Jun 2019 18:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC686E8C5;
+	Fri, 28 Jun 2019 10:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F7F36E8C0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 10:03:09 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id p11so5630153wre.7
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 03:03:09 -0700 (PDT)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459D36E8C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 10:04:33 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id s49so10244068edb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 03:04:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2fXlJr+KLvMvzQ39JeY61bDwufklUTFeJJHO6S5cuaU=;
- b=Gax6Ug6D/AkCG4gXiEVXD13CRxHF0IoYLGGj0+fDDcIC7EVLPl+rTrLb3qdOf3EK5C
- rCD7QCDdLQADznyGApsgkArVSPDAJnmA/GSQZMjjSLpFzDPTHjmULn39AsKL72y9xvQg
- KAiPXzyOPFM2pdFjtpDsDOXX9eDJE+Fn686ZFDZ33XjLzqO5DgTc1BGzYVnPITegNXL6
- UFq0FF+Zw0bP1R61ViGAyZrLPNR/Pj0+IMKJCqqRywXTVrmDoqHjFCTeps1cfK1ccDXB
- 1ct/ZEh739n9/mBL/qqPJKMZYnFFSdJlowgeVLbarOK6u97WAcx/REU9yp+sZEwKvYCS
- 1l/g==
-X-Gm-Message-State: APjAAAXnAzBgCSMA6s2kpu1Ul/IM9RAShIVH8ezDDa1fcOu4FbbpgoTA
- tStKLRHUiKxcFU5xw9YlNqJdGg==
-X-Google-Smtp-Source: APXvYqykUEXT3B0487J5sArEnZO+0OtmpAg6hB7ll9Lv+cgBqkGF8/Iqkv/JGRgFkwYe/JBUjT/HeQ==
-X-Received: by 2002:adf:c654:: with SMTP id u20mr4384217wrg.271.1561716188085; 
- Fri, 28 Jun 2019 03:03:08 -0700 (PDT)
-Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
- by smtp.gmail.com with ESMTPSA id l124sm1628874wmf.36.2019.06.28.03.03.07
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 28 Jun 2019 03:03:07 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH RFT 4/4] backlight: gpio: remove unused fields from platform
- data
-Date: Fri, 28 Jun 2019 12:02:53 +0200
-Message-Id: <20190628100253.8385-5-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190628100253.8385-1-brgl@bgdev.pl>
-References: <20190628100253.8385-1-brgl@bgdev.pl>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=t+VA5z/mW9Ayu9Ng5EOCGgNeX9M3JKHAtmp8uRGg6BA=;
+ b=jJ5DFXubHHpsxvnQFRQLJlF3kdcvkrvSk4UQd0Tkg9404GzF4IHYBxWzfazmKbd3KN
+ lJKom6Tr5wGa4xOQz8cwcb06nkKnEZB6wE4FL8PtJfeLs9fjlFTSInI1rYPfWeWqdp7h
+ z6BcSvV4KNlmnqRB8S9/cVM2EWW2q7drHFShJjESQReZ36MdkLvaTZcCg+A8BprE4MLU
+ 84nDdkyQ3obU+Z7G1EK3bKxvi4DPWdX/2lzjvDEZKsAKlX0mw5wqdEkIJguwJDzSiygU
+ Zs+Hqf3VF/z0vWkYQpS8LjNEo+FpmMOxqUr6lMIK+wNnWBkbAUquP+LiHO3ycWdBPuCX
+ 2tlA==
+X-Gm-Message-State: APjAAAURtmvOifMJtiOi6emPFEIb8h2WBkd0FnnjmV+/fEVkso2TZURy
+ +iFwFGQB9nX44aMB0OEtv7itOOqTwuI=
+X-Google-Smtp-Source: APXvYqxQ1KwJKHe0B0pVybtm68QrQcM/YdV57k1xYy4DEmquvl+tW1Im5pKkpOQZLFrdhsUEqJxlLg==
+X-Received: by 2002:a50:89a2:: with SMTP id g31mr10203636edg.93.1561716271502; 
+ Fri, 28 Jun 2019 03:04:31 -0700 (PDT)
+Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl.
+ [84.106.84.65])
+ by smtp.gmail.com with ESMTPSA id z9sm553380edd.53.2019.06.28.03.04.30
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 28 Jun 2019 03:04:30 -0700 (PDT)
+Subject: Re: [PATCH 0/1] drm: panel-orientation-quirks: Add extra quirk table
+ entry GPD MicroPC
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <seanpaul@chromium.org>
+References: <20190624154014.8557-1-hdegoede@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <5215f91a-377a-78f1-dc73-7f9ae7531d56@redhat.com>
+Date: Fri, 28 Jun 2019 12:04:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sun, 30 Jun 2019 18:26:11 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2fXlJr+KLvMvzQ39JeY61bDwufklUTFeJJHO6S5cuaU=;
- b=sD7MfnUDEG9Nd5uhC9bU5PmddNwA0kXjHFTB641OJnJbCVKMFSAVMjZL3WHIHVu9yK
- fWS6zgw4R+OgBrpyehUiUda/A3VJaZHc4PQcV+1UrPo/fQTnVzHjg/wFJEQUgJ1LTof1
- A9rU7MhtRr4OfO5v5XUSDXGeveEB3DlbEytfcutjLNQ4Rq7n+QsPRVzpFRBhT6WwrgXA
- P824u8V2ZL/4JLS1+D2X9xh51UyCdJVPvsZ2h1alJHkiGzhpqmMD3JjADNtIfb2zXS5g
- sU6GozYeONWsvwBkC7JcyYFmXUK0vJjNv7o2sInGwoPWQyhMsXRPA2eW77XBfYz7HMWu
- ZUmg==
+In-Reply-To: <20190624154014.8557-1-hdegoede@redhat.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,26 +62,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KClJl
-bW92ZSB0aGUgcGxhdGZvcm0gZGF0YSBmaWVsZHMgdGhhdCBub2JvZHkgdXNlcy4KClNpZ25lZC1v
-ZmYtYnk6IEJhcnRvc3ogR29sYXN6ZXdza2kgPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+Ci0t
-LQogaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL2dwaW9fYmFja2xpZ2h0LmggfCAzIC0tLQog
-MSBmaWxlIGNoYW5nZWQsIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51
-eC9wbGF0Zm9ybV9kYXRhL2dwaW9fYmFja2xpZ2h0LmggYi9pbmNsdWRlL2xpbnV4L3BsYXRmb3Jt
-X2RhdGEvZ3Bpb19iYWNrbGlnaHQuaAppbmRleCAzNDE3OWQ2MDAzNjAuLjFhOGI1YjE5NDZmZSAx
-MDA2NDQKLS0tIGEvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL2dwaW9fYmFja2xpZ2h0LmgK
-KysrIGIvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL2dwaW9fYmFja2xpZ2h0LmgKQEAgLTks
-OSArOSw2IEBAIHN0cnVjdCBkZXZpY2U7CiAKIHN0cnVjdCBncGlvX2JhY2tsaWdodF9wbGF0Zm9y
-bV9kYXRhIHsKIAlzdHJ1Y3QgZGV2aWNlICpmYmRldjsKLQlpbnQgZ3BpbzsKLQlpbnQgZGVmX3Zh
-bHVlOwotCWNvbnN0IGNoYXIgKm5hbWU7CiB9OwogCiAjZW5kaWYKLS0gCjIuMjEuMAoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGkgYWxsLAoKT24gMjQtMDYtMTkgMTc6NDAsIEhhbnMgZGUgR29lZGUgd3JvdGU6Cj4gSGkgQWxs
+LAo+IAo+IEdvb2QgbmV3cyBJIGhhdmUgYSBjb250YWN0IGluc2lkZSBHUEQgbm93IGFuZCBmcm9t
+IG5vdyBvbiB0aGVpciBCSU9TLWVzCj4gd2lsbCBoYXZlIHByb3BlciBzeXNfdmVuZG9yIGFuZCBw
+cm9kdWN0X25hbWUgRE1JIHN0cmluZ3MuIFRoaXMgbWVhbnMgdGhhdAo+IHdlIG5vIGxvbmdlciBu
+ZWVkIHRvIGRvIEJJT1MgZGF0ZSBtYXRjaGVzIGFuZCBhZGQgYSBuZXcgQklPUyBkYXRlIHRvCj4g
+ZHJtX3BhbmVsX29yaWVudGF0aW9uX3F1aXJrcy5jIGZvciBlYWNoIEJJT1MgdXBkYXRlLgo+IAo+
+IFRoZSBzZWNvbmQgYmF0Y2ggb2YgR1BEIE1pY3JvUEMtcyBiZWluZyBkZWxpdmVyZWQgdG8gdXNl
+cnMgYWxyZWFkeSB1c2VzCj4gdGhlc2UgbmV3IHN0cmluZ3MsIHRoaXMgcGF0Y2ggYWRkcyBhIHF1
+aXJrIGZvciB0aGUgOTAgZGVncmVlIG1vdW50ZWQKPiBMQ0QgcGFuZWwgdXNpbmcgdGhlIG5ldyBE
+TUkgc3RyaW5ncy4KPiAKPiBJdCB3b3VsZCBiZSBuaWNlIHRvIGdldCB0aGlzIGludG8gNS4yLCBi
+dXQgaXQgaXMgbm90IHRoYXQgdXJnZW50LCBzbwo+IEkgYmVsaWV2ZSB0aGF0IGl0IGlzIGJlc3Qg
+dG8gcHVzaCB0aGlzIHRvIGRybS1taXNjLW5leHQtZml4ZXMgYW5kIHRoZW4KPiBpdCBjYW4gZ2V0
+IGFkZGVkIHRvIDUuMi55IG9uY2UgaXQgaGl0cyBUb3J2YWxkJ3MgdHJlZS4KPiAKPiBJZiBzb21l
+b25lIGNhbiBnaXZlIHRoaXMgYSByZXZpZXcgKGl0IGlzIGEgdHJpdmlhbCBwYXRjaCByZWFsbHkp
+IGFuZAo+IGdpdmUgbWUgYW4gQWNrZWQtYnkgdGhlbiBJJ2xsIHB1c2ggdGhpcyB0byBkcm0tbWlz
+Yy1uZXh0LWZpeGVzLgoKTWFhcnRlbiwgTWF4aW1lLCBwaW5nPyBDYW4gSSBnZXQgYW4gQWNrZWQt
+YnkgKG9yIFJldmlld2VkLWJ5KSBmb3IgdGhpcwpwbGVhc2Ugc28gdGhhdCBJIGNhbiBwdXNoIGl0
+IHRvIGRybS1taXNjLW5leHQtZml4ZXMgPwoKVGhhbmtzLAoKSGFucwoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
