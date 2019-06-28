@@ -1,126 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FC25B13D
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 20:27:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB7C5955D
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 09:51:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D23B89D44;
-	Sun, 30 Jun 2019 18:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1226E898;
+	Fri, 28 Jun 2019 07:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
- Fri, 28 Jun 2019 07:55:38 UTC
-Received: from esa4.microchip.iphmx.com (esa4.microchip.iphmx.com
- [68.232.154.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 646626E88B
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 07:55:38 +0000 (UTC)
-Received-SPF: Pass (esa4.microchip.iphmx.com: domain of
- Nicolas.Ferre@microchip.com designates 198.175.253.82 as
- permitted sender) identity=mailfrom;
- client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
- envelope-from="Nicolas.Ferre@microchip.com";
- x-sender="Nicolas.Ferre@microchip.com";
- x-conformance=spf_only; x-record-type="v=spf1";
- x-record-text="v=spf1 mx a:ushub1.microchip.com
- a:smtpout.microchip.com a:mx1.microchip.iphmx.com
- a:mx2.microchip.iphmx.com include:servers.mcsv.net
- include:mktomail.com include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa4.microchip.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@email.microchip.com) identity=helo;
- client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
- envelope-from="Nicolas.Ferre@microchip.com";
- x-sender="postmaster@email.microchip.com"; x-conformance=spf_only
-X-IronPort-AV: E=Sophos;i="5.63,426,1557212400"; d="scan'208";a="38691445"
-Received: from smtpout.microchip.com (HELO email.microchip.com)
- ([198.175.253.82])
- by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256;
- 28 Jun 2019 00:48:23 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 28 Jun 2019 00:48:22 -0700
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, 
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5 via Frontend
- Transport; Fri, 28 Jun 2019 00:48:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=testarcselector01; d=microsoft.com; cv=none;
- b=etz58AQuh/mcXoM4nd68Vm4JLqzugP3DwDOhDCftJ6xj/k/8xokoRmd0J91Iu8JgTJ3dis5EkSRLYP01ZdN3G2VNaRdkbX+DcAPizRL7jFsYLI+tK2sdQ9UNp8I3c5lSb6rtUY+Nd93cQrWZ9ij7rR0YPzhzpeiWMyOG4CbB2so=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=testarcselector01;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GgiMdyIeQW4yFsmqMo4R261fF/haD72pVxxUrDjsFyQ=;
- b=Kpjheco0bnHjX5YGCHc0FzuO9HUWLOgooBSxbweFXNiYMYAwkdk2kjFSMJ+mtZNWmu2bEWfoxKFX/8sPfohwAybiIntzey4x688oyzT2htNKFSAF48k0GeYuKX2Hi0SHmMj2olCJxjaTwiINEDeuaeiMNnhd0MnDpUXSjKkz/1U=
-ARC-Authentication-Results: i=1; test.office365.com
- 1;spf=none;dmarc=none;dkim=none;arc=none
-Received: from MWHPR11MB1662.namprd11.prod.outlook.com (10.172.55.15) by
- MWHPR11MB1838.namprd11.prod.outlook.com (10.175.52.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Fri, 28 Jun 2019 07:48:22 +0000
-Received: from MWHPR11MB1662.namprd11.prod.outlook.com
- ([fe80::7534:63dc:8504:c2b3]) by MWHPR11MB1662.namprd11.prod.outlook.com
- ([fe80::7534:63dc:8504:c2b3%6]) with mapi id 15.20.2008.019; Fri, 28 Jun 2019
- 07:48:22 +0000
-From: <Nicolas.Ferre@microchip.com>
-To: <boris.brezillon@collabora.com>, <sam@ravnborg.org>
-Subject: Re: [PATCH] MAINTAINERS: add Sam Ravnborg for drm/atmel_hlcdc
-Thread-Topic: [PATCH] MAINTAINERS: add Sam Ravnborg for drm/atmel_hlcdc
-Thread-Index: AQHVLS234T2mTAnbKkOZSPCGA5TOq6awlrIAgAAaoAA=
-Date: Fri, 28 Jun 2019 07:48:22 +0000
-Message-ID: <f879b0eb-9559-7615-a044-5808b714a234@microchip.com>
-References: <20190627211643.GA19853@ravnborg.org>
- <20190628081256.230165ae@collabora.com>
-In-Reply-To: <20190628081256.230165ae@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: LO2P265CA0281.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a1::29) To MWHPR11MB1662.namprd11.prod.outlook.com
- (2603:10b6:301:e::15)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [213.41.198.74]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5b932627-fb2b-4883-97e2-08d6fb9cfe2f
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:MWHPR11MB1838; 
-x-ms-traffictypediagnostic: MWHPR11MB1838:
-x-microsoft-antispam-prvs: <MWHPR11MB18386E29970D95820A34F7CDE0FC0@MWHPR11MB1838.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 00826B6158
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(39860400002)(376002)(346002)(366004)(396003)(136003)(199004)(189003)(72206003)(31696002)(229853002)(86362001)(2906002)(66066001)(73956011)(66946007)(66476007)(64756008)(66446008)(66556008)(8676002)(53936002)(6436002)(476003)(2616005)(6486002)(6512007)(81156014)(81166006)(14454004)(486006)(102836004)(71200400001)(256004)(4326008)(446003)(36756003)(25786009)(26005)(11346002)(68736007)(76176011)(305945005)(5660300002)(6116002)(3846002)(52116002)(386003)(6506007)(53546011)(7736002)(54906003)(110136005)(99286004)(186003)(316002)(6246003)(478600001)(8936002)(31686004)(71190400001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR11MB1838;
- H:MWHPR11MB1662.namprd11.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: wJ+zQYpPWPc1/tDEJoG0JIoe8cS6jlb6iTRNDW2QmoMNeE5z6mSS6P9SK1rV8RIi0rqx5SDtu/8Z4q5UcrHapQfX/0gdaTOzCtwjLFX+qjoypnz9ah7eIXSABoBhcVKZTDThc9P3nw1f598f0ldEU7gh511L9DGUVFVmDfLx47q1Czbfmn7zyT9UAPapSzDNigUyCL/LgbiiTXddWJTgqDeaJ8tXJzu1DVZcHnDtAKdbsl1YuP64O5ZAUgLSUTuRH8hCmvtfMp6uuKUmISQ41KjDwDtfZQAj6xSkKibmcXswGF4Mo4wUwjmeM5xdD1mRb/k/29S0Tln2vSTtN2s5EPr8QzHC7JApjssFv7eMV+A4lSJCamrVdBDbuRH5QooZBuj8DNF2Wle+JM+V5lnctll8TMENQ0aXb/LlfrEZLMo=
-Content-ID: <23B5457F24C75E4097BB8A779EFBBC14@namprd11.prod.outlook.com>
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 750826E898
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 07:51:02 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id t76so3622830oih.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 00:51:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dtEeeslQGtSEA9L6niIK/BiiKT9ny7fWORJgUMeGMeM=;
+ b=mglchNhjyxCE6L5OFm/ZQPM8nDixNGWqjGMTBCWYp63lRdv+YBZD/vd0Ce1jSXKyXT
+ Fx0zao8jLGPpLoRhh/pqjCRFbGu2khfOC6mb2YzWmlk1wa8lsGjvjni8EpV+pKNBjIsW
+ HUoPLOH78VyOS6M3Jh72i/XIou7CYLMbIipZHus/qhCOXVSv7DYQhYQjbzSHa/N2lJCK
+ Ewrkp7QkfNcotS/hRbyUHYUzicdj/1W4qmc7/1LAwtWW3YG1S0j8vTIdczep+Kpb4zVQ
+ WKeiwcOEgFaUZ3MrBBVJN0lvk2L7e5c80D9w41RPGD3187RO9LiYvmtAGpY28cz9yKye
+ TxJw==
+X-Gm-Message-State: APjAAAWHONMHgOCDBMl5wqgT7iCsYyvZ91+kvxjm7NOmoAEET3yhi5Al
+ d3IZriKuD/dF2kpkMyS8qRgzy6WIauPbgmWYZcH3vAC5XMY=
+X-Google-Smtp-Source: APXvYqyk8bRZ5DrMcNPTQLIz0eecXfgskTMeKRlhIPO1v1UMKP/TvAGHP8JcOmbE44QLXsNbe1bQh8L6hk5XcGONS5o=
+X-Received: by 2002:aca:5403:: with SMTP id i3mr910923oib.132.1561708261619;
+ Fri, 28 Jun 2019 00:51:01 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b932627-fb2b-4883-97e2-08d6fb9cfe2f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2019 07:48:22.1779 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nicolas.ferre@microchip.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1838
-X-Mailman-Approved-At: Sun, 30 Jun 2019 18:26:11 +0000
+References: <20190621115755.8481-1-kraxel@redhat.com>
+ <20190621115755.8481-3-kraxel@redhat.com>
+ <e3d8d1ee-c033-0402-6058-7c2410cc250b@suse.de>
+In-Reply-To: <e3d8d1ee-c033-0402-6058-7c2410cc250b@suse.de>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 28 Jun 2019 09:50:49 +0200
+Message-ID: <CAKMK7uFwsQ4pVpAtsP4RBCY2RNkvcnc+QqTkEX5VT+pkJ-kLVA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/18] drm/vram: use embedded gem object
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GgiMdyIeQW4yFsmqMo4R261fF/haD72pVxxUrDjsFyQ=;
- b=K2ssyNitm/NpFOgKVRlMbrgZd+SjJJJE4nbaqq80eDp3y7P+c2GIm0vGa3e6d38z3jO3hFwlVJEfg3eXNUaLWplXkD25MwfRQgnWA2gntz8YAGfCkx3y8ukzU7osyOYux0xoI5Pc/hO2+rw0wBN/YT/AKQnK24MFGquM4e0kHrk=
-X-Mailman-Original-Authentication-Results: esa4.microchip.iphmx.com; spf=Pass
- smtp.mailfrom=Nicolas.Ferre@microchip.com;
- spf=None smtp.helo=postmaster@email.microchip.com;
- dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com;
- dmarc=pass (p=none dis=none) d=microchip.com
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=dtEeeslQGtSEA9L6niIK/BiiKT9ny7fWORJgUMeGMeM=;
+ b=T5j70Eo4vp8nN+Svf88JQpEcxGjOkbz23tiEnT7qrDiszCiSqmelKH+f6fBQ/MAf9j
+ gt56mV6PN6Bcg/epHs4JZymlfn8piiQStw/8xsAIP6Gi2J2KMkllwj78FWKCrfYgJzPA
+ 31XI50kNydlAEA0qL64xKa6CIRwQAAhvgLAJY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -133,39 +61,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexandre.belloni@bootlin.com, bbrezillon@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Claudiu.Beznea@microchip.com, peda@axentia.se
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Xinliang Liu <z.liuxinliang@hisilicon.com>, David Airlie <airlied@linux.ie>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Chen Feng <puck.chen@hisilicon.com>, Rongrong Zou <zourongrong@gmail.com>,
+ Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjgvMDYvMjAxOSBhdCAwODoxMiwgQm9yaXMgQnJlemlsbG9uIHdyb3RlOg0KPiBPbiBUaHUs
-IDI3IEp1biAyMDE5IDIzOjE2OjQzICswMjAwDQo+IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
-Lm9yZz4gd3JvdGU6DQo+IA0KPj4gSSBoYXZlIGFncmVlZCB3aXRoIEJvcmlzIEJyZXppbGxvbiB0
-aGF0IHdlIHdpbGwgc2hhcmUgdGhlDQo+PiBtYWludGFpbmVyIHJvbGUgZm9yIHRoZSBkcm0vYXRt
-ZWxfaGxjZGMgZHJpdmVyLg0KPj4gTmljb2xhcyBGZXJyZSBmcm9tIE1pY3JvY2hpcCBoYXMgZG9u
-YXRlZCBhIGZldyBib2FyZHMgdGhhdA0KPj4gYWxsb3dzIG1lIHRvIHRlc3QgdGhpbmdzIC0gdGhh
-bmtzIQ0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9y
-Zz4NCj4+IENjOiBCb3JpcyBCcmV6aWxsb24gPGJicmV6aWxsb25Aa2VybmVsLm9yZz4NCj4gDQo+
-IEFja2VkLWJ5OiBCb3JpcyBCcmV6aWxsb24gPGJvcmlzLmJyZXppbGxvbkBjb2xsYWJvcmEuY29t
-Pg0KDQpPZiBjb3Vyc2U6DQpBY2tlZC1ieTogTmljb2xhcyBGZXJyZSA8bmljb2xhcy5mZXJyZUBt
-aWNyb2NoaXAuY29tPg0KDQpUaGFua3MgYSBsb3QgU2FtIGZvciB0YWtpbmcgdGhpcyBtYWludGFp
-bmVyIHJvbGUhDQoNCkJlc3QgcmVnYXJkcywNCiAgIE5pY29sYXMNCg0KPj4gQ2M6IE5pY29sYXMg
-RmVycmUgPG5pY29sYXMuZmVycmVAbWljcm9jaGlwLmNvbT4NCj4+IENjOiBBbGV4YW5kcmUgQmVs
-bG9uaSA8YWxleGFuZHJlLmJlbGxvbmlAYm9vdGxpbi5jb20+DQo+PiBDYzogQ2xhdWRpdSBCZXpu
-ZWEgPGNsYXVkaXUuYmV6bmVhQG1pY3JvY2hpcC5jb20+DQo+PiBDYzogUGV0ZXIgUm9zaW4gPHBl
-ZGFAYXhlbnRpYS5zZT4NCj4+IC0tLQ0KPj4gICBNQUlOVEFJTkVSUyB8IDEgKw0KPj4gICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5F
-UlMgYi9NQUlOVEFJTkVSUw0KPj4gaW5kZXggNTE1YTgxZmRiN2Q2Li4wYTc2NzE2ODc0YmQgMTAw
-NjQ0DQo+PiAtLS0gYS9NQUlOVEFJTkVSUw0KPj4gKysrIGIvTUFJTlRBSU5FUlMNCj4+IEBAIC01
-MjUxLDYgKzUyNTEsNyBAQCBGOglEb2N1bWVudGF0aW9uL2dwdS9tZXNvbi5yc3QNCj4+ICAgVDoJ
-Z2l0IGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0tbWlzYw0KPj4gICANCj4+
-ICAgRFJNIERSSVZFUlMgRk9SIEFUTUVMIEhMQ0RDDQo+PiArTToJU2FtIFJhdm5ib3JnIDxzYW1A
-cmF2bmJvcmcub3JnPg0KPj4gICBNOglCb3JpcyBCcmV6aWxsb24gPGJicmV6aWxsb25Aa2VybmVs
-Lm9yZz4NCj4+ICAgTDoJZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0KPj4gICBTOglT
-dXBwb3J0ZWQNCj4gDQo+IA0KPiANCg0KDQotLSANCk5pY29sYXMgRmVycmUNCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gRnJpLCBKdW4gMjgsIDIwMTkgYXQgOTozMCBBTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
+cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMjEuMDYuMTkgdW0gMTM6NTcgc2No
+cmllYiBHZXJkIEhvZmZtYW5uOgo+ID4gRHJvcCBkcm1fZ2VtX29iamVjdCBmcm9tIGRybV9nZW1f
+dnJhbV9vYmplY3QsIHVzZSB0aGUKPiA+IHR0bV9idWZmZXJfb2JqZWN0LmJhc2UgaW5zdGVhZC4K
+PiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4K
+PiA+IC0tLQo+ID4gIGluY2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaCAgICAgICAgICAg
+fCAgMyArLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tYWluLmMgICAgICAgICAgICAg
+IHwgIDIgKy0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jICAgICAg
+IHwgMTYgKysrKysrKystLS0tLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGli
+bWMvaGlibWNfdHRtLmMgfCAgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcy
+MDBfbWFpbi5jICAgICAgfCAgMiArLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS92Ym94dmlkZW8vdmJv
+eF9tYWluLmMgICAgICAgfCAgMiArLQo+ID4gIDYgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9u
+cygrKSwgMTQgZGVsZXRpb25zKC0pCj4gPgo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2Ry
+bV9nZW1fdnJhbV9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaAo+
+ID4gaW5kZXggOTU4MWVhMGE0ZjdlLi43YjlmNTBiYTNmY2UgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNs
+dWRlL2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmgKPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9n
+ZW1fdnJhbV9oZWxwZXIuaAo+ID4gQEAgLTM2LDcgKzM2LDYgQEAgc3RydWN0IHZtX2FyZWFfc3Ry
+dWN0Owo+ID4gICAqIHZpZGVvIG1lbW9yeSBiZWNvbWVzIHNjYXJjZS4KPiA+ICAgKi8KPiA+ICBz
+dHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCB7Cj4gPiAtICAgICBzdHJ1Y3QgZHJtX2dlbV9vYmpl
+Y3QgZ2VtOwo+ID4gICAgICAgc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0IGJvOwo+ID4gICAgICAg
+c3RydWN0IHR0bV9ib19rbWFwX29iaiBrbWFwOwo+ID4KPiA+IEBAIC02OCw3ICs2Nyw3IEBAIHN0
+YXRpYyBpbmxpbmUgc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmRybV9nZW1fdnJhbV9vZl9i
+bygKPiA+ICBzdGF0aWMgaW5saW5lIHN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpkcm1fZ2Vt
+X3ZyYW1fb2ZfZ2VtKAo+ID4gICAgICAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnZW0pCj4KPiBU
+byBhdm9pZCBhbWJpZ3VpdGllcywgSSB1c2VkIHRoZSBmb3JtIDxkZXN0aW5hdGlvbiB0eXBlIG5h
+bWU+X29mXzxmaWVsZAo+IG5hbWU+KCkgdG8gbmFtZSB0aGVzZSBjYXN0IGZ1bmN0aW9ucy4gVGhl
+IGNhbm9uaWNhbCBuYW1lIGhlcmUgd291bGQgbm93Cj4gYmUgZHJtX2dlbV92cmFtX29mX2JvX2Jh
+c2UoKS4gQnV0IHRoYXQncyBqdXN0IG5pdHBpY2tpbmcuIElmIHlvdSBkb24ndAo+IHdhbnQgdG8g
+Y2hhbmdlIHRoZSBuYW1lIChhbmQgYWxsIGl0cyBjYWxsZXJzKSwgbWF5YmUgbGVhdmUgYSBGSVhN
+RSBjb21tZW50LgoKQmlrZXNoZWQ6IEkgdGhpbmsgZ2VuZXJhbGx5IHdlIGNhbGwgdGhlc2UKPHNv
+dXJjZV90eXBlPl90b188ZGVzdGluYXRpb25fdHlwZT4sIHdpdGggdGhlIHNvdXJjZSB0eXBlIGxl
+ZnQgb3V0IGlmCnlvdSBjYXN0IGZyb20gdGhlIG1vc3QgZ2VuZXJpYyB2ZXJzaW9uLiBFLmcuIHRo
+aXMgb25lIGhlcmUgd291bGQganVzdApiZQoKc3RhdGljIGlubGluZSBzdHJ1Y3QgZHJtX2dlbV92
+cmFtX29iamVjdCAqZHJtX2dlbV90b192cmFtX2JvKHN0cnVjdApkcm1fZ2VtX29iamVjdCAqZ2Vt
+KQoKb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4gSSBkb24ndCByZW1lbWJlciBoYXZpbmcgc2VlbiB0
+aGUgKl9vZl8qCnBhdHRlcm4gYW55d2hlcmUuCi1EYW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29m
+dHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0g
+aHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
