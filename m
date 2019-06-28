@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F874594EC
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 09:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 709A7594F6
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 09:30:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62F046E88D;
-	Fri, 28 Jun 2019 07:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A6E76E88F;
+	Fri, 28 Jun 2019 07:30:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C03CC6E88D
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 07:30:16 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id r21so4369733otq.6
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 00:30:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lyifgttSzCmt7sXHWYO189aNKpH0vxI4gSfPUFHIask=;
- b=cPT5lieNt2tybr5q8v9MV4H3mLllZ2DYG97llr4xQ8mWw/fv+HCO6SDj2jDsG84O6S
- Ymzu0RG9oXdAviZAkTNi9vp1FRFG/iGelGP4nNPbldayX/1wXAQMCbbva0DHccIxX/h9
- WYXWyKpB6t4pc/FWXaD/UBUNnkR9jtog3W6ObAbO3EhwG4+ll6RkDTGipVh2RKm2V8KN
- ShAxJIOC5NDokEor6+gJpF1sQ/hy+GrZ6zFG613vDe3FktBL0SCU9yHafM3kOk/7FbOY
- S2V4FLtKdih4BKmzOklKp5l53a9IClnyAA6iN7uK6erMoL9KV/MCpwl/+1kN7/duQ2HI
- yO1g==
-X-Gm-Message-State: APjAAAV6Cp0CClonDGw3pNvkhRx+2YjK3hiKExKecjJPLe2TsgWBBbzT
- tCPdueVKvt8MAWplvUWDrhZhJ+v1JsNF8JaCVtBSuA==
-X-Google-Smtp-Source: APXvYqy7BBKFqmvqfLuyXxbwLoujXDF4mIrqLpLt2puN20i+eRbY8wQlbPSTLd//0ydYpPGsy9ApqL0JAz93+GenIpg=
-X-Received: by 2002:a9d:6e8d:: with SMTP id a13mr6742996otr.303.1561707016040; 
- Fri, 28 Jun 2019 00:30:16 -0700 (PDT)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91E936E88F
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 07:30:40 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 27D27B609;
+ Fri, 28 Jun 2019 07:30:39 +0000 (UTC)
+Subject: Re: [PATCH v2 09/18] drm/vram: drop drm_gem_vram_driver_gem_prime_mmap
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+References: <20190621115755.8481-1-kraxel@redhat.com>
+ <20190621115755.8481-10-kraxel@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <d3610263-421b-4c4f-faaa-0b8a8d905f07@suse.de>
+Date: Fri, 28 Jun 2019 09:30:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-References: <20190627101813.61430-1-christian.koenig@amd.com>
- <20190627101813.61430-2-christian.koenig@amd.com>
- <CAKMK7uGtdSxVSUor8P_8XH+uf4_A-kRfY6h+XnJoizscWE4AOg@mail.gmail.com>
- <f1a792c2-87e0-9aba-c6f1-0374122d025b@gmail.com>
- <CAKMK7uFoeugD0ASHm4DRLzq6h3aAvNhE1ODh-bxoH7Lucf1m3w@mail.gmail.com>
- <5e182e5d-efcb-00bd-fa31-6e8bc9571ce6@amd.com>
- <20190627171053.GN12905@phenom.ffwll.local>
- <4844af2e-fbff-ceb9-c16e-32bb7012559f@amd.com>
- <CAKMK7uF2Wb_K9MqALs8o_2i+HDhv=JcnHj6t4VAUO80UVpszZQ@mail.gmail.com>
- <6e9b4005-e490-ab27-2051-1eab801dafd3@amd.com>
-In-Reply-To: <6e9b4005-e490-ab27-2051-1eab801dafd3@amd.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 28 Jun 2019 09:30:03 +0200
-Message-ID: <CAKMK7uFMZLemYkWTyOH_0akUbE53X44Xj7jky90G-jWtwSUicw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dma-buf: cleanup shared fence removal
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=lyifgttSzCmt7sXHWYO189aNKpH0vxI4gSfPUFHIask=;
- b=WTkAKvxDa7TsBTNQzfADK0QTfdc+vxugCy3DNyHkFggAhsOylkiVwYYEYKFfgR4SoT
- NjZAeqQIIK9x7tth+rIUZ+O5jQbiF3LSUylokDh+Xa7uK+7yM8ZWuOd3N969PM7HA0ya
- YAtLIMfVF26DRV+vPIul+IaUKuLovGmvT/YWM=
+In-Reply-To: <20190621115755.8481-10-kraxel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,97 +65,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, ckoenig.leichtzumerken@gmail.com,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0884813869=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMjgsIDIwMTkgYXQgODozMiBBTSBLb2VuaWcsIENocmlzdGlhbgo8Q2hyaXN0
-aWFuLktvZW5pZ0BhbWQuY29tPiB3cm90ZToKPiBBbSAyNy4wNi4xOSB1bSAyMTo1NyBzY2hyaWVi
-IERhbmllbCBWZXR0ZXI6Cj4gPiBbU05JUF0KPiA+PiBBZ2FpbiwgdGhlIHJlYXNvbiB0byByZW1v
-dmUgdGhlIGZlbmNlIGZyb20gb25lIHJlc2VydmF0aW9uIG9iamVjdCBpcwo+ID4+IHNpbXBseSB0
-aGF0IGl0IGlzIGZhc3RlciB0byByZW1vdmUgaXQgZnJvbSBvbmUgb2JqZWN0IHRoYW4gdG8gYXR0
-YWNoIGEKPiA+PiBuZXcgZmVuY2UgdG8gYWxsIG90aGVyIG9iamVjdHMuCj4gPiBIbSBJIGd1ZXNz
-IEkgd2FzIGxlYWQgYXN0cmF5IGJ5IHRoZSBldmljdGlvbl9mZW5jZSBpbnZhbGlkYXRpb24gdGhp
-bmcKPiA+IGluIGVuYWJsZV9zaWduYWxpbmcsIGFuZCBhIGZldyBvdGhlciBwbGFjZXMgdGhhdCBm
-cmVlZCB0aGUgYm8gcmlnaHQKPiA+IGFmdGVycyAobGlrZSBhbWRncHVfYW1ka2ZkX2dwdXZtX2Zy
-ZWVfbWVtb3J5X29mX2dwdSksIHdoZXJlIHJlbW92aW5nCj4gPiB0aGUgZmVuY2VzIGZpcnN0IGFu
-ZCB0aGVuIGZyZWVpbmcgdGhlIGJvIGlzIGtpbmRhIHBvaW50bGVzcy4KPgo+IEFIISBOb3cgSSBr
-bm93IHdoZXJlIHlvdXIgbWlzc2luZyBwdXp6bGUgcGllY2UgaXMuCj4KPiBTZWUgd2hlbiB3ZSBm
-cmVlIGEgYnVmZmVyIG9iamVjdCBUVE0gcHV0cyBpdCBvbiB0aGUgZGVsYXllZCBkZWxldGUgbGlz
-dAo+IHRvIG1ha2Ugc3VyZSB0aGF0IGl0IGdldHMgZnJlZWQgdXAgb25seSBhZnRlciBhbGwgZmVu
-Y2VzIGFyZSBzaWduYWxlZC4KPgo+IFNvIHRoaXMgaXMgZXNzZW50aWFsbHkgdG8gbWFrZSBzdXJl
-IHRoZSBCTyBnZXRzIGZyZWVkIHVwIGltbWVkaWF0ZWx5LgoKV2VsbCB5ZWFoIHlvdSBoYXZlIHRv
-IHdhaXQgZm9yIG91dHN0YW5kaW5nIHJlbmRlcmluZy4gRXZlcnlvbmUgZG9lcwp0aGF0LiBUaGUg
-cHJvYmxlbSBpcyB0aGF0IC0+ZXZpY3Rpb25fZmVuY2UgZG9lcyBub3QgcmVwcmVzZW50CnJlbmRl
-cmluZywgaXQncyBhIHZlcnkgY29udHJpdmVkIHdheSB0byBpbXBsZW1lbnQgdGhlIC0+bm90aWZ5
-X21vdmUKY2FsbGJhY2suCgpGb3IgcmVhbCBmZW5jZXMgeW91IGhhdmUgdG8gd2FpdCBmb3IgcmVu
-ZGVyaW5nIHRvIGNvbXBsZXRlLCBwdXR0aW5nCmFzaWRlIGNvcm5lciBjYXNlcyBsaWtlIGRlc3Ry
-b3lpbmcgYW4gZW50aXJlIGNvbnRleHQgd2l0aCBhbGwgaXRzCnBlbmRpbmcgcmVuZGVyaW5nLiBO
-b3QgcmVhbGx5IHNvbWV0aGluZyB3ZSBzaG91bGQgb3B0aW1pemUgZm9yIEkKdGhpbmsuCgo+ID4g
-Tm93IHdpdGggeW91ciBpbnNpc3RlbmNlIHRoYXQgSSdtIGdldHRpbmcgc29tZXRoaW5nIHdyb25n
-IEkgZ3Vlc3MgdGhlCj4gPiB5b3UncmUgdGFsa2luZyBhYm91dCB0aGUgdW5iaW5kIGNhc2UsIHdo
-ZXJlIHRoZSBibyBzdXJ2aXZlcywgYnV0IGl0J3MKPiA+IG1hcHBpbmcgZGlzYXBwZWFycywgYW5k
-IGhlbmNlIHRoYXQgc3BlY2lmaWMgZXZpY3Rpb25fZmVuY2UgbmVlZHMgdG8gYmUKPiA+IHJlbW92
-ZWQuCj4gPiBBbmQgeWVhaCB0aGVyZSBJIGd1ZXNzIGp1c3QgcmVtb3ZpbmcgdGhlIG1hZ2ljIGV2
-aWN0aW9uIGZlbmNlIGlzCj4gPiBjaGVhcGVyIHRoYW4gcmVwbGFjaW5nIGFsbCB0aGUgb3RoZXJz
-Lgo+Cj4gSWYgcG9zc2libGUgSSBhY3R1YWxseSB3YW50IHRvIGFwcGx5IHRoaXMgdG8gdGhlIGdl
-bmVyYWwgY2FzZSBvZiBmcmVlaW5nCj4gdXAgcGVyIHByb2Nlc3MgcmVzb3VyY2VzLgo+Cj4gSW4g
-b3RoZXIgd29yZHMgd2hlbiB3ZSBkb24ndCB0cmFjayByZXNvdXJjZSB1c2FnZSBvbiBhIHBlciBz
-dWJtaXNzaW9uCj4gYmFzaXMgZnJlZWluZyB1cCByZXNvdXJjZXMgaXMgY29zdGx5IGJlY2F1c2Ug
-d2UgYWx3YXlzIGhhdmUgdG8gd2FpdCBmb3IKPiB0aGUgbGFzdCBzdWJtaXNzaW9uLgo+Cj4gQnV0
-IGlmIHdlIGNhbiBwcmV2ZW50IGZ1cnRoZXIgYWNjZXNzIHRvIHRoZSByZXNvdXJjZSB1c2luZyBw
-YWdlIHRhYmxlcwo+IGl0IGlzIHBlcmZlY3RseSB2YWxpZCB0byBmcmVlIGl0IGFzIHNvb24gYXMg
-dGhlIHBhZ2UgdGFibGVzIGFyZSB1cCB0byBkYXRlLgoKU3RpbGwgbm90IHNlZWluZyBob3cgeW91
-IGNhbiB1c2UgdGhpcyBvdXRzaWRlIG9mIHRoZSBtYWdpYyBhbWRrZmQKZXZpY3Rpb25fZmVuY2Uu
-CgpTbyB3aXRoIHRoZSBtYWdpYyBhbWRrZmRfZXZpY3Rpb24gZmVuY2UgSSBhZ3JlZSB0aGlzIG1h
-a2VzIHNlbnNlLiBUaGUKcHJvYmxlbSBJJ20gaGF2aW5nIGhlcmUgaXMgdGhhdCB0aGUgbWFnaWMg
-ZXZpY3Rpb24gZmVuY2UgaXRzZWxmCmRvZXNuJ3QgbWFrZSBzZW5zZS4gV2hhdCBJIGV4cGVjdCB3
-aWxsIGhhcHBlbiAoaW4gdGVybXMgb2YgdGhlIG5ldwpkeW5hbWljIGRtYS1idWYgc3R1ZmYsIEkg
-ZG9uJ3QgaGF2ZSB0aGUgdHRtLWlzbSByZWFkeSB0byBleHBsYWluIGl0IGluCnRob3NlIGNvbmNl
-cHRzKS4KCi0gd2hlbiB5b3Ugc3VibWl0IGNvbW1hbmQgYnVmZmVycywgeW91IF9kb250XyBhdHRh
-Y2ggZmVuY2VzIHRvIGFsbAppbnZvbHZlZCBidWZmZXJzCi0gd2hlbiB5b3UgZ2V0IGEgLT5ub3Rp
-ZnlfbW92ZSB0aGVyZSdzIGN1cnJlbnRseSAyIG9wdGlvbnM6CjEuIGluZWZmaWNpZW50IHdheTog
-d2FpdCBmb3IgdGhlIGxhdGVzdCBjb21tYW5kIGJ1ZmZlciB0byBjb21wbGV0ZSwgYXMKYSBkZWZl
-bnNpdmUgbW92ZS4gVG8gZG8gdGhhdCB5b3UgYXR0YWNoIHRoZSBmZW5jZSBmcm9tIHRoYXQgY29t
-bWFuZApidWZmZXIgdG8gdGhlIG9iaiBpbiB5b3VyIG5vdGlmaXlfbW92ZSBjYWxsYmFjayAodGhl
-IGtlcm5lbGRvYyBkb2Vzbid0CmV4cGxhaW4gdGhpcywgYnV0IEkgdGhpbmsgd2UgcmVhbGx5IG5l
-ZWQgdGhpcykuCjIuIGVmZmljaWVudCB3YXk6IFlvdSBqdXN0IHVubWFwIGZyb20gcGFnZXRhYmxl
-cyAoYW5kIGVhdC9oYW5kbGUgdGhlCmZhdWx0IGlmIHRoZXJlIGlzIGFueSkuCgpObyB3aGVyZSBk
-byB5b3UgbmVlZCB0byByZW1vdmUgYSBmZW5jZSwgYmVjYXVzZSB5b3UgbmV2ZXIgYXR0YWNoZWQg
-YQpib2d1cyBmZW5jZS4KCk5vdyB3aXRoIHRoZSBtYWdpYyBldmljdGlvbiB0cmljayBhbWRrZmQg
-dXNlcywgeW91IGNhbid0IGRvIHRoYXQsCmJlY2F1c2UgeW91IG5lZWQgdG8gYXR0YWNoIHRoaXMg
-bWFnaWMgZmVuY2UgdG8gYWxsIGJ1ZmZlcnMsIGFsbCB0aGUKdGltZS4gQW5kIHNpbmNlIGl0IHN0
-aWxsIG5lZWRzIHRvIHdvcmsgbGlrZSBhIGZlbmNlIGl0J3Mgb25lLXNob3QKb25seSwgaS5lLiBp
-bnN0ZWFkIG9mIGEgcmV1c2VhYmxlIC0+bm90aWZ5X21vdmUgY2FsbGJhY2sgeW91IG5lZWQgdG8K
-Y3JlYXRlIGEgbmV3IGZlbmNlIGV2ZXJ5IHRpbWUgLT5lbmFibGVfc2lnbmFsbGluZyBpcyBjYWxs
-ZWQuIFNvIGluIGEKd2F5IHJlcGxhY2luZyBmZW5jZXMgaXMganVzdCBhbiBhcnRpZmFjdCBvZiBz
-b21lIHZlcnksIHZlcnkgY3JhenkKY2FsbGluZyBjb252ZW50aW9uLgoKSWYgeW91IGhhdmUgYSBy
-ZWFsIGNhbGxiYWNrLCB0aGVyZSdzIG5vIG5lZWQgZm9yIGN5Y2xpbmcgdGhyb3VnaApmZW5jZXMs
-IGFuZCB0aGVyZWZvcmUgdGhlcmUncyBhbHNvIG5vIG5lZWQgdG8gb3B0aW1pemUgdGhlaXIgcmVt
-b3ZhbC4KCk9yIGRpZCB5b3Ugd29yayB1bmRlciB0aGUgYXNzdW1wdGlvbiB0aGF0IC0+bm90aWZ5
-X21vdmUgY2Fubm90IGF0dGFjaApuZXcgZmVuY2VzLCBhbmQgdGhlcmVmb3JlIHlvdSdkIGhhdmUg
-dG8gcm9sbCB0aGlzIG1hZ2ljIGZlbmNlIHRyaWNrIHRvCmV2ZW4gbW9yZSBwbGFjZXM/Cgo+ID4g
-Tm93IEkgZ3Vlc3MgSSB1bmRlcnN0YW5kIHRoZSBtZWNoYW5pY3Mgb2YgdGhpcyBzb21ld2hhdCwg
-YW5kIHdoYXQKPiA+IHlvdSdyZSBkb2luZywgYW5kIGxpdCBvb2tzIGV2ZW4gc29tZXdoYXQgc2Fm
-ZS4gQnV0IEkgaGF2ZSBubyBpZGVhIHdoYXQKPiA+IHRoaXMgaXMgc3VwcG9zZWQgdG8gYWNoaWV2
-ZS4gSXQgZmVlbHMgYSBiaXQgbGlrZSAtPm5vdGlmeV9tb3ZlLCBidXQKPiA+IGltcGxlbWVudGVk
-IGluIHRoZSBtb3N0IGhvcnJpYmxlIHdheSBwb3NzaWJsZS4gT3IgbWF5YmUgc29tZXRoaW5nCj4g
-PiBlbHNlLgo+ID4KPiA+IFJlYWxseSBubyBpZGVhLgo+ID4KPiA+IEFuZCBnaXZlbiB0aGF0IHdl
-J3ZlIHdhc3RlZCBJIGZldyBwYWdlcyBmdWxsIG9mIHBhcmFncmFwaHMgYWxyZWFkeSBvbgo+ID4g
-dHJ5aW5nIHRvIGV4cGxhaW4gd2hhdCB5b3VyIG5ldyBsaXR0bGUgaGVscGVyIGlzIGZvciwgd2hl
-biBpdCdzIHNhZmUKPiA+IHRvIHVzZSwgd2hlbiBpdCdzIG1heWJlIG5vdCBhIGdvb2QgaWRlYSwg
-YW5kIHdlIHN0aWxsIGhhdmVuJ3QgZXZlbgo+ID4gYm90dG9tZWQgb3V0IG9uIHdoYXQgdGhpcyBp
-cyBmb3IgLi4uIHdlbGwgSSByZWFsbHkgZG9uJ3QgdGhpbmsgaXQncyBhCj4gPiBnb29kIGlkZWEg
-dG8gaW5mbGljdCB0aGlzIGludG8gY29yZSBjb2RlLiBCZWNhdXNlIGp1c3QgYmxpbmRseQo+ID4g
-cmVtb3Zpbmcgbm9ybWFsIGZlbmNlcyBpcyBub3Qgc2FmZS4KPiA+Cj4gPiBFc3BlY2lhbGx5IHdp
-dGggbGlrZSBoYWxmIGEgc2VudGVuY2Ugb2Yga2VybmVsZG9jIHRoYXQgZXhwbGFpbnMKPiA+IG5v
-dGhpbmcgb2YgYWxsIHRoaXMgY29tcGxleGl0eS4KClN0aWxsIG1ha2VzIG5vIHNlbnNlIHRvIG1l
-IHRvIGhhdmUgaW4gY29yZSBjb2RlLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJl
-IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6
-Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0884813869==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="SjuG3ISsctN3WUhn3ZUuTIOWBXlLTl6ww"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SjuG3ISsctN3WUhn3ZUuTIOWBXlLTl6ww
+Content-Type: multipart/mixed; boundary="ICaAVP5Xc9uWp5y40PIWZuKzwVKaFAzz8";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ ckoenig.leichtzumerken@gmail.com, open list <linux-kernel@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Message-ID: <d3610263-421b-4c4f-faaa-0b8a8d905f07@suse.de>
+Subject: Re: [PATCH v2 09/18] drm/vram: drop
+ drm_gem_vram_driver_gem_prime_mmap
+References: <20190621115755.8481-1-kraxel@redhat.com>
+ <20190621115755.8481-10-kraxel@redhat.com>
+In-Reply-To: <20190621115755.8481-10-kraxel@redhat.com>
+
+--ICaAVP5Xc9uWp5y40PIWZuKzwVKaFAzz8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Am 21.06.19 um 13:57 schrieb Gerd Hoffmann:
+> The wrapper doesn't do anything any more, drop it.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/drm/drm_gem_vram_helper.h     |  4 +---
+>  drivers/gpu/drm/drm_gem_vram_helper.c | 17 -----------------
+>  2 files changed, 1 insertion(+), 20 deletions(-)
+>=20
+> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vr=
+am_helper.h
+> index 7b9f50ba3fce..2ada671a2a6b 100644
+> --- a/include/drm/drm_gem_vram_helper.h
+> +++ b/include/drm/drm_gem_vram_helper.h
+> @@ -137,8 +137,6 @@ void drm_gem_vram_driver_gem_prime_unpin(struct drm=
+_gem_object *obj);
+>  void *drm_gem_vram_driver_gem_prime_vmap(struct drm_gem_object *obj);
+>  void drm_gem_vram_driver_gem_prime_vunmap(struct drm_gem_object *obj,
+>  					  void *vaddr);
+> -int drm_gem_vram_driver_gem_prime_mmap(struct drm_gem_object *obj,
+> -				       struct vm_area_struct *vma);
+> =20
+>  #define DRM_GEM_VRAM_DRIVER_PRIME \
+>  	.gem_prime_export =3D drm_gem_prime_export, \
+> @@ -147,6 +145,6 @@ int drm_gem_vram_driver_gem_prime_mmap(struct drm_g=
+em_object *obj,
+>  	.gem_prime_unpin  =3D drm_gem_vram_driver_gem_prime_unpin, \
+>  	.gem_prime_vmap	  =3D drm_gem_vram_driver_gem_prime_vmap, \
+>  	.gem_prime_vunmap =3D drm_gem_vram_driver_gem_prime_vunmap, \
+> -	.gem_prime_mmap	  =3D drm_gem_vram_driver_gem_prime_mmap
+> +	.gem_prime_mmap	  =3D drm_gem_prime_mmap
+> =20
+>  #endif
+> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/dr=
+m_gem_vram_helper.c
+> index 2e474dee30df..d78761802374 100644
+> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> @@ -619,20 +619,3 @@ void drm_gem_vram_driver_gem_prime_vunmap(struct d=
+rm_gem_object *gem,
+>  	drm_gem_vram_unpin(gbo);
+>  }
+>  EXPORT_SYMBOL(drm_gem_vram_driver_gem_prime_vunmap);
+> -
+> -/**
+> - * drm_gem_vram_driver_gem_prime_mmap() - \
+> -	Implements &struct drm_driver.gem_prime_mmap
+> - * @gem:	The GEM object to map
+> - * @vma:	The VMA describing the mapping
+> - *
+> - * Returns:
+> - * 0 on success, or
+> - * a negative errno code otherwise.
+> - */
+> -int drm_gem_vram_driver_gem_prime_mmap(struct drm_gem_object *gem,
+> -				       struct vm_area_struct *vma)
+> -{
+> -	return drm_gem_prime_mmap(gem, vma);
+> -}
+> -EXPORT_SYMBOL(drm_gem_vram_driver_gem_prime_mmap);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--ICaAVP5Xc9uWp5y40PIWZuKzwVKaFAzz8--
+
+--SjuG3ISsctN3WUhn3ZUuTIOWBXlLTl6ww
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0Vwh4ACgkQaA3BHVML
+eiOMUQf+PZ8j9q4zK3Eq6XY9xecI/H6s1jGpv8Dlt7GOlTitpIYDEca5p0rtecHV
+hwGkLB7me8EsfPyt1tWlEuizxBbZFuaKSzViPfvy75ug/Xzc0rugUv2zW4Uv44v7
+cAfswUkI42HBGXDscxcwYO3cyIGnVrK50yWzbJfvS4XfD13oE+lRBs0OvZ4ltDps
+Pb+sH0X5vGE1HunXO0w+HcpbjfHXEokKsSRuSN4HpbxwV+qE5MMfJXfEH+YzNFpo
+K4/XL5PydjkbHn48Hh2S3Vs0OVy3xySC6MDtwYaxJdPOdQej9SrjHUb8bN5n5Wyj
+37b8Lz3kqSlpLfcxChTpZpkqHo3l6g==
+=u0ug
+-----END PGP SIGNATURE-----
+
+--SjuG3ISsctN3WUhn3ZUuTIOWBXlLTl6ww--
+
+--===============0884813869==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0884813869==--
