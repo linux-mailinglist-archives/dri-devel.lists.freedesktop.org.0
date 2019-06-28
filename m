@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811735994F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 13:36:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9EB5995A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 13:44:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 734786E8E8;
-	Fri, 28 Jun 2019 11:36:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D77626E8E3;
+	Fri, 28 Jun 2019 11:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A4F6E8E1;
- Fri, 28 Jun 2019 11:36:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 28 Jun 2019 04:36:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,427,1557212400"; d="scan'208";a="170723700"
-Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
- by FMSMGA003.fm.intel.com with ESMTP; 28 Jun 2019 04:36:10 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.184]) by
- IRSMSX154.ger.corp.intel.com ([169.254.12.168]) with mapi id 14.03.0439.000;
- Fri, 28 Jun 2019 12:36:09 +0100
-From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-To: "C, Ramalingam" <ramalingam.c@intel.com>
-Subject: Re: [PATCH v2 3/3] drm/i915: Send hotplug event if edid had changed.
-Thread-Topic: [PATCH v2 3/3] drm/i915: Send hotplug event if edid had changed.
-Thread-Index: AQHVLYsfM/WLHjkI40iK8Iaemn2xX6awZtuAgAB4a4A=
-Date: Fri, 28 Jun 2019 11:36:09 +0000
-Message-ID: <b45b3aade954bc07faf063f32b025eaaddcaf3c2.camel@intel.com>
-References: <20190628082454.16345-1-stanislav.lisovskiy@intel.com>
- <20190628082454.16345-4-stanislav.lisovskiy@intel.com>
- <20190628042419.GD24852@intel.com>
-In-Reply-To: <20190628042419.GD24852@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.66.154]
-Content-ID: <1676D36F1E6BF3468DA609BD6A03FA4B@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E8A7D6E8E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 11:43:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E53F472167; Fri, 28 Jun 2019 11:43:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111017] hai
+Date: Fri, 28 Jun 2019 11:43:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_group bug_status resolution product component
+Message-ID: <bug-111017-502-RBxfByWBxl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111017-502@http.bugs.freedesktop.org/>
+References: <bug-111017-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -54,101 +52,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Ser, Simon" <simon.ser@intel.com>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Peres,
- Martin" <martin.peres@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>, "Saarinen,
- Jani" <jani.saarinen@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1890169528=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDE5LTA2LTI4IGF0IDA5OjU0ICswNTMwLCBSYW1hbGluZ2FtIEMgd3JvdGU6DQo+
-IE9uIDIwMTktMDYtMjggYXQgMTE6MjQ6NTQgKzAzMDAsIFN0YW5pc2xhdiBMaXNvdnNraXkgd3Jv
-dGU6DQo+ID4gQWRkZWQgZWRpZCBjaGVja2luZyB0byBkcCBhbmQgaGRtaSBlZGlkIHNldHRpbmcg
-ZnVuY3Rpb25zLCB3aGljaA0KPiA+IGFyZSBjYWxsZWQgZnJvbSBkZXRlY3QgaG9va3MuIFRoZSBy
-ZXN1bHQgY3VycmVudGx5IGlzIHByb3BhZ2F0ZWQNCj4gPiB0byBjYWxsaW5nIGxheWVyIHVzaW5n
-IGRybV9jb25uZWN0b3ItPmNoYW5nZV9jb3VudGVyKHByb3Bvc2VkIGJ5DQo+ID4gRGFuaWVsIFZl
-dHRlcikuDQo+ID4gZHJtX2hlbHBlcl9ocGRfaXJxX2V2ZW50IGFuZCBpbnRlbF9lbmNvZGVyX2hv
-dHBsdWcgYXJlIGN1cnJlbnRseQ0KPiA+IGJvdGgNCj4gPiByZXNwb25zaWJsZSBmb3IgY2hlY2tp
-bmcgaWYgdGhpcyBjb3VudGVyIG9yIGNvbm5lY3Rpb24gc3RhdHVzIGlzDQo+ID4gY2hhbmdlZC4N
-Cj4gPiANCj4gPiBUaGVyZSBhcmUgY29uZmxpY3RpbmcgcGFydHMgaW4gZHJtIGFuZCBpOTE1IHdo
-aWNoIGF0dGVtcHQNCj4gPiB0byBkbyB0aGUgc2FtZSBqb2IgLSBkcm1faGVscGVyX2hwZF9pcnFf
-ZXZlbnQgYXR0ZW1wdHMgdG8NCj4gPiBjaGVjayBjb25uZWN0b3Igc3RhdHVzIGNoYW5nZXMgYW5k
-IHRoZW4gY2FsbCBob3RwbHVnLA0KPiA+IGp1c3QgYXMgaTkxNV9ob3RwbHVnX3dvcmtfZnVuYywg
-d2hpY2ggY2FsbHMgZW5jb2Rlci0+aG90cGx1Zw0KPiA+IGhvb2sgd2hpY2ggaW4gdHVybiBjYWxs
-cyBnZW5lcmljIGludGVsX2VuY29kZXJfaG90cGx1ZyBmdW5jdGlvbg0KPiA+IHdoaWNoIGF0dGVt
-cHRzIHRvIHByb2JlIGlmIG91dHB1dCBoYXMgY2hhbmdlZC4NCj4gPiBMb29rcyBsaWtlIGJvdGgg
-bmVlZHMgdG8gYmUgY2hhbmdlZCwgc28gYWRkZWQgZWRpZCBjaGVja2luZw0KPiA+IGFsc28gdG8g
-aW50ZWxfZW5jb2Rlcl9ob3RwbHVnIGZ1bmN0aW9uIHdoaWNoIGlzIGNhbGxlZCBib3RoDQo+ID4g
-Zm9yIGhkbWkgYW5kIGRwLg0KPiA+IA0KPiA+IHYyOiBSZW5hbWVkIGNoYW5nZSBjb3VudGVyIHRv
-IGVwb2NoIGNvdW50ZXIuIEZpeGVkIHR5cGUgbmFtZS4NCj4gPiANCj4gPiANCg0KPiA+IEBAIC0y
-NTI0LDExICsyNTI0LDIyIEBAIGludGVsX2hkbWlfc2V0X2VkaWQoc3RydWN0IGRybV9jb25uZWN0
-b3INCj4gPiAqY29ubmVjdG9yKQ0KPiA+ICANCj4gPiAgCWludGVsX2Rpc3BsYXlfcG93ZXJfcHV0
-KGRldl9wcml2LCBQT1dFUl9ET01BSU5fR01CVVMsIHdha2VyZWYpOw0KPiA+ICANCj4gPiArCW9s
-ZF9lZGlkID0gdG9faW50ZWxfY29ubmVjdG9yKGNvbm5lY3RvciktPmRldGVjdF9lZGlkOw0KPiA+
-ICsNCj4gPiArCWlmICghZHJtX2VkaWRfYXJlX2VxdWFsKGVkaWQsIG9sZF9lZGlkKSkgew0KPiA+
-ICsJCWludGVsX2Nvbm5lY3Rvcl91cGRhdGVfbW9kZXMoY29ubmVjdG9yLCBlZGlkKTsNCj4gPiAr
-CQlEUk1fREVCVUdfS01TKCJVcGRhdGluZyBjaGFuZ2UgY291bnRlciB0byAlbGx1XG4iLA0KPiA+
-IGNvbm5lY3Rvci0+ZXBvY2hfY291bnRlcik7DQo+ID4gKwkJY29ubmVjdG9yLT5lcG9jaF9jb3Vu
-dGVyICs9IDE7DQo+ID4gKw0KPiA+ICsJCURSTV9ERUJVR19LTVMoIltDT05ORUNUT1I6JWQ6JXNd
-IEVkaWQgd2FzIGNoYW5nZWQhDQo+ID4gVXBkYXRpbmcgYmxvYiBwcm9wZXJ0eS5cbiIsDQo+ID4g
-KwkJICAgIGNvbm5lY3Rvci0+YmFzZS5pZCwgY29ubmVjdG9yLT5uYW1lKTsNCj4gPiArCX0NCj4g
-PiArCWludGVsX2hkbWlfdW5zZXRfZWRpZChjb25uZWN0b3IpOw0KPiA+ICAJdG9faW50ZWxfY29u
-bmVjdG9yKGNvbm5lY3RvciktPmRldGVjdF9lZGlkID0gZWRpZDsNCj4gPiArDQoNCj4gDQo+IFRo
-aXMgYW5kIG5leHQgY2hhbmdlcyBhcmUgdW5yZWxhdGVkIHdpdGggdGhpcyBjb21taXQuIE1pZ2h0
-IHdhbnQgdG8NCj4ga2VlcA0KPiBpdCBmb3Igc2VwYXJhdGUgcGF0Y2guDQoNCldoYXQgZG8geW91
-IG1lYW4gYnkgdW5yZWxhdGVkPyBJIHRob3VnaHQgZGVwZW5kZW50IGNoYW5nZXMgc2hvdWxkIGdv
-IGluDQpvbmUgcGF0Y2ggc2VyaWVzIGFuZCBoZXJlIHdlIGFyZSB0YWtpbmcgaW50byB1c2UgZXBv
-Y2hfY291bnRlciBmb3INCmk5MTUsIHdoaWNoIHdhcyBpbnRyb2R1Y2VkIGluIHByZXZpb3VzIDIg
-c2VwYXJhdGUgZHJtIHBhdGNoZXMgZnJvbSB0aGF0DQpzZXJpZXMuDQoNClRoZSBkcm0gY2hhbmdl
-cyBzaG91bGQgb2J2aW91c2x5IGFsd2F5cyBnbyBmaXJzdCBoZXJlLCBvdGhlcndpc2UgdGhpcw0K
-cGF0Y2ggd2lsbCBmYWlsIC0gSSB3b3VsZG4ndCBldmVuIGJlIGFibGUgdG8gc2VuZCBpdCBmb3Ig
-dGVzdGluZyBpZg0KdGhhdCB3b3VsZCBiZSBpbiBhbm90aGVyIHNlcmllcy4NCg0KPiANCj4gLVJh
-bQ0KPiA+ICAJaWYgKGVkaWQgJiYgZWRpZC0+aW5wdXQgJiBEUk1fRURJRF9JTlBVVF9ESUdJVEFM
-KSB7DQo+ID4gIAkJaW50ZWxfaGRtaS0+aGFzX2F1ZGlvID0gZHJtX2RldGVjdF9tb25pdG9yX2F1
-ZGlvKGVkaWQpOw0KPiA+ICAJCWludGVsX2hkbWktPmhhc19oZG1pX3NpbmsgPQ0KPiA+IGRybV9k
-ZXRlY3RfaGRtaV9tb25pdG9yKGVkaWQpOw0KPiA+IC0NCj4gPiAgCQljb25uZWN0ZWQgPSB0cnVl
-Ow0KPiA+ICAJfQ0KPiA+ICANCj4gPiBAQCAtMjU1NSw3ICsyNTY2LDYgQEAgaW50ZWxfaGRtaV9k
-ZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3INCj4gPiAqY29ubmVjdG9yLCBib29sIGZvcmNlKQ0K
-PiA+ICAJICAgICFpbnRlbF9kaWdpdGFsX3BvcnRfY29ubmVjdGVkKGVuY29kZXIpKQ0KPiA+ICAJ
-CWdvdG8gb3V0Ow0KPiA+ICANCj4gPiAtCWludGVsX2hkbWlfdW5zZXRfZWRpZChjb25uZWN0b3Ip
-Ow0KPiA+ICANCj4gPiAgCWlmIChpbnRlbF9oZG1pX3NldF9lZGlkKGNvbm5lY3RvcikpDQo+ID4g
-IAkJc3RhdHVzID0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7DQo+ID4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaG90cGx1Zy5jDQo+ID4gYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hvdHBsdWcuYw0KPiA+IGluZGV4IGVhM2Rl
-NGFjYzg1MC4uZjlkOWU5NjMxOTZhIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfaG90cGx1Zy5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
-MTUvZGlzcGxheS9pbnRlbF9ob3RwbHVnLmMNCj4gPiBAQCAtMjcxLDIzICsyNzEsMzMgQEAgYm9v
-bCBpbnRlbF9lbmNvZGVyX2hvdHBsdWcoc3RydWN0DQo+ID4gaW50ZWxfZW5jb2RlciAqZW5jb2Rl
-ciwNCj4gPiAgew0KPiA+ICAJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+YmFz
-ZS5kZXY7DQo+ID4gIAllbnVtIGRybV9jb25uZWN0b3Jfc3RhdHVzIG9sZF9zdGF0dXM7DQo+ID4g
-Kwl1NjQgb2xkX2Vwb2NoX2NvdW50ZXI7DQo+ID4gKwlib29sIHJldCA9IGZhbHNlOw0KPiA+ICAN
-Cj4gPiAgCVdBUk5fT04oIW11dGV4X2lzX2xvY2tlZCgmZGV2LT5tb2RlX2NvbmZpZy5tdXRleCkp
-Ow0KPiA+ICAJb2xkX3N0YXR1cyA9IGNvbm5lY3Rvci0+YmFzZS5zdGF0dXM7DQo+ID4gIA0KPiA+
-ICsJb2xkX2Vwb2NoX2NvdW50ZXIgPSBjb25uZWN0b3ItPmJhc2UuZXBvY2hfY291bnRlcjsNCj4g
-PiArDQo+ID4gIAljb25uZWN0b3ItPmJhc2Uuc3RhdHVzID0NCj4gPiAgCQlkcm1faGVscGVyX3By
-b2JlX2RldGVjdCgmY29ubmVjdG9yLT5iYXNlLCBOVUxMLCBmYWxzZSk7DQo+ID4gIA0KPiA+IC0J
-aWYgKG9sZF9zdGF0dXMgPT0gY29ubmVjdG9yLT5iYXNlLnN0YXR1cykNCj4gPiAtCQlyZXR1cm4g
-ZmFsc2U7DQo+ID4gKwlpZiAob2xkX2Vwb2NoX2NvdW50ZXIgIT0gY29ubmVjdG9yLT5iYXNlLmVw
-b2NoX2NvdW50ZXIpDQo+ID4gKwkJcmV0ID0gdHJ1ZTsNCj4gPiAgDQo+ID4gLQlEUk1fREVCVUdf
-S01TKCJbQ09OTkVDVE9SOiVkOiVzXSBzdGF0dXMgdXBkYXRlZCBmcm9tICVzIHRvDQo+ID4gJXNc
-biIsDQo+ID4gKwlpZiAob2xkX3N0YXR1cyAhPSBjb25uZWN0b3ItPmJhc2Uuc3RhdHVzKQ0KPiA+
-ICsJCXJldCA9IHRydWU7DQo+ID4gKw0KPiA+ICsJaWYgKHJldCkgew0KPiA+ICsJCURSTV9ERUJV
-R19LTVMoIltDT05ORUNUT1I6JWQ6JXNdIHN0YXR1cyB1cGRhdGVkIGZyb20gJXMNCj4gPiB0byAl
-cyhjaGFuZ2UgY291bnRlciAlbGx1KVxuIiwNCj4gPiAgCQkgICAgICBjb25uZWN0b3ItPmJhc2Uu
-YmFzZS5pZCwNCj4gPiAgCQkgICAgICBjb25uZWN0b3ItPmJhc2UubmFtZSwNCj4gPiAgCQkgICAg
-ICBkcm1fZ2V0X2Nvbm5lY3Rvcl9zdGF0dXNfbmFtZShvbGRfc3RhdHVzKSwNCj4gPiAtCQkgICAg
-ICBkcm1fZ2V0X2Nvbm5lY3Rvcl9zdGF0dXNfbmFtZShjb25uZWN0b3ItDQo+ID4gPmJhc2Uuc3Rh
-dHVzKSk7DQo+ID4gKwkJICAgICAgZHJtX2dldF9jb25uZWN0b3Jfc3RhdHVzX25hbWUoY29ubmVj
-dG9yLQ0KPiA+ID5iYXNlLnN0YXR1cyksDQo+ID4gKwkJICAgICAgY29ubmVjdG9yLT5iYXNlLmVw
-b2NoX2NvdW50ZXIpOw0KPiA+ICsJfQ0KPiA+ICANCj4gPiAtCXJldHVybiB0cnVlOw0KPiA+ICsJ
-cmV0dXJuIHJldDsNCj4gPiAgfQ0KPiA+ICANCj4gPiAgc3RhdGljIGJvb2wgaW50ZWxfZW5jb2Rl
-cl9oYXNfaHBkX3B1bHNlKHN0cnVjdCBpbnRlbF9lbmNvZGVyDQo+ID4gKmVuY29kZXIpDQo+ID4g
-LS0gDQo+ID4gMi4xNy4xDQo+ID4gDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWw=
+
+--===============1890169528==
+Content-Type: multipart/alternative; boundary="15617222360.FdFad457.30100"
+Content-Transfer-Encoding: 7bit
+
+
+--15617222360.FdFad457.30100
+Date: Fri, 28 Jun 2019 11:43:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111017
+
+Andre Klapper <a9016009@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+              Group|                            |spam
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
+            Product|DRI                         |Spam
+          Component|General                     |Two
+
+--- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
+Go away and test somewhere else.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15617222360.FdFad457.30100
+Date: Fri, 28 Jun 2019 11:43:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - hai"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111017">bug 11101=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>General
+           </td>
+           <td>Two
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - hai"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111017#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - hai"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111017">bug 11101=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>Go away and test somewhere else.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15617222360.FdFad457.30100--
+
+--===============1890169528==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1890169528==--
