@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4285A719
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2019 00:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9B65A720
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Jun 2019 00:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF7E6E923;
-	Fri, 28 Jun 2019 22:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BDA86E938;
+	Fri, 28 Jun 2019 22:47:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8F4866E923
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 22:41:07 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 846FB72167; Fri, 28 Jun 2019 22:41:07 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110702] segfault in radeonsi HEVC hardware decoding with
- yuv420p10le
-Date: Fri, 28 Jun 2019 22:41:07 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110702-502-HPg1MMrl74@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110702-502@http.bugs.freedesktop.org/>
-References: <bug-110702-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84F016E938
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 22:47:33 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D3448208E3
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 22:47:32 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id s22so6264643qkj.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 15:47:32 -0700 (PDT)
+X-Gm-Message-State: APjAAAXFpayUXxXRWaa8nnKkaPlUqZe26PHsCiis796etEp4r/XjP/MJ
+ qv9px2hBy0SgtgZWyqgmbz744rkzhKfd+Egk+g==
+X-Google-Smtp-Source: APXvYqwZcAEztIfeJKR/l+OjGkLbDrNoV6cF8P4jA29+W4ejMA1/eHHgTvyF8p5wO1lb6pP/HPBIb+yXObkLHpBk8lg=
+X-Received: by 2002:a37:a48e:: with SMTP id
+ n136mr11138414qke.223.1561762052134; 
+ Fri, 28 Jun 2019 15:47:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190627172414.27231-1-boris.brezillon@collabora.com>
+In-Reply-To: <20190627172414.27231-1-boris.brezillon@collabora.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Fri, 28 Jun 2019 16:47:21 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKFP2Z1B3oOK9DBZpmVN=tuK-RqqNWbg4=nKCH_cAZPzg@mail.gmail.com>
+Message-ID: <CAL_JsqKFP2Z1B3oOK9DBZpmVN=tuK-RqqNWbg4=nKCH_cAZPzg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panfrost: Fix a double-free error
+To: Boris Brezillon <boris.brezillon@collabora.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1561762052;
+ bh=d1ga57vWxujYj83xEsaBg10bKl0FEJJQU18PfYyt+GU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=wCO6H8OedIkHRnSE3Z3aI72N/v0zoMhqjbQYnH9d4NrvhzxjoUB6qpEn3WKgU27G9
+ ygB36yDKcWUUJkauWpAVH43zBwgjlgYJFJDtDdyl3OsxOaTGyAwzq4ucfvCX/TulMs
+ 6tuEOhAvXjokVuryvI9YZ7KxPhowUN2hMpMD56Dg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +54,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1020288474=="
+Cc: stable <stable@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1020288474==
-Content-Type: multipart/alternative; boundary="15617616670.59Bbbc.15622"
-Content-Transfer-Encoding: 7bit
-
-
---15617616670.59Bbbc.15622
-Date: Fri, 28 Jun 2019 22:41:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110702
-
---- Comment #15 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
-@amd.com> ---
-The fix has been merged today
-(https://gitlab.freedesktop.org/mesa/mesa/commit/c81c784a4a05f8a957a649d73c=
-8194247de47b56).
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15617616670.59Bbbc.15622
-Date: Fri, 28 Jun 2019 22:41:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
-0le"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702#c15">Comme=
-nt # 15</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - segfault in radeonsi HEVC hardware decoding with yuv420p1=
-0le"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110702">bug 11070=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>The fix has been merged today
-(<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/commit/c81c784a4a05f8a=
-957a649d73c8194247de47b56">https://gitlab.freedesktop.org/mesa/mesa/commit/=
-c81c784a4a05f8a957a649d73c8194247de47b56</a>).</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15617616670.59Bbbc.15622--
-
---===============1020288474==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1020288474==--
+T24gVGh1LCBKdW4gMjcsIDIwMTkgYXQgMTE6MjQgQU0gQm9yaXMgQnJlemlsbG9uCjxib3Jpcy5i
+cmV6aWxsb25AY29sbGFib3JhLmNvbT4gd3JvdGU6Cj4KPiBkcm1fZ2VtX3NobWVtX2NyZWF0ZV93
+aXRoX2hhbmRsZSgpIHJldHVybnMgYSBHRU0gb2JqZWN0IGFuZCBhdHRhY2ggYQo+IGhhbmRsZSB0
+byBpdC4gV2hlbiB0aGUgdXNlciBjbG9zZXMgdGhlIERSTSBGRCwgdGhlIGNvcmUgcmVsZWFzZXMg
+YWxsCj4gR0VNIGhhbmRsZXMgYWxvbmcgd2l0aCB0aGVpciBiYWNraW5nIEdFTSBvYmpzLCB3aGlj
+aCBjYW4gbGVhZCB0byBhCj4gZG91YmxlLWZyZWUgaXNzdWUgaWYgcGFuZnJvc3RfaW9jdGxfY3Jl
+YXRlX2JvKCkgZmFpbGVkIGFuZCB3ZW50Cj4gdGhyb3VnaCB0aGUgZXJyX2ZyZWUgcGF0aCB3aGVy
+ZSBkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoKSBpcwo+IGNhbGxlZCB3aXRob3V0IGRlbGV0
+aW5nIHRoZSBhc3NvY2lhdGUgaGFuZGxlLgo+Cj4gUmVwbGFjZSB0aGlzIGRybV9nZW1fb2JqZWN0
+X3B1dF91bmxvY2tlZCgpIGNhbGwgYnkgYQo+IGRybV9nZW1faGFuZGxlX2RlbGV0ZSgpIG9uZSB0
+byBmaXggdGhhdC4KPgo+IEZpeGVzOiBmM2JhOTEyMjhlOGUgKCJkcm0vcGFuZnJvc3Q6IEFkZCBp
+bml0aWFsIHBhbmZyb3N0IGRyaXZlciIpCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgo+
+IFNpZ25lZC1vZmYtYnk6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9y
+YS5jb20+Cj4gLS0tCj4gUmVwcm9kdWNlZCBmb3IgcmVhbCB3aGVuIEJPIG1hcHBpbmcgZmFpbHMg
+YmVjYXVzZSB3ZSByYW4gb3V0IG9mCj4gbWVtb3J5Lgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0v
+cGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQoKQXBwbGllZCB0byBkcm0tbWlzYy1maXhlcy4KClJvYgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
