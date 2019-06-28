@@ -1,102 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1443759860
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Jun 2019 12:28:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6D65B149
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 20:27:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199B96E8CD;
-	Fri, 28 Jun 2019 10:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1385B89DC0;
+	Sun, 30 Jun 2019 18:27:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02E7B6E8CD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 10:27:56 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20190628102755euoutp0256a706107834ee0a2ac891762967eb90~sVfOpTDjA2641226412euoutp02O
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 10:27:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20190628102755euoutp0256a706107834ee0a2ac891762967eb90~sVfOpTDjA2641226412euoutp02O
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20190628102755eucas1p13eea98a7e53b27980b995e5dbdcdbb4f~sVfODwN5O1398813988eucas1p1J;
- Fri, 28 Jun 2019 10:27:55 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 95.FF.04325.AABE51D5; Fri, 28
- Jun 2019 11:27:54 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20190628102754eucas1p283e1ad580a242323137a4b6c7024028c~sVfNShlCk0105401054eucas1p2m;
- Fri, 28 Jun 2019 10:27:54 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20190628102754eusmtrp1a2a1cdb60391acefd19dbd378702a250~sVfNEbRd01758517585eusmtrp1J;
- Fri, 28 Jun 2019 10:27:54 +0000 (GMT)
-X-AuditID: cbfec7f5-b8fff700000010e5-cf-5d15ebaacabb
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id A8.8A.04146.9ABE51D5; Fri, 28
- Jun 2019 11:27:54 +0100 (BST)
-Received: from [106.120.51.71] (unknown [106.120.51.71]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20190628102753eusmtip2e8a5388597214e975461aa5455e6fff7~sVfMrJtwU1098610986eusmtip2f;
- Fri, 28 Jun 2019 10:27:53 +0000 (GMT)
-Subject: Re: [PATCH 3/3] video: fbdev: don't print error message on
- framebuffer_alloc() failure
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Message-ID: <4a534d3e-0ce6-9dfd-b3f2-e69aa0a1fcd8@samsung.com>
-Date: Fri, 28 Jun 2019 12:27:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73BD76E8CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Jun 2019 10:32:07 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2019 03:32:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,427,1557212400"; d="scan'208";a="183662811"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.157])
+ by fmsmga001.fm.intel.com with SMTP; 28 Jun 2019 03:32:04 -0700
+Received: by lahna (sSMTP sendmail emulation); Fri, 28 Jun 2019 13:32:04 +0300
+Date: Fri, 28 Jun 2019 13:32:04 +0300
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Timur =?iso-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
+Subject: Re: Why is Thunderbolt 3 limited to 2.5 GT/s on Linux?
+Message-ID: <20190628103204.GJ2640@lahna.fi.intel.com>
+References: <91de711591780e83c70e8f61747725855f6dee99.camel@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <3da197ed-a701-2aa7-d775-2bdbe9deab4a@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDKsWRmVeSWpSXmKPExsWy7djP87qrXovGGjw8bWZxfcpmVotzk14z
- W1z5+p7N4tbxVkaLE30fWC1ufvrGanF51xw2B3aPTas62TzezBXwuN99nMnj/b6rbB6fN8kF
- sEZx2aSk5mSWpRbp2yVwZTy8tIG5YDVrxd0tG9kaGPeydDFyckgImEgc2/SduYuRi0NIYAWj
- RPOk00wQzhdGiQtfj7FCOJ8ZJVYv/sIE03L43CFGiMRyRomtS09D9b9llHjwdT87SJWwQKLE
- hx8LwDrYBKwkJravYgSxRQRqJeY39IHtYBaYwiix8/BhVpAEr4CdxMrLq8CuYhFQlbjceBys
- QVQgQuL+sQ1QNYISJ2c+AavhFLCXuPbxPhuIzSwgLnHryXwmCFteonnrbLCLJAS2sUvs2PgP
- 6lUXibkN55khbGGJV8e3sEPYMhKnJ/ewQDSsY5T42/ECqns7o8Tyyf/YIKqsJQ4fvwh0BgfQ
- Ck2J9bv0IcKOEl83rmECCUsI8EnceCsIcQSfxKRt05khwrwSHW1CENVqEhuWbWCDWdu1cyXz
- BEalWUhem4XknVlI3pmFsHcBI8sqRvHU0uLc9NRi47zUcr3ixNzi0rx0veT83E2MwDR0+t/x
- rzsY9/1JOsQowMGoxMOrsFMkVog1say4MvcQowQHs5IIr+Q5oBBvSmJlVWpRfnxRaU5q8SFG
- aQ4WJXHeaoYH0UIC6YklqdmpqQWpRTBZJg5OqQbG5Pyz59LOSy1S5p2b5/HDenNlmYpGhJ1P
- 3NUJee7FRSFsH1PaG788WJSfWr6V+3rJl6/KLA6aHZ63LGujOkL8duV7T3IKl0t64VC7U9Xs
- /vTpSZJ/HYRN+2Uy5s8Q7lnV9/pBdYG44MOmn3fMjG42aTXovt+5rJJDlXMey+OTNx5Gq96K
- PqnEUpyRaKjFXFScCAAdKagpPwMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNIsWRmVeSWpSXmKPExsVy+t/xe7qrXovGGjxXtLg+ZTOrxblJr5kt
- rnx9z2Zx63gro8WJvg+sFjc/fWO1uLxrDpsDu8emVZ1sHm/mCnjc7z7O5PF+31U2j8+b5AJY
- o/RsivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQyHl7a
- wFywmrXi7paNbA2Me1m6GDk5JARMJA6fO8TYxcjFISSwlFHi99Sd7F2MHEAJGYnj68sgaoQl
- /lzrYoOoec0o8fXELVaQhLBAosSHHwuYQGw2ASuJie2rGEFsEYFaiYnL/7OANDALTGOUONzX
- zAySEBKwkziw5AobiM0LZK+8vArsChYBVYnLjcfBmkUFIiTOvF/BAlEjKHFy5hMwm1PAXuLa
- x/tgvcwC6hJ/5l1ihrDFJW49mc8EYctLNG+dzTyBUWgWkvZZSFpmIWmZhaRlASPLKkaR1NLi
- 3PTcYkO94sTc4tK8dL3k/NxNjMCI23bs5+YdjJc2Bh9iFOBgVOLhVdgpEivEmlhWXJl7iFGC
- g1lJhFfyHFCINyWxsiq1KD++qDQntfgQoynQcxOZpUST84HJIK8k3tDU0NzC0tDc2NzYzEJJ
- nLdD4GCMkEB6YklqdmpqQWoRTB8TB6dUA2O53HPeIxqiF/z4qpZtjHI8O+/RJKlXv388X+X0
- /Y52+JyZ1b8zpZ/kZ/6btu1j9ynpKVH/p+3Km7JqQ+DU2aqHnnG2K/aw39N+Vu7kwv7yUPd+
- 6WcH0uV2e3pnTlGy2jdVfk2sin3Fh/Q+1RuuToseb52j9V0upmqnRstro1kVChde1oRpxK1S
- YinOSDTUYi4qTgQAnCepTc4CAAA=
-X-CMS-MailID: 20190628102754eucas1p283e1ad580a242323137a4b6c7024028c
-X-Msg-Generator: CA
-X-RootMTR: 20190628102754eucas1p283e1ad580a242323137a4b6c7024028c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190628102754eucas1p283e1ad580a242323137a4b6c7024028c
-References: <3da197ed-a701-2aa7-d775-2bdbe9deab4a@samsung.com>
- <CGME20190628102754eucas1p283e1ad580a242323137a4b6c7024028c@eucas1p2.samsung.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=samsung.com; 
- s=mail20170921; t=1561717675;
- bh=Bsjy2CgLzbj8VVIl5VheX4ReDw3a8PH2su9cRZoqQPo=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=ZtYZPd6N9uwNSjW1U4iZCktnkWD/tb3W/518bmwwFj2UtUXpO+CSbBNMtPrqeQsQS
- Kg/vDS9hWC/qaKFv0hrI2mntpLonaoEByI4L2meAFZRLNxHltPJwUrsHnWs38YPn+I
- U6A4+SVz3t2xz8AoMd8RaoMqgk+MZNcJBu6o/gtA=
+Content-Disposition: inline
+In-Reply-To: <91de711591780e83c70e8f61747725855f6dee99.camel@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Mailman-Approved-At: Sun, 30 Jun 2019 18:26:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,26 +47,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- =?UTF-8?Q?Bruno_Pr=c3=a9mont?= <bonbons@linux-vserver.org>,
- Jiri Kosina <jikos@kernel.org>
+Cc: "michael.jamet@intel.com" <michael.jamet@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDYvMTQvMTkgNDo1MSBQTSwgQmFydGxvbWllaiBab2xuaWVya2lld2ljeiB3cm90ZToKPiBm
-cmFtZWJ1ZmZlcl9hbGxvYygpIGNhbiBmYWlsIG9ubHkgb24ga3phbGxvYygpIG1lbW9yeSBhbGxv
-Y2F0aW9uCj4gZmFpbHVyZSBhbmQgc2luY2Uga3phbGxvYygpIHdpbGwgcHJpbnQgZXJyb3IgbWVz
-c2FnZSBpbiBzdWNoIGNhc2UKPiB3ZSBjYW4gb21pdCBwcmludGluZyBleHRyYSBlcnJvciBtZXNz
-YWdlIGluIGRyaXZlcnMgKHdoaWNoIEJUVyBpcwo+IHdoYXQgdGhlIG1ham9yaXR5IG9mIGZyYW1l
-YnVmZmVyX2FsbG9jKCkgdXNlcnMgaXMgZG9pbmcgYWxyZWFkeSkuCj4gCj4gQ2M6ICJCcnVubyBQ
-csOpbW9udCIgPGJvbmJvbnNAbGludXgtdnNlcnZlci5vcmc+Cj4gQ2M6IEppcmkgS29zaW5hIDxq
-aWtvc0BrZXJuZWwub3JnPgo+IENjOiBCZW5qYW1pbiBUaXNzb2lyZXMgPGJlbmphbWluLnRpc3Nv
-aXJlc0ByZWRoYXQuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEJhcnRsb21pZWogWm9sbmllcmtpZXdp
-Y3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KCkkgcXVldWVkIHRoZSBwYXRjaCBmb3IgdjUu
-My4KCkJlc3QgcmVnYXJkcywKLS0KQmFydGxvbWllaiBab2xuaWVya2lld2ljegpTYW1zdW5nIFIm
-RCBJbnN0aXR1dGUgUG9sYW5kClNhbXN1bmcgRWxlY3Ryb25pY3MKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gRnJpLCBKdW4gMjgsIDIwMTkgYXQgMTI6MjM6MDlQTSArMDIwMCwgVGltdXIgS3Jpc3TDs2Yg
+d3JvdGU6Cj4gSGkgZ3V5cywKPiAKPiBJIHVzZSBhbiBBTUQgUlggNTcwIGluIGEgVGh1bmRlcmJv
+bHQgMyBleHRlcm5hbCBHUFUgYm94Lgo+IGRtZXNnIGdpdmVzIG1lIHRoZSBmb2xsb3dpbmcgbWVz
+c2FnZToKPiBwY2kgMDAwMDozYTowMC4wOiA4LjAwMCBHYi9zIGF2YWlsYWJsZSBQQ0llIGJhbmR3
+aWR0aCwgbGltaXRlZCBieSAyLjUgR1QvcyB4NCBsaW5rIGF0IDAwMDA6MDQ6MDQuMCAoY2FwYWJs
+ZSBvZiAzMS41MDQgR2IvcyB3aXRoIDggR1QvcyB4NCBsaW5rKQo+IAo+IEhlcmUgaXMgYSB0cmVl
+IHZpZXcgb2YgdGhlIGRldmljZXMgYXMgd2VsbCBhcyB0aGUgb3V0cHV0IG9mIGxzcGNpIC12dnY6
+Cj4gaHR0cHM6Ly9wYXN0ZWJpbi5jb20vQ1NzUzJha1oKPiAKPiBUaGUgY3JpdGljYWwgcGF0aCBv
+ZiB0aGUgZGV2aWNlIHRyZWUgbG9va3MgbGlrZSB0aGlzOgo+IAo+IDAwOjFjLjQgSW50ZWwgQ29y
+cG9yYXRpb24gU3VucmlzZSBQb2ludC1MUCBQQ0kgRXhwcmVzcyBSb290IFBvcnQgIzUgKHJldiBm
+MSkKPiAwMzowMC4wIEludGVsIENvcnBvcmF0aW9uIEpITDY1NDAgVGh1bmRlcmJvbHQgMyBCcmlk
+Z2UgKEMgc3RlcCkgW0FscGluZSBSaWRnZSA0QyAyMDE2XSAocmV2IDAyKQo+IDA0OjA0LjAgSW50
+ZWwgQ29ycG9yYXRpb24gSkhMNjU0MCBUaHVuZGVyYm9sdCAzIEJyaWRnZSAoQyBzdGVwKSBbQWxw
+aW5lIFJpZGdlIDRDIDIwMTZdIChyZXYgMDIpCj4gM2E6MDAuMCBJbnRlbCBDb3Jwb3JhdGlvbiBE
+U0w2NTQwIFRodW5kZXJib2x0IDMgQnJpZGdlIFtBbHBpbmUgUmlkZ2UgNEMgMjAxNV0KPiAzYjow
+MS4wIEludGVsIENvcnBvcmF0aW9uIERTTDY1NDAgVGh1bmRlcmJvbHQgMyBCcmlkZ2UgW0FscGlu
+ZSBSaWRnZSA0QyAyMDE1XQo+IDNjOjAwLjAgQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLiBb
+QU1EL0FUSV0gRWxsZXNtZXJlIFtSYWRlb24gUlggNDcwLzQ4MC81NzAvNTcwWC81ODAvNTgwWC81
+OTBdIChyZXYgZWYpCj4gCj4gSGVyZSBpcyB0aGUgd2VpcmQgcGFydDoKPiAKPiBBY2NvZGluZyB0
+byBsc3BjaSwgYWxsIG9mIHRoZXNlIGRldmljZXMgcmVwb3J0IGluIHRoZWlyIExua0NhcCB0aGF0
+Cj4gdGhleSBzdXBwb3J0IDggR1QvcywgZXhjZXB0IHRoZSAwNDowNC4wIGFuZCAzYTowMC4wIHdo
+aWNoIHNheSB0aGV5IG9ubHkKPiBzdXBwb3J0IDIuNSBHVC9zLiBDb250cmFkaWN0b3J5IHRvIGxz
+cGNpLCBzeXNmcyBvbiB0aGUgb3RoZXIgaGFuZCBzYXlzCj4gdGhhdCBib3RoIG9mIHRoZW0gYXJl
+IGNhcGFibGUgb2YgOCBHVC9zIGFzIHdlbGw6Cj4gIi9zeXMvYnVzL3BjaS9kZXZpY2VzLzAwMDA6
+MDQ6MDQuMC9tYXhfbGlua19zcGVlZCIgYW5kCj4gIi9zeXMvYnVzL3BjaS9kZXZpY2VzLzAwMDA6
+M2E6MDAuMC9tYXhfbGlua19zcGVlZCIgYXJlIDggR1Qvcy4KPiBJdCBzZWVtcyB0aGF0IHRoZXJl
+IGlzIGEgZGlzY3JlcGFuY3kgYmV0d2VlbiB3aGF0IGxzcGNpIHRoaW5rcyBhbmQgd2hhdAo+IHRo
+ZSBkZXZpY2VzIGFyZSBhY3R1YWxseSBjYXBhYmxlIG9mLgo+IAo+IFF1ZXN0aW9uczoKPiAKPiAx
+LiBXaHkgYXJlIHRoZXJlIGZvdXIgYnJpZGdlIGRldmljZXM/IDA0OjAwLjAsIDA0OjAxLjAgYW5k
+IDA0OjAyLjAgbG9vawo+IHN1cGVyZmx1b3VzIHRvIG1lIGFuZCBub3RoaW5nIGlzIGNvbm5lY3Rl
+ZCB0byB0aGVtLiBJdCBhY3R1YWxseSBnaXZlcwo+IG1lIHRoZSBmZWVsaW5nIHRoYXQgdGhlIFRC
+MyBkcml2ZXIgY3JlYXRlcyA0IGRldmljZXMgd2l0aCAyLjUgR1Qvcwo+IGVhY2gsIGluc3RlYWQg
+b2Ygb25lIGRldmljZSB0aGF0IGNhbiBkbyB0aGUgZnVsbCA4IEdUL3MuCgpCZWNhdXNlIGl0IGlz
+IHN0YW5kYXJkIFBDSWUgc3dpdGNoIHdpdGggb25lIHVwc3RyZWFtIHBvcnQgYW5kIG4KZG93bnN0
+cmVhbSBwb3J0cy4KCj4gMi4gV2h5IGFyZSBzb21lIG9mIHRoZSBicmlkZ2UgZGV2aWNlcyBvbmx5
+IGNhcGFibGUgb2YgMi41IEdUL3MKPiBhY2NvcmRpbmcgdG8gbHNwY2k/CgpZb3UgbmVlZCB0byB0
+YWxrIHRvIGxzcGNpIG1haW50YWluZXIuCgo+IDMuIElzIGl0IHBvc3NpYmxlIHRvIG1hbnVhbGx5
+IHNldCB0aGVtIHRvIDggR1Qvcz8KCk5vIGlkZWEuCgpBcmUgeW91IGFjdHVhbGx5IHNlZWluZyBz
+b21lIHBlcmZvcm1hbmNlIGlzc3VlIGJlY2F1c2Ugb2YgdGhpcyBvciBhcmUKeW91IGp1c3QgY3Vy
+aW91cz8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
