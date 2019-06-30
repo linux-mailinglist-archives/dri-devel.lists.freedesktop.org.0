@@ -1,46 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D49F5AEC4
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 08:00:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E735AEDB
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 08:19:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17B0989E39;
-	Sun, 30 Jun 2019 06:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1B86E9C6;
+	Sun, 30 Jun 2019 06:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B193A6E9BD
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 06:00:40 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AE66F72167; Sun, 30 Jun 2019 06:00:40 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9C26E9C2
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 06:19:30 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id 131so9805692ljf.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2019 23:19:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=bmOSEXIEpz2e9QtY2UHfM44teduHyeOlgNzlgzqWOWA=;
+ b=qs/LBnfeET3UowchCD/FnEfN7NbLcOm6XbB4LJXBud2oMfx+PUEHag+Tr2Gg1fnGpV
+ DLvaQBYp7ARfRWR+KHo6NOw2kI+JNTiuX5wA4b+4r0GZw4zScHhkmx75vh7gFPkFsre4
+ MWxDSelJJ2/6rkhTEuUnS8g3S2KUz03Rb0BPfdka4dZoWtauiXJOBIhjBkMpwCFOLRMj
+ jAo7/hl5tVJGTrTjmHWuz3tZtotryt9VfNX4rK+IG4+zKzkSfyShxtmRPb5/m/Vv70pS
+ Vn9Zu4kBhlAUYnIVsu0BeKiH+5ySZ6Nk0lxQzRJ5gJJP/4i9Ba23aB7RKfemb0WJoEPG
+ b6eg==
+X-Gm-Message-State: APjAAAV2C7mTuiSQ1fomwg6CE003i5/7E5Zq4s4Kz7nQLeZq3TMcjI2Q
+ BWy6Mc+Q1o7c7BAHt+rqHXFoBiAakNc5vw==
+X-Google-Smtp-Source: APXvYqwyuaeOEsYOyohK7gfODSQMpNOuN4Hbb2EkEZ2bAoDZ9MMcXG+WKX7vTE9BArhHGANbHX/mOg==
+X-Received: by 2002:a2e:9657:: with SMTP id z23mr10303269ljh.116.1561875568186; 
+ Sat, 29 Jun 2019 23:19:28 -0700 (PDT)
+Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
+ by smtp.gmail.com with ESMTPSA id
+ o74sm1794024lff.46.2019.06.29.23.19.26
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Sat, 29 Jun 2019 23:19:27 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110994] [vega10] *ERROR* Failed to initialize parser -125! ,
- running libreoffice
-Date: Sun, 30 Jun 2019 06:00:40 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jason@jasonplayne.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110994-502-QMPVLPakij@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110994-502@http.bugs.freedesktop.org/>
-References: <bug-110994-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v1 0/33] drm: drop use of drmp.h in drm-misc
+Date: Sun, 30 Jun 2019 08:18:49 +0200
+Message-Id: <20190630061922.7254-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bmOSEXIEpz2e9QtY2UHfM44teduHyeOlgNzlgzqWOWA=;
+ b=Mmg33KRHqHbgMT2BT3aXwsqWks79mW63edsaAt0nQJfgoeV1U7q0dPHE/JJO+gq0Ts
+ cL2n0zF4P2vSkujAl+TkNceSLY8EtVLMLmZVJ1Cp7Kr348LLAilbFgSKmaWTjv0t0Ki+
+ bpW/cEI79U9RlQnBfezkRczoUoBfJyTLsbG68xRa+OtgyJrAjv8YCIZtE/YCkf8rSunr
+ jm+Av5Mqrf/j4Gf6KG06nXVmPOaTxm9k/YbtCBotqPhGS6+BhFbCopDQs0X9qtdRfrlV
+ U1mJXRBc+yCBbA4FANVRcs4CmMsqMiBC6jDDbg/yJYa7jpBrd+vFOjRLV58o5tt/exIj
+ H6SQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,364 +67,289 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1028493825=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1028493825==
-Content-Type: multipart/alternative; boundary="15618744402.Db1646C3B.10642"
-Content-Transfer-Encoding: 7bit
-
-
---15618744402.Db1646C3B.10642
-Date: Sun, 30 Jun 2019 06:00:40 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110994
-
---- Comment #7 from Jason Playne <jason@jasonplayne.com> ---
-here is the dmesg log for all things amdgpu
-
-[    0.000000] Command line: BOOT_IMAGE=3D/boot/vmlinuz-5.1.15-050115-gener=
-ic
-root=3DUUID=3D2ba5c512-4d8f-11e7-b210-b3322d3f791f ro quiet splash idle=3Dn=
-omwait
-amdgpu.ppfeaturemask=3D0xffffffff vt.handoff=3D1
-[    0.147115] Kernel command line:
-BOOT_IMAGE=3D/boot/vmlinuz-5.1.15-050115-generic
-root=3DUUID=3D2ba5c512-4d8f-11e7-b210-b3322d3f791f ro quiet splash idle=3Dn=
-omwait
-amdgpu.ppfeaturemask=3D0xffffffff vt.handoff=3D1
-[    1.482810] [drm] amdgpu kernel modesetting enabled.
-[    1.483007] fb0: switching to amdgpudrmfb from VESA VGA
-[    1.483097] amdgpu 0000:0c:00.0: vgaarb: deactivate vga console
-[    1.483360] amdgpu 0000:0c:00.0: No more image in the PCI ROM
-[    1.483400] amdgpu 0000:0c:00.0: VRAM: 8176M 0x000000F400000000 -
-0x000000F5FEFFFFFF (8176M used)
-[    1.483401] amdgpu 0000:0c:00.0: GART: 512M 0x0000000000000000 -
-0x000000001FFFFFFF
-[    1.483402] amdgpu 0000:0c:00.0: AGP: 267419648M 0x000000F800000000 -
-0x0000FFFFFFFFFFFF
-[    1.483477] [drm] amdgpu: 8176M of VRAM memory ready
-[    1.483478] [drm] amdgpu: 8176M of GTT memory ready.
-[    1.993612] fbcon: amdgpudrmfb (fb0) is primary device
-[    2.014145] amdgpu 0000:0c:00.0: fb0: amdgpudrmfb frame buffer device
-[    2.028499] amdgpu 0000:0c:00.0: ring gfx uses VM inv eng 0 on hub 0
-[    2.028500] amdgpu 0000:0c:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
-b 0
-[    2.028501] amdgpu 0000:0c:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
-b 0
-[    2.028502] amdgpu 0000:0c:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
-b 0
-[    2.028503] amdgpu 0000:0c:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
-b 0
-[    2.028504] amdgpu 0000:0c:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
-b 0
-[    2.028505] amdgpu 0000:0c:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
-b 0
-[    2.028506] amdgpu 0000:0c:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
-b 0
-[    2.028507] amdgpu 0000:0c:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
-ub 0
-[    2.028508] amdgpu 0000:0c:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
-b 0
-[    2.028509] amdgpu 0000:0c:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[    2.028509] amdgpu 0000:0c:00.0: ring sdma1 uses VM inv eng 1 on hub 1
-[    2.028510] amdgpu 0000:0c:00.0: ring uvd_0 uses VM inv eng 4 on hub 1
-[    2.028511] amdgpu 0000:0c:00.0: ring uvd_enc_0.0 uses VM inv eng 5 on h=
-ub 1
-[    2.028512] amdgpu 0000:0c:00.0: ring uvd_enc_0.1 uses VM inv eng 6 on h=
-ub 1
-[    2.028513] amdgpu 0000:0c:00.0: ring vce0 uses VM inv eng 7 on hub 1
-[    2.028514] amdgpu 0000:0c:00.0: ring vce1 uses VM inv eng 8 on hub 1
-[    2.028515] amdgpu 0000:0c:00.0: ring vce2 uses VM inv eng 9 on hub 1
-[    2.029090] [drm] Initialized amdgpu 3.30.0 20150101 for 0000:0c:00.0 on
-minor 0
-[  441.574435] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574443] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574447] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00301031
-[  441.574454] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574457] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574459] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574465] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574469] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f700000 from 27
-[  441.574472] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574479] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574481] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574483] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574491] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574494] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f707000 from 27
-[  441.574497] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574504] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574507] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f708000 from 27
-[  441.574510] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574516] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574520] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f709000 from 27
-[  441.574523] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574530] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574534] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f700000 from 27
-[  441.574536] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574545] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574548] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f709000 from 27
-[  441.574550] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574557] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574560] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574563] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  451.593803] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=3D74980, emitted seq=3D74982
-[  451.593842] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process HellbladeGame-W pid 13494 thread HellbladeGame-W pid 13494
-[  451.593846] amdgpu 0000:0c:00.0: GPU reset begin!
-[  451.935808] amdgpu 0000:0c:00.0: GPU BACO reset
-[  452.446323] amdgpu 0000:0c:00.0: GPU reset succeeded, trying to resume
-[  452.446595] [drm:amdgpu_device_gpu_recover [amdgpu]] *ERROR* VRAM is los=
-t!
-[  452.499322] amdgpu: [powerplay] Failed to send message: 0x46, ret value:
-0xffffffff
-[  452.956495] amdgpu 0000:0c:00.0: GPU reset(2) succeeded!
-[  452.957220] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-[  452.957383] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-[  452.964084] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-[  452.964232] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-...
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15618744402.Db1646C3B.10642
-Date: Sun, 30 Jun 2019 06:00:40 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [vega10] *ERROR* Failed to initialize parser -125! , runn=
-ing libreoffice"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110994#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [vega10] *ERROR* Failed to initialize parser -125! , runn=
-ing libreoffice"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110994">bug 11099=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jason&#64;jasonplayne.com" title=3D"Jason Playne &lt;jason&#64;jasonplayne.=
-com&gt;"> <span class=3D"fn">Jason Playne</span></a>
-</span></b>
-        <pre>here is the dmesg log for all things amdgpu
-
-[    0.000000] Command line: BOOT_IMAGE=3D/boot/vmlinuz-5.1.15-050115-gener=
-ic
-root=3DUUID=3D2ba5c512-4d8f-11e7-b210-b3322d3f791f ro quiet splash idle=3Dn=
-omwait
-amdgpu.ppfeaturemask=3D0xffffffff vt.handoff=3D1
-[    0.147115] Kernel command line:
-BOOT_IMAGE=3D/boot/vmlinuz-5.1.15-050115-generic
-root=3DUUID=3D2ba5c512-4d8f-11e7-b210-b3322d3f791f ro quiet splash idle=3Dn=
-omwait
-amdgpu.ppfeaturemask=3D0xffffffff vt.handoff=3D1
-[    1.482810] [drm] amdgpu kernel modesetting enabled.
-[    1.483007] fb0: switching to amdgpudrmfb from VESA VGA
-[    1.483097] amdgpu 0000:0c:00.0: vgaarb: deactivate vga console
-[    1.483360] amdgpu 0000:0c:00.0: No more image in the PCI ROM
-[    1.483400] amdgpu 0000:0c:00.0: VRAM: 8176M 0x000000F400000000 -
-0x000000F5FEFFFFFF (8176M used)
-[    1.483401] amdgpu 0000:0c:00.0: GART: 512M 0x0000000000000000 -
-0x000000001FFFFFFF
-[    1.483402] amdgpu 0000:0c:00.0: AGP: 267419648M 0x000000F800000000 -
-0x0000FFFFFFFFFFFF
-[    1.483477] [drm] amdgpu: 8176M of VRAM memory ready
-[    1.483478] [drm] amdgpu: 8176M of GTT memory ready.
-[    1.993612] fbcon: amdgpudrmfb (fb0) is primary device
-[    2.014145] amdgpu 0000:0c:00.0: fb0: amdgpudrmfb frame buffer device
-[    2.028499] amdgpu 0000:0c:00.0: ring gfx uses VM inv eng 0 on hub 0
-[    2.028500] amdgpu 0000:0c:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
-b 0
-[    2.028501] amdgpu 0000:0c:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
-b 0
-[    2.028502] amdgpu 0000:0c:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
-b 0
-[    2.028503] amdgpu 0000:0c:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
-b 0
-[    2.028504] amdgpu 0000:0c:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
-b 0
-[    2.028505] amdgpu 0000:0c:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
-b 0
-[    2.028506] amdgpu 0000:0c:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
-b 0
-[    2.028507] amdgpu 0000:0c:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
-ub 0
-[    2.028508] amdgpu 0000:0c:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
-b 0
-[    2.028509] amdgpu 0000:0c:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[    2.028509] amdgpu 0000:0c:00.0: ring sdma1 uses VM inv eng 1 on hub 1
-[    2.028510] amdgpu 0000:0c:00.0: ring uvd_0 uses VM inv eng 4 on hub 1
-[    2.028511] amdgpu 0000:0c:00.0: ring uvd_enc_0.0 uses VM inv eng 5 on h=
-ub 1
-[    2.028512] amdgpu 0000:0c:00.0: ring uvd_enc_0.1 uses VM inv eng 6 on h=
-ub 1
-[    2.028513] amdgpu 0000:0c:00.0: ring vce0 uses VM inv eng 7 on hub 1
-[    2.028514] amdgpu 0000:0c:00.0: ring vce1 uses VM inv eng 8 on hub 1
-[    2.028515] amdgpu 0000:0c:00.0: ring vce2 uses VM inv eng 9 on hub 1
-[    2.029090] [drm] Initialized amdgpu 3.30.0 20150101 for 0000:0c:00.0 on
-minor 0
-[  441.574435] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574443] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574447] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00301031
-[  441.574454] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574457] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574459] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574465] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574469] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f700000 from 27
-[  441.574472] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574479] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574481] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574483] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574491] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574494] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f707000 from 27
-[  441.574497] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574504] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574507] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f708000 from 27
-[  441.574510] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574516] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574520] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f709000 from 27
-[  441.574523] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574530] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574534] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f700000 from 27
-[  441.574536] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574545] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574548] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f709000 from 27
-[  441.574550] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  441.574557] amdgpu 0000:0c:00.0: [gfxhub] no-retry page fault (src_id:0
-ring:24 vmid:3 pasid:32769, for process HellbladeGame-W pid 13494 thread
-HellbladeGame-W pid 13494)
-[  441.574560] amdgpu 0000:0c:00.0:   in page starting at address
-0x000080012f701000 from 27
-[  441.574563] amdgpu 0000:0c:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00000000
-[  451.593803] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
-signaled seq=3D74980, emitted seq=3D74982
-[  451.593842] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
-on:
-process HellbladeGame-W pid 13494 thread HellbladeGame-W pid 13494
-[  451.593846] amdgpu 0000:0c:00.0: GPU reset begin!
-[  451.935808] amdgpu 0000:0c:00.0: GPU BACO reset
-[  452.446323] amdgpu 0000:0c:00.0: GPU reset succeeded, trying to resume
-[  452.446595] [drm:amdgpu_device_gpu_recover [amdgpu]] *ERROR* VRAM is los=
-t!
-[  452.499322] amdgpu: [powerplay] Failed to send message: 0x46, ret value:
-0xffffffff
-[  452.956495] amdgpu 0000:0c:00.0: GPU reset(2) succeeded!
-[  452.957220] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-[  452.957383] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-[  452.964084] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-[  452.964232] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to initialize
-parser -125!
-...</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15618744402.Db1646C3B.10642--
-
---===============1028493825==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1028493825==--
+VGhpcyBwYXRjaCBzZXQgcmVtb3ZlcyBhIGZhciBzaGFyZSBvZiB0aGUgcmVtYWluaW5nIHVzZXMg
+b2YgZHJtUC5oLgpDb21tb24gZm9yIGFsbCBwYXRjaGVzIGFyZSB0aGF0IHRoZSByZXNwZWN0aXZl
+IGZpbGVzIGFyZSBtYWludGFpbmVkCmluIGRybS1taXNjLgpBbGwgcGF0Y2hlcyBhcmUgaW5kZXBl
+bmRlbnQgZXhjZXB0IFtQQVRDSCAzMl0gZHJtL2FzdCwKW1BBVENIIDMxXSBkcm0vYm9jaHMgYW5k
+IFtQQVRDSCAzM10gZHJtL2hpc2lsaWNvbi4KVGhleSBuZWVkIHRoZSBmaXggdG8gZHJtX3ZyYW1f
+bW1faGVscGVyLmggW1BBVENIIDMwXS4KClBhdGNoZXMgaGF2ZSBhbGwgYmVlbiBidWlsZCB0ZXN0
+ZWQgd2l0aCB2YXJpb3VzIGNvbmZpZ3MgYW5kIHZhcmlvdXMKYXJjaGl0ZWN0dXJlcy4KVGhlcmUg
+YXJlIGxpa2VseSBpbnRyb2R1Y2VkIGEgZmV3IGJ1aWxkIGlzc3VlcyB0aGF0IHJhbmRjb25maWcK
+YnVpbGQgd2lsbCByZXZlYWwsIGJ1dCBmb3IgYWxsIGNvbmZpZ3MgSSBoYXZlIHVzZWQgdGhlIGJ1
+aWxkIHdhcyBPSy4KClRoaXMgcGF0Y2hzZXQgZG9lcyBub3QgY29uY2x1ZGUgdGhlIHF1ZXN0IHRv
+IGtpbGwgYWxsIHVzZXMKb2YgZHJtUC5oLCBidXQgaXQgaXMgYSBtYWpvciBzdGVwIHRvd2FyZHMg
+dGhlIGdvYWwuCgpQbGVhc2UgcmV2aWV3L2Fjay4KSSBwbGFuIHRvIGFwcGx5IHRoZSBwYXRjaGVz
+IHRvIGRybS1taXNjLCBidXQgZmVlbCBmcmVlCnRvIGRvIGl0IHlvdXJzZWxmLgoKVGhlcmUgd2ls
+bCBiZSBjb25mbGljdHMgd2l0aCB0aGUgb25nb2luZyB3b3JrIG9uIHR0bSwgZ2VtIGV0Yy4KQnV0
+IGxldCdzIGRlYWwgd2l0aCB0aGUgY29uZmxpY3RzIHdoZW4gdGhleSBoaXQgdXMgLSBpdAppcyBz
+aW1wbGUgY29uZmxpY3RzIGluIHRoZSBsaXN0IG9mIGluY2x1ZGUgZmlsZXMuCgoJU2FtCgpTYW0g
+UmF2bmJvcmcgKDMzKToKICAgICAgZHJtL21lc29uOiBkcm9wIHVzZSBvZiBkcm1QLmgKICAgICAg
+ZHJtL3hlbjogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS9zdG06IGRyb3AgdXNlIG9mIGRy
+bVAuaAogICAgICBkcm0vdHZlMjAwOiBkcm9wIHVzZSBvZiBkcm1QLmgKICAgICAgZHJtL214c2Zi
+OiBkcm9wIHVzZSBvZiBkcm1QLmgKICAgICAgZHJtL3YzZDogZHJvcCB1c2Ugb2YgZHJtUC5oCiAg
+ICAgIGRybS9wbDExMTogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS9mc2wtZGN1OiBkcm9w
+IHVzZSBvZiBkcm1QLmgKICAgICAgZHJtL3F4bDogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRy
+bS96dGU6IGRyb3AgdXNlIG9mIGRybVAuaAogICAgICBkcm0vc3VuNGk6IGRyb3AgdXNlIG9mIGRy
+bVAuaAogICAgICBkcm0vdmttczogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS92YzQ6IGRy
+b3AgdXNlIG9mIGRybVAuaAogICAgICBkcm0vYXRtZWxfaGxjZGM6IGRyb3AgdXNlIG9mIGRybVAu
+aAogICAgICBkcm0vcjEyODogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS91ZGw6IGRyb3Ag
+dXNlIG9mIGRybVAuaAogICAgICBkcm0vb21hcGRybTogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAg
+IGRybS9zZWxmdGVzdHM6IGRyb3AgdXNlIG9mIGRybVAuaAogICAgICBkcm0vdGRmeDogZHJvcCB1
+c2Ugb2YgZHJtUC5oCiAgICAgIGRybS92Z2VtOiBkcm9wIHVzZSBvZiBkcm1QLmgKICAgICAgZHJt
+L2k4MTA6IGRyb3AgdXNlIG9mIGRybVAuaAogICAgICBkcm0vdGlsY2RjOiBkcm9wIHVzZSBvZiBk
+cm1QLmgKICAgICAgZHJtL2kyYy9jaDcwMDY6IGRyb3AgdXNlIG9mIGRybVAuaAogICAgICBkcm0v
+aTJjL3NpbDE2NDogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS9zY2hlZHVsZXI6IGRyb3Ag
+dXNlIG9mIGRybVAuaAogICAgICBkcm0vaW14OiBkcm9wIHVzZSBvZiBkcm1QLmgKICAgICAgZHJt
+L3ZpcnRncHU6IGRyb3AgdXNlIG9mIGRybVAuaAogICAgICBkcm0vcm9ja2NoaXA6IGRyb3AgdXNl
+IG9mIGRybVAuaAogICAgICBkcm0vbWVkaWF0ZWs6IGRyb3AgdXNlIG9mIGRybVAuaAogICAgICBk
+cm06IGFkZCBtaXNzaW5nIGluY2x1ZGUgdG8gZHJtX3ZyYW1fbW1faGVscGVyLmgKICAgICAgZHJt
+L2JvY2hzOiBkcm9wIHVzZSBvZiBkcm1QLmgKICAgICAgZHJtL2FzdDogZHJvcCB1c2Ugb2YgZHJt
+UC5oCiAgICAgIGRybS9oaXNpbGljb246IGRyb3AgdXNlIG9mIGRybVAuaAoKIGRyaXZlcnMvZ3B1
+L2RybS9hc3QvYXN0X2RwNTAxLmMgICAgICAgICAgICAgICAgICAgfCAgNSArKystCiBkcml2ZXJz
+L2dwdS9kcm0vYXN0L2FzdF9kcnYuYyAgICAgICAgICAgICAgICAgICAgIHwgIDkgKysrKystLQog
+ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmggICAgICAgICAgICAgICAgICAgICB8IDE3ICsr
+KysrKystLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2ZiLmMgICAgICAgICAgICAgICAg
+ICAgICAgfCAyMCArKysrKysrKystLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4u
+YyAgICAgICAgICAgICAgICAgICAgfCAgOSArKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
+dF9tb2RlLmMgICAgICAgICAgICAgICAgICAgIHwgIDggKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0v
+YXN0L2FzdF9wb3N0LmMgICAgICAgICAgICAgICAgICAgIHwgIDcgKysrLS0KIGRyaXZlcnMvZ3B1
+L2RybS9hc3QvYXN0X3R0bS5jICAgICAgICAgICAgICAgICAgICAgfCAgNyArKysrLQogZHJpdmVy
+cy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX2NydGMuYyAgICB8IDEyICsrKysrKy0t
+LQogZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX2RjLmMgICAgICB8IDEy
+ICsrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0bWVsX2hsY2RjX2RjLmgg
+ICAgICB8IDIwICsrKy0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2RjL2F0
+bWVsX2hsY2RjX291dHB1dC5jICB8ICAzICsrLQogZHJpdmVycy9ncHUvZHJtL2F0bWVsLWhsY2Rj
+L2F0bWVsX2hsY2RjX3BsYW5lLmMgICB8IDEwICsrKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vYm9j
+aHMvYm9jaHMuaCAgICAgICAgICAgICAgICAgICAgIHwgIDYgKystLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS9ib2Nocy9ib2Noc19kcnYuYyAgICAgICAgICAgICAgICAgfCAgNyArKystLQogZHJpdmVycy9n
+cHUvZHJtL2JvY2hzL2JvY2hzX2h3LmMgICAgICAgICAgICAgICAgICB8ICA0ICsrKwogZHJpdmVy
+cy9ncHUvZHJtL2JvY2hzL2JvY2hzX2ttcy5jICAgICAgICAgICAgICAgICB8ICA4ICsrKy0tLQog
+ZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9kcm1fY3J0Yy5jICAgICAgICB8ICA1ICsr
+LS0KIGRyaXZlcnMvZ3B1L2RybS9mc2wtZGN1L2ZzbF9kY3VfZHJtX2Rydi5jICAgICAgICAgfCAg
+NCArKy0KIGRyaXZlcnMvZ3B1L2RybS9mc2wtZGN1L2ZzbF9kY3VfZHJtX2ttcy5jICAgICAgICAg
+fCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vZnNsLWRjdS9mc2xfZGN1X2RybV9wbGFuZS5jICAgICAg
+IHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9mc2wtZGN1L2ZzbF9kY3VfZHJtX3JnYi5jICAgICAg
+ICAgfCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kZS5j
+ICAgIHwgIDYgKysrKysKIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJt
+X2Rydi5jICAgfCAgNyArKysrKwogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJt
+Y19kcm1fZHJ2LmggICB8ICA5ICsrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGli
+bWMvaGlibWNfZHJtX2ZiZGV2LmMgfCAgMiArKwogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9o
+aWJtYy9oaWJtY19kcm1fdmRhYy5jICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24v
+aGlibWMvaGlibWNfdHRtLmMgICAgICAgfCAgNiArKysrKwogZHJpdmVycy9ncHUvZHJtL2hpc2ls
+aWNvbi9raXJpbi9raXJpbl9kcm1fYWRlLmMgICB8ICA4ICsrKystLQogZHJpdmVycy9ncHUvZHJt
+L2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1fZHJ2LmMgICB8ICA1ICsrKy0KIGRyaXZlcnMvZ3B1
+L2RybS9pMmMvY2g3MDA2X3ByaXYuaCAgICAgICAgICAgICAgICAgfCAgMSAtCiBkcml2ZXJzL2dw
+dS9kcm0vaTJjL3NpbDE2NF9kcnYuYyAgICAgICAgICAgICAgICAgIHwgIDMgKystCiBkcml2ZXJz
+L2dwdS9kcm0vaTgxMC9pODEwX2RtYS5jICAgICAgICAgICAgICAgICAgIHwgMTcgKysrKysrKysr
+LS0tLQogZHJpdmVycy9ncHUvZHJtL2k4MTAvaTgxMF9kcnYuYyAgICAgICAgICAgICAgICAgICB8
+ICA4ICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL2k4MTAvaTgxMF9kcnYuaCAgICAgICAgICAgICAg
+ICAgICB8ICAyICsrCiBkcml2ZXJzL2dwdS9kcm0vaW14L2R3X2hkbWktaW14LmMgICAgICAgICAg
+ICAgICAgIHwgMTQgKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtZHJtLWNvcmUu
+YyAgICAgICAgICAgICAgICB8ICA4ICsrKystLQogZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRi
+LmMgICAgICAgICAgICAgICAgICAgICB8IDIyICsrKysrKysrLS0tLS0tLS0KIGRyaXZlcnMvZ3B1
+L2RybS9pbXgvaW14LXR2ZS5jICAgICAgICAgICAgICAgICAgICAgfCAxMCArKysrKy0tLQogZHJp
+dmVycy9ncHUvZHJtL2lteC9pcHV2My1jcnRjLmMgICAgICAgICAgICAgICAgICB8ICA4ICsrKyst
+LQogZHJpdmVycy9ncHUvZHJtL2lteC9pcHV2My1wbGFuZS5jICAgICAgICAgICAgICAgICB8ICA1
+ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9pbXgvcGFyYWxsZWwtZGlzcGxheS5jICAgICAgICAgICAg
+fCAgOCArKystLS0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9jb2xvci5jICAg
+ICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jICAg
+ICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5j
+ICAgICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHBpLmMgICAg
+ICAgICAgICAgICAgfCAxOCArKysrKysrLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2RybV9jcnRjLmMgICAgICAgICAgIHwgMTAgKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS9t
+ZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kcm1fZHJ2LmMgICAgICAgICAgICB8IDE2ICsrKysrKystLS0tLQogZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZmIuYyAgICAgICAgICAgICB8ICA3ICsrLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uYyAgICAgICAgICAgIHwgIDYg
+KysrLS0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX3BsYW5lLmMgICAgICAgICAg
+fCAgMiArLQogZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAgICAgICAgICAg
+ICB8IDE0ICsrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfaGRtaS5jICAg
+ICAgICAgICAgICAgfCAxNCArKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25f
+Y3J0Yy5jICAgICAgICAgICAgICAgIHwgMTYgKysrKystLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+bWVzb24vbWVzb25fZHJ2LmMgICAgICAgICAgICAgICAgIHwgMjcgKysrKysrKystLS0tLS0tLS0t
+LS0KIGRyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kcnYuaCAgICAgICAgICAgICAgICAgfCAx
+MSArKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2R3X2hkbWkuYyAgICAgICAg
+ICAgICB8IDE5ICsrKysrKystLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fb3Zl
+cmxheS5jICAgICAgICAgICAgIHwgMTMgKysrKy0tLS0tLQogZHJpdmVycy9ncHUvZHJtL21lc29u
+L21lc29uX3BsYW5lLmMgICAgICAgICAgICAgICB8IDE2ICsrKysrLS0tLS0tLQogZHJpdmVycy9n
+cHUvZHJtL21lc29uL21lc29uX3JlZ2lzdGVycy5oICAgICAgICAgICB8ICAyICsrCiBkcml2ZXJz
+L2dwdS9kcm0vbWVzb24vbWVzb25fdmNsay5jICAgICAgICAgICAgICAgIHwgIDcgKystLS0KIGRy
+aXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92Y2xrLmggICAgICAgICAgICAgICAgfCAgNCArKysK
+IGRyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92ZW5jLmMgICAgICAgICAgICAgICAgfCAxMCAr
+KysrLS0tLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX3ZlbmMuaCAgICAgICAgICAgICAg
+ICB8ICAyICsrCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fdmVuY19jdmJzLmMgICAgICAg
+ICAgIHwgMTEgKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl92aXUuYyAgICAg
+ICAgICAgICAgICAgfCAgNyArKy0tLQogZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX3ZwcC5j
+ICAgICAgICAgICAgICAgICB8ICA3ICsrKy0tCiBkcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25f
+dnBwLmggICAgICAgICAgICAgICAgIHwgIDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhz
+ZmJfY3J0Yy5jICAgICAgICAgICAgICAgIHwgMTYgKysrKysrKy0tLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vbXhzZmIvbXhzZmJfZHJ2LmMgICAgICAgICAgICAgICAgIHwgMTEgKysrKystLS0KIGRyaXZl
+cnMvZ3B1L2RybS9teHNmYi9teHNmYl9vdXQuYyAgICAgICAgICAgICAgICAgfCAgMSAtCiBkcml2
+ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2NydGMuYyAgICAgICAgICAgICAgIHwgIDQgKystCiBk
+cml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2RlYnVnZnMuYyAgICAgICAgICAgIHwgIDIgKysK
+IGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZHJ2LmMgICAgICAgICAgICAgICAgfCAxMCAr
+KysrKystLQogZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYuaCAgICAgICAgICAgICAg
+ICB8ICA1ICsrLS0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZmIuYyAgICAgICAgICAg
+ICAgICAgfCAgNCArLS0KIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZmJkZXYuYyAgICAg
+ICAgICAgICAgfCAgMiArKwogZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9nZW0uYyAgICAg
+ICAgICAgICAgICB8ICAyICsrCiBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2dlbV9kbWFi
+dWYuYyAgICAgICAgIHwgIDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2lycS5j
+ICAgICAgICAgICAgICAgIHwgIDIgKysKIGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9kZWJ1
+Z2ZzLmMgICAgICAgICAgICAgfCAgNCArKy0KIGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV9k
+aXNwbGF5LmMgICAgICAgICAgICAgfCAgNiArKystLQogZHJpdmVycy9ncHUvZHJtL3BsMTExL3Bs
+MTExX2RybS5oICAgICAgICAgICAgICAgICB8IDExICsrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+cGwxMTEvcGwxMTFfZHJ2LmMgICAgICAgICAgICAgICAgIHwgIDkgKysrKy0tLQogZHJpdmVycy9n
+cHUvZHJtL3BsMTExL3BsMTExX25vbWFkaWsuaCAgICAgICAgICAgICB8ICAzICsrLQogZHJpdmVy
+cy9ncHUvZHJtL3BsMTExL3BsMTExX3ZlcnNhdGlsZS5jICAgICAgICAgICB8ICA5ICsrKystLS0K
+IGRyaXZlcnMvZ3B1L2RybS9wbDExMS9wbDExMV92ZXJzYXRpbGUuaCAgICAgICAgICAgfCAgMyAr
+KysKIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2NtZC5jICAgICAgICAgICAgICAgICAgICAgfCAg
+MiArKwogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGVidWdmcy5jICAgICAgICAgICAgICAgICB8
+ICA0ICstLQogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZGlzcGxheS5jICAgICAgICAgICAgICAg
+ICB8ICAzICsrKwogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJhdy5jICAgICAgICAgICAgICAg
+ICAgICB8ICAyICsrCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuYyAgICAgICAgICAgICAg
+ICAgICAgIHwgMTAgKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oICAgICAg
+ICAgICAgICAgICAgICAgfCAgNyArKystLQogZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZ2VtLmMg
+ICAgICAgICAgICAgICAgICAgICB8ICAxIC0KIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2lvY3Rs
+LmMgICAgICAgICAgICAgICAgICAgfCAgMyArKysKIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2ly
+cS5jICAgICAgICAgICAgICAgICAgICAgfCAgNCArKysKIGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhs
+X2ttcy5jICAgICAgICAgICAgICAgICAgICAgfCAgOSArKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+cXhsL3F4bF9yZWxlYXNlLmMgICAgICAgICAgICAgICAgIHwgIDYgKysrKy0KIGRyaXZlcnMvZ3B1
+L2RybS9xeGwvcXhsX3R0bS5jICAgICAgICAgICAgICAgICAgICAgfCAxNiArKysrKysrLS0tLS0K
+IGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfaW9jMzIuYyAgICAgICAgICAgICAgICAgfCAgMyAr
+Ky0KIGRyaXZlcnMvZ3B1L2RybS9yMTI4L3IxMjhfaXJxLmMgICAgICAgICAgICAgICAgICAgfCAg
+NSArKystCiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvYW5hbG9naXhfZHAtcm9ja2NoaXAuYyAg
+IHwgMTAgKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9jZG4tZHAtY29yZS5jICAg
+ICAgICAgICAgfCAxNyArKysrKystLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2Ru
+LWRwLWNvcmUuaCAgICAgICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9k
+dy1taXBpLWRzaS1yb2NrY2hpcC5jICAgfCAgOSArKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vcm9j
+a2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5jICAgICAgIHwgIDUgKystLQogZHJpdmVycy9ncHUvZHJt
+L3JvY2tjaGlwL2lubm9faGRtaS5jICAgICAgICAgICAgICB8ICAzICstLQogZHJpdmVycy9ncHUv
+ZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9kcnYuYyAgICAgICB8IDEyICsrKysrLS0tLQogZHJp
+dmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9mYi5jICAgICAgICB8ICAzICsrLQog
+ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV9mYmRldi5jICAgICB8ICAyICst
+CiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX2dlbS5jICAgICAgIHwgIDgg
+KysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3Bzci5jICAgICAg
+IHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AuYyAgICAg
+ICB8IDMxICsrKysrKysrKysrKy0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
+cm9ja2NoaXBfbHZkcy5jICAgICAgICAgIHwgMTYgKysrKysrLS0tLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vcm9ja2NoaXAvcm9ja2NoaXBfcmdiLmMgICAgICAgICAgIHwgIDkgKysrLS0tLQogZHJpdmVy
+cy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX3ZvcF9yZWcuYyAgICAgICB8IDExICsrKysrLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL2dwdV9zY2hlZHVsZXJfdHJhY2UuaCAgIHwgIDIg
+LS0KIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZW50aXR5LmMgICAgICAgICAgfCAg
+MyArKysKIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfZmVuY2UuYyAgICAgICAgICAg
+fCAgNiArKystLQogZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMgICAgICAg
+ICAgICB8ICAzICsrLQogZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9mcmFtZWJ1
+ZmZlci5jICB8ICA3ICsrKystCiBkcml2ZXJzL2dwdS9kcm0vc3RtL2R3X21pcGlfZHNpLXN0bS5j
+ICAgICAgICAgICAgIHwgMTAgKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9i
+YWNrZW5kLmMgICAgICAgICAgICAgfCAxNiArKysrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9z
+dW40aS9zdW40aV9jcnRjLmMgICAgICAgICAgICAgICAgfCAxMyArKysrKy0tLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vc3VuNGkvc3VuNGlfZHJ2LmMgICAgICAgICAgICAgICAgIHwgIDUgKysrLQogZHJp
+dmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2ZyYW1lYnVmZmVyLmMgICAgICAgICB8ICAxIC0KIGRy
+aXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9mcm9udGVuZC5jICAgICAgICAgICAgfCAxMCArKysr
+Ky0tLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2hkbWlfZW5jLmMgICAgICAgICAgICB8
+IDE3ICsrKysrKystLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9sYXllci5jICAg
+ICAgICAgICAgICAgfCAgMyArLS0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV9sdmRzLmMg
+ICAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3JnYi5j
+ICAgICAgICAgICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfdGNv
+bi5jICAgICAgICAgICAgICAgIHwgMjAgKysrKysrKystLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+c3VuNGkvc3VuNGlfdHYuYyAgICAgICAgICAgICAgICAgIHwgIDQgKystCiBkcml2ZXJzL2dwdS9k
+cm0vc3VuNGkvc3VuNmlfbWlwaV9kc2kuYyAgICAgICAgICAgIHwgIDkgKysrKy0tLQogZHJpdmVy
+cy9ncHUvZHJtL3N1bjRpL3N1bjhpX2NzYy5jICAgICAgICAgICAgICAgICB8ICAyICstCiBkcml2
+ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdfaGRtaS5jICAgICAgICAgICAgIHwgIDMgKy0tCiBk
+cml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfbWl4ZXIuYyAgICAgICAgICAgICAgIHwgMTQgKysr
+KystLS0tLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX3Rjb25fdG9wLmMgICAgICAgICAg
+ICB8ICA2ICsrLS0tCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfdWlfbGF5ZXIuYyAgICAg
+ICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV92aV9sYXllci5jICAg
+ICAgICAgICAgfCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vdGRmeC90ZGZ4X2Rydi5jICAgICAgICAg
+ICAgICAgICAgIHwgMTEgKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX2Ny
+dGMuYyAgICAgICAgICAgICAgfCAxOCArKysrKysrKy0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vdGls
+Y2RjL3RpbGNkY19kcnYuYyAgICAgICAgICAgICAgIHwgMTkgKysrKysrKysrKystLS0KIGRyaXZl
+cnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX2Rydi5oICAgICAgICAgICAgICAgfCAzMSArKysrKysr
+KysrKysrLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxjZGNfZXh0ZXJuYWwu
+YyAgICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX3BhbmVsLmMg
+ICAgICAgICAgICAgfCAxMSArKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxjZGNf
+cGxhbmUuYyAgICAgICAgICAgICB8ICA0ICstLQogZHJpdmVycy9ncHUvZHJtL3RpbGNkYy90aWxj
+ZGNfdGZwNDEwLmMgICAgICAgICAgICB8ICA4ICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL3R2ZTIw
+MC90dmUyMDBfZGlzcGxheS5jICAgICAgICAgICB8ICA4ICsrKy0tLQogZHJpdmVycy9ncHUvZHJt
+L3R2ZTIwMC90dmUyMDBfZHJtLmggICAgICAgICAgICAgICB8IDE1ICsrKysrKysrLS0tCiBkcml2
+ZXJzL2dwdS9kcm0vdHZlMjAwL3R2ZTIwMF9kcnYuYyAgICAgICAgICAgICAgIHwgIDMgKystCiBk
+cml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9jb25uZWN0b3IuYyAgICAgICAgICAgICAgIHwgIDQgKy0t
+CiBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9jb25uZWN0b3IuaCAgICAgICAgICAgICAgIHwgIDIg
+KysKIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2RtYWJ1Zi5jICAgICAgICAgICAgICAgICAgfCAg
+NiArKystLQogZHJpdmVycy9ncHUvZHJtL3VkbC91ZGxfZHJ2LmMgICAgICAgICAgICAgICAgICAg
+ICB8ICA3ICsrKystCiBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9kcnYuaCAgICAgICAgICAgICAg
+ICAgICAgIHwgIDggKysrKystCiBkcml2ZXJzL2dwdS9kcm0vdWRsL3VkbF9lbmNvZGVyLmMgICAg
+ICAgICAgICAgICAgIHwgIDYgKystLS0KIGRyaXZlcnMvZ3B1L2RybS91ZGwvdWRsX2ZiLmMgICAg
+ICAgICAgICAgICAgICAgICAgfCAxNSArKysrKy0tLS0tLQogZHJpdmVycy9ncHUvZHJtL3VkbC91
+ZGxfZ2VtLmMgICAgICAgICAgICAgICAgICAgICB8ICA5ICsrKystLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS91ZGwvdWRsX21haW4uYyAgICAgICAgICAgICAgICAgICAgfCAgNiArKystLQogZHJpdmVycy9n
+cHUvZHJtL3VkbC91ZGxfbW9kZXNldC5jICAgICAgICAgICAgICAgICB8ICA2ICsrLS0tCiBkcml2
+ZXJzL2dwdS9kcm0vdWRsL3VkbF90cmFuc2Zlci5jICAgICAgICAgICAgICAgIHwgIDQgLS0tCiBk
+cml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kZWJ1Z2ZzLmMgICAgICAgICAgICAgICAgIHwgIDMgKyst
+CiBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9kcnYuYyAgICAgICAgICAgICAgICAgICAgIHwgIDUg
+KysrLQogZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZHJ2LmggICAgICAgICAgICAgICAgICAgICB8
+IDEzICsrKysrKysrLS0KIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2dlbS5jICAgICAgICAgICAg
+ICAgICAgICAgfCAxMiArKysrKy0tLS0KIGRyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2lycS5jICAg
+ICAgICAgICAgICAgICAgICAgfCAgMiArKwogZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfY3J0Yy5j
+ICAgICAgICAgICAgICAgICAgICB8IDExICsrKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmM0L3Zj
+NF9kZWJ1Z2ZzLmMgICAgICAgICAgICAgICAgIHwgIDEgLQogZHJpdmVycy9ncHUvZHJtL3ZjNC92
+YzRfZHJ2LmMgICAgICAgICAgICAgICAgICAgICB8ICA3ICsrKystCiBkcml2ZXJzL2dwdS9kcm0v
+dmM0L3ZjNF9kcnYuaCAgICAgICAgICAgICAgICAgICAgIHwgMTcgKysrKysrKysrLS0tLQogZHJp
+dmVycy9ncHUvZHJtL3ZjNC92YzRfZHNpLmMgICAgICAgICAgICAgICAgICAgICB8IDE3ICsrKysr
+KysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2dlbS5jICAgICAgICAgICAgICAgICAg
+ICAgfCAgMiArKwogZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaHZzLmMgICAgICAgICAgICAgICAg
+ICAgICB8ICA1ICsrKy0KIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2ttcy5jICAgICAgICAgICAg
+ICAgICAgICAgfCAgNCArKy0KIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X3BsYW5lLmMgICAgICAg
+ICAgICAgICAgICAgfCAgNiArKystLQogZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfdHhwLmMgICAg
+ICAgICAgICAgICAgICAgICB8IDE0ICsrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0
+X3YzZC5jICAgICAgICAgICAgICAgICAgICAgfCAgNCArKysKIGRyaXZlcnMvZ3B1L2RybS92Z2Vt
+L3ZnZW1fZHJ2LmMgICAgICAgICAgICAgICAgICAgfCAxMSArKysrKystLQogZHJpdmVycy9ncHUv
+ZHJtL3ZnZW0vdmdlbV9kcnYuaCAgICAgICAgICAgICAgICAgICB8ICAxIC0KIGRyaXZlcnMvZ3B1
+L2RybS92Z2VtL3ZnZW1fZmVuY2UuYyAgICAgICAgICAgICAgICAgfCAgMiArKwogZHJpdmVycy9n
+cHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2RlYnVnZnMuYyAgICAgICAgICB8ICA0ICstLQogZHJpdmVy
+cy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rpc3BsYXkuYyAgICAgICAgICB8ICA3ICsrKy0tCiBk
+cml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmMgICAgICAgICAgICAgIHwgIDUgKysr
+LQogZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rydi5oICAgICAgICAgICAgICB8ICA2
+ICsrLS0tCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZmVuY2UuYyAgICAgICAgICAg
+IHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9nZW0uYyAgICAgICAgICAg
+ICAgfCAgNCArKy0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jICAgICAg
+ICAgICAgfCAgOCArKystLS0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9rbXMuYyAg
+ICAgICAgICAgICAgfCAgNCArKy0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9wbGFu
+ZS5jICAgICAgICAgICAgfCAgNiArKystLQogZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1
+X3ByaW1lLmMgICAgICAgICAgICB8ICAyICsrCiBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
+cHVfdHRtLmMgICAgICAgICAgICAgIHwgMTMgKysrKystLS0tLQogZHJpdmVycy9ncHUvZHJtL3Zp
+cnRpby92aXJ0Z3B1X3ZxLmMgICAgICAgICAgICAgICB8ICA3ICsrLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vdmttcy92a21zX2NyYy5jICAgICAgICAgICAgICAgICAgIHwgIDUgKysrLQogZHJpdmVycy9n
+cHUvZHJtL3ZrbXMvdmttc19jcnRjLmMgICAgICAgICAgICAgICAgICB8ICA0ICsrLQogZHJpdmVy
+cy9ncHUvZHJtL3ZrbXMvdmttc19kcnYuYyAgICAgICAgICAgICAgICAgICB8IDExICsrKysrKy0t
+CiBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2Rydi5oICAgICAgICAgICAgICAgICAgIHwgIDQg
+Ky0tCiBkcml2ZXJzL2dwdS9kcm0vdmttcy92a21zX2dlbS5jICAgICAgICAgICAgICAgICAgIHwg
+IDEgKwogZHJpdmVycy9ncHUvZHJtL3ZrbXMvdmttc19wbGFuZS5jICAgICAgICAgICAgICAgICB8
+ICA2ICsrKy0tCiBkcml2ZXJzL2dwdS9kcm0veGVuL3hlbl9kcm1fZnJvbnQuYyAgICAgICAgICAg
+ICAgIHwgMTEgKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5oICAg
+ICAgICAgICAgICAgfCAxMiArKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9m
+cm9udF9jZmcuYyAgICAgICAgICAgfCAgNCArLS0KIGRyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2Ry
+bV9mcm9udF9jb25uLmMgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0veGVuL3hlbl9k
+cm1fZnJvbnRfY29ubi5oICAgICAgICAgIHwgIDcgKysrLS0KIGRyaXZlcnMvZ3B1L2RybS94ZW4v
+eGVuX2RybV9mcm9udF9ldnRjaG5sLmMgICAgICAgfCAgNCArLS0KIGRyaXZlcnMvZ3B1L2RybS94
+ZW4veGVuX2RybV9mcm9udF9nZW0uYyAgICAgICAgICAgfCAxMSArKysrLS0tLQogZHJpdmVycy9n
+cHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250X2dlbS5oICAgICAgICAgICB8ICA3ICsrKystCiBkcml2
+ZXJzL2dwdS9kcm0veGVuL3hlbl9kcm1fZnJvbnRfa21zLmMgICAgICAgICAgIHwgIDcgKystLS0K
+IGRyaXZlcnMvZ3B1L2RybS96dGUvenhfZHJtX2Rydi5jICAgICAgICAgICAgICAgICAgfCAgMyAr
+Ky0KIGRyaXZlcnMvZ3B1L2RybS96dGUvenhfaGRtaS5jICAgICAgICAgICAgICAgICAgICAgfCAg
+MiArLQogZHJpdmVycy9ncHUvZHJtL3p0ZS96eF9wbGFuZS5jICAgICAgICAgICAgICAgICAgICB8
+ICAyICstCiBkcml2ZXJzL2dwdS9kcm0venRlL3p4X3R2ZW5jLmMgICAgICAgICAgICAgICAgICAg
+IHwgIDQgKystCiBkcml2ZXJzL2dwdS9kcm0venRlL3p4X3ZnYS5jICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDQgKystCiBkcml2ZXJzL2dwdS9kcm0venRlL3p4X3ZvdS5jICAgICAgICAgICAgICAg
+ICAgICAgIHwgIDUgKysrLQogaW5jbHVkZS9kcm0vZHJtX3ZyYW1fbW1faGVscGVyLmggICAgICAg
+ICAgICAgICAgICB8ICAyICsrCiBpbmNsdWRlL2xpbnV4L3NvYy9hbWxvZ2ljL21lc29uLWNhbnZh
+cy5oICAgICAgICAgIHwgIDEgKwogMjE3IGZpbGVzIGNoYW5nZWQsIDk3OSBpbnNlcnRpb25zKCsp
+LCA2MDUgZGVsZXRpb25zKC0pCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
