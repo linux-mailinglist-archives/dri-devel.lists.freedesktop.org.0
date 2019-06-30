@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C1E5AFEA
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 15:42:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8B35B01A
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 16:12:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0367689D8D;
-	Sun, 30 Jun 2019 13:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8AB389000;
+	Sun, 30 Jun 2019 14:12:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1635989D8D
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 13:42:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 130A272167; Sun, 30 Jun 2019 13:42:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 101749] sclk scales badly in war thunder
-Date: Sun, 30 Jun 2019 13:42:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: higuita@gmx.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-101749-502-A6MDxi6PhB@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-101749-502@http.bugs.freedesktop.org/>
-References: <bug-101749-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7199989000
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 14:12:31 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id B0DE020063;
+ Sun, 30 Jun 2019 16:12:28 +0200 (CEST)
+Date: Sun, 30 Jun 2019 16:12:26 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v1] drm/shmobile: drop use of drmP.h
+Message-ID: <20190630141225.GA5444@ravnborg.org>
+References: <20190630052126.6050-1-sam@ravnborg.org>
+ <20190630112203.GA7043@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190630112203.GA7043@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=4vd3_E1uAmGp2BPvN1gA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,146 +45,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0305754094=="
+Cc: David Airlie <airlied@linux.ie>, linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0305754094==
-Content-Type: multipart/alternative; boundary="15619021500.BC9FC.19791"
-Content-Transfer-Encoding: 7bit
-
-
---15619021500.BC9FC.19791
-Date: Sun, 30 Jun 2019 13:42:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D101749
-
-higuita@gmx.net changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEEDINFO                    |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #4 from higuita@gmx.net ---
-war thunder game downgraded the existent opengl4 engine  (used only by linu=
-x)
-to opengl3 (share with macosx), to free resources to develop the vulkan
-version, so i can't test anymore the same setup...
-
-... but testing with the current oepngl3 version, sclk jumps to the max
-frequency when the game is running, so i would say that this really improve=
-d a
-lot in recent kernels
-
-i'm using right now kernel 5.1.x kernel and mesa 19.1.1
-
-So this can probably be closed
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15619021500.BC9FC.19791
-Date: Sun, 30 Jun 2019 13:42:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:higuita&#=
-64;gmx.net" title=3D"higuita&#64;gmx.net">higuita&#64;gmx.net</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - sclk scales badly in war thunder"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101749">bug 10174=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEEDINFO
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - sclk scales badly in war thunder"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101749#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - sclk scales badly in war thunder"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101749">bug 10174=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-higuita&#64;gmx.net" title=3D"higuita&#64;gmx.net">higuita&#64;gmx.net</a>
-</span></b>
-        <pre>war thunder game downgraded the existent opengl4 engine  (used=
- only by linux)
-to opengl3 (share with macosx), to free resources to develop the vulkan
-version, so i can't test anymore the same setup...
-
-... but testing with the current oepngl3 version, sclk jumps to the max
-frequency when the game is running, so i would say that this really improve=
-d a
-lot in recent kernels
-
-i'm using right now kernel 5.1.x kernel and mesa 19.1.1
-
-So this can probably be closed</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15619021500.BC9FC.19791--
-
---===============0305754094==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0305754094==--
+SGkgTGF1cmVudC4KClRoYW5rcyBmb3IgdGhlIGRldGFpbGVkIGZlZWRiYWNrLgoKPiA+IElmIHBh
+dGNoIGlzIE9LLCBwbGVhc2UgYXBwbHkgdG8geW91ciB0cmVlCj4gPiBhcyB0aGlzIGRyaXZlciBp
+cyBtYWludGFpbmVkIG91dHNpZGUgZHJtLW1pc2MuCj4gPiAKPiA+IEkgYW0gaGFwcHkgdG8gcmVi
+YXNlIG9uIGFub3RoZXIgdHJlZSwganVzdCBsZXQgbWUga25vdy4KPiAKPiBUaGUgc2htb2JpbGUg
+ZHJpdmVyIGhhc24ndCBzZWVuIGNoYW5nZXMgZm9yIGEgbG9uZyB0aW1lIGFuZCBJIGRvbid0IGhh
+dmUKPiBwYXRjaGVzIHF1ZXVlZCBpbiBteSB0cmVlIGZvciBpdC4gSWYgeW91IGRvbid0IG1pbmQg
+dGFraW5nIHRoaXMgcGF0Y2gKPiB0aHJvdWdoIGRybS1taXNjIHdpdGggdGhlIHJlc3Qgb2YgdGhl
+IGRybVAuaCByZW1vdmFsIHNlcmllcyBpdCB3b3VsZCBiZQo+IGVhc2llciBmb3IgbWUuIE90aGVy
+d2lzZSBwbGVhc2UgbGV0IG1lIGtub3cgYW5kIEknbGwgaGFuZGxlIGl0LgpObyBwcm9ibGVtLCBJ
+IHdpbGwgYWRkIHRvIGRybS1taXNjIHdoZW4gcmVhZHkuClRoZSBtb3RpdmF0aW9uIHdhcyBhbG9u
+ZSB0byBhdm9pZCBsYXRlciBtZXJnZSBjb25mbGljdHMgLSB3aGljaCBpbiB0aGlzCmNhc2UgaXMg
+YSBub24taXNzdWUuCgo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9zaG1vYmlsZS9z
+aG1vYl9kcm1fY3J0Yy5oIGIvZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9jcnRj
+LmgKPiA+IGluZGV4IDljYTY5MjA2NDFkOC4uYmQzNWZlOGY5MDI4IDEwMDY0NAo+ID4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2RybV9jcnRjLmgKPiA+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fY3J0Yy5oCj4gPiBAQCAtMTAsNyArMTAsNiBA
+QAo+ID4gICNpZm5kZWYgX19TSE1PQl9EUk1fQ1JUQ19IX18KPiA+ICAjZGVmaW5lIF9fU0hNT0Jf
+RFJNX0NSVENfSF9fCj4gPiAgCj4gPiAtI2luY2x1ZGUgPGRybS9kcm1QLmg+Cj4gCj4gSSB0aGlu
+ayB5b3Ugc2hvdWxkIGluY2x1ZGUgZHJtL2RybV9jb25uZWN0b3IuaCBoZXJlLiBJdCBnZXRzIHB1
+bGxlZAo+IGluZGlyZWN0bHksIGJ1dCBpdCdzIG9uZSBvZiB0aGUgdG9wLWxldmVsIGhlYWRlcnMg
+YW5kIEkgdGhpbmsgaXQgc2hvdWxkCj4gYmUgZXhwbGljaXRseSBpbmNsdWRlZCB0byBhdm9pZCBm
+dXR1cmUgYnJlYWthZ2VzLgo+IAo+IFdoaWxlIGF0IGl0IGEgZm9yd2FyZCBkZWNsYXJhdGlvbiBv
+ZiBzdHJ1Y3QgZHJtX3BlbmRpbmdfdmJsYW5rX2V2ZW50IGFuZAo+IHN0cnVjdCBzaG1vYl9kcm1f
+Zm9ybWF0X2luZm8gY291bGQgYWxzbyBiZSB1c2VmdWwgdG8gbWFrZSB0aGUgaGVhZGVyCj4gc2Vs
+Zi1jb250YWluZWQuCkdvb2QgaW5wdXQuCkkgd2VudCB0aHJvdWdoIGFsbCBzaG1vYmlsZSBoZWFk
+ZXIgZmlsZXMgLSBub3cgZ2NjIGlzIGhhcHB5IHdpdGggdGhlbSBhbGwKd2hlbiB1c2VkIGluZGl2
+aWR1YWxseSAoc2VsZi1jb250YWluZWQpLgoKSSB3aWxsIHBvc3QgYSB2MiBhIGJpdCBsYXRlciB0
+b2RheSB3aXRoIHRoZSBiZWxvdyBmaXh1cCBpbmNsdWRlZC4KCglTYW0KCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2htb2JfZHJtX2NydGMuaCBiL2RyaXZlcnMvZ3B1L2Ry
+bS9zaG1vYmlsZS9zaG1vYl9kcm1fY3J0Yy5oCmluZGV4IGJkMzVmZThmOTAyOC4uMjE3MTg4NDNm
+NDZkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2htb2JfZHJtX2NydGMu
+aAorKysgYi9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2htb2JfZHJtX2NydGMuaApAQCAtMTEs
+MTAgKzExLDEzIEBACiAjZGVmaW5lIF9fU0hNT0JfRFJNX0NSVENfSF9fCiAKICNpbmNsdWRlIDxk
+cm0vZHJtX2NydGMuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2Nvbm5lY3Rvci5oPgogI2luY2x1ZGUg
+PGRybS9kcm1fZW5jb2Rlci5oPgogCiBzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZTsKK3N0cnVjdCBk
+cm1fcGVuZGluZ192YmxhbmtfZXZlbnQ7CiBzdHJ1Y3Qgc2htb2JfZHJtX2RldmljZTsKK3N0cnVj
+dCBzaG1vYl9kcm1fZm9ybWF0X2luZm87CiAKIHN0cnVjdCBzaG1vYl9kcm1fY3J0YyB7CiAJc3Ry
+dWN0IGRybV9jcnRjIGNydGM7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUv
+c2htb2JfZHJtX3BsYW5lLmggYi9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2htb2JfZHJtX3Bs
+YW5lLmgKaW5kZXggYmFlNjdjYzhjNjI4Li5lNzJiMjFhNDI4OGYgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9zaG1vYmlsZS9zaG1vYl9kcm1fcGxhbmUuaAorKysgYi9kcml2ZXJzL2dwdS9k
+cm0vc2htb2JpbGUvc2htb2JfZHJtX3BsYW5lLmgKQEAgLTEwLDYgKzEwLDcgQEAKICNpZm5kZWYg
+X19TSE1PQl9EUk1fUExBTkVfSF9fCiAjZGVmaW5lIF9fU0hNT0JfRFJNX1BMQU5FX0hfXwogCitz
+dHJ1Y3QgZHJtX3BsYW5lOwogc3RydWN0IHNobW9iX2RybV9kZXZpY2U7CiAKIGludCBzaG1vYl9k
+cm1fcGxhbmVfY3JlYXRlKHN0cnVjdCBzaG1vYl9kcm1fZGV2aWNlICpzZGV2LCB1bnNpZ25lZCBp
+bnQgaW5kZXgpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3NobW9iaWxlL3NobW9iX2Ry
+bV9yZWdzLmggYi9kcml2ZXJzL2dwdS9kcm0vc2htb2JpbGUvc2htb2JfZHJtX3JlZ3MuaAppbmRl
+eCA5ZWIwYjNkMDFkZjguLjA1ODUzMzY4NWM0YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
+L3NobW9iaWxlL3NobW9iX2RybV9yZWdzLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL3NobW9iaWxl
+L3NobW9iX2RybV9yZWdzLmgKQEAgLTExLDYgKzExLDkgQEAKICNkZWZpbmUgX19TSE1PQl9EUk1f
+UkVHU19IX18KIAogI2luY2x1ZGUgPGxpbnV4L2lvLmg+CisjaW5jbHVkZSA8bGludXgvamlmZmll
+cy5oPgorCisjaW5jbHVkZSAic2htb2JfZHJtX2Rydi5oIgogCiAvKiBSZWdpc3RlciBkZWZpbml0
+aW9ucyAqLwogI2RlZmluZSBMRERDS1BBVDFSCQkweDQwMAoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
