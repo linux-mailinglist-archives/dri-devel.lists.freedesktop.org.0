@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D79A5AFAB
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 12:42:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0065B144
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 20:27:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04A9689ACD;
-	Sun, 30 Jun 2019 10:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1F6089DB5;
+	Sun, 30 Jun 2019 18:27:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id A352989ACD
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 10:42:53 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9AB1F72167; Sun, 30 Jun 2019 10:42:53 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110733] [Regression] Kernel 4.19.x + linux-firmware 20190514 +
- Vega 64: boot fails
-Date: Sun, 30 Jun 2019 10:42:53 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mezin.alexander@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110733-502-uJq7yXxRNX@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110733-502@http.bugs.freedesktop.org/>
-References: <bug-110733-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from crapouillou.net (outils.crapouillou.net [89.234.176.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C3A89262
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 11:09:18 +0000 (UTC)
+Date: Sun, 30 Jun 2019 13:09:09 +0200
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 1/3] DRM: ingenic: Use devm_platform_ioremap_resource
+To: Sam Ravnborg <sam@ravnborg.org>
+Message-Id: <1561892949.1773.0@crapouillou.net>
+In-Reply-To: <20190630081833.GC5081@ravnborg.org>
+References: <20190627182114.27299-1-paul@crapouillou.net>
+ <20190630081833.GC5081@ravnborg.org>
 MIME-Version: 1.0
+X-Mailman-Approved-At: Sun, 30 Jun 2019 18:26:11 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=crapouillou.net; 
+ s=mail; t=1561892954; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1VKx1wk+WzUoklxrAuKWgU2OQk4oJuRQqz3GgyjEXAY=;
+ b=CrXPn/sYqzf1H1ODHym18aKQJeF/xMPQZ28pa7eIooieBYCSB2sBik0mJSykhwEDFTzdhj
+ PxBiKXVGVIigKUq9U1EYzNU1bChseQe9AinV+wvnsgxd2sxIUTZnyjHKDBCJyPRhOR0P2T
+ 8Ixi7Ch5feBvSoUR/QTLgF8PJ210aq8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +45,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1998367732=="
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ od@zcrc.me, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1998367732==
-Content-Type: multipart/alternative; boundary="15618913730.11c88.23453"
-Content-Transfer-Encoding: 7bit
-
-
---15618913730.11c88.23453
-Date: Sun, 30 Jun 2019 10:42:53 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110733
-
---- Comment #1 from Alexander Mezin <mezin.alexander@gmail.com> ---
-This is caused by vega10_sos.bin
-Still happens with linux-firmware 20190618 and linux 4.19.56
-
-https://bugzilla.kernel.org/show_bug.cgi?id=3D203627#c2
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15618913730.11c88.23453
-Date: Sun, 30 Jun 2019 10:42:53 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Regression] Kernel 4.19.x + linux-firmware 20190514 + Ve=
-ga 64: boot fails"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110733#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Regression] Kernel 4.19.x + linux-firmware 20190514 + Ve=
-ga 64: boot fails"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110733">bug 11073=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mezin.alexander&#64;gmail.com" title=3D"Alexander Mezin &lt;mezin.alexander=
-&#64;gmail.com&gt;"> <span class=3D"fn">Alexander Mezin</span></a>
-</span></b>
-        <pre>This is caused by vega10_sos.bin
-Still happens with linux-firmware 20190618 and linux 4.19.56
-
-<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D203627#c2">https:/=
-/bugzilla.kernel.org/show_bug.cgi?id=3D203627#c2</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15618913730.11c88.23453--
-
---===============1998367732==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1998367732==--
+CgpMZSBkaW0uIDMwIGp1aW4gMjAxOSDDoCAxMDoxOCwgU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPiBhIMOpY3JpdCAKOgo+IEhpIFBhdWwuCj4gCj4gT24gVGh1LCBKdW4gMjcsIDIwMTkg
+YXQgMDg6MjE6MTJQTSArMDIwMCwgUGF1bCBDZXJjdWVpbCB3cm90ZToKPj4gIFNpbXBsaWZ5IGEg
+Yml0IHRoZSBwcm9iZSBmdW5jdGlvbiBieSB1c2luZyB0aGUgbmV3bHkgaW50cm9kdWNlZAo+PiAg
+ZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlKCksIGluc3RlYWQgb2YgaGF2aW5nIHRvIGNh
+bGwKPj4gIHBsYXRmb3JtX2dldF9yZXNvdXJjZSgpIGZvbGxvd2VkIGJ5IGRldm1faW9yZW1hcF9y
+ZXNvdXJjZSgpLgo+PiAKPj4gIFNpZ25lZC1vZmYtYnk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3Jh
+cG91aWxsb3UubmV0Pgo+PiAgLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMvaW5nZW5p
+Yy1kcm0uYyB8IDQgKy0tLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBk
+ZWxldGlvbnMoLSkKPj4gCj4+ICBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2luZ2VuaWMv
+aW5nZW5pYy1kcm0uYyAKPj4gYi9kcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdlbmljLWRybS5j
+Cj4+ICBpbmRleCBhMDY5NTc5Y2E3NDkuLjAyYzQ3ODhlZjFjNyAxMDA2NDQKPj4gIC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLmMKPj4gICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9pbmdlbmljL2luZ2VuaWMtZHJtLmMKPj4gIEBAIC01ODAsNyArNTgwLDYgQEAgc3RhdGlj
+IGludCBpbmdlbmljX2RybV9wcm9iZShzdHJ1Y3QgCj4+IHBsYXRmb3JtX2RldmljZSAqcGRldikK
+Pj4gICAJc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZTsKPj4gICAJc3RydWN0IGRybV9wYW5lbCAq
+cGFuZWw7Cj4+ICAgCXN0cnVjdCBkcm1fZGV2aWNlICpkcm07Cj4+ICAtCXN0cnVjdCByZXNvdXJj
+ZSAqbWVtOwo+PiAgIAl2b2lkIF9faW9tZW0gKmJhc2U7Cj4+ICAgCWxvbmcgcGFyZW50X3JhdGU7
+Cj4+ICAgCWludCByZXQsIGlycTsKPj4gIEBAIC02MTQsOCArNjEzLDcgQEAgc3RhdGljIGludCBp
+bmdlbmljX2RybV9wcm9iZShzdHJ1Y3QgCj4+IHBsYXRmb3JtX2RldmljZSAqcGRldikKPj4gICAJ
+ZHJtLT5tb2RlX2NvbmZpZy5tYXhfaGVpZ2h0ID0gNjAwOwo+PiAgIAlkcm0tPm1vZGVfY29uZmln
+LmZ1bmNzID0gJmluZ2VuaWNfZHJtX21vZGVfY29uZmlnX2Z1bmNzOwo+PiAKPj4gIC0JbWVtID0g
+cGxhdGZvcm1fZ2V0X3Jlc291cmNlKHBkZXYsIElPUkVTT1VSQ0VfTUVNLCAwKTsKPj4gIC0JYmFz
+ZSA9IGRldm1faW9yZW1hcF9yZXNvdXJjZShkZXYsIG1lbSk7Cj4+ICArCWJhc2UgPSBkZXZtX3Bs
+YXRmb3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgMCk7Cj4+ICAgCWlmIChJU19FUlIoYmFzZSkp
+IHsKPj4gICAJCWRldl9lcnIoZGV2LCAiRmFpbGVkIHRvIGdldCBtZW1vcnkgcmVzb3VyY2UiKTsK
+PiBDb25zaWRlciB0byBpbmNsdWRlIHRoZSBlcnJvciBjb2RlIGluIHRoZSBlcnJvciBtZXNzYWdl
+IGhlcmUuCgpJIGRvbid0IHRoaW5rIGl0J3MgbmVlZGVkOyBhIG5vbi16ZXJvIGVycm9yIGNvZGUg
+aW4gdGhlIHByb2JlIGZ1bmN0aW9uIAp3aWxsCmhhdmUgdGhlIGRyaXZlcnMgY29yZSBhdXRvbWF0
+aWNhbGx5IHByaW50IGEgbWVzc2FnZSB3aXRoIHRoZSBuYW1lIG9mIHRoZQpmYWlsaW5nIGRyaXZl
+ciBhbmQgdGhlIHJldHVybiBjb2RlLgoKCj4+ICAgCQlyZXR1cm4gUFRSX0VSUihiYXNlKTsKPiAK
+PiBXaXRoIHRoZSBhYm92ZSBmaXhlZC9jb25zaWRlcmVkOgo+IFJldmlld2VkLWJ5OiBTYW0gUmF2
+bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
