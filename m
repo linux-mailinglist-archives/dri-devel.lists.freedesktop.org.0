@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5BA5AF03
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 08:20:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8921A5AF3F
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Jun 2019 09:32:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F34B76E9EE;
-	Sun, 30 Jun 2019 06:20:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCF3C6E9CC;
+	Sun, 30 Jun 2019 07:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 499B06E9E2
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 06:20:08 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id y198so6596997lfa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Jun 2019 23:20:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5RjKjU9PA4qPeNtFYy0SKYu/falr6DWPQmg9+KFuuio=;
- b=YpJ0M0J6dyNyme0yEwINttbp5kmdTYZTcsJ4voGq5HEsgXplQUgI1CBAdhH6peP8LS
- ssP1+i75uCO542gyYeLDT7rZgj+nJ6HQsgvCDqXDNg5pu+SjqGVQ7WhNRT+Ql9Pr4nKd
- qY+7ZMk1lnGT8PyjXm64WYhA52x9XMq22oO40sXfFzO2igmiG3MMHCNyHi2DWb5bnPXx
- 8FgiVapYkvWBAnp1K9Hd/gVX63nCMhkxXQ9FP2BcijrMNDjOYalJDRNsDxbeXVOl45rM
- ok8jTcq3vpnSNkGpl0GGggxwV2xG1ZZ8Du2+BdWyoeJchY6XZxkZt8CVxw6ebU1fCI9Y
- 8m4w==
-X-Gm-Message-State: APjAAAVmtHIc3iqtNBTYbeAtnhdl3qmVIbP/zMtVdM/SzV/FjrSMRqG1
- B1jDThUIeMPK4xXCO32GNAFba2fEm4j5gg==
-X-Google-Smtp-Source: APXvYqw+EaBbqCbPpQy1vTsdXKos+9ht/kTzH+1YYWwqcnvbe9QmGHvA0/ICzjA5Tnrw6uXhXKarMA==
-X-Received: by 2002:a19:41c8:: with SMTP id o191mr8553848lfa.83.1561875601847; 
- Sat, 29 Jun 2019 23:20:01 -0700 (PDT)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- o74sm1794024lff.46.2019.06.29.23.20.00
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 29 Jun 2019 23:20:01 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v1 33/33] drm/hisilicon: drop use of drmP.h
-Date: Sun, 30 Jun 2019 08:19:22 +0200
-Message-Id: <20190630061922.7254-34-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190630061922.7254-1-sam@ravnborg.org>
-References: <20190630061922.7254-1-sam@ravnborg.org>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 239456E9CC
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Jun 2019 07:32:54 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 24930ADF0;
+ Sun, 30 Jun 2019 07:32:53 +0000 (UTC)
+Subject: Re: [PATCH v2 1/4] drm/mga: drop dependency on drm_os_linux.h
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+References: <20190623103542.30697-1-sam@ravnborg.org>
+ <20190623103542.30697-2-sam@ravnborg.org>
+ <20190629175958.GA18538@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <eba80da4-8fe4-394e-426d-8085d5ae9442@suse.de>
+Date: Sun, 30 Jun 2019 09:32:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5RjKjU9PA4qPeNtFYy0SKYu/falr6DWPQmg9+KFuuio=;
- b=He+HeIQNYaWCl6AfKnLl2Ilvhcl7VC7VB1CoH4sgH0RE+7nCAa/wdBffgdB9Z57EaK
- 9y6A0nNSrE/EgI1/eDsOjhaCyFKaY5glZruVs5BQ0xNjkAcFnT9qN2ar0ftP8umUDyag
- lwPxu9NLiywgBha3sMkX9TO/Q3C9A6KBUXYVrXmDDiNJQwpp22T8sepln3gqS0vR5p13
- W/7ZZv40d7a5RAiTN39BTV1gTnwhzi5Cxx2VOw0og988rqxK8vrEnAhWP4XUFDqktqGB
- RxdBSSyCdc1MBjKGgmX/XiF2P1wfTZte2+KVJzZxNr2rJaVmtDF6B5fM33lFn8SgQFZe
- 6iLQ==
+In-Reply-To: <20190629175958.GA18538@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,154 +66,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
- Xinliang Liu <z.liuxinliang@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Jani Nikula <jani.nikula@intel.com>, Chen Feng <puck.chen@hisilicon.com>,
- John Garry <john.garry@huawei.com>, Hans de Goede <hdegoede@redhat.com>,
- Rongrong Zou <zourongrong@gmail.com>, Junwei Zhang <Jerry.Zhang@amd.com>,
- Thomas Gleixner <tglx@linutronix.de>, Allison Randal <allison@lohutok.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Souptick Joarder <jrdr.linux@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>
+Content-Type: multipart/mixed; boundary="===============1447462659=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RHJvcCB0aGUgZGVwcmVjYXRlZCBkcm1QLmggaGVhZGVyIGZpbGUuCgpNYWRlIHRoZSBoZWFkZXIg
-ZmlsZSBzZWxmY29udGFpbmVkLCBhbmQgZHJvcHBlZCB1bnVzZWQgaGVhZGVyIGZpbGVzLgpGaXhl
-ZCBmYWxsb3V0IGluIHJlbWFpbmluZyBmaWxlcy4KClNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9y
-ZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IFhpbmxpYW5nIExpdSA8ei5saXV4aW5saWFuZ0BoaXNp
-bGljb24uY29tPgpDYzogUm9uZ3JvbmcgWm91IDx6b3Vyb25ncm9uZ0BnbWFpbC5jb20+CkNjOiBY
-aW53ZWkgS29uZyA8a29uZy5rb25neGlud2VpQGhpc2lsaWNvbi5jb20+CkNjOiBDaGVuIEZlbmcg
-PHB1Y2suY2hlbkBoaXNpbGljb24uY29tPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4
-LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogR2VyZCBIb2ZmbWFu
-biA8a3JheGVsQHJlZGhhdC5jb20+CkNjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KQ2M6IEFsbGlzb24g
-UmFuZGFsIDxhbGxpc29uQGxvaHV0b2submV0PgpDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5Lndl
-bnRsYW5kQGFtZC5jb20+CkNjOiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4K
-Q2M6IFNvdXB0aWNrIEpvYXJkZXIgPGpyZHIubGludXhAZ21haWwuY29tPgpDYzogSm9obiBHYXJy
-eSA8am9obi5nYXJyeUBodWF3ZWkuY29tPgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1
-Y2hlckBhbWQuY29tPgpDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFt
-ZC5jb20+CkNjOiBKdW53ZWkgWmhhbmcgPEplcnJ5LlpoYW5nQGFtZC5jb20+CkNjOiBHcmVnIEty
-b2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpDYzogSGFucyBkZSBHb2Vk
-ZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KQ2M6IENLIEh1IDxjay5odUBtZWRpYXRlay5jb20+CkNj
-OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAbGluYXJvLm9yZz4KQ2M6IExh
-dXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KQ2M6IEph
-bmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+CkNjOiBFbWlsIFZlbGlrb3YgPGVtaWwu
-dmVsaWtvdkBjb2xsYWJvcmEuY29tPgpDYzogRXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4K
-Q2M6ICJOb3JhbGYgVHLDuG5uZXMiIDxub3JhbGZAdHJvbm5lcy5vcmc+Ci0tLQpUaGUgbGlzdCBv
-ZiBjYzogd2FzIHRvbyBsYXJnZSB0byBhZGQgYWxsIHJlY2lwaWVudHMgdG8gdGhlIGNvdmVyIGxl
-dHRlci4KUGxlYXNlIGZpbmQgY292ZXIgbGV0dGVyIGhlcmU6Cmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bmUvdGhyZWFkLmh0bWwKU2VhcmNo
-IGZvciAiZHJtOiBkcm9wIHVzZSBvZiBkcm1wLmggaW4gZHJtLW1pc2MiCgogICAgICAgIFNhbQoK
-IGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2RlLmMgICAgfCA2ICsr
-KysrKwogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMgICB8
-IDcgKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2
-LmggICB8IDkgKysrKy0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1j
-X2RybV9mYmRldi5jIHwgMiArKwogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJt
-Y19kcm1fdmRhYy5jICB8IDEgKwogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJt
-Y190dG0uYyAgICAgICB8IDYgKysrKysrCiBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2tpcmlu
-L2tpcmluX2RybV9hZGUuYyAgIHwgOCArKysrKystLQogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNv
-bi9raXJpbi9raXJpbl9kcm1fZHJ2LmMgICB8IDUgKysrKy0KIDggZmlsZXMgY2hhbmdlZCwgMzYg
-aW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kZS5jIGIvZHJpdmVycy9ncHUvZHJtL2hpc2ls
-aWNvbi9oaWJtYy9oaWJtY19kcm1fZGUuYwppbmRleCAwODY1N2EzNjI3ZjMuLmNjNGM0MTc0OGNm
-YiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1f
-ZGUuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kZS5j
-CkBAIC0xMSwxMCArMTEsMTYgQEAKICAqCUppYW5odWEgTGkgPGxpamlhbmh1YUBodWF3ZWkuY29t
-PgogICovCiAKKyNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgorCiAjaW5jbHVkZSA8ZHJtL2RybV9h
-dG9taWMuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIuaD4KKyNpbmNsdWRlIDxk
-cm0vZHJtX2ZvdXJjYy5oPgorI2luY2x1ZGUgPGRybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmg+CiAj
-aW5jbHVkZSA8ZHJtL2RybV9wbGFuZV9oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX3ByaW50
-Lmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9wcm9iZV9oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJt
-X3ZibGFuay5oPgogCiAjaW5jbHVkZSAiaGlibWNfZHJtX2Rydi5oIgogI2luY2x1ZGUgImhpYm1j
-X2RybV9yZWdzLmgiCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1j
-L2hpYm1jX2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNf
-ZHJtX2Rydi5jCmluZGV4IGNlODllNTY5MzdiMC4uYWNlOTNkOGE2ODFjIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuYwpAQCAtMTMsOSArMTMs
-MTYgQEAKIAogI2luY2x1ZGUgPGxpbnV4L2NvbnNvbGUuaD4KICNpbmNsdWRlIDxsaW51eC9tb2R1
-bGUuaD4KKyNpbmNsdWRlIDxsaW51eC9wY2kuaD4KIAogI2luY2x1ZGUgPGRybS9kcm1fYXRvbWlj
-X2hlbHBlci5oPgorI2luY2x1ZGUgPGRybS9kcm1fZHJ2Lmg+CisjaW5jbHVkZSA8ZHJtL2RybV9n
-ZW1fdnJhbV9oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2lycS5oPgorI2luY2x1ZGUgPGRy
-bS9kcm1fcHJpbnQuaD4KICNpbmNsdWRlIDxkcm0vZHJtX3Byb2JlX2hlbHBlci5oPgorI2luY2x1
-ZGUgPGRybS9kcm1fdmJsYW5rLmg+CisjaW5jbHVkZSA8ZHJtL2RybV92cmFtX21tX2hlbHBlci5o
-PgogCiAjaW5jbHVkZSAiaGlibWNfZHJtX2Rydi5oIgogI2luY2x1ZGUgImhpYm1jX2RybV9yZWdz
-LmgiCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2Ry
-bV9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5o
-CmluZGV4IDY5MzQ4YmY1NGE4NC4uZTU4ZWNkN2VkY2Y4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuaAorKysgYi9kcml2ZXJzL2dwdS9k
-cm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYuaApAQCAtMTQsMTIgKzE0LDExIEBACiAj
-aWZuZGVmIEhJQk1DX0RSTV9EUlZfSAogI2RlZmluZSBISUJNQ19EUk1fRFJWX0gKIAotI2luY2x1
-ZGUgPGRybS9kcm1QLmg+Ci0jaW5jbHVkZSA8ZHJtL2RybV9hdG9taWMuaD4KICNpbmNsdWRlIDxk
-cm0vZHJtX2ZiX2hlbHBlci5oPgotI2luY2x1ZGUgPGRybS9kcm1fZ2VtLmg+Ci0jaW5jbHVkZSA8
-ZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuaD4KLSNpbmNsdWRlIDxkcm0vZHJtX3ZyYW1fbW1faGVs
-cGVyLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9mcmFtZWJ1ZmZlci5oPgorCitzdHJ1Y3QgZHJtX2Rl
-dmljZTsKK3N0cnVjdCBkcm1fZ2VtX29iamVjdDsKIAogc3RydWN0IGhpYm1jX2ZyYW1lYnVmZmVy
-IHsKIAlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyIGZiOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZmJkZXYuYyBiL2RyaXZlcnMvZ3B1L2RybS9o
-aXNpbGljb24vaGlibWMvaGlibWNfZHJtX2ZiZGV2LmMKaW5kZXggYWYxZWE0Y2NlZmZhLi5iNGMx
-Y2VhMDUxZTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGli
-bWNfZHJtX2ZiZGV2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJt
-Y19kcm1fZmJkZXYuYwpAQCAtMTMsNiArMTMsOCBAQAogCiAjaW5jbHVkZSA8ZHJtL2RybV9jcnRj
-Lmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2Zv
-dXJjYy5oPgorI2luY2x1ZGUgPGRybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmg+CiAjaW5jbHVkZSA8
-ZHJtL2RybV9wcm9iZV9oZWxwZXIuaD4KIAogI2luY2x1ZGUgImhpYm1jX2RybV9kcnYuaCIKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX3ZkYWMu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX3ZkYWMuYwppbmRl
-eCA2MzRhM2JmMDE4YjIuLjZkOThmZGMwNmY2YyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fdmRhYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9o
-aXNpbGljb24vaGlibWMvaGlibWNfZHJtX3ZkYWMuYwpAQCAtMTMsNiArMTMsNyBAQAogCiAjaW5j
-bHVkZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9wcm9iZV9o
-ZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+CiAKICNpbmNsdWRlICJoaWJtY19k
-cm1fZHJ2LmgiCiAjaW5jbHVkZSAiaGlibWNfZHJtX3JlZ3MuaCIKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfdHRtLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-aGlzaWxpY29uL2hpYm1jL2hpYm1jX3R0bS5jCmluZGV4IDVkNGEwM2NkN2Q1MC4uY2ZjMmZhYWJk
-YTE0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX3R0
-bS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfdHRtLmMKQEAg
-LTExLDcgKzExLDEzIEBACiAgKglKaWFuaHVhIExpIDxsaWppYW5odWFAaHVhd2VpLmNvbT4KICAq
-LwogCisjaW5jbHVkZSA8bGludXgvcGNpLmg+CisKICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19o
-ZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2dlbS5oPgorI2luY2x1ZGUgPGRybS9kcm1fZ2Vt
-X3ZyYW1faGVscGVyLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9wcmludC5oPgorI2luY2x1ZGUgPGRy
-bS9kcm1fdnJhbV9tbV9oZWxwZXIuaD4KIAogI2luY2x1ZGUgImhpYm1jX2RybV9kcnYuaCIKIApk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1fYWRl
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tpcmluX2RybV9hZGUuYwppbmRl
-eCA3MzYxMWE5MmQ5NmMuLjIzYjdlOThhYzg2OSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2hpc2lsaWNvbi9raXJpbi9raXJpbl9kcm1fYWRlLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2hp
-c2lsaWNvbi9raXJpbi9raXJpbl9kcm1fYWRlLmMKQEAgLTE3LDE5ICsxNywyMyBAQAogCiAjaW5j
-bHVkZSA8bGludXgvYml0b3BzLmg+CiAjaW5jbHVkZSA8bGludXgvY2xrLmg+Ci0jaW5jbHVkZSA8
-dmlkZW8vZGlzcGxheV90aW1pbmcuaD4KICNpbmNsdWRlIDxsaW51eC9tZmQvc3lzY29uLmg+Cisj
-aW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+CiAjaW5jbHVkZSA8bGludXgvcmVnbWFw
-Lmg+CiAjaW5jbHVkZSA8bGludXgvcmVzZXQuaD4KIAotI2luY2x1ZGUgPGRybS9kcm1QLmg+Cisj
-aW5jbHVkZSA8dmlkZW8vZGlzcGxheV90aW1pbmcuaD4KKwogI2luY2x1ZGUgPGRybS9kcm1fYXRv
-bWljLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJt
-L2RybV9jcnRjLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4KICNpbmNsdWRlIDxkcm0vZHJt
-X2ZiX2NtYV9oZWxwZXIuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2ZvdXJjYy5oPgogI2luY2x1ZGUg
-PGRybS9kcm1fZ2VtX2NtYV9oZWxwZXIuaD4KICNpbmNsdWRlIDxkcm0vZHJtX3BsYW5lX2hlbHBl
-ci5oPgogI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVyLmg+CisjaW5jbHVkZSA8ZHJtL2Ry
-bV92YmxhbmsuaD4KIAogI2luY2x1ZGUgImtpcmluX2RybV9kcnYuaCIKICNpbmNsdWRlICJraXJp
-bl9hZGVfcmVnLmgiCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2tpcmlu
-L2tpcmluX2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24va2lyaW4va2lyaW5f
-ZHJtX2Rydi5jCmluZGV4IDZlOTVkM2IxNjdjYy4uNzE2ZWU1OGM2YzVkIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tpcmluX2RybV9kcnYuYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tpcmluX2RybV9kcnYuYwpAQCAtMTcsMTYgKzE3
-LDE5IEBACiAKICNpbmNsdWRlIDxsaW51eC9vZl9wbGF0Zm9ybS5oPgogI2luY2x1ZGUgPGxpbnV4
-L2NvbXBvbmVudC5oPgorI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgogI2luY2x1ZGUgPGxpbnV4
-L29mX2dyYXBoLmg+CisjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+CiAKLSNpbmNs
-dWRlIDxkcm0vZHJtUC5oPgogI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljX2hlbHBlci5oPgorI2lu
-Y2x1ZGUgPGRybS9kcm1fZHJ2Lmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9mYl9jbWFfaGVscGVyLmg+
-CiAjaW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2dlbV9j
-bWFfaGVscGVyLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmg+
-CiAjaW5jbHVkZSA8ZHJtL2RybV9vZi5oPgogI2luY2x1ZGUgPGRybS9kcm1fcHJvYmVfaGVscGVy
-Lmg+CisjaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KIAogI2luY2x1ZGUgImtpcmluX2RybV9k
-cnYuaCIKIAotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1447462659==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="KXvHtZ9cwXAR6VZRPX6Dwy1cU4vTX0MBg"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--KXvHtZ9cwXAR6VZRPX6Dwy1cU4vTX0MBg
+Content-Type: multipart/mixed; boundary="18bJv2unILsrAcTsho9R0KYUSe9WzgokI";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>
+Message-ID: <eba80da4-8fe4-394e-426d-8085d5ae9442@suse.de>
+Subject: Re: [PATCH v2 1/4] drm/mga: drop dependency on drm_os_linux.h
+References: <20190623103542.30697-1-sam@ravnborg.org>
+ <20190623103542.30697-2-sam@ravnborg.org>
+ <20190629175958.GA18538@ravnborg.org>
+In-Reply-To: <20190629175958.GA18538@ravnborg.org>
+
+--18bJv2unILsrAcTsho9R0KYUSe9WzgokI
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 29.06.19 um 19:59 schrieb Sam Ravnborg:
+> Hi all.
+>=20
+>> Opencode all macros used from the deprecated drm_os_linux.h header fil=
+e.
+>> The DRM_WAIT_ON used 3 * HZ as timeout.
+>> This was translated to 3000 msec.
+>>
+>> The return value of mga_driver_fence_wait() was not
+>> used, so make it return void to simplify code a bit.
+>>
+>> v2:
+>> - fixed timeout to 3000 msec (original value was 3 * Hz)
+>> - drop unused return value from mga_driver_fence_wait()
+>=20
+> Thomas give his ack on v1 of this patch.
+> But I am reluctant to apply it until someone has looked at this version=
+=2E
+> The main difference is a s described above, where the change to 3000
+> msec was a bug in v1.
+>=20
+> Any feedback?
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+as well. Thanks for spotting the bug.
+
+Best regards
+Thomas
+
+>=20
+> 	Sam
+>=20
+>>
+>> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: David Airlie <airlied@linux.ie>
+>> ---
+>>  drivers/gpu/drm/mga/mga_dma.c   | 11 +++++++----
+>>  drivers/gpu/drm/mga/mga_drv.h   | 14 +++++++++-----
+>>  drivers/gpu/drm/mga/mga_irq.c   | 10 ++++------
+>>  drivers/gpu/drm/mga/mga_state.c |  6 +++---
+>>  4 files changed, 23 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mga/mga_dma.c b/drivers/gpu/drm/mga/mga_d=
+ma.c
+>> index 1ffdafea27e4..c5e7c210999f 100644
+>> --- a/drivers/gpu/drm/mga/mga_dma.c
+>> +++ b/drivers/gpu/drm/mga/mga_dma.c
+>> @@ -35,6 +35,8 @@
+>>   * \author Gareth Hughes <gareth@valinux.com>
+>>   */
+>> =20
+>> +#include <linux/delay.h>
+>> +
+>>  #include <drm/drmP.h>
+>>  #include <drm/mga_drm.h>
+>>  #include "mga_drv.h"
+>> @@ -62,7 +64,7 @@ int mga_do_wait_for_idle(drm_mga_private_t *dev_priv=
+)
+>>  			MGA_WRITE8(MGA_CRTC_INDEX, 0);
+>>  			return 0;
+>>  		}
+>> -		DRM_UDELAY(1);
+>> +		udelay(1);
+>>  	}
+>> =20
+>>  #if MGA_DMA_DEBUG
+>> @@ -114,7 +116,7 @@ void mga_do_dma_flush(drm_mga_private_t *dev_priv)=
+
+>>  		status =3D MGA_READ(MGA_STATUS) & MGA_ENGINE_IDLE_MASK;
+>>  		if (status =3D=3D MGA_ENDPRDMASTS)
+>>  			break;
+>> -		DRM_UDELAY(1);
+>> +		udelay(1);
+>>  	}
+>> =20
+>>  	if (primary->tail =3D=3D primary->last_flush) {
+>> @@ -1120,7 +1122,7 @@ int mga_dma_buffers(struct drm_device *dev, void=
+ *data,
+>>  	 */
+>>  	if (d->send_count !=3D 0) {
+>>  		DRM_ERROR("Process %d trying to send %d buffers via drmDMA\n",
+>> -			  DRM_CURRENTPID, d->send_count);
+>> +			  task_pid_nr(current), d->send_count);
+>>  		return -EINVAL;
+>>  	}
+>> =20
+>> @@ -1128,7 +1130,8 @@ int mga_dma_buffers(struct drm_device *dev, void=
+ *data,
+>>  	 */
+>>  	if (d->request_count < 0 || d->request_count > dma->buf_count) {
+>>  		DRM_ERROR("Process %d trying to get %d buffers (of %d max)\n",
+>> -			  DRM_CURRENTPID, d->request_count, dma->buf_count);
+>> +			  task_pid_nr(current), d->request_count,
+>> +			  dma->buf_count);
+>>  		return -EINVAL;
+>>  	}
+>> =20
+>> diff --git a/drivers/gpu/drm/mga/mga_drv.h b/drivers/gpu/drm/mga/mga_d=
+rv.h
+>> index a45bb22275a7..1766c195b397 100644
+>> --- a/drivers/gpu/drm/mga/mga_drv.h
+>> +++ b/drivers/gpu/drm/mga/mga_drv.h
+>> @@ -188,7 +188,7 @@ extern int mga_warp_init(drm_mga_private_t *dev_pr=
+iv);
+>>  extern int mga_enable_vblank(struct drm_device *dev, unsigned int pip=
+e);
+>>  extern void mga_disable_vblank(struct drm_device *dev, unsigned int p=
+ipe);
+>>  extern u32 mga_get_vblank_counter(struct drm_device *dev, unsigned in=
+t pipe);
+>> -extern int mga_driver_fence_wait(struct drm_device *dev, unsigned int=
+ *sequence);
+>> +extern void mga_driver_fence_wait(struct drm_device *dev, unsigned in=
+t *sequence);
+>>  extern int mga_driver_vblank_wait(struct drm_device *dev, unsigned in=
+t *sequence);
+>>  extern irqreturn_t mga_driver_irq_handler(int irq, void *arg);
+>>  extern void mga_driver_irq_preinstall(struct drm_device *dev);
+>> @@ -199,10 +199,14 @@ extern long mga_compat_ioctl(struct file *filp, =
+unsigned int cmd,
+>> =20
+>>  #define mga_flush_write_combine()	wmb()
+>> =20
+>> -#define MGA_READ8(reg)		DRM_READ8(dev_priv->mmio, (reg))
+>> -#define MGA_READ(reg)		DRM_READ32(dev_priv->mmio, (reg))
+>> -#define MGA_WRITE8(reg, val)	DRM_WRITE8(dev_priv->mmio, (reg), (val))=
+
+>> -#define MGA_WRITE(reg, val)	DRM_WRITE32(dev_priv->mmio, (reg), (val))=
+
+>> +#define MGA_READ8(reg) \
+>> +	readb(((void __iomem *)dev_priv->mmio->handle) + (reg))
+>> +#define MGA_READ(reg) \
+>> +	readl(((void __iomem *)dev_priv->mmio->handle) + (reg))
+>> +#define MGA_WRITE8(reg, val) \
+>> +	writeb(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+>> +#define MGA_WRITE(reg, val) \
+>> +	writel(val, ((void __iomem *)dev_priv->mmio->handle) + (reg))
+>> =20
+>>  #define DWGREG0		0x1c00
+>>  #define DWGREG0_END	0x1dff
+>> diff --git a/drivers/gpu/drm/mga/mga_irq.c b/drivers/gpu/drm/mga/mga_i=
+rq.c
+>> index 693ba708cfed..1545a3694b53 100644
+>> --- a/drivers/gpu/drm/mga/mga_irq.c
+>> +++ b/drivers/gpu/drm/mga/mga_irq.c
+>> @@ -118,23 +118,21 @@ void mga_disable_vblank(struct drm_device *dev, =
+unsigned int pipe)
+>>  	/* MGA_WRITE(MGA_IEN, MGA_VLINEIEN | MGA_SOFTRAPEN); */
+>>  }
+>> =20
+>> -int mga_driver_fence_wait(struct drm_device *dev, unsigned int *seque=
+nce)
+>> +void mga_driver_fence_wait(struct drm_device *dev, unsigned int *sequ=
+ence)
+>>  {
+>>  	drm_mga_private_t *dev_priv =3D (drm_mga_private_t *) dev->dev_priva=
+te;
+>>  	unsigned int cur_fence;
+>> -	int ret =3D 0;
+>> =20
+>>  	/* Assume that the user has missed the current sequence number
+>>  	 * by about a day rather than she wants to wait for years
+>>  	 * using fences.
+>>  	 */
+>> -	DRM_WAIT_ON(ret, dev_priv->fence_queue, 3 * HZ,
+>> +	wait_event_timeout(dev_priv->fence_queue,
+>>  		    (((cur_fence =3D atomic_read(&dev_priv->last_fence_retired))
+>> -		      - *sequence) <=3D (1 << 23)));
+>> +		      - *sequence) <=3D (1 << 23)),
+>> +		    msecs_to_jiffies(3000));
+>> =20
+>>  	*sequence =3D cur_fence;
+>> -
+>> -	return ret;
+>>  }
+>> =20
+>>  void mga_driver_irq_preinstall(struct drm_device *dev)
+>> diff --git a/drivers/gpu/drm/mga/mga_state.c b/drivers/gpu/drm/mga/mga=
+_state.c
+>> index e5f6b735f575..296a1db7e5ee 100644
+>> --- a/drivers/gpu/drm/mga/mga_state.c
+>> +++ b/drivers/gpu/drm/mga/mga_state.c
+>> @@ -1016,7 +1016,7 @@ int mga_getparam(struct drm_device *dev, void *d=
+ata, struct drm_file *file_priv)
+>>  		return -EINVAL;
+>>  	}
+>> =20
+>> -	DRM_DEBUG("pid=3D%d\n", DRM_CURRENTPID);
+>> +	DRM_DEBUG("pid=3D%d\n", task_pid_nr(current));
+>> =20
+>>  	switch (param->param) {
+>>  	case MGA_PARAM_IRQ_NR:
+>> @@ -1048,7 +1048,7 @@ static int mga_set_fence(struct drm_device *dev,=
+ void *data, struct drm_file *fi
+>>  		return -EINVAL;
+>>  	}
+>> =20
+>> -	DRM_DEBUG("pid=3D%d\n", DRM_CURRENTPID);
+>> +	DRM_DEBUG("pid=3D%d\n", task_pid_nr(current));
+>> =20
+>>  	/* I would normal do this assignment in the declaration of fence,
+>>  	 * but dev_priv may be NULL.
+>> @@ -1077,7 +1077,7 @@ file_priv)
+>>  		return -EINVAL;
+>>  	}
+>> =20
+>> -	DRM_DEBUG("pid=3D%d\n", DRM_CURRENTPID);
+>> +	DRM_DEBUG("pid=3D%d\n", task_pid_nr(current));
+>> =20
+>>  	mga_driver_fence_wait(dev, fence);
+>>  	return 0;
+>> --=20
+>> 2.20.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--18bJv2unILsrAcTsho9R0KYUSe9WzgokI--
+
+--KXvHtZ9cwXAR6VZRPX6Dwy1cU4vTX0MBg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0YZaIACgkQaA3BHVML
+eiOl0wgApRrateQ4BL2um8mfKWvQ8QC1muWOEAPs/tI1HIPGXPMp6akk7sZcZgjO
+pEq9IjlDE3TdQuCW6kBhs+Qy1JDXxwJtkviG3JLBtAr8+tTTzJDA5wtwFUUvgBl/
+Jixs/zWfzJVeDdJQk9vjnt8hc90tp1dH3eEMRreIpvPpt+pE6Sd0U3Z/YeuupM4M
+seTx/euNN6vkyYL3KuDNlTF6l61+EqXVs2C55UGhJRhqERx0CfOMF4pWPpJ69rXw
+E1+9kXO3+qwhcmF1avmYF+iPgGgESXhoQskH/PdsDzeqOy7p+V22Av2QBIcWXPu/
+p89kn+ZdBpI7d+2l9RJpvloPKx7K0A==
+=UoKW
+-----END PGP SIGNATURE-----
+
+--KXvHtZ9cwXAR6VZRPX6Dwy1cU4vTX0MBg--
+
+--===============1447462659==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1447462659==--
