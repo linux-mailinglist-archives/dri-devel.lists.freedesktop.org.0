@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886B85B476
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 08:05:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 210915B47E
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 08:13:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9476D89C51;
-	Mon,  1 Jul 2019 06:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA17F89E5A;
+	Mon,  1 Jul 2019 06:13:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A0D89C51
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 06:05:28 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id A9DF180348;
- Mon,  1 Jul 2019 08:05:25 +0200 (CEST)
-Date: Mon, 1 Jul 2019 08:05:24 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Oleksandr Andrushchenko <andr2000@gmail.com>
-Subject: Re: [PATCH v1 02/33] drm/xen: drop use of drmP.h
-Message-ID: <20190701060524.GA28256@ravnborg.org>
-References: <20190630061922.7254-1-sam@ravnborg.org>
- <20190630061922.7254-3-sam@ravnborg.org>
- <7c758e43-048b-d094-bced-9d171987538f@gmail.com>
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 986A489E5A
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 06:13:29 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 6BF3128405
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 06:13:29 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 57F4128511; Mon,  1 Jul 2019 06:13:29 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=ham version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201465] Increased power consumption when using runtime-pm to
+ suspend nvidia gpu
+Date: Mon, 01 Jul 2019 06:13:27 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rui.zhang@intel.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc component assigned_to product
+Message-ID: <bug-201465-2300-yEW3VX0tqP@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201465-2300@https.bugzilla.kernel.org/>
+References: <bug-201465-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7c758e43-048b-d094-bced-9d171987538f@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=DBfv99YmAAAA:8
- a=aR67VJ1aXLT0C52FwhAA:9 a=CjuIK1q_8ugA:10 a=c73wXdw0ADZYY2z2LwuN:22
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,25 +62,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: xen-devel@lists.xenproject.org, dri-devel@lists.freedesktop.org,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgT2xla3NhbmRyCgo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlbi94ZW5fZHJtX2Zyb250
-LmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udC5oCj4gPiBAQCAt
-MTEsMTMgKzExLDE5IEBACj4gPiAgICNpZm5kZWYgX19YRU5fRFJNX0ZST05UX0hfCj4gPiAgICNk
-ZWZpbmUgX19YRU5fRFJNX0ZST05UX0hfCj4gPiAtI2luY2x1ZGUgPGRybS9kcm1QLmg+Cj4gPiAt
-I2luY2x1ZGUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaD4KPiA+IC0KPiA+ICAgI2luY2x1
-ZGUgPGxpbnV4L3NjYXR0ZXJsaXN0Lmg+Cj4gPiArI2luY2x1ZGUgPGRybS9kcm1fY29ubmVjdG9y
-Lmg+Cj4gPiArI2luY2x1ZGUgPGRybS9kcm1fc2ltcGxlX2ttc19oZWxwZXIuaD4KPiA+ICsjaW5j
-bHVkZSA8ZHJtL2RybV9zaW1wbGVfa21zX2hlbHBlci5oPgo+IG5vIG5lZWQgdG8gaW5jbHVkZSB0
-d2ljZQo+IHdpdGggdGhhdCBmaXhlZDoKPiBBY2tlZC1ieTogT2xla3NhbmRyIEFuZHJ1c2hjaGVu
-a28gPG9sZWtzYW5kcl9hbmRydXNoY2hlbmtvQGVwYW0uY29tPgoKVXBzLCB0aGFua3MgZm9yIHNw
-b3R0aW5nIHRoaXMuIFdpbGwgcnVuIHRoZSBjaGVja2luY2x1ZGUgc2NyaXB0IHRvIGNoZWNrCmlm
-IHRoZXJlIGFyZSBtb3JlIGR1cGxpY2F0ZXMgYWRkZWQgYnkgYWNjaWRlbnQuCgoJU2FtCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE0NjUKClpoYW5n
+IFJ1aSAocnVpLnpoYW5nQGludGVsLmNvbSkgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAgICB8
+UmVtb3ZlZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAg
+ICAgICAgICAgICAgICAgQ0N8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxydWkuemhhbmdA
+aW50ZWwuY29tCiAgICAgICAgICBDb21wb25lbnR8UnVuLVRpbWUtUE0gICAgICAgICAgICAgICAg
+IHxWaWRlbyhEUkkgLSBub24gSW50ZWwpCiAgICAgICAgICAgQXNzaWduZWV8cmp3QHJqd3lzb2Nr
+aS5uZXQgICAgICAgICAgIHxkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwtYnUKICAgICAgICAgICAg
+ICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgfGdzLm9zZGwub3JnCiAgICAgICAg
+ICAgIFByb2R1Y3R8UG93ZXIgTWFuYWdlbWVudCAgICAgICAgICAgIHxEcml2ZXJzCgotLS0gQ29t
+bWVudCAjMiBmcm9tIFpoYW5nIFJ1aSAocnVpLnpoYW5nQGludGVsLmNvbSkgLS0tCihJbiByZXBs
+eSB0byBUb2xnYSBDYWtpciBmcm9tIGNvbW1lbnQgIzEpCj4gSSd2ZSBwb3N0ZWQgYWJvdXQgdGhp
+cyBpbiBhIGJ1ZyByZXBvcnQgb24gZnJlZWRlc2t0b3AgYnVnemlsbGEKPiAoaHR0cHM6Ly9idWdz
+LmZyZWVkZXNrdG9wLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTA4MDU4I2MxKS4gQnV0IGl0IHNlZW1z
+IHRvIGJlCj4gYSBrZXJuZWwgaXNzdWUuIE15IGRtZXNnIC8gbG9nZmlsZSBjYW4gYmUgZm91bmQg
+dGhlcmUuCj4gClJlYXNzaWduIHRoaXMgdG8gdGhlIGdyYXBoaWNzIGV4cGVydHMsIGJ1dCBteSB1
+bmRlcnN0YW5kaW5nIGlzIHRoYXQga2VybmVsCmdyYXBoaWNzIGJ1Z3MgYXJlIGFsc28gdHJhY2tl
+ZCBpbiBmcmVlZGVza3RvcCBidWd6aWxsYS4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1h
+aWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
