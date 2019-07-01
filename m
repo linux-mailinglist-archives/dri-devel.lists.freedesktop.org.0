@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5AC5B2EA
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 04:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D92E5B2EB
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 04:32:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE18D89C1C;
-	Mon,  1 Jul 2019 02:31:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE1289C2C;
+	Mon,  1 Jul 2019 02:32:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 146D889C1C
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 02:31:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A063389C80
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 02:32:13 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0B92972167; Mon,  1 Jul 2019 02:31:20 +0000 (UTC)
+ id 9DB2A72167; Mon,  1 Jul 2019 02:32:13 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111010] Cemu Shader Cache Corruption Displaying Solid Color
  After commit 11e16ca7ce0
-Date: Mon, 01 Jul 2019 02:31:20 +0000
+Date: Mon, 01 Jul 2019 02:32:13 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111010-502-0eSbHf8D6S@http.bugs.freedesktop.org/>
+Message-ID: <bug-111010-502-P7XR8HnhZb@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111010-502@http.bugs.freedesktop.org/>
 References: <bug-111010-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1194116622=="
+Content-Type: multipart/mixed; boundary="===============0153161982=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1194116622==
-Content-Type: multipart/alternative; boundary="15619482790.fBEC9fEc.13915"
+--===============0153161982==
+Content-Type: multipart/alternative; boundary="15619483332.DFfBcce.13999"
 Content-Transfer-Encoding: 7bit
 
 
---15619482790.fBEC9fEc.13915
-Date: Mon, 1 Jul 2019 02:31:19 +0000
+--15619483332.DFfBcce.13999
+Date: Mon, 1 Jul 2019 02:32:13 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,24 +73,21 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111010
 
---- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-Thanks for the top quality bug report!
+--- Comment #2 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+(In reply to Timothy Arceri from comment #1)
+> Thanks for the top quality bug report!
+>=20
+> Just to be clear before 11e16ca7ce0 Cemu wasn't actually making use of the
+> cache as it was disabled for core profiles (which Cemu uses).
 
-Just to be clear before 11e16ca7ce0 Cemu wasn't actually making use of the
-cache as it was disabled for core profiles (which Cemu uses). Enabling it
-uncovered a bug with the interaction of our cache implementation and the
-separate shader objects extension.
-
-Anyway the following patch should fix the issue.
-
-https://patchwork.freedesktop.org/patch/315016/
+Sorry that should have been "it was disabled for compatibility profiles"
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15619482790.fBEC9fEc.13915
-Date: Mon, 1 Jul 2019 02:31:19 +0000
+--15619483332.DFfBcce.13999
+Date: Mon, 1 Jul 2019 02:32:13 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,8 +105,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - Cemu Shader Cache Corruption Displaying Solid Color After=
  commit 11e16ca7ce0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111010#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111010#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Cemu Shader Cache Corruption Displaying Solid Color After=
@@ -120,17 +117,16 @@ t # 1</a>
 t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
 om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
 </span></b>
-        <pre>Thanks for the top quality bug report!
+        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
+111010#c1">comment #1</a>)
+<span class=3D"quote">&gt; Thanks for the top quality bug report!
+&gt;=20
+&gt; Just to be clear before 11e16ca7ce0 Cemu wasn't actually making use of=
+ the
+&gt; cache as it was disabled for core profiles (which Cemu uses).</span >
 
-Just to be clear before 11e16ca7ce0 Cemu wasn't actually making use of the
-cache as it was disabled for core profiles (which Cemu uses). Enabling it
-uncovered a bug with the interaction of our cache implementation and the
-separate shader objects extension.
-
-Anyway the following patch should fix the issue.
-
-<a href=3D"https://patchwork.freedesktop.org/patch/315016/">https://patchwo=
-rk.freedesktop.org/patch/315016/</a></pre>
+Sorry that should have been &quot;it was disabled for compatibility profile=
+s&quot;</pre>
         </div>
       </p>
 
@@ -144,9 +140,9 @@ rk.freedesktop.org/patch/315016/</a></pre>
     </body>
 </html>=
 
---15619482790.fBEC9fEc.13915--
+--15619483332.DFfBcce.13999--
 
---===============1194116622==
+--===============0153161982==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -156,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1194116622==--
+--===============0153161982==--
