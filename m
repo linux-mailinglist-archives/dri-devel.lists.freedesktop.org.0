@@ -1,42 +1,101 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7126B5B880
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 11:58:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D07475B91F
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 12:36:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC9389CB9;
-	Mon,  1 Jul 2019 09:58:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A13988310;
+	Mon,  1 Jul 2019 10:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17B0B89CB9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 09:58:53 +0000 (UTC)
-X-Originating-IP: 86.250.200.211
-Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 300BB1BF21C;
- Mon,  1 Jul 2019 09:58:42 +0000 (UTC)
-Date: Mon, 1 Jul 2019 11:58:42 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: a64: enable ANX6345 bridge
- on Teres-I
-Message-ID: <20190701095842.fvganvycce2cy7jn@flea>
-References: <CA+E=qVckHLqRngsfK=AcvstrD0ymEfRkYyhS_kBtZ3YWdE3L=g@mail.gmail.com>
- <20190605101317.GA9345@lst.de>
- <20190605120237.ekmytfxcwbjaqy3x@flea>
- <E1hYsvP-0000PY-Pz@stardust.g4.wien.funkfeuer.at>
- <20190607062802.m5wslx3imiqooq5a@flea>
- <CGME20190607094103epcas1p4babbb11ec050974a62f2af79bc64d752@epcas1p4.samsung.com>
- <20190607094030.GA12373@lst.de>
- <66707fcc-b48e-02d3-5ed7-6b7e77d53266@samsung.com>
- <20190612152022.c3cfhp4cauhzhfyr@flea>
- <bb2c2c00-b46e-1984-088f-861ac8952331@samsung.com>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C17088310
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 10:36:18 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20190701103616euoutp02977ee758676adaccd7c4c8efc77e6a0a~tQiYB_GnJ2241222412euoutp02z
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 10:36:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20190701103616euoutp02977ee758676adaccd7c4c8efc77e6a0a~tQiYB_GnJ2241222412euoutp02z
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20190701103616eucas1p287ddef51fa0a1b2ce28fe3ea9eea054b~tQiXoc0Ps1535715357eucas1p2m;
+ Mon,  1 Jul 2019 10:36:16 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id FE.B3.04298.F12E91D5; Mon,  1
+ Jul 2019 11:36:16 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20190701103615eucas1p289b14407a9ee7cd94151156ea859959a~tQiW4iUAj2824628246eucas1p2K;
+ Mon,  1 Jul 2019 10:36:15 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20190701103615eusmtrp1ce373631df731aa64d29fd0a761500c6~tQiWqcTFI1747117471eusmtrp10;
+ Mon,  1 Jul 2019 10:36:15 +0000 (GMT)
+X-AuditID: cbfec7f2-3615e9c0000010ca-ef-5d19e21f6877
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 86.55.04140.F12E91D5; Mon,  1
+ Jul 2019 11:36:15 +0100 (BST)
+Received: from [106.120.51.74] (unknown [106.120.51.74]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20190701103614eusmtip1a8a3f86bd7814c1be7dbf4305c6ef88b~tQiWN4CMB2960229602eusmtip1c;
+ Mon,  1 Jul 2019 10:36:14 +0000 (GMT)
+Subject: Re: [PATCH] drm/bridge: dw-hdmi: Use automatic CTS generation mode
+ when using non-AHB audio
+To: Neil Armstrong <narmstrong@baylibre.com>, Laurent.pinchart@ideasonboard.com
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <7d4404b2-a5d1-82ba-6016-41b4f780ae98@samsung.com>
+Date: Mon, 1 Jul 2019 12:36:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <bb2c2c00-b46e-1984-088f-861ac8952331@samsung.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190612085147.26971-1-narmstrong@baylibre.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAKsWRmVeSWpSXmKPExsWy7djP87oKjyRjDbpqLa58fc9m8f/Ra1aL
+ N4+OMFtc/f6S2eLkm6ssFp0Tl7BbXN41h83iwcv9jBaH+qIdOD3e32hl95i3ptpjdsdMVo8T
+ Ey4xedzvPs7kcaB3MovH9mvzmD0+b5IL4IjisklJzcksSy3St0vgypj59gRzwW+5ips7P7M2
+ MG6Q6GLk5JAQMJH4uvgvI4gtJLCCUWLGPpsuRi4g+wujxMm1k1ghEp8ZJVpneME0THu/lB2i
+ aDmjxO/Hs1ghnLeMEks/3WIDqRIWSJP4P/0g2FgRgUCJ473bGEGKmAVamSTuzv4JNpZNQFPi
+ 7+abYA28AnYSs5btBLNZBFQkLj/5wQ5iiwpESFzesosRokZQ4uTMJywgNqeArcSnz7vA6pkF
+ 5CW2v53DDGGLS9x6Mp8JZJmEwDV2ibVP/jNB3O0isXP7SUYIW1ji1fEt7BC2jMTpyT0sEHa9
+ xP0VLcwQzR2MEls37GSGSFhLHD5+EehqDqANmhLrd+lDhB0lOu/9YwYJSwjwSdx4KwhxA5/E
+ pG3TocK8Eh1tQhDVihL3z26FGigusfTCV7YJjEqzkHw2C8k3s5B8Mwth7wJGllWM4qmlxbnp
+ qcWGeanlesWJucWleel6yfm5mxiB6er0v+OfdjB+vZR0iFGAg1GJh7fhjkSsEGtiWXFl7iFG
+ CQ5mJRHe/SskY4V4UxIrq1KL8uOLSnNSiw8xSnOwKInzVjM8iBYSSE8sSc1OTS1ILYLJMnFw
+ SjUwci6fncSwt144cErxru53OrqBc8SXr1n4UHKZ37vXBsm8E+78jmT86JpVeT36z4bGFMu3
+ nQ0mDQzT11sZGB4OqpdftyjLc8PLX7OLqgX8nnPHbdrwyY+pMsDIwHvGg6/NYrvupHlH+7hv
+ bYv4cGr+02/ztgR9OvbO2eRn6z6Dr3tfzOK5VnW0W4mlOCPRUIu5qDgRAMVKOV9TAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRmVeSWpSXmKPExsVy+t/xu7ryjyRjDXp+8lpc+fqezeL/o9es
+ Fm8eHWG2uPr9JbPFyTdXWSw6Jy5ht7i8aw6bxYOX+xktDvVFO3B6vL/Ryu4xb021x+yOmawe
+ JyZcYvK4332cyeNA72QWj+3X5jF7fN4kF8ARpWdTlF9akqqQkV9cYqsUbWhhpGdoaaFnZGKp
+ Z2hsHmtlZKqkb2eTkpqTWZZapG+XoJcx8+0J5oLfchU3d35mbWDcINHFyMkhIWAiMe39UvYu
+ Ri4OIYGljBJTT21kgkiIS+ye/5YZwhaW+HOtiw3EFhJ4zSix9qIqiC0skCbxf/pBRhBbRCBQ
+ YlHvAmaQQcwCrUwS/1qus0BMncAosXHZGxaQKjYBTYm/m2+CTeIVsJOYtWwnmM0ioCJx+ckP
+ dhBbVCBCoq9tNlSNoMTJmU/AejkFbCU+fd4FFmcWUJf4M+8SM4QtL7H97RwoW1zi1pP5TBMY
+ hWYhaZ+FpGUWkpZZSFoWMLKsYhRJLS3OTc8tNtIrTswtLs1L10vOz93ECIzSbcd+btnB2PUu
+ +BCjAAejEg+vxi2JWCHWxLLiytxDjBIczEoivPtXSMYK8aYkVlalFuXHF5XmpBYfYjQFem4i
+ s5Rocj4wgeSVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCUamDM9755
+ 5jRPXL2WypWZXgcmbnE74JpVoejdsp/H49aPD2L3dv3bEtLZfVDgQemu2vkRqZU8s2q2JcxY
+ 4Jkl77nvwC+tPzP5Y47uuFfi5SbZcEssduf2IytXn1Fdsq1yXoZOhPbaj5rbIp89yuOofcra
+ 8Df+xY8nYvuy3DQb9dg9vgmmLznYqFekxFKckWioxVxUnAgANeWCp+gCAAA=
+X-CMS-MailID: 20190701103615eucas1p289b14407a9ee7cd94151156ea859959a
+X-Msg-Generator: CA
+X-RootMTR: 20190612085155epcas1p14ea44ab7c6cf6309a1e25a6e8b5f36ed
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190612085155epcas1p14ea44ab7c6cf6309a1e25a6e8b5f36ed
+References: <CGME20190612085155epcas1p14ea44ab7c6cf6309a1e25a6e8b5f36ed@epcas1p1.samsung.com>
+ <20190612085147.26971-1-narmstrong@baylibre.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=samsung.com; 
+ s=mail20170921; t=1561977376;
+ bh=97CcTl+Xf2thSNnnXc3pgljpPmedh9J3aow4zG2wFwg=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=WKxuXqWiSOBeoqMnSU7NKvDhtlKrbeEdSXfTthMkY6Pekov0kuxmZWgbCcbCu5Np7
+ HcP2Bz7tSnihsltXYZFw4OGAMnxqRXlIXsh7PIU6KdqPsKRFtrSfmyx6aPnkV8hRq0
+ 6ILQWZfq+y7j7CFICQ1TCndeXwviog9VcTGpGb7A=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,117 +108,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Harald Geyer <harald@ccbib.org>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- arm-linux <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============1068295652=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jerome Brunet <jbrunet@baylibre.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1068295652==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rwl7bnhaabkczsql"
-Content-Disposition: inline
-
-
---rwl7bnhaabkczsql
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi!
-
-On Fri, Jun 28, 2019 at 12:39:32PM +0200, Andrzej Hajda wrote:
-> On 12.06.2019 17:20, Maxime Ripard wrote:
-> >> I am not sure if I understand whole discussion here, but I also do not
-> >> understand whole edp-connector thing.
-> > The context is this one:
-> > https://patchwork.freedesktop.org/patch/257352/?series=51182&rev=1
-> > https://patchwork.freedesktop.org/patch/283012/?series=56163&rev=1
-> > https://patchwork.freedesktop.org/patch/286468/?series=56776&rev=2
-> >
-> > TL;DR: This bridge is being used on ARM laptops that can come with
-> > different eDP panels. Some of these panels require a regulator to be
-> > enabled for the panel to work, and this is obviously something that
-> > should be in the DT.
-> >
-> > However, we can't really describe the panel itself, since the vendor
-> > uses several of them and just relies on the eDP bus to do its job at
-> > retrieving the EDIDs. A generic panel isn't really working either
-> > since that would mean having a generic behaviour for all the panels
-> > connected to that bus, which isn't there either.
-> >
-> > The connector allows to expose this nicely.
->
-> As VESA presentation says[1] eDP is based on DP but is much more
-> flexible, it is up to integrator (!!!) how the connection, power
-> up/down, initialization sequence should be performed. Trying to cover
-> every such case in edp-connector seems to me similar to panel-simple
-> attempt failure. Moreover there is no such thing as physical standard
-> eDP connector. Till now I though DT connector should describe physical
-> connector on the device, now I am lost, are there some DT bindings
-> guidelines about definition of a connector?
-
-This might be semantics but I guess we're in some kind of grey area?
-
-Like, for eDP, if it's soldered I guess we could say that there's no
-connector. But what happens if for some other board, that signal is
-routed through a ribbon?
-
-You could argue that there's no physical connector in both cases, or
-that there's one in both, or one for the ribbon and no connector for
-the one soldered in.
-
-> Maybe instead of edp-connector one would introduce integrator's specific
-> connector, for example with compatible "olimex,teres-edp-connector"
-> which should follow edp abstract connector rules? This will be at least
-> consistent with below presentation[1] - eDP requirements depends on
-> integrator. Then if olimex has standard way of dealing with panels
-> present in olimex/teres platforms the driver would then create
-> drm_panel/drm_connector/drm_bridge(?) according to these rules, I guess.
-> Anyway it still looks fishy for me :), maybe because I am not
-> familiarized with details of these platforms.
-
-That makes sense yes
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---rwl7bnhaabkczsql
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRnZUgAKCRDj7w1vZxhR
-xQ/8AQCtFPO8zhV4+U5EfDXkE+JHOXvpVHx/qJISWs88VLbjXAD+PhSV9xHUBgZC
-Wga4ICpNkMVIAA056iwnPqJ5wScM6Qc=
-=ijEm
------END PGP SIGNATURE-----
-
---rwl7bnhaabkczsql--
-
---===============1068295652==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1068295652==--
+T24gMTIuMDYuMjAxOSAxMDo1MSwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4gV2hlbiB1c2luZyBh
+biBJMlMgc291cmNlIHVzaW5nIGEgZGlmZmVyZW50IGNsb2NrIHNvdXJjZSAodXN1YWxseSB0aGUg
+STJTCj4gYXVkaW8gSFcgdXNlcyBkZWRpY2F0ZWQgUExMcywgZGlmZmVyZW50IGZyb20gdGhlIEhE
+TUkgUEhZIFBMTCksIGZpeGVkCj4gQ1RTIHZhbHVlcyB3aWxsIGNhdXNlIHNvbWUgZnJlcXVlbnQg
+YXVkaW8gZHJvcC1vdXQgYW5kIGdsaXRjaGVzIGFzCj4gcmVwb3J0ZWQgb24gQW1sb2dpYywgQWxs
+d2lubmVyIGFuZCBSb2NrY2hpcCBTb0NzIHNldHVwcy4KPgo+IFNldHRpbmcgdGhlIENUUyBpbiBh
+dXRvbWF0aWMgbW9kZSB3aWxsIGxldCB0aGUgSERNSSBjb250cm9sbGVyIGdlbmVyYXRlCj4gYXV0
+b21hdGljYWxseSB0aGUgQ1RTIHZhbHVlIHRvIG1hdGNoIHRoZSBpbnB1dCBhdWRpbyBjbG9jay4K
+Pgo+IFRoZSBEZXNpZ25XYXJlIERXLUhETUkgVXNlciBHdWlkZSBleHBsYWluczoKPiAgIEZvciBB
+dXRvbWF0aWMgQ1RTIGdlbmVyYXRpb24KPiAgIFdyaXRlICIwIiBvbiB0aGUgYml0IGZpZWxkICJD
+VFNfbWFudWFsIiwgUmVnaXN0ZXIgMHgzMjA1OiBBVURfQ1RTMwo+Cj4gVGhlIERlc2lnbldhcmUg
+RFctSERNSSBEYXRhYm9vayBleHBsYWlucyA6Cj4gICBJZiAiQ1RTX21hbnVhbCIgYml0IGVxdWFs
+cyAwYiB0aGlzIHJlZ2lzdGVycyBjb250YWlucyAiYXVkQ1RTWzE5OjBdIgo+ICAgZ2VuZXJhdGVk
+IGJ5IHRoZSBDeWNsZSB0aW1lIGNvdW50ZXIgYWNjb3JkaW5nIHRvIHNwZWNpZmllZCB0aW1pbmcu
+Cj4KPiBDYzogSmVybmVqIFNrcmFiZWMgPGplcm5lai5za3JhYmVjQHNpb2wubmV0Pgo+IENjOiBN
+YXhpbWUgUmlwYXJkIDxtYXhpbWUucmlwYXJkQGJvb3RsaW4uY29tPgo+IENjOiBKb25hcyBLYXJs
+bWFuIDxqb25hc0Brd2lib28uc2U+Cj4gQ2M6IEhlaWtvIFN0dWVibmVyIDxoZWlrb0BzbnRlY2gu
+ZGU+Cj4gQ2M6IEplcm9tZSBCcnVuZXQgPGpicnVuZXRAYmF5bGlicmUuY29tPgo+IFNpZ25lZC1v
+ZmYtYnk6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KCgpRdWV1ZWQg
+dG8gZHJtLW1pc2MtbmV4dC4KCgpSZWdhcmRzCgpBbmRyemVqCgoKPiAtLS0KPiAgZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmMgfCA0NCArKysrKysrKysrKysrKystLS0t
+LS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMjkgaW5zZXJ0aW9ucygrKSwgMTUgZGVsZXRpb25zKC0p
+Cj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1p
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWkuYwo+IGluZGV4IGM2
+OGI2ZWQxYmIzNS4uNjQ1OGMzYTMxZDIzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9i
+cmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
+eW5vcHN5cy9kdy1oZG1pLmMKPiBAQCAtNDM3LDggKzQzNywxNCBAQCBzdGF0aWMgdm9pZCBoZG1p
+X3NldF9jdHNfbihzdHJ1Y3QgZHdfaGRtaSAqaGRtaSwgdW5zaWduZWQgaW50IGN0cywKPiAgCS8q
+IG5zaGlmdCBmYWN0b3IgPSAwICovCj4gIAloZG1pX21vZGIoaGRtaSwgMCwgSERNSV9BVURfQ1RT
+M19OX1NISUZUX01BU0ssIEhETUlfQVVEX0NUUzMpOwo+ICAKPiAtCWhkbWlfd3JpdGViKGhkbWks
+ICgoY3RzID4+IDE2KSAmIEhETUlfQVVEX0NUUzNfQVVEQ1RTMTlfMTZfTUFTSykgfAo+IC0JCSAg
+ICBIRE1JX0FVRF9DVFMzX0NUU19NQU5VQUwsIEhETUlfQVVEX0NUUzMpOwo+ICsJLyogVXNlIGF1
+dG9tYXRpYyBDVFMgZ2VuZXJhdGlvbiBtb2RlIHdoZW4gQ1RTIGlzIG5vdCBzZXQgKi8KPiArCWlm
+IChjdHMpCj4gKwkJaGRtaV93cml0ZWIoaGRtaSwgKChjdHMgPj4gMTYpICYKPiArCQkJCSAgIEhE
+TUlfQVVEX0NUUzNfQVVEQ1RTMTlfMTZfTUFTSykgfAo+ICsJCQkJICBIRE1JX0FVRF9DVFMzX0NU
+U19NQU5VQUwsCj4gKwkJCSAgICBIRE1JX0FVRF9DVFMzKTsKPiArCWVsc2UKPiArCQloZG1pX3dy
+aXRlYihoZG1pLCAwLCBIRE1JX0FVRF9DVFMzKTsKPiAgCWhkbWlfd3JpdGViKGhkbWksIChjdHMg
+Pj4gOCkgJiAweGZmLCBIRE1JX0FVRF9DVFMyKTsKPiAgCWhkbWlfd3JpdGViKGhkbWksIGN0cyAm
+IDB4ZmYsIEhETUlfQVVEX0NUUzEpOwo+ICAKPiBAQCAtNTA4LDI0ICs1MTQsMzIgQEAgc3RhdGlj
+IHZvaWQgaGRtaV9zZXRfY2xrX3JlZ2VuZXJhdG9yKHN0cnVjdCBkd19oZG1pICpoZG1pLAo+ICB7
+Cj4gIAl1bnNpZ25lZCBsb25nIGZ0ZG1zID0gcGl4ZWxfY2xrOwo+ICAJdW5zaWduZWQgaW50IG4s
+IGN0czsKPiArCXU4IGNvbmZpZzM7Cj4gIAl1NjQgdG1wOwo+ICAKPiAgCW4gPSBoZG1pX2NvbXB1
+dGVfbihzYW1wbGVfcmF0ZSwgcGl4ZWxfY2xrKTsKPiAgCj4gLQkvKgo+IC0JICogQ29tcHV0ZSB0
+aGUgQ1RTIHZhbHVlIGZyb20gdGhlIE4gdmFsdWUuICBOb3RlIHRoYXQgQ1RTIGFuZCBOCj4gLQkg
+KiBjYW4gYmUgdXAgdG8gMjAgYml0cyBpbiB0b3RhbCwgc28gd2UgbmVlZCA2NC1iaXQgbWF0aC4g
+IEFsc28KPiAtCSAqIG5vdGUgdGhhdCBvdXIgVERNUyBjbG9jayBpcyBub3QgZnVsbHkgYWNjdXJh
+dGU7IGl0IGlzIGFjY3VyYXRlCj4gLQkgKiB0byBrSHouICBUaGlzIGNhbiBpbnRyb2R1Y2UgYW4g
+dW5uZWNlc3NhcnkgcmVtYWluZGVyIGluIHRoZQo+IC0JICogY2FsY3VsYXRpb24gYmVsb3csIHNv
+IHdlIGRvbid0IHRyeSB0byB3YXJuIGFib3V0IHRoYXQuCj4gLQkgKi8KPiAtCXRtcCA9ICh1NjQp
+ZnRkbXMgKiBuOwo+IC0JZG9fZGl2KHRtcCwgMTI4ICogc2FtcGxlX3JhdGUpOwo+IC0JY3RzID0g
+dG1wOwo+ICsJY29uZmlnMyA9IGhkbWlfcmVhZGIoaGRtaSwgSERNSV9DT05GSUczX0lEKTsKPiAg
+Cj4gLQlkZXZfZGJnKGhkbWktPmRldiwgIiVzOiBmcz0ldUh6IGZ0ZG1zPSVsdS4lMDNsdU1IeiBO
+PSVkIGN0cz0lZFxuIiwKPiAtCQlfX2Z1bmNfXywgc2FtcGxlX3JhdGUsIGZ0ZG1zIC8gMTAwMDAw
+MCwgKGZ0ZG1zIC8gMTAwMCkgJSAxMDAwLAo+IC0JCW4sIGN0cyk7Cj4gKwkvKiBPbmx5IGNvbXB1
+dGUgQ1RTIHdoZW4gdXNpbmcgaW50ZXJuYWwgQUhCIGF1ZGlvICovCj4gKwlpZiAoY29uZmlnMyAm
+IEhETUlfQ09ORklHM19BSEJBVURETUEpIHsKPiArCQkvKgo+ICsJCSAqIENvbXB1dGUgdGhlIENU
+UyB2YWx1ZSBmcm9tIHRoZSBOIHZhbHVlLiAgTm90ZSB0aGF0IENUUyBhbmQgTgo+ICsJCSAqIGNh
+biBiZSB1cCB0byAyMCBiaXRzIGluIHRvdGFsLCBzbyB3ZSBuZWVkIDY0LWJpdCBtYXRoLiAgQWxz
+bwo+ICsJCSAqIG5vdGUgdGhhdCBvdXIgVERNUyBjbG9jayBpcyBub3QgZnVsbHkgYWNjdXJhdGU7
+IGl0IGlzCj4gKwkJICogYWNjdXJhdGUgdG8ga0h6LiAgVGhpcyBjYW4gaW50cm9kdWNlIGFuIHVu
+bmVjZXNzYXJ5IHJlbWFpbmRlcgo+ICsJCSAqIGluIHRoZSBjYWxjdWxhdGlvbiBiZWxvdywgc28g
+d2UgZG9uJ3QgdHJ5IHRvIHdhcm4gYWJvdXQgdGhhdC4KPiArCQkgKi8KPiArCQl0bXAgPSAodTY0
+KWZ0ZG1zICogbjsKPiArCQlkb19kaXYodG1wLCAxMjggKiBzYW1wbGVfcmF0ZSk7Cj4gKwkJY3Rz
+ID0gdG1wOwo+ICsKPiArCQlkZXZfZGJnKGhkbWktPmRldiwgIiVzOiBmcz0ldUh6IGZ0ZG1zPSVs
+dS4lMDNsdU1IeiBOPSVkIGN0cz0lZFxuIiwKPiArCQkJX19mdW5jX18sIHNhbXBsZV9yYXRlLAo+
+ICsJCQlmdGRtcyAvIDEwMDAwMDAsIChmdGRtcyAvIDEwMDApICUgMTAwMCwKPiArCQkJbiwgY3Rz
+KTsKPiArCX0gZWxzZQo+ICsJCWN0cyA9IDA7Cj4gIAo+ICAJc3Bpbl9sb2NrX2lycSgmaGRtaS0+
+YXVkaW9fbG9jayk7Cj4gIAloZG1pLT5hdWRpb19uID0gbjsKCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
