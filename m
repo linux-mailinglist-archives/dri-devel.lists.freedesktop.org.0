@@ -1,43 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776595B2D6
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 03:59:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5AC5B2EA
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 04:31:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC50B89AB5;
-	Mon,  1 Jul 2019 01:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE18D89C1C;
+	Mon,  1 Jul 2019 02:31:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id CBA4989AA2;
- Mon,  1 Jul 2019 01:59:26 +0000 (UTC)
-X-UUID: 32b51eec05e64d2289cc2cc4de833084-20190701
-X-UUID: 32b51eec05e64d2289cc2cc4de833084-20190701
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (mhqrelay.mediatek.com ESMTP with TLS)
- with ESMTP id 1811838344; Mon, 01 Jul 2019 09:59:21 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Mon, 1 Jul 2019 09:59:20 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by mtkcas07.mediatek.inc
- (172.21.101.84) with Microsoft SMTP Server (TLS) id 15.0.1395.4;
- Mon, 1 Jul 2019 09:59:19 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 1 Jul 2019 09:59:19 +0800
-Message-ID: <1561946359.23228.0.camel@mtksdaap41>
-Subject: Re: [PATCH v4 4/4] drm/mtk: add panel orientation property
-From: CK Hu <ck.hu@mediatek.com>
-To: Derek Basehore <dbasehore@chromium.org>
-Date: Mon, 1 Jul 2019 09:59:19 +0800
-In-Reply-To: <20190622034105.188454-5-dbasehore@chromium.org>
-References: <20190622034105.188454-1-dbasehore@chromium.org>
- <20190622034105.188454-5-dbasehore@chromium.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 146D889C1C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 02:31:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0B92972167; Mon,  1 Jul 2019 02:31:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111010] Cemu Shader Cache Corruption Displaying Solid Color
+ After commit 11e16ca7ce0
+Date: Mon, 01 Jul 2019 02:31:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111010-502-0eSbHf8D6S@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111010-502@http.bugs.freedesktop.org/>
+References: <bug-111010-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,40 +53,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Thierry
- Reding <thierry.reding@gmail.com>, linux-mediatek@lists.infradead.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1194116622=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIERlcmVrOgoKT24gRnJpLCAyMDE5LTA2LTIxIGF0IDIwOjQxIC0wNzAwLCBEZXJlayBCYXNl
-aG9yZSB3cm90ZToKPiBUaGlzIGluaXRzIHRoZSBwYW5lbCBvcmllbnRhdGlvbiBwcm9wZXJ0eSBm
-b3IgdGhlIG1lZGlhdGVrIGRzaSBkcml2ZXIKPiBpZiB0aGUgcGFuZWwgb3JpZW50YXRpb24gKGNv
-bm5lY3Rvci5kaXNwbGF5X2luZm8ucGFuZWxfb3JpZW50YXRpb24pIGlzCj4gbm90IERSTV9NT0RF
-X1BBTkVMX09SSUVOVEFUSU9OX1VOS05PV04uCj4gCgpSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1
-QG1lZGlhdGVrLmNvbT4KCj4gU2lnbmVkLW9mZi1ieTogRGVyZWsgQmFzZWhvcmUgPGRiYXNlaG9y
-ZUBjaHJvbWl1bS5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNp
-LmMgfCA4ICsrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKykKPiAKPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMKPiBpbmRleCA0YTBiOTE1MGE3YmIuLjA4ZmZkYzc1
-MjZkZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCj4g
-KysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+IEBAIC03ODIsMTAgKzc4
-MiwxOCBAQCBzdGF0aWMgaW50IG10a19kc2lfY3JlYXRlX2Nvbm5lY3RvcihzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZHJtLCBzdHJ1Y3QgbXRrX2RzaSAqZHNpKQo+ICAJCQlEUk1fRVJST1IoIkZhaWxlZCB0
-byBhdHRhY2ggcGFuZWwgdG8gZHJtXG4iKTsKPiAgCQkJZ290byBlcnJfY29ubmVjdG9yX2NsZWFu
-dXA7Cj4gIAkJfQo+ICsKPiArCQlyZXQgPSBkcm1fY29ubmVjdG9yX2luaXRfcGFuZWxfb3JpZW50
-YXRpb25fcHJvcGVydHkoJmRzaS0+Y29ubik7Cj4gKwkJaWYgKHJldCkgewo+ICsJCQlEUk1fRVJS
-T1IoIkZhaWxlZCB0byBpbml0IHBhbmVsIG9yaWVudGF0aW9uXG4iKTsKPiArCQkJZ290byBlcnJf
-cGFuZWxfZGV0YWNoOwo+ICsJCX0KPiAgCX0KPiAgCj4gIAlyZXR1cm4gMDsKPiAgCj4gK2Vycl9w
-YW5lbF9kZXRhY2g6Cj4gKwlkcm1fcGFuZWxfZGV0YWNoKGRzaS0+cGFuZWwpOwo+ICBlcnJfY29u
-bmVjdG9yX2NsZWFudXA6Cj4gIAlkcm1fY29ubmVjdG9yX2NsZWFudXAoJmRzaS0+Y29ubik7Cj4g
-IAlyZXR1cm4gcmV0OwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1194116622==
+Content-Type: multipart/alternative; boundary="15619482790.fBEC9fEc.13915"
+Content-Transfer-Encoding: 7bit
+
+
+--15619482790.fBEC9fEc.13915
+Date: Mon, 1 Jul 2019 02:31:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111010
+
+--- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Thanks for the top quality bug report!
+
+Just to be clear before 11e16ca7ce0 Cemu wasn't actually making use of the
+cache as it was disabled for core profiles (which Cemu uses). Enabling it
+uncovered a bug with the interaction of our cache implementation and the
+separate shader objects extension.
+
+Anyway the following patch should fix the issue.
+
+https://patchwork.freedesktop.org/patch/315016/
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15619482790.fBEC9fEc.13915
+Date: Mon, 1 Jul 2019 02:31:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Cemu Shader Cache Corruption Displaying Solid Color After=
+ commit 11e16ca7ce0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111010#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Cemu Shader Cache Corruption Displaying Solid Color After=
+ commit 11e16ca7ce0"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111010">bug 11101=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>Thanks for the top quality bug report!
+
+Just to be clear before 11e16ca7ce0 Cemu wasn't actually making use of the
+cache as it was disabled for core profiles (which Cemu uses). Enabling it
+uncovered a bug with the interaction of our cache implementation and the
+separate shader objects extension.
+
+Anyway the following patch should fix the issue.
+
+<a href=3D"https://patchwork.freedesktop.org/patch/315016/">https://patchwo=
+rk.freedesktop.org/patch/315016/</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15619482790.fBEC9fEc.13915--
+
+--===============1194116622==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1194116622==--
