@@ -1,46 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF735BA84
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 13:23:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E60E5BABE
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 13:33:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6A48935B;
-	Mon,  1 Jul 2019 11:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE5189A4E;
+	Mon,  1 Jul 2019 11:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4E8A08935B
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 11:23:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4A33E72167; Mon,  1 Jul 2019 11:23:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111010] Cemu Shader Cache Corruption Displaying Solid Color
- After commit 11e16ca7ce0
-Date: Mon, 01 Jul 2019 11:23:56 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: felix.adrianto@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-111010-502-Bo38nECRMy@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111010-502@http.bugs.freedesktop.org/>
-References: <bug-111010-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D5A489A4E
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Jul 2019 11:33:12 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 45clc33R99z9sPM;
+ Mon,  1 Jul 2019 21:33:07 +1000 (AEST)
+Date: Mon, 1 Jul 2019 21:33:04 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Jason Gunthorpe <jgg@mellanox.com>, Dave Airlie <airlied@linux.ie>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the hmm tree
+Message-ID: <20190701213304.34eeaef8@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1561980789;
+ bh=C8KL78jLCoDFJ1Bb+OIqrAImaLk0QK9iv7sc8TkvVx0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=gTyP6v2/8pcb2Dz3UJFcp7ZuSvKfY+fzxNdReNZr6bfbHRMlvSjTRIkwx1XFIRVpk
+ kdonvaUwJZaimvau5BLDhDCMFRYQhqQyMMfZGc9hT2fHIBhJTwQaeF0dG0zMPkxlb/
+ 8/99N7Ex8jVNArXN+/ZVweaYPJoC5yAAqzQmxFfX7Yccta/5ZpyJlRwlW5SXa78Vvz
+ uFXzwmqJcJ0MMFeogb4gPhFarPCLQSNY37MLnLZzdj592v9DBedYIYhUqSkLDtQJfG
+ QY6i218xlHBAgaH1z675EG8Hih4GTLBj+zIEzfjUNthZPK+woBDQ4pEspbE96SK7SD
+ 2Np5CgOksel/g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +47,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1698827910=="
+Cc: Alex Deucher <alexander.deucher@amd.com>, Philip Yang <Philip.Yang@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============0233149506=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0233149506==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/.ggz7+WEN9pPwWsG36IPyVN"; protocol="application/pgp-signature"
 
---===============1698827910==
-Content-Type: multipart/alternative; boundary="15619802361.dC016882.9679"
-Content-Transfer-Encoding: 7bit
-
-
---15619802361.dC016882.9679
-Date: Mon, 1 Jul 2019 11:23:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/.ggz7+WEN9pPwWsG36IPyVN
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111010
+Hi all,
 
-e88z4 <felix.adrianto@gmail.com> changed:
+After merging the hmm tree, today's linux-next build (x86_64 allmodconfig)
+failed like this:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |FIXED
-             Status|NEW                         |RESOLVED
+mm/hmm.c: In function 'hmm_get_or_create':
+mm/hmm.c:50:2: error: implicit declaration of function 'lockdep_assert_held=
+_exclusive'; did you mean 'lockdep_assert_held_once'? [-Werror=3Dimplicit-f=
+unction-declaration]
+  lockdep_assert_held_exclusive(&mm->mmap_sem);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  lockdep_assert_held_once
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c: In function 'amdgpu_ttm_tt_get_use=
+r_pages':
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:778:28: error: passing argument 2 o=
+f 'hmm_range_register' from incompatible pointer type [-Werror=3Dincompatib=
+le-pointer-types]
+  hmm_range_register(range, mm, start,
+                            ^~
+In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:35:
+include/linux/hmm.h:464:29: note: expected 'struct hmm_mirror *' but argume=
+nt is of type 'struct mm_struct *'
+          struct hmm_mirror *mirror,
+          ~~~~~~~~~~~~~~~~~~~^~~~~~
+
+Caused by commit
+
+  e36acfe6c86d ("mm/hmm: Use hmm_mirror not mm as an argument for hmm_range=
+_register")
+
+interacting with commit
+
+  66c45500bfdc ("drm/amdgpu: use new HMM APIs and helpers")
+
+from the drm tree.
+
+All I could do for now was to mark the AMDGPU driver broken.  Please
+submit a merge for for me (and later Linus) to use.
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15619802361.dC016882.9679
-Date: Mon, 1 Jul 2019 11:23:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--Sig_/.ggz7+WEN9pPwWsG36IPyVN
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:felix.adr=
-ianto&#64;gmail.com" title=3D"e88z4 &lt;felix.adrianto&#64;gmail.com&gt;"> =
-<span class=3D"fn">e88z4</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Cemu Shader Cache Corruption Displaying Solid =
-Color After commit 11e16ca7ce0"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111010">bug 11101=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
+-----BEGIN PGP SIGNATURE-----
 
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0Z73AACgkQAVBC80lX
+0GxpLQf+LMHL2mWfHS5YvdE3KHF60hv56K27v0dIs3yDycw9f5yhztFHHogleIUr
+xpVg9DRfLoUlPtCRzP05CWFSGp24bbDsTl+EQrk+sfNbmRmDkWo7zeFd4DUdhe2e
+MgT9FqipJnbFqXSwpyZzstUa8CdnxlRUOZdlJIwqgdRX4u4g+hlE+45YjmE009pV
+lRES1OjZED4t4QcfxQjCNFuLlUoZm+CgppPcp4x+KovYEYSl1iHThGlVYMkbqb1C
+o6LY8LdBK+D1PHpVr23ODTpFL4n25jI8YgQwk/1a8B063GhNz362+oyG3oWY9y7G
+LZC8K+Xam6sbTcaDrUrNrh7ydo5Zww==
+=hKxP
+-----END PGP SIGNATURE-----
 
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-      </p>
+--Sig_/.ggz7+WEN9pPwWsG36IPyVN--
 
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15619802361.dC016882.9679--
-
---===============1698827910==
+--===============0233149506==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -154,4 +133,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1698827910==--
+--===============0233149506==--
