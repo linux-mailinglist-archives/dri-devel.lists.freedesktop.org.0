@@ -1,58 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418825C4B7
-	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 22:59:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4289C5C2E0
+	for <lists+dri-devel@lfdr.de>; Mon,  1 Jul 2019 20:25:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E70B489D60;
-	Mon,  1 Jul 2019 20:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0B5D89C96;
+	Mon,  1 Jul 2019 18:25:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98B1289C94;
- Mon,  1 Jul 2019 18:08:48 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id h6so30953919ioh.3;
- Mon, 01 Jul 2019 11:08:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Uy3GzDC/3O8U5MnHDFB01vcThhGk4+LpUii33EoT0mU=;
- b=SqRSu+rx4CHhWPPC499jdFVCc2nMAgBwh5a6m1B9cZoVWaeLcGmpcpLRDclJYhKa7r
- bNSzLkNB+FjxsOls6iEiDKGaFcif3tm/blXLUZdV3jx9YBXn+RtZZsVUVvzWOzMF/yyw
- 6ViULsQ2HT7g16SuIqMcSpUFx57tl0bZo1OSXql5vglEQkR+XdTyaVeGmJGch0g2JGlc
- R4j+OENYLA3VdZrSVvvfNHeb19WNZC8aGnWh847qG8VDaVn94zY+ytdgJBPzQ54qRUno
- SEkzUdR3FA82iv4y/fc6A4Tzfy11BtmSn2ek8qbY/fHWtmyDa9v4LJeKrJQWRxvuWyL9
- sGpg==
-X-Gm-Message-State: APjAAAXSzeFyqLWyxcTe2zYDqzEdKTCITE7VNMq/+NfYZnVPNpD194NC
- GSR0THxkzLz/vcoRV6gV3uawM3kuQkguhgysQLs=
-X-Google-Smtp-Source: APXvYqxgBnVoTGZWK95i22k6Cou8FFFimKn7TGZnM12vGsyAr9w5HBXwXBtcghJbIHbdMWpoLX5nmxpLrurw/H/MjRc=
-X-Received: by 2002:a6b:3b89:: with SMTP id i131mr16212349ioa.33.1562004528091; 
- Mon, 01 Jul 2019 11:08:48 -0700 (PDT)
-MIME-Version: 1.0
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 99EB189C93;
+ Mon,  1 Jul 2019 18:25:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 1BD8A10A1260;
+ Mon,  1 Jul 2019 11:25:40 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id vMEmiYf2-qnV; Mon,  1 Jul 2019 11:25:38 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id C7B8610A0431;
+ Mon,  1 Jul 2019 11:25:38 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 566E62FE21CE; Mon,  1 Jul 2019 11:25:38 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 1/5] clk: inherit clocks enabled by bootloader
+In-Reply-To: <20190630150230.7878-2-robdclark@gmail.com>
 References: <20190630150230.7878-1-robdclark@gmail.com>
- <20190630150230.7878-3-robdclark@gmail.com>
-In-Reply-To: <20190630150230.7878-3-robdclark@gmail.com>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Mon, 1 Jul 2019 12:08:38 -0600
-Message-ID: <CAOCk7NpOK60ipDzD1Sn+VT_eO3jFikVJ0kCO4T18UBZOGcCFaA@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 2/5] genpd/gdsc: inherit display powerdomain
- from bootloader
-To: Rob Clark <robdclark@gmail.com>
-X-Mailman-Approved-At: Mon, 01 Jul 2019 20:58:29 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=Uy3GzDC/3O8U5MnHDFB01vcThhGk4+LpUii33EoT0mU=;
- b=CpRQXslQJ4GcU66JWYXcgsogIOovk4Oj5BbQvT1mVf4Dt4EhIA8xkGp8g5r/aT6MwC
- 2veX2Qf67yFZ9At1kXc2JXytLmodk0droxpumi42GNd8fRqrcbQ/bLLUWXO9GzyqUMMy
- iyw5xGUu/UeKDlul40NjhRVv2XG3/+FL2LW3Qo6YEooqmR5W7AClmwrQ/FgyHGoBL0Yx
- PCL7voVxS3VCUx0ml2exh075XNYbgTY1e8lKa/wm4SfSeV4yb2otxX66LMcgBzbH2bV8
- hyPnoAjhw3rljtZIgVgulRBpu/b+CeiJLRVSEXJbt+EcT0CMZVhv4Xmh9I7IzoBgvQrV
- je1Q==
+ <20190630150230.7878-2-robdclark@gmail.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Mon, 01 Jul 2019 11:25:36 -0700
+Message-ID: <8736jpzk67.fsf@anholt.net>
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,30 +48,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Len Brown <len.brown@intel.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, aarch64-laptops@lists.linaro.org,
- Stephen Boyd <sboyd@kernel.org>, MSM <linux-arm-msm@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, lkml <linux-kernel@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Kevin Hilman <khilman@kernel.org>, Andy Gross <agross@kernel.org>,
- Pavel Machek <pavel@ucw.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- freedreno <freedreno@lists.freedesktop.org>, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>, aarch64-laptops@lists.linaro.org,
+ linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ Andy Gross <agross@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-clk@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1488372712=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBKdW4gMzAsIDIwMTkgYXQgOTowMiBBTSBSb2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFp
-bC5jb20+IHdyb3RlOgo+Cj4gRnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3Jn
-Pgo+Cj4gTWFyayBwb3dlciBkb21haW5zIHRoYXQgbWF5IGJlIGVuYWJsZWQgYnkgYm9vdGxvYWRl
-ciwgYW5kIHdoaWNoIHNob3VsZAo+IG5vdCBiZSBkaXNhYmxlZCB1bnRpbCBhIGRyaXZlciB0YWtl
-cyB0aGVtIG92ZXIuCj4KPiBUaGlzIGtlZXBzIGVmaWZiIGFsaXZlIHVudGlsIHRoZSByZWFsIGRy
-aXZlciBjYW4gYmUgcHJvYmVkLiAgSW4gYSBkaXN0cm8KPiBrZXJuZWwsIHRoZSBkcml2ZXIgd2ls
-bCBtb3N0IGxpa2VseSBidWlsdCBhcyBhIG1vZHVsZSwgYW5kIG5vdCBwcm9iZWQKPiB1bnRpbCB3
-ZSBnZXQgdG8gdXNlcnNwYWNlIChhZnRlciBsYXRlX2luaXRjYWxsKQo+Cj4gU2lnbmVkLW9mZi1i
-eTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKUmV2aWV3ZWQtYnk6IEplZmZy
-ZXkgSHVnbyA8amVmZnJleS5sLmh1Z29AZ21haWwuY29tPgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============1488372712==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+
+Rob Clark <robdclark@gmail.com> writes:
+
+> From: Rob Clark <robdclark@chromium.org>
+>
+> The goal here is to support inheriting a display setup by bootloader,
+> although there may also be some non-display related use-cases.
+>
+> Rough idea is to add a flag for clks and power domains that might
+> already be enabled when kernel starts, and which should not be
+> disabled at late_initcall if the kernel thinks they are "unused".
+>
+> If bootloader is enabling display, and kernel is using efifb before
+> real display driver is loaded (potentially from kernel module after
+> userspace starts, in a typical distro kernel), we don't want to kill
+> the clocks and power domains that are used by the display before
+> userspace starts.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+
+Raspberry Pi is carrying downstream hacks to do similar stuff, and it
+would be great to see CCF finally support this.
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl0aUCAACgkQtdYpNtH8
+nui9RBAAnmVfgiACM7S2QSkoxsuAb+2zUIY7QTEdS6E25ZqZzNmGPmMTISp/XxAA
+NLGeI6XUfygjG9EKv0VFXWqqYEmZakub2aySsyMeMen+ERcERfS48CJN5gt6iMdK
+GgOmuPB7ZzmNJBYtFtDi8gLluTJeN4IyPMSEro8rBE0PQbaQ58DBWHjFlpENnfP3
+H3UiaafiPLs3FlkHoqat22EFkaykUwcuDHzrDhvHBeef8AQ/daG2wUJxqeMG09y7
+f7w+vnehZUJD05TbUhGp27SspqL9zGv9+ZxMDnkT80TOjECCP9pux7uH/To3XF9u
+E/3Frxf4vRYWIMpdp291UCWqbxmeUojDqbKijBMOlrdWEmXAZZhgfGfJfJ+yBsmI
+Jo1lmr8/H3HU86e73OxYvMk1xMu3MJJIcaY60MNJ1TTKYMoEjMoOxGJC3GzzePzp
+77f2Rj5qoyLXDhFIYjtAGHUoxsGbqTCZAVl3blEUUKxZ7NXcwkGnEdxamFcNGfR9
+IEInM+oyCsjq1XebE0Oq/Rgst/w15nRblNpQyJFU7iQhMGo44wb1G4baTQ3Y+Zh0
+YXHwx/goMr8Y3CufPNWSsVGRVQpKu187uSBQ99zlcF/cpceXvGPJqMQQGE7G34lV
+2CMtjR2tL0dlpjYMTfYMRo7i/MevZYi2GyVWrzEJTeqmMVWthuc=
+=gR9l
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============1488372712==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1488372712==--
