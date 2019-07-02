@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB515D0C2
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 15:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78E265D0E9
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 15:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26D5C89C88;
-	Tue,  2 Jul 2019 13:37:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E9589E06;
+	Tue,  2 Jul 2019 13:41:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com
- [IPv6:2607:f8b0:4864:20::941])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0082898FD;
- Tue,  2 Jul 2019 13:37:50 +0000 (UTC)
-Received: by mail-ua1-x941.google.com with SMTP id f20so333106ual.0;
- Tue, 02 Jul 2019 06:37:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=M9b+8ZBleetIVU/09L+s0q/6AcuRkS5NEr9VJrWRykg=;
- b=VeDARSN0e0GCPCmyE9l7iTBkTLpTDKg5iPlKUzGdjLTOOR1PBRCoLH211F6I9xMWR1
- vhX+UqWJeEp/yMuyR/MdgKs8Aj4xpSlzXJ6KjkY2rpiCJACD4HIG357gg3mHORgvx613
- 9HmHOAMfT8TnaywIbN2dIcboWHgMUrdf//8EdU10RQ4pxSWuM39wVCTqV63ok77CVpua
- /s22xmk+3OtDcG1UVqNuPs1f1X7reRUx21n0WXfMUWUrG8mIAiuqn5QpZJO7MIHpyZIF
- Bg1ehICelRmYx0LYkV1o+uMToEz4uHnPjahqyYDyuStx+DhVrz9MIIry93XrCGnY/k2C
- ++UA==
-X-Gm-Message-State: APjAAAXpjyBXmkftQDU/eO0VgyzCKKYi8+ErmcgPWwhuJxIaHmfeWR6o
- +fxhzr5PRKhJANc7uyhbUstcyIClAO/NxyXef2c=
-X-Google-Smtp-Source: APXvYqwXATTPFLPkhxHYujTcoMwizttWJN9gX1zMzSfeEexL+mHTmoVYQD1Xjo9CR2hk2dDAhxvShKMLR5y/Jb3NjZM=
-X-Received: by 2002:ab0:2789:: with SMTP id t9mr17542952uap.69.1562074669969; 
- Tue, 02 Jul 2019 06:37:49 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 31BC989E0D
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 13:41:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2D12172167; Tue,  2 Jul 2019 13:41:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
+Date: Tue, 02 Jul 2019 13:41:52 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: evo8800@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109206-502-RUONGmfNbW@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
+References: <bug-109206-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190701080022.9415-1-oleg.vasilev@intel.com>
-In-Reply-To: <20190701080022.9415-1-oleg.vasilev@intel.com>
-From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Tue, 2 Jul 2019 14:38:01 +0100
-Message-ID: <CACvgo51-cXsojkE1Y_D0+3+Ax-GZ7gjuq-4xQ6eig9u4XCRsRw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm: report dp downstream port type as a
- subconnector property
-To: Oleg Vasilev <oleg.vasilev@intel.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=M9b+8ZBleetIVU/09L+s0q/6AcuRkS5NEr9VJrWRykg=;
- b=Q3T2Du8jed/DPIzE4zRbPvH3xcpiZguLEG6TB1te6Ow+ryHZZ1T34clsTdXzC8S8L3
- gvov3CFVCif9PrVwj9WOz/kr9izQbzB9YLiF9Q3ayztpfyJTXe3vtVgJY6OhMLRReu9M
- LQ9cMJkaBSbsKb47wlZCHHlN8Zwat0FhuMfVY2CHg/y4S35oJ/nIFRxN7nt5spkx8khQ
- v4t8x0JzNZXnvC7YQ+Xs3oB5oFwc1Ocr18ccMqQj2KBa/QJ0ui9Vkj26CX5GgtV79aBq
- Qm1bvDDIgqyIPyraccBz7MlU7HDGD4Mp6SYDXVUjHssFHnss9JKR2uSn2mt+/CqyxQfJ
- RqiA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,38 +52,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0339042511=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgT2xlZywKCk9uIE1vbiwgMSBKdWwgMjAxOSBhdCAwOTowMCwgT2xlZyBWYXNpbGV2IDxvbGVn
-LnZhc2lsZXZAaW50ZWwuY29tPiB3cm90ZToKPgo+IEN1cnJlbnRseSwgZG93bnN0cmVhbSBwb3J0
-IHR5cGUgaXMgb25seSByZXBvcnRlZCBpbiBkZWJ1Z2ZzLiBUaGlzCj4gaW5mb3JtYXRpb24gc2hv
-dWxkIGJlIGNvbnNpZGVyZWQgaW1wb3J0YW50IHNpbmNlIGl0IHJlZmxlY3RzIHRoZSBhY3R1YWwK
-PiBwaHlzaWNhbCBjb25uZWN0b3IgdHlwZS4gU29tZSB1c2Vyc3BhY2UgKGUuZy4gd2luZG93IGNv
-bXBvc2l0b3JzKQo+IG1heSB3YW50IHRvIHNob3cgdGhpcyBpbmZvIHRvIGEgdXNlci4KPgo+IFRo
-ZSAnc3ViY29ubmVjdG9yJyBwcm9wZXJ0eSBpcyBhbHJlYWR5IHV0aWxpemVkIGZvciBEVkktSSBh
-bmQgVFYtb3V0IGZvcgo+IHJlcG9ydGluZyBjb25uZWN0b3Igc3VidHlwZS4KPgo+IFRoZSBpbml0
-aWFsIG1vdGl2YXRpb24gZm9yIHRoaXMgZmVhdHVyZSBjYW1lIGZyb20gaTJjIHRlc3QgWzFdLgo+
-IEl0IGlzIHN1cHBvc2VkIHRvIGJlIHNraXBwZWQgb24gVkdBIGNvbm5lY3RvcnMsIGJ1dCBpdCBj
-YW5ub3QKPiBkZXRlY3QgVkdBIG92ZXIgRFAgYW5kIGZhaWxzIGluc3RlYWQuCj4KPiBbMV06IGh0
-dHBzOi8vYnVncy5mcmVlZGVza3RvcC5vcmcvc2hvd19idWcuY2dpP2lkPTEwNDA5Nwo+IFNpZ25l
-ZC1vZmYtYnk6IE9sZWcgVmFzaWxldiA8b2xlZy52YXNpbGV2QGludGVsLmNvbT4KPiAtLS0KPiAg
-ZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYyB8IDM4ICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKystLQo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5jIHwgMzYgKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBpbmNsdWRlL2RybS9kcm1fY29ubmVjdG9y
-LmggICAgIHwgIDIgKysKPiAgaW5jbHVkZS9kcm0vZHJtX2RwX2hlbHBlci5oICAgICB8ICAzICsr
-Kwo+ICBpbmNsdWRlL2RybS9kcm1fbW9kZV9jb25maWcuaCAgIHwgIDYgKysrKysrCj4gIGluY2x1
-ZGUvdWFwaS9kcm0vZHJtX21vZGUuaCAgICAgfCAyMiArKysrKysrKysrKystLS0tLS0tCj4gIDYg
-ZmlsZXMgY2hhbmdlZCwgOTcgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4KQ2FuIHlv
-dSBwbGVhc2UgdXBkYXRlIG90aGVyIGRyaXZlcnMgdG8gbWFrZSB1c2Ugb2YgdGhpcyAtIHF1aWNr
-IGdyZXAKc2hvd3MgNS0xMCBpbiB0b3RhbC4KaWYgb25seSBpOTE1IGRvZXMgdGhpcywgdGhlbiB0
-aGUgcG9pbnQgb2YgbWFraW5nIHRoaXMgdUFQSSBpcyB2ZXJ5IG1laC4KClRoaW5rIHVzZXItc3Bh
-Y2UgaGF2aW5nIHBlci12ZW5kb3IgcXVpcmtzIGZvciBLTVMuIFdoaWxlIEtNUyBzaG91bGQgYmUK
-dmVuZG9yIGFnbm9zdGljLgoKLUVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0339042511==
+Content-Type: multipart/alternative; boundary="15620749122.8c1ff7e.29016"
+Content-Transfer-Encoding: 7bit
+
+
+--15620749122.8c1ff7e.29016
+Date: Tue, 2 Jul 2019 13:41:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
+
+--- Comment #52 from Talha Khan <evo8800@gmail.com> ---
+(In reply to Ondrej Lang from comment #50)
+> I tested this yesterday with kernel 5.1.8 and if the file raven_dmcu.bin =
+is
+> present in the /lib/firmware/amdgpu/ folder when you are updating the ker=
+nel
+> (or manually rebuilding the initramfs), the computer will boot with a bla=
+nk
+> screen next time.
+>=20
+> There are 2 pieces to this. The linux-firmware package provides the binary
+> files (i.e. the raven_dmcu.bin) so every time this package gets updated, =
+you
+> should rename/move the file and rebuild the initramfs. The linux-firmware
+> updates are not as frequent as the kernel updates so if you do the
+> workaround, you might go through several kernel updates without issues, b=
+ut
+> once linux-firmware updates, you have to repeat the workaround...
+>=20
+> All the patch in the kernel will do is to ignore the raven_dmcu.bin file
+> automatically (for raven 1 cpus) when building the initramfs so you don't
+> have to rename/move it every time linux-firmware updates.
+
+You're right, I had updated to 5.1.15 and it seemed the firmware files were
+updated as well. I then had to perform the workaround in order to boot into=
+ the
+system.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15620749122.8c1ff7e.29016
+Date: Tue, 2 Jul 2019 13:41:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c52">Comme=
+nt # 52</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+evo8800&#64;gmail.com" title=3D"Talha Khan &lt;evo8800&#64;gmail.com&gt;"> =
+<span class=3D"fn">Talha Khan</span></a>
+</span></b>
+        <pre>(In reply to Ondrej Lang from <a href=3D"show_bug.cgi?id=3D109=
+206#c50">comment #50</a>)
+<span class=3D"quote">&gt; I tested this yesterday with kernel 5.1.8 and if=
+ the file raven_dmcu.bin is
+&gt; present in the /lib/firmware/amdgpu/ folder when you are updating the =
+kernel
+&gt; (or manually rebuilding the initramfs), the computer will boot with a =
+blank
+&gt; screen next time.
+&gt;=20
+&gt; There are 2 pieces to this. The linux-firmware package provides the bi=
+nary
+&gt; files (i.e. the raven_dmcu.bin) so every time this package gets update=
+d, you
+&gt; should rename/move the file and rebuild the initramfs. The linux-firmw=
+are
+&gt; updates are not as frequent as the kernel updates so if you do the
+&gt; workaround, you might go through several kernel updates without issues=
+, but
+&gt; once linux-firmware updates, you have to repeat the workaround...
+&gt;=20
+&gt; All the patch in the kernel will do is to ignore the raven_dmcu.bin fi=
+le
+&gt; automatically (for raven 1 cpus) when building the initramfs so you do=
+n't
+&gt; have to rename/move it every time linux-firmware updates.</span >
+
+You're right, I had updated to 5.1.15 and it seemed the firmware files were
+updated as well. I then had to perform the workaround in order to boot into=
+ the
+system.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15620749122.8c1ff7e.29016--
+
+--===============0339042511==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0339042511==--
