@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357805D0B2
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 15:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2435D0BB
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 15:36:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C07B89D52;
-	Tue,  2 Jul 2019 13:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77AF5898CC;
+	Tue,  2 Jul 2019 13:35:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6427689D52
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 13:31:52 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5EB1872167; Tue,  2 Jul 2019 13:31:52 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110730] [CI][RESUME] igt@kms_chamelium@hdmi-crc-single - crash
- - Received signal SIGSEGV.
-Date: Tue, 02 Jul 2019 13:31:52 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: contact@emersion.fr
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-110730-502-lTuqgxYDje@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110730-502@http.bugs.freedesktop.org/>
-References: <bug-110730-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D099898CC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 13:35:57 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id w20so27336337edd.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2019 06:35:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GlnLnFAncfwccDgZijUzPpnP3dC9NUu1flbr9KSBWWo=;
+ b=LuzALS0VAZyTAsigoKgh5r2kfrLt/AYzZSj49JYjoE04J+sPWmk+3j3GD11/x6MXhm
+ 5i/gXvL8Wr1P3RddiyPfNtULenSLezmaAd9gGdrqZb9YqpejKKFA7vxUGCjpImhsXb2i
+ ziP1XIhWWgPc6Bi4JXAH+CCkxR22B3kZkl2zNJFEor4vWnOO394oOfDKJPrS5+DUS8it
+ ugq6RDZqZiNJDsYM4SF7xc8hCBKVtpavT+CUCvySNTo6j6++VE2lHkJjyDiHfiK0PVIe
+ 5uIC+5ORr0+8aWhXtSddOL9CBQdSp1FWlE1d0k4hoiXuVmTgRY8RBa6xK2TDnmnrVOH8
+ eZQg==
+X-Gm-Message-State: APjAAAWKNYT/E6X+IoXMO87rlqPojIGeehB4u1BL00q1HgMz+NTjiEjf
+ WLxu6NZMF4e+KBI3H+DzXlgFeg==
+X-Google-Smtp-Source: APXvYqxfvZWHV/DPyJmUao8hZ3fY6uqZhuboMI3GtEpH0H60XimXmQi1sDiKZYTRB4jJKVcZuLc6Hw==
+X-Received: by 2002:a17:906:4552:: with SMTP id
+ s18mr28038831ejq.271.1562074555798; 
+ Tue, 02 Jul 2019 06:35:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id by12sm2812771ejb.37.2019.07.02.06.35.54
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 06:35:54 -0700 (PDT)
+Date: Tue, 2 Jul 2019 15:35:52 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 30/33] drm: add missing include to drm_vram_mm_helper.h
+Message-ID: <20190702133552.GD15868@phenom.ffwll.local>
+References: <20190630061922.7254-1-sam@ravnborg.org>
+ <20190630061922.7254-31-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190630061922.7254-31-sam@ravnborg.org>
+X-Operating-System: Linux phenom 4.19.0-5-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GlnLnFAncfwccDgZijUzPpnP3dC9NUu1flbr9KSBWWo=;
+ b=Pj2JV8MjJBYZspACNp77cnS3aqKOIkPq10KQSl7AL19jV8hFEoTCoYsUDGum0LhpRF
+ fDgEM9c0tq2urNiaSCPWUZfq8TwpPZSfnQDZKToeoUAvsCcrKeLcy2mzXUgEOh5RndJm
+ nQLm6/gSSI8hNBuh94XVRv3XNJfAfkmESFYYg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,131 +68,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1989594940=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1989594940==
-Content-Type: multipart/alternative; boundary="15620743123.94bDB49.26239"
-Content-Transfer-Encoding: 7bit
-
-
---15620743123.94bDB49.26239
-Date: Tue, 2 Jul 2019 13:31:52 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110730
-
-emersion <contact@emersion.fr> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #8 from emersion <contact@emersion.fr> ---
-Not seen for a month and a half. Still happened just once.
-
-Let's just close it, and re-open if it happens again.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15620743123.94bDB49.26239
-Date: Tue, 2 Jul 2019 13:31:52 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:contact&#=
-64;emersion.fr" title=3D"emersion &lt;contact&#64;emersion.fr&gt;"> <span c=
-lass=3D"fn">emersion</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-cr=
-c-single - crash - Received signal SIGSEGV."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730">bug 11073=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-cr=
-c-single - crash - Received signal SIGSEGV."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [CI][RESUME] igt&#64;kms_chamelium&#64;hdmi-cr=
-c-single - crash - Received signal SIGSEGV."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110730">bug 11073=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-contact&#64;emersion.fr" title=3D"emersion &lt;contact&#64;emersion.fr&gt;"=
-> <span class=3D"fn">emersion</span></a>
-</span></b>
-        <pre>Not seen for a month and a half. Still happened just once.
-
-Let's just close it, and re-open if it happens again.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15620743123.94bDB49.26239--
-
---===============1989594940==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1989594940==--
+T24gU3VuLCBKdW4gMzAsIDIwMTkgYXQgMDg6MTk6MTlBTSArMDIwMCwgU2FtIFJhdm5ib3JnIHdy
+b3RlOgo+IFRoZSBtYWNybyBEUk1fVlJBTV9NTV9GSUxFX09QRVJBVElPTlMgcmVmZXJlbmNzCj4g
+ZnVuY3Rpb25zIGRlY2xhcmVkIGluIG90aGVyIGhlYWRlciBmaWxlcy4KPiBJbmNsdWRlIHRoZXNl
+IGhlYWRlciBmaWxlcyBzbyB0aGlzIGhlYWRlciBmaWxlcwo+IHB1bGxzIGluIHdoYXQgaXQgcmVm
+ZXJlbmNlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5v
+cmc+Cj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRl
+bC5jb20+Cj4gQ2M6IE1heGltZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9vdGxpbi5jb20+Cj4g
+Q2M6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxp
+ZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiAtLS0K
+PiBUaGUgbGlzdCBvZiBjYzogd2FzIHRvbyBsYXJnZSB0byBhZGQgYWxsIHJlY2lwaWVudHMgdG8g
+dGhlIGNvdmVyIGxldHRlci4KPiBQbGVhc2UgZmluZCBjb3ZlciBsZXR0ZXIgaGVyZToKPiBodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1KdW5lL3Ro
+cmVhZC5odG1sCj4gU2VhcmNoIGZvciAiZHJtOiBkcm9wIHVzZSBvZiBkcm1wLmggaW4gZHJtLW1p
+c2MiCj4gCj4gICAgICAgICBTYW0KPiAKPiAgaW5jbHVkZS9kcm0vZHJtX3ZyYW1fbW1faGVscGVy
+LmggfCAyICsrCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9kcm0vZHJtX3ZyYW1fbW1faGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1f
+dnJhbV9tbV9oZWxwZXIuaAo+IGluZGV4IGE4ZmZkODU5OWIwOC4uMmFhY2ZiMWNjZmFlIDEwMDY0
+NAo+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV92cmFtX21tX2hlbHBlci5oCj4gKysrIGIvaW5jbHVk
+ZS9kcm0vZHJtX3ZyYW1fbW1faGVscGVyLmgKPiBAQCAtMyw2ICszLDggQEAKPiAgI2lmbmRlZiBE
+Uk1fVlJBTV9NTV9IRUxQRVJfSAo+ICAjZGVmaW5lIERSTV9WUkFNX01NX0hFTFBFUl9ICj4gIAo+
+ICsjaW5jbHVkZSA8ZHJtL2RybV9maWxlLmg+Cj4gKyNpbmNsdWRlIDxkcm0vZHJtX2lvY3RsLmg+
+CgpSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KCmJ0
+dyBmb3IgdGhlc2UgaGVscGVycyBnb29kIGlmIHlvdSBtYW51YWxseSBhZGQgcmVsZXZhbnQgcGVv
+cGxlIC0gc2luY2UKdGhlcmUgYXJlIG1haW50YWluZXJzIGZvciB0aGUgZW50aXJlIHN1YnN5c3Rl
+bSBnZXRfbWFpbnRhaW5lcnMucGwgZG9lc24ndApsb29rIGF0IGdpdCBoaXN0b3J5LiBPciB3ZSdk
+IG5lZWQgdG8gYWRkIE1BSU5UQUlORVJTIGVudHJpZXMgbWFudWFsbHkgZm9yCmFsbCBvZiB0aGVt
+IC4uLgotRGFuaWVsCgo+ICAjaW5jbHVkZSA8ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmg+Cj4gIAo+
+ICBzdHJ1Y3QgZHJtX2RldmljZTsKPiAtLSAKPiAyLjIwLjEKPiAKCi0tIApEYW5pZWwgVmV0dGVy
+ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5j
+aApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
