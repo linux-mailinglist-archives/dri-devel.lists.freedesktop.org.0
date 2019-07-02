@@ -1,68 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79EB15CAE5
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 10:09:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5B85CB82
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 10:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8CF5896D8;
-	Tue,  2 Jul 2019 08:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D058C89B03;
+	Tue,  2 Jul 2019 08:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5651C89015
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 08:09:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 7BDBE2AA120;
- Tue,  2 Jul 2019 10:09:15 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id EEI-sV328GtU; Tue,  2 Jul 2019 10:09:14 +0200 (CEST)
-Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.245.116])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 8D58C2AA0D0;
- Tue,  2 Jul 2019 10:09:14 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.92)
- (envelope-from <michel@daenzer.net>)
- id 1hiDqi-0000iF-Df; Tue, 02 Jul 2019 10:09:12 +0200
-Subject: Re: Why is Thunderbolt 3 limited to 2.5 GT/s on Linux?
-To: =?UTF-8?Q?Timur_Krist=c3=b3f?= <timur.kristof@gmail.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-References: <91de711591780e83c70e8f61747725855f6dee99.camel@gmail.com>
- <20190628103204.GJ2640@lahna.fi.intel.com>
- <f550f4a25a7ee7fecd80f7213c3be127ed0323e7.camel@gmail.com>
- <20190628113415.GL2640@lahna.fi.intel.com>
- <ecebae84c91fa31a1207c30c0fe4ed907642dbb9.camel@gmail.com>
- <c3b38b60-7c1a-730d-8de0-e3c880902003@daenzer.net>
- <627b7fff64edcba0f8d8b5ced79a351821c419c7.camel@gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=michel@daenzer.net; prefer-encrypt=mutual; keydata=
- mQGiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
- LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
- 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
- /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
- WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
- Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
- V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
- AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPLQjTWljaGVsIERh
- ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD6IXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
- AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
- jqtGUnnSbyuTQfIySkK5AQ0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
- qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
- bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
- CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
- GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
- YsYrX5xfLgTZC5abhhztpYhGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAn2Ufk2d6/3p4
- Cuyz/NX7KpL2dQ8WAJ9UD5JEakhfofed8PSqOM7jOO3LCA==
-Message-ID: <792d0f36-b8ae-bef9-3b07-95677637ba00@daenzer.net>
-Date: Tue, 2 Jul 2019 10:09:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D92989B03
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 08:14:02 +0000 (UTC)
+X-Originating-IP: 90.89.68.76
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+ (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 29E16FF807;
+ Tue,  2 Jul 2019 08:13:47 +0000 (UTC)
+Date: Tue, 2 Jul 2019 10:13:46 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: a64: enable ANX6345 bridge
+ on Teres-I
+Message-ID: <20190702081346.4hlb53qcajhz4ckl@flea>
+References: <20190605120237.ekmytfxcwbjaqy3x@flea>
+ <E1hYsvP-0000PY-Pz@stardust.g4.wien.funkfeuer.at>
+ <20190607062802.m5wslx3imiqooq5a@flea>
+ <CGME20190607094103epcas1p4babbb11ec050974a62f2af79bc64d752@epcas1p4.samsung.com>
+ <20190607094030.GA12373@lst.de>
+ <66707fcc-b48e-02d3-5ed7-6b7e77d53266@samsung.com>
+ <20190612152022.c3cfhp4cauhzhfyr@flea>
+ <bb2c2c00-b46e-1984-088f-861ac8952331@samsung.com>
+ <20190701095842.fvganvycce2cy7jn@flea>
+ <64471471-5b4d-3c1f-a0e3-e02ee78ca23c@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <627b7fff64edcba0f8d8b5ced79a351821c419c7.camel@gmail.com>
-Content-Language: en-CA
+In-Reply-To: <64471471-5b4d-3c1f-a0e3-e02ee78ca23c@samsung.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +49,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "michael.jamet@intel.com" <michael.jamet@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, Torsten Duwe <duwe@lst.de>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Harald Geyer <harald@ccbib.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ arm-linux <linux-arm-kernel@lists.infradead.org>,
+ Icenowy Zheng <icenowy@aosc.io>
+Content-Type: multipart/mixed; boundary="===============1299441689=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNy0wMSA2OjAxIHAubS4sIFRpbXVyIEtyaXN0w7NmIHdyb3RlOgo+IE9uIE1vbiwg
-MjAxOS0wNy0wMSBhdCAxNjo1NCArMDIwMCwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4+IE9uIDIw
-MTktMDYtMjggMjoyMSBwLm0uLCBUaW11ciBLcmlzdMOzZiB3cm90ZToKPj4+IEkgaGF2ZW4ndCBm
-b3VuZCBhIGdvb2Qgd2F5IHRvIG1lYXN1cmUgdGhlIG1heGltdW0gUENJZSB0aHJvdWdocHV0Cj4+
-PiBiZXR3ZWVuIHRoZSBDUFUgYW5kIEdQVSwKPj4KPj4gYW1kZ3B1LmJlbmNobWFyaz0zCj4+Cj4+
-IG9uIHRoZSBrZXJuZWwgY29tbWFuZCBsaW5lIHdpbGwgbWVhc3VyZSB0aHJvdWdocHV0IGZvciB2
-YXJpb3VzCj4+IHRyYW5zZmVyCj4+IHNpemVzIGR1cmluZyBkcml2ZXIgaW5pdGlhbGl6YXRpb24u
-Cj4gCj4gVGhhbmtzLCBJIHdpbGwgZGVmaW5pdGVseSB0cnkgdGhhdC4KPiBJcyB0aGlzIHRoZSBv
-bmx5IHdheSB0byBkbyB0aGlzLCBvciBpcyB0aGVyZSBhIHdheSB0byBiZW5jaG1hcmsgaXQKPiBh
-ZnRlciBpdCBhbHJlYWR5IGJvb3RlZD8KClRoZSBmb3JtZXIuIEF0IGxlYXN0IGluIHRoZW9yeSwg
-aXQncyBwb3NzaWJsZSB0byB1bmxvYWQgdGhlIGFtZGdwdQptb2R1bGUgd2hpbGUgbm90aGluZyBp
-cyB1c2luZyBpdCwgdGhlbiBsb2FkIGl0IGFnYWluLgoKCj4+PiBidXQgSSBkaWQgdGFrZSBhIGxv
-b2sgYXQgQU1EJ3Mgc3lzZnMgaW50ZXJmYWNlIGF0Cj4+PiAvc3lzL2NsYXNzL2RybS9jYXJkMS9k
-ZXZpY2UvcGNpZV9idyB3aGljaCB3aGlsZSBydW5uaW5nIHRoZQo+Pj4gYm90dGxlbmVja2VkCj4+
-PiBnYW1lLiBUaGUgaGlnaGVzdCB0aHJvdWdocHV0IEkgc2F3IHRoZXJlIHdhcyBvbmx5IDIuNDMg
-R2JpdCAvc2VjLgo+Pgo+PiBQQ0llIGJhbmR3aWR0aCBnZW5lcmFsbHkgaXNuJ3QgYSBib3R0bGVu
-ZWNrIGZvciBnYW1lcywgc2luY2UgdGhleQo+PiBkb24ndAo+PiBjb25zdGFudGx5IHRyYW5zZmVy
-IGxhcmdlIGRhdGEgdm9sdW1lcyBhY3Jvc3MgUENJZSwgYnV0IHN0b3JlIHRoZW0gaW4KPj4gdGhl
-IEdQVSdzIGxvY2FsIFZSQU0sIHdoaWNoIGlzIGNvbm5lY3RlZCBhdCBtdWNoIGhpZ2hlciBiYW5k
-d2lkdGguCj4gCj4gVGhlcmUgYXJlIHJlYXNvbnMgd2h5IEkgdGhpbmsgdGhlIHByb2JsZW0gaXMg
-dGhlIGJhbmR3aWR0aDoKPiAxLiBUaGUgc2FtZSBpc3N1ZXMgZG9uJ3QgaGFwcGVuIHdoZW4gdGhl
-IEdQVSBpcyBub3QgdXNlZCB3aXRoIGEgVEIzCj4gZW5jbG9zdXJlLgo+IDIuIEluIGNhc2Ugb2Yg
-cmFkZW9uc2ksIHRoZSBwcm9ibGVtIHdhcyBtaXRpZ2F0ZWQgb25jZSBNYXJlaydzIFNETUEKPiBw
-YXRjaCB3YXMgbWVyZ2VkLCB3aGljaCBodWdlbHkgcmVkdWNlcyB0aGUgUENJZSBiYW5kd2lkdGgg
-dXNlLgo+IDMuIEluIGxlc3Mgb3B0aW1pemVkIGNhc2VzIChmb3IgZXhhbXBsZSBEOVZLKSwgdGhl
-IHByb2JsZW0gaXMgc3RpbGwKPiB2ZXJ5IG5vdGljYWJsZS4KCkhvd2V2ZXIsIHNpbmNlIHlvdSBz
-YXcgYXMgbXVjaCBhcyB+MjAgR2JpdC9zIHVuZGVyIGRpZmZlcmVudApjaXJjdW1zdGFuY2VzLCB0
-aGUgMi40MyBHYml0L3MgdXNlZCBieSB0aGlzIGdhbWUgY2xlYXJseSBpc24ndCBhIGhhcmQKbGlt
-aXQ7IHRoZXJlIG11c3QgYmUgb3RoZXIgbGltaXRpbmcgZmFjdG9ycy4KCgotLSAKRWFydGhsaW5n
-IE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgaHR0cHM6Ly93d3cu
-YW1kLmNvbQpMaWJyZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAg
-ICAgTWVzYSBhbmQgWCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============1299441689==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ysvumhfqulaacx3l"
+Content-Disposition: inline
+
+
+--ysvumhfqulaacx3l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Jul 01, 2019 at 02:27:51PM +0200, Andrzej Hajda wrote:
+> On 01.07.2019 11:58, Maxime Ripard wrote:
+> > On Fri, Jun 28, 2019 at 12:39:32PM +0200, Andrzej Hajda wrote:
+> >> On 12.06.2019 17:20, Maxime Ripard wrote:
+> >>>> I am not sure if I understand whole discussion here, but I also do not
+> >>>> understand whole edp-connector thing.
+> >>> The context is this one:
+> >>> https://patchwork.freedesktop.org/patch/257352/?series=51182&rev=1
+> >>> https://patchwork.freedesktop.org/patch/283012/?series=56163&rev=1
+> >>> https://patchwork.freedesktop.org/patch/286468/?series=56776&rev=2
+> >>>
+> >>> TL;DR: This bridge is being used on ARM laptops that can come with
+> >>> different eDP panels. Some of these panels require a regulator to be
+> >>> enabled for the panel to work, and this is obviously something that
+> >>> should be in the DT.
+> >>>
+> >>> However, we can't really describe the panel itself, since the vendor
+> >>> uses several of them and just relies on the eDP bus to do its job at
+> >>> retrieving the EDIDs. A generic panel isn't really working either
+> >>> since that would mean having a generic behaviour for all the panels
+> >>> connected to that bus, which isn't there either.
+> >>>
+> >>> The connector allows to expose this nicely.
+> >> As VESA presentation says[1] eDP is based on DP but is much more
+> >> flexible, it is up to integrator (!!!) how the connection, power
+> >> up/down, initialization sequence should be performed. Trying to cover
+> >> every such case in edp-connector seems to me similar to panel-simple
+> >> attempt failure. Moreover there is no such thing as physical standard
+> >> eDP connector. Till now I though DT connector should describe physical
+> >> connector on the device, now I am lost, are there some DT bindings
+> >> guidelines about definition of a connector?
+> > This might be semantics but I guess we're in some kind of grey area?
+> >
+> > Like, for eDP, if it's soldered I guess we could say that there's no
+> > connector. But what happens if for some other board, that signal is
+> > routed through a ribbon?
+> >
+> > You could argue that there's no physical connector in both cases, or
+> > that there's one in both, or one for the ribbon and no connector for
+> > the one soldered in.
+>
+> This is not about ribbon vs soldering. It is about usage: this
+> connection is static across the whole life of the device (except
+> exceptional things: repair, non-standard usage, etc).
+
+It doesn't have to be.
+
+> And "the real connector" is (at least for me) something where
+> end-user can connect/disconnect different things: USB, HDMI,
+> ethernet, etc. And obviously to be functional it should be somehow
+> standardized. So even if there could be some grey area, I do not see
+> it here.
+
+Well, if there's a ribbon connector, then you have a physical
+connector, with the end user being able to connect / disconnect
+various displays. It might not be the case with actual products, but
+it's pretty common with SBCs to have that signal routed through a
+connector, and the user has several options to connect a display to
+it.
+
+The line really is blurred.
+
+> >> Maybe instead of edp-connector one would introduce integrator's specific
+> >> connector, for example with compatible "olimex,teres-edp-connector"
+> >> which should follow edp abstract connector rules? This will be at least
+> >> consistent with below presentation[1] - eDP requirements depends on
+> >> integrator. Then if olimex has standard way of dealing with panels
+> >> present in olimex/teres platforms the driver would then create
+> >> drm_panel/drm_connector/drm_bridge(?) according to these rules, I guess.
+> >> Anyway it still looks fishy for me :), maybe because I am not
+> >> familiarized with details of these platforms.
+>
+> > That makes sense yes
+>
+> And what if some panel can be used with this pseudo-connecter and in
+> some different hw directly? Code duplication? DT overlays?
+
+Overlays are a solution, but I would advocate to always have the
+connector.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--ysvumhfqulaacx3l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRsSOgAKCRDj7w1vZxhR
+xULUAPsGQYzNIZSTC25p24UViIRLulmthcOhzTK4JDdmTudgfAD+LA/mKeRDEVmr
+5I2K+qvDzz8yXwdP9AtgR/XK8mhHSQ8=
+=dLkQ
+-----END PGP SIGNATURE-----
+
+--ysvumhfqulaacx3l--
+
+--===============1299441689==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1299441689==--
