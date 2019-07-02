@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFB55D33E
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 17:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC14D5D34E
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 17:48:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD28189FCC;
-	Tue,  2 Jul 2019 15:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2788F6E02C;
+	Tue,  2 Jul 2019 15:47:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A30389FD1
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 15:44:41 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id n11so18969824qtl.5
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2019 08:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JEGJ7Jmmm4upED98C8kMEX5v02Mgo/GN/6JJfLKfS2Y=;
- b=K+gwF6lMwv99Ei58M3gBADG9FSc8yVbz0B14GKgh778/D5vZkKcWCLbAtDyyfaP2Qw
- L0Iza6lujjY9RrS5G5/jV9VyTTuTx1IfmEe22xHktl+UpfmdNwF4Y64CJeZPVFrlUd76
- TLQzd4MEYvOi33DwjNXdhxVh1OsrOzpTwcH4KlPCrNFexXH8MXpl8SkxQQYaxZ+QOMRg
- hn/ajK/+oY8zhZNWOwEXBejnCoj+Xcr3bnbhhY1WqPDlbAdik8bfnQeq6tOdtpnbjjVg
- uEfC8FDHlvjNJ1Nw4SzpgKZ4kGMuhsD3RM+jp7X2xgA9gxLQTOYjM0mNqPGpDH9fvlUR
- CSuQ==
-X-Gm-Message-State: APjAAAWTLrgDDS/g9E5BLCLv/zIYLX0fxA2WO1xqyTof31/dPLgpo8fY
- 8xuyF1g/zonLqq80f7SPkHGURqE3GrY=
-X-Google-Smtp-Source: APXvYqwrwmnTDvlh5LTDRzlineemj5kLLsGRS9iB6zoJcKryU4/iFBumhY4Vv/4jDgkmSlqD0v5qsw==
-X-Received: by 2002:ac8:368a:: with SMTP id a10mr26019845qtc.143.1562082279992; 
- Tue, 02 Jul 2019 08:44:39 -0700 (PDT)
-Received: from localhost ([2601:184:4780:7861:5010:5849:d76d:b714])
- by smtp.gmail.com with ESMTPSA id d123sm6828508qkb.94.2019.07.02.08.44.39
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 08:44:39 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/bridge: ti-sn65dsi86: correct dsi mode_flags
-Date: Tue,  2 Jul 2019 08:44:18 -0700
-Message-Id: <20190702154419.20812-4-robdclark@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190702154419.20812-1-robdclark@gmail.com>
-References: <20190702154419.20812-1-robdclark@gmail.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [62.209.51.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 651FA89FF7
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 15:47:56 +0000 (UTC)
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x62FkSbB002392; Tue, 2 Jul 2019 17:47:40 +0200
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 2tdwf0w4ux-1
+ (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+ Tue, 02 Jul 2019 17:47:40 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 839AC31;
+ Tue,  2 Jul 2019 15:47:37 +0000 (GMT)
+Received: from Webmail-eu.st.com (Safex1hubcas23.st.com [10.75.90.46])
+ by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 49270487E;
+ Tue,  2 Jul 2019 15:47:37 +0000 (GMT)
+Received: from SAFEX1HUBCAS21.st.com (10.75.90.45) by SAFEX1HUBCAS23.st.com
+ (10.75.90.46) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 2 Jul 2019
+ 17:47:37 +0200
+Received: from localhost (10.201.23.16) by Webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 2 Jul 2019 17:47:36
+ +0200
+From: Olivier Moysan <olivier.moysan@st.com>
+To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
+ <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
+ <jernej.skrabec@siol.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <benjamin.gaignard@st.com>, <alexandre.torgue@st.com>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <olivier.moysan@st.com>,
+ <jsarha@ti.com>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+ <devicetree@vger.kernel.org>
+Subject: [PATCH 0/3] drm/bridge: sii902x: fix audio mclk management
+Date: Tue, 2 Jul 2019 17:47:03 +0200
+Message-ID: <1562082426-14876-1-git-send-email-olivier.moysan@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-Originating-IP: [10.201.23.16]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-02_08:, , signatures=0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JEGJ7Jmmm4upED98C8kMEX5v02Mgo/GN/6JJfLKfS2Y=;
- b=beufamAHtcBoZt+Gwf86QpSPtt4WbjVUwHCf2J3m0/Ebb+ttFl5pzogaS/c+qjPv3v
- pBxg445g7S25YCjqZCD21hiVGf4r3GV2DfoZV0HCPb5Y0k+nsn/vP2ZX7RPUCroJ7E/2
- MP8z4inC06IWSaP1Yg9tkV6xe1nbciIh33iZrAJxgE1dzhZ1I+GMa0tjOZm2q6vx8GRB
- G3ipziXB7UDxBtjdYrV/w600Ndcm3OkRopY+Gn5fcrC3IXJjLvLKDbxSHzNtMyj9ZLa4
- qgscQ1owPKfAyORLW/xqf+nuvPkkEOjPpQfWTnjWaXbmR85AFbLr2JAn5uzAT7wpcOED
- kRDA==
+ d=st.com; h=from : to : subject :
+ date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=eo0SzcMpscMimbmWzsOIbcgLXEFvCBh20u1KgFabFbU=;
+ b=bNblDuWO7jsVSN+PfB2xxe0ZDiUyeLXWo9o19zQpFArkhjHGUlIZjoe3y6ozfdtvABAP
+ pML3jxpdhSHUr0F+rW9u+8eDOVVxoLwjl72bwQm4mvdgihEK0F6GQu344lB/NNK55Zx2
+ 6ps1iKV9RlCN9mT9wRTpM7LmiaKcXU7hBQmU2Xn9Nk/i0yan20CCTNOfZ19w9gBWSCKY
+ fd8d5mfLUoPJTKUMTwDYgSuD12wohApr0fn+P9FnDW6pvalvQt98b1PmWIgZa7OEdtjG
+ kirHv3JZVJvm3fSoJILvjvIbBcBFoIOP3PT9oveWGCciIeCjII4W1Mzei/wRDh0XMmns KQ== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,34 +71,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sean Paul <seanpaul@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKTm90aWNlZCB3aGlsZSBj
-b21wYXJpbmcgcmVnaXN0ZXIgZHVtcCBvZiBob3cgYm9vdGxvYWRlciBjb25maWd1cmVzIERTSQp2
-cyBob3cga2VybmVsIGNvbmZpZ3VyZXMuICBJdCBzZWVtcyB0aGUgYnJpZGdlIHN0aWxsIHdvcmtz
-IGVpdGhlciB3YXksCmJ1dCBmaXhpbmcgdGhpcyBjbGVhcnMgdGhlICdDSEFfREFUQVRZUEVfRVJS
-JyBlcnJvciBzdGF0dXMgYml0LgoKU2lnbmVkLW9mZi1ieTogUm9iIENsYXJrIDxyb2JkY2xhcmtA
-Y2hyb21pdW0ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTg2LmMg
-fCAzICstLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTg2LmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4Ni5jCmluZGV4IGE2ZjI3NjQ4YzAxNS4uYzhm
-YjQ1ZTdiMDZkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4
-Ni5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTg2LmMKQEAgLTM0Miw4
-ICszNDIsNyBAQCBzdGF0aWMgaW50IHRpX3NuX2JyaWRnZV9hdHRhY2goc3RydWN0IGRybV9icmlk
-Z2UgKmJyaWRnZSkKIAkvKiBUT0RPOiBzZXR0aW5nIHRvIDQgbGFuZXMgYWx3YXlzIGZvciBub3cg
-Ki8KIAlkc2ktPmxhbmVzID0gNDsKIAlkc2ktPmZvcm1hdCA9IE1JUElfRFNJX0ZNVF9SR0I4ODg7
-Ci0JZHNpLT5tb2RlX2ZsYWdzID0gTUlQSV9EU0lfTU9ERV9WSURFTyB8IE1JUElfRFNJX01PREVf
-VklERU9fU1lOQ19QVUxTRSB8Ci0JCQkgIE1JUElfRFNJX01PREVfRU9UX1BBQ0tFVCB8IE1JUElf
-RFNJX01PREVfVklERU9fSFNFOworCWRzaS0+bW9kZV9mbGFncyA9IE1JUElfRFNJX01PREVfVklE
-RU87CiAKIAkvKiBjaGVjayBpZiBjb250aW51b3VzIGRzaSBjbG9jayBpcyByZXF1aXJlZCBvciBu
-b3QgKi8KIAlwbV9ydW50aW1lX2dldF9zeW5jKHBkYXRhLT5kZXYpOwotLSAKMi4yMC4xCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+Rml4IGF1ZGlvIG1hc3RlciBjbG9jayB1c2UgZm9yIFNpbGFiIHNpaTkwMnggSERNSSB0cmFuc2Nl
+aXZlci4KTWFrZSBhdWRpbyBtYXN0ZXIgY2xvY2sgb3B0aW9uYWwsIGFzIHRoaXMgY2xvY2sgaXMg
+bm90IG1hbmRhdG9yeS4KCk9saXZpZXIgTW95c2FuICgzKToKICBkcm0vYnJpZGdlOiBzaWk5MDJ4
+OiBmaXggbWlzc2luZyByZWZlcmVuY2UgdG8gbWNsayBjbG9jawogIGR0LWJpbmRpbmdzOiBkaXNw
+bGF5OiBzaWk5MDJ4OiBDaGFuZ2UgYXVkaW8gbWNsayBiaW5kaW5nCiAgZHJtL2JyaWRnZTogc2lp
+OTAyeDogbWFrZSBhdWRpbyBtY2xrIG9wdGlvbmFsCgogLi4uL2RldmljZXRyZWUvYmluZGluZ3Mv
+ZGlzcGxheS9icmlkZ2Uvc2lpOTAyeC50eHQgfCAgNSArKy0KIGRyaXZlcnMvZ3B1L2RybS9icmlk
+Z2Uvc2lpOTAyeC5jICAgICAgICAgICAgICAgICAgIHwgNDAgKysrKysrKysrKysrKy0tLS0tLS0t
+LQogMiBmaWxlcyBjaGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKCi0t
+IAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
