@@ -1,83 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BAB5DE7B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 09:13:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEDA5DE78
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 09:13:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E43A76E0E2;
-	Wed,  3 Jul 2019 07:13:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 411F66E0D3;
+	Wed,  3 Jul 2019 07:13:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70051.outbound.protection.outlook.com [40.107.7.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 941BC89A8B;
- Tue,  2 Jul 2019 19:53:26 +0000 (UTC)
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (10.171.182.144) by
- VI1PR05MB3407.eurprd05.prod.outlook.com (10.170.238.160) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.20; Tue, 2 Jul 2019 19:53:23 +0000
-Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::f5d8:df9:731:682e]) by VI1PR05MB4141.eurprd05.prod.outlook.com
- ([fe80::f5d8:df9:731:682e%5]) with mapi id 15.20.2032.019; Tue, 2 Jul 2019
- 19:53:23 +0000
-From: Jason Gunthorpe <jgg@mellanox.com>
-To: Ralph Campbell <rcampbell@nvidia.com>, Christoph Hellwig <hch@lst.de>
+Received: from hqemgate16.nvidia.com (hqemgate16.nvidia.com [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D830898EE;
+ Tue,  2 Jul 2019 20:11:33 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d1bba730000>; Tue, 02 Jul 2019 13:11:31 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 02 Jul 2019 13:11:32 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 02 Jul 2019 13:11:32 -0700
+Received: from rcampbell-dev.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 2 Jul
+ 2019 20:11:28 +0000
 Subject: Re: [RFC] mm/hmm: pass mmu_notifier_range to
  sync_cpu_device_pagetables
-Thread-Topic: [RFC] mm/hmm: pass mmu_notifier_range to
- sync_cpu_device_pagetables
-Thread-Index: AQHVHY87cnj6rYaF00uB6DOqwK5J5aa35HaA
-Date: Tue, 2 Jul 2019 19:53:23 +0000
-Message-ID: <20190702195317.GT31718@mellanox.com>
+To: Jason Gunthorpe <jgg@mellanox.com>, Christoph Hellwig <hch@lst.de>
 References: <20190608001452.7922-1-rcampbell@nvidia.com>
-In-Reply-To: <20190608001452.7922-1-rcampbell@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: YQBPR0101CA0044.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:1::21) To VI1PR05MB4141.eurprd05.prod.outlook.com
- (2603:10a6:803:4d::16)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [156.34.55.100]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 91a8010a-9074-49f6-5f3f-08d6ff26f0c7
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:VI1PR05MB3407; 
-x-ms-traffictypediagnostic: VI1PR05MB3407:
-x-microsoft-antispam-prvs: <VI1PR05MB3407FA9099031BFAF148D2AACFF80@VI1PR05MB3407.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 008663486A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(136003)(346002)(376002)(366004)(39860400002)(199004)(189003)(5660300002)(64756008)(99286004)(186003)(4326008)(14444005)(6116002)(446003)(486006)(3846002)(11346002)(256004)(2616005)(476003)(66556008)(66446008)(66066001)(66946007)(86362001)(478600001)(73956011)(66476007)(25786009)(33656002)(81166006)(81156014)(8676002)(71200400001)(36756003)(316002)(8936002)(68736007)(1076003)(14454004)(76176011)(2906002)(6486002)(7416002)(4744005)(102836004)(6506007)(229853002)(386003)(6246003)(6512007)(6436002)(305945005)(7736002)(71190400001)(53936002)(26005)(54906003)(110136005)(52116002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB3407;
- H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: zBxzoHUx6jbzlZVkFi+e9m2ovvrNdaF57cJAmrQAUvgjIc6VJWidnpqjL4pG/tkQmzUsCr7Mq9zVT7UzNR3O2N6Nv3Yf/MjW7a8oJzadNJSd4AUiEHBtZblxxiz5C/sRvynk8tL8tF1ZsHnezKa/o5OlHLwVbKgTMd7q39KsEwv4ydwePbs9Y8eKhKkFEy9N8YSK5zOzEYuQ3WPQwt90wpHla8W8GVTj49LdyWlW5e5GCY25ZluCcCc8SgyivlZOwZBnf8sVRvyEWcEgiEAgpf2EWgFtDcmcZFb9DTMRqowHqVXg6D5JHn9S7KkpJJC9YoL0SDrfVxhT4n8w3YnRqkOLzq4t90pVh07KsDZm0QPQV6v+/qm3NtjE3lcMLAsAm5TiWNJVSJXEL1Q/bsj04Xqw5jdAWprPdD2oBSedE+E=
-Content-ID: <9EEF795A80FA1D4D8BB871FDEA45923F@eurprd05.prod.outlook.com>
+ <20190702195317.GT31718@mellanox.com>
+X-Nvconfidentiality: public
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <b0252869-588f-0333-1878-1f90b8b0c17b@nvidia.com>
+Date: Tue, 2 Jul 2019 13:11:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91a8010a-9074-49f6-5f3f-08d6ff26f0c7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2019 19:53:23.5960 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jgg@mellanox.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB3407
+In-Reply-To: <20190702195317.GT31718@mellanox.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 03 Jul 2019 07:13:21 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Mellanox.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ux79kayW2/oD3UIytvFEMfepSZQDjLhXcIU5Az4AZnY=;
- b=TzITFv+4DyhvRhIxaLQQBj41KHoDH5qvHNYfiLEhRPXbOsbprQQ4S62EFM+WOzO4Ty2BHdG2weYdRAMWeNzIdjud2VGBYREm2sDpStENTFwTmDcEJS8fTFsNf4Tgt7XVX1aKfj6z7thdXDGP/zqmlDm5A8gAIgPWFw3AVWI8+LM=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=jgg@mellanox.com; 
+ d=nvidia.com; s=n1; 
+ t=1562098291; bh=pJF5x4345qO6YQIaFfIRkH4NCd5wxJwRshnLYN1SQEs=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=IUcePnf0Csnlm1B5f0YiScyxFBIq1oVLcXkX1R9Dzr/JAedpYocU+1YoARltFSzXL
+ iLdan7eOA9VcM2WT0J99ARUqKv5co1QJpNjVJxlyi6VrWEaAa0ctcAejwHVY5FPzkK
+ 6qPdataKyAZrPuuUre4m/2Ync8rx0qmtlLizKB0GuEBNOc7D6cSYMtShRnxwP6YfbL
+ 3wiZCF40d0ZkSYRtNGF6wQbfuTiye4gz/az2kzjXcRQxdB6y8stFF9aKIkrjk41ZR6
+ r8/YZuQpFxYBeyEUBl5MVMoyTkBxn2IdZdr2j6jfNvfE62puz7tcnkRFcL9kLfVfv5
+ 5CgD7awfl1YKw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,28 +73,30 @@ Cc: Andrea Arcangeli <aarcange@redhat.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "linux-mm@kvack.org" <linux-mm@kvack.org>, Jerome Glisse <jglisse@redhat.com>,
  "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdW4gMDcsIDIwMTkgYXQgMDU6MTQ6NTJQTSAtMDcwMCwgUmFscGggQ2FtcGJlbGwg
-d3JvdGU6Cj4gSE1NIGRlZmluZXMgaXRzIG93biBzdHJ1Y3QgaG1tX3VwZGF0ZSB3aGljaCBpcyBw
-YXNzZWQgdG8gdGhlCj4gc3luY19jcHVfZGV2aWNlX3BhZ2V0YWJsZXMoKSBjYWxsYmFjayBmdW5j
-dGlvbi4gVGhpcyBpcwo+IHN1ZmZpY2llbnQgd2hlbiB0aGUgb25seSBhY3Rpb24gaXMgdG8gaW52
-YWxpZGF0ZS4gSG93ZXZlciwKPiBhIGRldmljZSBtYXkgd2FudCB0byBrbm93IHRoZSByZWFzb24g
-Zm9yIHRoZSBpbnZhbGlkYXRpb24gYW5kCj4gYmUgYWJsZSB0byBzZWUgdGhlIG5ldyBwZXJtaXNz
-aW9ucyBvbiBhIHJhbmdlLCB1cGRhdGUgZGV2aWNlIGFjY2Vzcwo+IHJpZ2h0cyBvciByYW5nZSBz
-dGF0aXN0aWNzLiBTaW5jZSBzeW5jX2NwdV9kZXZpY2VfcGFnZXRhYmxlcygpCj4gY2FuIGJlIGNh
-bGxlZCBmcm9tIHRyeV90b191bm1hcCgpLCB0aGUgbW1hcF9zZW0gbWF5IG5vdCBiZSBoZWxkCj4g
-YW5kIGZpbmRfdm1hKCkgaXMgbm90IHNhZmUgdG8gYmUgY2FsbGVkLgo+IFBhc3MgdGhlIHN0cnVj
-dCBtbXVfbm90aWZpZXJfcmFuZ2UgdG8gc3luY19jcHVfZGV2aWNlX3BhZ2V0YWJsZXMoKQo+IHRv
-IGFsbG93IHRoZSBmdWxsIGludmFsaWRhdGlvbiBpbmZvcm1hdGlvbiB0byBiZSB1c2VkLgo+IAo+
-IFNpZ25lZC1vZmYtYnk6IFJhbHBoIENhbXBiZWxsIDxyY2FtcGJlbGxAbnZpZGlhLmNvbT4KPiAt
-LS0KPiAKPiBJJ20gc2VuZGluZyB0aGlzIG91dCBub3cgc2luY2Ugd2UgYXJlIHVwZGF0aW5nIG1h
-bnkgb2YgdGhlIEhNTSBBUElzCj4gYW5kIEkgdGhpbmsgaXQgd2lsbCBiZSB1c2VmdWwuCgpUaGlz
-IG1ha2Ugc28gbXVjaCBzZW5zZSwgSSdkIGxpa2UgdG8gYXBwbHkgdGhpcyBpbiBobW0uZ2l0LCBp
-cyB0aGVyZQphbnkgb2JqZWN0aW9uPwoKSmFzb24KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+Ck9uIDcvMi8xOSAxMjo1MyBQTSwgSmFzb24gR3VudGhvcnBlIHdyb3RlOgo+IE9uIEZyaSwgSnVu
+IDA3LCAyMDE5IGF0IDA1OjE0OjUyUE0gLTA3MDAsIFJhbHBoIENhbXBiZWxsIHdyb3RlOgo+PiBI
+TU0gZGVmaW5lcyBpdHMgb3duIHN0cnVjdCBobW1fdXBkYXRlIHdoaWNoIGlzIHBhc3NlZCB0byB0
+aGUKPj4gc3luY19jcHVfZGV2aWNlX3BhZ2V0YWJsZXMoKSBjYWxsYmFjayBmdW5jdGlvbi4gVGhp
+cyBpcwo+PiBzdWZmaWNpZW50IHdoZW4gdGhlIG9ubHkgYWN0aW9uIGlzIHRvIGludmFsaWRhdGUu
+IEhvd2V2ZXIsCj4+IGEgZGV2aWNlIG1heSB3YW50IHRvIGtub3cgdGhlIHJlYXNvbiBmb3IgdGhl
+IGludmFsaWRhdGlvbiBhbmQKPj4gYmUgYWJsZSB0byBzZWUgdGhlIG5ldyBwZXJtaXNzaW9ucyBv
+biBhIHJhbmdlLCB1cGRhdGUgZGV2aWNlIGFjY2Vzcwo+PiByaWdodHMgb3IgcmFuZ2Ugc3RhdGlz
+dGljcy4gU2luY2Ugc3luY19jcHVfZGV2aWNlX3BhZ2V0YWJsZXMoKQo+PiBjYW4gYmUgY2FsbGVk
+IGZyb20gdHJ5X3RvX3VubWFwKCksIHRoZSBtbWFwX3NlbSBtYXkgbm90IGJlIGhlbGQKPj4gYW5k
+IGZpbmRfdm1hKCkgaXMgbm90IHNhZmUgdG8gYmUgY2FsbGVkLgo+PiBQYXNzIHRoZSBzdHJ1Y3Qg
+bW11X25vdGlmaWVyX3JhbmdlIHRvIHN5bmNfY3B1X2RldmljZV9wYWdldGFibGVzKCkKPj4gdG8g
+YWxsb3cgdGhlIGZ1bGwgaW52YWxpZGF0aW9uIGluZm9ybWF0aW9uIHRvIGJlIHVzZWQuCj4+Cj4+
+IFNpZ25lZC1vZmYtYnk6IFJhbHBoIENhbXBiZWxsIDxyY2FtcGJlbGxAbnZpZGlhLmNvbT4KPj4g
+LS0tCj4+Cj4+IEknbSBzZW5kaW5nIHRoaXMgb3V0IG5vdyBzaW5jZSB3ZSBhcmUgdXBkYXRpbmcg
+bWFueSBvZiB0aGUgSE1NIEFQSXMKPj4gYW5kIEkgdGhpbmsgaXQgd2lsbCBiZSB1c2VmdWwuCj4g
+Cj4gVGhpcyBtYWtlIHNvIG11Y2ggc2Vuc2UsIEknZCBsaWtlIHRvIGFwcGx5IHRoaXMgaW4gaG1t
+LmdpdCwgaXMgdGhlcmUKPiBhbnkgb2JqZWN0aW9uPwo+IAo+IEphc29uCj4gCk5vdCBmcm9tIG1l
+LiA6LSkKClRoYW5rcyEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
