@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23B375C8EE
-	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 07:44:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D61E5C8ED
+	for <lists+dri-devel@lfdr.de>; Tue,  2 Jul 2019 07:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B84D89A7A;
-	Tue,  2 Jul 2019 05:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84EAB89B67;
+	Tue,  2 Jul 2019 05:44:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B459489BBE
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 05:44:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A261430B96FC;
- Tue,  2 Jul 2019 05:44:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3FF860BF3;
- Tue,  2 Jul 2019 05:44:48 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CE40511AB5; Tue,  2 Jul 2019 07:44:47 +0200 (CEST)
-Date: Tue, 2 Jul 2019 07:44:47 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/4] drm/vram: Set GEM object functions for PRIME
-Message-ID: <20190702054447.7r52tkfovqk47rey@sirius.home.kraxel.org>
-References: <20190628122659.31887-1-tzimmermann@suse.de>
- <20190628122659.31887-2-tzimmermann@suse.de>
- <20190701063232.pnc7ziq7tg4yqyqp@sirius.home.kraxel.org>
- <216c9142-ca8e-50ae-cb0b-f63a8b57addf@suse.de>
- <20190701084857.k7m3ysz47oes3mwj@sirius.home.kraxel.org>
- <546746eb-b8bc-dbd9-d712-3fdef01f14d0@suse.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C58D789B67
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Jul 2019 05:44:51 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BDB3872168; Tue,  2 Jul 2019 05:44:51 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111040] it is not working
+Date: Tue, 02 Jul 2019 05:44:51 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/other
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sriramyaparimi@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111040-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <546746eb-b8bc-dbd9-d712-3fdef01f14d0@suse.de>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 02 Jul 2019 05:44:52 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,22 +51,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sam@ravnborg.org, maxime.ripard@bootlin.com, puck.chen@hisilicon.com,
- dri-devel@lists.freedesktop.org, z.liuxinliang@hisilicon.com,
- kong.kongxinwei@hisilicon.com, zourongrong@gmail.com, airlied@redhat.com,
- sean@poorly.run
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1661991172=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ICBIaSwKCj4gPiBCdXQgdGhlIG5ldyBhbmQgdGhlIG9sZCBvbmVzIGFyZSBpZGVudGljYWwsIHJp
-Z2h0PyAgU28gd2h5IGFkZC9yZW1vdmU/Cj4gPiBXaHkgbm90IGp1c3QgcmVuYW1lIHRoZW0/Cj4g
-Cj4gSG1tLCBPSy4gRG9lcyB0aGF0IHNvbWVob3cgbWFrZSBhIGRpZmZlcmVuY2UgKGUuZy4sIGVh
-c2llciBiYWNrcG9ydGluZwo+IG9yIG1haW50ZW5hbmNlKT8KCkVhc2llciBwYXRjaCByZXZpZXcg
-KGl0IGlzIG9idmlvdXMgdGhlbiB5b3Ugb25seSBjaGFuZ2UgdGhlIHdheSB0aGUKZnVuY3Rpb25z
-IGFyZSBob29rZWQgdXAsIG5vdCB0aGUgYWN0dWFsIGNvZGUpLiAgQSBiaXQgbGVzcyBjb2RlIGNo
-dXJuLgoKY2hlZXJzLAogIEdlcmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============1661991172==
+Content-Type: multipart/alternative; boundary="15620462911.5CB78.9190"
+Content-Transfer-Encoding: 7bit
+
+
+--15620462911.5CB78.9190
+Date: Tue, 2 Jul 2019 05:44:51 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111040
+
+            Bug ID: 111040
+           Summary: it is not working
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/other
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: sriramyaparimi@gmail.com
+
+steps to reproduce
+
+actual result
+
+
+
+expected result
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15620462911.5CB78.9190
+Date: Tue, 2 Jul 2019 05:44:51 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - it is not working"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111040">111040</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>it is not working
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/other
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>sriramyaparimi&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>steps to reproduce
+
+actual result
+
+
+
+expected result</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15620462911.5CB78.9190--
+
+--===============1661991172==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1661991172==--
