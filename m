@@ -1,42 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99ADF5E329
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 13:51:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB8C5E3CC
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 14:25:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE0E6E121;
-	Wed,  3 Jul 2019 11:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C6E46E12B;
+	Wed,  3 Jul 2019 12:25:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3726E121
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 11:51:18 +0000 (UTC)
-X-Originating-IP: 86.250.200.211
-Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id B5131E000D;
- Wed,  3 Jul 2019 11:51:12 +0000 (UTC)
-Date: Wed, 3 Jul 2019 13:51:12 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [linux-sunxi] Re: [PATCH v10 04/11] drm/sun4i: tcon: Compute
- DCLK dividers based on format, lanes
-Message-ID: <20190703115112.xuiajfbu22w6frri@flea>
-References: <20190604143016.fcx3ezmga244xakp@flea>
- <CAMty3ZAAK4RoE6g_LAZ-Q38On_1s_TTOz65YG7PVd88mwp-+4Q@mail.gmail.com>
- <20190613131626.7zbwvrvd4e7eafrc@flea>
- <CAMty3ZBDkMJkZm8FudNB1wQ+L-q3XVKa3zR2M0wZ5Uncdy_Ayg@mail.gmail.com>
- <20190624130442.ww4l3zctykr4i2e2@flea>
- <CAMty3ZB+eZUh5mr-LMZuEd_wrwLCN0mbf7arcRQHj8=uUNNq=Q@mail.gmail.com>
- <20190625143747.3czd7sit4waz75b6@flea>
- <CAMty3ZCh+C9+zgcL633tTw6aPW_WOLnYN7FzJHX+3zu8=8Unpg@mail.gmail.com>
- <20190702152908.fwwf7smt7nh2lxo2@flea>
- <CAMty3ZCBK__VcdNh6xJESjsX7nGrBHxLY3fOWW=5TxOVrwyVXw@mail.gmail.com>
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69B736E12B;
+ Wed,  3 Jul 2019 12:25:45 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id w20so1905056edd.2;
+ Wed, 03 Jul 2019 05:25:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MPb7Hz/aUpRJZzTZLNZiyzmAnZP9z54WdoZUYMn88X0=;
+ b=lsGCJUcuGTemXwHqpbcmDPNpxxrEjHj66MtKi6OkkmMPHehSKCwl1IfYm/7KFGRJCk
+ Wc4jLse102ktql0/aq51vpJAWKJopbGRzsfcDHaXS4sHBvN3zwNmVXLAQ/msrEfqI3aH
+ cZCuHira2QBJBkDhhI6FgyvONaoB9N3VY5hMdk/RuWsaJLgQROs03FWOCgXhIJtGYL5z
+ R/kSjAfzn6Ru+IKsRJk+0VzpAOe4so7/x3+3QZB8+gVNPAbAGJlFflKaT7KuyaleC+1t
+ yGyW8f88Vb9z2VF2tRZvTpesSAWhkWu7pcwXDerXJl1k0of9joqlP/dKVguh6zQ7/oN0
+ hFeA==
+X-Gm-Message-State: APjAAAVm/lXytFbOb8UJk3KYRZjBlSMPQ39ycP18b8RGc2hCKB0LvJoA
+ 5OlRBy2HJl3+i4KptbXK7Lc3zdLEDyRovYuGBTh4YY7mcAg=
+X-Google-Smtp-Source: APXvYqwwqBwoR0MKYgtbC2RmXe+Vq0vZxW7XMvoTuUUUmhoh1kZpu2I3IiFIpogQ8NwcLjzrOgckudH6yN1/qTMZEO8=
+X-Received: by 2002:a17:906:3612:: with SMTP id
+ q18mr34803196ejb.278.1562156744041; 
+ Wed, 03 Jul 2019 05:25:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMty3ZCBK__VcdNh6xJESjsX7nGrBHxLY3fOWW=5TxOVrwyVXw@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <20190701173907.15494-1-jeffrey.l.hugo@gmail.com>
+ <20190703040843.GA27383@builder>
+In-Reply-To: <20190703040843.GA27383@builder>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 3 Jul 2019 05:25:27 -0700
+Message-ID: <CAF6AEGvwMj+R6KbFYbatx8AuF+5mztc7246ocKXfRWnpphv9NA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/mdp5: Use drm_device for creating gem address
+ space
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=MPb7Hz/aUpRJZzTZLNZiyzmAnZP9z54WdoZUYMn88X0=;
+ b=vHchkMOvsHv8kCbADBZUi1vqLd4RTY+FiPP9Lcmq+0/ksI+sEADt3BL/B6j1XPh4sv
+ 8mVZ5lV2G5n5tMEJRJFIZ0fo979d1UN6QoxOmHlllEUg3J1Pwy2ex1GT3DhC1CpuQtWl
+ 2gXnxt80cMG1BqF8rJSpfWYyGXRpHG8QCgnHjyNStOeM3/WYWkFB3oyfCYxA5xm0DUxc
+ x9s6+4ojoKtayGxCeER/E4qGN6dWO2A/1tiAUiMgIpdOyxz3m267eY7/dEf651rPsIzO
+ edygRg5PthgrTVRS6jqy504BnS7OQUcdBI4bM2kXuffv+e/FTrmLzf/3XoY/PuZrOtVf
+ nVRw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,110 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhushan Shah <bshah@mykolab.com>, David Airlie <airlied@linux.ie>,
- linux-sunxi <linux-sunxi@googlegroups.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Vasily Khoruzhick <anarsoul@gmail.com>,
- =?utf-8?B?5Z2a5a6a5YmN6KGM?= <powerpan@qq.com>, Chen-Yu Tsai <wens@csie.org>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============2043090648=="
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2043090648==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bpghw5mnrhdlcmcl"
-Content-Disposition: inline
-
-
---bpghw5mnrhdlcmcl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Tue, Jul 02, 2019 at 09:10:26PM +0530, Jagan Teki wrote:
-> On Tue, Jul 2, 2019 at 8:59 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > On Tue, Jul 02, 2019 at 12:30:14AM +0530, Jagan Teki wrote:
-> > > On Tue, Jun 25, 2019 at 8:07 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > > > > > > > > BSP has tcon_div and dsi_div. dsi_div is dynamic which depends on
-> > > > > > > > > > > bpp/lanes and it indeed depends on PLL computation (not tcon_div),
-> > > > > > > > > > > anyway I have explained again on this initial link you mentioned.
-> > > > > > > > > > > Please have a look and get back.
-> > > > > > > > > >
-> > > > > > > > > > I'll have a look, thanks.
-> > > > > > > > > >
-> > > > > > > > > > I've given your patches a try on my setup though, and this patch
-> > > > > > > > > > breaks it with vblank timeouts and some horizontal lines that looks
-> > > > > > > > > > like what should be displayed, but blinking and on the right of the
-> > > > > > > > > > display. The previous ones are fine though.
-> > > > > > > > >
-> > > > > > > > > Would you please send me the link of panel driver.
-> > > > > > > >
-> > > > > > > > It's drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > > > > > >
-> > > > > > > Look like this panel work even w/o any vendor sequence. it's similar
-> > > > > > > to the 4-lane panel I have with RGB888, so the dclk div is 6, is it
-> > > > > > > working with this divider?
-> > > > > >
-> > > > > > It works with 4, it doesn't work with 6.
-> > > > >
-> > > > > Can be the pixel clock with associated timings can make this diff.
-> > > > > Would you send me the pixel clock, pll_rate and timings this panel
-> > > > > used it from BSP?
-> > > >
-> > > > This board never had an Allwinner BSP
-> > >
-> > > Running on BSP would help to understand some clue, anyway would you
-> > > send me the the value PLL_MIPI register (devme 0x1c20040) on this
-> > > board. I'm trying to understand how it value in your case.
-> >
-> > I'm sorry, but I'm not going to port a whole BSP on that board,
-> > especially for something I haven't been convinced it's the right fix.
->
-> Look like a dead lock here, this change has a conclusive evidence from
-> BSP (which is AW datasheet or open code to outside world) and it is
-> working with A33, A64 and R40 which was tested in 4 different panels
-> and I don't understand the reason for not going with this (atleast
-> check with respect to BSP).
-
-Because that would take a month or so?
-
-> Please suggest, what I can do further, your suggestion is very
-> helpful here.
-
-I already did, and you ignored it. Several times.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---bpghw5mnrhdlcmcl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXRyWsAAKCRDj7w1vZxhR
-xY+8AQDVqXY1gBX1nBhbXBUKFuRj4fNoBVhZrkMSzJsi46STewEA5JERDl/ryVgy
-QDX+5IiqiuBco+frHj0pXncsJbj8zgw=
-=3y5M
------END PGP SIGNATURE-----
-
---bpghw5mnrhdlcmcl--
-
---===============2043090648==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2043090648==--
+T24gVHVlLCBKdWwgMiwgMjAxOSBhdCA5OjA4IFBNIEJqb3JuIEFuZGVyc3Nvbgo8Ympvcm4uYW5k
+ZXJzc29uQGxpbmFyby5vcmc+IHdyb3RlOgo+Cj4gT24gTW9uIDAxIEp1bCAxMDozOSBQRFQgMjAx
+OSwgSmVmZnJleSBIdWdvIHdyb3RlOgo+Cj4gPiBDcmVhdGluZyB0aGUgbXNtIGdlbSBhZGRyZXNz
+IHNwYWNlIHJlcXVpcmVzIGEgcmVmZXJlbmNlIHRvIHRoZSBkZXYgd2hlcmUKPiA+IHRoZSBpb21t
+dSBpcyBsb2NhdGVkLiAgVGhlIGRyaXZlciBjdXJyZW50bHkgYXNzdW1lcyB0aGlzIGlzIHRoZSBz
+YW1lIGFzCj4gPiB0aGUgcGxhdGZvcm0gZGV2aWNlLCB3aGljaCBicmVha3Mgd2hlbiB0aGUgaW9t
+bXUgaXMgb3V0c2lkZSBvZiB0aGUKPiA+IHBsYXRmb3JtIGRldmljZS4gIFVzZSB0aGUgZHJtX2Rl
+dmljZSBpbnN0ZWFkLCB3aGljaCBoYXBwZW5zIHRvIGFsd2F5cyBoYXZlCj4gPiBhIHJlZmVyZW5j
+ZSB0byB0aGUgcHJvcGVyIGRldmljZS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBKZWZmcmV5IEh1
+Z28gPGplZmZyZXkubC5odWdvQGdtYWlsLmNvbT4KPgo+IFNvcnJ5LCBidXQgb24gZGI4MjBjIHRo
+aXMgcGF0Y2ggcmVzdWx0cyBpbjoKPgo+IFsgICA2NC44MDMyNjNdIG1zbV9tZHAgOTAxMDAwLm1k
+cDogW2RybTptZHA1X2ttc19pbml0IFttc21dXSAqRVJST1IqIGZhaWxlZCB0byBhdHRhY2ggaW9t
+bXU6IC0xOQo+Cj4gRm9sbG93ZWQgYnkgMyBvb3BzZXMgYXMgd2UncmUgdHJ5aW5nIHRvIGZhaWwg
+dGhlIGluaXRpYWxpemF0aW9uLgoKeWVhaCwgdGhhdCBpcyBraW5kYSB3aGF0IEkgc3VzcGVjdGVk
+IHdvdWxkIGhhcHBlbi4gIEkgZ3Vlc3MgdG8gZGVhbAp3aXRoIGhvdyB0aGluZ3MgYXJlIGhvb2tl
+ZCB1cCBvbiA4OTk4LCBwZXJoYXBzIHRoZSBiZXN0IHRoaW5nIGlzIHRvCmZpcnN0IHRyeSAmcGRl
+di0+ZGV2LCBhbmQgdGhlbiBpZiB0aGF0IGZhaWxzIHRyeSBkZXYtPmRldgoKQlIsCi1SCgo+IFJl
+Z2FyZHMsCj4gQmpvcm4KPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21k
+cDUvbWRwNV9rbXMuYyB8IDIgKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDEgZGVsZXRpb24oLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9k
+aXNwL21kcDUvbWRwNV9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVf
+a21zLmMKPiA+IGluZGV4IDRhNjBmNWZjYTZiMC4uMTM0N2E1MjIzOTE4IDEwMDY0NAo+ID4gLS0t
+IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRwNV9rbXMuYwo+ID4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRwNV9rbXMuYwo+ID4gQEAgLTcwMiw3ICs3MDIs
+NyBAQCBzdHJ1Y3QgbXNtX2ttcyAqbWRwNV9rbXNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+KQo+ID4gICAgICAgbWRlbGF5KDE2KTsKPiA+Cj4gPiAgICAgICBpZiAoY29uZmlnLT5wbGF0Zm9y
+bS5pb21tdSkgewo+ID4gLSAgICAgICAgICAgICBhc3BhY2UgPSBtc21fZ2VtX2FkZHJlc3Nfc3Bh
+Y2VfY3JlYXRlKCZwZGV2LT5kZXYsCj4gPiArICAgICAgICAgICAgIGFzcGFjZSA9IG1zbV9nZW1f
+YWRkcmVzc19zcGFjZV9jcmVhdGUoZGV2LT5kZXYsCj4gPiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBjb25maWctPnBsYXRmb3JtLmlvbW11LCAibWRwNSIpOwo+ID4gICAgICAgICAgICAg
+ICBpZiAoSVNfRVJSKGFzcGFjZSkpIHsKPiA+ICAgICAgICAgICAgICAgICAgICAgICByZXQgPSBQ
+VFJfRVJSKGFzcGFjZSk7Cj4gPiAtLQo+ID4gMi4xNy4xCj4gPgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
