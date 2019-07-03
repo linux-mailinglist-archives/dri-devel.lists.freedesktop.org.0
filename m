@@ -2,63 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0755EBD8
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 20:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950B75EBF1
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 20:49:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9705C6E192;
-	Wed,  3 Jul 2019 18:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA31E6E15D;
+	Wed,  3 Jul 2019 18:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 965E56E0F7
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 18:45:05 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id r185so7248081iod.6
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2019 11:45:05 -0700 (PDT)
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E026D6E15D
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 18:49:38 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id k20so7229327ios.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2019 11:49:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UOZjnjN/BTDjEYeLMkasocpYVEFIZb5nqyqtxL48CkQ=;
- b=kWXWbsvNCSAG9eTwtu0sSlu/HfP+N0IP0Y+6mIyu4KT7qyktd1NUIBGfiCG8ZnHKCQ
- 9WcaVRRUR0iic2YITt16KNSQHAZvKirGZw8FsA2fJM6uDMzp2CzKzflbGibBr6wsdjJ9
- gbGsdrHwK+4EURtb7cVE8/RD9eN6Q9F3NH3xa2fbso4O3RHe8BvIIylPLLazAJXDz/i7
- 68FWHKp9vQIXcRgRsdHw5GE8/lHRkjQa3U+pXxfjEi79b8YWBacIBsFe9oG/F41SjVaU
- dUnBqNmylS+8UVOnKdk1q2UP0Rp5QJyupuaIYpLrSIe+kIr4YEMOaEbojGXJCADW9LSp
- Wl2A==
-X-Gm-Message-State: APjAAAUrAp4ST1qEkX5xTrGDnKzxbBDC/r7o3qODW7tn0NbPs+nSUnY3
- CZTDSfUg3VLAwG0bObTwDHxWqYn7JcnTlus0BLM=
-X-Google-Smtp-Source: APXvYqwUFgHJ2uJ8s3KnTar2KoeVIDM3DoH2TZsIptQj5HX4IfRoXQzVfUM3J+zeVelbMwhzvqorHT4AGEGXmj0/WWQ=
-X-Received: by 2002:a6b:1451:: with SMTP id 78mr20347364iou.247.1562179504873; 
- Wed, 03 Jul 2019 11:45:04 -0700 (PDT)
+ bh=vOJHNxNrUJcbXPhBSJt8NjTBq3wVRWhORLzxlkFU3q4=;
+ b=RuhdiMZl9cF8gJ2ak/jN5dZ3DlE3Hy1OAkext4/2iQTlw7Ue9eIi+6Sfx+pm1Q2jcG
+ xMSH0142QNrD2IwxRO6L162wIxlucvjAUb62YO8ufRvPf0z9yJ6wLeL6rKnN2+wzV/hA
+ hjf/f6+ET1eUsNGTWNKde4Se2tPdvjAIR0YM1rz3kzZpCmO73uTspmdzq3AGYEYy0TPJ
+ 2Ok2KQZKrlRe2UFnFhBqRPDRg8eN0MLe4T5wVpmiXHL0BxcsxbH79DGZvNcYL9XFZ/d9
+ ceiSl1L/fPiqKBXyq18QRuiMPm1MmmlA25gx4K7YTWqLNx7Np6z9DsBfEaWtUuyxuEPd
+ Bm5w==
+X-Gm-Message-State: APjAAAVnLZJCNDdT12wLT8QDvLRl92gHszPqDlaD/2lNk5/TWUPENKyz
+ d0vvs3702xBSVRO7p+URqmioFMNZqWGyz2CDn22hVmwO
+X-Google-Smtp-Source: APXvYqy3IxIBWg41G8y4QBK3sFV53uGtKBID9xEbGBJ7bVNOSiz+qncVjaqPBysyqbDnlC8ZgxVNT4XVrJo7PyRnfv4=
+X-Received: by 2002:a02:c95a:: with SMTP id u26mr42314268jao.15.1562179778024; 
+ Wed, 03 Jul 2019 11:49:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <91de711591780e83c70e8f61747725855f6dee99.camel@gmail.com>
- <20190628103204.GJ2640@lahna.fi.intel.com>
- <f550f4a25a7ee7fecd80f7213c3be127ed0323e7.camel@gmail.com>
- <20190628113415.GL2640@lahna.fi.intel.com>
- <ecebae84c91fa31a1207c30c0fe4ed907642dbb9.camel@gmail.com>
- <c3b38b60-7c1a-730d-8de0-e3c880902003@daenzer.net>
- <627b7fff64edcba0f8d8b5ced79a351821c419c7.camel@gmail.com>
- <792d0f36-b8ae-bef9-3b07-95677637ba00@daenzer.net>
- <f986d6687e2b1f1fc8a93f86cbc8fd1ab971663a.camel@gmail.com>
- <d1dfe289-8501-8848-6324-c43d6e66a77f@daenzer.net>
-In-Reply-To: <d1dfe289-8501-8848-6324-c43d6e66a77f@daenzer.net>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Wed, 3 Jul 2019 14:44:28 -0400
-Message-ID: <CAAxE2A4hgaJ6+AoOGz=b+1aRQEb+eKB88N82KGkcU1w_dnffOQ@mail.gmail.com>
-Subject: Re: Why is Thunderbolt 3 limited to 2.5 GT/s on Linux?
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+References: <20190702141903.1131-1-kraxel@redhat.com>
+ <20190702141903.1131-9-kraxel@redhat.com>
+In-Reply-To: <20190702141903.1131-9-kraxel@redhat.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Wed, 3 Jul 2019 11:49:27 -0700
+Message-ID: <CAPaKu7QP=A2kV_kqcT20Pmc831HviaBJN1RpOFoa=V1g6SmE_g@mail.gmail.com>
+Subject: Re: [PATCH v6 08/18] drm/virtio: rework virtio_gpu_execbuffer_ioctl
+ fencing
+To: Gerd Hoffmann <kraxel@redhat.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=UOZjnjN/BTDjEYeLMkasocpYVEFIZb5nqyqtxL48CkQ=;
- b=TvmUOVhHifYgsrOCTOxFYD63kZafxCCxHf0soQBGWbeEkqA3i3F/fmRbemv3NpHNWK
- RXEArgzfib9H5WFc+4Mc+hOdNqRe36LQBUDW1VM1tHREE09y6QoTacOz5r/qGZ1r3XVD
- d7t4zniVvLsB3IJCfmxHVUFY9sKiJ4/WwKHG1Rgxf1r6liFk+aYsL6QOhYdoYAKsrDKR
- xtO2o+LEn4yBxgSVWJ/jwBajTXvKVQcyPP6COcrP4o97RU3jC+3uRMA5kt4ApxlQgFVT
- It59B77Rrmi0ZFw04OAFfdeHnzdkmc6iM0P48olWypnQmg1c4jx1KJUwKLkkkLYfT1WN
- km3Q==
+ bh=vOJHNxNrUJcbXPhBSJt8NjTBq3wVRWhORLzxlkFU3q4=;
+ b=Qn107EmQi5+WtL32SSZno+UhKn1noDIhaJ3Q9PRGiLqIq11TBxjmFrmHJD72fg26OH
+ yXvaYUzjThNkVud2D6CLA9hwx2cB+aEKxUEZflZtShCszSxK7AY/HqVF7AIQfaSpKKcq
+ aN1Y3ZXKk7QyfnRlcEuZw6XD6i0XYHKaSOY0uHMzJsvBgJzYKeNX0DtxvYSGa1d5aB0h
+ eGSDdNMmXGa7D0VvLsNbR9x7rXllAypoGCtrPQ0Js4IVgw7n1FPZ+noTYtiGI+x0Ejfe
+ GdG5mHFJ82Ep625i2HJP5kr3M8tkls4IaAwlviNlSvMW4PJsEaOj9Xn3hjpxmT0eLnED
+ f0aQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,264 +64,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "michael.jamet@intel.com" <michael.jamet@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Timur_Krist=C3=B3f?= <timur.kristof@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0773039676=="
+Cc: David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0773039676==
-Content-Type: multipart/alternative; boundary="00000000000076a48f058ccb428d"
-
---00000000000076a48f058ccb428d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-You can run:
-AMD_DEBUG=3Dtestdmaperf glxgears
-
-It tests transfer sizes of up to 128 MB, and it tests ~60 slightly
-different methods of transfering data.
-
-Marek
-
-On Wed, Jul 3, 2019 at 4:07 AM Michel D=C3=A4nzer <michel@daenzer.net> wrot=
-e:
-
-> On 2019-07-02 11:49 a.m., Timur Krist=C3=B3f wrote:
-> > On Tue, 2019-07-02 at 10:09 +0200, Michel D=C3=A4nzer wrote:
-> >> On 2019-07-01 6:01 p.m., Timur Krist=C3=B3f wrote:
-> >>> On Mon, 2019-07-01 at 16:54 +0200, Michel D=C3=A4nzer wrote:
-> >>>> On 2019-06-28 2:21 p.m., Timur Krist=C3=B3f wrote:
-> >>>>> I haven't found a good way to measure the maximum PCIe
-> >>>>> throughput
-> >>>>> between the CPU and GPU,
-> >>>>
-> >>>> amdgpu.benchmark=3D3
-> >>>>
-> >>>> on the kernel command line will measure throughput for various
-> >>>> transfer
-> >>>> sizes during driver initialization.
-> >>>
-> >>> Thanks, I will definitely try that.
-> >>> Is this the only way to do this, or is there a way to benchmark it
-> >>> after it already booted?
-> >>
-> >> The former. At least in theory, it's possible to unload the amdgpu
-> >> module while nothing is using it, then load it again.
-> >
-> > Okay, so I booted my system with amdgpu.benchmark=3D3
-> > You can find the full dmesg log here: https://pastebin.com/zN9FYGw4
-> >
-> > The result is between 1-5 Gbit / sec depending on the transfer size
-> > (the higher the better), which corresponds to neither the 8 Gbit / sec
-> > that the kernel thinks it is limited to, nor the 20 Gbit / sec which I
-> > measured earlier with pcie_bw.
->
-> 5 Gbit/s throughput could be consistent with 8 Gbit/s theoretical
-> bandwidth, due to various overhead.
->
->
-> > Since pcie_bw only shows the maximum PCIe packet size (and not the
-> > actual size), could it be that it's so inaccurate that the 20 Gbit /
-> > sec is a fluke?
->
-> Seems likely or at least plausible.
->
->
-> >>>>> but I did take a look at AMD's sysfs interface at
-> >>>>> /sys/class/drm/card1/device/pcie_bw which while running the
-> >>>>> bottlenecked
-> >>>>> game. The highest throughput I saw there was only 2.43 Gbit
-> >>>>> /sec.
-> >>>>
-> >>>> PCIe bandwidth generally isn't a bottleneck for games, since they
-> >>>> don't
-> >>>> constantly transfer large data volumes across PCIe, but store
-> >>>> them in
-> >>>> the GPU's local VRAM, which is connected at much higher
-> >>>> bandwidth.
-> >>>
-> >>> There are reasons why I think the problem is the bandwidth:
-> >>> 1. The same issues don't happen when the GPU is not used with a TB3
-> >>> enclosure.
-> >>> 2. In case of radeonsi, the problem was mitigated once Marek's SDMA
-> >>> patch was merged, which hugely reduces the PCIe bandwidth use.
-> >>> 3. In less optimized cases (for example D9VK), the problem is still
-> >>> very noticable.
-> >>
-> >> However, since you saw as much as ~20 Gbit/s under different
-> >> circumstances, the 2.43 Gbit/s used by this game clearly isn't a hard
-> >> limit; there must be other limiting factors.
-> >
-> > There may be other factors, yes. I can't offer a good explanation on
-> > what exactly is happening, but it's pretty clear that amdgpu can't take
-> > full advantage of the TB3 link, so it seemed like a good idea to start
-> > investigating this first.
->
-> Yeah, actually it would be consistent with ~16-32 KB granularity
-> transfers based on your measurements above, which is plausible. So
-> making sure that the driver doesn't artificially limit the PCIe
-> bandwidth might indeed help.
->
-> OTOH this also indicates a similar potential for improvement by using
-> larger transfers in Mesa and/or the kernel.
->
->
-> --
-> Earthling Michel D=C3=A4nzer               |              https://www.amd=
-.com
-> Libre software enthusiast             |             Mesa and X developer
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---00000000000076a48f058ccb428d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>You can run:</div><div>AMD_DEBUG=3Dtestdmaperf glxgea=
-rs</div><div><br></div><div>It tests transfer sizes of up to 128 MB, and it=
- tests ~60 slightly different methods of transfering data.<br></div><div><b=
-r></div><div>Marek<br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, Jul 3, 2019 at 4:07 AM Michel D=C3=A4=
-nzer &lt;<a href=3D"mailto:michel@daenzer.net" target=3D"_blank">michel@dae=
-nzer.net</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On 2019-07-02 11:49 a.m., Timur Krist=C3=B3f wrote:<br>
-&gt; On Tue, 2019-07-02 at 10:09 +0200, Michel D=C3=A4nzer wrote:<br>
-&gt;&gt; On 2019-07-01 6:01 p.m., Timur Krist=C3=B3f wrote:<br>
-&gt;&gt;&gt; On Mon, 2019-07-01 at 16:54 +0200, Michel D=C3=A4nzer wrote:<b=
-r>
-&gt;&gt;&gt;&gt; On 2019-06-28 2:21 p.m., Timur Krist=C3=B3f wrote:<br>
-&gt;&gt;&gt;&gt;&gt; I haven&#39;t found a good way to measure the maximum =
-PCIe<br>
-&gt;&gt;&gt;&gt;&gt; throughput<br>
-&gt;&gt;&gt;&gt;&gt; between the CPU and GPU,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; amdgpu.benchmark=3D3<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; on the kernel command line will measure throughput for var=
-ious<br>
-&gt;&gt;&gt;&gt; transfer<br>
-&gt;&gt;&gt;&gt; sizes during driver initialization.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Thanks, I will definitely try that.<br>
-&gt;&gt;&gt; Is this the only way to do this, or is there a way to benchmar=
-k it<br>
-&gt;&gt;&gt; after it already booted?<br>
-&gt;&gt;<br>
-&gt;&gt; The former. At least in theory, it&#39;s possible to unload the am=
-dgpu<br>
-&gt;&gt; module while nothing is using it, then load it again.<br>
-&gt; <br>
-&gt; Okay, so I booted my system with amdgpu.benchmark=3D3<br>
-&gt; You can find the full dmesg log here: <a href=3D"https://pastebin.com/=
-zN9FYGw4" rel=3D"noreferrer" target=3D"_blank">https://pastebin.com/zN9FYGw=
-4</a><br>
-&gt; <br>
-&gt; The result is between 1-5 Gbit / sec depending on the transfer size<br=
->
-&gt; (the higher the better), which corresponds to neither the 8 Gbit / sec=
-<br>
-&gt; that the kernel thinks it is limited to, nor the 20 Gbit / sec which I=
-<br>
-&gt; measured earlier with pcie_bw.<br>
-<br>
-5 Gbit/s throughput could be consistent with 8 Gbit/s theoretical<br>
-bandwidth, due to various overhead.<br>
-<br>
-<br>
-&gt; Since pcie_bw only shows the maximum PCIe packet size (and not the<br>
-&gt; actual size), could it be that it&#39;s so inaccurate that the 20 Gbit=
- /<br>
-&gt; sec is a fluke?<br>
-<br>
-Seems likely or at least plausible.<br>
-<br>
-<br>
-&gt;&gt;&gt;&gt;&gt; but I did take a look at AMD&#39;s sysfs interface at<=
-br>
-&gt;&gt;&gt;&gt;&gt; /sys/class/drm/card1/device/pcie_bw which while runnin=
-g the<br>
-&gt;&gt;&gt;&gt;&gt; bottlenecked<br>
-&gt;&gt;&gt;&gt;&gt; game. The highest throughput I saw there was only 2.43=
- Gbit<br>
-&gt;&gt;&gt;&gt;&gt; /sec.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; PCIe bandwidth generally isn&#39;t a bottleneck for games,=
- since they<br>
-&gt;&gt;&gt;&gt; don&#39;t<br>
-&gt;&gt;&gt;&gt; constantly transfer large data volumes across PCIe, but st=
-ore<br>
-&gt;&gt;&gt;&gt; them in<br>
-&gt;&gt;&gt;&gt; the GPU&#39;s local VRAM, which is connected at much highe=
-r<br>
-&gt;&gt;&gt;&gt; bandwidth.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; There are reasons why I think the problem is the bandwidth:<br=
->
-&gt;&gt;&gt; 1. The same issues don&#39;t happen when the GPU is not used w=
-ith a TB3<br>
-&gt;&gt;&gt; enclosure.<br>
-&gt;&gt;&gt; 2. In case of radeonsi, the problem was mitigated once Marek&#=
-39;s SDMA<br>
-&gt;&gt;&gt; patch was merged, which hugely reduces the PCIe bandwidth use.=
-<br>
-&gt;&gt;&gt; 3. In less optimized cases (for example D9VK), the problem is =
-still<br>
-&gt;&gt;&gt; very noticable.<br>
-&gt;&gt;<br>
-&gt;&gt; However, since you saw as much as ~20 Gbit/s under different<br>
-&gt;&gt; circumstances, the 2.43 Gbit/s used by this game clearly isn&#39;t=
- a hard<br>
-&gt;&gt; limit; there must be other limiting factors.<br>
-&gt; <br>
-&gt; There may be other factors, yes. I can&#39;t offer a good explanation =
-on<br>
-&gt; what exactly is happening, but it&#39;s pretty clear that amdgpu can&#=
-39;t take<br>
-&gt; full advantage of the TB3 link, so it seemed like a good idea to start=
-<br>
-&gt; investigating this first.<br>
-<br>
-Yeah, actually it would be consistent with ~16-32 KB granularity<br>
-transfers based on your measurements above, which is plausible. So<br>
-making sure that the driver doesn&#39;t artificially limit the PCIe<br>
-bandwidth might indeed help.<br>
-<br>
-OTOH this also indicates a similar potential for improvement by using<br>
-larger transfers in Mesa and/or the kernel.<br>
-<br>
-<br>
--- <br>
-Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http=
-s://www.amd.com" rel=3D"noreferrer" target=3D"_blank">https://www.amd.com</=
-a><br>
-Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and X developer<br>
-_______________________________________________<br>
-dri-devel mailing list<br>
-<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">dri-de=
-vel@lists.freedesktop.org</a><br>
-<a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" rel=3D=
-"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/listin=
-fo/dri-devel</a></blockquote></div>
-
---00000000000076a48f058ccb428d--
-
---===============0773039676==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0773039676==--
+T24gVHVlLCBKdWwgMiwgMjAxOSBhdCA3OjE5IEFNIEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRo
+YXQuY29tPiB3cm90ZToKPgo+IFJld29yayBmZW5jaW5nIHdvcmtmbG93LCBzdGFydGluZyB3aXRo
+IHZpcnRpb19ncHVfZXhlY2J1ZmZlcl9pb2N0bC4KPiBTdG9wIHVzaW5nIHR0bSBoZWxwZXJzLCB1
+c2UgdGhlIHZpcnRpb19ncHVfYXJyYXlfKiBoZWxwZXJzICh3aGljaCB3b3JrCj4gb24gdGhlIHJl
+c2VydmF0aW9uIG9iamVjdHMgZGlyZWN0bHkpIGluc3RlYWQuCj4KPiBOZXcgd29ya2Zsb3c6Cj4K
+PiAgKDEpIEFsbCBnZW0gb2JqZWN0cyBuZWVkZWQgYnkgYSBjb21tYW5kIGFyZSBhZGRlZCB0byBh
+Cj4gICAgICB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheS4KPiAgKDIpIEFsbCByZXNlcnZhdGlvbiBv
+YmplY3RzIHdpbGwgYmUgbG9ja2VkICh2aXJ0aW9fZ3B1X2FycmF5X2xvY2tfcmVzdikuCj4gICgz
+KSB2aXJ0aW9fZ3B1X2ZlbmNlX2VtaXQoKSBjb21wbGV0ZXMgZmVuY2UgaW5pdGlhbGl6YXRpb24u
+Cj4gICg0KSBmZW5jZSBnZXRzIGFkZGVkIHRvIHRoZSBvYmplY3RzLCByZXNlcnZhdGlvbiBvYmpl
+Y3RzIGFyZSB1bmxvY2tlZAo+ICAgICAgKHZpcnRpb19ncHVfYXJyYXlfYWRkX2ZlbmNlLCB2aXJ0
+aW9fZ3B1X2FycmF5X3VubG9ja19yZXN2KS4KPiAgKDUpIHZpcnRpbyBjb21tYW5kIGlzIHN1Ym1p
+dHRlZCB0byB0aGUgaG9zdC4KPiAgKDYpIFRoZSBjb21wbGV0aW9uIGNhbGxiYWNrICh2aXJ0aW9f
+Z3B1X2RlcXVldWVfY3RybF9mdW5jKQo+ICAgICAgd2lsbCBkcm9wIG9iamVjdCByZWZlcmVuY2Vz
+IGFuZCBmcmVlIHZpcnRpb19ncHVfb2JqZWN0X2FycmF5Lgo+Cj4gdjY6IHJld3JpdGUgbW9zdCBv
+ZiB0aGUgcGF0Y2guCj4KPiBTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVk
+aGF0LmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2Rydi5oICAg
+fCAgNiArKy0KPiAgZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X2lvY3RsLmMgfCA1NiAr
+KysrKysrKystLS0tLS0tLS0tLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
+cHVfdnEuYyAgICB8IDIxICsrKysrKystLS0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAzOCBpbnNlcnRp
+b25zKCspLCA0NSBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
+dmlydGlvL3ZpcnRncHVfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2
+LmgKPiBpbmRleCBhYmIwNzhhNWRlZGYuLjk4NTExZDFkZmZmMiAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfZHJ2LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+dmlydGlvL3ZpcnRncHVfZHJ2LmgKPiBAQCAtMTIxLDkgKzEyMSw5IEBAIHN0cnVjdCB2aXJ0aW9f
+Z3B1X3ZidWZmZXIgewo+Cj4gICAgICAgICBjaGFyICpyZXNwX2J1ZjsKPiAgICAgICAgIGludCBy
+ZXNwX3NpemU7Cj4gLQo+ICAgICAgICAgdmlydGlvX2dwdV9yZXNwX2NiIHJlc3BfY2I7Cj4KPiAr
+ICAgICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheSAqb2JqczsKPiAgICAgICAgIHN0
+cnVjdCBsaXN0X2hlYWQgbGlzdDsKPiAgfTsKPgo+IEBAIC0zMTgsNyArMzE4LDkgQEAgdm9pZCB2
+aXJ0aW9fZ3B1X2NtZF9jb250ZXh0X2RldGFjaF9yZXNvdXJjZShzdHJ1Y3QgdmlydGlvX2dwdV9k
+ZXZpY2UgKnZnZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgdWludDMyX3QgcmVzb3VyY2VfaWQpOwo+ICB2b2lkIHZpcnRpb19ncHVfY21kX3N1Ym1pdChz
+dHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHZvaWQgKmRhdGEsIHVpbnQzMl90IGRhdGFfc2l6ZSwKPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICB1aW50MzJfdCBjdHhfaWQsIHN0cnVjdCB2aXJ0aW9fZ3B1X2ZlbmNlICpmZW5jZSk7
+Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDMyX3QgY3R4X2lkLAo+ICsgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X29iamVjdF9hcnJheSAqb2JqcywK
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgdmlydGlvX2dwdV9mZW5jZSAqZmVu
+Y2UpOwo+ICB2b2lkIHZpcnRpb19ncHVfY21kX3RyYW5zZmVyX2Zyb21faG9zdF8zZChzdHJ1Y3Qg
+dmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHVpbnQzMl90IHJlc291cmNlX2lkLCB1aW50MzJfdCBjdHhfaWQsCj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdWludDY0X3Qgb2Zmc2V0LCB1
+aW50MzJfdCBsZXZlbCwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0
+Z3B1X2lvY3RsLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYwo+IGlu
+ZGV4IDBjYWZmM2ZhNjIzZS4uOTczNWQ3ZTU4OTliIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRp
+by92aXJ0Z3B1X2lvY3RsLmMKPiBAQCAtMTA1LDE2ICsxMDUsMTEgQEAgc3RhdGljIGludCB2aXJ0
+aW9fZ3B1X2V4ZWNidWZmZXJfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0
+YSwKPiAgICAgICAgIHN0cnVjdCBkcm1fdmlydGdwdV9leGVjYnVmZmVyICpleGJ1ZiA9IGRhdGE7
+Cj4gICAgICAgICBzdHJ1Y3QgdmlydGlvX2dwdV9kZXZpY2UgKnZnZGV2ID0gZGV2LT5kZXZfcHJp
+dmF0ZTsKPiAgICAgICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X2Zwcml2ICp2ZnByaXYgPSBkcm1fZmls
+ZS0+ZHJpdmVyX3ByaXY7Cj4gLSAgICAgICBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKmdvYmo7Cj4g
+ICAgICAgICBzdHJ1Y3QgdmlydGlvX2dwdV9mZW5jZSAqb3V0X2ZlbmNlOwo+IC0gICAgICAgc3Ry
+dWN0IHZpcnRpb19ncHVfb2JqZWN0ICpxb2JqOwo+ICAgICAgICAgaW50IHJldDsKPiAgICAgICAg
+IHVpbnQzMl90ICpib19oYW5kbGVzID0gTlVMTDsKPiAgICAgICAgIHZvaWQgX191c2VyICp1c2Vy
+X2JvX2hhbmRsZXMgPSBOVUxMOwo+IC0gICAgICAgc3RydWN0IGxpc3RfaGVhZCB2YWxpZGF0ZV9s
+aXN0Owo+IC0gICAgICAgc3RydWN0IHR0bV92YWxpZGF0ZV9idWZmZXIgKmJ1Zmxpc3QgPSBOVUxM
+Owo+IC0gICAgICAgaW50IGk7Cj4gLSAgICAgICBzdHJ1Y3Qgd3dfYWNxdWlyZV9jdHggdGlja2V0
+Owo+ICsgICAgICAgc3RydWN0IHZpcnRpb19ncHVfb2JqZWN0X2FycmF5ICpidWZsaXN0ID0gTlVM
+TDsKPiAgICAgICAgIHN0cnVjdCBzeW5jX2ZpbGUgKnN5bmNfZmlsZTsKPiAgICAgICAgIGludCBp
+bl9mZW5jZV9mZCA9IGV4YnVmLT5mZW5jZV9mZDsKPiAgICAgICAgIGludCBvdXRfZmVuY2VfZmQg
+PSAtMTsKPiBAQCAtMTU1LDE1ICsxNTAsMTAgQEAgc3RhdGljIGludCB2aXJ0aW9fZ3B1X2V4ZWNi
+dWZmZXJfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKPiAgICAgICAg
+ICAgICAgICAgICAgICAgICByZXR1cm4gb3V0X2ZlbmNlX2ZkOwo+ICAgICAgICAgfQo+Cj4gLSAg
+ICAgICBJTklUX0xJU1RfSEVBRCgmdmFsaWRhdGVfbGlzdCk7Cj4gICAgICAgICBpZiAoZXhidWYt
+Pm51bV9ib19oYW5kbGVzKSB7Cj4gLQo+ICAgICAgICAgICAgICAgICBib19oYW5kbGVzID0ga3Zt
+YWxsb2NfYXJyYXkoZXhidWYtPm51bV9ib19oYW5kbGVzLAo+IC0gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBzaXplb2YodWludDMyX3QpLCBHRlBfS0VSTkVMKTsKPiAt
+ICAgICAgICAgICAgICAgYnVmbGlzdCA9IGt2bWFsbG9jX2FycmF5KGV4YnVmLT5udW1fYm9faGFu
+ZGxlcywKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2l6ZW9m
+KHN0cnVjdCB0dG1fdmFsaWRhdGVfYnVmZmVyKSwKPiAtICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgR0ZQX0tFUk5FTCB8IF9fR0ZQX1pFUk8pOwo+IC0gICAgICAgICAg
+ICAgICBpZiAoIWJvX2hhbmRsZXMgfHwgIWJ1Zmxpc3QpIHsKPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHNpemVvZih1aW50MzJfdCksIEdGUF9LRVJORUwpOwo+
+ICsgICAgICAgICAgICAgICBpZiAoIWJvX2hhbmRsZXMpIHsKPiAgICAgICAgICAgICAgICAgICAg
+ICAgICByZXQgPSAtRU5PTUVNOwo+ICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gb3V0X3Vu
+dXNlZF9mZDsKPiAgICAgICAgICAgICAgICAgfQo+IEBAIC0xNzUsMjUgKzE2NSwyMSBAQCBzdGF0
+aWMgaW50IHZpcnRpb19ncHVfZXhlY2J1ZmZlcl9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
+LCB2b2lkICpkYXRhLAo+ICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gb3V0X3VudXNlZF9m
+ZDsKPiAgICAgICAgICAgICAgICAgfQo+Cj4gLSAgICAgICAgICAgICAgIGZvciAoaSA9IDA7IGkg
+PCBleGJ1Zi0+bnVtX2JvX2hhbmRsZXM7IGkrKykgewo+IC0gICAgICAgICAgICAgICAgICAgICAg
+IGdvYmogPSBkcm1fZ2VtX29iamVjdF9sb29rdXAoZHJtX2ZpbGUsIGJvX2hhbmRsZXNbaV0pOwo+
+IC0gICAgICAgICAgICAgICAgICAgICAgIGlmICghZ29iaikgewo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgcmV0ID0gLUVOT0VOVDsKPiAtICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGdvdG8gb3V0X3VudXNlZF9mZDsKPiAtICAgICAgICAgICAgICAgICAgICAgICB9Cj4g
+LQo+IC0gICAgICAgICAgICAgICAgICAgICAgIHFvYmogPSBnZW1fdG9fdmlydGlvX2dwdV9vYmoo
+Z29iaik7Cj4gLSAgICAgICAgICAgICAgICAgICAgICAgYnVmbGlzdFtpXS5ibyA9ICZxb2JqLT50
+Ym87Cj4gLQo+IC0gICAgICAgICAgICAgICAgICAgICAgIGxpc3RfYWRkKCZidWZsaXN0W2ldLmhl
+YWQsICZ2YWxpZGF0ZV9saXN0KTsKPiArICAgICAgICAgICAgICAgYnVmbGlzdCA9IHZpcnRpb19n
+cHVfYXJyYXlfZnJvbV9oYW5kbGVzKGRybV9maWxlLCBib19oYW5kbGVzLAo+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZXhidWYtPm51bV9i
+b19oYW5kbGVzKTsKPiArICAgICAgICAgICAgICAgaWYgKCFidWZsaXN0KSB7Cj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgcmV0ID0gLUVOT0VOVDsKPiArICAgICAgICAgICAgICAgICAgICAgICBn
+b3RvIG91dF91bnVzZWRfZmQ7Cj4gICAgICAgICAgICAgICAgIH0KPiAgICAgICAgICAgICAgICAg
+a3ZmcmVlKGJvX2hhbmRsZXMpOwo+ICAgICAgICAgICAgICAgICBib19oYW5kbGVzID0gTlVMTDsK
+PiAgICAgICAgIH0KPgo+IC0gICAgICAgcmV0ID0gdmlydGlvX2dwdV9vYmplY3RfbGlzdF92YWxp
+ZGF0ZSgmdGlja2V0LCAmdmFsaWRhdGVfbGlzdCk7Cj4gLSAgICAgICBpZiAocmV0KQo+IC0gICAg
+ICAgICAgICAgICBnb3RvIG91dF9mcmVlOwo+ICsgICAgICAgaWYgKGJ1Zmxpc3QpIHsKPiArICAg
+ICAgICAgICAgICAgcmV0ID0gdmlydGlvX2dwdV9hcnJheV9sb2NrX3Jlc3YoYnVmbGlzdCk7Cj4g
+KyAgICAgICAgICAgICAgIGlmIChyZXQpCj4gKyAgICAgICAgICAgICAgICAgICAgICAgZ290byBv
+dXRfdW51c2VkX2ZkOwo+ICsgICAgICAgfQo+Cj4gICAgICAgICBidWYgPSBtZW1kdXBfdXNlcih1
+NjRfdG9fdXNlcl9wdHIoZXhidWYtPmNvbW1hbmQpLCBleGJ1Zi0+c2l6ZSk7Cj4gICAgICAgICBp
+ZiAoSVNfRVJSKGJ1ZikpIHsKPiBAQCAtMjIwLDI0ICsyMDYsMTggQEAgc3RhdGljIGludCB2aXJ0
+aW9fZ3B1X2V4ZWNidWZmZXJfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0
+YSwKPiAgICAgICAgIH0KPgo+ICAgICAgICAgdmlydGlvX2dwdV9jbWRfc3VibWl0KHZnZGV2LCBi
+dWYsIGV4YnVmLT5zaXplLAo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZmcHJpdi0+
+Y3R4X2lkLCBvdXRfZmVuY2UpOwo+IC0KPiAtICAgICAgIHR0bV9ldV9mZW5jZV9idWZmZXJfb2Jq
+ZWN0cygmdGlja2V0LCAmdmFsaWRhdGVfbGlzdCwgJm91dF9mZW5jZS0+Zik7Cj4gLQo+IC0gICAg
+ICAgLyogZmVuY2UgdGhlIGNvbW1hbmQgYm8gKi8KPiAtICAgICAgIHZpcnRpb19ncHVfdW5yZWZf
+bGlzdCgmdmFsaWRhdGVfbGlzdCk7Cj4gLSAgICAgICBrdmZyZWUoYnVmbGlzdCk7Cj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgdmZwcml2LT5jdHhfaWQsIGJ1Zmxpc3QsIG91dF9mZW5j
+ZSk7Cj4gICAgICAgICByZXR1cm4gMDsKPgo+ICBvdXRfbWVtZHVwOgo+ICAgICAgICAga2ZyZWUo
+YnVmKTsKPiAgb3V0X3VucmVzdjoKPiAtICAgICAgIHR0bV9ldV9iYWNrb2ZmX3Jlc2VydmF0aW9u
+KCZ0aWNrZXQsICZ2YWxpZGF0ZV9saXN0KTsKPiAtb3V0X2ZyZWU6Cj4gLSAgICAgICB2aXJ0aW9f
+Z3B1X3VucmVmX2xpc3QoJnZhbGlkYXRlX2xpc3QpOwo+ICsgICAgICAgaWYgKGJ1Zmxpc3QpCj4g
+KyAgICAgICAgICAgICAgIHZpcnRpb19ncHVfYXJyYXlfdW5sb2NrX3Jlc3YoYnVmbGlzdCk7Cj4g
+IG91dF91bnVzZWRfZmQ6Cj4gICAgICAgICBrdmZyZWUoYm9faGFuZGxlcyk7Cj4gLSAgICAgICBr
+dmZyZWUoYnVmbGlzdCk7Cj4gKyAgICAgICBpZiAoYnVmbGlzdCkKPiArICAgICAgICAgICAgICAg
+dmlydGlvX2dwdV9hcnJheV9wdXRfZnJlZShidWZsaXN0KTsKPgo+ICAgICAgICAgaWYgKG91dF9m
+ZW5jZV9mZCA+PSAwKQo+ICAgICAgICAgICAgICAgICBwdXRfdW51c2VkX2ZkKG91dF9mZW5jZV9m
+ZCk7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1X3ZxLmMKPiBpbmRleCA2YzFhOTA3MTc1MzUu
+LmRiZTMyOTgwMWU4NCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3ZpcnRn
+cHVfdnEuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jCj4gQEAg
+LTE5MSw3ICsxOTEsNyBAQCB2b2lkIHZpcnRpb19ncHVfZGVxdWV1ZV9jdHJsX2Z1bmMoc3RydWN0
+IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAgICAgICAgfSB3aGlsZSAoIXZpcnRxdWV1ZV9lbmFibGVf
+Y2IodmdkZXYtPmN0cmxxLnZxKSk7Cj4gICAgICAgICBzcGluX3VubG9jaygmdmdkZXYtPmN0cmxx
+LnFsb2NrKTsKPgo+IC0gICAgICAgbGlzdF9mb3JfZWFjaF9lbnRyeV9zYWZlKGVudHJ5LCB0bXAs
+ICZyZWNsYWltX2xpc3QsIGxpc3QpIHsKPiArICAgICAgIGxpc3RfZm9yX2VhY2hfZW50cnkoZW50
+cnksICZyZWNsYWltX2xpc3QsIGxpc3QpIHsKPiAgICAgICAgICAgICAgICAgcmVzcCA9IChzdHJ1
+Y3QgdmlydGlvX2dwdV9jdHJsX2hkciAqKWVudHJ5LT5yZXNwX2J1ZjsKPgo+ICAgICAgICAgICAg
+ICAgICB0cmFjZV92aXJ0aW9fZ3B1X2NtZF9yZXNwb25zZSh2Z2Rldi0+Y3RybHEudnEsIHJlc3Ap
+Owo+IEBAIC0yMTgsMTQgKzIxOCwxOCBAQCB2b2lkIHZpcnRpb19ncHVfZGVxdWV1ZV9jdHJsX2Z1
+bmMoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+ICAgICAgICAgICAgICAgICB9Cj4gICAgICAg
+ICAgICAgICAgIGlmIChlbnRyeS0+cmVzcF9jYikKPiAgICAgICAgICAgICAgICAgICAgICAgICBl
+bnRyeS0+cmVzcF9jYih2Z2RldiwgZW50cnkpOwo+IC0KPiAtICAgICAgICAgICAgICAgbGlzdF9k
+ZWwoJmVudHJ5LT5saXN0KTsKPiAtICAgICAgICAgICAgICAgZnJlZV92YnVmKHZnZGV2LCBlbnRy
+eSk7Cj4gICAgICAgICB9Cj4gICAgICAgICB3YWtlX3VwKCZ2Z2Rldi0+Y3RybHEuYWNrX3F1ZXVl
+KTsKPgo+ICAgICAgICAgaWYgKGZlbmNlX2lkKQo+ICAgICAgICAgICAgICAgICB2aXJ0aW9fZ3B1
+X2ZlbmNlX2V2ZW50X3Byb2Nlc3ModmdkZXYsIGZlbmNlX2lkKTsKPiArCj4gKyAgICAgICBsaXN0
+X2Zvcl9lYWNoX2VudHJ5X3NhZmUoZW50cnksIHRtcCwgJnJlY2xhaW1fbGlzdCwgbGlzdCkgewo+
+ICsgICAgICAgICAgICAgICBpZiAoZW50cnktPm9ianMpCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgdmlydGlvX2dwdV9hcnJheV9wdXRfZnJlZShlbnRyeS0+b2Jqcyk7Cj4gKyAgICAgICAgICAg
+ICAgIGxpc3RfZGVsKCZlbnRyeS0+bGlzdCk7Cj4gKyAgICAgICAgICAgICAgIGZyZWVfdmJ1Zih2
+Z2RldiwgZW50cnkpOwo+ICsgICAgICAgfQo+ICB9Cj4KPiAgdm9pZCB2aXJ0aW9fZ3B1X2RlcXVl
+dWVfY3Vyc29yX2Z1bmMoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQo+IEBAIC0zMzcsNiArMzQx
+LDEwIEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9xdWV1ZV9mZW5jZWRfY3RybF9idWZmZXIoc3Ry
+dWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKPgo+ICAgICAgICAgaWYgKGZlbmNlKQo+ICAg
+ICAgICAgICAgICAgICB2aXJ0aW9fZ3B1X2ZlbmNlX2VtaXQodmdkZXYsIGhkciwgZmVuY2UpOwo+
+ICsgICAgICAgaWYgKHZidWYtPm9ianMpIHsKPiArICAgICAgICAgICAgICAgdmlydGlvX2dwdV9h
+cnJheV9hZGRfZmVuY2UodmJ1Zi0+b2JqcywgJmZlbmNlLT5mKTsKPiArICAgICAgICAgICAgICAg
+dmlydGlvX2dwdV9hcnJheV91bmxvY2tfcmVzdih2YnVmLT5vYmpzKTsKPiArICAgICAgIH0KVGhp
+cyBpcyB3aXRoIHRoZSBzcGlubG9jayBoZWxkLiAgTWF5YmUgd2Ugc2hvdWxkIG1vdmUgdGhlCnZp
+cnRpb19ncHVfYXJyYXlfdW5sb2NrX3Jlc3YgY2FsbCBvdXQgb2YgdGhlIGNyaXRpY2FsIHNlY3Rp
+b24uCgpJIGFtIGFjdHVhbGx5IG1vcmUgY29uY2VybmVkIGFib3V0IHZpcnRpb19ncHVfYXJyYXlf
+YWRkX2ZlbmNlLCBidXQgaXQKaXMgYWxzbyBoYXJkZXIgdG8gbW92ZS4gIFNob3VsZCB3ZSBhZGQg
+YSBrcmVmIHRvIHRoZSBvYmplY3QgYXJyYXk/CgpUaGlzIGJvdGhlcnMgbWUgYmVjYXVzZSBJIHJl
+Y2VudGx5IHJhbiBpbnRvIGEgQ1BVLWJvdW5kIGdhbWUgd2l0aCB2ZXJ5CmJhZCBsb2NrIGNvbnRl
+bnRpb24gaGVyZS4KCj4gICAgICAgICByYyA9IHZpcnRpb19ncHVfcXVldWVfY3RybF9idWZmZXJf
+bG9ja2VkKHZnZGV2LCB2YnVmKTsKPiAgICAgICAgIHNwaW5fdW5sb2NrKCZ2Z2Rldi0+Y3RybHEu
+cWxvY2spOwo+ICAgICAgICAgcmV0dXJuIHJjOwo+IEBAIC05MzksNyArOTQ3LDkgQEAgdm9pZCB2
+aXJ0aW9fZ3B1X2NtZF90cmFuc2Zlcl9mcm9tX2hvc3RfM2Qoc3RydWN0IHZpcnRpb19ncHVfZGV2
+aWNlICp2Z2RldiwKPgo+ICB2b2lkIHZpcnRpb19ncHVfY21kX3N1Ym1pdChzdHJ1Y3QgdmlydGlv
+X2dwdV9kZXZpY2UgKnZnZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZvaWQgKmRh
+dGEsIHVpbnQzMl90IGRhdGFfc2l6ZSwKPiAtICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50
+MzJfdCBjdHhfaWQsIHN0cnVjdCB2aXJ0aW9fZ3B1X2ZlbmNlICpmZW5jZSkKPiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICB1aW50MzJfdCBjdHhfaWQsCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgc3RydWN0IHZpcnRpb19ncHVfb2JqZWN0X2FycmF5ICpvYmpzLAo+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHN0cnVjdCB2aXJ0aW9fZ3B1X2ZlbmNlICpmZW5jZSkKPiAgewo+ICAg
+ICAgICAgc3RydWN0IHZpcnRpb19ncHVfY21kX3N1Ym1pdCAqY21kX3A7Cj4gICAgICAgICBzdHJ1
+Y3QgdmlydGlvX2dwdV92YnVmZmVyICp2YnVmOwo+IEBAIC05NDksNiArOTU5LDcgQEAgdm9pZCB2
+aXJ0aW9fZ3B1X2NtZF9zdWJtaXQoc3RydWN0IHZpcnRpb19ncHVfZGV2aWNlICp2Z2RldiwKPgo+
+ICAgICAgICAgdmJ1Zi0+ZGF0YV9idWYgPSBkYXRhOwo+ICAgICAgICAgdmJ1Zi0+ZGF0YV9zaXpl
+ID0gZGF0YV9zaXplOwo+ICsgICAgICAgdmJ1Zi0+b2JqcyA9IG9ianM7Cj4KPiAgICAgICAgIGNt
+ZF9wLT5oZHIudHlwZSA9IGNwdV90b19sZTMyKFZJUlRJT19HUFVfQ01EX1NVQk1JVF8zRCk7Cj4g
+ICAgICAgICBjbWRfcC0+aGRyLmN0eF9pZCA9IGNwdV90b19sZTMyKGN0eF9pZCk7Cj4gLS0KPiAy
+LjE4LjEKPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
