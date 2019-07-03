@@ -1,42 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A055DFC7
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 10:30:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA635DFD6
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 10:33:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFF006E0F1;
-	Wed,  3 Jul 2019 08:30:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA5F6E0F4;
+	Wed,  3 Jul 2019 08:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 951486E0B8
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 08:30:54 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45dvSp4Mj1z9s4V;
- Wed,  3 Jul 2019 18:30:50 +1000 (AEST)
-Date: Wed, 3 Jul 2019 18:30:36 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: "Kuehling, Felix" <Felix.Kuehling@amd.com>
-Subject: Re: [PATCH 1/1] drm/amdgpu: adopt to hmm_range_register API change
-Message-ID: <20190703183036.09032d12@canb.auug.org.au>
-In-Reply-To: <20190703145443.2ea425c8@canb.auug.org.au>
-References: <20190703015442.11974-1-Felix.Kuehling@amd.com>
- <20190703145443.2ea425c8@canb.auug.org.au>
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA0FA6E0F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 08:33:10 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 193A5AF7E;
+ Wed,  3 Jul 2019 08:33:09 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
+ sean@poorly.run, noralf@tronnes.org, sam@ravnborg.org,
+ yc_chen@aspeedtech.com
+Subject: [PATCH 0/5] Unmappable DRM client buffers for fbdev emulation
+Date: Wed,  3 Jul 2019 10:32:57 +0200
+Message-Id: <20190703083302.2609-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1562142652;
- bh=WeDiAfo0BQ+r8aIcvSG76itffid/LwqyDD7tDwMg6TA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=f1CUiiw7jQq2DogS1vZBh3MRXdrIsoWe04ZN7W7mCsUhkCmk8RROc1M+aD+eA0Ibp
- ccpT/GjA1MTTwMg74R5TdnSi1OWrOzceLhDXgRbtMdJW9J36lx0FaJMhvzt8591q3k
- 6ztNxl504AMqhXpRvHvBsfzfPaupMvofwWrz3GuJxOqdcJpH5s1z1+CzyPQCdUDqZn
- V4nKr0+m6a+gJxdte96grocHNjXgmYKPKDTokqAwqdRJcmaapgShuWnii77IG6jerW
- fsWSnNj/dVE2wvDEaq0PF2QbPLJ8rqWZ6NlJNlWUgXyTZcY3MRCtDqomqcn/2fmo1O
- /r8b7GMDMdGWw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,89 +38,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Yang, Philip" <Philip.Yang@amd.com>, Dave Airlie <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-next@vger.kernel.org" <linux-next@vger.kernel.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Jason Gunthorpe <jgg@mellanox.com>
-Content-Type: multipart/mixed; boundary="===============1570015043=="
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1570015043==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/e5qSB1VclK5wgme0230sZ_1"; protocol="application/pgp-signature"
-
---Sig_/e5qSB1VclK5wgme0230sZ_1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-On Wed, 3 Jul 2019 14:54:43 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> On Wed, 3 Jul 2019 01:55:08 +0000 "Kuehling, Felix" <Felix.Kuehling@amd.c=
-om> wrote:
-> >
-> > From: Philip Yang <Philip.Yang@amd.com>
-> >=20
-> > In order to pass mirror instead of mm to hmm_range_register, we need
-> > pass bo instead of ttm to amdgpu_ttm_tt_get_user_pages because mirror
-> > is part of amdgpu_mn structure, which is accessible from bo.
-> >=20
-> > Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-> > Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-> > CC: Stephen Rothwell <sfr@canb.auug.org.au>
-> > CC: Jason Gunthorpe <jgg@mellanox.com>
-> > CC: Dave Airlie <airlied@linux.ie>
-> > CC: Alex Deucher <alexander.deucher@amd.com>
-> > ---
-> >  drivers/gpu/drm/Kconfig                          |  1 -
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  5 ++---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           |  2 +-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c          |  3 +--
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c           |  8 ++++++++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_mn.h           |  5 +++++
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          | 12 ++++++++++--
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h          |  5 +++--
-> >  8 files changed, 30 insertions(+), 11 deletions(-) =20
->=20
-> I will apply this to the hmm tree merge today to see how it goes.
-
-This (at least) build for me.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/e5qSB1VclK5wgme0230sZ_1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0cZ6wACgkQAVBC80lX
-0GwxCAgAm5w3v6m4QhQxoWWwyh1Z0i31z/xsiFrk/0NFrUOK/amLgWJZSB6ROTmT
-7ySOpcelOGLsmu7jt9EFVgk7Mio1uPAWYIErYOOp0+PlhloVGbS+lNH+mVNMNuNV
-xh0mtxzfkltkBEaKMBNRU0V/GIu9s/BAQPVgy6m1g3Nc1a2iOKaojrYdgcjO5stD
-jQ5J9Nw3gvx9qJmGD3vO7f9aIEOc8l+oO9thr2E3nM0f0v0OVs3oVS0yjMRnidHJ
-Gu1z/04ZuG477a1nSPU6NrzNQFxrBhz5zO0OIIH2egAwJXh7DzHOIOnHFqkFPdhO
-o0IPmHtn4WsoNYDaDRuHEWI2ae0V9g==
-=UeUM
------END PGP SIGNATURE-----
-
---Sig_/e5qSB1VclK5wgme0230sZ_1--
-
---===============1570015043==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1570015043==--
+RFJNIGNsaWVudCBidWZmZXJzIGFyZSBwZXJtYW5lbnRseSBtYXBwZWQgdGhyb3VnaG91dCB0aGVp
+ciBsaWZldGltZS4gVGhpcwpwcmV2ZW50cyB1cyBmcm9tIHVzaW5nIGdlbmVyaWMgZnJhbWVidWZm
+ZXIgZW11bGF0aW9uIGZvciBkZXZpY2VzIHdpdGgKc21hbGwgZGVkaWNhdGVkIHZpZGVvIG1lbW9y
+eSwgc3VjaCBhcyBhc3Qgb3IgbWdhZzIwMC4gV2l0aCBmYiBidWZmZXJzCnBlcm1hbmVudGx5IG1h
+cHBlZCwgc3VjaCBkZXZpY2VzIG9mdGVuIHdvbid0IGhhdmUgZW5vdWd0aCBzcGFjZSBsZWZ0IHRv
+CmRpc3BsYXkgb3RoZXIgY29udGVudCAoZS5nLiwgWDExKS4KClRoaXMgcGF0Y2ggc2V0IGludHJv
+ZHVjZXMgdW5tYXBwYWJsZSBEUk0gY2xpZW50IGJ1ZmZlcnMgZm9yIGZyYW1lYnVmZmVyCmVtdWxh
+dGlvbiB3aXRoIHNoYWRvdyBidWZmZXJzLiBXaGlsZSB0aGUgc2hhZG93IGJ1ZmZlciByZW1haW5z
+IGluIHN5c3RlbQptZW1vcnkgcGVybWFuZW50bHksIHRoZSByZXNwZWN0aXZlIGJ1ZmZlciBvYmpl
+Y3Qgd2lsbCBvbmx5IGJlIG1hcHBlZCBicmllZmx5CmR1cmluZyB1cGRhdGVzIGZyb20gdGhlIHNo
+YWRvdyBidWZmZXIuIEhlbmNlLCB0aGUgZHJpdmVyIGNhbiByZWxvY2F0ZSBoZQpidWZmZXIgb2Jq
+ZWN0IGFtb25nIG1lbW9yeSByZWdpb25zIGFzIG5lZWRlZC4KClRoZSBkZWZhdWx0IGJlaG92aW91
+ciBmb3IgRFJNIGNsaWVudCBidWZmZXJzIGlzIHN0aWxsIHRvIGJlIHBlcm1hbmVudGx5Cm1hcHBl
+ZC4KClRoZSBwYXRjaCBzZXQgY29udmVydHMgYXN0IGFuZCBtZ2FnMjAwIHRvIGdlbmVyaWMgZnJh
+bWVidWZmZXIgZW11bGF0aW9uCmFuZCByZW1vdmVzIGEgbGFyZ2UgYW1vdW50IG9mIGZyYW1lYnVm
+ZmVyIGNvZGUgZnJvbSB0aGVzZSBkcml2ZXJzLiBGb3IKYm9jaHMsIGEgcHJvYmxlbSB3YXMgcmVw
+b3J0ZWQgd2hlcmUgdGhlIGRyaXZlciBjb3VsZCBub3QgZGlzcGxheSB0aGUgY29uc29sZQpiZWNh
+dXNlIGl0IHdhcyBwaW5uZWQgaW4gc3lzdGVtIG1lbW9yeS4gWzFdIFRoZSBwYXRjaCBzZXQgZml4
+ZXMgdGhpcyBidWcKYnkgY29udmVydGluZyBib2NocyB0byB1c2UgdGhlIHNoYWRvdyBmYi4KClRo
+ZSBwYXRjaCBzZXQgaGFzIGJlZW4gdGVzdGVkIG9uIGFzdCBhbmQgbWdhMjAwIEhXLgoKWzFdIGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bmUv
+MjI0NDIzLmh0bWwKClRob21hcyBaaW1tZXJtYW5uICg1KToKICBkcm0vY2xpZW50OiBTdXBwb3J0
+IHVubWFwcGluZyBvZiBEUk0gY2xpZW50IGJ1ZmZlcnMKICBkcm0vZmItaGVscGVyOiBVbm1hcCBC
+TyBmb3Igc2hhZG93LWJ1ZmZlcmVkIGZyYW1lYnVmZmVyIGNvbnNvbGUKICBkcm0vYXN0OiBSZXBs
+YWNlIHN0cnVjdCBhc3RfZmJkZXYgd2l0aCBnZW5lcmljIGZyYW1lYnVmZmVyIGVtdWxhdGlvbgog
+IGRybS9ib2NoczogVXNlIHNoYWRvdyBidWZmZXIgZm9yIGJvY2hzIGZyYW1lYnVmZmVyIGNvbnNv
+bGUKICBkcm0vbWdhZzIwMDogUmVwbGFjZSBzdHJ1Y3QgbWdhX2ZiZGV2IHdpdGggZ2VuZXJpYyBm
+cmFtZWJ1ZmZlcgogICAgZW11bGF0aW9uCgogZHJpdmVycy9ncHUvZHJtL2FzdC9NYWtlZmlsZSAg
+ICAgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5jICAgICAgICAg
+IHwgIDIyICstCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCAgICAgICAgICB8ICAxNyAt
+LQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZmIuYyAgICAgICAgICAgfCAzNDEgLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jICAgICAgICAg
+fCAgMzAgKystCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMgICAgICAgICB8ICAyMSAt
+LQogZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2ttcy5jICAgICAgfCAgIDIgKy0KIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fY2xpZW50LmMgICAgICAgICAgIHwgIDcxICsrKystCiBkcml2ZXJzL2dw
+dS9kcm0vZHJtX2ZiX2hlbHBlci5jICAgICAgICB8ICAxNCArLQogZHJpdmVycy9ncHUvZHJtL21n
+YWcyMDAvTWFrZWZpbGUgICAgICAgfCAgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21n
+YWcyMDBfZHJ2LmggIHwgIDE5IC0tCiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Zi
+LmMgICB8IDMwOSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIw
+MC9tZ2FnMjAwX21haW4uYyB8ICA2MSArKystLQogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
+ZzIwMF9tb2RlLmMgfCAgMjcgLS0KIGluY2x1ZGUvZHJtL2RybV9jbGllbnQuaCAgICAgICAgICAg
+ICAgIHwgICAzICsKIDE1IGZpbGVzIGNoYW5nZWQsIDE1NCBpbnNlcnRpb25zKCspLCA3ODcgZGVs
+ZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZmIu
+YwogZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZmIu
+YwoKLS0KMi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
