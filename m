@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1945E24D
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 12:47:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19FD5E295
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 13:08:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEBEE6E113;
-	Wed,  3 Jul 2019 10:47:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 019BB6E11E;
+	Wed,  3 Jul 2019 11:08:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05D856E113
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 10:47:18 +0000 (UTC)
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1hicnD-00049e-G4; Wed, 03 Jul 2019 12:47:15 +0200
-Message-ID: <1562150834.2321.7.camel@pengutronix.de>
-Subject: Re: [PATCH 2/2] drm/etnaviv: properly implement mmaping of imported
- buffers
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 03 Jul 2019 12:47:14 +0200
-In-Reply-To: <20180618080626.GT3438@phenom.ffwll.local>
-References: <20180525134254.30686-1-l.stach@pengutronix.de>
- <20180525134254.30686-2-l.stach@pengutronix.de>
- <20180529082015.GE3438@phenom.ffwll.local>
- <53b1d077cedab58bf7491674d51c2433a37f6791.camel@pengutronix.de>
- <CAKMK7uFAeE1cBdYEpmDy5i8UaxKdHydP7V=R2HQSb9uoAwN-Rw@mail.gmail.com>
- <46745a3b6be4dc01b5b758de0e28db7434418238.camel@pengutronix.de>
- <20180618080626.GT3438@phenom.ffwll.local>
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 547266E121
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 11:08:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5114F72167; Wed,  3 Jul 2019 11:08:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 105251] [Vega10]  GPU lockup on boot: VMC page fault
+Date: Wed, 03 Jul 2019 11:08:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: 375gnu@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-105251-502-Wu47bdy8d8@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105251-502@http.bugs.freedesktop.org/>
+References: <bug-105251-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,103 +52,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Julien Boulnois <jboulnois@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1669787127=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKZGlzY3Vzc2lvbiBvbiB0aGlzIHNvbWVob3cgZGllZCBxdWl0ZSBhIHdoaWxl
-IGFnby4gQXMgdGhlIGJ1ZyBpcyBzdGlsbApwcmVzZW50IGluIGV0bmF2aXYsIEkgd291bGQgbGlr
-ZSB0byBnZXQgaXQgZ29pbmcgYWdhaW4uCgpBbSBNb250YWcsIGRlbiAxOC4wNi4yMDE4LCAxMDow
-NiArMDIwMCBzY2hyaWViIERhbmllbCBWZXR0ZXI6Cj4gT24gVGh1LCBNYXkgMzEsIDIwMTggYXQg
-MTA6NDE6MjVBTSArMDIwMCwgTHVjYXMgU3RhY2ggd3JvdGU6Cj4gPiBBbSBEaWVuc3RhZywgZGVu
-IDI5LjA1LjIwMTgsIDE0OjM0ICswMjAwIHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+ID4gT24g
-VHVlLCBNYXkgMjksIDIwMTggYXQgMTE6MDggQU0sIEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1
-dHJvbml4LmRlPiB3cm90ZToKPiA+ID4gPiBBbSBEaWVuc3RhZywgZGVuIDI5LjA1LjIwMTgsIDEw
-OjIwICswMjAwIHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPiA+ID4gPiA+IE9uIEZyaSwgTWF5IDI1
-LCAyMDE4IGF0IDAzOjQyOjU0UE0gKzAyMDAsIEx1Y2FzIFN0YWNoIHdyb3RlOgo+ID4gPiA+ID4g
-PiBUaGUgaW50ZW50aW9uIG9mIHRoZSBleGlzdGluZyBjb2RlIHdhcyB0byBkZWZsZWN0IHRoZSBh
-Y3R1YWwgd29yawo+ID4gPiA+ID4gPiBvZiBtbWFwaW5nIGEgZG1hLWJ1ZiB0byB0aGUgZXhwb3J0
-ZXIsIGFzIHRoYXQgb25lIHByb2JhYmx5IGtub3dzIGJlc3QKPiA+ID4gPiA+ID4gaG93IHRvIGhh
-bmRsZSB0aGUgYnVmZmVyLiBVbmZvcnR1bmF0ZWx5IHRoZSBjYWxsIHRvIGRybV9nZW1fbW1hcCBk
-aWQKPiA+ID4gPiA+ID4gbW9yZSB0aGFuIHdoYXQgZXRuYXZpdiBuZWVkcyBpbiB0aGlzIGNhc2Ug
-YnkgYWN0dWFsbHkgc2V0dGluZyB1cCB0aGUKPiA+ID4gPiA+ID4gbWFwcGluZy4KPiA+ID4gPiA+
-ID4gCj4gPiA+ID4gPiA+IE1vdmUgbWFwcGluZyBzZXR1cCB0byB0aGUgc2htIGJ1ZmZlciB0eXBl
-IG1tYXAgaW1wbGVtZW50YXRpb24gc28gd2UKPiA+ID4gPiA+ID4gb25seSBuZWVkIHRvIGxvb2sg
-dXAgdGhlIEJPIGFuZCBjYWxsIHRoZSBidWZmZXIgdHlwZSBtbWFwIGZ1bmN0aW9uCj4gPiA+ID4g
-PiA+IGZyb20gdGhlIGhhbmRsZXIuCj4gPiA+ID4gPiA+IAo+ID4gPiA+ID4gPiBGaXhlcyBtbWFw
-IGJlaGF2aW9yIHdpdGggZG1hLWJ1ZiBpbXBvcnRlZCBhbmQgdXNlcnB0ciBidWZmZXJzLgo+ID4g
-PiA+ID4gCj4gPiA+ID4gPiBZb3UgYWxsb3cgbW1hcCBvbiB1c2VycHRyIGJ1ZmZlcnM/IFRoYXQg
-c291bmRzIHJlYWxseSBuYXN0eSAuLi4KPiA+ID4gPiAKPiA+ID4gPiBObywgd2UgZG9uJ3QgYmVj
-YXVzZSB0aGF0J3Mgb2J2aW91c2x5IGNyYXp5LCBldmVuIG1vcmUgc28gb24gQVJNIHdpdGgKPiA+
-ID4gPiBpdCdzIHNwZWNpYWwgcnVsZXMgYWJvdXQgYWxpYXNpbmcgbWFwcGluZ3MuIFRoZSBjdXJy
-ZW50IGNvZGUgaXMgYnVnZ3kKPiA+ID4gPiBpbiB0aGF0IGl0IGZpcnN0IHNldHMgdXAgdGhlIG1h
-cHBpbmcgYW5kIHRoZW4gdGVsbHMgdXNlcnNwYWNlIHRoZSBtbWFwCj4gPiA+ID4gZmFpbGVkLiBB
-ZnRlciB0aGlzIHBhdGNoIHdlIHByb3Blcmx5IHJlamVjdCB1c2VycHRyIG1tYXAgb3V0cmlnaHQu
-Cj4gPiA+IAo+ID4gPiBBaCwgSSBkaWRuJ3QgcmVhbGl6ZSB0aGF0LiBJdCBzb3VuZGVkIG1vcmUg
-bGlrZSBtYWtpbmcgdXNlcnB0ciBtbWFwCj4gPiA+IHdvcmssIG5vdCByZWplY3RpbmcgaXQuIENh
-bid0IHlvdSBpbnN0ZWFkIGp1c3QgbmV2ZXIgcmVnaXN0ZXIgdGhlIG1tYXAKPiA+ID4gb2Zmc2V0
-IGZvciB1c2VycHRyIG9iamVjdHM/IFRoYXQgd291bGQgY2F0Y2ggdGhlIGludmFsaWQgcmVxdWVz
-dCBldmVuCj4gPiA+IGVhcmxpZXIsIGFuZCBtYWtlIGl0IG1vcmUgb2J2aW91cyB0aGF0IG1tYXAg
-aXMgbm90IG9rIGZvciB1c2VycHRyLgo+ID4gPiBXb3VsZCBhbHNvIHJlbW92ZSB0aGUgbmVlZCB0
-byBoYW5kLXJvbGwgYW4gZXRuYXZpdiB2ZXJzaW9uIG9mCj4gPiA+IGRybV9nZW1fb2JqX21tYXAu
-Cj4gPiAKPiA+IE1ha2VzIHNlbnNlIGZvciB1c2VycHRyLCBub3Qgc28gbXVjaCBmb3IgaW1wb3J0
-ZWQgZG1hLWJ1ZnMsIHNlZSBiZWxvdy4KPiA+IAo+ID4gPiA+ID4gQWxzbyBub3QgcmVhbGx5IHRo
-cmlsbGVkIGFib3V0IGRtYS1idWYgbW1hcCBmb3J3YXJkaW5nIGVpdGhlciwgc2luY2UgeW91Cj4g
-PiA+ID4gPiBkb24ndCBzZWVtIHRvIGZvcndhcmQgdGhlIGJlZ2luL2VuZF9jcHVfYWNjZXNzIHN0
-dWZmIGVpdGhlci4KPiA+ID4gPiAKPiA+ID4gPiBZZWFoLCB0aGF0J3Mgc3RpbGwgbWlzc2luZywg
-YnV0IElNSE8gbW9yZSBvZiBhIGNvcnJlY3RuZXNzIGZpeCAod2hpY2gKPiA+ID4gPiBjYW4gYmUg
-ZG9uZSBpbiBhIGZvbGxvdyBvbiBwYXRjaCksIGRpc3RpbmN0IG9mIHRoZSBidWdmaXggaW4gdGhp
-cwo+ID4gPiA+IHBhdGNoLgo+ID4gPiAKPiA+ID4gWWVhaCBkcm1fZ2VtX29ial9tbWFwIHNob3Vs
-ZCBjaGVjayBmb3Igb2JqLT5pbXBvcnRfYXR0YWNoIGltbyBhbmQKPiA+ID4gc2NyZWFtLiBNYXli
-ZSB3ZSBzaG91bGQgZXZlbiBoYXZlIHRoYXQgY2hlY2sgd2hlbiBhbGxvY2F0aW5nIHRoZSBtbWFw
-Cj4gPiA+IG9mZnNldCwgc2luY2UgaGF2aW5nIGFuIG1tYXAgb2Zmc2V0IGZvciBzb21ldGhpbmcg
-eW91IGNhbiBuZXZlciBtbWFwCj4gPiA+IGlzIHNpbGx5LiBBbmQgb2JqLT5pbXBvcnRfYXR0YWNo
-IGlzbid0IGFsbG93ZWQgdG8gY2hhbmdlIG92ZXIgdGhlCj4gPiA+IGxpZmV0aW1lIG9mIGFuIG9i
-amVjdC4KPiA+IAo+ID4gQWdyZWVkIGZvciBkcm1fZ2VtX29ial9tbWFwLCBidXQgSSBkb24ndCBm
-b2xsb3cgd2h5IHdlIHdvdWxkIHJlamVjdAo+ID4gbW1hcCBvZiBhbiBpbXBvcnRlZCBkbWEtYnVm
-LiBUaGlzIHNlZW1zIHRvIGJlIGEgZmVhdHVyZSB3ZSB3YW50IHRvZGF5Cj4gPiBmb3IgZHJpdmVy
-cyB0aGF0IG5lZWQgdG8gdGFsayB0byBtdWx0aXBsZSBEUk0gZGV2aWNlcywgbGlrZSBFdG5hdml2
-LAo+ID4gVGVncmEgYW5kIFZDNCBpbiBzb21lIGNhc2VzLiBNYWtpbmcgdGhlIG1tYXAgbG9vayB1
-bmlmb3JtIGJ5IGFsbG93aW5nCj4gPiB0aGUgbW1hcCBvbiBvbmUgZGV2aWNlIGFuZCBpbnRlcm5h
-bGx5IGRlZmxlY3RpbmcgdG8gdGhlIGV4cG9ydGVyIGlzIGEKPiA+IGJpZyBwcm8gZnJvbSB0aGUg
-dXNlcnNwYWNlIGRyaXZlciB3cml0ZXIgUG9WLgo+ID4gCj4gPiBBbHNvIGlmIHlvdSB0aGluayBh
-Ym91dCBzdHVmZiBsaWtlIElPTiAobm90IHRoYXQgSSB3b3VsZCBhZ3JlZSB0aGF0IElPTgo+ID4g
-aXMgYSBnb29kIGlkZWEgaW4gZ2VuZXJhbCwgYnV0IHdoYXRldmVyKSwgYSBsb3Qgb2YgYnVmZmVy
-cyBlbmQgdXAgYmVpbmcKPiA+IGFsbG9jYXRlZCBieSBJT04uIEkgZG9uJ3Qgd2FudCBkcml2ZXIg
-d3JpdGVycyB0byBjYXJlIHdoZXJlIGEgYnVmZmVyCj4gPiB3YXMgYWxsb2NhdGVkLCBidXQgcmF0
-aGVyIGNhbGwgdGhlIHVzdWFsIG1tYXAgb24gdGhlIGRldmljZSB0aGV5IGFyZQo+ID4gd29ya2lu
-ZyB3aXRoIGFuZCBkbyB0aGUgcmlnaHQgdGhpbmcgaW4gdGhlIGtlcm5lbC4KPiA+IAo+ID4gTWF5
-YmUgd2UgY2FuIGp1c3QgZ2VuZXJhbGl6ZSB0aGUgZGVmbGVjdGluZyB0byB0aGUgZXhwb3J0ZXIg
-YW5kCj4gPiBpbXBsZW1lbnQgaXQgaW4gdGhlIERSTSBjb3JlLCByYXRoZXIgdGhhbiByb2xsaW5n
-IG91ciBvd24gdmVyc2lvbiBpbgo+ID4gZXRuYXZpdi4KPiAKPiBUaGUgcHJvYmxlbSBpcyBtb3Jl
-IHRoYXQgbW9zdCBkcml2ZXIgdWFwaSBmb3IgbW1hcCBkb2Vzbid0IGJvdGhlciBtdWNoCj4gd2l0
-aCBjYWNoZSBjb2hlcmVuY3kgaW9jdGxzIChJIHRoaW5rIHlvdXJzIGRvZXMpLCB3aGljaCBtYWtl
-cyBkbWEtYnVmIG1tYXAKPiBpbiB0aGUgZ2VuZXJhbCBjYXNlIGEgbm8tZ28uIFNvIHJlbHlpbmcg
-b24gaXQgd29ya2luZyBzZWVtcyBpbGwtYWR2aXNlZC4KCkNhY2hlIGNvaGVyZW5jeSBpcyBzb21l
-dGhpbmcgdGhhdCBzaG91bGQgYmUgZGVhbHQgd2l0aCBpbiB0aGUKYmVnaW4vZW5kX2NwdV9hY2Nl
-c3MgZnVuY3Rpb25zLiBJIGd1ZXNzIGV2ZXJ5IEdQVSBkcml2ZXIgaGFzIHNvbWV0aGluZwpsaWtl
-IHRoaXMsIGFzIHlvdSBuZWVkIGl0IHRvIHN5bmNocm9uaXplIENQVSBhY2Nlc3Mgd2l0aCB0aGUg
-R1BVCmFueXdheXMuCgpDdXJyZW50bHkgdGhpcyBpc24ndCBob29rZWQgdXAgaW4gRFJNIGZvciBl
-eHBvcnRlZCBkbWEtYnVmcywgYnV0CnNob3VsZG4ndCBiZSBhIGJpZyBkZWFsIHRvIGRvLgoKPiBC
-dXQgaW4gdGhlIGVuZCBpdCdzIGEgbWF0dGVyIG9mIG1ha2luZyBzdHVmZiB3b3JrIGluIHJlYWxp
-dHksIG5vdCBmb3IgdGhlCj4gZnVsbCBnZW5lcmFsIGNhc2UsIGFuZCBmb3IgdGhhdCBJIGd1ZXNz
-IHlvdSBzdWZmaWNpZW50bHkgY29udHJvbCBhbGwgdGhlCj4gcGllY2VzIChlLmcuIHlvdSBrbm93
-IHlvdSdsbCBvbmx5IGV2ZXIgZGVhbCB3aXRoIGNvaGVyZW50IGJ1ZmZlcnMpIHRvIG1ha2UKPiB0
-aGlzIHdvcmsuCj4gCj4gSSBndWVzcyBpZiB0aGVyZSdzIGRlbWFuZCwgYSBnZW5lcmFsIG1tYXAg
-cmVmbGVjdG9yIGZvciBnZW0gd291bGQgYmUgbXVjaAo+IGJldHRlciB0aGFuIHRoZSBzdGF0ZSBv
-ZiB0aGUgYXJ0IG9mIGV2ZXJ5b25lIGNvcHlwYXN0aW5nIHRoZSBzYW1lIGxvZ2ljLgoKSSBkb24n
-dCB0aGluayBhIGdlbmVyaWMgbW1hcCByZWZsZWN0b3Igd2lsbCB3b3JrIG91dCwgc3BlY2lmaWNh
-bGx5CmJlY2F1c2UgZHJpdmVycyBuZWVkIHRvIGhvb2sgdGhlIGRtYS1idWYgYmVnaW4vZW5kX2Nw
-dV9hY2Nlc3Mgc3R1ZmYKaW50byB0aGVpciBkcml2ZXJzIHNwZWNpZmljIGNwdV9wcmVwL2Zpbmkg
-aW9jdGxzIHRvIG1ha2UgdGhpcyB3b3JrCnByb3Blcmx5LgoKVGhhdCBzYWlkIHdvdWxkIHlvdSBi
-ZSBva2F5IHdpdGggbWUganVzdCBtZXJnaW5nIHRoaXMgc2VyaWVzIGFuZCBnb2luZwpmcm9tIHRo
-ZXJlPyBJdCdzIGRlZmluaXRlbHkgYW4gaW1wcm92ZW1lbnQgb2YgdGhlIHN0YXR1cy1xdW8gb24K
-ZXRuYXZpdiwgYXMgY3VycmVudGx5IHdlIGFsbG93IHRvIG1tYXAgZG1hLWJ1ZnMsIGJ1dCB0aGVu
-IGxlYWsgYQpyZWZlcmVuY2UuCgpSZWdhcmRzLApMdWNhcwpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1669787127==
+Content-Type: multipart/alternative; boundary="15621520893.AEF8B.11787"
+Content-Transfer-Encoding: 7bit
+
+
+--15621520893.AEF8B.11787
+Date: Wed, 3 Jul 2019 11:08:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105251
+
+--- Comment #69 from Hleb Valoshka <375gnu@gmail.com> ---
+I have this fault with 2400G and mesa 18.3 & 19.1.1 with Linux 4.19 (other
+versions haven't been tested).
+
+It seems that Vega is unable to handle tiny VBO correctly. I have an old
+application that uses a lot of immediate mode GL functions to create small
+billboards using GL_QUADS like the following one:
+
+    glTexCoord2f(0, 0);          glVertex(v0 * Size);
+    glTexCoord2f(1, 0);          glVertex(v1 * Size);
+    glTexCoord2f(1, 1);          glVertex(v2 * Size);
+    glTexCoord2f(0, 1);          glVertex(v3 * Size);
+
+Initially I have replaced this code with
+    static GLfloat Vtx[] =3D
+    {
+        -1, -1, 0,    0, 0,
+         1, -1, 0,    1, 0,
+         1,  1, 0,    1, 1,
+        -1,  1, 0,    0, 1
+    };
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vtx), Vtx, GL_STATIC_DRAW);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 5*sizeof(GLfloat), 0);
+    glTexCoordPointer(2, GL_FLOAT, 5*sizeof(GLfloat), 3*sizeof(GLfloat));
+
+    + I use VAO if it's available.
+
+As a variant I used independent arrays for position and texture coordinates.
+But with the same fault.
+
+So as a result I added required data to another related VBO which contains =
+8192
+vertices. Now I don't have this fault.
+
+I know that OpenGL doesn't like herds of small VBOs, but the hardware failu=
+re
+is not an expected result if we use them.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15621520893.AEF8B.11787
+Date: Wed, 3 Jul 2019 11:08:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251#c69">Comme=
+nt # 69</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251">bug 10525=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+375gnu&#64;gmail.com" title=3D"Hleb Valoshka &lt;375gnu&#64;gmail.com&gt;">=
+ <span class=3D"fn">Hleb Valoshka</span></a>
+</span></b>
+        <pre>I have this fault with 2400G and mesa 18.3 &amp; 19.1.1 with L=
+inux 4.19 (other
+versions haven't been tested).
+
+It seems that Vega is unable to handle tiny VBO correctly. I have an old
+application that uses a lot of immediate mode GL functions to create small
+billboards using GL_QUADS like the following one:
+
+    glTexCoord2f(0, 0);          glVertex(v0 * Size);
+    glTexCoord2f(1, 0);          glVertex(v1 * Size);
+    glTexCoord2f(1, 1);          glVertex(v2 * Size);
+    glTexCoord2f(0, 1);          glVertex(v3 * Size);
+
+Initially I have replaced this code with
+    static GLfloat Vtx[] =3D
+    {
+        -1, -1, 0,    0, 0,
+         1, -1, 0,    1, 0,
+         1,  1, 0,    1, 1,
+        -1,  1, 0,    0, 1
+    };
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vtx), Vtx, GL_STATIC_DRAW);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 5*sizeof(GLfloat), 0);
+    glTexCoordPointer(2, GL_FLOAT, 5*sizeof(GLfloat), 3*sizeof(GLfloat));
+
+    + I use VAO if it's available.
+
+As a variant I used independent arrays for position and texture coordinates.
+But with the same fault.
+
+So as a result I added required data to another related VBO which contains =
+8192
+vertices. Now I don't have this fault.
+
+I know that OpenGL doesn't like herds of small VBOs, but the hardware failu=
+re
+is not an expected result if we use them.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15621520893.AEF8B.11787--
+
+--===============1669787127==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1669787127==--
