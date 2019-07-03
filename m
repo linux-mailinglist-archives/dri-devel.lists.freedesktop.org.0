@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD485DC8B
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 04:32:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82625DCA5
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 04:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC6636E0BE;
-	Wed,  3 Jul 2019 02:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C04CC6E0C2;
+	Wed,  3 Jul 2019 02:48:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 062836E0BE
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 02:32:37 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A0ECE21873
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 02:32:37 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id w17so865730qto.10
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Jul 2019 19:32:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAVR/HQ+KJSbWCXa8WbpUSpkk/8Pm+Qqr7Np3xPEvEys4NZ2dnHz
- Z2AfGLOm9+loQfA9DC9TnHH0J/prqLzoAxcZ5A==
-X-Google-Smtp-Source: APXvYqwtxZUXfS7T+po7PKuI/nGgvaDQeMzeI/78z50apmU+KaoT+C/FfFoCmrqhKsZZjJCVTjCU8e23V11UBr5gq1Q=
-X-Received: by 2002:aed:3f10:: with SMTP id p16mr28374282qtf.110.1562121156892; 
- Tue, 02 Jul 2019 19:32:36 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 889906E0C3
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 02:48:31 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 850E872167; Wed,  3 Jul 2019 02:48:31 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107907] Steam game Medieval II: Total War hangs on Ubuntu 18.04
+Date: Wed, 03 Jul 2019 02:48:31 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: WORKSFORME
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-107907-502-uzsO6ZVCs0@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107907-502@http.bugs.freedesktop.org/>
+References: <bug-107907-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190627155318.38053-1-steven.price@arm.com>
- <20190627155318.38053-3-steven.price@arm.com>
-In-Reply-To: <20190627155318.38053-3-steven.price@arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 2 Jul 2019 20:32:25 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+fmjqdcQgSJ69O33BJH7AUWvb_YcbJNur+wSpd5VMNOA@mail.gmail.com>
-Message-ID: <CAL_Jsq+fmjqdcQgSJ69O33BJH7AUWvb_YcbJNur+wSpd5VMNOA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] drm/panfrost: Use drm_gem_map_offset()
-To: Steven Price <steven.price@arm.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1562121157;
- bh=n0WMYfJB3u3567TZQwG6ImcIFEDatY3bPs5dKzrXQtE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=koLbxnZ9er+WL86MfO2lkZ3mDKDz03bBIFrb/W0InimUL6deA2SXBBstBinlAyhvU
- MvnF81cjoo51yAnQ964/Qdnavtv5ylyrc6RsCFoyNwSBZbZ98/oZI6pVUSmo9EuMvj
- g8SMJRsSXPDjLk6cIUCINxaWG+S54p3XhdaUPz8k=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,29 +52,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1803683885=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdW4gMjcsIDIwMTkgYXQgOTo1MyBBTSBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmlj
-ZUBhcm0uY29tPiB3cm90ZToKPgo+IHBhbmZyb3N0X2lvY3RsX21tYXBfYm8oKSBjb250YWlucyBh
-IHJlaW1wbGVtZW50YXRpb24gb2YKPiBkcm1fZ2VtX21hcF9vZmZzZXQoKSBidXQgd2l0aCBhIGJ1
-ZyAtIGl0IGFsbG93cyBtYXBwaW5nIGltcG9ydGVkCj4gb2JqZWN0cyAod2l0aG91dCBnb2luZyB0
-aHJvdWdoIHRoZSBleHBvcnRlcikuIEZpeCB0aGlzIGJ5IHN3aXRjaGluZyB0bwo+IHVzZSB0aGUg
-bmV3bHkgcmVuYW1lZCBkcm1fZ2VtX21hcF9vZmZzZXQoKSBmdW5jdGlvbiBpbnN0ZWFkIHdoaWNo
-IGhhcwo+IHRoZSBib251cyBvZiBzaW1wbGlmeWluZyB0aGUgY29kZS4KCldoaWxlIGl0IG1heSBo
-YXZlIGJlZW4gYSBidWcsIGl0IHdvcmtlZCAoYnkgc29tZSBkZWZpbml0aW9uIG9mCndvcmtlZCku
-IE5vdyBtZXNhIGJyZWFrcyBvbiBpbXBvcnRpbmcgYnVmZmVycyB3aGljaCBhbHdheXMgZ2V0Cm1t
-YXBwZWQuIFNvIHdlIG5lZWQgdG8gcmV2ZXJ0IHRoaXMsIGdldCBpbXBvcnQgbW1hcHMgdG8gd29y
-aywgb3IgZHJvcAptbWFwcGluZyBvZiBpbXBvcnRzIGFuZCBiYWNrcG9ydCB0aGF0IHRvIDE5LjEu
-IEkgZG9uJ3QgdGhpbmsgdGhlcmUKc2hvdWxkIGJlIGFueSBuZWVkIHRvIG1tYXAgaW1wb3J0cy4K
-ClJvYgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1803683885==
+Content-Type: multipart/alternative; boundary="15621221111.8Da4f4b56.26010"
+Content-Transfer-Encoding: 7bit
+
+
+--15621221111.8Da4f4b56.26010
+Date: Wed, 3 Jul 2019 02:48:31 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107907
+
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |WORKSFORME
+
+--- Comment #2 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Works fine for me with Mesa 19.0. Note that the Mesa 18.x releases are no
+longer supported, please test with a more recent version of Mesa and reopen=
+ the
+bug report if you are still having issues. Closing.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15621221111.8Da4f4b56.26010
+Date: Wed, 3 Jul 2019 02:48:31 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - Steam game Medieval II: Total War hangs o=
+n Ubuntu 18.04"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107907">bug 10790=
+7</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>WORKSFORME
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - Steam game Medieval II: Total War hangs o=
+n Ubuntu 18.04"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107907#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - Steam game Medieval II: Total War hangs o=
+n Ubuntu 18.04"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107907">bug 10790=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>Works fine for me with Mesa 19.0. Note that the Mesa 18.x rele=
+ases are no
+longer supported, please test with a more recent version of Mesa and reopen=
+ the
+bug report if you are still having issues. Closing.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15621221111.8Da4f4b56.26010--
+
+--===============1803683885==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1803683885==--
