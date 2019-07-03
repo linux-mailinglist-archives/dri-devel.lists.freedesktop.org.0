@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19FD5E295
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 13:08:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E81F5E2CF
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 13:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 019BB6E11E;
-	Wed,  3 Jul 2019 11:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D386E11A;
+	Wed,  3 Jul 2019 11:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 547266E121
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 11:08:09 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5114F72167; Wed,  3 Jul 2019 11:08:09 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105251] [Vega10]  GPU lockup on boot: VMC page fault
-Date: Wed, 03 Jul 2019 11:08:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: 375gnu@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-105251-502-Wu47bdy8d8@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105251-502@http.bugs.freedesktop.org/>
-References: <bug-105251-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+ [209.85.160.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48C536E11A
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 11:32:29 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id i34so200586qta.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2019 04:32:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2Q71nykmZnftwjkHSkA+Jk39GDfEUnad16+NV/JTo7Y=;
+ b=k7NrnhJo9PUMYI55FjggEAQZbQYzeegFR+HBsysJN8+6hf0JYcdDs8va86V2z7s6ow
+ 7429exwXkgSiqKoxcNRgLZx/1nrFxy9McainPGzwn5WOzke55kzqyZdq5Hv8/Do8AKCW
+ NyIqRHU7XfulwgBNgemCx6zAGPYNiY0wGK6kcjUXYhqQ7+llhKIA6pZK2M9JBUt7y2BE
+ mI2OCCpiV2kSd3GR6/od0bgrR1VH0zDoErajvh0KrWUrEpBr63nOJ9YdurZL2FE4vmGQ
+ pqx95dlFg/1BsaqZENQGaTrHvFafypG/LkYK6rWo8pMvQ8stN5Fu0dh23Gwas2KraPPF
+ Ph9g==
+X-Gm-Message-State: APjAAAUHVG96LyuI1GjY8O1h51XBawVF6RaKwCWxJtsfQHI1zSrEX+jt
+ 1qA/coLIKfeubN4mRSvZBQnslw==
+X-Google-Smtp-Source: APXvYqyzud3g07TciC4VF5eJmUl92j4XscGm6M0TvSKIGlHXYnM3cBpfQ1p+ZmlBIf/e4UAadZGy9w==
+X-Received: by 2002:ac8:2774:: with SMTP id h49mr28980055qth.97.1562153548407; 
+ Wed, 03 Jul 2019 04:32:28 -0700 (PDT)
+Received: from [192.168.1.157] (pool-96-235-39-235.pitbpa.fios.verizon.net.
+ [96.235.39.235])
+ by smtp.gmail.com with ESMTPSA id f25sm977214qta.81.2019.07.03.04.32.27
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 03 Jul 2019 04:32:27 -0700 (PDT)
+Subject: Re: [PATCH 1/2] staging: android: ion: Remove file ion_carveout_heap.c
+To: Daniel Vetter <daniel@ffwll.ch>, Greg KH <gregkh@linuxfoundation.org>,
+ John Stultz <john.stultz@linaro.org>
+References: <20190703081842.22872-1-nishkadg.linux@gmail.com>
+ <20190703083745.GB8996@kroah.com>
+ <CAKMK7uFAaw3sL_A6gGOeot80fvukjZqprLptLER=riA1_p4zWw@mail.gmail.com>
+From: Laura Abbott <labbott@redhat.com>
+Message-ID: <759555d8-98bf-44d3-4fa3-3d927f9a33db@redhat.com>
+Date: Wed, 3 Jul 2019 07:32:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
+In-Reply-To: <CAKMK7uFAaw3sL_A6gGOeot80fvukjZqprLptLER=riA1_p4zWw@mail.gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,163 +63,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1669787127=="
+Cc: driverdevel <devel@driverdev.osuosl.org>, Todd Kjos <tkjos@android.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ =?UTF-8?Q?Arve_Hj=c3=b8nnev=c3=a5g?= <arve@android.com>,
+ Nishka Dasgupta <nishkadg.linux@gmail.com>, joel@joelfernandes.org,
+ maco@android.com, christian@brauner.io
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1669787127==
-Content-Type: multipart/alternative; boundary="15621520893.AEF8B.11787"
-Content-Transfer-Encoding: 7bit
-
-
---15621520893.AEF8B.11787
-Date: Wed, 3 Jul 2019 11:08:09 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105251
-
---- Comment #69 from Hleb Valoshka <375gnu@gmail.com> ---
-I have this fault with 2400G and mesa 18.3 & 19.1.1 with Linux 4.19 (other
-versions haven't been tested).
-
-It seems that Vega is unable to handle tiny VBO correctly. I have an old
-application that uses a lot of immediate mode GL functions to create small
-billboards using GL_QUADS like the following one:
-
-    glTexCoord2f(0, 0);          glVertex(v0 * Size);
-    glTexCoord2f(1, 0);          glVertex(v1 * Size);
-    glTexCoord2f(1, 1);          glVertex(v2 * Size);
-    glTexCoord2f(0, 1);          glVertex(v3 * Size);
-
-Initially I have replaced this code with
-    static GLfloat Vtx[] =3D
-    {
-        -1, -1, 0,    0, 0,
-         1, -1, 0,    1, 0,
-         1,  1, 0,    1, 1,
-        -1,  1, 0,    0, 1
-    };
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vtx), Vtx, GL_STATIC_DRAW);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 5*sizeof(GLfloat), 0);
-    glTexCoordPointer(2, GL_FLOAT, 5*sizeof(GLfloat), 3*sizeof(GLfloat));
-
-    + I use VAO if it's available.
-
-As a variant I used independent arrays for position and texture coordinates.
-But with the same fault.
-
-So as a result I added required data to another related VBO which contains =
-8192
-vertices. Now I don't have this fault.
-
-I know that OpenGL doesn't like herds of small VBOs, but the hardware failu=
-re
-is not an expected result if we use them.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15621520893.AEF8B.11787
-Date: Wed, 3 Jul 2019 11:08:09 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251#c69">Comme=
-nt # 69</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251">bug 10525=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-375gnu&#64;gmail.com" title=3D"Hleb Valoshka &lt;375gnu&#64;gmail.com&gt;">=
- <span class=3D"fn">Hleb Valoshka</span></a>
-</span></b>
-        <pre>I have this fault with 2400G and mesa 18.3 &amp; 19.1.1 with L=
-inux 4.19 (other
-versions haven't been tested).
-
-It seems that Vega is unable to handle tiny VBO correctly. I have an old
-application that uses a lot of immediate mode GL functions to create small
-billboards using GL_QUADS like the following one:
-
-    glTexCoord2f(0, 0);          glVertex(v0 * Size);
-    glTexCoord2f(1, 0);          glVertex(v1 * Size);
-    glTexCoord2f(1, 1);          glVertex(v2 * Size);
-    glTexCoord2f(0, 1);          glVertex(v3 * Size);
-
-Initially I have replaced this code with
-    static GLfloat Vtx[] =3D
-    {
-        -1, -1, 0,    0, 0,
-         1, -1, 0,    1, 0,
-         1,  1, 0,    1, 1,
-        -1,  1, 0,    0, 1
-    };
-
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vtx), Vtx, GL_STATIC_DRAW);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 5*sizeof(GLfloat), 0);
-    glTexCoordPointer(2, GL_FLOAT, 5*sizeof(GLfloat), 3*sizeof(GLfloat));
-
-    + I use VAO if it's available.
-
-As a variant I used independent arrays for position and texture coordinates.
-But with the same fault.
-
-So as a result I added required data to another related VBO which contains =
-8192
-vertices. Now I don't have this fault.
-
-I know that OpenGL doesn't like herds of small VBOs, but the hardware failu=
-re
-is not an expected result if we use them.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15621520893.AEF8B.11787--
-
---===============1669787127==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1669787127==--
+T24gNy8zLzE5IDU6NTAgQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gT24gV2VkLCBKdWwgMywg
+MjAxOSBhdCAxMDozNyBBTSBHcmVnIEtIIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3Jv
+dGU6Cj4+Cj4+IE9uIFdlZCwgSnVsIDAzLCAyMDE5IGF0IDAxOjQ4OjQxUE0gKzA1MzAsIE5pc2hr
+YSBEYXNndXB0YSB3cm90ZToKPj4+IFJlbW92ZSBmaWxlIGlvbl9jYXJ2ZW91dF9oZWFwLmMgYXMg
+aXRzIGZ1bmN0aW9ucyBhbmQgZGVmaW5pdGlvbnMgYXJlIG5vdAo+Pj4gdXNlZCBhbnl3aGVyZS4K
+Pj4+IElzc3VlIGZvdW5kIHdpdGggQ29jY2luZWxsZS4KPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBO
+aXNoa2EgRGFzZ3VwdGEgPG5pc2hrYWRnLmxpbnV4QGdtYWlsLmNvbT4KPj4+IC0tLQo+Pj4gICBk
+cml2ZXJzL3N0YWdpbmcvYW5kcm9pZC9pb24vS2NvbmZpZyAgICAgICAgICAgfCAgIDkgLS0KPj4+
+ICAgZHJpdmVycy9zdGFnaW5nL2FuZHJvaWQvaW9uL01ha2VmaWxlICAgICAgICAgIHwgICAxIC0K
+Pj4+ICAgLi4uL3N0YWdpbmcvYW5kcm9pZC9pb24vaW9uX2NhcnZlb3V0X2hlYXAuYyAgIHwgMTMz
+IC0tLS0tLS0tLS0tLS0tLS0tLQo+Pgo+PiBJIGtlZXAgdHJ5aW5nIHRvIGRvIHRoaXMsIGJ1dCBv
+dGhlcnMgcG9pbnQgb3V0IHRoYXQgdGhlIGlvbiBjb2RlIGlzCj4+ICJnb2luZyB0byBiZSBmaXhl
+ZCB1cCBzb29uIiBhbmQgdGhhdCBwZW9wbGUgcmVseSBvbiB0aGlzIGludGVyZmFjZSBub3cuCj4+
+IFdlbGwsICJjb2RlIG91dHNpZGUgb2YgdGhlIGtlcm5lbCB0cmVlIiByZWxpZXMgb24gdGhpcywg
+d2hpY2ggaXMgbm90IG9rLAo+PiBidXQgdGhlICJzb29uIiBwZW9wbGUga2VlcCBpbnNpc3Rpbmcg
+b24gaXQuLi4KPj4KPj4gT2RkcyBhcmUgSSBzaG91bGQganVzdCBkZWxldGUgYWxsIG9mIElPTiwg
+YXMgdGhlcmUgaGFzbid0IGJlZW4gYW55Cj4+IGZvcndhcmQgcHJvZ3Jlc3Mgb24gaXQgaW4gYSBs
+b25nIHRpbWUuCj4+Cj4+IEhvcGVmdWxseSB0aGF0IHdha2VzIHNvbWUgcGVvcGxlIHVwLi4uCj4g
+Cj4gSm9obiBTdHVsdHogaGFzIGRvbmUgYSBzdGVhZHkgc3RyZWFtIG9uIGlvbiBkZXN0YWdpbmcg
+cGF0Y2ggc2VyaWVzCj4gcGFzdCBmZXcgbW9udGhzLCB1bmQgdGhlIGhlYWRpbmcgb2YgIkRNQS1C
+VUYgSGVhcHMiLCB0YXJnZXRpbmcKPiBkcml2ZXJzL2RtYS1idWYuIEknbSBub3QgZm9sbG93aW5n
+IHRoZSBkZXRhaWxzLCBhbmQgaXQgc2VlbXMgYSBiaXQgYQo+IGNyYXdsLCBidXQgdGhlcmUncyBk
+ZWZpbml0ZWx5IHdvcmsgZ29pbmcgb24gLi4uIEp1c3QgcHJvYmFibHkgbm90Cj4gaW4tcGxhY2Ug
+aW4gc3RhZ2luZyBJIHRoaW5rLgo+IC1EYW5pZWwKPiAKCgpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9hcmNoaXZlcy9kcmktZGV2ZWwvMjAxOS1KdW5lLzIyMzcwNS5odG1sCgpJdCBpcyBt
+YWtpbmcgc2xvdyBhbmQgc3RlYWR5IHByb2dyZXNzLiBQYXJ0IG9mIHRoaXMgaXMgdHJ5aW5nIHRv
+Cm1ha2Ugc3VyZSB3ZSBhY3R1YWxseSBnZXQgdGhpcyByaWdodCBiZWZvcmUgbW92aW5nIGFueXRo
+aW5nCm91dCBvZiBzdGFnaW5nLgoKVGhhdCBzYWlkLCBJIHRoaW5rIHdlJ3JlIGF0IHRoZSBwb2lu
+dCB3aGVyZSBub2JvZHkgd2FudHMgdGhlCmNhcnZlb3V0IGFuZCBjaHVuayBoZWFwcyBzbyBJJ2Qg
+YWN0dWFsbHkgYmUgb2theSB3aXRoIHJlbW92aW5nCnRob3NlIGZpbGVzLiBKdXN0IHRvIGJlIGV4
+cGxpY2l0OgoKQWNrZWQtYnk6IExhdXJhIEFiYm90dCA8bGFiYm90dEByZWRoYXQuY29tPgoKVGhh
+bmtzLApMYXVyYQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
