@@ -1,61 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C33D5EA1E
-	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 19:09:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40BF75EA25
+	for <lists+dri-devel@lfdr.de>; Wed,  3 Jul 2019 19:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2256E154;
-	Wed,  3 Jul 2019 17:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E4206E177;
+	Wed,  3 Jul 2019 17:11:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90D7E6E154;
- Wed,  3 Jul 2019 17:09:50 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id u18so3699348wru.1;
- Wed, 03 Jul 2019 10:09:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2bsB9SvhfF7dUA0Vo/TmDM5qf+8jfXCRLhUWoe/kjIw=;
- b=TRXAmlq1D5GJFHwoyxu0RYv66drqJ4M/T73jyi/NiPla0u+9WR6ifi7QFxRjwBx9Af
- KDlPCfMaG5NxuyAo1ZRrDaah68nZkRiYqyrvHeDjVJLMp4+GFifa4mihGGLfEdBjMBV8
- oQ7zvZgabzJLcKPC8asBpCqbAzoPX72HzMLqmLzT5TxgN/2GBH1ng65zX4fm7hmlkd5V
- JLEjXzgQ30g2x39uXSZ1AfH/mScWQevPkyrFYOY//uvE3OXGYvq67tLXshTzJknyuwiC
- DXSfEXfiJOqxWwlcjSiW3Tma2dEnlAtHBALqIdGoxMc9spXHIq8gCKifz6BF5DU76YyY
- gSlw==
-X-Gm-Message-State: APjAAAWUVpdgIWPq3MCpMv97bwo8x+9RO2ZNRFeXMyY8GE8T8LILDbT1
- Q3uCa0s8gK/USboLDopB4FTzUp6O
-X-Google-Smtp-Source: APXvYqzNbgaTTbQMdI2WDpEP3vsHPlT/t6/Gg66kKTbPuiNnkQ/1jTHgjQghC4WbLCxNeJPs/8+99w==
-X-Received: by 2002:a5d:6743:: with SMTP id l3mr19217961wrw.241.1562173788944; 
- Wed, 03 Jul 2019 10:09:48 -0700 (PDT)
-Received: from arch-x1c3.cbg.collabora.co.uk
- ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
- by smtp.gmail.com with ESMTPSA id y184sm2160092wmg.14.2019.07.03.10.09.47
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 10:09:48 -0700 (PDT)
-From: Emil Velikov <emil.l.velikov@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 079FC6E177
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Jul 2019 17:11:06 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 042F572168; Wed,  3 Jul 2019 17:11:06 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: allow render capable master with DRM_AUTH ioctls
-Date: Wed,  3 Jul 2019 18:10:01 +0100
-Message-Id: <20190703171001.20474-1-emil.l.velikov@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190703133104.3211-1-emil.l.velikov@gmail.com>
-References: <20190703133104.3211-1-emil.l.velikov@gmail.com>
+Subject: [Bug 109524] "Invalid glsl version in shading_language_version()"
+ when trying to run directX games using wine
+Date: Wed, 03 Jul 2019 17:11:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/R100
+X-Bugzilla-Version: 18.2
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: laszlo.erdoes@freenet.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109524-502-0sOWe0GY2l@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109524-502@http.bugs.freedesktop.org/>
+References: <bug-109524-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2bsB9SvhfF7dUA0Vo/TmDM5qf+8jfXCRLhUWoe/kjIw=;
- b=FOhrpe/YQmklGDVQ+5ykYSuGn+4z6S7AGRHwCrNQiETEMYTgMVBTL5TkQ16ePTqZ+s
- sE61OdY7KdG8bkF3LXx67B2U7CiewGPBMjiHZrVBls0ZiJ9vJP5+gEoqUDKofMdTOtLS
- asWsG0Z22rSipbtxV/6S6wFzwnvWsTVkCDY+38siGSw0Qe3x/K09LJBAI7uSIvMImOPv
- xl0Lu3sTUuI7U2C1ZgMcBH9H0dQAPZ7VzJHnpBxjNrc/H0OqUYtmpovueUgJrBccxsoK
- ypdvElNqfFXh3yYi7PM6bxvxkMdfrvbEtwvb2Jc7xoBlySLYuIjuyMv+p6tcAjqPKmMU
- 12gQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,86 +53,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- emil.l.velikov@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0698627846=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KClRoZXJlIGFy
-ZSBjYXNlcyAoaW4gbWVzYSBhbmQgYXBwbGljYXRpb25zKSB3aGVyZSBvbmUgd291bGQgb3BlbiB0
-aGUKcHJpbWFyeSBub2RlIHdpdGhvdXQgcHJvcGVybHkgYXV0aGVudGljYXRpbmcgdGhlIGNsaWVu
-dC4KClNvbWV0aW1lcyB3ZSBkb24ndCBjaGVjayBpZiB0aGUgYXV0aGVudGljYXRpb24gc3VjY2Vl
-ZHMsIGJ1dCB0aGVyZSdzCmFsc28gY2FzZXMgd2Ugc2ltcGx5IGZvcmdldCB0byBkbyBpdC4KClRo
-ZSBmb3JtZXIgd2FzIGEgY2FzZSBmb3IgTWVzYSB3aGVyZSBpdCBkaWQgbm90IG5vdCBjaGVjayB0
-aGUgcmV0dXJuCnZhbHVlIG9mIGRybUdldE1hZ2ljKCkgWzFdLiBUaGF0IHdhcyBmaXhlZCByZWNl
-bnRseSBhbHRob3VnaCwgdGhlcmUncwp0aGUgcXVlc3Rpb24gb2Ygb2xkZXIgZHJpdmVycyBvciBv
-dGhlciBhcHBzIHRoYXQgZXhiaWJpdCB0aGlzIGJlaGF2aW91ci4KCldoaWxlIG9taXR0aW5nIHRo
-ZSBjYWxsIHJlc3VsdHMgaW4gaXNzdWVzIGFzIHNlZW4gaW4gWzJdIGFuZCBbM10uCgpJbiB0aGUg
-bGlidmEgY2FzZSwgbGlidmEgaXRzZWxmIGRvZXNuJ3QgYXV0aGVudGljYXRlIHRoZSBEUk0gY2xp
-ZW50IGFuZAp0aGUgdmFHZXREaXNwbGF5RFJNIGRvY3VtZW50YXRpb24gZG9lc24ndCBtZW50aW9u
-IGlmIHRoZSBhcHAgc2hvdWxkCmVpdGhlci4KCkFzIG9mIHRvZGF5LCB0aGUgb2ZmaWNpYWwgdmFp
-bmZvIHV0aWxpdHkgZG9lc24ndCBhdXRoZW50aWNhdGUuCgpUbyB3b3JrYXJvdW5kIGlzc3VlcyBs
-aWtlIHRoZXNlLCBzb21lIHVzZXJzIHJlc29ydCB0byBydW5uaW5nIHRoZWlyIGFwcHMKdW5kZXIg
-c3Vkby4gV2hpY2ggYWRtaXR0ZWRseSBpc24ndCBhbHdheXMgYSBnb29kIGlkZWEuCgpTaW5jZSBh
-bnkgRFJJVkVSX1JFTkRFUiBkcml2ZXIgaGFzIHN1ZmZpY2llbnQgaXNvbGF0aW9uIGJldHdlZW4g
-Y2xpZW50cywKd2UgY2FuIHVzZSB0aGF0LCBmb3IgdW5hdXRoZW50aWNhdGVkIFtwcmltYXJ5IG5v
-ZGVdIGlvY3RscyB0aGF0IHJlcXVpcmUKRFJNX0FVVEguIEJ1dCBvbmx5IGlmIHRoZSByZXNwZWN0
-aXZlIGlvY3RsIGlzIHRhZ2dlZCBhcyBEUk1fUkVOREVSX0FMTE9XLgoKdjI6Ci0gUmV3b3JrL3Np
-bXBsaWZ5IGlmIGNoZWNrIChEYW5pZWwgVikKLSBBZGQgZXhhbXBsZXMgdG8gY29tbWl0IG1lc3Nh
-Z2VzLCBlbGFib3JhdGUuIChEYW5pZWwgVikKCnYzOgotIFVzZSBzaW5nbGUgdW5saWtlbHkgKERh
-bmllbCBWKQoKdjQ6Ci0gUmVhcHBseSBwYXRjaCwgY2hlY2sgZm9yIGFtZGdwdS9yYWRlb24gaW5s
-aW5lLgoKWzFdIGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9tZXNhL21lc2EvYmxvYi8y
-YmMxZjVjMmU3MGZlM2I0ZDQxZjA2MGFmOTg1OWJjMmE5NGM1YjYyL3NyYy9lZ2wvZHJpdmVycy9k
-cmkyL3BsYXRmb3JtX3dheWxhbmQuYyNMMTEzNgpbMl0gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvYXJjaGl2ZXMvbGlidmEvMjAxNi1KdWx5LzAwNDE4NS5odG1sClszXSBodHRwczovL2dp
-dGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9rbXNjdWJlL2lzc3Vlcy8xClRlc3RjYXNlOiBpZ3Qv
-Y29yZV91bmF1dGhfdnNfcmVuZGVyCkNjOiBpbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpTaWduZWQtb2ZmLWJ5
-OiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgpSZXZpZXdlZC1ieTog
-RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KLS0tClRoaXMgdmVyc2lvbiBl
-ZmZlY3RpdmVseSBzdXBlcnNlZGVzIHRoZSBEUklWRVJfRk9SQ0VfQVVUSCBmbGFnCmludHJvZHVj
-ZWQgaGVyZS4KCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZl
-bC8yMDE5LUp1bHkvMjI1MTY1Lmh0bWwKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvYXJj
-aGl2ZXMvZHJpLWRldmVsLzIwMTktSnVseS8yMjUxNjYuaHRtbAotLS0KIGRyaXZlcnMvZ3B1L2Ry
-bS9kcm1faW9jdGwuYyB8IDM0ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0
-bC5jCmluZGV4IDA5ZjdmOGUzM2ZhMy4uYWQ3YzY3Yjg5YmRkIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2lvY3RsLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jCkBA
-IC01MTcsNiArNTE3LDI5IEBAIGludCBkcm1fdmVyc2lvbihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2
-LCB2b2lkICpkYXRhLAogCXJldHVybiBlcnI7CiB9CiAKK3N0YXRpYyBpbmxpbmUgYm9vbAorZHJt
-X3JlbmRlcl9kcml2ZXJfYW5kX2lvY3RsKGNvbnN0IHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHUz
-MiBmbGFncykKK3sKKwlyZXR1cm4gZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9S
-RU5ERVIpICYmCisJCShmbGFncyAmIERSTV9SRU5ERVJfQUxMT1cpOworfQorCisvKgorICogWWV0
-IHRoZSBBTUQgZGV2ZWxvcGVycyBoYXZlIHZvaWNlZCBjb25jZXJucyB0aGF0IGJ5IGFsbG93aW5n
-IGlvY3RscworICogc3VjaCBhcyBEUk1fQVVUSCB8IERSTV9SRU5ERVJfQUxMT1cgdy9vIGVuZm9y
-Y2luZyBEUk1fQVVUSCBkZXZlbG9wZXJzCisgKiB3b3JraW5nIG9uIHRoZSBjbG9zZWQgc291cmNl
-IHVzZXItc3BhY2UgZHJpdmVyIG1pZ2h0IHJlbW92ZSByZW5kZXIKKyAqIG5vZGUgc3VwcG9ydC4K
-KyAqCisgKiBTaW5jZSB3ZSBkbyBfbm90XyB3YW50IHRoYXQgdG8gaGFwcGVuLCBhZGQgd29ya2Fy
-b3VuZCBmb3IgdGhvc2UgdHdvCisgKiBkcml2ZXJzLgorICovCitzdGF0aWMgaW5saW5lIGJvb2wK
-K2lzX2FtZGdwdV9vcl9yYWRlb24oY29uc3Qgc3RydWN0IGRybV9kZXZpY2UgKmRldikKK3sKKwly
-ZXR1cm4gKChkZXYtPmRyaXZlci0+bmFtZSwgImFtZGdwdSIpID09IDAgfHwKKwkJKGRldi0+ZHJp
-dmVyLT5uYW1lLCAicmFkZW9uIikgPT0gMCk7Cit9CisKIC8qKgogICogZHJtX2lvY3RsX3Blcm1p
-dCAtIENoZWNrIGlvY3RsIHBlcm1pc3Npb25zIGFnYWluc3QgY2FsbGVyCiAgKgpAQCAtNTMxLDYg
-KzU1NCw4IEBAIGludCBkcm1fdmVyc2lvbihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpk
-YXRhLAogICovCiBpbnQgZHJtX2lvY3RsX3Blcm1pdCh1MzIgZmxhZ3MsIHN0cnVjdCBkcm1fZmls
-ZSAqZmlsZV9wcml2KQogeworCWNvbnN0IHN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBmaWxlX3By
-aXYtPm1pbm9yLT5kZXY7CisKIAkvKiBST09UX09OTFkgaXMgb25seSBmb3IgQ0FQX1NZU19BRE1J
-TiAqLwogCWlmICh1bmxpa2VseSgoZmxhZ3MgJiBEUk1fUk9PVF9PTkxZKSAmJiAhY2FwYWJsZShD
-QVBfU1lTX0FETUlOKSkpCiAJCXJldHVybiAtRUFDQ0VTOwpAQCAtNTM4LDcgKzU2MywxNCBAQCBp
-bnQgZHJtX2lvY3RsX3Blcm1pdCh1MzIgZmxhZ3MsIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2
-KQogCS8qIEFVVEggaXMgb25seSBmb3IgYXV0aGVudGljYXRlZCBvciByZW5kZXIgY2xpZW50ICov
-CiAJaWYgKHVubGlrZWx5KChmbGFncyAmIERSTV9BVVRIKSAmJiAhZHJtX2lzX3JlbmRlcl9jbGll
-bnQoZmlsZV9wcml2KSAmJgogCQkgICAgICFmaWxlX3ByaXYtPmF1dGhlbnRpY2F0ZWQpKQotCQly
-ZXR1cm4gLUVBQ0NFUzsKKwkJLyoKKwkJICogQWx0aG91Z2ggd2UgYWxsb3c6CisJCSAqICAtIHJl
-bmRlciBkcml2ZXJzIHdpdGggRFJNX1JFTkRFUl9BTExPVyBpb2N0bHMsIHdoZW4KKwkJICogIC0g
-d2UgYXJlIG5vdCB1c2luZyBhbWRncHUgb3IgcmFkZW9uLgorCQkgKi8KKwkJaWYgKCFkcm1fcmVu
-ZGVyX2RyaXZlcl9hbmRfaW9jdGwoZGV2LCBmbGFncykgfHwKKwkJICAgIGlzX2FtZGdwdV9vcl9y
-YWRlb24oZGV2KSkKKwkJCXJldHVybiAtRUFDQ0VTOwogCiAJLyogTUFTVEVSIGlzIG9ubHkgZm9y
-IG1hc3RlciBvciBjb250cm9sIGNsaWVudHMgKi8KIAlpZiAodW5saWtlbHkoKGZsYWdzICYgRFJN
-X01BU1RFUikgJiYKLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0698627846==
+Content-Type: multipart/alternative; boundary="15621738651.5ebd.4630"
+Content-Transfer-Encoding: 7bit
+
+
+--15621738651.5ebd.4630
+Date: Wed, 3 Jul 2019 17:11:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109524
+
+--- Comment #6 from laszlo.erdoes@freenet.de ---
+(In reply to Ilia Mirkin from comment #5)
+
+> Is there like a wine test or something of the sort that can be used to
+> reproduce this? I have such a GPU plugged in I can test with, but I need a
+> repro.
+
+You can try this console emulator, it will crash on my old machine with the
+affected GPU:
+http://fileland.square7.ch/t2k.zip
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15621738651.5ebd.4630
+Date: Wed, 3 Jul 2019 17:11:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524">bug 10952=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+laszlo.erdoes&#64;freenet.de" title=3D"laszlo.erdoes&#64;freenet.de">laszlo=
+.erdoes&#64;freenet.de</a>
+</span></b>
+        <pre>(In reply to Ilia Mirkin from <a href=3D"show_bug.cgi?id=3D109=
+524#c5">comment #5</a>)
+
+<span class=3D"quote">&gt; Is there like a wine test or something of the so=
+rt that can be used to
+&gt; reproduce this? I have such a GPU plugged in I can test with, but I ne=
+ed a
+&gt; repro.</span >
+
+You can try this console emulator, it will crash on my old machine with the
+affected GPU:
+<a href=3D"http://fileland.square7.ch/t2k.zip">http://fileland.square7.ch/t=
+2k.zip</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15621738651.5ebd.4630--
+
+--===============0698627846==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0698627846==--
