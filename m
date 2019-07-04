@@ -1,45 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E125F459
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 10:11:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF555F48E
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 10:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E5B6E2E3;
-	Thu,  4 Jul 2019 08:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8406E2F6;
+	Thu,  4 Jul 2019 08:26:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 287346E2E3
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 08:11:50 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2569B72167; Thu,  4 Jul 2019 08:11:50 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111058] how to solve server problem
-Date: Thu, 04 Jul 2019 08:11:50 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shriramjee0@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: alias bug_file_loc
-Message-ID: <bug-111058-502-DsSCNJUFuz@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111058-502@http.bugs.freedesktop.org/>
-References: <bug-111058-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+X-Greylist: delayed 385 seconds by postgrey-1.36 at gabe;
+ Thu, 04 Jul 2019 08:26:30 UTC
+Received: from theia.8bytes.org (8bytes.org [81.169.241.247])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42F446E2F6
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 08:26:30 +0000 (UTC)
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+ id 49E032FB; Thu,  4 Jul 2019 10:20:03 +0200 (CEST)
+Date: Thu, 4 Jul 2019 10:20:01 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH 1/2] iommu: add support for drivers that manage iommu
+ explicitly
+Message-ID: <20190704082001.GD6546@8bytes.org>
+References: <20190702202631.32148-1-robdclark@gmail.com>
+ <20190702202631.32148-2-robdclark@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190702202631.32148-2-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,107 +40,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1077136015=="
+Cc: Rob Clark <robdclark@chromium.org>, aarch64-laptops@lists.linaro.org,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ Vivek Gautam <vivek.gautam@codeaurora.org>,
+ Sudeep Holla <sudeep.holla@arm.com>, Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1077136015==
-Content-Type: multipart/alternative; boundary="15622279100.c8Dae.8645"
-Content-Transfer-Encoding: 7bit
-
-
---15622279100.c8Dae.8645
-Date: Thu, 4 Jul 2019 08:11:50 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111058
-
-Shri ram jee <shriramjee0@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-              Alias|                            |shri, ram, jee
-                URL|                            |https://e-nidhi.bihar.gov.i
-                   |                            |n
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15622279100.c8Dae.8645
-Date: Thu, 4 Jul 2019 08:11:50 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:shriramje=
-e0&#64;gmail.com" title=3D"Shri ram jee &lt;shriramjee0&#64;gmail.com&gt;">=
- <span class=3D"fn">Shri ram jee</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - how to solve server problem"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111058">bug 11105=
-8</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Alias</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>shri, ram, jee
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>https://e-nidhi.bihar.gov.in
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15622279100.c8Dae.8645--
-
---===============1077136015==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1077136015==--
+SGkgUm9iLAoKT24gVHVlLCBKdWwgMDIsIDIwMTkgYXQgMDE6MjY6MThQTSAtMDcwMCwgUm9iIENs
+YXJrIHdyb3RlOgo+IDEpIEluIHNvbWUgY2FzZXMgdGhlIGJvb3Rsb2FkZXIgdGFrZXMgdGhlIGlv
+bW11IG91dCBvZiBieXBhc3MgYW5kCj4gICAgZW5hYmxlcyB0aGUgZGlzcGxheS4gIFRoaXMgaXMg
+aW4gcGFydGljdWxhciBhIHByb2JsZW0gb24gdGhlIGFhcmNoNjQKPiAgICBsYXB0b3BzIHRoYXQg
+ZXhpc3QgdGhlc2UgZGF5cywgYW5kIG1vZGVybiBzbmFwZHJhZ29uIGFuZHJvaWQgZGV2aWNlcy4K
+PiAgICAoT2xkZXIgZGV2aWNlcyBhbHNvIGVuYWJsZWQgdGhlIGRpc3BsYXkgaW4gYm9vdGxvYWRl
+ciBidXQgZGlkIG5vdAo+ICAgIHRha2UgdGhlIGlvbW11IG91dCBvZiBieXBhc3MuKSAgQXR0YWNo
+aW5nIGEgRE1BIG9yIElERU5USVRZIGRvbWFpbgo+ICAgIHdoaWxlIHNjYW5vdXQgaXMgYWN0aXZl
+LCBiZWZvcmUgdGhlIGRyaXZlciBoYXMgYSBjaGFuY2UgdG8gaW50ZXJ2ZW5lLAo+ICAgIG1ha2Vz
+IHRoaW5ncyBnbyAqYm9vbSoKCkp1c3QgdG8gbWFrZSBzdXJlIEkgZ2V0IHRoaXMgcmlnaHQ6IFRo
+ZSBib290bG9hZGVyIGluaWFsaXplcyB0aGUgU01NVQphbmQgY3JlYXRlcyBub24taWRlbnRpdHkg
+bWFwcGluZ3MgZm9yIHRoZSBHUFU/IEFuZCB3aGVuIHRoZSBTTU1VIGRyaXZlcgppbiBMaW51eCB0
+YWtlcyBvdmVyIHRoaXMgYnJlYWtzIGRpc3BsYXkgb3V0cHV0LgoKPiArCS8qCj4gKwkgKiBJZiBk
+cml2ZXIgaXMgZ29pbmcgdG8gbWFuYWdlIGlvbW11IGRpcmVjdGx5LCB0aGVuIGF2b2lkCj4gKwkg
+KiBhdHRhY2hpbmcgYW55IG5vbiBkcml2ZXIgbWFuYWdlZCBkb21haW4uICBUaGVyZSBjb3VsZAo+
+ICsJICogYmUgYWxyZWFkeSBhY3RpdmUgZG1hIHVuZGVyd2F5IChpZS4gc2Nhbm91dCBpbiBjYXNl
+IG9mCj4gKwkgKiBib290bG9hZGVyIGVuYWJsZWQgZGlzcGxheSksIGFuZCBpbnRlcmZlcmluZyB3
+aXRoIHRoYXQKPiArCSAqIHdpbGwgbWFrZSB0aGluZ3MgZ28gKmJvb20qCj4gKwkgKi8KPiArCWlm
+ICgoZG9tYWluLT50eXBlICE9IElPTU1VX0RPTUFJTl9VTk1BTkFHRUQpICYmCj4gKwkgICAgZGV2
+LT5kcml2ZXIgJiYgZGV2LT5kcml2ZXItPmRyaXZlcl9tYW5hZ2VzX2lvbW11KQo+ICsJCXJldHVy
+biAwOwo+ICsKCldoZW4gdGhlIGRlZmF1bHQgZG9tYWluIGlzIGF0dGFjaGVkLCB0aGVyZSBpcyB1
+c3VhbGx5IG5vIGRyaXZlciBhdHRhY2hlZAp5ZXQuIEkgdGhpbmsgdGhpcyBuZWVkcyB0byBiZSBj
+b21tdW5pY2F0ZWQgYnkgdGhlIGZpcm13YXJlIHRvIExpbnV4IGFuZAp0aGUgY29kZSBzaG91bGQg
+Y2hlY2sgYWdhaW5zdCB0aGF0LgoKPiAtCWJvb2wgc3VwcHJlc3NfYmluZF9hdHRyczsJLyogZGlz
+YWJsZXMgYmluZC91bmJpbmQgdmlhIHN5c2ZzICovCj4gKwlib29sIHN1cHByZXNzX2JpbmRfYXR0
+cnM6MTsJLyogZGlzYWJsZXMgYmluZC91bmJpbmQgdmlhIHN5c2ZzICovCj4gKwlib29sIGRyaXZl
+cl9tYW5hZ2VzX2lvbW11OjE7CS8qIGRyaXZlciBtYW5hZ2VzIElPTU1VIGV4cGxpY2l0bHkgKi8K
+CkhvdyBkb2VzIHRoaXMgZmllbGQgZ2V0IHNldD8KCgoKCUpvZXJnCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
