@@ -2,59 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3545EFF7
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 02:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C512A5F014
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 02:34:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC32C6E21E;
-	Thu,  4 Jul 2019 00:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 035AB6E223;
+	Thu,  4 Jul 2019 00:34:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75989701
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 00:13:05 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id v22so4297937qkj.8
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2019 17:13:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=ZA3jOmSVe/mZni+P7qZSqsVBbQCslJjxxwdMhbX3Kv8=;
- b=NLyabg03MCYi7CDIWxX8bZfTf2Vxg82vxdkeSBlasCFGf99lgbPpqm++LTWn7rARfc
- t8ihLVK5auDlnmYhEPtlt8ObHUzHL9ei9msZzsqHaZ3uSWNEnQ8NbvSfb3x2B9hZiJ/Y
- 05LyGq4CJot+GmbsVlarezPKHh7zS/DfScwlNJ+nwn6AGNvf3l2Q9oRyNsONgVYT5fZk
- qcFBNTCyy1S9ZjXiyqXXIKz0GmoX6YLeBjnT6cofZc5oglyntjvqMTR4JU11EKl7cjEj
- E/p1QyLBLW8HOC4Y7hQoCThMPe2xt5SrBeVqCo7zXthgDVJckvsY6l9qNfT1J98l+iO7
- bc+w==
-X-Gm-Message-State: APjAAAXTAfpTvdq5+EvutWgLfGP01lZnpIU+28BqNbT7NR4iWz2Oggfx
- x+aEaFQVLsZmJazqjJsgN1XXMA==
-X-Google-Smtp-Source: APXvYqxL7PFzJHCq75zyCiN4F09VcpA/WIRZLQOLRQz9ZNM57XzEqSFAnPzFQF7nCaQX8MXhiw0+Pg==
-X-Received: by 2002:a05:620a:4dc:: with SMTP id
- 28mr33597909qks.354.1562199184731; 
- Wed, 03 Jul 2019 17:13:04 -0700 (PDT)
-Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
- by smtp.gmail.com with ESMTPSA id s7sm452875qtq.8.2019.07.03.17.13.03
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 03 Jul 2019 17:13:03 -0700 (PDT)
-Date: Wed, 3 Jul 2019 20:13:02 -0400
-From: Sean Paul <sean@poorly.run>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20190704001302.GA260390@art_vandelay>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A78E36E222
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 00:34:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A192D72167; Thu,  4 Jul 2019 00:34:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 68527] Planetary Annihilation Alpha: translation from TGSI
+ failed !
+Date: Thu, 04 Jul 2019 00:34:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: 9.2
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-68527-502-LvGa5a2FAS@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-68527-502@http.bugs.freedesktop.org/>
+References: <bug-68527-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :user-agent;
- bh=ZA3jOmSVe/mZni+P7qZSqsVBbQCslJjxxwdMhbX3Kv8=;
- b=dwXljzD9mv1TyjGcgJprDbko6ab0xqFAiOt60bCRu/JiGa0xejwyiEoz65oWsQPbTY
- uSk4vZ9uZqnzPHa2H9H4wSM3kVp5zRgSib0/rY4A62avsAw/3KH3aXjQbijTFmrw3YyQ
- B9JVBiSErrl+0JacKSJhCh22PzXSGblk/cbG0VUk90y0CqoaHheHNcIw6kqAMjRC/s7M
- RRnf6tgeEagtojKQjk7bniXWXkZzFyG2MQJdvM+pPCwj1DxCoFwjuuAKGNJkAGxx/ZEF
- ie0fWvBgazR5w42OqS7G5IJ5evKv2P5scQFQio56GoivOwBjHPQe2tugOe7gziJvusHy
- 4dGg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,38 +53,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
- intel-gfx@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1783054134=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpeWEsCkxvb2tzIGxpa2UgdGhlIGxhc3QgLWZpeGVzIHB1bGwgZm9yIHRoaXMgY3ljbGUuIE9u
-ZSBwYXRjaCB0byBmaXggYSBwb3NzaWJsZQpkb3VibGUtZnJlZS4KCgpkcm0tbWlzYy1maXhlcy0y
-MDE5LTA3LTAzOgpwYW5mcm9zdC0gQXZvaWQgZG91YmxlIGZyZWUgYnkgZGVsZXRpbmcgR0VNIGhh
-bmRsZSBpbiBjcmVhdGVfYm8gZmFpbHVyZQogICAgICAgICAgcGF0aCAoQm9yaXMpCgpDYzogQm9y
-aXMgQnJlemlsbG9uIDxib3Jpcy5icmV6aWxsb25AY29sbGFib3JhLmNvbT4KCkNoZWVycywgU2Vh
-bgoKClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgNDFkZTRiZTZmNmVmYTQxMzJi
-MjlhZjUxMTU4Y2Q2NzJkOTNmMjU0MzoKCiAgZHJtL3ZpcnRpbzogbW92ZSBkcm1fY29ubmVjdG9y
-X3VwZGF0ZV9lZGlkX3Byb3BlcnR5KCkgY2FsbCAoMjAxOS0wNi0yNiAxMTowNTowNSArMDIwMCkK
-CmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBnaXQ6Ly9hbm9uZ2l0
-LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgdGFncy9kcm0tbWlzYy1maXhlcy0yMDE5LTA3
-LTAzCgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gMmYwNDBkMjcwODBkZGZmZmVjZmYy
-YmUxYTc3MTA3YzQ5NGQwZTRmNDoKCiAgZHJtL3BhbmZyb3N0OiBGaXggYSBkb3VibGUtZnJlZSBl
-cnJvciAoMjAxOS0wNi0yOCAxNjo0NTo1MSAtMDYwMCkKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KcGFuZnJvc3QtIEF2b2lk
-IGRvdWJsZSBmcmVlIGJ5IGRlbGV0aW5nIEdFTSBoYW5kbGUgaW4gY3JlYXRlX2JvIGZhaWx1cmUK
-ICAgICAgICAgIHBhdGggKEJvcmlzKQoKQ2M6IEJvcmlzIEJyZXppbGxvbiA8Ym9yaXMuYnJlemls
-bG9uQGNvbGxhYm9yYS5jb20+CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkJvcmlzIEJyZXppbGxvbiAoMSk6CiAgICAgIGRy
-bS9wYW5mcm9zdDogRml4IGEgZG91YmxlLWZyZWUgZXJyb3IKCiBkcml2ZXJzL2dwdS9kcm0vcGFu
-ZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDEgZGVsZXRpb24oLSkKCi0tIApTZWFuIFBhdWwsIFNvZnR3YXJlIEVuZ2luZWVyLCBHb29n
-bGUgLyBDaHJvbWl1bSBPUwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============1783054134==
+Content-Type: multipart/alternative; boundary="15622004634.ceF88.19004"
+Content-Transfer-Encoding: 7bit
+
+
+--15622004634.ceF88.19004
+Date: Thu, 4 Jul 2019 00:34:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D68527
+
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
+
+--- Comment #23 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+Since nobody seems to be able to retest lets assume it was fixed (it likely
+was) along with bug #99349 and close for now.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15622004634.ceF88.19004
+Date: Thu, 4 Jul 2019 00:34:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Planetary Annihilation Alpha: translation from=
+ TGSI failed !"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D68527">bug 68527<=
+/a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Planetary Annihilation Alpha: translation from=
+ TGSI failed !"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D68527#c23">Commen=
+t # 23</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Planetary Annihilation Alpha: translation from=
+ TGSI failed !"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D68527">bug 68527<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>Since nobody seems to be able to retest lets assume it was fix=
+ed (it likely
+was) along with <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Failed to build shader (translation from TGSI)"
+   href=3D"show_bug.cgi?id=3D99349">bug #99349</a> and close for now.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15622004634.ceF88.19004--
+
+--===============1783054134==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1783054134==--
