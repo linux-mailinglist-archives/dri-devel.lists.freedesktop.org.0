@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C512A5F014
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 02:34:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4132E5F01B
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 02:37:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035AB6E223;
-	Thu,  4 Jul 2019 00:34:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225436E21F;
+	Thu,  4 Jul 2019 00:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id A78E36E222
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 00:34:23 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A192D72167; Thu,  4 Jul 2019 00:34:23 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 68527] Planetary Annihilation Alpha: translation from TGSI
- failed !
-Date: Thu, 04 Jul 2019 00:34:23 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 9.2
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-68527-502-LvGa5a2FAS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-68527-502@http.bugs.freedesktop.org/>
-References: <bug-68527-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-vk1-xa49.google.com (mail-vk1-xa49.google.com
+ [IPv6:2607:f8b0:4864:20::a49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70BAC6E21F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 00:37:02 +0000 (UTC)
+Received: by mail-vk1-xa49.google.com with SMTP id j140so450437vke.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Jul 2019 17:37:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=3dkcwHp7UkbBjeC+jKJgdEez1r7JnE/QFVNxh/Av3lE=;
+ b=kvHEWzjTZa1/VqGALCGgdf/drbmTBlZy7vkkqlDvIuiYN+wCzbNJsaSabMvPTIH0Sw
+ RTyWik8u4xIj70RXprDh+zi/0mBnn4D0fjJjErvDatahmBrjXkDKYhYi+7a3PB0yGMS4
+ l9MMBEa5HE00HRp+y6RZeSgrT2fHVOUGJyQAegkE+jxG7PX2Zzfp/Wbx8PdycgNtc5ww
+ hVrhmN/ZLto9v9e8SuRhBD2rk3xfauXLKcByoZ7t4WqDaRst/QISWvKiIjn+3oWR7jEw
+ 380mqdsVMs+KCmUaGL7c1XxtruTzQThIVYjtWaLQqlzy56JkvFwcebb0RAhdlHnGF8o9
+ SJ7g==
+X-Gm-Message-State: APjAAAXDTsCynwwpmNAtqH07iZNhDXL7/MGbFNiYc0wivuGa89Nu4VhB
+ +P0x19jgOEvxVq3gz9li9S2Sc9RkukNN2XWXEHWozg==
+X-Google-Smtp-Source: APXvYqxifi+9P2uuB2xECPxDjII80enpIo8mSlNTAxiC8KmAvRxtyVWjtDGXaCnqTdPCo5Xn7dOc4Z0daGhonP28ve9Qzg==
+X-Received: by 2002:a1f:5945:: with SMTP id n66mr6468396vkb.58.1562200621022; 
+ Wed, 03 Jul 2019 17:37:01 -0700 (PDT)
+Date: Wed,  3 Jul 2019 17:35:57 -0700
+Message-Id: <20190704003615.204860-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v6 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From: Brendan Higgins <brendanhiggins@google.com>
+To: frowand.list@gmail.com, gregkh@linuxfoundation.org, jpoimboe@redhat.com, 
+ keescook@google.com, kieran.bingham@ideasonboard.com, mcgrof@kernel.org, 
+ peterz@infradead.org, robh@kernel.org, sboyd@kernel.org, shuah@kernel.org, 
+ tytso@mit.edu, yamada.masahiro@socionext.com
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20161025;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=3dkcwHp7UkbBjeC+jKJgdEez1r7JnE/QFVNxh/Av3lE=;
+ b=P/9Q0U57X0Mjr2pSdVR3fq5Q9Stk+yaqd+YUm9sq0ou6AVsZSt/1N/33ozuhbgY2vA
+ l95M1OTPG7AMpCdkXNxZwoF74wXCpWnPckCjmlCUOfpVWb6OUe1dqoKeBMLQ2rRoWAC+
+ fNHaGobDGBWH78hBlHjYyz8R5pV2r1lKhN6q853RMfM6pw8GA8VVYjvcvo3uf8gDuuir
+ ENB2mZWRXg62IrhKkC86LfkNF4vHPkE6nmhUv9Xome467fLx+E9J0pgZrqEdzyy++0mz
+ 884zs7eBSkOyiHbrPJJuzc+Z2DaP9Fz7PcxSltbsQgqsrKy/bR2ai8bDNYsLrfqN7e+f
+ Qiwg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,133 +63,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1783054134=="
+Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
+ Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
+ Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
+ linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
+ wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
+ dan.carpenter@oracle.com, devicetree@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
+ rostedt@goodmis.org, julia.lawall@lip6.fr, kunit-dev@googlegroups.com,
+ richard@nod.at, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ mpe@ellerman.id.au, linux-fsdevel@vger.kernel.org, logang@deltatee.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1783054134==
-Content-Type: multipart/alternative; boundary="15622004634.ceF88.19004"
-Content-Transfer-Encoding: 7bit
-
-
---15622004634.ceF88.19004
-Date: Thu, 4 Jul 2019 00:34:23 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D68527
-
-Timothy Arceri <t_arceri@yahoo.com.au> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #23 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-Since nobody seems to be able to retest lets assume it was fixed (it likely
-was) along with bug #99349 and close for now.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15622004634.ceF88.19004
-Date: Thu, 4 Jul 2019 00:34:23 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
-#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
-"> <span class=3D"fn">Timothy Arceri</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Planetary Annihilation Alpha: translation from=
- TGSI failed !"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D68527">bug 68527<=
-/a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Planetary Annihilation Alpha: translation from=
- TGSI failed !"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D68527#c23">Commen=
-t # 23</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Planetary Annihilation Alpha: translation from=
- TGSI failed !"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D68527">bug 68527<=
-/a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>Since nobody seems to be able to retest lets assume it was fix=
-ed (it likely
-was) along with <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Failed to build shader (translation from TGSI)"
-   href=3D"show_bug.cgi?id=3D99349">bug #99349</a> and close for now.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15622004634.ceF88.19004--
-
---===============1783054134==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1783054134==--
+IyMgVEw7RFIKClRoaXMgaXMgYSBwcmV0dHkgc3RyYWlnaHRmb3J3YXJkIGZvbGxvdy11cCB0byBT
+dGVwaGVuIGFuZCBMdWlzJyBjb21tZW50cwpvbiBQQVRDSCB2NTogVGhlcmUgaXMgbm90aGluZyB0
+aGF0IHJlYWxseSBjaGFuZ2VzIGFueSBmdW5jdGlvbmFsaXR5IG9yCnVzYWdlIHdpdGggdGhlIG1p
+bm9yIGV4Y2VwdGlvbiB0aGF0IEkgcmVuYW1lZCBgc3RydWN0IGt1bml0X21vZHVsZWAgdG8KYHN0
+cnVjdCBrdW5pdF9zdWl0ZWAuIE5ldmVydGhlbGVzcywgYSBnb29kIGRlYWwgb2YgY2xlYW4gdXBz
+IGFuZCBmaXhlcy4KU2VlICJDaGFuZ2VzIFNpbmNlIExhc3QgVmVyc2lvbiIgc2VjdGlvbiBiZWxv
+dy4KCkFzIGZvciBvdXIgY3VycmVudCBzdGF0dXMsIHJpZ2h0IG5vdyB3ZSBnb3QgUmV2aWV3ZWQt
+YnlzIG9uIGFsbCBwYXRjaGVzCmV4Y2VwdDoKCi0gW1BBVENIIHY2IDA4LzE4XSBvYmp0b29sOiBh
+ZGQga3VuaXRfdHJ5X2NhdGNoX3Rocm93IHRvIHRoZSBub3JldHVybgogIGxpc3QKCkhvd2V2ZXIs
+IGl0IHdvdWxkIHByb2JhYmx5IGJlIGdvb2QgdG8gZ2V0IHJldmlld3MvYWNrcyBmcm9tIHRoZQpz
+dWJzeXN0ZW0gbWFpbnRhaW5lcnMgb246CgotIFtQQVRDSCB2NiAwNi8xOF0ga2J1aWxkOiBlbmFi
+bGUgYnVpbGRpbmcgS1VuaXQKLSBbUEFUQ0ggdjYgMDgvMThdIG9ianRvb2w6IGFkZCBrdW5pdF90
+cnlfY2F0Y2hfdGhyb3cgdG8gdGhlIG5vcmV0dXJuCiAgbGlzdAotIFtQQVRDSCB2NiAxNS8xOF0g
+RG9jdW1lbnRhdGlvbjoga3VuaXQ6IGFkZCBkb2N1bWVudGF0aW9uIGZvciBLVW5pdAotIFtQQVRD
+SCB2NiAxNy8xOF0ga2VybmVsL3N5c2N0bC10ZXN0OiBBZGQgbnVsbCBwb2ludGVyIHRlc3QgZm9y
+CiAgc3lzY3RsLmM6cHJvY19kb2ludHZlYygpCgpPdGhlciB0aGFuIHRoYXQsIEkgdGhpbmsgd2Ug
+c2hvdWxkIGJlIGdvb2QgdG8gZ28uCgojIyBCYWNrZ3JvdW5kCgpUaGlzIHBhdGNoIHNldCBwcm9w
+b3NlcyBLVW5pdCwgYSBsaWdodHdlaWdodCB1bml0IHRlc3RpbmcgYW5kIG1vY2tpbmcKZnJhbWV3
+b3JrIGZvciB0aGUgTGludXgga2VybmVsLgoKVW5saWtlIEF1dG90ZXN0IGFuZCBrc2VsZnRlc3Qs
+IEtVbml0IGlzIGEgdHJ1ZSB1bml0IHRlc3RpbmcgZnJhbWV3b3JrOwppdCBkb2VzIG5vdCByZXF1
+aXJlIGluc3RhbGxpbmcgdGhlIGtlcm5lbCBvbiBhIHRlc3QgbWFjaGluZSBvciBpbiBhIFZNCiho
+b3dldmVyLCBLVW5pdCBzdGlsbCBhbGxvd3MgeW91IHRvIHJ1biB0ZXN0cyBvbiB0ZXN0IG1hY2hp
+bmVzIG9yIGluIFZNcwppZiB5b3Ugd2FudFsxXSkgYW5kIGRvZXMgbm90IHJlcXVpcmUgdGVzdHMg
+dG8gYmUgd3JpdHRlbiBpbiB1c2Vyc3BhY2UKcnVubmluZyBvbiBhIGhvc3Qga2VybmVsLiBBZGRp
+dGlvbmFsbHksIEtVbml0IGlzIGZhc3Q6IEZyb20gaW52b2NhdGlvbgp0byBjb21wbGV0aW9uIEtV
+bml0IGNhbiBydW4gc2V2ZXJhbCBkb3plbiB0ZXN0cyBpbiBhYm91dCBhIHNlY29uZC4KQ3VycmVu
+dGx5LCB0aGUgZW50aXJlIEtVbml0IHRlc3Qgc3VpdGUgZm9yIEtVbml0IHJ1bnMgaW4gdW5kZXIg
+YSBzZWNvbmQKZnJvbSB0aGUgaW5pdGlhbCBpbnZvY2F0aW9uIChidWlsZCB0aW1lIGV4Y2x1ZGVk
+KS4KCktVbml0IGlzIGhlYXZpbHkgaW5zcGlyZWQgYnkgSlVuaXQsIFB5dGhvbidzIHVuaXR0ZXN0
+Lm1vY2ssIGFuZApHb29nbGV0ZXN0L0dvb2dsZW1vY2sgZm9yIEMrKy4gS1VuaXQgcHJvdmlkZXMg
+ZmFjaWxpdGllcyBmb3IgZGVmaW5pbmcKdW5pdCB0ZXN0IGNhc2VzLCBncm91cGluZyByZWxhdGVk
+IHRlc3QgY2FzZXMgaW50byB0ZXN0IHN1aXRlcywgcHJvdmlkaW5nCmNvbW1vbiBpbmZyYXN0cnVj
+dHVyZSBmb3IgcnVubmluZyB0ZXN0cywgbW9ja2luZywgc3B5aW5nLCBhbmQgbXVjaCBtb3JlLgoK
+IyMjIFdoYXQncyBzbyBzcGVjaWFsIGFib3V0IHVuaXQgdGVzdGluZz8KCkEgdW5pdCB0ZXN0IGlz
+IHN1cHBvc2VkIHRvIHRlc3QgYSBzaW5nbGUgdW5pdCBvZiBjb2RlIGluIGlzb2xhdGlvbiwKaGVu
+Y2UgdGhlIG5hbWUuIFRoZXJlIHNob3VsZCBiZSBubyBkZXBlbmRlbmNpZXMgb3V0c2lkZSB0aGUg
+Y29udHJvbCBvZgp0aGUgdGVzdDsgdGhpcyBtZWFucyBubyBleHRlcm5hbCBkZXBlbmRlbmNpZXMs
+IHdoaWNoIG1ha2VzIHRlc3RzIG9yZGVycwpvZiBtYWduaXR1ZGVzIGZhc3Rlci4gTGlrZXdpc2Us
+IHNpbmNlIHRoZXJlIGFyZSBubyBleHRlcm5hbCBkZXBlbmRlbmNpZXMsCnRoZXJlIGFyZSBubyBo
+b29wcyB0byBqdW1wIHRocm91Z2ggdG8gcnVuIHRoZSB0ZXN0cy4gQWRkaXRpb25hbGx5LCB0aGlz
+Cm1ha2VzIHVuaXQgdGVzdHMgZGV0ZXJtaW5pc3RpYzogYSBmYWlsaW5nIHVuaXQgdGVzdCBhbHdh
+eXMgaW5kaWNhdGVzIGEKcHJvYmxlbS4gRmluYWxseSwgYmVjYXVzZSB1bml0IHRlc3RzIG5lY2Vz
+c2FyaWx5IGhhdmUgZmluZXIgZ3JhbnVsYXJpdHksCnRoZXkgYXJlIGFibGUgdG8gdGVzdCBhbGwg
+Y29kZSBwYXRocyBlYXNpbHkgc29sdmluZyB0aGUgY2xhc3NpYyBwcm9ibGVtCm9mIGRpZmZpY3Vs
+dHkgaW4gZXhlcmNpc2luZyBlcnJvciBoYW5kbGluZyBjb2RlLgoKIyMjIElzIEtVbml0IHRyeWlu
+ZyB0byByZXBsYWNlIG90aGVyIHRlc3RpbmcgZnJhbWV3b3JrcyBmb3IgdGhlIGtlcm5lbD8KCk5v
+LiBNb3N0IGV4aXN0aW5nIHRlc3RzIGZvciB0aGUgTGludXgga2VybmVsIGFyZSBlbmQtdG8tZW5k
+IHRlc3RzLCB3aGljaApoYXZlIHRoZWlyIHBsYWNlLiBBIHdlbGwgdGVzdGVkIHN5c3RlbSBoYXMg
+bG90cyBvZiB1bml0IHRlc3RzLCBhCnJlYXNvbmFibGUgbnVtYmVyIG9mIGludGVncmF0aW9uIHRl
+c3RzLCBhbmQgc29tZSBlbmQtdG8tZW5kIHRlc3RzLiBLVW5pdAppcyBqdXN0IHRyeWluZyB0byBh
+ZGRyZXNzIHRoZSB1bml0IHRlc3Qgc3BhY2Ugd2hpY2ggaXMgY3VycmVudGx5IG5vdApiZWluZyBh
+ZGRyZXNzZWQuCgojIyMgTW9yZSBpbmZvcm1hdGlvbiBvbiBLVW5pdAoKVGhlcmUgaXMgYSBidW5j
+aCBvZiBkb2N1bWVudGF0aW9uIG5lYXIgdGhlIGVuZCBvZiB0aGlzIHBhdGNoIHNldCB0aGF0CmRl
+c2NyaWJlcyBob3cgdG8gdXNlIEtVbml0IGFuZCBiZXN0IHByYWN0aWNlcyBmb3Igd3JpdGluZyB1
+bml0IHRlc3RzLgpGb3IgY29udmVuaWVuY2UgSSBhbSBob3N0aW5nIHRoZSBjb21waWxlZCBkb2Nz
+IGhlcmVbMl0uCgpBZGRpdGlvbmFsbHkgZm9yIGNvbnZlbmllbmNlLCBJIGhhdmUgYXBwbGllZCB0
+aGVzZSBwYXRjaGVzIHRvIGEKYnJhbmNoWzNdLiBUaGUgcmVwbyBtYXkgYmUgY2xvbmVkIHdpdGg6
+CmdpdCBjbG9uZSBodHRwczovL2t1bml0Lmdvb2dsZXNvdXJjZS5jb20vbGludXgKVGhpcyBwYXRj
+aHNldCBpcyBvbiB0aGUga3VuaXQvcmZjL3Y1LjItcmM3L3Y2IGJyYW5jaC4KCiMjIENoYW5nZXMg
+U2luY2UgTGFzdCBWZXJzaW9uCgpBc2lkZSBmcm9tIHJlbmFtaW5nIGBzdHJ1Y3Qga3VuaXRfbW9k
+dWxlYCB0byBgc3RydWN0IGt1bml0X3N1aXRlYCwgdGhlcmUKaXNuJ3QgcmVhbGx5IGFueXRoaW5n
+IGluIGhlcmUgdGhhdCBjaGFuZ2VzIGFueSBmdW5jdGlvbmFsaXR5OgoKLSBSZWJhc2VkIG9uIHY1
+LjItcmM3Ci0gR290IHJpZCBvZiBzcGlubG9ja3MuCiAgLSBOb3cgdXBkYXRlIHN1Y2Nlc3MgZmll
+bGQgdXNpbmcgV1JJVEVfT05DRS4gLSBTdWdnZXN0ZWQgYnkgU3RlcGhlbgogIC0gT3RoZXIgaW5z
+dGFuY2VzIHJlcGxhY2VkIGJ5IG11dGV4LiAtIFN1Z2dlc3RlZCBieSBTdGVwaGVuIGFuZCBMdWlz
+Ci0gUmVuYW1lZCBgc3RydWN0IGt1bml0X21vZHVsZWAgdG8gYHN0cnVjdCBrdW5pdF9zdWl0ZWAu
+IC0gSW5zcGlyZWQgYnkKICBMdWlzLgotIEZpeGVkIGEgYnJva2VuIGV4YW1wbGUgb2YgaG93IHRv
+IHVzZSBrdW5pdF90b29sLiAtIFBvaW50ZWQgb3V0IGJ5IFRlZAotIEFkZGVkIGRlc2NyaXB0aW9u
+cyB0byB1bml0IHRlc3RzLiAtIFN1Z2dlc3RlZCBieSBMdWlzCi0gTGFiZWxlZCB1bml0IHRlc3Rz
+IHdoaWNoIHRlc3RlZCB0aGUgQVBJLiAtIFN1Z2dlc3RlZCBieSBMdWlzCi0gTWFkZSBhIG51bWJl
+ciBvZiBtaW5vciBjbGVhbnVwcy4gLSBTdWdnZXN0ZWQgYnkgTHVpcyBhbmQgU3RlcGhlbi4KClsx
+XSBodHRwczovL2dvb2dsZS5naXRodWIuaW8va3VuaXQtZG9jcy90aGlyZF9wYXJ0eS9rZXJuZWwv
+ZG9jcy91c2FnZS5odG1sI2t1bml0LW9uLW5vbi11bWwtYXJjaGl0ZWN0dXJlcwpbMl0gaHR0cHM6
+Ly9nb29nbGUuZ2l0aHViLmlvL2t1bml0LWRvY3MvdGhpcmRfcGFydHkva2VybmVsL2RvY3MvClsz
+XSBodHRwczovL2t1bml0Lmdvb2dsZXNvdXJjZS5jb20vbGludXgvKy9rdW5pdC9yZmMvdjUuMi1y
+YzcvdjYKCi0tIAoyLjIyLjAuNDEwLmdkOGZkYmUyMWI1LWdvb2cKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
