@@ -2,39 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950B95F84A
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 14:39:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4EB5F893
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 14:52:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACEED6E336;
-	Thu,  4 Jul 2019 12:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 469A06E33F;
+	Thu,  4 Jul 2019 12:52:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53A686E336
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 12:38:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9050B24B;
- Thu,  4 Jul 2019 14:38:55 +0200 (CEST)
-Date: Thu, 4 Jul 2019 15:38:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm/doc: Document kapi doc expectations
-Message-ID: <20190704123835.GH6569@pendragon.ideasonboard.com>
-References: <20190625203644.4423-1-daniel.vetter@ffwll.ch>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D4F716E33F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 12:52:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CE1FB72167; Thu,  4 Jul 2019 12:52:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111060] Dying Light does start but doesnt render properly.
+Date: Thu, 04 Jul 2019 12:52:04 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111060-502-zFE7aW0pwJ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111060-502@http.bugs.freedesktop.org/>
+References: <bug-111060-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190625203644.4423-1-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1562243935;
- bh=gEjRRN8jBCFTVYG4+UGCkfHQo/4y8SXd96cSOXmNG3w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Ri2s4Q+ySc1lDsO3zvdkPDnc4I+TCulVhnPp+kFFPBVP24htHje9r8ULsQ47tvkFI
- dS7iOFlqDeuWc3prA8w8CjCbxzI9kKHqqWqIe0FztbanMrIOlnw/JzxkLMV5VAPw51
- Y+nLfTrp1WDW5SGpLcWcd9EHWF8EVtmbfa7rw+lk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,80 +52,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Jani Nikula <jani.nikula@intel.com>, David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1526169253=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBUdWUsIEp1biAyNSwgMjAx
-OSBhdCAxMDozNjo0NFBNICswMjAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+IFdlJ3ZlIGhhZCB0
-aGlzIGFscmVhZHkgZm9yIGFueXRoaW5nIG5ldy4gV2l0aCBteSBkcm1fcHJpbWUuYyBjbGVhbnVw
-IEkKPiBhbHNvIHRoaW5rIGRvY3VtZW50YXRpb25zIGZvciBldmVyeXRoaW5nIGFscmVhZHkgZXhp
-c3RpbmcgaXMgY29tcGxldGUsCj4gYW5kIHdlIGNhbiBiYWtlIHRoaXMgaW4gYXMgYSByZXF1aXJl
-bWVudHMgc3Vic3lzdGVtIHdpZGUuCj4gCj4gQWNrZWQtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5p
-a3VsYUBpbnRlbC5jb20+Cj4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZl
-dHRlckBpbnRlbC5jb20+Cj4gQ2M6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRA
-aWRlYXNvbmJvYXJkLmNvbT4KPiBDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4Lmlu
-dGVsLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBEYW5p
-ZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFy
-dGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IE1heGltZSBSaXBhcmQgPG1heGlt
-ZS5yaXBhcmRAYm9vdGxpbi5jb20+Cj4gQ2M6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgo+
-IC0tLQo+IHJlc2VuZGluZyBzdGFuZC1hbG9uZSBmb3IgbW9yZSB2aXNpYmlsaXR5IGFuZCBhLWIg
-Z2F0aGVyaW5nLgo+IC1EYW5pZWwKPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9ncHUvaW50cm9kdWN0
-aW9uLnJzdCB8IDEzICsrKysrKysrKysrKysKPiAgRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3Qg
-ICAgICAgICB8IDEzIC0tLS0tLS0tLS0tLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMyBpbnNlcnRp
-b25zKCspLCAxMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9n
-cHUvaW50cm9kdWN0aW9uLnJzdCBiL0RvY3VtZW50YXRpb24vZ3B1L2ludHJvZHVjdGlvbi5yc3QK
-PiBpbmRleCBmY2NiZTM3NTI0NGQuLmE5NGFkNmFkMWY1NCAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVu
-dGF0aW9uL2dwdS9pbnRyb2R1Y3Rpb24ucnN0Cj4gKysrIGIvRG9jdW1lbnRhdGlvbi9ncHUvaW50
-cm9kdWN0aW9uLnJzdAo+IEBAIC01MSw2ICs1MSwxOSBAQCBhbmQgIkZJWE1FIiB3aGVyZSB0aGUg
-aW50ZXJmYWNlIGNvdWxkIGJlIGNsZWFuZWQgdXAuCj4gIAo+ICBBbHNvIHJlYWQgdGhlIDpyZWY6
-YGd1aWRlbGluZXMgZm9yIHRoZSBrZXJuZWwgZG9jdW1lbnRhdGlvbiBhdCBsYXJnZSA8ZG9jX2d1
-aWRlPmAuCj4gIAo+ICtEb2N1bWVudGF0aW9uIFJlcXVpcmVtZW50cyBmb3Iga0FQSQo+ICstLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICsKPiArQWxsIGtlcm5lbCBBUElzIGV4
-cG9ydGVkIHRvIG90aGVyIG1vZHVsZXMgbXVzdCBiZSBkb2N1bWVudGVkLCBpbmNsdWRpbmcgdGhl
-aXIKPiArZGF0YXN0cnVjdHVyZXMgYW5kIGF0IGxlYXN0IGEgc2hvcnQgaW50cm9kdWN0b3J5IHNl
-Y3Rpb24gZXhwbGFpbmluZyB0aGUgb3ZlcmFsbAo+ICtjb25jZXB0cy4gRG9jdW1lbnRhdGlvbiBz
-aG91bGQgYmUgcHV0IGludG8gdGhlIGNvZGUgaXRzZWxmIGFzIGtlcm5lbGRvYyBjb21tZW50cwoK
-cy9zaG91bGQvc2hhbGwvCgo+ICthcyBtdWNoIGFzIHJlYXNvbmFibGUuIERvIG5vdCBibGluZGx5
-IGRvY3VtZW50IGV2ZXJ5dGhpbmcsIGJ1dCBkb2N1bWVudCBvbmx5Cj4gK3doYXQncyByZWxldmFu
-dCBmb3IgZHJpdmVyIGF1dGhvcnM6IEludGVybmFsIGZ1bmN0aW9ucyBvZiBkcm0ua28gYW5kIGRl
-ZmluaXRlbHkKPiArc3RhdGljIGZ1bmN0aW9ucyBzaG91bGQgbm90IGhhdmUgZm9ybWFsIGtlcm5l
-bGRvYyBjb21tZW50cy4gVXNlIG5vcm1hbCBDCj4gK2NvbW1lbnRzIGlmIHlvdSBmZWVsIGxpa2Ug
-YSBjb21tZW50IGlzIHdhcnJhbnRlZC4gU2ltaWxhciBmb3IgZGF0YSBzdHJ1Y3R1cmVzLAoKU2hv
-dWxkIHdlIG1ha2UgaXQgY2xlYXIgaGVyZSB0aGF0IGtlcm5lbGRvYyBzeW50YXggaXMgcGVyZmVj
-dGx5IGZpbmUgYnV0CnRoYXQgdGhlIGNvbW1lbnQgc2hvdWxkIHN0YXJ0IHdpdGggLyogaW5zdGVh
-ZCBvZiAvKiogPyBrZXJuZWxkb2MgaXMgYQp3aWRlbHkgdW5kZXJzdG9vZCBzeW50YXggYW1vbmcg
-a2VybmVsIGRldmVsb3BlcnMsIHNvIGl0IG1ha2VzIHNlbnNlIHRvCmRvY3VtZW50IGludGVybmFs
-IGZ1bmN0aW9ucyAod2hlbiBuZWVkZWQpIHdpdGggdGhlIHNhbWUgc3ludGF4LiBUaGUgb25seQp0
-aGluZyB3ZSBkb24ndCB3YW50IGlzIHRvIGhhdmUgdGhvc2UgZnVuY3Rpb25zIGVuZGluZyB1cCBp
-biB0aGUKZ2VuZXJhdGVkIGRvY3VtZW50YXRpb24uCgpXaXRoIHRoaXMgYWRkcmVzc2VkLAoKQWNr
-ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
-bT4KCj4gK2Fubm90YXRlIGFueXRoaW5nIGVudGlyZWx5IHByaXZhdGUgd2l0aCBgYC8qIHByaXZh
-dGU6ICovYGAgY29tbWVudHMgYXMgcGVyIHRoZQo+ICtkb2N1bWVudGF0aW9uIGd1aWRlLgo+ICsK
-PiAgR2V0dGluZyBTdGFydGVkCj4gID09PT09PT09PT09PT09PQo+ICAKPiBkaWZmIC0tZ2l0IGEv
-RG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QgYi9Eb2N1bWVudGF0aW9uL2dwdS90b2RvLnJzdAo+
-IGluZGV4IGU3MTdmMjgwZjlhZS4uZGI4ODk2OWE1NmVlIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50
-YXRpb24vZ3B1L3RvZG8ucnN0Cj4gKysrIGIvRG9jdW1lbnRhdGlvbi9ncHUvdG9kby5yc3QKPiBA
-QCAtMzAxLDE5ICszMDEsNiBAQCBJbiB0aGUgZW5kIG5vIC5jIGZpbGUgc2hvdWxkIG5lZWQgdG8g
-aW5jbHVkZSBgYGRybVAuaGBgIGFueW1vcmUuCj4gIAo+ICBDb250YWN0OiBEYW5pZWwgVmV0dGVy
-Cj4gIAo+IC1BZGQgbWlzc2luZyBrZXJuZWxkb2MgZm9yIGV4cG9ydGVkIGZ1bmN0aW9ucwo+IC0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IC0KPiAtVGhlIERS
-TSByZWZlcmVuY2UgZG9jdW1lbnRhdGlvbiBpcyBzdGlsbCBsYWNraW5nIGtlcm5lbGRvYyBpbiBh
-IGZldyBhcmVhcy4gVGhlCj4gLXRhc2sgd291bGQgYmUgdG8gY2xlYW4gdXAgaW50ZXJmYWNlcyBs
-aWtlIG1vdmluZyBmdW5jdGlvbnMgYXJvdW5kIGJldHdlZW4KPiAtZmlsZXMgdG8gYmV0dGVyIGdy
-b3VwIHRoZW0gYW5kIGltcHJvdmluZyB0aGUgaW50ZXJmYWNlcyBsaWtlIGRyb3BwaW5nIHJldHVy
-bgo+IC12YWx1ZXMgZm9yIGZ1bmN0aW9ucyB0aGF0IG5ldmVyIGZhaWwuIFRoZW4gd3JpdGUga2Vy
-bmVsZG9jIGZvciBhbGwgZXhwb3J0ZWQKPiAtZnVuY3Rpb25zIGFuZCBhbiBvdmVydmlldyBzZWN0
-aW9uIGFuZCBpbnRlZ3JhdGUgaXQgYWxsIGludG8gdGhlIGRybSBib29rLgo+IC0KPiAtU2VlIGh0
-dHBzOi8vZHJpLmZyZWVkZXNrdG9wLm9yZy9kb2NzL2RybS8gZm9yIHdoYXQncyB0aGVyZSBhbHJl
-YWR5Lgo+IC0KPiAtQ29udGFjdDogRGFuaWVsIFZldHRlcgo+IC0KPiAgTWFrZSBwYW5pYyBoYW5k
-bGluZyB3b3JrCj4gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAKCi0tIApSZWdhcmRzLAoK
-TGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============1526169253==
+Content-Type: multipart/alternative; boundary="15622447230.a7F74904d.22321"
+Content-Transfer-Encoding: 7bit
+
+
+--15622447230.a7F74904d.22321
+Date: Thu, 4 Jul 2019 12:52:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111060
+
+--- Comment #2 from Andre Klapper <a9016009@gmx.de> ---
+Which exact driver and driver version is used on which distribution and
+distribution version?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15622447230.a7F74904d.22321
+Date: Thu, 4 Jul 2019 12:52:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dying Light does start but doesnt render properly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dying Light does start but doesnt render properly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060">bug 11106=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>Which exact driver and driver version is used on which distrib=
+ution and
+distribution version?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15622447230.a7F74904d.22321--
+
+--===============1526169253==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1526169253==--
