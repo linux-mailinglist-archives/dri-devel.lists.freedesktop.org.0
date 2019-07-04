@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A9B5F9AB
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 16:07:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 012365F9C5
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 16:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 026326E359;
-	Thu,  4 Jul 2019 14:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAC566E34B;
+	Thu,  4 Jul 2019 14:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
- [IPv6:2607:f8b0:4864:20::e44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28966E358
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 14:07:14 +0000 (UTC)
-Received: by mail-vs1-xe44.google.com with SMTP id m23so2019765vso.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2019 07:07:14 -0700 (PDT)
+Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com
+ [IPv6:2607:f8b0:4864:20::935])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80D536E34B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 14:09:51 +0000 (UTC)
+Received: by mail-ua1-x935.google.com with SMTP id 34so1184620uar.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2019 07:09:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=P90kgH7q9sXvK86t1MZ4NbDsLn806eYSQE5PzlGAARc=;
- b=NlFi35/usA+ujzoK9YcQ/+uVxvoYlQqxuLQ39Ttq9VpBmzUZ8dGpxKVd+Ia+tPIf7w
- 9zCuyf1MG7A1k0AOpYKd/KIAcQY3rmth7feCF2N9dmacu3H8vZhje9CID8sTve5PWBKK
- st0mmIv2R2T78mJ/dAnZBdQTwdd1e0zonF/i2O870SjmuYPezswhyZVWvyVJAb9boN80
- 8Jgn9DRguqscG0lbiZpuxiDtOh6SeTCQ6w9N+yRq5FawV/VeWQ0tJieEIrTD98r92y99
- pLJ9yEbDQphzdA0d+S8PJa1bwTDP9wBzfgk1YsU3fPut7Xoq2ruXSJ4dCvZYLofv7pom
- rfOw==
-X-Gm-Message-State: APjAAAW70lChEYIJx6mG2FZLhVm7/Ht2Ok/ZFf7g7CLfnARuYvD15DQ4
- 0q0Uy1k8fcoxVR0QCxz+D2MS7JD7cGTA4tz1At4=
-X-Google-Smtp-Source: APXvYqxEoMd69cp5VHkgPtoEdfoRftzObUi4NGy1EBTWFUhvcqSK1+G87cS5PjbAiMBLFILHt22+c+yDiA4fc0F9Iao=
-X-Received: by 2002:a67:7fd8:: with SMTP id a207mr21712067vsd.85.1562249233840; 
- Thu, 04 Jul 2019 07:07:13 -0700 (PDT)
+ bh=mQ5m8rYbT8Z2US94ZaqcngLhWVtKzNxmo7qmupLUZ7w=;
+ b=VuxO1T6ZdGMOEBLvFpYToYRh8eRGHZqbstRLpz1yANgY2oDGsR48zSSLzk1Im9HDaG
+ KowrKqxJg5SPEvbwfjrfETmVIaFekVA8Zhc90UqOpPeM+z9zWBFIJhjpQxHzowm8Gd2P
+ q/zSB6z8SwxvIYMum+XWa15WC0u5S827fNtrfRwrQPqCsyLlmqoF4FeADqdf2ECUCfPT
+ u0rN+5hD0zorNZyNB0CY6iS0v56jr4QHuxjl6i7kZOI8lfJuqvgBQmgmdvIPaaaqnlIJ
+ fTnt39Xp3e9sTc+g6wWPO6A+br6xo61LjZ+ZKNlObj6OVJUN7AYfE7LeYbkz3ZrnrDJa
+ MKMw==
+X-Gm-Message-State: APjAAAWeQo4o6P3+I5SWuwzcaYZvvA10OeBiWfA/WfmW56MuJp1vqTur
+ TWoi/NzLMke8HpBlru7WWJ0qTjrsodr5LWSE20s=
+X-Google-Smtp-Source: APXvYqw2dNxxbf+8Wi66NiMCCn2WzNJSfu4KOQyo4/Q4ZNqttIe/PSYYLn2ptK9W58HniHDZdcr9VegpbZ4mY00GnBg=
+X-Received: by 2002:ab0:2556:: with SMTP id l22mr16501064uan.46.1562249390682; 
+ Thu, 04 Jul 2019 07:09:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190703170150.32548-1-efremov@linux.com>
-In-Reply-To: <20190703170150.32548-1-efremov@linux.com>
+References: <20190704023436.4456-1-huangfq.daxian@gmail.com>
+In-Reply-To: <20190704023436.4456-1-huangfq.daxian@gmail.com>
 From: Emil Velikov <emil.l.velikov@gmail.com>
-Date: Thu, 4 Jul 2019 15:07:22 +0100
-Message-ID: <CACvgo52N5v07qA_afJfw7vo1X6_Gt4cGqBZn3eBzQtokndjWxA@mail.gmail.com>
-Subject: Re: [PATCH] drm/client: remove the exporting of drm_client_close
-To: Denis Efremov <efremov@linux.com>
+Date: Thu, 4 Jul 2019 15:09:59 +0100
+Message-ID: <CACvgo50s0oh3tRjpUxeTkpFGJXahwB72hW=cc-de=2MG587m3Q@mail.gmail.com>
+Subject: Re: [Patch v2 01/10] drm/exynos: using dev_get_drvdata directly
+To: Fuqian Huang <huangfq.daxian@gmail.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=P90kgH7q9sXvK86t1MZ4NbDsLn806eYSQE5PzlGAARc=;
- b=j1zYiDtki+YMl3ZvtZfvAuXTVlnDEStPBOtdkF9p0fPM6M7w/NBp1I1IRhHkSlnwyV
- GNTq9Em5g0gy+EkPxBhdvgbjqiI8YanKTJQqDEHlcKzUkIAUIiHyFJmSJNhES7QrQRX1
- j+5NDsgt/HY91cb34ryr7d1jgY3YDBZ+d1HElKoIikbOhI4KXWXVdlgP718Ig/4ROk9t
- iK/9AZib5cCpism8EIWqxizf4z6obLgGkbMtipU8ltVCVXU++1jDeGcvTBBAd7vNF9xm
- yQGRZsX2IXTLUilJe40E2WELAq4UufVd32hJH5tlAkMWNJGRuS3qM2Xg8ZaRCxL9PYIL
- oiqg==
+ bh=mQ5m8rYbT8Z2US94ZaqcngLhWVtKzNxmo7qmupLUZ7w=;
+ b=oIqiaWuC6upmXjZw83Sk7A7AN228dkex7qLAmW3GCy+0EdImPA38Kk1jNfvfdrZi3V
+ bhdR7xb6+PRPFieFo6k5xXWKmR1zWZO2TNP+7r3I4FGpkkwc588AR5j7TJ2l9+07uWmG
+ mptGkWYKyHhVPxQUywF6hQOLXeX4k+q4AzscwADbbBwmytmPpN1YtLs1e6RLR/uOVoJO
+ e7Lqkp7Ol5BKEYqrzorBo+PvwCgZJrMN6FLWd5OgJgmMDIjmSC/Dtrvj0F6QbItWmz8Q
+ GEnvd5zoUJsbxd7atboADB4j8JGLKNWGEET4JkCvbgvTP8bv1aeCrtb10TIA3tScAfw/
+ lQ+w==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,26 +62,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "moderated list:ARM/S5P EXYNOS AR..." <linux-samsung-soc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ LAKML <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCA0IEp1bCAyMDE5IGF0IDA4OjI3LCBEZW5pcyBFZnJlbW92IDxlZnJlbW92QGxpbnV4
-LmNvbT4gd3JvdGU6Cj4KPiBUaGUgZnVuY3Rpb24gZHJtX2NsaWVudF9jbG9zZSBpcyBkZWNsYXJl
-ZCBhcyBzdGF0aWMgYW5kIG1hcmtlZCBhcwo+IEVYUE9SVF9TWU1CT0wuIEl0J3MgYSBiaXQgY29u
-ZnVzaW5nIGZvciBhbiBpbnRlcm5hbCBmdW5jdGlvbiB0byBiZQo+IGV4cG9ydGVkLiBUaGUgYXJl
-YSBvZiB2aXNpYmlsaXR5IGZvciBzdWNoIGZ1bmN0aW9uIGlzIGl0cyAuYyBmaWxlCj4gYW5kIGFs
-bCBvdGhlciBtb2R1bGVzLiBPdGhlciAqLmMgZmlsZXMgb2YgdGhlIHNhbWUgbW9kdWxlIGNhbid0
-IHVzZSBpdCwKPiBkZXNwaXRlIGFsbCBvdGhlciBtb2R1bGVzIGNhbi4gUmVseWluZyBvbiB0aGUg
-ZmFjdCB0aGF0IHRoaXMgaXMgdGhlCj4gaW50ZXJuYWwgZnVuY3Rpb24gYW5kIGl0J3Mgbm90IGEg
-Y3J1Y2lhbCBwYXJ0IG9mIHRoZSBBUEksIHRoZSBwYXRjaAo+IHJlbW92ZXMgdGhlIEVYUE9SVF9T
-WU1CT0wgbWFya2luZyBvZiBkcm1fY2xpZW50X2Nsb3NlLgo+Cj4gU2lnbmVkLW9mZi1ieTogRGVu
-aXMgRWZyZW1vdiA8ZWZyZW1vdkBsaW51eC5jb20+CgpOaWNlIG9uZToKUmV2aWV3ZWQtYnk6IEVt
-aWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+CgpPdXQgb2YgY3VyaW9zaXR5
-OiBEaWQgeW91IHVzZSBzb21lIHRvb2wgdG8gc3BvdCB0aGlzPwoKLUVtaWwKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gVGh1LCA0IEp1bCAyMDE5IGF0IDA4OjI2LCBGdXFpYW4gSHVhbmcgPGh1YW5nZnEuZGF4aWFu
+QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBTZXZlcmFsIGRyaXZlcnMgY2FzdCBhIHN0cnVjdCBkZXZp
+Y2UgcG9pbnRlciB0byBhIHN0cnVjdAo+IHBsYXRmb3JtX2RldmljZSBwb2ludGVyIG9ubHkgdG8g
+dGhlbiBjYWxsIHBsYXRmb3JtX2dldF9kcnZkYXRhKCkuCj4gVG8gaW1wcm92ZSByZWFkYWJpbGl0
+eSwgdGhlc2UgY29uc3RydWN0cyBjYW4gYmUgc2ltcGxpZmllZAo+IGJ5IHVzaW5nIGRldl9nZXRf
+ZHJ2ZGF0YSgpIGRpcmVjdGx5Lgo+Cj4gU2lnbmVkLW9mZi1ieTogRnVxaWFuIEh1YW5nIDxodWFu
+Z2ZxLmRheGlhbkBnbWFpbC5jb20+ClRoYW5rcyBmb3IgdGhlIHVwZGF0ZS4gVGhpcyBwYXRjaCBp
+czoKUmV2aWV3ZWQtYnk6IEVtaWwgVmVsaWtvdiA8ZW1pbC52ZWxpa292QGNvbGxhYm9yYS5jb20+
+CgotRW1pbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
