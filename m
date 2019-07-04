@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EE15F621
-	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 11:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C104A5F678
+	for <lists+dri-devel@lfdr.de>; Thu,  4 Jul 2019 12:18:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A62696E2D7;
-	Thu,  4 Jul 2019 09:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FC626E2F2;
+	Thu,  4 Jul 2019 10:18:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D26A46E2D7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 09:58:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C91B272167; Thu,  4 Jul 2019 09:58:13 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111060] Dying Light does start but doesnt render properly.
-Date: Thu, 04 Jul 2019 09:58:14 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haxk612@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111060-502-0ROMhZX93V@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111060-502@http.bugs.freedesktop.org/>
-References: <bug-111060-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 075F56E2F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Jul 2019 10:18:16 +0000 (UTC)
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:61811
+ helo=[192.168.10.173])
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
+ id 1hiyog-0000bL-6x; Thu, 04 Jul 2019 12:18:14 +0200
+Subject: Re: [PATCH 0/5] Unmappable DRM client buffers for fbdev emulation
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
+ yc_chen@aspeedtech.com
+References: <20190703083302.2609-1-tzimmermann@suse.de>
+ <a2e3baa8-f8e8-4628-e18f-cb3119194afb@tronnes.org>
+ <aa1b7431-21c5-4c99-bfb6-6c5e4946bec3@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <18d573b4-3cb8-dc4a-bee3-a8b9b0a18a28@tronnes.org>
+Date: Thu, 4 Jul 2019 12:18:06 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <aa1b7431-21c5-4c99-bfb6-6c5e4946bec3@suse.de>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=0hMLxIqO1Yq7Z0UhniHCYxabposqq8/0CMluI91fCvk=; 
+ b=fk+SH3zoDsoJZOaBGHziDThVH0QCN1j82CiUDS5w0NyBuX1uO5TUX7OSE4XnRDOEcM7sZPtHsO837m027SpZUgibDJ7wTKgX5anbDKgl4H/00wRJ2GArhOP+GM4k4uK3PMV62P/F9P2PM9MjxflssafPhE+HBVjcRrn2gPan0nG8MZuQSDuf/uQT7GUHNE8/9qSs+FSSozo6rFGfKJXcKu/Vckg9n+gOi+rotVC9cxY0CEYSSg702R8zkwHxyODblY/XouMwlm/8Qn1mPFWpwjXJvbNm99wbyM2OeL7vsu8kZmf9Rkc+9yUUdmtJE5Veen9FI3UtvfqsnmXCMCsaxw==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,90 +50,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0053517194=="
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0053517194==
-Content-Type: multipart/alternative; boundary="15622342930.fFBD6e.3463"
-Content-Transfer-Encoding: 7bit
-
-
---15622342930.fFBD6e.3463
-Date: Thu, 4 Jul 2019 09:58:13 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111060
-
---- Comment #1 from Haxk20 <haxk612@gmail.com> ---
-Ohhh and when using Proton the game works perfectly fine without any issue =
-just
-with much lower FPS.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15622342930.fFBD6e.3463
-Date: Thu, 4 Jul 2019 09:58:13 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Dying Light does start but doesnt render properly."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Dying Light does start but doesnt render properly."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060">bug 11106=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haxk612&#64;gmail.com" title=3D"Haxk20 &lt;haxk612&#64;gmail.com&gt;"> <spa=
-n class=3D"fn">Haxk20</span></a>
-</span></b>
-        <pre>Ohhh and when using Proton the game works perfectly fine witho=
-ut any issue just
-with much lower FPS.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15622342930.fFBD6e.3463--
-
---===============0053517194==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0053517194==--
+CgpEZW4gMDQuMDcuMjAxOSAwOS40Mywgc2tyZXYgVGhvbWFzIFppbW1lcm1hbm46Cj4gSGkKPiAK
+PiBBbSAwMy4wNy4xOSB1bSAyMToyNyBzY2hyaWViIE5vcmFsZiBUcsO4bm5lczoKPj4KPj4KPj4g
+RGVuIDAzLjA3LjIwMTkgMTAuMzIsIHNrcmV2IFRob21hcyBaaW1tZXJtYW5uOgo+Pj4gRFJNIGNs
+aWVudCBidWZmZXJzIGFyZSBwZXJtYW5lbnRseSBtYXBwZWQgdGhyb3VnaG91dCB0aGVpciBsaWZl
+dGltZS4gVGhpcwo+Pj4gcHJldmVudHMgdXMgZnJvbSB1c2luZyBnZW5lcmljIGZyYW1lYnVmZmVy
+IGVtdWxhdGlvbiBmb3IgZGV2aWNlcyB3aXRoCj4+PiBzbWFsbCBkZWRpY2F0ZWQgdmlkZW8gbWVt
+b3J5LCBzdWNoIGFzIGFzdCBvciBtZ2FnMjAwLiBXaXRoIGZiIGJ1ZmZlcnMKPj4+IHBlcm1hbmVu
+dGx5IG1hcHBlZCwgc3VjaCBkZXZpY2VzIG9mdGVuIHdvbid0IGhhdmUgZW5vdWd0aCBzcGFjZSBs
+ZWZ0IHRvCj4+PiBkaXNwbGF5IG90aGVyIGNvbnRlbnQgKGUuZy4sIFgxMSkuCj4+Pgo+Pj4gVGhp
+cyBwYXRjaCBzZXQgaW50cm9kdWNlcyB1bm1hcHBhYmxlIERSTSBjbGllbnQgYnVmZmVycyBmb3Ig
+ZnJhbWVidWZmZXIKPj4+IGVtdWxhdGlvbiB3aXRoIHNoYWRvdyBidWZmZXJzLiBXaGlsZSB0aGUg
+c2hhZG93IGJ1ZmZlciByZW1haW5zIGluIHN5c3RlbQo+Pj4gbWVtb3J5IHBlcm1hbmVudGx5LCB0
+aGUgcmVzcGVjdGl2ZSBidWZmZXIgb2JqZWN0IHdpbGwgb25seSBiZSBtYXBwZWQgYnJpZWZseQo+
+Pj4gZHVyaW5nIHVwZGF0ZXMgZnJvbSB0aGUgc2hhZG93IGJ1ZmZlci4gSGVuY2UsIHRoZSBkcml2
+ZXIgY2FuIHJlbG9jYXRlIGhlCj4+PiBidWZmZXIgb2JqZWN0IGFtb25nIG1lbW9yeSByZWdpb25z
+IGFzIG5lZWRlZC4KPj4+Cj4+PiBUaGUgZGVmYXVsdCBiZWhvdmlvdXIgZm9yIERSTSBjbGllbnQg
+YnVmZmVycyBpcyBzdGlsbCB0byBiZSBwZXJtYW5lbnRseQo+Pj4gbWFwcGVkLgo+Pj4KPj4+IFRo
+ZSBwYXRjaCBzZXQgY29udmVydHMgYXN0IGFuZCBtZ2FnMjAwIHRvIGdlbmVyaWMgZnJhbWVidWZm
+ZXIgZW11bGF0aW9uCj4+PiBhbmQgcmVtb3ZlcyBhIGxhcmdlIGFtb3VudCBvZiBmcmFtZWJ1ZmZl
+ciBjb2RlIGZyb20gdGhlc2UgZHJpdmVycy4gRm9yCj4+PiBib2NocywgYSBwcm9ibGVtIHdhcyBy
+ZXBvcnRlZCB3aGVyZSB0aGUgZHJpdmVyIGNvdWxkIG5vdCBkaXNwbGF5IHRoZSBjb25zb2xlCj4+
+PiBiZWNhdXNlIGl0IHdhcyBwaW5uZWQgaW4gc3lzdGVtIG1lbW9yeS4gWzFdIFRoZSBwYXRjaCBz
+ZXQgZml4ZXMgdGhpcyBidWcKPj4+IGJ5IGNvbnZlcnRpbmcgYm9jaHMgdG8gdXNlIHRoZSBzaGFk
+b3cgZmIuCj4+Pgo+Pj4gVGhlIHBhdGNoIHNldCBoYXMgYmVlbiB0ZXN0ZWQgb24gYXN0IGFuZCBt
+Z2EyMDAgSFcuCj4+Pgo+Pgo+PiBJJ3ZlIGJlZW4gdGhpbmtpbmcsIHRoaXMgZW5hYmxlcyBkaXJ0
+eSB0cmFja2luZyBpbiBEUk0gdXNlcnNwYWNlIGZvcgo+PiB0aGVzZSBkcml2ZXJzIHNpbmNlIHRo
+ZSBkaXJ0eSBjYWxsYmFjayBpcyBub3cgc2V0IG9uIGFsbCBmcmFtZWJ1ZmZlcnMuCj4+IElzIHRo
+aXMgT0s/IFNob3VsZCB3ZSBhZGQgYSBkcm1fZmJkZXZfZ2VuZXJpY19zaGFkb3dfc2V0dXAoKSB0
+aGF0IHNldHMgYQo+PiBmbGFnIGVuYWJsaW5nIHRoZSBzaGFkb3cgYnVmZmVyIGluc3RlYWQ/Cj4g
+Cj4gRmJkZXYgZW11bGF0aW9uIGlzIHNwZWNpYWwgd3J0IGZyYW1lYnVmZmVyIHNldHVwIGFuZCB0
+aGVyZSdzIG5vIHdheSB0bwo+IGRpc3Rpbmd1aXNoIGEgcmVndWxhciBGQiBmcm9tIHRoZSBmYmRl
+didzIEZCLiBJJ3ZlIGJlZW4gdHJ5aW5nCj4gZHJtX2ZiZGV2X2dlbmVyaWNfc2hhZG93X3NldHVw
+KCksIGJ1dCBlbmRlZCB1cCBkdXBsaWNhdGluZwo+IGZ1bmN0aW9uYWxpdHkuIFRoZSBwcm9ibGVt
+IHdhcyB0aGF0IHdlIGNhbm5vdCBnZXQgc3RhdGUtZmxhZyBhcmd1bWVudHMKPiBpbnRvIGRybV9m
+Yl9oZWxwZXJfZ2VuZXJpY19wcm9iZSgpLgo+IAo+IFRoZXJlIGFscmVhZHkgaXMgc3RydWN0IG1v
+ZGVfY29uZmlnLnByZWZlcl9zaGFkb3cuIEl0IHNpZ25hbHMgc2hhZG93IEZCCj4gcmVuZGVyaW5n
+IHRvIHVzZXJzcGFjZS4gVGhlIGVhc2llc3Qgc29sdXRpb24gaXMgdG8gYWRkCj4gcHJlZmVyX3No
+YWRvd19mYmRldiBhcyB3ZWxsLiBJZiBlaXRoZXIgZmxhZyBpcyB0cnVlLCBmYmRldiBlbXVsYXRp
+b24KPiB3b3VsZCBlbmFibGUgc2hhZG93IGJ1ZmZlcmluZy4KCkhvdyBhYm91dCBzb21ldGhpbmcg
+bGlrZSB0aGlzOgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMK
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCmluZGV4IDE5ODRlNWM1NGQ1OC4uNzIz
+ZmU1NmFhNWY1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMKQEAgLTQxNSw3ICs0MTUsOCBAQCBz
+dGF0aWMgdm9pZCBkcm1fZmJfaGVscGVyX2RpcnR5X3dvcmsoc3RydWN0Cndvcmtfc3RydWN0ICp3
+b3JrKQogCQkvKiBHZW5lcmljIGZiZGV2IHVzZXMgYSBzaGFkb3cgYnVmZmVyICovCiAJCWlmICho
+ZWxwZXItPmJ1ZmZlcikKIAkJCWRybV9mYl9oZWxwZXJfZGlydHlfYmxpdF9yZWFsKGhlbHBlciwg
+JmNsaXBfY29weSk7Ci0JCWhlbHBlci0+ZmItPmZ1bmNzLT5kaXJ0eShoZWxwZXItPmZiLCBOVUxM
+LCAwLCAwLCAmY2xpcF9jb3B5LCAxKTsKKwkJaWYgKGhlbHBlci0+ZmItPmZ1bmNzLT5kaXJ0eSkK
+KwkJCWhlbHBlci0+ZmItPmZ1bmNzLT5kaXJ0eShoZWxwZXItPmZiLCBOVUxMLCAwLCAwLCAmY2xp
+cF9jb3B5LCAxKTsKIAl9CiB9CgpAQCAtMjIwOSw3ICsyMjEwLDcgQEAgaW50IGRybV9mYl9oZWxw
+ZXJfZ2VuZXJpY19wcm9iZShzdHJ1Y3QKZHJtX2ZiX2hlbHBlciAqZmJfaGVscGVyLAogI2VuZGlm
+CiAJZHJtX2ZiX2hlbHBlcl9maWxsX2luZm8oZmJpLCBmYl9oZWxwZXIsIHNpemVzKTsKCi0JaWYg
+KGZiLT5mdW5jcy0+ZGlydHkpIHsKKwlpZiAoZmItPmZ1bmNzLT5kaXJ0eSB8fCBmYl9oZWxwZXIt
+PnVzZV9zaGFkb3cpIHsKIAkJc3RydWN0IGZiX29wcyAqZmJvcHM7CiAJCXZvaWQgKnNoYWRvdzsK
+CkBAIC0yMzEwLDYgKzIzMTEsNDQgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY2xpZW50X2Z1
+bmNzCmRybV9mYmRldl9jbGllbnRfZnVuY3MgPSB7CiAJLmhvdHBsdWcJPSBkcm1fZmJkZXZfY2xp
+ZW50X2hvdHBsdWcsCiB9OwoKK3N0YXRpYyBpbnQgX2RybV9mYmRldl9nZW5lcmljX3NldHVwKHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkCmludCBwcmVmZXJyZWRfYnBwLCBib29sIHVz
+ZV9zaGFkb3cpCit7CisJc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBlcjsKKwlpbnQgcmV0
+OworCisJV0FSTihkZXYtPmZiX2hlbHBlciwgImZiX2hlbHBlciBpcyBhbHJlYWR5IHNldCFcbiIp
+OworCisJaWYgKCFkcm1fZmJkZXZfZW11bGF0aW9uKQorCQlyZXR1cm4gMDsKKworCWZiX2hlbHBl
+ciA9IGt6YWxsb2Moc2l6ZW9mKCpmYl9oZWxwZXIpLCBHRlBfS0VSTkVMKTsKKwlpZiAoIWZiX2hl
+bHBlcikKKwkJcmV0dXJuIC1FTk9NRU07CisKKwlyZXQgPSBkcm1fY2xpZW50X2luaXQoZGV2LCAm
+ZmJfaGVscGVyLT5jbGllbnQsICJmYmRldiIsCiZkcm1fZmJkZXZfY2xpZW50X2Z1bmNzKTsKKwlp
+ZiAocmV0KSB7CisJCWtmcmVlKGZiX2hlbHBlcik7CisJCURSTV9ERVZfRVJST1IoZGV2LT5kZXYs
+ICJGYWlsZWQgdG8gcmVnaXN0ZXIgY2xpZW50OiAlZFxuIiwgcmV0KTsKKwkJcmV0dXJuIHJldDsK
+Kwl9CisKKwlpZiAoIXByZWZlcnJlZF9icHApCisJCXByZWZlcnJlZF9icHAgPSBkZXYtPm1vZGVf
+Y29uZmlnLnByZWZlcnJlZF9kZXB0aDsKKwlpZiAoIXByZWZlcnJlZF9icHApCisJCXByZWZlcnJl
+ZF9icHAgPSAzMjsKKwlmYl9oZWxwZXItPnByZWZlcnJlZF9icHAgPSBwcmVmZXJyZWRfYnBwOwor
+CisJZmJfaGVscGVyLT51c2Vfc2hhZG93ID0gdXNlX3NoYWRvdzsKKworCXJldCA9IGRybV9mYmRl
+dl9jbGllbnRfaG90cGx1ZygmZmJfaGVscGVyLT5jbGllbnQpOworCWlmIChyZXQpCisJCURSTV9E
+RVZfREVCVUcoZGV2LT5kZXYsICJjbGllbnQgaG90cGx1ZyByZXQ9JWRcbiIsIHJldCk7CisKKwlk
+cm1fY2xpZW50X3JlZ2lzdGVyKCZmYl9oZWxwZXItPmNsaWVudCk7CisKKwlyZXR1cm4gMDsKK30K
+KwogLyoqCiAgKiBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cCgpIC0gU2V0dXAgZ2VuZXJpYyBmYmRl
+diBlbXVsYXRpb24KICAqIEBkZXY6IERSTSBkZXZpY2UKQEAgLTIzMzgsMzggKzIzNzcsMTMgQEAg
+c3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fY2xpZW50X2Z1bmNzCmRybV9mYmRldl9jbGllbnRfZnVu
+Y3MgPSB7CiAgKi8KIGludCBkcm1fZmJkZXZfZ2VuZXJpY19zZXR1cChzdHJ1Y3QgZHJtX2Rldmlj
+ZSAqZGV2LCB1bnNpZ25lZCBpbnQKcHJlZmVycmVkX2JwcCkKIHsKLQlzdHJ1Y3QgZHJtX2ZiX2hl
+bHBlciAqZmJfaGVscGVyOwotCWludCByZXQ7CisJcmV0dXJuIF9kcm1fZmJkZXZfZ2VuZXJpY19z
+ZXR1cChkZXYsIHByZWZlcnJlZF9icHAsIGZhbHNlKTsKK30KK0VYUE9SVF9TWU1CT0woZHJtX2Zi
+ZGV2X2dlbmVyaWNfc2V0dXApOwoKLQlXQVJOKGRldi0+ZmJfaGVscGVyLCAiZmJfaGVscGVyIGlz
+IGFscmVhZHkgc2V0IVxuIik7Ci0KLQlpZiAoIWRybV9mYmRldl9lbXVsYXRpb24pCi0JCXJldHVy
+biAwOwotCi0JZmJfaGVscGVyID0ga3phbGxvYyhzaXplb2YoKmZiX2hlbHBlciksIEdGUF9LRVJO
+RUwpOwotCWlmICghZmJfaGVscGVyKQotCQlyZXR1cm4gLUVOT01FTTsKLQotCXJldCA9IGRybV9j
+bGllbnRfaW5pdChkZXYsICZmYl9oZWxwZXItPmNsaWVudCwgImZiZGV2IiwKJmRybV9mYmRldl9j
+bGllbnRfZnVuY3MpOwotCWlmIChyZXQpIHsKLQkJa2ZyZWUoZmJfaGVscGVyKTsKLQkJRFJNX0RF
+Vl9FUlJPUihkZXYtPmRldiwgIkZhaWxlZCB0byByZWdpc3RlciBjbGllbnQ6ICVkXG4iLCByZXQp
+OwotCQlyZXR1cm4gcmV0OwotCX0KLQotCWlmICghcHJlZmVycmVkX2JwcCkKLQkJcHJlZmVycmVk
+X2JwcCA9IGRldi0+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRoOwotCWlmICghcHJlZmVycmVk
+X2JwcCkKLQkJcHJlZmVycmVkX2JwcCA9IDMyOwotCWZiX2hlbHBlci0+cHJlZmVycmVkX2JwcCA9
+IHByZWZlcnJlZF9icHA7Ci0KLQlyZXQgPSBkcm1fZmJkZXZfY2xpZW50X2hvdHBsdWcoJmZiX2hl
+bHBlci0+Y2xpZW50KTsKLQlpZiAocmV0KQotCQlEUk1fREVWX0RFQlVHKGRldi0+ZGV2LCAiY2xp
+ZW50IGhvdHBsdWcgcmV0PSVkXG4iLCByZXQpOwotCi0JZHJtX2NsaWVudF9yZWdpc3RlcigmZmJf
+aGVscGVyLT5jbGllbnQpOwotCi0JcmV0dXJuIDA7CitpbnQgZHJtX2ZiZGV2X2dlbmVyaWNfc2hh
+ZG93X3NldHVwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludApwcmVmZXJyZWRf
+YnBwKQoreworCXJldHVybiBfZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoZGV2LCBwcmVmZXJyZWRf
+YnBwLCB0cnVlKTsKIH0KIEVYUE9SVF9TWU1CT0woZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXApOwoK
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9mYl9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2Ry
+bV9mYl9oZWxwZXIuaAppbmRleCBjOGE4YWUyYTY3OGEuLjM5ZjA2M2RlOGNiYyAxMDA2NDQKLS0t
+IGEvaW5jbHVkZS9kcm0vZHJtX2ZiX2hlbHBlci5oCisrKyBiL2luY2x1ZGUvZHJtL2RybV9mYl9o
+ZWxwZXIuaApAQCAtMTg2LDYgKzE4Niw4IEBAIHN0cnVjdCBkcm1fZmJfaGVscGVyIHsKIAkgKiBT
+ZWUgYWxzbzogQGRlZmVycmVkX3NldHVwCiAJICovCiAJaW50IHByZWZlcnJlZF9icHA7CisKKwli
+b29sIHVzZV9zaGFkb3c7CiB9OwoKIHN0YXRpYyBpbmxpbmUgc3RydWN0IGRybV9mYl9oZWxwZXIg
+KgoKCj4gCj4gSSdtIG5vdCBzdXJlIGlmIHdlIHNob3VsZCBjaGVjayBmb3IgdGhlIGRpcnR5KCkg
+Y2FsbGJhY2sgYXQgYWxsLgo+IAoKSG0sIHdoeSBkbyB5b3UgdGhpbmsgdGhhdD8KClRoZSB0aGlu
+ZyB3aXRoIGZiZGV2IGRlZmlvIGlzIHRoYXQgaXQgb25seSBzdXBwb3J0cyBrbWFsbG9jIGFuZCB2
+bWFsbG9jCmFsbG9jYXRlZCBtZW1vcnkgKHBhZ2UtPmxydSBpcyBhdmFpbC4pLiBUaGlzIG1lYW5z
+IHRoYXQgb25seSB0aGUgQ01BCmRyaXZlcnMgY2FuIHVzZSBkZWZpbyB3aXRob3V0IHNoYWRvdyBt
+ZW1vcnkuIFRvIGtlZXAgdGhpbmdzIHNpbXBsZQpldmVyeW9uZSB3aXRoIGEgZGlydHkoKSBjYWxs
+YmFjayBnZXRzIGEgc2hhZG93IGJ1ZmZlci4KCk5vcmFsZi4KCj4gQmVzdCByZWdhcmRzCj4gVGhv
+bWFzCj4gCj4+IFJlYWxseSBuaWNlIGRpZmZzdGF0IGJ5IHRoZSB3YXkgOi0pCj4+Cj4+IE5vcmFs
+Zi4KPj4KPj4+IFsxXSBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9hcmNoaXZlcy9kcmkt
+ZGV2ZWwvMjAxOS1KdW5lLzIyNDQyMy5odG1sCj4+Pgo+Pj4gVGhvbWFzIFppbW1lcm1hbm4gKDUp
+Ogo+Pj4gICBkcm0vY2xpZW50OiBTdXBwb3J0IHVubWFwcGluZyBvZiBEUk0gY2xpZW50IGJ1ZmZl
+cnMKPj4+ICAgZHJtL2ZiLWhlbHBlcjogVW5tYXAgQk8gZm9yIHNoYWRvdy1idWZmZXJlZCBmcmFt
+ZWJ1ZmZlciBjb25zb2xlCj4+PiAgIGRybS9hc3Q6IFJlcGxhY2Ugc3RydWN0IGFzdF9mYmRldiB3
+aXRoIGdlbmVyaWMgZnJhbWVidWZmZXIgZW11bGF0aW9uCj4+PiAgIGRybS9ib2NoczogVXNlIHNo
+YWRvdyBidWZmZXIgZm9yIGJvY2hzIGZyYW1lYnVmZmVyIGNvbnNvbGUKPj4+ICAgZHJtL21nYWcy
+MDA6IFJlcGxhY2Ugc3RydWN0IG1nYV9mYmRldiB3aXRoIGdlbmVyaWMgZnJhbWVidWZmZXIKPj4+
+ICAgICBlbXVsYXRpb24KPj4+Cj4+PiAgZHJpdmVycy9ncHUvZHJtL2FzdC9NYWtlZmlsZSAgICAg
+ICAgICAgfCAgIDIgKy0KPj4+ICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuYyAgICAgICAg
+ICB8ICAyMiArLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oICAgICAgICAgIHwg
+IDE3IC0tCj4+PiAgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZmIuYyAgICAgICAgICAgfCAzNDEg
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21h
+aW4uYyAgICAgICAgIHwgIDMwICsrLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21vZGUu
+YyAgICAgICAgIHwgIDIxIC0tCj4+PiAgZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2ttcy5j
+ICAgICAgfCAgIDIgKy0KPj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5jICAgICAgICAg
+ICB8ICA3MSArKysrLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMgICAgICAg
+IHwgIDE0ICstCj4+PiAgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvTWFrZWZpbGUgICAgICAgfCAg
+IDIgKy0KPj4+ICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5oICB8ICAxOSAt
+LQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZmIuYyAgIHwgMzA5IC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KPj4+ICBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21h
+aW4uYyB8ICA2MSArKystLQo+Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9k
+ZS5jIHwgIDI3IC0tCj4+PiAgaW5jbHVkZS9kcm0vZHJtX2NsaWVudC5oICAgICAgICAgICAgICAg
+fCAgIDMgKwo+Pj4gIDE1IGZpbGVzIGNoYW5nZWQsIDE1NCBpbnNlcnRpb25zKCspLCA3ODcgZGVs
+ZXRpb25zKC0pCj4+PiAgZGVsZXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X2ZiLmMKPj4+ICBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
+ZzIwMF9mYi5jCj4+Pgo+Pj4gLS0KPj4+IDIuMjEuMAo+Pj4KPj4gX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+
+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4+Cj4gCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
