@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292346026A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 10:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B06860143
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 09:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A64BE6E448;
-	Fri,  5 Jul 2019 08:41:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D316E411;
+	Fri,  5 Jul 2019 07:09:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 597036E411
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 07:09:20 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id d17so8125166oth.5
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2019 00:09:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+HA1gRJUU1q/vq10J2Cj5qnKuph6mRHyYxPoVAGdEoY=;
- b=pa2YegOxZzbg+msgehNq/XFS8Yah8bIzalCoezbM6xaxyVVV5f8EbHA0/GFx2yyUK9
- M7pL+KoY9fC6E9u7OSoy71sKlslSWesFwZfmtz4HpfrHRCfe4pSZFDOpLCcUFbczM78W
- qbGwYndFAuPmDdxM8kcM9wyX1LRVWCYHc5BqYdJvrJyqgv5l1chI2NGCE19/X+F1pSKA
- IK5mjpqkhJp9/TyenHX5mBIxhz2aG/ZEYBF5D3fHJ1iCIFAgAtdZ3lNVa3duxXxXUSh8
- zUYc2A4+dmf51MHW+09u7zPZB2Y1VDC1QBqTSWq1Ih1qru0ygEE+aSmbNveArUFmdk1U
- BCKA==
-X-Gm-Message-State: APjAAAVZCoL70VFFLOYpNw2Pbmo1nq6o4aYEOhxZI0eGQaOT3fPg8BJd
- vz/Mt5iSpQb2WGcbruIXOnER6a6rbRuRicELx/3kQw==
-X-Google-Smtp-Source: APXvYqx8fFkXm04Sl60WDxMfdqFj9kg/zYj7b4ElJ1xZR84JewuoulDPbrbiGgNIHjmSgRkaFR30qgpyyakxkZEcxHc=
-X-Received: by 2002:a9d:6195:: with SMTP id g21mr1790572otk.103.1562310559416; 
- Fri, 05 Jul 2019 00:09:19 -0700 (PDT)
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF59D6E411
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 07:09:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 425AAAFA9;
+ Fri,  5 Jul 2019 07:09:48 +0000 (UTC)
+Subject: Re: [PATCH 0/5] Unmappable DRM client buffers for fbdev emulation
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com, 
+ daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
+ yc_chen@aspeedtech.com
+References: <20190703083302.2609-1-tzimmermann@suse.de>
+ <a2e3baa8-f8e8-4628-e18f-cb3119194afb@tronnes.org>
+ <aa1b7431-21c5-4c99-bfb6-6c5e4946bec3@suse.de>
+ <18d573b4-3cb8-dc4a-bee3-a8b9b0a18a28@tronnes.org>
+ <5f9c7df7-3805-0e23-4201-be08d41da791@suse.de>
+ <02821de5-8a43-53c4-d8f0-70a7f041f896@tronnes.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <b9684edb-5f77-2ea1-5fba-8f905db9bfed@suse.de>
+Date: Fri, 5 Jul 2019 09:09:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-References: <20190705042623.129541-1-cychiang@chromium.org>
- <20190705042623.129541-3-cychiang@chromium.org>
-In-Reply-To: <20190705042623.129541-3-cychiang@chromium.org>
-From: Tzung-Bi Shih <tzungbi@google.com>
-Date: Fri, 5 Jul 2019 15:09:08 +0800
-Message-ID: <CA+Px+wWwudeG5BLOkgcq_sJqfTxmre1O=XqU8OM6oqC966TUuQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm: bridge: dw-hdmi: Report connector status using
- callback
-To: Cheng-Yi Chiang <cychiang@chromium.org>
-X-Mailman-Approved-At: Fri, 05 Jul 2019 08:41:21 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=+HA1gRJUU1q/vq10J2Cj5qnKuph6mRHyYxPoVAGdEoY=;
- b=Hn5+GLp28rD0iRoGwRHbRq7GRqhDGFy99Nq0elsuKdVJNwUHVcdvJRg+gisPdFcpAZ
- qEdsBQ/afocCCAKXjvk+7j6rsUbqRcawLyzd70CSM0IbNIX9k0WdbOckw9qauhSBUKbs
- KsS8UCyQhKHpbg2mJG97lYMWJdWnZIc9xlhH1aPkk/x65Lyq+DEu9zuQz3itB4uXU5Jx
- Wp2757OkuQRX27nYk26bC5yZaCPgQVKegnpuEwUi3IhMmeam8wEmZq0QBjIAZzjRK2Vy
- J6XUiGXIqYCImxBzdj/5HNLtVcjYug3zt2+FpURR/lYSVsNYx9z7L0YratiSYcZPpaf3
- EX3g==
+In-Reply-To: <02821de5-8a43-53c4-d8f0-70a7f041f896@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,97 +72,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA development <alsa-devel@alsa-project.org>, dianders@chromium.org,
- Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
- tzungbi@chromium.org, linux-kernel@vger.kernel.org,
- Hans Verkuil <hverkuil@xs4all.nl>, Russell King <rmk+kernel@armlinux.org.uk>,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- linux-rockchip@lists.infradead.org, dgreid@chromium.org,
- Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Content-Type: multipart/mixed; boundary="===============0912465495=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgNSwgMjAxOSBhdCAxMjoyNiBQTSBDaGVuZy1ZaSBDaGlhbmcgPGN5Y2hpYW5n
-QGNocm9taXVtLm9yZz4gd3JvdGU6Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2Uvc3lub3BzeXMvZHctaGRtaS1hdWRpby5oIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5v
-cHN5cy9kdy1oZG1pLWF1ZGlvLmgKPiBpbmRleCA2M2I1NzU2ZjQ2M2IuLmY1MjNjNTkwOTg0ZSAx
-MDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktYXVk
-aW8uaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS1hdWRp
-by5oCj4gQEAgLTIsNiArMiw4IEBACj4gICNpZm5kZWYgRFdfSERNSV9BVURJT19ICj4gICNkZWZp
-bmUgRFdfSERNSV9BVURJT19ICj4KPiArI2luY2x1ZGUgPHNvdW5kL2hkbWktY29kZWMuaD4KPiAr
-Cj4gIHN0cnVjdCBkd19oZG1pOwo+Cj4gIHN0cnVjdCBkd19oZG1pX2F1ZGlvX2RhdGEgewo+IEBA
-IC0xNyw2ICsxOSw3IEBAIHN0cnVjdCBkd19oZG1pX2kyc19hdWRpb19kYXRhIHsKPgo+ICAgICAg
-ICAgdm9pZCAoKndyaXRlKShzdHJ1Y3QgZHdfaGRtaSAqaGRtaSwgdTggdmFsLCBpbnQgb2Zmc2V0
-KTsKPiAgICAgICAgIHU4ICgqcmVhZCkoc3RydWN0IGR3X2hkbWkgKmhkbWksIGludCBvZmZzZXQp
-Owo+ICsgICAgICAgaW50ICgqc2V0X3BsdWdnZWRfY2IpKHN0cnVjdCBkd19oZG1pICpoZG1pLCBo
-ZG1pX2NvZGVjX3BsdWdnZWRfY2IgZm4pOwo+ICB9Owo+Cj4gICNlbmRpZgo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMKPiBpbmRl
-eCA1Y2JiNzFhODY2ZDUuLjdiOTNjZjA1Yzk4NSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMKPiBAQCAtMTA0LDEwICsx
-MDQsMjAgQEAgc3RhdGljIGludCBkd19oZG1pX2kyc19nZXRfZGFpX2lkKHN0cnVjdCBzbmRfc29j
-X2NvbXBvbmVudCAqY29tcG9uZW50LAo+ICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4gIH0KPgo+
-ICtzdGF0aWMgaW50IGR3X2hkbWlfaTJzX2hvb2tfcGx1Z2dlZF9jYihzdHJ1Y3QgZGV2aWNlICpk
-ZXYsIHZvaWQgKmRhdGEsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-aGRtaV9jb2RlY19wbHVnZ2VkX2NiIGZuKQo+ICt7Cj4gKyAgICAgICBzdHJ1Y3QgZHdfaGRtaV9p
-MnNfYXVkaW9fZGF0YSAqYXVkaW8gPSBkYXRhOwo+ICsgICAgICAgc3RydWN0IGR3X2hkbWkgKmhk
-bWkgPSBhdWRpby0+aGRtaTsKPiArCj4gKyAgICAgICByZXR1cm4gYXVkaW8tPnNldF9wbHVnZ2Vk
-X2NiKGhkbWksIGZuKTsKPiArfQo+ICsKVGhlIGZpcnN0IHBhcmFtZXRlciBkZXYgY291bGQgYmUg
-cmVtb3ZlZC4gIE5vdCB1c2VkLgoKPiAgc3RhdGljIHN0cnVjdCBoZG1pX2NvZGVjX29wcyBkd19o
-ZG1pX2kyc19vcHMgPSB7Cj4gICAgICAgICAuaHdfcGFyYW1zICAgICAgPSBkd19oZG1pX2kyc19o
-d19wYXJhbXMsCj4gICAgICAgICAuYXVkaW9fc2h1dGRvd24gPSBkd19oZG1pX2kyc19hdWRpb19z
-aHV0ZG93biwKPiAgICAgICAgIC5nZXRfZGFpX2lkICAgICA9IGR3X2hkbWlfaTJzX2dldF9kYWlf
-aWQsCj4gKyAgICAgICAuaG9va19wbHVnZ2VkX2NiID0gZHdfaGRtaV9pMnNfaG9va19wbHVnZ2Vk
-X2NiLAo+ICB9Owo+Cj4gIHN0YXRpYyBpbnQgc25kX2R3X2hkbWlfcHJvYmUoc3RydWN0IHBsYXRm
-b3JtX2RldmljZSAqcGRldikKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
-eW5vcHN5cy9kdy1oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LWhk
-bWkuYwo+IGluZGV4IDA0NWIxYjEzZmQwZS4uYzY5YTM5OWZjN2NhIDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9icmlkZ2Uvc3lub3BzeXMvZHctaGRtaS5jCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmMKPiBAQCAtMjYsNiArMjYsOCBAQAo+ICAj
-aW5jbHVkZSA8ZHJtL2RybV9wcm9iZV9oZWxwZXIuaD4KPiAgI2luY2x1ZGUgPGRybS9icmlkZ2Uv
-ZHdfaGRtaS5oPgo+Cj4gKyNpbmNsdWRlIDxzb3VuZC9oZG1pLWNvZGVjLmg+Cj4gKwo+ICAjaW5j
-bHVkZSA8dWFwaS9saW51eC9tZWRpYS1idXMtZm9ybWF0Lmg+Cj4gICNpbmNsdWRlIDx1YXBpL2xp
-bnV4L3ZpZGVvZGV2Mi5oPgo+Cj4gQEAgLTE4NSw2ICsxODcsOSBAQCBzdHJ1Y3QgZHdfaGRtaSB7
-Cj4gICAgICAgICB2b2lkICgqZGlzYWJsZV9hdWRpbykoc3RydWN0IGR3X2hkbWkgKmhkbWkpOwo+
-Cj4gICAgICAgICBzdHJ1Y3QgY2VjX25vdGlmaWVyICpjZWNfbm90aWZpZXI7Cj4gKwo+ICsgICAg
-ICAgaGRtaV9jb2RlY19wbHVnZ2VkX2NiIHBsdWdnZWRfY2I7Cj4gKyAgICAgICBlbnVtIGRybV9j
-b25uZWN0b3Jfc3RhdHVzIGxhc3RfY29ubmVjdG9yX3Jlc3VsdDsKPiAgfTsKPgo+ICAjZGVmaW5l
-IEhETUlfSUhfUEhZX1NUQVQwX1JYX1NFTlNFIFwKPiBAQCAtMjA5LDYgKzIxNCwxNyBAQCBzdGF0
-aWMgaW5saW5lIHU4IGhkbWlfcmVhZGIoc3RydWN0IGR3X2hkbWkgKmhkbWksIGludCBvZmZzZXQp
-Cj4gICAgICAgICByZXR1cm4gdmFsOwo+ICB9Cj4KPiArc3RhdGljIGludCBoZG1pX3NldF9wbHVn
-Z2VkX2NiKHN0cnVjdCBkd19oZG1pICpoZG1pLCBoZG1pX2NvZGVjX3BsdWdnZWRfY2IgZm4pCj4g
-K3sKPiArICAgICAgIG11dGV4X2xvY2soJmhkbWktPm11dGV4KTsKPiArICAgICAgIGhkbWktPnBs
-dWdnZWRfY2IgPSBmbjsKPiArICAgICAgIGlmIChoZG1pLT5hdWRpbyAmJiAhSVNfRVJSKGhkbWkt
-PmF1ZGlvKSkKSSB3b3VsZCBleHBlY3QgaWYgSVNfRVJSKGhkbWktPmF1ZGlvKSwgdGhlbiB0aGlz
-IHNob3VsZCBub3QgYmUgY2FsbGVkCihpLmUuIHNob3VsZCBleGl0IHNvbWV3aGVyZSBlYXJsaWVy
-KS4KCj4gKyAgICAgICAgICAgICAgIGZuKGhkbWktPmF1ZGlvLAo+ICsgICAgICAgICAgICAgICAg
-ICBoZG1pLT5sYXN0X2Nvbm5lY3Rvcl9yZXN1bHQgPT0gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0
-ZWQpOwo+ICsgICAgICAgbXV0ZXhfdW5sb2NrKCZoZG1pLT5tdXRleCk7Cj4gKyAgICAgICByZXR1
-cm4gMDsKPiArfQo+ICsKPiAgc3RhdGljIHZvaWQgaGRtaV9tb2RiKHN0cnVjdCBkd19oZG1pICpo
-ZG1pLCB1OCBkYXRhLCB1OCBtYXNrLCB1bnNpZ25lZCByZWcpCj4gIHsKPiAgICAgICAgIHJlZ21h
-cF91cGRhdGVfYml0cyhoZG1pLT5yZWdtLCByZWcgPDwgaGRtaS0+cmVnX3NoaWZ0LCBtYXNrLCBk
-YXRhKTsKPiBAQCAtMjA0NCw2ICsyMDYwLDcgQEAgZHdfaGRtaV9jb25uZWN0b3JfZGV0ZWN0KHN0
-cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIGJvb2wgZm9yY2UpCj4gIHsKPiAgICAgICAg
-IHN0cnVjdCBkd19oZG1pICpoZG1pID0gY29udGFpbmVyX29mKGNvbm5lY3Rvciwgc3RydWN0IGR3
-X2hkbWksCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29u
-bmVjdG9yKTsKPiArICAgICAgIGVudW0gZHJtX2Nvbm5lY3Rvcl9zdGF0dXMgcmVzdWx0Owo+Cj4g
-ICAgICAgICBtdXRleF9sb2NrKCZoZG1pLT5tdXRleCk7Cj4gICAgICAgICBoZG1pLT5mb3JjZSA9
-IERSTV9GT1JDRV9VTlNQRUNJRklFRDsKPiBAQCAtMjA1MSw3ICsyMDY4LDIwIEBAIGR3X2hkbWlf
-Y29ubmVjdG9yX2RldGVjdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBib29sIGZv
-cmNlKQo+ICAgICAgICAgZHdfaGRtaV91cGRhdGVfcGh5X21hc2soaGRtaSk7Cj4gICAgICAgICBt
-dXRleF91bmxvY2soJmhkbWktPm11dGV4KTsKPgo+IC0gICAgICAgcmV0dXJuIGhkbWktPnBoeS5v
-cHMtPnJlYWRfaHBkKGhkbWksIGhkbWktPnBoeS5kYXRhKTsKPiArICAgICAgIHJlc3VsdCA9IGhk
-bWktPnBoeS5vcHMtPnJlYWRfaHBkKGhkbWksIGhkbWktPnBoeS5kYXRhKTsKPiArCj4gKyAgICAg
-ICBtdXRleF9sb2NrKCZoZG1pLT5tdXRleCk7Cj4gKyAgICAgICBpZiAocmVzdWx0ICE9IGhkbWkt
-Pmxhc3RfY29ubmVjdG9yX3Jlc3VsdCkgewo+ICsgICAgICAgICAgICAgICBkZXZfZGJnKGhkbWkt
-PmRldiwgInJlYWRfaHBkIHJlc3VsdDogJWQiLCByZXN1bHQpOwo+ICsgICAgICAgICAgICAgICBp
-ZiAoaGRtaS0+cGx1Z2dlZF9jYiAmJiBoZG1pLT5hdWRpbyAmJiAhSVNfRVJSKGhkbWktPmF1ZGlv
-KSkgewpTaGFyZSB0aGUgc2FtZSBjb25jZXJuIGFib3ZlLgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0912465495==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="D3ut2bhG6hEZRlg3RROQmjwblJorlxPn5"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--D3ut2bhG6hEZRlg3RROQmjwblJorlxPn5
+Content-Type: multipart/mixed; boundary="u55emh8XsGlQdHlGixPqx0JjvdsuSok90";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com,
+ daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
+ yc_chen@aspeedtech.com
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Message-ID: <b9684edb-5f77-2ea1-5fba-8f905db9bfed@suse.de>
+Subject: Re: [PATCH 0/5] Unmappable DRM client buffers for fbdev emulation
+References: <20190703083302.2609-1-tzimmermann@suse.de>
+ <a2e3baa8-f8e8-4628-e18f-cb3119194afb@tronnes.org>
+ <aa1b7431-21c5-4c99-bfb6-6c5e4946bec3@suse.de>
+ <18d573b4-3cb8-dc4a-bee3-a8b9b0a18a28@tronnes.org>
+ <5f9c7df7-3805-0e23-4201-be08d41da791@suse.de>
+ <02821de5-8a43-53c4-d8f0-70a7f041f896@tronnes.org>
+In-Reply-To: <02821de5-8a43-53c4-d8f0-70a7f041f896@tronnes.org>
+
+--u55emh8XsGlQdHlGixPqx0JjvdsuSok90
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 04.07.19 um 16:15 schrieb Noralf Tr=C3=B8nnes:
+>>> Hm, why do you think that?
+>>
+>> Drivers may already come with their own shadow buffer. Cirrus is an
+>> example of that. It uses shmem buffer objects as shadow fbs and
+>> internally updates the device frame buffer in its dirty callback. Usin=
+g
+>> dirty() to select the shadow fbdev adds another buffer (and another
+>> memcpy) for no reason.
+>=20
+> Cirruc uses shmem buffers and they won't work with fbdev defio (both us=
+e
+> page->lru). shmem is the reason I added shadow buffering to generic
+> fbdev in the first place. It will now work with whatever backing buffer=
+
+> the driver uses, as long as it can provide a virtual address on the dum=
+b
+> buffer (not the case with rockchip for instance, due to limited virtual=
+
+> address space).
+
+OK, I see. Thanks or clarifying.
+
+Best regards
+Thomas
+
+> Noralf.
+>=20
+>>
+>> Best regards
+>> Thomas
+>>
+>>> The thing with fbdev defio is that it only supports kmalloc and vmall=
+oc
+>>> allocated memory (page->lru is avail.). This means that only the CMA
+>>> drivers can use defio without shadow memory. To keep things simple
+>>> everyone with a dirty() callback gets a shadow buffer.
+>>>
+>>> Noralf.
+>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>> Really nice diffstat by the way :-)
+>>>>>
+>>>>> Noralf.
+>>>>>
+>>>>>> [1] https://lists.freedesktop.org/archives/dri-devel/2019-June/224=
+423.html
+>>>>>>
+>>>>>> Thomas Zimmermann (5):
+>>>>>>   drm/client: Support unmapping of DRM client buffers
+>>>>>>   drm/fb-helper: Unmap BO for shadow-buffered framebuffer console
+>>>>>>   drm/ast: Replace struct ast_fbdev with generic framebuffer emula=
+tion
+>>>>>>   drm/bochs: Use shadow buffer for bochs framebuffer console
+>>>>>>   drm/mgag200: Replace struct mga_fbdev with generic framebuffer
+>>>>>>     emulation
+>>>>>>
+>>>>>>  drivers/gpu/drm/ast/Makefile           |   2 +-
+>>>>>>  drivers/gpu/drm/ast/ast_drv.c          |  22 +-
+>>>>>>  drivers/gpu/drm/ast/ast_drv.h          |  17 --
+>>>>>>  drivers/gpu/drm/ast/ast_fb.c           | 341 --------------------=
+-----
+>>>>>>  drivers/gpu/drm/ast/ast_main.c         |  30 ++-
+>>>>>>  drivers/gpu/drm/ast/ast_mode.c         |  21 --
+>>>>>>  drivers/gpu/drm/bochs/bochs_kms.c      |   2 +-
+>>>>>>  drivers/gpu/drm/drm_client.c           |  71 ++++-
+>>>>>>  drivers/gpu/drm/drm_fb_helper.c        |  14 +-
+>>>>>>  drivers/gpu/drm/mgag200/Makefile       |   2 +-
+>>>>>>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  19 --
+>>>>>>  drivers/gpu/drm/mgag200/mgag200_fb.c   | 309 --------------------=
+--
+>>>>>>  drivers/gpu/drm/mgag200/mgag200_main.c |  61 +++--
+>>>>>>  drivers/gpu/drm/mgag200/mgag200_mode.c |  27 --
+>>>>>>  include/drm/drm_client.h               |   3 +
+>>>>>>  15 files changed, 154 insertions(+), 787 deletions(-)
+>>>>>>  delete mode 100644 drivers/gpu/drm/ast/ast_fb.c
+>>>>>>  delete mode 100644 drivers/gpu/drm/mgag200/mgag200_fb.c
+>>>>>>
+>>>>>> --
+>>>>>> 2.21.0
+>>>>>>
+>>>>> _______________________________________________
+>>>>> dri-devel mailing list
+>>>>> dri-devel@lists.freedesktop.org
+>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>>>
+>>>>
+>>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--u55emh8XsGlQdHlGixPqx0JjvdsuSok90--
+
+--D3ut2bhG6hEZRlg3RROQmjwblJorlxPn5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0e97kACgkQaA3BHVML
+eiPnaAf/VlglQ6sGaP/FrHEAxMHbK0k+lo6fAXLyFeetgNeBCHBi1uMzh0v3Rpg8
+bE2/LNKXUre7uB8uozhAKIBdWw4veio19zp6/KJ3AsV2HOhST8kDy+8sptEZYJBV
+zHbreZKym1DUNKb9d0X8umwo8CteLPt/vBWHSRcBLQFygc6Mf/nFw7cvk00guB4N
+cXGA4/bFcLFTFHpW2ulfGnz8vZ23yFoYBOz/la8gg4lQHcTRznTd2aQkJhpyXY0L
+yrHhNpbfmsXHH3i7aJvu4PFSvmDLzxC0PcWSPEaIJ8XfrFs8yAWyMN1gDa0Q7Tqk
+/q4hrLx0aqBxq1MfFgV+mLUPWlBQ3g==
+=gi5u
+-----END PGP SIGNATURE-----
+
+--D3ut2bhG6hEZRlg3RROQmjwblJorlxPn5--
+
+--===============0912465495==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0912465495==--
