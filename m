@@ -1,44 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B55602FF
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 11:18:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C6860315
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 11:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 422496E456;
-	Fri,  5 Jul 2019 09:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68C616E45D;
+	Fri,  5 Jul 2019 09:26:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id ABF736E456
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 09:18:08 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E2ABA72168; Fri,  5 Jul 2019 09:18:07 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111060] Dying Light does start but doesnt render properly.
-Date: Fri, 05 Jul 2019 09:18:08 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: haxk612@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTOURBUG
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111060-502-02nJNgCA1r@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111060-502@http.bugs.freedesktop.org/>
-References: <bug-111060-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D86E56E451
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 09:26:18 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 378DEAE0C;
+ Fri,  5 Jul 2019 09:26:17 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@redhat.com, daniel@ffwll.ch, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, maxime.ripard@bootlin.com,
+ sean@poorly.run, noralf@tronnes.org, sam@ravnborg.org,
+ yc_chen@aspeedtech.com
+Subject: [PATCH v2 0/6] Unmappable DRM client buffers for fbdev emulation
+Date: Fri,  5 Jul 2019 11:26:07 +0200
+Message-Id: <20190705092613.7621-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,137 +38,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1710128050=="
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1710128050==
-Content-Type: multipart/alternative; boundary="15623182871.Ef127.10079"
-Content-Transfer-Encoding: 7bit
-
-
---15623182871.Ef127.10079
-Date: Fri, 5 Jul 2019 09:18:07 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111060
-
---- Comment #6 from Haxk20 <haxk612@gmail.com> ---
-(In reply to Timothy Arceri from comment #4)
-> The crash on Arch Linux is due to a game bug not a Mesa bug which is boug=
-ht
-> to light by Arch using libglvnd, basically the game doesn't check for
-> features it uses correctly.
->=20
-> Recent patches have landed in git that implement the functions Dying Light
-> tries to use and users have reported that this fixes the start-up crash. I
-> suggest you make sure your system is correctly picking up the version of
-> Mesa you have built from git and is not continuing to use your system copy
-> of Mesa.
->=20
-> Either way this in not actually a Mesa bug so I'm going to close this bug
-> report. If you really are correctly using the copy of Mesa you built from
-> git and it is still crashing I suggest waiting a little longer until full
-> support for the EXT_direct_state_access extension lands in Mesa.
-
-I just opened the 00-mesa file and set the variables manually for dying lig=
-ht
-and the game launches just OK and works as expected.
-How can i check which file is overwritting the variables ?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15623182871.Ef127.10079
-Date: Fri, 5 Jul 2019 09:18:07 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
-roperly."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
-roperly."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060">bug 11106=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haxk612&#64;gmail.com" title=3D"Haxk20 &lt;haxk612&#64;gmail.com&gt;"> <spa=
-n class=3D"fn">Haxk20</span></a>
-</span></b>
-        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
-111060#c4">comment #4</a>)
-<span class=3D"quote">&gt; The crash on Arch Linux is due to a game bug not=
- a Mesa bug which is bought
-&gt; to light by Arch using libglvnd, basically the game doesn't check for
-&gt; features it uses correctly.
-&gt;=20
-&gt; Recent patches have landed in git that implement the functions Dying L=
-ight
-&gt; tries to use and users have reported that this fixes the start-up cras=
-h. I
-&gt; suggest you make sure your system is correctly picking up the version =
-of
-&gt; Mesa you have built from git and is not continuing to use your system =
-copy
-&gt; of Mesa.
-&gt;=20
-&gt; Either way this in not actually a Mesa bug so I'm going to close this =
-bug
-&gt; report. If you really are correctly using the copy of Mesa you built f=
-rom
-&gt; git and it is still crashing I suggest waiting a little longer until f=
-ull
-&gt; support for the EXT_direct_state_access extension lands in Mesa.</span=
- >
-
-I just opened the 00-mesa file and set the variables manually for dying lig=
-ht
-and the game launches just OK and works as expected.
-How can i check which file is overwritting the variables ?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15623182871.Ef127.10079--
-
---===============1710128050==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1710128050==--
+RFJNIGNsaWVudCBidWZmZXJzIGFyZSBwZXJtYW5lbnRseSBtYXBwZWQgdGhyb3VnaG91dCB0aGVp
+ciBsaWZldGltZS4gVGhpcwpwcmV2ZW50cyB1cyBmcm9tIHVzaW5nIGdlbmVyaWMgZnJhbWVidWZm
+ZXIgZW11bGF0aW9uIGZvciBkZXZpY2VzIHdpdGgKc21hbGwgZGVkaWNhdGVkIHZpZGVvIG1lbW9y
+eSwgc3VjaCBhcyBhc3Qgb3IgbWdhZzIwMC4gV2l0aCBmYiBidWZmZXJzCnBlcm1hbmVudGx5IG1h
+cHBlZCwgc3VjaCBkZXZpY2VzIG9mdGVuIHdvbid0IGhhdmUgZW5vdWdoIHNwYWNlIGxlZnQgdG8K
+ZGlzcGxheSBvdGhlciBjb250ZW50IChlLmcuLCBYMTEpLgoKVGhpcyBwYXRjaCBzZXQgaW50cm9k
+dWNlcyB1bm1hcHBhYmxlIERSTSBjbGllbnQgYnVmZmVycyBmb3IgZnJhbWVidWZmZXIKZW11bGF0
+aW9uIHdpdGggc2hhZG93IGJ1ZmZlcnMuIFdoaWxlIHRoZSBzaGFkb3cgYnVmZmVyIHJlbWFpbnMg
+aW4gc3lzdGVtCm1lbW9yeSBwZXJtYW5lbnRseSwgdGhlIHJlc3BlY3RpdmUgYnVmZmVyIG9iamVj
+dCB3aWxsIG9ubHkgYmUgbWFwcGVkIGJyaWVmbHkKZHVyaW5nIHVwZGF0ZXMgZnJvbSB0aGUgc2hh
+ZG93IGJ1ZmZlci4gSGVuY2UsIHRoZSBkcml2ZXIgY2FuIHJlbG9jYXRlIGhlCmJ1ZmZlciBvYmpl
+Y3QgYW1vbmcgbWVtb3J5IHJlZ2lvbnMgYXMgbmVlZGVkLgoKSFctYmFzZWQgZnJhbWVidWZmZXIg
+Y29uc29sZXMgd2lsbCBzdGlsbCBtYXAgdGhlIGJ1ZmZlciBwZXJtYW5lbnRseS4gVGhpcwppcyBh
+IHNwZWNpYWwgY2FzZSByZXF1aXJlZCBieSB0aGUgZmJkZXYgaW50ZXJmYWNlLCB3aGljaCBhbGxv
+d3MgZm9yIG1tYXBpbmcKdmlkZW8gbWVtb3J5IHRvIHVzZXJzcGFjZS4gU29tZSB1c2Vyc3BhY2Ug
+Y2xpZW50cyByZWx5IG9uIHRoaXMKZnVuY3Rpb25hbGl0eS4gSGVuY2UsIHRoZSBwYXRjaCBzZXQg
+YWxzbyBjaGFuZ2VzIERSTSBjbGllbnRzIHRvIG5vdCBtYXAgdGhlCmJ1ZmZlciBieSBkZWZhdWx0
+LiBGdXR1cmUgRFJNIGNsaWVudHMgYXJlIGV4cGVjdGVkIHRvIG1hcCBidWZmZXJzIGFzIG5lZWRl
+ZC4KClRoZSBwYXRjaCBzZXQgY29udmVydHMgYXN0IGFuZCBtZ2FnMjAwIHRvIGdlbmVyaWMgZnJh
+bWVidWZmZXIgZW11bGF0aW9uCmFuZCByZW1vdmVzIGEgbGFyZ2UgYW1vdW50IG9mIGZyYW1lYnVm
+ZmVyIGNvZGUgZnJvbSB0aGVzZSBkcml2ZXJzLiBGb3IKYm9jaHMsIGEgcHJvYmxlbSB3YXMgcmVw
+b3J0ZWQgd2hlcmUgdGhlIGRyaXZlciBjb3VsZCBub3QgZGlzcGxheSB0aGUgY29uc29sZQpiZWNh
+dXNlIGl0IHdhcyBwaW5uZWQgaW4gc3lzdGVtIG1lbW9yeS4gWzFdIFRoZSBwYXRjaCBzZXQgZml4
+ZXMgdGhpcyBidWcKYnkgY29udmVydGluZyBib2NocyB0byB1c2UgdGhlIHNoYWRvdyBmYi4KClRo
+ZSBwYXRjaCBzZXQgaGFzIGJlZW4gdGVzdGVkIG9uIGFzdCBhbmQgbWdhMjAwIEhXLgoKWzFdIGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bmUv
+MjI0NDIzLmh0bWwKClRob21hcyBaaW1tZXJtYW5uICg2KToKICBkcm0vY2xpZW50OiBTdXBwb3J0
+IHVubWFwcGluZyBvZiBEUk0gY2xpZW50IGJ1ZmZlcnMKICBkcm0vZmItaGVscGVyOiBNYXAgRFJN
+IGNsaWVudCBidWZmZXIgb25seSB3aGVuIHJlcXVpcmVkCiAgZHJtL2ZiLWhlbHBlcjogSW5zdGFu
+Y2lhdGUgc2hhZG93IEZCIGlmIGNvbmZpZ3VyZWQgaW4gZGV2aWNlJ3MKICAgIG1vZGVfY29uZmln
+CiAgZHJtL2FzdDogUmVwbGFjZSBzdHJ1Y3QgYXN0X2ZiZGV2IHdpdGggZ2VuZXJpYyBmcmFtZWJ1
+ZmZlciBlbXVsYXRpb24KICBkcm0vYm9jaHM6IFVzZSBzaGFkb3cgYnVmZmVyIGZvciBib2NocyBm
+cmFtZWJ1ZmZlciBjb25zb2xlCiAgZHJtL21nYWcyMDA6IFJlcGxhY2Ugc3RydWN0IG1nYV9mYmRl
+diB3aXRoIGdlbmVyaWMgZnJhbWVidWZmZXIKICAgIGVtdWxhdGlvbgoKIGRyaXZlcnMvZ3B1L2Ry
+bS9hc3QvTWFrZWZpbGUgICAgICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
+dF9kcnYuYyAgICAgICAgICB8ICAxMyArLQogZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfZHJ2Lmgg
+ICAgICAgICAgfCAgMTcgLS0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2ZiLmMgICAgICAgICAg
+IHwgMzQxIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9hc3QvYXN0
+X21haW4uYyAgICAgICAgIHwgICAzICstCiBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tb2RlLmMg
+ICAgICAgICB8ICAyMSAtLQogZHJpdmVycy9ncHUvZHJtL2JvY2hzL2JvY2hzX2ttcy5jICAgICAg
+fCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL2RybV9jbGllbnQuYyAgICAgICAgICAgfCAgNjEgKysr
+Ky0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMgICAgICAgIHwgIDUyICsrKy0KIGRy
+aXZlcnMvZ3B1L2RybS9tZ2FnMjAwL01ha2VmaWxlICAgICAgIHwgICAyICstCiBkcml2ZXJzL2dw
+dS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2Rydi5oICB8ICAxOSAtLQogZHJpdmVycy9ncHUvZHJtL21n
+YWcyMDAvbWdhZzIwMF9mYi5jICAgfCAzMDkgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogZHJpdmVy
+cy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tYWluLmMgfCAgMzEgKy0tCiBkcml2ZXJzL2dwdS9k
+cm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYyB8ICAyNyAtLQogaW5jbHVkZS9kcm0vZHJtX2NsaWVu
+dC5oICAgICAgICAgICAgICAgfCAgIDMgKwogaW5jbHVkZS9kcm0vZHJtX21vZGVfY29uZmlnLmgg
+ICAgICAgICAgfCAgIDUgKwogMTYgZmlsZXMgY2hhbmdlZCwgMTA5IGluc2VydGlvbnMoKyksIDc5
+OCBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYXN0L2Fz
+dF9mYi5jCiBkZWxldGUgbW9kZSAxMDA2NDQgZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIw
+MF9mYi5jCgotLQoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
