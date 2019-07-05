@@ -1,74 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3FF6031E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 11:30:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B55602FF
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 11:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C26E6E457;
-	Fri,  5 Jul 2019 09:30:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 422496E456;
+	Fri,  5 Jul 2019 09:18:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 054A66E456
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 09:17:51 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id z1so4521776wru.13
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2019 02:17:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=2BQU5HuFnP0d3lWqGYGOW/ACfCMa9W62+56jmnDR2Ec=;
- b=kTcy4uVRWlxcr0/43eHc5D6mvx7T7G+HjzEY15By5Yj9ozSYbCAI8iblnxKcoBzddg
- MXAy8tebuAkPeZUHQunt+NQQkaC6oQMnN6QUl1U0Hx6okkUbZ6RMEmHAFiLj5UE5C9Kx
- dZbponUvky8OIYfidO1jK2lAASGFBbSz/0shNSm9EpVFMdj0i0XuO9qYBbKo0/gviaAr
- 6q+s/pqMiXhUG5FVEtrSgB/waNNV1unKLQG1XKjKf9uE96ttgfiO3hSphZIcIVRxX1uh
- 9nmt5qtnNBUfLuRxDHHsFal48BCSPzQFw01eOkbDK1KeD1bc9c6PZalPk8fHR11kH85y
- j8bQ==
-X-Gm-Message-State: APjAAAXz8Dx2Bs0v38ersMZXZTebssxIdOYqCozDyzVGb1mQfQge69cS
- 0YXaOB8YjWT2w527KZ+l0A4=
-X-Google-Smtp-Source: APXvYqzavioS9vgKks058HUrVRwdqmGNg1XGLTOjPoHomuULXb8ErsyJjDdw1fpLiOCLyMjFKt3L6w==
-X-Received: by 2002:a5d:430c:: with SMTP id h12mr3044901wrq.163.1562318269729; 
- Fri, 05 Jul 2019 02:17:49 -0700 (PDT)
-Received: from Timur-XPS (catv-80-99-228-232.catv.broadband.hu.
- [80.99.228.232])
- by smtp.gmail.com with ESMTPSA id g8sm5483204wmf.17.2019.07.05.02.17.48
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 02:17:49 -0700 (PDT)
-Message-ID: <e119b38bdb0859c3eb826af30487ac01278f59fd.camel@gmail.com>
-Subject: Re: Why is Thunderbolt 3 limited to 2.5 GT/s on Linux?
-From: Timur =?ISO-8859-1?Q?Krist=F3f?= <timur.kristof@gmail.com>
-To: Michel =?ISO-8859-1?Q?D=E4nzer?= <michel@daenzer.net>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 05 Jul 2019 11:17:47 +0200
-In-Reply-To: <eee4eea0-ad27-9d05-192d-c1207da5d0bc@daenzer.net>
-References: <91de711591780e83c70e8f61747725855f6dee99.camel@gmail.com>
- <20190628103204.GJ2640@lahna.fi.intel.com>
- <f550f4a25a7ee7fecd80f7213c3be127ed0323e7.camel@gmail.com>
- <20190628113415.GL2640@lahna.fi.intel.com>
- <ecebae84c91fa31a1207c30c0fe4ed907642dbb9.camel@gmail.com>
- <c3b38b60-7c1a-730d-8de0-e3c880902003@daenzer.net>
- <627b7fff64edcba0f8d8b5ced79a351821c419c7.camel@gmail.com>
- <792d0f36-b8ae-bef9-3b07-95677637ba00@daenzer.net>
- <f986d6687e2b1f1fc8a93f86cbc8fd1ab971663a.camel@gmail.com>
- <d1dfe289-8501-8848-6324-c43d6e66a77f@daenzer.net>
- <4ee5439cb01e355436d618f5d6f2e109410dc35e.camel@gmail.com>
- <eee4eea0-ad27-9d05-192d-c1207da5d0bc@daenzer.net>
-User-Agent: Evolution 3.32.3 (3.32.3-1.fc30) 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ABF736E456
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 09:18:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E2ABA72168; Fri,  5 Jul 2019 09:18:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111060] Dying Light does start but doesnt render properly.
+Date: Fri, 05 Jul 2019 09:18:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haxk612@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTOURBUG
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111060-502-02nJNgCA1r@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111060-502@http.bugs.freedesktop.org/>
+References: <bug-111060-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 05 Jul 2019 09:30:03 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=2BQU5HuFnP0d3lWqGYGOW/ACfCMa9W62+56jmnDR2Ec=;
- b=ui5Luk929E9iKJxglEa/ruEnaVrn3ZWjJWzACnAZ0SgZx/GwuujGDpWbg8Lpbbnu/V
- jSvkL3n4pDpD74XFMsHq/JkDlQ21ST2DyYD34EQC6SuliXuasSP0YCIZFMJYe1GGZG7x
- VB1yoCPFzcXQIapUAv383T4aKgZXF2dztdH9sJDrQ441HhKeLzn2lAeax75/XxrfJRKy
- UJRFB32PEzyr9V+3JihQ3+fsXpryv0uOR0SPKCG4+ZWxHbMvmpyNh552u6EwIyECHoqR
- pEkKDXxNgcGmm9dFgHD7GL0rGdKWgTK8ZVM6pjTSv1KQrdvBMqUUoFeR+cZX7Jks+P9U
- BePw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,45 +52,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "michael.jamet@intel.com" <michael.jamet@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1710128050=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cj4gPiBDYW4geW91IHBvaW50IG1lIHRvIHRoZSBwbGFjZSB3aGVyZSBhbWRncHUgZGVjaWRlcyB0
-aGUgUENJZSBsaW5rCj4gPiBzcGVlZD8KPiA+IEknZCBsaWtlIHRvIHRyeSB0byB0d2VhayBpdCBh
-IGxpdHRsZSBiaXQgdG8gc2VlIGlmIHRoYXQgaGVscHMgYXQKPiA+IGFsbC4KPiAKPiBJJ20gbm90
-IHN1cmUgb2ZmaGFuZCwgQWxleCBvciBhbnlvbmU/CgpUaHVzIGZhciwgSSBzdGFydGVkIGJ5IGxv
-b2tpbmcgYXQgaG93IHRoZSBwcF9kcG1fcGNpZSBzeXNmcyBpbnRlcmZhY2UKd29ya3MsIGFuZCBm
-b3VuZCBzbXU3X2h3bWdyIHdoaWNoIHNlZW1zIHRvIGJlIHRoZSBvbmx5IGh3bWdyIHRoYXQKYWN0
-dWFsbHkgb3V0cHV0cyBhbnl0aGluZyBvbiBQUF9QQ0lFOgpodHRwczovL2dpdGh1Yi5jb20vdG9y
-dmFsZHMvbGludXgvYmxvYi9hMmQ2MzVkZWNiZmE5YzFlNGFlMTVjYjA1YjY4YjI1NTlmN2Y4Mjdj
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvcG93ZXJwbGF5L2h3bWdyL3NtdTdfaHdtZ3IuYyNMNDQ2MgoK
-SG93ZXZlciwgaXRzIG91dHB1dCBpcyBkZWZpbml0ZWx5IGluY29ycmVjdC4gSXQgdGVsbHMgbWUg
-dGhhdCB0aGUKc3VwcG9ydGVkIFBDSWUgbW9kZXMgYXJlOgpjYXQgL3N5cy9jbGFzcy9kcm0vY2Fy
-ZDEvZGV2aWNlL3BwX2RwbV9wY2llIAowOiAyLjVHVC9zLCB4OCAKMTogOC4wR1QvcywgeDE2CgpJ
-dCBhbGxvd3MgbWUgdG8gY2hhbmdlIGJldHdlZW4gdGhlc2UgdHdvIG1vZGVzLCBidXQgdGhlIGNo
-YW5nZSBkb2Vzbid0CnNlZW0gdG8gaGF2ZSBhbnkgYWN0dWFsIGVmZmVjdCBvbiB0aGUgdHJhbnNm
-ZXIgc3BlZWRzLgoKTmVpdGhlciBvZiB0aG9zZSBtb2RlcyBhY3R1YWxseSBtYWtlcyBzZW5zZS4g
-QW1kZ3B1IGRvZXNuJ3Qgc2VlbSB0byBiZQphd2FyZSBvZiB0aGUgZmFjdCB0aGF0IGl0IHJ1bnMg
-b24gYSB4NCBsaW5rLiBJbiBmYWN0LCB0aGUKc211N19nZXRfY3VycmVudF9wY2llX2xhbmVfbnVt
-YmVyIGZ1bmN0aW9uIGV2ZW4gaGFzIGFuIGFzc2VydGlvbjoKUFBfQVNTRVJUX1dJVEhfQ09ERSgo
-NyA+PSBsaW5rX3dpZHRoKSwKCk9uIHRoZSBvdGhlciBoYW5kOgpjYXQgL3N5cy9jbGFzcy9kcm0v
-Y2FyZDEvZGV2aWNlL2N1cnJlbnRfbGlua193aWR0aAo0CgpTbyBJIGRvbid0IHVuZGVyc3RhbmQg
-aG93IGl0IGNhbiBldmVuIHdvcmsgd2l0aCBQQ0llIHg0LCB3aHkgZG9lc24ndAp0aGF0IGFzc2Vy
-dGlvbiBnZXQgdHJpZ2dlcmVkIG9uIG15IHN5c3RlbT8KCj4gPiBPdXQgb2YgY3VyaW9zaXR5LCBp
-cyB0aGVyZSBhIHBlcmZvcm1hY2UgZGVjcmVhc2Ugd2l0aCBzbWFsbAo+ID4gdHJhbnNmZXJzCj4g
-PiBvbiBhICJub3JtYWwiIFBDSWUgcG9ydCB0b28sIG9yIGlzIHRoaXMgc3BlY2lmaWMgdG8gVEIz
-Pwo+IAo+IEl0J3Mgbm90IFRCMyBzcGVjaWZpYy4gV2l0aCBhICJub3JtYWwiIDggR1QvcyB4MTYg
-cG9ydCwgSSBnZXQgYmV0d2Vlbgo+IH4yNTYgTUIvcyBmb3IgNCBLQiB0cmFuc2ZlcnMgYW5kIH4x
-MiBHQi9zIGZvciA0IE1CIHRyYW5zZmVycyAoZXZlbgo+IGxhcmdlciB0cmFuc2ZlcnMgc2VlbSBz
-bGlnaHRseSBzbG93ZXIgYWdhaW4pLiBUaGlzIGFsc28gbG9va3MKPiBjb25zaXN0ZW50Cj4gd2l0
-aCB5b3VyIG1lYXN1cmVtZW50cyBpbiB0aGF0IHRoZSBwcmFjdGljYWwgbGltaXQgc2VlbXMgdG8g
-YmUgYXJvdW5kCj4gNzUlIG9mIHRoZSB0aGVvcmV0aWNhbCBiYW5kd2lkdGguCgpTb3VuZHMgbGlr
-ZSB5b3VyIGlkZWEgdG8gdHJ5IHRvIG9wdGltaXplIG1lc2EgdG8gdXNlIGxhcmdlciB0cmFuc2Zl
-cnMKaXMgYSBnb29kIGlkZWEsIHRoZW4uCgpCZXN0IHJlZ2FyZHMsClRpbQoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1710128050==
+Content-Type: multipart/alternative; boundary="15623182871.Ef127.10079"
+Content-Transfer-Encoding: 7bit
+
+
+--15623182871.Ef127.10079
+Date: Fri, 5 Jul 2019 09:18:07 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111060
+
+--- Comment #6 from Haxk20 <haxk612@gmail.com> ---
+(In reply to Timothy Arceri from comment #4)
+> The crash on Arch Linux is due to a game bug not a Mesa bug which is boug=
+ht
+> to light by Arch using libglvnd, basically the game doesn't check for
+> features it uses correctly.
+>=20
+> Recent patches have landed in git that implement the functions Dying Light
+> tries to use and users have reported that this fixes the start-up crash. I
+> suggest you make sure your system is correctly picking up the version of
+> Mesa you have built from git and is not continuing to use your system copy
+> of Mesa.
+>=20
+> Either way this in not actually a Mesa bug so I'm going to close this bug
+> report. If you really are correctly using the copy of Mesa you built from
+> git and it is still crashing I suggest waiting a little longer until full
+> support for the EXT_direct_state_access extension lands in Mesa.
+
+I just opened the 00-mesa file and set the variables manually for dying lig=
+ht
+and the game launches just OK and works as expected.
+How can i check which file is overwritting the variables ?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15623182871.Ef127.10079
+Date: Fri, 5 Jul 2019 09:18:07 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
+roperly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
+roperly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060">bug 11106=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+haxk612&#64;gmail.com" title=3D"Haxk20 &lt;haxk612&#64;gmail.com&gt;"> <spa=
+n class=3D"fn">Haxk20</span></a>
+</span></b>
+        <pre>(In reply to Timothy Arceri from <a href=3D"show_bug.cgi?id=3D=
+111060#c4">comment #4</a>)
+<span class=3D"quote">&gt; The crash on Arch Linux is due to a game bug not=
+ a Mesa bug which is bought
+&gt; to light by Arch using libglvnd, basically the game doesn't check for
+&gt; features it uses correctly.
+&gt;=20
+&gt; Recent patches have landed in git that implement the functions Dying L=
+ight
+&gt; tries to use and users have reported that this fixes the start-up cras=
+h. I
+&gt; suggest you make sure your system is correctly picking up the version =
+of
+&gt; Mesa you have built from git and is not continuing to use your system =
+copy
+&gt; of Mesa.
+&gt;=20
+&gt; Either way this in not actually a Mesa bug so I'm going to close this =
+bug
+&gt; report. If you really are correctly using the copy of Mesa you built f=
+rom
+&gt; git and it is still crashing I suggest waiting a little longer until f=
+ull
+&gt; support for the EXT_direct_state_access extension lands in Mesa.</span=
+ >
+
+I just opened the 00-mesa file and set the variables manually for dying lig=
+ht
+and the game launches just OK and works as expected.
+How can i check which file is overwritting the variables ?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15623182871.Ef127.10079--
+
+--===============1710128050==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1710128050==--
