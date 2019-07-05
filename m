@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4106010E
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 08:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82F460269
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 10:41:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1616E415;
-	Fri,  5 Jul 2019 06:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB9BD6E441;
+	Fri,  5 Jul 2019 08:41:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 750D86E415
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 06:34:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7273272167; Fri,  5 Jul 2019 06:34:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109319] [radeonsi] Two Point Hospital: rendered in mostly black
- on an Oland XT GPU
-Date: Fri, 05 Jul 2019 06:34:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: have-backtrace
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DUPLICATE
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-109319-502-8QQ2yec5Oi@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109319-502@http.bugs.freedesktop.org/>
-References: <bug-109319-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB3A66E411
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 07:08:49 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id d17so8123976oth.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2019 00:08:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0IIqKWzRaNse3XXjc9VJC174hdKsP3di+1IIb5DajLs=;
+ b=keBp2hj5zHxBaPvtuEi/0ociIxC6peb39kqeeUl7SA746te8g4hmp4k8jvU+d4kAtW
+ 9YMzB4wYETG3TamebZLeLS/33q8x2S2QfUwIq9rvqMgoNphpM7Qt7xWYyxOmSN0umlQN
+ Kf5n/vHZjHlxPBbl8aLgxdMc077eFxZMhbHT4P1i3Kan3LWe0pBmERGhL4SqhXgW1TPg
+ 79g3Sj6G9qdRk1QNetxKThEL6zudLlxWXxiKoDkwL26msxLGPnCqw4eRqlstpd77tqfw
+ O5U/YozXCi6Z3Of4meIiCnPuMXl3OuPZc/PfZJzyFpBDg9yY78hlb+K/tyow9mvzpuck
+ rNsA==
+X-Gm-Message-State: APjAAAUjrpwc32a9oq0KjgPQaCIJ4SgGA1q/nc8Z4Wl6mdC2bYLDbdgY
+ aXeL20K61lY+QVrQOym3LfqW1IJzg57leEtTpaLKcQ==
+X-Google-Smtp-Source: APXvYqzldGMEKIRPPEJ0vaUfI2lFQ29kQgI2QwiHDaDqpSbGSw2Xx3CIMBQjB6qsF1gXZ8S1OcSQCm9TeiE6wueHYB4=
+X-Received: by 2002:a9d:4f02:: with SMTP id d2mr1738812otl.328.1562310528818; 
+ Fri, 05 Jul 2019 00:08:48 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190705042623.129541-1-cychiang@chromium.org>
+ <20190705042623.129541-2-cychiang@chromium.org>
+In-Reply-To: <20190705042623.129541-2-cychiang@chromium.org>
+From: Tzung-Bi Shih <tzungbi@google.com>
+Date: Fri, 5 Jul 2019 15:08:37 +0800
+Message-ID: <CA+Px+wXtmf9dQQP7ywPLp7Qbbvqau=WnO3qhZ8+qmbJD1gjx+A@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ASoC: hdmi-codec: Add an op to set callback function
+ for plug event
+To: Cheng-Yi Chiang <cychiang@chromium.org>
+X-Mailman-Approved-At: Fri, 05 Jul 2019 08:41:21 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=0IIqKWzRaNse3XXjc9VJC174hdKsP3di+1IIb5DajLs=;
+ b=gh/Toz6V7CixdKGLGkGy9rPXkrdYpbSEI9toJWHRYaf4kHmQ/0QfMBxGBHsJtDl9i9
+ ZwjZg2XdbTSBvk5L41Rc7GwtWbT43JorS2dYawqFZq0UF8xiHjUn30KcpEdiKuzYv91k
+ 2BB6vbDpC26WiSr5OAiV+1AjkluoSR+vFoFQMvBNdGLTUnZXsqoqP7zX8GOOFaR7IoFU
+ P+hfc0NAZuTMJOgudDmWkfHCqRRGjxoW92AgSBMRCJlCTYcgBMm4iLSXUKDrvBhMNGUj
+ kOa6/YuH0gC2IBEeHA1yriXC0QfOWUIpElqf+l3HO/EvIv3/ubknXhnXBQU+SJadHsUV
+ kP2g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,139 +65,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2090122499=="
+Cc: ALSA development <alsa-devel@alsa-project.org>, dianders@chromium.org,
+ Liam Girdwood <lgirdwood@gmail.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
+ tzungbi@chromium.org, linux-kernel@vger.kernel.org,
+ Hans Verkuil <hverkuil@xs4all.nl>, Russell King <rmk+kernel@armlinux.org.uk>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-rockchip@lists.infradead.org, dgreid@chromium.org,
+ Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2090122499==
-Content-Type: multipart/alternative; boundary="15623084521.49c06867c.403"
-Content-Transfer-Encoding: 7bit
-
-
---15623084521.49c06867c.403
-Date: Fri, 5 Jul 2019 06:34:12 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109319
-
-Timothy Arceri <t_arceri@yahoo.com.au> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |DUPLICATE
-
---- Comment #3 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-I believe this game has the same rendering problems as Parkitect. That is t=
-he
-same issues with the Unity engine.
-
-*** This bug has been marked as a duplicate of bug 108919 ***
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15623084521.49c06867c.403
-Date: Fri, 5 Jul 2019 06:34:12 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
-#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
-"> <span class=3D"fn">Timothy Arceri</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - [radeonsi] Two Point Hospital: rendered in=
- mostly black on an Oland XT GPU"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109319">bug 10931=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>DUPLICATE
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - [radeonsi] Two Point Hospital: rendered in=
- mostly black on an Oland XT GPU"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109319#c3">Commen=
-t # 3</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - [radeonsi] Two Point Hospital: rendered in=
- mostly black on an Oland XT GPU"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109319">bug 10931=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>I believe this game has the same rendering problems as Parkite=
-ct. That is the
-same issues with the Unity engine.
-
-*** This bug has been marked as a duplicate of <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Parkitect (Unity Game) dispalys artifacts and black scree=
-ns with Vega hardware"
-   href=3D"show_bug.cgi?id=3D108919">bug 108919</a> ***</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15623084521.49c06867c.403--
-
---===============2090122499==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2090122499==--
+T24gRnJpLCBKdWwgNSwgMjAxOSBhdCAxMjoyNiBQTSBDaGVuZy1ZaSBDaGlhbmcgPGN5Y2hpYW5n
+QGNocm9taXVtLm9yZz4gd3JvdGU6Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvc291bmQvaGRtaS1j
+b2RlYy5oIGIvaW5jbHVkZS9zb3VuZC9oZG1pLWNvZGVjLmgKPiBpbmRleCA3ZmVhNDk2ZjFmMzQu
+LjI2YzAyYWJiOGViYSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL3NvdW5kL2hkbWktY29kZWMuaAo+
+ICsrKyBiL2luY2x1ZGUvc291bmQvaGRtaS1jb2RlYy5oCj4gQEAgLTQ3LDYgKzQ3LDkgQEAgc3Ry
+dWN0IGhkbWlfY29kZWNfcGFyYW1zIHsKPiAgICAgICAgIGludCBjaGFubmVsczsKPiAgfTsKPgo+
+ICt0eXBlZGVmIHZvaWQgKCpoZG1pX2NvZGVjX3BsdWdnZWRfY2IpKHN0cnVjdCBwbGF0Zm9ybV9k
+ZXZpY2UgKmRldiwKPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJvb2wg
+cGx1Z2dlZCk7Cj4gKwpUaGUgY2FsbGJhY2sgcHJvdG90eXBlIGlzICJ3ZWlyZCIgYnkgc3RydWN0
+IHBsYXRmb3JtX2RldmljZS4gIElzIGl0CnBvc3NpYmxlIHRvIGhhdmluZyBzbmRfc29jX2NvbXBv
+bmVudCBpbnN0ZWFkIG9mIHBsYXRmb3JtX2RldmljZT8KCj4gIHN0cnVjdCBoZG1pX2NvZGVjX3Bk
+YXRhOwo+ICBzdHJ1Y3QgaGRtaV9jb2RlY19vcHMgewo+ICAgICAgICAgLyoKPiBAQCAtODgsNiAr
+OTEsMTMgQEAgc3RydWN0IGhkbWlfY29kZWNfb3BzIHsKPiAgICAgICAgICAqLwo+ICAgICAgICAg
+aW50ICgqZ2V0X2RhaV9pZCkoc3RydWN0IHNuZF9zb2NfY29tcG9uZW50ICpjb21tZW50LAo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRldmljZV9ub2RlICplbmRwb2ludCk7Cj4g
+Kwo+ICsgICAgICAgLyoKPiArICAgICAgICAqIEhvb2sgY2FsbGJhY2sgZnVuY3Rpb24gdG8gaGFu
+ZGxlIGNvbm5lY3RvciBwbHVnIGV2ZW50Lgo+ICsgICAgICAgICogT3B0aW9uYWwKPiArICAgICAg
+ICAqLwo+ICsgICAgICAgaW50ICgqaG9va19wbHVnZ2VkX2NiKShzdHJ1Y3QgZGV2aWNlICpkZXYs
+IHZvaWQgKmRhdGEsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGhkbWlfY29kZWNf
+cGx1Z2dlZF9jYiBmbik7Cj4gIH07ClRoZSBmaXJzdCBwYXJhbWV0ZXIgZGV2IGNvdWxkIGJlIHJl
+bW92ZWQuICBOb3QgdXNlZC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
