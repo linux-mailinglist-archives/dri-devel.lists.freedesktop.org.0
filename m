@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6B660CBC
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 22:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F3460E19
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 01:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A007B6E55A;
-	Fri,  5 Jul 2019 20:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA766E563;
+	Fri,  5 Jul 2019 23:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
- [209.85.210.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5BFB6E55A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 20:48:12 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id u14so3577047pfn.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2019 13:48:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=AcnoVRibB2N6fZ+Yp6hO160ET8GdPKrkYOq4kfDG3/o=;
- b=uQzVlzRrs7T7WaunIknUo0uPMbusrprHBwJngui9RkoVJjQxlUYciwkBjMfs7U7fkn
- xZAgFFMGH+BTEGHplxcxI+opRhZbAFNf9DqCHfWn5yUjCbbSl30BUV74bvw9TQSBXwzv
- NGjJVSrBJl7b05va8OTeAEGFKb01WcnezzSBOiorw7b7FEkw9PQ6/AUvgNYAnrL1W5SQ
- 6A0ea4sTf4+ZxmWsGVQdDp74UpojnUsTEvnjq4562iiEeBAh1dv7JZ0OscGaJjG7sQs/
- wpocpyt6qUDOlc8I0Dwq8IKcyo0t7a4EHEA5J01LLbg4qYtwiua2PY+AAvUiQs8bt6dC
- B7hw==
-X-Gm-Message-State: APjAAAVWimoAtWD8DmnEd0ib3YCjCWd/Fnqmedm3ms3dwC6sk5CsuCBG
- EDO1G+zWvcymGSe4WnW8wiM=
-X-Google-Smtp-Source: APXvYqzYFkN68Owkq9koxWESGSYcLlSN0sO/MqwSKxCi7MUUXmOztl1dSndkrgfsbD0HEg9i6sStdg==
-X-Received: by 2002:a63:6986:: with SMTP id e128mr7831367pgc.220.1562359692276; 
- Fri, 05 Jul 2019 13:48:12 -0700 (PDT)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
- by smtp.gmail.com with ESMTPSA id p7sm13219309pfp.131.2019.07.05.13.48.10
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 13:48:11 -0700 (PDT)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
- id 568B940190; Fri,  5 Jul 2019 20:48:10 +0000 (UTC)
-Date: Fri, 5 Jul 2019 20:48:10 +0000
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Brendan Higgins <brendanhiggins@google.com>
-Subject: Re: [PATCH v6 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-Message-ID: <20190705204810.GE19023@42.do-not-panic.com>
-References: <20190704003615.204860-1-brendanhiggins@google.com>
- <20190704003615.204860-19-brendanhiggins@google.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 287B86E563
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 23:23:15 +0000 (UTC)
+Received: from earth.universe (unknown [185.62.205.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id A7F7C2147A;
+ Fri,  5 Jul 2019 23:23:14 +0000 (UTC)
+Received: by earth.universe (Postfix, from userid 1000)
+ id 255733C08D5; Sat,  6 Jul 2019 01:23:12 +0200 (CEST)
+Date: Sat, 6 Jul 2019 01:23:12 +0200
+From: Sebastian Reichel <sre@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 0/4] Add a generic driver for LED-based backlight
+Message-ID: <20190705232312.uxh7rlin6r6jwn3e@earth.universe>
+References: <20190701151423.30768-1-jjhiblot@ti.com>
+ <20190705101434.fw5rpctnqt6dwg6e@devuan>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190704003615.204860-19-brendanhiggins@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190705101434.fw5rpctnqt6dwg6e@devuan>
+User-Agent: NeoMutt/20180716
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1562368994;
+ bh=vmEZKNZqRr6xwY0yKdVhBStqaQqbAFizMtRR8lJ/Y8g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vctNU5xBE0x1R29063mHZbrhF1Jxc5qG6pFi5a8nhFuaWdIqE4gq+Lv7iXbzoN3Oo
+ 6hsTyC+Xxgt94NFhq9t27v5YK+Ymgi+1F98NatTuNSwYrD6WGYXvsJPzP/R7IO4QEK
+ MruLsJ0v+qCQ8c+KtBosUeaOW6xOKU+StFOhTOXQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,36 +48,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, peterz@infradead.org,
- amir73il@gmail.com, dri-devel@lists.freedesktop.org,
- Alexander.Levin@microsoft.com, yamada.masahiro@socionext.com,
- mpe@ellerman.id.au, linux-kselftest@vger.kernel.org, shuah@kernel.org,
- linux-nvdimm@lists.01.org, frowand.list@gmail.com, knut.omang@oracle.com,
- kieran.bingham@ideasonboard.com, wfg@linux.intel.com, joel@jms.id.au,
- rientjes@google.com, jdike@addtoit.com, dan.carpenter@oracle.com,
- devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org, Tim.Bird@sony.com,
- linux-um@lists.infradead.org, rostedt@goodmis.org, julia.lawall@lip6.fr,
- jpoimboe@redhat.com, kunit-dev@googlegroups.com, tytso@mit.edu, richard@nod.at,
- sboyd@kernel.org, gregkh@linuxfoundation.org, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, keescook@google.com,
- linux-fsdevel@vger.kernel.org, logang@deltatee.com, khilman@baylibre.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, tomi.valkeinen@ti.com, jacek.anaszewski@gmail.com,
+ Jean-Jacques Hiblot <jjhiblot@ti.com>, lee.jones@linaro.org,
+ linux-leds@vger.kernel.org, dmurphy@ti.com
+Content-Type: multipart/mixed; boundary="===============0875185171=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdWwgMDMsIDIwMTkgYXQgMDU6MzY6MTVQTSAtMDcwMCwgQnJlbmRhbiBIaWdnaW5z
-IHdyb3RlOgo+IEFkZCBlbnRyeSBmb3IgdGhlIG5ldyBwcm9jIHN5c2N0bCBLVW5pdCB0ZXN0IHRv
-IHRoZSBQUk9DIFNZU0NUTCBzZWN0aW9uLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEJyZW5kYW4gSGln
-Z2lucyA8YnJlbmRhbmhpZ2dpbnNAZ29vZ2xlLmNvbT4KPiBSZXZpZXdlZC1ieTogR3JlZyBLcm9h
-aC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBSZXZpZXdlZC1ieTogTG9n
-YW4gR3VudGhvcnBlIDxsb2dhbmdAZGVsdGF0ZWUuY29tPgo+IEFja2VkLWJ5OiBMdWlzIENoYW1i
-ZXJsYWluIDxtY2dyb2ZAa2VybmVsLm9yZz4KCkNvbWUgdG8gdGhpbmsgb2YgaXQsIEknZCB3ZWxj
-b21lIEl1cmlpIHRvIGJlIGFkZGVkIGFzIGEgbWFpbnRhaW5lciwKd2l0aCB0aGUgaG9wZSBJdXJp
-aSB3b3VsZCBiZSB1cCB0byByZXZpZXcgb25seSB0aGUga3VuaXQgY2hhbmdlcy4gT2YKY291cnNl
-IGlmIEl1cmlpIHdvdWxkIGJlIHVwIHRvIGFsc28gaGVscCByZXZpZXcgZnV0dXJlIHByb2MgY2hh
-bmdlcywKZXZlbiBiZXR0ZXIuIDMgcGFpciBvZiBleWViYWxscyBpcyBiZXR0ZXIgdGhhbiAyIHBh
-aXJzLgoKICBMdWlzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============0875185171==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="57433k23tjcm5ynk"
+Content-Disposition: inline
+
+
+--57433k23tjcm5ynk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Fri, Jul 05, 2019 at 12:14:34PM +0200, Pavel Machek wrote:
+> On Mon 2019-07-01 17:14:19, Jean-Jacques Hiblot wrote:
+> > This series aims to add a led-backlight driver, similar to pwm-backligh=
+t,
+> > but using a LED class device underneath.
+> >=20
+> > A few years ago (2015), Tomi Valkeinen posted a series implementing a
+> > backlight driver on top of a LED device:
+> > https://patchwork.kernel.org/patch/7293991/
+> > https://patchwork.kernel.org/patch/7294001/
+> > https://patchwork.kernel.org/patch/7293981/
+> >=20
+> > The discussion stopped because Tomi lacked the time to work on it.
+> >=20
+> > This series takes it from there and implements the binding that was
+> > discussed in https://patchwork.kernel.org/patch/7293991/. In this new
+> > binding the backlight device is a child of the LED controller instead of
+> > being another platform device that uses a phandle to reference a LED.
+>=20
+> Other option would be to have backlight trigger. What are
+> advantages/disadvantages relative to that?
+
+One advantage of having something like this is the possibility to
+reference the backlight in DT. This means the system has an idea
+how backlights are mapped. E.g.:
+
+panelA {
+    compatible =3D "random-panel";
+    backlight =3D <&backlight1>;
+}
+
+panelB {
+    compatible =3D "random-panel";
+    backlight =3D <&backlight2>;
+}
+
+-- Sebastian
+
+--57433k23tjcm5ynk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl0f290ACgkQ2O7X88g7
++po9RA//cLYbl7o2nMQIXHn/Oekssa9YS8SFaPCKAo2h6Gho1scrDNc91jMoi1Pa
+fHdXgKrJ+QnQUGW5nf6MHBCC9R5QOSMHlerf5Taf63Wr1tvDIcmFhUj0O1JQ5cqq
+4J46Vq23ZvL45658vDW5IF8teDkm0A8nELQqnaEg3hrJB8Vw9LOx3XnJxhaJlHAd
+xdAmqvPlvTdR5hIUeGCZ7TCK7b3024xIFZiKpvBaEhnL98230azZ4uMdzS76W6o4
+cx4c5viE+xK5jplCcoAhN9UsIdzdQKRAYDP565FnEdzpUlOzXCXDSbR63aOfHkoi
+j9YoGLDtxnxdUa2WeBiM2gyso7uj97nsfGrZM3QaygXg/zWW2hmDhF3iwpxwdmRP
+/PwfwWXsRyd7JokQn4g4AoqvgCSltMK0X8xAoZ88O+207wRhbKCZA3ljCcYTt713
+CsEtWzxa/z/UlGAETcSaZbmsFI3IZFNaz9pqkCwkuuyhIPh7PdQNBB0mqze0aiCy
+1xRAFLC6yOP0ojORn73Ki2hLluoxYd3f0NU9dVxdYMMUIz4FtNXLaJhnXtBeY/LY
+4UI87oha4XdCalCnp2Mg2Ybxe5o3ZPLwBLzs8+3ifeBxGDMDuQ3v/t0uTlFSSrrj
+fUN0MXHtt2vAVBKLA4FiXSKAutopgPojYx3YZRmey6YNNUgOaf4=
+=9zIH
+-----END PGP SIGNATURE-----
+
+--57433k23tjcm5ynk--
+
+--===============0875185171==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0875185171==--
