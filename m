@@ -1,79 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31702605DB
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 14:23:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CA4605DD
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 14:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4698B6E3EC;
-	Fri,  5 Jul 2019 12:23:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F205897FF;
+	Fri,  5 Jul 2019 12:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40FB66E3EC
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 12:23:53 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id w20so8119048edd.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Jul 2019 05:23:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to:user-agent;
- bh=5QgxkK2BzVl/nyok1ckc9QkZXVZfV59w8ef5yaPLIeQ=;
- b=tO0HSEGpaweyrZqjE695nJxiFdbo1dRoh9OnuOtZdfx+Njq+yMuBAFStRJ1kDRLECL
- vuETsq75HqjN+BKkofQUufKoRxwSxBoysl+M0eRXPYqYyQtO1gY9y2AwkS1+zKIlgR0W
- ru2ixoPiVaDLP46OzMp92NNi651AcD60h4eP2Zas4eDDoV/zBBhprzm6yfNwyMzuUaq8
- KHrITRiWqQ7Ua4U8KlPS9cYlKhAXXdG6VLGGE+msbHK2rUXXyFiOyo13OQmN/8HmrXpK
- etrYmXulOsYe3DXXh8gpnj9yRUxYaAFO4smL2xAAWp/eZIowBMFHnMOqmEpO5czqEAIM
- qMfw==
-X-Gm-Message-State: APjAAAUzpf7dZxrp0z9yXm+q6aBwegT2XzH/hY6OxAJSJsmc32IH4B3D
- kXXpWK1LZngtuoxRxLOFCUgrJw==
-X-Google-Smtp-Source: APXvYqx0a1gWOtWT9/MpcV/1byNvLxzqfYN5lsb63pRNcON6/Uz//6V/QxiEEP7duzFtvD/7Xmnsrg==
-X-Received: by 2002:a50:b566:: with SMTP id z35mr4279907edd.129.1562329431964; 
- Fri, 05 Jul 2019 05:23:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id w14sm2648879eda.69.2019.07.05.05.23.50
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 05 Jul 2019 05:23:51 -0700 (PDT)
-Date: Fri, 5 Jul 2019 14:23:48 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
-Subject: Re: [PATCH 1/2] drm/komeda: Disable slave pipeline support
-Message-ID: <20190705122348.GN15868@phenom.ffwll.local>
-Mail-Followup-To: "james qian wang (Arm Technology China)"
- <james.qian.wang@arm.com>, 
- Liviu Dudau <Liviu.Dudau@arm.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- Brian Starkey <Brian.Starkey@arm.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "sean@poorly.run" <sean@poorly.run>, nd <nd@arm.com>,
- Ayan Halder <Ayan.Halder@arm.com>,
- "Oscar Zhang (Arm Technology China)" <Oscar.Zhang@arm.com>,
- "Tiannan Zhu (Arm Technology China)" <Tiannan.Zhu@arm.com>,
- "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
- "Channing Chen (Arm Technology China)" <Channing.Chen@arm.com>,
- "Yiqi Kang (Arm Technology China)" <Yiqi.Kang@arm.com>,
- "thomas Sun (Arm Technology China)" <thomas.Sun@arm.com>,
- "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>,
- Ben Davis <Ben.Davis@arm.com>
-References: <20190705114357.17403-1-james.qian.wang@arm.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFFC5897FF
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 12:24:32 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x65CNqYQ030318; Fri, 5 Jul 2019 14:24:15 +0200
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx08-00178001.pphosted.com with ESMTP id 2tdw4ajaab-1
+ (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+ Fri, 05 Jul 2019 14:24:14 +0200
+Received: from zeta.dmz-eu.st.com (zeta.dmz-eu.st.com [164.129.230.9])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AB07734;
+ Fri,  5 Jul 2019 12:24:02 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag6node2.st.com [10.75.127.17])
+ by zeta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 72FD32C47;
+ Fri,  5 Jul 2019 12:24:02 +0000 (GMT)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG6NODE2.st.com
+ (10.75.127.17) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 5 Jul
+ 2019 14:24:01 +0200
+Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
+ SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
+ 15.00.1473.003; Fri, 5 Jul 2019 14:24:02 +0200
+From: Philippe CORNU <philippe.cornu@st.com>
+To: Olivier MOYSAN <olivier.moysan@st.com>, "a.hajda@samsung.com"
+ <a.hajda@samsung.com>, "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+ "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>, "jernej.skrabec@siol.net"
+ <jernej.skrabec@siol.net>, "airlied@linux.ie" <airlied@linux.ie>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,
+ Benjamin GAIGNARD <benjamin.gaignard@st.com>,
+ Alexandre TORGUE <alexandre.torgue@st.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "jsarha@ti.com" <jsarha@ti.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "mark.rutland@arm.com" <mark.rutland@arm.com>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 1/3] drm/bridge: sii902x: fix missing reference to mclk
+ clock
+Thread-Topic: [PATCH 1/3] drm/bridge: sii902x: fix missing reference to mclk
+ clock
+Thread-Index: AQHVMO2KR4mZoMb3BkGaiUB8X+1y2qa71auA
+Date: Fri, 5 Jul 2019 12:24:02 +0000
+Message-ID: <39d9bf8f-a906-7f69-582d-b2996e600c0f@st.com>
+References: <1562082426-14876-1-git-send-email-olivier.moysan@st.com>
+ <1562082426-14876-2-git-send-email-olivier.moysan@st.com>
+In-Reply-To: <1562082426-14876-2-git-send-email-olivier.moysan@st.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.47]
+Content-ID: <DDC1C03DC92D944FA408C2A9B6DAE01F@st.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190705114357.17403-1-james.qian.wang@arm.com>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-05_05:, , signatures=0
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:mail-followup-to
- :references:mime-version:content-disposition:in-reply-to:user-agent;
- bh=5QgxkK2BzVl/nyok1ckc9QkZXVZfV59w8ef5yaPLIeQ=;
- b=fosrfzKlSYrojK0mZJeW01zCt1CRx0uEqtSUG1WPUH4mKDuv+wAcNyFFU5q1cWLWJS
- lKAMmmb3h6PVVRVvxpDeLu9FKPtx1WQMvWa3w6yLiGAstL4uZ5LOfCWWcMlfgo+pYZPg
- xs/lyLpzcycIvP46/HMX/x1N5cneuFLdIHoq4=
+ d=st.com; h=from : to : subject :
+ date : message-id : references : in-reply-to : content-type : content-id :
+ content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=EFphJe1CVVP/nzRxA8x6BhXKv/0bjU3/TiVkvgOFPek=;
+ b=BYLU4XNoWdTNPUWd8ceyUbCwUOTaR3Zl4KnD/DGwy4jIGIeLB91fgSU0JmDTNPxB+m8B
+ snlkGg5ZlGmvMkbPmJtFJx1IBbJSAsrxEj8p2sFSRZ/55OFHIdcJn55lp4s138lzPju/
+ 2uKvrqJyrQP7KyltAKDUlXNckkyChpMBpj2exHAtp56yQ6Xe0YEzz3TMiVVDFV6yf+qK
+ k4aCeQ/5gDkYiLxkHyPIu3B2qN1jxWF9hWyWQsPcWDqaTiLt5lzuSXvfC2uHYySkX71q
+ yoaDFjY2zrcL7+8I9p+xMmvyzjquq0X4bq+uO99TSuQ+S57jzx1ZKE6MeT+G7r4ZXl4C nQ== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,56 +95,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ayan Halder <Ayan.Halder@arm.com>,
- "Oscar Zhang \(Arm Technology China\)" <Oscar.Zhang@arm.com>,
- "Tiannan Zhu \(Arm Technology China\)" <Tiannan.Zhu@arm.com>,
- "airlied@linux.ie" <airlied@linux.ie>, Liviu Dudau <Liviu.Dudau@arm.com>,
- "Jonathan Chai \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Julien Yin \(Arm Technology China\)" <Julien.Yin@arm.com>,
- "Channing Chen \(Arm Technology China\)" <Channing.Chen@arm.com>,
- "Yiqi Kang \(Arm Technology China\)" <Yiqi.Kang@arm.com>,
- Ben Davis <Ben.Davis@arm.com>,
- "thomas Sun \(Arm Technology China\)" <thomas.Sun@arm.com>, nd <nd@arm.com>,
- "sean@poorly.run" <sean@poorly.run>,
- "Lowry Li \(Arm Technology China\)" <Lowry.Li@arm.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMDUsIDIwMTkgYXQgMTE6NDQ6MTZBTSArMDAwMCwgamFtZXMgcWlhbiB3YW5n
-IChBcm0gVGVjaG5vbG9neSBDaGluYSkgd3JvdGU6Cj4gU2luY2UgdGhlIHByb3BlcnR5IHNsYXZl
-X3BsYW5lcyBoYXZlIGJlZW4gcmVtb3ZlZCwgdG8gYXZvaWQgdGhlIHJlc291cmNlCj4gYXNzaWdu
-bWVudCBwcm9ibGVtIGluIHVzZXIgZGlzYWJsZSBzbGF2ZSBwaXBlbGluZSBzdXBwb3J0IHRlbXBv
-cmFyaWx5Lgo+IAo+IFNpZ25lZC1vZmYtYnk6IGphbWVzIHFpYW4gd2FuZyAoQXJtIFRlY2hub2xv
-Z3kgQ2hpbmEpIDxqYW1lcy5xaWFuLndhbmdAYXJtLmNvbT4KCkkgZ3Vlc3MgdGhlIHdheSB5b3Ug
-aGF2ZSB0byBlbnVtZXJhdGUgdGhlIHBsYW5lcyBsaXN0aW5nIHRoZSBzbGF2ZSBwbGFuZXMKd29u
-dCBqdXN0IGF1dG9tYXRpY2FsbHkgd29yayBpbiBhbnkgZmFzaGlvbiBhbmQgZm9yY2UgYSBsb3Qg
-bW9yZSBmYWxsYmFja3MKdG8gcHJpbWFyeSBwbGFuZSBvbmx5LiBBdCBsZWFzdCB1bnRpbCB2aXJ0
-dWFsaXphdGlvbiBvZiBwbGFuZSBodyBpcyBkb25lLgpTbyBtYWtlcyBzZW5zZSB0byBvdXRyaWdo
-dCBkaXNhYmxlIGFsbCB0aGUgc2xhdmUgcGxhbmUgc3R1ZmYgZm9yIG5vdy4gQW5kCkkgdGhpbmsg
-aXQncyBvayB0byBrZWVwIGFsbCB0aGUgY29kZSBzdGlsbCwgd2UnbGwgdXNlIGl0IGFnYWluLgoK
-QWNrZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cgo+IC0tLQo+
-ICBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRjLmMgfCAyICst
-Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRj
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRjLmMKPiBp
-bmRleCBmNDQwMDc4OGFiOTQuLjhlZTg3OWVlM2RkYyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRjLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRjLmMKPiBAQCAtNDgxLDcgKzQ4MSw3
-IEBAIGludCBrb21lZGFfa21zX3NldHVwX2NydGNzKHN0cnVjdCBrb21lZGFfa21zX2RldiAqa21z
-LAo+ICAJCW1hc3RlciA9IG1kZXYtPnBpcGVsaW5lc1tpXTsKPiAgCj4gIAkJY3J0Yy0+bWFzdGVy
-ID0gbWFzdGVyOwo+IC0JCWNydGMtPnNsYXZlICA9IGtvbWVkYV9waXBlbGluZV9nZXRfc2xhdmUo
-bWFzdGVyKTsKClRoaXMgbWlnaHQgY2F1c2UgYW4gdW51c2VkIGZ1bmN0aW9uIHdhcm5pbmcsIG1p
-Z2h0IG5lZWQgdG8gYW5ub3RhdGUgaXQKd2l0aCBfX3VudXNlZC4KLURhbmllbAo+ICsJCWNydGMt
-PnNsYXZlICA9IE5VTEw7Cj4gIAo+ICAJCWlmIChjcnRjLT5zbGF2ZSkKPiAgCQkJc3ByaW50Zihz
-dHIsICJwaXBlLSVkIiwgY3J0Yy0+c2xhdmUtPmlkKTsKPiAtLSAKPiAyLjIwLjEKPiAKPiBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCi0tIApEYW5p
-ZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxv
-Zy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SGkgT2xpdmllciwNCmFuZCBtYW55IHRoYW5rcyBmb3IgeW91ciBwYXRjaC4NCkkgZG8gbm90IHNl
+ZSBob3cgYXVkaW8gY291bGQgd29yayB3aXRob3V0IHlvdXIgcGF0Y2gsIHNvOg0KUmV2aWV3ZWQt
+Ynk6IFBoaWxpcHBlIENvcm51IDxwaGlsaXBwZS5jb3JudUBzdC5jb20+DQpQaGlsaXBwZSA6LSkN
+Cg0KT24gNy8yLzE5IDU6NDcgUE0sIE9saXZpZXIgTW95c2FuIHdyb3RlOg0KPiBBZGQgZGV2bV9j
+bGtfZ2V0IGNhbGwgdG8gcmV0cmlldmUgcmVmZXJlbmNlIHRvIG1hc3RlciBjbG9jay4NCj4gDQo+
+IEZpeGVzOiBmZjU3ODE2MzRjNDEgKCJkcm0vYnJpZGdlOiBzaWk5MDJ4OiBJbXBsZW1lbnQgSERN
+SSBhdWRpbyBzdXBwb3J0IikNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE9saXZpZXIgTW95c2FuIDxv
+bGl2aWVyLm1veXNhbkBzdC5jb20+DQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
+c2lpOTAyeC5jIHwgMSArDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspDQo+IA0K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaWk5MDJ4LmMgYi9kcml2ZXJz
+L2dwdS9kcm0vYnJpZGdlL3NpaTkwMnguYw0KPiBpbmRleCBkZDdhYTQ2NmIyODAuLjM2YWNjMjU2
+ZTY3ZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaWk5MDJ4LmMNCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaWk5MDJ4LmMNCj4gQEAgLTc1MCw2ICs3NTAs
+NyBAQCBzdGF0aWMgaW50IHNpaTkwMnhfYXVkaW9fY29kZWNfaW5pdChzdHJ1Y3Qgc2lpOTAyeCAq
+c2lpOTAyeCwNCj4gICAJCXNpaTkwMngtPmF1ZGlvLmkyc19maWZvX3NlcXVlbmNlW2ldIHw9IGF1
+ZGlvX2ZpZm9faWRbaV0gfA0KPiAgIAkJCWkyc19sYW5lX2lkW2xhbmVzW2ldXSB8CVNJSTkwMlhf
+VFBJX0kyU19GSUZPX0VOQUJMRTsNCj4gICANCj4gKwlzaWk5MDJ4LT5hdWRpby5tY2xrID0gZGV2
+bV9jbGtfZ2V0KGRldiwgIm1jbGsiKTsNCj4gICAJaWYgKElTX0VSUihzaWk5MDJ4LT5hdWRpby5t
+Y2xrKSkgew0KPiAgIAkJZGV2X2VycihkZXYsICIlczogTm8gY2xvY2sgKGF1ZGlvIG1jbGspIGZv
+dW5kOiAlbGRcbiIsDQo+ICAgCQkJX19mdW5jX18sIFBUUl9FUlIoc2lpOTAyeC0+YXVkaW8ubWNs
+aykpOw0KPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
