@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AEC6012A
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 08:50:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B66B5FEF2
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 02:08:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7391A6E413;
-	Fri,  5 Jul 2019 06:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 425696E3E9;
+	Fri,  5 Jul 2019 00:08:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEC296E411;
- Fri,  5 Jul 2019 06:50:16 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2019 23:50:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,454,1557212400"; d="scan'208";a="363518305"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by fmsmga006.fm.intel.com with ESMTP; 04 Jul 2019 23:50:14 -0700
-Date: Fri, 5 Jul 2019 05:21:22 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v7 10/11] drm/hdcp: update content protection property
- with uevent
-Message-ID: <20190704235120.GA29399@intel.com>
-References: <20190507162745.25600-1-ramalingam.c@intel.com>
- <20190507162745.25600-11-ramalingam.c@intel.com>
- <20190704141419.145ff9bf@eldfell.localdomain>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6406E6E3E9
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 00:08:48 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 54C77721A2; Fri,  5 Jul 2019 00:08:48 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109524] "Invalid glsl version in shading_language_version()"
+ when trying to run directX games using wine
+Date: Fri, 05 Jul 2019 00:08:48 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/R100
+X-Bugzilla-Version: 18.2
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: imirkin@alum.mit.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_file_loc
+Message-ID: <bug-109524-502-7Rh6RjyOLN@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109524-502@http.bugs.freedesktop.org/>
+References: <bug-109524-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190704141419.145ff9bf@eldfell.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,81 +53,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, gwan-gyeong.mun@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0935668953=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNy0wNCBhdCAxNDoxNDoxOSArMDMwMCwgUGVra2EgUGFhbGFuZW4gd3JvdGU6Cj4g
-T24gVHVlLCAgNyBNYXkgMjAxOSAyMTo1Nzo0NCArMDUzMAo+IFJhbWFsaW5nYW0gQyA8cmFtYWxp
-bmdhbS5jQGludGVsLmNvbT4gd3JvdGU6Cj4gCj4gPiBkcm0gZnVuY3Rpb24gaXMgZGVmaW5lZCBh
-bmQgZXhwb3J0ZWQgdG8gdXBkYXRlIGEgY29ubmVjdG9yJ3MKPiA+IGNvbnRlbnQgcHJvdGVjdGlv
-biBwcm9wZXJ0eSBzdGF0ZSBhbmQgdG8gZ2VuZXJhdGUgYSB1ZXZlbnQgYWxvbmcKPiA+IHdpdGgg
-aXQuCj4gPiAKPiA+IE5lZWQgQUNLIGZvciB0aGUgdWV2ZW50IGZyb20gdXNlcnNwYWNlIGNvbnN1
-bWVyLgo+ID4gCj4gPiB2MjoKPiA+ICAgVXBkYXRlIG9ubHkgd2hlbiBzdGF0ZSBpcyBkaWZmZXJl
-bnQgZnJvbSBvbGQgb25lLgo+ID4gdjM6Cj4gPiAgIEtEb2MgaXMgYWRkZWQgW0RhbmllbF0KPiA+
-IAo+ID4gU2lnbmVkLW9mZi1ieTogUmFtYWxpbmdhbSBDIDxyYW1hbGluZ2FtLmNAaW50ZWwuY29t
-Pgo+ID4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+
-Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYyB8IDMyICsrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrCj4gPiAgaW5jbHVkZS9kcm0vZHJtX2hkY3AuaCAgICAgfCAg
-MiArKwo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKQo+ID4gCj4gPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9oZGNwLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2hkY3AuYwo+ID4gaW5kZXggNzU0MDI0NjM0NjZiLi5mMjliN2FiZGE1MWYgMTAwNjQ0Cj4gPiAt
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2RybV9oZGNwLmMKPiA+IEBAIC0zNzIsNiArMzcyLDEwIEBAIERSTV9FTlVNX05BTUVfRk4oZHJt
-X2dldF9oZGNwX2NvbnRlbnRfdHlwZV9uYW1lLAo+ID4gICAqCj4gPiAgICogVGhlIGNvbnRlbnQg
-cHJvdGVjdGlvbiB3aWxsIGJlIHNldCB0byAmZHJtX2Nvbm5lY3Rvcl9zdGF0ZS5jb250ZW50X3By
-b3RlY3Rpb24KPiA+ICAgKgo+ID4gKyAqIFdoZW4ga2VybmVsIHRyaWdnZXJlZCBjb250ZW50IHBy
-b3RlY3Rpb24gc3RhdGUgY2hhbmdlIGxpa2UgREVTSVJFRC0+RU5BQkxFRAo+ID4gKyAqIGFuZCBF
-TkFCTEVELT5ERVNJUkVELCB3aWxsIHVzZSBkcm1faGRjcF91cGRhdGVfY29udGVudF9wcm90ZWN0
-aW9uKCkgdG8gdXBkYXRlCj4gPiArICogdGhlIGNvbnRlbnQgcHJvdGVjdGlvbiBzdGF0ZSBvZiBh
-IGNvbm5lY3Rvci4KPiA+ICsgKgo+ID4gICAqIFJldHVybnM6Cj4gPiAgICogWmVybyBvbiBzdWNj
-ZXNzLCBuZWdhdGl2ZSBlcnJubyBvbiBmYWlsdXJlLgo+ID4gICAqLwo+ID4gQEAgLTQxMiwzICs0
-MTYsMzEgQEAgaW50IGRybV9jb25uZWN0b3JfYXR0YWNoX2NvbnRlbnRfcHJvdGVjdGlvbl9wcm9w
-ZXJ0eSgKPiA+ICAJcmV0dXJuIDA7Cj4gPiAgfQo+ID4gIEVYUE9SVF9TWU1CT0woZHJtX2Nvbm5l
-Y3Rvcl9hdHRhY2hfY29udGVudF9wcm90ZWN0aW9uX3Byb3BlcnR5KTsKPiA+ICsKPiA+ICsvKioK
-PiA+ICsgKiBkcm1faGRjcF91cGRhdGVfY29udGVudF9wcm90ZWN0aW9uIC0gVXBkYXRlcyB0aGUg
-Y29udGVudCBwcm90ZWN0aW9uIHN0YXRlCj4gPiArICogb2YgYSBjb25uZWN0b3IKPiA+ICsgKgo+
-ID4gKyAqIEBjb25uZWN0b3I6IGRybV9jb25uZWN0b3Igb24gd2hpY2ggY29udGVudCBwcm90ZWN0
-aW9uIHN0YXRlIG5lZWRzIGFuIHVwZGF0ZQo+ID4gKyAqIEB2YWw6IE5ldyBzdGF0ZSBvZiB0aGUg
-Y29udGVudCBwcm90ZWN0aW9uIHByb3BlcnR5Cj4gPiArICoKPiA+ICsgKiBUaGlzIGZ1bmN0aW9u
-IGNhbiBiZSB1c2VkIGJ5IGRpc3BsYXkgZHJpdmVycywgdG8gdXBkYXRlIHRoZSBrZXJuZWwgdHJp
-Z2dlcmVkCj4gPiArICogY29udGVudCBwcm90ZWN0aW9uIHN0YXRlIGNoYW5nZSBvZiBhIGRybV9j
-b25uZWN0b3IuIFRoaXMgZnVuY3Rpb24gdXBkYXRlIHRoZQo+ID4gKyAqIG5ldyBzdGF0ZSBvZiB0
-aGUgcHJvcGVydHkgaW50byB0aGUgY29ubmVjdG9yJ3Mgc3RhdGUgYW5kIGdlbmVyYXRlIGFuIHVl
-dmVudAo+ID4gKyAqIHRvIG5vdGlmeSB0aGUgdXNlcnNwYWNlLgo+ID4gKyAqLwo+ID4gK3ZvaWQg
-ZHJtX2hkY3BfdXBkYXRlX2NvbnRlbnRfcHJvdGVjdGlvbihzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAq
-Y29ubmVjdG9yLAo+ID4gKwkJCQkJdTY0IHZhbCkKPiA+ICt7Cj4gCj4gSGksCj4gCj4gZG9uJ3Qg
-eW91IG5lZWQgdG8gZW5zdXJlIHRoYXQgJ3ZhbCcgY2Fubm90IGJlIFVOREVTSVJFRD8KPiAKPiA+
-ICsJc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGNvbm5lY3Rvci0+ZGV2Owo+ID4gKwlzdHJ1Y3Qg
-ZHJtX2Nvbm5lY3Rvcl9zdGF0ZSAqc3RhdGUgPSBjb25uZWN0b3ItPnN0YXRlOwo+ID4gKwo+ID4g
-KwlXQVJOX09OKCFkcm1fbW9kZXNldF9pc19sb2NrZWQoJmRldi0+bW9kZV9jb25maWcuY29ubmVj
-dGlvbl9tdXRleCkpOwo+ID4gKwlpZiAoc3RhdGUtPmNvbnRlbnRfcHJvdGVjdGlvbiA9PSB2YWwp
-CndoZW4gdmFsPT1VTkRFU0lSRUQgZXZlbiB0aGUgc3RhdGUtPmNvbnRlbnRfcHJvdGVjdGlvbiBh
-bHNvIFVOREVTSVJFRC4KSGVuY2UgZXhwbGljaXQgY2hlY2sgaXMgbm90IG5lZWRlZCBoZXJlLgoK
-LVJhbQo+ID4gKwkJcmV0dXJuOwo+ID4gKwo+ID4gKwlzdGF0ZS0+Y29udGVudF9wcm90ZWN0aW9u
-ID0gdmFsOwo+ID4gKwlkcm1fc3lzZnNfY29ubmVjdG9yX3N0YXR1c19ldmVudChjb25uZWN0b3Is
-Cj4gPiArCQkJCSBkZXYtPm1vZGVfY29uZmlnLmNvbnRlbnRfcHJvdGVjdGlvbl9wcm9wZXJ0eSk7
-Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2hkY3BfdXBkYXRlX2NvbnRlbnRfcHJvdGVj
-dGlvbik7Cj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2hkY3AuaCBiL2luY2x1ZGUv
-ZHJtL2RybV9oZGNwLmgKPiA+IGluZGV4IDI5NzBhYmRmYWYxMi4uZGQ4NjRhYzljZTg1IDEwMDY0
-NAo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2hkY3AuaAo+ID4gKysrIGIvaW5jbHVkZS9kcm0v
-ZHJtX2hkY3AuaAo+ID4gQEAgLTI5Miw0ICsyOTIsNiBAQCBib29sIGRybV9oZGNwX2NoZWNrX2tz
-dnNfcmV2b2tlZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ID4gIAkJCQkgdTggKmtzdnMsIHUz
-MiBrc3ZfY291bnQpOwo+ID4gIGludCBkcm1fY29ubmVjdG9yX2F0dGFjaF9jb250ZW50X3Byb3Rl
-Y3Rpb25fcHJvcGVydHkoCj4gPiAgCQlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBi
-b29sIGhkY3BfY29udGVudF90eXBlKTsKPiA+ICt2b2lkIGRybV9oZGNwX3VwZGF0ZV9jb250ZW50
-X3Byb3RlY3Rpb24oc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPiA+ICsJCQkJCXU2
-NCB2YWwpOwo+ID4gICNlbmRpZgo+IAo+IFRoaXMgcGF0Y2ggaXMgbWlzc2luZyBhbGwgVUFQSSBk
-b2N1bWVudGF0aW9uLgo+IAo+IFBhcnRpY3VsYXJseSBpbXBvcnRhbnQgaXMgdGhlIGRldGFpbCB0
-aGF0IHRoZSBrZXJuZWwgd2lsbCBub3Qgc2VuZCBhbgo+IGV2ZW50IGNvcnJlc3BvbmRpbmcgdG8g
-dXNlcnNwYWNlIGV4cGxpY2l0bHkgc2V0dGluZyAiQ29udGVudAo+IFByb3RlY3Rpb24iIHRvICJV
-bmRlc2lyZWQiLiBUaGF0IGlzIHdoYXQgeW91IGV4cGxhaW5lZCB0byBtZSBpbiB0aGUKPiBXZXN0
-b24gTVIgITQ4LCBidXQgSSBkb24ndCBhY3R1YWxseSBzZWUgaXQgaW4gdGhlIGNvZGUgaGVyZS4g
-SXQgd291bGQKPiBiZSBiZXN0IHRvIGVuZm9yY2UgdGhhdCBpbiB0aGUgc2hhcmVkIERSTSBjb2Rl
-Lgo+IAo+IAo+IFRoYW5rcywKPiBwcQoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0935668953==
+Content-Type: multipart/alternative; boundary="15622853282.1DFEa.4650"
+Content-Transfer-Encoding: 7bit
+
+
+--15622853282.1DFEa.4650
+Date: Fri, 5 Jul 2019 00:08:48 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109524
+
+Ilia Mirkin <imirkin@alum.mit.edu> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                URL|http://www.onedollarwebhost |
+                   |ings.com/rs-99-web-hosting- |
+                   |domain-godaddy-india.html   |
+
+--- Comment #9 from Ilia Mirkin <imirkin@alum.mit.edu> ---
+Note that the following patch makes the t2k thing that was attached work fi=
+ne.
+However I need to check with Ian as to what's up.
+
+diff --git a/src/mesa/main/extensions_table.h
+b/src/mesa/main/extensions_table.h
+index 332a75e6c73..ec376e497df 100644
+--- a/src/mesa/main/extensions_table.h
++++ b/src/mesa/main/extensions_table.h
+@@ -135,7 +135,7 @@ EXT(ARB_shader_subroutine                   , dummy_true
+ EXT(ARB_shader_texture_image_samples        , ARB_shader_texture_image_sam=
+ples
+      , GLL, GLC,  x ,  x , 2014)
+ EXT(ARB_shader_texture_lod                  , ARB_shader_texture_lod=20=20=
+=20=20=20=20=20=20=20=20
+      , GLL, GLC,  x ,  x , 2009)
+ EXT(ARB_shader_viewport_layer_array         , ARB_shader_viewport_layer_ar=
+ray=20
+      , GLL, GLC,  x ,  x , 2015)
+-EXT(ARB_shading_language_100                , dummy_true=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+      , GLL,  x ,  x ,  x , 2003)
++EXT(ARB_shading_language_100                , dummy_true=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+      , 15,  x ,  x ,  x , 2003)
+ EXT(ARB_shading_language_420pack            , ARB_shading_language_420pack=
+=20=20=20=20
+      , GLL, GLC,  x ,  x , 2011)
+ EXT(ARB_shading_language_packing            , ARB_shading_language_packing=
+=20=20=20=20
+      , GLL, GLC,  x ,  x , 2011)
+ EXT(ARB_shadow                              , ARB_shadow=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+      , GLL,  x ,  x ,  x , 2001)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15622853282.1DFEa.4650
+Date: Fri, 5 Jul 2019 00:08:48 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:imirkin&#=
+64;alum.mit.edu" title=3D"Ilia Mirkin &lt;imirkin&#64;alum.mit.edu&gt;"> <s=
+pan class=3D"fn">Ilia Mirkin</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524">bug 10952=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">URL</td>
+           <td>http://www.onedollarwebhostings.com/rs-99-web-hosting-domain=
+-godaddy-india.html
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524">bug 10952=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+imirkin&#64;alum.mit.edu" title=3D"Ilia Mirkin &lt;imirkin&#64;alum.mit.edu=
+&gt;"> <span class=3D"fn">Ilia Mirkin</span></a>
+</span></b>
+        <pre>Note that the following patch makes the t2k thing that was att=
+ached work fine.
+However I need to check with Ian as to what's up.
+
+diff --git a/src/mesa/main/extensions_table.h
+b/src/mesa/main/extensions_table.h
+index 332a75e6c73..ec376e497df 100644
+--- a/src/mesa/main/extensions_table.h
++++ b/src/mesa/main/extensions_table.h
+&#64;&#64; -135,7 +135,7 &#64;&#64; EXT(ARB_shader_subroutine              =
+     , dummy_true
+ EXT(ARB_shader_texture_image_samples        , ARB_shader_texture_image_sam=
+ples
+      , GLL, GLC,  x ,  x , 2014)
+ EXT(ARB_shader_texture_lod                  , ARB_shader_texture_lod=20=20=
+=20=20=20=20=20=20=20=20
+      , GLL, GLC,  x ,  x , 2009)
+ EXT(ARB_shader_viewport_layer_array         , ARB_shader_viewport_layer_ar=
+ray=20
+      , GLL, GLC,  x ,  x , 2015)
+-EXT(ARB_shading_language_100                , dummy_true=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+      , GLL,  x ,  x ,  x , 2003)
++EXT(ARB_shading_language_100                , dummy_true=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+      , 15,  x ,  x ,  x , 2003)
+ EXT(ARB_shading_language_420pack            , ARB_shading_language_420pack=
+=20=20=20=20
+      , GLL, GLC,  x ,  x , 2011)
+ EXT(ARB_shading_language_packing            , ARB_shading_language_packing=
+=20=20=20=20
+      , GLL, GLC,  x ,  x , 2011)
+ EXT(ARB_shadow                              , ARB_shadow=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+      , GLL,  x ,  x ,  x , 2001)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15622853282.1DFEa.4650--
+
+--===============0935668953==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0935668953==--
