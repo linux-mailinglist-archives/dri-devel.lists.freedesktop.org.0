@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5ACB60265
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 10:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32475FFDB
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 05:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A6B6E433;
-	Fri,  5 Jul 2019 08:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F18F66E400;
+	Fri,  5 Jul 2019 03:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2294 seconds by postgrey-1.36 at gabe;
- Fri, 05 Jul 2019 03:45:14 UTC
-Received: from conssluserg-04.nifty.com (conssluserg-04.nifty.com
- [210.131.2.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E58FA6E3FC
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 03:45:14 +0000 (UTC)
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
- [209.85.217.46]) (authenticated)
- by conssluserg-04.nifty.com with ESMTP id x653ir3n030852
- for <dri-devel@lists.freedesktop.org>; Fri, 5 Jul 2019 12:44:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x653ir3n030852
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id j26so3010798vsn.10
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Jul 2019 20:44:53 -0700 (PDT)
-X-Gm-Message-State: APjAAAUmoI/OvryJJTkA0DxCcmwCJBism8AvX7QQxDCltfEubi5MGOhw
- P5hChtr8aHCK/0kjxrmrmhnZGPSQ40nF5j0dwgA=
-X-Google-Smtp-Source: APXvYqxpP4MuQ7iqZIGkn/RtCeCHMzmWWGqt03RSBHVaQVqjSTFcyWuQuXXPfKQ8wISEjVRnZH9+UpCfJDH9DCoRV8I=
-X-Received: by 2002:a67:d46:: with SMTP id 67mr791736vsn.181.1562298292360;
- Thu, 04 Jul 2019 20:44:52 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25E116E400
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 03:47:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1D9C972168; Fri,  5 Jul 2019 03:47:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111060] Dying Light does start but doesnt render properly.
+Date: Fri, 05 Jul 2019 03:47:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTOURBUG
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-111060-502-rGkOmH24c1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111060-502@http.bugs.freedesktop.org/>
+References: <bug-111060-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190704220152.1bF4q6uyw%akpm@linux-foundation.org>
- <80bf2204-558a-6d3f-c493-bf17b891fc8a@infradead.org>
- <CAK7LNAQc1xYoet1o8HJVGKuonUV40MZGpK7eHLyUmqet50djLw@mail.gmail.com>
- <CAK7LNASLfyreDPvNuL1svvHPC0woKnXO_bsNku4DMK6UNn4oHw@mail.gmail.com>
- <5e5353e2-bfab-5360-26b2-bf8c72ac7e70@infradead.org>
-In-Reply-To: <5e5353e2-bfab-5360-26b2-bf8c72ac7e70@infradead.org>
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
-Date: Fri, 5 Jul 2019 12:44:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATF+D5TgTZijG3EPBVON5NmN+JcwmCBvnvkMFyR+3wF2A@mail.gmail.com>
-Message-ID: <CAK7LNATF+D5TgTZijG3EPBVON5NmN+JcwmCBvnvkMFyR+3wF2A@mail.gmail.com>
-Subject: Re: mmotm 2019-07-04-15-01 uploaded (gpu/drm/i915/oa/)
-To: Randy Dunlap <rdunlap@infradead.org>
-X-Mailman-Approved-At: Fri, 05 Jul 2019 08:41:20 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nifty.com; s=dec2015msa; t=1562298295;
- bh=gyzrOPyoHJn8yznucnkE9+HI+d/Euv7RRhUiRYloNpg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=raNNZCAOKEPHYVaij4yEdaIPKfvnxsA4hdGo8Hv/tDo5sAMhN3jJg1vcGLVFG9JTO
- L82ldU/CtNN81FFKJATdWEWwLXD9X9dT/W55cJJzb4hOlZdWIOYWD+Dz31Rc9Ho+L2
- 9d4lOBh29rcUHfGBSuhjrB3yJ2W8klxOCrUGuql9fHk3XFRg2YseiwYMWW418NdkV5
- pb3b1IPwiFBgAWnYhc5fvJG9QtWqWovvnNdC5XhfgO/YZfedaZryTDOg+MKhUHbT1w
- DTWRmEilTshfqDmGuvLBRNE4VcefzUbsRp6eREmJQjN9WrlJJlKkirp+/37mAvc2d/
- hejICWC+a9ycA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,47 +52,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, mm-commits@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, mhocko@suse.cz,
- linux-mm@kvack.org, Mark Brown <broonie@kernel.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1967266509=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgNSwgMjAxOSBhdCAxMjoyMyBQTSBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5m
-cmFkZWFkLm9yZz4gd3JvdGU6Cj4KPiBPbiA3LzQvMTkgODowOSBQTSwgTWFzYWhpcm8gWWFtYWRh
-IHdyb3RlOgo+ID4gT24gRnJpLCBKdWwgNSwgMjAxOSBhdCAxMjowNSBQTSBNYXNhaGlybyBZYW1h
-ZGEKPiA+IDx5YW1hZGEubWFzYWhpcm9Ac29jaW9uZXh0LmNvbT4gd3JvdGU6Cj4gPj4KPiA+PiBP
-biBGcmksIEp1bCA1LCAyMDE5IGF0IDEwOjA5IEFNIFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZy
-YWRlYWQub3JnPiB3cm90ZToKPiA+Pj4KPiA+Pj4gT24gNy80LzE5IDM6MDEgUE0sIGFrcG1AbGlu
-dXgtZm91bmRhdGlvbi5vcmcgd3JvdGU6Cj4gPj4+PiBUaGUgbW0tb2YtdGhlLW1vbWVudCBzbmFw
-c2hvdCAyMDE5LTA3LTA0LTE1LTAxIGhhcyBiZWVuIHVwbG9hZGVkIHRvCj4gPj4+Pgo+ID4+Pj4g
-ICAgaHR0cDovL3d3dy5vemxhYnMub3JnL35ha3BtL21tb3RtLwo+ID4+Pj4KPiA+Pj4+IG1tb3Rt
-LXJlYWRtZS50eHQgc2F5cwo+ID4+Pj4KPiA+Pj4+IFJFQURNRSBmb3IgbW0tb2YtdGhlLW1vbWVu
-dDoKPiA+Pj4+Cj4gPj4+PiBodHRwOi8vd3d3Lm96bGFicy5vcmcvfmFrcG0vbW1vdG0vCj4gPj4+
-Cj4gPj4+IEkgZ2V0IGEgbG90IG9mIHRoZXNlIGJ1dCBkb24ndCBzZWUva25vdyB3aGF0IGNhdXNl
-cyB0aGVtOgo+ID4+Pgo+ID4+PiAuLi9zY3JpcHRzL01ha2VmaWxlLmJ1aWxkOjQyOiAuLi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9vYS9NYWtlZmlsZTogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQo+
-ID4+PiBtYWtlWzZdOiAqKiogTm8gcnVsZSB0byBtYWtlIHRhcmdldCAnLi4vZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvb2EvTWFrZWZpbGUnLiAgU3RvcC4KPiA+Pj4gLi4vc2NyaXB0cy9NYWtlZmlsZS5i
-dWlsZDo0OTg6IHJlY2lwZSBmb3IgdGFyZ2V0ICdkcml2ZXJzL2dwdS9kcm0vaTkxNS9vYScgZmFp
-bGVkCj4gPj4+IG1ha2VbNV06ICoqKiBbZHJpdmVycy9ncHUvZHJtL2k5MTUvb2FdIEVycm9yIDIK
-PiA+Pj4gLi4vc2NyaXB0cy9NYWtlZmlsZS5idWlsZDo0OTg6IHJlY2lwZSBmb3IgdGFyZ2V0ICdk
-cml2ZXJzL2dwdS9kcm0vaTkxNScgZmFpbGVkCj4gPj4+Cj4gPj4KPiA+PiBJIGNoZWNrZWQgbmV4
-dC0yMDE5MDcwNCB0YWcuCj4gPj4KPiA+PiBJIHNlZSB0aGUgZW1wdHkgZmlsZQo+ID4+IGRyaXZl
-cnMvZ3B1L2RybS9pOTE1L29hL01ha2VmaWxlCj4gPj4KPiA+PiBEaWQgc29tZW9uZSBkZWxldGUg
-aXQ/Cj4gPj4KPiA+Cj4gPgo+ID4gSSB0aGluayAib2JqLXkgKz0gb2EvIgo+ID4gaW4gZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUKPiA+IGlzIHJlZHVuZGFudC4KPgo+IFRoYW5rcy4gIEl0
-IHNlZW1zIHRvIGJlIHdvcmtpbmcgYWZ0ZXIgZGVsZXRpbmcgdGhhdCBsaW5lLgoKCkNvdWxkIHlv
-dSBjaGVjayB3aGV0aGVyIG9yIG5vdApkcml2ZXJzL2dwdS9kcm0vaTkxNS9vYS9NYWtlZmlsZSBl
-eGlzdHMgaW4geW91ciBzb3VyY2UgdHJlZT8KCllvdXIgYnVpbGQgbG9nIHNheXMgaXQgd2FzIG1p
-c3NpbmcuCgpCdXQsIGNvbW1pdCA1ZWQ3YTBjZjMzOTQgKCJkcm0vaTkxNTogTW92ZSBPQSBmaWxl
-cyB0byBzZXBhcmF0ZSBmb2xkZXIiKQphZGRlZCBpdC4gIChJdCBpcyBqdXN0IGFuIGVtcHR5IGZp
-bGUpCgpJIGFtIGp1c3Qgd29uZGVyaW5nIHdoeS4KCgotLSAKQmVzdCBSZWdhcmRzCk1hc2FoaXJv
-IFlhbWFkYQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1967266509==
+Content-Type: multipart/alternative; boundary="15622984761.96c0A9bF.25249"
+Content-Transfer-Encoding: 7bit
+
+
+--15622984761.96c0A9bF.25249
+Date: Fri, 5 Jul 2019 03:47:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111060
+
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |NOTOURBUG
+             Status|NEW                         |RESOLVED
+
+--- Comment #4 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+The crash on Arch Linux is due to a game bug not a Mesa bug which is bought=
+ to
+light by Arch using libglvnd, basically the game doesn't check for features=
+ it
+uses correctly.
+
+Recent patches have landed in git that implement the functions Dying Light
+tries to use and users have reported that this fixes the start-up crash. I
+suggest you make sure your system is correctly picking up the version of Me=
+sa
+you have built from git and is not continuing to use your system copy of Me=
+sa.
+
+Either way this in not actually a Mesa bug so I'm going to close this bug
+report. If you really are correctly using the copy of Mesa you built from g=
+it
+and it is still crashing I suggest waiting a little longer until full suppo=
+rt
+for the EXT_direct_state_access extension lands in Mesa.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15622984761.96c0A9bF.25249
+Date: Fri, 5 Jul 2019 03:47:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
+roperly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060">bug 11106=
+0</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>NOTOURBUG
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
+roperly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTOURBUG - Dying Light does start but doesnt render p=
+roperly."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111060">bug 11106=
+0</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>The crash on Arch Linux is due to a game bug not a Mesa bug wh=
+ich is bought to
+light by Arch using libglvnd, basically the game doesn't check for features=
+ it
+uses correctly.
+
+Recent patches have landed in git that implement the functions Dying Light
+tries to use and users have reported that this fixes the start-up crash. I
+suggest you make sure your system is correctly picking up the version of Me=
+sa
+you have built from git and is not continuing to use your system copy of Me=
+sa.
+
+Either way this in not actually a Mesa bug so I'm going to close this bug
+report. If you really are correctly using the copy of Mesa you built from g=
+it
+and it is still crashing I suggest waiting a little longer until full suppo=
+rt
+for the EXT_direct_state_access extension lands in Mesa.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15622984761.96c0A9bF.25249--
+
+--===============1967266509==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1967266509==--
