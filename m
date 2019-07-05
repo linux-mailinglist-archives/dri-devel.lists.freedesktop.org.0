@@ -2,42 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCED5FFAD
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 05:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A714C60268
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 10:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4BB66E3FE;
-	Fri,  5 Jul 2019 03:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 103A26E43C;
+	Fri,  5 Jul 2019 08:41:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 769846E3FB;
- Fri,  5 Jul 2019 03:14:40 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45g0M01Bpkz9sCJ;
- Fri,  5 Jul 2019 13:14:36 +1000 (AEST)
-Date: Fri, 5 Jul 2019 13:14:35 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Masahiro Yamada <yamada.masahiro@socionext.com>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9136E3FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 03:23:12 +0000 (UTC)
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16]
+ helo=midway.dunlab)
+ by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+ id 1hjEoW-0007BD-CQ; Fri, 05 Jul 2019 03:23:09 +0000
 Subject: Re: mmotm 2019-07-04-15-01 uploaded (gpu/drm/i915/oa/)
-Message-ID: <20190705131435.58c2be19@canb.auug.org.au>
-In-Reply-To: <CAK7LNAQc1xYoet1o8HJVGKuonUV40MZGpK7eHLyUmqet50djLw@mail.gmail.com>
+To: Masahiro Yamada <yamada.masahiro@socionext.com>
 References: <20190704220152.1bF4q6uyw%akpm@linux-foundation.org>
  <80bf2204-558a-6d3f-c493-bf17b891fc8a@infradead.org>
  <CAK7LNAQc1xYoet1o8HJVGKuonUV40MZGpK7eHLyUmqet50djLw@mail.gmail.com>
+ <CAK7LNASLfyreDPvNuL1svvHPC0woKnXO_bsNku4DMK6UNn4oHw@mail.gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5e5353e2-bfab-5360-26b2-bf8c72ac7e70@infradead.org>
+Date: Thu, 4 Jul 2019 20:23:06 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1562296478;
- bh=9605ZP4bn3MDqq1dxNaUUk8pwn4UP4BwvE48o+dZvLc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GhC55MLdQI6+V6yk9r3D9bck989EmS1gkht04wQVl4SzEPMOQYHM/P5vA63uV7sqg
- FN+idxpEy1o7z/fQ33UoAB7/CqSXXme3SgQrm0EIAYsAVnWT4VXNRh+aCNM7xZiwOh
- wIextEEub2oHRaqXTc+x6FzGXhtvwK3ly1PNvJurf4J43hMZJ37/caL8YSp5W8PNTI
- EEJOFnmWsUbaWQ+0RRkYBowGKqsPL9Uy3JWkfYLYXGRfv7NIWOTi+s2IrIuSWkiNkr
- P5fYU/z0+rTc5hjbZExP4Q+2OsKXy8bD3CoYWNRAwIR6BXe6faQASmYntNmoEtbEeX
- XJ1xe+wWT0B2Q==
+In-Reply-To: <CAK7LNASLfyreDPvNuL1svvHPC0woKnXO_bsNku4DMK6UNn4oHw@mail.gmail.com>
+Content-Language: en-US
+X-Mailman-Approved-At: Fri, 05 Jul 2019 08:41:20 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=47wq6zSwqlBqXAKDNtdVAABXSaO0oASysFivQ8oCp8o=; b=BvDOOgZZqM9q76ywqtMSOtZ5rx
+ 4Yd/UFEsS1GbqcB1rh/9KgGpfLcWP0U1xWMX2d6RQm6pH2Y3b4L6yCf5UREw5z4M2lek5I5v5tqQG
+ zeuxzyBWysZzObFCZgufRB/0uPOuIGeMiuKVjtQaNpEeW+5m4hIe2wMkPQUgcEr749i0GTBTNnL/s
+ OVbyuzmWvBKTW+zo+rotD9KtchIGCSHtkp5IvEJ5H1vylQAew65hVblOCVzVQi+8phNLDiV5kRC0j
+ D52fKegavaYmacCiyuD8u1pXFBflKpuU/8uUkhvg2vdl+n8bdtXiSn/QEGDUqB4ROMIo5pidwjHqM
+ 54BfyB3Q==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,92 +57,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mm-commits@vger.kernel.org, DRI <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, mhocko@suse.cz,
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, mm-commits@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, mhocko@suse.cz,
  linux-mm@kvack.org, Mark Brown <broonie@kernel.org>,
  Linux-Next Mailing List <linux-next@vger.kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-Content-Type: multipart/mixed; boundary="===============1755559074=="
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1755559074==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/cNeLSVReMpluqwcRRAFLlp8"; protocol="application/pgp-signature"
-
---Sig_/cNeLSVReMpluqwcRRAFLlp8
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi Masahiro,
-
-On Fri, 5 Jul 2019 12:05:49 +0900 Masahiro Yamada <yamada.masahiro@socionex=
-t.com> wrote:
->
-> On Fri, Jul 5, 2019 at 10:09 AM Randy Dunlap <rdunlap@infradead.org> wrot=
-e:
-> >
-> > I get a lot of these but don't see/know what causes them:
-> >
-> > ../scripts/Makefile.build:42: ../drivers/gpu/drm/i915/oa/Makefile: No s=
-uch file or directory
-> > make[6]: *** No rule to make target '../drivers/gpu/drm/i915/oa/Makefil=
-e'.  Stop.
-> > ../scripts/Makefile.build:498: recipe for target 'drivers/gpu/drm/i915/=
-oa' failed
-> > make[5]: *** [drivers/gpu/drm/i915/oa] Error 2
-> > ../scripts/Makefile.build:498: recipe for target 'drivers/gpu/drm/i915'=
- failed
-> > =20
->=20
-> I checked next-20190704 tag.
->=20
-> I see the empty file
-> drivers/gpu/drm/i915/oa/Makefile
->=20
-> Did someone delete it?
-
-Commit
-
-  5ed7a0cf3394 ("drm/i915: Move OA files to separate folder")
-
-from the drm-intel tree seems to have created it as an empty file.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/cNeLSVReMpluqwcRRAFLlp8
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0ewJsACgkQAVBC80lX
-0GzYcQf+OqWJhVTJLbJLiBqRgQanYK7S/8DokAFj+dkgb9foQZIjp8ln1by3QDXg
-gGAcxB9xEuIW1oxR6QUXlrWJtEJuC55Ka6LHo9DzUxF1ul9WgHLnWftKegzKG6+d
-5mcol7HG8rVryx7FeEErXxZmubGS/Ws/1kh8KuZriCw2bgyZFp4Y73gqwrfGi7Pl
-+PDWw1W9dnZj+mrwFMFGOA7CTKFab2paP+YOXTjrdjc0QxzaCNZjBpjT1Mo0nNbm
-IJQwtCSQWTmLwfK+GEuxAQO3Z37B92G9ckWHqysmubvaWpYop3V2QUUN0PKfPdgN
-s/qoynBRgRZo5pZ+E+9pICS8pwhjSQ==
-=Z/Nz
------END PGP SIGNATURE-----
-
---Sig_/cNeLSVReMpluqwcRRAFLlp8--
-
---===============1755559074==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1755559074==--
+T24gNy80LzE5IDg6MDkgUE0sIE1hc2FoaXJvIFlhbWFkYSB3cm90ZToKPiBPbiBGcmksIEp1bCA1
+LCAyMDE5IGF0IDEyOjA1IFBNIE1hc2FoaXJvIFlhbWFkYQo+IDx5YW1hZGEubWFzYWhpcm9Ac29j
+aW9uZXh0LmNvbT4gd3JvdGU6Cj4+Cj4+IE9uIEZyaSwgSnVsIDUsIDIwMTkgYXQgMTA6MDkgQU0g
+UmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5vcmc+IHdyb3RlOgo+Pj4KPj4+IE9uIDcv
+NC8xOSAzOjAxIFBNLCBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnIHdyb3RlOgo+Pj4+IFRoZSBt
+bS1vZi10aGUtbW9tZW50IHNuYXBzaG90IDIwMTktMDctMDQtMTUtMDEgaGFzIGJlZW4gdXBsb2Fk
+ZWQgdG8KPj4+Pgo+Pj4+ICAgIGh0dHA6Ly93d3cub3psYWJzLm9yZy9+YWtwbS9tbW90bS8KPj4+
+Pgo+Pj4+IG1tb3RtLXJlYWRtZS50eHQgc2F5cwo+Pj4+Cj4+Pj4gUkVBRE1FIGZvciBtbS1vZi10
+aGUtbW9tZW50Ogo+Pj4+Cj4+Pj4gaHR0cDovL3d3dy5vemxhYnMub3JnL35ha3BtL21tb3RtLwo+
+Pj4KPj4+IEkgZ2V0IGEgbG90IG9mIHRoZXNlIGJ1dCBkb24ndCBzZWUva25vdyB3aGF0IGNhdXNl
+cyB0aGVtOgo+Pj4KPj4+IC4uL3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6NDI6IC4uL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L29hL01ha2VmaWxlOiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5Cj4+PiBt
+YWtlWzZdOiAqKiogTm8gcnVsZSB0byBtYWtlIHRhcmdldCAnLi4vZHJpdmVycy9ncHUvZHJtL2k5
+MTUvb2EvTWFrZWZpbGUnLiAgU3RvcC4KPj4+IC4uL3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6NDk4
+OiByZWNpcGUgZm9yIHRhcmdldCAnZHJpdmVycy9ncHUvZHJtL2k5MTUvb2EnIGZhaWxlZAo+Pj4g
+bWFrZVs1XTogKioqIFtkcml2ZXJzL2dwdS9kcm0vaTkxNS9vYV0gRXJyb3IgMgo+Pj4gLi4vc2Ny
+aXB0cy9NYWtlZmlsZS5idWlsZDo0OTg6IHJlY2lwZSBmb3IgdGFyZ2V0ICdkcml2ZXJzL2dwdS9k
+cm0vaTkxNScgZmFpbGVkCj4+Pgo+Pgo+PiBJIGNoZWNrZWQgbmV4dC0yMDE5MDcwNCB0YWcuCj4+
+Cj4+IEkgc2VlIHRoZSBlbXB0eSBmaWxlCj4+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L29hL01ha2Vm
+aWxlCj4+Cj4+IERpZCBzb21lb25lIGRlbGV0ZSBpdD8KPj4KPiAKPiAKPiBJIHRoaW5rICJvYmot
+eSArPSBvYS8iCj4gaW4gZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZpbGUKPiBpcyByZWR1bmRh
+bnQuCgpUaGFua3MuICBJdCBzZWVtcyB0byBiZSB3b3JraW5nIGFmdGVyIGRlbGV0aW5nIHRoYXQg
+bGluZS4KCi0tIAp+UmFuZHkKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
