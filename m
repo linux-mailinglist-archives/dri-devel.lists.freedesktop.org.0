@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEBD5FF93
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 04:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721465FF9C
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 04:57:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 583A46E3F5;
-	Fri,  5 Jul 2019 02:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D9B6E3F9;
+	Fri,  5 Jul 2019 02:57:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 447AF6E3F5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 02:50:51 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45fzqT23JJz9sNf;
- Fri,  5 Jul 2019 12:50:45 +1000 (AEST)
-Date: Fri, 5 Jul 2019 12:50:44 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm tree with the drm-fixes tree
-Message-ID: <20190705125044.12c10552@canb.auug.org.au>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1DA26E3F9
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 02:57:38 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BCBB972167; Fri,  5 Jul 2019 02:57:38 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111061] Most shaders in no mans sky fail to compile.
+Date: Fri, 05 Jul 2019 02:57:38 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: NOTABUG
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111061-502-gW0TA2WU7X@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111061-502@http.bugs.freedesktop.org/>
+References: <bug-111061-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1562295048;
- bh=CwZDWdAbth5jMXxyrhGjRXLrCsjjva+ka1rJPIeETBQ=;
- h=Date:From:To:Cc:Subject:From;
- b=GspxrCerJBkI4HWmoseCoWFshTlm0tHa8iIvKzWu/9rHtGNBL6SxdGH2KdCAtsRXU
- UuOVgHCDAVFs6qFPGmsbAMIIR/pJE5+a4Q26hPSGtRS4yUAoW8zu0RpKfIQUs/xs4a
- BILCYzFtKpXYgAHDTbArdYj3i/0uPo5EpY+Bch33wGNF7/M4ftcuH3UI+qjYqj3How
- AifyIKLkMZpdDfhY2XsSCSYYsFKkgazqvB/lmro1CN+6KS3FZ4DFt7Wa/S3tKcQrC2
- C2xRegzXbspyDdTxnfl5NRhzsjzs8Gss7oJkh+wSO7aTWJl0C/mwNof+NJw79DwjQq
- 6JIdB8FK/66Sw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,68 +52,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Trigger Huang <Trigger.Huang@amd.com>
-Content-Type: multipart/mixed; boundary="===============0446100530=="
+Content-Type: multipart/mixed; boundary="===============0375443217=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0446100530==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/8gZKdzyZ.MTIruRd3tsn7Vg"; protocol="application/pgp-signature"
 
---Sig_/8gZKdzyZ.MTIruRd3tsn7Vg
-Content-Type: text/plain; charset=US-ASCII
+--===============0375443217==
+Content-Type: multipart/alternative; boundary="15622954581.945e.13958"
+Content-Transfer-Encoding: 7bit
+
+
+--15622954581.945e.13958
+Date: Fri, 5 Jul 2019 02:57:38 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi all,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111061
 
-Today's linux-next merge of the drm tree got a conflict in:
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
 
-  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |NOTABUG
 
-between commit:
+--- Comment #2 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+(In reply to Haxk20 from comment #0)
+> I installed No mans sky and used those enviroment variables:
+> MESA_GL_VERSION_OVERRIDE=3D4.5COMPAT
+> force_glsl_extensions_warn=3Dtrue
+> and the game still fails to render multiple shaders. Well most of them.
+> Clouds are rendered properly. Other then that its not there.
 
-  25f09f858835 ("drm/amdgpu/gfx9: use reset default for PA_SC_FIFO_SIZE")
+You shouldn't need these environment variables any longer. radeonsi now
+supports compat profile in GL 4.5 by default and the other overrides needed=
+ to
+run the game are set in 00-mesa-defaults.conf.
 
-from the drm-fixes tree and commit:
-
-  1bff7f6c679f ("drm/amdgpu: RLC to program regs for Vega10 SR-IOV")
-
-from the drm tree.
-
-I fixed it up (the former removes the code modified by the latter) and
-can carry the fix as necessary. This is now fixed as far as linux-next
-is concerned, but any non trivial conflicts should be mentioned to your
-upstream maintainer when your tree is submitted for merging.  You may
-also want to consider cooperating with the maintainer of the conflicting
-tree to minimise any particularly complex conflicts.
+I just tested No Mans Sky and it runs perfectly. I suspect you either need =
+to
+update your systems Mesa package or you have a local copy in you home direc=
+tory
+that is overriding the system copy of 00-mesa-defaults.conf, if so you shou=
+ld
+delete it.
 
 --=20
-Cheers,
-Stephen Rothwell
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---Sig_/8gZKdzyZ.MTIruRd3tsn7Vg
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--15622954581.945e.13958
+Date: Fri, 5 Jul 2019 02:57:38 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTABUG - Most shaders in no mans sky fail to compile."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111061">bug 11106=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0euwQACgkQAVBC80lX
-0GwLyAf8D4+tM3UyxYIbHzXNp9lsJcqI9EKjnUB2NwnC8c1FqTZA0Bd5HYv12wfT
-UxqGMCmUXZm8r12CFt8b48WFofS2q8sMSGJh0l/IyR+D3xPjxX/OWhXkAzDbiSfL
-OwBwlqDoazWuzfjatt5l4kNYE+R6K756TgHUvf4/PqQ0xhaI0CZ2PsfFPmMER4a7
-5d5Oq9V95vZwI0H1cipa3EvL0nHBB0KWhBRvsLI13ImT0WrC3QOkhWQ54CrpIaL0
-QBcO0ybBRNxeERjb20hYMSzvbaQw4jEolefXdklbxYX66hAwWSYN9Wc3+Exaqflx
-jK4R8KSdDqhBgNX2EHrNQENhzvNazg==
-=Jo7x
------END PGP SIGNATURE-----
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
 
---Sig_/8gZKdzyZ.MTIruRd3tsn7Vg--
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>NOTABUG
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTABUG - Most shaders in no mans sky fail to compile."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111061#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED NOTABUG - Most shaders in no mans sky fail to compile."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111061">bug 11106=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>(In reply to Haxk20 from <a href=3D"show_bug.cgi?id=3D111061#c=
+0">comment #0</a>)
+<span class=3D"quote">&gt; I installed No mans sky and used those enviromen=
+t variables:
+&gt; MESA_GL_VERSION_OVERRIDE=3D4.5COMPAT
+&gt; force_glsl_extensions_warn=3Dtrue
+&gt; and the game still fails to render multiple shaders. Well most of them.
+&gt; Clouds are rendered properly. Other then that its not there.</span >
 
---===============0446100530==
+You shouldn't need these environment variables any longer. radeonsi now
+supports compat profile in GL 4.5 by default and the other overrides needed=
+ to
+run the game are set in 00-mesa-defaults.conf.
+
+I just tested No Mans Sky and it runs perfectly. I suspect you either need =
+to
+update your systems Mesa package or you have a local copy in you home direc=
+tory
+that is overriding the system copy of 00-mesa-defaults.conf, if so you shou=
+ld
+delete it.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15622954581.945e.13958--
+
+--===============0375443217==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -117,4 +210,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0446100530==--
+--===============0375443217==--
