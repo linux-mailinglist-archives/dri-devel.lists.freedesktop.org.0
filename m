@@ -1,51 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67FD60090
-	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 07:22:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6FB60095
+	for <lists+dri-devel@lfdr.de>; Fri,  5 Jul 2019 07:25:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7D76E408;
-	Fri,  5 Jul 2019 05:22:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C97D6E40B;
+	Fri,  5 Jul 2019 05:25:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0080.hostedemail.com
- [216.40.44.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81526E408;
- Fri,  5 Jul 2019 05:22:48 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay07.hostedemail.com (Postfix) with ESMTP id 85F32181D3368;
- Fri,  5 Jul 2019 05:22:46 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com,
- :::::::::::::::::::::::::::::::::::::,
- RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3653:3865:3867:4321:4605:5007:6119:6742:7903:7904:9121:10004:10400:10848:11232:11233:11657:11658:11914:12297:12555:12679:12740:12760:12895:12986:13069:13311:13357:13439:14659:14721:21080:21627:30054:30055:30060:30090:30091,
- 0,
- RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.8.0.180 64.201.201.201,
- CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none, DomainCache:0,
- MSF:not bulk, SPF:fn, MSBL:0, DNSBL:neutral, Custom_rules:0:0:0, LFtime:24,
- LUA_SUMMARY:none
-X-HE-Tag: level75_17cfce2dff144
-X-Filterd-Recvd-Size: 2521
-Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
- (Authenticated sender: joe@perches.com)
- by omf03.hostedemail.com (Postfix) with ESMTPA;
- Fri,  5 Jul 2019 05:22:43 +0000 (UTC)
-Message-ID: <5f4680cce78573ecfbbdc0dfca489710581b966f.camel@perches.com>
-Subject: Re: mmotm 2019-07-04-15-01 uploaded (gpu/drm/i915/oa/)
-From: Joe Perches <joe@perches.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell
- <sfr@canb.auug.org.au>
-Date: Thu, 04 Jul 2019 22:22:41 -0700
-In-Reply-To: <20190704220931.f1bd2462907901f9e7aca686@linux-foundation.org>
-References: <20190704220152.1bF4q6uyw%akpm@linux-foundation.org>
- <80bf2204-558a-6d3f-c493-bf17b891fc8a@infradead.org>
- <CAK7LNAQc1xYoet1o8HJVGKuonUV40MZGpK7eHLyUmqet50djLw@mail.gmail.com>
- <20190705131435.58c2be19@canb.auug.org.au>
- <20190704220931.f1bd2462907901f9e7aca686@linux-foundation.org>
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
-MIME-Version: 1.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3EE06E40B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Jul 2019 05:25:03 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.2 final
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tz2nw3eu-5HXdA9iaMck34pOL=ZZimrVBStK9WUYKsNAQ@mail.gmail.com>
+References: <CAPM=9tz2nw3eu-5HXdA9iaMck34pOL=ZZimrVBStK9WUYKsNAQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tz2nw3eu-5HXdA9iaMck34pOL=ZZimrVBStK9WUYKsNAQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2019-07-05-1
+X-PR-Tracked-Commit-Id: a0b2cf792ac9db7bb73e599e516adfb9dca8e60b
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3f9c4dc63309286a6513a86aac35ffc445cb9d1a
+Message-Id: <156230430379.17573.4119970529169149467.pr-tracker-bot@kernel.org>
+Date: Fri, 05 Jul 2019 05:25:03 +0000
+To: Dave Airlie <airlied@gmail.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1562304303;
+ bh=45d3n2/9QobIgyxW4ebDdgA2oQ65jZidNaSA30Xgj5E=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=Fv9G5oqhfOrd9j0gOhBCpeoFzZMfpfy0uSvh30nj7EG4yKjl5rZclVOjKzTIPaLQE
+ K4ilYOa//hyqf6GtmDy2UaULrQnhKecaa2COWXX0GjCB8ZH2r/NSqsqJNnhW0tJ5IA
+ RWNBL68dVtjtIkH/xcj+jY3OOLFtYM9mozyrte4g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,34 +46,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mm-commits@vger.kernel.org, DRI <dri-devel@lists.freedesktop.org>,
- linux-mm@kvack.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, mhocko@suse.cz,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Mark Brown <broonie@kernel.org>,
- Linux-Next Mailing List <linux-next@vger.kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-fsdevel@vger.kernel.org,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDE5LTA3LTA0IGF0IDIyOjA5IC0wNzAwLCBBbmRyZXcgTW9ydG9uIHdyb3RlOgo+
-IGRpZmYoMSkgZG9lc24ndCBzZWVtIHRvIGtub3cgaG93IHRvIGhhbmRsZSBhIHplcm8tbGVuZ3Ro
-IGZpbGUuCj4gCj4geTovaG9tZS9ha3BtPiBta2RpciBmb28KPiB5Oi9ob21lL2FrcG0+IGNkIGZv
-bwo+IHk6L2hvbWUvYWtwbS9mb28+IHRvdWNoIHgKPiB5Oi9ob21lL2FrcG0vZm9vPiBkaWZmIC11
-TiB4IHkKPiB5Oi9ob21lL2FrcG0vZm9vPiBkYXRlID4geAo+IHk6L2hvbWUvYWtwbS9mb28+IGRp
-ZmYgLXVOIHggeQo+IC0tLSB4ICAgMjAxOS0wNy0wNCAyMTo1ODozNy44MTUwMjgyMTEgLTA3MDAK
-PiArKysgeSAgIDE5NjktMTItMzEgMTY6MDA6MDAuMDAwMDAwMDAwIC0wODAwCj4gQEAgLTEgKzAs
-MCBAQAo+IC1UaHUgSnVsICA0IDIxOjU4OjM3IFBEVCAyMDE5Cj4gCj4gU28gd2hlbiBjb21wYXJp
-bmcgYSB6ZXJvLWxlbmd0aCBmaWxlIHdpdGggYSBub24tZXhpc3RlbnQgZmlsZSwgZGlmZgo+IHBy
-b2R1Y2VzIG5vIG91dHB1dC4KCldoeSB1c2UgdGhlIC1OIG9wdGlvbiA/CgokIGRpZmYgLS1oZWxw
-ClsuLi5dCiAgLU4sIC0tbmV3LWZpbGUgICAgICAgICAgICAgICAgICB0cmVhdCBhYnNlbnQgZmls
-ZXMgYXMgZW1wdHkKCm90aGVyd2lzZQoKJCBjZCAkKG1rdGVtcCAtZCAtcCAuKQokIHRvdWNoIHgK
-JCBkaWZmIC11IHggeQpkaWZmOiB5OiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+VGhlIHB1bGwgcmVxdWVzdCB5b3Ugc2VudCBvbiBGcmksIDUgSnVsIDIwMTkgMTQ6NTk6MjYgKzEw
+MDA6Cgo+IGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0gdGFncy9kcm0tZml4
+ZXMtMjAxOS0wNy0wNS0xCgpoYXMgYmVlbiBtZXJnZWQgaW50byB0b3J2YWxkcy9saW51eC5naXQ6
+Cmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvdG9ydmFsZHMvYy8zZjljNGRjNjMzMDkyODZhNjUxM2E4
+NmFhYzM1ZmZjNDQ1Y2I5ZDFhCgpUaGFuayB5b3UhCgotLSAKRGVldC1kb290LWRvdCwgSSBhbSBh
+IGJvdC4KaHR0cHM6Ly9rb3JnLndpa2kua2VybmVsLm9yZy91c2VyZG9jL3BydHJhY2tlcgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
