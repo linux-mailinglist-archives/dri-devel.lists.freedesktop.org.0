@@ -2,45 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA8B612EB
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 22:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D0D612F2
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 22:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5614689F75;
-	Sat,  6 Jul 2019 20:21:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA87689B7B;
+	Sat,  6 Jul 2019 20:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE41489F75
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2019 20:21:36 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D277472167; Sat,  6 Jul 2019 20:21:36 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F31D89B7B
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2019 20:31:19 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id k10so6815691qtq.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Jul 2019 13:31:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QTdDNTekunAUgyaGQ3/RJxJLYyFWDwZXUg6Q2Wj8Aqc=;
+ b=OxloDv6/B0WZ2BlzVpoL8g3Pe3DtNMZavSWx5lth32pD3Socaupyc+8y0j/t+bpJkQ
+ ekgtfwoarrVdNR9/6f6TUH/j3+2HbWb8586JcyC3WDH7drdMqfmR1Rqlyrif98+zrWE7
+ v6nrxuKNnghdB3q1ixtwQA8Lgjm/vkVfIOBL+6pOSel3o+YwXrr/xzB1V2tB6fLAVtGZ
+ jfq5LoaJikmA/UUmM0lUFXjIMrzTiZr8YeM2kIjt1VcYgxD3IatL5M67PZNr6IUl4Yjd
+ E2/d6dMtik4t+3WZFLDSdKyNaWmWGy855OXjbIIVUPgm9SZbNS2WefOHDOrVU10olptO
+ JUqQ==
+X-Gm-Message-State: APjAAAUCz58PWCiDUkzwM6d4vwx/rVrLtzxPe982FRihZYarhRwQ1uwD
+ hLOKB9LPjaqUmXDNk7z9tv4axPqVyK0=
+X-Google-Smtp-Source: APXvYqxLv1LQbz6LycfXjpzAR167HsHiq08tHengu2WXsBxNFIWXpbY+Fe7YNPGA7DHT97SWJu2JBQ==
+X-Received: by 2002:ac8:70cd:: with SMTP id g13mr7513436qtp.325.1562445078775; 
+ Sat, 06 Jul 2019 13:31:18 -0700 (PDT)
+Received: from localhost ([2601:184:4780:7861:fe2e:a8ba:927f:edd9])
+ by smtp.gmail.com with ESMTPSA id x20sm4770818qtr.72.2019.07.06.13.31.17
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Sat, 06 Jul 2019 13:31:17 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111076] Building error after commit b52bf8f12a
- ("amd/common/gfx10: support new tbuffer encoding")
-Date: Sat, 06 Jul 2019 20:21:37 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: issor.oruam@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111076-502-xRab8R2axS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111076-502@http.bugs.freedesktop.org/>
-References: <bug-111076-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: use dev name for debugfs
+Date: Sat,  6 Jul 2019 13:31:02 -0700
+Message-Id: <20190706203105.7810-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QTdDNTekunAUgyaGQ3/RJxJLYyFWDwZXUg6Q2Wj8Aqc=;
+ b=cRFQgRmvTZBqx1Do7XLHfkgnGFACGebj//05Gx/ZyVFgynRoeEbYGqAszY5FPBuP/i
+ wdOyGTGwCQIzBH90QM1qW4L/buGk+4a5jwHdX/o29RyvZ+XHd4UhD4P+p/oegjBLKVql
+ 5T3zkhPosT6nnmgtycmM3KtapPYe2MzQRpkzJSPqdvz2RhznuXC7t17Vpw7ZTkMN0oaM
+ LatQtCQY3pTeaVLGZOMmQKBF7/keE9OxfskkpYQ/M7Kl8ZYla4e5JQGWyis5tYzLL1YY
+ ukpm76IK6dyRKxUlfzereOjE7B5LpcI1rOOW/7jb510TVSs9YwTVoYP8HYnPhwNtrHUo
+ 95cw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,95 +65,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0253724228=="
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0253724228==
-Content-Type: multipart/alternative; boundary="15624444960.ADCef41A.28076"
-Content-Transfer-Encoding: 7bit
-
-
---15624444960.ADCef41A.28076
-Date: Sat, 6 Jul 2019 20:21:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111076
-
---- Comment #2 from Mauro Rossi <issor.oruam@gmail.com> ---
-The problem is missing changes in android building rules with gfx10
-
-I have submitted series of patches to mesa-dev that fix the problem
-Mauro
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15624444960.ADCef41A.28076
-Date: Sat, 6 Jul 2019 20:21:36 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Building error after commit b52bf8f12a (&quot;amd/common/=
-gfx10: support new tbuffer encoding&quot;)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111076#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Building error after commit b52bf8f12a (&quot;amd/common/=
-gfx10: support new tbuffer encoding&quot;)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111076">bug 11107=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-issor.oruam&#64;gmail.com" title=3D"Mauro Rossi &lt;issor.oruam&#64;gmail.c=
-om&gt;"> <span class=3D"fn">Mauro Rossi</span></a>
-</span></b>
-        <pre>The problem is missing changes in android building rules with =
-gfx10
-
-I have submitted series of patches to mesa-dev that fix the problem
-Mauro</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15624444960.ADCef41A.28076--
-
---===============0253724228==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0253724228==--
+RnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKVGhpcyBzaG91bGQgYmUg
+bW9yZSBmdXR1cmUtcHJvb2YgaWYgd2UgZXZlciBlbmNvdW50ZXIgYSBkZXZpY2Ugd2l0aCB0d28K
+b2YgdGhlc2UgYnJpZGdlcy4KClN1Z2dlc3RlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVu
+dC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgpTaWduZWQtb2ZmLWJ5OiBSb2IgQ2xhcmsgPHJv
+YmRjbGFya0BjaHJvbWl1bS5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1
+ZHNpODYuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTg2LmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4Ni5jCmluZGV4IGM4ZmI0NWU3YjA2
+ZC4uOWY0ZmY4OGQ0YTEwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNu
+NjVkc2k4Ni5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRzaTg2LmMKQEAg
+LTIwNCw3ICsyMDQsNyBAQCBERUZJTkVfU0hPV19BVFRSSUJVVEUoc3RhdHVzKTsKIAogc3RhdGlj
+IHZvaWQgdGlfc25fZGVidWdmc19pbml0KHN0cnVjdCB0aV9zbl9icmlkZ2UgKnBkYXRhKQogewot
+CXBkYXRhLT5kZWJ1Z2ZzID0gZGVidWdmc19jcmVhdGVfZGlyKCJ0aV9zbjY1ZHNpODYiLCBOVUxM
+KTsKKwlwZGF0YS0+ZGVidWdmcyA9IGRlYnVnZnNfY3JlYXRlX2RpcihkZXZfbmFtZShwZGF0YS0+
+ZGV2KSwgTlVMTCk7CiAKIAlkZWJ1Z2ZzX2NyZWF0ZV9maWxlKCJzdGF0dXMiLCAwNjAwLCBwZGF0
+YS0+ZGVidWdmcywgcGRhdGEsCiAJCQkmc3RhdHVzX2ZvcHMpOwotLSAKMi4yMC4xCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
