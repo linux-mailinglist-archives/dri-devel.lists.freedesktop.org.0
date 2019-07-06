@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913FE60FA3
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 11:30:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A9E61216
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 18:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 947AB6E1B6;
-	Sat,  6 Jul 2019 09:30:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7836389D4F;
+	Sat,  6 Jul 2019 16:03:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B82416E147
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2019 09:30:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A3CA989D4F
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2019 16:03:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B425472167; Sat,  6 Jul 2019 09:30:35 +0000 (UTC)
+ id 8178672167; Sat,  6 Jul 2019 16:03:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sat, 06 Jul 2019 09:30:35 +0000
+Subject: [Bug 111076] Building error after commit b52bf8f12a
+ ("amd/common/gfx10: support new tbuffer encoding")
+Date: Sat, 06 Jul 2019 16:03:57 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shadow.archemage@gmail.com
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: issor.oruam@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-XdupgLWYzk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111076-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,62 +53,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0351459169=="
+Content-Type: multipart/mixed; boundary="===============1836328823=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0351459169==
-Content-Type: multipart/alternative; boundary="15624054351.e9a6.9712"
+--===============1836328823==
+Content-Type: multipart/alternative; boundary="15624290370.5b7D.24983"
 Content-Transfer-Encoding: 7bit
 
 
---15624054351.e9a6.9712
-Date: Sat, 6 Jul 2019 09:30:35 +0000
+--15624290370.5b7D.24983
+Date: Sat, 6 Jul 2019 16:03:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111076
 
---- Comment #35 from shadow.archemage@gmail.com ---
-(In reply to Mauro Gaspari from comment #22)
+            Bug ID: 111076
+           Summary: Building error after commit b52bf8f12a
+                    ("amd/common/gfx10: support new tbuffer encoding")
+           Product: Mesa
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: other
+            Status: NEW
+          Severity: critical
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: issor.oruam@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
 
-> The only issue I have not being able to reproduce the issue quickly, is to
-> clearly understand when the issue is resolved by Mesa. It takes hours for=
- me
-> to get the freeze sometimes.=20
-> If someone has a quick way to trigger system freeze, I am happy to run mo=
-re
-> tests.
+Hi,
 
-Hi Mauro,
+I'm getting the following building error, even if I'm using prescribed LLVM8
+and libdrm 2.4.99:
 
-The issue happened to me much more frequently when I opted into Steam beta =
-and
-ran Monster Hunter: World. Before opting in, the crashes happen around 1-2
-hours after the game starts. With Steam beta though, it happens around <5
-minutes in.
+external/mesa/src/amd/common/ac_llvm_build.c:1496:45: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_8_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_8: format =3D
+V_008F0C_IMG_FORMAT_8_UINT; break;
+                                                          ^
+external/mesa/src/amd/common/ac_llvm_build.c:1497:47: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_8_8_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_8_8: format =3D
+V_008F0C_IMG_FORMAT_8_8_UINT; break;
+                                                            ^
+external/mesa/src/amd/common/ac_llvm_build.c:1498:51: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_8_8_8_8_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_8_8_8_8: format =3D
+V_008F0C_IMG_FORMAT_8_8_8_8_UINT; break;
+                                                                ^
+external/mesa/src/amd/common/ac_llvm_build.c:1499:46: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_16_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_16: format =3D
+V_008F0C_IMG_FORMAT_16_UINT; break;
+                                                           ^
+external/mesa/src/amd/common/ac_llvm_build.c:1500:49: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_16_16_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_16_16: format =3D
+V_008F0C_IMG_FORMAT_16_16_UINT; break;
+                                                              ^
+external/mesa/src/amd/common/ac_llvm_build.c:1501:55: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_16_16_16_16_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_16_16_16_16: format =3D
+V_008F0C_IMG_FORMAT_16_16_16_16_UINT; break;
+                                                                    ^
+external/mesa/src/amd/common/ac_llvm_build.c:1502:46: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_32_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_32: format =3D
+V_008F0C_IMG_FORMAT_32_UINT; break;
+                                                           ^
+external/mesa/src/amd/common/ac_llvm_build.c:1503:49: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_32_32_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_32_32: format =3D
+V_008F0C_IMG_FORMAT_32_32_UINT; break;
+                                                              ^
+external/mesa/src/amd/common/ac_llvm_build.c:1504:55: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_32_32_32_32_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_32_32_32_32: format =3D
+V_008F0C_IMG_FORMAT_32_32_32_32_UINT; break;
+                                                                    ^
+9 errors generated.
 
-The only change that I noted when I opted into Steam beta was that the games
-suddenly downloaded some shader pre-caching stuff. Unfortunately, I'm not t=
-oo
-familiar with it, and I'm not too sure if it is related to the problem.
+Could you please check if some include is missing or what library is suppos=
+ed
+to provide those definitions?
 
-I am running Manjaro, Gnome 3.32.2, Kernel version 5.1.15-1, Mesa 19.1.1.
-Let me know if I missed something.
-
-Thanks,
-Eph
+Mauro
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15624054351.e9a6.9712
-Date: Sat, 6 Jul 2019 09:30:35 +0000
+--15624290370.5b7D.24983
+Date: Sat, 6 Jul 2019 16:03:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -118,53 +171,157 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Building error after commit b52bf8f12a (&quot;amd/common/=
+gfx10: support new tbuffer encoding&quot;)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111076">111076</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Building error after commit b52bf8f12a (&quot;amd/common/gfx1=
+0: support new tbuffer encoding&quot;)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>other
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>critical
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>issor.oruam&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
       <p>
         <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c35">Comme=
-nt # 35</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shadow.archemage&#64;gmail.com" title=3D"shadow.archemage&#64;gmail.com">sh=
-adow.archemage&#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Mauro Gaspari from <a href=3D"show_bug.cgi?id=3D1=
-09955#c22">comment #22</a>)
+        <pre>Hi,
 
-<span class=3D"quote">&gt; The only issue I have not being able to reproduc=
-e the issue quickly, is to
-&gt; clearly understand when the issue is resolved by Mesa. It takes hours =
-for me
-&gt; to get the freeze sometimes.=20
-&gt; If someone has a quick way to trigger system freeze, I am happy to run=
- more
-&gt; tests.</span >
+I'm getting the following building error, even if I'm using prescribed LLVM8
+and libdrm 2.4.99:
 
-Hi Mauro,
+external/mesa/src/amd/common/ac_llvm_build.c:1496:45: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_8_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_8: format =3D
+V_008F0C_IMG_FORMAT_8_UINT; break;
+                                                          ^
+external/mesa/src/amd/common/ac_llvm_build.c:1497:47: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_8_8_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_8_8: format =3D
+V_008F0C_IMG_FORMAT_8_8_UINT; break;
+                                                            ^
+external/mesa/src/amd/common/ac_llvm_build.c:1498:51: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_8_8_8_8_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_8_8_8_8: format =3D
+V_008F0C_IMG_FORMAT_8_8_8_8_UINT; break;
+                                                                ^
+external/mesa/src/amd/common/ac_llvm_build.c:1499:46: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_16_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_16: format =3D
+V_008F0C_IMG_FORMAT_16_UINT; break;
+                                                           ^
+external/mesa/src/amd/common/ac_llvm_build.c:1500:49: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_16_16_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_16_16: format =3D
+V_008F0C_IMG_FORMAT_16_16_UINT; break;
+                                                              ^
+external/mesa/src/amd/common/ac_llvm_build.c:1501:55: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_16_16_16_16_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_16_16_16_16: format =3D
+V_008F0C_IMG_FORMAT_16_16_16_16_UINT; break;
+                                                                    ^
+external/mesa/src/amd/common/ac_llvm_build.c:1502:46: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_32_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_32: format =3D
+V_008F0C_IMG_FORMAT_32_UINT; break;
+                                                           ^
+external/mesa/src/amd/common/ac_llvm_build.c:1503:49: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_32_32_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_32_32: format =3D
+V_008F0C_IMG_FORMAT_32_32_UINT; break;
+                                                              ^
+external/mesa/src/amd/common/ac_llvm_build.c:1504:55: error: use of undecla=
+red
+identifier 'V_008F0C_IMG_FORMAT_32_32_32_32_UINT'
+                case V_008F0C_BUF_DATA_FORMAT_32_32_32_32: format =3D
+V_008F0C_IMG_FORMAT_32_32_32_32_UINT; break;
+                                                                    ^
+9 errors generated.
 
-The issue happened to me much more frequently when I opted into Steam beta =
-and
-ran Monster Hunter: World. Before opting in, the crashes happen around 1-2
-hours after the game starts. With Steam beta though, it happens around &lt;5
-minutes in.
+Could you please check if some include is missing or what library is suppos=
+ed
+to provide those definitions?
 
-The only change that I noted when I opted into Steam beta was that the games
-suddenly downloaded some shader pre-caching stuff. Unfortunately, I'm not t=
-oo
-familiar with it, and I'm not too sure if it is related to the problem.
-
-I am running Manjaro, Gnome 3.32.2, Kernel version 5.1.15-1, Mesa 19.1.1.
-Let me know if I missed something.
-
-Thanks,
-Eph</pre>
+Mauro</pre>
         </div>
       </p>
 
@@ -178,9 +335,9 @@ Eph</pre>
     </body>
 </html>=
 
---15624054351.e9a6.9712--
+--15624290370.5b7D.24983--
 
---===============0351459169==
+--===============1836328823==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -190,4 +347,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0351459169==--
+--===============1836328823==--
