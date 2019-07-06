@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D45061275
-	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 19:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B0661288
+	for <lists+dri-devel@lfdr.de>; Sat,  6 Jul 2019 20:01:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 544F289893;
-	Sat,  6 Jul 2019 17:46:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7590288E4B;
+	Sat,  6 Jul 2019 18:01:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id DF57F89893
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2019 17:46:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 57F7A88E4B
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Jul 2019 18:01:14 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D603272167; Sat,  6 Jul 2019 17:46:22 +0000 (UTC)
+ id 4EB3E72167; Sat,  6 Jul 2019 18:01:14 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
  consume huge amount of RAM
-Date: Sat, 06 Jul 2019 17:46:22 +0000
+Date: Sat, 06 Jul 2019 18:01:14 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: Mesa
 X-Bugzilla-Component: Drivers/Gallium/radeonsi
@@ -34,10 +34,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact attachments.created
-Message-ID: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-EbXa4lGBju@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1728550014=="
+Content-Type: multipart/mixed; boundary="===============0024522417=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1728550014==
-Content-Type: multipart/alternative; boundary="15624351820.09Ec4.22058"
+--===============0024522417==
+Content-Type: multipart/alternative; boundary="15624360740.fF070.26441"
 Content-Transfer-Encoding: 7bit
 
 
---15624351820.09Ec4.22058
-Date: Sat, 6 Jul 2019 17:46:22 +0000
+--15624360740.fF070.26441
+Date: Sat, 6 Jul 2019 18:01:14 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,62 +73,45 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
 
-            Bug ID: 111077
-           Summary: link_shader and deserialize_glsl_program suddenly
-                    consume huge amount of RAM
-           Product: Mesa
-           Version: 18.3
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: blocker
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: roland@rptd.ch
-        QA Contact: dri-devel@lists.freedesktop.org
+--- Comment #1 from roland@rptd.ch <roland@rptd.ch> ---
+I've started the application now also in a debugger and went to loading a
+simple model which causes tons of RAM to be consumes by the shader compiler=
+. I
+interrupted with GDB and made a trace:
 
-Created attachment 144715
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144715&action=3Dedit
-Valgrind massif log
+#0 0x00007f650ee794e7 in __memcpy_ssse3 () from /lib64/libc.so.6
+#1 0x00007f650776a390 in blob_write_bytes () from
+/usr/lib64/dri/radeonsi_dri.so
+#2 0x00007f650776a4e8 in blob_write_uint32 () from
+/usr/lib64/dri/radeonsi_dri.so
+#3 0x00007f6507636421 in serialize_glsl_program () from
+/usr/lib64/dri/radeonsi_dri.so
+#4 0x00007f6507638132 in shader_cache_write_program_metadata(gl_context*,
+gl_shader_program*) () from /usr/lib64/dri/radeonsi_dri.so
+#5 0x00007f65074a9a38 in link_program_error () from
+/usr/lib64/dri/radeonsi_dri.so
+#6 0x00007f6509d85a3d in deoglShaderLanguage::pLinkShader (this=3D0x7f65004=
+360c0,
+handle=3D298) at
+src/modules/graphic/opengl/src/shaders/deoglShaderLanguage.cpp:1272
+#7 0x00007f6509d86537 in deoglShaderLanguage::CompileShader
+(this=3D0x7f65004360c0, program=3D...) at
+src/modules/graphic/opengl/src/shaders/deoglShaderLanguage.cpp:530
 
-Since a recent update a few days ago an application which barely consumes 2G
-RAM at full load is very slow to load and compiling shaders causes over 16G=
- RAM
-to be consumed when the app eventually crashes.
-
-I don't know what exactly in the update caused problems but certainly Mesa,=
- the
-amdgpu driver and LLVM did get updates.
-
-I also tried using Mesa 19.x but the problem is the same.
-
-Driver is xf86-video-amdgpu-19.0.1 . LLVM is 7.0.x .
-
-I've already deleted the mesa shader cache and all caches the application
-creates. I've totally recompiled the system (GenToo) to make sure no strange
-problems can be around. I've also tried with a completely fresh user to run=
- the
-app.
-
-Using valgrind --tool=3Dmassif the culprit seems to be ralloc_size which is
-called by the two above mentioned methods. I've attached a massif log of a
-couple of seconds running of the application and shutting it down before me=
-mory
-skyrockets even more. The app in question shows at that point of time only =
-an
-empty scene with a simple shader doing a sky-box. The rest is Non OpenGL UI
-stuff.
-
-Classified this as blocker since as soon as you try loading more shaders not
-even 32G seems to be enough to cope with the rampaging glsl compiler.
+Mesa gets stuck inside "link_program_error" =3D>
+"shader_cache_write_program_metadata" =3D> "serialize_glsl_program" . Most
+probably serialize_glsl_program goes rampage there but I have no idea if th=
+is
+is the real reason. According to the massif logs though ralloc_size is call=
+ed
+with GB of data multiple time in there somewhere.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15624351820.09Ec4.22058
-Date: Sat, 6 Jul 2019 17:46:22 +0000
+--15624360740.fF070.26441
+Date: Sat, 6 Jul 2019 18:01:14 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -139,127 +122,58 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
  huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">111077</a>
-          </td>
-        </tr>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
+> <span class=3D"fn">roland&#64;rptd.ch</span></a>
+</span></b>
+        <pre>I've started the application now also in a debugger and went t=
+o loading a
+simple model which causes tons of RAM to be consumes by the shader compiler=
+. I
+interrupted with GDB and made a trace:
 
-        <tr>
-          <th>Summary</th>
-          <td>link_shader and deserialize_glsl_program suddenly consume hug=
-e amount of RAM
-          </td>
-        </tr>
+#0 0x00007f650ee794e7 in __memcpy_ssse3 () from /lib64/libc.so.6
+#1 0x00007f650776a390 in blob_write_bytes () from
+/usr/lib64/dri/radeonsi_dri.so
+#2 0x00007f650776a4e8 in blob_write_uint32 () from
+/usr/lib64/dri/radeonsi_dri.so
+#3 0x00007f6507636421 in serialize_glsl_program () from
+/usr/lib64/dri/radeonsi_dri.so
+#4 0x00007f6507638132 in shader_cache_write_program_metadata(gl_context*,
+gl_shader_program*) () from /usr/lib64/dri/radeonsi_dri.so
+#5 0x00007f65074a9a38 in link_program_error () from
+/usr/lib64/dri/radeonsi_dri.so
+#6 0x00007f6509d85a3d in deoglShaderLanguage::pLinkShader (this=3D0x7f65004=
+360c0,
+handle=3D298) at
+src/modules/graphic/opengl/src/shaders/deoglShaderLanguage.cpp:1272
+#7 0x00007f6509d86537 in deoglShaderLanguage::CompileShader
+(this=3D0x7f65004360c0, program=3D...) at
+src/modules/graphic/opengl/src/shaders/deoglShaderLanguage.cpp:530
 
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>18.3
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>blocker
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>roland&#64;rptd.ch
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144715=
-" name=3D"attach_144715" title=3D"Valgrind massif log">attachment 144715</a=
-> <a href=3D"attachment.cgi?id=3D144715&amp;action=3Dedit" title=3D"Valgrin=
-d massif log">[details]</a></span>
-Valgrind massif log
-
-Since a recent update a few days ago an application which barely consumes 2G
-RAM at full load is very slow to load and compiling shaders causes over 16G=
- RAM
-to be consumed when the app eventually crashes.
-
-I don't know what exactly in the update caused problems but certainly Mesa,=
- the
-amdgpu driver and LLVM did get updates.
-
-I also tried using Mesa 19.x but the problem is the same.
-
-Driver is xf86-video-amdgpu-19.0.1 . LLVM is 7.0.x .
-
-I've already deleted the mesa shader cache and all caches the application
-creates. I've totally recompiled the system (GenToo) to make sure no strange
-problems can be around. I've also tried with a completely fresh user to run=
- the
-app.
-
-Using valgrind --tool=3Dmassif the culprit seems to be ralloc_size which is
-called by the two above mentioned methods. I've attached a massif log of a
-couple of seconds running of the application and shutting it down before me=
-mory
-skyrockets even more. The app in question shows at that point of time only =
-an
-empty scene with a simple shader doing a sky-box. The rest is Non OpenGL UI
-stuff.
-
-Classified this as blocker since as soon as you try loading more shaders not
-even 32G seems to be enough to cope with the rampaging glsl compiler.</pre>
+Mesa gets stuck inside &quot;link_program_error&quot; =3D&gt;
+&quot;shader_cache_write_program_metadata&quot; =3D&gt; &quot;serialize_gls=
+l_program&quot; . Most
+probably serialize_glsl_program goes rampage there but I have no idea if th=
+is
+is the real reason. According to the massif logs though ralloc_size is call=
+ed
+with GB of data multiple time in there somewhere.</pre>
         </div>
       </p>
 
@@ -273,9 +187,9 @@ even 32G seems to be enough to cope with the rampaging glsl compiler.</pre>
     </body>
 </html>=
 
---15624351820.09Ec4.22058--
+--15624360740.fF070.26441--
 
---===============1728550014==
+--===============0024522417==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -285,4 +199,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1728550014==--
+--===============0024522417==--
