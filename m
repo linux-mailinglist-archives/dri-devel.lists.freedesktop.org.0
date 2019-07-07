@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BCF6157F
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2019 18:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA53F615B8
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2019 19:42:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7341289A83;
-	Sun,  7 Jul 2019 16:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E9B8997E;
+	Sun,  7 Jul 2019 17:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03E1A89A83
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2019 16:14:57 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 286DFAD26;
- Sun,  7 Jul 2019 16:14:56 +0000 (UTC)
-Subject: Re: [PATCH v2 3/6] drm/fb-helper: Instanciate shadow FB if configured
- in device's mode_config
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com, 
- daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
- maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
- yc_chen@aspeedtech.com
-References: <20190705092613.7621-1-tzimmermann@suse.de>
- <20190705092613.7621-4-tzimmermann@suse.de>
- <68f5783f-8022-3238-a6d9-c6a774b39633@tronnes.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <59111691-5283-fb50-94a9-6960c425e81c@suse.de>
-Date: Sun, 7 Jul 2019 18:14:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8BB08997E
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2019 17:42:12 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id n9so5436185wrr.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Jul 2019 10:42:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=1cd14pJ9WX7TppKl4+INuA7iMlMPB+cKXvK/QGRdcWY=;
+ b=UV0Pt2C9uB0IaEE2O4k+UqCPS0OuWfLfAWolT03oxSD2SJMjhqxdiGJuiP4ESDJu9c
+ I0U0jdAM/DPSTqOODWmRWCY+rr6QMLqb2j1/N640MzgVuR8ximKU8ROBOYrG2dVDBf5t
+ IfuOXIHr2UgFt4PNmqQZ8goJdzpcGPYumVQLndiZtJ/EZo2VQWBynT9/5x9i6XSjMQS3
+ Da0I4SEVcXwSQGcSVv41zeJxFLoprV+RWsOBbfO+UKJwBYf+1lqxZkCf3mYNmtolXHjv
+ N4VWQznxG+wHzZtaflM3CgtYqOlijfIEWRYdGWU9uLpAkWu/zHgfXLxUpA0KztFlJmmu
+ v4PA==
+X-Gm-Message-State: APjAAAVbAvO6gVR5o9Bwa8ZxIAz56kEN8xEuxpYVxpmmL8GdmSKnkeaB
+ 6dVjkCTBTfPP262db51Khs2paZQlRnA=
+X-Google-Smtp-Source: APXvYqwFtRc+G8l/iHCFxkWPnQQZPZ+pGAkY0MI7ypX28dCnxaxsC56gO7dGgBzhlJitd76eGJ4ZwQ==
+X-Received: by 2002:adf:e2c6:: with SMTP id d6mr5000943wrj.326.1562521331399; 
+ Sun, 07 Jul 2019 10:42:11 -0700 (PDT)
+Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
+ by smtp.gmail.com with ESMTPSA id x16sm12695958wmj.4.2019.07.07.10.42.10
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Sun, 07 Jul 2019 10:42:10 -0700 (PDT)
+Date: Sun, 7 Jul 2019 17:41:26 +0000
+From: sylvain.bertrand@gmail.com
+To: bugzilla-daemon@freedesktop.org
+Subject: Re: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Message-ID: <20190707174126.GA1262@freedom>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+ <bug-109955-502-l5hhO8mdfb@http.bugs.freedesktop.org/>
 MIME-Version: 1.0
-In-Reply-To: <68f5783f-8022-3238-a6d9-c6a774b39633@tronnes.org>
+Content-Disposition: inline
+In-Reply-To: <bug-109955-502-l5hhO8mdfb@http.bugs.freedesktop.org/>
+User-Agent: Mutt/ (2018-04-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=1cd14pJ9WX7TppKl4+INuA7iMlMPB+cKXvK/QGRdcWY=;
+ b=CmCdD8MYqTBdnToGK0wOGDwpL3Sx5vvFSS+6/LT/bj4/OjcerMqSVhNBp2l/Yx85N2
+ YjLCtgzSTTJW1jJX8VOkgXFZglM0Ngz59np78ANxSx09uURhmbYZ88nBYqriPb4+CoGs
+ gWIynAI8Ym5liIkh4Bcgbl0mEvOk7Zp5RfiPb0j+AfxYNpzTD5mkiIncNO2KGtM0drQf
+ b9HLN6GPUW9NeHad9BiRW40X1YmHkIKgfgTb2mE5GK+ZKGYa8Hr/ac8Ax9KmMVAJ8lTB
+ 2mE00DTcfxanXveQU6fcSO3L3ozIdxZa5jup21VL8UhY3IAurtT/vGJ8g4K+hTaNb565
+ Ve/Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,236 +69,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Content-Type: multipart/mixed; boundary="===============1326729072=="
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1326729072==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xrnQnM9U0vnHwBglvDO2alPx0W8Zsc3qs"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xrnQnM9U0vnHwBglvDO2alPx0W8Zsc3qs
-Content-Type: multipart/mixed; boundary="iCnlfK9L0EAkOjP9IGk8gypWQ2kKFJIyg";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, airlied@redhat.com,
- daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
- maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
- yc_chen@aspeedtech.com
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Message-ID: <59111691-5283-fb50-94a9-6960c425e81c@suse.de>
-Subject: Re: [PATCH v2 3/6] drm/fb-helper: Instanciate shadow FB if configured
- in device's mode_config
-References: <20190705092613.7621-1-tzimmermann@suse.de>
- <20190705092613.7621-4-tzimmermann@suse.de>
- <68f5783f-8022-3238-a6d9-c6a774b39633@tronnes.org>
-In-Reply-To: <68f5783f-8022-3238-a6d9-c6a774b39633@tronnes.org>
-
---iCnlfK9L0EAkOjP9IGk8gypWQ2kKFJIyg
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 07.07.19 um 16:37 schrieb Noralf Tr=C3=B8nnes:
->=20
->=20
-> Den 05.07.2019 11.26, skrev Thomas Zimmermann:
->> Generic framebuffer emulation uses a shadow buffer for framebuffers wi=
-th
->> dirty() function. If drivers want to use the shadow FB without such a
->> function, they can now set prefer_shadow or prefer_shadow_fbdev in the=
-ir
->> mode_config structures. The former flag is exported to userspace, the =
-latter
->> flag is fbdev-only.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>  drivers/gpu/drm/drm_fb_helper.c | 19 ++++++++++++++-----
->>  include/drm/drm_mode_config.h   |  5 +++++
->>  2 files changed, 19 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_=
-helper.c
->> index 7ba6a0255821..56ef169e1814 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -421,7 +421,9 @@ static void drm_fb_helper_dirty_work(struct work_s=
-truct *work)
->>  				return;
->>  			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
->>  		}
->> -		helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, &clip_copy, 1);
->> +		if (helper->fb->funcs->dirty)
->> +			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
->> +						 &clip_copy, 1);
->> =20
->>  		if (helper->buffer)
->>  			drm_client_buffer_vunmap(helper->buffer);
->> @@ -620,9 +622,6 @@ static void drm_fb_helper_dirty(struct fb_info *in=
-fo, u32 x, u32 y,
->>  	struct drm_clip_rect *clip =3D &helper->dirty_clip;
->>  	unsigned long flags;
->> =20
->> -	if (!helper->fb->funcs->dirty)
->> -		return;
->=20
-> drm_fb_helper_dirty() is called unconditionally by
-> drm_fb_helper_sys_imageblit() et al, so we need check with
-> drm_fbdev_use_shadow_fb() here.
->=20
->> -
->>  	spin_lock_irqsave(&helper->dirty_lock, flags);
->>  	clip->x1 =3D min_t(u32, clip->x1, x);
->>  	clip->y1 =3D min_t(u32, clip->y1, y);
->> @@ -2166,6 +2165,16 @@ static struct fb_deferred_io drm_fbdev_defio =3D=
- {
->>  	.deferred_io	=3D drm_fb_helper_deferred_io,
->>  };
->> =20
->> +static bool drm_fbdev_use_shadow_fb(struct drm_fb_helper *fb_helper)
->> +{
->> +	struct drm_device *dev =3D fb_helper->dev;
->> +	struct drm_framebuffer *fb =3D fb_helper->fb;
->> +
->> +	return dev->mode_config.prefer_shadow_fbdev |
->> +	       dev->mode_config.prefer_shadow |
->=20
-> Use logical OR here
->=20
->> +	       !!fb->funcs->dirty;
->=20
-> and you can drop the the double NOT here.
->=20
->> +}
->> +
->>  /**
->>   * drm_fb_helper_generic_probe - Generic fbdev emulation probe helper=
-
->>   * @fb_helper: fbdev helper structure
->> @@ -2213,7 +2222,7 @@ int drm_fb_helper_generic_probe(struct drm_fb_he=
-lper *fb_helper,
->> =20
->>  	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
->> =20
->> -	if (fb->funcs->dirty) {
->> +	if (drm_fbdev_use_shadow_fb(fb_helper)) {
->>  		struct fb_ops *fbops;
->>  		void *shadow;
->> =20
->> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_conf=
-ig.h
->> index 759d462d028b..e1c751aca353 100644
->> --- a/include/drm/drm_mode_config.h
->> +++ b/include/drm/drm_mode_config.h
->> @@ -347,6 +347,8 @@ struct drm_mode_config_funcs {
->>   * @output_poll_work: delayed work for polling in process context
->>   * @preferred_depth: preferred RBG pixel depth, used by fb helpers
->>   * @prefer_shadow: hint to userspace to prefer shadow-fb rendering
->> + * @prefer_shadow_fbdev: hint to framebuffer emulation to prefer shad=
-ow-fb \
->> +	rendering
->=20
-> It's preferred to have the doc together with the struct member.
-
-I just tried to follow the file's existing style, but OK, I don't mind.
-
-> it's less likely to be forgotten when things change. And we don't use
-> line cont. when the doc line is too long. Just continue on the next lin=
-e
-> after an asterix.
->=20
->>   * @cursor_width: hint to userspace for max cursor width
->>   * @cursor_height: hint to userspace for max cursor height
->>   * @helper_private: mid-layer private data
->> @@ -852,6 +854,9 @@ struct drm_mode_config {
->>  	/* dumb ioctl parameters */
->>  	uint32_t preferred_depth, prefer_shadow;
->> =20
->> +	/* fbdev parameters */
->=20
-> No need for this comment.
->=20
-> Doc can look like this, I've done s/framebuffer/fbdev/:
-> 	/**
-> 	 * @prefer_shadow_fbdev:
-> 	 *
-> 	 * Hint to fbdev emulation to prefer shadow-fb rendering.
-> 	 */
->=20
->> +	uint32_t prefer_shadow_fbdev;
->=20
-> Use bool here.
->=20
-> With that:
->=20
-> Reviewed-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
->=20
-> I have tested this on 2 drivers that use generic fbdev: vc4 (no shadow
-> buf) and mi0283qt which has a dirty callback.
->=20
-> Tested-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
-
-Thanks for reviewing and testing the patches.
-
-Best regards
-Thomas
-
->=20
->> +
->>  	/**
->>  	 * @quirk_addfb_prefer_xbgr_30bpp:
->>  	 *
->>
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---iCnlfK9L0EAkOjP9IGk8gypWQ2kKFJIyg--
-
---xrnQnM9U0vnHwBglvDO2alPx0W8Zsc3qs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl0iGn4ACgkQaA3BHVML
-eiNNIggAthjAg3eHNki+tZpOoHKASavxIe/t/vQKl0A6bQF1Lp3K2ruEEEtejAfn
-qgoOHuzj38Q5ZcxVPsXi//9/6dAybXGvDhjrP1diuSVqzQAkXjPMG0lyjL5ygjbe
-KUXI7yRE2zpnLOvbzbzyDiTkA7VkuZNOxak/zxCb9kfUDXoDrfS1aTiqcznz7vo5
-YXDBXlG2+WexebBhbqp9mIOzU33KaAjXNsIEN1VHCxCNBU1WO69uyCUk6DP6H1u7
-08zZgDSObadLtxe/g9hwi4KmusX50aAPL0s7RkVQ5gecf7W6Hbpu7T28G6VYMLyg
-ciZlUzHy9axBkKaYvNl8QrFt2AXeWw==
-=Wx+J
------END PGP SIGNATURE-----
-
---xrnQnM9U0vnHwBglvDO2alPx0W8Zsc3qs--
-
---===============1326729072==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1326729072==--
+T24gU3VuLCBKdWwgMDcsIDIwMTkgYXQgMDU6MzE6MzRBTSArMDAwMCwgYnVnemlsbGEtZGFlbW9u
+QGZyZWVkZXNrdG9wLm9yZyB3cm90ZToKPiAyLiBWYWx2ZSBzcG9uc29yZWQgYW4gaW50ZXJlc3Rp
+bmcgcHJvamVjdCB0aGF0IHJlbW92ZXMgZGVwZW5kZW5jeSBvZiBBTUQgTWVzYQo+IGZyb20gTExW
+TS4gQW5kIGluc3RlYWQgdXNlcyBBQ08uIFZhbHZlIG1hZGUgdGhpcyBhdmFpbGFibGUgZm9yIEFy
+Y2ggYmFzZWQKPiBzeXN0ZW1zIHZpYSBBVVIsIGFuZCBVYnVudHUgYmFzZWQgc3lzdGVtIHZpYSBQ
+UEEuIElmIHlvdSB3YW50IHRvIHRlc3QgaXQsIHlvdQo+IGNhbiBjaGVjayB0aGUgcG9zdHMgYmVs
+b3cuIEkgYW0gZ29pbmcgdG8gdGVzdCB0aGlzIG15c2VsZiBvbiBib3RoIEFyY2ggYW5kCj4gVWJ1
+bnR1LiAKPiBodHRwczovL3N0ZWFtY29tbXVuaXR5LmNvbS9nYW1lcy8yMjE0MTAvYW5ub3VuY2Vt
+ZW50cy9kZXRhaWwvMTYwMjYzNDYwOTYzNjg5NDIwMAo+IGh0dHBzOi8vc3RlYW1jb21tdW5pdHku
+Y29tL2FwcC8yMjE0MTAvZGlzY3Vzc2lvbnMvMC8xNjQwOTE1MjA2NDc0MDcwNjY5LwoKSHVobyEK
+CkNvbnM6CiAgICAtIGl0J3MgYysrCiAgICAtIG9ubHkgR0ZYOCBhbmQgR0ZYOSAoSSBoYXZlIEdG
+WDYgOiggKQogICAgLSBzb21lIG5hc3R5IHB5dGhvbiBzY3JpcHRzICh0aGVyZSBhcmUgdG9ucyBp
+biBtZXNhKQoKUHJvczoKICAgIC0gaXQncyBzZXZlcmFsIG9yZGVycyBvZiBtYWduaXR1ZGUgbGVz
+cyBicmFpbiBmKmNrZWQgdGhhbiBsbHZtLgogICAgLSBpdCBpcyBhY3R1YWwgd29ya2luZyBjb2Rl
+IHdoaWNoIGRvZXMgZGlzam9pbnQgbWVzYSBmcm9tIGxsdm0uCgpjb25jbHVzaW9uOgogICAgLSBm
+b3IgR0ZYOCBhbmQgR0ZYOSwgaXQncyBsZXNzIHdvcnNlIHRoYW4gbGx2bS4KICAgIC0gSSB3YXMg
+YXNraW5nIGZvciBhIGNsZWFuIEdDTiBBQkkgZGVmaW5pdGlvbiBkb2N1bWVudCBmcm9tIHNoYWRl
+cnMKICAgICAgcGVyc3BlY3RpdmUsIG1heWJlIHRoaXMgY29kZSB3aWxsIGhlbHAgdG8gd3JpdGUg
+b25lIChvciBpdCBpcyBhbiBBTUQKICAgICAgY29uZmlkZW50aWFsIGRvY3VtZW50Pz8pLgoKLS0g
+ClN5bHZhaW4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
