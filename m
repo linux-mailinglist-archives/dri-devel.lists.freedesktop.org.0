@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030AA614B1
-	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2019 12:55:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4D061537
+	for <lists+dri-devel@lfdr.de>; Sun,  7 Jul 2019 16:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB2489861;
-	Sun,  7 Jul 2019 10:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C8489B01;
+	Sun,  7 Jul 2019 14:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9BF1589B78
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2019 10:55:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 985F672167; Sun,  7 Jul 2019 10:55:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sun, 07 Jul 2019 10:55:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: shadow.archemage@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-tj8pSqD7PN@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666C489B01
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Jul 2019 14:22:53 +0000 (UTC)
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:61606
+ helo=[192.168.10.173])
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
+ id 1hk843-00006D-59; Sun, 07 Jul 2019 16:22:51 +0200
+Subject: Re: [PATCH v2 1/6] drm/client: Support unmapping of DRM client buffers
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ daniel@ffwll.ch, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ maxime.ripard@bootlin.com, sean@poorly.run, sam@ravnborg.org,
+ yc_chen@aspeedtech.com
+References: <20190705092613.7621-1-tzimmermann@suse.de>
+ <20190705092613.7621-2-tzimmermann@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <9fceb4af-082c-9451-c005-38ee4e4db32c@tronnes.org>
+Date: Sun, 7 Jul 2019 16:22:43 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <20190705092613.7621-2-tzimmermann@suse.de>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=0dsM08NZisZCh0qtOGDWoPl/5siW8/dZzI6C3gf9dG4=; 
+ b=Vfg99pejhFLV2jzde3HRrXo2mghLqhE5YE8BAmHMifvyMuAkLrMBGZDWAJalhXsGt4JnMRDpjdC2me6Wudlhu7pkAsGjW6m8b+wPkBhbh+/LJHWT12Rxajo5VeQKnTpMYhGYXvF2BbNBTELLV53B0zgBvjBSPjOy7leFK0vzm4QjIJTx3BUMTSX+mWHEs9fTq/MD+5zeP9ws6kRTSOXfsWWYzjaKk5e2hM6ClYHLEi0F0ingWL8ZY0WXo2lFXMV5WXfi5wD0WQqXE7AJI+Bmj7Y6fZ46BakimMcVpVb7fOQspZYb1KZLgWetUCZ8PyBm7Ok0aKpzcrE7j0UWsrOBDA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,149 +49,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2103000578=="
+Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2103000578==
-Content-Type: multipart/alternative; boundary="15624969495.1aC8f.16400"
-Content-Transfer-Encoding: 7bit
-
-
---15624969495.1aC8f.16400
-Date: Sun, 7 Jul 2019 10:55:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #37 from shadow.archemage@gmail.com ---
-(In reply to Mauro Gaspari from comment #36)
-> (In reply to shadow.archemage from comment #35)=20
-> I am not an expert, but I am quite sure shaders have a big part in this. =
-If
-> you can, disable shader caching.
-> There are a few tests you can do:
-> 1. Did you try with the kernel parameters I posted above? I always ran all
-> the parameters together. GPU+CPU and at the time, I did not have crashes =
-for
-> weeks on my Vega64. I am using a RadeonVII now and it seems those paramet=
-ers
-> are not needed.
-
-I tried the kernel parameters above, and the game still crashed for me.
-
-> 2. Valve sponsored an interesting project that removes dependency of AMD
-> Mesa from LLVM. And instead uses ACO. Valve made this available for Arch
-> based systems via AUR, and Ubuntu based system via PPA. If you want to te=
-st
-> it, you can check the posts below. I am going to test this myself on both
-> Arch and Ubuntu.=20
-> https://steamcommunity.com/games/221410/announcements/detail/
-> 1602634609636894200
-> https://steamcommunity.com/app/221410/discussions/0/1640915206474070669/
-
-Will check this out, but will also keep an eye on this thread about the res=
-ults
-of your tests. Thanks!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15624969495.1aC8f.16400
-Date: Sun, 7 Jul 2019 10:55:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c37">Comme=
-nt # 37</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-shadow.archemage&#64;gmail.com" title=3D"shadow.archemage&#64;gmail.com">sh=
-adow.archemage&#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Mauro Gaspari from <a href=3D"show_bug.cgi?id=3D1=
-09955#c36">comment #36</a>)
-<span class=3D"quote">&gt; (In reply to shadow.archemage from <a href=3D"sh=
-ow_bug.cgi?id=3D109955#c35">comment #35</a>)=20
-&gt; I am not an expert, but I am quite sure shaders have a big part in thi=
-s. If
-&gt; you can, disable shader caching.
-&gt; There are a few tests you can do:
-&gt; 1. Did you try with the kernel parameters I posted above? I always ran=
- all
-&gt; the parameters together. GPU+CPU and at the time, I did not have crash=
-es for
-&gt; weeks on my Vega64. I am using a RadeonVII now and it seems those para=
-meters
-&gt; are not needed.</span >
-
-I tried the kernel parameters above, and the game still crashed for me.
-
-<span class=3D"quote">&gt; 2. Valve sponsored an interesting project that r=
-emoves dependency of AMD
-&gt; Mesa from LLVM. And instead uses ACO. Valve made this available for Ar=
-ch
-&gt; based systems via AUR, and Ubuntu based system via PPA. If you want to=
- test
-&gt; it, you can check the posts below. I am going to test this myself on b=
-oth
-&gt; Arch and Ubuntu.=20
-&gt; <a href=3D"https://steamcommunity.com/games/221410/announcements/detai=
-l/">https://steamcommunity.com/games/221410/announcements/detail/</a>
-&gt; 1602634609636894200
-&gt; <a href=3D"https://steamcommunity.com/app/221410/discussions/0/1640915=
-206474070669/">https://steamcommunity.com/app/221410/discussions/0/16409152=
-06474070669/</a></span >
-
-Will check this out, but will also keep an eye on this thread about the res=
-ults
-of your tests. Thanks!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15624969495.1aC8f.16400--
-
---===============2103000578==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2103000578==--
+CgpEZW4gMDUuMDcuMjAxOSAxMS4yNiwgc2tyZXYgVGhvbWFzIFppbW1lcm1hbm46Cj4gRFJNIGNs
+aWVudHMsIHN1Y2ggYXMgdGhlIGZiZGV2IGVtdWxhdGlvbiwgaGF2ZSB0aGVpciBidWZmZXIgb2Jq
+ZWN0cwo+IG1hcHBlZCBieSBkZWZhdWx0LiBNYXBwaW5nIGEgYnVmZmVyIGltcGxpY2l0bHkgcHJl
+dmVudHMgaXRzIHJlbG9jYXRpb24uCj4gSGVuY2UsIHRoZSBidWZmZXIgbWF5IHBlcm1hbmVudGx5
+IGNvbnN1bWUgdmlkZW8gbWVtb3J5IHdoaWxlIGl0J3MKPiBhbGxvY2F0ZWQuIFRoaXMgaXMgYSBw
+cm9ibGVtIGZvciBkcml2ZXJzIG9mIGxvdy1tZW1vcnkgZGV2aWNlcywgc3VjaCBhcwo+IGFzdCwg
+bWdhZzIwMCBvciBvbGRlciBmcmFtZWJ1ZmZlciBoYXJkd2FyZSwgd2hpY2ggd2lsbCB0aGVuIG5v
+dCBoYXZlCj4gZW5vdWdoIG1lbW9yeSB0byBkaXNwbGF5IG90aGVyIGNvbnRlbnQgKGUuZy4sIFgx
+MSkuCj4gCj4gVGhpcyBwYXRjaCBpbnRyb2R1Y2VzIGRybV9jbGllbnRfYnVmZmVyX3ZtYXAoKSBh
+bmQgX3Z1bm1hcCgpLiBJbnRlcm5hbAo+IERSTSBjbGllbnRzIGNhbiB1c2UgdGhlc2UgZnVuY3Rp
+b25zIHRvIHVubWFwIGFuZCByZW1hcCBidWZmZXIgb2JqZWN0cwo+IGFzIG5lZWRlZC4KPiAKPiBU
+aGVyZSdzIG5vIHJlZmVyZW5jZSBjb3VudGluZyBmb3Igdm1hcCBvcGVyYXRpb25zLiBDYWxsZXJz
+IGFyZSBleHBlY3RlZAo+IHRvIGVpdGhlciBrZWVwIGJ1ZmZlcnMgbWFwcGVkIChhcyBpdCBpcyBu
+b3cpLCBvciBjYWxsIHZtYXAgYW5kIHZ1bm1hcAo+IGluIHBhaXJzIGFyb3VuZCBjb2RlIHRoYXQg
+YWNjZXNzZXMgdGhlIG1hcHBlZCBtZW1vcnkuCj4gCj4gdjI6Cj4gCSogcmVtb3ZlIHNldmVyYWwg
+ZHVwbGljYXRlZCBOVUxMLXBvaW50ZXIgY2hlY2tzCj4gCj4gU2lnbmVkLW9mZi1ieTogVGhvbWFz
+IFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
+bS9kcm1fY2xpZW50LmMgfCA2NyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0K
+PiAgaW5jbHVkZS9kcm0vZHJtX2NsaWVudC5oICAgICB8ICAzICsrCj4gIDIgZmlsZXMgY2hhbmdl
+ZCwgNjAgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NsaWVudC5j
+Cj4gaW5kZXggNDEwNTcyZjE0MjU3Li42NmQ4ZDY0NWFjNzkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2RybV9jbGllbnQuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fY2xpZW50
+LmMKPiBAQCAtMjgxLDYgKzI4MSw0MyBAQCBkcm1fY2xpZW50X2J1ZmZlcl9jcmVhdGUoc3RydWN0
+IGRybV9jbGllbnRfZGV2ICpjbGllbnQsIHUzMiB3aWR0aCwgdTMyIGhlaWdodCwgdQo+ICAKPiAg
+CWJ1ZmZlci0+Z2VtID0gb2JqOwo+ICAKPiArCXZhZGRyID0gZHJtX2NsaWVudF9idWZmZXJfdm1h
+cChidWZmZXIpOwo+ICsJaWYgKElTX0VSUih2YWRkcikpIHsKPiArCQlyZXQgPSBQVFJfRVJSKHZh
+ZGRyKTsKPiArCQlnb3RvIGVycl9kZWxldGU7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIGJ1ZmZlcjsK
+PiArCj4gK2Vycl9kZWxldGU6Cj4gKwlkcm1fY2xpZW50X2J1ZmZlcl9kZWxldGUoYnVmZmVyKTsK
+PiArCj4gKwlyZXR1cm4gRVJSX1BUUihyZXQpOwo+ICt9Cj4gKwo+ICsvKioKPiArICogZHJtX2Ns
+aWVudF9idWZmZXJfdm1hcCAtIE1hcCBEUk0gY2xpZW50IGJ1ZmZlciBpbnRvIGFkZHJlc3Mgc3Bh
+Y2UKPiArICogQGJ1ZmZlcjogRFJNIGNsaWVudCBidWZmZXIKPiArICoKPiArICogVGhpcyBmdW5j
+dGlvbiBtYXBzIGEgY2xpZW50IGJ1ZmZlciBpbnRvIGtlcm5lbCBhZGRyZXNzIHNwYWNlLiBJZiB0
+aGUKPiArICogYnVmZmVyIGlzIGFscmVhZHkgbWFwcGVkLCBpdCByZXR1cm5zIHRoZSBtYXBwaW5n
+J3MgYWRkcmVzcy4KPiArICoKPiArICogQ2xpZW50IGJ1ZmZlciBtYXBwaW5ncyBhcmUgbm90IHJl
+Zidjb3VudGVkLiBFYWNoIGNhbGwgdG8KPiArICogZHJtX2NsaWVudF9idWZmZXJfdm1hcCgpIHNo
+b3VsZCBiZSBmb2xsb3dlZCBieSBhIGNhbGwgdG8KPiArICogZHJtX2NsaWVudF9idWZmZXJfdnVu
+bWFwKCk7IG9yIHRoZSBjbGllbnQgYnVmZmVyIHNob3VsZCBiZSBtYXBwZWQKPiArICogdGhyb3Vn
+aG91dCBpdHMgbGlmZXRpbWUuIFRoZSBsYXR0ZXIgaXMgdGhlIGRlZmF1bHQuCj4gKyAqCj4gKyAq
+IFJldHVybnM6Cj4gKyAqCVRoZSBtYXBwZWQgbWVtb3J5J3MgYWRkcmVzcwo+ICsgKi8KPiArdm9p
+ZCAqCj4gK2RybV9jbGllbnRfYnVmZmVyX3ZtYXAoc3RydWN0IGRybV9jbGllbnRfYnVmZmVyICpi
+dWZmZXIpCgpJIHByZWZlciB0byBoYXZlIHRoaXMgb24gb25lIGxpbmUuCgo+ICt7Cj4gKwl2b2lk
+ICp2YWRkcjsKPiArCj4gKwlpZiAoYnVmZmVyLT52YWRkcikKPiArCQlyZXR1cm4gYnVmZmVyLT52
+YWRkcjsKPiArCj4gIAkvKgo+ICAJICogRklYTUU6IFRoZSBkZXBlbmRlbmN5IG9uIEdFTSBoZXJl
+IGlzbid0IHJlcXVpcmVkLCB3ZSBjb3VsZAo+ICAJICogY29udmVydCB0aGUgZHJpdmVyIGhhbmRs
+ZSB0byBhIGRtYS1idWYgaW5zdGVhZCBhbmQgdXNlIHRoZQo+IEBAIC0yODksMjEgKzMyNiwzMSBA
+QCBkcm1fY2xpZW50X2J1ZmZlcl9jcmVhdGUoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQs
+IHUzMiB3aWR0aCwgdTMyIGhlaWdodCwgdQo+ICAJICogZmRfaW5zdGFsbCBzdGVwIG91dCBvZiB0
+aGUgZHJpdmVyIGJhY2tlbmQgaG9va3MsIHRvIG1ha2UgdGhhdAo+ICAJICogZmluYWwgc3RlcCBv
+cHRpb25hbCBmb3IgaW50ZXJuYWwgdXNlcnMuCj4gIAkgKi8KPiAtCXZhZGRyID0gZHJtX2dlbV92
+bWFwKG9iaik7Cj4gLQlpZiAoSVNfRVJSKHZhZGRyKSkgewo+IC0JCXJldCA9IFBUUl9FUlIodmFk
+ZHIpOwo+IC0JCWdvdG8gZXJyX2RlbGV0ZTsKPiAtCX0KPiArCXZhZGRyID0gZHJtX2dlbV92bWFw
+KGJ1ZmZlci0+Z2VtKTsKPiArCWlmIChJU19FUlIodmFkZHIpKQo+ICsJCXJldHVybiB2YWRkcjsK
+PiAgCj4gIAlidWZmZXItPnZhZGRyID0gdmFkZHI7Cj4gIAo+IC0JcmV0dXJuIGJ1ZmZlcjsKPiAt
+Cj4gLWVycl9kZWxldGU6Cj4gLQlkcm1fY2xpZW50X2J1ZmZlcl9kZWxldGUoYnVmZmVyKTsKPiAr
+CXJldHVybiB2YWRkcjsKPiArfQo+ICtFWFBPUlRfU1lNQk9MKGRybV9jbGllbnRfYnVmZmVyX3Zt
+YXApOwo+ICAKPiAtCXJldHVybiBFUlJfUFRSKHJldCk7Cj4gKy8qKgo+ICsgKiBkcm1fY2xpZW50
+X2J1ZmZlcl92dW5tYXAgLSBVbm1hcCBEUk0gY2xpZW50IGJ1ZmZlcgo+ICsgKiBAYnVmZmVyOiBE
+Uk0gY2xpZW50IGJ1ZmZlcgo+ICsgKgo+ICsgKiBUaGlzIGZ1bmN0aW9uIHJlbW92ZXMgYSBjbGll
+bnQgYnVmZmVyJ3MgbWVtb3J5IG1tYXBwaW5nLiBUaGlzCgpzL21tYXBwaW5nL21hcHBpbmcvCgo+
+ICsgKiBmdW5jdGlvbiBpcyBvbmx5IHJlcXVpcmVkIGJ5IGNsaWVudHMgdGhhdCBtYW5hZ2UgdGhl
+aXIgYnVmZmVycwo+ICsgKiBieSB0aGVtc2VsdmVzLiBCeSBkZWZhdWx0LCBEUk0gY2xpZW50IGJ1
+ZmZlcnMgYXJlIG1hcHBlZCB0aHJvdWdob3V0Cj4gKyAqIHRoZWlyIGVudGlyZSBsaWZldGltZS4K
+PiArICovCj4gK3ZvaWQgZHJtX2NsaWVudF9idWZmZXJfdnVubWFwKHN0cnVjdCBkcm1fY2xpZW50
+X2J1ZmZlciAqYnVmZmVyKQo+ICt7Cj4gKwlkcm1fZ2VtX3Z1bm1hcChidWZmZXItPmdlbSwgYnVm
+ZmVyLT52YWRkcik7Cj4gKwlidWZmZXItPnZhZGRyID0gTlVMTDsKPiAgfQo+ICtFWFBPUlRfU1lN
+Qk9MKGRybV9jbGllbnRfYnVmZmVyX3Z1bm1hcCk7Cj4gIAo+ICBzdGF0aWMgdm9pZCBkcm1fY2xp
+ZW50X2J1ZmZlcl9ybWZiKHN0cnVjdCBkcm1fY2xpZW50X2J1ZmZlciAqYnVmZmVyKQo+ICB7Cj4g
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaCBiL2luY2x1ZGUvZHJtL2RybV9j
+bGllbnQuaAo+IGluZGV4IDcyZDUxZDFlOWRkOS4uZTFkYjFkOWRhMGJmIDEwMDY0NAo+IC0tLSBh
+L2luY2x1ZGUvZHJtL2RybV9jbGllbnQuaAo+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9jbGllbnQu
+aAo+IEBAIC0xNDksNiArMTQ5LDkgQEAgc3RydWN0IGRybV9jbGllbnRfYnVmZmVyIHsKPiAgc3Ry
+dWN0IGRybV9jbGllbnRfYnVmZmVyICoKPiAgZHJtX2NsaWVudF9mcmFtZWJ1ZmZlcl9jcmVhdGUo
+c3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQsIHUzMiB3aWR0aCwgdTMyIGhlaWdodCwgdTMy
+IGZvcm1hdCk7Cj4gIHZvaWQgZHJtX2NsaWVudF9mcmFtZWJ1ZmZlcl9kZWxldGUoc3RydWN0IGRy
+bV9jbGllbnRfYnVmZmVyICpidWZmZXIpOwo+ICt2b2lkICoKPiArZHJtX2NsaWVudF9idWZmZXJf
+dm1hcChzdHJ1Y3QgZHJtX2NsaWVudF9idWZmZXIgKmJ1ZmZlcik7CgpQcmVmZXIgdG8gaGF2ZSB0
+aGlzIG9uIG9uZSBsaW5lLgoKUmV2aWV3ZWQtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRy
+b25uZXMub3JnPgoKPiArdm9pZCBkcm1fY2xpZW50X2J1ZmZlcl92dW5tYXAoc3RydWN0IGRybV9j
+bGllbnRfYnVmZmVyICpidWZmZXIpOwo+ICAKPiAgaW50IGRybV9jbGllbnRfbW9kZXNldF9jcmVh
+dGUoc3RydWN0IGRybV9jbGllbnRfZGV2ICpjbGllbnQpOwo+ICB2b2lkIGRybV9jbGllbnRfbW9k
+ZXNldF9mcmVlKHN0cnVjdCBkcm1fY2xpZW50X2RldiAqY2xpZW50KTsKPiAKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
