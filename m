@@ -1,59 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B593861DCD
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 13:32:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B3D61E45
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 14:20:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA67B89CAC;
-	Mon,  8 Jul 2019 11:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F74489AB7;
+	Mon,  8 Jul 2019 12:20:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E63A89CAC
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 11:31:58 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id t28so15499801lje.9
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2019 04:31:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6TIi+Hc/eqHhbRtd39q1XcMs9DHtyXE8AdtvUQujRxg=;
- b=sR3Xo5J99qMhp9XnYIFdH2VBrRbUjXxV1pK+QlbujYrhftvQqwtxNfWRIExHW/JNRJ
- R924+/Qc5KOXfuWlXKFgGp0Fhx2iiFK4xNgBK/okbKXU8SB3IDAavBUCau4Ar6jSRLxt
- 6iBM4t7bXHo/i9dvZ2QC9qimXloFtBLVAdEq1XTcVD/IujTggU/FXOuw2epiQnFp2zdB
- fXhsMZP1g5fDV/A5yt94K/Q3S7iBYS9xi1WBkH48hfijN7ntDBOxODw5A6EtHXNhKker
- GbqxNIApiTQU+xevgumKXKMxxX8ahe/OuniRwWn642hz5zfwQVUqIGJcepk115OqeWpa
- KxDQ==
-X-Gm-Message-State: APjAAAWbxl9soGoLbmQeHUL8lfU3PPwDo+a3cCl9ysIACJcs4Cx96bsV
- SfJit6g3OIPbcGyN84ajyMM28w==
-X-Google-Smtp-Source: APXvYqwzAcDDYZa1cG0AEjFK0cWeVEepmGmCR3shs1KXxC+/hNVmVfOxTlUg11vzcbg6qgIZU95cIw==
-X-Received: by 2002:a2e:91c5:: with SMTP id u5mr10205128ljg.65.1562585517185; 
- Mon, 08 Jul 2019 04:31:57 -0700 (PDT)
-Received: from genomnajs.ideon.se ([85.235.10.227])
- by smtp.gmail.com with ESMTPSA id q2sm2695762lfj.25.2019.07.08.04.31.56
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 08 Jul 2019 04:31:56 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH] drm/bridge/parade: Drop legacy GPIO header
-Date: Mon,  8 Jul 2019 13:31:54 +0200
-Message-Id: <20190708113154.12985-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.21.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4E69989AB7
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 12:20:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4AF6872167; Mon,  8 Jul 2019 12:20:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111087] SteamOS fails to boot with "drmmode_do_crtc_dpms cannot
+ get last vblank counter"
+Date: Mon, 08 Jul 2019 12:20:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ludovico.denittis@collabora.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111087-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6TIi+Hc/eqHhbRtd39q1XcMs9DHtyXE8AdtvUQujRxg=;
- b=u5LjKJb+wcyw89t1GAReFrwqUpSb6vTcsvbrc73oyemUTJLpIKH3MdQsfasm4/umpo
- XFH7iavifkjSziQ2Q9U0P7MhIHz3H5EygLxZxdSxuq4W3nhHxW/S7h/KbPihF3ryj7m0
- FGQGLTSZrvUdgtYBE4fYh85akFaYWIbKllU/ewc2S9ImTYr3SlYFMCderavxtZveO6AT
- YK4J8//xb/Wc8nc0ITgEAU0Jwcs5YXrXi4QmMnYDc8W163zOK5KIjugrCyiK0pBz8jJ/
- cRda9fIO7MzSh5UtfzrLcXCY3bmvYJYsiXfpbWNFlwGdfT4MDfScxp5uny2DpPck6MsG
- +orw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,24 +53,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0095863771=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBkcml2ZXIgdXNlcyB0aGUgbmV3IEdQSU8gQVBJIGZyb20gPGxpbnV4L2dwaW8vY29uc3Vt
-ZXIuaD4Kc28gZHJvcCB0aGUgaW5jbHVzaW9uIG9mIHRoZSBsZWdhY3kgaGVhZGVyLgoKU2lnbmVk
-LW9mZi1ieTogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFyYWRlLXBzODYyMi5jIHwgMSAtCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFy
-YWRlLXBzODYyMi5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYXJhZGUtcHM4NjIyLmMKaW5k
-ZXggNjk5YzhkZmIwZmNiLi5lMjZmNDc1ZWI1MTcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9icmlkZ2UvcGFyYWRlLXBzODYyMi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvcGFy
-YWRlLXBzODYyMi5jCkBAIC04LDcgKzgsNiBAQAogI2luY2x1ZGUgPGxpbnV4L2JhY2tsaWdodC5o
-PgogI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+CiAjaW5jbHVkZSA8bGludXgvZXJyLmg+Ci0jaW5j
-bHVkZSA8bGludXgvZ3Bpby5oPgogI2luY2x1ZGUgPGxpbnV4L2dwaW8vY29uc3VtZXIuaD4KICNp
-bmNsdWRlIDxsaW51eC9pMmMuaD4KICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KLS0gCjIuMjEu
-MAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0095863771==
+Content-Type: multipart/alternative; boundary="15625884181.99c61a98.21258"
+Content-Transfer-Encoding: 7bit
+
+
+--15625884181.99c61a98.21258
+Date: Mon, 8 Jul 2019 12:20:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111087
+
+            Bug ID: 111087
+           Summary: SteamOS fails to boot with "drmmode_do_crtc_dpms
+                    cannot get last vblank counter"
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: ludovico.denittis@collabora.com
+
+Created attachment 144719
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144719&action=3Dedit
+basic configuration details
+
+When I try to boot SteamOS I end up with just a black screen.
+
+Xorg.0.log contains this error but I'm not completely sure if it is the cau=
+se:
+(EE) AMDGPU(0): drmmode_do_crtc_dpms cannot get last vblank counter
+
+I also tried installing debian kernel 5.0.2-1~exp1, mesa 19.1.1 and all the
+relevant xserver-xorg-video-* 19.0.1 but the problem persisted.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15625884181.99c61a98.21258
+Date: Mon, 8 Jul 2019 12:20:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - SteamOS fails to boot with &quot;drmmode_do_crtc_dpms can=
+not get last vblank counter&quot;"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087">111087</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>SteamOS fails to boot with &quot;drmmode_do_crtc_dpms cannot =
+get last vblank counter&quot;
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>ludovico.denittis&#64;collabora.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144719=
+" name=3D"attach_144719" title=3D"basic configuration details">attachment 1=
+44719</a> <a href=3D"attachment.cgi?id=3D144719&amp;action=3Dedit" title=3D=
+"basic configuration details">[details]</a></span>
+basic configuration details
+
+When I try to boot SteamOS I end up with just a black screen.
+
+Xorg.0.log contains this error but I'm not completely sure if it is the cau=
+se:
+(EE) AMDGPU(0): drmmode_do_crtc_dpms cannot get last vblank counter
+
+I also tried installing debian kernel 5.0.2-1~exp1, mesa 19.1.1 and all the
+relevant xserver-xorg-video-* 19.0.1 but the problem persisted.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15625884181.99c61a98.21258--
+
+--===============0095863771==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0095863771==--
