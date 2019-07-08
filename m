@@ -1,45 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881BF61941
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 04:16:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A35236196B
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 05:11:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D5D898E4;
-	Mon,  8 Jul 2019 02:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC7889948;
+	Mon,  8 Jul 2019 03:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 26BA6898E4
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 02:16:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 17AF972167; Mon,  8 Jul 2019 02:16:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111082] Severe stutter in CS:GO surf servers, despite ~300fps
-Date: Mon, 08 Jul 2019 02:16:01 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: NOTABUG
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-111082-502-AwJEaCBWSv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111082-502@http.bugs.freedesktop.org/>
-References: <bug-111082-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 587DE89932
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 03:11:54 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [210.160.37.25])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3595DCC;
+ Mon,  8 Jul 2019 05:11:48 +0200 (CEST)
+Date: Mon, 8 Jul 2019 06:11:21 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v2 03/19] arm64: renesas: Update 'vsps' property
+Message-ID: <20190708031121.GA5046@pendragon.ideasonboard.com>
+References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
+ <20190706140746.29132-4-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190706140746.29132-4-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1562555511;
+ bh=8gc1GRiNm08PRWGt9s/RcUqTuZs4EATDUk92EjTIlcw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HvKdj5RYahTvfPfFy2ezx/60bHwdmV+2ZVYzRWT/UererVRPzYXGK6SbVQdYqoFUG
+ R5AlWdE/XFociu1LDvfAbVoO435efmELaJ8MvCIg4hscFOduZLP4WXYzPn5g0OJdVt
+ vQECeAnBz5AH6LjXY50J4BSz7UtJLurU0KcwW7EE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,143 +46,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1546681921=="
+Cc: muroya@ksk.co.jp, VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
+ koji.matsuoka.xm@renesas.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ kieran.bingham+renesas@ideasonboard.com,
+ Harsha.ManjulaMallikarjun@in.bosch.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1546681921==
-Content-Type: multipart/alternative; boundary="15625521620.387eeCAD.19483"
-Content-Transfer-Encoding: 7bit
-
-
---15625521620.387eeCAD.19483
-Date: Mon, 8 Jul 2019 02:16:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111082
-
-Timothy Arceri <t_arceri@yahoo.com.au> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |NOTABUG
-             Status|NEW                         |RESOLVED
-
---- Comment #1 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-What makes you think this is a driver bug? Are you sure this is not just a =
-slow
-connection between you and the community server? Or a slow server or any nu=
-mber
-of different things?
-
-Sorry but I'm going to close this bug report as I see nothing to suggest th=
-is
-is a graphics driver bug.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15625521620.387eeCAD.19483
-Date: Mon, 8 Jul 2019 02:16:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
-#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
-"> <span class=3D"fn">Timothy Arceri</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - Severe stutter in CS:GO surf servers, despit=
-e ~300fps"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082">bug 11108=
-2</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>NOTABUG
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - Severe stutter in CS:GO surf servers, despit=
-e ~300fps"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED NOTABUG - Severe stutter in CS:GO surf servers, despit=
-e ~300fps"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082">bug 11108=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>What makes you think this is a driver bug? Are you sure this i=
-s not just a slow
-connection between you and the community server? Or a slow server or any nu=
-mber
-of different things?
-
-Sorry but I'm going to close this bug report as I see nothing to suggest th=
-is
-is a graphics driver bug.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15625521620.387eeCAD.19483--
-
---===============1546681921==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1546681921==--
+SGkgSmFjb3BvLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBTYXQsIEp1bCAwNiwgMjAx
+OSBhdCAwNDowNzozMFBNICswMjAwLCBKYWNvcG8gTW9uZGkgd3JvdGU6Cj4gVXBkYXRlIHRoZSAn
+dnNwcycgcHJvcGVydHkgaW4gdGhlIFItQ2FyIEdlbjMgU29DIGRldmljZSB0cmVlIGZpbGVzIHRv
+Cj4gbWF0Y2ggd2hhdCdzIGluIGluIHRoZSBkb2N1bWVudGF0aW9uIGV4YW1wbGUuCj4gCj4gU2ln
+bmVkLW9mZi1ieTogSmFjb3BvIE1vbmRpIDxqYWNvcG8rcmVuZXNhc0BqbW9uZGkub3JnPgoKUmV2
+aWV3ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJk
+LmNvbT4KCj4gLS0tCj4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3NzRjMC5kdHNp
+IHwgMiArLQo+ICBhcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5NS5kdHNpICB8IDIg
+Ky0KPiAgYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I4YTc3OTY1LmR0c2kgfCAyICstCj4g
+IGFyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3Nzk5MC5kdHNpIHwgMiArLQo+ICBhcmNo
+L2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5OTUuZHRzaSB8IDIgKy0KPiAgNSBmaWxlcyBj
+aGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBh
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3NzRjMC5kdHNpIGIvYXJjaC9hcm02NC9i
+b290L2R0cy9yZW5lc2FzL3I4YTc3NGMwLmR0c2kKPiBpbmRleCAzZjg2ZGIxOTlkYmYuLmU2NDNm
+OWQzYzEwMiAxMDA2NDQKPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc0
+YzAuZHRzaQo+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3NzRjMC5kdHNp
+Cj4gQEAgLTE4MDcsNyArMTgwNyw3IEBACj4gIAkJCWNsb2NrcyA9IDwmY3BnIENQR19NT0QgNzI0
+PiwKPiAgCQkJCSA8JmNwZyBDUEdfTU9EIDcyMz47Cj4gIAkJCWNsb2NrLW5hbWVzID0gImR1LjAi
+LCAiZHUuMSI7Cj4gLQkJCXZzcHMgPSA8JnZzcGQwIDAgJnZzcGQxIDA+Owo+ICsJCQl2c3BzID0g
+PCZ2c3BkMCAwPiwgPCZ2c3BkMSAwPjsKPiAgCQkJc3RhdHVzID0gImRpc2FibGVkIjsKPiAgCj4g
+IAkJCXBvcnRzIHsKPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I4
+YTc3OTUuZHRzaSBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3Nzk1LmR0c2kKPiBp
+bmRleCAwOTc1MzhjYzRiMWYuLjQzMmY0MDM2YThhOCAxMDA2NDQKPiAtLS0gYS9hcmNoL2FybTY0
+L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5NS5kdHNpCj4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0
+cy9yZW5lc2FzL3I4YTc3OTUuZHRzaQo+IEBAIC0zMDk4LDcgKzMwOTgsNyBAQAo+ICAJCQkJIDwm
+Y3BnIENQR19NT0QgNzIyPiwKPiAgCQkJCSA8JmNwZyBDUEdfTU9EIDcyMT47Cj4gIAkJCWNsb2Nr
+LW5hbWVzID0gImR1LjAiLCAiZHUuMSIsICJkdS4yIiwgImR1LjMiOwo+IC0JCQl2c3BzID0gPCZ2
+c3BkMCAwICZ2c3BkMSAwICZ2c3BkMiAwICZ2c3BkMCAxPjsKPiArCQkJdnNwcyA9IDwmdnNwZDAg
+MD4sIDwmdnNwZDEgMD4sIDwmdnNwZDIgMD4sIDwmdnNwZDAgMT47Cj4gIAkJCXN0YXR1cyA9ICJk
+aXNhYmxlZCI7Cj4gIAo+ICAJCQlwb3J0cyB7Cj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9v
+dC9kdHMvcmVuZXNhcy9yOGE3Nzk2NS5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2Fz
+L3I4YTc3OTY1LmR0c2kKPiBpbmRleCAyNTU0YjE3NDJkYmYuLmI3MDFhZWI0ZjQzOCAxMDA2NDQK
+PiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5NjUuZHRzaQo+ICsrKyBi
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3Nzk2NS5kdHNpCj4gQEAgLTI0NTYsNyAr
+MjQ1Niw3IEBACj4gIAkJCWNsb2NrLW5hbWVzID0gImR1LjAiLCAiZHUuMSIsICJkdS4zIjsKPiAg
+CQkJc3RhdHVzID0gImRpc2FibGVkIjsKPiAgCj4gLQkJCXZzcHMgPSA8JnZzcGQwIDAgJnZzcGQx
+IDAgJnZzcGQwIDE+Owo+ICsJCQl2c3BzID0gPCZ2c3BkMCAwPiwgPCZ2c3BkMSAwPiwgPCZ2c3Bk
+MCAxPjsKPiAgCj4gIAkJCXBvcnRzIHsKPiAgCQkJCSNhZGRyZXNzLWNlbGxzID0gPDE+Owo+IGRp
+ZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5OTAuZHRzaSBiL2Fy
+Y2gvYXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3Nzk5MC5kdHNpCj4gaW5kZXggNTZjYjU2NmZm
+YTA5Li43OWRiNTQ0MWI3ZTcgMTAwNjQ0Cj4gLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9yZW5l
+c2FzL3I4YTc3OTkwLmR0c2kKPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhh
+Nzc5OTAuZHRzaQo+IEBAIC0xNzY0LDcgKzE3NjQsNyBAQAo+ICAJCQljbG9ja3MgPSA8JmNwZyBD
+UEdfTU9EIDcyND4sCj4gIAkJCQkgPCZjcGcgQ1BHX01PRCA3MjM+Owo+ICAJCQljbG9jay1uYW1l
+cyA9ICJkdS4wIiwgImR1LjEiOwo+IC0JCQl2c3BzID0gPCZ2c3BkMCAwICZ2c3BkMSAwPjsKPiAr
+CQkJdnNwcyA9IDwmdnNwZDAgMD4sIDwmdnNwZDEgMD47Cj4gIAkJCXN0YXR1cyA9ICJkaXNhYmxl
+ZCI7Cj4gIAo+ICAJCQlwb3J0cyB7Cj4gZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9kdHMv
+cmVuZXNhcy9yOGE3Nzk5NS5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL3I4YTc3
+OTk1LmR0c2kKPiBpbmRleCA1YmYzYWYyNDZlMTQuLjQ5YTExYjRmNTViZCAxMDA2NDQKPiAtLS0g
+YS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5OTUuZHRzaQo+ICsrKyBiL2FyY2gv
+YXJtNjQvYm9vdC9kdHMvcmVuZXNhcy9yOGE3Nzk5NS5kdHNpCj4gQEAgLTEwMDEsNyArMTAwMSw3
+IEBACj4gIAkJCWNsb2NrcyA9IDwmY3BnIENQR19NT0QgNzI0PiwKPiAgCQkJCSA8JmNwZyBDUEdf
+TU9EIDcyMz47Cj4gIAkJCWNsb2NrLW5hbWVzID0gImR1LjAiLCAiZHUuMSI7Cj4gLQkJCXZzcHMg
+PSA8JnZzcGQwIDAgJnZzcGQxIDA+Owo+ICsJCQl2c3BzID0gPCZ2c3BkMCAwPiwgPCZ2c3BkMSAw
+PjsKPiAgCQkJc3RhdHVzID0gImRpc2FibGVkIjsKPiAgCj4gIAkJCXBvcnRzIHsKCi0tIApSZWdh
+cmRzLAoKTGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
