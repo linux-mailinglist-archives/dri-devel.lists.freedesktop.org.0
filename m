@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D9F6238A
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 17:37:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 683E5623BE
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 17:38:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030D989E14;
-	Mon,  8 Jul 2019 15:36:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6603C89E0E;
+	Mon,  8 Jul 2019 15:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0DB2489E14
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 15:36:57 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8D7AA89E0E
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 15:38:03 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0AFD672167; Mon,  8 Jul 2019 15:36:57 +0000 (UTC)
+ id 87CB172167; Mon,  8 Jul 2019 15:38:03 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111087] SteamOS boots to black screen
-Date: Mon, 08 Jul 2019 15:36:57 +0000
+Subject: [Bug 109524] "Invalid glsl version in shading_language_version()"
+ when trying to run directX games using wine
+Date: Mon, 08 Jul 2019 15:38:03 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/R100
+X-Bugzilla-Version: 18.2
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ludovico.denittis@collabora.com
+X-Bugzilla-Who: laszlo.erdoes@freenet.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111087-502-ebc3LFK5bS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111087-502@http.bugs.freedesktop.org/>
-References: <bug-111087-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109524-502-hG9bdkKEND@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109524-502@http.bugs.freedesktop.org/>
+References: <bug-109524-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,38 +53,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1724843006=="
+Content-Type: multipart/mixed; boundary="===============0294002853=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1724843006==
-Content-Type: multipart/alternative; boundary="15626002170.631A5740.22549"
+--===============0294002853==
+Content-Type: multipart/alternative; boundary="15626002831.cCbA.22584"
 Content-Transfer-Encoding: 7bit
 
 
---15626002170.631A5740.22549
-Date: Mon, 8 Jul 2019 15:36:57 +0000
+--15626002831.cCbA.22584
+Date: Mon, 8 Jul 2019 15:38:03 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111087
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109524
 
---- Comment #11 from Ludovico de Nittis <ludovico.denittis@collabora.com> -=
---
-Created attachment 144728
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144728&action=3Dedit
-Xorg log with kernel option amdgpu.dc=3D0
+--- Comment #11 from laszlo.erdoes@freenet.de ---
+(In reply to Ilia Mirkin from comment #10)
+> A better patch from Ian: https://patchwork.freedesktop.org/patch/315771/
+
+Thanks, this patch works on my machine.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15626002170.631A5740.22549
-Date: Mon, 8 Jul 2019 15:36:57 +0000
+--15626002831.cCbA.22584
+Date: Mon, 8 Jul 2019 15:38:03 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,25 +100,27 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - SteamOS boots to black screen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087#c11">Comme=
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524#c11">Comme=
 nt # 11</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - SteamOS boots to black screen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087">bug 11108=
-7</a>
+   title=3D"NEW - &quot;Invalid glsl version in shading_language_version()&=
+quot; when trying to run directX games using wine"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109524">bug 10952=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ludovico.denittis&#64;collabora.com" title=3D"Ludovico de Nittis &lt;ludovi=
-co.denittis&#64;collabora.com&gt;"> <span class=3D"fn">Ludovico de Nittis</=
-span></a>
+laszlo.erdoes&#64;freenet.de" title=3D"laszlo.erdoes&#64;freenet.de">laszlo=
+.erdoes&#64;freenet.de</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144728=
-" name=3D"attach_144728" title=3D"Xorg log with kernel option amdgpu.dc=3D0=
-">attachment 144728</a> <a href=3D"attachment.cgi?id=3D144728&amp;action=3D=
-edit" title=3D"Xorg log with kernel option amdgpu.dc=3D0">[details]</a></sp=
-an>
-Xorg log with kernel option amdgpu.dc=3D0</pre>
+        <pre>(In reply to Ilia Mirkin from <a href=3D"show_bug.cgi?id=3D109=
+524#c10">comment #10</a>)
+<span class=3D"quote">&gt; A better patch from Ian: <a href=3D"https://patc=
+hwork.freedesktop.org/patch/315771/">https://patchwork.freedesktop.org/patc=
+h/315771/</a></span >
+
+Thanks, this patch works on my machine.</pre>
         </div>
       </p>
 
@@ -131,9 +134,9 @@ Xorg log with kernel option amdgpu.dc=3D0</pre>
     </body>
 </html>=
 
---15626002170.631A5740.22549--
+--15626002831.cCbA.22584--
 
---===============1724843006==
+--===============0294002853==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1724843006==--
+--===============0294002853==--
