@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED45063162
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:02:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9146315B
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:02:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77B288985A;
-	Tue,  9 Jul 2019 07:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51198897F0;
+	Tue,  9 Jul 2019 07:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED97C89AE6
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 22:34:30 +0000 (UTC)
-X-UUID: 71b1d20771854eb7b1593d72fbb4dfa9-20190709
-X-UUID: 71b1d20771854eb7b1593d72fbb4dfa9-20190709
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0071689D39
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 22:34:29 +0000 (UTC)
+X-UUID: 3ec56610b2c04157ae42253a1465ef2e-20190709
+X-UUID: 3ec56610b2c04157ae42253a1465ef2e-20190709
 Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
  (envelope-from <yongqiang.niu@mediatek.com>)
  (mhqrelay.mediatek.com ESMTP with TLS)
- with ESMTP id 760628844; Tue, 09 Jul 2019 06:34:25 +0800
+ with ESMTP id 1218074293; Tue, 09 Jul 2019 06:34:25 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
  mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 9 Jul 2019 06:34:23 +0800
+ 15.0.1395.4; Tue, 9 Jul 2019 06:34:24 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 9 Jul 2019 06:34:23 +0800
+ Transport; Tue, 9 Jul 2019 06:34:24 +0800
 From: <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
 Subject: [PATCH v4,
- 03/33] dt-bindings: mediatek: add ccorr description for mt8183 display
-Date: Tue, 9 Jul 2019 06:33:43 +0800
-Message-ID: <1562625253-29254-4-git-send-email-yongqiang.niu@mediatek.com>
+ 04/33] dt-bindings: mediatek: add dither description for mt8183
+ display
+Date: Tue, 9 Jul 2019 06:33:44 +0800
+Message-ID: <1562625253-29254-5-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1562625253-29254-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1562625253-29254-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -66,18 +67,18 @@ L2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgfCAxICsKIDEgZmls
 ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
 aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRpc3AudHh0IGIvRG9j
 dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWss
-ZGlzcC50eHQKaW5kZXggOGM0NzAwZi4uY2Y1ZmIwOCAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlv
+ZGlzcC50eHQKaW5kZXggY2Y1ZmIwOC4uYWZkM2M5MCAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlv
 bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQK
 KysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsv
-bWVkaWF0ZWssZGlzcC50eHQKQEAgLTMxLDYgKzMxLDcgQEAgUmVxdWlyZWQgcHJvcGVydGllcyAo
-YWxsIGZ1bmN0aW9uIGJsb2Nrcyk6CiAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLW92bC0ybCIgICAg
-ICAgICAgIC0gb3ZlcmxheSAoMiBsYXllcnMsIGJsZW5kaW5nLCBjc2MpCiAJIm1lZGlhdGVrLDxj
-aGlwPi1kaXNwLXJkbWEiICAJCS0gcmVhZCBETUEgLyBsaW5lIGJ1ZmZlcgogCSJtZWRpYXRlayw8
-Y2hpcD4tZGlzcC13ZG1hIiAgCQktIHdyaXRlIERNQQorCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1j
-Y29yciIgICAgICAgICAgICAtIGNvbG9yIGNvcnJlY3Rpb24KIAkibWVkaWF0ZWssPGNoaXA+LWRp
-c3AtY29sb3IiIAkJLSBjb2xvciBwcm9jZXNzb3IKIAkibWVkaWF0ZWssPGNoaXA+LWRpc3AtYWFs
-IiAgIAkJLSBhZGFwdGl2ZSBhbWJpZW50IGxpZ2h0IGNvbnRyb2xsZXIKIAkibWVkaWF0ZWssPGNo
-aXA+LWRpc3AtZ2FtbWEiIAkJLSBnYW1tYSBjb3JyZWN0aW9uCi0tIAoxLjguMS4xLmRpcnR5Cgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+bWVkaWF0ZWssZGlzcC50eHQKQEAgLTMzLDYgKzMzLDcgQEAgUmVxdWlyZWQgcHJvcGVydGllcyAo
+YWxsIGZ1bmN0aW9uIGJsb2Nrcyk6CiAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLXdkbWEiICAJCS0g
+d3JpdGUgRE1BCiAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLWNjb3JyIiAgICAgICAgICAgIC0gY29s
+b3IgY29ycmVjdGlvbgogCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1jb2xvciIgCQktIGNvbG9yIHBy
+b2Nlc3NvcgorCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1kaXRoZXIiICAgICAgICAgICAtIGRpdGhl
+cgogCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1hYWwiICAgCQktIGFkYXB0aXZlIGFtYmllbnQgbGln
+aHQgY29udHJvbGxlcgogCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1nYW1tYSIgCQktIGdhbW1hIGNv
+cnJlY3Rpb24KIAkibWVkaWF0ZWssPGNoaXA+LWRpc3AtbWVyZ2UiIAkJLSBtZXJnZSBzdHJlYW1z
+IGZyb20gdHdvIFJETUEgc291cmNlcwotLSAKMS44LjEuMS5kaXJ0eQoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
