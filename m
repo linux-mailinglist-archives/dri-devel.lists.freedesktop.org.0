@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F88561C93
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 11:50:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3AC61C94
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 11:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 570BE89C1A;
-	Mon,  8 Jul 2019 09:50:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568E289BBD;
+	Mon,  8 Jul 2019 09:50:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C06A89AB5
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 09:50:40 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id v15so4682361wml.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2019 02:50:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=RCS74G4sWvvy+46uSGZJ6oJZbabt972OuIz8Sp1gZEE=;
- b=Ay6UOEB/g3wUVGPIt18WdBC5eX/PbzjR7KWNTfW2PBjPIACSqLrQmSs+XPOLUjDSMR
- 82GyGH3At13MTynatFqeaW3yyi12GKG0n4RvLbRIb2N+NJ+TUvHzPDZM/RSeOD6qFUWC
- UoZ6oJmnXxIWFjdLSjT1R4Lzndd6f2++09QgL1j+RHzBRtKV3JaeU+gW85zATDmMxjLl
- 06wp2GzmIlpyrFHU293PtVjfsyLNLFUpiomBtji2Emf1SWwyf2yuqMMTkufJ4nkVfPMS
- xHxVp4uLGAV4dYNlkvixrdP3yMklUfspqqgp0uwJuEI3h0mXtsqceYxyjCvX9s4hMwXA
- pfXA==
-X-Gm-Message-State: APjAAAXUEp1X1Hzx6bAGFQIgA5EoNSjlGnvVtX81h3qZ6sZ31yvFN7ik
- 5u8xAg3KMmXHIdiaajw5c7vf6ngcje0=
-X-Google-Smtp-Source: APXvYqwhXZRuKJa+zFhVDKStT/vnzm0nb/53O8HbFn8m1WjIdRJ5yF8NLGLBbEhiE85Tse2BR0wVbA==
-X-Received: by 2002:a1c:6c08:: with SMTP id h8mr16715792wmc.62.1562579438647; 
- Mon, 08 Jul 2019 02:50:38 -0700 (PDT)
-Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
- by smtp.gmail.com with ESMTPSA id l13sm12030264wrt.16.2019.07.08.02.50.37
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 08 Jul 2019 02:50:38 -0700 (PDT)
-Date: Mon, 8 Jul 2019 09:49:50 +0000
-From: sylvain.bertrand@gmail.com
-To: bugzilla-daemon@freedesktop.org
-Subject: Re: [Bug 111082] Severe stutter in CS:GO surf servers, despite ~300fps
-Message-ID: <20190708094950.GA375@freedom>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 11F9789BBD
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 09:50:43 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0EF7172168; Mon,  8 Jul 2019 09:50:43 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111082] Severe stutter in CS:GO surf servers, despite ~300fps
+Date: Mon, 08 Jul 2019 09:50:43 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111082-502-871OOUeI5c@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111082-502@http.bugs.freedesktop.org/>
 References: <bug-111082-502@http.bugs.freedesktop.org/>
- <bug-111082-502-KUJpDXlUH9@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bug-111082-502-KUJpDXlUH9@http.bugs.freedesktop.org/>
-User-Agent: Mutt/ (2018-04-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=RCS74G4sWvvy+46uSGZJ6oJZbabt972OuIz8Sp1gZEE=;
- b=t23TUC9YUaIzpD/fRHZpp8P3WSfkyb71NcjDIoHekkaoKvYMWJtvdRP8WMRno7E1Ms
- LG+eyLRwGoSF5FKBbm6Pj9xtyF+1qvKQUYr3dnI7TfsH73czYDxIFSs/ActFWNTNvOWx
- yVNG8bfpVVB+rLNJeFoKLTm6KiyM50ZUKDYI9OU+7fm00KWpUEw9kBJP601yjBU7v+Xg
- l5PeHdZGgh7V3hf1w7FASwKvaLq1IfndvXy3QdsBhylfPHV6ppIpT88g99r3B/6NSMhq
- 4hQC2jOAwhJll1vERAgxR1txmzd/YV0CBNRc0di2IAwKoXjEKRNPvlaxM4jYNfOYQyfM
- OeTg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,22 +52,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1585537026=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdWwgMDgsIDIwMTkgYXQgMDM6MjA6NDRBTSArMDAwMCwgYnVnemlsbGEtZGFlbW9u
-QGZyZWVkZXNrdG9wLm9yZyB3cm90ZToKPiBIb3cgaXMgdGhpcyBub3QgYSBncmFwaGljcyBkcml2
-ZXIgYnVnPwoKSGUgbWVhbnQgaXQgY291bGQgYmUgYSBnYW1lIGVuZ2luZSBidWcgKG5ldHdvcmsg
-b3IgM0QsIHZlcnkgcHJvYmFibHkpLgoKWW91IGFyZSBib3RoIHJpZ2h0LgoKQ1NHTyAzRCBlbmdp
-bmUgb24gYmFzZWQgbGludXggT1NlcyBpcyByZWFsbHkgYmFkIGlmIHlvdSB1c2UgbWFwcyB3aGlj
-aCBhcmUgbm90CmluIHRoZSBjb21wZXRpdGl2ZSBzZXQuCgpGb3IgaW5zdGFuY2UsIGRhbmdlciB6
-b25lIG9wZW4gbWFwcywgb24gbXkgc3lzdGVtLCBoYXZlIGRpc2FzdHJvdXMKcGVyZm9ybWFuY2Uu
-Li4gYW5kIGl0IGlzIENQVSByZWxhdGVkLCBub3QgR1BVLCBldmVuIHRob3VnaCBJIGhhdmUgOCBj
-b3JlIGF0CjQuN0doeiAoc29tZXRoaW5nIGlzIHJlYWxseSB3cm9uZyBvciBsaXR0ZXJhbHkgQ1BV
-IGNhcHBlZCBzb21ld2hlcmUpLgoKLS0gClN5bHZhaW4KX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1585537026==
+Content-Type: multipart/alternative; boundary="15625794430.bBfC298Ce.28904"
+Content-Transfer-Encoding: 7bit
+
+
+--15625794430.bBfC298Ce.28904
+Date: Mon, 8 Jul 2019 09:50:43 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111082
+
+--- Comment #3 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+On Mon, Jul 08, 2019 at 03:20:44AM +0000, bugzilla-daemon@freedesktop.org
+wrote:
+> How is this not a graphics driver bug?
+
+He meant it could be a game engine bug (network or 3D, very probably).
+
+You are both right.
+
+CSGO 3D engine on based linux OSes is really bad if you use maps which are =
+not
+in the competitive set.
+
+For instance, danger zone open maps, on my system, have disastrous
+performance... and it is CPU related, not GPU, even though I have 8 core at
+4.7Ghz (something is really wrong or litteraly CPU capped somewhere).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15625794430.bBfC298Ce.28904
+Date: Mon, 8 Jul 2019 09:50:43 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Severe stutter in CS:GO surf servers, despite =
+~300fps"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Severe stutter in CS:GO surf servers, despite =
+~300fps"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082">bug 11108=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre>On Mon, Jul 08, 2019 at 03:20:44AM +0000, <a href=3D"mailto:bu=
+gzilla-daemon&#64;freedesktop.org">bugzilla-daemon&#64;freedesktop.org</a>
+wrote:
+<span class=3D"quote">&gt; How is this not a graphics driver bug?</span >
+
+He meant it could be a game engine bug (network or 3D, very probably).
+
+You are both right.
+
+CSGO 3D engine on based linux OSes is really bad if you use maps which are =
+not
+in the competitive set.
+
+For instance, danger zone open maps, on my system, have disastrous
+performance... and it is CPU related, not GPU, even though I have 8 core at
+4.7Ghz (something is really wrong or litteraly CPU capped somewhere).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15625794430.bBfC298Ce.28904--
+
+--===============1585537026==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1585537026==--
