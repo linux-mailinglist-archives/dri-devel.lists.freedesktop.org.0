@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA24961E66
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 14:29:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB12263157
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:02:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD44589D30;
-	Mon,  8 Jul 2019 12:29:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BFF897C8;
+	Tue,  9 Jul 2019 07:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3CD5989D46
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 12:29:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 39E6072167; Mon,  8 Jul 2019 12:29:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 08 Jul 2019 12:29:56 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: tom@r.je
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-cxBbhL7Zy9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
+ [IPv6:2607:f8b0:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB80789D4B
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 12:33:14 +0000 (UTC)
+Received: by mail-pg1-x541.google.com with SMTP id g15so7623211pgi.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2019 05:33:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=twuCq4CMuW36LIT7fXsJGUM7Fs1QiuVh+SZP8dTMu2g=;
+ b=uU/r8dNPMpf/bpf5Y+bkAn0MuLk3mfgr7kOiK+jLLzJrQNgxm2EFN7RMAqJjDrL8+h
+ eCLU64gkEZZWEDLU/8Nc28+TuJ/z1EeqhOw9SNEamWEU2Qbt1xyi7iIieueFLNX+Uk0K
+ 5FwMmbp/KKSOsKzoUHX6aLtkiB7TZgoILOByHDB0cykkoGCFZQgMZ1/Yq9LTtDWVn08T
+ TdPVFahBWOOeeteqeI7ebCXRx4BIciStlJsoCcAmPILxkI9eYd9NlG+UsSYImHV3veg+
+ mUGWl45Bj4Aqfl/GWVeVw4MwOXYAUNHlnmmu+StgoOgf1gabjgQhB8Ci6t6y6BtAG0SS
+ u0Gg==
+X-Gm-Message-State: APjAAAUtLmPhM0bekMD1yDweqMpx31p9ruMBs+HPwuk27yFmMkf677Dd
+ ATIZjO1PTC/25VeeLmsctDY=
+X-Google-Smtp-Source: APXvYqwOCIYDwfW3ZxqxI8lfOzFQLxdaJusZemcs3HS67k3h0J/DeXoOKpv3z08uR7WcumYix3/XpQ==
+X-Received: by 2002:a17:90a:ab01:: with SMTP id
+ m1mr24348826pjq.69.1562589194511; 
+ Mon, 08 Jul 2019 05:33:14 -0700 (PDT)
+Received: from hfq-skylake.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+ by smtp.googlemail.com with ESMTPSA id m13sm14784236pgv.89.2019.07.08.05.33.11
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 08 Jul 2019 05:33:14 -0700 (PDT)
+From: Fuqian Huang <huangfq.daxian@gmail.com>
+To: 
+Subject: [PATCH 05/14] drm/drv: Replace devm_add_action() followed by failure
+ action with devm_add_action_or_reset()
+Date: Mon,  8 Jul 2019 20:33:06 +0800
+Message-Id: <20190708123306.11851-1-huangfq.daxian@gmail.com>
+X-Mailer: git-send-email 2.11.0
+X-Mailman-Approved-At: Tue, 09 Jul 2019 07:01:45 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=twuCq4CMuW36LIT7fXsJGUM7Fs1QiuVh+SZP8dTMu2g=;
+ b=g4STA3iwGzf928aVXnjUh7FKMoEON/A89yQ4VfN8v8WA0TkIPrB/mJSsAAOiAU8u1t
+ tqaGBFR7dR4ihWaglx5Ywd4HhP8UsifMqbm2F8uSzao9BzHOWY+hk91xpRLWM8Dd3Cdx
+ d271Vp/adwXnRtdYqwW6k+b70cG0MQuA1G/yOMnRhRCVkcpZg2/O/Uzo8PlqAbeEuYr+
+ UmHE5mZy0Cp9qcj84PbewFV8wYeoAKPIBLlXYsa1fjc4u3+gMjpU6fCgwzsfRciGoG/8
+ CIDTglFoC99p447X+CHPDbAjdiHns7MG3z5WsSd8D2Jb/nLs7tmjnu3LWcROvruibWe0
+ 33Tw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,97 +65,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2035663675=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Fuqian Huang <huangfq.daxian@gmail.com>, Sean Paul <sean@poorly.run>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2035663675==
-Content-Type: multipart/alternative; boundary="15625889962.aF30.26176"
-Content-Transfer-Encoding: 7bit
-
-
---15625889962.aF30.26176
-Date: Mon, 8 Jul 2019 12:29:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #46 from Tom B <tom@r.je> ---
-Has anyone tested 5.3 yet? I noticed there are a lot of powerplay changes.
-
-Since this bug messes up the card's power profile, how safe is testing new
-kernels? Is there any danger of my card being damaged due to wrong voltages=
- if
-the powerplay code is as buggy or worse than it has been since 5.1?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15625889962.aF30.26176
-Date: Mon, 8 Jul 2019 12:29:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c46">Comme=
-nt # 46</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
-B</span></a>
-</span></b>
-        <pre>Has anyone tested 5.3 yet? I noticed there are a lot of powerp=
-lay changes.
-
-Since this bug messes up the card's power profile, how safe is testing new
-kernels? Is there any danger of my card being damaged due to wrong voltages=
- if
-the powerplay code is as buggy or worse than it has been since 5.1?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15625889962.aF30.26176--
-
---===============2035663675==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2035663675==--
+ZGV2bV9hZGRfYWN0aW9uX29yX3Jlc2V0KCkgaXMgaW50cm9kdWNlZCBhcyBhIGhlbHBlciBmdW5j
+dGlvbiB3aGljaCAKaW50ZXJuYWxseSBjYWxscyBkZXZtX2FkZF9hY3Rpb24oKS4gSWYgZGV2bV9h
+ZGRfYWN0aW9uKCkgZmFpbHMgCnRoZW4gaXQgd2lsbCBleGVjdXRlIHRoZSBhY3Rpb24gbWVudGlv
+bmVkIGFuZCByZXR1cm4gdGhlIGVycm9yIGNvZGUuClRoaXMgcmVkdWNlIHNvdXJjZSBjb2RlIHNp
+emUgKGF2b2lkIHdyaXRpbmcgdGhlIGFjdGlvbiB0d2ljZSkgCmFuZCByZWR1Y2UgdGhlIGxpa2Vs
+eWhvb2Qgb2YgYnVncy4KClNpZ25lZC1vZmYtYnk6IEZ1cWlhbiBIdWFuZyA8aHVhbmdmcS5kYXhp
+YW5AZ21haWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgfCA0ICstLS0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcnYuYwpp
+bmRleCA4NjI2MjE0OTRhOTMuLmRkMDA0ZWJiYjVmZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jCkBAIC03NjAsOSAr
+NzYwLDcgQEAgaW50IGRldm1fZHJtX2Rldl9pbml0KHN0cnVjdCBkZXZpY2UgKnBhcmVudCwKIAlp
+ZiAocmV0KQogCQlyZXR1cm4gcmV0OwogCi0JcmV0ID0gZGV2bV9hZGRfYWN0aW9uKHBhcmVudCwg
+ZGV2bV9kcm1fZGV2X2luaXRfcmVsZWFzZSwgZGV2KTsKLQlpZiAocmV0KQotCQlkZXZtX2RybV9k
+ZXZfaW5pdF9yZWxlYXNlKGRldik7CisJcmV0ID0gZGV2bV9hZGRfYWN0aW9uX29yX3Jlc2V0KHBh
+cmVudCwgZGV2bV9kcm1fZGV2X2luaXRfcmVsZWFzZSwgZGV2KTsKIAogCXJldHVybiByZXQ7CiB9
+Ci0tIAoyLjExLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
