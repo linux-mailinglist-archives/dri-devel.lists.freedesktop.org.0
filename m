@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C1563163
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:02:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32EF862A53
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 22:24:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0245A898AA;
-	Tue,  9 Jul 2019 07:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9547289DD8;
+	Mon,  8 Jul 2019 20:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1944 seconds by postgrey-1.36 at gabe;
- Mon, 08 Jul 2019 20:30:34 UTC
-Received: from Galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DDF689DB4
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 20:30:34 +0000 (UTC)
-Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
- by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
- (Exim 4.80) (envelope-from <tglx@linutronix.de>)
- id 1hkZlv-0004Tq-9o; Mon, 08 Jul 2019 21:57:59 +0200
-Date: Mon, 8 Jul 2019 21:57:58 +0200 (CEST)
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH v2] gpu/drm_memory: fix a few warnings
-In-Reply-To: <1562614919.8510.9.camel@lca.pw>
-Message-ID: <alpine.DEB.2.21.1907082150170.1961@nanos.tec.linutronix.de>
-References: <1562609151-7283-1-git-send-email-cai@lca.pw>
- <CAKb7UvhoW2F5LSf4B=vJhLykPCme_ixwbUBup_sBXjoQa72Fzw@mail.gmail.com>
- <1562614919.8510.9.camel@lca.pw>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+ [209.85.222.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E75D789DD8;
+ Mon,  8 Jul 2019 20:24:33 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id m14so14315811qka.10;
+ Mon, 08 Jul 2019 13:24:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pnrita1b0MkM7AyNkc/2C7SSvEndD1B5RxD62T0Ue1c=;
+ b=bhxOfyl828GieZZB3sLWdJCLi6RHIIZ0we5Io+U2bU0RUstMx0DfpXY+PGjlSQJFsr
+ ZBa8h3CewP5ZqLcd6IumEd72hbtWePshzOHsman7SxMhywHrFNDllA1T+eGjA6E/L2Wr
+ D+ODXDji5ftZnlvSpGQnd6ec/g2sFi+KVvWvL/liLegB1RIyOlPyQR/DrsottMJIlNcl
+ ua7+cjMXR980ERFURPBzu6Q5fi8Y2PbQ3MFoC1LtNwYdGB9bA10wc4U73tRDGw+Rw/f3
+ f4T0BETfEHQF3TY0Ar8s3jPsTWowch7uatoJrvu1HLJGuIWjcf8rQvzqygnQxRUeoGZL
+ J9XQ==
+X-Gm-Message-State: APjAAAVZAz1RdKLTOtUisD6DKuPvbshnGn3nM7DWsRDZ1IV9Hq0ge/xj
+ LFJWgYWNm3Z+Z0AZxGnmgAM+Ee+blPEb+RY8LhQ=
+X-Google-Smtp-Source: APXvYqzp2meV/E+aj2azg0GgBkXPsp7U2/Lbp+hd+FV4m9ZLBmCI5eKAOPpe0FiTi+Kmeqqq3XmNzw77aVbgQtu74k4=
+X-Received: by 2002:a37:ad12:: with SMTP id f18mr15270829qkm.3.1562617472727; 
+ Mon, 08 Jul 2019 13:24:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-814371836-1562615879=:1961"
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required, ALL_TRUSTED=-1,
- SHORTCIRCUIT=-0.0001
-X-Mailman-Approved-At: Tue, 09 Jul 2019 07:01:45 +0000
+References: <20190704055217.45860-1-natechancellor@gmail.com>
+ <20190704055217.45860-2-natechancellor@gmail.com>
+In-Reply-To: <20190704055217.45860-2-natechancellor@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 8 Jul 2019 22:24:14 +0200
+Message-ID: <CAK8P3a1thzkjD5V39QcVWb1fQe62g6PLChMKuwodyu_rbWhgBw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] drm/amdgpu/mes10.1: Fix header guard
+To: Nathan Chancellor <natechancellor@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,101 +52,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, rfontana@redhat.com,
- Greg KH <gregkh@linuxfoundation.org>, joe@perches.com,
- linux-spdx@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Sean Paul <sean@poorly.run>
+Cc: clang-built-linux <clang-built-linux@googlegroups.com>,
+ Leo Li <sunpeng.li@amd.com>, Rex Zhu <rex.zhu@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-814371836-1562615879=:1961
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 8 Jul 2019, Qian Cai wrote:
-> On Mon, 2019-07-08 at 15:21 -0400, Ilia Mirkin wrote:
-> > > -/**
-> > > +// SPDX-License-Identifier: MIT
-> > > +/*
-> > >   * \file drm_memory.c
-> > >   * Memory management wrappers for DRM
-> > >   *
-> > > @@ -12,25 +13,6 @@
-> > >   * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
-> > >   * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-> > >   * All Rights Reserved.
-> > > - *
-> > > - * Permission is hereby granted, free of charge, to any person obtaining a
-> > > - * copy of this software and associated documentation files (the
-> > > "Software"),
-> > > - * to deal in the Software without restriction, including without
-> > > limitation
-> > > - * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> > > - * and/or sell copies of the Software, and to permit persons to whom the
-> > > - * Software is furnished to do so, subject to the following conditions:
-> > > - *
-> > > - * The above copyright notice and this permission notice (including the
-> > > next
-> > > - * paragraph) shall be included in all copies or substantial portions of
-> > > the
-> > > - * Software.
-> > > - *
-> > > - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-> > > OR
-> > > - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> > > - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> > > - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES
-> > > OR
-> > 
-> > This talks about VA Linux Systems and/or its suppliers, while the MIT
-> > licence talks about authors or copyright holders.
-
-That's looks lika a valid substitution and does not change the meaning of
-the license, AFAICT. Richard might have a differnt opinion though.
- 
-> > Are such transformations OK to just do?
-
-Nope.
-
-> From,
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Document
-> ation/process/license-rules.rst
-> 
-> "The Linux kernel requires the precise SPDX identifier in all source files."
-
-That's correct.
- 
-> That is the closest license I can think of.
-
-Well, it's pretty much plain MIT, but you might have noticed:
-
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
-
-So in this case, you need to talk to the copyright holder if he agrees to
-remove the boiler plate language.
-
-Adding the MIT SPDX identifier without touching the boiler plate is fine.
-
-Thanks,
-
-	tglx
---8323329-814371836-1562615879=:1961
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---8323329-814371836-1562615879=:1961--
+T24gVGh1LCBKdWwgNCwgMjAxOSBhdCA3OjUyIEFNIE5hdGhhbiBDaGFuY2VsbG9yCjxuYXRlY2hh
+bmNlbGxvckBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gY2xhbmcgd2FybnM6Cj4KPiAgSW4gZmlsZSBp
+bmNsdWRlZCBmcm9tIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L252LmM6NTM6Cj4gIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2FtZGdwdS9tZXNfdjEwXzEuaDoyNDo5OiB3YXJuaW5n
+Ogo+ICAnX19NRVNfVjEwXzFfSF9fJyBpcyB1c2VkIGFzIGEgaGVhZGVyIGd1YXJkIGhlcmUsIGZv
+bGxvd2VkIGJ5ICNkZWZpbmUgb2YKPiAgYSBkaWZmZXJlbnQgbWFjcm8gWy1XaGVhZGVyLWd1YXJk
+XQo+ICAjaWZuZGVmIF9fTUVTX1YxMF8xX0hfXwo+ICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fgo+
+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9hbWRncHUvbWVzX3YxMF8xLmg6MjU6OTog
+bm90ZToKPiAgJ19fTUVTX3YxMF8xX0hfXycgaXMgZGVmaW5lZCBoZXJlOyBkaWQgeW91IG1lYW4g
+J19fTUVTX1YxMF8xX0hfXyc/Cj4gICNkZWZpbmUgX19NRVNfdjEwXzFfSF9fCj4gICAgICAgICAg
+Xn5+fn5+fn5+fn5+fn5+Cj4gICAgICAgICAgX19NRVNfVjEwXzFfSF9fCj4gIDEgd2FybmluZyBn
+ZW5lcmF0ZWQuCj4KPiBDYXBpdGFsaXplIHRoZSBWLgo+Cj4gRml4ZXM6IDg4NmY4MmFhN2ExZCAo
+ImRybS9hbWRncHUvbWVzMTAuMTogYWRkIGlwIGJsb2NrIG1lczEwLjEgKHYyKSIpCj4gTGluazog
+aHR0cHM6Ly9naXRodWIuY29tL0NsYW5nQnVpbHRMaW51eC9saW51eC9pc3N1ZXMvNTgyCj4gU2ln
+bmVkLW9mZi1ieTogTmF0aGFuIENoYW5jZWxsb3IgPG5hdGVjaGFuY2VsbG9yQGdtYWlsLmNvbT4K
+CkkgcmFuIGludG8gdGhlIHNhbWUgb25lIG5vdywgYW5kIHNhdyB5b3VyIHZlcnNpb24gYmVmb3Jl
+IHNlbmRpbmcgYW4KaWRlbnRpY2FsIHBhdGNoLgoKQWNrZWQtYnk6IEFybmQgQmVyZ21hbm4gPGFy
+bmRAYXJuZGIuZGU+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
