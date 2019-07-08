@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20B56316E
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:02:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BF1621ED
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 17:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBD94898EE;
-	Tue,  9 Jul 2019 07:02:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCD589D7F;
+	Mon,  8 Jul 2019 15:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3064C89DF9;
- Mon,  8 Jul 2019 15:12:31 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id t14so5347241plr.11;
- Mon, 08 Jul 2019 08:12:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=0ZlZQON9aXZI6W+/rm8yZm1Su8lHYcjbQIV3vB7p7ls=;
- b=i6Oo3eJMDtXpsuA0MiMKFYCAQV1hfQktcOndZJmITCVX9SODJZQAYHKz7js5/uIFcS
- C8Sp4f9LeLYB0ZjRvW9nXn3j6cBTkG8+DkBAs19F+8tYbQB4VkDx1SDzgbLl3LGG/EDy
- 1Cz4Z0fxij6GLLaa91DniyH1jgbQbw8h4tuNljp0rtOFPzQmxO2BTIA/eqHxQFoJOaGP
- n6maE6ao05Vz7Xgmr+k4NRm+ic+/BKMCMvqwt6Wir2rQvYkdF4tgREcBwcU1tZc84zrZ
- zGMaTiADiwBmRT/jds0XG75vMJV3trRoUlxrQuhc7Z116BdQyUIo3+ImOJgk8/9GZFOq
- QFlA==
-X-Gm-Message-State: APjAAAWHWd7WonDeBHOTqIYnQLX6wmSkJVGOyirwr1hmaZ79j6hS+VXV
- cTNm0negUF7T4utRK12iO+A=
-X-Google-Smtp-Source: APXvYqzGcOLSRTDXNOYk/ZPO4pPqDF4I8CW3Kxig9leWs34URU+rJA8ZvqMFQ9pnLLDKwfcSi1JXAg==
-X-Received: by 2002:a17:902:b20d:: with SMTP id
- t13mr24385288plr.229.1562598750859; 
- Mon, 08 Jul 2019 08:12:30 -0700 (PDT)
-Received: from aw-bldr-10.qualcomm.com (i-global254.qualcomm.com.
- [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id q198sm23082354pfq.155.2019.07.08.08.12.29
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 08 Jul 2019 08:12:30 -0700 (PDT)
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-To: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- bjorn.andersson@linaro.org
-Subject: [PATCH v2] drm/msm/mdp5: Find correct node for creating gem address
- space
-Date: Mon,  8 Jul 2019 08:12:24 -0700
-Message-Id: <20190708151224.22555-1-jeffrey.l.hugo@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Mailman-Approved-At: Tue, 09 Jul 2019 07:01:45 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=0ZlZQON9aXZI6W+/rm8yZm1Su8lHYcjbQIV3vB7p7ls=;
- b=WLG9PY/b56egrw6ro2o0M9u014Bd6pXU/gKDM9DWFKxH39OIF3810maRQKFlW5uRIq
- pN+4h9otmfgFm2UMQ05iVf/Mz/oGsvnbZgMWTSNQujR8HC+qUf73scnCmGiRJH+v0k08
- smv9KF8upZ4PAvBORJTFLeotH0hcXF9rwCuDgCTGs1M8R9cApI/vNYc7JLSeqATcqdfI
- h9abqenJJqCvOVVx0LKtp2nIG/lIyiqsEPUtvRfgGJ5jymTuV3QTGxV7KiDXtnfmeQCk
- IVOu6WplVBtQMIhTvR1thGTS8x4ieB5i5f/al64O31QA5Ml7yJ3AQVYX0yGYLoBoqLwD
- PgJw==
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 71EEA89D7F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 15:22:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6932A72167; Mon,  8 Jul 2019 15:22:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111087] SteamOS boots to black screen
+Date: Mon, 08 Jul 2019 15:22:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ludovico.denittis@collabora.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111087-502-MZc6N2itU6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111087-502@http.bugs.freedesktop.org/>
+References: <bug-111087-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,45 +52,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0877952136=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q3JlYXRpbmcgdGhlIG1zbSBnZW0gYWRkcmVzcyBzcGFjZSByZXF1aXJlcyBhIHJlZmVyZW5jZSB0
-byB0aGUgZGV2IHdoZXJlCnRoZSBpb21tdSBpcyBsb2NhdGVkLiAgVGhlIGRyaXZlciBjdXJyZW50
-bHkgYXNzdW1lcyB0aGlzIGlzIHRoZSBzYW1lIGFzCnRoZSBwbGF0Zm9ybSBkZXZpY2UsIHdoaWNo
-IGJyZWFrcyB3aGVuIHRoZSBpb21tdSBpcyBvdXRzaWRlIG9mIHRoZQpwbGF0Zm9ybSBkZXZpY2Ug
-KGllIGluIHRoZSBwYXJlbnQpLiAgRGVmYXVsdCB0byB1c2luZyB0aGUgcGxhdGZvcm0gZGV2aWNl
-LApidXQgY2hlY2sgdG8gc2VlIGlmIHRoYXQgaGFzIGFuIGlvbW11IHJlZmVyZW5jZSwgYW5kIGlm
-IG5vdCwgdXNlIHRoZSBwYXJlbnQKZGV2aWNlIGluc3RlYWQuICBUaGlzIHNob3VsZCBoYW5kbGUg
-YWxsIHRoZSB2YXJpb3VzIGlvbW11IGRlc2lnbnMgZm9yCm1kcDUgc3VwcG9ydGVkIHN5c3RlbXMu
-CgpTaWduZWQtb2ZmLWJ5OiBKZWZmcmV5IEh1Z28gPGplZmZyZXkubC5odWdvQGdtYWlsLmNvbT4K
-LS0tCgp2MjogSXQgdHVybnMgb3V0IHRoZXJlIGlzbid0IGEgdW5pdmVyc2FsIHdheSB0byBnZXQg
-dGhlIGlvbW11IGRldmljZSwgc28gCmNoZWNrIHRvIHNlZSBpZiBpdHMgaW4gdGhlIGN1cnJlbnQg
-bm9kZSBvciBwYXJlbnQKCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvbWRwNS9tZHA1X2ttcy5j
-IHwgNyArKysrKystCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9u
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRwNV9rbXMu
-YyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9tZHA1L21kcDVfa21zLmMKaW5kZXggNGE2MGY1
-ZmNhNmIwLi4wMmRjN2Q0MjZjYjAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
-cC9tZHA1L21kcDVfa21zLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL21kcDUvbWRw
-NV9rbXMuYwpAQCAtNjYzLDYgKzY2Myw3IEBAIHN0cnVjdCBtc21fa21zICptZHA1X2ttc19pbml0
-KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCiAJc3RydWN0IG1zbV9rbXMgKmttczsKIAlzdHJ1Y3Qg
-bXNtX2dlbV9hZGRyZXNzX3NwYWNlICphc3BhY2U7CiAJaW50IGlycSwgaSwgcmV0OworCXN0cnVj
-dCBkZXZpY2UgKmlvbW11X2RldjsKIAogCS8qIHByaXYtPmttcyB3b3VsZCBoYXZlIGJlZW4gcG9w
-dWxhdGVkIGJ5IHRoZSBNRFA1IGRyaXZlciAqLwogCWttcyA9IHByaXYtPmttczsKQEAgLTcwMiw3
-ICs3MDMsMTEgQEAgc3RydWN0IG1zbV9rbXMgKm1kcDVfa21zX2luaXQoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldikKIAltZGVsYXkoMTYpOwogCiAJaWYgKGNvbmZpZy0+cGxhdGZvcm0uaW9tbXUpIHsK
-LQkJYXNwYWNlID0gbXNtX2dlbV9hZGRyZXNzX3NwYWNlX2NyZWF0ZSgmcGRldi0+ZGV2LAorCQlp
-b21tdV9kZXYgPSAmcGRldi0+ZGV2OworCQlpZiAoIWlvbW11X2Rldi0+aW9tbXVfZndzcGVjKQor
-CQkJaW9tbXVfZGV2ID0gaW9tbXVfZGV2LT5wYXJlbnQ7CisKKwkJYXNwYWNlID0gbXNtX2dlbV9h
-ZGRyZXNzX3NwYWNlX2NyZWF0ZShpb21tdV9kZXYsCiAJCQkJY29uZmlnLT5wbGF0Zm9ybS5pb21t
-dSwgIm1kcDUiKTsKIAkJaWYgKElTX0VSUihhc3BhY2UpKSB7CiAJCQlyZXQgPSBQVFJfRVJSKGFz
-cGFjZSk7Ci0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+
+--===============0877952136==
+Content-Type: multipart/alternative; boundary="15625993380.b04548.20904"
+Content-Transfer-Encoding: 7bit
+
+
+--15625993380.b04548.20904
+Date: Mon, 8 Jul 2019 15:22:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111087
+
+--- Comment #9 from Ludovico de Nittis <ludovico.denittis@collabora.com> ---
+(In reply to Michel D=C3=A4nzer from comment #8)
+> The Xorg log file indicates that Xorg starts up in 2560x1440, then an X
+> client switches to 1920x1080 about 0.25s later (~23s after the kernel sta=
+rts
+> booting). Do you notice anything on the monitor around that time, e.g. so=
+me
+> kind of flicker? What does the monitor say about the input signal when the
+> black screen is shown?
+
+After trying one more time I realized that the timing reported by the Xorg =
+log
+was really too high.
+So I tried to leave the PC in this black screen for a couple of minutes and=
+ I
+saw that the Xorg log entries were all starting at 140s+
+
+Apparently it is not a static black screen but instead an endless loop? And=
+ the
+Xorg log is only about the last boot attempt.
+
+With a video it will be easier to show exactly what happens:=20
+https://youtu.be/YipyPIcP0lA
+
+Moreover as you can see if I move the mouse I'm able to see the SteamOS cur=
+sor
+for a fraction of a second before the monitor turns completely black again.
+
+> Does amdgpu.dc=3D0 on the kernel command line make any difference?
+
+No difference. I'll upload the Xorg log and the dmesg of it anyway, just in
+case it could be of any help.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15625993380.b04548.20904
+Date: Mon, 8 Jul 2019 15:22:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - SteamOS boots to black screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - SteamOS boots to black screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087">bug 11108=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ludovico.denittis&#64;collabora.com" title=3D"Ludovico de Nittis &lt;ludovi=
+co.denittis&#64;collabora.com&gt;"> <span class=3D"fn">Ludovico de Nittis</=
+span></a>
+</span></b>
+        <pre>(In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi?i=
+d=3D111087#c8">comment #8</a>)
+<span class=3D"quote">&gt; The Xorg log file indicates that Xorg starts up =
+in 2560x1440, then an X
+&gt; client switches to 1920x1080 about 0.25s later (~23s after the kernel =
+starts
+&gt; booting). Do you notice anything on the monitor around that time, e.g.=
+ some
+&gt; kind of flicker? What does the monitor say about the input signal when=
+ the
+&gt; black screen is shown?</span >
+
+After trying one more time I realized that the timing reported by the Xorg =
+log
+was really too high.
+So I tried to leave the PC in this black screen for a couple of minutes and=
+ I
+saw that the Xorg log entries were all starting at 140s+
+
+Apparently it is not a static black screen but instead an endless loop? And=
+ the
+Xorg log is only about the last boot attempt.
+
+With a video it will be easier to show exactly what happens:=20
+<a href=3D"https://youtu.be/YipyPIcP0lA">https://youtu.be/YipyPIcP0lA</a>
+
+Moreover as you can see if I move the mouse I'm able to see the SteamOS cur=
+sor
+for a fraction of a second before the monitor turns completely black again.
+
+<span class=3D"quote">&gt; Does amdgpu.dc=3D0 on the kernel command line ma=
+ke any difference?</span >
+
+No difference. I'll upload the Xorg log and the dmesg of it anyway, just in
+case it could be of any help.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15625993380.b04548.20904--
+
+--===============0877952136==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0877952136==--
