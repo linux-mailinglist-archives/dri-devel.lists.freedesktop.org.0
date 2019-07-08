@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298BD61E49
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 14:20:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB93861E4C
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 14:21:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258D289BB2;
-	Mon,  8 Jul 2019 12:20:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98B8989C8F;
+	Mon,  8 Jul 2019 12:21:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9F2A989BB2
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 12:20:49 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A112889C8F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 12:21:31 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 934A572167; Mon,  8 Jul 2019 12:20:49 +0000 (UTC)
+ id 9D62672167; Mon,  8 Jul 2019 12:21:31 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111087] SteamOS fails to boot with "drmmode_do_crtc_dpms cannot
  get last vblank counter"
-Date: Mon, 08 Jul 2019 12:20:49 +0000
+Date: Mon, 08 Jul 2019 12:21:31 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -35,7 +35,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111087-502-xLgJPkf3G2@http.bugs.freedesktop.org/>
+Message-ID: <bug-111087-502-p9NWGzW9MD@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111087-502@http.bugs.freedesktop.org/>
 References: <bug-111087-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1083035358=="
+Content-Type: multipart/mixed; boundary="===============1754488591=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1083035358==
-Content-Type: multipart/alternative; boundary="15625884490.Fdf4529.23475"
+--===============1754488591==
+Content-Type: multipart/alternative; boundary="15625884911.0be87.23515"
 Content-Transfer-Encoding: 7bit
 
 
---15625884490.Fdf4529.23475
-Date: Mon, 8 Jul 2019 12:20:49 +0000
+--15625884911.0be87.23515
+Date: Mon, 8 Jul 2019 12:21:31 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,17 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111087
 
---- Comment #1 from Ludovico de Nittis <ludovico.denittis@collabora.com> ---
-Created attachment 144720
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144720&action=3Dedit
-Xorg.0.log
+--- Comment #2 from Ludovico de Nittis <ludovico.denittis@collabora.com> ---
+Created attachment 144721
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144721&action=3Dedit
+modinfo.amdgpu.log
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15625884490.Fdf4529.23475
-Date: Mon, 8 Jul 2019 12:20:49 +0000
+--15625884911.0be87.23515
+Date: Mon, 8 Jul 2019 12:21:31 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -101,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - SteamOS fails to boot with &quot;drmmode_do_crtc_dpms can=
 not get last vblank counter&quot;"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - SteamOS fails to boot with &quot;drmmode_do_crtc_dpms can=
@@ -114,11 +114,11 @@ ludovico.denittis&#64;collabora.com" title=3D"Ludovico de Nittis &lt;ludovi=
 co.denittis&#64;collabora.com&gt;"> <span class=3D"fn">Ludovico de Nittis</=
 span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144720=
-" name=3D"attach_144720" title=3D"Xorg.0.log">attachment 144720</a> <a href=
-=3D"attachment.cgi?id=3D144720&amp;action=3Dedit" title=3D"Xorg.0.log">[det=
-ails]</a></span>
-Xorg.0.log</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144721=
+" name=3D"attach_144721" title=3D"modinfo.amdgpu.log">attachment 144721</a>=
+ <a href=3D"attachment.cgi?id=3D144721&amp;action=3Dedit" title=3D"modinfo.=
+amdgpu.log">[details]</a></span>
+modinfo.amdgpu.log</pre>
         </div>
       </p>
 
@@ -132,9 +132,9 @@ Xorg.0.log</pre>
     </body>
 </html>=
 
---15625884490.Fdf4529.23475--
+--15625884911.0be87.23515--
 
---===============1083035358==
+--===============1754488591==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1083035358==--
+--===============1754488591==--
