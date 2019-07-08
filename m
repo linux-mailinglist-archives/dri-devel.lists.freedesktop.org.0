@@ -1,36 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7D362621
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 18:21:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4058C6268E
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 18:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 492F66E02B;
-	Mon,  8 Jul 2019 16:21:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9602289FEA;
+	Mon,  8 Jul 2019 16:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B3D46E02B;
- Mon,  8 Jul 2019 16:21:44 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2019 09:21:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,466,1557212400"; d="scan'208";a="170326804"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga006.jf.intel.com with SMTP; 08 Jul 2019 09:21:41 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 08 Jul 2019 19:21:40 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v2 14/14] drm: Validate encoder->possible_crtcs
-Date: Mon,  8 Jul 2019 19:20:48 +0300
-Message-Id: <20190708162048.4286-15-ville.syrjala@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190708162048.4286-1-ville.syrjala@linux.intel.com>
-References: <20190708162048.4286-1-ville.syrjala@linux.intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 977BB89FEA
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 16:43:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9424372167; Mon,  8 Jul 2019 16:43:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111082] Severe stutter in CS:GO surf servers, despite ~300fps
+Date: Mon, 08 Jul 2019 16:43:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nucrap@hotmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111082-502-YUuhQOxQPb@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111082-502@http.bugs.freedesktop.org/>
+References: <bug-111082-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -44,40 +52,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0683867502=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KCldB
-Uk4gaWYgdGhlIGVuY29kZXIgcG9zc2libGVfY3J0Y3MgaXMgZWZmZWN0aXZlbHkgZW1wdHkgb3Ig
-Y29udGFpbnMKYml0cyBmb3Igbm9uLWV4aXN0aW5nIGNydGNzLgoKVE9ETzogT3Igc2hvdWxkIHdl
-IHBlcmhhcHN0IGp1c3QgZmlsdGVyIG91dCBhbnkgYml0IGZvciBhCm5vbi1leGlzaXRpbmcgY3J0
-Yz8KClNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFsYUBsaW51eC5p
-bnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9lbmNvZGVyLmMgfCAxOCArKysrKysr
-KysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2RybV9lbmNvZGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Vu
-Y29kZXIuYwppbmRleCAzZWNlOTdhOWQwMjkuLjA3MTkxZTJkYjY0YyAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2RybV9lbmNvZGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lbmNv
-ZGVyLmMKQEAgLTEwNiw2ICsxMDYsMjMgQEAgc3RhdGljIHZvaWQgdmFsaWRhdGVfcG9zc2libGVf
-Y2xvbmVzKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKIAkgICAgIGVuY29kZXItPnBvc3Np
-YmxlX2Nsb25lcywgZW5jb2Rlcl9tYXNrKTsKIH0KIAorc3RhdGljIHZvaWQgdmFsaWRhdGVfcG9z
-c2libGVfY3J0Y3Moc3RydWN0IGRybV9lbmNvZGVyICplbmNvZGVyKQoreworCXN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYgPSBlbmNvZGVyLT5kZXY7CisJc3RydWN0IGRybV9jcnRjICpjcnRjOworCXUz
-MiBjcnRjX21hc2sgPSAwOworCisJZHJtX2Zvcl9lYWNoX2NydGMoY3J0YywgZGV2KQorCQljcnRj
-X21hc2sgfD0gZHJtX2NydGNfbWFzayhjcnRjKTsKKworCVdBUk4oKGVuY29kZXItPnBvc3NpYmxl
-X2NydGNzICYgY3J0Y19tYXNrKSA9PSAwIHx8CisJICAgICAoZW5jb2Rlci0+cG9zc2libGVfY3J0
-Y3MgJiB+Y3J0Y19tYXNrKSAhPSAwLAorCSAgICAgIkJvZ3VzIHBvc3NpYmxlX2NydGNzOiAiCisJ
-ICAgICAiW0VOQ09ERVI6JWQ6JXNdIHBvc3NpYmxlX2NydGNzPTB4JXggKGZ1bGwgY3J0YyBtYXNr
-PTB4JXgpXG4iLAorCSAgICAgZW5jb2Rlci0+YmFzZS5pZCwgZW5jb2Rlci0+bmFtZSwKKwkgICAg
-IGVuY29kZXItPnBvc3NpYmxlX2NydGNzLCBjcnRjX21hc2spOworfQorCiBpbnQgZHJtX2VuY29k
-ZXJfcmVnaXN0ZXJfYWxsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCiB7CiAJc3RydWN0IGRybV9l
-bmNvZGVyICplbmNvZGVyOwpAQCAtMTE0LDYgKzEzMSw3IEBAIGludCBkcm1fZW5jb2Rlcl9yZWdp
-c3Rlcl9hbGwoc3RydWN0IGRybV9kZXZpY2UgKmRldikKIAlmaXh1cF9wb3NzaWJsZV9jbG9uZXMo
-ZGV2KTsKIAogCWRybV9mb3JfZWFjaF9lbmNvZGVyKGVuY29kZXIsIGRldikgeworCQl2YWxpZGF0
-ZV9wb3NzaWJsZV9jcnRjcyhlbmNvZGVyKTsKIAkJdmFsaWRhdGVfcG9zc2libGVfY2xvbmVzKGVu
-Y29kZXIpOwogCiAJCWlmIChlbmNvZGVyLT5mdW5jcy0+bGF0ZV9yZWdpc3RlcikKLS0gCjIuMjEu
-MAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0683867502==
+Content-Type: multipart/alternative; boundary="15626042001.e3cC4.28477"
+Content-Transfer-Encoding: 7bit
+
+
+--15626042001.e3cC4.28477
+Date: Mon, 8 Jul 2019 16:43:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111082
+
+--- Comment #4 from nucrap@hotmail.com ---
+So maybe we should figure out if it is graphics driver related or a bug in =
+the
+CS:GO engine?
+
+Why has this bug report been set to "RESOLVED FIX"?
+
+I understand claiming that this might not be a graphics driver bug, but it
+might pretty well be one. On which basis are reports closed here, on
+speculations?
+
+In the end I want to help the Linux ecosystem and make games work, because =
+now
+even though my own CSGO surf server is on Linux, I have to switch to Window=
+s 10
+to test it which is utterly ridiculus.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15626042001.e3cC4.28477
+Date: Mon, 8 Jul 2019 16:43:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Severe stutter in CS:GO surf servers, despite =
+~300fps"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Severe stutter in CS:GO surf servers, despite =
+~300fps"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111082">bug 11108=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nucrap&#64;hotmail.com" title=3D"nucrap&#64;hotmail.com">nucrap&#64;hotmail=
+.com</a>
+</span></b>
+        <pre>So maybe we should figure out if it is graphics driver related=
+ or a bug in the
+CS:GO engine?
+
+Why has this bug report been set to &quot;RESOLVED FIX&quot;?
+
+I understand claiming that this might not be a graphics driver bug, but it
+might pretty well be one. On which basis are reports closed here, on
+speculations?
+
+In the end I want to help the Linux ecosystem and make games work, because =
+now
+even though my own CSGO surf server is on Linux, I have to switch to Window=
+s 10
+to test it which is utterly ridiculus.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15626042001.e3cC4.28477--
+
+--===============0683867502==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0683867502==--
