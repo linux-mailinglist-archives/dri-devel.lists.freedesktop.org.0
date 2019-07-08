@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E1F61CCF
-	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 12:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A46CF61CE3
+	for <lists+dri-devel@lfdr.de>; Mon,  8 Jul 2019 12:27:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B69CD89C9D;
-	Mon,  8 Jul 2019 10:16:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA5C89C54;
+	Mon,  8 Jul 2019 10:27:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC15C89C88;
- Mon,  8 Jul 2019 10:16:29 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id d24so6197410ljg.8;
- Mon, 08 Jul 2019 03:16:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=uDdCRIu8mj2H4N3wQq8KmvIfSpvfs36hY5G/1j1b4+w=;
- b=Uf3lGUIRw6hS5spwG0cjJyUfQnxrNB6KUuIqpRe5wVNsExBbszIMMUcDSXxMxIZrO3
- ktc49KBcC1Py33xHefZrcF2al8DOXpuAjb+d35n5DdlmEwHyUrSgzIw1YcU2wM6d0Vkh
- 59T+Jc65vFgLg1MWnZN7d1rszSTAIIrhr7myPySJpkWVKHwlEaD8cjb6d7p+NCrh8JzE
- U02j4Np1KhjuOEhU277bpB3GUe0E0XRSvKvCWZQLanMQSb/BFe7vwvCmP+L0/q6lmwmP
- krgfp3dRWPKmAAxpQ9HBBTDGULU/CyMIjljZWrJXq4HaFS+lZ1m5UKzCPdsLyrsv541p
- gQ/g==
-X-Gm-Message-State: APjAAAV4/sBDxmbetoiGAT6vj47sNAGE8Es+7u9J/92WGigLlgZVzmk7
- c6FLo9KEUZk12kKkCB95/pOc9Thu
-X-Google-Smtp-Source: APXvYqxAsye8JHdKWRVrvwgB4YZW6btMQdm+5Gs5DDyOJLaTC7fZGvoznO3TzDxk8LovblKKeLP5yg==
-X-Received: by 2002:a2e:900c:: with SMTP id h12mr9475924ljg.197.1562580988234; 
- Mon, 08 Jul 2019 03:16:28 -0700 (PDT)
-Received: from eldfell.localdomain ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id p27sm2697349lfo.16.2019.07.08.03.16.27
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 08 Jul 2019 03:16:27 -0700 (PDT)
-Date: Mon, 8 Jul 2019 13:16:23 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH v8 6/6] drm/hdcp: reference for srm file format
-Message-ID: <20190708131623.72f3ac45@eldfell.localdomain>
-In-Reply-To: <20190705004642.15822-7-ramalingam.c@intel.com>
-References: <20190705004642.15822-1-ramalingam.c@intel.com>
- <20190705004642.15822-7-ramalingam.c@intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB6689C54
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Jul 2019 10:27:13 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x68AR7Mh046374;
+ Mon, 8 Jul 2019 05:27:07 -0500
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x68AR7wg067624
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 8 Jul 2019 05:27:07 -0500
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 8 Jul
+ 2019 05:27:07 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 8 Jul 2019 05:27:07 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x68AR6iR027045;
+ Mon, 8 Jul 2019 05:27:06 -0500
+From: Jean-Jacques Hiblot <jjhiblot@ti.com>
+To: <jacek.anaszewski@gmail.com>, <pavel@ucw.cz>, <robh+dt@kernel.org>,
+ <mark.rutland@arm.com>, <lee.jones@linaro.org>,
+ <daniel.thompson@linaro.org>, <jingoohan1@gmail.com>
+Subject: [PATCH v2 0/4] Add a generic driver for LED-based backlight
+Date: Mon, 8 Jul 2019 12:26:56 +0200
+Message-ID: <20190708102700.23138-1-jjhiblot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version;
- bh=uDdCRIu8mj2H4N3wQq8KmvIfSpvfs36hY5G/1j1b4+w=;
- b=mUUyq3vB7NQbY0D7voBKrEfegLQ+ZIqnv2MqvHGU9TN3XPziCrYoXvh5SWaBWacrep
- hG8x5g9yVIAtp7ZSWWqpocNV96ixVYAVf/YHFLvZttSvswp9OEYeZwzZ3huyXzNdpSNQ
- HhkO8LdyjOCW8J2YrPO4SPtRFfvLOOxPt74jEorY45bZEx2Ycg+Z0/j4NEUODiEmAyDN
- FeGoWgj1nk9ReqqtiMbwVLBNM5aHrDpaPIgCAWifjmikA20rnTUgyAQtFGiHJMQ+uBRd
- AL3dR79DolBz/Cv23HkP3yN0sdL1JubVD3aC/LpG1LkffCuzl7+hWXKEeqJLQsqz6ZXM
- in9w==
+ d=ti.com; s=ti-com-17Q1; t=1562581627;
+ bh=HwCXjka0RmqRpxs+JE1gaFV+rhErQ4TXr2QzAWjVo4c=;
+ h=From:To:CC:Subject:Date;
+ b=jX7CUX1tXXxMIRIotb4+unqebNpm42gFjFydr1TLL9mTSgL31TN7iw8W1O5zySCM+
+ epIJHiMbmt3SLWT5a5Aur4XYvMwF6LsqcaENw6uf2NBwykB4nmjZi5LTGRgvJiU3rX
+ 5v4uFvwEB+UUuZWEqqX6DLOstZh+jhu77vnG1EI0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,97 +59,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1680238673=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ tomi.valkeinen@ti.com, dmurphy@ti.com, Jean-Jacques Hiblot <jjhiblot@ti.com>,
+ linux-leds@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1680238673==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/aj38jDrOI2yxcgdDCIbZViB"; protocol="application/pgp-signature"
-
---Sig_/aj38jDrOI2yxcgdDCIbZViB
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri,  5 Jul 2019 06:16:42 +0530
-Ramalingam C <ramalingam.c@intel.com> wrote:
-
-> In the kernel documentation, HDCP specifications links are shared as a
-> reference for SRM table format.
->=20
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> ---
->  drivers/gpu/drm/drm_hdcp.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
-> index 77433ee3d652..803bf8283b83 100644
-> --- a/drivers/gpu/drm/drm_hdcp.c
-> +++ b/drivers/gpu/drm/drm_hdcp.c
-> @@ -271,6 +271,13 @@ static void drm_hdcp_request_srm(struct drm_device *=
-drm_dev)
->   *
->   * SRM should be presented in the name of "display_hdcp_srm.bin".
->   *
-> + * Format of the SRM table that userspace needs to write into the binary=
- file
-> + * is defined at
-> + * 1. Renewability chapter on 55th page of HDCP 1.4 specification
-> + * https://www.digital-cp.com/sites/default/files/specifications/HDCP%20=
-Specification%20Rev1_4_Secure.pdf
-> + * 2. Renewability chapter on 63rd page of HDCP 2.2 specification
-> + * https://www.digital-cp.com/sites/default/files/specifications/HDCP%20=
-on%20HDMI%20Specification%20Rev2_2_Final1.pdf
-> + *
->   * Returns:
->   * TRUE on any of the KSV is revoked, else FALSE.
->   */
-
-Hi,
-
-this look good, publicly accessible spec links even. I'm happy with
-this, but I repeat that the Weston work[1] does not directly prove this
-UAPI (perhaps not necessary either?).
-
-
-[1] https://gitlab.freedesktop.org/wayland/weston/merge_requests/48
-
-Thanks,
-pq
-
---Sig_/aj38jDrOI2yxcgdDCIbZViB
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl0jF/gACgkQI1/ltBGq
-qqesiRAAl0gd0yA1xiCAtyGonbXTh7ZUKmMOhxi0pKSdVJPvIkwitHzRuORyL7fO
-s3JiZ5WhWVe2J5wQBAgni9cKR9CmdM3KVrYEewdfy/nf29gciBxKGcw+li447i8d
-yeFrOpsOnPmnvQAZ3G3BGpY9IkH3srWHjijLXIwPhOmZunYUOURUFDX20kySUbTE
-3viJwcOlStVV6kPjEsvAxCzaAVco80+hoquqygUPrvSTZwAfdrLlVXlpBYpn3H3p
-4cvqbs71PPlPMMgm11MyuAsSeiZVoTbOQRbkIwfp8b8UC71HfvRro77xCvN0QZj/
-Dt2LTZPabquw8t5ByUCOCIbn4WR/NPthpt2LLiQuEEkhfiWRyx1ApxkBTzrjyv4/
-4aal6RtmJ0sOx64Cvja6kNdgPa0t5FM6li+z713bPRcsHlfGGMwB0sXA5xWD8vG0
-eaFeEBbyS7jtU2Zaj2HKyOTT0luyqi85fcnS3dzRWNv2lMjMglCu8zT1Zbtgv3ne
-3J7lBFdBwCpK6zuUrhR/rfDYk7bJBBL37k2hsH7UAlsCOTrapRorueGWe6KKi83G
-geQ8YoKVMJLksppZgjaRYeXSE4YnC01ZQzCVNZPPxiZcVghbkgHQgMRO1zzTmUCp
-S8/gK9I0U4MlJPR/mOQ3CA7fwv2sXlfepJVYYC5p3Vlp6Dr5nlE=
-=rXTH
------END PGP SIGNATURE-----
-
---Sig_/aj38jDrOI2yxcgdDCIbZViB--
-
---===============1680238673==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1680238673==--
+VGhpcyBzZXJpZXMgYWltcyB0byBhZGQgYSBsZWQtYmFja2xpZ2h0IGRyaXZlciwgc2ltaWxhciB0
+byBwd20tYmFja2xpZ2h0LApidXQgdXNpbmcgYSBMRUQgY2xhc3MgZGV2aWNlIHVuZGVybmVhdGgu
+CgpBIGZldyB5ZWFycyBhZ28gKDIwMTUpLCBUb21pIFZhbGtlaW5lbiBwb3N0ZWQgYSBzZXJpZXMg
+aW1wbGVtZW50aW5nIGEKYmFja2xpZ2h0IGRyaXZlciBvbiB0b3Agb2YgYSBMRUQgZGV2aWNlOgpo
+dHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzcyOTM5OTEvCmh0dHBzOi8vcGF0Y2h3
+b3JrLmtlcm5lbC5vcmcvcGF0Y2gvNzI5NDAwMS8KaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9y
+Zy9wYXRjaC83MjkzOTgxLwoKVGhlIGRpc2N1c3Npb24gc3RvcHBlZCBiZWNhdXNlIFRvbWkgbGFj
+a2VkIHRoZSB0aW1lIHRvIHdvcmsgb24gaXQuCgpUaGUgc2VyaWVzIGFmZmVjdHMgdGhlIExFRCBj
+b3JlIGFuZCBhZGQgYSBuZXcgYmFja2xpZ2h0IGRyaXZlci4KCmNoYW5nZXMgaW4gdjI6Ci0gYmts
+OiB0aGUgYmFja2xpZ2h0IGNhbiB1c2UgbW9yZSB0aGFuIG9uZSBMRUQuIEFzIGEgY29uc2VxdWVu
+Y2UgZG9uJ3QgbWFrZQogIHRoZSBiYWNrbGlnaHQgZGV2aWNlIGEgY2hpbGQgb2YgYSBMRUQgY29u
+dHJvbGxlci4KLSBia2w6IG1ha2UgYnJpZ2h0bmVzcy1sZXZlbHMgYW5kIGRlZmF1bHQtYnJpZ2h0
+bmVzcy1sZXZlbCBvcHRpb25hbAotIGJrbDogcmVtb3ZlZCB0aGUgb3B0aW9uIHRvIHVzZSBhIEdQ
+SU8gZW5hYmxlLgotIGJrbDogcmVtb3ZlZCB0aGUgb3B0aW9uIHRvIHVzZSBhIHJlZ3VsYXRvci4g
+SXQgc2hvdWxkIGJlIGhhbmRsZWQgYnkgdGhlCiAgTEVEIGNvcmUKLSBsZWQ6IHJlbW92ZWQgdGhl
+IG1lY2hhbmlzbSB0byBiaW5kIGEgY2hpbGQgZGV2aWNlIGZvciBlYWNoIExFRAotIGxlZDogaW1w
+cm92ZSB0aGUgd2F5IG9mX2dldF9sZWQoKSB3b3JrcyBhbmQgYWRkIGEgbWFuYWdlZCB2ZXJzaW9u
+IG9mIGl0CgpKZWFuLUphY3F1ZXMgSGlibG90ICgyKToKICBsZWRzOiBBZGQgbWFuYWdlZCBBUEkg
+dG8gZ2V0IGEgTEVEIGZyb20gYSBkZXZpY2UgZHJpdmVyCiAgZHQtYmluZGluZ3M6IGJhY2tsaWdo
+dDogQWRkIGxlZC1iYWNrbGlnaHQgYmluZGluZwoKVG9taSBWYWxrZWluZW4gKDIpOgogIGxlZHM6
+IEFkZCBvZl9sZWRfZ2V0KCkgYW5kIGxlZF9wdXQoKQogIGJhY2tsaWdodDogYWRkIGxlZC1iYWNr
+bGlnaHQgZHJpdmVyCgogLi4uL2JpbmRpbmdzL2xlZHMvYmFja2xpZ2h0L2xlZC1iYWNrbGlnaHQu
+dHh0IHwgIDI5ICsrKwogZHJpdmVycy9sZWRzL2xlZC1jbGFzcy5jICAgICAgICAgICAgICAgICAg
+ICAgIHwgIDkyICsrKysrKysKIGRyaXZlcnMvdmlkZW8vYmFja2xpZ2h0L0tjb25maWcgICAgICAg
+ICAgICAgICB8ICAgNyArCiBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9NYWtlZmlsZSAgICAgICAg
+ICAgICAgfCAgIDEgKwogZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbGVkX2JsLmMgICAgICAgICAg
+ICAgIHwgMjM1ICsrKysrKysrKysrKysrKysrKwogaW5jbHVkZS9saW51eC9sZWRzLmggICAgICAg
+ICAgICAgICAgICAgICAgICAgIHwgICA2ICsKIDYgZmlsZXMgY2hhbmdlZCwgMzcwIGluc2VydGlv
+bnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvbGVkcy9iYWNrbGlnaHQvbGVkLWJhY2tsaWdodC50eHQKIGNyZWF0ZSBtb2RlIDEwMDY0NCBk
+cml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sZWRfYmwuYwoKLS0gCjIuMTcuMQoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
