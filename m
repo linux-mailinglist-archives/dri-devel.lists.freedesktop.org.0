@@ -1,42 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DCB62D3D
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 03:00:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F24362D78
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 03:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75C57898BF;
-	Tue,  9 Jul 2019 01:00:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02DE989CCE;
+	Tue,  9 Jul 2019 01:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73D4C898BF
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 01:00:32 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (softbank126163157105.bbtec.net
- [126.163.157.105])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1EEA56A;
- Tue,  9 Jul 2019 03:00:29 +0200 (CEST)
-Date: Tue, 9 Jul 2019 04:00:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 17/60] dt-bindings: Add legacy 'toppoly' vendor prefix
-Message-ID: <20190709010004.GD4819@pendragon.ideasonboard.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0606B89CCE
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 01:35:25 +0000 (UTC)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C064121537
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 01:35:24 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id n11so20048757qtl.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Jul 2019 18:35:24 -0700 (PDT)
+X-Gm-Message-State: APjAAAXcsdWO35sgCvIxwyn704TKMuxWCagk0qNDsofIEC77kNZ4Ihbv
+ V2WoLkcLYihZmQE+lQGQBXHIfojjBx4YZtH67Q==
+X-Google-Smtp-Source: APXvYqyqmZeIkbto+17UZjfxGBJMlMWVcDAdvvmQ5T/erxPr9rb4UuIEp0K074iP8kNoQ+hmFRpW6TQL61jNAR0UsVY=
+X-Received: by 2002:ac8:3908:: with SMTP id s8mr16339056qtb.224.1562636124028; 
+ Mon, 08 Jul 2019 18:35:24 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
  <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
  <20190707181937.6250-14-laurent.pinchart@ideasonboard.com>
  <CAL_JsqLJy=UCeQ_Ex7tFh2OjtitNFVjT4v=PDZSbseva+ZrGDQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqLJy=UCeQ_Ex7tFh2OjtitNFVjT4v=PDZSbseva+ZrGDQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+ <20190709010004.GD4819@pendragon.ideasonboard.com>
+In-Reply-To: <20190709010004.GD4819@pendragon.ideasonboard.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Mon, 8 Jul 2019 19:35:12 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ0ABZ_Qg_uHoZJU6krV7VB5rwyYWhcFoxDVhiYFpPS5Q@mail.gmail.com>
+Message-ID: <CAL_JsqJ0ABZ_Qg_uHoZJU6krV7VB5rwyYWhcFoxDVhiYFpPS5Q@mail.gmail.com>
+Subject: Re: [PATCH 17/60] dt-bindings: Add legacy 'toppoly' vendor prefix
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1562634030;
- bh=JcoNvT6UrNwEt+JAKB+7zeJTg9CMTlg7f+WQ+ug96XA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JJ0dnaeWZoBDMj0jnrK99OHQkR2NJ0rWC5xGY2fL7nW9Cl7NDb0ePwDHRPL56kUR6
- u2Wiqg1TbBPafN9RBiuGxFkbZzixD1txIm1yJHrrm751ziIsNMSOUErN2BN76ci26w
- 1D+6jM1yyDMJ/NlGZCCH1Ht9P9E2UVwrXPh0a5aU=
+ d=kernel.org; s=default; t=1562636124;
+ bh=xPZoq9ebLBZ4qc4AlgGWCh4n4FLriLhzXe2xjvwKQy0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=fnx2iJxxVQb+EUs7VzLKalGezEvz7TEyljm+xz3X3/Yii9Ju5mdfC0kSA7WIzKDPp
+ nLyerE8mFHe8PgSag1bvQ/rZnweKGzGdMEpXsLnMAo/NOO4gN7DPK87i7082WjYqYt
+ Vgl5NN6ykGnrPUP6sYHjK/p05qtxXCaee9jeyKUc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,30 +67,34 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9iLAoKT24gTW9uLCBKdWwgMDgsIDIwMTkgYXQgMDE6MDA6MzVQTSAtMDYwMCwgUm9iIEhl
-cnJpbmcgd3JvdGU6Cj4gT24gU3VuLCBKdWwgNywgMjAxOSBhdCAxMjoyNSBQTSBMYXVyZW50IFBp
-bmNoYXJ0IHdyb3RlOgo+ID4KPiA+IFRoZSAndG9wcG9seScgdmVuZG9yIHByZWZpeCBpcyBpbiB1
-c2UgYW5kIHJlZmVycyB0byBUUE8sIHdob3NlIERUIHZlbmRvcgo+ID4gcHJlZml4IGlzIGFscmVh
-ZHkgZGVmaW5lZCBhcyAndHBvJy4gQWRkICd0b3Bwb2x5JyBhcyBhbiBhbHRlcm5hdGl2ZSBhbmQK
-PiA+IGRvY3VtZW50IGl0IGFzIGxlZ2FjeS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50
-IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4gPiAtLS0KPiA+
-ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVzLnlhbWwg
-fCAyICsrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYg
-LS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVz
-LnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVz
-LnlhbWwKPiA+IGluZGV4IDI1MTQ0NjNmMmM2My4uZDc4NTI3ZWI4MjU0IDEwMDY0NAo+ID4gLS0t
-IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3ZlbmRvci1wcmVmaXhlcy55YW1s
-Cj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZp
-eGVzLnlhbWwKPiA+IEBAIC04NjcsNiArODY3LDggQEAgcGF0dGVyblByb3BlcnRpZXM6Cj4gPiAg
-ICAgIGRlc2NyaXB0aW9uOiBUZWNvbiBNaWNyb3Byb2Nlc3NvciBUZWNobm9sb2dpZXMsIExMQy4K
-PiA+ICAgICJedG9wZWV0LC4qIjoKPiA+ICAgICAgZGVzY3JpcHRpb246IFRvcGVldAo+ID4gKyAg
-Il50b3Bwb2x5LC4qIjoKPiA+ICsgICAgZGVzY3JpcHRpb246IFRQTyAobGVnYWN5IHByZWZpeCwg
-c2VlICd0cG8nKQo+IAo+IEFkZCAnZGVwcmVjYXRlZDogdHJ1ZScgYWxzby4gVGhhdCdzIGEgbmV3
-IHByb3BlcnR5IGluIGpzb24tc2NoZW1hCj4gZHJhZnQ4LiBJdCdzIG5vdCB1c2VkIGZvciBhbnl0
-aGluZyB5ZXQgb3RoZXIgdGhhbiBkb2N1bWVudGF0aW9uLgoKVGhhbmsgeW91IGZvciB0aGUgcG9p
-bnRlci4KCkJ5IHRoZSB3YXkgdGhpcyBzZXJpZXMgY29uZmxpY3RzIHdpdGggeW91ciBwYXRjaGVz
-IHRoYXQgbW92ZSBhbGwgcGFuZWwKYmluZGluZ3MgdG8geWFtbC4gSSdsbCByZWJhc2UgaXQgb24g
-dG9wIGlmIHlvdXJzIGdldHMgbWVyZ2VkIGZpcnN0LgoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBp
-bmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gTW9uLCBKdWwgOCwgMjAxOSBhdCA3OjAwIFBNIExhdXJlbnQgUGluY2hhcnQKPGxhdXJlbnQu
+cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4gd3JvdGU6Cj4KPiBIaSBSb2IsCj4KPiBPbiBNb24s
+IEp1bCAwOCwgMjAxOSBhdCAwMTowMDozNVBNIC0wNjAwLCBSb2IgSGVycmluZyB3cm90ZToKPiA+
+IE9uIFN1biwgSnVsIDcsIDIwMTkgYXQgMTI6MjUgUE0gTGF1cmVudCBQaW5jaGFydCB3cm90ZToK
+PiA+ID4KPiA+ID4gVGhlICd0b3Bwb2x5JyB2ZW5kb3IgcHJlZml4IGlzIGluIHVzZSBhbmQgcmVm
+ZXJzIHRvIFRQTywgd2hvc2UgRFQgdmVuZG9yCj4gPiA+IHByZWZpeCBpcyBhbHJlYWR5IGRlZmlu
+ZWQgYXMgJ3RwbycuIEFkZCAndG9wcG9seScgYXMgYW4gYWx0ZXJuYXRpdmUgYW5kCj4gPiA+IGRv
+Y3VtZW50IGl0IGFzIGxlZ2FjeS4KPiA+ID4KPiA+ID4gU2lnbmVkLW9mZi1ieTogTGF1cmVudCBQ
+aW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4gPiAtLS0KPiA+
+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3ItcHJlZml4ZXMueWFt
+bCB8IDIgKysKPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPiA+ID4KPiA+
+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3It
+cHJlZml4ZXMueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3It
+cHJlZml4ZXMueWFtbAo+ID4gPiBpbmRleCAyNTE0NDYzZjJjNjMuLmQ3ODUyN2ViODI1NCAxMDA2
+NDQKPiA+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3ZlbmRvci1w
+cmVmaXhlcy55YW1sCj4gPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy92ZW5kb3ItcHJlZml4ZXMueWFtbAo+ID4gPiBAQCAtODY3LDYgKzg2Nyw4IEBAIHBhdHRlcm5Q
+cm9wZXJ0aWVzOgo+ID4gPiAgICAgIGRlc2NyaXB0aW9uOiBUZWNvbiBNaWNyb3Byb2Nlc3NvciBU
+ZWNobm9sb2dpZXMsIExMQy4KPiA+ID4gICAgIl50b3BlZXQsLioiOgo+ID4gPiAgICAgIGRlc2Ny
+aXB0aW9uOiBUb3BlZXQKPiA+ID4gKyAgIl50b3Bwb2x5LC4qIjoKPiA+ID4gKyAgICBkZXNjcmlw
+dGlvbjogVFBPIChsZWdhY3kgcHJlZml4LCBzZWUgJ3RwbycpCj4gPgo+ID4gQWRkICdkZXByZWNh
+dGVkOiB0cnVlJyBhbHNvLiBUaGF0J3MgYSBuZXcgcHJvcGVydHkgaW4ganNvbi1zY2hlbWEKPiA+
+IGRyYWZ0OC4gSXQncyBub3QgdXNlZCBmb3IgYW55dGhpbmcgeWV0IG90aGVyIHRoYW4gZG9jdW1l
+bnRhdGlvbi4KPgo+IFRoYW5rIHlvdSBmb3IgdGhlIHBvaW50ZXIuCj4KPiBCeSB0aGUgd2F5IHRo
+aXMgc2VyaWVzIGNvbmZsaWN0cyB3aXRoIHlvdXIgcGF0Y2hlcyB0aGF0IG1vdmUgYWxsIHBhbmVs
+Cj4gYmluZGluZ3MgdG8geWFtbC4gSSdsbCByZWJhc2UgaXQgb24gdG9wIGlmIHlvdXJzIGdldHMg
+bWVyZ2VkIGZpcnN0LgoKSSBjb21taXR0ZWQgdGhlIHNlcmllcyB0b2RheSwgYnV0IEkgZG9uJ3Qg
+c2VlIHdoYXQgY29uZmxpY3RzIHRob3VnaC4KClJvYgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
