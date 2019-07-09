@@ -2,45 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CB663240
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D351E63253
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 09:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8176A6E04E;
-	Tue,  9 Jul 2019 07:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D633789276;
+	Tue,  9 Jul 2019 07:48:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4A02F6E061
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 07:38:26 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 46F0372167; Tue,  9 Jul 2019 07:38:26 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102322] System crashes after "[drm] IP block:gmc_v8_0 is hung!"
- / [drm] IP block:sdma_v3_0 is hung!
-Date: Tue, 09 Jul 2019 07:38:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: me@jasondaigo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102322-502-fpwg2L6gEh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102322-502@http.bugs.freedesktop.org/>
-References: <bug-102322-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD87B8951B
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 07:48:28 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id 44so16855081qtg.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2019 00:48:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vFGyp1W+4ZcTTjS3FaBJUtNc3+iT2Cw8FN1vi+n701w=;
+ b=OGlmCjMQZ9JJsfsDe7pyIw2VZukreyLCFyW1asuCAt+Wdovoebu6Hb1C9AdKIhftd/
+ 3CXU7GK1rSLypKzZzZ2ZMTkEQXM8sd/W0izXqVqwzruz+VU6a4wmni82/6uFvl5X2dhd
+ qao/Eo62Xlw9NO0iHrnkdtQHNDmlVoVeVOhEfCH391R1xWlsrTrkwYSoOD9Qr5lAtM7z
+ Xv/97Yt/LV0fUQeNUxUkf8tPNwkguNLaqf+Jh+EnWkWDM2qR+tq0OM0laI61iZjdZUXG
+ AquM1XJvZol5gCbBWFTanz8AhNbW5oRM9uGRy8DFG0JN+ykAvtQ7sEQaMmP+52GjHPOn
+ VUgw==
+X-Gm-Message-State: APjAAAU5l8Rn3DsRG0/LRrB5W99xguvrTOoFU0l2uIqAUsyrDjjWmiVx
+ sFPyA5bv0q5Il5Jre483lEt1bzdbhVD8ttQfgduVYg==
+X-Google-Smtp-Source: APXvYqyyX1LjBnJ1YcHeMKLO4WMbtc3tJUCKH4rGEI7mhY8SnlZAWY7tMGodHsKG74h4Ss/dljAO0gIcTu2a8cM8zKs=
+X-Received: by 2002:ac8:7219:: with SMTP id a25mr17526457qtp.234.1562658507900; 
+ Tue, 09 Jul 2019 00:48:27 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190708162048.4286-1-ville.syrjala@linux.intel.com>
+ <20190708162048.4286-4-ville.syrjala@linux.intel.com>
+In-Reply-To: <20190708162048.4286-4-ville.syrjala@linux.intel.com>
+From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Date: Tue, 9 Jul 2019 09:48:16 +0200
+Message-ID: <CA+M3ks4x85BQzYxKfqwtawUYfHV_0m5-USZd=zeaE4hRW-idWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/14] drm/sti: Remove pointless casts
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vFGyp1W+4ZcTTjS3FaBJUtNc3+iT2Cw8FN1vi+n701w=;
+ b=w76+FGbAnX5UgJ3rXgMO3/PZbJ9+8Yo9c6vNNvJOjV0JJkq1EIx5SvIep23NFuXNnR
+ PgKZ6z0wzDULyuSFVzscqBl/64zyFFPTnVjKNtRIAriim9+2KBWq7rUB/77qzupL0XLg
+ A2+ICEJNq7eeWDpiHuQ4Rbtdh38zZyAzsbAHQ62FKQe/Xus9/6GoIOm7FBVijptEubFP
+ IjCG8JVdhJRC4/P7uslB92qfWg7JW+fSqYWUzHJMLNDjqFzQ/GgKgIuVmxI0Oi89lGFW
+ GazZXb/w5xRdANqIZVGj1pZxefy21jmWmvwt525Xe367DvNJ0u4abdBU5xKFYi2UY2sL
+ gUMw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,135 +63,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1080029124=="
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1080029124==
-Content-Type: multipart/alternative; boundary="15626579063.B7921ae9.30285"
-Content-Transfer-Encoding: 7bit
-
-
---15626579063.B7921ae9.30285
-Date: Tue, 9 Jul 2019 07:38:26 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102322
-
---- Comment #84 from Wilko Bartels <me@jasondaigo.de> ---
-(In reply to Wilko Bartels from comment #83)
-> (In reply to Jaap Buurman from comment #81)
-> > issue seems to be using a setup that requires higher engine clocks in i=
-dle
-> > AFAIK. Either high refresh displays, or in my case, multiple monitors. =
-Could
-> > this be part of the issue that seems to trigger this bug? I might be
-> > grasping at straws here, but I have had this problem for as long as I h=
-ave
-> > this Vega64 (bought at launch), while it is 100% stable under Windows 1=
-0 in
-> > the same setup.
->=20
-> This might be true. I was running i3 with xrandr set to 144hz when the
-> freeze scenario began (somewhat last mont, did not "game" much before). T=
-han
-> switched to icewm to test and issue was gone. Later when i configured ice=
-wm
-> to also have proper xrandr setting issue comes back. I didnt know that co=
-uld
-> be related. Will test this tonight.
-
-nevermind. it crashed on 60hz as well (once) yesterday
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15626579063.B7921ae9.30285
-Date: Tue, 9 Jul 2019 07:38:26 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
-g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322#c84">Comme=
-nt # 84</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System crashes after &quot;[drm] IP block:gmc_v8_0 is hun=
-g!&quot; / [drm] IP block:sdma_v3_0 is hung!"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102322">bug 10232=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-me&#64;jasondaigo.de" title=3D"Wilko Bartels &lt;me&#64;jasondaigo.de&gt;">=
- <span class=3D"fn">Wilko Bartels</span></a>
-</span></b>
-        <pre>(In reply to Wilko Bartels from <a href=3D"show_bug.cgi?id=3D1=
-02322#c83">comment #83</a>)
-<span class=3D"quote">&gt; (In reply to Jaap Buurman from <a href=3D"show_b=
-ug.cgi?id=3D102322#c81">comment #81</a>)
-&gt; &gt; issue seems to be using a setup that requires higher engine clock=
-s in idle
-&gt; &gt; AFAIK. Either high refresh displays, or in my case, multiple moni=
-tors. Could
-&gt; &gt; this be part of the issue that seems to trigger this bug? I might=
- be
-&gt; &gt; grasping at straws here, but I have had this problem for as long =
-as I have
-&gt; &gt; this Vega64 (bought at launch), while it is 100% stable under Win=
-dows 10 in
-&gt; &gt; the same setup.
-&gt;=20
-&gt; This might be true. I was running i3 with xrandr set to 144hz when the
-&gt; freeze scenario began (somewhat last mont, did not &quot;game&quot; mu=
-ch before). Than
-&gt; switched to icewm to test and issue was gone. Later when i configured =
-icewm
-&gt; to also have proper xrandr setting issue comes back. I didnt know that=
- could
-&gt; be related. Will test this tonight.</span >
-
-nevermind. it crashed on 60hz as well (once) yesterday</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15626579063.B7921ae9.30285--
-
---===============1080029124==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1080029124==--
+TGUgbHVuLiA4IGp1aWwuIDIwMTkgw6AgMTg6MjEsIFZpbGxlIFN5cmphbGEKPHZpbGxlLnN5cmph
+bGFAbGludXguaW50ZWwuY29tPiBhIMOpY3JpdCA6Cj4KPiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6Qg
+PHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPgo+Cj4gVGhlcmUncyBubyBwb2ludCBpbiB0
+aGUgY2FzdCBmb3IgYWNjZXNzaW5nIHRoZSBiYXNlIGNsYXNzLiBKdXN0Cj4gdGFrZSB0aGUgYWRk
+cmVzcyBvZiB0aGUgc3RydWN0IGluc3RlYWQuCgpBcHBsaWVkIG9uIGRybS1taXNjLW5leHQsClRo
+YW5rcywKCkJlbmphbWluCgo+Cj4gQ2M6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWln
+bmFyZEBsaW5hcm8ub3JnPgo+IENjOiBWaW5jZW50IEFicmlvdSA8dmluY2VudC5hYnJpb3VAc3Qu
+Y29tPgo+IEFja2VkLWJ5OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2FpZ25hcmRAbGlu
+YXJvLm9yZz4KPiBTaWduZWQtb2ZmLWJ5OiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFA
+bGludXguaW50ZWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV90dm91dC5j
+IHwgNiArKystLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlv
+bnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV90dm91dC5jIGIv
+ZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfdHZvdXQuYwo+IGluZGV4IGUxYjNjOGNiNzI4Ny4uNDJm
+NGMyNjRhNzgzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX3R2b3V0LmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV90dm91dC5jCj4gQEAgLTY2OSw3ICs2Njks
+NyBAQCBzdGlfdHZvdXRfY3JlYXRlX2R2b19lbmNvZGVyKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
+Cj4KPiAgICAgICAgIGVuY29kZXItPnR2b3V0ID0gdHZvdXQ7Cj4KPiAtICAgICAgIGRybV9lbmNv
+ZGVyID0gKHN0cnVjdCBkcm1fZW5jb2RlciAqKWVuY29kZXI7Cj4gKyAgICAgICBkcm1fZW5jb2Rl
+ciA9ICZlbmNvZGVyLT5lbmNvZGVyOwo+Cj4gICAgICAgICBkcm1fZW5jb2Rlci0+cG9zc2libGVf
+Y3J0Y3MgPSBFTkNPREVSX0NSVENfTUFTSzsKPiAgICAgICAgIGRybV9lbmNvZGVyLT5wb3NzaWJs
+ZV9jbG9uZXMgPSAxIDw8IDA7Cj4gQEAgLTcyMiw3ICs3MjIsNyBAQCBzdGF0aWMgc3RydWN0IGRy
+bV9lbmNvZGVyICpzdGlfdHZvdXRfY3JlYXRlX2hkYV9lbmNvZGVyKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsCj4KPiAgICAgICAgIGVuY29kZXItPnR2b3V0ID0gdHZvdXQ7Cj4KPiAtICAgICAgIGRy
+bV9lbmNvZGVyID0gKHN0cnVjdCBkcm1fZW5jb2RlciAqKSBlbmNvZGVyOwo+ICsgICAgICAgZHJt
+X2VuY29kZXIgPSAmZW5jb2Rlci0+ZW5jb2RlcjsKPgo+ICAgICAgICAgZHJtX2VuY29kZXItPnBv
+c3NpYmxlX2NydGNzID0gRU5DT0RFUl9DUlRDX01BU0s7Cj4gICAgICAgICBkcm1fZW5jb2Rlci0+
+cG9zc2libGVfY2xvbmVzID0gMSA8PCAwOwo+IEBAIC03NzEsNyArNzcxLDcgQEAgc3RhdGljIHN0
+cnVjdCBkcm1fZW5jb2RlciAqc3RpX3R2b3V0X2NyZWF0ZV9oZG1pX2VuY29kZXIoc3RydWN0IGRy
+bV9kZXZpY2UgKmRldiwKPgo+ICAgICAgICAgZW5jb2Rlci0+dHZvdXQgPSB0dm91dDsKPgo+IC0g
+ICAgICAgZHJtX2VuY29kZXIgPSAoc3RydWN0IGRybV9lbmNvZGVyICopIGVuY29kZXI7Cj4gKyAg
+ICAgICBkcm1fZW5jb2RlciA9ICZlbmNvZGVyLT5lbmNvZGVyOwo+Cj4gICAgICAgICBkcm1fZW5j
+b2Rlci0+cG9zc2libGVfY3J0Y3MgPSBFTkNPREVSX0NSVENfTUFTSzsKPiAgICAgICAgIGRybV9l
+bmNvZGVyLT5wb3NzaWJsZV9jbG9uZXMgPSAxIDw8IDE7Cj4gLS0KPiAyLjIxLjAKPgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
