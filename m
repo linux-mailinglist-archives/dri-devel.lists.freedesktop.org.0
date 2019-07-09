@@ -2,103 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A54637F5
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 16:33:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADF86380D
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 16:39:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6CB46E069;
-	Tue,  9 Jul 2019 14:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 841CC892FD;
+	Tue,  9 Jul 2019 14:39:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8FEF6E069
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 14:33:00 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20190709143259euoutp02bf9951d76abcc36369aa545e148fbde7~vw7Vpj1uL2293322933euoutp02P
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 14:32:59 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20190709143259euoutp02bf9951d76abcc36369aa545e148fbde7~vw7Vpj1uL2293322933euoutp02P
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20190709143258eucas1p2731cedd3ee1b3ba2a69b4fafb47e06eb~vw7VBYU9s2641726417eucas1p23;
- Tue,  9 Jul 2019 14:32:58 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 32.E5.04325.A95A42D5; Tue,  9
- Jul 2019 15:32:58 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20190709143258eucas1p16d402a7f3b160503997a3118a9500ba2~vw7UT8UnC2341523415eucas1p1H;
- Tue,  9 Jul 2019 14:32:58 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20190709143257eusmtrp206ed2dc8c4e27ff7c0d5f6a615453b8d~vw7UF13yW0900609006eusmtrp23;
- Tue,  9 Jul 2019 14:32:57 +0000 (GMT)
-X-AuditID: cbfec7f5-b75ff700000010e5-de-5d24a59a5ba3
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 42.B9.04146.995A42D5; Tue,  9
- Jul 2019 15:32:57 +0100 (BST)
-Received: from [106.120.51.74] (unknown [106.120.51.74]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20190709143257eusmtip17f20f1e9adffff237829e12a42147e26~vw7TsYHZY3080730807eusmtip13;
- Tue,  9 Jul 2019 14:32:57 +0000 (GMT)
-Subject: Re: [PATCH 07/60] drm/bridge: simple-bridge: Add support for the TI
- OP362
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <619bbaf8-148a-696a-b6ea-316f3a954dd1@samsung.com>
-Date: Tue, 9 Jul 2019 16:32:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.0
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3A09892FD;
+ Tue,  9 Jul 2019 14:39:49 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id z15so13577122lfh.13;
+ Tue, 09 Jul 2019 07:39:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=PmDPb/26yoWnyx9SMSJPuy67hU1ke+5RG0dpggYfBwI=;
+ b=R4/Qp2vIku3W1A0SszdCZuOg5tF+zRWjbFUKVnYm0F6XRBoW/B0+/K5UbW4NmCXCqn
+ v5YJ1p0wi8CgmsdSiLaS8vKefmCjlKgnl2TqEnQ4gIg7vB9ilguBJ69LNimuMVI1A5HQ
+ fzS6AHfgDhhueVEgbiXDR+XlgKTP4GoPmevZrAHJqYOgcSe5y2B3QGNefuzohIrTj6ui
+ 9KZ01SAyB3twz0i0x1g4TH6Y74+CSQ9vYWQAr8X2y9X7nRxkUf8EWZBV2jaW8VQlCm2u
+ Uw8ngfRcXOoWfTyuWcnS5NTXs5LjpA1izR2z01K0zpjnezpnRjIyCQUasUdQiPFC+HGX
+ ieqw==
+X-Gm-Message-State: APjAAAX9ccQzgYGYWPtfyqBjJHoOQ2QNSczsUHNaZGNsRSyWxQdZ5T2w
+ uZvJrHETMqW+h9oQko1lqgtzLljO
+X-Google-Smtp-Source: APXvYqzfXtHiA6FRNvv7Q4Sg8yzokrOoek/XoUVk2ha/fDHSWfYV5Wl7vumv3JyJg4Aq4+yFrfnJ9w==
+X-Received: by 2002:a19:9111:: with SMTP id t17mr11824074lfd.113.1562683188255; 
+ Tue, 09 Jul 2019 07:39:48 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id k82sm4379783lje.30.2019.07.09.07.39.47
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 09 Jul 2019 07:39:47 -0700 (PDT)
+Date: Tue, 9 Jul 2019 17:39:43 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [PATCH v9 4/6] drm/hdcp: update content protection property
+ with uevent
+Message-ID: <20190709173943.2981a5de@eldfell.localdomain>
+In-Reply-To: <20190708112116.1780-5-ramalingam.c@intel.com>
+References: <20190708112116.1780-1-ramalingam.c@intel.com>
+ <20190708112116.1780-5-ramalingam.c@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190707181937.6250-4-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLKsWRmVeSWpSXmKPExsWy7djP87qzlqrEGszaqG7xf9tEZosrX9+z
- WXROXMJusfDjVhaLBy/3M1rcnXwESLz2s1g//xabA4fHvDXVHjvuLmH02PttAYvH7I6ZrB7z
- TgZ63O8+zuRxfNctdo/jN7YzBXBEcdmkpOZklqUW6dslcGU0bdrMVrCFo+LqUuEGxk9sXYyc
- HBICJhI/tx1k6WLk4hASWMEocXJ5CzOE84VR4tzcP1DOZ0aJ95N3McO03P70hhEisZxRYkXT
- BVYI5y2jxOyXd9hBqoQFQiR6T7WCdYgIREvs2rAXrIhZoJVJYuKsl6wgCTYBTYm/m2+CXcIr
- YCexvvMwWJxFQEXi2dk3YINEBcIkfi7ohKoRlDg58wkLiM0p4CZxeOM1sDizgLxE89bZzBC2
- uMStJ/OZQJZJCBxjl/h9/igTxN0uEg++n4J6W1ji1fEt7BC2jMT/nfOhauol7q+AhICEQAej
- xNYNO6GetpY4fPwi0HUcQBs0Jdbv0ocIO0r8vbuVDSQsIcAnceOtIMQNfBKTtk1nhgjzSnS0
- CUFUK0rcP7sVaqC4xNILX9kmMCrNQvLZLCTfzELyzSyEvQsYWVYxiqeWFuempxYb56WW6xUn
- 5haX5qXrJefnbmIEJqrT/45/3cG470/SIUYBDkYlHl6JFpVYIdbEsuLK3EOMEhzMSiK8+9yV
- Y4V4UxIrq1KL8uOLSnNSiw8xSnOwKInzVjM8iBYSSE8sSc1OTS1ILYLJMnFwSjUweoVta310
- 9ImgXiWb2ZqLc32+vrKxOp52eUG78I0le1dIvWn2vTVvpeLeT7GdR623nJ+ydFXS8SD7K+ci
- 3F7sWVplm/+wSuf66g2tgmWTcz7Mq0yd/ygr4Rn3LtWjijPE4lfEeKz8Jae/g2/3uQ0n7z6d
- 4Ok43UPsbJFW2+F/J5a6fv57t7E7dY8SS3FGoqEWc1FxIgDF9G7JUAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHIsWRmVeSWpSXmKPExsVy+t/xu7ozl6rEGrz+amHxf9tEZosrX9+z
- WXROXMJusfDjVhaLBy/3M1rcnXwESLz2s1g//xabA4fHvDXVHjvuLmH02PttAYvH7I6ZrB7z
- TgZ63O8+zuRxfNctdo/jN7YzBXBE6dkU5ZeWpCpk5BeX2CpFG1oY6RlaWugZmVjqGRqbx1oZ
- mSrp29mkpOZklqUW6dsl6GU0bdrMVrCFo+LqUuEGxk9sXYycHBICJhK3P71h7GLk4hASWMoo
- cXnDYhaIhLjE7vlvmSFsYYk/17rYIIpeM0pcXLkHLCEsECLRe6oVzBYRiJY4c+gwmM0s0M4k
- 0bjWAKJhIpPE92PXwRJsApoSfzffBFvNK2Ansb7zMCuIzSKgIvHs7Bv2LkYODlGBMImjJ/Ig
- SgQlTs58AnYQp4CbxOGN19gg5qtL/Jl3CWqXvETz1tlQtrjErSfzmSYwCs1C0j4LScssJC2z
- kLQsYGRZxSiSWlqcm55bbKhXnJhbXJqXrpecn7uJERiX24793LyD8dLG4EOMAhyMSjy8Ei0q
- sUKsiWXFlbmHGCU4mJVEePe5K8cK8aYkVlalFuXHF5XmpBYfYjQF+m0is5Rocj4wZeSVxBua
- GppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj4uCUamBMeMlhs2jz/7bthzOeNHgv
- 6Ml8de6euExuzXYG166bN2Iil8zRsVqwvzppipfBXCY1F51VOrJPr9clyc3cXF2/fkHUo1rJ
- dvsKbvE9oo+91D8lH4+2O1alZJB1p/aFrs+neS8fVN3pmGBxZAtXpvilG32cO/w2XXHxDZMT
- sX716n7TO60vewuVWIozEg21mIuKEwFc9AXn4QIAAA==
-X-CMS-MailID: 20190709143258eucas1p16d402a7f3b160503997a3118a9500ba2
-X-Msg-Generator: CA
-X-RootMTR: 20190707182158epcas2p4eef06c281138dc9911f27a106b0d5d78
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190707182158epcas2p4eef06c281138dc9911f27a106b0d5d78
-References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
- <CGME20190707182158epcas2p4eef06c281138dc9911f27a106b0d5d78@epcas2p4.samsung.com>
- <20190707181937.6250-4-laurent.pinchart@ideasonboard.com>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=samsung.com; 
- s=mail20170921; t=1562682779;
- bh=PuXG5/OFCz3+DqFfMU8ao7Jn+U4/lVfCHZOP8CIFgvk=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=ajc+JRLwSJ/FrZcDTykh85jGf1CtgUqEcmoTOzco0Yq3+s3iP1ah2yC1Pqjs5aOau
- O8haC5FaJukqW5T0NG9HCc1iZAJ5bHpv7v5Jx2UUZpOyQ5L850F4aEPuE7bTOWJLY2
- YmnqIV+ptN5aqiGv8EYMb9+hCdbomJG+v37lPut4=
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=PmDPb/26yoWnyx9SMSJPuy67hU1ke+5RG0dpggYfBwI=;
+ b=QY/mn3E2PpuMquAPNJtM98Fq/y9MERk3tRPTEtm4HNSFDKVFQbulzW6mqXyBsPoZsk
+ p3Qks/hZkfTzf5to+09PZ1B/n6t0rxei5hVYh2G95la4CW/ERLf8kw5HBKwhq1tVtXFd
+ idM/3atcl3dN7TLBf9gdy/2jHdZrkb38I7/G3o4rbijeASuo/Qkx0EuC6USKKtWDou59
+ E89P3SloqSlJa4U7P1Wzf/7z15U3yJ8tAvv6hmYs6Cbu36/wFTWFDgUMcL4AAAzGyajQ
+ Hfo/knPwXbaHHDauIOVv8QO5+f8onL4exY0qdpv/WXq5TyoOd+aPh4T47MA3kY3h00K9
+ T9+Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,33 +69,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1448215977=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDcuMDcuMjAxOSAyMDoxOCwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKPiBUaGUgVEkgT1Az
-NjIgaXMgYW4gYW5hbG9nIHZpZGVvIGFtcGxpZmllciBjb250cm9sbGVkIHRocm91Z2ggYSBHUElP
-LiBBZGQKPiBzdXBwb3J0IGZvciBpdCB0byB0aGUgc2ltcGxlLWJyaWRnZSBkcml2ZXIuCj4KPiBT
-aWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25i
-b2FyZC5jb20+ClJldmlld2VkLWJ5OiBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29t
-PgoKwqAtLQpSZWdhcmRzCkFuZHJ6ZWoKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-c2ltcGxlLWJyaWRnZS5jIHwgNSArKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25z
-KCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaW1wbGUtYnJpZGdl
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3NpbXBsZS1icmlkZ2UuYwo+IGluZGV4IGE3ZWRm
-M2MzOTYyNy4uNzQ5NWI5YmVmODY1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
-Z2Uvc2ltcGxlLWJyaWRnZS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaW1wbGUt
-YnJpZGdlLmMKPiBAQCAtMjk2LDYgKzI5NiwxMSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2Rl
-dmljZV9pZCBzaW1wbGVfYnJpZGdlX21hdGNoW10gPSB7Cj4gIAkJCS50aW1pbmdzID0gJmRlZmF1
-bHRfYnJpZGdlX3RpbWluZ3MsCj4gIAkJCS50eXBlID0gRFJNX01PREVfQ09OTkVDVE9SX1ZHQSwK
-PiAgCQl9LAo+ICsJfSwgewo+ICsJCS5jb21wYXRpYmxlID0gInRpLG9wYTM2MiIsCj4gKwkJLmRh
-dGEgPSAmKGNvbnN0IHN0cnVjdCBzaW1wbGVfYnJpZGdlX2luZm8pIHsKPiArCQkJLnR5cGUgPSBE
-Uk1fTU9ERV9DT05ORUNUT1JfQ29tcG9zaXRlLAo+ICsJCX0sCj4gIAl9LCB7Cj4gIAkJLmNvbXBh
-dGlibGUgPSAidGksdGhzODEzNSIsCj4gIAkJLmRhdGEgPSAmKGNvbnN0IHN0cnVjdCBzaW1wbGVf
-YnJpZGdlX2luZm8pIHsKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+--===============1448215977==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/Qx.9wJCymW_r55VRIZzzP=Z"; protocol="application/pgp-signature"
+
+--Sig_/Qx.9wJCymW_r55VRIZzzP=Z
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Mon,  8 Jul 2019 16:51:14 +0530
+Ramalingam C <ramalingam.c@intel.com> wrote:
+
+> drm function is defined and exported to update a connector's
+> content protection property state and to generate a uevent along
+> with it.
+>=20
+> Need ACK for the uevent from userspace consumer.
+>=20
+> v2:
+>   Update only when state is different from old one.
+> v3:
+>   KDoc is added [Daniel]
+> v4:
+>   KDoc is extended bit more [pekka]
+> v5:
+>   Uevent usage is documented at kdoc of "Content Protection" also
+>   [pekka]
+>=20
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_connector.c | 17 +++++++++++++----
+>  drivers/gpu/drm/drm_hdcp.c      | 34 +++++++++++++++++++++++++++++++++
+>  include/drm/drm_hdcp.h          |  2 ++
+>  3 files changed, 49 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 732f6645643d..6de906ef10b3 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -947,10 +947,19 @@ static const struct drm_prop_enum_list hdmi_colorsp=
+aces[] =3D {
+>   *	- If the state is DESIRED, kernel should attempt to re-authenticate t=
+he
+>   *	  link whenever possible. This includes across disable/enable, dpms,
+>   *	  hotplug, downstream device changes, link status failures, etc..
+> - *	- Userspace is responsible for polling the property to determine when
+> - *	  the value transitions from ENABLED to DESIRED. This signifies the l=
+ink
+> - *	  is no longer protected and userspace should take appropriate action
+> - *	  (whatever that might be).
+> + *	- Kernel sends uevent with the connector id and property id through
+> + *	  @drm_hdcp_update_content_protection, upon below kernel triggered
+> + *	  scenarios:
+> + *		DESIRED -> ENABLED	(authentication success)
+> + *		ENABLED -> DESIRED	(termination of authentication)
+> + *	- Please note no uevents for userspace triggered property state chang=
+es,
+> + *	  which can't fail such as
+> + *		DESIRED/ENABLED -> UNDESIRED
+> + *		UNDESIRED -> DESIRED
+> + *	- Userspace is responsible for polling the property or listen to ueve=
+nts
+> + *	  to determine when the value transitions from ENABLED to DESIRED.
+> + *	  This signifies the link is no longer protected and userspace should
+> + *	  take appropriate action (whatever that might be).
+
+Yes!
+
+This doc is exactly what I hoped to see. Good job.
+
+This is also exactly how
+https://gitlab.freedesktop.org/wayland/weston/merge_requests/48 deals
+with this in userspace. That MR still has some open issues, but I think
+nothing related to the uevent.
+
+
+Thanks,
+pq
+
+>   *
+>   * HDCP Content Type:
+>   *	This Enum property is used by the userspace to declare the content ty=
+pe
+> diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
+> index ce235fd1c844..77433ee3d652 100644
+> --- a/drivers/gpu/drm/drm_hdcp.c
+> +++ b/drivers/gpu/drm/drm_hdcp.c
+> @@ -374,6 +374,10 @@ DRM_ENUM_NAME_FN(drm_get_hdcp_content_type_name,
+>   *
+>   * The content protection will be set to &drm_connector_state.content_pr=
+otection
+>   *
+> + * When kernel triggered content protection state change like DESIRED->E=
+NABLED
+> + * and ENABLED->DESIRED, will use drm_hdcp_update_content_protection() t=
+o update
+> + * the content protection state of a connector.
+> + *
+>   * Returns:
+>   * Zero on success, negative errno on failure.
+>   */
+> @@ -414,3 +418,33 @@ int drm_connector_attach_content_protection_property(
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_connector_attach_content_protection_property);
+> +
+> +/**
+> + * drm_hdcp_update_content_protection - Updates the content protection s=
+tate
+> + * of a connector
+> + *
+> + * @connector: drm_connector on which content protection state needs an =
+update
+> + * @val: New state of the content protection property
+> + *
+> + * This function can be used by display drivers, to update the kernel tr=
+iggered
+> + * content protection state changes of a drm_connector such as DESIRED->=
+ENABLED
+> + * and ENABLED->DESIRED. No uevent for DESIRED->UNDESIRED or ENABLED->UN=
+DESIRED,
+> + * as userspace is triggering such state change and kernel performs it w=
+ithout
+> + * fail.This function update the new state of the property into the conn=
+ector's
+> + * state and generate an uevent to notify the userspace.
+> + */
+> +void drm_hdcp_update_content_protection(struct drm_connector *connector,
+> +					u64 val)
+> +{
+> +	struct drm_device *dev =3D connector->dev;
+> +	struct drm_connector_state *state =3D connector->state;
+> +
+> +	WARN_ON(!drm_modeset_is_locked(&dev->mode_config.connection_mutex));
+> +	if (state->content_protection =3D=3D val)
+> +		return;
+> +
+> +	state->content_protection =3D val;
+> +	drm_sysfs_connector_status_event(connector,
+> +				 dev->mode_config.content_protection_property);
+> +}
+> +EXPORT_SYMBOL(drm_hdcp_update_content_protection);
+> diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
+> index 2970abdfaf12..dd864ac9ce85 100644
+> --- a/include/drm/drm_hdcp.h
+> +++ b/include/drm/drm_hdcp.h
+> @@ -292,4 +292,6 @@ bool drm_hdcp_check_ksvs_revoked(struct drm_device *d=
+ev,
+>  				 u8 *ksvs, u32 ksv_count);
+>  int drm_connector_attach_content_protection_property(
+>  		struct drm_connector *connector, bool hdcp_content_type);
+> +void drm_hdcp_update_content_protection(struct drm_connector *connector,
+> +					u64 val);
+>  #endif
+
+
+--Sig_/Qx.9wJCymW_r55VRIZzzP=Z
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl0kpy8ACgkQI1/ltBGq
+qqdYkQ//YeP+JwQPZeFD17cZ26ZfGzgiSy9WhBbYbXqMf5X/lQrf1wgKAEABhXZA
+tQ04U+GJfV7WAiiadhQaIckr/LbKb1V9Vqu/4NLqKnzrN2zUWgKM6GuB77EdNC4D
+1EcP3Wt6I+qwq3n1MEPf4FJjVvef5TowT4xuUd01WWt0raJKSyzW7wwGKQsqDiWC
+vbJZZS4zJhxR4qKZhqBh3ofYgEbvRPYQWb28mc/d/zqKb+i1isZw3FlXae5kXnKH
+/6lKXKLFnSb/+lGqZJo7gComNdWa9KB3y543pvRGowP2x/e7XVuWVWr9dtHqGkgL
+8O1M5NOFFqVTsf1ohcYCszOEkj8KF7lHq4xqgs8aBvvD2LTCHEIm06FYCaNdIYrW
+Szby6MV0TmYUYajPBaBs+TYgPIs0CZQmkKK41pnYGn3XocEKF1mVE9F5bM0v5ym9
+ywjSHoHX2smb6teg7BEFkZ10GWunQ6SyJGKlzcAiJ8rl7W10AVglnQavMLtpW2iB
+0wrOHK8z+4aUUYRADMOs5IEvCUMVZFlB8dlpnoovsJj5YoNKr0tEEjmREt/s4KHQ
+gx7OGlqY8ho6nmGpEnlEV5Jrosn03kXRgZrUQW6R6eqncSwUMvWDl2TWUfa7D2+C
+o7jOnxzltBqb+QKpVN8/l+ePGmY0/PbesnsMOggaylBqOnby4Lk=
+=tNuG
+-----END PGP SIGNATURE-----
+
+--Sig_/Qx.9wJCymW_r55VRIZzzP=Z--
+
+--===============1448215977==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1448215977==--
