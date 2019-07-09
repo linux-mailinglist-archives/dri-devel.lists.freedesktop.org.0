@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD5963C01
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 21:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E03F263C56
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 22:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF11F89DD2;
-	Tue,  9 Jul 2019 19:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66777897FF;
+	Tue,  9 Jul 2019 20:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
- [209.85.160.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C38289DD2;
- Tue,  9 Jul 2019 19:38:12 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id h21so20666452qtn.13;
- Tue, 09 Jul 2019 12:38:12 -0700 (PDT)
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+ [209.85.166.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7722C897FF
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 20:01:24 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id f4so30350685ioh.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2019 13:01:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xgO5fSFnkpRb91YH7i6eymSVmXaxAMQJWlwBQj0Dv40=;
- b=j3LBvHohLlqnh1Mt2If7HYDV9eWFP2ujM+19HHqkitaBNIF91QhaqOh7H7OHNG7BOt
- 0SnfP3cgJUzaggYiNnDGtq0GlAJscrkkVS2YyJPHcfeWFw06rLP5GsUU6Qs9OralShsu
- cKJ/Axndv36EMlt+0TT4Dyu9wEkKCTA2De+NxJ4YsBf9QeuqomxXQ6fAAWzbUAXvksm8
- i/NtHcdyWLc9OXF4Vvb0f11Obty2dC690drxbKS8RBJaKiZ9aL6JDTXkSssNEuZbdf2D
- 2KyJTgr8dbnc8kTZ+kHBlzxHy7AVsS2VvZN2dcuUNajUaucFaYOG49T3lvcU4Je7RDN9
- OKUQ==
-X-Gm-Message-State: APjAAAUKay1O6oWpTeR889P4FirkfZxugN6NFRid7MAOIGDH69qiqWf9
- uBnLME6v3rlpDoJgynkLnaXjIFyuVTCUx40q7L0=
-X-Google-Smtp-Source: APXvYqy75RtS1X3Ao5vvsJC+OpR8FANcjcm6rTGH3ZL2vjWjUB2czjyRgpuS62Ljn9y1uzhZ8P3FzW885/0ZtrujVFc=
-X-Received: by 2002:ac8:5311:: with SMTP id t17mr19828557qtn.304.1562701091662; 
- Tue, 09 Jul 2019 12:38:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=B7/QcW7r5MQOGhPEoQO1LbngGWl8Cp/c3zBrZbGmskM=;
+ b=fIRS9N6udDZDLZuvmPz+nG9WjbhQMxa65kEaIkjCO9iByIqaZRlsnreKCK8dloiJc2
+ /3iKiTPXsUxiU/+hbDiuZ2YxSSsxL8lRcMY25fzu/fyjyp3XY4kSHRgUGjPzIKUSo1Ty
+ mE/+oJ0LOIvvJkH569UAkDSjOpdZFpGg7rUyhUs4PTv1saoL6qZyNC84FIflDEW6vR46
+ j13tU0K6Q0dgXvlOL17Jo/d9Db/78YKEglk82knEG2IrlDCzlJZ8adQJSge4/WGmfOkU
+ xQhYP2n6S1Uw4TfR1YzRbPpTEKjjhiH9QvLSFbE3GvRzDYLB8mG/4abVUEoAA8YU0JOr
+ 3lSw==
+X-Gm-Message-State: APjAAAVdoXrBcVy95bgxtA5PdHGQ7fQm5h3d2zs41TxBa8gZ70c+C+7C
+ WwTQ3+l8bpysK+7lvKxs9Q==
+X-Google-Smtp-Source: APXvYqytSsRPVq3GTbSVDnVsku/qIgTDId3MOrt1dloK9TJz1SnYYCUTN2WCuwk38In8AaLhppOnLQ==
+X-Received: by 2002:a02:7f15:: with SMTP id r21mr31288185jac.120.1562702483721; 
+ Tue, 09 Jul 2019 13:01:23 -0700 (PDT)
+Received: from localhost ([64.188.179.251])
+ by smtp.gmail.com with ESMTPSA id s2sm15525321ioj.8.2019.07.09.13.01.22
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 09 Jul 2019 13:01:23 -0700 (PDT)
+Date: Tue, 9 Jul 2019 14:01:21 -0600
+From: Rob Herring <robh@kernel.org>
+To: Cheng-Yi Chiang <cychiang@chromium.org>
+Subject: Re: [PATCH 5/7] ASoC: rockchip: rockchip-max98090: Add node for HDMI
+Message-ID: <20190709200121.GA19118@bogus>
+References: <20190603043251.226549-1-cychiang@chromium.org>
+ <20190603043251.226549-6-cychiang@chromium.org>
 MIME-Version: 1.0
-References: <20190708135238.651483-1-arnd@arndb.de>
- <DM6PR12MB320967C48957C4F2F0E92438FEF10@DM6PR12MB3209.namprd12.prod.outlook.com>
- <BN6PR12MB1809956A9C61870CB7F675F5F7F10@BN6PR12MB1809.namprd12.prod.outlook.com>
-In-Reply-To: <BN6PR12MB1809956A9C61870CB7F675F5F7F10@BN6PR12MB1809.namprd12.prod.outlook.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 9 Jul 2019 21:37:54 +0200
-Message-ID: <CAK8P3a2GbpkDnpq_MS4iRe7HM0MTxSkx=rB0=OHQZk4TXbvh1Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: avoid 64-bit division
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Content-Disposition: inline
+In-Reply-To: <20190603043251.226549-6-cychiang@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,36 +58,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Park, Chris" <Chris.Park@amd.com>, "Liu, Charlene" <Charlene.Liu@amd.com>,
- "Li, Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Cheng,
- Tony" <Tony.Cheng@amd.com>, David Airlie <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Cornij,
- Nikola" <Nikola.Cornij@amd.com>, "Lakha,
- Bhawanpreet" <Bhawanpreet.Lakha@amd.com>, "Abramov,
- Slava" <Slava.Abramov@amd.com>, "Laktyushkin,
- Dmytro" <Dmytro.Laktyushkin@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Francis,
- David" <David.Francis@amd.com>, "Lei, Jun" <Jun.Lei@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, "Koo, Anthony" <Anthony.Koo@amd.com>
+Cc: alsa-devel@alsa-project.org, Liam Girdwood <lgirdwood@gmail.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Takashi Iwai <tiwai@suse.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-rockchip@lists.infradead.org, dgreid@chromium.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org, tzungbi@chromium.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dianders@chromium.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgOSwgMjAxOSBhdCA2OjQwIFBNIERldWNoZXIsIEFsZXhhbmRlcgo8QWxleGFu
-ZGVyLkRldWNoZXJAYW1kLmNvbT4gd3JvdGU6Cj4KPiBJJ2xsIGp1c3QgYXBwbHkgQXJuZCdzIHBh
-dGNoLiAgSWYgdGhlIGRpc3BsYXkgdGVhbSB3YW50cyB0byBhZGp1c3QgaXQgbGF0ZXIgdG8gY2xh
-cmlmeSB0aGUKPiBvcGVyYXRpb24sIHRoZXkgc2hvdWxkIGdvIGFoZWFkIGFzIGEgZm9sbG93IHVw
-IHBhdGNoLgoKVGhhbmtzIQoKPiBGcm9tOiBBYnJhbW92LCBTbGF2YQo+IFNlbnQ6IFR1ZXNkYXks
-IEp1bHkgOSwgMjAxOSAxMjozMSBQTQo+ID4gVGhhbmtzIGZvciBiaXNlY3RpbmcgdGhpcyBpc3N1
-ZS4KPiA+Cj4gPiBJIHdvbmRlciB3aGV0aGVyIHlvdSBhcmUgZ29pbmcgdG8gY29tbWl0IHlvdXIg
-cGF0Y2ggb3IgcGxhbm5pbmcgdG8gdXBkYXRlIGl0IGFuZCBpdCdzCj4gPiBzdGlsbCBpbiB5b3Vy
-IHdvcmsgcXVldWUuICBXZSBoYXZlIG9uZSBvZiBvdXIgMzItYml0IGJ1aWxkcyBmYWlsaW5nIGJl
-Y2F1c2Ugb2YgdGhpcwo+ID4gaXNzdWUsIHNvIHRoYXQgSSB3b3VsZCBsaWtlIGVpdGhlciB0byBm
-aXggaXQgb3Igd2FpdCB0byB5b3VyIGZpeCBpZiBpdCBoYXMgY2hhbmNlcyB0byBnbwo+ID4gdXBz
-dHJlYW0gdG9kYXkuCgpJIHdhcyBnb2luZyB0byB1cGRhdGUgdGhlIHBhdGNoLCBidXQgaGFkIG5v
-dCBnb3R0ZW4gdG8gdGhhdCB5ZXQuCgogICAgIEFybmQKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gTW9uLCBKdW4gMDMsIDIwMTkgYXQgMTI6MzI6NDlQTSArMDgwMCwgQ2hlbmctWWkgQ2hpYW5n
+IHdyb3RlOgo+IExldCB1c2VyIHNwZWNpZnkgSERNSSBub2RlIHNvIG1hY2hpbmUgZHJpdmVyIGNh
+biB1c2UgaXQgdG8gbGV0IGNvZGVjCj4gZHJpdmVyIHJlZ2lzdGVyIGNhbGxiYWNrIG9uIGNvcnJl
+Y3QgaGRtaS1ub3RpZmllci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaGVuZy1ZaSBDaGlhbmcgPGN5
+Y2hpYW5nQGNocm9taXVtLm9yZz4KPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL3NvdW5kL3JvY2tjaGlwLW1heDk4MDkwLnR4dCB8IDIgKysKPiAgMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3Mvc291bmQvcm9ja2NoaXAtbWF4OTgwOTAudHh0IGIvRG9jdW1lbnRhdGlv
+bi9kZXZpY2V0cmVlL2JpbmRpbmdzL3NvdW5kL3JvY2tjaGlwLW1heDk4MDkwLnR4dAo+IGluZGV4
+IGE4MDVhYTk5YWQ3NS4uZGFlNTdjMTQ4NjRlIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9zb3VuZC9yb2NrY2hpcC1tYXg5ODA5MC50eHQKPiArKysgYi9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc291bmQvcm9ja2NoaXAtbWF4OTgwOTAu
+dHh0Cj4gQEAgLTcsNiArNyw3IEBAIFJlcXVpcmVkIHByb3BlcnRpZXM6Cj4gICAgY29ubmVjdGVk
+IHRvIHRoZSBDT0RFQwo+ICAtIHJvY2tjaGlwLGF1ZGlvLWNvZGVjOiBUaGUgcGhhbmRsZSBvZiB0
+aGUgTUFYOTgwOTAgYXVkaW8gY29kZWMKPiAgLSByb2NrY2hpcCxoZWFkc2V0LWNvZGVjOiBUaGUg
+cGhhbmRsZSBvZiBFeHQgY2hpcCBmb3IgamFjayBkZXRlY3Rpb24KPiArLSByb2NrY2hpcCxoZG1p
+OiBUaGUgcGhhbmRsZSBvZiBIRE1JIG5vZGUgZm9yIEhETUkgamFjayBkZXRlY3Rpb24KPiAgCj4g
+IEV4YW1wbGU6Cj4gIAo+IEBAIC0xNiw0ICsxNyw1IEBAIHNvdW5kIHsKPiAgCXJvY2tjaGlwLGky
+cy1jb250cm9sbGVyID0gPCZpMnM+Owo+ICAJcm9ja2NoaXAsYXVkaW8tY29kZWMgPSA8Jm1heDk4
+MDkwPjsKPiAgCXJvY2tjaGlwLGhlYWRzZXQtY29kZWMgPSA8JmhlYWRzZXRjb2RlYz47Cj4gKwly
+b2NrY2hpcCxoZG1pPSA8JmhkbWk+OwoKc3BhY2UgICAgICAgICAgICAgICAgXgoKV2l0aCB0aGF0
+LAoKQWNrZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cgo+ICB9Owo+IC0tIAo+
+IDIuMjIuMC5yYzEuMjU3LmczMTIwYTE4MjQ0LWdvb2cKPiAKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
