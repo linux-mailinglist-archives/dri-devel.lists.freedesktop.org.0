@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536FD62F38
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 06:14:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B44E063028
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 07:48:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA9DB89740;
-	Tue,  9 Jul 2019 04:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B71689E4C;
+	Tue,  9 Jul 2019 05:48:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0C30189DC9
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 04:14:34 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0999B72167; Tue,  9 Jul 2019 04:14:34 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
- back on when amdgpu.dc=1
-Date: Tue, 09 Jul 2019 04:14:34 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: valentinesd@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109246-502-avgET26dxm@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
-References: <bug-109246-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFC1789E4C
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 05:48:04 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id D9CC9804DF;
+ Tue,  9 Jul 2019 07:48:00 +0200 (CEST)
+Date: Tue, 9 Jul 2019 07:47:59 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 19/60] drm/panel: Add driver for the LG Philips LB035Q02
+ panel
+Message-ID: <20190709054759.GA15980@ravnborg.org>
+References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
+ <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
+ <20190707181937.6250-16-laurent.pinchart@ideasonboard.com>
+ <20190708185129.GA4363@ravnborg.org>
+ <20190709005649.GC4819@pendragon.ideasonboard.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190709005649.GC4819@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10 a=uPZiAMpXAAAA:8
+ a=VwQbUJbxAAAA:8 a=EweBOYW7bgBu5vYQIcIA:9 a=QEXdDO2ut3YA:10
+ a=mLIokOBbMDMA:10 a=W1xJO3YbG5cA:10 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,126 +50,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0568834147=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0568834147==
-Content-Type: multipart/alternative; boundary="15626456740.2b8AF4.16091"
-Content-Transfer-Encoding: 7bit
-
-
---15626456740.2b8AF4.16091
-Date: Tue, 9 Jul 2019 04:14:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
-
---- Comment #22 from valentinesd@gmail.com ---
-This is happening to me as well.
-
-RX570 w/ Acer H236HL Dual head, both inputs HDMI
-
-I didn't have this issue with the same monitors and an nvidia card, so it s=
-eems
-specific to the amdgpu driver.
-
-The monitors seem to lose signal (which is normal), then perform an auto in=
-put
-cycle which then wakes the monitors back up.  The backlight will come on and
-display the mouse cursor on a black screen.
-
-I experience this with both Xorg and Wayland.
-
-Unfortunately I can't disable auto input on my monitors, as the previous
-workaround suggests.  Just disabling DDC/CI didn't help.
-
-Adding amdgpu.dc=3D0 to linux cmdline resolves the issue for me, but I'm
-concerned that may preclude my system from gaining newer features.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15626456740.2b8AF4.16091
-Date: Tue, 9 Jul 2019 04:14:34 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c22">Comme=
-nt # 22</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-valentinesd&#64;gmail.com" title=3D"valentinesd&#64;gmail.com">valentinesd&=
-#64;gmail.com</a>
-</span></b>
-        <pre>This is happening to me as well.
-
-RX570 w/ Acer H236HL Dual head, both inputs HDMI
-
-I didn't have this issue with the same monitors and an nvidia card, so it s=
-eems
-specific to the amdgpu driver.
-
-The monitors seem to lose signal (which is normal), then perform an auto in=
-put
-cycle which then wakes the monitors back up.  The backlight will come on and
-display the mouse cursor on a black screen.
-
-I experience this with both Xorg and Wayland.
-
-Unfortunately I can't disable auto input on my monitors, as the previous
-workaround suggests.  Just disabling DDC/CI didn't help.
-
-Adding amdgpu.dc=3D0 to linux cmdline resolves the issue for me, but I'm
-concerned that may preclude my system from gaining newer features.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15626456740.2b8AF4.16091--
-
---===============0568834147==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0568834147==--
+SGkgTGF1cmVudC4KCj4gCj4gPiA+ICsJdW5zaWduZWQgaW50IGk7Cj4gPiAKPiA+IGluZGV4IHRv
+IGFycmF5cyBhcmUgZGVmYXVsdCAiaW50IiBJSVJDLgo+ID4gTm90IHRoYXQgaXQgbWF0dGVycyBi
+dXQgbm90aWNlZCBpdC4KPiAKPiBBcmUgdGhleSA/IEkndmUgYWx3YXlzIGFkdm9jYXRlZCBmb3Ig
+dW5zaWduZWQgaW5kZXhlcyB0byB1c2UgdW5zaWduZWQKPiBpbnQuCgpJIGRpZCBub3QgZGlnIHVw
+IGFueXRoaW5nIGF1dGhvcmF0aXZlIC0gYnV0IGZvdW5kIHRoaXM6Cmh0dHBzOi8vc3RhY2tvdmVy
+Zmxvdy5jb20vcXVlc3Rpb25zLzgxMTEzNTcvdHlwZS1vZi1hcnJheS1pbmRleC1pbi1jCgpUaGVy
+ZSBpcyBzb21lIGNvbmZ1c2lvbiBiZXR3d2VuIHRoZSB0eXBlIG9mIGFycmF5IGFuZCB0aGUgdHlw
+ZSBvZiB0aGUKaW5kZXguCkJ1dCB0aGUgcGFydCB0aGF0IGxvb2tzIHRvIGFuc3dlciB0aGUgcXVl
+c3Rpb25zIHNheSB0aGF0IGluZGV4IGNhbiBiZQpuZWdhdGl2ZSwgc28gdGhlIGludGVncmFsIHR5
+cGUgaXMgZGVmYXVsdCBpbnQuCkFnYWluLCBub3RoaW5nIHRvIHdvcnJ5IGFib3V0LCBhcyBjb2Rl
+IHdva3JzIGFuZCB1bnNpZ2VuIGludCBpcyB1c2VkIGZvcgppbmRleCBpbiBtYW55IHBsYWNlcy4K
+Cj4gPiA+ICtNT0RVTEVfTElDRU5TRSgiR1BMIik7Cj4gPiAKPiA+IFRoaXMgc2hvdWxkIGJlICJH
+UEwgdjIiIGlmIEkgcmVhZCBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL2xhdGVzdC9w
+cm9jZXNzL2xpY2Vuc2UtcnVsZXMuaHRtbAo+ID4gY29ycmVjdC4gU2VlICJNT0RVTEVfTElDRU5T
+RSIgdGFibGUuCj4gCj4gQWNjb3JkaW5nIHRvIHRoYXQgdGFibGUsICJHUEwgdjIiIGlzIGRlZmlu
+ZWQgYXMgIlNhbWUgYXMg4oCcR1BM4oCdLiBJdAo+IGV4aXN0cyBmb3IgaGlzdG9yaWMgcmVhc29u
+cy4iLiBNeSB1bmRlcnN0YW5kaW5nIGlzIHRoYXQgIkdQTCB2MiIgZXhpc3RzCj4gZm9yIGhpc3Rv
+cmljYWwgcmVhc29ucyBhbmQgc2hvdWxkIG5vdCBiZSB1c2VkIGluIG5ldyBjb2RlLgpSZS1yZWFk
+aW5nIHRoZSBsaW5rIHlvdSBhcmUgcmlnaHQuIG1vZHVsZSBsaWNlbnNlIGlzIHRvIGJlIHNwZWNp
+ZmllZCBhcwoiR1BMIiBhbmQgdGhlbiBvbmUgaGFzIHRvIHZpc2l0IHRoZSBmaWxlLgpTbyBpZ25v
+cmUgdGhhdCBjb21tZW50IGluIGZvbGxvd2luZyByZXZpZXdzLgpTZWVtcyBzaW1wbGUgdG8gcmVt
+ZW1iZXIsIHdpbGwga2VlcCBpbiBtaW5kIGZvciBmdXR1cmUgcmV2aWV3cy4KCglTYW0KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
