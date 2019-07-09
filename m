@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A655363A66
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 20:01:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14480642B4
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82C16E07B;
-	Tue,  9 Jul 2019 18:01:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB74E89C07;
+	Wed, 10 Jul 2019 07:25:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 591CB6E07B
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 18:01:48 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id b13so5068728pfo.1
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2019 11:01:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
- b=q8ObVKX9VFIwMQpHrs0Se8Y4l4zy1/UJz+BUMIC2iD2L7AtdgY1ARo+991bz0NI+tH
- qXAwOtcRW8Acjy/d/euGNyOD/hKtVCz9t2wHg/Z6H57y6o5rwgRInj3TivuAwtvgBlhq
- f9aOLK+85zsp54nYDzMgR825yFqJahtf2saAuPVMOaK5pCQnkCJa+5QJP5pa/N3oaepu
- tkVeeDUU3XQyGjTQysjiTqoj69t4ZPPRIz/sh2ethRXLDzOTQtfGQ0wyCjS7dWyLKwPa
- 2hhvQBYx87RWBMd06yTx6UKI58euJbuwCt8ShA5vNaDmpSai4QYG69Lso0wI6VQ5sB4r
- GtmA==
-X-Gm-Message-State: APjAAAXgdNlNPeKJTlWM/9YMlUNW8/2ekVHqlYN0ZTr3P6+q6kzS2GZ4
- UltQ+4yeVlCbVdnkbRd76622qxGFxpRqE5bCqAFuyg==
-X-Google-Smtp-Source: APXvYqw4HCjsVl+Amh2Teet2qtkXvGz99b/JiD+OyiCx/6U5M9oVU+FrejKuChE3TPRj4OZE1ZrjIBxXffNmybu5Pvg=
-X-Received: by 2002:a63:205f:: with SMTP id r31mr32165059pgm.159.1562695307162; 
- Tue, 09 Jul 2019 11:01:47 -0700 (PDT)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 270F06E091
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 18:02:34 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x69I2UDs059738;
+ Tue, 9 Jul 2019 13:02:30 -0500
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x69I2UA3060317
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 9 Jul 2019 13:02:30 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 9 Jul
+ 2019 13:02:30 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 9 Jul 2019 13:02:30 -0500
+Received: from [10.250.65.13] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x69I2TNv093915;
+ Tue, 9 Jul 2019 13:02:29 -0500
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: fix vendor prefix for
+ ArcticSand arcxcnn driver bindings
+To: Brian Dodge <bdodge09@gmail.com>
+References: <1561940895-15837-1-git-send-email-bdodge09@gmail.com>
+ <1561940895-15837-2-git-send-email-bdodge09@gmail.com>
+ <f2cf7c51-4857-30bd-a096-b1ce5ff01bd5@ti.com>
+ <CAFaGBPk4q5Cfy4q4KqGDb7KwU_Mi22Mzu88KVO+3G7OJztyABQ@mail.gmail.com>
+From: Dan Murphy <dmurphy@ti.com>
+Message-ID: <b4bf38a7-b6d4-d496-ab7d-5e7465142ea2@ti.com>
+Date: Tue, 9 Jul 2019 13:01:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190709063023.251446-1-brendanhiggins@google.com>
- <20190709063023.251446-17-brendanhiggins@google.com>
- <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
-In-Reply-To: <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
-From: Brendan Higgins <brendanhiggins@google.com>
-Date: Tue, 9 Jul 2019 11:01:35 -0700
-Message-ID: <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
-Subject: Re: [PATCH v7 16/18] MAINTAINERS: add entry for KUnit the unit
- testing framework
-To: shuah <shuah@kernel.org>
+In-Reply-To: <CAFaGBPk4q5Cfy4q4KqGDb7KwU_Mi22Mzu88KVO+3G7OJztyABQ@mail.gmail.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Approved-At: Wed, 10 Jul 2019 07:25:20 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
- b=u9enlrUFhNo6CpHlrQV/HgMnM2prP/1x9AkLcEyZIZZ95VhPysZXNdVgTxFeHrQSyj
- D854QOHx1OOVg+bK1q0GL9M26yGnhrklGjHFU0YlePfBqyn8fol1vLU/0tJs5NO+XWNV
- 6Qg4G47Yz8EAu+oXnFu1Mzex0KXUQSkc3dP89G7ycpwdK6vtjyVs4n/CA1F66BOgluWi
- cGrmqcEgZcaKnQ36vda5DA3xHSSM91ST4LQMohLGersiVfBM4MAAfBua5GuHtjmb28bv
- cNHp7EXFv/Be9TyDKlfByNT+SveMU7rOne9AoLQN+azT38ic+R4kxi1lUa+FZPUqI2ob
- eorw==
+ d=ti.com; s=ti-com-17Q1; t=1562695350;
+ bh=IRJVny5VoeQD2A98EmS4KLxwIcs7v2cDULmwCZk55iw=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=CwXSm/dcUv4L/zpCeaddVp/invdLRqGeKYLZJHY6z4KJQu+cPU3SxJUWp6eouPjB/
+ MNz4WV+83d6ZDXc+v1g+A83eUwKgk+Fx/26I1UPMWXuZ+aOW1FuktrGfWbnRydtpRx
+ GZ1+bRkVRRI3dPCDxwX+gRRNa0MvAbRPXxiVPGJU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,66 +66,273 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Sasha Levin <Alexander.Levin@microsoft.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Frank Rowand <frowand.list@gmail.com>,
- linux-nvdimm <linux-nvdimm@lists.01.org>, Kevin Hilman <khilman@baylibre.com>,
- Knut Omang <knut.omang@oracle.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>, wfg@linux.intel.com,
- Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
- Jeff Dike <jdike@addtoit.com>, Dan Carpenter <dan.carpenter@oracle.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-kbuild <linux-kbuild@vger.kernel.org>, "Bird,
- Timothy" <Tim.Bird@sony.com>, linux-um@lists.infradead.org,
- Steven Rostedt <rostedt@goodmis.org>, Julia Lawall <julia.lawall@lip6.fr>,
- Josh Poimboeuf <jpoimboe@redhat.com>, kunit-dev@googlegroups.com,
- Theodore Ts'o <tytso@mit.edu>, Richard Weinberger <richard@nod.at>,
- Stephen Boyd <sboyd@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
- linux-fsdevel@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
+ jingoohan1@gmail.com, dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ jacek.anaszewski@gmail.com, Pavel Machek <pavel@ucw.cz>,
+ Peter Bacon <pbacon@psemi.com>, Lee Jones <lee.jones@linaro.org>,
+ linux-leds@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0832264242=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgOSwgMjAxOSBhdCA3OjUzIEFNIHNodWFoIDxzaHVhaEBrZXJuZWwub3JnPiB3
-cm90ZToKPgo+IE9uIDcvOS8xOSAxMjozMCBBTSwgQnJlbmRhbiBIaWdnaW5zIHdyb3RlOgo+ID4g
-QWRkIG15c2VsZiBhcyBtYWludGFpbmVyIG9mIEtVbml0LCB0aGUgTGludXgga2VybmVsJ3MgdW5p
-dCB0ZXN0aW5nCj4gPiBmcmFtZXdvcmsuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogQnJlbmRhbiBI
-aWdnaW5zIDxicmVuZGFuaGlnZ2luc0Bnb29nbGUuY29tPgo+ID4gUmV2aWV3ZWQtYnk6IEdyZWcg
-S3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gPiBSZXZpZXdlZC1i
-eTogTG9nYW4gR3VudGhvcnBlIDxsb2dhbmdAZGVsdGF0ZWUuY29tPgo+ID4gLS0tCj4gPiAgIE1B
-SU5UQUlORVJTIHwgMTEgKysrKysrKysrKysKPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDExIGluc2Vy
-dGlvbnMoKykKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUwo+
-ID4gaW5kZXggNjc3ZWY0MWNiMDEyYy4uNDhkMDRkMTgwYTk4OCAxMDA2NDQKPiA+IC0tLSBhL01B
-SU5UQUlORVJTCj4gPiArKysgYi9NQUlOVEFJTkVSUwo+ID4gQEAgLTg1OTksNiArODU5OSwxNyBA
-QCBTOiAgICAgTWFpbnRhaW5lZAo+ID4gICBGOiAgdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvCj4g
-PiAgIEY6ICBEb2N1bWVudGF0aW9uL2Rldi10b29scy9rc2VsZnRlc3QqCj4gPgo+ID4gK0tFUk5F
-TCBVTklUIFRFU1RJTkcgRlJBTUVXT1JLIChLVW5pdCkKPiA+ICtNOiAgIEJyZW5kYW4gSGlnZ2lu
-cyA8YnJlbmRhbmhpZ2dpbnNAZ29vZ2xlLmNvbT4KPiA+ICtMOiAgIGxpbnV4LWtzZWxmdGVzdEB2
-Z2VyLmtlcm5lbC5vcmcKPiA+ICtMOiAgIGt1bml0LWRldkBnb29nbGVncm91cHMuY29tCj4gPiAr
-VzogICBodHRwczovL2dvb2dsZS5naXRodWIuaW8va3VuaXQtZG9jcy90aGlyZF9wYXJ0eS9rZXJu
-ZWwvZG9jcy8KPiA+ICtTOiAgIE1haW50YWluZWQKPiA+ICtGOiAgIERvY3VtZW50YXRpb24vZGV2
-LXRvb2xzL2t1bml0Lwo+ID4gK0Y6ICAgaW5jbHVkZS9rdW5pdC8KPiA+ICtGOiAgIGt1bml0Lwo+
-ID4gK0Y6ICAgdG9vbHMvdGVzdGluZy9rdW5pdC8KPiA+ICsKPiA+ICAgS0VSTkVMIFVTRVJNT0RF
-IEhFTFBFUgo+ID4gICBNOiAgTHVpcyBDaGFtYmVybGFpbiA8bWNncm9mQGtlcm5lbC5vcmc+Cj4g
-PiAgIEw6ICBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnCj4gPgo+Cj4gVGhhbmtzIEJyZW5k
-YW4uCj4KPiBJIGFtIGdvb2Qgd2l0aCB0aGlzLiBJIGNhbiB0YWtlIEtVbml0IHBhdGNoZXMgdGhy
-b3VnaCBrc2VsZnRlc3QKPiB3aXRoIHlvdXIgQWNrLgoKTXkgYWNrbm93bGVkZ2VtZW50PyBTdXJl
-ISBJIHRob3VnaHQgd2UgYWxyZWFkeSBhZ3JlZWQgdG8gdGhhdC4KCkFsc28sIGRvIHdlIG5lZWQg
-YW4gYWNrIGZyb20gTWFzYWhpcm8gb3IgTWljaGFsIGZvciB0aGUgS2J1aWxkIHBhdGNoCltQQVRD
-SCB2NyAwNi8xOF0/IEFuZCBhbiBhY2sgZnJvbSBKb3NoIG9yIFBldGVyIGZvciB0aGUgb2JqdG9v
-bCBwYXRjaApbUEFUQ0ggdjcgMDgvMThdPwoKR3JlZyBhbmQgTG9nYW4gZ2F2ZSBtZSBhIFJldmll
-d2VkLWJ5IGZvciB0aGUgS2J1aWxkIHBhdGNoLCBzbyBtYXliZQp0aGF0J3MgZmluZSwgYnV0IEkg
-ZG9uJ3QgaGF2ZSBhbnkgcmV2aWV3cyBvciBhY2tzIGZvciB0aGUgb2JqdG9vbApwYXRjaC4KClRo
-YW5rcyEKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+--===============0832264242==
+Content-Type: multipart/alternative;
+	boundary="------------2078F4511199A6746397C4CF"
+Content-Language: en-US
+
+--------------2078F4511199A6746397C4CF
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Brian
+
+On 7/9/19 12:48 PM, Brian Dodge wrote:
+> FYI: please note that pSemi's legal department has informed me that 
+> they do *not* want to keep the "ArcticSand" copyright notices and the 
+> single pSemi line is appropriate.
+>
+Thanks for the follow up.  Lawyers can be fickle about this stuff.
+
+
+> On Mon, Jul 8, 2019 at 2:02 PM Dan Murphy <dmurphy@ti.com 
+> <mailto:dmurphy@ti.com>> wrote:
+>
+>     Brian
+>
+>     On 6/30/19 7:28 PM, Brian Dodge wrote:
+>     > The vendor-prefixes.txt file properly refers to ArcticSand
+>     > as arctic but the driver bindings improperly abbreviated the
+>     > prefix to arc. This was a mistake in the original patch. This
+>     > patch adds "arctic" and retains "arc" (deprecated) bindings
+>     >
+>     > Signed-off-by: Brian Dodge <bdodge09@gmail.com
+>     <mailto:bdodge09@gmail.com>>
+>     > ---
+>     >   .../bindings/leds/backlight/arcxcnn_bl.txt         | 31
+>     +++++++++++++++-------
+>     >   1 file changed, 21 insertions(+), 10 deletions(-)
+>     >
+>     > diff --git
+>     a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>     b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>     > index 230abde..4d98394 100644
+>     > ---
+>     a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>     > +++
+>     b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+>     > @@ -1,8 +1,13 @@
+>     > -Binding for ArcticSand arc2c0608 LED driver
+>     > +Binding for ArcticSand arc family LED drivers
+>     >
+>     >   Required properties:
+>     > -- compatible:                should be "arc,arc2c0608"
+>     > -- reg:                       slave address
+>     > +- compatible: one of
+>     > +     "arctic,arc1c0608"
+>     > +     "arctic,arc2c0608"
+>     > +     "arctic,arc3c0845"
+>     > +     "arc,arc2c0608" (deprecated)
+>     > +
+>     > +- reg:               slave address
+>     >
+>     >   Optional properties:
+>     >   - default-brightness:       brightness value on boot, value
+>     from: 0-4095
+>     > @@ -11,19 +16,25 @@ Optional properties:
+>     >   - led-sources:              List of enabled channels from 0 to 5.
+>     >                       See
+>     Documentation/devicetree/bindings/leds/common.txt
+>     >
+>     > -- arc,led-config-0:  setting for register ILED_CONFIG_0
+>     > -- arc,led-config-1:  setting for register ILED_CONFIG_1
+>     > -- arc,dim-freq:              PWM mode frequence setting (bits
+>     [3:0] used)
+>     > -- arc,comp-config:   setting for register CONFIG_COMP
+>     > -- arc,filter-config: setting for register FILTER_CONFIG
+>     > -- arc,trim-config:   setting for register IMAXTUNE
+>     > +- arctic,led-config-0:       setting for register ILED_CONFIG_0
+>     > +- arctic,led-config-1:       setting for register ILED_CONFIG_1
+>     > +- arctic,dim-freq:   PWM mode frequence setting (bits [3:0] used)
+>     > +- arctic,comp-config:        setting for register CONFIG_COMP
+>     > +- arctic,filter-config:      setting for register FILTER_CONFIG
+>     > +- arctic,trim-config:        setting for register IMAXTUNE
+>     > +- arc,led-config-0:  setting for register ILED_CONFIG_0
+>     (deprecated)
+>     > +- arc,led-config-1:  setting for register ILED_CONFIG_1
+>     (deprecated)
+>     > +- arc,dim-freq:              PWM mode frequence setting (bits
+>     [3:0] used) (deprecated)
+>     > +- arc,comp-config:   setting for register CONFIG_COMP (deprecated)
+>     > +- arc,filter-config: setting for register FILTER_CONFIG
+>     (deprecated)
+>     > +- arc,trim-config:   setting for register IMAXTUNE (deprecated)
+>     >
+>     >   Note: Optional properties not specified will default to values
+>     in IC EPROM
+>     >
+>     >   Example:
+>     >
+>     >   arc2c0608@30 {
+>     > -     compatible = "arc,arc2c0608";
+>     > +     compatible = "arctic,arc2c0608";
+>     >       reg = <0x30>;
+>     >       default-brightness = <500>;
+>     >       label = "lcd-backlight";
+>
+>
+>     Reviewed-by: Dan Murphy <dmurphy@ti.com <mailto:dmurphy@ti.com>>
+>
+
+--------------2078F4511199A6746397C4CF
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Brian<br>
+    </p>
+    <div class="moz-cite-prefix">On 7/9/19 12:48 PM, Brian Dodge wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAFaGBPk4q5Cfy4q4KqGDb7KwU_Mi22Mzu88KVO+3G7OJztyABQ@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">FYI: please note that pSemi's legal department has
+        informed me that they do *not* want to keep the "ArcticSand"
+        copyright notices and the single pSemi line is appropriate. </div>
+      <br>
+    </blockquote>
+    <p>Thanks for the follow up.  Lawyers can be fickle about this
+      stuff.<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CAFaGBPk4q5Cfy4q4KqGDb7KwU_Mi22Mzu88KVO+3G7OJztyABQ@mail.gmail.com">
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Mon, Jul 8, 2019 at 2:02 PM
+          Dan Murphy &lt;<a href="mailto:dmurphy@ti.com" target="_blank"
+            moz-do-not-send="true">dmurphy@ti.com</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Brian<br>
+          <br>
+          On 6/30/19 7:28 PM, Brian Dodge wrote:<br>
+          &gt; The vendor-prefixes.txt file properly refers to
+          ArcticSand<br>
+          &gt; as arctic but the driver bindings improperly abbreviated
+          the<br>
+          &gt; prefix to arc. This was a mistake in the original patch.
+          This<br>
+          &gt; patch adds "arctic" and retains "arc" (deprecated)
+          bindings<br>
+          &gt;<br>
+          &gt; Signed-off-by: Brian Dodge &lt;<a
+            href="mailto:bdodge09@gmail.com" target="_blank"
+            moz-do-not-send="true">bdodge09@gmail.com</a>&gt;<br>
+          &gt; ---<br>
+          &gt;   .../bindings/leds/backlight/arcxcnn_bl.txt         | 31
+          +++++++++++++++-------<br>
+          &gt;   1 file changed, 21 insertions(+), 10 deletions(-)<br>
+          &gt;<br>
+          &gt; diff --git
+          a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt
+b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt<br>
+          &gt; index 230abde..4d98394 100644<br>
+          &gt; ---
+          a/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt<br>
+          &gt; +++
+          b/Documentation/devicetree/bindings/leds/backlight/arcxcnn_bl.txt<br>
+          &gt; @@ -1,8 +1,13 @@<br>
+          &gt; -Binding for ArcticSand arc2c0608 LED driver<br>
+          &gt; +Binding for ArcticSand arc family LED drivers<br>
+          &gt;   <br>
+          &gt;   Required properties:<br>
+          &gt; -- compatible:                should be "arc,arc2c0608"<br>
+          &gt; -- reg:                       slave address<br>
+          &gt; +- compatible: one of<br>
+          &gt; +     "arctic,arc1c0608"<br>
+          &gt; +     "arctic,arc2c0608"<br>
+          &gt; +     "arctic,arc3c0845"<br>
+          &gt; +     "arc,arc2c0608" (deprecated)<br>
+          &gt; +<br>
+          &gt; +- reg:               slave address<br>
+          &gt;   <br>
+          &gt;   Optional properties:<br>
+          &gt;   - default-brightness:       brightness value on boot,
+          value from: 0-4095<br>
+          &gt; @@ -11,19 +16,25 @@ Optional properties:<br>
+          &gt;   - led-sources:              List of enabled channels
+          from 0 to 5.<br>
+          &gt;                       See
+          Documentation/devicetree/bindings/leds/common.txt<br>
+          &gt;   <br>
+          &gt; -- arc,led-config-0:  setting for register ILED_CONFIG_0<br>
+          &gt; -- arc,led-config-1:  setting for register ILED_CONFIG_1<br>
+          &gt; -- arc,dim-freq:              PWM mode frequence setting
+          (bits [3:0] used)<br>
+          &gt; -- arc,comp-config:   setting for register CONFIG_COMP<br>
+          &gt; -- arc,filter-config: setting for register FILTER_CONFIG<br>
+          &gt; -- arc,trim-config:   setting for register IMAXTUNE<br>
+          &gt; +- arctic,led-config-0:       setting for register
+          ILED_CONFIG_0<br>
+          &gt; +- arctic,led-config-1:       setting for register
+          ILED_CONFIG_1<br>
+          &gt; +- arctic,dim-freq:   PWM mode frequence setting (bits
+          [3:0] used)<br>
+          &gt; +- arctic,comp-config:        setting for register
+          CONFIG_COMP<br>
+          &gt; +- arctic,filter-config:      setting for register
+          FILTER_CONFIG<br>
+          &gt; +- arctic,trim-config:        setting for register
+          IMAXTUNE<br>
+          &gt; +- arc,led-config-0:  setting for register ILED_CONFIG_0
+          (deprecated)<br>
+          &gt; +- arc,led-config-1:  setting for register ILED_CONFIG_1
+          (deprecated)<br>
+          &gt; +- arc,dim-freq:              PWM mode frequence setting
+          (bits [3:0] used) (deprecated)<br>
+          &gt; +- arc,comp-config:   setting for register CONFIG_COMP
+          (deprecated)<br>
+          &gt; +- arc,filter-config: setting for register FILTER_CONFIG
+          (deprecated)<br>
+          &gt; +- arc,trim-config:   setting for register IMAXTUNE
+          (deprecated)<br>
+          &gt;   <br>
+          &gt;   Note: Optional properties not specified will default to
+          values in IC EPROM<br>
+          &gt;   <br>
+          &gt;   Example:<br>
+          &gt;   <br>
+          &gt;   arc2c0608@30 {<br>
+          &gt; -     compatible = "arc,arc2c0608";<br>
+          &gt; +     compatible = "arctic,arc2c0608";<br>
+          &gt;       reg = &lt;0x30&gt;;<br>
+          &gt;       default-brightness = &lt;500&gt;;<br>
+          &gt;       label = "lcd-backlight";<br>
+          <br>
+          <br>
+          Reviewed-by: Dan Murphy &lt;<a href="mailto:dmurphy@ti.com"
+            target="_blank" moz-do-not-send="true">dmurphy@ti.com</a>&gt;<br>
+          <br>
+        </blockquote>
+      </div>
+    </blockquote>
+  </body>
+</html>
+
+--------------2078F4511199A6746397C4CF--
+
+--===============0832264242==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0832264242==--
