@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECB5642C4
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E84B563E39
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 01:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 061D089CF4;
-	Wed, 10 Jul 2019 07:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E50D892E0;
+	Tue,  9 Jul 2019 23:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C39598999C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 22:58:50 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id r1so72561pfq.12
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Jul 2019 15:58:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vxC6cpJeD3A10tWWsNE37FjIALjzLREnlwwa6KDygFo=;
- b=DnVPC7TPca6R1YrdHCoyOgYFpXEx4bZcx6Pqe0b6zgaB50vlrYe/cDMyEuvwK/gigq
- HlmSrC//YERiqz7gmppojjV1jxDqqvWUOi4AH5hMF9htAZOLUQfvZDf2h1zqhMW/eBhl
- qO0vWRD2wV2wSnPGbL2gHuEThKuCnZwptJG38ugOi+odeHQZVDs9gdyjv+nzDfPaIaqo
- +ewQOe3Kh1N5zhm7nzUGxvcgEuf8FabxLHxYHq+Jf2Pes2F/MnVIgHxR2fgQ1EvpdJa3
- V0Jm4Wy9ZtQ2eEWvZlIMc3Eq0bWEA/k4CMwRKoNJ8npgyl0GJVAc2er9bryQSTm89vUX
- w8GA==
-X-Gm-Message-State: APjAAAX8Q69Zgi8M6XR3UGFnS1ktAE2qUoJO9/jqLhGAKuUMvtl7EnVs
- KQTNfwHGegcchuICWbmw4JPiQg==
-X-Google-Smtp-Source: APXvYqzEJUghZ7BR1gJ+atCuB5+tVeanvCWxZCyfJoN8hz0hJTeLI9RJdRfEe2CX2edCyU0wh4hH1w==
-X-Received: by 2002:a17:90a:37e9:: with SMTP id
- v96mr2817103pjb.10.1562713130418; 
- Tue, 09 Jul 2019 15:58:50 -0700 (PDT)
-Received: from exogeni.mtv.corp.google.com
- ([2620:15c:202:1:5be8:f2a6:fd7b:7459])
- by smtp.gmail.com with ESMTPSA id 201sm152939pfz.24.2019.07.09.15.58.49
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 09 Jul 2019 15:58:49 -0700 (PDT)
-From: Derek Basehore <dbasehore@chromium.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v6 4/4] drm/mtk: add panel orientation property
-Date: Tue,  9 Jul 2019 15:58:40 -0700
-Message-Id: <20190709225840.144038-5-dbasehore@chromium.org>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-In-Reply-To: <20190709225840.144038-1-dbasehore@chromium.org>
-References: <20190709225840.144038-1-dbasehore@chromium.org>
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A129E892E0
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 23:04:24 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 711E928901
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 23:04:23 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 6571B28911; Tue,  9 Jul 2019 23:04:23 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=ham version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 202799] amd/dc: right monitor sometimes never comes back up on
+ dual-display setup after locking session
+Date: Tue, 09 Jul 2019 23:04:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: libcg@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-202799-2300-xyu0OTOmiF@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-202799-2300@https.bugzilla.kernel.org/>
+References: <bug-202799-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Approved-At: Wed, 10 Jul 2019 07:25:20 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vxC6cpJeD3A10tWWsNE37FjIALjzLREnlwwa6KDygFo=;
- b=hgBbzEABxs7OXnFPXxgw+hBQbbosBbo3oIFVVUgack6wrAgD9EpA6j8IAnhPv/nmsg
- HxQtZQgSRAJ8j0VZ/P1GhFATwxMZrprisR1ZbqbxyGz1yw0FWE+j+Wn6tPvNW0oBsgaV
- TMI/Q62D/gi+qE7S4rjIAyrABuWOpGp/YcvbE=
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,37 +62,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Derek Basehore <dbasehore@chromium.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Sam Ravnborg <sam@ravnborg.org>,
- intel-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Thierry Reding <thierry.reding@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-mediatek@lists.infradead.org,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBpbml0cyB0aGUgcGFuZWwgb3JpZW50YXRpb24gcHJvcGVydHkgZm9yIHRoZSBtZWRpYXRl
-ayBkc2kgZHJpdmVyCmlmIHRoZSBwYW5lbCBvcmllbnRhdGlvbiAoY29ubmVjdG9yLmRpc3BsYXlf
-aW5mby5wYW5lbF9vcmllbnRhdGlvbikgaXMKbm90IERSTV9NT0RFX1BBTkVMX09SSUVOVEFUSU9O
-X1VOS05PV04uCgpTaWduZWQtb2ZmLWJ5OiBEZXJlayBCYXNlaG9yZSA8ZGJhc2Vob3JlQGNocm9t
-aXVtLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIHwgOCArKysr
-KysrKwogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2RzaS5jCmluZGV4IGI5MWM0NjE2NjQ0YS4uMjkyMDQ1OGFlMmZiIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHNpLmMKQEAgLTc5MCwxMCArNzkwLDE4IEBAIHN0YXRpYyBpbnQgbXRrX2Rz
-aV9jcmVhdGVfY29ubmVjdG9yKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHN0cnVjdCBtdGtfZHNp
-ICpkc2kpCiAJCQlEUk1fRVJST1IoIkZhaWxlZCB0byBhdHRhY2ggcGFuZWwgdG8gZHJtXG4iKTsK
-IAkJCWdvdG8gZXJyX2Nvbm5lY3Rvcl9jbGVhbnVwOwogCQl9CisKKwkJcmV0ID0gZHJtX2Nvbm5l
-Y3Rvcl9pbml0X3BhbmVsX29yaWVudGF0aW9uX3Byb3BlcnR5KCZkc2ktPmNvbm4pOworCQlpZiAo
-cmV0KSB7CisJCQlEUk1fRVJST1IoIkZhaWxlZCB0byBpbml0IHBhbmVsIG9yaWVudGF0aW9uXG4i
-KTsKKwkJCWdvdG8gZXJyX3BhbmVsX2RldGFjaDsKKwkJfQogCX0KIAogCXJldHVybiAwOwogCitl
-cnJfcGFuZWxfZGV0YWNoOgorCWRybV9wYW5lbF9kZXRhY2goZHNpLT5wYW5lbCk7CiBlcnJfY29u
-bmVjdG9yX2NsZWFudXA6CiAJZHJtX2Nvbm5lY3Rvcl9jbGVhbnVwKCZkc2ktPmNvbm4pOwogCXJl
-dHVybiByZXQ7Ci0tIAoyLjIyLjAuNDEwLmdkOGZkYmUyMWI1LWdvb2cKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDI3OTkKCi0tLSBD
+b21tZW50ICMxMCBmcm9tIENsw6ltZW50IEd1w6lyaW4gKGxpYmNnQHByb3Rvbm1haWwuY29tKSAt
+LS0KVGhpcyBpcyBzdGlsbCBhIHByb2JsZW0gb24gTGludXggNS4yLgoKLS0gCllvdSBhcmUgcmVj
+ZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBv
+ZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
