@@ -2,32 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BE36314B
-	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 08:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB4F16314F
+	for <lists+dri-devel@lfdr.de>; Tue,  9 Jul 2019 08:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2E6C89613;
-	Tue,  9 Jul 2019 06:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE3F888E4B;
+	Tue,  9 Jul 2019 06:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E091895B5;
- Tue,  9 Jul 2019 06:58:16 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2019 23:58:15 -0700
-X-IronPort-AV: E=Sophos;i="5.63,469,1557212400"; d="scan'208";a="159369367"
-Received: from jkrzyszt-desk.igk.intel.com ([172.22.244.18])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2019 23:58:13 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
-Subject: [PATCH] drm/i915: Fix reporting of size of created GEM object
-Date: Tue,  9 Jul 2019 08:58:00 +0200
-Message-Id: <20190709065800.2354-1-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4056B88E79
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Jul 2019 06:59:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3730D72167; Tue,  9 Jul 2019 06:59:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111087] SteamOS boots to black screen
+Date: Tue, 09 Jul 2019 06:59:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ludovico.denittis@collabora.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111087-502-YSty4qAkea@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111087-502@http.bugs.freedesktop.org/>
+References: <bug-111087-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -41,39 +52,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- =?UTF-8?q?Micha=C5=82=20Wajdeczko?= <michal.wajdeczko@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1933205646=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29tbWl0IGUxNjM0ODRhZmE4ZCAoImRybS9pOTE1OiBVcGRhdGUgc2l6ZSB1cG9uIHJldHVybiBm
-cm9tCkdFTV9DUkVBVEUiKSAocmUpaW50cm9kdWNlZCByZXBvcnRpbmcgb2YgYWN0dWFsIHNpemUg
-b2YgY3JlYXRlZCBHRU0Kb2JqZWN0cywgcG9zc2libHkgcm91bmRlZCB1cCBvbiBvYmplY3QgYWxp
-Z25tZW50LiAgVW5mb3J0dW5hdGVseSwgaXRzCmltcGxlbWVudGF0aW9uIHJlc3VsdGVkIGluIGEg
-cG9zc2libGUgdXNlLWFmdGVyLWZyZWUgYnVnLiAgVGhlIGJ1ZyBoYXMKYmVlbiBmaXhlZCBieSBj
-b21taXQgOTI5ZWVjOTlmNWZkICgiZHJtL2k5MTU6IEF2b2lkIHVzZS1hZnRlci1mcmVlIGluCnJl
-cG9ydGluZyBjcmVhdGUuc2l6ZSIpIGF0IHRoZSBjb3N0IG9mIHBvc3NpYmx5IGluY29ycmVjdCB2
-YWx1ZSBiZWluZwpyZXBvcnRlZCBhcyBhY3R1YWwgb2JqZWN0IHNpemUuCgpTYWZlbHkgcmVzdG9y
-ZSBjb3JyZWN0IHJlcG9ydGluZyBieSBjYXB0dXJpbmcgYWN0dWFsIHNpemUgb2YgY3JlYXRlZApH
-RU0gb2JqZWN0IGJlZm9yZSBhIHJlZmVyZW5jZSB0byB0aGUgb2JqZWN0IGlzIHB1dC4KCkZpeGVz
-OiA5MjllZWM5OWY1ZmQgKCJkcm0vaTkxNTogQXZvaWQgdXNlLWFmdGVyLWZyZWUgaW4gcmVwb3J0
-aW5nIGNyZWF0ZS5zaXplIikKU2lnbmVkLW9mZi1ieTogSmFudXN6IEtyenlzenRvZmlrIDxqYW51
-c3oua3J6eXN6dG9maWtAbGludXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2k5MTVfZ2VtLmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9pOTE1X2dlbS5jCmluZGV4IDdhZGU0MmI4ZWM5OS4uMTZiYWU1ODcwZDZmIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfZ2VtLmMKQEAgLTE3MSw2ICsxNzEsNyBAQCBpOTE1X2dlbV9jcmVhdGUoc3Ry
-dWN0IGRybV9maWxlICpmaWxlLAogCW9iaiA9IGk5MTVfZ2VtX29iamVjdF9jcmVhdGVfc2htZW0o
-ZGV2X3ByaXYsIHNpemUpOwogCWlmIChJU19FUlIob2JqKSkKIAkJcmV0dXJuIFBUUl9FUlIob2Jq
-KTsKKwlzaXplID0gb2JqLT5iYXNlLnNpemU7CiAKIAlyZXQgPSBkcm1fZ2VtX2hhbmRsZV9jcmVh
-dGUoZmlsZSwgJm9iai0+YmFzZSwgJmhhbmRsZSk7CiAJLyogZHJvcCByZWZlcmVuY2UgZnJvbSBh
-bGxvY2F0ZSAtIGhhbmRsZSBob2xkcyBpdCBub3cgKi8KLS0gCjIuMjEuMAoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1933205646==
+Content-Type: multipart/alternative; boundary="15626555600.eDE8CBA.27434"
+Content-Transfer-Encoding: 7bit
+
+
+--15626555600.eDE8CBA.27434
+Date: Tue, 9 Jul 2019 06:59:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111087
+
+--- Comment #14 from Ludovico de Nittis <ludovico.denittis@collabora.com> -=
+--
+(In reply to Michel D=C3=A4nzer from comment #12)
+> Sounds like Xorg keeps crashing, please attach the Xorg.0.log.old file.
+
+Yes apparently Xorg keeps rebooting. In the latest Xorg.0.log.old file that=
+ I
+attached the entry "Server terminated successfully (0)" is at [44.281], whi=
+le
+the Xorg.0.log (like the one already attached) was starting right after it =
+at
+[44.565].
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15626555600.eDE8CBA.27434
+Date: Tue, 9 Jul 2019 06:59:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - SteamOS boots to black screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - SteamOS boots to black screen"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111087">bug 11108=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ludovico.denittis&#64;collabora.com" title=3D"Ludovico de Nittis &lt;ludovi=
+co.denittis&#64;collabora.com&gt;"> <span class=3D"fn">Ludovico de Nittis</=
+span></a>
+</span></b>
+        <pre>(In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi?i=
+d=3D111087#c12">comment #12</a>)
+<span class=3D"quote">&gt; Sounds like Xorg keeps crashing, please attach t=
+he Xorg.0.log.old file.</span >
+
+Yes apparently Xorg keeps rebooting. In the latest Xorg.0.log.old file that=
+ I
+attached the entry &quot;Server terminated successfully (0)&quot; is at [44=
+.281], while
+the Xorg.0.log (like the one already attached) was starting right after it =
+at
+[44.565].</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15626555600.eDE8CBA.27434--
+
+--===============1933205646==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1933205646==--
