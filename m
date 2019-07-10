@@ -2,31 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2949644FB
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 12:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF4F64588
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 13:03:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C81F089780;
-	Wed, 10 Jul 2019 10:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6577E89F2D;
+	Wed, 10 Jul 2019 11:03:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECB9E89780
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 10:12:33 +0000 (UTC)
-X-Originating-IP: 86.250.200.211
-Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 76E2860006;
- Wed, 10 Jul 2019 10:12:29 +0000 (UTC)
-Date: Wed, 10 Jul 2019 12:12:29 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1] drm/modes: Skip invalid cmdline mode
-Message-ID: <20190710101229.54ufuhmh22dfxclr@flea>
-References: <20190709145151.23086-1-digetx@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 12C1D89F31
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 11:03:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0D26272167; Wed, 10 Jul 2019 11:03:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111099] Green video when playing a hevc video with vdpau
+Date: Wed, 10 Jul 2019 11:03:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: bisected, regression
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111099-502-AVmsJyfFrp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111099-502@http.bugs.freedesktop.org/>
+References: <bug-111099-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190709145151.23086-1-digetx@gmail.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,60 +52,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============0125342966=="
+Content-Type: multipart/mixed; boundary="===============0820303797=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0125342966==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ahmo6bieusk7uhsj"
-Content-Disposition: inline
+--===============0820303797==
+Content-Type: multipart/alternative; boundary="15627565870.FA3a.31789"
+Content-Transfer-Encoding: 7bit
 
 
---ahmo6bieusk7uhsj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15627565870.FA3a.31789
+Date: Wed, 10 Jul 2019 11:03:07 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-On Tue, Jul 09, 2019 at 05:51:51PM +0300, Dmitry Osipenko wrote:
-> The named mode could be invalid and then cmdline parser misses to validate
-> mode's dimensions, happily adding 0x0 mode as a valid mode. One case where
-> this happens is NVIDIA Tegra devices that are using downstream bootloader
-> which adds "video=tegrafb" to the kernel's cmdline and thus upstream Tegra
-> DRM driver fails to probe because of the invalid mode.
->
-> Fixes: 3aeeb13d8996 ("drm/modes: Support modes names on the command line")
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111099
 
-Applied to drm-misc-next-fixes
+--- Comment #2 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+Created attachment 144748
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144748&action=3Dedit
+Proof-of-concept fix
 
-Thanks for figuring this out!
+Does this help for you?
 
-Maxime
+Note that I can only reproduce this if I artificially disable
+st_vdpau_video/output_surface_dma_buf(). Might be worth looking into why th=
+ose
+aren't working for you.
 
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---ahmo6bieusk7uhsj
-Content-Type: application/pgp-signature; name="signature.asc"
+--15627565870.FA3a.31789
+Date: Wed, 10 Jul 2019 11:03:07 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Green video when playing a hevc video with vdpau"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111099#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Green video when playing a hevc video with vdpau"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111099">bug 11109=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144748=
+" name=3D"attach_144748" title=3D"Proof-of-concept fix">attachment 144748</=
+a> <a href=3D"attachment.cgi?id=3D144748&amp;action=3Dedit" title=3D"Proof-=
+of-concept fix">[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html=
+&amp;bug=3D111099&amp;attachment=3D144748'>[review]</a>
+Proof-of-concept fix
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXSW6DQAKCRDj7w1vZxhR
-xUYsAP9EUafm0rr0sX06bl/cIzBTLvcr/5GalKzSZToTJ2kjlwD/aGukUMgjynHS
-9tpGZZ5GnYj8IbRYJWM5g6SBjjc6MA4=
-=8k/L
------END PGP SIGNATURE-----
+Does this help for you?
 
---ahmo6bieusk7uhsj--
+Note that I can only reproduce this if I artificially disable
+st_vdpau_video/output_surface_dma_buf(). Might be worth looking into why th=
+ose
+aren't working for you.</pre>
+        </div>
+      </p>
 
---===============0125342966==
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15627565870.FA3a.31789--
+
+--===============0820303797==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -102,4 +155,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0125342966==--
+--===============0820303797==--
