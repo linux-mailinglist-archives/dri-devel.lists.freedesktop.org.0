@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A282B64689
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 14:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B36476468C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 14:55:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00059893A8;
-	Wed, 10 Jul 2019 12:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC2F6E0D5;
+	Wed, 10 Jul 2019 12:55:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 97E106E0D4
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 12:54:21 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9568E72167; Wed, 10 Jul 2019 12:54:21 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109538] VAAPI HEVC encoding is unstable and produces garbled
- output
-Date: Wed, 10 Jul 2019 12:54:21 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: gregor@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109538-502-NzX2TBZjCL@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109538-502@http.bugs.freedesktop.org/>
-References: <bug-109538-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48F648932D;
+ Wed, 10 Jul 2019 12:55:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2019 05:55:07 -0700
+X-IronPort-AV: E=Sophos;i="5.63,474,1557212400"; d="scan'208";a="341065021"
+Received: from jkrzyszt-desk.igk.intel.com (HELO
+ jkrzyszt-desk.ger.corp.intel.com) ([172.22.244.18])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2019 05:55:05 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [RFC PATCH 0/6] Rename functions to match their entry points
+Date: Wed, 10 Jul 2019 14:54:59 +0200
+Message-ID: <34737143.LqZMGNDrZD@jkrzyszt-desk.ger.corp.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <156276282845.11940.4812142560907762693@skylake-alporthouse-com>
+References: <20190710123631.26575-1-janusz.krzysztofik@linux.intel.com>
+ <156276282845.11940.4812142560907762693@skylake-alporthouse-com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,167 +45,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1047777922=="
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ =?utf-8?B?TWljaGHFgg==?= Wajdeczko <michal.wajdeczko@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1047777922==
-Content-Type: multipart/alternative; boundary="15627632612.6704c8B54.14696"
-Content-Transfer-Encoding: 7bit
-
-
---15627632612.6704c8B54.14696
-Date: Wed, 10 Jul 2019 12:54:21 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109538
-
---- Comment #1 from gregory shu <gregor@outlook.com> ---
-I'm doing it the other way around hevc_vaapi 10 bit to h264_vaapi and have
-similar results, garbled green output
-
-ffmpeg -threads 4 \
--init_hw_device vaapi=3Damd:/dev/dri/renderD128 -hwaccel vaapi
--hwaccel_output_format vaapi -hwaccel_device amd -filter_hw_device amd \
--i nexp.mkv'     \
--vf "scale_vaapi=3Dformat=3Dnv12" \
--c:v h264_vaapi -profile:v 578 \
--c:a copy  -c:s copy \
--f mpegts -y plop.mkv
-
-
-libva info: VA-API version 1.6.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib64/va/drivers/radeonsi_drv_video.so
-libva info: Found init function __vaDriverInit_1_6
-libva info: va_openDriver() returns 0
-vainfo: VA-API version: 1.6 (libva 2.6.0.pre1)
-vainfo: Driver version: Mesa Gallium driver 19.2.0-devel for AMD RAVEN (DRM
-3.32.0, 5.2.0-gentoo, LLVM 8.0.0)
-vainfo: Supported profile and entrypoints
-      VAProfileMPEG2Simple            : VAEntrypointVLD
-      VAProfileMPEG2Main              : VAEntrypointVLD
-      VAProfileVC1Simple              : VAEntrypointVLD
-      VAProfileVC1Main                : VAEntrypointVLD
-      VAProfileVC1Advanced            : VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointEncSlice
-      VAProfileH264Main               : VAEntrypointVLD
-      VAProfileH264Main               : VAEntrypointEncSlice
-      VAProfileH264High               : VAEntrypointVLD
-      VAProfileH264High               : VAEntrypointEncSlice
-      VAProfileHEVCMain               : VAEntrypointVLD
-      VAProfileHEVCMain               : VAEntrypointEncSlice
-      VAProfileHEVCMain10             : VAEntrypointVLD
-      VAProfileJPEGBaseline           : VAEntrypointVLD
-      VAProfileVP9Profile0            : VAEntrypointVLD
-      VAProfileVP9Profile2            : VAEntrypointVLD
-      VAProfileNone
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15627632612.6704c8B54.14696
-Date: Wed, 10 Jul 2019 12:54:21 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VAAPI HEVC encoding is unstable and produces garbled outp=
-ut"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109538#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - VAAPI HEVC encoding is unstable and produces garbled outp=
-ut"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109538">bug 10953=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-gregor&#64;outlook.com" title=3D"gregory shu &lt;gregor&#64;outlook.com&gt;=
-"> <span class=3D"fn">gregory shu</span></a>
-</span></b>
-        <pre>I'm doing it the other way around hevc_vaapi 10 bit to h264_va=
-api and have
-similar results, garbled green output
-
-ffmpeg -threads 4 \
--init_hw_device vaapi=3Damd:/dev/dri/renderD128 -hwaccel vaapi
--hwaccel_output_format vaapi -hwaccel_device amd -filter_hw_device amd \
--i nexp.mkv'     \
--vf &quot;scale_vaapi=3Dformat=3Dnv12&quot; \
--c:v h264_vaapi -profile:v 578 \
--c:a copy  -c:s copy \
--f mpegts -y plop.mkv
-
-
-libva info: VA-API version 1.6.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib64/va/drivers/radeonsi_drv_video.so
-libva info: Found init function __vaDriverInit_1_6
-libva info: va_openDriver() returns 0
-vainfo: VA-API version: 1.6 (libva 2.6.0.pre1)
-vainfo: Driver version: Mesa Gallium driver 19.2.0-devel for AMD RAVEN (DRM
-3.32.0, 5.2.0-gentoo, LLVM 8.0.0)
-vainfo: Supported profile and entrypoints
-      VAProfileMPEG2Simple            : VAEntrypointVLD
-      VAProfileMPEG2Main              : VAEntrypointVLD
-      VAProfileVC1Simple              : VAEntrypointVLD
-      VAProfileVC1Main                : VAEntrypointVLD
-      VAProfileVC1Advanced            : VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointEncSlice
-      VAProfileH264Main               : VAEntrypointVLD
-      VAProfileH264Main               : VAEntrypointEncSlice
-      VAProfileH264High               : VAEntrypointVLD
-      VAProfileH264High               : VAEntrypointEncSlice
-      VAProfileHEVCMain               : VAEntrypointVLD
-      VAProfileHEVCMain               : VAEntrypointEncSlice
-      VAProfileHEVCMain10             : VAEntrypointVLD
-      VAProfileJPEGBaseline           : VAEntrypointVLD
-      VAProfileVP9Profile0            : VAEntrypointVLD
-      VAProfileVP9Profile2            : VAEntrypointVLD
-      VAProfileNone</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15627632612.6704c8B54.14696--
-
---===============1047777922==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1047777922==--
+T24gV2VkbmVzZGF5LCBKdWx5IDEwLCAyMDE5IDI6NDc6MDggUE0gQ0VTVCBDaHJpcyBXaWxzb24g
+d3JvdGU6Cj4gUXVvdGluZyBKYW51c3ogS3J6eXN6dG9maWsgKDIwMTktMDctMTAgMTM6MzY6MjUp
+Cj4gPiBOZWVkIGZvciB0aGlzIHdhcyBpZGVudGlmaWVkIHdoaWxlIHdvcmtpbmcgb24gc3BsaXQg
+b2YgZHJpdmVyIHVuYmluZAo+ID4gcGF0aCBpbnRvIF9yZW1vdmUoKSBhbmQgX3JlbGVhc2UoKSBw
+YXJ0cy4gIENvbnNpc3RlbmN5IGluIGZ1bmN0aW9uCj4gPiBuYW1pbmcgaGFzIGJlZW4gcmVjb2du
+aXplZCBhcyBoZWxwZnVsIHdoZW4gdHJ5aW5nIHRvIHdvcmsgb3V0IHdoaWNoCj4gPiBwaGFzZSB0
+aGUgY29kZSBpcyBpbi4KPiA+IAo+ID4gV2hhdCBJJ20gc3RpbGwgbm90IHN1cmUgYWJvdXQgaXMg
+ZGVzaXJlZCBkZXB0aCBvZiB0aGF0IG1vZGlmaWNhdGlvbiAtCj4gPiBob3cgZGVlcCBzaG91bGQg
+d2UgZ28gZG93biB3aXRoIHJlbmFtaW5nIHRvIG5vdCBvdmVycmlkZSBtZWFuaW5nZnVsbAo+ID4g
+ZnVuY3Rpb24gbmFtZXMuICBQbGVhc2UgYWR2aXNlIGlmIHlvdSB0aGluayBzdGlsbCBtb3JlIGRl
+ZXAgcmVuYW1pbmcKPiA+IG1ha2VzIHNlbnNlLgo+IAo+IEkgZGlkIGEgZG91YmxlIHRha2Ugb3Zl
+ciAiZHJpdmVyX3JlbGVhc2UiIGJ1dCBieSB0aGUgZW5kIEkgd2FzIGluCj4gYWdyZWVtZW50Lgo+
+IAo+IFRoZSBlYXJseV9yZWxlYXNlIHRob3VnaCwgdGhhdCBpcyB3b3J0aCBhIGJpdCBvZiBhcnRp
+c3RpYyBsaWNlbnNlIHRvIHNheQo+IGVhcmx5X3Byb2JlIHBhaXJzIHdpdGggbGF0ZV9yZWxlYXNl
+LgoKT0ssIEknbGwgZml4IGl0LCBhcyB3ZWxsIGFzIG90aGVyIGlzc3VlcyBwb2ludGVkIG91dCBi
+eSBkaW0sIGFuZCByZXN1Ym1pdC4KClRoYW5rcywKSmFudXN6Cgo+IC1DaHJpcwo+IAoKCgoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
