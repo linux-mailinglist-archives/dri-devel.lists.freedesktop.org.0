@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1886415E
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 08:29:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEB1642C7
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3386B89568;
-	Wed, 10 Jul 2019 06:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E742989CD9;
+	Wed, 10 Jul 2019 07:25:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5B05E89919
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 06:29:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 57B5272167; Wed, 10 Jul 2019 06:29:33 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Wed, 10 Jul 2019 06:29:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@jasondaigo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-KibQ6HhrB0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC589899E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 07:08:11 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id c73so625825pfb.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 00:08:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l6Pj1C/JhLO9pIuL0o6GitOicJcsYgk0aas0LOHb1To=;
+ b=f3FZ26Zsblg7iltgsM1JlRvzNnP9NGSFdFme8zl3IDGm/hFp0zQ8s+Zy/Xvigxz/80
+ uBTuxM0TUUp04zS47gU7p27aht9OCyLF1GwMrumnyNHeCmpb9toAvP54QPeI/leerGg2
+ kNzkfI0kDDS+VE1v25A7E9TKb/h4jmQzTUR1EAqpMtlSN2QCs5Gv1u0OOa0rWgRYFkld
+ MeGfAp8AoGAhAVFBVkHGWQJpu2VXSwgWSXz6yQWeOwJSbKbvU9LrkMrY6FJ4htbcHsJj
+ a7cmuTdjrl57lfL/KZwKrZJTtKt+F4XQQ4dLWvKZKW9MVjGu0ZSaBEvUeFgpZy6dW85d
+ i7ig==
+X-Gm-Message-State: APjAAAVPlTFZLx5cMxFf7GHqQvn2ndaA90ChH70IsNqVB6BLAm9kiXZZ
+ YvuU1qAMyKs3MmNZJhtZQLfWzw==
+X-Google-Smtp-Source: APXvYqyptBK3QFmyTbtCBUlG3BZ20BDJXUXcje4pWPJB6gSPNpTgfvwvrkqkt0izgOTaBRL2tpwJwQ==
+X-Received: by 2002:a65:500d:: with SMTP id f13mr34874390pgo.151.1562742491443; 
+ Wed, 10 Jul 2019 00:08:11 -0700 (PDT)
+Received: from localhost ([2401:fa00:1:b:e688:dfd2:a1a7:2956])
+ by smtp.gmail.com with ESMTPSA id h9sm1150976pgk.10.2019.07.10.00.08.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 10 Jul 2019 00:08:10 -0700 (PDT)
+From: Cheng-Yi Chiang <cychiang@chromium.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/4] Add HDMI jack support on RK3288
+Date: Wed, 10 Jul 2019 15:07:47 +0800
+Message-Id: <20190710070751.260061-1-cychiang@chromium.org>
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
 MIME-Version: 1.0
+X-Mailman-Approved-At: Wed, 10 Jul 2019 07:25:19 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l6Pj1C/JhLO9pIuL0o6GitOicJcsYgk0aas0LOHb1To=;
+ b=QvHVOdXMpWGBXu6BQw2jb5hQWR/4IGqs4UNl0MT4bqGhu5Iajbok3zWGlXLBLlAlA9
+ 262x1usDPZZzrmJK/3Rcc1CmfG+FofUbFhNMjNYCW/5S2inZrI0tZc+5f/Yr3ArqOg1U
+ UezUTifar1c9zaRSMgeuuMvYvOFH23m9ls4vM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,121 +63,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1159746395=="
+Cc: alsa-devel@alsa-project.org, dianders@chromium.org,
+ linux-rockchip@lists.infradead.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, tzungbi@chromium.org,
+ Jaroslav Kysela <perex@perex.cz>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Russell King <rmk+kernel@armlinux.org.uk>, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, dgreid@chromium.org,
+ linux-arm-kernel@lists.infradead.org, Cheng-Yi Chiang <cychiang@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1159746395==
-Content-Type: multipart/alternative; boundary="15627401735.7b33FFe3.28898"
-Content-Transfer-Encoding: 7bit
-
-
---15627401735.7b33FFe3.28898
-Date: Wed, 10 Jul 2019 06:29:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #42 from Wilko Bartels <me@jasondaigo.de> ---
-(In reply to Wilko Bartels from comment #40)
-> Since i experience the same issue since june (didnt game much) i want to
-> share my system info.
-> I am on Ryzen 2600X, Vega 56 Pulse, Strix B450. Using Arch 5.1.
-> Tested every Windowmanager i know , tested also 60Hz and 144Hz. The crash=
-es
-> are totally random. I only play Dota 2. Last friday i played like 6 games=
- in
-> a row without a single issue. The day after i crashed like 7 times per ga=
-me.
-> Always have to press reset on my PC.=20
-> Is it know that hits issue related to a kernel or mesa update? I mean it
-> wasnt always like this no?
-
-tested yesterday with the new 5.2 linux kernel from arch testing, and also
-tested without variable refreshrate setting and without tearfree setting in
-Xorg. crashed three times.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15627401735.7b33FFe3.28898
-Date: Wed, 10 Jul 2019 06:29:33 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c42">Comme=
-nt # 42</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-me&#64;jasondaigo.de" title=3D"Wilko Bartels &lt;me&#64;jasondaigo.de&gt;">=
- <span class=3D"fn">Wilko Bartels</span></a>
-</span></b>
-        <pre>(In reply to Wilko Bartels from <a href=3D"show_bug.cgi?id=3D1=
-09955#c40">comment #40</a>)
-<span class=3D"quote">&gt; Since i experience the same issue since june (di=
-dnt game much) i want to
-&gt; share my system info.
-&gt; I am on Ryzen 2600X, Vega 56 Pulse, Strix B450. Using Arch 5.1.
-&gt; Tested every Windowmanager i know , tested also 60Hz and 144Hz. The cr=
-ashes
-&gt; are totally random. I only play Dota 2. Last friday i played like 6 ga=
-mes in
-&gt; a row without a single issue. The day after i crashed like 7 times per=
- game.
-&gt; Always have to press reset on my PC.=20
-&gt; Is it know that hits issue related to a kernel or mesa update? I mean =
-it
-&gt; wasnt always like this no?</span >
-
-tested yesterday with the new 5.2 linux kernel from arch testing, and also
-tested without variable refreshrate setting and without tearfree setting in
-Xorg. crashed three times.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15627401735.7b33FFe3.28898--
-
---===============1159746395==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1159746395==--
+VGhpcyBwYXRjaCBzZXJpZXMgc3VwcG9ydHMgSERNSSBqYWNrIHJlcG9ydGluZyBvbiBSSzMyODgs
+IHdoaWNoIHVzZXMKRFJNIGR3LWhkbWkgZHJpdmVyIGFuZCBoZG1pLWNvZGVjIGNvZGVjIGRyaXZl
+ci4KClRoZSBwcmV2aW91cyBkaXNjdXNzaW9uIGFib3V0IHJlcG9ydGluZyBqYWNrIHN0YXR1cyB1
+c2luZyBoZG1pLW5vdGlmaWVyCmFuZCBkcm1fYXVkaW9fY29tcG9uZW50IGlzIGF0CgpodHRwczov
+L2xvcmUua2VybmVsLm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTA4MzAyNy8KClRoZSBuZXcgYXBwcm9h
+Y2ggaXMgdG8gdXNlIGEgY2FsbGJhY2sgbWVjaGFuaXNtIHRoYXQgaXMKc3BlY2lmaWMgdG8gaGRt
+aS1jb2RlYy4KCkNoYW5nZXMgZnJvbSB2MSB0byB2MjoKLSBoZG1pLWNvZGVjLmM6IGNsZWFudXAg
+dGhlIHNlcXVlbmNlIG9mIGhkbWlfY29kZWNfamFja19yZXBvcnQgYW5kCiAgaGRtaV9jb2RlY19z
+ZXRfamFja19kZXRlY3QuCi0gZHctaGRtaS5jOiBjaGFuZ2UgYXJndW1lbnQgb2YgaGRtaV9jb2Rl
+Y19wbHVnZ2VkX2NiIHNvIGl0IHRha2VzIGEgZ2VuZXJpYwogIGRldmljZSB3aGljaCBoYXMgaGRt
+aV9jb2RlY19wcml2IGluIGl0cyBkcnZkYXRhLgotIGR3LWhkbWkuYzogYWRkIGEgaGVscGVyIGZ1
+bmN0aW9uIGhhbmRsZV9wbHVnZ2VkX2NoYW5nZSB0byBjaGVjayBhdWRpbwogIHBsYXRmb3JtIGRl
+dmljZSBhbmQgY29kZWMgcGxhdGZvcm0gZGV2aWNlIGJlZm9yZSBjYWxsaW5nIGNhbGxiYWNrLgot
+IGR3LWhkbWktYzogYXZvaWQgc2V0dGluZyBjYWxsYmFjayBmdW5jdGlvbiBpZiBhdWRpbyBwbGF0
+Zm9ybSBkZXZpY2Ugb3IKICBjb2RlYyBwbGF0Zm9ybSBkZXZpY2UgaXMgbWlzc2luZy4KLSByb2Nr
+Y2hpcF9tYXg5ODA5MDogZml4IHRoZSBjaGVja2luZyBvZiByZXR1cm4gY29kZSB3aGVuIHNldHRp
+bmcgc3lzY2xrCiAgb24gY3B1X2RhaSBhbmQgY29kZWNfZGFpLiBjcHVfZGFpIGVycm9yIHNob3Vs
+ZCBiZSByZXBvcnRlZC4gRm9yIEhETUkKICBjb2RlY19kYWksIHRoZXJlIGlzIG5vIG5lZWQgdG8g
+c2V0IHN5c2Nsay4KCkNoZW5nLVlpIENoaWFuZyAoNCk6CiAgQVNvQzogaGRtaS1jb2RlYzogQWRk
+IGFuIG9wIHRvIHNldCBjYWxsYmFjayBmdW5jdGlvbiBmb3IgcGx1ZyBldmVudAogIGRybTogYnJp
+ZGdlOiBkdy1oZG1pOiBSZXBvcnQgY29ubmVjdG9yIHN0YXR1cyB1c2luZyBjYWxsYmFjawogIEFT
+b0M6IHJvY2tjaGlwX21heDk4MDkwOiBBZGQgZGFpX2xpbmsgZm9yIEhETUkKICBBU29DOiByb2Nr
+Y2hpcF9tYXg5ODA5MDogQWRkIEhETUkgamFjayBzdXBwb3J0CgogLi4uL2dwdS9kcm0vYnJpZGdl
+L3N5bm9wc3lzL2R3LWhkbWktYXVkaW8uaCAgIHwgICAzICsKIC4uLi9kcm0vYnJpZGdlL3N5bm9w
+c3lzL2R3LWhkbWktaTJzLWF1ZGlvLmMgICB8ICAxMCArKwogZHJpdmVycy9ncHUvZHJtL2JyaWRn
+ZS9zeW5vcHN5cy9kdy1oZG1pLmMgICAgIHwgIDU1ICsrKysrKysrLQogaW5jbHVkZS9zb3VuZC9o
+ZG1pLWNvZGVjLmggICAgICAgICAgICAgICAgICAgIHwgIDE2ICsrKwogc291bmQvc29jL2NvZGVj
+cy9oZG1pLWNvZGVjLmMgICAgICAgICAgICAgICAgIHwgIDQ1ICsrKysrKysKIHNvdW5kL3NvYy9y
+b2NrY2hpcC9yb2NrY2hpcF9tYXg5ODA5MC5jICAgICAgICB8IDExNiArKysrKysrKysrKysrKy0t
+LS0KIDYgZmlsZXMgY2hhbmdlZCwgMjIxIGluc2VydGlvbnMoKyksIDI0IGRlbGV0aW9ucygtKQoK
+LS0gCjIuMjIuMC40MTAuZ2Q4ZmRiZTIxYjUtZ29vZwoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
