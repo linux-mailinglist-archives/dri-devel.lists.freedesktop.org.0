@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BEF64485
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 11:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E71364491
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 11:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0458089E43;
-	Wed, 10 Jul 2019 09:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA9989B00;
+	Wed, 10 Jul 2019 09:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E3FA689E43
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 09:42:32 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E14A572167; Wed, 10 Jul 2019 09:42:32 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 10 Jul 2019 09:42:32 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-qIeu2UkmkB@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk
+ [IPv6:2001:4d48:ad52:3201:214:fdff:fe10:1be6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B8A89B00
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 09:44:43 +0000 (UTC)
+Received: from shell.armlinux.org.uk
+ ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:59340)
+ by pandora.armlinux.org.uk with esmtpsa
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.90_1)
+ (envelope-from <linux@armlinux.org.uk>)
+ id 1hl98c-0005tt-RN; Wed, 10 Jul 2019 10:43:47 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.89)
+ (envelope-from <linux@shell.armlinux.org.uk>)
+ id 1hl98T-0003nw-5z; Wed, 10 Jul 2019 10:43:37 +0100
+Date: Wed, 10 Jul 2019 10:43:37 +0100
+From: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To: Johannes Berg <johannes@sipsolutions.net>
+Subject: Re: [PATCH 00/12] treewide: Fix GENMASK misuses
+Message-ID: <20190710094337.wf2lftxzfjq2etro@shell.armlinux.org.uk>
+References: <cover.1562734889.git.joe@perches.com>
+ <5fa1fa6998332642c49e2d5209193ffe2713f333.camel@sipsolutions.net>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <5fa1fa6998332642c49e2d5209193ffe2713f333.camel@sipsolutions.net>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=j/WSDXca8rXK9NsDZMmI4ZGVD5lmMYmQNn9cX+c1P0c=; b=SuuW/7NN1z53N126yQd0mfU0n
+ ntWsBeL22jFfrqe6UV7yYYjaWAb/mGvo82v/VpffWPeHAXC8qvHdMVqjvTeqQYorTqKjPyjcVkd0Y
+ ehhidoReYAcrBOGYvK5hg+mxgyuD5Njr2SLIjID07Kvs0w8adz+Czb2UlD+NlXUjcnJQShORaFQ6X
+ Xl3J1vYZGJzoNp6wHmHn8OimwqiNyO9IG6bSDFpjxItLMpKnIWdEU05QuowI2tkahamV/uty376Ez
+ mf5JMQomwfeTQc+3SQ9pZj0NiYOkjfuIR3hSKUK/aQunmlQ7Q5KSFX7XpTfFzFgMc9EjJ+4N1wSfg
+ nEpyIjNkA==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,136 +58,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1477642656=="
+Cc: devel@driverdev.osuosl.org, linux-mmc@vger.kernel.org,
+ alsa-devel@alsa-project.org, Benjamin Fair <benjaminfair@google.com>,
+ linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
+ Patrick Venture <venture@google.com>, openbmc@lists.ozlabs.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, Nancy Yuen <yuenn@google.com>,
+ linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
+ linux-amlogic@lists.infradead.org, Andrew Morton <akpm@linux-foundation.org>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1477642656==
-Content-Type: multipart/alternative; boundary="15627517521.0836DD.22009"
-Content-Transfer-Encoding: 7bit
-
-
---15627517521.0836DD.22009
-Date: Wed, 10 Jul 2019 09:42:32 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #25 from tempel.julian@gmail.com ---
-Applying this MR and disabling HW cursor "fixes" the mouse skipping in the =
-menu
-of Hitman 2 (as there is a cursor visible and thus pageflipping is turned o=
-ff):
-https://gitlab.freedesktop.org/xorg/driver/xf86-video-amdgpu/merge_requests=
-/38
-
-But in the actual game, there is no cursor visible and so there is severe
-stutter again.
-
-I also reported the bug to the wine devs (still I think this is rather a bu=
-g of
-xf86-video-amdgpu):
-https://bugs.winehq.org/show_bug.cgi?id=3D47428
-There I mentioned that setting "MouseWarpOverride =3D disable" (a wine feat=
-ures
-to work around/solve mouse issues) fixes the problem for wined3d/gallium ni=
-ne.
-However, it does not fix the issue in Hitman 2.
-
-The issue in Hitman 2 also is a bit different, as it doesn't seem to have
-slowdowns regarding the rendering performance, but instead the mouse input
-rather seems to be partially blocked or discarded. But again: This does not
-occur without xf86-video-amdgpu or amdgpu.dc=3D1.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15627517521.0836DD.22009
-Date: Wed, 10 Jul 2019 09:42:32 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c25">Comme=
-nt # 25</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>Applying this MR and disabling HW cursor &quot;fixes&quot; the=
- mouse skipping in the menu
-of Hitman 2 (as there is a cursor visible and thus pageflipping is turned o=
-ff):
-<a href=3D"https://gitlab.freedesktop.org/xorg/driver/xf86-video-amdgpu/mer=
-ge_requests/38">https://gitlab.freedesktop.org/xorg/driver/xf86-video-amdgp=
-u/merge_requests/38</a>
-
-But in the actual game, there is no cursor visible and so there is severe
-stutter again.
-
-I also reported the bug to the wine devs (still I think this is rather a bu=
-g of
-xf86-video-amdgpu):
-<a href=3D"https://bugs.winehq.org/show_bug.cgi?id=3D47428">https://bugs.wi=
-nehq.org/show_bug.cgi?id=3D47428</a>
-There I mentioned that setting &quot;MouseWarpOverride =3D disable&quot; (a=
- wine features
-to work around/solve mouse issues) fixes the problem for wined3d/gallium ni=
-ne.
-However, it does not fix the issue in Hitman 2.
-
-The issue in Hitman 2 also is a bit different, as it doesn't seem to have
-slowdowns regarding the rendering performance, but instead the mouse input
-rather seems to be partially blocked or discarded. But again: This does not
-occur without xf86-video-amdgpu or amdgpu.dc=3D1.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15627517521.0836DD.22009--
-
---===============1477642656==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1477642656==--
+T24gV2VkLCBKdWwgMTAsIDIwMTkgYXQgMTE6MTc6MzFBTSArMDIwMCwgSm9oYW5uZXMgQmVyZyB3
+cm90ZToKPiBPbiBUdWUsIDIwMTktMDctMDkgYXQgMjI6MDQgLTA3MDAsIEpvZSBQZXJjaGVzIHdy
+b3RlOgo+ID4gVGhlc2UgR0VOTUFTSyB1c2VzIGFyZSBpbnZlcnRlZCBhcmd1bWVudCBvcmRlciBh
+bmQgdGhlCj4gPiBhY3R1YWwgbWFza3MgcHJvZHVjZWQgYXJlIGluY29ycmVjdC4gIEZpeCB0aGVt
+Lgo+ID4gCj4gPiBBZGQgY2hlY2twYXRjaCB0ZXN0cyB0byBoZWxwIGF2b2lkIG1vcmUgbWlzdXNl
+cyB0b28uCj4gPiAKPiA+IEpvZSBQZXJjaGVzICgxMik6Cj4gPiAgIGNoZWNrcGF0Y2g6IEFkZCBH
+RU5NQVNLIHRlc3RzCj4gCj4gSU1ITyB0aGlzIGRvZXNuJ3QgbWFrZSBhIGxvdCBvZiBzZW5zZSBh
+cyBhIGNoZWNrcGF0Y2ggdGVzdCAtIGp1c3QgdGhyb3cKPiBpbiBhIEJVSUxEX0JVR19PTigpPwoK
+TXkgcGVyc29uYWwgdGFrZSBvbiB0aGlzIGlzIHRoYXQgR0VOTUFTSygpIGlzIHJlYWxseSBub3Qg
+dXNlZnVsLCBpdCdzCmp1c3QgcHVyZSBvYmZ1c2NhdGlvbiBhbmQgbGVhZHMgdG8gZXhhY3RseSB0
+aGVzZSBraW5kcyBvZiBtaXN0YWtlcy4KClllcywgSSBmdWxseSB1bmRlcnN0YW5kIHRoZSBhcmd1
+bWVudCB0aGF0IHlvdSBjYW4ganVzdCBzcGVjaWZ5IHRoZQpzdGFydCBhbmQgZW5kIGJpdHMsIGFu
+ZCBpdCBfaW4gdGhlb3J5XyBtYWtlcyB0aGUgY29kZSBtb3JlIHJlYWRhYmxlLgoKSG93ZXZlciwg
+dGhlIHByb2JsZW0gaXMgd2hlbiB3cml0aW5nIGNvZGUuICBHRU5NQVNLKGEsIGIpLiAgSXMgYSB0
+aGUKc3RhcnRpbmcgYml0IG9yIGVuZGluZyBiaXQ/ICBJcyBiIHRoZSBudW1iZXIgb2YgYml0cz8g
+IEl0J3MgY29uZnVzaW5nCmFuZCBjYXVzZXMgbWlzdGFrZXMgcmVzdWx0aW5nIGluIGluY29ycmVj
+dCBjb2RlLiAgQSBCVUlMRF9CVUdfT04oKQpjYW4gY2F0Y2ggc29tZSBvZiB0aGUgY2FzZXMsIGJ1
+dCBub3QgYWxsIG9mIHRoZW0uCgpGb3IgZXhhbXBsZToKCglHRU5NQVNLKDYsIDIpCgp3b3VsZCBz
+YXRpc2lmeSB0aGUgcmVxdWlyZW1lbnQgdGhhdCBhID4gYiwgc28gYSBCVUlMRF9CVUdfT04oKSB3
+aWxsCm5vdCB0cmlnZ2VyLCBidXQgd2FzIHRoZSBhdXRob3IgbWVhbmluZyAweDNjIG9yIDB4YzA/
+CgpQZXJzb25hbGx5LCBJJ3ZlIGRlY2lkZWQgSSBhbSBfbm90XyBnb2luZyB0byB1c2UgR0VOTUFT
+SygpIGluIG15IGNvZGUKYmVjYXVzZSBJIHN0cnVnZ2xlIHRvIGdldCB0aGUgbWFjcm8gYXJndW1l
+bnRzIGNvcnJlY3QgLSBJJ20gX211Y2hfCmhhcHBpZXIsIGFuZCBpdCBpcyB3YXkgbW9yZSByZWxp
+YWJsZSBmb3IgbWUgdG8gd3JpdGUgdGhlIG1hc2sgaW4gaGV4Cm5vdGF0aW9uLgoKSSB0aGluayB0
+aGlzIGlzIHdoZXJlIHVzZSBvZiBhIHRlcm5hcnkgb3BlcmF0b3Igd291bGQgY29tZSBpbiB1c2Uu
+ICBUaGUKbm9ybWFsIHdheSBvZiB3cml0aW5nIGEgbnVtYmVyIG9mIGJpdHMgdGVuZHMgdG8gYmUg
+ImE6YiIsIHNvIGlmIEdFTk1BU0sKdG9vayBzb21ldGhpbmcgbGlrZSBHRU5NQVNLKDY6MiksIHRo
+ZW4gSSdkIGhhdmUgbGVzcyBpc3N1ZSB3aXRoIGl0LApiZWNhdXNlIGl0J3MgYXJndW1lbnQgaXMg
+dGhlbiBpbiBhIGZhbWlsaWFyIG5vdGF0aW9uLgoKWWVzLCBJJ20gc3VyZSB0aGF0IHNvbWVvbmUg
+d2lsbCBwb2ludCBvdXQgdGhhdCB0aGUgR0VOTUFTSyBhcmd1bWVudHMKYXJlIGp1c3QgaW4gdGhl
+IHNhbWUgb3JkZXIsIGJ1dCB0aGF0IGRvZXNuJ3QgcHJldmVudCBfbWVfIGZyZXF1ZW50bHkKZ2V0
+dGluZyBpdCB3cm9uZyAtIGFuZCB0aGF0J3MgdGhlIHBvaW50LiAgVGhlIG1hY3JvIHNlZW1zIHRv
+IG1lIHRvCmNhdXNlIG1vcmUgcHJvYmxlbXMgdGhhbiBpdCBzb2x2ZXMuCgotLSAKUk1LJ3MgUGF0
+Y2ggc3lzdGVtOiBodHRwczovL3d3dy5hcm1saW51eC5vcmcudWsvZGV2ZWxvcGVyL3BhdGNoZXMv
+CkZUVEMgYnJvYWRiYW5kIGZvciAwLjhtaWxlIGxpbmUgaW4gc3VidXJiaWE6IHN5bmMgYXQgMTIu
+MU1icHMgZG93biA2MjJrYnBzIHVwCkFjY29yZGluZyB0byBzcGVlZHRlc3QubmV0OiAxMS45TWJw
+cyBkb3duIDUwMGticHMgdXAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
