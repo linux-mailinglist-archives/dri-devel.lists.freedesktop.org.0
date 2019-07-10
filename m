@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5905964375
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 10:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D0564383
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 10:26:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02C9A892DE;
-	Wed, 10 Jul 2019 08:19:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2D316E0C6;
+	Wed, 10 Jul 2019 08:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C6B05891F2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 08:19:29 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B2B446E0C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 08:26:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C3C5B72167; Wed, 10 Jul 2019 08:19:29 +0000 (UTC)
+ id AF67D72167; Wed, 10 Jul 2019 08:26:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Wed, 10 Jul 2019 08:19:30 +0000
+Date: Wed, 10 Jul 2019 08:26:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -27,14 +27,14 @@ X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: me@jasondaigo.de
+X-Bugzilla-Who: ilvipero@gmx.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-O8l7iAEJjv@http.bugs.freedesktop.org/>
+Message-ID: <bug-109955-502-9bDwnDwNu8@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
 References: <bug-109955-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0929312626=="
+Content-Type: multipart/mixed; boundary="===============1782206931=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0929312626==
-Content-Type: multipart/alternative; boundary="15627467691.5CeE411e.11133"
+--===============1782206931==
+Content-Type: multipart/alternative; boundary="15627471832.A11cC.12337"
 Content-Transfer-Encoding: 7bit
 
 
---15627467691.5CeE411e.11133
-Date: Wed, 10 Jul 2019 08:19:29 +0000
+--15627471832.A11cC.12337
+Date: Wed, 10 Jul 2019 08:26:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,26 +72,39 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
 
---- Comment #45 from Wilko Bartels <me@jasondaigo.de> ---
-(In reply to Mauro Gaspari from comment #43)
-> Hi,
-> No it was not always like this. I was using Kubuntu and my games were rea=
-lly
-> smooth for months. Zero crashes. Then after a mesa update, I do not recall
-> exactly the version but was around 18.5 or something like that, it all got
-> worse.=20
-But it is proven that Mesa is the problem here?  There was once an issue
-regarding linux-firmware package in early 2018 if i remember correctly. Use=
-rs
-had to rollback back than.
-I might rollback to mesa 18.3 to test if i can manage that regardless.
+--- Comment #46 from Mauro Gaspari <ilvipero@gmx.com> ---
+This is exactly the reason why I wish we could get more attention to this
+issue.=20
+I have seen so many people in forums on the internet replacing their AMD ca=
+rds
+with NVIDIA due to similar issues. Or switching back to windows.=20
+
+I do not have the proof that the issue is just Mesa, could be a combination=
+ of
+mesa, kernel, firmware for all I know.=20
+
+I  opened this bug to see if I could get help troubleshooting the issue and
+finding a permanent fix for all affected users. If there is a better place =
+to
+report this, I am happy to open as many tickets and sending as many emails =
+as
+needed :)
+
+Also It would be extremely helpful if we had a script or something to trigg=
+er
+the freeze quickly and consistently, so that troubleshooting mesa, kernel, =
+ad
+firmware combinations would be so much easier and reliable.=20
+If anyone has a test suite or script or some automated check that can trigg=
+er
+the issue quickly, please share.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15627467691.5CeE411e.11133
-Date: Wed, 10 Jul 2019 08:19:29 +0000
+--15627471832.A11cC.12337
+Date: Wed, 10 Jul 2019 08:26:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,32 +121,43 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c45">Comme=
-nt # 45</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c46">Comme=
+nt # 46</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
 5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-me&#64;jasondaigo.de" title=3D"Wilko Bartels &lt;me&#64;jasondaigo.de&gt;">=
- <span class=3D"fn">Wilko Bartels</span></a>
+ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
+ <span class=3D"fn">Mauro Gaspari</span></a>
 </span></b>
-        <pre>(In reply to Mauro Gaspari from <a href=3D"show_bug.cgi?id=3D1=
-09955#c43">comment #43</a>)
-<span class=3D"quote">&gt; Hi,
-&gt; No it was not always like this. I was using Kubuntu and my games were =
-really
-&gt; smooth for months. Zero crashes. Then after a mesa update, I do not re=
-call
-&gt; exactly the version but was around 18.5 or something like that, it all=
- got
-&gt; worse. </span >
-But it is proven that Mesa is the problem here?  There was once an issue
-regarding linux-firmware package in early 2018 if i remember correctly. Use=
-rs
-had to rollback back than.
-I might rollback to mesa 18.3 to test if i can manage that regardless.</pre>
+        <pre>This is exactly the reason why I wish we could get more attent=
+ion to this
+issue.=20
+I have seen so many people in forums on the internet replacing their AMD ca=
+rds
+with NVIDIA due to similar issues. Or switching back to windows.=20
+
+I do not have the proof that the issue is just Mesa, could be a combination=
+ of
+mesa, kernel, firmware for all I know.=20
+
+I  opened this bug to see if I could get help troubleshooting the issue and
+finding a permanent fix for all affected users. If there is a better place =
+to
+report this, I am happy to open as many tickets and sending as many emails =
+as
+needed :)
+
+Also It would be extremely helpful if we had a script or something to trigg=
+er
+the freeze quickly and consistently, so that troubleshooting mesa, kernel, =
+ad
+firmware combinations would be so much easier and reliable.=20
+If anyone has a test suite or script or some automated check that can trigg=
+er
+the issue quickly, please share.</pre>
         </div>
       </p>
 
@@ -147,9 +171,9 @@ I might rollback to mesa 18.3 to test if i can manage that regardless.</pre>
     </body>
 </html>=
 
---15627467691.5CeE411e.11133--
+--15627471832.A11cC.12337--
 
---===============0929312626==
+--===============1782206931==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -159,4 +183,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0929312626==--
+--===============1782206931==--
