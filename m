@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D1364784
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 15:50:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 129016478E
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 15:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68DFD6E0E2;
-	Wed, 10 Jul 2019 13:50:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABD9589F41;
+	Wed, 10 Jul 2019 13:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id F16B56E0E2
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 13:50:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EE77072167; Wed, 10 Jul 2019 13:50:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 10 Jul 2019 13:50:06 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-BPBdl1KDX7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2B9D89F41
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 13:51:10 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 7D4A9803C3;
+ Wed, 10 Jul 2019 15:51:08 +0200 (CEST)
+Date: Wed, 10 Jul 2019 15:51:07 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Josef Lusticky <josef@lusticky.cz>
+Subject: Re: [PATCH v2 0/2] Add DRM ILI9341 parallel RGB panel driver
+Message-ID: <20190710135107.GD11791@ravnborg.org>
+References: <20190304125033.28841-1-josef@lusticky.cz>
+ <20190708145618.26031-1-josef@lusticky.cz>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190708145618.26031-1-josef@lusticky.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=-lLDmteVhdPe8IppZgUA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,99 +45,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0076535115=="
+Cc: devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0076535115==
-Content-Type: multipart/alternative; boundary="15627666053.84f954.23072"
-Content-Transfer-Encoding: 7bit
-
-
---15627666053.84f954.23072
-Date: Wed, 10 Jul 2019 13:50:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
-
---- Comment #26 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to tempel.julian from comment #25)
-> I also reported the bug to the wine devs (still I think this is rather a =
-bug
-> of xf86-video-amdgpu):
-
-It's a kernel issue, not an xf86-video-amdgpu one.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15627666053.84f954.23072
-Date: Wed, 10 Jul 2019 13:50:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c26">Comme=
-nt # 26</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to tempel.julian from <a href=3D"show_bug.cgi?id=3D1=
-10659#c25">comment #25</a>)
-<span class=3D"quote">&gt; I also reported the bug to the wine devs (still =
-I think this is rather a bug
-&gt; of xf86-video-amdgpu):</span >
-
-It's a kernel issue, not an xf86-video-amdgpu one.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15627666053.84f954.23072--
-
---===============0076535115==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0076535115==--
+SGkgSm9zZWYuCgpPbiBNb24sIEp1bCAwOCwgMjAxOSBhdCAwNDo1NjoxNlBNICswMjAwLCBKb3Nl
+ZiBMdXN0aWNreSB3cm90ZToKPiBIaSwKPiBUaGlzIGlzIHRoZSB2MiBvZiB0aGUgcGF0Y2gtc2V0
+IHdoaWNoIGFkZHMgc3VwcG9ydCBmb3IKPiBJbGl0ZWsgSUxJOTM0MSBwYXJhbGxlbCBSR0IgcGFu
+ZWxzLgo+IAo+IFRoZSBJTEk5MzQxIGNoaXAgc3VwcG9ydHMgYm90aCBwYXJhbGxlbCBSR0IgaW5w
+dXQgbW9kZSBhbmQgU1BJIGlucHV0IG1vZGUuCj4gVGhpcyBkcml2ZXIgYWRkcyBzdXBwb3J0IGZv
+ciB0aGUgcGFyYWxsZWwgUkdCIGlucHV0IG1vZGUuCj4gCj4gQ2hhbmdlcyBzaW5jZSB2MToKPiAq
+IERldmljZS10cmVlIGJpbmRpbmdzIGluIG9uZSBmaWxlCj4gKiBEL0MgR1BJTyBwaW4gaXMgb3B0
+aW9uYWwKPiAqIG1pcGlfZGJpXyogZnVuY3Rpb25zIHVzZWQgdG8gaW5pdGlhbGl6ZSB0aGUgZGlz
+cGxheQo+ICogZW50cnkgaW4gTUFJTlRBSU5FUlMgc29ydGVkIGFscGhhYmV0aWNhbGx5Cj4gKiBN
+YWtlZmlsZSwgS2NvbmZpZzogRFJNX1BBTkVMX0lMSVRFS19JTDkzNDEgcmVuYW1lZCB0byBEUk1f
+UEFORUxfSUxJVEVLX0lMSTkzNDEKPiAqIEtjb25maWc6IGRlcGVuZCBvbiBCQUNLTElHSFRfQ0xB
+U1NfREVWSUNFCj4gKiBLY29uZmlnOiBzZWxlY3QgVElOWURSTV9NSVBJX0RCSQo+ICogb3JkZXIg
+b2YgaW5jbHVkZSBmaWxlcyBjaGFuZ2VkCj4gKiBkcm1fbW9kZV9kdXBsaWNhdGUgY2hlY2tlZCBm
+b3IgZmFpbHVyZQoKVGhhbmtzIGZvciBkb2luZyBhbGwgdGhpcy4KClNvbWUgbWlub3IgZGV0YWls
+cy4gUGxlYXNlIGZpeCBhbmQgcmVzZW5kIHNvIHdlIGNhbiB0aGVzZSBwYXRjaGVzCmFwcGxpZWQu
+ClBsZWFzZSBhbHNvIHJlLWNoZWNrIGlmIHlvdSBmb3Jnb3QgYW4gYWNrIGZyb20gUm9iIG9uIHRo
+ZSBiaW5kaW5ncyBmaWxlLgoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
+by9kcmktZGV2ZWw=
