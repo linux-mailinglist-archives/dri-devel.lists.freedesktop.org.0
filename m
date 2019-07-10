@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F660642B9
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464DB642D0
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:26:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F220589C16;
-	Wed, 10 Jul 2019 07:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD93E89FEA;
+	Wed, 10 Jul 2019 07:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.supremebox.com (mx1.supremebox.com [198.23.53.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 534388933C
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 05:06:24 +0000 (UTC)
-Received: from 184-96-235-43.hlrn.qwest.net ([184.96.235.43]
- helo=[192.168.0.12]) by mx1.supremebox.com with esmtpa (Exim 4.89)
- (envelope-from <opensource@jilayne.com>)
- id 1hl4o3-0005Rm-HA; Wed, 10 Jul 2019 05:06:15 +0000
-From: J Lovejoy <opensource@jilayne.com>
-Message-Id: <483C9F3D-953E-409F-B200-A8958D83313E@jilayne.com>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH v2] gpu/drm_memory: fix a few warnings
-Date: Tue, 9 Jul 2019 23:06:13 -0600
-In-Reply-To: <alpine.DEB.2.21.1907082150170.1961@nanos.tec.linutronix.de>
-To: Thomas Gleixner <tglx@linutronix.de>
-References: <1562609151-7283-1-git-send-email-cai@lca.pw>
- <CAKb7UvhoW2F5LSf4B=vJhLykPCme_ixwbUBup_sBXjoQa72Fzw@mail.gmail.com>
- <1562614919.8510.9.camel@lca.pw>
- <alpine.DEB.2.21.1907082150170.1961@nanos.tec.linutronix.de>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Sender-Ident-agJab5osgicCis: opensource@jilayne.com
+X-Greylist: delayed 575 seconds by postgrey-1.36 at gabe;
+ Wed, 10 Jul 2019 05:54:01 UTC
+Received: from mengyan1223.wang (mengyan1223.wang [89.208.246.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5DDB898A8;
+ Wed, 10 Jul 2019 05:54:01 +0000 (UTC)
+Received: from xry111-laptop.lan (unknown
+ [IPv6:2001:250:1006:dff0:7508:eb03:297c:cb52])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ (Authenticated sender: xry111@mengyan1223.wang)
+ by mengyan1223.wang (Postfix) with ESMTPSA id 6C33565B54;
+ Wed, 10 Jul 2019 01:44:22 -0400 (EDT)
+Message-ID: <e5baec48e5c362256a631a2d55fbc30251ab5e83.camel@mengyan1223.wang>
+Subject: kernel oops loading i915 after "x86/asm: Pin sensitive CR4 bits"
+ (873d50d58)
+From: Xi Ruoyao <xry111@mengyan1223.wang>
+To: Kees Cook <keescook@chromium.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>,  David Airlie <airlied@linux.ie>, Jessica Yu
+ <jeyu@kernel.org>
+Date: Wed, 10 Jul 2019 13:44:17 +0800
+Content-Type: multipart/mixed; boundary="=-8sC1bMl1WM6oK8eaXuPt"
+User-Agent: Evolution 3.32.3 
+MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 10 Jul 2019 07:25:19 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=jilayne.com
- ; s=default; h=References:To:Cc:In-Reply-To:Date:Subject:Mime-Version:
- Content-Type:Message-Id:From:Sender:Reply-To:Content-Transfer-Encoding:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=h/GuwsNoDe3CUWf9i8jiGdd8ZF3UgtKH2q5ZsEJyUBs=; b=ATDxUypk7mie/V46wtc6G+I34G
- jGEsfGyUMoiF7ICOwPfcdRfkgFyxy3D1GlamnZWOVfMrWe54l9b2JLNSqZXRrFk7C2bnA/YptuQ6x
- 2ZnfrAozd/PSF1jCGaobaZA4UknO2kjRhjI8WdKFjPiHkQuuSIRhI69t1KMVFQlPtUfo=;
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mengyan1223.wang; s=mail; t=1562737465;
+ bh=GRrheC6yZnCgSZrciA+fCazzXFyCSHlC1LBmIR19mkE=;
+ h=Subject:From:To:Cc:Date:From;
+ b=Rz+8KWX7f0FdUlr+XjwifZ/ttPMAjn4MbNQ/tnEa8I8DF17+ZC28IbqW87nkEt41N
+ l8FVK+E1CF31SUbumpRccJWXFUk+gN2I0WlJv+sh7CmO/G2JopQNvqN7kyoUN/bPPg
+ EeWP6/fPByE2hcC4AcTtFLi0Ai6ZjnBtnYm+6vvebiVUwWNnQRerzZJvTMZd/ZUTZw
+ lHcLxyVOusWTvqbESVrQQLVJQ7qO7+I25zBf4PUFus/7vJ/nt+DRb3F7rLP2JQbtfF
+ zAA9YrjGBm7Q0GE/a6RbFTYknTb7XPMTdIBafz31ELkMJynrpQnjTpoUceHhyaLWcI
+ b1Pt90gwSAqCw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,187 +55,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Airlie <airlied@linux.ie>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Richard Fontana <rfontana@redhat.com>, Qian Cai <cai@lca.pw>,
- Greg KH <gregkh@linuxfoundation.org>, joe@perches.com,
- linux-spdx@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1605920519=="
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-modules@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel-hardening@lists.openwall.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1605920519==
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_70AC868E-5265-4424-95DF-697879078E25"
+--=-8sC1bMl1WM6oK8eaXuPt
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+When I try to build and run the latest mainline kernel, it Oops loading i915
+module:
+
+BUG: unable to handle page fault for address: ffffffff9edc1598
+#PF: supervisor write access in kernel mode
+#PF: error_code(0x0003) - permissions violation
+PGD 1a20c067 P4D 1a20c067 PUD 1a20d063 PMD 8000000019e000e1 
+Oops: 0003 [#1] SMP PTI
+
+The complete log is attached.
+
+Bisection tells "x86/asm: Pin sensitive CR4 bits" (873d50d58) is the first "bad"
+commit.  I can revert it and also "x86/asm: Pin sensitive CR0 bits" (8dbec27a2)
+to make the kernel "seems to" work.
+
+I'm not a kernel expert so I can't tell if there is a bug in Kees' patch, or his
+patch exploits a bug in i915 or module loader.
+
+My CPU is an i3-3217u.  If a kdump is helpful I'll try to gather it.
+-- 
+Xi Ruoyao <xry111@mengyan1223.wang>
+School of Aerospace Science and Technology, Xidian University
+
+--=-8sC1bMl1WM6oK8eaXuPt
+Content-Disposition: attachment; filename="log"
+Content-Type: text/plain; name="log"; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+SnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBCVUc6IHVuYWJsZSB0byBoYW5k
+bGUgcGFnZSBmYXVsdCBmb3IgYWRkcmVzczogZmZmZmZmZmY5ZWRjMTU5OApKdWwgMTAgMTI6NTg6
+NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6ICNQRjogc3VwZXJ2aXNvciB3cml0ZSBhY2Nlc3MgaW4g
+a2VybmVsIG1vZGUKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiAjUEY6IGVy
+cm9yX2NvZGUoMHgwMDAzKSAtIHBlcm1pc3Npb25zIHZpb2xhdGlvbgpKdWwgMTAgMTI6NTg6NTIg
+eHJ5MTExLWxhcHRvcCBrZXJuZWw6IFBHRCAxYTIwYzA2NyBQNEQgMWEyMGMwNjcgUFVEIDFhMjBk
+MDYzIFBNRCA4MDAwMDAwMDE5ZTAwMGUxIApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBr
+ZXJuZWw6IE9vcHM6IDAwMDMgWyMxXSBTTVAgUFRJCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFw
+dG9wIGtlcm5lbDogQ1BVOiAyIFBJRDogMTUxIENvbW06IHN5c3RlbWQtdWRldmQgTm90IHRhaW50
+ZWQgNS4yLjArICM1NApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IEhhcmR3
+YXJlIG5hbWU6IExFTk9WTyAyMDE3NS9JTlZBTElELCBCSU9TIDY2Q041NFdXIDAxLzIxLzIwMTMK
+SnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBSSVA6IDAwMTA6c3RhdGljX2tl
+eV9zZXRfbW9kLmlzcmEuMCsweDEwLzB4MzAKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Ag
+a2VybmVsOiBDb2RlOiA0OCA4YiAzNyA4MyBlNiAwMyA0OCAwOSBjNiA0OCA4OSAzNyBjMyA2NiA2
+NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCA2NiA5MCA0OCA4OSBmMCBhOCAwMyA3NSAwZCA0
+OCA4YiAzNyA4MyBlNiAwMyA0OCAwOSBjNiA8NDg+IDg5IDM3IGMzIDBmIDBiIDQ4IDhiIDM3IDgz
+IGU2IDAzIDQ4IDA5IGM2IDQ4IDg5IDM3IGMzIDY2IDY2IDJlCkp1bCAxMCAxMjo1ODo1MiB4cnkx
+MTEtbGFwdG9wIGtlcm5lbDogUlNQOiAwMDAwOmZmZmZhNjA2YzAzMmJjOTggRUZMQUdTOiAwMDAx
+MDI4NgpKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IFJBWDogZmZmZjk5ODFk
+ZGNlMzBhMCBSQlg6IGZmZmZmZmZmOWVkYzE1OTAgUkNYOiAwMDAwMDAwMDAwMDAwMDAwCkp1bCAx
+MCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDogUkRYOiAwMDAwMDAwMDAwMDAwMDIwIFJT
+STogZmZmZjk5ODFkZGNlMzBhMCBSREk6IGZmZmZmZmZmOWVkYzE1OTgKSnVsIDEwIDEyOjU4OjUy
+IHhyeTExMS1sYXB0b3Aga2VybmVsOiBSQlA6IGZmZmZmZmZmYzA2ZjQwMDAgUjA4OiBmZmZmOTk4
+MWU2MDAzOTgwIFIwOTogZmZmZjk5ODFkZGNlMzBhMApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxh
+cHRvcCBrZXJuZWw6IFIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6IDAwMDAwMDAwMDAwMjhiNTYg
+UjEyOiBmZmZmZmZmZmMwNmY4ODgwCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5l
+bDogUjEzOiBmZmZmOTk4MWRkY2UzMDgwIFIxNDogZmZmZmZmZmZjMDZmNDAwOCBSMTU6IGZmZmZm
+ZmZmYzA2ZjZkYzAKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBGUzogIDAw
+MDA3Zjk5MmRkOWE2ODAoMDAwMCkgR1M6ZmZmZjk5ODFlNzA4MDAwMCgwMDAwKSBrbmxHUzowMDAw
+MDAwMDAwMDAwMDAwCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDogQ1M6ICAw
+MDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpKdWwgMTAgMTI6NTg6
+NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IENSMjogZmZmZmZmZmY5ZWRjMTU5OCBDUjM6IDAwMDAw
+MDAyMjMzYWEwMDEgQ1I0OiAwMDAwMDAwMDAwMTYwNmUwCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEt
+bGFwdG9wIGtlcm5lbDogQ2FsbCBUcmFjZToKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Ag
+a2VybmVsOiAganVtcF9sYWJlbF9tb2R1bGVfbm90aWZ5KzB4MWU3LzB4MmIwCkp1bCAxMCAxMjo1
+ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDogIG5vdGlmaWVyX2NhbGxfY2hhaW4rMHg0NC8weDcw
+Ckp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDogIGJsb2NraW5nX25vdGlmaWVy
+X2NhbGxfY2hhaW4rMHg0My8weDYwCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5l
+bDogIGxvYWRfbW9kdWxlKzB4MWJjYi8weDI0OTAKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0
+b3Aga2VybmVsOiAgPyB2ZnNfcmVhZCsweDExZi8weDE1MApKdWwgMTAgMTI6NTg6NTIgeHJ5MTEx
+LWxhcHRvcCBrZXJuZWw6ICA/IF9fZG9fc3lzX2Zpbml0X21vZHVsZSsweGJmLzB4ZTAKSnVsIDEw
+IDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiAgX19kb19zeXNfZmluaXRfbW9kdWxlKzB4
+YmYvMHhlMApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6ICBkb19zeXNjYWxs
+XzY0KzB4NDMvMHgxMTAKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiAgZW50
+cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NDQvMHhhOQpKdWwgMTAgMTI6NTg6NTIgeHJ5
+MTExLWxhcHRvcCBrZXJuZWw6IFJJUDogMDAzMzoweDdmOTkyZTJlZWFmOQpKdWwgMTAgMTI6NTg6
+NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IENvZGU6IDAwIGMzIDY2IDJlIDBmIDFmIDg0IDAwIDAw
+IDAwIDAwIDAwIDBmIDFmIDQ0IDAwIDAwIDQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2IDQ4IDg5
+IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmIDA1IDw0OD4gM2QgMDEgZjAg
+ZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQgNjcgNzMgMGQgMDAgZjcgZDggNjQgODkgMDEgNDgKSnVs
+IDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBSU1A6IDAwMmI6MDAwMDdmZmNhMjIw
+ZDI4OCBFRkxBR1M6IDAwMDAwMjQ2IE9SSUdfUkFYOiAwMDAwMDAwMDAwMDAwMTM5Ckp1bCAxMCAx
+Mjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDogUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDog
+MDAwMDAwMDAwMDliOGRhMCBSQ1g6IDAwMDA3Zjk5MmUyZWVhZjkKSnVsIDEwIDEyOjU4OjUyIHhy
+eTExMS1sYXB0b3Aga2VybmVsOiBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwN2Y5OTJl
+NDY0ODg1IFJESTogMDAwMDAwMDAwMDAwMDAxMApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRv
+cCBrZXJuZWw6IFJCUDogMDAwMDAwMDAwMDAyMDAwMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5
+OiAwMDAwMDAwMDAwOWM0NWMwCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDog
+UjEwOiAwMDAwMDAwMDAwMDAwMDEwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDA3Zjk5
+MmU0NjQ4ODUKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBSMTM6IDAwMDAw
+MDAwMDAwMDAwMDAgUjE0OiAwMDAwMDAwMDAwOWFjYzUwIFIxNTogMDAwMDAwMDAwMDliOGRhMApK
+dWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IE1vZHVsZXMgbGlua2VkIGluOiBr
+dm1faW50ZWwoKykga3ZtIGlycWJ5cGFzcyBoaWRfc2Vuc29yX2h1YiBjcmMzMl9wY2xtdWwgbWZk
+X2NvcmUgaTJjX2k4MDEgc25kX2hkYV9pbnRlbCBpOTE1KCspIGludGVsX2d0dCBzbmRfaGRhX2Nv
+ZGVjIGkyY19hbGdvX2JpdCBzbmRfaHdkZXAgc25kX2hkYV9jb3JlIGRybV9rbXNfaGVscGVyIHNu
+ZF9wY20gc3lzY29weWFyZWEgc3lzZmlsbHJlY3Qgc3lzaW1nYmx0IGZiX3N5c19mb3BzIGRybSBo
+aWRfbXVsdGl0b3VjaCBpZGVhcGFkX2xhcHRvcCBzcGFyc2Vfa2V5bWFwIGhpZF9nZW5lcmljIHdt
+aSBlZml2YXJmcwpKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IENSMjogZmZm
+ZmZmZmY5ZWRjMTU5OApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IC0tLVsg
+ZW5kIHRyYWNlIGRiZWI3ZTY2ZGFhOWJkY2EgXS0tLQpKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxh
+cHRvcCBrZXJuZWw6IFJJUDogMDAxMDpzdGF0aWNfa2V5X3NldF9tb2QuaXNyYS4wKzB4MTAvMHgz
+MApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IENvZGU6IDQ4IDhiIDM3IDgz
+IGU2IDAzIDQ4IDA5IGM2IDQ4IDg5IDM3IGMzIDY2IDY2IDJlIDBmIDFmIDg0IDAwIDAwIDAwIDAw
+IDAwIDY2IDkwIDQ4IDg5IGYwIGE4IDAzIDc1IDBkIDQ4IDhiIDM3IDgzIGU2IDAzIDQ4IDA5IGM2
+IDw0OD4gODkgMzcgYzMgMGYgMGIgNDggOGIgMzcgODMgZTYgMDMgNDggMDkgYzYgNDggODkgMzcg
+YzMgNjYgNjYgMmUKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBSU1A6IDAw
+MDA6ZmZmZmE2MDZjMDMyYmM5OCBFRkxBR1M6IDAwMDEwMjg2Ckp1bCAxMCAxMjo1ODo1MiB4cnkx
+MTEtbGFwdG9wIGtlcm5lbDogUkFYOiBmZmZmOTk4MWRkY2UzMGEwIFJCWDogZmZmZmZmZmY5ZWRj
+MTU5MCBSQ1g6IDAwMDAwMDAwMDAwMDAwMDAKSnVsIDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Ag
+a2VybmVsOiBSRFg6IDAwMDAwMDAwMDAwMDAwMjAgUlNJOiBmZmZmOTk4MWRkY2UzMGEwIFJESTog
+ZmZmZmZmZmY5ZWRjMTU5OApKdWwgMTAgMTI6NTg6NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IFJC
+UDogZmZmZmZmZmZjMDZmNDAwMCBSMDg6IGZmZmY5OTgxZTYwMDM5ODAgUjA5OiBmZmZmOTk4MWRk
+Y2UzMGEwCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDogUjEwOiAwMDAwMDAw
+MDAwMDAwMDAwIFIxMTogMDAwMDAwMDAwMDAyOGI1NiBSMTI6IGZmZmZmZmZmYzA2Zjg4ODAKSnVs
+IDEwIDEyOjU4OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBSMTM6IGZmZmY5OTgxZGRjZTMwODAg
+UjE0OiBmZmZmZmZmZmMwNmY0MDA4IFIxNTogZmZmZmZmZmZjMDZmNmRjMApKdWwgMTAgMTI6NTg6
+NTIgeHJ5MTExLWxhcHRvcCBrZXJuZWw6IEZTOiAgMDAwMDdmOTkyZGQ5YTY4MCgwMDAwKSBHUzpm
+ZmZmOTk4MWU3MDgwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKSnVsIDEwIDEyOjU4
+OjUyIHhyeTExMS1sYXB0b3Aga2VybmVsOiBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1Iw
+OiAwMDAwMDAwMDgwMDUwMDMzCkp1bCAxMCAxMjo1ODo1MiB4cnkxMTEtbGFwdG9wIGtlcm5lbDog
+Q1IyOiBmZmZmZmZmZjllZGMxNTk4IENSMzogMDAwMDAwMDIyMzNhYTAwMSBDUjQ6IDAwMDAwMDAw
+MDAxNjA2ZTAK
 
 
---Apple-Mail=_70AC868E-5265-4424-95DF-697879078E25
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
-
-
-
-> On Jul 8, 2019, at 1:57 PM, Thomas Gleixner <tglx@linutronix.de> =
-wrote:
->=20
-> On Mon, 8 Jul 2019, Qian Cai wrote:
->> On Mon, 2019-07-08 at 15:21 -0400, Ilia Mirkin wrote:
->>>> -/**
->>>> +// SPDX-License-Identifier: MIT
->>>> +/*
->>>>   * \file drm_memory.c
->>>>   * Memory management wrappers for DRM
->>>>   *
->>>> @@ -12,25 +13,6 @@
->>>>   * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
->>>>   * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
->>>>   * All Rights Reserved.
->>>> - *
->>>> - * Permission is hereby granted, free of charge, to any person =
-obtaining a
->>>> - * copy of this software and associated documentation files (the
->>>> "Software"),
->>>> - * to deal in the Software without restriction, including without
->>>> limitation
->>>> - * the rights to use, copy, modify, merge, publish, distribute, =
-sublicense,
->>>> - * and/or sell copies of the Software, and to permit persons to =
-whom the
->>>> - * Software is furnished to do so, subject to the following =
-conditions:
->>>> - *
->>>> - * The above copyright notice and this permission notice =
-(including the
->>>> next
->>>> - * paragraph) shall be included in all copies or substantial =
-portions of
->>>> the
->>>> - * Software.
->>>> - *
->>>> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, =
-EXPRESS
->>>> OR
->>>> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF =
-MERCHANTABILITY,
->>>> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO =
-EVENT SHALL
->>>> - * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, =
-DAMAGES
->>>> OR
->>>=20
->>> This talks about VA Linux Systems and/or its suppliers, while the =
-MIT
->>> licence talks about authors or copyright holders.
->=20
-> That's looks lika a valid substitution and does not change the meaning =
-of
-> the license, AFAICT.=20
-
-As of the 3.6 release of the SPDX License List, we will have added =
-markup to denote that the name in the disclaimer can be changed and =
-still considered a match. This is a common scenario in other licenses =
-(like the BSD family), but I don=E2=80=99t think we=E2=80=99d come =
-across it until the work on the kernel and adding SPDX identifiers. So, =
-yes, MIT would be the correct SPDX identifier here as of 3.6 (which will =
-be posted in a few days).
-
-For reference, the SPDX License List matching guidelines can be found =
-here: https://spdx.org/spdx-license-list/matching-guidelines =
-<https://spdx.org/spdx-license-list/matching-guidelines> - see Guideline =
-2.1.3 specifically. Replaceable text is marked up in the master files =
-that comprise the SPDX License List according the the XML schema and =
-then displayed in color coded text on the website pages (see, for =
-example, BSD-3-Clause - https://spdx.org/licenses/BSD-3-Clause.html =
-<https://spdx.org/licenses/BSD-3-Clause.html>
-
-Of course, if anyone finds any other license text that deserves this =
-kind of accommodation, you can always make a PR here: =
-https://github.com/spdx/license-list-XML =
-<https://github.com/spdx/license-list-XML> :)
-
-thanks,
-Jilayne
-SPDX legal team co-lead
-
-
---Apple-Mail=_70AC868E-5265-4424-95DF-697879078E25
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
-class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Jul 8, 2019, at 1:57 PM, Thomas Gleixner &lt;<a =
-href=3D"mailto:tglx@linutronix.de" class=3D"">tglx@linutronix.de</a>&gt; =
-wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><div =
-class=3D"">On Mon, 8 Jul 2019, Qian Cai wrote:<br class=3D""><blockquote =
-type=3D"cite" class=3D"">On Mon, 2019-07-08 at 15:21 -0400, Ilia Mirkin =
-wrote:<br class=3D""><blockquote type=3D"cite" class=3D""><blockquote =
-type=3D"cite" class=3D"">-/**<br class=3D"">+// SPDX-License-Identifier: =
-MIT<br class=3D"">+/*<br class=3D"">&nbsp; * \file drm_memory.c<br =
-class=3D"">&nbsp; * Memory management wrappers for DRM<br =
-class=3D"">&nbsp; *<br class=3D"">@@ -12,25 +13,6 @@<br class=3D"">&nbsp; =
-* Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.<br =
-class=3D"">&nbsp; * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, =
-California.<br class=3D"">&nbsp; * All Rights Reserved.<br class=3D"">- =
-*<br class=3D"">- * Permission is hereby granted, free of charge, to any =
-person obtaining a<br class=3D"">- * copy of this software and =
-associated documentation files (the<br class=3D"">"Software"),<br =
-class=3D"">- * to deal in the Software without restriction, including =
-without<br class=3D"">limitation<br class=3D"">- * the rights to use, =
-copy, modify, merge, publish, distribute, sublicense,<br class=3D"">- * =
-and/or sell copies of the Software, and to permit persons to whom the<br =
-class=3D"">- * Software is furnished to do so, subject to the following =
-conditions:<br class=3D"">- *<br class=3D"">- * The above copyright =
-notice and this permission notice (including the<br class=3D"">next<br =
-class=3D"">- * paragraph) shall be included in all copies or substantial =
-portions of<br class=3D"">the<br class=3D"">- * Software.<br class=3D"">- =
-*<br class=3D"">- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY =
-OF ANY KIND, EXPRESS<br class=3D"">OR<br class=3D"">- * IMPLIED, =
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br =
-class=3D"">- * FITNESS FOR A PARTICULAR PURPOSE AND =
-NONINFRINGEMENT.&nbsp;&nbsp;IN NO EVENT SHALL<br class=3D"">- * VA LINUX =
-SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES<br =
-class=3D"">OR<br class=3D""></blockquote><br class=3D"">This talks about =
-VA Linux Systems and/or its suppliers, while the MIT<br class=3D"">licence=
- talks about authors or copyright holders.<br =
-class=3D""></blockquote></blockquote><br class=3D"">That's looks lika a =
-valid substitution and does not change the meaning of<br class=3D"">the =
-license, AFAICT.&nbsp;</div></div></blockquote><br =
-class=3D""></div><div>As of the 3.6 release of the SPDX License List, we =
-will have added markup to denote that the name in the disclaimer can be =
-changed and still considered a match. This is a common scenario in other =
-licenses (like the BSD family), but I don=E2=80=99t think we=E2=80=99d =
-come across it until the work on the kernel and adding SPDX identifiers. =
-So, yes, MIT would be the correct SPDX identifier here as of 3.6 (which =
-will be posted in a few days).<br class=3D""><br class=3D"">For =
-reference, the SPDX License List matching guidelines can be found =
-here:&nbsp;<a =
-href=3D"https://spdx.org/spdx-license-list/matching-guidelines" =
-class=3D"">https://spdx.org/spdx-license-list/matching-guidelines</a>&nbsp=
-;- see Guideline 2.1.3 specifically. Replaceable text is marked up in =
-the master files that comprise the SPDX License List according the the =
-XML schema and then displayed in color coded text on the website pages =
-(see, for example, BSD-3-Clause -&nbsp;<a =
-href=3D"https://spdx.org/licenses/BSD-3-Clause.html" =
-class=3D"">https://spdx.org/licenses/BSD-3-Clause.html</a><br =
-class=3D""><br class=3D"">Of course, if anyone finds any other license =
-text that deserves this kind of accommodation, you can always make a PR =
-here:&nbsp;<a href=3D"https://github.com/spdx/license-list-XML" =
-class=3D"">https://github.com/spdx/license-list-XML</a>&nbsp;:)<br =
-class=3D""><br class=3D"">thanks,<br class=3D"">Jilayne<br class=3D"">SPDX=
- legal team co-lead</div><br class=3D""></body></html>=
-
---Apple-Mail=_70AC868E-5265-4424-95DF-697879078E25--
-
---===============1605920519==
+--=-8sC1bMl1WM6oK8eaXuPt
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -242,4 +200,5 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1605920519==--
+--=-8sC1bMl1WM6oK8eaXuPt--
+
