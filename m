@@ -2,37 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36476468C
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 14:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0511E6468F
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 14:56:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC2F6E0D5;
-	Wed, 10 Jul 2019 12:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77E58932D;
+	Wed, 10 Jul 2019 12:56:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48F648932D;
- Wed, 10 Jul 2019 12:55:08 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2019 05:55:07 -0700
-X-IronPort-AV: E=Sophos;i="5.63,474,1557212400"; d="scan'208";a="341065021"
-Received: from jkrzyszt-desk.igk.intel.com (HELO
- jkrzyszt-desk.ger.corp.intel.com) ([172.22.244.18])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2019 05:55:05 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [RFC PATCH 0/6] Rename functions to match their entry points
-Date: Wed, 10 Jul 2019 14:54:59 +0200
-Message-ID: <34737143.LqZMGNDrZD@jkrzyszt-desk.ger.corp.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
- 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <156276282845.11940.4812142560907762693@skylake-alporthouse-com>
-References: <20190710123631.26575-1-janusz.krzysztofik@linux.intel.com>
- <156276282845.11940.4812142560907762693@skylake-alporthouse-com>
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA77D8932D
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 12:55:58 +0000 (UTC)
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 05851C0004;
+ Wed, 10 Jul 2019 12:55:52 +0000 (UTC)
+Date: Wed, 10 Jul 2019 14:55:52 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1] drm/modes: Skip invalid cmdline mode
+Message-ID: <20190710125552.qvmnh6qs63ikiu2k@flea>
+References: <20190709145151.23086-1-digetx@gmail.com>
+ <20190710101229.54ufuhmh22dfxclr@flea>
+ <4ad69d15-07f8-9753-72d6-a51402c94c20@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <4ad69d15-07f8-9753-72d6-a51402c94c20@gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,31 +41,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- =?utf-8?B?TWljaGHFgg==?= Wajdeczko <michal.wajdeczko@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1564172421=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkbmVzZGF5LCBKdWx5IDEwLCAyMDE5IDI6NDc6MDggUE0gQ0VTVCBDaHJpcyBXaWxzb24g
-d3JvdGU6Cj4gUXVvdGluZyBKYW51c3ogS3J6eXN6dG9maWsgKDIwMTktMDctMTAgMTM6MzY6MjUp
-Cj4gPiBOZWVkIGZvciB0aGlzIHdhcyBpZGVudGlmaWVkIHdoaWxlIHdvcmtpbmcgb24gc3BsaXQg
-b2YgZHJpdmVyIHVuYmluZAo+ID4gcGF0aCBpbnRvIF9yZW1vdmUoKSBhbmQgX3JlbGVhc2UoKSBw
-YXJ0cy4gIENvbnNpc3RlbmN5IGluIGZ1bmN0aW9uCj4gPiBuYW1pbmcgaGFzIGJlZW4gcmVjb2du
-aXplZCBhcyBoZWxwZnVsIHdoZW4gdHJ5aW5nIHRvIHdvcmsgb3V0IHdoaWNoCj4gPiBwaGFzZSB0
-aGUgY29kZSBpcyBpbi4KPiA+IAo+ID4gV2hhdCBJJ20gc3RpbGwgbm90IHN1cmUgYWJvdXQgaXMg
-ZGVzaXJlZCBkZXB0aCBvZiB0aGF0IG1vZGlmaWNhdGlvbiAtCj4gPiBob3cgZGVlcCBzaG91bGQg
-d2UgZ28gZG93biB3aXRoIHJlbmFtaW5nIHRvIG5vdCBvdmVycmlkZSBtZWFuaW5nZnVsbAo+ID4g
-ZnVuY3Rpb24gbmFtZXMuICBQbGVhc2UgYWR2aXNlIGlmIHlvdSB0aGluayBzdGlsbCBtb3JlIGRl
-ZXAgcmVuYW1pbmcKPiA+IG1ha2VzIHNlbnNlLgo+IAo+IEkgZGlkIGEgZG91YmxlIHRha2Ugb3Zl
-ciAiZHJpdmVyX3JlbGVhc2UiIGJ1dCBieSB0aGUgZW5kIEkgd2FzIGluCj4gYWdyZWVtZW50Lgo+
-IAo+IFRoZSBlYXJseV9yZWxlYXNlIHRob3VnaCwgdGhhdCBpcyB3b3J0aCBhIGJpdCBvZiBhcnRp
-c3RpYyBsaWNlbnNlIHRvIHNheQo+IGVhcmx5X3Byb2JlIHBhaXJzIHdpdGggbGF0ZV9yZWxlYXNl
-LgoKT0ssIEknbGwgZml4IGl0LCBhcyB3ZWxsIGFzIG90aGVyIGlzc3VlcyBwb2ludGVkIG91dCBi
-eSBkaW0sIGFuZCByZXN1Ym1pdC4KClRoYW5rcywKSmFudXN6Cgo+IC1DaHJpcwo+IAoKCgoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1564172421==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="67vkpimxupn2emik"
+Content-Disposition: inline
+
+
+--67vkpimxupn2emik
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jul 10, 2019 at 03:42:28PM +0300, Dmitry Osipenko wrote:
+> 10.07.2019 13:12, Maxime Ripard =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Tue, Jul 09, 2019 at 05:51:51PM +0300, Dmitry Osipenko wrote:
+> >> The named mode could be invalid and then cmdline parser misses to vali=
+date
+> >> mode's dimensions, happily adding 0x0 mode as a valid mode. One case w=
+here
+> >> this happens is NVIDIA Tegra devices that are using downstream bootloa=
+der
+> >> which adds "video=3Dtegrafb" to the kernel's cmdline and thus upstream=
+ Tegra
+> >> DRM driver fails to probe because of the invalid mode.
+> >>
+> >> Fixes: 3aeeb13d8996 ("drm/modes: Support modes names on the command li=
+ne")
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >
+> > Applied to drm-misc-next-fixes
+> >
+> > Thanks for figuring this out!
+>
+> Thank you very much! So the driver now doesn't fail to probe because
+> of the cmdline, but what else I noticed is that the framebuffer
+> console is now rotated by 90=C2=B0 on a 800x1280 panel, while display in
+> Xorg is vertical as it was before. Seems something else is still
+> missing, reverting "drm/modes: Rewrite the command line parser"
+> returns the framebuffer's console orientation into the original
+> state.
+
+What is the whole command line passed by the bootloader ?
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--67vkpimxupn2emik
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXSXgWAAKCRDj7w1vZxhR
+xbSNAP90FVLFwB5+zilKrKrHuq5DCTLYbu5hD446R9T6mYbDzwEAsVaCQHHR/dDs
+5WjcFcl9xSdLXeMNaAFgIjCu90b7Uw0=
+=Pmf4
+-----END PGP SIGNATURE-----
+
+--67vkpimxupn2emik--
+
+--===============1564172421==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1564172421==--
