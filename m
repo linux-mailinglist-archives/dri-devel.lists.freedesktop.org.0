@@ -2,45 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1288964C87
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 21:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9766264C8C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 21:09:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D707A6E125;
-	Wed, 10 Jul 2019 19:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 373896E122;
+	Wed, 10 Jul 2019 19:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 537B86E122
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 19:08:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4811472167; Wed, 10 Jul 2019 19:08:33 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
- when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
-Date: Wed, 10 Jul 2019 19:08:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tempel.julian@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110659-502-zNoIXrplVL@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
-References: <bug-110659-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
+ [195.113.26.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B3626E122
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 19:09:53 +0000 (UTC)
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+ id 8811880552; Wed, 10 Jul 2019 21:09:39 +0200 (CEST)
+Date: Wed, 10 Jul 2019 21:09:50 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Jean-Jacques Hiblot <jjhiblot@ti.com>
+Subject: Re: [PATCH v3 1/4] leds: Add of_led_get() and led_put()
+Message-ID: <20190710190949.GA22995@amd>
+References: <20190710123932.28244-1-jjhiblot@ti.com>
+ <20190710123932.28244-2-jjhiblot@ti.com>
 MIME-Version: 1.0
+In-Reply-To: <20190710123932.28244-2-jjhiblot@ti.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,113 +37,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1610836450=="
+Cc: mark.rutland@arm.com, daniel.thompson@linaro.org, jingoohan1@gmail.com,
+ tomi.valkeinen@ti.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org,
+ jacek.anaszewski@gmail.com, lee.jones@linaro.org, linux-leds@vger.kernel.org,
+ dmurphy@ti.com
+Content-Type: multipart/mixed; boundary="===============1718090986=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1610836450==
-Content-Type: multipart/alternative; boundary="15627857130.f12c5Bb.6809"
-Content-Transfer-Encoding: 7bit
+--===============1718090986==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zhXaljGHf11kAtnf"
+Content-Disposition: inline
 
 
---15627857130.f12c5Bb.6809
-Date: Wed, 10 Jul 2019 19:08:33 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+On Wed 2019-07-10 14:39:29, Jean-Jacques Hiblot wrote:
+> From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>=20
+> This patch adds basic support for a kernel driver to get a LED device.
+> This will be used by the led-backlight driver.
+>=20
+> Only OF version is implemented for now, and the behavior is similar to
+> PWM's of_pwm_get() and pwm_put().
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Signed-off-by: Jean-Jacques Hiblot <jjhiblot@ti.com>
 
---- Comment #27 from tempel.julian@gmail.com ---
-(In reply to Michel D=C3=A4nzer from comment #26)
-> It's a kernel issue, not an xf86-video-amdgpu one.
-Thanks for clarifying.
-I could also reproduce this issue with Doom OpenGL in Steam Play/Proton 4.9=
-. As
-soon as I move the mouse enough, there are frametime spikes (the red ones in
-the "total" graph):
-https://abload.de/img/screenshot_20190710_26sk21.png
 
-When I turn off pageflipping in xorg config, the red spikes there are gone:
-https://abload.de/img/screenshot_20190710_2k7k67.png
+> @@ -214,6 +215,55 @@ static int led_resume(struct device *dev)
+> =20
+>  static SIMPLE_DEV_PM_OPS(leds_class_dev_pm_ops, led_suspend, led_resume);
+> =20
+> +static int led_match_led_node(struct device *led_dev, const void *data)
+> +{
+> +	return led_dev->of_node =3D=3D data ? 1 : 0;
+> +}
 
-Luckily, the Vulkan renderer of the game doesn't show the issue. But it once
-again makes clear that this bug can affect a wide variety of software in Wi=
-ne.
+Get rid of the "? 1 : 0"?
+
+
+> +	led_node =3D of_parse_phandle(np, "leds", index);
+> +	if (!led_node)
+> +		return ERR_PTR(-ENOENT);
+> +	led_dev =3D class_find_device(leds_class, NULL, led_node,
+> +		led_match_led_node);
+> +	of_node_put(led_node);
+> +
+> +	if (!led_dev)
+> +		return ERR_PTR(-EPROBE_DEFER);
+
+Won't this defer probe "forever" when the driver is not available?
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
---15627857130.f12c5Bb.6809
-Date: Wed, 10 Jul 2019 19:08:33 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--zhXaljGHf11kAtnf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c27">Comme=
-nt # 27</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
- running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
-ulian&#64;gmail.com</a>
-</span></b>
-        <pre>(In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi?i=
-d=3D110659#c26">comment #26</a>)
-<span class=3D"quote">&gt; It's a kernel issue, not an xf86-video-amdgpu on=
-e.</span >
-Thanks for clarifying.
-I could also reproduce this issue with Doom OpenGL in Steam Play/Proton 4.9=
-. As
-soon as I move the mouse enough, there are frametime spikes (the red ones in
-the &quot;total&quot; graph):
-<a href=3D"https://abload.de/img/screenshot_20190710_26sk21.png">https://ab=
-load.de/img/screenshot_20190710_26sk21.png</a>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-When I turn off pageflipping in xorg config, the red spikes there are gone:
-<a href=3D"https://abload.de/img/screenshot_20190710_2k7k67.png">https://ab=
-load.de/img/screenshot_20190710_2k7k67.png</a>
+iEYEARECAAYFAl0mN/0ACgkQMOfwapXb+vLwOACgqRt52HSMt592gFClzK2iP415
+y24AnjCg6g9zaxvJONjBcQDCZzcUUDDj
+=tRvd
+-----END PGP SIGNATURE-----
 
-Luckily, the Vulkan renderer of the game doesn't show the issue. But it once
-again makes clear that this bug can affect a wide variety of software in Wi=
-ne.</pre>
-        </div>
-      </p>
+--zhXaljGHf11kAtnf--
 
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15627857130.f12c5Bb.6809--
-
---===============1610836450==
+--===============1718090986==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -169,4 +124,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1610836450==--
+--===============1718090986==--
