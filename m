@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484906430D
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:49:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B57F6432C
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Jul 2019 09:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2461E89E8C;
-	Wed, 10 Jul 2019 07:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3936E062;
+	Wed, 10 Jul 2019 07:58:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6234389E7B
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 07:49:01 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 053B220026;
- Wed, 10 Jul 2019 09:48:56 +0200 (CEST)
-Date: Wed, 10 Jul 2019 09:48:55 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 23/60] drm/panel: Add driver for the Toppology TD028TTEC1
- panel
-Message-ID: <20190710074855.GA6777@ravnborg.org>
-References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-20-laurent.pinchart@ideasonboard.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3E5B06E062
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Jul 2019 07:58:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 3B3D672167; Wed, 10 Jul 2019 07:58:08 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111099] Green video when playing a hevc video with vdpau
+Date: Wed, 10 Jul 2019 07:58:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111099-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190707181937.6250-20-laurent.pinchart@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=KX4lRGYkjnlhKIV4sLkA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,125 +52,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0950250077=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGF1cmVudC4KClRoaXMgZHJpdmVyIGxvb2tzIHZlcnkgZ29vZC4KCk9uIFN1biwgSnVsIDA3
-LCAyMDE5IGF0IDA5OjE5OjAwUE0gKzAzMDAsIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6Cj4gVGhp
-cyBwYW5lbCBpcyB1c2VkIG9uIHRoZSBPcGVuTW9rbyBOZW8gRnJlZVJ1bm5lciBhbmQgTmVvIDE5
-NzMuCkFkZCBpbmZvIGluIEtjb25maWcgaGVscCBlbnRyeT8KCj4gCj4gK2NvbmZpZyBEUk1fUEFO
-RUxfVFBPX1REMDI4VFRFQzEKPiArCXRyaXN0YXRlICJUUE8gVEQwMjhUVEVDMSBwYW5lbCBkcml2
-ZXIiCk1heWJlIHNwZWxsIG91dCBUUE8gbGlrZSAiVFBPIChUb3BvbG9neSkgVEQwMjguLi4iCgo+
-ICsJZGVwZW5kcyBvbiBPRiAmJiBTUEkKPiArCWRlcGVuZHMgb24gQkFDS0xJR0hUX0NMQVNTX0RF
-VklDRQo+ICsJaGVscAo+ICsJICBTYXkgWSBoZXJlIGlmIHlvdSB3YW50IHRvIGVuYWJsZSBzdXBw
-b3J0IGZvciBUUE8gVEQwMjhUVEVDMSA0ODB4NjQwCj4gKwkgIDIuOCIgcGFuZWwuCj4gKwo+ICBj
-b25maWcgRFJNX1BBTkVMX1RQT19UUEcxMTAKPiAgCXRyaXN0YXRlICJUUE8gVFBHIDgwMHg0MDAg
-cGFuZWwiCj4gIAlkZXBlbmRzIG9uIE9GICYmIFNQSSAmJiBHUElPTElCCj4gIG9iai0kKENPTkZJ
-R19EUk1fUEFORUxfVFJVTFlfTlQzNTU5N19XUVhHQSkgKz0gcGFuZWwtdHJ1bHktbnQzNTU5Ny5v
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC10cG8tdGQwMjh0dGVj
-MS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXRwby10ZDAyOHR0ZWMxLmMKPiBuZXcg
-ZmlsZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMC4uMDVhZjllYTYzMzljCj4gLS0t
-IC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC10cG8tdGQwMjh0
-dGVjMS5jCj4gKwo+ICtzdGF0aWMgaW50IGpidF9yZXRfd3JpdGVfMChzdHJ1Y3QgdGQwMjh0dGVj
-MV9kZXZpY2UgKmxjZCwgdTggcmVnLCBpbnQgKmVycikKPiArewo+ICsJc3RydWN0IHNwaV9kZXZp
-Y2UgKnNwaSA9IGxjZC0+c3BpOwo+ICsJdTE2IHR4X2J1ZiA9IEpCVF9DT01NQU5EIHwgcmVnOwo+
-ICsJaW50IHJldDsKPiArCj4gKwlpZiAoZXJyICYmICplcnIpCj4gKwkJcmV0dXJuICplcnI7Cj4g
-Kwo+ICsJcmV0ID0gc3BpX3dyaXRlKHNwaSwgKHU4ICopJnR4X2J1Ziwgc2l6ZW9mKHR4X2J1Zikp
-Owo+ICsJaWYgKHJldCA8IDApIHsKPiArCQlkZXZfZXJyKCZzcGktPmRldiwgIiVzOiBTUEkgd3Jp
-dGUgZmFpbGVkOiAlZFxuIiwgX19mdW5jX18sIHJldCk7Cj4gKwkJaWYgKGVycikKPiArCQkJKmVy
-ciA9IHJldDsKPiArCX0KPiArCj4gKwlyZXR1cm4gcmV0Owo+ICt9CkkgbGlrZSB0aGUgd2F5ICpl
-cnIgaXMgdXNlZCBoZXJlLgpTbyBpZiBvbmUgY2FsbCBmYWlscywgdGhlIHJlbWFpbmluZyBjYWxs
-cyBhcmUgaWdub3JlZC4KClRoZSB3YXkgdGhlIGNvZGUgaXMgd3JpdHRlbiBhYm92ZSBpdCB3aWxs
-IG9ubHkgd29yayBvbiBhIGxpdHRsZSBlbmRpYW4KYm94LCBhcyB0aGUgdmFsdWVzIGFyZSBzdG9y
-ZWQgaW4gYW4gdTE2IHRoYXQgaXMgbGF0ZXIgc2VlbiBhcyBhbiBhcnJheSBvZgpieXRlcy4KVGhp
-cyBpcyBhbHNvIHRydWUgZm9yIHRoZSByZW1haW5nIHNpbWlsYXIgZnVuY3Rpb25zIGFuZCBtYXkg
-YmUgT0suCldlIGRvIG5vdCBzZWUgYW55IHJlYWwgZGVtYW5kcyBmb3IgYmlnIGVuZGlhbiBhbnl3
-YXkuCgo+ICtzdGF0aWMgaW50IHRkMDI4dHRlYzFfZW5hYmxlKHN0cnVjdCBkcm1fcGFuZWwgKnBh
-bmVsKQo+ICt7Cj4gKwlzdHJ1Y3QgdGQwMjh0dGVjMV9kZXZpY2UgKmxjZCA9IHRvX3RkMDI4dHRl
-YzFfZGV2aWNlKHBhbmVsKTsKPiArCXVuc2lnbmVkIGludCBpOwo+ICsJaW50IHJldCA9IDA7Cj4g
-Kwo+ICsJLyogVGhyZWUgdGltZXMgY29tbWFuZCB6ZXJvICovCj4gKwlmb3IgKGkgPSAwOyBpIDwg
-MzsgKytpKSB7Cj4gKwkJamJ0X3JldF93cml0ZV8wKGxjZCwgMHgwMCwgJnJldCk7Cj4gKwkJdXNs
-ZWVwX3JhbmdlKDEwMDAsIDIwMDApOwo+ICsJfQo+ICsKPiArCWlmIChyZXQpCj4gKwkJcmV0dXJu
-IHJldDsKVGhpcyBpZiAocmV0KSBpcyByZWFsbHkgbm90IG5lZWRlZC4KSXQgc29tZWhvdyBzaG9y
-dC1jaXJjdWl0IHRoZSBwcmluY2lwbGUgdXNlZCBpbiB0aGUgcmVzdCBvZiB0aGUgZnVuY3Rpb24K
-aGVyZS4gQWxsIGpidF9yZWdfd3JpdGUoKSB3aWxsIGJlIG5vcCBpZiByZXQgIT0gMC4KCj4gKwo+
-ICsJLyogZGVlcCBzdGFuZGJ5IG91dCAqLwo+ICsJamJ0X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JF
-R19QT1dFUl9PTl9PRkYsIDB4MTcsICZyZXQpOwo+ICsKPiArCS8qIFJHQiBJL0Ygb24sIFJBTSB3
-cml0ZSBvZmYsIFFWR0EgdGhyb3VnaCwgU0lHQ09OIGVuYWJsZSAqLwo+ICsJamJ0X3JlZ193cml0
-ZV8xKGxjZCwgSkJUX1JFR19ESVNQTEFZX01PREUsIDB4ODAsICZyZXQpOwo+ICsKPiArCS8qIFF1
-YWQgbW9kZSBvZmYgKi8KPiArCWpidF9yZWdfd3JpdGVfMShsY2QsIEpCVF9SRUdfUVVBRF9SQVRF
-LCAweDAwLCAmcmV0KTsKPiArCj4gKwkvKiBBVkREIG9uLCBYVkREIG9uICovCj4gKwlqYnRfcmVn
-X3dyaXRlXzEobGNkLCBKQlRfUkVHX1BPV0VSX09OX09GRiwgMHgxNiwgJnJldCk7Cj4gKwo+ICsJ
-LyogT3V0cHV0IGNvbnRyb2wgKi8KPiArCWpidF9yZWdfd3JpdGVfMihsY2QsIEpCVF9SRUdfT1VU
-UFVUX0NPTlRST0wsIDB4ZmZmOSwgJnJldCk7Cj4gKwo+ICsJLyogU2xlZXAgbW9kZSBvZmYgKi8K
-PiArCWpidF9yZXRfd3JpdGVfMChsY2QsIEpCVF9SRUdfU0xFRVBfT1VULCAmcmV0KTsKPiArCj4g
-KwkvKiBhdCB0aGlzIHBvaW50IHdlIGhhdmUgbGlrZSA1MCUgZ3JleSAqLwo+ICsKPiArCS8qIGlu
-aXRpYWxpemUgcmVnaXN0ZXIgc2V0ICovCj4gKwlqYnRfcmVnX3dyaXRlXzEobGNkLCBKQlRfUkVH
-X0RJU1BMQVlfTU9ERTEsIDB4MDEsICZyZXQpOwo+ICsJamJ0X3JlZ193cml0ZV8xKGxjZCwgSkJU
-X1JFR19ESVNQTEFZX01PREUyLCAweDAwLCAmcmV0KTsKPiArCWpidF9yZWdfd3JpdGVfMShsY2Qs
-IEpCVF9SRUdfUkdCX0ZPUk1BVCwgMHg2MCwgJnJldCk7Cj4gKwlqYnRfcmVnX3dyaXRlXzEobGNk
-LCBKQlRfUkVHX0RSSVZFX1NZU1RFTSwgMHgxMCwgJnJldCk7Cj4gKwlqYnRfcmVnX3dyaXRlXzEo
-bGNkLCBKQlRfUkVHX0JPT1NURVJfT1AsIDB4NTYsICZyZXQpOwo+ICsJamJ0X3JlZ193cml0ZV8x
-KGxjZCwgSkJUX1JFR19CT09TVEVSX01PREUsIDB4MzMsICZyZXQpOwo+ICsJamJ0X3JlZ193cml0
-ZV8xKGxjZCwgSkJUX1JFR19CT09TVEVSX0ZSRVEsIDB4MTEsICZyZXQpOwo+ICsJamJ0X3JlZ193
-cml0ZV8xKGxjZCwgSkJUX1JFR19CT09TVEVSX0ZSRVEsIDB4MTEsICZyZXQpOwo+ICsJamJ0X3Jl
-Z193cml0ZV8xKGxjZCwgSkJUX1JFR19PUEFNUF9TWVNDTEssIDB4MDIsICZyZXQpOwo+ICsJamJ0
-X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JFR19WU0NfVk9MVEFHRSwgMHgyYiwgJnJldCk7Cj4gKwlq
-YnRfcmVnX3dyaXRlXzEobGNkLCBKQlRfUkVHX1ZDT01fVk9MVEFHRSwgMHg0MCwgJnJldCk7Cj4g
-KwlqYnRfcmVnX3dyaXRlXzEobGNkLCBKQlRfUkVHX0VYVF9ESVNQTCwgMHgwMywgJnJldCk7Cj4g
-KwlqYnRfcmVnX3dyaXRlXzEobGNkLCBKQlRfUkVHX0RDQ0xLX0RDRVYsIDB4MDQsICZyZXQpOwo+
-ICsJLyoKPiArCSAqIGRlZmF1bHQgb2YgMHgwMiBpbiBKQlRfUkVHX0FTV19TTEVXIHJlc3BvbnNp
-YmxlIGZvciA3Mkh6IHJlcXVpcmVtZW50Cj4gKwkgKiB0byBhdm9pZCByZWQgLyBibHVlIGZsaWNr
-ZXIKPiArCSAqLwo+ICsJamJ0X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JFR19BU1dfU0xFVywgMHgw
-NCwgJnJldCk7Cj4gKwlqYnRfcmVnX3dyaXRlXzEobGNkLCBKQlRfUkVHX0RVTU1ZX0RJU1BMQVks
-IDB4MDAsICZyZXQpOwo+ICsKPiArCWpidF9yZWdfd3JpdGVfMShsY2QsIEpCVF9SRUdfU0xFRVBf
-T1VUX0ZSX0EsIDB4MTEsICZyZXQpOwo+ICsJamJ0X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JFR19T
-TEVFUF9PVVRfRlJfQiwgMHgxMSwgJnJldCk7Cj4gKwlqYnRfcmVnX3dyaXRlXzEobGNkLCBKQlRf
-UkVHX1NMRUVQX09VVF9GUl9DLCAweDExLCAmcmV0KTsKPiArCWpidF9yZWdfd3JpdGVfMihsY2Qs
-IEpCVF9SRUdfU0xFRVBfSU5fTENDTlRfRCwgMHgyMDQwLCAmcmV0KTsKPiArCWpidF9yZWdfd3Jp
-dGVfMihsY2QsIEpCVF9SRUdfU0xFRVBfSU5fTENDTlRfRSwgMHg2MGMwLCAmcmV0KTsKPiArCWpi
-dF9yZWdfd3JpdGVfMihsY2QsIEpCVF9SRUdfU0xFRVBfSU5fTENDTlRfRiwgMHgxMDIwLCAmcmV0
-KTsKPiArCWpidF9yZWdfd3JpdGVfMihsY2QsIEpCVF9SRUdfU0xFRVBfSU5fTENDTlRfRywgMHg2
-MGMwLCAmcmV0KTsKPiArCj4gKwlqYnRfcmVnX3dyaXRlXzIobGNkLCBKQlRfUkVHX0dBTU1BMV9G
-SU5FXzEsIDB4NTUzMywgJnJldCk7Cj4gKwlqYnRfcmVnX3dyaXRlXzEobGNkLCBKQlRfUkVHX0dB
-TU1BMV9GSU5FXzIsIDB4MDAsICZyZXQpOwo+ICsJamJ0X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JF
-R19HQU1NQTFfSU5DTElOQVRJT04sIDB4MDAsICZyZXQpOwo+ICsJamJ0X3JlZ193cml0ZV8xKGxj
-ZCwgSkJUX1JFR19HQU1NQTFfQkxVRV9PRkZTRVQsIDB4MDAsICZyZXQpOwo+ICsKPiArCWpidF9y
-ZWdfd3JpdGVfMihsY2QsIEpCVF9SRUdfSENMT0NLX1ZHQSwgMHgxZjAsICZyZXQpOwo+ICsJamJ0
-X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JFR19CTEFOS19DT05UUk9MLCAweDAyLCAmcmV0KTsKPiAr
-CWpidF9yZWdfd3JpdGVfMihsY2QsIEpCVF9SRUdfQkxBTktfVEhfVFYsIDB4MDgwNCwgJnJldCk7
-Cj4gKwo+ICsJamJ0X3JlZ193cml0ZV8xKGxjZCwgSkJUX1JFR19DS1ZfT05fT0ZGLCAweDAxLCAm
-cmV0KTsKPiArCWpidF9yZWdfd3JpdGVfMihsY2QsIEpCVF9SRUdfQ0tWXzFfMiwgMHgwMDAwLCAm
-cmV0KTsKPiArCj4gKwlqYnRfcmVnX3dyaXRlXzIobGNkLCBKQlRfUkVHX09FVl9USU1JTkcsIDB4
-MGQwZSwgJnJldCk7Cj4gKwlqYnRfcmVnX3dyaXRlXzIobGNkLCBKQlRfUkVHX0FTV19USU1JTkdf
-MSwgMHgxMWE0LCAmcmV0KTsKPiArCWpidF9yZWdfd3JpdGVfMShsY2QsIEpCVF9SRUdfQVNXX1RJ
-TUlOR18yLCAweDBlLCAmcmV0KTsKPiArCj4gKwlqYnRfcmV0X3dyaXRlXzAobGNkLCBKQlRfUkVH
-X0RJU1BMQVlfT04sICZyZXQpOwo+ICsKPiArCWlmIChyZXQpCj4gKwkJcmV0dXJuIHJldDsKPiAr
-Cj4gKwliYWNrbGlnaHRfZW5hYmxlKGxjZC0+YmFja2xpZ2h0KTsKPiArCj4gKwlyZXR1cm4gMDsK
-PiArfQo+ICsKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHRkMDI4dHRl
-YzFfbW9kZSA9IHsKPiArCS5jbG9jayA9IDIyMTUzLAo+ICsJLmhkaXNwbGF5ID0gNDgwLAo+ICsJ
-LmhzeW5jX3N0YXJ0ID0gNDgwICsgMjQsCj4gKwkuaHN5bmNfZW5kID0gNDgwICsgMjQgKyA4LAo+
-ICsJLmh0b3RhbCA9IDQ4MCArIDI0ICsgOCArIDgsCj4gKwkudmRpc3BsYXkgPSA2NDAsCj4gKwku
-dnN5bmNfc3RhcnQgPSA2NDAgKyA0LAo+ICsJLnZzeW5jX2VuZCA9IDY0MCArIDQgKyAyLAo+ICsJ
-LnZ0b3RhbCA9IDY0MCArIDQgKyAyICsgMiwKPiArCS52cmVmcmVzaCA9IDY2LAo+ICsJLnR5cGUg
-PSBEUk1fTU9ERV9UWVBFX0RSSVZFUiB8IERSTV9NT0RFX1RZUEVfUFJFRkVSUkVELAo+ICsJLmZs
-YWdzID0gRFJNX01PREVfRkxBR19OSFNZTkMgfCBEUk1fTU9ERV9GTEFHX05WU1lOQywKPiArfTsK
-QWRkIHdpZHRoX21tICsgaGVpZ2h0X21tLgoKPiArc3RhdGljIGludCB0ZDAyOHR0ZWMxX3JlbW92
-ZShzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpKQo+ICt7Cj4gKwlzdHJ1Y3QgdGQwMjh0dGVjMV9kZXZp
-Y2UgKmxjZCA9IHNwaV9nZXRfZHJ2ZGF0YShzcGkpOwo+ICsKPiArCWRybV9wYW5lbF9yZW1vdmUo
-JmxjZC0+cGFuZWwpOwo+ICsJdGQwMjh0dGVjMV9kaXNhYmxlKCZsY2QtPnBhbmVsKTsKVXNlIGRy
-bV9wYW5lbF9kaXNhYmxlKCk7Cgo+ICsKPiArCXJldHVybiAwOwo+ICt9Cj4gKwo+ICtzdGF0aWMg
-Y29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCB0ZDAyOHR0ZWMxX29mX21hdGNoW10gPSB7Cj4gKwl7
-IC5jb21wYXRpYmxlID0gInRwbyx0ZDAyOHR0ZWMxIiwgfSwKPiArCS8qIERUIGJhY2t3YXJkIGNv
-bXBhdGliaWxpdHkuICovCj4gKwl7IC5jb21wYXRpYmxlID0gInRvcHBvbHksdGQwMjh0dGVjMSIs
-IH0sCj4gKwl7fSwKeyAvKiBzZW50aW5lbCAqLyB9LAoKV2l0aCB0aGUgYWJvdmUgbml0cyBmaXhl
-ZC9jb25zaWRlcmVkOgpSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3Jn
-PgoKCVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0950250077==
+Content-Type: multipart/alternative; boundary="15627454881.1f6c.7149"
+Content-Transfer-Encoding: 7bit
+
+
+--15627454881.1f6c.7149
+Date: Wed, 10 Jul 2019 07:58:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111099
+
+            Bug ID: 111099
+           Summary: Green video when playing a hevc video with vdpau
+           Product: Mesa
+           Version: git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: pierre-eric.pelloux-prayer@amd.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+On AMD hardware (at least Polaris and Raven), playing some videos with vdpau
+can result in a green screen.
+
+Steps to reproduce:
+- download https://www.libde265.org/hevc-bitstreams/bbb-1920x1080-cfg02.mkv
+- use x11 (ie not wayland)
+- mpv --vo=3Dopengl --hwdec=3Dvdpau bbb-1920x1080-cfg02.mkv
+
+This is a regression that started with commit:
+cb446dc0fa5c68f681108f4613560543aa4cf553 (from MR
+https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1226)
+
+Reverting the commits from this MR on master fixes the issue.
+
+AFAIU the problem is this line:
+
+   /* do we have different screen objects ? */
+   if (res->screen !=3D st->pipe->screen) {
+      _mesa_error(ctx, GL_INVALID_OPERATION, "VDPAUMapSurfacesNV")
+
+Before this MR the screen objects were identical but now there are differen=
+t.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15627454881.1f6c.7149
+Date: Wed, 10 Jul 2019 07:58:08 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Green video when playing a hevc video with vdpau"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111099">111099</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Green video when playing a hevc video with vdpau
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>pierre-eric.pelloux-prayer&#64;amd.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>On AMD hardware (at least Polaris and Raven), playing some vid=
+eos with vdpau
+can result in a green screen.
+
+Steps to reproduce:
+- download <a href=3D"https://www.libde265.org/hevc-bitstreams/bbb-1920x108=
+0-cfg02.mkv">https://www.libde265.org/hevc-bitstreams/bbb-1920x1080-cfg02.m=
+kv</a>
+- use x11 (ie not wayland)
+- mpv --vo=3Dopengl --hwdec=3Dvdpau bbb-1920x1080-cfg02.mkv
+
+This is a regression that started with commit:
+cb446dc0fa5c68f681108f4613560543aa4cf553 (from MR
+<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1226">ht=
+tps://gitlab.freedesktop.org/mesa/mesa/merge_requests/1226</a>)
+
+Reverting the commits from this MR on master fixes the issue.
+
+AFAIU the problem is this line:
+
+   /* do we have different screen objects ? */
+   if (res-&gt;screen !=3D st-&gt;pipe-&gt;screen) {
+      _mesa_error(ctx, GL_INVALID_OPERATION, &quot;VDPAUMapSurfacesNV&quot;)
+
+Before this MR the screen objects were identical but now there are differen=
+t.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15627454881.1f6c.7149--
+
+--===============0950250077==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0950250077==--
