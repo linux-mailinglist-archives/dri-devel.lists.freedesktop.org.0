@@ -2,50 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732E76595C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2019 16:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C371659EA
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2019 17:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FFEB6E260;
-	Thu, 11 Jul 2019 14:50:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AACBB6E142;
+	Thu, 11 Jul 2019 15:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 393 seconds by postgrey-1.36 at gabe;
- Thu, 11 Jul 2019 14:50:49 UTC
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [172.104.155.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF4006E260
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 14:50:49 +0000 (UTC)
-Received: from [217.140.106.52] (helo=fitzroy.sirena.org.uk)
- by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.co.uk>)
- id 1hlaPG-0002V8-5h; Thu, 11 Jul 2019 14:50:46 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
- id 5FEC5D02DA8; Thu, 11 Jul 2019 15:50:45 +0100 (BST)
-Date: Thu, 11 Jul 2019 15:50:45 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH 1/2] regmap: Add DSI bus support
-Message-ID: <20190711145045.GI14859@sirena.co.uk>
-References: <20190703214326.41269-1-jeffrey.l.hugo@gmail.com>
- <20190703214512.41319-1-jeffrey.l.hugo@gmail.com>
- <CGME20190706010615epcas2p343102f858a7fadaf6785f7ece105f1a7@epcas2p3.samsung.com>
- <20190706010604.GG20625@sirena.org.uk>
- <64ca3a74-374f-d4f3-bee6-a607cc5c0fc5@samsung.com>
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5E6F6E142
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 15:04:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 6BEB8FB03;
+ Thu, 11 Jul 2019 17:04:05 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vble_Z4Bb27E; Thu, 11 Jul 2019 17:04:04 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id D10E042CB4; Thu, 11 Jul 2019 17:04:03 +0200 (CEST)
+Date: Thu, 11 Jul 2019 17:04:03 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Robert Chiras <robert.chiras@nxp.com>
+Subject: Re: [PATCH 00/10] Improvements and fixes for mxsfb DRM driver
+Message-ID: <20190711150403.GB23195@bogon.m.sigxcpu.org>
+References: <1561555938-21595-1-git-send-email-robert.chiras@nxp.com>
 MIME-Version: 1.0
-In-Reply-To: <64ca3a74-374f-d4f3-bee6-a607cc5c0fc5@samsung.com>
-X-Cookie: Visit beautiful Vergas, Minnesota.
+Content-Disposition: inline
+In-Reply-To: <1561555938-21595-1-git-send-email-robert.chiras@nxp.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Gsyd3BVYBKHHuqTtU8Si5TwOMYs0YHflhumMkSpsWz8=; b=abIjBhdhQHG5fF3QMgDo3bBn0
- gsx4nTm6PFNW5T3bhzNJH8WC8W9MjCoWKhX/NTHqGE2jgLt4rues1e3vXtg3TZlaEwIQI0893S9tC
- TA65kPIByTxyxaOQvkLNOjMUmI7sSlkKP7xjotTj9M9IM63CCWB19DcBWvUSdtNsXK1/E=;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,71 +43,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, bjorn.andersson@linaro.org,
- Laurent.pinchart@ideasonboard.com
-Content-Type: multipart/mixed; boundary="===============0126487852=="
+Cc: Marek Vasut <marex@denx.de>, Mark Rutland <mark.rutland@arm.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0126487852==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="k9xkV0rc9XGsukaG"
-Content-Disposition: inline
-
-
---k9xkV0rc9XGsukaG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Jul 11, 2019 at 03:11:56PM +0200, Andrzej Hajda wrote:
-
-> 1. DSI protocol defines actually more than 30 types of transactions[1],
-> but this patchset implements only few of them (dsi generic write/read
-> family). Is it possible to implement multiple types of transactions in
-> regmap?
-
-You can, there's a couple of different ways depending on how
-exactly things are done.
-
-> 3. DSI devices are no MFDs so regmap abstraction has no big value added
-> (correct me, if there are other significant benefits).
-
-There's a few extra bits even if you're not using the marshalling
-code to get things onto the bus - the main ones are the register
-cache support (which people often use for simpler suspend/resume
-support) and the debug and trace facilities (things like
-tracepoints and debugfs for dumping the register map).  There's
-no real connection to MFDs, I'd say the majority of users are not
-MFDs.
-
---k9xkV0rc9XGsukaG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl0nTMQACgkQJNaLcl1U
-h9COWwf/Sq+8m5v5HZV9s4Y2bMQej7xG12IRt++iYd71CPndpoCN0S7TYrkCXSA4
-WlzXW7E6jgYQEkk1JB1NDuwsgknq28mrWy+K/qCYRCF+V4xoRyKZM30gvXjt+2Jk
-bgCYj9df40V+IgPwvtwY6gmry8XdyGT0Ps9w2kHmO/mvcQJja6GsJQHZ/xNBdPDm
-DympAQuAa/c7dEh/147U1OiWAnLenr2aVD4JzztuVQzphIosmjd8Q9HCKUDwAubq
-xcUOLg3nkJ5S7tEtLiTKnQcUjTvpCrQA8n/6/rMOUv8FKAjHZxiL1xBw22j4ueoP
-uP8ZYMKLBefiJQen3owvVaLCUFHAfg==
-=NDQM
------END PGP SIGNATURE-----
-
---k9xkV0rc9XGsukaG--
-
---===============0126487852==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0126487852==--
+SGkgUm9iZXJ0LApPbiBXZWQsIEp1biAyNiwgMjAxOSBhdCAwNDozMjowOFBNICswMzAwLCBSb2Jl
+cnQgQ2hpcmFzIHdyb3RlOgo+IFRoaXMgcGF0Y2gtc2V0IGltcHJvdmVzIHRoZSB1c2Ugb2YgZUxD
+RElGIGJsb2NrIG9uIGlNWCA4IFNvQ3MgKGxpa2UgOE1RLCA4TU0KPiBhbmQgOFFYUCkuIEZvbGxv
+d2luZywgYXJlIHRoZSBuZXcgZmVhdHVyZXMgYWRkZWQgYW5kIGZpeGVzIGZyb20gdGhpcwo+IHBh
+dGNoLXNldDoKPiAKPiAxLiBBZGQgc3VwcG9ydCBmb3IgZHJtX2JyaWRnZQo+IE9uIDhNUSBhbmQg
+OE1NLCB0aGUgTENESUYgYmxvY2sgaXMgbm90IGRpcmVjdGx5IGNvbm5lY3RlZCB0byBhIHBhcmFs
+bGVsCj4gZGlzcGxheSBjb25uZWN0b3IsIHdoZXJlIGFuIExDRCBwYW5lbCBjYW4gYmUgYXR0YWNo
+ZWQsIGJ1dCBpbnN0ZWFkIGl0IGlzCj4gY29ubmVjdGVkIHRvIERTSSBjb250cm9sbGVyLiBTaW5j
+ZSB0aGlzIERTSSBzdGFuZHMgYmV0d2VlbiB0aGUgZGlzcGxheQo+IGNvbnRyb2xsZXIgKGVMQ0RJ
+RikgYW5kIHRoZSBwaHlzaWNhbCBjb25uZWN0b3IsIHRoZSBEU0kgY2FuIGJlIGltcGxlbWVudGVk
+Cj4gYXMgYSBEUk0gYnJpZGdlLiBTbywgaW4gb3JkZXIgdG8gYmUgYWJsZSB0byBjb25uZWN0IHRo
+ZSBteHNmYiBkcml2ZXIgdG8KPiB0aGUgRFNJIGRyaXZlciwgdGhlIHN1cHBvcnQgZm9yIGEgZHJt
+X2JyaWRnZSB3YXMgbmVlZGVkIGluIG14c2ZiIERSTQo+IGRyaXZlciAodGhlIGFjdHVhbCBkcml2
+ZXIgZm9yIHRoZSBlTENESUYgYmxvY2spLgoKU28gSSB3YW50ZWQgdG8gdGVzdCB0aGlzIGJ1dCB3
+aXRoIGJvdGggbXkgc29tZXdoYXQgY2xlYW5lZCB1cCBud2wKZHJpdmVywrkgYW5kIHRoZSBud2wg
+ZHJpdmVyIGZvcndhcmQgcG9ydGVkIGZyb20gdGhlIG54cCB2ZW5kb3IgdHJlZSBJJ20KbG9va2lu
+ZyBhdCBhIGJsYWNrIHNjcmVlbiB3aXRoIGN1cnJlbnQgbWFpbmxpbmUgLSB3aGlsZSBteSBkY3Nz
+IGZvcndhcmQKcG9ydCBnaXZlcyBtZSBuaWNlIG91dHB1dCBvbiBtaXBpIGRzaS4gRG8geW91IGhh
+dmUgYSB0cmVlIHRoYXQgdXNlcyBtaXBpCmRzaSBvbiBpbXg4bXEgd2hlcmUgSSBjb3VsZCBsb29r
+IGF0IHRvIGNoZWNrIGZvciBkaWZmZXJlbmNlcz8KCkNoZWVycywKIC0tIEd1aWRvCgo+IAo+IDIu
+IEFkZCBzdXBwb3J0IGZvciBhZGRpdGlvbmFsIHBpeGVsIGZvcm1hdHMKPiBTb21lIG9mIHRoZSBw
+aXhlbCBmb3JtYXRzIG5lZWRlZCBieSBBbmRyb2lkIHdlcmUgbm90IGltcGxlbWVudGVkIGluIHRo
+aXMKPiBkcml2ZXIsIGJ1dCB0aGV5IHdlcmUgYWN0dWFsbHkgc3VwcG9ydGVkLiBTbywgYWRkIHN1
+cHBvcnQgZm9yIHRoZW0uCj4gCj4gMy4gQWRkIHN1cHBvcnQgZm9yIGhvcml6b250YWwgc3RyaWRl
+Cj4gSGF2aW5nIHN1cHBvcnQgZm9yIGhvcml6b250YWwgc3RyaWRlIGFsbG93cyB0aGUgdXNlIG9m
+IGVMQ0RJRiB3aXRoIGEgR1BVCj4gKGZvciBleGFtcGxlKSB0aGF0IGNhbiBvbmx5IG91dHB1dCBy
+ZXNvbHV0aW9uIHNpemVzIG11bHRpcGxlIG9mIGEgcG93ZXIgb2YKPiA4LiBGb3IgZXhhbXBsZSwg
+MTA4MCBpcyBub3QgYSBwb3dlciBvZiAxNiwgc28gaW4gb3JkZXIgdG8gc3VwcG9ydCAxOTIweDEw
+ODAKPiBvdXRwdXQgZnJvbSBHUFVzIHRoYXQgY2FuIHByb2R1Y2UgbGluZWFyIGJ1ZmZlcnMgb25s
+eSBpbiBzaXplcyBtdWx0aXBsZSB0byAxNiwKPiB0aGlzIGZlYXR1cmUgaXMgbmVlZGVkLgo+IAo+
+IDMuIEZldyBtaW5vciBmZWF0dXJlcyBhbmQgYnVnLWZpeGluZwo+IFRoZSBhZGRpdGlvbiBvZiBt
+YXgtcmVzIERUIHByb3BlcnR5IHdhcyBhY3R1YWxseSBuZWVkZWQgaW4gb3JkZXIgdG8gbGltaXQK
+PiB0aGUgYmFuZHdpZHRoIHVzYWdlIG9mIHRoZSBlTENESUYgYmxvY2suIFRoaXMgaXMgbmVlZCBv
+biBzeXN0ZW1zIHdoZXJlCj4gbXVsdGlwbGUgZGlzcGxheSBjb250cm9sbGVycyBhcmUgcHJlc2Vu
+ZCBhbmQgdGhlIG1lbW9yeSBiYW5kd2lkdGggaXMgbm90Cj4gZW5vdWdoIHRvIGhhbmRsZSBhbGwg
+b2YgdGhlbSBhdCBtYXhpbXVtIGNhcGFjaXR5IChsaWtlIGl0IGlzIHRoZSBjYXNlIG9uCj4gOE1R
+LCB3aGVyZSB0aGVyZSBhcmUgdHdvIGRpc3BsYXkgY29udHJvbGxlcnM6IERDU1MgYW5kIGVMQ0RJ
+RikuCj4gVGhlIHJlc3Qgb2YgdGhlIHBhdGNoZXMgYXJlIGJ1Zy1maXhlcy4KPiAKPiBNaXJlbGEg
+UmFidWxlYSAoMSk6Cj4gICBkcm0vbXhzZmI6IFNpZ25hbCBtb2RlIGNoYW5nZWQgd2hlbiBicHAg
+Y2hhbmdlZAo+IAo+IFJvYmVydCBDaGlyYXMgKDkpOgo+ICAgZHJtL214c2ZiOiBVcGRhdGUgbXhz
+ZmIgdG8gc3VwcG9ydCBhIGJyaWRnZQo+ICAgZHJtL214c2ZiOiBVcGRhdGUgbXhzZmIgd2l0aCBh
+ZGRpdGlvbmFsIHBpeGVsIGZvcm1hdHMKPiAgIGRybS9teHNmYjogRml4IHRoZSB2YmxhbmsgZXZl
+bnRzCj4gICBkdC1iaW5kaW5nczogZGlzcGxheTogQWRkIG1heC1yZXMgcHJvcGVydHkgZm9yIG14
+c2ZiCj4gICBkcm0vbXhzZmI6IEFkZCBtYXgtcmVzIHByb3BlcnR5IGZvciBNWFNGQgo+ICAgZHJt
+L214c2ZiOiBVcGRhdGUgbXhzZmIgdG8gc3VwcG9ydCBMQ0QgcmVzZXQKPiAgIGRybS9teHNmYjog
+SW1wcm92ZSB0aGUgYXhpIGNsb2NrIHVzYWdlCj4gICBkcm0vbXhzZmI6IENsZWFyIE9VVFNUQU5E
+SU5HX1JFUVMgYml0cwo+ICAgZHJtL214c2ZiOiBBZGQgc3VwcG9ydCBmb3IgaG9yaXpvbnRhbCBz
+dHJpZGUKPiAKPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9teHNmYi50eHQgICAg
+ICAgICAgfCAgIDYgKwo+ICBkcml2ZXJzL2dwdS9kcm0vbXhzZmIvbXhzZmJfY3J0Yy5jICAgICAg
+ICAgICAgICAgICB8IDI5MCArKysrKysrKysrKysrKysrKystLS0KPiAgZHJpdmVycy9ncHUvZHJt
+L214c2ZiL214c2ZiX2Rydi5jICAgICAgICAgICAgICAgICAgfCAxODkgKysrKysrKysrKystLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX2Rydi5oICAgICAgICAgICAgICAgICAgfCAg
+MTAgKy0KPiAgZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX291dC5jICAgICAgICAgICAgICAg
+ICAgfCAgMjYgKy0KPiAgZHJpdmVycy9ncHUvZHJtL214c2ZiL214c2ZiX3JlZ3MuaCAgICAgICAg
+ICAgICAgICAgfCAxMjggKysrKysrLS0tCj4gIDYgZmlsZXMgY2hhbmdlZCwgNTMxIGluc2VydGlv
+bnMoKyksIDExOCBkZWxldGlvbnMoLSkKPiAKPiAtLSAKPiAyLjcuNAo+IAo+IAo+IF9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gbGludXgtYXJtLWtlcm5l
+bCBtYWlsaW5nIGxpc3QKPiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBo
+dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWFybS1rZXJu
+ZWwKPiAKCsK5IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZl
+bC8yMDE5LU1hcmNoLzIwOTY4NS5odG1sCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
