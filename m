@@ -2,43 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A447B66115
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2019 23:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2200066119
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2019 23:27:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A47DC6E296;
-	Thu, 11 Jul 2019 21:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DBF6E26F;
+	Thu, 11 Jul 2019 21:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 751CE6E299
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 21:25:23 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7171A72167; Thu, 11 Jul 2019 21:25:23 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110783] Mesa 19.1 rc crashing MPV with VAAPI
-Date: Thu, 11 Jul 2019 21:25:23 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/r600
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: iive@yahoo.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110783-502-OlO8qpWx0R@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110783-502@http.bugs.freedesktop.org/>
-References: <bug-110783-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9CDB6E26F
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 21:27:49 +0000 (UTC)
+Received: from ip5f5a6320.dynamic.kabel-deutschland.de ([95.90.99.32]
+ helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.89) (envelope-from <heiko@sntech.de>)
+ id 1hlgbR-0006mP-RG; Thu, 11 Jul 2019 23:27:45 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH v5 6/7] ARM: dts: rockchip: Specify
+ rk3288-veyron-chromebook's display timings
+Date: Thu, 11 Jul 2019 23:27:44 +0200
+Message-ID: <4744731.Gbjux09qzx@diego>
+In-Reply-To: <20190401171724.215780-7-dianders@chromium.org>
+References: <20190401171724.215780-1-dianders@chromium.org>
+ <20190401171724.215780-7-dianders@chromium.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,85 +39,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1012620229=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Thierry Reding <thierry.reding@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Enric =?ISO-8859-1?Q?Balletb=F2?= <enric.balletbo@collabora.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>, mka@chromium.org,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1012620229==
-Content-Type: multipart/alternative; boundary="15628803237.6F05D.19096"
-Content-Transfer-Encoding: 7bit
-
-
---15628803237.6F05D.19096
-Date: Thu, 11 Jul 2019 21:25:23 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110783
-
---- Comment #23 from iive@yahoo.com ---
-I can confirm that mesa-19.1.2 works for me too.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15628803237.6F05D.19096
-Date: Thu, 11 Jul 2019 21:25:23 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783#c23">Comme=
-nt # 23</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Mesa 19.1 rc crashing MPV with VAAPI"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110783">bug 11078=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-iive&#64;yahoo.com" title=3D"iive&#64;yahoo.com">iive&#64;yahoo.com</a>
-</span></b>
-        <pre>I can confirm that mesa-19.1.2 works for me too.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15628803237.6F05D.19096--
-
---===============1012620229==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1012620229==--
+QW0gTW9udGFnLCAxLiBBcHJpbCAyMDE5LCAxOToxNzoyMyBDRVNUIHNjaHJpZWIgRG91Z2xhcyBB
+bmRlcnNvbjoKPiBMZXQncyBkb2N1bWVudCB0aGUgZGlzcGxheSB0aW1pbmdzIHRoYXQgbW9zdCB2
+ZXlyb24gY2hyb21lYm9va3MgKGxpa2UKPiBqYXEsIGplcnJ5LCBtaWdodHksIHNwZWVkeSkgaGF2
+ZSBiZWVuIHVzaW5nIG91dCBpbiB0aGUgZmllbGQuICBUaGlzCj4gdXNlcyB0aGUgc3RhbmRhcmQg
+YmxhbmtpbmdzIGJ1dCBhIHNsaWdodGx5IHNsb3dlciBjbG9jayByYXRlLCB0aHVzCj4gZ2V0dGlu
+ZyBhIHJlZnJlc2ggcmF0ZSA1OC4zIEh6Lgo+IAo+IE5PVEU6IHRoaXMgd29uJ3QgcmVhbGx5IGRv
+IGFueXRoaW5nIGV4Y2VwdCBjYXVzZSBEUk0gdG8gcHJvcGVybHkKPiByZXBvcnQgdGhlIHJlZnJl
+c2ggcmF0ZSBzaW5jZSB2b3BfY3J0Y19tb2RlX2ZpeHVwKCkgd2FzIHJvdW5kaW5nIHRoZQo+IHBp
+eGVsIGNsb2NrIHRvIDc0LjI1IE1IeiBhbnl3YXkuICBBcHBhcmVudGx5IHRoZSBhZGp1c3RlZCBy
+YXRlIGlzbid0Cj4gZXhwb3NlZCB0byB1c2Vyc3BhY2Ugc28gaXQncyBpbXBvcnRhbnQgdGhhdCB0
+aGUgcmF0ZSB3ZSdyZSB0cnlpbmcgdG8KPiBhY2hpZXZlIGlzIG1vc3RseSByaWdodC4KPiAKPiBG
+b3IgdGhlIGRvd25zdHJlYW0ga2VybmVsIGNoYW5nZSByZWxhdGVkIHRvIHRoaXMgc2VlIFNlZQo+
+IGh0dHBzOi8vY3JyZXYuY29tL2MvMzI0NTU4Lgo+IAo+IE5PVEU6IG1pbm5pZSB1c2VzIGEgZGlm
+ZmVyZW50IHBhbmVsIHdpbGwgYmUgZml4ZWQgdXAgaW4gYSBmdXR1cmUKPiBwYXRjaCwgc28gZm9y
+IG5vdyB3ZSdsbCBqdXN0IGRlbGV0ZSB0aGUgcGFuZWwgdGltaW5ncyB0aGVyZS4KPiAKPiBTaWdu
+ZWQtb2ZmLWJ5OiBEb3VnbGFzIEFuZGVyc29uIDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+CgphcHBs
+aWVkIGZvciA1LjMKClRoYW5rcwpIZWlrbwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
