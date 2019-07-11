@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E677965B98
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2019 18:35:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC7F65DD4
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Jul 2019 18:49:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 727B06E245;
-	Thu, 11 Jul 2019 16:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2B226E264;
+	Thu, 11 Jul 2019 16:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 57DA86E245
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 16:35:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 54D4972167; Thu, 11 Jul 2019 16:35:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111111] Corrupted output with vaapi 10 bit -> 8 bit transcoding
- on AMD RAVEN
-Date: Thu, 11 Jul 2019 16:35:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: gregor@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-111111-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5158C6E264
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 16:49:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (softbank126163157105.bbtec.net
+ [126.163.157.105])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9128F31C;
+ Thu, 11 Jul 2019 18:49:35 +0200 (CEST)
+Date: Thu, 11 Jul 2019 19:49:08 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: use dev name for debugfs
+Message-ID: <20190711164908.GO5247@pendragon.ideasonboard.com>
+References: <20190706203105.7810-1-robdclark@gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190706203105.7810-1-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1562863776;
+ bh=LoR2g2XS7GgKN9XWxIyf9Qtnhr3+f3A2ozL+HHxPIyo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QVwtxWHK5+cwWwak52s3iKytaDhY6/SeGYNM/YrTlepIBisZT4ki2OESwB5BrjmZB
+ J4Doki+FWESXM5ScBEol/URQP9HFIMIAgMZrq3FwTYaEEv57iHhtxPAXKjB0itFkkq
+ qY2PoKLZYCa7baYnCUnnem7b/TaIT4WYkey8EqBc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,280 +46,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0000390058=="
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0000390058==
-Content-Type: multipart/alternative; boundary="15628629151.9B1c0eAf1.7369"
-Content-Transfer-Encoding: 7bit
-
-
---15628629151.9B1c0eAf1.7369
-Date: Thu, 11 Jul 2019 16:35:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111111
-
-            Bug ID: 111111
-           Summary: Corrupted output with vaapi 10 bit -> 8 bit
-                    transcoding on AMD RAVEN
-           Product: Mesa
-           Version: git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: gregor@outlook.com
-        QA Contact: dri-devel@lists.freedesktop.org
-
-Initially, I've filled ffmpeg bug since vaapi transcoding 10 bit > 8 bit was
-just failing, someone refereed to a "separated field of surfaces bug" which=
- I
-couldn't find and offered patch which fixed the initial issue here:
-https://trac.ffmpeg.org/ticket/7764
-
-After applying patch transcoding goes through with significant speed increa=
-se
-[from 2x to 7x] but the resulting output has flashing green overlay/glitch =
-in
-upper half of the video.=20
-
-E.g from command"
-ffmpeg -threads 4 \
--init_hw_device vaapi=3Damd:/dev/dri/renderD128 -hwaccel vaapi
--hwaccel_output_format vaapi -hwaccel_device amd -filter_hw_device amd \
--i trk.mkv \
--vf "scale_vaapi=3Dformat=3Dnv12,hwupload" \
--c:v h264_vaapi  -profile:v 578 \=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20
--c:a copy -bf 0 -c:s copy \
--f mpegts -y plop.mkv
-
-Input is any 10 bit hevc video.
-
-Vainfo:libva info: VA-API version 1.6.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib64/va/drivers/radeonsi_drv_video.so
-libva info: Found init function __vaDriverInit_1_6
-libva info: va_openDriver() returns 0
-vainfo: VA-API version: 1.6 (libva 2.6.0.pre1)
-vainfo: Driver version: Mesa Gallium driver 19.2.0-devel for AMD RAVEN (DRM
-3.32.0, 5.2.0-gentoo, LLVM 8.0.0)
-vainfo: Supported profile and entrypoints
-      VAProfileMPEG2Simple            : VAEntrypointVLD
-      VAProfileMPEG2Main              : VAEntrypointVLD
-      VAProfileVC1Simple              : VAEntrypointVLD
-      VAProfileVC1Main                : VAEntrypointVLD
-      VAProfileVC1Advanced            : VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointEncSlice
-      VAProfileH264Main               : VAEntrypointVLD
-      VAProfileH264Main               : VAEntrypointEncSlice
-      VAProfileH264High               : VAEntrypointVLD
-      VAProfileH264High               : VAEntrypointEncSlice
-      VAProfileHEVCMain               : VAEntrypointVLD
-      VAProfileHEVCMain               : VAEntrypointEncSlice
-      VAProfileHEVCMain10             : VAEntrypointVLD
-      VAProfileJPEGBaseline           : VAEntrypointVLD
-      VAProfileVP9Profile0            : VAEntrypointVLD
-      VAProfileVP9Profile2            : VAEntrypointVLD
-      VAProfileNone                   : VAEntrypointVideoProc
-
-mesa git
-AMD RAVEN APU 2200G
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15628629151.9B1c0eAf1.7369
-Date: Thu, 11 Jul 2019 16:35:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Corrupted output with vaapi 10 bit -&gt; 8 bit transcodin=
-g on AMD RAVEN"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111111">111111</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Corrupted output with vaapi 10 bit -&gt; 8 bit transcoding on=
- AMD RAVEN
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>gregor&#64;outlook.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Initially, I've filled ffmpeg bug since vaapi transcoding 10 b=
-it &gt; 8 bit was
-just failing, someone refereed to a &quot;separated field of surfaces bug&q=
-uot; which I
-couldn't find and offered patch which fixed the initial issue here:
-<a href=3D"https://trac.ffmpeg.org/ticket/7764">https://trac.ffmpeg.org/tic=
-ket/7764</a>
-
-After applying patch transcoding goes through with significant speed increa=
-se
-[from 2x to 7x] but the resulting output has flashing green overlay/glitch =
-in
-upper half of the video.=20
-
-E.g from command&quot;
-ffmpeg -threads 4 \
--init_hw_device vaapi=3Damd:/dev/dri/renderD128 -hwaccel vaapi
--hwaccel_output_format vaapi -hwaccel_device amd -filter_hw_device amd \
--i trk.mkv \
--vf &quot;scale_vaapi=3Dformat=3Dnv12,hwupload&quot; \
--c:v h264_vaapi  -profile:v 578 \=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20
--c:a copy -bf 0 -c:s copy \
--f mpegts -y plop.mkv
-
-Input is any 10 bit hevc video.
-
-Vainfo:libva info: VA-API version 1.6.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib64/va/drivers/radeonsi_drv_video.so
-libva info: Found init function __vaDriverInit_1_6
-libva info: va_openDriver() returns 0
-vainfo: VA-API version: 1.6 (libva 2.6.0.pre1)
-vainfo: Driver version: Mesa Gallium driver 19.2.0-devel for AMD RAVEN (DRM
-3.32.0, 5.2.0-gentoo, LLVM 8.0.0)
-vainfo: Supported profile and entrypoints
-      VAProfileMPEG2Simple            : VAEntrypointVLD
-      VAProfileMPEG2Main              : VAEntrypointVLD
-      VAProfileVC1Simple              : VAEntrypointVLD
-      VAProfileVC1Main                : VAEntrypointVLD
-      VAProfileVC1Advanced            : VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline: VAEntrypointEncSlice
-      VAProfileH264Main               : VAEntrypointVLD
-      VAProfileH264Main               : VAEntrypointEncSlice
-      VAProfileH264High               : VAEntrypointVLD
-      VAProfileH264High               : VAEntrypointEncSlice
-      VAProfileHEVCMain               : VAEntrypointVLD
-      VAProfileHEVCMain               : VAEntrypointEncSlice
-      VAProfileHEVCMain10             : VAEntrypointVLD
-      VAProfileJPEGBaseline           : VAEntrypointVLD
-      VAProfileVP9Profile0            : VAEntrypointVLD
-      VAProfileVP9Profile2            : VAEntrypointVLD
-      VAProfileNone                   : VAEntrypointVideoProc
-
-mesa git
-AMD RAVEN APU 2200G</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15628629151.9B1c0eAf1.7369--
-
---===============0000390058==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0000390058==--
+SGkgUm9iLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBTYXQsIEp1bCAwNiwgMjAxOSBh
+dCAwMTozMTowMlBNIC0wNzAwLCBSb2IgQ2xhcmsgd3JvdGU6Cj4gRnJvbTogUm9iIENsYXJrIDxy
+b2JkY2xhcmtAY2hyb21pdW0ub3JnPgo+IAo+IFRoaXMgc2hvdWxkIGJlIG1vcmUgZnV0dXJlLXBy
+b29mIGlmIHdlIGV2ZXIgZW5jb3VudGVyIGEgZGV2aWNlIHdpdGggdHdvCj4gb2YgdGhlc2UgYnJp
+ZGdlcy4KPiAKPiBTdWdnZXN0ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hh
+cnRAaWRlYXNvbmJvYXJkLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBSb2IgQ2xhcmsgPHJvYmRjbGFy
+a0BjaHJvbWl1bS5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242NWRz
+aTg2LmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVkc2k4
+Ni5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS1zbjY1ZHNpODYuYwo+IGluZGV4IGM4ZmI0
+NWU3YjA2ZC4uOWY0ZmY4OGQ0YTEwIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlk
+Z2UvdGktc242NWRzaTg2LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVk
+c2k4Ni5jCj4gQEAgLTIwNCw3ICsyMDQsNyBAQCBERUZJTkVfU0hPV19BVFRSSUJVVEUoc3RhdHVz
+KTsKPiAgCj4gIHN0YXRpYyB2b2lkIHRpX3NuX2RlYnVnZnNfaW5pdChzdHJ1Y3QgdGlfc25fYnJp
+ZGdlICpwZGF0YSkKPiAgewo+IC0JcGRhdGEtPmRlYnVnZnMgPSBkZWJ1Z2ZzX2NyZWF0ZV9kaXIo
+InRpX3NuNjVkc2k4NiIsIE5VTEwpOwo+ICsJcGRhdGEtPmRlYnVnZnMgPSBkZWJ1Z2ZzX2NyZWF0
+ZV9kaXIoZGV2X25hbWUocGRhdGEtPmRldiksIE5VTEwpOwoKVGhhdCBzaG91bGQgd29yaywgYnV0
+IHdvbid0IGl0IGJlY29tZSBxdWl0ZSBjb25mdXNpbmcgZm9yIHVzZXJzID8gSQp3b25kZXIgaWYg
+dGhlIGRpcmVjdG9yeSBuYW1lIHNob3VsZG4ndCBiZSBwcmVmaXhlZCB3aXRoIHRoZSBkcml2ZXIg
+bmFtZS4KU29tZXRoaW5nIGxpa2UgInRpX3NuNjVkc2k4NjolcyIsIGRldl9uYW1lKHBkYXRhLT5k
+ZXYpLgoKPiAgCWRlYnVnZnNfY3JlYXRlX2ZpbGUoInN0YXR1cyIsIDA2MDAsIHBkYXRhLT5kZWJ1
+Z2ZzLCBwZGF0YSwKPiAgCQkJJnN0YXR1c19mb3BzKTsKCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQ
+aW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
