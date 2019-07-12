@@ -2,56 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B44667EA
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 09:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B816C667F4
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 09:49:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4D3C6E2E8;
-	Fri, 12 Jul 2019 07:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8FA46E2E9;
+	Fri, 12 Jul 2019 07:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
- [IPv6:2607:f8b0:4864:20::742])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D8816E2E8
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 07:42:56 +0000 (UTC)
-Received: by mail-qk1-x742.google.com with SMTP id t8so5753497qkt.1
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 00:42:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=T9t4sMdQ7ju6F95r8VqvTuSRnDoqwe8Mg8/EN7g9bjA=;
- b=qIRJq8jYoxC8wQb/+eKO06YeHh9Kdhh+Fxmrzt9YjvZ6VLjzFbeU+gGneewjteJB25
- U3x0ERNoPCp8nwEmLFxBk2kwkAhxEoKiBQtIce74nF/aG2wywqQWckQ+EVxtp9hHbs0/
- FWf3UDGU3aHb2cKOMpTNxELfHeWu6CMdZzEjDEMMfLU2tzDCfQ6kqB1Yw648NH660UWt
- tHnRMqwqOuaTydmkpwJ3UB9H568RDRERV3OtOv+zdd1vT4EcJvUwXxbpfU2lL471PBeb
- n8sbGltpizvmMNzNd0js5BAq9d2FQo8tTy5qJ1u+9aGQh8se1rEPWcKwyTDYVDq82WcF
- hNjQ==
-X-Gm-Message-State: APjAAAUzgSK8oyT1ry5yyVdtEYGZWvCjw4cp3wpJAnegjIRhWL9iWp38
- 1+YgUsP3SvCwYId4XphgeNO2Q3Ie0xUwUXiEP8ibAw==
-X-Google-Smtp-Source: APXvYqwrgaL71IJVsa72rhVPOh+cWEZTyj1wxVLTO7GH4TREGLwUjIqC+Ue6eLE9ZNTL9jxZF/dPXtjZfP7KY6zczmo=
-X-Received: by 2002:a37:bcc7:: with SMTP id m190mr5072496qkf.433.1562917375149; 
- Fri, 12 Jul 2019 00:42:55 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0B6956E2E6
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 07:49:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0343C72167; Fri, 12 Jul 2019 07:49:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
+Date: Fri, 12 Jul 2019 07:49:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: ondrej@lang.sk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109206-502-0g7ztJrhmU@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
+References: <bug-109206-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <cover.1562843413.git.andrzej.p@collabora.com>
- <86afdc0bca6939901870176dcf55f279f7b10a08.1562843413.git.andrzej.p@collabora.com>
-In-Reply-To: <86afdc0bca6939901870176dcf55f279f7b10a08.1562843413.git.andrzej.p@collabora.com>
-From: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date: Fri, 12 Jul 2019 09:42:44 +0200
-Message-ID: <CA+M3ks63WY4umDR_1apjLj4kDf8jpm-CLsC-XO7dY=LbY--p-w@mail.gmail.com>
-Subject: Re: [PATCH v4 15/23] drm: sti: Provide ddc symlink in hdmi connector
- sysfs directory
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=T9t4sMdQ7ju6F95r8VqvTuSRnDoqwe8Mg8/EN7g9bjA=;
- b=rk/R6JuNMGMSZJb+YPovsTkrtFyiszy1QWZh3TpLHFIqylcWHxh/ewIgd5a91wVrQN
- ceahiCjA8ikBPJluTWFpkNkYsV/2p3vlCRMfVhOMdONZ8Zsfd3+3N/qVDb4F6+pIMDnK
- MbECjms9qZWlKYELmMDYGSebaDp1YXaSOCKmgRxegfoFrGHo+siChFMRBKT6zhvAcFLi
- UXNatuEC7/Nah1UVkg8fj0wFrba/yP9t7EBPLYREIDMsvG8kovZq5n+fy87RmOjt2+sl
- 282rTn+x8xEupAa3RoC0ULJjlpGrxGjO+Ro8hneewvhjGYR9H4mz+vUwj9n1jyvbXOaQ
- ghUQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,58 +52,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Liviu Dudau <liviu.dudau@arm.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- "moderated list:ARM/S5P EXYNOS AR..." <linux-samsung-soc@vger.kernel.org>,
- linux-rockchip@lists.infradead.org, Vincent Abriou <vincent.abriou@st.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Dave Airlie <airlied@redhat.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
- Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Allison Randal <allison@lohutok.net>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Todor Tomov <todor.tomov@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0096110561=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TGUgamV1LiAxMSBqdWlsLiAyMDE5IMOgIDEzOjMwLCBBbmRyemVqIFBpZXRyYXNpZXdpY3oKPGFu
-ZHJ6ZWoucEBjb2xsYWJvcmEuY29tPiBhIMOpY3JpdCA6Cj4KPiBVc2UgdGhlIGRkYyBwb2ludGVy
-IHByb3ZpZGVkIGJ5IHRoZSBnZW5lcmljIGNvbm5lY3Rvci4KPgo+IFNpZ25lZC1vZmYtYnk6IEFu
-ZHJ6ZWogUGlldHJhc2lld2ljeiA8YW5kcnplai5wQGNvbGxhYm9yYS5jb20+CgpSZXZpZXdlZC1i
-eTogQmVuamFtaW4gR2FpZ25hcmQgPGJlbmphbWluLmdhaWduYXJkQGxpbmFyby5vcmc+Cgo+IC0t
-LQo+ICBkcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZG1pLmMgfCAxICsKPiAgMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N0aS9z
-dGlfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5jCj4gaW5kZXggZjAzZDYx
-N2VkYzRjLi45MGY4ZGI2M2MwOTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0aS9z
-dGlfaGRtaS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5jCj4gQEAgLTEy
-NzksNiArMTI3OSw3IEBAIHN0YXRpYyBpbnQgc3RpX2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpk
-ZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3Rlciwgdm9pZCAqZGF0YSkKPiAgICAgICAgIGRybV9icmlk
-Z2VfYXR0YWNoKGVuY29kZXIsIGJyaWRnZSwgTlVMTCk7Cj4KPiAgICAgICAgIGNvbm5lY3Rvci0+
-ZW5jb2RlciA9IGVuY29kZXI7Cj4gKyAgICAgICBkcm1fY29ubmVjdG9yLT5kZGMgPSBoZG1pLT5k
-ZGNfYWRhcHQ7Cj4KPiAgICAgICAgIGRybV9jb25uZWN0b3IgPSAoc3RydWN0IGRybV9jb25uZWN0
-b3IgKiljb25uZWN0b3I7Cj4KPiAtLQo+IDIuMTcuMQo+Cl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0096110561==
+Content-Type: multipart/alternative; boundary="15629177440.fA6E6f.13893"
+Content-Transfer-Encoding: 7bit
+
+
+--15629177440.fA6E6f.13893
+Date: Fri, 12 Jul 2019 07:49:04 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
+
+--- Comment #55 from Ondrej Lang <ondrej@lang.sk> ---
+(In reply to Joe Coutcher from comment #54)
+> Ondrej - I'm on a fresh install of Ubuntu 19.04 with no workarounds appli=
+ed,
+> using a similar setup to yours (HP Envy x360 15m-bq121dx.)  I installed
+> kernel 5.2 RC7 (since the AMD64 build of 5.2 final on kernel.ubuntu.com is
+> broken), and updated to the latest linux-firmware package available on the
+> disco feed (1.178.2).  I should also note I'm on HP BIOS firmware version
+> 21.  While the system boots to the desktop environment, there's tons of
+> garbage, and when using Firefox, screen writes are occuring on random par=
+ts
+> of the screen.  Also, I attempted running Basemark Web 3.0 in Firefox, and
+> can consistently lock up the machine.  For reference, the kernel version =
+is
+> 5.2.0-050200rc7-lowlatency.
+
+Hi Joe,
+
+I'm quite sure your issue is not related to this ticket. The problem in this
+bug report is quite specific and is related to the raven_dmcu.bin firmware.=
+ It
+has a specific symptom where the screen is not initialized during boot (sta=
+ys
+blank / black) so I think you need to report your problem somewhere else. A=
+lso,
+it would be good if you can check the kernel log after crash and see what e=
+rror
+messages you have and then google for that specific message to find if some=
+one
+else already created a bug report for it.
+
+I have been running kernel 5.2 since yesterday and had no issues whatsoever=
+. I
+also just run the Basemark Web 3.0 benchmark and had no issues.
+
+As for your lockups, I know that the AMD APU had problems with random locku=
+ps
+in earlier kernels (if I remember correctly it was related to the C-state
+changes of the CPU), I myself had the problem and for me the fix was to add
+"idle=3Dnomwait" to my kernel parameters. That fixed the random lockups for=
+ me.
+Now I don't know if this issue has already been addressed, last time I tried
+without the parameter was kernel 5.0 I think and still had lockups, so this
+might not be related to your specific problem, but as I said, best course of
+action for you is to inspect the kernel log after a crash, check the error
+message and then search for a bug report with that error and report your
+findings there.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15629177440.fA6E6f.13893
+Date: Fri, 12 Jul 2019 07:49:04 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c55">Comme=
+nt # 55</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ondrej&#64;lang.sk" title=3D"Ondrej Lang &lt;ondrej&#64;lang.sk&gt;"> <span=
+ class=3D"fn">Ondrej Lang</span></a>
+</span></b>
+        <pre>(In reply to Joe Coutcher from <a href=3D"show_bug.cgi?id=3D10=
+9206#c54">comment #54</a>)
+<span class=3D"quote">&gt; Ondrej - I'm on a fresh install of Ubuntu 19.04 =
+with no workarounds applied,
+&gt; using a similar setup to yours (HP Envy x360 15m-bq121dx.)  I installed
+&gt; kernel 5.2 RC7 (since the AMD64 build of 5.2 final on kernel.ubuntu.co=
+m is
+&gt; broken), and updated to the latest linux-firmware package available on=
+ the
+&gt; disco feed (1.178.2).  I should also note I'm on HP BIOS firmware vers=
+ion
+&gt; 21.  While the system boots to the desktop environment, there's tons of
+&gt; garbage, and when using Firefox, screen writes are occuring on random =
+parts
+&gt; of the screen.  Also, I attempted running Basemark Web 3.0 in Firefox,=
+ and
+&gt; can consistently lock up the machine.  For reference, the kernel versi=
+on is
+&gt; 5.2.0-050200rc7-lowlatency.</span >
+
+Hi Joe,
+
+I'm quite sure your issue is not related to this ticket. The problem in this
+bug report is quite specific and is related to the raven_dmcu.bin firmware.=
+ It
+has a specific symptom where the screen is not initialized during boot (sta=
+ys
+blank / black) so I think you need to report your problem somewhere else. A=
+lso,
+it would be good if you can check the kernel log after crash and see what e=
+rror
+messages you have and then google for that specific message to find if some=
+one
+else already created a bug report for it.
+
+I have been running kernel 5.2 since yesterday and had no issues whatsoever=
+. I
+also just run the Basemark Web 3.0 benchmark and had no issues.
+
+As for your lockups, I know that the AMD APU had problems with random locku=
+ps
+in earlier kernels (if I remember correctly it was related to the C-state
+changes of the CPU), I myself had the problem and for me the fix was to add
+&quot;idle=3Dnomwait&quot; to my kernel parameters. That fixed the random l=
+ockups for me.
+Now I don't know if this issue has already been addressed, last time I tried
+without the parameter was kernel 5.0 I think and still had lockups, so this
+might not be related to your specific problem, but as I said, best course of
+action for you is to inspect the kernel log after a crash, check the error
+message and then search for a bug report with that error and report your
+findings there.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15629177440.fA6E6f.13893--
+
+--===============0096110561==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0096110561==--
