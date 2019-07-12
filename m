@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC176635D
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 03:30:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D8F66487
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 04:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69B206E2A5;
-	Fri, 12 Jul 2019 01:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02C916E2A4;
+	Fri, 12 Jul 2019 02:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 13D1E6E2A2
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 01:30:18 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id ECDF672168; Fri, 12 Jul 2019 01:30:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E726E2A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 02:43:43 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id EB71C28BB5
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 02:43:42 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id DFE2628BB9; Fri, 12 Jul 2019 02:43:42 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108806] AMDGPU Failed to read EDID from display
-Date: Fri, 12 Jul 2019 01:30:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+Subject: [Bug 204145] New: amdgpu video playback causes host to hard reset
+ (checkstop) on POWER9 with RX 580
+Date: Fri, 12 Jul 2019 02:43:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cam@neo-zeon.de
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: shawn@anastas.io
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108806-502-tu2CoqpcvQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108806-502@http.bugs.freedesktop.org/>
-References: <bug-108806-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-204145-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,113 +62,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1368170650=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1368170650==
-Content-Type: multipart/alternative; boundary="15628950171.e54929C0F.22316"
-Content-Transfer-Encoding: 7bit
-
-
---15628950171.e54929C0F.22316
-Date: Fri, 12 Jul 2019 01:30:17 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108806
-
---- Comment #2 from Cameron <cam@neo-zeon.de> ---
-I'm also having having the "No EDID read." issue with this monitor and a wx
-5100. With the generic Ubuntu 5.0.0-20 kernel on 10.94 as well as on my cus=
-tom
-5.1.17 kernel.
-
-However, I don't even get anything on the screen. My monitor just flashes f=
-rom
-black to lighter black... However, I'm running on POWER (PPC) so I may be
-encountering additional issues in my case.
-
-However, the petitboot firmware gives me a text screen. The firmware is run=
-ning
-4.19.0 which suggests that something has broken since then as others have
-suggested.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15628950171.e54929C0F.22316
-Date: Fri, 12 Jul 2019 01:30:17 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Failed to read EDID from display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108806#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMDGPU Failed to read EDID from display"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108806">bug 10880=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cam&#64;neo-zeon.de" title=3D"Cameron &lt;cam&#64;neo-zeon.de&gt;"> <span c=
-lass=3D"fn">Cameron</span></a>
-</span></b>
-        <pre>I'm also having having the &quot;No EDID read.&quot; issue wit=
-h this monitor and a wx
-5100. With the generic Ubuntu 5.0.0-20 kernel on 10.94 as well as on my cus=
-tom
-5.1.17 kernel.
-
-However, I don't even get anything on the screen. My monitor just flashes f=
-rom
-black to lighter black... However, I'm running on POWER (PPC) so I may be
-encountering additional issues in my case.
-
-However, the petitboot firmware gives me a text screen. The firmware is run=
-ning
-4.19.0 which suggests that something has broken since then as others have
-suggested.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15628950171.e54929C0F.22316--
-
---===============1368170650==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1368170650==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxNDUKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA0MTQ1CiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1IHZpZGVvIHBs
+YXliYWNrIGNhdXNlcyBob3N0IHRvIGhhcmQgcmVzZXQKICAgICAgICAgICAgICAgICAgICAoY2hl
+Y2tzdG9wKSBvbiBQT1dFUjkgd2l0aCBSWCA1ODAKICAgICAgICAgICBQcm9kdWN0OiBEcml2ZXJz
+CiAgICAgICAgICAgVmVyc2lvbjogMi41CiAgICBLZXJuZWwgVmVyc2lvbjogNS4xLjE1CiAgICAg
+ICAgICBIYXJkd2FyZTogUFBDLTY0CiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAg
+ICAgICBUcmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2
+ZXJpdHk6IGhpZ2gKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZp
+ZGVvKERSSSAtIG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRy
+aUBrZXJuZWwtYnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IHNoYXduQGFuYXN0YXMu
+aW8KICAgICAgICBSZWdyZXNzaW9uOiBObwoKQ3JlYXRlZCBhdHRhY2htZW50IDI4MzYzNQogIC0t
+PiBodHRwczovL2J1Z3ppbGxhLmtlcm5lbC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9MjgzNjM1JmFj
+dGlvbj1lZGl0CjUuMS4xNSBrY29uZmlnCgpPbiByZWNlbnQga2VybmVscyAoYXQgbGVhc3Qgc2lu
+Y2UgNS4xLjE1KSwgdmlkZW8gcGxheWJhY2sgd2lsbCAoc29tZXRpbWVzKSBoYXJkIApyZXNldCBt
+eSBQT1dFUjkgc3lzdGVtIHdpdGggYW4gQU1EIFJYIDU4MC4gRHVlIHRvIHRoZSBuYXR1cmUgb2Yg
+dGhlIGNyYXNoLCBpdApkb2VzIG5vdCBzZWVtIHRoYXQgYW55IGtlcm5lbCBsb2dzIGFyZSBwcm9k
+dWNlZCBieSB0aGUgZXZlbnQuIFRoZSBzeXN0ZW0KSG9zdGJvb3QgZmlybXdhcmUgZG9lcyByZWNv
+cmQgdGhlIGNyYXNoIHRob3VnaCwgYW5kIGl0IHByb2R1Y2VzIGEgR1VBUkQgZXZlbnQKd2hpY2gg
+ZGlzYWJsZXMgdGhlIENQVSBzbGljZSB0aGUgY3Jhc2ggb2NjdXJyZWQgb24gZm9yIHN1YnNlcXVl
+bnQgYm9vdHMgdW50aWwgCml0IGlzIGNsZWFyZWQuCgpBbiB1cHN0cmVhbSBIb3N0Ym9vdCBpc3N1
+ZSBoYXMgYmVlbiBzdWJtaXR0ZWQgYnkgYW5vdGhlciBwZXJzb24gd2hvIGhhcwplbmNvdW50ZXJl
+ZCB0aGlzIGJlaGF2aW9yIGFzIHdlbGw6Cmh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuLXBvd2VyL2hv
+c3Rib290L2lzc3Vlcy8xODAKCkkgaGF2ZSBiZWVuIHVuYWJsZSB0byByZXByb2R1Y2UgdGhlIGlz
+c3VlIG9uIGtlcm5lbCA1LjAuOSwgaW5kaWNhdGluZyBhIApyZWdyZXNzaW9uIHNvbWV3aGVyZSBp
+biBiZXR3ZWVuLgoKQXR0YWNoZWQgaXMgbXkgNS4xLjE1IGtlcm5lbCBjb25maWcsIHRoZSBvdXRw
+dXQgb2YgbHNwY2kgLXZ2LCBhbmQgdGhlIGNvbnRlbnRzCm9mIC9wcm9jL2NwdWluZm8uCgotLSAK
+WW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhl
+IGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
