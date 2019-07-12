@@ -1,63 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C7D664CB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 05:08:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE085664D8
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 05:14:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF0D66E2AC;
-	Fri, 12 Jul 2019 03:08:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 459E36E2AF;
+	Fri, 12 Jul 2019 03:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
- [IPv6:2607:f8b0:4864:20::841])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 952A76E2AC
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 03:08:03 +0000 (UTC)
-Received: by mail-qt1-x841.google.com with SMTP id 44so6658968qtg.11
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 20:08:03 -0700 (PDT)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 902946E2AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 03:14:55 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id a27so5415435qkk.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Jul 2019 20:14:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Latw1SK0aQwgj00tIR9D8mWYTOvWXFhHHTA1m5yyi+Y=;
- b=r7HR00DeH7t+TQ1mKXHvHSeB5Xx1B/K7Or8aGvUUrzTezW9B7FDbsPFHo3mxVhrkyt
- mjsC777y8q8XPQS+v2Dw8nMINqzbTPAs/24PNdnirFiTRcgs1fH/vzpYBcgh6VVFgjNQ
- nPvcddpAmFW2SGHQpfvYSVm/aisDk3BqXTcDcKbUjpiuKqKBrqC9Jr2dfnA5ZyVwKced
- wb9Zu2uSwViM1p+yFO0NYxYCHyjefWFwTqV9lq1SU8XzMKf0Z67pDYbsTGLGBlB8MpQ2
- FvMqeA10pK6UBZR7NU3Cmbr6/r1IWCS8tD1OB1U9chDYWWLsSfFGU9ZYUR4Z07ju4Wmn
- ND2w==
-X-Gm-Message-State: APjAAAUCryMlg6adynQBy6CSQIxsvvjb6DEsmNDPkBcxRbayNn1NknsQ
- 7lJWJiGGu5ugkLspX0Tqg9Y=
-X-Google-Smtp-Source: APXvYqxdOaFc56W5RbJfPPO5WTFhBYCrW9FBbZmsudJRW8P2+NBdgGeIJLoA0g+AytXDnXVfl9CeEw==
-X-Received: by 2002:a0c:ea34:: with SMTP id t20mr4573647qvp.11.1562900882596; 
- Thu, 11 Jul 2019 20:08:02 -0700 (PDT)
+ bh=fqowWkQWDIteBtwEKrdiEv26Xf58Ktw1YcMr9HD38hc=;
+ b=MkCCFDIHLnPiq0TpbZ8nELiJ/f5pGnjZMxbP9M/HSFXPq/r9KHRnM7xuwAjxizd6vo
+ uK05At79/IXd9S/b/QRdleMZQscxqorLXu+EdZpEHLAXhCc5UHR+3jRTbfN9hU+zStcG
+ pGgi9XvrhIedv8wGzyTcRBaUDkQFrcNb3Q1942dCz8t4KCkpXJdKWRPDb3kHFOSDElM4
+ 0N7DUovXXdVB5YIqAu8GROK+s4seKiGdx+Up3RVfNXzbt7F9d722e+cZCPTiQNO5gnuJ
+ H5VpJX/kEREqxizEz1F8+mpJZmFQD4YLsKXuHdAwBSWeX7xI2NhvITvNTHzOUCChH/1b
+ 9hbA==
+X-Gm-Message-State: APjAAAXloO+IFHGXDtQp9kbla5uxFHx//IUAULFplIVdC/yBcVNulKwI
+ 0wqqKxiaEOtYXAH9jMfNU+U=
+X-Google-Smtp-Source: APXvYqxMHYF82JKIlXbB93A96rz547nb8nWEiIbN14p+Pz9F+KDlBu2aOcXwexavUW+Xt9VWIqfoNA==
+X-Received: by 2002:a37:9185:: with SMTP id t127mr4497870qkd.482.1562901294628; 
+ Thu, 11 Jul 2019 20:14:54 -0700 (PDT)
 Received: from smtp.gmail.com ([187.121.151.22])
- by smtp.gmail.com with ESMTPSA id h18sm2216868qkk.93.2019.07.11.20.07.59
+ by smtp.gmail.com with ESMTPSA id t2sm3964071qth.33.2019.07.11.20.14.51
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 11 Jul 2019 20:08:01 -0700 (PDT)
-Date: Fri, 12 Jul 2019 00:07:57 -0300
+ Thu, 11 Jul 2019 20:14:53 -0700 (PDT)
+Date: Fri, 12 Jul 2019 00:14:49 -0300
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Haneen Mohammed <hamohammed.sa@gmail.com>,
- David Airlie <airlied@linux.ie>, Simon Ser <contact@emersion.fr>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] drm/vkms: Introduce basic support for configfs
-Message-ID: <20190712030757.a7sp5xmyzyt24i4e@smtp.gmail.com>
-References: <cover.1561950553.git.rodrigosiqueiramelo@gmail.com>
- <20190710170116.GB15868@phenom.ffwll.local>
+To: Brian Starkey <brian.starkey@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 4/5] drm/vkms: Compute CRC without change input data
+Message-ID: <20190712031449.3pmeimkcde2hrxxh@smtp.gmail.com>
+References: <cover.1561491964.git.rodrigosiqueiramelo@gmail.com>
+ <ea7e3a0daa4ee502d8ec67a010120d53f88fa06b.1561491964.git.rodrigosiqueiramelo@gmail.com>
+ <20190711082105.GI15868@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20190710170116.GB15868@phenom.ffwll.local>
+In-Reply-To: <20190711082105.GI15868@phenom.ffwll.local>
 User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=Latw1SK0aQwgj00tIR9D8mWYTOvWXFhHHTA1m5yyi+Y=;
- b=ch9r0eIFufmMvOXPyCFHTrI9h2Mt4m0F8V/fORZzm0JmIZ4mZrg2EBs7BrB8a5Bg8q
- QScH7El7cPGYSNSkn7d/LUaw50K8lor9HzfCYuNM1A3mfzQ7bbLjoRRIwvPWlMcRsFnD
- Sp/fbUUnbHv4UkVDo/kyteGlH5Lvu3QRxzjawzYeAa011OEX7rS6rSzxLsi/0y5WxP+s
- 3umqE8pQlIr3BDZlY3u+XMT1TkWHvNt+dS2DSX7gZ92AkezVJQEYwLinpjaSXGLY56s2
- 5OUA0AjcWPj8PfZPvAcS/nB2NEa9jAFfxWB9YDAV9mK6Reff9gmLfLExREzBPiiqfdYf
- VnVg==
+ bh=fqowWkQWDIteBtwEKrdiEv26Xf58Ktw1YcMr9HD38hc=;
+ b=E5i89Yz/S7p8RYcIgbxKAuw0Lu/eHuwtmFAG/skNG8Hrf9AUsrWMxu9EDOzraY6Rtr
+ ZEQWnDYOaSLZNeTAOCBtK2Zp5XMJcZU/UsPJFWsCZ5/jzyIzthR2z6ZH3uLT208LnpD4
+ pH9ESenYlnzb42m4/XJpuXv9sUfviULqhHZQ46EeJewJ7+EqXF8c13kR3WR579fYaEQm
+ DsCYVQXEbqTtN4LY0OTOyPEQiBx5hwozxM6R51F//Y5p9xbWckgHWYq4Zi3/OV0TyiIk
+ 81tmr7XBvRHq1Xq87uE+oX4wYvWl9ml4j30nMsgJh5+AY9ygWQgeP1HIhadbfN/mhSRV
+ 5y8Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,222 +72,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1638578865=="
+Content-Type: multipart/mixed; boundary="===============1604514865=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1638578865==
+--===============1604514865==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zvxlkk76lzcxofrn"
+	protocol="application/pgp-signature"; boundary="6wp7bxmzbrpx433z"
 Content-Disposition: inline
 
 
---zvxlkk76lzcxofrn
+--6wp7bxmzbrpx433z
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 07/10, Daniel Vetter wrote:
-> On Mon, Jul 01, 2019 at 12:23:39AM -0300, Rodrigo Siqueira wrote:
-> > This patchset introduces the support for configfs in vkms by adding a
-> > primary structure for handling the vkms subsystem and exposing
-> > connectors as a use case.  This series allows enabling/disabling virtual
-> > and writeback connectors on the fly. The first patch of this series
-> > reworks the initialization and cleanup code of each type of connector,
-> > with this change, the second patch adds the configfs support for vkms.
-> > It is important to highlight that this patchset depends on
-> > https://patchwork.freedesktop.org/series/61738/.
-> >=20
-> > After applying this series, the user can utilize these features with the
-> > following steps:
-> >=20
-> > 1. Load vkms without parameter
-> >=20
-> >   modprobe vkms
-> >=20
-> > 2. Mount a configfs filesystem
-> >=20
-> >   mount -t configfs none /mnt/
-> >=20
-> > After that, the vkms subsystem will look like this:
-> >=20
-> > vkms/
-> >  |__connectors
-> >     |__Virtual
-> >         |__ enable
-> >=20
-> > The connectors directories have information related to connectors, and
-> > as can be seen, the virtual connector is enabled by default. Inside a
-> > connector directory (e.g., Virtual) has an attribute named =E2=80=98ena=
-ble=E2=80=99
-> > which is used to enable and disable the target connector. For example,
-> > the Virtual connector has the enable attribute set to 1. If the user
-> > wants to enable the writeback connector it is required to use the mkdir
-> > command, as follows:
-> >=20
-> >   cd /mnt/vkms/connectors
-> >   mkdir Writeback
-> >=20
-> > After the above command, the writeback connector will be enabled, and
-> > the user could see the following tree:
-> >=20
-> > vkms/
-> >  |__connectors
-> >     |__Virtual
-> >     |   |__ enable
-> >     |__Writeback
-> >         |__ enable
-> >=20
-> > If the user wants to remove the writeback connector, it is required to
-> > use the command rmdir, for example
-> >=20
-> >   rmdir Writeback
-> >=20
-> > Another way to enable and disable a connector it is by using the enable
-> > attribute, for example, we can disable the Virtual connector with:
-> >=20
-> >   echo 0 > /mnt/vkms/connectors/Virtual/enable
-> >=20
-> > And enable it again with:
-> >=20
-> >   echo 1 > /mnt/vkms/connectors/Virtual/enable
-> >=20
-> > It is important to highlight that configfs 'obey' the parameters used
-> > during the vkms load and does not allow users to remove a connector
-> > directory if it was load via module parameter. For example:
-> >=20
-> >   modprobe vkms enable_writeback=3D1
-> >=20
-> > vkms/
-> >  |__connectors
-> >     |__Virtual
-> >     |   |__ enable
-> >     |__Writeback
-> >         |__ enable
-> >=20
-> > If the user tries to remove the Writeback connector with =E2=80=9Crmdir
-> > Writeback=E2=80=9D, the operation will be not permitted because the Wri=
-teback
-> > connector was loaded with the modules. However, the user may disable the
-> > writeback connector with:
-> >=20
-> >   echo 0 > /mnt/vkms/connectors/Writeback/enable
-
-Thanks for detail this issue, I just have some few questions inline.
-=20
-> I guess I should have put a warning into that task that step one is
-> designing the interface. Here's the fundamental thoughts:
+On 07/11, Daniel Vetter wrote:
+> On Tue, Jun 25, 2019 at 10:38:31PM -0300, Rodrigo Siqueira wrote:
+> > The compute_crc() function is responsible for calculating the
+> > framebuffer CRC value; due to the XRGB format, this function has to
+> > ignore the alpha channel during the CRC computation. Therefore,
+> > compute_crc() set zero to the alpha channel directly in the input
+> > framebuffer, which is not a problem since this function receives a copy
+> > of the original buffer. However, if we want to use this function in a
+> > context without a buffer copy, it will change the initial value. This
+> > patch makes compute_crc() calculate the CRC value without modifying the
+> > input framebuffer.
 >=20
-> - The _only_ thing we can hotplug after drm_dev_register() is a
->   drm_connector. That's an interesting use-case, but atm not really
->   supported by the vkms codebase. So we can't just enable/disable
->   writeback like this. We also can't change _anything_ else in the drm
->   driver like this.
-
-In the first patch of this series, I tried to decouple enable/disable
-for virtual and writeback connectors; I tried to take advantage of
-drm_connector_[register/unregister] in each connector. Can we use the
-first patch or it doesn't make sense?
-
-I did not understand why writeback connectors should not be registered
-and unregister by calling drm_connector_[register/unregister], is it a
-writeback or vkms limitation? Could you detail why we cannot change
-connectors as I did?
-
-Additionally, below you said "enable going from 1 -> 0, needs to be
-treated like a physical hotunplug", do you mean that we first have to
-add support for drm_dev_plug and drm_dev_unplug in vkms?
-=20
-> - The other bit we want is support multiple vkms instances, to simulate
->   multi-gpus and fun stuff like that.
-
-Do you mean something like this:
-
-configfs/vkms/instance1
-|_enable_device=20
-|_more_stuff
-configfs/vkms/instance2
-|_enable_device
-|_more_stuff
-configfs/vkms/instanceN
-|_enable_device
-|_more_stuff
-
-Will each instance work like a totally independent device? What is the
-main benefit of this? I can think about some use case for testing
-prime, but I cannot see other things.
-=20
-> - Therefore vkms configs should be at the drm_device level, so a
->   directory under configfs/vkms/ represents an entire device.
->=20
-> - We need a special config item to control
->   drm_dev_register/drm_dev_unregister. While a drm_device is registers,
->   all other config items need to fail if userspace tries to change them.
->   Maybe this should be a top-level "enable" property.
->=20
-> - Every time enable goes from 0 -> 1 we need to create a completely new
->   vkms instance. The old one might still be around, waiting for the last
->   few references to disappear.
->=20
-> - enable going from 1 -> 0 needs to be treated like a physical hotunplug,
->   i.e. not drm_dev_unregister but drm_dev_unplug. We also need to annotate
->   all the vkms code with drm_dev_enter/exit() as the kerneldoc of
->   drm_dev_unplug explains.
->=20
-> - rmdir should be treated like enable going from 1 -> 0. Or maybe we
->   should disable enable every going from 1 -> 0, would propably simplify
->   everything.
->=20
-> - The initial instance created at module load also neeeds to be removable
->   like this.
->=20
-> Once we have all this, then can we start to convert driver module options
-> over to configs and add cool features. But lots of infrastructure needed
-> first.
->=20
-> Also, we probably want some nasty testcases which races an rmdir in
-> configfs against userspace still doing ioctl calls against vkms. This is
-> ideal for validation the hotunplug infrastructure we have in drm.
->=20
-> An alternative is adding connector hotplugging. But I think before we do
-> that we need to have support for more crtc and more connectors as static
-> module options. So maybe not a good starting point for configfs.
-
-So, probably the first set of tasks should be:
-
-1. Enable multiple CRTC via module parameters. For example:
-  modprobe vkms crtcs=3D13
-2. Enable multiple connectors via module parameters. For example:
-  modprobe vkms crtcs=3D3 connector=3D3 // 3 virtual connectors per crtc
-
-Thanks again,
-=20
-> The above text should probably be added to the vkms.rst todo item ...
+> Uh why? For writeback we're writing the output too, so we can write
+> whatever we want to into the alpha channel. For writeback we should never
+> accept a pixel format where alpha actually matters, that doesn't make
+> sense. You can't see through a real screen either, they are all opaque :-)
 > -Daniel
->=20
+
+Hmmm,
+
+I see your point and I agree, but even though we can write whatever we
+want in the output, don=E2=80=99t you think that is weird to change the
+framebuffer value in the compute_crc() function?
+
+Thanks
+=20
 > >=20
+> > Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > ---
+> >  drivers/gpu/drm/vkms/vkms_composer.c | 31 +++++++++++++++++-----------
+> >  1 file changed, 19 insertions(+), 12 deletions(-)
 > >=20
-> > Rodrigo Siqueira (2):
-> >   drm/vkms: Add enable/disable functions per connector
-> >   drm/vkms: Introduce configfs for enabling/disabling connectors
-> >=20
-> >  drivers/gpu/drm/vkms/Makefile         |   3 +-
-> >  drivers/gpu/drm/vkms/vkms_configfs.c  | 229 ++++++++++++++++++++++++++
-> >  drivers/gpu/drm/vkms/vkms_drv.c       |   6 +
-> >  drivers/gpu/drm/vkms/vkms_drv.h       |  17 ++
-> >  drivers/gpu/drm/vkms/vkms_output.c    |  84 ++++++----
-> >  drivers/gpu/drm/vkms/vkms_writeback.c |  31 +++-
-> >  6 files changed, 332 insertions(+), 38 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
-> >=20
+> > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkm=
+s/vkms_composer.c
+> > index 51a270514219..8126aa0f968f 100644
+> > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > @@ -6,33 +6,40 @@
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_gem_framebuffer_helper.h>
+> > =20
+> > +static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
+> > +				 const struct vkms_composer *composer)
+> > +{
+> > +	int src_offset =3D composer->offset + (y * composer->pitch)
+> > +					  + (x * composer->cpp);
+> > +
+> > +	return *(u32 *)&buffer[src_offset];
+> > +}
+> > +
+> >  /**
+> >   * compute_crc - Compute CRC value on output frame
+> >   *
+> > - * @vaddr_out: address to final framebuffer
+> > + * @vaddr: address to final framebuffer
+> >   * @composer: framebuffer's metadata
+> >   *
+> >   * returns CRC value computed using crc32 on the visible portion of
+> >   * the final framebuffer at vaddr_out
+> >   */
+> > -static uint32_t compute_crc(void *vaddr_out, struct vkms_composer *com=
+poser)
+> > +static uint32_t compute_crc(const u8 *vaddr,
+> > +			    const struct vkms_composer *composer)
+> >  {
+> > -	int i, j, src_offset;
+> > +	int x, y;
+> >  	int x_src =3D composer->src.x1 >> 16;
+> >  	int y_src =3D composer->src.y1 >> 16;
+> >  	int h_src =3D drm_rect_height(&composer->src) >> 16;
+> >  	int w_src =3D drm_rect_width(&composer->src) >> 16;
+> > -	u32 crc =3D 0;
+> > +	u32 crc =3D 0, pixel =3D 0;
+> > =20
+> > -	for (i =3D y_src; i < y_src + h_src; ++i) {
+> > -		for (j =3D x_src; j < x_src + w_src; ++j) {
+> > -			src_offset =3D composer->offset
+> > -				     + (i * composer->pitch)
+> > -				     + (j * composer->cpp);
+> > +	for (y =3D y_src; y < y_src + h_src; ++y) {
+> > +		for (x =3D x_src; x < x_src + w_src; ++x) {
+> >  			/* XRGB format ignores Alpha channel */
+> > -			memset(vaddr_out + src_offset + 24, 0,  8);
+> > -			crc =3D crc32_le(crc, vaddr_out + src_offset,
+> > -				       sizeof(u32));
+> > +			pixel =3D get_pixel_from_buffer(x, y, vaddr, composer);
+> > +			bitmap_clear((void *)&pixel, 0, 8);
+> > +			crc =3D crc32_le(crc, (void *)&pixel, sizeof(u32));
+> >  		}
+> >  	}
+> > =20
 > > --=20
 > > 2.21.0
-> >=20
-> >=20
-> > --=20
-> > Rodrigo Siqueira
-> > https://siqueira.tech
 >=20
 > --=20
 > Daniel Vetter
@@ -296,29 +191,29 @@ Thanks again,
 Rodrigo Siqueira
 https://siqueira.tech
 
---zvxlkk76lzcxofrn
+--6wp7bxmzbrpx433z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0n+YwACgkQWJzP/com
-vP9CZg/9E53QHUFTioD/13tV2Bp4Z05UX3ac9n1vbymmM81xJvRQCd6D45IkNUfL
-RiFYInMHCeRMWaXAIJyukjpDueUjtnlYgenlMmbyWZmYmbSN79O+e1nRWvg5h0cf
-RL1+1FVlxtdpO58z87QBvEvwQyefPHY92HesOhnb7wEIrW47NaUP9oWs1psFFh1P
-NZFXRf2S4eQYwsdIzMI37HZKzdbi0qd91GfsLyfkdJm1osUvhSKvpY06zXbgDfyZ
-x89mDv6VdSdC+E3l8AUdAlL3G/NNxG0lQDxvuxozH4DL/QaVkxKyWYTJGFf5Kxo7
-47uvsKMcFnjohLdq9x4poRIbJWDwwh5rXA82As38Wuh3kTk622FtZ/LZGzj009ly
-OT64x7T0pxL9w+6G0/yS3aNOE+DkeBfXnwltBVsdiNpFWLFvrwxdpnNkOsUnaukw
-m/I/Gu8w5Xn8wXyOVaok1K0NGjPXy+nwUIfVOz2s9PrcW48vjfp2HQ2Zio/ntpk1
-3dOZc+YZvVy9tPH1bzfbH81wkn/7hCLiuhDVERymz3+bx+Q1UNf51mqXZBCsYWI0
-4CEnzxIGZ1qKl0rHnIPz8JCP2KPqiMc8EjmZ+pg/DYsSX8tvpZkjcKd08yEyKVjz
-Ivi8de+38jRgTBP4JkB07BMS4pSDLJC+OGqNPni1ZW+b5alDQa8=
-=SVj8
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0n+ykACgkQWJzP/com
+vP8jdA//Tv7ShkinLXNtiF8dK7UlkjVi2KNRKIbfk81SrvbLs/gCraJiW3MhGK54
+V7Gcx6r33ahPA35p7K3sbm7q+jAGfVUSapQsT7GMG8D6anM0qhhp4h/k5/vsLtT4
+7FTZVu0rL1E76XoyseoZXsnSHHfp0h2enSBKYt7aHMSYY2zhDQRtfWtBbCpN3MML
+cfOOyoA7OlIyiz9n2vOKnI23rXPULDMN77Rp+f8s6UzwaOjDKnEPyxBFKfgU9kBy
+VV8vbXiX26ENQ5j0Xz+QWWNL3S7gAqKQnPlMYBk1PXn8YdI7yoUrOhV6lZUSx5QV
+xuLpewuIs+R3LR4YQvsKIL/I2WTiuTvz4I+6MK/QLJ5JxSEFhw1sllVvhZXXGoad
+qSVV5gocR3g2Lz60rPzMWZ3PBy/BwZWfutxuSAV4hxozKWx0UR2R21hmuqbgoVS3
+f6B5lExMqhA8CxTK+Zk1+mekztr5VxYBmnciuvshhGrfx4f2XS7Tt1awm0JrQwFv
+chRARfSDVhqxkJvW72kDb+tG3Cy5mtJYmmUA4MPGEUefoIaNx4dypPRpJ8yjZRtq
+A8JJ2j1zt2Fv0IVCxOSESAfniLN+U0EAkpBFxH1OmIFbU2WUuItRNTkVSSQ7zQ0Q
+upcoD7Uc3QdC31ORWgnyoovloumbRCJRbA94HI1UoQbQg9KyiMw=
+=Rdzr
 -----END PGP SIGNATURE-----
 
---zvxlkk76lzcxofrn--
+--6wp7bxmzbrpx433z--
 
---===============1638578865==
+--===============1604514865==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -328,4 +223,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1638578865==--
+--===============1604514865==--
