@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C243A675EB
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 22:30:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C476667621
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Jul 2019 23:14:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6C776E395;
-	Fri, 12 Jul 2019 20:30:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCA1A8912D;
+	Fri, 12 Jul 2019 21:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
- [209.85.160.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C12A89BFB;
- Fri, 12 Jul 2019 20:30:32 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id h21so9446613qtn.13;
- Fri, 12 Jul 2019 13:30:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6Jxwo9pjmGUKQ0uHToCiY3Wz26c1dotpxquQLKWEEI4=;
- b=cQXvKCSMPzno7OZ4m5GND2Y5wW7QYmJ9WwzTA/XTCy/XHtYHwMArDwnuhXMCvX0exa
- 1uAVJ+BS3aSJsmN3oxnPw3evaqq2jskMwsV5DEBuD1Fo0UMoe/G/dl4MuFlzUX+wce+2
- e39rmAWy0mIE90c92W6yke20XMx0MbqAgCUJe1eAhJP6VdEt9N4m7li+DBgp0MeM4/kh
- zUQDcBjktgV7WskxXK+x5OpGobyy1L6DWTnjebqm/xvtVo9wSCZMsBL8uzqBTkwR6DBV
- fLsMfooEPcTAh7zYTi0Dzd8TAIi4I9I1TniwarhVhDyS6yOiryuj7ueV9qHCek9fgGtq
- cXLw==
-X-Gm-Message-State: APjAAAVEEx4Q4yTlf2R2bEXP7uK7LJ0bng9vBpHx/EcJ6qNZGojNudyc
- dM+JBACG0U6ju/Rs5FBmYctErdzZp4HQaoyPtGU=
-X-Google-Smtp-Source: APXvYqw/HRQPv+zrvR1ZBQyClQoN6ydkstV5/Wy0XOB5yS7boQcdKYnFigC2K+BswfrrWijZn61LUT0XF3ZF2POzlZo=
-X-Received: by 2002:a0c:b758:: with SMTP id q24mr7462464qve.45.1562963431425; 
- Fri, 12 Jul 2019 13:30:31 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 321038902A
+ for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 21:14:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 1C49E72167; Fri, 12 Jul 2019 21:14:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109239] Polaris10: Periodic random black screens for 1-2 seconds
+Date: Fri, 12 Jul 2019 21:14:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: rocketraman@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109239-502-f3Hhzz0GDe@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109239-502@http.bugs.freedesktop.org/>
+References: <bug-109239-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190712093720.1461418-1-arnd@arndb.de>
- <CAKwvOd=Xdp_=G3UU9ubayeTvkKCJ9hak0a-7yK90-RPUBQKrpw@mail.gmail.com>
-In-Reply-To: <CAKwvOd=Xdp_=G3UU9ubayeTvkKCJ9hak0a-7yK90-RPUBQKrpw@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 12 Jul 2019 22:30:14 +0200
-Message-ID: <CAK8P3a0vTwtDtxDhfmhzOViUp+DPzuJ_qsQsnVFw4B7oBaudTQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Support clang option for stack alignment
-To: Nick Desaulniers <ndesaulniers@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,48 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Duke Du <Duke.Du@amd.com>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Charlene Liu <charlene.liu@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Matthias Kaehlcke <mka@google.com>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Masahiro Yamada <yamada.masahiro@socionext.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0168011397=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMTIsIDIwMTkgYXQgODo0OSBQTSAnTmljayBEZXNhdWxuaWVycycgdmlhIENs
-YW5nIEJ1aWx0CkxpbnV4IDxjbGFuZy1idWlsdC1saW51eEBnb29nbGVncm91cHMuY29tPiB3cm90
-ZToKPgo+IE9uIEZyaSwgSnVsIDEyLCAyMDE5IGF0IDI6MzcgQU0gQXJuZCBCZXJnbWFubiA8YXJu
-ZEBhcm5kYi5kZT4gd3JvdGU6Cj4gPgo+ID4gQXMgcHJldmlvdXNseSBmaXhlZCBmb3IgZG1sIGlu
-IGNvbW1pdCA0NzY5Mjc4ZTVjN2YgKCJhbWRncHUvZGMvZG1sOgo+ID4gU3VwcG9ydCBjbGFuZyBv
-cHRpb24gZm9yIHN0YWNrIGFsaWdubWVudCIpIGFuZCBjYWxjcyBpbiBjb21taXQKPiA+IGNjMzJh
-ZDhmNTU5YyAoImFtZGdwdS9kYy9jYWxjczogU3VwcG9ydCBjbGFuZyBvcHRpb24gZm9yIHN0YWNr
-Cj4gPiBhbGlnbm1lbnQiKSwgZGNuMjAgdXNlcyBhbiBvcHRpb24gdGhhdCBpcyBub3QgYXZhaWxh
-YmxlIHdpdGggY2xhbmc6Cj4gPgo+ID4gY2xhbmc6IGVycm9yOiB1bmtub3duIGFyZ3VtZW50OiAn
-LW1wcmVmZXJyZWQtc3RhY2stYm91bmRhcnk9NCcKPiA+IHNjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6
-MjgxOiByZWNpcGUgZm9yIHRhcmdldCAnZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vZGlz
-cGxheS9kYy9kY24yMC9kY24yMF9yZXNvdXJjZS5vJyBmYWlsZWQKPiA+Cj4gPiBVc2UgdGhlIHNh
-bWUgdHJpY2sgdGhhdCB3ZSBoYXZlIGluIHRoZSBvdGhlciB0d28gZmlsZXMuCj4KPiBNYXliZSB0
-aW1lIGZvciBhIG1hY3JvIGluIEtidWlsZC5pbmNsdWRlIG9yIHNvbWUgc3VjaCwgaWYgd2Ugc2Vl
-IHRoaXMKPiBwYXR0ZXJuIGJlaW5nIHJlcGVhdGVkPwoKSSdtIG5vdCBhY3R1YWxseSBjb252aW5j
-ZWQgdGhhdCB0aGUgYXJndW1lbnQgZG9lcyBhbnl0aGluZyB1c2VmdWwKYXQgYWxsLCBpZiB0aGUg
-a2VybmVsIHN0YWNrIGlzIG5vcm1hbGx5IG5vdCAxNi1ieXRlIGFsaWduZWQKd2hlbiB3ZSBlbnRl
-ciB0aGUgZHJpdmVyLCBhbmQgaXQgY2xlYXJseSBpcyBub3QgbmVlZGVkIGlmIHRoZSBzdGFjawpp
-cyBhbHJlYWR5IGFsaWduZWQuCgpVbmxlc3MgYW55IGNvZGUgY2FsbGluZyBpbnRvIHRoZSBwb3J0
-aW9ucyB0aGF0IHdhbnQgdGhlIGFsaWdubWVudAptYW51YWxseSBhbGlnbnMgdGhlIGtlcm5lbCBz
-dGFjayBwb2ludGVyLCB3ZSBjb3VsZCBqdXN0IGFzIHdlbGwKbGVhdmUgaXQgb3V0LiBUaGUgZ2l0
-IGhpc3RvcnkgZG9lcyBub3QgZXhwbGFpbiB3aHkgaXQgd2FzIGFkZGVkIGluIHRoZQpmaXJzdCBw
-bGFjZSB0aG91Z2gsIHNvIEkgcmVhbGx5IGhhdmUgbm8gaWRlYS4KCkkgc2VlIGluIHRoZSBhcmNo
-aXRlY3R1cmUgbWFrZWZpbGVzIHRoYXQgaTM4NiBrZXJuZWxzIGFyZSBidWlsdCB3aXRoCnRoZSBz
-YW1lIGZsYWcgZ2xvYmFsbHksIGJ1dCBvdGhlciBhcmNoaXRlY3R1cmVzIChpbmNsdWRpbmcgeDg2
-XzY0KQp1c2UgdGhlIGRlZmF1bHQgc3RhY2sgYWxpZ25tZW50LCB3aGljaCBtYXkgYmUgZGlmZmVy
-ZW50LgoKICAgICAgQXJuZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWw=
+
+--===============0168011397==
+Content-Type: multipart/alternative; boundary="15629660591.AE9fF1e5.15722"
+Content-Transfer-Encoding: 7bit
+
+
+--15629660591.AE9fF1e5.15722
+Date: Fri, 12 Jul 2019 21:14:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109239
+
+--- Comment #14 from Raman Gupta <rocketraman@gmail.com> ---
+Purchased a new Radeon RX590 (made by Asus instead of XFX) and no longer ha=
+ve
+this issue.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15629660591.AE9fF1e5.15722
+Date: Fri, 12 Jul 2019 21:14:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Polaris10: Periodic random black screens for 1-2 seconds"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109239#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Polaris10: Periodic random black screens for 1-2 seconds"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109239">bug 10923=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+rocketraman&#64;gmail.com" title=3D"Raman Gupta &lt;rocketraman&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Raman Gupta</span></a>
+</span></b>
+        <pre>Purchased a new Radeon RX590 (made by Asus instead of XFX) and=
+ no longer have
+this issue.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15629660591.AE9fF1e5.15722--
+
+--===============0168011397==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0168011397==--
