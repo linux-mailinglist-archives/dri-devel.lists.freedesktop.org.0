@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEC767C5B
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 00:57:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B4B67C5F
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 00:59:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6427C89CDF;
-	Sat, 13 Jul 2019 22:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D3489CD7;
+	Sat, 13 Jul 2019 22:59:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A14289CDF
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 22:57:31 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7429E89CD7
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 22:59:01 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 86D2D72167; Sat, 13 Jul 2019 22:57:31 +0000 (UTC)
+ id 712C472167; Sat, 13 Jul 2019 22:59:01 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: =?UTF-8?B?W0J1ZyAxMTExMjRdIFtkcm06YW1kZ3B1X2RtX2F0b21pY19jb21taXRfdGFp?=
  =?UTF-8?B?bCBbYW1kZ3B1XV0gKkVSUk9SKiBXYWl0aW5nIGZvciBmZW5jZXMgdGltZWQg?=
  =?UTF-8?B?b3V0IG9yIGludGVycnVwdGVkISBoYXBwZW5zIGV2ZXJ5IHRpbWUgd2hlbiBh?=
  =?UTF-8?B?INGBdXRzY2VuZSBzaG93ZWQgaW4gTWF4IFBheW5lIDM=?=
-Date: Sat, 13 Jul 2019 22:57:31 +0000
+Date: Sat, 13 Jul 2019 22:59:01 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -36,8 +36,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111124-502-KX1wepid8l@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.description
+Message-ID: <bug-111124-502-UvbtWmxwDy@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111124-502@http.bugs.freedesktop.org/>
 References: <bug-111124-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -55,18 +55,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1115561800=="
+Content-Type: multipart/mixed; boundary="===============0532886824=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1115561800==
-Content-Type: multipart/alternative; boundary="15630586511.6BED56.3913"
+--===============0532886824==
+Content-Type: multipart/alternative; boundary="15630587411.2dd1b2F.4059"
 Content-Transfer-Encoding: 7bit
 
 
---15630586511.6BED56.3913
-Date: Sat, 13 Jul 2019 22:57:31 +0000
+--15630587411.2dd1b2F.4059
+Date: Sat, 13 Jul 2019 22:59:01 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,17 +75,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111124
 
---- Comment #8 from mikhail.v.gavrilov@gmail.com ---
-Created attachment 144783
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144783&action=3Dedit
-./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP
+mikhail.v.gavrilov@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144779|gfx                         |./umr -R gfx[.]
+        description|                            |
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15630586511.6BED56.3913
-Date: Sat, 13 Jul 2019 22:57:31 +0000
+--15630587411.2dd1b2F.4059
+Date: Sat, 13 Jul 2019 22:59:01 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,34 +98,34 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiti=
-ng for fences timed out or interrupted! happens every time when a =D1=81uts=
-cene showed in Max Payne 3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111124#c8">Commen=
-t # 8</a>
-              on <a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:mikhail.v=
+.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com">mikhail=
+.v.gavrilov&#64;gmail.com</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiti=
 ng for fences timed out or interrupted! happens every time when a =D1=81uts=
 cene showed in Max Payne 3"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111124">bug 11112=
 4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mikhail.v.gavrilov&#64;gmail.com" title=3D"mikhail.v.gavrilov&#64;gmail.com=
-">mikhail.v.gavrilov&#64;gmail.com</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144783=
-" name=3D"attach_144783" title=3D"./umr -O many,bits -r *.*.mmCP_ME_HEADER_=
-DUMP">attachment 144783</a> <a href=3D"attachment.cgi?id=3D144783&amp;actio=
-n=3Dedit" title=3D"./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP">[details]=
-</a></span>
-./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP</pre>
-        </div>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144779 description</=
+td>
+           <td>gfx
+           </td>
+           <td>./umr -R gfx[.]
+           </td>
+         </tr></table>
+      <p>
       </p>
 
 
@@ -136,9 +138,9 @@ n=3Dedit" title=3D"./umr -O many,bits -r *.*.mmCP_ME_HEADER_DUMP">[details]=
     </body>
 </html>=
 
---15630586511.6BED56.3913--
+--15630587411.2dd1b2F.4059--
 
---===============1115561800==
+--===============0532886824==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -148,4 +150,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1115561800==--
+--===============0532886824==--
