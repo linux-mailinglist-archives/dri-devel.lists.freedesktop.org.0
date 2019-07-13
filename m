@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C62A678E9
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2019 08:57:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA483678EC
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2019 09:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F6826E3B8;
-	Sat, 13 Jul 2019 06:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E589E6E3C1;
+	Sat, 13 Jul 2019 07:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B7F796E3B8
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 06:57:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 817826E3C1
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 07:03:02 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B320A72167; Sat, 13 Jul 2019 06:57:17 +0000 (UTC)
+ id 7A74572168; Sat, 13 Jul 2019 07:03:02 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Sat, 13 Jul 2019 06:57:17 +0000
+Date: Sat, 13 Jul 2019 07:03:02 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111122-502-IVKgYuw8FX@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111122-502-ruxWiJiq5O@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
 References: <bug-111122-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0675621490=="
+Content-Type: multipart/mixed; boundary="===============1344900250=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0675621490==
-Content-Type: multipart/alternative; boundary="15630010370.D03c0ed.11692"
+--===============1344900250==
+Content-Type: multipart/alternative; boundary="15630013821.FaEbf54F9.12118"
 Content-Transfer-Encoding: 7bit
 
 
---15630010370.D03c0ed.11692
-Date: Sat, 13 Jul 2019 06:57:17 +0000
+--15630013821.FaEbf54F9.12118
+Date: Sat, 13 Jul 2019 07:03:02 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,21 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
 
---- Comment #1 from andreaskem@web.de ---
-Created attachment 144772
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144772&action=3Dedit
-Xorg log
+--- Comment #2 from andreaskem@web.de ---
+Reintroducing iommu=3Dpt does, indeed, seem to fix these graphical issues. =
+Why is
+this flag suddenly required for proper operation again?
+
+Is every laptop with an Raven Ridge APU different here or why can the kernel
+not just figure out how to properly configure the IOMMU so that everything
+works?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15630010370.D03c0ed.11692
-Date: Sat, 13 Jul 2019 06:57:17 +0000
+--15630013821.FaEbf54F9.12118
+Date: Sat, 13 Jul 2019 07:03:02 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +103,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
@@ -110,11 +114,13 @@ t # 1</a>
 andreaskem&#64;web.de" title=3D"andreaskem&#64;web.de">andreaskem&#64;web.d=
 e</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144772=
-" name=3D"attach_144772" title=3D"Xorg log">attachment 144772</a> <a href=
-=3D"attachment.cgi?id=3D144772&amp;action=3Dedit" title=3D"Xorg log">[detai=
-ls]</a></span>
-Xorg log</pre>
+        <pre>Reintroducing iommu=3Dpt does, indeed, seem to fix these graph=
+ical issues. Why is
+this flag suddenly required for proper operation again?
+
+Is every laptop with an Raven Ridge APU different here or why can the kernel
+not just figure out how to properly configure the IOMMU so that everything
+works?</pre>
         </div>
       </p>
 
@@ -128,9 +134,9 @@ Xorg log</pre>
     </body>
 </html>=
 
---15630010370.D03c0ed.11692--
+--15630013821.FaEbf54F9.12118--
 
---===============0675621490==
+--===============1344900250==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0675621490==--
+--===============1344900250==--
