@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AA867C62
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 00:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0E367C64
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 01:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E670689C05;
-	Sat, 13 Jul 2019 22:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C28E389CF3;
+	Sat, 13 Jul 2019 23:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E7AD889C05
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 22:59:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5889B89CF3
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 23:00:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E506A72167; Sat, 13 Jul 2019 22:59:27 +0000 (UTC)
+ id 5574A72167; Sat, 13 Jul 2019 23:00:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: =?UTF-8?B?W0J1ZyAxMTExMjRdIFtkcm06YW1kZ3B1X2RtX2F0b21pY19jb21taXRfdGFp?=
  =?UTF-8?B?bCBbYW1kZ3B1XV0gKkVSUk9SKiBXYWl0aW5nIGZvciBmZW5jZXMgdGltZWQg?=
  =?UTF-8?B?b3V0IG9yIGludGVycnVwdGVkISBoYXBwZW5zIGV2ZXJ5IHRpbWUgd2hlbiBh?=
  =?UTF-8?B?INGBdXRzY2VuZSBzaG93ZWQgaW4gTWF4IFBheW5lIDM=?=
-Date: Sat, 13 Jul 2019 22:59:28 +0000
+Date: Sat, 13 Jul 2019 23:00:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -37,7 +37,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.description
-Message-ID: <bug-111124-502-jxFvHMONRX@http.bugs.freedesktop.org/>
+Message-ID: <bug-111124-502-DpyKuINTzn@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111124-502@http.bugs.freedesktop.org/>
 References: <bug-111124-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -55,18 +55,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1486836659=="
+Content-Type: multipart/mixed; boundary="===============2025785632=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1486836659==
-Content-Type: multipart/alternative; boundary="15630587671.FD45CAe.3875"
+--===============2025785632==
+Content-Type: multipart/alternative; boundary="15630588481.Cf8cE9D.3853"
 Content-Transfer-Encoding: 7bit
 
 
---15630587671.FD45CAe.3875
-Date: Sat, 13 Jul 2019 22:59:27 +0000
+--15630588481.Cf8cE9D.3853
+Date: Sat, 13 Jul 2019 23:00:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,15 +79,19 @@ mikhail.v.gavrilov@gmail.com changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
- Attachment #144778|halt_waves                  |./umr -O halt_waves -wa
-        description|                            |
+ Attachment #144777|event_dump                  |trace-cmd start -e
+        description|                            |dma_fence -e gpu_scheduler
+                   |                            |-e amdgpu -v -e
+                   |                            |"amdgpu:amdgpu_mm_rreg" -e
+                   |                            |"amdgpu:amdgpu_mm_wreg" -e
+                   |                            |"amdgpu:amdgpu_iv"
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15630587671.FD45CAe.3875
-Date: Sat, 13 Jul 2019 22:59:27 +0000
+--15630588481.Cf8cE9D.3853
+Date: Sat, 13 Jul 2019 23:00:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -118,11 +122,13 @@ cene showed in Max Payne 3"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Attachment #144778 description</=
+           <td style=3D"text-align:right;">Attachment #144777 description</=
 td>
-           <td>halt_waves
+           <td>event_dump
            </td>
-           <td>./umr -O halt_waves -wa
+           <td>trace-cmd start -e dma_fence -e gpu_scheduler -e amdgpu -v -=
+e &quot;amdgpu:amdgpu_mm_rreg&quot; -e &quot;amdgpu:amdgpu_mm_wreg&quot; -e=
+ &quot;amdgpu:amdgpu_iv&quot;
            </td>
          </tr></table>
       <p>
@@ -138,9 +144,9 @@ td>
     </body>
 </html>=
 
---15630587671.FD45CAe.3875--
+--15630588481.Cf8cE9D.3853--
 
---===============1486836659==
+--===============2025785632==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +156,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1486836659==--
+--===============2025785632==--
