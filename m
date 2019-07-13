@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2418A67752
-	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2019 02:49:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 946C167761
+	for <lists+dri-devel@lfdr.de>; Sat, 13 Jul 2019 02:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C8689FA6;
-	Sat, 13 Jul 2019 00:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7EC76E3A2;
+	Sat, 13 Jul 2019 00:57:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 414BF89FA6
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 00:49:24 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id k21so10637744edq.3
- for <dri-devel@lists.freedesktop.org>; Fri, 12 Jul 2019 17:49:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SyqVAgQMOHYXey7EnkAylgSqwsoD6phOjM6qtdZ4mNw=;
- b=pl3o1pwZDP9h3VFf7IJho9xz63eREg3XPKq/tcWTTtnUrOGhq2E63vnMANJN0mXYDd
- INkY2s/5uGgVmOUcB6slDs481wreas7VdMkPB8/QGEnG1lmXNiaGwhT9/goo/r4JNLiC
- 2ihPw0Zv16+qwGtnqwQa+/ncykES4gdsPj+RgWO2QB+1lu33YIeB9T66u4P9oYuyc+FU
- beMUmWbnNtXIvgNFDdYiolpJ3H9ipmFeZzoM4SjUOeU60BSecN7KeLs4qKMlzWT2jdiy
- C2u4SR0inTqR9H/GmTEqxIG/ZAbuPZh+FV2R9QLIRDpgwj0cvaB0snGvDK28FnLnX80p
- sFNA==
-X-Gm-Message-State: APjAAAVacphEQ3Lv87LI3eTmSefxm1B6bYLQ6Tu1bAnxSgMWufzAdLNd
- kgE0AUsrRbrGvui8aJDgupmEyvUPtt4htiq4MJ0=
-X-Google-Smtp-Source: APXvYqyDnrpj8iAQ6BNq+8gwo2b3Md7G97ZUOdYET+TJa+t9rbuRiFvlgq0grhmuNKjhyvRktnY5DBaQMrRBZYG2t2Q=
-X-Received: by 2002:a17:906:3f87:: with SMTP id
- b7mr10538910ejj.164.1562978962599; 
- Fri, 12 Jul 2019 17:49:22 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DEE236E3A2
+ for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 00:57:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D9C4272167; Sat, 13 Jul 2019 00:57:29 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110214] radeonsi: xterm scrollback buffer disappears while
+ Shift+PgUp and Shift+PgDn
+Date: Sat, 13 Jul 2019 00:57:30 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: diego.viola@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110214-502-HdZVHKkb48@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
+References: <bug-110214-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190703214326.41269-1-jeffrey.l.hugo@gmail.com>
- <20190703214512.41319-1-jeffrey.l.hugo@gmail.com>
- <CGME20190706010615epcas2p343102f858a7fadaf6785f7ece105f1a7@epcas2p3.samsung.com>
- <20190706010604.GG20625@sirena.org.uk>
- <64ca3a74-374f-d4f3-bee6-a607cc5c0fc5@samsung.com>
- <CAF6AEGtGjKRA3A8v6pgaXLgpeiLZuz6HuDSFRjKrNp4iQNVZtA@mail.gmail.com>
- <10b1313f-7a60-df04-a9e3-76649b74f2f0@samsung.com>
- <CAOCk7NoyCmPQF3s4GWD1Oa4t5hdqi6vdcOdHyJpo3Gc1JQqXcw@mail.gmail.com>
-In-Reply-To: <CAOCk7NoyCmPQF3s4GWD1Oa4t5hdqi6vdcOdHyJpo3Gc1JQqXcw@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 12 Jul 2019 17:49:11 -0700
-Message-ID: <CAF6AEGu8NY14qkzO1qU1TGX4VrUvQU3vZbDXjA_UNBqqODGucQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] regmap: Add DSI bus support
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=SyqVAgQMOHYXey7EnkAylgSqwsoD6phOjM6qtdZ4mNw=;
- b=qCl3ma6CyklmWDLlR3q/xIlLZoVBiD9DmK8Y9WaGemh0o9qNRjqZTzHmJ3eFCAPTN8
- YlrlYwBw7Xn5sK9INOZX9VpMfClNM/AcDFUSvmpvwPrcV8bKHWgcMrHKnwNZJ/4M/TYP
- XQueTm7VyWhkf8SlUBudIVxfxYDsGG153oobZgRYKIOxZ/j2Px189vGz30Xpls/gHtwk
- AXhO1SRUHspmO1N2c619aD+utfQedV8vNrePHMXQoCw1m4EJHYDQDnQKLDh2mYDV7tdv
- QRe9tuGfk1+hMAv+5EJqJNJSsOwwKCLtGBoEiOrV8M8W3KSY0IIICfHJrCtgBqJ6TWzx
- KTCQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,83 +53,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1394771391=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMTIsIDIwMTkgYXQgNzoyMiBBTSBKZWZmcmV5IEh1Z28gPGplZmZyZXkubC5o
-dWdvQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBPbiBGcmksIEp1bCAxMiwgMjAxOSBhdCA3OjAxIEFN
-IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+IHdyb3RlOgo+ID4KPiA+IE9uIDEx
-LjA3LjIwMTkgMTU6NTYsIFJvYiBDbGFyayB3cm90ZToKPiA+ID4gT24gVGh1LCBKdWwgMTEsIDIw
-MTkgYXQgNjoxMSBBTSBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcuY29tPiB3cm90ZToK
-PiA+ID4+IE9uIDA2LjA3LjIwMTkgMDM6MDYsIE1hcmsgQnJvd24gd3JvdGU6Cj4gPiA+Pj4gT24g
-V2VkLCBKdWwgMDMsIDIwMTkgYXQgMDI6NDU6MTJQTSAtMDcwMCwgSmVmZnJleSBIdWdvIHdyb3Rl
-Ogo+ID4gPj4+PiBBZGQgYmFzaWMgc3VwcG9ydCB3aXRoIGEgc2ltcGxlIGltcGxlbWVudGF0aW9u
-IHRoYXQgdXRpbGl6ZXMgdGhlIGdlbmVyaWMKPiA+ID4+Pj4gcmVhZC93cml0ZSBjb21tYW5kcyB0
-byBhbGxvdyBkZXZpY2UgcmVnaXN0ZXJzIHRvIGJlIGNvbmZpZ3VyZWQuCj4gPiA+Pj4gVGhpcyBs
-b29rcyBnb29kIHRvIG1lIGJ1dCBJIHJlYWxseSBkb24ndCBrbm93IGFueXRoaW5nIGFib3V0IERT
-SSwKPiA+ID4+PiBJJ2QgYXBwcmVjaWF0ZSBzb21lIHJldmlldyBmcm9tIG90aGVyIHBlb3BsZSB3
-aG8gZG8uICBJIHRha2UgaXQKPiA+ID4+PiB0aGVyZSdzIHNvbWUgc3BlYyB0aGluZyBpbiBEU0kg
-dGhhdCBzYXlzIHJlZ2lzdGVycyBhbmQgYnl0ZXMgbXVzdAo+ID4gPj4+IGJvdGggYmUgOCBiaXQ/
-Cj4gPiA+Pgo+ID4gPj4gSSBhbSBsaXR0bGUgYml0IGNvbmZ1c2VkIGFib3V0IHJlZ21hcCB1c2Fn
-ZSBoZXJlLiBPbiB0aGUgb25lIGhhbmQgaXQKPiA+ID4+IG5pY2VseSBmaXRzIHRvIHRoaXMgc3Bl
-Y2lmaWMgZHJpdmVyLCBwcm9iYWJseSBiZWNhdXNlIGl0IGFscmVhZHkgdXNlcwo+ID4gPj4gcmVn
-bWFwX2kyYy4KPiA+ID4+Cj4gPiA+PiBPbiB0aGUgb3RoZXIgaXQgd2lsbCBiZSB1bnVzYWJsZSBm
-b3IgYWxtb3N0IGFsbCBjdXJyZW50IERTSSBkcml2ZXJzIGFuZAo+ID4gPj4gcHJvYmFibHkgZm9y
-IG1vc3QgbmV3IGRyaXZlcnMuIFdoeT8KPiA+ID4+Cj4gPiA+PiAxLiBEU0kgcHJvdG9jb2wgZGVm
-aW5lcyBhY3R1YWxseSBtb3JlIHRoYW4gMzAgdHlwZXMgb2YgdHJhbnNhY3Rpb25zWzFdLAo+ID4g
-Pj4gYnV0IHRoaXMgcGF0Y2hzZXQgaW1wbGVtZW50cyBvbmx5IGZldyBvZiB0aGVtIChkc2kgZ2Vu
-ZXJpYyB3cml0ZS9yZWFkCj4gPiA+PiBmYW1pbHkpLiBJcyBpdCBwb3NzaWJsZSB0byBpbXBsZW1l
-bnQgbXVsdGlwbGUgdHlwZXMgb2YgdHJhbnNhY3Rpb25zIGluCj4gPiA+PiByZWdtYXA/Cj4gPiA+
-Pgo+ID4gPj4gMi4gVGhlcmUgaXMgYWxyZWFkeSBzb21lIHNldCBvZiBoZWxwZXJzIHdoaWNoIHVz
-ZXMgZHNpIGJ1cywgcmV3cml0aW5nIGl0Cj4gPiA+PiBvbiByZWdtYXAgaXMgcG9zc2libGUgb3Ig
-ZHJpdmVyIGNvdWxkIHVzZSBvZiByZWdtYXAgYW5kIGRpcmVjdCBhY2Nlc3MKPiA+ID4+IHRvZ2V0
-aGVyLCB0aGUgcXVlc3Rpb24gaXMgaWYgaXQgaXMgcmVhbGx5IG5lY2Vzc2FyeS4KPiA+ID4+Cj4g
-PiA+PiAzLiBEU0kgZGV2aWNlcyBhcmUgbm8gTUZEcyBzbyByZWdtYXAgYWJzdHJhY3Rpb24gaGFz
-IG5vIGJpZyB2YWx1ZSBhZGRlZAo+ID4gPj4gKGNvcnJlY3QgbWUsIGlmIHRoZXJlIGFyZSBvdGhl
-ciBzaWduaWZpY2FudCBiZW5lZml0cykuCj4gPiA+Pgo+ID4gPiBJIGFzc3VtZSBpdCBpcyBub3Qg
-Kmp1c3QqIHRoaXMgb25lIGJyaWRnZSB0aGF0IGNhbiBiZSBwcm9ncmFtbWVkIG92ZXIKPiA+ID4g
-ZWl0aGVyIGkyYyBvciBkc2ksIGRlcGVuZGluZyBvbiBob3cgdGhpbmdzIGFyZSB3aXJlZCB1cCBv
-biB0aGUgYm9hcmQuCj4gPiA+IEl0IGNlcnRhaW5seSB3b3VsZCBiZSBuaWNlIGZvciByZWdtYXAg
-dG8gc3VwcG9ydCB0aGlzIGNhc2UsIHNvIHdlCj4gPiA+IGRvbid0IGhhdmUgdG8gd3JpdGUgdHdv
-IGRpZmZlcmVudCBicmlkZ2UgZHJpdmVycyBmb3IgdGhlIHNhbWUgYnJpZGdlLgo+ID4gPiBJIHdv
-dWxkbid0IGV4cGVjdCBhIHBhbmVsIHRoYXQgaXMgb25seSBwcm9ncmFtbWVkIHZpYSBkc2kgdG8g
-dXNlIHRoaXMuCj4gPgo+ID4KPiA+IE9uIHRoZSBvdGhlciBzaWRlIHN1cHBvcnRpbmcgRFNJIGFu
-ZCBJMkMgaW4gb25lIGRyaXZlciBpcyBzaW1wbHkgbWF0dGVyCj4gPiBvZiB3cml0aW5nIHByb3Bl
-ciBhY2Nlc29ycy4KPgo+IFRvIG1lLCB0aGlzIHJlYWRzIGxpa2UgeW91ciBjb3VudGVyIGFyZ3Vt
-ZW50IHRvIG5vdCB1c2luZyByZWdtYXAsIGlzCj4gdG8gcmVpbnZlbnQgcmVnbWFwLiAgTWF5YmUg
-SSBkb24ndCB1bmRlcnN0YW5kIHdoYXQgeW91IGFyZSBwcm9wb3NpbmcKPiBoZXJlLCBidXQgaXQg
-c291bmRzIGxpa2UgcmVtb3ZlIHRoZSByZWdtYXAgc3VwcG9ydCwgZGVmaW5lIHNuNjUKPiBzcGVj
-aWZpYyBhY2Nlc3NvcnMgdGhhdCBqdXN0IGJlZm9yZSBzZW5kaW5nIHRoZSB3cml0ZSB0byB0aGUg
-YnVzIGRvZXMKPiBhIGNoZWNrIGlmIHRoZSBhY2Nlc3MgbmVlZHMgdG8gZ28gb3ZlciBpMmMgb3Ig
-RFNJLiAgRmVlbHMgbGlrZSBhCj4gY2x1bmt5IHZlcnNpb24gb2YgcmVnbWFwIHRvIG1lLiAgV2h5
-IG5vdCB1c2UgdGhlIGV4aXN0aW5nICJnZW5lcmljIgo+IGZyYW1ld29yaz8KPgo+IFRvIHlvdXIg
-cG9pbnQgdGhhdCBEU0kgZGVmaW5lcyBvdmVyIDMwIG1lc3NhZ2UgdHlwZXMsIHllcyBpdCBkb2Vz
-LCBidXQKPiB0aGF0IHNlZW1zIHRvIGJlIG91dHNpZGUgb2YgdGhlIHNjb3BlLiAgSG93IG1hbnkg
-b2YgdGhvc2UgYXJlIGFjdHVhbGx5Cj4gZm9yIGRvaW5nIHJlZ2lzdGVyIGFjY2Vzcz8gIEknbSB0
-aGlua2luZyBqdXN0IDQgKHRlY2huaWNhbGx5IGEgaGFpcgo+IG1vcmUgdGhhbiB0aGF0IGJlY2F1
-c2Ugb2YgdGhlIG11bHRpcGxlIHZlcnNpb24gb2YgdGhlIHNhbWUgbWVzc2FnZSkgLQo+IGdlbmVy
-aWMgcmVhZCwgZ2VuZXJpYyB3cml0ZSwgZGNzIHJlYWQsIGRjcyB3cml0ZS4gIEkgZG9uJ3Qgdmll
-dyByZWdtYXAKPiBhcyBhIGdlbmVyaWMgYWJzdHJhY3Rpb24gbGF5ZXIgb3ZlciBhIHBhcnRpY3Vs
-YXIgbWVjaGFuaXNtLCBhbmQgdGh1cwo+IG5lZWRzIHRvIHN1cHBvcnQgZXZlcnl0aGluZyB0aGF0
-IG1lY2hhbmlzbSBkb2VzLiAgU2VuZGluZyBzeW5jCj4gY29tbWFuZHMsIG9yIHBpeGVsIGRhdGEg
-b3ZlciBEU0kgaXMgb3V0c2lkZSB0aGUgc2NvcGUgb2YgcmVnbWFwIHRvIG1lLgoKSSdtIHcvIGpo
-dWdvIG9uIHRoaXMgb25lLi4gaWYgeW91IGFyZSB3b3JraW5nIHcvIGEgZGV2aWNlIHRoYXQgY2Fu
-IGJlCnByb2dyYW1tZWQgdmlhIGkyYyBvciBkc2ksIHJlZ21hcCBhbmQgbGltaXRpbmcgeW91cnNl
-bGYgdG8gdGhlIHNtYWxsCnN1YnNldCBvZiBkc2kgY21kcyB3aGljaCBtYXAgdG8gaTJjIHJlYWRz
-L3dyaXRlcywgbWFrZXMgYSB0b24gb2YKc2Vuc2UuICAoQW5kIEknbSBhbG1vc3QgY2VydGFpbiB0
-aGlzIGJyaWRnZSBpc24ndCB0aGUgb25seSBzdWNoCmRldmljZS4pCgpUaGF0IGlzbid0IHRvIHNh
-eSB5b3Ugc2hvdWxkIHVzZSByZWdtYXAgZm9yIGRldmljZXMgdGhhdCBhcmUgb25seQpwcm9ncmFt
-bWVkIG92ZXIgZHNpLiAgVGhhdCB3b3VsZCBiZSBzaWxseS4gIFRoZSBvcmlnaW5hbCBhcmd1bWVu
-dAphYm91dCB0aGlzIG5vdCBiZWluZyB1c2FibGUgYnkgbW9zdCBEU0kgZGV2aWNlcyBpcyByZWFs
-bHkgYQpub24tc2VxdWl0dXIuCgpCUiwKLVIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1394771391==
+Content-Type: multipart/alternative; boundary="15629794492.62E76.18308"
+Content-Transfer-Encoding: 7bit
+
+
+--15629794492.62E76.18308
+Date: Sat, 13 Jul 2019 00:57:29 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
+
+--- Comment #95 from Diego Viola <diego.viola@gmail.com> ---
+Still a problem with linux 5.2.0-arch2-1-ARCH and mesa 19.1.2-1.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15629794492.62E76.18308
+Date: Sat, 13 Jul 2019 00:57:29 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c95">Comme=
+nt # 95</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - radeonsi: xterm scrollback buffer disappears while Shift+=
+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+diego.viola&#64;gmail.com" title=3D"Diego Viola &lt;diego.viola&#64;gmail.c=
+om&gt;"> <span class=3D"fn">Diego Viola</span></a>
+</span></b>
+        <pre>Still a problem with linux 5.2.0-arch2-1-ARCH and mesa 19.1.2-=
+1.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15629794492.62E76.18308--
+
+--===============1394771391==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1394771391==--
