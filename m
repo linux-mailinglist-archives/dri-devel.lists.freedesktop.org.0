@@ -2,66 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB12680FA
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 21:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C14568126
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 22:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 479CA89875;
-	Sun, 14 Jul 2019 19:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1831E8945A;
+	Sun, 14 Jul 2019 20:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3FEC89AC9
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 18:57:35 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id h10so12395378ljg.0
- for <dri-devel@lists.freedesktop.org>; Sat, 13 Jul 2019 11:57:35 -0700 (PDT)
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 322818945A
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 20:22:28 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id h10so14080752ljg.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 13:22:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1DMwibKvZCBQwsKwsGLbs45A3tB2NhY6KAKu789sECM=;
- b=YaWr6OmyG1RvdnRvxdlL03cGIdInjlamZjsxPcH7jE7T91fSJL8SVs+p0GWyARHPLn
- MqBmd2aU9/lMlUeW9TC23m7G0hyNOS0+8RZiJqQjtXTreLmOxI5rOlB3OxxlllnKBbFL
- F2o3qrjUs1jX0rSQihoGr7qvD1rh/h4R5DjtJmA3LdVvvwrAy2rqG7m3XRp5M9rF58xl
- PRP6/rLgbQ6a62F/CMaM4RpZuR6Ev3UbxYOsPd40/thobV85kejUsJ+38w5EaFeXF4xb
- ofih3iHyX3a5igZ1wk2tAEL4QOu+ixh1rZ3onDxGbGZp5zc5Di5axQxcIeTnXiPf+Mtc
- 20aA==
-X-Gm-Message-State: APjAAAXAnl1JQPROYv0bNlqim7eCUhsVOQXOxlOFJ1dlZVTTu+L7MOSo
- RxuVAbihSnqdPS0w6Q+LhLA=
-X-Google-Smtp-Source: APXvYqxNyzCSv/eKGElqM9iJwmHCu1kHSKZrRaq3BPn3cU5K7rbOFEc1UQgFYqjoELx45FF79WpqhA==
-X-Received: by 2002:a2e:25a:: with SMTP id 87mr9505577ljc.183.1563044254326;
- Sat, 13 Jul 2019 11:57:34 -0700 (PDT)
-Received: from [192.168.2.145] (ppp79-139-233-208.pppoe.spdop.ru.
- [79.139.233.208])
- by smtp.googlemail.com with ESMTPSA id u13sm1584252lfi.4.2019.07.13.11.57.32
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 13 Jul 2019 11:57:33 -0700 (PDT)
-Subject: Re: [PATCH v1] drm/modes: Don't apply cmdline's rotation if it wasn't
- specified
-To: Maxime Ripard <maxime.ripard@bootlin.com>
-References: <20190711021313.29445-1-digetx@gmail.com>
- <20190712195429.dlz5ofwoafciedcq@flea>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <11723cfd-12d2-5810-70df-0e053352d648@gmail.com>
-Date: Sat, 13 Jul 2019 21:57:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tCJwfseONs3kj8QnI6Gdnu0Uip4gTAtT1YqSeyCJrVc=;
+ b=nmYekoRF/yHOHREia1dZMHrgUr/ZTsgJ0Stocf9fh3lgNw+iXq6za3dNo4IhOsNnIO
+ ZDsfhZXRfBkqBYtQDhfjtsyVMvOzBk9hcMCg+UqIwbyx5aJrVmFo3bl0m6KcCIegCn6g
+ KAL+re2oNj1qfnSRdTv0wUMhpzKhDaNhfapNAQPCuSrkTRyFRC/Hu/Ky9Z8n7FQhlvzW
+ TA3rhaBHm5pZ/2ZrcENKw7dAHP9llI5lrrYjG5TM7QvkrkBEFW+7Da4W0BHdvrxqE+zM
+ rLyNjYED0/Oz3AU231Io4wIMfxvqxo34PWqCtYiQQVrJX2aPN/331aXtKO17aE8fNE19
+ MZ6w==
+X-Gm-Message-State: APjAAAWDPo5x9bFyOxjxug7XHVWwsFR+IhWkmIPwFanBudba8q6w0E8i
+ P3lY82yIbC1fytKdIeE4R7XWmJrWOK1ROAWChSAsulvX
+X-Google-Smtp-Source: APXvYqz3nop5qNspbeLa3sOEavBbE39NfaBTWwncs0P+MZoPAo3J62vOrULwuIUxtm05i5XbucxMpTiNMEn2HkF+jLo=
+X-Received: by 2002:a2e:9951:: with SMTP id r17mr11589009ljj.125.1563135746409; 
+ Sun, 14 Jul 2019 13:22:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190712195429.dlz5ofwoafciedcq@flea>
-Content-Language: en-US
-X-Mailman-Approved-At: Sun, 14 Jul 2019 19:16:04 +0000
+References: <bug-109206-502@http.bugs.freedesktop.org/>
+ <bug-109206-502-B1M85pbBco@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109206-502-B1M85pbBco@http.bugs.freedesktop.org/>
+From: Mihai <xanto@egaming.ro>
+Date: Sun, 14 Jul 2019 23:21:50 +0300
+Message-ID: <CAPib=sNPVU29vuCVWekxXwkc48LnVSODW5Ho1zknNcQX-xeuvA@mail.gmail.com>
+Subject: Re: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen
+ 2500U
+To: bugzilla-daemon@freedesktop.org
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1DMwibKvZCBQwsKwsGLbs45A3tB2NhY6KAKu789sECM=;
- b=Z7ZiMI/B+AwP5+Nu0a832zRw3pILi8bsCjFiZhmXOQARtYiTVtULJtVw6q7ipCIMq6
- XtxCiPVtXBIs8T+FJCxJTCSdA6V/SfcDCeNOYS0ykYfMvxDFjOI8l47xMeEmrvdPcSIg
- rGfMQ6488rOfJlGGM4a3qXGg/PVQjyLjsYg9m2G9Cwf12Ja1KoZmZEYDG9cqqjTfwOh0
- HD6dptz1al1/mm3MpL8ftA/zDzCw5OMxCr8SqNi8yNHpUqnemwx6ZxsFeeWpdnA1w+8Q
- xhJgFGHhaZ5fMF9szwe/sPYi55lOMi+t3pJ/yAIIuiRAH2wFkLRxBKHNq9XuFqv4q4ZK
- 4j2w==
+ d=egaming.ro; s=msecurizat;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=tCJwfseONs3kj8QnI6Gdnu0Uip4gTAtT1YqSeyCJrVc=;
+ b=KZeVlxAGWf8cLhRDklXom0yMNwHDKGCFo+ZmEAjFea4YBRuj9bkscRqDzRA2gd1E/z
+ 8LemAE+m0f82SwmMUIICk40erLhh244SBCtgQTT+In07gSPmOMRldlVLt408mcJ1wdJq
+ G5oP5k5AcvsqwtoQYM6uYQtOkIVPPE7Rvif64=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,31 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1451998132=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTIuMDcuMjAxOSAyMjo1NCwgTWF4aW1lIFJpcGFyZCDQv9C40YjQtdGCOgo+IE9uIFRodSwgSnVs
-IDExLCAyMDE5IGF0IDA1OjEzOjEzQU0gKzAzMDAsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4g
-VGhlIHJvdGF0aW9uIG1vZGUgZnJvbSBjbWRsaW5lIHNob3VsZG4ndCBiZSB0YWtlbiBpbnRvIGFj
-Y291bnQgaWYgaXQKPj4gd2Fzbid0IHNwZWNpZmllZCBpbiB0aGUgY21kbGluZS4gVGhpcyBmaXhl
-cyBpZ25vcmVkIGRlZmF1bHQgZGlzcGxheQo+PiBvcmllbnRhdGlvbiB3aGVuIGRpc3BsYXkgbW9k
-ZSBpcyBnaXZlbiB1c2luZyBjbWRsaW5lIHdpdGhvdXQgdGhlCj4+IHJvdGF0aW9uIGJlaW5nIHNw
-ZWNpZmllZC4KPj4KPj4gRml4ZXM6IDFiZjRlMDkyMjdjMyAoImRybS9tb2RlczogQWxsb3cgdG8g
-c3BlY2lmeSByb3RhdGlvbiBhbmQgcmVmbGVjdGlvbiBvbiB0aGUgY29tbWFuZGxpbmUiKQo+PiBT
-aWduZWQtb2ZmLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFpbC5jb20+Cj4gCj4gQWNr
-ZWQtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9vdGxpbi5jb20+Cj4gCj4gVGhh
-bmtzIQo+IE1heGltZQoKVGhhbmsgeW91LiBQbGVhc2Ugbm90ZSB0aGF0IEknbSBub3QgYSBEUk0g
-bWFpbnRhaW5lciwgaGVuY2UgZWl0aGVyIHlvdQpzaG91bGQgcGljayB1cCBhbmQgYXBwbHkgdGhl
-IHBhdGNoIGJ5IHlvdXJzZWxmIG9yIHNvbWVib2R5IGVsc2Ugd2hvIGhhcwp0aGUgY29tbWl0IHJp
-Z2h0cyB3aWxsIGhhdmUgZG8gdGhhdC4gSSBndWVzcyBUaGllcnJ5IGNvdWxkIGFsc28gcGljayB1
-cAp0aGUgcGF0Y2ggaW50byB0aGUgVGVncmEncyB0cmVlLCBidXQgdGhpcyBwYXRjaCBpcyBtb3Jl
-IERSTS1nZW5lcmljLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+--===============1451998132==
+Content-Type: multipart/alternative; boundary="000000000000e695c2058da9e65f"
+
+--000000000000e695c2058da9e65f
+Content-Type: text/plain; charset="UTF-8"
+
+I am seeing reports with old BIOS, such as F.19.
+I have a 15-cp0001na
+https://support.hp.com/ie-en/drivers/selfservice/hp-envy-15-cp0000-x360-convertible-pc/20270303/model/23086446
+Latest available is F.42 Rev.A
+I am wondering if by any chance would be a match to other models also.
+
+--000000000000e695c2058da9e65f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><br></div><div>I am seeing reports with old BIOS, suc=
+h as F.19.<br></div><div>I have a 15-cp0001na <a href=3D"https://support.hp=
+.com/ie-en/drivers/selfservice/hp-envy-15-cp0000-x360-convertible-pc/202703=
+03/model/23086446">https://support.hp.com/ie-en/drivers/selfservice/hp-envy=
+-15-cp0000-x360-convertible-pc/20270303/model/23086446</a></div><div>Latest=
+ available is F.42 Rev.A</div><div>I am wondering if by any chance would be=
+ a match to other models also.<br></div></div>
+
+--000000000000e695c2058da9e65f--
+
+--===============1451998132==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1451998132==--
