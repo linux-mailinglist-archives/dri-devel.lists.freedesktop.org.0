@@ -1,45 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A598C68127
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 22:22:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A1968137
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 23:02:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7DA989838;
-	Sun, 14 Jul 2019 20:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B60789834;
+	Sun, 14 Jul 2019 21:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 65D9D89834
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 20:22:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 62DC472168; Sun, 14 Jul 2019 20:22:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B24B89834
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 21:02:16 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id F194F27F8C
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 21:02:15 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id E5AD927FB0; Sun, 14 Jul 2019 21:02:15 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
-Date: Sun, 14 Jul 2019 20:22:30 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 197327] radeon 0000:01:00.0: failed VCE resume (-110).
+Date: Sun, 14 Jul 2019 21:02:13 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: xanto@egaming.ro
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: fagianijunior@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109206-502-Z6LkookH8j@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
-References: <bug-109206-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-197327-2300-P00CmoUiRl@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-197327-2300@https.bugzilla.kernel.org/>
+References: <bug-197327-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,98 +61,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0534349973=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0534349973==
-Content-Type: multipart/alternative; boundary="15631357501.Ed173D48.8612"
-Content-Transfer-Encoding: 7bit
-
-
---15631357501.Ed173D48.8612
-Date: Sun, 14 Jul 2019 20:22:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
-
---- Comment #60 from Michael Eagle <xanto@egaming.ro> ---
-I am seeing reports with old BIOS, such as F.19.
-I have a 15-cp0001na
-https://support.hp.com/ie-en/drivers/selfservice/hp-envy-15-cp0000-x360-con=
-vertible-pc/20270303/model/23086446
-Latest available is F.42 Rev.A
-I am wondering if by any chance would be a match to other models also.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15631357501.Ed173D48.8612
-Date: Sun, 14 Jul 2019 20:22:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c60">Comme=
-nt # 60</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-xanto&#64;egaming.ro" title=3D"Michael Eagle &lt;xanto&#64;egaming.ro&gt;">=
- <span class=3D"fn">Michael Eagle</span></a>
-</span></b>
-        <pre>I am seeing reports with old BIOS, such as F.19.
-I have a 15-cp0001na
-<a href=3D"https://support.hp.com/ie-en/drivers/selfservice/hp-envy-15-cp00=
-00-x360-convertible-pc/20270303/model/23086446">https://support.hp.com/ie-e=
-n/drivers/selfservice/hp-envy-15-cp0000-x360-convertible-pc/20270303/model/=
-23086446</a>
-Latest available is F.42 Rev.A
-I am wondering if by any chance would be a match to other models also.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15631357501.Ed173D48.8612--
-
---===============0534349973==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0534349973==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0xOTczMjcKCkNhcmxv
+cyBGYWdpYW5pIEp1bmlvciAoZmFnaWFuaWp1bmlvckBnbWFpbC5jb20pIGNoYW5nZWQ6CgogICAg
+ICAgICAgIFdoYXQgICAgfFJlbW92ZWQgICAgICAgICAgICAgICAgICAgICB8QWRkZWQKLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQogICAgICAgICAgICAgICAgIENDfCAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8ZmFnaWFuaWp1bmlvckBnbWFpbC5jb20KCi0tLSBDb21tZW50ICM5IGZyb20gQ2FybG9z
+IEZhZ2lhbmkgSnVuaW9yIChmYWdpYW5panVuaW9yQGdtYWlsLmNvbSkgLS0tClNhbWUgaGVyZQoK
+Tm93IHVzaW5nIEZlZG9yYSAzMCwgYnV0IGhhcyB0aGUgc2FtZSBlcnJvciBvbiBVYnVudHUsIE1p
+bnQsIEFyY2guLi4gCkZyZWV6ZSB0aGUgc3lzdGVtIG9uIG5vbXJhbCB1c2UsIHdpdGhvdXQgcGxh
+eSBnYW1lLCBvbmx5IHVzaW5nIHRlcm1pbmFsIGFuZApzb21lIGJyb3dzZXIuCgpBcmNoIHdpa2kg
+c2F5IGFib3V0IHNvbWUga2VybmVsIHBhcmFtZXRlciBpZiBzeXN0ZW0gZnJlZXplLiBMaWtlCmFt
+ZGdwdS52bV91cGRhdGVfbW9kZT0zIAoKaHR0cHM6Ly93aWtpLmFyY2hsaW51eC5vcmcvaW5kZXgu
+cGhwL0FNREdQVQoKJCB1bmFtZSAtYQpMaW51eCBsb2NhbGhvc3QubG9jYWxkb21haW4gNS4xLjE2
+LTMwMC5mYzMwLng4Nl82NCAjMSBTTVAgV2VkIEp1bCAzIDE1OjA2OjUxClVUQyAyMDE5IHg4Nl82
+NCB4ODZfNjQgeDg2XzY0IEdOVS9MaW51eAoKCiQgbHNwY2kgLW5uayB8IGdyZXAgLUEzIC1FICJW
+R0F8M0QiCjA2OjAwLjAgVkdBIGNvbXBhdGlibGUgY29udHJvbGxlciBbMDMwMF06IEFkdmFuY2Vk
+IE1pY3JvIERldmljZXMsIEluYy4KW0FNRC9BVEldIE9sYW5kIFBSTyBbUmFkZW9uIFI3IDI0MC8z
+NDBdIFsxMDAyOjY2MTNdCiAgICAgICAgU3Vic3lzdGVtOiBBZHZhbmNlZCBNaWNybyBEZXZpY2Vz
+LCBJbmMuIFtBTUQvQVRJXSBEZXZpY2UgWzEwMDI6MmIwYV0KICAgICAgICBLZXJuZWwgZHJpdmVy
+IGluIHVzZTogcmFkZW9uCiAgICAgICAgS2VybmVsIG1vZHVsZXM6IHJhZGVvbiwgYW1kZ3B1CgoK
+JCBsc3BjaSB8IGdyZXAgLWkgdmdhCjA2OjAwLjAgVkdBIGNvbXBhdGlibGUgY29udHJvbGxlcjog
+QWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1EL0FUSV0gT2xhbmQKUFJPIFtSYWRlb24g
+UjcgMjQwLzM0MF0KW3RlcmFieXRlc0Bsb2NhbGhvc3Qgfl0kIGRtZXNnIHwgZ3JlcCAtaSAiZmFp
+bGVkIFZDRSByZXN1bWUiIC1BNyAtQjIwClsgICAgNC44NjY3ODddIFtUVE1dIFpvbmUgIGtlcm5l
+bDogQXZhaWxhYmxlIGdyYXBoaWNzIG1lbW9yeTogNDA4OTI1MCBraUIKWyAgICA0Ljg2Njc4N10g
+W1RUTV0gWm9uZSAgIGRtYTMyOiBBdmFpbGFibGUgZ3JhcGhpY3MgbWVtb3J5OiAyMDk3MTUyIGtp
+QgpbICAgIDQuODY2Nzg4XSBbVFRNXSBJbml0aWFsaXppbmcgcG9vbCBhbGxvY2F0b3IKWyAgICA0
+Ljg2Njc5MV0gW1RUTV0gSW5pdGlhbGl6aW5nIERNQSBwb29sIGFsbG9jYXRvcgpbICAgIDQuODY2
+ODAzXSBbZHJtXSByYWRlb246IDIwNDhNIG9mIFZSQU0gbWVtb3J5IHJlYWR5ClsgICAgNC44NjY4
+MDRdIFtkcm1dIHJhZGVvbjogMjA0OE0gb2YgR1RUIG1lbW9yeSByZWFkeS4KWyAgICA0Ljg2Njgx
+MF0gW2RybV0gTG9hZGluZyBvbGFuZCBNaWNyb2NvZGUKWyAgICA0Ljg2NjkwMV0gW2RybV0gSW50
+ZXJuYWwgdGhlcm1hbCBjb250cm9sbGVyIHdpdGggZmFuIGNvbnRyb2wKWyAgICA0Ljg3Mjc3MV0g
+W2RybV0gcmFkZW9uOiBkcG0gaW5pdGlhbGl6ZWQKWyAgICA0Ljg3Mzc0MF0gW2RybV0gRm91bmQg
+VkNFIGZpcm13YXJlL2ZlZWRiYWNrIHZlcnNpb24gNTAuMC4xIC8gMTchClsgICAgNC44NzM3NDVd
+IFtkcm1dIEdBUlQ6IG51bSBjcHUgcGFnZXMgNTI0Mjg4LCBudW0gZ3B1IHBhZ2VzIDUyNDI4OApb
+ICAgIDQuODc1NzIxXSBbZHJtXSBQQ0lFIGdlbiAzIGxpbmsgc3BlZWRzIGFscmVhZHkgZW5hYmxl
+ZApbICAgIDQuODk0ODU0XSBbZHJtXSBQQ0lFIEdBUlQgb2YgMjA0OE0gZW5hYmxlZCAodGFibGUg
+YXQgMHgwMDAwMDAwMDAwMUQ2MDAwKS4KWyAgICA0Ljg5NDk0NV0gcmFkZW9uIDAwMDA6MDY6MDAu
+MDogV0IgZW5hYmxlZApbICAgIDQuODk0OTQ4XSByYWRlb24gMDAwMDowNjowMC4wOiBmZW5jZSBk
+cml2ZXIgb24gcmluZyAwIHVzZSBncHUgYWRkcgoweDAwMDAwMDAwODAwMDBjMDAgYW5kIGNwdSBh
+ZGRyIDB4MDAwMDAwMDBlYTBiM2MzOApbICAgIDQuODk0OTQ5XSByYWRlb24gMDAwMDowNjowMC4w
+OiBmZW5jZSBkcml2ZXIgb24gcmluZyAxIHVzZSBncHUgYWRkcgoweDAwMDAwMDAwODAwMDBjMDQg
+YW5kIGNwdSBhZGRyIDB4MDAwMDAwMDBkY2MwOGM3YgpbICAgIDQuODk0OTUwXSByYWRlb24gMDAw
+MDowNjowMC4wOiBmZW5jZSBkcml2ZXIgb24gcmluZyAyIHVzZSBncHUgYWRkcgoweDAwMDAwMDAw
+ODAwMDBjMDggYW5kIGNwdSBhZGRyIDB4MDAwMDAwMDBiNjVhM2U2OApbICAgIDQuODk0OTUxXSBy
+YWRlb24gMDAwMDowNjowMC4wOiBmZW5jZSBkcml2ZXIgb24gcmluZyAzIHVzZSBncHUgYWRkcgow
+eDAwMDAwMDAwODAwMDBjMGMgYW5kIGNwdSBhZGRyIDB4MDAwMDAwMDBkYjk1OTZhMwpbICAgIDQu
+ODk0OTUyXSByYWRlb24gMDAwMDowNjowMC4wOiBmZW5jZSBkcml2ZXIgb24gcmluZyA0IHVzZSBn
+cHUgYWRkcgoweDAwMDAwMDAwODAwMDBjMTAgYW5kIGNwdSBhZGRyIDB4MDAwMDAwMDBlMmZiNzM0
+YQpbICAgIDQuODk1MTY1XSByYWRlb24gMDAwMDowNjowMC4wOiBmZW5jZSBkcml2ZXIgb24gcmlu
+ZyA1IHVzZSBncHUgYWRkcgoweDAwMDAwMDAwMDAwNzVhMTggYW5kIGNwdSBhZGRyIDB4MDAwMDAw
+MDBlMDI4NThkNApbICAgIDQuOTk2MTg5XSByYWRlb24gMDAwMDowNjowMC4wOiBmYWlsZWQgVkNF
+IHJlc3VtZSAoLTExMCkuClsgICAgNC45OTYxOTJdIFtkcm1dIFN1cHBvcnRzIHZibGFuayB0aW1l
+c3RhbXAgY2FjaGluZyBSZXYgMiAoMjEuMTAuMjAxMykuClsgICAgNC45OTYxOTJdIFtkcm1dIERy
+aXZlciBzdXBwb3J0cyBwcmVjaXNlIHZibGFuayB0aW1lc3RhbXAgcXVlcnkuClsgICAgNC45OTYx
+OTNdIHJhZGVvbiAwMDAwOjA2OjAwLjA6IHJhZGVvbjogTVNJIGxpbWl0ZWQgdG8gMzItYml0Clsg
+ICAgNC45OTYyNDFdIHJhZGVvbiAwMDAwOjA2OjAwLjA6IHJhZGVvbjogdXNpbmcgTVNJLgpbICAg
+IDQuOTk2MjYzXSBbZHJtXSByYWRlb246IGlycSBpbml0aWFsaXplZC4KWyAgICA1LjIwNTk4OV0g
+W2RybV0gcmluZyB0ZXN0IG9uIDAgc3VjY2VlZGVkIGluIDEgdXNlY3MKWyAgICA1LjIwNTk5M10g
+W2RybV0gcmluZyB0ZXN0IG9uIDEgc3VjY2VlZGVkIGluIDEgdXNlY3MKCi0tIApZb3UgYXJlIHJl
+Y2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUg
+b2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
