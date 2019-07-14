@@ -2,53 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C14568126
-	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 22:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A598C68127
+	for <lists+dri-devel@lfdr.de>; Sun, 14 Jul 2019 22:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1831E8945A;
-	Sun, 14 Jul 2019 20:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7DA989838;
+	Sun, 14 Jul 2019 20:22:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 322818945A
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 20:22:28 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id h10so14080752ljg.0
- for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 13:22:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tCJwfseONs3kj8QnI6Gdnu0Uip4gTAtT1YqSeyCJrVc=;
- b=nmYekoRF/yHOHREia1dZMHrgUr/ZTsgJ0Stocf9fh3lgNw+iXq6za3dNo4IhOsNnIO
- ZDsfhZXRfBkqBYtQDhfjtsyVMvOzBk9hcMCg+UqIwbyx5aJrVmFo3bl0m6KcCIegCn6g
- KAL+re2oNj1qfnSRdTv0wUMhpzKhDaNhfapNAQPCuSrkTRyFRC/Hu/Ky9Z8n7FQhlvzW
- TA3rhaBHm5pZ/2ZrcENKw7dAHP9llI5lrrYjG5TM7QvkrkBEFW+7Da4W0BHdvrxqE+zM
- rLyNjYED0/Oz3AU231Io4wIMfxvqxo34PWqCtYiQQVrJX2aPN/331aXtKO17aE8fNE19
- MZ6w==
-X-Gm-Message-State: APjAAAWDPo5x9bFyOxjxug7XHVWwsFR+IhWkmIPwFanBudba8q6w0E8i
- P3lY82yIbC1fytKdIeE4R7XWmJrWOK1ROAWChSAsulvX
-X-Google-Smtp-Source: APXvYqz3nop5qNspbeLa3sOEavBbE39NfaBTWwncs0P+MZoPAo3J62vOrULwuIUxtm05i5XbucxMpTiNMEn2HkF+jLo=
-X-Received: by 2002:a2e:9951:: with SMTP id r17mr11589009ljj.125.1563135746409; 
- Sun, 14 Jul 2019 13:22:26 -0700 (PDT)
-MIME-Version: 1.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 65D9D89834
+ for <dri-devel@lists.freedesktop.org>; Sun, 14 Jul 2019 20:22:30 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 62DC472168; Sun, 14 Jul 2019 20:22:30 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U
+Date: Sun, 14 Jul 2019 20:22:30 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: xanto@egaming.ro
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109206-502-Z6LkookH8j@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109206-502@http.bugs.freedesktop.org/>
 References: <bug-109206-502@http.bugs.freedesktop.org/>
- <bug-109206-502-B1M85pbBco@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109206-502-B1M85pbBco@http.bugs.freedesktop.org/>
-From: Mihai <xanto@egaming.ro>
-Date: Sun, 14 Jul 2019 23:21:50 +0300
-Message-ID: <CAPib=sNPVU29vuCVWekxXwkc48LnVSODW5Ho1zknNcQX-xeuvA@mail.gmail.com>
-Subject: Re: [Bug 109206] Kernel 4.20 amdgpu fails to load firmware on Ryzen
- 2500U
-To: bugzilla-daemon@freedesktop.org
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=egaming.ro; s=msecurizat;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=tCJwfseONs3kj8QnI6Gdnu0Uip4gTAtT1YqSeyCJrVc=;
- b=KZeVlxAGWf8cLhRDklXom0yMNwHDKGCFo+ZmEAjFea4YBRuj9bkscRqDzRA2gd1E/z
- 8LemAE+m0f82SwmMUIICk40erLhh244SBCtgQTT+In07gSPmOMRldlVLt408mcJ1wdJq
- G5oP5k5AcvsqwtoQYM6uYQtOkIVPPE7Rvif64=
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,38 +52,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1451998132=="
+Content-Type: multipart/mixed; boundary="===============0534349973=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1451998132==
-Content-Type: multipart/alternative; boundary="000000000000e695c2058da9e65f"
 
---000000000000e695c2058da9e65f
+--===============0534349973==
+Content-Type: multipart/alternative; boundary="15631357501.Ed173D48.8612"
+Content-Transfer-Encoding: 7bit
+
+
+--15631357501.Ed173D48.8612
+Date: Sun, 14 Jul 2019 20:22:30 +0000
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109206
+
+--- Comment #60 from Michael Eagle <xanto@egaming.ro> ---
 I am seeing reports with old BIOS, such as F.19.
 I have a 15-cp0001na
-https://support.hp.com/ie-en/drivers/selfservice/hp-envy-15-cp0000-x360-convertible-pc/20270303/model/23086446
+https://support.hp.com/ie-en/drivers/selfservice/hp-envy-15-cp0000-x360-con=
+vertible-pc/20270303/model/23086446
 Latest available is F.42 Rev.A
 I am wondering if by any chance would be a match to other models also.
 
---000000000000e695c2058da9e65f
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15631357501.Ed173D48.8612
+Date: Sun, 14 Jul 2019 20:22:30 +0000
+MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-<div dir=3D"ltr"><div><br></div><div>I am seeing reports with old BIOS, suc=
-h as F.19.<br></div><div>I have a 15-cp0001na <a href=3D"https://support.hp=
-.com/ie-en/drivers/selfservice/hp-envy-15-cp0000-x360-convertible-pc/202703=
-03/model/23086446">https://support.hp.com/ie-en/drivers/selfservice/hp-envy=
--15-cp0000-x360-convertible-pc/20270303/model/23086446</a></div><div>Latest=
- available is F.42 Rev.A</div><div>I am wondering if by any chance would be=
- a match to other models also.<br></div></div>
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206#c60">Comme=
+nt # 60</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Kernel 4.20 amdgpu fails to load firmware on Ryzen 2500U"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109206">bug 10920=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+xanto&#64;egaming.ro" title=3D"Michael Eagle &lt;xanto&#64;egaming.ro&gt;">=
+ <span class=3D"fn">Michael Eagle</span></a>
+</span></b>
+        <pre>I am seeing reports with old BIOS, such as F.19.
+I have a 15-cp0001na
+<a href=3D"https://support.hp.com/ie-en/drivers/selfservice/hp-envy-15-cp00=
+00-x360-convertible-pc/20270303/model/23086446">https://support.hp.com/ie-e=
+n/drivers/selfservice/hp-envy-15-cp0000-x360-convertible-pc/20270303/model/=
+23086446</a>
+Latest available is F.42 Rev.A
+I am wondering if by any chance would be a match to other models also.</pre>
+        </div>
+      </p>
 
---000000000000e695c2058da9e65f--
 
---===============1451998132==
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15631357501.Ed173D48.8612--
+
+--===============0534349973==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -102,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1451998132==--
+--===============0534349973==--
