@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394946839E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 08:40:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B3E683A3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 08:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0F389819;
-	Mon, 15 Jul 2019 06:40:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2BD589824;
+	Mon, 15 Jul 2019 06:41:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD87889819
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 06:40:41 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 358A280301;
- Mon, 15 Jul 2019 08:40:39 +0200 (CEST)
-Date: Mon, 15 Jul 2019 08:40:37 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Maya Rashish <coypu@sdf.org>
-Subject: Re: [PATCH v3] drm/agp: Remove unused function drm_agp_bind_pages
-Message-ID: <20190715064037.GA8193@ravnborg.org>
-References: <20190710161725.GA5042@SDF.ORG>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 85EAA8981D
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 06:41:58 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7C99972167; Mon, 15 Jul 2019 06:41:58 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111133] Panfrost: add current status to docs/features.txt
+Date: Mon, 15 Jul 2019 06:41:58 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/amdkfd
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: vbelsare91@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter cc
+ dependson
+Message-ID: <bug-111133-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190710161725.GA5042@SDF.ORG>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=oX08kPI8AAAA:8 a=e5mUnYsNAAAA:8 a=myccZPOaVUg3OcDtWMUA:9
- a=kkZxg3LTz7hd3hSU:21 a=WAswJdkggFj68EOl:21 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=HoS0eNqkKlFy34tK5QRU:22
- a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,69 +52,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2067544620=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWF5YS4KCk9uIFdlZCwgSnVsIDEwLCAyMDE5IGF0IDA0OjE3OjI1UE0gKzAwMDAsIE1heWEg
-UmFzaGlzaCB3cm90ZToKPiBSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcu
-b3JnPgo+IFNpZ25lZC1vZmYtYnk6IE1heWEgUmFzaGlzaCA8Y295cHVAc2RmLm9yZz4KClRoYW5r
-cyBmb3IgdGhlIHF1aWNrIGZvbGxvdy11cCBvbiB0aGUgZmVlZGJhY2suClBhdGNoIGlzIG5vdyBh
-cHBsaWVkIHRvIGRybS1taXNjLW5leHQuCgoJU2FtCgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJt
-L2RybV9hZ3BzdXBwb3J0LmMgfCA0MyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tCj4gIGluY2x1ZGUvZHJtL2RybV9hZ3BzdXBwb3J0LmggICAgIHwgMTQgLS0tLS0tLS0t
-LS0tLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDU3IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2FncHN1cHBvcnQuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-YWdwc3VwcG9ydC5jCj4gaW5kZXggMTE3YjhlZTk4MjQzLi44YjRlN2IxZDgyZTQgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9hZ3BzdXBwb3J0LmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2FncHN1cHBvcnQuYwo+IEBAIC00NjUsNDYgKzQ2NSwzIEBAIHZvaWQgZHJtX2xl
-Z2FjeV9hZ3BfY2xlYXIoc3RydWN0IGRybV9kZXZpY2UgKmRldikKPiAgCWRldi0+YWdwLT5hY3F1
-aXJlZCA9IDA7Cj4gIAlkZXYtPmFncC0+ZW5hYmxlZCA9IDA7Cj4gIH0KPiAtCj4gLS8qKgo+IC0g
-KiBCaW5kcyBhIGNvbGxlY3Rpb24gb2YgcGFnZXMgaW50byBBR1AgbWVtb3J5IGF0IHRoZSBnaXZl
-biBvZmZzZXQsIHJldHVybmluZwo+IC0gKiB0aGUgQUdQIG1lbW9yeSBzdHJ1Y3R1cmUgY29udGFp
-bmluZyB0aGVtLgo+IC0gKgo+IC0gKiBObyByZWZlcmVuY2UgaXMgaGVsZCBvbiB0aGUgcGFnZXMg
-ZHVyaW5nIHRoaXMgdGltZSAtLSBpdCBpcyB1cCB0byB0aGUKPiAtICogY2FsbGVyIHRvIGhhbmRs
-ZSB0aGF0Lgo+IC0gKi8KPiAtc3RydWN0IGFncF9tZW1vcnkgKgo+IC1kcm1fYWdwX2JpbmRfcGFn
-ZXMoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiAtCQkgICBzdHJ1Y3QgcGFnZSAqKnBhZ2VzLAo+
-IC0JCSAgIHVuc2lnbmVkIGxvbmcgbnVtX3BhZ2VzLAo+IC0JCSAgIHVpbnQzMl90IGd0dF9vZmZz
-ZXQsCj4gLQkJICAgdTMyIHR5cGUpCj4gLXsKPiAtCXN0cnVjdCBhZ3BfbWVtb3J5ICptZW07Cj4g
-LQlpbnQgcmV0LCBpOwo+IC0KPiAtCURSTV9ERUJVRygiXG4iKTsKPiAtCj4gLQltZW0gPSBhZ3Bf
-YWxsb2NhdGVfbWVtb3J5KGRldi0+YWdwLT5icmlkZ2UsIG51bV9wYWdlcywKPiAtCQkJCSAgICAg
-IHR5cGUpOwo+IC0JaWYgKG1lbSA9PSBOVUxMKSB7Cj4gLQkJRFJNX0VSUk9SKCJGYWlsZWQgdG8g
-YWxsb2NhdGUgbWVtb3J5IGZvciAlbGQgcGFnZXNcbiIsCj4gLQkJCSAgbnVtX3BhZ2VzKTsKPiAt
-CQlyZXR1cm4gTlVMTDsKPiAtCX0KPiAtCj4gLQlmb3IgKGkgPSAwOyBpIDwgbnVtX3BhZ2VzOyBp
-KyspCj4gLQkJbWVtLT5wYWdlc1tpXSA9IHBhZ2VzW2ldOwo+IC0JbWVtLT5wYWdlX2NvdW50ID0g
-bnVtX3BhZ2VzOwo+IC0KPiAtCW1lbS0+aXNfZmx1c2hlZCA9IHRydWU7Cj4gLQlyZXQgPSBhZ3Bf
-YmluZF9tZW1vcnkobWVtLCBndHRfb2Zmc2V0IC8gUEFHRV9TSVpFKTsKPiAtCWlmIChyZXQgIT0g
-MCkgewo+IC0JCURSTV9FUlJPUigiRmFpbGVkIHRvIGJpbmQgQUdQIG1lbW9yeTogJWRcbiIsIHJl
-dCk7Cj4gLQkJYWdwX2ZyZWVfbWVtb3J5KG1lbSk7Cj4gLQkJcmV0dXJuIE5VTEw7Cj4gLQl9Cj4g
-LQo+IC0JcmV0dXJuIG1lbTsKPiAtfQo+IC1FWFBPUlRfU1lNQk9MKGRybV9hZ3BfYmluZF9wYWdl
-cyk7Cj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9hZ3BzdXBwb3J0LmggYi9pbmNsdWRl
-L2RybS9kcm1fYWdwc3VwcG9ydC5oCj4gaW5kZXggYjA1ZTQ2MjI3NmQ1Li42NjRlMTIwYjkzZTYg
-MTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2FncHN1cHBvcnQuaAo+ICsrKyBiL2luY2x1
-ZGUvZHJtL2RybV9hZ3BzdXBwb3J0LmgKPiBAQCAtMzEsMTEgKzMxLDYgQEAgc3RydWN0IGRybV9h
-Z3BfaGVhZCB7Cj4gIHZvaWQgZHJtX2ZyZWVfYWdwKHN0cnVjdCBhZ3BfbWVtb3J5ICogaGFuZGxl
-LCBpbnQgcGFnZXMpOwo+ICBpbnQgZHJtX2JpbmRfYWdwKHN0cnVjdCBhZ3BfbWVtb3J5ICogaGFu
-ZGxlLCB1bnNpZ25lZCBpbnQgc3RhcnQpOwo+ICBpbnQgZHJtX3VuYmluZF9hZ3Aoc3RydWN0IGFn
-cF9tZW1vcnkgKiBoYW5kbGUpOwo+IC1zdHJ1Y3QgYWdwX21lbW9yeSAqZHJtX2FncF9iaW5kX3Bh
-Z2VzKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gLQkJCQlzdHJ1Y3QgcGFnZSAqKnBhZ2VzLAo+
-IC0JCQkJdW5zaWduZWQgbG9uZyBudW1fcGFnZXMsCj4gLQkJCQl1aW50MzJfdCBndHRfb2Zmc2V0
-LAo+IC0JCQkJdWludDMyX3QgdHlwZSk7Cj4gIAo+ICBzdHJ1Y3QgZHJtX2FncF9oZWFkICpkcm1f
-YWdwX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldik7Cj4gIHZvaWQgZHJtX2xlZ2FjeV9hZ3Bf
-Y2xlYXIoc3RydWN0IGRybV9kZXZpY2UgKmRldik7Cj4gQEAgLTgwLDE1ICs3NSw2IEBAIHN0YXRp
-YyBpbmxpbmUgaW50IGRybV91bmJpbmRfYWdwKHN0cnVjdCBhZ3BfbWVtb3J5ICogaGFuZGxlKQo+
-ICAJcmV0dXJuIC1FTk9ERVY7Cj4gIH0KPiAgCj4gLXN0YXRpYyBpbmxpbmUgc3RydWN0IGFncF9t
-ZW1vcnkgKmRybV9hZ3BfYmluZF9wYWdlcyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+IC0JCQkJ
-CSAgICAgIHN0cnVjdCBwYWdlICoqcGFnZXMsCj4gLQkJCQkJICAgICAgdW5zaWduZWQgbG9uZyBu
-dW1fcGFnZXMsCj4gLQkJCQkJICAgICAgdWludDMyX3QgZ3R0X29mZnNldCwKPiAtCQkJCQkgICAg
-ICB1aW50MzJfdCB0eXBlKQo+IC17Cj4gLQlyZXR1cm4gTlVMTDsKPiAtfQo+IC0KPiAgc3RhdGlj
-IGlubGluZSBzdHJ1Y3QgZHJtX2FncF9oZWFkICpkcm1fYWdwX2luaXQoc3RydWN0IGRybV9kZXZp
-Y2UgKmRldikKPiAgewo+ICAJcmV0dXJuIE5VTEw7Cj4gLS0gCj4gMi4xMS4wCj4gCj4gX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2067544620==
+Content-Type: multipart/alternative; boundary="15631729180.dFC5811.7545"
+Content-Transfer-Encoding: 7bit
+
+
+--15631729180.dFC5811.7545
+Date: Mon, 15 Jul 2019 06:41:58 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111133
+
+            Bug ID: 111133
+           Summary: Panfrost: add current status to docs/features.txt
+           Product: DRI
+           Version: unspecified
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/amdkfd
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: vbelsare91@gmail.com
+                CC: dllud@riseup.net, grimkriegor@krutt.org,
+                    mesa-dev@lists.freedesktop.org
+        Depends on: 111130
+
++++ This bug was initially created as a clone of Bug #111130 +++
+
+It would be much handy if the Panfrost driver developers could keep
+docs/features.txt in sync with the current Panfrost status. That way people
+could easily check the driver status with tools such as mesamatrix.net
+
+
+Referenced Bugs:
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111130
+[Bug 111130] Panfrost: add current status to docs/features.txt
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15631729180.dFC5811.7545
+Date: Mon, 15 Jul 2019 06:41:58 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Panfrost: add current status to docs/features.txt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111133">111133</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Panfrost: add current status to docs/features.txt
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/amdkfd
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>vbelsare91&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>CC</th>
+          <td>dllud&#64;riseup.net, grimkriegor&#64;krutt.org, mesa-dev&#64=
+;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Depends on</th>
+          <td>111130
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>+++ This bug was initially created as a clone of <a class=3D"b=
+z_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Panfrost: add current status to docs/features.txt"
+   href=3D"show_bug.cgi?id=3D111130">Bug #111130</a> +++
+
+It would be much handy if the Panfrost driver developers could keep
+docs/features.txt in sync with the current Panfrost status. That way people
+could easily check the driver status with tools such as mesamatrix.net</pre>
+        </div>
+      </p>
+
+        <div id=3D"referenced">
+          <hr style=3D"border: 1px dashed #969696">
+          <b>Referenced Bugs:</b>
+          <ul>
+              <li>
+                [<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Panfrost: add current status to docs/features.txt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111130">Bug 11113=
+0</a>] Panfrost: add current status to docs/features.txt
+              </li>
+          </ul>
+        </div>
+        <br>
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15631729180.dFC5811.7545--
+
+--===============2067544620==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2067544620==--
