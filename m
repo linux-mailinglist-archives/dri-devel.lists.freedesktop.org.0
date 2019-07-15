@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3452F69879
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 17:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8079B69885
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 17:45:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00B588989E;
-	Mon, 15 Jul 2019 15:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3F9189312;
+	Mon, 15 Jul 2019 15:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4BA8989E
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 15:43:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3842D89312
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 15:45:42 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 5299C28449
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 15:43:31 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 05A8A26D08
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 15:45:42 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 3E3A328445; Mon, 15 Jul 2019 15:43:31 +0000 (UTC)
+ id EE5A0283BB; Mon, 15 Jul 2019 15:45:41 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -26,7 +26,7 @@ X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
-Date: Mon, 15 Jul 2019 15:43:30 +0000
+Date: Mon, 15 Jul 2019 15:45:40 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -42,7 +42,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-204181-2300-aBm1pSIoHg@https.bugzilla.kernel.org/>
+Message-ID: <bug-204181-2300-mukVDS8BXh@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
 References: <bug-204181-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -67,11 +67,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
-b21tZW50ICMzIGZyb20gU2VyZ2V5IEtvbmRha292ICh2aXJ0dW91c2ZveEBnbWFpbC5jb20pIC0t
-LQpDcmVhdGVkIGF0dGFjaG1lbnQgMjgzNjk3CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVs
-Lm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODM2OTcmYWN0aW9uPWVkaXQKa2VybmVsIGJ1aWxkIGNv
-bmZpZwoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdh
-dGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+b21tZW50ICM0IGZyb20gU2VyZ2V5IEtvbmRha292ICh2aXJ0dW91c2ZveEBnbWFpbC5jb20pIC0t
+LQpDcmVhdGVkIGF0dGFjaG1lbnQgMjgzNjk5CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVs
+Lm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODM2OTkmYWN0aW9uPWVkaXQKYW1kZ3B1IHBhcmFtZXRl
+cnMKClRoZXNlIGRvZXNuJ3Qgc2VlbSB0byBjaGFuZ2UgYW55dGhpbmcgYWJvdXQgdGhlIGhhbmcu
+IEFsdGhvdWdoLCBtYXliZSB3aXRoCmxhcmdlciBsaW1pdHMgb2Ygc2NoZWR1bGluZyAobWF4X251
+bV9vZl9xdWV1ZXNfcGVyX2RldmljZSwgc2NoZWRfaHdfc3VibWlzc2lvbiwKc2NoZWRfam9icykg
+aGFuZyBoYXBwZW5zIHNvb25lciBidXQgSSdtIG5vdCBzdXJlLgoKLS0gCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
