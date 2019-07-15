@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449D668265
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 05:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2556836B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 08:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FFC3896A5;
-	Mon, 15 Jul 2019 03:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB318897FD;
+	Mon, 15 Jul 2019 06:09:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA26A896A5;
- Mon, 15 Jul 2019 03:00:14 +0000 (UTC)
-Subject: Re: [GIT PULL] Please pull hmm changes
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20190709192418.GA13677@ziepe.ca>
-References: <20190709192418.GA13677@ziepe.ca>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20190709192418.GA13677@ziepe.ca>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
- tags/for-linus-hmm
-X-PR-Tracked-Commit-Id: cc5dfd59e375f4d0f2b64643723d16b38b2f2d78
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: fec88ab0af9706b2201e5daf377c5031c62d11f7
-Message-Id: <156315961463.2012.6385315659069176378.pr-tracker-bot@kernel.org>
-Date: Mon, 15 Jul 2019 03:00:14 +0000
-To: Jason Gunthorpe <jgg@mellanox.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1563159614;
- bh=Ar2oLzYPfNRIJ/cKktihwM03Q0D3KOFaf7zQt3uCrhY=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=g0DVxuH0O8BwZfaSxEtLyRsfEYPSCQdWnn2yhetG2F8mg12jeSXAQTnuntXE+E6hh
- 3jRqBcH7Oh1Z/vN6zC0AHX0l+UoWFpMiIlodt+M38nbijWqBr0neCq5SSuXJhz8Czi
- Qp2nslOyUee5Z2RZI2rVwJKKf+p22oV15OzeaA5A=
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B1076897FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 06:09:54 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 84A1D72167; Mon, 15 Jul 2019 06:09:54 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111131] application Login page UI related issue
+Date: Mon, 15 Jul 2019 06:09:54 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: vbelsare91@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111131-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,28 +52,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Kuehling, Felix" <Felix.Kuehling@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Dan Williams <dan.j.williams@intel.com>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1088065744=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIHB1bGwgcmVxdWVzdCB5b3Ugc2VudCBvbiBUdWUsIDkgSnVsIDIwMTkgMTk6MjQ6MjEgKzAw
-MDA6Cgo+IGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9yZG1h
-L3JkbWEuZ2l0IHRhZ3MvZm9yLWxpbnVzLWhtbQoKaGFzIGJlZW4gbWVyZ2VkIGludG8gdG9ydmFs
-ZHMvbGludXguZ2l0OgpodHRwczovL2dpdC5rZXJuZWwub3JnL3RvcnZhbGRzL2MvZmVjODhhYjBh
-Zjk3MDZiMjIwMWU1ZGFmMzc3YzUwMzFjNjJkMTFmNwoKVGhhbmsgeW91IQoKLS0gCkRlZXQtZG9v
-dC1kb3QsIEkgYW0gYSBib3QuCmh0dHBzOi8va29yZy53aWtpLmtlcm5lbC5vcmcvdXNlcmRvYy9w
-cnRyYWNrZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1088065744==
+Content-Type: multipart/alternative; boundary="15631709940.ECbbE339C.2701"
+Content-Transfer-Encoding: 7bit
+
+
+--15631709940.ECbbE339C.2701
+Date: Mon, 15 Jul 2019 06:09:54 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111131
+
+            Bug ID: 111131
+           Summary: application Login page UI related issue
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Windows (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: vbelsare91@gmail.com
+
+Created attachment 144788
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144788&action=3Dedit
+just learn the bugzilla
+
+issue is occurred when user enter huge name in id field on login page, but
+issue is not affected on other filed
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15631709940.ECbbE339C.2701
+Date: Mon, 15 Jul 2019 06:09:54 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - application Login page UI related issue"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111131">111131</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>application Login page UI related issue
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Windows (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>vbelsare91&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144788=
+" name=3D"attach_144788" title=3D"just learn the bugzilla">attachment 14478=
+8</a> <a href=3D"attachment.cgi?id=3D144788&amp;action=3Dedit" title=3D"jus=
+t learn the bugzilla">[details]</a></span>
+just learn the bugzilla
+
+issue is occurred when user enter huge name in id field on login page, but
+issue is not affected on other filed</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15631709940.ECbbE339C.2701--
+
+--===============1088065744==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1088065744==--
