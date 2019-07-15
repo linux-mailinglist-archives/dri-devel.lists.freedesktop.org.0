@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC09369B1A
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 21:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A75369B1B
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 21:00:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8C889AD2;
-	Mon, 15 Jul 2019 19:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE9589AEB;
+	Mon, 15 Jul 2019 19:00:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id EF1BA89A77
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 19:00:27 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E4EF572167; Mon, 15 Jul 2019 19:00:27 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 106447] System freeze after resuming from suspend (amdgpu)
-Date: Mon, 15 Jul 2019 19:00:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: richard.kuenz@web.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-106447-502-bZddOZIztV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-106447-502@http.bugs.freedesktop.org/>
-References: <bug-106447-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDD6A89AEB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 19:00:48 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id v18so17346860ljh.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 12:00:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wpIdpoGiHes6mc2LinoXCKJJD9MlyiAFmH9AZOOOeHI=;
+ b=C+6wJsGnImiLcMeNxg9XRVtVZlCnIscAOBLEY+q2OPV1fEmFW8dIDZYluqqYKI8U6n
+ EpO75hUvmsOC9ZeOS5i6GCwcI3bPqO4bEj/Hj1OLxSnjR2cU2InZGJQ9e4IUAWARCBRW
+ HdnHonlnHMwK+WFoIYsqUJ36YZHIVb09Fs0Ukt0IIOj84RaqkREjoDcv4zOAAB+vB10D
+ 07BxeavZDkvGwLMbiu0A+tuE1hdtBweVduQvuZJceEewpzwP1fsEN3f+ItuZXTz91QI6
+ PffEjQC9AwxbOYtEQoLOeoeUkcm8nfej0K6a42XuRa1qc2EJjKyJjms0N8s4KOZeAOJi
+ doLg==
+X-Gm-Message-State: APjAAAVgG5fb91J7+S1/dJvXxNePeRcoUax60WPYrbqIclZfqbsHtaiV
+ 8jCHk1yGgjLXHhU6Pr8ePsD3tEzZjjA=
+X-Google-Smtp-Source: APXvYqw91ZLxN+4v16XywsDY5BbvUOUAUtaS6e6U4SA71douwnPGizi/fUM4HPDIERXOwgBgiTkRIQ==
+X-Received: by 2002:a2e:a0d6:: with SMTP id f22mr14574963ljm.182.1563217246364; 
+ Mon, 15 Jul 2019 12:00:46 -0700 (PDT)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com.
+ [209.85.208.178])
+ by smtp.gmail.com with ESMTPSA id x2sm2402653lfg.12.2019.07.15.12.00.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 15 Jul 2019 12:00:45 -0700 (PDT)
+Received: by mail-lj1-f178.google.com with SMTP id i21so17366550ljj.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 12:00:45 -0700 (PDT)
+X-Received: by 2002:a2e:b003:: with SMTP id y3mr15117345ljk.72.1563217244925; 
+ Mon, 15 Jul 2019 12:00:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAPM=9tzJQ+26n_Df1eBPG1A=tXf4xNuVEjbG3aZj-aqYQ9nnAg@mail.gmail.com>
+ <CAPM=9tx+CEkzmLZ-93GZmde9xzJ_rw3PJZxFu_pjZJc7KM5f-w@mail.gmail.com>
+ <20190715122924.GA15202@mellanox.com>
+ <CAHk-=wgEimwxXiDUdp9eSGZn4j6n8g-4KhdEG0kPVgKFQeAXgw@mail.gmail.com>
+In-Reply-To: <CAHk-=wgEimwxXiDUdp9eSGZn4j6n8g-4KhdEG0kPVgKFQeAXgw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 15 Jul 2019 12:00:28 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjZ6kGFJyfXEeOzmw_eZDqvcaZ=FnFpR_c3eUmPS5M5EQ@mail.gmail.com>
+Message-ID: <CAHk-=wjZ6kGFJyfXEeOzmw_eZDqvcaZ=FnFpR_c3eUmPS5M5EQ@mail.gmail.com>
+Subject: Re: DRM pull for v5.3-rc1
+To: Jason Gunthorpe <jgg@mellanox.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=wpIdpoGiHes6mc2LinoXCKJJD9MlyiAFmH9AZOOOeHI=;
+ b=Wb2cga1SJPgKwZTnU9NbM8DzlnLPO9eDXvY/K+0d4vdG1JGfpMPnXCznlzcBy5RNQB
+ FS/S11uVWwNWGBZAZ6Hn4eLuL6NmCbcLwDDdFxBbY9ig0N8X9lHEI0070XzLd2Rd90uA
+ jLc/WZwR2T9sZ8IDBc89f96QfjnLc11Riz63Y=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,170 +73,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1099443860=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Thomas Hellstrom <thellstrom@vmware.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jerome Glisse <jglisse@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1099443860==
-Content-Type: multipart/alternative; boundary="15632172270.EeCff.2857"
-Content-Transfer-Encoding: 7bit
-
-
---15632172270.EeCff.2857
-Date: Mon, 15 Jul 2019 19:00:27 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D106447
-
---- Comment #18 from richard <richard.kuenz@web.de> ---
-Hello ,
-
-i don't know if this is the correct place to state this,
-but i have a Desktop PC running=20
-
-Ubuntu 16.04=20
-
-and i noticed too that the system won't resume from suspend after installat=
-ion
-of=20
-
-amdgpu-driver of rx560
-
-
-this happens with the AMD Driver for 16.04 Xenial
-
-https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-amdgpupro
-
-
-but also with the AMDGPU.PRO driver for 18.04
-
-https://www.amd.com/pl/support/1881
-
-
-
-I have to say that i use Kubuntu instead of Ubuntu.
-
- 4.10.0-28-generic #32~16.04.2-Ubuntu SMP Thu Jul 20 10:19:48 UTC 2017 x86_=
-64
-x86_64 x86_64 GNU/Linux
-
-
-The System is
-
-Ryzen 5 2600
-AMD RX560 2GB
-16 GB RAM.
-
-
-
-Withouth the AMDGPU Driver there is no problem with suspend as it seems.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15632172270.EeCff.2857
-Date: Mon, 15 Jul 2019 19:00:27 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System freeze after resuming from suspend (amdgpu)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106447#c18">Comme=
-nt # 18</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - System freeze after resuming from suspend (amdgpu)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106447">bug 10644=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-richard.kuenz&#64;web.de" title=3D"richard &lt;richard.kuenz&#64;web.de&gt;=
-"> <span class=3D"fn">richard</span></a>
-</span></b>
-        <pre>Hello ,
-
-i don't know if this is the correct place to state this,
-but i have a Desktop PC running=20
-
-Ubuntu 16.04=20
-
-and i noticed too that the system won't resume from suspend after installat=
-ion
-of=20
-
-amdgpu-driver of rx560
-
-
-this happens with the AMD Driver for 16.04 Xenial
-
-<a href=3D"https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-am=
-dgpupro">https://www.amd.com/en/support/kb/release-notes/rn-prorad-lin-amdg=
-pupro</a>
-
-
-but also with the AMDGPU.PRO driver for 18.04
-
-<a href=3D"https://www.amd.com/pl/support/1881">https://www.amd.com/pl/supp=
-ort/1881</a>
-
-
-
-I have to say that i use Kubuntu instead of Ubuntu.
-
- 4.10.0-28-generic #32~16.04.2-Ubuntu SMP Thu Jul 20 10:19:48 UTC 2017 x86_=
-64
-x86_64 x86_64 GNU/Linux
-
-
-The System is
-
-Ryzen 5 2600
-AMD RX560 2GB
-16 GB RAM.
-
-
-
-Withouth the AMDGPU Driver there is no problem with suspend as it seems.</p=
-re>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15632172270.EeCff.2857--
-
---===============1099443860==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1099443860==--
+T24gTW9uLCBKdWwgMTUsIDIwMTkgYXQgMTE6MTYgQU0gTGludXMgVG9ydmFsZHMKPHRvcnZhbGRz
+QGxpbnV4LWZvdW5kYXRpb24ub3JnPiB3cm90ZToKPgo+IE9uIE1vbiwgSnVsIDE1LCAyMDE5IGF0
+IDU6MjkgQU0gSmFzb24gR3VudGhvcnBlIDxqZ2dAbWVsbGFub3guY29tPiB3cm90ZToKPiA+Cj4g
+PiBUaGUgJ2htbScgdHJlZSBpcyBzb21ldGhpbmcgSSByYW4gdG8gdHJ5IGFuZCBoZWxwIHdvcmtm
+bG93IGlzc3VlcyBsaWtlCj4gPiB0aGlzLCBhcyBpdCBjb3VsZCBiZSBtZXJnZWQgdG8gRFJNIGFz
+IGEgdG9waWMgYnJhbmNoIC0gbWF5YmUgY29uc2lkZXIKPiA+IHRoaXMgZmxvdyBpbiBmdXR1cmU/
+Cj4gPgo+ID4gTGludXMsIGRvIHlvdSBoYXZlIGFueSBhZHZpY2Ugb24gaG93IGJlc3QgdG8gaGFu
+ZGxlIHNoYXJpbmcgbW0KPiA+IHBhdGNoZXM/Cj4KPiBJIGRvbid0IGhhdmUgYSBsb3Qgb2YgYWR2
+aWNlIGV4Y2VwdCBmb3IgInZlcnkgdmVyeSBjYXJlZnVsbHkiLgo+Cj4gSSB0aGluayB0aGUgaG1t
+IHRyZWUgd29ya2VkIHJlYWxseSB3ZWxsIHRoaXMgbWVyZ2Ugd2luZG93LCBhdCBsZWFzdAo+IGZy
+b20gbXkgc3RhbmRwb2ludC4KClNpZGUgbm90ZTogSSBzdXNwZWN0IHRoYXQgaGF2aW5nIGEgc2Vw
+YXJhdGUgYnJhbmNoIG1haW50YWluZWQgYnkgYQpzZXBhcmF0ZSBwZXJzb24gYWN0dWFsbHkgZG9l
+cyBoZWxwIHRoZSAidmVyeSBjYXJlZnVsbHkiIHBhcnQuCgpJIHRoaW5rIHRoZSBobW0gYnJhbmNo
+IGVuZGVkIHVwIGdldHRpbmcgbW9yZSAiaW5jaWRlbnRhbCByZXZpZXciCnNpbXBseSBiZWNhdXNl
+IG9mIGhvdyBpdCB3YXMgZG9uZS4gU28gZXZlbiBpZiB0aGUgb3JpZ2luYWwgcmVhc29uIGZvcgp0
+aGUgc2VwYXJhdGUgYnJhbmNoIHdhcyB0byByZXNvbHZlIHNvbWUgcXVpbHQvZ2l0IGludGVncmF0
+aW9uIGlzc3VlcywKSSB3b3VsZCBub3QgYmUgYXQgYWxsIHN1cnByaXNlZCBpZiBqdXN0IHRoZSBl
+eHRyYSBpbmRpcmVjdGlvbiB0aHJvdWdoCmFub3RoZXIgcGVyc29uIGVuZGVkIHVwIG1ha2luZyBi
+b3RoIHRoZSBzZW5kaW5nIGFuZCByZWNlaXZpbmcgc2lkZQp0aGluayBtb3JlIGFib3V0IGVhY2gg
+cGF0Y2ggYW5kIHRoaW5rIG1vcmUgYWJvdXQgdGhlIGFic3RyYWN0aW9uLgoKVGhlIGhtbSBicmFu
+Y2ggZGlkbid0IGFjdHVhbGx5IHNlZW0gdG8gaGF2ZSBhbnkgb2YgdGhlIGNvcmUgVk0gcGVvcGxl
+CnJldmlld2luZyBpdCBlaXRoZXIsIGJ1dCBpdCBkaWQgaGF2ZSByZXZpZXdlcnMgYWNyb3NzIGNv
+bXBhbmllcyBmb3IKYWxsIHRoZSBwYXRjaGVzLCBhbmQgSSBkbyB0aGluayB0aGF0IHRoYXQgbWFr
+ZXMgYSBkaWZmZXJlbmNlLgoKSXQncyBfc29vXyBlYXN5IGZvciBhIHBhdGNoIHNlcmllcyB0byBi
+ZSBkZXZlbG9wZWQgaW5zaWRlIG9uZSBjb21wYW55CmJ5IGEgY291cGxlIG9mIHBlb3BsZSB3aG8g
+YXJlIHByb2JhYmx5IGluIHRoZSBzYW1lIGdyb3VwLCBhbmQgaGF2ZSB0aGUKZXhhY3Qgc2FtZSBv
+YmplY3RpdmVzLCB0byBiZSBhIGxvdCBtb3JlIGJpYXNlZCAoYW5kIGxpa2VseSBiaWFzZWQgbm90
+CnRvd2FyZHMgdGhlIG1tIGdvYWxzLCBidXQgdGhlIGdvYWxzIG9mIHRoZSBjb2RlIF9vdXRzaWRl
+XyB0aGUgbW0pLgoKVGhpcyBpcyBqdXN0IGEgbG9uZy13aW5kZWQgd2F5IHRvIHNheSAiSSBkbyB0
+aGluayB0aGF0IHRoZSBzZXBhcmF0ZQphbmQgZXh0ZXJuYWwgYnJhbmNoIHdpdGggbXVsdGlwbGUg
+aW50ZXJlc3RlZCBwYXJ0aWVzIiBjYW4gaGF2ZSBzb21lCmluaGVyZW50IGFkdmFudGFnZXMsIHdo
+ZW4geW91IGFjdHVhbGx5IGhhdmUgbXVsdGlwbGUgcGVvcGxlIGxvb2tpbmcgYXQKaXQgd2l0aCBj
+YXJlIGFuZCBpbnRlbnQuCgooQW5kIGhlcmUgdGhlIGZhY3QgdGhhdCB5b3UgaGF2ZSBtdWx0aXBs
+ZSBzdWJzeXN0ZW1zIGxvb2tpbmcgYXQgdGhlCmNvZGUgaXMgdmVyeSBtdWNoIHBhcnQgb2Ygd2hh
+dCBtYWtlcyBpdCBhIGdvb2QgbW9kZWwgLSBpZiBpdCB3YXMganVzdAphbiBleHRlcm5hbCBicmFu
+Y2ggZm9yIG9uZSBzaW5nbGUgdXNlciAtIHRoZSB2bXdhcmUgZ2Z4IGRyaXZlciAtIHlvdQp3b3Vs
+ZG4ndCBnZXQgdGhlIHNhbWUga2luZCBvZiBhZHZhbnRhZ2VzLiBTbyBpdCdzIG5vdCB0aGUgImV4
+dGVybmFsCmJyYW5jaCIgcGFydCBpdHNlbGYsIGl0J3MgdGhlICJtdWx0aXBsZSB1c2VycyB3aG8g
+Y2FyZSIgcGFydCB0aGF0Cmxpa2VseSBjYXVzZXMgcGVvcGxlIHRvIHRoaW5rIG1vcmUgYWJvdXQg
+dGhlIGVuZCByZXN1bHQpCgpBZ2FpbiAtIG1heWJlIEknbSByYXRpb25hbGl6aW5nLCBhbmQgdGhl
+IGhtbSBicmFuY2gganVzdCByYW5kb21seQpoYXBwZW5lZCB0byB3b3JrIHdlbGwgdGhpcyB0aW1l
+LiBJIGRvIGxpa2UgaGF2aW5nIG11bHRpcGxlIHBlb3BsZSBmcm9tCmRpZmZlcmVudCBncm91cHMg
+bG9vayBhdCB0aGluZ3MsIHRob3VnaC4KCiAgICAgICAgICAgICAgICAgICAgTGludXMKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
