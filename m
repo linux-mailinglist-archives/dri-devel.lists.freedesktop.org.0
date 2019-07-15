@@ -1,73 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067776955E
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 16:58:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DBC695F4
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 17:02:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7CB1899E7;
-	Mon, 15 Jul 2019 14:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A85B899F3;
+	Mon, 15 Jul 2019 15:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A46B7899E7
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 14:58:10 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 90B8A22270;
- Mon, 15 Jul 2019 10:58:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 15 Jul 2019 10:58:09 -0400
-X-ME-Sender: <xms:f5QsXf956g-XA0MKS23TtjBSxU-qd3wUFit5hQLjvGzZOA5plxW3aw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrheekgdejkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefufhfvjgfhkffffgggtgfgsehtjeertddtfeehnecuhfhrohhmpeflrghnpgfu
- vggsrghsthhirghnpgfinphtthgvuceolhhinhhugiesjhgrshgvghdrnhgvtheqnecukf
- hppeeitddrjedurdeifedrjeehnecurfgrrhgrmhepmhgrihhlfhhrohhmpehlihhnuhig
- sehjrghsvghgrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:f5QsXTkWMCQu1V_1zvquLfv-vuCTfznbD3DuuB57y675WAPGtqX9dA>
- <xmx:f5QsXcYLsDpjOneWh_PaE882bsGDwbvlX4LQJILicfBcJ6ienmw7zA>
- <xmx:f5QsXTNvYsr8pIJR1DVBRzQhMtF2QygyiCQ8m3nNd4S3IJDqQJAnNw>
- <xmx:gZQsXaEgxMZbffTWgFyXU-TDSZanNnaX5QQJ4bn9rel8ukUP1vzXcw>
-Received: from [10.137.0.16] (softbank060071063075.bbtec.net [60.71.63.75])
- by mail.messagingengine.com (Postfix) with ESMTPA id 98CF080059;
- Mon, 15 Jul 2019 10:58:04 -0400 (EDT)
-Subject: Re: [PATCH] Staging: fbtft: Fix wrong check
- in,fbtft_write_wmem16_bus8()
-References: <20190715143003.12819-1-nsaenzjulienne@suse.de>
- <7b8242ab-cc0c-d90b-60af-ff1c53789e44@opensynergy.com>
-To: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-In-Reply-To: <7b8242ab-cc0c-d90b-60af-ff1c53789e44@opensynergy.com>
-From: =?UTF-8?Q?Jan_Sebastian_G=c3=b6tte?= <linux@jaseg.net>
-Message-ID: <5a77c18f-7338-888f-2379-12171b6a545e@jaseg.net>
-Date: Mon, 15 Jul 2019 23:58:01 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C74E589A0E
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 15:01:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C477B72167; Mon, 15 Jul 2019 15:01:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111123] Display issues AMD RAVEN Ryzen 5 3400G APU
+Date: Mon, 15 Jul 2019 15:01:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: freedesktop@redsandro.e4ward.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111123-502-TZ3swoU3Yf@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111123-502@http.bugs.freedesktop.org/>
+References: <bug-111123-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=jaseg.net; h=
- subject:references:to:cc:in-reply-to:from:message-id:date
- :mime-version:content-type:content-transfer-encoding; s=fm3; bh=
- ymTeSHX0Vj7NaZZc1W0N02Ut30dn0Qy41Obnj4AdJ8Q=; b=DfwBYCBR/FsV4J8q
- am62UWkN7x01LRDw08wkhThheuXtDu/Sawto7jvkPsr2LtcQ3OchaeGLuXzPYyOs
- suDikehFCID+GH26xKxx7zB8UAS0UKwUNVVLHNQS5PR1Sh9OOXxN2i6HplUBECpP
- DvJ4F9gZ4nrmQWvLSBHb0vsdmZ5RFKkX5eNtm9krhQ3WO8kLis2l4HHbzt1+khdy
- zKIeVzaD2VfNadl4pQZyjQWxC0lE+lZKvqDk7sKvSF0uwQOzgBfc2HWbjCaIkqc/
- 8GtLVsmDMDoA6F4UH/stoGrb2PBiBd4XCUb6ZuUm/b5EIGyzw5YvRrrs3GTzylLZ
- UVqevg==
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=ymTeSHX0Vj7NaZZc1W0N02Ut30dn0Qy41Obnj4AdJ
- 8Q=; b=RwTBx2lkQBL/l68qnSVOISfctCGVXkatI1Ly3FSiObdVVpc1fpsy+7Szm
- m2Ai6rFzW26ehr7Gb8LSXpes0EnO+w0ctgNAgdxYq4s6FHJbbhGzhVgFGR2Ya/A7
- AQOLo2bBqhDRAVpoffHZP0ADp3Fg4UCU14O0w3WeU7UcjGOz4AUPIL/ZSV6jf8x4
- yN7m+9cfrIXlhHHBbMWfEvDSHYSZKdeU/DEDM20jte9UAivYI19b/oe5ehPPHpby
- D+Mud0elDGLbJ7TOE42In69RAl7CePSdjv/MSwgZMzPH7kdw+Gja9rRQ44vDvtaP
- QhrGW1u82YVLx7XCa1Klt4HD2THVw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,40 +52,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Jan_Sebastian_G=c3=b6tte?= <linux@jaseg.net>, leobras.c@gmail.com,
- linux-fbdev@vger.kernel.org, devel@driverdev.osuosl.org,
- nishadkamdar@gmail.com, gregkh@linuxfoundation.org,
- dri-devel@lists.freedesktop.org, bhanusreemahesh@gmail.com,
- Phil Reid <preid@electromag.com.au>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0530425793=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q29pbmNpZGVudGlhbGx5LCBJJ3ZlIHdvcmtlZCBvbiB0aGUgZXhhY3Qgc2FtZSBpc3N1ZSB0aGlz
-IHdlZWtlbmQuIEkgY2FuIGNvbmZpcm0gdGhpcyBjaGFuZ2UgaXMgbmVjZXNzYXJ5LCBhbmQgd2l0
-aCB0aGlzIGFuZCB0aGUgb3RoZXIgdHdvIHBhdGNoZXMgZnJvbSBQaGlsIFJlaWQgdGhlIGRyaXZl
-ciB3b3JrcyBhZ2Fpbi4gVGhlIHNhbWUgbWlzdGFrZSBvY2N1cnJlZCBpbiBzZXZlcmFsIG90aGVy
-IGxvY2F0aW9ucywgdGhvdWdoLiBJJ2xsIHNlbmQgYSBwYXRjaCBmaXhpbmcgYWxsIG9mIHRoZW0u
-CgpJJ3ZlIHRlc3RlZCB0aGlzIG9uIGEgaWxpOTQ4Ni1iYXNlZCBkaXNwbGF5IGNvbm5lY3RlZCB0
-byBhIHJhc3BiZXJyeSBwaSAzYisuCgpSZWdhcmRzLCBKYW4KCk9uIE1vbiwgMTUgSnVsIDIwMTkg
-Tmljb2xhcyBTYWVueiBKdWxpZW5uZSB3cm90ZToKPiBXZSBhY3R1YWxseSB3YW50IHRvIHNldCB0
-aGUgZ3BpbyBwaW4gaWYgaXQncyBhdmlsYWJsZSwgbm90IHRoZSBvdGhlciB3YXkKPiBhcm91bmQu
-Cj4gCj4gRml4ZXM6IGM0NDBlZWUxYTdhMSAoIlN0YWdpbmc6IGZidGZ0OiBTd2l0Y2ggdG8gdGhl
-IGdwaW8gZGVzY3JpcHRvcgo+IGludGVyZmFjZSIpCj4gU2lnbmVkLW9mZi1ieTogTmljb2xhcyBT
-YWVueiBKdWxpZW5uZSA8bnNhZW56anVsaWVubmVAc3VzZS5kZT4KPiAtLS0KPiAgZHJpdmVycy9z
-dGFnaW5nL2ZidGZ0L2ZidGZ0LWJ1cy5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5n
-L2ZidGZ0L2ZidGZ0LWJ1cy5jCj4gYi9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJ0ZnQtYnVzLmMK
-PiBpbmRleCAyZWE4MTRkMGRjYTUuLjYzYzY1ZGQ2N2IxNyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L3N0YWdpbmcvZmJ0ZnQvZmJ0ZnQtYnVzLmMKPiArKysgYi9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQv
-ZmJ0ZnQtYnVzLmMKPiBAQCAtMTM1LDcgKzEzNSw3IEBAIGludCBmYnRmdF93cml0ZV92bWVtMTZf
-YnVzOChzdHJ1Y3QgZmJ0ZnRfcGFyICpwYXIsCj4gc2l6ZV90IG9mZnNldCwgc2l6ZV90IGxlbikK
-PiAgICAgICAgIHJlbWFpbiA9IGxlbiAvIDI7Cj4gICAgICAgICB2bWVtMTYgPSAodTE2ICopKHBh
-ci0+aW5mby0+c2NyZWVuX2J1ZmZlciArIG9mZnNldCk7Cj4gIC0gICAgICBpZiAoIXBhci0+Z3Bp
-by5kYykKPiArICAgICAgIGlmIChwYXItPmdwaW8uZGMpCj4gICAgICAgICAgICAgICAgIGdwaW9k
-X3NldF92YWx1ZShwYXItPmdwaW8uZGMsIDEpOwo+ICAgICAgICAgLyogbm9uIGJ1ZmZlcmVkIHdy
-aXRlICovCj4gLS0KPiAyLjIyLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+
+--===============0530425793==
+Content-Type: multipart/alternative; boundary="15632029162.89adDe4c.27564"
+Content-Transfer-Encoding: 7bit
+
+
+--15632029162.89adDe4c.27564
+Date: Mon, 15 Jul 2019 15:01:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111123
+
+--- Comment #2 from Redsandro <freedesktop@redsandro.e4ward.com> ---
+Created attachment 144790
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144790&action=3Dedit
+dmesg
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15632029162.89adDe4c.27564
+Date: Mon, 15 Jul 2019 15:01:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Display issues AMD RAVEN Ryzen 5 3400G APU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111123#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Display issues AMD RAVEN Ryzen 5 3400G APU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111123">bug 11112=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+freedesktop&#64;redsandro.e4ward.com" title=3D"Redsandro &lt;freedesktop&#6=
+4;redsandro.e4ward.com&gt;"> <span class=3D"fn">Redsandro</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144790=
+" name=3D"attach_144790" title=3D"dmesg">attachment 144790</a> <a href=3D"a=
+ttachment.cgi?id=3D144790&amp;action=3Dedit" title=3D"dmesg">[details]</a><=
+/span>
+dmesg</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15632029162.89adDe4c.27564--
+
+--===============0530425793==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0530425793==--
