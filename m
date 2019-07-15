@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2556836B
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 08:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B3A68372
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 08:15:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB318897FD;
-	Mon, 15 Jul 2019 06:09:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBC7897EB;
+	Mon, 15 Jul 2019 06:14:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B1076897FD
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 06:09:54 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3A34E897EB
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 06:14:58 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 84A1D72167; Mon, 15 Jul 2019 06:09:54 +0000 (UTC)
+ id 36B4272167; Mon, 15 Jul 2019 06:14:58 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111131] application Login page UI related issue
-Date: Mon, 15 Jul 2019 06:09:54 +0000
+Date: Mon, 15 Jul 2019 06:14:58 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: General
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111131-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_file_loc status_whiteboard
+Message-ID: <bug-111131-502-GLqU365XWf@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111131-502@http.bugs.freedesktop.org/>
+References: <bug-111131-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1088065744=="
+Content-Type: multipart/mixed; boundary="===============0534884588=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1088065744==
-Content-Type: multipart/alternative; boundary="15631709940.ECbbE339C.2701"
+--===============0534884588==
+Content-Type: multipart/alternative; boundary="15631712981.F9E6FAC.3797"
 Content-Transfer-Encoding: 7bit
 
 
---15631709940.ECbbE339C.2701
-Date: Mon, 15 Jul 2019 06:09:54 +0000
+--15631712981.F9E6FAC.3797
+Date: Mon, 15 Jul 2019 06:14:58 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,32 +72,21 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111131
 
-            Bug ID: 111131
-           Summary: application Login page UI related issue
-           Product: DRI
-           Version: unspecified
-          Hardware: x86-64 (AMD64)
-                OS: Windows (All)
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: General
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: vbelsare91@gmail.com
+Vaishali <vbelsare91@gmail.com> changed:
 
-Created attachment 144788
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144788&action=3Dedit
-just learn the bugzilla
-
-issue is occurred when user enter huge name in id field on login page, but
-issue is not affected on other filed
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                URL|                            |https://bugs.freedesktop.or
+                   |                            |g/
+         Whiteboard|                            |issues is under testing
+                   |                            |team
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15631709940.ECbbE339C.2701
-Date: Mon, 15 Jul 2019 06:09:54 +0000
+--15631712981.F9E6FAC.3797
+Date: Mon, 15 Jul 2019 06:14:58 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,92 +97,41 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:vbelsare9=
+1&#64;gmail.com" title=3D"Vaishali &lt;vbelsare91&#64;gmail.com&gt;"> <span=
+ class=3D"fn">Vaishali</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - application Login page UI related issue"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111131">111131</a>
-          </td>
-        </tr>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111131">bug 11113=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>application Login page UI related issue
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">URL</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>https://bugs.freedesktop.org/
+           </td>
+         </tr>
 
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Windows (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>General
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>vbelsare91&#64;gmail.com
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">Whiteboard</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>issues is under testing team=20
+           </td>
+         </tr></table>
       <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144788=
-" name=3D"attach_144788" title=3D"just learn the bugzilla">attachment 14478=
-8</a> <a href=3D"attachment.cgi?id=3D144788&amp;action=3Dedit" title=3D"jus=
-t learn the bugzilla">[details]</a></span>
-just learn the bugzilla
-
-issue is occurred when user enter huge name in id field on login page, but
-issue is not affected on other filed</pre>
-        </div>
       </p>
 
 
@@ -206,9 +144,9 @@ issue is not affected on other filed</pre>
     </body>
 </html>=
 
---15631709940.ECbbE339C.2701--
+--15631712981.F9E6FAC.3797--
 
---===============1088065744==
+--===============0534884588==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -218,4 +156,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1088065744==--
+--===============0534884588==--
