@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDBA6870C
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 12:31:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EF86870D
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 12:31:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE554898FA;
-	Mon, 15 Jul 2019 10:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 727C6897BC;
+	Mon, 15 Jul 2019 10:31:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 66A8D897D4
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 10:31:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 96BFA89862
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 10:31:42 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 639EE72167; Mon, 15 Jul 2019 10:31:41 +0000 (UTC)
+ id 93A8B72167; Mon, 15 Jul 2019 10:31:42 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111133] Panfrost: add current status to docs/features.txt
-Date: Mon, 15 Jul 2019 10:31:41 +0000
+Subject: [Bug 111132] Build problem: meson build can not find wayland-scanner
+Date: Mon, 15 Jul 2019 10:31:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,11 +33,11 @@ X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: component bug_status resolution cc product
- dependson bug_group
-Message-ID: <bug-111133-502-248Rl6IzZh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111133-502@http.bugs.freedesktop.org/>
-References: <bug-111133-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: cc product resolution bug_status component
+ bug_group dependson
+Message-ID: <bug-111132-502-bwWimgPbCO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111132-502@http.bugs.freedesktop.org/>
+References: <bug-111132-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,52 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2034337020=="
+Content-Type: multipart/mixed; boundary="===============0407097383=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2034337020==
-Content-Type: multipart/alternative; boundary="15631867011.dCE17E1A.13500"
+--===============0407097383==
+Content-Type: multipart/alternative; boundary="15631867021.a2C1aA.13521"
 Content-Transfer-Encoding: 7bit
 
 
---15631867011.dCE17E1A.13500
-Date: Mon, 15 Jul 2019 10:31:41 +0000
+--15631867021.a2C1aA.13521
+Date: Mon, 15 Jul 2019 10:31:42 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111133
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111132
 
 Andre Klapper <a9016009@gmx.de> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-          Component|DRM/amdkfd                  |Two
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |INVALID
-                 CC|dllud@riseup.net,           |
-                   |grimkriegor@krutt.org,      |
-                   |mesa-dev@lists.freedesktop. |
-                   |org                         |
+                 CC|mesa-dev@lists.freedesktop. |
+                   |org, shevegen@gmail.com     |
             Product|DRI                         |Spam
-         Depends on|111130                      |
+         Resolution|---                         |INVALID
+             Status|NEW                         |RESOLVED
+          Component|DRM/AMDgpu                  |Two
               Group|                            |spam
+         Depends on|111126                      |
 
 
 Referenced Bugs:
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111130
-[Bug 111130] Panfrost: add current status to docs/features.txt
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111126
+[Bug 111126] Build problem: meson build can not find wayland-scanner
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15631867011.dCE17E1A.13500
-Date: Mon, 15 Jul 2019 10:31:41 +0000
+--15631867021.a2C1aA.13521
+Date: Mon, 15 Jul 2019 10:31:42 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -115,10 +113,10 @@ s=3D"fn">Andre Klapper</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - Panfrost: add current status to docs/feature=
-s.txt"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111133">bug 11113=
-3</a>
+   title=3D"RESOLVED INVALID - Build problem: meson build can not find wayl=
+and-scanner"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111132">bug 11113=
+2</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -128,33 +126,8 @@ s.txt"
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>DRM/amdkfd
-           </td>
-           <td>Two
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>INVALID
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">CC</td>
-           <td>dllud&#64;riseup.net, grimkriegor&#64;krutt.org, mesa-dev&#6=
-4;lists.freedesktop.org
+           <td>mesa-dev&#64;lists.freedesktop.org, shevegen&#64;gmail.com
            </td>
            <td>
                &nbsp;
@@ -170,11 +143,26 @@ s.txt"
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Depends on</td>
-           <td>111130
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
            </td>
-           <td>
-               &nbsp;
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/AMDgpu
+           </td>
+           <td>Two
            </td>
          </tr>
 
@@ -184,6 +172,15 @@ s.txt"
                &nbsp;
            </td>
            <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Depends on</td>
+           <td>111126
+           </td>
+           <td>
+               &nbsp;
            </td>
          </tr></table>
       <p>
@@ -196,9 +193,9 @@ s.txt"
               <li>
                 [<a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Panfrost: add current status to docs/features.txt"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111130">Bug 11113=
-0</a>] Panfrost: add current status to docs/features.txt
+   title=3D"NEW - Build problem: meson build can not find wayland-scanner"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111126">Bug 11112=
+6</a>] Build problem: meson build can not find wayland-scanner
               </li>
           </ul>
         </div>
@@ -213,9 +210,9 @@ s.txt"
     </body>
 </html>=
 
---15631867011.dCE17E1A.13500--
+--15631867021.a2C1aA.13521--
 
---===============2034337020==
+--===============0407097383==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -225,4 +222,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2034337020==--
+--===============0407097383==--
