@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D12684B1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 09:58:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59612684D3
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 10:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A560E89781;
-	Mon, 15 Jul 2019 07:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680D5897C3;
+	Mon, 15 Jul 2019 08:06:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D23DC89781
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 07:58:03 +0000 (UTC)
-Received: from [189.27.46.152] (helo=coco.lan)
- by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
- id 1hmvrD-0003qC-8d; Mon, 15 Jul 2019 07:57:11 +0000
-Date: Mon, 15 Jul 2019 04:57:02 -0300
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To: Markus Heiser <markus.heiser@darmarit.de>
-Subject: Re: [PATCH 8/8] docs: remove extra conf.py files
-Message-ID: <20190715045702.1e2b569b@coco.lan>
-In-Reply-To: <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
-References: <cover.1563115732.git.mchehab+samsung@kernel.org>
- <12a160afc9e70156f671010bd4ccff9311acdc5e.1563115732.git.mchehab+samsung@kernel.org>
- <e3ff0a8a-6956-3855-07be-9c126df2da2d@darmarit.de>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 16674897C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 08:06:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0D6DC72167; Mon, 15 Jul 2019 08:06:29 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111135] USER ENABLE TO LOGIN
+Date: Mon, 15 Jul 2019 08:06:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: vbelsare91@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: low
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ bug_file_loc op_sys bug_status bug_severity priority component assigned_to
+ reporter
+Message-ID: <bug-111135-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
- From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=eJlbjim1fxU57ZaVX/VVgKi/dG9GtJerPxx9UJo7Fww=; b=JcDzLwBGAR3DIQ5PzjliPmdfB
- wt3f3sg2z3AO/OuERhsRmMQS2qwxDHfr81HUZ8bO4iiwRmK3RrOm2h4/5DNGgtFEZDvuz7A8dJNNm
- 8SC+KQ1Nwm9BOBk47L69bPbiRtcflOhdeLDtFR53AOVtvZ10BSu6RTR+jOSoexCb+TOn62JzVO7/Z
- O55lv0FaRBBJ2LYyXSZdelp0ocAQap0NW6KHdOxn0lTVtf8TDPBJOZV7LLeVVU8RcXQa7O955vRo5
- mleM8mlHWSbuEWzj/LK75trdO7CY3hdfI2sN1X09S7ln7kgJuHQUi7kWjs9YHKWyAOp1nM2lXWTrS
- FqvVaEtvQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,47 +52,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, Rich Felker <dalias@libc.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Takashi Iwai <tiwai@suse.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Jonathan Corbet <corbet@lwn.net>,
- linux-sh@vger.kernel.org, x86@kernel.org,
- Maxime Ripard <maxime.ripard@bootlin.com>, Ingo Molnar <mingo@redhat.com>,
- linux-input@vger.kernel.org, Mauro Carvalho Chehab <mchehab@infradead.org>,
- Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
- Jaroslav Kysela <perex@perex.cz>, Sean Paul <sean@poorly.run>,
- netdev@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, "David
- S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0563259005=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RW0gTW9uLCAxNSBKdWwgMjAxOSAwODoxNjo1NCArMDIwMApNYXJrdXMgSGVpc2VyIDxtYXJrdXMu
-aGVpc2VyQGRhcm1hcml0LmRlPiBlc2NyZXZldToKCj4gSGkgTWF1cm8sCj4gCj4gc29ycnksIEkg
-aGF2bid0IHRlc3RlZCB5b3VyIHBhdGNoLCBidXQgb25lIHF1ZXN0aW9uIC4uLgo+IAo+IEFtIDE0
-LjA3LjE5IHVtIDE3OjEwIHNjaHJpZWIgTWF1cm8gQ2FydmFsaG8gQ2hlaGFiOgo+ID4gTm93IHRo
-YXQgdGhlIGxhdGV4X2RvY3VtZW50cyBhcmUgaGFuZGxlZCBhdXRvbWF0aWNhbGx5LCB3ZSBjYW4K
-PiA+IHJlbW92ZSB0aG9zZSBleHRyYSBjb25mLnB5IGZpbGVzLiAgCj4gCj4gV2UgbmVlZCB0aGVz
-ZSBjb25mLnB5IGFsc28gZm9yIGNvbXBpbGluZyBib29rcycgaW50byBIVE1MLiAgRm9yIHRoaXMK
-PiB0aGUgdGFncy5hZGQoInN1YnByb2plY3QiKSBpcyBuZWVkZWQuICBTaG91bGQgd2UgcmVhbHkg
-ZHJvcCB0aGlzIGZlYXR1cmU/Cj4gCj4gLS0gTWFya3VzIC0tCgpZb3UncmUgcmlnaHQ6IGFkZGlu
-ZyAic3VicHJvamVjdCIgdGFncyBpcyBuZWVkZWQgZm9yIGh0bWwuIEZvbGRpbmcgdGhpcwp0byBw
-YXRjaCA3LzggbWFrZXMgYm90aCBodG1sZG9jcyBhbmQgcGRmZG9jcyB0byB3b3JrIHdpdGggU1BI
-SU5YRElSUwp3aXRob3V0IHRoZSBuZWVkIG9mIGEgcGVyLXN1YmRpciBjb25mLnB5LgoKUmVnYXJk
-cywKTWF1cm8KCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3NwaGlueC9sb2FkX2NvbmZpZy5w
-eSBiL0RvY3VtZW50YXRpb24vc3BoaW54L2xvYWRfY29uZmlnLnB5CmluZGV4IDc1ZjUyN2ZmNGM5
-NS4uZTRhMDRmMzY3YjQxIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL3NwaGlueC9sb2FkX2Nv
-bmZpZy5weQorKysgYi9Eb2N1bWVudGF0aW9uL3NwaGlueC9sb2FkX2NvbmZpZy5weQpAQCAtNTEs
-MyArNTEsNyBAQCBkZWYgbG9hZENvbmZpZyhuYW1lc3BhY2UpOgogICAgICAgICAgICAgZXhlY2Zp
-bGVfKGNvbmZpZ19maWxlLCBjb25maWcpCiAgICAgICAgICAgICBkZWwgY29uZmlnWydfX2ZpbGVf
-XyddCiAgICAgICAgICAgICBuYW1lc3BhY2UudXBkYXRlKGNvbmZpZykKKyAgICAgICAgZWxzZToK
-KyAgICAgICAgICAgIGNvbmZpZyA9IG5hbWVzcGFjZS5jb3B5KCkKKyAgICAgICAgICAgIGNvbmZp
-Z1sndGFncyddLmFkZCgic3VicHJvamVjdCIpCisgICAgICAgICAgICBuYW1lc3BhY2UudXBkYXRl
-KGNvbmZpZykKClRoYW5rcywKTWF1cm8KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0563259005==
+Content-Type: multipart/alternative; boundary="15631779890.FA89a5.22632"
+Content-Transfer-Encoding: 7bit
+
+
+--15631779890.FA89a5.22632
+Date: Mon, 15 Jul 2019 08:06:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111135
+
+            Bug ID: 111135
+           Summary: USER ENABLE TO LOGIN
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+               URL: https://www.bugzilla.org/docs/2.18/html/quips.html
+                OS: Mac OS X (All)
+            Status: NEW
+          Severity: normal
+          Priority: low
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: vbelsare91@gmail.com
+
+AFTER ENTER ID AND PASSWORD USER UBABLE TO LOGIN THE APP
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15631779890.FA89a5.22632
+Date: Mon, 15 Jul 2019 08:06:29 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - USER ENABLE TO LOGIN"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111135">111135</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>USER ENABLE TO LOGIN
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>URL</th>
+          <td>https://www.bugzilla.org/docs/2.18/html/quips.html
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Mac OS X (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>low
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>vbelsare91&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>AFTER ENTER ID AND PASSWORD USER UBABLE TO LOGIN THE APP</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15631779890.FA89a5.22632--
+
+--===============0563259005==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0563259005==--
