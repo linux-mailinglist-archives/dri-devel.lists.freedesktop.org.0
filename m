@@ -2,53 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A001F686E1
-	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 12:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDBA6870C
+	for <lists+dri-devel@lfdr.de>; Mon, 15 Jul 2019 12:31:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A0DB896A3;
-	Mon, 15 Jul 2019 10:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE554898FA;
+	Mon, 15 Jul 2019 10:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3395A896A3
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 10:11:50 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id E692F28396
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 10:11:49 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id DAA0A283A2; Mon, 15 Jul 2019 10:11:49 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=ham version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 66A8D897D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 10:31:41 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 639EE72167; Mon, 15 Jul 2019 10:31:41 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204181] New: NULL pointer dereference regression in amdgpu
-Date: Mon, 15 Jul 2019 10:11:49 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+Subject: [Bug 111133] Panfrost: add current status to docs/features.txt
+Date: Mon, 15 Jul 2019 10:31:41 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: virtuousfox@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-204181-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+X-Bugzilla-Changed-Fields: component bug_status resolution cc product
+ dependson bug_group
+Message-ID: <bug-111133-502-248Rl6IzZh@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111133-502@http.bugs.freedesktop.org/>
+References: <bug-111133-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,104 +53,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2034337020=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA0MTgxCiAgICAgICAgICAgU3VtbWFyeTogTlVMTCBwb2ludGVyIGRl
-cmVmZXJlbmNlIHJlZ3Jlc3Npb24gaW4gYW1kZ3B1CiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVy
-cwogICAgICAgICAgIFZlcnNpb246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuMi4xCiAgICAg
-ICAgICBIYXJkd2FyZTogeDg2LTY0CiAgICAgICAgICAgICAgICBPUzogTGludXgKICAgICAgICAg
-ICAgICBUcmVlOiBNYWlubGluZQogICAgICAgICAgICBTdGF0dXM6IE5FVwogICAgICAgICAgU2V2
-ZXJpdHk6IGhpZ2gKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZp
-ZGVvKERSSSAtIG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRy
-aUBrZXJuZWwtYnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IHZpcnR1b3VzZm94QGdt
-YWlsLmNvbQogICAgICAgIFJlZ3Jlc3Npb246IE5vCgpDcmVhdGVkIGF0dGFjaG1lbnQgMjgzNjkz
-CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODM2
-OTMmYWN0aW9uPWVkaXQKZG1lc2cKCkFmdGVyIHVwZGF0aW5nIGZyb20gNS4xIHRvIDUuMi4xIGlu
-IGFib3V0IDUtMTAgbWludXRlcyBvZiB3YXRjaGluZyBhIFlvdXR1YmUKdmlkZW8gaW4gRmlyZWZv
-eCBJIG5vdyBnZXQgY29tcGxldGUgbG9jay11cCBvZiB2aWRlbyBvdXRwdXQgYW5kIGluYWJpbGl0
-eSB0bwpzaHV0ZG93biB1c2luZyBwb3dlciBidXR0b24uIFVzaW5nICJtYWdpYyBrZXlzIiBhbGxv
-d3MgbWUgdG8gcmVib290IGFuZCBnZXQKa2VybmVsIGxvZyB2aWEgYGpvdXJuYWxjdGwgLWIgLTEg
-LWtgLCBoZXJlIGlzIHJlbGV2YW50IHBhcnQ6CkJVRzoga2VybmVsIE5VTEwgcG9pbnRlciBkZXJl
-ZmVyZW5jZSwgYWRkcmVzczogMDAwMDAwMDAwMDAwMDJiNAojUEY6IHN1cGVydmlzb3IgcmVhZCBh
-Y2Nlc3MgaW4ga2VybmVsIG1vZGUKI1BGOiBlcnJvcl9jb2RlKDB4MDAwMCkgLSBub3QtcHJlc2Vu
-dCBwYWdlClBHRCAwIFA0RCAwIApPb3BzOiAwMDAwIFsjMV0gUFJFRU1QVCBTTVAgTk9QVEkKQ1BV
-OiAyIFBJRDogODIwMCBDb21tOiBrd29ya2VyL3UxNjoxIFRhaW50ZWQ6IEcgICAgICAgICAgSU8g
-ICAgIAo1LjIuMS0xMzgzLmdkNWJiYzI2LUhTRiAjMSBvcGVuU1VTRSBUdW1ibGV3ZWVkICh1bnJl
-bGVhc2VkKQpIYXJkd2FyZSBuYW1lOiBHaWdhYnl0ZSBUZWNobm9sb2d5IENvLiwgTHRkLiBHQS05
-OTBYQS1VRDMvR0EtOTkwWEEtVUQzLCBCSU9TCkYxNGUgMDkvMDkvMjAxNApXb3JrcXVldWU6IGV2
-ZW50c191bmJvdW5kIGNvbW1pdF93b3JrClJJUDogMDAxMDpkY19zdHJlYW1fbG9nKzB4Ni8weGIw
-IFthbWRncHVdCkNvZGU6IDA0IDAwIDAwIDQ5IDhiIGJjIDAyIDgwIDAyIDAwIDAwIDQ4IDhiIDA3
-IDQ4IDhiIDQwIDUwIGU4IGVkIDg4IGE4IGQ2IGI4CjAxIDAwIDAwIDAwIGMzIDBmIDFmIDgwIDAw
-IDAwIDAwIDAwIDBmIDFmIDQ0IDAwIDAwIDUzIDw4Yj4gODYgYjQgMDIgMDAgMDAgNDggODkKZjMg
-NDggODkgZjIgOGIgOGUgMTAgMDEgMDAgMDAgYmYgMDQgMDAgMDAKUlNQOiAwMDE4OmZmZmZhNTU2
-OGIxYjdjMDAgRUZMQUdTOiAwMDAxMDIwMgpSQVg6IDAwMDAwMDAwMDAwMDAwMDAgUkJYOiAwMDAw
-MDAwMDAwMDAwMDAxIFJDWDogMDAwMDAwMDAwMDAwMDAwMgpSRFg6IGZmZmZmZmZmYzA3ZmJkNTAg
-UlNJOiAwMDAwMDAwMDAwMDAwMDAwIFJESTogZmZmZjhlOWVlOTUwMDAwMApSQlA6IGZmZmY4ZTlk
-OTA2MTgwMDAgUjA4OiAwMDAwMDAwMDAwMDAwMDAxIFIwOTogMDAwMDAwMDAwMDAwMDAwMApSMTA6
-IGZmZmZhNTU2OGIxYjdjMzAgUjExOiAwMDAwMDAwMDAwMDAwMDAwIFIxMjogZmZmZjhlOWVlOTUw
-MDAwMApSMTM6IGZmZmY4ZTllZGVkYjQ0NDggUjE0OiBmZmZmOGU5ZTQ3ZTEwYzAwIFIxNTogZmZm
-ZjhlOWVkZWRhMDAwMApGUzogIDAwMDAwMDAwMDAwMDAwMDAoMDAwMCkgR1M6ZmZmZjhlOWVlZTAw
-MDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCkNTOiAgMDAxMCBEUzogMDAwMCBFUzog
-MDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMKQ1IyOiAwMDAwMDAwMDAwMDAwMmI0IENSMzogMDAw
-MDAwMDNiY2Y0NjAwMCBDUjQ6IDAwMDAwMDAwMDAwNDA2ZTAKQ2FsbCBUcmFjZToKIGRjX2NvbW1p
-dF9zdGF0ZSsweDc5LzB4YjAgW2FtZGdwdV0KIGFtZGdwdV9kbV9hdG9taWNfY29tbWl0X3RhaWwr
-MHgzYzAvMHhkYjAgW2FtZGdwdV0KID8gZmluaXNoX3Rhc2tfc3dpdGNoKzB4NzQvMHgzMDAKID8g
-X19zd2l0Y2hfdG8rMHgxNTIvMHg0ZTAKID8gX19zd2l0Y2hfdG9fYXNtKzB4MzQvMHg3MAogPyBf
-X2xvY2tfYWNxdWlyZSsweDNjOC8weDdhMAogPyBmaW5kX2hlbGRfbG9jaysweDMyLzB4OTAKID8g
-ZmluZF9oZWxkX2xvY2srMHgzMi8weDkwCiA/IHNjaGVkX2Nsb2NrKzB4NS8weDEwCiA/IG1hcmtf
-aGVsZF9sb2NrcysweDJkLzB4ODAKID8gcHJlZW1wdF9jb3VudF9zdWIrMHg5OC8weGUwCiA/IF9y
-YXdfc3Bpbl91bmxvY2tfaXJxKzB4M2EvMHg1MAogPyB3YWl0X2Zvcl9jb21wbGV0aW9uX3RpbWVv
-dXQrMHhlOS8weDExMAogPyBjb21taXRfdGFpbCsweDNjLzB4NzAKIGNvbW1pdF90YWlsKzB4M2Mv
-MHg3MAogcHJvY2Vzc19vbmVfd29yaysweDI3MS8weDVmMAogd29ya2VyX3RocmVhZCsweDRhLzB4
-M2QwCiA/IHByb2Nlc3Nfb25lX3dvcmsrMHg1ZjAvMHg1ZjAKIGt0aHJlYWQrMHgxMTgvMHgxNDAK
-ID8ga3RocmVhZF9jcmVhdGVfd29ya2VyX29uX2NwdSsweDcwLzB4NzAKIHJldF9mcm9tX2Zvcmsr
-MHgyNy8weDUwCk1vZHVsZXMgbGlua2VkIGluOiBhZl9wYWNrZXQgdHNfYm0geHRfcGt0dHlwZSB4
-dF9zdHJpbmcgbmZfbmF0X2Z0cApuZl9jb25udHJhY2tfZnRwIHh0X3RjcHVkcCBpcDZ0X3JwZmls
-dGVyIGlwNnRfUkVKRUNUIGlwdF9SRUpFQ1QgeHRfY29ubnRyYWNrCmVidGFibGVfbmF0IGlwNnRh
-YmxlX25hdCBpcDZ0YWJsZV9tYW5nbGUgaXA2dGFibGVfcmF3IGlwNnRhYmxlX3NlY3VyaXR5Cmlw
-dGFibGVfbmF0IG5mX25hdCBpcHRhYmxlX21hbmdsZSBpcHRhYmxlX3JhdyBpcHRhYmxlX3NlY3Vy
-aXR5IG5mX2Nvbm50cmFjawpuZl9kZWZyYWdfaXB2NiBuZl9kZWZyYWdfaXB2NCBpcF9zZXQgbmZu
-ZXRsaW5rIGVidGFibGVfZmlsdGVyIGVidGFibGVzCnNjc2lfdHJhbnNwb3J0X2lzY3NpIGlwNnRh
-YmxlX2ZpbHRlciBpcDZfdGFibGVzIGlwdGFibGVfZmlsdGVyIGlwX3RhYmxlcwp4X3RhYmxlcyBi
-cGZpbHRlciBzbmRfc2VxX2R1bW15IHNuZF9zZXFfb3NzIHNuZF9zZXFfbWlkaV9ldmVudCBzbmRf
-c2VxIHpyYW0Kc25kX3BjbV9vc3MgcmZjb21tIHNuZF9taXhlcl9vc3MgaXQ4NyBod21vbl92aWQg
-Ym5lcCBtc3IgcmNfYXZlcm1lZGlhCnR1bmVyX3NpbXBsZSB0dW5lcl90eXBlcyBhbWQ2NF9lZGFj
-X21vZCB0dW5lciB0ZGE3NDMyIGVkYWNfbWNlX2FtZCBidHVzYgp0dmF1ZGlvIGt2bV9hbWQgYXRo
-OWsgYnRydGwgYnRiY20gbXNwMzQwMCBhdGg5a19jb21tb24gYnRpbnRlbCBibHVldG9vdGgKYXRo
-OWtfaHcga3ZtIGlycWJ5cGFzcyBhdGggYnR0diB0ZWE1NzV4IGpveWRldiB0dmVlcHJvbSB2aWRl
-b2J1Zl9kbWFfc2cKc25kX3VzYl9hdWRpbyB2aWRlb2J1Zl9jb3JlIHNuZF91c2JtaWRpX2xpYiBy
-Y19jb3JlIHNuZF9yYXdtaWRpCnNuZF9oZGFfY29kZWNfcmVhbHRlayBtYWM4MDIxMSBzbmRfaGRh
-X2NvZGVjX2dlbmVyaWMgbGVkdHJpZ19hdWRpbwpzbmRfaGRhX2NvZGVjX2hkbWkgdjRsMl9jb21t
-b24gc25kX3NlcV9kZXZpY2UKIHNuZF9oZGFfaW50ZWwgdmlkZW9kZXYgc3A1MTAwX3RjbyBwY3Nw
-a3Igc25kX2hkYV9jb2RlYyB3bWlfYm1vZiBteG1fd21pIGFtZGdwdQpmYW0xNWhfcG93ZXIgazEw
-dGVtcCBtZWRpYSBpMmNfcGlpeDQgY2ZnODAyMTEgcjgxNjkgc25kX2hkYV9jb3JlIGdwdV9zY2hl
-ZApyZWFsdGVrIHNuZF9od2RlcCBsaWJwaHkgdHRtIHJma2lsbCBzbmRfcGNtIG1hY19oaWQgaGlk
-X2dlbmVyaWMgdXNiaGlkIHVhcwp1c2Jfc3RvcmFnZSBvaGNpX3BjaSBzZXJpb19yYXcgc2RfbW9k
-IGVoY2lfcGNpIG9oY2lfaGNkIHhoY2lfcGNpIGVoY2lfaGNkCnhoY2lfaGNkIHdtaSBleGZhdChP
-KSBsMnRwX3BwcCBsMnRwX25ldGxpbmsgbDJ0cF9jb3JlIGlwNl91ZHBfdHVubmVsIHVkcF90dW5u
-ZWwKcHBwb3ggcHBwX2dlbmVyaWMgc2xoYyB2aGJhKE8pIHVpbnB1dCBzZyBuYmQgZG1fbXVsdGlw
-YXRoIHNjc2lfZGhfcmRhYwpzY3NpX2RoX2VtYyBzY3NpX2RoX2FsdWEgZWNyeXB0ZnMKQ1IyOiAw
-MDAwMDAwMDAwMDAwMmI0Ci0tLVsgZW5kIHRyYWNlIDA2MzNkOTdjYjNmMmQyZDYgXS0tLQpSSVA6
-IDAwMTA6ZGNfc3RyZWFtX2xvZysweDYvMHhiMCBbYW1kZ3B1XQpDb2RlOiAwNCAwMCAwMCA0OSA4
-YiBiYyAwMiA4MCAwMiAwMCAwMCA0OCA4YiAwNyA0OCA4YiA0MCA1MCBlOCBlZCA4OCBhOCBkNiBi
-OAowMSAwMCAwMCAwMCBjMyAwZiAxZiA4MCAwMCAwMCAwMCAwMCAwZiAxZiA0NCAwMCAwMCA1MyA8
-OGI+IDg2IGI0IDAyIDAwIDAwIDQ4IDg5CmYzIDQ4IDg5IGYyIDhiIDhlIDEwIDAxIDAwIDAwIGJm
-IDA0IDAwIDAwClJTUDogMDAxODpmZmZmYTU1NjhiMWI3YzAwIEVGTEFHUzogMDAwMTAyMDIKUkFY
-OiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogMDAwMDAwMDAwMDAwMDAwMSBSQ1g6IDAwMDAwMDAwMDAw
-MDAwMDIKUkRYOiBmZmZmZmZmZmMwN2ZiZDUwIFJTSTogMDAwMDAwMDAwMDAwMDAwMCBSREk6IGZm
-ZmY4ZTllZTk1MDAwMDAKUkJQOiBmZmZmOGU5ZDkwNjE4MDAwIFIwODogMDAwMDAwMDAwMDAwMDAw
-MSBSMDk6IDAwMDAwMDAwMDAwMDAwMDAKUjEwOiBmZmZmYTU1NjhiMWI3YzMwIFIxMTogMDAwMDAw
-MDAwMDAwMDAwMCBSMTI6IGZmZmY4ZTllZTk1MDAwMDAKUjEzOiBmZmZmOGU5ZWRlZGI0NDQ4IFIx
-NDogZmZmZjhlOWU0N2UxMGMwMCBSMTU6IGZmZmY4ZTllZGVkYTAwMDAKRlM6ICAwMDAwMDAwMDAw
-MDAwMDAwKDAwMDApIEdTOmZmZmY4ZTllZWUwMDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAw
-MDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNS
-MjogMDAwMDAwMDAwMDAwMDJiNCBDUjM6IDAwMDAwMDAzYmNmNDYwMDAgQ1I0OiAwMDAwMDAwMDAw
-MDQwNmUwCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUg
-d2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2034337020==
+Content-Type: multipart/alternative; boundary="15631867011.dCE17E1A.13500"
+Content-Transfer-Encoding: 7bit
+
+
+--15631867011.dCE17E1A.13500
+Date: Mon, 15 Jul 2019 10:31:41 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111133
+
+Andre Klapper <a9016009@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|DRM/amdkfd                  |Two
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
+                 CC|dllud@riseup.net,           |
+                   |grimkriegor@krutt.org,      |
+                   |mesa-dev@lists.freedesktop. |
+                   |org                         |
+            Product|DRI                         |Spam
+         Depends on|111130                      |
+              Group|                            |spam
+
+
+Referenced Bugs:
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111130
+[Bug 111130] Panfrost: add current status to docs/features.txt
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15631867011.dCE17E1A.13500
+Date: Mon, 15 Jul 2019 10:31:41 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - Panfrost: add current status to docs/feature=
+s.txt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111133">bug 11113=
+3</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/amdkfd
+           </td>
+           <td>Two
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>dllud&#64;riseup.net, grimkriegor&#64;krutt.org, mesa-dev&#6=
+4;lists.freedesktop.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Depends on</td>
+           <td>111130
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr></table>
+      <p>
+      </p>
+
+        <div id=3D"referenced">
+          <hr style=3D"border: 1px dashed #969696">
+          <b>Referenced Bugs:</b>
+          <ul>
+              <li>
+                [<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Panfrost: add current status to docs/features.txt"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111130">Bug 11113=
+0</a>] Panfrost: add current status to docs/features.txt
+              </li>
+          </ul>
+        </div>
+        <br>
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15631867011.dCE17E1A.13500--
+
+--===============2034337020==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2034337020==--
