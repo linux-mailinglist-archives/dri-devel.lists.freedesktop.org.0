@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819EE6AF48
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 20:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC0A6AF4C
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 20:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19D846E176;
-	Tue, 16 Jul 2019 18:54:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49D906E179;
+	Tue, 16 Jul 2019 18:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5426E176
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 18:54:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 794FF6E179
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 18:55:36 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 71C93286DF
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 18:54:51 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 48C85285E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 18:55:36 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 66F6328681; Tue, 16 Jul 2019 18:54:51 +0000 (UTC)
+ id 328E428686; Tue, 16 Jul 2019 18:55:36 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -27,7 +27,7 @@ From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204145] amdgpu video playback causes host to hard reset
  (checkstop) on POWER9 with RX 580
-Date: Tue, 16 Jul 2019 18:54:50 +0000
+Date: Tue, 16 Jul 2019 18:55:35 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -36,14 +36,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: shawn@anastas.io
+X-Bugzilla-Who: linux@octaforge.org
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204145-2300-pc8eoAsRok@https.bugzilla.kernel.org/>
+Message-ID: <bug-204145-2300-WR4q4W6ohC@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204145-2300@https.bugzilla.kernel.org/>
 References: <bug-204145-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,10 +68,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxNDUKCi0tLSBD
-b21tZW50ICMxMCBmcm9tIFNoYXduIEFuYXN0YXNpbyAoc2hhd25AYW5hc3Rhcy5pbykgLS0tCkkg
-YWN0dWFsbHkgaGF2ZW4ndCB0ZXN0ZWQgNS4xLjksIGJ1dCBJIGNhbiBjb25maXJtIHRoYXQgNS4w
-Ljkgd29ya3MgZmluZS4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToK
-WW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+b21tZW50ICMxMSBmcm9tIERhbmllbCBLb2xlc2EgKGxpbnV4QG9jdGFmb3JnZS5vcmcpIC0tLQpJ
+IHNlZSwgSSBtaXNyZWFkIHRoZW4sIGJlY2F1c2UgdGhlIHdvcmtpbmcga2VybmVsIEkgaGF2ZSBo
+ZXJlIGlzIDUuMS45Li4uIEkgZGlkCmhhdmUgaXQgaGFuZyBvbiA1LjEuMTcsIHRob3VnaC4KCi0t
+IApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0
+aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
