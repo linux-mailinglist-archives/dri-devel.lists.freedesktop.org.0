@@ -2,31 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E6F6AD4A
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 19:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646F66AD4E
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 19:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0D6288F1E;
-	Tue, 16 Jul 2019 17:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41CEE6E154;
+	Tue, 16 Jul 2019 17:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2EE88F1E
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 17:01:10 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 17347807-1500050 for multiple; Tue, 16 Jul 2019 17:59:19 +0100
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AA2ED6E154
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 17:03:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 662E110A2C47;
+ Tue, 16 Jul 2019 10:03:42 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Vg4aWRwCekfW; Tue, 16 Jul 2019 10:03:41 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 473EF10A264A;
+ Tue, 16 Jul 2019 10:03:41 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 436DA2FE2547; Tue, 16 Jul 2019 10:03:42 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/19] drm: drop use of drmp.h in drm-misc
+In-Reply-To: <20190716064220.18157-1-sam@ravnborg.org>
+References: <20190716064220.18157-1-sam@ravnborg.org>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Tue, 16 Jul 2019 10:03:41 -0700
+Message-ID: <87muhd6hea.fsf@anholt.net>
 MIME-Version: 1.0
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190716164221.15436-2-robdclark@gmail.com>
-References: <20190716164221.15436-1-robdclark@gmail.com>
- <20190716164221.15436-2-robdclark@gmail.com>
-Message-ID: <156329635647.9436.7142001798245279241@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 2/2] drm/vgem: use normal cached mmap'ings
-Date: Tue, 16 Jul 2019 17:59:16 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,41 +46,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Deepak Sharma <deepak.sharma@amd.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Eric Biggers <ebiggers@google.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0429410755=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBSb2IgQ2xhcmsgKDIwMTktMDctMTYgMTc6NDI6MTUpCj4gRnJvbTogUm9iIENsYXJr
-IDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgo+IAo+IFNpbmNlIHRoZXJlIGlzIG5vIHJlYWwgZGV2
-aWNlIGFzc29jaWF0ZWQgd2l0aCB2Z2VtLCBpdCBpcyBpbXBvc3NpYmxlIHRvCj4gZW5kIHVwIHdp
-dGggYXBwcm9wcmlhdGUgZGV2LT5kbWFfb3BzLCBtZWFuaW5nIHRoYXQgd2UgaGF2ZSBubyB3YXkg
-dG8KPiBpbnZhbGlkYXRlIHRoZSBzaG1lbSBwYWdlcyBhbGxvY2F0ZWQgYnkgdmdlbS4gIFNvLCBh
-dCBsZWFzdCBvbiBwbGF0Zm9ybXMKPiB3aXRob3V0IGRybV9jZmx1c2hfcGFnZXMoKSwgd2UgZW5k
-IHVwIHdpdGggY29ycnVwdGlvbiB3aGVuIGNhY2hlIGxpbmVzCj4gZnJvbSBwcmV2aW91cyB1c2Fn
-ZSBvZiB2Z2VtIGJvIHBhZ2VzIGdldCBldmljdGVkIHRvIG1lbW9yeS4KPiAKPiBUaGUgb25seSBz
-YW5lIG9wdGlvbiBpcyB0byB1c2UgY2FjaGVkIG1hcHBpbmdzLgo+IAo+IFNpZ25lZC1vZmYtYnk6
-IFJvYiBDbGFyayA8cm9iZGNsYXJrQGNocm9taXVtLm9yZz4KPiAtLS0KPiBQb3NzaWJseSB3ZSBj
-b3VsZCBkbWFfc3luY18qX2Zvcl97ZGV2aWNlLGNwdX0oKSBvbiBkbWFidWYgYXR0YWNoL2RldGFj
-aCwKPiBhbHRob3VnaCB0aGUgLT5nZW1fcHJpbWVfe3Bpbix1bnBpbn0oKSBBUEkgaXNuJ3QgcXVp
-dGUgaWRlYWwgZm9yIHRoYXQgYXMKPiBpdCBpcy4gIEFuZCB0aGF0IGRvZXNuJ3QgcmVhbGx5IGhl
-bHAgZm9yIGRyaXZlcnMgdGhhdCBkb24ndCBhdHRhY2gvCj4gZGV0YWNoIGZvciBlYWNoIHVzZS4K
-PiAKPiBCdXQgQUZBSUNUIHZnZW0gaXMgbWFpbmx5IHVzZWQgZm9yIGRtYWJ1ZiB0ZXN0aW5nLCBz
-byBtYXliZSB3ZSBkb24ndAo+IG5lZWQgdG8gY2FyZSB0b28gbXVjaCBhYm91dCB1c2Ugb2YgY2Fj
-aGVkIG1tYXAnaW5ncy4KClNhZGx5IHRoaXMgcmVncmVzc2VzIHdpdGggaTkxNSBpbnRlcm9wLgoK
-U3RhcnRpbmcgc3VidGVzdDogNEtpQi10aW55LXZnZW0tYmx0LWVhcmx5LXJlYWQtY2hpbGQKKGdl
-bV9jb25jdXJyZW50X2JsaXQ6ODMwOSkgQ1JJVElDQUw6IFRlc3QgYXNzZXJ0aW9uIGZhaWx1cmUg
-ZnVuY3Rpb24gZG1hYnVmX2NtcF9ibywgZmlsZSAuLi90ZXN0cy9pOTE1L2dlbV9jb25jdXJyZW50
-X2FsbC5jOjQwODoKKGdlbV9jb25jdXJyZW50X2JsaXQ6ODMwOSkgQ1JJVElDQUw6IEZhaWxlZCBh
-c3NlcnRpb246IHZbKCh5KSooYi0+d2lkdGgpICsgKCgoeSkgKyBwYXNzKSUoYi0+d2lkdGgpKSld
-ID09IHZhbAooZ2VtX2NvbmN1cnJlbnRfYmxpdDo4MzA5KSBDUklUSUNBTDogZXJyb3I6IDAgIT0g
-MHhkZWFkYmVlZgoKYW5kIGlndC9wcmltZV92Z2VtCgpDYW4geW91IHBsZWFzZSBjYyBpbnRlbC1n
-Znggc28gQ0kgY2FuIHBpY2sgdXAgdGhlc2UgY2hhbmdlcz8KLUNocmlzCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+--===============0429410755==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+
+--=-=-=
+Content-Type: text/plain
+
+Sam Ravnborg <sam@ravnborg.org> writes:
+
+> This patch set removes a far share of the remaining uses of drmP.h.
+> Common for all patches are that the respective files are maintained
+> in drm-misc.
+> All patches are independent.
+
+For v3d, vc4, pl111:
+
+Reviewed-by: Eric Anholt <eric@anholt.net>
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl0uA24ACgkQtdYpNtH8
+nujvhA//QNua9OXNRMHYRca87udRhwv3kfpv8J+A5x8AXGwXuDdx07BBmtoz176a
+qEBjdSgbSSgrhdPdSKYnhiODA5rhZo6nIFI/Ue7JZk2HzcTgLazYnKzo3rwT28mT
+jyg//MEy6V+/rVFl+iZxE8XNj0yQS5ANAWGSAj/K8CkbJoVlS0PwjJ4s3nOD47nF
+Qp1NQPaEA5AyB4UZDQpIDk4Zm07RbsPYlrDgAT92DNDKMrbke+K6SLe3pz2t++Qs
+e9IAwL2YezlDHLyVzfVpfUd3bEAfNBT/lPtxEK3Ex2QdSeVNrhTSJeK+BXrFhG6N
+SU9OnDDdqbjxKiRP5rqjaJlYyPejhQDvB+J95FzAANkoQ/E/zZyhI1STLe3Za1hl
+RNtVJ2DQPktKVwIXMXIcO9wBymvYYeLApqJzEo2kBWj/ni3YrmlBth5gLM4pSl6H
+9JiUY/zKsJSOW5YYiriFvis4K7JlI24V3P5ULGN99DmwFPL3UT/fLy4jRtss6SLL
+BvlmU3ve2gPSe0Ib6rg926stGYFTWqmN8akyiH27BDUFv/snphu1piJv9sLIyvnx
+vyA+UM9CVt4IC3v7cUovKOGmX0x72sv+npdOgUVGM6iIqIAI4Hv/7TG6BWILKcm4
+71VaYDn3rRrt0HOra1lUJbTESDZtooZte9hU64xfpRXh6M4C/vc=
+=SiuG
+-----END PGP SIGNATURE-----
+--=-=-=--
+
+--===============0429410755==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0429410755==--
