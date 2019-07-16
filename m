@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD6569F9C
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 01:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9741969FBA
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 02:10:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66BE89E23;
-	Mon, 15 Jul 2019 23:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C62289E59;
+	Tue, 16 Jul 2019 00:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3FB9289E23
- for <dri-devel@lists.freedesktop.org>; Mon, 15 Jul 2019 23:59:29 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3C05C72167; Mon, 15 Jul 2019 23:59:29 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
- consume huge amount of RAM
-Date: Mon, 15 Jul 2019 23:59:29 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 18.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: t_arceri@yahoo.com.au
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111077-502-Dv9TuI8lq3@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
-References: <bug-111077-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from anholt.net (anholt.net [50.246.234.109])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5341989E59
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 00:10:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id 03DF910A1201;
+ Mon, 15 Jul 2019 17:10:52 -0700 (PDT)
+X-Virus-Scanned: Debian amavisd-new at anholt.net
+Received: from anholt.net ([127.0.0.1])
+ by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id V0bKp_I3pekT; Mon, 15 Jul 2019 17:10:50 -0700 (PDT)
+Received: from eliezer.anholt.net (localhost [127.0.0.1])
+ by anholt.net (Postfix) with ESMTP id A9B2610A1AEB;
+ Mon, 15 Jul 2019 17:10:50 -0700 (PDT)
+Received: by eliezer.anholt.net (Postfix, from userid 1000)
+ id 23B042FE21E9; Mon, 15 Jul 2019 17:10:51 -0700 (PDT)
+From: Eric Anholt <eric@anholt.net>
+To: Nishka Dasgupta <nishkadg.linux@gmail.com>, airlie@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] gpu: drm: pl111: pl111_vexpress.c: Add of_node_put()
+ before return
+In-Reply-To: <20190706132742.3250-1-nishkadg.linux@gmail.com>
+References: <20190706132742.3250-1-nishkadg.linux@gmail.com>
+User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
+ (x86_64-pc-linux-gnu)
+Date: Mon, 15 Jul 2019 17:10:49 -0700
+Message-ID: <87muhebzzq.fsf@anholt.net>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,103 +48,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0523952349=="
+Cc: Nishka Dasgupta <nishkadg.linux@gmail.com>
+Content-Type: multipart/mixed; boundary="===============2085470747=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============2085470747==
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---===============0523952349==
-Content-Type: multipart/alternative; boundary="15632351692.Df0Aa1.12613"
-Content-Transfer-Encoding: 7bit
+--=-=-=
+Content-Type: text/plain
 
+Nishka Dasgupta <nishkadg.linux@gmail.com> writes:
 
---15632351692.Df0Aa1.12613
-Date: Mon, 15 Jul 2019 23:59:29 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+> Each iteration of for_each_available_child_of_node puts the previous
+> node, but in the case of a break from the middle of the loop there is
+> no put, thus causing a memory leak. Hence add an of_node_put before the
+> break.
+> Issue found with Coccinelle.
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+Pushed.  Thanks!
 
---- Comment #6 from Timothy Arceri <t_arceri@yahoo.com.au> ---
-(In reply to roland@rptd.ch from comment #4)
-> I tried compiling from source but it does not work. Seems to have troubles
-> with libdrm.
->=20
-> configure: error: Package requirements (libdrm >=3D 2.4.75 libdrm_intel >=
-=3D
-> 2.4.75) were not met:
->=20
-> Can't seem to get past this one.
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Are you sure you have the libdrm-devel package installed?
+-----BEGIN PGP SIGNATURE-----
 
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl0tFgkACgkQtdYpNtH8
+nuj9xhAAi9b+QoWnxgQRYhs+sulqiY5clJ7Qwlirceo+8+RWbh9CSWMHVJE/dft4
+j45UhbctcsLMP7lkqrB+s/UeZjhB2lm+HdFjlhyekE1mGuTL8egKzYaUclybkeNX
+9g9SLmjMp+sWZ/MFpxIocIAw8TGdCEA2z1SHjEzk8TTUFIPvprAxiRt4MiXfzMUk
+o1Lnq93zm64pdbExfQtrEYx82i5s6TfvYREIqngWjfKtIfCkqghQ8Sy37QQ3AboP
+HJpDBgjZZAhcYDK8e7wrA1RXSjPEHnMneqrzZiO5y3i2HfUo3yodhvaHLLFYhY2A
+qJj4IfmsetdTHSlkd/8ZPwjiLV3Z68VV3hkdZmmH4/M7h6RQ9R12kRcK884R41Ak
+yAuEG5N8Y4Mv+zKjhE009gb0zf3SJ5i5WqauiYPjQ/XZ4YzhX2jX2x07qeV4hKlO
+pGuTtjlCdemvn9Dc8Jkb7vVg3MDZTCZy9UPdPi+17oqcukzi3zTDTIIeMk/Si5U4
+MRzDnxSpfrypt3YEqjyd79PQj3oSm5ZxOLF+a9AdaYeMe5tVzuMAV+9C8i7gom1O
+VyrV38mEE23YwXhUoaiuhrcoHpJHGBEwUyxQC+zA37EQur9LjmC+qn+m+j5CSb35
+x++XKl4DNM6u1MEsVrXx1a8edD0N7VVwppNM/t/b0NjdEtvPtbo=
+=HEHR
+-----END PGP SIGNATURE-----
+--=-=-=--
 
---15632351692.Df0Aa1.12613
-Date: Mon, 15 Jul 2019 23:59:29 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
- huge amount of RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
-om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
-</span></b>
-        <pre>(In reply to <a href=3D"mailto:roland&#64;rptd.ch">roland&#64;=
-rptd.ch</a> from <a href=3D"show_bug.cgi?id=3D111077#c4">comment #4</a>)
-<span class=3D"quote">&gt; I tried compiling from source but it does not wo=
-rk. Seems to have troubles
-&gt; with libdrm.
-&gt;=20
-&gt; configure: error: Package requirements (libdrm &gt;=3D 2.4.75 libdrm_i=
-ntel &gt;=3D
-&gt; 2.4.75) were not met:
-&gt;=20
-&gt; Can't seem to get past this one.</span >
-
-Are you sure you have the libdrm-devel package installed?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15632351692.Df0Aa1.12613--
-
---===============0523952349==
+--===============2085470747==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -159,4 +101,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0523952349==--
+--===============2085470747==--
