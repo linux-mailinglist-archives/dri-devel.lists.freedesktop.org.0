@@ -1,41 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9741969FBA
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 02:10:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2C769FBC
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 02:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C62289E59;
-	Tue, 16 Jul 2019 00:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B78589FAD;
+	Tue, 16 Jul 2019 00:13:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from anholt.net (anholt.net [50.246.234.109])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5341989E59
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 00:10:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by anholt.net (Postfix) with ESMTP id 03DF910A1201;
- Mon, 15 Jul 2019 17:10:52 -0700 (PDT)
-X-Virus-Scanned: Debian amavisd-new at anholt.net
-Received: from anholt.net ([127.0.0.1])
- by localhost (kingsolver.anholt.net [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id V0bKp_I3pekT; Mon, 15 Jul 2019 17:10:50 -0700 (PDT)
-Received: from eliezer.anholt.net (localhost [127.0.0.1])
- by anholt.net (Postfix) with ESMTP id A9B2610A1AEB;
- Mon, 15 Jul 2019 17:10:50 -0700 (PDT)
-Received: by eliezer.anholt.net (Postfix, from userid 1000)
- id 23B042FE21E9; Mon, 15 Jul 2019 17:10:51 -0700 (PDT)
-From: Eric Anholt <eric@anholt.net>
-To: Nishka Dasgupta <nishkadg.linux@gmail.com>, airlie@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] gpu: drm: pl111: pl111_vexpress.c: Add of_node_put()
- before return
-In-Reply-To: <20190706132742.3250-1-nishkadg.linux@gmail.com>
-References: <20190706132742.3250-1-nishkadg.linux@gmail.com>
-User-Agent: Notmuch/0.22.2+1~gb0bcfaa (http://notmuchmail.org) Emacs/26.1
- (x86_64-pc-linux-gnu)
-Date: Mon, 15 Jul 2019 17:10:49 -0700
-Message-ID: <87muhebzzq.fsf@anholt.net>
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7895689FAD
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 00:13:33 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 3FDBE2854F
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 00:13:33 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 2657C28563; Tue, 16 Jul 2019 00:13:33 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204145] amdgpu video playback causes host to hard reset
+ (checkstop) on POWER9 with RX 580
+Date: Tue, 16 Jul 2019 00:13:32 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: tpearson@raptorengineering.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-204145-2300-DvlW20R49N@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204145-2300@https.bugzilla.kernel.org/>
+References: <bug-204145-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,57 +62,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishka Dasgupta <nishkadg.linux@gmail.com>
-Content-Type: multipart/mixed; boundary="===============2085470747=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2085470747==
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
-
---=-=-=
-Content-Type: text/plain
-
-Nishka Dasgupta <nishkadg.linux@gmail.com> writes:
-
-> Each iteration of for_each_available_child_of_node puts the previous
-> node, but in the case of a break from the middle of the loop there is
-> no put, thus causing a memory leak. Hence add an of_node_put before the
-> break.
-> Issue found with Coccinelle.
-
-Pushed.  Thanks!
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE/JuuFDWp9/ZkuCBXtdYpNtH8nugFAl0tFgkACgkQtdYpNtH8
-nuj9xhAAi9b+QoWnxgQRYhs+sulqiY5clJ7Qwlirceo+8+RWbh9CSWMHVJE/dft4
-j45UhbctcsLMP7lkqrB+s/UeZjhB2lm+HdFjlhyekE1mGuTL8egKzYaUclybkeNX
-9g9SLmjMp+sWZ/MFpxIocIAw8TGdCEA2z1SHjEzk8TTUFIPvprAxiRt4MiXfzMUk
-o1Lnq93zm64pdbExfQtrEYx82i5s6TfvYREIqngWjfKtIfCkqghQ8Sy37QQ3AboP
-HJpDBgjZZAhcYDK8e7wrA1RXSjPEHnMneqrzZiO5y3i2HfUo3yodhvaHLLFYhY2A
-qJj4IfmsetdTHSlkd/8ZPwjiLV3Z68VV3hkdZmmH4/M7h6RQ9R12kRcK884R41Ak
-yAuEG5N8Y4Mv+zKjhE009gb0zf3SJ5i5WqauiYPjQ/XZ4YzhX2jX2x07qeV4hKlO
-pGuTtjlCdemvn9Dc8Jkb7vVg3MDZTCZy9UPdPi+17oqcukzi3zTDTIIeMk/Si5U4
-MRzDnxSpfrypt3YEqjyd79PQj3oSm5ZxOLF+a9AdaYeMe5tVzuMAV+9C8i7gom1O
-VyrV38mEE23YwXhUoaiuhrcoHpJHGBEwUyxQC+zA37EQur9LjmC+qn+m+j5CSb35
-x++XKl4DNM6u1MEsVrXx1a8edD0N7VVwppNM/t/b0NjdEtvPtbo=
-=HEHR
------END PGP SIGNATURE-----
---=-=-=--
-
---===============2085470747==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2085470747==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxNDUKClRpbW90
+aHkgUGVhcnNvbiAodHBlYXJzb25AcmFwdG9yZW5naW5lZXJpbmcuY29tKSBjaGFuZ2VkOgoKICAg
+ICAgICAgICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfHRwZWFyc29uQHJhcHRvcmVuZ2luZWVyaW5nLgogICAgICAgICAgICAgICAgICAgfCAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB8Y29tCgotLS0gQ29tbWVudCAjNiBmcm9tIFRpbW90
+aHkgUGVhcnNvbiAodHBlYXJzb25AcmFwdG9yZW5naW5lZXJpbmcuY29tKSAtLS0KSSBqdXN0IHRl
+c3RlZCBhbmQgY29uZmlybWVkIHRoaXMgYnVnIGlzIHN0aWxsIHByZXNlbnQgb24gdGhlIGxhdGVz
+dCA1LjIuMCsgR0lUCkhFQUQuICBJIGNhbiByZWxpYWJseSByZXByb2R1Y2UgdGhpcyBidWcgYXQg
+d2lsbCwgYnV0IGl0IGlzIGEgc29tZXdoYXQgaW52b2x2ZWQKcHJvY2VzcyB0byBnZXQgdGhlIG1h
+Y2hpbmUgdXAgYW5kIHJ1bm5pbmcgdG8gdGhlIHBvaW50IHdoZXJlIEkgY2FuIHRyaWdnZXIgaXQK
+ZWFjaCB0aW1lIHNvIGJpc2VjdCB3aWxsIGJlIHNsb3cuCgotLSAKWW91IGFyZSByZWNlaXZpbmcg
+dGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBi
+dWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
