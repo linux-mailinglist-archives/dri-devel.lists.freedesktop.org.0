@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001746B05D
-	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 22:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A8756B065
+	for <lists+dri-devel@lfdr.de>; Tue, 16 Jul 2019 22:26:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7805F6E192;
-	Tue, 16 Jul 2019 20:20:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD806E194;
+	Tue, 16 Jul 2019 20:26:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 400BD6E192
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 20:20:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96B136E194
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 20:26:35 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 10DE4286BF
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 20:20:29 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 64630286D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 20:26:35 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 05A97286D5; Tue, 16 Jul 2019 20:20:29 +0000 (UTC)
+ id 57388286E0; Tue, 16 Jul 2019 20:26:35 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -27,7 +27,7 @@ From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204145] amdgpu video playback causes host to hard reset
  (checkstop) on POWER9 with RX 580
-Date: Tue, 16 Jul 2019 20:20:22 +0000
+Date: Tue, 16 Jul 2019 20:26:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -36,14 +36,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: linux@octaforge.org
+X-Bugzilla-Who: tpearson@raptorengineering.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204145-2300-Y70FqrpXrS@https.bugzilla.kernel.org/>
+Message-ID: <bug-204145-2300-YLLLIxyy9q@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204145-2300@https.bugzilla.kernel.org/>
 References: <bug-204145-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,13 +68,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxNDUKCi0tLSBD
-b21tZW50ICMxMyBmcm9tIERhbmllbCBLb2xlc2EgKGxpbnV4QG9jdGFmb3JnZS5vcmcpIC0tLQpX
-ZWxsLCBwcmV2aW91c2x5IEkgaGFkIFgxMSBydW5uaW5nIHdpdGggNS4xLjkgZm9yIH4yIHdlZWtz
-IHdpdGggbm8gbG9ja3VwczsKdGhlbiBJIHJlYm9vdGVkIGludG8gNS4xLjE3IGFuZCBzdWRkZW5s
-eSBpdCBsb2NrZWQgdXAgdGhlIHNlY29uZCBkYXkgd2l0aCBhCmNoZWNrc3RvcC4gTm93IGJhY2sg
-aW4gNS4xLjksIGFuZCBub3RoaW5nIGZvciBhbG1vc3QgMyBkYXlzIGFscmVhZHkuCgotLSAKWW91
-IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFz
-c2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+b21tZW50ICMxNCBmcm9tIFRpbW90aHkgUGVhcnNvbiAodHBlYXJzb25AcmFwdG9yZW5naW5lZXJp
+bmcuY29tKSAtLS0KTG9va3MgbGlrZSB0aGlzIGlzIGEgY2FzZSB3aGVyZSBpdCdzIGZhaXJseSBj
+cml0aWNhbCB0byBoYXZlIGEga25vd24gMTAwJQpyZWxpYWJsZSB3YXkgdG8gcmVwcm9kdWNlIGEg
+YnVnIGxpa2UgdGhpcy4gIEknbSBiaXNlY3RpbmcgZnVydGhlciwgc28gd2Ugc2hvdWxkCmJlIGFi
+bGUgdG8gZ2V0IHRvIHRoZSBib3R0b20gb2YgdGhpcyBzb29uLgoKLS0gCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
