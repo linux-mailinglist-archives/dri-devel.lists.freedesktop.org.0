@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07026B72A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 09:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D316B726
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 09:08:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA13B6E258;
-	Wed, 17 Jul 2019 07:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30D996E25E;
+	Wed, 17 Jul 2019 07:08:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50ADC89B45
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 14:14:48 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id n5so21243131otk.1
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 07:14:48 -0700 (PDT)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33CC46E130
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 14:16:44 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id o101so21217997ota.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 07:16:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7p9kaWKWZ1RnK2eKn4KEJD3Gj9Xqk7kKd80amljZoBA=;
- b=Py1U5eymwyh83TmNLyIy8lDWs8YXJjIQBrtZdzwGa3m5ntBbn760hWzBUTPEcAsDnb
- veSsgD6KtWkLOTJx38lnxtOEFP+4U+72kMVt+kJqiI2/xTvG+HvJ7ilgECE6rFQ/zZbT
- k8/ctLXWOgxIlgbqaCyCP58uVzas35+Q6Eg+BqQnXM8PSKZBbXF0ssL34EreJg5oSHOu
- G4gXprqmTlN3kymsPQ8MC7YW1kVg2jnc9wXowDsg1VDJC1YLpZCyaQuQpy6rNMMh7hAa
- twbp42gxEzBJ7MmtSwmBlCQWQC1J9RqfSpw2DRlxInulBVzF/djgL0XViyjsbXqPa4wg
- 1m/A==
-X-Gm-Message-State: APjAAAWHIgTqsboysHdL9KoFgD5zM9Eh+9LmViN9CtctlK3n1DG2bIem
- 5HRv9m8ZZqHPGJdINcdLoWWzHGGPNzFqsEewHpdsKQ==
-X-Google-Smtp-Source: APXvYqxrx8/ntAt3Zd7iJAcVEIJOpeAV8oT/asIVbOOvcJcHbUCdJVyQnJvUXuhuaUoA8KWwL8LQ+jY6q3iS71MyDVI=
-X-Received: by 2002:a9d:6195:: with SMTP id g21mr26395560otk.103.1563286487230; 
- Tue, 16 Jul 2019 07:14:47 -0700 (PDT)
+ bh=jVq/zyKNmBTqyWzD5MQLwwT+e3xMbKqpQWodHdoZ+Mk=;
+ b=V55RJwfV2cjfnZCU/Rv19+F4LTtAgpms4J92OC0UuGVdC5+icBaB4X7+oXpNjqZEdn
+ dT5J9yHZsx9qmUC6Nhcb2hUm724pgWQYoWeKxw/g8IKtwRAgJlPEeuwk8NYIKW3YxOlz
+ mrAIKQo4/+7289cccziVu68m6oL5ZzxGqI3/0DtS7IXriVtsPc+PEzMcBJYpp50v9x/o
+ BjD9HKj8qgc25O+My1OfwN5GSDVCJN1QgvUkoAocw02Ytg8/7loUUEei5UXYUKcAmEoW
+ 7GRBibGMKFRFqOeFha7+VP1am65xRbco06aaD5LKLW9kYsteASei9JES/YXFmbS+WO31
+ zvxw==
+X-Gm-Message-State: APjAAAUpTJaiscihKZ8Mi6Zv56FLzTf2pTGYdybNDIxXbt7lkhV93d6j
+ CXTxcx9HQNeUaV8OpY7TqoSuvDXIBpboKOHXAXL9zw==
+X-Google-Smtp-Source: APXvYqwN9uylP2hsCV6+LMaCJG6qvXFU449tm2O5OEbnNN4gNeP8+80YgzfQ+LB6vAKflWj5X25PTd+HkjgUEvFFruA=
+X-Received: by 2002:a05:6830:1cd:: with SMTP id
+ r13mr12627965ota.99.1563286603085; 
+ Tue, 16 Jul 2019 07:16:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190716115725.66558-1-cychiang@chromium.org>
- <20190716115725.66558-5-cychiang@chromium.org>
-In-Reply-To: <20190716115725.66558-5-cychiang@chromium.org>
+ <20190716115725.66558-6-cychiang@chromium.org>
+In-Reply-To: <20190716115725.66558-6-cychiang@chromium.org>
 From: Tzung-Bi Shih <tzungbi@google.com>
-Date: Tue, 16 Jul 2019 22:14:36 +0800
-Message-ID: <CA+Px+wV6RSfv4GL8+EJzXGq2nqzKtH9p23VTo2s30h0To2rQtg@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] ASoC: rockchip_max98090: Add dai_link for HDMI
+Date: Tue, 16 Jul 2019 22:16:32 +0800
+Message-ID: <CA+Px+wXK9gJKZwzsG8BXh1gmoEyscxtMzB_VCrHz-nenBEL9AQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] ASoC: rockchip_max98090: Add HDMI jack support
 To: Cheng-Yi Chiang <cychiang@chromium.org>
-X-Mailman-Approved-At: Wed, 17 Jul 2019 07:08:01 +0000
+X-Mailman-Approved-At: Wed, 17 Jul 2019 07:08:00 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc;
- bh=7p9kaWKWZ1RnK2eKn4KEJD3Gj9Xqk7kKd80amljZoBA=;
- b=WY+b2MmneuNwICa5DrCLXAuS2Ym/kIa/8fMTCjzzSDHJaRASHD8bq7nmIJgrdweSsS
- lW3jjoD5QcJJIyyvCHoMNUlIZNjTS3gwCcZw+OiFN7hXiOSyH9ADvlW2kxHCOuH2cxIu
- tCPLZkrJeyPGTbnAW+q4j5QO0RReazYEWdOD+nCh71seMSMeaod6xltVYqgLck89i1vJ
- ZZ1RfI48FJt7Kn9XZo+yb2BCK+6bo4ZICo6ZZy7vGtmqivPeeukvE1Lo2owGb9dXyase
- pCjnZbOzTFcDjgWgJHPrhRewV2AbCD6W2rQ9OCijtmE14GAPIzcgj+hn06DV9EbJe+MC
- MqwQ==
+ bh=jVq/zyKNmBTqyWzD5MQLwwT+e3xMbKqpQWodHdoZ+Mk=;
+ b=qYBVXqle+7vCUqLEVGwc67lXP5F/twwhlFE5Z3mnLHfQaL3woXgBZgCVi92TBDhjeJ
+ 2xYZtFtWIO5evm6dUtiAoTEGoDOsm7fC7AJucP0UX9gFrIopG668rPCYstFNF/deP0NO
+ Yow3WDYPuKUXWR6NI8bIKWpEgK5Io9YYvt0wF0VNxQOMp4A/Yvrc6EGJuKBoAyR7WEFk
+ BKTpMnxxGFDKUSaSEHeIdUeyft5UdLs/UKvUocHQGm9LDJsZL1rqSQe42AuAX+b4dBhv
+ mjMEEk6vcD90usHttnGty2wR67IuGbimfqxxuyyfVqldMtrUTdVGUz7HAU4v4CZXe41f
+ chrw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,19 +82,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gVHVlLCBKdWwgMTYsIDIwMTkgYXQgNzo1OCBQTSBDaGVuZy1ZaSBDaGlhbmcgPGN5Y2hpYW5n
 QGNocm9taXVtLm9yZz4gd3JvdGU6Cj4KPiBkaWZmIC0tZ2l0IGEvc291bmQvc29jL3JvY2tjaGlw
-L0tjb25maWcgYi9zb3VuZC9zb2Mvcm9ja2NoaXAvS2NvbmZpZwo+IGluZGV4IGI0MzY1N2U2ZTY1
-NS4uZDYxMGI1NTNlYTNiIDEwMDY0NAo+IC0tLSBhL3NvdW5kL3NvYy9yb2NrY2hpcC9LY29uZmln
-Cj4gKysrIGIvc291bmQvc29jL3JvY2tjaGlwL0tjb25maWcKPiBAQCAtNDAsOSArNDAsMTAgQEAg
-Y29uZmlnIFNORF9TT0NfUk9DS0NISVBfTUFYOTgwOTAKPiAgICAgICAgIHNlbGVjdCBTTkRfU09D
-X1JPQ0tDSElQX0kyUwo+ICAgICAgICAgc2VsZWN0IFNORF9TT0NfTUFYOTgwOTAKPiAgICAgICAg
-IHNlbGVjdCBTTkRfU09DX1RTM0EyMjdFCj4gKyAgICAgICBzZWxlY3QgU05EX1NPQ19IRE1JX0NP
-REVDCj4gICAgICAgICBoZWxwCj4gICAgICAgICAgIFNheSBZIG9yIE0gaGVyZSBpZiB5b3Ugd2Fu
-dCB0byBhZGQgc3VwcG9ydCBmb3IgU29DIGF1ZGlvIG9uIFJvY2tjaGlwCj4gLSAgICAgICAgIGJv
-YXJkcyB1c2luZyB0aGUgTUFYOTgwOTAgY29kZWMsIHN1Y2ggYXMgVmV5cm9uLgo+ICsgICAgICAg
-ICBib2FyZHMgdXNpbmcgdGhlIE1BWDk4MDkwIGNvZGVjIGFuZCBIRE1JIGNvZGVjLCBzdWNoIGFz
-IFZleXJvbi4KWW91IHNob3VsZCBub3QgbmVlZCB0byBzZWxlY3QgdGhlIG9wdGlvbiBpbiB0aGlz
-IHBhdGNoIChidXQgaW4gbmV4dApwYXRjaCksIGJlY2F1c2UgdGhpcyBwYXRjaCBkb2VzIG5vdCBk
-ZXBlbmQgb24gYW55dGhpbmcgZnJvbQpoZG1pLWNvZGVjLmMuCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+L3JvY2tjaGlwX21heDk4MDkwLmMgYi9zb3VuZC9zb2Mvcm9ja2NoaXAvcm9ja2NoaXBfbWF4OTgw
+OTAuYwo+IGluZGV4IGM4Mjk0OGUzODNkYS4uYzgxYzRhY2RhOTE3IDEwMDY0NAo+IC0tLSBhL3Nv
+dW5kL3NvYy9yb2NrY2hpcC9yb2NrY2hpcF9tYXg5ODA5MC5jCj4gKysrIGIvc291bmQvc29jL3Jv
+Y2tjaGlwL3JvY2tjaGlwX21heDk4MDkwLmMKPiArc3RhdGljIHN0cnVjdCBzbmRfc29jX2phY2sg
+cmtfaGRtaV9qYWNrOwo+ICsKPiArc3RhdGljIGludCBya19oZG1pX2luaXQoc3RydWN0IHNuZF9z
+b2NfcGNtX3J1bnRpbWUgKnJ1bnRpbWUpCj4gK3sKPiArICAgICAgIHN0cnVjdCBzbmRfc29jX2Nh
+cmQgKmNhcmQgPSBydW50aW1lLT5jYXJkOwo+ICsgICAgICAgc3RydWN0IHNuZF9zb2NfY29tcG9u
+ZW50ICpjb21wb25lbnQgPSBydW50aW1lLT5jb2RlY19kYWktPmNvbXBvbmVudDsKPiArICAgICAg
+IGludCByZXQ7Cj4gKwo+ICsgICAgICAgLyogZW5hYmxlIGphY2sgZGV0ZWN0aW9uICovCj4gKyAg
+ICAgICByZXQgPSBzbmRfc29jX2NhcmRfamFja19uZXcoY2FyZCwgIkhETUkgSmFjayIsIFNORF9K
+QUNLX0xJTkVPVVQsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJnJrX2hk
+bWlfamFjaywgTlVMTCwgMCk7Cj4gKyAgICAgICBpZiAocmV0KSB7Cj4gKyAgICAgICAgICAgICAg
+IGRldl9lcnIoY2FyZC0+ZGV2LCAiQ2FuJ3QgbmV3IEhETUkgSmFjayAlZFxuIiwgcmV0KTsKPiAr
+ICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiArICAgICAgIH0KPiArCj4gKyAgICAgICByZXR1
+cm4gaGRtaV9jb2RlY19zZXRfamFja19kZXRlY3QoY29tcG9uZW50LCAmcmtfaGRtaV9qYWNrKTsK
+PiArfQpJbiB0aGUgcGF0Y2gsIHlvdSBzaG91bGQgc2VsZWN0IFNORF9TT0NfSERNSV9DT0RFQywg
+YmVjYXVzZSB0aGUgcGF0Y2gKdXNlcyBoZG1pX2NvZGVjX3NldF9qYWNrX2RldGVjdCB3aGljaCBk
+ZXBlbmRzIG9uIGhkbWktY29kZWMuYy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
