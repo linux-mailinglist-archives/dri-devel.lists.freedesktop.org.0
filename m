@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136C26B718
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 09:03:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD066B7C5
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 09:58:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 951D86E249;
-	Wed, 17 Jul 2019 07:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFB386E283;
+	Wed, 17 Jul 2019 07:58:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DE58E6E249
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 07:03:03 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 37C9A6E294
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 07:58:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DAC3272167; Wed, 17 Jul 2019 07:03:03 +0000 (UTC)
+ id 33E8972167; Wed, 17 Jul 2019 07:58:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111103] [Patch] to compile amdgpu-dkms 19.20 on debian stretch
- & buster
-Date: Wed, 17 Jul 2019 07:03:04 +0000
+Subject: [Bug 105733] Amdgpu randomly hangs and only ssh works. Mouse cursor
+ moves sometimes but does nothing. Keyboard stops working.
+Date: Wed, 17 Jul 2019 07:58:45 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: fabstz-it@yahoo.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: WORKSFORME
+X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111103-502-QheQNE80cR@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111103-502@http.bugs.freedesktop.org/>
-References: <bug-111103-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-105733-502-RsXQkRUiEE@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105733-502@http.bugs.freedesktop.org/>
+References: <bug-105733-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,39 +53,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0437983088=="
+Content-Type: multipart/mixed; boundary="===============1447489677=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0437983088==
-Content-Type: multipart/alternative; boundary="15633469831.D2ffC25.16234"
+--===============1447489677==
+Content-Type: multipart/alternative; boundary="15633503262.eA1b.24840"
 Content-Transfer-Encoding: 7bit
 
 
---15633469831.D2ffC25.16234
-Date: Wed, 17 Jul 2019 07:03:03 +0000
+--15633503262.eA1b.24840
+Date: Wed, 17 Jul 2019 07:58:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111103
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105733
 
---- Comment #1 from Fab Stz <fabstz-it@yahoo.fr> ---
-Created attachment 144809
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144809&action=3Dedit
-[Patch] to compile amdgpu-dkms 19.20 on debian stretch & buster (v2)
+Michel D=C3=A4nzer <michel@daenzer.net> changed:
 
-Same patch as before but using #if to manage different kernel versions
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|REOPENED                    |RESOLVED
+         Resolution|---                         |WORKSFORME
+
+--- Comment #82 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to Hadet from comment #81)
+> Having some similar issues. After closing games running in Wine specifica=
+lly
+
+Please file your own report. The reporter of this one marked it as resolved.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15633469831.D2ffC25.16234
-Date: Wed, 17 Jul 2019 07:03:03 +0000
+--15633503262.eA1b.24840
+Date: Wed, 17 Jul 2019 07:58:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,35 +103,64 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
+4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
+ <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - Amdgpu randomly hangs and only ssh works.=
+ Mouse cursor moves sometimes but does nothing. Keyboard stops working."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105733">bug 10573=
+3</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>REOPENED
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>WORKSFORME
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Patch] to compile amdgpu-dkms 19.20 on debian stretch &a=
-mp; buster"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111103#c1">Commen=
-t # 1</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - Amdgpu randomly hangs and only ssh works.=
+ Mouse cursor moves sometimes but does nothing. Keyboard stops working."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105733#c82">Comme=
+nt # 82</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Patch] to compile amdgpu-dkms 19.20 on debian stretch &a=
-mp; buster"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111103">bug 11110=
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - Amdgpu randomly hangs and only ssh works.=
+ Mouse cursor moves sometimes but does nothing. Keyboard stops working."
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105733">bug 10573=
 3</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-fabstz-it&#64;yahoo.fr" title=3D"Fab Stz &lt;fabstz-it&#64;yahoo.fr&gt;"> <=
-span class=3D"fn">Fab Stz</span></a>
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144809=
-" name=3D"attach_144809" title=3D"[Patch] to compile amdgpu-dkms 19.20 on d=
-ebian stretch &amp; buster (v2)">attachment 144809</a> <a href=3D"attachmen=
-t.cgi?id=3D144809&amp;action=3Dedit" title=3D"[Patch] to compile amdgpu-dkm=
-s 19.20 on debian stretch &amp; buster (v2)">[details]</a></span> <a href=
-=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D111103&amp;attachment=3D144809'>[=
-review]</a>
-[Patch] to compile amdgpu-dkms 19.20 on debian stretch &amp; buster (v2)
+        <pre>(In reply to Hadet from <a href=3D"show_bug.cgi?id=3D105733#c8=
+1">comment #81</a>)
+<span class=3D"quote">&gt; Having some similar issues. After closing games =
+running in Wine specifically</span >
 
-Same patch as before but using #if to manage different kernel versions</pre>
+Please file your own report. The reporter of this one marked it as resolved=
+.</pre>
         </div>
       </p>
 
@@ -138,9 +174,9 @@ Same patch as before but using #if to manage different kernel versions</pre>
     </body>
 </html>=
 
---15633469831.D2ffC25.16234--
+--15633503262.eA1b.24840--
 
---===============0437983088==
+--===============1447489677==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -150,4 +186,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0437983088==--
+--===============1447489677==--
