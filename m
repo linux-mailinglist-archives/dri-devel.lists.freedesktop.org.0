@@ -1,36 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA096BB4A
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 13:22:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2176BBF0
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 13:54:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC4089468;
-	Wed, 17 Jul 2019 11:22:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0976E138;
+	Wed, 17 Jul 2019 11:54:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7242789468
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 11:22:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93EBC337;
- Wed, 17 Jul 2019 04:22:03 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 585B43F71F;
- Wed, 17 Jul 2019 04:22:03 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 0876368276C; Wed, 17 Jul 2019 12:22:02 +0100 (BST)
-Date: Wed, 17 Jul 2019 12:22:01 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Wen He <wen.he_1@nxp.com>
-Subject: Re: [PATCH] drm/arm/mali-dp: Add display QoS interface configuration
-Message-ID: <20190717112201.GA17638@e110455-lin.cambridge.arm.com>
-References: <20190717092353.43386-1-wen.he_1@nxp.com>
+Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
+ [IPv6:2a01:7e01::f03c:91ff:fed4:a3b6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F73D6E138
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 11:54:06 +0000 (UTC)
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net
+ ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+ by heliosphere.sirena.org.uk with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <broonie@sirena.org.uk>)
+ id 1hniVX-0000Ub-2i; Wed, 17 Jul 2019 11:54:03 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+ id C1E682742C26; Wed, 17 Jul 2019 12:54:01 +0100 (BST)
+Date: Wed, 17 Jul 2019 12:54:01 +0100
+From: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
+To: Kevin Hilman <khilman@baylibre.com>
+Subject: Re: next/master boot: 265 boots: 17 failed, 243 passed with 4
+ offline, 1 conflict (next-20190717)
+Message-ID: <20190717115401.GC4459@sirena.org.uk>
+References: <5d2f063c.1c69fb81.69fe8.9d45@mx.google.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190717092353.43386-1-wen.he_1@nxp.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <5d2f063c.1c69fb81.69fe8.9d45@mx.google.com>
+X-Cookie: Fremen add life to spice!
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; 
+ d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+ MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bNOnC8lxCe3aDAnG0jcKQgNER1fc49FPtWHXlWhI7Rw=; b=u2vA0thvYVj2uWis+6spoRzNj
+ c9AB8hzRFLHxONpE0pk1P+hArYT9OAzNX43036VzrZJ/gglEoyrzsJWoNmbQplliAwniVbis1MUig
+ EAXUNaDLRm6rxOCIUFjXuzSf+e8MNFKCoUtzJNiVvQnonYFhLS5pRfC6Y5DDWDG/zG3Og=;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,96 +55,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, leoyang.li@nxp.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, kernel-build-reports@lists.linaro.org
+Content-Type: multipart/mixed; boundary="===============0914923016=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgV2VuLAoKT24gV2VkLCBKdWwgMTcsIDIwMTkgYXQgMDU6MjM6NTNQTSArMDgwMCwgV2VuIEhl
-IHdyb3RlOgo+IENvbmZpZ3VyZSB0aGUgZGlzcGxheSBRdWFsaXR5IG9mIHNlcnZpY2UgKFFvUykg
-bGV2ZWxzIHRvIGhpZ2ggcHJpb3JpdHkKPiBpZiB0aGUgbGV2ZWwgaXMgZGVmaW5lZCBhcyBoaWdo
-IGFzIGluIERUUy4gVGhlIEFSUU9TIGZvciBEUDUwMCBpcyBkcml2ZW4KPiBmcm9tIHRoZSAiUlFP
-UyIgcmVnaXN0ZXIsIG5lZWRlZCB0byBwcm9ncmFtIHRoZSBSUU9TIHJlZ2lzdGVyIHZhbHVlIDwg
-Nwo+IGZvciB0aGUgNGsgcmVzb2x1dGlvbiBmbGlja2VyIHRvIGRpc2FwcGVhciBvbiB0aGUgTFMx
-MDI4QSBwbGF0Zm9ybS4KClRoYW5rcyBmb3IgdGFraW5nIHRpbWUgdG8gY29tZSB1cCB3aXRoIGEg
-bW9yZSBnZW5lcmljIHBhdGNoIGZvciB5b3VyIGlzc3VlIQoKSSBoYXZlIGEgcXVlc3Rpb246IHdo
-YXQgaGFwcGVucyBpZiB5b3UgcHJvZ3JhbSB0aGUgTUFMSURQNTAwX1JRT1NfUVVBTElUWQpyZWdp
-c3RlciB0byAweGQwMDBkMDAwIGZvciBhbGwgcGl4ZWxjbG9ja3M/CgpBbHNvLCBzb21lIHN1Z2dl
-c3Rpb25zIGZ1cnRoZXIgZG93bjoKCj4gCj4gU2lnbmVkLW9mZi1ieTogV2VuIEhlIDx3ZW4uaGVf
-MUBueHAuY29tPgo+IC0tLQo+IGNoYW5nZSBpbiB2MjoKPiAgICAgICAgIC0gYWRkIG5ldyBpbXBs
-ZW1lbnRhdGlvbiBmb3IgNGsgZmxpY2tlciBpc3N1ZSBvbiB0aGUgTFMxMDI4QQo+IAo+ICBkcml2
-ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9kcnYuYyAgfCAgNSArKysrKwo+ICBkcml2ZXJzL2dwdS9k
-cm0vYXJtL21hbGlkcF9ody5jICAgfCAxMyArKysrKysrKysrKysrCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9hcm0vbWFsaWRwX2h3LmggICB8ICAzICsrKwo+ICBkcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlk
-cF9yZWdzLmggfCAxMiArKysrKysrKysrKysKPiAgNCBmaWxlcyBjaGFuZ2VkLCAzMyBpbnNlcnRp
-b25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5j
-IGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMKPiBpbmRleCBmMjVlYzQzODIyNzcu
-LmQyYjJjZjUyYWM4NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9k
-cnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2Rydi5jCj4gQEAgLTgxOCw2
-ICs4MTgsMTEgQEAgc3RhdGljIGludCBtYWxpZHBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYpCj4g
-IAo+ICAJbWFsaWRwLT5jb3JlX2lkID0gdmVyc2lvbjsKPiAgCj4gKwlod2Rldi0+YXJxb3NfaGln
-aF9sZXZlbCA9IGZhbHNlOwoKVGhpcyBpcyBub3QgbmVlZGVkLgoKPiArCj4gKwlod2Rldi0+YXJx
-b3NfaGlnaF9sZXZlbCA9IG9mX3Byb3BlcnR5X3JlYWRfYm9vbChkZXYtPm9mX25vZGUsCj4gKwkJ
-CQkJImFybSxtYWxpZHAtYXJxb3MtaGlnaC1sZXZlbCIpOwoKSSB0aGluayBpdCB3b3VsZCBiZSBi
-ZXR0ZXIgdG8gaGF2ZSB0aGlzIHByb3BlcnR5IGFzIGEgdTMyIHZhbHVlLCByYXRoZXIgdGhhbiBh
-CmJvb2xlYW4sIGFuZCBwdXQgdGhlIHZhbHVlIHRoYXQgd2Ugd2FudCB0byBwcm9ncmFtIE1BTElE
-UF9SUU9TX1FVQUxJVFkgd2l0aCBpbgp0aGVyZS4KCkFsc28sIHlvdSBuZWVkIHRvIGFkZCB0aGUg
-ZG9jdW1lbnRhdGlvbiBmb3IgdGhpcyBvcHRpb25hbCBwcm9wZXJ0eSBpbgpEb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9hcm0sbWFsaWRwLnR4dC4KCj4gKwo+ICAJLyog
-c2V0IHRoZSBudW1iZXIgb2YgbGluZXMgdXNlZCBmb3Igb3V0cHV0IG9mIFJHQiBkYXRhICovCj4g
-IAlyZXQgPSBvZl9wcm9wZXJ0eV9yZWFkX3U4X2FycmF5KGRldi0+b2Zfbm9kZSwKPiAgCQkJCQki
-YXJtLG1hbGlkcC1vdXRwdXQtcG9ydC1saW5lcyIsCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9hcm0vbWFsaWRwX2h3LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9ody5jCj4g
-aW5kZXggNTBhZjM5OWQ3ZjZmLi5lYWExNjU4Y2Q4NmIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2FybS9tYWxpZHBfaHcuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRw
-X2h3LmMKPiBAQCAtMzc0LDYgKzM3NCwxOSBAQCBzdGF0aWMgdm9pZCBtYWxpZHA1MDBfbW9kZXNl
-dChzdHJ1Y3QgbWFsaWRwX2h3X2RldmljZSAqaHdkZXYsIHN0cnVjdCB2aWRlb21vZGUgKgo+ICAJ
-CW1hbGlkcF9od19zZXRiaXRzKGh3ZGV2LCBNQUxJRFBfRElTUF9GVU5DX0lMQUNFRCwgTUFMSURQ
-X0RFX0RJU1BMQVlfRlVOQyk7Cj4gIAllbHNlCj4gIAkJbWFsaWRwX2h3X2NsZWFyYml0cyhod2Rl
-diwgTUFMSURQX0RJU1BfRlVOQ19JTEFDRUQsIE1BTElEUF9ERV9ESVNQTEFZX0ZVTkMpOwo+ICsK
-PiArCS8qCj4gKwkgKiAgUHJvZ3JhbSB0aGUgUlFvUyByZWdpc3RlciB0byBpbmNyZWFzaW5nIFFv
-UyBsZXZlbHMgZm9yCj4gKwkgKiAgdGhlIDRrIHJlc29sdXRpb24gZmxpY2tlciB0byBkaXNhcHBl
-YXIgb24gdGhlIExTMTAyOEEuCgpMb29rcyBsaWtlIHR3byBzZW50ZW5jZXMgZ290IHNtYXNoZWQg
-aW50byBvbmUsIHRoZSByZXN1bHQgaXMgYSBiaXQgaGFyZCB0byByZWFkLgoKQmVzdCByZWdhcmRz
-LApMaXZpdQoKPiArCSAqLwo+ICsJaWYgKGh3ZGV2LT5hcnFvc19oaWdoX2xldmVsKSB7Cj4gKwkJ
-dmFsID0gUkVEX0FSUU9TX1ZBTFVFIHwgR1JFRU5fQVJRT1NfVkFMVUU7Cj4gKwo+ICsJCWlmICht
-b2RlLT5waXhlbGNsb2NrID09IDU5NDAwMDAwMCkKPiArCQkJbWFsaWRwX2h3X3NldGJpdHMoaHdk
-ZXYsIHZhbCwgTUFMSURQNTAwX1JRT1NfUVVBTElUWSk7Cj4gKwkJZWxzZQo+ICsJCQltYWxpZHBf
-aHdfY2xlYXJiaXRzKGh3ZGV2LCB2YWwsIE1BTElEUDUwMF9SUU9TX1FVQUxJVFkpOwo+ICsJfQo+
-ICB9Cj4gIAo+ICBpbnQgbWFsaWRwX2Zvcm1hdF9nZXRfYnBwKHUzMiBmbXQpCj4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3LmggYi9kcml2ZXJzL2dwdS9kcm0vYXJt
-L21hbGlkcF9ody5oCj4gaW5kZXggOTY4YTY1ZWVkMzcxLi5iOGJhYmE2MDUwOGEgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9hcm0vbWFsaWRwX2h3LmgKPiBAQCAtMjUxLDYgKzI1MSw5IEBAIHN0cnVjdCBtYWxpZHBf
-aHdfZGV2aWNlIHsKPiAgCj4gIAkvKiBzaXplIG9mIG1lbW9yeSB1c2VkIGZvciByb3RhdGluZyBs
-YXllcnMsIHVwIHRvIHR3byBiYW5rcyBhdmFpbGFibGUgKi8KPiAgCXUzMiByb3RhdGlvbl9tZW1v
-cnlbMl07Cj4gKwo+ICsJLyogcHJpb3JpdHkgbGV2ZWwgb2YgUlFPUyByZWdpc3RlciB1c2VkIGZv
-ciBkcml2ZW4gdGhlIEFSUU9TIHNpZ25hbCAqLwo+ICsJYm9vbCBhcnFvc19oaWdoX2xldmVsOwo+
-ICB9Owo+ICAKPiAgc3RhdGljIGlubGluZSB1MzIgbWFsaWRwX2h3X3JlYWQoc3RydWN0IG1hbGlk
-cF9od19kZXZpY2UgKmh3ZGV2LCB1MzIgcmVnKQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYXJtL21hbGlkcF9yZWdzLmggYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9yZWdzLmgK
-PiBpbmRleCA5OTMwMzE1NDJmYTEuLjA4ODQyMTQyYjNiMiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vYXJtL21hbGlkcF9yZWdzLmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21h
-bGlkcF9yZWdzLmgKPiBAQCAtMjEwLDYgKzIxMCwxOCBAQAo+ICAjZGVmaW5lIE1BTElEUDUwMF9D
-T05GSUdfVkFMSUQJCTB4MDBmMDAKPiAgI2RlZmluZSBNQUxJRFA1MDBfQ09ORklHX0lECQkweDAw
-ZmQ0Cj4gIAo+ICsvKgo+ICsgKiBUaGUgcXVhbGl0eSBvZiBzZXJ2aWNlIChRb1MpIHJlZ2lzdGVy
-IG9uIHRoZSBEUDUwMC4gUlFPUyByZWdpc3RlciB2YWx1ZXMKPiArICogYXJlIGRyaXZlbiBieSB0
-aGUgQVJRT1Mgc2lnbmFsLCB1c2luZyBBWEkgdHJhbnNhY2F0aW9ucywgZGVwZW5kZW50IG9uIHRo
-ZQo+ICsgKiBGSUZPIGlucHV0IGxldmVsLgo+ICsgKiBUaGUgUlFPUyByZWdpc3RlciBjYW4gYWxz
-byBzZXQgUW9TIGxldmVscyBmb3I6Cj4gKyAqICAgIC0gUkVEX0FSUU9TICAgQCBBIDQtYml0IHNp
-Z25hbCB2YWx1ZSBmb3IgY2xvc2UgdG8gdW5kZXJmbG93IGNvbmRpdGlvbnMKPiArICogICAgLSBH
-UkVFTl9BUlFPUyBAIEEgNC1iaXQgc2lnbmFsIHZhbHVlIGZvciBub3JtYWwgY29uZGl0aW9ucwo+
-ICsgKi8KPiArI2RlZmluZSBNQUxJRFA1MDBfUlFPU19RVUFMSVRZICAgICAgICAgIDB4MDA1MDAK
-PiArI2RlZmluZSBSRURfQVJRT1NfVkFMVUUgICAgICAgICAgICAgICAgICgweGQgPDwgMTIpCj4g
-KyNkZWZpbmUgR1JFRU5fQVJRT1NfVkFMVUUgICAgICAgICAgICAgICAoMHhkIDw8IDI4KQo+ICsK
-PiAgLyogcmVnaXN0ZXIgb2Zmc2V0cyBhbmQgYml0cyBzcGVjaWZpYyB0byBEUDU1MC9EUDY1MCAq
-Lwo+ICAjZGVmaW5lIE1BTElEUDU1MF9BRERSX1NQQUNFX1NJWkUJMHgxMDAwMAo+ICAjZGVmaW5l
-IE1BTElEUDU1MF9ERV9DT05UUk9MCQkweDAwMDEwCj4gLS0gCj4gMi4xNy4xCj4gCgotLSAKPT09
-PT09PT09PT09PT09PT09PT0KfCBJIHdvdWxkIGxpa2UgdG8gfAp8IGZpeCB0aGUgd29ybGQsICB8
-CnwgYnV0IHRoZXkncmUgbm90IHwKfCBnaXZpbmcgbWUgdGhlICAgfAogXCBzb3VyY2UgY29kZSEg
-IC8KICAtLS0tLS0tLS0tLS0tLS0KICAgIMKvXF8o44OEKV8vwq8KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0914923016==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hYooF8G/hrfVAmum"
+Content-Disposition: inline
+
+
+--hYooF8G/hrfVAmum
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, Jul 17, 2019 at 04:27:56AM -0700, kernelci.org bot wrote:
+
+Today's -next fails to boot on meson-gxm-khadas-vim2 in a variety
+of configurations:
+
+>     defconfig:
+>         gcc-8:
+>           meson-gxm-khadas-vim2:
+>               lab-baylibre: new failure (last pass: next-20190705)
+
+>     defconfig+CONFIG_CPU_BIG_ENDIAN=y:
+>         gcc-8:
+>           meson-gxm-khadas-vim2:
+>               lab-baylibre: new failure (last pass: next-20190705)
+
+>     defconfig+CONFIG_RANDOMIZE_BASE=y:
+>         gcc-8:
+>           meson-gxm-khadas-vim2:
+>               lab-baylibre: new failure (last pass: next-20190705)
+
+It looks like it gets to userspace and then hangs (end of the log
+below).  More details at:
+
+    https://kernelci.org/boot/id/5d2ed6ad59b514a0e649e937/
+
+Compared to working boots in mainline it looks like the main difference
+is the addition of the panfrost driver but that could be a complete red
+herring.
+
+08:00:51.567064  [   14.844034] Run /init as init process
+08:00:51.590902  Starting syslogd: OK
+08:00:51.645937  Starting klogd: OK
+08:00:51.650193  Populating /dev using udev: [   14.894327] udevd[214]: starting version 3.2.7
+08:00:51.651409  [   14.894906] random: udevd: uninitialized urandom read (16 bytes read)
+08:00:51.652703  [   14.899720] random: udevd: uninitialized urandom read (16 bytes read)
+08:00:51.653946  [   14.905958] random: udevd: uninitialized urandom read (16 bytes read)
+08:00:51.655192  [   14.913972] udevd[214]: specified group 'kvm' unknown
+08:00:51.656495  [   14.920901] udevd[215]: starting eudev-3.2.7
+08:00:51.790817  [BL31]: tee size: 0
+08:00:51.820838  [   15.089001] meson-gx-mmc d0070000.mmc: allocated mmc-pwrseq
+08:00:51.860744  [   15.106647] meson8b-dwmac c9410000.ethernet: PTP uses main clock
+08:00:51.865096  [   15.107020] meson8b-dwmac c9410000.ethernet: no reset control found
+08:00:51.866318  [   15.114743] meson8b-dwmac c9410000.ethernet: User ID: 0x11, Synopsys ID: 0x37
+08:00:51.867556  [   15.120434] meson8b-dwmac c9410000.ethernet: 	DWMAC1000
+08:00:51.868872  [   15.123055] panfrost d00c0000.gpu: clock rate = 666666666
+08:00:51.870123  [   15.125580] meson8b-dwmac c9410000.ethernet: DMA HW capability register supported
+08:00:51.871365  [   15.126609] meson-drm d0100000.vpu: Queued 2 outputs on vpu
+08:00:51.903478  [   15.131066] panfrost d00c0000.gpu: mali-t820 id 0x820 major 0x1 minor 0x0 status 0x0
+08:00:51.907981  [   15.138262] meson8b-dwmac c9410000.ethernet: RX Checksum Offload Engine supported
+08:00:51.909205  [   15.138269] meson8b-dwmac c9410000.ethernet: COE Type 2
+08:00:51.910449  [   15.143806] panfrost d00c0000.gpu: features: 00000000,101e76ff, issues: 00000000,24040400
+08:00:51.911698  [   15.145058] Bluetooth: Core ver 2.22
+08:00:51.913009  [   15.145170] NET: Registered protocol family 31
+08:00:51.914253  [   15.145175] Bluetooth: HCI device and connection manager initialized
+08:00:51.919829  [   15.145197] Bluetooth: HCI socket layer initialized
+08:02:48.216650  ShellCommand command timed out.: Sending # in case of corruption. Connection timeout 00:04:20, retry in 00:02:10
+08:02:48.321432  #
+
+--hYooF8G/hrfVAmum
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl0vDFgACgkQJNaLcl1U
+h9AmnAf6A2RyN/7aPmjn2gXehhdC8E4x5bEjyk2uiDng1fvvwtm1sj+3wlvUMRPX
+t8oF0pAgE2WzeVc5xAfLk6T0WHeKXuRR3wzKXobQL1fcABuaJIMLEMsgadcPIiMD
+wrL5VJ2bjkrascfygj+e1o1cdSTXweJ/nMAYeQXJ+S1vfxMgh1d1lC8X7R4prk+Z
+Rx4BZEjAG+uCNFV9lbZrfnZ3ObVL9xa3uLBiswEcHW4fgXC6iVsnKfU5ZFJFmxks
+kpCnj7Gs3KHCVrLpZ4P6sr1sveQ+tyJ+iOXaSYP53GX0dNXPfI9hpgGJet0pVecJ
+/rg0vgOW7d+ypGJXJZjY0FTqvL3wFg==
+=7gnR
+-----END PGP SIGNATURE-----
+
+--hYooF8G/hrfVAmum--
+
+--===============0914923016==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0914923016==--
