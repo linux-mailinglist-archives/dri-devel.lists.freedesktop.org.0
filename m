@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46A36BCFD
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 15:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E87F6BD0E
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 15:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE356E17F;
-	Wed, 17 Jul 2019 13:26:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8281C6E160;
+	Wed, 17 Jul 2019 13:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 955316E17F
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 13:26:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 924FD72167; Wed, 17 Jul 2019 13:26:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111161] Gmail>>Compose>>Clicking on Attachment file throws error
-Date: Wed, 17 Jul 2019 13:26:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nareshrajus222@gmail.com
-X-Bugzilla-Status: CLOSED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-111161-502-YotF3sTuJx@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111161-502@http.bugs.freedesktop.org/>
-References: <bug-111161-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13C606E160
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 13:32:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 1FE2620028;
+ Wed, 17 Jul 2019 15:32:00 +0200 (CEST)
+Date: Wed, 17 Jul 2019 15:31:58 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH 00/10] drm/tinydrm: Remove tinydrm.ko
+Message-ID: <20190717133158.GA5121@ravnborg.org>
+References: <20190717115817.30110-1-noralf@tronnes.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190717115817.30110-1-noralf@tronnes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=gAmX6pxEAAAA:20
+ a=7gkXJVJtAAAA:8 a=wgJAXNWQh66qfLkmp_MA:9 a=wPNLvfGTeEIA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,96 +45,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0126739352=="
+Cc: david@lechnology.com, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0126739352==
-Content-Type: multipart/alternative; boundary="15633700181.b245B.13954"
-Content-Transfer-Encoding: 7bit
-
-
---15633700181.b245B.13954
-Date: Wed, 17 Jul 2019 13:26:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111161
-
-nareshrajus222@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|VERIFIED                    |CLOSED
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15633700181.b245B.13954
-Date: Wed, 17 Jul 2019 13:26:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:nareshraj=
-us222&#64;gmail.com" title=3D"nareshrajus222&#64;gmail.com">nareshrajus222&=
-#64;gmail.com</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_CLOSED  bz_closed"
-   title=3D"CLOSED FIXED - Gmail&gt;&gt;Compose&gt;&gt;Clicking on Attachme=
-nt file throws error"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111161">bug 11116=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>VERIFIED
-           </td>
-           <td>CLOSED
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15633700181.b245B.13954--
-
---===============0126739352==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0126739352==--
+SGkgTm9yYWxmLgoKTmljZSBzZXJpZXMgb2YgcGF0Y2hlcyEKCgoKT24gV2VkLCBKdWwgMTcsIDIw
+MTkgYXQgMDE6NTg6MDdQTSArMDIwMCwgTm9yYWxmIFRyw7hubmVzIHdyb3RlOgo+IFRoaXMgc2Vy
+aWVzIHJlbW92ZXMgdGhlIHJlbWFpbmluZyBiaXRzIG9mIHRpbnlkcm0ua28uCj4gCj4gVGhlcmUn
+cyBvbmx5IG9uZSBpdGVtIGxlZnQgb24gdGhlIHRpbnlkcm0gdG9kbyBsaXN0IGFuZCB0aGF0IGlz
+IG1vdmluZwo+IG91dCBtaXBpX2RiaS4KPiAKPiBOb3RlOgo+IFRoaXMgZGVwZW5kcyBvbiBhIGNv
+bW1pdCB0aGF0IGp1c3QgZW50ZXJlZCBMaW51cycgdHJlZToKPiBlNmYzZjdlNGRjNzYgKCJzcGk6
+IEFkZCBzcGlfaXNfYnB3X3N1cHBvcnRlZCgpIikKPiAKPiBTZXJpZXMgaXMgYWxzbyBhdmFpbGFi
+bGUgaGVyZToKPiBodHRwczovL2dpdGh1Yi5jb20vbm90cm8vbGludXgvdHJlZS9yZW1vdmVfdGlu
+eWRybV9rbwo+IAo+IE5vcmFsZi4KPiAKPiBOb3JhbGYgVHLDuG5uZXMgKDEwKToKPiAgIGRybTog
+QWRkIFNQSSBjb25uZWN0b3IgdHlwZQo+ICAgZHJtL3Rpbnlkcm06IFVzZSBzcGlfaXNfYnB3X3N1
+cHBvcnRlZCgpCj4gICBkcm0vdGlueWRybTogUmVtb3ZlIHNwaSBkZWJ1ZyBidWZmZXIgZHVtcGlu
+Zwo+ICAgZHJtL3Rpbnlkcm06IFJlbW92ZSB0aW55ZHJtX3NwaV9tYXhfdHJhbnNmZXJfc2l6ZSgp
+Cj4gICBkcm0vdGlueWRybTogQ2xlYW4gdXAgdGlueWRybV9zcGlfdHJhbnNmZXIoKQo+ICAgZHJt
+L3Rpbnlkcm06IE1vdmUgdGlueWRybV9zcGlfdHJhbnNmZXIoKQo+ICAgZHJtL3Rpbnlkcm06IE1v
+dmUgdGlueWRybV9tYWNoaW5lX2xpdHRsZV9lbmRpYW4oKQo+ICAgZHJtL3Rpbnlkcm0vcmVwYXBl
+cjogRG9uJ3QgdXNlIHRpbnlkcm1fZGlzcGxheV9waXBlX2luaXQoKQo+ICAgZHJtL3Rpbnlkcm0v
+bWlwaS1kYmk6IEFkZCBtaXBpX2RiaV9pbml0X3dpdGhfZm9ybWF0cygpCj4gICBkcm0vdGlueWRy
+bTogTW92ZSB0aW55ZHJtX2Rpc3BsYXlfcGlwZV9pbml0KCkgdG8gbWlwaS1kYmkKPiAKClBhdGNo
+IDEtMywgNywgOCwgOSBhcmU6ClJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9y
+Zy5vcmc+CgpQYXRjaCA0IGFyZToKQWNrZWQtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3Jn
+Lm9yZz4KKERpZCBub3QgZmVlbCBJIGhhZCBlbm91Z2ggYmFja2dyb3VuZCB0byBzYXkgci1iKS4K
+CkluZGl2aWR1YWwgY29tbWVudHMgc2VudCBmb3IgdGhlIG90aGVyIHBhdGNoZXMuCgoJU2FtCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
