@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EAA6B506
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 05:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B68B6B515
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 05:40:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E74F6E222;
-	Wed, 17 Jul 2019 03:37:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12D5B89F31;
+	Wed, 17 Jul 2019 03:40:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 412A56E223
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 03:37:48 +0000 (UTC)
-X-UUID: d0db6bff8b214815abb3b0db654177db-20190717
-X-UUID: d0db6bff8b214815abb3b0db654177db-20190717
+ by gabe.freedesktop.org (Postfix) with ESMTP id 133DD89F31
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 03:40:20 +0000 (UTC)
+X-UUID: 7d6be4e943c14964831c2514d83a5888-20190717
+X-UUID: 7d6be4e943c14964831c2514d83a5888-20190717
 Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
  (envelope-from <ck.hu@mediatek.com>)
  (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1155228632; Wed, 17 Jul 2019 11:37:33 +0800
+ with ESMTP id 499689010; Wed, 17 Jul 2019 11:40:17 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
  MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 17 Jul 2019 11:37:31 +0800
+ 15.0.1395.4; Wed, 17 Jul 2019 11:40:13 +0800
 Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 17 Jul 2019 11:37:31 +0800
-Message-ID: <1563334651.29169.8.camel@mtksdaap41>
-Subject: Re: [PATCH v4, 03/33] dt-bindings: mediatek: add ccorr description
+ Transport; Wed, 17 Jul 2019 11:40:13 +0800
+Message-ID: <1563334813.29169.9.camel@mtksdaap41>
+Subject: Re: [PATCH v4, 04/33] dt-bindings: mediatek: add dither description
  for mt8183 display
 From: CK Hu <ck.hu@mediatek.com>
 To: <yongqiang.niu@mediatek.com>
-Date: Wed, 17 Jul 2019 11:37:31 +0800
-In-Reply-To: <1562625253-29254-4-git-send-email-yongqiang.niu@mediatek.com>
+Date: Wed, 17 Jul 2019 11:40:13 +0800
+In-Reply-To: <1562625253-29254-5-git-send-email-yongqiang.niu@mediatek.com>
 References: <1562625253-29254-1-git-send-email-yongqiang.niu@mediatek.com>
- <1562625253-29254-4-git-send-email-yongqiang.niu@mediatek.com>
+ <1562625253-29254-5-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 403168DAAE7D0F5F3260CBF4E27C82B0F49F3568C5D9161274FEC2680BC066432000:8
+X-TM-SNTS-SMTP: D6842BC495CF62E915E073AAD261C7B66CB325E65E78ABFCF8D683C1EF2B27432000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -72,19 +72,19 @@ ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
 YXRlayxkaXNwLnR4dCB8IDEgKwo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiAK
 PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
 bWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+IGluZGV4IDhjNDcwMGYu
-LmNmNWZiMDggMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+ZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+IGluZGV4IGNmNWZiMDgu
+LmFmZDNjOTAgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
 L2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQKPiArKysgYi9Eb2N1bWVudGF0aW9u
 L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+
-IEBAIC0zMSw2ICszMSw3IEBAIFJlcXVpcmVkIHByb3BlcnRpZXMgKGFsbCBmdW5jdGlvbiBibG9j
-a3MpOgo+ICAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLW92bC0ybCIgICAgICAgICAgIC0gb3Zlcmxh
-eSAoMiBsYXllcnMsIGJsZW5kaW5nLCBjc2MpCj4gIAkibWVkaWF0ZWssPGNoaXA+LWRpc3AtcmRt
-YSIgIAkJLSByZWFkIERNQSAvIGxpbmUgYnVmZmVyCj4gIAkibWVkaWF0ZWssPGNoaXA+LWRpc3At
-d2RtYSIgIAkJLSB3cml0ZSBETUEKPiArCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1jY29yciIgICAg
-ICAgICAgICAtIGNvbG9yIGNvcnJlY3Rpb24KPiAgCSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1jb2xv
-ciIgCQktIGNvbG9yIHByb2Nlc3Nvcgo+ICAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLWFhbCIgICAJ
-CS0gYWRhcHRpdmUgYW1iaWVudCBsaWdodCBjb250cm9sbGVyCj4gIAkibWVkaWF0ZWssPGNoaXA+
-LWRpc3AtZ2FtbWEiIAkJLSBnYW1tYSBjb3JyZWN0aW9uCgoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+IEBAIC0zMyw2ICszMyw3IEBAIFJlcXVpcmVkIHByb3BlcnRpZXMgKGFsbCBmdW5jdGlvbiBibG9j
+a3MpOgo+ICAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLXdkbWEiICAJCS0gd3JpdGUgRE1BCj4gIAki
+bWVkaWF0ZWssPGNoaXA+LWRpc3AtY2NvcnIiICAgICAgICAgICAgLSBjb2xvciBjb3JyZWN0aW9u
+Cj4gIAkibWVkaWF0ZWssPGNoaXA+LWRpc3AtY29sb3IiIAkJLSBjb2xvciBwcm9jZXNzb3IKPiAr
+CSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1kaXRoZXIiICAgICAgICAgICAtIGRpdGhlcgo+ICAJIm1l
+ZGlhdGVrLDxjaGlwPi1kaXNwLWFhbCIgICAJCS0gYWRhcHRpdmUgYW1iaWVudCBsaWdodCBjb250
+cm9sbGVyCj4gIAkibWVkaWF0ZWssPGNoaXA+LWRpc3AtZ2FtbWEiIAkJLSBnYW1tYSBjb3JyZWN0
+aW9uCj4gIAkibWVkaWF0ZWssPGNoaXA+LWRpc3AtbWVyZ2UiIAkJLSBtZXJnZSBzdHJlYW1zIGZy
+b20gdHdvIFJETUEgc291cmNlcwoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
+ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L2RyaS1kZXZlbA==
