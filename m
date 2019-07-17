@@ -2,41 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB396B6FE
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 08:55:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16F16B708
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 08:57:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32C0C6E239;
-	Wed, 17 Jul 2019 06:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA056E23D;
+	Wed, 17 Jul 2019 06:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id 866696E239
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 06:55:05 +0000 (UTC)
-X-UUID: 9f1c975c797c4aa99fc512c38799216e-20190717
-X-UUID: 9f1c975c797c4aa99fc512c38799216e-20190717
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 1132981241; Wed, 17 Jul 2019 14:55:03 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 17 Jul 2019 14:55:01 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 17 Jul 2019 14:55:01 +0800
-Message-ID: <1563346501.29169.25.camel@mtksdaap41>
-Subject: Re: [PATCH v4, 24/33] drm/mediatek: distinguish ovl and ovl_2l by
- layer_nr
-From: CK Hu <ck.hu@mediatek.com>
-To: <yongqiang.niu@mediatek.com>
-Date: Wed, 17 Jul 2019 14:55:01 +0800
-In-Reply-To: <1562625253-29254-25-git-send-email-yongqiang.niu@mediatek.com>
-References: <1562625253-29254-1-git-send-email-yongqiang.niu@mediatek.com>
- <1562625253-29254-25-git-send-email-yongqiang.niu@mediatek.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A37506E23D
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 06:57:49 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9FE7F72168; Wed, 17 Jul 2019 06:57:49 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110898] [Patch] to compile amdgpu-dkms 19.10 on debian stretch
+ & buster
+Date: Wed, 17 Jul 2019 06:57:49 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: fabstz-it@yahoo.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110898-502-pmDeZCyw2I@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110898-502@http.bugs.freedesktop.org/>
+References: <bug-110898-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 11F1DE6BD2C0561D80B2B9B084DC8B4CE48F7F7536BCB170DD002279A4AB79AD2000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,41 +53,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1545527308=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCk9uIFR1ZSwgMjAxOS0wNy0wOSBhdCAwNjozNCArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gRnJvbTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20+Cj4gCj4gZGlzdGluZ3Vpc2ggb3ZsIGFuZCBvdmxfMmwgYnkg
-bGF5ZXJfbnIgd2hlbiBnZXQgY29tcAo+IGlkCj4gCgpSZXZpZXdlZC1ieTogQ0sgSHUgPGNrLmh1
-QG1lZGlhdGVrLmNvbT4KCj4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5n
-Lm5pdUBtZWRpYXRlay5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtf
-ZGlzcF9vdmwuYyB8IDkgKysrKysrLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMo
-KyksIDMgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZGlzcF9vdmwuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9v
-dmwuYwo+IGluZGV4IDhjYTQ5NjUuLjdlOTk4MjcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL21lZGlhdGVrL210a19kaXNwX292bC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kaXNwX292bC5jCj4gQEAgLTMyNiw3ICszMjYsMTIgQEAgc3RhdGljIGludCBtdGtf
-ZGlzcF9vdmxfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCWlmIChpcnEg
-PCAwKQo+ICAJCXJldHVybiBpcnE7Cj4gIAo+IC0JY29tcF9pZCA9IG10a19kZHBfY29tcF9nZXRf
-aWQoZGV2LT5vZl9ub2RlLCBNVEtfRElTUF9PVkwpOwo+ICsJcHJpdi0+ZGF0YSA9IG9mX2Rldmlj
-ZV9nZXRfbWF0Y2hfZGF0YShkZXYpOwo+ICsKPiArCWNvbXBfaWQgPSBtdGtfZGRwX2NvbXBfZ2V0
-X2lkKGRldi0+b2Zfbm9kZSwKPiArCQkJCSAgICAgIHByaXYtPmRhdGEtPmxheWVyX25yID09IDQg
-Pwo+ICsJCQkJICAgICAgTVRLX0RJU1BfT1ZMIDoKPiArCQkJCSAgICAgIE1US19ESVNQX09WTF8y
-TCk7Cj4gIAlpZiAoY29tcF9pZCA8IDApIHsKPiAgCQlkZXZfZXJyKGRldiwgIkZhaWxlZCB0byBp
-ZGVudGlmeSBieSBhbGlhczogJWRcbiIsIGNvbXBfaWQpOwo+ICAJCXJldHVybiBjb21wX2lkOwo+
-IEBAIC0zMzksOCArMzQ0LDYgQEAgc3RhdGljIGludCBtdGtfZGlzcF9vdmxfcHJvYmUoc3RydWN0
-IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCQlyZXR1cm4gcmV0Owo+ICAJfQo+ICAKPiAtCXBy
-aXYtPmRhdGEgPSBvZl9kZXZpY2VfZ2V0X21hdGNoX2RhdGEoZGV2KTsKPiAtCj4gIAlwbGF0Zm9y
-bV9zZXRfZHJ2ZGF0YShwZGV2LCBwcml2KTsKPiAgCj4gIAlyZXQgPSBkZXZtX3JlcXVlc3RfaXJx
-KGRldiwgaXJxLCBtdGtfZGlzcF9vdmxfaXJxX2hhbmRsZXIsCgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1545527308==
+Content-Type: multipart/alternative; boundary="15633466691.4deBc1B89.15883"
+Content-Transfer-Encoding: 7bit
+
+
+--15633466691.4deBc1B89.15883
+Date: Wed, 17 Jul 2019 06:57:49 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110898
+
+--- Comment #1 from Fab Stz <fabstz-it@yahoo.fr> ---
+Created attachment 144808
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144808&action=3Dedit
+Newer patch
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15633466691.4deBc1B89.15883
+Date: Wed, 17 Jul 2019 06:57:49 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Patch] to compile amdgpu-dkms 19.10 on debian stretch &a=
+mp; buster"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110898#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Patch] to compile amdgpu-dkms 19.10 on debian stretch &a=
+mp; buster"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110898">bug 11089=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+fabstz-it&#64;yahoo.fr" title=3D"Fab Stz &lt;fabstz-it&#64;yahoo.fr&gt;"> <=
+span class=3D"fn">Fab Stz</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144808=
+" name=3D"attach_144808" title=3D"Newer patch">attachment 144808</a> <a hre=
+f=3D"attachment.cgi?id=3D144808&amp;action=3Dedit" title=3D"Newer patch">[d=
+etails]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D110898&=
+amp;attachment=3D144808'>[review]</a>
+Newer patch</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15633466691.4deBc1B89.15883--
+
+--===============1545527308==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1545527308==--
