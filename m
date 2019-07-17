@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042066B452
-	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 04:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8549B6B486
+	for <lists+dri-devel@lfdr.de>; Wed, 17 Jul 2019 04:30:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EF66E1FB;
-	Wed, 17 Jul 2019 02:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00AF36E1C0;
+	Wed, 17 Jul 2019 02:30:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98CCD6E1FB
- for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 02:07:42 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id d79so16221513qke.11
- for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 19:07:42 -0700 (PDT)
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com
+ [IPv6:2607:f8b0:4864:20::841])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70A7A6E1C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 17 Jul 2019 02:30:31 +0000 (UTC)
+Received: by mail-qt1-x841.google.com with SMTP id w17so21791220qto.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 16 Jul 2019 19:30:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=IP2uVEPbIAzpGypWmMwZYQMjWgXBZrIwHeY5kTSzUnI=;
- b=loYyERrMBJgAwwyYSqIJaUG6J9aYWMiLKNX9R4oVtbHLNgI7so5dJuKq+HDCeP8bAa
- A4oxXFcXNikILJRnbeEE9Dkgf8nv964f7yotQ3uK5hGCql30m/O0PDkFgHK91Z1jpLKg
- XecwevEVgUvjLl9NQiuI0AvofxOdD6H1apPfoWGkKy6P3JoJi5C9V91KU3xCm0LrXK3+
- vjqDaJ3yAc8PDbdQoZ2rNf8d8s+ShSCgJAh+NvegzezIBwBvWS6vq2taoiKu3lizloSf
- cRzImcHG2sOjnlB/CCCFNsEKC/k5ytgSWuBjEtwps2nlKfQhuOgDk5fcgAPmkXdzAyhe
- JCYA==
-X-Gm-Message-State: APjAAAU+4Rw+uJw/fnV1NKlmslgNT3ePGeaB5iCH4lW39h6SBEEdttb/
- hJgtkwG3QyZ/OBsJXYo9X/s=
-X-Google-Smtp-Source: APXvYqwfs67gIsEgSMn9ao9dkNWeVyQRe9zLOKH4bwrfNlAqh1g5Zvyh7UcvSZEZS0E5T/kEtWoJyw==
-X-Received: by 2002:a05:620a:142e:: with SMTP id
- k14mr24078298qkj.336.1563329261678; 
- Tue, 16 Jul 2019 19:07:41 -0700 (PDT)
+ bh=YA8lAAAs8QKJaZT6FgrXTDQyRFELqwwXAnvE6DYcrwo=;
+ b=OJ+mVJRKYFXLOSq1ruNZeJpyEpQpmqE4O2uvUuWAyCKKAL8Z6mrTh7zLrpsfyFV1cB
+ BqvYlp+UMJHjkdrMfbLMeeV0Q9xF9pc0z0GBOc5jrQUZR04FulWDvrEHAO0NJPDTC/jZ
+ v1kjQwTPFxSucijRUL0/sRFVK/h2oINPc6fQ0ss9FMinPryMWPaZJiEnhKA93WxTsW/p
+ agEhZHkihit22hRuVpFgdySooEixu5tBA3pIUNOzKFfpb7GdydJ9RkZrtH4fu8AIAL2l
+ gYtBHx//zTZaPDqezk+bqn08rXZUzAKSrnWt77xjvva6MD+OC28T2F6EELH3W0lOpklZ
+ QtXQ==
+X-Gm-Message-State: APjAAAXqgSkgQKcMX6kM//5IEmQxLfnePcB18OhphrJ/LFXRcAw5inl8
+ HdY73FElxCGY2D/cdHVSYSS6BZdkS54=
+X-Google-Smtp-Source: APXvYqxx50eEWuRi6UIQAIJ2BOEUS8tFyRQsai0lR4punJyDFOH1UVjLXqxBvxYFGT6YNKkSRT1MBw==
+X-Received: by 2002:a0c:8a76:: with SMTP id 51mr26976107qvu.210.1563330630560; 
+ Tue, 16 Jul 2019 19:30:30 -0700 (PDT)
 Received: from smtp.gmail.com ([187.121.151.22])
- by smtp.gmail.com with ESMTPSA id z18sm10659315qka.12.2019.07.16.19.07.39
+ by smtp.gmail.com with ESMTPSA id b202sm10257728qkg.83.2019.07.16.19.30.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 16 Jul 2019 19:07:41 -0700 (PDT)
-Date: Tue, 16 Jul 2019 23:07:37 -0300
+ Tue, 16 Jul 2019 19:30:29 -0700 (PDT)
+Date: Tue, 16 Jul 2019 23:30:24 -0300
 From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Haneen Mohammed <hamohammed.sa@gmail.com>,
- David Airlie <airlied@linux.ie>, Simon Ser <contact@emersion.fr>,
- Oleg Vasilev <oleg.vasilev@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3] drm/vkms: Add support for vkms work without vblank
-Message-ID: <20190717020737.z2mu64s3lfyt7pl7@smtp.gmail.com>
-References: <20190710015514.42anrmx3r2ijaomz@smtp.gmail.com>
- <20190710164036.GZ15868@phenom.ffwll.local>
- <20190712025718.wdlafaujpxhpupj7@smtp.gmail.com>
- <20190716090345.GX15868@phenom.ffwll.local>
+To: Brian Starkey <brian.starkey@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simon Ser <contact@emersion.fr>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 4/5] drm/vkms: Compute CRC without change input data
+Message-ID: <20190717023024.svpgfbzgund2awfw@smtp.gmail.com>
+References: <cover.1561491964.git.rodrigosiqueiramelo@gmail.com>
+ <ea7e3a0daa4ee502d8ec67a010120d53f88fa06b.1561491964.git.rodrigosiqueiramelo@gmail.com>
+ <20190711082105.GI15868@phenom.ffwll.local>
+ <20190712031449.3pmeimkcde2hrxxh@smtp.gmail.com>
+ <20190716083715.GT15868@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20190716090345.GX15868@phenom.ffwll.local>
+In-Reply-To: <20190716083715.GT15868@phenom.ffwll.local>
 User-Agent: NeoMutt/20180716
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=date:from:to:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=IP2uVEPbIAzpGypWmMwZYQMjWgXBZrIwHeY5kTSzUnI=;
- b=QduOLZsrNp0z6hne15BBhmgcbZc0yNFvihobCtsn7/Tlf9116Wd1UfbQP3H1pGpbUv
- /2gml2kbhUt5y2KOplxKzcXdUGs2MJA7/cykVzJBm5oaYeHrNtFh3fbom6OxYu892o7z
- GokTxnEUcwZuwdpmR8dssn4IBq+bIheL97qADs4G1UUvCnq7yasCRdvRSU5DHk1MP1W8
- nWysr2BRTlJnb9wzAb+U1FkBGltEahmJVCaiBZqLfyfDvu+cmEIQx1H4H1m0o5TvU1LB
- WN6O6d9AbTiFhjxc+61dg4Unl/XA/xu1s7kcKBnRFpLt76LuGlLNdsX0Tetzg8TM/mwi
- /BuQ==
+ bh=YA8lAAAs8QKJaZT6FgrXTDQyRFELqwwXAnvE6DYcrwo=;
+ b=jUqM3qYMZZMW9/ukdmhyypFlzErDXK17HLvVFp30vzHZdthvv+iO0s9lyIV/rGVPqr
+ JBM0uE5gctX59YzlfaoaOCLumfIyAEOUemNySjDWg1k0Q+ciyd/Uar+SuWXLLZWACU23
+ agMYZ59E7FL/gYr7PynzaiVjKQfGs8OO9PmVOOFsNXMCPspk9518riVDU+icSptb+gAt
+ jmhw/TrMfvKtydIt85yWi5vp3jJKjq61iXH56JcSSYGbNPF4KK6/RxoiihadMJ0TYPY1
+ M0dYmJrF3c3ZXkW8nyrczl/w10EIh8Bh2djARwzspOpQVzTJoBQuxvTUyRkXAg7uOiLj
+ gYxg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,183 +74,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0032845902=="
+Content-Type: multipart/mixed; boundary="===============2005163010=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0032845902==
+--===============2005163010==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wy4ejomefpiiq7cz"
+	protocol="application/pgp-signature"; boundary="qp4bmywubblpnone"
 Content-Disposition: inline
 
 
---wy4ejomefpiiq7cz
+--qp4bmywubblpnone
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On 07/16, Daniel Vetter wrote:
-> On Thu, Jul 11, 2019 at 11:57:18PM -0300, Rodrigo Siqueira wrote:
-> > On 07/10, Daniel Vetter wrote:
-> > > On Tue, Jul 09, 2019 at 10:55:14PM -0300, Rodrigo Siqueira wrote:
-> > > > Currently, vkms only work with enabled VBlank. This patch adds anot=
-her
-> > > > operation model that allows vkms to work without VBlank support. In=
- this
-> > > > scenario, vblank signaling is faked by calling drm_send_vblank_even=
-t()
-> > > > in vkms_crtc_atomic_flush(); this approach works due to the
-> > > > drm_vblank_get() =3D=3D 0 checking.
-> > > >=20
-> > > > Changes since V2:
-> > > >  - Rebase
-> > > >=20
-> > > > Changes since V1:
-> > > >   Daniel Vetter:
-> > > >   - Change module parameter name from disablevblank to virtual_hw
-> > > >   - Improve parameter description
-> > > >   - Improve commit message
-> > > >=20
-> > > > Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> > > > ---
-> > > >  drivers/gpu/drm/vkms/vkms_crtc.c | 10 ++++++++++
-> > > >  drivers/gpu/drm/vkms/vkms_drv.c  | 13 +++++++++++--
-> > > >  drivers/gpu/drm/vkms/vkms_drv.h  |  2 ++
-> > > >  3 files changed, 23 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkm=
-s/vkms_crtc.c
-> > > > index 49a8ec2cb1c1..a0c75b8c4335 100644
-> > > > --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> > > > @@ -207,12 +207,22 @@ static int vkms_crtc_atomic_check(struct drm_=
-crtc *crtc,
-> > > >  static void vkms_crtc_atomic_enable(struct drm_crtc *crtc,
-> > > >  				    struct drm_crtc_state *old_state)
-> > > >  {
-> > > > +	struct vkms_output *vkms_out =3D drm_crtc_to_vkms_output(crtc);
-> > > > +
-> > > > +	if (vkms_out->disable_vblank)
-> > > > +		return;
-> > > > +
-> > > >  	drm_crtc_vblank_on(crtc);
-> > > >  }
-> > > > =20
-> > > >  static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
-> > > >  				     struct drm_crtc_state *old_state)
-> > > >  {
-> > > > +	struct vkms_output *vkms_out =3D drm_crtc_to_vkms_output(crtc);
-> > > > +
-> > > > +	if (vkms_out->disable_vblank)
-> > > > +		return;
-> > > > +
-> > > >  	drm_crtc_vblank_off(crtc);
-> > > >  }
-> > > > =20
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms=
-/vkms_drv.c
-> > > > index 152d7de24a76..542a002ef9d5 100644
-> > > > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > > > @@ -34,6 +34,11 @@ bool enable_writeback;
-> > > >  module_param_named(enable_writeback, enable_writeback, bool, 0444);
-> > > >  MODULE_PARM_DESC(enable_writeback, "Enable/Disable writeback conne=
-ctor");
-> > > > =20
-> > > > +bool virtual_hw;
+> On Fri, Jul 12, 2019 at 12:14:49AM -0300, Rodrigo Siqueira wrote:
+> > On 07/11, Daniel Vetter wrote:
+> > > On Tue, Jun 25, 2019 at 10:38:31PM -0300, Rodrigo Siqueira wrote:
+> > > > The compute_crc() function is responsible for calculating the
+> > > > framebuffer CRC value; due to the XRGB format, this function has to
+> > > > ignore the alpha channel during the CRC computation. Therefore,
+> > > > compute_crc() set zero to the alpha channel directly in the input
+> > > > framebuffer, which is not a problem since this function receives a =
+copy
+> > > > of the original buffer. However, if we want to use this function in=
+ a
+> > > > context without a buffer copy, it will change the initial value. Th=
+is
+> > > > patch makes compute_crc() calculate the CRC value without modifying=
+ the
+> > > > input framebuffer.
 > > >=20
-> > > Can be static, you only use this in vkms_drv.c.
-> > >=20
-> > > > +module_param_named(virtual_hw, virtual_hw, bool, 0444);
-> > > > +MODULE_PARM_DESC(virtual_hw,
-> > > > +		 "Enable virtual hardware mode (disables vblanks and immediately=
- completes flips)");
-> > > > +
-> > > >  static const struct file_operations vkms_driver_fops =3D {
-> > > >  	.owner		=3D THIS_MODULE,
-> > > >  	.open		=3D drm_open,
-> > > > @@ -154,9 +159,13 @@ static int __init vkms_init(void)
-> > > >  	if (ret)
-> > > >  		goto out_unregister;
-> > > > =20
-> > > > -	vkms_device->drm.irq_enabled =3D true;
-> > > > +	vkms_device->output.disable_vblank =3D virtual_hw;
-> > > > +	vkms_device->drm.irq_enabled =3D !virtual_hw;
-> > > > +
-> > > > +	if (virtual_hw)
-> > > > +		DRM_INFO("Virtual hardware mode enabled");
-> > > > =20
-> > > > -	ret =3D drm_vblank_init(&vkms_device->drm, 1);
-> > > > +	ret =3D (virtual_hw) ? 0 : drm_vblank_init(&vkms_device->drm, 1);
-> > > >  	if (ret) {
-> > > >  		DRM_ERROR("Failed to vblank\n");
-> > > >  		goto out_fini;
-> > > > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms=
-/vkms_drv.h
-> > > > index 9ff2cd4ebf81..256e5e65c947 100644
-> > > > --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> > > > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > > > @@ -21,6 +21,7 @@
-> > > > =20
-> > > >  extern bool enable_cursor;
-> > > >  extern bool enable_writeback;
-> > > > +extern bool virtual_hw;
-> > > > =20
-> > > >  struct vkms_composer {
-> > > >  	struct drm_framebuffer fb;
-> > > > @@ -69,6 +70,7 @@ struct vkms_output {
-> > > >  	struct drm_connector connector;
-> > > >  	struct drm_writeback_connector wb_connector;
-> > > >  	struct hrtimer vblank_hrtimer;
-> > > > +	bool disable_vblank;
-> > > >  	ktime_t period_ns;
-> > > >  	struct drm_pending_vblank_event *event;
-> > > >  	/* ordered wq for composer_work */
-> > >=20
-> > > I'm kinda wondering how this works at all ... does writeback/crc still
-> > > work if you set virtual mode? Writeback since this seems based on the
-> > > writeback series ...
+> > > Uh why? For writeback we're writing the output too, so we can write
+> > > whatever we want to into the alpha channel. For writeback we should n=
+ever
+> > > accept a pixel format where alpha actually matters, that doesn't make
+> > > sense. You can't see through a real screen either, they are all opaqu=
+e :-)
+> > > -Daniel
 > >=20
-> > Hi,
+> > Hmmm,
 > >=20
-> > I tested this patch with kms_flip with the "drm/drm_vblank: Change
-> > EINVAL by the correct errno" patch [1]. However, you=E2=80=99re right a=
-bout the
-> > writeback/crc tests, they does not pass because this patch disables
-> > vblank which in turn does not invoke "vkms_vblank_simulate()".
-> >=20
-> > In this sense, I=E2=80=99m a little bit confused about how should I han=
-dle this
-> > issue. If I correctly understood, without vblank support we have to
-> > trigger vkms_composer_worker() when the userspace invoke
-> > drmModePageFlip(), am I right?  If so, an approach could add page_flip()
-> > callback to vkms and invoke vkms_composer_worker(); however, the
-> > documentation says that page_flip is a legacy entry point. Do you have a
-> > suggestion?
+> > I see your point and I agree, but even though we can write whatever we
+> > want in the output, don=E2=80=99t you think that is weird to change the
+> > framebuffer value in the compute_crc() function?
 >=20
-> We need this in atomic, for everyone. So instead of launching a vblank and
-> letting the vblank simulation kick off the crc/writeback work,
-> atomic_flush needs to also kick of the crc/vblank work. And make sure that
-> we feed the same vblank frame count values to the generated vblank even as
-> to the crc work (or maybe those are hardcoded to 0 for vblank-less, not
-> sure).
+> Not sure what you mean here ... ? From a quick look the memset only sets
+> our temporary buffer, so we're not changing the input framebuffer here.
+> And we have to somehow get rid of the X bits, since there's no alpha
+> value. For CRC computation, all we need is some value which is the same
+> for every frame (so that the CRC stays constant for the same visible
+> output). For writeback we could write whatever we want (which includes
+> whatever is there already). But there's no guarantee and definitely no
+> expectation that the X bits survive. Writing 0 is imo the most reasonable
+> thing to do. I'm not even sure whether modern gpus can still do channel
+> masking (i.e. only write out specific channels, instead of the entire
+> color). That was a "feature" of bitop blitters of the 80s/90s :-)
 > -Daniel
 
-Just for checking if I correctly understood... the idea is reworking
-vkms_vblank_simulate() a little bit in order to decouple the kick of
-crc/writeback to atomic_flush(). Right?
+Ahhh, now I can see that my mindset was in the 90s :)
+
+Thanks
 =20
-> >=20
-> > 1. https://patchwork.freedesktop.org/patch/314399/?series=3D50697&rev=
-=3D7
 > >=20
 > > Thanks
 > > =20
-> > > btw if you send out patches that need other patches, point at that ot=
-her
-> > > series in the cover letter or patch. Gets confusing fast otherwise.
-> > > -Daniel
+> > > >=20
+> > > > Signed-off-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/vkms/vkms_composer.c | 31 +++++++++++++++++-------=
+----
+> > > >  1 file changed, 19 insertions(+), 12 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm=
+/vkms/vkms_composer.c
+> > > > index 51a270514219..8126aa0f968f 100644
+> > > > --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> > > > @@ -6,33 +6,40 @@
+> > > >  #include <drm/drm_atomic_helper.h>
+> > > >  #include <drm/drm_gem_framebuffer_helper.h>
+> > > > =20
+> > > > +static u32 get_pixel_from_buffer(int x, int y, const u8 *buffer,
+> > > > +				 const struct vkms_composer *composer)
+> > > > +{
+> > > > +	int src_offset =3D composer->offset + (y * composer->pitch)
+> > > > +					  + (x * composer->cpp);
+> > > > +
+> > > > +	return *(u32 *)&buffer[src_offset];
+> > > > +}
+> > > > +
+> > > >  /**
+> > > >   * compute_crc - Compute CRC value on output frame
+> > > >   *
+> > > > - * @vaddr_out: address to final framebuffer
+> > > > + * @vaddr: address to final framebuffer
+> > > >   * @composer: framebuffer's metadata
+> > > >   *
+> > > >   * returns CRC value computed using crc32 on the visible portion of
+> > > >   * the final framebuffer at vaddr_out
+> > > >   */
+> > > > -static uint32_t compute_crc(void *vaddr_out, struct vkms_composer =
+*composer)
+> > > > +static uint32_t compute_crc(const u8 *vaddr,
+> > > > +			    const struct vkms_composer *composer)
+> > > >  {
+> > > > -	int i, j, src_offset;
+> > > > +	int x, y;
+> > > >  	int x_src =3D composer->src.x1 >> 16;
+> > > >  	int y_src =3D composer->src.y1 >> 16;
+> > > >  	int h_src =3D drm_rect_height(&composer->src) >> 16;
+> > > >  	int w_src =3D drm_rect_width(&composer->src) >> 16;
+> > > > -	u32 crc =3D 0;
+> > > > +	u32 crc =3D 0, pixel =3D 0;
+> > > > =20
+> > > > -	for (i =3D y_src; i < y_src + h_src; ++i) {
+> > > > -		for (j =3D x_src; j < x_src + w_src; ++j) {
+> > > > -			src_offset =3D composer->offset
+> > > > -				     + (i * composer->pitch)
+> > > > -				     + (j * composer->cpp);
+> > > > +	for (y =3D y_src; y < y_src + h_src; ++y) {
+> > > > +		for (x =3D x_src; x < x_src + w_src; ++x) {
+> > > >  			/* XRGB format ignores Alpha channel */
+> > > > -			memset(vaddr_out + src_offset + 24, 0,  8);
+> > > > -			crc =3D crc32_le(crc, vaddr_out + src_offset,
+> > > > -				       sizeof(u32));
+> > > > +			pixel =3D get_pixel_from_buffer(x, y, vaddr, composer);
+> > > > +			bitmap_clear((void *)&pixel, 0, 8);
+> > > > +			crc =3D crc32_le(crc, (void *)&pixel, sizeof(u32));
+> > > >  		}
+> > > >  	}
+> > > > =20
+> > > > --=20
+> > > > 2.21.0
+> > >=20
 > > > --=20
 > > > Daniel Vetter
 > > > Software Engineer, Intel Corporation
@@ -277,29 +237,29 @@ her
 Rodrigo Siqueira
 https://siqueira.tech
 
---wy4ejomefpiiq7cz
+--qp4bmywubblpnone
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0ugugACgkQWJzP/com
-vP/+aA/9EP5Fdxa15qHv0znCbXQ1doJyn/FqSXV5T4w3fTgRZM8+GIEvS6xHEN1J
-sswU8lpuPzAmoFnwXhNY503JENCAMVp50sr1OQIJPwGja1jLAYqpGedKUKLrXMwm
-QTX7EjaQWNysRy4oy22XFTga2ozCAMWOhlGOjLyij+3nzZ4kWJKajpvMoy5NeL3U
-SiFlEFQ34uEv5/rKqGyMZRQOojdW1T2ityHdzscJf0eGC+FS5AQtBHev9O6tTPQd
-QTiQXPL4SE7a79dEuDSWCp2F/F2Lfy0p+8f2Q0kbJrfxNhTouifhRVJAZZQTXfcJ
-JWjBKjXUpkCuy2LGdxZmpt3dTLtawys4KtyJCRL3HU/dWJ1pEUDpIrvNzUdTFdHt
-6qlB1dn6aoUp8XhNt3s6BTV99/021KxZR+lLhL6+tWxIg4/pdn+SpZnCkxC2eloP
-VjuH+DCgWc5wtZAFOaCq+7qeebqYmfIjIDzeeim6TLoAaNx4zz75Zjpz4zDifxtK
-46eSygog5AHoqKtYWN31wJQOWeDZtwf1I2/Kio2VgJEdICKGv9I/7aRgab+2pvj1
-3FWalEoKnaDm8kRVHJVw8/NZrL6ui0rwMjm/VUBgRjGOvBXxarVbtGXQjDuwEdrN
-hnqtY3ynwYQsyIbc+7IVwrSwNiWKQJsM31TlBP5mzUBWmwitCpk=
-=Rsi1
+iQIzBAEBCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl0uiEAACgkQWJzP/com
+vP8X0xAAxp4KZSRHIF9p/L79o4+j8/J2PBMeibgeeQsw2NFfff6rbip2bM4sfccv
+mjdtxPGJHMUWr/vdeRvokp9kg9QWE/ZOxmX+u07c+/x+qxPhB1/p3uogpNpRvsZ+
+SF2xG8riCOmTuKetflJUh7chAm/RDPM/TaajZfUGIIwY9gQm1/C0WyumBp85izpU
+Nk1dk6Dj/xplD8d+19P7uKgUDc+d3P4ogRbUQKW5NqvgrXyXxa4Zzv1W40BKwsIS
+jx5xQAqrcQUCkOdPRJyzVMLKBe0kagIEhXMHfSlyn+Nlp47AXYUjMlUV4TuY5980
+HsWPGAs98tNpCM+jj1bWxym5F0LnKxyxMqHg62gGQLOWQBVdhWLmYtdCf7bI8A0I
+95stQVF6CqWxNzcYJ6ffw6ZFNXKVba6uzrPIAWVwYTvX/JmULM9JzZVMG33vbeYH
+Yd8grYgJLvRU8k5pc1g5LjXC0+9im1Jr10mmywgUhipErbMxXOfhMuIe2/2lsx5v
+zkMk/UTlVZQrXxJOw4NUXeb0wDXelrTR3/5cSDT0uMWjSU84AFQLvd5767YxqD+h
+odiOohM4xAEkB7478GVvwsyjUMf9Tn1QGeWX/m2lsZgv2qYmT5zgVkG1H7jzSEO7
+mRzB0k/z3o9M40wzDebVg5TRcyNOdn3+8xKFumWmvmNXuGYMOAU=
+=ajCg
 -----END PGP SIGNATURE-----
 
---wy4ejomefpiiq7cz--
+--qp4bmywubblpnone--
 
---===============0032845902==
+--===============2005163010==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -309,4 +269,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0032845902==--
+--===============2005163010==--
