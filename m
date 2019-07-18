@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B166C3D1
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 02:39:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F52B6C3E1
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 02:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C469A6E2B6;
-	Thu, 18 Jul 2019 00:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45026E2BC;
+	Thu, 18 Jul 2019 00:49:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE54D6E2B6
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 00:39:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D9AE6E2BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 00:49:34 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 8D81628179
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 00:39:41 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 6384428767
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 00:49:34 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 821F72875A; Thu, 18 Jul 2019 00:39:41 +0000 (UTC)
+ id 57B0E2876C; Thu, 18 Jul 2019 00:49:34 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -27,23 +27,23 @@ From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204145] amdgpu video playback causes host to hard reset
  (checkstop) on POWER9 with RX 580
-Date: Thu, 18 Jul 2019 00:39:38 +0000
+Date: Thu, 18 Jul 2019 00:49:33 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Product: Platform Specific/Hardware
+X-Bugzilla-Component: PPC-64
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: high
-X-Bugzilla-Who: tpearson@raptorengineering.com
+X-Bugzilla-Who: shawn@anastas.io
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204145-2300-NreydKLXSB@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: component cf_kernel_version product cf_regression
+Message-ID: <bug-204145-2300-rdoHNop3du@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204145-2300@https.bugzilla.kernel.org/>
 References: <bug-204145-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -67,12 +67,16 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxNDUKCi0tLSBD
-b21tZW50ICMyMyBmcm9tIFRpbW90aHkgUGVhcnNvbiAodHBlYXJzb25AcmFwdG9yZW5naW5lZXJp
-bmcuY29tKSAtLS0KQSBuaXQsIGJ1dCBtaWdodCB3YW50IHRvIG1hcmsgdGhpcyBidWcgYXMgYSBy
-ZWdyZXNzaW9uIGFuZCB1cGRhdGUgdGhlIGtlcm5lbAp2ZXJzaW9uIHRvIDUuMi4xPwoKLS0gCllv
-dSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBh
-c3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxNDUKClNoYXdu
+IEFuYXN0YXNpbyAoc2hhd25AYW5hc3Rhcy5pbykgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAg
+ICB8UmVtb3ZlZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CiAgICAgICAgICBDb21wb25lbnR8VmlkZW8oRFJJIC0gbm9uIEludGVsKSAgICAgIHxQUEMtNjQK
+ICAgICBLZXJuZWwgVmVyc2lvbnw1LjEuMTUgICAgICAgICAgICAgICAgICAgICAgfDUuMi4xCiAg
+ICAgICAgICAgIFByb2R1Y3R8RHJpdmVycyAgICAgICAgICAgICAgICAgICAgIHxQbGF0Zm9ybSBT
+cGVjaWZpYy9IYXJkd2FyZQogICAgICAgICBSZWdyZXNzaW9ufE5vICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8WWVzCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6Cllv
+dSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
