@@ -2,40 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635726CCDC
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 12:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153A26CCF9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 12:50:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 956946E37C;
-	Thu, 18 Jul 2019 10:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 156726E395;
+	Thu, 18 Jul 2019 10:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02EB46E373;
- Thu, 18 Jul 2019 10:37:32 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 0121980335;
- Thu, 18 Jul 2019 12:37:27 +0200 (CEST)
-Date: Thu, 18 Jul 2019 12:37:26 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] vt: Grab console_lock around con_is_bound in show_bind
-Message-ID: <20190718103726.GA17341@ravnborg.org>
-References: <20190718080903.22622-1-daniel.vetter@ffwll.ch>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 689D66E395
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 10:50:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6507D72167; Thu, 18 Jul 2019 10:50:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110258] Lenovo V110-15AST AMD A9-9410  AMD R5 Stoney hangs
+ after waking after suspend. 5.0-5.1rc2
+Date: Thu, 18 Jul 2019 10:50:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: pmw.gover@yahoo.co.uk
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110258-502-XpAA7MnWQF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110258-502@http.bugs.freedesktop.org/>
+References: <bug-110258-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190718080903.22622-1-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=VnNF1IyMAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=ag1SF4gXAAAA:8
- a=KKAkSRfTAAAA:8 a=20KFwNOVAAAA:8 a=QyXUC8HyAAAA:8 a=II7inwo8ijMyP0ieMOUA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=Yupwre4RP9_Eg_Bd0iYG:22
- a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,53 +53,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Pitre <nicolas.pitre@linaro.org>, linux-s390@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Martin Hostettler <textshell@uchuujin.de>,
- Mikulas Patocka <mpatocka@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Jens Remus <jremus@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1513094595=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLgoKUGF0Y2ggbG9va3MgZ29vZC4gWW91IGNhbiBhZGQgbXk6CkFja2VkLWJ5OiBT
-YW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CgpGb3IgZ29vZCBtZWFzdXJlIEkgY2hlY2tl
-ZCBhbGwgb3RoZXIgdXNlcnMgb2YgY29uX2lzX2JvdW5kKCkKYW5kIHRoZXkgbG9va2VkIGdvb2Qg
-ZnJvbSBhIGxvY2tpbmcgcGVyc3BlY3RpdmUuClRoZW4gSSBsb29rZWQgYSBiaXQgbW9yZSBmb3Ig
-bWlzc2luZyBsb2NraW5nIGFuZCBsb3N0CnRoZSBvdmVydmlldy4KCk9uIFRodSwgSnVsIDE4LCAy
-MDE5IGF0IDEwOjA5OjAzQU0gKzAyMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gTm90IHJlYWxs
-eSBoYXJtZnVsIG5vdCB0bywgYnV0IGFsc28gbm90IGhhcm0gaW4gZ3JhYmJpbmcgdGhlIGxvY2su
-IEFuZAo+IHRoaXMgc2h1dHMgdXAgYSBuZXcgV0FSTklORyBJIGludHJvZHVjZWQgaW4gY29tbWl0
-IGRkZGUzYzE4YjcwMCAoInZ0Ogo+IE1vcmUgbG9ja2luZyBjaGVja3MiKS4KCk1heWJlIGFkZCB0
-aGUgd2FybmluZyB0aGF0IEplbnMgcmVwb3J0ZWQgdG8gdGhlIGNoYW5nZWxvZywgaW4gY2FzZQpz
-b21lb25lIGhpdHMgc29tZXRoaW5nIHRoYXQgbG9va3MgbGlrZSB0aGlzIHdhcm5pbmcuCk1haW5s
-eSBmb3IgZ29vZ2xlIGZvZGRlciwgYnV0IGFsc28gaW4gY2FzZSBjaGFuZ2Vsb2dzIGFyZSBzZWFy
-Y2hlZC4KCglTYW0KPiAKPiBSZXBvcnRlZC1ieTogSmVucyBSZW11cyA8anJlbXVzQGxpbnV4Lmli
-bS5jb20+Cj4gQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcK
-PiBDYzogbGludXgtczM5MEB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogR3JlZyBLcm9haC1IYXJ0bWFu
-IDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBDYzogTmljb2xhcyBQaXRyZSA8bmljb2xh
-cy5waXRyZUBsaW5hcm8ub3JnPgo+IENjOiBNYXJ0aW4gSG9zdGV0dGxlciA8dGV4dHNoZWxsQHVj
-aHV1amluLmRlPgo+IENjOiBBZGFtIEJvcm93c2tpIDxraWxvYnl0ZUBhbmdiYW5kLnBsPgo+IENj
-OiBNaWt1bGFzIFBhdG9ja2EgPG1wYXRvY2thQHJlZGhhdC5jb20+Cj4gU2lnbmVkLW9mZi1ieTog
-RGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBpbnRlbC5jb20+Cj4gQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5i
-b3JnLm9yZz4KPiAtLS0KPiAgZHJpdmVycy90dHkvdnQvdnQuYyB8IDYgKysrKystCj4gIDEgZmls
-ZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy90dHkvdnQvdnQuYyBiL2RyaXZlcnMvdHR5L3Z0L3Z0LmMKPiBpbmRleCBlYzky
-ZjM2YWI1YzQuLjM0YWEzOWQxYWVkOSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3R0eS92dC92dC5j
-Cj4gKysrIGIvZHJpdmVycy90dHkvdnQvdnQuYwo+IEBAIC0zNzcxLDcgKzM3NzEsMTEgQEAgc3Rh
-dGljIHNzaXplX3Qgc2hvd19iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9h
-dHRyaWJ1dGUgKmF0dHIsCj4gIAkJCSBjaGFyICpidWYpCj4gIHsKPiAgCXN0cnVjdCBjb25fZHJp
-dmVyICpjb24gPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKPiAtCWludCBiaW5kID0gY29uX2lzX2Jv
-dW5kKGNvbi0+Y29uKTsKPiArCWludCBiaW5kOwo+ICsKPiArCWNvbnNvbGVfbG9jaygpOwo+ICsJ
-YmluZCA9IGNvbl9pc19ib3VuZChjb24tPmNvbik7Cj4gKwljb25zb2xlX3VubG9jaygpOwo+ICAK
-PiAgCXJldHVybiBzbnByaW50ZihidWYsIFBBR0VfU0laRSwgIiVpXG4iLCBiaW5kKTsKPiAgfQo+
-IC0tIAo+IDIuMjAuMQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1513094595==
+Content-Type: multipart/alternative; boundary="15634470252.f922b.30623"
+Content-Transfer-Encoding: 7bit
+
+
+--15634470252.f922b.30623
+Date: Thu, 18 Jul 2019 10:50:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110258
+
+--- Comment #8 from Paul Gover <pmw.gover@yahoo.co.uk> ---
+Git bisect:
+
+106c7d6148e5aadd394e6701f7e498df49b869d1 is the first bad commit
+commit 106c7d6148e5aadd394e6701f7e498df49b869d1
+Author: Likun Gao <Likun.Gao@amd.com>
+Date:   Thu Nov 8 20:19:54 2018 +0800
+
+    drm/amdgpu: abstract the function of enter/exit safe mode for RLC
+
+    Abstract the function of amdgpu_gfx_rlc_enter/exit_safe_mode and some p=
+art
+of
+    rlc_init to improve the reusability of RLC.
+
+    Signed-off-by: Likun Gao <Likun.Gao@amd.com>
+    Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+    Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+
+:040000 040000 8f3b365496f3bbd380a62032f20642ace51c8fef
+e14ec968011019e3f601df3f15682bb9ae0bafc6 M      drivers
+
+This run on my HP 15-bw0xx
+cpu:AMD A9-9420 RADEON R5, 5 COMPUTE CORES 2C+3G
+with integrated graphics:
+Stoney [Radeon R2/R3/R4/R5 Graphics] [1002:98E4]
+
+I get the same symptoms as above;
+a more involved scenario that may shed light is to switch to a tty and stop=
+ xdm
+(and hence sddm) so I have no graphics sessions running.
+pm-suspend followed by resume works and brings me back to the tty, but when=
+ I
+then start xdm, I get a broken screen, usually garbage or grey, and syslog
+shows something like the following:
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled seq=
+=3D49,
+emitted seq=3D51
+[drm] IP block:gfx_v8_0 is hung!
+[drm] GPU recovery disabled.
+
+If I enable amdgpu.gpu_recovery=3D1
+kernel: [  279.726475] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+timeout, signaled seq=3D57, emitted seq=3D59
+kernel: [  279.726536] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
+information: process X pid 2860 thread X:cs0 pid 2861
+kernel: [  279.726542] [drm] IP block:gfx_v8_0 is hung!
+kernel: [  279.726609] amdgpu 0000:00:01.0: GPU reset begin!
+kernel: [  279.726992] amdgpu 0000:00:01.0: GRBM_SOFT_RESET=3D0x000F0001
+kernel: [  279.727047] amdgpu 0000:00:01.0: SRBM_SOFT_RESET=3D0x00000100
+kernel: [  279.863162] [drm] recover vram bo from shadow start
+kernel: [  279.863164] [drm] recover vram bo from shadow done
+kernel: [  279.863166] [drm] Skip scheduling IBs!
+kernel: [  279.863191] amdgpu 0000:00:01.0: GPU reset(2) succeeded!
+kernel: [  280.015794] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to
+initialize parser -125!
+
+I can probably run diagnostics or collect a trace if someone tells me what =
+and
+how.
+
+The problem persists - I still get it running kernel 5.2.1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15634470252.f922b.30623
+Date: Thu, 18 Jul 2019 10:50:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
+aking after suspend. 5.0-5.1rc2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
+aking after suspend. 5.0-5.1rc2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258">bug 11025=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pmw.gover&#64;yahoo.co.uk" title=3D"Paul Gover &lt;pmw.gover&#64;yahoo.co.u=
+k&gt;"> <span class=3D"fn">Paul Gover</span></a>
+</span></b>
+        <pre>Git bisect:
+
+106c7d6148e5aadd394e6701f7e498df49b869d1 is the first bad commit
+commit 106c7d6148e5aadd394e6701f7e498df49b869d1
+Author: Likun Gao &lt;<a href=3D"mailto:Likun.Gao&#64;amd.com">Likun.Gao&#6=
+4;amd.com</a>&gt;
+Date:   Thu Nov 8 20:19:54 2018 +0800
+
+    drm/amdgpu: abstract the function of enter/exit safe mode for RLC
+
+    Abstract the function of amdgpu_gfx_rlc_enter/exit_safe_mode and some p=
+art
+of
+    rlc_init to improve the reusability of RLC.
+
+    Signed-off-by: Likun Gao &lt;<a href=3D"mailto:Likun.Gao&#64;amd.com">L=
+ikun.Gao&#64;amd.com</a>&gt;
+    Acked-by: Christian K=C3=B6nig &lt;<a href=3D"mailto:christian.koenig&#=
+64;amd.com">christian.koenig&#64;amd.com</a>&gt;
+    Reviewed-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64;a=
+md.com">alexander.deucher&#64;amd.com</a>&gt;
+    Signed-off-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64=
+;amd.com">alexander.deucher&#64;amd.com</a>&gt;
+
+:040000 040000 8f3b365496f3bbd380a62032f20642ace51c8fef
+e14ec968011019e3f601df3f15682bb9ae0bafc6 M      drivers
+
+This run on my HP 15-bw0xx
+cpu:AMD A9-9420 RADEON R5, 5 COMPUTE CORES 2C+3G
+with integrated graphics:
+Stoney [Radeon R2/R3/R4/R5 Graphics] [1002:98E4]
+
+I get the same symptoms as above;
+a more involved scenario that may shed light is to switch to a tty and stop=
+ xdm
+(and hence sddm) so I have no graphics sessions running.
+pm-suspend followed by resume works and brings me back to the tty, but when=
+ I
+then start xdm, I get a broken screen, usually garbage or grey, and syslog
+shows something like the following:
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled seq=
+=3D49,
+emitted seq=3D51
+[drm] IP block:gfx_v8_0 is hung!
+[drm] GPU recovery disabled.
+
+If I enable amdgpu.gpu_recovery=3D1
+kernel: [  279.726475] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
+timeout, signaled seq=3D57, emitted seq=3D59
+kernel: [  279.726536] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process
+information: process X pid 2860 thread X:cs0 pid 2861
+kernel: [  279.726542] [drm] IP block:gfx_v8_0 is hung!
+kernel: [  279.726609] amdgpu 0000:00:01.0: GPU reset begin!
+kernel: [  279.726992] amdgpu 0000:00:01.0: GRBM_SOFT_RESET=3D0x000F0001
+kernel: [  279.727047] amdgpu 0000:00:01.0: SRBM_SOFT_RESET=3D0x00000100
+kernel: [  279.863162] [drm] recover vram bo from shadow start
+kernel: [  279.863164] [drm] recover vram bo from shadow done
+kernel: [  279.863166] [drm] Skip scheduling IBs!
+kernel: [  279.863191] amdgpu 0000:00:01.0: GPU reset(2) succeeded!
+kernel: [  280.015794] [drm:amdgpu_cs_ioctl [amdgpu]] *ERROR* Failed to
+initialize parser -125!
+
+I can probably run diagnostics or collect a trace if someone tells me what =
+and
+how.
+
+The problem persists - I still get it running kernel 5.2.1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15634470252.f922b.30623--
+
+--===============1513094595==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1513094595==--
