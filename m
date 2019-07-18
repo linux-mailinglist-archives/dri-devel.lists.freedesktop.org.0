@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46EF6D1BB
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 18:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35376D200
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 18:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 112796E444;
-	Thu, 18 Jul 2019 16:15:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 510B56E437;
+	Thu, 18 Jul 2019 16:24:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B076A6E444;
- Thu, 18 Jul 2019 16:15:44 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id p197so19603161lfa.2;
- Thu, 18 Jul 2019 09:15:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UlOLkWz9OCQuOLcSNJtSJ4+8TzZuh+LJDaeiwowcFEQ=;
- b=Ro/t9Sf7Lfjt3CDxONuTkkZKe+LBGAihomXcotZ2zk9yaVjfbvAkg9QnN0doomkC2g
- ocYtasnshLchsAoLna+rqHuEzPhb3DHR7Nvn+hjG1R9LE5jcyBgVvMDtke1cmtTkW2Rw
- 9LSGJ5VTppbXdHRoQJDF8VxfCr2eLGE6jC5ZXfcpzXN87B0J5LxNosquixfHYYpwSPSo
- FAy5+5lsRNNRq6VOVeov7NM21EE6eXRoFftAgzMNDbZ1L65UOfbekPU3JZL3NdzWVVsx
- 5TT8f7kVM8FRrTtvrQ/D12g9qnhwURjf9C2+On2vh614W5nOSbBKtMFNGG+80qi5eFij
- y0Zw==
-X-Gm-Message-State: APjAAAVYnN5m+qw1wtEt6FtYbSllyZ2suIqCPzjSahLCVe54KGt5HOgl
- gB4QR2ow8LpzJ0U8j2Ah8majFxenCu2+7Q==
-X-Google-Smtp-Source: APXvYqxYBrArSH1t7goxG0eRWhOTlhkk7mSDSycDPhnE9EVqrjdusk6P3foX4G6hPkEh6dmQ1VTAyQ==
-X-Received: by 2002:a19:c514:: with SMTP id w20mr21730371lfe.182.1563466541152; 
- Thu, 18 Jul 2019 09:15:41 -0700 (PDT)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- d21sm4057995lfc.73.2019.07.18.09.15.39
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 18 Jul 2019 09:15:40 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH v1 11/11] drm: drop uapi dependency from drm_file.h
-Date: Thu, 18 Jul 2019 18:15:07 +0200
-Message-Id: <20190718161507.2047-12-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190718161507.2047-1-sam@ravnborg.org>
-References: <20190718161507.2047-1-sam@ravnborg.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 062836E437
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 16:24:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F1DA872167; Thu, 18 Jul 2019 16:24:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
+ consume huge amount of RAM
+Date: Thu, 18 Jul 2019 16:24:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: roland@rptd.ch
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-JZ0AFRwo2E@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UlOLkWz9OCQuOLcSNJtSJ4+8TzZuh+LJDaeiwowcFEQ=;
- b=d2LniV1TStQHaiWmIBMTYC+PjTLCHouyWKGpmJ+7CMGnK+gTJA+cBCRsj6jZDNTvJ/
- 4GhmHbHYJ9hnDNp70wOSyILt3N4zZUXgBuUtjWxFlzwoSFUgshoux+3kWDF8bG9bgwD8
- Vbhvgg60g5ByAdW1bL7Nif8sBeXiWyjcbHvdWeq33btV0vU4tIyw3w4Gh2tTYormeCCF
- OBWUfeuDa2f+CeaO3dke7aqRgwpjKQWUkbcAQ5B7wubS+besUXOgPfRYOew0FIDlu6P6
- yp/dQr2mJ4MfXQexj1lDz3S+twdz7hTxdAFfA8KsPkFsQiDe7AJc02Q4zDi2Di14kEo+
- noSQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,41 +53,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Liviu Dudau <Liviu.Dudau@arm.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Thierry Reding <treding@nvidia.com>,
- Jani Nikula <jani.nikula@intel.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Boris Brezillon <bbrezillon@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <seanpaul@chromium.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0139767820=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtX2ZpbGUgdXNlZCBkcm1fbWFnaWNfdCBmcm9tIHVhcGkvZHJtL2RybS5oLgpUaGlzIGlzIGEg
-c2ltcGxlIHVuc2lnbmVkIGludC4KSnVzdCBvcGVuY29kZSBpdCBhcyBzdWNoIHRvIGJyZWFrIHRo
-ZSBkZXBlbmRlbmN5IGZyb20gdGhpcyBoZWFkZXIgZmlsZQp0byB1YXBpLgoKU2lnbmVkLW9mZi1i
-eTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpTdWdnZXN0ZWQtYnk6IERhbmllbCBW
-ZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBTZWFuIFBhdWwgPHNlYW5wYXVsQGNo
-cm9taXVtLm9yZz4KQ2M6IExpdml1IER1ZGF1IDxMaXZpdS5EdWRhdUBhcm0uY29tPgpDYzogQ2hy
-aXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+CkNjOiBNYWFydGVuIExhbmtob3Jz
-dCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogTWF4aW1lIFJpcGFyZCA8
-bWF4aW1lLnJpcGFyZEBib290bGluLmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51
-eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IEphbmkgTmlrdWxh
-IDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+CkNjOiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0
-PgotLS0KIGluY2x1ZGUvZHJtL2RybV9maWxlLmggfCA0ICstLS0KIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9k
-cm1fZmlsZS5oIGIvaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaAppbmRleCA2N2FmNjBiYjUyN2EuLjA0
-NmNkMWJmOTFlYiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2ZpbGUuaAorKysgYi9pbmNs
-dWRlL2RybS9kcm1fZmlsZS5oCkBAIC0zNCw4ICszNCw2IEBACiAjaW5jbHVkZSA8bGludXgvY29t
-cGxldGlvbi5oPgogI2luY2x1ZGUgPGxpbnV4L2lkci5oPgogCi0jaW5jbHVkZSA8dWFwaS9kcm0v
-ZHJtLmg+Ci0KICNpbmNsdWRlIDxkcm0vZHJtX3ByaW1lLmg+CiAKIHN0cnVjdCBkbWFfZmVuY2U7
-CkBAIC0yMjcsNyArMjI1LDcgQEAgc3RydWN0IGRybV9maWxlIHsKIAlzdHJ1Y3QgcGlkICpwaWQ7
-CiAKIAkvKiogQG1hZ2ljOiBBdXRoZW50aWNhdGlvbiBtYWdpYywgc2VlIEBhdXRoZW50aWNhdGVk
-LiAqLwotCWRybV9tYWdpY190IG1hZ2ljOworCXVuc2lnbmVkIGludCBtYWdpYzsKIAogCS8qKgog
-CSAqIEBsaGVhZDoKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVs
+
+--===============0139767820==
+Content-Type: multipart/alternative; boundary="15634670680.fc391.24646"
+Content-Transfer-Encoding: 7bit
+
+
+--15634670680.fc391.24646
+Date: Thu, 18 Jul 2019 16:24:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+
+--- Comment #9 from roland@rptd.ch <roland@rptd.ch> ---
+I get two config attempts. This is the second one. Do you see anything out =
+of
+place here?
+
+meson --buildtype plain --libdir lib64 --localstatedir /var/lib --prefix /u=
+sr
+--sysconfdir /etc --wrap-mode nodownload
+-Dplatforms=3Dx11,surfaceless,wayland,drm -Dllvm=3Dtrue -Dlmsensors=3Dtrue
+-Dlibunwind=3Dfalse -Dgallium-nine=3Dfalse -Dgallium-va=3Dfalse -Dgallium-v=
+dpau=3Dfalse
+-Dgallium-xa=3Dfalse -Dgallium-xvmc=3Dfalse -Dgallium-opencl=3Dicd -Dosmesa=
+=3Dnone
+-Dbuild-tests=3Dfalse -Dglx=3Ddri -Dshared-glapi=3Dtrue -Ddri3=3Dtrue -Degl=
+=3Dtrue
+-Dgbm=3Dtrue -Dgles1=3Dfalse -Dgles2=3Dtrue -Dglvnd=3Dfalse -Dselinux=3Dfal=
+se
+-Dvalgrind=3Dfalse -Ddri-drivers=3Dr100,r200
+-Dgallium-drivers=3Dr300,r600,radeonsi,swrast -Dvulkan-drivers=3Damd --buil=
+dtype
+plain -Db_ndebug=3Dtrue /var/tmp/portage/media-libs/mesa-19.0.8/work/mesa-1=
+9.0.8
+/var/tmp/portage/media-libs/mesa-19.0.8/work/mesa-19.0.8-abi_x86_64.amd64
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15634670680.fc391.24646
+Date: Thu, 18 Jul 2019 16:24:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
+> <span class=3D"fn">roland&#64;rptd.ch</span></a>
+</span></b>
+        <pre>I get two config attempts. This is the second one. Do you see =
+anything out of
+place here?
+
+meson --buildtype plain --libdir lib64 --localstatedir /var/lib --prefix /u=
+sr
+--sysconfdir /etc --wrap-mode nodownload
+-Dplatforms=3Dx11,surfaceless,wayland,drm -Dllvm=3Dtrue -Dlmsensors=3Dtrue
+-Dlibunwind=3Dfalse -Dgallium-nine=3Dfalse -Dgallium-va=3Dfalse -Dgallium-v=
+dpau=3Dfalse
+-Dgallium-xa=3Dfalse -Dgallium-xvmc=3Dfalse -Dgallium-opencl=3Dicd -Dosmesa=
+=3Dnone
+-Dbuild-tests=3Dfalse -Dglx=3Ddri -Dshared-glapi=3Dtrue -Ddri3=3Dtrue -Degl=
+=3Dtrue
+-Dgbm=3Dtrue -Dgles1=3Dfalse -Dgles2=3Dtrue -Dglvnd=3Dfalse -Dselinux=3Dfal=
+se
+-Dvalgrind=3Dfalse -Ddri-drivers=3Dr100,r200
+-Dgallium-drivers=3Dr300,r600,radeonsi,swrast -Dvulkan-drivers=3Damd --buil=
+dtype
+plain -Db_ndebug=3Dtrue /var/tmp/portage/media-libs/mesa-19.0.8/work/mesa-1=
+9.0.8
+/var/tmp/portage/media-libs/mesa-19.0.8/work/mesa-19.0.8-abi_x86_64.amd64</=
+pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15634670680.fc391.24646--
+
+--===============0139767820==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0139767820==--
