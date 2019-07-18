@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E4F6CAA5
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 10:09:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D106CBE9
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 11:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E22616E342;
-	Thu, 18 Jul 2019 08:09:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F6F6E36F;
+	Thu, 18 Jul 2019 09:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5AA36E343
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 08:09:14 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id k21so29375022edq.3
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 01:09:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+Iyfr5/1NYNdQhpDWPT06wuP/cAAoXegst7lt2IsF58=;
- b=NTTFQpU/JzIknQK0lP6KbrqKKKsHePb40zrcRlG2GB1Ff6QqZMV5ud8kJL5ApNbLY7
- Hxy6i0cEjP3+GTbXa/CfX9HCRQHoxcbZ3GvytxrV2imWQOmubZUzJYMNY9qaFcQqeaGc
- mr1h6TJ5fnPlMe6/qYC2PLPIgc2Ve4pBeg03rOiuDnBGBDThpfbe1fFeO1yUH56/RFKN
- yHXM9mnrH5k4bP7+OUUIXU1QQLE8a87oiEwmtsVitffZDwV6nzghsLS+K9lA1PeDexjy
- MfodylnpW0dZjpYQDxU3WlskzEnqsE1UcAfhcIZT2vQsTPeDRG0+oUuXludQxlZyzc0y
- 52pQ==
-X-Gm-Message-State: APjAAAUwOD04ORLEbP1mzi2GK1IDFcgtL2kRc/rKICFRRusGCQ0KWk1C
- V0WbZiWrFC9bQGQw7OWexO0=
-X-Google-Smtp-Source: APXvYqykBiX6Jo5Tfwh9csgIjcDSqs9NfSDZzAEw+X4to7YWwbULxI67P9uCx6KZm68g1spWwShXGQ==
-X-Received: by 2002:a17:906:6582:: with SMTP id
- x2mr12620386ejn.2.1563437352239; 
- Thu, 18 Jul 2019 01:09:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id l38sm7608440eda.1.2019.07.18.01.09.11
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 18 Jul 2019 01:09:11 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>
-Subject: [PATCH] vt: Grab console_lock around con_is_bound in show_bind
-Date: Thu, 18 Jul 2019 10:09:03 +0200
-Message-Id: <20190718080903.22622-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.20.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 66CF26E36F
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 09:30:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5B23572168; Thu, 18 Jul 2019 09:30:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 98369] gnome shell slows down after boot
+Date: Thu, 18 Jul 2019 09:30:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status product component assigned_to
+ resolution qa_contact
+Message-ID: <bug-98369-502-TIbOSAb1R2@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-98369-502@http.bugs.freedesktop.org/>
+References: <bug-98369-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+Iyfr5/1NYNdQhpDWPT06wuP/cAAoXegst7lt2IsF58=;
- b=Z7bNK0nfFW0N6BAI/rd5EED657okw9jUljgqrouABquv5zutt1fVG9cnzovdPvciis
- KmFVJJy3QcvbNE2hG6hzs11SjCaCGvNXExkjBAoy7FPPfdiQgzM2w8/Q6zsSmyUaMgdt
- r+fACRtZtYBPe+sS/se1+IEvfwhP/fSaBENKo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,42 +53,165 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nicolas Pitre <nicolas.pitre@linaro.org>, linux-s390@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Adam Borowski <kilobyte@angband.pl>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Martin Hostettler <textshell@uchuujin.de>,
- Mikulas Patocka <mpatocka@redhat.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Jens Remus <jremus@linux.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0097669248=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tm90IHJlYWxseSBoYXJtZnVsIG5vdCB0bywgYnV0IGFsc28gbm90IGhhcm0gaW4gZ3JhYmJpbmcg
-dGhlIGxvY2suIEFuZAp0aGlzIHNodXRzIHVwIGEgbmV3IFdBUk5JTkcgSSBpbnRyb2R1Y2VkIGlu
-IGNvbW1pdCBkZGRlM2MxOGI3MDAgKCJ2dDoKTW9yZSBsb2NraW5nIGNoZWNrcyIpLgoKUmVwb3J0
-ZWQtYnk6IEplbnMgUmVtdXMgPGpyZW11c0BsaW51eC5pYm0uY29tPgpDYzogbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZwpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzog
-bGludXgtZmJkZXZAdmdlci5rZXJuZWwub3JnCkNjOiBsaW51eC1zMzkwQHZnZXIua2VybmVsLm9y
-ZwpDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KQ2M6
-IE5pY29sYXMgUGl0cmUgPG5pY29sYXMucGl0cmVAbGluYXJvLm9yZz4KQ2M6IE1hcnRpbiBIb3N0
-ZXR0bGVyIDx0ZXh0c2hlbGxAdWNodXVqaW4uZGU+CkNjOiBBZGFtIEJvcm93c2tpIDxraWxvYnl0
-ZUBhbmdiYW5kLnBsPgpDYzogTWlrdWxhcyBQYXRvY2thIDxtcGF0b2NrYUByZWRoYXQuY29tPgpT
-aWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KQ2M6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CkNjOiBTYW0gUmF2bmJvcmcg
-PHNhbUByYXZuYm9yZy5vcmc+Ci0tLQogZHJpdmVycy90dHkvdnQvdnQuYyB8IDYgKysrKystCiAx
-IGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy90dHkvdnQvdnQuYyBiL2RyaXZlcnMvdHR5L3Z0L3Z0LmMKaW5kZXggZWM5MmYz
-NmFiNWM0Li4zNGFhMzlkMWFlZDkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdHR5L3Z0L3Z0LmMKKysr
-IGIvZHJpdmVycy90dHkvdnQvdnQuYwpAQCAtMzc3MSw3ICszNzcxLDExIEBAIHN0YXRpYyBzc2l6
-ZV90IHNob3dfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2VfYXR0cmlidXRl
-ICphdHRyLAogCQkJIGNoYXIgKmJ1ZikKIHsKIAlzdHJ1Y3QgY29uX2RyaXZlciAqY29uID0gZGV2
-X2dldF9kcnZkYXRhKGRldik7Ci0JaW50IGJpbmQgPSBjb25faXNfYm91bmQoY29uLT5jb24pOwor
-CWludCBiaW5kOworCisJY29uc29sZV9sb2NrKCk7CisJYmluZCA9IGNvbl9pc19ib3VuZChjb24t
-PmNvbik7CisJY29uc29sZV91bmxvY2soKTsKIAogCXJldHVybiBzbnByaW50ZihidWYsIFBBR0Vf
-U0laRSwgIiVpXG4iLCBiaW5kKTsKIH0KLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0097669248==
+Content-Type: multipart/alternative; boundary="15634422051.E47f9.16058"
+Content-Transfer-Encoding: 7bit
+
+
+--15634422051.E47f9.16058
+Date: Thu, 18 Jul 2019 09:30:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D98369
+
+Michel D=C3=A4nzer <michel@daenzer.net> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+            Product|xorg                        |DRI
+          Component|Driver/AMDgpu               |DRM/AMDgpu
+           Assignee|xorg-driver-ati@lists.x.org |dri-devel@lists.freedesktop
+                   |                            |.org
+         Resolution|---                         |FIXED
+         QA Contact|xorg-team@lists.x.org       |
+
+--- Comment #8 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+Assuming this was more likely a kernel issue, and is no longer an issue with
+current gnome-shell & drivers. Feel free to reopen otherwise.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15634422051.E47f9.16058
+Date: Thu, 18 Jul 2019 09:30:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
+4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
+ <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - gnome shell slows down after boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98369">bug 98369<=
+/a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>xorg
+           </td>
+           <td>DRI
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>Driver/AMDgpu
+           </td>
+           <td>DRM/AMDgpu
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Assignee</td>
+           <td>xorg-driver-ati&#64;lists.x.org
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">QA Contact</td>
+           <td>xorg-team&#64;lists.x.org
+           </td>
+           <td>
+               &nbsp;
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - gnome shell slows down after boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98369#c8">Comment=
+ # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - gnome shell slows down after boot"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D98369">bug 98369<=
+/a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>Assuming this was more likely a kernel issue, and is no longer=
+ an issue with
+current gnome-shell &amp; drivers. Feel free to reopen otherwise.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15634422051.E47f9.16058--
+
+--===============0097669248==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0097669248==--
