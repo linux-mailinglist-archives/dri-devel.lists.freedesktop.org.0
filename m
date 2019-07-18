@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E136C7E0
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 05:30:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 487F96C827
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 05:50:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70BB96E2F6;
-	Thu, 18 Jul 2019 03:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6B6B6E2F7;
+	Thu, 18 Jul 2019 03:50:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 515BD6E2F6
- for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 03:30:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 33EB66E2F7
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 03:50:43 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4DEB972167; Thu, 18 Jul 2019 03:30:25 +0000 (UTC)
+ id 0AA0272167; Thu, 18 Jul 2019 03:50:43 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110813] Vega hang on Surviving Mars game
-Date: Thu, 18 Jul 2019 03:30:25 +0000
+Subject: [Bug 109179] Surviving Mars - Graphical artifacts on game map
+Date: Thu, 18 Jul 2019 03:50:43 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -28,15 +28,15 @@ X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: stalkerg@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110813-502-qzWyQleYUN@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110813-502@http.bugs.freedesktop.org/>
-References: <bug-110813-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-109179-502-EhWZBOk3ty@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109179-502@http.bugs.freedesktop.org/>
+References: <bug-109179-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,37 +52,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1433747135=="
+Content-Type: multipart/mixed; boundary="===============1746624578=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1433747135==
-Content-Type: multipart/alternative; boundary="15634206251.470Ebd.21496"
+--===============1746624578==
+Content-Type: multipart/alternative; boundary="15634218420.C0B4B025A.23838"
 Content-Transfer-Encoding: 7bit
 
 
---15634206251.470Ebd.21496
-Date: Thu, 18 Jul 2019 03:30:25 +0000
+--15634218420.C0B4B025A.23838
+Date: Thu, 18 Jul 2019 03:50:42 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110813
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109179
 
---- Comment #3 from Yury Zhuravlev <stalkerg@gmail.com> ---
-Looks like with kernel 5.2 and latest mesa I have no hang anymore, at lest =
-very
-quick. I still want to test more but it's definitely better.
+Yury Zhuravlev <stalkerg@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
+
+--- Comment #1 from Yury Zhuravlev <stalkerg@gmail.com> ---
+because of nir is default now all problem was gone
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15634206251.470Ebd.21496
-Date: Thu, 18 Jul 2019 03:30:25 +0000
+--15634218420.C0B4B025A.23838
+Date: Thu, 18 Jul 2019 03:50:42 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,26 +98,58 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:stalkerg&=
+#64;gmail.com" title=3D"Yury Zhuravlev &lt;stalkerg&#64;gmail.com&gt;"> <sp=
+an class=3D"fn">Yury Zhuravlev</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Surviving Mars - Graphical artifacts on game m=
+ap"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109179">bug 10917=
+9</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Vega hang on Surviving Mars game"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110813#c3">Commen=
-t # 3</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Surviving Mars - Graphical artifacts on game m=
+ap"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109179#c1">Commen=
+t # 1</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Vega hang on Surviving Mars game"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110813">bug 11081=
-3</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - Surviving Mars - Graphical artifacts on game m=
+ap"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109179">bug 10917=
+9</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 stalkerg&#64;gmail.com" title=3D"Yury Zhuravlev &lt;stalkerg&#64;gmail.com&=
 gt;"> <span class=3D"fn">Yury Zhuravlev</span></a>
 </span></b>
-        <pre>Looks like with kernel 5.2 and latest mesa I have no hang anym=
-ore, at lest very
-quick. I still want to test more but it's definitely better.</pre>
+        <pre>because of nir is default now all problem was gone</pre>
         </div>
       </p>
 
@@ -126,9 +163,9 @@ quick. I still want to test more but it's definitely better.</pre>
     </body>
 </html>=
 
---15634206251.470Ebd.21496--
+--15634218420.C0B4B025A.23838--
 
---===============1433747135==
+--===============1746624578==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -138,4 +175,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1433747135==--
+--===============1746624578==--
