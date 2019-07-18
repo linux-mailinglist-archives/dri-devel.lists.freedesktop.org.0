@@ -2,36 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234336C4AF
-	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 03:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC41A6C4FC
+	for <lists+dri-devel@lfdr.de>; Thu, 18 Jul 2019 04:30:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3DE6E2D7;
-	Thu, 18 Jul 2019 01:49:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C48B6E2EC;
+	Thu, 18 Jul 2019 02:30:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0414E88BBA;
- Thu, 18 Jul 2019 01:49:15 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6DE8F8E225;
- Thu, 18 Jul 2019 01:49:14 +0000 (UTC)
-Received: from whitewolf.redhat.com (ovpn-120-112.rdu2.redhat.com
- [10.10.120.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DDFB5D71A;
- Thu, 18 Jul 2019 01:49:10 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: amd-gfx@lists.freedesktop.org
-Subject: [PATCH] drm/amdgpu/dm: Remove unneeded hotplug event in
- s3_handle_mst()
-Date: Wed, 17 Jul 2019 21:48:56 -0400
-Message-Id: <20190718014858.9257-1-lyude@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A48F86E2F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 18 Jul 2019 02:30:29 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 9D53772167; Thu, 18 Jul 2019 02:30:29 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Thu, 18 Jul 2019 02:30:29 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: hadet@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-uvgQ4uO5uO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 18 Jul 2019 01:49:14 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,43 +52,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- David Francis <David.Francis@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Anthony Koo <Anthony.Koo@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1160460111=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIERSTSBEUCBNU1QgdG9wb2xvZ3kgbWFuYWdlciB3aWxsIHNlbmQgaXQncyBvd24gaG90cGx1
-ZyBldmVudHMgd2hlbgpjb25uZWN0b3JzIGFyZSBkZXN0cm95ZWQsIHNvIHRoZXJlJ3Mgbm8gcmVh
-c29uIHRvIHNlbmQgYW4gYWRkaXRpb25hbApob3RwbHVnIGV2ZW50IGhlcmUuCgpTaWduZWQtb2Zm
-LWJ5OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgfCA5ICsrKystLS0tLQogMSBmaWxlIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jIGIvZHJpdmVycy9n
-cHUvZHJtL2FtZC9kaXNwbGF5L2FtZGdwdV9kbS9hbWRncHVfZG0uYwppbmRleCAwMjQyZDY5M2Y0
-ZjYuLjE1NmVlYWNlZTJhZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2FtZGdwdV9kbS9hbWRncHVfZG0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkv
-YW1kZ3B1X2RtL2FtZGdwdV9kbS5jCkBAIC04MTIsNyArODEyLDYgQEAgc3RhdGljIHZvaWQgczNf
-aGFuZGxlX21zdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBib29sIHN1c3BlbmQpCiAJc3RydWN0
-IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcjsKIAlzdHJ1Y3QgZHJtX2RwX21zdF90b3BvbG9neV9t
-Z3IgKm1ncjsKIAlpbnQgcmV0OwotCWJvb2wgbmVlZF9ob3RwbHVnID0gZmFsc2U7CiAKIAlkcm1f
-bW9kZXNldF9sb2NrKCZkZXYtPm1vZGVfY29uZmlnLmNvbm5lY3Rpb25fbXV0ZXgsIE5VTEwpOwog
-CkBAIC04MzEsMTUgKzgzMCwxNSBAQCBzdGF0aWMgdm9pZCBzM19oYW5kbGVfbXN0KHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsIGJvb2wgc3VzcGVuZCkKIAkJCXJldCA9IGRybV9kcF9tc3RfdG9wb2xv
-Z3lfbWdyX3Jlc3VtZShtZ3IpOwogCQkJaWYgKHJldCA8IDApIHsKIAkJCQlkcm1fZHBfbXN0X3Rv
-cG9sb2d5X21ncl9zZXRfbXN0KG1nciwgZmFsc2UpOwotCQkJCW5lZWRfaG90cGx1ZyA9IHRydWU7
-CisJCQkJbXV0ZXhfbG9jaygmYWNvbm5lY3Rvci0+aHBkX2xvY2spOworCQkJCWFjb25uZWN0b3It
-PmRjX2xpbmstPnR5cGUgPQorCQkJCQlkY19jb25uZWN0aW9uX3NpbmdsZTsKKwkJCQltdXRleF91
-bmxvY2soJmFjb25uZWN0b3ItPmhwZF9sb2NrKTsKIAkJCX0KIAkJfQogCX0KIAogCWRybV9tb2Rl
-c2V0X3VubG9jaygmZGV2LT5tb2RlX2NvbmZpZy5jb25uZWN0aW9uX211dGV4KTsKLQotCWlmIChu
-ZWVkX2hvdHBsdWcpCi0JCWRybV9rbXNfaGVscGVyX2hvdHBsdWdfZXZlbnQoZGV2KTsKIH0KIAog
-LyoqCi0tIAoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1160460111==
+Content-Type: multipart/alternative; boundary="15634170292.e6e3C088b.13593"
+Content-Transfer-Encoding: 7bit
+
+
+--15634170292.e6e3C088b.13593
+Date: Thu, 18 Jul 2019 02:30:29 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #55 from Hadet <hadet@protonmail.com> ---
+So I think this might have something to do with something Xorg is doing bec=
+ause
+I've not had it happen while gaming for many hours since just seeing if it
+happened on wayland on a whim. I now have 21 hours of uptime with no random
+crashes.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15634170292.e6e3C088b.13593
+Date: Thu, 18 Jul 2019 02:30:29 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c55">Comme=
+nt # 55</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+hadet&#64;protonmail.com" title=3D"Hadet &lt;hadet&#64;protonmail.com&gt;">=
+ <span class=3D"fn">Hadet</span></a>
+</span></b>
+        <pre>So I think this might have something to do with something Xorg=
+ is doing because
+I've not had it happen while gaming for many hours since just seeing if it
+happened on wayland on a whim. I now have 21 hours of uptime with no random
+crashes.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15634170292.e6e3C088b.13593--
+
+--===============1160460111==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1160460111==--
