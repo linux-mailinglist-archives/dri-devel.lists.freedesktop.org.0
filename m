@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CC46E297
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2019 10:34:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A85C86E2AE
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2019 10:41:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF886E5C4;
-	Fri, 19 Jul 2019 08:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B449C6E5CE;
+	Fri, 19 Jul 2019 08:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
- [209.85.222.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5196E5C4
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 08:34:17 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id g18so22671161qkl.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 01:34:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t40DO/X7sJQ9uYQ+vcbmJFxeNmL+Zvgj4hLPmtUltGU=;
- b=sRHEY0bz4jEDN428vFq/1dFQwwSZ3E8AulHj1nSGRRrY8v9aFb/Y79sLc/Vks5kEQJ
- mSQn9gnooYf3Nz3pC5Sp3zTlXbDivmy7juqG/gpmDQjX5M5QuIyt+v0LDA3atnSUaGc6
- f02DbUtJBA5YvoywSgSgnf+1Tcm/W5LgTOj3HKbY14m1Jtj12GYBu+sbiByJkBsXWRME
- eYKXxNGmQlax7+TlkEua5B0XC6KEuQaUz+nzEZlmOIm54K7Qf1zWNavscYGkqREyK4y3
- 1pAVLCwFz5de5xjJFeH79GGxDWHusT7dNCsw5vTtNPmxiZT9kxsU7Xhl+AfHZohhT4aG
- Ic5Q==
-X-Gm-Message-State: APjAAAWXrDVy0aBVOPC1ge091XRJZXG+brzvuuiL7wfSwGSkreQxjRNw
- p8OiLd7pnL6FkfjC+uG2DsOmAAglQu/ZOJ4RFXg=
-X-Google-Smtp-Source: APXvYqzLBYBJfvV/xjeS7wyaBBemab3RFfVOUtSyHzF7pehxyxR0cNpK6EPy9RAOht/iLf/RIFx1Owo2gClrrMbcQ4A=
-X-Received: by 2002:a37:4ac3:: with SMTP id
- x186mr32994894qka.138.1563525256510; 
- Fri, 19 Jul 2019 01:34:16 -0700 (PDT)
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34C3C6E5CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 08:41:21 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 45qkxS29Drz9s3l;
+ Fri, 19 Jul 2019 18:41:15 +1000 (AEST)
+Date: Fri, 19 Jul 2019 18:41:12 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: Fixes tag needs some work in the drm tree
+Message-ID: <20190719184112.6bae9eb0@canb.auug.org.au>
 MIME-Version: 1.0
-References: <CGME20190718134253epcas3p32a5afece52c47aaac0cd5795ff4cf022@epcas3p3.samsung.com>
- <20190718134240.2265724-1-arnd@arndb.de>
- <763005f0-fc66-51bc-fcfe-3ae4942a9c07@samsung.com>
-In-Reply-To: <763005f0-fc66-51bc-fcfe-3ae4942a9c07@samsung.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 19 Jul 2019 10:33:59 +0200
-Message-ID: <CAK8P3a2rJ1WqWZ8VtOZZ5YwFrg5bpVve_kS4utL0MjeBUzrLew@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: fix RC_CORE dependency
-To: Andrzej Hajda <a.hajda@samsung.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1563525678;
+ bh=AfUDJOPkyWvFlrjo9LOtQTi3KuQ2jyPwaXYtid1vbUA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=SoJAOSLvodpm3XsS0DYUx4yRIOBTR/CfEYkJCpmFjpVrHwpoPpzz0d5Jlw9J5+kg5
+ ZfrULMMvxaOXD1qs1g/Si+NVk+TRuWa/RpnnZ5XT9oXp2mcBNXhLvUcORDooJKwYHb
+ EA7hGHWEWGLL++vy+pFJnDiknZHU9JAvQTvVFZoj4yMsWaWioZPUgvpqgxIuzaGSf+
+ pE3nt0V2YpzvmlNOmNyKV8cU69LlZ6w+2/GQmnTO5zmyQF4ZFXNeGJVKD9f/JFFzli
+ hi/ZxUy/5M15dobvhqZFKBa7LoT7fV9picb3x50dm5nXwypFbv2nXaOHOvYX2SIGsi
+ EQIV7A1I8k8sA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,39 +46,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Ronald_Tschal=C3=A4r?= <ronald@innovation.ch>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1774115659=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMTksIDIwMTkgYXQgOTowMSBBTSBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNh
-bXN1bmcuY29tPiB3cm90ZToKPgo+IE9uIDE4LjA3LjIwMTkgMTU6NDIsIEFybmQgQmVyZ21hbm4g
-d3JvdGU6Cj4gPiBVc2luZyAnaW1wbHknIGNhdXNlcyBhIG5ldyBwcm9ibGVtLCBhcyBpdCBhbGxv
-d3MgdGhlIGNhc2Ugb2YKPiA+IENPTkZJR19JTlBVVD1tIHdpdGggUkNfQ09SRT15LCB3aGljaCBm
-YWlscyB0byBsaW5rOgo+Cj4KPiBJIGhhdmUgcmV2aWV3ZWQgZGVwZW5kZW5jaWVzIGFuZCBJIHdv
-bmRlciBob3cgc3VjaCBjb25maWd1cmF0aW9uIGlzCj4gcG9zc2libGUgYXQgYWxsLgo+Cj4gUkNf
-Q09SRSBkZXBlbmRzIG9uIElOUFVUIChhdCBsZWFzdCBvbiB0b2RheSdzIG5leHQgYnJhbmNoKSBz
-byBpZiBJTlBVVD1tCj4gdGhlbiBSQ19DT1JFIHNob3VsZCBiZSBlaXRoZXIgbiBlaXRoZXIgbSwg
-YW0gSSByaWdodD8KClJpZ2h0LgoKPiBBcm5kLCBhcmUgdGhlcmUgdW5rbm93biB0byBtZSBjaGFu
-Z2VzIGluIFJDL0lOUFVUIGRlcGVuZGVuY2llcz8KCkkgdGhpbmsgdGhpcyBpcyAnaW1wbHknIGJl
-aGF2aW5nIG9kZGx5IHdoZW4gd2UgaGF2ZSBjb25mbGljdGluZyByZXF1aXJlbWVudHM6CgotIElO
-UFVUPW0gZm9yY2VzIFJDX0NPUkUgdG8gYmUgPW0gb3IgPW4KLSBEUk1fU0lMX1NJSTg2MjA9eSBh
-c2tzIFJDX0NPUkUgdG8gYmUgPXkgdW5sZXNzIGl0IGNhbm5vdCBiZSBlbmFibGVkCgpLY29uZmln
-IGRlY2lkZWQgdG8gbWFrZSB0aGlzIFJDX0NPUkU9eSwgd2hpY2ggY2F1c2VkIHRoZSBsaW5rCmZh
-aWx1cmUuIE1ha2luZyBpdCBSQ19DT1JFPW0gaG93ZXZlciB3b3VsZCBub3Qgd29yayBlaXRoZXIg
-YmVjYXVzZQp0aGVuIHdlJ2QgZ2V0IGEgbGluayBmYWlsdXJlIGZyb20gdGhlIHNpaTg2MjAgZHJp
-dmVyIHRvIHJjX2NvcmUuCgpzbyBhIHB1cmUgJ2ltcGx5JyBjYW5ub3Qgd29yayBoZXJlLCBhbmQg
-d2UgbmVlZCBhIGRlcGVuZGVuY3ksIG9uZSBvZjoKCmEpCiAgIGRlcGVuZHMgb24gSU5QVVQgfHwg
-IUlOUFVUCiAgIHNlbGVjdCBSQ19DT1JFIGlmIElOUFVUCgpiKSBkZXBlbmRzIG9uIFJDX0NPUkUg
-fHwgIVJDX0NPUkUKCmIpIGlzIHdoYXQgb3RoZSBkcml2ZXJzIHVzZSwgZS5nLiBTTVNfU0RJT19E
-UlYKCiAgICAgICBBcm5kCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+--===============1774115659==
+Content-Type: multipart/signed; boundary="Sig_/G9MxQIo.QHoane_qfAxQ+/p";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/G9MxQIo.QHoane_qfAxQ+/p
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi all,
+
+In commit
+
+  b7019ac550eb ("drm/nouveau: fix bogus GPL-2 license header")
+
+Fixes tag
+
+  Fixes: b24413180f5 (License cleanup: add SPDX GPL-2.0 license identifier =
+to files with no license)
+
+has these problem(s):
+
+  - SHA1 should be at least 12 digits long
+    Can be fixed by setting core.abbrev to 12 (or more) or (for git v2.11
+    or later) just making sure it is not set (or set to "auto").
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/G9MxQIo.QHoane_qfAxQ+/p
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0xgigACgkQAVBC80lX
+0GzKoAgAh+uW21gJ4l2i2YQ2jCrg6wg09OmYZVZ94eOrBiO4mTaArQaQlWxijWKQ
+9UIGzkGuWuoAy9PbfmYC/TJ4xkQO8gvzaS5paJjnXnsWzUrtJDRsyby7pHSq0536
+PzQXXcgCo4ZNQXyJZBlxgNm2YhtO/4u8SVQ9042JvBAaD7zXItdpqwZF+oC2+0nY
+7IPzOOs3QkpEPZ8XEgQJx2eg4DlbVDU+BhSezlttp25yAZsEIUo5Rtpe+ZyIzxAd
+8xh/3IGgZaoLsCjWT+AaazKmEK9FwWbBjV1IGIg1xUosj8WqrCnOeen8qeO48T35
+HAJu5h6cV9xHli2JsKcj78X1z9qEuQ==
+=TSzi
+-----END PGP SIGNATURE-----
+
+--Sig_/G9MxQIo.QHoane_qfAxQ+/p--
+
+--===============1774115659==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1774115659==--
