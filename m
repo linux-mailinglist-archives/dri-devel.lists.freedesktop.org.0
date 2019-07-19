@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AB6B6DC25
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2019 06:14:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD66E05E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2019 06:57:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98EF06E56D;
-	Fri, 19 Jul 2019 04:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AC0F6E570;
+	Fri, 19 Jul 2019 04:57:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EF96E56D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 04:14:40 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id BFC6E2189E;
- Fri, 19 Jul 2019 04:14:39 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 10/35] drm/virtio: Add memory barriers for capset
- cache.
-Date: Fri, 19 Jul 2019 00:13:58 -0400
-Message-Id: <20190719041423.19322-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719041423.19322-1-sashal@kernel.org>
-References: <20190719041423.19322-1-sashal@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 572246E570
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 04:57:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4D74772168; Fri, 19 Jul 2019 04:57:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 106856] amdgpu kernel warning playing vdpau videos
+Date: Fri, 19 Jul 2019 04:57:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: anode.dev@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-106856-502-MrOwqAHxfI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-106856-502@http.bugs.freedesktop.org/>
+References: <bug-106856-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1563509680;
- bh=5Nril+9LsbgUoVrHLsCvF9VUvW6BFiF0+UitNynqDi4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DD9BJC9ZV/vNa+j0ww+cdUvh0ZbAE5RpKnjQ3gECJyG5T2EqPr4lndgZ3ODM60nZy
- QTqGeKCUuQGfgSTBryuraT/iyUI4DD+KXuHzPw3Y2d4yZ1iUkdFgREUKt6Q21SzmHu
- iH+f98LMAXfwAQNVTQ6zScw+SKhvtMhcnX8dl2TY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,45 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0102267098=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2aWQgUmlsZXkgPGRhdmlkcmlsZXlAY2hyb21pdW0ub3JnPgoKWyBVcHN0cmVhbSBj
-b21taXQgOWZmM2E1Yzg4ZTFmMWFiMTdhMzE0MDJiOTZkNDVhYmUxNGFhYjlkNyBdCgpBZnRlciBk
-YXRhIGlzIGNvcGllZCB0byB0aGUgY2FjaGUgZW50cnksIGF0b21pY19zZXQgaXMgdXNlZCBpbmRp
-Y2F0ZQp0aGF0IHRoZSBkYXRhIGlzIHRoZSBlbnRyeSBpcyB2YWxpZCB3aXRob3V0IGFwcHJvcHJp
-YXRlIG1lbW9yeSBiYXJyaWVycy4KU2ltaWxhcmx5IHRoZSByZWFkIHNpZGUgd2FzIG1pc3Npbmcg
-dGhlIGNvcnJlc3BvbmRpbmcgbWVtb3J5IGJhcnJpZXJzLgoKU2lnbmVkLW9mZi1ieTogRGF2aWQg
-UmlsZXkgPGRhdmlkcmlsZXlAY2hyb21pdW0ub3JnPgpMaW5rOiBodHRwOi8vcGF0Y2h3b3JrLmZy
-ZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDYxMDIxMTgxMC4yNTMyMjctNS1kYXZpZHJp
-bGV5QGNocm9taXVtLm9yZwpTaWduZWQtb2ZmLWJ5OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVk
-aGF0LmNvbT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jIHwgMyArKysKIGRyaXZl
-cnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jICAgIHwgMiArKwogMiBmaWxlcyBjaGFuZ2Vk
-LCA1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3Zp
-cnRncHVfaW9jdGwuYyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9pb2N0bC5jCmlu
-ZGV4IDYyOTZlOWYyNzBjYS4uMGI4ZjhjMTBmMmVkIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vdmlydGlvL3ZpcnRncHVfaW9jdGwuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmlydGlvL3Zp
-cnRncHVfaW9jdGwuYwpAQCAtNTM1LDYgKzUzNSw5IEBAIHN0YXRpYyBpbnQgdmlydGlvX2dwdV9n
-ZXRfY2Fwc19pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCXJldCA9IHdhaXRfZXZlbnRf
-dGltZW91dCh2Z2Rldi0+cmVzcF93cSwKIAkJCQkgYXRvbWljX3JlYWQoJmNhY2hlX2VudC0+aXNf
-dmFsaWQpLCA1ICogSFopOwogCisJLyogaXNfdmFsaWQgY2hlY2sgbXVzdCBwcm9jZWVkIGJlZm9y
-ZSBjb3B5IG9mIHRoZSBjYWNoZSBlbnRyeS4gKi8KKwlzbXBfcm1iKCk7CisKIAlwdHIgPSBjYWNo
-ZV9lbnQtPmNhcHNfY2FjaGU7CiAKIGNvcHlfZXhpdDoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS92aXJ0aW8vdmlydGdwdV92cS5jIGIvZHJpdmVycy9ncHUvZHJtL3ZpcnRpby92aXJ0Z3B1
-X3ZxLmMKaW5kZXggNTI0MzZiM2MwMWJiLi5hMWIzZWExY2NiNjUgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92aXJ0
-aW8vdmlydGdwdV92cS5jCkBAIC02MTgsNiArNjE4LDggQEAgc3RhdGljIHZvaWQgdmlydGlvX2dw
-dV9jbWRfY2Fwc2V0X2NiKHN0cnVjdCB2aXJ0aW9fZ3B1X2RldmljZSAqdmdkZXYsCiAJCSAgICBj
-YWNoZV9lbnQtPmlkID09IGxlMzJfdG9fY3B1KGNtZC0+Y2Fwc2V0X2lkKSkgewogCQkJbWVtY3B5
-KGNhY2hlX2VudC0+Y2Fwc19jYWNoZSwgcmVzcC0+Y2Fwc2V0X2RhdGEsCiAJCQkgICAgICAgY2Fj
-aGVfZW50LT5zaXplKTsKKwkJCS8qIENvcHkgbXVzdCBvY2N1ciBiZWZvcmUgaXNfdmFsaWQgaXMg
-c2lnbmFsbGVkLiAqLworCQkJc21wX3dtYigpOwogCQkJYXRvbWljX3NldCgmY2FjaGVfZW50LT5p
-c192YWxpZCwgMSk7CiAJCQlicmVhazsKIAkJfQotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0102267098==
+Content-Type: multipart/alternative; boundary="15635122411.9398.14853"
+Content-Transfer-Encoding: 7bit
+
+
+--15635122411.9398.14853
+Date: Fri, 19 Jul 2019 04:57:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D106856
+
+--- Comment #3 from devbazilio <anode.dev@gmail.com> ---
+I have same issue after upgrade from 4.14.111 to 4.14.132. Use of following
+branch is impossible as it has DisplayCore enabled by default and video
+decoding works with crucial issue on my AMD GPU chip and only 4.14 kernels
+don't have DC enabled
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15635122411.9398.14853
+Date: Fri, 19 Jul 2019 04:57:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - amdgpu kernel warning playing vdpau videos"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106856#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - amdgpu kernel warning playing vdpau videos"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106856">bug 10685=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+anode.dev&#64;gmail.com" title=3D"devbazilio &lt;anode.dev&#64;gmail.com&gt=
+;"> <span class=3D"fn">devbazilio</span></a>
+</span></b>
+        <pre>I have same issue after upgrade from 4.14.111 to 4.14.132. Use=
+ of following
+branch is impossible as it has DisplayCore enabled by default and video
+decoding works with crucial issue on my AMD GPU chip and only 4.14 kernels
+don't have DC enabled</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15635122411.9398.14853--
+
+--===============0102267098==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0102267098==--
