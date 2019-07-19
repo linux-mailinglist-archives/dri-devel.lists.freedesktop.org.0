@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF056EF67
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 14:52:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C706EF5F
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 14:51:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8433C6E89A;
-	Sat, 20 Jul 2019 12:51:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 664016E897;
+	Sat, 20 Jul 2019 12:51:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68AB76E7FA
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 10:19:06 +0000 (UTC)
-Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 3C63F1A0046;
- Fri, 19 Jul 2019 12:19:05 +0200 (CEST)
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77E4D6E7FA
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 10:19:07 +0000 (UTC)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 311702000C9;
+ Fri, 19 Jul 2019 12:19:06 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com
  [165.114.16.14])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id D6A881A0243;
- Fri, 19 Jul 2019 12:19:00 +0200 (CEST)
+ by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id CB23C20000A;
+ Fri, 19 Jul 2019 12:19:01 +0200 (CEST)
 Received: from titan.ap.freescale.net (TITAN.ap.freescale.net [10.192.208.233])
- by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 396D1402D5;
- Fri, 19 Jul 2019 18:18:55 +0800 (SGT)
+ by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 2266F402E3;
+ Fri, 19 Jul 2019 18:18:56 +0800 (SGT)
 From: Wen He <wen.he_1@nxp.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, mark.rutland@arm.com, shawnguo@kernel.org,
  robh+dt@kernel.org
-Subject: [v2 2/4] arm64: dts: ls1028a: Add properties for HDP Controller.
-Date: Fri, 19 Jul 2019 18:09:40 +0800
-Message-Id: <20190719100942.12016-2-wen.he_1@nxp.com>
+Subject: [v2 3/4] arm64: ls1028ardb: Add support DP nodes for LS1028ARDB
+Date: Fri, 19 Jul 2019 18:09:41 +0800
+Message-Id: <20190719100942.12016-3-wen.he_1@nxp.com>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20190719100942.12016-1-wen.he_1@nxp.com>
 References: <20190719100942.12016-1-wen.he_1@nxp.com>
@@ -53,31 +53,21 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBlbmFibGVzIHRoZSBIRFAgY29udHJvbGxlciBkcml2ZXIgb24gdGhlIExTMTAy
-OEEuCgpTaWduZWQtb2ZmLWJ5OiBBbGlzb24gV2FuZyA8YXNsaW9uLndhbmdAbnhwLmNvbT4KU2ln
-bmVkLW9mZi1ieTogV2VuIEhlIDx3ZW4uaGVfMUBueHAuY29tPgotLS0KIC4uLi9hcm02NC9ib290
-L2R0cy9mcmVlc2NhbGUvZnNsLWxzMTAyOGEuZHRzaSB8IDI1ICsrKysrKysrKysrKysrKysrKysK
-IDEgZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvYXJjaC9hcm02
-NC9ib290L2R0cy9mcmVlc2NhbGUvZnNsLWxzMTAyOGEuZHRzaSBiL2FyY2gvYXJtNjQvYm9vdC9k
-dHMvZnJlZXNjYWxlL2ZzbC1sczEwMjhhLmR0c2kKaW5kZXggYWVmNWIwNmE5OGQ1Li4xOTYxMmFk
-OWE0YTEgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2ZzbC1sczEw
-MjhhLmR0c2kKKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUvZnNsLWxzMTAyOGEu
-ZHRzaQpAQCAtOTEsNiArOTEsMTMgQEAKIAkJY2xvY2stb3V0cHV0LW5hbWVzPSAicGNsayI7CiAJ
-fTsKIAorCWhkcGNsazogY2xvY2staGRwY29yZSB7CisJCWNvbXBhdGlibGUgPSAiZml4ZWQtY2xv
-Y2siOworCQkjY2xvY2stY2VsbHMgPSA8MD47CisJCWNsb2NrLWZyZXF1ZW5jeSA9IDwxNjI1MDAw
-MDA+OworCQljbG9jay1vdXRwdXQtbmFtZXM9ICJoZHBjbGsiOworCX07CisKIAlyZWJvb3Qgewog
-CQljb21wYXRpYmxlID0ic3lzY29uLXJlYm9vdCI7CiAJCXJlZ21hcCA9IDwmZGNmZz47CkBAIC01
-NTgsNyArNTY1LDI1IEBACiAKIAkJcG9ydCB7CiAJCQlkcDBfb3V0OiBlbmRwb2ludCB7CisJCQkJ
-cmVtb3RlLWVuZHBvaW50ID0gPCZkcDFfb3V0PjsKKwkJCX07CisJCX07CisJfTsKIAorCWhkcHR4
-MDogZGlzcGxheUBmMjAwMDAwIHsKKwkJY29tcGF0aWJsZSA9ICJmc2wsbHMxMDI4YS1kcCI7CisJ
-CXJlZyA9IDwweDAgMHhmMWYwMDAwIDB4MCAweGZmZmY+LAorCQkgICAgPDB4MCAweGYyMDAwMDAg
-MHgwIDB4ZmZmZmY+OworCQlpbnRlcnJ1cHRzID0gPDAgMjIxIElSUV9UWVBFX0xFVkVMX0hJR0g+
-OworCQljbG9ja3MgPSA8JnN5c2Nsaz4sIDwmaGRwY2xrPiwgPCZkcGNsaz4sCisJCQkgPCZkcGNs
-az4sIDwmZHBjbGs+LCA8JnBjbGs+LCA8JmRwY2xrPjsKKwkJY2xvY2stbmFtZXMgPSAiY2xrX2lw
-ZyIsICJjbGtfY29yZSIsICJjbGtfcHhsIiwKKwkJCSAgICAgICJjbGtfcHhsX211eCIsICJjbGtf
-cHhsX2xpbmsiLCAiY2xrX2FwYiIsCisJCQkgICAgICAiY2xrX3ZpZiI7CisKKwkJcG9ydCB7CisJ
-CQlkcDFfb3V0OiBlbmRwb2ludCB7CisJCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZkcDBfb3V0PjsK
-IAkJCX07CiAJCX07CiAJfTsKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+VGhpcyBwYXRjaCBhZGQgSERQIFBIWSBDb250cm9sbGVyIHJlbGF0ZWQgbm9kZXMgb24gdGhlIExT
+MTAyOEFSREIuCgpTaWduZWQtb2ZmLWJ5OiBBbGlzb24gV2FuZyA8YWxpc29uLndhbmdAbnhwLmNv
+bT4KU2lnbmVkLW9mZi1ieTogV2VuIEhlIDx3ZW4uaGVfMUBueHAuY29tPgotLS0KIGFyY2gvYXJt
+NjQvYm9vdC9kdHMvZnJlZXNjYWxlL2ZzbC1sczEwMjhhLXJkYi5kdHMgfCAxMiArKysrKysrKysr
+KysKIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvYXJjaC9h
+cm02NC9ib290L2R0cy9mcmVlc2NhbGUvZnNsLWxzMTAyOGEtcmRiLmR0cyBiL2FyY2gvYXJtNjQv
+Ym9vdC9kdHMvZnJlZXNjYWxlL2ZzbC1sczEwMjhhLXJkYi5kdHMKaW5kZXggOWZiOTExMzE3ZWNk
+Li5hOTA3ZWIyYzAwMGIgMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxl
+L2ZzbC1sczEwMjhhLXJkYi5kdHMKKysrIGIvYXJjaC9hcm02NC9ib290L2R0cy9mcmVlc2NhbGUv
+ZnNsLWxzMTAyOGEtcmRiLmR0cwpAQCAtMTcxLDMgKzE3MSwxNSBAQAogJnNhdGEgewogCXN0YXR1
+cyA9ICJva2F5IjsKIH07CisKKyZoZHB0eDAgeworCWZzbCxub19lZGlkOworCXJlc29sdXRpb24g
+PSAiMzg0MHgyMTYwQDYwIiwKKwkJICAgIjE5MjB4MTA4MEA2MCIsCisJCSAgICIxMjgweDcyMEA2
+MCIsCisJCSAgICI3MjB4NDgwQDYwIjsKKwlsYW5lX21hcHBpbmcgPSA8MHg0ZT47CisJZWRwX2xp
+bmtfcmF0ZSA9IDwweDY+OworCWVkcF9udW1fbGFuZXMgPSA8MHg0PjsKKwlzdGF0dXMgPSAib2th
+eSI7Cit9OwotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
