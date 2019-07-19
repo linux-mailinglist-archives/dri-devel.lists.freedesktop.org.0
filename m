@@ -1,64 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEBF6EB2D
-	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2019 21:40:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 435356EB3E
+	for <lists+dri-devel@lfdr.de>; Fri, 19 Jul 2019 21:45:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96AFD6E868;
-	Fri, 19 Jul 2019 19:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC7176E85B;
+	Fri, 19 Jul 2019 19:45:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81B7C6E868
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 19:40:32 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id c19so22508772lfm.10
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 12:40:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=WANkkcuR4ZoTS+A1wCt4CCKlkbrfCtHWWLwhmW2vQrw=;
- b=V1S3AXCO5BPFBZhlziNEy7Tqi+djhYLr1MxenM7LVZF3nL1wU3xtT+eziYeO+YimhZ
- MJe7tqmpOlF7wp/s4oF4ioklAdOSI75bLmavxLAJHj3Ijwys5bWWnxrNg60TDE8l1ryl
- EoXx0LzznfOajpm3QqsK9qr4zsIxeWYRIahBtG8FHnGg6motT2k0zjTjHT4zNnvTmBwp
- vdwFMTBK5sdBGTTadwHv7M9xoxmoHRc8XMx1T2t/OMnV6hvvFdIF4SOodmySvnCpN0Rk
- BCbJjv+W870/hPlxqbVBP2hjJCTioE/alo7QkA0olDPZ22RkyLeTT98oq8FGnofD5aQV
- MxvQ==
-X-Gm-Message-State: APjAAAVIT+Zq5YpEsJ7gIO+j21FZE5SPLsVgntQhrvfhIA66v+J5/Kwh
- BXr0AiWIb1SHl+IPDvcUawKHyJYyUG0=
-X-Google-Smtp-Source: APXvYqyfYyvFICDO0uJ/wzSTuMwHJKnu8axrXOWC8eyHCtf3s+HApiykpml2Neqlt+PEnLPUJQUPfA==
-X-Received: by 2002:a19:6e4d:: with SMTP id q13mr25171647lfk.6.1563565230613; 
- Fri, 19 Jul 2019 12:40:30 -0700 (PDT)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com.
- [209.85.208.175])
- by smtp.gmail.com with ESMTPSA id z85sm5862229ljb.101.2019.07.19.12.40.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Jul 2019 12:40:29 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id v18so31786560ljh.6
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 12:40:29 -0700 (PDT)
-X-Received: by 2002:a2e:b003:: with SMTP id y3mr28838104ljk.72.1563565228772; 
- Fri, 19 Jul 2019 12:40:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190719154207.GA9708@phenom.ffwll.local>
-In-Reply-To: <20190719154207.GA9708@phenom.ffwll.local>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 19 Jul 2019 12:40:13 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjEE4KGcyL0AJ6YxYvjPHUm9bn_7pZBCmqb-i3+j8p49Q@mail.gmail.com>
-Message-ID: <CAHk-=wjEE4KGcyL0AJ6YxYvjPHUm9bn_7pZBCmqb-i3+j8p49Q@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D55096E85B
+ for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 19:45:24 +0000 (UTC)
 Subject: Re: [PULL] drm-next fixes for -rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=WANkkcuR4ZoTS+A1wCt4CCKlkbrfCtHWWLwhmW2vQrw=;
- b=gtJxWlEI7uO9qW78f87XOfMG4qMIrai67FUQzFrdXCIUmzxIaZCyJrTacXlGm51h6k
- fNny7Uy6wJpZ7fs9KnSU3ahxt+WmphTauguJ7gpnrZaBtX0bj8AKRW+BhYCqTSJTKDV0
- +LFO3yAzLgGDz9j/bQbLAbIv2OicuyZUpCBvY=
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <20190719154207.GA9708@phenom.ffwll.local>
+References: <20190719154207.GA9708@phenom.ffwll.local>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190719154207.GA9708@phenom.ffwll.local>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-next-2019-07-19
+X-PR-Tracked-Commit-Id: 8ee795625665208589a97972b01790bb04ea83e3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 31cc088a4f5d83481c6f5041bd6eb06115b974af
+Message-Id: <156356552472.25668.6959970865866797426.pr-tracker-bot@kernel.org>
+Date: Fri, 19 Jul 2019 19:45:24 +0000
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1563565524;
+ bh=i+PCBNu57gHOpirHmEo1+Qwpm5zVD18MBNcnfEZKYPg=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=Megbv5LGEDYK7/pSL5O+w8eZZxQInmOV5nNlUAdLTLFrMEaH7c9ad5aCor2Jtu4Av
+ aj2PTfv9ED1/kYCxpJ9627PelcwetpXglNRttuRtpCo5AryAs9tr5nOCZz5qXLrzBd
+ rysi0O5x70dC3LW7DvKRS5l4tDB7B/U6KazUH6eo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,22 +46,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMTksIDIwMTkgYXQgODo0MyBBTSBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0
-dGVyQGZmd2xsLmNoPiB3cm90ZToKPgo+IGRybSBmaXhlcyBmb3IgLXJjMToKPgo+IG5vdXZlYXU6
-Cj4gLSBidWdmaXhlcyArIFRVMTE2IGVuYWJsaW5nIChtaW5vciBpdGVyYXRpb24pOncKCkFza2lu
-ZyB0aGUgaW1wb3J0YW50IHF1ZXN0aW9uOgoKIC0gV1RIIGlzIHRoYXQgIjp3IiB0aGluZz8KCkkg
-aGF2ZSBhIHRoZW9yeSB0aGF0IGl0J3MganVzdCBhICJJJ20gY29uZnVzZWQgYnkgJ3ZpJyIgbWFy
-a2VyLiAgVmVyeQp1bmRlcnN0YW5kYWJsZS4KCkJ1dCBJJ20gYWxzbyBlbnRlcnRhaW5pbmcgdGhl
-IHBvc3NpYmlsaXR5IHRoYXQgaXQncyBhIG5ldyAid2hpc3RsaW5nCmd1eSIgZW1vdGljb24uIE9y
-IG1heWJlIGEgImh1bmdyeSBiYWJ5IGJpcmQgZmFjZSIgZW1vdGljb24uCgpBZG1pdHRlZGx5IG5v
-dCBhIF9ncmVhdF8gbmV3IGFkZGl0aW9uIHRvIHRoZSBlbW90aWNvbnMgSSd2ZSBzZWVuLCBidXQK
-aGV5LCBJJ20gbm90IGp1ZGdpbmcuIE11Y2guCgpJIGxlZnQgaXQgaW4gdGhlIG1lcmdlIG1lc3Nh
-Z2UgZm9yIHBvc3Rlcml0eSwgcmVnYXJkbGVzcy4KCiAgICAgICAgICAgIExpbnVzCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+VGhlIHB1bGwgcmVxdWVzdCB5b3Ugc2VudCBvbiBGcmksIDE5IEp1bCAyMDE5IDE3OjQyOjU2ICsw
+MjAwOgoKPiBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtIHRhZ3MvZHJtLW5l
+eHQtMjAxOS0wNy0xOQoKaGFzIGJlZW4gbWVyZ2VkIGludG8gdG9ydmFsZHMvbGludXguZ2l0Ogpo
+dHRwczovL2dpdC5rZXJuZWwub3JnL3RvcnZhbGRzL2MvMzFjYzA4OGE0ZjVkODM0ODFjNmY1MDQx
+YmQ2ZWIwNjExNWI5NzRhZgoKVGhhbmsgeW91IQoKLS0gCkRlZXQtZG9vdC1kb3QsIEkgYW0gYSBi
+b3QuCmh0dHBzOi8va29yZy53aWtpLmtlcm5lbC5vcmcvdXNlcmRvYy9wcnRyYWNrZXIKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
