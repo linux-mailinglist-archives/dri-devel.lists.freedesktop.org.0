@@ -1,28 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B75A6EE18
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 08:58:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF99D6EE25
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 09:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F0A6E866;
-	Sat, 20 Jul 2019 06:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B95376E86A;
+	Sat, 20 Jul 2019 07:16:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D16DB6E866
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 06:58:35 +0000 (UTC)
-X-Originating-IP: 91.163.65.175
-Received: from localhost (91-163-65-175.subs.proxad.net [91.163.65.175])
- (Authenticated sender: maxime.ripard@bootlin.com)
- by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 1F06B20008;
- Sat, 20 Jul 2019 06:58:31 +0000 (UTC)
-Date: Sat, 20 Jul 2019 08:58:30 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Subject: Re: [PATCH v6 11/22] clk: sunxi-ng: a64: Add minimum rate for PLL_MIPI
-Message-ID: <20190720065830.zn3txpyduakywcva@flea>
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF5D6E86A
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 07:16:39 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id m24so63209510ioo.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 00:16:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n6DYMx7wKaYROD5FVCd1p9bSE0uzUsWwaEufeVJ36kg=;
+ b=eQswpAttg0IsGRoRoErEsO9UK3LUK5QhKX2oNuPouQQob9m1b4UeXqU7149N8toDaU
+ 0kdcj2YvBKamt4OeCt1FyGit0tDjkpO+b1CpJIWiJlKzdVwHRYIATrxOpVHmwMdMfBnh
+ WEJ06O7I9fKSFRltZ24GrnLm06M1I7ZHJuTJsfyc70o7zTLwizZWy1XwSnveM5NYRNXp
+ s3KxpdBWllpQ69ebyZDT+AwjPwPFOQHqMbtcazlKoQ8h+94NAsdqLpDC4WMmOZjCgM2p
+ qrw2TQdKVmveFk6kH0ir63RTiqgvEkvgnIBoRHh4lUBftTQQ6pc/ACQ3hHkYWDfihrqd
+ 2FQQ==
+X-Gm-Message-State: APjAAAXVp/uM1n9ZA5k4dZxsFtUZANyvajPaqcFdbNfeo5MpKSlSxJ+L
+ YNPxrWxpW/aA63OIU8u4AumuaXCEHK49kTX7+as8BQ==
+X-Google-Smtp-Source: APXvYqxrB0uRt9YtY4GDUUxefgLvzIIJ7vKZ4BIFtyOZPp//LSPjvCPr4jykQDuNHpHHozdXAz+HNCF1npTujMhRJDs=
+X-Received: by 2002:a6b:5115:: with SMTP id f21mr3228832iob.173.1563606998627; 
+ Sat, 20 Jul 2019 00:16:38 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190605064933.6bmskkxzzgn35xz7@flea>
  <CAMty3ZCCP=oCqm5=49BsjwoxdDETgBfU_5g8fQ=bz=iWApV0tw@mail.gmail.com>
  <20190614142406.ybdiqfppo5mc5bgq@flea>
@@ -33,9 +42,21 @@ References: <20190605064933.6bmskkxzzgn35xz7@flea>
  <CAOf5uw=ZEvMV1hFQE986rNG_ctpReGbjbZzv0m=OzKPdBh57uQ@mail.gmail.com>
  <20190711100100.cty3s6rs3w27low6@flea>
  <CAOf5uw=3fiMuhcj3kDtCaGNTsxHKRrYb79MXZ+yUZtmf0jU10A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAOf5uw=3fiMuhcj3kDtCaGNTsxHKRrYb79MXZ+yUZtmf0jU10A@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+ <20190720065830.zn3txpyduakywcva@flea>
+In-Reply-To: <20190720065830.zn3txpyduakywcva@flea>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Sat, 20 Jul 2019 12:46:27 +0530
+Message-ID: <CAMty3ZDE1xiNgHVLihH378dY5szzkr14V-fwLZdvPs12tY+G1A@mail.gmail.com>
+Subject: Re: [PATCH v6 11/22] clk: sunxi-ng: a64: Add minimum rate for PLL_MIPI
+To: Maxime Ripard <maxime.ripard@bootlin.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=n6DYMx7wKaYROD5FVCd1p9bSE0uzUsWwaEufeVJ36kg=;
+ b=O+LMCWhNC4mcdV8FP4xRuBHbY/qrm0mhaC6qhO7vfXmdUVIfl+ZbpG0uXFN2n2vvem
+ b6oyea5YdCge1SWKMJwL9lkOSIxG0Yl2I1FZI6wJX41/+X/Hnio394p2D2aS51867md9
+ 7H4fqIG6RAsadOgYhehPlzumQatmB1d/TxKA0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,166 +75,107 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
  linux-sunxi <linux-sunxi@googlegroups.com>,
  linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
  linux-amarula <linux-amarula@amarulasolutions.com>,
  linux-clk <linux-clk@vger.kernel.org>,
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============0341558703=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0341558703==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="r4qilfqhu2adyooy"
-Content-Disposition: inline
-
-
---r4qilfqhu2adyooy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Jul 11, 2019 at 07:43:16PM +0200, Michael Nazzareno Trimarchi wrote:
-> > > tcon-pixel clock is the rate that you want to achive on display side
-> > > and if you have 4 lanes 32bit or lanes and different bit number that
-> > > you need to have a clock that is able to put outside bits and speed
-> > > equal to pixel-clock * bits / lanes. so If you want a pixel-clock of
-> > > 40 mhz and you have 32bits and 4 lanes you need to have a clock of
-> > > 40 * 32 / 4 in no-burst mode. I think that this is done but most of
-> > > the display.
-> >
-> > So this is what the issue is then?
-> >
-> > This one does make sense, and you should just change the rate in the
-> > call to clk_set_rate in sun4i_tcon0_mode_set_cpu.
-> >
-> > I'm still wondering why that hasn't been brought up in either the
-> > discussion or the commit log before though.
-> >
-> Something like this?
->
-> drivers/gpu/drm/sun4i/sun4i_tcon.c     | 20 +++++++++++---------
->  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  2 --
->  2 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index 64c43ee6bd92..42560d5c327c 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -263,10 +263,11 @@ static int sun4i_tcon_get_clk_delay(const struct
-> drm_display_mode *mode,
->  }
->
->  static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
-> -                                       const struct drm_display_mode *mode)
-> +                                       const struct drm_display_mode *mode,
-> +                                       u32 tcon_mul)
->  {
->         /* Configure the dot clock */
-> -       clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
-> +       clk_set_rate(tcon->dclk, mode->crtc_clock * tcon_mul * 1000);
->
->         /* Set the resolution */
->         regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
-> @@ -335,12 +336,13 @@ static void sun4i_tcon0_mode_set_cpu(struct
-> sun4i_tcon *tcon,
->         u8 bpp = mipi_dsi_pixel_format_to_bpp(device->format);
->         u8 lanes = device->lanes;
->         u32 block_space, start_delay;
-> -       u32 tcon_div;
-> +       u32 tcon_div, tcon_mul;
->
-> -       tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
-> -       tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
-> +       tcon->dclk_min_div = 4;
-> +       tcon->dclk_max_div = 127;
->
-> -       sun4i_tcon0_mode_set_common(tcon, mode);
-> +       tcon_mul = bpp / lanes;
-> +       sun4i_tcon0_mode_set_common(tcon, mode, tcon_mul);
->
->         /* Set dithering if needed */
->         sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> @@ -366,7 +368,7 @@ static void sun4i_tcon0_mode_set_cpu(struct
-> sun4i_tcon *tcon,
->          */
->         regmap_read(tcon->regs, SUN4I_TCON0_DCLK_REG, &tcon_div);
->         tcon_div &= GENMASK(6, 0);
-> -       block_space = mode->htotal * bpp / (tcon_div * lanes);
-> +       block_space = mode->htotal * tcon_div * tcon_mul;
->         block_space -= mode->hdisplay + 40;
->
->         regmap_write(tcon->regs, SUN4I_TCON0_CPU_TRI0_REG,
-> @@ -408,7 +410,7 @@ static void sun4i_tcon0_mode_set_lvds(struct
-> sun4i_tcon *tcon,
->
->         tcon->dclk_min_div = 7;
->         tcon->dclk_max_div = 7;
-> -       sun4i_tcon0_mode_set_common(tcon, mode);
-> +       sun4i_tcon0_mode_set_common(tcon, mode, 1);
->
->         /* Set dithering if needed */
->         sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-> @@ -487,7 +489,7 @@ static void sun4i_tcon0_mode_set_rgb(struct
-> sun4i_tcon *tcon,
->
->         tcon->dclk_min_div = 6;
->         tcon->dclk_max_div = 127;
-> -       sun4i_tcon0_mode_set_common(tcon, mode);
-> +       sun4i_tcon0_mode_set_common(tcon, mode, 1);
->
->         /* Set dithering if needed */
->         sun4i_tcon0_mode_set_dithering(tcon, connector);
-> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
-> b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
-> index 5c3ad5be0690..a07090579f84 100644
-> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
-> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
-> @@ -13,8 +13,6 @@
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_mipi_dsi.h>
->
-> -#define SUN6I_DSI_TCON_DIV     4
-> -
->  struct sun6i_dsi {
->         struct drm_connector    connector;
->         struct drm_encoder      encoder;
-
-I had more something like this in mind:
-http://code.bulix.org/nlp5a4-803511
-
-You really don't need to change the divider range (or this is another
-issue that the one you mentionned).
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---r4qilfqhu2adyooy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXTK7lgAKCRDj7w1vZxhR
-xVa+AP0bfQya4jtzGyWV49lA0eZyoDZnw2AUlmXF1CQyK/h/ywD/TqhlriaoZJCZ
-lSmIH7BxD5GMElLjo35ndu9pK23JYwU=
-=dJ5o
------END PGP SIGNATURE-----
-
---r4qilfqhu2adyooy--
-
---===============0341558703==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0341558703==--
+T24gU2F0LCBKdWwgMjAsIDIwMTkgYXQgMTI6MjggUE0gTWF4aW1lIFJpcGFyZAo8bWF4aW1lLnJp
+cGFyZEBib290bGluLmNvbT4gd3JvdGU6Cj4KPiBPbiBUaHUsIEp1bCAxMSwgMjAxOSBhdCAwNzo0
+MzoxNlBNICswMjAwLCBNaWNoYWVsIE5henphcmVubyBUcmltYXJjaGkgd3JvdGU6Cj4gPiA+ID4g
+dGNvbi1waXhlbCBjbG9jayBpcyB0aGUgcmF0ZSB0aGF0IHlvdSB3YW50IHRvIGFjaGl2ZSBvbiBk
+aXNwbGF5IHNpZGUKPiA+ID4gPiBhbmQgaWYgeW91IGhhdmUgNCBsYW5lcyAzMmJpdCBvciBsYW5l
+cyBhbmQgZGlmZmVyZW50IGJpdCBudW1iZXIgdGhhdAo+ID4gPiA+IHlvdSBuZWVkIHRvIGhhdmUg
+YSBjbG9jayB0aGF0IGlzIGFibGUgdG8gcHV0IG91dHNpZGUgYml0cyBhbmQgc3BlZWQKPiA+ID4g
+PiBlcXVhbCB0byBwaXhlbC1jbG9jayAqIGJpdHMgLyBsYW5lcy4gc28gSWYgeW91IHdhbnQgYSBw
+aXhlbC1jbG9jayBvZgo+ID4gPiA+IDQwIG1oeiBhbmQgeW91IGhhdmUgMzJiaXRzIGFuZCA0IGxh
+bmVzIHlvdSBuZWVkIHRvIGhhdmUgYSBjbG9jayBvZgo+ID4gPiA+IDQwICogMzIgLyA0IGluIG5v
+LWJ1cnN0IG1vZGUuIEkgdGhpbmsgdGhhdCB0aGlzIGlzIGRvbmUgYnV0IG1vc3Qgb2YKPiA+ID4g
+PiB0aGUgZGlzcGxheS4KPiA+ID4KPiA+ID4gU28gdGhpcyBpcyB3aGF0IHRoZSBpc3N1ZSBpcyB0
+aGVuPwo+ID4gPgo+ID4gPiBUaGlzIG9uZSBkb2VzIG1ha2Ugc2Vuc2UsIGFuZCB5b3Ugc2hvdWxk
+IGp1c3QgY2hhbmdlIHRoZSByYXRlIGluIHRoZQo+ID4gPiBjYWxsIHRvIGNsa19zZXRfcmF0ZSBp
+biBzdW40aV90Y29uMF9tb2RlX3NldF9jcHUuCj4gPiA+Cj4gPiA+IEknbSBzdGlsbCB3b25kZXJp
+bmcgd2h5IHRoYXQgaGFzbid0IGJlZW4gYnJvdWdodCB1cCBpbiBlaXRoZXIgdGhlCj4gPiA+IGRp
+c2N1c3Npb24gb3IgdGhlIGNvbW1pdCBsb2cgYmVmb3JlIHRob3VnaC4KPiA+ID4KPiA+IFNvbWV0
+aGluZyBsaWtlIHRoaXM/Cj4gPgo+ID4gZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24u
+YyAgICAgfCAyMCArKysrKysrKysrKy0tLS0tLS0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9zdW40
+aS9zdW42aV9taXBpX2RzaS5oIHwgIDIgLS0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDExIGluc2Vy
+dGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vc3VuNGkvc3VuNGlfdGNvbi5jCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW40
+aV90Y29uLmMKPiA+IGluZGV4IDY0YzQzZWU2YmQ5Mi4uNDI1NjBkNWMzMjdjIDEwMDY0NAo+ID4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL3N1bjRpL3N1bjRpX3Rjb24uYwo+ID4gQEAgLTI2MywxMCArMjYzLDExIEBAIHN0
+YXRpYyBpbnQgc3VuNGlfdGNvbl9nZXRfY2xrX2RlbGF5KGNvbnN0IHN0cnVjdAo+ID4gZHJtX2Rp
+c3BsYXlfbW9kZSAqbW9kZSwKPiA+ICB9Cj4gPgo+ID4gIHN0YXRpYyB2b2lkIHN1bjRpX3Rjb24w
+X21vZGVfc2V0X2NvbW1vbihzdHJ1Y3Qgc3VuNGlfdGNvbiAqdGNvbiwKPiA+IC0gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9k
+ZSAqbW9kZSkKPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25z
+dCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSwKPiA+ICsgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB1MzIgdGNvbl9tdWwpCj4gPiAgewo+ID4gICAgICAgICAvKiBD
+b25maWd1cmUgdGhlIGRvdCBjbG9jayAqLwo+ID4gLSAgICAgICBjbGtfc2V0X3JhdGUodGNvbi0+
+ZGNsaywgbW9kZS0+Y3J0Y19jbG9jayAqIDEwMDApOwo+ID4gKyAgICAgICBjbGtfc2V0X3JhdGUo
+dGNvbi0+ZGNsaywgbW9kZS0+Y3J0Y19jbG9jayAqIHRjb25fbXVsICogMTAwMCk7Cj4gPgo+ID4g
+ICAgICAgICAvKiBTZXQgdGhlIHJlc29sdXRpb24gKi8KPiA+ICAgICAgICAgcmVnbWFwX3dyaXRl
+KHRjb24tPnJlZ3MsIFNVTjRJX1RDT04wX0JBU0lDMF9SRUcsCj4gPiBAQCAtMzM1LDEyICszMzYs
+MTMgQEAgc3RhdGljIHZvaWQgc3VuNGlfdGNvbjBfbW9kZV9zZXRfY3B1KHN0cnVjdAo+ID4gc3Vu
+NGlfdGNvbiAqdGNvbiwKPiA+ICAgICAgICAgdTggYnBwID0gbWlwaV9kc2lfcGl4ZWxfZm9ybWF0
+X3RvX2JwcChkZXZpY2UtPmZvcm1hdCk7Cj4gPiAgICAgICAgIHU4IGxhbmVzID0gZGV2aWNlLT5s
+YW5lczsKPiA+ICAgICAgICAgdTMyIGJsb2NrX3NwYWNlLCBzdGFydF9kZWxheTsKPiA+IC0gICAg
+ICAgdTMyIHRjb25fZGl2Owo+ID4gKyAgICAgICB1MzIgdGNvbl9kaXYsIHRjb25fbXVsOwo+ID4K
+PiA+IC0gICAgICAgdGNvbi0+ZGNsa19taW5fZGl2ID0gU1VONklfRFNJX1RDT05fRElWOwo+ID4g
+LSAgICAgICB0Y29uLT5kY2xrX21heF9kaXYgPSBTVU42SV9EU0lfVENPTl9ESVY7Cj4gPiArICAg
+ICAgIHRjb24tPmRjbGtfbWluX2RpdiA9IDQ7Cj4gPiArICAgICAgIHRjb24tPmRjbGtfbWF4X2Rp
+diA9IDEyNzsKPiA+Cj4gPiAtICAgICAgIHN1bjRpX3Rjb24wX21vZGVfc2V0X2NvbW1vbih0Y29u
+LCBtb2RlKTsKPiA+ICsgICAgICAgdGNvbl9tdWwgPSBicHAgLyBsYW5lczsKPiA+ICsgICAgICAg
+c3VuNGlfdGNvbjBfbW9kZV9zZXRfY29tbW9uKHRjb24sIG1vZGUsIHRjb25fbXVsKTsKPiA+Cj4g
+PiAgICAgICAgIC8qIFNldCBkaXRoZXJpbmcgaWYgbmVlZGVkICovCj4gPiAgICAgICAgIHN1bjRp
+X3Rjb24wX21vZGVfc2V0X2RpdGhlcmluZyh0Y29uLCBzdW40aV90Y29uX2dldF9jb25uZWN0b3Io
+ZW5jb2RlcikpOwo+ID4gQEAgLTM2Niw3ICszNjgsNyBAQCBzdGF0aWMgdm9pZCBzdW40aV90Y29u
+MF9tb2RlX3NldF9jcHUoc3RydWN0Cj4gPiBzdW40aV90Y29uICp0Y29uLAo+ID4gICAgICAgICAg
+Ki8KPiA+ICAgICAgICAgcmVnbWFwX3JlYWQodGNvbi0+cmVncywgU1VONElfVENPTjBfRENMS19S
+RUcsICZ0Y29uX2Rpdik7Cj4gPiAgICAgICAgIHRjb25fZGl2ICY9IEdFTk1BU0soNiwgMCk7Cj4g
+PiAtICAgICAgIGJsb2NrX3NwYWNlID0gbW9kZS0+aHRvdGFsICogYnBwIC8gKHRjb25fZGl2ICog
+bGFuZXMpOwo+ID4gKyAgICAgICBibG9ja19zcGFjZSA9IG1vZGUtPmh0b3RhbCAqIHRjb25fZGl2
+ICogdGNvbl9tdWw7Cj4gPiAgICAgICAgIGJsb2NrX3NwYWNlIC09IG1vZGUtPmhkaXNwbGF5ICsg
+NDA7Cj4gPgo+ID4gICAgICAgICByZWdtYXBfd3JpdGUodGNvbi0+cmVncywgU1VONElfVENPTjBf
+Q1BVX1RSSTBfUkVHLAo+ID4gQEAgLTQwOCw3ICs0MTAsNyBAQCBzdGF0aWMgdm9pZCBzdW40aV90
+Y29uMF9tb2RlX3NldF9sdmRzKHN0cnVjdAo+ID4gc3VuNGlfdGNvbiAqdGNvbiwKPiA+Cj4gPiAg
+ICAgICAgIHRjb24tPmRjbGtfbWluX2RpdiA9IDc7Cj4gPiAgICAgICAgIHRjb24tPmRjbGtfbWF4
+X2RpdiA9IDc7Cj4gPiAtICAgICAgIHN1bjRpX3Rjb24wX21vZGVfc2V0X2NvbW1vbih0Y29uLCBt
+b2RlKTsKPiA+ICsgICAgICAgc3VuNGlfdGNvbjBfbW9kZV9zZXRfY29tbW9uKHRjb24sIG1vZGUs
+IDEpOwo+ID4KPiA+ICAgICAgICAgLyogU2V0IGRpdGhlcmluZyBpZiBuZWVkZWQgKi8KPiA+ICAg
+ICAgICAgc3VuNGlfdGNvbjBfbW9kZV9zZXRfZGl0aGVyaW5nKHRjb24sIHN1bjRpX3Rjb25fZ2V0
+X2Nvbm5lY3RvcihlbmNvZGVyKSk7Cj4gPiBAQCAtNDg3LDcgKzQ4OSw3IEBAIHN0YXRpYyB2b2lk
+IHN1bjRpX3Rjb24wX21vZGVfc2V0X3JnYihzdHJ1Y3QKPiA+IHN1bjRpX3Rjb24gKnRjb24sCj4g
+Pgo+ID4gICAgICAgICB0Y29uLT5kY2xrX21pbl9kaXYgPSA2Owo+ID4gICAgICAgICB0Y29uLT5k
+Y2xrX21heF9kaXYgPSAxMjc7Cj4gPiAtICAgICAgIHN1bjRpX3Rjb24wX21vZGVfc2V0X2NvbW1v
+bih0Y29uLCBtb2RlKTsKPiA+ICsgICAgICAgc3VuNGlfdGNvbjBfbW9kZV9zZXRfY29tbW9uKHRj
+b24sIG1vZGUsIDEpOwo+ID4KPiA+ICAgICAgICAgLyogU2V0IGRpdGhlcmluZyBpZiBuZWVkZWQg
+Ki8KPiA+ICAgICAgICAgc3VuNGlfdGNvbjBfbW9kZV9zZXRfZGl0aGVyaW5nKHRjb24sIGNvbm5l
+Y3Rvcik7Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjZpX21pcGlf
+ZHNpLmgKPiA+IGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjZpX21pcGlfZHNpLmgKPiA+IGlu
+ZGV4IDVjM2FkNWJlMDY5MC4uYTA3MDkwNTc5Zjg0IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3N1bjRpL3N1bjZpX21pcGlfZHNpLmgKPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9z
+dW40aS9zdW42aV9taXBpX2RzaS5oCj4gPiBAQCAtMTMsOCArMTMsNiBAQAo+ID4gICNpbmNsdWRl
+IDxkcm0vZHJtX2VuY29kZXIuaD4KPiA+ICAjaW5jbHVkZSA8ZHJtL2RybV9taXBpX2RzaS5oPgo+
+ID4KPiA+IC0jZGVmaW5lIFNVTjZJX0RTSV9UQ09OX0RJViAgICAgNAo+ID4gLQo+ID4gIHN0cnVj
+dCBzdW42aV9kc2kgewo+ID4gICAgICAgICBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAgICBjb25uZWN0
+b3I7Cj4gPiAgICAgICAgIHN0cnVjdCBkcm1fZW5jb2RlciAgICAgIGVuY29kZXI7Cj4KPiBJIGhh
+ZCBtb3JlIHNvbWV0aGluZyBsaWtlIHRoaXMgaW4gbWluZDoKPiBodHRwOi8vY29kZS5idWxpeC5v
+cmcvbmxwNWE0LTgwMzUxMQoKV29ydGggdG8gbG9vayBhdCBpdC4gd2FzIGl0IHdvcmtpbmcgb24g
+eW91ciBwYW5lbD8gbWVhbndoaWxlIEkgd2lsbCBjaGVjayBpdC4KCldlIGhhdmUgdXBkYXRlZCB3
+aXRoIGJlbG93IGNoYW5nZSBbMV0sIHNlZW1zIHdvcmtpbmcgb24gYnV0IGlzCmFjdHVhbGx5IGNo
+ZWNraW5nIHRoZSBlYWNoIGRpdmlkZXIgYXMgYmVmb3JlIHN0YXJ0IHdpdGggNC4uLiB0aWxsIDEy
+Ny4KClRoaXMgbmV3IGFwcHJvYWNoLCBpcyBzdGFydCBsb29raW5nIHRoZSBiZXN0IGRpdmlkZXIg
+ZnJvbSA0Li4gYmFzZWQgb24KdGhlIGlkZWEgdnMgcm91bmRlZCBpdCB3aWxsIGVuZGVkIHVwIGJl
+c3QgZGl2aWRlciBsaWtlIFsyXQoKaHR0cHM6Ly9naXN0LmdpdGh1Yi5jb20vb3BlbmVkZXYvN2Uy
+YzMzMjQ4YjM3MmQyOWJlOTk3OWUwNmQ0ODM2NzMKaHR0cHM6Ly9naXN0LmdpdGh1Yi5jb20vb3Bl
+bmVkZXYvYzcyZGZmZmMwY2E1OWU3ZWMxZWRjZDdhZDM2MGNkZDEKCkphZ2FuLgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
