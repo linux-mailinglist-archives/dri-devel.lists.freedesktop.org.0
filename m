@@ -1,62 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F216EE7D
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 10:46:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A0E6EEAA
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 11:32:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 033A86E894;
-	Sat, 20 Jul 2019 08:46:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 911E38972C;
+	Sat, 20 Jul 2019 09:32:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94A946E88B;
- Sat, 20 Jul 2019 08:45:57 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id i21so32931610ljj.3;
- Sat, 20 Jul 2019 01:45:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HkTWhLkVesH34oKnxktIb07MH+NW8JSgpCbLaEHYnEY=;
- b=iyHLkimSm55z7r/Eue+HfIBuJkGq6n4UEZkGTvtAhizGq+uUXNmV2j5+dzj0JGGCQL
- HMwRme4fA7Kow6ahKQeBXZfqncF/Aimfs3XIn6Wr33TcUI8TQxXbIsvXd7fxsur96Zim
- 1kRtCEsK4YWhGufWO9oufeOgMwZGhd4LmO00Fh93gl/aOzjOaRwB8D7WreBHetOchqjB
- D1XPYTALDeAK65uVc6Wvetm9CSXO+2qSgNY7lcKlq1zXcSYtHQ3b5zZvW/j/kDAplNKN
- GbisDzerPmY8CsEiYzewjRQ+kvpnzKAMMfLIaqZ05LwqKiDH93PyrwWD2haWX5lArsne
- NCTw==
-X-Gm-Message-State: APjAAAU0v1paQ+DW6NcvrnQ5CGM47bRZ140jb7Fq/bjmhvNQaslpE8ft
- W4IYUgP8pLLgwpE1OIt75Sir2PHOEkQ=
-X-Google-Smtp-Source: APXvYqwyEAXwfmOap3FBlbhnKueS2WLGEZglSrZ4ZmDNy62f6QBLkMHcPiXntqwY3rrDwxM5OMjIXQ==
-X-Received: by 2002:a2e:9a87:: with SMTP id p7mr29688579lji.133.1563612355706; 
- Sat, 20 Jul 2019 01:45:55 -0700 (PDT)
-Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
- by smtp.gmail.com with ESMTPSA id
- o3sm5047022lfb.40.2019.07.20.01.45.54
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sat, 20 Jul 2019 01:45:55 -0700 (PDT)
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org,
-	openchrome-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/4] drm/via: drop use of drmP.h
-Date: Sat, 20 Jul 2019 10:45:27 +0200
-Message-Id: <20190720084527.12593-5-sam@ravnborg.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190720084527.12593-1-sam@ravnborg.org>
-References: <20190720084527.12593-1-sam@ravnborg.org>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E63838972C
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 09:32:08 +0000 (UTC)
+X-Originating-IP: 91.163.65.175
+Received: from localhost (91-163-65-175.subs.proxad.net [91.163.65.175])
+ (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 1A5FF60002;
+ Sat, 20 Jul 2019 09:32:02 +0000 (UTC)
+Date: Sat, 20 Jul 2019 11:32:02 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH v6 11/22] clk: sunxi-ng: a64: Add minimum rate for PLL_MIPI
+Message-ID: <20190720093202.6fn6xmhvsgawscnu@flea>
+References: <20190614142406.ybdiqfppo5mc5bgq@flea>
+ <CAMty3ZB45cHx3WeXnywBh2_UA_bTmFs6yBTqLWA1BNf4fQtVvQ@mail.gmail.com>
+ <20190625144930.5hegt6bkzqzykjid@flea>
+ <CAMty3ZCmj0Rz7MMhLqihsvLQi+1CHf0fAoJQ4QN65xB-bwxaJw@mail.gmail.com>
+ <20190703114933.u3x4ej3v7ocewvif@flea>
+ <CAOf5uw=ZEvMV1hFQE986rNG_ctpReGbjbZzv0m=OzKPdBh57uQ@mail.gmail.com>
+ <20190711100100.cty3s6rs3w27low6@flea>
+ <CAOf5uw=3fiMuhcj3kDtCaGNTsxHKRrYb79MXZ+yUZtmf0jU10A@mail.gmail.com>
+ <20190720065830.zn3txpyduakywcva@flea>
+ <CAMty3ZDE1xiNgHVLihH378dY5szzkr14V-fwLZdvPs12tY+G1A@mail.gmail.com>
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HkTWhLkVesH34oKnxktIb07MH+NW8JSgpCbLaEHYnEY=;
- b=Rb8qTvMKDmoRJtqge6jbiO4I+9ivpXd8M7h5PfEch4MMipuZWyoHDjE0cXChO6I4WV
- qgLY1SMzftKY5vabmXd/p38j1i5YfX+PY2rqnihioiykNdo3m7HREQ47Rf92sYXnKigT
- XEGe+RL60NqSfI/Aw1ytCbMiajkBayuUCpiutjaqNEiZbaOQtmOh2aceaSGVk52f2e48
- huHFp0A4PnZFpa4Ifx3fUNYRAn+zfCh7Z4PZcojXDNVBr3nhHX29hJdwp9N0ghRh4L3m
- Jux+tLGDGZtD7lb77nWWWhi3MxhJUe1U+2XQSZMfmjkL+aRq8lZ5fXmzhKLMmMt6LLwX
- rgaw==
+In-Reply-To: <CAMty3ZDE1xiNgHVLihH378dY5szzkr14V-fwLZdvPs12tY+G1A@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,141 +48,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thellstrom@vmware.com>, Sam Ravnborg <sam@ravnborg.org>,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- Kevin Brace <kevinbrace@gmx.com>, Mike Marshall <hubcap@omnibond.com>,
- Ira Weiny <ira.weiny@intel.com>, Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-sunxi <linux-sunxi@googlegroups.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ linux-clk <linux-clk@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============0173706327=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RHJvcCB1c2Ugb2YgdGhlIGRlcHJlY2F0ZWQgZHJtUC5oIGhlYWRlci4KV2hpbGUgdG91Y2hpbmcg
-dGhlIGZpbGVzIGRpdmlkZSBpbmNsdWRlIGZpbGVzIGluIGJsb2NrcwphbmQgc29ydCB0aGUgZmls
-ZXMgYWxwaGFiZXRpY2FsbHkuCgp2MjoKLSBSZXBsYWNlIGFsbCB1c2VzIG9mIERSTV9XQUlUX09O
-KCkgd2l0aCBWSUFfV0FJVF9PTigpCiAgYW5kIHRodXMgYXZvaWRpbmcgdG8gcHVsbCBpbiBkcm1f
-b3NfbGludXguaAoKU2lnbmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3Jn
-PgpDYzogS2V2aW4gQnJhY2UgPGtldmluYnJhY2VAZ214LmNvbT4KQ2M6IFRob21hcyBIZWxsc3Ry
-b20gPHRoZWxsc3Ryb21Adm13YXJlLmNvbT4KQ2M6ICJHdXN0YXZvIEEuIFIuIFNpbHZhIiA8Z3Vz
-dGF2b0BlbWJlZGRlZG9yLmNvbT4KQ2M6IE1pa2UgTWFyc2hhbGwgPGh1YmNhcEBvbW5pYm9uZC5j
-b20+CkNjOiBJcmEgV2VpbnkgPGlyYS53ZWlueUBpbnRlbC5jb20+CkNjOiBEYW5pZWwgVmV0dGVy
-IDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPgpDYzogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZA
-Y29sbGFib3JhLmNvbT4KQ2M6IE1pY2hlbCBEw6RuemVyIDxtaWNoZWxAZGFlbnplci5uZXQ+Ci0t
-LQogZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfZG1hLmMgICAgICB8ICA5ICsrKysrKysrLQogZHJp
-dmVycy9ncHUvZHJtL3ZpYS92aWFfZG1hYmxpdC5jICB8IDE3ICsrKysrKysrKystLS0tLS0tCiBk
-cml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kcnYuYyAgICAgIHwgIDcgKysrKystLQogZHJpdmVycy9n
-cHUvZHJtL3ZpYS92aWFfaXJxLmMgICAgICB8ICA4ICsrKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-dmlhL3ZpYV9tYXAuYyAgICAgIHwgIDYgKysrKystCiBkcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9t
-bS5jICAgICAgIHwgIDcgKysrKysrLQogZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfdmVyaWZpZXIu
-YyB8IDEwICsrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS92aWEvdmlhX3ZpZGVvLmMgICAgfCAg
-NSArKystLQogOCBmaWxlcyBjaGFuZ2VkLCA0NyBpbnNlcnRpb25zKCspLCAyMiBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kbWEuYyBiL2RyaXZlcnMv
-Z3B1L2RybS92aWEvdmlhX2RtYS5jCmluZGV4IGQxN2Q4ZjI0NWMxYS4uNGU1MDgzNGRkMjIyIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kbWEuYworKysgYi9kcml2ZXJzL2dw
-dS9kcm0vdmlhL3ZpYV9kbWEuYwpAQCAtMzQsOCArMzQsMTUgQEAKICAqICAgIFRob21hcyBIZWxs
-c3Ryb20uCiAgKi8KIAotI2luY2x1ZGUgPGRybS9kcm1QLmg+CisjaW5jbHVkZSA8bGludXgvZGVs
-YXkuaD4KKyNpbmNsdWRlIDxsaW51eC91YWNjZXNzLmg+CisKKyNpbmNsdWRlIDxkcm0vZHJtLmg+
-CisjaW5jbHVkZSA8ZHJtL2RybV9hZ3BzdXBwb3J0Lmg+CisjaW5jbHVkZSA8ZHJtL2RybV9kZXZp
-Y2UuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2ZpbGUuaD4KICNpbmNsdWRlIDxkcm0vdmlhX2RybS5o
-PgorCiAjaW5jbHVkZSAidmlhX2Rydi5oIgogI2luY2x1ZGUgInZpYV8zZF9yZWcuaCIKIApkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfZG1hYmxpdC5jIGIvZHJpdmVycy9ncHUv
-ZHJtL3ZpYS92aWFfZG1hYmxpdC5jCmluZGV4IDA2MjA2NzQzOGYxZC4uOWZiZWRjNDg4ZTYyIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9kbWFibGl0LmMKKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3ZpYS92aWFfZG1hYmxpdC5jCkBAIC0zNCwxMyArMzQsMTYgQEAKICAqIHRoZSBz
-YW1lIERNQSBtYXBwaW5ncz8KICAqLwogCi0jaW5jbHVkZSA8ZHJtL2RybVAuaD4KLSNpbmNsdWRl
-IDxkcm0vdmlhX2RybS5oPgotI2luY2x1ZGUgInZpYV9kcnYuaCIKLSNpbmNsdWRlICJ2aWFfZG1h
-YmxpdC5oIgotCiAjaW5jbHVkZSA8bGludXgvcGFnZW1hcC5oPgogI2luY2x1ZGUgPGxpbnV4L3Ns
-YWIuaD4KKyNpbmNsdWRlIDxsaW51eC92bWFsbG9jLmg+CisKKyNpbmNsdWRlIDxkcm0vZHJtX2Rl
-dmljZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fcGNpLmg+CisjaW5jbHVkZSA8ZHJtL3ZpYV9kcm0u
-aD4KKworI2luY2x1ZGUgInZpYV9kbWFibGl0LmgiCisjaW5jbHVkZSAidmlhX2Rydi5oIgogCiAj
-ZGVmaW5lIFZJQV9QR0ROKHgpCSAgICAgKCgodW5zaWduZWQgbG9uZykoeCkpICYgUEFHRV9NQVNL
-KQogI2RlZmluZSBWSUFfUEdPRkYoeCkJICAgICgoKHVuc2lnbmVkIGxvbmcpKHgpKSAmIH5QQUdF
-X01BU0spCkBAIC00MzYsNyArNDM5LDcgQEAgdmlhX2RtYWJsaXRfc3luYyhzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LCB1aW50MzJfdCBoYW5kbGUsIGludCBlbmdpbmUpCiAJaW50IHJldCA9IDA7CiAK
-IAlpZiAodmlhX2RtYWJsaXRfYWN0aXZlKGJsaXRxLCBlbmdpbmUsIGhhbmRsZSwgJnF1ZXVlKSkg
-ewotCQlEUk1fV0FJVF9PTihyZXQsICpxdWV1ZSwgMyAqIEhaLAorCQlWSUFfV0FJVF9PTihyZXQs
-ICpxdWV1ZSwgMyAqIEhaLAogCQkJICAgICF2aWFfZG1hYmxpdF9hY3RpdmUoYmxpdHEsIGVuZ2lu
-ZSwgaGFuZGxlLCBOVUxMKSk7CiAJfQogCURSTV9ERUJVRygiRE1BIGJsaXQgc3luYyBoYW5kbGUg
-MHgleCBlbmdpbmUgJWQgcmV0dXJuZWQgJWRcbiIsCkBAIC02ODcsNyArNjkwLDcgQEAgdmlhX2Rt
-YWJsaXRfZ3JhYl9zbG90KGRybV92aWFfYmxpdHFfdCAqYmxpdHEsIGludCBlbmdpbmUpCiAJd2hp
-bGUgKGJsaXRxLT5udW1fZnJlZSA9PSAwKSB7CiAJCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmJs
-aXRxLT5ibGl0X2xvY2ssIGlycXNhdmUpOwogCi0JCURSTV9XQUlUX09OKHJldCwgYmxpdHEtPmJ1
-c3lfcXVldWUsIEhaLCBibGl0cS0+bnVtX2ZyZWUgPiAwKTsKKwkJVklBX1dBSVRfT04ocmV0LCBi
-bGl0cS0+YnVzeV9xdWV1ZSwgSFosIGJsaXRxLT5udW1fZnJlZSA+IDApOwogCQlpZiAocmV0KQog
-CQkJcmV0dXJuICgtRUlOVFIgPT0gcmV0KSA/IC1FQUdBSU4gOiByZXQ7CiAKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS92aWEvdmlhX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFf
-ZHJ2LmMKaW5kZXggYWY2YTEyZDNjMDU4Li42NjZhMTZkZTg0ZjkgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS92aWEvdmlhX2Rydi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS92aWEvdmlhX2Ry
-di5jCkBAIC0yNCwxMSArMjQsMTQgQEAKIAogI2luY2x1ZGUgPGxpbnV4L21vZHVsZS5oPgogCi0j
-aW5jbHVkZSA8ZHJtL2RybVAuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2Rydi5oPgorI2luY2x1ZGUg
-PGRybS9kcm1fZmlsZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fcGNpLmg+CisjaW5jbHVkZSA8ZHJt
-L2RybV9wY2lpZHMuaD4KICNpbmNsdWRlIDxkcm0vdmlhX2RybS5oPgorCiAjaW5jbHVkZSAidmlh
-X2Rydi5oIgogCi0jaW5jbHVkZSA8ZHJtL2RybV9wY2lpZHMuaD4KIAogc3RhdGljIGludCB2aWFf
-ZHJpdmVyX29wZW4oc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRybV9maWxlICpmaWxl
-KQogewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfaXJxLmMgYi9kcml2ZXJz
-L2dwdS9kcm0vdmlhL3ZpYV9pcnEuYwppbmRleCBjOTY4MzBjY2MwZWMuLjEzOGMzZjhkMGFmMiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfaXJxLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3ZpYS92aWFfaXJxLmMKQEAgLTM1LDggKzM1LDEwIEBACiAgKiBUaGUgcmVmcmVzaCBy
-YXRlIGlzIGFsc28gY2FsY3VsYXRlZCBmb3IgdmlkZW8gcGxheWJhY2sgc3luYyBwdXJwb3Nlcy4K
-ICAqLwogCi0jaW5jbHVkZSA8ZHJtL2RybVAuaD4KKyNpbmNsdWRlIDxkcm0vZHJtX2RldmljZS5o
-PgorI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+CiAjaW5jbHVkZSA8ZHJtL3ZpYV9kcm0uaD4K
-KwogI2luY2x1ZGUgInZpYV9kcnYuaCIKIAogI2RlZmluZSBWSUFfUkVHX0lOVEVSUlVQVCAgICAg
-ICAweDIwMApAQCAtMjMzLDEyICsyMzUsMTIgQEAgdmlhX2RyaXZlcl9pcnFfd2FpdChzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2LCB1bnNpZ25lZCBpbnQgaXJxLCBpbnQgZm9yY2Vfc2VxdWVuY2UKIAlj
-dXJfaXJxID0gZGV2X3ByaXYtPnZpYV9pcnFzICsgcmVhbF9pcnE7CiAKIAlpZiAobWFza3NbcmVh
-bF9pcnFdWzJdICYmICFmb3JjZV9zZXF1ZW5jZSkgewotCQlEUk1fV0FJVF9PTihyZXQsIGN1cl9p
-cnEtPmlycV9xdWV1ZSwgMyAqIEhaLAorCQlWSUFfV0FJVF9PTihyZXQsIGN1cl9pcnEtPmlycV9x
-dWV1ZSwgMyAqIEhaLAogCQkJICAgICgoVklBX1JFQUQobWFza3NbaXJxXVsyXSkgJiBtYXNrc1tp
-cnFdWzNdKSA9PQogCQkJICAgICBtYXNrc1tpcnFdWzRdKSk7CiAJCWN1cl9pcnFfc2VxdWVuY2Ug
-PSBhdG9taWNfcmVhZCgmY3VyX2lycS0+aXJxX3JlY2VpdmVkKTsKIAl9IGVsc2UgewotCQlEUk1f
-V0FJVF9PTihyZXQsIGN1cl9pcnEtPmlycV9xdWV1ZSwgMyAqIEhaLAorCQlWSUFfV0FJVF9PTihy
-ZXQsIGN1cl9pcnEtPmlycV9xdWV1ZSwgMyAqIEhaLAogCQkJICAgICgoKGN1cl9pcnFfc2VxdWVu
-Y2UgPQogCQkJICAgICAgIGF0b21pY19yZWFkKCZjdXJfaXJxLT5pcnFfcmVjZWl2ZWQpKSAtCiAJ
-CQkgICAgICAqc2VxdWVuY2UpIDw9ICgxIDw8IDIzKSkpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3ZpYS92aWFfbWFwLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9tYXAuYwppbmRl
-eCAyYWQ4NjU4NzAzNzIuLjQzMWMxNTBkZjAxNCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3ZpYS92aWFfbWFwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfbWFwLmMKQEAgLTIx
-LDggKzIxLDEyIEBACiAgKiBBUklTSU5HIEZST00sIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJ
-VEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIKICAqIERFQUxJTkdTIElOIFRIRSBT
-T0ZUV0FSRS4KICAqLwotI2luY2x1ZGUgPGRybS9kcm1QLmg+CisKKyNpbmNsdWRlIDxkcm0vZHJt
-X2RldmljZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fcGNpLmg+CisjaW5jbHVkZSA8ZHJtL2RybV92
-YmxhbmsuaD4KICNpbmNsdWRlIDxkcm0vdmlhX2RybS5oPgorCiAjaW5jbHVkZSAidmlhX2Rydi5o
-IgogCiBzdGF0aWMgaW50IHZpYV9kb19pbml0X21hcChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBk
-cm1fdmlhX2luaXRfdCAqaW5pdCkKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92aWEvdmlh
-X21tLmMgYi9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9tbS5jCmluZGV4IDQyMTdkNjZhNWNjNi4u
-NDVjYzllOTAwMjYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV9tbS5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS92aWEvdmlhX21tLmMKQEAgLTI1LDggKzI1LDEzIEBACiAgKiBB
-dXRob3JzOiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLWF0LXR1bmdzdGVuZ3JhcGhpY3MtZG90
-LWNvbT4KICAqLwogCi0jaW5jbHVkZSA8ZHJtL2RybVAuaD4KKyNpbmNsdWRlIDxsaW51eC9zbGFi
-Lmg+CisKKyNpbmNsdWRlIDxkcm0vZHJtX2RldmljZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fZmls
-ZS5oPgorI2luY2x1ZGUgPGRybS9kcm1faXJxLmg+CiAjaW5jbHVkZSA8ZHJtL3ZpYV9kcm0uaD4K
-KwogI2luY2x1ZGUgInZpYV9kcnYuaCIKIAogI2RlZmluZSBWSUFfTU1fQUxJR05fU0hJRlQgNApk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfdmVyaWZpZXIuYyBiL2RyaXZlcnMv
-Z3B1L2RybS92aWEvdmlhX3ZlcmlmaWVyLmMKaW5kZXggZmIyNjA5NDM0ZGY3Li4zNjFhNDUwMDU4
-ZjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS92aWEvdmlhX3ZlcmlmaWVyLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfdmVyaWZpZXIuYwpAQCAtMjgsMTMgKzI4LDEzIEBACiAg
-KiBiZSB2ZXJ5IHNsb3cuCiAgKi8KIAotI2luY2x1ZGUgInZpYV8zZF9yZWcuaCIKLSNpbmNsdWRl
-IDxkcm0vZHJtUC5oPgotI2luY2x1ZGUgPGRybS92aWFfZHJtLmg+CisjaW5jbHVkZSA8ZHJtL2Ry
-bV9kZXZpY2UuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2xlZ2FjeS5oPgotI2luY2x1ZGUgInZpYV92
-ZXJpZmllci5oIgorI2luY2x1ZGUgPGRybS92aWFfZHJtLmg+CisKKyNpbmNsdWRlICJ2aWFfM2Rf
-cmVnLmgiCiAjaW5jbHVkZSAidmlhX2Rydi5oIgotI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPgor
-I2luY2x1ZGUgInZpYV92ZXJpZmllci5oIgogCiB0eXBlZGVmIGVudW0gewogCXN0YXRlX2NvbW1h
-bmQsCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmlhL3ZpYV92aWRlby5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3ZpYS92aWFfdmlkZW8uYwppbmRleCBhOWZmYmFkMWNmZGQuLjUzYjFmNThmOTli
-NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZpYS92aWFfdmlkZW8uYworKysgYi9kcml2
-ZXJzL2dwdS9kcm0vdmlhL3ZpYV92aWRlby5jCkBAIC0yNSw4ICsyNSw5IEBACiAgKiBWaWRlbyBh
-bmQgWHZNQyByZWxhdGVkIGZ1bmN0aW9ucy4KICAqLwogCi0jaW5jbHVkZSA8ZHJtL2RybVAuaD4K
-KyNpbmNsdWRlIDxkcm0vZHJtX2RldmljZS5oPgogI2luY2x1ZGUgPGRybS92aWFfZHJtLmg+CisK
-ICNpbmNsdWRlICJ2aWFfZHJ2LmgiCiAKIHZvaWQgdmlhX2luaXRfZnV0ZXgoZHJtX3ZpYV9wcml2
-YXRlX3QgKmRldl9wcml2KQpAQCAtODIsNyArODMsNyBAQCBpbnQgdmlhX2RlY29kZXJfZnV0ZXgo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxl
-XwogCiAJc3dpdGNoIChmeC0+ZnVuYykgewogCWNhc2UgVklBX0ZVVEVYX1dBSVQ6Ci0JCURSTV9X
-QUlUX09OKHJldCwgZGV2X3ByaXYtPmRlY29kZXJfcXVldWVbZngtPmxvY2tdLAorCQlWSUFfV0FJ
-VF9PTihyZXQsIGRldl9wcml2LT5kZWNvZGVyX3F1ZXVlW2Z4LT5sb2NrXSwKIAkJCSAgICAoZngt
-Pm1zIC8gMTApICogKEhaIC8gMTAwKSwgKmxvY2sgIT0gZngtPnZhbCk7CiAJCXJldHVybiByZXQ7
-CiAJY2FzZSBWSUFfRlVURVhfV0FLRToKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0173706327==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2dbototu7fqsblax"
+Content-Disposition: inline
+
+
+--2dbototu7fqsblax
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sat, Jul 20, 2019 at 12:46:27PM +0530, Jagan Teki wrote:
+> On Sat, Jul 20, 2019 at 12:28 PM Maxime Ripard
+> <maxime.ripard@bootlin.com> wrote:
+> >
+> > On Thu, Jul 11, 2019 at 07:43:16PM +0200, Michael Nazzareno Trimarchi wrote:
+> > > > > tcon-pixel clock is the rate that you want to achive on display side
+> > > > > and if you have 4 lanes 32bit or lanes and different bit number that
+> > > > > you need to have a clock that is able to put outside bits and speed
+> > > > > equal to pixel-clock * bits / lanes. so If you want a pixel-clock of
+> > > > > 40 mhz and you have 32bits and 4 lanes you need to have a clock of
+> > > > > 40 * 32 / 4 in no-burst mode. I think that this is done but most of
+> > > > > the display.
+> > > >
+> > > > So this is what the issue is then?
+> > > >
+> > > > This one does make sense, and you should just change the rate in the
+> > > > call to clk_set_rate in sun4i_tcon0_mode_set_cpu.
+> > > >
+> > > > I'm still wondering why that hasn't been brought up in either the
+> > > > discussion or the commit log before though.
+> > > >
+> > > Something like this?
+> > >
+> > > drivers/gpu/drm/sun4i/sun4i_tcon.c     | 20 +++++++++++---------
+> > >  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  2 --
+> > >  2 files changed, 11 insertions(+), 11 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > index 64c43ee6bd92..42560d5c327c 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+> > > @@ -263,10 +263,11 @@ static int sun4i_tcon_get_clk_delay(const struct
+> > > drm_display_mode *mode,
+> > >  }
+> > >
+> > >  static void sun4i_tcon0_mode_set_common(struct sun4i_tcon *tcon,
+> > > -                                       const struct drm_display_mode *mode)
+> > > +                                       const struct drm_display_mode *mode,
+> > > +                                       u32 tcon_mul)
+> > >  {
+> > >         /* Configure the dot clock */
+> > > -       clk_set_rate(tcon->dclk, mode->crtc_clock * 1000);
+> > > +       clk_set_rate(tcon->dclk, mode->crtc_clock * tcon_mul * 1000);
+> > >
+> > >         /* Set the resolution */
+> > >         regmap_write(tcon->regs, SUN4I_TCON0_BASIC0_REG,
+> > > @@ -335,12 +336,13 @@ static void sun4i_tcon0_mode_set_cpu(struct
+> > > sun4i_tcon *tcon,
+> > >         u8 bpp = mipi_dsi_pixel_format_to_bpp(device->format);
+> > >         u8 lanes = device->lanes;
+> > >         u32 block_space, start_delay;
+> > > -       u32 tcon_div;
+> > > +       u32 tcon_div, tcon_mul;
+> > >
+> > > -       tcon->dclk_min_div = SUN6I_DSI_TCON_DIV;
+> > > -       tcon->dclk_max_div = SUN6I_DSI_TCON_DIV;
+> > > +       tcon->dclk_min_div = 4;
+> > > +       tcon->dclk_max_div = 127;
+> > >
+> > > -       sun4i_tcon0_mode_set_common(tcon, mode);
+> > > +       tcon_mul = bpp / lanes;
+> > > +       sun4i_tcon0_mode_set_common(tcon, mode, tcon_mul);
+> > >
+> > >         /* Set dithering if needed */
+> > >         sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
+> > > @@ -366,7 +368,7 @@ static void sun4i_tcon0_mode_set_cpu(struct
+> > > sun4i_tcon *tcon,
+> > >          */
+> > >         regmap_read(tcon->regs, SUN4I_TCON0_DCLK_REG, &tcon_div);
+> > >         tcon_div &= GENMASK(6, 0);
+> > > -       block_space = mode->htotal * bpp / (tcon_div * lanes);
+> > > +       block_space = mode->htotal * tcon_div * tcon_mul;
+> > >         block_space -= mode->hdisplay + 40;
+> > >
+> > >         regmap_write(tcon->regs, SUN4I_TCON0_CPU_TRI0_REG,
+> > > @@ -408,7 +410,7 @@ static void sun4i_tcon0_mode_set_lvds(struct
+> > > sun4i_tcon *tcon,
+> > >
+> > >         tcon->dclk_min_div = 7;
+> > >         tcon->dclk_max_div = 7;
+> > > -       sun4i_tcon0_mode_set_common(tcon, mode);
+> > > +       sun4i_tcon0_mode_set_common(tcon, mode, 1);
+> > >
+> > >         /* Set dithering if needed */
+> > >         sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
+> > > @@ -487,7 +489,7 @@ static void sun4i_tcon0_mode_set_rgb(struct
+> > > sun4i_tcon *tcon,
+> > >
+> > >         tcon->dclk_min_div = 6;
+> > >         tcon->dclk_max_div = 127;
+> > > -       sun4i_tcon0_mode_set_common(tcon, mode);
+> > > +       sun4i_tcon0_mode_set_common(tcon, mode, 1);
+> > >
+> > >         /* Set dithering if needed */
+> > >         sun4i_tcon0_mode_set_dithering(tcon, connector);
+> > > diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+> > > b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+> > > index 5c3ad5be0690..a07090579f84 100644
+> > > --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+> > > +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h
+> > > @@ -13,8 +13,6 @@
+> > >  #include <drm/drm_encoder.h>
+> > >  #include <drm/drm_mipi_dsi.h>
+> > >
+> > > -#define SUN6I_DSI_TCON_DIV     4
+> > > -
+> > >  struct sun6i_dsi {
+> > >         struct drm_connector    connector;
+> > >         struct drm_encoder      encoder;
+> >
+> > I had more something like this in mind:
+> > http://code.bulix.org/nlp5a4-803511
+>
+> Worth to look at it. was it working on your panel? meanwhile I will check it.
+
+I haven't tested it.
+
+> We have updated with below change [1], seems working on but is
+> actually checking the each divider as before start with 4... till 127.
+>
+> This new approach, is start looking the best divider from 4.. based on
+> the idea vs rounded it will ended up best divider like [2]
+
+But why?
+
+I mean, it's not like it's the first time I'm asking this...
+
+If the issue is what Micheal described, then the divider has nothing
+to do with it. We've had that discussion over and over again.
+
+So you need to come with some argument and proof that the divider of
+that clock need to change. Otherwise, stop trying to make that happen:
+it won't.
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--2dbototu7fqsblax
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXTLfkgAKCRDj7w1vZxhR
+xXluAP4vGeqsFx22zqCbCazkSqNBlJ1xlo7FG4cHnv34XdrozgEAwDmJm2HpOFaV
+KgsjKFHWq3QK4YYxA3/WinhP6mxyVg8=
+=VKsI
+-----END PGP SIGNATURE-----
+
+--2dbototu7fqsblax--
+
+--===============0173706327==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0173706327==--
