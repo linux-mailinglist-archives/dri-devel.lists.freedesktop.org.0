@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 342B56EC6F
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 00:22:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7BB6ECE4
+	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 02:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AADD6E877;
-	Fri, 19 Jul 2019 22:22:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86F196E878;
+	Sat, 20 Jul 2019 00:10:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A4D6E86D
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 22:22:13 +0000 (UTC)
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 566FA21873
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 22:22:13 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id z4so32726734qtc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 19 Jul 2019 15:22:13 -0700 (PDT)
-X-Gm-Message-State: APjAAAVCckryh7xuycEGwgIdRv2xMH5u+0Do8CSQutpxxi8N+kU5qBwA
- Sfk2zS2H5BrUA387KUvMTcxp+IHZ6OzIvaoAbQ==
-X-Google-Smtp-Source: APXvYqylmWU8Z2pZ0I5qiIucGs0rA97npuLXLjjMCEmeOTbkS4MU0aoOZY89EFrmUAXgdvn075gE4Ulrh5y0LmrrN40=
-X-Received: by 2002:a0c:b786:: with SMTP id l6mr40053095qve.148.1563574932548; 
- Fri, 19 Jul 2019 15:22:12 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 196D76E878
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 00:10:06 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0446572167; Sat, 20 Jul 2019 00:10:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111176] Regression: AMD 2400G warning on resolution change
+Date: Sat, 20 Jul 2019 00:10:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: irherder@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111176-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190717183352.22519-1-robh@kernel.org>
- <9a01262c-eb29-5e48-cf94-4e9597ea414c@arm.com>
-In-Reply-To: <9a01262c-eb29-5e48-cf94-4e9597ea414c@arm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 19 Jul 2019 16:22:01 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKRKvyRYt0FMhnAiZzGb1Mn1=Hv94J5h5ZA1mdPSMZudQ@mail.gmail.com>
-Message-ID: <CAL_JsqKRKvyRYt0FMhnAiZzGb1Mn1=Hv94J5h5ZA1mdPSMZudQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] drm/panfrost: Restructure the GEM object creation
-To: Steven Price <steven.price@arm.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1563574933;
- bh=8tJUWMfHq6lUM/OdzZWtc6n6t7xkVkWqe2Pv41/9BC0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=V8um8nn8BCKti+Zx9tDzDyqb+yQj84RJwiw/HYT4cyN+uVWBe2I6tnmXekHboQRlQ
- PkX6+JXeyvW/1V0XMFd72FOUn7hbaR3Q+0YCmCJzdxqhneuNFoNDFnBTLUPZ4Apwa4
- GcwTno1zspm7DVEAdCgcGsEzLonitniJsl4p96Pc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,81 +52,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0192571527=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMTgsIDIwMTkgYXQgOTowMyBBTSBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmlj
-ZUBhcm0uY29tPiB3cm90ZToKPgo+IE9uIDE3LzA3LzIwMTkgMTk6MzMsIFJvYiBIZXJyaW5nIHdy
-b3RlOgo+ID4gU2V0dGluZyB0aGUgR1BVIFZBIHdoZW4gY3JlYXRpbmcgdGhlIEdFTSBvYmplY3Qg
-ZG9lc24ndCBhbGxvdyBmb3IgYW55Cj4gPiBjb25kaXRpb25hbCBhZGp1c3RtZW50cy4gSW4gcHJl
-cGFyYXRpb24gdG8gc3VwcG9ydCBhZGp1c3RpbmcgdGhlCj4gPiBtYXBwaW5nLCByZXN0cnVjdHVy
-ZSB0aGUgR0VNIG9iamVjdCBjcmVhdGlvbiB0byBtYXAgdGhlIEdFTSBvYmplY3QgYWZ0ZXIKPiA+
-IHdlJ3ZlIGNyZWF0ZWQgdGhlIGJhc2Ugc2htZW0gb2JqZWN0Lgo+ID4KPiA+IENjOiBUb21ldSBW
-aXpvc28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgo+ID4gQ2M6IEJvcmlzIEJyZXppbGxv
-biA8Ym9yaXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+Cj4gPiBDYzogUm9iaW4gTXVycGh5IDxy
-b2Jpbi5tdXJwaHlAYXJtLmNvbT4KPiA+IENjOiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBh
-cm0uY29tPgo+ID4gQ2M6IEFseXNzYSBSb3Nlbnp3ZWlnIDxhbHlzc2FAcm9zZW56d2VpZy5pbz4K
-PiA+IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4KPiBIaSBS
-b2IsCj4KPiBJIGNvdWxkbid0IHdvcmsgb3V0IHdoYXQgYmFzZSB0aGlzIHNlcmllcyBzaG91bGQg
-YmUgYXBwbGllZCB0bywgYnV0IEkndmUKPiB0cmllZCBtYW51YWxseSBhcHBseWluZyBpdCBhZ2Fp
-bnN0IExpbnVzJyB0cmVlIGFuZCBydW4gYSBmZXcgdGVzdHMuCgpJdCdzIGRybS1taXNjLW5leHQg
-cGx1cyBzb21lIGZpeGVzIGluIGRybS1taXNjLWZpeGVzIHRoYXQgaGF2ZW4ndCBiZWVuCm1lcmdl
-ZCBpbnRvIGRybS1taXNjLW5leHQgeWV0LiBJJ2xsIHBvc3QgYSBnaXQgYnJhbmNoIG9uIHRoZSBu
-ZXh0CnZlcnNpb24uCgo+IFBBTkZST1NUX0JPX05PRVhFQyB3b3JrcyBhcyBleHBlY3RlZCwgYnV0
-IFBBTkZST1NUX0JPX0hFQVAgc2VlbXMgdG8KPiBjYXVzZSBhIG1lbW9yeSBsZWFrLgo+Cj4gPiAt
-LS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMgfCAyMSArKyst
-LS0tLS0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMgfCA1OCAr
-KysrKysrKysrKysrKysrKysrKy0tLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
-bmZyb3N0X2dlbS5oIHwgIDUgKysrCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA1OSBpbnNlcnRpb25z
-KCspLCAyNSBkZWxldGlvbnMoLSkKPiA+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZy
-b3N0X2Rydi5jCj4gPiBpbmRleCBjYjQzZmY0ZWJmNGEuLmQzNTRiOTI5NjRkNSAxMDA2NDQKPiA+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwo+ID4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jCj4gPiBAQCAtNDYsMjkgKzQ2
-LDIwIEBAIHN0YXRpYyBpbnQgcGFuZnJvc3RfaW9jdGxfZ2V0X3BhcmFtKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QKPiA+ICBzdGF0aWMgaW50IHBhbmZyb3N0X2lv
-Y3RsX2NyZWF0ZV9ibyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+ID4gICAg
-ICAgICAgICAgICBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUpCj4gPiAgewo+ID4gLSAgICAgaW50IHJl
-dDsKPiA+IC0gICAgIHN0cnVjdCBkcm1fZ2VtX3NobWVtX29iamVjdCAqc2htZW07Cj4gPiArICAg
-ICBzdHJ1Y3QgcGFuZnJvc3RfZ2VtX29iamVjdCAqYm87Cj4gPiAgICAgICBzdHJ1Y3QgZHJtX3Bh
-bmZyb3N0X2NyZWF0ZV9ibyAqYXJncyA9IGRhdGE7Cj4gPgo+ID4gICAgICAgaWYgKCFhcmdzLT5z
-aXplIHx8IGFyZ3MtPmZsYWdzIHx8IGFyZ3MtPnBhZCkKPiA+ICAgICAgICAgICAgICAgcmV0dXJu
-IC1FSU5WQUw7Cj4gPgo+ID4gLSAgICAgc2htZW0gPSBkcm1fZ2VtX3NobWVtX2NyZWF0ZV93aXRo
-X2hhbmRsZShmaWxlLCBkZXYsIGFyZ3MtPnNpemUsCj4gPiAtICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICZhcmdzLT5oYW5kbGUpOwo+ID4gLSAgICAgaWYgKElT
-X0VSUihzaG1lbSkpCj4gPiAtICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKHNobWVtKTsKPiA+
-IC0KPiA+IC0gICAgIHJldCA9IHBhbmZyb3N0X21tdV9tYXAodG9fcGFuZnJvc3RfYm8oJnNobWVt
-LT5iYXNlKSk7Cj4gPiAtICAgICBpZiAocmV0KQo+ID4gLSAgICAgICAgICAgICBnb3RvIGVycl9m
-cmVlOwo+ID4gKyAgICAgYm8gPSBwYW5mcm9zdF9nZW1fY3JlYXRlX3dpdGhfaGFuZGxlKGZpbGUs
-IGRldiwgYXJncy0+c2l6ZSwgYXJncy0+ZmxhZ3MsCj4gPiArICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgJmFyZ3MtPmhhbmRsZSk7Cj4gPiArICAgICBpZiAoSVNfRVJS
-KGJvKSkKPiA+ICsgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIoYm8pOwo+ID4KPiA+IC0gICAg
-IGFyZ3MtPm9mZnNldCA9IHRvX3BhbmZyb3N0X2JvKCZzaG1lbS0+YmFzZSktPm5vZGUuc3RhcnQg
-PDwgUEFHRV9TSElGVDsKPiA+ICsgICAgIGFyZ3MtPm9mZnNldCA9IGJvLT5ub2RlLnN0YXJ0IDw8
-IFBBR0VfU0hJRlQ7Cj4gPgo+ID4gICAgICAgcmV0dXJuIDA7Cj4gPiAtCj4gPiAtZXJyX2ZyZWU6
-Cj4gPiAtICAgICBkcm1fZ2VtX2hhbmRsZV9kZWxldGUoZmlsZSwgYXJncy0+aGFuZGxlKTsKPiA+
-IC0gICAgIHJldHVybiByZXQ7Cj4gPiAgfQo+ID4KPiA+ICAvKioKPiA+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-cGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMKPiA+IGluZGV4IDU0M2FiMWI4MWJkNS4uZGY3MGRjZjNj
-YjJmIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dl
-bS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmMKPiA+
-IEBAIC0yMyw3ICsyMyw4IEBAIHN0YXRpYyB2b2lkIHBhbmZyb3N0X2dlbV9mcmVlX29iamVjdChz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPiA+ICAgICAgICAgICAgICAgcGFuZnJvc3RfbW11
-X3VubWFwKGJvKTsKPiA+Cj4gPiAgICAgICBzcGluX2xvY2soJnBmZGV2LT5tbV9sb2NrKTsKPiA+
-IC0gICAgIGRybV9tbV9yZW1vdmVfbm9kZSgmYm8tPm5vZGUpOwo+ID4gKyAgICAgaWYgKGRybV9t
-bV9ub2RlX2FsbG9jYXRlZCgmYm8tPm5vZGUpKQo+ID4gKyAgICAgICAgICAgICBkcm1fbW1fcmVt
-b3ZlX25vZGUoJmJvLT5ub2RlKTsKPgo+IEknbSBub3Qgc3VyZSB0aGlzIGNoYW5nZSBzaG91bGQg
-YmUgaGVyZSAtIGl0IGxvb2tzIG1vcmUgbGlrZSBpdCB3YXMKPiBtZWFudCBhcyBwYXJ0IG9mIHBh
-dGNoIDQuCgpJdCdzIG5lZWRlZCBoZXJlIGJlY2F1c2UgYmVjYXVzZSB3ZSBkbyB0aGUgbWFwcGlu
-ZyBsYXRlciBpbnN0ZWFkIG9mCnRoZSAuZ2VtX2NyZWF0ZV9vYmplY3QoKSBob29rLiBTbyB3aGVu
-IHdlIGZyZWUgdGhlIG9iamVjdCBpbiBjYXNlIG9mCmVycm9ycywgdGhlIG1hcHBpbmcgbWF5IG9y
-IG1heSBub3QgaGF2ZSBiZWVuIGNyZWF0ZWQuCgpSb2IKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0192571527==
+Content-Type: multipart/alternative; boundary="15635814050.B4fA82DC5.15208"
+Content-Transfer-Encoding: 7bit
+
+
+--15635814050.B4fA82DC5.15208
+Date: Sat, 20 Jul 2019 00:10:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111176
+
+            Bug ID: 111176
+           Summary: Regression: AMD 2400G warning on resolution change
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: irherder@gmail.com
+
+Created attachment 144825
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144825&action=3Dedit
+dmesg
+
+Since update to kernel 5.2.x I'm experiencing warnings with backtrace (see
+attached dmesg) every time display resolution is changed.
+AFAIK the system continues working without further issues.
+The issue was not present in 5.1.x.
+
+Hardware:
+AMD 2400G
+MSI B450I gaming plus ac
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15635814050.B4fA82DC5.15208
+Date: Sat, 20 Jul 2019 00:10:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Regression: AMD 2400G warning on resolution change"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111176">111176</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Regression: AMD 2400G warning on resolution change
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>irherder&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144825=
+" name=3D"attach_144825" title=3D"dmesg">attachment 144825</a> <a href=3D"a=
+ttachment.cgi?id=3D144825&amp;action=3Dedit" title=3D"dmesg">[details]</a><=
+/span>
+dmesg
+
+Since update to kernel 5.2.x I'm experiencing warnings with backtrace (see
+attached dmesg) every time display resolution is changed.
+AFAIK the system continues working without further issues.
+The issue was not present in 5.1.x.
+
+Hardware:
+AMD 2400G
+MSI B450I gaming plus ac</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15635814050.B4fA82DC5.15208--
+
+--===============0192571527==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0192571527==--
