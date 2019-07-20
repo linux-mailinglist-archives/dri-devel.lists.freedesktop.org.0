@@ -1,40 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604BF6F0BB
-	for <lists+dri-devel@lfdr.de>; Sat, 20 Jul 2019 23:09:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 915086F102
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2019 01:37:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D102B6E8BE;
-	Sat, 20 Jul 2019 21:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CE0E89CF3;
+	Sat, 20 Jul 2019 23:37:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE32A6E8BE
- for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 21:09:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 6A16EFB03;
- Sat, 20 Jul 2019 23:09:24 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lt3q_07BvhWh; Sat, 20 Jul 2019 23:09:23 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id ABB364017E; Sat, 20 Jul 2019 23:09:22 +0200 (CEST)
-Date: Sat, 20 Jul 2019 23:09:22 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Robert Chiras <robert.chiras@nxp.com>
-Subject: Re: [EXT] Re: [PATCH 00/10] Improvements and fixes for mxsfb DRM
- driver
-Message-ID: <20190720210922.GA464@bogon.m.sigxcpu.org>
-References: <1561555938-21595-1-git-send-email-robert.chiras@nxp.com>
- <20190711150403.GB23195@bogon.m.sigxcpu.org>
- <1562919331.3209.11.camel@nxp.com>
- <20190716145450.GA609@bogon.m.sigxcpu.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8F55189CF3
+ for <dri-devel@lists.freedesktop.org>; Sat, 20 Jul 2019 23:37:32 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 850C772167; Sat, 20 Jul 2019 23:37:32 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
+ consume huge amount of RAM
+Date: Sat, 20 Jul 2019 23:37:32 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: roland@rptd.ch
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-IaS8WA2ROc@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190716145450.GA609@bogon.m.sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,77 +53,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "marex@denx.de" <marex@denx.de>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "kernel@pengutronix.de" <kernel@pengutronix.de>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- dl-linux-imx <linux-imx@nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0258930448=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUm9iZXJ0LApPbiBUdWUsIEp1bCAxNiwgMjAxOSBhdCAwNDo1NDo1MFBNICswMjAwLCBHdWlk
-byBHw7xudGhlciB3cm90ZToKPiBIaSBSb2JlcnQsCj4gT24gRnJpLCBKdWwgMTIsIDIwMTkgYXQg
-MDg6MTU6MzJBTSArMDAwMCwgUm9iZXJ0IENoaXJhcyB3cm90ZToKPiA+IEhpIEd1aWRvLAo+ID4g
-Cj4gPiBPbiBKbywgMjAxOS0wNy0xMSBhdCAxNzowNCArMDIwMCwgR3VpZG8gR8O8bnRoZXIgd3Jv
-dGU6Cj4gPiA+IEhpIFJvYmVydCwKPiA+ID4gT24gV2VkLCBKdW4gMjYsIDIwMTkgYXQgMDQ6MzI6
-MDhQTSArMDMwMCwgUm9iZXJ0IENoaXJhcyB3cm90ZToKPiA+ID4gPiAKPiA+ID4gPiBUaGlzIHBh
-dGNoLXNldCBpbXByb3ZlcyB0aGUgdXNlIG9mIGVMQ0RJRiBibG9jayBvbiBpTVggOCBTb0NzIChs
-aWtlCj4gPiA+ID4gOE1RLCA4TU0KPiA+ID4gPiBhbmQgOFFYUCkuIEZvbGxvd2luZywgYXJlIHRo
-ZSBuZXcgZmVhdHVyZXMgYWRkZWQgYW5kIGZpeGVzIGZyb20KPiA+ID4gPiB0aGlzCj4gPiA+ID4g
-cGF0Y2gtc2V0Ogo+ID4gPiA+IAo+ID4gPiA+IDEuIEFkZCBzdXBwb3J0IGZvciBkcm1fYnJpZGdl
-Cj4gPiA+ID4gT24gOE1RIGFuZCA4TU0sIHRoZSBMQ0RJRiBibG9jayBpcyBub3QgZGlyZWN0bHkg
-Y29ubmVjdGVkIHRvIGEKPiA+ID4gPiBwYXJhbGxlbAo+ID4gPiA+IGRpc3BsYXkgY29ubmVjdG9y
-LCB3aGVyZSBhbiBMQ0QgcGFuZWwgY2FuIGJlIGF0dGFjaGVkLCBidXQgaW5zdGVhZAo+ID4gPiA+
-IGl0IGlzCj4gPiA+ID4gY29ubmVjdGVkIHRvIERTSSBjb250cm9sbGVyLiBTaW5jZSB0aGlzIERT
-SSBzdGFuZHMgYmV0d2VlbiB0aGUKPiA+ID4gPiBkaXNwbGF5Cj4gPiA+ID4gY29udHJvbGxlciAo
-ZUxDRElGKSBhbmQgdGhlIHBoeXNpY2FsIGNvbm5lY3RvciwgdGhlIERTSSBjYW4gYmUKPiA+ID4g
-PiBpbXBsZW1lbnRlZAo+ID4gPiA+IGFzIGEgRFJNIGJyaWRnZS4gU28sIGluIG9yZGVyIHRvIGJl
-IGFibGUgdG8gY29ubmVjdCB0aGUgbXhzZmIKPiA+ID4gPiBkcml2ZXIgdG8KPiA+ID4gPiB0aGUg
-RFNJIGRyaXZlciwgdGhlIHN1cHBvcnQgZm9yIGEgZHJtX2JyaWRnZSB3YXMgbmVlZGVkIGluIG14
-c2ZiCj4gPiA+ID4gRFJNCj4gPiA+ID4gZHJpdmVyICh0aGUgYWN0dWFsIGRyaXZlciBmb3IgdGhl
-IGVMQ0RJRiBibG9jaykuCj4gPiA+IFNvIEkgd2FudGVkIHRvIHRlc3QgdGhpcyBidXQgd2l0aCBi
-b3RoIG15IHNvbWV3aGF0IGNsZWFuZWQgdXAgbndsCj4gPiA+IGRyaXZlcsK5IGFuZCB0aGUgbnds
-IGRyaXZlciBmb3J3YXJkIHBvcnRlZCBmcm9tIHRoZSBueHAgdmVuZG9yIHRyZWUKPiA+ID4gSSdt
-Cj4gPiA+IGxvb2tpbmcgYXQgYSBibGFjayBzY3JlZW4gd2l0aCBjdXJyZW50IG1haW5saW5lIC0g
-d2hpbGUgbXkgZGNzcwo+ID4gPiBmb3J3YXJkCj4gPiA+IHBvcnQgZ2l2ZXMgbWUgbmljZSBvdXRw
-dXQgb24gbWlwaSBkc2kuIERvIHlvdSBoYXZlIGEgdHJlZSB0aGF0IHVzZXMKPiA+ID4gbWlwaQo+
-ID4gPiBkc2kgb24gaW14OG1xIHdoZXJlIEkgY291bGQgbG9vayBhdCB0byBjaGVjayBmb3IgZGlm
-ZmVyZW5jZXM/Cj4gPiBTb21ld2hlcmUgb24gdGhlIHBpeGVsIHBhdGggKGJldHdlZW4gdGhlIGRp
-c3BsYXkgY29udHJvbGxlciBhbmQgdGhlCj4gPiBEU0kpIHRoZXJlIGlzIGEgYmxvY2sgdGhhdCBp
-bnZlcnRzIHRoZSBwb2xhcml0eS4gSSBjYW4ndCByZW1lbWJlcgo+ID4gZXhhY3RseSB3aGF0IHdh
-cyB0aGUgcm9sZSBvZiB0aGlzIGJsb2NrLCBidXQgdGhlIHBvbGFyaXR5IGlzIGludmVydGVkCj4g
-PiB3aGVuIGVMQ0RJRiBpcyB1c2VkIGluIGNvbWJpbmF0aW9uIHdpdGggdGhlIERTSS4KPiA+IElm
-IHlvdSB0YWtlIGEgbG9vayBhdCBteSBEU0kgZHJpdmVyIGZyb20gTlhQIHJlbGVhc2VzIChJIGd1
-ZXNzIHlvdSBoYXZlCj4gPiB0aGVtKSwgeW91IHdpbGwgc2VlIHRoZXJlIGlzIGEgaGFjayBpbiBt
-b2RlX2ZpeHVwOgo+ID4gCj4gPiB1bnNpZ25lZCBpbnQgKmZsYWdzID0gJm1vZGUtPmZsYWdzOwo+
-ID4gaWYgKGRzaS0+c3luY19wb2wgewo+ID4gCSpmbGFncyB8PSBEUk1fTU9ERV9GTEFHX1BIU1lO
-QzsKPiA+IAkqZmxhZ3MgfD0gRFJNX01PREVfRkxBR19QVlNZTkM7Cj4gPiAJKmZsYWdzICY9IH5E
-Uk1fTU9ERV9GTEFHX05IU1lOQzsKPiA+IAkqZmxhZ3MgJj0gfkRSTV9NT0RFX0ZMQUdfTlZTWU5D
-Owo+ID4gfSBlbHNlIHsKPiA+IAkqZmxhZ3MgJj0gfkRSTV9NT0RFX0ZMQUdfUEhTWU5DOwo+ID4g
-CSpmbGFncyAmPSB+RFJNX01PREVfRkxBR19QVlNZTkM7Cj4gPiAJKmZsYWdzIHw9IERSTV9NT0RF
-X0ZMQUdfTkhTWU5DOwo+ID4gCSpmbGFncyB8PSBEUk1fTU9ERV9GTEFHX05WU1lOQzsKPiA+IH0K
-PiAKPiBUaGFua3MgZm9yIHRoZSBzdWdnZXN0aW9uISBJJ2xsIHRyeSB0aGF0Lgo+Cj4gPiAKPiA+
-IEkga25vdyBpdCdzIG5vdCBjbGVhbiwgYnV0IGl0IHdvcmtzIGZvciBub3cuIFlvdSBjYW4gdHJ5
-IHRoaXMgaW4geW91cgo+ID4gZHJpdmVyIGFuZCBzZWUgaWYgaXQgaGVscHMuCj4gPiBUaGVzZSBk
-YXlzIEkgd2lsbCBhbHNvIHRha2UgeW91ciBud2wtZHNpIGRyaXZlciBhbmQgdGVzdCBpdCwgYW5k
-IGFsc28KPiA+IGFkZCBzdXBwb3J0IGZvciBicmlkZ2UgYW5kIGVMQ0RJRiB0byBzZWUgaWYgSSBj
-YW4gbWFrZSBpdCB3b3JrLgo+IAo+IEkgaGF2ZSBoYWNreSBicmlkZ2Ugc3VwcG9ydCBvdmVyIGhl
-cmUgYWxyZWFkeS4gR2l2ZSBtZSBzb21lIGRheXMgdG8KPiBjbGVhbiBpdCB1cCBhbmQgaXQgbWln
-aHQgc2FmZSB5b3Ugc29tZSB3b3JrLgoKWW91ciBzdWdnZXN0aW9uIGFib3ZlIChwbHVzIHNvbWUg
-b3RoZXIgZml4ZXMpIHdvcmtlZCBhbmQKbXhzZmIrbndsK21peGVsLWRwaHkgd29ya3Mgb3ZlciBo
-ZXJlLiBJJ2xsIHRyeSB0byBzZW5kIGEgdjEgb2YgdGhlIG53bApkcml2ZXIgb3V0IGR1cmluZyB0
-aGUgd2Vlay4KQ2hlZXJzLAogLS0gR3VpZG8KCj4gQ2hlZXJzLAo+ICAtLSBHdWlkbwo+IAo+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gbGludXgtYXJt
-LWtlcm5lbCBtYWlsaW5nIGxpc3QKPiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5v
-cmcKPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWFy
-bS1rZXJuZWwKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0258930448==
+Content-Type: multipart/alternative; boundary="15636658520.c1fb0D7e.21482"
+Content-Transfer-Encoding: 7bit
+
+
+--15636658520.c1fb0D7e.21482
+Date: Sat, 20 Jul 2019 23:37:32 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+
+--- Comment #11 from roland@rptd.ch <roland@rptd.ch> ---
+Unfortunately it does not compile like this:
+
+FAILED: src/amd/common/2a96a08@@amd_common@sta/ac_nir_to_llvm.c.o=20
+cc -Isrc/amd/common/2a96a08@@amd_common@sta -Isrc/amd/common
+-I../src/amd/common -Isrc/../include -I../src/../include -Isrc -I../src
+-Isrc/mapi -I../src/mapi -Isrc/mesa -I../src/mesa -I../src/gallium/include
+-Isrc/gallium/auxiliary -I../src/gallium/auxiliary -Isrc/compiler
+-I../src/compiler -Isrc/amd -I../src/amd -Isrc/compiler/nir
+-I../src/compiler/nir -I/usr/lib64/llvm/7/include -I/usr/include/libdrm
+-fdiagnostics-color=3Dalways -DNDEBUG -pipe -D_FILE_OFFSET_BITS=3D64 -std=
+=3Dc99
+'-DVERSION=3D"18.0.0-rc2"' -DPACKAGE_VERSION=3DVERSION
+'-DPACKAGE_BUGREPORT=3D"https://bugs.freedesktop.org/enter_bug.cgi?product=
+=3DMesa"'
+-DGLX_USE_TLS -DHAVE_X11_PLATFORM -DGLX_INDIRECT_RENDERING
+-DGLX_DIRECT_RENDERING -DGLX_USE_DRM -DHAVE_DRM_PLATFORM
+-DHAVE_SURFACELESS_PLATFORM -DENABLE_SHADER_CACHE -DHAVE___BUILTIN_BSWAP32
+-DHAVE___BUILTIN_BSWAP64 -DHAVE___BUILTIN_CLZ -DHAVE___BUILTIN_CLZLL
+-DHAVE___BUILTIN_CTZ -DHAVE___BUILTIN_EXPECT -DHAVE___BUILTIN_FFS
+-DHAVE___BUILTIN_FFSLL -DHAVE___BUILTIN_POPCOUNT -DHAVE___BUILTIN_POPCOUNTLL
+-DHAVE___BUILTIN_UNREACHABLE -DHAVE_FUNC_ATTRIBUTE_CONST
+-DHAVE_FUNC_ATTRIBUTE_FLATTEN -DHAVE_FUNC_ATTRIBUTE_MALLOC
+-DHAVE_FUNC_ATTRIBUTE_PURE -DHAVE_FUNC_ATTRIBUTE_UNUSED
+-DHAVE_FUNC_ATTRIBUTE_WARN_UNUSED_RESULT -DHAVE_FUNC_ATTRIBUTE_WEAK
+-DHAVE_FUNC_ATTRIBUTE_FORMAT -DHAVE_FUNC_ATTRIBUTE_PACKED
+-DHAVE_FUNC_ATTRIBUTE_RETURNS_NONNULL -DHAVE_FUNC_ATTRIBUTE_VISIBILITY
+-DHAVE_FUNC_ATTRIBUTE_ALIAS -DHAVE_FUNC_ATTRIBUTE_NORETURN -DUSE_SSE41
+-DUSE_GCC_ATOMIC_BUILTINS -DUSE_X86_64_ASM -DMAJOR_IN_SYSMACROS
+-DHAVE_SYS_SYSCTL_H -DHAVE_LINUX_FUTEX_H -DHAVE_STRTOF -DHAVE_MKOSTEMP
+-DHAVE_POSIX_MEMALIGN -DHAVE_TIMESPEC_GET -DHAVE_MEMFD_CREATE -DHAVE_STRTOD=
+_L
+-DHAVE_DLADDR -DHAVE_DL_ITERATE_PHDR -DHAVE_LIBDRM -DHAVE_ZLIB -DHAVE_PTHRE=
+AD
+-DHAVE_LLVM=3D0x0710 -DMESA_LLVM_VERSION_PATCH=3D0 -DHAVE_WAYLAND_PLATFORM
+-DWL_HIDE_DEPRECATED -DHAVE_DRI3 -DHAVE_LIBSENSORS=3D1 -Wall
+-Werror=3Dimplicit-function-declaration -Werror=3Dmissing-prototypes
+-fno-math-errno -fno-trapping-math -fPIC -pthread -D__STDC_LIMIT_MACROS
+-D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS
+-fvisibility=3Dhidden -MD -MQ
+'src/amd/common/2a96a08@@amd_common@sta/ac_nir_to_llvm.c.o' -MF
+'src/amd/common/2a96a08@@amd_common@sta/ac_nir_to_llvm.c.o.d' -o
+'src/amd/common/2a96a08@@amd_common@sta/ac_nir_to_llvm.c.o' -c
+../src/amd/common/ac_nir_to_llvm.c
+../src/amd/common/ac_nir_to_llvm.c: In function =E2=80=98ac_llvm_finalize_m=
+odule=E2=80=99:
+../src/amd/common/ac_nir_to_llvm.c:6614:2: error: implicit declaration of
+function =E2=80=98LLVMAddPromoteMemoryToRegisterPass=E2=80=99; did you mean
+=E2=80=98LLVMAddDemoteMemoryToRegisterPass=E2=80=99? [-Werror=3Dimplicit-fu=
+nction-declaration]
+  LLVMAddPromoteMemoryToRegisterPass(passmgr);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  LLVMAddDemoteMemoryToRegisterPass
+cc1: some warnings being treated as errors
+[425/1549] Compiling C object
+'src/mesa/bbe4a73@@mesa_gallium@sta/main_format_utils.c.o'.
+ninja: build stopped: subcommand failed.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15636658520.c1fb0D7e.21482
+Date: Sat, 20 Jul 2019 23:37:32 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c11">Comme=
+nt # 11</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+roland&#64;rptd.ch" title=3D"roland&#64;rptd.ch &lt;roland&#64;rptd.ch&gt;"=
+> <span class=3D"fn">roland&#64;rptd.ch</span></a>
+</span></b>
+        <pre>Unfortunately it does not compile like this:
+
+FAILED: src/amd/common/2a96a08&#64;&#64;amd_common&#64;sta/ac_nir_to_llvm.c=
+.o=20
+cc -Isrc/amd/common/2a96a08&#64;&#64;amd_common&#64;sta -Isrc/amd/common
+-I../src/amd/common -Isrc/../include -I../src/../include -Isrc -I../src
+-Isrc/mapi -I../src/mapi -Isrc/mesa -I../src/mesa -I../src/gallium/include
+-Isrc/gallium/auxiliary -I../src/gallium/auxiliary -Isrc/compiler
+-I../src/compiler -Isrc/amd -I../src/amd -Isrc/compiler/nir
+-I../src/compiler/nir -I/usr/lib64/llvm/7/include -I/usr/include/libdrm
+-fdiagnostics-color=3Dalways -DNDEBUG -pipe -D_FILE_OFFSET_BITS=3D64 -std=
+=3Dc99
+'-DVERSION=3D&quot;18.0.0-rc2&quot;' -DPACKAGE_VERSION=3DVERSION
+'-DPACKAGE_BUGREPORT=3D&quot;<a href=3D"https://bugs.freedesktop.org/enter_=
+bug.cgi?product=3DMesa">https://bugs.freedesktop.org/enter_bug.cgi?product=
+=3DMesa</a>&quot;'
+-DGLX_USE_TLS -DHAVE_X11_PLATFORM -DGLX_INDIRECT_RENDERING
+-DGLX_DIRECT_RENDERING -DGLX_USE_DRM -DHAVE_DRM_PLATFORM
+-DHAVE_SURFACELESS_PLATFORM -DENABLE_SHADER_CACHE -DHAVE___BUILTIN_BSWAP32
+-DHAVE___BUILTIN_BSWAP64 -DHAVE___BUILTIN_CLZ -DHAVE___BUILTIN_CLZLL
+-DHAVE___BUILTIN_CTZ -DHAVE___BUILTIN_EXPECT -DHAVE___BUILTIN_FFS
+-DHAVE___BUILTIN_FFSLL -DHAVE___BUILTIN_POPCOUNT -DHAVE___BUILTIN_POPCOUNTLL
+-DHAVE___BUILTIN_UNREACHABLE -DHAVE_FUNC_ATTRIBUTE_CONST
+-DHAVE_FUNC_ATTRIBUTE_FLATTEN -DHAVE_FUNC_ATTRIBUTE_MALLOC
+-DHAVE_FUNC_ATTRIBUTE_PURE -DHAVE_FUNC_ATTRIBUTE_UNUSED
+-DHAVE_FUNC_ATTRIBUTE_WARN_UNUSED_RESULT -DHAVE_FUNC_ATTRIBUTE_WEAK
+-DHAVE_FUNC_ATTRIBUTE_FORMAT -DHAVE_FUNC_ATTRIBUTE_PACKED
+-DHAVE_FUNC_ATTRIBUTE_RETURNS_NONNULL -DHAVE_FUNC_ATTRIBUTE_VISIBILITY
+-DHAVE_FUNC_ATTRIBUTE_ALIAS -DHAVE_FUNC_ATTRIBUTE_NORETURN -DUSE_SSE41
+-DUSE_GCC_ATOMIC_BUILTINS -DUSE_X86_64_ASM -DMAJOR_IN_SYSMACROS
+-DHAVE_SYS_SYSCTL_H -DHAVE_LINUX_FUTEX_H -DHAVE_STRTOF -DHAVE_MKOSTEMP
+-DHAVE_POSIX_MEMALIGN -DHAVE_TIMESPEC_GET -DHAVE_MEMFD_CREATE -DHAVE_STRTOD=
+_L
+-DHAVE_DLADDR -DHAVE_DL_ITERATE_PHDR -DHAVE_LIBDRM -DHAVE_ZLIB -DHAVE_PTHRE=
+AD
+-DHAVE_LLVM=3D0x0710 -DMESA_LLVM_VERSION_PATCH=3D0 -DHAVE_WAYLAND_PLATFORM
+-DWL_HIDE_DEPRECATED -DHAVE_DRI3 -DHAVE_LIBSENSORS=3D1 -Wall
+-Werror=3Dimplicit-function-declaration -Werror=3Dmissing-prototypes
+-fno-math-errno -fno-trapping-math -fPIC -pthread -D__STDC_LIMIT_MACROS
+-D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS
+-fvisibility=3Dhidden -MD -MQ
+'src/amd/common/2a96a08&#64;&#64;amd_common&#64;sta/ac_nir_to_llvm.c.o' -MF
+'src/amd/common/2a96a08&#64;&#64;amd_common&#64;sta/ac_nir_to_llvm.c.o.d' -o
+'src/amd/common/2a96a08&#64;&#64;amd_common&#64;sta/ac_nir_to_llvm.c.o' -c
+../src/amd/common/ac_nir_to_llvm.c
+../src/amd/common/ac_nir_to_llvm.c: In function =E2=80=98ac_llvm_finalize_m=
+odule=E2=80=99:
+../src/amd/common/ac_nir_to_llvm.c:6614:2: error: implicit declaration of
+function =E2=80=98LLVMAddPromoteMemoryToRegisterPass=E2=80=99; did you mean
+=E2=80=98LLVMAddDemoteMemoryToRegisterPass=E2=80=99? [-Werror=3Dimplicit-fu=
+nction-declaration]
+  LLVMAddPromoteMemoryToRegisterPass(passmgr);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  LLVMAddDemoteMemoryToRegisterPass
+cc1: some warnings being treated as errors
+[425/1549] Compiling C object
+'src/mesa/bbe4a73&#64;&#64;mesa_gallium&#64;sta/main_format_utils.c.o'.
+ninja: build stopped: subcommand failed.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15636658520.c1fb0D7e.21482--
+
+--===============0258930448==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0258930448==--
