@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48196F367
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2019 15:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26596F397
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2019 16:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC0B89B55;
-	Sun, 21 Jul 2019 13:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32A7789A35;
+	Sun, 21 Jul 2019 14:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id D885489B55
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2019 13:25:27 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D14DE72168; Sun, 21 Jul 2019 13:25:27 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21AB89A35
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2019 14:06:14 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 4290E80401;
+ Sun, 21 Jul 2019 16:06:12 +0200 (CEST)
+Date: Sun, 21 Jul 2019 16:06:10 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111021] [kernel 5.2.1][amdgpu][CIK] cp queue preemption time
- out, BUG: kernel NULL pointer dereference, address: 0000000000000038
-Date: Sun, 21 Jul 2019 13:25:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: short_desc
-Message-ID: <bug-111021-502-ErFXennMEu@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111021-502@http.bugs.freedesktop.org/>
-References: <bug-111021-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v1 1/1] drm/fb: remove unused function:
+ drm_gem_fbdev_fb_create()
+Message-ID: <20190721140610.GA20842@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8 a=SJz97ENfAAAA:8 a=20KFwNOVAAAA:8
+ a=HZxFLZg_u37BMTJc1w0A:9 a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,102 +44,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0266045351=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0266045351==
-Content-Type: multipart/alternative; boundary="15637155271.A30F.24304"
-Content-Transfer-Encoding: 7bit
-
-
---15637155271.A30F.24304
-Date: Sun, 21 Jul 2019 13:25:27 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111021
-
-erhard_f@mailbox.org changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|[amdgpu][CIK] cp queue      |[kernel 5.2.1][amdgpu][CIK]
-                   |preemption time out, BUG:   |cp queue preemption time
-                   |kernel NULL pointer         |out, BUG: kernel NULL
-                   |dereference, address:       |pointer dereference,
-                   |0000000000000038            |address: 0000000000000038
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15637155271.A30F.24304
-Date: Sun, 21 Jul 2019 13:25:27 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:erhard_f&=
-#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;mailbox.or=
-g</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [kernel 5.2.1][amdgpu][CIK] cp queue preemption time out,=
- BUG: kernel NULL pointer dereference, address: 0000000000000038"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111021">bug 11102=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Summary</td>
-           <td>[amdgpu][CIK] cp queue preemption time out, BUG: kernel NULL=
- pointer dereference, address: 0000000000000038
-           </td>
-           <td>[kernel 5.2.1][amdgpu][CIK] cp queue preemption time out, BU=
-G: kernel NULL pointer dereference, address: 0000000000000038
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15637155271.A30F.24304--
-
---===============0266045351==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0266045351==--
+QWZ0ZXIgbWlncmF0aW5nIHNldmVyYWwgZHJpdmVycyB0byB0aGUgZ2VuZXJpYyBmYmRldiB0aGVy
+ZSBhcmUKbm8gdXNlcnMgbGVmdC4gIERlbGV0ZSB0aGUgZnVuY3Rpb24uCgpOb3RpY2VkIHRoYXQg
+dGhlcmUgd2FzIG5vIGNhbGxlcnMgd2hpbGUgYnJvd3NpbmcKYXJvdW5kIGluIHRoZSBkcm1fZmIq
+IGNvZGUuCgpMYXN0IHVzZXIgd2FzIHJlbW92ZWQgd2l0aDoKY29tbWl0IDEzYWZmMTg0ZWQ5ZiAo
+ImRybS9xeGw6IHJlbW92ZSBkZWFkIHF4bCBmYmRldiBlbXVsYXRpb24gY29kZSIpCmNvbW1pdCAy
+NmQ0NzA3ZDQ0NWQgKCJkcm0vcXhsOiB1c2UgZ2VuZXJpYyBmYmRldiBlbXVsYXRpb24iKQoKU2ln
+bmVkLW9mZi1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpDYzogTm9yYWxmIFRy
+w7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+CkNjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVk
+aGF0LmNvbT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Ci0tLQoK
+Z2l0IGdyZXAgc2hvd2VkIG5vIHVzZXJzLCBhbmQgZHJtIHdhcyBidWlsZAp0ZXN0ZWQgYWZ0ZXIg
+cmVtb3ZhbCBmb3IgZ29vZCBtZWFzdXJlLgoKCVNhbQoKIGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
+X2ZyYW1lYnVmZmVyX2hlbHBlci5jIHwgNDMgLS0tLS0tLS0tLS0tLS0tLS0tLS0KIGluY2x1ZGUv
+ZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmggICAgIHwgIDcgLS0tLQogMiBmaWxlcyBj
+aGFuZ2VkLCA1MCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2ZyYW1l
+YnVmZmVyX2hlbHBlci5jCmluZGV4IGE2NDI2Yzk1YjM4My4uZjYxMzA0MDU0Nzg2IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9mcmFtZWJ1ZmZlcl9oZWxwZXIuYwpAQCAtMzIyLDQ2ICsz
+MjIsMyBAQCBpbnQgZHJtX2dlbV9mYl9zaW1wbGVfZGlzcGxheV9waXBlX3ByZXBhcmVfZmIoc3Ry
+dWN0IGRybV9zaW1wbGVfZGlzcGxheV9waXBlICpwaQogCXJldHVybiBkcm1fZ2VtX2ZiX3ByZXBh
+cmVfZmIoJnBpcGUtPnBsYW5lLCBwbGFuZV9zdGF0ZSk7CiB9CiBFWFBPUlRfU1lNQk9MKGRybV9n
+ZW1fZmJfc2ltcGxlX2Rpc3BsYXlfcGlwZV9wcmVwYXJlX2ZiKTsKLQotLyoqCi0gKiBkcm1fZ2Vt
+X2ZiZGV2X2ZiX2NyZWF0ZSAtIENyZWF0ZSBhIEdFTSBiYWNrZWQgJmRybV9mcmFtZWJ1ZmZlciBm
+b3IgZmJkZXYKLSAqICAgICAgICAgICAgICAgICAgICAgICAgICAgZW11bGF0aW9uCi0gKiBAZGV2
+OiBEUk0gZGV2aWNlCi0gKiBAc2l6ZXM6IGZiZGV2IHNpemUgZGVzY3JpcHRpb24KLSAqIEBwaXRj
+aF9hbGlnbjogT3B0aW9uYWwgcGl0Y2ggYWxpZ25tZW50Ci0gKiBAb2JqOiBHRU0gb2JqZWN0IGJh
+Y2tpbmcgdGhlIGZyYW1lYnVmZmVyCi0gKiBAZnVuY3M6IE9wdGlvbmFsIHZ0YWJsZSB0byBiZSB1
+c2VkIGZvciB0aGUgbmV3IGZyYW1lYnVmZmVyIG9iamVjdCB3aGVuIHRoZQotICogICAgICAgICBk
+aXJ0eSBjYWxsYmFjayBpcyBuZWVkZWQuCi0gKgotICogVGhpcyBmdW5jdGlvbiBjcmVhdGVzIGEg
+ZnJhbWVidWZmZXIgZnJvbSBhICZkcm1fZmJfaGVscGVyX3N1cmZhY2Vfc2l6ZQotICogZGVzY3Jp
+cHRpb24gZm9yIHVzZSBpbiB0aGUgJmRybV9mYl9oZWxwZXJfZnVuY3MuZmJfcHJvYmUgY2FsbGJh
+Y2suCi0gKgotICogUmV0dXJuczoKLSAqIFBvaW50ZXIgdG8gYSAmZHJtX2ZyYW1lYnVmZmVyIG9u
+IHN1Y2Nlc3Mgb3IgYW4gZXJyb3IgcG9pbnRlciBvbiBmYWlsdXJlLgotICovCi1zdHJ1Y3QgZHJt
+X2ZyYW1lYnVmZmVyICoKLWRybV9nZW1fZmJkZXZfZmJfY3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNl
+ICpkZXYsCi0JCQlzdHJ1Y3QgZHJtX2ZiX2hlbHBlcl9zdXJmYWNlX3NpemUgKnNpemVzLAotCQkJ
+dW5zaWduZWQgaW50IHBpdGNoX2FsaWduLCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKLQkJ
+CWNvbnN0IHN0cnVjdCBkcm1fZnJhbWVidWZmZXJfZnVuY3MgKmZ1bmNzKQotewotCXN0cnVjdCBk
+cm1fbW9kZV9mYl9jbWQyIG1vZGVfY21kID0geyAwIH07Ci0KLQltb2RlX2NtZC53aWR0aCA9IHNp
+emVzLT5zdXJmYWNlX3dpZHRoOwotCW1vZGVfY21kLmhlaWdodCA9IHNpemVzLT5zdXJmYWNlX2hl
+aWdodDsKLQltb2RlX2NtZC5waXRjaGVzWzBdID0gc2l6ZXMtPnN1cmZhY2Vfd2lkdGggKgotCQkJ
+ICAgICAgRElWX1JPVU5EX1VQKHNpemVzLT5zdXJmYWNlX2JwcCwgOCk7Ci0JaWYgKHBpdGNoX2Fs
+aWduKQotCQltb2RlX2NtZC5waXRjaGVzWzBdID0gcm91bmR1cChtb2RlX2NtZC5waXRjaGVzWzBd
+LAotCQkJCQkgICAgICBwaXRjaF9hbGlnbik7Ci0JbW9kZV9jbWQucGl4ZWxfZm9ybWF0ID0gZHJt
+X2RyaXZlcl9sZWdhY3lfZmJfZm9ybWF0KGRldiwgc2l6ZXMtPnN1cmZhY2VfYnBwLAotCQkJCQkJ
+CSAgICBzaXplcy0+c3VyZmFjZV9kZXB0aCk7Ci0JaWYgKG9iai0+c2l6ZSA8IG1vZGVfY21kLnBp
+dGNoZXNbMF0gKiBtb2RlX2NtZC5oZWlnaHQpCi0JCXJldHVybiBFUlJfUFRSKC1FSU5WQUwpOwot
+Ci0JaWYgKCFmdW5jcykKLQkJZnVuY3MgPSAmZHJtX2dlbV9mYl9mdW5jczsKLQotCXJldHVybiBk
+cm1fZ2VtX2ZiX2FsbG9jKGRldiwgJm1vZGVfY21kLCAmb2JqLCAxLCBmdW5jcyk7Ci19Ci1FWFBP
+UlRfU1lNQk9MKGRybV9nZW1fZmJkZXZfZmJfY3JlYXRlKTsKZGlmZiAtLWdpdCBhL2luY2x1ZGUv
+ZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmggYi9pbmNsdWRlL2RybS9kcm1fZ2VtX2Zy
+YW1lYnVmZmVyX2hlbHBlci5oCmluZGV4IDdmMzA3ZTgzNGVlZi4uZDlmMTNmZDI1YjBhIDEwMDY0
+NAotLS0gYS9pbmNsdWRlL2RybS9kcm1fZ2VtX2ZyYW1lYnVmZmVyX2hlbHBlci5oCisrKyBiL2lu
+Y2x1ZGUvZHJtL2RybV9nZW1fZnJhbWVidWZmZXJfaGVscGVyLmgKQEAgLTMzLDExICszMyw0IEBA
+IGludCBkcm1fZ2VtX2ZiX3ByZXBhcmVfZmIoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsCiAJCQkg
+IHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnN0YXRlKTsKIGludCBkcm1fZ2VtX2ZiX3NpbXBsZV9k
+aXNwbGF5X3BpcGVfcHJlcGFyZV9mYihzdHJ1Y3QgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUgKnBp
+cGUsCiAJCQkJCSAgICAgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlKTsKLQot
+c3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqCi1kcm1fZ2VtX2ZiZGV2X2ZiX2NyZWF0ZShzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2LAotCQkJc3RydWN0IGRybV9mYl9oZWxwZXJfc3VyZmFjZV9zaXplICpz
+aXplcywKLQkJCXVuc2lnbmVkIGludCBwaXRjaF9hbGlnbiwgc3RydWN0IGRybV9nZW1fb2JqZWN0
+ICpvYmosCi0JCQljb25zdCBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyX2Z1bmNzICpmdW5jcyk7Ci0K
+ICNlbmRpZgotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
