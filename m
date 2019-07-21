@@ -2,36 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F496F361
-	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2019 15:19:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CC36F365
+	for <lists+dri-devel@lfdr.de>; Sun, 21 Jul 2019 15:22:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5509089B48;
-	Sun, 21 Jul 2019 13:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 436C389B4D;
+	Sun, 21 Jul 2019 13:21:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76FF9899F0
- for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2019 13:19:22 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9DA4D308FE9A;
- Sun, 21 Jul 2019 13:19:21 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-49.ams2.redhat.com
- [10.36.116.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A4D660BFB;
- Sun, 21 Jul 2019 13:19:20 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Peter Jones <pjones@redhat.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: [PATCH] efifb: BGRT: Improve efifb_bgrt_sanity_check
-Date: Sun, 21 Jul 2019 15:19:18 +0200
-Message-Id: <20190721131918.10115-1-hdegoede@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B28389B4D
+ for <dri-devel@lists.freedesktop.org>; Sun, 21 Jul 2019 13:21:57 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8F3A372167; Sun, 21 Jul 2019 13:21:57 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111021] [amdgpu][CIK] cp queue preemption time out, BUG: kernel
+ NULL pointer dereference, address: 0000000000000038
+Date: Sun, 21 Jul 2019 13:21:57 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-111021-502-h9PPGpghFk@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111021-502@http.bugs.freedesktop.org/>
+References: <bug-111021-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Sun, 21 Jul 2019 13:19:22 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,52 +53,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hans de Goede <hdegoede@redhat.com>, linux-fbdev@vger.kernel.org,
- stable@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0772526502=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rm9yIHZhcmlvdXMgcmVhc29ucywgYXQgbGVhc3Qgd2l0aCB4ODYgRUZJIGZpcm13YXJlcywgdGhl
-IHhvZmZzZXQgYW5kCnlvZmZzZXQgaW4gdGhlIEJHUlQgaW5mbyBhcmUgbm90IGFsd2F5cyByZWxp
-YWJsZS4KCkV4dGVuc2l2ZSB0ZXN0aW5nIGhhcyBzaG93biB0aGF0IHdoZW4gdGhlIGluZm8gaXMg
-Y29ycmVjdCwgdGhlCkJHUlQgaW1hZ2UgaXMgYWx3YXlzIGV4YWN0bHkgY2VudGVyZWQgaG9yaXpv
-bnRhbGx5ICh0aGUgeW9mZnNldCB2YXJpYWJsZQppcyBtb3JlIHZhcmlhYmxlIGFuZCBub3QgYWx3
-YXlzIHByZWRpY3RhYmxlKS4KClRoaXMgY29tbWl0IHNpbXBsaWZpZXMgLyBpbXByb3ZlcyB0aGUg
-YmdydF9zYW5pdHlfY2hlY2sgdG8gc2ltcGx5CmNoZWNrIHRoYXQgdGhlIEJHUlQgaW1hZ2UgaXMg
-ZXhhY3RseSBjZW50ZXJlZCBob3Jpem9udGFsbHkgYW5kIHNraXBzCihyZSlkcmF3aW5nIGl0IHdo
-ZW4gaXQgaXMgbm90LgoKVGhpcyBmaXhlcyB0aGUgQkdSVCBpbWFnZSBzb21ldGltZXMgYmVpbmcg
-ZHJhd24gaW4gdGhlIHdyb25nIHBsYWNlLgoKQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKRml4
-ZXM6IDg4ZmU0Y2ViMjQ0NyAoImVmaWZiOiBCR1JUOiBEbyBub3QgY29weSB0aGUgYm9vdCBncmFw
-aGljcyBmb3Igbm9uIG5hdGl2ZSByZXNvbHV0aW9ucyIpClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUg
-R29lZGUgPGhkZWdvZWRlQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy92aWRlby9mYmRldi9lZmlm
-Yi5jIHwgMjcgKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNiBp
-bnNlcnRpb25zKCspLCAyMSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVv
-L2ZiZGV2L2VmaWZiLmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZiLmMKaW5kZXggZGZhOGRk
-NDdkMTlkLi41YjNjZWY5YmY3OTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvZWZp
-ZmIuYworKysgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L2VmaWZiLmMKQEAgLTEyMiwyOCArMTIyLDEz
-IEBAIHN0YXRpYyB2b2lkIGVmaWZiX2NvcHlfYm1wKHU4ICpzcmMsIHUzMiAqZHN0LCBpbnQgd2lk
-dGgsIHN0cnVjdCBzY3JlZW5faW5mbyAqc2kpCiAgKi8KIHN0YXRpYyBib29sIGVmaWZiX2JncnRf
-c2FuaXR5X2NoZWNrKHN0cnVjdCBzY3JlZW5faW5mbyAqc2ksIHUzMiBibXBfd2lkdGgpCiB7Ci0J
-c3RhdGljIGNvbnN0IGludCBkZWZhdWx0X3Jlc29sdXRpb25zW11bMl0gPSB7Ci0JCXsgIDgwMCwg
-IDYwMCB9LAotCQl7IDEwMjQsICA3NjggfSwKLQkJeyAxMjgwLCAxMDI0IH0sCi0JfTsKLQl1MzIg
-aSwgcmlnaHRfbWFyZ2luOwotCi0JZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZGVmYXVsdF9y
-ZXNvbHV0aW9ucyk7IGkrKykgewotCQlpZiAoZGVmYXVsdF9yZXNvbHV0aW9uc1tpXVswXSA9PSBz
-aS0+bGZiX3dpZHRoICYmCi0JCSAgICBkZWZhdWx0X3Jlc29sdXRpb25zW2ldWzFdID09IHNpLT5s
-ZmJfaGVpZ2h0KQotCQkJYnJlYWs7Ci0JfQotCS8qIElmIG5vdCBhIGRlZmF1bHQgcmVzb2x1dGlv
-biB1c2VkIGZvciB0ZXh0bW9kZSwgdGhpcyBzaG91bGQgYmUgZmluZSAqLwotCWlmIChpID49IEFS
-UkFZX1NJWkUoZGVmYXVsdF9yZXNvbHV0aW9ucykpCi0JCXJldHVybiB0cnVlOwotCi0JLyogSWYg
-dGhlIHJpZ2h0IG1hcmdpbiBpcyA1IHRpbWVzIHNtYWxsZXIgdGhlbiB0aGUgbGVmdCBvbmUsIHJl
-amVjdCAqLwotCXJpZ2h0X21hcmdpbiA9IHNpLT5sZmJfd2lkdGggLSAoYmdydF90YWIuaW1hZ2Vf
-b2Zmc2V0X3ggKyBibXBfd2lkdGgpOwotCWlmIChyaWdodF9tYXJnaW4gPCAoYmdydF90YWIuaW1h
-Z2Vfb2Zmc2V0X3ggLyA1KSkKLQkJcmV0dXJuIGZhbHNlOworCS8qCisJICogQWxsIHg4NiBmaXJt
-d2FyZXMgaG9yaXpvbnRhbGx5IGNlbnRlciB0aGUgaW1hZ2UgKHRoZSB5b2Zmc2V0CisJICogY2Fs
-Y3VsYXRpb25zIGRpZmZlciBiZXR3ZWVuIGJvYXJkcywgYnV0IHhvZmZzZXQgaXMgcHJlZGljdGFi
-bGUpLgorCSAqLworCXUzMiBleHBlY3RlZF94b2Zmc2V0ID0gKHNpLT5sZmJfd2lkdGggLSBibXBf
-d2lkdGgpIC8gMjsKIAotCXJldHVybiB0cnVlOworCXJldHVybiBiZ3J0X3RhYi5pbWFnZV9vZmZz
-ZXRfeCA9PSBleHBlY3RlZF94b2Zmc2V0OwogfQogI2Vsc2UKIHN0YXRpYyBib29sIGVmaWZiX2Jn
-cnRfc2FuaXR5X2NoZWNrKHN0cnVjdCBzY3JlZW5faW5mbyAqc2ksIHUzMiBibXBfd2lkdGgpCi0t
-IAoyLjIxLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0772526502==
+Content-Type: multipart/alternative; boundary="15637153170.B874730B.24215"
+Content-Transfer-Encoding: 7bit
+
+
+--15637153170.B874730B.24215
+Date: Sun, 21 Jul 2019 13:21:57 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111021
+
+erhard_f@mailbox.org changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #144678|0                           |1
+        is obsolete|                            |
+
+--- Comment #3 from erhard_f@mailbox.org ---
+Created attachment 144832
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144832&action=3Dedit
+kernel dmesg (5.2.1)
+
+Kernel 5.2.1 still affected.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15637153170.B874730B.24215
+Date: Sun, 21 Jul 2019 13:21:57 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:erhard_f&=
+#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;mailbox.or=
+g</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu][CIK] cp queue preemption time out, BUG: kernel N=
+ULL pointer dereference, address: 0000000000000038"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111021">bug 11102=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Attachment #144678 is obsolete</=
+td>
+           <td>
+               &nbsp;
+           </td>
+           <td>1
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu][CIK] cp queue preemption time out, BUG: kernel N=
+ULL pointer dereference, address: 0000000000000038"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111021#c3">Commen=
+t # 3</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu][CIK] cp queue preemption time out, BUG: kernel N=
+ULL pointer dereference, address: 0000000000000038"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111021">bug 11102=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+erhard_f&#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;m=
+ailbox.org</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144832=
+" name=3D"attach_144832" title=3D"kernel dmesg (5.2.1)">attachment 144832</=
+a> <a href=3D"attachment.cgi?id=3D144832&amp;action=3Dedit" title=3D"kernel=
+ dmesg (5.2.1)">[details]</a></span>
+kernel dmesg (5.2.1)
+
+Kernel 5.2.1 still affected.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15637153170.B874730B.24215--
+
+--===============0772526502==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0772526502==--
