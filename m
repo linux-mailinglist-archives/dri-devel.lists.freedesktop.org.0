@@ -1,41 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9736FF48
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 14:09:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2166FFAC
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 14:30:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B54989C84;
-	Mon, 22 Jul 2019 12:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82F589BA5;
+	Mon, 22 Jul 2019 12:30:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7572A89C84
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 12:09:46 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B093E28;
- Mon, 22 Jul 2019 05:09:45 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C7C313F71A;
- Mon, 22 Jul 2019 05:09:44 -0700 (PDT)
-Subject: Re: [PATCH 3/5] drm/panfrost: Add a no execute flag for BO allocations
-To: Steven Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>
-References: <20190717183352.22519-1-robh@kernel.org>
- <20190717183352.22519-3-robh@kernel.org>
- <ecde43d2-45cc-d00a-9635-cb56a67263d4@arm.com>
- <CAL_JsqLfnMwibCMU8_PqqYj0C895wuW9DNPirFo-LRChxJA-fA@mail.gmail.com>
- <896cada5-580a-7637-2884-f0c616314ea4@arm.com>
- <CAL_Jsq+ygY64WP6GP2LB4WRt2_BCXMMWxQSyhazY=jWfCyOkLg@mail.gmail.com>
- <4b7fc0b4-aa5b-06ba-ad4a-5b959e265e67@arm.com>
- <d52430aa-972e-f730-ee5a-44137f87e066@arm.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <0bf616f7-023a-e1e3-dbf6-9a98155f6bf9@arm.com>
-Date: Mon, 22 Jul 2019 13:09:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0386389C13
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 12:30:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0039972167; Mon, 22 Jul 2019 12:30:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
+Date: Mon, 22 Jul 2019 12:30:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111122-502-qI5avfczQx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
+References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <d52430aa-972e-f730-ee5a-44137f87e066@arm.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,205 +52,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0974870535=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjIvMDcvMjAxOSAxMTowNywgU3RldmVuIFByaWNlIHdyb3RlOgo+IE9uIDIyLzA3LzIwMTkg
-MTA6NTAsIFJvYmluIE11cnBoeSB3cm90ZToKPj4gT24gMTkvMDcvMjAxOSAyMzowNywgUm9iIEhl
-cnJpbmcgd3JvdGU6Cj4+PiBPbiBGcmksIEp1bCAxOSwgMjAxOSBhdCA0OjM5IEFNIFN0ZXZlbiBQ
-cmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4+PiB3cm90ZToKPj4+Pgo+Pj4+IE9uIDE4LzA3
-LzIwMTkgMTg6MDMsIFJvYiBIZXJyaW5nIHdyb3RlOgo+Pj4+PiBPbiBUaHUsIEp1bCAxOCwgMjAx
-OSBhdCA5OjAzIEFNIFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4+Pj4+IHdy
-b3RlOgo+Pj4+Pj4KPj4+Pj4+IE9uIDE3LzA3LzIwMTkgMTk6MzMsIFJvYiBIZXJyaW5nIHdyb3Rl
-Ogo+Pj4+Pj4+IEV4ZWN1dGFibGUgYnVmZmVycyBoYXZlIGFuIGFsaWdubWVudCByZXN0cmljdGlv
-biB0aGF0IHRoZXkgY2FuJ3QKPj4+Pj4+PiBjcm9zcwo+Pj4+Pj4+IDE2TUIgYm91bmRhcnkgYXMg
-dGhlIEdQVSBwcm9ncmFtIGNvdW50ZXIgaXMgMjQtYml0cy4gVGhpcwo+Pj4+Pj4+IHJlc3RyaWN0
-aW9uIGlzCj4+Pj4+Pj4gY3VycmVudGx5IG5vdCBoYW5kbGVkIGFuZCB3ZSBqdXN0IGdldCBsdWNr
-eS4gQXMgY3VycmVudCB1c2Vyc3BhY2UKPj4+Pj4+Cj4+Pj4+PiBBY3R1YWxseSBpdCBkZXBlbmRz
-IHdoaWNoIEdQVSB5b3UgYXJlIHVzaW5nIC0gc29tZSBkbyBoYXZlIGEgYmlnZ2VyCj4+Pj4+PiBw
-cm9ncmFtIGNvdW50ZXIgLSBzbyBpdCBtaWdodCBiZSB0aGUgY2hvaWNlIG9mIEdQVSB0byB0ZXN0
-IG9uIHJhdGhlcgo+Pj4+Pj4gdGhhbiBqdXN0IGx1Y2suIEJ1dCBrYmFzZSBhbHdheXMgYXNzdW1l
-cyB0aGUgd29yc3QgY2FzZSAoMjQgYml0KSBhcyBpbgo+Pj4+Pj4gcHJhY3Rpc2UgdGhhdCdzIGVu
-b3VnaC4KPj4+Pj4+Cj4+Pj4+Pj4gYXNzdW1lcyBhbGwgQk9zIGFyZSBleGVjdXRhYmxlLCB0aGF0
-IGhhcyB0byByZW1haW4gdGhlIGRlZmF1bHQuIFNvCj4+Pj4+Pj4gYWRkIGEKPj4+Pj4+PiBuZXcg
-UEFORlJPU1RfQk9fTk9FWEVDIGZsYWcgdG8gYWxsb3cgdXNlcnNwYWNlIHRvIGluZGljYXRlIHdo
-aWNoCj4+Pj4+Pj4gQk9zIGFyZQo+Pj4+Pj4+IG5vdCBleGVjdXRhYmxlLgo+Pj4+Pj4+Cj4+Pj4+
-Pj4gVGhlcmUgaXMgYWxzbyBhIHJlc3RyaWN0aW9uIHRoYXQgZXhlY3V0YWJsZSBidWZmZXJzIGNh
-bm5vdCBzdGFydAo+Pj4+Pj4+IG9yIGVuZAo+Pj4+Pj4+IG9uIGEgNEdCIGJvdW5kYXJ5LiBUaGlz
-IGlzIG1vc3RseSBhdm9pZGVkIGFzIHRoZXJlIGlzIG9ubHkgNEdCIG9mCj4+Pj4+Pj4gc3BhY2UK
-Pj4+Pj4+PiBjdXJyZW50bHkgYW5kIHRoZSBiZWdpbm5pbmcgaXMgYWxyZWFkeSBibG9ja2VkIG91
-dCBmb3IgTlVMTCBwdHIKPj4+Pj4+PiBkZXRlY3Rpb24uIEFkZCBzdXBwb3J0IHRvIGhhbmRsZSB0
-aGlzIHJlc3RyaWN0aW9uIGZ1bGx5IHJlZ2FyZGxlc3Mgb2YKPj4+Pj4+PiB0aGUgY3VycmVudCBj
-b25zdHJhaW50cy4KPj4+Pj4+Pgo+Pj4+Pj4+IEZvciBleGlzdGluZyB1c2Vyc3BhY2UsIGFsbCBj
-cmVhdGVkIEJPcyByZW1haW4gZXhlY3V0YWJsZSwgYnV0IHRoZQo+Pj4+Pj4+IEdQVQo+Pj4+Pj4+
-IFZBIGFsaWdubWVudCB3aWxsIGJlIGluY3JlYXNlZCB0byB0aGUgc2l6ZSBvZiB0aGUgQk8uIFRo
-aXMgc2hvdWxkbid0Cj4+Pj4+Pj4gbWF0dGVyIGFzIHRoZXJlIGlzIHBsZW50eSBvZiBHUFUgVkEg
-c3BhY2UuCj4+Pj4+Pj4KPj4+Pj4+PiBDYzogVG9tZXUgVml6b3NvIDx0b21ldS52aXpvc29AY29s
-bGFib3JhLmNvbT4KPj4+Pj4+PiBDYzogQm9yaXMgQnJlemlsbG9uIDxib3Jpcy5icmV6aWxsb25A
-Y29sbGFib3JhLmNvbT4KPj4+Pj4+PiBDYzogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJt
-LmNvbT4KPj4+Pj4+PiBDYzogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJtLmNvbT4KPj4+
-Pj4+PiBDYzogQWx5c3NhIFJvc2VuendlaWcgPGFseXNzYUByb3Nlbnp3ZWlnLmlvPgo+Pj4+Pj4+
-IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cj4+Pj4+Pj4gLS0t
-Cj4+Pj4+Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyB8IDIw
-ICsrKysrKysrKysrKysrKysrKystCj4+Pj4+Pj4gIMKgIGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9z
-dC9wYW5mcm9zdF9nZW0uYyB8IDE4ICsrKysrKysrKysrKysrKystLQo+Pj4+Pj4+ICDCoCBkcml2
-ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmggfMKgIDMgKystCj4+Pj4+Pj4gIMKg
-IGRyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9tbXUuYyB8wqAgMyArKysKPj4+Pj4+
-PiAgwqAgaW5jbHVkZS91YXBpL2RybS9wYW5mcm9zdF9kcm0uaMKgwqDCoMKgwqDCoMKgwqAgfMKg
-IDIgKysKPj4+Pj4+PiAgwqAgNSBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspLCA0IGRl
-bGV0aW9ucygtKQo+Pj4+Pj4+Cj4+Pj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9w
-YW5mcm9zdC9wYW5mcm9zdF9kcnYuYwo+Pj4+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0
-L3BhbmZyb3N0X2Rydi5jCj4+Pj4+Pj4gaW5kZXggZDM1NGI5Mjk2NGQ1Li5iOTFlOTkxYmM2YTMg
-MTAwNjQ0Cj4+Pj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Ry
-di5jCj4+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5j
-Cj4+Pj4+Pj4gQEAgLTQ5LDcgKzQ5LDggQEAgc3RhdGljIGludCBwYW5mcm9zdF9pb2N0bF9jcmVh
-dGVfYm8oc3RydWN0Cj4+Pj4+Pj4gZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+Pj4+Pj4+
-ICDCoMKgwqDCoMKgwqAgc3RydWN0IHBhbmZyb3N0X2dlbV9vYmplY3QgKmJvOwo+Pj4+Pj4+ICDC
-oMKgwqDCoMKgwqAgc3RydWN0IGRybV9wYW5mcm9zdF9jcmVhdGVfYm8gKmFyZ3MgPSBkYXRhOwo+
-Pj4+Pj4+Cj4+Pj4+Pj4gLcKgwqDCoMKgIGlmICghYXJncy0+c2l6ZSB8fCBhcmdzLT5mbGFncyB8
-fCBhcmdzLT5wYWQpCj4+Pj4+Pj4gK8KgwqDCoMKgIGlmICghYXJncy0+c2l6ZSB8fCBhcmdzLT5w
-YWQgfHwKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoCAoYXJncy0+ZmxhZ3MgJiB+UEFORlJPU1Rf
-Qk9fTk9FWEVDKSkKPj4+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4g
-LUVJTlZBTDsKPj4+Pj4+Pgo+Pj4+Pj4+ICDCoMKgwqDCoMKgwqAgYm8gPSBwYW5mcm9zdF9nZW1f
-Y3JlYXRlX3dpdGhfaGFuZGxlKGZpbGUsIGRldiwgYXJncy0+c2l6ZSwKPj4+Pj4+PiBhcmdzLT5m
-bGFncywKPj4+Pj4+PiBAQCAtMzY3LDYgKzM2OCwyMiBAQCBzdGF0aWMgc3RydWN0IGRybV9kcml2
-ZXIgcGFuZnJvc3RfZHJtX2RyaXZlciA9IHsKPj4+Pj4+PiAgwqDCoMKgwqDCoMKgIC5nZW1fcHJp
-bWVfbW1hcMKgwqDCoMKgwqDCoMKgwqAgPSBkcm1fZ2VtX3ByaW1lX21tYXAsCj4+Pj4+Pj4gIMKg
-IH07Cj4+Pj4+Pj4KPj4+Pj4+PiArI2RlZmluZSBQRk5fNEdfTUFTS8KgwqDCoCAoKFNaXzRHIC0g
-MSkgPj4gUEFHRV9TSElGVCkKPj4+Pj4+PiArCj4+Pj4+Pj4gK3N0YXRpYyB2b2lkIHBhbmZyb3N0
-X2RybV9tbV9jb2xvcl9hZGp1c3QoY29uc3Qgc3RydWN0IGRybV9tbV9ub2RlCj4+Pj4+Pj4gKm5v
-ZGUsCj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVuc2lnbmVkIGxvbmcgY29sb3IsCj4+Pj4+
-Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHU2NCAqc3RhcnQsIHU2NCAqZW5kKQo+Pj4+Pj4+ICt7Cj4+
-Pj4+Pj4gK8KgwqDCoMKgIC8qIEV4ZWN1dGFibGUgYnVmZmVycyBjYW4ndCBzdGFydCBvciBlbmQg
-b24gYSA0R0IgYm91bmRhcnkgKi8KPj4+Pj4+PiArwqDCoMKgwqAgaWYgKCFjb2xvcikgewo+Pj4+
-Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCgqc3RhcnQgJiBQRk5fNEdfTUFTSykg
-PT0gMCkKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAo
-KnN0YXJ0KSsrOwo+Pj4+Pj4+ICsKPj4+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlm
-ICgoKmVuZCAmIFBGTl80R19NQVNLKSA9PSAwKQo+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgICgqZW5kKS0tOwo+Pj4+Pj4+ICvCoMKgwqDCoCB9Cj4+Pj4+
-Pj4gK30KPj4+Pj4+Cj4+Pj4+PiBVbmxlc3MgSSdtIG1pc3Rha2VuIHRoaXMgd29uJ3QgYWN0dWFs
-bHkgcHJvdmlkZSB0aGUgZ3VhcmFudGVlIGlmIHRoZQo+Pj4+Pj4gbWVtb3J5IHJlZ2lvbiBpcyA+
-NEdCICh3aGljaCBhZG1pdHRlZGx5IGl0IGlzbid0IGF0IHRoZSBtb21lbnQpLiBGb3IKPj4+Pj4+
-IGV4YW1wbGUgYSA4R0IgcmVnaW9uIHdvdWxkIGhhdmUgdGhlIGJlZ2lubmluZy9lbmQgdHJpbW1l
-ZCBvZmYsIGJ1dAo+Pj4+Pj4gdGhlcmUncyBhbm90aGVyIDRHQiBpbiB0aGUgbWlkZGxlIHdoaWNo
-IGNvdWxkIGJlIGFsbG9jYXRlZCBuZXh0IHRvLgo+Pj4+Pgo+Pj4+PiBIdW1tLCBvdGhlciB0aGFu
-IG5vdCBhbGxvd2luZyBzaXplcyBncmVhdGVyIHRoYW4gNEctKDIqUEFHRV9TSVpFKSwgSSdtCj4+
-Pj4+IG5vdCBzdXJlIGhvdyB3ZSBzb2x2ZSB0aGF0LiBJIGd1ZXNzIGF2b2lkaW5nIHNpemVzIG9m
-IChuKjRHIC0KPj4+Pj4gUEFHRV9TSVpFKSB3b3VsZCBhdm9pZCB0aGUgcHJvYmxlbS4gU2VlbXMg
-bGlrZSBhbG1vc3QgNEdCIGV4ZWN1dGFibGUKPj4+Pj4gYnVmZmVyIHNob3VsZCBiZSBlbm91Z2gg
-Zm9yIGFueW9uZShUTSkuCj4+Pj4KPj4+PiBJIHdhcyB0aGlua2luZyBvZiBzb21ldGhpbmcgbGlr
-ZToKPj4+Pgo+Pj4+IGlmICgoKmVuZCAmIH5QRk5fNEdfTUFTSykgIT0gKCpzdGFydCAmIH5QRk5f
-NEdfTUFTSykpIHsKPj4+PiAgwqDCoMKgwqDCoMKgwqDCoCBpZiAoKCpzdGFydCAmIFBGTl80R19N
-QVNLKSArCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoU1pfMTZNID4+IFBBR0VfU0hJ
-RlQpIDwgUEZOXzRHX01BU0spCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICplbmQgPSAoKnN0YXJ0ICYgflBGTl80R19NQVNLKSArCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoU1pfNEdCIC0gU1pfMTZNKSA+PiBQQUdF
-X1NISUZUOwo+Pj4+ICDCoMKgwqDCoMKgwqDCoMKgIGVsc2UKPj4+PiAgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgKnN0YXJ0ID0gKCplbmQgJiB+UEZOXzRHX01BU0spICsgKFNaXzE2
-TSkgPj4KPj4+PiBQQUdFX1NISUZUOwo+Pj4+IH0KPj4+Pgo+Pj4+IFNvIHNwbGl0IHRoZSByZWdp
-b24gZGVwZW5kaW5nIG9uIHdoZXJlIHdlIGNhbiBmaW5kIGEgZnJlZSAxNk1CIHJlZ2lvbgo+Pj4+
-IHdoaWNoIGRvZXNuJ3QgY3Jvc3MgNEdCLgo+Pj4KPj4+IEhlcmUncyB3aGF0IEkgZW5kZWQgdXAg
-d2l0aC4gSXQncyBzbGlnaHRseSBkaWZmZXJlbnQgaW4gdGhhdCB0aGUgc3RhcnQKPj4+IGFuZCBl
-bmQgZG9uJ3QgZ2V0IDE2TUIgYWxpZ25lZC4gVGhlIGNvZGUgYWxyZWFkeSB0YWtlcyBjYXJlIG9m
-IHRoZQo+Pj4gYWxpZ25tZW50IHdoaWNoIGFsc28gaXMgbm90IG5lY2Vzc2FyaWx5IDE2TUIsIGJ1
-dCAnYWxpZ24gPSBzaXplJyBhcwo+Pj4gdGhhdCdzIHN1ZmZpY2llbnQgdG8gbm90IGNyb3NzIGEg
-MTZNQiBib3VuZGFyeS4KPj4+Cj4+PiAjZGVmaW5lIFBGTl80R8KgwqDCoMKgwqDCoMKgwqDCoCAo
-U1pfNEcgPj4gUEFHRV9TSElGVCkKPj4+ICNkZWZpbmUgUEZOXzRHX01BU0vCoMKgwqDCoCAoUEZO
-XzRHIC0gMSkKPj4+ICNkZWZpbmUgUEZOXzE2TcKgwqDCoMKgwqDCoMKgwqAgKFNaXzE2TSA+PiBQ
-QUdFX1NISUZUKQo+Pj4KPj4+IHN0YXRpYyB2b2lkIHBhbmZyb3N0X2RybV9tbV9jb2xvcl9hZGp1
-c3QoY29uc3Qgc3RydWN0IGRybV9tbV9ub2RlICpub2RlLAo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgdW5zaWduZWQgbG9uZyBjb2xvciwKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHU2NCAqc3RhcnQsIHU2NCAqZW5kKQo+Pj4gewo+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgLyog
-RXhlY3V0YWJsZSBidWZmZXJzIGNhbid0IHN0YXJ0IG9yIGVuZCBvbiBhIDRHQiBib3VuZGFyeSAq
-Lwo+Pj4gIMKgwqDCoMKgwqDCoMKgwqAgaWYgKCEoY29sb3IgJiBQQU5GUk9TVF9CT19OT0VYRUMp
-KSB7Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCgqc3RhcnQgJiBQ
-Rk5fNEdfTUFTSykgPT0gMCkKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgKCpzdGFydCkrKzsKPj4+Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgaWYgKCgqZW5kICYgUEZOXzRHX01BU0spID09IDApCj4+PiAgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgqZW5kKS0tOwo+Pj4KPj4+
-ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBFbnN1cmUgc3RhcnQgYW5kIGVu
-ZCBhcmUgaW4gdGhlIHNhbWUgNEdCIHJhbmdlICovCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgaWYgKCgqZW5kICYgflBGTl80R19NQVNLKSAhPSAoKnN0YXJ0ICYgflBGTl80
-R19NQVNLKSkgewo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBpZiAoKCpzdGFydCAmIFBGTl80R19NQVNLKSArIFBGTl8xNk0gPAo+Pj4gUEZOXzRH
-X01BU0spCj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAqZW5kID0gKCpzdGFydCAmIH5QRk5fNEdfTUFTSykgKwo+Pj4g
-UEZOXzRHIC0gMTsKPj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgZWxzZQo+Pj4gIMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKnN0YXJ0ID0gKCplbmQgJiB+UEZOXzRHX01BU0sp
-ICsgMTsKPj4+Cj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQo+Pj4gIMKg
-wqDCoMKgwqDCoMKgwqAgfQo+Pj4gfQo+Pgo+PiBJZiB5b3UncmUgaGFwcHkgd2l0aCB0aGUgYWRk
-aXRpb25hbCByZXN0cmljdGlvbiB0aGF0IGEgYnVmZmVyIGNhbid0Cj4+IGNyb3NzIGEgNEdCIGJv
-dW5kYXJ5ICh3aGljaCBkb2VzIHNlZW0gdG8gYmUgcmVxdWlyZWQgZm9yIGNlcnRhaW4ga2luZHMK
-Pj4gb2YgYnVmZmVycyBhbnl3YXkpLCB0aGVuIEkgZG9uJ3QgdGhpbmsgaXQgbmVlZHMgdG8gYmUg
-YW55d2hlcmUgbmVhciB0aGF0Cj4+IGNvbXBsZXg6Cj4+Cj4+ICDCoMKgwqDCoGlmICghKCpzdGFy
-dCAmIFBGTl80R19NQVNLKSkKPj4gIMKgwqDCoMKgwqDCoMKgICpzdGFydCsrCj4+ICDCoMKgwqDC
-oCplbmQgPSBtaW4oKmVuZCwgQUxJR04oKnN0YXJ0LCBQRk5fNEcpIC0gMSk7Cj4gCj4gV2hhdCBo
-YXBwZW5zIGlmICpzdGFydCBpcyB2ZXJ5IG5lYXIgdGhlIGVuZCBvZiBhIDRHQiBib3VuZGFyeT8g
-SW4gdGhhdAo+IGNhc2UgKmVuZCAtICpzdGFydCBtaWdodCBub3QgYmUgYXMgYmlnIGFzIDE2TUIg
-YW5kIHdlIGNvdWxkIGVuZCB1cAo+IGZhaWxpbmcgdGhlIGFsbG9jYXRpb24gSUlVQy4KCkFoZW0u
-Li4gd2VsbCwgdGhlIHRoaW5nIGFib3V0IGNvbXBsaWNhdGVkLWFuZC1oYXJkLXRvLXJlYWQgY29k
-ZSBpcyB0aGF0IAppdCB0dXJucyBvdXQgdG8gYmUgY29tcGxpY2F0ZWQgYW5kIGhhcmQgdG8gcmVh
-ZCBjb3JyZWN0bHkgOikKCkZXSVcsIGhhdmluZyB0YWtlbiBhIGNsb3NlciBsb29rLCBteSBpbnRl
-cnByZXRhdGlvbiB3b3VsZCBiZSBzb21ldGhpbmcgCmxpa2UgKGV2ZW4gbW9yZSB1bnRlc3RlZCB0
-aGFuIGJlZm9yZSk6CgoJdTY0IHN0YXJ0X3NlZyA9IEFMSUdOKCpzdGFydCwgUEZOXzRHKTsKCXU2
-NCBlbmRfc2VnID0gQUxJR05fRE9XTigqZW5kLCBQRk5fNEcpOwoKCWlmIChzdGFydF9zZWcgLSBz
-dGFydCA8IGVuZCAtIGVuZF9zZWcpIHsKCQkqc3RhcnQgPSBlbmRfc2VnICsgMTsKCQkqZW5kID0g
-bWluKCplbmQsIGVuZF9zZWcgKyBQRk5fNEcgLSAxKTsKCX0gZWxzZSB7CgkJKmVuZCA9IHN0YXJ0
-X3NlZyAtIDE7CgkJKnN0YXJ0ID0gbWF4KCpzdGFydCwgc3RhcnRfc2VnIC0gUEZOXzRHICsgMSk7
-Cgl9CgpidXQgYXQgdGhpcyBwb2ludCBJJ20gc3VyZSB3ZSdyZSB3ZWxsIGludG8gcGVyc29uYWwg
-cHJlZmVyZW5jZSBhbmQgCiJzaG9ydGVyIGRvZXMgbm90IG5lY2Vzc2FyaWx5IGltcGx5IGNsZWFy
-ZXIiIHRlcnJpdG9yeS4gTW9yZSAKaW1wb3J0YW50bHksIHRob3VnaCwgaXQgbm93IG9jY3VycyB0
-byBtZSB0aGF0IHRoZSAicGljayB0aGUgYmlnZ2VzdCBlbmQiIAphcHByb2FjaCBzZWVtcyBpbmhl
-cmVudGx5IHN1Ym9wdGltYWwgZm9yIGNhc2VzIHdoZXJlIHRoZSBbc3RhcnQsZW5kXSAKaW50ZXJ2
-YWwgY3Jvc3NlcyAqbW9yZSogdGhhbiBvbmUgYm91bmRhcnkuIEZvciwgc2F5LCBzdGFydCA9IFBG
-Tl80RyAtIDEsIAplbmQgPSAyICogUEZOXzRHICsgMSwgZWl0aGVyIHdheSB3ZSdkIGdldCBjYXVn
-aHQgdXAgb24gdGhlIHNpbmdsZSBwYWdlIAphdCBvbmUgZW5kIGFuZCBpZ25vcmUgdGhlIGZ1bGwg
-NEdCIGluIHRoZSBtaWRkbGUgOi8KCj4+Pj4KPj4+PiBCdXQgbGlrZSB5b3Ugc2F5OiA0R0Igc2hv
-dWxkIGJlIGVub3VnaCBmb3IgYW55b25lIDspCj4+Pj4KPj4+Pj4+IEFsc28gYSBtaW5vciBpc3N1
-ZSwgYnV0IHdlIG1pZ2h0IHdhbnQgdG8gY29uc2lkZXIgaGF2aW5nIHNvbWUKPj4+Pj4+IGNvbnN0
-YW50cwo+Pj4+Pj4gZm9yICdjb2xvcicgLSBpdCdzIG5vdCBvYnZpb3VzIGZyb20gdGhpcyBjb2Rl
-IHRoYXQgY29sb3I9PW5vX2V4ZWMuCj4+Pj4+Cj4+Pj4+IFllYWgsIEkgd2FzIGp1c3QgZ29pbmcg
-d29ycnkgYWJvdXQgdGhhdCB3aGVuIHdlIGhhZCBhIHNlY29uZCBiaXQgdG8KPj4+Pj4gcGFzcy4K
-Pj4+Pgo+Pj4+IE9uZSBvdGhlciAnbWlub3InIGlzc3VlIEkgbm90aWNlZCBhcyBJIHdhcyB3cml0
-aW5nIHRoZSBhYm92ZS4gUEFHRV9TSVpFCj4+Pj4gaXMgb2YgY291cnNlIHRoZSBDUFUgcGFnZSBz
-aXplIC0gd2UgY291bGQgaGF2ZSB0aGUgc2l0dWF0aW9uIG9mIENQVSBhbmQKPj4+PiBHUFUgcGFn
-ZSBzaXplIGJlaW5nIGRpZmZlcmVudCAoZS5nLiBDT05GSUdfQVJNNjRfNjRLX1BBR0VTKS4gSSdt
-IG5vdAo+Pj4+IHN1cmUgd2hldGhlciB3ZSB3YW50IHRvIHN1cHBvcnQgdGhpcyBvciBub3QgKGti
-YXNlIGRvZXNuJ3QpLiBBbHNvIGluCj4+Pj4gdGhlb3J5IHNvbWUgR1BVcyBkbyBzdXBwb3J0IDY0
-SyAoQVNfVFJBTlNDRkdfQURSTU9ERV9BQVJDSDY0XzY0SykgLSBidXQKPj4+PiBrYmFzZSBoYXMg
-bmV2ZXIgdXNlZCB0aGlzIHNvIEkgZG9uJ3Qga25vdyBpZiBpdCB3b3Jrcy4uLiA7KQo+Pj4KPj4+
-IFNoaGghIEkgaGF2ZSB0aG91Z2h0IGFib3V0IHRoYXQsIGJ1dCB3YXMgaWdub3JpbmcgZm9yIG5v
-dy4KPj4KPj4gSW4gZ2VuZXJhbCwgSSBkb24ndCB0aGluayB0aGF0IHNob3VsZCBiZSB0b28gZ3Jl
-YXQgYSBjb25jZXJuIC0gd2UKPj4gYWxyZWFkeSBoYW5kbGUgaXQgZm9yIElPTU1VcywgcHJvdmlk
-ZWQgdGhlIG1pbmltdW0gSU9NTVUgcGFnZSBzaXplIGlzIG5vCj4+IGxhcmdlciB0aGFuIFBBR0Vf
-U0laRSwgd2hpY2ggc2hvdWxkIGFsd2F5cyBiZSB0aGUgY2FzZSBoZXJlIHRvby4gTG9va2luZwo+
-PiBhdCBob3cgcGFuZnJvc3RfbW11X21hcCgpIGlzIGltcGxlbWVudGVkLCBhbmQgZ2l2ZW4gdGhh
-dCB3ZSdyZSBhbHJlYWR5Cj4+IHRyeWluZyB0byBoYW5kbGUgc3R1ZmYgYXQgMk1CIGdyYW51bGFy
-aXR5IHdoZXJlIHBvc3NpYmxlLCBJIGRvbid0IHNlZQo+PiBhbnkgb2J2aW91cyByZWFzb25zIGZv
-ciA2NEsgcGFnZXMgbm90IHRvIHdvcmsgYWxyZWFkeSAoYXNzdW1pbmcgdGhlcmUKPj4gYXJlbid0
-IGFueSA0SyBhc3N1bXB0aW9ucyBiYWtlZCBpbnRvIHRoZSB1c2Vyc3BhY2Ugc2lkZSkuIEkgbWln
-aHQgaGF2ZQo+PiB0byBnaXZlIGl0IGEgdHJ5Li4uCj4gCj4gSSdkIGJlIGludGVyZXN0ZWQgdG8g
-a25vdyBpZiBpdCB3b3Jrcy4gSSBrbm93IHRoYXQga2Jhc2UgaW5jb3JyZWN0bHkKPiB1c2VzIFBB
-R0VfU0laRSBpbiBzZXZlcmFsIHBsYWNlcyAoaW4gcGFydGljdWxhciBhc3N1bWluZyBpdCBpcyB0
-aGUgc2l6ZQo+IG9mIHRoZSBwYWdlIHRhYmxlcykuIEFuZCBJIHdhcyBhd2FyZSBJIHdhcyBpbiBk
-YW5nZXIgb2Ygc2xpcHBpbmcgaW50bwo+IHRoZSBzYW1lIG1pbmRzZXQgaGVyZS4KPiAKPiBVc2Vy
-IHNwYWNlIHNob3VsZG4ndCBjYXJlIHRvbyBtdWNoIC0gb3RoZXIgdGhhbiB0aGUgc2l6ZSBvZiBi
-dWZmZXJzCj4gYWxsb2NhdGVkIGJlaW5nIHJvdW5kZWQgdXAgdG8gdGhlIENQVSdzIHBhZ2Ugc2l6
-ZS4gQXQgbGVhc3QgdGhlIFBhbmZyb3N0Cj4gdXNlci9rZXJuZWwgQUJJIGhhcyBzaXplcyBpbiBi
-eXRlcyBub3QgcGFnZXMgKHVubGlrZSBrYmFzZSkuCgpTb3VuZHMgcHJvbWlzaW5nIC0gbXkgSnVu
-byBicmFuY2ggaXMgaW4gYSBiaXQgb2YgYSBtZXNzIGF0IHRoZSBtb21lbnQgCmJ1dCBvbmNlIEkn
-dmUgZ290IHRoYXQgY2xlYW5lZCB1cCBJJ2xsIGhhdmUgYSBxdWljayBwbGF5LgoKUm9iaW4uCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0974870535==
+Content-Type: multipart/alternative; boundary="15637986222.9BebFFd6.10923"
+Content-Transfer-Encoding: 7bit
+
+
+--15637986222.9BebFFd6.10923
+Date: Mon, 22 Jul 2019 12:30:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+--- Comment #6 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
+(In reply to Brian Schott from comment #3)
+> I think that I'm seeing something related with my 2700u Inspiron 7375.
+>=20
+> If I have compositing enabled in XFWM4, the system will immediately stop
+> responding after logging in with LightDM. If the window manager compositi=
+ng
+> is disabled, I'm able to log in, but then there is graphical corruption.
+>=20
+> With git bisect I traced the problem back to
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
+> ?h=3Ddf8368be1382&id=3Ddf8368be1382b442384507a5147c89978cd60702
+>=20
+> I can edit the source file, and by only changing the KMS_DRIVER_MINOR
+> definition from 32 to 30, get the system working correctly with 5.2.0.
+
+Your issue in particular is likely unrelated - it's an issue in userspace.
+
+The bisected commit is the one that allowed xf86-video-amdgpu to start scan=
+ning
+out DCC compressed buffers that mesa produces, with the caveat that mesa ne=
+eds
+a hook on present for the re-tile. My guess is that hook isn't running when=
+ you
+aren't using "compositing".
+
+I'm not sure if mesa or xf86-video-amdgpu have options yet to disable DCC or
+not, but for that particular setup you'd probably want it disabled.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15637986222.9BebFFd6.10923
+Date: Mon, 22 Jul 2019 12:30:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
+kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
+/a>
+</span></b>
+        <pre>(In reply to Brian Schott from <a href=3D"show_bug.cgi?id=3D11=
+1122#c3">comment #3</a>)
+<span class=3D"quote">&gt; I think that I'm seeing something related with m=
+y 2700u Inspiron 7375.
+&gt;=20
+&gt; If I have compositing enabled in XFWM4, the system will immediately st=
+op
+&gt; responding after logging in with LightDM. If the window manager compos=
+iting
+&gt; is disabled, I'm able to log in, but then there is graphical corruptio=
+n.
+&gt;=20
+&gt; With git bisect I traced the problem back to
+&gt; <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
+nux.git/commit/">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/l=
+inux.git/commit/</a>
+&gt; ?h=3Ddf8368be1382&amp;id=3Ddf8368be1382b442384507a5147c89978cd60702
+&gt;=20
+&gt; I can edit the source file, and by only changing the KMS_DRIVER_MINOR
+&gt; definition from 32 to 30, get the system working correctly with 5.2.0.=
+</span >
+
+Your issue in particular is likely unrelated - it's an issue in userspace.
+
+The bisected commit is the one that allowed xf86-video-amdgpu to start scan=
+ning
+out DCC compressed buffers that mesa produces, with the caveat that mesa ne=
+eds
+a hook on present for the re-tile. My guess is that hook isn't running when=
+ you
+aren't using &quot;compositing&quot;.
+
+I'm not sure if mesa or xf86-video-amdgpu have options yet to disable DCC or
+not, but for that particular setup you'd probably want it disabled.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15637986222.9BebFFd6.10923--
+
+--===============0974870535==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0974870535==--
