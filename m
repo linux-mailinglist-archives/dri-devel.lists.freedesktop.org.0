@@ -2,29 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC116FAB3
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 09:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD296FB4D
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 10:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D61589951;
-	Mon, 22 Jul 2019 07:50:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2296889AAE;
+	Mon, 22 Jul 2019 08:29:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
- [195.113.26.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3093E89951
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 07:50:36 +0000 (UTC)
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
- id 803AE80317; Mon, 22 Jul 2019 09:50:21 +0200 (CEST)
-Date: Mon, 22 Jul 2019 09:50:32 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH] Enable backlight when trigger is activated
-Message-ID: <20190722075032.GA27524@amd>
-References: <20190718190849.GA11409@amd>
- <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9BC1E895EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 08:29:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 98CAC72167; Mon, 22 Jul 2019 08:29:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 105251] [Vega10]  GPU lockup on boot: VMC page fault
+Date: Mon, 22 Jul 2019 08:29:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: jasuarez@igalia.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-105251-502-drNGxsgVrQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-105251-502@http.bugs.freedesktop.org/>
+References: <bug-105251-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -37,81 +52,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, mpartap@gmx.net, b.zolnierkie@samsung.com,
- tony@atomide.com, merlijn@wizzup.org,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- sre@kernel.org, nekit1000@gmail.com, jacek.anaszewski@gmail.com,
- linux-leds@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============2077108748=="
+Content-Type: multipart/mixed; boundary="===============1962523976=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2077108748==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZPt4rx8FFjLCG7dd"
-Content-Disposition: inline
+--===============1962523976==
+Content-Type: multipart/alternative; boundary="15637841629.BA41.3486"
+Content-Transfer-Encoding: 7bit
 
 
---ZPt4rx8FFjLCG7dd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15637841629.BA41.3486
+Date: Mon, 22 Jul 2019 08:29:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi!
+https://bugs.freedesktop.org/show_bug.cgi?id=3D105251
 
-> > Configuring backlight trigger from dts results in backlight off during
-> > boot. Machine looks dead upon boot, which is not good.
-> >=20
-> > Fix that by enabling LED on trigger activation.
-
-> > +++ b/drivers/leds/trigger/ledtrig-backlight.c
-> > @@ -114,6 +114,8 @@ static int bl_trig_activate(struct led_classdev *le=
-d)
-> >  	n->old_status =3D UNBLANK;
-> >  	n->notifier.notifier_call =3D fb_notifier_callback;
-> > =20
-> > +	led_set_brightness(led, LED_ON);
-> > +
+--- Comment #73 from Juan A. Suarez <jasuarez@igalia.com> ---
+(In reply to Pierre-Eric Pelloux-Prayer from comment #72)
+> This MR https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1265 shou=
+ld
+> improve the situation. It has been merged last week.
 >=20
-> This looks fishy.
->=20
-> Maybe you should use a default-state =3D "keep" instead? (and you'll have
-> to support it in the LED driver).
->=20
-> That'll give you proper "don't touch the LED if it was turned on" behavio=
-r,
-> which is what you seem to want.
+> An incorrect program (like "vega_crasher") should hit an assert (if they'=
+re
+> enabled in Mesa) or produce an incorrect rendering but shouldn't hang the
+> GPU anymore.
 
-Actually no, that's not what I want. LED should go on if the display
-is active, as soon as trigger is activated.
+It could be good if people could report here if this improved with this MR.
 
-Unfortunately, I have see no good way to tell if the display is
-active (and display is usually active when trigger is activated).
-
-Thanks,
-									Pavel
 --=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---ZPt4rx8FFjLCG7dd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--15637841629.BA41.3486
+Date: Mon, 22 Jul 2019 08:29:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251#c73">Comme=
+nt # 73</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251">bug 10525=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+jasuarez&#64;igalia.com" title=3D"Juan A. Suarez &lt;jasuarez&#64;igalia.co=
+m&gt;"> <span class=3D"fn">Juan A. Suarez</span></a>
+</span></b>
+        <pre>(In reply to Pierre-Eric Pelloux-Prayer from <a href=3D"show_b=
+ug.cgi?id=3D105251#c72">comment #72</a>)
+<span class=3D"quote">&gt; This MR <a href=3D"https://gitlab.freedesktop.or=
+g/mesa/mesa/merge_requests/1265">https://gitlab.freedesktop.org/mesa/mesa/m=
+erge_requests/1265</a> should
+&gt; improve the situation. It has been merged last week.
+&gt;=20
+&gt; An incorrect program (like &quot;vega_crasher&quot;) should hit an ass=
+ert (if they're
+&gt; enabled in Mesa) or produce an incorrect rendering but shouldn't hang =
+the
+&gt; GPU anymore.</span >
 
-iEYEARECAAYFAl01asgACgkQMOfwapXb+vK9lgCbBcUNDD1pNFmswZowkerycBcz
-v80AoK7Dv7JR0+GNLhozQBGFuNFWTOIt
-=oVmU
------END PGP SIGNATURE-----
+It could be good if people could report here if this improved with this MR.=
+</pre>
+        </div>
+      </p>
 
---ZPt4rx8FFjLCG7dd--
 
---===============2077108748==
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15637841629.BA41.3486--
+
+--===============1962523976==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -121,4 +158,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2077108748==--
+--===============1962523976==--
