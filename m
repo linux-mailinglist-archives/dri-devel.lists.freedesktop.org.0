@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1DC6FC39
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 11:32:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAE36FC56
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 11:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 645CC89817;
-	Mon, 22 Jul 2019 09:32:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 245178989C;
+	Mon, 22 Jul 2019 09:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 145D089817
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 09:32:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A3C6128;
- Mon, 22 Jul 2019 02:32:42 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 674373F694;
- Mon, 22 Jul 2019 02:32:42 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id 1CB4468258A; Mon, 22 Jul 2019 10:32:41 +0100 (BST)
-Date: Mon, 22 Jul 2019 10:32:41 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Wen He <wen.he_1@nxp.com>
-Subject: Re: [EXT] Re: [v2 1/3] drm/arm/mali-dp: Add display QoS interface
- configuration for Mali DP500
-Message-ID: <20190722093241.GC15612@e110455-lin.cambridge.arm.com>
-References: <20190719095445.11575-1-wen.he_1@nxp.com>
- <20190719114624.GB16673@e110455-lin.cambridge.arm.com>
- <DB7PR04MB5195BD852798B113D4CB8BA4E2C40@DB7PR04MB5195.eurprd04.prod.outlook.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7D80E8989C
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 09:38:03 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7A39072167; Mon, 22 Jul 2019 09:38:03 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111182] Fade-to-white after KMS is set on RV635
+Date: Mon, 22 Jul 2019 09:38:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: thumperward@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111182-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <DB7PR04MB5195BD852798B113D4CB8BA4E2C40@DB7PR04MB5195.eurprd04.prod.outlook.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,147 +52,232 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Leo Li <leoyang.li@nxp.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0569571965=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdWwgMjIsIDIwMTkgYXQgMDI6MTI6MDhBTSArMDAwMCwgV2VuIEhlIHdyb3RlOgo+
-IAo+IAo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPiA+IEZyb206IExpdml1IER1ZGF1
-IDxsaXZpdS5kdWRhdUBhcm0uY29tPgo+ID4gU2VudDogMjAxOeW5tDfmnIgxOeaXpSAxOTo0Ngo+
-ID4gVG86IFdlbiBIZSA8d2VuLmhlXzFAbnhwLmNvbT4KPiA+IENjOiBkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOwo+ID4gYnJpYW4u
-c3RhcmtleUBhcm0uY29tOyBhaXJsaWVkQGxpbnV4LmllOyBkYW5pZWxAZmZ3bGwuY2g7IExlbyBM
-aQo+ID4gPGxlb3lhbmcubGlAbnhwLmNvbT4KPiA+IFN1YmplY3Q6IFtFWFRdIFJlOiBbdjIgMS8z
-XSBkcm0vYXJtL21hbGktZHA6IEFkZCBkaXNwbGF5IFFvUyBpbnRlcmZhY2UKPiA+IGNvbmZpZ3Vy
-YXRpb24gZm9yIE1hbGkgRFA1MDAKPiA+IAo+ID4gQ2F1dGlvbjogRVhUIEVtYWlsCj4gPiAKPiA+
-IE9uIEZyaSwgSnVsIDE5LCAyMDE5IGF0IDA1OjU0OjQ1UE0gKzA4MDAsIFdlbiBIZSB3cm90ZToK
-PiA+ID4gQ29uZmlndXJlIHRoZSBkaXNwbGF5IFF1YWxpdHkgb2Ygc2VydmljZSAoUW9TKSBsZXZl
-bHMgcHJpb3JpdHkgaWYgdGhlCj4gPiA+IG9wdGlvbmFsIHByb3BlcnR5IG5vZGUgImFybSxtYWxp
-ZHAtYXFyb3MtdmFsdWUiIGlzIGRlZmluZWQgaW4gRFRTIGZpbGUuCj4gPiA+Cj4gPiA+IFFvUyBz
-aWduYWxpbmcgdXNpbmcgQVFST1MgYW5kIEFXUU9TIEFYSSBpbnRlcmZhY2Ugc2lnbmFscywgdGhl
-IEFRUk9TCj4gPiA+IGlzIGRyaXZlbiBmcm9tIHRoZSAiUlFPUyIgcmVnaXN0ZXIsIHNvIG5lZWRl
-ZCB0byBwcm9ncmFtIHRoZSBSUU9TCj4gPiA+IHJlZ2lzdGVyIHRvIGF2b2lkIHRoZSA0ayByZXNv
-bHV0aW9uIGZsaWNrZXIgaXNzdWUgb24gdGhlIExTMTAyOEEgcGxhdGZvcm0uCj4gPiA+Cj4gPiA+
-IFNpZ25lZC1vZmYtYnk6IFdlbiBIZSA8d2VuLmhlXzFAbnhwLmNvbT4KPiA+ID4gLS0tCj4gPiA+
-IGNoYW5nZSBpbiB2MjoKPiA+ID4gICAgICAgICAtIG1vZGlmeSBzb21lIGNvbnRlbnQgYmFzZWQg
-b24gZmVlZGJhY2sgZnJvbSBtYWludGFpbmVycwo+ID4gPgo+ID4gPiAgZHJpdmVycy9ncHUvZHJt
-L2FybS9tYWxpZHBfZHJ2LmMgIHwgIDYgKysrKysrCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYXJt
-L21hbGlkcF9ody5jICAgfCAxMyArKysrKysrKysrKysrCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0v
-YXJtL21hbGlkcF9ody5oICAgfCAgMyArKysKPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vbWFs
-aWRwX3JlZ3MuaCB8IDEwICsrKysrKysrKysKPiA+ID4gIDQgZmlsZXMgY2hhbmdlZCwgMzIgaW5z
-ZXJ0aW9ucygrKQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9t
-YWxpZHBfZHJ2LmMKPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9kcnYuYwo+ID4g
-PiBpbmRleCBmMjVlYzQzODIyNzcuLjYxYzQ5YTA2NjhhNyAxMDA2NDQKPiA+ID4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL2FybS9tYWxpZHBfZHJ2LmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L2FybS9tYWxpZHBfZHJ2LmMKPiA+ID4gQEAgLTgxOCw2ICs4MTgsMTIgQEAgc3RhdGljIGludCBt
-YWxpZHBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYpCj4gPiA+Cj4gPiA+ICAgICAgIG1hbGlkcC0+
-Y29yZV9pZCA9IHZlcnNpb247Cj4gPiA+Cj4gPiA+ICsgICAgIHJldCA9IG9mX3Byb3BlcnR5X3Jl
-YWRfdTMyKGRldi0+b2Zfbm9kZSwKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAiYXJtLG1hbGlkcC1hcnFvcy12YWx1ZSIsCj4gPiA+ICsgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgJmh3ZGV2LT5hcnFvc192YWx1ZSk7Cj4gPiA+ICsgICAgIGlm
-IChyZXQpCj4gPiA+ICsgICAgICAgICAgICAgaHdkZXYtPmFycW9zX3ZhbHVlID0gMHgwOwo+ID4g
-Cj4gPiBJcyB6ZXJvIHRoZSBkZWZhdWx0IHZhbHVlIHRoYXQgeW91IHdhbnQ/IEkgdGhvdWdodCBp
-dCB3YXMgMHgwMDAxMDAwMS4KPiAKPiBBY3R1YWxseSwgdGhlIHJlZ2lzdGVyIGRlZmF1bHQgdmFs
-dWUgYWx3YXlzIGlzIDB4MDAwMTAwMDEoY2FuIGJlIGZvdW5kIGluIFJNIGRvY3VtZW50KS4KCkV4
-YWN0bHksIGJ1dCB3aXRoIHlvdXIgY29kZSB5b3UgYXJlIG92ZXJ3cml0aW5nIGl0IHRvIDAgaWYg
-dGhlIERUIGRvZXNuJ3QgaGF2ZQp0aGUgYXJtLG1hbGlkcC1hcnFvcy12YWx1ZSBwcm9wZXJ0eS4K
-Cj4gCj4gPiAKPiA+ID4gKwo+ID4gPiAgICAgICAvKiBzZXQgdGhlIG51bWJlciBvZiBsaW5lcyB1
-c2VkIGZvciBvdXRwdXQgb2YgUkdCIGRhdGEgKi8KPiA+ID4gICAgICAgcmV0ID0gb2ZfcHJvcGVy
-dHlfcmVhZF91OF9hcnJheShkZXYtPm9mX25vZGUsCj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgImFybSxtYWxpZHAtb3V0cHV0LXBvcnQtbGluZXMiLAo+ID4gPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuYwo+ID4gPiBiL2RyaXZl
-cnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3LmMgaW5kZXggNTBhZjM5OWQ3ZjZmLi4zMjM2ODNiMWU5
-ZjcKPiA+ID4gMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3
-LmMKPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuYwo+ID4gPiBAQCAt
-Mzc0LDYgKzM3NCwxOSBAQCBzdGF0aWMgdm9pZCBtYWxpZHA1MDBfbW9kZXNldChzdHJ1Y3QKPiA+
-IG1hbGlkcF9od19kZXZpY2UgKmh3ZGV2LCBzdHJ1Y3QgdmlkZW9tb2RlICoKPiA+ID4gICAgICAg
-ICAgICAgICBtYWxpZHBfaHdfc2V0Yml0cyhod2RldiwgTUFMSURQX0RJU1BfRlVOQ19JTEFDRUQs
-Cj4gPiBNQUxJRFBfREVfRElTUExBWV9GVU5DKTsKPiA+ID4gICAgICAgZWxzZQo+ID4gPiAgICAg
-ICAgICAgICAgIG1hbGlkcF9od19jbGVhcmJpdHMoaHdkZXYsIE1BTElEUF9ESVNQX0ZVTkNfSUxB
-Q0VELAo+ID4gPiBNQUxJRFBfREVfRElTUExBWV9GVU5DKTsKPiA+ID4gKwo+ID4gPiArICAgICAv
-Kgo+ID4gPiArICAgICAgKiBQcm9ncmFtIHRoZSBSUW9TIHJlZ2lzdGVyIHRvIGF2b2lkIDRrIHJl
-c29sdXRpb24gZmxpY2tlcgo+ID4gPiArICAgICAgKiBvbiB0aGUgTFMxMDI4QS4KPiA+ID4gKyAg
-ICAgICovCj4gPiA+ICsgICAgIGlmIChod2Rldi0+YXJxb3NfdmFsdWUpIHsKPiA+ID4gKyAgICAg
-ICAgICAgICB2YWwgPSBod2Rldi0+YXJxb3NfdmFsdWU7Cj4gPiA+ICsKPiA+ID4gKyAgICAgICAg
-ICAgICBpZiAobW9kZS0+cGl4ZWxjbG9jayA9PSA1OTQwMDAwMDApCj4gPiAKPiA+IElmIEkgcmVt
-ZW1iZXIgY29ycmVjdGx5LCB5b3UgZGVjbGFyZSB0aGUgcGl4ZWxjbG9ja3MgaW4gdGhlIGRldmlj
-ZSB0cmVlLCBzbyBJCj4gPiB3b25kZXIgaWYgdGhpcyBpcyBuZWVkZWQgaGVyZS4gV2Ugc2hvdWxk
-IGp1c3Qgc2V0IHdoYXQgdmFsdWUgd2FzIGluIHRoZSBEVAo+ID4gcmVnYXJkbGVzcyBvZiB0aGUg
-cGl4ZWxjbG9jaywgYW5kIHRoZW4geW91IG1hbmlwdWxhdGUgdGhlIERUIHRvIGNob29zZSBvbmUg
-b2YKPiA+IHlvdXIgZml4ZWQgcmVzb2x1dGlvbnMgYW5kIGFsc28gc2V0IHRoZSBRb1MgdmFsdWUu
-Cj4gCj4gWWVzLCB5b3UgcmVtZW1iZXIgY29ycmVjdGx5LCBidXQKPiAxLiBkZWNsYXJlIHRoZSBw
-aXhlbGNsb2NrcyBpbiB0aGUgZGV2aWNlIHRyZWUuCj4gQWJvdXQgdGhpcywgSSB3YXMgaG9waW5n
-IHRvIGRpc2N1c3MgaXQgd2l0aCB5b3UuIEkgd2FudCB0byBpbXBsZW1lbnQgYW5vdGhlciBwYXRj
-aAo+IHRoYXQganVzdCBkZWNsYXJlIDI3TUh6IHJlZmVyZW5jZSBjbG9jayBpbiB0aGUgZGV2aWNl
-IHRyZWUgYW5kIGFkZCBhIGZha2UgY2xvY2sgc3Vic3lzdGVtCj4gdG8gZW5hYmxlL2Rpc3BsYXkg
-cHJlcGFyZSB0byBzZXQgUExMLiBJIGFtIHRoaW5raW5nIHdoYXQgdG8gZG8gbmV4dC4KPiBBcyBJ
-IHJlbWVtYmVyLCBJIHNlbnQgb3V0IGEgcGF0Y2ggdGhhdCAiRGlzYWJsZSBjaGVja2luZyBmb3Ig
-cmVxdWlyZWQgcGl4ZWwgY2xvY2siLAo+IEkgdGhpbmsgc2hvdWxkIGJlIGNhbmNlbCBpdC4KPiAK
-PiAyLiBkZWNsYXJlIHRoZSBmaXhlZCByZXNvbHV0aW9ucyBsaXN0IGluIERUUy4KPiBZZXMsIEFs
-dGhvdWdoIEkgcHV0IGZvdXIgcmVzb2x1dGlvbnMgZm9yIHN1cHBvcnRlZCBsaXN0IGluIERUUyBm
-aWxlLCBidXQgdGhpcyBqdXN0IGEKPiB3b3JrYXJvdW5kIHRoYXQgSWYgbm90IGVuYWJsZSBFRElE
-IE9SIEVESUQgaXMgbm90IGF2YWlsYWJsZS4gT25jZSBFRElEIGlzIGVuYWJsZWQsCj4gdGhlc2Ug
-cmVzb2x1dGlvbnMgbGlzdCBkZWNsYXJlIHdpbGwgYmUgcmVtb3ZlIGluIERUUy4gc28gd2UgY2Fu
-J3QgdXNlIGl0IGFzIGEgY29uZGl0aW9uCj4gdG8gc2V0IHRoZSBRb1MgdmFsdWUuIAoKMy4gQWN0
-dWFsbHkgZW5hYmxlIHRoZSBjbG9jayBwcm92aWRlci4gSSd2ZSBoYWQgYSBsb29rIGF0IHRoZSBw
-dWJsaWMKZG9jdW1lbnRhdGlvbiBhbmQgaXQgbG9va3MgbGlrZSB0aGUgdGhlIHBpeGVsY2xvY2sg
-aXMgcHJvdmlkZWQgYnkgYW4gSURUIFZlcnNhQ2xvY2sgNQpnZW5lcmF0b3IsIGZvciB3aGljaCB0
-aGVyZSBpcyBhIGtlcm5lbCBkcml2ZXIuIEkndmUgc3RhcnRlZCBwbGF5aW5nIHdpdGggaXQgYnV0
-IGdvdCAKcHVsbGVkIGJhY2sgYnkgb3RoZXIgbW9yZSBpbW1lZGlhdGUgdGFza3MuCgpBbnl3YXks
-IHdoYXQgSSB3YXMgdHJ5aW5nIHRvIGhpbnQgd2FzIHRoYXQgcHV0dGluZyBpbiB0aGUgY29kZSB0
-aGUgZXhhY3QgcGl4ZWxjbG9jawp2YWx1ZSBtaWdodCBub3QgYmUgdGhlIGJlc3QgdGhpbmcuIElu
-IG15IHZpZXcsIHBpeGVsY2xvY2sgcmVmbGVjdHMgdGhlIG5lZWQgZm9yCmEgY2VydGFpbiBiYW5k
-d2lkdGgsIHdpdGggaXMgdXN1YWxseSBhIHByb2R1Y3Qgb2Ygb3V0cHV0IChudW1iZXIgb2YgcGl4
-ZWxzKSBhbmQKcmVmcmVzaCBmcmVxdWVuY3kuIEknbSBndWVzc2luZyBnb2luZyBhYm92ZSA0a0A2
-MCB3aWxsIGFsc28gdHJpZ2dlciB0aGUKZmxpY2tlciwgYnV0IHdpdGggeW91ciBwYXRjaCB3ZSB3
-aWxsIG5vdCByZWFjdCBjb3JyZWN0bHkuCgpCZXN0IHJlZ2FyZHMsCkxpdml1CgoKPiAKPiBCZXN0
-IFJlZ2FyZHMsCj4gV2VuCj4gCj4gPiAKPiA+IEJlc3QgcmVnYXJkcywKPiA+IExpdml1Cj4gPiAK
-PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIG1hbGlkcF9od19zZXRiaXRzKGh3ZGV2LCB2YWws
-Cj4gPiBNQUxJRFA1MDBfUlFPU19RVUFMSVRZKTsKPiA+ID4gKyAgICAgICAgICAgICBlbHNlCj4g
-PiA+ICsgICAgICAgICAgICAgICAgICAgICBtYWxpZHBfaHdfY2xlYXJiaXRzKGh3ZGV2LCB2YWws
-Cj4gPiBNQUxJRFA1MDBfUlFPU19RVUFMSVRZKTsKPiA+ID4gKyAgICAgfQo+ID4gPiAgfQo+ID4g
-Pgo+ID4gPiAgaW50IG1hbGlkcF9mb3JtYXRfZ2V0X2JwcCh1MzIgZm10KQo+ID4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuaAo+ID4gPiBiL2RyaXZlcnMvZ3B1
-L2RybS9hcm0vbWFsaWRwX2h3LmggaW5kZXggOTY4YTY1ZWVkMzcxLi5lNGMzNmJjOTBiZGEKPiA+
-ID4gMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3LmgKPiA+
-ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuaAo+ID4gPiBAQCAtMjUxLDYg
-KzI1MSw5IEBAIHN0cnVjdCBtYWxpZHBfaHdfZGV2aWNlIHsKPiA+ID4KPiA+ID4gICAgICAgLyog
-c2l6ZSBvZiBtZW1vcnkgdXNlZCBmb3Igcm90YXRpbmcgbGF5ZXJzLCB1cCB0byB0d28gYmFua3Mg
-YXZhaWxhYmxlCj4gPiAqLwo+ID4gPiAgICAgICB1MzIgcm90YXRpb25fbWVtb3J5WzJdOwo+ID4g
-PiArCj4gPiA+ICsgICAgIC8qIHByaW9yaXR5IGxldmVsIG9mIFJRT1MgcmVnaXN0ZXIgdXNlZCBm
-b3IgZHJpdmVuIHRoZSBBUlFPUyBzaWduYWwgKi8KPiA+ID4gKyAgICAgdTMyIGFycW9zX3ZhbHVl
-Owo+ID4gPiAgfTsKPiA+ID4KPiA+ID4gIHN0YXRpYyBpbmxpbmUgdTMyIG1hbGlkcF9od19yZWFk
-KHN0cnVjdCBtYWxpZHBfaHdfZGV2aWNlICpod2RldiwgdTMyCj4gPiA+IHJlZykgZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3JlZ3MuaAo+ID4gPiBiL2RyaXZlcnMvZ3B1
-L2RybS9hcm0vbWFsaWRwX3JlZ3MuaAo+ID4gPiBpbmRleCA5OTMwMzE1NDJmYTEuLjUxNGM1MGRj
-Yjc0ZCAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcmVncy5o
-Cj4gPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3JlZ3MuaAo+ID4gPiBAQCAt
-MjEwLDYgKzIxMCwxNiBAQAo+ID4gPiAgI2RlZmluZSBNQUxJRFA1MDBfQ09ORklHX1ZBTElEICAg
-ICAgICAgICAgICAgMHgwMGYwMAo+ID4gPiAgI2RlZmluZSBNQUxJRFA1MDBfQ09ORklHX0lEICAg
-ICAgICAgIDB4MDBmZDQKPiA+ID4KPiA+ID4gKy8qCj4gPiA+ICsgKiBUaGUgcXVhbGl0eSBvZiBz
-ZXJ2aWNlIChRb1MpIHJlZ2lzdGVyIG9uIHRoZSBEUDUwMC4gUlFPUyByZWdpc3Rlcgo+ID4gPiAr
-dmFsdWVzCj4gPiA+ICsgKiBhcmUgZHJpdmVuIGJ5IHRoZSBBUlFPUyBzaWduYWwsIHVzaW5nIEFY
-SSB0cmFuc2FjYXRpb25zLCBkZXBlbmRlbnQKPiA+ID4gK29uIHRoZQo+ID4gPiArICogRklGTyBp
-bnB1dCBsZXZlbC4KPiA+ID4gKyAqIFRoZSBSUU9TIHJlZ2lzdGVyIGNhbiBhbHNvIHNldCBRb1Mg
-bGV2ZWxzIGZvcjoKPiA+ID4gKyAqICAgIC0gUkVEX0FSUU9TICAgQCBBIDQtYml0IHNpZ25hbCB2
-YWx1ZSBmb3IgY2xvc2UgdG8gdW5kZXJmbG93Cj4gPiBjb25kaXRpb25zCj4gPiA+ICsgKiAgICAt
-IEdSRUVOX0FSUU9TIEAgQSA0LWJpdCBzaWduYWwgdmFsdWUgZm9yIG5vcm1hbCBjb25kaXRpb25z
-Cj4gPiA+ICsgKi8KPiA+ID4gKyNkZWZpbmUgTUFMSURQNTAwX1JRT1NfUVVBTElUWSAgICAgICAg
-ICAweDAwNTAwCj4gPiA+ICsKPiA+ID4gIC8qIHJlZ2lzdGVyIG9mZnNldHMgYW5kIGJpdHMgc3Bl
-Y2lmaWMgdG8gRFA1NTAvRFA2NTAgKi8KPiA+ID4gICNkZWZpbmUgTUFMSURQNTUwX0FERFJfU1BB
-Q0VfU0laRSAgICAweDEwMDAwCj4gPiA+ICAjZGVmaW5lIE1BTElEUDU1MF9ERV9DT05UUk9MICAg
-ICAgICAgMHgwMDAxMAo+ID4gPiAtLQo+ID4gPiAyLjE3LjEKPiA+ID4KPiA+IAo+ID4gLS0KPiA+
-ID09PT09PT09PT09PT09PT09PT09Cj4gPiB8IEkgd291bGQgbGlrZSB0byB8Cj4gPiB8IGZpeCB0
-aGUgd29ybGQsICB8Cj4gPiB8IGJ1dCB0aGV5J3JlIG5vdCB8Cj4gPiB8IGdpdmluZyBtZSB0aGUg
-ICB8Cj4gPiAgXCBzb3VyY2UgY29kZSEgIC8KPiA+ICAgLS0tLS0tLS0tLS0tLS0tCj4gPiAgICAg
-wq9cXyjjg4QpXy/CrwoKLS0gCj09PT09PT09PT09PT09PT09PT09CnwgSSB3b3VsZCBsaWtlIHRv
-IHwKfCBmaXggdGhlIHdvcmxkLCAgfAp8IGJ1dCB0aGV5J3JlIG5vdCB8CnwgZ2l2aW5nIG1lIHRo
-ZSAgIHwKIFwgc291cmNlIGNvZGUhICAvCiAgLS0tLS0tLS0tLS0tLS0tCiAgICDCr1xfKOODhClf
-L8KvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0569571965==
+Content-Type: multipart/alternative; boundary="15637882831.F515BD.15376"
+Content-Transfer-Encoding: 7bit
+
+
+--15637882831.F515BD.15376
+Date: Mon, 22 Jul 2019 09:38:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111182
+
+            Bug ID: 111182
+           Summary: Fade-to-white after KMS is set on RV635
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: medium
+         Component: DRM/Radeon
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: thumperward@hotmail.com
+
+Created attachment 144837
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144837&action=3Dedit
+dmesg output after blacklisting radeon, then enabling it after boot
+
+I have a laptop with a Radeon Mobility 3670. With KMS disabled I can boot
+normally; however, otherwise it typically locks hard as soon as modesetting
+happens, with an odd effect where the screen gradually fades to being nearly
+completely white. (I can provide video if for some reason this would help).
+
+However, on occasion (rarely) it will flicker for a second, successfully sw=
+itch
+modes, spit out "Timeout setting UVD clocks", and then carry on correctly.
+
+Given that this happens very early in the boot, and hard locks the system, =
+I've
+taken to blacklisting radeon in my boot parameters, then doing a "sudo modp=
+robe
+radeon" after logging in and crossing my fingers. Attached is dmesg output =
+from
+such a case - note the delay between lines 918 and 919 as boot finished, I
+logged in, and then ran modprobe. Lines 950-955 show the errors that get ec=
+hoed
+as the system then successfully switches modes.
+
+(blacklisting until after boot isn't the only way to get it working - it ju=
+st
+happens to give me more of a sense of control than repeatedly power-cycling=
+ and
+hoping the system boots normally.)
+
+The closest example I could find on search was 16389 - however none of the
+workarounds there help, and when the screen fades the machine is subsequent=
+ly
+completely unreponsive.
+
+Debian 10 buster, 1:19.0.1-1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15637882831.F515BD.15376
+Date: Mon, 22 Jul 2019 09:38:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Fade-to-white after KMS is set on RV635"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111182">111182</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Fade-to-white after KMS is set on RV635
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/Radeon
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>thumperward&#64;hotmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144837=
+" name=3D"attach_144837" title=3D"dmesg output after blacklisting radeon, t=
+hen enabling it after boot">attachment 144837</a> <a href=3D"attachment.cgi=
+?id=3D144837&amp;action=3Dedit" title=3D"dmesg output after blacklisting ra=
+deon, then enabling it after boot">[details]</a></span>
+dmesg output after blacklisting radeon, then enabling it after boot
+
+I have a laptop with a Radeon Mobility 3670. With KMS disabled I can boot
+normally; however, otherwise it typically locks hard as soon as modesetting
+happens, with an odd effect where the screen gradually fades to being nearly
+completely white. (I can provide video if for some reason this would help).
+
+However, on occasion (rarely) it will flicker for a second, successfully sw=
+itch
+modes, spit out &quot;Timeout setting UVD clocks&quot;, and then carry on c=
+orrectly.
+
+Given that this happens very early in the boot, and hard locks the system, =
+I've
+taken to blacklisting radeon in my boot parameters, then doing a &quot;sudo=
+ modprobe
+radeon&quot; after logging in and crossing my fingers. Attached is dmesg ou=
+tput from
+such a case - note the delay between lines 918 and 919 as boot finished, I
+logged in, and then ran modprobe. Lines 950-955 show the errors that get ec=
+hoed
+as the system then successfully switches modes.
+
+(blacklisting until after boot isn't the only way to get it working - it ju=
+st
+happens to give me more of a sense of control than repeatedly power-cycling=
+ and
+hoping the system boots normally.)
+
+The closest example I could find on search was 16389 - however none of the
+workarounds there help, and when the screen fades the machine is subsequent=
+ly
+completely unreponsive.
+
+Debian 10 buster, 1:19.0.1-1</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15637882831.F515BD.15376--
+
+--===============0569571965==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0569571965==--
