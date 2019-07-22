@@ -1,45 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5CB70AF8
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 23:03:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E9B70AFA
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 23:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11BA989F2E;
-	Mon, 22 Jul 2019 21:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14A9389F31;
+	Mon, 22 Jul 2019 21:04:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B77D189F35
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 21:03:22 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B402672167; Mon, 22 Jul 2019 21:03:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 105251] [Vega10]  GPU lockup on boot: VMC page fault
-Date: Mon, 22 Jul 2019 21:03:22 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: ds2.bugs.freedesktop@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-105251-502-EbCVa0ZkzP@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-105251-502@http.bugs.freedesktop.org/>
-References: <bug-105251-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
+ [195.113.26.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DBDF89F31
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 21:04:09 +0000 (UTC)
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+ id 1FA5880410; Mon, 22 Jul 2019 23:03:55 +0200 (CEST)
+Date: Mon, 22 Jul 2019 23:04:07 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Subject: Re: [PATCH] Enable backlight when trigger is activated
+Message-ID: <20190722210407.GA25617@amd>
+References: <20190718190849.GA11409@amd>
+ <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
+ <20190722075032.GA27524@amd>
+ <6fc6af89-1455-7665-47e7-0568ecd87c9c@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <6fc6af89-1455-7665-47e7-0568ecd87c9c@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,97 +39,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1009568067=="
+Cc: linux-fbdev@vger.kernel.org, mpartap@gmx.net, b.zolnierkie@samsung.com,
+ tony@atomide.com, merlijn@wizzup.org,
+ kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ sre@kernel.org, nekit1000@gmail.com, linux-leds@vger.kernel.org,
+ linux-omap@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============0121990956=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1009568067==
-Content-Type: multipart/alternative; boundary="15638294026.D22B81C89.2161"
-Content-Transfer-Encoding: 7bit
+--===============0121990956==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
+Content-Disposition: inline
 
 
---15638294026.D22B81C89.2161
-Date: Mon, 22 Jul 2019 21:03:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--SLDf9lqlvOQaIe6s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D105251
+Hi!
 
---- Comment #77 from deltasquared <ds2.bugs.freedesktop@gmail.com> ---
-Created attachment 144845
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144845&action=3Dedit
-vega_crasher after patch, black central output, on ryzen 2200G with vega 8
-graphics
+> >> This looks fishy.
+> >>
+> >> Maybe you should use a default-state =3D "keep" instead? (and you'll h=
+ave
+> >> to support it in the LED driver).
+> >>
+> >> That'll give you proper "don't touch the LED if it was turned on" beha=
+vior,
+> >> which is what you seem to want.
+> >=20
+> > Actually no, that's not what I want. LED should go on if the display
+> > is active, as soon as trigger is activated.
+> >=20
+> > Unfortunately, I have see no good way to tell if the display is
+> > active (and display is usually active when trigger is activated).
+>=20
+> default-state DT property can be also set to "on"
+> (see Documentation/devicetree/bindings/leds/common.txt).
 
-Screenshot time (1/2). It seems sometimes vega_crasher will render black - I
-haven't thoroughly looked over the code so I'm not sure if this is the
-adformentioned incorrect result (where an assert would have been hit).
+Ok, thanks for the hint, that could work. (I thought we were using
+default trigger to set the LED "on").
 
+Now...this gives me option of 0% or 100% brightness, while best would
+be 10% brightness.... but I guess we can live with that ;-).
+
+									Pavel
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
 
---15638294026.D22B81C89.2161
-Date: Mon, 22 Jul 2019 21:03:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--SLDf9lqlvOQaIe6s
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251#c77">Comme=
-nt # 77</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D105251">bug 10525=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ds2.bugs.freedesktop&#64;gmail.com" title=3D"deltasquared &lt;ds2.bugs.free=
-desktop&#64;gmail.com&gt;"> <span class=3D"fn">deltasquared</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144845=
-" name=3D"attach_144845" title=3D"vega_crasher after patch, black central o=
-utput, on ryzen 2200G with vega 8 graphics">attachment 144845</a> <a href=
-=3D"attachment.cgi?id=3D144845&amp;action=3Dedit" title=3D"vega_crasher aft=
-er patch, black central output, on ryzen 2200G with vega 8 graphics">[detai=
-ls]</a></span>
-vega_crasher after patch, black central output, on ryzen 2200G with vega 8
-graphics
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Screenshot time (1/2). It seems sometimes vega_crasher will render black - I
-haven't thoroughly looked over the code so I'm not sure if this is the
-adformentioned incorrect result (where an assert would have been hit).</pre>
-        </div>
-      </p>
+iEYEARECAAYFAl02JMcACgkQMOfwapXb+vI4ugCeInwKolmtAnBHOQNVsMS09AdN
+Kr8AnAq4ihyjYP61ghzcLq9l2lbwoALF
+=guhn
+-----END PGP SIGNATURE-----
 
+--SLDf9lqlvOQaIe6s--
 
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15638294026.D22B81C89.2161--
-
---===============1009568067==
+--===============0121990956==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -152,4 +118,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1009568067==--
+--===============0121990956==--
