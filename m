@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2166FFAC
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 14:30:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FA07005B
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 14:59:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A82F589BA5;
-	Mon, 22 Jul 2019 12:30:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62F218970B;
+	Mon, 22 Jul 2019 12:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0386389C13
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 12:30:23 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0039972167; Mon, 22 Jul 2019 12:30:22 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Mon, 22 Jul 2019 12:30:23 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: nicholas.kazlauskas@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-qI5avfczQx@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9312C8970B;
+ Mon, 22 Jul 2019 12:59:41 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id l2so35231074wmg.0;
+ Mon, 22 Jul 2019 05:59:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9JJUI9r4ZBuzXrXAQha3xxQKaLqKLDcjdWLwv+exu9I=;
+ b=bOl8J2b7PQ1sTpMdsVWpFcdwD1c9erpB4YtgLTr2xMsXW5HTOqlc7zSeKF9QlkNfQt
+ ipT+DId+6cOuCSGzhU7nLSu+et7Hoa32Cex5RN3/lHfkEdCAMAizTYopsDFOEIzpZm6v
+ KIRdD35uoADBpHaEwO8pIozbTis9MZCye0o0ORtrojj3nGMIq76M2IoJCzfUXLxLrC6R
+ PTqV8uA6P4HBVGslltoH/Zm/rIVodmvd7emAlt+hNSnM0v2iCOwqdi15EDeo+noeeaA2
+ FVPRfs88hoXy56FNn7Bv+9mGuTn2RD58DldabUiABoJhyN/4HUGDP04LD7BTEGzH+euu
+ BTkA==
+X-Gm-Message-State: APjAAAUm5DMWAk/I8lCixULhhIzseORVxX5ghiOLdaVAxj7UZp5UX/TA
+ PgPt7RiIEhxAmMjZaW8qFRdu2knx
+X-Google-Smtp-Source: APXvYqxI51XXsyPEIwbrvg6mudJqo9ppu7d/fQJ3ISu6uZcofATkrXnkCMxIudn0gwZK6Xj4WqCHBw==
+X-Received: by 2002:a1c:2c41:: with SMTP id s62mr63871981wms.8.1563800380115; 
+ Mon, 22 Jul 2019 05:59:40 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:a512:9eca:e79f:c420])
+ by smtp.gmail.com with ESMTPSA id e3sm35877754wrt.93.2019.07.22.05.59.39
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 22 Jul 2019 05:59:39 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/syncobj: fix leaking dma_fence in drm_syncobj_query_ioctl
+Date: Mon, 22 Jul 2019 14:59:38 +0200
+Message-Id: <20190722125938.43308-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9JJUI9r4ZBuzXrXAQha3xxQKaLqKLDcjdWLwv+exu9I=;
+ b=S+Qt9eZWWjl/+qPfm6nVCAAXRC8hjyzKTA7TYKkin/zvVrYi0lx56IIogha6Z0CO5n
+ 9vKxMSNf+LjvlziuDNAea2MS3dauTH/tsqRIA1bxOgG6wTmU6p0mBRYvMId5fwonoEoR
+ C8xqZ/h/GgsHO8mJ8hQJwBF3ohG9RB0QnTrLcN5FRAb1NUhBAeN95ul/7h2ABn8m3Iqt
+ A9LSAa5/rksenF9BUV8Zi87GRVWXIhkd31qm8Sd0cFey/wQK4/MTteqpvOibmcj71SZ8
+ 1mDJgRSr/ZMtwSAvsJtjd5DonuIHcuf6/0TkOxbABbN0z+yr19QCG4YUDI1yhLtnFsOK
+ OlZQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,146 +68,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0974870535=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0974870535==
-Content-Type: multipart/alternative; boundary="15637986222.9BebFFd6.10923"
-Content-Transfer-Encoding: 7bit
-
-
---15637986222.9BebFFd6.10923
-Date: Mon, 22 Jul 2019 12:30:22 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
-
---- Comment #6 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
-(In reply to Brian Schott from comment #3)
-> I think that I'm seeing something related with my 2700u Inspiron 7375.
->=20
-> If I have compositing enabled in XFWM4, the system will immediately stop
-> responding after logging in with LightDM. If the window manager compositi=
-ng
-> is disabled, I'm able to log in, but then there is graphical corruption.
->=20
-> With git bisect I traced the problem back to
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
-> ?h=3Ddf8368be1382&id=3Ddf8368be1382b442384507a5147c89978cd60702
->=20
-> I can edit the source file, and by only changing the KMS_DRIVER_MINOR
-> definition from 32 to 30, get the system working correctly with 5.2.0.
-
-Your issue in particular is likely unrelated - it's an issue in userspace.
-
-The bisected commit is the one that allowed xf86-video-amdgpu to start scan=
-ning
-out DCC compressed buffers that mesa produces, with the caveat that mesa ne=
-eds
-a hook on present for the re-tile. My guess is that hook isn't running when=
- you
-aren't using "compositing".
-
-I'm not sure if mesa or xf86-video-amdgpu have options yet to disable DCC or
-not, but for that particular setup you'd probably want it disabled.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15637986222.9BebFFd6.10923
-Date: Mon, 22 Jul 2019 12:30:22 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
-kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
-/a>
-</span></b>
-        <pre>(In reply to Brian Schott from <a href=3D"show_bug.cgi?id=3D11=
-1122#c3">comment #3</a>)
-<span class=3D"quote">&gt; I think that I'm seeing something related with m=
-y 2700u Inspiron 7375.
-&gt;=20
-&gt; If I have compositing enabled in XFWM4, the system will immediately st=
-op
-&gt; responding after logging in with LightDM. If the window manager compos=
-iting
-&gt; is disabled, I'm able to log in, but then there is graphical corruptio=
-n.
-&gt;=20
-&gt; With git bisect I traced the problem back to
-&gt; <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
-nux.git/commit/">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/l=
-inux.git/commit/</a>
-&gt; ?h=3Ddf8368be1382&amp;id=3Ddf8368be1382b442384507a5147c89978cd60702
-&gt;=20
-&gt; I can edit the source file, and by only changing the KMS_DRIVER_MINOR
-&gt; definition from 32 to 30, get the system working correctly with 5.2.0.=
-</span >
-
-Your issue in particular is likely unrelated - it's an issue in userspace.
-
-The bisected commit is the one that allowed xf86-video-amdgpu to start scan=
-ning
-out DCC compressed buffers that mesa produces, with the caveat that mesa ne=
-eds
-a hook on present for the re-tile. My guess is that hook isn't running when=
- you
-aren't using &quot;compositing&quot;.
-
-I'm not sure if mesa or xf86-video-amdgpu have options yet to disable DCC or
-not, but for that particular setup you'd probably want it disabled.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15637986222.9BebFFd6.10923--
-
---===============0974870535==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0974870535==--
+V2UgbmVlZCB0byBjaGVjayB0aGUgY29udGV4dCBudW1iZXIgaW5zdGVhZCBpZiB0aGUgcHJldmlv
+dXMgc2VxdWVuY2UgdG8gZGV0ZWN0CmFuIGVycm9yIGFuZCBpZiBhbiBlcnJvciBpcyBkZXRlY3Rl
+ZCB3ZSBuZWVkIHRvIGRyb3AgdGhlIHJlZmVyZW5jZSB0byB0aGUKY3VycmVudCBmZW5jZSBvciBv
+dGhlcndpc2Ugd291bGQgbGVhayBpdC4KClNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcg
+PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNv
+YmouYyB8IDEwICsrKysrLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMg
+Yi9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYwppbmRleCA3NWNiNGJiNzYxOWUuLjE0Mzhk
+Y2IzZWJiMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKKysrIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKQEAgLTEyOTgsMTQgKzEyOTgsMTQgQEAgaW50
+IGRybV9zeW5jb2JqX3F1ZXJ5X2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRh
+dGEsCiAJCQlzdHJ1Y3QgZG1hX2ZlbmNlICppdGVyLCAqbGFzdF9zaWduYWxlZCA9IE5VTEw7CiAK
+IAkJCWRtYV9mZW5jZV9jaGFpbl9mb3JfZWFjaChpdGVyLCBmZW5jZSkgewotCQkJCWlmICghaXRl
+cikKLQkJCQkJYnJlYWs7Ci0JCQkJZG1hX2ZlbmNlX3B1dChsYXN0X3NpZ25hbGVkKTsKLQkJCQls
+YXN0X3NpZ25hbGVkID0gZG1hX2ZlbmNlX2dldChpdGVyKTsKLQkJCQlpZiAoIXRvX2RtYV9mZW5j
+ZV9jaGFpbihsYXN0X3NpZ25hbGVkKS0+cHJldl9zZXFubykKKwkJCQlpZiAoaXRlci0+Y29udGV4
+dCAhPSBmZW5jZS0+Y29udGV4dCkgeworCQkJCQlkbWFfZmVuY2VfcHV0KGl0ZXIpOwogCQkJCQkv
+KiBJdCBpcyBtb3N0IGxpa2VseSB0aGF0IHRpbWVsaW5lIGhhcwogCQkJCQkgKiB1bm9yZGVyIHBv
+aW50cy4gKi8KIAkJCQkJYnJlYWs7CisJCQkJfQorCQkJCWRtYV9mZW5jZV9wdXQobGFzdF9zaWdu
+YWxlZCk7CisJCQkJbGFzdF9zaWduYWxlZCA9IGRtYV9mZW5jZV9nZXQoaXRlcik7CiAJCQl9CiAJ
+CQlwb2ludCA9IGRtYV9mZW5jZV9pc19zaWduYWxlZChsYXN0X3NpZ25hbGVkKSA/CiAJCQkJbGFz
+dF9zaWduYWxlZC0+c2Vxbm8gOgotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
