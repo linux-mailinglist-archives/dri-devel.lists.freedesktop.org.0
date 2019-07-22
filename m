@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F686FC89
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 11:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8A66FCC6
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 11:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3752A89BAE;
-	Mon, 22 Jul 2019 09:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B98389AEA;
+	Mon, 22 Jul 2019 09:50:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B407489BAE
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 09:46:41 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A998272167; Mon, 22 Jul 2019 09:46:41 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110258] Lenovo V110-15AST AMD A9-9410  AMD R5 Stoney hangs
- after waking after suspend. 5.0-5.1rc2
-Date: Mon, 22 Jul 2019 09:46:41 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: pmw.gover@yahoo.co.uk
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: rep_platform
-Message-ID: <bug-110258-502-p28kRGfBca@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110258-502@http.bugs.freedesktop.org/>
-References: <bug-110258-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3457D89AEA
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 09:50:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9EFD28;
+ Mon, 22 Jul 2019 02:50:09 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 182FA3F694;
+ Mon, 22 Jul 2019 02:50:08 -0700 (PDT)
+Subject: Re: [PATCH 3/5] drm/panfrost: Add a no execute flag for BO allocations
+To: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>
+References: <20190717183352.22519-1-robh@kernel.org>
+ <20190717183352.22519-3-robh@kernel.org>
+ <ecde43d2-45cc-d00a-9635-cb56a67263d4@arm.com>
+ <CAL_JsqLfnMwibCMU8_PqqYj0C895wuW9DNPirFo-LRChxJA-fA@mail.gmail.com>
+ <896cada5-580a-7637-2884-f0c616314ea4@arm.com>
+ <CAL_Jsq+ygY64WP6GP2LB4WRt2_BCXMMWxQSyhazY=jWfCyOkLg@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Message-ID: <4b7fc0b4-aa5b-06ba-ad4a-5b959e265e67@arm.com>
+Date: Mon, 22 Jul 2019 10:50:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+ygY64WP6GP2LB4WRt2_BCXMMWxQSyhazY=jWfCyOkLg@mail.gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,149 +46,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1970160918=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1970160918==
-Content-Type: multipart/alternative; boundary="15637888010.F7465B65.16887"
-Content-Transfer-Encoding: 7bit
-
-
---15637888010.F7465B65.16887
-Date: Mon, 22 Jul 2019 09:46:41 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110258
-
-Paul Gover <pmw.gover@yahoo.co.uk> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Hardware|Other                       |x86-64 (AMD64)
-
---- Comment #9 from Paul Gover <pmw.gover@yahoo.co.uk> ---
-I've changed the "Hardware" from Other to AMD64 in the hope someone might
-actually look at this bug.  It's been open for almost 4 months, and so far
-nothing's happened.
-
-For anyone wanting a bypass, the only one that works for me is to use the l=
-ast
-kernel release (4.20.17) before 5.0 came out.  The latest LTS (long term
-stable) kernel before 5.0 is 4.19.60, but that exhibited strange lockups and
-performance issues when I tried it.
-
-This leaves a choice of (a) running kernel 4.20.17, which is out of support,
-and therefore missing security fixes or (b) going without suspend, which is=
- a
-severe limitation on a laptop; hibernate doesn't work on any kernel I've tr=
-ied,
-so the only alternative to a flat battery is shutdown/reboot.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15637888010.F7465B65.16887
-Date: Mon, 22 Jul 2019 09:46:41 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:pmw.gover=
-&#64;yahoo.co.uk" title=3D"Paul Gover &lt;pmw.gover&#64;yahoo.co.uk&gt;"> <=
-span class=3D"fn">Paul Gover</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
-aking after suspend. 5.0-5.1rc2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258">bug 11025=
-8</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Hardware</td>
-           <td>Other
-           </td>
-           <td>x86-64 (AMD64)
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
-aking after suspend. 5.0-5.1rc2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
-aking after suspend. 5.0-5.1rc2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258">bug 11025=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pmw.gover&#64;yahoo.co.uk" title=3D"Paul Gover &lt;pmw.gover&#64;yahoo.co.u=
-k&gt;"> <span class=3D"fn">Paul Gover</span></a>
-</span></b>
-        <pre>I've changed the &quot;Hardware&quot; from Other to AMD64 in t=
-he hope someone might
-actually look at this bug.  It's been open for almost 4 months, and so far
-nothing's happened.
-
-For anyone wanting a bypass, the only one that works for me is to use the l=
-ast
-kernel release (4.20.17) before 5.0 came out.  The latest LTS (long term
-stable) kernel before 5.0 is 4.19.60, but that exhibited strange lockups and
-performance issues when I tried it.
-
-This leaves a choice of (a) running kernel 4.20.17, which is out of support,
-and therefore missing security fixes or (b) going without suspend, which is=
- a
-severe limitation on a laptop; hibernate doesn't work on any kernel I've tr=
-ied,
-so the only alternative to a flat battery is shutdown/reboot.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15637888010.F7465B65.16887--
-
---===============1970160918==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1970160918==--
+T24gMTkvMDcvMjAxOSAyMzowNywgUm9iIEhlcnJpbmcgd3JvdGU6Cj4gT24gRnJpLCBKdWwgMTks
+IDIwMTkgYXQgNDozOSBBTSBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPiB3cm90
+ZToKPj4KPj4gT24gMTgvMDcvMjAxOSAxODowMywgUm9iIEhlcnJpbmcgd3JvdGU6Cj4+PiBPbiBU
+aHUsIEp1bCAxOCwgMjAxOSBhdCA5OjAzIEFNIFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFy
+bS5jb20+IHdyb3RlOgo+Pj4+Cj4+Pj4gT24gMTcvMDcvMjAxOSAxOTozMywgUm9iIEhlcnJpbmcg
+d3JvdGU6Cj4+Pj4+IEV4ZWN1dGFibGUgYnVmZmVycyBoYXZlIGFuIGFsaWdubWVudCByZXN0cmlj
+dGlvbiB0aGF0IHRoZXkgY2FuJ3QgY3Jvc3MKPj4+Pj4gMTZNQiBib3VuZGFyeSBhcyB0aGUgR1BV
+IHByb2dyYW0gY291bnRlciBpcyAyNC1iaXRzLiBUaGlzIHJlc3RyaWN0aW9uIGlzCj4+Pj4+IGN1
+cnJlbnRseSBub3QgaGFuZGxlZCBhbmQgd2UganVzdCBnZXQgbHVja3kuIEFzIGN1cnJlbnQgdXNl
+cnNwYWNlCj4+Pj4KPj4+PiBBY3R1YWxseSBpdCBkZXBlbmRzIHdoaWNoIEdQVSB5b3UgYXJlIHVz
+aW5nIC0gc29tZSBkbyBoYXZlIGEgYmlnZ2VyCj4+Pj4gcHJvZ3JhbSBjb3VudGVyIC0gc28gaXQg
+bWlnaHQgYmUgdGhlIGNob2ljZSBvZiBHUFUgdG8gdGVzdCBvbiByYXRoZXIKPj4+PiB0aGFuIGp1
+c3QgbHVjay4gQnV0IGtiYXNlIGFsd2F5cyBhc3N1bWVzIHRoZSB3b3JzdCBjYXNlICgyNCBiaXQp
+IGFzIGluCj4+Pj4gcHJhY3Rpc2UgdGhhdCdzIGVub3VnaC4KPj4+Pgo+Pj4+PiBhc3N1bWVzIGFs
+bCBCT3MgYXJlIGV4ZWN1dGFibGUsIHRoYXQgaGFzIHRvIHJlbWFpbiB0aGUgZGVmYXVsdC4gU28g
+YWRkIGEKPj4+Pj4gbmV3IFBBTkZST1NUX0JPX05PRVhFQyBmbGFnIHRvIGFsbG93IHVzZXJzcGFj
+ZSB0byBpbmRpY2F0ZSB3aGljaCBCT3MgYXJlCj4+Pj4+IG5vdCBleGVjdXRhYmxlLgo+Pj4+Pgo+
+Pj4+PiBUaGVyZSBpcyBhbHNvIGEgcmVzdHJpY3Rpb24gdGhhdCBleGVjdXRhYmxlIGJ1ZmZlcnMg
+Y2Fubm90IHN0YXJ0IG9yIGVuZAo+Pj4+PiBvbiBhIDRHQiBib3VuZGFyeS4gVGhpcyBpcyBtb3N0
+bHkgYXZvaWRlZCBhcyB0aGVyZSBpcyBvbmx5IDRHQiBvZiBzcGFjZQo+Pj4+PiBjdXJyZW50bHkg
+YW5kIHRoZSBiZWdpbm5pbmcgaXMgYWxyZWFkeSBibG9ja2VkIG91dCBmb3IgTlVMTCBwdHIKPj4+
+Pj4gZGV0ZWN0aW9uLiBBZGQgc3VwcG9ydCB0byBoYW5kbGUgdGhpcyByZXN0cmljdGlvbiBmdWxs
+eSByZWdhcmRsZXNzIG9mCj4+Pj4+IHRoZSBjdXJyZW50IGNvbnN0cmFpbnRzLgo+Pj4+Pgo+Pj4+
+PiBGb3IgZXhpc3RpbmcgdXNlcnNwYWNlLCBhbGwgY3JlYXRlZCBCT3MgcmVtYWluIGV4ZWN1dGFi
+bGUsIGJ1dCB0aGUgR1BVCj4+Pj4+IFZBIGFsaWdubWVudCB3aWxsIGJlIGluY3JlYXNlZCB0byB0
+aGUgc2l6ZSBvZiB0aGUgQk8uIFRoaXMgc2hvdWxkbid0Cj4+Pj4+IG1hdHRlciBhcyB0aGVyZSBp
+cyBwbGVudHkgb2YgR1BVIFZBIHNwYWNlLgo+Pj4+Pgo+Pj4+PiBDYzogVG9tZXUgVml6b3NvIDx0
+b21ldS52aXpvc29AY29sbGFib3JhLmNvbT4KPj4+Pj4gQ2M6IEJvcmlzIEJyZXppbGxvbiA8Ym9y
+aXMuYnJlemlsbG9uQGNvbGxhYm9yYS5jb20+Cj4+Pj4+IENjOiBSb2JpbiBNdXJwaHkgPHJvYmlu
+Lm11cnBoeUBhcm0uY29tPgo+Pj4+PiBDYzogU3RldmVuIFByaWNlIDxzdGV2ZW4ucHJpY2VAYXJt
+LmNvbT4KPj4+Pj4gQ2M6IEFseXNzYSBSb3Nlbnp3ZWlnIDxhbHlzc2FAcm9zZW56d2VpZy5pbz4K
+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KPj4+Pj4g
+LS0tCj4+Pj4+ICAgZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2Rydi5jIHwgMjAg
+KysrKysrKysrKysrKysrKysrKy0KPj4+Pj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFu
+ZnJvc3RfZ2VtLmMgfCAxOCArKysrKysrKysrKysrKysrLS0KPj4+Pj4gICBkcml2ZXJzL2dwdS9k
+cm0vcGFuZnJvc3QvcGFuZnJvc3RfZ2VtLmggfCAgMyArKy0KPj4+Pj4gICBkcml2ZXJzL2dwdS9k
+cm0vcGFuZnJvc3QvcGFuZnJvc3RfbW11LmMgfCAgMyArKysKPj4+Pj4gICBpbmNsdWRlL3VhcGkv
+ZHJtL3BhbmZyb3N0X2RybS5oICAgICAgICAgfCAgMiArKwo+Pj4+PiAgIDUgZmlsZXMgY2hhbmdl
+ZCwgNDIgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPj4+Pj4KPj4+Pj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYwo+Pj4+PiBpbmRleCBkMzU0YjkyOTY0ZDUuLmI5
+MWU5OTFiYzZhMyAxMDA2NDQKPj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
+bmZyb3N0X2Rydi5jCj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9z
+dF9kcnYuYwo+Pj4+PiBAQCAtNDksNyArNDksOCBAQCBzdGF0aWMgaW50IHBhbmZyb3N0X2lvY3Rs
+X2NyZWF0ZV9ibyhzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAo+Pj4+PiAgICAg
+ICAgc3RydWN0IHBhbmZyb3N0X2dlbV9vYmplY3QgKmJvOwo+Pj4+PiAgICAgICAgc3RydWN0IGRy
+bV9wYW5mcm9zdF9jcmVhdGVfYm8gKmFyZ3MgPSBkYXRhOwo+Pj4+Pgo+Pj4+PiAtICAgICBpZiAo
+IWFyZ3MtPnNpemUgfHwgYXJncy0+ZmxhZ3MgfHwgYXJncy0+cGFkKQo+Pj4+PiArICAgICBpZiAo
+IWFyZ3MtPnNpemUgfHwgYXJncy0+cGFkIHx8Cj4+Pj4+ICsgICAgICAgICAoYXJncy0+ZmxhZ3Mg
+JiB+UEFORlJPU1RfQk9fTk9FWEVDKSkKPj4+Pj4gICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5W
+QUw7Cj4+Pj4+Cj4+Pj4+ICAgICAgICBibyA9IHBhbmZyb3N0X2dlbV9jcmVhdGVfd2l0aF9oYW5k
+bGUoZmlsZSwgZGV2LCBhcmdzLT5zaXplLCBhcmdzLT5mbGFncywKPj4+Pj4gQEAgLTM2Nyw2ICsz
+NjgsMjIgQEAgc3RhdGljIHN0cnVjdCBkcm1fZHJpdmVyIHBhbmZyb3N0X2RybV9kcml2ZXIgPSB7
+Cj4+Pj4+ICAgICAgICAuZ2VtX3ByaW1lX21tYXAgICAgICAgICA9IGRybV9nZW1fcHJpbWVfbW1h
+cCwKPj4+Pj4gICB9Owo+Pj4+Pgo+Pj4+PiArI2RlZmluZSBQRk5fNEdfTUFTSyAgICAoKFNaXzRH
+IC0gMSkgPj4gUEFHRV9TSElGVCkKPj4+Pj4gKwo+Pj4+PiArc3RhdGljIHZvaWQgcGFuZnJvc3Rf
+ZHJtX21tX2NvbG9yX2FkanVzdChjb25zdCBzdHJ1Y3QgZHJtX21tX25vZGUgKm5vZGUsCj4+Pj4+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGxvbmcgY29s
+b3IsCj4+Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHU2NCAqc3Rh
+cnQsIHU2NCAqZW5kKQo+Pj4+PiArewo+Pj4+PiArICAgICAvKiBFeGVjdXRhYmxlIGJ1ZmZlcnMg
+Y2FuJ3Qgc3RhcnQgb3IgZW5kIG9uIGEgNEdCIGJvdW5kYXJ5ICovCj4+Pj4+ICsgICAgIGlmICgh
+Y29sb3IpIHsKPj4+Pj4gKyAgICAgICAgICAgICBpZiAoKCpzdGFydCAmIFBGTl80R19NQVNLKSA9
+PSAwKQo+Pj4+PiArICAgICAgICAgICAgICAgICAgICAgKCpzdGFydCkrKzsKPj4+Pj4gKwo+Pj4+
+PiArICAgICAgICAgICAgIGlmICgoKmVuZCAmIFBGTl80R19NQVNLKSA9PSAwKQo+Pj4+PiArICAg
+ICAgICAgICAgICAgICAgICAgKCplbmQpLS07Cj4+Pj4+ICsgICAgIH0KPj4+Pj4gK30KPj4+Pgo+
+Pj4+IFVubGVzcyBJJ20gbWlzdGFrZW4gdGhpcyB3b24ndCBhY3R1YWxseSBwcm92aWRlIHRoZSBn
+dWFyYW50ZWUgaWYgdGhlCj4+Pj4gbWVtb3J5IHJlZ2lvbiBpcyA+NEdCICh3aGljaCBhZG1pdHRl
+ZGx5IGl0IGlzbid0IGF0IHRoZSBtb21lbnQpLiBGb3IKPj4+PiBleGFtcGxlIGEgOEdCIHJlZ2lv
+biB3b3VsZCBoYXZlIHRoZSBiZWdpbm5pbmcvZW5kIHRyaW1tZWQgb2ZmLCBidXQKPj4+PiB0aGVy
+ZSdzIGFub3RoZXIgNEdCIGluIHRoZSBtaWRkbGUgd2hpY2ggY291bGQgYmUgYWxsb2NhdGVkIG5l
+eHQgdG8uCj4+Pgo+Pj4gSHVtbSwgb3RoZXIgdGhhbiBub3QgYWxsb3dpbmcgc2l6ZXMgZ3JlYXRl
+ciB0aGFuIDRHLSgyKlBBR0VfU0laRSksIEknbQo+Pj4gbm90IHN1cmUgaG93IHdlIHNvbHZlIHRo
+YXQuIEkgZ3Vlc3MgYXZvaWRpbmcgc2l6ZXMgb2YgKG4qNEcgLQo+Pj4gUEFHRV9TSVpFKSB3b3Vs
+ZCBhdm9pZCB0aGUgcHJvYmxlbS4gU2VlbXMgbGlrZSBhbG1vc3QgNEdCIGV4ZWN1dGFibGUKPj4+
+IGJ1ZmZlciBzaG91bGQgYmUgZW5vdWdoIGZvciBhbnlvbmUoVE0pLgo+Pgo+PiBJIHdhcyB0aGlu
+a2luZyBvZiBzb21ldGhpbmcgbGlrZToKPj4KPj4gaWYgKCgqZW5kICYgflBGTl80R19NQVNLKSAh
+PSAoKnN0YXJ0ICYgflBGTl80R19NQVNLKSkgewo+PiAgICAgICAgICBpZiAoKCpzdGFydCAmIFBG
+Tl80R19NQVNLKSArCj4+ICAgICAgICAgICAgICAoU1pfMTZNID4+IFBBR0VfU0hJRlQpIDwgUEZO
+XzRHX01BU0spCj4+ICAgICAgICAgICAgICAgICAgKmVuZCA9ICgqc3RhcnQgJiB+UEZOXzRHX01B
+U0spICsKPj4gICAgICAgICAgICAgICAgICAgICAgICAgIChTWl80R0IgLSBTWl8xNk0pID4+IFBB
+R0VfU0hJRlQ7Cj4+ICAgICAgICAgIGVsc2UKPj4gICAgICAgICAgICAgICAgICAqc3RhcnQgPSAo
+KmVuZCAmIH5QRk5fNEdfTUFTSykgKyAoU1pfMTZNKSA+PiBQQUdFX1NISUZUOwo+PiB9Cj4+Cj4+
+IFNvIHNwbGl0IHRoZSByZWdpb24gZGVwZW5kaW5nIG9uIHdoZXJlIHdlIGNhbiBmaW5kIGEgZnJl
+ZSAxNk1CIHJlZ2lvbgo+PiB3aGljaCBkb2Vzbid0IGNyb3NzIDRHQi4KPiAKPiBIZXJlJ3Mgd2hh
+dCBJIGVuZGVkIHVwIHdpdGguIEl0J3Mgc2xpZ2h0bHkgZGlmZmVyZW50IGluIHRoYXQgdGhlIHN0
+YXJ0Cj4gYW5kIGVuZCBkb24ndCBnZXQgMTZNQiBhbGlnbmVkLiBUaGUgY29kZSBhbHJlYWR5IHRh
+a2VzIGNhcmUgb2YgdGhlCj4gYWxpZ25tZW50IHdoaWNoIGFsc28gaXMgbm90IG5lY2Vzc2FyaWx5
+IDE2TUIsIGJ1dCAnYWxpZ24gPSBzaXplJyBhcwo+IHRoYXQncyBzdWZmaWNpZW50IHRvIG5vdCBj
+cm9zcyBhIDE2TUIgYm91bmRhcnkuCj4gCj4gI2RlZmluZSBQRk5fNEcgICAgICAgICAgKFNaXzRH
+ID4+IFBBR0VfU0hJRlQpCj4gI2RlZmluZSBQRk5fNEdfTUFTSyAgICAgKFBGTl80RyAtIDEpCj4g
+I2RlZmluZSBQRk5fMTZNICAgICAgICAgKFNaXzE2TSA+PiBQQUdFX1NISUZUKQo+IAo+IHN0YXRp
+YyB2b2lkIHBhbmZyb3N0X2RybV9tbV9jb2xvcl9hZGp1c3QoY29uc3Qgc3RydWN0IGRybV9tbV9u
+b2RlICpub2RlLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVu
+c2lnbmVkIGxvbmcgY29sb3IsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgdTY0ICpzdGFydCwgdTY0ICplbmQpCj4gewo+ICAgICAgICAgIC8qIEV4ZWN1dGFibGUg
+YnVmZmVycyBjYW4ndCBzdGFydCBvciBlbmQgb24gYSA0R0IgYm91bmRhcnkgKi8KPiAgICAgICAg
+ICBpZiAoIShjb2xvciAmIFBBTkZST1NUX0JPX05PRVhFQykpIHsKPiAgICAgICAgICAgICAgICAg
+IGlmICgoKnN0YXJ0ICYgUEZOXzRHX01BU0spID09IDApCj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICgqc3RhcnQpKys7Cj4gCj4gICAgICAgICAgICAgICAgICBpZiAoKCplbmQgJiBQRk5fNEdf
+TUFTSykgPT0gMCkKPiAgICAgICAgICAgICAgICAgICAgICAgICAgKCplbmQpLS07Cj4gCj4gICAg
+ICAgICAgICAgICAgICAvKiBFbnN1cmUgc3RhcnQgYW5kIGVuZCBhcmUgaW4gdGhlIHNhbWUgNEdC
+IHJhbmdlICovCj4gICAgICAgICAgICAgICAgICBpZiAoKCplbmQgJiB+UEZOXzRHX01BU0spICE9
+ICgqc3RhcnQgJiB+UEZOXzRHX01BU0spKSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgIGlm
+ICgoKnN0YXJ0ICYgUEZOXzRHX01BU0spICsgUEZOXzE2TSA8IFBGTl80R19NQVNLKQo+ICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICplbmQgPSAoKnN0YXJ0ICYgflBGTl80R19NQVNL
+KSArIFBGTl80RyAtIDE7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgIGVsc2UKPiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAqc3RhcnQgPSAoKmVuZCAmIH5QRk5fNEdfTUFTSykg
+KyAxOwo+IAo+ICAgICAgICAgICAgICAgICAgfQo+ICAgICAgICAgIH0KPiB9CgpJZiB5b3UncmUg
+aGFwcHkgd2l0aCB0aGUgYWRkaXRpb25hbCByZXN0cmljdGlvbiB0aGF0IGEgYnVmZmVyIGNhbid0
+IApjcm9zcyBhIDRHQiBib3VuZGFyeSAod2hpY2ggZG9lcyBzZWVtIHRvIGJlIHJlcXVpcmVkIGZv
+ciBjZXJ0YWluIGtpbmRzIApvZiBidWZmZXJzIGFueXdheSksIHRoZW4gSSBkb24ndCB0aGluayBp
+dCBuZWVkcyB0byBiZSBhbnl3aGVyZSBuZWFyIHRoYXQgCmNvbXBsZXg6CgoJaWYgKCEoKnN0YXJ0
+ICYgUEZOXzRHX01BU0spKQoJCSpzdGFydCsrCgkqZW5kID0gbWluKCplbmQsIEFMSUdOKCpzdGFy
+dCwgUEZOXzRHKSAtIDEpOwoKPj4KPj4gQnV0IGxpa2UgeW91IHNheTogNEdCIHNob3VsZCBiZSBl
+bm91Z2ggZm9yIGFueW9uZSA7KQo+Pgo+Pj4+IEFsc28gYSBtaW5vciBpc3N1ZSwgYnV0IHdlIG1p
+Z2h0IHdhbnQgdG8gY29uc2lkZXIgaGF2aW5nIHNvbWUgY29uc3RhbnRzCj4+Pj4gZm9yICdjb2xv
+cicgLSBpdCdzIG5vdCBvYnZpb3VzIGZyb20gdGhpcyBjb2RlIHRoYXQgY29sb3I9PW5vX2V4ZWMu
+Cj4+Pgo+Pj4gWWVhaCwgSSB3YXMganVzdCBnb2luZyB3b3JyeSBhYm91dCB0aGF0IHdoZW4gd2Ug
+aGFkIGEgc2Vjb25kIGJpdCB0byBwYXNzLgo+Pgo+PiBPbmUgb3RoZXIgJ21pbm9yJyBpc3N1ZSBJ
+IG5vdGljZWQgYXMgSSB3YXMgd3JpdGluZyB0aGUgYWJvdmUuIFBBR0VfU0laRQo+PiBpcyBvZiBj
+b3Vyc2UgdGhlIENQVSBwYWdlIHNpemUgLSB3ZSBjb3VsZCBoYXZlIHRoZSBzaXR1YXRpb24gb2Yg
+Q1BVIGFuZAo+PiBHUFUgcGFnZSBzaXplIGJlaW5nIGRpZmZlcmVudCAoZS5nLiBDT05GSUdfQVJN
+NjRfNjRLX1BBR0VTKS4gSSdtIG5vdAo+PiBzdXJlIHdoZXRoZXIgd2Ugd2FudCB0byBzdXBwb3J0
+IHRoaXMgb3Igbm90IChrYmFzZSBkb2Vzbid0KS4gQWxzbyBpbgo+PiB0aGVvcnkgc29tZSBHUFVz
+IGRvIHN1cHBvcnQgNjRLIChBU19UUkFOU0NGR19BRFJNT0RFX0FBUkNINjRfNjRLKSAtIGJ1dAo+
+PiBrYmFzZSBoYXMgbmV2ZXIgdXNlZCB0aGlzIHNvIEkgZG9uJ3Qga25vdyBpZiBpdCB3b3Jrcy4u
+LiA7KQo+IAo+IFNoaGghIEkgaGF2ZSB0aG91Z2h0IGFib3V0IHRoYXQsIGJ1dCB3YXMgaWdub3Jp
+bmcgZm9yIG5vdy4KCkluIGdlbmVyYWwsIEkgZG9uJ3QgdGhpbmsgdGhhdCBzaG91bGQgYmUgdG9v
+IGdyZWF0IGEgY29uY2VybiAtIHdlIAphbHJlYWR5IGhhbmRsZSBpdCBmb3IgSU9NTVVzLCBwcm92
+aWRlZCB0aGUgbWluaW11bSBJT01NVSBwYWdlIHNpemUgaXMgbm8gCmxhcmdlciB0aGFuIFBBR0Vf
+U0laRSwgd2hpY2ggc2hvdWxkIGFsd2F5cyBiZSB0aGUgY2FzZSBoZXJlIHRvby4gTG9va2luZyAK
+YXQgaG93IHBhbmZyb3N0X21tdV9tYXAoKSBpcyBpbXBsZW1lbnRlZCwgYW5kIGdpdmVuIHRoYXQg
+d2UncmUgYWxyZWFkeSAKdHJ5aW5nIHRvIGhhbmRsZSBzdHVmZiBhdCAyTUIgZ3JhbnVsYXJpdHkg
+d2hlcmUgcG9zc2libGUsIEkgZG9uJ3Qgc2VlIAphbnkgb2J2aW91cyByZWFzb25zIGZvciA2NEsg
+cGFnZXMgbm90IHRvIHdvcmsgYWxyZWFkeSAoYXNzdW1pbmcgdGhlcmUgCmFyZW4ndCBhbnkgNEsg
+YXNzdW1wdGlvbnMgYmFrZWQgaW50byB0aGUgdXNlcnNwYWNlIHNpZGUpLiBJIG1pZ2h0IGhhdmUg
+CnRvIGdpdmUgaXQgYSB0cnkuLi4KClJvYmluLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
