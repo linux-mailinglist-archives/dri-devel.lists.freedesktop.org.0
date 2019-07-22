@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E900470ABA
-	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 22:32:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8F570ABB
+	for <lists+dri-devel@lfdr.de>; Mon, 22 Jul 2019 22:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD2189E7C;
-	Mon, 22 Jul 2019 20:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A517789EB7;
+	Mon, 22 Jul 2019 20:33:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5061489E7C
- for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 20:32:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1564189EB4
+ for <dri-devel@lists.freedesktop.org>; Mon, 22 Jul 2019 20:33:06 +0000 (UTC)
 Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:52594 helo=[192.168.0.134])
+ ([108.198.5.147]:52600 helo=[192.168.0.134])
  by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
  (Exim 4.92) (envelope-from <david@lechnology.com>)
- id 1hpezD-007WWA-HP; Mon, 22 Jul 2019 16:32:43 -0400
-Subject: Re: [PATCH v2 8/9] drm/tinydrm: Move mipi-dbi
+ id 1hpezY-007WZT-9g; Mon, 22 Jul 2019 16:33:04 -0400
+Subject: Re: [PATCH v2 9/9] MAINTAINERS: Remove tinydrm entry
 To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
  dri-devel@lists.freedesktop.org
 References: <20190722104312.16184-1-noralf@tronnes.org>
- <20190722104312.16184-9-noralf@tronnes.org>
+ <20190722104312.16184-10-noralf@tronnes.org>
 From: David Lechner <david@lechnology.com>
-Message-ID: <365f6774-a073-0620-9073-0946f8f39a33@lechnology.com>
-Date: Mon, 22 Jul 2019 15:32:43 -0500
+Message-ID: <ab5a59ff-e14c-02e4-8e33-3a22fc355f1b@lechnology.com>
+Date: Mon, 22 Jul 2019 15:33:03 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190722104312.16184-9-noralf@tronnes.org>
+In-Reply-To: <20190722104312.16184-10-noralf@tronnes.org>
 Content-Language: en-US
 X-AntiAbuse: This header was added to track abuse,
  please include it with any abuse report
@@ -49,12 +49,12 @@ X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
  :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=MmP4U9TjpwYljQwYQQd4rkv9isDKIlIcGsXuBuzro98=; b=W5bif/2oIFv6TAAlbmFYjLqZbD
- ZR740OHydz3FWG7JZGZPsHo6lcYdwK1HV1CIm0htOqCRofAwxviB8gzdsXPX3yNfzveQy7l6S6AQ2
- K/uWmOAlbkYCmKiX53yVC54/GtacWQFi8twyWVPQNpFuSUdaYNomtx3ANMS4juA6ZKQxkpL2Xk85e
- MOQi0n5rUXTLA7a2xUZp0kNSaOWX17wKULFMnw21Y12ZTPyvOKezT7x0ALOw7koQEgJccA1e8TRTP
- oyh4XkC4crxkkqYVT22XCWuRn0xmEhmUM7hQ7abCHxLfA/6hKO3CEgOz2KoYYClsgOtXaVEXRVaw5
- 4XSYVgcA==;
+ bh=0lUGFvMjp6lY3Suvv7T27CQLV2jGcbpTqgDmEIbZwD8=; b=O0sg613bW/fYG++dyeLVo0bHe1
+ F3dw8jFEVRYwHTySwtdJWzFzKwu97EUwheVkxTdvRr3nvvRgzNUtGkC13dqcw3BACuTe/7hNPdN2H
+ KUOCbOfR5bFzovA/BT+Uiz18UD0Qo6eMysTIiwXuqA3fOZeSrniY/LezOjGdY92XqQWnJxx4Kz0Cx
+ /mN2RfWIchMPqpyUYl2gXrx0Svf2m4PJQRFXPLYQ/W1EHWkfXokFXf3euLYDczpVb7a6MzHkEMUtN
+ +Gh95dwpl5g4Q2U2UzxujRAzhZiUlpRLUjyRu6tzx0H/FRFKr2ssge6MqBd+r4o52AAQCRuwmkUn8
+ TxDaNRTg==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,16 +73,13 @@ Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNy8yMi8xOSA1OjQzIEFNLCBOb3JhbGYgVHLDuG5uZXMgd3JvdGU6Cj4gVGhpcyBtb3ZlcyBt
-aXBpLWRiaSB0byBiZSBhIGNvcmUgaGVscGVyIHdpdGggdGhlIG5hbWUgZHJtX21pcGlfZGJpLgo+
-IAo+IEZpeHVwIGluY2x1ZGUncyBpbiBkcml2ZXJzLgo+IE1vdmUgdGhlIGRvY3MgZW50cnkgYW5k
-IGRlbGV0ZSB0aW55ZHJtLnJzdC4KPiBEZWxldGUgdGhlIGxhc3QgdGlueWRybSB0b2RvIGVudHJ5
-Lgo+IAo+IHYyOiBNYWtlIERSTV9NSVBJX0RCSSB0cmlzdGF0ZSB0byBlbmFibGUgaXQgYmVpbmcg
-YnVpbHQgYXMgYSBtb2R1bGUuCj4gCj4gQ2M6IEVyaWMgQW5ob2x0IDxlcmljQGFuaG9sdC5uZXQ+
-Cj4gQ2M6IERhdmlkIExlY2huZXIgPGRhdmlkQGxlY2hub2xvZ3kuY29tPgo+IFJldmlld2VkLWJ5
-OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gU2lnbmVkLW9mZi1ieTogTm9yYWxm
-IFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+Cj4gLS0tCgpBY2tlZC1ieTogRGF2aWQgTGVj
-aG5lciA8ZGF2aWRAbGVjaG5vbG9neS5jb20+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+T24gNy8yMi8xOSA1OjQzIEFNLCBOb3JhbGYgVHLDuG5uZXMgd3JvdGU6Cj4gdGlueWRybSBpcyBq
+dXN0IGEgY29sbGVjdGlvbiBvZiB0aW55IGRyaXZlcnMgbm93Lgo+IEFkZCBUOiBkcm0tbWlzYyBl
+bnRyeSBmb3IgdGlueWRybSBkcml2ZXJzIHRoYXQgbGFja3MgaXQuCj4gCj4gQ2M6IERhdmlkIExl
+Y2huZXIgPGRhdmlkQGxlY2hub2xvZ3kuY29tPgo+IFJldmlld2VkLWJ5OiBTYW0gUmF2bmJvcmcg
+PHNhbUByYXZuYm9yZy5vcmc+Cj4gU2lnbmVkLW9mZi1ieTogTm9yYWxmIFRyw7hubmVzIDxub3Jh
+bGZAdHJvbm5lcy5vcmc+Cj4gLS0tCgpBY2tlZC1ieTogRGF2aWQgTGVjaG5lciA8ZGF2aWRAbGVj
+aG5vbG9neS5jb20+CgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
