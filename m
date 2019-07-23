@@ -1,31 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0FC71351
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 09:54:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0297071356
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 09:55:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6786E1BB;
-	Tue, 23 Jul 2019 07:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24E336E1D3;
+	Tue, 23 Jul 2019 07:55:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9B46E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 07:54:31 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 0F121AECD;
- Tue, 23 Jul 2019 07:54:30 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, airlied@redhat.com
-Subject: [PATCH 3/3] drm/mgag200: Don't unpin the current cursor image's
- buffer.
-Date: Tue, 23 Jul 2019 09:54:25 +0200
-Message-Id: <20190723075425.24028-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190723075425.24028-1-tzimmermann@suse.de>
-References: <20190723075425.24028-1-tzimmermann@suse.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0ED26E1CE;
+ Tue, 23 Jul 2019 07:55:03 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0B2182239E;
+ Tue, 23 Jul 2019 07:55:03 +0000 (UTC)
+Date: Tue, 23 Jul 2019 09:55:00 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Jens Remus <jremus@linux.ibm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-s390@vger.kernel.org, Nicolas Pitre <nicolas.pitre@linaro.org>,
+ Martin Hostettler <textshell@uchuujin.de>,
+ Adam Borowski <kilobyte@angband.pl>, Mikulas Patocka <mpatocka@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH] vt: Grab console_lock around con_is_bound in show_bind
+Message-ID: <20190723075500.GA27243@kroah.com>
+References: <20190718080903.22622-1-daniel.vetter@ffwll.ch>
+ <20190723073820.GU15868@phenom.ffwll.local>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190723073820.GU15868@phenom.ffwll.local>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1563868503;
+ bh=XTIupdkvBAk6FNP+2QR6xl7R06H8lbRCz3aQpx99k88=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=gRzxGwffi5Myg9zbZ3d4zuP153urc4STde0+DYmBrxGGYYu3dH/MCCkZmVFZNLbjg
+ DfZ/IHRTqYRbpTxVJADxQCBr9Nw/q9h5RJ+GXBacveSkT8SOkyAup3lBVKZZs5LzBZ
+ Yp7hRFDGbj4PcpzU6MgeNgF+DOmpLrkX+GwkJQ6s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,30 +54,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Q3VycmVudGx5IHRoZSBkaXNwbGF5ZWQgY3Vyc29yIGJ1ZmZlciBtaWdodCBiZSBldmljdGVkIGZy
-b20gdmlkZW8gbWVtb3J5LgpOb3QgdW5waW5uaW5nIHRoZSBCTyBmaXhlcyB0aGlzIHByb2JsZW0u
-IEF0IHRoaXMgcG9pbnQsIHBpeGVsc19jdXJyZW50CmFsc28gcmVmZXJlbmNlcyB0aGUgQk8gYW5k
-IGl0IHdpbGwgYmUgdW5waW5uZWQgZHVyaW5nIHRoZSBuZXh0IGN1cnNvcgp1cGRhdGUuCgpTaWdu
-ZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KRml4ZXM6
-IDk0ZGM1N2IxMDM5OSAoImRybS9tZ2FnMjAwOiBSZXdyaXRlIGN1cnNvciBoYW5kbGluZyIpCkNj
-OiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KQ2M6IERhdmUgQWlybGllIDxhaXJs
-aWVkQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9jdXJz
-b3IuYyB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2N1cnNvci5jIGIvZHJpdmVycy9ncHUvZHJt
-L21nYWcyMDAvbWdhZzIwMF9jdXJzb3IuYwppbmRleCBmMTFiODYyY2JlZDkuLjI4OWNlM2UyOTAz
-MiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9jdXJzb3IuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX2N1cnNvci5jCkBAIC0yMTMsNyAr
-MjEzLDYgQEAgaW50IG1nYV9jcnRjX2N1cnNvcl9zZXQoc3RydWN0IGRybV9jcnRjICpjcnRjLAog
-CW1kZXYtPmN1cnNvci5waXhlbHNfY3VycmVudCA9IHBpeGVsc19uZXh0OwogCiAJZHJtX2dlbV92
-cmFtX2t1bm1hcChwaXhlbHNfbmV4dCk7Ci0JZHJtX2dlbV92cmFtX3VucGluKHBpeGVsc19uZXh0
-KTsKIAlkcm1fZ2VtX3ZyYW1fa3VubWFwKGdibyk7CiAJZHJtX2dlbV92cmFtX3VucGluKGdibyk7
-CiAJZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKG9iaik7Ci0tIAoyLjIyLjAKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDk6Mzg6MjBBTSArMDIwMCwgRGFuaWVsIFZldHRlciB3
+cm90ZToKPiBIaSBHcmVnLAo+IAo+IERvIHlvdSBwbGFuIHRvIHBpY2sgdGhpcyB1cCBpbiB5b3Vy
+IGNvbnNvbGUvdnQvd2hhdGV2ZXItZml4ZXMgYnJhbmNoPwoKWWVzLCBub3cgdGhhdCB0aGUgbWVy
+Z2Ugd2luZG93IGlzIGNsb3NlZCwgSSB3aWxsIGJlIHBpY2tpbmcgdGhpcyB1cC4KCnRoYW5rcywK
+CmdyZWcgay1oCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
