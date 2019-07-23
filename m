@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256B672099
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 22:18:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A34D172142
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 23:07:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3BE26E3B2;
-	Tue, 23 Jul 2019 20:18:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF4AD6E3C1;
+	Tue, 23 Jul 2019 21:07:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 80C816E3CB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 20:18:12 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7D27072168; Tue, 23 Jul 2019 20:18:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Tue, 23 Jul 2019 20:18:12 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-u0Zpnr6weQ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E09E6E3C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 21:07:10 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id n5so45603445otk.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 14:07:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Hzz7GvZmVNUIEg2vdFuobiy/ybjfM36GExlAr9zgJIY=;
+ b=Q2FgJmKadL2FeGlWyJLUpW2RV/Hj94kZwc75ddH9QY21hC07ehqRGOUGBmCySpYjW+
+ LIb4RHIJ2CbL1AjhtDUyzBBcIRnPZe5axArhoR8UA3rk1c+xpvOKK0fnqt4TiMrab8E6
+ Lhhab/5BgZIZR0CuxWFUNhRgplRFoT/y9tNJ9xe/ghUoqhfDiRloxIh6cOrhXzEf4VfN
+ 9VbbpsGM4ZZbw4DAJnErNWDXQIFsvasjJA9JhCP80ZnrWsqmNMjqADVkthD5s7A1GMZw
+ M0anpcgvmA93EFjM19/FdAgG0qUD5MRTVfKu8dlQH/dr8s/MSZPv7SmC8lBv5xpvjd+p
+ OrHw==
+X-Gm-Message-State: APjAAAUstUToB5p7c2R39CCbISLDAhBY6b/XFUdzpXIexRZpeTz4tayX
+ VzoNu1HWwH4xg6N23puNgRnCQAFbw1RazNk6R8w=
+X-Google-Smtp-Source: APXvYqwIzZ8fzTqv0nBzRUnVyfr5ld3ZcfdHFyc1VhmkB6EBsdmyMrjymZ3LLtDSd4750cVSUgAQbZNuYgZVier8PcA=
+X-Received: by 2002:a05:6830:4b:: with SMTP id
+ d11mr20686835otp.106.1563916029544; 
+ Tue, 23 Jul 2019 14:07:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190723133755.22677-1-linus.walleij@linaro.org>
+ <20190723133755.22677-2-linus.walleij@linaro.org>
+ <9c9b77b3b76e7a7e87c7c3d9076a8339362157bd.camel@redhat.com>
+In-Reply-To: <9c9b77b3b76e7a7e87c7c3d9076a8339362157bd.camel@redhat.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 23 Jul 2019 23:06:58 +0200
+Message-ID: <CAKMK7uHVudGdTzQS3Q6qVTZtDU-UsSQ2K04M9VvZHxzXo0DHOw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] RFT: drm/pl111: Support grayscale
+To: Adam Jackson <ajax@redhat.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=Hzz7GvZmVNUIEg2vdFuobiy/ybjfM36GExlAr9zgJIY=;
+ b=hfDRuYXpZnCOSj8BAHqrD9nVDzG1ceddj/KmOgXWEZhOQe/oyJm8RvJuGm6qPykYtx
+ Um0XpLky5LsMXIi6BhQwogy4xS4MaSNXVVf3w+ML7FxGSxFWoemoH3HE97i2c41K4REg
+ 1gjz6VW71K+/AaKUQVvWkx4Mk75WZrFKCk7To=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,87 +62,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2067617108=="
+Cc: Fabian Vogt <fabian@ritter-vogt.de>, Daniel Tang <dt.tangr@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2067617108==
-Content-Type: multipart/alternative; boundary="15639130925.9BF9aE9.22733"
-Content-Transfer-Encoding: 7bit
-
-
---15639130925.9BF9aE9.22733
-Date: Tue, 23 Jul 2019 20:18:12 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #62 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
-unstable power supply lines to the gpu if overheating is excluded?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15639130925.9BF9aE9.22733
-Date: Tue, 23 Jul 2019 20:18:12 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c62">Comme=
-nt # 62</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
-and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
-</span></b>
-        <pre>unstable power supply lines to the gpu if overheating is exclu=
-ded?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15639130925.9BF9aE9.22733--
-
---===============2067617108==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2067617108==--
+T24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgNzoyNSBQTSBBZGFtIEphY2tzb24gPGFqYXhAcmVkaGF0
+LmNvbT4gd3JvdGU6Cj4KPiBPbiBUdWUsIDIwMTktMDctMjMgYXQgMTU6MzcgKzAyMDAsIExpbnVz
+IFdhbGxlaWogd3JvdGU6Cj4gPiBNaWdyYXRpbmcgdGhlIFRJIG5zcGlyZSBjYWxjdWxhdG9ycyB0
+byB1c2UgdGhlIFBMMTExIGRyaXZlciBmb3IKPiA+IGZyYW1lYnVmZmVyIHJlcXVpcmVzIGdyYXlz
+Y2FsZSBzdXBwb3J0IGZvciB0aGUgZWxkZXIgcGFuZWwKPiA+IHdoaWNoIHVzZXMgOGJpdCBncmF5
+c2NhbGUgb25seS4KPiA+Cj4gPiBEUk0gZG9lcyBub3Qgc3VwcG9ydCA4Yml0IGdyYXlzY2FsZSBm
+cmFtZWJ1ZmZlcnMgaW4gbWVtb3J5LAo+ID4gYnV0IGJ5IGRlZmluaW5nIHRoZSBidXMgZm9ybWF0
+IHRvIGJlIE1FRElBX0JVU19GTVRfWThfMVg4IHdlCj4gPiBjYW4gZ2V0IHRoZSBoYXJkd2FyZSB0
+byB0dXJuIG9uIGEgZ3JheXNjYWxpbmcgZmVhdHVyZSBhbmQKPiA+IGNvbnZlcnQgdGhlIFJHQiBm
+cmFtZWJ1ZmZlciB0byBncmF5c2NhbGUgZm9yIHVzLgo+Cj4gV2hhdCdzIHdyb25nIHdpdGggRFJN
+X0ZPUk1BVF9SOD8gWWVzIHRoZSBoYXJkd2FyZSBpcyBub3QgcmVhbGx5Cj4gInJlZHNjYWxlIiwg
+YnV0IGl0J3Mgc3RpbGwgYSBzaW5nbGUgY29sb3IgY2hhbm5lbCBhbmQgdGhlcmUncyBub3QKPiBy
+ZWFsbHkgYW55IGFtYmlndWl0eS4KClllYWgsIEkgdGhpbmsgd2l0aCBhIGNvbW1lbnQgb3IgYW4g
+YWxpYXNpbmcgI2RlZmluZSB0byBfWTggKG9yIGJvdGgpCnRoaXMgaXMgZ29vZCB0byBnby4KCllv
+dSBwcm9iYWJseSBzdGlsbCB3YW50IHRvIGV4cG9zZSB0aGUgcmdiIGZvcm1hdCBzaW5jZSB0b28g
+bXVjaAp1c2Vyc3BhY2UganVzdCBhc3N1bWVzIHRoYXQgeHJnYjg4ODggd29ya3MuIFNhbWUgcmVh
+c29uIHdoeSB0aGUKdGlueWRybSBkcml2ZXJzIGRvIHRoZSBzdyBjb252ZXJzaW9uLgotRGFuaWVs
+Ci0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgor
+NDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
