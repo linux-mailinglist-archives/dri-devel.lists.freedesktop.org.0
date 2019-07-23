@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18CED71ADC
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 16:53:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B825171B6E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 17:19:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0ABB6E2D6;
-	Tue, 23 Jul 2019 14:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F03789CF7;
+	Tue, 23 Jul 2019 15:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 766866E2D2
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 14:53:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6CEB172167; Tue, 23 Jul 2019 14:53:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111099] Green video when playing a hevc video with vdpau
-Date: Tue, 23 Jul 2019 14:53:38 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: bisected, regression
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-111099-502-IpVhpUpzPe@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111099-502@http.bugs.freedesktop.org/>
-References: <bug-111099-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3935E89C53;
+ Tue, 23 Jul 2019 15:19:48 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 54655200D5;
+ Tue, 23 Jul 2019 17:19:41 +0200 (CEST)
+Date: Tue, 23 Jul 2019 17:19:39 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCH v4 14/23] drm/tilcdc: Provide ddc symlink in connector
+ sysfs directory
+Message-ID: <20190723151939.GA13718@ravnborg.org>
+References: <cover.1562843413.git.andrzej.p@collabora.com>
+ <d1d415022c598fb7acd033f0f322dd67250adaa9.1562843413.git.andrzej.p@collabora.com>
+ <20190723090532.GA787@ravnborg.org>
+ <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=QX4gbG5DAAAA:8
+ a=6mu-9OIm9KcVJ4iDVDwA:9 a=wPNLvfGTeEIA:10 a=AbAUZ8qAyYyZVLSsDulk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,130 +48,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1868654521=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
+ freedreno@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1868654521==
-Content-Type: multipart/alternative; boundary="15638936180.a54271.2265"
-Content-Transfer-Encoding: 7bit
-
-
---15638936180.a54271.2265
-Date: Tue, 23 Jul 2019 14:53:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111099
-
-Michel D=C3=A4nzer <michel@daenzer.net> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #4 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-Thanks for the report, fixed by
-https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1364 .
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15638936180.a54271.2265
-Date: Tue, 23 Jul 2019 14:53:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
-4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
- <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Green video when playing a hevc video with vdp=
-au"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111099">bug 11109=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Green video when playing a hevc video with vdp=
-au"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111099#c4">Commen=
-t # 4</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - Green video when playing a hevc video with vdp=
-au"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111099">bug 11109=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>Thanks for the report, fixed by
-<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1364">ht=
-tps://gitlab.freedesktop.org/mesa/mesa/merge_requests/1364</a> .</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15638936180.a54271.2265--
-
---===============1868654521==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1868654521==--
+SGkgQW5kcmVqLgoKT24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDI6NDQ6NTBQTSArMDIwMCwgQW5k
+cnplaiBQaWV0cmFzaWV3aWN6IHdyb3RlOgo+IEhpIFNhbSwKPiAKPiBXIGRuaXUgMjMuMDcuMjAx
+OSBvwqAxMTowNSwgU2FtIFJhdm5ib3JnIHBpc3plOgo+ID4gSGkgQW5kcnplago+ID4gCj4gPiBP
+biBUaHUsIEp1bCAxMSwgMjAxOSBhdCAwMToyNjo0MVBNICswMjAwLCBBbmRyemVqIFBpZXRyYXNp
+ZXdpY3ogd3JvdGU6Cj4gPiA+IFVzZSB0aGUgZGRjIHBvaW50ZXIgcHJvdmlkZWQgYnkgdGhlIGdl
+bmVyaWMgY29ubmVjdG9yLgo+ID4gPiAKPiA+ID4gU2lnbmVkLW9mZi1ieTogQW5kcnplaiBQaWV0
+cmFzaWV3aWN6IDxhbmRyemVqLnBAY29sbGFib3JhLmNvbT4KPiA+ID4gLS0tCj4gPiA+ICAgZHJp
+dmVycy9ncHUvZHJtL3RpbGNkYy90aWxjZGNfdGZwNDEwLmMgfCAxICsKPiA+ID4gICAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiA+ID4gCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vdGlsY2RjL3RpbGNkY190ZnA0MTAuYyBiL2RyaXZlcnMvZ3B1L2RybS90aWxjZGMv
+dGlsY2RjX3RmcDQxMC5jCj4gPiA+IGluZGV4IDYyZDAxNGMyMDk4OC4uYzM3M2VkYjk1NjY2IDEw
+MDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdGlsY2RjL3RpbGNkY190ZnA0MTAuYwo+
+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlsY2RjL3RpbGNkY190ZnA0MTAuYwo+ID4gPiBA
+QCAtMjE5LDYgKzIxOSw3IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqdGZwNDEwX2Nv
+bm5lY3Rvcl9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+ID4gICAJdGZwNDEwX2Nv
+bm5lY3Rvci0+bW9kID0gbW9kOwo+ID4gPiAgIAljb25uZWN0b3IgPSAmdGZwNDEwX2Nvbm5lY3Rv
+ci0+YmFzZTsKPiA+ID4gKwljb25uZWN0b3ItPmRkYyA9IG1vZC0+aTJjOwo+ID4gPiAgIAlkcm1f
+Y29ubmVjdG9yX2luaXQoZGV2LCBjb25uZWN0b3IsICZ0ZnA0MTBfY29ubmVjdG9yX2Z1bmNzLAo+
+ID4gPiAgIAkJCURSTV9NT0RFX0NPTk5FQ1RPUl9EVklEKTsKPiA+IAo+ID4gV2hlbiByZWFkaW5n
+IHRoaXMgY29kZSwgaXQgbG9va3Mgc3RyYW5nZSB0aGF0IHdlIHNldCBjb25uZWN0b3ItPmRkYwo+
+ID4gKmJlZm9yZSogdGhlIGNhbGwgdG8gaW5pdCB0aGUgY29ubmVjdG9yLgo+ID4gT25lIGNvdWxk
+IHJpc2sgdGhhdCBkcm1fY29ubmVjdG9yX2luaXQoKSB1c2VkIG1lbXNldCguLikgdG8gY2xlYXIg
+YWxsCj4gPiBmaWVsZHMgb3Igc28sIGFuZCBpdCB3b3VsZCBicmVhayB0aGlzIG9yZGVyLgo+IAo+
+IEkgdmVyaWZpZWQgdGhlIGNvZGUgb2YgZHJtX2Nvbm5lY3Rvcl9pbml0KCkgYW5kIGNhbm5vdCBm
+aW5kIGFueSBtZW1zZXQoKQo+IGludm9jYXRpb25zIHRoZXJlLiBXaGF0IGlzIHlvdXIgYWN0dWFs
+IGNvbmNlcm4/Ck15IGNvbmNlcm4gaXMgdGhhdCBkcm1fY29ubmVjdG9yX2luaXQoKSBtYXliZSBz
+b21ldGltZSBpbiB0aGUgZnV0dXJlCndpbGwgaW5pdCBhbGwgZmlsZWRzIGluIGRybV9jb25uZWN0
+b3IsIHNvIHdlIGxvb3NlIGFueSBhc3NpbmdtZW50cwpkb25lIHRvIGRybV9jb25uZWN0b3IgZnJv
+bSAqYmVmb3JlKiB3ZSBjYWxsZWQgdGhlIGluaXQgZnVuY3Rpb24uCgpNb3ZpbmcgdGhlIGFzc2ln
+bm1lbnQgdG8gYWZ0ZXIgZHJtX2Nvbm5lY3Rvcl9pbml0KCkgd291bGQgbm90CmxldCB1cyBkZXBl
+bmQgb24gdGhlIGFjdHVhbCBpbXBsbWVudGF0aW9uIG9mIGRybV9jb25uZWN0b3JfaW5pdCgpLgoK
+CVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
