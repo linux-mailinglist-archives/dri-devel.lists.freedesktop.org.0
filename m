@@ -2,62 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64DB71258
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 09:10:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9745E712CE
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 09:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D192189F2A;
-	Tue, 23 Jul 2019 07:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A77566E0F7;
+	Tue, 23 Jul 2019 07:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D872089F24
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 07:10:42 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id k8so42788528edr.11
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 00:10:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to:user-agent;
- bh=jID3j6lQ+qjnSkT7UThjoCCKK2ldSBTqohrGecypD1I=;
- b=sns3aEOR27a2mqETKJlhJa6CZtZXyL+KIAQK7R/8Bf62mrksKeWBk7z3TMgfETEhG8
- RqymhFRlIYX06cB5vH6XCfNvOz67lx52TX1R+tkGvN7XABu0QXICwPJAX+2xpOpxXKiL
- mhjg5qtzzE7JCdqe3WkFqYvTtuyu/IKYKZz7wVB2VCOieYEUKq2nkd1C3GJuLwfNdeGz
- TaSteog//B6psi/o6jjFPCIAjiRM9XO0c7wTU3nRpFG+b/DadRNSaZ16D8f6jBUy/VRK
- jOMsoS7a+8GMnIImyHnfOLfrrWqn8X8OegLsaF+xvHUg15gfk6n793dmJJfPwyn8dmEm
- cr8w==
-X-Gm-Message-State: APjAAAUz4t5Mrjhdp0K4GdynlyvRHu1o2pUGV4/41GGOBnIM/UNLkF43
- yS1+NKJqGSl8OB/HBMZPRFiOkDLjtrU=
-X-Google-Smtp-Source: APXvYqxCPsu7oV09FGKl5QX/86cX6AjVnwSrl0wVI5PoFW8iQ9szpLCEnWkpEdR+YZbbPVg/OyMamA==
-X-Received: by 2002:a17:906:78c7:: with SMTP id
- r7mr57159033ejn.147.1563865841407; 
- Tue, 23 Jul 2019 00:10:41 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
- by smtp.gmail.com with ESMTPSA id k8sm11424377edr.31.2019.07.23.00.10.39
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 23 Jul 2019 00:10:39 -0700 (PDT)
-Date: Tue, 23 Jul 2019 09:10:37 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH 0/6] drm/tinydrm: Move mipi_dbi
-Message-ID: <20190723071037.GS15868@phenom.ffwll.local>
-References: <20190720134709.15186-1-noralf@tronnes.org>
- <877e8aeyg8.fsf@anholt.net>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 33C526E0F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 07:26:08 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 30FA472167; Tue, 23 Jul 2019 07:26:08 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110313] [CI][SHARDS] igt@kms_lease@lease-uevent - fail - Failed
+ assertion: igt_lease_change_detected(uevent_monitor, 1)
+Date: Tue, 23 Jul 2019 07:26:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: cibuglog@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: low
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110313-502-ZAFUF6GFRT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110313-502@http.bugs.freedesktop.org/>
+References: <bug-110313-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <877e8aeyg8.fsf@anholt.net>
-X-Operating-System: Linux phenom 4.19.0-5-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=jID3j6lQ+qjnSkT7UThjoCCKK2ldSBTqohrGecypD1I=;
- b=LPVKUO059Ohh/chEwMpISkLUM7hnj5eXy3UaJJ3PNdevYjgQcqn5pGIJPkMuWptJfQ
- u72jjPnHVI0jPrixjR7G+h3wCYazQUxN7/Urqz5iJWvUpRjqFFbEr8MpZuPEcXsYdRuQ
- JNaytDqJMWIl3TdHTBc6s7i61LxgNcIydOD3g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,30 +53,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: david@lechnology.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0964547765=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBKdWwgMjIsIDIwMTkgYXQgMTE6MDY6MTVBTSAtMDcwMCwgRXJpYyBBbmhvbHQgd3Jv
-dGU6Cj4gTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJvbm5lcy5vcmc+IHdyaXRlczoKPiAKPiA+
-IFRoaXMgc2VyaWVzIHRpY2tzIG9mZiB0aGUgbGFzdCB0aW55ZHJtIHRvZG8gZW50cnkgYW5kIG1v
-dmVzIG91dCBtaXBpX2RiaQo+ID4gdG8gYmUgYSBjb3JlIGhlbHBlci4KPiA+Cj4gPiBJdCBzcGxp
-dHMgc3RydWN0IG1pcGlfZGJpIGludG8gYW4gaW50ZXJmYWNlIHBhcnQgYW5kIGEgZGlzcGxheSBw
-aXBlbGluZQo+ID4gcGFydCAodXBsb2FkIGZyYW1lYnVmZmVyIG92ZXIgU1BJKS4gSSBhbHNvIHRv
-b2sgdGhlIG9wcG9ydHVuaXR5IHRvCj4gPiByZW5hbWUgdGhlIGFtYmlndW91cyAnbWlwaScgdmFy
-aWFibGUgbmFtZSB0byAnZGJpJy4gVGhpcyBsaW5lcyB1cCB3aXRoCj4gPiB0aGUgdXNlIG9mIHRo
-ZSAnZHNpJyB2YXJpYWJsZSBuYW1lIGluIHRoZSBNSVBJIERTSSBoZWxwZXIuCj4gPgo+ID4gTm90
-ZToKPiA+IFRoaXMgZGVwZW5kcyBvbiBzZXJpZXM6IGRybS90aW55ZHJtOiBSZW1vdmUgdGlueWRy
-bS5rbwo+ID4KPiA+IFNlcmllcyBpcyBhbHNvIGF2YWlsYWJsZSBoZXJlOgo+ID4gaHR0cHM6Ly9n
-aXRodWIuY29tL25vdHJvL2xpbnV4L3RyZWUvbW92ZV9taXBpX2RiaQo+IAo+IENvbmdyYXR1bGF0
-aW9ucyBvbiBtYWtpbmcgaXQgdG8gdGhpcyBzdGFnZS4gIFRoaXMgbG9va3MgbGlrZSBhIGZpbmUK
-PiBjb25jbHVzaW9uIHRvIHRpbnlkcm0uCj4gCj4gQWNrZWQtYnk6IEVyaWMgQW5ob2x0IDxlcmlj
-QGFuaG9sdC5uZXQ+CgpZZWFoIGxldCBtZSBoZWFwIG9uIHRoZSBjb25ncmF0cyB0b28sIHRoaXMg
-aGFzIGJlbiBhIGxvbmcgYnV0IHJlYWxseQppbXByZXNzaXZlIGpvdXJuZXkgdG8gd2F0Y2ghCi1E
-YW5pZWwKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============0964547765==
+Content-Type: multipart/alternative; boundary="15638667681.8b66.29950"
+Content-Transfer-Encoding: 7bit
+
+
+--15638667681.8b66.29950
+Date: Tue, 23 Jul 2019 07:26:08 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110313
+
+--- Comment #7 from CI Bug Log <cibuglog@gmail.com> ---
+A CI Bug Log filter associated to this bug has been updated:
+
+{- ICL: igt@kms_lease@lease-uevent - fail - Failed assertion:
+igt_lease_change_detected(uevent_monitor, 1) -}
+{+ SKL ICL: igt@kms_lease@lease-uevent - fail - Failed assertion:
+igt_lease_change_detected(uevent_monitor, 1) +}
+
+New failures caught by the filter:
+
+  *
+https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_329/fi-skl-gvtdvm/igt@kms_l=
+ease@lease-uevent.html
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15638667681.8b66.29950
+Date: Tue, 23 Jul 2019 07:26:08 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][SHARDS] igt&#64;kms_lease&#64;lease-uevent - fail - =
+Failed assertion: igt_lease_change_detected(uevent_monitor, 1)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110313#c7">Commen=
+t # 7</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [CI][SHARDS] igt&#64;kms_lease&#64;lease-uevent - fail - =
+Failed assertion: igt_lease_change_detected(uevent_monitor, 1)"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110313">bug 11031=
+3</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cibuglog&#64;gmail.com" title=3D"CI Bug Log &lt;cibuglog&#64;gmail.com&gt;"=
+> <span class=3D"fn">CI Bug Log</span></a>
+</span></b>
+        <pre>A CI Bug Log filter associated to this bug has been updated:
+
+{- ICL: igt&#64;kms_lease&#64;lease-uevent - fail - Failed assertion:
+igt_lease_change_detected(uevent_monitor, 1) -}
+{+ SKL ICL: igt&#64;kms_lease&#64;lease-uevent - fail - Failed assertion:
+igt_lease_change_detected(uevent_monitor, 1) +}
+
+New failures caught by the filter:
+
+  *
+<a href=3D"https://intel-gfx-ci.01.org/tree/drm-tip/drmtip_329/fi-skl-gvtdv=
+m/igt&#64;kms_lease&#64;lease-uevent.html">https://intel-gfx-ci.01.org/tree=
+/drm-tip/drmtip_329/fi-skl-gvtdvm/igt&#64;kms_lease&#64;lease-uevent.html</=
+a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15638667681.8b66.29950--
+
+--===============0964547765==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0964547765==--
