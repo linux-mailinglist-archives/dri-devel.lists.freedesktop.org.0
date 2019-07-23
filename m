@@ -1,44 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EE671D78
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 19:14:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C595671D9E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 19:25:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29CA689A57;
-	Tue, 23 Jul 2019 17:14:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B97C6E321;
+	Tue, 23 Jul 2019 17:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 11EF089850
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 17:14:25 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0EA5072167; Tue, 23 Jul 2019 17:14:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Tue, 23 Jul 2019 17:14:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: wedens13@yandex.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-yb1oMl2Phj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
+ [209.85.222.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEC0E6E321
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 17:25:37 +0000 (UTC)
+Received: by mail-ua1-f66.google.com with SMTP id a97so17224741uaa.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 10:25:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=Ak6PHqRtmFYlCwA7eq7sGy4+MyVCFHT7VQHt77QIIY4=;
+ b=aySGIuakO1XUsbbMGt3QAK8zI+jyjn/PV7wR7j1+hD2+TJ5HIQtAKSO4fFfHhZfTEq
+ 4Hse7WiJYy5PkFAoeiB0XQZxTsWzTcCKioVkyRdmfeP6LZs6lElsspj/GBLK6YxXQVAJ
+ Gow/R6OeGWMp+BQFn6OF555qOp4yD9LfjNxojy20P52yFKOFR/jMF2lBujTuUMJRJrCf
+ HqBu976OftrqQZzJCCT/jdqFn6jNOoBUBLOJ1qcKroHuQK+2Ju2zOKsDpCCxB53bVOw4
+ xORlY9yCZ52szh1AgsP6XzsGI6ZKhM+TsT5y0MNk0rkDOKS2S8dk9zlEdkz9uwSEM8eh
+ 3RiQ==
+X-Gm-Message-State: APjAAAXTk2ju6PMdxjXiYwxh7gmaI38Gj8D614yN+BCJLDObkVeUG8Hp
+ eJokkBmmIIHxQU2HaDRKGXjYfA==
+X-Google-Smtp-Source: APXvYqw0uF8oHC6o3b+oyJybCA0xFk9rEgCNQtXzc3IFxBX1HFG5tKXOR+zyF6vacSP7QeS6Z8/PzA==
+X-Received: by 2002:a9f:2e0e:: with SMTP id t14mr31440742uaj.119.1563902737094; 
+ Tue, 23 Jul 2019 10:25:37 -0700 (PDT)
+Received: from dhcp-10-20-1-165.bss.redhat.com ([144.121.20.162])
+ by smtp.gmail.com with ESMTPSA id l129sm43826023vki.45.2019.07.23.10.25.36
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 23 Jul 2019 10:25:36 -0700 (PDT)
+Message-ID: <9c9b77b3b76e7a7e87c7c3d9076a8339362157bd.camel@redhat.com>
+Subject: Re: [PATCH 1/3] RFT: drm/pl111: Support grayscale
+From: Adam Jackson <ajax@redhat.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Daniel Tang
+ <dt.tangr@gmail.com>,  Fabian Vogt <fabian@ritter-vogt.de>
+Date: Tue, 23 Jul 2019 13:25:35 -0400
+In-Reply-To: <20190723133755.22677-2-linus.walleij@linaro.org>
+References: <20190723133755.22677-1-linus.walleij@linaro.org>
+ <20190723133755.22677-2-linus.walleij@linaro.org>
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,99 +58,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0067157832=="
+Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0067157832==
-Content-Type: multipart/alternative; boundary="15639020650.B169D2EbA.25400"
-Content-Transfer-Encoding: 7bit
-
-
---15639020650.B169D2EbA.25400
-Date: Tue, 23 Jul 2019 17:14:24 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #61 from wedens13@yandex.ru ---
-I've tried starting witcher 3 after executing
-echo manual > /sys/class/drm/card0/device/power_dpm_force_performance_level
-echo 7 > /sys/class/drm/card0/device/pp_dpm_sclk
-
-and it still crashes immediately.
-
-log: https://paste.ee/p/thvXf
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15639020650.B169D2EbA.25400
-Date: Tue, 23 Jul 2019 17:14:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c61">Comme=
-nt # 61</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-wedens13&#64;yandex.ru" title=3D"wedens13&#64;yandex.ru">wedens13&#64;yande=
-x.ru</a>
-</span></b>
-        <pre>I've tried starting witcher 3 after executing
-echo manual &gt; /sys/class/drm/card0/device/power_dpm_force_performance_le=
-vel
-echo 7 &gt; /sys/class/drm/card0/device/pp_dpm_sclk
-
-and it still crashes immediately.
-
-log: <a href=3D"https://paste.ee/p/thvXf">https://paste.ee/p/thvXf</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15639020650.B169D2EbA.25400--
-
---===============0067157832==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0067157832==--
+T24gVHVlLCAyMDE5LTA3LTIzIGF0IDE1OjM3ICswMjAwLCBMaW51cyBXYWxsZWlqIHdyb3RlOgo+
+IE1pZ3JhdGluZyB0aGUgVEkgbnNwaXJlIGNhbGN1bGF0b3JzIHRvIHVzZSB0aGUgUEwxMTEgZHJp
+dmVyIGZvcgo+IGZyYW1lYnVmZmVyIHJlcXVpcmVzIGdyYXlzY2FsZSBzdXBwb3J0IGZvciB0aGUg
+ZWxkZXIgcGFuZWwKPiB3aGljaCB1c2VzIDhiaXQgZ3JheXNjYWxlIG9ubHkuCj4gCj4gRFJNIGRv
+ZXMgbm90IHN1cHBvcnQgOGJpdCBncmF5c2NhbGUgZnJhbWVidWZmZXJzIGluIG1lbW9yeSwKPiBi
+dXQgYnkgZGVmaW5pbmcgdGhlIGJ1cyBmb3JtYXQgdG8gYmUgTUVESUFfQlVTX0ZNVF9ZOF8xWDgg
+d2UKPiBjYW4gZ2V0IHRoZSBoYXJkd2FyZSB0byB0dXJuIG9uIGEgZ3JheXNjYWxpbmcgZmVhdHVy
+ZSBhbmQKPiBjb252ZXJ0IHRoZSBSR0IgZnJhbWVidWZmZXIgdG8gZ3JheXNjYWxlIGZvciB1cy4K
+CldoYXQncyB3cm9uZyB3aXRoIERSTV9GT1JNQVRfUjg/IFllcyB0aGUgaGFyZHdhcmUgaXMgbm90
+IHJlYWxseQoicmVkc2NhbGUiLCBidXQgaXQncyBzdGlsbCBhIHNpbmdsZSBjb2xvciBjaGFubmVs
+IGFuZCB0aGVyZSdzIG5vdApyZWFsbHkgYW55IGFtYmlndWl0eS4KCi0gYWpheAoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
