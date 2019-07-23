@@ -2,37 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252F77141A
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 10:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A0C71453
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 10:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EC8D6E29A;
-	Tue, 23 Jul 2019 08:40:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A312B6E2A0;
+	Tue, 23 Jul 2019 08:48:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BB66E29A
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 08:40:36 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 1E03B80480;
- Tue, 23 Jul 2019 10:40:34 +0200 (CEST)
-Date: Tue, 23 Jul 2019 10:40:33 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 0/3] Fixes for mgag200 cursors
-Message-ID: <20190723084033.GB32268@ravnborg.org>
-References: <20190723075425.24028-1-tzimmermann@suse.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 996136E2A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 08:48:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 95BAD72167; Tue, 23 Jul 2019 08:48:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111198] System hang when running multiple GPU-heavy applications
+Date: Tue, 23 Jul 2019 08:48:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: network723@rkmail.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111198-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190723075425.24028-1-tzimmermann@suse.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
- a=0dOf01WEFSyWK1-qjoAA:9 a=EylzK5yTkgqw2psV:21 a=Q0sMe_5qjCq_WXDa:21
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,21 +51,207 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org, kraxel@redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2094107604=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVGhvbWFzLgoKT24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDk6NTQ6MjJBTSArMDIwMCwgVGhv
-bWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gVGhpcyBwYXRjaCBzZXQgZml4ZXMgYSBudW1iZXIgb2Yg
-YnVncyB0aGF0IHdoZXJlIGludHJvZHVjZWQgYnkgdGhlCj4gcmVjZW50IGNoYW5nZXMgdG8gbWdh
-ZzIwMCdzIGhhbmRsaW5nIG9mIGN1cnNvciBCT3MuCj4gCj4gVGhvbWFzIFppbW1lcm1hbm4gKDMp
-Ogo+ICAgZHJtL21nYWcyMDA6IFBpbiBkaXNwbGF5ZWQgY3Vyc29yIEJPIHRvIHZpZGVvIG1lbW9y
-eQo+ICAgZHJtL21nYWcyMDA6IFNldCBjdXJzb3Igc2Nhbm91dCBhZGRyZXNzIHRvIGNvcnJlY3Qg
-Qk8KPiAgIGRybS9tZ2FnMjAwOiBEb24ndCB1bnBpbiB0aGUgY3VycmVudCBjdXJzb3IgaW1hZ2Un
-cyBidWZmZXIuCgpCcm93c2VkIHRoZSBmaXhlcyAtIGxvb2tzIGdvb2QgdG8gbWUuCgpBY2tlZC1i
-eTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============2094107604==
+Content-Type: multipart/alternative; boundary="15638717221.8a8a19bE1.9335"
+Content-Transfer-Encoding: 7bit
+
+
+--15638717221.8a8a19bE1.9335
+Date: Tue, 23 Jul 2019 08:48:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111198
+
+            Bug ID: 111198
+           Summary: System hang when running multiple GPU-heavy
+                    applications
+           Product: DRI
+           Version: unspecified
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: network723@rkmail.ru
+
+OK, this is something I notices long time ago, but never reported it becaus=
+e I
+can't imagine a test-case that would reliably reproduce the issue every tim=
+e.
+
+The problem is that *sometimes* system would hang when you run several
+GPU-heavy applications (games) at the same time on a single GPU.
+Computer would work fine for hours if you run just one of these programs, b=
+ut
+it may hang if you have two of three of them. I also noticed it may hang if=
+ you
+use hardware vaapi encoder while running a game. Encoder works just fine un=
+der
+no GPU load.
+
+When system freezes, there's no screen flickering indicating that GPU driver
+tried to reset GPU. Could it be that hang is in driver itself?
+
+This was happening to me with VEGA20 and POLARIS10 hardware, kernel 5.1.x, =
+but
+I remember same happening with Polaris on older kernels.
+
+I can't provide any logs at the time, but if you know best way to collect t=
+hem,
+please share.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15638717221.8a8a19bE1.9335
+Date: Tue, 23 Jul 2019 08:48:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System hang when running multiple GPU-heavy applications"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111198">111198</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>System hang when running multiple GPU-heavy applications
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>network723&#64;rkmail.ru
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>OK, this is something I notices long time ago, but never repor=
+ted it because I
+can't imagine a test-case that would reliably reproduce the issue every tim=
+e.
+
+The problem is that *sometimes* system would hang when you run several
+GPU-heavy applications (games) at the same time on a single GPU.
+Computer would work fine for hours if you run just one of these programs, b=
+ut
+it may hang if you have two of three of them. I also noticed it may hang if=
+ you
+use hardware vaapi encoder while running a game. Encoder works just fine un=
+der
+no GPU load.
+
+When system freezes, there's no screen flickering indicating that GPU driver
+tried to reset GPU. Could it be that hang is in driver itself?
+
+This was happening to me with VEGA20 and POLARIS10 hardware, kernel 5.1.x, =
+but
+I remember same happening with Polaris on older kernels.
+
+I can't provide any logs at the time, but if you know best way to collect t=
+hem,
+please share.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15638717221.8a8a19bE1.9335--
+
+--===============2094107604==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2094107604==--
