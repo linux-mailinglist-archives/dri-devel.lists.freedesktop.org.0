@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEC071CC9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 18:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A5B71CDB
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 18:25:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FD7F89C69;
-	Tue, 23 Jul 2019 16:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEF26E30E;
+	Tue, 23 Jul 2019 16:25:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from vern.gendns.com (vern.gendns.com [98.142.107.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15E3389C69
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 16:22:46 +0000 (UTC)
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net
- ([108.198.5.147]:52402 helo=[192.168.0.134])
- by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (Exim 4.92) (envelope-from <david@lechnology.com>)
- id 1hpxYq-00ACvU-41; Tue, 23 Jul 2019 12:22:44 -0400
-Subject: Re: [1/3] RFT: drm/pl111: Support grayscale
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DFBD16E30E
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 16:25:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DC98F72167; Tue, 23 Jul 2019 16:25:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-References: <20190723133755.22677-2-linus.walleij@linaro.org>
-From: David Lechner <david@lechnology.com>
-Message-ID: <1c988006-af6a-934c-5661-853cd9842c83@lechnology.com>
-Date: Tue, 23 Jul 2019 11:22:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Tue, 23 Jul 2019 16:25:04 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: wedens13@yandex.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-SNvegyOGAQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190723133755.22677-2-linus.walleij@linaro.org>
-Content-Language: en-US
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id:
- davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Qo/hPuXqdzw0fbAvUNBNIamCR5J5EyfzbtOH0y97n24=; b=MBHk0SJ9C7C5kyImuTBsuVgjbq
- bD38Fwx6ZyNXFF2TaNmky7AMXNf/ZeC/gdfdhWVGu2g+q6xr8n80XxhZCGFn+hbbkknC0iQrybZ39
- l3qSRHkdee9emKlPqq+M8ilHS7vGR4WhvymMMullBD3JicY6Fme43V8niLwbYH/+1hzHSvhkcFzUa
- o4JuGr+pmW5QNEHRFZboHUmvm73+nH8KkNFfZYbsHZbo60ru5A36+Mr8f680w2godN7c2XtOVIAwp
- l5ccNlKLVivTR7gupC/Drd2WqUbMkXZfbIewH/YoF1+17tWMJXAi+eVxn1z4hB5Vg+iDzX2U/vwYi
- KsxH2xzQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,28 +52,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabian Vogt <fabian@ritter-vogt.de>, Daniel Tang <dt.tangr@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1321679196=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNy8yMy8xOSA4OjM3IEFNLCBMaW51cyBXYWxsZWlqIHdyb3RlOgo+IE1pZ3JhdGluZyB0aGUg
-VEkgbnNwaXJlIGNhbGN1bGF0b3JzIHRvIHVzZSB0aGUgUEwxMTEgZHJpdmVyIGZvcgo+IGZyYW1l
-YnVmZmVyIHJlcXVpcmVzIGdyYXlzY2FsZSBzdXBwb3J0IGZvciB0aGUgZWxkZXIgcGFuZWwKPiB3
-aGljaCB1c2VzIDhiaXQgZ3JheXNjYWxlIG9ubHkuCj4gCj4gRFJNIGRvZXMgbm90IHN1cHBvcnQg
-OGJpdCBncmF5c2NhbGUgZnJhbWVidWZmZXJzIGluIG1lbW9yeSwKPiBidXQgYnkgZGVmaW5pbmcg
-dGhlIGJ1cyBmb3JtYXQgdG8gYmUgTUVESUFfQlVTX0ZNVF9ZOF8xWDggd2UKPiBjYW4gZ2V0IHRo
-ZSBoYXJkd2FyZSB0byB0dXJuIG9uIGEgZ3JheXNjYWxpbmcgZmVhdHVyZSBhbmQKPiBjb252ZXJ0
-IHRoZSBSR0IgZnJhbWVidWZmZXIgdG8gZ3JheXNjYWxlIGZvciB1cy4KPiAKCgpXaGF0IHdvdWxk
-IGl0IHRha2UgdG8gYWRkIHByb3BlciBncmF5c2NhbGUgZnJhbWVidWZmZXIKc3VwcG9ydCB0byBE
-Uk0/IEkndmUgYmVlbiB1c2luZyB0aGUgUkdCIHRvIGdyYXkgY29udmVyc2lvbgptZXRob2QgZm9y
-IGEgd2hpbGUgbm93IHdpdGggc3Q3NTg2IGFuZCBpdCBpcyBPSyBidXQgaXMKY3JlYXRlcyBleHRy
-YSB3b3JrIGlmIHlvdSB3YW50IHRoaW5ncyB0byBhY3R1YWxseSBsb29rCiJnb29kIiBpbnN0ZWFk
-IG9mICJPSyIgYmVjYXVzZSB5b3UgaGF2ZSB0byBhZGQgY29kZSB0bwp1c2Vyc3BhY2UgcHJvZ3Jh
-bXMgdG8gY3JhZnQgaW1hZ2VzIGluIGEgY2VydGFpbiB3YXkgc28KdGhhdCB0aGV5IGNvbWUgb3V0
-IG9uIHRoZSBvdGhlciBzaWRlIGxvb2tpbmcgYXMgaW50ZW5kZWQKb24gdGhlIGFjdHVhbCBkaXNw
-bGF5LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1321679196==
+Content-Type: multipart/alternative; boundary="15638991047.dE9c.17712"
+Content-Transfer-Encoding: 7bit
+
+
+--15638991047.dE9c.17712
+Date: Tue, 23 Jul 2019 16:25:04 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #59 from wedens13@yandex.ru ---
+I have similar issues with Sapphire Pulse Vega 56.
+Arch Linux
+Kernel versions: 4.19.60-1-lts, 5.2.1-1
+mesa: 19.1.3-1, mesa with ACO (f9b38efdda166f2b79562525e72fe135c6b23d54)
+llvm: 8.0.0
+
+I've also tried booting with integrated video and using DRI_PRIME=3D1 to of=
+fload
+to vega. It crashes similarly (after 5min of playing witcher 3 with dxvk
+1.3.1):
+
+Jul 23 22:44:01 wedens-pc kernel: amdgpu 0000:03:00.0: [mmhub] VMC page fau=
+lt
+(src_id:0 ring:154 vmid:1 pasid:32771, for process  pid 0 thread  pid 0
+                                  )
+Jul 23 22:44:01 wedens-pc kernel: amdgpu 0000:03:00.0:   at address
+0x0000800100a00000 from 18
+Jul 23 22:44:01 wedens-pc kernel: amdgpu 0000:03:00.0:
+VM_L2_PROTECTION_FAULT_STATUS:0x00100134
+Jul 23 22:44:11 wedens-pc kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
+ring sdma1 timeout, signaled seq=3D230, emitted seq=3D233
+Jul 23 22:44:11 wedens-pc kernel: [drm] GPU recovery disabled.
+
+
+I'm going to try mesa master and manual power level workaround (when should=
+ I
+use "reset to normal" command?).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15638991047.dE9c.17712
+Date: Tue, 23 Jul 2019 16:25:04 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c59">Comme=
+nt # 59</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+wedens13&#64;yandex.ru" title=3D"wedens13&#64;yandex.ru">wedens13&#64;yande=
+x.ru</a>
+</span></b>
+        <pre>I have similar issues with Sapphire Pulse Vega 56.
+Arch Linux
+Kernel versions: 4.19.60-1-lts, 5.2.1-1
+mesa: 19.1.3-1, mesa with ACO (f9b38efdda166f2b79562525e72fe135c6b23d54)
+llvm: 8.0.0
+
+I've also tried booting with integrated video and using DRI_PRIME=3D1 to of=
+fload
+to vega. It crashes similarly (after 5min of playing witcher 3 with dxvk
+1.3.1):
+
+Jul 23 22:44:01 wedens-pc kernel: amdgpu 0000:03:00.0: [mmhub] VMC page fau=
+lt
+(src_id:0 ring:154 vmid:1 pasid:32771, for process  pid 0 thread  pid 0
+                                  )
+Jul 23 22:44:01 wedens-pc kernel: amdgpu 0000:03:00.0:   at address
+0x0000800100a00000 from 18
+Jul 23 22:44:01 wedens-pc kernel: amdgpu 0000:03:00.0:
+VM_L2_PROTECTION_FAULT_STATUS:0x00100134
+Jul 23 22:44:11 wedens-pc kernel: [drm:amdgpu_job_timedout [amdgpu]] *ERROR*
+ring sdma1 timeout, signaled seq=3D230, emitted seq=3D233
+Jul 23 22:44:11 wedens-pc kernel: [drm] GPU recovery disabled.
+
+
+I'm going to try mesa master and manual power level workaround (when should=
+ I
+use &quot;reset to normal&quot; command?).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15638991047.dE9c.17712--
+
+--===============1321679196==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1321679196==--
