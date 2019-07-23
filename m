@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D837117E
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 07:59:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF2971184
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 07:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D046789E86;
-	Tue, 23 Jul 2019 05:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8092289970;
+	Tue, 23 Jul 2019 05:59:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED32089E3B;
- Tue, 23 Jul 2019 05:58:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B3D89948;
+ Tue, 23 Jul 2019 05:59:44 +0000 (UTC)
 Received: from dragon (98.142.130.235.16clouds.com [98.142.130.235])
  (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3D4B52238E;
- Tue, 23 Jul 2019 05:58:34 +0000 (UTC)
-Date: Tue, 23 Jul 2019 13:58:08 +0800
+ by mail.kernel.org (Postfix) with ESMTPSA id AEFD92239E;
+ Tue, 23 Jul 2019 05:59:25 +0000 (UTC)
+Date: Tue, 23 Jul 2019 13:58:59 +0800
 From: Shawn Guo <shawnguo@kernel.org>
 To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Subject: Re: [PATCH v4 12/23] drm: zte: Provide ddc symlink in hdmi connector
+Subject: Re: [PATCH v4 13/23] drm: zte: Provide ddc symlink in vga connector
  sysfs directory
-Message-ID: <20190723055807.GQ3738@dragon>
+Message-ID: <20190723055858.GR3738@dragon>
 References: <cover.1562843413.git.andrzej.p@collabora.com>
- <4a9fb80b4dc328b420ca5d94ebc2810ab86f788c.1562843413.git.andrzej.p@collabora.com>
+ <9cdd2fc46dbcb6b596786e5a12b7176c77a38d78.1562843413.git.andrzej.p@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <4a9fb80b4dc328b420ca5d94ebc2810ab86f788c.1562843413.git.andrzej.p@collabora.com>
+In-Reply-To: <9cdd2fc46dbcb6b596786e5a12b7176c77a38d78.1562843413.git.andrzej.p@collabora.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1563861537;
- bh=Kr6/01JDa/v6ZtlnzoIlfsNhc5A2e5DicJmo9mS2sNU=;
+ d=kernel.org; s=default; t=1563861584;
+ bh=WXCUgCbLphkBBDiAXTlN2S4IeeJ15hJXwNnoniA16Ic=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Gv+14L8kGFdq4rxkPTZIYD8+70TWAlhXuuFNLITtBfRKqpT9+pJkUW+lKE+oY+sEl
- 7MuJ5jgBC+3x1lKOR0EZpbQduCUL8pC2B/Swj6MVWJGpw7Opu4VYXZx3TzCjAtjeDo
- n/bJKKnMiPuXI1fEC3H05E8cy/aW/FjvhgM0VUVQ=
+ b=LGJwiqqtNJhoOXE73HgeUcCUMf8en/oKC+lOhSHN2LFczVYleuZ4/dqA4Tj9tGSyv
+ NaSN3pIZAWHUEiEqkMoH7io44ZKlA9v0X45AUlf2GZAQAV4qAjaWPYlDzdVhyU0wtN
+ BOX97jqG+kNXSp0Fe6UIJWbPVWe3NvvaSHbsA12Q=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,8 +49,8 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <narmstrong@baylibre.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
  Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
  linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
@@ -80,7 +80,7 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBKdWwgMTEsIDIwMTkgYXQgMDE6MjY6MzlQTSArMDIwMCwgQW5kcnplaiBQaWV0cmFz
+T24gVGh1LCBKdWwgMTEsIDIwMTkgYXQgMDE6MjY6NDBQTSArMDIwMCwgQW5kcnplaiBQaWV0cmFz
 aWV3aWN6IHdyb3RlOgo+IFVzZSB0aGUgZGRjIHBvaW50ZXIgcHJvdmlkZWQgYnkgdGhlIGdlbmVy
 aWMgY29ubmVjdG9yLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8
 YW5kcnplai5wQGNvbGxhYm9yYS5jb20+CgpBY2tlZC1ieTogU2hhd24gR3VvIDxzaGF3bmd1b0Br
