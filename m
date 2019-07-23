@@ -2,44 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EF971CED
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 18:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACCB71D26
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 18:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21F7A6E2F5;
-	Tue, 23 Jul 2019 16:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A83806E318;
+	Tue, 23 Jul 2019 16:55:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 052D96E2F5
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 16:30:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EBFE972167; Tue, 23 Jul 2019 16:30:04 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Tue, 23 Jul 2019 16:30:05 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: wedens13@yandex.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-jx6PGb0rIJ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FBBE6E311;
+ Tue, 23 Jul 2019 16:55:41 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 17540326-1500050 for multiple; Tue, 23 Jul 2019 17:55:39 +0100
 MIME-Version: 1.0
+To: Chuhong Yuan <hslester96@gmail.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <156389911703.31349.2020385253528691635@skylake-alporthouse-com>
+References: <20190723103915.3964-1-hslester96@gmail.com>
+ <156389911703.31349.2020385253528691635@skylake-alporthouse-com>
+Message-ID: <156390093724.31349.11990658707501306462@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use dev_get_drvdata
+Date: Tue, 23 Jul 2019 17:55:37 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,87 +39,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1393024627=="
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Chuhong Yuan <hslester96@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1393024627==
-Content-Type: multipart/alternative; boundary="15638994040.aD57bC.19380"
-Content-Transfer-Encoding: 7bit
-
-
---15638994040.aD57bC.19380
-Date: Tue, 23 Jul 2019 16:30:04 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #60 from wedens13@yandex.ru ---
-A couple of relevant log fragments with crashes: https://paste.ee/p/rtDEg
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15638994040.aD57bC.19380
-Date: Tue, 23 Jul 2019 16:30:04 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c60">Comme=
-nt # 60</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-wedens13&#64;yandex.ru" title=3D"wedens13&#64;yandex.ru">wedens13&#64;yande=
-x.ru</a>
-</span></b>
-        <pre>A couple of relevant log fragments with crashes: <a href=3D"ht=
-tps://paste.ee/p/rtDEg">https://paste.ee/p/rtDEg</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15638994040.aD57bC.19380--
-
---===============1393024627==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1393024627==--
+UXVvdGluZyBDaHJpcyBXaWxzb24gKDIwMTktMDctMjMgMTc6MjU6MTcpCj4gUXVvdGluZyBDaHVo
+b25nIFl1YW4gKDIwMTktMDctMjMgMTE6Mzk6MTYpCj4gPiBJbnN0ZWFkIG9mIHVzaW5nIHRvX3Bj
+aV9kZXYgKyBwY2lfZ2V0X2RydmRhdGEsCj4gPiB1c2UgZGV2X2dldF9kcnZkYXRhIHRvIG1ha2Ug
+Y29kZSBzaW1wbGVyLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHVob25nIFl1YW4gPGhzbGVz
+dGVyOTZAZ21haWwuY29tPgo+IAo+IFRoYXQgY3V0cyBvdXQgc29tZSBjaXJjdW1sb2N1dGlvbiwK
+PiBSZXZpZXdlZC1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+CgpB
+bmQgcHVzaGVkIHRvIGRpbnEsIHRoYW5rcy4KLUNocmlzCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
