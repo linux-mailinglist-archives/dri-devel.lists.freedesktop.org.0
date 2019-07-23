@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAF17134F
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 09:54:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD0171350
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 09:54:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA6E3899B7;
-	Tue, 23 Jul 2019 07:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA276E1BD;
+	Tue, 23 Jul 2019 07:54:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E316E1BB
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 07:54:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35609899B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 07:54:31 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 8DC59AE6D;
+ by mx1.suse.de (Postfix) with ESMTP id C4AF5AE82;
  Tue, 23 Jul 2019 07:54:29 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: kraxel@redhat.com, daniel@ffwll.ch, sam@ravnborg.org, airlied@redhat.com
-Subject: [PATCH 1/3] drm/mgag200: Pin displayed cursor BO to video memory
-Date: Tue, 23 Jul 2019 09:54:23 +0200
-Message-Id: <20190723075425.24028-2-tzimmermann@suse.de>
+Subject: [PATCH 2/3] drm/mgag200: Set cursor scanout address to correct BO
+Date: Tue, 23 Jul 2019 09:54:24 +0200
+Message-Id: <20190723075425.24028-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190723075425.24028-1-tzimmermann@suse.de>
 References: <20190723075425.24028-1-tzimmermann@suse.de>
@@ -43,24 +43,25 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGN1cnNvciBCTyBoYXMgdG8gYmUgcGlubmVkIHRvIHZpZGVvIHJhbSB3aGlsZSBpdCdzIGJl
-aW5nIGRpc3BsYXllZC4KV2l0aCB0aGUgY3VycmVudCBjb2RlLCB0aGUgQk8gbWlnaHQgYmUgcGlu
-bmVkIHRvIHN5c3RlbSBtZW1vcnkgaW5zdGVhZC4KVGhlIHBhdGNoIGZpeGVzIHRoaXMgcHJvYmxl
-bS4KClNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-PgpGaXhlczogOTRkYzU3YjEwMzk5ICgiZHJtL21nYWcyMDA6IFJld3JpdGUgY3Vyc29yIGhhbmRs
-aW5nIikKQ2M6IEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgpDYzogRGF2ZSBBaXJs
-aWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWdhZzIwMC9tZ2Fn
-MjAwX2N1cnNvci5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9j
-dXJzb3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfY3Vyc29yLmMKaW5kZXgg
-MTNmMzJkZjdlMzU3Li5hMTk5NzU5MzFjNmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9t
-Z2FnMjAwL21nYWcyMDBfY3Vyc29yLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdh
-ZzIwMF9jdXJzb3IuYwpAQCAtOTksNyArOTksNyBAQCBpbnQgbWdhX2NydGNfY3Vyc29yX3NldChz
-dHJ1Y3QgZHJtX2NydGMgKmNydGMsCiAJfQogCiAJLyogUGluIGFuZCBtYXAgdXAtY29taW5nIGJ1
-ZmZlciB0byB3cml0ZSBjb2xvdXIgaW5kaWNlcyAqLwotCXJldCA9IGRybV9nZW1fdnJhbV9waW4o
-cGl4ZWxzX25leHQsIDApOworCXJldCA9IGRybV9nZW1fdnJhbV9waW4ocGl4ZWxzX25leHQsIERS
-TV9HRU1fVlJBTV9QTF9GTEFHX1ZSQU0pOwogCWlmIChyZXQpIHsKIAkJZGV2X2VycigmZGV2LT5w
-ZGV2LT5kZXYsCiAJCQkiZmFpbGVkIHRvIHBpbiBjdXJzb3IgYnVmZmVyOiAlZFxuIiwgcmV0KTsK
-LS0gCjIuMjIuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+VGhlIGhhcmR3YXJlIHJlcXVpcmVzIHRoZSBjb3JyZWN0IG1lbW9yeSBhZGRyZXNzIG9mIHRoZSBi
+dWZmZXIuIEN1cnJlbnRseQp0aGUgc2FtZSBCTydzIGFkZHJlc3MgaXMgcHJvZ3JhbW1lZCB1bmNv
+bmRpdGlvbmFsbHksIHNvIG9ubHkgZXZlcnkgc2Vjb25kCmN1cnNvciB1cGRhdGUgYWN0dWFsbHkg
+YmVjb21lcyB2aXNpYmxlLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA5NGRjNTdiMTAzOTkgKCJkcm0vbWdhZzIwMDogUmV3cml0
+ZSBjdXJzb3IgaGFuZGxpbmciKQpDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+
+CkNjOiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS9tZ2FnMjAwL21nYWcyMDBfY3Vyc29yLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWdh
+ZzIwMC9tZ2FnMjAwX2N1cnNvci5jIGIvZHJpdmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9j
+dXJzb3IuYwppbmRleCBhMTk5NzU5MzFjNmQuLmYxMWI4NjJjYmVkOSAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9jdXJzb3IuYworKysgYi9kcml2ZXJzL2dwdS9k
+cm0vbWdhZzIwMC9tZ2FnMjAwX2N1cnNvci5jCkBAIC0xMTIsNyArMTEyLDcgQEAgaW50IG1nYV9j
+cnRjX2N1cnNvcl9zZXQoc3RydWN0IGRybV9jcnRjICpjcnRjLAogCQkJImZhaWxlZCB0byBrbWFw
+IGN1cnNvciB1cGRhdGVzOiAlZFxuIiwgcmV0KTsKIAkJZ290byBlcnJfZHJtX2dlbV92cmFtX3Vu
+cGluX2RzdDsKIAl9Ci0JZ3B1X2FkZHIgPSBkcm1fZ2VtX3ZyYW1fb2Zmc2V0KHBpeGVsc18yKTsK
+KwlncHVfYWRkciA9IGRybV9nZW1fdnJhbV9vZmZzZXQocGl4ZWxzX25leHQpOwogCWlmIChncHVf
+YWRkciA8IDApIHsKIAkJcmV0ID0gKGludClncHVfYWRkcjsKIAkJZGV2X2VycigmZGV2LT5wZGV2
+LT5kZXYsCi0tIAoyLjIyLjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
