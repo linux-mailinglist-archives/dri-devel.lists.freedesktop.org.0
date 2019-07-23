@@ -2,40 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E878E714E9
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 11:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C3671512
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 11:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257036E2D1;
-	Tue, 23 Jul 2019 09:19:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AE0089733;
+	Tue, 23 Jul 2019 09:26:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0A996E2CD;
- Tue, 23 Jul 2019 09:19:48 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 5B183200B6;
- Tue, 23 Jul 2019 11:19:46 +0200 (CEST)
-Date: Tue, 23 Jul 2019 11:19:45 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Derek Basehore <dbasehore@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v7 2/4] drm/panel: set display info in panel attach
-Message-ID: <20190723091945.GD787@ravnborg.org>
-References: <20190710021659.177950-1-dbasehore@chromium.org>
- <20190710021659.177950-3-dbasehore@chromium.org>
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5C4089733
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 09:26:56 +0000 (UTC)
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id CF66A240004;
+ Tue, 23 Jul 2019 09:26:52 +0000 (UTC)
+Date: Tue, 23 Jul 2019 11:26:52 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH] MAINTAINERS: Update my email address
+Message-ID: <20190723092652.77lxzokzeo2vk3dz@flea>
+References: <20190718192455.31244-1-maxime.ripard@bootlin.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190710021659.177950-3-dbasehore@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8
- a=e5mUnYsNAAAA:8 a=JKKMseLQFeVpvqDGF_IA:9 a=V_j96s7zFc6XEDQv:21
- a=BZ3M7_42R0vJoBCe:21 a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20190718192455.31244-1-maxime.ripard@bootlin.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,86 +39,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Thierry Reding <thierry.reding@gmail.com>,
- linux-mediatek@lists.infradead.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0965984219=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGVyZWsuCgpPbiBUdWUsIEp1bCAwOSwgMjAxOSBhdCAwNzoxNjo1N1BNIC0wNzAwLCBEZXJl
-ayBCYXNlaG9yZSB3cm90ZToKPiBEZXZpY2V0cmVlIHN5c3RlbXMgY2FuIHNldCBwYW5lbCBvcmll
-bnRhdGlvbiB2aWEgYSBwYW5lbCBiaW5kaW5nLCBidXQKPiB0aGVyZSdzIG5vIHdheSwgYXMgaXMs
-IHRvIHByb3BhZ2F0ZSB0aGlzIHNldHRpbmcgdG8gdGhlIGNvbm5lY3RvciwKPiB3aGVyZSB0aGUg
-cHJvcGVydHkgbmVlZCB0byBiZSBhZGRlZC4KPiBUbyBhZGRyZXNzIHRoaXMsIHRoaXMgcGF0Y2gg
-c2V0cyBvcmllbnRhdGlvbiwgYXMgd2VsbCBhcyBvdGhlciBmaXhlZAo+IHZhbHVlcyBmb3IgdGhl
-IHBhbmVsLCBpbiB0aGUgZHJtX3BhbmVsX2F0dGFjaCBmdW5jdGlvbi4gVGhlc2UgdmFsdWVzCj4g
-YXJlIHN0b3JlZCBmcm9tIHByb2JlIGluIHRoZSBkcm1fcGFuZWwgc3RydWN0LgoKVGhpcyBhcHBy
-b2NoIHNlZW1zIHRvIGNvbmZsaWN0IHdpdGggd29yayBkb25lIGJ5IExhdXJlbnQgd2hlcmUgdGhl
-Cm93bmVyc2hpcC9jcmVhdGlvbiBvZiB0aGUgY29ubmVjdG9yIHdpbGwgYmUgbW92ZWQgdG8gdGhl
-IGRpc3BsYXkgY29udHJvbGxlci4KCklmIEkgdW5kZXJzdGFuZCBpdCBjb3JyZWN0IHRoZW4gdGhl
-cmUgc2hvdWxkIG5vdCBiZSBhIDE6MSByZWxhdGlvbgpiZXR3ZWVuIGEgcGFuZWwgYW5kIGEgY29u
-bmVjdG9yIGFueW1vcmUuCgpXZSBzaG91bGQgbm90IHRyeSB0byB3b3JrIGluIHR3byBkaWZmZXJl
-bnQgZGlyZWN0aW9ucyB3aXRoIHRoaXMuCkxhdXJlbnQsIGNhbiB5b3UgY29tbWVudCBvbiB0aGlz
-PwoKSWYgd2UgbW92ZSBmb3JhcmQgd2l0aCB0aGlzIHBhdGNoLCB0aGVuIGFsbCBmaWVsZHMgaW4g
-ZHJtX3BhbmVsIG5lZWRzCmtlcm5lbC1kb2MgLSBwcmVmZXJhYmx5IGlubGluZS4KCglTYW0KCj4g
-Cj4gU2lnbmVkLW9mZi1ieTogRGVyZWsgQmFzZWhvcmUgPGRiYXNlaG9yZUBjaHJvbWl1bS5vcmc+
-Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYyB8IDI4ICsrKysrKysrKysrKysr
-KysrKysrKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZHJtX3BhbmVsLmggICAgIHwgMTQgKysrKysr
-KysrKysrKysKPiAgMiBmaWxlcyBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-cGFuZWwuYwo+IGluZGV4IDE2OWJhYjU0ZDUyZC4uY2EwMTA5NTQ3MGE5IDEwMDY0NAo+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
-cGFuZWwuYwo+IEBAIC0xMDQsMTEgKzEwNCwyMyBAQCBFWFBPUlRfU1lNQk9MKGRybV9wYW5lbF9y
-ZW1vdmUpOwo+ICAgKi8KPiAgaW50IGRybV9wYW5lbF9hdHRhY2goc3RydWN0IGRybV9wYW5lbCAq
-cGFuZWwsIHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpCj4gIHsKPiArCXN0cnVjdCBk
-cm1fZGlzcGxheV9pbmZvICppbmZvOwo+ICsKPiAgCWlmIChwYW5lbC0+Y29ubmVjdG9yKQo+ICAJ
-CXJldHVybiAtRUJVU1k7Cj4gIAo+ICAJcGFuZWwtPmNvbm5lY3RvciA9IGNvbm5lY3RvcjsKPiAg
-CXBhbmVsLT5kcm0gPSBjb25uZWN0b3ItPmRldjsKPiArCWluZm8gPSAmY29ubmVjdG9yLT5kaXNw
-bGF5X2luZm87Cj4gKwlpbmZvLT53aWR0aF9tbSA9IHBhbmVsLT53aWR0aF9tbTsKPiArCWluZm8t
-PmhlaWdodF9tbSA9IHBhbmVsLT5oZWlnaHRfbW07Cj4gKwlpbmZvLT5icGMgPSBwYW5lbC0+YnBj
-Owo+ICsJaW5mby0+cGFuZWxfb3JpZW50YXRpb24gPSBwYW5lbC0+b3JpZW50YXRpb247Cj4gKwlp
-bmZvLT5idXNfZmxhZ3MgPSBwYW5lbC0+YnVzX2ZsYWdzOwo+ICsJaWYgKHBhbmVsLT5idXNfZm9y
-bWF0cykKPiArCQlkcm1fZGlzcGxheV9pbmZvX3NldF9idXNfZm9ybWF0cygmY29ubmVjdG9yLT5k
-aXNwbGF5X2luZm8sCj4gKwkJCQkJCSBwYW5lbC0+YnVzX2Zvcm1hdHMsCj4gKwkJCQkJCSBwYW5l
-bC0+bnVtX2J1c19mb3JtYXRzKTsKPiAgCj4gIAlyZXR1cm4gMDsKPiAgfQo+IEBAIC0xMjgsNiAr
-MTQwLDIyIEBAIEVYUE9SVF9TWU1CT0woZHJtX3BhbmVsX2F0dGFjaCk7Cj4gICAqLwo+ICBpbnQg
-ZHJtX3BhbmVsX2RldGFjaChzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKPiAgewo+ICsJc3RydWN0
-IGRybV9kaXNwbGF5X2luZm8gKmluZm87Cj4gKwo+ICsJaWYgKCFwYW5lbC0+Y29ubmVjdG9yKQo+
-ICsJCWdvdG8gb3V0Owo+ICsKPiArCWluZm8gPSAmcGFuZWwtPmNvbm5lY3Rvci0+ZGlzcGxheV9p
-bmZvOwo+ICsJaW5mby0+d2lkdGhfbW0gPSAwOwo+ICsJaW5mby0+aGVpZ2h0X21tID0gMDsKPiAr
-CWluZm8tPmJwYyA9IDA7Cj4gKwlpbmZvLT5wYW5lbF9vcmllbnRhdGlvbiA9IERSTV9NT0RFX1BB
-TkVMX09SSUVOVEFUSU9OX1VOS05PV047Cj4gKwlpbmZvLT5idXNfZmxhZ3MgPSAwOwo+ICsJa2Zy
-ZWUoaW5mby0+YnVzX2Zvcm1hdHMpOwo+ICsJaW5mby0+YnVzX2Zvcm1hdHMgPSBOVUxMOwo+ICsJ
-aW5mby0+bnVtX2J1c19mb3JtYXRzID0gMDsKPiArCj4gK291dDoKPiAgCXBhbmVsLT5jb25uZWN0
-b3IgPSBOVUxMOwo+ICAJcGFuZWwtPmRybSA9IE5VTEw7Cj4gIAo+IGRpZmYgLS1naXQgYS9pbmNs
-dWRlL2RybS9kcm1fcGFuZWwuaCBiL2luY2x1ZGUvZHJtL2RybV9wYW5lbC5oCj4gaW5kZXggZmM3
-ZGE1NWY0MWQ5Li5hNmE4ODFiOTg3ZGQgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3Bh
-bmVsLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fcGFuZWwuaAo+IEBAIC0zOSw2ICszOSw4IEBA
-IGVudW0gZHJtX3BhbmVsX29yaWVudGF0aW9uOwo+ICAgKiBzdHJ1Y3QgZHJtX3BhbmVsX2Z1bmNz
-IC0gcGVyZm9ybSBvcGVyYXRpb25zIG9uIGEgZ2l2ZW4gcGFuZWwKPiAgICogQGRpc2FibGU6IGRp
-c2FibGUgcGFuZWwgKHR1cm4gb2ZmIGJhY2sgbGlnaHQsIGV0Yy4pCj4gICAqIEB1bnByZXBhcmU6
-IHR1cm4gb2ZmIHBhbmVsCj4gKyAqIEBkZXRhY2g6IGRldGFjaCBwYW5lbC0+Y29ubmVjdG9yIChj
-bGVhciBpbnRlcm5hbCBzdGF0ZSwgZXRjLikKPiArICogQGF0dGFjaDogYXR0YWNoIHBhbmVsLT5j
-b25uZWN0b3IgKHVwZGF0ZSBpbnRlcm5hbCBzdGF0ZSwgZXRjLikKPiAgICogQHByZXBhcmU6IHR1
-cm4gb24gcGFuZWwgYW5kIHBlcmZvcm0gc2V0IHVwCj4gICAqIEBlbmFibGU6IGVuYWJsZSBwYW5l
-bCAodHVybiBvbiBiYWNrIGxpZ2h0LCBldGMuKQo+ICAgKiBAZ2V0X21vZGVzOiBhZGQgbW9kZXMg
-dG8gdGhlIGNvbm5lY3RvciB0aGF0IHRoZSBwYW5lbCBpcyBhdHRhY2hlZCB0byBhbmQKPiBAQCAt
-OTUsNiArOTcsMTggQEAgc3RydWN0IGRybV9wYW5lbCB7Cj4gIAo+ICAJY29uc3Qgc3RydWN0IGRy
-bV9wYW5lbF9mdW5jcyAqZnVuY3M7Cj4gIAo+ICsJLyoKPiArCSAqIHBhbmVsIGluZm9ybWF0aW9u
-IHRvIGJlIHNldCBpbiB0aGUgY29ubmVjdG9yIHdoZW4gdGhlIHBhbmVsIGlzCj4gKwkgKiBhdHRh
-Y2hlZC4KPiArCSAqLwo+ICsJdW5zaWduZWQgaW50IHdpZHRoX21tOwo+ICsJdW5zaWduZWQgaW50
-IGhlaWdodF9tbTsKPiArCXVuc2lnbmVkIGludCBicGM7Cj4gKwlpbnQgb3JpZW50YXRpb247Cj4g
-Kwljb25zdCB1MzIgKmJ1c19mb3JtYXRzOwo+ICsJdW5zaWduZWQgaW50IG51bV9idXNfZm9ybWF0
-czsKPiArCXUzMiBidXNfZmxhZ3M7Cj4gKwo+ICAJc3RydWN0IGxpc3RfaGVhZCBsaXN0Owo+ICB9
-Owo+ICAKPiAtLSAKPiAyLjIyLjAuNDEwLmdkOGZkYmUyMWI1LWdvb2cKPiAKPiBfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0965984219==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="zhu7f3hrkea4ohiv"
+Content-Disposition: inline
+
+
+--zhu7f3hrkea4ohiv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Jul 18, 2019 at 09:24:55PM +0200, Maxime Ripard wrote:
+> Use my kernel.org address instead of the bootlin one.
+>
+> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+
+Applied through the sunxi tree
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--zhu7f3hrkea4ohiv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXTbS3AAKCRDj7w1vZxhR
+xWGBAQDFpazKhIyWYPqqL2cT/Oa5r36sSgdcPbQqwm7ONpHvjgEAqLNjK0NvTZa8
+gBOhiNo9kn4zep/6PXbhCwCdxdhd7w4=
+=ueNh
+-----END PGP SIGNATURE-----
+
+--zhu7f3hrkea4ohiv--
+
+--===============0965984219==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0965984219==--
