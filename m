@@ -1,47 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6F07117B
-	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 07:58:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D837117E
+	for <lists+dri-devel@lfdr.de>; Tue, 23 Jul 2019 07:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851E389E98;
-	Tue, 23 Jul 2019 05:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D046789E86;
+	Tue, 23 Jul 2019 05:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1ACF789E3B
- for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 05:57:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1532672167; Tue, 23 Jul 2019 05:57:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110749] [Vega 11] [amdgpu retry page fault
- VM_L2_PROTECTION_FAULT_STATUS] System lock up during playing Steam version of
- Saints Row 3
-Date: Tue, 23 Jul 2019 05:57:58 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: wedens13@yandex.ru
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110749-502-ubPoJCYEws@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110749-502@http.bugs.freedesktop.org/>
-References: <bug-110749-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED32089E3B;
+ Tue, 23 Jul 2019 05:58:57 +0000 (UTC)
+Received: from dragon (98.142.130.235.16clouds.com [98.142.130.235])
+ (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3D4B52238E;
+ Tue, 23 Jul 2019 05:58:34 +0000 (UTC)
+Date: Tue, 23 Jul 2019 13:58:08 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCH v4 12/23] drm: zte: Provide ddc symlink in hdmi connector
+ sysfs directory
+Message-ID: <20190723055807.GQ3738@dragon>
+References: <cover.1562843413.git.andrzej.p@collabora.com>
+ <4a9fb80b4dc328b420ca5d94ebc2810ab86f788c.1562843413.git.andrzej.p@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <4a9fb80b4dc328b420ca5d94ebc2810ab86f788c.1562843413.git.andrzej.p@collabora.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1563861537;
+ bh=Kr6/01JDa/v6ZtlnzoIlfsNhc5A2e5DicJmo9mS2sNU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Gv+14L8kGFdq4rxkPTZIYD8+70TWAlhXuuFNLITtBfRKqpT9+pJkUW+lKE+oY+sEl
+ 7MuJ5jgBC+3x1lKOR0EZpbQduCUL8pC2B/Swj6MVWJGpw7Opu4VYXZx3TzCjAtjeDo
+ n/bJKKnMiPuXI1fEC3H05E8cy/aW/FjvhgM0VUVQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,93 +48,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0864376542=="
+Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
+ intel-gfx@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ linux-arm-msm@vger.kernel.org, Mamta Shukla <mamtashukla555@gmail.com>,
+ linux-mediatek@lists.infradead.org, Jyri Sarha <jsarha@ti.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Enrico Weigelt <info@metux.net>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0864376542==
-Content-Type: multipart/alternative; boundary="15638614780.7BBf.15887"
-Content-Transfer-Encoding: 7bit
-
-
---15638614780.7BBf.15887
-Date: Tue, 23 Jul 2019 05:57:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110749
-
---- Comment #5 from wedens13@yandex.ru ---
-Seems like another case of https://bugs.freedesktop.org/show_bug.cgi?id=3D1=
-05251
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15638614780.7BBf.15887
-Date: Tue, 23 Jul 2019 05:57:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega 11] [amdgpu retry page fault VM_L2_PROTECTION_FAULT=
-_STATUS] System lock up during playing Steam version of Saints Row 3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110749#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega 11] [amdgpu retry page fault VM_L2_PROTECTION_FAULT=
-_STATUS] System lock up during playing Steam version of Saints Row 3"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110749">bug 11074=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-wedens13&#64;yandex.ru" title=3D"wedens13&#64;yandex.ru">wedens13&#64;yande=
-x.ru</a>
-</span></b>
-        <pre>Seems like another case of <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
-   href=3D"show_bug.cgi?id=3D105251">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D105251</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15638614780.7BBf.15887--
-
---===============0864376542==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0864376542==--
+T24gVGh1LCBKdWwgMTEsIDIwMTkgYXQgMDE6MjY6MzlQTSArMDIwMCwgQW5kcnplaiBQaWV0cmFz
+aWV3aWN6IHdyb3RlOgo+IFVzZSB0aGUgZGRjIHBvaW50ZXIgcHJvdmlkZWQgYnkgdGhlIGdlbmVy
+aWMgY29ubmVjdG9yLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWogUGlldHJhc2lld2ljeiA8
+YW5kcnplai5wQGNvbGxhYm9yYS5jb20+CgpBY2tlZC1ieTogU2hhd24gR3VvIDxzaGF3bmd1b0Br
+ZXJuZWwub3JnPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
