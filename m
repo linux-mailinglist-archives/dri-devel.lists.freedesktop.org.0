@@ -2,29 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44E7C72EAA
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 14:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34A3872EAD
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 14:21:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 173B46E4DD;
-	Wed, 24 Jul 2019 12:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E99C56E532;
+	Wed, 24 Jul 2019 12:20:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DE136E4F4
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 10:43:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: shadeslayer) with ESMTPSA id 89D5028507D
-From: Rohan Garg <rohan.garg@collabora.com>
-To: Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH libdrm 2/2] modetest: Add a new "-r" option to set a
- default mode
-Date: Wed, 24 Jul 2019 12:43:09 +0200
-Message-ID: <1651589.g8xMiAdU8h@solembum>
-Organization: Collabora
-In-Reply-To: <20190722160823.26668-2-ezequiel@collabora.com>
-References: <20190722160823.26668-1-ezequiel@collabora.com>
- <20190722160823.26668-2-ezequiel@collabora.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9B4916E50C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 10:56:41 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EA4C337;
+ Wed, 24 Jul 2019 03:56:41 -0700 (PDT)
+Received: from e112269-lin.arm.com (e112269-lin.cambridge.arm.com
+ [10.1.196.133])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E2D283F71F;
+ Wed, 24 Jul 2019 03:56:39 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Subject: [PATCH] drm/panfrost: Export all GPU feature registers
+Date: Wed, 24 Jul 2019 11:56:26 +0100
+Message-Id: <20190724105626.53552-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 24 Jul 2019 12:20:46 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -39,253 +40,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0255252908=="
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0255252908==
-Content-Type: multipart/signed; boundary="nextPart2186145.tKQo9esuC9"; micalg="pgp-sha512"; protocol="application/pgp-signature"
-
---nextPart2186145.tKQo9esuC9
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-On Monday, 22 July 2019 18:08:23 CEST Ezequiel Garcia wrote:
-> This option finds the first connected connector and then
-> sets its preferred mode on it.
-> 
-> Set this option to be set when no mode or plane is set
-> explicitily. This allows to quickly test, in cases where
-> one just needs something displayed.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  tests/modetest/modetest.c | 81 ++++++++++++++++++++++++++++++++++++---
->  1 file changed, 75 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
-> index 5e628127a130..6042aaae7cca 100644
-> --- a/tests/modetest/modetest.c
-> +++ b/tests/modetest/modetest.c
-> @@ -901,7 +901,9 @@ static int pipe_find_crtc_and_mode(struct device *dev,
-> struct pipe_arg *pipe) drmModeModeInfo *mode = NULL;
->  	int i;
-> 
-> -	pipe->mode = NULL;
-> +	/* If set_preferred is used, a mode is already set. */
-> +	if (pipe->mode)
-> +		goto find_crtc;
-> 
->  	for (i = 0; i < (int)pipe->num_cons; i++) {
->  		mode = connector_find_mode(dev, pipe->con_ids[i],
-> @@ -913,7 +915,9 @@ static int pipe_find_crtc_and_mode(struct device *dev,
-> struct pipe_arg *pipe) return -EINVAL;
->  		}
->  	}
-> +	pipe->mode = mode;
-> 
-> +find_crtc:
->  	/* If the CRTC ID was specified, get the corresponding CRTC. 
-Otherwise
->  	 * locate a CRTC that can be attached to all the connectors.
->  	 */
-> @@ -935,7 +939,6 @@ static int pipe_find_crtc_and_mode(struct device *dev,
-> struct pipe_arg *pipe) return -EINVAL;
->  	}
-> 
-> -	pipe->mode = mode;
->  	pipe->crtc->mode = mode;
-> 
->  	return 0;
-> @@ -1813,7 +1816,7 @@ static void parse_fill_patterns(char *arg)
-> 
->  static void usage(char *name)
->  {
-> -	fprintf(stderr, "usage: %s [-acDdefMPpsCvw]\n", name);
-> +	fprintf(stderr, "usage: %s [-acDdefMPpsCvrw]\n", name);
-> 
->  	fprintf(stderr, "\n Query options:\n\n");
->  	fprintf(stderr, "\t-c\tlist connectors\n");
-> @@ -1826,6 +1829,7 @@ static void usage(char *name)
->  	fprintf(stderr, "\t-s
-> <connector_id>[,<connector_id>][@<crtc_id>]:<mode>[-<vrefresh>][@<format>]\
-> tset a mode\n"); fprintf(stderr, "\t-C\ttest hw cursor\n");
->  	fprintf(stderr, "\t-v\ttest vsynced page flipping\n");
-> +	fprintf(stderr, "\t-r\tset the preferred mode\n");
->  	fprintf(stderr, "\t-w <obj_id>:<prop_name>:<value>\tset 
-property\n");
->  	fprintf(stderr, "\t-a \tuse atomic API\n");
->  	fprintf(stderr, "\t-F pattern1,pattern2\tspecify fill 
-patterns\n");
-> @@ -1874,6 +1878,9 @@ static int pipe_resolve_connectors(struct device *dev,
-> struct pipe_arg *pipe) char *endp;
-> 
->  	for (i = 0; i < pipe->num_cons; i++) {
-> +		/* If set_preferred is used, the connector is already 
-resolved. */
-> +		if (pipe->con_ids[i])
-> +			continue;
->  		id = strtoul(pipe->cons[i], &endp, 10);
->  		if (endp == pipe->cons[i]) {
->  			connector = get_connector_by_name(dev, pipe-
->cons[i]);
-> @@ -1885,14 +1892,62 @@ static int pipe_resolve_connectors(struct device
-> *dev, struct pipe_arg *pipe)
-> 
->  			id = connector->connector_id;
->  		}
-> -
->  		pipe->con_ids[i] = id;
->  	}
-> 
->  	return 0;
->  }
-> 
-> -static char optstr[] = "acdD:efF:M:P:ps:Cvw:";
-> +static char optstr[] = "acdD:efF:M:P:ps:Cvrw:";
-> +
-> +static int pipe_find_preferred(struct device *dev, struct pipe_arg *pipe)
-> +{
-> +	drmModeRes *res = dev->resources->res;
-> +	drmModeConnector *con = NULL;
-> +	char *con_str;
-> +	int i;
-> +
-> +	for (i = 0; i < res->count_connectors; i++) {
-> +		con = drmModeGetConnector(dev->fd, res->connectors[i]);
-> +		if (con->connection == DRM_MODE_CONNECTED)
-> +			break;
-> +		drmModeFreeConnector(con);
-> +		con = NULL;
-> +	}
-> +
-> +	if (!con) {
-> +		printf("no connected connector!\n");
-> +		return -1;
-> +	}
-> +
-> +	con_str = malloc(8);
-> +	sprintf(con_str, "%d", con->connector_id);
-> +	strcpy(pipe->format_str, "XR24");
-> +	pipe->fourcc = util_format_fourcc(pipe->format_str);
-> +	pipe->num_cons = 1;
-> +	pipe->con_ids = calloc(1, sizeof(*pipe->con_ids));
-> +	pipe->cons = calloc(1, sizeof(*pipe->cons));
-> +	pipe->con_ids[0] = con->connector_id;
-> +	pipe->cons[0] = (const char*)con_str;
-> +
-> +	/* A CRTC possible will be chosen by pipe_find_crtc_and_mode. */
-> +	pipe->crtc_id = (uint32_t)-1;
-> +
-> +	/* Return the first mode if no preferred. */
-> +	pipe->mode = &con->modes[0];
-> +	for (i = 0; i < con->count_modes; i++) {
-> +		drmModeModeInfo *current_mode = &con->modes[i];
-> +
-> +		if (current_mode->type & DRM_MODE_TYPE_PREFERRED) {
-> +			pipe->mode = current_mode;
-> +			break;
-> +		}
-> +	}
-> +
-> +	sprintf(pipe->mode_str, "%dx%d", pipe->mode->hdisplay,
-> pipe->mode->vdisplay); +
-> +	return 0;
-> +}
-> 
->  int main(int argc, char **argv)
->  {
-> @@ -1903,6 +1958,7 @@ int main(int argc, char **argv)
->  	int drop_master = 0;
->  	int test_vsync = 0;
->  	int test_cursor = 0;
-> +	int set_preferred = 0;
->  	int use_atomic = 0;
->  	char *device = NULL;
->  	char *module = NULL;
-> @@ -1987,6 +2043,9 @@ int main(int argc, char **argv)
->  		case 'v':
->  			test_vsync = 1;
->  			break;
-> +		case 'r':
-> +			set_preferred = 1;
-> +			break;
->  		case 'w':
->  			prop_args = realloc(prop_args,
->  					   (prop_count + 1) * 
-sizeof *prop_args);
-> @@ -2008,7 +2067,7 @@ int main(int argc, char **argv)
->  	}
-> 
->  	if (!args || (args == 1 && use_atomic))
-> -		encoders = connectors = crtcs = planes = framebuffers = 
-1;
-> +		set_preferred = encoders = connectors = crtcs = planes = 
-framebuffers =
-> 1;
-> 
->  	dev.fd = util_open(device, module);
->  	if (dev.fd < 0)
-> @@ -2044,6 +2103,16 @@ int main(int argc, char **argv)
->  		return 1;
->  	}
-> 
-> +	if (set_preferred) {
-> +		count = 1;
-> +		pipe_args = calloc(1, sizeof(*pipe_args));
-> +		ret = pipe_find_preferred(&dev, &pipe_args[0]);
-> +		if (ret) {
-> +			fprintf(stderr, "can't get preferred 
-connector and mode: %s\n",
-> strerror(errno)); +			return 1;
-> +		}
-> +	}
-> +
->  	for (i = 0; i < count; i++) {
->  		if (pipe_resolve_connectors(&dev, &pipe_args[i]) < 0) {
->  			free_resources(dev.resources);
-
-Reviewed-by: Rohan Garg <rohan.garg@collabora.com>
-
---nextPart2186145.tKQo9esuC9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEYitc3NselT9dMmhSpwS9TvJnIJQFAl04Nj0ACgkQpwS9TvJn
-IJRudQ//UKhBhszqsfBhOJjeDmTEn6fzxIGAN3ereb/u1D97VNlO8wdbaHeb6Hbx
-pBeIl/Xtyz0TeJFOZo9+/C1YBgpWy3Zw1SNEUNjyYEORnZ4OPwhoGFTMySB+cTeq
-UQdds2plr8h3jbRstCeQdew7QQed+xxONS9Q1AgAgDGthByiE/qzXM9DFRs24UV6
-NfZ4cQYd0T5fqW+yfucU40uVuWRSFvEv+g9B6op4lyhj1CoKU/zXLiA0QB9iR+eg
-DG7k4lQAQKQFOF2m3ZW+5I6d6NFMJf1PygKKOpqObbAy4yUgfNk2FtdF7X5ZCITg
-ISXePwYMl0H5dmWLZH13rccvfX6PTtA0M51xYuTXu0lHv6WIhBNtxGcim8C7fecY
-fJM+mQ1Hh7zwKqXBFfcIJfHAcpAd6aA191SG1pFPdOnQzfEodFcalWhrgQ2Rfbou
-Ay7yq0oFxjBZ5QqQyL6KXjN+Iwt5xGy7i2xjWhw2PtjKcmDADidH+i7xE5DAompz
-J5ESKaFxRCWE19POmJayZ2c/qUedPUvWzWl1mIM9k7bLBb1tDGcNvCp6lYCsMUcX
-CAu5Kt1UnUWjN5TU4TL2f4Caj/0Hl+cO2gJ2vir1u7xpFW/gaI8RGPEVVeFGZBUJ
-8pAD9/0qTyqeqzeXeXj1Ks5VmpjljY+Qu7RTZ5jMn85Ec7ibRl4=
-=F7EN
------END PGP SIGNATURE-----
-
---nextPart2186145.tKQo9esuC9--
-
-
-
-
---===============0255252908==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0255252908==--
-
-
-
+TWlkZ2FyZC9CaWZyb3N0IEdQVXMgaGF2ZSBhIGJ1bmNoIG9mIGZlYXR1cmUgcmVnaXN0ZXJzIHBy
+b3ZpZGluZyBkZXRhaWxzCm9mIHdoYXQgdGhlIGhhcmR3YXJlIHN1cHBvcnRzLiBQYW5mcm9zdCBh
+bHJlYWR5IHJlYWRzIHRoZXNlLCB0aGlzIHBhdGNoCmV4cG9ydHMgdGhlbSBhbGwgdG8gdXNlciBz
+cGFjZSBzbyB0aGF0IHRoZSBqb2JzIGNyZWF0ZWQgYnkgdGhlIHVzZXIgc3BhY2UKZHJpdmVyIGNh
+biBiZSB0dW5lZCBmb3IgdGhlIHBhcnRpY3VsYXIgaGFyZHdhcmUgaW1wbGVtZW50YXRpb24uCgpT
+aWduZWQtb2ZmLWJ5OiBTdGV2ZW4gUHJpY2UgPHN0ZXZlbi5wcmljZUBhcm0uY29tPgotLS0KIGRy
+aXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaCB8ICAxICsKIGRyaXZlcnMv
+Z3B1L2RybS9wYW5mcm9zdC9wYW5mcm9zdF9kcnYuYyAgICB8IDM4ICsrKysrKysrKysrKysrKysr
+KystLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dwdS5jICAgIHwgIDIgKysK
+IGluY2x1ZGUvdWFwaS9kcm0vcGFuZnJvc3RfZHJtLmggICAgICAgICAgICB8IDM5ICsrKysrKysr
+KysrKysrKysrKysrKysKIDQgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0aW9ucygrKSwgMyBkZWxl
+dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rf
+ZGV2aWNlLmggYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2aWNlLmgKaW5k
+ZXggODNjYzAxY2FmZGUxLi5lYTU5NDhmZjM2NDcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5mcm9zdC9wYW5mcm9zdF9kZXZpY2UuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJv
+c3QvcGFuZnJvc3RfZGV2aWNlLmgKQEAgLTQzLDYgKzQzLDcgQEAgc3RydWN0IHBhbmZyb3N0X2Zl
+YXR1cmVzIHsKIAl1MzIganNfZmVhdHVyZXNbMTZdOwogCiAJdTMyIG5yX2NvcmVfZ3JvdXBzOwor
+CXUzMiB0aHJlYWRfdGxzX2FsbG9jOwogCiAJdW5zaWduZWQgbG9uZyBod19mZWF0dXJlc1s2NCAv
+IEJJVFNfUEVSX0xPTkddOwogCXVuc2lnbmVkIGxvbmcgaHdfaXNzdWVzWzY0IC8gQklUU19QRVJf
+TE9OR107CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZHJ2LmMKaW5kZXggODViNGI1
+MWI2YTBkLi40YjU1NGM4ZDU2ZGEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9z
+dC9wYW5mcm9zdF9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rf
+ZHJ2LmMKQEAgLTMyLDEwICszMiw0MiBAQCBzdGF0aWMgaW50IHBhbmZyb3N0X2lvY3RsX2dldF9w
+YXJhbShzdHJ1Y3QgZHJtX2RldmljZSAqZGRldiwgdm9pZCAqZGF0YSwgc3RydWN0CiAJaWYgKHBh
+cmFtLT5wYWQgIT0gMCkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKKyNkZWZpbmUgUEFORlJPU1RfRkVB
+VFVSRShuYW1lLCBtZW1iZXIpCQkJXAorCWNhc2UgRFJNX1BBTkZST1NUX1BBUkFNXyAjIyBuYW1l
+OgkJXAorCQlwYXJhbS0+dmFsdWUgPSBwZmRldi0+ZmVhdHVyZXMubWVtYmVyOwlcCisJCWJyZWFr
+CisjZGVmaW5lIFBBTkZST1NUX0ZFQVRVUkVfQVJSQVkobmFtZSwgbWVtYmVyLCBtYXgpCQkJXAor
+CWNhc2UgRFJNX1BBTkZST1NUX1BBUkFNXyAjIyBuYW1lICMjIDAgLi4uCQkJXAorCQlEUk1fUEFO
+RlJPU1RfUEFSQU1fICMjIG5hbWUgIyMgbWF4OgkJCVwKKwkJcGFyYW0tPnZhbHVlID0gcGZkZXYt
+PmZlYXR1cmVzLm1lbWJlcltwYXJhbS0+cGFyYW0gLQlcCisJCQlEUk1fUEFORlJPU1RfUEFSQU1f
+ICMjIG5hbWUgIyMgMF07CQlcCisJCWJyZWFrCisKIAlzd2l0Y2ggKHBhcmFtLT5wYXJhbSkgewot
+CWNhc2UgRFJNX1BBTkZST1NUX1BBUkFNX0dQVV9QUk9EX0lEOgotCQlwYXJhbS0+dmFsdWUgPSBw
+ZmRldi0+ZmVhdHVyZXMuaWQ7Ci0JCWJyZWFrOworCQlQQU5GUk9TVF9GRUFUVVJFKEdQVV9QUk9E
+X0lELCBpZCk7CisJCVBBTkZST1NUX0ZFQVRVUkUoR1BVX1JFVklTSU9OLCByZXZpc2lvbik7CisJ
+CVBBTkZST1NUX0ZFQVRVUkUoU0hBREVSX1BSRVNFTlQsIHNoYWRlcl9wcmVzZW50KTsKKwkJUEFO
+RlJPU1RfRkVBVFVSRShUSUxFUl9QUkVTRU5ULCB0aWxlcl9wcmVzZW50KTsKKwkJUEFORlJPU1Rf
+RkVBVFVSRShMMl9QUkVTRU5ULCBsMl9wcmVzZW50KTsKKwkJUEFORlJPU1RfRkVBVFVSRShTVEFD
+S19QUkVTRU5ULCBzdGFja19wcmVzZW50KTsKKwkJUEFORlJPU1RfRkVBVFVSRShBU19QUkVTRU5U
+LCBhc19wcmVzZW50KTsKKwkJUEFORlJPU1RfRkVBVFVSRShKU19QUkVTRU5ULCBqc19wcmVzZW50
+KTsKKwkJUEFORlJPU1RfRkVBVFVSRShMMl9GRUFUVVJFUywgbDJfZmVhdHVyZXMpOworCQlQQU5G
+Uk9TVF9GRUFUVVJFKENPUkVfRkVBVFVSRVMsIGNvcmVfZmVhdHVyZXMpOworCQlQQU5GUk9TVF9G
+RUFUVVJFKFRJTEVSX0ZFQVRVUkVTLCB0aWxlcl9mZWF0dXJlcyk7CisJCVBBTkZST1NUX0ZFQVRV
+UkUoTUVNX0ZFQVRVUkVTLCBtZW1fZmVhdHVyZXMpOworCQlQQU5GUk9TVF9GRUFUVVJFKE1NVV9G
+RUFUVVJFUywgbW11X2ZlYXR1cmVzKTsKKwkJUEFORlJPU1RfRkVBVFVSRShUSFJFQURfRkVBVFVS
+RVMsIHRocmVhZF9mZWF0dXJlcyk7CisJCVBBTkZST1NUX0ZFQVRVUkUoTUFYX1RIUkVBRFMsIG1h
+eF90aHJlYWRzKTsKKwkJUEFORlJPU1RfRkVBVFVSRShUSFJFQURfTUFYX1dPUktHUk9VUF9TWiwK
+KwkJCQl0aHJlYWRfbWF4X3dvcmtncm91cF9zeik7CisJCVBBTkZST1NUX0ZFQVRVUkUoVEhSRUFE
+X01BWF9CQVJSSUVSX1NaLAorCQkJCXRocmVhZF9tYXhfYmFycmllcl9zeik7CisJCVBBTkZST1NU
+X0ZFQVRVUkUoQ09IRVJFTkNZX0ZFQVRVUkVTLCBjb2hlcmVuY3lfZmVhdHVyZXMpOworCQlQQU5G
+Uk9TVF9GRUFUVVJFX0FSUkFZKFRFWFRVUkVfRkVBVFVSRVMsIHRleHR1cmVfZmVhdHVyZXMsIDMp
+OworCQlQQU5GUk9TVF9GRUFUVVJFX0FSUkFZKEpTX0ZFQVRVUkVTLCBqc19mZWF0dXJlcywgMTUp
+OworCQlQQU5GUk9TVF9GRUFUVVJFKE5SX0NPUkVfR1JPVVBTLCBucl9jb3JlX2dyb3Vwcyk7CisJ
+CVBBTkZST1NUX0ZFQVRVUkUoVEhSRUFEX1RMU19BTExPQywgdGhyZWFkX3Rsc19hbGxvYyk7CiAJ
+ZGVmYXVsdDoKIAkJcmV0dXJuIC1FSU5WQUw7CiAJfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dwdS5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3Bh
+bmZyb3N0X2dwdS5jCmluZGV4IDIwYWIzMzNmYzkyNS4uZjY3ZWQ5MjVjMGVmIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZ3B1LmMKKysrIGIvZHJpdmVycy9n
+cHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2dwdS5jCkBAIC0yMzIsNiArMjMyLDggQEAgc3RhdGlj
+IHZvaWQgcGFuZnJvc3RfZ3B1X2luaXRfZmVhdHVyZXMoc3RydWN0IHBhbmZyb3N0X2RldmljZSAq
+cGZkZXYpCiAJcGZkZXYtPmZlYXR1cmVzLnN0YWNrX3ByZXNlbnQgPSBncHVfcmVhZChwZmRldiwg
+R1BVX1NUQUNLX1BSRVNFTlRfTE8pOwogCXBmZGV2LT5mZWF0dXJlcy5zdGFja19wcmVzZW50IHw9
+ICh1NjQpZ3B1X3JlYWQocGZkZXYsIEdQVV9TVEFDS19QUkVTRU5UX0hJKSA8PCAzMjsKIAorCXBm
+ZGV2LT5mZWF0dXJlcy50aHJlYWRfdGxzX2FsbG9jID0gZ3B1X3JlYWQocGZkZXYsIEdQVV9USFJF
+QURfVExTX0FMTE9DKTsKKwogCWdwdV9pZCA9IGdwdV9yZWFkKHBmZGV2LCBHUFVfSUQpOwogCXBm
+ZGV2LT5mZWF0dXJlcy5yZXZpc2lvbiA9IGdwdV9pZCAmIDB4ZmZmZjsKIAlwZmRldi0+ZmVhdHVy
+ZXMuaWQgPSBncHVfaWQgPj4gMTY7CmRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL3BhbmZy
+b3N0X2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS9wYW5mcm9zdF9kcm0uaAppbmRleCBiNWQzNzA2
+Mzg4NDYuLmNiNTc3ZmI5NmIzOCAxMDA2NDQKLS0tIGEvaW5jbHVkZS91YXBpL2RybS9wYW5mcm9z
+dF9kcm0uaAorKysgYi9pbmNsdWRlL3VhcGkvZHJtL3BhbmZyb3N0X2RybS5oCkBAIC0xMjcsNiAr
+MTI3LDQ1IEBAIHN0cnVjdCBkcm1fcGFuZnJvc3RfbW1hcF9ibyB7CiAKIGVudW0gZHJtX3BhbmZy
+b3N0X3BhcmFtIHsKIAlEUk1fUEFORlJPU1RfUEFSQU1fR1BVX1BST0RfSUQsCisJRFJNX1BBTkZS
+T1NUX1BBUkFNX0dQVV9SRVZJU0lPTiwKKwlEUk1fUEFORlJPU1RfUEFSQU1fU0hBREVSX1BSRVNF
+TlQsCisJRFJNX1BBTkZST1NUX1BBUkFNX1RJTEVSX1BSRVNFTlQsCisJRFJNX1BBTkZST1NUX1BB
+UkFNX0wyX1BSRVNFTlQsCisJRFJNX1BBTkZST1NUX1BBUkFNX1NUQUNLX1BSRVNFTlQsCisJRFJN
+X1BBTkZST1NUX1BBUkFNX0FTX1BSRVNFTlQsCisJRFJNX1BBTkZST1NUX1BBUkFNX0pTX1BSRVNF
+TlQsCisJRFJNX1BBTkZST1NUX1BBUkFNX0wyX0ZFQVRVUkVTLAorCURSTV9QQU5GUk9TVF9QQVJB
+TV9DT1JFX0ZFQVRVUkVTLAorCURSTV9QQU5GUk9TVF9QQVJBTV9USUxFUl9GRUFUVVJFUywKKwlE
+Uk1fUEFORlJPU1RfUEFSQU1fTUVNX0ZFQVRVUkVTLAorCURSTV9QQU5GUk9TVF9QQVJBTV9NTVVf
+RkVBVFVSRVMsCisJRFJNX1BBTkZST1NUX1BBUkFNX1RIUkVBRF9GRUFUVVJFUywKKwlEUk1fUEFO
+RlJPU1RfUEFSQU1fTUFYX1RIUkVBRFMsCisJRFJNX1BBTkZST1NUX1BBUkFNX1RIUkVBRF9NQVhf
+V09SS0dST1VQX1NaLAorCURSTV9QQU5GUk9TVF9QQVJBTV9USFJFQURfTUFYX0JBUlJJRVJfU1os
+CisJRFJNX1BBTkZST1NUX1BBUkFNX0NPSEVSRU5DWV9GRUFUVVJFUywKKwlEUk1fUEFORlJPU1Rf
+UEFSQU1fVEVYVFVSRV9GRUFUVVJFUzAsCisJRFJNX1BBTkZST1NUX1BBUkFNX1RFWFRVUkVfRkVB
+VFVSRVMxLAorCURSTV9QQU5GUk9TVF9QQVJBTV9URVhUVVJFX0ZFQVRVUkVTMiwKKwlEUk1fUEFO
+RlJPU1RfUEFSQU1fVEVYVFVSRV9GRUFUVVJFUzMsCisJRFJNX1BBTkZST1NUX1BBUkFNX0pTX0ZF
+QVRVUkVTMCwKKwlEUk1fUEFORlJPU1RfUEFSQU1fSlNfRkVBVFVSRVMxLAorCURSTV9QQU5GUk9T
+VF9QQVJBTV9KU19GRUFUVVJFUzIsCisJRFJNX1BBTkZST1NUX1BBUkFNX0pTX0ZFQVRVUkVTMywK
+KwlEUk1fUEFORlJPU1RfUEFSQU1fSlNfRkVBVFVSRVM0LAorCURSTV9QQU5GUk9TVF9QQVJBTV9K
+U19GRUFUVVJFUzUsCisJRFJNX1BBTkZST1NUX1BBUkFNX0pTX0ZFQVRVUkVTNiwKKwlEUk1fUEFO
+RlJPU1RfUEFSQU1fSlNfRkVBVFVSRVM3LAorCURSTV9QQU5GUk9TVF9QQVJBTV9KU19GRUFUVVJF
+UzgsCisJRFJNX1BBTkZST1NUX1BBUkFNX0pTX0ZFQVRVUkVTOSwKKwlEUk1fUEFORlJPU1RfUEFS
+QU1fSlNfRkVBVFVSRVMxMCwKKwlEUk1fUEFORlJPU1RfUEFSQU1fSlNfRkVBVFVSRVMxMSwKKwlE
+Uk1fUEFORlJPU1RfUEFSQU1fSlNfRkVBVFVSRVMxMiwKKwlEUk1fUEFORlJPU1RfUEFSQU1fSlNf
+RkVBVFVSRVMxMywKKwlEUk1fUEFORlJPU1RfUEFSQU1fSlNfRkVBVFVSRVMxNCwKKwlEUk1fUEFO
+RlJPU1RfUEFSQU1fSlNfRkVBVFVSRVMxNSwKKwlEUk1fUEFORlJPU1RfUEFSQU1fTlJfQ09SRV9H
+Uk9VUFMsCisJRFJNX1BBTkZST1NUX1BBUkFNX1RIUkVBRF9UTFNfQUxMT0MsCiB9OwogCiBzdHJ1
+Y3QgZHJtX3BhbmZyb3N0X2dldF9wYXJhbSB7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
