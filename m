@@ -2,31 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3713472A30
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 10:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E7572A3B
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 10:35:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A3C6E48D;
-	Wed, 24 Jul 2019 08:34:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C95836E49E;
+	Wed, 24 Jul 2019 08:35:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from atrey.karlin.mff.cuni.cz (atrey.karlin.mff.cuni.cz
- [195.113.26.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCBE86E48D
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 08:33:59 +0000 (UTC)
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
- id C6CE28028C; Wed, 24 Jul 2019 10:33:44 +0200 (CEST)
-Date: Wed, 24 Jul 2019 10:33:55 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Subject: Re: [PATCH] Enable backlight when trigger is activated
-Message-ID: <20190724083355.GA27716@amd>
-References: <20190718190849.GA11409@amd>
- <22d7eca4ad8aa2e73933c4f83c92221ce6e0945a.camel@collabora.com>
- <20190722075032.GA27524@amd>
- <6fc6af89-1455-7665-47e7-0568ecd87c9c@gmail.com>
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 326FD6E49E
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 08:35:54 +0000 (UTC)
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it
+ [2.224.242.101]) (Authenticated sender: jacopo@jmondi.org)
+ by relay10.mail.gandi.net (Postfix) with ESMTPSA id 05C1124000C;
+ Wed, 24 Jul 2019 08:35:48 +0000 (UTC)
+Date: Wed, 24 Jul 2019 10:37:10 +0200
+From: Jacopo Mondi <jacopo@jmondi.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] drm: rcar_lvds: Fix dual link mode operations
+Message-ID: <20190724083710.wnttvauam2zwiii7@uno.localdomain>
+References: <20190723165700.13124-1-jacopo+renesas@jmondi.org>
+ <CAMuHMdVKiJp0PsuogMo8FZ6NUxi4j09+A2zDXZr4nrtZY-KHaw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6fc6af89-1455-7665-47e7-0568ecd87c9c@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <CAMuHMdVKiJp0PsuogMo8FZ6NUxi4j09+A2zDXZr4nrtZY-KHaw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,84 +38,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, mpartap@gmx.net, b.zolnierkie@samsung.com,
- tony@atomide.com, merlijn@wizzup.org,
- kernel list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- sre@kernel.org, nekit1000@gmail.com, linux-leds@vger.kernel.org,
- linux-omap@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: multipart/mixed; boundary="===============1583153089=="
+Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+ David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: multipart/mixed; boundary="===============0788394665=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1583153089==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
+--===============0788394665==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tmwn5ydm7h2arvyi"
 Content-Disposition: inline
 
 
---5vNYLRcllDrimb99
-Content-Type: text/plain; charset=us-ascii
+--tmwn5ydm7h2arvyi
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi!
+Hi Geert,
 
-> >>> +++ b/drivers/leds/trigger/ledtrig-backlight.c
-> >>> @@ -114,6 +114,8 @@ static int bl_trig_activate(struct led_classdev *=
-led)
-> >>>  	n->old_status =3D UNBLANK;
-> >>>  	n->notifier.notifier_call =3D fb_notifier_callback;
-> >>> =20
-> >>> +	led_set_brightness(led, LED_ON);
-> >>> +
-> >>
-> >> This looks fishy.
-> >>
-> >> Maybe you should use a default-state =3D "keep" instead? (and you'll h=
-ave
-> >> to support it in the LED driver).
-> >>
-> >> That'll give you proper "don't touch the LED if it was turned on" beha=
-vior,
-> >> which is what you seem to want.
-> >=20
-> > Actually no, that's not what I want. LED should go on if the display
-> > is active, as soon as trigger is activated.
-> >=20
-> > Unfortunately, I have see no good way to tell if the display is
-> > active (and display is usually active when trigger is activated).
->=20
-> default-state DT property can be also set to "on"
-> (see Documentation/devicetree/bindings/leds/common.txt).
+On Wed, Jul 24, 2019 at 09:28:58AM +0200, Geert Uytterhoeven wrote:
+> Hi Jacopo,
+>
+> On Wed, Jul 24, 2019 at 3:38 AM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> > The R-Car LVDS encoder units support dual-link operations by splitting
+> > the pixel output between the primary encoder and the companion one.
+> >
+> > In order for the primary encoder to succesfully control the companion's
+> > operations this should not fail at probe time and register itself its
+> > associated drm bridge so that the primary one can find it.
+> >
+> > Currently the companion encoder fails at probe time, causing the
+> > registration of the primary to fail preventing the whole DU unit to be
+> > registered correctly.
+> >
+> > Fixes: fa440d870358 ("drm: rcar-du: lvds: Add support for dual-link mode")
+> > Reported-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >
+> > ---
+> > The "Fixes" tag refers to a patch currently part of the
+> > renesas-drivers-2019-07-09-v5.2 branch of Geert's renesas-drivers tree.
+>
+> The broken commit is also present in v5.3-rc1.
 
-Yes, except that it does not work with all drivers :-(. In particular,
-it does not work with lm3532.
+You're right... This is then entitled to be collected for rc2 then.
 
-We should really move more of the device tree parsing into core, so
-that there's one place to fix...
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
+Thanks
+   j
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
---5vNYLRcllDrimb99
+--tmwn5ydm7h2arvyi
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
 
-iEYEARECAAYFAl04F/MACgkQMOfwapXb+vISagCfdaWbZQ6RjvGQ3Edw3INdzb04
-i5gAoItfTEBcniDsblUC4rEvK/EzZthi
-=NU1f
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl04GLYACgkQcjQGjxah
+VjyrrxAAl4RQ0Uq+Ix56ugDgecHqIcqzJ0HtIHBz+2Zmj1mD26HJwuPzlgV7Ke3O
+hMjEXdqtcl2F+BamoPn5HLx0X9VU8zYZ7EKwZniiBER438HAqMzky37ujuenZv+u
+YilYEiMslCDqv2JCFlFAgXw41gYWzeWnmPwFbmO2nhMplj5SLU/qSIkTMTGTDDZU
+M0txIFJ08GS6UyIWJcS2TAB1BuPltG4F1G+Ei8GJ2iTnW6BndETHh0SGUaTLAgV4
+TH40JZd8TnND+lvMvxTQrcHwsuw9VxTJxoDc+bH9sVg7TS8VuJuBojlvTnEQtB4I
+PTVNHz51F+vOreEZSyvVAGpIrThxDPNFke/uxTEINvMXJ1XXo6WAgbcs9mznTU02
+gq3SKddfyzlRGPQkwHxmCkY4ifkEwstiQSiTzkiKhEOUILjMf8dOltoyQhfhzN2J
+g1rsKbp/ufezBMBnIytDN5WdyO5C1Wai5jX5vUxOiBHU40zlsTdleCJrsKaqoGrD
+e9VPZmNtTzwvR/j+XcGxRhLT1YQrWt6RAAlqaid2po6aiOUyPs5TZdUBa1FV+hbV
+y7Z+zGk9hS2Z/PR4ngqLCipSlgjDCJXocnnE1lG/AZpekgdtrH996QnT+z8B/a/k
+gIjDe+x6A9wkzwfsQloCcEJwCZeZsz+l2aQcdJrXgEXHeuxs53c=
+=iXnV
 -----END PGP SIGNATURE-----
 
---5vNYLRcllDrimb99--
+--tmwn5ydm7h2arvyi--
 
---===============1583153089==
+--===============0788394665==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -126,4 +135,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1583153089==--
+--===============0788394665==--
