@@ -2,96 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C917293B
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 09:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B821E72964
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 10:01:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16E006E48A;
-	Wed, 24 Jul 2019 07:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EDB66E491;
+	Wed, 24 Jul 2019 08:01:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr690061.outbound.protection.outlook.com [40.107.69.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83A66E48A
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 07:48:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N3pRJ4no4vDCrMFy7k4Ssh9aV81i1fa62lNzT5i75vtLsmi2rqPfO0UFfniCtH7exxtkk2JeZpgQ/rsTPT+4XvBo6y0uawsqUKka5hzNc7UCZY6rgVlZOTO/UXPdzACFn4IbJcQPY00g8bDeH38F/wuB515WEV1HjfxrkMIeZdlA+f/V4JRDkGxpcJRb6SGW4y3oA00u+9/8819w8LykECfUPUeiVCu35dFONToWMXibG4WSX3ra6Nbb6xKSwfi6hiqfe1+XfkZtecfUXHA91nhgJqe9awpBsFNhArNaq+ctL7P6BCPCQbI2XuebLtroAK0fzIzcy5SjJEtnykgU/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+BHG3SsliVI35Intfa8FTUDgHVWybAdYrvSrjgxyZzE=;
- b=iz64S0DrMKmH9WNwY5WMe36ulLw/9hsjntBVzGqVRmkFiG5P02qfvOAnIO4d5iAxr6KNpg0R4FKLOf9GPqpROhnIV+mi7T35Gaubb05J7VJDYwoH3o5AMeAyuktts/hc/b3ElD0YZbH/pWNiklMjaXYfRisfZZt2+wnPgmwbhOvDu5euXWom7o3flqnNAkduiaRDfTAgbL8m3K98yMMTldWzA8BnkOu7CYODUjVYls9iowGRzviImcuBjcgX5GEYLYkTIJXvijaq+raUgHUbdEmxLqL76fxN+Jemuj9f3KkmsuUAfixVhplb/yXPZBOlYQYuMynsls5Tyu1thJTdkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=amd.com;dmarc=pass action=none header.from=amd.com;dkim=pass
- header.d=amd.com;arc=none
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
- DM5PR12MB1689.namprd12.prod.outlook.com (10.172.33.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.10; Wed, 24 Jul 2019 07:48:23 +0000
-Received: from DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::cda7:cfc1:ce62:bcb7]) by DM5PR12MB1546.namprd12.prod.outlook.com
- ([fe80::cda7:cfc1:ce62:bcb7%10]) with mapi id 15.20.2094.013; Wed, 24 Jul
- 2019 07:48:23 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: "Zhou, David(ChunMing)" <David1.Zhou@amd.com>, Lionel Landwerlin
- <lionel.g.landwerlin@intel.com>, "Zhou, David(ChunMing)"
- <David1.Zhou@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/syncobj: extend syncobj query ability v2
-Thread-Topic: [PATCH] drm/syncobj: extend syncobj query ability v2
-Thread-Index: AQHVQWIA158+x3pHOEq2aI/D46q9lKbYlJqAgAC7roCAABVEAA==
-Date: Wed, 24 Jul 2019 07:48:23 +0000
-Message-ID: <98e615e3-8936-6a21-543c-1605577436a0@amd.com>
-References: <20190723142114.24688-1-david1.zhou@amd.com>
- <fe5bff32-b7b4-e388-61e7-950b0125d8fc@intel.com>
- <f2633335-6b0a-65b7-61c3-02cf7a14ac25@amd.com>
-In-Reply-To: <f2633335-6b0a-65b7-61c3-02cf7a14ac25@amd.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8D356E48C;
+ Wed, 24 Jul 2019 08:01:15 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 713EBAD3E;
+ Wed, 24 Jul 2019 08:01:13 +0000 (UTC)
+Subject: Re: [PATCH v4 14/23] drm/tilcdc: Provide ddc symlink in connector
+ sysfs directory
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+References: <cover.1562843413.git.andrzej.p@collabora.com>
+ <d1d415022c598fb7acd033f0f322dd67250adaa9.1562843413.git.andrzej.p@collabora.com>
+ <20190723090532.GA787@ravnborg.org>
+ <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <acfd895d-ab59-0190-e25c-1827bd8d214b@suse.de>
+Date: Wed, 24 Jul 2019 10:01:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: PR0P264CA0118.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:19::34) To DM5PR12MB1546.namprd12.prod.outlook.com
- (2603:10b6:4:8::23)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ad50533a-a899-4076-08bc-08d7100b4dcf
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM5PR12MB1689; 
-x-ms-traffictypediagnostic: DM5PR12MB1689:
-x-microsoft-antispam-prvs: <DM5PR12MB16896EA1E3C78F27D1ED0F8D83C60@DM5PR12MB1689.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 0108A997B2
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(136003)(366004)(376002)(396003)(346002)(39860400002)(199004)(189003)(66556008)(386003)(64756008)(66446008)(6506007)(66476007)(64126003)(6436002)(53936002)(31686004)(99286004)(71200400001)(6486002)(8936002)(53546011)(71190400001)(6512007)(86362001)(66946007)(2906002)(14454004)(5660300002)(7736002)(102836004)(2501003)(229853002)(76176011)(31696002)(6246003)(305945005)(36756003)(68736007)(25786009)(65956001)(316002)(476003)(58126008)(446003)(11346002)(478600001)(6116002)(110136005)(65826007)(52116002)(486006)(8676002)(65806001)(81156014)(81166006)(46003)(186003)(2616005)(256004);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1689;
- H:DM5PR12MB1546.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LJA7n3/JWmdfuFfrbl4jNVlMCfknoFzaR2SiLB4fI0Hyu10mjM1vbfGnI3vdDqXs0kLzgQI2Ag7fFPWueQuvLhZO09+Ql2ywFwbJv6+CoGlyOv9lr5k9d1dzYMYLs+eT0uoBQOR7QQlXT/j6WOdLGiSdfV5HfaTyurGYnZHyxsEWUgfkp7K8vfTWrax1pZs9qR62guv/WHSyjZVTGkcvKNbBDX38SrOCwSyEpkSixBNlHLo8ZK9be2W6xW+kBb/DZfHiX3JOtNWJtTQCr91SSOuNH3oj9KPh6yA6ZC63MjQyFsMvDz43M4fuEOTOciO7vY5lm0rcG4yh66Sq1XIgPYHlcyGg85IMJPr2A2yXu9IHwR7McbmjUrL093CaLURgLFdb8oFoyIRzXwaUPrF07CtcOFFdpgXJ8XMV+v0bxTY=
-Content-ID: <ECA1883215FDFB4787321F624A4E7BFA@namprd12.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad50533a-a899-4076-08bc-08d7100b4dcf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2019 07:48:23.3974 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ckoenig@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1689
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+BHG3SsliVI35Intfa8FTUDgHVWybAdYrvSrjgxyZzE=;
- b=y+ycpHK+1Se2mrLfSHl5zhvq5iY/ceiyGccArs4XHWO6lPJTo/bIRRuKYFU+p4F3lFrhfZ1doDOIs5oNvBPXK2nR4etkNTVWIxyCGhcNTsdM2jRvHUjXVjHcxvguTG91ftBi0LtATbzjKubNiE1Gz7qOLEwL5qaf6uEc61fnMMY=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
+In-Reply-To: <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,105 +69,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Shawn Guo <shawnguo@kernel.org>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Sean Paul <sean@poorly.run>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Dave Airlie <airlied@redhat.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-tegra@vger.kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vincent Abriou <vincent.abriou@st.com>,
+ linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Douglas Anderson <dianders@chromium.org>, Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/mixed; boundary="===============0152632865=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMDcuMTkgdW0gMDg6MzIgc2NocmllYiB6aG91Y20xOg0KPg0KPg0KPiBPbiAyMDE55bm0
-MDfmnIgyNOaXpSAwMzoyMCwgTGlvbmVsIExhbmR3ZXJsaW4gd3JvdGU6DQo+PiBPbiAyMy8wNy8y
-MDE5IDE3OjIxLCBDaHVubWluZyBaaG91IHdyb3RlOg0KPj4+IHVzZXIgc3BhY2UgbmVlZHMgYSBm
-bGV4aWFibGUgcXVlcnkgYWJpbGl0eS4NCj4+PiBTbyB0aGF0IHVtZCBjYW4gZ2V0IGxhc3Qgc2ln
-bmFsZWQgb3Igc3VibWl0dGVkIHBvaW50Lg0KPj4+IHYyOg0KPj4+IGFkZCBzYW5pdGl6ZXIgY2hl
-Y2tpbmcuDQo+Pj4NCj4+PiBDaGFuZ2UtSWQ6IEk2NTEyYjQzMDUyNGViYWJlNzE1ZTYwMmEyYmY1
-YWJiMGE3ZTc4MGVhDQo+Pj4gU2lnbmVkLW9mZi1ieTogQ2h1bm1pbmcgWmhvdSA8ZGF2aWQxLnpo
-b3VAYW1kLmNvbT4NCj4+PiBDYzogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJs
-aW5AaW50ZWwuY29tPg0KPj4+IENjOiBDaHJpc3RpYW4gS8O2bmlnIDxDaHJpc3RpYW4uS29lbmln
-QGFtZC5jb20+DQo+Pg0KPj4gUmV2aWV3ZWQtYnk6IExpb25lbCBMYW5kd2VybGluIDxsaW9uZWwu
-Zy5sYW5kd2VybGluQGludGVsLmNvbT4NCj4NCj4gVGhhbmtzLg0KPiBXaGljaCBicmFuY2ggc2hv
-dWxkIHRoaXMgcGF0Y2ggZ28gdG8/DQo+IElzIGl0IE9LIHRvIHB1c2ggdG8gYW1kLXN0YWdpbmct
-ZHJtLW5leHQ/DQo+IE9yIHNob3VsZCBpdCBnbyB0byBkcm0tbWlzYz8NCj4gSWYgZHJtLW1pc2Ms
-IEkgbmVlZCB5b3VyIGhlbHAgdG8gcHVzaCBpdCBzaW5jZSBJIGhhdmUgbm8gcGVybWlzc2lvbiB0
-byANCj4gd3JpdGUuDQoNCmRybS1taXNjLW5leHQgaXMgcHJvYmFibHkgbW9yZSBhcHByb3ByaWF0
-ZWQuDQoNCkknbSBnb2luZyB0byB0YWtlIG9mIHRoYXQsIGJ1dCBmaXJzdCBsZXQgbWUgcHVzaCBt
-eSBmaXggbm93Lg0KDQpDaHJpc3RpYW4uDQoNCj4NCj4gLURhdmlkDQo+Pg0KPj4+IC0tLQ0KPj4+
-IMKgIGRyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jIHwgMzQgKysrKysrKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tLQ0KPj4+IMKgIGluY2x1ZGUvdWFwaS9kcm0vZHJtLmjCoMKgwqDCoMKg
-wqDCoCB8wqAgMyArKy0NCj4+PiDCoCAyIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyks
-IDE1IGRlbGV0aW9ucygtKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fc3luY29iai5jIA0KPj4+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMNCj4+PiBp
-bmRleCAzZDQwMDkwNTEwMGIuLjNmYzhmNjZhZGE2OCAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vZHJtX3N5bmNvYmouYw0KPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lu
-Y29iai5jDQo+Pj4gQEAgLTExOTcsNyArMTE5Nyw3IEBAIGRybV9zeW5jb2JqX3RpbWVsaW5lX3Np
-Z25hbF9pb2N0bChzdHJ1Y3QgDQo+Pj4gZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLA0KPj4+
-IMKgwqDCoMKgwqAgaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwgRFJJVkVSX1NZTkNP
-QkpfVElNRUxJTkUpKQ0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVPUE5PVFNVUFA7
-DQo+Pj4gwqAgLcKgwqDCoCBpZiAoYXJncy0+cGFkICE9IDApDQo+Pj4gK8KgwqDCoCBpZiAoYXJn
-cy0+ZmxhZ3MgIT0gMCkNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7DQo+
-Pj4gwqAgwqDCoMKgwqDCoCBpZiAoYXJncy0+Y291bnRfaGFuZGxlcyA9PSAwKQ0KPj4+IEBAIC0x
-MjY4LDcgKzEyNjgsNyBAQCBpbnQgZHJtX3N5bmNvYmpfcXVlcnlfaW9jdGwoc3RydWN0IGRybV9k
-ZXZpY2UgDQo+Pj4gKmRldiwgdm9pZCAqZGF0YSwNCj4+PiDCoMKgwqDCoMKgIGlmICghZHJtX2Nv
-cmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9TWU5DT0JKX1RJTUVMSU5FKSkNCj4+PiDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FT1BOT1RTVVBQOw0KPj4+IMKgIC3CoMKgwqAgaWYgKGFy
-Z3MtPnBhZCAhPSAwKQ0KPj4+ICvCoMKgwqAgaWYgKGFyZ3MtPmZsYWdzICYgfkRSTV9TWU5DT0JK
-X1FVRVJZX0ZMQUdTX0xBU1RfU1VCTUlUVEVEKQ0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1
-cm4gLUVJTlZBTDsNCj4+PiDCoCDCoMKgwqDCoMKgIGlmIChhcmdzLT5jb3VudF9oYW5kbGVzID09
-IDApDQo+Pj4gQEAgLTEyOTEsMjMgKzEyOTEsMjkgQEAgaW50IGRybV9zeW5jb2JqX3F1ZXJ5X2lv
-Y3RsKHN0cnVjdCANCj4+PiBkcm1fZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsDQo+Pj4gwqDCoMKg
-wqDCoMKgwqDCoMKgIGlmIChjaGFpbikgew0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHN0cnVjdCBkbWFfZmVuY2UgKml0ZXIsICpsYXN0X3NpZ25hbGVkID0gTlVMTDsNCj4+PiDCoCAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2goaXRlciwgZmVu
-Y2UpIHsNCj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmICghaXRlcikNCj4+
-PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYnJlYWs7DQo+Pj4gLcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFfZmVuY2VfcHV0KGxhc3Rfc2lnbmFsZWQp
-Ow0KPj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGFzdF9zaWduYWxlZCA9IGRt
-YV9mZW5jZV9nZXQoaXRlcik7DQo+Pj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
-ZiAoIXRvX2RtYV9mZW5jZV9jaGFpbihsYXN0X3NpZ25hbGVkKS0+cHJldl9zZXFubykNCj4+PiAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogSXQgaXMgbW9zdCBsaWtl
-bHkgdGhhdCB0aW1lbGluZSBoYXMNCj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAqIHVub3JkZXIgcG9pbnRzLiAqLw0KPj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBicmVhazsNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
-ZiAoYXJncy0+ZmxhZ3MgJg0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRFJN
-X1NZTkNPQkpfUVVFUllfRkxBR1NfTEFTVF9TVUJNSVRURUQpIHsNCj4+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHBvaW50ID0gZmVuY2UtPnNlcW5vOw0KPj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIH0gZWxzZSB7DQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2goaXRlciwgZmVuY2UpIHsNCj4+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKCFpdGVyKQ0KPj4+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJyZWFrOw0KPj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWFfZmVuY2VfcHV0KGxhc3Rfc2lnbmFs
-ZWQpOw0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsYXN0X3Np
-Z25hbGVkID0gZG1hX2ZlbmNlX2dldChpdGVyKTsNCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaWYgDQo+Pj4gKCF0b19kbWFfZmVuY2VfY2hhaW4obGFzdF9zaWdu
-YWxlZCktPnByZXZfc2Vxbm8pDQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgLyogSXQgaXMgbW9zdCBsaWtlbHkgdGhhdCB0aW1lbGluZSBoYXMNCj4+
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIHVub3Jk
-ZXIgcG9pbnRzLiAqLw0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGJyZWFrOw0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0K
-Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcG9pbnQgPSBkbWFfZmVuY2VfaXNf
-c2lnbmFsZWQobGFzdF9zaWduYWxlZCkgPw0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBsYXN0X3NpZ25hbGVkLT5zZXFubyA6DQo+Pj4gKyB0b19kbWFfZmVuY2Vf
-Y2hhaW4obGFzdF9zaWduYWxlZCktPnByZXZfc2Vxbm87DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfQ0KPj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBvaW50ID0gZG1hX2ZlbmNl
-X2lzX3NpZ25hbGVkKGxhc3Rfc2lnbmFsZWQpID8NCj4+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGxhc3Rfc2lnbmFsZWQtPnNlcW5vIDoNCj4+PiAtIHRvX2RtYV9mZW5jZV9jaGFp
-bihsYXN0X3NpZ25hbGVkKS0+cHJldl9zZXFubzsNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBkbWFfZmVuY2VfcHV0KGxhc3Rfc2lnbmFsZWQpOw0KPj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oCB9IGVsc2Ugew0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHBvaW50ID0gMDsNCj4+
-PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4+ICvCoMKgwqDCoMKgwqDCoCBkbWFfZmVuY2VfcHV0
-KGZlbmNlKTsNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0ID0gY29weV90b191c2VyKCZwb2lu
-dHNbaV0sICZwb2ludCwgc2l6ZW9mKHVpbnQ2NF90KSk7DQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKg
-IHJldCA9IHJldCA/IC1FRkFVTFQgOiAwOw0KPj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAocmV0
-KQ0KPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJtL2RybS5oIGIvaW5jbHVkZS91YXBp
-L2RybS9kcm0uaA0KPj4+IGluZGV4IDY2MWQ3M2Y5YTkxOS4uZmQ5ODdjZTI0ZDlmIDEwMDY0NA0K
-Pj4+IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmgNCj4+PiArKysgYi9pbmNsdWRlL3VhcGkv
-ZHJtL2RybS5oDQo+Pj4gQEAgLTc3NywxMSArNzc3LDEyIEBAIHN0cnVjdCBkcm1fc3luY29ial9h
-cnJheSB7DQo+Pj4gwqDCoMKgwqDCoCBfX3UzMiBwYWQ7DQo+Pj4gwqAgfTsNCj4+PiDCoCArI2Rl
-ZmluZSBEUk1fU1lOQ09CSl9RVUVSWV9GTEFHU19MQVNUX1NVQk1JVFRFRCAoMSA8PCAwKSAvKiBs
-YXN0IA0KPj4+IGF2YWlsYWJsZSBwb2ludCBvbiB0aW1lbGluZSBzeW5jb2JqICovDQo+Pj4gwqAg
-c3RydWN0IGRybV9zeW5jb2JqX3RpbWVsaW5lX2FycmF5IHsNCj4+PiDCoMKgwqDCoMKgIF9fdTY0
-IGhhbmRsZXM7DQo+Pj4gwqDCoMKgwqDCoCBfX3U2NCBwb2ludHM7DQo+Pj4gwqDCoMKgwqDCoCBf
-X3UzMiBjb3VudF9oYW5kbGVzOw0KPj4+IC3CoMKgwqAgX191MzIgcGFkOw0KPj4+ICvCoMKgwqAg
-X191MzIgZmxhZ3M7DQo+Pj4gwqAgfTsNCj4+DQo+Pg0KPg0KDQpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0152632865==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3hEKoYM3ihXgipFwLohglgI6I6K0PHVBV"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3hEKoYM3ihXgipFwLohglgI6I6K0PHVBV
+Content-Type: multipart/mixed; boundary="KIKXUXCjxjc3xDRil2vLGI4WFDOmJ9a2q";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ David Airlie <airlied@linux.ie>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Dave Airlie <airlied@redhat.com>, freedreno@lists.freedesktop.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ linux-arm-kernel@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, amd-gfx@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <acfd895d-ab59-0190-e25c-1827bd8d214b@suse.de>
+Subject: Re: [PATCH v4 14/23] drm/tilcdc: Provide ddc symlink in connector
+ sysfs directory
+References: <cover.1562843413.git.andrzej.p@collabora.com>
+ <d1d415022c598fb7acd033f0f322dd67250adaa9.1562843413.git.andrzej.p@collabora.com>
+ <20190723090532.GA787@ravnborg.org>
+ <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
+In-Reply-To: <3ad60be5-49cf-4017-4b74-53a2d6272deb@collabora.com>
+
+--KIKXUXCjxjc3xDRil2vLGI4WFDOmJ9a2q
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 23.07.19 um 14:44 schrieb Andrzej Pietrasiewicz:
+> Hi Sam,
+>=20
+> W dniu 23.07.2019 o=C2=A011:05, Sam Ravnborg pisze:
+>> Hi Andrzej
+>>
+>> On Thu, Jul 11, 2019 at 01:26:41PM +0200, Andrzej Pietrasiewicz wrote:=
+
+>>> Use the ddc pointer provided by the generic connector.
+>>>
+>>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>>> ---
+>>> =C2=A0 drivers/gpu/drm/tilcdc/tilcdc_tfp410.c | 1 +
+>>> =C2=A0 1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+>>> b/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+>>> index 62d014c20988..c373edb95666 100644
+>>> --- a/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+>>> +++ b/drivers/gpu/drm/tilcdc/tilcdc_tfp410.c
+>>> @@ -219,6 +219,7 @@ static struct drm_connector
+>>> *tfp410_connector_create(struct drm_device *dev,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tfp410_connector->mod =3D mod;
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 connector =3D &tfp410_connector=
+->base;
+>>> +=C2=A0=C2=A0=C2=A0 connector->ddc =3D mod->i2c;
+>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_connector_init(dev, connect=
+or, &tfp410_connector_funcs,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 DRM_MODE_CONNECTOR_DVID);
+>>
+>> When reading this code, it looks strange that we set connector->ddc
+>> *before* the call to init the connector.
+>> One could risk that drm_connector_init() used memset(..) to clear all
+>> fields or so, and it would break this order.
+>=20
+> I verified the code of drm_connector_init() and cannot find any memset(=
+)
+> invocations there. What is your actual concern?
+
+I think this echoes my concern about the implicit order of operation. It
+seems too easy to get this wrong. If you don't want to add an additional
+interface for setting the ddc field, why not add a dedicated initializer
+function that sets the ddc field? Something like this.
+
+int drm_connector_init_with_ddc(connector, funcs, ..., ddc)
+{
+	ret =3D drm_connector_init(connector, funcs, ...);
+	if (ret)
+		return ret;
+
+	if (!ddc)
+		return 0;
+
+	connector->ddc =3D ddc;
+	/* set up sysfs */
+
+	return 0;
+}
+
+Best regards
+Thomas
+
+> Andrzej
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--KIKXUXCjxjc3xDRil2vLGI4WFDOmJ9a2q--
+
+--3hEKoYM3ihXgipFwLohglgI6I6K0PHVBV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl04EEEACgkQaA3BHVML
+eiNRWAf8CYxCmH/26EWFNpq9GZQjDMvAU5wdcW44Lnp0dMtgf/nqPvbEtkPYWt1D
+lMAlcSy9rrFFtW3E2HFwK5V9QbW9LvxdRaA7gK0ypMrYgmO5QECHQGMCaRxb/DpK
+02ZW59khdYpqNbLfjZ3toTs6BiHuBS2OF5tHq4SbvHwdva4pzOQtwQ90TVrNcOp+
+8kSGLB/0+CcOvKhgjd1uyw1w5lE/cILPT4sfXYlutlSRsHTCA7FwXHwhoqMyfYK4
+xlDAr72YN6/Lt9gLuKqWSFX9O9vvSpMMjp6nnzFwCguc+Nz53L4ra49cJ8qPP6dY
+wBV/ccooRzGp27r8ENmXR8wKLfTP8g==
+=ol/N
+-----END PGP SIGNATURE-----
+
+--3hEKoYM3ihXgipFwLohglgI6I6K0PHVBV--
+
+--===============0152632865==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0152632865==--
