@@ -1,45 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C737358C
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 19:29:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ABC73634
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 19:59:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 763386E60C;
-	Wed, 24 Jul 2019 17:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 139426E60E;
+	Wed, 24 Jul 2019 17:59:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 085066E56E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 17:29:13 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F28A272167; Wed, 24 Jul 2019 17:29:12 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111211] Kernel 5.2.2 introduced tearing, corruption and freezes
- with Raven Ridge 2500U
-Date: Wed, 24 Jul 2019 17:29:13 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: brauliobo@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111211-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85EA6E60E;
+ Wed, 24 Jul 2019 17:59:00 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 4FF3CABD9;
+ Wed, 24 Jul 2019 17:58:59 +0000 (UTC)
+Date: Wed, 24 Jul 2019 19:58:58 +0200
+From: Michal Hocko <mhocko@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH] mm/hmm: replace hmm_update with mmu_notifier_range
+Message-ID: <20190724175858.GC6410@dhcp22.suse.cz>
+References: <20190723210506.25127-1-rcampbell@nvidia.com>
+ <20190724070553.GA2523@lst.de> <20190724152858.GB28493@ziepe.ca>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190724152858.GB28493@ziepe.ca>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,171 +39,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0722982934=="
+Cc: Ralph Campbell <rcampbell@nvidia.com>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0722982934==
-Content-Type: multipart/alternative; boundary="15639893520.da71C7bE.21398"
-Content-Transfer-Encoding: 7bit
-
-
---15639893520.da71C7bE.21398
-Date: Wed, 24 Jul 2019 17:29:12 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111211
-
-            Bug ID: 111211
-           Summary: Kernel 5.2.2 introduced tearing, corruption and
-                    freezes with Raven Ridge 2500U
-           Product: DRI
-           Version: XOrg git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: brauliobo@gmail.com
-
-Summary is self explanatory, works perfectly with 4.19
-
-Using
-HP Envy x360
-Archlinux
-Kernel 5.2.2
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15639893520.da71C7bE.21398
-Date: Wed, 24 Jul 2019 17:29:12 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Kernel 5.2.2 introduced tearing, corruption and freezes w=
-ith Raven Ridge 2500U"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111211">111211</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Kernel 5.2.2 introduced tearing, corruption and freezes with =
-Raven Ridge 2500U
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>brauliobo&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Summary is self explanatory, works perfectly with 4.19
-
-Using
-HP Envy x360
-Archlinux
-Kernel 5.2.2</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15639893520.da71C7bE.21398--
-
---===============0722982934==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0722982934==--
+T24gV2VkIDI0LTA3LTE5IDEyOjI4OjU4LCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6Cj4gT24gV2Vk
+LCBKdWwgMjQsIDIwMTkgYXQgMDk6MDU6NTNBTSArMDIwMCwgQ2hyaXN0b3BoIEhlbGx3aWcgd3Jv
+dGU6Cj4gPiBMb29rcyBnb29kOgo+ID4gCj4gPiBSZXZpZXdlZC1ieTogQ2hyaXN0b3BoIEhlbGx3
+aWcgPGhjaEBsc3QuZGU+Cj4gPiAKPiA+IE9uZSBjb21tZW50IG9uIGEgcmVsYXRlZCBjbGVhbnVw
+Ogo+ID4gCj4gPiA+ICAJbGlzdF9mb3JfZWFjaF9lbnRyeShtaXJyb3IsICZobW0tPm1pcnJvcnMs
+IGxpc3QpIHsKPiA+ID4gIAkJaW50IHJjOwo+ID4gPiAgCj4gPiA+IC0JCXJjID0gbWlycm9yLT5v
+cHMtPnN5bmNfY3B1X2RldmljZV9wYWdldGFibGVzKG1pcnJvciwgJnVwZGF0ZSk7Cj4gPiA+ICsJ
+CXJjID0gbWlycm9yLT5vcHMtPnN5bmNfY3B1X2RldmljZV9wYWdldGFibGVzKG1pcnJvciwgbnJh
+bmdlKTsKPiA+ID4gIAkJaWYgKHJjKSB7Cj4gPiA+IC0JCQlpZiAoV0FSTl9PTih1cGRhdGUuYmxv
+Y2thYmxlIHx8IHJjICE9IC1FQUdBSU4pKQo+ID4gPiArCQkJaWYgKFdBUk5fT04obW11X25vdGlm
+aWVyX3JhbmdlX2Jsb2NrYWJsZShucmFuZ2UpIHx8Cj4gPiA+ICsJCQkgICAgcmMgIT0gLUVBR0FJ
+TikpCj4gPiA+ICAJCQkJY29udGludWU7Cj4gPiA+ICAJCQlyZXQgPSAtRUFHQUlOOwo+ID4gPiAg
+CQkJYnJlYWs7Cj4gPiAKPiA+IFRoaXMgbWFnaWMgaGFuZGxpbmcgb2YgZXJyb3Igc2VlbXMgb2Rk
+LiAgSSB0aGluayB3ZSBzaG91bGQgbWVyZ2UgcmMgYW5kCj4gPiByZXQgaW50byBvbmUgdmFyaWFi
+bGUgYW5kIGp1c3QgYnJlYWsgb3V0IGlmIGFueSBlcnJvciBoYXBwZW5zIGluc3RlYWQKPiA+IG9y
+IGNsYWltaW5nIGluIHRoZSBjb21tZW50cyAtRUFHQUlOIGlzIHRoZSBvbmx5IHZhbGlkIGVycm9y
+IGFuZCB0aGVuCj4gPiBpZ25vcmluZyBhbGwgb3RoZXJzIGhlcmUuCj4gCj4gVGhlIFdBUk5fT04g
+aXMgZW5mb3JjaW5nIHRoZSBydWxlcyBhbHJlYWR5IGNvbW1lbnRlZCBuZWFyCj4gbW11dV9ub3Rp
+Zmllcl9vcHMuaW52YWxpZGF0ZV9zdGFydCAtIHdlIGNvdWxkIGJyZWFrIG9yIGNvbnRpbnVlLCBp
+dAo+IGRvZXNuJ3QgbXVjaCBtYXR0ZXIgaG93IHRvIHJlY292ZXIgZnJvbSBhIGJyb2tlbiBkcml2
+ZXIsIGJ1dCBzaW5jZSB3ZQo+IGRpZCB0aGUgV0FSTl9PTiB0aGlzIHNob3VsZCBzYW5pdGl6ZSB0
+aGUgcmV0IHRvIEVBR0FJTiBvciAwCj4gCj4gSHVtbS4gQWN0dWFsbHkgaGF2aW5nIGxvb2tlZCB0
+aGlzIHNvbWUgbW9yZSwgSSB3b25kZXIgaWYgdGhpcyBpcyBhCj4gcHJvYmxlbToKPiAKPiBJIHNl
+ZSBpbiBfX29vbV9yZWFwX3Rhc2tfbW0oKToKPiAKPiAJCQlpZiAobW11X25vdGlmaWVyX2ludmFs
+aWRhdGVfcmFuZ2Vfc3RhcnRfbm9uYmxvY2soJnJhbmdlKSkgewo+IAkJCQl0bGJfZmluaXNoX21t
+dSgmdGxiLCByYW5nZS5zdGFydCwgcmFuZ2UuZW5kKTsKPiAJCQkJcmV0ID0gZmFsc2U7Cj4gCQkJ
+CWNvbnRpbnVlOwo+IAkJCX0KPiAJCQl1bm1hcF9wYWdlX3JhbmdlKCZ0bGIsIHZtYSwgcmFuZ2Uu
+c3RhcnQsIHJhbmdlLmVuZCwgTlVMTCk7Cj4gCQkJbW11X25vdGlmaWVyX2ludmFsaWRhdGVfcmFu
+Z2VfZW5kKCZyYW5nZSk7Cj4gCj4gV2hpY2ggbG9va3MgbGlrZSBpdCBjcmVhdGVzIGFuIHVuYmFs
+YW5jZWQgc3RhcnQvZW5kIHBhaXJpbmcgaWYgYW55Cj4gc3RhcnQgcmV0dXJucyBFQUdBSU4/Cj4g
+Cj4gVGhpcyBkb2VzIG5vdCBzZWVtIE9LLi4gTWFueSB1c2VycyByZXF1aXJlIHN0YXJ0L2VuZCB0
+byBiZSBwYWlyZWQgdG8KPiBrZWVwIHRyYWNrIG9mIHRoZWlyIGludGVybmFsIGxvY2tpbmcuIEll
+IGZvciBpbnN0YW5jZSBobW0gYnJlYWtzCj4gYmVjYXVzZSB0aGUgaG1tLT5ub3RpZmllcnMgY291
+bnRlciBiZWNvbWVzIHVuYWJsZSB0byBnZXQgdG8gMC4KPiAKPiBCZWxvdyBpcyB0aGUgYmVzdCBp
+ZGVhIEkndmUgaGFkIHNvIGZhci4uCj4gCj4gTWljaGFsLCB3aGF0IGRvIHlvdSB0aGluaz8KCklJ
+UkMgd2UgaGF2ZSBkaXNjdXNzZWQgdGhpcyB3aXRoIEplcm9tZSBiYWNrIHRoZW4gd2hlbiBJJ3Zl
+IGludHJvZHVjZWQKdGhpcyBjb2RlIGFuZCB1bmxlc3MgSSBtaXNyZW1lbWJlciBoZSBzYWlkIHRo
+ZSBjdXJyZW50IGNvZGUgd2FzIE9LLgpNYXliZSBuZXcgdXNlcnMgaGF2ZSBzdGFydGVkIHJlbHlp
+bmcgb24gYSBuZXcgc2VtYW50aWMgaW4gdGhlIG1lYW50aW1lLApiYWNrIHRoZW4sIG5vbmUgb2Yg
+dGhlIG5vdGlmaWVyIGhhcyBldmVuIHN0YXJ0ZWQgYW55IGFjdGlvbiBpbiBibG9ja2luZwptb2Rl
+IG9uIGEgRUFHQUlOIGJhaWxvdXQuIE1vc3Qgb2YgdGhlbSBzaW1wbHkgZGlkIHRyeWxvY2sgZWFy
+bHkgaW4gdGhlCnByb2Nlc3MgYW5kIGJhaWxlZCBvdXQgc28gdGhlcmUgd2FzIG5vdGhpbmcgdG8g
+ZG8gZm9yIHRoZSByYW5nZV9lbmQKY2FsbGJhY2suCgpIYXMgdGhpcyBjaGFuZ2VkPwotLSAKTWlj
+aGFsIEhvY2tvClNVU0UgTGFicwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
