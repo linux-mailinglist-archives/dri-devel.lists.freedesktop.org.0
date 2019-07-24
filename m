@@ -2,53 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EC9736FF
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 20:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4894F73705
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 20:53:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDB366E623;
-	Wed, 24 Jul 2019 18:53:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F24216E621;
+	Wed, 24 Jul 2019 18:53:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9AF66E621
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 18:53:26 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id s15so21184583wmj.3
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 11:53:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=2zNZEJTuzMPjlqBT9RJzY55tpYLVrNhwFI08koZCEQw=;
- b=UCIzSdany3gjmA8bxAZ/t4/rQNPPsbq5CmrwhovYYtamyfXDQwTdddle5uARr/6RmF
- AQhKPik9HoVdIEa/QmZCYDkomExxFH2bPIq6c9NN73DSDQGhTNejadPpi2wW2zhJF+z9
- NkyStL8HFxRQbhakgwUmIU8KWKRMNwAJIcoW1cUyE/rE5LZck6cdj5TCiTsJplUK7EDD
- 1Kv2S5hkUaJxhLRmd/cwujs9zcCA/vZ0wCE5gvPi1ZtIjUo7UloSb6ovfGHtD5MMS52g
- uqe+CnMFw6+dAJIvp4Ik0b9h8QbwAJ/QPzmcxoEjjoLc1Y689w66EW+tRkoYU2nHVIcv
- uPCA==
-X-Gm-Message-State: APjAAAVVsYASY7YFXwCMlKpNvJzqqYzlAoXMPKVZjT/NdQoqFQYb8I89
- CvfOSolArtAV5EYNMwibTrk=
-X-Google-Smtp-Source: APXvYqy0xTyUlF8khzfhL9sfMsBdP0ddDmFskR3W6aToym1NthS5JiFwI9kJq5H93SLqHuER2lIIBg==
-X-Received: by 2002:a05:600c:c4:: with SMTP id
- u4mr75602252wmm.96.1563994405214; 
- Wed, 24 Jul 2019 11:53:25 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.239])
- by smtp.googlemail.com with ESMTPSA id a6sm34609206wmj.15.2019.07.24.11.53.23
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 24 Jul 2019 11:53:24 -0700 (PDT)
-Date: Wed, 24 Jul 2019 20:53:22 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@partner.samsung.com>
-Subject: Re: [RFC PATCH 00/11] Simple QoS for exynos-bus driver using
- interconnect
-Message-ID: <20190724185322.GC14346@kozik-lap>
-References: <CGME20190723122022eucas1p2f568f74f981f9de9012eb693c3b446d5@eucas1p2.samsung.com>
- <20190723122016.30279-1-a.swigon@partner.samsung.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB996E621
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 18:53:32 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 8DB608061A;
+ Wed, 24 Jul 2019 20:53:30 +0200 (CEST)
+Date: Wed, 24 Jul 2019 20:53:29 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 2/3] RTF: drm/panel: simple: Add TI nspire panels
+Message-ID: <20190724185329.GB22640@ravnborg.org>
+References: <20190723133755.22677-1-linus.walleij@linaro.org>
+ <20190723133755.22677-3-linus.walleij@linaro.org>
+ <20190723175445.GA23588@ravnborg.org>
+ <CACRpkdYmO=fBj3MFoQdLrEgA05BLZR3tNv9WhqjLeJ0R0cdDbQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190723122016.30279-1-a.swigon@partner.samsung.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CACRpkdYmO=fBj3MFoQdLrEgA05BLZR3tNv9WhqjLeJ0R0cdDbQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=jZMA-zlA99eSfViNHAoA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,23 +47,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-pm@vger.kernel.org, sw0312.kim@samsung.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, cw00.choi@samsung.com,
- myungjoo.ham@samsung.com, georgi.djakov@linaro.org,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Fabian Vogt <fabian@ritter-vogt.de>, Daniel Tang <dt.tangr@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDI6MjA6MDVQTSArMDIwMCwgQXJ0dXIgxZp3aWdvxYQg
-d3JvdGU6Cj4gVGhlIGZvbGxvd2luZyBwYXRjaHNldCBhZGRzIGludGVyY29ubmVjdFsxXVsyXSBm
-cmFtZXdvcmsgc3VwcG9ydCB0byB0aGUKPiBleHlub3MtYnVzIGRldmZyZXEgZHJpdmVyLiBFeHRl
-bmRpbmcgdGhlIGRldmZyZXEgZHJpdmVyIHdpdGggaW50ZXJjb25uZWN0Cj4gY2FwYWJpbGl0aWVz
-IHN0YXJ0ZWQgYXMgYSByZXNwb25zZSB0byB0aGUgaXNzdWUgcmVmZXJlbmNlZCBpbiBbM10uIFRo
-ZQo+IHBhdGNoZXMgY2FuIGJlIHN1YmRpdmlkZWQgaW50byBmb3VyIGxvZ2ljYWwgZ3JvdXBzOgoK
-TmljZSB3b3JrISBHb29kIHRvIHNlZSBwcm9wZXIgc29sdXRpb24gOikKCkJlc3QgcmVnYXJkcywK
-S3J6eXN6dG9mCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SGkgTGludXMuCgpPbiBXZWQsIEp1bCAyNCwgMjAxOSBhdCAwMzo1ODo0MFBNICswMjAwLCBMaW51
+cyBXYWxsZWlqIHdyb3RlOgo+IEhpIFNhbSwKPiAKPiBmaXhlZCBtb3N0IHRoaW5ncywgb25lIHF1
+ZXN0aW9uIHJlbWFpbjoKPiAKPiBPbiBUdWUsIEp1bCAyMywgMjAxOSBhdCA3OjU0IFBNIFNhbSBS
+YXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4gd3JvdGU6Cj4gCj4gPiBGdXJ0aGVybW9yZSBJIGRp
+ZCBub3Qgc2VlIGFueSBiaW5kaW5ncyBmb3IgdGhlIHBhbmVscy4KPiA+IElmIHRoZXkgaW5kZWVk
+IGFyZSBtaXNzaW5nLCB0aGVuIHBsZWFzZSBwcm92aWRlIGJpbmRpbmdzIGluIHRoZSB5YW1sCj4g
+PiBmb3JtYXQuCj4gCj4gSUlVQyB3ZSBkbyBub3QgY3JlYXRlIGJpbmRpbmcgZG9jdW1lbnRzIGZv
+ciB0aGUgc2ltcGxlIHBhbmVscywKPiBidXQgSSBjYW4gZG8gdGhpcyBvZiBjb3Vyc2UsIGp1c3Qg
+dmFndWVseSByZW1lbWJlciB0aGF0IHRoZSBEVAo+IHBlb3BsZSBkaWRuJ3Qgd2FudCB0byBzZWUg
+YmluZGluZ3MgdGhhdCBhbGwgbG9vayB0aGUgc2FtZQo+IGJ1dCBpbnN0ZWFkIHJlbHkgb24gcGFu
+ZWwtY29tbW9uLnR4dAoKTXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IHRoZSBiaW5kaW5ncyBmb3Ig
+dGggcGFuZWxzIHNob3VsZCBsaXN0IHdoYXQgaXMKcmVxdWlyZWQvb3B0aW9uYWwsIGJ1dCB3aXRo
+IHJlZmVyZW5jZSB0byBwYW5lbC1jb21tb24gKHdoaWNoIElJUkMgaGFzIGEKbmV3IG5hbWUgaW4g
+dGhlIHlhbWwgd29ybGQpLgpJZiB5b3UgbG9vayBpbiBiaW5kaW5ncy9kaXNwbGF5L3BhbmVscyB5
+b3UgY2FuIHNlZSBhIGxvdCBvZiBzaW1wbGUKcGFuZWxzIGxpc3RlZC4KCglTYW0KX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
