@@ -2,39 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7DD747F5
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 09:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98317481D
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 09:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3916E632;
-	Thu, 25 Jul 2019 07:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43ADA6E66A;
+	Thu, 25 Jul 2019 07:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9E66E632
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 07:16:39 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8187621734;
- Thu, 25 Jul 2019 07:16:37 +0000 (UTC)
-Date: Thu, 25 Jul 2019 09:16:35 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [RFC] Staging: fbtft: Typo in
-Message-ID: <20190725071635.GA17271@kroah.com>
-References: <f4881a63-8702-55f2-ed03-cfbc30970083@wanadoo.fr>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EF0EC6E4AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 12:47:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2729A28;
+ Wed, 24 Jul 2019 05:47:14 -0700 (PDT)
+Received: from stinger.cambridge.arm.com (stinger.cambridge.arm.com
+ [10.1.137.189])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 219043F71A;
+ Wed, 24 Jul 2019 05:47:13 -0700 (PDT)
+Message-ID: <4d576e9cc749fc47b57f9bc64a082aa791e9780c.camel@arm.com>
+Subject: Re: [PATCH 0/3] RFT: PL111 DRM conversion of nspire
+From: Pawel Moll <pawel.moll@arm.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Sam Ravnborg
+ <sam@ravnborg.org>,  Liviu Dudau <Liviu.Dudau@arm.com>
+Date: Wed, 24 Jul 2019 13:47:11 +0100
+In-Reply-To: <CACRpkdZhYy6o9xMD42pQm-MCZUi0EpXs1uwQg6D-B4NXpyMHWw@mail.gmail.com>
+References: <20190723133755.22677-1-linus.walleij@linaro.org>
+ <20190723181000.GA24663@ravnborg.org>
+ <CACRpkdZhYy6o9xMD42pQm-MCZUi0EpXs1uwQg6D-B4NXpyMHWw@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <f4881a63-8702-55f2-ed03-cfbc30970083@wanadoo.fr>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1564038998;
- bh=Twe7T2ksbtZDBiQa7kI9kVZPuxOy4gwdvC5nAZG75H4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p5Rt+SvwJnjf8AhPSfbDvu5rxBNibDaMh3f0kbsM0xcaYZ0mzb9e8ssJjpsgeuDEW
- LxSwJIRU0oWiVrKh+HQERxJ06yB9JBDtkhAnsWNe7YU4AMFa1GqNv/TWwKHsztpVT6
- ipUOuzZHSDbZOxYjjCWDq3VF+3lhtzG7aOvUARUo=
+X-Mailman-Approved-At: Thu, 25 Jul 2019 07:29:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,25 +44,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Kernel Janitors <kernel-janitors@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, nishadkamdar@gmail.com
+Cc: Fabian Vogt <fabian@ritter-vogt.de>, Daniel Tang <dt.tangr@gmail.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBKdWwgMjEsIDIwMTkgYXQgMDg6NTQ6MzlQTSArMDIwMCwgQ2hyaXN0b3BoZSBKQUlM
-TEVUIHdyb3RlOgo+IEhpLAo+IAo+IGxvb2tpbmcgYXQgdGhlIGNvZGUgaW4gJ2RyaXZlcnMvc3Rh
-Z2luZy9mYnRmdC9mYl9wY2Q4NTQ0LmMnLCB0aGVyZSBzZWVtcyB0bwo+IGJlIHNvbWUgdHlwb3Mu
-Cj4gCj4gQXQgdGhlIGVuZCBvZiB0aGUgZmlsZSwgd2UgY2FuIGZpbmQ6Cj4gCj4gRkJURlRfUkVH
-SVNURVJfRFJJVkVSKERSVk5BTUUsICJwaGlsaXBzLHBkYzg1NDQiLCAmZGlzcGxheSk7Cj4gLi4u
-Cj4gTU9EVUxFX0FMSUFTKCJzcGk6cGRjODU0NCIpOwo+IAo+IAo+IEl0IGlzIGxpa2VseSB0aGF0
-IHRoZSAyIHBkYzg1NDQgc2hvdWxkIGJlIHBjZDg1NDQuIChkIGFuZCBjIHN3aXRjaGVkKQo+IAo+
-IEFzIEkgZG9uJ3Qga25vdyB0aGUgaW1wbGljYXRpb24gb2Ygc3VjaCBhIGNoYW5nZSwgSSBwcmVm
-ZXIgdG8gZmlyc3QgcmVwb3J0Cj4gdGhlIHBvdGVudGlhbCBpc3N1ZSwgYmVmb3JlIHByb3Bvc2lu
-ZyBhIHBhdGNoIGZvciBpdC4KClN1Ym1pdCBhIHBhdGNoLCB0aGF0J3MgdGhlIGJlc3Qgd2F5IHRv
-IGRpc2N1c3MgaXQhCgp0aGFua3MsCgpncmVnIGstaApfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gV2VkLCAyMDE5LTA3LTI0IGF0IDEzOjI4ICswMTAwLCBMaW51cyBXYWxsZWlqIHdyb3RlOgo+
+IE9uIFR1ZSwgSnVsIDIzLCAyMDE5IGF0IDg6MTAgUE0gU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJv
+cmcub3JnPiB3cm90ZToKPiA+IE9uIFR1ZSwgSnVsIDIzLCAyMDE5IGF0IDAzOjM3OjUyUE0gKzAy
+MDAsIExpbnVzIFdhbGxlaWogd3JvdGU6Cj4gPiBEbyB3ZSBuZWVkIHRvIHN1cHBvcnQgYXJtLHBs
+MTF4LHRmdC1yMGcwYjAtcGFkcyBiZWZvcmUKPiA+IHdlIGNhbiBvYnNvbGV0ZSBmYmRldiBzdHVm
+Zj8KPiAKPiBObyBJIGRvbid0IHRoaW5rIHNvLCB0aGUgb25seSBpbi10cmVlIHBsYXRmb3JtIHRo
+YXQgd2FzIHVzaW5nIGl0IHdhcwo+IHRoZSBOb21hZGlrIGFuZCBhbGwgaXQgZGlkIHdhcyB0byBz
+d2l0Y2ggUkdCIHRvIEJHUiBhbmQKPiBJIGFscmVhZHkgaGFuZGxlIHRoYXQgaW4gdGhlIGRyaXZl
+ciB1c2luZyB0aGUgaGFyZHdhcmUKPiBmZWF0dXJlIHRvIHN3aXRjaCBSR0IgYW5kIEJHUiBhcm91
+bmQgaW5zdGVhZC4KPiAKPiBSaWdodCBub3cgSSBqdXN0IGNoZWNrIHRoYXQgdGhlIHBhZHMgYXJl
+IHRoZXJlLCBJIG1pZ2h0IGp1c3QKPiByZW1vdmUgdGhlIGNoZWNrLgo+IAo+IEhvd2V2ZXIgUGF3
+ZWwgYWRkZWQgdGhpcyBiaW5kaW5nIGFuZCBtaWdodCBiZSBhYmxlIHRvIHRlbGwKPiBzb21ldGhp
+bmcgYWJvdXQgaWYgdGhlcmUgYXJlIHBsYXRmb3JtcyBvdXQgdGhlcmUgdGhhdCByZWFsbHkKPiBu
+ZWVkcyB0aGlzLiBQb3NzaWJseSBMaXZpdSBrbm93cyBtb3JlLgoKSXQgd2FzIG9ubHkgdGhlcmUg
+c28gdGhlIGZiZGV2IGRyaXZlciBjb3VsZCBmaWd1cmUgb3V0IHRoZSBvdXRwdXQgbW9kZS4KSSB0
+YWtlIHRoYXQgRFJNICJwaXBlbGluZSIgbm93IHRha2VzIGNhcmUgb2YgaXQsIHNvIEknZCBzYXkg
+dGhhdCB0aGUKbW9tZW50IHRoZSBmYmRldiBkcml2ZXIgZGllcywgdGhlIGJpbmRpbmcgY2FuIGdv
+IGFsb25nIDotKQoKQ2hlZXJzIQoKUGF3ZWwKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
