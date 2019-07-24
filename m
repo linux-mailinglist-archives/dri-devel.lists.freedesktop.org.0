@@ -1,44 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2489372780
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 07:48:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1423B72782
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 07:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 195196E44B;
-	Wed, 24 Jul 2019 05:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1088B6E44C;
+	Wed, 24 Jul 2019 05:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5192D6E44B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 05:48:44 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 476F472167; Wed, 24 Jul 2019 05:48:44 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111206] Book our girls available in Bangalore Escorts
-Date: Wed, 24 Jul 2019 05:48:44 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kiasharma470@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111206-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F2D66E44C
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 05:49:34 +0000 (UTC)
+X-UUID: 7b0d746f9a1e43baa37d1ba9f08a1fb6-20190724
+X-UUID: 7b0d746f9a1e43baa37d1ba9f08a1fb6-20190724
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (mhqrelay.mediatek.com ESMTP with TLS)
+ with ESMTP id 758720907; Wed, 24 Jul 2019 13:49:28 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 24 Jul 2019 13:49:27 +0800
+Received: from [172.21.77.4] (172.21.77.4) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 24 Jul 2019 13:49:27 +0800
+Message-ID: <1563947367.1070.7.camel@mtksdaap41>
+Subject: Re: [PATCH] drm/mediatek: make imported PRIME buffers contiguous
+From: CK Hu <ck.hu@mediatek.com>
+To: Alexandre Courbot <acourbot@chromium.org>
+Date: Wed, 24 Jul 2019 13:49:27 +0800
+In-Reply-To: <20190723053421.179679-1-acourbot@chromium.org>
+References: <20190723053421.179679-1-acourbot@chromium.org>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,189 +46,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0429636624=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Tomasz Figa <tfiga@chromium.org>,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0429636624==
-Content-Type: multipart/alternative; boundary="15639473240.4aEF2.6966"
-Content-Transfer-Encoding: 7bit
-
-
---15639473240.4aEF2.6966
-Date: Wed, 24 Jul 2019 05:48:44 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111206
-
-            Bug ID: 111206
-           Summary: Book our girls available in Bangalore Escorts
-           Product: DRI
-           Version: DRI git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: General
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: kiasharma470@gmail.com
-
-In Bangalore city our escorts are very famous so why you are waiting so muc=
-h,
-book Bangalore Escorts and enjoy our best services. Our escort girls are ve=
-ry
-hot and sexy available in very affordable rates. Escorts in Bangalore,
-sensational girls are imported from outside countries and our customers love
-these girls very much. Kia Escorts are serving the best services available =
-to
-the client=E2=80=99s full of satisfaction. Our clients are joining the best=
- community,
-come and join our escort girls company and spend some time with our escort
-girls.
-
-For more information visit our website=E2=80=A6.
-
-Link: - http://www.kiaescorts.com/bangalore-escorts
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15639473240.4aEF2.6966
-Date: Wed, 24 Jul 2019 05:48:44 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Book our girls available in Bangalore Escorts"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111206">111206</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Book our girls available in Bangalore Escorts
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>General
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>kiasharma470&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>In Bangalore city our escorts are very famous so why you are w=
-aiting so much,
-book Bangalore Escorts and enjoy our best services. Our escort girls are ve=
-ry
-hot and sexy available in very affordable rates. Escorts in Bangalore,
-sensational girls are imported from outside countries and our customers love
-these girls very much. Kia Escorts are serving the best services available =
-to
-the client=E2=80=99s full of satisfaction. Our clients are joining the best=
- community,
-come and join our escort girls company and spend some time with our escort
-girls.
-
-For more information visit our website=E2=80=A6.
-
-Link: - <a href=3D"http://www.kiaescorts.com/bangalore-escorts">http://www.=
-kiaescorts.com/bangalore-escorts</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15639473240.4aEF2.6966--
-
---===============0429636624==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0429636624==--
+SGksIEFsZXhhbmRyZToKCk9uIFR1ZSwgMjAxOS0wNy0yMyBhdCAxNDozNCArMDkwMCwgQWxleGFu
+ZHJlIENvdXJib3Qgd3JvdGU6Cj4gVGhpcyBkcml2ZXIgcmVxdWlyZXMgaW1wb3J0ZWQgUFJJTUUg
+YnVmZmVycyB0byBhcHBlYXIgY29udGlndW91c2x5IGluCj4gaXRzIElPIGFkZHJlc3Mgc3BhY2Uu
+IE1ha2Ugc3VyZSB0aGlzIGlzIHRoZSBjYXNlIGJ5IHNldHRpbmcgdGhlIG1heGltdW0KPiBETUEg
+c2VnbWVudCBzaXplIHRvIGEgYmV0dGVyIHZhbHVlIHRoYW4gdGhlIGRlZmF1bHQgNjRLIG9uIHRo
+ZSBETUEKPiBkZXZpY2UsIGFuZCB1c2Ugc2FpZCBETUEgZGV2aWNlIHdoZW4gaW1wb3J0aW5nIFBS
+SU1FIGJ1ZmZlcnMuCj4gCj4gU2lnbmVkLW9mZi1ieTogQWxleGFuZHJlIENvdXJib3QgPGFjb3Vy
+Ym90QGNocm9taXVtLm9yZz4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+cm1fZHJ2LmMgfCA0NyArKysrKysrKysrKysrKysrKysrKysrKystLQo+ICBkcml2ZXJzL2dwdS9k
+cm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaCB8ICAyICsrCj4gIDIgZmlsZXMgY2hhbmdlZCwgNDYg
+aW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2RybV9kcnYuYwo+IGluZGV4IDk1ZmRiZDBmYmNhYy4uNGFkNDc3MGZhYjEzIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gKysrIGIvZHJp
+dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiBAQCAtMjEzLDYgKzIxMyw3IEBA
+IHN0YXRpYyBpbnQgbXRrX2RybV9rbXNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtKQo+ICAJ
+c3RydWN0IG10a19kcm1fcHJpdmF0ZSAqcHJpdmF0ZSA9IGRybS0+ZGV2X3ByaXZhdGU7Cj4gIAlz
+dHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2Owo+ICAJc3RydWN0IGRldmljZV9ub2RlICpucDsK
+PiArCXN0cnVjdCBkZXZpY2UgKmRtYV9kZXY7Cj4gIAlpbnQgcmV0Owo+ICAKPiAgCWlmICghaW9t
+bXVfcHJlc2VudCgmcGxhdGZvcm1fYnVzX3R5cGUpKQo+IEBAIC0yNzUsNyArMjc2LDI3IEBAIHN0
+YXRpYyBpbnQgbXRrX2RybV9rbXNfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZHJtKQo+ICAJCWdv
+dG8gZXJyX2NvbXBvbmVudF91bmJpbmQ7Cj4gIAl9Cj4gIAo+IC0JcHJpdmF0ZS0+ZG1hX2RldiA9
+ICZwZGV2LT5kZXY7Cj4gKwlkbWFfZGV2ID0gJnBkZXYtPmRldjsKPiArCXByaXZhdGUtPmRtYV9k
+ZXYgPSBkbWFfZGV2Owo+ICsKPiArCS8qCj4gKwkgKiBDb25maWd1cmUgdGhlIERNQSBzZWdtZW50
+IHNpemUgdG8gbWFrZSBzdXJlIHdlIGdldCBjb250aWd1b3VzIElPVkEKPiArCSAqIHdoZW4gaW1w
+b3J0aW5nIFBSSU1FIGJ1ZmZlcnMuCj4gKwkgKi8KPiArCWlmICghZG1hX2Rldi0+ZG1hX3Bhcm1z
+KSB7Cj4gKwkJcHJpdmF0ZS0+ZG1hX3Bhcm1zX2FsbG9jYXRlZCA9IHRydWU7Cj4gKwkJZG1hX2Rl
+di0+ZG1hX3Bhcm1zID0KPiArCQkJZGV2bV9remFsbG9jKGRybS0+ZGV2LCBzaXplb2YoKmRtYV9k
+ZXYtPmRtYV9wYXJtcyksCj4gKwkJCQkgICAgIEdGUF9LRVJORUwpOwo+ICsJfQo+ICsJaWYgKCFk
+bWFfZGV2LT5kbWFfcGFybXMpCj4gKwkJZ290byBlcnJfY29tcG9uZW50X3VuYmluZDsKCnJldHVy
+biB3aXRoIHJldCA9IDA/Cgo+ICsKPiArCXJldCA9IGRtYV9zZXRfbWF4X3NlZ19zaXplKGRtYV9k
+ZXYsICh1bnNpZ25lZCBpbnQpRE1BX0JJVF9NQVNLKDMyKSk7Cj4gKwlpZiAocmV0KSB7Cj4gKwkJ
+ZGV2X2VycihkbWFfZGV2LCAiRmFpbGVkIHRvIHNldCBETUEgc2VnbWVudCBzaXplXG4iKTsKPiAr
+CQlnb3RvIGVycl91bnNldF9kbWFfcGFybXM7Cj4gKwl9Cj4gIAo+ICAJLyoKPiAgCSAqIFdlIGRv
+bid0IHVzZSB0aGUgZHJtX2lycV9pbnN0YWxsKCkgaGVscGVycyBwcm92aWRlZCBieSB0aGUgRFJN
+Cj4gQEAgLTI4NSwxMyArMzA2LDE2IEBAIHN0YXRpYyBpbnQgbXRrX2RybV9rbXNfaW5pdChzdHJ1
+Y3QgZHJtX2RldmljZSAqZHJtKQo+ICAJZHJtLT5pcnFfZW5hYmxlZCA9IHRydWU7Cj4gIAlyZXQg
+PSBkcm1fdmJsYW5rX2luaXQoZHJtLCBNQVhfQ1JUQyk7Cj4gIAlpZiAocmV0IDwgMCkKPiAtCQln
+b3RvIGVycl9jb21wb25lbnRfdW5iaW5kOwo+ICsJCWdvdG8gZXJyX3Vuc2V0X2RtYV9wYXJtczsK
+PiAgCj4gIAlkcm1fa21zX2hlbHBlcl9wb2xsX2luaXQoZHJtKTsKPiAgCWRybV9tb2RlX2NvbmZp
+Z19yZXNldChkcm0pOwo+ICAKPiAgCXJldHVybiAwOwo+ICAKPiArZXJyX3Vuc2V0X2RtYV9wYXJt
+czoKPiArCWlmIChwcml2YXRlLT5kbWFfcGFybXNfYWxsb2NhdGVkKQo+ICsJCWRtYV9kZXYtPmRt
+YV9wYXJtcyA9IE5VTEw7Cj4gIGVycl9jb21wb25lbnRfdW5iaW5kOgo+ICAJY29tcG9uZW50X3Vu
+YmluZF9hbGwoZHJtLT5kZXYsIGRybSk7Cj4gIGVycl9jb25maWdfY2xlYW51cDoKPiBAQCAtMzAy
+LDkgKzMyNiwxNCBAQCBzdGF0aWMgaW50IG10a19kcm1fa21zX2luaXQoc3RydWN0IGRybV9kZXZp
+Y2UgKmRybSkKPiAgCj4gIHN0YXRpYyB2b2lkIG10a19kcm1fa21zX2RlaW5pdChzdHJ1Y3QgZHJt
+X2RldmljZSAqZHJtKQo+ICB7Cj4gKwlzdHJ1Y3QgbXRrX2RybV9wcml2YXRlICpwcml2YXRlID0g
+ZHJtLT5kZXZfcHJpdmF0ZTsKPiArCj4gIAlkcm1fa21zX2hlbHBlcl9wb2xsX2ZpbmkoZHJtKTsK
+PiAgCWRybV9hdG9taWNfaGVscGVyX3NodXRkb3duKGRybSk7Cj4gIAo+ICsJaWYgKHByaXZhdGUt
+PmRtYV9wYXJtc19hbGxvY2F0ZWQpCj4gKwkJcHJpdmF0ZS0+ZG1hX2Rldi0+ZG1hX3Bhcm1zID0g
+TlVMTDsKPiArCj4gIAljb21wb25lbnRfdW5iaW5kX2FsbChkcm0tPmRldiwgZHJtKTsKPiAgCWRy
+bV9tb2RlX2NvbmZpZ19jbGVhbnVwKGRybSk7Cj4gIH0KPiBAQCAtMzIwLDYgKzM0OSwxOCBAQCBz
+dGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBtdGtfZHJtX2ZvcHMgPSB7Cj4gIAku
+Y29tcGF0X2lvY3RsID0gZHJtX2NvbXBhdF9pb2N0bCwKPiAgfTsKPiAgCj4gKy8qCj4gKyAqIFdl
+IG5lZWQgdG8gb3ZlcnJpZGUgdGhpcyBiZWNhdXNlIHRoZSBkZXZpY2UgdXNlZCB0byBpbXBvcnQg
+dGhlIG1lbW9yeSBpcwo+ICsgKiBub3QgZGV2LT5kZXYsIGFzIGRybV9nZW1fcHJpbWVfaW1wb3J0
+KCkgZXhwZWN0cy4KPiArICovCj4gK3N0cnVjdCBkcm1fZ2VtX29iamVjdCAqbXRrX2RybV9nZW1f
+cHJpbWVfaW1wb3J0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gKwkJCQkJCXN0cnVjdCBkbWFf
+YnVmICpkbWFfYnVmKQo+ICt7Cj4gKwlzdHJ1Y3QgbXRrX2RybV9wcml2YXRlICpwcml2YXRlID0g
+ZGV2LT5kZXZfcHJpdmF0ZTsKPiArCj4gKwlyZXR1cm4gZHJtX2dlbV9wcmltZV9pbXBvcnRfZGV2
+KGRldiwgZG1hX2J1ZiwgcHJpdmF0ZS0+ZG1hX2Rldik7Cj4gK30KPiArCgpJIHRoaW5rIHRoaXMg
+cGFydCBzaG91bGQgYmUgYW4gaW5kZXBlbmRlbnQgcGF0Y2ggd2hpY2ggZml4dXAKMTE5ZjUxNzM2
+MjhhYSAoImRybS9tZWRpYXRlazogQWRkIERSTSBEcml2ZXIgZm9yIE1lZGlhdGVrIFNvQyBNVDgx
+NzMuIikKClJlZ2FyZHMsCkNLCgo+ICBzdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgbXRrX2RybV9k
+cml2ZXIgPSB7Cj4gIAkuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX01PREVTRVQgfCBEUklWRVJf
+R0VNIHwgRFJJVkVSX1BSSU1FIHwKPiAgCQkJICAgRFJJVkVSX0FUT01JQywKPiBAQCAtMzMxLDcg
+KzM3Miw3IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2RyaXZlciBtdGtfZHJtX2RyaXZlciA9IHsKPiAg
+CS5wcmltZV9oYW5kbGVfdG9fZmQgPSBkcm1fZ2VtX3ByaW1lX2hhbmRsZV90b19mZCwKPiAgCS5w
+cmltZV9mZF90b19oYW5kbGUgPSBkcm1fZ2VtX3ByaW1lX2ZkX3RvX2hhbmRsZSwKPiAgCS5nZW1f
+cHJpbWVfZXhwb3J0ID0gZHJtX2dlbV9wcmltZV9leHBvcnQsCj4gLQkuZ2VtX3ByaW1lX2ltcG9y
+dCA9IGRybV9nZW1fcHJpbWVfaW1wb3J0LAo+ICsJLmdlbV9wcmltZV9pbXBvcnQgPSBtdGtfZHJt
+X2dlbV9wcmltZV9pbXBvcnQsCj4gIAkuZ2VtX3ByaW1lX2dldF9zZ190YWJsZSA9IG10a19nZW1f
+cHJpbWVfZ2V0X3NnX3RhYmxlLAo+ICAJLmdlbV9wcmltZV9pbXBvcnRfc2dfdGFibGUgPSBtdGtf
+Z2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZSwKPiAgCS5nZW1fcHJpbWVfbW1hcCA9IG10a19kcm1f
+Z2VtX21tYXBfYnVmLAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RybV9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5oCj4gaW5k
+ZXggNTk4ZmYzZTcwNDQ2Li5lMDNmZWExMmZmNTkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
+ZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RybV9kcnYuaAo+IEBAIC01MSw2ICs1MSw4IEBAIHN0cnVjdCBtdGtfZHJtX3ByaXZh
+dGUgewo+ICAJfSBjb21taXQ7Cj4gIAo+ICAJc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN1c3Bl
+bmRfc3RhdGU7Cj4gKwo+ICsJYm9vbCBkbWFfcGFybXNfYWxsb2NhdGVkOwo+ICB9Owo+ICAKPiAg
+ZXh0ZXJuIHN0cnVjdCBwbGF0Zm9ybV9kcml2ZXIgbXRrX2RkcF9kcml2ZXI7CgoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
