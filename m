@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708A072F94
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 15:09:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 576B572F95
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 15:09:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3ADF892FE;
-	Wed, 24 Jul 2019 13:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4398889336;
+	Wed, 24 Jul 2019 13:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC3588E46
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 13:09:21 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id y4so46950328wrm.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 06:09:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=l/MInuKADY02uba2xaImUqpHwPagffucnoVNy8CTllY=;
- b=jYNQ1WIx7iL8Py5tG1KW08UULE5v898KjB75U/9fSe5UDlb3+qPnWYRVrk5P2ivbiI
- rl636qVfHlp5sVFIE3RQ09irP0WiG7Iwh0mDQfFI+oKy3BEfca+grH+Zkcen7qbAlANi
- Lb3ZJ0h+9bLvr3ktqPMti8GztRZRyGH18YKeDcUKwlCS0SwgNnY37qlmhesh0DUbx6+f
- 4T+FlNIT9c1asTM3xEAlNHHATbWksLepC8hlJGCM4Osc6Te1s1zSwjeXnczWBH/ZP67Y
- c6jTWrM087er0nzpk5uqoC96ysUYe9xXCongBq5Gs+0HRHUSYcGpGKH4bk7gCMZUZf7d
- rpZA==
-X-Gm-Message-State: APjAAAWRJTaNsAxzMkEWYjdQvOr9Umr7Bj8ELeNydtCiqYQuH+79bNUo
- wC16zMOWrxXVS6RrjEvbM6p23Y1A
-X-Google-Smtp-Source: APXvYqxHRmQRqP/dgRIEa+BH3Db5MsNIedVnzGn36g/uCyu9C8/XVfalFSwamo127hjGL6M7r4+Acw==
-X-Received: by 2002:a5d:52c5:: with SMTP id r5mr68499659wrv.146.1563973760074; 
- Wed, 24 Jul 2019 06:09:20 -0700 (PDT)
-Received: from localhost (108.78.124.78.rev.sfr.net. [78.124.78.108])
- by smtp.gmail.com with ESMTPSA id o4sm35416870wmh.35.2019.07.24.06.09.19
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 24 Jul 2019 06:09:19 -0700 (PDT)
-Date: Wed, 24 Jul 2019 13:08:54 +0000
-From: sylvain.bertrand@gmail.com
-To: bugzilla-daemon@freedesktop.org
-Subject: Re: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Message-ID: <20190724130854.GA555@freedom>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A42EE8932D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 13:09:23 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A0E4172168; Wed, 24 Jul 2019 13:09:23 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 24 Jul 2019 13:09:23 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-sGZkXOnzqf@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
 References: <bug-109955-502@http.bugs.freedesktop.org/>
- <bug-109955-502-ZWvVm7TEHl@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bug-109955-502-ZWvVm7TEHl@http.bugs.freedesktop.org/>
-User-Agent: Mutt/ (2018-04-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=l/MInuKADY02uba2xaImUqpHwPagffucnoVNy8CTllY=;
- b=SbWkVX/lKaDhHmkCJ9hOllRly8MuDOHGLTF4o6/Z72TVy0AXiJ20VShmHnLY/2baTB
- qiy7XEYEC22TtYh0mS3/oI+40Es6x0TGyP/24FfKSQKZiQK5Avj2RF/w147nNXznEnWP
- spGjvuY2d2wga7HVGDN/GKdox8k8mPI2OsS94OORZoZcrPmmStwD/upy7IXd4iDHAauA
- PL/Q2QzZiR8qLeIxd2cOJF/UFXEEHNy3FuOPgywAQ6tBxRb4XRBS5D8z08zqr+5h5GGD
- HpPrpUS6EaNijIlRBTcD7FRFxHbVHsmItUEyBXeJT0xsKMOXmALh41FfAOeNGQmFHKaG
- JNNg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,18 +52,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0821271878=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBJIGNhbm5vdCBzcGVhayBmb3Igb3RoZXJzLiBJbiBteSBjYXNlLFUgd291bGQgc2F5IG5vLiBJ
-IGluc3RhbGxlZCB3aW5kb3dzMTAgaW4KPiBhIHNlcGFyYXRlIHNzZCwganVzdCB0byBjaGVjayB0
-aGVyZSB3YXMgbm8gaGFyZHdhcmUgaXNzdWUgb2YgYW55IGtpbmQuIAo+IE9uIHdpbmRvd3MxMCB3
-aXRoIGxhdGVzdCBhbWQgZHJpdmVycywgSSBoYXZlIG5vIGZyZWV6ZXMgb3IgYW55IG90aGVyIGlz
-c3VlCj4gcnVubmluZyBzYW1lIGdhbWVzLgoKTmF0aXZlIGdudS9saW51eCBnYW1lIG9yIGdvaW5n
-IHRocm91Z2ggd2luZS9keHZrPwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+
+--===============0821271878==
+Content-Type: multipart/alternative; boundary="15639737631.ecF80c2.8410"
+Content-Transfer-Encoding: 7bit
+
+
+--15639737631.ecF80c2.8410
+Date: Wed, 24 Jul 2019 13:09:23 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #64 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+> I cannot speak for others. In my case,U would say no. I installed windows=
+10 in
+> a separate ssd, just to check there was no hardware issue of any kind.=20
+> On windows10 with latest amd drivers, I have no freezes or any other issue
+> running same games.
+
+Native gnu/linux game or going through wine/dxvk?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15639737631.ecF80c2.8410
+Date: Wed, 24 Jul 2019 13:09:23 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c64">Comme=
+nt # 64</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; I cannot speak for others. In my ca=
+se,U would say no. I installed windows10 in
+&gt; a separate ssd, just to check there was no hardware issue of any kind.=
+=20
+&gt; On windows10 with latest amd drivers, I have no freezes or any other i=
+ssue
+&gt; running same games.</span >
+
+Native gnu/linux game or going through wine/dxvk?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15639737631.ecF80c2.8410--
+
+--===============0821271878==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0821271878==--
