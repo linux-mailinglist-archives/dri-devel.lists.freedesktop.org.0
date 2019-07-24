@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AED973117
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 16:06:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF7C73196
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 16:27:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49A0C6E59B;
-	Wed, 24 Jul 2019 14:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ED3A6E5B5;
+	Wed, 24 Jul 2019 14:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78ADC6E59B
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 14:06:44 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id d17so48006186oth.5
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 07:06:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DEYp0YxduQGOfY7WWApm8IsqDG6fUqF40iSsz1XHLks=;
- b=sVrzr80BeinfF9tiQtsl5kVK4mwQwCDEl4akOMSDi7UDDG4qjBlYfOniYTt7GVWXKG
- Ugl8ZZmAX8QluR9/M+YNOVWWjBbYGLvUgidHqigK3t3oBriI0skcfNts7iKDo2XtherL
- DQwUFjYzZRKRQlm0UQHyPwNvadg47ct13qkidPtwoDRUuuohIIslUkXRCjPV3WftRGQA
- EVQIL+LXFIXl+p/upy/XL40zavx/NtwzNIRWbqye5fpO1RgUBxVuvd9Q0ZQCF/MB6Xnm
- MpzzvB8J8nCdPDljr3wTpiHWRxu288eFnfRHuKVTIvnUpCs+bDtS/0lTbILbDv8H08ii
- Tocg==
-X-Gm-Message-State: APjAAAWBsSE4EgqhoRZ+lO5ii9ZRRv4sZeBrEEaUlj+UaO63zBM/dxvu
- skkOBAm0/xueNTByJ7EnTqeoMTDGk4ZF8q8TZ+c=
-X-Google-Smtp-Source: APXvYqzFzReA/hyFoPjOeoGuvfR+2vWathsB0GNtrrwtqfdPmKpclGbt1XanPoA/Zct58VB1Yn7KLzKakI4FxlJ0j5g=
-X-Received: by 2002:a9d:6e8d:: with SMTP id a13mr11250856otr.303.1563977203703; 
- Wed, 24 Jul 2019 07:06:43 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 53C936E5B3
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 14:27:33 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 49AEA72167; Wed, 24 Jul 2019 14:27:33 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 24 Jul 2019 14:27:33 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: wedens13@yandex.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-r8TbhqRFSO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190723133755.22677-1-linus.walleij@linaro.org>
- <20190723133755.22677-2-linus.walleij@linaro.org>
- <9c9b77b3b76e7a7e87c7c3d9076a8339362157bd.camel@redhat.com>
- <CAKMK7uHVudGdTzQS3Q6qVTZtDU-UsSQ2K04M9VvZHxzXo0DHOw@mail.gmail.com>
- <CACRpkdZWpRFN7=m+XRUbYLjAUxygwHZ6ehKEK+7nmPxSKY0o9w@mail.gmail.com>
-In-Reply-To: <CACRpkdZWpRFN7=m+XRUbYLjAUxygwHZ6ehKEK+7nmPxSKY0o9w@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 24 Jul 2019 16:06:31 +0200
-Message-ID: <CAKMK7uEpL1wfEUm4nVMk+te9bs7a2=Gh1fxWbAC7WvN-oa_DxA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] RFT: drm/pl111: Support grayscale
-To: Linus Walleij <linus.walleij@linaro.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=DEYp0YxduQGOfY7WWApm8IsqDG6fUqF40iSsz1XHLks=;
- b=GsgR1k8kTRAEEbGPoBRYvBF6i3EU6Jie/p7Mc3CYvtjyL9M1BIaF0s7/3JPMvM8M1Q
- MugvctIyhNj3mlmlJK0I2LUNxnbU38zxmwNEfDPLgmNmOH1tdO5AYQThEzEH+NwnC4Fp
- W53VWqlbF7zg8kHR6RnTdFTEo5LOkzG9TMe1E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,72 +52,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabian Vogt <fabian@ritter-vogt.de>, Daniel Tang <dt.tangr@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1549433865=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBKdWwgMjQsIDIwMTkgYXQgMjo1MiBQTSBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxs
-ZWlqQGxpbmFyby5vcmc+IHdyb3RlOgo+Cj4gT24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMTE6MDcg
-UE0gRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+IE9uIFR1ZSwgSnVs
-IDIzLCAyMDE5IGF0IDc6MjUgUE0gQWRhbSBKYWNrc29uIDxhamF4QHJlZGhhdC5jb20+IHdyb3Rl
-Ogo+ID4gPgo+ID4gPiBPbiBUdWUsIDIwMTktMDctMjMgYXQgMTU6MzcgKzAyMDAsIExpbnVzIFdh
-bGxlaWogd3JvdGU6Cj4gPiA+ID4gTWlncmF0aW5nIHRoZSBUSSBuc3BpcmUgY2FsY3VsYXRvcnMg
-dG8gdXNlIHRoZSBQTDExMSBkcml2ZXIgZm9yCj4gPiA+ID4gZnJhbWVidWZmZXIgcmVxdWlyZXMg
-Z3JheXNjYWxlIHN1cHBvcnQgZm9yIHRoZSBlbGRlciBwYW5lbAo+ID4gPiA+IHdoaWNoIHVzZXMg
-OGJpdCBncmF5c2NhbGUgb25seS4KPiA+ID4gPgo+ID4gPiA+IERSTSBkb2VzIG5vdCBzdXBwb3J0
-IDhiaXQgZ3JheXNjYWxlIGZyYW1lYnVmZmVycyBpbiBtZW1vcnksCj4gPiA+ID4gYnV0IGJ5IGRl
-ZmluaW5nIHRoZSBidXMgZm9ybWF0IHRvIGJlIE1FRElBX0JVU19GTVRfWThfMVg4IHdlCj4gPiA+
-ID4gY2FuIGdldCB0aGUgaGFyZHdhcmUgdG8gdHVybiBvbiBhIGdyYXlzY2FsaW5nIGZlYXR1cmUg
-YW5kCj4gPiA+ID4gY29udmVydCB0aGUgUkdCIGZyYW1lYnVmZmVyIHRvIGdyYXlzY2FsZSBmb3Ig
-dXMuCj4gPiA+Cj4gPiA+IFdoYXQncyB3cm9uZyB3aXRoIERSTV9GT1JNQVRfUjg/IFllcyB0aGUg
-aGFyZHdhcmUgaXMgbm90IHJlYWxseQo+ID4gPiAicmVkc2NhbGUiLCBidXQgaXQncyBzdGlsbCBh
-IHNpbmdsZSBjb2xvciBjaGFubmVsIGFuZCB0aGVyZSdzIG5vdAo+ID4gPiByZWFsbHkgYW55IGFt
-YmlndWl0eS4KPiA+Cj4gPiBZZWFoLCBJIHRoaW5rIHdpdGggYSBjb21tZW50IG9yIGFuIGFsaWFz
-aW5nICNkZWZpbmUgdG8gX1k4IChvciBib3RoKQo+ID4gdGhpcyBpcyBnb29kIHRvIGdvLgo+Cj4g
-SXMgdGhlcmUgc29tZXRoaW5nIHJlYWxseSB3cm9uZyB3aXRoIGp1c3QgYml0aW5nIHRoZSBidWxs
-ZXQgYW5kIGRvIHRoaXM6Cj4KPiAvKiA4IGJwcCBncmF5c2NhbGUgKi8KPiAjZGVmaW5lIERSTV9G
-T1JNQVRfWTggZm91cmNjX2NvZGUoJ1knLCAnOCcsICcgJywgJyAnKSAvKiBbNzowXSBZICovCj4K
-PiBJdCdzIHF1aXRlIGFuIGVtYmFycmFzZW1lbnQgZm9yIG15IE9DRCB0ZW5kZW5jaWVzIHRvIHRh
-bGsgYWJvdXQKPiBibGFjay1hbmQtd2hpdGUgVFYgYXMgaWYgaXQgd2FzIDI1NiBTaGFkZXMgb2Yg
-UmVkIChnb29kIHRpdGxlCj4gZm9yIGEgbm92ZWwgYnkgdGhlIHdheSkuCj4KPiBJIGRvbid0IGtu
-b3cgaG93IHRoZXNlIEZPVVJDQyB0aGluZ3Mgd29yaywgcG9zc2libHkgbmV3Cj4gZm91cmNjOnMg
-Y2FuIG9ubHkgYmUgZGVmaW5lZCBieSBzb21lIGVzcGVjaWFsbHkgZW5saWdodGVuZWQKPiBjYWJh
-bCBvZiBzdGFuZGFyZGl6YXRpb24/Cj4KPiAoSXQgYmVhdHMgbWUgaG93IGl0IGNhbiBub3QgYWxy
-ZWFkeSBleGlzdCBpbiB0aGF0IGNhc2UuKQoKVGhlIGRybSBzdWJzeXN0ZW0gY2FiYWwgb3ducyBk
-cm1fZm91cmNjLmguIEFuZCB5ZWFoIEkgZ3Vlc3Mgd2UgY2FuCmFsc28gYWRkIFkgdmVyc2lvbiBv
-ZiBhbGwgdGhlc2UsIEkgdGhpbmsgdGhlIFIvUkcgd2FzIGFkZGVkIHNpbmNlIHRoYXQKbWF0Y2hl
-cyBtb2Rlcm4gR0wsIHdoZXJlIHlvdXIgdGV4dHVyZSBjb250ZW50cyBhcmUgZW50aXJlbHkgdXAg
-dG8KaW50ZXJwcmV0YXRpb24gYnkgc2hhZGVycy4gWSBhbHNvIGV4aXN0cyBpbiBHTCwgYnV0IG9u
-bHkgaW4gbGVnYWN5CmNvbnRleHRzIGFuZCBpcyBraW5kYSBkaXNjb3VyYWdlZC4gVGhhdCB3YXMg
-dGhlIGlkZWEgYmVoaW5kIGp1c3QKbWFraW5nIHRoZW0gYWxpYXNpbmcgKHNpbmNlIEkganVzdCBj
-YW4ndCBjb21lIHVwIHdpdGggYW55IHJlYXNvbiB3aHkKeW91J2QgYWN0dWFsbHkgd2FudCBhIHJl
-ZC1vbmx5IHRleHR1cmUpLiBJbiBhIHdheSBSID0gcmVkID0gdGhlIGZpcnN0CmNoYW5uZWwgaW4g
-R0wgc2hhZGVycywgd2hpY2ggaGFwcGVucyB0byBiZSBjYWxsZWQgciBmb3IgcmVkICE9CmFjdHVh
-bGx5IHJlZCBjb2xvciBjaGFubmVsIG9uIHRoZSBkaXNwbGF5LgoKSGVuY2Ugd2UgbWlnaHQgYXMg
-d2VsbCBzdGF0ZSB0aGF0IGlmIHlvdSBnaXZlIGEga21zIGRyaXZlciBhCnNpbmdsZS1jaGFubmVs
-IGZvdXJjYyBjb2RlLCB0aGVuIHRoYXQgc2hvdWxkIGJlIGludGVycHJldGVkIGFzCmdyZXlzY2Fs
-ZS4gUGx1cyBhZGQgYSBodWdlIGNvbW1lbnQgYWJvdXQgd2h5IHRoaXMgc2luZ2xlIGNoYW5uZWwg
-aXMKY2FsbGVkIFIgOi0pCi1EYW5pZWwKCj4gPiBZb3UgcHJvYmFibHkgc3RpbGwgd2FudCB0byBl
-eHBvc2UgdGhlIHJnYiBmb3JtYXQgc2luY2UgdG9vIG11Y2gKPiA+IHVzZXJzcGFjZSBqdXN0IGFz
-c3VtZXMgdGhhdCB4cmdiODg4OCB3b3Jrcy4gU2FtZSByZWFzb24gd2h5IHRoZQo+ID4gdGlueWRy
-bSBkcml2ZXJzIGRvIHRoZSBzdyBjb252ZXJzaW9uLgo+Cj4gWWVzIHRoaXMgaXMgd2hhdCB3ZSBk
-byBvbiBQTDExMSBub3csIHdlIGp1c3QgcnVuIGl0IHRocm91Z2gKPiB0aGUgaGFyZHdhcmUgZ3Jh
-eXNjYWxlci4KPgo+IFRoaXMgaGFyZHdhcmUgZ3JhY2lvdXNseSBzdXBwb3J0cyByZWFkaW5nIGJs
-YWNrLXdoaXRlIGFuZAo+IGdyYXlzY2FsZSBiaXRtYXBzIHdpdGggMSAobW9ub2Nocm9tZSksIDIs
-IDQgYW5kIDggYml0cyBwZXIKPiBwaXhlbCB3aGljaCB3b3VsZCBiZSBZMSwgWTIsIFk0IGFuZCBZ
-OC4gQnV0IHdlIG9ubHkgaGF2ZQo+IGhhcmR3YXJlIHN1cHBvcnRpbmcgWTggYXQgbGVhc3Qgb24g
-dGhlIG90aGVyIHNpZGUgc28KPiBJIGRvbid0IHNlZSBhbnkgbmVlZCBmb3IgdGhlIG90aGVycyBB
-VE0uCj4KPiBJIHN1c3BlY3QgdGhlIFkxIGV0YyBjb3VsZCBiZSB1c2VmdWwgZm9yIHBlb3BsZSBk
-b2luZyBub3QKPiBvbmx5IEhlcmN1bGVzIHZpZGVvIGRyaXZlcnMgKGhhaCEpIGJ1dCBhbHNvIGZv
-ciBlUGFwZXIKPiBkaXNwbGF5cyBvZiBzYXksIHNvbWUgcmFuZG9tIEtpbmRsZS4KCkkgZ3Vlc3Mg
-aWYgd2UgYm90aGVyIHdpdGggWSAod2hldGhlciBhbGlhc2VkIHRvIFIgb3IgbmV3IG9uZXMpIHdl
-Cm1pZ2h0IGFzIHdlbGwgcm9sbCBvdXQgYWxsIG9mIHRoZW0uCi1EYW5pZWwKLS0gCkRhbmllbCBW
-ZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCis0MSAoMCkgNzkgMzY1
-IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============1549433865==
+Content-Type: multipart/alternative; boundary="15639784530.FD0ee95.22500"
+Content-Transfer-Encoding: 7bit
+
+
+--15639784530.FD0ee95.22500
+Date: Wed, 24 Jul 2019 14:27:33 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #65 from wedens13@yandex.ru ---
+(In reply to Sylvain BERTRAND from comment #62)
+> unstable power supply lines to the gpu if overheating is excluded?
+
+It's not overheating in my case, but my PSU is pretty old (I'm waiting for
+components for my new build to arrive, including new PSU). I've lowered pow=
+er
+limit (to 80W) and I haven't had any crashes yet.=20
+
+So, in my case the problem *might be* related to PSU. But I can't exclude (=
+nor
+confirm) possibility of driver problems with higher power states (until I h=
+ave
+a better PSU).
+
+I'll report back if I have any crashes with new PSU or lowered PL.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15639784530.FD0ee95.22500
+Date: Wed, 24 Jul 2019 14:27:33 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c65">Comme=
+nt # 65</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+wedens13&#64;yandex.ru" title=3D"wedens13&#64;yandex.ru">wedens13&#64;yande=
+x.ru</a>
+</span></b>
+        <pre>(In reply to Sylvain BERTRAND from <a href=3D"show_bug.cgi?id=
+=3D109955#c62">comment #62</a>)
+<span class=3D"quote">&gt; unstable power supply lines to the gpu if overhe=
+ating is excluded?</span >
+
+It's not overheating in my case, but my PSU is pretty old (I'm waiting for
+components for my new build to arrive, including new PSU). I've lowered pow=
+er
+limit (to 80W) and I haven't had any crashes yet.=20
+
+So, in my case the problem *might be* related to PSU. But I can't exclude (=
+nor
+confirm) possibility of driver problems with higher power states (until I h=
+ave
+a better PSU).
+
+I'll report back if I have any crashes with new PSU or lowered PL.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15639784530.FD0ee95.22500--
+
+--===============1549433865==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1549433865==--
