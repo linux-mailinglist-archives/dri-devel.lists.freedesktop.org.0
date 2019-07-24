@@ -2,39 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51D573064
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 15:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9A673075
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 16:00:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE3B86E529;
-	Wed, 24 Jul 2019 13:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B53E76E54C;
+	Wed, 24 Jul 2019 14:00:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 488506E529
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 13:58:52 +0000 (UTC)
-Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
- [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay12.mail.gandi.net (Postfix) with ESMTPSA id C4C96200004;
- Wed, 24 Jul 2019 13:58:46 +0000 (UTC)
-Date: Wed, 24 Jul 2019 15:58:46 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Vasily Khoruzhick <anarsoul@gmail.com>
-Subject: Re: [PATCH v2 7/7] arm64: dts: allwinner: a64: enable ANX6345 bridge
- on Teres-I
-Message-ID: <20190724135846.7mnuau4aih4zqm6a@flea>
-References: <20190612152022.c3cfhp4cauhzhfyr@flea>
- <bb2c2c00-b46e-1984-088f-861ac8952331@samsung.com>
- <20190701095842.fvganvycce2cy7jn@flea>
- <CA+E=qVdsYV2Bxk245=Myq=otd7-7WHzUnSJN8_1dciAzvSOG8g@mail.gmail.com>
- <20190709085532.cdqv7whuesrjs64c@flea>
- <CA+E=qVdz4vfU3rtTTKjYdM+4UA+=FWheJfWOMaDtFMnWQ1rHbw@mail.gmail.com>
- <20190710114042.ybgavnxb4hgqrtor@flea>
- <CA+E=qVdFoT137pADfxz3uMwhOqjqrA9+6hBeOfbJxuH-M-3Pjw@mail.gmail.com>
- <20190712201543.krhsfjepd3cqndla@flea>
- <CA+E=qVeDpLqAM6Qsd6oHfeYHB_JHdSb5GtY7i994GT5_RW4_Bg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CA+E=qVeDpLqAM6Qsd6oHfeYHB_JHdSb5GtY7i994GT5_RW4_Bg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 535FD6E544;
+ Wed, 24 Jul 2019 14:00:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: andrzej.p) with ESMTPSA id 792BB28A8D3
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 00/24] Associate ddc adapters with connectors
+Date: Wed, 24 Jul 2019 15:59:22 +0200
+Message-Id: <cover.1563960855.git.andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,161 +33,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Sean Paul <seanpaul@chromium.org>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- Rob Herring <robh+dt@kernel.org>, Torsten Duwe <duwe@lst.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Harald Geyer <harald@ccbib.org>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- arm-linux <linux-arm-kernel@lists.infradead.org>,
- Icenowy Zheng <icenowy@aosc.io>
-Content-Type: multipart/mixed; boundary="===============0289399612=="
+Cc: Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Alexios Zavras <alexios.zavras@intel.com>,
+ Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
+ Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-arm-kernel@lists.infradead.org,
+ Jernej Skrabec <jernej.skrabec@siol.net>, amd-gfx@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0289399612==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ga3sbptupgkf2nsb"
-Content-Disposition: inline
-
-
---ga3sbptupgkf2nsb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Jul 15, 2019 at 05:28:53PM -0700, Vasily Khoruzhick wrote:
-> On Fri, Jul 12, 2019 at 1:15 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> >
-> > On Wed, Jul 10, 2019 at 03:11:04PM -0700, Vasily Khoruzhick wrote:
-> > > On Wed, Jul 10, 2019 at 4:40 AM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > > > > There's another issue: if we introduce edp-connector we'll have to
-> > > > > > > specify power up delays somewhere (in dts? or in platform driver?), so
-> > > > > > > edp-connector doesn't really solve the issue of multiple panels with
-> > > > > > > same motherboard.
-> > > > > >
-> > > > > > And that's what that compatible is about :)
-> > > > >
-> > > > > Sorry, I fail to see how it would be different from using existing
-> > > > > panels infrastructure and different panels compatibles. I think Rob's
-> > > > > idea was to introduce generic edp-connector.
-> > > >
-> > > > Again, there's no such thing as a generic edp-connector. The spec
-> > > > doesn't define anything related to the power sequence for example.
-> > > >
-> > > > > If we can't make it generic then let's use panel infrastructure.
-> > > >
-> > > > Which uses a device specific compatible. Really, I'm not sure what
-> > > > your objection and / or argument is here.
-> > > >
-> > > > In addition, when that was brought up in the discussion, you rejected
-> > > > it because it was inconvenient:
-> > > > https://patchwork.freedesktop.org/patch/283012/?series=56163&rev=1#comment_535206
-> > >
-> > > It is inconvenient, but I don't understand how having board-specific
-> > > connectors fixes it.
-> >
-> > How it would not fix it?
->
-> I think I got your idea, but yet I think it's not the best solution.
->
-> Do I understand correctly that you're proposing to introduce
-> board-specific edp-connector driver that will be aware of worst case
-> power up delays and will control backlight and power?
->
-> Then why not to add another board-specific panel (e.g.
-> "pine64,pinebook-panel") to simple-panel.c that does the same?
-
-That would be fine for me too. Thierry was against it though IIRC, and
-I don't recall why exactly.
-
-> > You'll have one connector, without the need to describe each and every
-> > panel in the device tree and rely on the EDID instead, and you'll have
-> > the option to power up the regulator you need.
-> >
-> > I really don't understand what's the issue here, so let's take a step
-> > back. What are is the issue , what are your requirements, and how
-> > would you like that to be described ?
->
-> We have a device (Pinebook) that uses the same board with multiple edp
-> panels. So far there're pinebooks with 3 different panels: 11" with
-> 768p panel, 11" with 1080p panel, 14" with 768p panel.
->
-> Currently there's no way to describe all pinebooks with a single dts.
-> There's a simple workaround though -- we can just specify a panel with
-> worst power up delays in dts and it'll work since anx6345 driver
-> ignores panel modes anyway and uses EDID.
->
-> Originally I proposed to extend simple-panel driver to support generic
-> edp-panel but it was rejected. I still believe that it's the best
-> solution assuming we can specify delays in dts, since panels list is
-> specific to particular device and it probably can't be reused, i.e.
-> there's no good reason to move it into C code.
->
-> Rob Herring proposed to introduce edp-connector. While I still believe
-> that it's not accurate description of hardware since it'll have to
-> have backlight node (backlight is actually panel property) I was OK
-> with this approach assuming we can store delays in dts.
->
-> Later it evolved into board-specific edp-connector.
-
-I think you got that wrong. As far as I'm concerned, the plan was to
-have two compatibles: the board-specific one, and the generic one.
-
-Something like compatible = "pine64,pinebook-edp-connector",
-"edp-connector"; or whatever.
-
-> So far I don't understand why everyone is trying to avoid introducing
-> edp-panel driver that can read delays from dts. Basically, I don't
-> understand what's the magic behind simple-panel.c and why new panels
-> should be added there rather than described in dts. [1] Doesn't
-> explain that.
-
-So others might have different viewpoints here as well, but the major
-downside I see in putting those kind of values in the device tree is
-that at some point, someone will get it wrong, and chances are that
-even for the same panel, everyone will use a slightly different set of
-timings.
-
-And once it's wrong, then it's a mess to fix. You have to track down
-every DT using it, make sure it's corrected, and then every user will
-have to change their DT in their system. Whereas if you have just a
-compatible and those timings in the kernel, then the only thing
-required is a kernel update, which should be a pretty standard
-operation.
-
-Maxime
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---ga3sbptupgkf2nsb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXThkFgAKCRDj7w1vZxhR
-xdmDAP9yBWH/KYH8hNsfJpjtSxRuDZg1xa/Ai5yq/48P70rBqQEAxJBFYLdvAn8g
-WJBWvY6ToqNpGVah2fBV3mDR/Au2/wc=
-=7SCN
------END PGP SIGNATURE-----
-
---ga3sbptupgkf2nsb--
-
---===============0289399612==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0289399612==--
+SXQgaXMgZGlmZmljdWx0IGZvciBhIHVzZXIgdG8ga25vdyB3aGljaCBvZiB0aGUgaTJjIGFkYXB0
+ZXJzIGlzIGZvciB3aGljaApkcm0gY29ubmVjdG9yLiBUaGlzIHNlcmllcyBhZGRyZXNzZXMgdGhp
+cyBwcm9ibGVtLgoKVGhlIGlkZWEgaXMgdG8gaGF2ZSBhIHN5bWJvbGljIGxpbmsgaW4gY29ubmVj
+dG9yJ3Mgc3lzZnMgZGlyZWN0b3J5LCBlLmcuOgoKbHMgLWwgL3N5cy9jbGFzcy9kcm0vY2FyZDAt
+SERNSS1BLTEvZGRjCmxyd3hyd3hyd3ggMSByb290IHJvb3QgMCBKdW4gMjQgMTA6NDIgL3N5cy9j
+bGFzcy9kcm0vY2FyZDAtSERNSS1BLTEvZGRjIFwKCS0+IC4uLy4uLy4uLy4uL3NvYy8xMzg4MDAw
+MC5pMmMvaTJjLTIKClRoZSB1c2VyIHRoZW4ga25vd3MgdGhhdCB0aGVpciBjYXJkMC1IRE1JLUEt
+MSB1c2VzIGkyYy0yIGFuZCBjYW4gZS5nLiBydW4KZGRjdXRpbDoKCmRkY3V0aWwgLWIgMiBnZXR2
+Y3AgMHgxMApWQ1AgY29kZSAweDEwIChCcmlnaHRuZXNzKTogY3VycmVudCB2YWx1ZSA9ICAgIDkw
+LCBtYXggdmFsdWUgPSAgIDEwMAoKVGhlIGZpcnN0IHBhdGNoIGluIHRoZSBzZXJpZXMgYWRkcyBz
+dHJ1Y3QgaTJjX2FkYXB0ZXIgcG9pbnRlciB0byBzdHJ1Y3QKZHJtX2Nvbm5lY3Rvci4gSWYgdGhl
+IGZpZWxkIGlzIHVzZWQgYnkgYSBwYXJ0aWN1bGFyIGRyaXZlciwgdGhlbiBhbgphcHByb3ByaWF0
+ZSBzeW1ib2xpYyBsaW5rIGlzIGNyZWF0ZWQgYnkgdGhlIGdlbmVyaWMgY29kZSwgd2hpY2ggaXMg
+YWxzbyBhZGRlZApieSB0aGlzIHBhdGNoLgoKUGF0Y2ggMiBhZGRzIGEgbmV3IHZhcmlhbnQgb2Yg
+ZHJtX2Nvbm5lY3Rvcl9pbml0KCksIHNlZSB0aGUgY2hhbmdlbG9nCmJlbG93LgoKUGF0Y2hlcyAz
+Li4yNCBhcmUgZXhhbXBsZXMgb2YgaG93IHRvIGNvbnZlcnQgYSBkcml2ZXIgdG8gdGhpcyBuZXcg
+c2NoZW1lLgoKdjEuLnYyOgoKLSB1c2VkIGZpeGVkIG5hbWUgImRkYyIgZm9yIHRoZSBzeW1ib2xp
+YyBsaW5rIGluIG9yZGVyIHRvIG1ha2UgaXQgZWFzeSBmb3IKdXNlcnNwYWNlIHRvIGZpbmQgdGhl
+IGkyYyBhZGFwdGVyCgp2Mi4udjM6CgotIGNvbnZlcnRlZCBhcyBtYW55IGRyaXZlcnMgYXMgcG9z
+c2libGUuCgp2My4udjQ6CgotIGFkZGVkIFJldmlld2VkLWJ5IGZvciBwYXRjaCAwMS8yMwotIG1v
+dmVkICJkZGMiIGZpZWxkIGFzc2lnbm1lbnQgdG8gYmVmb3JlIGRybV9jb25uZWN0b3JfaW5pdCgp
+IGlzIGNhbGxlZAppbiBtc20sIHZjNCwgc3RpLCBtZ2FnMjAwLCBhc3QsIGFtZGdwdSwgcmFkZW9u
+Ci0gc2ltcGxpZmllZCB0aGUgY29kZSBpbiBhbWRncHUgYW5kIHJhZGVvbiBhdCB0aGUgZXhwZW5z
+ZSBvZiBzb21lIGxpbmVzCmV4Y2VlZGluZyA4MCBjaGFyYWN0ZXJzIGFzIHBlciBBbGV4IERldWNo
+ZXIncyBzdWdnZXN0aW9uCi0gYWRkZWQgaTkxNQoKdjQuLnY1OgoKLSBjaGFuZ2VkICJpbmNsdWRl
+IDxsaW51eC9pMmMuaD4iIHRvICJzdHJ1Y3QgaTJjX2FkYXB0ZXI7IgppbiBkcm1fY29ubmVjdG9y
+LmgsIGNvbnNlcXVlbnRseSwgYWRkZWQgImluY2x1ZGUgPGxpbnV4L2kyYy5oPiIKaW4gZHJtX3N5
+c2ZzLmMuCi0gYWRkZWQgImRybV9jb25uZWN0b3JfaW5pdF93aXRoX2RkYygpIiB2YXJpYW50IHRv
+IGVuc3VyZSB0aGF0IHRoZSBkZGMKZmllbGQgb2YgZHJtX2Nvbm5lY3RvciBpcyBwcmVzZXJ2ZWQg
+YWNjcm9zcyBpdHMgaW52b2NhdGlvbgotIGFjY29yZGluZ2x5IGNoYW5nZWQgaW52b2NhdGlvbnMg
+b2YgZHJtX2Nvbm5lY3Rvcl9pbml0KCkgaW4gdGhlCnRvdWNoZWQgZHJpdmVycyB0byB1c2UgdGhl
+IG5ldyB2YXJpYW50CgpAQmVuamFtaW4KQFNoYXduCkBUaG9tYXMKClRoZXJlIHdlcmUgeW91ciBB
+Y2tlZC1ieSBvciBSZXZpZXdlZC1ieSBmb3Igc29tZSBwYXRjaGVzIGluIHY0LCBidXQgbm93CnRo
+YXQgdGhlIHBhdGNoZXMgdXNlIHRoZSBuZXdseSBhZGRlZCBmdW5jdGlvbiBJJ20gbm90IHN1cmUg
+SSBjYW4gc3RpbGwKaW5jbHVkZSB0aG9zZSB0YWdzIHdpdGhvdXQgeW91IGFjdHVhbGx5IGNvbmZp
+cm1pbmcuIENhbiBJPyBPciBjYW4geW91CnBsZWFzZSByZS1yZXZpZXc/IAoKVE9ETzogbm91dmVh
+dSwgZ21hNTAwLCBvbWFwZHJtLCBwYW5lbC1zaW1wbGUgLSBpZiBhcHBsaWNhYmxlLgpPdGhlciBk
+cml2ZXJzIGFyZSBlaXRoZXIgYWxyZWFkeSBjb252ZXJ0ZWQgb3IgZG9uJ3QgbWVudGlvbiBuZWl0
+aGVyCiJkZGMiIG5vciAiaTJjX2FkYXB0ZXIiLgoKQW5kcnplaiBQaWV0cmFzaWV3aWN6ICgyNCk6
+CiAgZHJtOiBJbmNsdWRlIGRkYyBhZGFwdGVyIHBvaW50ZXIgaW4gc3RydWN0IGRybV9jb25uZWN0
+b3IKICBkcm06IEFkZCBkcm1fY29ubmVjdG9yX2luaXQoKSB2YXJpYW50IHdpdGggZGRjCiAgZHJt
+L2V4eW5vczogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBjb25uZWN0b3IncyBzeXNmcwogIGRybTog
+cm9ja2NoaXA6IFByb3ZpZGUgZGRjIHN5bWxpbmsgaW4gcmszMDY2X2hkbWkgc3lzZnMgZGlyZWN0
+b3J5CiAgZHJtOiByb2NrY2hpcDogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBpbm5vX2hkbWkgc3lz
+ZnMgZGlyZWN0b3J5CiAgZHJtL21zbS9oZG1pOiBQcm92aWRlIGRkYyBzeW1saW5rIGluIGhkbWkg
+Y29ubmVjdG9yIHN5c2ZzIGRpcmVjdG9yeQogIGRybS9zdW40aTogaGRtaTogUHJvdmlkZSBkZGMg
+c3ltbGluayBpbiBzdW40aSBoZG1pIGNvbm5lY3RvciBzeXNmcwogICAgZGlyZWN0b3J5CiAgZHJt
+L21lZGlhdGVrOiBQcm92aWRlIGRkYyBzeW1saW5rIGluIGhkbWkgY29ubmVjdG9yIHN5c2ZzIGRp
+cmVjdG9yeQogIGRybS90ZWdyYTogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBvdXRwdXQgY29ubmVj
+dG9yIHN5c2ZzIGRpcmVjdG9yeQogIGRybS9pbXg6IGlteC1sZGI6IFByb3ZpZGUgZGRjIHN5bWxp
+bmsgaW4gY29ubmVjdG9yJ3Mgc3lzZnMKICBkcm0vaW14OiBpbXgtdHZlOiBQcm92aWRlIGRkYyBz
+eW1saW5rIGluIGNvbm5lY3RvcidzIHN5c2ZzCiAgZHJtL3ZjNDogUHJvdmlkZSBkZGMgc3ltbGlu
+ayBpbiBjb25uZWN0b3Igc3lzZnMgZGlyZWN0b3J5CiAgZHJtOiB6dGU6IFByb3ZpZGUgZGRjIHN5
+bWxpbmsgaW4gaGRtaSBjb25uZWN0b3Igc3lzZnMgZGlyZWN0b3J5CiAgZHJtOiB6dGU6IFByb3Zp
+ZGUgZGRjIHN5bWxpbmsgaW4gdmdhIGNvbm5lY3RvciBzeXNmcyBkaXJlY3RvcnkKICBkcm0vdGls
+Y2RjOiBQcm92aWRlIGRkYyBzeW1saW5rIGluIGNvbm5lY3RvciBzeXNmcyBkaXJlY3RvcnkKICBk
+cm06IHN0aTogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBoZG1pIGNvbm5lY3RvciBzeXNmcyBkaXJl
+Y3RvcnkKICBkcm0vbWdhZzIwMDogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBjb25uZWN0b3Igc3lz
+ZnMgZGlyZWN0b3J5CiAgZHJtL2FzdDogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBjb25uZWN0b3Ig
+c3lzZnMgZGlyZWN0b3J5CiAgZHJtL2JyaWRnZTogZHVtYi12Z2EtZGFjOiBQcm92aWRlIGRkYyBz
+eW1saW5rIGluIGNvbm5lY3RvciBzeXNmcwogICAgZGlyZWN0b3J5CiAgZHJtL2JyaWRnZTogZHct
+aGRtaTogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBjb25uZWN0b3Igc3lzZnMgZGlyZWN0b3J5CiAg
+ZHJtL2JyaWRnZTogdGktdGZwNDEwOiBQcm92aWRlIGRkYyBzeW1saW5rIGluIGNvbm5lY3RvciBz
+eXNmcwogICAgZGlyZWN0b3J5CiAgZHJtL2FtZGdwdTogUHJvdmlkZSBkZGMgc3ltbGluayBpbiBj
+b25uZWN0b3Igc3lzZnMgZGlyZWN0b3J5CiAgZHJtL3JhZGVvbjogUHJvdmlkZSBkZGMgc3ltbGlu
+ayBpbiBjb25uZWN0b3Igc3lzZnMgZGlyZWN0b3J5CiAgZHJtL2k5MTU6IFByb3ZpZGUgZGRjIHN5
+bWxpbmsgaW4gaGRtaSBjb25uZWN0b3Igc3lzZnMgZGlyZWN0b3J5CgogLi4uL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfY29ubmVjdG9ycy5jICAgIHwgIDk1ICsrKysrKysrLS0tLQogZHJpdmVy
+cy9ncHUvZHJtL2FzdC9hc3RfbW9kZS5jICAgICAgICAgICAgICAgIHwgIDEzICstCiBkcml2ZXJz
+L2dwdS9kcm0vYnJpZGdlL2R1bWItdmdhLWRhYy5jICAgICAgICAgfCAgMjUgKystLQogZHJpdmVy
+cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmMgICAgIHwgIDQ2ICsrKy0tLQogZHJp
+dmVycy9ncHUvZHJtL2JyaWRnZS90aS10ZnA0MTAuYyAgICAgICAgICAgIHwgIDI1ICsrLS0KIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgICAgICAgICAgICAgICB8ICAxOSArKysKIGRy
+aXZlcnMvZ3B1L2RybS9kcm1fc3lzZnMuYyAgICAgICAgICAgICAgICAgICB8ICAgOCArCiBkcml2
+ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19oZG1pLmMgICAgICAgICAgfCAgMTcgKystCiBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkbWkuYyAgICAgfCAgMTEgKy0KIGRyaXZl
+cnMvZ3B1L2RybS9pbXgvaW14LWxkYi5jICAgICAgICAgICAgICAgICB8ICAyMCArLS0KIGRyaXZl
+cnMvZ3B1L2RybS9pbXgvaW14LXR2ZS5jICAgICAgICAgICAgICAgICB8ICAxNCArLQogZHJpdmVy
+cy9ncHUvZHJtL21lZGlhdGVrL210a19oZG1pLmMgICAgICAgICAgIHwgIDE2ICstCiBkcml2ZXJz
+L2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21vZGUuYyAgICAgICAgfCAgMTMgKy0KIGRyaXZlcnMv
+Z3B1L2RybS9tc20vaGRtaS9oZG1pX2Nvbm5lY3Rvci5jICAgICB8ICAgNiArLQogZHJpdmVycy9n
+cHUvZHJtL3JhZGVvbi9yYWRlb25fY29ubmVjdG9ycy5jICAgIHwgMTQxICsrKysrKysrKysrKyst
+LS0tLQogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2lubm9faGRtaS5jICAgICAgICAgIHwgIDIz
+ICstLQogZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JrMzA2Nl9oZG1pLmMgICAgICAgIHwgIDI0
+ICstLQogZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5jICAgICAgICAgICAgICAgIHwgICA2
+ICstCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfaGRtaS5oICAgICAgICAgICAgfCAgIDEg
+LQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2hkbWlfZW5jLmMgICAgICAgIHwgIDIxICst
+LQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5oICAgICAgICAgICAgICAgICAgIHwgICAxIC0K
+IGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9oZG1pLmMgICAgICAgICAgICAgICAgICB8ICAgNyArLQog
+ZHJpdmVycy9ncHUvZHJtL3RlZ3JhL291dHB1dC5jICAgICAgICAgICAgICAgIHwgIDEyICstCiBk
+cml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMgICAgICAgICAgICAgICAgICAgfCAgMTMgKy0KIGRy
+aXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2RjX3RmcDQxMC5jICAgICAgICB8ICAgNiArLQogZHJp
+dmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jICAgICAgICAgICAgICAgIHwgIDI2ICsrLS0KIGRy
+aXZlcnMvZ3B1L2RybS96dGUvenhfaGRtaS5jICAgICAgICAgICAgICAgICB8ICAzMSArKy0tCiBk
+cml2ZXJzL2dwdS9kcm0venRlL3p4X3ZnYS5jICAgICAgICAgICAgICAgICAgfCAgMzEgKystLQog
+aW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oICAgICAgICAgICAgICAgICAgIHwgIDE2ICsrCiAy
+OSBmaWxlcyBjaGFuZ2VkLCA0MjggaW5zZXJ0aW9ucygrKSwgMjU5IGRlbGV0aW9ucygtKQoKLS0g
+CjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
