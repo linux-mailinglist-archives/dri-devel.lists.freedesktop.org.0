@@ -2,36 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7557D72737
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 07:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7D272779
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 07:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D97126E444;
-	Wed, 24 Jul 2019 05:17:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7236E44A;
+	Wed, 24 Jul 2019 05:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6812D6E444
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 05:17:04 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 940CD200CD;
- Wed, 24 Jul 2019 07:17:01 +0200 (CEST)
-Date: Wed, 24 Jul 2019 07:17:00 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Navid Emamdoost <navid.emamdoost@gmail.com>
-Subject: Re: [PATCH] rpi_touchscreen_probe: check for failure case
-Message-ID: <20190724051700.GA22730@ravnborg.org>
-References: <20190724025644.17163-1-navid.emamdoost@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7F1776E44A
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 05:46:18 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7718072167; Wed, 24 Jul 2019 05:46:18 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111205] Get your personal models in Jaipur Escorts
+Date: Wed, 24 Jul 2019 05:46:18 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kiasharma470@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111205-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190724025644.17163-1-navid.emamdoost@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8
- a=ONRsVvzFGko7FBthncQA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,37 +51,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, kjlu@umn.edu, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- smccaman@umn.edu, emamd001@umn.edu
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1494215110=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTmF2aWQuCgpUaGFua3MgZm9yIHlvdXIgcGF0Y2guCk9uIFR1ZSwgSnVsIDIzLCAyMDE5IGF0
-IDA5OjU2OjQzUE0gLTA1MDAsIE5hdmlkIEVtYW1kb29zdCB3cm90ZToKPiBvZl9ncmFwaF9nZXRf
-bmV4dF9lbmRwb2ludCBtYXkgcmV0dXJuIE5VTEwsIHNvIG51bGwgY2hlY2sgaXMgbmVlZGVkLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IE5hdmlkIEVtYW1kb29zdCA8bmF2aWQuZW1hbWRvb3N0QGdtYWls
-LmNvbT4KClRoZSBwYXRjaCBsb29rcyBmaW5lLCBidXQgY291bGQgeW91IHBsZWFzZSBhdWRpdCB0
-aGUgb3RoZXIgY2FsbHMgaW4gdGhlCnByb2JlIGZ1bmN0aW9uLiBGb3IgZXhhbXBsZSBvZl9ncmFw
-aF9nZXRfcmVtb3RlX3BvcnRfcGFyZW50KCkgbWF5IGFsc28KcmV0dXJuIE5VTEwuCklmIHlvdSBk
-byB0aGlzIHRoZW4gd2UgY2FuIGhhdmUgdGhlIGVycm9yIGhhbmRsaW5nIHJldmlld2VkIGluIG9u
-ZSBnbywKYW5kIGZpeGVkIGluIG9uZSBwYXRjaC4KCglTYW0KCj4gLS0tCj4gIGRyaXZlcnMvZ3B1
-L2RybS9wYW5lbC9wYW5lbC1yYXNwYmVycnlwaS10b3VjaHNjcmVlbi5jIHwgMiArKwo+ICAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9wYW5lbC9wYW5lbC1yYXNwYmVycnlwaS10b3VjaHNjcmVlbi5jIGIvZHJpdmVycy9ncHUv
-ZHJtL3BhbmVsL3BhbmVsLXJhc3BiZXJyeXBpLXRvdWNoc2NyZWVuLmMKPiBpbmRleCAyOGMwNjIw
-ZGZlMGYuLjJlMDk3N2UyNmZhYiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
-cGFuZWwtcmFzcGJlcnJ5cGktdG91Y2hzY3JlZW4uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9w
-YW5lbC9wYW5lbC1yYXNwYmVycnlwaS10b3VjaHNjcmVlbi5jCj4gQEAgLTM5OSw2ICszOTksOCBA
-QCBzdGF0aWMgaW50IHJwaV90b3VjaHNjcmVlbl9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAqaTJj
-LAo+ICAKPiAgCS8qIExvb2sgdXAgdGhlIERTSSBob3N0LiAgSXQgbmVlZHMgdG8gcHJvYmUgYmVm
-b3JlIHdlIGRvLiAqLwo+ICAJZW5kcG9pbnQgPSBvZl9ncmFwaF9nZXRfbmV4dF9lbmRwb2ludChk
-ZXYtPm9mX25vZGUsIE5VTEwpOwo+ICsJaWYgKCFlbmRwb2ludCkKPiArCQlyZXR1cm4gLUVOT0RF
-VjsKPiAgCWRzaV9ob3N0X25vZGUgPSBvZl9ncmFwaF9nZXRfcmVtb3RlX3BvcnRfcGFyZW50KGVu
-ZHBvaW50KTsKPiAgCWhvc3QgPSBvZl9maW5kX21pcGlfZHNpX2hvc3RfYnlfbm9kZShkc2lfaG9z
-dF9ub2RlKTsKPiAgCW9mX25vZGVfcHV0KGRzaV9ob3N0X25vZGUpOwo+IC0tIAo+IDIuMTcuMQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1494215110==
+Content-Type: multipart/alternative; boundary="15639471780.99bb77Ae1.6901"
+Content-Transfer-Encoding: 7bit
+
+
+--15639471780.99bb77Ae1.6901
+Date: Wed, 24 Jul 2019 05:46:18 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111205
+
+            Bug ID: 111205
+           Summary: Get your personal models in Jaipur Escorts
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: General
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: kiasharma470@gmail.com
+
+Our escort=E2=80=99s agencies in Jaipur are very popular and services provi=
+de in all
+over India. Who are interested to join our escorts community then why are y=
+ou
+waiting, book Jaipur escorts right now. Every person knows about Jaipur esc=
+ort
+how beautiful they are, enjoying with hot girls in our escorts and spend yo=
+ur
+golden time with our partners. Call girls in Jaipur, peoples are fun in our
+escort girls and spend full night like a honeymoon. Hot and sexy girls in
+Jaipur provide day & night services are also available.
+
+For more information visit our website=E2=80=A6.
+
+Link: - http://www.kiaescorts.com/
+
+http://www.kiaescorts.com/jaipur-escorts
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15639471780.99bb77Ae1.6901
+Date: Wed, 24 Jul 2019 05:46:18 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Get your personal models in Jaipur Escorts"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111205">111205</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Get your personal models in Jaipur Escorts
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>General
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>kiasharma470&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Our escort=E2=80=99s agencies in Jaipur are very popular and s=
+ervices provide in all
+over India. Who are interested to join our escorts community then why are y=
+ou
+waiting, book Jaipur escorts right now. Every person knows about Jaipur esc=
+ort
+how beautiful they are, enjoying with hot girls in our escorts and spend yo=
+ur
+golden time with our partners. Call girls in Jaipur, peoples are fun in our
+escort girls and spend full night like a honeymoon. Hot and sexy girls in
+Jaipur provide day &amp; night services are also available.
+
+For more information visit our website=E2=80=A6.
+
+Link: - <a href=3D"http://www.kiaescorts.com/">http://www.kiaescorts.com/</=
+a>
+
+<a href=3D"http://www.kiaescorts.com/jaipur-escorts">http://www.kiaescorts.=
+com/jaipur-escorts</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15639471780.99bb77Ae1.6901--
+
+--===============1494215110==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1494215110==--
