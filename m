@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527A77376D
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 21:08:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EE87377D
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 21:10:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE0E6E62E;
-	Wed, 24 Jul 2019 19:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78BFD6E62D;
+	Wed, 24 Jul 2019 19:10:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B950D6E62E
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 19:08:55 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f17so42560081wme.2
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 12:08:55 -0700 (PDT)
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+ [209.85.221.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DC846E62D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 19:10:11 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id x1so33146870wrr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 12:10:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=mYrGkDQOnSU5Lp9avRqB0jc65jAYh0UF93+Huamd7FY=;
- b=qOorFoGcdmeLWiLCi5c1jLsCueAA+YGLQmgnm5oYObn0wVpDgDG3TvmUMUNP8zpkga
- vO5yyMoKwXXt2L9R94D2ZtppRwdCy/CiMJzlXyjhvm8v8LPj5lm3FxzWnfKOuwej9z20
- H9cuhyI8y3sYiDW/8lOR6J2hwVT/zjNfV4l1s4dvhnPrLTj0x0qAAqpZu8VBnCZXlP3e
- HXk6WGCfroKJ0C5dxXrWR20Gpucabibdly5xG55xt+aJzE4Bs9VIiUh/AsgXYM7NxNSC
- ULf2smXZc2+P18+u8e3OWz7PFD4ljM8QhJ8XrtAbd7xfrgbd19ygiE7ZtYKgoQq7R0Ig
- 0XRA==
-X-Gm-Message-State: APjAAAUhROApej3gnSLmbjoXops3pKwA+V5Y+sF1dDl3ZW3fh6GxEABP
- dJLSEP3o00Lqk6+qhLbYNV0+7vdD
-X-Google-Smtp-Source: APXvYqzdk6u7Pk10r48MB52INPrCA0J17QNFIsWrGOO+ZuC0i9JWvgiRp9UAxl5CifpHBiYGbc8sOw==
-X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr76037481wmk.79.1563995334246; 
- Wed, 24 Jul 2019 12:08:54 -0700 (PDT)
+ bh=HSdo9ZmudjoY5QfVd80yVoDhymQ27WsVZ3uLmAFSang=;
+ b=JYJYQF0Vh+DrSeFOn4VMiWgScFoihSJoFIRJVc/Qu/GxzGyBdRRbGGVIHJbdDnRlDS
+ A9F6f8Et7HVPfyE/lVAlHGaQZz4NQRnNlYiCBerPs2DVUXKN7b5pT5vad4cQVVdjVt9x
+ yr5uc72UevINVWY+AScFWudbvARyw3y4fPItuwdnB2JmxUOxxw9UlwH3Fa9JvMtUSqRS
+ FexgGGgJ36WWkMjIt45Sita1FTRR4PTX+ZZ8fljsSUjsUUIkt5xGQ5WFGeRGqD9NrNqw
+ wNLvon6kpjHsAoue9n8XfYv3NpL3tKaC4CSJQn+ll/sNQ3oQhHv5BydImAC7ZTkzJTuV
+ GvZQ==
+X-Gm-Message-State: APjAAAWoyreaiL8YcrKJsM3wNJS0lI/Sdou9WiWzAheh9KdTgGbFpvpZ
+ WcSvdMcAp4IU9kNgaD0BZOE=
+X-Google-Smtp-Source: APXvYqyWQBOON9MCwlXaZ8Eic8a5Grk22K3A0wrcZg+IPuNCk48LkzoWpj7xmqjgI5qwVDbGSZBdAQ==
+X-Received: by 2002:a5d:4d81:: with SMTP id b1mr6533715wru.27.1563995409586;
+ Wed, 24 Jul 2019 12:10:09 -0700 (PDT)
 Received: from kozik-lap ([194.230.155.239])
- by smtp.googlemail.com with ESMTPSA id y1sm35475550wma.32.2019.07.24.12.08.53
+ by smtp.googlemail.com with ESMTPSA id v4sm44882540wmg.22.2019.07.24.12.10.08
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 24 Jul 2019 12:08:53 -0700 (PDT)
-Date: Wed, 24 Jul 2019 21:08:51 +0200
+ Wed, 24 Jul 2019 12:10:08 -0700 (PDT)
+Date: Wed, 24 Jul 2019 21:10:06 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Artur =?utf-8?B?xZp3aWdvxYQ=?= <a.swigon@partner.samsung.com>
-Subject: Re: [RFC PATCH 02/11] devfreq: exynos-bus: Extract
- exynos_bus_profile_init_passive()
-Message-ID: <20190724190851.GE14346@kozik-lap>
+Subject: Re: [RFC PATCH 03/11] devfreq: exynos-bus: Change goto-based logic
+ to if-else logic
+Message-ID: <20190724191006.GF14346@kozik-lap>
 References: <20190723122016.30279-1-a.swigon@partner.samsung.com>
- <CGME20190723122023eucas1p2ff56c00b60a676ed85d9fe159a1839f2@eucas1p2.samsung.com>
- <20190723122016.30279-3-a.swigon@partner.samsung.com>
+ <CGME20190723122024eucas1p1ff060d072132bfbc8a8a1d10fa1f90f8@eucas1p1.samsung.com>
+ <20190723122016.30279-4-a.swigon@partner.samsung.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190723122016.30279-3-a.swigon@partner.samsung.com>
+In-Reply-To: <20190723122016.30279-4-a.swigon@partner.samsung.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -71,31 +71,17 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDI6MjA6MDdQTSArMDIwMCwgQXJ0dXIgxZp3aWdvxYQg
-d3JvdGU6Cj4gVGhpcyBwYXRjaCBhZGRzIGEgbmV3IHN0YXRpYyBmdW5jdGlvbiwgZXh5bm9zX2J1
-c19wcm9maWxlX2luaXRfcGFzc2l2ZSgpLAo+IGV4dHJhY3RlZCBmcm9tIGV4eW5vc19idXNfcHJv
-YmUoKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciDFmndpZ2/FhCA8YS5zd2lnb25AcGFydG5l
-ci5zYW1zdW5nLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9kZXZmcmVxL2V4eW5vcy1idXMuYyB8IDcw
-ICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwg
-NDIgaW5zZXJ0aW9ucygrKSwgMjggZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZGV2ZnJlcS9leHlub3MtYnVzLmMgYi9kcml2ZXJzL2RldmZyZXEvZXh5bm9zLWJ1cy5jCj4g
-aW5kZXggZDhmMWVmYWYyZDQ5Li5jZjZmNmNiZDBmNTUgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9k
-ZXZmcmVxL2V4eW5vcy1idXMuYwo+ICsrKyBiL2RyaXZlcnMvZGV2ZnJlcS9leHlub3MtYnVzLmMK
-PiBAQCAtNDMwLDEzICs0MzAsNTEgQEAgc3RhdGljIGludCBleHlub3NfYnVzX3Byb2ZpbGVfaW5p
-dChzdHJ1Y3QgZXh5bm9zX2J1cyAqYnVzLAo+ICAJcmV0dXJuIHJldDsKPiAgfQo+ICAKPiArc3Rh
-dGljIGludCBleHlub3NfYnVzX3Byb2ZpbGVfaW5pdF9wYXNzaXZlKHN0cnVjdCBleHlub3NfYnVz
-ICpidXMsCj4gKwkJCQkJICAgc3RydWN0IGRldmZyZXFfZGV2X3Byb2ZpbGUgKnByb2ZpbGUpCj4g
-K3sKPiArCXN0cnVjdCBkZXZpY2UgKmRldiA9IGJ1cy0+ZGV2Owo+ICsJc3RydWN0IGRldmZyZXEg
-KnBhcmVudF9kZXZmcmVxOwo+ICsJc3RydWN0IGRldmZyZXFfcGFzc2l2ZV9kYXRhICpwYXNzaXZl
-X2RhdGE7Cj4gKwlpbnQgcmV0ID0gMDsKPiArCj4gKwkvKiBJbml0aWFsaXplIHRoZSBzdHJ1Y3Qg
-cHJvZmlsZSBhbmQgZ292ZXJub3IgZGF0YSBmb3IgcGFzc2l2ZSBkZXZpY2UgKi8KPiArCXByb2Zp
-bGUtPnRhcmdldCA9IGV4eW5vc19idXNfcGFzc2l2ZV90YXJnZXQ7Cj4gKwlwcm9maWxlLT5leGl0
-ID0gZXh5bm9zX2J1c19wYXNzaXZlX2V4aXQ7Cj4gKwo+ICsJLyogR2V0IHRoZSBpbnN0YW5jZSBv
-ZiBwYXJlbnQgZGV2ZnJlcSBkZXZpY2UgKi8KPiArCXBhcmVudF9kZXZmcmVxID0gZGV2ZnJlcV9n
-ZXRfZGV2ZnJlcV9ieV9waGFuZGxlKGRldiwgMCk7Cj4gKwlpZiAoSVNfRVJSKHBhcmVudF9kZXZm
-cmVxKSkgewo+ICsJCXJldCA9IC1FUFJPQkVfREVGRVI7Cj4gKwkJZ290byBlcnI7CgpTYW1lIGFz
-IGluIHByZXZpb3VzIHBhdGNoIC0gbm8gbmVlZCBmb3IgZXJyb3IgZ290by4KCkJlc3QgcmVnYXJk
-cywKS3J6eXN6dG9mCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+T24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDI6MjA6MDhQTSArMDIwMCwgQXJ0dXIgxZp3aWdvxYQg
+d3JvdGU6Cj4gVGhpcyBwYXRjaCBpbXByb3ZlcyBjb2RlIHJlYWRhYmlsaXR5IGJ5IGNoYW5naW5n
+IHRoZSBmb2xsb3dpbmcgY29uc3RydWN0Ogo+IAo+ID4gICAgaWYgKGNvbmQpCj4gPiAgICAgICAg
+Z290byBwYXNzaXZlOwo+ID4gICAgZm9vKCk7Cj4gPiAgICBnb3RvIG91dDsKPiA+cGFzc2l2ZToK
+PiA+ICAgIGJhcigpOwo+ID5vdXQ6Cj4gCj4gaW50byB0aGlzOgo+IAo+ID4gICAgaWYgKGNvbmQp
+Cj4gPiAgICAgICAgYmFyKCk7Cj4gPiAgICBlbHNlCj4gPiAgICAgICAgZm9vKCk7Cj4gCj4gU2ln
+bmVkLW9mZi1ieTogQXJ0dXIgxZp3aWdvxYQgPGEuc3dpZ29uQHBhcnRuZXIuc2Ftc3VuZy5jb20+
+Cj4gLS0tCj4gIGRyaXZlcnMvZGV2ZnJlcS9leHlub3MtYnVzLmMgfCAyNCArKysrKysrKystLS0t
+LS0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMTUgZGVsZXRp
+b25zKC0pCgpDb2RlIGxvb2tzIG11Y2ggYmV0dGVyOgpSZXZpZXdlZC1ieTogS3J6eXN6dG9mIEtv
+emxvd3NraSA8a3J6a0BrZXJuZWwub3JnPgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
