@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B6F72503
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 05:00:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3F725C4
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 06:14:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ADDB6E427;
-	Wed, 24 Jul 2019 03:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A181890E5;
+	Wed, 24 Jul 2019 04:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6866E427
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 03:00:10 +0000 (UTC)
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net
- [24.5.143.220])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 546DF2190F;
- Wed, 24 Jul 2019 03:00:10 +0000 (UTC)
-Date: Tue, 23 Jul 2019 20:00:08 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Shayenne Moura <shayenneluzmoura@gmail.com>
-Subject: Reminder: 1 open syzbot bug in drm subsystem
-Message-ID: <20190724030008.GT643@sol.localdomain>
-Mail-Followup-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Shayenne Moura <shayenneluzmoura@gmail.com>,
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D4FA2890AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 04:14:21 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D173472167; Wed, 24 Jul 2019 04:14:21 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Wed, 24 Jul 2019 04:14:21 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-ZWvVm7TEHl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1563937210;
- bh=ygMXIm+V91rWktahatQ4jcZfGCPjLLVXs4+3NwE1b2I=;
- h=Date:From:To:Cc:Subject:From;
- b=u2nT0b0vXMdI5k1QHEbyAniZsUr/+xH3i/BBYojdHDpAH/BSpnibUGoK09cSSOazE
- KQ3JXXMZsTZpj/ISIzpdFjMJBA4bLJ184O+4Jnohpr1wKrqQmHG+ZEAIl6IQE7u4U7
- i4yGRErf/ZEix9gwbLgxjhiEvdehzzx0se9DmxdI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,45 +52,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1233347344=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1RoaXMgZW1haWwgd2FzIGdlbmVyYXRlZCBieSBhIHNjcmlwdC4gIExldCBtZSBrbm93IGlmIHlv
-dSBoYXZlIGFueSBzdWdnZXN0aW9ucwp0byBtYWtlIGl0IGJldHRlciwgb3IgaWYgeW91IHdhbnQg
-aXQgcmUtZ2VuZXJhdGVkIHdpdGggdGhlIGxhdGVzdCBzdGF0dXMuXQoKT2YgdGhlIGN1cnJlbnRs
-eSBvcGVuIHN5emJvdCByZXBvcnRzIGFnYWluc3QgdGhlIHVwc3RyZWFtIGtlcm5lbCwgSSd2ZSBt
-YW51YWxseQptYXJrZWQgMSBvZiB0aGVtIGFzIHBvc3NpYmx5IGJlaW5nIGEgYnVnIGluIHRoZSBk
-cm0gc3Vic3lzdGVtLgoKSWYgeW91IGJlbGlldmUgdGhpcyBidWcgaXMgbm8gbG9uZ2VyIHZhbGlk
-LCBwbGVhc2UgY2xvc2UgdGhlIHN5emJvdCByZXBvcnQgYnkKc2VuZGluZyBhICcjc3l6IGZpeCcs
-ICcjc3l6IGR1cCcsIG9yICcjc3l6IGludmFsaWQnIGNvbW1hbmQgaW4gcmVwbHkgdG8gdGhlCm9y
-aWdpbmFsIHRocmVhZCwgYXMgZXhwbGFpbmVkIGF0IGh0dHBzOi8vZ29vLmdsL3Rwc21FSiNzdGF0
-dXMKCklmIHlvdSBiZWxpZXZlIEkgbWlzYXR0cmlidXRlZCB0aGlzIGJ1ZyB0byB0aGUgZHJtIHN1
-YnN5c3RlbSwgcGxlYXNlIGxldCBtZQprbm93LCBhbmQgaWYgcG9zc2libGUgZm9yd2FyZCB0aGUg
-cmVwb3J0IHRvIHRoZSBjb3JyZWN0IHBlb3BsZSBvciBtYWlsaW5nIGxpc3QuCgpIZXJlIGlzIHRo
-ZSBidWc6CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpUaXRsZTogICAgICAgICAgICAgIFdBUk5J
-TkcgaW4gdmttc192Ymxhbmtfc2ltdWxhdGUKTGFzdCBvY2N1cnJlZDogICAgICAwIGRheXMgYWdv
-ClJlcG9ydGVkOiAgICAgICAgICAgMTYyIGRheXMgYWdvCkJyYW5jaGVzOiAgICAgICAgICAgTWFp
-bmxpbmUgYW5kIG90aGVycwpEYXNoYm9hcmQgbGluazogICAgIGh0dHBzOi8vc3l6a2FsbGVyLmFw
-cHNwb3QuY29tL2J1Zz9pZD0wYmExN2Q3MGQwNjJiMjU5NWUxZjA2MTIzMTQ3NDgwMGYwNzZjN2Ni
-Ck9yaWdpbmFsIHRocmVhZDogICAgaHR0cHM6Ly9sa21sLmtlcm5lbC5vcmcvbGttbC8wMDAwMDAw
-MDAwMDAxMWM5MzEwNTgxYTU3OWU4QGdvb2dsZS5jb20vVC8jdQoKVGhpcyBidWcgaGFzIGEgQyBy
-ZXByb2R1Y2VyLgoKVGhpcyBidWcgd2FzIGJpc2VjdGVkIHRvOgoKCWNvbW1pdCAwOWVmMDliNGFi
-OTVkYzQwNWFkNDE3MWVjMmNkOGE0ZmY1MjI3MTA4CglBdXRob3I6IFNoYXllbm5lIE1vdXJhIDxz
-aGF5ZW5uZWx1em1vdXJhQGdtYWlsLmNvbT4KCURhdGU6ICAgV2VkIEZlYiA2IDIwOjA4OjEzIDIw
-MTkgKzAwMDAKCgnCoMKgZHJtL3ZrbXM6IFdBUk4gd2hlbiBocnRpbWVyX2ZvcndhcmRfbm93IGZh
-aWxzCgpUaGUgb3JpZ2luYWwgdGhyZWFkIGZvciB0aGlzIGJ1ZyByZWNlaXZlZCAxIHJlcGx5LCAx
-MzQgZGF5cyBhZ28uCgpJZiB5b3UgZml4IHRoaXMgYnVnLCBwbGVhc2UgYWRkIHRoZSBmb2xsb3dp
-bmcgdGFnIHRvIHRoZSBjb21taXQ6CiAgICBSZXBvcnRlZC1ieTogc3l6Ym90KzA4NzFiMTRjYTJl
-MmZiNjRmNmUzQHN5emthbGxlci5hcHBzcG90bWFpbC5jb20KCklmIHlvdSBzZW5kIGFueSBlbWFp
-bCBvciBwYXRjaCBmb3IgdGhpcyBidWcsIHBsZWFzZSBjb25zaWRlciByZXBseWluZyB0byB0aGUK
-b3JpZ2luYWwgdGhyZWFkLiAgRm9yIHRoZSBnaXQgc2VuZC1lbWFpbCBjb21tYW5kIHRvIHVzZSwg
-b3IgdGlwcyBvbiBob3cgdG8gcmVwbHkKaWYgdGhlIHRocmVhZCBpc24ndCBpbiB5b3VyIG1haWxi
-b3gsIHNlZSB0aGUgIlJlcGx5IGluc3RydWN0aW9ucyIgYXQKaHR0cHM6Ly9sa21sLmtlcm5lbC5v
-cmcvci8wMDAwMDAwMDAwMDAxMWM5MzEwNTgxYTU3OWU4QGdvb2dsZS5jb20KCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1233347344==
+Content-Type: multipart/alternative; boundary="15639416616.3fFd9.26948"
+Content-Transfer-Encoding: 7bit
+
+
+--15639416616.3fFd9.26948
+Date: Wed, 24 Jul 2019 04:14:21 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #63 from Mauro Gaspari <ilvipero@gmx.com> ---
+(In reply to Sylvain BERTRAND from comment #62)
+> unstable power supply lines to the gpu if overheating is excluded?
+
+I cannot speak for others. In my case,U would say no. I installed windows10=
+ in
+a separate ssd, just to check there was no hardware issue of any kind.=20
+On windows10 with latest amd drivers, I have no freezes or any other issue
+running same games.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15639416616.3fFd9.26948
+Date: Wed, 24 Jul 2019 04:14:21 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c63">Comme=
+nt # 63</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
+ <span class=3D"fn">Mauro Gaspari</span></a>
+</span></b>
+        <pre>(In reply to Sylvain BERTRAND from <a href=3D"show_bug.cgi?id=
+=3D109955#c62">comment #62</a>)
+<span class=3D"quote">&gt; unstable power supply lines to the gpu if overhe=
+ating is excluded?</span >
+
+I cannot speak for others. In my case,U would say no. I installed windows10=
+ in
+a separate ssd, just to check there was no hardware issue of any kind.=20
+On windows10 with latest amd drivers, I have no freezes or any other issue
+running same games.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15639416616.3fFd9.26948--
+
+--===============1233347344==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1233347344==--
