@@ -1,35 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D730F728AD
-	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 08:55:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 572287289E
+	for <lists+dri-devel@lfdr.de>; Wed, 24 Jul 2019 08:54:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8036E47C;
-	Wed, 24 Jul 2019 06:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E67FC6E462;
+	Wed, 24 Jul 2019 06:54:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B97388E46
- for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 01:28:34 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id F20A01A3547642C26260;
- Wed, 24 Jul 2019 09:28:30 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.439.0; Wed, 24 Jul 2019 09:28:23 +0800
-From: YueHaibing <yuehaibing@huawei.com>
-To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Matthias
- Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH -next] drm/mediatek: Remove duplicated include from
- mtk_drm_drv.c
-Date: Wed, 24 Jul 2019 01:33:48 +0000
-Message-ID: <20190724013348.153144-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.20.1
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D50416E41D
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 01:40:01 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id u25so48932580iol.23
+ for <dri-devel@lists.freedesktop.org>; Tue, 23 Jul 2019 18:40:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+ :from:to;
+ bh=w92/D4APly1S0dijjuo/84NrUKS2JIroIh/+k83Y0Yg=;
+ b=Icou5+FyPmE6Kg6BGlf8NftXJlI3grQBNDtE43FnNUr6i5TF5TEi0ODfVyvgSck++Y
+ tAQUqKJ5nhqRC2h/FtU8a78OseHbXNhBdW8OAcFGcDIXwaFvGg7i3alKA5/Wdx2wkHLE
+ f8wAips4TXME/Nwo8gJagaIP7MSGfFBqMU4Sa4p/rRSfXxOocD0zsxJZ6EX6TXBYJJC0
+ nX2TgFaet8v0nQbHYO7aeskzYJYZwVpXhFggykxNAQyJGGo0VFpds1WKfj/ACTxOrfOs
+ s70lAyflQbOA3mUT5X9uZzh0JiS0rKIK//b+ELpp0MIZ9mLD+oklC/DeIDyW/7omJbA7
+ s40Q==
+X-Gm-Message-State: APjAAAX37kmre75dfa53JR4WbD3cb5AHlQcQFmyEJ9w33JwSZB9LIlUD
+ VS6G22g6udIpOTUI8xQ/e6hxR1Pm2ecoodvKRMkoEP8fDQMT
+X-Google-Smtp-Source: APXvYqxZV7f2M7mWAmPB7Zk6w2/BTeh9n6/BKLJgP5HdF+ftj8Txa1VpP1wlpVLNOViX/+n9pFrEH7CBKE5ifAlRW9n+RxMquc0l
 MIME-Version: 1.0
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+X-Received: by 2002:a05:6638:691:: with SMTP id
+ i17mr82704018jab.70.1563932401090; 
+ Tue, 23 Jul 2019 18:40:01 -0700 (PDT)
+Date: Tue, 23 Jul 2019 18:40:01 -0700
+In-Reply-To: <5d3744ff777cc_436d2adb6bf105c41c@john-XPS-13-9370.notmuch>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000384ae4058e636360@google.com>
+Subject: Re: kernel panic: stack is corrupted in pointer
+From: syzbot <syzbot+79f5f028005a77ecb6bb@syzkaller.appspotmail.com>
+To: airlied@linux.ie, alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ ast@kernel.org, bpf@vger.kernel.org, christian.koenig@amd.com, 
+ daniel@iogearbox.net, david1.zhou@amd.com, dri-devel@lists.freedesktop.org, 
+ dvyukov@google.com, john.fastabend@gmail.com, leo.liu@amd.com, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
 X-Mailman-Approved-At: Wed, 24 Jul 2019 06:54:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,24 +59,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: YueHaibing <yuehaibing@huawei.com>, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"; DelSp="yes"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UmVtb3ZlIGR1cGxpY2F0ZWQgaW5jbHVkZS4KClNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1
-ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
-bV9kcnYuYyB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCmluZGV4IDJlZTgwOWE2ZjNkYy4uZTNiNjRhMjY2ZGNm
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYwpAQCAtMjMsNyArMjMsNiBA
-QAogCiAjaW5jbHVkZSAibXRrX2RybV9jcnRjLmgiCiAjaW5jbHVkZSAibXRrX2RybV9kZHAuaCIK
-LSNpbmNsdWRlICJtdGtfZHJtX2RkcC5oIgogI2luY2x1ZGUgIm10a19kcm1fZGRwX2NvbXAuaCIK
-ICNpbmNsdWRlICJtdGtfZHJtX2Rydi5oIgogI2luY2x1ZGUgIm10a19kcm1fZmIuaCIKCgoKCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SGVsbG8sCgpzeXpib3QgaGFzIHRlc3RlZCB0aGUgcHJvcG9zZWQgcGF0Y2ggYW5kIHRoZSByZXBy
+b2R1Y2VyIGRpZCBub3QgdHJpZ2dlciAgCmNyYXNoOgoKUmVwb3J0ZWQtYW5kLXRlc3RlZC1ieTog
+IApzeXpib3QrNzlmNWYwMjgwMDVhNzdlY2I2YmJAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQoK
+VGVzdGVkIG9uOgoKY29tbWl0OiAgICAgICAgIGRlY2I3MDVlIGxpYmJwZjogZml4IHVzaW5nIHVu
+aW5pdGlhbGl6ZWQgaW9jdGwgcmVzdWx0cwpnaXQgdHJlZTogICAgICAgYnBmCmtlcm5lbCBjb25m
+aWc6ICBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS94Ly5jb25maWc/eD04NzMwNWMzY2E5
+YzI1YzcwCmNvbXBpbGVyOiAgICAgICBnY2MgKEdDQykgOS4wLjAgMjAxODEyMzEgKGV4cGVyaW1l
+bnRhbCkKCk5vdGU6IHRlc3RpbmcgaXMgZG9uZSBieSBhIHJvYm90IGFuZCBpcyBiZXN0LWVmZm9y
+dCBvbmx5LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
