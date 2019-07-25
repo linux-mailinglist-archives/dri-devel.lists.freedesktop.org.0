@@ -1,57 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE2174839
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 09:30:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF4674837
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 09:30:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8246E67B;
-	Thu, 25 Jul 2019 07:30:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 472E56E676;
+	Thu, 25 Jul 2019 07:30:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 886FF89B03;
- Thu, 25 Jul 2019 03:36:56 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id i18so22258290pgl.11;
- Wed, 24 Jul 2019 20:36:56 -0700 (PDT)
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
+ [IPv6:2607:f8b0:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C95626E3A6;
+ Thu, 25 Jul 2019 03:53:05 +0000 (UTC)
+Received: by mail-pl1-x643.google.com with SMTP id az7so22814445plb.5;
+ Wed, 24 Jul 2019 20:53:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
  bh=y5mWEC7ogDY2PSdGXYMgqGEgddaBMGRrx0o4VSfwM/o=;
- b=Dpc2/Gn1x9LWmKdCvXKu2r4WNI7Bh24fXIt9av0YSEvr9+KUEWGzk0Rkg2qvoC1K34
- Xpg0rF5H9mzGiR2LqpZ16lRHcPPjzzpSEUf68+kfvj3vHKLm2vdAQSfumkeKHekx1xcw
- mQsVB4ZQs79RPtgG/jrOR4M0OzphA9NUw81tTSGufJlwVj527hDuoCwskMLdlL7q6b7q
- 4pKjA2Q+ArcJ/iYeL0azhlxUmnjniurkerwmtT9qfKzsNaEVF4/uK3gr9foEVsEuTuuC
- Kmr0+/iiAeaoJTzSQRzjbuuEbieEVu4vdIn6S3oIA+jfq4349Z4ut1fTIi4QJ5Tb9IIU
- XPzw==
-X-Gm-Message-State: APjAAAXgKpKik+UQAe0Umck/wZFS3MTKzVmh6IwBg+T3vYuw8MExMTNY
- 6sddk9pIaC1ExiPqO9d2p+G88b9O
-X-Google-Smtp-Source: APXvYqwXGIrEshHJ/620ZjKabG/Vz5HjLWHyUhFB8umegovRT8FYTgXZAD3421HaW/F6oWwFLORuZQ==
-X-Received: by 2002:a63:520f:: with SMTP id g15mr80162152pgb.28.1564025816100; 
- Wed, 24 Jul 2019 20:36:56 -0700 (PDT)
+ b=DUZFAli26r1ogsXH8LSUeeBqS0stlYJExXgjPjdJUIm228B6EpCDO7XKZ8pTwsc9GH
+ HXs2B6sdRerh3yrRPySjYuSGYMUto7I88lim71tWJOuPKxksn23lh+btsPIVDTnZCSxf
+ /oXwto2HHp7UmYSxEGsNgg53dXNYf5PbKhGk8qbQApBfMFGloVq829+mQBEMCF2HqvDy
+ 8TQHsiolq6E6SOkpUa/KDUVRUcBp86qQgvvbvgq3gnMyHJMpqN6HgRfPNgkRTA/ldfOh
+ q0Yby8JT7t2bSu3QPGKkMeOs+edfweC5ysyruQ/3lMTae8FostaNrjASWgfopbMry4dh
+ o7sQ==
+X-Gm-Message-State: APjAAAXZi1a3OZHoPgtPYLmpYGNBQCOP3dfTXULdTHVZWNcJ2T7ehQA/
+ G9Z5xg9Q1EiVVJMQf29jYWM=
+X-Google-Smtp-Source: APXvYqx9hemuW6yfJrdLe/W9cnYSkxCvTtjqmGP/oGqHMbl2olfl8tXQReuCOEwOZAZOQSmHSy68kw==
+X-Received: by 2002:a17:902:296a:: with SMTP id
+ g97mr87272714plb.115.1564026785497; 
+ Wed, 24 Jul 2019 20:53:05 -0700 (PDT)
 Received: from huyue2.ccdomain.com ([218.189.10.173])
- by smtp.gmail.com with ESMTPSA id a1sm2056528pgh.61.2019.07.24.20.36.52
+ by smtp.gmail.com with ESMTPSA id 11sm49035787pfw.33.2019.07.24.20.53.01
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Jul 2019 20:36:55 -0700 (PDT)
+ Wed, 24 Jul 2019 20:53:04 -0700 (PDT)
 From: Yue Hu <zbestahu@gmail.com>
 To: airlied@linux.ie, daniel@ffwll.ch, robdclark@gmail.com, sean@poorly.run,
  robh@kernel.org, tomeu.vizoso@collabora.com
-Subject: [PATCH] drm: Switch to use DEVFREQ_GOV_SIMPLE_ONDEMAND constant
-Date: Thu, 25 Jul 2019 11:36:15 +0800
-Message-Id: <20190725033615.11388-1-zbestahu@gmail.com>
+Subject: [PATCH RESEND] drm: Switch to use DEVFREQ_GOV_SIMPLE_ONDEMAND constant
+Date: Thu, 25 Jul 2019 11:52:39 +0800
+Message-Id: <20190725035239.1192-1-zbestahu@gmail.com>
 X-Mailer: git-send-email 2.17.1.windows.2
 X-Mailman-Approved-At: Thu, 25 Jul 2019 07:29:33 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
  bh=y5mWEC7ogDY2PSdGXYMgqGEgddaBMGRrx0o4VSfwM/o=;
- b=RcA73rrAO55/gHOoxqi1LmtF8yacHdzQxlT+GcVs1ZywSerBvoobvmtsYWDMQHbJg1
- Skf0DzxVYolaM3PcWKODtiF2pShPT38EAc0cbTX/n/Xi/r3ChwvPW/RYHO4/I36MuuWJ
- F7KJEG8l/9Sn+2txeQX6frkSvWrX/kRnqW9BdGJN0M0tRDW2CVW+KxcBzO8O69NIepCb
- aRw4QlDfGH3z7kjFOuuNQaQVwAPyORRPJ+Pp49zt7qvIscVkTSapPOE9wL1jjXkuWSdI
- Js48Fx9ID+B8NYSy90cPWyoUyJvkAeba+FhJZI1Zy0M3yL5/2IuINFVuYn3R56eSbtPx
- YbfA==
+ b=YPWRGW5VmHNWo6GsrY3FzBl3NteVrMAlJZDe3aI5Qbe6y5GoO5iz1P+VoDpS114xir
+ lnJQbc5weUseSt46orAnRfhtgU/fGYHAaJncUp0dU254Ien57uasz/8B2c8/2K/U8r0/
+ SI6MS2x4qfFMTOZPT7DKM7mt3pqN0cBUoUDHoh/iM+ZC4NvBGXbCfcjt4Ksn8UYlfBB6
+ e2HareCP+ntG+5Swk2Js+HaoQIKrGB7BK1KzTohZT6t55ozmluarZfKGJc0HAiaYXvBp
+ EyZKEFpF0pr4jklKhXLmUMatasZm31V6OXaGTsCTUIv/F9V4mjXTBBTA+SUwlovdfdvU
+ 3U1Q==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,9 +65,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, huyue2@yulong.com,
- freedreno@lists.freedesktop.org, zhangwen@yulong.com,
- dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ cw00.choi@samsung.com, huyue2@yulong.com, myungjoo.ham@samsung.com,
+ zhangwen@yulong.com, freedreno@lists.freedesktop.org
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
