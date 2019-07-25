@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D5F74506
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 07:36:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7DD747F5
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 09:16:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F246E616;
-	Thu, 25 Jul 2019 05:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3916E632;
+	Thu, 25 Jul 2019 07:16:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6EB566E5BB
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 05:36:25 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6AC4E72167; Thu, 25 Jul 2019 05:36:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Thu, 25 Jul 2019 05:36:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-bbSe4VDlX5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9E66E632
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 07:16:39 +0000 (UTC)
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
+ [83.86.89.107])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 8187621734;
+ Thu, 25 Jul 2019 07:16:37 +0000 (UTC)
+Date: Thu, 25 Jul 2019 09:16:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [RFC] Staging: fbtft: Typo in
+Message-ID: <20190725071635.GA17271@kroah.com>
+References: <f4881a63-8702-55f2-ed03-cfbc30970083@wanadoo.fr>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <f4881a63-8702-55f2-ed03-cfbc30970083@wanadoo.fr>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1564038998;
+ bh=Twe7T2ksbtZDBiQa7kI9kVZPuxOy4gwdvC5nAZG75H4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p5Rt+SvwJnjf8AhPSfbDvu5rxBNibDaMh3f0kbsM0xcaYZ0mzb9e8ssJjpsgeuDEW
+ LxSwJIRU0oWiVrKh+HQERxJ06yB9JBDtkhAnsWNe7YU4AMFa1GqNv/TWwKHsztpVT6
+ ipUOuzZHSDbZOxYjjCWDq3VF+3lhtzG7aOvUARUo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,128 +47,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2107062365=="
+Cc: linux-fbdev@vger.kernel.org,
+ Kernel Janitors <kernel-janitors@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, nishadkamdar@gmail.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2107062365==
-Content-Type: multipart/alternative; boundary="15640329851.36a43a88D.6880"
-Content-Transfer-Encoding: 7bit
-
-
---15640329851.36a43a88D.6880
-Date: Thu, 25 Jul 2019 05:36:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #47 from ReddestDream <reddestdream@gmail.com> ---
-(In reply to Tom B from comment #46)
-> Has anyone tested 5.3 yet? I noticed there are a lot of powerplay changes.
->=20
-> Since this bug messes up the card's power profile, how safe is testing new
-> kernels? Is there any danger of my card being damaged due to wrong voltag=
-es
-> if the powerplay code is as buggy or worse than it has been since 5.1?
-
-I've tested 5.3-rc-1 and no dice. I still get the PowerPlay Failed to send
-message errors in dmesg when I have more than one monitor connected to Rade=
-on
-VII. :(
-
-My current workaround is to connect my second monitor to the iGPU before bo=
-ot.
-Then the PowerPlay errors do not happen. As long as I don't get the PowerPl=
-ay
-errors in dmesg, graphics are stable. If the errors do appear, graphics wil=
-l be
-unstable. It's a pretty clear connection . . .
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15640329851.36a43a88D.6880
-Date: Thu, 25 Jul 2019 05:36:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c47">Comme=
-nt # 47</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
-</span></b>
-        <pre>(In reply to Tom B from <a href=3D"show_bug.cgi?id=3D110674#c4=
-6">comment #46</a>)
-<span class=3D"quote">&gt; Has anyone tested 5.3 yet? I noticed there are a=
- lot of powerplay changes.
-&gt;=20
-&gt; Since this bug messes up the card's power profile, how safe is testing=
- new
-&gt; kernels? Is there any danger of my card being damaged due to wrong vol=
-tages
-&gt; if the powerplay code is as buggy or worse than it has been since 5.1?=
-</span >
-
-I've tested 5.3-rc-1 and no dice. I still get the PowerPlay Failed to send
-message errors in dmesg when I have more than one monitor connected to Rade=
-on
-VII. :(
-
-My current workaround is to connect my second monitor to the iGPU before bo=
-ot.
-Then the PowerPlay errors do not happen. As long as I don't get the PowerPl=
-ay
-errors in dmesg, graphics are stable. If the errors do appear, graphics wil=
-l be
-unstable. It's a pretty clear connection . . .</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15640329851.36a43a88D.6880--
-
---===============2107062365==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2107062365==--
+T24gU3VuLCBKdWwgMjEsIDIwMTkgYXQgMDg6NTQ6MzlQTSArMDIwMCwgQ2hyaXN0b3BoZSBKQUlM
+TEVUIHdyb3RlOgo+IEhpLAo+IAo+IGxvb2tpbmcgYXQgdGhlIGNvZGUgaW4gJ2RyaXZlcnMvc3Rh
+Z2luZy9mYnRmdC9mYl9wY2Q4NTQ0LmMnLCB0aGVyZSBzZWVtcyB0bwo+IGJlIHNvbWUgdHlwb3Mu
+Cj4gCj4gQXQgdGhlIGVuZCBvZiB0aGUgZmlsZSwgd2UgY2FuIGZpbmQ6Cj4gCj4gRkJURlRfUkVH
+SVNURVJfRFJJVkVSKERSVk5BTUUsICJwaGlsaXBzLHBkYzg1NDQiLCAmZGlzcGxheSk7Cj4gLi4u
+Cj4gTU9EVUxFX0FMSUFTKCJzcGk6cGRjODU0NCIpOwo+IAo+IAo+IEl0IGlzIGxpa2VseSB0aGF0
+IHRoZSAyIHBkYzg1NDQgc2hvdWxkIGJlIHBjZDg1NDQuIChkIGFuZCBjIHN3aXRjaGVkKQo+IAo+
+IEFzIEkgZG9uJ3Qga25vdyB0aGUgaW1wbGljYXRpb24gb2Ygc3VjaCBhIGNoYW5nZSwgSSBwcmVm
+ZXIgdG8gZmlyc3QgcmVwb3J0Cj4gdGhlIHBvdGVudGlhbCBpc3N1ZSwgYmVmb3JlIHByb3Bvc2lu
+ZyBhIHBhdGNoIGZvciBpdC4KClN1Ym1pdCBhIHBhdGNoLCB0aGF0J3MgdGhlIGJlc3Qgd2F5IHRv
+IGRpc2N1c3MgaXQhCgp0aGFua3MsCgpncmVnIGstaApfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9kcmktZGV2ZWw=
