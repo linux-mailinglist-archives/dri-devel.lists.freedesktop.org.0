@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C94743DC
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 05:20:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D5F74506
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 07:36:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F4B86E3A2;
-	Thu, 25 Jul 2019 03:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7F246E616;
+	Thu, 25 Jul 2019 05:36:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [1.203.163.81])
- by gabe.freedesktop.org (Postfix) with ESMTP id C32996E3A2
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 03:20:28 +0000 (UTC)
-X-UUID: ed85f5d1925b4024b7446fdc12bebcaf-20190725
-X-UUID: ed85f5d1925b4024b7446fdc12bebcaf-20190725
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLS)
- with ESMTP id 461284809; Thu, 25 Jul 2019 11:20:21 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Thu, 25 Jul 2019 11:20:19 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Thu, 25 Jul 2019 11:20:19 +0800
-Message-ID: <1564024819.2621.4.camel@mtksdaap41>
-Subject: Re: [PATCH v4, 05/33] dt-bindings: mediatek: add RDMA1 description
- for mt8183 display
-From: CK Hu <ck.hu@mediatek.com>
-To: Rob Herring <robh@kernel.org>
-Date: Thu, 25 Jul 2019 11:20:19 +0800
-In-Reply-To: <20190724201635.GA18345@bogus>
-References: <1562625253-29254-1-git-send-email-yongqiang.niu@mediatek.com>
- <1562625253-29254-6-git-send-email-yongqiang.niu@mediatek.com>
- <20190724201635.GA18345@bogus>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6EB566E5BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 05:36:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6AC4E72167; Thu, 25 Jul 2019 05:36:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Thu, 25 Jul 2019 05:36:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-bbSe4VDlX5@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 7D8A1CCF38AD247D3F162A72E891F36A49E6C52CAB3DEA3F413B16EB119711E62000:8
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,47 +52,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yongqiang.niu@mediatek.com,
- linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2107062365=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFJvYjoKCk9uIFdlZCwgMjAxOS0wNy0yNCBhdCAxNDoxNiAtMDYwMCwgUm9iIEhlcnJpbmcg
-d3JvdGU6Cj4gT24gVHVlLCBKdWwgMDksIDIwMTkgYXQgMDY6MzM6NDVBTSArMDgwMCwgeW9uZ3Fp
-YW5nLm5pdUBtZWRpYXRlay5jb20gd3JvdGU6Cj4gPiBGcm9tOiBZb25ncWlhbmcgTml1IDx5b25n
-cWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPiA+IAo+ID4gVGhpcyBwYXRjaCBhZGQgUkRNQTEgZGVz
-Y3JpcHRpb24gZm9yIG10ODE4MyBkaXNwbGF5Cj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFlvbmdx
-aWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPgo+ID4gLS0tCj4gPiAgRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlz
-cC50eHQgfCAxICsKPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiA+IAo+ID4g
-ZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21l
-ZGlhdGVrL21lZGlhdGVrLGRpc3AudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQKPiA+IGluZGV4IGFmZDNjOTAu
-LmJiOTI3NGEgMTAwNjQ0Cj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+ID4gKysrIGIvRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50
-eHQKPiA+IEBAIC0zMCw2ICszMCw3IEBAIFJlcXVpcmVkIHByb3BlcnRpZXMgKGFsbCBmdW5jdGlv
-biBibG9ja3MpOgo+ID4gIAkibWVkaWF0ZWssPGNoaXA+LWRpc3Atb3ZsIiAgIAkJLSBvdmVybGF5
-ICg0IGxheWVycywgYmxlbmRpbmcsIGNzYykKPiA+ICAJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLW92
-bC0ybCIgICAgICAgICAgIC0gb3ZlcmxheSAoMiBsYXllcnMsIGJsZW5kaW5nLCBjc2MpCj4gPiAg
-CSJtZWRpYXRlayw8Y2hpcD4tZGlzcC1yZG1hIiAgCQktIHJlYWQgRE1BIC8gbGluZSBidWZmZXIK
-PiA+ICsJIm1lZGlhdGVrLDxjaGlwPi1kaXNwLXJkbWExIiAgICAgICAgICAgIC0gZnVuY3Rpb24g
-aXMgc2FtZSB3aXRoIFJETUEsIGZpZm8gc2l6ZSBpcyBkaWZmZXJlbnQKPiAKPiBUaGlzIGNhbid0
-IGJlIGRldGVybWluZWQgYnkgd2hpY2ggY2hpcCBpdCBpcz8gSU9XLCBhIGNoaXAgbWF5IGhhdmUg
-Ym90aCAKPiByZG1hIGFuZCByZG1hMT8KCkluIE1UODE4MywgdGhlcmUgYXJlIHR3byBkaWZmZXJl
-bnQgcmRtYS4gVGhlIGRpZmZlcmVuY2UgaXMgdGhlIGZpZm8gc2l6ZQppbiBlYWNoIG9uZS4gSSd2
-ZSBhIHF1ZXN0aW9uOiBpcyBpdCBiZXR0ZXIgdG8gaGF2ZSB0d28gY29tcGF0aWJsZSBzdHJpbmcK
-Zm9yIGVhY2ggb25lLCBvciBqdXN0IG9uZSBjb21wYXRpYmxlIHN0cmluZyBmb3IgYm90aCBidXQg
-d2l0aCBhIHByb3BlcnR5CnRvIHNldCBmaWZvIHNpemU/CgpSZWdhcmRzLApDSwoKPiAKPiA+ICAJ
-Im1lZGlhdGVrLDxjaGlwPi1kaXNwLXdkbWEiICAJCS0gd3JpdGUgRE1BCj4gPiAgCSJtZWRpYXRl
-ayw8Y2hpcD4tZGlzcC1jY29yciIgICAgICAgICAgICAtIGNvbG9yIGNvcnJlY3Rpb24KPiA+ICAJ
-Im1lZGlhdGVrLDxjaGlwPi1kaXNwLWNvbG9yIiAJCS0gY29sb3IgcHJvY2Vzc29yCj4gPiAtLSAK
-PiA+IDEuOC4xLjEuZGlydHkKPiA+IAoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+
+--===============2107062365==
+Content-Type: multipart/alternative; boundary="15640329851.36a43a88D.6880"
+Content-Transfer-Encoding: 7bit
+
+
+--15640329851.36a43a88D.6880
+Date: Thu, 25 Jul 2019 05:36:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #47 from ReddestDream <reddestdream@gmail.com> ---
+(In reply to Tom B from comment #46)
+> Has anyone tested 5.3 yet? I noticed there are a lot of powerplay changes.
+>=20
+> Since this bug messes up the card's power profile, how safe is testing new
+> kernels? Is there any danger of my card being damaged due to wrong voltag=
+es
+> if the powerplay code is as buggy or worse than it has been since 5.1?
+
+I've tested 5.3-rc-1 and no dice. I still get the PowerPlay Failed to send
+message errors in dmesg when I have more than one monitor connected to Rade=
+on
+VII. :(
+
+My current workaround is to connect my second monitor to the iGPU before bo=
+ot.
+Then the PowerPlay errors do not happen. As long as I don't get the PowerPl=
+ay
+errors in dmesg, graphics are stable. If the errors do appear, graphics wil=
+l be
+unstable. It's a pretty clear connection . . .
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15640329851.36a43a88D.6880
+Date: Thu, 25 Jul 2019 05:36:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c47">Comme=
+nt # 47</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
+l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
+</span></b>
+        <pre>(In reply to Tom B from <a href=3D"show_bug.cgi?id=3D110674#c4=
+6">comment #46</a>)
+<span class=3D"quote">&gt; Has anyone tested 5.3 yet? I noticed there are a=
+ lot of powerplay changes.
+&gt;=20
+&gt; Since this bug messes up the card's power profile, how safe is testing=
+ new
+&gt; kernels? Is there any danger of my card being damaged due to wrong vol=
+tages
+&gt; if the powerplay code is as buggy or worse than it has been since 5.1?=
+</span >
+
+I've tested 5.3-rc-1 and no dice. I still get the PowerPlay Failed to send
+message errors in dmesg when I have more than one monitor connected to Rade=
+on
+VII. :(
+
+My current workaround is to connect my second monitor to the iGPU before bo=
+ot.
+Then the PowerPlay errors do not happen. As long as I don't get the PowerPl=
+ay
+errors in dmesg, graphics are stable. If the errors do appear, graphics wil=
+l be
+unstable. It's a pretty clear connection . . .</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15640329851.36a43a88D.6880--
+
+--===============2107062365==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2107062365==--
