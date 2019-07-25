@@ -1,31 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B3A757CA
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 21:25:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C54B75816
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 21:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB46D6E822;
-	Thu, 25 Jul 2019 19:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0D9C6E829;
+	Thu, 25 Jul 2019 19:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 043EB6E822
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 19:25:13 +0000 (UTC)
-Received: from localhost (p5486CDF3.dip0.t-ipconnect.de [84.134.205.243])
- by pokefinder.org (Postfix) with ESMTPSA id 8B57C4A1209;
- Thu, 25 Jul 2019 21:25:11 +0200 (CEST)
-Date: Thu, 25 Jul 2019 21:25:11 +0200
-From: Wolfram Sang <wsa@the-dreams.de>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>
-Subject: Re: [PATCH v3 2/7] drivers: Introduce device lookup variants by
- of_node
-Message-ID: <20190725192510.GA1440@kunai>
-References: <20190723221838.12024-1-suzuki.poulose@arm.com>
- <20190723221838.12024-3-suzuki.poulose@arm.com>
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90BD6E81B;
+ Thu, 25 Jul 2019 19:40:13 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2257D85550;
+ Thu, 25 Jul 2019 19:40:13 +0000 (UTC)
+Received: from malachite.bss.redhat.com (dhcp-10-20-1-11.bss.redhat.com
+ [10.20.1.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 076836012D;
+ Thu, 25 Jul 2019 19:40:09 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/nouveau: i2c over DP AUX fixes
+Date: Thu, 25 Jul 2019 15:39:59 -0400
+Message-Id: <20190725194005.16572-1-lyude@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190723221838.12024-3-suzuki.poulose@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Thu, 25 Jul 2019 19:40:13 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,116 +43,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrew Lunn <andrew@lunn.ch>, Thor Thayer <thor.thayer@linux.intel.com>,
- rafael@kernel.org, Maxime Ripard <maxime.ripard@bootlin.com>,
- linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- linux-i2c@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
- Florian Fainelli <f.fainelli@gmail.com>, linux-rockchip@lists.infradead.org,
- Lee Jones <lee.jones@linaro.org>, David Airlie <airlied@linux.ie>,
- Jiri Slaby <jslaby@suse.com>, devicetree@vger.kernel.org,
- Alan Tull <atull@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Moritz Fischer <mdf@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Mathieu Poirier <mathieu.poirier@linaro.org>, gregkh@linuxfoundation.org,
- Takashi Iwai <tiwai@suse.com>, linux-spi@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Peter Rosin <peda@axentia.se>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0504195354=="
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0504195354==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
-Content-Disposition: inline
-
-
---zYM0uCDKw75PZbzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 23, 2019 at 11:18:33PM +0100, Suzuki K Poulose wrote:
-> Introduce wrappers for {bus/driver/class}_find_device() to
-> locate devices by its of_node.
->=20
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: devicetree@vger.kernel.org
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: linux-i2c@vger.kernel.org
-> Cc: linux-rockchip@lists.infradead.org
-> Cc: linux-spi@vger.kernel.org
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: Alan Tull <atull@kernel.org>
-> Cc: Moritz Fischer <mdf@kernel.org>
-> Cc: linux-fpga@vger.kernel.org
-> Cc: Peter Rosin <peda@axentia.se>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Florian Fainelli <f.fainelli@gmail.com>
-> Cc: Heiner Kallweit <hkallweit1@gmail.com>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Thor Thayer <thor.thayer@linux.intel.com>
-> Cc: Jiri Slaby <jslaby@suse.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Peter Rosin <peda@axentia.se>
-> Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> ---
->  - Dropped the reviewed-by tags from Thor, Mark, Andrew and Peter as the
->    patches are mereged, though there are no functional changes.
-
-Acked-by: Wolfram Sang <wsa@the-dreams.de> # I2C part
-
-
---zYM0uCDKw75PZbzx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl06AhIACgkQFA3kzBSg
-KbZNIA/9HLsMnNVbTacVYltjXILzMKZYQ0kihekXpZMQbl+jlUgeNb0ge8XrGl47
-3ssjlN6wpc7uMNy9T6ScDTjzESHgvFKzKssjfoJ5fp+MDd3KFChbvSmLmm5vVOGc
-VjnjK+ls5meWoG4XdmJuqzlYbdnHOBI/7di4xhfzgN5TvJOjs83YHr7peNVJQgjv
-gTYT2flkrgONnfGKofDGJ4Bk60xOOT/w6oYY3CkzLxbKkaUd5BiIJriXCcKYVNXd
-uLLv5bw/yoU6Smilkgaq8ZdKSbid6VUbXul2Xi6/EEaxQX4Isvx3XNlplBogeAsB
-Jy39hEz2I+UEQHfWNKAIVJJSWyMH/HxwuGYeHB6e9pLqF93rBbXZla+/Uu+u00yW
-BzThKuVHqdQ4FDSbeLz69vJgjvStNgDG/XcYn9PbGtkPiSIrIDJbH1Wq8Wk/PKLX
-XvYAUkM5O/PYp0K4oS6G+7SmDPMLoCCem1PGJsN9QkWfV4b05MtFQFRvRE/voO7Z
-IeUCD1KiM4RUDNd6f9n7DM25OxMtwknJIbT7wuLjDe2KvPvF8/FTI2u2pY0GMaJe
-QZ1uZsSqL7qIUxud5DdTNEyIHgjJDybwyYs/abejIwxMK/tbyl3CiKC2ozg7pc0y
-myVXYa1A9Ecw3n86cwAqQON/rD/j1Bw+dQ/I85BaWBgSb1rPjzI=
-=uZDa
------END PGP SIGNATURE-----
-
---zYM0uCDKw75PZbzx--
-
---===============0504195354==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0504195354==--
+VGhpcyBpcyBhbm90aGVyIGF0dGVtcHQgYXQgZml4aW5nIGFuIGlzc3VlIHdpdGgKCnllcyB8IHNl
+bnNvcnMtZGV0ZWN0CgpDYXVzaW5nIHNvbWUgbWFjaGluZXMgd2l0aCBub3V2ZWF1IGxvYWRlZCB0
+byBoYW5nIGlmIGNlcnRhaW4ga2luZHMgb2YKZGlzcGxheXMgYXJlIGF0dGFjaGVkLiBJJ3ZlIGFs
+c28gaW5jbHVkZWQgb25lIG1pbm9yIGZpeCB0aGF0IEkgZm91bmQKYWxvbmcgdGhlIHdheSBvZiB0
+cm91Ymxlc2hvb3RpbmcgdGhpcyBpc3N1ZS4KCkx5dWRlIFBhdWwgKDIpOgogIGRybS9ub3V2ZWF1
+OiBGaXggbWlzc2luZyBlbHNlcyBpbiBnOTRfaTJjX2F1eF94ZmVyCiAgZHJtL25vdXZlYXU6IERv
+bid0IHJldHJ5IGluZmluaXRlbHkgd2hlbiByZWNlaXZpbmcgbm8gZGF0YSBvbiBpMmMgb3Zlcgog
+ICAgQVVYCgogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbnZrbS9zdWJkZXYvaTJjL2F1eC5jIHwg
+MjQgKysrKysrKysrKysrKy0tLS0tLQogLi4uL2dwdS9kcm0vbm91dmVhdS9udmttL3N1YmRldi9p
+MmMvYXV4Zzk0LmMgIHwgIDQgKystLQogMiBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25zKCsp
+LCA5IGRlbGV0aW9ucygtKQoKLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
