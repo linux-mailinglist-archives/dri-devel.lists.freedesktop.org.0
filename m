@@ -2,48 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB79742D2
-	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 03:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7E474375
+	for <lists+dri-devel@lfdr.de>; Thu, 25 Jul 2019 04:52:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A63F6E5D5;
-	Thu, 25 Jul 2019 01:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C046E44F;
+	Thu, 25 Jul 2019 02:52:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtprelay.hostedemail.com (smtprelay0170.hostedemail.com
- [216.40.44.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B586E5D5
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 01:18:22 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay06.hostedemail.com (Postfix) with ESMTP id 5FF5818026238;
- Thu, 25 Jul 2019 01:18:21 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, :::::::::::::::::,
- RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1431:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2553:2559:2562:2828:2911:3138:3139:3140:3141:3142:3352:3622:3867:3872:4321:4425:5007:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12296:12297:12438:12555:12740:12760:12895:12986:13069:13161:13229:13311:13357:13439:14096:14097:14181:14659:14721:21080:21451:21611:21627:30054:30090:30091,
- 0,
- RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.8.0.180 64.201.201.201,
- CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none, DomainCache:0,
- MSF:not bulk, SPF:fn, MSBL:0, DNSBL:neutral, Custom_rules:0:0:0, LFtime:26,
- LUA_SUMMARY:none
-X-HE-Tag: rain11_48b2601630360
-X-Filterd-Recvd-Size: 2496
-Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com
- [23.242.196.136]) (Authenticated sender: joe@perches.com)
- by omf02.hostedemail.com (Postfix) with ESMTPA;
- Thu, 25 Jul 2019 01:18:19 +0000 (UTC)
-Message-ID: <4e5bc8d61436024a30a8fb6a1516e29e23a75ede.camel@perches.com>
-Subject: Re: [PATCH 03/12] drm: aspeed_gfx: Fix misuse of GENMASK macro
-From: Joe Perches <joe@perches.com>
-To: Andrew Jeffery <andrew@aj.id.au>, Andrew Morton
- <akpm@linux-foundation.org>,  Joel Stanley <joel@jms.id.au>
-Date: Wed, 24 Jul 2019 18:18:18 -0700
-In-Reply-To: <4f6709f8-381f-415c-8569-798b074b66c5@www.fastmail.com>
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D89886E4BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 02:52:40 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id t8so35380591qkt.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 24 Jul 2019 19:52:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TYbaU/RcXXoDnrZeMQ94CuW6JxA4bBgoJMHBj+E8c3U=;
+ b=YqSiFxML7GImERFppSPQftrEDK9m8xiAAZU+nMuSj6URUSbfOTFj93qBXaVtx5RBLf
+ Hw2cSSOD5UMbPuOu1+cDJ886ILDOcAjFgGYUVfVPeg1HbIBAvK/boc1mFV/Z0DVjI8l5
+ uBAIzr4uI1poZvaClxX3jym5mmvLgN6y4jjfgfUFvIYyNNlSHXMIoCjHPZ1zFXnIqa2c
+ +8b0cjYZCVVm+xGITHDNsSXhQae8saKDmWgFCHPJxaIZij0HPrq7iGsEwelS+hpTcTyt
+ w6EqXOr3OkFQQr6z7xtICKTvamTHSVtO6aHbhV35pVPGw+4c6zi45f5qW3Ch3BJaqCsI
+ rNWg==
+X-Gm-Message-State: APjAAAV7n6cPLn1fU4sMV0dSX/W8u7wZO/GQ2LoiXeFhQEn1hNiibiXR
+ jbe6y7wAAbUn1KIf7agp2asvY5zG2RNMBJyhx5KS8A==
+X-Google-Smtp-Source: APXvYqyM3sqW/iwNxySOMbv+KfAtuOilJ1tOA6mmxNVc4AhyblxyzikTIraPFFcFyT9J6TSPJ9ksANxa4ctyvg2uzs8=
+X-Received: by 2002:a37:a1d6:: with SMTP id
+ k205mr56474155qke.171.1564023159729; 
+ Wed, 24 Jul 2019 19:52:39 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1562734889.git.joe@perches.com>
  <cddd7ad7e9f81dec1e86c106f04229d21fc21920.1562734889.git.joe@perches.com>
  <2a0c5ef5c7e20b190156908991e4c964a501d80a.camel@perches.com>
  <4f6709f8-381f-415c-8569-798b074b66c5@www.fastmail.com>
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
-MIME-Version: 1.0
+ <4e5bc8d61436024a30a8fb6a1516e29e23a75ede.camel@perches.com>
+In-Reply-To: <4e5bc8d61436024a30a8fb6a1516e29e23a75ede.camel@perches.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 25 Jul 2019 02:52:27 +0000
+Message-ID: <CACPK8Xd3+iwkuw-Ofwf+Hy1Ez5-1pBvnk_G4xT72ZQdOVd7Sag@mail.gmail.com>
+Subject: Re: [PATCH 03/12] drm: aspeed_gfx: Fix misuse of GENMASK macro
+To: Joe Perches <joe@perches.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=TYbaU/RcXXoDnrZeMQ94CuW6JxA4bBgoJMHBj+E8c3U=;
+ b=VWLm7pb1QP2B0tihwP9USNElFOTjEp6/v4Hd70rru6K+fpcBLvsEDPhud9KTe7tp1C
+ gOYRrkbY5+tRQ2nBFGxx4CHJMbUfjVlQcbyTAYX2Zp31qb6KjaBAMSvULqFBUzF8Kb53
+ /HA80hSPJspYIH/79t0OEPIUrlEg+sessZKds=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,36 +64,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aspeed@lists.ozlabs.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDE5LTA3LTI1IGF0IDEwOjQwICswOTMwLCBBbmRyZXcgSmVmZmVyeSB3cm90ZToK
-PiAKPiBPbiBUaHUsIDI1IEp1bCAyMDE5LCBhdCAwMjo0NiwgSm9lIFBlcmNoZXMgd3JvdGU6Cj4g
-PiBPbiBUdWUsIDIwMTktMDctMDkgYXQgMjI6MDQgLTA3MDAsIEpvZSBQZXJjaGVzIHdyb3RlOgo+
-ID4gPiBBcmd1bWVudHMgYXJlIHN1cHBvc2VkIHRvIGJlIG9yZGVyZWQgaGlnaCB0aGVuIGxvdy4K
-PiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEpvZSBQZXJjaGVzIDxqb2VAcGVyY2hlcy5jb20+
-Cj4gPiA+IC0tLQo+ID4gPiAgZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4LmggfCAy
-ICstCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-PiA+ID4gCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9n
-ZnguaCBiL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeC5oCj4gPiA+IGluZGV4IGEx
-MDM1OGJiNjFlYy4uMDk1ZWEwM2U1ODMzIDEwMDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYXNwZWVkL2FzcGVlZF9nZnguaAo+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXNwZWVk
-L2FzcGVlZF9nZnguaAo+ID4gPiBAQCAtNzQsNyArNzQsNyBAQCBpbnQgYXNwZWVkX2dmeF9jcmVh
-dGVfb3V0cHV0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0pOwo+ID4gPiAgLyogQ1RSTDIgKi8KPiA+
-ID4gICNkZWZpbmUgQ1JUX0NUUkxfREFDX0VOCQkJQklUKDApCj4gPiA+ICAjZGVmaW5lIENSVF9D
-VFJMX1ZCTEFOS19MSU5FKHgpCQkoKCh4KSA8PCAyMCkgJiBDUlRfQ1RSTF9WQkxBTktfTElORV9N
-QVNLKQo+ID4gPiAtI2RlZmluZSBDUlRfQ1RSTF9WQkxBTktfTElORV9NQVNLCUdFTk1BU0soMjAs
-IDMxKQo+ID4gPiArI2RlZmluZSBDUlRfQ1RSTF9WQkxBTktfTElORV9NQVNLCUdFTk1BU0soMzEs
-IDIwKQo+IAo+IFJldmlld2VkLWJ5OiBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1PgoK
-VGhpcyBoYXJkbHkgbmVlZHMgYSByZXZpZXcsIGl0IG5lZWRzIHRvIGJlIGFwcGxpZWQuClRoZXJl
-J3MgYSBub21pbmFsIGdpdCB0cmVlIGZvciBhc3BlZWQgaGVyZToKClQ6CWdpdCBnaXQ6Ly9naXQu
-a2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvam9lbC9hc3BlZWQuZ2l0CgpCdXQg
-d2hvJ3MgZ29pbmcgdG8gZG8gYXBwbHkgdGhpcz8KCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWw=
+T24gVGh1LCAyNSBKdWwgMjAxOSBhdCAwMToxOCwgSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVzLmNv
+bT4gd3JvdGU6Cj4KPiBPbiBUaHUsIDIwMTktMDctMjUgYXQgMTA6NDAgKzA5MzAsIEFuZHJldyBK
+ZWZmZXJ5IHdyb3RlOgo+ID4KPiA+IE9uIFRodSwgMjUgSnVsIDIwMTksIGF0IDAyOjQ2LCBKb2Ug
+UGVyY2hlcyB3cm90ZToKPiA+ID4gT24gVHVlLCAyMDE5LTA3LTA5IGF0IDIyOjA0IC0wNzAwLCBK
+b2UgUGVyY2hlcyB3cm90ZToKPiA+ID4gPiBBcmd1bWVudHMgYXJlIHN1cHBvc2VkIHRvIGJlIG9y
+ZGVyZWQgaGlnaCB0aGVuIGxvdy4KPiA+ID4gPgo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEpvZSBQ
+ZXJjaGVzIDxqb2VAcGVyY2hlcy5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+ID4gIGRyaXZlcnMvZ3B1
+L2RybS9hc3BlZWQvYXNwZWVkX2dmeC5oIHwgMiArLQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiA+ID4gPgo+ID4gPiA+IGRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnguaCBiL2RyaXZlcnMvZ3B1L2RybS9h
+c3BlZWQvYXNwZWVkX2dmeC5oCj4gPiA+ID4gaW5kZXggYTEwMzU4YmI2MWVjLi4wOTVlYTAzZTU4
+MzMgMTAwNjQ0Cj4gPiA+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4
+LmgKPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnguaAo+ID4g
+PiA+IEBAIC03NCw3ICs3NCw3IEBAIGludCBhc3BlZWRfZ2Z4X2NyZWF0ZV9vdXRwdXQoc3RydWN0
+IGRybV9kZXZpY2UgKmRybSk7Cj4gPiA+ID4gIC8qIENUUkwyICovCj4gPiA+ID4gICNkZWZpbmUg
+Q1JUX0NUUkxfREFDX0VOICAgICAgICAgICAgICAgICAgQklUKDApCj4gPiA+ID4gICNkZWZpbmUg
+Q1JUX0NUUkxfVkJMQU5LX0xJTkUoeCkgICAgICAgICAgKCgoeCkgPDwgMjApICYgQ1JUX0NUUkxf
+VkJMQU5LX0xJTkVfTUFTSykKPiA+ID4gPiAtI2RlZmluZSBDUlRfQ1RSTF9WQkxBTktfTElORV9N
+QVNLICAgICAgICBHRU5NQVNLKDIwLCAzMSkKPiA+ID4gPiArI2RlZmluZSBDUlRfQ1RSTF9WQkxB
+TktfTElORV9NQVNLICAgICAgICBHRU5NQVNLKDMxLCAyMCkKPiA+Cj4gPiBSZXZpZXdlZC1ieTog
+QW5kcmV3IEplZmZlcnkgPGFuZHJld0Bhai5pZC5hdT4KPgo+IFRoaXMgaGFyZGx5IG5lZWRzIGEg
+cmV2aWV3LCBpdCBuZWVkcyB0byBiZSBhcHBsaWVkLgo+IFRoZXJlJ3MgYSBub21pbmFsIGdpdCB0
+cmVlIGZvciBhc3BlZWQgaGVyZToKPgo+IFQ6ICAgICAgZ2l0IGdpdDovL2dpdC5rZXJuZWwub3Jn
+L3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9qb2VsL2FzcGVlZC5naXQKPgo+IEJ1dCB3aG8ncyBn
+b2luZyB0byBkbyBhcHBseSB0aGlzPwoKVGhpcyBpcyBhIERSTSBwYXRjaCwgc28gaXQgZ29lcyB0
+aHJvdWdoIHRoZSBEUk0gdHJlZS4gSSBhbSBhCmNvLW1haW50YWluZXIgdGhlcmUgYW5kIGNhbiBh
+cHBseSBpdCBvbmNlIEkgcmVtZW1iZXIgaG93IHRvIGRyaXZlIHRoZQp0b29scy4KCihGWUksIHRo
+aXMgbWFjcm8gaXMgbm90IHVzZWQgYnkgdGhlIGN1cnJlbnQgZHJpdmVyKS4KCkNoZWVycywKCkpv
+ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
+dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
