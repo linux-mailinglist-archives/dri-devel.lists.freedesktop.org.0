@@ -1,54 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B656076599
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 14:23:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88210765A2
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 14:25:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB16A6ED2A;
-	Fri, 26 Jul 2019 12:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381DB6ED2E;
+	Fri, 26 Jul 2019 12:25:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 424136ED2A
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 12:23:45 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 0B75828AA5
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 12:23:45 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id F403928AAE; Fri, 26 Jul 2019 12:23:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
-Date: Fri, 26 Jul 2019 12:23:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: steinex@nognu.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204181-2300-1SljwdL4aY@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
-References: <bug-204181-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BEAA6ED2E
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 12:25:13 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 7024E804B4;
+ Fri, 26 Jul 2019 14:25:11 +0200 (CEST)
+Date: Fri, 26 Jul 2019 14:25:10 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Josef Lusticky <josef@lusticky.cz>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Controllers with several interface options - one or more drivers?
+Message-ID: <20190726122510.GA14341@ravnborg.org>
+References: <20190304125033.28841-1-josef@lusticky.cz>
+ <20190708145618.26031-1-josef@lusticky.cz>
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Disposition: inline
+In-Reply-To: <20190708145618.26031-1-josef@lusticky.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=wt4kVBOfN0H4b_kmb9MA:9 a=CjuIK1q_8ugA:10 a=Z5ABNNGmrOfJ6cZ5bIyy:22
+ a=UDnyf2zBuKT2w-IlGP_r:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,22 +46,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCkZyYW5r
-IFN0ZWluYm9ybiAoc3RlaW5leEBub2dudS5kZSkgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAg
-ICB8UmVtb3ZlZCAgICAgICAgICAgICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-CiAgICAgICAgICAgICAgICAgQ0N8ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHxzdGVpbmV4
-QG5vZ251LmRlCgotLS0gQ29tbWVudCAjMjEgZnJvbSBGcmFuayBTdGVpbmJvcm4gKHN0ZWluZXhA
-bm9nbnUuZGUpIC0tLQpGYWNpbmcgdGhlIHNhbWUgaXNzdWUgKFZlZ2E2NCkuIEkgY2FwdHVyZWQg
-YSBkbWVzZyAoZHJtLmRlYnVnPTB4NTQpIHdpdGggbG9ja3VwCmFuZCB1cGxvYWRlZCBpdCBoZXJl
-OgoKaHR0cHM6Ly9ub2dudS5kZS9wL2RtZXNnX2FtZGdwdS50eHQKClRoYW5rcyEKCi0tIApZb3Ug
-YXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNz
-aWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+SGkgSm9zZWYsIERhbmllbCBldCBhbC4KClRoZSBkcml2ZXIgdGhhdCB0cmlnZ2VyZWQgdGhpcyBy
+ZXBseSBpcyBhIGRyaXZlciB0aGF0IGFkZHMgcGFyYWxsZWwKc3VwcG9ydCB0byBpbGk5MzQxIGlu
+IGEgZGVkaWNhdGVkIHBhbmVsIGRyaXZlci4KVGhlIGlzc3VlIGhlcmUgaXMgdGhhdCB3ZSBhbHJl
+YWR5IGhhdmUgYSB0aW55IGRyaXZlciB0aGF0IHN1cHBvcnRzIHRoZQppbGk5MzQxIGNvbnRyb2xs
+ZXIgLSBidXQgd2l0aCBhIHNsaWdodGx5IGRpZmZlcmVudCBjb25maWd1cmF0aW9uLgoKVGhlIGls
+aTkzNDEgc3VwcG9ydHMgc2V2ZXJhbCBpbnRlcmZhY2VzIC0gZnJvbSB0aGUgZGF0YXNoZWV0Ogog
+ICAgIklMSTkzNDEgc3VwcG9ydHMgcGFyYWxsZWwgOC0vOS0vMTYtLzE4LWJpdCBkYXRhIGJ1cwog
+ICAgIE1DVSBpbnRlcmZhY2UsIDYtLzE2LS8xOC1iaXQgZGF0YSBidXMgUkdCIGludGVyZmFjZSBh
+bmQKICAgICAzLS80LWxpbmUgc2VyaWFsIHBlcmlwaGVyYWwgaW50ZXJmYWNlIChTUEkpIgoKTm9y
+YWxmIC0gaW4gYW5vdGhlciBtYWlsIGV4cGxhaW5lZDoKIgpUaGUgTUlQSSBBbGxpYW5jZSBoYXMg
+bG90cyBvZiBzdGFuZGFyZHMgc29tZSB3cnQuIGRpc3BsYXkgY29udHJvbGxlcgppbnRlcmZhY2Vz
+OgotIE1JUEkgREJJIC0gRGlzcGxheSBCdXMgSW50ZXJmYWNlICh1c2VkIGZvciBjb21tYW5kcyBh
+bmQgb3B0aW9uYWxseSBwaXhlbHMpCi0gTUlQSSBEUEkgLSBEaXNwbGF5IFBpeGVsIEludGVyZmFj
+ZSAoYWxzbyBjYWxsZWQgUkdCIGludGVyZmFjZSBvcgpET1RDTEsgaW50ZXJmYWNlKQotIE1JUEkg
+RFNJIC0gRGlzcGxheSBTZXJpYWwgSW50ZXJmYWNlIChjb21tYW5kcyBhbmQgcGl4ZWxzKQoKVGhl
+IGlsaTkzNDEgc3VwcG9ydHMgYm90aCBNSVBJIERCSSBhbmQgRFBJLgoiCgpNSVBJIERQSSAtIGlz
+IGEgZ29vZCBmaXQgZm9yIGEgZHJtX3BhbmVsIGRyaXZlci4KTUlQSSBEQkkgLSByZXF1aXJlcyBh
+IGZ1bGwgZGlzcGxheSBjb250cm9sbGVyIGRyaXZlci4KClRoZXJlIGFyZSBtYW55IG90aGVyIGV4
+YW1wbGVzIG9mIGRyaXZlciBTb0MgdGhhdCBpbiB0aGUgc2FtZSB3YXkKY2FuIGJlIHNlZW4gb25s
+eSBhcyBhIHBhbmVsIG9yIGFzIGEgZnVsbCBkaXNwbGF5IGNvbnRyb2xsZXIgZHJpdmVyLgoKVGhl
+IG9wZW4gcXVlc3Rpb24gaGVyZSBpcyBpZiB3ZSBzaG91bGQgdHJ5IHRvIHN1cHBvcnQgYm90aCBj
+YXNlcyBpbiB0aGUKc2FtZSBkcml2ZXIgLyBmaWxlLiBPciBzaGFsbCB3ZSBpbXBsbWVudCB0d28g
+ZGlmZmVyZW50IGRyaXZlcnMuCk9uZSBmb3IgdGhlIHBhbmVsIHVzZS1jYXNlLiBBbmQgb25lIGZv
+ciB0aGUgZGlzcGxheSBjb250cm9sbGVyIHVzZWNhc2U/CgpOb3Qgc3VyZSAtIHNvIGFza2luZyBm
+b3IgZmVlZGJhY2suCgoJU2FtCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbA==
