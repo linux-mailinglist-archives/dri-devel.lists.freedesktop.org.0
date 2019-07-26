@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBFC76371
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 12:25:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0358576374
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 12:25:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C76B6ED14;
-	Fri, 26 Jul 2019 10:25:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D85D06ED16;
+	Fri, 26 Jul 2019 10:25:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 066C06ED14
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 10:25:17 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0381172167; Fri, 26 Jul 2019 10:25:17 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111224] Wireless Network Deployment
-Date: Fri, 26 Jul 2019 10:25:17 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: IGT
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sushanthp2019@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-111224-502-PcAHfpzyP5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111224-502@http.bugs.freedesktop.org/>
-References: <bug-111224-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 237596ED17
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 10:25:33 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id DFB19803B3;
+ Fri, 26 Jul 2019 12:25:30 +0200 (CEST)
+Date: Fri, 26 Jul 2019 12:25:29 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH 0/3] drm/panel: jh057n00900: Move dsi init sequence to
+ prepare
+Message-ID: <20190726102529.GB15658@ravnborg.org>
+References: <cover.1564132646.git.agx@sigxcpu.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <cover.1564132646.git.agx@sigxcpu.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8
+ a=6BhD04cj4S09DCeAZc4A:9 a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,99 +45,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1292217988=="
+Cc: Purism Kernel Team <kernel@puri.sm>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1292217988==
-Content-Type: multipart/alternative; boundary="15641367160.AB2d43C64.16542"
-Content-Transfer-Encoding: 7bit
-
-
---15641367160.AB2d43C64.16542
-Date: Fri, 26 Jul 2019 10:25:16 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111224
-
-sushanthpandiri <sushanthp2019@hotmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |https://www.fieldengineer.c
-                   |                            |om/blogs/wireless-network-d
-                   |                            |eployment
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15641367160.AB2d43C64.16542
-Date: Fri, 26 Jul 2019 10:25:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:sushanthp=
-2019&#64;hotmail.com" title=3D"sushanthpandiri &lt;sushanthp2019&#64;hotmai=
-l.com&gt;"> <span class=3D"fn">sushanthpandiri</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Wireless Network Deployment"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111224">bug 11122=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>https://www.fieldengineer.com/blogs/wireless-network-deploym=
-ent
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15641367160.AB2d43C64.16542--
-
---===============1292217988==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1292217988==--
+SGkgR3VpZG8uCgpPbiBGcmksIEp1bCAyNiwgMjAxOSBhdCAxMToyMTo0MEFNICswMjAwLCBHdWlk
+byBHw7xudGhlciB3cm90ZToKPiBJZiB0aGUgcGFuZWwgaXMgd3JhcHBlZCBpbiBhIHBhbmVsX2Jy
+aWRnZSBpdCBnZXRzIHByZXBhcigpZWQgYmVmb3JlIHRoZQo+IHVwc3RyZWFtIERTSSBicmlkZ2Ug
+d2hpY2ggY2FuIGNhdXNlIGhhbmdzIChlLmcuIHdpdGggaW14LW53bCBzaW5jZSBjbG9ja3MKPiBh
+cmUgbm90IGVuYWJsZWQgeWV0KS4gVG8gYXZvaWQgdGhpcyBtb3ZlIHRoZSBwYW5lbCdzIGZpcnN0
+IERTSSBhY2Nlc3MgdG8KPiBlbmFibGUoKSBzbyB0aGUgdXBzdHJlYW0gYnJpZGdlIGNhbiBwcmVw
+YXJlIHRoZSBEU0kgaG9zdCBjb250cm9sbGVyIGluCj4gaXQncyBwcmVfZW5hYmxlKCkuCj4gCj4g
+VGhlIHNlY29uZCBwYXRjaCBtYWtlcyB0aGUgZGlzYWJsZSgpIGNhbGwgc3ltbWV0cmljIHRvIHRo
+ZSBhYm92ZSBhbmQgdGhlIHRoaXJkCj4gb25lIGp1c3QgZWFzZXMgZGVidWdnaW5nLgo+IAo+IEd1
+aWRvIEfDvG50aGVyICgzKToKPiAgIGRybS9wYW5lbDogamgwNTduMDA5MDA6IE1vdmUgcGFuZWwg
+RFNJIGluaXQgdG8gZW5hYmxlKCkKPiAgIGRybS9wYW5lbDogamgwNTduMDA5MDA6IE1vdmUgbWlw
+aV9kc2lfZGNzX3NldF9kaXNwbGF5X29mZiB0byBkaXNhYmxlKCkKPiAgIGRybS9wYW5lbDogamgw
+NTduMDA5MDA6IFByaW50IGVycm9yIGNvZGUgb24gYWxsIERSTV9ERVZfRVJST1IoKXMKClBhdGNo
+IDEgKyAzIGFyZSBib3RoOgpSZXZpZXdlZC1ieTogU2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcu
+b3JnPgoKU2VlIGNvbW1lbnQgb24gcGF0Y2ggMi4KCldoaWxlIHlvdSBhcmUgdG91Y2hpbmcgdGhp
+cyBkcml2ZXIgY2FuIHlvdSBtYWtlIGFuIGV4dHJhIHBhdGNoPwoKVG9kYXkgdGhlIGRyaXZlciBj
+YWxscyB0aGUgaW50ZXJuYWwgcHJlcGFyZSxlbmFibGUsZGlzYWJsZSx1bnByZXBhcmUKZnVuY3Rp
+b25zLgpUaGUgcmlnaHQgd2F5IHRvIGRvIGl0IGlzIHRvIHVzZSB0aGUKZHJtX3BhbmVsXyhwcmVw
+YXJlLGVuYWJsZSxkaXNhYmxlLHVucHJlcGFyZSkgdmFyaWFudHMuCgpUaGUgYmVuZWZpdCBpcyB0
+aGF0IHdlIGNhbiBtb3ZlIGEgbGl0dGxlIGxvZ2ljIHRvIHRoZXNlIGZ1bmN0aW9ucwphbmQgdGhl
+IGRyaXZlcnMgd2lsbCB0aGVuIGJlbmVmaXQgZnJvbSB0aGlzLgoKVHdvIHRoaW5ncyBJIGhhdmUg
+aW4gbXkgbG9jYWwgcXVldWU6Ci0gTW92ZSBib29sIGZvciBwcmVwYXJlZC9lbmFibGVkCiAgKHRv
+IHByb3RlY3QgdGhhdCB3ZSBkbyBub3QgcHJlcGFyZS9lbmFibGUgdHdpY2UpCi0gYmFja2xpZ2h0
+IHN1cHBvcnQKClRoaXMgZHJpdmVyIHdpbGwgYmVuZWZpdCBmb3JtIGJvdGggYW5kIHRoaXMgbGl0
+dGxlIG1vZGlmaWNhdGlvbiB3aWxsCm1ha2UgaXQgc2ltcGxlciB0byBpbnRyb2R1Y2UuCkkgY2Fu
+IGFsc28gcHJlcGFyZSB0aGUgcGF0Y2ggaWYgeW91IHByZWZlci4KCglTYW0KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
