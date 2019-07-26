@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB4B76F8D
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 19:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B610D76F90
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 19:11:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3056E880;
-	Fri, 26 Jul 2019 17:11:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030106ED09;
+	Fri, 26 Jul 2019 17:11:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8676A6E880
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 17:11:46 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 2E50C289FB
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 17:11:46 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 2295D28A0C; Fri, 26 Jul 2019 17:11:46 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204331] New: amdgpu audio parameter not functional
-Date: Fri, 26 Jul 2019 17:11:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: grmat@sub.red
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-204331-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 891A36E898;
+ Fri, 26 Jul 2019 17:11:53 +0000 (UTC)
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d3b34610000>; Fri, 26 Jul 2019 10:12:01 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Fri, 26 Jul 2019 10:11:53 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Fri, 26 Jul 2019 10:11:53 -0700
+Received: from rcampbell-dev.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 26 Jul
+ 2019 17:11:48 +0000
+Subject: Re: [PATCH v2 2/7] mm/hmm: a few more C style and comment clean ups
+To: Christoph Hellwig <hch@lst.de>
+References: <20190726005650.2566-1-rcampbell@nvidia.com>
+ <20190726005650.2566-3-rcampbell@nvidia.com> <20190726062320.GA22881@lst.de>
+X-Nvconfidentiality: public
+From: Ralph Campbell <rcampbell@nvidia.com>
+Message-ID: <6673dc71-f43e-849f-ca36-0b20805fc092@nvidia.com>
+Date: Fri, 26 Jul 2019 10:11:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+In-Reply-To: <20190726062320.GA22881@lst.de>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nvidia.com; s=n1; 
+ t=1564161121; bh=esO7QnCCyx9dzKTMgBFciVXyQ2aruZtdaUPoDfDZZgU=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=BtXkSUiESCykynn98aAUZOYyg4yz7jKnWyWlQeuTkJgRs1pzxbnG+tdWelFiuNWFf
+ lk2A6TLLDs6cQLe2Yo2AGejt/oTzYMtS1amgKmn2dm5v84UdJRMTYaGngk6xAfFfNb
+ p99GEAtPQKu0WpF74vtOAbWCO1P3EV8HcGsPjmb/CtOUwIfsJf4d4RzpBS0UZFOFl5
+ mKy6fFTJpky1hLxVBJ8kIaj3ucax+hLNkEj3Rb1EYWFnVqCmhNJAyxMjR01QHESrZT
+ ZRtQfwyfeh21KLwAKZ3N0lRnAXuC9Yp0RdEq+oNcbACTXWG+Ly+6gcvZF0sXLDUj4M
+ vgXH0/SGBnYgA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,25 +64,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
+Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Jason Gunthorpe <jgg@mellanox.com>, amd-gfx@lists.freedesktop.org
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzMzEKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjA0MzMxCiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1IGF1ZGlvIHBh
-cmFtZXRlciBub3QgZnVuY3Rpb25hbAogICAgICAgICAgIFByb2R1Y3Q6IERyaXZlcnMKICAgICAg
-ICAgICBWZXJzaW9uOiAyLjUKICAgIEtlcm5lbCBWZXJzaW9uOiA1LjIuMgogICAgICAgICAgSGFy
-ZHdhcmU6IEFsbAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTog
-TWFpbmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3Jt
-YWwKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAt
-IG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwt
-YnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGdybWF0QHN1Yi5yZWQKICAgICAgICBS
-ZWdyZXNzaW9uOiBObwoKR1BVOiBQb2xhcmlzIDEwL0VsbGVzbWVyZSAoUlggNDgwKQoKQWNjb3Jk
-aW5nIHRvIHRoZSBkb2N1bWVudGF0aW9uIGFtZGdwdS5hdWRpbz0wIHNob3VsZCBkaXNhYmxlIGF1
-ZGlvCmZ1bmN0aW9uYWxpdHkuIEhvd2V2ZXIsIHRoZSBIRE1JIGF1ZGlvIGRldmljZXMgYXJlIHN0
-aWxsIHByZXNlbnQuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6Cllv
-dSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+Ck9uIDcvMjUvMTkgMTE6MjMgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE5vdGU6IGl0
+IHNlZW1zIGxpa2UgeW91J3ZlIG9ubHkgQ0NlZCBtZSBvbiBwYXRjaGVzIDItNywgYnV0IG5vdCBv
+biB0aGUKPiBjb3ZlciBsZXR0ZXIgYW5kIHBhdGNoIDEuICBJJ2xsIHRyeSB0byBmaW5kIHRoZW0g
+bGF0ZXIsIGJ1dCB0byBtYWtlIENjcwo+IHVzZWZ1bCB0aGV5IHNob3VsZCBub3JtYWxseSBjb3Zl
+ciB0aGUgd2hvbGUgc2VyaWVzLgo+IAo+IE90aGVyd2lzZSB0aGlzIGxvb2tzIGZpbmUgdG8gbWU6
+Cj4gCj4gUmV2aWV3ZWQtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+IAoKVGhh
+bmtzIGZvciB0aGUgcmV2aWV3IGFuZCBzb3JyeSBhYm91dCB0aGUgb3ZlcnNpZ2h0IG9uIENDcy4K
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
