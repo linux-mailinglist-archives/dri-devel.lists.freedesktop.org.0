@@ -2,58 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712D875EA9
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 07:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E677475F18
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 08:35:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9A46E884;
-	Fri, 26 Jul 2019 05:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD996E890;
+	Fri, 26 Jul 2019 06:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com
- [IPv6:2607:f8b0:4864:20::942])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E0E6E884
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 05:57:08 +0000 (UTC)
-Received: by mail-ua1-x942.google.com with SMTP id v18so20851935uad.12
- for <dri-devel@lists.freedesktop.org>; Thu, 25 Jul 2019 22:57:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ritHirmxie1YVxX8gsEBGYKgo9674hDWBBrNSNHU6lA=;
- b=qDc3hcGiSPAlusnptShBW3X6ZgUW+cwW1it80gIbJaCTN1KkOAV7xwkqYnM+DnA3Qk
- aXVma387jNnhiUDV6F1dH9CIfywVMnpADPmyLTxMPjT/GTo8V+cME31BNqwkW65P64gc
- 27CNcPRAKRb6rn1ODCOP0m4/wqMW0UMq+MPDP/zwTMvrY6p+P6MtxJEgTjZ2wQN7234i
- X/2IGwP1TnuGFixOjzlpue7Fx8EAV6XguT5Ux8fLkOpVcQJy8UC/L/48EEkieTthv4Zh
- LSN05LSnSpwyseXYIqnC270ItPn3Tth1RNX5rWwomt2YTTwkKttR1Ctpz6Z5IyNzHq3+
- Ksyg==
-X-Gm-Message-State: APjAAAWXoxPZqyKuqI7Bw/LKRtPV8otQ/IVHkOB8BJW51CgTvm9pMxSg
- Onh3DwENLdurbc/NHWOlSYnfaTCDQY3aRqqdhBnNqp29/Ew=
-X-Google-Smtp-Source: APXvYqzYMhqIoJam8Xvkd7XcgGAlGjhpj9bY8DK1N/Fqd8iyTTM4rj/7btyKQ0xCTWBpRKcWG8Ve1eHTPky5aD/JvRQ=
-X-Received: by 2002:ab0:66:: with SMTP id 93mr4068238uai.135.1564120627632;
- Thu, 25 Jul 2019 22:57:07 -0700 (PDT)
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 877996E88B;
+ Fri, 26 Jul 2019 06:35:23 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 4CC348032E;
+ Fri, 26 Jul 2019 08:35:11 +0200 (CEST)
+Date: Fri, 26 Jul 2019 08:35:09 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Subject: Re: [PATCH v5 02/24] drm: Add drm_connector_init() variant with ddc
+Message-ID: <20190726063509.GA6443@ravnborg.org>
+References: <cover.1563960855.git.andrzej.p@collabora.com>
+ <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
 MIME-Version: 1.0
-References: <20190304125033.28841-1-josef@lusticky.cz>
- <20190708145618.26031-1-josef@lusticky.cz>
- <20190708145618.26031-2-josef@lusticky.cz> <20190724195744.GA22947@bogus>
-In-Reply-To: <20190724195744.GA22947@bogus>
-From: =?UTF-8?B?Sm9zZWYgTHXFoXRpY2vDvQ==?= <josef@lusticky.cz>
-Date: Fri, 26 Jul 2019 07:56:31 +0200
-Message-ID: <CAMqqaJFKUfodEf50EuJvCURKS+3pA2mesk4Dt1K-GHZuOh24xA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: panel: Add parallel RGB mode for
- Ilitek ILI9341 panels
-To: Rob Herring <robh@kernel.org>
-Content-Type: multipart/mixed; boundary="00000000000065ce3d058e8f3608"
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lusticky.cz; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=ritHirmxie1YVxX8gsEBGYKgo9674hDWBBrNSNHU6lA=;
- b=OZ16Wy3VqClU7qnmMtLfqHy3JNEfEiLqD1tZaDeShgmqyxUHNGIvxBvwZ/Mgfo3J8h
- WLwQ0Q50ShXjHe8XgqCUTZwQDe+qJaKK+sMdgdvLg09NEndmHrkoqebpHgzQ6OWdsjUZ
- ewnC82U+uXYVFDmjCfOUpy56h81LUQkJbKp3N/5ammyJlUBV7v3kieDOyZl+hMqjoANn
- 2qfsBKu3OMTkc/Sp35HDTKk3ES2fNJ3v7ntaSA7eqF7r5sAChNoQCf8fFgrJq6SvnlgZ
- w2m+UlkpZ/I2qPyV+mx9t8jr2Zqy5vEcdk/xH7w7S7oYhbpTkPiYdkArWre3bVRrj8Z5
- CmmQ==
+Content-Disposition: inline
+In-Reply-To: <53f5ded2971235e5b63c9a3ed4ed8bccf10c78f2.1563960855.git.andrzej.p@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=QX4gbG5DAAAA:8
+ a=L5xsDtsewR9xm4AmGRwA:9 a=CjuIK1q_8ugA:10 a=AbAUZ8qAyYyZVLSsDulk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,189 +45,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>,
+ Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
+ Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
+ Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
+ Jyri Sarha <jsarha@ti.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Allison Randal <allison@lohutok.net>, linux-arm-kernel@lists.infradead.org,
+ Enrico Weigelt <info@metux.net>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
+ Todor Tomov <todor.tomov@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000065ce3d058e8f3608
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Rob,
-my fault, sorry, backlight should not be required.
-I'll fix this in the next patch version.
-
-I'd like to post the DT bindings in the YAML format.
-Work-in-progress YAML bindings file is in the attachment,
-any comments would be highly appreciated.
-
-Kind regards
-Josef
-
-st 24. 7. 2019 v 21:57 odes=C3=ADlatel Rob Herring <robh@kernel.org> napsal=
-:
->
-> On Mon, Jul 08, 2019 at 04:56:17PM +0200, Josef Lusticky wrote:
-> > ILI9341 supports both SPI input mode and parallel RGB input mode.
-> > This commit adds parallel RGB input mode bindings.
-> >
-> > Signed-off-by: Josef Lusticky <josef@lusticky.cz>
-> > ---
-> >  .../bindings/display/ilitek,ili9341.txt       | 67 ++++++++++++++++---
-> >  1 file changed, 56 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/ilitek,ili9341.t=
-xt b/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
-> > index 169b32e4ee4e..629f38a1d0cd 100644
-> > --- a/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
-> > +++ b/Documentation/devicetree/bindings/display/ilitek,ili9341.txt
-> > @@ -1,27 +1,72 @@
-> >  Ilitek ILI9341 display panels
-> >
-> > -This binding is for display panels using an Ilitek ILI9341 controller =
-in SPI
-> > -mode.
-> > +This binding is for display panels using an Ilitek ILI9341 controller.
-> > +The display panels are supported in the following graphical input mode=
-s:
-> > +- SPI input mode
-> > +     MIPI-DBI Type 3 Option 1 or Option 3 is used to transfer
-> > +     commands and graphical data
-> > +- parallel RGB input mode
-> > +     MIPI-DBI Type 3 Option 1 or Option 3 is used for commands
-> > +     MIPI-DPI 18-bit parallel RGB connection is used to transfer
-> > +     graphical data
-> >
-> > -Required properties:
-> > -- compatible:        "adafruit,yx240qv29", "ilitek,ili9341"
-> > -- dc-gpios:  D/C pin
-> > -- reset-gpios:       Reset pin
-> > +
-> > +SPI input mode:
-> >
-> >  The node for this driver must be a child node of a SPI controller, hen=
-ce
-> > -all mandatory properties described in ../spi/spi-bus.txt must be speci=
-fied.
-> > +all mandatory properties described in spi/spi-bus.txt must be specifie=
-d.
-> > +
-> > +Required properties in SPI input mode:
-> > +- compatible:   "adafruit,yx240qv29", "ilitek,ili9341"
-> > +- backlight:    phandle of the backlight device attached to the panel
->
-> Why is backlight now required?
->
-> > +
-> > +Optional properties in SPI input mode:
-> > +- rotation:     panel rotation in degrees counter clockwise (0,90,180,=
-270)
-> > +- dc-gpios:     GPIO spec for the D/C pin, see gpio/gpio.txt
-> > +- reset-gpios:  GPIO spec for the reset pin, see gpio/gpio.txt
-> > +
-> > +
-> > +Parallel RGB input mode:
-> > +
-> > +The node for this driver must be a child node of a SPI controller, hen=
-ce
-> > +all mandatory properties described in spi/spi-bus.txt must be specifie=
-d.
-> > +
-> > +Required properties in parallel RGB input mode:
-> > +- compatible:   "displaytech,dt024ctft", "ilitek,ili9341"
-> > +- backlight:    phandle of the backlight device attached to the panel
-> > +
-> > +Optional properties in parallel RGB input mode:
-> > +- dc-gpios:     GPIO spec for the D/C pin, see gpio/gpio.txt
-> > +- reset-gpios:  GPIO spec for the reset pin, see gpio/gpio.txt
-> >
-> > -Optional properties:
-> > -- rotation:  panel rotation in degrees counter clockwise (0,90,180,270=
-)
-> > -- backlight: phandle of the backlight device attached to the panel
-> > +In parallel RGB input mode,
-> > +the device node can contain one 'port' child node with one child
-> > +'endpoint' node, according to the bindings defined in
-> > +media/video-interfaces.txt. This node should describe panel's video bu=
-s.
-> >
-> > -Example:
-> > +
-> > +Example in SPI input mode:
-> >       display@0{
-> >               compatible =3D "adafruit,yx240qv29", "ilitek,ili9341";
-> >               reg =3D <0>;
-> >               spi-max-frequency =3D <32000000>;
-> >               dc-gpios =3D <&gpio0 9 GPIO_ACTIVE_HIGH>;
-> >               reset-gpios =3D <&gpio0 8 GPIO_ACTIVE_HIGH>;
-> > +             backlight =3D <&backlight>;
-> >               rotation =3D <270>;
-> > +     };
-> > +
-> > +Example in parallel RGB input mode:
-> > +     panel@{
-> > +             compatible =3D "displaytech,dt024ctft", "ilitek,ili9341";
-> > +             reg =3D <0>;
-> > +             spi-max-frequency =3D <32000000>;
-> > +             dc-gpios =3D <&gpio0 9 GPIO_ACTIVE_HIGH>;
-> > +             reset-gpios =3D <&gpio0 8 GPIO_ACTIVE_HIGH>;
-> >               backlight =3D <&backlight>;
-> > +             port {
-> > +                     panel_in: endpoint {
-> > +                             remote-endpoint =3D <&display_out>;
-> > +                     };
-> > +             };
-> >       };
-> > --
-> > 2.20.1
-> >
-
---00000000000065ce3d058e8f3608
-Content-Type: text/plain; charset="US-ASCII"; name="ilitek,ili9341.txt"
-Content-Disposition: attachment; filename="ilitek,ili9341.txt"
-Content-Transfer-Encoding: base64
-Content-ID: <f_jyjou8by0>
-X-Attachment-Id: f_jyjou8by0
-
-IyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAolWUFNTCAxLjIKLS0tCiRpZDogaHR0
-cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9wYW5lbC9pbGl0ZWssaWxpOTM0MS55
-YW1sIwokc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFt
-bCMKCnRpdGxlOiBJbGl0ZWsgSUxJOTM0MSBkaXNwbGF5IHBhbmVscwoKbWFpbnRhaW5lcnM6CiAg
-LSBKb3NlZiBMdXN0aWNreSA8am9zZWZAbHVzdGlja3kuY3o+CgpkZXNjcmlwdGlvbjogfAogIFRo
-aXMgYmluZGluZyBpcyBmb3IgZGlzcGxheSBwYW5lbHMgdXNpbmcgYW4gSWxpdGVrIElMSTkzNDEg
-Y29udHJvbGxlci4KICBUaGUgZGlzcGxheSBwYW5lbHMgYXJlIHN1cHBvcnRlZCBpbiB0aGUgZm9s
-bG93aW5nIGdyYXBoaWNhbCBpbnB1dCBtb2RlczoKICBTUEkgaW5wdXQgbW9kZQogICAgTUlQSS1E
-QkkgVHlwZSAzIE9wdGlvbiAxIG9yIE9wdGlvbiAzIGlzIHVzZWQgdG8gdHJhbnNmZXIKICAgIGNv
-bW1hbmRzIGFuZCBncmFwaGljYWwgZGF0YQogIFBhcmFsbGVsIFJHQiBpbnB1dCBtb2RlCiAgICBN
-SVBJLURCSSBUeXBlIDMgT3B0aW9uIDEgb3IgT3B0aW9uIDMgaXMgdXNlZCBmb3IgY29tbWFuZHMK
-ICAgIE1JUEktRFBJIDE4LWJpdCBwYXJhbGxlbCBSR0IgY29ubmVjdGlvbiBpcyB1c2VkIHRvIHRy
-YW5zZmVyCiAgICBncmFwaGljYWwgZGF0YQoKYWxsT2Y6CiAgLSAkcmVmOiAvc2NoZW1hcy9zcGkv
-c3BpLWNvbnRyb2xsZXIueWFtbCMKCnByb3BlcnRpZXM6CiAgY29tcGF0aWJsZToKICAgIGl0ZW1z
-OgogICAgICAtIGNvbnN0OiBhZGFmcnVpdCx5eDI0MHF2MjkKCiAgYmFja2xpZ2h0OiB0cnVlCiAg
-cmVzZXQtZ3Bpb3M6IHRydWUKICBkYy1ncGlvczogdHJ1ZQogIHJvdGF0aW9uOiB0cnVlCiAgcG9y
-dDogdHJ1ZQoKYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlCgpyZXF1aXJlZDoKICAtIGNvbXBh
-dGlibGUKICAtIGJhY2tsaWdodAoKRXhhbXBsZSBpbiBTUEkgaW5wdXQgbW9kZToKCWRpc3BsYXlA
-MHsKCQljb21wYXRpYmxlID0gImFkYWZydWl0LHl4MjQwcXYyOSIsICJpbGl0ZWssaWxpOTM0MSI7
-CgkJcmVnID0gPDA+OwoJCXNwaS1tYXgtZnJlcXVlbmN5ID0gPDMyMDAwMDAwPjsKCQlkYy1ncGlv
-cyA9IDwmZ3BpbzAgOSBHUElPX0FDVElWRV9ISUdIPjsKCQlyZXNldC1ncGlvcyA9IDwmZ3BpbzAg
-OCBHUElPX0FDVElWRV9ISUdIPjsKCQliYWNrbGlnaHQgPSA8JmJhY2tsaWdodD47CgkJcm90YXRp
-b24gPSA8MjcwPjsKCX07CgpFeGFtcGxlIGluIHBhcmFsbGVsIFJHQiBpbnB1dCBtb2RlOgoJcGFu
-ZWxAewoJCWNvbXBhdGlibGUgPSAiZGlzcGxheXRlY2gsZHQwMjRjdGZ0IiwgImlsaXRlayxpbGk5
-MzQxIjsKCQlyZWcgPSA8MD47CgkJc3BpLW1heC1mcmVxdWVuY3kgPSA8MzIwMDAwMDA+OwoJCWRj
-LWdwaW9zID0gPCZncGlvMCA5IEdQSU9fQUNUSVZFX0hJR0g+OwoJCXJlc2V0LWdwaW9zID0gPCZn
-cGlvMCA4IEdQSU9fQUNUSVZFX0hJR0g+OwoJCWJhY2tsaWdodCA9IDwmYmFja2xpZ2h0PjsKCQlw
-b3J0IHsKCQkJcGFuZWxfaW46IGVuZHBvaW50IHsKCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmZGlz
-cGxheV9vdXQ+OwoJCQl9OwoJCX07Cgl9Owo=
---00000000000065ce3d058e8f3608
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---00000000000065ce3d058e8f3608--
+SGkgQW5kcnplai4KCk9uIFdlZCwgSnVsIDI0LCAyMDE5IGF0IDAzOjU5OjI0UE0gKzAyMDAsIEFu
+ZHJ6ZWogUGlldHJhc2lld2ljeiB3cm90ZToKPiBBbGxvdyBwYXNzaW5nIGRkYyBhZGFwdGVyIHBv
+aW50ZXIgdG8gdGhlIGluaXQgZnVuY3Rpb24uIEV2ZW4gaWYKPiBkcm1fY29ubmVjdG9yX2luaXQo
+KSBzb21ldGltZSBpbiB0aGUgZnV0dXJlIGRlY2lkZXMgdG8gZS5nLiBtZW1zZXQoKSBhbGwKPiBj
+b25uZWN0b3IgZmllbGRzIHRvIHplcm9zLCB0aGUgbmV3bHkgYWRkZWQgZnVuY3Rpb24gZW5zdXJl
+cyB0aGF0IGF0IGl0cwo+IGNvbXBsZXRpb24gdGhlIGRkYyBtZW1iZXIgb2YgY29ubmVjdG9yIGlz
+IGNvcnJlY3RseSBzZXQuCj4gCj4gU2lnbmVkLW9mZi1ieTogQW5kcnplaiBQaWV0cmFzaWV3aWN6
+IDxhbmRyemVqLnBAY29sbGFib3JhLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9j
+b25uZWN0b3IuYyB8IDE5ICsrKysrKysrKysrKysrKysrKysKPiAgaW5jbHVkZS9kcm0vZHJtX2Nv
+bm5lY3Rvci5oICAgICB8ICA1ICsrKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9u
+cygrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYwo+IGluZGV4IDA2OGQ0YjA1ZjFiZS4uMDZm
+YmZjNDRmYjQ4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jCj4gQEAgLTI5Niw2ICsyOTYs
+MjUgQEAgaW50IGRybV9jb25uZWN0b3JfaW5pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAo+ICB9
+Cj4gIEVYUE9SVF9TWU1CT0woZHJtX2Nvbm5lY3Rvcl9pbml0KTsKPiAgCj4gK2ludCBkcm1fY29u
+bmVjdG9yX2luaXRfd2l0aF9kZGMoc3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiArCQkJCXN0cnVj
+dCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsCj4gKwkJCQljb25zdCBzdHJ1Y3QgZHJtX2Nvbm5l
+Y3Rvcl9mdW5jcyAqZnVuY3MsCj4gKwkJCQlpbnQgY29ubmVjdG9yX3R5cGUsCj4gKwkJCQlzdHJ1
+Y3QgaTJjX2FkYXB0ZXIgKmRkYykKPiArewoKVGhpcyBpcyBnb29kLCB3aXRoIHRoaXMgaGVscGVy
+IHRoZXJlIGlzIG5vIGxvbmdlciBhbnkgY29uZnVzaW9uIGFib3V0Cm9yZGVyaW5nLgoKZHJtX2Nv
+bm5lY3Rvcl9pbml0X3dpdGhfZGRjKCkgaXMgcGFydCBvZiB0aGUgcHVibGljIGludGVyZmFjZSBm
+b3IKZHJtX2Nvbm5lY3RvciBhbmQgbmVlZHMga2VybmVsLWRvYyBkb2N1bWVudGF0aW9uLgoKCVNh
+bQoKPiArCWludCByZXQ7Cj4gKwo+ICsJcmV0ID0gZHJtX2Nvbm5lY3Rvcl9pbml0KGRldiwgY29u
+bmVjdG9yLCBmdW5jcywgY29ubmVjdG9yX3R5cGUpOwo+ICsJaWYgKHJldCkKPiArCQlyZXR1cm4g
+cmV0Owo+ICsKPiArCS8qIHByb3ZpZGUgZGRjIHN5bWxpbmsgaW4gc3lzZnMgKi8KPiArCWNvbm5l
+Y3Rvci0+ZGRjID0gZGRjOwo+ICsKPiArCXJldHVybiByZXQ7Cj4gK30KPiArRVhQT1JUX1NZTUJP
+TChkcm1fY29ubmVjdG9yX2luaXRfd2l0aF9kZGMpOwo+ICsKPiAgLyoqCj4gICAqIGRybV9jb25u
+ZWN0b3JfYXR0YWNoX2VkaWRfcHJvcGVydHkgLSBhdHRhY2ggZWRpZCBwcm9wZXJ0eS4KPiAgICog
+QGNvbm5lY3RvcjogdGhlIGNvbm5lY3Rvcgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
+Y29ubmVjdG9yLmggYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiBpbmRleCAzM2E2ZmZm
+ODVmZGIuLjkzN2ZkYTljMTM3NCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fY29ubmVj
+dG9yLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1fY29ubmVjdG9yLmgKPiBAQCAtMTQxMCw2ICsx
+NDEwLDExIEBAIGludCBkcm1fY29ubmVjdG9yX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwK
+PiAgCQkgICAgICAgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciwKPiAgCQkgICAgICAg
+Y29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfZnVuY3MgKmZ1bmNzLAo+ICAJCSAgICAgICBpbnQg
+Y29ubmVjdG9yX3R5cGUpOwo+ICtpbnQgZHJtX2Nvbm5lY3Rvcl9pbml0X3dpdGhfZGRjKHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYsCj4gKwkJCQlzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9y
+LAo+ICsJCQkJY29uc3Qgc3RydWN0IGRybV9jb25uZWN0b3JfZnVuY3MgKmZ1bmNzLAo+ICsJCQkJ
+aW50IGNvbm5lY3Rvcl90eXBlLAo+ICsJCQkJc3RydWN0IGkyY19hZGFwdGVyICpkZGMpOwo+ICB2
+b2lkIGRybV9jb25uZWN0b3JfYXR0YWNoX2VkaWRfcHJvcGVydHkoc3RydWN0IGRybV9jb25uZWN0
+b3IgKmNvbm5lY3Rvcik7Cj4gIGludCBkcm1fY29ubmVjdG9yX3JlZ2lzdGVyKHN0cnVjdCBkcm1f
+Y29ubmVjdG9yICpjb25uZWN0b3IpOwo+ICB2b2lkIGRybV9jb25uZWN0b3JfdW5yZWdpc3Rlcihz
+dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKTsKPiAtLSAKPiAyLjE3LjEKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
