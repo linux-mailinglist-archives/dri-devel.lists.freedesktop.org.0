@@ -2,39 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410097852A
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 08:45:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D06578604
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 09:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F50389C2C;
-	Mon, 29 Jul 2019 06:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE0F89A94;
+	Mon, 29 Jul 2019 07:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9F9989C2C
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 06:45:14 +0000 (UTC)
-Received: from localhost (unknown [122.178.221.187])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 95086206BA;
- Mon, 29 Jul 2019 06:45:13 +0000 (UTC)
-Date: Mon, 29 Jul 2019 12:14:02 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 06/11] dma: Drop JZ4740 driver
-Message-ID: <20190729064402.GG12733@vkoul-mobl.Dlink>
-References: <20190725220215.460-1-paul@crapouillou.net>
- <20190725220215.460-7-paul@crapouillou.net>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EAA316ECFC
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 09:50:28 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACF58344;
+ Fri, 26 Jul 2019 02:50:28 -0700 (PDT)
+Received: from e107155-lin (e107155-lin.cambridge.arm.com [10.1.196.42])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3D5903F71A;
+ Fri, 26 Jul 2019 02:50:27 -0700 (PDT)
+Date: Fri, 26 Jul 2019 10:50:25 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: Kevin Brodsky <kevin.brodsky@arm.com>
+Subject: Re: [PATCH v2] arm64: dts: fast models: Remove clcd's
+ max-memory-bandwidth
+Message-ID: <20190726095025.GB11177@e107155-lin>
+References: <20190725171215.71801-1-kevin.brodsky@arm.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190725220215.460-7-paul@crapouillou.net>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1564382714;
- bh=OObfax840R6bh9rjFceVGkLchDJCG652v03RGds9gFA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LSbox5NdaQ3BOobR6anCjjqjcwe7a/gzulM+4ZQtjQyz1Il7lgEOjtDVlq5tfUGm/
- fyMsz+iLv2edW7yTgjYigFt2ghcb7VqdnJtaNFRZkBflZooGnqSJ125aw/9/GzR4Zq
- E/aKBut0usnFTitcTVppLrBXrAomIQENZkc/MA7s=
+In-Reply-To: <20190725171215.71801-1-kevin.brodsky@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Mon, 29 Jul 2019 07:16:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,30 +42,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-fbdev@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, James Hogan <jhogan@kernel.org>,
- alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sre@kernel.org>, od@zcrc.me, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lee Jones <lee.jones@linaro.org>,
- Artur Rojek <contact@artur-rojek.eu>, Richard Weinberger <richard@nod.at>,
- linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
- Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
- Jean Delvare <jdelvare@suse.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Mark Brown <broonie@kernel.org>, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
- Paul Burton <paul.burton@mips.com>, Rob Herring <robh+dt@kernel.org>,
- dmaengine@vger.kernel.org
+Cc: devicetree@vger.kernel.org, Pawel Moll <pawel.moll@arm.com>,
+ Ruben Ayrapetyan <ruben.ayrapetyan@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ dri-devel@lists.freedesktop.org, Sudeep Holla <sudeep.holla@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjUtMDctMTksIDE4OjAyLCBQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IFRoZSBuZXdlciBhbmQg
-YmV0dGVyIEpaNDc4MCBkcml2ZXIgaXMgbm93IHVzZWQgdG8gcHJvdmlkZSBETUEKPiBmdW5jdGlv
-bmFsaXR5IG9uIHRoZSBKWjQ3NDAuCgpQbGVhc2UgY2hhbmdlIHN1YmpldGMgdG8gZG1hZW5naW5l
-OiB4eHgKCkFmdGVyIHRoYXQKCkFja2VkLWJ5OiBWaW5vZCBLb3VsIDx2a291bEBrZXJuZWwub3Jn
-PgoKLS0gCn5WaW5vZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+T24gVGh1LCBKdWwgMjUsIDIwMTkgYXQgMDY6MTI6MTRQTSArMDEwMCwgS2V2aW4gQnJvZHNreSB3
+cm90ZToKPiBJdCBpcyB1bmNsZWFyIHdoeSBtYXgtbWVtb3J5LWJhbmR3aWR0aCBzaG91bGQgYmUg
+c2V0IGZvciBDTENEIG9uIHRoZQo+IGZhc3QgbW9kZWwuIFJlbW92aW5nIHRoYXQgcHJvcGVydHkg
+YWxsb3dzIGFsbG9jYXRpbmcgYW5kIHVzaW5nIDMyYnBwCj4gYnVmZmVycywgd2hpY2ggbWF5IGJl
+IGRlc2lyYWJsZSBvbiBjZXJ0YWluIHBsYXRmb3JtcyBzdWNoIGFzCj4gQW5kcm9pZC4KPiAKPiBS
+ZXBvcnRlZC1ieTogUnViZW4gQXlyYXBldHlhbiA8cnViZW4uYXlyYXBldHlhbkBhcm0uY29tPgo+
+IFNpZ25lZC1vZmYtYnk6IEtldmluIEJyb2Rza3kgPGtldmluLmJyb2Rza3lAYXJtLmNvbT4KPiAt
+LS0KPiAKPiBDaGFuZ2VzIGluIHYyOgo+IC0gUmVtb3ZlIHRoZSBhdHRyaWJ1dGUgY29tcGxldGVs
+eSBpbnN0ZWFkIG9mIGluY3JlYXNpbmcgaXRzIHZhbHVlLiBJdCBpcwo+ICAgb3B0aW9uYWwgYW5k
+IHRoZXJlIGlzIG5vIGNsZWFyIHJlYXNvbiB3aHkgaXQgc2hvdWxkIGJlIHNldCBhdCBhbGwuCj4g
+Cj4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvYXJtL2Z2cC1iYXNlLXJldmMuZHRzICAgICAgICB8IDgg
+LS0tLS0tLS0KPiAgYXJjaC9hcm02NC9ib290L2R0cy9hcm0vcnRzbV92ZS1tb3RoZXJib2FyZC5k
+dHNpIHwgMiAtLQoKSSB3YXMgYWJvdXQgdG8gYXNrIGFib3V0IHRoZSBhYm92ZSBmaWxlIGluIHYx
+LCBhbmQgdGhlbiBzYXcgdjIuCkkgd2lsbCB0YWtlIHRoaXMgZm9yIHY1LjQuIFRoYW5rcwoKLS0K
+UmVnYXJkcywKU3VkZWVwCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
