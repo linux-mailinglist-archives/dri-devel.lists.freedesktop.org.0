@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD689764A2
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 13:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A786764B1
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 13:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 322F46ED21;
-	Fri, 26 Jul 2019 11:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD996ED22;
+	Fri, 26 Jul 2019 11:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk
- [IPv6:2a01:7e01::f03c:91ff:fed4:a3b6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF0F6ED21
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 11:33:43 +0000 (UTC)
-Received: from ypsilon.sirena.org.uk ([2001:470:1f1d:6b5::7])
- by heliosphere.sirena.org.uk with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <broonie@sirena.org.uk>)
- id 1hqyTc-0001Mp-Sb; Fri, 26 Jul 2019 11:33:32 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
- id 2EC622742B63; Fri, 26 Jul 2019 12:33:32 +0100 (BST)
-Date: Fri, 26 Jul 2019 12:33:32 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 04/11] ASoC: jz4740: Drop lb60 board code
-Message-ID: <20190726113332.GD4902@sirena.org.uk>
-References: <20190725220215.460-1-paul@crapouillou.net>
- <20190725220215.460-5-paul@crapouillou.net>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBEA76ED22
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 11:36:28 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id E894980435;
+ Fri, 26 Jul 2019 13:36:26 +0200 (CEST)
+Date: Fri, 26 Jul 2019 13:36:25 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH] video: Demote panel timing not found error message
+Message-ID: <20190726113625.GC20065@ravnborg.org>
+References: <20190726101849.27322-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190725220215.460-5-paul@crapouillou.net>
-X-Cookie: List at least two alternate dates.
+Content-Disposition: inline
+In-Reply-To: <20190726101849.27322-1-thierry.reding@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
- MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=5Gf3w/MVbMZMYK8bIC4gRWxvIqP0knReDLN6eNPEqKM=; b=xDuN5S0H1Z90uPzdw6R64amMy
- gnMBiADJuFYD7QblFkqSVwB6tn/WF7BGvvo30k/J0aPMmA1HEiUnpoQWAzka7PaHDQ4Joyhpn28yE
- EF2CUDXHQO0sCka8C6a7kNpPIaO1hAAThEsGBgsnR0u9wX9Txm8yC32A/rlHacR2+gL5o=;
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=Ikd4Dj_1AAAA:8
+ a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=5Qqih-qkqPENY-0g_TsA:9
+ a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,69 +45,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, linux-fbdev@vger.kernel.org,
- James Hogan <jhogan@kernel.org>, alsa-devel@alsa-project.org,
- dri-devel@lists.freedesktop.org, Sebastian Reichel <sre@kernel.org>,
- od@zcrc.me, linux-mtd@lists.infradead.org,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lee Jones <lee.jones@linaro.org>,
- Artur Rojek <contact@artur-rojek.eu>, Richard Weinberger <richard@nod.at>,
- linux-pm@vger.kernel.org, Paul Burton <paul.burton@mips.com>,
- linux-mips@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
- devicetree@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, linux-hwmon@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, Ralf Baechle <ralf@linux-mips.org>,
- linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
- dmaengine@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0741771259=="
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0741771259==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
-Content-Disposition: inline
-
-
---P+33d92oIH25kiaB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jul 25, 2019 at 06:02:08PM -0400, Paul Cercueil wrote:
-> The board now uses the simple-audio-card driver.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Tested-by: Artur Rojek <contact@artur-rojek.eu>
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---P+33d92oIH25kiaB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl065QsACgkQJNaLcl1U
-h9AE2wf7BtVnDND6hd0UergsxXl5U3RJXvpiGgm/0yVLxuFEWPiM0EFqLGMWqoxE
-3l20EeSRpPmuyPH/GyBi4VYbtfk/QkickfZgmRTnK53CZURHGm15Dr9Prj6WJ5Vp
-H8QHogCOvGkoZGZh0E7Upp1Ofw05EC/ZStES9Ptw0TRNRENeP6SIRNDZJSBp7A5/
-TpEw+fvcu9R2andSKgKYEsZJhppM9oSRB6H4XRNM1Zxu6FTNfkmMG0ycTRjwJPvz
-ZXt6d0bq7TrYHkNajY1Wk1JwfM/wPlcW3xATpeBcp6RgazsL+i2T3fe2J541EGzJ
-KSs0o9NZufIfr1QaVv4L9HrMAsSE0A==
-=jJYl
------END PGP SIGNATURE-----
-
---P+33d92oIH25kiaB--
-
---===============0741771259==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0741771259==--
+SGkgVGhpZXJyeS4KCk9uIEZyaSwgSnVsIDI2LCAyMDE5IGF0IDEyOjE4OjQ5UE0gKzAyMDAsIFRo
+aWVycnkgUmVkaW5nIHdyb3RlOgo+IEZyb206IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRp
+YS5jb20+Cj4gCj4gRmFpbGluZyB0byBmaW5kIGEgcGFuZWwtdGltaW5nIG5vZGUgaXMgbm90IGFu
+IGVycm9yIGluIGFsbCBjYXNlcywgc28gZG8KPiBub3Qgb3V0cHV0IGFuIGVycm9yIG1lc3NhZ2Ug
+aW4gdGhhdCBjYXNlLiBJbnN0ZWFkIHR1cm4gaXQgaW50byBhIGRlYnVnCj4gbWVzc2FnZSBhbmQg
+bWFrZSB0aGUgZHJpdmVycyB0aGF0IGNhcmUgYWJvdXQgaXQgb3V0cHV0IGFuIGVycm9yIG1lc3Nh
+Z2UKPiBvZiB0aGVpciBvd24uCgpUaGlzIGlzIG1vcmUgb3IgbGVzcyB0aGUgc2FtZSBhcyBhbHJl
+YWR5IGltcGxtZW50ZWQgYnkgRG91Z2xhcyBoZXJlOgpodHRwczovL3BhdGNod29yay5rZXJuZWwu
+b3JnL2NvdmVyLzExMDUzMjQzLwoKRG91ZydzIGhhcyBhbiBleHRyYSBidWctZml4IHRoYXQgd2Ug
+c2hhbGwgbm90IG1pc3MuCgpJIGFtIHdhaXRpbmcgZm9yIGZlZWRiYWNrIGZyb20gQmFydGxvbWll
+aiBiZWZvcmUgcHJvY2VlZGluZy4KSSBndWVzcyBoZSBpcyBvbiBob2xpZGF5IHNvbWV3aGVyZSBh
+bmQgd2lsbCByZXR1cm4gc29vbi4KCglTYW0KCj4gCj4gU2lnbmVkLW9mZi1ieTogVGhpZXJyeSBS
+ZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
+L3BhbmVsLWx2ZHMuYyB8IDQgKysrLQo+ICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2FtYmEtY2xjZC5j
+ICAgIHwgNCArKystCj4gIGRyaXZlcnMvdmlkZW8vb2ZfZGlzcGxheV90aW1pbmcuYyAgfCAyICst
+Cj4gIDMgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+IAo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtbHZkcy5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3BhbmVsL3BhbmVsLWx2ZHMuYwo+IGluZGV4IDFlYzU3ZDA4MDZhOC4uN2ZjYjM1
+MjdjNzg4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1sdmRzLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtbHZkcy5jCj4gQEAgLTE0Nyw4ICsx
+NDcsMTAgQEAgc3RhdGljIGludCBwYW5lbF9sdmRzX3BhcnNlX2R0KHN0cnVjdCBwYW5lbF9sdmRz
+ICpsdmRzKQo+ICAJaW50IHJldDsKPiAgCj4gIAlyZXQgPSBvZl9nZXRfZGlzcGxheV90aW1pbmco
+bnAsICJwYW5lbC10aW1pbmciLCAmdGltaW5nKTsKPiAtCWlmIChyZXQgPCAwKQo+ICsJaWYgKHJl
+dCA8IDApIHsKPiArCQlkZXZfZXJyKGx2ZHMtPmRldiwgIiVwT0Y6IGNvdWxkIG5vdCBmaW5kIHBh
+bmVsIHRpbWluZ1xuIiwgbnApOwo+ICAJCXJldHVybiByZXQ7Cj4gKwl9Cj4gIAo+ICAJdmlkZW9t
+b2RlX2Zyb21fdGltaW5nKCZ0aW1pbmcsICZsdmRzLT52aWRlb19tb2RlKTsKPiAgCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvYW1iYS1jbGNkLmMgYi9kcml2ZXJzL3ZpZGVvL2Zi
+ZGV2L2FtYmEtY2xjZC5jCj4gaW5kZXggODkzMjRlNDJhMDMzLi4xM2RmODk4YTM0ODEgMTAwNjQ0
+Cj4gLS0tIGEvZHJpdmVycy92aWRlby9mYmRldi9hbWJhLWNsY2QuYwo+ICsrKyBiL2RyaXZlcnMv
+dmlkZW8vZmJkZXYvYW1iYS1jbGNkLmMKPiBAQCAtNTYxLDggKzU2MSwxMCBAQCBzdGF0aWMgaW50
+IGNsY2RmYl9vZl9nZXRfZHBpX3BhbmVsX21vZGUoc3RydWN0IGRldmljZV9ub2RlICpub2RlLAo+
+ICAJc3RydWN0IHZpZGVvbW9kZSB2aWRlbzsKPiAgCj4gIAllcnIgPSBvZl9nZXRfZGlzcGxheV90
+aW1pbmcobm9kZSwgInBhbmVsLXRpbWluZyIsICZ0aW1pbmcpOwo+IC0JaWYgKGVycikKPiArCWlm
+IChlcnIpIHsKPiArCQlwcl9lcnIoIiVwT0Y6IGNvdWxkIG5vdCBmaW5kIHBhbmVsIHRpbWluZ1xu
+Iiwgbm9kZSk7Cj4gIAkJcmV0dXJuIGVycjsKPiArCX0KPiAgCj4gIAl2aWRlb21vZGVfZnJvbV90
+aW1pbmcoJnRpbWluZywgJnZpZGVvKTsKPiAgCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8v
+b2ZfZGlzcGxheV90aW1pbmcuYyBiL2RyaXZlcnMvdmlkZW8vb2ZfZGlzcGxheV90aW1pbmcuYwo+
+IGluZGV4IGY1YzFjNDY5YzBhZi4uOTM4NWI1MTgzNDlmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
+dmlkZW8vb2ZfZGlzcGxheV90aW1pbmcuYwo+ICsrKyBiL2RyaXZlcnMvdmlkZW8vb2ZfZGlzcGxh
+eV90aW1pbmcuYwo+IEBAIC0xMjUsNyArMTI1LDcgQEAgaW50IG9mX2dldF9kaXNwbGF5X3RpbWlu
+Zyhjb25zdCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLCBjb25zdCBjaGFyICpuYW1lLAo+ICAKPiAg
+CXRpbWluZ19ucCA9IG9mX2dldF9jaGlsZF9ieV9uYW1lKG5wLCBuYW1lKTsKPiAgCWlmICghdGlt
+aW5nX25wKSB7Cj4gLQkJcHJfZXJyKCIlcE9GOiBjb3VsZCBub3QgZmluZCBub2RlICclcydcbiIs
+IG5wLCBuYW1lKTsKPiArCQlwcl9kZWJ1ZygiJXBPRjogY291bGQgbm90IGZpbmQgbm9kZSAnJXMn
+XG4iLCBucCwgbmFtZSk7Cj4gIAkJcmV0dXJuIC1FTk9FTlQ7Cj4gIAl9Cj4gIAo+IC0tIAo+IDIu
+MjIuMAo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Cj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
