@@ -2,57 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4309B7635A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 12:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CFD76370
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 12:25:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF036ED12;
-	Fri, 26 Jul 2019 10:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83AAA6ED15;
+	Fri, 26 Jul 2019 10:25:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
- [IPv6:2a00:1450:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73C606ED12
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 10:18:52 +0000 (UTC)
-Received: by mail-ed1-x544.google.com with SMTP id k21so52839627edq.3
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 03:18:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zvX8OAziSNN5OsE8bfDSJk4CpRqBH7dyRkXnk7RG3eI=;
- b=r9y7CsBkuefVPeELIi53cscv6Bfau/oMw1zRnCn+bNkQGV/g/deKJrJiImh56+6Zse
- ccX8yUZT9c43hQY2jHsL2Dare8gXrchz+0HL2KY9D5uN/ocQJxy1eVPvb4cwlme/RPie
- AEAGe+5OAjaRBUIM83Xu24BTWLa43Aq9qe5mytEP6DuPQryMqEAKgdKxcC3Es/uj9EHc
- BaEn0KD253T1pajkMWMIt9JFDbRVUcAr8VuqgtNbl2+g31FoBOSVY0/XgTpIzC5gt7KX
- VWEvUYkZam8AZ7Z8lI4VhXQTGNUuLmY7beQat2Ih6C3Oi+tr9l3atFjHWZmKDk2pFOqp
- 6fBw==
-X-Gm-Message-State: APjAAAVnFIEEYoodSSjaAdaG3lR6cfiOS/65B0heQo8gEdI9t1VGcqzv
- GAwVpW0JeCcuWiBRpSTK6VFv6TUG
-X-Google-Smtp-Source: APXvYqxCyBKloo2ImEn7ZegComMOJVWc4Hd9pm9aIYYqDnpaJVx8KHDgAMTnTb+ts8jOJor/MME7Vw==
-X-Received: by 2002:a50:ac6e:: with SMTP id w43mr81856932edc.181.1564136330750; 
- Fri, 26 Jul 2019 03:18:50 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
- by smtp.gmail.com with ESMTPSA id f26sm6595812ejo.25.2019.07.26.03.18.50
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 26 Jul 2019 03:18:50 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 632E06ED15
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 10:25:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5B99672167; Fri, 26 Jul 2019 10:25:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] video: Demote panel timing not found error message
-Date: Fri, 26 Jul 2019 12:18:49 +0200
-Message-Id: <20190726101849.27322-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.22.0
+Subject: [Bug 111224] Wireless Network Deployment
+Date: Fri, 26 Jul 2019 10:25:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: IGT
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sushanthp2019@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111224-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zvX8OAziSNN5OsE8bfDSJk4CpRqBH7dyRkXnk7RG3eI=;
- b=SQ+kR3HFvM8rRAriUWeNVj3CtMUPufRrOW+OwICxFGNVnRWXCviwz8rPVrkxPsqWvt
- so/d+iUbNVXle4UoflYpCtgJrbIWBpLrYq7n7BxKuBRd2wcmWzoCepE2yShpS9IDrXxr
- lfoYZn7wzcj3RaFzS0PgYA2VbD81mL4EWnwVCs6lReq1B8FCPihsVM0eQOf4QZWxtHUz
- 2DOl/R/0zPso2GBSxcDdxzgfrhqAuvXnmqlwNt77AHzUClOIJzDsuTaTqAzOnD3cUuNC
- 8fGfuoXcc67FENJuPfXlPxOrFRYpUGS9Jsn2UZPmXzhV4Z84bSm1yVh7mDOJQ7qieebR
- yVGA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,50 +51,199 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1279384849=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KCkZhaWxpbmcgdG8gZmlu
-ZCBhIHBhbmVsLXRpbWluZyBub2RlIGlzIG5vdCBhbiBlcnJvciBpbiBhbGwgY2FzZXMsIHNvIGRv
-Cm5vdCBvdXRwdXQgYW4gZXJyb3IgbWVzc2FnZSBpbiB0aGF0IGNhc2UuIEluc3RlYWQgdHVybiBp
-dCBpbnRvIGEgZGVidWcKbWVzc2FnZSBhbmQgbWFrZSB0aGUgZHJpdmVycyB0aGF0IGNhcmUgYWJv
-dXQgaXQgb3V0cHV0IGFuIGVycm9yIG1lc3NhZ2UKb2YgdGhlaXIgb3duLgoKU2lnbmVkLW9mZi1i
-eTogVGhpZXJyeSBSZWRpbmcgPHRyZWRpbmdAbnZpZGlhLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtbHZkcy5jIHwgNCArKystCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2FtYmEt
-Y2xjZC5jICAgIHwgNCArKystCiBkcml2ZXJzL3ZpZGVvL29mX2Rpc3BsYXlfdGltaW5nLmMgIHwg
-MiArLQogMyBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWx2ZHMuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9wYW5lbC9wYW5lbC1sdmRzLmMKaW5kZXggMWVjNTdkMDgwNmE4Li43ZmNiMzUyN2M3
-ODggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1sdmRzLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWx2ZHMuYwpAQCAtMTQ3LDggKzE0NywxMCBAQCBz
-dGF0aWMgaW50IHBhbmVsX2x2ZHNfcGFyc2VfZHQoc3RydWN0IHBhbmVsX2x2ZHMgKmx2ZHMpCiAJ
-aW50IHJldDsKIAogCXJldCA9IG9mX2dldF9kaXNwbGF5X3RpbWluZyhucCwgInBhbmVsLXRpbWlu
-ZyIsICZ0aW1pbmcpOwotCWlmIChyZXQgPCAwKQorCWlmIChyZXQgPCAwKSB7CisJCWRldl9lcnIo
-bHZkcy0+ZGV2LCAiJXBPRjogY291bGQgbm90IGZpbmQgcGFuZWwgdGltaW5nXG4iLCBucCk7CiAJ
-CXJldHVybiByZXQ7CisJfQogCiAJdmlkZW9tb2RlX2Zyb21fdGltaW5nKCZ0aW1pbmcsICZsdmRz
-LT52aWRlb19tb2RlKTsKIApkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9hbWJhLWNs
-Y2QuYyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvYW1iYS1jbGNkLmMKaW5kZXggODkzMjRlNDJhMDMz
-Li4xM2RmODk4YTM0ODEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvYW1iYS1jbGNk
-LmMKKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9hbWJhLWNsY2QuYwpAQCAtNTYxLDggKzU2MSwx
-MCBAQCBzdGF0aWMgaW50IGNsY2RmYl9vZl9nZXRfZHBpX3BhbmVsX21vZGUoc3RydWN0IGRldmlj
-ZV9ub2RlICpub2RlLAogCXN0cnVjdCB2aWRlb21vZGUgdmlkZW87CiAKIAllcnIgPSBvZl9nZXRf
-ZGlzcGxheV90aW1pbmcobm9kZSwgInBhbmVsLXRpbWluZyIsICZ0aW1pbmcpOwotCWlmIChlcnIp
-CisJaWYgKGVycikgeworCQlwcl9lcnIoIiVwT0Y6IGNvdWxkIG5vdCBmaW5kIHBhbmVsIHRpbWlu
-Z1xuIiwgbm9kZSk7CiAJCXJldHVybiBlcnI7CisJfQogCiAJdmlkZW9tb2RlX2Zyb21fdGltaW5n
-KCZ0aW1pbmcsICZ2aWRlbyk7CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vb2ZfZGlzcGxh
-eV90aW1pbmcuYyBiL2RyaXZlcnMvdmlkZW8vb2ZfZGlzcGxheV90aW1pbmcuYwppbmRleCBmNWMx
-YzQ2OWMwYWYuLjkzODViNTE4MzQ5ZiAxMDA2NDQKLS0tIGEvZHJpdmVycy92aWRlby9vZl9kaXNw
-bGF5X3RpbWluZy5jCisrKyBiL2RyaXZlcnMvdmlkZW8vb2ZfZGlzcGxheV90aW1pbmcuYwpAQCAt
-MTI1LDcgKzEyNSw3IEBAIGludCBvZl9nZXRfZGlzcGxheV90aW1pbmcoY29uc3Qgc3RydWN0IGRl
-dmljZV9ub2RlICpucCwgY29uc3QgY2hhciAqbmFtZSwKIAogCXRpbWluZ19ucCA9IG9mX2dldF9j
-aGlsZF9ieV9uYW1lKG5wLCBuYW1lKTsKIAlpZiAoIXRpbWluZ19ucCkgewotCQlwcl9lcnIoIiVw
-T0Y6IGNvdWxkIG5vdCBmaW5kIG5vZGUgJyVzJ1xuIiwgbnAsIG5hbWUpOworCQlwcl9kZWJ1Zygi
-JXBPRjogY291bGQgbm90IGZpbmQgbm9kZSAnJXMnXG4iLCBucCwgbmFtZSk7CiAJCXJldHVybiAt
-RU5PRU5UOwogCX0KIAotLSAKMi4yMi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWw=
+
+--===============1279384849==
+Content-Type: multipart/alternative; boundary="15641367070.42C5.16570"
+Content-Transfer-Encoding: 7bit
+
+
+--15641367070.42C5.16570
+Date: Fri, 26 Jul 2019 10:25:07 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111224
+
+            Bug ID: 111224
+           Summary: Wireless Network Deployment
+           Product: DRI
+           Version: XOrg git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: IGT
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: sushanthp2019@hotmail.com
+
+Forget expensive, full-time technicians. Whether it=E2=80=99s a new buildin=
+g or time
+for an upgrade, our teams of local Field Engineers can provide on-site surv=
+ey
+and installation of your wireless network solution.
+
+Immediately after your company submits a Work Order in our platform, our
+dispatch team contacts a qualified, experienced Field Engineer in your
+community with the availability to complete your project. Our technicians h=
+ave
+the field experience necessary to hit the ground running; securely installi=
+ng,
+configuring and testing your wireless network connection to make sure
+everything you need is operating at peak performance. Once we verify with y=
+ou
+that the project has been completed to your satisfaction, simply close out =
+the
+Work Order and get back to business.
+
+=E2=80=8DKnow more: https://www.fieldengineer.com/blogs/wireless-network-de=
+ployment
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15641367070.42C5.16570
+Date: Fri, 26 Jul 2019 10:25:07 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Wireless Network Deployment"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111224">111224</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Wireless Network Deployment
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>IGT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>sushanthp2019&#64;hotmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Forget expensive, full-time technicians. Whether it=E2=80=99s =
+a new building or time
+for an upgrade, our teams of local Field Engineers can provide on-site surv=
+ey
+and installation of your wireless network solution.
+
+Immediately after your company submits a Work Order in our platform, our
+dispatch team contacts a qualified, experienced Field Engineer in your
+community with the availability to complete your project. Our technicians h=
+ave
+the field experience necessary to hit the ground running; securely installi=
+ng,
+configuring and testing your wireless network connection to make sure
+everything you need is operating at peak performance. Once we verify with y=
+ou
+that the project has been completed to your satisfaction, simply close out =
+the
+Work Order and get back to business.
+
+=E2=80=8DKnow more: <a href=3D"https://www.fieldengineer.com/blogs/wireless=
+-network-deployment">https://www.fieldengineer.com/blogs/wireless-network-d=
+eployment</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15641367070.42C5.16570--
+
+--===============1279384849==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1279384849==--
