@@ -2,56 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B610D76F90
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 19:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BE676F92
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 19:12:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 030106ED09;
-	Fri, 26 Jul 2019 17:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6FAF6ED93;
+	Fri, 26 Jul 2019 17:11:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 891A36E898;
- Fri, 26 Jul 2019 17:11:53 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d3b34610000>; Fri, 26 Jul 2019 10:12:01 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Fri, 26 Jul 2019 10:11:53 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Fri, 26 Jul 2019 10:11:53 -0700
-Received: from rcampbell-dev.nvidia.com (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 26 Jul
- 2019 17:11:48 +0000
-Subject: Re: [PATCH v2 2/7] mm/hmm: a few more C style and comment clean ups
-To: Christoph Hellwig <hch@lst.de>
-References: <20190726005650.2566-1-rcampbell@nvidia.com>
- <20190726005650.2566-3-rcampbell@nvidia.com> <20190726062320.GA22881@lst.de>
-X-Nvconfidentiality: public
-From: Ralph Campbell <rcampbell@nvidia.com>
-Message-ID: <6673dc71-f43e-849f-ca36-0b20805fc092@nvidia.com>
-Date: Fri, 26 Jul 2019 10:11:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1ABF6EDCE
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 17:11:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BCF4C72167; Fri, 26 Jul 2019 17:11:55 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111077] link_shader and deserialize_glsl_program suddenly
+ consume huge amount of RAM
+Date: Fri, 26 Jul 2019 17:11:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: 18.3
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: mattst88@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111077-502-FpxzmdWPy7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111077-502@http.bugs.freedesktop.org/>
+References: <bug-111077-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190726062320.GA22881@lst.de>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nvidia.com; s=n1; 
- t=1564161121; bh=esO7QnCCyx9dzKTMgBFciVXyQ2aruZtdaUPoDfDZZgU=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=BtXkSUiESCykynn98aAUZOYyg4yz7jKnWyWlQeuTkJgRs1pzxbnG+tdWelFiuNWFf
- lk2A6TLLDs6cQLe2Yo2AGejt/oTzYMtS1amgKmn2dm5v84UdJRMTYaGngk6xAfFfNb
- p99GEAtPQKu0WpF74vtOAbWCO1P3EV8HcGsPjmb/CtOUwIfsJf4d4RzpBS0UZFOFl5
- mKy6fFTJpky1hLxVBJ8kIaj3ucax+hLNkEj3Rb1EYWFnVqCmhNJAyxMjR01QHESrZT
- ZRtQfwyfeh21KLwAKZ3N0lRnAXuC9Yp0RdEq+oNcbACTXWG+Ly+6gcvZF0sXLDUj4M
- vgXH0/SGBnYgA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,22 +53,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jason Gunthorpe <jgg@mellanox.com>, amd-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============1145489690=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDcvMjUvMTkgMTE6MjMgUE0sIENocmlzdG9waCBIZWxsd2lnIHdyb3RlOgo+IE5vdGU6IGl0
-IHNlZW1zIGxpa2UgeW91J3ZlIG9ubHkgQ0NlZCBtZSBvbiBwYXRjaGVzIDItNywgYnV0IG5vdCBv
-biB0aGUKPiBjb3ZlciBsZXR0ZXIgYW5kIHBhdGNoIDEuICBJJ2xsIHRyeSB0byBmaW5kIHRoZW0g
-bGF0ZXIsIGJ1dCB0byBtYWtlIENjcwo+IHVzZWZ1bCB0aGV5IHNob3VsZCBub3JtYWxseSBjb3Zl
-ciB0aGUgd2hvbGUgc2VyaWVzLgo+IAo+IE90aGVyd2lzZSB0aGlzIGxvb2tzIGZpbmUgdG8gbWU6
-Cj4gCj4gUmV2aWV3ZWQtYnk6IENocmlzdG9waCBIZWxsd2lnIDxoY2hAbHN0LmRlPgo+IAoKVGhh
-bmtzIGZvciB0aGUgcmV2aWV3IGFuZCBzb3JyeSBhYm91dCB0aGUgb3ZlcnNpZ2h0IG9uIENDcy4K
+
+--===============1145489690==
+Content-Type: multipart/alternative; boundary="15641611152.dc08b3B.25210"
+Content-Transfer-Encoding: 7bit
+
+
+--15641611152.dc08b3B.25210
+Date: Fri, 26 Jul 2019 17:11:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111077
+
+--- Comment #14 from Matt Turner <mattst88@gmail.com> ---
+(In reply to roland@rptd.ch from comment #13)
+> I checked out the 18.2 branch which I assume should work (if the theory is
+> correct).
+>=20
+> Modifying files won't work with bisecting, right?
+
+You'll probably have to 'git apply' the patch after each step, and 'git
+checkout -f' before each time you do 'git bisect good/bad'
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15641611152.dc08b3B.25210
+Date: Fri, 26 Jul 2019 17:11:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077#c14">Comme=
+nt # 14</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - link_shader and deserialize_glsl_program suddenly consume=
+ huge amount of RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111077">bug 11107=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+mattst88&#64;gmail.com" title=3D"Matt Turner &lt;mattst88&#64;gmail.com&gt;=
+"> <span class=3D"fn">Matt Turner</span></a>
+</span></b>
+        <pre>(In reply to <a href=3D"mailto:roland&#64;rptd.ch">roland&#64;=
+rptd.ch</a> from <a href=3D"show_bug.cgi?id=3D111077#c13">comment #13</a>)
+<span class=3D"quote">&gt; I checked out the 18.2 branch which I assume sho=
+uld work (if the theory is
+&gt; correct).
+&gt;=20
+&gt; Modifying files won't work with bisecting, right?</span >
+
+You'll probably have to 'git apply' the patch after each step, and 'git
+checkout -f' before each time you do 'git bisect good/bad'</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15641611152.dc08b3B.25210--
+
+--===============1145489690==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1145489690==--
