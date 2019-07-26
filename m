@@ -2,42 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8599C7686A
-	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 15:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB9576926
+	for <lists+dri-devel@lfdr.de>; Fri, 26 Jul 2019 15:50:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0446ED72;
-	Fri, 26 Jul 2019 13:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15A236ED75;
+	Fri, 26 Jul 2019 13:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C416ED72;
- Fri, 26 Jul 2019 13:44:32 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2DBD022BF5;
- Fri, 26 Jul 2019 13:44:31 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 37/37] drm/nouveau: fix memory leak in
- nouveau_conn_reset()
-Date: Fri, 26 Jul 2019 09:43:32 -0400
-Message-Id: <20190726134332.12626-37-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190726134332.12626-1-sashal@kernel.org>
-References: <20190726134332.12626-1-sashal@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 53B936ED75
+ for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 13:49:59 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 509C572167; Fri, 26 Jul 2019 13:49:59 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111227] Mesa trunk 3.9
+Date: Fri, 26 Jul 2019 13:49:59 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/r200
+X-Bugzilla-Version: 19.0
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: kaitlyn.kristy9494@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111227-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1564148671;
- bh=sGdTX6qKLjso5PUS4UyRoXjmf1z7TAMwe0dJsMXsIs8=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=u9V/c/YrW+FIXLslmUTT1TD8YGfTc0R16TKobI57+riL6rzGKRxwm08B5/O5HIU0h
- jlZF2HFvTsGEuXFRa/vN35TM4mBm5ufAC42xPEtRhXf2w2mjupv2eP/daSGfc9UWbJ
- pVuTXmb+qB0FpwYvDpElsmIiyjwc9R0KvxYJy9o8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,59 +52,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
- Yongxin Liu <yongxin.liu@windriver.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0395381995=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogWW9uZ3hpbiBMaXUgPHlvbmd4aW4ubGl1QHdpbmRyaXZlci5jb20+CgpbIFVwc3RyZWFt
-IGNvbW1pdCAwOWI5MGUyZmUzNWZhZWFjZTI0ODgyMzRlMmE3NzI4ZjJlYThiYTI2IF0KCkluIG5v
-dXZlYXVfY29ubl9yZXNldCgpLCBpZiBjb25uZWN0b3ItPnN0YXRlIGlzIHRydWUsCl9fZHJtX2F0
-b21pY19oZWxwZXJfY29ubmVjdG9yX2Rlc3Ryb3lfc3RhdGUoKSB3aWxsIGJlIGNhbGxlZCwKYnV0
-IHRoZSBtZW1vcnkgcG9pbnRlZCBieSBhc3ljIGlzbid0IGZyZWVkLiBNZW1vcnkgbGVhayBoYXBw
-ZW5zCmluIHRoZSBmb2xsb3dpbmcgZnVuY3Rpb24gX19kcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0
-b3JfcmVzZXQoKSwKd2hlcmUgbmV3bHkgYWxsb2NhdGVkIGFzeWMtPnN0YXRlIHdpbGwgYmUgYXNz
-aWduZWQgdG8gY29ubmVjdG9yLT5zdGF0ZS4KClNvIHVzaW5nIG5vdXZlYXVfY29ubl9hdG9taWNf
-ZGVzdHJveV9zdGF0ZSgpIGluc3RlYWQgb2YKX19kcm1fYXRvbWljX2hlbHBlcl9jb25uZWN0b3Jf
-ZGVzdHJveV9zdGF0ZSB0byBmcmVlIHRoZSAib2xkIiBhc3ljLgoKSGVyZSB0aGUgaXMgdGhlIGxv
-ZyBzaG93aW5nIG1lbW9yeSBsZWFrLgoKdW5yZWZlcmVuY2VkIG9iamVjdCAweGZmZmY4YzU0ODA0
-ODNjODAgKHNpemUgMTkyKToKICBjb21tICJrd29ya2VyLzA6MiIsIHBpZCAxODgsIGppZmZpZXMg
-NDI5NDY5NTI3OSAoYWdlIDUzLjE3OXMpCiAgaGV4IGR1bXAgKGZpcnN0IDMyIGJ5dGVzKToKICAg
-IDAwIGYwIGJhIDdiIDU0IDhjIGZmIGZmIDAwIDAwIDAwIDAwIDAwIDAwIDAwIDAwICAuLi57VC4u
-Li4uLi4uLi4uCiAgICAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAwMCAw
-MCAwMCAgLi4uLi4uLi4uLi4uLi4uLgogIGJhY2t0cmFjZToKICAgIFs8MDAwMDAwMDA1MDA1YzBk
-MD5dIGttZW1fY2FjaGVfYWxsb2NfdHJhY2UrMHgxOTUvMHgyYzAKICAgIFs8MDAwMDAwMDBhMTIy
-YmFlZD5dIG5vdXZlYXVfY29ubl9yZXNldCsweDI1LzB4YzAgW25vdXZlYXVdCiAgICBbPDAwMDAw
-MDAwNGZkMTg5YTI+XSBub3V2ZWF1X2Nvbm5lY3Rvcl9jcmVhdGUrMHgzYTcvMHg2MTAgW25vdXZl
-YXVdCiAgICBbPDAwMDAwMDAwYzczMzQzYTg+XSBudjUwX2Rpc3BsYXlfY3JlYXRlKzB4MzQzLzB4
-OTgwIFtub3V2ZWF1XQogICAgWzwwMDAwMDAwMDJlMmIwM2MzPl0gbm91dmVhdV9kaXNwbGF5X2Ny
-ZWF0ZSsweDUxZi8weDY2MCBbbm91dmVhdV0KICAgIFs8MDAwMDAwMDBjOTI0Njk5Yj5dIG5vdXZl
-YXVfZHJtX2RldmljZV9pbml0KzB4MTgyLzB4N2YwIFtub3V2ZWF1XQogICAgWzwwMDAwMDAwMGNj
-MDI5NDM2Pl0gbm91dmVhdV9kcm1fcHJvYmUrMHgyMGMvMHgyYzAgW25vdXZlYXVdCiAgICBbPDAw
-MDAwMDAwN2U5NjFjM2U+XSBsb2NhbF9wY2lfcHJvYmUrMHg0Ny8weGEwCiAgICBbPDAwMDAwMDAw
-ZGExNGQ1Njk+XSB3b3JrX2Zvcl9jcHVfZm4rMHgxYS8weDMwCiAgICBbPDAwMDAwMDAwMjhkYTQ4
-MDU+XSBwcm9jZXNzX29uZV93b3JrKzB4MjdjLzB4NjYwCiAgICBbPDAwMDAwMDAwMWQ0MTViMDQ+
-XSB3b3JrZXJfdGhyZWFkKzB4MjJiLzB4M2YwCiAgICBbPDAwMDAwMDAwMDNiNjlmMWY+XSBrdGhy
-ZWFkKzB4MTJmLzB4MTUwCiAgICBbPDAwMDAwMDAwYzk0YzI5Yjc+XSByZXRfZnJvbV9mb3JrKzB4
-M2EvMHg1MAoKU2lnbmVkLW9mZi1ieTogWW9uZ3hpbiBMaXUgPHlvbmd4aW4ubGl1QHdpbmRyaXZl
-ci5jb20+ClNpZ25lZC1vZmYtYnk6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVkaGF0LmNvbT4KU2ln
-bmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRyaXZlcnMv
-Z3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVjdG9yLmMgfCAyICstCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZl
-YXUvbm91dmVhdV9jb25uZWN0b3IuYwppbmRleCAyYzZkMTk2ODM2ODguLjRhN2Q1MGE5NmQzNiAx
-MDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5jCkBAIC0yNTEs
-NyArMjUxLDcgQEAgbm91dmVhdV9jb25uX3Jlc2V0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
-ZWN0b3IpCiAJCXJldHVybjsKIAogCWlmIChjb25uZWN0b3ItPnN0YXRlKQotCQlfX2RybV9hdG9t
-aWNfaGVscGVyX2Nvbm5lY3Rvcl9kZXN0cm95X3N0YXRlKGNvbm5lY3Rvci0+c3RhdGUpOworCQlu
-b3V2ZWF1X2Nvbm5fYXRvbWljX2Rlc3Ryb3lfc3RhdGUoY29ubmVjdG9yLCBjb25uZWN0b3ItPnN0
-YXRlKTsKIAlfX2RybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9yZXNldChjb25uZWN0b3IsICZh
-c3ljLT5zdGF0ZSk7CiAJYXN5Yy0+ZGl0aGVyLm1vZGUgPSBESVRIRVJJTkdfTU9ERV9BVVRPOwog
-CWFzeWMtPmRpdGhlci5kZXB0aCA9IERJVEhFUklOR19ERVBUSF9BVVRPOwotLSAKMi4yMC4xCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0395381995==
+Content-Type: multipart/alternative; boundary="15641489991.F1BAAB0B2.20887"
+Content-Transfer-Encoding: 7bit
+
+
+--15641489991.F1BAAB0B2.20887
+Date: Fri, 26 Jul 2019 13:49:59 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111227
+
+            Bug ID: 111227
+           Summary: Mesa trunk 3.9
+           Product: Mesa
+           Version: 19.0
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/DRI/r200
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: kaitlyn.kristy9494@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Here is a problem.
+I updated LLVM-trunk and installed.
+Than run this commands:
+
+git clone http://llvm.org/git/libclc.git
+cd libclc
+./configure.py
+make
+
+More info:
+https://www.fieldengineer.com/blogs/new-jersey-field-engineer-the-innovatio=
+n-of-engineering-workforce
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15641489991.F1BAAB0B2.20887
+Date: Fri, 26 Jul 2019 13:49:59 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Mesa trunk 3.9"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111227">111227</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Mesa trunk 3.9
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.0
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/DRI/r200
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>kaitlyn.kristy9494&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Here is a problem.
+I updated LLVM-trunk and installed.
+Than run this commands:
+
+git clone <a href=3D"http://llvm.org/git/libclc.git">http://llvm.org/git/li=
+bclc.git</a>
+cd libclc
+./configure.py
+make
+
+More info:
+<a href=3D"https://www.fieldengineer.com/blogs/new-jersey-field-engineer-th=
+e-innovation-of-engineering-workforce">https://www.fieldengineer.com/blogs/=
+new-jersey-field-engineer-the-innovation-of-engineering-workforce</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15641489991.F1BAAB0B2.20887--
+
+--===============0395381995==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0395381995==--
