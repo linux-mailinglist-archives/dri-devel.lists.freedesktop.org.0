@@ -2,24 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7EE7790E
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 15:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EA377911
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 15:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B871B6EEBE;
-	Sat, 27 Jul 2019 13:50:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F31FE6EE9B;
+	Sat, 27 Jul 2019 13:57:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 09C586EEBE
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 13:50:21 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1DD886EE9B
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 13:57:28 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 063F072167; Sat, 27 Jul 2019 13:50:21 +0000 (UTC)
+ id 138C872167; Sat, 27 Jul 2019 13:57:28 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111231] random VM_L2_PROTECTION_FAULTs when loading a world in
  minetest on AMD ryzen 2200G integrated graphics
-Date: Sat, 27 Jul 2019 13:50:21 +0000
+Date: Sat, 27 Jul 2019 13:57:28 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111231-502-rjNvosxmpM@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111231-502-AokuLmcRjX@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111231-502@http.bugs.freedesktop.org/>
 References: <bug-111231-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0077413681=="
+Content-Type: multipart/mixed; boundary="===============1573603684=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0077413681==
-Content-Type: multipart/alternative; boundary="15642354201.bbfBF8aa0.7286"
+--===============1573603684==
+Content-Type: multipart/alternative; boundary="15642358480.6530e.9042"
 Content-Transfer-Encoding: 7bit
 
 
---15642354201.bbfBF8aa0.7286
-Date: Sat, 27 Jul 2019 13:50:20 +0000
+--15642358480.6530e.9042
+Date: Sat, 27 Jul 2019 13:57:28 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,23 +73,30 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111231
 
---- Comment #10 from deltasquared <ds2.bugs.freedesktop@gmail.com> ---
-Created attachment 144890
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144890&action=3Dedit
-Observed graphical corruption - right hand side of monitor
+--- Comment #11 from deltasquared <ds2.bugs.freedesktop@gmail.com> ---
+Some additional information I had neglected to mention in the initial
+description in the "excitement" of filing my first bug here...
 
-Other side of above.
-The sky colour is otherwise undisturbed to the top edge of the monitor, hen=
-ce
-why the top edge was not in shot. I doubt this camera would have picked up
-enough detail otherwise - again it's a fairly large monitor.
+Relevant hardware is as stated a ryzen 2200G running solely on integrated v=
+ega
+graphics - I haven't mentioned any other specs of the system as this bug has
+persisted across replacements of all components, even the motherboard - only
+things that have not changed are the PSU, nvme storage and the ryzen chip
+itself.
+
+Distro is arch linux with all packages up to date at the time of writing.
+Kernel version 5.2.1-arch1-1-ARCH. Mesa built-from-git version mentonied in=
+ bug
+description. LLVM version 8.0.1.
+
+Any other information is available on request.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15642354201.bbfBF8aa0.7286
-Date: Sat, 27 Jul 2019 13:50:20 +0000
+--15642358480.6530e.9042
+Date: Sat, 27 Jul 2019 13:57:28 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,8 +114,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - random VM_L2_PROTECTION_FAULTs when loading a world in mi=
 netest on AMD ryzen 2200G integrated graphics"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111231#c10">Comme=
-nt # 10</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111231#c11">Comme=
+nt # 11</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - random VM_L2_PROTECTION_FAULTs when loading a world in mi=
@@ -119,18 +126,23 @@ netest on AMD ryzen 2200G integrated graphics"
 ds2.bugs.freedesktop&#64;gmail.com" title=3D"deltasquared &lt;ds2.bugs.free=
 desktop&#64;gmail.com&gt;"> <span class=3D"fn">deltasquared</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144890=
-" name=3D"attach_144890" title=3D"Observed graphical corruption - right han=
-d side of monitor">attachment 144890</a> <a href=3D"attachment.cgi?id=3D144=
-890&amp;action=3Dedit" title=3D"Observed graphical corruption - right hand =
-side of monitor">[details]</a></span>
-Observed graphical corruption - right hand side of monitor
+        <pre>Some additional information I had neglected to mention in the =
+initial
+description in the &quot;excitement&quot; of filing my first bug here...
 
-Other side of above.
-The sky colour is otherwise undisturbed to the top edge of the monitor, hen=
-ce
-why the top edge was not in shot. I doubt this camera would have picked up
-enough detail otherwise - again it's a fairly large monitor.</pre>
+Relevant hardware is as stated a ryzen 2200G running solely on integrated v=
+ega
+graphics - I haven't mentioned any other specs of the system as this bug has
+persisted across replacements of all components, even the motherboard - only
+things that have not changed are the PSU, nvme storage and the ryzen chip
+itself.
+
+Distro is arch linux with all packages up to date at the time of writing.
+Kernel version 5.2.1-arch1-1-ARCH. Mesa built-from-git version mentonied in=
+ bug
+description. LLVM version 8.0.1.
+
+Any other information is available on request.</pre>
         </div>
       </p>
 
@@ -144,9 +156,9 @@ enough detail otherwise - again it's a fairly large monitor.</pre>
     </body>
 </html>=
 
---15642354201.bbfBF8aa0.7286--
+--15642358480.6530e.9042--
 
---===============0077413681==
+--===============1573603684==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -156,4 +168,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0077413681==--
+--===============1573603684==--
