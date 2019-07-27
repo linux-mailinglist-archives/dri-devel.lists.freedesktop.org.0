@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13C077605
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 04:36:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1A177607
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 04:37:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE4926EE82;
-	Sat, 27 Jul 2019 02:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E0556EE83;
+	Sat, 27 Jul 2019 02:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7EC316EE82
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 02:36:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8E4796EE7F
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 02:37:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7B87772167; Sat, 27 Jul 2019 02:36:08 +0000 (UTC)
+ id 8A86772167; Sat, 27 Jul 2019 02:37:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111228] PRIME output screen satys black on 1002:15d8 with 128MB
  VRAM
-Date: Sat, 27 Jul 2019 02:36:08 +0000
+Date: Sat, 27 Jul 2019 02:37:46 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111228-502-tyh23AHPsU@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111228-502-RyA7DG4WiU@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111228-502@http.bugs.freedesktop.org/>
 References: <bug-111228-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0733823214=="
+Content-Type: multipart/mixed; boundary="===============1500208628=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0733823214==
-Content-Type: multipart/alternative; boundary="15641949682.9Cb2b88F.23454"
+--===============1500208628==
+Content-Type: multipart/alternative; boundary="15641950660.4CfEe59.23694"
 Content-Transfer-Encoding: 7bit
 
 
---15641949682.9Cb2b88F.23454
-Date: Sat, 27 Jul 2019 02:36:08 +0000
+--15641950660.4CfEe59.23694
+Date: Sat, 27 Jul 2019 02:37:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,23 +73,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111228
 
---- Comment #1 from djczaps <januszekdawid@gmail.com> ---
-Created attachment 144876
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144876&action=3Dedit
-nvidia bug report
-
-I'm consistentky trying to run my Nvidia gtx 1660 Ti on laptop with Ryzen 7
-processor. So far unsucessfull trying to get into GUI. It might be something
-related to iommu and power management when trying to open and close the lap=
-top
-lid. Laptop model Ausus TUF 505 DU. Any help will be appreciated.
+--- Comment #2 from djczaps <januszekdawid@gmail.com> ---
+https://devtalk.nvidia.com/default/topic/1056652/linux/amd-ryzen-7-geforce-=
+gtx-1660-ti-laptop-gt-cannot-get-nvidia-to-be-used-as-primary-graphics/post=
+/5365696/#5365696
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15641949682.9Cb2b88F.23454
-Date: Sat, 27 Jul 2019 02:36:08 +0000
+--15641950660.4CfEe59.23694
+Date: Sat, 27 Jul 2019 02:37:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,8 +101,8 @@ Auto-Submitted: auto-generated
           bz_status_NEW "
    title=3D"NEW - PRIME output screen satys black on 1002:15d8 with 128MB V=
 RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - PRIME output screen satys black on 1002:15d8 with 128MB V=
@@ -119,17 +113,11 @@ RAM"
 januszekdawid&#64;gmail.com" title=3D"djczaps &lt;januszekdawid&#64;gmail.c=
 om&gt;"> <span class=3D"fn">djczaps</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144876=
-" name=3D"attach_144876" title=3D"nvidia bug report">attachment 144876</a> =
-<a href=3D"attachment.cgi?id=3D144876&amp;action=3Dedit" title=3D"nvidia bu=
-g report">[details]</a></span>
-nvidia bug report
-
-I'm consistentky trying to run my Nvidia gtx 1660 Ti on laptop with Ryzen 7
-processor. So far unsucessfull trying to get into GUI. It might be something
-related to iommu and power management when trying to open and close the lap=
-top
-lid. Laptop model Ausus TUF 505 DU. Any help will be appreciated.</pre>
+        <pre><a href=3D"https://devtalk.nvidia.com/default/topic/1056652/li=
+nux/amd-ryzen-7-geforce-gtx-1660-ti-laptop-gt-cannot-get-nvidia-to-be-used-=
+as-primary-graphics/post/5365696/#5365696">https://devtalk.nvidia.com/defau=
+lt/topic/1056652/linux/amd-ryzen-7-geforce-gtx-1660-ti-laptop-gt-cannot-get=
+-nvidia-to-be-used-as-primary-graphics/post/5365696/#5365696</a></pre>
         </div>
       </p>
 
@@ -143,9 +131,9 @@ lid. Laptop model Ausus TUF 505 DU. Any help will be appreciated.</pre>
     </body>
 </html>=
 
---15641949682.9Cb2b88F.23454--
+--15641950660.4CfEe59.23694--
 
---===============0733823214==
+--===============1500208628==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -155,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0733823214==--
+--===============1500208628==--
