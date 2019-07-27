@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090507786D
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 13:28:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C67778DB
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 15:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEFAD6EEA5;
-	Sat, 27 Jul 2019 11:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 680316EEA8;
+	Sat, 27 Jul 2019 13:12:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C9826EEA1
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 11:28:28 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C3A626EEA8
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 13:12:20 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 68B1D72167; Sat, 27 Jul 2019 11:28:28 +0000 (UTC)
+ id B786372167; Sat, 27 Jul 2019 13:12:20 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sat, 27 Jul 2019 11:28:28 +0000
+Subject: [Bug 111231] VM_L2_PROTECTION_FAULT
+Date: Sat, 27 Jul 2019 13:12:20 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
+X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: ds2.bugs.freedesktop@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-JxFJJfwbxk@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111231-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,65 +51,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2044222279=="
+Content-Type: multipart/mixed; boundary="===============0497511416=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2044222279==
-Content-Type: multipart/alternative; boundary="15642269082.b1daE7c77.14166"
+--===============0497511416==
+Content-Type: multipart/alternative; boundary="15642331400.a09F.30756"
 Content-Transfer-Encoding: 7bit
 
 
---15642269082.b1daE7c77.14166
-Date: Sat, 27 Jul 2019 11:28:28 +0000
+--15642331400.a09F.30756
+Date: Sat, 27 Jul 2019 13:12:20 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111231
 
---- Comment #68 from Mauro Gaspari <ilvipero@gmx.com> ---
-(In reply to Sylvain BERTRAND from comment #67)
-> > ...
-> > Vulkan/DXVK
->=20
-> The bugs may be in wine/DXVK then. You should report to a bug to them and
-> link
-> this bug to theirs.
+            Bug ID: 111231
+           Summary: VM_L2_PROTECTION_FAULT
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: major
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: ds2.bugs.freedesktop@gmail.com
 
-If any of you opened bugs on other bug trackers, please post a link here so=
- we
-can all contribute to both.
+When playing minetest on an AMD ryzen 2200G with vega integrated graphics,
+occasionally the system will appear to suffer a graphics lock-up during game
+load when the loading bar appears.
+When this occours, dmesg spits out a VM_L2_PROTECTION_FAULT and then repeat=
+ed
+errors about fence timeouts:
 
-I did some test on my end and I can report the following:
+[ 5699.136659] amdgpu 0000:0b:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:155 vmid:5 pasid:32770, for process minetest pid 7127 thread minetest:=
+cs0
+pid 7133)
+[ 5699.136662] amdgpu 0000:0b:00.0:   in page starting at address
+0x000080014034d000 from 27
+[ 5699.136664] amdgpu 0000:0b:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00501136
+[ 5704.343299] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5709.259775] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5709.259860] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5709.259862] [drm] GPU recovery disabled.
+[ 5709.463238] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5719.286451] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5719.286537] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5719.286539] [drm] GPU recovery disabled.
+[ 5729.312836] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5729.312921] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5729.312923] [drm] GPU recovery disabled.
+[ 5739.339485] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5739.339570] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5739.339572] [drm] GPU recovery disabled.
+[ 5749.366552] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5749.366637] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5749.366640] [drm] GPU recovery disabled.
 
-System info:
-OS: Ubuntu 18.04.2 LTS x86_64=20
-Kernel: 5.0.0-21-generic
-Resolution: 3440x1440
-CPU: AMD Ryzen 7 2700X (16) @ 3.700G=20
-GPU: AMD Vega 20=20
-Memory: 2650MiB / 64398MiB
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.0.2
+Notably, when playing minetest normally, this doesn't always happen, but wh=
+en
+it does the screen gets a light covering of graphical corruption "confetti"
+(photos to follow - had to be taken on a phone, sorry).
+Currently running a mesa debug build compiled from git at commit b0626c1f306
+after seeing if https://bugs.freedesktop.org/show_bug.cgi?id=3D105251 had
+anything to do with it - I think this is related but not entirely a duplica=
+te,
+as a fix mentioned there did stop the test program there from having an eff=
+ect
+but did not stop this problem.
 
-1. Power profile set to manual did not help
-2. Mesa-ACO from valve seem to have helped quite a bit. So far, no system
-freezes
+In the course of trying to reproduce this problem in a more repeatable mann=
+er,
+I decided to take an apitrace (will attach in following messages).
+Interestingly, the brief trace I took did not crash my system during record=
+ing
+of it, but now replaying it will fairly regularly cause the same kind of
+lockup, more frequently than the game itself will.
+I ran apitrace replay in verbose mode to see whereabouts it stopped to see =
+if
+this gave an approximate indications of where things starting going pear
+shaped.  The point at which output ends is well short of the entire apitrace
+dump, as expected from what I saw - and additionally the stderr appears to
+contain an exception of some kind. See the apitrace.out.txt and
+apitrace.err.txt attachments (to follow separately).
 
-I installed Arch on another SSD and will try to reproduce the same tests:
-1. Plain Arch - crash or not ?
-2. Arch with forced power profile - crash or not ?
-3- Arch with mesa-ACO - crash or not ?
+I haven't yet got a dmesg output during minetest running itself, but I have=
+ got
+some runs (spanning from boot to either hard or soft reboot - sometimes xorg
+was killable, othertimes not) from replaying the offending api trace. These
+will also be attached in follow-up messages.
+These appear to have a lot more GPU faults before the messages about timeou=
+ts
+appear.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15642269082.b1daE7c77.14166
-Date: Sat, 27 Jul 2019 11:28:28 +0000
+--15642331400.a09F.30756
+Date: Sat, 27 Jul 2019 13:12:20 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -121,56 +187,175 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - VM_L2_PROTECTION_FAULT"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111231">111231</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>VM_L2_PROTECTION_FAULT
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>major
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>ds2.bugs.freedesktop&#64;gmail.com
+          </td>
+        </tr></table>
       <p>
         <div>
-            <b><a class=3D"bz_bug_link=20
+        <pre>When playing minetest on an AMD ryzen 2200G with vega integrat=
+ed graphics,
+occasionally the system will appear to suffer a graphics lock-up during game
+load when the loading bar appears.
+When this occours, dmesg spits out a VM_L2_PROTECTION_FAULT and then repeat=
+ed
+errors about fence timeouts:
+
+[ 5699.136659] amdgpu 0000:0b:00.0: [gfxhub] no-retry page fault (src_id:0
+ring:155 vmid:5 pasid:32770, for process minetest pid 7127 thread minetest:=
+cs0
+pid 7133)
+[ 5699.136662] amdgpu 0000:0b:00.0:   in page starting at address
+0x000080014034d000 from 27
+[ 5699.136664] amdgpu 0000:0b:00.0: VM_L2_PROTECTION_FAULT_STATUS:0x00501136
+[ 5704.343299] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5709.259775] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5709.259860] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5709.259862] [drm] GPU recovery disabled.
+[ 5709.463238] [drm:amdgpu_dm_atomic_commit_tail [amdgpu]] *ERROR* Waiting =
+for
+fences timed out.
+[ 5719.286451] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5719.286537] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5719.286539] [drm] GPU recovery disabled.
+[ 5729.312836] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5729.312921] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5729.312923] [drm] GPU recovery disabled.
+[ 5739.339485] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5739.339570] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5739.339572] [drm] GPU recovery disabled.
+[ 5749.366552] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,
+signaled seq=3D443165, emitted seq=3D443167
+[ 5749.366637] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* Process informati=
+on:
+process minetest pid 7127 thread minetest:cs0 pid 7133
+[ 5749.366640] [drm] GPU recovery disabled.
+
+Notably, when playing minetest normally, this doesn't always happen, but wh=
+en
+it does the screen gets a light covering of graphical corruption &quot;conf=
+etti&quot;
+(photos to follow - had to be taken on a phone, sorry).
+Currently running a mesa debug build compiled from git at commit b0626c1f306
+after seeing if <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c68">Comme=
-nt # 68</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
- <span class=3D"fn">Mauro Gaspari</span></a>
-</span></b>
-        <pre>(In reply to Sylvain BERTRAND from <a href=3D"show_bug.cgi?id=
-=3D109955#c67">comment #67</a>)
-<span class=3D"quote">&gt; &gt; ...
-&gt; &gt; Vulkan/DXVK
-&gt;=20
-&gt; The bugs may be in wine/DXVK then. You should report to a bug to them =
-and
-&gt; link
-&gt; this bug to theirs.</span >
+   title=3D"NEW - [Vega10] GPU lockup on boot: VMC page fault"
+   href=3D"show_bug.cgi?id=3D105251">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D105251</a> had
+anything to do with it - I think this is related but not entirely a duplica=
+te,
+as a fix mentioned there did stop the test program there from having an eff=
+ect
+but did not stop this problem.
 
-If any of you opened bugs on other bug trackers, please post a link here so=
- we
-can all contribute to both.
+In the course of trying to reproduce this problem in a more repeatable mann=
+er,
+I decided to take an apitrace (will attach in following messages).
+Interestingly, the brief trace I took did not crash my system during record=
+ing
+of it, but now replaying it will fairly regularly cause the same kind of
+lockup, more frequently than the game itself will.
+I ran apitrace replay in verbose mode to see whereabouts it stopped to see =
+if
+this gave an approximate indications of where things starting going pear
+shaped.  The point at which output ends is well short of the entire apitrace
+dump, as expected from what I saw - and additionally the stderr appears to
+contain an exception of some kind. See the apitrace.out.txt and
+apitrace.err.txt attachments (to follow separately).
 
-I did some test on my end and I can report the following:
-
-System info:
-OS: Ubuntu 18.04.2 LTS x86_64=20
-Kernel: 5.0.0-21-generic
-Resolution: 3440x1440
-CPU: AMD Ryzen 7 2700X (16) &#64; 3.700G=20
-GPU: AMD Vega 20=20
-Memory: 2650MiB / 64398MiB
-OpenGL version string: 4.5 (Compatibility Profile) Mesa 19.0.2
-
-1. Power profile set to manual did not help
-2. Mesa-ACO from valve seem to have helped quite a bit. So far, no system
-freezes
-
-I installed Arch on another SSD and will try to reproduce the same tests:
-1. Plain Arch - crash or not ?
-2. Arch with forced power profile - crash or not ?
-3- Arch with mesa-ACO - crash or not ?</pre>
+I haven't yet got a dmesg output during minetest running itself, but I have=
+ got
+some runs (spanning from boot to either hard or soft reboot - sometimes xorg
+was killable, othertimes not) from replaying the offending api trace. These
+will also be attached in follow-up messages.
+These appear to have a lot more GPU faults before the messages about timeou=
+ts
+appear.</pre>
         </div>
       </p>
 
@@ -184,9 +369,9 @@ I installed Arch on another SSD and will try to reproduce the same tests:
     </body>
 </html>=
 
---15642269082.b1daE7c77.14166--
+--15642331400.a09F.30756--
 
---===============2044222279==
+--===============0497511416==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -196,4 +381,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2044222279==--
+--===============0497511416==--
