@@ -2,53 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697DF7774E
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 08:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E8177805
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 11:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 543BD6EE94;
-	Sat, 27 Jul 2019 06:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5256EE96;
+	Sat, 27 Jul 2019 09:56:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EAEE6EE95
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 06:43:36 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 1F68B28B68
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 06:43:36 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 13AA728B6D; Sat, 27 Jul 2019 06:43:36 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0D96EE96
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 09:56:28 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 393678032D
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 11:56:25 +0200 (CEST)
+Date: Sat, 27 Jul 2019 11:56:24 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 204331] amdgpu audio parameter not functional
-Date: Sat, 27 Jul 2019 06:43:35 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: grmat@sub.red
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: DOCUMENTED
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-204331-2300-zwri8eXYc4@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-204331-2300@https.bugzilla.kernel.org/>
-References: <bug-204331-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Subject: Re: My penguin has blue feets (aka: RGB versus BGR troubles)
+Message-ID: <20190727095624.GA25081@ravnborg.org>
+References: <20190726203626.GA31474@ravnborg.org>
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Disposition: inline
+In-Reply-To: <20190726203626.GA31474@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+ a=X4hzUXDqc85gUMRKPU0A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,18 +49,34 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzMzEKCmdybWF0
-QHN1Yi5yZWQgY2hhbmdlZDoKCiAgICAgICAgICAgV2hhdCAgICB8UmVtb3ZlZCAgICAgICAgICAg
-ICAgICAgICAgIHxBZGRlZAotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgICAgICBTdGF0dXN8
-TkVXICAgICAgICAgICAgICAgICAgICAgICAgIHxSRVNPTFZFRAogICAgICAgICBSZXNvbHV0aW9u
-fC0tLSAgICAgICAgICAgICAgICAgICAgICAgICB8RE9DVU1FTlRFRAoKLS0tIENvbW1lbnQgIzIg
-ZnJvbSBncm1hdEBzdWIucmVkIC0tLQpUaGFua3MgZm9yIHlvdXIgcmVwbHkuCgoxLiBCdXQgdGhl
-IHNvdW5kICppcyogcGxheWluZywgYi9jIERDIGlzIGRlZmF1bHQuCjIuIEkndmUgc2VlbiBpdCAo
-b25seSB3L28gREMpIGlzIGRvY3VtZW50ZWQgaW4gcmVjZW50IGtlcm5lbCBkb2NzLiBJIHByZXZp
-b3VzbHkKcHV0IGNvbmZpZGVuY2UgaW4gdGhlIG1vZGluZm8gb3V0cHV0LCB3aGVyZSBpdCBpc24n
-dC4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRj
-aGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+SGkgYWxsLgoKVGhhbmtzIGZvciB0aGUgcmVzcG9uc2VzLgpJdCB0dXJucyBvdXQgdGhpcyB3YXMg
+YSBQSUNOSUMgZXJyb3IKKFByb2JsZW0gSW4gQ2hhaXIsIE5vdCBJbiBDb21wdXRlcikKCk9uIEZy
+aSwgSnVsIDI2LCAyMDE5IGF0IDEwOjM2OjI2UE0gKzAyMDAsIFNhbSBSYXZuYm9yZyB3cm90ZToK
+PiBIaSBhbGwuCj4gCj4gVGhlIEF0bWVsIGF0OTFzYW05MjYzIGhhcyBhIG5pY2UgTENEQyBJUCBj
+b3JlIHRoYXQgc3VwcG9ydHMgc2V2ZXJhbAo+IGZvcm1hdHM6Cj4gICAgIERSTV9GT1JNQVRfWEJH
+Ujg4ODgsIERSTV9GT1JNQVRfQkdSODg4LCBEUk1fRk9STUFUX0JHUjU2NQo+IAo+IChJdCBhbHNv
+IHN1cHBvcnRzIGEgcGFsbGV0aXplZCBDOCBmb3JtYXQsIGJ1dCB0aGF0cyBmb3IgbGF0ZXIpLgo+
+IAo+IFRoZSBmb3JtYXRzIGFyZSBhbGwgQkdSIGZvcm1hdHMgLSBhbmQgc29tZSBib2FyZHMgYWN0
+dWFsbHkgcmV2ZXJzZSBCbHVlCj4gYW5kIFJlZCB3aGVuIHdpcmluZyB1cCB0aGUgZGlzcGxheS4g
+SSBoYXZlIGFkZGVkIGEgRFQgcHJvcGVydHkgdG8KPiBpZGVudGlmeSBib2FyZHMgd2l0aCB0aGlz
+IGRpZmZlcmVuY2UuCj4gCj4gVGhlIHBlbmd1aW4gc2hvd24gZHVyaW5nIGJvb3Qgb2YgdGhlIGtl
+cm5lbCBoYWQgYmx1ZSBmZWV0IHdoaWNoIGlzIGEKPiBjbGVhciBzaWduIHRoYXQgUkVEIGFuZCBH
+UkVFTiB3YXMgcmV2ZXJzZWQuCj4gCj4gU28gdG8gZml4IHRoaXMgSSAoZ290IGhlbHAgZnJvbSBp
+bWlya2luIG9uIGlyYykgSSBpbXBsbWVudGVkIGEgcXVpcmsuCj4gU2VlIHBhdGNoIGJlbG93Lgo+
+IAo+IFdpdGggdGhlIHF1aXJrIGVuYWJsZWQgSSBzZWU6Cj4gLSBwZW5ndWluIHNob3duIGR1cmlu
+ZyBrZXJuZWwgYm9vdCBoYXMgeWVsbG93IGZlZXRzIChPSykKPiAtIG1vZGV0ZXN0IHRlbGwgdGhl
+IGRyaXZlciByZXBvcnRzOiBYQjI0IEJHMjQgQkcxNiAoYXMgZXhwZWN0ZWQpCj4gLSBtb2RldGVz
+dCAtcyBmYWlscyB3aXRoOgo+ICAgICAjIG1vZGV0ZXN0IC1NIGF0bWVsLWxjZGMgLXMgMzQ6ODAw
+eDQ4MC02MEh6Cm1vZGV0ZXN0IGRvIG5vdCBsaWtlIHRoZSAiSHoiIHByZWZpeCB3aGVuIHNwZWNp
+ZnlpbmcgdGhlIHJlZnJlc2ggcmF0ZS4KV2hlbiBIeiBpcyBhZGRlZCBpdCByZXZlcnRzIGJhY2sg
+dG8gWFIyNC4KClNvIHdoZW4gSSB1c2U6CiAgICAjIG1vZGV0ZXN0IC1NIGF0bWVsLWxjZGMgIC1z
+IDM0OjgwMHg0ODBAQkcyNAoKVGhlbiBJIHNlZSB0aGUgZXhwZWN0ZWQgb3V0cHV0IHdpdGggdGhl
+IHJpZ2h0IGNvbG9ycy4KCkkgYWxzbyBoYWQgZ290IHRoZSBmYWxzZSBpbXByZXNzaW9uIHRoYXQg
+aWYgbm8gZm9ybWF0IHdhcyBzcGVjaWZpZWQKbW9kZXRlc3Qgd291bGQgdXNlIHRoZSBmaXJzdCBm
+b3JtYXQgcmVwb3J0ZWQgZnJvbSB0aGUgZHJpdmVyLgpUaGlzIHdhcyBvYnZpb3VzbHkgYWxzbyB3
+cm9uZy4KClNvIGFsbC1pbi1hbGwgLSBJIGFtIHF1aXRlIGhhcHB5IHdpdGggaG93IHRoaW5ncyB3
+b3JrcyBub3cuCk5lZWRzIHRvIGRvIG1vcmUgdGVzdGluZywgcG9saXNoaW5nIGEgZmV3IHBhdGNo
+ZXMgYW5kIHRoZW4KSSBjYW4gc2VuZCBvdXQgYSB2MyBvZiB0aGlzIGRyaXZlci4KCglTYW0KX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
