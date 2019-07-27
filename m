@@ -2,53 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964BE773F7
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 00:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68A3775AE
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 03:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C966EE6A;
-	Fri, 26 Jul 2019 22:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF1E6EE7A;
+	Sat, 27 Jul 2019 01:43:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A9BE6EE6A
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 22:23:03 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id n5so56899798otk.1
- for <dri-devel@lists.freedesktop.org>; Fri, 26 Jul 2019 15:23:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ScWyjLcJFy4Lz4Bb2p+HZqOIG7kOJwkjN3MVAKYvsrk=;
- b=klQOqBUDoPfsRUt3cL2S7HIT0U6PMQ+i0SRn1+z/WbtMuKgCj0NxydBI9gk7TmDvfG
- 8UZAB3WR0ho1Vzt9Ojr1cmd65d3p29mGZWTBiOFRY4LRt3e1PLrKaMlnk+tlBEUOazK7
- zEJOeHJHhNwu+TGd37pZ66kSEZHID4BXflbY51eDngqLwIeIGgoigpW9As7nzay2u9oa
- hhO40h6zx9xbYU2Nnh5+R9joaJCPmhUEzFA+vb0ku7EZQ4+RHYrwq0k/oHIw4xsgJRaq
- lM4iENl3s10DcUP9gnmCvh9pQDX7cjncwHlq/0V8Jkj1UPsGAdFpb7ZwoCaPj4jXDuWt
- zdLg==
-X-Gm-Message-State: APjAAAXBxPPcJn+4caB+KzRvHQNfQMC6hQSfJac3zByoMX9z7hlKRtQy
- nskXyNO2PTluCxJUiK7en203J1MRBK3oMERINtk=
-X-Google-Smtp-Source: APXvYqztZ4L8ivk+q+0QbKt1xw9IRHQX2CTLtm89pOfnUI/T1nUenp/54DeqACMY2bNKfc34PAYAClGJMZ9mqfQqp9g=
-X-Received: by 2002:a05:6830:ce:: with SMTP id
- x14mr54565859oto.188.1564179782257; 
- Fri, 26 Jul 2019 15:23:02 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EC0D96EE7A
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 01:43:38 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DF7B472167; Sat, 27 Jul 2019 01:43:38 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111228] PRIME output screen satys black on 1002:15d8 with 128MB
+ VRAM
+Date: Sat, 27 Jul 2019 01:43:39 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: hhfeuer@gmx.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111228-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190726203626.GA31474@ravnborg.org>
- <CAKb7UvinPymcodpDuu8DX=L2bo4eY7ML1uKdh6no7byLLiurOg@mail.gmail.com>
-In-Reply-To: <CAKb7UvinPymcodpDuu8DX=L2bo4eY7ML1uKdh6no7byLLiurOg@mail.gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Sat, 27 Jul 2019 00:22:50 +0200
-Message-ID: <CAKMK7uEVaFeWwGQcvkZ9m2Q0DKzKmKTgkfmVZoKgt9iTR3dOMQ@mail.gmail.com>
-Subject: Re: My penguin has blue feets (aka: RGB versus BGR troubles)
-To: Ilia Mirkin <imirkin@alum.mit.edu>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=ScWyjLcJFy4Lz4Bb2p+HZqOIG7kOJwkjN3MVAKYvsrk=;
- b=Vh7+E+R2gLoXtOVrzvOIImPOOceOzTFpcu1w4f2dYi1Tb13lDDi6PMHnZbut/R1Os6
- kdR0p97uegLn+VBaOpPdb4BzMs14J3pN4PwIoWeyd9osG9EhKArunsa7TKQGwDsvSGsf
- stDQLoVsK3ZK99gB+4FZfzp2m2lv82uBnJGfs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,76 +52,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1033673400=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBKdWwgMjYsIDIwMTkgYXQgMTE6MzUgUE0gSWxpYSBNaXJraW4gPGltaXJraW5AYWx1
-bS5taXQuZWR1PiB3cm90ZToKPiBPbiBGcmksIEp1bCAyNiwgMjAxOSBhdCA0OjM2IFBNIFNhbSBS
-YXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4gd3JvdGU6Cj4gPgo+ID4gSGkgYWxsLgo+ID4KPiA+
-IFRoZSBBdG1lbCBhdDkxc2FtOTI2MyBoYXMgYSBuaWNlIExDREMgSVAgY29yZSB0aGF0IHN1cHBv
-cnRzIHNldmVyYWwKPiA+IGZvcm1hdHM6Cj4gPiAgICAgRFJNX0ZPUk1BVF9YQkdSODg4OCwgRFJN
-X0ZPUk1BVF9CR1I4ODgsIERSTV9GT1JNQVRfQkdSNTY1Cj4gPgo+ID4gKEl0IGFsc28gc3VwcG9y
-dHMgYSBwYWxsZXRpemVkIEM4IGZvcm1hdCwgYnV0IHRoYXRzIGZvciBsYXRlcikuCj4gPgo+ID4g
-VGhlIGZvcm1hdHMgYXJlIGFsbCBCR1IgZm9ybWF0cyAtIGFuZCBzb21lIGJvYXJkcyBhY3R1YWxs
-eSByZXZlcnNlIEJsdWUKPiA+IGFuZCBSZWQgd2hlbiB3aXJpbmcgdXAgdGhlIGRpc3BsYXkuIEkg
-aGF2ZSBhZGRlZCBhIERUIHByb3BlcnR5IHRvCj4gPiBpZGVudGlmeSBib2FyZHMgd2l0aCB0aGlz
-IGRpZmZlcmVuY2UuCj4gPgo+ID4gVGhlIHBlbmd1aW4gc2hvd24gZHVyaW5nIGJvb3Qgb2YgdGhl
-IGtlcm5lbCBoYWQgYmx1ZSBmZWV0IHdoaWNoIGlzIGEKPiA+IGNsZWFyIHNpZ24gdGhhdCBSRUQg
-YW5kIEdSRUVOIHdhcyByZXZlcnNlZC4KPiA+Cj4gPiBTbyB0byBmaXggdGhpcyBJIChnb3QgaGVs
-cCBmcm9tIGltaXJraW4gb24gaXJjKSBJIGltcGxtZW50ZWQgYSBxdWlyay4KPiA+IFNlZSBwYXRj
-aCBiZWxvdy4KPiA+Cj4gPiBXaXRoIHRoZSBxdWlyayBlbmFibGVkIEkgc2VlOgo+ID4gLSBwZW5n
-dWluIHNob3duIGR1cmluZyBrZXJuZWwgYm9vdCBoYXMgeWVsbG93IGZlZXRzIChPSykKPiA+IC0g
-bW9kZXRlc3QgdGVsbCB0aGUgZHJpdmVyIHJlcG9ydHM6IFhCMjQgQkcyNCBCRzE2IChhcyBleHBl
-Y3RlZCkKPiA+IC0gbW9kZXRlc3QgLXMgZmFpbHMgd2l0aDoKPiA+ICAgICAjIG1vZGV0ZXN0IC1N
-IGF0bWVsLWxjZGMgLXMgMzQ6ODAweDQ4MC02MEh6Cj4gPiAgICAgc2V0dGluZyBtb2RlIDgwMHg0
-ODAtNjBIekBYUjI0IG9uIGNvbm5lY3RvcnMgMzQsIGNydGMgMzIKPiA+ICAgICBmYWlsZWQgdG8g
-c2V0IG1vZGU6IEZ1bmN0aW9uIG5vdCBpbXBsZW1lbnRlZAo+ID4KPiA+IFNuaXAgZnJvbSBkbWVz
-ZzoKPiA+Cj4gPiBkcm06ZHJtX2lvY3RsXSBwaWQ9MjA4LCBkZXY9MHhlMjAxLCBhdXRoPTEsIERS
-TV9JT0NUTF9NT0RFX0FEREZCMgo+ID4gW2RybTpkcm1fbW9kZV9hZGRmYjJdIFtGQjozN10KPiA+
-IFtkcm06ZHJtX2lvY3RsXSBwaWQ9MjA4LCBkZXY9MHhlMjAxLCBhdXRoPTEsIERSTV9JT0NUTF9N
-T0RFX1NFVENSVEMKPiA+IFtkcm06ZHJtX21vZGVfc2V0Y3J0Y10gW0NSVEM6MzI6Y3J0Yy0wXQo+
-ID4gW2RybTpkcm1fbW9kZV9zZXRjcnRjXSBJbnZhbGlkIHBpeGVsIGZvcm1hdCBYUjI0IGxpdHRs
-ZS1lbmRpYW4gKDB4MzQzMjUyNTgpLCBtb2RpZmllciAweDAKPiA+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgXl5eXgo+ID4gW2RybTpkcm1fbW9kZV9vYmplY3Rf
-cHV0XSBPQkogSUQ6IDM3ICgyKQo+ID4gW2RybTpkcm1faW9jdGxdIHBpZD0yMDgsIHJldCA9IC0y
-Mgo+ID4gW2RybTpkcm1faW9jdGxdIHBpZD0yMDgsIGRldj0weGUyMDEsIGF1dGg9MSwgRFJNX0lP
-Q1RMX01PREVfRElSVFlGQgo+ID4gW2RybTpkcm1fbW9kZV9vYmplY3RfcHV0XSBPQkogSUQ6IDM3
-ICgyKQo+ID4gW2RybTpkcm1faW9jdGxdIHBpZD0yMDgsIHJldCA9IC0zOAo+ID4gW2RybTpkcm1f
-aW9jdGxdIHBpZD0yMDgsIGRldj0weGUyMDEsIGF1dGg9MSwgRFJNX0lPQ1RMX01PREVfUk1GQgo+
-ID4gW2RybTpkcm1fbW9kZV9vYmplY3RfcHV0XSBPQkogSUQ6IDM3ICgyKQo+ID4gW2RybTpkcm1f
-bW9kZV9vYmplY3RfcHV0XSBPQkogSUQ6IDM3ICgxKQo+ID4gW2RybTpkcm1faW9jdGxdIHBpZD0y
-MDgsIGRldj0weGUyMDEsIGF1dGg9MSwgRFJNX0lPQ1RMX01PREVfREVTVFJPWV9EVU1CCj4gPiBb
-ZHJtOmRybV9yZWxlYXNlXSBvcGVuX2NvdW50ID0gMQo+ID4gW2RybTpkcm1fZmlsZV9mcmVlXSBw
-aWQgPSAyMDgsIGRldmljZSA9IDB4ZTIwMSwgb3Blbl9jb3VudCA9IDEKPiA+IFtkcm06ZHJtX2xh
-c3RjbG9zZV0KPiA+IFtkcm06ZHJtX2xhc3RjbG9zZV0gZHJpdmVyIGxhc3RjbG9zZSBjb21wbGV0
-ZWQKPiA+Cj4gPiBOb3RpY2UgdGhhdCBzb21laG93IHdlIGhhdmUgYSBmcmFtZWJ1ZmZlciBpbiBY
-UjI0IGZvcm1hdCwgd2hpY2ggaXMgbm90Cj4gPiBzdXBwb3J0ZWQgYnkgdGhlIGRyaXZlci4KPiA+
-Cj4gPgo+ID4gSSBoYXZlIHRyaWVkIHRvIHRlbGwgdGhhdCBteSBkcml2ZXIgc3VwcG9ydHMgRFJN
-X0ZPUk1BVF9YUkdCODg4OCwKPiA+IERSTV9GT1JNQVRfUkdCODg4LCBEUk1fRk9STUFUX1JHQjU2
-NSBhbmQgdGhlbiBtb2RldGVzdCB3b3Jrcy4KPiA+IEJ1dCBpbiB0aGUgb3V0cHV0IG9mIG1vZGV0
-ZXN0IC1zIHRoZSBibHVlIGFuZCByZWQgY29sb3JzIGFyZSByZXZlcnNlZC4KPiA+Cj4gPiAqQW55
-KiBoaW50cyB3aHkgbW9kZXRlc3QgZmFpbHMgd2hlbiBteSBkcml2ZXIgcmVwb3J0cyB0aGUgY29y
-cmVjdCBmb3JtYXRzPwo+Cj4gRXZlcnkgZHJpdmVyIHRvIGRhdGUgc3VwcG9ydHMgWFIyNC4gU28g
-bW9kZXRlc3QgdXNlcyB0aGF0IGJ5IGRlZmF1bHQuCj4gQnV0IHRoaXMgZmFpbHMgd2l0aCB5b3Vy
-IGRyaXZlciBzaW5jZSBpdCdzIGFuIHVuc3VwcG9ydGVkIGZvcm1hdC4KPiBTb21ldGhpbmcgbGlr
-ZToKPgo+IG1vZGV0ZXN0IC1NIGF0bWVsLWxjZGMgLXMgMzQ6ODAweDQ4MC02MEh6QFhCMjQKPgo+
-IHNob3VsZCBkbyB0aGUgdHJpY2suIFRoZSBxdWlyayBjb3ZlcnMgZHJpdmVycyB0aGF0IHVzZSBB
-ZGRGQigpLgo+IEhvd2V2ZXIgbW9kZXRlc3QgaXMgZmFuY3kgYW5kIHVzZXMgQWRkRkIyLCB3aGlj
-aCB0YWtlcyBhbiBleHBsaWNpdAo+IGZvcm1hdC4KClllYWggSSB0aGlua2kgZm9yIGZiZGV2IHRo
-ZSBjb3JyZWN0IGZpeCBpcyB0byBsb29rIHdoZXRoZXIgdGhlIGRyaXZlcgplbmFibGVkIGF0b21p
-YyBhbmQgaWYgc28sIGNvbnN1bHQgdGhlIGZvdXJjYyBmb3JtYXQgbGlzdCBvZiB0aGUKcHJpbWFy
-eSBwbGFuZSBvZiB0aGUgZmlyc3QgY3J0YyB0byBmaWd1cmUgb3V0IHdoYXQgeW91IG1pZ2h0IGFj
-dHVhbGx5CmhhdmUgc2V0LiBXaXRob3V0IGF0b21pYyB5b3UgY2FuJ3QgcmVhbHkgb24gdGhlIGZv
-cm1hdCBsaXN0IGJlaW5nCmNvcnJlY3Qgc2luY2UgZm9yIGRyaXZlcnMgd2hvIGdldCB0aGUgZGVm
-YXVsdCBwcmltYXJ5IHBsYW5lIHRoYXQKZHJtX2NydGNfaW5pdCBzZXRzIHVwIHRoZSBmb3JtYXQg
-bGlzdCBpcyBnYXJiYWdlLiBSZXdvcmtpbmcgdGhlIGVudGlyZQpmYmRldiBlbXVsYXRpb24gdG8g
-dXNlIGZvdXJjYyBjb2RlcyB3b3VsZCBiZSBldmVuIG1vcmUgYXdlc29tZSBJCmd1ZXNzLgotRGFu
-aWVsCi0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlv
-bgorNDEgKDApIDc5IDM2NSA1NyA0OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1033673400==
+Content-Type: multipart/alternative; boundary="15641918180.48524b5a.13821"
+Content-Transfer-Encoding: 7bit
+
+
+--15641918180.48524b5a.13821
+Date: Sat, 27 Jul 2019 01:43:38 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111228
+
+            Bug ID: 111228
+           Summary: PRIME output screen satys black on 1002:15d8 with
+                    128MB VRAM
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: hhfeuer@gmx.de
+
+So far I met the same PCI ID 1002:15d8 with 2GB VRAM which was working fine=
+ in
+prime output mode with any nvidia gpu as provider. The mentioned version wi=
+th
+128MB VRAM doesn't work. No error messages regarding prime, just the screen
+staying black.
+https://devtalk.nvidia.com/default/topic/1056652/linux/amd-ryzen-7-geforce-=
+gtx-1660-ti-laptop-gt-cannot-get-nvidia-to-be-used-as-primary-graphics/1
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15641918180.48524b5a.13821
+Date: Sat, 27 Jul 2019 01:43:38 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - PRIME output screen satys black on 1002:15d8 with 128MB V=
+RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228">111228</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>PRIME output screen satys black on 1002:15d8 with 128MB VRAM
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>hhfeuer&#64;gmx.de
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>So far I met the same PCI ID 1002:15d8 with 2GB VRAM which was=
+ working fine in
+prime output mode with any nvidia gpu as provider. The mentioned version wi=
+th
+128MB VRAM doesn't work. No error messages regarding prime, just the screen
+staying black.
+<a href=3D"https://devtalk.nvidia.com/default/topic/1056652/linux/amd-ryzen=
+-7-geforce-gtx-1660-ti-laptop-gt-cannot-get-nvidia-to-be-used-as-primary-gr=
+aphics/1">https://devtalk.nvidia.com/default/topic/1056652/linux/amd-ryzen-=
+7-geforce-gtx-1660-ti-laptop-gt-cannot-get-nvidia-to-be-used-as-primary-gra=
+phics/1</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15641918180.48524b5a.13821--
+
+--===============1033673400==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1033673400==--
