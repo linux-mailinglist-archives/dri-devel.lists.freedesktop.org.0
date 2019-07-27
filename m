@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8AF77617
-	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 04:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D848F77667
+	for <lists+dri-devel@lfdr.de>; Sat, 27 Jul 2019 06:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77B986EE85;
-	Sat, 27 Jul 2019 02:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96F746EE87;
+	Sat, 27 Jul 2019 04:14:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6604F6EE85
- for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 02:51:59 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (om126200118163.15.openmobile.ne.jp
- [126.200.118.163])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 711622E7;
- Sat, 27 Jul 2019 04:51:55 +0200 (CEST)
-Date: Sat, 27 Jul 2019 05:51:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH 1/4] video: of: display_timing: Add of_node_put() in
- of_get_display_timing()
-Message-ID: <20190727025151.GE4902@pendragon.ideasonboard.com>
-References: <20190722182439.44844-1-dianders@chromium.org>
- <20190722182439.44844-2-dianders@chromium.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1F4666EE87
+ for <dri-devel@lists.freedesktop.org>; Sat, 27 Jul 2019 04:14:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 039D872168; Sat, 27 Jul 2019 04:14:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111229] Unable to unbind GPU from amdgpu
+Date: Sat, 27 Jul 2019 04:14:03 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: wedens13@yandex.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111229-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190722182439.44844-2-dianders@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1564195917;
- bh=let5ORoniAHJEKYglIYJqD/D6mDARxa9CO3R2asqtA0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OgIJGFb5yr5PqP1+iroljmI1MG7Oaw1kCFt95u00pFPp0q8CGOmpzKOxwh+8QQhSk
- mw653DnnjwSqKr5dPcw+XdU0jlRm+faXrkvB31s1+6VpaeOKQsi/U/L1hPLEB4WZPv
- uRKGVNDXCmRwRYIjc7lgIL4IQeMfeI7ChPb/ngwo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,41 +52,234 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1002756913=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRG91Z2xhcywKClRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLgoKT24gTW9uLCBKdWwgMjIsIDIw
-MTkgYXQgMTE6MjQ6MzZBTSAtMDcwMCwgRG91Z2xhcyBBbmRlcnNvbiB3cm90ZToKPiBGcm9tIGNv
-ZGUgaW5zcGVjdGlvbiBpdCBjYW4gYmUgc2VlbiB0aGF0IG9mX2dldF9kaXNwbGF5X3RpbWluZygp
-IGlzCj4gbGFja2luZyBhbiBvZl9ub2RlX3B1dCgpLiAgQWRkIGl0Lgo+IAo+IEZpeGVzOiBmZmEz
-ZmQyMWRlOGEgKCJ2aWRlb21vZGU6IGltcGxlbWVudCBwdWJsaWMgb2ZfZ2V0X2Rpc3BsYXlfdGlt
-aW5nKCkiKQo+IFNpZ25lZC1vZmYtYnk6IERvdWdsYXMgQW5kZXJzb24gPGRpYW5kZXJzQGNocm9t
-aXVtLm9yZz4KClJldmlld2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
-QGlkZWFzb25ib2FyZC5jb20+Cgo+IC0tLQo+IAo+ICBkcml2ZXJzL3ZpZGVvL29mX2Rpc3BsYXlf
-dGltaW5nLmMgfCA3ICsrKysrKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwg
-MSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3ZpZGVvL29mX2Rpc3BsYXlf
-dGltaW5nLmMgYi9kcml2ZXJzL3ZpZGVvL29mX2Rpc3BsYXlfdGltaW5nLmMKPiBpbmRleCBmNWMx
-YzQ2OWMwYWYuLjVlZWRhZTA3OTlmMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpZGVvL29mX2Rp
-c3BsYXlfdGltaW5nLmMKPiArKysgYi9kcml2ZXJzL3ZpZGVvL29mX2Rpc3BsYXlfdGltaW5nLmMK
-PiBAQCAtMTE5LDYgKzExOSw3IEBAIGludCBvZl9nZXRfZGlzcGxheV90aW1pbmcoY29uc3Qgc3Ry
-dWN0IGRldmljZV9ub2RlICpucCwgY29uc3QgY2hhciAqbmFtZSwKPiAgCQlzdHJ1Y3QgZGlzcGxh
-eV90aW1pbmcgKmR0KQo+ICB7Cj4gIAlzdHJ1Y3QgZGV2aWNlX25vZGUgKnRpbWluZ19ucDsKPiAr
-CWludCByZXQ7Cj4gIAo+ICAJaWYgKCFucCkKPiAgCQlyZXR1cm4gLUVJTlZBTDsKPiBAQCAtMTI5
-LDcgKzEzMCwxMSBAQCBpbnQgb2ZfZ2V0X2Rpc3BsYXlfdGltaW5nKGNvbnN0IHN0cnVjdCBkZXZp
-Y2Vfbm9kZSAqbnAsIGNvbnN0IGNoYXIgKm5hbWUsCj4gIAkJcmV0dXJuIC1FTk9FTlQ7Cj4gIAl9
-Cj4gIAo+IC0JcmV0dXJuIG9mX3BhcnNlX2Rpc3BsYXlfdGltaW5nKHRpbWluZ19ucCwgZHQpOwo+
-ICsJcmV0ID0gb2ZfcGFyc2VfZGlzcGxheV90aW1pbmcodGltaW5nX25wLCBkdCk7Cj4gKwo+ICsJ
-b2Zfbm9kZV9wdXQodGltaW5nX25wKTsKPiArCj4gKwlyZXR1cm4gcmV0Owo+ICB9Cj4gIEVYUE9S
-VF9TWU1CT0xfR1BMKG9mX2dldF9kaXNwbGF5X3RpbWluZyk7Cj4gIAoKLS0gClJlZ2FyZHMsCgpM
-YXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1002756913==
+Content-Type: multipart/alternative; boundary="15642008431.dBfb20.5491"
+Content-Transfer-Encoding: 7bit
+
+
+--15642008431.dBfb20.5491
+Date: Sat, 27 Jul 2019 04:14:03 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111229
+
+            Bug ID: 111229
+           Summary: Unable to unbind GPU from amdgpu
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: wedens13@yandex.ru
+
+Created attachment 144877
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144877&action=3Dedit
+dmesg kernel 5.2.1
+
+Arch linux
+Kernel version: 5.2.1
+
+I have two GPUs in my system: integrated Intel and Sapphire Pulse Vega 56.
+I boot with Intel as my primary gpu and I use Vega for VFIO (gpu passthroug=
+h)
+and gpu offloading.
+What I'm trying to do is to boot with amdgpu driver for Vega and bind it to
+vfio-pci when I start VM (qemu).
+
+The problem occurs when I try to unbind Vega from amdgpu driver using this
+command:
+echo -n "0000:03:00.0" > /sys/bus/pci/drivers/amdgpu/unbind
+
+It results in segfault with following error in dmesg (full dmesg from boot =
+to
+shutdown is attached):
+[drm:amdgpu_pci_remove [amdgpu]] *ERROR* Device removal is currently not
+supported outside of fbcon
+
+After that I'm unable to rebind device back to amdgpu or any other driver:
+echo "0000:03:00.0" > /sys/bus/pci/drivers/amdgpu/bind
+bash: echo: write error: No such device
+
+Also I'm unable to shutdown properly. Shutdown process becomes stuck at some
+point and only holding the button helps.
+
+I've attached relevant lspci -vvv output before and after attempt to unbind=
+, in
+case it's useful.
+
+Another thing I've tried is to unbind using kernel 4.19.60 and it just hangs
+after executing the command. I've attached the log of this attempt (error is
+different from 5.2.1).
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15642008431.dBfb20.5491
+Date: Sat, 27 Jul 2019 04:14:03 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Unable to unbind GPU from amdgpu"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111229">111229</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Unable to unbind GPU from amdgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>wedens13&#64;yandex.ru
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144877=
+" name=3D"attach_144877" title=3D"dmesg kernel 5.2.1">attachment 144877</a>=
+ <a href=3D"attachment.cgi?id=3D144877&amp;action=3Dedit" title=3D"dmesg ke=
+rnel 5.2.1">[details]</a></span>
+dmesg kernel 5.2.1
+
+Arch linux
+Kernel version: 5.2.1
+
+I have two GPUs in my system: integrated Intel and Sapphire Pulse Vega 56.
+I boot with Intel as my primary gpu and I use Vega for VFIO (gpu passthroug=
+h)
+and gpu offloading.
+What I'm trying to do is to boot with amdgpu driver for Vega and bind it to
+vfio-pci when I start VM (qemu).
+
+The problem occurs when I try to unbind Vega from amdgpu driver using this
+command:
+echo -n &quot;0000:03:00.0&quot; &gt; /sys/bus/pci/drivers/amdgpu/unbind
+
+It results in segfault with following error in dmesg (full dmesg from boot =
+to
+shutdown is attached):
+[drm:amdgpu_pci_remove [amdgpu]] *ERROR* Device removal is currently not
+supported outside of fbcon
+
+After that I'm unable to rebind device back to amdgpu or any other driver:
+echo &quot;0000:03:00.0&quot; &gt; /sys/bus/pci/drivers/amdgpu/bind
+bash: echo: write error: No such device
+
+Also I'm unable to shutdown properly. Shutdown process becomes stuck at some
+point and only holding the button helps.
+
+I've attached relevant lspci -vvv output before and after attempt to unbind=
+, in
+case it's useful.
+
+Another thing I've tried is to unbind using kernel 4.19.60 and it just hangs
+after executing the command. I've attached the log of this attempt (error is
+different from 5.2.1).</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15642008431.dBfb20.5491--
+
+--===============1002756913==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1002756913==--
