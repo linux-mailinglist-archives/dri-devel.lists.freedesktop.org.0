@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66B577D45
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 04:34:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E297577D47
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 04:46:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16D2A6E8AD;
-	Sun, 28 Jul 2019 02:34:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162656E8AE;
+	Sun, 28 Jul 2019 02:46:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C03B8976D
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:34:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 883836E8AE
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:46:09 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id EA6E228936
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:34:23 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 511A7287B6
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:46:09 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id DE71B28960; Sun, 28 Jul 2019 02:34:23 +0000 (UTC)
+ id 414C128979; Sun, 28 Jul 2019 02:46:09 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
+ NO_RELAYS autolearn=ham version=3.3.1
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204345] Unigine Superposition benchmark notoriously unstable
  since 5.1.18 (and possibly before)
-Date: Sun, 28 Jul 2019 02:34:22 +0000
+Date: Sun, 28 Jul 2019 02:46:08 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -43,7 +43,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204345-2300-QxYyShuodJ@https.bugzilla.kernel.org/>
+Message-ID: <bug-204345-2300-HRqwRTRqjG@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204345-2300@https.bugzilla.kernel.org/>
 References: <bug-204345-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,10 +68,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzNDUKCi0tLSBD
-b21tZW50ICMyIGZyb20gSm9hcXVpbiBPdHNvYSAoZWRpc29uYWx2YXJpbmdvQGJvbC5jb20uYnIp
-IC0tLQpXaXRoIHVidW50dSBwcGEgdmFuaWxsYSBrZXJuZWwgdGhpcyBoYXBwZW5zIGFzIHdlbGwu
-CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hp
-bmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+b21tZW50ICMzIGZyb20gSm9hcXVpbiBPdHNvYSAoZWRpc29uYWx2YXJpbmdvQGJvbC5jb20uYnIp
+IC0tLQpJIHNob3VsZCBiZSBtb3JlIHByZWNpc2UgaXQgZG9lc24ndCBjcmFzaCByZWFsbHkgaXQg
+aGFyZCBsb2NrcyB0aGUgcGMKY29tcGxldGVseSBvbmx5IHRoZSByZXNldCBidXR0b24gd2lsbCBm
+aXggdGhlIHByb2JsZW0uCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6
+CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
+ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
