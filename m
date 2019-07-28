@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971C077D37
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 04:11:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66B577D45
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 04:34:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 995556E8AB;
-	Sun, 28 Jul 2019 02:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16D2A6E8AD;
+	Sun, 28 Jul 2019 02:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492936E8AB
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:11:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C03B8976D
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:34:25 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 1893D288EF
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:11:25 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id EA6E228936
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 02:34:23 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 0D074289BE; Sun, 28 Jul 2019 02:11:25 +0000 (UTC)
+ id DE71B28960; Sun, 28 Jul 2019 02:34:23 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
@@ -27,7 +27,7 @@ From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204345] Unigine Superposition benchmark notoriously unstable
  since 5.1.18 (and possibly before)
-Date: Sun, 28 Jul 2019 02:11:23 +0000
+Date: Sun, 28 Jul 2019 02:34:22 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -43,7 +43,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-204345-2300-rVoGrA2ZRv@https.bugzilla.kernel.org/>
+Message-ID: <bug-204345-2300-QxYyShuodJ@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204345-2300@https.bugzilla.kernel.org/>
 References: <bug-204345-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -68,12 +68,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzNDUKCi0tLSBD
-b21tZW50ICMxIGZyb20gSm9hcXVpbiBPdHNvYSAoZWRpc29uYWx2YXJpbmdvQGJvbC5jb20uYnIp
-IC0tLQpUaGlzIGlzIHdpdGggTGludXggTWludCAoVWJ1bnR1IDE4LjA0LjIgTFRTIHJlYWxseSkg
-SSBmb3Jnb3QgdG8gbWVudGlvbiB0aGF0CnRoaXMgaXMgd2l0aCB0aGUgbGlxdW9yaXgga2VybmVs
-LCBtYXliZSBJIHNob3VsZCB0cnkgd2l0aCB2YW5pbGxhIGtlcm5lbCBmaXJzdC4KCi0tIApZb3Ug
-YXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNz
-aWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+b21tZW50ICMyIGZyb20gSm9hcXVpbiBPdHNvYSAoZWRpc29uYWx2YXJpbmdvQGJvbC5jb20uYnIp
+IC0tLQpXaXRoIHVidW50dSBwcGEgdmFuaWxsYSBrZXJuZWwgdGhpcyBoYXBwZW5zIGFzIHdlbGwu
+CgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hp
+bmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
