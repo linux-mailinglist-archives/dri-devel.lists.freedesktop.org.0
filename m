@@ -2,56 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1277A77EF8
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 12:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CAC77F05
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 12:10:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 063BB89C49;
-	Sun, 28 Jul 2019 10:02:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2A689E50;
+	Sun, 28 Jul 2019 10:10:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBAD989BF4
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 10:02:33 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id v18so55544182ljh.6
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 03:02:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dqJPOf3ole/ocwpSBgy0ZOy0oBYIEFe0Lpin0fI4i4g=;
- b=ln3BTdMtV19WQnpVVWiugn9VlMyKeShYSfvnVzAAh1R3p2vOaLMlN2S/zy2zecm5QF
- 5fZmZXJntUdOp2qv5DLgiQhJ16J3Jtn26hJ/W+kQa2a2ZtzvUWMR8i+EwqaW3HcGZOa3
- FE9mz69BUrxzqUUHx6N02hX/Mel+PII0O84uLANntf4IN9Rjt4jeZYf3McYIpTlkDCWW
- vZQ983fhLuHmv1IpB/UwWYp2ck0VAB12Rx0GX/KGXf2hflgEpPSrfemPRvgP3IvGb5Ug
- ibbvfK0dCfoIf0RGqAm/+Wkmt2h/kSTS/MLs+RP55kpFJsJToQfh0xSTvrZngsoNbO1E
- Cc3w==
-X-Gm-Message-State: APjAAAU0y3zcUI61xG646zzt99AFxneIwD8U+rFxGiOUIkuj011IcijF
- E+sKUPRuQ16sLDhftYs+JsBiKfWzZlCbfOvvsM2Dy1We
-X-Google-Smtp-Source: APXvYqz6EmJJJTKLfbfJEwbI9boVgwgnhYa+vwRfTg39dxtl7DiKAYb7s7X1xZfaTDAEq8Rul0rr79Hz1LXszhPLgOM=
-X-Received: by 2002:a2e:a0cf:: with SMTP id f15mr32928008ljm.180.1564308151456; 
- Sun, 28 Jul 2019 03:02:31 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9D54389E50
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 10:10:19 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 93E0472168; Sun, 28 Jul 2019 10:10:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111238] firefox does not show the history
+Date: Sun, 28 Jul 2019 10:10:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/amdkfd
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ahmadhope9@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111238-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190629125933.679-1-linus.walleij@linaro.org>
-In-Reply-To: <20190629125933.679-1-linus.walleij@linaro.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 28 Jul 2019 12:02:20 +0200
-Message-ID: <CACRpkdZ-6qBxzTTY4=CV+-ZmnTRPmPNAWrHMb_cMXTYdaNeYQQ@mail.gmail.com>
-Subject: Re: [PATCH 1/7] drm/msm/mdp4: Drop unused GPIO include
-To: "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <sean@poorly.run>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=dqJPOf3ole/ocwpSBgy0ZOy0oBYIEFe0Lpin0fI4i4g=;
- b=ATSPbECq/2Dk57WgaaHGygsRg1afRoCRLL5jv2+lMJP5BmgY/x/Y6ccmzhGFuwVKwg
- xwU9DQbweCbPfb7SnrSXADgqPsF4lVdP9zsoQZIR9HUy2aUBe9kRKuAzeaRP8UyS5AMk
- E/nPFTLjgD+WnqqqgS9LIlTuZACBvgBZ2mbE3kKlax864d/M+qrTAgzs2yVeVERJ2271
- vMTx/LdiJhVtUCm8ph6Iv01CiTj42iENItK5UUp754dQfQLsmmnchn6s5PWEDbylafvu
- tzJIvhikFsRS+4YtJONZtCO9GD/x/2XIIhvRbjYOLNtS4JRTxi3eNvr/CXHfYiaCnGXs
- LB8g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,24 +51,162 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: MSM <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0029082898=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU2F0LCBKdW4gMjksIDIwMTkgYXQgMzowMSBQTSBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxs
-ZWlqQGxpbmFyby5vcmc+IHdyb3RlOgoKPiBUaGlzIGZpbGUgaXMgbm90IHVzaW5nIGFueSBzeW1i
-b2xzIGZyb20gPGxpbnV4L2dwaW8uaD4gc28ganVzdAo+IGRyb3AgdGhpcyBpbmNsdWRlLgo+Cj4g
-Q2M6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KPiBDYzogU2VhbiBQYXVsIDxzZWFu
-QHBvb3JseS5ydW4+Cj4gQ2M6IGxpbnV4LWFybS1tc21Admdlci5rZXJuZWwub3JnCj4gQ2M6IGZy
-ZWVkcmVub0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBMaW51cyBXYWxs
-ZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+CgpSb2IgJiBmcmllbmRzOiBjYW4gdGhpcyBi
-ZSBtZXJnZWQgdG8gd2hlcmV2ZXIgeW91IG1lcmdlCnRoZSBNU00gRFJNIHBhdGNoZXM/IElmIGl0
-IGlzIGluIGRybS1taXNjIEkgY2FuIGFwcGx5IGl0CmJ1dCBJIG5lZWQgc29tZSBBQ0tzLgoKWW91
-cnMsCkxpbnVzIFdhbGxlaWoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+
+--===============0029082898==
+Content-Type: multipart/alternative; boundary="15643086191.FB5c3.4068"
+Content-Transfer-Encoding: 7bit
+
+
+--15643086191.FB5c3.4068
+Date: Sun, 28 Jul 2019 10:10:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111238
+
+            Bug ID: 111238
+           Summary: firefox does not show the history
+           Product: DRI
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Windows (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/amdkfd
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: ahmadhope9@gmail.com
+
+whenever i search for anything it does it perfectly but when it comes to ch=
+eck
+the searching history it gives an error
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15643086191.FB5c3.4068
+Date: Sun, 28 Jul 2019 10:10:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - firefox does not show the history"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111238">111238</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>firefox does not show the history
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Windows (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/amdkfd
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>ahmadhope9&#64;gmail.com
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>whenever i search for anything it does it perfectly but when i=
+t comes to check
+the searching history it gives an error</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15643086191.FB5c3.4068--
+
+--===============0029082898==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0029082898==--
