@@ -1,44 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CAC77F05
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 12:10:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FD277F18
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 12:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2A689E50;
-	Sun, 28 Jul 2019 10:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1659B88735;
+	Sun, 28 Jul 2019 10:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9D54389E50
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 10:10:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 93E0472168; Sun, 28 Jul 2019 10:10:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111238] firefox does not show the history
-Date: Sun, 28 Jul 2019 10:10:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/amdkfd
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ahmadhope9@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111238-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4520F88735
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 10:52:29 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id h28so39967588lfj.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 03:52:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UeXytxinaTVdoUbaK5tSXVCVlMrTupBhZAX9BXOt6wg=;
+ b=c/P1VaLQDCedubUA9OKRMuWMjEhM/05C79EqGTobGR09EhDYxmsEtgBN/mDhm/ONZ5
+ Ek1orntdIbaFqx9ykhhf7d7D9z7iv6TnpI/+gLE094dI3wz8MeW0d0BjF/tbu9I/BHEG
+ gz92+04aMFSXGSBx1eBeYbo/ztzeHBt1qUYAZhCumJ5529mqTbqLUwpdwuFCOhT9G+y8
+ +BrwFHc6iYKLZ7a9p9g75RFZewP97bluwAHCvmiZcdw8V3XriMgByBvpQpLw3G79iL8W
+ WP025Uj0l3vOl+PK7ewLVEzDP4JOvzqjbyKJJWkcvWbiOb94c+RPsLhHoSZ/0/ic9QoC
+ SYGQ==
+X-Gm-Message-State: APjAAAUcMCWzhJLFzOwajXE2ZCwipuSqfAYEpBOHOOVnZ5y30+qu1N+c
+ y1fspCjzx5nIXEnNnrgEzIYVjg==
+X-Google-Smtp-Source: APXvYqydibPwae38ZwyFB1DF7jqDyz+vRRoAFCB8mYDGnfhT8vgbHhhMxMKAbZ3rqmRTxR46Ys1iOg==
+X-Received: by 2002:ac2:47fa:: with SMTP id b26mr33743290lfp.82.1564311147512; 
+ Sun, 28 Jul 2019 03:52:27 -0700 (PDT)
+Received: from genomnajs.ideon.se ([85.235.10.227])
+ by smtp.gmail.com with ESMTPSA id u27sm10016534lfn.87.2019.07.28.03.52.26
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Sun, 28 Jul 2019 03:52:26 -0700 (PDT)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/panel: s6d16d0: Support rotation
+Date: Sun, 28 Jul 2019 12:52:23 +0200
+Message-Id: <20190728105223.4966-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UeXytxinaTVdoUbaK5tSXVCVlMrTupBhZAX9BXOt6wg=;
+ b=mQ2g6j66cErscfM9Awe4uzCguKYTsCsN4Ebj8Int+04xEGYMxbmjJsWXMV0qdqRKRP
+ bXLvGMLcA2U6udnaNeD0qhYrutXhXZFADJlnhvPKc9RnSqveX4iiNTbaJ3tvWfnScGN4
+ 9FueYCsm5NkudxtIWSVwJ40kMRj1iAo1UaA+j89U7W5KVe1zYwghYpQoD/Kj42Kz3LFQ
+ IGPyOLdkxTSkyau6dpZ4LgPfn98eH9Fm7cUxuQJQDVZ/XBLOal3WQZlFyn4MdDtU6Gea
+ cao4vrvuz+40oRkbNgDz9X6gBdbqXdIpAjKfxpYY5GZhMqkS2AcpklPvAHj12xY1x6f7
+ SzNw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,162 +66,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0029082898=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0029082898==
-Content-Type: multipart/alternative; boundary="15643086191.FB5c3.4068"
-Content-Transfer-Encoding: 7bit
-
-
---15643086191.FB5c3.4068
-Date: Sun, 28 Jul 2019 10:10:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111238
-
-            Bug ID: 111238
-           Summary: firefox does not show the history
-           Product: DRI
-           Version: unspecified
-          Hardware: x86-64 (AMD64)
-                OS: Windows (All)
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: DRM/amdkfd
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: ahmadhope9@gmail.com
-
-whenever i search for anything it does it perfectly but when it comes to ch=
-eck
-the searching history it gives an error
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15643086191.FB5c3.4068
-Date: Sun, 28 Jul 2019 10:10:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - firefox does not show the history"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111238">111238</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>firefox does not show the history
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Windows (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/amdkfd
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>ahmadhope9&#64;gmail.com
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>whenever i search for anything it does it perfectly but when i=
-t comes to check
-the searching history it gives an error</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15643086191.FB5c3.4068--
-
---===============0029082898==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0029082898==--
+VXNlIHRoZSBzdGFuZGFyZCBEVCAicm90YXRpb24iIGF0dHJpYnV0ZSBmcm9tCkRvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLnR4dAp0byBoYW5kbGUg
+ZGVzaWducyB3aGVyZSB0aGUgcGFuZWwgaXMgbW91bnRlZCByb3RhdGVkCjkwIChvciAyNzApIGRl
+Z3JlZXMgYXMgaW4gdGhlIFNULUVyaWNzc29uIEhSRUY1MjAKcmVmZXJlbmNlIGRlc2lnbi4KClNp
+Z25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KLS0t
+CiBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmQxNmQwLmMgfCAzOCArKysr
+KysrKysrKysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5n
+LXM2ZDE2ZDAuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZDE2ZDAu
+YwppbmRleCBmNzViZWYyNGUwNTAuLmQ0YzMzNzgxYWRlOCAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZkMTZkMC5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZDE2ZDAuYwpAQCAtMTMsNiArMTMsNyBAQAogI2luY2x1
+ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPgogI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+
+CiAjaW5jbHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+CisjaW5jbHVkZSA8bGludXgvb2YuaD4KICNp
+bmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KIAogc3RydWN0IHM2ZDE2ZDAgewpAQCAtMjAsNiArMjEs
+NyBAQCBzdHJ1Y3QgczZkMTZkMCB7CiAJc3RydWN0IGRybV9wYW5lbCBwYW5lbDsKIAlzdHJ1Y3Qg
+cmVndWxhdG9yICpzdXBwbHk7CiAJc3RydWN0IGdwaW9fZGVzYyAqcmVzZXRfZ3BpbzsKKwlib29s
+IGZsaXBwZWQ7CiB9OwogCiAvKgpAQCAtNDcsNiArNDksMjggQEAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBkcm1fZGlzcGxheV9tb2RlIHNhbXN1bmdfczZkMTZkMF9tb2RlID0gewogCS5oZWlnaHRfbW0g
+PSA0OCwKIH07CiAKKy8qIEluIHRoZSBzdGFuZGluZyBtb2RlLCB0aGluZ3MgYXJlIGp1c3QgZmxp
+cHBlZCBhcm91bmQgWC9ZICovCitzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
+c2Ftc3VuZ19zNmQxNmQwX3N0YW5kaW5nX21vZGUgPSB7CisJLyogSFMgY2xvY2ssIChodG90YWwq
+dnRvdGFsKnZyZWZyZXNoKS8xMDAwICovCisJLmNsb2NrID0gNDIwMTYwLAorCS5oZGlzcGxheSA9
+IDQ4MCwKKwkuaHN5bmNfc3RhcnQgPSA0ODAgKyAxNTQsCisJLmhzeW5jX2VuZCA9IDQ4MCArIDE1
+NCArIDE2LAorCS5odG90YWwgPSA0ODAgKyAxNTQgKyAxNiArIDMyLAorCS52ZGlzcGxheSA9IDg2
+NCwKKwkudnN5bmNfc3RhcnQgPSA4NjQgKyAxLAorCS52c3luY19lbmQgPSA4NjQgKyAxICsgMSwK
+KwkudnRvdGFsID0gODY0ICsgMSArIDEgKyAxLAorCS8qCisJICogVGhpcyBkZXBlbmRzIG9uIHRo
+ZSBjbG9ja2luZyBIUyB2cyBMUCByYXRlLCB0aGlzIHZhbHVlCisJICogaXMgY2FsY3VsYXRlZCBh
+czoKKwkgKiB2cmVmcmVzaCA9IChjbG9jayAqIDEwMDApIC8gKGh0b3RhbCp2dG90YWwpCisJICov
+CisJLnZyZWZyZXNoID0gODE2LAorCS53aWR0aF9tbSA9IDQ4LAorCS5oZWlnaHRfbW0gPSA4NCwK
+K307CisKIHN0YXRpYyBpbmxpbmUgc3RydWN0IHM2ZDE2ZDAgKnBhbmVsX3RvX3M2ZDE2ZDAoc3Ry
+dWN0IGRybV9wYW5lbCAqcGFuZWwpCiB7CiAJcmV0dXJuIGNvbnRhaW5lcl9vZihwYW5lbCwgc3Ry
+dWN0IHM2ZDE2ZDAsIHBhbmVsKTsKQEAgLTE0NSwxMCArMTY5LDE2IEBAIHN0YXRpYyBpbnQgczZk
+MTZkMF9kaXNhYmxlKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQogCiBzdGF0aWMgaW50IHM2ZDE2
+ZDBfZ2V0X21vZGVzKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQogeworCXN0cnVjdCBzNmQxNmQw
+ICpzNiA9IHBhbmVsX3RvX3M2ZDE2ZDAocGFuZWwpOwogCXN0cnVjdCBkcm1fY29ubmVjdG9yICpj
+b25uZWN0b3IgPSBwYW5lbC0+Y29ubmVjdG9yOwogCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlICpt
+b2RlOwogCi0JbW9kZSA9IGRybV9tb2RlX2R1cGxpY2F0ZShwYW5lbC0+ZHJtLCAmc2Ftc3VuZ19z
+NmQxNmQwX21vZGUpOworCWlmIChzNi0+ZmxpcHBlZCkKKwkJbW9kZSA9IGRybV9tb2RlX2R1cGxp
+Y2F0ZShwYW5lbC0+ZHJtLAorCQkJCQkgICZzYW1zdW5nX3M2ZDE2ZDBfc3RhbmRpbmdfbW9kZSk7
+CisJZWxzZQorCQltb2RlID0gZHJtX21vZGVfZHVwbGljYXRlKHBhbmVsLT5kcm0sCisJCQkJCSAg
+JnNhbXN1bmdfczZkMTZkMF9tb2RlKTsKIAlpZiAoIW1vZGUpIHsKIAkJRFJNX0VSUk9SKCJiYWQg
+bW9kZSBvciBmYWlsZWQgdG8gYWRkIG1vZGVcbiIpOwogCQlyZXR1cm4gLUVJTlZBTDsKQEAgLTE3
+Niw2ICsyMDYsNyBAQCBzdGF0aWMgaW50IHM2ZDE2ZDBfcHJvYmUoc3RydWN0IG1pcGlfZHNpX2Rl
+dmljZSAqZHNpKQogewogCXN0cnVjdCBkZXZpY2UgKmRldiA9ICZkc2ktPmRldjsKIAlzdHJ1Y3Qg
+czZkMTZkMCAqczY7CisJdTMyIHJvdF9hbmdsZTsKIAlpbnQgcmV0OwogCiAJczYgPSBkZXZtX2t6
+YWxsb2MoZGV2LCBzaXplb2Yoc3RydWN0IHM2ZDE2ZDApLCBHRlBfS0VSTkVMKTsKQEAgLTIxNSw2
+ICsyNDYsMTEgQEAgc3RhdGljIGludCBzNmQxNmQwX3Byb2JlKHN0cnVjdCBtaXBpX2RzaV9kZXZp
+Y2UgKmRzaSkKIAkJcmV0dXJuIHJldDsKIAl9CiAKKwkvKiBTdXBwb3J0IHJvdGF0aW9uIG9mIHRo
+ZSBkaXNwbGF5IHBhbmVsICovCisJcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzIoZGV2LT5vZl9u
+b2RlLCAicm90YXRpb24iLCAmcm90X2FuZ2xlKTsKKwlpZiAoIXJldCAmJiAocm90X2FuZ2xlID09
+IDkwIHx8IHJvdF9hbmdsZSA9PSAyNzApKQorCQlzNi0+ZmxpcHBlZCA9IHRydWU7CisKIAlkcm1f
+cGFuZWxfaW5pdCgmczYtPnBhbmVsKTsKIAlzNi0+cGFuZWwuZGV2ID0gZGV2OwogCXM2LT5wYW5l
+bC5mdW5jcyA9ICZzNmQxNmQwX2RybV9mdW5jczsKLS0gCjIuMjEuMAoKX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApk
+cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
