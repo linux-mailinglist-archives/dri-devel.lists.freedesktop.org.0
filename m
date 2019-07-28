@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F458780D8
-	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 20:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA26780EE
+	for <lists+dri-devel@lfdr.de>; Sun, 28 Jul 2019 20:38:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 632C289F6F;
-	Sun, 28 Jul 2019 18:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE15189EBB;
+	Sun, 28 Jul 2019 18:38:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7544D89F6F
- for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 18:06:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2122E89EBB
+ for <dri-devel@lists.freedesktop.org>; Sun, 28 Jul 2019 18:38:35 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6AF6572167; Sun, 28 Jul 2019 18:06:39 +0000 (UTC)
+ id 14A5B72167; Sun, 28 Jul 2019 18:38:35 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111241] Shadertoy shader causing hang
-Date: Sun, 28 Jul 2019 18:06:39 +0000
+Subject: [Bug 111229] Unable to unbind GPU from amdgpu
+Date: Sun, 28 Jul 2019 18:38:35 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mail@felix-potthast.de
+X-Bugzilla-Who: wedens13@yandex.ru
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact
-Message-ID: <bug-111241-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111229-502-drCnMIZ50J@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111229-502@http.bugs.freedesktop.org/>
+References: <bug-111229-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,53 +52,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0351644325=="
+Content-Type: multipart/mixed; boundary="===============1968552254=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0351644325==
-Content-Type: multipart/alternative; boundary="15643371990.68cE6ca.19829"
+--===============1968552254==
+Content-Type: multipart/alternative; boundary="15643391150.34ceF214.24631"
 Content-Transfer-Encoding: 7bit
 
 
---15643371990.68cE6ca.19829
-Date: Sun, 28 Jul 2019 18:06:39 +0000
+--15643391150.34ceF214.24631
+Date: Sun, 28 Jul 2019 18:38:35 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111229
 
-            Bug ID: 111241
-           Summary: Shadertoy shader causing hang
-           Product: Mesa
-           Version: 19.1
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: mail@felix-potthast.de
-        QA Contact: dri-devel@lists.freedesktop.org
+--- Comment #6 from wedens13@yandex.ru ---
+Seems to be a regression.=20
 
-When opening https://www.shadertoy.com/view/3lsXDB on my Desktop PC
-with Radeon HD 7870 Graphics card (Pitcairn) i get a freeze.
+I can unbind from amdgpu and bind to vfio-pci just fine on kernel
+4.19.60-1-lts.
 
-It works fine on my Laptop with Intel Graphics.
+I was able to unbind without previous error after:
 
-Both systems use Mesa 19.1.3
+echo 0 > /sys/class/vtconsole/vtcon0/bind
+echo 0 > /sys/class/vtconsole/vtcon1/bind
+echo efi-framebuffer.0 > /sys/bus/platform/drivers/efi-framebuffer/unbind ||
+true
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15643371990.68cE6ca.19829
-Date: Sun, 28 Jul 2019 18:06:39 +0000
+--15643391150.34ceF214.24631
+Date: Sun, 28 Jul 2019 18:38:35 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,96 +101,35 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">111241</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Shadertoy shader causing hang
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>19.1
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>mail&#64;felix-potthast.de
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
+    <body>
       <p>
         <div>
-        <pre>When opening <a href=3D"https://www.shadertoy.com/view/3lsXDB"=
->https://www.shadertoy.com/view/3lsXDB</a> on my Desktop PC
-with Radeon HD 7870 Graphics card (Pitcairn) i get a freeze.
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Unable to unbind GPU from amdgpu"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111229#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Unable to unbind GPU from amdgpu"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111229">bug 11122=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+wedens13&#64;yandex.ru" title=3D"wedens13&#64;yandex.ru">wedens13&#64;yande=
+x.ru</a>
+</span></b>
+        <pre>Seems to be a regression.=20
 
-It works fine on my Laptop with Intel Graphics.
+I can unbind from amdgpu and bind to vfio-pci just fine on kernel
+4.19.60-1-lts.
 
-Both systems use Mesa 19.1.3</pre>
+I was able to unbind without previous error after:
+
+echo 0 &gt; /sys/class/vtconsole/vtcon0/bind
+echo 0 &gt; /sys/class/vtconsole/vtcon1/bind
+echo efi-framebuffer.0 &gt; /sys/bus/platform/drivers/efi-framebuffer/unbin=
+d ||
+true</pre>
         </div>
       </p>
 
@@ -212,9 +143,9 @@ Both systems use Mesa 19.1.3</pre>
     </body>
 </html>=
 
---15643371990.68cE6ca.19829--
+--15643391150.34ceF214.24631--
 
---===============0351644325==
+--===============1968552254==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -224,4 +155,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0351644325==--
+--===============1968552254==--
