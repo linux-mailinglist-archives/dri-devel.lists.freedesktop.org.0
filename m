@@ -2,44 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF1A788DF
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 11:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B616E78900
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 11:58:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22BAF89CBC;
-	Mon, 29 Jul 2019 09:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEC4589CCB;
+	Mon, 29 Jul 2019 09:58:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E2A6789CBC
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 09:50:48 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DF4F272167; Mon, 29 Jul 2019 09:50:48 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Mon, 29 Jul 2019 09:50:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-OAV3tAAPPg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D89E389CCB
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 09:58:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E0A715AB;
+ Mon, 29 Jul 2019 02:58:05 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4EF7C3F694;
+ Mon, 29 Jul 2019 02:58:05 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+ id F23AF68240B; Mon, 29 Jul 2019 10:58:03 +0100 (BST)
+Date: Mon, 29 Jul 2019 10:58:03 +0100
+From: Liviu Dudau <Liviu.Dudau@arm.com>
+To: Anders Roxell <anders.roxell@linaro.org>
+Subject: Re: [PATCH] drm: mali-dp: Mark expected switch fall-through
+Message-ID: <20190729095803.hd7ehqjc4zlqztv3@e110455-lin.cambridge.arm.com>
+References: <20190726112741.19360-1-anders.roxell@linaro.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190726112741.19360-1-anders.roxell@linaro.org>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,121 +43,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1855220098=="
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1855220098==
-Content-Type: multipart/alternative; boundary="15643938481.7983C4C.29336"
-Content-Transfer-Encoding: 7bit
-
-
---15643938481.7983C4C.29336
-Date: Mon, 29 Jul 2019 09:50:48 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
---- Comment #5 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to cspack from comment #4)
-> The first bisect pointed to a merge commit so the second was done to bise=
-ct
-> within the merged commits.
-
-That doesn't invalidate my previous comment. :) git bisect identifying a me=
-rge
-commit already indicates the same thing by itself. In particular, the fact =
-that
-it identified a merge commit means that you declared all of its parent comm=
-its
-good.
-
-(There *are* rare cases where a problem is actually introduced by a merge
-commit itself, but then the second bisection should have either identified =
-the
-same merge commit again (if you tested it again), or failed, because all the
-other commits you tested should have been good again.)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15643938481.7983C4C.29336
-Date: Mon, 29 Jul 2019 09:50:48 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c5">Commen=
-t # 5</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to cspack from <a href=3D"show_bug.cgi?id=3D111244#c=
-4">comment #4</a>)
-<span class=3D"quote">&gt; The first bisect pointed to a merge commit so th=
-e second was done to bisect
-&gt; within the merged commits.</span >
-
-That doesn't invalidate my previous comment. :) git bisect identifying a me=
-rge
-commit already indicates the same thing by itself. In particular, the fact =
-that
-it identified a merge commit means that you declared all of its parent comm=
-its
-good.
-
-(There *are* rare cases where a problem is actually introduced by a merge
-commit itself, but then the second bisection should have either identified =
-the
-same merge commit again (if you tested it again), or failed, because all the
-other commits you tested should have been good again.)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15643938481.7983C4C.29336--
-
---===============1855220098==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1855220098==--
+SGkgQW5kZXJzLAoKT24gRnJpLCBKdWwgMjYsIDIwMTkgYXQgMDE6Mjc6NDFQTSArMDIwMCwgQW5k
+ZXJzIFJveGVsbCB3cm90ZToKPiBXaGVuIGZhbGwtdGhyb3VnaCB3YXJuaW5ncyB3YXMgZW5hYmxl
+ZCBieSBkZWZhdWx0LCBjb21taXQgZDkzNTEyZWYwZjBlCj4gKCJNYWtlZmlsZTogR2xvYmFsbHkg
+ZW5hYmxlIGZhbGwtdGhyb3VnaCB3YXJuaW5nIiksIHRoZSBmb2xsb3dpbmcKPiB3YXJuaW5ncyB3
+YXMgc3RhcnRpbmcgdG8gc2hvdyB1cDoKPiAKPiAuLi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlk
+cF9ody5jOiBJbiBmdW5jdGlvbiDigJhtYWxpZHBfZm9ybWF0X2dldF9icHDigJk6Cj4gLi4vZHJp
+dmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuYzozODc6ODogd2FybmluZzogdGhpcyBzdGF0ZW1l
+bnQgbWF5IGZhbGwKPiAgdGhyb3VnaCBbLVdpbXBsaWNpdC1mYWxsdGhyb3VnaD1dCj4gICAgIGJw
+cCA9IDMwOwo+ICAgICB+fn5+Xn5+fgo+IC4uL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3
+LmM6Mzg4OjM6IG5vdGU6IGhlcmUKPiAgICBjYXNlIERSTV9GT1JNQVRfWVVWNDIwXzEwQklUOgo+
+ICAgIF5+fn4KPiAuLi9kcml2ZXJzL2dwdS9kcm0vYXJtL21hbGlkcF9ody5jOiBJbiBmdW5jdGlv
+biDigJhtYWxpZHBfc2VfaXJx4oCZOgo+IC4uL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3
+LmM6MTMxMTo0OiB3YXJuaW5nOiB0aGlzIHN0YXRlbWVudCBtYXkgZmFsbAo+ICB0aHJvdWdoIFst
+V2ltcGxpY2l0LWZhbGx0aHJvdWdoPV0KPiAgICAgZHJtX3dyaXRlYmFja19zaWduYWxfY29tcGxl
+dGlvbigmbWFsaWRwLT5td19jb25uZWN0b3IsIDApOwo+ICAgICBefn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KPiAuLi9kcml2ZXJzL2dwdS9k
+cm0vYXJtL21hbGlkcF9ody5jOjEzMTM6Mzogbm90ZTogaGVyZQo+ICAgIGNhc2UgTVdfU1RBUlQ6
+Cj4gICAgXn5+fgo+IAo+IFJld29yayB0byBhZGQgYSAnYnJlYWs7JyBpbiBhIGNhc2UgdGhhdCBk
+aWRuJ3QgaGF2ZSBpdCBzbyB0aGF0Cj4gdGhlIGNvbXBpbGVyIGRvZXNuJ3Qgd2FybiBhYm91dCBm
+YWxsLXRocm91Z2guCj4gCj4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcgIyB2NC45Kwo+IEZp
+eGVzOiBiODIwNzU2MmFiZGQgKCJkcm0vYXJtL21hbGlkcDogU3BlY2lmaWVkIHRoZSByb3RhdGlv
+biBtZW1vcnkgcmVxdWlyZW1lbnRzIGZvciBBRkJDIFlVViBmb3JtYXRzIikKPiBTaWduZWQtb2Zm
+LWJ5OiBBbmRlcnMgUm94ZWxsIDxhbmRlcnMucm94ZWxsQGxpbmFyby5vcmc+CgpSdW5uaW5nIHRo
+ZSBwYXRjaCB0aHJvdWdoIHNjcmlwdHMvZ2V0X21haW50YWluZXIucGwgd291bGQndmUgYWxzbyBn
+aXZlbiB5b3UgdGhlCmVtYWlscyBmb3IgdGhlIG1hbGktZHAgbWFpbnRhaW5lcnMgdG8gcmVhY2gg
+ZGlyZWN0bHkgYW5kIGhhdmUgYSBmYXN0ZXIgcmVzcG9uc2UKdGltZSwgYnV0IEkgZ3Vlc3MgeW91
+IHdlcmUgdHJ5aW5nIHRvIHNlZSBpZiB3ZSBjaGVjayB0aGUgZHJpLWRldmVsIG1haWxpbmcgbGlz
+dC4KClRoYW5rcyBmb3IgdGhlIHBhdGNoIQoKQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5k
+dWRhdUBhcm0uY29tPgoKQmVzdCByZWdhcmRzLApMaXZpdQoKPiAtLS0KPiAgZHJpdmVycy9ncHUv
+ZHJtL2FybS9tYWxpZHBfaHcuYyB8IDMgKystCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
+bnMoKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9tYWxpZHBfaHcuYyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX2h3LmMKPiBpbmRleCA1
+MGFmMzk5ZDdmNmYuLmRjNWZmZjlhZjMzOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+YXJtL21hbGlkcF9ody5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfaHcuYwo+
+IEBAIC0zODUsNiArMzg1LDcgQEAgaW50IG1hbGlkcF9mb3JtYXRfZ2V0X2JwcCh1MzIgZm10KQo+
+ICAJCXN3aXRjaCAoZm10KSB7Cj4gIAkJY2FzZSBEUk1fRk9STUFUX1ZVWTEwMTAxMDoKPiAgCQkJ
+YnBwID0gMzA7Cj4gKwkJCWJyZWFrOwo+ICAJCWNhc2UgRFJNX0ZPUk1BVF9ZVVY0MjBfMTBCSVQ6
+Cj4gIAkJCWJwcCA9IDE1Owo+ICAJCQlicmVhazsKPiBAQCAtMTMwOSw3ICsxMzEwLDcgQEAgc3Rh
+dGljIGlycXJldHVybl90IG1hbGlkcF9zZV9pcnEoaW50IGlycSwgdm9pZCAqYXJnKQo+ICAJCQli
+cmVhazsKPiAgCQljYXNlIE1XX1JFU1RBUlQ6Cj4gIAkJCWRybV93cml0ZWJhY2tfc2lnbmFsX2Nv
+bXBsZXRpb24oJm1hbGlkcC0+bXdfY29ubmVjdG9yLCAwKTsKPiAtCQkJLyogZmFsbCB0aHJvdWdo
+IHRvIGEgbmV3IHN0YXJ0ICovCgpJdCdzIGEgc2hhbWUgdGhhdCB0aGUgY29tcGlsZXIgdGhyb3dz
+IGEgd2FybmluZyBoZXJlLCBpdCB3b3VsZCd2ZSBiZWVuIHJlYWxseQp1c2VmdWwgdG8ga2VlcCB0
+aGUgaGludCB0aGF0IGdvaW5nIGJhY2sgdG8gYSBuZXcgc3RhcnQgaXMgaW50ZW50aW9uYWwgd2l0
+aG91dApoYXZpbmcgdG8gdHlwZSBhbm90aGVyIGNvbW1lbnQuCgo+ICsJCQkvKiBmYWxsIHRocm91
+Z2ggKi8KPiAgCQljYXNlIE1XX1NUQVJUOgo+ICAJCQkvKiB3cml0ZWJhY2sgc3RhcnRlZCwgbmVl
+ZCB0byBlbXVsYXRlIG9uZS1zaG90IG1vZGUgKi8KPiAgCQkJaHctPmRpc2FibGVfbWVtd3JpdGUo
+aHdkZXYpOwo+IC0tIAo+IDIuMjAuMQo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKLS0gCj09PT09PT09PT09PT09PT09PT09CnwgSSB3b3Vs
+ZCBsaWtlIHRvIHwKfCBmaXggdGhlIHdvcmxkLCAgfAp8IGJ1dCB0aGV5J3JlIG5vdCB8CnwgZ2l2
+aW5nIG1lIHRoZSAgIHwKIFwgc291cmNlIGNvZGUhICAvCiAgLS0tLS0tLS0tLS0tLS0tCiAgICDC
+r1xfKOODhClfL8KvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bA==
