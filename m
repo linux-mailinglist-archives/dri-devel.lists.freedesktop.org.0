@@ -1,45 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616F47915A
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 18:47:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B31D87917F
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 18:54:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D9F6E145;
-	Mon, 29 Jul 2019 16:47:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7C0689A1F;
+	Mon, 29 Jul 2019 16:54:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id DFDDF6E145
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 16:47:09 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D9EC172168; Mon, 29 Jul 2019 16:47:09 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108882] Many different installation problems with
- amdgpu-pro-18.40-676022-rhel-6 driver in CentOS 6.10
-Date: Mon, 29 Jul 2019 16:47:10 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Jeremy.Newton@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-108882-502-Y5D0kapHFZ@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108882-502@http.bugs.freedesktop.org/>
-References: <bug-108882-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29E37899BB;
+ Mon, 29 Jul 2019 16:54:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 29 Jul 2019 09:54:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,323,1559545200"; d="scan'208";a="176478844"
+Received: from nperf12.hd.intel.com ([10.127.88.161])
+ by orsmga006.jf.intel.com with ESMTP; 29 Jul 2019 09:54:35 -0700
+From: Brian Welty <brian.welty@intel.com>
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org
+Subject: [RFC PATCH 0/3] Propose new struct drm_mem_region
+Date: Mon, 29 Jul 2019 12:54:54 -0400
+Message-Id: <20190729165457.18500-1-brian.welty@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,92 +41,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1006039593=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1006039593==
-Content-Type: multipart/alternative; boundary="15644188291.1d7CB6b.3410"
-Content-Transfer-Encoding: 7bit
-
-
---15644188291.1d7CB6b.3410
-Date: Mon, 29 Jul 2019 16:47:09 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108882
-
---- Comment #1 from Jeremy Newton <Jeremy.Newton@amd.com> ---
-It sounds like fglrx was not cleaned up properly.
-
-Unfortunately I'm not sure there's much we can do here.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15644188291.1d7CB6b.3410
-Date: Mon, 29 Jul 2019 16:47:09 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Many different installation problems with amdgpu-pro-18.4=
-0-676022-rhel-6 driver in CentOS 6.10"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108882#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Many different installation problems with amdgpu-pro-18.4=
-0-676022-rhel-6 driver in CentOS 6.10"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108882">bug 10888=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Jeremy.Newton&#64;amd.com" title=3D"Jeremy Newton &lt;Jeremy.Newton&#64;amd=
-.com&gt;"> <span class=3D"fn">Jeremy Newton</span></a>
-</span></b>
-        <pre>It sounds like fglrx was not cleaned up properly.
-
-Unfortunately I'm not sure there's much we can do here.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15644188291.1d7CB6b.3410--
-
---===============1006039593==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1006039593==--
+VGhpcyBSRkMgc2VyaWVzIGlzIGZpcnN0IGltcGxlbWVudGF0aW9uIG9mIHNvbWUgaWRlYXMgZXhw
+cmVzc2VkCmVhcmxpZXIgb24gZHJpLWRldmVsIFsxXS4KClNvbWUgb2YgdGhlIGdvYWxzIChvcGVu
+IGZvciBtdWNoIGRlYmF0ZSkgYXJlOgogIC0gQ3JlYXRlIGNvbW1vbiBiYXNlIHN0cnVjdHVyZSAo
+c3ViY2xhc3MpIGZvciBtZW1vcnkgcmVnaW9ucyAocGF0Y2ggIzEpCiAgLSBDcmVhdGUgY29tbW9u
+IG1lbW9yeSByZWdpb24gdHlwZXMgKHBhdGNoICMyKQogIC0gQ3JlYXRlIGNvbW1vbiBzZXQgb2Yg
+bWVtb3J5X3JlZ2lvbiBmdW5jdGlvbiBjYWxsYmFja3MgKGJhc2VkIG9uCiAgICB0dG1fbWVtX3R5
+cGVfbWFuYWdlcl9mdW5jcyBhbmQgaW50ZWxfbWVtb3J5X3JlZ2lvbnNfb3BzKQogIC0gQ3JlYXRl
+IGNvbW1vbiBoZWxwZXJzIHRoYXQgb3BlcmF0ZSBvbiBkcm1fbWVtX3JlZ2lvbiB0byBiZSBsZXZl
+cmFnZWQKICAgIGJ5IGJvdGggVFRNIGRyaXZlcnMgYW5kIGk5MTUsIHJlZHVjaW5nIGNvZGUgZHVw
+bGljYXRpb24KICAtIEFib3ZlIG1pZ2h0IHN0YXJ0IHdpdGggcmVmYWN0b3JpbmcgdHRtX2JvX21h
+bmFnZXIuYyBhcyB0aGVzZSBhcmUKICAgIGhlbHBlcnMgZm9yIHVzaW5nIGRybV9tbSdzIHJhbmdl
+IGFsbG9jYXRvciBhbmQgY291bGQgYmUgbWFkZSB0bwogICAgb3BlcmF0ZSBvbiBEUk0gc3RydWN0
+dXJlcyBpbnN0ZWFkIG9mIFRUTSBvbmVzLgogIC0gTGFyZ2VyIGdvYWwgbWlnaHQgYmUgdG8gbWFr
+ZSBMUlUgbWFuYWdlbWVudCBvZiBHRU0gb2JqZWN0cyBjb21tb24sIGFuZAogICAgbWlncmF0ZSB0
+aG9zZSBmaWVsZHMgaW50byBkcm1fbWVtX3JlZ2lvbiBhbmQgZHJtX2dlbV9vYmplY3Qgc3RydWN1
+cmVzLgoKUGF0Y2hlcyAxLTIgaW1wbGVtZW50IHRoZSBwcm9wb3NlZCBzdHJ1Y3QgZHJtX21lbV9y
+ZWdpb24gYW5kIGFkZHMKYXNzb2NpYXRlZCBjb21tb24gc2V0IG9mIGRlZmluaXRpb25zIGZvciBt
+ZW1vcnkgcmVnaW9uIHR5cGUuCgpQYXRjaCAjMyBpcyB1cGRhdGUgdG8gaTkxNSBhbmQgaXMgYmFz
+ZWQgdXBvbiBhbm90aGVyIHNlcmllcyB3aGljaCBpcwppbiBwcm9ncmVzcyB0byBhZGQgdnJhbSBz
+dXBwb3J0IHRvIGk5MTUgWzJdLgoKWzFdIGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2Fy
+Y2hpdmVzL2RyaS1kZXZlbC8yMDE5LUp1bmUvMjI0NTAxLmh0bWwKWzJdIGh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2ludGVsLWdmeC8yMDE5LUp1bmUvMjAzNjQ5Lmh0bWwK
+CkJyaWFuIFdlbHR5ICgzKToKICBkcm06IGludHJvZHVjZSBuZXcgc3RydWN0IGRybV9tZW1fcmVn
+aW9uCiAgZHJtOiBJbnRyb2R1Y2UgRFJNX01FTSBkZWZpbmVzIGZvciBzcGVjaWZ5aW5nIHR5cGUg
+b2YgZHJtX21lbV9yZWdpb24KICBkcm0vaTkxNTogVXBkYXRlIGludGVsX21lbW9yeV9yZWdpb24g
+dG8gdXNlIG5lc3RlZCBkcm1fbWVtX3JlZ2lvbgoKIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9p
+OTE1X2dlbV9vYmplY3QuYyAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkx
+NV9nZW1fc2htZW0uYyAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9nZW1f
+Z3R0LmMgICAgICAgICAgIHwgMTAgKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dw
+dV9lcnJvci5jICAgICAgICAgfCAgMiArLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9xdWVy
+eS5jICAgICAgICAgICAgIHwgIDIgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX21lbW9y
+eV9yZWdpb24uYyAgICB8IDEwICsrKy0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50ZWxfbWVt
+b3J5X3JlZ2lvbi5oICAgIHwgMTkgKysrLS0tLS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50
+ZWxfcmVnaW9uX2xtZW0uYyAgICAgIHwgMjYgKysrKysrKy0tLS0tLS0KIC4uLi9kcm0vaTkxNS9z
+ZWxmdGVzdHMvaW50ZWxfbWVtb3J5X3JlZ2lvbi5jICB8ICA4ICsrLS0tCiBkcml2ZXJzL2dwdS9k
+cm0vdHRtL3R0bV9iby5jICAgICAgICAgICAgICAgICAgfCAzNCArKysrKysrKysrLS0tLS0tLS0K
+IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX21hbmFnZXIuYyAgICAgICAgICB8IDE0ICsrKyst
+LS0tCiBkcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9ib191dGlsLmMgICAgICAgICAgICAgfCAxMSAr
+KystLS0KIGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X2dtcmlkX21hbmFnZXIuYyB8ICA4
+ICsrLS0tCiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF90dG1fYnVmZmVyLmMgICAgfCAg
+NCArLS0KIGluY2x1ZGUvZHJtL2RybV9tbS5oICAgICAgICAgICAgICAgICAgICAgICAgICB8IDM1
+ICsrKysrKysrKysrKysrKysrKysKIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fYXBpLmggICAgICAg
+ICAgICAgICAgICB8ICAyICstCiBpbmNsdWRlL2RybS90dG0vdHRtX2JvX2RyaXZlci5oICAgICAg
+ICAgICAgICAgfCAxNiArKysrLS0tLS0KIGluY2x1ZGUvZHJtL3R0bS90dG1fcGxhY2VtZW50Lmgg
+ICAgICAgICAgICAgICB8ICA4ICsrLS0tCiAxOCBmaWxlcyBjaGFuZ2VkLCAxMjIgaW5zZXJ0aW9u
+cygrKSwgOTEgZGVsZXRpb25zKC0pCgotLSAKMi4yMS4wCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
