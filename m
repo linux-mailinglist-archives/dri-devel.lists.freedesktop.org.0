@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBE2792AB
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 19:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4C27932B
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 20:38:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B002989BB3;
-	Mon, 29 Jul 2019 17:55:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 131926E1BE;
+	Mon, 29 Jul 2019 18:38:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8C689BB0;
- Mon, 29 Jul 2019 17:55:09 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 6F00220037;
- Mon, 29 Jul 2019 19:55:07 +0200 (CEST)
-Date: Mon, 29 Jul 2019 19:55:06 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Brian Welty <brian.welty@intel.com>
-Subject: Re: [RFC PATCH 1/3] drm: introduce new struct drm_mem_region
-Message-ID: <20190729175506.GC1753@ravnborg.org>
-References: <20190729165457.18500-1-brian.welty@intel.com>
- <20190729165457.18500-2-brian.welty@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4F58E6E1BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 18:38:35 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 4C68972167; Mon, 29 Jul 2019 18:38:35 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Mon, 29 Jul 2019 18:38:35 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: cspack@verizon.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111244-502-JoMbTvxgh4@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190729165457.18500-2-brian.welty@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=rAoZsCgsuSWAWfXA6msA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,24 +52,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2073765726=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQnJpYW4uCgpTbWFsbCBuaXQgYmVsb3cgLSBkaWQgbm90IHRyeSB0byB1bmRlcnN0YW5kIHlv
-dXIgcGF0Y2guCgoJU2FtCgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fbW0uaCBiL2lu
-Y2x1ZGUvZHJtL2RybV9tbS5oCj4gaW5kZXggMmMzYmJiNDNjN2QxLi4zZDEyM2ViMTBkNjIgMTAw
-NjQ0Cj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21tLmgKPiArKysgYi9pbmNsdWRlL2RybS9kcm1f
-bW0uaAo+IEBAIC00Myw2ICs0Myw4IEBACj4gICNpbmNsdWRlIDxsaW51eC9tbV90eXBlcy5oPgo+
-ICAjaW5jbHVkZSA8bGludXgvbGlzdC5oPgo+ICAjaW5jbHVkZSA8bGludXgvc3BpbmxvY2suaD4K
-PiArI2luY2x1ZGUgPGxpbnV4L2RtYS1mZW5jZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvaW8tbWFw
-cGluZy5oPgoKS2VlcCBpbmNsdWRlIGZpbGVzIHNvcnRlZC4KCj4gICNpZmRlZiBDT05GSUdfRFJN
-X0RFQlVHX01NCj4gICNpbmNsdWRlIDxsaW51eC9zdGFja2RlcG90Lmg+Cj4gICNlbmRpZgo+IEBA
-IC01NCw2ICs1NiwzMSBAQAo+ICAjZGVmaW5lIERSTV9NTV9CVUdfT04oZXhwcikgQlVJTERfQlVH
-X09OX0lOVkFMSUQoZXhwcikKPiAgI2VuZGlmCj4gIAo+ICtzdHJ1Y3QgZHJtX2RldmljZTsKPiAr
-c3RydWN0IGRybV9tbTsKTGlrZXdpc2UgZm9yd2FyZHMuIEJ1dCB0aGV5IGFyZSBnb29kIGhlcmUu
-CgoJU2FtCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2073765726==
+Content-Type: multipart/alternative; boundary="15644255151.D1d0FD21.23613"
+Content-Transfer-Encoding: 7bit
+
+
+--15644255151.D1d0FD21.23613
+Date: Mon, 29 Jul 2019 18:38:35 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #6 from cspack@verizon.net ---
+I see your point, and you are correct. It seems the issue is not 100%
+reproducible. I will redo the bisect and test more thoroughly. Thank you.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15644255151.D1d0FD21.23613
+Date: Mon, 29 Jul 2019 18:38:35 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c6">Commen=
+t # 6</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cspack&#64;verizon.net" title=3D"cspack&#64;verizon.net">cspack&#64;verizon=
+.net</a>
+</span></b>
+        <pre>I see your point, and you are correct. It seems the issue is n=
+ot 100%
+reproducible. I will redo the bisect and test more thoroughly. Thank you.</=
+pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15644255151.D1d0FD21.23613--
+
+--===============2073765726==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2073765726==--
