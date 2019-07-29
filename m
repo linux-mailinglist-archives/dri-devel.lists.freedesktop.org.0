@@ -1,47 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E79F782D5
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 02:31:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E94782EF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 02:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C5389DBD;
-	Mon, 29 Jul 2019 00:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8895989B0B;
+	Mon, 29 Jul 2019 00:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1D1589DBC;
- Mon, 29 Jul 2019 00:31:38 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45xgbp5h33z9s3l;
- Mon, 29 Jul 2019 10:31:34 +1000 (AEST)
-Date: Mon, 29 Jul 2019 10:31:33 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, "Gustavo A. R. Silva"
- <gustavo@embeddedor.com>
-Subject: Re: linux-next: manual merge of the drm-intel tree with the
- kspp-gustavo tree
-Message-ID: <20190729103133.5a3deb85@canb.auug.org.au>
-In-Reply-To: <20190723110331.1967d000@canb.auug.org.au>
-References: <20190723110331.1967d000@canb.auug.org.au>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 86F5A89B22
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 00:59:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 839B172167; Mon, 29 Jul 2019 00:59:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110457] System resumes failed and hits [drm:amdgpu_job_timedout
+ [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G
+Date: Mon, 29 Jul 2019 00:59:02 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: redrield@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110457-502-D1L342nFJR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110457-502@http.bugs.freedesktop.org/>
+References: <bug-110457-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1564360295;
- bh=+JTon61vz1+YQHFE94AbS2eZpOMWfyvWSxXSDsfyxy8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GroEowRPhDqwkchQUSkgl6VRvtoatP01fbTBL+bZv7bh/2Jo+prb+Tp1EkMoSVOnc
- 3ZCWekF1FZPMOfYCl+k+ZLz71r2Ekxd33NhaJeqdgbw3d7tJ0laAGlMbL17XliBkyF
- oexSKAHtAO7CzBfnZ4x5riOnxLXj0B+uo3wWJSKqaaT9f3zKSea9iw/dnj2cWBBkxy
- 84lzGhPrb5D+lcOpuMzp/1TrfbTX+HnikV2EH+7rdynUv9yX1QHSWq7j3sQF/y97Dv
- oXpd4WzBbIU2Yh1hKKRAqwcGTYZ6wBdaTKqFXj6sC9VVDIvjrbnwNWWlk5kPGEcZ2t
- xuKLaHVFdP3bg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,79 +53,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1650085145=="
+Content-Type: multipart/mixed; boundary="===============0371453620=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1650085145==
-Content-Type: multipart/signed; boundary="Sig_/DqgcD_x8eYr0_R2i9O0jMTP";
- protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/DqgcD_x8eYr0_R2i9O0jMTP
-Content-Type: text/plain; charset=US-ASCII
+--===============0371453620==
+Content-Type: multipart/alternative; boundary="15643619452.Ae844E.15409"
+Content-Transfer-Encoding: 7bit
+
+
+--15643619452.Ae844E.15409
+Date: Mon, 29 Jul 2019 00:59:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi all,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110457
 
-On Tue, 23 Jul 2019 11:03:31 +1000 Stephen Rothwell <sfr@canb.auug.org.au> =
-wrote:
->
-> Today's linux-next merge of the drm-intel tree got a conflict in:
->=20
->   drivers/gpu/drm/i915/display/intel_dp.c
->=20
-> between commit:
->=20
->   b6ac32eac063 ("drm/i915: Mark expected switch fall-throughs")
+--- Comment #9 from redrield@gmail.com ---
+Created attachment 144900
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144900&action=3Dedit
+Thinkpad E585 log file with amdgpu errors
 
-This is now commit
-
-  2defb94edb44 (""drm/i915: Mark expected switch fall-throughs")
-
-from Linus' tree.
-
-> from the kspp-gustavo tree and commit:
->=20
->   bc85328ff431 ("drm/i915: Move the TypeC port handling code to a separat=
-e file")
->   4f36afb26cbe ("drm/i915: Sanitize the TypeC FIA lane configuration deco=
-ding")
->=20
-> from the drm-intel tree.
->=20
-> I fixed it up (bc85328ff431 moved the function updated by b6ac32eac063
-> and 4f36afb26cbe added an equivalent fixup) and can carry the fix as
-> necessary. This is now fixed as far as linux-next is concerned, but any
-> non trivial conflicts should be mentioned to your upstream maintainer
-> when your tree is submitted for merging.  You may also want to consider
-> cooperating with the maintainer of the conflicting tree to minimise any
-> particularly complex conflicts.
+I'm running into an issue that I think is related to this. Attached a journ=
+al
+file containing the traces from the last boot where it occurred. For some
+reason, it doesn't happen every time I try to resume from suspend, but when=
+ it
+does I have no choice but to hard reboot. This is a Thinkpad E585, uname -a
+"Linux thonkpad 5.2.3-arch1-1-ARCH #1 SMP PREEMPT Fri Jul 26 08:13:47 UTC 2=
+019
+x86_64 GNU/Linux"
 
 --=20
-Cheers,
-Stephen Rothwell
+You are receiving this mail because:
+You are the assignee for the bug.=
 
---Sig_/DqgcD_x8eYr0_R2i9O0jMTP
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--15643619452.Ae844E.15409
+Date: Mon, 29 Jul 2019 00:59:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
------BEGIN PGP SIGNATURE-----
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
+amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - System resumes failed and hits [drm:amdgpu_job_timedout [=
+amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110457">bug 11045=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+redrield&#64;gmail.com" title=3D"redrield&#64;gmail.com">redrield&#64;gmail=
+.com</a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144900=
+" name=3D"attach_144900" title=3D"Thinkpad E585 log file with amdgpu errors=
+">attachment 144900</a> <a href=3D"attachment.cgi?id=3D144900&amp;action=3D=
+edit" title=3D"Thinkpad E585 log file with amdgpu errors">[details]</a></sp=
+an>
+Thinkpad E585 log file with amdgpu errors
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0+PmUACgkQAVBC80lX
-0Gz6bQf+KJXRHgo9OonMtR1Pc5z36XAnT9kMF0gp1cqGpTIdX0avC7dzI/tkcpS1
-hdUOEYF1oc0DHbeb1HHWyRjfoPUgL9EUJwxCATyOuFv7V3UKbTxOZ3N5wSC1z5Yb
-lA8IiuOW9xkyf4Pbf6BOYCErtzyicskwARI3AzW7qCHgRe3+WpGaV6LayJzuOcX6
-TRefqb/dFGeo2ly9mkvcPpY8CgT5rKCjWchgbGICNqyGH9LMMH2jIxIfyXjV09AX
-q9sXlyVxeJTNP8Eqpb2C/TBbaceCvRNt3/iLpuL4ZYdFr4QaMVJvOj6accgzpvCV
-p3EWr5ky/iGRDcekwNbkyVVmsMEz1A==
-=TFsE
------END PGP SIGNATURE-----
+I'm running into an issue that I think is related to this. Attached a journ=
+al
+file containing the traces from the last boot where it occurred. For some
+reason, it doesn't happen every time I try to resume from suspend, but when=
+ it
+does I have no choice but to hard reboot. This is a Thinkpad E585, uname -a
+&quot;Linux thonkpad 5.2.3-arch1-1-ARCH #1 SMP PREEMPT Fri Jul 26 08:13:47 =
+UTC 2019
+x86_64 GNU/Linux&quot;</pre>
+        </div>
+      </p>
 
---Sig_/DqgcD_x8eYr0_R2i9O0jMTP--
 
---===============1650085145==
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15643619452.Ae844E.15409--
+
+--===============0371453620==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -136,4 +164,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1650085145==--
+--===============0371453620==--
