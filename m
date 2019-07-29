@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537C078BB5
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 14:25:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7931978BC0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 14:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6316189AC2;
-	Mon, 29 Jul 2019 12:25:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBFB289DD3;
+	Mon, 29 Jul 2019 12:27:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90EDA89AC2
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 12:25:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B321D89DE1
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 12:27:16 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8CFF472167; Mon, 29 Jul 2019 12:25:43 +0000 (UTC)
+ id AFB4072167; Mon, 29 Jul 2019 12:27:16 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110488] [1042669.035207] [drm:amdgpu_job_timedout [amdgpu]]
- *ERROR* ring vce0 timeout, signaled seq=4, emitted seq=8
-Date: Mon, 29 Jul 2019 12:25:43 +0000
-X-Bugzilla-Reason: AssignedTo CC
+Subject: [Bug 111234] amdgpu bug: kernel NULL pointer dereference during
+ video playback
+Date: Mon, 29 Jul 2019 12:27:16 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocker
-X-Bugzilla-Who: 78666679@qq.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: nicholas.kazlauskas@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110488-502-nDW5Gpz26z@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110488-502@http.bugs.freedesktop.org/>
-References: <bug-110488-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111234-502-yAE6LLAO1O@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111234-502@http.bugs.freedesktop.org/>
+References: <bug-111234-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,36 +53,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2033325638=="
+Content-Type: multipart/mixed; boundary="===============0714777091=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2033325638==
-Content-Type: multipart/alternative; boundary="15644031431.8d45c.22851"
+--===============0714777091==
+Content-Type: multipart/alternative; boundary="15644032361.B189D.23028"
 Content-Transfer-Encoding: 7bit
 
 
---15644031431.8d45c.22851
-Date: Mon, 29 Jul 2019 12:25:43 +0000
+--15644032361.B189D.23028
+Date: Mon, 29 Jul 2019 12:27:16 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110488
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111234
 
---- Comment #2 from yanhua <78666679@qq.com> ---
-I encounter this bug too. it causes my gpu failed to any thing.
+--- Comment #2 from Nicholas Kazlauskas <nicholas.kazlauskas@amd.com> ---
+This is almost certainly a duplicate of:
+
+https://bugzilla.kernel.org/show_bug.cgi?id=3D204181
+
+I think something in KDE plasma changed recently for how multi monitor supp=
+ort
+is handled and how commits are sequenced. It's not that there's been a
+regression per-se in amdgpu, but rather userspace changes have exposed a bug
+that has been there for a while.
+
+A fix is in development.
 
 --=20
 You are receiving this mail because:
-You are the assignee for the bug.
-You are on the CC list for the bug.=
+You are the assignee for the bug.=
 
---15644031431.8d45c.22851
-Date: Mon, 29 Jul 2019 12:25:43 +0000
+--15644032361.B189D.23028
+Date: Mon, 29 Jul 2019 12:27:16 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,22 +107,33 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [1042669.035207] [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
-R* ring vce0 timeout, signaled seq=3D4, emitted seq=3D8"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110488#c2">Commen=
+   title=3D"NEW - amdgpu bug: kernel NULL pointer dereference during video =
+playback"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111234#c2">Commen=
 t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - [1042669.035207] [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
-R* ring vce0 timeout, signaled seq=3D4, emitted seq=3D8"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110488">bug 11048=
-8</a>
+   title=3D"NEW - amdgpu bug: kernel NULL pointer dereference during video =
+playback"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111234">bug 11123=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-78666679&#64;qq.com" title=3D"yanhua &lt;78666679&#64;qq.com&gt;"> <span cl=
-ass=3D"fn">yanhua</span></a>
+nicholas.kazlauskas&#64;amd.com" title=3D"Nicholas Kazlauskas &lt;nicholas.=
+kazlauskas&#64;amd.com&gt;"> <span class=3D"fn">Nicholas Kazlauskas</span><=
+/a>
 </span></b>
-        <pre>I encounter this bug too. it causes my gpu failed to any thing=
-.</pre>
+        <pre>This is almost certainly a duplicate of:
+
+<a href=3D"https://bugzilla.kernel.org/show_bug.cgi?id=3D204181">https://bu=
+gzilla.kernel.org/show_bug.cgi?id=3D204181</a>
+
+I think something in KDE plasma changed recently for how multi monitor supp=
+ort
+is handled and how commits are sequenced. It's not that there's been a
+regression per-se in amdgpu, but rather userspace changes have exposed a bug
+that has been there for a while.
+
+A fix is in development.</pre>
         </div>
       </p>
 
@@ -123,14 +143,13 @@ ass=3D"fn">yanhua</span></a>
 
       <ul>
           <li>You are the assignee for the bug.</li>
-          <li>You are on the CC list for the bug.</li>
       </ul>
     </body>
 </html>=
 
---15644031431.8d45c.22851--
+--15644032361.B189D.23028--
 
---===============2033325638==
+--===============0714777091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +159,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2033325638==--
+--===============0714777091==--
