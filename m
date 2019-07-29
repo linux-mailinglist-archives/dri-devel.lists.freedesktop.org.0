@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE0E790E3
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 18:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616F47915A
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 18:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A1D6E13A;
-	Mon, 29 Jul 2019 16:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D9F6E145;
+	Mon, 29 Jul 2019 16:47:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F636E11B;
- Mon, 29 Jul 2019 16:32:05 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 29 Jul 2019 09:32:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,323,1559545200"; d="scan'208";a="346699866"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by orsmga005.jf.intel.com with ESMTP; 29 Jul 2019 09:32:02 -0700
-Date: Mon, 29 Jul 2019 15:03:16 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Subject: Re: [PATCH v11 1/6] drm: Add Content protection type property
-Message-ID: <20190729093316.GB14727@intel.com>
-References: <20190712070026.13088-2-ramalingam.c@intel.com>
- <20190714110008.19647-1-ramalingam.c@intel.com>
- <20190729172040.48257318@eldfell.localdomain>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DFDDF6E145
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 16:47:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id D9EC172168; Mon, 29 Jul 2019 16:47:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108882] Many different installation problems with
+ amdgpu-pro-18.40-676022-rhel-6 driver in CentOS 6.10
+Date: Mon, 29 Jul 2019 16:47:10 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: Jeremy.Newton@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108882-502-Y5D0kapHFZ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108882-502@http.bugs.freedesktop.org/>
+References: <bug-108882-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190729172040.48257318@eldfell.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,69 +53,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1006039593=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNy0yOSBhdCAxNzoyMDo0MCArMDMwMCwgUGVra2EgUGFhbGFuZW4gd3JvdGU6Cj4g
-T24gU3VuLCAxNCBKdWwgMjAxOSAxNjozMDowOCArMDUzMAo+IFJhbWFsaW5nYW0gQyA8cmFtYWxp
-bmdhbS5jQGludGVsLmNvbT4gd3JvdGU6Cj4gCj4gPiBUaGlzIHBhdGNoIGFkZHMgYSBEUk0gRU5V
-TSBwcm9wZXJ0eSB0byB0aGUgc2VsZWN0ZWQgY29ubmVjdG9ycy4KPiA+IFRoaXMgcHJvcGVydHkg
-aXMgdXNlZCBmb3IgbWVudGlvbmluZyB0aGUgcHJvdGVjdGVkIGNvbnRlbnQncyB0eXBlCj4gPiBm
-cm9tIHVzZXJzcGFjZSB0byBrZXJuZWwgSERDUCBhdXRoZW50aWNhdGlvbi4KPiA+IAo+ID4gVHlw
-ZSBvZiB0aGUgc3RyZWFtIGlzIGRlY2lkZWQgYnkgdGhlIHByb3RlY3RlZCBjb250ZW50IHByb3Zp
-ZGVycy4KPiA+IFR5cGUgMCBjb250ZW50IGNhbiBiZSByZW5kZXJlZCBvbiBhbnkgSERDUCBwcm90
-ZWN0ZWQgZGlzcGxheSB3aXJlcy4KPiA+IEJ1dCBUeXBlIDEgY29udGVudCBjYW4gYmUgcmVuZGVy
-ZWQgb25seSBvbiBIRENQMi4yIHByb3RlY3RlZCBwYXRocy4KPiA+IAo+ID4gU28gd2hlbiBhIHVz
-ZXJzcGFjZSBzZXRzIHRoaXMgcHJvcGVydHkgdG8gVHlwZSAxIGFuZCBzdGFydHMgdGhlIEhEQ1AK
-PiA+IGVuYWJsZSwga2VybmVsIHdpbGwgaG9ub3VyIGl0IG9ubHkgaWYgSERDUDIuMiBhdXRoZW50
-aWNhdGlvbiBpcyB0aHJvdWdoCj4gPiBmb3IgdHlwZSAxLiBFbHNlIEhEQ1AgZW5hYmxlIHdpbGwg
-YmUgZmFpbGVkLgo+ID4gCj4gPiBOZWVkIEFDSyBmb3IgdGhpcyBuZXcgY29uZW5jdG9yIHByb3Bl
-cnR5IGZyb20gdXNlcnNwYWNlIGNvbnN1bWVyLgo+ID4gCj4gPiB2MjoKPiA+ICAgY3BfY29udGVu
-dF90eXBlIGlzIHJlcGxhY2VkIHdpdGggY29udGVudF9wcm90ZWN0aW9uX3R5cGUgW2RhbmllbF0K
-PiA+ICAgY2hlY2sgYXQgYXRvbWljX3NldF9wcm9wZXJ0eSBpcyByZW1vdmVkIFtNYWFydGVuXQo+
-ID4gdjM6Cj4gPiAgICVzL2NvbnRlbnRfcHJvdGVjdGlvbl90eXBlL2hkY3BfY29udGVudF90eXBl
-IFtQZWtrYV0KPiA+IHY0Ogo+ID4gICBwcm9wZXJ0eSBpcyBjcmVhdGVkIGZvciB0aGUgZmlyc3Qg
-cmVxdWVzdGVkIGNvbm5lY3RvciBhbmQgdGhlbiByZXVzZWQuCj4gPiAJW0RhbnZldF0KPiA+IHY1
-Ogo+ID4gICBrZXJuZWwgZG9jIG5pdHMgYWRkcmVzc2VkIFtEYW5pZWxdCj4gPiAgIFJlYmFzZWQg
-YXMgcGFydCBvZiBwYXRjaCByZW9yZGVyaW5nLgo+ID4gdjY6Cj4gPiAgIEtlcm5lbCBkb2NzIGFy
-ZSBtb2RpZmllZCBbcGVra2FdCj4gPiB2NzoKPiA+ICAgTW9yZSBkZXRhaWxzIGluIEtlcm5lbCBk
-b2NzLiBbcGVra2FdCj4gPiB2ODoKPiA+ICAgRmV3IG1vcmUgY2xhcmlmaWNhdGlvbiBpbnRvIGtl
-cm5lbCBkb2Mgb2YgY29udGVudCB0eXBlIFtwZWtrYV0KPiA+IHY5Ogo+ID4gICBTbWFsbCBmaXhl
-cyBpbiBjb2Rpbmcgc3R5bGUuCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFJhbWFsaW5nYW0gQyA8
-cmFtYWxpbmdhbS5jQGludGVsLmNvbT4KPiA+IFJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2RybV9h
-dG9taWNfdWFwaS5jICAgICAgICAgfCAgNCArKwo+ID4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29u
-bmVjdG9yLmMgICAgICAgICAgIHwgNTEgKysrKysrKysrKysrKysrKysrKysrKysKPiA+ICBkcml2
-ZXJzL2dwdS9kcm0vZHJtX2hkY3AuYyAgICAgICAgICAgICAgICB8IDM2ICsrKysrKysrKysrKysr
-Ky0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuYyB8ICA0ICst
-Cj4gPiAgaW5jbHVkZS9kcm0vZHJtX2Nvbm5lY3Rvci5oICAgICAgICAgICAgICAgfCAgNyArKysr
-Cj4gPiAgaW5jbHVkZS9kcm0vZHJtX2hkY3AuaCAgICAgICAgICAgICAgICAgICAgfCAgMiArLQo+
-ID4gIGluY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oICAgICAgICAgICAgIHwgIDYgKysrCj4g
-PiAgaW5jbHVkZS91YXBpL2RybS9kcm1fbW9kZS5oICAgICAgICAgICAgICAgfCAgNCArKwo+ID4g
-IDggZmlsZXMgY2hhbmdlZCwgMTExIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCj4gCj4g
-Cj4gU25pcCAtIHNvcnJ5LCBnbWFpbCBzaW1wbHkgcmVmdXNlcyB0byBkZWxpdmVyIG15IG1haWwg
-d2l0aG91dCB0cmltbWluZwo+IGl0IGhhcmQuCj4gCj4gPiAgCj4gPiBkaWZmIC0tZ2l0IGEvaW5j
-bHVkZS91YXBpL2RybS9kcm1fbW9kZS5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fbW9kZS5oCj4g
-PiBpbmRleCA1YWIzMzFlNWRjMjMuLjVjOTU0Mzk0MDkzZiAxMDA2NDQKPiA+IC0tLSBhL2luY2x1
-ZGUvdWFwaS9kcm0vZHJtX21vZGUuaAo+ID4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fbW9k
-ZS5oCj4gPiBAQCAtMjE4LDYgKzIxOCwxMCBAQCBleHRlcm4gIkMiIHsKPiA+ICAjZGVmaW5lIERS
-TV9NT0RFX0NPTlRFTlRfUFJPVEVDVElPTl9ERVNJUkVEICAgICAxCj4gPiAgI2RlZmluZSBEUk1f
-TU9ERV9DT05URU5UX1BST1RFQ1RJT05fRU5BQkxFRCAgICAgMgo+ID4gIAo+ID4gKy8qIENvbnRl
-bnQgVHlwZSBjbGFzc2lmaWNhdGlvbiBmb3IgSERDUDIuMiB2cyBvdGhlcnMgKi8KPiA+ICsjZGVm
-aW5lIERSTV9NT0RFX0hEQ1BfQ09OVEVOVF9UWVBFMAkJMAo+ID4gKyNkZWZpbmUgRFJNX01PREVf
-SERDUF9DT05URU5UX1RZUEUxCQkxCj4gCj4gSGksCj4gCj4gSSBzdGlsbCBiZWxpZXZlIHRoYXQg
-dGhlc2UgZGVmaW5pdGlvbnMgZG8gbm90IGJlbG9uZyBpbiB0aGUgdWFwaQo+IGhlYWRlci4gVXNl
-cnNwYWNlIG11c3QgdXNlIHRoZSBzdHJpbmcgbmFtZXMgaW5zdGVhZC4KPiAKPiBPdGhlcndpc2Ug
-dGhlIHBhdGNoIGxvb2tzIGZpbmUsIHRob3VnaCBteSBXZXN0b24gcmV2aWV3IGlzIHN0aWxsCj4g
-b24tZ29pbmcuCgpJIGFzc3VtZSB0aGF0IHN0aWxsIHdlIG5lZWQgdG8gd2FpdCBmb3IgdGhlIHdl
-c3RvbiByZXZpZXcgY29tcGxldGlvbi4KCkhlbmNlIEkgcmVxdWVzdCB5b3UgdG8gcmVzcG9uZCBo
-ZXJlIG9uY2UgeW91IGFyZSBjb21mb3J0YWJsZSB3aXRoIHRoaXMgbmV3IHVBUEkuCgpUaGFua3Ms
-Ci0gUmFtCj4gCj4gCj4gVGhhbmtzLAo+IHBxCj4gCj4gPiArCj4gPiAgc3RydWN0IGRybV9tb2Rl
-X21vZGVpbmZvIHsKPiA+ICAJX191MzIgY2xvY2s7Cj4gPiAgCV9fdTE2IGhkaXNwbGF5Owo+IAoK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============1006039593==
+Content-Type: multipart/alternative; boundary="15644188291.1d7CB6b.3410"
+Content-Transfer-Encoding: 7bit
+
+
+--15644188291.1d7CB6b.3410
+Date: Mon, 29 Jul 2019 16:47:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108882
+
+--- Comment #1 from Jeremy Newton <Jeremy.Newton@amd.com> ---
+It sounds like fglrx was not cleaned up properly.
+
+Unfortunately I'm not sure there's much we can do here.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15644188291.1d7CB6b.3410
+Date: Mon, 29 Jul 2019 16:47:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Many different installation problems with amdgpu-pro-18.4=
+0-676022-rhel-6 driver in CentOS 6.10"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108882#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Many different installation problems with amdgpu-pro-18.4=
+0-676022-rhel-6 driver in CentOS 6.10"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108882">bug 10888=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+Jeremy.Newton&#64;amd.com" title=3D"Jeremy Newton &lt;Jeremy.Newton&#64;amd=
+.com&gt;"> <span class=3D"fn">Jeremy Newton</span></a>
+</span></b>
+        <pre>It sounds like fglrx was not cleaned up properly.
+
+Unfortunately I'm not sure there's much we can do here.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15644188291.1d7CB6b.3410--
+
+--===============1006039593==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1006039593==--
