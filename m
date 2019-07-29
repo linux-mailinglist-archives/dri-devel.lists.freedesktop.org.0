@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C182E78D9B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 16:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 699E078DA8
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 16:20:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4787189FD1;
-	Mon, 29 Jul 2019 14:17:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E81389B3B;
+	Mon, 29 Jul 2019 14:20:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5E8CA89FC9;
- Mon, 29 Jul 2019 14:17:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 463242A6042;
- Mon, 29 Jul 2019 16:17:20 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id kaDjO01CxHgZ; Mon, 29 Jul 2019 16:17:19 +0200 (CEST)
-Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.245.116])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id F15372A6046;
- Mon, 29 Jul 2019 16:17:18 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.92)
- (envelope-from <michel@daenzer.net>)
- id 1hs6Sk-0003Mw-4w; Mon, 29 Jul 2019 16:17:18 +0200
-Subject: Re: [PATCH v3 1/1] drm/vblank: drop use of DRM_WAIT_ON()
-To: Sam Ravnborg <sam@ravnborg.org>
-References: <20190726210658.GA6299@ravnborg.org>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=michel@daenzer.net; prefer-encrypt=mutual; keydata=
- mQGiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
- LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
- 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
- /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
- WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
- Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
- V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
- AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPLQjTWljaGVsIERh
- ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD6IXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
- AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
- jqtGUnnSbyuTQfIySkK5AQ0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
- qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
- bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
- CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
- GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
- YsYrX5xfLgTZC5abhhztpYhGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAn2Ufk2d6/3p4
- Cuyz/NX7KpL2dQ8WAJ9UD5JEakhfofed8PSqOM7jOO3LCA==
-Message-ID: <8e6175cf-31d9-a71e-aa26-5aca184238fb@daenzer.net>
-Date: Mon, 29 Jul 2019 16:17:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 285D289B11;
+ Mon, 29 Jul 2019 14:20:45 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id h28so42147522lfj.5;
+ Mon, 29 Jul 2019 07:20:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=43UGeEwAQkjlHDnqicJjZYi7omjHdHxow+JLSHMazAo=;
+ b=qPyKnkm1+sHuAQVPdrMPDpdcZ4LwjCMURgeXYi1Vrfp3MLY+sRaoc2dFz6Tox7bqg/
+ 7s/y58Zfd3jpHvfXyu/cBWhr5V8vD5mwrhu6fyAMBnE9AQZlWuwi/A1c6C5BybfuAPn7
+ Gvt2f/HzYwlnsYHjaJ7KS3488jcDPrQzLsybrfndcid7P9w389iKj7elhvJA+oqPkNt6
+ sk3HeYlQhGyI1tCOzUVr74JXMcKmIVBAiaW5r6FchzT+jWrmvO5G+5HioTigFuyc0PsD
+ sKD50V7RRspWi1Qn5MWHok5ir5bLJVCsZTrNQ1xmbEf2JqfAlTWhpQ3hlkJcI93z1XPa
+ QHDA==
+X-Gm-Message-State: APjAAAXoLmw1ypZV5yIfPeAU2PZ3nXrcpo2VoovTTNAVKO0P8dKN0xu2
+ LwMYffDTEoPY1IxabQBI/ok=
+X-Google-Smtp-Source: APXvYqynET/j6yhi8X7zI1dtHBq6j04AuC8cZus1oGE4JVGVHyVGvr+ZYd3kLAVtk0c9gW/mNjfslA==
+X-Received: by 2002:a19:7607:: with SMTP id c7mr53774385lff.28.1564410043428; 
+ Mon, 29 Jul 2019 07:20:43 -0700 (PDT)
+Received: from eldfell.localdomain ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id p15sm13039939lji.80.2019.07.29.07.20.42
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 29 Jul 2019 07:20:43 -0700 (PDT)
+Date: Mon, 29 Jul 2019 17:20:40 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [PATCH v11 1/6] drm: Add Content protection type property
+Message-ID: <20190729172040.48257318@eldfell.localdomain>
+In-Reply-To: <20190714110008.19647-1-ramalingam.c@intel.com>
+References: <20190712070026.13088-2-ramalingam.c@intel.com>
+ <20190714110008.19647-1-ramalingam.c@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190726210658.GA6299@ravnborg.org>
-Content-Language: en-CA
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=43UGeEwAQkjlHDnqicJjZYi7omjHdHxow+JLSHMazAo=;
+ b=UztM92RZAid6DlYuZ0Z+R2hS/xNvGCKuTp2B6FGptUoMlIAJu8IUP2yPSM/YTObZE1
+ 0ooAqjpAAdN8CXe9IeYmW2IBrzpZ4sPme5TE++t0RtZ/vutooKYUkKeYRtFXx8a0AV+1
+ 5dzx+Dk7SqR7rcQKLiNRDo7BEC5gJf37Kbbf/lphd2816rl/UqjsQm6GbW3oqAcKbXB3
+ BcUn4oOcV7wh7hiBTOQ1AnTVWX30B0UcYJIIN5WsPb6k+hjGEG1ZTPhJ7Xcv9earNhQu
+ 11QR/fMfExUDTpLQa5pJJ2ywZ+SLX7aVIseE2d0RkiDyHcsFMnpDVHwRGbiiajCKVtuk
+ 9eBg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,54 +68,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, Sean Paul <sean@poorly.run>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2039456484=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNy0yNiAxMTowNiBwLm0uLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4gRFJNX1dBSVRf
-T04oKSBpcyBmcm9tIHRoZSBkZXByZWNhdGVkIGRybV9vc19saW51eCBoZWFkZXIgYW5kCj4gdGhl
-IG1vZGVybiByZXBsYWNlbWVudCBpcyB0aGUgd2FpdF9ldmVudF8qLgo+IAo+IFRoZSByZXR1cm4g
-dmFsdWVzIGRpZmZlciwgc28gYSBjb252ZXJzaW9uIGlzIG5lZWRlZCB0bwo+IGtlZXAgdGhlIG9y
-aWdpbmFsIGludGVyZmFjZSB0b3dhcmRzIHVzZXJzcGFjZS4KPiBJbnRyb2R1Y2VkIGEgc3dpdGNo
-L2Nhc2UgdG8gbWFrZSBjb2RlIG9idmlvdXMuCj4gCj4gQW5hbHlzaXMgZnJvbSBNaWNoZWwgRMOk
-bnplcjoKPiAKPiBUaGUgd2FpdGluZyBjb25kaXRpb24gcmVseSBvbiBhbGwgcmVsZXZhbnQgcGxh
-Y2VzIHdoZXJlIHZibGFua19jb3VudAo+IGlzIG1vZGlmaWVkIGNhbGxzIHdha2VfdXAoJnZibGFu
-ay0+cXVldWUpLgo+IAo+IGRybV9oYW5kbGVfdmJsYW5rKCk6Cj4gLSBDYWxscyB3YWtlX3VwKCZ2
-YmxhbmstPnF1ZXVlKQo+IAo+IGRybV92YmxhbmtfZW5hYmxlKCk6Cj4gLSBUaGVyZSBpcyBubyBu
-ZWVkIGhlcmUgYmVjYXVzZSB0aGVyZSBjYW4gYmUgbm8gc2xlZXBpbmcgd2FpdGVycwo+ICAgaW4g
-dGhlIHF1ZXVlLCBiZWNhdXNlIHZibGFuay0+ZW5hYmxlZCA9PSBmYWxzZSBpbW1lZGlhdGVseQo+
-ICAgdGVybWluYXRlcyBhbnkgd2FpdHMuCj4gCj4gZHJtX2NydGNfYWNjdXJhdGVfdmJsYW5rX2Nv
-dW50KCk6Cj4gLSBUaGlzIGlzIGNhbGxlZCBmcm9tIGludGVycnVwdCBoYW5kbGVycywgYXQgbGVh
-c3QgZnJvbQo+ICAgYW1kZ3B1X2RtLmM6ZG1fcGZsaXBfaGlnaF9pcnEoKS4gTm90IHN1cmUgaXQg
-bmVlZHMgdG8gd2FrZSB1cAo+ICAgdGhlIHF1ZXVlIHRob3VnaCwgdGhlIGRyaXZlciBzaG91bGQg
-Y2FsbAo+ICAgZHJtXyhjcnRjXylfaGFuZGxlX3ZibGFuayBhbnl3YXkuCj4gCj4gZHJtX3ZibGFu
-a19kaXNhYmxlX2FuZF9zYXZlKCk6Cj4gLSBJdCBjYW4gYmUgY2FsbGVkIGZyb20gYW4gaW50ZXJy
-dXB0LCB2aWEgZHJtX2hhbmRsZV92YmxhbmsgLT4KPiAgIHZibGFua19kaXNhYmxlX2ZuLiBIb3dl
-dmVyLCB0aGUgb25seSBwbGFjZSB3aGVyZQo+ICAgZHJtX3ZibGFua19kaXNhYmxlX2FuZF9zYXZl
-IGNhbiBiZSBjYWxsZWQgd2l0aCBzbGVlcGluZyB3YWl0ZXJzCj4gICBpbiB0aGUgcXVldWUgaXMg
-aW4gZHJtX2NydGNfdmJsYW5rX29mZiwgd2hpY2ggd2FrZXMgdXAgdGhlIHF1ZXVlCj4gICBhZnRl
-cndhcmRzICh3aGljaCB0ZXJtaW5hdGVzIGFsbCB3YWl0cywgYmVjYXVzZQo+ICAgdmJsYW5rLT5l
-bmFibGVkID09IGZhbHNlIGF0IHRoaXMgcG9pbnQpLgo+IAo+IHYzOgo+IC0gQWRkZWQgYW5hbHlz
-aXMgdG8gY2hhbmdlbG9nIGZyb20gTWljaGVsIETDpG56ZXIKPiAtIE1vdmVkIHJldHVybiByZXN1
-bHQgaGFuZGxpbmcgaW5zaWRlIGlmIChyZXFfc2VxICE9IHNlcSkgKERhbmllbCBWKQo+IC0gUmV1
-c2VkIG1vcmUgb2YgdGhlIGZvcm1lciBsb2dpYyAtIHJlc3VsdGluZyBpbiBzaW1wbGVyIGNvZGUK
-PiAtIERyb3BwZWQgUmV2aWV3ZWQtYnkgZnJvbSBTZWFuIFBhdWwgYXMgdGhpcyBpcyBhIG5ldyBp
-bXBsbWVudGF0aW9uCj4gCj4gdjI6Cj4gLSBGaXggc28gdGhlIGNhc2Ugd2hlcmUgcmVxX3NlcSBl
-cXVhbHMgc2VxIHdhcyBoYW5kbGVkIHByb3Blcmx5Cj4gLSBxdWljayBoYWNrIHRvIGNoZWNrIGlm
-IElHVCBiZWNhbWUgaGFwcHkKPiAtIE9ubHkgc2VudCB0byBpZ3QsIG5vdCB0byBkcmktZGV2ZWwK
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6
-ICJNaWNoZWwgRMOkbnplciIgPG1pY2hlbEBkYWVuemVyLm5ldD4KPiBDYzogU2VhbiBQYXVsIDxz
-ZWFuQHBvb3JseS5ydW4+Cj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3Jz
-dEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IE1heGltZSBSaXBhcmQgPG1heGltZS5yaXBhcmRAYm9v
-dGxpbi5jb20+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFu
-aWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgoKUmV2aWV3ZWQtYnk6IE1pY2hlbCBEw6RuemVy
-IDxtaWNoZWwuZGFlbnplckBhbWQuY29tPgoKCi0tIApFYXJ0aGxpbmcgTWljaGVsIETDpG56ZXIg
-ICAgICAgICAgICAgICB8ICAgICAgICAgICAgICBodHRwczovL3d3dy5hbWQuY29tCkxpYnJlIHNv
-ZnR3YXJlIGVudGh1c2lhc3QgICAgICAgICAgICAgfCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRl
-dmVsb3BlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============2039456484==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/NynhjkGkYDa3r.f5jBc2xvm"; protocol="application/pgp-signature"
+
+--Sig_/NynhjkGkYDa3r.f5jBc2xvm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, 14 Jul 2019 16:30:08 +0530
+Ramalingam C <ramalingam.c@intel.com> wrote:
+
+> This patch adds a DRM ENUM property to the selected connectors.
+> This property is used for mentioning the protected content's type
+> from userspace to kernel HDCP authentication.
+>=20
+> Type of the stream is decided by the protected content providers.
+> Type 0 content can be rendered on any HDCP protected display wires.
+> But Type 1 content can be rendered only on HDCP2.2 protected paths.
+>=20
+> So when a userspace sets this property to Type 1 and starts the HDCP
+> enable, kernel will honour it only if HDCP2.2 authentication is through
+> for type 1. Else HDCP enable will be failed.
+>=20
+> Need ACK for this new conenctor property from userspace consumer.
+>=20
+> v2:
+>   cp_content_type is replaced with content_protection_type [daniel]
+>   check at atomic_set_property is removed [Maarten]
+> v3:
+>   %s/content_protection_type/hdcp_content_type [Pekka]
+> v4:
+>   property is created for the first requested connector and then reused.
+> 	[Danvet]
+> v5:
+>   kernel doc nits addressed [Daniel]
+>   Rebased as part of patch reordering.
+> v6:
+>   Kernel docs are modified [pekka]
+> v7:
+>   More details in Kernel docs. [pekka]
+> v8:
+>   Few more clarification into kernel doc of content type [pekka]
+> v9:
+>   Small fixes in coding style.
+>=20
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+>  drivers/gpu/drm/drm_connector.c           | 51 +++++++++++++++++++++++
+>  drivers/gpu/drm/drm_hdcp.c                | 36 +++++++++++++++-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c |  4 +-
+>  include/drm/drm_connector.h               |  7 ++++
+>  include/drm/drm_hdcp.h                    |  2 +-
+>  include/drm/drm_mode_config.h             |  6 +++
+>  include/uapi/drm/drm_mode.h               |  4 ++
+>  8 files changed, 111 insertions(+), 3 deletions(-)
+
+
+Snip - sorry, gmail simply refuses to deliver my mail without trimming
+it hard.
+
+> =20
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 5ab331e5dc23..5c954394093f 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -218,6 +218,10 @@ extern "C" {
+>  #define DRM_MODE_CONTENT_PROTECTION_DESIRED     1
+>  #define DRM_MODE_CONTENT_PROTECTION_ENABLED     2
+> =20
+> +/* Content Type classification for HDCP2.2 vs others */
+> +#define DRM_MODE_HDCP_CONTENT_TYPE0		0
+> +#define DRM_MODE_HDCP_CONTENT_TYPE1		1
+
+Hi,
+
+I still believe that these definitions do not belong in the uapi
+header. Userspace must use the string names instead.
+
+Otherwise the patch looks fine, though my Weston review is still
+on-going.
+
+
+Thanks,
+pq
+
+> +
+>  struct drm_mode_modeinfo {
+>  	__u32 clock;
+>  	__u16 hdisplay;
+
+
+--Sig_/NynhjkGkYDa3r.f5jBc2xvm
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl0/ALgACgkQI1/ltBGq
+qqcwPhAAo1S/7nLjCwA1EOrpbRkGmSdbKL7skcDvCl4GkPZvZiqa16+2khrqK3rk
+i46hXEEHjLlWJ/PZdsu7mNafZgu3ADQfxb2ppNq/m27HXlO8dWswye71xOAeH7If
+7uThdHLC5UV9vPY22Bx2LJi/QzFFgdULP1+eQOZS2Uv1UtJVx3JMTVLYl+QU+ZDc
+nTkibE2cH2OTm0K3J3uiS9rGDg17LrfeZZZbi4HBd5UTf+2tf/FDKVwbVBx5aESt
+sZJpqcxuPTtnSqAtU73qDKEnpKK8RwW4VghaBS38jT1t2jYNQ2dHo1wCcBpj2XSR
+rSCqKJl+xwuQy+TRZ6Y7MRg6YoqqHVaAYBNuvTfaMpHW0poiLCb9nvOgAzk7u/lq
+lddUNOpznO3XbK4frXdaY7NulJVkTvHiFJ/4dnXxU32473pBILx7hNwQyGcZp1EH
+pQ4z4xo5eymh5iYp8wdkHAAADSegR7bT3qz1G4NKakEzn9s0C+A9GDRajLq3/rea
+/9U7dkyImFBRiELvR4/AM//rReFUZcTV7HJu1OVjdkg5HvFoQz2InBtKmbf4Lhhr
+n202yWfQYK7FF9kRFhj0W5+YRmE0/2zkBePMvXRNUfJpGZ2zTXaar79II12wAoag
+QlgNhJFH4wabtnvZ+mSV+GRhK8uRbIOXc5Fcleow+0XwxNOpWcU=
+=P0q8
+-----END PGP SIGNATURE-----
+
+--Sig_/NynhjkGkYDa3r.f5jBc2xvm--
+
+--===============2039456484==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2039456484==--
