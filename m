@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3262878A46
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 13:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBE178BB0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 14:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C15189DA7;
-	Mon, 29 Jul 2019 11:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A561891BA;
+	Mon, 29 Jul 2019 12:22:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 35B5289DA7
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 11:16:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 54102891BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 12:22:56 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2D10E72167; Mon, 29 Jul 2019 11:16:23 +0000 (UTC)
+ id 506BC72167; Mon, 29 Jul 2019 12:22:56 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111248] Navi10 Font rendering issue in Overwatch
-Date: Mon, 29 Jul 2019 11:16:23 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+Subject: [Bug 110488] [1042669.035207] [drm:amdgpu_job_timedout [amdgpu]]
+ *ERROR* ring vce0 timeout, signaled seq=4, emitted seq=8
+Date: Mon, 29 Jul 2019 12:22:56 +0000
+X-Bugzilla-Reason: CC AssignedTo
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: DRI git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: m.mcnutt@gmail.com
+X-Bugzilla-Severity: blocker
+X-Bugzilla-Who: 78666679@qq.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
+X-Bugzilla-Priority: highest
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- qa_contact attachments.created
-Message-ID: <bug-111248-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: cc bug_severity priority
+Message-ID: <bug-110488-502-JiTUIFtgnl@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110488-502@http.bugs.freedesktop.org/>
+References: <bug-110488-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,62 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0243304089=="
+Content-Type: multipart/mixed; boundary="===============0349524091=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0243304089==
-Content-Type: multipart/alternative; boundary="15643989830.aeAC0b.10267"
+--===============0349524091==
+Content-Type: multipart/alternative; boundary="15644029762.3bea041.21378"
 Content-Transfer-Encoding: 7bit
 
 
---15643989830.aeAC0b.10267
-Date: Mon, 29 Jul 2019 11:16:23 +0000
+--15644029762.3bea041.21378
+Date: Mon, 29 Jul 2019 12:22:56 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111248
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110488
 
-            Bug ID: 111248
-           Summary: Navi10 Font rendering issue in Overwatch
-           Product: Mesa
-           Version: git
-          Hardware: x86-64 (AMD64)
-                OS: Linux (All)
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: Drivers/Gallium/radeonsi
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: m.mcnutt@gmail.com
-        QA Contact: dri-devel@lists.freedesktop.org
+yanhua <78666679@qq.com> changed:
 
-Created attachment 144905
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144905&action=3Dedit
-example of font rendering issue
-
-Fedora 30 kernel 5.3rc2
-Mesa-git - 19.2 git a69ab1b7
-llvm - 10 gitba47e51
-
-GPU RX 5700XT (navi 10)
-
-Present with both DXVK and wined3d, RADV or even amdvlk
-
-Fonts appear cut in half on the diagonal of each character. So far only fou=
-nd
-in Overwatch, other proton games appear to render fonts correctly
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |dri-devel@lists.freedesktop
+                   |                            |.org
+           Severity|normal                      |blocker
+           Priority|medium                      |highest
 
 --=20
 You are receiving this mail because:
+You are on the CC list for the bug.
 You are the assignee for the bug.=
 
---15643989830.aeAC0b.10267
-Date: Mon, 29 Jul 2019 11:16:23 +0000
+--15644029762.3bea041.21378
+Date: Mon, 29 Jul 2019 12:22:56 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -118,107 +99,49 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:78666679&=
+#64;qq.com" title=3D"yanhua &lt;78666679&#64;qq.com&gt;"> <span class=3D"fn=
+">yanhua</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Navi10 Font rendering issue in Overwatch"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111248">111248</a>
-          </td>
-        </tr>
+   title=3D"NEW - [1042669.035207] [drm:amdgpu_job_timedout [amdgpu]] *ERRO=
+R* ring vce0 timeout, signaled seq=3D4, emitted seq=3D8"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110488">bug 11048=
+8</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>Navi10 Font rendering issue in Overwatch
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>dri-devel&#64;lists.freedesktop.org
+           </td>
+         </tr>
 
-        <tr>
-          <th>Product</th>
-          <td>Mesa
-          </td>
-        </tr>
+         <tr>
+           <td style=3D"text-align:right;">Severity</td>
+           <td>normal
+           </td>
+           <td>blocker
+           </td>
+         </tr>
 
-        <tr>
-          <th>Version</th>
-          <td>git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>x86-64 (AMD64)
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>Linux (All)
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>Drivers/Gallium/radeonsi
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>m.mcnutt&#64;gmail.com
-          </td>
-        </tr>
-
-        <tr>
-          <th>QA Contact</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">Priority</td>
+           <td>medium
+           </td>
+           <td>highest
+           </td>
+         </tr></table>
       <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144905=
-" name=3D"attach_144905" title=3D"example of font rendering issue">attachme=
-nt 144905</a> <a href=3D"attachment.cgi?id=3D144905&amp;action=3Dedit" titl=
-e=3D"example of font rendering issue">[details]</a></span>
-example of font rendering issue
-
-Fedora 30 kernel 5.3rc2
-Mesa-git - 19.2 git a69ab1b7
-llvm - 10 gitba47e51
-
-GPU RX 5700XT (navi 10)
-
-Present with both DXVK and wined3d, RADV or even amdvlk
-
-Fonts appear cut in half on the diagonal of each character. So far only fou=
-nd
-in Overwatch, other proton games appear to render fonts correctly</pre>
-        </div>
       </p>
 
 
@@ -226,14 +149,15 @@ in Overwatch, other proton games appear to render fonts correctly</pre>
       <span>You are receiving this mail because:</span>
 
       <ul>
+          <li>You are on the CC list for the bug.</li>
           <li>You are the assignee for the bug.</li>
       </ul>
     </body>
 </html>=
 
---15643989830.aeAC0b.10267--
+--15644029762.3bea041.21378--
 
---===============0243304089==
+--===============0349524091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -243,4 +167,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0243304089==--
+--===============0349524091==--
