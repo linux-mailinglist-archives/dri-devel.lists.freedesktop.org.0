@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D677C78841
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 11:22:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B671978859
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 11:26:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C2F689D39;
-	Mon, 29 Jul 2019 09:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADF528951B;
+	Mon, 29 Jul 2019 09:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B470389D39
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 09:22:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 955208951B
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 09:26:38 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B0EDA72167; Mon, 29 Jul 2019 09:22:25 +0000 (UTC)
+ id 8B65172167; Mon, 29 Jul 2019 09:26:38 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Mon, 29 Jul 2019 09:22:25 +0000
+Subject: [Bug 111228] PRIME output screen satys black on 1002:15d8 with 128MB
+ VRAM
+Date: Mon, 29 Jul 2019 09:26:38 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cspack@verizon.net
+X-Bugzilla-Who: hhfeuer@gmx.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-UGAp3ue5yA@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111228-502-fIjFsn03xX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111228-502@http.bugs.freedesktop.org/>
+References: <bug-111228-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,36 +53,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0156594968=="
+Content-Type: multipart/mixed; boundary="===============0553617189=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0156594968==
-Content-Type: multipart/alternative; boundary="15643921451.7D4Ff8bF3.24066"
+--===============0553617189==
+Content-Type: multipart/alternative; boundary="15643923980.f80Db9A.24424"
 Content-Transfer-Encoding: 7bit
 
 
---15643921451.7D4Ff8bF3.24066
-Date: Mon, 29 Jul 2019 09:22:25 +0000
+--15643923980.f80Db9A.24424
+Date: Mon, 29 Jul 2019 09:26:38 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111228
 
---- Comment #4 from cspack@verizon.net ---
-The first bisect pointed to a merge commit so the second was done to bisect
-within the merged commits.
+--- Comment #4 from Maik Freudenberg <hhfeuer@gmx.de> ---
+Both amdgpu and modesetting driver were tested, same effect.
+Most notewothy in the non-prime modesetting driver case is this:
+[     5.477] (EE) modeset(0): [DRI2] No driver mapping found for PCI device
+0x1002 / 0x15d8
+[     5.477] (EE) modeset(0): Failed to initialize the DRI2 extension.
+[     5.477] (--) RandR disabled
+[     5.480] (II) SELinux: Disabled on system
+[     5.480] (II) AIGLX: Screen 0 is not DRI2 capable
+[     5.480] (EE) AIGLX: reverting to software rendering
+
+On those other systems mentioned with 2GB VRAM, the modesetting driver runs
+fine in any case. This seems to be a different bug with the modesetting dri=
+ver,
+though. Non-prime+amdgpu driver runs fine.
+Since the display starts to work after a suspend/resume cycle, seems to be a
+kernel bug?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15643921451.7D4Ff8bF3.24066
-Date: Mon, 29 Jul 2019 09:22:25 +0000
+--15643923980.f80Db9A.24424
+Date: Mon, 29 Jul 2019 09:26:38 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -97,21 +112,36 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c4">Commen=
+   title=3D"NEW - PRIME output screen satys black on 1002:15d8 with 128MB V=
+RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228#c4">Commen=
 t # 4</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
+   title=3D"NEW - PRIME output screen satys black on 1002:15d8 with 128MB V=
+RAM"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228">bug 11122=
+8</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cspack&#64;verizon.net" title=3D"cspack&#64;verizon.net">cspack&#64;verizon=
-.net</a>
+hhfeuer&#64;gmx.de" title=3D"Maik Freudenberg &lt;hhfeuer&#64;gmx.de&gt;"> =
+<span class=3D"fn">Maik Freudenberg</span></a>
 </span></b>
-        <pre>The first bisect pointed to a merge commit so the second was d=
-one to bisect
-within the merged commits.</pre>
+        <pre>Both amdgpu and modesetting driver were tested, same effect.
+Most notewothy in the non-prime modesetting driver case is this:
+[     5.477] (EE) modeset(0): [DRI2] No driver mapping found for PCI device
+0x1002 / 0x15d8
+[     5.477] (EE) modeset(0): Failed to initialize the DRI2 extension.
+[     5.477] (--) RandR disabled
+[     5.480] (II) SELinux: Disabled on system
+[     5.480] (II) AIGLX: Screen 0 is not DRI2 capable
+[     5.480] (EE) AIGLX: reverting to software rendering
+
+On those other systems mentioned with 2GB VRAM, the modesetting driver runs
+fine in any case. This seems to be a different bug with the modesetting dri=
+ver,
+though. Non-prime+amdgpu driver runs fine.
+Since the display starts to work after a suspend/resume cycle, seems to be a
+kernel bug?</pre>
         </div>
       </p>
 
@@ -125,9 +155,9 @@ within the merged commits.</pre>
     </body>
 </html>=
 
---15643921451.7D4Ff8bF3.24066--
+--15643923980.f80Db9A.24424--
 
---===============0156594968==
+--===============0553617189==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -137,4 +167,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0156594968==--
+--===============0553617189==--
