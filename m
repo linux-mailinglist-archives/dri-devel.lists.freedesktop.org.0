@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1C9783D0
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 06:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410097852A
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 08:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 504CF89402;
-	Mon, 29 Jul 2019 04:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F50389C2C;
+	Mon, 29 Jul 2019 06:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 04E9F890B0
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 04:04:24 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00B1572167; Mon, 29 Jul 2019 04:04:23 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Mon, 29 Jul 2019 04:04:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cspack@verizon.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111244-502-KYaUjz0QFT@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9F9989C2C
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 06:45:14 +0000 (UTC)
+Received: from localhost (unknown [122.178.221.187])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 95086206BA;
+ Mon, 29 Jul 2019 06:45:13 +0000 (UTC)
+Date: Mon, 29 Jul 2019 12:14:02 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 06/11] dma: Drop JZ4740 driver
+Message-ID: <20190729064402.GG12733@vkoul-mobl.Dlink>
+References: <20190725220215.460-1-paul@crapouillou.net>
+ <20190725220215.460-7-paul@crapouillou.net>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190725220215.460-7-paul@crapouillou.net>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1564382714;
+ bh=OObfax840R6bh9rjFceVGkLchDJCG652v03RGds9gFA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=LSbox5NdaQ3BOobR6anCjjqjcwe7a/gzulM+4ZQtjQyz1Il7lgEOjtDVlq5tfUGm/
+ fyMsz+iLv2edW7yTgjYigFt2ghcb7VqdnJtaNFRZkBflZooGnqSJ125aw/9/GzR4Zq
+ E/aKBut0usnFTitcTVppLrBXrAomIQENZkc/MA7s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,92 +47,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0689186742=="
+Cc: Mark Rutland <mark.rutland@arm.com>, linux-fbdev@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, James Hogan <jhogan@kernel.org>,
+ alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>, od@zcrc.me, linux-mtd@lists.infradead.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lee Jones <lee.jones@linaro.org>,
+ Artur Rojek <contact@artur-rojek.eu>, Richard Weinberger <richard@nod.at>,
+ linux-pm@vger.kernel.org, linux-mips@vger.kernel.org,
+ Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Mark Brown <broonie@kernel.org>, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Ralf Baechle <ralf@linux-mips.org>,
+ Paul Burton <paul.burton@mips.com>, Rob Herring <robh+dt@kernel.org>,
+ dmaengine@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0689186742==
-Content-Type: multipart/alternative; boundary="15643730631.08fEDa30.8455"
-Content-Transfer-Encoding: 7bit
-
-
---15643730631.08fEDa30.8455
-Date: Mon, 29 Jul 2019 04:04:23 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
---- Comment #2 from cspack@verizon.net ---
-Created attachment 144903
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144903&action=3Dedit
-second bisect log
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15643730631.08fEDa30.8455
-Date: Mon, 29 Jul 2019 04:04:23 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cspack&#64;verizon.net" title=3D"cspack&#64;verizon.net">cspack&#64;verizon=
-.net</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144903=
-" name=3D"attach_144903" title=3D"second bisect log">attachment 144903</a> =
-<a href=3D"attachment.cgi?id=3D144903&amp;action=3Dedit" title=3D"second bi=
-sect log">[details]</a></span>
-second bisect log</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15643730631.08fEDa30.8455--
-
---===============0689186742==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0689186742==--
+T24gMjUtMDctMTksIDE4OjAyLCBQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IFRoZSBuZXdlciBhbmQg
+YmV0dGVyIEpaNDc4MCBkcml2ZXIgaXMgbm93IHVzZWQgdG8gcHJvdmlkZSBETUEKPiBmdW5jdGlv
+bmFsaXR5IG9uIHRoZSBKWjQ3NDAuCgpQbGVhc2UgY2hhbmdlIHN1YmpldGMgdG8gZG1hZW5naW5l
+OiB4eHgKCkFmdGVyIHRoYXQKCkFja2VkLWJ5OiBWaW5vZCBLb3VsIDx2a291bEBrZXJuZWwub3Jn
+PgoKLS0gCn5WaW5vZApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWw=
