@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F4678CE9
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 15:33:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48E578D45
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 15:56:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67F8589F5F;
-	Mon, 29 Jul 2019 13:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A352189F82;
+	Mon, 29 Jul 2019 13:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3914D89F38
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 13:33:32 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3001972167; Mon, 29 Jul 2019 13:33:32 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBADA89F82
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 13:56:35 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 8226627F10
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 13:56:35 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 76B472852A; Mon, 29 Jul 2019 13:56:35 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107559] no color format choice in amdgpu
-Date: Mon, 29 Jul 2019 13:33:32 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+Subject: [Bug 204363] New: EDID from Acer P1266 rejected as invalid
+Date: Mon, 29 Jul 2019 13:56:34 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: g.graziosi@gmail.com
+X-Bugzilla-Who: felixhaedicke@web.de
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-107559-502-aZZcKZMVCS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107559-502@http.bugs.freedesktop.org/>
-References: <bug-107559-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-204363-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,90 +61,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2136982850=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2136982850==
-Content-Type: multipart/alternative; boundary="15644072120.32F3ad3.623"
-Content-Transfer-Encoding: 7bit
-
-
---15644072120.32F3ad3.623
-Date: Mon, 29 Jul 2019 13:33:32 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107559
-
---- Comment #7 from g.graziosi@gmail.com ---
-Similar problem over here: everything works fine with amdgpu.dc=3D0. Withou=
-t it
-the colors are way darker.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15644072120.32F3ad3.623
-Date: Mon, 29 Jul 2019 13:33:32 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - no color format choice in amdgpu"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107559#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - no color format choice in amdgpu"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107559">bug 10755=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-g.graziosi&#64;gmail.com" title=3D"g.graziosi&#64;gmail.com">g.graziosi&#64=
-;gmail.com</a>
-</span></b>
-        <pre>Similar problem over here: everything works fine with amdgpu.d=
-c=3D0. Without it
-the colors are way darker.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15644072120.32F3ad3.623--
-
---===============2136982850==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2136982850==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzNjMKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA0MzYzCiAgICAgICAgICAgU3VtbWFyeTogRURJRCBmcm9tIEFjZXIg
+UDEyNjYgcmVqZWN0ZWQgYXMgaW52YWxpZAogICAgICAgICAgIFByb2R1Y3Q6IERyaXZlcnMKICAg
+ICAgICAgICBWZXJzaW9uOiAyLjUKICAgIEtlcm5lbCBWZXJzaW9uOiA1LjIuNAogICAgICAgICAg
+SGFyZHdhcmU6IEFsbAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJl
+ZTogTWFpbmxpbmUKICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBu
+b3JtYWwKICAgICAgICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERS
+SSAtIG5vbiBJbnRlbCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJu
+ZWwtYnVncy5vc2RsLm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGZlbGl4aGFlZGlja2VAd2ViLmRl
+CiAgICAgICAgUmVncmVzc2lvbjogTm8KCldoZW4gcGx1Z2dpbmcgaW4gYW4gQWNlciBQMTI2NiB2
+aWEgSERNSSwgSSBnZXQgdGhlIGZvbGxvd2luZyBlcnJvciBtZXNzYWdlczoKClsgICAzNC4zMTkz
+NDRdIGFtZGdwdSAwMDAwOjBlOjAwLjA6IEhETUktQS0xOiBFRElEIGlzIGludmFsaWQ6ClsgICAz
+NC4zMTkzNDddICBbMDBdIEJBRCAgMDAgZmYgZmYgZmYgZmYgZmYgZmYgMDAgMDQgNzIgMDEgNzAg
+MTMgMmYgMDAgMDAKWyAgIDM0LjMxOTM0OF0gIFswMF0gQkFEICAyNyAxMiAwMSAwMyA4MCAwMCAw
+MCA3OCAwYSBmZSA0MCBhNCA1NyA1OSA4ZSAyNgpbICAgMzQuMzE5MzQ4XSAgWzAwXSBCQUQgIDAw
+IDUwIDVkIGZmIGZmIDgwIDgxIDAwIDgxIDgwIDgxIDQwIDkwIDQwIGE5IDQwClsgICAzNC4zMTkz
+NDldICBbMDBdIEJBRCAgOTUgMDAgYjMgMDAgODEgYzAgNjQgMTkgMDAgNDAgNDEgMDAgMjYgMzAg
+MTggODgKWyAgIDM0LjMxOTM0OV0gIFswMF0gQkFEICAzNiAwMCAxMyA4ZSAyMSAwMCAwMCAxOCAw
+MCAwMCAwMCBmZCAwMCAzMiA1NSAxZQpbICAgMzQuMzE5MzUwXSAgWzAwXSBCQUQgIDY0IDExIDAw
+IDBhIDIwIDIwIDIwIDIwIDIwIDIwIDAwIDAwIDAwIGZjIDAwIDQxClsgICAzNC4zMTkzNTBdICBb
+MDBdIEJBRCAgNDMgNDUgNTIgMjAgNTAgMzEgMzIgMzYgMzYgMGEgMjAgMjAgMDAgMDAgMDAgZmYK
+WyAgIDM0LjMxOTM1MV0gIFswMF0gQkFEICAwMCA0YSAzNyAzMCAzMCAzMSAzMCAzMCAzMSAzNSAz
+OSAzMCAzMSAwYSAwMSA5MApbICAgMzQuMzE5NDE1XSBbZHJtOmRjX2xpbmtfZGV0ZWN0IFthbWRn
+cHVdXSAqRVJST1IqIE5vIEVESUQgcmVhZC4KClRlc3RlZCB3aXRoIGFtZGdwdSAvIFJhZGVvbiBS
+WCBWZWdhIDU2IGFuZCBpOTE1IC8gSW50ZWwgSXJpcyA2MTAwLgoKLS0gCllvdSBhcmUgcmVjZWl2
+aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0
+aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
