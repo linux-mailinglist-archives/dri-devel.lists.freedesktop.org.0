@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6E8783CE
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 06:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1C9783D0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 06:04:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E646C893D5;
-	Mon, 29 Jul 2019 04:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 504CF89402;
+	Mon, 29 Jul 2019 04:04:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BD3E9893D5
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 04:04:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 04E9F890B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 04:04:24 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B9C2D72167; Mon, 29 Jul 2019 04:04:02 +0000 (UTC)
+ id 00B1572167; Mon, 29 Jul 2019 04:04:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Mon, 29 Jul 2019 04:04:02 +0000
+Date: Mon, 29 Jul 2019 04:04:24 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111244-502-Pv661AW2Nx@http.bugs.freedesktop.org/>
+Message-ID: <bug-111244-502-KYaUjz0QFT@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
 References: <bug-111244-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0427611400=="
+Content-Type: multipart/mixed; boundary="===============0689186742=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0427611400==
-Content-Type: multipart/alternative; boundary="15643730421.ef489.8498"
+--===============0689186742==
+Content-Type: multipart/alternative; boundary="15643730631.08fEDa30.8455"
 Content-Transfer-Encoding: 7bit
 
 
---15643730421.ef489.8498
-Date: Mon, 29 Jul 2019 04:04:02 +0000
+--15643730631.08fEDa30.8455
+Date: Mon, 29 Jul 2019 04:04:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,17 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
 
---- Comment #1 from cspack@verizon.net ---
-Created attachment 144902
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144902&action=3Dedit
-first bisect log
+--- Comment #2 from cspack@verizon.net ---
+Created attachment 144903
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144903&action=3Dedit
+second bisect log
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15643730421.ef489.8498
-Date: Mon, 29 Jul 2019 04:04:02 +0000
+--15643730631.08fEDa30.8455
+Date: Mon, 29 Jul 2019 04:04:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c1">Commen=
-t # 1</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c2">Commen=
+t # 2</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
@@ -110,11 +110,11 @@ t # 1</a>
 cspack&#64;verizon.net" title=3D"cspack&#64;verizon.net">cspack&#64;verizon=
 .net</a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144902=
-" name=3D"attach_144902" title=3D"first bisect log">attachment 144902</a> <=
-a href=3D"attachment.cgi?id=3D144902&amp;action=3Dedit" title=3D"first bise=
-ct log">[details]</a></span>
-first bisect log</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144903=
+" name=3D"attach_144903" title=3D"second bisect log">attachment 144903</a> =
+<a href=3D"attachment.cgi?id=3D144903&amp;action=3Dedit" title=3D"second bi=
+sect log">[details]</a></span>
+second bisect log</pre>
         </div>
       </p>
 
@@ -128,9 +128,9 @@ first bisect log</pre>
     </body>
 </html>=
 
---15643730421.ef489.8498--
+--15643730631.08fEDa30.8455--
 
---===============0427611400==
+--===============0689186742==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -140,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0427611400==--
+--===============0689186742==--
