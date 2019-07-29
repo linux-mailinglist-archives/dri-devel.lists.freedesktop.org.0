@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756A8787CE
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 10:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCB0787D0
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 10:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 143FB89580;
-	Mon, 29 Jul 2019 08:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 435BD896B0;
+	Mon, 29 Jul 2019 08:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 450A789580
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 08:54:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id BF9B6896B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 08:54:42 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4170D72167; Mon, 29 Jul 2019 08:54:33 +0000 (UTC)
+ id BC43972167; Mon, 29 Jul 2019 08:54:42 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111229] Unable to unbind GPU from amdgpu
-Date: Mon, 29 Jul 2019 08:54:33 +0000
+Date: Mon, 29 Jul 2019 08:54:42 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.mimetype
-Message-ID: <bug-111229-502-ekj0UWGOSG@http.bugs.freedesktop.org/>
+Message-ID: <bug-111229-502-oqKzS70utV@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111229-502@http.bugs.freedesktop.org/>
 References: <bug-111229-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0531760245=="
+Content-Type: multipart/mixed; boundary="===============1111319811=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0531760245==
-Content-Type: multipart/alternative; boundary="15643904731.8ac016e80.17845"
+--===============1111319811==
+Content-Type: multipart/alternative; boundary="15643904822.Ba7Ee3a2a.19624"
 Content-Transfer-Encoding: 7bit
 
 
---15643904731.8ac016e80.17845
-Date: Mon, 29 Jul 2019 08:54:33 +0000
+--15643904822.Ba7Ee3a2a.19624
+Date: Mon, 29 Jul 2019 08:54:42 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -76,15 +76,15 @@ Michel D=C3=A4nzer <michel@daenzer.net> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
- Attachment #144877|text/x-log                  |text/plain
+ Attachment #144878|text/x-log                  |text/plain
           mime type|                            |
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15643904731.8ac016e80.17845
-Date: Mon, 29 Jul 2019 08:54:33 +0000
+--15643904822.Ba7Ee3a2a.19624
+Date: Mon, 29 Jul 2019 08:54:42 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,7 +113,7 @@ Auto-Submitted: auto-generated
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Attachment #144877 mime type</td>
+           <td style=3D"text-align:right;">Attachment #144878 mime type</td>
            <td>text/x-log
            </td>
            <td>text/plain
@@ -132,9 +132,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15643904731.8ac016e80.17845--
+--15643904822.Ba7Ee3a2a.19624--
 
---===============0531760245==
+--===============1111319811==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -144,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0531760245==--
+--===============1111319811==--
