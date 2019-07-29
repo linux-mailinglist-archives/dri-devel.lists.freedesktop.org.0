@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C5279B4D
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 23:40:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC8379C27
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2019 00:04:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F8636E2B6;
-	Mon, 29 Jul 2019 21:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BF16E2AF;
+	Mon, 29 Jul 2019 22:04:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id AE8E76E2B1
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 21:40:21 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AB43D72167; Mon, 29 Jul 2019 21:40:21 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 29 Jul 2019 21:40:21 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-jrDRVTRsDO@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCEB6E2AF
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 22:04:05 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id u15so46479753oiv.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 15:04:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hWkU2/nir7ZQfvW4i66MunEPrc2ksPHZ+kI417Vwor0=;
+ b=OJZ/cuKgOUJHvCiRdiudkZ+whN9hK3naAQS9e+e4SW1F5ZDP9cNXqdhpGfb5h7tdWJ
+ aigxBD7TRjSNh2qUTTuhXx2EFfZqnyC7DS3EaDZE7F1ivorXHnVk36M+e9AIoKmifR72
+ nIZM+wSyTTmc68STNecKEzf/7lKE2MFG/A/9hWvw4cdIq5d4Q91ezAaHwh345o0zKsFp
+ HdC4dsZwfP+dgNhyow7aVwReI7vGjGM0ftvhunlsUeJz7SWpeiTT8fi8783DIFMQ3DfO
+ W37aU0iuhYIsnlUSLHfRc5EZz1G99RroKJOEMB/VUJO2QXQwZJP4mmASr6LRFpr2IBxu
+ S3RA==
+X-Gm-Message-State: APjAAAWnRgd1lUfqi0Aw7rzs0S+puGuRwz9rZcP+p1PhlEjijvfwGPMG
+ fX0V5wPjgLQNHcR4aflDyootBe0sYEBj0S20EdU=
+X-Google-Smtp-Source: APXvYqzxoYmsrKa+/w4iZlFyZ+r721up9sOSNNUO05B9bQZK5PB1hT9YRKjmerl1KT4H08nbG3IA1hv+pMyhSISgMfg=
+X-Received: by 2002:a05:6808:118:: with SMTP id
+ b24mr56856483oie.128.1564437844733; 
+ Mon, 29 Jul 2019 15:04:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190725110520.26848-1-oleksandr.suvorov@toradex.com>
+ <20190725113237.d2dwxzientte4j3n@flea>
+ <CAGgjyvEA54kR3U8Lyz-1-vPS74raT6SpoM0e8YYcm12T=0r50A@mail.gmail.com>
+In-Reply-To: <CAGgjyvEA54kR3U8Lyz-1-vPS74raT6SpoM0e8YYcm12T=0r50A@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 30 Jul 2019 00:03:53 +0200
+Message-ID: <CAKMK7uHNyP0XAkPZ4dSfdAzcrvzNSHc8J02rwh0nLCSnPu_d2Q@mail.gmail.com>
+Subject: Re: [PATCH 0/1] This patch fixes connection detection for monitors
+ w/o DDC.
+To: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=hWkU2/nir7ZQfvW4i66MunEPrc2ksPHZ+kI417Vwor0=;
+ b=YSpTPlMeCYYov7BuvMIOVP4Mbjnyr+tyM3byOHdUesUddEkSMTdk3VN0J5EVFcO5AA
+ 60elu2KlvLQ7lbDIJNkKFyLm/z9m97CbYD/J723A4PhsO4MTQiDYTKtSefUUNGurPUOQ
+ Ol+MGNxjX5/jPtRV8JWa3rmBQ9b9icxpWWGsc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,129 +63,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1965934067=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Igor Opaniuk <igor.opaniuk@toradex.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Marcel Ziswiler <marcel.ziswiler@toradex.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "maxime.ripard@free-electrons.com" <maxime.ripard@free-electrons.com>,
+ Suvorov Alexander <cryosay@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1965934067==
-Content-Type: multipart/alternative; boundary="15644364212.aFFAFd0E.21872"
-Content-Transfer-Encoding: 7bit
-
-
---15644364212.aFFAFd0E.21872
-Date: Mon, 29 Jul 2019 21:40:21 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #54 from ReddestDream <reddestdream@gmail.com> ---
-(In reply to Peter Hercek from comment #52)
-> I'm getting hangs-up with kernels 5.2.3 (often) and 5.1.15 (less often).
-> Radeon VII with 3 monitors. Each monitor connected through DP.
-
-I hear that 5.0.0.13 is from before this regression and should work without
-issue if you are willing to downgrade:
-
-https://bbs.archlinux.org/viewtopic.php?id=3D247733
-
-(In reply to Anthony Rabbito from comment #53)
-> Interesting, on 5.2.x with 2 monitors hooked up via HDMI and DP it behaves
-> 75% of the time with most issues coming from xinit or sleep. Hopefully 5.3
-> will contain fixes
-
-Would be interesting if it turns out that using HDMI+DP fixes the issue. Not
-that HDMI doesn't come with its own issues sometimes with color. I do have =
-some
-faith that 5.3 will fix it since AMDGPU is getting a lot of work for Navi. I
-plan to try out 5.3-rc2 (or whatever mainline is at) sometime this week.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15644364212.aFFAFd0E.21872
-Date: Mon, 29 Jul 2019 21:40:21 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c54">Comme=
-nt # 54</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
-</span></b>
-        <pre>(In reply to Peter Hercek from <a href=3D"show_bug.cgi?id=3D11=
-0674#c52">comment #52</a>)
-<span class=3D"quote">&gt; I'm getting hangs-up with kernels 5.2.3 (often) =
-and 5.1.15 (less often).
-&gt; Radeon VII with 3 monitors. Each monitor connected through DP.</span >
-
-I hear that 5.0.0.13 is from before this regression and should work without
-issue if you are willing to downgrade:
-
-<a href=3D"https://bbs.archlinux.org/viewtopic.php?id=3D247733">https://bbs=
-.archlinux.org/viewtopic.php?id=3D247733</a>
-
-(In reply to Anthony Rabbito from <a href=3D"show_bug.cgi?id=3D110674#c53">=
-comment #53</a>)
-<span class=3D"quote">&gt; Interesting, on 5.2.x with 2 monitors hooked up =
-via HDMI and DP it behaves
-&gt; 75% of the time with most issues coming from xinit or sleep. Hopefully=
- 5.3
-&gt; will contain fixes</span >
-
-Would be interesting if it turns out that using HDMI+DP fixes the issue. Not
-that HDMI doesn't come with its own issues sometimes with color. I do have =
-some
-faith that 5.3 will fix it since AMDGPU is getting a lot of work for Navi. I
-plan to try out 5.3-rc2 (or whatever mainline is at) sometime this week.</p=
-re>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15644364212.aFFAFd0E.21872--
-
---===============1965934067==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1965934067==--
+T24gTW9uLCBKdWwgMjksIDIwMTkgYXQgMTI6NTggUE0gT2xla3NhbmRyIFN1dm9yb3YKPG9sZWtz
+YW5kci5zdXZvcm92QHRvcmFkZXguY29tPiB3cm90ZToKPgo+IE9uIFRodSwgSnVsIDI1LCAyMDE5
+IGF0IDU6NDEgUE0gbWF4aW1lLnJpcGFyZEBmcmVlLWVsZWN0cm9ucy5jb20KPiA8bWF4aW1lLnJp
+cGFyZEBmcmVlLWVsZWN0cm9ucy5jb20+IHdyb3RlOgo+ID4KPiA+IE9uIFRodSwgSnVsIDI1LCAy
+MDE5IGF0IDExOjA1OjIzQU0gKzAwMDAsIE9sZWtzYW5kciBTdXZvcm92IHdyb3RlOgo+ID4gPgo+
+ID4gPiBFdmVuIGluIHNvdXJjZSBjb2RlIG9mIHRoaXMgZHJpdmVyIHRoZXJlIGlzIGFuIGF1dGhv
+cidzIGRlc2NyaXB0aW9uOgo+ID4gPiAgICAgLyoKPiA+ID4gICAgICAqIEV2ZW4gaWYgd2UgaGF2
+ZSBhbiBJMkMgYnVzLCB3ZSBjYW4ndCBhc3N1bWUgdGhhdCB0aGUgY2FibGUKPiA+ID4gICAgICAq
+IGlzIGRpc2Nvbm5lY3RlZCBpZiBkcm1fcHJvYmVfZGRjIGZhaWxzLiBTb21lIGNhYmxlcyBkb24n
+dAo+ID4gPiAgICAgICogd2lyZSB0aGUgRERDIHBpbnMsIG9yIHRoZSBJMkMgYnVzIG1pZ2h0IG5v
+dCBiZSB3b3JraW5nIGF0Cj4gPiA+ICAgICAgKiBhbGwuCj4gPiA+ICAgICAgKi8KPiA+ID4KPiA+
+ID4gVGhhdCdzIHRydWUuIEREQyBhbmQgVkdBIGNoYW5uZWxzIGFyZSBpbmRlcGVuZGVudCwgYW5k
+IHRoZXJlZm9yZQo+ID4gPiB3ZSBjYW5ub3QgZGVjaWRlIHdoZXRoZXIgdGhlIG1vbml0b3IgaXMg
+Y29ubmVjdGVkIG9yIG5vdCwKPiA+ID4gZGVwZW5kaW5nIG9uIHRoZSBpbmZvcm1hdGlvbiBmcm9t
+IHRoZSBEREMuCj4gPiA+Cj4gPiA+IFNvIHRoZSBtb25pdG9yIHNob3VsZCBhbHdheXMgYmUgY29u
+c2lkZXJlZCBjb25uZWN0ZWQuCj4gPgo+ID4gV2VsbCwgbm8uIExpa2UgeW91IHNhaWQsIHdlIGNh
+bm5vdCBkZWNpZGVkIHdoZXRoZXIgaXMgY29ubmVjdGVkIG9yCj4gPiBub3QuCj4KPiBNYXhpbWUs
+IHRoYW5rcywgSSBhZ3JlZSB0aGF0J3MgYSBiYWQgc29sdXRpb24uCj4gQnV0IEkgc3RpbGwgdGhp
+bmsgd2Ugc2hvdWxkIGJlIGFibGUgdG8gZGVmaW5lIHRoZSBEVCBub2RlIG9mIGEgZGV2aWNlIGZv
+cgo+IHRoaXMgZHJpdmVyIHRvIGNsYWltIHRoZSBjb25uZWN0b3IgaXMgYWx3YXlzIGNvbm5lY3Rl
+ZC4KPiBQbGVhc2Ugc2VlIG15IGZvbGxvd2luZyB0aG91Z2h0cy4KPgo+ID4gPiBUaHVzIHRoZXJl
+IGlzIG5vIHJlYXNvbiB0byB1c2UgY29ubmVjdG9yIGRldGVjdCBjYWxsYmFjayBmb3IgdGhpcwo+
+ID4gPiBkcml2ZXI6IERSTSBzdWItc3lzdGVtIGNvbnNpZGVycyBtb25pdG9yIGFsd2F5cyBjb25u
+ZWN0ZWQgaWYgdGhlcmUKPiA+ID4gaXMgbm8gZGV0ZWN0KCkgY2FsbGJhY2sgcmVnaXN0ZXJlZCB3
+aXRoIGRybV9jb25uZWN0b3JfaW5pdCgpLgo+ID4gPgo+ID4gPiBIb3cgdG8gcmVwcm9kdWNlIHRo
+ZSBidWc6Cj4gPiA+ICogc2V0dXA6IGkuTVg4UVhQLCBMQ0RJRiB2aWRlbyBtb2R1bGUgKyBncHUv
+ZHJtL214c2ZiIGRyaXZlciwKPiA+ID4gICBhZHY3MTJ4IFZHQSBEQUMgKyBkdW1iLXZnYS1kYWMg
+ZHJpdmVyLCBWR0EtY29ubmVjdG9yIHcvbyBEREM7Cj4gPiA+ICogdHJ5IHRvIHVzZSBkcml2ZXJz
+IGNoYWluIG14c2ZiLWRybSArIGR1bWItdmdhLWRhYzsKPiA+ID4gKiBhbnkgRFJNIGFwcGxpY2F0
+aW9ucyBjb25zaWRlciB0aGUgbW9uaXRvciBpcyBub3QgY29ubmVjdGVkOgo+ID4gPiAgID09PT09
+PT09PT09Cj4gPiA+ICAgJCB3ZXN0b24tc3RhcnQKPiA+ID4gICAkIGNhdCAvdmFyL2xvZy93ZXN0
+b24ubG9nCj4gPiA+ICAgICAgIC4uLgo+ID4gPiAgICAgICBEUk06IGhlYWQgJ1ZHQS0xJyBmb3Vu
+ZCwgY29ubmVjdG9yIDMyIGlzIGRpc2Nvbm5lY3RlZC4KPiA+ID4gICAgICAgLi4uCj4gPiA+ICAg
+JCBjYXQgL3N5cy9kZXZpY2VzL3BsYXRmb3JtLzVhMTgwMDAwLmxjZGlmL2RybS9jYXJkMC9jYXJk
+MC1WR0EtMS9zdGF0dXMKPiA+ID4gICB1bmtub3duCj4gPgo+ID4gQW5kIHRoYXQncyBleGFjdGx5
+IHdoYXQncyBiZWluZyByZXBvcnRlZCBoZXJlOiB3ZSBjYW5ub3QgZGVjaWRlIGlmIGl0Cj4gPiBp
+cyBjb25uZWN0ZWQgb3Igbm90LCBzbyBpdCdzIHVua25vd24uCj4gPgo+ID4gSWYgd2VzdG9uIGNo
+b29zZXMgdG8gaWdub3JlIGNvbm5lY3RvcnMgdGhhdCBhcmUgaW4gYW4gdW5rbm93biBzdGF0ZSwK
+PiA+IEknZCBzYXkgaXQncyB3ZXN0b24ncyBwcm9ibGVtLCBzaW5jZSBpdCdzIG11Y2ggYnJvYWRl
+ciB0aGFuIHRoaXMKPiA+IHBhcnRpY3VsYXIgZGV2aWNlLgo+Cj4gSWYgd2UgbG9vayBhdCB0aGUg
+Y29kZSBvZiBkcm1fcHJvYmVfaGVscGVyLmMsIHdlIGNhbiBzZWUsIHRoZQo+IGRybV9oZWxwZXJf
+cHJvYmVfZGV0ZWN0X2N0eCgpIGFzc3VtZSB0aGUgY2FibGUgaXMgY29ubmVjdGVkIGlmIHRoZXJl
+IGlzIG5vCj4gZGV0ZWN0KCkgY2FsbGJhY2sgcmVnaXN0ZXJlZC4KPiAuLi4KPiAgICAgICAgICAg
+ICAgICAgaWYgKGZ1bmNzLT5kZXRlY3RfY3R4KQo+ICAgICAgICAgICAgICAgICAgICAgICAgICBy
+ZXQgPSBmdW5jcy0+ZGV0ZWN0X2N0eChjb25uZWN0b3IsICZjdHgsIGZvcmNlKTsKPiAgICAgICAg
+ICAgICAgICAgIGVsc2UgaWYgKGNvbm5lY3Rvci0+ZnVuY3MtPmRldGVjdCkKPiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgcmV0ID0gY29ubmVjdG9yLT5mdW5jcy0+ZGV0ZWN0KGNvbm5lY3Rvciwg
+Zm9yY2UpOwo+ICAgICAgICAgICAgICAgICAgZWxzZQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICByZXQgPSBjb25uZWN0b3Jfc3RhdHVzX2Nvbm5lY3RlZDsKPiAuLi4KPgo+IFRoZSBkcml2ZXIg
+ZHVtYi12Z2EtZGFjIHN1cHBvcnRzIGJvdGggRFQgY29uZmlndXJhdGlvbnM6Cj4gLSB3aXRoIERE
+QyBjaGFubmVsLCB0aGF0IGFsbG93cyB1cyB0byBkZXRlY3QgaWYgdGhlIGNhYmxlIGlzIGNvbm5l
+Y3RlZDsKPiAtIHdpdGhvdXQgRERDIGNoYW5uZWwuIEluIHRoaXMgY2FzZSwgSU1ITywgdGhlIGRy
+aXZlciBzaG91bGQgYmVoYXZlCj4gdGhlIHNhbWUgd2F5IGFzIGEKPiAgIGNvbm5lY3RvciBkcml2
+ZXIgd2l0aG91dCByZWdpc3RlcmVkIGRldGVjdCgpIGNhbGxiYWNrLgo+Cj4gU28gd2hhdCBhYm91
+dCB0aGUgcGF0Y2ggbGlrZT8KClN0aWxsIG5vLiBUaGUgImFsd2F5cyBjb25uZWN0ZWQiIGNhc2Ug
+aXMgZm9yIG91dHB1dHMgd2hpY2ggYXJlCnBoeXNpY2FsbHkgYWx3YXlzIGNvbm5lY3RlZCBhbmQg
+dHlwaW5nIGEgZHVtbXkgZnVuY3Rpb24gd2hpY2ggd291bGQKdW5jb25kaXRpb25hbGx5IHJldHVy
+biBjb25uZWN0ZWQgd291bGQgYmUgc2lsbHkuIExpa2UgYnVpbHQtaW4gcGFuZWxzLgpUaGlzIGlz
+IF9ub3RfIGZvciBleHRlcm5hbCBzY3JlZW5zLgotRGFuaWVsCgo+Cj4gQEAgLTgxLDYgKzgxLDEz
+IEBAIGR1bWJfdmdhX2Nvbm5lY3Rvcl9kZXRlY3Qoc3RydWN0IGRybV9jb25uZWN0b3IKPiAqY29u
+bmVjdG9yLCBib29sIGZvcmNlKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgZHVtYl92Z2EgKnZnYSA9
+IGRybV9jb25uZWN0b3JfdG9fZHVtYl92Z2EoY29ubmVjdG9yKTsKPgo+ICsgICAgICAgLyoKPiAr
+ICAgICAgICAqIElmIEkyQyBidXMgZm9yIEREQyBpcyBub3QgZGVmaW5lZCwgYXN1bWUgdGhhdCB0
+aGUgY2FibGUKPiArICAgICAgICAqIGlzIGFsd2F5cyBjb25uZWN0ZWQuCj4gKyAgICAgICAgKi8K
+PiArICAgICAgIGlmIChQVFJfRVJSKHZnYS0+ZGRjKSA9PSAtRU5PREVWKQo+ICsgICAgICAgICAg
+ICAgICByZXR1cm4gY29ubmVjdG9yX3N0YXR1c19jb25uZWN0ZWQ7Cj4gKwo+ICAgICAgICAgLyoK
+PiAgICAgICAgICAqIEV2ZW4gaWYgd2UgaGF2ZSBhbiBJMkMgYnVzLCB3ZSBjYW4ndCBhc3N1bWUg
+dGhhdCB0aGUgY2FibGUKPiAgICAgICAgICAqIGlzIGRpc2Nvbm5lY3RlZCBpZiBkcm1fcHJvYmVf
+ZGRjIGZhaWxzLiBTb21lIGNhYmxlcyBkb24ndAo+Cj4gLS0KPiBCZXN0IHJlZ2FyZHMKPiBPbGVr
+c2FuZHIgU3V2b3Jvdgo+Cj4gVG9yYWRleCBBRwo+IEFsdHNhZ2Vuc3RyYXNzZSA1IHwgNjA0OCBI
+b3J3L0x1emVybiB8IFN3aXR6ZXJsYW5kIHwgVDogKzQxIDQxIDUwMAo+IDQ4MDAgKG1haW4gbGlu
+ZSkKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
+aW9uCis0MSAoMCkgNzkgMzY1IDU3IDQ4IC0gaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
