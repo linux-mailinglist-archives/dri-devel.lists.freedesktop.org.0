@@ -1,36 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76EB97861B
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 09:18:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A797578622
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 09:18:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A0A89CBA;
-	Mon, 29 Jul 2019 07:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E59C589CCE;
+	Mon, 29 Jul 2019 07:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7A2A89BF6
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 06:49:51 +0000 (UTC)
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id BEA15D77010AD440D088;
- Mon, 29 Jul 2019 14:49:46 +0800 (CST)
-Received: from [127.0.0.1] (10.133.213.239) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.439.0;
- Mon, 29 Jul 2019 14:49:45 +0800
-Subject: Re: [PATCH] drm/bridge: lvds-encoder: Fix build error
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD1089C3F
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 06:54:03 +0000 (UTC)
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 57F4BE75CF37FCE21D54;
+ Mon, 29 Jul 2019 14:54:01 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Mon, 29 Jul 2019
+ 14:53:54 +0800
+From: YueHaibing <yuehaibing@huawei.com>
 To: <a.hajda@samsung.com>, <narmstrong@baylibre.com>,
  <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
  <jernej.skrabec@siol.net>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <eric@anholt.net>
-References: <20190729063539.19328-1-yuehaibing@huawei.com>
-From: Yuehaibing <yuehaibing@huawei.com>
-Message-ID: <69256ea7-b831-00eb-7d48-82302689574e@huawei.com>
-Date: Mon, 29 Jul 2019 14:49:43 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+Subject: [PATCH] drm/bridge: lvds-encoder: Fix build error while
+ CONFIG_DRM_KMS_HELPER=m
+Date: Mon, 29 Jul 2019 14:53:44 +0800
+Message-ID: <20190729065344.9680-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20190729063539.19328-1-yuehaibing@huawei.com>
 X-Originating-IP: [10.133.213.239]
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Mon, 29 Jul 2019 07:16:44 +0000
@@ -46,30 +44,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: YueHaibing <yuehaibing@huawei.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGxzIGRyb3AgdGhpcyBvbmUsIHdpbGwgcmVzZW5kIG5ldy4KCk9uIDIwMTkvNy8yOSAxNDozNSwg
-WXVlSGFpYmluZyB3cm90ZToKPiBJZiBDT05GSUdfRFJNX0xWRFNfRU5DT0RFUj15IGJ1dCBDT05G
-SUdfRFJNX0tNU19IRUxQRVI9bSwKPiBidWlsZCBmYWlsczoKPiAKPiBkcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL2x2ZHMtZW5jb2Rlci5vOiBJbiBmdW5jdGlvbiBgbHZkc19lbmNvZGVyX3Byb2JlJzoK
-PiBsdmRzLWVuY29kZXIuYzooLnRleHQrMHgxNTUpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBk
-ZXZtX2RybV9wYW5lbF9icmlkZ2VfYWRkJwo+IAo+IFJlcG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxo
-dWxrY2lAaHVhd2VpLmNvbT4KPiBGaXhlczogZGJiNThiZmQ5YWU2IGRybS9icmlkZ2U6ICgiRml4
-IGx2ZHMtZW5jb2RlciBzaW5jZSB0aGUgcGFuZWxfYnJpZGdlIHJld29yay4iKQo+IFNpZ25lZC1v
-ZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KPiAtLS0KPiAgZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2JyaWRnZS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCj4gaW5kZXgg
-YTZlZWM5MC4uMjkyNjc1MCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tj
-b25maWcKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKPiBAQCAtOCw3ICs4
-LDcgQEAgY29uZmlnIERSTV9CUklER0UKPiAgY29uZmlnIERSTV9QQU5FTF9CUklER0UKPiAgCWRl
-Zl9ib29sIHkKPiAgCWRlcGVuZHMgb24gRFJNX0JSSURHRQo+IC0JZGVwZW5kcyBvbiBEUk1fS01T
-X0hFTFBFUgo+ICsJc2VsZWN0IERSTV9LTVNfSEVMUEVSCj4gIAlzZWxlY3QgRFJNX1BBTkVMCj4g
-IAloZWxwCj4gIAkgIERSTSBicmlkZ2Ugd3JhcHBlciBvZiBEUk0gcGFuZWxzCj4gCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+SWYgRFJNX0xWRFNfRU5DT0RFUj15IGJ1dCBDT05GSUdfRFJNX0tNU19IRUxQRVI9bSwKYnVpbGQg
+ZmFpbHM6Cgpkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMtZW5jb2Rlci5vOiBJbiBmdW5jdGlv
+biBgbHZkc19lbmNvZGVyX3Byb2JlJzoKbHZkcy1lbmNvZGVyLmM6KC50ZXh0KzB4MTU1KTogdW5k
+ZWZpbmVkIHJlZmVyZW5jZSB0byBgZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2FkZCcKZHJpdmVycy9n
+cHUvZHJtL2JyaWRnZS90YzM1ODc2NC5vOigucm9kYXRhKzB4MjI4KTogdW5kZWZpbmVkIHJlZmVy
+ZW5jZSB0byBgZHJtX2F0b21pY19oZWxwZXJfY29ubmVjdG9yX3Jlc2V0Jwpkcml2ZXJzL2dwdS9k
+cm0vYnJpZGdlL3RjMzU4NzY0Lm86KC5yb2RhdGErMHgyNDApOiB1bmRlZmluZWQgcmVmZXJlbmNl
+IHRvIGBkcm1faGVscGVyX3Byb2JlX3NpbmdsZV9jb25uZWN0b3JfbW9kZXMnCmRyaXZlcnMvZ3B1
+L2RybS9icmlkZ2UvdGMzNTg3NjQubzooLnJvZGF0YSsweDI2OCk6IHVuZGVmaW5lZCByZWZlcmVu
+Y2UgdG8gYGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9kdXBsaWNhdGVfc3RhdGUnCmRyaXZl
+cnMvZ3B1L2RybS9icmlkZ2UvdGMzNTg3NjQubzooLnJvZGF0YSsweDI3MCk6IHVuZGVmaW5lZCBy
+ZWZlcmVuY2UgdG8gYGRybV9hdG9taWNfaGVscGVyX2Nvbm5lY3Rvcl9kZXN0cm95X3N0YXRlJwoK
+UmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgpGaXhlczogZGJiNThi
+ZmQ5YWU2IGRybS9icmlkZ2U6ICgiRml4IGx2ZHMtZW5jb2RlciBzaW5jZSB0aGUgcGFuZWxfYnJp
+ZGdlIHJld29yay4iKQpTaWduZWQtb2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVoYWliaW5nQGh1YXdl
+aS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnIHwgMSArCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJp
+ZGdlL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcKaW5kZXggYTZlZWM5
+MC4uNzdlNGI5NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2NvbmZpZwpAQCAtNDgsNiArNDgsNyBAQCBjb25m
+aWcgRFJNX0RVTUJfVkdBX0RBQwogY29uZmlnIERSTV9MVkRTX0VOQ09ERVIKIAl0cmlzdGF0ZSAi
+VHJhbnNwYXJlbnQgcGFyYWxsZWwgdG8gTFZEUyBlbmNvZGVyIHN1cHBvcnQiCiAJZGVwZW5kcyBv
+biBPRgorCXNlbGVjdCBEUk1fS01TX0hFTFBFUgogCXNlbGVjdCBEUk1fUEFORUxfQlJJREdFCiAJ
+aGVscAogCSAgU3VwcG9ydCBmb3IgdHJhbnNwYXJlbnQgcGFyYWxsZWwgdG8gTFZEUyBlbmNvZGVy
+cyB0aGF0IGRvbid0IHJlcXVpcmUKLS0gCjIuNy40CgoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
