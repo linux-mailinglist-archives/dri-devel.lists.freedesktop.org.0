@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC9278894
-	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 11:38:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBF1A788DF
+	for <lists+dri-devel@lfdr.de>; Mon, 29 Jul 2019 11:50:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5ED89BAF;
-	Mon, 29 Jul 2019 09:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22BAF89CBC;
+	Mon, 29 Jul 2019 09:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DDC0989A67
- for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 09:38:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 86135344;
- Mon, 29 Jul 2019 02:38:04 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 468AE3F694;
- Mon, 29 Jul 2019 02:38:04 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
- id C804368240B; Mon, 29 Jul 2019 10:38:02 +0100 (BST)
-Date: Mon, 29 Jul 2019 10:38:02 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Pei Hsuan Hung <afcidk@gmail.com>
-Subject: Re: [PATCH] Fix typo reigster to register
-Message-ID: <20190729093802.y33mfklarh23yngl@e110455-lin.cambridge.arm.com>
-References: <20190727142111.20039-1-afcidk@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E2A6789CBC
+ for <dri-devel@lists.freedesktop.org>; Mon, 29 Jul 2019 09:50:48 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DF4F272167; Mon, 29 Jul 2019 09:50:48 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Mon, 29 Jul 2019 09:50:49 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111244-502-OAV3tAAPPg@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190727142111.20039-1-afcidk@gmail.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,133 +52,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Oliver O'Halloran <oohall@gmail.com>, Russell Currey <ruscur@russell.cc>,
- Ping-Ke Shih <pkshih@realtek.com>, linux-scsi@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>, James Smart <james.smart@broadcom.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>, Arnd Bergmann <arnd@arndb.de>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Kalle Valo <kvalo@codeaurora.org>,
- trivial@kernel.org, "Martin K. Petersen" <martin.petersen@oracle.com>,
- Sam Bobroff <sbobroff@linux.ibm.com>, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jeremy Kerr <jk@ozlabs.org>, linux-fsdevel@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>,
- Larry Finger <Larry.Finger@lwfinger.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1855220098=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGVpLAoKT24gU2F0LCBKdWwgMjcsIDIwMTkgYXQgMTA6MjE6MDlQTSArMDgwMCwgUGVpIEhz
-dWFuIEh1bmcgd3JvdGU6Cj4gU2lnbmVkLW9mZi1ieTogUGVpIEhzdWFuIEh1bmcgPGFmY2lka0Bn
-bWFpbC5jb20+Cj4gQ2M6IHRyaXZpYWxAa2VybmVsLm9yZwo+IC0tLQo+ICBhcmNoL3Bvd2VycGMv
-a2VybmVsL2VlaC5jICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAyICstCj4gIGFyY2gvcG93
-ZXJwYy9wbGF0Zm9ybXMvY2VsbC9zcHVmcy9zd2l0Y2guYyAgICAgICAgICB8IDQgKystLQo+ICBk
-cml2ZXJzL2V4dGNvbi9leHRjb24tcnQ4OTczYS5jICAgICAgICAgICAgICAgICAgICAgfCAyICst
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3JlZ3MuaCAgICAgICAgICAgICAgICAgICB8
-IDIgKy0KPiAgZHJpdmVycy9uZXQvd2lyZWxlc3MvcmVhbHRlay9ydGx3aWZpL3J0bDgxOTJzZS9m
-dy5oIHwgMiArLQo+ICBkcml2ZXJzL3Njc2kvbHBmYy9scGZjX2hiYWRpc2MuYyAgICAgICAgICAg
-ICAgICAgICAgfCA0ICsrLS0KPiAgZnMvdXNlcmZhdWx0ZmQuYyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgMiArLQo+ICA3IGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygr
-KSwgOSBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2tlcm5lbC9l
-ZWguYyBiL2FyY2gvcG93ZXJwYy9rZXJuZWwvZWVoLmMKPiBpbmRleCBjMGU0YjczMTkxZjMuLmQ3
-NWM5YzI0ZWM0ZCAxMDA2NDQKPiAtLS0gYS9hcmNoL3Bvd2VycGMva2VybmVsL2VlaC5jCj4gKysr
-IGIvYXJjaC9wb3dlcnBjL2tlcm5lbC9lZWguYwo+IEBAIC0xMDMwLDcgKzEwMzAsNyBAQCBpbnQg
-X19pbml0IGVlaF9vcHNfcmVnaXN0ZXIoc3RydWN0IGVlaF9vcHMgKm9wcykKPiAgfQo+ICAKPiAg
-LyoqCj4gLSAqIGVlaF9vcHNfdW5yZWdpc3RlciAtIFVucmVpZ3N0ZXIgcGxhdGZvcm0gZGVwZW5k
-ZW50IEVFSCBvcGVyYXRpb25zCj4gKyAqIGVlaF9vcHNfdW5yZWdpc3RlciAtIFVucmVnaXN0ZXIg
-cGxhdGZvcm0gZGVwZW5kZW50IEVFSCBvcGVyYXRpb25zCj4gICAqIEBuYW1lOiBuYW1lIG9mIEVF
-SCBwbGF0Zm9ybSBvcGVyYXRpb25zCj4gICAqCj4gICAqIFVucmVnaXN0ZXIgdGhlIHBsYXRmb3Jt
-IGRlcGVuZGVudCBFRUggb3BlcmF0aW9uIGNhbGxiYWNrCj4gZGlmZiAtLWdpdCBhL2FyY2gvcG93
-ZXJwYy9wbGF0Zm9ybXMvY2VsbC9zcHVmcy9zd2l0Y2guYyBiL2FyY2gvcG93ZXJwYy9wbGF0Zm9y
-bXMvY2VsbC9zcHVmcy9zd2l0Y2guYwo+IGluZGV4IDVjM2Y1ZDA4OGMzYi4uOTU0OGEwODY5Mzdi
-IDEwMDY0NAo+IC0tLSBhL2FyY2gvcG93ZXJwYy9wbGF0Zm9ybXMvY2VsbC9zcHVmcy9zd2l0Y2gu
-Ywo+ICsrKyBiL2FyY2gvcG93ZXJwYy9wbGF0Zm9ybXMvY2VsbC9zcHVmcy9zd2l0Y2guYwo+IEBA
-IC01NzQsNyArNTc0LDcgQEAgc3RhdGljIGlubGluZSB2b2lkIHNhdmVfbWZjX3JhZyhzdHJ1Y3Qg
-c3B1X3N0YXRlICpjc2EsIHN0cnVjdCBzcHUgKnNwdSkKPiAgewo+ICAJLyogU2F2ZSwgU3RlcCAz
-ODoKPiAgCSAqICAgICBTYXZlIFJBX0dST1VQX0lEIHJlZ2lzdGVyIGFuZCB0aGUKPiAtCSAqICAg
-ICBSQV9FTkFCTEUgcmVpZ3N0ZXIgaW4gdGhlIENTQS4KPiArCSAqICAgICBSQV9FTkFCTEUgcmVn
-aXN0ZXIgaW4gdGhlIENTQS4KPiAgCSAqLwo+ICAJY3NhLT5wcml2MS5yZXNvdXJjZV9hbGxvY2F0
-aW9uX2dyb3VwSURfUlcgPQo+ICAJCXNwdV9yZXNvdXJjZV9hbGxvY2F0aW9uX2dyb3VwSURfZ2V0
-KHNwdSk7Cj4gQEAgLTEyMjcsNyArMTIyNyw3IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCByZXN0b3Jl
-X21mY19yYWcoc3RydWN0IHNwdV9zdGF0ZSAqY3NhLCBzdHJ1Y3Qgc3B1ICpzcHUpCj4gIHsKPiAg
-CS8qIFJlc3RvcmUsIFN0ZXAgMjk6Cj4gIAkgKiAgICAgUmVzdG9yZSBSQV9HUk9VUF9JRCByZWdp
-c3RlciBhbmQgdGhlCj4gLQkgKiAgICAgUkFfRU5BQkxFIHJlaWdzdGVyIGZyb20gdGhlIENTQS4K
-PiArCSAqICAgICBSQV9FTkFCTEUgcmVnaXN0ZXIgZnJvbSB0aGUgQ1NBLgo+ICAJICovCj4gIAlz
-cHVfcmVzb3VyY2VfYWxsb2NhdGlvbl9ncm91cElEX3NldChzcHUsCj4gIAkJCWNzYS0+cHJpdjEu
-cmVzb3VyY2VfYWxsb2NhdGlvbl9ncm91cElEX1JXKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9l
-eHRjb24vZXh0Y29uLXJ0ODk3M2EuYyBiL2RyaXZlcnMvZXh0Y29uL2V4dGNvbi1ydDg5NzNhLmMK
-PiBpbmRleCA0MGMwN2Y0ZDY1NmUuLmU3NWMwMzc5MjM5OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
-L2V4dGNvbi9leHRjb24tcnQ4OTczYS5jCj4gKysrIGIvZHJpdmVycy9leHRjb24vZXh0Y29uLXJ0
-ODk3M2EuYwo+IEBAIC0yNzAsNyArMjcwLDcgQEAgc3RhdGljIGludCBydDg5NzNhX211aWNfZ2V0
-X2NhYmxlX3R5cGUoc3RydWN0IHJ0ODk3M2FfbXVpY19pbmZvICppbmZvKQo+ICAJfQo+ICAJY2Fi
-bGVfdHlwZSA9IGFkYyAmIFJUODk3M0FfUkVHX0FEQ19NQVNLOwo+ICAKPiAtCS8qIFJlYWQgRGV2
-aWNlIDEgcmVpZ3N0ZXIgdG8gaWRlbnRpZnkgY29ycmVjdCBjYWJsZSB0eXBlICovCj4gKwkvKiBS
-ZWFkIERldmljZSAxIHJlZ2lzdGVyIHRvIGlkZW50aWZ5IGNvcnJlY3QgY2FibGUgdHlwZSAqLwo+
-ICAJcmV0ID0gcmVnbWFwX3JlYWQoaW5mby0+cmVnbWFwLCBSVDg5NzNBX1JFR19ERVYxLCAmZGV2
-MSk7Cj4gIAlpZiAocmV0KSB7Cj4gIAkJZGV2X2VycihpbmZvLT5kZXYsICJmYWlsZWQgdG8gcmVh
-ZCBERVYxIHJlZ2lzdGVyXG4iKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9t
-YWxpZHBfcmVncy5oIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcmVncy5oCj4gaW5kZXgg
-OTkzMDMxNTQyZmExLi4wZDgxYjM0YTQyMTIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2FybS9tYWxpZHBfcmVncy5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9tYWxpZHBfcmVn
-cy5oCj4gQEAgLTE0NSw3ICsxNDUsNyBAQAo+ICAjZGVmaW5lICAgICBNQUxJRFBfU0VfQ09FRkZU
-QUJfREFUQV9NQVNLCTB4M2ZmZgo+ICAjZGVmaW5lICAgICBNQUxJRFBfU0VfU0VUX0NPRUZGVEFC
-X0RBVEEoeCkgXAo+ICAJCSgoeCkgJiBNQUxJRFBfU0VfQ09FRkZUQUJfREFUQV9NQVNLKQo+IC0v
-KiBFbmhhbmNlIGNvZWZmZW50cyByZWlnc3RlciBvZmZzZXQgKi8KPiArLyogRW5oYW5jZSBjb2Vm
-ZmVudHMgcmVnaXN0ZXIgb2Zmc2V0ICovCgpVbmxlc3MgdGhpcyBwYXRjaCB3YXMgZ2VuZXJhdGVk
-IGJ5IGEgc2NyaXB0IEkgdGhpbmsgaXQgaXMgd29ydGggY29ycmVjdGluZyB0aGUKb3RoZXIgc3Bl
-bGxpbmcgbWlzdGFrZSBvbiB0aGF0IGxpbmUgYXMgd2VsbDogY29lZmZpY2llbnRzIHJhdGhlciB0
-aGFuIGNvZWZmZW50cy4KCldpdGggdGhhdDogQWNrZWQtYnk6IExpdml1IER1ZGF1IDxsaXZpdS5k
-dWRhdUBhcm0uY29tPgoKQmVzdCByZWdhcmRzLApMaXZpdQoKPiAgI2RlZmluZSBNQUxJRFBfU0Vf
-SU1BR0VfRU5ICQkJMHgzQwo+ICAvKiBFTkhfTElNSVRTIG9mZnNldCAweDAgKi8KPiAgI2RlZmlu
-ZSAgICAgTUFMSURQX1NFX0VOSF9MT1dfTEVWRUwJCTI0Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-bmV0L3dpcmVsZXNzL3JlYWx0ZWsvcnRsd2lmaS9ydGw4MTkyc2UvZncuaCBiL2RyaXZlcnMvbmV0
-L3dpcmVsZXNzL3JlYWx0ZWsvcnRsd2lmaS9ydGw4MTkyc2UvZncuaAo+IGluZGV4IDk5YzZmN2Vl
-ZmQ4NS4uZDAzYzhmMTJhMTVjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvbmV0L3dpcmVsZXNzL3Jl
-YWx0ZWsvcnRsd2lmaS9ydGw4MTkyc2UvZncuaAo+ICsrKyBiL2RyaXZlcnMvbmV0L3dpcmVsZXNz
-L3JlYWx0ZWsvcnRsd2lmaS9ydGw4MTkyc2UvZncuaAo+IEBAIC01OCw3ICs1OCw3IEBAIHN0cnVj
-dCBmd19wcml2IHsKPiAgCS8qIDB4ODE6IFBDSS1BUCwgMDE6UENJZSwgMDI6IDkyUy1VLAo+ICAJ
-ICogMHg4MjogVVNCLUFQLCAweDEyOiA3MlMtVSwgMDM6U0RJTyAqLwo+ICAJdTggaGNpX3NlbDsK
-PiAtCS8qIHRoZSBzYW1lIHZhbHVlIGFzIHJlaWdzdGVyIHZhbHVlICAqLwo+ICsJLyogdGhlIHNh
-bWUgdmFsdWUgYXMgcmVnaXN0ZXIgdmFsdWUgICovCj4gIAl1OCBjaGlwX3ZlcnNpb247Cj4gIAkv
-KiBjdXN0b21lciAgSUQgbG93IGJ5dGUgKi8KPiAgCXU4IGN1c3RvbWVyX2lkXzA7Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvc2NzaS9scGZjL2xwZmNfaGJhZGlzYy5jIGIvZHJpdmVycy9zY3NpL2xw
-ZmMvbHBmY19oYmFkaXNjLmMKPiBpbmRleCAyOGVjYWE3ZmM3MTUuLjllMTE2YmQ3OTgzNiAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL3Njc2kvbHBmYy9scGZjX2hiYWRpc2MuYwo+ICsrKyBiL2RyaXZl
-cnMvc2NzaS9scGZjL2xwZmNfaGJhZGlzYy5jCj4gQEAgLTY1NTEsNyArNjU1MSw3IEBAIGxwZmNf
-c2xpNF91bnJlZ2lzdGVyX2ZjZihzdHJ1Y3QgbHBmY19oYmEgKnBoYmEpCj4gICAqIGxwZmNfdW5y
-ZWdpc3Rlcl9mY2ZfcmVzY2FuIC0gVW5yZWdpc3RlciBjdXJyZW50bHkgcmVnaXN0ZXJlZCBmY2Yg
-YW5kIHJlc2Nhbgo+ICAgKiBAcGhiYTogUG9pbnRlciB0byBoYmEgY29udGV4dCBvYmplY3QuCj4g
-ICAqCj4gLSAqIFRoaXMgZnVuY3Rpb24gdW5yZWdpc3RlcnMgdGhlIGN1cnJlbnRseSByZWlnc3Rl
-cmVkIEZDRi4gVGhpcyBmdW5jdGlvbgo+ICsgKiBUaGlzIGZ1bmN0aW9uIHVucmVnaXN0ZXJzIHRo
-ZSBjdXJyZW50bHkgcmVnaXN0ZXJlZCBGQ0YuIFRoaXMgZnVuY3Rpb24KPiAgICogYWxzbyB0cmll
-cyB0byBmaW5kIGFub3RoZXIgRkNGIGZvciBkaXNjb3ZlcnkgYnkgcmVzY2FuIHRoZSBIQkEgRkNG
-IHRhYmxlLgo+ICAgKi8KPiAgdm9pZAo+IEBAIC02NjA5LDcgKzY2MDksNyBAQCBscGZjX3VucmVn
-aXN0ZXJfZmNmX3Jlc2NhbihzdHJ1Y3QgbHBmY19oYmEgKnBoYmEpCj4gICAqIGxwZmNfdW5yZWdp
-c3Rlcl9mY2YgLSBVbnJlZ2lzdGVyIHRoZSBjdXJyZW50bHkgcmVnaXN0ZXJlZCBmY2YgcmVjb3Jk
-Cj4gICAqIEBwaGJhOiBQb2ludGVyIHRvIGhiYSBjb250ZXh0IG9iamVjdC4KPiAgICoKPiAtICog
-VGhpcyBmdW5jdGlvbiBqdXN0IHVucmVnaXN0ZXJzIHRoZSBjdXJyZW50bHkgcmVpZ3N0ZXJlZCBG
-Q0YuIEl0IGRvZXMgbm90Cj4gKyAqIFRoaXMgZnVuY3Rpb24ganVzdCB1bnJlZ2lzdGVycyB0aGUg
-Y3VycmVudGx5IHJlZ2lzdGVyZWQgRkNGLiBJdCBkb2VzIG5vdAo+ICAgKiB0cnkgdG8gZmluZCBh
-bm90aGVyIEZDRiBmb3IgZGlzY292ZXJ5Lgo+ICAgKi8KPiAgdm9pZAo+IGRpZmYgLS1naXQgYS9m
-cy91c2VyZmF1bHRmZC5jIGIvZnMvdXNlcmZhdWx0ZmQuYwo+IGluZGV4IGNjYmRiZDYyZjBkOC4u
-NjEyZGMxMjQwZjkwIDEwMDY0NAo+IC0tLSBhL2ZzL3VzZXJmYXVsdGZkLmMKPiArKysgYi9mcy91
-c2VyZmF1bHRmZC5jCj4gQEAgLTI2Nyw3ICsyNjcsNyBAQCBzdGF0aWMgaW5saW5lIGJvb2wgdXNl
-cmZhdWx0ZmRfaHVnZV9tdXN0X3dhaXQoc3RydWN0IHVzZXJmYXVsdGZkX2N0eCAqY3R4LAo+ICAj
-ZW5kaWYgLyogQ09ORklHX0hVR0VUTEJfUEFHRSAqLwo+ICAKPiAgLyoKPiAtICogVmVyaWZ5IHRo
-ZSBwYWdldGFibGVzIGFyZSBzdGlsbCBub3Qgb2sgYWZ0ZXIgaGF2aW5nIHJlaWdzdGVyZWQgaW50
-bwo+ICsgKiBWZXJpZnkgdGhlIHBhZ2V0YWJsZXMgYXJlIHN0aWxsIG5vdCBvayBhZnRlciBoYXZp
-bmcgcmVnaXN0ZXJlZCBpbnRvCj4gICAqIHRoZSBmYXVsdF9wZW5kaW5nX3dxaCB0byBhdm9pZCB1
-c2VybGFuZCBoYXZpbmcgdG8gVUZGRElPX1dBS0UgYW55Cj4gICAqIHVzZXJmYXVsdCB0aGF0IGhh
-cyBhbHJlYWR5IGJlZW4gcmVzb2x2ZWQsIGlmIHVzZXJmYXVsdGZkX3JlYWQgYW5kCj4gICAqIFVG
-RkRJT19DT1BZfFpFUk9QQUdFIGFyZSBiZWluZyBydW4gc2ltdWx0YW5lb3VzbHkgb24gdHdvIGRp
-ZmZlcmVudAo+IC0tIAo+IDIuMTcuMQo+IAoKLS0gCj09PT09PT09PT09PT09PT09PT09CnwgSSB3
-b3VsZCBsaWtlIHRvIHwKfCBmaXggdGhlIHdvcmxkLCAgfAp8IGJ1dCB0aGV5J3JlIG5vdCB8Cnwg
-Z2l2aW5nIG1lIHRoZSAgIHwKIFwgc291cmNlIGNvZGUhICAvCiAgLS0tLS0tLS0tLS0tLS0tCiAg
-ICDCr1xfKOODhClfL8KvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============1855220098==
+Content-Type: multipart/alternative; boundary="15643938481.7983C4C.29336"
+Content-Transfer-Encoding: 7bit
+
+
+--15643938481.7983C4C.29336
+Date: Mon, 29 Jul 2019 09:50:48 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #5 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to cspack from comment #4)
+> The first bisect pointed to a merge commit so the second was done to bise=
+ct
+> within the merged commits.
+
+That doesn't invalidate my previous comment. :) git bisect identifying a me=
+rge
+commit already indicates the same thing by itself. In particular, the fact =
+that
+it identified a merge commit means that you declared all of its parent comm=
+its
+good.
+
+(There *are* rare cases where a problem is actually introduced by a merge
+commit itself, but then the second bisection should have either identified =
+the
+same merge commit again (if you tested it again), or failed, because all the
+other commits you tested should have been good again.)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15643938481.7983C4C.29336
+Date: Mon, 29 Jul 2019 09:50:48 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to cspack from <a href=3D"show_bug.cgi?id=3D111244#c=
+4">comment #4</a>)
+<span class=3D"quote">&gt; The first bisect pointed to a merge commit so th=
+e second was done to bisect
+&gt; within the merged commits.</span >
+
+That doesn't invalidate my previous comment. :) git bisect identifying a me=
+rge
+commit already indicates the same thing by itself. In particular, the fact =
+that
+it identified a merge commit means that you declared all of its parent comm=
+its
+good.
+
+(There *are* rare cases where a problem is actually introduced by a merge
+commit itself, but then the second bisection should have either identified =
+the
+same merge commit again (if you tested it again), or failed, because all the
+other commits you tested should have been good again.)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15643938481.7983C4C.29336--
+
+--===============1855220098==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1855220098==--
