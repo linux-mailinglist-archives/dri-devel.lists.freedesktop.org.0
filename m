@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739597BA6B
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 09:14:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE437BA4C
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 09:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 780838914E;
-	Wed, 31 Jul 2019 07:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B9FB6E68B;
+	Wed, 31 Jul 2019 07:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-BN3-obe.outbound.protection.outlook.com
- (mail-bn3nam04on070d.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe4e::70d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8596E5ED
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 17:43:53 +0000 (UTC)
+ (mail-eopbgr680094.outbound.protection.outlook.com [40.107.68.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 642466E5F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 17:43:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hbuxwj7j4adzdv0fmBNfnqhx24c+eYYEuUVqbkE6hJvCDq7LoV0Zl+W7KkbSFqux8s2YY5k3hPZ8az0RxquzZGeLSLGDQJxuwrqd7vqlDlG1pITkCt8ZA9Ge40XEh7mufk3eOYHjYkbL/9iz8I3bYOgN/L0N8q1EWfZ+hINbk73sD5KzjRkGEA/4AUhJ1dYQCgmHst+KYTWNE58UuG9zd0oYsOZ5NkCIxmcBOiCUwucg32N97xnJDGWUteBOHb1hTBCM8HZFuw7xdRJBXyfIKIIezjguUo80dd2uItxrOSodtvseWr5V1al5F+u0Gs6VqW9x9zZV915wT+jKzotBhQ==
+ b=NMP/QzEf0VuM8IWrafKDINk2T2z8GcNmrl/jLx+tqT1e4twES5/j6xU9gbDovhzPkJEzE3dHhWz8hXJh8j/YCGquJ2AxXJj0rwaEo+UgL3TPTgDUBxThTNfZIj165O+7Oh+hO7UXT08XH7lPhbCmWpyRB9howdqRvBB9bxyNy6KFq2FfS2WRUw4g8ye/RyWpV+407aQMIqM0x0I1k6/jwqzBwgvHqFVHq6tXWJKLDOOo4FDhptn2DecMENKNSe+K3GrnMUhECGgYcCPcTVHFSt+g2B0vcNFpTG0KPcbJ79x8RMYdE7OftnP1n9sMm419FPRHd+u9KMXEmG15n8LHyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4BX4SU6PwwnhbvyGfv3M6c92ze2YzMLnLwmrICGdzqg=;
- b=ZKsPTX/Fryl9JUC/Tdq/8FJ6jQRq1/JtwW89+fcrOtJOzaqQ4N/MtX6SfEkvC/TYOfWmvnbra+DB7IQICGr+MqeKaienfS+wPA27REAu8UZ6KKPbYvxAQkkxGFZEl6vrQ8lKOkk5rtb8AGYF1bMekFHXiuy/Fj4wQCm7/Km45RL9FbNpl88aMeQ56YoVu5nMkGSX5Pml/09hBQrTZhZyUII3m3iNv2DPAiogUPBLeHr2p6VqnoffvF5BXzAwYzU5dTVf7Vs9ce/ADifT/BWNlmW8bjd3jNrvnt/QwnyvTLO/iLFISvVsJ8yfvhvsHqHia8csSGM+2ZSg/XQUGBQN3w==
+ bh=1azvV6eumHiivRNRXM+PnIWYwe38H2lX6HYhZSS1cZE=;
+ b=I8avp2QAZ1jZRi6bFsduVEuFD1m2wpzcCvxIdj5GoeXzioBOD0E5316XDY1VL4vA6RunmKt1xmEB9IuTSdPVCv4LKiv1ACFqqnPOpmDzGiBADFtCIuhSsJgZmH6+PgMTDNNkNXj4D8NJykPj46u2L65eRI1PyhF9U4AHyswcBHxnQ7G6r2SY6Fx2Ns1+sfC307BT2oJWG4bRQMFQgnapB+Y2Ooa+3WFzpbDRSJeM33meDbBVSH6pYA7JZxo50aGHvagGrkw8U8R4u1XixoKuW5Ze2otPuPWk5Vat7fH+1CvsdmBgrQ2ubDupqxQT8mAEf3qpDkv8F+auH58Kkb8pHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=wavecomp.com;dmarc=pass action=none
  header.from=mips.com;dkim=pass header.d=mips.com;arc=none
 Received: from MWHPR2201MB1277.namprd22.prod.outlook.com (10.172.60.12) by
  MWHPR2201MB1088.namprd22.prod.outlook.com (10.174.169.150) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.15; Tue, 30 Jul 2019 17:43:51 +0000
+ 15.20.2115.15; Tue, 30 Jul 2019 17:43:55 +0000
 Received: from MWHPR2201MB1277.namprd22.prod.outlook.com
  ([fe80::105a:1595:b6ef:cbdf]) by MWHPR2201MB1277.namprd22.prod.outlook.com
  ([fe80::105a:1595:b6ef:cbdf%4]) with mapi id 15.20.2115.005; Tue, 30 Jul 2019
- 17:43:51 +0000
+ 17:43:55 +0000
 From: Paul Burton <paul.burton@mips.com>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 04/11] ASoC: jz4740: Drop lb60 board code
-Thread-Topic: [PATCH 04/11] ASoC: jz4740: Drop lb60 board code
-Thread-Index: AQHVRv5Z3HRPuXglA0CFShYL1aERyQ==
-Date: Tue, 30 Jul 2019 17:43:51 +0000
-Message-ID: <MWHPR2201MB12774249834C09DBDE719902C1DC0@MWHPR2201MB1277.namprd22.prod.outlook.com>
-References: <20190725220215.460-5-paul@crapouillou.net>
-In-Reply-To: <20190725220215.460-5-paul@crapouillou.net>
+Subject: Re: [PATCH 05/11] video/fbdev: Drop JZ4740 driver
+Thread-Topic: [PATCH 05/11] video/fbdev: Drop JZ4740 driver
+Thread-Index: AQHVRv5cl8/uMpmuRkq+nlYbqst7Og==
+Date: Tue, 30 Jul 2019 17:43:55 +0000
+Message-ID: <MWHPR2201MB1277CBFBCC5B2A7DCE8CF2E6C1DC0@MWHPR2201MB1277.namprd22.prod.outlook.com>
+References: <20190725220215.460-6-paul@crapouillou.net>
+In-Reply-To: <20190725220215.460-6-paul@crapouillou.net>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR11CA0073.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::14) To MWHPR2201MB1277.namprd22.prod.outlook.com
+x-clientproxiedby: BYAPR08CA0055.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::32) To MWHPR2201MB1277.namprd22.prod.outlook.com
  (2603:10b6:301:18::12)
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [12.94.197.246]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6250fd5d-84dd-4f26-1f29-08d715157bc2
+x-ms-office365-filtering-correlation-id: 85b3a80e-1ec6-4c08-6a37-08d715157e5a
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
  SRVR:MWHPR2201MB1088; 
 x-ms-traffictypediagnostic: MWHPR2201MB1088:
-x-microsoft-antispam-prvs: <MWHPR2201MB1088EF45D9223799A65AAB40C1DC0@MWHPR2201MB1088.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-microsoft-antispam-prvs: <MWHPR2201MB1088F07BB788CFC3D02B6689C1DC0@MWHPR2201MB1088.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
 x-forefront-prvs: 0114FF88F6
 x-forefront-antispam-report: SFV:NSPM;
  SFS:(10019020)(366004)(136003)(39850400004)(346002)(376002)(396003)(189003)(199004)(7736002)(6436002)(52536014)(386003)(486006)(74316002)(6116002)(446003)(9686003)(11346002)(305945005)(5660300002)(55016002)(99286004)(66446008)(66946007)(53936002)(64756008)(66556008)(66476007)(4326008)(6246003)(25786009)(3846002)(71200400001)(66066001)(71190400001)(7416002)(8676002)(6916009)(76176011)(81156014)(52116002)(54906003)(186003)(44832011)(229853002)(476003)(4744005)(8936002)(81166006)(68736007)(102836004)(7696005)(2906002)(6506007)(256004)(33656002)(316002)(478600001)(42882007)(26005)(14454004);
@@ -67,11 +66,11 @@ x-forefront-antispam-report: SFV:NSPM;
 received-spf: None (protection.outlook.com: wavecomp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: lhq3rr5NngLy/qSzzewAQ7EPGtEV8okVD8OhyyTbH+SjEe+8hGmbbKBx9ItUYQadHktlIVbR10tYRV8nCAQNsecG+lLBr7HGXXNTBemSXc8UC6LOS5Nzsa8uIfhV/IK7kbg+gXy+j1wai8B1gCmriXrYVJqI4hXPdsAYfz/A8FvvuaoTrLX/EQo3zZAkY84UnGbxRJHhKaW9jCKQ0zgwCqJcgOZTiFhRoytI07CSnozo86y8q/gOSLfzmW0M+qsPJ8QbVR5XqVOUxWJ5LoGXoohxTwIjfPzqZbK5ONE/IVf+7buufQ3FHpgfMQTcU2tG2RjErn9QBYz6uX2uBcOa+R9BMo3e4fWnGr6AFdnRrclZ/BGjxuLsBtoG/I24n92NPNjtbi3I+6WcBZUyf2DRbCyINsen1vVdfr1ubN02ADY=
+x-microsoft-antispam-message-info: b+5ViTJwLuKjsrC+C+h7lXppVG7wuPQ5cK+V6fKypF6ety+vnnNDd2CY+xAQiEXH99LqgBI3RfBRg6KRhbF0kfM/7qJwv41JsMzPUXEAkGRRnfcok6zY47KIAnpQAykI5I7Un6/UebpkuWO0VYLe3OjI9JOH+aHzExc2ulKohUIAKRkL5fYFZw+fQ50dr0X26lCje2oVYdniz4caCI8ighNS5yNLVfuMrP5XoE2/f2+OmRR+Nl9NP6uNCl8gJGPzpPaKdzOssbvK/BtfJFEdTXMA4g45jIOYjgmp+lqyuqLu8bl95M7PPj/NsHFR8qvD7npLoe7T1UKjn9Apy8lXzev3mj2L+mUNw4xa8/oAFJKKOaoXq0xdkgJvsg+KWccaq8jhgYVug1P59lFPpgQRY62mvtDe6sB7RYdTBVajs3s=
 MIME-Version: 1.0
 X-OriginatorOrg: mips.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6250fd5d-84dd-4f26-1f29-08d715157bc2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 17:43:51.4012 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85b3a80e-1ec6-4c08-6a37-08d715157e5a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 17:43:55.7367 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
@@ -81,8 +80,8 @@ X-Mailman-Approved-At: Wed, 31 Jul 2019 07:13:21 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=wavecomp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4BX4SU6PwwnhbvyGfv3M6c92ze2YzMLnLwmrICGdzqg=;
- b=ITnpH7wKokCT6qpAxKCxOTrURLPinYmauj6s0majVYCRV1xr4u/A3dahC9UMgosTrPipIG67IgeVu7lsEn1ZlJdBFctnTK5YaTYu57td3R/OxKQDmwWmTzBOLRxuLvSaMlowDf3NroMRD3XZUTgn4jQ17Bmn+BoqMWsx04RATZA=
+ bh=1azvV6eumHiivRNRXM+PnIWYwe38H2lX6HYhZSS1cZE=;
+ b=OcnPDdsjNKjfyy7uQE0AHgEgMRQ/VUHeMomHztiPQfldzNSfxNQOqUj7BMZVYiKonBrRT8vxZZhlRjhFANMRll5gzLox/CSL9KuPpjKdcrcVtoh/8rSyedtJA/RBlIWtUiTQfclgh/VgoO6EERNnxtpEhSubXPjSQ/ITOiKM0vs=
 X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=pburton@wavecomp.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,13 +123,14 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IFRoZSBib2FyZCBub3cgdXNlcyB0aGUgc2lt
-cGxlLWF1ZGlvLWNhcmQgZHJpdmVyLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFBhdWwgQ2VyY3VlaWwg
-PHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+IFRlc3RlZC1ieTogQXJ0dXIgUm9qZWsgPGNvbnRhY3RA
-YXJ0dXItcm9qZWsuZXU+Cj4gQWNrZWQtYnk6IE1hcmsgQnJvd24gPGJyb29uaWVAa2VybmVsLm9y
-Zz4KCkFwcGxpZWQgdG8gbWlwcy1uZXh0LgoKVGhhbmtzLAogICAgUGF1bAoKWyBUaGlzIG1lc3Nh
-Z2Ugd2FzIGF1dG8tZ2VuZXJhdGVkOyBpZiB5b3UgYmVsaWV2ZSBhbnl0aGluZyBpcyBpbmNvcnJl
-Y3QKICB0aGVuIHBsZWFzZSBlbWFpbCBwYXVsLmJ1cnRvbkBtaXBzLmNvbSB0byByZXBvcnQgaXQu
-IF0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGVsbG8sCgpQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IFRoZSBKWjQ3NDAgZmJkZXYgZHJpdmVyIGhh
+cyBiZWVuIHJlcGxhY2VkIHdpdGggdGhlIGluZ2VuaWMtZHJtIGRyaXZlci4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBQYXVsIENlcmN1ZWlsIDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4KPiBUZXN0ZWQtYnk6
+IEFydHVyIFJvamVrIDxjb250YWN0QGFydHVyLXJvamVrLmV1Pgo+IEFja2VkLWJ5OiBTYW0gUmF2
+bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CgpBcHBsaWVkIHRvIG1pcHMtbmV4dC4KClRoYW5rcywK
+ICAgIFBhdWwKClsgVGhpcyBtZXNzYWdlIHdhcyBhdXRvLWdlbmVyYXRlZDsgaWYgeW91IGJlbGll
+dmUgYW55dGhpbmcgaXMgaW5jb3JyZWN0CiAgdGhlbiBwbGVhc2UgZW1haWwgcGF1bC5idXJ0b25A
+bWlwcy5jb20gdG8gcmVwb3J0IGl0LiBdCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
