@@ -1,92 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78CE57BA5D
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 09:14:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BBD7BA5E
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 09:14:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6346E68E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C31CF6E68F;
 	Wed, 31 Jul 2019 07:13:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr70089.outbound.protection.outlook.com [40.107.7.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D835894DE;
- Tue, 30 Jul 2019 12:33:44 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr150089.outbound.protection.outlook.com [40.107.15.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEDFA6E4C9;
+ Tue, 30 Jul 2019 12:36:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=duZqtWSBY97V/rluhGAmN//dTbA+13SADWRK91Io7QHY/ofM9u4mHxxXAtWdHSrkFNndFpBnBPjuX4gv2yIped/axaqZtS9TjnH0E6vtniCfoq/jolTri6QGh6NNSdSC6BGlmKrjPkCXXL0aCPaGkmrQVD74Zouf0ojYXzED1zyXmIiV1iCdr8fKIgG2Xil9m8gU5wQltRZYxtG/xH25WKtfXDE3+Af3JuMt6bGa7Gw1lJf0cOKyMBNCi/7Xgqr66E3463Fu/fmIB3AXY/LchoxfCqFL4Ba9AeRAZHFlM/BgcY7nP5wIMJlJrwwv2xHKwgZMKEJ78qWTwJclV/GAWg==
+ b=jI5SRYAnYIijNuRmwtKcwNBZkTDnhieVRH34qMcZ4WzTdo7uUpXyMnuqnfI68UqSEyg+KZPCNP2z0TYFYNotnapVNhSpbN7iq2/D2GCXJutL0A0DDOI8dZsWyXVb0zAeQcAlOyca/sTgdW5NWkAdEVufCa6xa+b3tjliS0Z1btqZL2lGOW+U9B3LkYnRicQ+S80Q21FAMgKHUObOKakMlF5iTNZo4MKtRy3FLrmd6cwcynFRG/Ww2pJACJw0NayEdPeUybuZ+4fDSVMcr1fBu+d3Wk2JHMmZP+zqZFJ0B6EIp0u9zG9V9kGtiXRry2uLdtJm+fwKrkYlagHHP6Nq/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yJBqIk0uULmDKfoRtscS14x8TCOltxwjYuCzhuHiI4g=;
- b=gXxdBu2nWchZxziBgDkLJEyfrLgGyDCX09t3HTOYicf2nIyiUVJ4z/6GD9102yWwzu/Ll5OMRd6BSZZCHNFMMahD0h0PmoTer+rMSl24SNpuwsKuqiM7IgVw2XMbjVVfYGNZ+8h7CdaTH8c4n87IP8EAa8jRJgHx0GvwHePyncsdkHm5yNbMKYHztFpTswXUsXlvYVZhGPfuWi3cV8d6cdxpABMR7iUESI8YavARq958TDg1807dPHCLF89osOnVsYIg9dBTkblRMhMa1v8+o+3MACPb7u2lKDvjxxLck3fh2mC7IpTxDg6x6djg2/4HnIIAM0uwkZpP+Rr5h1OB8g==
+ bh=O4TVTJA+gABdiNdlWD+jMmeLLVFPhepHDShRadvZNbo=;
+ b=nUqBXkJuK6v7z+Hu5fwJcW8E60lrTQ/0sUegpfW9vJrGszv6eh8e6JYw5SXdDxYuApK7gzGlwqTPwuLHA0T+UF6xE6ebVpBLZHb/GIUOh7t2InSHvZd18OIDxfJU+99yrdRd2KtAt+qkRJkhyqVIky4Mlw1SM6wpcFQLG/Oe2d1BAQSZpJ2GHa7nVTUURnPkZQFtkEbQA02AMuDebI9y7kVU50LCHDiIP6LyPpcMGzimXhAwNBG3Pu5uVT7b5F3HGyCLwH9t9zpURAB9hvTQYRnv1nt7Z3QV6pyhoqE4Pb0lLsEwNF2GGR3dnpKuyAxMmqXi0/Qta61gb0Kmp1V+iQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=mellanox.com;dmarc=pass action=none
  header.from=mellanox.com;dkim=pass header.d=mellanox.com;arc=none
 Received: from VI1PR05MB4141.eurprd05.prod.outlook.com (10.171.182.144) by
- VI1PR05MB5568.eurprd05.prod.outlook.com (20.177.202.144) with Microsoft SMTP
+ VI1PR05MB4285.eurprd05.prod.outlook.com (52.133.12.26) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.13; Tue, 30 Jul 2019 12:33:13 +0000
+ 15.20.2115.14; Tue, 30 Jul 2019 12:36:00 +0000
 Received: from VI1PR05MB4141.eurprd05.prod.outlook.com
  ([fe80::5c6f:6120:45cd:2880]) by VI1PR05MB4141.eurprd05.prod.outlook.com
  ([fe80::5c6f:6120:45cd:2880%4]) with mapi id 15.20.2115.005; Tue, 30 Jul 2019
- 12:33:13 +0000
+ 12:36:00 +0000
 From: Jason Gunthorpe <jgg@mellanox.com>
 To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 02/13] amdgpu: don't initialize range->list in
- amdgpu_hmm_init_range
-Thread-Topic: [PATCH 02/13] amdgpu: don't initialize range->list in
- amdgpu_hmm_init_range
-Thread-Index: AQHVRpr2/Xz4jNPu6k2DNRcwdQGPdqbjGKwA
-Date: Tue, 30 Jul 2019 12:33:12 +0000
-Message-ID: <20190730123308.GC24038@mellanox.com>
+Subject: Re: [PATCH 03/13] nouveau: pass struct nouveau_svmm to
+ nouveau_range_fault
+Thread-Topic: [PATCH 03/13] nouveau: pass struct nouveau_svmm to
+ nouveau_range_fault
+Thread-Index: AQHVRpr4kL6aKlcudUqEUBBy4/lXjabjGXIA
+Date: Tue, 30 Jul 2019 12:35:59 +0000
+Message-ID: <20190730123554.GD24038@mellanox.com>
 References: <20190730055203.28467-1-hch@lst.de>
- <20190730055203.28467-3-hch@lst.de>
-In-Reply-To: <20190730055203.28467-3-hch@lst.de>
+ <20190730055203.28467-4-hch@lst.de>
+In-Reply-To: <20190730055203.28467-4-hch@lst.de>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: YT1PR01CA0027.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::40)
- To VI1PR05MB4141.eurprd05.prod.outlook.com
+x-clientproxiedby: YTOPR0101CA0034.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::47) To VI1PR05MB4141.eurprd05.prod.outlook.com
  (2603:10a6:803:4d::16)
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [156.34.55.100]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 030d7e3e-a479-4767-61b9-08d714ea1671
+x-ms-office365-filtering-correlation-id: bcaac139-dd9c-43d2-96c3-08d714ea79eb
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:VI1PR05MB5568; 
-x-ms-traffictypediagnostic: VI1PR05MB5568:
-x-microsoft-antispam-prvs: <VI1PR05MB5568E3AC8C0E36649BB76B91CFDC0@VI1PR05MB5568.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
+ SRVR:VI1PR05MB4285; 
+x-ms-traffictypediagnostic: VI1PR05MB4285:
+x-microsoft-antispam-prvs: <VI1PR05MB4285D71442379CCEE6F90061CFDC0@VI1PR05MB4285.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
 x-forefront-prvs: 0114FF88F6
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(199004)(189003)(446003)(11346002)(53936002)(486006)(5660300002)(2616005)(476003)(14444005)(256004)(4744005)(6246003)(26005)(6436002)(6512007)(66946007)(6486002)(102836004)(305945005)(66476007)(68736007)(66446008)(64756008)(66556008)(33656002)(8936002)(186003)(1076003)(66066001)(71200400001)(7736002)(81156014)(81166006)(8676002)(229853002)(7416002)(99286004)(2906002)(6916009)(6116002)(54906003)(316002)(36756003)(3846002)(86362001)(478600001)(76176011)(6506007)(386003)(52116002)(14454004)(4326008)(25786009)(71190400001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB5568;
+ SFS:(10009020)(4636009)(376002)(346002)(396003)(136003)(366004)(39860400002)(199004)(189003)(4744005)(186003)(66066001)(36756003)(1076003)(7736002)(52116002)(446003)(26005)(66946007)(305945005)(6246003)(102836004)(6486002)(54906003)(486006)(386003)(6506007)(76176011)(11346002)(66446008)(66556008)(64756008)(316002)(99286004)(4326008)(476003)(256004)(53936002)(2616005)(229853002)(33656002)(6116002)(8676002)(3846002)(71200400001)(6916009)(81156014)(5660300002)(66476007)(68736007)(6436002)(478600001)(6512007)(8936002)(86362001)(25786009)(7416002)(14454004)(81166006)(71190400001)(2906002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR05MB4285;
  H:VI1PR05MB4141.eurprd05.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: mellanox.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: igJ5d+sAtfWgcZPbFsVrEGUPsD09Bd7BkfoQ48FP7/adNthai8eA3lAChgCflxSwnW0Jt41B456uo/4Al0S11kKYNWcpeHjygIX0jTJpycSsbzFnamNI7EXV2SowJlY/1SQhOJzNxzzkXUBDrb6Kk1Mb5a9Rh0VbEb/9bflnMMms40fPrgIxBEGZ7d2xO9Za/2QPKM3mxRt/x29xrb5ov3H4vJWDncg6kYWwEsmYSq0dl2qPR8d4GTYgyQ1YkVgz18KnnNPiStw0RUT4AAipzrRrMi0OAqeMKJOWnGHbi30hIYyqA9IqFMqI6oxV7xz5wJxx5IO9CJ3cZIvlmGMlwFtqukwwjnJjtKHOROYMxRHzo0uXwv4blAzYzMLlc2UiI4rR1+UJNCr3FTZ56DvjWnHJy+CbvfDCTVzVPqFieic=
-Content-ID: <4857B6B6FF775241B37B5E5B4EA4984B@eurprd05.prod.outlook.com>
+x-microsoft-antispam-message-info: Q2KmhPGNj5HjLnOX9wOLnVhYsnoFZFzOMElEIQGQqevpRB/pG6O+y7IcfQYAN21ZMM1bvNXKsQo8PV/7BTUZMJt75GrDG8o8Ix76UrZiqRtxfcBTUTC9wdIsymwHmQfjHQz2YYg/0Me+wMfmRsKmCWZY7EwoIKoQIjfrwRLxA9XsMA35yxIOrZPa4Ire9MSa0jhyvbRoVB9eiKJzIAx2YfGX8m+K1RbnbHxOS4qGjEibdrG8gguS7MAIx4WH/gaVEusQ9tU+5RgSCggbBO/n/6YhMTOdoXZwlEC4Pr9yeto17BbWFFYb+DGnalIpxQjsozwl02R1hiyFH5G8U7as7+mTEB3A8dGF0rDFeclmJRnY2OKQMEuyJVlHS94c4zbt3l/0sWFdSDEGWh7kPK3HaFzr0ab5k65cT7g4AElZrSc=
+Content-ID: <673CF3972C47014CA0CAB676E69F0322@eurprd05.prod.outlook.com>
 MIME-Version: 1.0
 X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 030d7e3e-a479-4767-61b9-08d714ea1671
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 12:33:12.9565 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcaac139-dd9c-43d2-96c3-08d714ea79eb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 12:35:59.8778 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: jgg@mellanox.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB5568
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4285
 X-Mailman-Approved-At: Wed, 31 Jul 2019 07:13:21 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=Mellanox.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yJBqIk0uULmDKfoRtscS14x8TCOltxwjYuCzhuHiI4g=;
- b=CD7DDxipYMn+6S2T94cLuSDRmuuBt5DamfzHeseDG7MZYE8eeZ9b6pGmLbIXqkZH5cNj0Abc6KlcFNBKRZTB9yiEIcOMZk3uoLxlVWOQ7D8sqcD5ykWPI1niJrw3RDKCsEY8+v+lNTHhDArEN042v8A+RypPfpCGEwf8E7p1O+s=
+ bh=O4TVTJA+gABdiNdlWD+jMmeLLVFPhepHDShRadvZNbo=;
+ b=cC9lMLgmA4esewA20G85rm4Y8IYUa7nrfI0s7JgmMJITmXpDAShtXEkBgfdEUgaBYJij/9Y27e/EG6Uo4FQM4wYAJouNjl62YsgvIc1qjnPH2yKu5VMsN08jcLcM52CxmVGoR1MGxZcSsQKyU2aPAhLwWI8kP8B7kIZ+myrcB2s=
 X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=jgg@mellanox.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,13 +115,13 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMzAsIDIwMTkgYXQgMDg6NTE6NTJBTSArMDMwMCwgQ2hyaXN0b3BoIEhlbGx3
-aWcgd3JvdGU6Cj4gVGhlIGxpc3QgaXMgdXNlZCB0byBhZGQgdGhlIHJhbmdlIHRvIGFub3RoZXIg
-bGlzdCBhcyBhbiBlbnRyeSBpbiB0aGUKPiBjb3JlIGhtbSBjb2RlLCBzbyB0aGVyZSBpcyBubyBu
-ZWVkIHRvIGluaXRpYWxpemUgaXQgaW4gYSBkcml2ZXIuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hy
-aXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
-YW1kZ3B1L2FtZGdwdV9tbi5jIHwgMSAtCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0p
-CgpSZXZpZXdlZC1ieTogSmFzb24gR3VudGhvcnBlIDxqZ2dAbWVsbGFub3guY29tPgoKSmFzb24K
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gVHVlLCBKdWwgMzAsIDIwMTkgYXQgMDg6NTE6NTNBTSArMDMwMCwgQ2hyaXN0b3BoIEhlbGx3
+aWcgd3JvdGU6Cj4gVGhpcyBhdm9pZCBoYXZpbmcgdG8gYWJ1c2UgdGhlIHZtYSBmaWVsZCBpbiBz
+dHJ1Y3QgaG1tX3JhbmdlIHRvIHVubG9jawo+IHRoZSBtbWFwX3NlbS4KCkkgdGhpbmsgdGhlIGNo
+YW5nZSBpbnNpZGUgaG1tX3JhbmdlX2ZhdWx0IGdvdCBsb3N0IG9uIHJlYmFzZSwgaXQgaXMKbm93
+IHVzaW5nOgoKICAgICAgICAgICAgICAgIHVwX3JlYWQoJnJhbmdlLT5obW0tPm1tLT5tbWFwX3Nl
+bSk7CgpCdXQsIHllcywgbGV0cyBjaGFuZ2UgaXQgdG8gdXNlIHN2bW0tPm1tIGFuZCB0cnkgdG8g
+a2VlcCBzdHJ1Y3QgaG1tCm9wYXF1ZSB0byBkcml2ZXJzCgpKYXNvbgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
