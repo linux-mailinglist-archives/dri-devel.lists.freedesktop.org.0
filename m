@@ -1,44 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA757AA44
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2019 15:56:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514027AA80
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2019 16:03:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17ED06E51C;
-	Tue, 30 Jul 2019 13:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA0A6E52D;
+	Tue, 30 Jul 2019 14:03:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 363136E51C
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 13:56:15 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2C9B572167; Tue, 30 Jul 2019 13:56:15 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111261] Screen remains black when 2 monitors are connected
-Date: Tue, 30 Jul 2019 13:56:15 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu-pro
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: fabstz-it@yahoo.fr
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
-Message-ID: <bug-111261-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27C3A6E52D
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 14:03:55 +0000 (UTC)
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:60991
+ helo=[192.168.10.173])
+ by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
+ id 1hsSjJ-0001FW-7g; Tue, 30 Jul 2019 16:03:53 +0200
+Subject: Re: [PATCH 1/3] drm/tinydrm/Kconfig: Remove menuconfig DRM_TINYDRM
+To: Emil Velikov <emil.l.velikov@gmail.com>
+References: <20190725105132.22545-1-noralf@tronnes.org>
+ <20190725105132.22545-2-noralf@tronnes.org>
+ <20190730135302.GA12424@arch-x1c3>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <45d73a17-2197-6d31-923f-93af4bfd895a@tronnes.org>
+Date: Tue, 30 Jul 2019 16:03:48 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190730135302.GA12424@arch-x1c3>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
+ c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+ bh=vI9y22HUeN3grDos/YE24jjqPpit2SQltXzPaU9Q7Xg=; 
+ b=NZYxMzNsWqk50VKE68hezH1Oohc+UzwSckdcWeqhu2zadwCMkVcdkUWy5DxFPuAvPydUnI3igYrlv/kgCBJFti2mdL9qVb5023SG/Ewgs1cqMxtS754ABhRW4cJscZTp5TtVVzb9l7fadUqpAmXTa+66vjpHrpEM6V86Lx3oaKfI3OJSo2BuQbPTI0Ryg3blkkqpaXqw7wIuQJRC8pBO2do79AnBLVi2Loy6kK6pWSGnoNqtYMZUCwzfG87yOJO/7EuX4B3V0hhTuBQRgjODhjF8UCG0t/YHqwlWIOka7IsMi+GtvlsvI44fteFH8O2L0XJEotssvQM6bBkJ/mhq8Q==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,189 +47,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0957451918=="
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
+ hdegoede@redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0957451918==
-Content-Type: multipart/alternative; boundary="15644949750.ffCFd.15324"
-Content-Transfer-Encoding: 7bit
-
-
---15644949750.ffCFd.15324
-Date: Tue, 30 Jul 2019 13:56:15 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111261
-
-            Bug ID: 111261
-           Summary: Screen remains black when 2 monitors are connected
-           Product: DRI
-           Version: DRI git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: DRM/AMDgpu-pro
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: fabstz-it@yahoo.fr
-
-With 2 monitors (one on VGA, one on DVI-D), screen turns black while loading
-system in console
-When only 1 monitor connected to VGA everything is fine.
-
-There is no problem with kernel 5.2 or with amdpgu-dkms 19.10 on debian bus=
-ter
-(linux 4.19)
-
-It happens only with amdpgu-dkms 19.20 or 19.30 (on debian buster - kernel
-4.19)
-For 19.20 I applied my patch from
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111103, which is merely the =
-same
-as the code in 19.30
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15644949750.ffCFd.15324
-Date: Tue, 30 Jul 2019 13:56:15 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen remains black when 2 monitors are connected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261">111261</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>Screen remains black when 2 monitors are connected
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>DRI git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu-pro
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>fabstz-it&#64;yahoo.fr
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>With 2 monitors (one on VGA, one on DVI-D), screen turns black=
- while loading
-system in console
-When only 1 monitor connected to VGA everything is fine.
-
-There is no problem with kernel 5.2 or with amdpgu-dkms 19.10 on debian bus=
-ter
-(linux 4.19)
-
-It happens only with amdpgu-dkms 19.20 or 19.30 (on debian buster - kernel
-4.19)
-For 19.20 I applied my patch from
-<a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED WONTFIX - [Patch] to compile amdgpu-dkms 19.20 on debi=
-an stretch &amp; buster"
-   href=3D"show_bug.cgi?id=3D111103">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D111103</a>, which is merely the same
-as the code in 19.30</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15644949750.ffCFd.15324--
-
---===============0957451918==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0957451918==--
+CgpEZW4gMzAuMDcuMjAxOSAxNS41Mywgc2tyZXYgRW1pbCBWZWxpa292Ogo+IE9uIDIwMTkvMDcv
+MjUsIE5vcmFsZiBUcsO4bm5lcyB3cm90ZToKPj4gVGhpcyBtYWtlcyB0aGUgdGlueSBkcml2ZXJz
+IHZpc2libGUgYnkgZGVmYXVsdCB3aXRob3V0IGhhdmluZyB0byBlbmFibGUgYQo+PiBrbm9iLgo+
+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9yZz4K
+Pj4gLS0tCj4+ICBkcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUgICAgICAgIHwgIDIgKy0KPj4gIGRy
+aXZlcnMvZ3B1L2RybS90aW55ZHJtL0tjb25maWcgfCAzNyArKysrKysrKysrKysrKysrKysrLS0t
+LS0tLS0tLS0tLS0KPj4gIDIgZmlsZXMgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygrKSwgMTcgZGVs
+ZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUgYi9k
+cml2ZXJzL2dwdS9kcm0vTWFrZWZpbGUKPj4gaW5kZXggOThjNzMyZjkyNWM3Li4wYjMwYWZhNzUy
+NGQgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9NYWtlZmlsZQo+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vTWFrZWZpbGUKPj4gQEAgLTExMiw3ICsxMTIsNyBAQCBvYmotJChDT05GSUdf
+RFJNX0FSQ1BHVSkrPSBhcmMvCj4+ICBvYmoteQkJCSs9IGhpc2lsaWNvbi8KPj4gIG9iai0kKENP
+TkZJR19EUk1fWlRFKQkrPSB6dGUvCj4+ICBvYmotJChDT05GSUdfRFJNX01YU0ZCKQkrPSBteHNm
+Yi8KPj4gLW9iai0kKENPTkZJR19EUk1fVElOWURSTSkgKz0gdGlueWRybS8KPj4gK29iai15CQkJ
+Kz0gdGlueWRybS8KPj4gIG9iai0kKENPTkZJR19EUk1fUEwxMTEpICs9IHBsMTExLwo+PiAgb2Jq
+LSQoQ09ORklHX0RSTV9UVkUyMDApICs9IHR2ZTIwMC8KPj4gIG9iai0kKENPTkZJR19EUk1fWEVO
+KSArPSB4ZW4vCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdGlueWRybS9LY29uZmln
+IGIvZHJpdmVycy9ncHUvZHJtL3Rpbnlkcm0vS2NvbmZpZwo+PiBpbmRleCA0MmIwNmY0Zjg5ODku
+LmY4YzlhMGU3MWRkZSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnlkcm0vS2Nv
+bmZpZwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdGlueWRybS9LY29uZmlnCj4+IEBAIC0xLDE2
+ICsxLDkgQEAKPj4gICMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAtb25seQo+PiAt
+bWVudWNvbmZpZyBEUk1fVElOWURSTQo+PiAtCXRyaXN0YXRlICJTdXBwb3J0IGZvciBzaW1wbGUg
+ZGlzcGxheXMiCj4+IC0JZGVwZW5kcyBvbiBEUk0KPj4gLQlzZWxlY3QgRFJNX0tNU19IRUxQRVIK
+Pj4gLQlzZWxlY3QgRFJNX0tNU19DTUFfSEVMUEVSCj4+IC0JaGVscAo+PiAtCSAgQ2hvb3NlIHRo
+aXMgb3B0aW9uIGlmIHlvdSBoYXZlIGEgdGlueWRybSBzdXBwb3J0ZWQgZGlzcGxheS4KPj4gLQkg
+IElmIE0gaXMgc2VsZWN0ZWQgdGhlIG1vZHVsZSB3aWxsIGJlIGNhbGxlZCB0aW55ZHJtLgo+PiAt
+Cj4gRndpdyBJIHdvdWxkIGhhdmUgZ29uZSB3aXRoIEhhbidzIGlkZWEgb2YgbWFraW5nIHRoaXMg
+aGlkZGVuLiBUaGF0IGhhcyBhCj4gbnVtYmVyIG9mIGFkdmFudGFnZXMsIGV2ZW4gaWYgd2UgZG9u
+J3QgaGF2ZSBhIHNlcGFyYXRlIHRpbnlkcm0ua286Cj4gIC0gdGhlIHRpbnlkcm0gY29kZSBpcyBu
+b3QgYnVpbGQgd2hlbiB0aGVyZSBhcmUgbm8gdXNlcnMKClRoZSB0aGluZyBpcywgdGhlcmUgaXMg
+bm8gdGlueWRybSBjb2RlIGFueW1vcmUsIGl0J3MgYWxsIGJlZW4gcHV0IGludG8KdmFyaW91cyBj
+b3JlIGhlbHBlcnMuIFRoZSBmb2xkZXIgZG9lcyBvbmx5IGNvbnRhaW4gcmVndWxhciBEUk0gZHJp
+dmVycy4KVGhlIG9ubHkgdGhpbmcgc3BlY2lhbCBhYm91dCB0aGVtIGlzIHRoYXQgdGhleSBmaXQg
+aW50byBvbmUgc291cmNlIGZpbGUuCgpOb3JhbGYuCgo+ICAtIHRoZSB0aW55ZHJtIGRlcGVuZGVu
+Y2llcyBhcmUgY29udGFpbmVkIHdpdGhpbiBpdHNlbGYsIGluc3RlYWQgb2YKPiB1cGRhdGluZyA1
+LTEwIGluZGl2aWR1YWwgZHJpdmVycwo+IAo+IFRoYXQgc2FpZCwgSSB3b24ndCBnZXQgaW4gdGhl
+IHdheSBpZiBwZW9wbGUgbGlrZSB0aGlzIGFwcHJvYWNoIDstKQo+IAo+IEhUSAo+IC1FbWlsCj4g
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
