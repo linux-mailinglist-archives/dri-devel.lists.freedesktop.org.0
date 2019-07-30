@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315807AA3C
-	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2019 15:55:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA757AA44
+	for <lists+dri-devel@lfdr.de>; Tue, 30 Jul 2019 15:56:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C335C6E52F;
-	Tue, 30 Jul 2019 13:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17ED06E51C;
+	Tue, 30 Jul 2019 13:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB4AD6E52D
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 13:55:01 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (ae138143.dynamic.ppp.asahi-net.or.jp [14.3.138.143])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 353A4CC;
- Tue, 30 Jul 2019 15:54:58 +0200 (CEST)
-Date: Tue, 30 Jul 2019 16:54:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: YueHaibing <yuehaibing@huawei.com>
-Subject: Re: [PATCH v2] drm/bridge: lvds-encoder: Fix build error while
- CONFIG_DRM_KMS_HELPER=m
-Message-ID: <20190730135455.GB4806@pendragon.ideasonboard.com>
-References: <20190729065344.9680-1-yuehaibing@huawei.com>
- <20190729071216.27488-1-yuehaibing@huawei.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 363136E51C
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 13:56:15 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2C9B572167; Tue, 30 Jul 2019 13:56:15 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111261] Screen remains black when 2 monitors are connected
+Date: Tue, 30 Jul 2019 13:56:15 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: fabstz-it@yahoo.fr
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+Message-ID: <bug-111261-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190729071216.27488-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1564494900;
- bh=XpIPjfe/F3FQ+H5+8txaijGuPyeYSuXcxTVBGDeoaSw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GkDRK5OGcQwkOY6aSOLLY9pfaLrd8cqoicWK6CuCSE5NHAox4osG5mZHElhGRr7ln
- wr92dUagk49vEuU8Gxd/KncXEHOJTDXAtFWEg2ugKgpAIuqzBTsvYYaO2sTgb6GeiQ
- 6PI0qQB828wC6m6ODIJjj4xKQNLqhzlVzgdecrTk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,36 +51,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jernej.skrabec@siol.net, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0957451918=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgWXVlLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBNb24sIEp1bCAyOSwgMjAxOSBh
-dCAwMzoxMjoxNlBNICswODAwLCBZdWVIYWliaW5nIHdyb3RlOgo+IElmIERSTV9MVkRTX0VOQ09E
-RVI9eSBidXQgQ09ORklHX0RSTV9LTVNfSEVMUEVSPW0sCj4gYnVpbGQgZmFpbHM6Cj4gCj4gZHJp
-dmVycy9ncHUvZHJtL2JyaWRnZS9sdmRzLWVuY29kZXIubzogSW4gZnVuY3Rpb24gYGx2ZHNfZW5j
-b2Rlcl9wcm9iZSc6Cj4gbHZkcy1lbmNvZGVyLmM6KC50ZXh0KzB4MTU1KTogdW5kZWZpbmVkIHJl
-ZmVyZW5jZSB0byBgZGV2bV9kcm1fcGFuZWxfYnJpZGdlX2FkZCcKPiAKPiBSZXBvcnRlZC1ieTog
-SHVsayBSb2JvdCA8aHVsa2NpQGh1YXdlaS5jb20+Cj4gRml4ZXM6IGRiYjU4YmZkOWFlNiAoImRy
-bS9icmlkZ2U6IEZpeCBsdmRzLWVuY29kZXIgc2luY2UgdGhlIHBhbmVsX2JyaWRnZSByZXdvcmsu
-IikKPiBTaWduZWQtb2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVoYWliaW5nQGh1YXdlaS5jb20+CgpS
-ZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9h
-cmQuY29tPgoKPiAtLS0KPiB2MjogcmVtb3ZlIHRjMzU4NzY0IGxvZyBpbiBjb21taXQgbG9nLCBh
-bHNvIGZpeCBGaXhlcyB0YWcKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmln
-IHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L0tjb25maWcKPiBpbmRleCBhNmVlYzkwLi43N2U0Yjk1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9icmlkZ2UvS2NvbmZpZwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvS2Nv
-bmZpZwo+IEBAIC00OCw2ICs0OCw3IEBAIGNvbmZpZyBEUk1fRFVNQl9WR0FfREFDCj4gIGNvbmZp
-ZyBEUk1fTFZEU19FTkNPREVSCj4gIAl0cmlzdGF0ZSAiVHJhbnNwYXJlbnQgcGFyYWxsZWwgdG8g
-TFZEUyBlbmNvZGVyIHN1cHBvcnQiCj4gIAlkZXBlbmRzIG9uIE9GCj4gKwlzZWxlY3QgRFJNX0tN
-U19IRUxQRVIKPiAgCXNlbGVjdCBEUk1fUEFORUxfQlJJREdFCj4gIAloZWxwCj4gIAkgIFN1cHBv
-cnQgZm9yIHRyYW5zcGFyZW50IHBhcmFsbGVsIHRvIExWRFMgZW5jb2RlcnMgdGhhdCBkb24ndCBy
-ZXF1aXJlCgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0957451918==
+Content-Type: multipart/alternative; boundary="15644949750.ffCFd.15324"
+Content-Transfer-Encoding: 7bit
+
+
+--15644949750.ffCFd.15324
+Date: Tue, 30 Jul 2019 13:56:15 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111261
+
+            Bug ID: 111261
+           Summary: Screen remains black when 2 monitors are connected
+           Product: DRI
+           Version: DRI git
+          Hardware: Other
+                OS: All
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu-pro
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: fabstz-it@yahoo.fr
+
+With 2 monitors (one on VGA, one on DVI-D), screen turns black while loading
+system in console
+When only 1 monitor connected to VGA everything is fine.
+
+There is no problem with kernel 5.2 or with amdpgu-dkms 19.10 on debian bus=
+ter
+(linux 4.19)
+
+It happens only with amdpgu-dkms 19.20 or 19.30 (on debian buster - kernel
+4.19)
+For 19.20 I applied my patch from
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111103, which is merely the =
+same
+as the code in 19.30
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15644949750.ffCFd.15324
+Date: Tue, 30 Jul 2019 13:56:15 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Screen remains black when 2 monitors are connected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111261">111261</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Screen remains black when 2 monitors are connected
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>DRI git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>Other
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>All
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu-pro
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>fabstz-it&#64;yahoo.fr
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>With 2 monitors (one on VGA, one on DVI-D), screen turns black=
+ while loading
+system in console
+When only 1 monitor connected to VGA everything is fine.
+
+There is no problem with kernel 5.2 or with amdpgu-dkms 19.10 on debian bus=
+ter
+(linux 4.19)
+
+It happens only with amdpgu-dkms 19.20 or 19.30 (on debian buster - kernel
+4.19)
+For 19.20 I applied my patch from
+<a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WONTFIX - [Patch] to compile amdgpu-dkms 19.20 on debi=
+an stretch &amp; buster"
+   href=3D"show_bug.cgi?id=3D111103">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D111103</a>, which is merely the same
+as the code in 19.30</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15644949750.ffCFd.15324--
+
+--===============0957451918==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0957451918==--
