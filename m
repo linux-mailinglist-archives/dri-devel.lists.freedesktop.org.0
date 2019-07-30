@@ -1,87 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5FAF7BA41
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 09:13:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5A77BA73
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 09:15:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F05B36E684;
-	Wed, 31 Jul 2019 07:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE886E6B7;
+	Wed, 31 Jul 2019 07:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com
- (mail-eopbgr680104.outbound.protection.outlook.com [40.107.68.104])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C5156E5ED
- for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 17:44:01 +0000 (UTC)
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com
+ (mail-eopbgr740099.outbound.protection.outlook.com [40.107.74.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F0266E5ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 30 Jul 2019 17:44:08 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mOfQxlovo1hBnVbQAluJHM/Ho8mIKjzsBvE3H2vHSzXOLBivuEpzq93nkXCjBBEr8lwcKbyRIWOJ8H9KqsCdUYKU6trN4kB4wqGBx17UJ8HSMw1rg/qZ31fHgIdeavhnlOtuwELERPjztaiejdbAS/VKwOV4qtcf3ODGImUhZ48Lw7RLz1S50J1zo7OqxEij6I2L4dWT3Acrm79GKD80TNg0jyiYCP+CQxvbFS4GUeVKh5UexTRJIbn3bEg0i3t02TGBQx/cxS3LMabFaqoUHon7m2jyB7oUYZhzL3fiKbOpWtatgrPpg4j90pQjLExDHW56Pa7fcG89C38+WdqhDA==
+ b=HeUL83uY2cKjOl3NkYrN6RbVuJte5rO5Gjr885SqQPtPNI8PY47LdWCCHk5HWcT1t7v2NoC361Z4p+ge9w4Qw0VdwMxJrxykjUKkMVPQPlkhYwVOsMrPoqoLMjfPhxy72OAFyaxsk9plu4Ns3XCWrrmq88lAkUfSaSE9alirZWeajT2ISRupKU1uLI9ulehfkICsu51W4bG8icAwi8ki263R/ejByLSlnEyrVVcIJ7qQ+UUwwvoyUhfj0IArMcAT33tPZDlGI6rdaLmYAEsvuEC3AH2EfBkSqaYLVS9y33IaHKT/4heJZlcxY4OLMCNuFYBtCy2/wt+aMM6H/7/w3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8/9kVOmtYsGf1tTebWAncnxaLOdzGNqeJFHrw8PAIig=;
- b=g20+BqRmKn5m+ydnJTid0pTU805ioMp6O9BU2a9/SIkz5mgivPZ7XZSAb3stkgQYpJRTOH/lQnYetMJFtN1xP9CrT/IC0ZU+7LFUVrBm/cAwBIRX1m89dDBFMb+qwKSTGMe0OPv0tImLjGbqmwsWY/wh0OjM4w0A8C683SNUcL55RW14F0cxE/H8p/xKx5sX46ej7iKsP9hmusu5Cbjt0qzJPp89DHxLpjJkQ0V3dYN+mAqimp1TeluvyEN1hc0HPyt2GbPKpI6HVC8/aHdqRpsOCl2kkqwWVZ4RS+v42kBmPLUiwOn/rdLqG5PQknWCop9ohtubK+ylKSpaKXzwgw==
+ bh=EKtMZLiX61rsSPR3a8n3h7CKnUDNrvbJhgxgvfxNi8M=;
+ b=fMD2zw+DFnvR2CjPoCC4FKoVhpHWy/ZYpipEf9NImuLs9pAAN5XIOBzjIDUa1YjP0O9J6Q0bq8c3rnVRg+NZwjluvYgk2Dj11kLzrS5H0VYKoVp+QYBjgZ2aT/k1hbqTIXPkSHev3Xt8WD+fOBOre9CJ+Z/5QViPAVcgyygpQrIX1zWw6/n4zf2vZhnLGVKuClVC71ZnEltwytYiVdJ3wNXnCJp+g+0z+qYRN2UdskdS7Als//u95jJRgBuboumBvKY3d5XFji9YWP16dbogI5yIkONBrL3s3QMcDZWBQOOSSt65K1K5y+NpmbWmLvsuLFyM0cEuuIL8GQKMdiJTjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=wavecomp.com;dmarc=pass action=none
  header.from=mips.com;dkim=pass header.d=mips.com;arc=none
 Received: from MWHPR2201MB1277.namprd22.prod.outlook.com (10.172.60.12) by
- MWHPR2201MB1088.namprd22.prod.outlook.com (10.174.169.150) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.15; Tue, 30 Jul 2019 17:44:00 +0000
+ MWHPR2201MB1023.namprd22.prod.outlook.com (10.174.167.24) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2115.14; Tue, 30 Jul 2019 17:44:05 +0000
 Received: from MWHPR2201MB1277.namprd22.prod.outlook.com
  ([fe80::105a:1595:b6ef:cbdf]) by MWHPR2201MB1277.namprd22.prod.outlook.com
  ([fe80::105a:1595:b6ef:cbdf%4]) with mapi id 15.20.2115.005; Tue, 30 Jul 2019
- 17:44:00 +0000
+ 17:44:05 +0000
 From: Paul Burton <paul.burton@mips.com>
 To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 06/11] dma: Drop JZ4740 driver
-Thread-Topic: [PATCH 06/11] dma: Drop JZ4740 driver
-Thread-Index: AQHVRv5ekaH2UYAaWEud9Ij5KlCMtA==
-Date: Tue, 30 Jul 2019 17:44:00 +0000
-Message-ID: <MWHPR2201MB127716344973CCF7640D0B16C1DC0@MWHPR2201MB1277.namprd22.prod.outlook.com>
-References: <20190725220215.460-7-paul@crapouillou.net>
-In-Reply-To: <20190725220215.460-7-paul@crapouillou.net>
+Subject: Re: [PATCH 07/11] mtd: rawnand: Drop obsolete JZ4740 NAND driver
+Thread-Topic: [PATCH 07/11] mtd: rawnand: Drop obsolete JZ4740 NAND driver
+Thread-Index: AQHVRv5h9r3wj70EEkOB7DWOPs35Gw==
+Date: Tue, 30 Jul 2019 17:44:04 +0000
+Message-ID: <MWHPR2201MB1277E2D645C30C7CEA5A846EC1DC0@MWHPR2201MB1277.namprd22.prod.outlook.com>
+References: <20190725220215.460-8-paul@crapouillou.net>
+In-Reply-To: <20190725220215.460-8-paul@crapouillou.net>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR05CA0051.namprd05.prod.outlook.com
- (2603:10b6:a03:74::28) To MWHPR2201MB1277.namprd22.prod.outlook.com
+x-clientproxiedby: BYAPR08CA0049.namprd08.prod.outlook.com
+ (2603:10b6:a03:117::26) To MWHPR2201MB1277.namprd22.prod.outlook.com
  (2603:10b6:301:18::12)
 x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [12.94.197.246]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f996696b-f650-4660-463e-08d7151580da
+x-ms-office365-filtering-correlation-id: 1f625bf2-d073-4d75-d470-08d7151583d5
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:MWHPR2201MB1088; 
-x-ms-traffictypediagnostic: MWHPR2201MB1088:
-x-microsoft-antispam-prvs: <MWHPR2201MB1088AD4203E51034AED8E8C1C1DC0@MWHPR2201MB1088.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3826;
+ SRVR:MWHPR2201MB1023; 
+x-ms-traffictypediagnostic: MWHPR2201MB1023:
+x-microsoft-antispam-prvs: <MWHPR2201MB10237907F05B87D88A688A23C1DC0@MWHPR2201MB1023.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
 x-forefront-prvs: 0114FF88F6
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(136003)(39850400004)(346002)(376002)(396003)(189003)(199004)(7736002)(6436002)(52536014)(386003)(486006)(74316002)(6116002)(446003)(9686003)(11346002)(305945005)(5660300002)(55016002)(99286004)(66446008)(66946007)(53936002)(64756008)(66556008)(66476007)(4326008)(6246003)(25786009)(3846002)(71200400001)(66066001)(71190400001)(7416002)(8676002)(6916009)(76176011)(81156014)(52116002)(54906003)(186003)(44832011)(229853002)(476003)(4744005)(8936002)(81166006)(68736007)(102836004)(7696005)(2906002)(6506007)(256004)(33656002)(316002)(478600001)(42882007)(26005)(14454004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR2201MB1088;
+ SFS:(10019020)(346002)(366004)(136003)(376002)(39850400004)(396003)(189003)(199004)(6116002)(53936002)(66556008)(52536014)(8936002)(74316002)(71190400001)(6246003)(76176011)(71200400001)(446003)(81156014)(81166006)(476003)(64756008)(6436002)(14454004)(66946007)(66446008)(26005)(33656002)(256004)(7736002)(305945005)(52116002)(186003)(386003)(7696005)(55016002)(6506007)(486006)(66476007)(99286004)(102836004)(2906002)(229853002)(44832011)(11346002)(66066001)(7416002)(316002)(5660300002)(9686003)(4744005)(6916009)(8676002)(478600001)(42882007)(68736007)(25786009)(54906003)(4326008)(3846002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MWHPR2201MB1023;
  H:MWHPR2201MB1277.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: wavecomp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: tf5EMwgYP0T534u0xmhTITDu93gIRV/ChAJaMZx4jg2khl5SV+KJsHt2FW+ixU8t3B4rGzzzvAT/Vj7jGh/R6P0ACIazIZXz476u45whx89Avs0FnPHt5ODkDJ6tyTLI/Z/HdXXV5NFBiOKEBQZTacGAcNSJ5N2hYEQCCZ/9mSQlr8HeYEOLFYhqsAaZ2y1dj+Jl3KRNj6VMMEEH+UPVq/Dyo3eON7Z+30XPAYbrsDik+lVd1jQKPMzKh/XXJc1YaSpQAzCEFSuiKCMixRRYA8+YZHe6aP1Rwkh33O+JJz+kjdSsbN7AyiEMH4r5K9Jq5l3WCaVZ8LOZ1/fZV5iJa66qFZ9RM4uiLIxhHQrS4G2RuE6Sx7b9M9hR2uwXcu7MNZqQPJGj9gNZoWJpdrcH/NDwIK+5XosA6obzAnmKM2Y=
+x-microsoft-antispam-message-info: 6XrNosekRRzGfoVax4ENM4vUlnQL+fJzqeKYNGrJrM1pn0uon/Ej9thTf2TBroyVFRR24B3V52alrPfgRUkBK8FqIxrHql1wGgQp2htiagIjA0aA4LYdSM9ZCPC6SPkKGLhtQBZp7dTbX1sFLHJoNodQ3k4DAVnHMHg273jKP45EV1UcZFmnMv5FFCOWDx8HjPaGv6xmYyC7VMHuUFSK+EDbtrbqTSV4PIOHNviQWx3ix8ZG0aMptzN9/w4nJzCkC5KZ/uDorkAKnC3/DoMsNHCenjJEu1s1S1qk60BYGcdfRok8CqGNoVrYVzwi3bW7v8exaslEeYqDqBMSTFa2ho37kZjOoHR/r1xmpGcjoqq7GjxjsKnHvftHZ90yVE/4bYQEy01z4ijDytPJaiViLblqYq/dnDeZZqUuGDvI64c=
 MIME-Version: 1.0
 X-OriginatorOrg: mips.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f996696b-f650-4660-463e-08d7151580da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 17:44:00.0382 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f625bf2-d073-4d75-d470-08d7151583d5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 17:44:04.9091 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: pburton@wavecomp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR2201MB1088
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR2201MB1023
 X-Mailman-Approved-At: Wed, 31 Jul 2019 07:13:21 +0000
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=wavecomp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8/9kVOmtYsGf1tTebWAncnxaLOdzGNqeJFHrw8PAIig=;
- b=OCTR7Kd84+HbbSIii4NGmnU/DuaNDCtFnBgpagDHOEFFs+2QmAsQ9RXCsazWdSm0ynANV23aBd5rZXYzzDAAu2EEL5xFCWnqcvnR6VSUFuK2yVcZAGE/JfcJ3aAv9iA/DnvZ77rRrMBD2iqHbFTnN0+lLWOplPS17gH2eg831lo=
+ bh=EKtMZLiX61rsSPR3a8n3h7CKnUDNrvbJhgxgvfxNi8M=;
+ b=gSfqZmzrT6+5LwAARtAScFkUO0T2AVjUQAID3T/TwPeI7oRx+cVdJAQPS8eyLrmidYTOPhITY9X5TYzfk9cbV2r4jKJWh8DyDGbsDwDxb/003D0JGs6I3YniMdKaQstH4qpzTJT6QPX667TTjJvedIeUmMBxjbXDT3xR7Iadca0=
 X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=pburton@wavecomp.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -123,14 +123,14 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8sCgpQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IFRoZSBuZXdlciBhbmQgYmV0dGVyIEpaNDc4
-MCBkcml2ZXIgaXMgbm93IHVzZWQgdG8gcHJvdmlkZSBETUEKPiBmdW5jdGlvbmFsaXR5IG9uIHRo
-ZSBKWjQ3NDAuCj4gCj4gU2lnbmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3Vp
-bGxvdS5uZXQ+Cj4gVGVzdGVkLWJ5OiBBcnR1ciBSb2playA8Y29udGFjdEBhcnR1ci1yb2play5l
-dT4KPiBBY2tlZC1ieTogVmlub2QgS291bCA8dmtvdWxAa2VybmVsLm9yZz4KCkFwcGxpZWQgdG8g
-bWlwcy1uZXh0LgoKVGhhbmtzLAogICAgUGF1bAoKWyBUaGlzIG1lc3NhZ2Ugd2FzIGF1dG8tZ2Vu
-ZXJhdGVkOyBpZiB5b3UgYmVsaWV2ZSBhbnl0aGluZyBpcyBpbmNvcnJlY3QKICB0aGVuIHBsZWFz
-ZSBlbWFpbCBwYXVsLmJ1cnRvbkBtaXBzLmNvbSB0byByZXBvcnQgaXQuIF0KX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+SGVsbG8sCgpQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IEl0IGhhcyBiZWVuIHJlcGxhY2VkIHdpdGgg
+dGhlIG5ld2VyIEluZ2VuaWMgTkFORCBkcml2ZXIuCj4gCj4gU2lnbmVkLW9mZi1ieTogUGF1bCBD
+ZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gVGVzdGVkLWJ5OiBBcnR1ciBSb2playA8
+Y29udGFjdEBhcnR1ci1yb2play5ldT4KPiBBY2tlZC1ieTogTWlxdWVsIFJheW5hbCA8bWlxdWVs
+LnJheW5hbEBib290bGluLmNvbT4KCkFwcGxpZWQgdG8gbWlwcy1uZXh0LgoKVGhhbmtzLAogICAg
+UGF1bAoKWyBUaGlzIG1lc3NhZ2Ugd2FzIGF1dG8tZ2VuZXJhdGVkOyBpZiB5b3UgYmVsaWV2ZSBh
+bnl0aGluZyBpcyBpbmNvcnJlY3QKICB0aGVuIHBsZWFzZSBlbWFpbCBwYXVsLmJ1cnRvbkBtaXBz
+LmNvbSB0byByZXBvcnQgaXQuIF0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
