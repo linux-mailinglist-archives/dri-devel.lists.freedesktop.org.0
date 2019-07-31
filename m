@@ -2,44 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A797BCC0
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 11:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED337BCDE
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 11:22:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC10B898C8;
-	Wed, 31 Jul 2019 09:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 349BB89B06;
+	Wed, 31 Jul 2019 09:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4B141898E8
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 09:16:05 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 47E5B72167; Wed, 31 Jul 2019 09:16:05 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109887] vega56 undervolting/overclocking voltage issues
-Date: Wed, 31 Jul 2019 09:16:05 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: asheldon55@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109887-502-ndXaty1YkM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109887-502@http.bugs.freedesktop.org/>
-References: <bug-109887-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2A0489B06
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 09:22:20 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id x15so60012127wmj.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 02:22:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oCIkijU028kPrU18pqKDJUMowA4TBwTTEnSUwxP6ByU=;
+ b=hpk02x6TzA1M3zDvEUGAjsS7iaX0Tje9DviuRSscdf+tuQjXI1bM0qndfO+mKbzX94
+ 6RUu38YCkMwM07HNqoKyUPOjof1JQYCJc6Ct19u6nkKJuez9Wk+0c8qn35KQS/CwcZ5R
+ HzEhbynYGVlScqU3cvMseemYJyUmMtGEEG2T3Gt0CJvlQVNgLhyX4qiuZmJb0ZaUCNJ7
+ 7/R0sWCyw8A5j5LNR2bwr27LQRrbiCLSRhG7/LjhXsY2y0WSL7cn2Hh/tPkh4M2QLDBm
+ 9Hnf2v5gcmaNe4Jk+yKsInb3kTKI9vD+mYzgQwdNk6YHNpVGLB4ILFm/OzIYJDCMvgHI
+ ts9w==
+X-Gm-Message-State: APjAAAX/rWKP35YAcbbEZzAvexj4hTjdYT7wbrfhWS24BRveIHwl6Shr
+ ZAUTMxlU7meRPUahi0c+qL/Efpvn
+X-Google-Smtp-Source: APXvYqzLhed0QcdsCgNofnuTqoNxaCOZ3WWTIiRJo+PZAkdJvtwIitzx4UMuDJJr9HhPn89awUCCaQ==
+X-Received: by 2002:a1c:305:: with SMTP id 5mr80605745wmd.101.1564564939118;
+ Wed, 31 Jul 2019 02:22:19 -0700 (PDT)
+Received: from abel.fritz.box ([2a02:908:1252:fb60:a8c5:b5fa:d4be:a3b2])
+ by smtp.gmail.com with ESMTPSA id f12sm73606869wrg.5.2019.07.31.02.22.18
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 31 Jul 2019 02:22:18 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org, david1.zhou@amd.com,
+ lionel.g.landwerlin@intel.com, chris@chris-wilson.co.uk
+Subject: [PATCH] dma-buf: add dma_fence_chain_for_each_unwrap helper v2
+Date: Wed, 31 Jul 2019 11:22:17 +0200
+Message-Id: <20190731092217.51201-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oCIkijU028kPrU18pqKDJUMowA4TBwTTEnSUwxP6ByU=;
+ b=VwVX6mM4zGuIgx4oF370Fxk2YGJXNy6FRqH0aK9bAvE8r7n5NwOU9/9dI7LOuJViCQ
+ yHFZRor0WbkKVCk8Fk2UeyQRv4GMdrnLYyx8qQdlklwlNH5v0g0P6ZyMxKswn7dXWkyk
+ 05JG/2cMdkl6cgHT7LCYM0uv/g8ui8b/zkB9p8SMtnzn4a2PHMgmYRQzXkyQBacJrlI+
+ xx0AHf0rfflELDnpFOdpxkKHdtutQSNFqf/U9a6RayHtu2KwjTBden5Rq8xaqzWUANu3
+ Wu/bgmMoMB8fAK1CRM8+1wk8UNJdv8nJnaGFkHDmymsB4pjuX5kh9eoubrQKViHEm2k0
+ YkPQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,109 +68,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1720963225=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1720963225==
-Content-Type: multipart/alternative; boundary="15645645652.07f0Da1.16729"
-Content-Transfer-Encoding: 7bit
-
-
---15645645652.07f0Da1.16729
-Date: Wed, 31 Jul 2019 09:16:05 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109887
-
---- Comment #9 from Andrew Sheldon <asheldon55@gmail.com> ---
-Here's a linux pp table editor that also seems to support more options (suc=
-h as
-raising the power cap) than OverDriveNTool:
-https://github.com/amezin/powerplay-table-editor
-
-I will note that you might still see raised voltages if you do a too aggres=
-sive
-overclock/undervolt with modded PP tables, but it seems to only overvolt as
-much as is needed (say 975mv -> 1.05V) if you set a too high clock, rather =
-than
-jumping to the maximum possible voltage that you see by editing
-pp_od_clk_voltage.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15645645652.07f0Da1.16729
-Date: Wed, 31 Jul 2019 09:16:05 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887">bug 10988=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
-com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
-</span></b>
-        <pre>Here's a linux pp table editor that also seems to support more=
- options (such as
-raising the power cap) than OverDriveNTool:
-<a href=3D"https://github.com/amezin/powerplay-table-editor">https://github=
-.com/amezin/powerplay-table-editor</a>
-
-I will note that you might still see raised voltages if you do a too aggres=
-sive
-overclock/undervolt with modded PP tables, but it seems to only overvolt as
-much as is needed (say 975mv -&gt; 1.05V) if you set a too high clock, rath=
-er than
-jumping to the maximum possible voltage that you see by editing
-pp_od_clk_voltage.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15645645652.07f0Da1.16729--
-
---===============1720963225==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1720963225==--
+QWRkIGFub3RoZXIgZm9yX2VhY2ggaGVscGVyIHRvIGl0ZXJhdGUgb3ZlciBhbGwgdGhlIGZlbmNl
+cyBpbiBhIGNoYWluCndpdGggdW53cmFwcGluZyBlYWNoIGNoYWluIG5vZGUuCgp2MjogZml4IHR5
+cG9zLCBzaW1wbGlmeSBhbmQgcmVuYW1lIHRoZSBuZXcgaGVscGVyCgpTaWduZWQtb2ZmLWJ5OiBD
+aHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9k
+bWEtYnVmL2RtYS1mZW5jZS1jaGFpbi5jIHwgMTEgKysrKy0tLS0tLS0KIGluY2x1ZGUvbGludXgv
+ZG1hLWZlbmNlLWNoYWluLmggICB8IDMzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysK
+IDIgZmlsZXMgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKCmRpZmYg
+LS1naXQgYS9kcml2ZXJzL2RtYS1idWYvZG1hLWZlbmNlLWNoYWluLmMgYi9kcml2ZXJzL2RtYS1i
+dWYvZG1hLWZlbmNlLWNoYWluLmMKaW5kZXggOTNjNDIwNzhjYjU3Li42ZTY0ZmNiMmU2YmEgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtZmVuY2UtY2hhaW4uYworKysgYi9kcml2ZXJz
+L2RtYS1idWYvZG1hLWZlbmNlLWNoYWluLmMKQEAgLTE1MSwxMiArMTUxLDEwIEBAIHN0YXRpYyB2
+b2lkIGRtYV9mZW5jZV9jaGFpbl9jYihzdHJ1Y3QgZG1hX2ZlbmNlICpmLCBzdHJ1Y3QgZG1hX2Zl
+bmNlX2NiICpjYikKIHN0YXRpYyBib29sIGRtYV9mZW5jZV9jaGFpbl9lbmFibGVfc2lnbmFsaW5n
+KHN0cnVjdCBkbWFfZmVuY2UgKmZlbmNlKQogewogCXN0cnVjdCBkbWFfZmVuY2VfY2hhaW4gKmhl
+YWQgPSB0b19kbWFfZmVuY2VfY2hhaW4oZmVuY2UpOworCXN0cnVjdCBkbWFfZmVuY2UgKmY7CiAK
+IAlkbWFfZmVuY2VfZ2V0KCZoZWFkLT5iYXNlKTsKLQlkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2go
+ZmVuY2UsICZoZWFkLT5iYXNlKSB7Ci0JCXN0cnVjdCBkbWFfZmVuY2VfY2hhaW4gKmNoYWluID0g
+dG9fZG1hX2ZlbmNlX2NoYWluKGZlbmNlKTsKLQkJc3RydWN0IGRtYV9mZW5jZSAqZiA9IGNoYWlu
+ID8gY2hhaW4tPmZlbmNlIDogZmVuY2U7Ci0KKwlkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2hfZmVu
+Y2UoZiwgZmVuY2UsICZoZWFkLT5iYXNlKSB7CiAJCWRtYV9mZW5jZV9nZXQoZik7CiAJCWlmICgh
+ZG1hX2ZlbmNlX2FkZF9jYWxsYmFjayhmLCAmaGVhZC0+Y2IsIGRtYV9mZW5jZV9jaGFpbl9jYikp
+IHsKIAkJCWRtYV9mZW5jZV9wdXQoZmVuY2UpOwpAQCAtMTcwLDEwICsxNjgsOSBAQCBzdGF0aWMg
+Ym9vbCBkbWFfZmVuY2VfY2hhaW5fZW5hYmxlX3NpZ25hbGluZyhzdHJ1Y3QgZG1hX2ZlbmNlICpm
+ZW5jZSkKIAogc3RhdGljIGJvb2wgZG1hX2ZlbmNlX2NoYWluX3NpZ25hbGVkKHN0cnVjdCBkbWFf
+ZmVuY2UgKmZlbmNlKQogewotCWRtYV9mZW5jZV9jaGFpbl9mb3JfZWFjaChmZW5jZSwgZmVuY2Up
+IHsKLQkJc3RydWN0IGRtYV9mZW5jZV9jaGFpbiAqY2hhaW4gPSB0b19kbWFfZmVuY2VfY2hhaW4o
+ZmVuY2UpOwotCQlzdHJ1Y3QgZG1hX2ZlbmNlICpmID0gY2hhaW4gPyBjaGFpbi0+ZmVuY2UgOiBm
+ZW5jZTsKKwlzdHJ1Y3QgZG1hX2ZlbmNlICpmOwogCisJZG1hX2ZlbmNlX2NoYWluX2Zvcl9lYWNo
+X2ZlbmNlKGYsIGZlbmNlLCBmZW5jZSkgewogCQlpZiAoIWRtYV9mZW5jZV9pc19zaWduYWxlZChm
+KSkgewogCQkJZG1hX2ZlbmNlX3B1dChmZW5jZSk7CiAJCQlyZXR1cm4gZmFsc2U7CmRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2xpbnV4L2RtYS1mZW5jZS1jaGFpbi5oIGIvaW5jbHVkZS9saW51eC9kbWEt
+ZmVuY2UtY2hhaW4uaAppbmRleCA5MzRhNDQyZGI4YWMuLjEzYTY1ZDY1YmQzMSAxMDA2NDQKLS0t
+IGEvaW5jbHVkZS9saW51eC9kbWEtZmVuY2UtY2hhaW4uaAorKysgYi9pbmNsdWRlL2xpbnV4L2Rt
+YS1mZW5jZS1jaGFpbi5oCkBAIC01OSw2ICs1OSwyNCBAQCB0b19kbWFfZmVuY2VfY2hhaW4oc3Ry
+dWN0IGRtYV9mZW5jZSAqZmVuY2UpCiAJcmV0dXJuIGNvbnRhaW5lcl9vZihmZW5jZSwgc3RydWN0
+IGRtYV9mZW5jZV9jaGFpbiwgYmFzZSk7CiB9CiAKKy8qKgorICogZG1hX2ZlbmNlX2NoYWluX3Vu
+d3JhcCAtIHVud3JhcCBjaGFpbiBub2RlCisgKiBAZmVuY2U6IGZlbmNlIHdoaWNoIGNvdWxkIGJl
+IGEgY2hhaW4gbm9kZQorICoKKyAqIElmIHRoZSBwYXJhbWV0ZXIgaXMgYSBjaGFpbiBub2RlIHJl
+dHVybiB0aGUgY29udGFpbmVkIGZlbmNlLCBvdGhlcndpc2UKKyAqIHJldHVybiB0aGUgcGFyYW1l
+dGVyIGl0c2VsZi4KKyAqLworc3RhdGljIGlubGluZSBzdHJ1Y3QgZG1hX2ZlbmNlICoKK2RtYV9m
+ZW5jZV9jaGFpbl91bndyYXAoc3RydWN0IGRtYV9mZW5jZSAqZmVuY2UpCit7CisJc3RydWN0IGRt
+YV9mZW5jZV9jaGFpbiAqY2hhaW4gPSB0b19kbWFfZmVuY2VfY2hhaW4oZmVuY2UpOworCisJaWYg
+KCFjaGFpbikKKwkJcmV0dXJuIGZlbmNlOworCisJcmV0dXJuIGNoYWluLT5mZW5jZTsKK30KKwog
+LyoqCiAgKiBkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2ggLSBpdGVyYXRlIG92ZXIgYWxsIGZlbmNl
+cyBpbiBjaGFpbgogICogQGl0ZXI6IGN1cnJlbnQgZmVuY2UKQEAgLTcxLDYgKzg5LDIxIEBAIHRv
+X2RtYV9mZW5jZV9jaGFpbihzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSkKIAlmb3IgKGl0ZXIgPSBk
+bWFfZmVuY2VfZ2V0KGhlYWQpOyBpdGVyOyBcCiAJICAgICBpdGVyID0gZG1hX2ZlbmNlX2NoYWlu
+X3dhbGsoaXRlcikpCiAKKy8qKgorICogZG1hX2ZlbmNlX2NoYWluX2Zvcl9lYWNoX2ZlbmNlcyAt
+IGl0ZXJhdGUgb3ZlciBhbGwgdW53cmFwcGVkIGZlbmNlcyBpbiBjaGFpbgorICogQGZlbmNlOiB0
+aGUgdW53cmFwcGVkIGZlbmNlCisgKiBAaXRlcjogY3VycmVudCBmZW5jZQorICogQGhlYWQ6IHN0
+YXJ0aW5nIHBvaW50CisgKgorICogSXRlcmF0ZSBvdmVyIGFsbCBmZW5jZXMgaW4gdGhlIGNoYWlu
+IHdpdGggdW53cmFwcGluZy4gV2Uga2VlcCBhIHJlZmVyZW5jZSB0bworICogdGhlIGN1cnJlbnQg
+Y2hhaW4gbm9kZSB3aGlsZSBpbnNpZGUgdGhlIGxvb3Agd2hpY2ggbXVzdCBiZSBkcm9wcGVkIHdo
+ZW4gYnJlYWtpbmcKKyAqIG91dC4KKyAqLworI2RlZmluZSBkbWFfZmVuY2VfY2hhaW5fZm9yX2Vh
+Y2hfZmVuY2UoZmVuY2UsIGl0ZXIsIGhlYWQpCVwKKwlmb3IgKGl0ZXIgPSBkbWFfZmVuY2VfZ2V0
+KGhlYWQpOwkJCVwKKwkgICAgIChmZW5jZSA9IGRtYV9mZW5jZV9jaGFpbl91bndyYXAoaXRlcikp
+OwkJXAorCSAgICAgaXRlciA9IGRtYV9mZW5jZV9jaGFpbl93YWxrKGl0ZXIpKQorCiBzdHJ1Y3Qg
+ZG1hX2ZlbmNlICpkbWFfZmVuY2VfY2hhaW5fd2FsayhzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSk7
+CiBpbnQgZG1hX2ZlbmNlX2NoYWluX2ZpbmRfc2Vxbm8oc3RydWN0IGRtYV9mZW5jZSAqKnBmZW5j
+ZSwgdWludDY0X3Qgc2Vxbm8pOwogdm9pZCBkbWFfZmVuY2VfY2hhaW5faW5pdChzdHJ1Y3QgZG1h
+X2ZlbmNlX2NoYWluICpjaGFpbiwKLS0gCjIuMTcuMQoKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVs
