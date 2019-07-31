@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702B77CBE5
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 20:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF9A7CBF3
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 20:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A507889D87;
-	Wed, 31 Jul 2019 18:25:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D8426E2EA;
+	Wed, 31 Jul 2019 18:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E512E89D63
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 18:25:26 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5DF736E2EA
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 18:27:01 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D85DC72167; Wed, 31 Jul 2019 18:25:26 +0000 (UTC)
+ id 5AC1C72167; Wed, 31 Jul 2019 18:27:01 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111272] [DRI_PRIME] Error on multi GPU with only one enabled
-Date: Wed, 31 Jul 2019 18:25:27 +0000
+Date: Wed, 31 Jul 2019 18:27:01 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111272-502-INSy9uZ3bj@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111272-502-EqW3CrTSH9@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111272-502@http.bugs.freedesktop.org/>
 References: <bug-111272-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0002425609=="
+Content-Type: multipart/mixed; boundary="===============1775534432=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0002425609==
-Content-Type: multipart/alternative; boundary="15645975260.32f56C.15897"
+--===============1775534432==
+Content-Type: multipart/alternative; boundary="15645976211.76C2.17146"
 Content-Transfer-Encoding: 7bit
 
 
---15645975260.32f56C.15897
-Date: Wed, 31 Jul 2019 18:25:26 +0000
+--15645976211.76C2.17146
+Date: Wed, 31 Jul 2019 18:27:01 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,33 +72,17 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111272
 
---- Comment #4 from Parker Reed <parker.l.reed@gmail.com> ---
-I'm not using the laptop panel or connector. This is a Thunderbolt eGPU.
-
-HDMI is direct into the external RX 560.
-
-While testing I just realized this behavior has nothing to do with multi GP=
-U.
-Ran the same glxgears test on desktop that only has RX 480 and iGPU disable=
-d in
-BIOS. Same behavior.
-
-$ DRI_PRIME=3D1 glxgears
-Running synchronized to the vertical refresh.  The framerate should be
-approximately the same as the monitor refresh rate.
-28663 frames in 5.0 seconds =3D 5732.486 FPS
-26437 frames in 5.0 seconds =3D 5286.734 FPS
-26203 frames in 5.0 seconds =3D 5239.404 FPS
-26759 frames in 5.0 seconds =3D 5346.603 FPS
-
-Will attach the current Xorg log.
+--- Comment #5 from Parker Reed <parker.l.reed@gmail.com> ---
+Created attachment 144924
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144924&action=3Dedit
+dmesg output
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15645975260.32f56C.15897
-Date: Wed, 31 Jul 2019 18:25:26 +0000
+--15645976211.76C2.17146
+Date: Wed, 31 Jul 2019 18:27:01 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -115,8 +99,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [DRI_PRIME] Error on multi GPU with only one enabled"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111272#c4">Commen=
-t # 4</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111272#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - [DRI_PRIME] Error on multi GPU with only one enabled"
@@ -126,26 +110,11 @@ t # 4</a>
 parker.l.reed&#64;gmail.com" title=3D"Parker Reed &lt;parker.l.reed&#64;gma=
 il.com&gt;"> <span class=3D"fn">Parker Reed</span></a>
 </span></b>
-        <pre>I'm not using the laptop panel or connector. This is a Thunder=
-bolt eGPU.
-
-HDMI is direct into the external RX 560.
-
-While testing I just realized this behavior has nothing to do with multi GP=
-U.
-Ran the same glxgears test on desktop that only has RX 480 and iGPU disable=
-d in
-BIOS. Same behavior.
-
-$ DRI_PRIME=3D1 glxgears
-Running synchronized to the vertical refresh.  The framerate should be
-approximately the same as the monitor refresh rate.
-28663 frames in 5.0 seconds =3D 5732.486 FPS
-26437 frames in 5.0 seconds =3D 5286.734 FPS
-26203 frames in 5.0 seconds =3D 5239.404 FPS
-26759 frames in 5.0 seconds =3D 5346.603 FPS
-
-Will attach the current Xorg log.</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144924=
+" name=3D"attach_144924" title=3D"dmesg output">attachment 144924</a> <a hr=
+ef=3D"attachment.cgi?id=3D144924&amp;action=3Dedit" title=3D"dmesg output">=
+[details]</a></span>
+dmesg output</pre>
         </div>
       </p>
 
@@ -159,9 +128,9 @@ Will attach the current Xorg log.</pre>
     </body>
 </html>=
 
---15645975260.32f56C.15897--
+--15645976211.76C2.17146--
 
---===============0002425609==
+--===============1775534432==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +140,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0002425609==--
+--===============1775534432==--
