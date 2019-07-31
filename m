@@ -2,39 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283187BE83
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 12:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B45A77BE8B
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 12:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E511F89C7F;
-	Wed, 31 Jul 2019 10:40:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6F8589C21;
+	Wed, 31 Jul 2019 10:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D06089C61;
- Wed, 31 Jul 2019 10:40:18 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id E4FE120020;
- Wed, 31 Jul 2019 12:40:08 +0200 (CEST)
-Date: Wed, 31 Jul 2019 12:40:07 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: Review required [Was: Associate ddc adapters with connectors]
-Message-ID: <20190731104007.GA23138@ravnborg.org>
-References: <cover.1564161140.git.andrzej.p@collabora.com>
- <20190726183520.GA22572@ravnborg.org>
- <20190726185538.GD14981@ravnborg.org>
- <6560f93c-a48f-2a8c-afeb-d5e8e200480d@baylibre.com>
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70BC89C21
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 10:41:06 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 22635228C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 10:41:04 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 16DD626224; Wed, 31 Jul 2019 10:41:04 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 204391] New: Overdrive on AMDGPU does not allow clocks above
+ official clocks.
+Date: Wed, 31 Jul 2019 10:41:02 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haxk612@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-204391-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <6560f93c-a48f-2a8c-afeb-d5e8e200480d@baylibre.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
- a=MKLiDCnLOtWFweQeVuoA:9 a=CjuIK1q_8ugA:10
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,50 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
- dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
- linux-tegra@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, kernel@collabora.com,
- linux-samsung-soc@vger.kernel.org, Vincent Abriou <vincent.abriou@st.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- Kukjin Kim <kgene@kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- Dave Airlie <airlied@redhat.com>, freedreno@lists.freedesktop.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, Jyri Sarha <jsarha@ti.com>,
- Mamta Shukla <mamtashukla555@gmail.com>, linux-mediatek@lists.infradead.org,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sean Paul <sean@poorly.run>,
- linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- amd-gfx@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Todor Tomov <todor.tomov@linaro.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Huang Rui <ray.huang@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTmVpbC4KCk9uIFdlZCwgSnVsIDMxLCAyMDE5IGF0IDEwOjAwOjE0QU0gKzAyMDAsIE5laWwg
-QXJtc3Ryb25nIHdyb3RlOgo+IEhpIFNhbSwKPiAKPiBPbiAyNi8wNy8yMDE5IDIwOjU1LCBTYW0g
-UmF2bmJvcmcgd3JvdGU6Cj4gPiBIaSBhbGwuCj4gPiAKPiA+IEFuZHJ6ZWogaGF2ZSBkb25lIGEg
-Z29vZCBqb2IgZm9sbG93aW5nIHVwIG9uIGZlZWRiYWNrIGFuZCB0aGlzIHNlcmllcyBpcwo+ID4g
-bm93IHJlYWR5Lgo+ID4gCj4gPiBXZSBuZWVkIGFjayBvbiB0aGUgcGF0Y2hlcyB0b3VjaGluZyB0
-aGUgaW5kaXZpZHVhbCBkcml2ZXJzIGJlZm9yZSB3ZSBjYW4KPiA+IHByb2NlZWQuCj4gPiBQbGVh
-c2UgY2hlY2sgeW91ciBkcml2ZXJzIGFuZCBnZXQgYmFjay4KPiAKPiBJIGNhbiBhcHBseSBhbGwg
-Y29yZSBhbmQgbWFpbnRhaW5lci1hY2tlZCBwYXRjaGVzIGZvciBub3cgOgo+IDEsIDIsIDcsIDEw
-LCAxMSwgMTYsIDE3LCAxOCwgMTksIDIwLCAyMSwgMjIsIDIzCj4gCj4gYW5kIEFuZHJ6ZWogY2Fu
-IHJlc2VuZCBub3QgYXBwbGllZCBwYXRjaGVzIHdpdGggWW91cnMgYW5kIEVtaWwncyBSZXZpZXdl
-ZC1ieSwKPiBzbyB3ZSBjYW4gd2FpdCBhIGZldyBtb3JlIGRheXMgdG8gYXBwbHkgdGhlbS4KClNv
-dW5kcyBsaWtlIGEgZ29vZCBwbGFuLgpUaGFua3MgZm9yIHRoYWtpbmcgY2FyZSBvZiB0aGlzLgoK
-CVNhbQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzOTEKCiAgICAg
+ICAgICAgIEJ1ZyBJRDogMjA0MzkxCiAgICAgICAgICAgU3VtbWFyeTogT3ZlcmRyaXZlIG9uIEFN
+REdQVSBkb2VzIG5vdCBhbGxvdyBjbG9ja3MgYWJvdmUKICAgICAgICAgICAgICAgICAgICBvZmZp
+Y2lhbCBjbG9ja3MuCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAgICAgIFZlcnNp
+b246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDUuM3JjMQogICAgICAgICAgSGFyZHdhcmU6IEFs
+bAogICAgICAgICAgICAgICAgT1M6IExpbnV4CiAgICAgICAgICAgICAgVHJlZTogTWFpbmxpbmUK
+ICAgICAgICAgICAgU3RhdHVzOiBORVcKICAgICAgICAgIFNldmVyaXR5OiBub3JtYWwKICAgICAg
+ICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAtIG5vbiBJbnRl
+bCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwtYnVncy5vc2Rs
+Lm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGhheGs2MTJAZ21haWwuY29tCiAgICAgICAgUmVncmVz
+c2lvbjogTm8KCkNyZWF0ZWQgYXR0YWNobWVudCAyODQwNjMKICAtLT4gaHR0cHM6Ly9idWd6aWxs
+YS5rZXJuZWwub3JnL2F0dGFjaG1lbnQuY2dpP2lkPTI4NDA2MyZhY3Rpb249ZWRpdApkbWVzZyB3
+aXRoIE92ZXJkcml2ZSBlbmFibGVkLgoKQXMgdGhlIHRpdGxlIG9mIHRoZSBidWcgc2F5cyBvdmVy
+ZHJpdmUgaGFzIGEgcmFuZ2UgdGhhdCBpdCBvcGVyYXRlcyBpbiBhbmQKdGhhdHMgZ29vZCB0byBu
+b3QgYWxsb3cgdXNlcnMgdG8gb3ZlcmNsb2NrIHRoZSBjYXJkIHRvIGl0cyBkZWF0aCBidXQgdGhl
+cmUgaXMgYQpidWcgd2hlbiBvdmVyZHJpdmUgaXMgZW5hYmxlZCBpdCBkb2VzIG5vdCBhbGxvdyBj
+bG9ja3MgZm9yIGNvcmUgb3IgbWVtb3J5IHRvIGJlCm91dHNpZGUgb2ZmaWNpYWwgY2xvY2tzLgpJ
+IGhhdmUgUlg1NjBYIHdpdGggMTI3NSBNaHogb24gQ29yZSBhbmQgMTQ1ME1oeiBvbiBNZW1vcnkg
+YW5kIHdoZW4gaSBlbmFibGUKb3ZlcmRyaXZlIGkgY2FuIGluY3JlYXNlIHZvbHRhZ2Ugc3VwbGll
+ZCB0byBjb3JlIG9yIG1lbW9yeSBidXQgaW0gbm90IGFsbG93ZWQKdG8gc2V0IGFueSBjbG9jayBh
+Ym92ZSB0aGUgb2ZmaWNpYWwgY2xvY2tzLgpJZiB3ZSB0cnkgdG8gZG8gc28gaXQgcmV0dXJucyBp
+bnZhbGlkIGFyZ3VtZW50IGFzIHRoZSBmaWxlIGV4cGVjdGVkIHRoZSBjbG9jawp0byBiZSBpbiBy
+YW5nZS4KWyAgOTE0LjUxOTkxOV0gYW1kZ3B1OiBbcG93ZXJwbGF5XSBPRCBlbmdpbmUgY2xvY2sg
+aXMgb3V0IG9mIHJhbmdlIFsyMTQgLSAxMjc1XQpNSHoKWyAxMDk2LjA5Njg0MF0gYW1kZ3B1OiBb
+cG93ZXJwbGF5XSBPRCBtZW1vcnkgY2xvY2sgaXMgb3V0IG9mIHJhbmdlIFszMDAgLSAxNDUwXQpN
+SHoKCkkga25vdyBmb3Igc3VyZSB0aGF0IHRoaXMgaXMgbm90IGFuIEdQVSBCSU9TIGlzc3VlIGFz
+IGluIFdpbmRvd3Mgd2UgY2FuIGluZGVlZApvdmVyY2xvY2sgdGhlIEdQVSB3YXkgYWJvdmUgdGhl
+IG9mZmljaWFsIGNsb2NrcyB3aXRoIHNvbWUgbmljZSBGUFMgYm9vc3QgaW4gYWxsCmdhbWVzIHNv
+IHRoZSBvdmVyY2xvY2sgdGhlcmUgd29ya3MuCgpCdXQgd2hhdHMgd2VpcmQgaXMgYWxzbyB0aGF0
+IGlmIHdlIGRpc2FibGUgT3ZlcmRyaXZlIGltIGFsbG93ZWQgdG8gb3ZlcmNsb2NrCkNvcmUgZnJl
+cXVlbmN5IGJ1dCBpbSBub3QgYWJsZSB0byBvdmVyY2xvY2sgbWVtb3J5IGZyZXF1ZW5jeS4KCkkg
+dGhpbmsgYXMgaW0gbG9va2luZyBhdCB0aGUgZG1lc2cgdGhhdCBpdCBtYXkgaGF2ZSB0byBkbyBz
+b21ldGhpbmcgd2l0aCB0aGlzOgpbICAzODMuMTYzNzgzXSBhbWRncHU6IFtwb3dlcnBsYXldIHBw
+X2RwbV9nZXRfc2Nsa19vZCB3YXMgbm90IGltcGxlbWVudGVkLgpbICAzODMuMTYzODU4XSBhbWRn
+cHU6IFtwb3dlcnBsYXldIHBwX2RwbV9nZXRfbWNsa19vZCB3YXMgbm90IGltcGxlbWVudGVkLgpB
+bmQgaW5kZWVkIHdoZW4gdHJ5aW5nIHRvIGxvb2sgaW50byB0aGF0IGZpbGUgaXQgZG9lcyBub3Qg
+ZXhpc3QgYW55d2hlcmUuIE9ubHkKZmlsZSB0aGF0IGV4aXN0cyB0aGF0IGlzIGNsb3NlIHRvIGl0
+IGlzIHBwX2RwbV9tY2xrL3NjbGsuCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJl
+Y2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
+IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
+ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
