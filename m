@@ -2,61 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37757BD13
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 11:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C647BD45
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 11:34:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B769689B7D;
-	Wed, 31 Jul 2019 09:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08A4D899F0;
+	Wed, 31 Jul 2019 09:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2DA4489B7D
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 09:27:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 4F4BD2A6046;
- Wed, 31 Jul 2019 11:27:16 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id hhS04w1ecfvC; Wed, 31 Jul 2019 11:27:16 +0200 (CEST)
-Received: from thor (116.245.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.245.116])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id CDFD72A6042;
- Wed, 31 Jul 2019 11:27:15 +0200 (CEST)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.92)
- (envelope-from <michel@daenzer.net>)
- id 1hskt7-00006t-9w; Wed, 31 Jul 2019 11:27:13 +0200
-Subject: Re: [PATCH] dma-buf: add dma_fence_chain_for_each_unwrap helper v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- david1.zhou@amd.com, lionel.g.landwerlin@intel.com, chris@chris-wilson.co.uk
-References: <20190731092217.51201-1-christian.koenig@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=michel@daenzer.net; prefer-encrypt=mutual; keydata=
- mQGiBDsehS8RBACbsIQEX31aYSIuEKxEnEX82ezMR8z3LG8ktv1KjyNErUX9Pt7AUC7W3W0b
- LUhu8Le8S2va6hi7GfSAifl0ih3k6Bv1Itzgnd+7ZmSrvCN8yGJaHNQfAevAuEboIb+MaVHo
- 9EMJj4ikOcRZCmQWw7evu/D9uQdtkCnRY9iJiAGxbwCguBHtpoGMxDOINCr5UU6qt+m4O+UD
- /355ohBBzzyh49lTj0kTFKr0Ozd20G2FbcqHgfFL1dc1MPyigej2gLga2osu2QY0ObvAGkOu
- WBi3LTY8Zs8uqFGDC4ZAwMPoFy3yzu3ne6T7d/68rJil0QcdQjzzHi6ekqHuhst4a+/+D23h
- Za8MJBEcdOhRhsaDVGAJSFEQB1qLBACOs0xN+XblejO35gsDSVVk8s+FUUw3TSWJBfZa3Imp
- V2U2tBO4qck+wqbHNfdnU/crrsHahjzBjvk8Up7VoY8oT+z03sal2vXEonS279xN2B92Tttr
- AgwosujguFO/7tvzymWC76rDEwue8TsADE11ErjwaBTs8ZXfnN/uAANgPLQjTWljaGVsIERh
- ZW56ZXIgPG1pY2hlbEBkYWVuemVyLm5ldD6IXgQTEQIAHgUCQFXxJgIbAwYLCQgHAwIDFQID
- AxYCAQIeAQIXgAAKCRBaga+OatuyAIrPAJ9ykonXI3oQcX83N2qzCEStLNW47gCeLWm/QiPY
- jqtGUnnSbyuTQfIySkK5AQ0EOx6FRRAEAJZkcvklPwJCgNiw37p0GShKmFGGqf/a3xZZEpjI
- qNxzshFRFneZze4f5LhzbX1/vIm5+ZXsEWympJfZzyCmYPw86QcFxyZflkAxHx9LeD+89Elx
- bw6wT0CcLvSv8ROfU1m8YhGbV6g2zWyLD0/naQGVb8e4FhVKGNY2EEbHgFBrAAMGA/0VktFO
- CxFBdzLQ17RCTwCJ3xpyP4qsLJH0yCoA26rH2zE2RzByhrTFTYZzbFEid3ddGiHOBEL+bO+2
- GNtfiYKmbTkj1tMZJ8L6huKONaVrASFzLvZa2dlc2zja9ZSksKmge5BOTKWgbyepEc5qxSju
- YsYrX5xfLgTZC5abhhztpYhGBBgRAgAGBQI7HoVFAAoJEFqBr45q27IAlscAn2Ufk2d6/3p4
- Cuyz/NX7KpL2dQ8WAJ9UD5JEakhfofed8PSqOM7jOO3LCA==
-Message-ID: <c58389cc-37e5-cc7c-ab56-e9644666af41@daenzer.net>
-Date: Wed, 31 Jul 2019 11:27:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2A9A899F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 09:34:36 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 17754348-1500050 for multiple; Wed, 31 Jul 2019 10:34:27 +0100
 MIME-Version: 1.0
+From: Chris Wilson <chris@chris-wilson.co.uk>
+User-Agent: alot/0.6
+To: =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ david1.zhou@amd.com, dri-devel@lists.freedesktop.org,
+ lionel.g.landwerlin@intel.com
+References: <20190731092217.51201-1-christian.koenig@amd.com>
 In-Reply-To: <20190731092217.51201-1-christian.koenig@amd.com>
-Content-Language: en-CA
+Message-ID: <156456566592.6373.14191833092069557351@skylake-alporthouse-com>
+Subject: Re: [PATCH] dma-buf: add dma_fence_chain_for_each_unwrap helper v2
+Date: Wed, 31 Jul 2019 10:34:25 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,25 +40,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wNy0zMSAxMToyMiBhLm0uLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+IEFkZCBh
-bm90aGVyIGZvcl9lYWNoIGhlbHBlciB0byBpdGVyYXRlIG92ZXIgYWxsIHRoZSBmZW5jZXMgaW4g
-YSBjaGFpbgo+IHdpdGggdW53cmFwcGluZyBlYWNoIGNoYWluIG5vZGUuCj4gCj4gdjI6IGZpeCB0
-eXBvcywgc2ltcGxpZnkgYW5kIHJlbmFtZSB0aGUgbmV3IGhlbHBlcgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAg
-ZHJpdmVycy9kbWEtYnVmL2RtYS1mZW5jZS1jaGFpbi5jIHwgMTEgKysrKy0tLS0tLS0KPiAgaW5j
-bHVkZS9saW51eC9kbWEtZmVuY2UtY2hhaW4uaCAgIHwgMzMgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDM3IGluc2VydGlvbnMoKyksIDcgZGVsZXRp
-b25zKC0pCgpUaGlzIHNob3VsZCBwcm9iYWJseSBiZSBzZW50IHRvIGEgd2lkZXIgYXVkaWVuY2Us
-IHBlciB0aGUKc2NyaXB0cy9nZXRfbWFpbnRhaW5lci5wbCBzY3JpcHQuCgoKLS0gCkVhcnRobGlu
-ZyBNaWNoZWwgRMOkbnplciAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgIGh0dHBzOi8vd3d3
-LmFtZC5jb20KTGlicmUgc29mdHdhcmUgZW50aHVzaWFzdCAgICAgICAgICAgICB8ICAgICAgICAg
-ICAgIE1lc2EgYW5kIFggZGV2ZWxvcGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbA==
+UXVvdGluZyBDaHJpc3RpYW4gS8O2bmlnICgyMDE5LTA3LTMxIDEwOjIyOjE3KQo+IEFkZCBhbm90
+aGVyIGZvcl9lYWNoIGhlbHBlciB0byBpdGVyYXRlIG92ZXIgYWxsIHRoZSBmZW5jZXMgaW4gYSBj
+aGFpbgo+IHdpdGggdW53cmFwcGluZyBlYWNoIGNoYWluIG5vZGUuCj4gCj4gdjI6IGZpeCB0eXBv
+cywgc2ltcGxpZnkgYW5kIHJlbmFtZSB0aGUgbmV3IGhlbHBlcgo+IAo+IFNpZ25lZC1vZmYtYnk6
+IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgc3Rh
+dGljIGJvb2wgZG1hX2ZlbmNlX2NoYWluX3NpZ25hbGVkKHN0cnVjdCBkbWFfZmVuY2UgKmZlbmNl
+KQo+ICB7Cj4gLSAgICAgICBkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2goZmVuY2UsIGZlbmNlKSB7
+Cj4gLSAgICAgICAgICAgICAgIHN0cnVjdCBkbWFfZmVuY2VfY2hhaW4gKmNoYWluID0gdG9fZG1h
+X2ZlbmNlX2NoYWluKGZlbmNlKTsKPiAtICAgICAgICAgICAgICAgc3RydWN0IGRtYV9mZW5jZSAq
+ZiA9IGNoYWluID8gY2hhaW4tPmZlbmNlIDogZmVuY2U7Cj4gKyAgICAgICBzdHJ1Y3QgZG1hX2Zl
+bmNlICpmOwo+ICAKPiArICAgICAgIGRtYV9mZW5jZV9jaGFpbl9mb3JfZWFjaF9mZW5jZShmLCBm
+ZW5jZSwgZmVuY2UpIHsKCmZvcl9lYWNoX2ZlbmNlKGZlbmNlLCBmZW5jZSwgZmVuY2UpIDopCgpO
+byBicmlnaHQgaWRlYXMsIEkgZGlkIGxvb2sgYXQgaG93IGNvbnNpc3RlbnQgaXQgd291bGQgYmUg
+dG8gY2FsbCB0aGUKYXJndW1lbnRzIGNoYWluLCBtYXliZSBoZWFkPyBCdXQgdGhlbiBmb3JfZWFj
+aF9mZW5jZShmLCBoZWFkLCBoZWFkKSwgc28Kbm90IG11Y2ggb2YgaW1wcm92ZW1lbnQuCgo+ICsv
+KioKPiArICogZG1hX2ZlbmNlX2NoYWluX2Zvcl9lYWNoX2ZlbmNlcyAtIGl0ZXJhdGUgb3ZlciBh
+bGwgdW53cmFwcGVkIGZlbmNlcyBpbiBjaGFpbgpPbmUgbGFzdCB0eXBvLCBkbWFfZmVuY2VfY2hh
+aW5fZm9yX2VhY2hfZmVuY2UuCgo+ICsgKiBAZmVuY2U6IHRoZSB1bndyYXBwZWQgZmVuY2UKPiAr
+ICogQGl0ZXI6IGN1cnJlbnQgZmVuY2UKPiArICogQGhlYWQ6IHN0YXJ0aW5nIHBvaW50Cj4gKyAq
+Cj4gKyAqIEl0ZXJhdGUgb3ZlciBhbGwgZmVuY2VzIGluIHRoZSBjaGFpbiB3aXRoIHVud3JhcHBp
+bmcuIFdlIGtlZXAgYSByZWZlcmVuY2UgdG8KPiArICogdGhlIGN1cnJlbnQgY2hhaW4gbm9kZSB3
+aGlsZSBpbnNpZGUgdGhlIGxvb3Agd2hpY2ggbXVzdCBiZSBkcm9wcGVkIHdoZW4gYnJlYWtpbmcK
+PiArICogb3V0Lgo+ICsgKi8KPiArI2RlZmluZSBkbWFfZmVuY2VfY2hhaW5fZm9yX2VhY2hfZmVu
+Y2UoZmVuY2UsIGl0ZXIsIGhlYWQpICAgICAgXAo+ICsgICAgICAgZm9yIChpdGVyID0gZG1hX2Zl
+bmNlX2dldChoZWFkKTsgICAgICAgICAgICAgICAgICAgICAgICBcCj4gKyAgICAgICAgICAgIChm
+ZW5jZSA9IGRtYV9mZW5jZV9jaGFpbl91bndyYXAoaXRlcikpOyAgICAgICAgICAgIFwKPiArICAg
+ICAgICAgICAgaXRlciA9IGRtYV9mZW5jZV9jaGFpbl93YWxrKGl0ZXIpKQoKUmV2aWV3ZWQtYnk6
+IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgotQ2hyaXMKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
