@@ -2,44 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5E07C6E8
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 17:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE707C791
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 17:52:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A1289C88;
-	Wed, 31 Jul 2019 15:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA1C89DF7;
+	Wed, 31 Jul 2019 15:52:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id B9E1589F19
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 15:37:56 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B6AFE72167; Wed, 31 Jul 2019 15:37:56 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Wed, 31 Jul 2019 15:37:56 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: ted437@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-3bjbBFp8c0@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A959189DF7;
+ Wed, 31 Jul 2019 15:52:54 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id 201so49579834qkm.9;
+ Wed, 31 Jul 2019 08:52:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RgZ5DHzJSyKB7ekOyjgS1cC2bC/5MtEMJe0naQB8c5g=;
+ b=DZQ/5qR+vbYASw7A/6iPQHWaA5guuRy5eofJskCsfjUB16KMovTuZkyGDTpqamCf1g
+ P3FDLOBxWBmLkU5ANkh2GnEakYyKff29Dnp7SP9WbR2R8Yokb9XBGuug46IATWjxtVMd
+ QUpXTsLzU3dRRyLtzyvpdz/TaOSF9ukV8MkQZb4biIuDVQR0mmgxqEOo4AANzH9Amawp
+ RnWgvu2TVdbra2HKwFBiRiEy47Lif6Y5yyrrjnlIic1+BnqorkzXM6156+xn3EHkTQJL
+ oL/YkpyO+h3uAxZD9SLGEFBHSLwAYsIWESL+/WDU8TaCZg/95ITXWgOfWPsstU81gRPL
+ 3vJw==
+X-Gm-Message-State: APjAAAUGSLWBpYamA4+gjdOb0p/wQ/m92yvjDud9UX/5cjcM69ROvnso
+ 0kHFfy+hlm4eXp6I76iWwRxq7w8W
+X-Google-Smtp-Source: APXvYqyvsStBQaKfsLCYii3jrt4y9vxzxc6W8xIWBzh6WbhSTEf3U9wuhJr41M5On2z31N3MDmx8lQ==
+X-Received: by 2002:ae9:c10c:: with SMTP id z12mr81515742qki.110.1564588373542; 
+ Wed, 31 Jul 2019 08:52:53 -0700 (PDT)
+Received: from localhost.localdomain ([71.219.6.100])
+ by smtp.gmail.com with ESMTPSA id v17sm38020296qtc.23.2019.07.31.08.52.52
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 31 Jul 2019 08:52:52 -0700 (PDT)
+From: Alex Deucher <alexdeucher@gmail.com>
+X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
+To: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/8] drm/amdgpu: drop drmP.h in amdgpu_amdkfd_arcturus.c
+Date: Wed, 31 Jul 2019 10:52:39 -0500
+Message-Id: <20190731155246.20603-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RgZ5DHzJSyKB7ekOyjgS1cC2bC/5MtEMJe0naQB8c5g=;
+ b=SCNbMznevIniW1RGqg+ZeRP+hXh3co/z1YNMlq9IwWdeH99uNqgo8aoPBwftNjMAfM
+ uiX5x6uIvFzcw/dzGT4WNxjDZoOzURmQYhV5ixkhKIwLQXW6FkHaCDBqezOL+X7ZrmB4
+ Lqkqe/i6HFlhGUhfhdcXKx/QGgyV9jffB4ZyG68lE/L5Jt8MDRxmj0eOsSQUJHWZC9Cs
+ +09eqSuOd0ISeYNYA0LUpyAt4Ja7itGpH0c81+o3qg9tTu5U/ZR/L0dQkMOXIMrvClWj
+ k3K/0UniFjoHucula9OQ2iMvKbAsbt3TtoOJzQg10eE4vxW4yFvZkPS+sCzwmG7iq7RM
+ 5Veg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,152 +67,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1555359174=="
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1555359174==
-Content-Type: multipart/alternative; boundary="15645874764.b2bd.19631"
-Content-Transfer-Encoding: 7bit
-
-
---15645874764.b2bd.19631
-Date: Wed, 31 Jul 2019 15:37:56 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #55 from Anthony Rabbito <ted437@gmail.com> ---
-(In reply to ReddestDream from comment #54)
-> (In reply to Peter Hercek from comment #52)
-> > I'm getting hangs-up with kernels 5.2.3 (often) and 5.1.15 (less often).
-> > Radeon VII with 3 monitors. Each monitor connected through DP.
->=20
-> I hear that 5.0.0.13 is from before this regression and should work witho=
-ut
-> issue if you are willing to downgrade:
->=20
-> https://bbs.archlinux.org/viewtopic.php?id=3D247733
->=20
-> (In reply to Anthony Rabbito from comment #53)
-> > Interesting, on 5.2.x with 2 monitors hooked up via HDMI and DP it beha=
-ves
-> > 75% of the time with most issues coming from xinit or sleep. Hopefully =
-5.3
-> > will contain fixes
->=20
-> Would be interesting if it turns out that using HDMI+DP fixes the issue. =
-Not
-> that HDMI doesn't come with its own issues sometimes with color. I do have
-> some faith that 5.3 will fix it since AMDGPU is getting a lot of work for
-> Navi. I plan to try out 5.3-rc2 (or whatever mainline is at) sometime this
-> week.
-
-I will check my package cache to see of I still have kernel 5.0.0.13 to see=
- if
-it's available to me otherwise I'll build it. I'll report back how it goes.=
- I
-miss my third monitor.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15645874764.b2bd.19631
-Date: Wed, 31 Jul 2019 15:37:56 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c55">Comme=
-nt # 55</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ted437&#64;gmail.com" title=3D"Anthony Rabbito &lt;ted437&#64;gmail.com&gt;=
-"> <span class=3D"fn">Anthony Rabbito</span></a>
-</span></b>
-        <pre>(In reply to ReddestDream from <a href=3D"show_bug.cgi?id=3D11=
-0674#c54">comment #54</a>)
-<span class=3D"quote">&gt; (In reply to Peter Hercek from <a href=3D"show_b=
-ug.cgi?id=3D110674#c52">comment #52</a>)
-&gt; &gt; I'm getting hangs-up with kernels 5.2.3 (often) and 5.1.15 (less =
-often).
-&gt; &gt; Radeon VII with 3 monitors. Each monitor connected through DP.
-&gt;=20
-&gt; I hear that 5.0.0.13 is from before this regression and should work wi=
-thout
-&gt; issue if you are willing to downgrade:
-&gt;=20
-&gt; <a href=3D"https://bbs.archlinux.org/viewtopic.php?id=3D247733">https:=
-//bbs.archlinux.org/viewtopic.php?id=3D247733</a>
-&gt;=20
-&gt; (In reply to Anthony Rabbito from <a href=3D"show_bug.cgi?id=3D110674#=
-c53">comment #53</a>)
-&gt; &gt; Interesting, on 5.2.x with 2 monitors hooked up via HDMI and DP i=
-t behaves
-&gt; &gt; 75% of the time with most issues coming from xinit or sleep. Hope=
-fully 5.3
-&gt; &gt; will contain fixes
-&gt;=20
-&gt; Would be interesting if it turns out that using HDMI+DP fixes the issu=
-e. Not
-&gt; that HDMI doesn't come with its own issues sometimes with color. I do =
-have
-&gt; some faith that 5.3 will fix it since AMDGPU is getting a lot of work =
-for
-&gt; Navi. I plan to try out 5.3-rc2 (or whatever mainline is at) sometime =
-this
-&gt; week.</span >
-
-I will check my package cache to see of I still have kernel 5.0.0.13 to see=
- if
-it's available to me otherwise I'll build it. I'll report back how it goes.=
- I
-miss my third monitor.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15645874764.b2bd.19631--
-
---===============1555359174==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1555359174==--
+VW51c2VkLgoKU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBh
+bWQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfYXJj
+dHVydXMuYyB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2FyY3R1cnVzLmMgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2FyY3R1cnVzLmMKaW5kZXgg
+NGQ5MTAxODM0YmE3Li5jNzlhYWViZWVhZjAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9hbWRrZmRfYXJjdHVydXMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
+YW1kL2FtZGdwdS9hbWRncHVfYW1ka2ZkX2FyY3R1cnVzLmMKQEAgLTI4LDcgKzI4LDYgQEAKICNp
+bmNsdWRlIDxsaW51eC91YWNjZXNzLmg+CiAjaW5jbHVkZSA8bGludXgvbW11X2NvbnRleHQuaD4K
+ICNpbmNsdWRlIDxsaW51eC9maXJtd2FyZS5oPgotI2luY2x1ZGUgPGRybS9kcm1QLmg+CiAjaW5j
+bHVkZSAiYW1kZ3B1LmgiCiAjaW5jbHVkZSAiYW1kZ3B1X2FtZGtmZC5oIgogI2luY2x1ZGUgInNk
+bWEwL3NkbWEwXzRfMl8yX29mZnNldC5oIgotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
