@@ -2,22 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3473B7BE10
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 12:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0F57BE16
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 12:12:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E3A89B8F;
-	Wed, 31 Jul 2019 10:11:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8578A89B98;
+	Wed, 31 Jul 2019 10:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A23A589B8F
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 10:11:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1D6F89B98
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 10:12:29 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 141CFB071;
- Wed, 31 Jul 2019 10:11:10 +0000 (UTC)
-Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
-To: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+ by mx1.suse.de (Postfix) with ESMTP id 8D066B071;
+ Wed, 31 Jul 2019 10:12:28 +0000 (UTC)
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
+To: "Huang, Ying" <ying.huang@intel.com>, Daniel Vetter <daniel@ffwll.ch>
 References: <20190729095155.GP22106@shao2-debian>
  <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
  <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
@@ -25,6 +26,7 @@ References: <20190729095155.GP22106@shao2-debian>
  <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
  <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
  <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
+ <87wofyzhbm.fsf@yhuang-dev.intel.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Openpgp: preference=signencrypt
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -52,12 +54,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
  VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
  iNx9uqqx
-Message-ID: <0dd8808d-4c43-b624-ff49-924f6345b757@suse.de>
-Date: Wed, 31 Jul 2019 12:10:54 +0200
+Message-ID: <f71cc655-7a9f-2bdd-1a31-fd40e9cc73f5@suse.de>
+Date: Wed, 31 Jul 2019 12:12:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
+In-Reply-To: <87wofyzhbm.fsf@yhuang-dev.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,28 +74,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stephen Rothwell <sfr@canb.auug.org.au>, LKP <lkp@01.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- kernel test robot <rong.a.chen@intel.com>
-Content-Type: multipart/mixed; boundary="===============1160845313=="
+ "Rong A. Chen" <rong.a.chen@intel.com>
+Content-Type: multipart/mixed; boundary="===============0732330908=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1160845313==
+--===============0732330908==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="QicySfkWJHAB8lKxaXfG1Qc4MHKVBVBKq"
+ boundary="wcKj1rBzQxPrl4W9pDcMSehDIAXK8imFW"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QicySfkWJHAB8lKxaXfG1Qc4MHKVBVBKq
-Content-Type: multipart/mixed; boundary="xMbUERXHIv3DoY5sufaPvgi8k6R40fuay";
+--wcKj1rBzQxPrl4W9pDcMSehDIAXK8imFW
+Content-Type: multipart/mixed; boundary="CdIbMvj8CoGml9ukDgZltcblnNIEXKJOw";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, LKP <lkp@01.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- kernel test robot <rong.a.chen@intel.com>
-Message-ID: <0dd8808d-4c43-b624-ff49-924f6345b757@suse.de>
-Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
+To: "Huang, Ying" <ying.huang@intel.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ "Rong A. Chen" <rong.a.chen@intel.com>, LKP <lkp@01.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <f71cc655-7a9f-2bdd-1a31-fd40e9cc73f5@suse.de>
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
 References: <20190729095155.GP22106@shao2-debian>
  <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
  <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
@@ -101,146 +104,161 @@ References: <20190729095155.GP22106@shao2-debian>
  <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
  <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
  <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
-In-Reply-To: <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
+ <87wofyzhbm.fsf@yhuang-dev.intel.com>
+In-Reply-To: <87wofyzhbm.fsf@yhuang-dev.intel.com>
 
---xMbUERXHIv3DoY5sufaPvgi8k6R40fuay
+--CdIbMvj8CoGml9ukDgZltcblnNIEXKJOw
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 31.07.19 um 10:13 schrieb Daniel Vetter:
-> On Tue, Jul 30, 2019 at 10:27 PM Dave Airlie <airlied@gmail.com> wrote:=
-
->>
->> On Wed, 31 Jul 2019 at 05:00, Daniel Vetter <daniel@ffwll.ch> wrote:
+Am 31.07.19 um 11:25 schrieb Huang, Ying:
+> Hi, Daniel,
+>=20
+> Daniel Vetter <daniel@ffwll.ch> writes:
+>=20
+>> On Tue, Jul 30, 2019 at 10:27 PM Dave Airlie <airlied@gmail.com> wrote=
+:
 >>>
->>> On Tue, Jul 30, 2019 at 8:50 PM Thomas Zimmermann <tzimmermann@suse.d=
-e> wrote:
+>>> On Wed, 31 Jul 2019 at 05:00, Daniel Vetter <daniel@ffwll.ch> wrote:
 >>>>
->>>> Hi
+>>>> On Tue, Jul 30, 2019 at 8:50 PM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>>>>>
+>>>>> Hi
+>>>>>
+>>>>> Am 30.07.19 um 20:12 schrieb Daniel Vetter:
+>>>>>> On Tue, Jul 30, 2019 at 7:50 PM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
+>>>>>>> Am 29.07.19 um 11:51 schrieb kernel test robot:
+>>>>>>>> Greeting,
+>>>>>>>>
+>>>>>>>> FYI, we noticed a -18.8% regression of vm-scalability.median due=
+ to commit:>
+>>>>>>>>
+>>>>>>>> commit: 90f479ae51afa45efab97afdde9b94b9660dd3e4 ("drm/mgag200: =
+Replace struct mga_fbdev with generic framebuffer emulation")
+>>>>>>>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/li=
+nux-next.git master
+>>>>>>>
+>>>>>>> Daniel, Noralf, we may have to revert this patch.
+>>>>>>>
+>>>>>>> I expected some change in display performance, but not in VM. Sin=
+ce it's
+>>>>>>> a server chipset, probably no one cares much about display perfor=
+mance.
+>>>>>>> So that seemed like a good trade-off for re-using shared code.
+>>>>>>>
+>>>>>>> Part of the patch set is that the generic fb emulation now maps a=
+nd
+>>>>>>> unmaps the fbdev BO when updating the screen. I guess that's the =
+cause
+>>>>>>> of the performance regression. And it should be visible with othe=
+r
+>>>>>>> drivers as well if they use a shadow FB for fbdev emulation.
+>>>>>>
+>>>>>> For fbcon we should need to do any maps/unamps at all, this is for=
+ the
+>>>>>> fbdev mmap support only. If the testcase mentioned here tests fbde=
+v
+>>>>>> mmap handling it's pretty badly misnamed :-) And as long as you do=
+n't
+>>>>>> have an fbdev mmap there shouldn't be any impact at all.
+>>>>>
+>>>>> The ast and mgag200 have only a few MiB of VRAM, so we have to get =
+the
+>>>>> fbdev BO out if it's not being displayed. If not being mapped, it c=
+an be
+>>>>> evicted and make room for X, etc.
+>>>>>
+>>>>> To make this work, the BO's memory is mapped and unmapped in
+>>>>> drm_fb_helper_dirty_work() before being updated from the shadow FB.=
+ [1]
+>>>>> That fbdev mapping is established on each screen update, more or le=
+ss.
+>>>>> From my (yet unverified) understanding, this causes the performance=
+
+>>>>> regression in the VM code.
+>>>>>
+>>>>> The original code in mgag200 used to kmap the fbdev BO while it's b=
+eing
+>>>>> displayed; [2] and the drawing code only mapped it when necessary (=
+i.e.,
+>>>>> not being display). [3]
 >>>>
->>>> Am 30.07.19 um 20:12 schrieb Daniel Vetter:
->>>>> On Tue, Jul 30, 2019 at 7:50 PM Thomas Zimmermann <tzimmermann@suse=
-=2Ede> wrote:
->>>>>> Am 29.07.19 um 11:51 schrieb kernel test robot:
->>>>>>> Greeting,
->>>>>>>
->>>>>>> FYI, we noticed a -18.8% regression of vm-scalability.median due =
-to commit:>
->>>>>>>
->>>>>>> commit: 90f479ae51afa45efab97afdde9b94b9660dd3e4 ("drm/mgag200: R=
-eplace struct mga_fbdev with generic framebuffer emulation")
->>>>>>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/lin=
-ux-next.git master
->>>>>>
->>>>>> Daniel, Noralf, we may have to revert this patch.
->>>>>>
->>>>>> I expected some change in display performance, but not in VM. Sinc=
-e it's
->>>>>> a server chipset, probably no one cares much about display perform=
-ance.
->>>>>> So that seemed like a good trade-off for re-using shared code.
->>>>>>
->>>>>> Part of the patch set is that the generic fb emulation now maps an=
+>>>> Hm yeah, this vmap/vunmap is going to be pretty bad. We indeed shoul=
 d
->>>>>> unmaps the fbdev BO when updating the screen. I guess that's the c=
-ause
->>>>>> of the performance regression. And it should be visible with other=
-
->>>>>> drivers as well if they use a shadow FB for fbdev emulation.
+>>>> cache this.
+>>>>
+>>>>> I think this could be added for VRAM helpers as well, but it's stil=
+l a
+>>>>> workaround and non-VRAM drivers might also run into such a performa=
+nce
+>>>>> regression if they use the fbdev's shadow fb.
+>>>>
+>>>> Yeah agreed, fbdev emulation should try to cache the vmap.
+>>>>
+>>>>> Noralf mentioned that there are plans for other DRM clients besides=
+ the
+>>>>> console. They would as well run into similar problems.
 >>>>>
->>>>> For fbcon we should need to do any maps/unamps at all, this is for =
-the
->>>>> fbdev mmap support only. If the testcase mentioned here tests fbdev=
+>>>>>>> The thing is that we'd need another generic fbdev emulation for a=
+st and
+>>>>>>> mgag200 that handles this issue properly.
+>>>>>>
+>>>>>> Yeah I dont think we want to jump the gun here.  If you can try to=
 
->>>>> mmap handling it's pretty badly misnamed :-) And as long as you don=
-'t
->>>>> have an fbdev mmap there shouldn't be any impact at all.
->>>>
->>>> The ast and mgag200 have only a few MiB of VRAM, so we have to get t=
-he
->>>> fbdev BO out if it's not being displayed. If not being mapped, it ca=
-n be
->>>> evicted and make room for X, etc.
->>>>
->>>> To make this work, the BO's memory is mapped and unmapped in
->>>> drm_fb_helper_dirty_work() before being updated from the shadow FB. =
-[1]
->>>> That fbdev mapping is established on each screen update, more or les=
-s.
->>>> From my (yet unverified) understanding, this causes the performance
->>>> regression in the VM code.
->>>>
->>>> The original code in mgag200 used to kmap the fbdev BO while it's be=
-ing
->>>> displayed; [2] and the drawing code only mapped it when necessary (i=
-=2Ee.,
->>>> not being display). [3]
->>>
->>> Hm yeah, this vmap/vunmap is going to be pretty bad. We indeed should=
+>>>>>> repro locally and profile where we're wasting cpu time I hope that=
 
->>> cache this.
->>>
->>>> I think this could be added for VRAM helpers as well, but it's still=
- a
->>>> workaround and non-VRAM drivers might also run into such a performan=
-ce
->>>> regression if they use the fbdev's shadow fb.
->>>
->>> Yeah agreed, fbdev emulation should try to cache the vmap.
->>>
->>>> Noralf mentioned that there are plans for other DRM clients besides =
-the
->>>> console. They would as well run into similar problems.
->>>>
->>>>>> The thing is that we'd need another generic fbdev emulation for as=
-t and
->>>>>> mgag200 that handles this issue properly.
+>>>>>> should sched a light what's going wrong here.
 >>>>>
->>>>> Yeah I dont think we want to jump the gun here.  If you can try to
->>>>> repro locally and profile where we're wasting cpu time I hope that
->>>>> should sched a light what's going wrong here.
+>>>>> I don't have much time ATM and I'm not even officially at work unti=
+l
+>>>>> late Aug. I'd send you the revert and investigate later. I agree th=
+at
+>>>>> using generic fbdev emulation would be preferable.
 >>>>
->>>> I don't have much time ATM and I'm not even officially at work until=
-
->>>> late Aug. I'd send you the revert and investigate later. I agree tha=
-t
->>>> using generic fbdev emulation would be preferable.
+>>>> Still not sure that's the right thing to do really. Yes it's a
+>>>> regression, but vm testcases shouldn run a single line of fbcon or d=
+rm
+>>>> code. So why this is impacted so heavily by a silly drm change is ve=
+ry
+>>>> confusing to me. We might be papering over a deeper and much more
+>>>> serious issue ...
 >>>
->>> Still not sure that's the right thing to do really. Yes it's a
->>> regression, but vm testcases shouldn run a single line of fbcon or dr=
-m
->>> code. So why this is impacted so heavily by a silly drm change is ver=
-y
->>> confusing to me. We might be papering over a deeper and much more
->>> serious issue ...
+>>> It's a regression, the right thing is to revert first and then work
+>>> out the right thing to do.
 >>
->> It's a regression, the right thing is to revert first and then work
->> out the right thing to do.
->=20
-> Sure, but I have no idea whether the testcase is doing something
-> reasonable. If it's accidentally testing vm scalability of fbdev and
-> there's no one else doing something this pointless, then it's not a
-> real bug. Plus I think we're shooting the messenger here.
->=20
->> It's likely the test runs on the console and printfs stuff out while r=
-unning.
->=20
-> But why did we not regress the world if a few prints on the console
-> have such a huge impact? We didn't get an entire stream of mails about
-> breaking stuff ...
+>> Sure, but I have no idea whether the testcase is doing something
+>> reasonable. If it's accidentally testing vm scalability of fbdev and
+>> there's no one else doing something this pointless, then it's not a
+>> real bug. Plus I think we're shooting the messenger here.
+>>
+>>> It's likely the test runs on the console and printfs stuff out while =
+running.
+>>
+>> But why did we not regress the world if a few prints on the console
+>> have such a huge impact? We didn't get an entire stream of mails about=
 
-The vmap/vunmap pair is only executed for fbdev emulation with a shadow
-FB. And most of those are with shmem helpers, which ref-count the vmap
-calls internally. My guess is that VRAM helpers are currently the only
-BOs triggering this problem.
+>> breaking stuff ...
+>=20
+> The regression seems not related to the commit.  But we have retested
+> and confirmed the regression.  Hard to understand what happens.
+
+Take a look at commit cf1ca9aeb930df074bb5bbcde55f935fec04e529
 
 Best regards
 Thomas
 
-> -Daniel
+>=20
+> Best Regards,
+> Huang, Ying
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >=20
 
 --=20
@@ -251,28 +269,28 @@ GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
 HRB 21284 (AG N=C3=BCrnberg)
 
 
---xMbUERXHIv3DoY5sufaPvgi8k6R40fuay--
+--CdIbMvj8CoGml9ukDgZltcblnNIEXKJOw--
 
---QicySfkWJHAB8lKxaXfG1Qc4MHKVBVBKq
+--wcKj1rBzQxPrl4W9pDcMSehDIAXK8imFW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1BaTwACgkQaA3BHVML
-eiPX4Af/XAC0zzGhgPESXUDEOkM07q+CdYweFf7REZDtcnuRjWDsfnS70JGo8eje
-7w5AGrMc4PtH1+QUe2shAekmGjjJQfRfcbtyM1/T5WJwehdHu0rOHDlSh/dCe5zS
-q+FysbGqwl5XJrF35VMZFYeY3vhMlpBxjg1i3+RdAjgDzNZG68lMOl6GYfkhvpdB
-PZtrFS9GjH5vGMjM7V1ZCyzKwx/ecxZrzx9DNHWqIbGLgX839xYHkJm0s+1G91Rf
-SUciyU67/h3aVQ+dOoGqPj1Iv9EObXnhsQTGJx5+XWBeexwpN4AMVKSctN4DKhkJ
-0qhgSr+tmdL0kYJUM2WlVTjDEUjxAA==
-=rPZb
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1BaYsACgkQaA3BHVML
+eiPK6QgAjQ6upFGX2gZHH5JRB4gmYtLCr+G9IuICt2CaCJhR7sG/j3nvTp4hfPwk
+GECh2NMpIlaUe7lG7GzxvhlHOxH/A9Yx1xgd+IAGOb9lam+CJeQwV4xa9aeA3/80
+pJ2/BFXJ8D3N2l1aYdw3FoxJuvisyrkmqDTyf7zhQZCkAMBCdHlmvJzoVI0MFa1S
+55hsXW/7bJUY3wX1e0xC74MTFoeJMbGrWzR5y49eXr9WXi00Z16uUONnF31EPLVQ
+S8smRAI/cMFW6c4Gw1lbj140kLMn8Pn/hSuSYqyHR5jQMK0bDCcrtQ7lhwAVBfHY
+1WBsgFjvyoMvmw2H8wHExOOR5bX6Lg==
+=Uu1h
 -----END PGP SIGNATURE-----
 
---QicySfkWJHAB8lKxaXfG1Qc4MHKVBVBKq--
+--wcKj1rBzQxPrl4W9pDcMSehDIAXK8imFW--
 
---===============1160845313==
+--===============0732330908==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -282,4 +300,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1160845313==--
+--===============0732330908==--
