@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02757BCBC
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 11:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A797BCC0
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 11:16:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A51589760;
-	Wed, 31 Jul 2019 09:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC10B898C8;
+	Wed, 31 Jul 2019 09:16:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72C18972B
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 09:14:26 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (unknown [38.98.37.141])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9703CC;
- Wed, 31 Jul 2019 11:14:21 +0200 (CEST)
-Date: Wed, 31 Jul 2019 12:14:10 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Bogdan Togorean <bogdan.togorean@analog.com>
-Subject: Re: [PATCH 2/2] drm: bridge: adv7511: Add support for ADV7535
-Message-ID: <20190731091410.GC5080@pendragon.ideasonboard.com>
-References: <20190730131736.30187-1-bogdan.togorean@analog.com>
- <20190730131736.30187-3-bogdan.togorean@analog.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4B141898E8
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 09:16:05 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 47E5B72167; Wed, 31 Jul 2019 09:16:05 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109887] vega56 undervolting/overclocking voltage issues
+Date: Wed, 31 Jul 2019 09:16:05 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: asheldon55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109887-502-ndXaty1YkM@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109887-502@http.bugs.freedesktop.org/>
+References: <bug-109887-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190730131736.30187-3-bogdan.togorean@analog.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1564564464;
- bh=hRrkR023UPopxPeIkoDVvaoyGxj+ou48XOPLvw7WrsI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YTxTXBF7jicbTzvZVZ1+6t7xlvKf5ZPwWy/7Kg6geVgJx5Dd2H0yncXNlj8xVVuD9
- 4EUkGiRkMM3JkA0/3/QP2BORQvEQ7Qn8X7SViTQydaIAI5SJ5CmKymWwnneJHCXyoY
- vWXGL5Bs9eRov68UCyvk3iM2rjy0wIyfcS2MKvUg=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,122 +52,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, robh+dt@kernel.org, tglx@linutronix.de,
- sam@ravnborg.org, matt.redfearn@thinci.com, allison@lohutok.net
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1720963225=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQm9nZGFuLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBUdWUsIEp1bCAzMCwgMjAx
-OSBhdCAwNDoxNzozNlBNICswMzAwLCBCb2dkYW4gVG9nb3JlYW4gd3JvdGU6Cj4gQURWNzUzNSBp
-cyBhIERTSSB0byBIRE1JIGJyaWRnZSBjaGlwIGxpa2UgQURWNzUzMyBidXQgaXQgYWxsb3dzCj4g
-MTA4MHBANjBIei4gdjFwMiBpcyBmaXhlZCB0byAxLjhWIG9uIEFEVjc1MzUgYnV0IG9uIEFEVjc1
-MzMgY2FuIGJlIDEuMlYKPiBvciAxLjhWIGFuZCBpcyBjb25maWd1cmFibGUgaW4gYSByZWdpc3Rl
-ci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBCb2dkYW4gVG9nb3JlYW4gPGJvZ2Rhbi50b2dvcmVhbkBh
-bmFsb2cuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUx
-MS5oICAgICB8ICAyICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTEx
-X2Rydi5jIHwgMzEgKysrKysrKysrKysrKysrLS0tLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAyNSBp
-bnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9h
-ZHY3NTExL2Fkdjc1MTEuaAo+IGluZGV4IDUyYjJhZGZkYzg3Ny4uNzAyNDMyNjE1ZWM4IDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExLmgKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMS5oCj4gQEAgLTkxLDYgKzkx
-LDcgQEAKPiAgI2RlZmluZSBBRFY3NTExX1JFR19BUkNfQ1RSTAkJCTB4ZGYKPiAgI2RlZmluZSBB
-RFY3NTExX1JFR19DRUNfSTJDX0FERFIJCTB4ZTEKPiAgI2RlZmluZSBBRFY3NTExX1JFR19DRUNf
-Q1RSTAkJCTB4ZTIKPiArI2RlZmluZSBBRFY3NTExX1JFR19TVVBQTFlfU0VMRUNUCQkweGU0Cj4g
-ICNkZWZpbmUgQURWNzUxMV9SRUdfQ0hJUF9JRF9ISUdICQkweGY1Cj4gICNkZWZpbmUgQURWNzUx
-MV9SRUdfQ0hJUF9JRF9MT1cJCQkweGY2Cj4gIAo+IEBAIC0zMjAsNiArMzIxLDcgQEAgc3RydWN0
-IGFkdjc1MTFfdmlkZW9fY29uZmlnIHsKPiAgZW51bSBhZHY3NTExX3R5cGUgewo+ICAJQURWNzUx
-MSwKPiAgCUFEVjc1MzMsCj4gKwlBRFY3NTM1LAo+ICB9Owo+ICAKPiAgI2RlZmluZSBBRFY3NTEx
-X01BWF9BRERSUyAzCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUx
-MS9hZHY3NTExX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFf
-ZHJ2LmMKPiBpbmRleCBmNmQyNjgxZjY5MjcuLjk0MTA3MmRlY2I3MyAxMDA2NDQKPiAtLS0gYS9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9kcnYuYwo+ICsrKyBiL2RyaXZl
-cnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Rydi5jCj4gQEAgLTM2Nyw3ICszNjcs
-NyBAQCBzdGF0aWMgdm9pZCBhZHY3NTExX3Bvd2VyX29uKHN0cnVjdCBhZHY3NTExICphZHY3NTEx
-KQo+ICAJICovCj4gIAlyZWdjYWNoZV9zeW5jKGFkdjc1MTEtPnJlZ21hcCk7Cj4gIAo+IC0JaWYg
-KGFkdjc1MTEtPnR5cGUgPT0gQURWNzUzMykKPiArCWlmIChhZHY3NTExLT50eXBlID09IEFEVjc1
-MzMgfHwgYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTM1KQo+ICAJCWFkdjc1MzNfZHNpX3Bvd2VyX29u
-KGFkdjc1MTEpOwo+ICAJYWR2NzUxMS0+cG93ZXJlZCA9IHRydWU7Cj4gIH0KPiBAQCAtMzg3LDcg
-KzM4Nyw3IEBAIHN0YXRpYyB2b2lkIF9fYWR2NzUxMV9wb3dlcl9vZmYoc3RydWN0IGFkdjc1MTEg
-KmFkdjc1MTEpCj4gIHN0YXRpYyB2b2lkIGFkdjc1MTFfcG93ZXJfb2ZmKHN0cnVjdCBhZHY3NTEx
-ICphZHY3NTExKQo+ICB7Cj4gIAlfX2Fkdjc1MTFfcG93ZXJfb2ZmKGFkdjc1MTEpOwo+IC0JaWYg
-KGFkdjc1MTEtPnR5cGUgPT0gQURWNzUzMykKPiArCWlmIChhZHY3NTExLT50eXBlID09IEFEVjc1
-MzMgfHwgYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTM1KQo+ICAJCWFkdjc1MzNfZHNpX3Bvd2VyX29m
-ZihhZHY3NTExKTsKPiAgCWFkdjc1MTEtPnBvd2VyZWQgPSBmYWxzZTsKPiAgfQo+IEBAIC03NjEs
-NyArNzYxLDcgQEAgc3RhdGljIHZvaWQgYWR2NzUxMV9tb2RlX3NldChzdHJ1Y3QgYWR2NzUxMSAq
-YWR2NzUxMSwKPiAgCXJlZ21hcF91cGRhdGVfYml0cyhhZHY3NTExLT5yZWdtYXAsIDB4MTcsCj4g
-IAkJMHg2MCwgKHZzeW5jX3BvbGFyaXR5IDw8IDYpIHwgKGhzeW5jX3BvbGFyaXR5IDw8IDUpKTsK
-PiAgCj4gLQlpZiAoYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTMzKQo+ICsJaWYgKGFkdjc1MTEtPnR5
-cGUgPT0gQURWNzUzMyB8fCBhZHY3NTExLT50eXBlID09IEFEVjc1MzUpCj4gIAkJYWR2NzUzM19t
-b2RlX3NldChhZHY3NTExLCBhZGpfbW9kZSk7Cj4gIAo+ICAJZHJtX21vZGVfY29weSgmYWR2NzUx
-MS0+Y3Vycl9tb2RlLCBhZGpfbW9kZSk7Cj4gQEAgLTg3NCw3ICs4NzQsNyBAQCBzdGF0aWMgaW50
-IGFkdjc1MTFfYnJpZGdlX2F0dGFjaChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlKQo+ICAJCQkJ
-ICZhZHY3NTExX2Nvbm5lY3Rvcl9oZWxwZXJfZnVuY3MpOwo+ICAJZHJtX2Nvbm5lY3Rvcl9hdHRh
-Y2hfZW5jb2RlcigmYWR2LT5jb25uZWN0b3IsIGJyaWRnZS0+ZW5jb2Rlcik7Cj4gIAo+IC0JaWYg
-KGFkdi0+dHlwZSA9PSBBRFY3NTMzKQo+ICsJaWYgKGFkdi0+dHlwZSA9PSBBRFY3NTMzIHx8IGFk
-di0+dHlwZSA9PSBBRFY3NTM1KQo+ICAJCXJldCA9IGFkdjc1MzNfYXR0YWNoX2RzaShhZHYpOwo+
-ICAKPiAgCWlmIChhZHYtPmkyY19tYWluLT5pcnEpCj4gQEAgLTk1Miw3ICs5NTIsNyBAQCBzdGF0
-aWMgYm9vbCBhZHY3NTExX2NlY19yZWdpc3Rlcl92b2xhdGlsZShzdHJ1Y3QgZGV2aWNlICpkZXYs
-IHVuc2lnbmVkIGludCByZWcpCj4gIAlzdHJ1Y3QgaTJjX2NsaWVudCAqaTJjID0gdG9faTJjX2Ns
-aWVudChkZXYpOwo+ICAJc3RydWN0IGFkdjc1MTEgKmFkdjc1MTEgPSBpMmNfZ2V0X2NsaWVudGRh
-dGEoaTJjKTsKPiAgCj4gLQlpZiAoYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTMzKQo+ICsJaWYgKGFk
-djc1MTEtPnR5cGUgPT0gQURWNzUzMyB8fCBhZHY3NTExLT50eXBlID09IEFEVjc1MzUpCj4gIAkJ
-cmVnIC09IEFEVjc1MzNfUkVHX0NFQ19PRkZTRVQ7Cj4gIAo+ICAJc3dpdGNoIChyZWcpIHsKPiBA
-QCAtOTk0LDcgKzk5NCw3IEBAIHN0YXRpYyBpbnQgYWR2NzUxMV9pbml0X2NlY19yZWdtYXAoc3Ry
-dWN0IGFkdjc1MTEgKmFkdikKPiAgCQlnb3RvIGVycjsKPiAgCX0KPiAgCj4gLQlpZiAoYWR2LT50
-eXBlID09IEFEVjc1MzMpIHsKPiArCWlmIChhZHYtPnR5cGUgPT0gQURWNzUzMyB8fCBhZHYtPnR5
-cGUgPT0gQURWNzUzNSkgewo+ICAJCXJldCA9IGFkdjc1MzNfcGF0Y2hfY2VjX3JlZ2lzdGVycyhh
-ZHYpOwo+ICAJCWlmIChyZXQpCj4gIAkJCWdvdG8gZXJyOwo+IEBAIC0xMDk0LDggKzEwOTQsOSBA
-QCBzdGF0aWMgaW50IGFkdjc1MTFfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmkyYywgY29uc3Qg
-c3RydWN0IGkyY19kZXZpY2VfaWQgKmlkKQo+ICAJc3RydWN0IGFkdjc1MTFfbGlua19jb25maWcg
-bGlua19jb25maWc7Cj4gIAlzdHJ1Y3QgYWR2NzUxMSAqYWR2NzUxMTsKPiAgCXN0cnVjdCBkZXZp
-Y2UgKmRldiA9ICZpMmMtPmRldjsKPiArCXN0cnVjdCByZWd1bGF0b3IgKnJlZ192MXAyOwo+ICAJ
-dW5zaWduZWQgaW50IHZhbDsKPiAtCWludCByZXQ7Cj4gKwlpbnQgcmV0LCByZWdfdjFwMl91VjsK
-PiAgCj4gIAlpZiAoIWRldi0+b2Zfbm9kZSkKPiAgCQlyZXR1cm4gLUVJTlZBTDsKPiBAQCAtMTE2
-Myw2ICsxMTY0LDE4IEBAIHN0YXRpYyBpbnQgYWR2NzUxMV9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVu
-dCAqaTJjLCBjb25zdCBzdHJ1Y3QgaTJjX2RldmljZV9pZCAqaWQpCj4gIAlpZiAocmV0KQo+ICAJ
-CWdvdG8gdW5pbml0X3JlZ3VsYXRvcnM7Cj4gIAo+ICsJaWYgKGFkdjc1MTEtPnR5cGUgPT0gQURW
-NzUzMykgewo+ICsJCXJldCA9IG1hdGNoX3N0cmluZyhhZHY3NTMzX3N1cHBseV9uYW1lcywgYWR2
-NzUxMS0+bnVtX3N1cHBsaWVzLAoKQWx0aG91Z2ggdGhleSdyZSBlcXVpdmFsZW50LCBJIHdvdWxk
-IHVzZQpBUlJBWV9TSVpFKGFkdjc1MzNfc3VwcGx5X25hbWVzKSBpbnN0ZWFkIG9mIGFkdjc1MTEt
-Pm51bV9zdXBwbGllcyB0bwptYWtlIHRoZSBjb2RlIGVhc2llciB0byByZWFkIChvdGhlcndpc2Ug
-b25lIGhhcyB0byBjaGVjayB3aGVyZQpudW1fc3VwcGxpZXMgaXMgc2V0IHRvIHZhbGlkYXRlIHRo
-aXMgZnVuY3Rpb24gY2FsbCkuCgo+ICsJCQkJCQkJCQkidjFwMiIpOwoKWW91IHNob3VsZCBhbGln
-biAidjFwMiIgbGVmdCwgd2l0aCBhZHY3NTMzX3N1cHBseV9uYW1lcy4KCkkgd29uZGVyIGlmIHlv
-dSBjb3VsZG4ndCBzaW1wbHkgaGFyZGNvZGUgdGhlIGluZGV4LCB3aXRoIGEgY29tbWVudCBhYm92
-ZQp0aGUgYWR2NzUzM19zdXBwbHlfbmFtZXMgYXJyYXkgdG8gbWVudGlvbiB0aGF0IHRoZSBvcmRl
-ciBvZiB0aGUgZW50cmllcwpzaGFsbCBub3QgYmUgbW9kaWZpZWQgd2l0aG91dCB1cGRhdGluZyB0
-aGUgbG9jYXRpb25zIHRoYXQgaGFyZGNvZGUKaW5kaWNlcy4KCj4gKwkJcmVnX3YxcDIgPSBhZHY3
-NTExLT5zdXBwbGllc1tyZXRdLmNvbnN1bWVyOwo+ICsJCXJlZ192MXAyX3VWID0gcmVndWxhdG9y
-X2dldF92b2x0YWdlKHJlZ192MXAyKTsKPiArCj4gKwkJaWYgKHJlZ192MXAyX3VWID09IDEyMDAw
-MDApIHsKPiArCQkJcmVnbWFwX3VwZGF0ZV9iaXRzKGFkdjc1MTEtPnJlZ21hcCwKPiArCQkJCUFE
-Vjc1MTFfUkVHX1NVUFBMWV9TRUxFQ1QsIDB4ODAsIDB4ODApOwo+ICsJCX0KClNob3VsZG4ndCB5
-b3UgZXhwbGljaXRseSBjbGVhciBiaXQgNyB3aGVuIHJlZ192MXAyX3VWIGlzIG5vdCAxMjAwMDAw
-ID8KT3IgaXMgdGhlcmUgYSBndWFyYW50ZWUgaXQgZ2V0cyByZXNldCBhZnRlciBhIHJlYm9vdCA/
-Cgo+ICsJfQo+ICsKPiAgCWFkdjc1MTFfcGFja2V0X2Rpc2FibGUoYWR2NzUxMSwgMHhmZmZmKTsK
-PiAgCj4gIAlhZHY3NTExLT5pMmNfZWRpZCA9IGkyY19uZXdfc2Vjb25kYXJ5X2RldmljZShpMmMs
-ICJlZGlkIiwKPiBAQCAtMTI0Miw3ICsxMjU1LDcgQEAgc3RhdGljIGludCBhZHY3NTExX3JlbW92
-ZShzdHJ1Y3QgaTJjX2NsaWVudCAqaTJjKQo+ICB7Cj4gIAlzdHJ1Y3QgYWR2NzUxMSAqYWR2NzUx
-MSA9IGkyY19nZXRfY2xpZW50ZGF0YShpMmMpOwo+ICAKPiAtCWlmIChhZHY3NTExLT50eXBlID09
-IEFEVjc1MzMpCj4gKwlpZiAoYWR2NzUxMS0+dHlwZSA9PSBBRFY3NTMzIHx8IGFkdjc1MTEtPnR5
-cGUgPT0gQURWNzUzNSkKPiAgCQlhZHY3NTMzX2RldGFjaF9kc2koYWR2NzUxMSk7Cj4gIAlpMmNf
-dW5yZWdpc3Rlcl9kZXZpY2UoYWR2NzUxMS0+aTJjX2NlYyk7Cj4gIAlpZiAoYWR2NzUxMS0+Y2Vj
-X2NsaykKPiBAQCAtMTI2OCw2ICsxMjgxLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBpMmNfZGV2
-aWNlX2lkIGFkdjc1MTFfaTJjX2lkc1tdID0gewo+ICAJeyAiYWR2NzUxMyIsIEFEVjc1MTEgfSwK
-PiAgI2lmZGVmIENPTkZJR19EUk1fSTJDX0FEVjc1MzMKCkFzIG5vdGVkIGJ5IE5laWwsIEkgdGhp
-bmsgdGhpcyBjb25maWcgb3B0aW9uIHNob3VsZCBiZSByZW5hbWVkIChwb3NzaWJseQp0byBDT05G
-SUdfRFJNX0kyQ19BRFY3NTNYKSBhbmQgaXRzIGRlc2NyaXB0aW9uIHVwZGF0ZWQuCgo+ICAJeyAi
-YWR2NzUzMyIsIEFEVjc1MzMgfSwKPiArCXsgImFkdjc1MzUiLCBBRFY3NTM1IH0sCj4gICNlbmRp
-Zgo+ICAJeyB9Cj4gIH07Cj4gQEAgLTEyNzksNiArMTI5Myw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1
-Y3Qgb2ZfZGV2aWNlX2lkIGFkdjc1MTFfb2ZfaWRzW10gPSB7Cj4gIAl7IC5jb21wYXRpYmxlID0g
-ImFkaSxhZHY3NTEzIiwgLmRhdGEgPSAodm9pZCAqKUFEVjc1MTEgfSwKPiAgI2lmZGVmIENPTkZJ
-R19EUk1fSTJDX0FEVjc1MzMKPiAgCXsgLmNvbXBhdGlibGUgPSAiYWRpLGFkdjc1MzMiLCAuZGF0
-YSA9ICh2b2lkICopQURWNzUzMyB9LAo+ICsJeyAuY29tcGF0aWJsZSA9ICJhZGksYWR2NzUzNSIs
-IC5kYXRhID0gKHZvaWQgKilBRFY3NTM1IH0sCj4gICNlbmRpZgo+ICAJeyB9Cj4gIH07CgotLSAK
-UmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVs
+
+--===============1720963225==
+Content-Type: multipart/alternative; boundary="15645645652.07f0Da1.16729"
+Content-Transfer-Encoding: 7bit
+
+
+--15645645652.07f0Da1.16729
+Date: Wed, 31 Jul 2019 09:16:05 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109887
+
+--- Comment #9 from Andrew Sheldon <asheldon55@gmail.com> ---
+Here's a linux pp table editor that also seems to support more options (suc=
+h as
+raising the power cap) than OverDriveNTool:
+https://github.com/amezin/powerplay-table-editor
+
+I will note that you might still see raised voltages if you do a too aggres=
+sive
+overclock/undervolt with modded PP tables, but it seems to only overvolt as
+much as is needed (say 975mv -> 1.05V) if you set a too high clock, rather =
+than
+jumping to the maximum possible voltage that you see by editing
+pp_od_clk_voltage.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15645645652.07f0Da1.16729
+Date: Wed, 31 Jul 2019 09:16:05 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - vega56 undervolting/overclocking voltage issues"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109887">bug 10988=
+7</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+asheldon55&#64;gmail.com" title=3D"Andrew Sheldon &lt;asheldon55&#64;gmail.=
+com&gt;"> <span class=3D"fn">Andrew Sheldon</span></a>
+</span></b>
+        <pre>Here's a linux pp table editor that also seems to support more=
+ options (such as
+raising the power cap) than OverDriveNTool:
+<a href=3D"https://github.com/amezin/powerplay-table-editor">https://github=
+.com/amezin/powerplay-table-editor</a>
+
+I will note that you might still see raised voltages if you do a too aggres=
+sive
+overclock/undervolt with modded PP tables, but it seems to only overvolt as
+much as is needed (say 975mv -&gt; 1.05V) if you set a too high clock, rath=
+er than
+jumping to the maximum possible voltage that you see by editing
+pp_od_clk_voltage.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15645645652.07f0Da1.16729--
+
+--===============1720963225==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1720963225==--
