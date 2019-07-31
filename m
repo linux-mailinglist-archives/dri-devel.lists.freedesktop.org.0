@@ -2,37 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7390C7C390
-	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 15:32:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEEF7C3A5
+	for <lists+dri-devel@lfdr.de>; Wed, 31 Jul 2019 15:34:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE5889E2C;
-	Wed, 31 Jul 2019 13:32:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0286489A91;
+	Wed, 31 Jul 2019 13:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4E789E2C
- for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 13:32:37 +0000 (UTC)
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:61391
- helo=[192.168.10.173])
- by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.84_2) (envelope-from <noralf@tronnes.org>)
- id 1hsoiZ-0001a5-G7; Wed, 31 Jul 2019 15:32:35 +0200
-Subject: Re: [PATCH 0/3] drm/tinydrm: Rename to drm/tiny
-To: dri-devel@lists.freedesktop.org
-References: <20190725105132.22545-1-noralf@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <9df09283-111f-1d65-ef60-fc827cabd34b@tronnes.org>
-Date: Wed, 31 Jul 2019 15:32:31 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB73F89A91
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 13:34:31 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id a15so60838971wmj.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 06:34:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=i4RNuLmH2IdqRoXZtbWJ/OiiSdgrVFINGLD7VLcf79I=;
+ b=IR+26W3ez0hSvPAVlJHk3AZJ+S1HgY8L8URSzTxpMcjQj2IOkmxzm/fzxcXUQ+Wh+5
+ US0YEfR9aaxCtKAyMsu04rEXfIkqd+dUHkztAHnKj4s4NRCKQ8MkZ0PtFKdFYFrhHHq6
+ fxZtaURzs/Wv7bFAJunrhsdeI3za1OX23Fb4/F8+dgMZT+7VjQ5fnH7/3Cc3hFWblkbr
+ A3qVVExfHF+VgDuqviiCOjg5/LRMSoMXPC1AnJ/WPePL0FRNbaz3Vw1dIcE6Vl31DKpl
+ Qmu5iUJ00JVlfRW7VgZvi0zMbIikQieUk25YmbTvkejZaF+1gO+jMdooyOn5jGiO3Sf7
+ Bwcw==
+X-Gm-Message-State: APjAAAUK00AVDGetOIUn5u9NC9Ld+5pPl6LOg/Vi5e+p3e6SUabUEbQI
+ iS0YFItoRwooIO0IBTdeEaM=
+X-Google-Smtp-Source: APXvYqxGpdFwuhY+fdgM2CZcJCMfAQRfJPr9pIwRtQatt/DbHMUfVJuDjo/5V3oBC21OKIW2jAL+Qw==
+X-Received: by 2002:a1c:a019:: with SMTP id j25mr111460938wme.95.1564580070080; 
+ Wed, 31 Jul 2019 06:34:30 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id a81sm71625173wmh.3.2019.07.31.06.34.29
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 31 Jul 2019 06:34:29 -0700 (PDT)
+Subject: Re: [PATCH] dma-buf: add more reservation object locking wrappers
+To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ sumit.semwal@linaro.org
+References: <20190731113853.51779-1-christian.koenig@amd.com>
+ <156457641010.6373.7515721920178088211@skylake-alporthouse-com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <6421ea80-2bdd-7f63-1cba-9c57157f3946@gmail.com>
+Date: Wed, 31 Jul 2019 15:34:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190725105132.22545-1-noralf@tronnes.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; d=tronnes.org; s=ds201810; 
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
- bh=U1fkx90lC5fFrI2WVFZsahnaMeb5ja47EUlft9lAMlU=; 
- b=I2cG6q3pD7T7nzjZIdMIaEQsgsORxY/+1XenEnGGzoTd3kxTHfMpzZvT9mXCxS+6/B9uHM7V11bRLaPeq/2AEtQ1cr3kE8IbJHFuBsPlM5j0X4Mu+mCjaVizga7mRCQ3DjyjH1+GjvAflVI2MOBwRahawMTO+2lI3ivmDqDZVg4QFhsQYudsoWgIftXIZFX4XkvWDnAHNC1SRWYiSGB3nyVnTgWQltHjAlj0Gz0lf8xJoUP+koIXblPoV/32Xcj4p0nZ8SET8e8LizP5VD1zpE9k/lJ7vVY4eai5bx3HggXMgqPlS0w49+vEgN3r2CVC52k8sXSUJn9Yu/13ChtRpw==;
+In-Reply-To: <156457641010.6373.7515721920178088211@skylake-alporthouse-com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=reply-to:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=i4RNuLmH2IdqRoXZtbWJ/OiiSdgrVFINGLD7VLcf79I=;
+ b=idSKC1LrcP6KSggywxxWZE2tldyk0Hu9EdVDizSFI9VGQltD1RKuXItmz6uOrlPyv/
+ vg+GQ6GGaY/QBbDNe855roiLaDXVXixWUNXjglnNP0m6+NTNe5lEy2HsLM8bfwIWhZw4
+ 8t8bOC4SUzFMYc3stXhibDzv7038m3AY2y35q69hY5hWmbOjmX3E4lTiDqsCpluefPhQ
+ qecU7CPjoG9pj7pxcsU51GcvuFYZ9/ECC+8Avp5nIJ8ttk0O9CNPPT7z0GW19Dd0zI+j
+ wyTEg40CJq/FIXXT8HugVY6JvS2/l6cLbe8v2z+rdmhWId77w1ywzb+9NqKUPJN2llOH
+ 2D4A==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,19 +74,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, hdegoede@redhat.com
-Content-Type: text/plain; charset="utf-8"
+Reply-To: christian.koenig@amd.com
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpEZW4gMjUuMDcuMjAxOSAxMi41MSwgc2tyZXYgTm9yYWxmIFRyw7hubmVzOgo+IFRoaXMgaXMg
-dGhlIGZpbmFsIHBvbGlzaCBvbiB0aW55ZHJtIHR1cm5pbmcgaXQgaW50byBfdGhlXyBwbGFjZSBm
-b3IgdGlueQo+IERSTSBkcml2ZXJzLgo+IAo+IE5vcmFsZi4KPiAKPiBOb3JhbGYgVHLDuG5uZXMg
-KDMpOgo+ICAgZHJtL3Rpbnlkcm0vS2NvbmZpZzogUmVtb3ZlIG1lbnVjb25maWcgRFJNX1RJTllE
-Uk0KPiAgIGRybS90aW55ZHJtOiBSZW5hbWUgZm9sZGVyIHRvIHRpbnkKPiAgIGRybS9nbTEydTMy
-MDogTW92ZSBkcml2ZXIgdG8gZHJtL3RpbnkKPiAKClNlcmllcyBhcHBsaWVkIHRvIGRybS1taXNj
-LW5leHQsIHRoYW5rcyBmb3IgcmV2aWV3aW5nLgoKTm9yYWxmLgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+QW0gMzEuMDcuMTkgdW0gMTQ6MzMgc2NocmllYiBDaHJpcyBXaWxzb246Cj4gUXVvdGluZyBDaHJp
+c3RpYW4gS8O2bmlnICgyMDE5LTA3LTMxIDEyOjM4OjUzKQo+PiBDb21wbGV0ZSB0aGUgYWJzdHJh
+Y3Rpb24gb2YgdGhlIHd3X211dGV4IGluc2lkZSB0aGUgcmVzZXJ2YXRpb24gb2JqZWN0Lgo+Pgo+
+PiBUaGlzIGFsbG93cyB1cyB0byBhZGQgbW9yZSBoYW5kbGluZyBhbmQgZGVidWdnaW5nIHRvIHRo
+ZSByZXNlcnZhdGlvbgo+PiBvYmplY3QgaW4gdGhlIGZ1dHVyZS4KPj4KPj4gU2lnbmVkLW9mZi1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IExvb2tzIGVu
+dGlyZWx5IG1lY2hhbmljYWwsCj4gUmV2aWV3ZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hy
+aXMtd2lsc29uLmNvLnVrPgo+Cj4gUXVpZXRseSBvcGluZXMgZm9yIHMvcmVzZXJ2YXRpb25fb2Jq
+ZWN0L2RtYV9yZXNlcnZhdGlvbi8KCkkgd2FzIHRoaW5raW5nIGFib3V0IHRoYXQgYXMgd2VsbCBi
+ZWNhdXNlICJyZXNlcnZhdGlvbl9vYmplY3QiIGlzIGp1c3QgYSAKcmF0aGVyIGxvbmcgbmFtZSBh
+bmQgbm90IHZlcnkgZGVzY3JpcHRpdmUuCgpCdXQgSSdtIG5vdCBzdXJlIGlmIGRtYV9yZXNlcnZh
+dGlvbiBmaXRzIGVpdGhlci4gSG93IGFib3V0IHNvbWV0aGluZyAKbGlrZSBkbWFfY250cmw/CgpD
+aHJpc3RpYW4uCgo+IC1DaHJpcwoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
