@@ -2,33 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550897DABE
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 13:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CD97DAC2
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 13:58:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D68A76E56E;
-	Thu,  1 Aug 2019 11:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4FF76E566;
+	Thu,  1 Aug 2019 11:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AFC46E56B
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 11:56:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39EC6E566
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 11:58:44 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id DB6DBAFC3;
- Thu,  1 Aug 2019 11:56:47 +0000 (UTC)
+ by mx1.suse.de (Postfix) with ESMTP id 77314AD17;
+ Thu,  1 Aug 2019 11:58:43 +0000 (UTC)
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
+To: Feng Tang <feng.tang@intel.com>
+References: <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
+ <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
+ <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
+ <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
+ <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
+ <87wofyzhbm.fsf@yhuang-dev.intel.com>
+ <721a5338-a6b7-4bfb-9d33-d68554451954@daenzer.net>
+ <c1944c76-c07c-411b-7929-00df387c6369@intel.com>
+ <20190801083721.GA3141@shbuild999.sh.intel.com>
+ <2eefa08e-2560-b2c1-6df0-f2e81babb41e@suse.de>
+ <20190801112535.GA70068@shbuild999.sh.intel.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, noralf@tronnes.org, airlied@linux.ie,
- rong.a.chen@intel.com, feng.tang@intel.com, ying.huang@intel.com,
- sean@poorly.run, maxime.ripard@bootlin.com,
- maarten.lankhorst@linux.intel.com
-Subject: [PATCH 3/3] drm/mgag200: Map fbdev framebuffer while it's being
- displayed
-Date: Thu,  1 Aug 2019 13:56:42 +0200
-Message-Id: <20190801115642.21231-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190801115642.21231-1-tzimmermann@suse.de>
-References: <20190801115642.21231-1-tzimmermann@suse.de>
+Openpgp: preference=signencrypt
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
+ IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
+ AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
+ 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
+ hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
+ YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
+ 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
+ tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
+ R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
+ E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
+ kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
+ 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
+ 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
+ A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
+ NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
+ VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
+ iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
+ VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
+ iNx9uqqx
+Message-ID: <afd7d401-143c-b121-740c-9a50d34bbd29@suse.de>
+Date: Thu, 1 Aug 2019 13:58:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190801112535.GA70068@shbuild999.sh.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,75 +75,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
- Armijn Hemel <armijn@tjaldur.nl>, Huang Rui <ray.huang@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Rong Chen <rong.a.chen@intel.com>,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Huang,
+ Ying" <ying.huang@intel.com>, LKP <lkp@01.org>
+Content-Type: multipart/mixed; boundary="===============0654527153=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIGdlbmVyaWMgZmJkZXYgZW11bGF0aW9uIHdpbGwgbWFwIGFuZCB1bm1hcCB0aGUgZnJhbWVi
-dWZmZXIncyBtZW1vcnkKaWYgcmVxdWlyZWQuIEFzIGNvbnNvbGVzIGFyZSBtb3N0IG9mdGVuIHVw
-ZGF0ZWQgd2hpbGUgYmVpbmcgb24gc2NyZWVuLAp3ZSBtYXAgdGhlIGZiZGV2IGJ1ZmZlciB3aGls
-ZSBpdCdzIGJlaW5nIGRpc3BsYXllZC4gVGhpcyBhdm9pZHMgZnJlcXVlbnQKbWFwL3VubWFwIG9w
-ZXJhdGlvbnMgaW4gdGhlIGZiZGV2IGNvZGUuIFRoZSBvcmlnaW5hbCBmYmRldiBjb2RlIGluIG1n
-YWcyMDAKdXNlZCB0aGUgc2FtZSB0cmljayB0byBpbXByb3ZlIHBlcmZvcm1hbmNlLgoKU2lnbmVk
-LW9mZi1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA5
-MGY0NzlhZTUxYWYgKCJkcm0vbWdhZzIwMDogUmVwbGFjZSBzdHJ1Y3QgbWdhX2ZiZGV2IHdpdGgg
-Z2VuZXJpYyBmcmFtZWJ1ZmZlciBlbXVsYXRpb24iKQpDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6
-aW1tZXJtYW5uQHN1c2UuZGU+CkNjOiBOb3JhbGYgVHLDuG5uZXMgPG5vcmFsZkB0cm9ubmVzLm9y
-Zz4KQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CkNjOiBHcmVnIEtyb2FoLUhh
-cnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpDYzogVGhvbWFzIEdsZWl4bmVyIDx0
-Z2x4QGxpbnV0cm9uaXguZGU+CkNjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4K
-Q2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6ICJDaHJpc3Rp
-YW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogU2FtIFJhdm5ib3JnIDxz
-YW1AcmF2bmJvcmcub3JnPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5j
-aD4KQ2M6IEh1YW5nIFJ1aSA8cmF5Lmh1YW5nQGFtZC5jb20+CkNjOiBCYXJ0bG9taWVqIFpvbG5p
-ZXJraWV3aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+CkNjOiAiTWljaGHFgiBNaXJvc8WC
-YXciIDxtaXJxLWxpbnV4QHJlcmUucW1xbS5wbD4KQ2M6IEFybWlqbiBIZW1lbCA8YXJtaWpuQHRq
-YWxkdXIubmw+CkNjOiBSb25nIENoZW4gPHJvbmcuYS5jaGVuQGludGVsLmNvbT4KQ2M6IEZlbmcg
-VGFuZyA8ZmVuZy50YW5nQGludGVsLmNvbT4KQ2M6IEh1YW5nIFlpbmcgPHlpbmcuaHVhbmdAaW50
-ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIHwgMjEg
-KysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jIGIvZHJp
-dmVycy9ncHUvZHJtL21nYWcyMDAvbWdhZzIwMF9tb2RlLmMKaW5kZXggODIyZjJhMTM3NDhmLi5h
-NjM5MTE0NGZlYjUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBf
-bW9kZS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbW9kZS5jCkBAIC04
-NjAsMTMgKzg2MCwyMCBAQCBzdGF0aWMgaW50IG1nYV9jcnRjX2RvX3NldF9iYXNlKHN0cnVjdCBk
-cm1fY3J0YyAqY3J0YywKIAkJCQlzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyICpmYiwKIAkJCQlpbnQg
-eCwgaW50IHksIGludCBhdG9taWMpCiB7CisJc3RydWN0IGRybV9mYl9oZWxwZXIgKmZiX2hlbHBl
-ciA9IGNydGMtPmRldi0+ZmJfaGVscGVyOwogCXN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpn
-Ym87CiAJaW50IHJldDsKIAlzNjQgZ3B1X2FkZHI7CisJdm9pZCAqYmFzZTsKIAogCWlmICghYXRv
-bWljICYmIGZiKSB7CiAJCWdibyA9IGRybV9nZW1fdnJhbV9vZl9nZW0oZmItPm9ialswXSk7CiAJ
-CWRybV9nZW1fdnJhbV91bnBpbihnYm8pOworCisJCS8vIFVubWFwIGZiZGV2IEZCIGlmIGl0J3Mg
-bm90IGJlaW5nIGRpc3BsYXllZAorCQkvLyBhbnkgbG9uZ2VyLgorCQlpZiAoZmIgPT0gZmJfaGVs
-cGVyLT5idWZmZXItPmZiKQorCQkJZHJtX2dlbV92cmFtX2t1bm1hcChnYm8pOwogCX0KIAogCWdi
-byA9IGRybV9nZW1fdnJhbV9vZl9nZW0oY3J0Yy0+cHJpbWFyeS0+ZmItPm9ialswXSk7CkBAIC04
-ODIsNiArODg5LDE1IEBAIHN0YXRpYyBpbnQgbWdhX2NydGNfZG9fc2V0X2Jhc2Uoc3RydWN0IGRy
-bV9jcnRjICpjcnRjLAogCiAJbWdhX3NldF9zdGFydF9hZGRyZXNzKGNydGMsICh1MzIpZ3B1X2Fk
-ZHIpOwogCisJLy8gTWFwIGZiZGV2IEZCIHdoaWxlIGl0J3MgYmVpbmcgZGlzcGxheWVkLiBUaGlz
-CisJLy8gYXZvaWRzIGZyZXF1ZW50IG1hcHBpbmcgYW5kIHVubWFwcGluZyB3aXRoaW5nIHRoZQor
-CS8vIGZiZGV2IGNvZGUuCisJaWYgKGNydGMtPnByaW1hcnktPmZiID09IGZiX2hlbHBlci0+YnVm
-ZmVyLT5mYikgeworCQliYXNlID0gZHJtX2dlbV92cmFtX2ttYXAoZ2JvLCB0cnVlLCBOVUxMKTsK
-KwkJaWYgKElTX0VSUihiYXNlKSkKKwkJCURSTV9FUlJPUigiZmFpbGVkIHRvIGttYXAgZmJjb25c
-biIpOworCX0KKwogCXJldHVybiAwOwogCiBlcnJfZHJtX2dlbV92cmFtX3VucGluOgpAQCAtMTQw
-Myw5ICsxNDE5LDE0IEBAIHN0YXRpYyB2b2lkIG1nYV9jcnRjX2Rpc2FibGUoc3RydWN0IGRybV9j
-cnRjICpjcnRjKQogCURSTV9ERUJVR19LTVMoIlxuIik7CiAJbWdhX2NydGNfZHBtcyhjcnRjLCBE
-Uk1fTU9ERV9EUE1TX09GRik7CiAJaWYgKGNydGMtPnByaW1hcnktPmZiKSB7CisJCXN0cnVjdCBk
-cm1fZmJfaGVscGVyICpmYl9oZWxwZXIgPSBjcnRjLT5kZXYtPmZiX2hlbHBlcjsKIAkJc3RydWN0
-IGRybV9mcmFtZWJ1ZmZlciAqZmIgPSBjcnRjLT5wcmltYXJ5LT5mYjsKIAkJc3RydWN0IGRybV9n
-ZW1fdnJhbV9vYmplY3QgKmdibyA9CiAJCQlkcm1fZ2VtX3ZyYW1fb2ZfZ2VtKGZiLT5vYmpbMF0p
-OworCisJCS8vIFVubWFwIGlmIGl0J3MgdGhlIGZiZGV2IEZCLgorCQlpZiAoZmIgPT0gZmJfaGVs
-cGVyLT5idWZmZXItPmZiKQorCQkJZHJtX2dlbV92cmFtX2t1bm1hcChnYm8pOwogCQlkcm1fZ2Vt
-X3ZyYW1fdW5waW4oZ2JvKTsKIAl9CiAJY3J0Yy0+cHJpbWFyeS0+ZmIgPSBOVUxMOwotLSAKMi4y
-Mi4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0654527153==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="a7TDFZDT586uXsBC19CuZpcux8aA4TuG9"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--a7TDFZDT586uXsBC19CuZpcux8aA4TuG9
+Content-Type: multipart/mixed; boundary="uzcCmur8yWF9iDhclL1F9fqazBWrd6krq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Feng Tang <feng.tang@intel.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Rong Chen
+ <rong.a.chen@intel.com>, =?UTF-8?Q?Michel_D=c3=a4nzer?=
+ <michel@daenzer.net>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "Huang, Ying" <ying.huang@intel.com>, LKP <lkp@01.org>
+Message-ID: <afd7d401-143c-b121-740c-9a50d34bbd29@suse.de>
+Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
+ regression
+References: <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
+ <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
+ <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
+ <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
+ <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
+ <87wofyzhbm.fsf@yhuang-dev.intel.com>
+ <721a5338-a6b7-4bfb-9d33-d68554451954@daenzer.net>
+ <c1944c76-c07c-411b-7929-00df387c6369@intel.com>
+ <20190801083721.GA3141@shbuild999.sh.intel.com>
+ <2eefa08e-2560-b2c1-6df0-f2e81babb41e@suse.de>
+ <20190801112535.GA70068@shbuild999.sh.intel.com>
+In-Reply-To: <20190801112535.GA70068@shbuild999.sh.intel.com>
+
+--uzcCmur8yWF9iDhclL1F9fqazBWrd6krq
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 01.08.19 um 13:25 schrieb Feng Tang:
+> Hi Thomas,
+>=20
+> On Thu, Aug 01, 2019 at 11:59:28AM +0200, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 01.08.19 um 10:37 schrieb Feng Tang:
+>>> On Thu, Aug 01, 2019 at 02:19:53PM +0800, Rong Chen wrote:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> commit: 90f479ae51afa45efab97afdde9b94b9660dd3e4 ("drm/mgag=
+200: Replace struct mga_fbdev with generic framebuffer emulation")
+>>>>>>>>>>>>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/ne=
+xt/linux-next.git master
+>>>>>>>>>>>> Daniel, Noralf, we may have to revert this patch.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I expected some change in display performance, but not in VM=
+=2E Since it's
+>>>>>>>>>>>> a server chipset, probably no one cares much about display p=
+erformance.
+>>>>>>>>>>>> So that seemed like a good trade-off for re-using shared cod=
+e.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Part of the patch set is that the generic fb emulation now m=
+aps and
+>>>>>>>>>>>> unmaps the fbdev BO when updating the screen. I guess that's=
+ the cause
+>>>>>>>>>>>> of the performance regression. And it should be visible with=
+ other
+>>>>>>>>>>>> drivers as well if they use a shadow FB for fbdev emulation.=
+
+>>>>>>>>>>> For fbcon we should need to do any maps/unamps at all, this i=
+s for the
+>>>>>>>>>>> fbdev mmap support only. If the testcase mentioned here tests=
+ fbdev
+>>>>>>>>>>> mmap handling it's pretty badly misnamed :-) And as long as y=
+ou don't
+>>>>>>>>>>> have an fbdev mmap there shouldn't be any impact at all.
+>>>>>>>>>> The ast and mgag200 have only a few MiB of VRAM, so we have to=
+ get the
+>>>>>>>>>> fbdev BO out if it's not being displayed. If not being mapped,=
+ it can be
+>>>>>>>>>> evicted and make room for X, etc.
+>>>>>>>>>>
+>>>>>>>>>> To make this work, the BO's memory is mapped and unmapped in
+>>>>>>>>>> drm_fb_helper_dirty_work() before being updated from the shado=
+w FB. [1]
+>>>>>>>>>> That fbdev mapping is established on each screen update, more =
+or less.
+>>>>>>>>>> From my (yet unverified) understanding, this causes the perfor=
+mance
+>>>>>>>>>> regression in the VM code.
+>>>>>>>>>>
+>>>>>>>>>> The original code in mgag200 used to kmap the fbdev BO while i=
+t's being
+>>>>>>>>>> displayed; [2] and the drawing code only mapped it when necess=
+ary (i.e.,
+>>>>>>>>>> not being display). [3]
+>>>>>>>>> Hm yeah, this vmap/vunmap is going to be pretty bad. We indeed =
+should
+>>>>>>>>> cache this.
+>>>>>>>>>
+>>>>>>>>>> I think this could be added for VRAM helpers as well, but it's=
+ still a
+>>>>>>>>>> workaround and non-VRAM drivers might also run into such a per=
+formance
+>>>>>>>>>> regression if they use the fbdev's shadow fb.
+>>>>>>>>> Yeah agreed, fbdev emulation should try to cache the vmap.
+>>>>>>>>>
+>>>>>>>>>> Noralf mentioned that there are plans for other DRM clients be=
+sides the
+>>>>>>>>>> console. They would as well run into similar problems.
+>>>>>>>>>>
+>>>>>>>>>>>> The thing is that we'd need another generic fbdev emulation =
+for ast and
+>>>>>>>>>>>> mgag200 that handles this issue properly.
+>>>>>>>>>>> Yeah I dont think we want to jump the gun here.  If you can t=
+ry to
+>>>>>>>>>>> repro locally and profile where we're wasting cpu time I hope=
+ that
+>>>>>>>>>>> should sched a light what's going wrong here.
+>>>>>>>>>> I don't have much time ATM and I'm not even officially at work=
+ until
+>>>>>>>>>> late Aug. I'd send you the revert and investigate later. I agr=
+ee that
+>>>>>>>>>> using generic fbdev emulation would be preferable.
+>>>>>>>>> Still not sure that's the right thing to do really. Yes it's a
+>>>>>>>>> regression, but vm testcases shouldn run a single line of fbcon=
+ or drm
+>>>>>>>>> code. So why this is impacted so heavily by a silly drm change =
+is very
+>>>>>>>>> confusing to me. We might be papering over a deeper and much mo=
+re
+>>>>>>>>> serious issue ...
+>>>>>>>> It's a regression, the right thing is to revert first and then w=
+ork
+>>>>>>>> out the right thing to do.
+>>>>>>> Sure, but I have no idea whether the testcase is doing something
+>>>>>>> reasonable. If it's accidentally testing vm scalability of fbdev =
+and
+>>>>>>> there's no one else doing something this pointless, then it's not=
+ a
+>>>>>>> real bug. Plus I think we're shooting the messenger here.
+>>>>>>>
+>>>>>>>> It's likely the test runs on the console and printfs stuff out w=
+hile running.
+>>>>>>> But why did we not regress the world if a few prints on the conso=
+le
+>>>>>>> have such a huge impact? We didn't get an entire stream of mails =
+about
+>>>>>>> breaking stuff ...
+>>>>>> The regression seems not related to the commit.  But we have retes=
+ted
+>>>>>> and confirmed the regression.  Hard to understand what happens.
+>>>>> Does the regressed test cause any output on console while it's
+>>>>> measuring? If so, it's probably accidentally measuring fbcon/DRM co=
+de in
+>>>>> addition to the workload it's trying to measure.
+>>>>>
+>>>>
+>>>> Sorry, I'm not familiar with DRM, we enabled the console to output l=
+ogs, and
+>>>> attached please find the log file.
+>>>>
+>>>> "Command line: ... console=3Dtty0 earlyprintk=3DttyS0,115200
+>>>> console=3DttyS0,115200 vga=3Dnormal rw"
+>>>
+>>> We did more check, and found this test machine does use the
+>>> mgag200 driver.=20
+>>>
+>>> And we are suspecting the regression is caused by=20
+>>>
+>>> commit cf1ca9aeb930df074bb5bbcde55f935fec04e529
+>>> Author: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Date:   Wed Jul 3 09:58:24 2019 +0200
+>>
+>> Yes, that's the commit. Unfortunately reverting it would require
+>> reverting a hand full of other patches as well.
+>>
+>> I have a potential fix for the problem. Could you run and verify that =
+it
+>> resolves the problem?
+>=20
+> Sure, please send it to us. Rong and I will try it.
+
+Fantastic, thank you! The patch set is available on dri-devel at
+
+  https://lists.freedesktop.org/archives/dri-devel/2019-August/228950.htm=
+l
+
+Best regards
+Thomas
+
+>=20
+> Thanks,
+> Feng
+>=20
+>=20
+>> Best regards
+>> Thomas
+>>
+>>>
+>>>     drm/fb-helper: Map DRM client buffer only when required
+>>>    =20
+>>>     This patch changes DRM clients to not map the buffer by default. =
+The
+>>>     buffer, like any buffer object, should be mapped and unmapped whe=
+n
+>>>     needed.
+>>>    =20
+>>>     An unmapped buffer object can be evicted to system memory and doe=
+s
+>>>     not consume video ram until displayed. This allows to use generic=
+ fbdev
+>>>     emulation with drivers for low-memory devices, such as ast and mg=
+ag200.
+>>>    =20
+>>>     This change affects the generic framebuffer console. HW-based con=
+soles
+>>>     map their console buffer once and keep it mapped. Userspace can m=
+map this
+>>>     buffer into its address space. The shadow-buffered framebuffer co=
+nsole
+>>>     only needs the buffer object to be mapped during updates. While n=
+ot being
+>>>     updated from the shadow buffer, the buffer object can remain unma=
+pped.
+>>>     Userspace will always mmap the shadow buffer.
+>>> =20
+>>> which may add more load when fbcon is busy printing out messages.
+>>>
+>>> We are doing more test inside 0day to confirm.
+>>>
+>>> Thanks,
+>>> Feng
+>>> _______________________________________________
+>>> dri-devel mailing list
+>>> dri-devel@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>
+>>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+>> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+>> HRB 21284 (AG N=C3=BCrnberg)
+>>
+>=20
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
+GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
+HRB 21284 (AG N=C3=BCrnberg)
+
+
+--uzcCmur8yWF9iDhclL1F9fqazBWrd6krq--
+
+--a7TDFZDT586uXsBC19CuZpcux8aA4TuG9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1C0/EACgkQaA3BHVML
+eiOpHgf/fWrvecvi5mp1B32H2hfBkX7Y/gGIkUYK+q/yeLr9BuDrcbM4hYTdHNCC
+nlJdup+86tdfYhMQkYJhJhC+7hbh3HHIApjWZdemdmNsaYl237wMYsq9/Vf7lzmC
+4Js12UzHlwqPUFvjk3fy7Gldtd72B6rJl2DLZ25/5h9rxQnjMAuml7ilPZQhd/Ss
+1T9ScPyCsK6MAYp+7sQsRyvi4IuhY1ONImLJQBS2EX0XssDbOEVuPOgQVl1W7Fm6
+BRsCWhhx5OGjLbn88STu8PGfsMBdyO0Y+LzCnvDvQkX+3hOwlkwUi8kgIyyCRH0J
+WreW0XXwVE//7A6dd1TtstXepJ9qSA==
+=e22t
+-----END PGP SIGNATURE-----
+
+--a7TDFZDT586uXsBC19CuZpcux8aA4TuG9--
+
+--===============0654527153==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0654527153==--
