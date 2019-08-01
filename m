@@ -2,40 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBC837E47F
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 22:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2F37E4AA
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 23:14:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE6086E808;
-	Thu,  1 Aug 2019 20:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16B656E815;
+	Thu,  1 Aug 2019 21:14:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 746936E808
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 20:52:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2019 13:52:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,335,1559545200"; d="scan'208";a="372736374"
-Received: from markusbr-mobl5.ger.corp.intel.com (HELO [10.249.34.240])
- ([10.249.34.240])
- by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2019 13:52:24 -0700
-To: dri-devel <dri-devel@lists.freedesktop.org>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Zhou, David(ChunMing)" <David1.Zhou@amd.com>,
- Jason Ekstrand <jason@jlekstrand.net>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Subject: Threaded submission & semaphore sharing
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Message-ID: <e8063826-a38b-e1d3-fe8b-63202b8bd264@intel.com>
-Date: Thu, 1 Aug 2019 23:52:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37FC06E815
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 21:14:48 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6D3D7206A2;
+ Thu,  1 Aug 2019 21:14:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Language: en-US
+In-Reply-To: <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com>
+References: <20190716175021.9CA412173C@mail.kernel.org>
+ <20190719000834.GA3228@google.com>
+ <20190722200347.261D3218C9@mail.kernel.org>
+ <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
+ <20190722235411.06C1320840@mail.kernel.org>
+ <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
+ <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com>
+ <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz>
+ <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
+ <CAFd5g473iFfvBnJs2pcwuJYgY+DpgD6RLzyDFL1otUuScgKUag@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like
+ logger
+From: Stephen Boyd <sboyd@kernel.org>
+To: Brendan Higgins <brendanhiggins@google.com>
+User-Agent: alot/0.8.1
+Date: Thu, 01 Aug 2019 14:14:46 -0700
+Message-Id: <20190801211447.6D3D7206A2@mail.kernel.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1564694087;
+ bh=n0IdgFG7Kos2nGnJ4DnkR9p1y4CCyIbJ6ZBAUiBNpN4=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=mCeQAbdwzIbwLPOijpChQVFo4UiYoSWfSZsIgfoIrNYNDT1t+cF6inHSpvwbpaWEE
+ h3a75ihCGxnVfKz0yO5MH+8Z55L0rleQ67pJQ89uiV1jYfk7eCIm+wLogdHeiGG1J2
+ 0oPUv74xqN1E4K+r3Bcp5gj1D6bBbIkaOl5oR1Jc=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,46 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree <devicetree@vger.kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Amir Goldstein <amir73il@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sasha Levin <Alexander.Levin@microsoft.com>,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ shuah <shuah@kernel.org>, linux-nvdimm <linux-nvdimm@lists.01.org>,
+ Timothy Bird <Tim.Bird@sony.com>, Frank Rowand <frowand.list@gmail.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Knut Omang <knut.omang@oracle.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, wfg@linux.intel.com,
+ Joel Stanley <joel@jms.id.au>, David Rientjes <rientjes@google.com>,
+ Kevin Hilman <khilman@baylibre.com>, Dan Carpenter <dan.carpenter@oracle.com>,
+ Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>,
+ linux-kbuild <linux-kbuild@vger.kernel.org>, Jeff Dike <jdike@addtoit.com>,
+ linux-um@lists.infradead.org, Steven Rostedt <rostedt@goodmis.org>,
+ Julia Lawall <julia.lawall@lip6.fr>, Josh Poimboeuf <jpoimboe@redhat.com>,
+ kunit-dev@googlegroups.com, Theodore Ts'o <tytso@mit.edu>,
+ Richard Weinberger <richard@nod.at>, Greg KH <gregkh@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <keescook@google.com>,
+ linux-fsdevel@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2hyaXN0aWFuLCBEYXZpZCwKClNvcnJ5IHRvIHJlcG9ydCB0aGlzIHNvIGxhdGUgaW4gdGhl
-IHByb2Nlc3MsIGJ1dCBJIHRoaW5rIHdlIGZvdW5kIGFuIAppc3N1ZSBub3QgZGlyZWN0bHkgcmVs
-YXRlZCB0byBzeW5jb2JqIHRpbWVsaW5lcyB0aGVtc2VsdmVzIGJ1dCB3aXRoIGEgCnNpZGUgZWZm
-ZWN0IG9mIHRoZSB0aHJlYWRlZCBzdWJtaXNzaW9ucy4KCkVzc2VudGlhbGx5IHdlJ3JlIGZhaWxp
-bmcgYSB0ZXN0IGluIGNydWNpYmxlIDogCmZ1bmMuc3luYy5zZW1hcGhvcmUtZmQub3BhcXVlLWZk
-ClRoaXMgdGVzdCBjcmVhdGUgYSBzaW5nbGUgYmluYXJ5IHNlbWFwaG9yZSwgc2hhcmVzIGl0IGJl
-dHdlZW4gMiAKVmtEZXZpY2UvVmtRdWV1ZS4KVGhlbiBpbiBhIGxvb3AgaXQgcHJvY2VlZHMgdG8g
-c3VibWl0IHdvcmtsb2FkIGFsdGVybmF0aW5nIGJldHdlZW4gdGhlIDIgClZrUXVldWUgd2l0aCBv
-bmUgc3VibWl0IGRlcGVuZGluZyBvbiB0aGUgb3RoZXIuCkl0IGRvZXMgc28gYnkgd2FpdGluZyBv
-biB0aGUgVmtTZW1hcGhvcmUgc2lnbmFsZWQgaW4gdGhlIHByZXZpb3VzIAppdGVyYXRpb24gYW5k
-IHJlc2lnbmFsaW5nIGl0LgoKVGhlIHByb2JsZW0gZm9yIHVzIGlzIHRoYXQgb25jZSB0aGluZ3Mg
-YXJlIGRpc3BhdGNoZWQgdG8gdGhlIHN1Ym1pc3Npb24gCnRocmVhZCwgdGhlIG9yZGVyaW5nIG9m
-IHRoZSBzdWJtaXNzaW9uIGlzIGxvc3QuCkJlY2F1c2Ugd2UgaGF2ZSAyIGRldmljZXMgYW5kIHRo
-ZXkgYm90aCBoYXZlIHRoZWlyIG93biBzdWJtaXNzaW9uIHRocmVhZC4KCkphc29uIHN1Z2dlc3Rl
-ZCB0aGF0IHdlIHJlZXN0YWJsaXNoIHRoZSBvcmRlcmluZyBieSBoYXZpbmcgCnNlbWFwaG9yZXMv
-c3luY29ianMgY2FycnkgYW4gYWRkaXRpb25hbCB1aW50NjRfdCBwYXlsb2FkLgpUaGlzIDY0Yml0
-IGludGVnZXIgd291bGQgcmVwcmVzZW50IGJlIGFuIGlkZW50aWZpZXIgdGhhdCBzdWJtaXNzaW9u
-IAp0aHJlYWRzIHdpbGwgV0FJVF9GT1JfQVZBSUxBQkxFIG9uLgoKVGhlIHNjZW5hcmlvIHdvdWxk
-IGxvb2sgbGlrZSB0aGlzIDoKIMKgwqDCoCAtIHZrUXVldWVTdWJtaXQocXVldWVBLCBzaWduYWwg
-b24gc2VtQSk7CiDCoMKgwqAgwqDCoMKgIC0gaW4gdGhlIGNhbGxlciB0aHJlYWQsIHRoaXMgd291
-bGQgaW5jcmVtZW50IHRoZSBzeW5jb2JqIAphZGRpdGlvbmFsIHU2NCBwYXlsb2FkIGFuZCByZXR1
-cm4gaXQgdG8gdXNlcnNwYWNlLgogwqDCoMKgIMKgwqDCoCAtIGF0IHNvbWUgcG9pbnQgdGhlIHN1
-Ym1pc3Npb24gdGhyZWFkIG9mIHF1ZXVlQSBzdWJtaXRzIHRoZSAKd29ya2xvYWQgYW5kIHNpZ25h
-bCB0aGUgc3luY29iaiBvZiBzZW1BIHdpdGggdmFsdWUgcmV0dXJuZWQgaW4gdGhlIApjYWxsZXIg
-dGhyZWFkIG9mIHZrUXVldWVTdWJtaXQoKS4KIMKgwqDCoCAtIHZrUXVldWVTdWJtaXQocXVldWVC
-LCB3YWl0IG9uIHNlbUEpOwogwqDCoMKgIMKgwqDCoCAtIGluIHRoZSBjYWxsZXIgdGhyZWFkLCB0
-aGlzIHdvdWxkIHJlYWQgdGhlIHN5bmNvYmogYWRkaXRpb25hbCAKdTY0IHBheWxvYWQKIMKgwqDC
-oCDCoMKgwqAgLSBhdCBzb21lIHBvaW50IHRoZSBzdWJtaXNzaW9uIHRocmVhZCBvZiBxdWV1ZUIg
-d2lsbCB0cnkgdG8gCnN1Ym1pdCB0aGUgd29yaywgYnV0IGZpcnN0IGl0IHdpbGwgV0FJVF9GT1Jf
-QVZBSUxBQkxFIHRoZSB1NjQgdmFsdWUgCnJldHVybmVkIGluIHRoZSBzdGVwIGFib3ZlCgpCZWNh
-dXNlIHdlIHdhbnQgdGhlIGJpbmFyeSBzZW1hcGhvcmVzIHRvIGJlIHNoYXJlZCBhY3Jvc3MgcHJv
-Y2Vzc2VzIGFuZCAKd291bGQgbGlrZSB0aGlzIHRvIHJlbWFpbiBhIHNpbmdsZSBGRCwgdGhlIHNp
-bXBsZXN0IGxvY2F0aW9uIHRvIHN0b3JlIAp0aGlzIGFkZGl0aW9uYWwgdTY0IHBheWxvYWQgd291
-bGQgYmUgdGhlIERSTSBzeW5jb2JqLgpJdCB3b3VsZCBuZWVkIGFuIGFkZGl0aW9uYWwgaW9jdGwg
-dG8gcmVhZCAmIGluY3JlbWVudCB0aGUgdmFsdWUuCgpXaGF0IGRvIHlvdSB0aGluaz8KCi1MaW9u
-ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+UXVvdGluZyBCcmVuZGFuIEhpZ2dpbnMgKDIwMTktMDgtMDEgMTE6NTk6NTcpCj4gT24gVGh1LCBB
+dWcgMSwgMjAxOSBhdCAxMTo1NSBBTSBCcmVuZGFuIEhpZ2dpbnMKPiA8YnJlbmRhbmhpZ2dpbnNA
+Z29vZ2xlLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gRnJpLCBKdWwgMjYsIDIwMTkgYXQgMTozMSBB
+TSBQZXRyIE1sYWRlayA8cG1sYWRla0BzdXNlLmNvbT4gd3JvdGU6Cj4gPgo+ID4gPiBUbyBiZSBo
+b25lc3QgSSBkbyBub3QgZnVsbHkgdW5kZXJzdGFuZCBLVW5pdCBkZXNpZ24uIEkgYW0gbm90Cj4g
+PiA+IGNvbXBsZXRlbHkgc3VyZSBob3cgdGhlIHRlc3RlZCBjb2RlIGlzIGlzb2xhdGVkIGZyb20g
+dGhlIHJ1bm5pbmcKPiA+ID4gc3lzdGVtLiBOYW1lbHksIEkgZG8gbm90IGtub3cgaWYgdGhlIHRl
+c3RlZCBjb2RlIHNoYXJlcwo+ID4gPiB0aGUgc2FtZSBsb2NrcyB3aXRoIHRoZSBzeXN0ZW0gcnVu
+bmluZyB0aGUgdGVzdC4KPiA+Cj4gPiBObyB3b3JyaWVzLCBJIGRvbid0IGV4cGVjdCBwcmludGsg
+dG8gYmUgdGhlIGhhbmcgdXAgaW4gdGhvc2UgY2FzZXMuIEl0Cj4gPiBzb3VuZHMgbGlrZSBLVW5p
+dCBoYXMgYSBsb25nIHdheSB0byBldm9sdmUgYmVmb3JlIHByaW50ayBpcyBnb2luZyB0bwo+ID4g
+YmUgYSBsaW1pdGF0aW9uLgo+IAo+IFNvIFN0ZXBoZW4sIHdoYXQgZG8geW91IHRoaW5rPwo+IAo+
+IERvIHlvdSB3YW50IG1lIHRvIGdvIGZvcndhcmQgd2l0aCB0aGUgbmV3IGt1bml0X2Fzc2VydCBB
+UEkgd3JhcHBpbmcKPiB0aGUgc3RyaW5nX3N0cmVhbSBhcyBJIGhhdmUgaXQgbm93PyBXb3VsZCB5
+b3UgcHJlZmVyIHRvIHB1bnQgdGhpcyB0byBhCj4gbGF0ZXIgcGF0Y2g/IE9yIHdvdWxkIHlvdSBw
+cmVmZXIgc29tZXRoaW5nIGVsc2U/Cj4gCgpJIGxpa2UgdGhlIHN0cnVjdCBiYXNlZCBhcHByb2Fj
+aC4gSWYgYW55dGhpbmcsIGl0IGNhbiBiZSBhZGp1c3RlZCB0bwptYWtlIHRoZSBjb2RlIHRocm93
+IHNvbWUgcmVjb3JkcyBpbnRvIGEgc3BpbmxvY2sgbGF0ZXIgb24gYW5kIGRlbGF5IHRoZQpmb3Jt
+YXR0aW5nIG9mIHRoZSBhc3NlcnRpb24gaWYgbmVlZCBiZS4gQ2FuIHlvdSByZXNlbmQgd2l0aCB0
+aGF0CmFwcHJvYWNoPyBJIGRvbid0IHRoaW5rIEknbGwgaGF2ZSBhbnkgbW9yZSBjb21tZW50cyBh
+ZnRlciB0aGF0LgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
