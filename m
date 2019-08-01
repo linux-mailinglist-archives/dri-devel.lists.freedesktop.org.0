@@ -1,38 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A6297D865
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 11:22:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A677D8C8
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 11:51:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 332536E435;
-	Thu,  1 Aug 2019 09:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A7356E340;
+	Thu,  1 Aug 2019 09:51:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B036E435
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 09:22:15 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ht7Hq-0006NF-1N; Thu, 01 Aug 2019 11:22:14 +0200
-Message-ID: <1564651333.7439.14.camel@pengutronix.de>
-Subject: Re: [PATCH] etnaviv: fix whitespace errors
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Christian Gmeiner <christian.gmeiner@gmail.com>, 
- dri-devel@lists.freedesktop.org
-Date: Thu, 01 Aug 2019 11:22:13 +0200
-In-Reply-To: <20190731212944.3819-1-christian.gmeiner@gmail.com>
-References: <20190731212944.3819-1-christian.gmeiner@gmail.com>
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF936E340;
+ Thu,  1 Aug 2019 09:51:23 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id v24so68858016ljg.13;
+ Thu, 01 Aug 2019 02:51:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=wDV2ZU54YnNWOZh8abPbbWvty67B0rm/mrP4PoOgNHI=;
+ b=h+YZ2KcrfyX12oIX8rw3H+o6hvqcgGa2ia+3tsGGWMSCkYhHB9ObwvdAhzAO7jrtRf
+ fwmUsSXXj3KmiXrcJd5Vz0NypCb1B/N7+TCD8uG8AdUAKGkmGfjpHfeDYPLI74CzECvj
+ ul8yIK1wvz6+jjshsrgzCgt/P5XJbef+kXPjjPUssEFgz7W4NdiD/k7OBNu0VrAnnrdZ
+ dughKDaZ3/5jQjnR8uv00ETHlM/PfYRHTGs2ASaECtSldyArqPU5HzJ8lAIcUa141CYo
+ pO2pitze3t3yUR2YWf1CTKeFqXxYefbB/kW4wPhXNavOXT6UTRL42zNAgdum96LTkvoL
+ yd3Q==
+X-Gm-Message-State: APjAAAXZkjJ/+iEUvkSKvuwwnGTr9RU0YU48v9HwDdYvWioK+tjU0I+T
+ N/IUtoB5LRM2pEYkXBT2Y64=
+X-Google-Smtp-Source: APXvYqz9wGfzdRb1Jt9BM9lDVTDjpf2ZKzfLzbe7ZrQUJxmmXqhnf+8xHLhojAsY3IWFuaGAjS8g+g==
+X-Received: by 2002:a2e:b048:: with SMTP id d8mr25833944ljl.118.1564653081420; 
+ Thu, 01 Aug 2019 02:51:21 -0700 (PDT)
+Received: from ferris.localdomain (85-156-247-180.elisa-laajakaista.fi.
+ [85.156.247.180])
+ by smtp.gmail.com with ESMTPSA id z83sm14534644ljb.73.2019.08.01.02.51.20
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 01 Aug 2019 02:51:20 -0700 (PDT)
+Date: Thu, 1 Aug 2019 12:51:09 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>
+Subject: Re: [Intel-gfx] [RFC][PATCH 0/2] drm: PATH prop for all connectors?
+Message-ID: <20190801125109.2488a2d0@ferris.localdomain>
+In-Reply-To: <97e2643d-c534-cfb5-bd27-4cf95c656104@amd.com>
+References: <20190613184335.7970-1-ville.syrjala@linux.intel.com>
+ <11bb4ca1d27d3ab2d169deb57951855c4ddcd563.camel@redhat.com>
+ <20190711102923.3d219640@eldfell.localdomain>
+ <97e2643d-c534-cfb5-bd27-4cf95c656104@amd.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=wDV2ZU54YnNWOZh8abPbbWvty67B0rm/mrP4PoOgNHI=;
+ b=bDgzW2l7bFvLEeuQ8mQ4dal0vL4WRakPGq5PXaj81Zp9NFTRBbwSyZUyt/zRr5iL6E
+ EoZkqPRGuQxl3e1EHRmoX/Wsk/WFUvGXuzwNBxUkbMau4wfe+yQOezgJwkVismrWEGI9
+ kD52zL/kTHwpky0Hqqd0ekjK6L2Jiyly4zgBraXp9YOQojUcynhG+jq/KDScuBXoBi3p
+ 9lb/JDl/buOZAIYnUFdNYxsuZ5SAN0tLGLXfisnUbdcrOiqC4BtOpwRdgccc2zFrVPGZ
+ fzuD90MExNA+T4RlswGhmFe3v3jD7al2J3FRHAj4IrTrIfoBM89+zyCyWadj1FmdLQyA
+ RWHw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,29 +71,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============2073260632=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQ2hyaXN0aWFuLAoKT24gV2VkLCAyMDE5LTA3LTMxIGF0IDIzOjI5ICswMjAwLCBDaHJpc3Rp
-YW4gR21laW5lciB3cm90ZToKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gR21laW5lciA8Y2hy
-aXN0aWFuLmdtZWluZXJAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZp
-di9ldG5hdml2X3BlcmZtb24uYyB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRp
-b25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZXRuYXZpdi9ldG5hdml2X3BlcmZtb24uYyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
-aXZfcGVyZm1vbi5jCj4gaW5kZXggNDIyN2E0MDA2YzM0Li4wNmU2ZDNlZTFjMzQgMTAwNjQ0Cj4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9wZXJmbW9uLmMKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X3BlcmZtb24uYwo+IEBAIC0xNSw4ICsxNSw4
-IEBAIHN0cnVjdCBldG5hdml2X3BtX3NpZ25hbCB7Cj4gIAl1MzIgZGF0YTsKPiAgCj4gIAl1MzIg
-KCpzYW1wbGUpKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1LAo+IC0JICAgICAgICAgICAgICBjb25z
-dCBzdHJ1Y3QgZXRuYXZpdl9wbV9kb21haW4gKmRvbWFpbiwKPiAtCSAgICAgICAgICAgICAgY29u
-c3Qgc3RydWN0IGV0bmF2aXZfcG1fc2lnbmFsICpzaWduYWwpOwo+ICsJCQkJICBjb25zdCBzdHJ1
-Y3QgZXRuYXZpdl9wbV9kb21haW4gKmRvbWFpbiwKPiArCQkJCSAgY29uc3Qgc3RydWN0IGV0bmF2
-aXZfcG1fc2lnbmFsICpzaWduYWwpOwoKVGhhdCBzaWxlbmNlcyBhIGNoZWNrcGF0Y2ggZXJyb3Is
-IGJ1dCBub3cgdGhlIGFsaWdubWVudCB0byB0aGUKb3BlbmluZyBwYXJlbnRoZXNpcyBpcyBnb25l
-LgpIb3cgYWJvdXQgdXNpbmcgdHdvIHRhYnMgYW5kIHNpeCBzcGFjZXMgaW5zdGVhZD8KCnJlZ2Fy
-ZHMKUGhpbGlwcApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+--===============2073260632==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/HEa6R_4KyQA7GSt/ty5CntU"; protocol="application/pgp-signature"
+
+--Sig_/HEa6R_4KyQA7GSt/ty5CntU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 16 Jul 2019 14:59:58 +0000
+"Li, Sun peng (Leo)" <Sunpeng.Li@amd.com> wrote:
+
+> On 2019-07-11 3:29 a.m., Pekka Paalanen wrote:
+> > Wait, one can write udev rules for connectors and stuff?
+> > How? What can they do? =20
+>=20
+> I was using it to generate user-friendly device names for the mst aux
+> implementation:
+> https://patchwork.freedesktop.org/patch/315900/?series=3D63237&rev=3D2
+
+Hi,
+
+what is that device node used for?
+
+Are the "by-path" symlinks to help a display server associate the
+right device node with the right DRM KMS connector resource?
+
+The patch commit message did not explain what the names are
+actually used for.
+
+
+Thanks,
+pq
+
+--Sig_/HEa6R_4KyQA7GSt/ty5CntU
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl1Ctg0ACgkQI1/ltBGq
+qqf7UBAAq0zgWWoo3KwV5ud5aLHPfc+BjGTR2CTBnLgueGpKhmWPj7rfpZl+EeLt
+04uOtPcwVKw1AfVbqXUa1TI2DmhXadpLnZ6/TdGz5nIc6ei/dynFHfQFxWCXDPwZ
+f9g0yMt7QqWcMAG1DPgJKwcXwxCPoxPvSAYbgDdAA6YTRQ2wAyl8WR1nEpPrb3nR
+hasWQWIOipwK5VPoDbel1dFTyGs4D0B3WChh5w3ce8Svkf7sG6x3zzezeJUa4Vbs
+ZtqiFHohblAMtBcs7AYsXHxgoiq4cjWts6ILVAr4Ee70dUbvPY0E24kx/sgF4M9Y
+cb45BofwhLKavYQ1vYkZVZUAyA6vU6pD8/hUEgFaqQtV2oMwzDxposEoELDq9NaH
+ZJ9x/dfz1IDZtaSISQd6+nD76XETQi7RHxu9h99dw0IZbWO9o++ry1Z/tTHieZmm
+y/ZHf0UAwNW2xRdAW5/l72bgOSfQ2JIwITt2/jinj7fV3cKxI6jBbQh1htIhaAKV
+ufT1uwokp51qWPf466PnMkBYF/D3vBfNZxs+6/BmQzhOQmMFadrwrRv9HfvepZ/V
+ryASS3M+bBch3/dlrJQpjwMrtvO+jyaBALA0K+GcVBfrH863EE+6ZhZiitzo3vaY
+/FeZ4nj3YMQTky6MI7GkQLkfhTrr5RcwGFM/2v8Zi5HbOCnxOj8=
+=s71S
+-----END PGP SIGNATURE-----
+
+--Sig_/HEa6R_4KyQA7GSt/ty5CntU--
+
+--===============2073260632==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2073260632==--
