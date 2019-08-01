@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21BB7E6A1
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 01:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFD27E6F4
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 01:53:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF336E840;
-	Thu,  1 Aug 2019 23:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A524E6E845;
+	Thu,  1 Aug 2019 23:53:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com
- [IPv6:2607:f8b0:4864:20::a44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 266356E840;
- Thu,  1 Aug 2019 23:46:04 +0000 (UTC)
-Received: by mail-vk1-xa44.google.com with SMTP id w186so6580920vkd.11;
- Thu, 01 Aug 2019 16:46:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PhuFM2pdRnW2kX108enkfIuXqe+2wuG+ARNOH5L+Sds=;
- b=X278E0kd0+x+n92F5WL5f/hpC+6k/9aKzgf/P+ZjYvwUAYcCbdBz0GY7gOV6+1OTDV
- ok6zkHcqssL0Z57sbCOovmPShNk1ZyFrhnwjJBQ7tmOOZ1RvD+PTtP9eQPRT0hyBRXO4
- 3rmrrX/vWkoz15Sy2aD91JYeIUPsYMSOj3RbdqCY23kvUbNQ0hJ2n6IacqM1YVuIJvHH
- lDysw8KWpGD+sQ0SS3x7OM92xD+MCSazF+tUMm6VWUe6XHAQKR0ou6IOekudklkqkjN4
- 7JnM2ZRGzwQHh1i60z2rkPM/AuTt8cy1MNwkgcHvjaw5VhaPxDlqMfzNsxLbfockJxDa
- CQkA==
-X-Gm-Message-State: APjAAAWcZlyI4jOSTTZoplxeXYTixBu+Xf/kE2JSUFeRcwHNH0ApHuIy
- du9U33edvm5pboBzBkfkcpM3czTCJbptsO2Pt4M=
-X-Google-Smtp-Source: APXvYqz7HVl1IX60b6WZ5btm0hhToTNvYT8T77SPWWR/N2VB8mJecpIuoTni0zoAIqdXtxl+FsDlqejJHrdMLaN9vcg=
-X-Received: by 2002:a1f:4107:: with SMTP id o7mr52276511vka.34.1564703163073; 
- Thu, 01 Aug 2019 16:46:03 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E7FB76E843
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 23:53:39 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id DE8A072167; Thu,  1 Aug 2019 23:53:39 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 106056] weird artifacts in top right corner when rendering with
+ firefox or unigine heaven
+Date: Thu, 01 Aug 2019 23:53:40 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t_arceri@yahoo.com.au
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: WORKSFORME
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: resolution bug_status
+Message-ID: <bug-106056-502-0R2GF8PE4X@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-106056-502@http.bugs.freedesktop.org/>
+References: <bug-106056-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20190801220216.15323-1-lyude@redhat.com>
-In-Reply-To: <20190801220216.15323-1-lyude@redhat.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Fri, 2 Aug 2019 09:45:52 +1000
-Message-ID: <CACAvsv7sBPrC-6yxqKCT=H8FhVYvUSoN2GEqWrcfkAtXZmXprw@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: Only release VCPI slots on mode
- changes
-To: Lyude Paul <lyude@redhat.com>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=PhuFM2pdRnW2kX108enkfIuXqe+2wuG+ARNOH5L+Sds=;
- b=va1tKdssM+gKOUvvNunrZBekJn5ccALnpSDxSI76pAmLOUxB0xAuqPlAx8pHMrFYRn
- AEXjxmVNbmQc86qbUbqlRbQAvSU2lupPHjr/iMKzTyU5QuE+zV5BV1zGRE5mXtWtXa9I
- AK84q1HiHlBCExd9gbz/p/lhTOH5qLzbMG4s6JUjR/8xndXPuxdZ0Z9XNDaxO8e6tYfF
- wYxF5ToKRSCB51NZjKea552bepCsYNBj8WlYGWuLzC3FeUjRogM5h5yz35xfnuGn8kzY
- 7kRLDObIkjHmVOykGk1qg8d7BHDHdflHFdRCydlJxiYIl9dyuvFs7/+rtRUjZ+P2sh5x
- aMWw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,88 +53,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, ML nouveau <nouveau@lists.freedesktop.org>,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Jerry Zuo <Jerry.Zuo@amd.com>, ML dri-devel <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@redhat.com>, Juston Li <juston.li@intel.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1262355053=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyIEF1ZyAyMDE5IGF0IDA4OjAyLCBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29t
-PiB3cm90ZToKPgo+IExvb2tzIGxpa2UgYSByZWdyZXNzaW9uIGdvdCBpbnRyb2R1Y2VkIGludG8g
-bnY1MF9tc3RjX2F0b21pY19jaGVjaygpCj4gdGhhdCBzb21laG93IGRpZG4ndCBnZXQgZm91bmQg
-dW50aWwgbm93LiBJZiB1c2Vyc3BhY2UgY2hhbmdlcwo+IGNydGNfc3RhdGUtPmFjdGl2ZSB0byBm
-YWxzZSBidXQgbGVhdmVzIHRoZSBDUlRDIGVuYWJsZWQsIHdlIGVuZCB1cAo+IGNhbGxpbmcgZHJt
-X2RwX2F0b21pY19maW5kX3ZjcGlfc2xvdHMoKSB1c2luZyB0aGUgUEJOIGNhbGN1bGF0ZWQgaW4K
-PiBhc3loLT5kcC5wYm4uIEhvd2V2ZXIsIGlmIHRoZSBkaXNwbGF5IGlzIGluYWN0aXZlIHdlIGVu
-ZCB1cCBjYWxjdWxhdGluZwo+IGEgUEJOIG9mIDAsIHdoaWNoIGluYWR2ZXJ0ZW50bHkgY2F1c2Vz
-IHVzIHRvIGhhdmUgYW4gYWxsb2NhdGlvbiBvZiAwLgo+IEZyb20gdGhlcmUsIGlmIHVzZXJzcGFj
-ZSB0aGVuIGRpc2FibGVzIHRoZSBDUlRDIGFmdGVyd2FyZHMgd2UgZW5kIHVwCj4gYWNjaWRlbnRh
-bGx5IGF0dGVtcHRpbmcgdG8gZnJlZSB0aGUgVkNQSSB0d2ljZToKPgo+IFdBUk5JTkc6IENQVTog
-MCBQSUQ6IDE0ODQgYXQgZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYzozMzM2
-Cj4gZHJtX2RwX2F0b21pY19yZWxlYXNlX3ZjcGlfc2xvdHMrMHg4Ny8weGIwIFtkcm1fa21zX2hl
-bHBlcl0KPiBSSVA6IDAwMTA6ZHJtX2RwX2F0b21pY19yZWxlYXNlX3ZjcGlfc2xvdHMrMHg4Ny8w
-eGIwIFtkcm1fa21zX2hlbHBlcl0KPiBDYWxsIFRyYWNlOgo+ICBkcm1fYXRvbWljX2hlbHBlcl9j
-aGVja19tb2Rlc2V0KzB4M2YzLzB4YTYwIFtkcm1fa21zX2hlbHBlcl0KPiAgPyBkcm1fYXRvbWlj
-X2NoZWNrX29ubHkrMHg0My8weDc4MCBbZHJtXQo+ICBkcm1fYXRvbWljX2hlbHBlcl9jaGVjaysw
-eDE1LzB4OTAgW2RybV9rbXNfaGVscGVyXQo+ICBudjUwX2Rpc3BfYXRvbWljX2NoZWNrKzB4ODMv
-MHgxZDAgW25vdXZlYXVdCj4gIGRybV9hdG9taWNfY2hlY2tfb25seSsweDU0ZC8weDc4MCBbZHJt
-XQo+ICA/IGRybV9hdG9taWNfc2V0X2NydGNfZm9yX2Nvbm5lY3RvcisweGVjLzB4MTAwIFtkcm1d
-Cj4gIGRybV9hdG9taWNfY29tbWl0KzB4MTMvMHg1MCBbZHJtXQo+ICBkcm1fYXRvbWljX2hlbHBl
-cl9zZXRfY29uZmlnKzB4ODEvMHg5MCBbZHJtX2ttc19oZWxwZXJdCj4gIGRybV9tb2RlX3NldGNy
-dGMrMHgxOTQvMHg2YTAgW2RybV0KPiAgPyB2cHJpbnRrX2VtaXQrMHgxNmEvMHgyMzAKPiAgPyBk
-cm1faW9jdGwrMHgxNjMvMHgzOTAgW2RybV0KPiAgPyBkcm1fbW9kZV9nZXRjcnRjKzB4MTgwLzB4
-MTgwIFtkcm1dCj4gIGRybV9pb2N0bF9rZXJuZWwrMHhhYS8weGYwIFtkcm1dCj4gIGRybV9pb2N0
-bCsweDIwOC8weDM5MCBbZHJtXQo+ICA/IGRybV9tb2RlX2dldGNydGMrMHgxODAvMHgxODAgW2Ry
-bV0KPiAgbm91dmVhdV9kcm1faW9jdGwrMHg2My8weGIwIFtub3V2ZWF1XQo+ICBkb192ZnNfaW9j
-dGwrMHg0MDUvMHg2NjAKPiAgPyByZWNhbGNfc2lncGVuZGluZysweDE3LzB4NTAKPiAgPyBfY29w
-eV9mcm9tX3VzZXIrMHgzNy8weDYwCj4gIGtzeXNfaW9jdGwrMHg1ZS8weDkwCj4gID8gZXhpdF90
-b191c2VybW9kZV9sb29wKzB4OTIvMHhlMAo+ICBfX3g2NF9zeXNfaW9jdGwrMHgxNi8weDIwCj4g
-IGRvX3N5c2NhbGxfNjQrMHg1OS8weDE5MAo+ICBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJh
-bWUrMHg0NC8weGE5Cj4gV0FSTklORzogQ1BVOiAwIFBJRDogMTQ4NCBhdCBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2RwX21zdF90b3BvbG9neS5jOjMzMzYKPiBkcm1fZHBfYXRvbWljX3JlbGVhc2VfdmNw
-aV9zbG90cysweDg3LzB4YjAgW2RybV9rbXNfaGVscGVyXQo+IC0tLVsgZW5kIHRyYWNlIDRjMzk1
-YzBjNTFiMWY4OGQgXS0tLQo+IFtkcm06ZHJtX2RwX2F0b21pY19yZWxlYXNlX3ZjcGlfc2xvdHMg
-W2RybV9rbXNfaGVscGVyXV0gKkVSUk9SKiBubyBWQ1BJIGZvcgo+IFtNU1QgUE9SVDowMDAwMDAw
-MGUyODhlYjdkXSBmb3VuZCBpbiBtc3Qgc3RhdGUgMDAwMDAwMDA4ZTY0MjA3MAo+Cj4gU28sIGZp
-eCB0aGlzIGJ5IGRvaW5nIHdoYXQgd2UgcHJvYmFibHkgc2hvdWxkIGhhdmUgZG9uZSBmcm9tIHRo
-ZSBzdGFydDogb25seQo+IGNhbGwgZHJtX2RwX2F0b21pY19maW5kX3ZjcGlfc2xvdHMoKSB3aGVu
-IGNydGNfc3RhdGUtPm1vZGVfY2hhbmdlZCBpcyBzZXQsIHNvCj4gdGhhdCBWQ1BJIGFsbG9jYXRp
-b25zIHJlbWFpbiBmb3IgYXMgbG9uZyBhcyB0aGUgQ1JUQyBpcyBlbmFibGVkLgo+Cj4gU2lnbmVk
-LW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KPiBGaXhlczogMjMyYzllZWM0
-MTdhICgiZHJtL25vdXZlYXU6IFVzZSBhdG9taWMgVkNQSSBoZWxwZXJzIGZvciBNU1QiKQo+IENj
-OiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IENjOiBCZW4gU2tlZ2dzIDxic2tlZ2dz
-QHJlZGhhdC5jb20+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+
-Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+IENjOiBKZXJyeSBadW8g
-PEplcnJ5Llp1b0BhbWQuY29tPgo+IENjOiBIYXJyeSBXZW50bGFuZCA8aGFycnkud2VudGxhbmRA
-YW1kLmNvbT4KPiBDYzogSnVzdG9uIExpIDxqdXN0b24ubGlAaW50ZWwuY29tPgo+IENjOiBLYXJv
-bCBIZXJic3QgPGthcm9saGVyYnN0QGdtYWlsLmNvbT4KPiBDYzogTGF1cmVudCBQaW5jaGFydCA8
-bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+IENjOiBJbGlhIE1pcmtpbiA8aW1p
-cmtpbkBhbHVtLm1pdC5lZHU+Cj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY1LjEr
-CkFja2VkLWJ5OiBCZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Cgo+IC0tLQo+ICBkcml2
-ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMgfCAyICstCj4gIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L2Rpc3BudjUwL2Rpc3AuYwo+IGluZGV4IDg0OTc3NjhmMWI0MS4uMTI2NzAzODE2Nzk0IDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwo+IEBAIC03ODAsNyAr
-NzgwLDcgQEAgbnY1MF9tc3RvX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29k
-ZXIsCj4gICAgICAgICAgICAgICAgICAgICAgICAgZHJtX2RwX2NhbGNfcGJuX21vZGUoY3J0Y19z
-dGF0ZS0+YWRqdXN0ZWRfbW9kZS5jbG9jaywKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBjb25uZWN0b3ItPmRpc3BsYXlfaW5mby5icGMgKiAzKTsKPgo+IC0g
-ICAgICAgaWYgKGRybV9hdG9taWNfY3J0Y19uZWVkc19tb2Rlc2V0KGNydGNfc3RhdGUpKSB7Cj4g
-KyAgICAgICBpZiAoY3J0Y19zdGF0ZS0+bW9kZV9jaGFuZ2VkKSB7Cj4gICAgICAgICAgICAgICAg
-IHNsb3RzID0gZHJtX2RwX2F0b21pY19maW5kX3ZjcGlfc2xvdHMoc3RhdGUsICZtc3RtLT5tZ3Is
-Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-bXN0Yy0+cG9ydCwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBhc3loLT5kcC5wYm4pOwo+IC0tCj4gMi4yMS4wCj4KPiBfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IE5vdXZlYXUgbWFpbGluZyBsaXN0
-Cj4gTm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL25vdXZlYXUKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1262355053==
+Content-Type: multipart/alternative; boundary="15647036190.8e84ca99.8724"
+Content-Transfer-Encoding: 7bit
+
+
+--15647036190.8e84ca99.8724
+Date: Thu, 1 Aug 2019 23:53:39 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D106056
+
+Timothy Arceri <t_arceri@yahoo.com.au> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |WORKSFORME
+             Status|NEW                         |RESOLVED
+
+--- Comment #2 from Timothy Arceri <t_arceri@yahoo.com.au> ---
+These seem to render correctly for me. Feel free to reopen if you still thi=
+nk
+there is an issue, but for now I'm going to assume this was fixed at some p=
+oint
+and close.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15647036190.8e84ca99.8724
+Date: Thu, 1 Aug 2019 23:53:39 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:t_arceri&=
+#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.com.au&gt;=
+"> <span class=3D"fn">Timothy Arceri</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - weird artifacts in top right corner when =
+rendering with firefox or unigine heaven"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106056">bug 10605=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>WORKSFORME
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - weird artifacts in top right corner when =
+rendering with firefox or unigine heaven"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106056#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED WORKSFORME - weird artifacts in top right corner when =
+rendering with firefox or unigine heaven"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D106056">bug 10605=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+t_arceri&#64;yahoo.com.au" title=3D"Timothy Arceri &lt;t_arceri&#64;yahoo.c=
+om.au&gt;"> <span class=3D"fn">Timothy Arceri</span></a>
+</span></b>
+        <pre>These seem to render correctly for me. Feel free to reopen if =
+you still think
+there is an issue, but for now I'm going to assume this was fixed at some p=
+oint
+and close.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15647036190.8e84ca99.8724--
+
+--===============1262355053==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1262355053==--
