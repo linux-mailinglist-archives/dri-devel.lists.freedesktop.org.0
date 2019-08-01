@@ -1,40 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A982C7D35C
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 04:30:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEEB7D3CD
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 05:44:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F18256E32E;
-	Thu,  1 Aug 2019 02:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DACE6E334;
+	Thu,  1 Aug 2019 03:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C5D6E32E;
- Thu,  1 Aug 2019 02:30:11 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 45zZ596mjNz9sBF;
- Thu,  1 Aug 2019 12:30:04 +1000 (AEST)
-Date: Thu, 1 Aug 2019 12:30:04 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20190801123004.2aa5c658@canb.auug.org.au>
-MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=canb.auug.org.au; s=201702; t=1564626608;
- bh=F6yYrwA8wrWGh9l/at9G7REoMS60ygdsyKPlul1m6gI=;
- h=Date:From:To:Cc:Subject:From;
- b=QaZhCL+WBLqKyRiIv9LmrKpl6lnFiNtDPMGJjUMSdtQB5AlMbdwTBaGZToKG2k1KZ
- TaJr26TJisLqZUDxc8IkpNs1ba5SnN7mTN/ImIzh6uDuOIWVMVZyIdfO4Eg8KB/Axf
- ElH6m8mo/b5MTfuEAxx/4m3d/uo2O4ynHbto1kTGnzgnFdH11dj/DrebsXuz/9PYNP
- B8nKHzGj9g7aeu30cMPwOijKPeQDMUtwSPPjLp1IbiKtRGDbWby9nFPRyKdS87NSYE
- 89+ZD7dRbn/ljDySH7NtC4YKAH7ANEkUs5mwRRzQLNzl2lQpjfps7656qoOZiMxceu
- HJmQNdoVeUHeQ==
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8632C6E334
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 03:44:46 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id m30so33163907pff.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 31 Jul 2019 20:44:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=3J53VNWVJBsGu++2k8+xv87EgCNc+PbFLaNFsCRi7RQ=;
+ b=IBsUQv3e/OgGo+ILWVDQlYrkUoIYZBukB/83OxA/FTCPUO9G4Iqrnnw+DdAo2B9YWO
+ EvTW1/e6XffzCaeAtJry5K8KJHxngtiq438laf3c9qJ3lh0I3Q3+VtJVHh3MDC/fcxkz
+ UbylVyn/m3BPFy44uzV1vnrPnh50Z+I65qOkxT9CCJ5Ee2NMNwQF34oi9MCnZTGWTud6
+ lGBEMo4p0hBvi1AtlvMn4D4Ib6KLPHcs5IAD3a+GrUVA1kxkOEoQR27Qrbajhi6He8Cl
+ Py70ZCrO/O2e0Hs6jdSiTwATNrmO+oXcpe2e5pUuJ0JFDzlfDOH/K5Rk4ZSLBpQSY73O
+ +Xww==
+X-Gm-Message-State: APjAAAUfsraoD0Uh3lAWjNL8tem7ECJl03+ATd1AHXCf1TKEj3vnlwpi
+ 1h9KV3+ZooesofmWGAS0zL7wyw==
+X-Google-Smtp-Source: APXvYqyjuNTweoqvOn8fmgje5hXZaV37WmEMLBmbgR+UP13FrngVGkWMmaQRJ58Ci0K3hy8O+LDFFg==
+X-Received: by 2002:a17:90a:b394:: with SMTP id
+ e20mr6225886pjr.76.1564631085830; 
+ Wed, 31 Jul 2019 20:44:45 -0700 (PDT)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+ by smtp.gmail.com with ESMTPSA id
+ h70sm64775674pgc.36.2019.07.31.20.44.44
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 31 Jul 2019 20:44:45 -0700 (PDT)
+From: John Stultz <john.stultz@linaro.org>
+To: lkml <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 00/26] drm: Kirin driver cleanups to prep for Kirin960
+ support
+Date: Thu,  1 Aug 2019 03:44:13 +0000
+Message-Id: <20190801034439.98227-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=3J53VNWVJBsGu++2k8+xv87EgCNc+PbFLaNFsCRi7RQ=;
+ b=y1iVdTDcBUa0wFaA/SURtNmg482d/Gqz0ErVvPR52MUAP3TmRHvMrYgPon2HSmbIXR
+ ldTM9+Jj23uaZCMo7XuO7iZ5nSzgKpD2vyT3tIHCwGiV8LWJgjhxxE8kyMsN82n9npD+
+ Gbhu79TbuSbbVM2RHq/yt6PJQVhFDvtTdcmsw1WzGyqV9g+wMDfFXDZmBCcqr2CQ6i6Z
+ vVdQWYGbCqQDN4gV9vPXAGXnfvwFWPP9Wc9TiD/kl3vtlUFNn53yKRBB/pGn3E268/Y+
+ ZP0bvLWWNu6eiIBlu9c//MM/69xgvI30ytxI9nPTx3sLTM/Lbh01qvq3uPrIPKsi3tgb
+ uscw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,74 +65,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Emil Velikov <emil.velikov@collabora.com>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Content-Type: multipart/mixed; boundary="===============1875799226=="
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rongrong Zou <zourongrong@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1875799226==
-Content-Type: multipart/signed; boundary="Sig_/1rIQwGsme1TfqSXECl9f2.Z";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/1rIQwGsme1TfqSXECl9f2.Z
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,
-
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
-
-drivers/gpu/drm/radeon/radeon_connectors.c: In function 'radeon_add_legacy_=
-connector':
-drivers/gpu/drm/radeon/radeon_connectors.c:2433:5: error: 'ddc' undeclared =
-(first use in this function)
-     ddc =3D &radeon_connector->ddc_bus->adapter;
-     ^~~
-drivers/gpu/drm/radeon/radeon_connectors.c:2433:5: note: each undeclared id=
-entifier is reported only once for each function it appears in
-
-Caused by commit
-
-  bed7a2182de6 ("drm/radeon: Provide ddc symlink in connector sysfs directo=
-ry")
-
-I have used the drm-misc tree from next-20190731 for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/1rIQwGsme1TfqSXECl9f2.Z
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1CTqwACgkQAVBC80lX
-0GwQFwf/bkQ4sQR7J6NB16AEgGu/p2R8lXhPjZa2XtdZY+zrfKDcD1fhlriYJaIf
-ZalH+q0oPJmGm53OhaeLMmTVF0lOWEoEtVZFto+YEtoqTILgMwRu47dXhanM4iJT
-qxe0Rq8haX/zCypvqrFMTStQmOzg0AZcRKYPWtvnrQBFx6PGwpr6A94ajjxIbW0o
-FMyXrW2deieI0Gx8PLD/Z3q29V30fKNcxVoHMCyLsvQaItqnTwYJTKR/iLDioaAM
-wSPsUMpNGDPTOWPe2+gItHWQTGDFua9tJB/iglf28rOi8rZSEFUuhlclg5fV97Ti
-GGXVLs46KPRtNUXiKaBdZVDkwtgegg==
-=2y3a
------END PGP SIGNATURE-----
-
---Sig_/1rIQwGsme1TfqSXECl9f2.Z--
-
---===============1875799226==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1875799226==--
+SSB3YXMgcmVtaW5kZWQgSSBoYWQgc2VudCB0aGlzIG91dCBhIGZldyBtb250aHMgYWdvLCBidXQg
+Zm9yZ290CmFsbCBhYm91dCBpdCEgQXBvbG9naWVzISBBbnl3YXksIEkgd2FudGVkIHRvIHJlc3Vi
+bWl0IHRoaXMgcGF0Y2gKc2V0IHNvIEkgZGlkbid0IGhhdmUgdG8gY29udGludWUgY2Fycnlpbmcg
+aXQgZm9yZXZlciB0byBrZWVwIHRoZQpIaUtleTk2MCBib2FyZCBydW5uaW5nLgoKVGhpcyBwYXRj
+aHNldCBjb250YWlucyBvbmUgZml4IChpbiB0aGUgZnJvbnQsIHNvIGl0cyBlYXNpZXIgdG8KZXZl
+bnR1YWxseSBiYWNrcG9ydCksIGFuZCBhIHNlcmllcyBvZiBjaGFuZ2VzIGZyb20gWWlQaW5nIHRv
+CnJlZmFjdG9yIHRoZSBraXJpbiBkcm0gZHJpdmVyIHNvIHRoYXQgaXQgY2FuIGJlIHVzZWQgb24g
+Ym90aApraXJpbjYyMCBiYXNlZCBkZXZpY2VzIChsaWtlIHRoZSBvcmlnaW5hbCBIaUtleSBib2Fy
+ZCkgYXMgd2VsbAphcyBraXJpbjk2MCBiYXNlZCBkZXZpY2VzIChsaWtlIHRoZSBIaUtleTk2MCBi
+b2FyZCkuCgpUaGUgZnVsbCBraXJpbjk2MCBkcm0gc3VwcG9ydCBpcyBzdGlsbCBiZWluZyByZWZh
+Y3RvcmVkLCBidXQgYXMKdGhpcyBiYXNlIGtpcmluIHJld29yayB3YXMgZ2V0dGluZyB0byBiZSBz
+dWJzdGFudGlhbCwgSSB3YW50ZWQKdG8gc2VuZCBvdXQgdGhlIGZpcnN0IGNodW5rIGZvciBzb21l
+IGluaXRpYWwgcmV2aWV3LCBzbyB0aGF0IHRoZQpyZXZpZXcgYnVyZGVuIHdhc24ndCBvdmVyd2hl
+bG1pbmcuCgpUaGUgZnVsbCBIaUtleTk2MCBwYXRjaCBzdGFjayBjYW4gYmUgZm91bmQgaGVyZToK
+ICBodHRwczovL2dpdC5saW5hcm8ub3JnL3Blb3BsZS9qb2huLnN0dWx0ei9hbmRyb2lkLWRldi5n
+aXQvbG9nLz9oPWRldi9oaWtleTk2MC1tYWlubGluZS1XSVAKCgpGZWVkYmFjayB3b3VsZCBiZSBn
+cmVhdGx5IGFwcHJlY2lhdGVkIQoKdGhhbmtzCi1qb2huCgpDYzogUm9uZ3JvbmcgWm91IDx6b3Vy
+b25ncm9uZ0BnbWFpbC5jb20+CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNj
+OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBkcmktZGV2ZWwgPGRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmc+CkNjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5v
+cmc+CgpEYSBMdiAoMSk6CiAgZHJtOiBraXJpbjogRml4IGZvciBoaWtleTYyMCBkaXNwbGF5IG9m
+ZnNldCBwcm9ibGVtCgpKb2huIFN0dWx0eiAoNCk6CiAgZHJtOiBraXJpbjogR2V0IHJpZCBvZiBk
+cm1QLmggaW5jbHVkZXMKICBkcm06IGtpcmluOiBSZW1vdmUgSElTSV9LSVJJTl9EV19EU0kgY29u
+ZmlnIG9wdGlvbgogIGRybToga2lyaW46IFJlbW92ZSB1bnJlYWNoYWJsZSByZXR1cm4KICBkcm06
+IGtpcmluOiBNb3ZlIHdvcmtxdWV1ZSB0byBhZGVfaHdfY3R4IHN0cnVjdHVyZQoKWHUgWWlQaW5n
+ICgyMSk6CiAgZHJtOiBraXJpbjogUmVtb3ZlIHVuY2Vzc2FyeSBwYXJhbWV0ZXIgaW5kaXJlY3Rp
+b24KICBkcm06IGtpcmluOiBSZW1vdmUgb3V0X2Zvcm1hdCBmcm9tIGFkZV9jcnRjCiAgZHJtOiBr
+aXJpbjogUmVuYW1lIGFkZV9wbGFuZSB0byBraXJpbl9wbGFuZQogIGRybToga2lyaW46IFJlbmFt
+ZSBhZGVfY3J0YyB0byBraXJpbl9jcnRjCiAgZHJtOiBraXJpbjogRHluYW1pY2FsbHkgYWxsb2Nh
+dGUgdGhlIGh3X2N0eAogIGRybToga2lyaW46IE1vdmUgcmVxdWVzdCBpcnEgaGFuZGxlIGluIGFk
+ZSBodyBjdHggYWxsb2MKICBkcm06IGtpcmluOiBNb3ZlIGtpcmluX2NydGMsIGtpcmluX3BsYW5l
+LCBraXJpbl9mb3JtYXQgdG8KICAgIGtpcmluX2RybV9kcnYuaAogIGRybToga2lyaW46IFJlYW5t
+ZSBkY19vcHMgdG8ga2lyaW5fZHJtX2RhdGEKICBkcm06IGtpcmluOiBNb3ZlIGFkZSBjcnRjL3Bs
+YW5lIGhlbHAgZnVuY3Rpb25zIHRvIGRyaXZlcl9kYXRhCiAgZHJtOiBraXJpbjogTW92ZSBjaGFu
+bmVsIGZvcm1hdHMgdG8gZHJpdmVyIGRhdGEKICBkcm06IGtpcmluOiBNb3ZlIG1vZGUgY29uZmln
+IGZ1bmN0aW9uIHRvIGRyaXZlcl9kYXRhCiAgZHJtOiBraXJpbjogTW92ZSBwbGFuZSBudW1iZXIg
+YW5kIHByaW1heSBwbGFuZSBpbiBkcml2ZXIgZGF0YQogIGRybToga2lyaW46IE1vdmUgY29uZmln
+IG1heF93aWR0aCBhbmQgbWF4X2hlaWdodCB0byBkcml2ZXIgZGF0YQogIGRybToga2lyaW46IE1v
+dmUgZHJtIGRyaXZlciB0byBkcml2ZXIgZGF0YQogIGRybToga2lyaW46IEFkZCByZWdpc3RlciBj
+b25uZWN0IGhlbHBlciBmdW5jdGlvbnMgaW4gZHJtIGluaXQKICBkcm06IGtpcmluOiBSZW5hbWUg
+cGxhbmVfaW5pdCBhbmQgY3J0Y19pbml0CiAgZHJtOiBraXJpbjogRml4IGRldi0+ZHJpdmVyX2Rh
+dGEgc2V0dGluZwogIGRybToga2lyaW46IE1ha2UgZHJpdmVyX2RhdGEgdmFyaWFibGUgbm9uLWds
+b2JhbAogIGRybToga2lyaW46IEFkZCBhbGxvY19od19jdHgvY2xlYW5faHdfY3R4IG9wcyBpbiBk
+cml2ZXIgZGF0YQogIGRybToga2lyaW46IFBhc3MgZHJpdmVyIGRhdGEgdG8gY3J0YyBpbml0IGFu
+ZCBwbGFuZSBpbml0CiAgZHJtOiBraXJpbjogTW92ZSBhZGUgZHJtIGluaXQgdG8ga2lyaW4gZHJt
+IGRydgoKIGRyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24va2lyaW4vS2NvbmZpZyAgICAgICB8ICAx
+MCArLQogZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9NYWtlZmlsZSAgICAgIHwgICA0
+ICstCiAuLi4vZ3B1L2RybS9oaXNpbGljb24va2lyaW4va2lyaW5fYWRlX3JlZy5oICAgfCAgIDEg
+KwogLi4uL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tpcmluX2RybV9hZGUuYyAgIHwgMzYwICsr
+KysrKystLS0tLS0tLS0tLQogLi4uL2dwdS9kcm0vaGlzaWxpY29uL2tpcmluL2tpcmluX2RybV9k
+cnYuYyAgIHwgMjU3ICsrKysrKysrKy0tLS0KIC4uLi9ncHUvZHJtL2hpc2lsaWNvbi9raXJpbi9r
+aXJpbl9kcm1fZHJ2LmggICB8ICA0OCArKy0KIDYgZmlsZXMgY2hhbmdlZCwgMzc5IGluc2VydGlv
+bnMoKyksIDMwMSBkZWxldGlvbnMoLSkKCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
