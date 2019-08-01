@@ -1,68 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08B57D8E9
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 11:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 019447D8FA
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 12:05:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC1D96E446;
-	Thu,  1 Aug 2019 09:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C806E453;
+	Thu,  1 Aug 2019 10:05:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69ED66E446
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 09:59:31 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id F2F13AE9A;
- Thu,  1 Aug 2019 09:59:29 +0000 (UTC)
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-To: Feng Tang <feng.tang@intel.com>, Rong Chen <rong.a.chen@intel.com>
-References: <20190729095155.GP22106@shao2-debian>
- <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
- <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
- <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
- <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
- <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
- <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
- <87wofyzhbm.fsf@yhuang-dev.intel.com>
- <721a5338-a6b7-4bfb-9d33-d68554451954@daenzer.net>
- <c1944c76-c07c-411b-7929-00df387c6369@intel.com>
- <20190801083721.GA3141@shbuild999.sh.intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <2eefa08e-2560-b2c1-6df0-f2e81babb41e@suse.de>
-Date: Thu, 1 Aug 2019 11:59:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B74146E44E;
+ Thu,  1 Aug 2019 10:05:07 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id t28so68766646lje.9;
+ Thu, 01 Aug 2019 03:05:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=qvdkbdV6sNEZfwB1qmYYdKipaAw3M7SMSsECBN25X00=;
+ b=LfJDS2XKxU65cRMa4mvAjKNvPBS14ipAKiTf+/LOEorp7nTZZiVbgfZ9AbhDsSBkqx
+ MTxWx4RpgvpjmrUCUSSACP1RfYwehF+XAXxLaKhsLcA9F5oQM3OQnJgdb84rATcBIeCS
+ CGckEMaTrh4zhHHFujeHpyQKMCyXJjKXM7UFb+pkxyjZNfs9edPNvKb2pJZ8uRXoS8mq
+ G2+xBUBiO4QLp/77NHV8g53iNMSbcyrp8dxWzJ5wZset18EqAO1JDcJt1oEv4rr95Lhf
+ 0hmy7HKeKqt6OXbVDQKX53ynU2DmpdrLH032M4vgcmDW9s7dyjTrS/0QXbQxqU1XqUkS
+ TJKQ==
+X-Gm-Message-State: APjAAAXkxQLPmVigb65Rg3zIYtJJgw9x9ZukVY+HgVUeMMPaWOQ2bWlu
+ 4QetDsuSA0F+2yHRJb8bk3c=
+X-Google-Smtp-Source: APXvYqxYf/LSyNoW4G6F+YfErKWg2VnTxBScO+N0Yj/0Zkp4Jgf/cJRorHYivV3QT/rKZrOcajW+xA==
+X-Received: by 2002:a2e:9048:: with SMTP id n8mr20521306ljg.37.1564653905895; 
+ Thu, 01 Aug 2019 03:05:05 -0700 (PDT)
+Received: from ferris.localdomain (85-156-247-180.elisa-laajakaista.fi.
+ [85.156.247.180])
+ by smtp.gmail.com with ESMTPSA id k82sm14473328lje.30.2019.08.01.03.05.05
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 01 Aug 2019 03:05:05 -0700 (PDT)
+Date: Thu, 1 Aug 2019 13:05:02 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [PATCH v11 1/6] drm: Add Content protection type property
+Message-ID: <20190801130502.1a4d4a4e@ferris.localdomain>
+In-Reply-To: <20190729093316.GB14727@intel.com>
+References: <20190712070026.13088-2-ramalingam.c@intel.com>
+ <20190714110008.19647-1-ramalingam.c@intel.com>
+ <20190729172040.48257318@eldfell.localdomain>
+ <20190729093316.GB14727@intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190801083721.GA3141@shbuild999.sh.intel.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version;
+ bh=qvdkbdV6sNEZfwB1qmYYdKipaAw3M7SMSsECBN25X00=;
+ b=aHLyVDPuq3PquVKI485mQMuRckUCoGRlcCr6CNu5PLr+hdlJ7xGR1q76bxD8Qf0Kke
+ h/g0Juardr86JxAwEibEROO6pPRcF3WEFjeQvQHUxGmLGIYnDodgs2cX4qGErmPhWiO0
+ gQR5MWHuIjisV0Dz8hejwA7ARb9teHLNNdELz2ydQEHgib/iCVht0+IsHRMPibi/T0kg
+ nJXpgQHu3qtu09uP63DRYz17slSToGDo1vXgX+Y2sJqMIMWoSECdXdQcDzy/uP/Rz07a
+ p1B+xYxAUXM2vrQt4jhYXqImPt009ovUznkd78zXaR6QBbyPsFqIctecioxcaY7YJKmu
+ o6Aw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,258 +71,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>, LKP <lkp@01.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Huang,
- Ying" <ying.huang@intel.com>
-Content-Type: multipart/mixed; boundary="===============1709137884=="
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1799798704=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1709137884==
+--===============1799798704==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="cC3vqNwQmmpOm4QdhApmUhSI6we748g7F"
+ boundary="Sig_/JxIIB2U1todT+QBGfp4cJ/4"; protocol="application/pgp-signature"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cC3vqNwQmmpOm4QdhApmUhSI6we748g7F
-Content-Type: multipart/mixed; boundary="yxmnXqU7yeRInhvLOpOS9ffT3fqWvbijR";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Feng Tang <feng.tang@intel.com>, Rong Chen <rong.a.chen@intel.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Huang, Ying" <ying.huang@intel.com>, LKP <lkp@01.org>
-Message-ID: <2eefa08e-2560-b2c1-6df0-f2e81babb41e@suse.de>
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-References: <20190729095155.GP22106@shao2-debian>
- <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
- <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
- <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
- <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
- <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
- <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
- <87wofyzhbm.fsf@yhuang-dev.intel.com>
- <721a5338-a6b7-4bfb-9d33-d68554451954@daenzer.net>
- <c1944c76-c07c-411b-7929-00df387c6369@intel.com>
- <20190801083721.GA3141@shbuild999.sh.intel.com>
-In-Reply-To: <20190801083721.GA3141@shbuild999.sh.intel.com>
-
---yxmnXqU7yeRInhvLOpOS9ffT3fqWvbijR
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--Sig_/JxIIB2U1todT+QBGfp4cJ/4
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Mon, 29 Jul 2019 15:03:16 +0530
+Ramalingam C <ramalingam.c@intel.com> wrote:
 
-Am 01.08.19 um 10:37 schrieb Feng Tang:
-> On Thu, Aug 01, 2019 at 02:19:53PM +0800, Rong Chen wrote:
->>>>>>>>>>>
->>>>>>>>>>> commit: 90f479ae51afa45efab97afdde9b94b9660dd3e4 ("drm/mgag20=
-0: Replace struct mga_fbdev with generic framebuffer emulation")
->>>>>>>>>>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/next=
-/linux-next.git master
->>>>>>>>>> Daniel, Noralf, we may have to revert this patch.
->>>>>>>>>>
->>>>>>>>>> I expected some change in display performance, but not in VM. =
-Since it's
->>>>>>>>>> a server chipset, probably no one cares much about display per=
-formance.
->>>>>>>>>> So that seemed like a good trade-off for re-using shared code.=
-
->>>>>>>>>>
->>>>>>>>>> Part of the patch set is that the generic fb emulation now map=
-s and
->>>>>>>>>> unmaps the fbdev BO when updating the screen. I guess that's t=
-he cause
->>>>>>>>>> of the performance regression. And it should be visible with o=
-ther
->>>>>>>>>> drivers as well if they use a shadow FB for fbdev emulation.
->>>>>>>>> For fbcon we should need to do any maps/unamps at all, this is =
-for the
->>>>>>>>> fbdev mmap support only. If the testcase mentioned here tests f=
-bdev
->>>>>>>>> mmap handling it's pretty badly misnamed :-) And as long as you=
- don't
->>>>>>>>> have an fbdev mmap there shouldn't be any impact at all.
->>>>>>>> The ast and mgag200 have only a few MiB of VRAM, so we have to g=
-et the
->>>>>>>> fbdev BO out if it's not being displayed. If not being mapped, i=
-t can be
->>>>>>>> evicted and make room for X, etc.
->>>>>>>>
->>>>>>>> To make this work, the BO's memory is mapped and unmapped in
->>>>>>>> drm_fb_helper_dirty_work() before being updated from the shadow =
-FB. [1]
->>>>>>>> That fbdev mapping is established on each screen update, more or=
- less.
->>>>>>>> From my (yet unverified) understanding, this causes the performa=
-nce
->>>>>>>> regression in the VM code.
->>>>>>>>
->>>>>>>> The original code in mgag200 used to kmap the fbdev BO while it'=
-s being
->>>>>>>> displayed; [2] and the drawing code only mapped it when necessar=
-y (i.e.,
->>>>>>>> not being display). [3]
->>>>>>> Hm yeah, this vmap/vunmap is going to be pretty bad. We indeed sh=
-ould
->>>>>>> cache this.
->>>>>>>
->>>>>>>> I think this could be added for VRAM helpers as well, but it's s=
-till a
->>>>>>>> workaround and non-VRAM drivers might also run into such a perfo=
-rmance
->>>>>>>> regression if they use the fbdev's shadow fb.
->>>>>>> Yeah agreed, fbdev emulation should try to cache the vmap.
->>>>>>>
->>>>>>>> Noralf mentioned that there are plans for other DRM clients besi=
-des the
->>>>>>>> console. They would as well run into similar problems.
->>>>>>>>
->>>>>>>>>> The thing is that we'd need another generic fbdev emulation fo=
-r ast and
->>>>>>>>>> mgag200 that handles this issue properly.
->>>>>>>>> Yeah I dont think we want to jump the gun here.  If you can try=
- to
->>>>>>>>> repro locally and profile where we're wasting cpu time I hope t=
-hat
->>>>>>>>> should sched a light what's going wrong here.
->>>>>>>> I don't have much time ATM and I'm not even officially at work u=
-ntil
->>>>>>>> late Aug. I'd send you the revert and investigate later. I agree=
- that
->>>>>>>> using generic fbdev emulation would be preferable.
->>>>>>> Still not sure that's the right thing to do really. Yes it's a
->>>>>>> regression, but vm testcases shouldn run a single line of fbcon o=
-r drm
->>>>>>> code. So why this is impacted so heavily by a silly drm change is=
- very
->>>>>>> confusing to me. We might be papering over a deeper and much more=
-
->>>>>>> serious issue ...
->>>>>> It's a regression, the right thing is to revert first and then wor=
-k
->>>>>> out the right thing to do.
->>>>> Sure, but I have no idea whether the testcase is doing something
->>>>> reasonable. If it's accidentally testing vm scalability of fbdev an=
-d
->>>>> there's no one else doing something this pointless, then it's not a=
-
->>>>> real bug. Plus I think we're shooting the messenger here.
->>>>>
->>>>>> It's likely the test runs on the console and printfs stuff out whi=
-le running.
->>>>> But why did we not regress the world if a few prints on the console=
-
->>>>> have such a huge impact? We didn't get an entire stream of mails ab=
-out
->>>>> breaking stuff ...
->>>> The regression seems not related to the commit.  But we have reteste=
-d
->>>> and confirmed the regression.  Hard to understand what happens.
->>> Does the regressed test cause any output on console while it's
->>> measuring? If so, it's probably accidentally measuring fbcon/DRM code=
- in
->>> addition to the workload it's trying to measure.
->>>
->>
->> Sorry, I'm not familiar with DRM, we enabled the console to output log=
-s, and
->> attached please find the log file.
->>
->> "Command line: ... console=3Dtty0 earlyprintk=3DttyS0,115200
->> console=3DttyS0,115200 vga=3Dnormal rw"
->=20
-> We did more check, and found this test machine does use the
-> mgag200 driver.=20
->=20
-> And we are suspecting the regression is caused by=20
->=20
-> commit cf1ca9aeb930df074bb5bbcde55f935fec04e529
-> Author: Thomas Zimmermann <tzimmermann@suse.de>
-> Date:   Wed Jul 3 09:58:24 2019 +0200
-
-Yes, that's the commit. Unfortunately reverting it would require
-reverting a hand full of other patches as well.
-
-I have a potential fix for the problem. Could you run and verify that it
-resolves the problem?
-
-Best regards
-Thomas
-
->=20
->     drm/fb-helper: Map DRM client buffer only when required
->    =20
->     This patch changes DRM clients to not map the buffer by default. Th=
-e
->     buffer, like any buffer object, should be mapped and unmapped when
->     needed.
->    =20
->     An unmapped buffer object can be evicted to system memory and does
->     not consume video ram until displayed. This allows to use generic f=
-bdev
->     emulation with drivers for low-memory devices, such as ast and mgag=
-200.
->    =20
->     This change affects the generic framebuffer console. HW-based conso=
-les
->     map their console buffer once and keep it mapped. Userspace can mma=
-p this
->     buffer into its address space. The shadow-buffered framebuffer cons=
-ole
->     only needs the buffer object to be mapped during updates. While not=
- being
->     updated from the shadow buffer, the buffer object can remain unmapp=
+> On 2019-07-29 at 17:20:40 +0300, Pekka Paalanen wrote:
+> > On Sun, 14 Jul 2019 16:30:08 +0530
+> > Ramalingam C <ramalingam.c@intel.com> wrote:
+> >  =20
+> > > This patch adds a DRM ENUM property to the selected connectors.
+> > > This property is used for mentioning the protected content's type
+> > > from userspace to kernel HDCP authentication.
+> > >=20
+> > > Type of the stream is decided by the protected content providers.
+> > > Type 0 content can be rendered on any HDCP protected display wires.
+> > > But Type 1 content can be rendered only on HDCP2.2 protected paths.
+> > >=20
+> > > So when a userspace sets this property to Type 1 and starts the HDCP
+> > > enable, kernel will honour it only if HDCP2.2 authentication is throu=
+gh
+> > > for type 1. Else HDCP enable will be failed.
+> > >=20
+> > > Need ACK for this new conenctor property from userspace consumer.
+> > >=20
+> > > v2:
+> > >   cp_content_type is replaced with content_protection_type [daniel]
+> > >   check at atomic_set_property is removed [Maarten]
+> > > v3:
+> > >   %s/content_protection_type/hdcp_content_type [Pekka]
+> > > v4:
+> > >   property is created for the first requested connector and then reus=
 ed.
->     Userspace will always mmap the shadow buffer.
-> =20
-> which may add more load when fbcon is busy printing out messages.
+> > > 	[Danvet]
+> > > v5:
+> > >   kernel doc nits addressed [Daniel]
+> > >   Rebased as part of patch reordering.
+> > > v6:
+> > >   Kernel docs are modified [pekka]
+> > > v7:
+> > >   More details in Kernel docs. [pekka]
+> > > v8:
+> > >   Few more clarification into kernel doc of content type [pekka]
+> > > v9:
+> > >   Small fixes in coding style.
+> > >=20
+> > > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > ---
+> > >  drivers/gpu/drm/drm_atomic_uapi.c         |  4 ++
+> > >  drivers/gpu/drm/drm_connector.c           | 51 +++++++++++++++++++++=
+++
+> > >  drivers/gpu/drm/drm_hdcp.c                | 36 +++++++++++++++-
+> > >  drivers/gpu/drm/i915/display/intel_hdcp.c |  4 +-
+> > >  include/drm/drm_connector.h               |  7 ++++
+> > >  include/drm/drm_hdcp.h                    |  2 +-
+> > >  include/drm/drm_mode_config.h             |  6 +++
+> > >  include/uapi/drm/drm_mode.h               |  4 ++
+> > >  8 files changed, 111 insertions(+), 3 deletions(-) =20
+> >=20
+> >=20
+> > Snip - sorry, gmail simply refuses to deliver my mail without trimming
+> > it hard.
+> >  =20
+> > > =20
+> > > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> > > index 5ab331e5dc23..5c954394093f 100644
+> > > --- a/include/uapi/drm/drm_mode.h
+> > > +++ b/include/uapi/drm/drm_mode.h
+> > > @@ -218,6 +218,10 @@ extern "C" {
+> > >  #define DRM_MODE_CONTENT_PROTECTION_DESIRED     1
+> > >  #define DRM_MODE_CONTENT_PROTECTION_ENABLED     2
+> > > =20
+> > > +/* Content Type classification for HDCP2.2 vs others */
+> > > +#define DRM_MODE_HDCP_CONTENT_TYPE0		0
+> > > +#define DRM_MODE_HDCP_CONTENT_TYPE1		1 =20
+> >=20
+> > Hi,
+> >=20
+> > I still believe that these definitions do not belong in the uapi
+> > header. Userspace must use the string names instead.
+> >=20
+> > Otherwise the patch looks fine, though my Weston review is still
+> > on-going. =20
 >=20
-> We are doing more test inside 0day to confirm.
+> I assume that still we need to wait for the weston review completion.
 >=20
-> Thanks,
-> Feng
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
+> Hence I request you to respond here once you are comfortable with this ne=
+w uAPI.
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
+Hi,
+
+yes.
+
+I have completed the Weston DRM-backend review in
+https://gitlab.freedesktop.org/wayland/weston/merge_requests/48 and
+the UAPI for HDCP 2.2 looks good. That Weston MR has some other
+not-UAPI-related bits I need to read through still, but they have
+no impact on the UAPI. The userspace is accepted in Weston.
+
+I am also happy with the documentation in these kernel patches.
+
+Therefore, with DRM_MODE_HDCP_CONTENT_TYPE0 and
+DRM_MODE_HDCP_CONTENT_TYPE1 removed from the kernel UAPI headers,
+for the kernel documentation and userspace consumer in Weston I
+give for these HDCP 2.2 Phase II kernel patches:
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+Let me know, preferably as a comment in the Weston MR, when the
+kernel patches have landed in the appropriate git tree to unblock
+merging in Weston, please.
 
 
---yxmnXqU7yeRInhvLOpOS9ffT3fqWvbijR--
+Thanks,
+pq
 
---cC3vqNwQmmpOm4QdhApmUhSI6we748g7F
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/JxIIB2U1todT+QBGfp4cJ/4
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1CuAEACgkQaA3BHVML
-eiOSxwf/WpCs/26Fv/25bBqaf4CUlKaSw55jSS9DS8MTEC0V9CvjEWfN9jBvWGTK
-PlrfALgKUNa0e8f5XZefghnzKS7UtGCjLXMkaGXJ3inYWkKgaNotacjBqD+J09e3
-TdVkUdNeg/S0+eltAT39Yxj0LhRgGcjvBr0Ppy0V10h+FuKaUn/Diieeaia65j+X
-/RBaTbdRh45OhGeg9g5B13zHffpQdvDFvz+FbAlPbr7R6tvPomsfBM2v3SuSplZJ
-Xln2rLKR/dGF597DF126L9bSsMpnERh87ko7DWC0p8btuFY4lCfJSoOLgkl634d+
-wAgh+RfR6ZzeW3dZWaLnLQhmNRme0g==
-=hSec
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl1CuU4ACgkQI1/ltBGq
+qqdWNA/+OYOdi8o/1IMbjUghhqTsWlvMDzawzUVfi7dxi1PiiU9zI/C99mBPc/Yc
+kWAi7lSbt5lqR2DP69ylwZHTkWwSDP4ELaE7Gj8jZq0AJylWvoEa9Ivb2RG7ufi8
+/cNIDiVJN64ulPb4X40xTt3CCcQI8U7SWRoDSOaVhR5IOpTWECIoJzOD3vZY07yk
+6SIYF7fECThXaxTjxVQUSwDcINvQAeLFFqcMo1DhaK4KYM+prmScznmvuK/sNh+4
+/KH6LVzQIC6DtYO0zA8ERn5bWua8UR3rFVWd19bLFHXaU3xtrQNmtUcyzF8CyQei
+gIPxZunqcSLpD3brQqTj0BIAcvlL+NWeP5giODDkEyhstNC/Ibu6FCalM9MxzUiS
+oYEG1C1KmbL1vy+CSFMTYu+xghMH6rOhwQCZSnOQRKbcnxhcQutIZUJ0PIazqKEl
+MrE4h/jjfNAN8vnsM3+G5y/ogVPm1gQyFn2p/kvGDEx19+RIdwl6P3uGj09qJoC6
+NnjiqZWQyEQF7wJAD82JAd1JGp9vQHVgOODjUwdKnv8dBfxk3QNckASrnGF+0nob
+zBpON8dhaDItNT7988gWGpPhaRDuyawwW2y7qYekdDDvm/QViNSYXyLy9//Srerb
+kY8PqinAoDaKqmIJgbb7Ggpl8/6CPko1Tcc1aaJKMWEsuKOsofQ=
+=v3YP
 -----END PGP SIGNATURE-----
 
---cC3vqNwQmmpOm4QdhApmUhSI6we748g7F--
+--Sig_/JxIIB2U1todT+QBGfp4cJ/4--
 
---===============1709137884==
+--===============1799798704==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -336,4 +232,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1709137884==--
+--===============1799798704==--
