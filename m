@@ -2,45 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2C77DD88
-	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 16:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923B27DDCB
+	for <lists+dri-devel@lfdr.de>; Thu,  1 Aug 2019 16:24:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABFB46E637;
-	Thu,  1 Aug 2019 14:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9704F6E663;
+	Thu,  1 Aug 2019 14:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 803046E63B
- for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 14:13:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7BB5172167; Thu,  1 Aug 2019 14:13:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 104602] [apitrace] Graphical artifacts in Civilization VI on RX
- Vega
-Date: Thu, 01 Aug 2019 14:13:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 17.3
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jason@jasonplayne.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-104602-502-GkXyIbsLlg@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-104602-502@http.bugs.freedesktop.org/>
-References: <bug-104602-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-yw1-xc44.google.com (mail-yw1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDA046E663
+ for <dri-devel@lists.freedesktop.org>; Thu,  1 Aug 2019 14:24:11 +0000 (UTC)
+Received: by mail-yw1-xc44.google.com with SMTP id m16so26183646ywh.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 01 Aug 2019 07:24:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=YASKrLlbJRP8fvLhH4iPtQLrp26GJFL1b4mQHAA3AZs=;
+ b=LlKpvpz/XM1/onQyVtrVFuItVEMyy44WeAWmnunH/o9HC3zti/F+vcaQbDMHFQiKX7
+ vUG4FlPVp+OQlN4bjxMLb4FxHQy/we0RQXzgPmxzEVj7NefIofdeN2QnkrvhLMrOCNLn
+ zNHtL8KkrjYw6iwA/eGa9q0Ugup0MeIjqPeeaY0TlUbF1GmoVjbVsocQuflVRPiBGn3X
+ HzaacXXraUOtasYH+VcstKNZwfvy9V2Fuf+zeoZVMAsxpr8slmYwZaNEGXSUZTBb6oF2
+ f704CPhMo+cGfVVCbl//bpB4YkKgdeuiNVr+Ysx2OhdY1SF+9i/g5eJLoWgeAHmXVCLs
+ N0UQ==
+X-Gm-Message-State: APjAAAXQijHM1qYfYymD+sHJf2f/y+dG5Yomtk+fBQZit5F6AoyIoZnz
+ f5fqFbBuu/+BfC8UHmkj7E8Slg==
+X-Google-Smtp-Source: APXvYqwX5+pgDm5RwnFmpQ4KELkPqv3W0V2bu85OXQs2pia4gyCUw5jUZwHp2+qbU88Muf0rrb0reg==
+X-Received: by 2002:a81:2710:: with SMTP id n16mr74951691ywn.209.1564669451110; 
+ Thu, 01 Aug 2019 07:24:11 -0700 (PDT)
+Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
+ by smtp.gmail.com with ESMTPSA id m124sm16302442ywc.51.2019.08.01.07.24.10
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 01 Aug 2019 07:24:10 -0700 (PDT)
+Date: Thu, 1 Aug 2019 10:24:10 -0400
+From: Sean Paul <sean@poorly.run>
+To: Anders Roxell <anders.roxell@linaro.org>
+Subject: Re: [PATCH 1/3] drm: msm: a6xx: Mark expected switch fall-through
+Message-ID: <20190801142410.GU104440@art_vandelay>
+References: <20190726112746.19410-1-anders.roxell@linaro.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190726112746.19410-1-anders.roxell@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent;
+ bh=YASKrLlbJRP8fvLhH4iPtQLrp26GJFL1b4mQHAA3AZs=;
+ b=G3SrUa45PitiX3FLd4WSjcX0/D+PiaY3ftdOKTBVZWYrr05t6Z6UnYx8gHIv5sJto+
+ aCH/f0iQR7qVNrhpKy4gGNgVHUVddCtXJfJ6G5eiNLeQmyBFyS+UCxErnVxgHyVOoaeB
+ KeIOjIaizmbgQZPOcF/whbIjQ1fcRaRLiU33ofo953MELCgPiTphUff8t3Gd1M6ILcG3
+ EGx3NN3+gzUPFQzJXVyps1G8XxykDIhvujKRCZmlQdvJlIboje1DtreCzOsY5h/o7CaE
+ 9JTHaJUUW/53+gdSWR3WTjlxCxO+u27XJ5mW2ayEn2CTXrJGaGE3GeicDecNjo6tfCZE
+ wfWQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,141 +70,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0619509286=="
+Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, sean@poorly.run
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0619509286==
-Content-Type: multipart/alternative; boundary="15646687992.E770aC7.6572"
-Content-Transfer-Encoding: 7bit
-
-
---15646687992.E770aC7.6572
-Date: Thu, 1 Aug 2019 14:13:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D104602
-
---- Comment #21 from Jason Playne <jason@jasonplayne.com> ---
-(In reply to Connor Abbott from comment #20)
-> I wanted to make sure that improving the NIR path to reach parity with TG=
-SI
-> in local variable handling wouldn't break things, so I investigated this a
-> bit more. It seems this is triggered by the fact that on Vega the TGSI pa=
-th
-> always uses scratch, even for smaller local arrays. This bloats the scrat=
-ch
-> space used by the VS in question. There are three back-to-back draw calls
-> with this VS (used to build up the map), each using scratch, and it seems
-> that radeonsi doesn't properly wait for each call to be done before start=
-ing
-> the next and reuses the same scratch buffer, resulting in the threads from
-> one draw call overwriting the scratch of the previous call. Hacking
-> si_update_spi_tmpring_size() to always allocate a new scratch buffer "fix=
-es"
-> the black triangles.
-
-Thanks heaps for looking into the issue Conner. Looking at the explanation =
-on
-what was happening makes it sound simple - I am sure the debugging effort w=
-as
-far greater!
-
-<3
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15646687992.E770aC7.6572
-Date: Thu, 1 Aug 2019 14:13:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [apitrace] Graphical artifacts in Civilization=
- VI on RX Vega"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104602#c21">Comme=
-nt # 21</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - [apitrace] Graphical artifacts in Civilization=
- VI on RX Vega"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D104602">bug 10460=
-2</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jason&#64;jasonplayne.com" title=3D"Jason Playne &lt;jason&#64;jasonplayne.=
-com&gt;"> <span class=3D"fn">Jason Playne</span></a>
-</span></b>
-        <pre>(In reply to Connor Abbott from <a href=3D"show_bug.cgi?id=3D1=
-04602#c20">comment #20</a>)
-<span class=3D"quote">&gt; I wanted to make sure that improving the NIR pat=
-h to reach parity with TGSI
-&gt; in local variable handling wouldn't break things, so I investigated th=
-is a
-&gt; bit more. It seems this is triggered by the fact that on Vega the TGSI=
- path
-&gt; always uses scratch, even for smaller local arrays. This bloats the sc=
-ratch
-&gt; space used by the VS in question. There are three back-to-back draw ca=
-lls
-&gt; with this VS (used to build up the map), each using scratch, and it se=
-ems
-&gt; that radeonsi doesn't properly wait for each call to be done before st=
-arting
-&gt; the next and reuses the same scratch buffer, resulting in the threads =
-from
-&gt; one draw call overwriting the scratch of the previous call. Hacking
-&gt; si_update_spi_tmpring_size() to always allocate a new scratch buffer &=
-quot;fixes&quot;
-&gt; the black triangles.</span >
-
-Thanks heaps for looking into the issue Conner. Looking at the explanation =
-on
-what was happening makes it sound simple - I am sure the debugging effort w=
-as
-far greater!
-
-&lt;3</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15646687992.E770aC7.6572--
-
---===============0619509286==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0619509286==--
+T24gRnJpLCBKdWwgMjYsIDIwMTkgYXQgMDE6Mjc6NDZQTSArMDIwMCwgQW5kZXJzIFJveGVsbCB3
+cm90ZToKPiBXaGVuIGZhbGwtdGhyb3VnaCB3YXJuaW5ncyB3YXMgZW5hYmxlZCBieSBkZWZhdWx0
+IHRoZSBmb2xsb3dpbmcgd2FybmluZwo+IHdhcyBzdGFydGluZyB0byBzaG93IHVwOgo+IAo+IC4u
+L2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1LmM6IEluIGZ1bmN0aW9uIOKAmGE2
+eHhfc3VibWl04oCZOgo+IC4uL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1LmM6
+MTE2Ojc6IHdhcm5pbmc6IHRoaXMgc3RhdGVtZW50IG1heSBmYWxsCj4gIHRocm91Z2ggWy1XaW1w
+bGljaXQtZmFsbHRocm91Z2g9XQo+ICAgICBpZiAocHJpdi0+bGFzdGN0eCA9PSBjdHgpCj4gICAg
+ICAgIF4KPiAuLi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jOjExODozOiBu
+b3RlOiBoZXJlCj4gICAgY2FzZSBNU01fU1VCTUlUX0NNRF9CVUY6Cj4gICAgXn5+fgo+IAo+IFJl
+d29yayBzbyB0aGF0IHRoZSBjb21waWxlciBkb2Vzbid0IHdhcm4gYWJvdXQgZmFsbC10aHJvdWdo
+Lgo+IAo+IEZpeGVzOiBkOTM1MTJlZjBmMGUgKCJNYWtlZmlsZTogR2xvYmFsbHkgZW5hYmxlIGZh
+bGwtdGhyb3VnaCB3YXJuaW5nIikKPiBTaWduZWQtb2ZmLWJ5OiBBbmRlcnMgUm94ZWxsIDxhbmRl
+cnMucm94ZWxsQGxpbmFyby5vcmc+CgpIaSBBbmRlcnMsClRoYW5rIHlvdSBmb3IgeW91ciBwYXRj
+aGVzLiBKb3JkYW4gaGFkIHByZXZpb3VzbHkgc2VudCB0aGUgc2FtZSBmaXhlcyBpbgoiZHJtL21z
+bTogQW5ub3RhdGUgaW50ZW50aW9uYWwgc3dpdGNoIHN0YXRlbWVudCBmYWxsIHRocm91Z2hzIiBv
+bmUgZGF5IGVhcmxpZXIKdGhhbiB5b3Vycywgc28gSSdsbCBwaWNrIHVwIHRoYXQgcGF0Y2guCgpU
+aGFua3MgYWdhaW4hCgpTZWFuCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9h
+Nnh4X2dwdS5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jIGIvZHJpdmVy
+cy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9ncHUuYwo+IGluZGV4IGJlMzljZjAxZTUxZS4uNjQ0
+YTZlZTUzZjA1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhf
+Z3B1LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jCj4gQEAg
+LTExNSw2ICsxMTUsNyBAQCBzdGF0aWMgdm9pZCBhNnh4X3N1Ym1pdChzdHJ1Y3QgbXNtX2dwdSAq
+Z3B1LCBzdHJ1Y3QgbXNtX2dlbV9zdWJtaXQgKnN1Ym1pdCwKPiAgCQljYXNlIE1TTV9TVUJNSVRf
+Q01EX0NUWF9SRVNUT1JFX0JVRjoKPiAgCQkJaWYgKHByaXYtPmxhc3RjdHggPT0gY3R4KQo+ICAJ
+CQkJYnJlYWs7Cj4gKwkJCS8qIEZhbGwgdGhyb3VnaCAqLwo+ICAJCWNhc2UgTVNNX1NVQk1JVF9D
+TURfQlVGOgo+ICAJCQlPVVRfUEtUNyhyaW5nLCBDUF9JTkRJUkVDVF9CVUZGRVJfUEZFLCAzKTsK
+PiAgCQkJT1VUX1JJTkcocmluZywgbG93ZXJfMzJfYml0cyhzdWJtaXQtPmNtZFtpXS5pb3ZhKSk7
+Cj4gLS0gCj4gMi4yMC4xCj4gCgotLSAKU2VhbiBQYXVsLCBTb2Z0d2FyZSBFbmdpbmVlciwgR29v
+Z2xlIC8gQ2hyb21pdW0gT1MKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
