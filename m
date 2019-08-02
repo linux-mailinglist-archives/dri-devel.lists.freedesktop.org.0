@@ -1,70 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0477F051
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 11:20:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA0D7F058
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 11:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A596ED75;
-	Fri,  2 Aug 2019 09:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8066ED7D;
+	Fri,  2 Aug 2019 09:21:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BB8C6ED75
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 09:20:20 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id DB3CDAEF8;
- Fri,  2 Aug 2019 09:20:18 +0000 (UTC)
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-To: Rong Chen <rong.a.chen@intel.com>, Feng Tang <feng.tang@intel.com>
-References: <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
- <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
- <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
- <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
- <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
- <87wofyzhbm.fsf@yhuang-dev.intel.com>
- <721a5338-a6b7-4bfb-9d33-d68554451954@daenzer.net>
- <c1944c76-c07c-411b-7929-00df387c6369@intel.com>
- <20190801083721.GA3141@shbuild999.sh.intel.com>
- <2eefa08e-2560-b2c1-6df0-f2e81babb41e@suse.de>
- <20190801112535.GA70068@shbuild999.sh.intel.com>
- <afd7d401-143c-b121-740c-9a50d34bbd29@suse.de>
- <95c677b9-bdf7-28e1-b196-9d9dcac63bb3@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <5a27b946-a1b1-fa97-c02d-cbccff53ac6a@suse.de>
-Date: Fri, 2 Aug 2019 11:20:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 681846ED7D
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 09:21:38 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id x19so65829439eda.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Aug 2019 02:21:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=mw+It9QI+sEvHl3prfei6nFX5P/J+IRQwtrB/9Mwkts=;
+ b=Ch46h3HqjxnJKK3ifujlpWkGu8RLo6PrF3CObwUf4e1GD9eFuCEb4ZgWxJn0WrM8QC
+ tcHWaS6JiyPxr9vzD1yyhI/K0M4VFBwigEr9xFY6bKfSWqxchrFLu7ra1kFAyVzOcBaU
+ FPvvpd4RhpoXsGFDLvQxdeGVOFFRjoCA6o82RGYsQx9ixX+Bb9Gir8ZHlCgabaWzUUzT
+ /+0ANnX1YtRIyPueRHPCzCM1u/SrQyOA1kkz2OlBTMXr+3vzJmNRVtq63EMR1bhsMkZq
+ v8onu2LVhV3RJTNU18DWdzF1M7mbetFAuvsa7AeFkQlvoFe4NxDYv4sKujhZkO267vcF
+ /76Q==
+X-Gm-Message-State: APjAAAXFnVz8glEROBW6xoG+wtfyd8AscfWvDgFh26515Mulsh3uDvdl
+ h5mCfjSrXljbr2EHj2m2qkw=
+X-Google-Smtp-Source: APXvYqxGainH0NT+2KUzTAmyU+6HMPD/t9ya6cdoV+PucI3ZB2+Z6tODF0k5Gd82jj8H2QeBGiByog==
+X-Received: by 2002:a17:906:f211:: with SMTP id
+ gt17mr103171603ejb.263.1564737696988; 
+ Fri, 02 Aug 2019 02:21:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+ by smtp.gmail.com with ESMTPSA id ob19sm12949106ejb.0.2019.08.02.02.21.35
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 02 Aug 2019 02:21:36 -0700 (PDT)
+Date: Fri, 2 Aug 2019 11:21:34 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] Revert "drm/vgem: fix cache synchronization on arm/arm64"
+Message-ID: <20190802092134.GL7444@phenom.ffwll.local>
+References: <20190801124458.24949-1-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <95c677b9-bdf7-28e1-b196-9d9dcac63bb3@intel.com>
+Content-Disposition: inline
+In-Reply-To: <20190801124458.24949-1-chris@chris-wilson.co.uk>
+X-Operating-System: Linux phenom 4.19.0-5-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=mw+It9QI+sEvHl3prfei6nFX5P/J+IRQwtrB/9Mwkts=;
+ b=Vmgm18gyRDzEOiunVl6zne73sz2NQ7VdcimjhOIl2QzTsiG89IfUUpHbU+gx/wMv60
+ yLdIpoJwDYOQjCQSeL6z1xOznHY+29Ck9zpsSt1SAVwAKjxM4+ugMno3NTli3j0MAC/r
+ TBWmBTAwcIPEeDp8PTHa3rlF2v4KsJJirOfSI=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,399 +67,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>, LKP <lkp@01.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Huang,
- Ying" <ying.huang@intel.com>
-Content-Type: multipart/mixed; boundary="===============2107554112=="
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2107554112==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="96JbiqwqNsr5tX3FhkDTcNBsWx3tUB6s1"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---96JbiqwqNsr5tX3FhkDTcNBsWx3tUB6s1
-Content-Type: multipart/mixed; boundary="PetsKxovMx0ayHJuspYegM4kg8tPz0D1l";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Rong Chen <rong.a.chen@intel.com>, Feng Tang <feng.tang@intel.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>, LKP <lkp@01.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Huang, Ying" <ying.huang@intel.com>
-Message-ID: <5a27b946-a1b1-fa97-c02d-cbccff53ac6a@suse.de>
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-References: <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
- <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
- <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
- <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
- <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
- <87wofyzhbm.fsf@yhuang-dev.intel.com>
- <721a5338-a6b7-4bfb-9d33-d68554451954@daenzer.net>
- <c1944c76-c07c-411b-7929-00df387c6369@intel.com>
- <20190801083721.GA3141@shbuild999.sh.intel.com>
- <2eefa08e-2560-b2c1-6df0-f2e81babb41e@suse.de>
- <20190801112535.GA70068@shbuild999.sh.intel.com>
- <afd7d401-143c-b121-740c-9a50d34bbd29@suse.de>
- <95c677b9-bdf7-28e1-b196-9d9dcac63bb3@intel.com>
-In-Reply-To: <95c677b9-bdf7-28e1-b196-9d9dcac63bb3@intel.com>
-
---PetsKxovMx0ayHJuspYegM4kg8tPz0D1l
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 02.08.19 um 09:11 schrieb Rong Chen:
-> Hi,
->=20
-> On 8/1/19 7:58 PM, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 01.08.19 um 13:25 schrieb Feng Tang:
->>> Hi Thomas,
->>>
->>> On Thu, Aug 01, 2019 at 11:59:28AM +0200, Thomas Zimmermann wrote:
->>>> Hi
->>>>
->>>> Am 01.08.19 um 10:37 schrieb Feng Tang:
->>>>> On Thu, Aug 01, 2019 at 02:19:53PM +0800, Rong Chen wrote:
->>>>>>>>>>>>>>> commit: 90f479ae51afa45efab97afdde9b94b9660dd3e4
->>>>>>>>>>>>>>> ("drm/mgag200: Replace struct mga_fbdev with generic
->>>>>>>>>>>>>>> framebuffer emulation")
->>>>>>>>>>>>>>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/=
-next/linux-next.git
->>>>>>>>>>>>>>> master
->>>>>>>>>>>>>> Daniel, Noralf, we may have to revert this patch.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> I expected some change in display performance, but not in
->>>>>>>>>>>>>> VM. Since it's
->>>>>>>>>>>>>> a server chipset, probably no one cares much about display=
-
->>>>>>>>>>>>>> performance.
->>>>>>>>>>>>>> So that seemed like a good trade-off for re-using shared
->>>>>>>>>>>>>> code.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Part of the patch set is that the generic fb emulation now=
-
->>>>>>>>>>>>>> maps and
->>>>>>>>>>>>>> unmaps the fbdev BO when updating the screen. I guess
->>>>>>>>>>>>>> that's the cause
->>>>>>>>>>>>>> of the performance regression. And it should be visible
->>>>>>>>>>>>>> with other
->>>>>>>>>>>>>> drivers as well if they use a shadow FB for fbdev emulatio=
-n.
->>>>>>>>>>>>> For fbcon we should need to do any maps/unamps at all, this=
-
->>>>>>>>>>>>> is for the
->>>>>>>>>>>>> fbdev mmap support only. If the testcase mentioned here
->>>>>>>>>>>>> tests fbdev
->>>>>>>>>>>>> mmap handling it's pretty badly misnamed :-) And as long as=
-
->>>>>>>>>>>>> you don't
->>>>>>>>>>>>> have an fbdev mmap there shouldn't be any impact at all.
->>>>>>>>>>>> The ast and mgag200 have only a few MiB of VRAM, so we have
->>>>>>>>>>>> to get the
->>>>>>>>>>>> fbdev BO out if it's not being displayed. If not being
->>>>>>>>>>>> mapped, it can be
->>>>>>>>>>>> evicted and make room for X, etc.
->>>>>>>>>>>>
->>>>>>>>>>>> To make this work, the BO's memory is mapped and unmapped in=
-
->>>>>>>>>>>> drm_fb_helper_dirty_work() before being updated from the
->>>>>>>>>>>> shadow FB. [1]
->>>>>>>>>>>> That fbdev mapping is established on each screen update,
->>>>>>>>>>>> more or less.
->>>>>>>>>>>> =C2=A0From my (yet unverified) understanding, this causes th=
-e
->>>>>>>>>>>> performance
->>>>>>>>>>>> regression in the VM code.
->>>>>>>>>>>>
->>>>>>>>>>>> The original code in mgag200 used to kmap the fbdev BO while=
-
->>>>>>>>>>>> it's being
->>>>>>>>>>>> displayed; [2] and the drawing code only mapped it when
->>>>>>>>>>>> necessary (i.e.,
->>>>>>>>>>>> not being display). [3]
->>>>>>>>>>> Hm yeah, this vmap/vunmap is going to be pretty bad. We
->>>>>>>>>>> indeed should
->>>>>>>>>>> cache this.
->>>>>>>>>>>
->>>>>>>>>>>> I think this could be added for VRAM helpers as well, but
->>>>>>>>>>>> it's still a
->>>>>>>>>>>> workaround and non-VRAM drivers might also run into such a
->>>>>>>>>>>> performance
->>>>>>>>>>>> regression if they use the fbdev's shadow fb.
->>>>>>>>>>> Yeah agreed, fbdev emulation should try to cache the vmap.
->>>>>>>>>>>
->>>>>>>>>>>> Noralf mentioned that there are plans for other DRM clients
->>>>>>>>>>>> besides the
->>>>>>>>>>>> console. They would as well run into similar problems.
->>>>>>>>>>>>
->>>>>>>>>>>>>> The thing is that we'd need another generic fbdev
->>>>>>>>>>>>>> emulation for ast and
->>>>>>>>>>>>>> mgag200 that handles this issue properly.
->>>>>>>>>>>>> Yeah I dont think we want to jump the gun here.=C2=A0 If yo=
-u can
->>>>>>>>>>>>> try to
->>>>>>>>>>>>> repro locally and profile where we're wasting cpu time I
->>>>>>>>>>>>> hope that
->>>>>>>>>>>>> should sched a light what's going wrong here.
->>>>>>>>>>>> I don't have much time ATM and I'm not even officially at
->>>>>>>>>>>> work until
->>>>>>>>>>>> late Aug. I'd send you the revert and investigate later. I
->>>>>>>>>>>> agree that
->>>>>>>>>>>> using generic fbdev emulation would be preferable.
->>>>>>>>>>> Still not sure that's the right thing to do really. Yes it's =
-a
->>>>>>>>>>> regression, but vm testcases shouldn run a single line of
->>>>>>>>>>> fbcon or drm
->>>>>>>>>>> code. So why this is impacted so heavily by a silly drm
->>>>>>>>>>> change is very
->>>>>>>>>>> confusing to me. We might be papering over a deeper and much
->>>>>>>>>>> more
->>>>>>>>>>> serious issue ...
->>>>>>>>>> It's a regression, the right thing is to revert first and then=
-
->>>>>>>>>> work
->>>>>>>>>> out the right thing to do.
->>>>>>>>> Sure, but I have no idea whether the testcase is doing somethin=
-g
->>>>>>>>> reasonable. If it's accidentally testing vm scalability of
->>>>>>>>> fbdev and
->>>>>>>>> there's no one else doing something this pointless, then it's
->>>>>>>>> not a
->>>>>>>>> real bug. Plus I think we're shooting the messenger here.
->>>>>>>>>
->>>>>>>>>> It's likely the test runs on the console and printfs stuff out=
-
->>>>>>>>>> while running.
->>>>>>>>> But why did we not regress the world if a few prints on the
->>>>>>>>> console
->>>>>>>>> have such a huge impact? We didn't get an entire stream of
->>>>>>>>> mails about
->>>>>>>>> breaking stuff ...
->>>>>>>> The regression seems not related to the commit.=C2=A0 But we hav=
-e
->>>>>>>> retested
->>>>>>>> and confirmed the regression.=C2=A0 Hard to understand what happ=
-ens.
->>>>>>> Does the regressed test cause any output on console while it's
->>>>>>> measuring? If so, it's probably accidentally measuring fbcon/DRM
->>>>>>> code in
->>>>>>> addition to the workload it's trying to measure.
->>>>>>>
->>>>>> Sorry, I'm not familiar with DRM, we enabled the console to output=
-
->>>>>> logs, and
->>>>>> attached please find the log file.
->>>>>>
->>>>>> "Command line: ... console=3Dtty0 earlyprintk=3DttyS0,115200
->>>>>> console=3DttyS0,115200 vga=3Dnormal rw"
->>>>> We did more check, and found this test machine does use the
->>>>> mgag200 driver.
->>>>>
->>>>> And we are suspecting the regression is caused by
->>>>>
->>>>> commit cf1ca9aeb930df074bb5bbcde55f935fec04e529
->>>>> Author: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Date:=C2=A0=C2=A0 Wed Jul 3 09:58:24 2019 +0200
->>>> Yes, that's the commit. Unfortunately reverting it would require
->>>> reverting a hand full of other patches as well.
->>>>
->>>> I have a potential fix for the problem. Could you run and verify
->>>> that it
->>>> resolves the problem?
->>> Sure, please send it to us. Rong and I will try it.
->> Fantastic, thank you! The patch set is available on dri-devel at
->>
->> =C2=A0=C2=A0
->> https://lists.freedesktop.org/archives/dri-devel/2019-August/228950.ht=
-ml
->=20
-> The patch set improves the performance slightly, but the change is not
-> very obvious.
->=20
-> $ git log --oneline 8f7ec6bcc7 -5
-> 8f7ec6bcc75a9 drm/mgag200: Map fbdev framebuffer while it's being displ=
-ayed
-> abcb1cf24033a drm/ast: Map fbdev framebuffer while it's being displayed=
-
-> a92f80044c623 drm/vram-helpers: Add kmap ref-counting to GEM VRAM objec=
-ts
-> 90f479ae51afa drm/mgag200: Replace struct mga_fbdev with generic
-> framebuffer emulation
-> f1f8555dfb9a7 drm/bochs: Use shadow buffer for bochs framebuffer consol=
-e
->=20
-> commit:
-> =C2=A0 f1f8555dfb ("drm/bochs: Use shadow buffer for bochs framebuffer =
-console")
-> =C2=A0 90f479ae51 ("drm/mgag200: Replace struct mga_fbdev with generic
-> framebuffer emulation")
-> =C2=A0 8f7ec6bcc7 ("drm/mgag200: Map fbdev framebuffer while it's being=
-
-> displayed")
->=20
-> f1f8555dfb9a70a2=C2=A0 90f479ae51afa45efab97afdde 8f7ec6bcc75a996f5c6b3=
-9a9cf=C2=A0
-> testcase/testparams/testbox
-> ----------------=C2=A0 -------------------------- ---------------------=
------=C2=A0
-> ---------------------------
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 %stddev=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 change=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 %s=
-tddev=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 change %stddev
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- \=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- \=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | \
-> =C2=A0=C2=A0=C2=A0=C2=A0 43921=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -18%=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35884=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -17=
-% 36629
-> vm-scalability/performance-300s-8T-anon-cow-seq-hugetlb/lkp-knm01
-> =C2=A0=C2=A0=C2=A0=C2=A0 43921=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -18%=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35884=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -17=
-% 36629=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> GEO-MEAN vm-scalability.median
-
-Thank you for testing.
-
-There's another thing I'd like to ask: could you run the test without
-console output on drm-tip (i.e., disable it or pipe it into /dev/null)?
-I'd like to see how that impacts performance.
-
-Best regards
-Thomas
-
-> Best Regards,
-> Rong Chen
->=20
->>
->> Best regards
->> Thomas
->>
->>> Thanks,
->>> Feng
->>>
->>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 drm/fb-helper: Map DRM client buffer only =
-when required
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 This patch change=
-s DRM clients to not map the buffer by
->>>>> default. The
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 buffer, like any buffer object, should be =
-mapped and unmapped
->>>>> when
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 needed.
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 An unmapped buffe=
-r object can be evicted to system memory
->>>>> and does
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 not consume video ram until displayed. Thi=
-s allows to use
->>>>> generic fbdev
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 emulation with drivers for low-memory devi=
-ces, such as ast and
->>>>> mgag200.
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 This change affec=
-ts the generic framebuffer console.
->>>>> HW-based consoles
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 map their console buffer once and keep it =
-mapped. Userspace
->>>>> can mmap this
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 buffer into its address space. The shadow-=
-buffered framebuffer
->>>>> console
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 only needs the buffer object to be mapped =
-during updates.
->>>>> While not being
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 updated from the shadow buffer, the buffer=
- object can remain
->>>>> unmapped.
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 Userspace will always mmap the shadow buff=
-er.
->>>>> =C2=A0 which may add more load when fbcon is busy printing out mess=
-ages.
->>>>>
->>>>> We are doing more test inside 0day to confirm.
->>>>>
->>>>> Thanks,
->>>>> Feng
->>>>> _______________________________________________
->>>>> dri-devel mailing list
->>>>> dri-devel@lists.freedesktop.org
->>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>>>
->>>> --=C2=A0
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->>>> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->>>> HRB 21284 (AG N=C3=BCrnberg)
->>>>
->>>
->>>
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>
->=20
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---PetsKxovMx0ayHJuspYegM4kg8tPz0D1l--
-
---96JbiqwqNsr5tX3FhkDTcNBsWx3tUB6s1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1EAE4ACgkQaA3BHVML
-eiOCpgf+M6j4fQzRmuYKzSD40fcyV88F1KUCTgH4brG2pDT4kjscM9Ofd6m5vIY7
-YUHy297a+fqK8TjCPakRsK+HLAbrvvT3dUWSiuCChWmUG0g9qFZ6sJ+ubCwYAkFC
-LKugnqo+VOHtBGCe72PEidek/u0vJY3nXrwHVBN+sPWYH4EQhCidiTO4xY0qGY8O
-rnd6oSf2gQAOmmr/rWRBWlKrZ+Mqks7zjD4+PVFwmrMkxw9NV5DX4ORpjbafGSNA
-fMuocykfPVerZUm+LkrKPpmKvtslZcYg6CnEtPyQjyQiLj2GkLbsPWXviSCMPu/6
-LvXBdgd1UZVjyfyYgmd2J0ivqaWs3w==
-=oAp+
------END PGP SIGNATURE-----
-
---96JbiqwqNsr5tX3FhkDTcNBsWx3tUB6s1--
-
---===============2107554112==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2107554112==--
+T24gVGh1LCBBdWcgMDEsIDIwMTkgYXQgMDE6NDQ6NThQTSArMDEwMCwgQ2hyaXMgV2lsc29uIHdy
+b3RlOgo+IGNvbW1pdCA3ZTllNWVhZDU1YmUgKCJkcm0vdmdlbTogZml4IGNhY2hlIHN5bmNocm9u
+aXphdGlvbiBvbiBhcm0vYXJtNjQiKQo+IGJyb2tlIGFsbCBvZiB0aGUgIWxsYyBpOTE1LXZnZW0g
+Y29oZXJlbmN5IHRlc3RzIGluIENJLCBhbmQgbGVmdCB0aGUgSFcKPiB2ZXJ5LCB2ZXJ5IHVuaGFw
+cHkgKHdoaWNoIGlzIGV2ZW4gbW9yZSBzY2FyeSkuCj4gCj4gRml4ZXM6IDdlOWU1ZWFkNTViZSAo
+ImRybS92Z2VtOiBmaXggY2FjaGUgc3luY2hyb25pemF0aW9uIG9uIGFybS9hcm02NCIpCj4gU2ln
+bmVkLW9mZi1ieTogQ2hyaXMgV2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4gQ2M6
+IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+Cj4gQ2M6IFJvYiBDbGFyayA8
+cm9iZGNsYXJrQGNocm9taXVtLm9yZz4KPiBDYzogU2VhbiBQYXVsIDxzZWFucGF1bEBjaHJvbWl1
+bS5vcmc+CgpBY2tlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4K
+Ck5vdCB0aGF0IHRoaXMgY291bnRzIGEgaG9sZSBsb3QgdW5mb3J0dW5hdGVseSA6LS8KClRyb3Vi
+bGUgaGVyZSBpcyB0aGF0IHg4NiBhc3N1bWVzIHRoYXQgZXZlcnl0aGluZyBpcyBjb2hlcmVudCAo
+aXQncyBub3QpCmFuZCBkbWEtYXBpIGFzc3VtZXMgdGhhdCBjb2hlcmVudG5lc3MgaXMgYSBwcm9w
+ZXJ0eSBvZiB0aGUgZGV2aWNlIGFuZApvcGFxdWUgdG8gdGhlIGRldmljZSBkcml2ZXIgKGl0J3Mg
+bm90KS4gU28gbWF5YmUgd2Ugc2hvdWxkIGRvIGEgbWl4IG9mIHYxCmFuZCB2MiBvZiBSb2IncyBw
+YXRjaGVzLCBpLmUuIG5vdCBpbmZsaWN0IHRoZSBjYWNoZSBmbHVzaGluZyBpbnRvCmRybV9jbGZs
+dXNoLmMgKHRvIGF2b2lkIHRoZSBwb2ludGxlc3Mgc3RydWN0IGRldmljZSBub25zZW5zZSksIGJ1
+dCB0aGVuCmFsc28gZG8gdGhpcyBpbiB2Z2VtIGhlcmUgb25seSB3aXRoICNpZmRlZiBBUk02NCBh
+bmQgbGVhdmUgdGhlIGNsZmx1c2ggZm9yCmV2ZXJ5dGhpbmcgZWxzZS4KLURhbmllbAoKPiAtLS0K
+PiAgZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdlbV9kcnYuYyB8IDEzMCArKysrKysrKysrKystLS0t
+LS0tLS0tLS0tLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNDcgaW5zZXJ0aW9ucygrKSwgODMg
+ZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1f
+ZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jCj4gaW5kZXggYjk4Njg5ZmIw
+ZDVkLi41YmQ2MGRlZDNkODEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdl
+bV9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS92Z2VtL3ZnZW1fZHJ2LmMKPiBAQCAtNTQs
+MTYgKzU0LDEwIEBAIHN0YXRpYyBzdHJ1Y3QgdmdlbV9kZXZpY2Ugewo+ICAJc3RydWN0IHBsYXRm
+b3JtX2RldmljZSAqcGxhdGZvcm07Cj4gIH0gKnZnZW1fZGV2aWNlOwo+ICAKPiAtc3RhdGljIHZv
+aWQgc3luY19hbmRfdW5waW4oc3RydWN0IGRybV92Z2VtX2dlbV9vYmplY3QgKmJvKTsKPiAtc3Rh
+dGljIHN0cnVjdCBwYWdlICoqcGluX2FuZF9zeW5jKHN0cnVjdCBkcm1fdmdlbV9nZW1fb2JqZWN0
+ICpibyk7Cj4gLQo+ICBzdGF0aWMgdm9pZCB2Z2VtX2dlbV9mcmVlX29iamVjdChzdHJ1Y3QgZHJt
+X2dlbV9vYmplY3QgKm9iaikKPiAgewo+ICAJc3RydWN0IGRybV92Z2VtX2dlbV9vYmplY3QgKnZn
+ZW1fb2JqID0gdG9fdmdlbV9ibyhvYmopOwo+ICAKPiAtCWlmICghb2JqLT5pbXBvcnRfYXR0YWNo
+KQo+IC0JCXN5bmNfYW5kX3VucGluKHZnZW1fb2JqKTsKPiAtCj4gIAlrdmZyZWUodmdlbV9vYmot
+PnBhZ2VzKTsKPiAgCW11dGV4X2Rlc3Ryb3koJnZnZW1fb2JqLT5wYWdlc19sb2NrKTsKPiAgCj4g
+QEAgLTkxLDE1ICs4NSw0MCBAQCBzdGF0aWMgdm1fZmF1bHRfdCB2Z2VtX2dlbV9mYXVsdChzdHJ1
+Y3Qgdm1fZmF1bHQgKnZtZikKPiAgCQlyZXR1cm4gVk1fRkFVTFRfU0lHQlVTOwo+ICAKPiAgCW11
+dGV4X2xvY2soJm9iai0+cGFnZXNfbG9jayk7Cj4gLQlpZiAoIW9iai0+cGFnZXMpCj4gLQkJcGlu
+X2FuZF9zeW5jKG9iaik7Cj4gIAlpZiAob2JqLT5wYWdlcykgewo+ICAJCWdldF9wYWdlKG9iai0+
+cGFnZXNbcGFnZV9vZmZzZXRdKTsKPiAgCQl2bWYtPnBhZ2UgPSBvYmotPnBhZ2VzW3BhZ2Vfb2Zm
+c2V0XTsKPiAgCQlyZXQgPSAwOwo+ICAJfQo+ICAJbXV0ZXhfdW5sb2NrKCZvYmotPnBhZ2VzX2xv
+Y2spOwo+ICsJaWYgKHJldCkgewo+ICsJCXN0cnVjdCBwYWdlICpwYWdlOwo+ICsKPiArCQlwYWdl
+ID0gc2htZW1fcmVhZF9tYXBwaW5nX3BhZ2UoCj4gKwkJCQkJZmlsZV9pbm9kZShvYmotPmJhc2Uu
+ZmlscCktPmlfbWFwcGluZywKPiArCQkJCQlwYWdlX29mZnNldCk7Cj4gKwkJaWYgKCFJU19FUlIo
+cGFnZSkpIHsKPiArCQkJdm1mLT5wYWdlID0gcGFnZTsKPiArCQkJcmV0ID0gMDsKPiArCQl9IGVs
+c2Ugc3dpdGNoIChQVFJfRVJSKHBhZ2UpKSB7Cj4gKwkJCWNhc2UgLUVOT1NQQzoKPiArCQkJY2Fz
+ZSAtRU5PTUVNOgo+ICsJCQkJcmV0ID0gVk1fRkFVTFRfT09NOwo+ICsJCQkJYnJlYWs7Cj4gKwkJ
+CWNhc2UgLUVCVVNZOgo+ICsJCQkJcmV0ID0gVk1fRkFVTFRfUkVUUlk7Cj4gKwkJCQlicmVhazsK
+PiArCQkJY2FzZSAtRUZBVUxUOgo+ICsJCQljYXNlIC1FSU5WQUw6Cj4gKwkJCQlyZXQgPSBWTV9G
+QVVMVF9TSUdCVVM7Cj4gKwkJCQlicmVhazsKPiArCQkJZGVmYXVsdDoKPiArCQkJCVdBUk5fT04o
+UFRSX0VSUihwYWdlKSk7Cj4gKwkJCQlyZXQgPSBWTV9GQVVMVF9TSUdCVVM7Cj4gKwkJCQlicmVh
+azsKPiArCQl9Cj4gIAo+ICsJfQo+ICAJcmV0dXJuIHJldDsKPiAgfQo+ICAKPiBAQCAtMjY1LDkz
+ICsyODQsMzIgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgdmdlbV9kcml2
+ZXJfZm9wcyA9IHsKPiAgCS5yZWxlYXNlCT0gZHJtX3JlbGVhc2UsCj4gIH07Cj4gIAo+IC0vKiBD
+YWxsZWQgdW5kZXIgcGFnZXNfbG9jaywgZXhjZXB0IGluIGZyZWUgcGF0aCAod2hlcmUgaXQgY2Fu
+J3QgcmFjZSk6ICovCj4gLXN0YXRpYyB2b2lkIHN5bmNfYW5kX3VucGluKHN0cnVjdCBkcm1fdmdl
+bV9nZW1fb2JqZWN0ICpibykKPiAtewo+IC0Jc3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGJvLT5i
+YXNlLmRldjsKPiAtCj4gLQlpZiAoYm8tPnRhYmxlKSB7Cj4gLQkJZG1hX3N5bmNfc2dfZm9yX2Nw
+dShkZXYtPmRldiwgYm8tPnRhYmxlLT5zZ2wsCj4gLQkJCQliby0+dGFibGUtPm5lbnRzLCBETUFf
+QklESVJFQ1RJT05BTCk7Cj4gLQkJc2dfZnJlZV90YWJsZShiby0+dGFibGUpOwo+IC0JCWtmcmVl
+KGJvLT50YWJsZSk7Cj4gLQkJYm8tPnRhYmxlID0gTlVMTDsKPiAtCX0KPiAtCj4gLQlpZiAoYm8t
+PnBhZ2VzKSB7Cj4gLQkJZHJtX2dlbV9wdXRfcGFnZXMoJmJvLT5iYXNlLCBiby0+cGFnZXMsIHRy
+dWUsIHRydWUpOwo+IC0JCWJvLT5wYWdlcyA9IE5VTEw7Cj4gLQl9Cj4gLX0KPiAtCj4gLXN0YXRp
+YyBzdHJ1Y3QgcGFnZSAqKnBpbl9hbmRfc3luYyhzdHJ1Y3QgZHJtX3ZnZW1fZ2VtX29iamVjdCAq
+Ym8pCj4gLXsKPiAtCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBiby0+YmFzZS5kZXY7Cj4gLQlp
+bnQgbnBhZ2VzID0gYm8tPmJhc2Uuc2l6ZSA+PiBQQUdFX1NISUZUOwo+IC0Jc3RydWN0IHBhZ2Ug
+KipwYWdlczsKPiAtCXN0cnVjdCBzZ190YWJsZSAqc2d0Owo+IC0KPiAtCVdBUk5fT04oIW11dGV4
+X2lzX2xvY2tlZCgmYm8tPnBhZ2VzX2xvY2spKTsKPiAtCj4gLQlwYWdlcyA9IGRybV9nZW1fZ2V0
+X3BhZ2VzKCZiby0+YmFzZSk7Cj4gLQlpZiAoSVNfRVJSKHBhZ2VzKSkgewo+IC0JCWJvLT5wYWdl
+c19waW5fY291bnQtLTsKPiAtCQltdXRleF91bmxvY2soJmJvLT5wYWdlc19sb2NrKTsKPiAtCQly
+ZXR1cm4gcGFnZXM7Cj4gLQl9Cj4gLQo+IC0Jc2d0ID0gZHJtX3ByaW1lX3BhZ2VzX3RvX3NnKHBh
+Z2VzLCBucGFnZXMpOwo+IC0JaWYgKElTX0VSUihzZ3QpKSB7Cj4gLQkJZGV2X2VycihkZXYtPmRl
+diwKPiAtCQkJImZhaWxlZCB0byBhbGxvY2F0ZSBzZ3Q6ICVsZFxuIiwKPiAtCQkJUFRSX0VSUihi
+by0+dGFibGUpKTsKPiAtCQlkcm1fZ2VtX3B1dF9wYWdlcygmYm8tPmJhc2UsIHBhZ2VzLCBmYWxz
+ZSwgZmFsc2UpOwo+IC0JCW11dGV4X3VubG9jaygmYm8tPnBhZ2VzX2xvY2spOwo+IC0JCXJldHVy
+biBFUlJfQ0FTVChiby0+dGFibGUpOwo+IC0JfQo+IC0KPiAtCS8qCj4gLQkgKiBGbHVzaCB0aGUg
+b2JqZWN0IGZyb20gdGhlIENQVSBjYWNoZSBzbyB0aGF0IGltcG9ydGVycwo+IC0JICogY2FuIHJl
+bHkgb24gY29oZXJlbnQgaW5kaXJlY3QgYWNjZXNzIHZpYSB0aGUgZXhwb3J0ZWQKPiAtCSAqIGRt
+YS1hZGRyZXNzLgo+IC0JICovCj4gLQlkbWFfc3luY19zZ19mb3JfZGV2aWNlKGRldi0+ZGV2LCBz
+Z3QtPnNnbCwKPiAtCQkJc2d0LT5uZW50cywgRE1BX0JJRElSRUNUSU9OQUwpOwo+IC0KPiAtCWJv
+LT5wYWdlcyA9IHBhZ2VzOwo+IC0JYm8tPnRhYmxlID0gc2d0Owo+IC0KPiAtCXJldHVybiBwYWdl
+czsKPiAtfQo+IC0KPiAgc3RhdGljIHN0cnVjdCBwYWdlICoqdmdlbV9waW5fcGFnZXMoc3RydWN0
+IGRybV92Z2VtX2dlbV9vYmplY3QgKmJvKQo+ICB7Cj4gLQlzdHJ1Y3QgcGFnZSAqKnBhZ2VzOwo+
+IC0KPiAgCW11dGV4X2xvY2soJmJvLT5wYWdlc19sb2NrKTsKPiAtCWlmIChiby0+cGFnZXNfcGlu
+X2NvdW50KysgPT0gMCAmJiAhYm8tPnBhZ2VzKSB7Cj4gLQkJcGFnZXMgPSBwaW5fYW5kX3N5bmMo
+Ym8pOwo+IC0JfSBlbHNlIHsKPiAtCQlXQVJOX09OKCFiby0+cGFnZXMpOwo+IC0JCXBhZ2VzID0g
+Ym8tPnBhZ2VzOwo+ICsJaWYgKGJvLT5wYWdlc19waW5fY291bnQrKyA9PSAwKSB7Cj4gKwkJc3Ry
+dWN0IHBhZ2UgKipwYWdlczsKPiArCj4gKwkJcGFnZXMgPSBkcm1fZ2VtX2dldF9wYWdlcygmYm8t
+PmJhc2UpOwo+ICsJCWlmIChJU19FUlIocGFnZXMpKSB7Cj4gKwkJCWJvLT5wYWdlc19waW5fY291
+bnQtLTsKPiArCQkJbXV0ZXhfdW5sb2NrKCZiby0+cGFnZXNfbG9jayk7Cj4gKwkJCXJldHVybiBw
+YWdlczsKPiArCQl9Cj4gKwo+ICsJCWJvLT5wYWdlcyA9IHBhZ2VzOwo+ICAJfQo+ICAJbXV0ZXhf
+dW5sb2NrKCZiby0+cGFnZXNfbG9jayk7Cj4gIAo+IC0JcmV0dXJuIHBhZ2VzOwo+ICsJcmV0dXJu
+IGJvLT5wYWdlczsKPiAgfQo+ICAKPiAgc3RhdGljIHZvaWQgdmdlbV91bnBpbl9wYWdlcyhzdHJ1
+Y3QgZHJtX3ZnZW1fZ2VtX29iamVjdCAqYm8pCj4gIHsKPiAtCS8qCj4gLQkgKiBXZSBzaG91bGRu
+J3QgaGl0IHRoaXMgZm9yIGltcG9ydGVkIGJvJ3MuLiBpbiB0aGUgaW1wb3J0Cj4gLQkgKiBjYXNl
+IHdlIGRvbid0IG93biB0aGUgc2NhdHRlci10YWJsZQo+IC0JICovCj4gLQlXQVJOX09OKGJvLT5i
+YXNlLmltcG9ydF9hdHRhY2gpOwo+IC0KPiAgCW11dGV4X2xvY2soJmJvLT5wYWdlc19sb2NrKTsK
+PiAgCWlmICgtLWJvLT5wYWdlc19waW5fY291bnQgPT0gMCkgewo+IC0JCVdBUk5fT04oIWJvLT50
+YWJsZSk7Cj4gLQkJc3luY19hbmRfdW5waW4oYm8pOwo+ICsJCWRybV9nZW1fcHV0X3BhZ2VzKCZi
+by0+YmFzZSwgYm8tPnBhZ2VzLCB0cnVlLCB0cnVlKTsKPiArCQliby0+cGFnZXMgPSBOVUxMOwo+
+ICAJfQo+ICAJbXV0ZXhfdW5sb2NrKCZiby0+cGFnZXNfbG9jayk7Cj4gIH0KPiBAQCAtMzU5LDEy
+ICszMTcsMTggQEAgc3RhdGljIHZvaWQgdmdlbV91bnBpbl9wYWdlcyhzdHJ1Y3QgZHJtX3ZnZW1f
+Z2VtX29iamVjdCAqYm8pCj4gIHN0YXRpYyBpbnQgdmdlbV9wcmltZV9waW4oc3RydWN0IGRybV9n
+ZW1fb2JqZWN0ICpvYmopCj4gIHsKPiAgCXN0cnVjdCBkcm1fdmdlbV9nZW1fb2JqZWN0ICpibyA9
+IHRvX3ZnZW1fYm8ob2JqKTsKPiArCWxvbmcgbl9wYWdlcyA9IG9iai0+c2l6ZSA+PiBQQUdFX1NI
+SUZUOwo+ICAJc3RydWN0IHBhZ2UgKipwYWdlczsKPiAgCj4gIAlwYWdlcyA9IHZnZW1fcGluX3Bh
+Z2VzKGJvKTsKPiAgCWlmIChJU19FUlIocGFnZXMpKQo+ICAJCXJldHVybiBQVFJfRVJSKHBhZ2Vz
+KTsKPiAgCj4gKwkvKiBGbHVzaCB0aGUgb2JqZWN0IGZyb20gdGhlIENQVSBjYWNoZSBzbyB0aGF0
+IGltcG9ydGVycyBjYW4gcmVseQo+ICsJICogb24gY29oZXJlbnQgaW5kaXJlY3QgYWNjZXNzIHZp
+YSB0aGUgZXhwb3J0ZWQgZG1hLWFkZHJlc3MuCj4gKwkgKi8KPiArCWRybV9jbGZsdXNoX3BhZ2Vz
+KHBhZ2VzLCBuX3BhZ2VzKTsKPiArCj4gIAlyZXR1cm4gMDsKPiAgfQo+ICAKPiAtLSAKPiAyLjIz
+LjAucmMwCj4gCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29y
+cG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVs
