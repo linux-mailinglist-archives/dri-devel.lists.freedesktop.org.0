@@ -1,46 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D267F7EBD9
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 07:17:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C657EBE3
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 07:21:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 552046E8A6;
-	Fri,  2 Aug 2019 05:17:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B926E8A7;
+	Fri,  2 Aug 2019 05:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8546E8A6
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 05:17:03 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Aug 2019 22:17:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,337,1559545200"; 
- d="scan'208,217";a="180911587"
-Received: from apirrone-mobl.ger.corp.intel.com (HELO [10.252.36.4])
- ([10.252.36.4])
- by FMSMGA003.fm.intel.com with ESMTP; 01 Aug 2019 22:17:00 -0700
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+ (mail-eopbgr690048.outbound.protection.outlook.com [40.107.69.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D1146E8A7
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 05:21:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iMskd1RcXRCwud0YO0oDqpFK5Cd/0NTPJSUS04U11FVv3XWDe1wSInUndi8z4ucNlpZJsheJNZCQBlwEIIfLncftDs/QTP3eNNAEPKUOMtmZMTUB7+N/3pFdCpKYLufCXeiK/wDqu/7ZoI+gaAbt6ADvIrYcxe4IMklzAlASJfG7QcKYArFNyip63deyC9zSp6V9Gyp8XgBaUyxeAkMEDbBv4sCIWkXDt/+Q5VVdb4pv3HyZi+XjCrVDcAQ+mBUY6fr1UPZ+AotQHpXRs5q7CvC7UM3rh6lXv2oheEFJoN7HQI1wRk1VGli50GR4vTjTXK23/gnYqnJ5+YekG1PwnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MLfyyF6HGav3RL+WzEsNyXdSngdZVQ9JeHNGMfAFtCY=;
+ b=g9xVprt9lZaBk7hYmebK5v0zocqneAZe1M96oxx3wni/9keL9LsDhh7wMz5BoLfK8hXRGiQ/BYhgD/xm1cPzR3SzIw4zGVBVW61BVexbzikaXKwdnVprDkHbf9u9gfEO4XYmakLGR4HmfhfAV6+8LXWXNCfwvcJu74onpGlXHfEumoQjoKF4/lun60cWJ7PeDakm140jiU8dKeBLKvx2XZyXEJd0hXOWWA5dNc5kBPLRiTYqHcKSXyZQ1e+zc3fZtvvxEEJYSEm4q+U9JLIQ69R2PWweEjso030gdh9BIFWv3sSugHmY+QfWpbzOcM1mWSTIiq6e66De7ZN/qDKgPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=amd.com;dmarc=pass action=none header.from=amd.com;dkim=pass
+ header.d=amd.com;arc=none
+Received: from DM5PR12MB1546.namprd12.prod.outlook.com (10.172.36.23) by
+ DM5PR12MB1162.namprd12.prod.outlook.com (10.168.236.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2115.15; Fri, 2 Aug 2019 05:21:29 +0000
+Received: from DM5PR12MB1546.namprd12.prod.outlook.com
+ ([fe80::9ddf:934:8155:a6ff]) by DM5PR12MB1546.namprd12.prod.outlook.com
+ ([fe80::9ddf:934:8155:a6ff%2]) with mapi id 15.20.2115.005; Fri, 2 Aug 2019
+ 05:21:29 +0000
+From: "Koenig, Christian" <Christian.Koenig@amd.com>
+To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
 Subject: Re: Threaded submission & semaphore sharing
-To: "Koenig, Christian" <Christian.Koenig@amd.com>
-References: <e8063826-a38b-e1d3-fe8b-63202b8bd264@intel.com>
- <MN2PR12MB29103E4B1ABDD9A9A40EF8F6B4D90@MN2PR12MB2910.namprd12.prod.outlook.com>
- <a9904cd8-c1ff-e1d3-eb16-5183dc9a7908@intel.com>
- <970c65d1-ad63-4492-8ae2-96b603b2c7c8@email.android.com>
- <7029d51c-2e57-a58e-d621-d9dc15614316@intel.com>
- <15c7ac0e-96f7-4b3a-b185-4ce50d046762@email.android.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Message-ID: <79615564-f0b7-c898-05c0-a09bbe123849@intel.com>
-Date: Fri, 2 Aug 2019 08:16:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Thread-Topic: Threaded submission & semaphore sharing
+Thread-Index: AQHVSPIj68Y7wqXqekicuqVxx0XG5g==
+Date: Fri, 2 Aug 2019 05:21:29 +0000
+Message-ID: <65e763e7-221c-4073-b777-b84c6d724f40@email.android.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2a02:908:1252:fb60:d51d:9005:182e:634a]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8d330d0c-e8b7-4c4f-2771-08d71709461f
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:DM5PR12MB1162; 
+x-ms-traffictypediagnostic: DM5PR12MB1162:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <DM5PR12MB1162E8EB4C68AF012DE1941A83D90@DM5PR12MB1162.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 011787B9DD
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(4636009)(136003)(346002)(39850400004)(396003)(366004)(376002)(13464003)(199004)(189003)(66446008)(31686004)(6506007)(71200400001)(5660300002)(66476007)(8676002)(91956017)(102836004)(68736007)(64756008)(6246003)(186003)(7736002)(66946007)(53546011)(71190400001)(25786009)(81156014)(8936002)(4326008)(99286004)(81166006)(606006)(54896002)(6436002)(6306002)(14454004)(6512007)(66556008)(966005)(229853002)(9686003)(256004)(31696002)(76116006)(305945005)(316002)(46003)(478600001)(6916009)(2906002)(236005)(486006)(6116002)(54906003)(86362001)(476003)(6486002)(53936002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR12MB1162;
+ H:DM5PR12MB1546.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: T2wP52dc1T1JDrsWC96iZZPRWaPKzv12oZbqOC4YaIw4sOP6EWHkhUVUiKSgyBauuPoqDddG6ekvXKpJnPD3z1zoSjwurVy05ZMg29JjLlNMyd/HiOaW4Yy4wGan4fNY+h+FMDzo5rn4w0GyusUEXjI3CBMkDlusSbO/3hr2c9a5iZJ7j3ElKCiVvB/fRaVLQTz+msebyHg+qbX6j9PHPbcTrnVwE6oyYniSMj0rbrJvuU1rZCtrZgWf1qdL043+fCUUNqnzPw3HKn2ufsh7XYCL+1TF/Z/pNO4b9y9Aa/NuxyY+Mgh6yimEk3WjoXU67UaYTDvP76VT6kslC+wHWdx1HYqI/ksT8tnIIgiU5GgyYyfqTJxinCTeX08hn3LHvyj4pPTWYUFDff367hHzaEskYyVz1KjhX3YWGJGsq3M=
 MIME-Version: 1.0
-In-Reply-To: <15c7ac0e-96f7-4b3a-b185-4ce50d046762@email.android.com>
-Content-Language: en-US
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d330d0c-e8b7-4c4f-2771-08d71709461f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2019 05:21:29.3945 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ckoenig@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1162
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MLfyyF6HGav3RL+WzEsNyXdSngdZVQ9JeHNGMfAFtCY=;
+ b=wOzR02TAh4cR/85+T5Sd8af2LkS/2FXApGQVuYdgSUduqc4/i6rzK2uzP8wdMQxllHjZjCvV1o9PvYu1DhLkDKyV7Li9sggZI1b8Dayw1qXX98BszEAi0zLBMArYhryLiWZ/2sIN5JHpz6P0yJaPI7BXXcAWdrljlc17svS2gkg=
+X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,455 +93,307 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Jason Ekstrand <jason@jlekstrand.net>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============2051448124=="
+Content-Type: multipart/mixed; boundary="===============0831771606=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============2051448124==
+--===============0831771606==
+Content-Language: de-DE
 Content-Type: multipart/alternative;
- boundary="------------117C695F915A075610B9D461"
-Content-Language: en-US
+	boundary="_000_65e763e7221c4073b777b84c6d724f40emailandroidcom_"
 
-This is a multi-part message in MIME format.
---------------117C695F915A075610B9D461
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+--_000_65e763e7221c4073b777b84c6d724f40emailandroidcom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 02/08/2019 08:08, Koenig, Christian wrote:
-> Hi Lionel,
->
-> Well that looks more like your test case is buggy.
->
-> According to the code the ctx1 queue always waits for sem1 and ctx2 
-> queue always waits for sem2.
+DQoNCkFtIDAyLjA4LjIwMTkgMDc6MTcgc2NocmllYiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVs
+LmcubGFuZHdlcmxpbkBpbnRlbC5jb20+Og0KT24gMDIvMDgvMjAxOSAwODowOCwgS29lbmlnLCBD
+aHJpc3RpYW4gd3JvdGU6DQpIaSBMaW9uZWwsDQoNCldlbGwgdGhhdCBsb29rcyBtb3JlIGxpa2Ug
+eW91ciB0ZXN0IGNhc2UgaXMgYnVnZ3kuDQoNCkFjY29yZGluZyB0byB0aGUgY29kZSB0aGUgY3R4
+MSBxdWV1ZSBhbHdheXMgd2FpdHMgZm9yIHNlbTEgYW5kIGN0eDIgcXVldWUgYWx3YXlzIHdhaXRz
+IGZvciBzZW0yLg0KDQoNClRoYXQncyBzdXBwb3NlZCB0byBiZSB0aGUgc2FtZSB1bmRlcmx5aW5n
+IHN5bmNvYmogYmVjYXVzZSBpdCdzIGV4cG9ydGVkIGZyb20gb25lIFZrRGV2aWNlIGFzIG9wYXF1
+ZSBGRCBmcm9tIHNlbTEgYW5kIGltcG9ydGVkIGludG8gc2VtMi4NCg0KV2VsbCB0aGFuIHRoYXQn
+cyBzdGlsbCBidWdneSBhbmQgd29uJ3Qgc3luY2hyb25pemUgYXQgYWxsLg0KDQpXaGVuIGN0eDEg
+d2FpdHMgZm9yIGEgc2VtYXBob3JlIGFuZCB0aGVuIHNpZ25hbHMgdGhlIHNhbWUgc2VtYXBob3Jl
+IHRoZXJlIGlzIG5vIGd1YXJhbnRlZSB0aGF0IGN0eDIgd2lsbCBydW4gaW4gYmV0d2VlbiBqb2Jz
+Lg0KDQpJdCdzIHBlcmZlY3RseSB2YWxpZCBpbiB0aGlzIGNhc2UgdG8gZmlyc3QgcnVuIGFsbCBq
+b2JzIGZyb20gY3R4MSBhbmQgdGhlbiBhbGwgam9icyBmcm9tIGN0eDIuDQoNCkl0IG9ubHkgcHJl
+dmVudHMgcnVubmluZyBib3RoIGF0IHRoZSBzYW1lIHRpbWUgYW5kIGFzIGZhciBhcyBJIGNhbiBz
+ZWUgdGhhdCBzdGlsbCB3b3JrcyBldmVuIHdpdGggdGhyZWFkZWQgc3VibWlzc2lvbi4NCg0KWW91
+IG5lZWQgYXQgbGVhc3QgdHdvIHNlbWFwaG9yZXMgZm9yIGEgdGFuZGVtIHN1Ym1pc3Npb24uDQoN
+ClJlZ2FyZHMsDQpDaHJpc3RpYW4uDQoNCg0KVGhpcyB3YXkgdGhlcmUgY2FuJ3QgYmUgYW55IFN5
+bmNocm9uaXNhdGlvbiBiZXR3ZWVuIHRoZSB0d28uDQoNClJlZ2FyZHMsDQpDaHJpc3RpYW4uDQoN
+CkFtIDAyLjA4LjIwMTkgMDY6NTUgc2NocmllYiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcu
+bGFuZHdlcmxpbkBpbnRlbC5jb20+PG1haWx0bzpsaW9uZWwuZy5sYW5kd2VybGluQGludGVsLmNv
+bT46DQpIZXkgQ2hyaXN0aWFuLA0KDQpUaGUgcHJvYmxlbSBib2lscyBkb3duIHRvIHRoZSBmYWN0
+IHRoYXQgd2UgZG9uJ3QgaW1tZWRpYXRlbHkgY3JlYXRlIGRtYSBmZW5jZXMgd2hlbiBjYWxsaW5n
+IHZrUXVldWVTdWJtaXQoKS4NClRoaXMgaXMgZGVsYXllZCB0byBhIHRocmVhZC4NCg0KRnJvbSBh
+IHNpbmdsZSBhcHBsaWNhdGlvbiB0aHJlYWQsIHlvdSBjYW4gUXVldWVTdWJtaXQoKSB0byAyIHF1
+ZXVlcyBmcm9tIDIgZGlmZmVyZW50IGRldmljZXMuDQpFYWNoIFF1ZXVlU3VibWl0IHRvIG9uZSBx
+dWV1ZSBoYXMgYSBkZXBlbmRlbmN5IG9uIHRoZSBwcmV2aW91cyBRdWV1ZVN1Ym1pdCBvbiB0aGUg
+b3RoZXIgcXVldWUgdGhyb3VnaCBhbiBleHBvcnRlZC9pbXBvcnRlZCBzZW1hcGhvcmUuDQoNCkZy
+b20gdGhlIEFQSSBwb2ludCBvZiB2aWV3IHRoZSBzdGF0ZSBvZiB0aGUgc2VtYXBob3JlIHNob3Vs
+ZCBiZSBjaGFuZ2VkIGFmdGVyIGVhY2ggUXVldWVTdWJtaXQoKS4NClRoZSBwcm9ibGVtIGlzIHRo
+YXQgaXQncyBub3QgYmVjYXVzZSBvZiB0aGUgdGhyZWFkIGFuZCBiZWNhdXNlIHlvdSBtaWdodCBo
+YXZlIHRob3NlIDIgc3VibWlzc2lvbiB0aHJlYWRzIHRpZWQgdG8gZGlmZmVyZW50IFZrRGV2aWNl
+L1ZrSW5zdGFuY2Ugb3IgZXZlbiBkaWZmZXJlbnQgYXBwbGljYXRpb25zIChzeW5jaHJvbml6aW5n
+IHRoZW1zZWx2ZXMgb3V0c2lkZSB0aGUgdnVsa2FuIEFQSSkuDQoNCkhvcGUgdGhhdCBtYWtlcyBz
+ZW5zZS4NCkl0J3Mgbm90IHJlYWxseSBlYXN5IHRvIGV4cGxhaW4gYnkgbWFpbCwgdGhlIGJlc3Qg
+ZXhwbGFuYXRpb24gaXMgcHJvYmFibHkgcmVhZGluZyB0aGUgdGVzdCA6IGh0dHBzOi8vZ2l0bGFi
+LmZyZWVkZXNrdG9wLm9yZy9tZXNhL2NydWNpYmxlL2Jsb2IvbWFzdGVyL3NyYy90ZXN0cy9mdW5j
+L3N5bmMvc2VtYXBob3JlLWZkLmMjTDc4OA0KDQpMaWtlIERhdmlkIG1lbnRpb25lZCB5b3UncmUg
+bm90IHJ1bm5pbmcgaW50byB0aGF0IGlzc3VlIHJpZ2h0IG5vdywgYmVjYXVzZSB5b3Ugb25seSBk
+aXNwYXRjaCB0byB0aGUgdGhyZWFkIHVuZGVyIHNwZWNpZmljIGNvbmRpdGlvbnMuDQpCdXQgSSBj
+b3VsZCBidWlsZCBhIGNhc2UgdG8gZm9yY2UgdGhhdCBhbmQgbGlrZWx5IHJ1biBpbnRvIHRoZSBz
+YW1lIGlzc3VlLg0KDQotTGlvbmVsDQoNCk9uIDAyLzA4LzIwMTkgMDc6MzMsIEtvZW5pZywgQ2hy
+aXN0aWFuIHdyb3RlOg0KSGkgTGlvbmVsLA0KDQpXZWxsIGNvdWxkIHlvdSBkZXNjcmliZSBvbmNl
+IG1vcmUgd2hhdCB0aGUgcHJvYmxlbSBpcz8NCg0KQ2F1c2UgSSBkb24ndCBmdWxseSB1bmRlcnN0
+YW5kIHdoeSBhIHJhdGhlciBub3JtYWwgdGFuZGVtIHN1Ym1pc3Npb24gd2l0aCB0d28gc2VtYXBo
+b3JlcyBzaG91bGQgZmFpbCBpbiBhbnkgd2F5Lg0KDQpSZWdhcmRzLA0KQ2hyaXN0aWFuLg0KDQpB
+bSAwMi4wOC4yMDE5IDA2OjI4IHNjaHJpZWIgTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxh
+bmR3ZXJsaW5AaW50ZWwuY29tPjxtYWlsdG86bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20+
+Og0KVGhlcmUgYXJlbid0IENUUyB0ZXN0cyBjb3ZlcmluZyB0aGUgaXNzdWUgSSB3YXMgbWVudGlv
+bmluZy4NCkJ1dCB3ZSBjb3VsZCBhZGQgdGhlbS4NCg0KSSBkb24ndCBoYXZlIGFsbCB0aGUgZGV0
+YWlscyByZWdhcmRpbmcgeW91ciBpbXBsZW1lbnRhdGlvbiBidXQgZXZlbiB3aXRoDQp0aGUgInNl
+bWFwaG9yZSB0aHJlYWQiLCBJIGNvdWxkIHNlZSBpdCBydW5uaW5nIGludG8gdGhlIHNhbWUgaXNz
+dWVzLg0KV2hhdCBpZiBhIG1peCBvZiBiaW5hcnkgJiB0aW1lbGluZSBzZW1hcGhvcmVzIGFyZSBo
+YW5kZWQgdG8gdmtRdWV1ZVN1Ym1pdCgpPw0KDQpGb3IgZXhhbXBsZSB3aXRoIHF1ZXVlQSAmIHF1
+ZXVlQiBmcm9tIDIgZGlmZmVyZW50IFZrRGV2aWNlIDoNCiAgICAgdmtRdWV1ZVN1Ym1pdChxdWV1
+ZUEsIHNpZ25hbCBzZW1BKTsNCiAgICAgdmtRdWV1ZVN1Ym1pdChxdWV1ZUEsIHdhaXQgb24gW3Nl
+bUEsIHRpbWVsaW5lU2VtQl0pOyB3aXRoDQp0aW1lbGluZVNlbUIgdHJpZ2dlcmluZyBhIHdhaXQg
+YmVmb3JlIHNpZ25hbC4NCiAgICAgdmtRdWV1ZVN1Ym1pdChxdWV1ZUIsIHNpZ25hbCBzZW1BKTsN
+Cg0KDQotTGlvbmVsDQoNCk9uIDAyLzA4LzIwMTkgMDY6MTgsIFpob3UsIERhdmlkKENodW5NaW5n
+KSB3cm90ZToNCj4gSGkgTGlvbmVsLA0KPg0KPiBCeSB0aGUgUXVldWUgdGhyZWFkIGlzIGEgaGVh
+dnkgdGhyZWFkLCB3aGljaCBpcyBhbHdheXMgcmVzaWRlbnQgaW4gZHJpdmVyIGR1cmluZyBhcHBs
+aWNhdGlvbiBydW5uaW5nLCBvdXIgZ3V5cyBkb24ndCBsaWtlIHRoYXQuIFNvIHdlIHN3aXRjaCB0
+byBTZW1hcGhvcmUgVGhyZWFkLCBvbmx5IHdoZW4gd2FpdEJlZm9yZVNpZ25hbCBvZiB0aW1lbGlu
+ZSBoYXBwZW5zLCB3ZSBzcGF3biBhIHRocmVhZCB0byBoYW5kbGUgdGhhdCB3YWl0LiBTbyB3ZSBk
+b24ndCBoYXZlIHlvdXIgdGhpcyBpc3N1ZS4NCj4gQnkgdGhlIHdheSwgSSBhbHJlYWR5IHBhc3Mg
+YWxsIHlvdXIgQ1RTIGNhc2VzIGZvciBub3cuIEkgc3VnZ2VzdCB5b3UgdG8gc3dpdGNoIHRvIFNl
+bWFwaG9yZSBUaHJlYWQgaW5zdGVhZCBvZiBRdWV1ZSBUaHJlYWQgYXMgd2VsbC4gSXQgd29ya3Mg
+dmVyeSB3ZWxsLg0KPg0KPiAtRGF2aWQNCj4NCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gRnJvbTogTGlvbmVsIExhbmR3ZXJsaW4gPGxpb25lbC5nLmxhbmR3ZXJsaW5AaW50ZWwuY29t
+PjxtYWlsdG86bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20+DQo+IFNlbnQ6IEZyaWRheSwg
+QXVndXN0IDIsIDIwMTkgNDo1MiBBTQ0KPiBUbzogZHJpLWRldmVsIDxkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnPjxtYWlsdG86ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZz47
+IEtvZW5pZywgQ2hyaXN0aWFuIDxDaHJpc3RpYW4uS29lbmlnQGFtZC5jb20+PG1haWx0bzpDaHJp
+c3RpYW4uS29lbmlnQGFtZC5jb20+OyBaaG91LCBEYXZpZChDaHVuTWluZykgPERhdmlkMS5aaG91
+QGFtZC5jb20+PG1haWx0bzpEYXZpZDEuWmhvdUBhbWQuY29tPjsgSmFzb24gRWtzdHJhbmQgPGph
+c29uQGpsZWtzdHJhbmQubmV0PjxtYWlsdG86amFzb25Aamxla3N0cmFuZC5uZXQ+DQo+IFN1Ympl
+Y3Q6IFRocmVhZGVkIHN1Ym1pc3Npb24gJiBzZW1hcGhvcmUgc2hhcmluZw0KPg0KPiBIaSBDaHJp
+c3RpYW4sIERhdmlkLA0KPg0KPiBTb3JyeSB0byByZXBvcnQgdGhpcyBzbyBsYXRlIGluIHRoZSBw
+cm9jZXNzLCBidXQgSSB0aGluayB3ZSBmb3VuZCBhbiBpc3N1ZSBub3QgZGlyZWN0bHkgcmVsYXRl
+ZCB0byBzeW5jb2JqIHRpbWVsaW5lcyB0aGVtc2VsdmVzIGJ1dCB3aXRoIGEgc2lkZSBlZmZlY3Qg
+b2YgdGhlIHRocmVhZGVkIHN1Ym1pc3Npb25zLg0KPg0KPiBFc3NlbnRpYWxseSB3ZSdyZSBmYWls
+aW5nIGEgdGVzdCBpbiBjcnVjaWJsZSA6DQo+IGZ1bmMuc3luYy5zZW1hcGhvcmUtZmQub3BhcXVl
+LWZkDQo+IFRoaXMgdGVzdCBjcmVhdGUgYSBzaW5nbGUgYmluYXJ5IHNlbWFwaG9yZSwgc2hhcmVz
+IGl0IGJldHdlZW4gMiBWa0RldmljZS9Wa1F1ZXVlLg0KPiBUaGVuIGluIGEgbG9vcCBpdCBwcm9j
+ZWVkcyB0byBzdWJtaXQgd29ya2xvYWQgYWx0ZXJuYXRpbmcgYmV0d2VlbiB0aGUgMiBWa1F1ZXVl
+IHdpdGggb25lIHN1Ym1pdCBkZXBlbmRpbmcgb24gdGhlIG90aGVyLg0KPiBJdCBkb2VzIHNvIGJ5
+IHdhaXRpbmcgb24gdGhlIFZrU2VtYXBob3JlIHNpZ25hbGVkIGluIHRoZSBwcmV2aW91cyBpdGVy
+YXRpb24gYW5kIHJlc2lnbmFsaW5nIGl0Lg0KPg0KPiBUaGUgcHJvYmxlbSBmb3IgdXMgaXMgdGhh
+dCBvbmNlIHRoaW5ncyBhcmUgZGlzcGF0Y2hlZCB0byB0aGUgc3VibWlzc2lvbiB0aHJlYWQsIHRo
+ZSBvcmRlcmluZyBvZiB0aGUgc3VibWlzc2lvbiBpcyBsb3N0Lg0KPiBCZWNhdXNlIHdlIGhhdmUg
+MiBkZXZpY2VzIGFuZCB0aGV5IGJvdGggaGF2ZSB0aGVpciBvd24gc3VibWlzc2lvbiB0aHJlYWQu
+DQo+DQo+IEphc29uIHN1Z2dlc3RlZCB0aGF0IHdlIHJlZXN0YWJsaXNoIHRoZSBvcmRlcmluZyBi
+eSBoYXZpbmcgc2VtYXBob3Jlcy9zeW5jb2JqcyBjYXJyeSBhbiBhZGRpdGlvbmFsIHVpbnQ2NF90
+IHBheWxvYWQuDQo+IFRoaXMgNjRiaXQgaW50ZWdlciB3b3VsZCByZXByZXNlbnQgYmUgYW4gaWRl
+bnRpZmllciB0aGF0IHN1Ym1pc3Npb24gdGhyZWFkcyB3aWxsIFdBSVRfRk9SX0FWQUlMQUJMRSBv
+bi4NCj4NCj4gVGhlIHNjZW5hcmlvIHdvdWxkIGxvb2sgbGlrZSB0aGlzIDoNCj4gICAgICAgLSB2
+a1F1ZXVlU3VibWl0KHF1ZXVlQSwgc2lnbmFsIG9uIHNlbUEpOw0KPiAgICAgICAgICAgLSBpbiB0
+aGUgY2FsbGVyIHRocmVhZCwgdGhpcyB3b3VsZCBpbmNyZW1lbnQgdGhlIHN5bmNvYmogYWRkaXRp
+b25hbCB1NjQgcGF5bG9hZCBhbmQgcmV0dXJuIGl0IHRvIHVzZXJzcGFjZS4NCj4gICAgICAgICAg
+IC0gYXQgc29tZSBwb2ludCB0aGUgc3VibWlzc2lvbiB0aHJlYWQgb2YgcXVldWVBIHN1Ym1pdHMg
+dGhlIHdvcmtsb2FkIGFuZCBzaWduYWwgdGhlIHN5bmNvYmogb2Ygc2VtQSB3aXRoIHZhbHVlIHJl
+dHVybmVkIGluIHRoZSBjYWxsZXIgdGhyZWFkIG9mIHZrUXVldWVTdWJtaXQoKS4NCj4gICAgICAg
+LSB2a1F1ZXVlU3VibWl0KHF1ZXVlQiwgd2FpdCBvbiBzZW1BKTsNCj4gICAgICAgICAgIC0gaW4g
+dGhlIGNhbGxlciB0aHJlYWQsIHRoaXMgd291bGQgcmVhZCB0aGUgc3luY29iaiBhZGRpdGlvbmFs
+DQo+IHU2NCBwYXlsb2FkDQo+ICAgICAgICAgICAtIGF0IHNvbWUgcG9pbnQgdGhlIHN1Ym1pc3Np
+b24gdGhyZWFkIG9mIHF1ZXVlQiB3aWxsIHRyeSB0byBzdWJtaXQgdGhlIHdvcmssIGJ1dCBmaXJz
+dCBpdCB3aWxsIFdBSVRfRk9SX0FWQUlMQUJMRSB0aGUgdTY0IHZhbHVlIHJldHVybmVkIGluIHRo
+ZSBzdGVwIGFib3ZlDQo+DQo+IEJlY2F1c2Ugd2Ugd2FudCB0aGUgYmluYXJ5IHNlbWFwaG9yZXMg
+dG8gYmUgc2hhcmVkIGFjcm9zcyBwcm9jZXNzZXMgYW5kIHdvdWxkIGxpa2UgdGhpcyB0byByZW1h
+aW4gYSBzaW5nbGUgRkQsIHRoZSBzaW1wbGVzdCBsb2NhdGlvbiB0byBzdG9yZSB0aGlzIGFkZGl0
+aW9uYWwgdTY0IHBheWxvYWQgd291bGQgYmUgdGhlIERSTSBzeW5jb2JqLg0KPiBJdCB3b3VsZCBu
+ZWVkIGFuIGFkZGl0aW9uYWwgaW9jdGwgdG8gcmVhZCAmIGluY3JlbWVudCB0aGUgdmFsdWUuDQo+
+DQo+IFdoYXQgZG8geW91IHRoaW5rPw0KPg0KPiAtTGlvbmVsDQoNCg0KDQoNCg0K
 
+--_000_65e763e7221c4073b777b84c6d724f40emailandroidcom_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <A769D9285C145947A969EB0AE8B44718@amdcloud.onmicrosoft.com>
+Content-Transfer-Encoding: base64
 
-That's supposed to be the same underlying syncobj because it's exported 
-from one VkDevice as opaque FD from sem1 and imported into sem2.
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGRpdiBkaXI9ImF1
+dG8iPg0KPGRpdj48YnI+DQo8ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+PGJyPg0KPGRpdiBjbGFz
+cz0iZ21haWxfcXVvdGUiPkFtIDAyLjA4LjIwMTkgMDc6MTcgc2NocmllYiBMaW9uZWwgTGFuZHdl
+cmxpbiAmbHQ7bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20mZ3Q7OjxiciB0eXBlPSJhdHRy
+aWJ1dGlvbiI+DQo8YmxvY2txdW90ZSBjbGFzcz0icXVvdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAg
+LjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxkaXY+
+DQo8ZGl2Pk9uIDAyLzA4LzIwMTkgMDg6MDgsIEtvZW5pZywgQ2hyaXN0aWFuIHdyb3RlOjxicj4N
+CjwvZGl2Pg0KPGJsb2NrcXVvdGU+DQo8ZGl2IGRpcj0iYXV0byI+SGkgTGlvbmVsLA0KPGRpdiBk
+aXI9ImF1dG8iPjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPldlbGwgdGhhdCBsb29rcyBt
+b3JlIGxpa2UgeW91ciB0ZXN0IGNhc2UgaXMgYnVnZ3kuPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+
+PGJyPg0KPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+QWNjb3JkaW5nIHRvIHRoZSBjb2RlIHRoZSBj
+dHgxIHF1ZXVlIGFsd2F5cyB3YWl0cyBmb3Igc2VtMSBhbmQgY3R4MiBxdWV1ZSBhbHdheXMgd2Fp
+dHMgZm9yIHNlbTIuPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxwPjxicj4NCjwvcD4N
+CjxwPlRoYXQncyBzdXBwb3NlZCB0byBiZSB0aGUgc2FtZSB1bmRlcmx5aW5nIHN5bmNvYmogYmVj
+YXVzZSBpdCdzIGV4cG9ydGVkIGZyb20gb25lIFZrRGV2aWNlIGFzIG9wYXF1ZSBGRCBmcm9tIHNl
+bTEgYW5kIGltcG9ydGVkIGludG8gc2VtMi48YnI+DQo8L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90
+ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXYgZGlyPSJhdXRvIj48YnI+DQo8L2Rpdj4N
+CjxkaXYgZGlyPSJhdXRvIj5XZWxsIHRoYW4gdGhhdCdzIHN0aWxsIGJ1Z2d5IGFuZCB3b24ndCBz
+eW5jaHJvbml6ZSBhdCBhbGwuPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+PGJyPg0KPC9kaXY+DQo8
+ZGl2IGRpcj0iYXV0byI+V2hlbiBjdHgxIHdhaXRzIGZvciBhIHNlbWFwaG9yZSBhbmQgdGhlbiBz
+aWduYWxzIHRoZSBzYW1lIHNlbWFwaG9yZSB0aGVyZSBpcyBubyBndWFyYW50ZWUgdGhhdCBjdHgy
+IHdpbGwgcnVuIGluIGJldHdlZW4gam9icy48L2Rpdj4NCjxkaXYgZGlyPSJhdXRvIj48YnI+DQo8
+L2Rpdj4NCjxkaXYgZGlyPSJhdXRvIj5JdCdzIHBlcmZlY3RseSB2YWxpZCBpbiB0aGlzIGNhc2Ug
+dG8gZmlyc3QgcnVuIGFsbCBqb2JzIGZyb20gY3R4MSBhbmQgdGhlbiBhbGwgam9icyBmcm9tIGN0
+eDIuPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+PGJyPg0KPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+
+SXQgb25seSBwcmV2ZW50cyBydW5uaW5nIGJvdGggYXQgdGhlIHNhbWUgdGltZSBhbmQgYXMgZmFy
+IGFzIEkgY2FuIHNlZSB0aGF0IHN0aWxsIHdvcmtzIGV2ZW4gd2l0aCB0aHJlYWRlZCBzdWJtaXNz
+aW9uLjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8i
+PllvdSBuZWVkIGF0IGxlYXN0IHR3byBzZW1hcGhvcmVzIGZvciBhIHRhbmRlbSBzdWJtaXNzaW9u
+LjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPjxicj4NCjwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPlJl
+Z2FyZHMsPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+Q2hyaXN0aWFuLjwvZGl2Pg0KPGRpdiBkaXI9
+ImF1dG8iPg0KPGRpdiBjbGFzcz0iZ21haWxfZXh0cmEiPg0KPGRpdiBjbGFzcz0iZ21haWxfcXVv
+dGUiPg0KPGJsb2NrcXVvdGUgY2xhc3M9InF1b3RlIiBzdHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7
+Ym9yZGVyLWxlZnQ6MXB4ICNjY2Mgc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+DQo8ZGl2Pg0KPHA+
+PC9wPg0KPHA+PGJyPg0KPC9wPg0KPGJsb2NrcXVvdGU+DQo8ZGl2IGRpcj0iYXV0byI+DQo8ZGl2
+IGRpcj0iYXV0byI+PGJyPg0KPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+VGhpcyB3YXkgdGhlcmUg
+Y2FuJ3QgYmUgYW55IFN5bmNocm9uaXNhdGlvbiBiZXR3ZWVuIHRoZSB0d28uPC9kaXY+DQo8ZGl2
+IGRpcj0iYXV0byI+PGJyPg0KPC9kaXY+DQo8ZGl2IGRpcj0iYXV0byI+UmVnYXJkcyw8L2Rpdj4N
+CjxkaXYgZGlyPSJhdXRvIj5DaHJpc3RpYW4uPC9kaXY+DQo8L2Rpdj4NCjxkaXY+PGJyPg0KPGRp
+diBjbGFzcz0iZWxpZGVkLXRleHQiPkFtIDAyLjA4LjIwMTkgMDY6NTUgc2NocmllYiBMaW9uZWwg
+TGFuZHdlcmxpbiA8YSBocmVmPSJtYWlsdG86bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20i
+Pg0KJmx0O2xpb25lbC5nLmxhbmR3ZXJsaW5AaW50ZWwuY29tJmd0OzwvYT46PGJyIHR5cGU9ImF0
+dHJpYnV0aW9uIj4NCjwvZGl2Pg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj5IZXkgQ2hyaXN0aWFuLDwv
+ZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+VGhlIHByb2JsZW0gYm9pbHMgZG93biB0byB0
+aGUgZmFjdCB0aGF0IHdlIGRvbid0IGltbWVkaWF0ZWx5IGNyZWF0ZSBkbWEgZmVuY2VzIHdoZW4g
+Y2FsbGluZyB2a1F1ZXVlU3VibWl0KCkuPC9kaXY+DQo8ZGl2PlRoaXMgaXMgZGVsYXllZCB0byBh
+IHRocmVhZC48L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PkZyb20gYSBzaW5nbGUgYXBw
+bGljYXRpb24gdGhyZWFkLCB5b3UgY2FuIFF1ZXVlU3VibWl0KCkgdG8gMiBxdWV1ZXMgZnJvbSAy
+IGRpZmZlcmVudCBkZXZpY2VzLjwvZGl2Pg0KPGRpdj5FYWNoIFF1ZXVlU3VibWl0IHRvIG9uZSBx
+dWV1ZSBoYXMgYSBkZXBlbmRlbmN5IG9uIHRoZSBwcmV2aW91cyBRdWV1ZVN1Ym1pdCBvbiB0aGUg
+b3RoZXIgcXVldWUgdGhyb3VnaCBhbiBleHBvcnRlZC9pbXBvcnRlZCBzZW1hcGhvcmUuPC9kaXY+
+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5Gcm9tIHRoZSBBUEkgcG9pbnQgb2YgdmlldyB0aGUg
+c3RhdGUgb2YgdGhlIHNlbWFwaG9yZSBzaG91bGQgYmUgY2hhbmdlZCBhZnRlciBlYWNoIFF1ZXVl
+U3VibWl0KCkuPC9kaXY+DQo8ZGl2PlRoZSBwcm9ibGVtIGlzIHRoYXQgaXQncyBub3QgYmVjYXVz
+ZSBvZiB0aGUgdGhyZWFkIGFuZCBiZWNhdXNlIHlvdSBtaWdodCBoYXZlIHRob3NlIDIgc3VibWlz
+c2lvbiB0aHJlYWRzIHRpZWQgdG8gZGlmZmVyZW50IFZrRGV2aWNlL1ZrSW5zdGFuY2Ugb3IgZXZl
+biBkaWZmZXJlbnQgYXBwbGljYXRpb25zIChzeW5jaHJvbml6aW5nIHRoZW1zZWx2ZXMgb3V0c2lk
+ZSB0aGUgdnVsa2FuIEFQSSkuPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5Ib3BlIHRo
+YXQgbWFrZXMgc2Vuc2UuPC9kaXY+DQo8ZGl2Pkl0J3Mgbm90IHJlYWxseSBlYXN5IHRvIGV4cGxh
+aW4gYnkgbWFpbCwgdGhlIGJlc3QgZXhwbGFuYXRpb24gaXMgcHJvYmFibHkgcmVhZGluZyB0aGUg
+dGVzdCA6DQo8YSBocmVmPSJodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9jcnVj
+aWJsZS9ibG9iL21hc3Rlci9zcmMvdGVzdHMvZnVuYy9zeW5jL3NlbWFwaG9yZS1mZC5jI0w3ODgi
+Pg0KaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL21lc2EvY3J1Y2libGUvYmxvYi9tYXN0
+ZXIvc3JjL3Rlc3RzL2Z1bmMvc3luYy9zZW1hcGhvcmUtZmQuYyNMNzg4PC9hPjwvZGl2Pg0KPGRp
+dj48YnI+DQo8L2Rpdj4NCjxkaXY+TGlrZSBEYXZpZCBtZW50aW9uZWQgeW91J3JlIG5vdCBydW5u
+aW5nIGludG8gdGhhdCBpc3N1ZSByaWdodCBub3csIGJlY2F1c2UgeW91IG9ubHkgZGlzcGF0Y2gg
+dG8gdGhlIHRocmVhZCB1bmRlciBzcGVjaWZpYyBjb25kaXRpb25zLjwvZGl2Pg0KPGRpdj5CdXQg
+SSBjb3VsZCBidWlsZCBhIGNhc2UgdG8gZm9yY2UgdGhhdCBhbmQgbGlrZWx5IHJ1biBpbnRvIHRo
+ZSBzYW1lIGlzc3VlLjxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+LUxpb25l
+bDxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+T24gMDIvMDgvMjAxOSAwNzoz
+MywgS29lbmlnLCBDaHJpc3RpYW4gd3JvdGU6PGJyPg0KPC9kaXY+DQo8YmxvY2txdW90ZT4NCjxk
+aXY+DQo8ZGl2IGRpcj0iYXV0byI+SGkgTGlvbmVsLA0KPGRpdiBkaXI9ImF1dG8iPjxicj4NCjwv
+ZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPldlbGwgY291bGQgeW91IGRlc2NyaWJlIG9uY2UgbW9yZSB3
+aGF0IHRoZSBwcm9ibGVtIGlzPzwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPjxicj4NCjwvZGl2Pg0K
+PGRpdiBkaXI9ImF1dG8iPkNhdXNlIEkgZG9uJ3QgZnVsbHkgdW5kZXJzdGFuZCB3aHkgYSByYXRo
+ZXIgbm9ybWFsIHRhbmRlbSBzdWJtaXNzaW9uIHdpdGggdHdvIHNlbWFwaG9yZXMgc2hvdWxkIGZh
+aWwgaW4gYW55IHdheS48L2Rpdj4NCjxkaXYgZGlyPSJhdXRvIj48YnI+DQo8L2Rpdj4NCjxkaXYg
+ZGlyPSJhdXRvIj5SZWdhcmRzLDwvZGl2Pg0KPGRpdiBkaXI9ImF1dG8iPkNocmlzdGlhbi48L2Rp
+dj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8ZGl2PkFtIDAyLjA4LjIwMTkgMDY6Mjggc2NocmllYiBM
+aW9uZWwgTGFuZHdlcmxpbiA8YSBocmVmPSJtYWlsdG86bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRl
+bC5jb20iPg0KJmx0O2xpb25lbC5nLmxhbmR3ZXJsaW5AaW50ZWwuY29tJmd0OzwvYT46PGJyIHR5
+cGU9ImF0dHJpYnV0aW9uIj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjxmb250IHNpemU9IjIi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTFwdCI+DQo8ZGl2PlRoZXJlIGFyZW4ndCBDVFMgdGVz
+dHMgY292ZXJpbmcgdGhlIGlzc3VlIEkgd2FzIG1lbnRpb25pbmcuPGJyPg0KQnV0IHdlIGNvdWxk
+IGFkZCB0aGVtLjxicj4NCjxicj4NCkkgZG9uJ3QgaGF2ZSBhbGwgdGhlIGRldGFpbHMgcmVnYXJk
+aW5nIHlvdXIgaW1wbGVtZW50YXRpb24gYnV0IGV2ZW4gd2l0aCA8YnI+DQp0aGUgJnF1b3Q7c2Vt
+YXBob3JlIHRocmVhZCZxdW90OywgSSBjb3VsZCBzZWUgaXQgcnVubmluZyBpbnRvIHRoZSBzYW1l
+IGlzc3Vlcy48YnI+DQpXaGF0IGlmIGEgbWl4IG9mIGJpbmFyeSAmYW1wOyB0aW1lbGluZSBzZW1h
+cGhvcmVzIGFyZSBoYW5kZWQgdG8gdmtRdWV1ZVN1Ym1pdCgpPzxicj4NCjxicj4NCkZvciBleGFt
+cGxlIHdpdGggcXVldWVBICZhbXA7IHF1ZXVlQiBmcm9tIDIgZGlmZmVyZW50IFZrRGV2aWNlIDo8
+YnI+DQombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgdmtRdWV1ZVN1Ym1pdChxdWV1ZUEsIHNpZ25h
+bCBzZW1BKTs8YnI+DQombmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgdmtRdWV1ZVN1Ym1pdChxdWV1
+ZUEsIHdhaXQgb24gW3NlbUEsIHRpbWVsaW5lU2VtQl0pOyB3aXRoIDxicj4NCnRpbWVsaW5lU2Vt
+QiB0cmlnZ2VyaW5nIGEgd2FpdCBiZWZvcmUgc2lnbmFsLjxicj4NCiZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyB2a1F1ZXVlU3VibWl0KHF1ZXVlQiwgc2lnbmFsIHNlbUEpOzxicj4NCjxicj4NCjxi
+cj4NCi1MaW9uZWw8YnI+DQo8YnI+DQpPbiAwMi8wOC8yMDE5IDA2OjE4LCBaaG91LCBEYXZpZChD
+aHVuTWluZykgd3JvdGU6PGJyPg0KJmd0OyBIaSBMaW9uZWwsPGJyPg0KJmd0Ozxicj4NCiZndDsg
+QnkgdGhlIFF1ZXVlIHRocmVhZCBpcyBhIGhlYXZ5IHRocmVhZCwgd2hpY2ggaXMgYWx3YXlzIHJl
+c2lkZW50IGluIGRyaXZlciBkdXJpbmcgYXBwbGljYXRpb24gcnVubmluZywgb3VyIGd1eXMgZG9u
+J3QgbGlrZSB0aGF0LiBTbyB3ZSBzd2l0Y2ggdG8gU2VtYXBob3JlIFRocmVhZCwgb25seSB3aGVu
+IHdhaXRCZWZvcmVTaWduYWwgb2YgdGltZWxpbmUgaGFwcGVucywgd2Ugc3Bhd24gYSB0aHJlYWQg
+dG8gaGFuZGxlIHRoYXQgd2FpdC4gU28gd2UNCiBkb24ndCBoYXZlIHlvdXIgdGhpcyBpc3N1ZS48
+YnI+DQomZ3Q7IEJ5IHRoZSB3YXksIEkgYWxyZWFkeSBwYXNzIGFsbCB5b3VyIENUUyBjYXNlcyBm
+b3Igbm93LiBJIHN1Z2dlc3QgeW91IHRvIHN3aXRjaCB0byBTZW1hcGhvcmUgVGhyZWFkIGluc3Rl
+YWQgb2YgUXVldWUgVGhyZWFkIGFzIHdlbGwuIEl0IHdvcmtzIHZlcnkgd2VsbC48YnI+DQomZ3Q7
+PGJyPg0KJmd0OyAtRGF2aWQ8YnI+DQomZ3Q7PGJyPg0KJmd0OyAtLS0tLU9yaWdpbmFsIE1lc3Nh
+Z2UtLS0tLTxicj4NCiZndDsgRnJvbTogTGlvbmVsIExhbmR3ZXJsaW4gPGEgaHJlZj0ibWFpbHRv
+Omxpb25lbC5nLmxhbmR3ZXJsaW5AaW50ZWwuY29tIj4mbHQ7bGlvbmVsLmcubGFuZHdlcmxpbkBp
+bnRlbC5jb20mZ3Q7PC9hPjxicj4NCiZndDsgU2VudDogRnJpZGF5LCBBdWd1c3QgMiwgMjAxOSA0
+OjUyIEFNPGJyPg0KJmd0OyBUbzogZHJpLWRldmVsIDxhIGhyZWY9Im1haWx0bzpkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnIj4mbHQ7ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZyZndDs8L2E+OyBLb2VuaWcsIENocmlzdGlhbg0KPGEgaHJlZj0ibWFpbHRvOkNocmlzdGlhbi5L
+b2VuaWdAYW1kLmNvbSI+Jmx0O0NocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbSZndDs8L2E+OyBaaG91
+LCBEYXZpZChDaHVuTWluZykNCjxhIGhyZWY9Im1haWx0bzpEYXZpZDEuWmhvdUBhbWQuY29tIj4m
+bHQ7RGF2aWQxLlpob3VAYW1kLmNvbSZndDs8L2E+OyBKYXNvbiBFa3N0cmFuZCA8YSBocmVmPSJt
+YWlsdG86amFzb25Aamxla3N0cmFuZC5uZXQiPg0KJmx0O2phc29uQGpsZWtzdHJhbmQubmV0Jmd0
+OzwvYT48YnI+DQomZ3Q7IFN1YmplY3Q6IFRocmVhZGVkIHN1Ym1pc3Npb24gJmFtcDsgc2VtYXBo
+b3JlIHNoYXJpbmc8YnI+DQomZ3Q7PGJyPg0KJmd0OyBIaSBDaHJpc3RpYW4sIERhdmlkLDxicj4N
+CiZndDs8YnI+DQomZ3Q7IFNvcnJ5IHRvIHJlcG9ydCB0aGlzIHNvIGxhdGUgaW4gdGhlIHByb2Nl
+c3MsIGJ1dCBJIHRoaW5rIHdlIGZvdW5kIGFuIGlzc3VlIG5vdCBkaXJlY3RseSByZWxhdGVkIHRv
+IHN5bmNvYmogdGltZWxpbmVzIHRoZW1zZWx2ZXMgYnV0IHdpdGggYSBzaWRlIGVmZmVjdCBvZiB0
+aGUgdGhyZWFkZWQgc3VibWlzc2lvbnMuPGJyPg0KJmd0Ozxicj4NCiZndDsgRXNzZW50aWFsbHkg
+d2UncmUgZmFpbGluZyBhIHRlc3QgaW4gY3J1Y2libGUgOjxicj4NCiZndDsgZnVuYy5zeW5jLnNl
+bWFwaG9yZS1mZC5vcGFxdWUtZmQ8YnI+DQomZ3Q7IFRoaXMgdGVzdCBjcmVhdGUgYSBzaW5nbGUg
+YmluYXJ5IHNlbWFwaG9yZSwgc2hhcmVzIGl0IGJldHdlZW4gMiBWa0RldmljZS9Wa1F1ZXVlLjxi
+cj4NCiZndDsgVGhlbiBpbiBhIGxvb3AgaXQgcHJvY2VlZHMgdG8gc3VibWl0IHdvcmtsb2FkIGFs
+dGVybmF0aW5nIGJldHdlZW4gdGhlIDIgVmtRdWV1ZSB3aXRoIG9uZSBzdWJtaXQgZGVwZW5kaW5n
+IG9uIHRoZSBvdGhlci48YnI+DQomZ3Q7IEl0IGRvZXMgc28gYnkgd2FpdGluZyBvbiB0aGUgVmtT
+ZW1hcGhvcmUgc2lnbmFsZWQgaW4gdGhlIHByZXZpb3VzIGl0ZXJhdGlvbiBhbmQgcmVzaWduYWxp
+bmcgaXQuPGJyPg0KJmd0Ozxicj4NCiZndDsgVGhlIHByb2JsZW0gZm9yIHVzIGlzIHRoYXQgb25j
+ZSB0aGluZ3MgYXJlIGRpc3BhdGNoZWQgdG8gdGhlIHN1Ym1pc3Npb24gdGhyZWFkLCB0aGUgb3Jk
+ZXJpbmcgb2YgdGhlIHN1Ym1pc3Npb24gaXMgbG9zdC48YnI+DQomZ3Q7IEJlY2F1c2Ugd2UgaGF2
+ZSAyIGRldmljZXMgYW5kIHRoZXkgYm90aCBoYXZlIHRoZWlyIG93biBzdWJtaXNzaW9uIHRocmVh
+ZC48YnI+DQomZ3Q7PGJyPg0KJmd0OyBKYXNvbiBzdWdnZXN0ZWQgdGhhdCB3ZSByZWVzdGFibGlz
+aCB0aGUgb3JkZXJpbmcgYnkgaGF2aW5nIHNlbWFwaG9yZXMvc3luY29ianMgY2FycnkgYW4gYWRk
+aXRpb25hbCB1aW50NjRfdCBwYXlsb2FkLjxicj4NCiZndDsgVGhpcyA2NGJpdCBpbnRlZ2VyIHdv
+dWxkIHJlcHJlc2VudCBiZSBhbiBpZGVudGlmaWVyIHRoYXQgc3VibWlzc2lvbiB0aHJlYWRzIHdp
+bGwgV0FJVF9GT1JfQVZBSUxBQkxFIG9uLjxicj4NCiZndDs8YnI+DQomZ3Q7IFRoZSBzY2VuYXJp
+byB3b3VsZCBsb29rIGxpa2UgdGhpcyA6PGJyPg0KJmd0OyZuYnNwOyZuYnNwOyAmbmJzcDsmbmJz
+cDsmbmJzcDsgLSB2a1F1ZXVlU3VibWl0KHF1ZXVlQSwgc2lnbmFsIG9uIHNlbUEpOzxicj4NCiZn
+dDsmbmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyAtIGlu
+IHRoZSBjYWxsZXIgdGhyZWFkLCB0aGlzIHdvdWxkIGluY3JlbWVudCB0aGUgc3luY29iaiBhZGRp
+dGlvbmFsIHU2NCBwYXlsb2FkIGFuZCByZXR1cm4gaXQgdG8gdXNlcnNwYWNlLjxicj4NCiZndDsm
+bmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyAtIGF0IHNv
+bWUgcG9pbnQgdGhlIHN1Ym1pc3Npb24gdGhyZWFkIG9mIHF1ZXVlQSBzdWJtaXRzIHRoZSB3b3Jr
+bG9hZCBhbmQgc2lnbmFsIHRoZSBzeW5jb2JqIG9mIHNlbUEgd2l0aCB2YWx1ZSByZXR1cm5lZCBp
+biB0aGUgY2FsbGVyIHRocmVhZCBvZiB2a1F1ZXVlU3VibWl0KCkuPGJyPg0KJmd0OyZuYnNwOyZu
+YnNwOyAmbmJzcDsmbmJzcDsmbmJzcDsgLSB2a1F1ZXVlU3VibWl0KHF1ZXVlQiwgd2FpdCBvbiBz
+ZW1BKTs8YnI+DQomZ3Q7Jm5ic3A7Jm5ic3A7ICZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsmbmJz
+cDsmbmJzcDsgLSBpbiB0aGUgY2FsbGVyIHRocmVhZCwgdGhpcyB3b3VsZCByZWFkIHRoZSBzeW5j
+b2JqIGFkZGl0aW9uYWw8YnI+DQomZ3Q7IHU2NCBwYXlsb2FkPGJyPg0KJmd0OyZuYnNwOyZuYnNw
+OyAmbmJzcDsmbmJzcDsmbmJzcDsgJm5ic3A7Jm5ic3A7Jm5ic3A7IC0gYXQgc29tZSBwb2ludCB0
+aGUgc3VibWlzc2lvbiB0aHJlYWQgb2YgcXVldWVCIHdpbGwgdHJ5IHRvIHN1Ym1pdCB0aGUgd29y
+aywgYnV0IGZpcnN0IGl0IHdpbGwgV0FJVF9GT1JfQVZBSUxBQkxFIHRoZSB1NjQgdmFsdWUgcmV0
+dXJuZWQgaW4gdGhlIHN0ZXAgYWJvdmU8YnI+DQomZ3Q7PGJyPg0KJmd0OyBCZWNhdXNlIHdlIHdh
+bnQgdGhlIGJpbmFyeSBzZW1hcGhvcmVzIHRvIGJlIHNoYXJlZCBhY3Jvc3MgcHJvY2Vzc2VzIGFu
+ZCB3b3VsZCBsaWtlIHRoaXMgdG8gcmVtYWluIGEgc2luZ2xlIEZELCB0aGUgc2ltcGxlc3QgbG9j
+YXRpb24gdG8gc3RvcmUgdGhpcyBhZGRpdGlvbmFsIHU2NCBwYXlsb2FkIHdvdWxkIGJlIHRoZSBE
+Uk0gc3luY29iai48YnI+DQomZ3Q7IEl0IHdvdWxkIG5lZWQgYW4gYWRkaXRpb25hbCBpb2N0bCB0
+byByZWFkICZhbXA7IGluY3JlbWVudCB0aGUgdmFsdWUuPGJyPg0KJmd0Ozxicj4NCiZndDsgV2hh
+dCBkbyB5b3UgdGhpbms/PGJyPg0KJmd0Ozxicj4NCiZndDsgLUxpb25lbDxicj4NCjxicj4NCjxi
+cj4NCjwvZGl2Pg0KPC9zcGFuPjwvZm9udD48L2Jsb2NrcXVvdGU+DQo8cD48YnI+DQo8L3A+DQo8
+L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxwPjxicj4NCjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3Rl
+Pg0KPC9kaXY+DQo8YnI+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+
+DQo=
 
+--_000_65e763e7221c4073b777b84c6d724f40emailandroidcom_--
 
->
-> This way there can't be any Synchronisation between the two.
->
-> Regards,
-> Christian.
->
-> Am 02.08.2019 06:55 schrieb Lionel Landwerlin 
-> <lionel.g.landwerlin@intel.com>:
-> Hey Christian,
->
-> The problem boils down to the fact that we don't immediately create 
-> dma fences when calling vkQueueSubmit().
-> This is delayed to a thread.
->
-> From a single application thread, you can QueueSubmit() to 2 queues 
-> from 2 different devices.
-> Each QueueSubmit to one queue has a dependency on the previous 
-> QueueSubmit on the other queue through an exported/imported semaphore.
->
-> From the API point of view the state of the semaphore should be 
-> changed after each QueueSubmit().
-> The problem is that it's not because of the thread and because you 
-> might have those 2 submission threads tied to different 
-> VkDevice/VkInstance or even different applications (synchronizing 
-> themselves outside the vulkan API).
->
-> Hope that makes sense.
-> It's not really easy to explain by mail, the best explanation is 
-> probably reading the test : 
-> https://gitlab.freedesktop.org/mesa/crucible/blob/master/src/tests/func/sync/semaphore-fd.c#L788
->
-> Like David mentioned you're not running into that issue right now, 
-> because you only dispatch to the thread under specific conditions.
-> But I could build a case to force that and likely run into the same issue.
->
-> -Lionel
->
-> On 02/08/2019 07:33, Koenig, Christian wrote:
->> Hi Lionel,
->>
->> Well could you describe once more what the problem is?
->>
->> Cause I don't fully understand why a rather normal tandem submission 
->> with two semaphores should fail in any way.
->>
->> Regards,
->> Christian.
->>
->> Am 02.08.2019 06:28 schrieb Lionel Landwerlin 
->> <lionel.g.landwerlin@intel.com>:
->> There aren't CTS tests covering the issue I was mentioning.
->> But we could add them.
->>
->> I don't have all the details regarding your implementation but even with
->> the "semaphore thread", I could see it running into the same issues.
->> What if a mix of binary & timeline semaphores are handed to 
->> vkQueueSubmit()?
->>
->> For example with queueA & queueB from 2 different VkDevice :
->>      vkQueueSubmit(queueA, signal semA);
->>      vkQueueSubmit(queueA, wait on [semA, timelineSemB]); with
->> timelineSemB triggering a wait before signal.
->>      vkQueueSubmit(queueB, signal semA);
->>
->>
->> -Lionel
->>
->> On 02/08/2019 06:18, Zhou, David(ChunMing) wrote:
->> > Hi Lionel,
->> >
->> > By the Queue thread is a heavy thread, which is always resident in 
->> driver during application running, our guys don't like that. So we 
->> switch to Semaphore Thread, only when waitBeforeSignal of timeline 
->> happens, we spawn a thread to handle that wait. So we don't have your 
->> this issue.
->> > By the way, I already pass all your CTS cases for now. I suggest 
->> you to switch to Semaphore Thread instead of Queue Thread as well. It 
->> works very well.
->> >
->> > -David
->> >
->> > -----Original Message-----
->> > From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->> > Sent: Friday, August 2, 2019 4:52 AM
->> > To: dri-devel <dri-devel@lists.freedesktop.org>; Koenig, Christian 
->> <Christian.Koenig@amd.com>; Zhou, David(ChunMing) 
->> <David1.Zhou@amd.com>; Jason Ekstrand <jason@jlekstrand.net>
->> > Subject: Threaded submission & semaphore sharing
->> >
->> > Hi Christian, David,
->> >
->> > Sorry to report this so late in the process, but I think we found 
->> an issue not directly related to syncobj timelines themselves but 
->> with a side effect of the threaded submissions.
->> >
->> > Essentially we're failing a test in crucible :
->> > func.sync.semaphore-fd.opaque-fd
->> > This test create a single binary semaphore, shares it between 2 
->> VkDevice/VkQueue.
->> > Then in a loop it proceeds to submit workload alternating between 
->> the 2 VkQueue with one submit depending on the other.
->> > It does so by waiting on the VkSemaphore signaled in the previous 
->> iteration and resignaling it.
->> >
->> > The problem for us is that once things are dispatched to the 
->> submission thread, the ordering of the submission is lost.
->> > Because we have 2 devices and they both have their own submission 
->> thread.
->> >
->> > Jason suggested that we reestablish the ordering by having 
->> semaphores/syncobjs carry an additional uint64_t payload.
->> > This 64bit integer would represent be an identifier that submission 
->> threads will WAIT_FOR_AVAILABLE on.
->> >
->> > The scenario would look like this :
->> >       - vkQueueSubmit(queueA, signal on semA);
->> >           - in the caller thread, this would increment the syncobj 
->> additional u64 payload and return it to userspace.
->> >           - at some point the submission thread of queueA submits 
->> the workload and signal the syncobj of semA with value returned in 
->> the caller thread of vkQueueSubmit().
->> >       - vkQueueSubmit(queueB, wait on semA);
->> >           - in the caller thread, this would read the syncobj 
->> additional
->> > u64 payload
->> >           - at some point the submission thread of queueB will try 
->> to submit the work, but first it will WAIT_FOR_AVAILABLE the u64 
->> value returned in the step above
->> >
->> > Because we want the binary semaphores to be shared across processes 
->> and would like this to remain a single FD, the simplest location to 
->> store this additional u64 payload would be the DRM syncobj.
->> > It would need an additional ioctl to read & increment the value.
->> >
->> > What do you think?
->> >
->> > -Lionel
->>
->>
->
-
-
---------------117C695F915A075610B9D461
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1252">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 02/08/2019 08:08, Koenig, Christian
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:15c7ac0e-96f7-4b3a-b185-4ce50d046762@email.android.com">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=windows-1252">
-      <meta content="text/html; charset=Windows-1252">
-      <div dir="auto">Hi Lionel,
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">Well that looks more like your test case is
-          buggy.</div>
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">According to the code the ctx1 queue always
-          waits for sem1 and ctx2 queue always waits for sem2.</div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>That's supposed to be the same underlying syncobj because it's
-      exported from one VkDevice as opaque FD from sem1 and imported
-      into sem2.<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:15c7ac0e-96f7-4b3a-b185-4ce50d046762@email.android.com">
-      <div dir="auto">
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">This way there can't be any Synchronisation
-          between the two.</div>
-        <div dir="auto"><br>
-        </div>
-        <div dir="auto">Regards,</div>
-        <div dir="auto">Christian.</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">Am 02.08.2019 06:55 schrieb Lionel
-          Landwerlin <a class="moz-txt-link-rfc2396E" href="mailto:lionel.g.landwerlin@intel.com">&lt;lionel.g.landwerlin@intel.com&gt;</a>:<br
-            type="attribution">
-        </div>
-      </div>
-      <div>
-        <div class="moz-cite-prefix">Hey Christian,</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">The problem boils down to the fact
-          that we don't immediately create dma fences when calling
-          vkQueueSubmit().</div>
-        <div class="moz-cite-prefix">This is delayed to a thread.</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">From a single application thread,
-          you can QueueSubmit() to 2 queues from 2 different devices.</div>
-        <div class="moz-cite-prefix">Each QueueSubmit to one queue has a
-          dependency on the previous QueueSubmit on the other queue
-          through an exported/imported semaphore.</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">From the API point of view the
-          state of the semaphore should be changed after each
-          QueueSubmit().</div>
-        <div class="moz-cite-prefix">The problem is that it's not
-          because of the thread and because you might have those 2
-          submission threads tied to different VkDevice/VkInstance or
-          even different applications (synchronizing themselves outside
-          the vulkan API).</div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">Hope that makes sense.</div>
-        <div class="moz-cite-prefix">It's not really easy to explain by
-          mail, the best explanation is probably reading the test :
-          <a
-href="https://gitlab.freedesktop.org/mesa/crucible/blob/master/src/tests/func/sync/semaphore-fd.c#L788"
-            moz-do-not-send="true">
-https://gitlab.freedesktop.org/mesa/crucible/blob/master/src/tests/func/sync/semaphore-fd.c#L788</a></div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">Like David mentioned you're not
-          running into that issue right now, because you only dispatch
-          to the thread under specific conditions.</div>
-        <div class="moz-cite-prefix">But I could build a case to force
-          that and likely run into the same issue.<br>
-        </div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">-Lionel<br>
-        </div>
-        <div class="moz-cite-prefix"><br>
-        </div>
-        <div class="moz-cite-prefix">On 02/08/2019 07:33, Koenig,
-          Christian wrote:<br>
-        </div>
-        <blockquote type="cite">
-          <meta name="Generator" content="Microsoft Exchange Server">
-          <style>
-<!--
-.EmailQuote
-	{margin-left:1pt;
-	padding-left:4pt;
-	border-left:#800000 2px solid}
--->
-</style>
-          <div>
-            <div dir="auto">Hi Lionel,
-              <div dir="auto"><br>
-              </div>
-              <div dir="auto">Well could you describe once more what the
-                problem is?</div>
-              <div dir="auto"><br>
-              </div>
-              <div dir="auto">Cause I don't fully understand why a
-                rather normal tandem submission with two semaphores
-                should fail in any way.</div>
-              <div dir="auto"><br>
-              </div>
-              <div dir="auto">Regards,</div>
-              <div dir="auto">Christian.</div>
-            </div>
-            <div class="x_gmail_extra"><br>
-              <div class="x_gmail_quote">Am 02.08.2019 06:28 schrieb
-                Lionel Landwerlin <a class="moz-txt-link-rfc2396E"
-                  href="mailto:lionel.g.landwerlin@intel.com"
-                  moz-do-not-send="true">
-                  &lt;lionel.g.landwerlin@intel.com&gt;</a>:<br
-                  type="attribution">
-              </div>
-            </div>
-          </div>
-          <font size="2"><span style="font-size:11pt">
-              <div class="PlainText">There aren't CTS tests covering the
-                issue I was mentioning.<br>
-                But we could add them.<br>
-                <br>
-                I don't have all the details regarding your
-                implementation but even with <br>
-                the "semaphore thread", I could see it running into the
-                same issues.<br>
-                What if a mix of binary &amp; timeline semaphores are
-                handed to vkQueueSubmit()?<br>
-                <br>
-                For example with queueA &amp; queueB from 2 different
-                VkDevice :<br>
-                     vkQueueSubmit(queueA, signal semA);<br>
-                     vkQueueSubmit(queueA, wait on [semA,
-                timelineSemB]); with <br>
-                timelineSemB triggering a wait before signal.<br>
-                     vkQueueSubmit(queueB, signal semA);<br>
-                <br>
-                <br>
-                -Lionel<br>
-                <br>
-                On 02/08/2019 06:18, Zhou, David(ChunMing) wrote:<br>
-                &gt; Hi Lionel,<br>
-                &gt;<br>
-                &gt; By the Queue thread is a heavy thread, which is
-                always resident in driver during application running,
-                our guys don't like that. So we switch to Semaphore
-                Thread, only when waitBeforeSignal of timeline happens,
-                we spawn a thread to handle that wait. So we don't have
-                your this issue.<br>
-                &gt; By the way, I already pass all your CTS cases for
-                now. I suggest you to switch to Semaphore Thread instead
-                of Queue Thread as well. It works very well.<br>
-                &gt;<br>
-                &gt; -David<br>
-                &gt;<br>
-                &gt; -----Original Message-----<br>
-                &gt; From: Lionel Landwerlin <a
-                  class="moz-txt-link-rfc2396E"
-                  href="mailto:lionel.g.landwerlin@intel.com"
-                  moz-do-not-send="true">
-                  &lt;lionel.g.landwerlin@intel.com&gt;</a><br>
-                &gt; Sent: Friday, August 2, 2019 4:52 AM<br>
-                &gt; To: dri-devel <a class="moz-txt-link-rfc2396E"
-                  href="mailto:dri-devel@lists.freedesktop.org"
-                  moz-do-not-send="true">
-                  &lt;dri-devel@lists.freedesktop.org&gt;</a>; Koenig,
-                Christian <a class="moz-txt-link-rfc2396E"
-                  href="mailto:Christian.Koenig@amd.com"
-                  moz-do-not-send="true">
-                  &lt;Christian.Koenig@amd.com&gt;</a>; Zhou,
-                David(ChunMing) <a class="moz-txt-link-rfc2396E"
-                  href="mailto:David1.Zhou@amd.com"
-                  moz-do-not-send="true">
-                  &lt;David1.Zhou@amd.com&gt;</a>; Jason Ekstrand <a
-                  class="moz-txt-link-rfc2396E"
-                  href="mailto:jason@jlekstrand.net"
-                  moz-do-not-send="true">
-                  &lt;jason@jlekstrand.net&gt;</a><br>
-                &gt; Subject: Threaded submission &amp; semaphore
-                sharing<br>
-                &gt;<br>
-                &gt; Hi Christian, David,<br>
-                &gt;<br>
-                &gt; Sorry to report this so late in the process, but I
-                think we found an issue not directly related to syncobj
-                timelines themselves but with a side effect of the
-                threaded submissions.<br>
-                &gt;<br>
-                &gt; Essentially we're failing a test in crucible :<br>
-                &gt; func.sync.semaphore-fd.opaque-fd<br>
-                &gt; This test create a single binary semaphore, shares
-                it between 2 VkDevice/VkQueue.<br>
-                &gt; Then in a loop it proceeds to submit workload
-                alternating between the 2 VkQueue with one submit
-                depending on the other.<br>
-                &gt; It does so by waiting on the VkSemaphore signaled
-                in the previous iteration and resignaling it.<br>
-                &gt;<br>
-                &gt; The problem for us is that once things are
-                dispatched to the submission thread, the ordering of the
-                submission is lost.<br>
-                &gt; Because we have 2 devices and they both have their
-                own submission thread.<br>
-                &gt;<br>
-                &gt; Jason suggested that we reestablish the ordering by
-                having semaphores/syncobjs carry an additional uint64_t
-                payload.<br>
-                &gt; This 64bit integer would represent be an identifier
-                that submission threads will WAIT_FOR_AVAILABLE on.<br>
-                &gt;<br>
-                &gt; The scenario would look like this :<br>
-                &gt;       - vkQueueSubmit(queueA, signal on semA);<br>
-                &gt;           - in the caller thread, this would
-                increment the syncobj additional u64 payload and return
-                it to userspace.<br>
-                &gt;           - at some point the submission thread of
-                queueA submits the workload and signal the syncobj of
-                semA with value returned in the caller thread of
-                vkQueueSubmit().<br>
-                &gt;       - vkQueueSubmit(queueB, wait on semA);<br>
-                &gt;           - in the caller thread, this would read
-                the syncobj additional<br>
-                &gt; u64 payload<br>
-                &gt;           - at some point the submission thread of
-                queueB will try to submit the work, but first it will
-                WAIT_FOR_AVAILABLE the u64 value returned in the step
-                above<br>
-                &gt;<br>
-                &gt; Because we want the binary semaphores to be shared
-                across processes and would like this to remain a single
-                FD, the simplest location to store this additional u64
-                payload would be the DRM syncobj.<br>
-                &gt; It would need an additional ioctl to read &amp;
-                increment the value.<br>
-                &gt;<br>
-                &gt; What do you think?<br>
-                &gt;<br>
-                &gt; -Lionel<br>
-                <br>
-                <br>
-              </div>
-            </span></font></blockquote>
-        <p><br>
-        </p>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------117C695F915A075610B9D461--
-
---===============2051448124==
+--===============0831771606==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -513,4 +403,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2051448124==--
+--===============0831771606==--
