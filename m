@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8005B7EDAF
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 09:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E097E7EDC0
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 09:44:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 920596ECD8;
-	Fri,  2 Aug 2019 07:39:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B3E76ECDE;
+	Fri,  2 Aug 2019 07:44:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2742F6ECDD
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:39:02 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2405972167; Fri,  2 Aug 2019 07:39:02 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111281] When the s admin try to create different types of
- question in various  difficulty level by single upload mode database error
- occurred
-Date: Fri, 02 Aug 2019 07:39:02 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: critical
-X-Bugzilla-Who: dhrisyasby93@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-111281-502-xRgTqcO4Zs@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111281-502@http.bugs.freedesktop.org/>
-References: <bug-111281-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801636ECDE
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:44:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A89BCC;
+ Fri,  2 Aug 2019 09:44:31 +0200 (CEST)
+Date: Fri, 2 Aug 2019 10:44:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH/RFC 02/12] dt-bindings: display: renesas: lvds: Document
+ renesas,swap-data
+Message-ID: <20190802074428.GB5008@pendragon.ideasonboard.com>
+References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1564731249-22671-3-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1564731249-22671-3-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1564731871;
+ bh=gzvUj9jd2PrydwNYpFTgEXGs5eg5KFldPERSdboetlo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qxJvg6D+26dP4y9USt76anVWBn0L0OikGL59FHRGFoAhYRXaRfWX8Bqq04mgxBUDZ
+ VZiKM+TQ8c+HjkjimTUyjcrDktGsaYxwgaA9L5SDaUGN1ip/ahbBVwDEI6x1VxAW5j
+ /JsZIUmCNIky3Q1rv0w8CTnHlNO5Zc6m3+FWCOLk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,96 +49,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2074437983=="
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Simon Horman <horms@verge.net.au>, David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2074437983==
-Content-Type: multipart/alternative; boundary="15647315421.d0429AfD3.25221"
-Content-Transfer-Encoding: 7bit
-
-
---15647315421.d0429AfD3.25221
-Date: Fri, 2 Aug 2019 07:39:02 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111281
-
-dhrisya <dhrisyasby93@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|ASSIGNED                    |NEW
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15647315421.d0429AfD3.25221
-Date: Fri, 2 Aug 2019 07:39:02 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:dhrisyasb=
-y93&#64;gmail.com" title=3D"dhrisya &lt;dhrisyasby93&#64;gmail.com&gt;"> <s=
-pan class=3D"fn">dhrisya</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - When the s admin try to create different types of questio=
-n in various difficulty level by single upload mode database error occurred"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111281">bug 11128=
-1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>ASSIGNED
-           </td>
-           <td>NEW
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15647315421.d0429AfD3.25221--
-
---===============2074437983==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+SGkgRmFicml6aW8sCgpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KCk9uIEZyaSwgQXVnIDAyLCAy
+MDE5IGF0IDA4OjMzOjU5QU0gKzAxMDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToKPiBSLUNhciBE
+MywgUi1DYXIgRTMsIGFuZCBSWi9HMkUgc3VwcG9ydCBkdWFsLWxpbmsgbW9kZS4KPiBJbiBzdWNo
+IGEgbW9kZSwgdGhlIGZpcnN0IExWRFMgZW5jb2RlciBlbWl0cyBldmVuIGRhdGEsIGFuZCB0aGUK
+PiBzZWNvbmQgTFZEUyBlbmNvZGVyIGVtaXRzIG9kZCBkYXRhLiBUaGlzIHBhdGNoIGRvY3VtZW50
+cyBwcm9wZXJ0eQo+IHJlbmVzYXMsc3dhcC1kYXRhLCB1c2VkIHRvIHN3YXAgZXZlbiBhbmQgb2Rk
+IGRhdGEgYXJvdW5kLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlvIENhc3RybyA8ZmFicml6
+aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPgo+IC0tLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvcmVuZXNhcyxsdmRzLnR4dCB8IDUgKysrKysKPiAg
+MSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQo+IAo+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvcmVuZXNhcyxsdmRzLnR4
+dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9yZW5l
+c2FzLGx2ZHMudHh0Cj4gaW5kZXggZGVjZTc5ZS4uODk4MDE3OSAxMDA2NDQKPiAtLS0gYS9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvcmVuZXNhcyxsdmRz
+LnR4dAo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2Jy
+aWRnZS9yZW5lc2FzLGx2ZHMudHh0Cj4gQEAgLTUyLDYgKzUyLDExIEBAIE9wdGlvbmFsIHByb3Bl
+cnRpZXM6Cj4gICAgbWFuZGF0b3J5IGZvciB0aGUgZmlyc3QgTFZEUyBlbmNvZGVyIG9uIFItQ2Fy
+IEQzLCBSLUNhciBFMywgYW5kIFJaL0cyRSBTb0NzLAo+ICAgIGFuZCBzaGFsbCBwb2ludCB0byB0
+aGUgc2Vjb25kIGVuY29kZXIgdG8gYmUgdXNlZCBhcyBhIGNvbXBhbmlvbiBpbiBkdWFsLWxpbmsK
+PiAgICBtb2RlLiBJdCBzaGFsbCBub3QgYmUgc2V0IGZvciBhbnkgb3RoZXIgTFZEUyBlbmNvZGVy
+Lgo+ICstIHJlbmVzYXMsc3dhcC1kYXRhIDogd2hlbiBpbiBkdWFsLWxpbmsgbW9kZSwgdGhlIGZp
+cnN0IExWRFMgZW5jb2RlciBub3JtYWxseQo+ICsgIGVtaXRzIGV2ZW4gZGF0YSwgYW5kIHRoZSBz
+ZWNvbmQgTFZEUyBlbmNvZGVyIGVtaXRzIG9kZCBkYXRhLiBXaGVuIHByb3BlcnR5Cj4gKyAgcmVu
+ZXNhcyxzd2FwLWRhdGEgaXMgc3BlY2lmaWVkLCB0aGUgZGF0YSBlbWl0dGVkIGJ5IHRoZSB0d28g
+ZW5jb2RlcnMgd2lsbCBiZQo+ICsgIHN3YXBwZWQgYXJvdW5kLiBUaGlzIHByb3BlcnR5IGNhbiBv
+bmx5IGJlIHVzZWQgaW4gY29uanVuY3Rpb24gd2l0aCBwcm9wZXJ0eQo+ICsgIHJlbmVzYXMsY29t
+cGFuaW9uLgoKRnJvbSBhbiBMVkRTIGVuY29kZXIgcG9pbnQgb2YgdmlldyB0aGlzIGlzIG1vcmUg
+YSBjb25maWd1cmF0aW9uIG9wdGlvbgp0aGFuIGEgZGVzY3JpcHRpb24gb2YgdGhlIGhhcmR3YXJl
+LiBXb3VsZG4ndCBpdCBiZSBiZXR0ZXIgZm9yIHRoZSBMVkRTCnNpbmsgdG8gcmVwb3J0IHdoaWNo
+IG9mIHRoZSBvZGQgb3IgZXZlbiBwaXhlbHMgaXQgZXhwZWN0cyBvbiBlYWNoIG9mIGl0cwplbmRw
+b2ludHMgPyBUaGUgTFZEUyBlbmNvZGVyIGRyaXZlciBjb3VsZCB0aGVuIHF1ZXJ5IHRoYXQgYXQg
+cnVudGltZSBhbmQKY29uZmlndXJlIGl0c2VsZiBhY2NvcmRpbmdseS4gSWRlYWxseSB0aGlzIHNo
+b3VsZCBiZSBxdWVyaWVkIHRocm91Z2ggdGhlCmRybV9icmlkZ2VfdGltaW5ncyBzdHJ1Y3R1cmUg
+KG9yIHRocm91Z2ggYSBzaW1pbGFyIG1lYW4pLCBub3QgdGhyb3VnaApEVC4gQW4gTFZEUyBzaW5r
+IHRoYXQgaGFzIGEgZml4ZWQgbWFwcGluZyBvZiBvZGQvZXZlbiBwaXhlbHMgdG8KZW5kcG9pbnRz
+IHdvdWxkbid0IG5lZWQgdGhlIGluZm9ybWF0aW9uIHRvIGJlIHNwZWNpZmllZCBpbiBEVCBhdCBh
+bGwuCgo+ICAKPiAgCj4gIEV4YW1wbGU6CgotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQK
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2074437983==--
