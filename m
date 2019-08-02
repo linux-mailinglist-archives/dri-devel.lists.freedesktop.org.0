@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336897EEF2
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 10:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4297EF0E
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 10:21:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19BED6ED2D;
-	Fri,  2 Aug 2019 08:19:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEE46ED4B;
+	Fri,  2 Aug 2019 08:20:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB86A6ECDC
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:40:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,337,1559487600"; d="scan'208";a="23151184"
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
+ [210.160.252.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5C5AC6ECDF
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:40:14 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,337,1559487600"; d="scan'208";a="22931998"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 02 Aug 2019 16:35:07 +0900
+ by relmlie6.idc.renesas.com with ESMTP; 02 Aug 2019 16:35:12 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id F3F184007528;
- Fri,  2 Aug 2019 16:35:04 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 58AB740078B4;
+ Fri,  2 Aug 2019 16:35:09 +0900 (JST)
 From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Jacopo Mondi <jacopo+renesas@jmondi.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH/RFC 07/12] drm: rcar-du: lvds: Add support for dual link panels
-Date: Fri,  2 Aug 2019 08:34:04 +0100
-Message-Id: <1564731249-22671-8-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH/RFC 08/12] drm: rcar-du: lvds: Fix bridge_to_rcar_lvds
+Date: Fri,  2 Aug 2019 08:34:05 +0100
+Message-Id: <1564731249-22671-9-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -54,19 +54,24 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SWYgdGhlIGRpc3BsYXkgY29tZXMgd2l0aCB0d28gcG9ydHMsIGFzc3VtZSBpdCBzdXBwb3J0cyBk
-dWFsCmxpbmsuCgpTaWduZWQtb2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ry
-b0BicC5yZW5lc2FzLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMu
-YyB8IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
+VXNpbmcgbmFtZSAiYnJpZGdlIiBmb3IgbWFjcm8gYnJpZGdlX3RvX3JjYXJfbHZkcyBhcmd1bWVu
+dCBkb2Vzbid0Cndvcmsgd2hlbiB0aGUgcG9pbnRlciBuYW1lIHVzZWQgYnkgdGhlIGNhbGxlciBp
+cyBub3QgImJyaWRnZSIuClJlbmFtZSB0aGUgYXJndW1lbnQgdG8gImJyaWRnZV9wdHIiIHRvIGFs
+bG93IGZvciBhbnkgcG9pbnRlcgpuYW1lLgoKRml4ZXM6IGM2YTI3ZmE0MWZhYiAoImRybTogcmNh
+ci1kdTogQ29udmVydCBMVkRTIGVuY29kZXIgY29kZSB0byBicmlkZ2UgZHJpdmVyIikKU2lnbmVk
+LW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+
+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgfCA0ICsrLS0KIDEgZmls
+ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
 ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmNh
-ci1kdS9yY2FyX2x2ZHMuYwppbmRleCAyZDU0YWU1Li45N2M1MWMyIDEwMDY0NAotLS0gYS9kcml2
+ci1kdS9yY2FyX2x2ZHMuYwppbmRleCA5N2M1MWMyLi5lZGQ2M2Y1IDEwMDY0NAotLS0gYS9kcml2
 ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmNh
-ci1kdS9yY2FyX2x2ZHMuYwpAQCAtNzUxLDYgKzc1MSw5IEBAIHN0YXRpYyBpbnQgcmNhcl9sdmRz
-X3BhcnNlX2R0KHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpCiAJCQlyZXQgPSAtRVBST0JFX0RFRkVS
-OwogCQkJZ290byBkb25lOwogCQl9CisJCWlmIChsdmRzLT5pbmZvLT5xdWlya3MgJiBSQ0FSX0xW
-RFNfUVVJUktfRFVBTF9MSU5LKQorCQkJbHZkcy0+ZHVhbF9saW5rID0gb2ZfZ3JhcGhfZ2V0X2Vu
-ZHBvaW50X2NvdW50KHJlbW90ZSkKKwkJCQkJPT0gMjsKIAl9CiAKIAlpZiAobHZkcy0+ZHVhbF9s
-aW5rKSB7Ci0tIAoyLjcuNAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVs
+ci1kdS9yY2FyX2x2ZHMuYwpAQCAtNzIsOCArNzIsOCBAQCBzdHJ1Y3QgcmNhcl9sdmRzIHsKIAli
+b29sIHN0cmlwZV9zd2FwX2RhdGE7CiB9OwogCi0jZGVmaW5lIGJyaWRnZV90b19yY2FyX2x2ZHMo
+YnJpZGdlKSBcCi0JY29udGFpbmVyX29mKGJyaWRnZSwgc3RydWN0IHJjYXJfbHZkcywgYnJpZGdl
+KQorI2RlZmluZSBicmlkZ2VfdG9fcmNhcl9sdmRzKGJyaWRnZV9wdHIpIFwKKwljb250YWluZXJf
+b2YoYnJpZGdlX3B0ciwgc3RydWN0IHJjYXJfbHZkcywgYnJpZGdlKQogCiAjZGVmaW5lIGNvbm5l
+Y3Rvcl90b19yY2FyX2x2ZHMoY29ubmVjdG9yKSBcCiAJY29udGFpbmVyX29mKGNvbm5lY3Rvciwg
+c3RydWN0IHJjYXJfbHZkcywgY29ubmVjdG9yKQotLSAKMi43LjQKCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
