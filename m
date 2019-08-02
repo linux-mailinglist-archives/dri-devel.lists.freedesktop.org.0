@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BD17F84E
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 15:17:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243CA7F850
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 15:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBAC6EE23;
-	Fri,  2 Aug 2019 13:17:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D6006EE22;
+	Fri,  2 Aug 2019 13:19:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BED576EE21
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 13:17:14 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x72DHDDm115851;
- Fri, 2 Aug 2019 08:17:13 -0500
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x72DHD7a003685
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 2 Aug 2019 08:17:13 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 2 Aug
- 2019 08:17:12 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 2 Aug 2019 08:17:12 -0500
-Received: from [10.250.98.129] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x72DHBTh025005;
- Fri, 2 Aug 2019 08:17:11 -0500
-Subject: Re: [PATCH v2 0/8] drm/omap: OMAP_BO flags
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
-References: <20190708104520.24217-1-jjhiblot@ti.com>
- <911cb7a8-aec5-0e8a-d82f-aeec2777d2df@ti.com>
-From: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <e75aa6aa-47ea-0a80-4df2-a75150918049@ti.com>
-Date: Fri, 2 Aug 2019 15:17:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F1DFF6EE27
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 13:19:11 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id EE71072167; Fri,  2 Aug 2019 13:19:11 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Fri, 02 Aug 2019 13:19:11 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: samuele.decarli@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-111244-502-PWBHBY2ud5@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <911cb7a8-aec5-0e8a-d82f-aeec2777d2df@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1564751833;
- bh=KfjNdNN6woo59tiJfigVylguMV3bxVxdRQ2x6ZyvlqQ=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=cC06ZcN9pc1RoHw+XTBoH+2qJlD7oHdHOQ1N7Tv7M4ivlZT9ilvU+K9eAvAlFvpzj
- ku+UnsPCX7LlcQw2IIdoU1ssMsT3j8mmKPmW+HDtx0+t0tsWAARjn8ZCgN1Ia78G8K
- mk5yL9CUD6y+YdM9Ppyt7yALdTg4DgChOAh95ihQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,53 +52,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jsarha@ti.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============0922499614=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDAxLzA4LzIwMTkgMTE6MDIsIFRvbWkgVmFsa2VpbmVuIHdyb3RlOgo+IEhpIEpKLAo+Cj4g
-T24gMDgvMDcvMjAxOSAxMzo0NSwgSmVhbi1KYWNxdWVzIEhpYmxvdCB3cm90ZToKPj4gQSBmaXJz
-dCB2ZXJzaW9uIG9mIHRoaXMgd29yayBoYWQgYmVlbiBzZW50IGJ5IFRvbWkgVmFsa2VpbmVuIGlu
-IG1heSAyMDE3Cj4+IChodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9kcmktZGV2ZWwvbXNn
-MTQwNjYzLmh0bWwpLgo+Pgo+PiBUaGlzIHNlcmllcyBhZGRzIGEgZmV3IG5ldyBPTUFQX0JPIGZs
-YWdzIHRvIGhlbHAgdGhlIHVzZXJzcGFjZSBtYW5hZ2UKPj4gc2l0dWF0aW9ucyB3aGVyZSBpdCBu
-ZWVkcyB0byB1c2UgbG90cyBvZiBidWZmZXJzLCBhbmQgd291bGQgY3VycmVudGx5IAo+PiBydW4K
-Pj4gb3V0IG9mIFRJTEVSIHNwYWNlLiBUaGUgVElMRVIgc3BhY2UgaXMgbGltaXRlZCB0byBtYXBw
-aW5nIDEyOE1CIGF0IAo+PiBhbnkgZ2l2ZW4KPj4gdGltZSBhbmQgc29tZSBhcHBsaWNhdGlvbnMg
-bWlnaHQgbmVlZCBtb3JlLgo+Pgo+PiBUaGlzIHNlcmVzIGlzIGFsc28gdGhlIG9wcG9ydHVuaXR5
-IHRvIGRvIHNvbWUgY2xlYW51cCBpbiB0aGUgZmxhZ3MgYW5kCj4+IGltcHJvdmUgdGhlIGNvbW1l
-bnRzIGRlc2NyaWJpbmcgdGhlbS4KPj4KPj4gVGhlIHVzZXItc3BhY2UgcGF0Y2hlcyBmb3IgbGli
-ZHJtLCBhbHRob3VnaCByZWFkeSwgaGF2ZW4ndCBiZWVuIAo+PiBwb3N0ZWQgeWV0Lgo+PiBJdCB3
-aWxsIGJlIGJlIGRvbmUgd2hlbiB0aGlzIHNlcmllcyBoYXZlIGJlZW4gZGlzY3Vzc2VkIGFuZCBo
-b3BlZnVsbHkgaW4KPj4gdGhlIHByb2Nlc3Mgb2YgZ2V0dGluZyBtZXJnZWQuCj4+Cj4+IEpKCj4+
-Cj4+IGNoYW5nZXMgaW4gdjI6Cj4+IC0gZml4ZWQgYnVpbGQgZXJyb3IgdGhhdCBjcmVwdCBpbiBk
-dXJpbmcgcmViYXNlIGJlZm9yZSBzZW5kaW5nIChzb3JyeQo+PiDCoMKgIGFib3V0IHRoYXQpCj4+
-IC0gcmV3b3JrIHRoZSByZWZjb3VudCBwYXJ0IGEgYml0Lgo+Pgo+PiBKZWFuLUphY3F1ZXMgSGli
-bG90ICgxKToKPj4gwqDCoCBkcm0vb21hcDogdXNlIHJlZmNvdW50IEFQSSB0byB0cmFjayB0aGUg
-bnVtYmVyIG9mIHVzZXJzIG9mIGRtYV9hZGRyCj4+Cj4+IFRvbWkgVmFsa2VpbmVuICg3KToKPj4g
-wqDCoCBkcm0vb21hcDogYWRkIG9tYXBfZ2VtX3VucGluX2xvY2tlZCgpCj4+IMKgwqAgZHJtL29t
-YXA6IGFjY2VwdCBOVUxMIGZvciBkbWFfYWRkciBpbiBvbWFwX2dlbV9waW4KPj4gwqDCoCBkcm0v
-b21hcDogY2xlYW51cCBPTUFQX0JPIGZsYWdzCj4+IMKgwqAgZHJtL29tYXA6IHJlbW92ZSBPTUFQ
-X0JPX1RJTEVEIGRlZmluZQo+PiDCoMKgIGRybS9vbWFwOiBjbGVhbnVwIE9NQVBfQk9fU0NBTk9V
-VCB1c2UKPj4gwqDCoCBkcm0vb21hcDogYWRkIG9tYXBfZ2VtX3ZhbGlkYXRlX2ZsYWdzKCkKPj4g
-wqDCoCBkcm0vb21hcDogYWRkIE9NQVBfQk8gZmxhZ3MgdG8gYWZmZWN0IGJ1ZmZlciBhbGxvY2F0
-aW9uCj4KPiBXZXJlIHRoZXJlIGFueSBjaGFuZ2VzIHRvIHRoZXNlIHBhdGNoZXMgY29tcGFyZWQg
-dG8gdGhlIG9uZXMgSSBzZW50IGEgCj4gZmV3IHllYXJzIGJhY2s/CgpZZXMgdGhleSBhcmUgYSBi
-aXQgZGlmZmVyZW50LiBJIHRvb2sgdGhlIHBhdGNoZXMgZnJvbSB0aGUgVEkgdHJlZSBubyAKZnJv
-bSBNTC4gSW4gdGhvc2VzIHBhdGNoZXMgeW91IGhhZCBhbHJlYWR5IHRha2VuIGluIGFjY291bnQg
-bW9zdCAoYWxsID8pIApvZiB0aGUgY29tbWVudHMsIGluY2x1ZGluZyBhIGJldHRlciBkZXNjcmlw
-dGlvbiBvZiB0aGUgZGlmZmVyZW50IGZsYWdzIAphbmQgc29tZSBjaGFuZ2VzIGluIG5hbWVzLiBJ
-IG9ubHkgbW9kaWZpZWQgYW5kIHJlb3JkZXJlZCB0aGVtIHRvIGZpeCBhIApidWlsZCBicmVha2Fn
-ZS4gKHRoaXMgaXMgcmVsYXRlZCB0byBPTUFQX0JPX1RJTEVEIGJlaW5nIHJlbW92ZWQpCgpBbHNv
-IEkgYWRkZWQgYSBwYXRjaCB0byBhZGRyZXNzIExhdXJlbnQncyBjb21tZW50IGFib3V0IHRoZSB1
-c2Ugb2YgYXRvbWljCgoKPgo+IElmIEkgcmVjYWxsIHJpZ2h0LCBvbmUgdmFsaWQgY29tbWVudCBm
-cm9tIExhdXJlbnQgd2FzIGFsc28gYWJvdXQgCj4gYWRkaW5nIGtlcm5lbC1kb2MgZm9yIGluY2x1
-ZGUvdWFwaS9kcm0vb21hcF9kcm0uaC4gVGhlIE9NQVBfQk9fKiBmbGFncyAKPiBjb3VsZCBoYXZl
-IGEgYml0IG1vcmUgZXhwbGFuYXRpb25zIGluIHRoZSBmb3JtIG9mIGtlcm5lbCBkb2MuCgpPSyBJ
-IGRpZG4ndCBhZGRyZXNzIHRoaXMgb25lLiBJJ2xsIHVwZGF0ZSB0aGUgY29tbWVudHMgaW4gYSB2
-My4KCgo+IMKgVG9taQo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============0922499614==
+Content-Type: multipart/alternative; boundary="15647519513.AefFae.21255"
+Content-Transfer-Encoding: 7bit
+
+
+--15647519513.AefFae.21255
+Date: Fri, 2 Aug 2019 13:19:11 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #8 from Samuele Decarli <samuele.decarli@gmail.com> ---
+Created attachment 144928
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144928&action=3Dedit
+Result of git bisect
+
+Model: HP EliteBook 745 G5
+CPU/GPU: AMD Ryzen 7 PRO 2700U
+
+I completed my bisection and this is the log.
+The first bad commit seems to be this one. It's actually a fairly innocent
+commit, so it's probably causing a bug somewhere else.
+
+df8368be1382b442384507a5147c89978cd60702 is the first bad commit
+commit df8368be1382b442384507a5147c89978cd60702
+Author: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Date:   Wed Feb 27 12:56:36 2019 -0500
+
+    drm/amdgpu: Bump amdgpu version for per-flip plane tiling updates
+
+    To help xf86-video-amdgpu and mesa know DC supports updating the
+    tiling attributes for a framebuffer per-flip.
+
+    Cc: Michel D=C3=A4nzer <michel@daenzer.net>
+    Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+    Acked-by: Alex Deucher <alexander.deucher@amd.com>
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
+    Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15647519513.AefFae.21255
+Date: Fri, 2 Aug 2019 13:19:11 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
+&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
+</span></b>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144928=
+" name=3D"attach_144928" title=3D"Result of git bisect">attachment 144928</=
+a> <a href=3D"attachment.cgi?id=3D144928&amp;action=3Dedit" title=3D"Result=
+ of git bisect">[details]</a></span>
+Result of git bisect
+
+Model: HP EliteBook 745 G5
+CPU/GPU: AMD Ryzen 7 PRO 2700U
+
+I completed my bisection and this is the log.
+The first bad commit seems to be this one. It's actually a fairly innocent
+commit, so it's probably causing a bug somewhere else.
+
+df8368be1382b442384507a5147c89978cd60702 is the first bad commit
+commit df8368be1382b442384507a5147c89978cd60702
+Author: Nicholas Kazlauskas &lt;<a href=3D"mailto:nicholas.kazlauskas&#64;a=
+md.com">nicholas.kazlauskas&#64;amd.com</a>&gt;
+Date:   Wed Feb 27 12:56:36 2019 -0500
+
+    drm/amdgpu: Bump amdgpu version for per-flip plane tiling updates
+
+    To help xf86-video-amdgpu and mesa know DC supports updating the
+    tiling attributes for a framebuffer per-flip.
+
+    Cc: Michel D=C3=A4nzer &lt;<a href=3D"mailto:michel&#64;daenzer.net">mi=
+chel&#64;daenzer.net</a>&gt;
+    Signed-off-by: Nicholas Kazlauskas &lt;<a href=3D"mailto:nicholas.kazla=
+uskas&#64;amd.com">nicholas.kazlauskas&#64;amd.com</a>&gt;
+    Acked-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64;amd.=
+com">alexander.deucher&#64;amd.com</a>&gt;
+    Reviewed-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:marek.olsak&#6=
+4;amd.com">marek.olsak&#64;amd.com</a>&gt;
+    Signed-off-by: Alex Deucher &lt;<a href=3D"mailto:alexander.deucher&#64=
+;amd.com">alexander.deucher&#64;amd.com</a>&gt;
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15647519513.AefFae.21255--
+
+--===============0922499614==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0922499614==--
