@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1B57F5A7
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 13:01:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4FC7F5AD
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 13:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C62F6EDC5;
-	Fri,  2 Aug 2019 11:01:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87CDD6ED65;
+	Fri,  2 Aug 2019 11:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F21266EDC9
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 11:01:38 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EEB2272167; Fri,  2 Aug 2019 11:01:38 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Fri, 02 Aug 2019 11:01:39 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: samuele.decarli@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-111244-502-UNLVjL1pRu@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF42B6ED65
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 11:03:11 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id v24so72569746ljg.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Aug 2019 04:03:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HL5ANZc7OmpdOHZ2ionlww4aSxrQXJYtiezr9bkrTNM=;
+ b=MiRQiNinLe6IXWTwRuaIChxJnJ0qy0GCr1PNIpP5Y8TaYFb2gZC608d4XIlPlqHb8b
+ XbkRp6nQFxWHbij0iKo8T+xM6OqKhQefI/sYM3y0dnP/D7t6V/pSoBytCcXZg+LL6tN4
+ 0OG2KwqBmWmGucQABBTaC7vC7o6dagpUCt9hVGphI2RD4mbcTwOStjfqTbsbkNht7chU
+ Sb4i3tKYx3ZlyeQWoim4XIBGOpR7my/0WC41lpAy6Lf1Hpk31IYlqdiW3kmscIzpj3JZ
+ 7er5WO5A+z4EzbiIhF/H+hkiZ6rgUQmVB8w4rdtv2OGqCZwgMSZXPnVShsFhgkh3GE6a
+ NCig==
+X-Gm-Message-State: APjAAAXhWT4tnMTKMCrlR6KxMJAyz5BiCY0My2xd7U1Fta4wn2zPZ17q
+ 5zhIW24+v7OzWt2fuzVCAQ2940DExDukFBRgpoE=
+X-Google-Smtp-Source: APXvYqx5oq7vowqqKfwUYf1UttJH3upuyx969PtPyuX0ERX2LffNrQWKhyKNYV1lXA+tl4HP/Csy3WbhjxRbgRDo4oM=
+X-Received: by 2002:a2e:a311:: with SMTP id l17mr7778322lje.214.1564743790013; 
+ Fri, 02 Aug 2019 04:03:10 -0700 (PDT)
 MIME-Version: 1.0
+References: <e5484fa33bffec220fd0590b502a962da17c9c72.1564743270.git.agx@sigxcpu.org>
+In-Reply-To: <e5484fa33bffec220fd0590b502a962da17c9c72.1564743270.git.agx@sigxcpu.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Fri, 2 Aug 2019 08:03:22 -0300
+Message-ID: <CAOMZO5BipmSPR1jz3ov8ESSJPsHMViMw42di-WKOdqhyONLK6Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/imx: Drop unused imx-ipuv3-crtc.o build
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HL5ANZc7OmpdOHZ2ionlww4aSxrQXJYtiezr9bkrTNM=;
+ b=UWyYMwM6+6cdywPrYnOa4onNfoqc3kPU6dOJncvLK+hh3FuKjPGAoJLstXqe5LzSJK
+ Opz0J1kGQsQFI0tleEdxhxiDeaQwXxejbiY3WIORSdzjX33te82D6yBYoFxQ0WTmWnde
+ 5ZvWrsvaMo0svhBwb+1LojGe+1iVDsRVsD9AuA7E+AR73NzRh6l+e5kSdwTlYj6AmODf
+ LXzVBOFLH7Nksij+P0GBxuM87d6OrE6M6lRpAhpGOR9jbQMrm2BpavcwtjTbzLyO6nQC
+ pb4YuUet/oEg5JbebXQ7XieDP05fgXRYXHjyyCvH5+e/mBcEPAAnuJnBEUxmRsumCbK3
+ C/ug==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,126 +62,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2022246576=="
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2022246576==
-Content-Type: multipart/alternative; boundary="15647436984.7A9EE8D.28997"
-Content-Transfer-Encoding: 7bit
-
-
---15647436984.7A9EE8D.28997
-Date: Fri, 2 Aug 2019 11:01:38 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
-Samuele Decarli <samuele.decarli@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |NEEDINFO
-
---- Comment #7 from Samuele Decarli <samuele.decarli@gmail.com> ---
-@cspack I am currently repeating your bisection on similar hardware, howeve=
-r I
-have found 27eaa4927dc3be669ed70670241597ac73595caf to be bad. Could you pl=
-ease
-retest that commit as well?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15647436984.7A9EE8D.28997
-Date: Fri, 2 Aug 2019 11:01:38 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:samuele.d=
-ecarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
-spend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>NEEDINFO
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
-spend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
-spend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
-&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
-</span></b>
-        <pre>&#64;cspack I am currently repeating your bisection on similar=
- hardware, however I
-have found 27eaa4927dc3be669ed70670241597ac73595caf to be bad. Could you pl=
-ease
-retest that commit as well?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15647436984.7A9EE8D.28997--
-
---===============2022246576==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2022246576==--
+SGkgR3VpZG8sCgpHb29kIGNhdGNoIQoKT24gRnJpLCBBdWcgMiwgMjAxOSBhdCA3OjU1IEFNIEd1
+aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+IHdyb3RlOgo+Cj4gU2luY2UKPgo+IGNvbW1p
+dCAzZDFkZjk2YWQ0NjggKCJkcm0vaW14OiBtZXJnZSBpbXgtZHJtLWNvcmUgYW5kIGlwdXYzLWNy
+dGMgaW4gb25lIG1vZHVsZSIpCj4KPiBpbXgtaXB1djMtY3J0Yy5vIGlzIGJ1aWx0IHZpYSBpbXhk
+cm0tb2Jqcy4gU28gdGhlcmUncyBubyBuZWVkIHRvIGtlZXAgYW4KCkFjdHVhbGx5LCBpdCBpcyBp
+cHV2My1jcnRjLm8gdGhhdCBpcyBidWlsdCB2aWEgaW14ZHJtLW9ianMsIG5vdAppbXgtaXB1djMt
+Y3J0Yy5vLgoKQXBhcnQgZnJvbSB0aGF0OgoKUmV2aWV3ZWQtYnk6IEZhYmlvIEVzdGV2YW0gPGZl
+c3RldmFtQGdtYWlsLmNvbT4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
