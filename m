@@ -2,59 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C867EEFB
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 10:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3AC7EF11
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 10:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B3B6ED2B;
-	Fri,  2 Aug 2019 08:19:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10E7F6ED37;
+	Fri,  2 Aug 2019 08:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqemgate14.nvidia.com (hqemgate14.nvidia.com [216.228.121.143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BB606E8BB;
- Fri,  2 Aug 2019 05:49:55 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d43cf030000>; Thu, 01 Aug 2019 22:49:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Thu, 01 Aug 2019 22:49:54 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Thu, 01 Aug 2019 22:49:54 -0700
-Received: from [10.2.171.217] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 2 Aug
- 2019 05:49:53 +0000
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A41CB6E8C1;
+ Fri,  2 Aug 2019 06:10:11 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 95267B634;
+ Fri,  2 Aug 2019 06:10:09 +0000 (UTC)
 Subject: Re: [PATCH 20/34] xen: convert put_page() to put_user_page*()
-To: Juergen Gross <jgross@suse.com>, <john.hubbard@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>
+To: John Hubbard <jhubbard@nvidia.com>, john.hubbard@gmail.com,
+ Andrew Morton <akpm@linux-foundation.org>
 References: <20190802022005.5117-1-jhubbard@nvidia.com>
  <20190802022005.5117-21-jhubbard@nvidia.com>
  <4471e9dc-a315-42c1-0c3c-55ba4eeeb106@suse.com>
-X-Nvconfidentiality: public
-From: John Hubbard <jhubbard@nvidia.com>
-Message-ID: <d5140833-e9ee-beb5-ff0a-2d13a4fe819f@nvidia.com>
-Date: Thu, 1 Aug 2019 22:48:15 -0700
+ <d5140833-e9ee-beb5-ff0a-2d13a4fe819f@nvidia.com>
+From: Juergen Gross <jgross@suse.com>
+Message-ID: <d4931311-db01-e8c3-0f8c-d64685dc2143@suse.com>
+Date: Fri, 2 Aug 2019 08:10:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <4471e9dc-a315-42c1-0c3c-55ba4eeeb106@suse.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
+In-Reply-To: <d5140833-e9ee-beb5-ff0a-2d13a4fe819f@nvidia.com>
+Content-Type: multipart/mixed; boundary="------------8BBD3C4A32BE2A4FA02D8356"
+Content-Language: de-DE
 X-Mailman-Approved-At: Fri, 02 Aug 2019 08:19:03 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nvidia.com; s=n1; 
- t=1564724996; bh=OWvjPY2RJnSXiNaT1G8Eyahp8MUAsm98cTkExQmaDUY=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=a8gfQ8ne5zPh0fVSeAUz43+s/RWh86L+7UbFdPdyvA96GuBGPUx5eIeF3w+Nlvku/
- 0V8vXqFw661q0IOFeo6Kpi7Sx7lFDJ0iBXeTTILNJt73xd8GLq90lfX0rf4v4vE26P
- Upzig2CLPVZNmUfWWTI/RFL0l8DE0aO3ZVeCpkig4jO+nwwM1h4oXauMeatX1lWfDK
- veK7/WtDLvuDvB0bzIwtfvyn2bGfXAnU0eTGFSo7jQy0CpF2Wgr1YpBWVBI93IapXm
- T2Gtv2nv+e2BdEC1Wle5uMQeMR894YTDGtQ/2KwtXAstzmU4biC119cOsUXTpTX5yr
- 4eCZJXJPpqRQg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,49 +62,178 @@ Cc: linux-fbdev@vger.kernel.org, Jan Kara <jack@suse.cz>, kvm@vger.kernel.org,
  netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
  linux-xfs@vger.kernel.org, linux-crypto@vger.kernel.org,
  linux-fsdevel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gOC8xLzE5IDk6MzYgUE0sIEp1ZXJnZW4gR3Jvc3Mgd3JvdGU6Cj4gT24gMDIuMDguMTkgMDQ6
-MTksIGpvaG4uaHViYmFyZEBnbWFpbC5jb20gd3JvdGU6Cj4+IEZyb206IEpvaG4gSHViYmFyZCA8
-amh1YmJhcmRAbnZpZGlhLmNvbT4KLi4uCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3hlbi9wcml2
-Y21kLmMgYi9kcml2ZXJzL3hlbi9wcml2Y21kLmMKPj4gaW5kZXggMmY1Y2U3MjMwYTQzLi4yOWU0
-NjFkYmVlMmQgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMveGVuL3ByaXZjbWQuYwo+PiArKysgYi9k
-cml2ZXJzL3hlbi9wcml2Y21kLmMKPj4gQEAgLTYxMSwxNSArNjExLDEwIEBAIHN0YXRpYyBpbnQg
-bG9ja19wYWdlcygKPj4gwqAgc3RhdGljIHZvaWQgdW5sb2NrX3BhZ2VzKHN0cnVjdCBwYWdlICpw
-YWdlc1tdLCB1bnNpZ25lZCBpbnQgbnJfcGFnZXMpCj4+IMKgIHsKPj4gLcKgwqDCoCB1bnNpZ25l
-ZCBpbnQgaTsKPj4gLQo+PiDCoMKgwqDCoMKgIGlmICghcGFnZXMpCj4+IMKgwqDCoMKgwqDCoMKg
-wqDCoCByZXR1cm47Cj4+IC3CoMKgwqAgZm9yIChpID0gMDsgaSA8IG5yX3BhZ2VzOyBpKyspIHsK
-Pj4gLcKgwqDCoMKgwqDCoMKgIGlmIChwYWdlc1tpXSkKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgcHV0X3BhZ2UocGFnZXNbaV0pOwo+PiAtwqDCoMKgIH0KPj4gK8KgwqDCoCBwdXRfdXNlcl9w
-YWdlcyhwYWdlcywgbnJfcGFnZXMpOwo+IAo+IFlvdSBhcmUgbm90IGhhbmRsaW5nIHRoZSBjYXNl
-IHdoZXJlIHBhZ2VzW2ldIGlzIE5VTEwgaGVyZS4gT3IgYW0gSQo+IG1pc3NpbmcgYSBwZW5kaW5n
-IHBhdGNoIHRvIHB1dF91c2VyX3BhZ2VzKCkgaGVyZT8KPiAKCkhpIEp1ZXJnZW4sCgpZb3UgYXJl
-IGNvcnJlY3QtLXRoaXMgbm8gbG9uZ2VyIGhhbmRsZXMgdGhlIGNhc2VzIHdoZXJlIHBhZ2VzW2ld
-CmlzIE5VTEwuIEl0J3MgaW50ZW50aW9uYWwsIHRob3VnaCBwb3NzaWJseSB3cm9uZy4gOikKCkkg
-c2VlIHRoYXQgSSBzaG91bGQgaGF2ZSBhZGRlZCBteSBzdGFuZGFyZCBibHVyYiB0byB0aGlzCmNv
-bW1pdCBkZXNjcmlwdGlvbi4gSSBtaXNzZWQgdGhpcyBvbmUsIGJ1dCBzb21lIG9mIHRoZSBvdGhl
-ciBwYXRjaGVzCmhhdmUgaXQuIEl0IG1ha2VzIHRoZSBmb2xsb3dpbmcsIHBvc3NpYmx5IGluY29y
-cmVjdCBjbGFpbToKCiJUaGlzIGNoYW5nZXMgdGhlIHJlbGVhc2UgY29kZSBzbGlnaHRseSwgYmVj
-YXVzZSBlYWNoIHBhZ2Ugc2xvdCBpbiB0aGUKcGFnZV9saXN0W10gYXJyYXkgaXMgbm8gbG9uZ2Vy
-IGNoZWNrZWQgZm9yIE5VTEwuIEhvd2V2ZXIsIHRoYXQgY2hlY2sKd2FzIHdyb25nIGFueXdheSwg
-YmVjYXVzZSB0aGUgZ2V0X3VzZXJfcGFnZXMoKSBwYXR0ZXJuIG9mIHVzYWdlIGhlcmUKbmV2ZXIg
-YWxsb3dlZCBmb3IgTlVMTCBlbnRyaWVzIHdpdGhpbiBhIHJhbmdlIG9mIHBpbm5lZCBwYWdlcy4i
-CgpUaGUgd2F5IEkndmUgc2VlbiB0aGVzZSBwYWdlIGFycmF5cyB1c2VkIHdpdGggZ2V0X3VzZXJf
-cGFnZXMoKSwKdGhpbmdzIGFyZSBlaXRoZXIgZG9uZSBzaW5nbGUgcGFnZSwgb3Igd2l0aCBhIGNv
-bnRpZ3VvdXMgcmFuZ2UuIFNvCnVubGVzcyBJJ20gbWlzc2luZyBhIGNhc2Ugd2hlcmUgc29tZW9u
-ZSBpcyBlaXRoZXIKCmEpIHJlbGVhc2luZyBpbmRpdmlkdWFsIHBhZ2VzIHdpdGhpbiBhIHJhbmdl
-IChhbmQgdGh1cyBsaWtlbHkgbWVzc2luZwp1cCB0aGVpciBjb3VudCBvZiBwYWdlcyB0aGV5IGhh
-dmUpLCBvcgoKYikgYWxsb2NhdGluZyB0d28gZ3VwIHJhbmdlcyB3aXRoaW4gdGhlIHNhbWUgcGFn
-ZXNbXSBhcnJheSwgd2l0aCBhCmdhcCBiZXR3ZWVuIHRoZSBhbGxvY2F0aW9ucywKCi4uLnRoZW4g
-aXQgc2hvdWxkIGJlIGNvcnJlY3QuIElmIHNvLCB0aGVuIEknbGwgYWRkIHRoZSBhYm92ZSBibHVy
-Ygp0byB0aGlzIHBhdGNoJ3MgY29tbWl0IGRlc2NyaXB0aW9uLgoKSWYgdGhhdCdzIG5vdCB0aGUg
-Y2FzZSAoYm90aCBoZXJlLCBhbmQgaW4gMyBvciA0IG90aGVyIHBhdGNoZXMgaW4gdGhpcwpzZXJp
-ZXMsIHRoZW4gYXMgeW91IHNhaWQsIEkgc2hvdWxkIGFkZCBOVUxMIGNoZWNrcyB0byBwdXRfdXNl
-cl9wYWdlcygpCmFuZCBwdXRfdXNlcl9wYWdlc19kaXJ0eV9sb2NrKCkuCgoKdGhhbmtzLAotLSAK
-Sm9obiBIdWJiYXJkCk5WSURJQQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWw=
+This is a multi-part message in MIME format.
+--------------8BBD3C4A32BE2A4FA02D8356
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 02.08.19 07:48, John Hubbard wrote:
+> On 8/1/19 9:36 PM, Juergen Gross wrote:
+>> On 02.08.19 04:19, john.hubbard@gmail.com wrote:
+>>> From: John Hubbard <jhubbard@nvidia.com>
+> ...
+>>> diff --git a/drivers/xen/privcmd.c b/drivers/xen/privcmd.c
+>>> index 2f5ce7230a43..29e461dbee2d 100644
+>>> --- a/drivers/xen/privcmd.c
+>>> +++ b/drivers/xen/privcmd.c
+>>> @@ -611,15 +611,10 @@ static int lock_pages(
+>>>   static void unlock_pages(struct page *pages[], unsigned int nr_pages)
+>>>   {
+>>> -    unsigned int i;
+>>> -
+>>>       if (!pages)
+>>>           return;
+>>> -    for (i = 0; i < nr_pages; i++) {
+>>> -        if (pages[i])
+>>> -            put_page(pages[i]);
+>>> -    }
+>>> +    put_user_pages(pages, nr_pages);
+>>
+>> You are not handling the case where pages[i] is NULL here. Or am I
+>> missing a pending patch to put_user_pages() here?
+>>
+> 
+> Hi Juergen,
+> 
+> You are correct--this no longer handles the cases where pages[i]
+> is NULL. It's intentional, though possibly wrong. :)
+> 
+> I see that I should have added my standard blurb to this
+> commit description. I missed this one, but some of the other patches
+> have it. It makes the following, possibly incorrect claim:
+> 
+> "This changes the release code slightly, because each page slot in the
+> page_list[] array is no longer checked for NULL. However, that check
+> was wrong anyway, because the get_user_pages() pattern of usage here
+> never allowed for NULL entries within a range of pinned pages."
+> 
+> The way I've seen these page arrays used with get_user_pages(),
+> things are either done single page, or with a contiguous range. So
+> unless I'm missing a case where someone is either
+> 
+> a) releasing individual pages within a range (and thus likely messing
+> up their count of pages they have), or
+> 
+> b) allocating two gup ranges within the same pages[] array, with a
+> gap between the allocations,
+> 
+> ...then it should be correct. If so, then I'll add the above blurb
+> to this patch's commit description.
+> 
+> If that's not the case (both here, and in 3 or 4 other patches in this
+> series, then as you said, I should add NULL checks to put_user_pages()
+> and put_user_pages_dirty_lock().
+
+In this case it is not correct, but can easily be handled. The NULL case
+can occur only in an error case with the pages array filled partially or
+not at all.
+
+I'd prefer something like the attached patch here.
+
+
+Juergen
+
+--------------8BBD3C4A32BE2A4FA02D8356
+Content-Type: text/x-patch;
+ name="gup.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="gup.patch"
+
+diff --git a/drivers/xen/privcmd.c b/drivers/xen/privcmd.c
+index 2f5ce7230a43..12bd3154126d 100644
+--- a/drivers/xen/privcmd.c
++++ b/drivers/xen/privcmd.c
+@@ -582,10 +582,11 @@ static long privcmd_ioctl_mmap_batch(
+ 
+ static int lock_pages(
+ 	struct privcmd_dm_op_buf kbufs[], unsigned int num,
+-	struct page *pages[], unsigned int nr_pages)
++	struct page *pages[], unsigned int *nr_pages)
+ {
+-	unsigned int i;
++	unsigned int i, free = *nr_pages;
+ 
++	*nr_pages = 0;
+ 	for (i = 0; i < num; i++) {
+ 		unsigned int requested;
+ 		int pinned;
+@@ -593,35 +594,22 @@ static int lock_pages(
+ 		requested = DIV_ROUND_UP(
+ 			offset_in_page(kbufs[i].uptr) + kbufs[i].size,
+ 			PAGE_SIZE);
+-		if (requested > nr_pages)
++		if (requested > free)
+ 			return -ENOSPC;
+ 
+ 		pinned = get_user_pages_fast(
+ 			(unsigned long) kbufs[i].uptr,
+-			requested, FOLL_WRITE, pages);
++			requested, FOLL_WRITE, pages + *nr_pages);
+ 		if (pinned < 0)
+ 			return pinned;
+ 
+-		nr_pages -= pinned;
+-		pages += pinned;
++		free -= pinned;
++		*nr_pages += pinned;
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static void unlock_pages(struct page *pages[], unsigned int nr_pages)
+-{
+-	unsigned int i;
+-
+-	if (!pages)
+-		return;
+-
+-	for (i = 0; i < nr_pages; i++) {
+-		if (pages[i])
+-			put_page(pages[i]);
+-	}
+-}
+-
+ static long privcmd_ioctl_dm_op(struct file *file, void __user *udata)
+ {
+ 	struct privcmd_data *data = file->private_data;
+@@ -681,11 +669,12 @@ static long privcmd_ioctl_dm_op(struct file *file, void __user *udata)
+ 
+ 	xbufs = kcalloc(kdata.num, sizeof(*xbufs), GFP_KERNEL);
+ 	if (!xbufs) {
++		nr_pages = 0;
+ 		rc = -ENOMEM;
+ 		goto out;
+ 	}
+ 
+-	rc = lock_pages(kbufs, kdata.num, pages, nr_pages);
++	rc = lock_pages(kbufs, kdata.num, pages, &nr_pages);
+ 	if (rc)
+ 		goto out;
+ 
+@@ -699,7 +688,8 @@ static long privcmd_ioctl_dm_op(struct file *file, void __user *udata)
+ 	xen_preemptible_hcall_end();
+ 
+ out:
+-	unlock_pages(pages, nr_pages);
++	if (pages)
++		put_user_pages(pages, nr_pages);
+ 	kfree(xbufs);
+ 	kfree(pages);
+ 	kfree(kbufs);
+
+--------------8BBD3C4A32BE2A4FA02D8356
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--------------8BBD3C4A32BE2A4FA02D8356--
