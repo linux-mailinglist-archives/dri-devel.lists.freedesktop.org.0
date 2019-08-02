@@ -2,44 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955FA7F725
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 14:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A7F7F761
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 14:54:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 036E76EDF6;
-	Fri,  2 Aug 2019 12:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816156EDF4;
+	Fri,  2 Aug 2019 12:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C14F76EDF6
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 12:45:45 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BE19172167; Fri,  2 Aug 2019 12:45:45 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107020] Dolphin freezes only with OpenGL
-Date: Fri, 02 Aug 2019 12:45:45 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: a9016009@gmx.de
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: WORKSFORME
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: resolution bug_status
-Message-ID: <bug-107020-502-qSe9adziRj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107020-502@http.bugs.freedesktop.org/>
-References: <bug-107020-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4753B6EDF4;
+ Fri,  2 Aug 2019 12:54:55 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 17816996-1500050 for multiple; Fri, 02 Aug 2019 13:54:45 +0100
 MIME-Version: 1.0
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+From: Chris Wilson <chris@chris-wilson.co.uk>
+In-Reply-To: <20190802123956.2450-1-sergey.senozhatsky@gmail.com>
+References: <20190802123956.2450-1-sergey.senozhatsky@gmail.com>
+Message-ID: <156475048333.6598.10268421599352645066@skylake-alporthouse-com>
+User-Agent: alot/0.6
+Subject: Re: [PATCH 1/2] i915: convert to new mount API
+Date: Fri, 02 Aug 2019 13:54:43 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,104 +41,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1979405162=="
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1979405162==
-Content-Type: multipart/alternative; boundary="15647499452.Fe9c4E.14471"
-Content-Transfer-Encoding: 7bit
-
-
---15647499452.Fe9c4E.14471
-Date: Fri, 2 Aug 2019 12:45:45 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107020
-
-Andre Klapper <a9016009@gmx.de> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         Resolution|---                         |WORKSFORME
-             Status|NEW                         |RESOLVED
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15647499452.Fe9c4E.14471
-Date: Fri, 2 Aug 2019 12:45:45 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
-#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
-s=3D"fn">Andre Klapper</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED WORKSFORME - Dolphin freezes only with OpenGL"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107020">bug 10702=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>WORKSFORME
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15647499452.Fe9c4E.14471--
-
---===============1979405162==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1979405162==--
+UXVvdGluZyBTZXJnZXkgU2Vub3poYXRza3kgKDIwMTktMDgtMDIgMTM6Mzk6NTUpCj4gdG1wZnMg
+ZG9lcyBub3Qgc2V0IC0+cmVtb3VudF9mcygpIGFueW1vcmUgYW5kIGl0cyB1c2VycyBuZWVkCj4g
+dG8gYmUgY29udmVydGVkIHRvIG5ldyBtb3VudCBBUEkuCj4gCj4gIEJVRzoga2VybmVsIE5VTEwg
+cG9pbnRlciBkZXJlZmVyZW5jZSwgYWRkcmVzczogMDAwMDAwMDAwMDAwMDAwMAo+ICBQRjogc3Vw
+ZXJ2aXNvciBpbnN0cnVjdGlvbiBmZXRjaCBpbiBrZXJuZWwgbW9kZQo+ICBQRjogZXJyb3JfY29k
+ZSgweDAwMTApIC0gbm90LXByZXNlbnQgcGFnZQo+ICBSSVA6IDAwMTA6MHgwCj4gIENvZGU6IEJh
+ZCBSSVAgdmFsdWUuCj4gIENhbGwgVHJhY2U6Cj4gICBpOTE1X2dlbWZzX2luaXQrMHg2ZS8weGEw
+IFtpOTE1XQo+ICAgaTkxNV9nZW1faW5pdF9lYXJseSsweDc2LzB4OTAgW2k5MTVdCj4gICBpOTE1
+X2RyaXZlcl9wcm9iZSsweDMwYS8weDE2NDAgW2k5MTVdCj4gICA/IGtlcm5mc19hY3RpdmF0ZSsw
+eDVhLzB4ODAKPiAgID8ga2VybmZzX2FkZF9vbmUrMHhkZC8weDEzMAo+ICAgcGNpX2RldmljZV9w
+cm9iZSsweDllLzB4MTEwCj4gICByZWFsbHlfcHJvYmUrMHhjZS8weDIzMAo+ICAgZHJpdmVyX3By
+b2JlX2RldmljZSsweDRiLzB4YzAKPiAgIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4NGUvMHg2MAo+
+ICAgX19kcml2ZXJfYXR0YWNoKzB4NDcvMHhiMAo+ICAgPyBkZXZpY2VfZHJpdmVyX2F0dGFjaCsw
+eDYwLzB4NjAKPiAgIGJ1c19mb3JfZWFjaF9kZXYrMHg2MS8weDkwCj4gICBidXNfYWRkX2RyaXZl
+cisweDE2Ny8weDFiMAo+ICAgZHJpdmVyX3JlZ2lzdGVyKzB4NjcvMHhhYQo+IAo+IFNpZ25lZC1v
+ZmYtYnk6IFNlcmdleSBTZW5vemhhdHNreSA8c2VyZ2V5LnNlbm96aGF0c2t5QGdtYWlsLmNvbT4K
+PiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtZnMuYyB8IDI4ICsrKysr
+KysrKysrKysrKysrKysrLS0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygr
+KSwgNyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUv
+Z2VtL2k5MTVfZ2VtZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbWZzLmMK
+PiBpbmRleCAwOTlmMzM5N2FhZGEuLmNmMDViYTcyZGY5ZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1mcy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5
+MTUvZ2VtL2k5MTVfZ2VtZnMuYwo+IEBAIC03LDE0ICs3LDE3IEBACj4gICNpbmNsdWRlIDxsaW51
+eC9mcy5oPgo+ICAjaW5jbHVkZSA8bGludXgvbW91bnQuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3Bh
+Z2VtYXAuaD4KPiArI2luY2x1ZGUgPGxpbnV4L2ZzX2NvbnRleHQuaD4KPiAgCj4gICNpbmNsdWRl
+ICJpOTE1X2Rydi5oIgo+ICAjaW5jbHVkZSAiaTkxNV9nZW1mcy5oIgo+ICAKPiAgaW50IGk5MTVf
+Z2VtZnNfaW5pdChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSkKPiAgewo+ICsgICAgICAg
+c3RydWN0IGZzX2NvbnRleHQgKmZjID0gTlVMTDsKPiAgICAgICAgIHN0cnVjdCBmaWxlX3N5c3Rl
+bV90eXBlICp0eXBlOwo+ICAgICAgICAgc3RydWN0IHZmc21vdW50ICpnZW1mczsKPiArICAgICAg
+IGJvb2wgb2sgPSB0cnVlOwoKU3RhcnQgd2l0aCBvayA9IGZhbHNlLCB3ZSBvbmx5IG5lZWQgdG8g
+c2V0IHRvIHRydWUgaWYgd2Ugc3VjY2VlZCBpbgpyZWNvbmZpZ3VyaW5nLgoKPiAgICAgICAgIHR5
+cGUgPSBnZXRfZnNfdHlwZSgidG1wZnMiKTsKPiAgICAgICAgIGlmICghdHlwZSkKPiBAQCAtMzYs
+MTggKzM5LDI5IEBAIGludCBpOTE1X2dlbWZzX2luaXQoc3RydWN0IGRybV9pOTE1X3ByaXZhdGUg
+Kmk5MTUpCj4gICAgICAgICAgICAgICAgIHN0cnVjdCBzdXBlcl9ibG9jayAqc2IgPSBnZW1mcy0+
+bW50X3NiOwo+ICAgICAgICAgICAgICAgICAvKiBGSVhNRTogRGlzYWJsZWQgdW50aWwgd2UgZ2V0
+IFcvQSBmb3IgcmVhZCBCVyBpc3N1ZS4gKi8KPiAgICAgICAgICAgICAgICAgY2hhciBvcHRpb25z
+W10gPSAiaHVnZT1uZXZlciI7Cj4gLSAgICAgICAgICAgICAgIGludCBmbGFncyA9IDA7Cj4gLSAg
+ICAgICAgICAgICAgIGludCBlcnI7CgpIbW0sIHdlIGNvdWxkIGF2b2lkIHRoaXMgaWYgd2UgdXNl
+ZCB2ZnNfa2VybmVsX21vdW50KCkgZGlyZWN0bHkgcmF0aGVyCnRoYW4gdGhlIGtlcm5fbW91bnQg
+d3JhcHBlciwgYXMgdGhlbiB3ZSBwYXNzIG9wdGlvbnMgdGhyb3VnaCB0bwpwYXJzZV9tb25vdGl0
+aGljX21vdW50X2RhdGEoKS4gT3IgYW0gSSBiYXJraW5nIHVwIHRoZSB3cm9uZyB0cmVlPwoKPiAg
+Cj4gLSAgICAgICAgICAgICAgIGVyciA9IHNiLT5zX29wLT5yZW1vdW50X2ZzKHNiLCAmZmxhZ3Ms
+IG9wdGlvbnMpOwo+IC0gICAgICAgICAgICAgICBpZiAoZXJyKSB7Cj4gLSAgICAgICAgICAgICAg
+ICAgICAgICAga2Vybl91bm1vdW50KGdlbWZzKTsKPiAtICAgICAgICAgICAgICAgICAgICAgICBy
+ZXR1cm4gZXJyOwo+ICsgICAgICAgICAgICAgICBmYyA9IGZzX2NvbnRleHRfZm9yX3JlY29uZmln
+dXJlKHNiLT5zX3Jvb3QsIDAsIDApOwo+ICsgICAgICAgICAgICAgICBpZiAoSVNfRVJSKGZjKSkg
+ewo+ICsgICAgICAgICAgICAgICAgICAgICAgIG9rID0gZmFsc2U7Cj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgZ290byBvdXQ7Cj4gICAgICAgICAgICAgICAgIH0KPiArCj4gKyAgICAgICAgICAg
+ICAgIGlmICghZmMtPm9wcy0+cGFyc2VfbW9ub2xpdGhpYyB8fAo+ICsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgZmMtPm9wcy0+cGFyc2VfbW9ub2xpdGhpYyhmYywgb3B0aW9ucykpIHsK
+CmNoZWNrcGF0Y2gucGwgd2lsbCBjb21wbGFpbiB0aGF0IHRoaXMgc2hvdWxkIGxpbmUgdXAgd2l0
+aCB0aGUgJygnCgo+ICsgICAgICAgICAgICAgICAgICAgICAgIG9rID0gZmFsc2U7Cj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgZ290byBvdXQ7Cj4gKyAgICAgICAgICAgICAgIH0KPiArCj4gKyAg
+ICAgICAgICAgICAgIGlmICghZmMtPm9wcy0+cmVjb25maWd1cmUgfHwgZmMtPm9wcy0+cmVjb25m
+aWd1cmUoZmMpKQo+ICsgICAgICAgICAgICAgICAgICAgICAgIG9rID0gZmFsc2U7Cj4gICAgICAg
+ICB9Cj4gIAo+ICtvdXQ6Cj4gKyAgICAgICBpZiAoIW9rKQo+ICsgICAgICAgICAgICAgICBwcl9l
+cnIoImk5MTUgZ2VtZnMgcmVjb25maWd1cmF0aW9uIGZhaWxlZFxuIik7CgpMZXQncyBtYWtlIGl0
+IGEgYml0IG1vcmUgdXNlciBmcmllbmRseSwKCmRldl9lcnIoaTkxNS0+ZHJtLmRldiwKCSJVbmFi
+bGUgdG8gcmVjb25maWd1cmUgaW50ZXJuYWwgc2htZW1mcyBmb3IgcHJlZmVycmVkIgoJIiBhbGxv
+Y2F0aW9uIHN0cmF0ZWd5OyBjb250aW51aW5nLCBidXQgcGVyZm9ybWFuY2UgbWF5IHN1ZmZlci5c
+biIpOwoKQXNzdW1pbmcgdGhhdCB3ZSBjYW4ndCBqdXN0IHVzZSB2ZnNfa2Vybl9tb3VudCgpIGlu
+c3RlYWQsIHdpdGggdGhlIG5pdHMKUmV2aWV3ZWQtYnk6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hy
+aXMtd2lsc29uLmNvLnVrPgotQ2hyaXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
