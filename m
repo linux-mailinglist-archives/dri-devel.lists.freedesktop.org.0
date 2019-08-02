@@ -2,42 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FC37F197
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 11:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 269C17F1EA
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 11:43:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 996BA6ED90;
-	Fri,  2 Aug 2019 09:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17E476ED92;
+	Fri,  2 Aug 2019 09:43:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F0DF6ED8C
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 09:41:12 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2019 02:41:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,337,1559545200"; 
- d="scan'208,217";a="372314049"
-Received: from dkobla-mobl1.amr.corp.intel.com (HELO [10.252.35.155])
- ([10.252.35.155])
- by fmsmga005.fm.intel.com with ESMTP; 02 Aug 2019 02:41:09 -0700
-Subject: Re: Threaded submission & semaphore sharing
-To: zhoucm1 <zhoucm1@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>
-References: <e2a1839e-1ee1-4ecb-9b18-af338046c0f1@email.android.com>
- <9bd985bb-1dfb-b28d-e1da-efa5b41464c8@intel.com>
- <d23455fe-c74a-2ee0-a954-af86963e4d2f@amd.com>
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
- Swindon SN3 1RJ
-Message-ID: <3b9f5b4c-827b-dfec-e7c8-a784b0573e85@intel.com>
-Date: Fri, 2 Aug 2019 12:41:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <d23455fe-c74a-2ee0-a954-af86963e4d2f@amd.com>
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+ (mail-eopbgr30042.outbound.protection.outlook.com [40.107.3.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 142246ED92
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 09:43:32 +0000 (UTC)
+Received: from VI1PR0802CA0019.eurprd08.prod.outlook.com
+ (2603:10a6:800:aa::29) by AM5PR0802MB2596.eurprd08.prod.outlook.com
+ (2603:10a6:203:98::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2115.15; Fri, 2 Aug
+ 2019 09:43:28 +0000
+Received: from VE1EUR03FT057.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e09::206) by VI1PR0802CA0019.outlook.office365.com
+ (2603:10a6:800:aa::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2136.15 via Frontend
+ Transport; Fri, 2 Aug 2019 09:43:28 +0000
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of arm.com: DNS Timeout)
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT057.mail.protection.outlook.com (10.152.19.123) with
+ Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2052.18 via Frontend Transport; Fri, 2 Aug 2019 09:43:26 +0000
+Received: ("Tessian outbound cc8a947d4660:v26");
+ Fri, 02 Aug 2019 09:43:19 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: d3f901cf4190d08f
+X-CR-MTA-TID: 64aa7808
+Received: from 9eb9efb7f3be.2 (ip-172-16-0-2.eu-west-1.compute.internal
+ [104.47.5.55]) by 64aa7808-outbound-1.mta.getcheckrecipient.com id
+ 1829F428-FC2D-4444-92A1-277576AFEA34.1; 
+ Fri, 02 Aug 2019 09:43:14 +0000
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-he1eur02lp2055.outbound.protection.outlook.com [104.47.5.55])
+ by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 9eb9efb7f3be.2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+ Fri, 02 Aug 2019 09:43:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lr8LYsL3o1rHOXQYKfMekFWabsz2VNwp6FNGV2Ig4xRKRXeHiumoOCEo+fqf9uddeMa5Hdv58ywxWXb6/Dnojz19CtiLEE3qD7nVzWPKlxusYZ2wG1uAzz1Tz236OnVYKHRyRHYWkKNn6dpEkMNr1I6753waFYw5ZzvvDSSbTmf4ETZ/VX5Sgk//d8VaHHD1Imav8+yfoE6gXVPMBZDvCrClWppOb4KaqGyN18agKpYU75NC25kI5xj4RdYzbljl7sZFblTekm6IOtKF8VCGR7chhPXzB0S+Jb1BK3LWxm/18NpcebJexeNW5lgIRodAsxJ8LII0Qtv/609wtZYN7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DC3jbMbQ63MLQHJ9M4BjOtJXh3cP2Zhrf529IOH33DA=;
+ b=iZu50nqrIW1VrYNRmv6ohA/7ID5MoQqVDoidAT11er8KNr6DnWH4jd6/FOpt6MzZOvWlX0H2/Kr6LDAfN8S+a/l4iEz597bnpzF+p7eDt1X7O6c8+F6W83ZI1Izpi/JFZoeil1Z3H3E+btKHROwW9f1xKQykANe4qkj1G/8SWrN7V5aGkvxFEKlu5lz7zA88h91o32Dl/EwNUQRI/cvdgjuqat6nROsB9dgRUxZ8uHpfldvNk3WGebsMovrEvYFQT70syv4ixtgXon2oHHm7dRSDwbQzc8ycy+JAVw9nwefhMJs4o7pJpkpCuyO6oMwPzWz/OLjAWBGhr4qNbpAIBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=arm.com;dmarc=pass action=none header.from=arm.com;dkim=pass
+ header.d=arm.com;arc=none
+Received: from VI1PR08MB5488.eurprd08.prod.outlook.com (52.133.246.150) by
+ VI1PR08MB3551.eurprd08.prod.outlook.com (20.177.61.22) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2136.17; Fri, 2 Aug 2019 09:43:10 +0000
+Received: from VI1PR08MB5488.eurprd08.prod.outlook.com
+ ([fe80::c091:c28c:bb1a:5236]) by VI1PR08MB5488.eurprd08.prod.outlook.com
+ ([fe80::c091:c28c:bb1a:5236%2]) with mapi id 15.20.2136.010; Fri, 2 Aug 2019
+ 09:43:10 +0000
+From: "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
+To: Liviu Dudau <Liviu.Dudau@arm.com>, "james qian wang (Arm Technology
+ China)" <james.qian.wang@arm.com>, "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "seanpaul@chromium.org"
+ <seanpaul@chromium.org>, "airlied@linux.ie" <airlied@linux.ie>, Brian Starkey
+ <Brian.Starkey@arm.com>, Mihail Atanassov <Mihail.Atanassov@arm.com>
+Subject: [PATCH] drm/komeda: Adds error event print functionality
+Thread-Topic: [PATCH] drm/komeda: Adds error event print functionality
+Thread-Index: AQHVSRayAboXOjuz1kKxLGlCvtrW0Q==
+Date: Fri, 2 Aug 2019 09:43:10 +0000
+Message-ID: <1564738954-6101-1-git-send-email-lowry.li@arm.com>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [113.29.88.7]
+x-clientproxiedby: HK2P15301CA0005.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:202:1::15) To VI1PR08MB5488.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::22)
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Lowry.Li@arm.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 1.9.1
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-Correlation-Id: 7a788a7a-238f-47d7-0c10-08d7172dde70
+X-MS-Office365-Filtering-HT: Tenant
+X-Microsoft-Antispam-Untrusted: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:VI1PR08MB3551; 
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3551:|AM5PR0802MB2596:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB25961BDB352E1655ADE68B509FD90@AM5PR0802MB2596.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+x-ms-oob-tlc-oobclassifiers: OLM:6430;OLM:6430;
+x-forefront-prvs: 011787B9DD
+X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
+ SFS:(10009020)(4636009)(366004)(396003)(376002)(39860400002)(346002)(136003)(189003)(199004)(6506007)(386003)(110136005)(54906003)(7736002)(6512007)(6436002)(3846002)(6116002)(2906002)(476003)(2201001)(6636002)(478600001)(53936002)(99286004)(305945005)(86362001)(36756003)(68736007)(81156014)(66556008)(52116002)(5660300002)(256004)(66066001)(64756008)(66476007)(71190400001)(55236004)(2501003)(26005)(66446008)(81166006)(2616005)(71200400001)(8936002)(102836004)(186003)(486006)(8676002)(66946007)(4326008)(316002)(14454004)(50226002)(25786009)(6486002)(14444005);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR08MB3551;
+ H:VI1PR08MB5488.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info-Original: WvC8Qx3KUb8OXLDJwp7ISuNNvzSa17XYNrR7e/UFTLzm4rK+TWVo1mhrMXPPPREShLpEp9L6zrdP88tpV0YgrbT9B7brqkckGaA7FKXabfHcVc32FV6UUK4UYMg3vK7ibtJlcm5X2zelgtdGss43M2CmzGKedAbN8pPbq0OL0HwD3+86fCO0Lqe6MWqlT0vIwE21YIKgYOBlT6a72L1gP2RlHwEApBY5SQjyQAnYNHVHiBc7yGjQGnYn68/e912sPGRNM+pOSWqm8XUrymf9Y+vAio2ENBt1djgpB2j63Up9R6OVTh7ERTElNxsMLmZrUnWdFb8rXY0MGlLmS91Wesu/03ICfLd1YH9K6g8+6izOfaM4REb2iGvbAv5EchjCb/WM0DdOcimEaA2FF1Mc+KJANP5y94dHZitDzuhg9tY=
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3551
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Lowry.Li@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT057.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123; IPV:CAL; SCL:-1; CTRY:IE;
+ EFV:NLI; SFV:NSPM;
+ SFS:(10009020)(4636009)(39860400002)(376002)(136003)(346002)(396003)(2980300002)(199004)(189003)(2201001)(6636002)(36756003)(22756006)(478600001)(7736002)(386003)(25786009)(14454004)(14444005)(3846002)(6116002)(356004)(81166006)(26005)(8746002)(102836004)(8936002)(26826003)(336012)(2501003)(66066001)(99286004)(4326008)(50226002)(186003)(47776003)(8676002)(110136005)(2616005)(36906005)(63350400001)(6506007)(2906002)(63370400001)(126002)(23756003)(305945005)(81156014)(486006)(54906003)(476003)(6512007)(86362001)(5660300002)(50466002)(316002)(70586007)(6486002)(70206006)(76130400001);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:AM5PR0802MB2596;
+ H:64aa7808-outbound-1.mta.getcheckrecipient.com; FPR:; SPF:TempError; LANG:en;
+ PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; A:1; MX:1; 
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 13fb864a-7427-4f8d-6899-08d7172dd4b6
+X-Microsoft-Antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(710020)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM5PR0802MB2596; 
+NoDisclaimer: True
+X-Forefront-PRVS: 011787B9DD
+X-Microsoft-Antispam-Message-Info: j0OYrqmimaVMlittUmrQa3dEPMIzVP6qXSgRS6ida0w7Gl8V1YqXz7lTQpKz1k6q3XADoUkuXOr+fFNUx8BUYdQCiqxs2IGIaLZIEKmrNTbUQE8qBZudtOrX+a4fChI0twJTTvANZGW22YCUzgyU8J/FU3J43t3oQLGBnYx2s6AnQ6g23C+707r+cznXkI7MuOdwhcezSagfSIXWNjXaW2VOgtmq3XKOxucfo3qtYFWiyT5n0TLwrDtxCQ2EHrxCkWGdW1G4nnzw2gMeNggCTJRb8WMLTmgD3KlwlZv1/83gJfg9dvbi9u+r2AwXriA5OsNsfBhRMhzi+2xanfZVauxQjeLDc8tmKe04AVcygrw3b2F82C7xQge0Sc8ND/hKC38nR2ykf9e1vc3uUv6kF65RoHSYNLpnz6tzZ2dF4cw=
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2019 09:43:26.7485 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a788a7a-238f-47d7-0c10-08d7172dde70
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
+ Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2596
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DC3jbMbQ63MLQHJ9M4BjOtJXh3cP2Zhrf529IOH33DA=;
+ b=znfkw8G+oLa7ha582+IX+kJunrfpyThkxrr/z0nJDSH5ehRM+j/zCNAcS1sztSyZ6dAkt0t0bA1a22v7B9bfLZGVgkmCzTA7Z0GgXQN1sCB+R4Uqycv60PPqKRaNuaGuMFsoOuOreWDw8upNxAuzf+PS2ptexLJQtj0aZC8JseU=
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=armh.onmicrosoft.com; 
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DC3jbMbQ63MLQHJ9M4BjOtJXh3cP2Zhrf529IOH33DA=;
+ b=znfkw8G+oLa7ha582+IX+kJunrfpyThkxrr/z0nJDSH5ehRM+j/zCNAcS1sztSyZ6dAkt0t0bA1a22v7B9bfLZGVgkmCzTA7Z0GgXQN1sCB+R4Uqycv60PPqKRaNuaGuMFsoOuOreWDw8upNxAuzf+PS2ptexLJQtj0aZC8JseU=
+X-Mailman-Original-Authentication-Results: spf=temperror (sender IP is
+ 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.freedesktop.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.freedesktop.org;
+ dmarc=temperror action=none header.from=arm.com;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,1014 +161,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1504205997=="
+Cc: Ayan Halder <Ayan.Halder@arm.com>, "Jonathan Chai
+ \(Arm Technology China\)" <Jonathan.Chai@arm.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Julien Yin \(Arm Technology China\)" <Julien.Yin@arm.com>,
+ "Lowry Li \(Arm Technology China\)" <Lowry.Li@arm.com>, nd <nd@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---===============1504205997==
-Content-Type: multipart/alternative;
- boundary="------------8AFC6F85AE9DB167DBC5BE56"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------8AFC6F85AE9DB167DBC5BE56
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-Hey David,
-
-On 02/08/2019 12:11, zhoucm1 wrote:
->
-> Hi Lionel,
->
-> For binary semaphore, I guess every one will think application will 
-> guarantee wait is behind the signal, whenever the semaphore is shared 
-> or used in internal-process.
->
-> I think below two options can fix your problem:
->
-> a. Can we extend vkWaitForFence so that it can be able to wait on 
-> fence-available? If fence is available, then it's safe to do semaphore 
-> wait in vkQueueSubmit.
->
-
-I'm sorry, but I don't understand what vkWaitForFence() has to do with 
-this problem.
-
-They test case we're struggling with doesn't use that API.
-
-
-Can you maybe explain a bit more how it relates?
-
-
-> b. Make waitBeforeSignal is valid for binary semaphore as well, as 
-> that way, It is reasonable to add wait/signal counting for binary syncobj.
->
-
-Yeah essentially the change we're proposing internally makes binary 
-semaphores use syncobj timelines.
-
-There is just another u64 associated with them.
-
-
--Lionel
-
-
->
-> -David
->
->
-> On 2019年08月02日 14:27, Lionel Landwerlin wrote:
->> On 02/08/2019 09:10, Koenig, Christian wrote:
->>>
->>>
->>> Am 02.08.2019 07:38 schrieb Lionel Landwerlin 
->>> <lionel.g.landwerlin@intel.com>:
->>>
->>>     On 02/08/2019 08:21, Koenig, Christian wrote:
->>>
->>>
->>>
->>>         Am 02.08.2019 07:17 schrieb Lionel Landwerlin
->>>         <lionel.g.landwerlin@intel.com>
->>>         <mailto:lionel.g.landwerlin@intel.com>:
->>>
->>>             On 02/08/2019 08:08, Koenig, Christian wrote:
->>>
->>>                 Hi Lionel,
->>>
->>>                 Well that looks more like your test case is buggy.
->>>
->>>                 According to the code the ctx1 queue always waits
->>>                 for sem1 and ctx2 queue always waits for sem2.
->>>
->>>
->>>             That's supposed to be the same underlying syncobj
->>>             because it's exported from one VkDevice as opaque FD
->>>             from sem1 and imported into sem2.
->>>
->>>
->>>         Well than that's still buggy and won't synchronize at all.
->>>
->>>         When ctx1 waits for a semaphore and then signals the same
->>>         semaphore there is no guarantee that ctx2 will run in
->>>         between jobs.
->>>
->>>         It's perfectly valid in this case to first run all jobs from
->>>         ctx1 and then all jobs from ctx2.
->>>
->>>
->>>     That's not really how I see the semaphores working.
->>>
->>>     The spec describe VkSemaphore as an interface to an internal
->>>     payload opaque to the application.
->>>
->>>
->>>     When ctx1 waits on the semaphore, it waits on the payload put
->>>     there by the previous iteration.
->>>
->>>
->>> And who says that it's not waiting for it's own previous payload?
->>
->>
->> That's was I understood from you previous comment : "there is no 
->> guarantee that ctx2 will run in between jobs"
->>
->>
->>>
->>> See if the payload is a counter this won't work either. Keep in mind 
->>> that this has the semantic of a semaphore. Whoever grabs the 
->>> semaphore first wins and can run, everybody else has to wait.
->>
->>
->> What performs the "grab" here?
->>
->> I thought that would be vkQueueSubmit().
->>
->> Since that occuring from a single application thread, that should 
->> then be ordered in execution of ctx1,ctx2,ctx1,...
->>
->>
->> Thanks for your time on this,
->>
->>
->> -Lionel
->>
->>
->>>
->>>     Then it proceeds to signal it by replacing the internal payload.
->>>
->>>
->>> That's an implementation detail of our sync objects, but I don't 
->>> think that this behavior is part of the Vulkan specification.
->>>
->>> Regards,
->>> Christian.
->>>
->>>
->>>     ctx2 then waits on that and replaces the payload again with the
->>>     new internal synchronization object.
->>>
->>>
->>>     The internal payload is a dma fence in our case and signaling
->>>     just replaces a dma fence by another or puts one where there was
->>>     none before.
->>>
->>>     So we should have created a dependecy link between all the
->>>     submissions and then should be executed in the order of
->>>     QueueSubmit() calls.
->>>
->>>
->>>     -Lionel
->>>
->>>
->>>
->>>         It only prevents running both at the same time and as far as
->>>         I can see that still works even with threaded submission.
->>>
->>>         You need at least two semaphores for a tandem submission.
->>>
->>>         Regards,
->>>         Christian.
->>>
->>>
->>>
->>>                 This way there can't be any Synchronisation between
->>>                 the two.
->>>
->>>                 Regards,
->>>                 Christian.
->>>
->>>                 Am 02.08.2019 06:55 schrieb Lionel Landwerlin
->>>                 <lionel.g.landwerlin@intel.com>
->>>                 <mailto:lionel.g.landwerlin@intel.com>:
->>>                 Hey Christian,
->>>
->>>                 The problem boils down to the fact that we don't
->>>                 immediately create dma fences when calling
->>>                 vkQueueSubmit().
->>>                 This is delayed to a thread.
->>>
->>>                 From a single application thread, you can
->>>                 QueueSubmit() to 2 queues from 2 different devices.
->>>                 Each QueueSubmit to one queue has a dependency on
->>>                 the previous QueueSubmit on the other queue through
->>>                 an exported/imported semaphore.
->>>
->>>                 From the API point of view the state of the
->>>                 semaphore should be changed after each QueueSubmit().
->>>                 The problem is that it's not because of the thread
->>>                 and because you might have those 2 submission
->>>                 threads tied to different VkDevice/VkInstance or
->>>                 even different applications (synchronizing
->>>                 themselves outside the vulkan API).
->>>
->>>                 Hope that makes sense.
->>>                 It's not really easy to explain by mail, the best
->>>                 explanation is probably reading the test :
->>>                 https://gitlab.freedesktop.org/mesa/crucible/blob/master/src/tests/func/sync/semaphore-fd.c#L788
->>>
->>>                 Like David mentioned you're not running into that
->>>                 issue right now, because you only dispatch to the
->>>                 thread under specific conditions.
->>>                 But I could build a case to force that and likely
->>>                 run into the same issue.
->>>
->>>                 -Lionel
->>>
->>>                 On 02/08/2019 07:33, Koenig, Christian wrote:
->>>
->>>                     Hi Lionel,
->>>
->>>                     Well could you describe once more what the
->>>                     problem is?
->>>
->>>                     Cause I don't fully understand why a rather
->>>                     normal tandem submission with two semaphores
->>>                     should fail in any way.
->>>
->>>                     Regards,
->>>                     Christian.
->>>
->>>                     Am 02.08.2019 06:28 schrieb Lionel Landwerlin
->>>                     <lionel.g.landwerlin@intel.com>
->>>                     <mailto:lionel.g.landwerlin@intel.com>:
->>>                     There aren't CTS tests covering the issue I was
->>>                     mentioning.
->>>                     But we could add them.
->>>
->>>                     I don't have all the details regarding your
->>>                     implementation but even with
->>>                     the "semaphore thread", I could see it running
->>>                     into the same issues.
->>>                     What if a mix of binary & timeline semaphores
->>>                     are handed to vkQueueSubmit()?
->>>
->>>                     For example with queueA & queueB from 2
->>>                     different VkDevice :
->>>                     vkQueueSubmit(queueA, signal semA);
->>>                     vkQueueSubmit(queueA, wait on [semA,
->>>                     timelineSemB]); with
->>>                     timelineSemB triggering a wait before signal.
->>>                     vkQueueSubmit(queueB, signal semA);
->>>
->>>
->>>                     -Lionel
->>>
->>>                     On 02/08/2019 06:18, Zhou, David(ChunMing) wrote:
->>>                     > Hi Lionel,
->>>                     >
->>>                     > By the Queue thread is a heavy thread, which
->>>                     is always resident in driver during application
->>>                     running, our guys don't like that. So we switch
->>>                     to Semaphore Thread, only when waitBeforeSignal
->>>                     of timeline happens, we spawn a thread to handle
->>>                     that wait. So we don't have your this issue.
->>>                     > By the way, I already pass all your CTS cases
->>>                     for now. I suggest you to switch to Semaphore
->>>                     Thread instead of Queue Thread as well. It works
->>>                     very well.
->>>                     >
->>>                     > -David
->>>                     >
->>>                     > -----Original Message-----
->>>                     > From: Lionel Landwerlin
->>>                     <lionel.g.landwerlin@intel.com>
->>>                     <mailto:lionel.g.landwerlin@intel.com>
->>>                     > Sent: Friday, August 2, 2019 4:52 AM
->>>                     > To: dri-devel
->>>                     <dri-devel@lists.freedesktop.org>
->>>                     <mailto:dri-devel@lists.freedesktop.org>;
->>>                     Koenig, Christian <Christian.Koenig@amd.com>
->>>                     <mailto:Christian.Koenig@amd.com>; Zhou,
->>>                     David(ChunMing) <David1.Zhou@amd.com>
->>>                     <mailto:David1.Zhou@amd.com>; Jason Ekstrand
->>>                     <jason@jlekstrand.net> <mailto:jason@jlekstrand.net>
->>>                     > Subject: Threaded submission & semaphore sharing
->>>                     >
->>>                     > Hi Christian, David,
->>>                     >
->>>                     > Sorry to report this so late in the process,
->>>                     but I think we found an issue not directly
->>>                     related to syncobj timelines themselves but with
->>>                     a side effect of the threaded submissions.
->>>                     >
->>>                     > Essentially we're failing a test in crucible :
->>>                     > func.sync.semaphore-fd.opaque-fd
->>>                     > This test create a single binary semaphore,
->>>                     shares it between 2 VkDevice/VkQueue.
->>>                     > Then in a loop it proceeds to submit workload
->>>                     alternating between the 2 VkQueue with one
->>>                     submit depending on the other.
->>>                     > It does so by waiting on the VkSemaphore
->>>                     signaled in the previous iteration and
->>>                     resignaling it.
->>>                     >
->>>                     > The problem for us is that once things are
->>>                     dispatched to the submission thread, the
->>>                     ordering of the submission is lost.
->>>                     > Because we have 2 devices and they both have
->>>                     their own submission thread.
->>>                     >
->>>                     > Jason suggested that we reestablish the
->>>                     ordering by having semaphores/syncobjs carry an
->>>                     additional uint64_t payload.
->>>                     > This 64bit integer would represent be an
->>>                     identifier that submission threads will
->>>                     WAIT_FOR_AVAILABLE on.
->>>                     >
->>>                     > The scenario would look like this :
->>>                     >       - vkQueueSubmit(queueA, signal on semA);
->>>                     >           - in the caller thread, this would
->>>                     increment the syncobj additional u64 payload and
->>>                     return it to userspace.
->>>                     >           - at some point the submission
->>>                     thread of queueA submits the workload and signal
->>>                     the syncobj of semA with value returned in the
->>>                     caller thread of vkQueueSubmit().
->>>                     >       - vkQueueSubmit(queueB, wait on semA);
->>>                     >           - in the caller thread, this would
->>>                     read the syncobj additional
->>>                     > u64 payload
->>>                     >           - at some point the submission
->>>                     thread of queueB will try to submit the work,
->>>                     but first it will WAIT_FOR_AVAILABLE the u64
->>>                     value returned in the step above
->>>                     >
->>>                     > Because we want the binary semaphores to be
->>>                     shared across processes and would like this to
->>>                     remain a single FD, the simplest location to
->>>                     store this additional u64 payload would be the
->>>                     DRM syncobj.
->>>                     > It would need an additional ioctl to read &
->>>                     increment the value.
->>>                     >
->>>                     > What do you think?
->>>                     >
->>>                     > -Lionel
->>>
->>>
->>>
->>>
->>>
->>>
->>>
->>
->
-
-
---------------8AFC6F85AE9DB167DBC5BE56
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">Hey David,</div>
-    <div class="moz-cite-prefix"><br>
-    </div>
-    <div class="moz-cite-prefix">On 02/08/2019 12:11, zhoucm1 wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:d23455fe-c74a-2ee0-a954-af86963e4d2f@amd.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p>Hi Lionel,</p>
-      <p>For binary semaphore, I guess every one will think application
-        will guarantee wait is behind the signal, whenever the semaphore
-        is shared or used in internal-process. <br>
-      </p>
-      <p>I think below two options can fix your problem:<br>
-      </p>
-      <p>a. Can we extend vkWaitForFence so that it can be able to wait
-        on fence-available? If fence is available, then it's safe to do
-        semaphore wait in vkQueueSubmit.</p>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>I'm sorry, but I don't understand what vkWaitForFence() has to do
-      with this problem.</p>
-    <p>They test case we're struggling with doesn't use that API.</p>
-    <p><br>
-    </p>
-    <p>Can you maybe explain a bit more how it relates?<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:d23455fe-c74a-2ee0-a954-af86963e4d2f@amd.com">
-      <p>b. Make waitBeforeSignal is valid for binary semaphore as well,
-        as that way, It is reasonable to add wait/signal counting for
-        binary syncobj.<br>
-      </p>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>Yeah essentially the change we're proposing internally makes
-      binary semaphores use syncobj timelines.</p>
-    <p>There is just another u64 associated with them.<br>
-    </p>
-    <p><br>
-    </p>
-    <p>-Lionel<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:d23455fe-c74a-2ee0-a954-af86963e4d2f@amd.com">
-      <p> </p>
-      <p><br>
-      </p>
-      <p>-David<br>
-      </p>
-      <br>
-      <div class="moz-cite-prefix">On 2019年08月02日 14:27, Lionel
-        Landwerlin wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:9bd985bb-1dfb-b28d-e1da-efa5b41464c8@intel.com">
-        <div class="moz-cite-prefix">On 02/08/2019 09:10, Koenig,
-          Christian wrote:<br>
-        </div>
-        <blockquote type="cite"
-          cite="mid:e2a1839e-1ee1-4ecb-9b18-af338046c0f1@email.android.com">
-          <div dir="auto">
-            <div><br>
-              <div class="gmail_extra"><br>
-                <div class="gmail_quote">Am 02.08.2019 07:38 schrieb
-                  Lionel Landwerlin <a class="moz-txt-link-rfc2396E"
-                    href="mailto:lionel.g.landwerlin@intel.com"
-                    moz-do-not-send="true">&lt;lionel.g.landwerlin@intel.com&gt;</a>:<br
-                    type="attribution">
-                  <blockquote class="quote" style="margin:0 0 0
-                    .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                    <div>
-                      <div>On 02/08/2019 08:21, Koenig, Christian wrote:<br>
-                      </div>
-                      <blockquote>
-                        <div dir="auto">
-                          <div><br>
-                            <div><br>
-                              <div class="elided-text">Am 02.08.2019
-                                07:17 schrieb Lionel Landwerlin <a
-                                  href="mailto:lionel.g.landwerlin@intel.com"
-                                  moz-do-not-send="true">
-                                  &lt;lionel.g.landwerlin@intel.com&gt;</a>:<br
-                                  type="attribution">
-                                <blockquote style="margin:0 0 0
-                                  0.8ex;border-left:1px #ccc
-                                  solid;padding-left:1ex">
-                                  <div>
-                                    <div>On 02/08/2019 08:08, Koenig,
-                                      Christian wrote:<br>
-                                    </div>
-                                    <blockquote>
-                                      <div dir="auto">Hi Lionel,
-                                        <div dir="auto"><br>
-                                        </div>
-                                        <div dir="auto">Well that looks
-                                          more like your test case is
-                                          buggy.</div>
-                                        <div dir="auto"><br>
-                                        </div>
-                                        <div dir="auto">According to the
-                                          code the ctx1 queue always
-                                          waits for sem1 and ctx2 queue
-                                          always waits for sem2.</div>
-                                      </div>
-                                    </blockquote>
-                                    <p><br>
-                                    </p>
-                                    <p>That's supposed to be the same
-                                      underlying syncobj because it's
-                                      exported from one VkDevice as
-                                      opaque FD from sem1 and imported
-                                      into sem2.<br>
-                                    </p>
-                                  </div>
-                                </blockquote>
-                              </div>
-                            </div>
-                          </div>
-                          <div dir="auto"><br>
-                          </div>
-                          <div dir="auto">Well than that's still buggy
-                            and won't synchronize at all.</div>
-                          <div dir="auto"><br>
-                          </div>
-                          <div dir="auto">When ctx1 waits for a
-                            semaphore and then signals the same
-                            semaphore there is no guarantee that ctx2
-                            will run in between jobs.</div>
-                          <div dir="auto"><br>
-                          </div>
-                          <div dir="auto">It's perfectly valid in this
-                            case to first run all jobs from ctx1 and
-                            then all jobs from ctx2.</div>
-                        </div>
-                      </blockquote>
-                      <p><br>
-                      </p>
-                      <p>That's not really how I see the semaphores
-                        working.</p>
-                      <p>The spec describe VkSemaphore as an interface
-                        to an internal payload opaque to the
-                        application.</p>
-                      <p><br>
-                      </p>
-                      <p>When ctx1 waits on the semaphore, it waits on
-                        the payload put there by the previous iteration.</p>
-                    </div>
-                  </blockquote>
-                </div>
-              </div>
-            </div>
-            <div dir="auto"><br>
-            </div>
-            <div dir="auto">And who says that it's not waiting for it's
-              own previous payload?</div>
-          </div>
-        </blockquote>
-        <p><br>
-        </p>
-        <p>That's was I understood from you previous comment : "there is
-          no guarantee that ctx2 will run in between jobs"</p>
-        <p><br>
-        </p>
-        <blockquote type="cite"
-          cite="mid:e2a1839e-1ee1-4ecb-9b18-af338046c0f1@email.android.com">
-          <div dir="auto">
-            <div dir="auto"><br>
-            </div>
-            <div dir="auto">See if the payload is a counter this won't
-              work either. Keep in mind that this has the semantic of a
-              semaphore. Whoever grabs the semaphore first wins and can
-              run, everybody else has to wait.</div>
-          </div>
-        </blockquote>
-        <p><br>
-        </p>
-        <p>What performs the "grab" here?</p>
-        <p>I thought that would be vkQueueSubmit().</p>
-        <p>Since that occuring from a single application thread, that
-          should then be ordered in execution of ctx1,ctx2,ctx1,...<br>
-        </p>
-        <p><br>
-        </p>
-        <p>Thanks for your time on this,</p>
-        <p><br>
-        </p>
-        <p>-Lionel<br>
-        </p>
-        <p><br>
-        </p>
-        <blockquote type="cite"
-          cite="mid:e2a1839e-1ee1-4ecb-9b18-af338046c0f1@email.android.com">
-          <div dir="auto">
-            <div dir="auto"><br>
-            </div>
-            <div dir="auto">
-              <div class="gmail_extra">
-                <div class="gmail_quote">
-                  <blockquote class="quote" style="margin:0 0 0
-                    .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                    <div>
-                      <p>Then it proceeds to signal it by replacing the
-                        internal payload.</p>
-                    </div>
-                  </blockquote>
-                </div>
-              </div>
-            </div>
-            <div dir="auto"><br>
-            </div>
-            <div dir="auto">That's an implementation detail of our sync
-              objects, but I don't think that this behavior is part of
-              the Vulkan specification.</div>
-            <div dir="auto"><br>
-            </div>
-            <div dir="auto">Regards,</div>
-            <div dir="auto">Christian.</div>
-            <div dir="auto">
-              <div class="gmail_extra">
-                <div class="gmail_quote">
-                  <blockquote class="quote" style="margin:0 0 0
-                    .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                    <div>
-                      <p><br>
-                      </p>
-                      <p>ctx2 then waits on that and replaces the
-                        payload again with the new internal
-                        synchronization object.</p>
-                      <p><br>
-                      </p>
-                      <p>The internal payload is a dma fence in our case
-                        and signaling just replaces a dma fence by
-                        another or puts one where there was none before.</p>
-                      <p>So we should have created a dependecy link
-                        between all the submissions and then should be
-                        executed in the order of QueueSubmit() calls.<br>
-                      </p>
-                      <p><br>
-                      </p>
-                      <p>-Lionel<br>
-                      </p>
-                      <p><br>
-                      </p>
-                      <blockquote>
-                        <div dir="auto">
-                          <div dir="auto"><br>
-                          </div>
-                          <div dir="auto">It only prevents running both
-                            at the same time and as far as I can see
-                            that still works even with threaded
-                            submission.</div>
-                          <div dir="auto"><br>
-                          </div>
-                          <div dir="auto">You need at least two
-                            semaphores for a tandem submission.</div>
-                          <div dir="auto"><br>
-                          </div>
-                          <div dir="auto">Regards,</div>
-                          <div dir="auto">Christian.</div>
-                          <div dir="auto">
-                            <div>
-                              <div class="elided-text">
-                                <blockquote style="margin:0 0 0
-                                  0.8ex;border-left:1px #ccc
-                                  solid;padding-left:1ex">
-                                  <div>
-                                    <p><br>
-                                    </p>
-                                    <blockquote>
-                                      <div dir="auto">
-                                        <div dir="auto"><br>
-                                        </div>
-                                        <div dir="auto">This way there
-                                          can't be any Synchronisation
-                                          between the two.</div>
-                                        <div dir="auto"><br>
-                                        </div>
-                                        <div dir="auto">Regards,</div>
-                                        <div dir="auto">Christian.</div>
-                                      </div>
-                                      <div><br>
-                                        <div class="elided-text">Am
-                                          02.08.2019 06:55 schrieb
-                                          Lionel Landwerlin <a
-                                            href="mailto:lionel.g.landwerlin@intel.com"
-                                            moz-do-not-send="true">
-&lt;lionel.g.landwerlin@intel.com&gt;</a>:<br type="attribution">
-                                        </div>
-                                      </div>
-                                      <div>
-                                        <div>Hey Christian,</div>
-                                        <div><br>
-                                        </div>
-                                        <div>The problem boils down to
-                                          the fact that we don't
-                                          immediately create dma fences
-                                          when calling vkQueueSubmit().</div>
-                                        <div>This is delayed to a
-                                          thread.</div>
-                                        <div><br>
-                                        </div>
-                                        <div>From a single application
-                                          thread, you can QueueSubmit()
-                                          to 2 queues from 2 different
-                                          devices.</div>
-                                        <div>Each QueueSubmit to one
-                                          queue has a dependency on the
-                                          previous QueueSubmit on the
-                                          other queue through an
-                                          exported/imported semaphore.</div>
-                                        <div><br>
-                                        </div>
-                                        <div>From the API point of view
-                                          the state of the semaphore
-                                          should be changed after each
-                                          QueueSubmit().</div>
-                                        <div>The problem is that it's
-                                          not because of the thread and
-                                          because you might have those 2
-                                          submission threads tied to
-                                          different VkDevice/VkInstance
-                                          or even different applications
-                                          (synchronizing themselves
-                                          outside the vulkan API).</div>
-                                        <div><br>
-                                        </div>
-                                        <div>Hope that makes sense.</div>
-                                        <div>It's not really easy to
-                                          explain by mail, the best
-                                          explanation is probably
-                                          reading the test : <a
-href="https://gitlab.freedesktop.org/mesa/crucible/blob/master/src/tests/func/sync/semaphore-fd.c#L788"
-                                            moz-do-not-send="true">
-https://gitlab.freedesktop.org/mesa/crucible/blob/master/src/tests/func/sync/semaphore-fd.c#L788</a></div>
-                                        <div><br>
-                                        </div>
-                                        <div>Like David mentioned you're
-                                          not running into that issue
-                                          right now, because you only
-                                          dispatch to the thread under
-                                          specific conditions.</div>
-                                        <div>But I could build a case to
-                                          force that and likely run into
-                                          the same issue.<br>
-                                        </div>
-                                        <div><br>
-                                        </div>
-                                        <div>-Lionel<br>
-                                        </div>
-                                        <div><br>
-                                        </div>
-                                        <div>On 02/08/2019 07:33,
-                                          Koenig, Christian wrote:<br>
-                                        </div>
-                                        <blockquote>
-                                          <div>
-                                            <div dir="auto">Hi Lionel,
-                                              <div dir="auto"><br>
-                                              </div>
-                                              <div dir="auto">Well could
-                                                you describe once more
-                                                what the problem is?</div>
-                                              <div dir="auto"><br>
-                                              </div>
-                                              <div dir="auto">Cause I
-                                                don't fully understand
-                                                why a rather normal
-                                                tandem submission with
-                                                two semaphores should
-                                                fail in any way.</div>
-                                              <div dir="auto"><br>
-                                              </div>
-                                              <div dir="auto">Regards,</div>
-                                              <div dir="auto">Christian.</div>
-                                            </div>
-                                            <div><br>
-                                              <div>Am 02.08.2019 06:28
-                                                schrieb Lionel
-                                                Landwerlin <a
-                                                  href="mailto:lionel.g.landwerlin@intel.com"
-                                                  moz-do-not-send="true">
-&lt;lionel.g.landwerlin@intel.com&gt;</a>:<br type="attribution">
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <font size="2"><span
-                                              style="font-size:11pt">
-                                              <div>There aren't CTS
-                                                tests covering the issue
-                                                I was mentioning.<br>
-                                                But we could add them.<br>
-                                                <br>
-                                                I don't have all the
-                                                details regarding your
-                                                implementation but even
-                                                with <br>
-                                                the "semaphore thread",
-                                                I could see it running
-                                                into the same issues.<br>
-                                                What if a mix of binary
-                                                &amp; timeline
-                                                semaphores are handed to
-                                                vkQueueSubmit()?<br>
-                                                <br>
-                                                For example with queueA
-                                                &amp; queueB from 2
-                                                different VkDevice :<br>
-                                                    
-                                                vkQueueSubmit(queueA,
-                                                signal semA);<br>
-                                                    
-                                                vkQueueSubmit(queueA,
-                                                wait on [semA,
-                                                timelineSemB]); with <br>
-                                                timelineSemB triggering
-                                                a wait before signal.<br>
-                                                    
-                                                vkQueueSubmit(queueB,
-                                                signal semA);<br>
-                                                <br>
-                                                <br>
-                                                -Lionel<br>
-                                                <br>
-                                                On 02/08/2019 06:18,
-                                                Zhou, David(ChunMing)
-                                                wrote:<br>
-                                                &gt; Hi Lionel,<br>
-                                                &gt;<br>
-                                                &gt; By the Queue thread
-                                                is a heavy thread, which
-                                                is always resident in
-                                                driver during
-                                                application running, our
-                                                guys don't like that. So
-                                                we switch to Semaphore
-                                                Thread, only when
-                                                waitBeforeSignal of
-                                                timeline happens, we
-                                                spawn a thread to handle
-                                                that wait. So we don't
-                                                have your this issue.<br>
-                                                &gt; By the way, I
-                                                already pass all your
-                                                CTS cases for now. I
-                                                suggest you to switch to
-                                                Semaphore Thread instead
-                                                of Queue Thread as well.
-                                                It works very well.<br>
-                                                &gt;<br>
-                                                &gt; -David<br>
-                                                &gt;<br>
-                                                &gt; -----Original
-                                                Message-----<br>
-                                                &gt; From: Lionel
-                                                Landwerlin <a
-                                                  href="mailto:lionel.g.landwerlin@intel.com"
-                                                  moz-do-not-send="true">&lt;lionel.g.landwerlin@intel.com&gt;</a><br>
-                                                &gt; Sent: Friday,
-                                                August 2, 2019 4:52 AM<br>
-                                                &gt; To: dri-devel <a
-                                                  href="mailto:dri-devel@lists.freedesktop.org"
-                                                  moz-do-not-send="true">&lt;dri-devel@lists.freedesktop.org&gt;</a>;
-                                                Koenig, Christian <a
-                                                  href="mailto:Christian.Koenig@amd.com"
-                                                  moz-do-not-send="true">&lt;Christian.Koenig@amd.com&gt;</a>;
-                                                Zhou, David(ChunMing) <a
-href="mailto:David1.Zhou@amd.com" moz-do-not-send="true">&lt;David1.Zhou@amd.com&gt;</a>;
-                                                Jason Ekstrand <a
-                                                  href="mailto:jason@jlekstrand.net"
-                                                  moz-do-not-send="true">
-&lt;jason@jlekstrand.net&gt;</a><br>
-                                                &gt; Subject: Threaded
-                                                submission &amp;
-                                                semaphore sharing<br>
-                                                &gt;<br>
-                                                &gt; Hi Christian,
-                                                David,<br>
-                                                &gt;<br>
-                                                &gt; Sorry to report
-                                                this so late in the
-                                                process, but I think we
-                                                found an issue not
-                                                directly related to
-                                                syncobj timelines
-                                                themselves but with a
-                                                side effect of the
-                                                threaded submissions.<br>
-                                                &gt;<br>
-                                                &gt; Essentially we're
-                                                failing a test in
-                                                crucible :<br>
-                                                &gt;
-                                                func.sync.semaphore-fd.opaque-fd<br>
-                                                &gt; This test create a
-                                                single binary semaphore,
-                                                shares it between 2
-                                                VkDevice/VkQueue.<br>
-                                                &gt; Then in a loop it
-                                                proceeds to submit
-                                                workload alternating
-                                                between the 2 VkQueue
-                                                with one submit
-                                                depending on the other.<br>
-                                                &gt; It does so by
-                                                waiting on the
-                                                VkSemaphore signaled in
-                                                the previous iteration
-                                                and resignaling it.<br>
-                                                &gt;<br>
-                                                &gt; The problem for us
-                                                is that once things are
-                                                dispatched to the
-                                                submission thread, the
-                                                ordering of the
-                                                submission is lost.<br>
-                                                &gt; Because we have 2
-                                                devices and they both
-                                                have their own
-                                                submission thread.<br>
-                                                &gt;<br>
-                                                &gt; Jason suggested
-                                                that we reestablish the
-                                                ordering by having
-                                                semaphores/syncobjs
-                                                carry an additional
-                                                uint64_t payload.<br>
-                                                &gt; This 64bit integer
-                                                would represent be an
-                                                identifier that
-                                                submission threads will
-                                                WAIT_FOR_AVAILABLE on.<br>
-                                                &gt;<br>
-                                                &gt; The scenario would
-                                                look like this :<br>
-                                                &gt;       -
-                                                vkQueueSubmit(queueA,
-                                                signal on semA);<br>
-                                                &gt;           - in the
-                                                caller thread, this
-                                                would increment the
-                                                syncobj additional u64
-                                                payload and return it to
-                                                userspace.<br>
-                                                &gt;           - at some
-                                                point the submission
-                                                thread of queueA submits
-                                                the workload and signal
-                                                the syncobj of semA with
-                                                value returned in the
-                                                caller thread of
-                                                vkQueueSubmit().<br>
-                                                &gt;       -
-                                                vkQueueSubmit(queueB,
-                                                wait on semA);<br>
-                                                &gt;           - in the
-                                                caller thread, this
-                                                would read the syncobj
-                                                additional<br>
-                                                &gt; u64 payload<br>
-                                                &gt;           - at some
-                                                point the submission
-                                                thread of queueB will
-                                                try to submit the work,
-                                                but first it will
-                                                WAIT_FOR_AVAILABLE the
-                                                u64 value returned in
-                                                the step above<br>
-                                                &gt;<br>
-                                                &gt; Because we want the
-                                                binary semaphores to be
-                                                shared across processes
-                                                and would like this to
-                                                remain a single FD, the
-                                                simplest location to
-                                                store this additional
-                                                u64 payload would be the
-                                                DRM syncobj.<br>
-                                                &gt; It would need an
-                                                additional ioctl to read
-                                                &amp; increment the
-                                                value.<br>
-                                                &gt;<br>
-                                                &gt; What do you think?<br>
-                                                &gt;<br>
-                                                &gt; -Lionel<br>
-                                                <br>
-                                                <br>
-                                              </div>
-                                            </span></font></blockquote>
-                                        <p><br>
-                                        </p>
-                                      </div>
-                                    </blockquote>
-                                    <p><br>
-                                    </p>
-                                  </div>
-                                </blockquote>
-                              </div>
-                              <br>
-                            </div>
-                          </div>
-                        </div>
-                      </blockquote>
-                      <p><br>
-                      </p>
-                    </div>
-                  </blockquote>
-                </div>
-                <br>
-              </div>
-            </div>
-          </div>
-        </blockquote>
-        <p><br>
-        </p>
-      </blockquote>
-      <br>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------8AFC6F85AE9DB167DBC5BE56--
-
---===============1504205997==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1504205997==--
+RnJvbTogIkxvd3J5IExpIChBcm0gVGVjaG5vbG9neSBDaGluYSkiIDxMb3dyeS5MaUBhcm0uY29t
+PgoKQWRkcyB0byBwcmludCB0aGUgZXZlbnQgbWVzc2FnZSB3aGVuIGVycm9yIGhhcHBlbnMgYW5k
+IHRoZSBzYW1lIGV2ZW50CndpbGwgbm90IGJlIHByaW50ZWQgdW50aWwgbmV4dCB2c3luYy4KCkNo
+YW5nZXMgc2luY2UgdjI6CjEuIFJlZmluZSBrb21lZGFfc3ByaW50ZigpOwoyLiBOb3QgdXNpbmcg
+U1RSX1NaIG1hY3JvIGZvciB0aGUgc3RyaW5nIHNpemUgaW4ga29tZWRhX3ByaW50X2V2ZW50cygp
+LgoKQ2hhbmdlcyBzaW5jZSB2MToKMS4gSGFuZGxpbmcgdGhlIGV2ZW50IHByaW50IGJ5IENPTkZJ
+R19LT01FREFfRVJST1JfUFJJTlQ7CjIuIENoYW5naW5nIHRoZSBtYXggc3RyaW5nIHNpemUgdG8g
+MjU2LgoKU2lnbmVkLW9mZi1ieTogTG93cnkgTGkgKEFybSBUZWNobm9sb2d5IENoaW5hKSA8bG93
+cnkubGlAYXJtLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkvS2NvbmZpZyAg
+ICAgICAgICAgICAgIHwgICA2ICsKIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEv
+TWFrZWZpbGUgICAgICAgfCAgIDIgKwogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVk
+YS9rb21lZGFfZGV2LmggICB8ICAxNSArKysKIGRyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9r
+b21lZGEva29tZWRhX2V2ZW50LmMgfCAxNDAgKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVy
+cy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfa21zLmMgICB8ICAgNCArCiA1IGZp
+bGVzIGNoYW5nZWQsIDE2NyBpbnNlcnRpb25zKCspCiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
+cy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZXZlbnQuYwoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9kaXNwbGF5L0tjb25maWcKaW5kZXggY2VjMDYzOS4uZTg3ZmY4NiAxMDA2NDQKLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL2Fy
+bS9kaXNwbGF5L0tjb25maWcKQEAgLTEyLDMgKzEyLDkgQEAgY29uZmlnIERSTV9LT01FREEKIAkg
+IFByb2Nlc3NvciBkcml2ZXIuIEl0IHN1cHBvcnRzIHRoZSBENzEgdmFyaWFudHMgb2YgdGhlIGhh
+cmR3YXJlLgogCiAJICBJZiBjb21waWxlZCBhcyBhIG1vZHVsZSBpdCB3aWxsIGJlIGNhbGxlZCBr
+b21lZGEuCisKK2NvbmZpZyBEUk1fS09NRURBX0VSUk9SX1BSSU5UCisJYm9vbCAiRW5hYmxlIGtv
+bWVkYSBlcnJvciBwcmludCIKKwlkZXBlbmRzIG9uIERSTV9LT01FREEKKwloZWxwCisJICBDaG9v
+c2UgdGhpcyBvcHRpb24gdG8gZW5hYmxlIGVycm9yIHByaW50aW5nLgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9NYWtlZmlsZSBiL2RyaXZlcnMvZ3B1L2Ry
+bS9hcm0vZGlzcGxheS9rb21lZGEvTWFrZWZpbGUKaW5kZXggNWMzOTAwYy4uZjA5NWExYyAxMDA2
+NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9NYWtlZmlsZQorKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL01ha2VmaWxlCkBAIC0yMiw0ICsy
+Miw2IEBAIGtvbWVkYS15ICs9IFwKIAlkNzEvZDcxX2Rldi5vIFwKIAlkNzEvZDcxX2NvbXBvbmVu
+dC5vCiAKK2tvbWVkYS0kKENPTkZJR19EUk1fS09NRURBX0VSUk9SX1BSSU5UKSArPSBrb21lZGFf
+ZXZlbnQubworCiBvYmotJChDT05GSUdfRFJNX0tPTUVEQSkgKz0ga29tZWRhLm8KZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2Rldi5oIGIvZHJp
+dmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfZGV2LmgKaW5kZXggZDFjODZi
+Ni4uZTI4ZTdlNiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVk
+YS9rb21lZGFfZGV2LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9r
+b21lZGFfZGV2LmgKQEAgLTQwLDYgKzQwLDE3IEBACiAjZGVmaW5lIEtPTUVEQV9FUlJfVFRORwkJ
+CUJJVF9VTEwoMzApCiAjZGVmaW5lIEtPTUVEQV9FUlJfVFRGCQkJQklUX1VMTCgzMSkKIAorI2Rl
+ZmluZSBLT01FREFfRVJSX0VWRU5UUwlcCisJKEtPTUVEQV9FVkVOVF9VUlVOCXwgS09NRURBX0VW
+RU5UX0lCU1kJfCBLT01FREFfRVZFTlRfT1ZSIHxcCisJS09NRURBX0VSUl9URVRPCQl8IEtPTUVE
+QV9FUlJfVEVNUgl8IEtPTUVEQV9FUlJfVElUUiB8XAorCUtPTUVEQV9FUlJfQ1BFCQl8IEtPTUVE
+QV9FUlJfQ0ZHRQl8IEtPTUVEQV9FUlJfQVhJRSB8XAorCUtPTUVEQV9FUlJfQUNFMAkJfCBLT01F
+REFfRVJSX0FDRTEJfCBLT01FREFfRVJSX0FDRTIgfFwKKwlLT01FREFfRVJSX0FDRTMJCXwgS09N
+RURBX0VSUl9EUklGVFRPCXwgS09NRURBX0VSUl9GUkFNRVRPIHxcCisJS09NRURBX0VSUl9aTUUJ
+CXwgS09NRURBX0VSUl9NRVJSCXwgS09NRURBX0VSUl9UQ0YgfFwKKwlLT01FREFfRVJSX1RUTkcJ
+CXwgS09NRURBX0VSUl9UVEYpCisKKyNkZWZpbmUgS09NRURBX1dBUk5fRVZFTlRTCUtPTUVEQV9F
+UlJfQ1NDRQorCiAvKiBtYWxpZHAgZGV2aWNlIGlkICovCiBlbnVtIHsKIAlNQUxJX0Q3MSA9IDAs
+CkBAIC0yMDcsNCArMjE4LDggQEAgc3RydWN0IGtvbWVkYV9kZXYgewogCiBzdHJ1Y3Qga29tZWRh
+X2RldiAqZGV2X3RvX21kZXYoc3RydWN0IGRldmljZSAqZGV2KTsKIAorI2lmZGVmIENPTkZJR19E
+Uk1fS09NRURBX0VSUk9SX1BSSU5UCit2b2lkIGtvbWVkYV9wcmludF9ldmVudHMoc3RydWN0IGtv
+bWVkYV9ldmVudHMgKmV2dHMpOworI2VuZGlmCisKICNlbmRpZiAvKl9LT01FREFfREVWX0hfKi8K
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2V2
+ZW50LmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9ldmVudC5j
+Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAuLmEzNmZiODYKLS0tIC9kZXYvbnVs
+bAorKysgYi9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9ldmVudC5j
+CkBAIC0wLDAgKzEsMTQwIEBACisvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMAor
+LyoKKyAqIChDKSBDT1BZUklHSFQgMjAxOSBBUk0gTGltaXRlZC4gQWxsIHJpZ2h0cyByZXNlcnZl
+ZC4KKyAqIEF1dGhvcjogSmFtZXMuUWlhbi5XYW5nIDxqYW1lcy5xaWFuLndhbmdAYXJtLmNvbT4K
+KyAqCisgKi8KKyNpbmNsdWRlIDxkcm0vZHJtX3ByaW50Lmg+CisKKyNpbmNsdWRlICJrb21lZGFf
+ZGV2LmgiCisKK3N0cnVjdCBrb21lZGFfc3RyIHsKKwljaGFyICpzdHI7CisJdTMyIHN6OworCXUz
+MiBsZW47Cit9OworCisvKiByZXR1cm4gMCBvbiBzdWNjZXNzLCAgPCAwIG9uIG5vIHNwYWNlLgor
+ICovCitzdGF0aWMgaW50IGtvbWVkYV9zcHJpbnRmKHN0cnVjdCBrb21lZGFfc3RyICpzdHIsIGNv
+bnN0IGNoYXIgKmZtdCwgLi4uKQoreworCXZhX2xpc3QgYXJnczsKKwlpbnQgbnVtLCBmcmVlX3N6
+OworCWludCBlcnI7CisKKwlmcmVlX3N6ID0gc3RyLT5zeiAtIHN0ci0+bGVuIC0gMTsKKwlpZiAo
+ZnJlZV9zeiA8PSAwKQorCQlyZXR1cm4gLUVOT1NQQzsKKworCXZhX3N0YXJ0KGFyZ3MsIGZtdCk7
+CisKKwludW0gPSB2c25wcmludGYoc3RyLT5zdHIgKyBzdHItPmxlbiwgZnJlZV9zeiwgZm10LCBh
+cmdzKTsKKworCXZhX2VuZChhcmdzKTsKKworCWlmIChudW0gPCBmcmVlX3N6KSB7CisJCXN0ci0+
+bGVuICs9IG51bTsKKwkJZXJyID0gMDsKKwl9IGVsc2UgeworCQlzdHItPmxlbiA9IHN0ci0+c3og
+LSAxOworCQllcnIgPSAtRU5PU1BDOworCX0KKworCXJldHVybiBlcnI7Cit9CisKK3N0YXRpYyB2
+b2lkIGV2dF9zcHJpbnRmKHN0cnVjdCBrb21lZGFfc3RyICpzdHIsIHU2NCBldnQsIGNvbnN0IGNo
+YXIgKm1zZykKK3sKKwlpZiAoZXZ0KQorCQlrb21lZGFfc3ByaW50ZihzdHIsIG1zZyk7Cit9CisK
+K3N0YXRpYyB2b2lkIGV2dF9zdHIoc3RydWN0IGtvbWVkYV9zdHIgKnN0ciwgdTY0IGV2ZW50cykK
+K3sKKwlpZiAoZXZlbnRzID09IDBVTEwpIHsKKwkJa29tZWRhX3NwcmludGYoc3RyLCAiTm9uZSIp
+OworCQlyZXR1cm47CisJfQorCisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBLT01FREFfRVZF
+TlRfVlNZTkMsICJWU1lOQ3wiKTsKKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9F
+VkVOVF9GTElQLCAiRkxJUHwiKTsKKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9F
+VkVOVF9FT1csICJFT1d8Iik7CisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBLT01FREFfRVZF
+TlRfTU9ERSwgIk9QLU1PREV8Iik7CisKKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVE
+QV9FVkVOVF9VUlVOLCAiVU5ERVJSVU58Iik7CisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBL
+T01FREFfRVZFTlRfT1ZSLCAiT1ZFUlJVTnwiKTsKKworCS8qIEdMQiBlcnJvciAqLworCWV2dF9z
+cHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURBX0VSUl9NRVJSLCAiTUVSUnwiKTsKKwlldnRfc3By
+aW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfRlJBTUVUTywgIkZSQU1FVE98Iik7CisKKwkv
+KiBET1UgZXJyb3IgKi8KKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfRFJJ
+RlRUTywgIkRSSUZUVE98Iik7CisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBLT01FREFfRVJS
+X0ZSQU1FVE8sICJGUkFNRVRPfCIpOworCWV2dF9zcHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURB
+X0VSUl9URVRPLCAiVEVUT3wiKTsKKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9F
+UlJfQ1NDRSwgIkNTQ0V8Iik7CisKKwkvKiBMUFUgZXJyb3JzIG9yIGV2ZW50cyAqLworCWV2dF9z
+cHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURBX0VWRU5UX0lCU1ksICJJQlNZfCIpOworCWV2dF9z
+cHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURBX0VSUl9BWElFLCAiQVhJRXwiKTsKKwlldnRfc3By
+aW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfQUNFMCwgIkFDRTB8Iik7CisJZXZ0X3Nwcmlu
+dGYoc3RyLCBldmVudHMgJiBLT01FREFfRVJSX0FDRTEsICJBQ0UxfCIpOworCWV2dF9zcHJpbnRm
+KHN0ciwgZXZlbnRzICYgS09NRURBX0VSUl9BQ0UyLCAiQUNFMnwiKTsKKwlldnRfc3ByaW50Zihz
+dHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfQUNFMywgIkFDRTN8Iik7CisKKwkvKiBMUFUgVEJVIGVy
+cm9ycyovCisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBLT01FREFfRVJSX1RDRiwgIlRDRnwi
+KTsKKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfVFRORywgIlRUTkd8Iik7
+CisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBLT01FREFfRVJSX1RJVFIsICJUSVRSfCIpOwor
+CWV2dF9zcHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURBX0VSUl9URU1SLCAiVEVNUnwiKTsKKwll
+dnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfVFRGLCAiVFRGfCIpOworCisJLyog
+Q1UgZXJyb3JzKi8KKwlldnRfc3ByaW50ZihzdHIsIGV2ZW50cyAmIEtPTUVEQV9FUlJfQ1BFLCAi
+Q09QUk9DfCIpOworCWV2dF9zcHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURBX0VSUl9aTUUsICJa
+TUV8Iik7CisJZXZ0X3NwcmludGYoc3RyLCBldmVudHMgJiBLT01FREFfRVJSX0NGR0UsICJDRkdF
+fCIpOworCWV2dF9zcHJpbnRmKHN0ciwgZXZlbnRzICYgS09NRURBX0VSUl9URU1SLCAiVEVNUnwi
+KTsKKworCWlmIChzdHItPmxlbiA+IDAgJiYgKHN0ci0+c3RyW3N0ci0+bGVuIC0gMV0gPT0gJ3wn
+KSkgeworCQlzdHItPnN0cltzdHItPmxlbiAtIDFdID0gMDsKKwkJc3RyLT5sZW4tLTsKKwl9Cit9
+CisKK3N0YXRpYyBib29sIGlzX25ld19mcmFtZShzdHJ1Y3Qga29tZWRhX2V2ZW50cyAqYSkKK3sK
+KwlyZXR1cm4gKGEtPnBpcGVzWzBdIHwgYS0+cGlwZXNbMV0pICYKKwkgICAgICAgKEtPTUVEQV9F
+VkVOVF9GTElQIHwgS09NRURBX0VWRU5UX0VPVyk7Cit9CisKK3ZvaWQga29tZWRhX3ByaW50X2V2
+ZW50cyhzdHJ1Y3Qga29tZWRhX2V2ZW50cyAqZXZ0cykKK3sKKwl1NjQgcHJpbnRfZXZ0cyA9IEtP
+TUVEQV9FUlJfRVZFTlRTOworCXN0YXRpYyBib29sIGVuX3ByaW50ID0gdHJ1ZTsKKworCS8qIHJl
+ZHVjZSB0aGUgc2FtZSBtc2cgcHJpbnQsIG9ubHkgcHJpbnQgdGhlIGZpcnN0IGV2dCBmb3Igb25l
+IGZyYW1lICovCisJaWYgKGV2dHMtPmdsb2JhbCB8fCBpc19uZXdfZnJhbWUoZXZ0cykpCisJCWVu
+X3ByaW50ID0gdHJ1ZTsKKwlpZiAoIWVuX3ByaW50KQorCQlyZXR1cm47CisKKwlpZiAoKGV2dHMt
+Pmdsb2JhbCB8IGV2dHMtPnBpcGVzWzBdIHwgZXZ0cy0+cGlwZXNbMV0pICYgcHJpbnRfZXZ0cykg
+eworCQljaGFyIG1zZ1syNTZdOworCQlzdHJ1Y3Qga29tZWRhX3N0ciBzdHI7CisKKwkJc3RyLnN0
+ciA9IG1zZzsKKwkJc3RyLnN6ICA9IHNpemVvZihtc2cpOworCQlzdHIubGVuID0gMDsKKworCQlr
+b21lZGFfc3ByaW50Zigmc3RyLCAiZ2N1OiAiKTsKKwkJZXZ0X3N0cigmc3RyLCBldnRzLT5nbG9i
+YWwpOworCQlrb21lZGFfc3ByaW50Zigmc3RyLCAiLCBwaXBlc1swXTogIik7CisJCWV2dF9zdHIo
+JnN0ciwgZXZ0cy0+cGlwZXNbMF0pOworCQlrb21lZGFfc3ByaW50Zigmc3RyLCAiLCBwaXBlc1sx
+XTogIik7CisJCWV2dF9zdHIoJnN0ciwgZXZ0cy0+cGlwZXNbMV0pOworCisJCURSTV9FUlJPUigi
+ZXJyIGRldGVjdDogJXNcbiIsIG1zZyk7CisKKwkJZW5fcHJpbnQgPSBmYWxzZTsKKwl9Cit9CmRp
+ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9rbXMu
+YyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9rb21lZGEva29tZWRhX2ttcy5jCmluZGV4
+IDQxOWE4YjAuLjBmYWZjMzYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxh
+eS9rb21lZGEva29tZWRhX2ttcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hcm0vZGlzcGxheS9r
+b21lZGEva29tZWRhX2ttcy5jCkBAIC00Nyw2ICs0NywxMCBAQCBzdGF0aWMgaXJxcmV0dXJuX3Qg
+a29tZWRhX2ttc19pcnFfaGFuZGxlcihpbnQgaXJxLCB2b2lkICpkYXRhKQogCW1lbXNldCgmZXZ0
+cywgMCwgc2l6ZW9mKGV2dHMpKTsKIAlzdGF0dXMgPSBtZGV2LT5mdW5jcy0+aXJxX2hhbmRsZXIo
+bWRldiwgJmV2dHMpOwogCisjaWZkZWYgQ09ORklHX0RSTV9LT01FREFfRVJST1JfUFJJTlQKKwlr
+b21lZGFfcHJpbnRfZXZlbnRzKCZldnRzKTsKKyNlbmRpZgorCiAJLyogTm90aWZ5IHRoZSBjcnRj
+IHRvIGhhbmRsZSB0aGUgZXZlbnRzICovCiAJZm9yIChpID0gMDsgaSA8IGttcy0+bl9jcnRjczsg
+aSsrKQogCQlrb21lZGFfY3J0Y19oYW5kbGVfZXZlbnQoJmttcy0+Y3J0Y3NbaV0sICZldnRzKTsK
+LS0gCjEuOS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
