@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8B57EB08
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 06:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C165B7EB79
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 06:28:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABC16E89A;
-	Fri,  2 Aug 2019 04:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D589E6E89B;
+	Fri,  2 Aug 2019 04:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 653AC6E89A
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 04:15:00 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 61AE372167; Fri,  2 Aug 2019 04:15:00 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111282] When the s admin try to create different types of 
- question in various  difficulty level by bulk mode multiple answer accepted
- in single choice and t/f.And in multiple choice single answer also accepted.
-Date: Fri, 02 Aug 2019 04:15:00 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: General
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: dhrisyasby93@gmail.com
-X-Bugzilla-Status: ASSIGNED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-111282-502-klBTsToSoi@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111282-502@http.bugs.freedesktop.org/>
-References: <bug-111282-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F9B56E89B
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 04:28:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2019 21:28:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,336,1559545200"; d="scan'208";a="372250610"
+Received: from choeflin-mobl1.ger.corp.intel.com (HELO [10.252.51.86])
+ ([10.252.51.86])
+ by fmsmga005.fm.intel.com with ESMTP; 01 Aug 2019 21:28:11 -0700
+Subject: Re: Threaded submission & semaphore sharing
+To: "Zhou, David(ChunMing)" <David1.Zhou@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
+References: <e8063826-a38b-e1d3-fe8b-63202b8bd264@intel.com>
+ <MN2PR12MB29103E4B1ABDD9A9A40EF8F6B4D90@MN2PR12MB2910.namprd12.prod.outlook.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Message-ID: <a9904cd8-c1ff-e1d3-eb16-5183dc9a7908@intel.com>
+Date: Fri, 2 Aug 2019 07:28:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <MN2PR12MB29103E4B1ABDD9A9A40EF8F6B4D90@MN2PR12MB2910.namprd12.prod.outlook.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,99 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1796259995=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1796259995==
-Content-Type: multipart/alternative; boundary="15647193001.8C4e.19917"
-Content-Transfer-Encoding: 7bit
-
-
---15647193001.8C4e.19917
-Date: Fri, 2 Aug 2019 04:15:00 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111282
-
-dhrisya <dhrisyasby93@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |http://westkutt-testnew.tar
-                   |                            |getentrance.com/login
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15647193001.8C4e.19917
-Date: Fri, 2 Aug 2019 04:15:00 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:dhrisyasb=
-y93&#64;gmail.com" title=3D"dhrisya &lt;dhrisyasby93&#64;gmail.com&gt;"> <s=
-pan class=3D"fn">dhrisya</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_ASSIGNED "
-   title=3D"ASSIGNED - When the s admin try to create different types of qu=
-estion in various difficulty level by bulk mode multiple answer accepted in=
- single choice and t/f.And in multiple choice single answer also accepted."
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111282">bug 11128=
-2</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>http://westkutt-testnew.targetentrance.com/login
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15647193001.8C4e.19917--
-
---===============1796259995==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1796259995==--
+VGhlcmUgYXJlbid0IENUUyB0ZXN0cyBjb3ZlcmluZyB0aGUgaXNzdWUgSSB3YXMgbWVudGlvbmlu
+Zy4KQnV0IHdlIGNvdWxkIGFkZCB0aGVtLgoKSSBkb24ndCBoYXZlIGFsbCB0aGUgZGV0YWlscyBy
+ZWdhcmRpbmcgeW91ciBpbXBsZW1lbnRhdGlvbiBidXQgZXZlbiB3aXRoIAp0aGUgInNlbWFwaG9y
+ZSB0aHJlYWQiLCBJIGNvdWxkIHNlZSBpdCBydW5uaW5nIGludG8gdGhlIHNhbWUgaXNzdWVzLgpX
+aGF0IGlmIGEgbWl4IG9mIGJpbmFyeSAmIHRpbWVsaW5lIHNlbWFwaG9yZXMgYXJlIGhhbmRlZCB0
+byB2a1F1ZXVlU3VibWl0KCk/CgpGb3IgZXhhbXBsZSB3aXRoIHF1ZXVlQSAmIHF1ZXVlQiBmcm9t
+IDIgZGlmZmVyZW50IFZrRGV2aWNlIDoKIMKgwqDCoCB2a1F1ZXVlU3VibWl0KHF1ZXVlQSwgc2ln
+bmFsIHNlbUEpOwogwqDCoMKgIHZrUXVldWVTdWJtaXQocXVldWVBLCB3YWl0IG9uIFtzZW1BLCB0
+aW1lbGluZVNlbUJdKTsgd2l0aCAKdGltZWxpbmVTZW1CIHRyaWdnZXJpbmcgYSB3YWl0IGJlZm9y
+ZSBzaWduYWwuCiDCoMKgwqAgdmtRdWV1ZVN1Ym1pdChxdWV1ZUIsIHNpZ25hbCBzZW1BKTsKCgot
+TGlvbmVsCgpPbiAwMi8wOC8yMDE5IDA2OjE4LCBaaG91LCBEYXZpZChDaHVuTWluZykgd3JvdGU6
+Cj4gSGkgTGlvbmVsLAo+Cj4gQnkgdGhlIFF1ZXVlIHRocmVhZCBpcyBhIGhlYXZ5IHRocmVhZCwg
+d2hpY2ggaXMgYWx3YXlzIHJlc2lkZW50IGluIGRyaXZlciBkdXJpbmcgYXBwbGljYXRpb24gcnVu
+bmluZywgb3VyIGd1eXMgZG9uJ3QgbGlrZSB0aGF0LiBTbyB3ZSBzd2l0Y2ggdG8gU2VtYXBob3Jl
+IFRocmVhZCwgb25seSB3aGVuIHdhaXRCZWZvcmVTaWduYWwgb2YgdGltZWxpbmUgaGFwcGVucywg
+d2Ugc3Bhd24gYSB0aHJlYWQgdG8gaGFuZGxlIHRoYXQgd2FpdC4gU28gd2UgZG9uJ3QgaGF2ZSB5
+b3VyIHRoaXMgaXNzdWUuCj4gQnkgdGhlIHdheSwgSSBhbHJlYWR5IHBhc3MgYWxsIHlvdXIgQ1RT
+IGNhc2VzIGZvciBub3cuIEkgc3VnZ2VzdCB5b3UgdG8gc3dpdGNoIHRvIFNlbWFwaG9yZSBUaHJl
+YWQgaW5zdGVhZCBvZiBRdWV1ZSBUaHJlYWQgYXMgd2VsbC4gSXQgd29ya3MgdmVyeSB3ZWxsLgo+
+Cj4gLURhdmlkCj4KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQo+IEZyb206IExpb25lbCBM
+YW5kd2VybGluIDxsaW9uZWwuZy5sYW5kd2VybGluQGludGVsLmNvbT4KPiBTZW50OiBGcmlkYXks
+IEF1Z3VzdCAyLCAyMDE5IDQ6NTIgQU0KPiBUbzogZHJpLWRldmVsIDxkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnPjsgS29lbmlnLCBDaHJpc3RpYW4gPENocmlzdGlhbi5Lb2VuaWdAYW1k
+LmNvbT47IFpob3UsIERhdmlkKENodW5NaW5nKSA8RGF2aWQxLlpob3VAYW1kLmNvbT47IEphc29u
+IEVrc3RyYW5kIDxqYXNvbkBqbGVrc3RyYW5kLm5ldD4KPiBTdWJqZWN0OiBUaHJlYWRlZCBzdWJt
+aXNzaW9uICYgc2VtYXBob3JlIHNoYXJpbmcKPgo+IEhpIENocmlzdGlhbiwgRGF2aWQsCj4KPiBT
+b3JyeSB0byByZXBvcnQgdGhpcyBzbyBsYXRlIGluIHRoZSBwcm9jZXNzLCBidXQgSSB0aGluayB3
+ZSBmb3VuZCBhbiBpc3N1ZSBub3QgZGlyZWN0bHkgcmVsYXRlZCB0byBzeW5jb2JqIHRpbWVsaW5l
+cyB0aGVtc2VsdmVzIGJ1dCB3aXRoIGEgc2lkZSBlZmZlY3Qgb2YgdGhlIHRocmVhZGVkIHN1Ym1p
+c3Npb25zLgo+Cj4gRXNzZW50aWFsbHkgd2UncmUgZmFpbGluZyBhIHRlc3QgaW4gY3J1Y2libGUg
+Ogo+IGZ1bmMuc3luYy5zZW1hcGhvcmUtZmQub3BhcXVlLWZkCj4gVGhpcyB0ZXN0IGNyZWF0ZSBh
+IHNpbmdsZSBiaW5hcnkgc2VtYXBob3JlLCBzaGFyZXMgaXQgYmV0d2VlbiAyIFZrRGV2aWNlL1Zr
+UXVldWUuCj4gVGhlbiBpbiBhIGxvb3AgaXQgcHJvY2VlZHMgdG8gc3VibWl0IHdvcmtsb2FkIGFs
+dGVybmF0aW5nIGJldHdlZW4gdGhlIDIgVmtRdWV1ZSB3aXRoIG9uZSBzdWJtaXQgZGVwZW5kaW5n
+IG9uIHRoZSBvdGhlci4KPiBJdCBkb2VzIHNvIGJ5IHdhaXRpbmcgb24gdGhlIFZrU2VtYXBob3Jl
+IHNpZ25hbGVkIGluIHRoZSBwcmV2aW91cyBpdGVyYXRpb24gYW5kIHJlc2lnbmFsaW5nIGl0Lgo+
+Cj4gVGhlIHByb2JsZW0gZm9yIHVzIGlzIHRoYXQgb25jZSB0aGluZ3MgYXJlIGRpc3BhdGNoZWQg
+dG8gdGhlIHN1Ym1pc3Npb24gdGhyZWFkLCB0aGUgb3JkZXJpbmcgb2YgdGhlIHN1Ym1pc3Npb24g
+aXMgbG9zdC4KPiBCZWNhdXNlIHdlIGhhdmUgMiBkZXZpY2VzIGFuZCB0aGV5IGJvdGggaGF2ZSB0
+aGVpciBvd24gc3VibWlzc2lvbiB0aHJlYWQuCj4KPiBKYXNvbiBzdWdnZXN0ZWQgdGhhdCB3ZSBy
+ZWVzdGFibGlzaCB0aGUgb3JkZXJpbmcgYnkgaGF2aW5nIHNlbWFwaG9yZXMvc3luY29ianMgY2Fy
+cnkgYW4gYWRkaXRpb25hbCB1aW50NjRfdCBwYXlsb2FkLgo+IFRoaXMgNjRiaXQgaW50ZWdlciB3
+b3VsZCByZXByZXNlbnQgYmUgYW4gaWRlbnRpZmllciB0aGF0IHN1Ym1pc3Npb24gdGhyZWFkcyB3
+aWxsIFdBSVRfRk9SX0FWQUlMQUJMRSBvbi4KPgo+IFRoZSBzY2VuYXJpbyB3b3VsZCBsb29rIGxp
+a2UgdGhpcyA6Cj4gICDCoMKgwqAgLSB2a1F1ZXVlU3VibWl0KHF1ZXVlQSwgc2lnbmFsIG9uIHNl
+bUEpOwo+ICAgwqDCoMKgIMKgwqDCoCAtIGluIHRoZSBjYWxsZXIgdGhyZWFkLCB0aGlzIHdvdWxk
+IGluY3JlbWVudCB0aGUgc3luY29iaiBhZGRpdGlvbmFsIHU2NCBwYXlsb2FkIGFuZCByZXR1cm4g
+aXQgdG8gdXNlcnNwYWNlLgo+ICAgwqDCoMKgIMKgwqDCoCAtIGF0IHNvbWUgcG9pbnQgdGhlIHN1
+Ym1pc3Npb24gdGhyZWFkIG9mIHF1ZXVlQSBzdWJtaXRzIHRoZSB3b3JrbG9hZCBhbmQgc2lnbmFs
+IHRoZSBzeW5jb2JqIG9mIHNlbUEgd2l0aCB2YWx1ZSByZXR1cm5lZCBpbiB0aGUgY2FsbGVyIHRo
+cmVhZCBvZiB2a1F1ZXVlU3VibWl0KCkuCj4gICDCoMKgwqAgLSB2a1F1ZXVlU3VibWl0KHF1ZXVl
+Qiwgd2FpdCBvbiBzZW1BKTsKPiAgIMKgwqDCoCDCoMKgwqAgLSBpbiB0aGUgY2FsbGVyIHRocmVh
+ZCwgdGhpcyB3b3VsZCByZWFkIHRoZSBzeW5jb2JqIGFkZGl0aW9uYWwKPiB1NjQgcGF5bG9hZAo+
+ICAgwqDCoMKgIMKgwqDCoCAtIGF0IHNvbWUgcG9pbnQgdGhlIHN1Ym1pc3Npb24gdGhyZWFkIG9m
+IHF1ZXVlQiB3aWxsIHRyeSB0byBzdWJtaXQgdGhlIHdvcmssIGJ1dCBmaXJzdCBpdCB3aWxsIFdB
+SVRfRk9SX0FWQUlMQUJMRSB0aGUgdTY0IHZhbHVlIHJldHVybmVkIGluIHRoZSBzdGVwIGFib3Zl
+Cj4KPiBCZWNhdXNlIHdlIHdhbnQgdGhlIGJpbmFyeSBzZW1hcGhvcmVzIHRvIGJlIHNoYXJlZCBh
+Y3Jvc3MgcHJvY2Vzc2VzIGFuZCB3b3VsZCBsaWtlIHRoaXMgdG8gcmVtYWluIGEgc2luZ2xlIEZE
+LCB0aGUgc2ltcGxlc3QgbG9jYXRpb24gdG8gc3RvcmUgdGhpcyBhZGRpdGlvbmFsIHU2NCBwYXls
+b2FkIHdvdWxkIGJlIHRoZSBEUk0gc3luY29iai4KPiBJdCB3b3VsZCBuZWVkIGFuIGFkZGl0aW9u
+YWwgaW9jdGwgdG8gcmVhZCAmIGluY3JlbWVudCB0aGUgdmFsdWUuCj4KPiBXaGF0IGRvIHlvdSB0
+aGluaz8KPgo+IC1MaW9uZWwKCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWw=
