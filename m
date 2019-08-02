@@ -1,65 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13217F06C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 11:27:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECA07F05C
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 11:23:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BABB86ED84;
-	Fri,  2 Aug 2019 09:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83CD36ED7C;
+	Fri,  2 Aug 2019 09:23:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7AA6ED85
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 09:27:03 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 22BBAAF54;
- Fri,  2 Aug 2019 09:27:02 +0000 (UTC)
-Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20190729095155.GP22106@shao2-debian>
- <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
- <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
- <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
- <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
- <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
- <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
- <0dd8808d-4c43-b624-ff49-924f6345b757@suse.de>
- <20190802091150.GK7444@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <4dcd878d-9b47-25b4-92a6-1aef42524be1@suse.de>
-Date: Fri, 2 Aug 2019 11:26:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB086ED7C;
+ Fri,  2 Aug 2019 09:23:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2019 02:23:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,337,1559545200"; d="scan'208";a="191817776"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+ by fmsmga001.fm.intel.com with ESMTP; 02 Aug 2019 02:23:47 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+Subject: [PULL] drm-intel-fixes
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Fri, 02 Aug 2019 12:28:07 +0300
+Message-ID: <87d0hnncgo.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190802091150.GK7444@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,262 +40,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, LKP <lkp@01.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- kernel test robot <rong.a.chen@intel.com>
-Content-Type: multipart/mixed; boundary="===============1510826207=="
+Cc: , dim-tools@lists.freedesktop.org,
+ Maxime Ripard <maxime.ripard@bootlin.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1510826207==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sd5OzoWAK5fE4QmmkydH7AylzZ9xlZPPW"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sd5OzoWAK5fE4QmmkydH7AylzZ9xlZPPW
-Content-Type: multipart/mixed; boundary="iIHpqu2lwWTQ3n0dJsIgJFQCuAYK1CgOl";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- kernel test robot <rong.a.chen@intel.com>, LKP <lkp@01.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <4dcd878d-9b47-25b4-92a6-1aef42524be1@suse.de>
-Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
-References: <20190729095155.GP22106@shao2-debian>
- <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
- <CAKMK7uHLrt4T73PB3+H2+=Ye-8UEAWpACsctqRzAoACstK9YMw@mail.gmail.com>
- <c5be23ad-3069-ac4c-df7f-d13ab1f45813@suse.de>
- <CAKMK7uGKH7uTZ1bjUi+cyxmJEfEgmsWgqnP9iNgUNSVsDsfVPg@mail.gmail.com>
- <CAPM=9txDY7ROKkoLsc1bEaTnEZ+y5p7=EFoibcuy9uoTvsE75g@mail.gmail.com>
- <CAKMK7uEbLP7j38VhdX9qniwqLfSc0_LrcrCD1R8m4kihbxePUA@mail.gmail.com>
- <0dd8808d-4c43-b624-ff49-924f6345b757@suse.de>
- <20190802091150.GK7444@phenom.ffwll.local>
-In-Reply-To: <20190802091150.GK7444@phenom.ffwll.local>
-
---iIHpqu2lwWTQ3n0dJsIgJFQCuAYK1CgOl
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 02.08.19 um 11:11 schrieb Daniel Vetter:
-> On Wed, Jul 31, 2019 at 12:10:54PM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 31.07.19 um 10:13 schrieb Daniel Vetter:
->>> On Tue, Jul 30, 2019 at 10:27 PM Dave Airlie <airlied@gmail.com> wrot=
-e:
->>>>
->>>> On Wed, 31 Jul 2019 at 05:00, Daniel Vetter <daniel@ffwll.ch> wrote:=
-
->>>>>
->>>>> On Tue, Jul 30, 2019 at 8:50 PM Thomas Zimmermann <tzimmermann@suse=
-=2Ede> wrote:
->>>>>>
->>>>>> Hi
->>>>>>
->>>>>> Am 30.07.19 um 20:12 schrieb Daniel Vetter:
->>>>>>> On Tue, Jul 30, 2019 at 7:50 PM Thomas Zimmermann <tzimmermann@su=
-se.de> wrote:
->>>>>>>> Am 29.07.19 um 11:51 schrieb kernel test robot:
->>>>>>>>> Greeting,
->>>>>>>>>
->>>>>>>>> FYI, we noticed a -18.8% regression of vm-scalability.median du=
-e to commit:>
->>>>>>>>>
->>>>>>>>> commit: 90f479ae51afa45efab97afdde9b94b9660dd3e4 ("drm/mgag200:=
- Replace struct mga_fbdev with generic framebuffer emulation")
->>>>>>>>> https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/l=
-inux-next.git master
->>>>>>>>
->>>>>>>> Daniel, Noralf, we may have to revert this patch.
->>>>>>>>
->>>>>>>> I expected some change in display performance, but not in VM. Si=
-nce it's
->>>>>>>> a server chipset, probably no one cares much about display perfo=
-rmance.
->>>>>>>> So that seemed like a good trade-off for re-using shared code.
->>>>>>>>
->>>>>>>> Part of the patch set is that the generic fb emulation now maps =
-and
->>>>>>>> unmaps the fbdev BO when updating the screen. I guess that's the=
- cause
->>>>>>>> of the performance regression. And it should be visible with oth=
-er
->>>>>>>> drivers as well if they use a shadow FB for fbdev emulation.
->>>>>>>
->>>>>>> For fbcon we should need to do any maps/unamps at all, this is fo=
-r the
->>>>>>> fbdev mmap support only. If the testcase mentioned here tests fbd=
-ev
->>>>>>> mmap handling it's pretty badly misnamed :-) And as long as you d=
-on't
->>>>>>> have an fbdev mmap there shouldn't be any impact at all.
->>>>>>
->>>>>> The ast and mgag200 have only a few MiB of VRAM, so we have to get=
- the
->>>>>> fbdev BO out if it's not being displayed. If not being mapped, it =
-can be
->>>>>> evicted and make room for X, etc.
->>>>>>
->>>>>> To make this work, the BO's memory is mapped and unmapped in
->>>>>> drm_fb_helper_dirty_work() before being updated from the shadow FB=
-=2E [1]
->>>>>> That fbdev mapping is established on each screen update, more or l=
-ess.
->>>>>> From my (yet unverified) understanding, this causes the performanc=
-e
->>>>>> regression in the VM code.
->>>>>>
->>>>>> The original code in mgag200 used to kmap the fbdev BO while it's =
-being
->>>>>> displayed; [2] and the drawing code only mapped it when necessary =
-(i.e.,
->>>>>> not being display). [3]
->>>>>
->>>>> Hm yeah, this vmap/vunmap is going to be pretty bad. We indeed shou=
-ld
->>>>> cache this.
->>>>>
->>>>>> I think this could be added for VRAM helpers as well, but it's sti=
-ll a
->>>>>> workaround and non-VRAM drivers might also run into such a perform=
-ance
->>>>>> regression if they use the fbdev's shadow fb.
->>>>>
->>>>> Yeah agreed, fbdev emulation should try to cache the vmap.
->>>>>
->>>>>> Noralf mentioned that there are plans for other DRM clients beside=
-s the
->>>>>> console. They would as well run into similar problems.
->>>>>>
->>>>>>>> The thing is that we'd need another generic fbdev emulation for =
-ast and
->>>>>>>> mgag200 that handles this issue properly.
->>>>>>>
->>>>>>> Yeah I dont think we want to jump the gun here.  If you can try t=
-o
->>>>>>> repro locally and profile where we're wasting cpu time I hope tha=
-t
->>>>>>> should sched a light what's going wrong here.
->>>>>>
->>>>>> I don't have much time ATM and I'm not even officially at work unt=
-il
->>>>>> late Aug. I'd send you the revert and investigate later. I agree t=
-hat
->>>>>> using generic fbdev emulation would be preferable.
->>>>>
->>>>> Still not sure that's the right thing to do really. Yes it's a
->>>>> regression, but vm testcases shouldn run a single line of fbcon or =
-drm
->>>>> code. So why this is impacted so heavily by a silly drm change is v=
-ery
->>>>> confusing to me. We might be papering over a deeper and much more
->>>>> serious issue ...
->>>>
->>>> It's a regression, the right thing is to revert first and then work
->>>> out the right thing to do.
->>>
->>> Sure, but I have no idea whether the testcase is doing something
->>> reasonable. If it's accidentally testing vm scalability of fbdev and
->>> there's no one else doing something this pointless, then it's not a
->>> real bug. Plus I think we're shooting the messenger here.
->>>
->>>> It's likely the test runs on the console and printfs stuff out while=
- running.
->>>
->>> But why did we not regress the world if a few prints on the console
->>> have such a huge impact? We didn't get an entire stream of mails abou=
-t
->>> breaking stuff ...
->>
->> The vmap/vunmap pair is only executed for fbdev emulation with a shado=
-w
->> FB. And most of those are with shmem helpers, which ref-count the vmap=
-
->> calls internally. My guess is that VRAM helpers are currently the only=
-
->> BOs triggering this problem.
->=20
-> I meant that surely this vm-scalability testcase isn't the only thing
-> that's being run by 0day on a machine with mga200g. If a few printks to=
-
-> dmesg/console cause such a huge regression, I'd expect everything to
-> regress on that box. But seems to not be the case.
-
-True. And according to Rong Chen's feedback, vmap and vunmap have only a
-small impact. The other difference is that there's now a shadow FB for
-the the console; including the dirty worker with an additional memcpy.
-mgag200 used to update the console directly in VRAM.
-
-I'd expect to see every driver with shadow-FB console to show bad
-performance, but that doesn't seem to be the case either.
-
-Best regards
-Thomas
-
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->>> -Daniel
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
->> GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
->> HRB 21284 (AG N=C3=BCrnberg)
->>
->=20
->=20
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---iIHpqu2lwWTQ3n0dJsIgJFQCuAYK1CgOl--
-
---sd5OzoWAK5fE4QmmkydH7AylzZ9xlZPPW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1EAeIACgkQaA3BHVML
-eiM+1Af/ZCZWSP3YdoVsVOuVcqJGbJoCPaEQkAXZoWX7qn1oQJN/4QFBWVkEmVWi
-pwOHsWdXPtpZoi5Oqyc4ERXRNx9h7fWCo51mqrVcdOkMkWx/muWQcxUIv0HmV5kw
-RcRhdDbFZhmxvyQmzdOKVwzC42aM0yqMubNknqm40VTy4K4KwmPdfxfjfyz6bEGD
-Rm+5Lzn1oLmMnL08D4CfiKDTlc8tQIGNVljDWmPpAR1GyoHpTZ6CIfJS4+rif2W6
-rymPknyGkWfdlHNh/EyA7U4I6/DAq25ow+rtalp4uiwKdXdwzZkt3Hl+800JIsU+
-s3D161TyItDfeczPXHZgy1hQEwREpA==
-=Dc88
------END PGP SIGNATURE-----
-
---sd5OzoWAK5fE4QmmkydH7AylzZ9xlZPPW--
-
---===============1510826207==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1510826207==--
+CkhpIERhdmUgYW5kIERhbmllbCAtCgpGaXJzdCBvZmYsIHdlIGZhaWxlZCB0byBleHBsaWNpdGx5
+IGFncmVlIHdobydzIGdvaW5nIHRvIGNvdmVyIG1lCmhhbmRsaW5nIHRoZSB2NS4zIGZpeGVzIGR1
+cmluZyBteSB0aW1lIG9mZi4gU28gaXQgZW5kZWQgdXAgbm90CmhhcHBlbmluZywgYW5kIEkgd2Fz
+IGZhY2VkIHdpdGggcXVpdGUgdGhlIGJhY2tsb2cuIE9uIHRvcCBvZiB0aGF0LAp0ZXN0aW5nIHVu
+Y292ZXJlZCBsb2NrZGVwIGlzc3VlcyB0aGF0IG5lZWRlZCB0byBiZSBhZGRyZXNzZWQgYmVmb3Jl
+CnNlbmRpbmcgdGhlIHB1bGwuIC9vXAoKVGh1cyBJJ20gbGF0ZSB3aXRoIHRoZSBwdWxsLCBidXQg
+bGF0ZXN0IHRlc3RpbmcgZ2l2ZXMgbWUgY29uZmlkZW5jZSB0aGUKY29tbWl0cyBDaHJpcyBiYWNr
+cG9ydGVkIHllc3RlcmRheSByZXNvbHZlZCB0aGUgaXNzdWVzLgoKSSBhcG9sb2dpemUgZm9yIG5v
+dCBoYXZpbmcgZml4ZXMgZm9yIGEgY291cGxlIG9mIHdlZWtzLCBhbmQgdGhlbiBzaG93aW5nCnVw
+IGxhdGUgd2l0aCBhIGJ1bmNoIG9mIHRoZW0uIEkgc2F3IERhdmUgbWFrZSB0aGUgZml4ZXMgcHVs
+bCB0byBMaW51cwpmb3IgLXJjMyBhbHJlYWR5LCBidXQgSSBtdXN0IGh1bWJseSBhc2sgeW91IHRv
+IGFjY29tbW9kYXRlIGFuIGV4dHJhCmZpeGVzIHB1bGwuIFRoZXJlJ3MgYSBidW5jaCBvZiBzdHVm
+ZiB0aGF0IGFkZHJlc3NlcyBJQ0wgaXNzdWVzIGluIHY1LjIKd2FpdGluZyB0byBnZXQgbWVyZ2Vk
+IHRvIExpbnVzJyB0cmVlIHRvIGJlIGJhY2twb3J0ZWQgdG8gc3RhYmxlLgoKQlIsCkphbmkuCgoK
+ZHJtLWludGVsLWZpeGVzLTIwMTktMDgtMDI6CmRybS9pOTE1IGZpeGVzIGZvciB2NS4zLXJjMzoK
+LSBHVlQgZml4ZXMKLSBGaXggVEJUIGF1eCBwb3dlcndlbGwKLSBGaXggUFNSMiB0cmFpbmluZyBw
+YXR0ZXJuIGR1cmF0aW9uCi0gRml4IG1lbW9yeSBsZWFrIGluIHJ1bnRpbWUgd2FrZXJlZiB0cmFj
+a2luZwotIEZpeCBJQ0wgbWVtb3J5IGJhbmR3aWR0aCBpc3N1ZSBwcmV2ZW50aW5nIHBsYW5lcyBm
+cm9tIGJlaW5nIGVuYWJsZWQKLSBGaXggT0EgbXV4IGNvbmZpZ3VyYXRpb24gZGVsYXlzIGZvciBh
+Y2N1cmF0ZSBwZXJmb3JtYW5jZSBkYXRhCi0gRml4IFZMVi9DSFYgRFAgYXVkaW8gY2RjbGsgZnJl
+cXVlbmN5IHJlcXVpcmVtZW50cwotIEZpeCByZWdpc3RlciB3aGl0ZWxpc3RpbmcgdG8gZml4IGEg
+bnVtYmVyIG9mIEdMICYgVnVsa2FuIENUUyB0ZXN0cwotIEZpeCBJQ0wgcGVyZiByZWdpc3RlciBv
+ZmZzZXRzCi0gRml4IEdlbjExIFNhbXBsZXIgUHJlZmV0Y2ggd29ya2Fyb3VuZCwgaW1wYWN0aW5n
+IGRFUVAgdGVzdHMKLSBGaXggdmFyaW91cyBnZW4yIHRyYWNlcG9pbnRzCi0gQSBudW1iZXIgb2Yg
+R0VNIGxvY2tpbmcgZml4ZXMgYWRkcmVzc2luZyBsb2NrZGVwIGlzc3VlcwotIEZpeCBpZGxlIGVu
+Z2luZSByZXNldCwgcmVjb3ZlciBvbmx5IGFjdGl2ZSBlbmdpbmVzCi0gRml4IGluY29ycmVjdCBN
+Q1IgcHJvZ3JhbW1pbmcKCkJSLApKYW5pLgoKVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNv
+bW1pdCA2MDk0ODhiYzk3OWY5OWY4MDVmMzRlOWEzMmMxZTNiNzExNzlkMTBiOgoKICBMaW51eCA1
+LjMtcmMyICgyMDE5LTA3LTI4IDEyOjQ3OjAyIC0wNzAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUg
+R2l0IHJlcG9zaXRvcnkgYXQ6CgogIGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9k
+cm0taW50ZWwgdGFncy9kcm0taW50ZWwtZml4ZXMtMjAxOS0wOC0wMgoKZm9yIHlvdSB0byBmZXRj
+aCBjaGFuZ2VzIHVwIHRvIDRiOWJiOTcyOGM5MTVjNjA3OTYxOWU3MWUzMzQwZmU0ODQwZDlkNDA6
+CgogIGRybS9pOTE1OiBPbmx5IHJlY292ZXIgYWN0aXZlIGVuZ2luZXMgKDIwMTktMDgtMDEgMTM6
+MjI6MDAgKzAzMDApCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tCmRybS9pOTE1IGZpeGVzIGZvciB2NS4zLXJjMzoKLSBHVlQg
+Zml4ZXMKLSBGaXggVEJUIGF1eCBwb3dlcndlbGwKLSBGaXggUFNSMiB0cmFpbmluZyBwYXR0ZXJu
+IGR1cmF0aW9uCi0gRml4IG1lbW9yeSBsZWFrIGluIHJ1bnRpbWUgd2FrZXJlZiB0cmFja2luZwot
+IEZpeCBJQ0wgbWVtb3J5IGJhbmR3aWR0aCBpc3N1ZSBwcmV2ZW50aW5nIHBsYW5lcyBmcm9tIGJl
+aW5nIGVuYWJsZWQKLSBGaXggT0EgbXV4IGNvbmZpZ3VyYXRpb24gZGVsYXlzIGZvciBhY2N1cmF0
+ZSBwZXJmb3JtYW5jZSBkYXRhCi0gRml4IFZMVi9DSFYgRFAgYXVkaW8gY2RjbGsgZnJlcXVlbmN5
+IHJlcXVpcmVtZW50cwotIEZpeCByZWdpc3RlciB3aGl0ZWxpc3RpbmcgdG8gZml4IGEgbnVtYmVy
+IG9mIEdMICYgVnVsa2FuIENUUyB0ZXN0cwotIEZpeCBJQ0wgcGVyZiByZWdpc3RlciBvZmZzZXRz
+Ci0gRml4IEdlbjExIFNhbXBsZXIgUHJlZmV0Y2ggd29ya2Fyb3VuZCwgaW1wYWN0aW5nIGRFUVAg
+dGVzdHMKLSBGaXggdmFyaW91cyBnZW4yIHRyYWNlcG9pbnRzCi0gQSBudW1iZXIgb2YgR0VNIGxv
+Y2tpbmcgZml4ZXMgYWRkcmVzc2luZyBsb2NrZGVwIGlzc3VlcwotIEZpeCBpZGxlIGVuZ2luZSBy
+ZXNldCwgcmVjb3ZlciBvbmx5IGFjdGl2ZSBlbmdpbmVzCi0gRml4IGluY29ycmVjdCBNQ1IgcHJv
+Z3JhbW1pbmcKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0KQ2hyaXMgV2lsc29uICg4KToKICAgICAgZHJtL2k5MTU6IEtlZXAg
+cmluZ3MgcGlubmVkIHdoaWxlIHRoZSBjb250ZXh0IGlzIGFjdGl2ZQogICAgICBkcm0vaTkxNS9n
+dHQ6IERlZmVyIHRoZSBmcmVlIGZvciBhbGxvYyBlcnJvciBwYXRocwogICAgICBkcm0vaTkxNS9n
+dHQ6IE1hcmsgdGhlIGZyZWVkIHBhZ2UgdGFibGUgZW50cmllcyB3aXRoIHNjcmF0Y2gKICAgICAg
+ZHJtL2k5MTUvdXNlcnB0cjogQWNxdWlyZSB0aGUgcGFnZSBsb2NrIGFyb3VuZCBzZXRfcGFnZV9k
+aXJ0eSgpCiAgICAgIGRybS9pOTE1OiBMb2NrIHRoZSBlbmdpbmUgd2hpbGUgZHVtcGluZyB0aGUg
+YWN0aXZlIHJlcXVlc3QKICAgICAgZHJtL2k5MTU6IExpZnQgaW50ZWxfZW5naW5lc19yZXN1bWUo
+KSB0byBjYWxsZXJzCiAgICAgIGRybS9pOTE1OiBBZGQgYSB3YWtlcmVmIGdldHRlciBmb3IgaWZm
+IHRoZSB3YWtlcmVmIGlzIGFscmVhZHkgYWN0aXZlCiAgICAgIGRybS9pOTE1OiBPbmx5IHJlY292
+ZXIgYWN0aXZlIGVuZ2luZXMKCkNvbGluIFh1ICgxKToKICAgICAgZHJtL2k5MTUvZ3Z0OiBBZGRp
+bmcgcHBndHQgdG8gR1ZUIEdFTSBjb250ZXh0IGFmdGVyIHNoYWRvdyBwZHBzIHNldHRsZWQuCgpE
+aGluYWthcmFuIFBhbmRpeWFuICgxKToKICAgICAgZHJtL2k5MTUvdmJ0OiBGaXggVkJUIHBhcnNp
+bmcgZm9yIHRoZSBQU1Igc2VjdGlvbgoKSW1yZSBEZWFrICgxKToKICAgICAgZHJtL2k5MTU6IEZp
+eCB0aGUgVEJUIEFVWCBwb3dlciB3ZWxsIGVuYWJsaW5nCgpKYW5pIE5pa3VsYSAoMSk6CiAgICAg
+IE1lcmdlIHRhZyAnZ3Z0LWZpeGVzLTIwMTktMDctMzAnIG9mIGh0dHBzOi8vZ2l0aHViLmNvbS9p
+bnRlbC9ndnQtbGludXggaW50byBkcm0taW50ZWwtZml4ZXMKCktlbm5ldGggR3JhdW5rZSAoMSk6
+CiAgICAgIGRybS9pOTE1OiBEaXNhYmxlIFNBTVBMRVJfU1RBVEUgcHJlZmV0Y2hpbmcgb24gYWxs
+IEdlbjExIHN0ZXBwaW5ncy4KCkxpb25lbCBMYW5kd2VybGluICg2KToKICAgICAgZHJtL2k5MTUv
+cGVyZjogZml4IElDTCBwZXJmIHJlZ2lzdGVyIG9mZnNldHMKICAgICAgZHJtL2k5MTU6IGZpeCB3
+aGl0ZWxpc3Qgc2VsZnRlc3RzIHdpdGggcmVhZG9ubHkgcmVnaXN0ZXJzCiAgICAgIGRybS9pOTE1
+OiB3aGl0ZWxpc3QgUFNfKERFUFRIfElOVk9DQVRJT04pX0NPVU5UCiAgICAgIGRybS9pOTE1L2lj
+bDogd2hpdGVsaXN0IFBTXyhERVBUSHxJTlZPQ0FUSU9OKV9DT1VOVAogICAgICBkcm0vaTkxNS9w
+ZXJmOiBlbnN1cmUgd2Uga2VlcCBhIHJlZmVyZW5jZSBvbiB0aGUgZHJpdmVyCiAgICAgIGRybS9p
+OTE1L3BlcmY6IGFkZCBtaXNzaW5nIGRlbGF5IGZvciBPQSBtdXhlcyBjb25maWd1cmF0aW9uCgpN
+aWthIEt1b3BwYWxhICgxKToKICAgICAgZHJtL2k5MTU6IEZpeCBtZW1sZWFrIGluIHJ1bnRpbWUg
+d2FrZXJlZiB0cmFja2luZwoKVHZydGtvIFVyc3VsaW4gKDEpOgogICAgICBkcm0vaTkxNTogRml4
+IEdFTjhfTUNSX1NFTEVDVE9SIHByb2dyYW1taW5nCgpWaWxsZSBTeXJqw6Rsw6QgKDMpOgogICAg
+ICBkcm0vaTkxNTogRml4IHZhcmlvdXMgdHJhY2Vwb2ludHMgZm9yIGdlbjIKICAgICAgZHJtL2k5
+MTU6IERlYWwgd2l0aCBtYWNoaW5lcyB0aGF0IGV4cG9zZSBsZXNzIHRoYW4gdGhyZWUgUUdWIHBv
+aW50cwogICAgICBkcm0vaTkxNTogTWFrZSBzdXJlIGNkY2xrIGlzIGhpZ2ggZW5vdWdoIGZvciBE
+UCBhdWRpbyBvbiBWTFYvQ0hWCgpYaWFvbGluIFpoYW5nICgyKToKICAgICAgZHJtL2k5MTUvZ3Z0
+OiBmaXggaW5jb3JyZWN0IGNhY2hlIGVudHJ5IGZvciBndWVzdCBwYWdlIG1hcHBpbmcKICAgICAg
+ZHJtL2k5MTUvZ3Z0OiBncmFiIHJ1bnRpbWUgcG0gZmlyc3QgZm9yIGZvcmNld2FrZSB1c2UKClhp
+b25nIFpoYW5nICgzKToKICAgICAgZHJtL2k5MTUvZ3Z0OiBXYXJuaW5nIGZvciBpbnZhbGlkIGdn
+dHQgYWNjZXNzCiAgICAgIGRybS9pOTE1L2d2dDogRG9uJ3QgdXNlIGdndHRfdmFsaWRkYXRlX3Jh
+bmdlKCkgd2l0aCBzaXplPTAKICAgICAgZHJtL2k5MTUvZ3Z0OiBDaGVja2luZyB3b3JrbG9hZCdz
+IGdtYSBlYXJsaWVyCgpaaGVueXUgV2FuZyAoMSk6CiAgICAgIGRybS9pOTE1L2d2dDogcmVtb3Zl
+IGR1cGxpY2F0ZSBpbmNsdWRlIG9mIHRyYWNlLmgKCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNw
+bGF5L2ludGVsX2Jpb3MuYyAgICAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9k
+aXNwbGF5L2ludGVsX2J3LmMgICAgICAgICAgICB8IDE1ICsrKy0tCiBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX2NkY2xrLmMgICAgICAgICB8IDExICsrKysKIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheS5jICAgICAgIHwgIDQgKy0KIGRyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGlzcGxheV9wb3dlci5jIHwgMTEgKysrLQogZHJp
+dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF92YnRfZGVmcy5oICAgICAgfCAgNiArLQog
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3BtLmMgICAgICAgICAgICAgfCAgNyAr
+LQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3VzZXJwdHIuYyAgICAgICAgfCAx
+MCArKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2NvbnRleHQuYyAgICAgICAgICAg
+IHwgMjcgKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX2VuZ2luZV9jcy5j
+ICAgICAgICAgIHwgMjAgKysrLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF9lbmdp
+bmVfcG0uYyAgICAgICAgICB8IDI0IC0tLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2lu
+dGVsX2VuZ2luZV9wbS5oICAgICAgICAgIHwgMTIgKysrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
+Z3QvaW50ZWxfZW5naW5lX3R5cGVzLmggICAgICAgfCAxMiArKysrCiBkcml2ZXJzL2dwdS9kcm0v
+aTkxNS9ndC9pbnRlbF9ndF9wbS5jICAgICAgICAgICAgICB8IDIxICsrKysrLQogZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZ3QvaW50ZWxfZ3RfcG0uaCAgICAgICAgICAgICAgfCAgMiArLQogZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfbHJjLmMgICAgICAgICAgICAgICAgfCAxMCArLS0KIGRy
+aXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX3Jlc2V0LmMgICAgICAgICAgICAgIHwgNTggKysr
+KysrKysrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2d0L2ludGVsX3JpbmdidWZmZXIu
+YyAgICAgICAgIHwgMzEgKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndC9pbnRlbF93
+b3JrYXJvdW5kcy5jICAgICAgICB8IDM4ICsrKysrKysrKystCiBkcml2ZXJzL2dwdS9kcm0vaTkx
+NS9ndC9tb2NrX2VuZ2luZS5jICAgICAgICAgICAgICB8ICAxICsKIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2d0L3NlbGZ0ZXN0X3Jlc2V0LmMgICAgICAgICAgIHwgIDUgKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2d0L3NlbGZ0ZXN0X3dvcmthcm91bmRzLmMgICAgIHwgIDcgKy0KIGRyaXZlcnMvZ3B1
+L2RybS9pOTE1L2d2dC9jbWRfcGFyc2VyLmMgICAgICAgICAgICAgIHwgMTAgLS0tCiBkcml2ZXJz
+L2dwdS9kcm0vaTkxNS9ndnQvZmJfZGVjb2Rlci5jICAgICAgICAgICAgICB8ICA2ICstCiBkcml2
+ZXJzL2dwdS9kcm0vaTkxNS9ndnQvZ3R0LmMgICAgICAgICAgICAgICAgICAgICB8ICA5ICsrKwog
+ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L2t2bWd0LmMgICAgICAgICAgICAgICAgICAgfCAxMiAr
+KysrCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvc2NoZWR1bGVyLmMgICAgICAgICAgICAgICB8
+IDU5ICsrKysrKysrKysrKy0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvdHJhY2VfcG9p
+bnRzLmMgICAgICAgICAgICB8ICAyIC0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZHJ2Lmgg
+ICAgICAgICAgICAgICAgICAgIHwgIDUgKy0KIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfZ2Vt
+LmMgICAgICAgICAgICAgICAgICAgIHwgMjUgKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUv
+aTkxNV9nZW1fZ3R0LmMgICAgICAgICAgICAgICAgfCAgOCArKy0KIGRyaXZlcnMvZ3B1L2RybS9p
+OTE1L2k5MTVfZ3B1X2Vycm9yLmMgICAgICAgICAgICAgIHwgIDYgKy0KIGRyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2k5MTVfcGVyZi5jICAgICAgICAgICAgICAgICAgIHwgNjcgKysrKysrKysrKysrLS0t
+LS0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV90cmFjZS5oICAgICAgICAgICAgICAgICAg
+fCA3NiArKysrKysrKysrLS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9y
+dW50aW1lX3BtLmMgICAgICAgICAgICB8IDEwICsrLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvaW50
+ZWxfd2FrZXJlZi5oICAgICAgICAgICAgICAgfCAxNSArKysrKwogMzYgZmlsZXMgY2hhbmdlZCwg
+NDE3IGluc2VydGlvbnMoKyksIDIyNyBkZWxldGlvbnMoLSkKCi0tIApKYW5pIE5pa3VsYSwgSW50
+ZWwgT3BlbiBTb3VyY2UgR3JhcGhpY3MgQ2VudGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbA==
