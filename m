@@ -1,42 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44177EDE3
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 09:48:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1157EE10
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 09:52:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED09B6ECDF;
-	Fri,  2 Aug 2019 07:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B33A86ECE0;
+	Fri,  2 Aug 2019 07:52:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D5A26ECDF
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:48:05 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63D42CC;
- Fri,  2 Aug 2019 09:48:03 +0200 (CEST)
-Date: Fri, 2 Aug 2019 10:48:01 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH/RFC 01/12] dt-bindings: display: renesas: lvds: RZ/G2E
- needs renesas,companion too
-Message-ID: <20190802074801.GC5008@pendragon.ideasonboard.com>
-References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1564731249-22671-2-git-send-email-fabrizio.castro@bp.renesas.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C72626ECE0
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:52:42 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B9D3F72167; Fri,  2 Aug 2019 07:52:42 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111281] When the s admin try to create different types of
+ question in various  difficulty level by single upload mode database error
+ occurred
+Date: Fri, 02 Aug 2019 07:52:42 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status bug_group resolution product component
+Message-ID: <bug-111281-502-VcCayW0GQQ@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111281-502@http.bugs.freedesktop.org/>
+References: <bug-111281-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1564731249-22671-2-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1564732083;
- bh=F7EcIwTg1zH6A0iHD8dIESp+yC+C8KwvQYvH/TMKvCg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qafg1dFY6VNomX3BebAW8Cgx9jVO+s6K8GumORKuV+5S1fFcJRv6oruyq25WiTajx
- tIfKzilrXLQHtpUSbbUZ8sMtXOudTG8CHBVcPskpzoW1vVnnsYlLyu8ITL+Qq9R5Ek
- Jj+g3vR/dUYSj54df2P6Av2Y2xd/Eklmd8zhr0d0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,45 +54,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Simon Horman <horms@verge.net.au>, David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0733647427=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gRmFicml6aW8sCgpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KCk9uIEZyaSwgQXVnIDAy
-LCAyMDE5IGF0IDA4OjMzOjU4QU0gKzAxMDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToKPiBEb2N1
-bWVudCBSWi9HMkUgc3VwcG9ydCBmb3IgcHJvcGVydHkgcmVuZXNhcyxjb21wYW5pb24uCj4gCj4g
-U2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNh
-cy5jb20+CgpSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBp
-ZGVhc29uYm9hcmQuY29tPgoKYW5kIHRha2VuIGluIG15IHRyZWUuCgo+IC0tLQo+ICBEb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2UvcmVuZXNhcyxsdmRzLnR4
-dCB8IDYgKysrLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRp
-b25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9kaXNwbGF5L2JyaWRnZS9yZW5lc2FzLGx2ZHMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3JlbmVzYXMsbHZkcy50eHQKPiBpbmRleCBjNmEx
-OTZkLi5kZWNlNzllIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9kaXNwbGF5L2JyaWRnZS9yZW5lc2FzLGx2ZHMudHh0Cj4gKysrIGIvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3JlbmVzYXMsbHZkcy50eHQKPiBA
-QCAtNDksOSArNDksOSBAQCBFYWNoIHBvcnQgc2hhbGwgaGF2ZSBhIHNpbmdsZSBlbmRwb2ludC4K
-PiAgT3B0aW9uYWwgcHJvcGVydGllczoKPiAgCj4gIC0gcmVuZXNhcyxjb21wYW5pb24gOiBwaGFu
-ZGxlIHRvIHRoZSBjb21wYW5pb24gTFZEUyBlbmNvZGVyLiBUaGlzIHByb3BlcnR5IGlzCj4gLSAg
-bWFuZGF0b3J5IGZvciB0aGUgZmlyc3QgTFZEUyBlbmNvZGVyIG9uIEQzIGFuZCBFMyBTb0NzLCBh
-bmQgc2hhbGwgcG9pbnQgdG8KPiAtICB0aGUgc2Vjb25kIGVuY29kZXIgdG8gYmUgdXNlZCBhcyBh
-IGNvbXBhbmlvbiBpbiBkdWFsLWxpbmsgbW9kZS4gSXQgc2hhbGwgbm90Cj4gLSAgYmUgc2V0IGZv
-ciBhbnkgb3RoZXIgTFZEUyBlbmNvZGVyLgo+ICsgIG1hbmRhdG9yeSBmb3IgdGhlIGZpcnN0IExW
-RFMgZW5jb2RlciBvbiBSLUNhciBEMywgUi1DYXIgRTMsIGFuZCBSWi9HMkUgU29DcywKPiArICBh
-bmQgc2hhbGwgcG9pbnQgdG8gdGhlIHNlY29uZCBlbmNvZGVyIHRvIGJlIHVzZWQgYXMgYSBjb21w
-YW5pb24gaW4gZHVhbC1saW5rCj4gKyAgbW9kZS4gSXQgc2hhbGwgbm90IGJlIHNldCBmb3IgYW55
-IG90aGVyIExWRFMgZW5jb2Rlci4KPiAgCj4gIAo+ICBFeGFtcGxlOgoKLS0gClJlZ2FyZHMsCgpM
-YXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbA==
+
+--===============0733647427==
+Content-Type: multipart/alternative; boundary="15647323620.Cde3e.27092"
+Content-Transfer-Encoding: 7bit
+
+
+--15647323620.Cde3e.27092
+Date: Fri, 2 Aug 2019 07:52:42 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111281
+
+Andre Klapper <a9016009@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+              Group|                            |spam
+         Resolution|---                         |INVALID
+            Product|DRI                         |Spam
+          Component|General                     |Two
+
+--- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
+Go away and test somewhere else.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15647323620.Cde3e.27092
+Date: Fri, 2 Aug 2019 07:52:42 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - When the s admin try to create different typ=
+es of question in various difficulty level by single upload mode database e=
+rror occurred"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111281">bug 11128=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>General
+           </td>
+           <td>Two
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - When the s admin try to create different typ=
+es of question in various difficulty level by single upload mode database e=
+rror occurred"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111281#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - When the s admin try to create different typ=
+es of question in various difficulty level by single upload mode database e=
+rror occurred"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111281">bug 11128=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>Go away and test somewhere else.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15647323620.Cde3e.27092--
+
+--===============0733647427==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0733647427==--
