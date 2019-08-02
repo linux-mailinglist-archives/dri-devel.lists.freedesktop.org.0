@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4CB7F919
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 15:26:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE71E7F96F
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 15:27:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE8E6EE49;
-	Fri,  2 Aug 2019 13:26:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE5C6EE50;
+	Fri,  2 Aug 2019 13:27:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCC0E6EE49;
- Fri,  2 Aug 2019 13:26:05 +0000 (UTC)
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
- [73.47.72.35])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A345421852;
- Fri,  2 Aug 2019 13:26:04 +0000 (UTC)
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 07/22] drm/msm: stop abusing dma_map/unmap for
- cache
-Date: Fri,  2 Aug 2019 09:25:31 -0400
-Message-Id: <20190802132547.14517-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190802132547.14517-1-sashal@kernel.org>
-References: <20190802132547.14517-1-sashal@kernel.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 56D606EE4D
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 13:27:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5271C72167; Fri,  2 Aug 2019 13:27:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Fri, 02 Aug 2019 13:27:44 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: samuele.decarli@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111244-502-0Ibu0zAw0O@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1564752365;
- bh=AicnZ9XfDMx3XkBE1GCecASN86fDAtFADqghqLPnsv4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GXNRXHzOl/txOc+mZfHDUoyHImCI5M3sKUZkHodhiVfAzKH5o8SNKBGufCRooOjot
- MkatPTlcS9hxAp3gcUs6GwXUXIIrbMtIuWEFnAtt5/EtS2OF0HzHRxgcGYOg6QJtww
- 4Ygt40iziZGwMF558YPOZf38fHSLR8aZwLtivOTk=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,72 +52,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Sean Paul <seanpaul@chromium.org>, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0917075889=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogUm9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgoKWyBVcHN0cmVhbSBjb21t
-aXQgMDAzNmJjNzNjY2JlN2U2MDBhMzQ2OGJmOGU4ODc5YjEyMjI1MjI3NCBdCgpSZWNlbnRseSBz
-cGxhdHMgbGlrZSB0aGlzIHN0YXJ0ZWQgc2hvd2luZyB1cDoKCiAgIFdBUk5JTkc6IENQVTogNCBQ
-SUQ6IDI1MSBhdCBkcml2ZXJzL2lvbW11L2RtYS1pb21tdS5jOjQ1MSBfX2lvbW11X2RtYV91bm1h
-cCsweGI4LzB4YzAKICAgTW9kdWxlcyBsaW5rZWQgaW46IGF0aDEwa19zbm9jIGF0aDEwa19jb3Jl
-IGZ1c2UgbXNtIGF0aCBtYWM4MDIxMSB1dmN2aWRlbyBjZmc4MDIxMSB2aWRlb2J1ZjJfdm1hbGxv
-YyB2aWRlb2J1ZjJfbWVtb3BzIHZpZGUKICAgQ1BVOiA0IFBJRDogMjUxIENvbW06IGt3b3JrZXIv
-dTE2OjQgVGFpbnRlZDogRyAgICAgICAgVyAgICAgICAgIDUuMi4wLXJjNS1uZXh0LTIwMTkwNjE5
-KyAjMjMxNwogICBIYXJkd2FyZSBuYW1lOiBMRU5PVk8gODFKTC9MTlZOQjE2MTIxNiwgQklPUyA5
-VUNOMjNXVyhWMS4wNikgMTAvMjUvMjAxOAogICBXb3JrcXVldWU6IG1zbSBtc21fZ2VtX2ZyZWVf
-d29yayBbbXNtXQogICBwc3RhdGU6IDgwYzAwMDA1IChOemN2IGRhaWYgK1BBTiArVUFPKQogICBw
-YyA6IF9faW9tbXVfZG1hX3VubWFwKzB4YjgvMHhjMAogICBsciA6IF9faW9tbXVfZG1hX3VubWFw
-KzB4NTQvMHhjMAogICBzcCA6IGZmZmYwMDAwMTE5YWJjZTAKICAgeDI5OiBmZmZmMDAwMDExOWFi
-Y2UwIHgyODogMDAwMDAwMDAwMDAwMDAwMAogICB4Mjc6IGZmZmY4MDAxZjk5NDY2NDggeDI2OiBm
-ZmZmODAwMWVjMjcxMDY4CiAgIHgyNTogMDAwMDAwMDAwMDAwMDAwMCB4MjQ6IGZmZmY4MDAxZWEz
-NTgwYTgKICAgeDIzOiBmZmZmODAwMWY5NWJhMDEwIHgyMjogZmZmZjgwMDE4ZTgzYmE4OAogICB4
-MjE6IGZmZmY4MDAxZTU0OGYwMDAgeDIwOiBmZmZmZmZmZmZmZmZmMDAwCiAgIHgxOTogMDAwMDAw
-MDAwMDAwMTAwMCB4MTg6IDAwMDAwMDAwYzAwMDAxZmUKICAgeDE3OiAwMDAwMDAwMDAwMDAwMDAw
-IHgxNjogMDAwMDAwMDAwMDAwMDAwMAogICB4MTU6IGZmZmYwMDAwMTViNzAwNjggeDE0OiAwMDAw
-MDAwMDAwMDAwMDA1CiAgIHgxMzogMDAwMzE0MmNjMWJlMTc2OCB4MTI6IDAwMDAwMDAwMDAwMDAw
-MDEKICAgeDExOiBmZmZmODAwMWY2ZGU5MTAwIHgxMDogMDAwMDAwMDAwMDAwMDAwOQogICB4OSA6
-IGZmZmYwMDAwMTViNzgwMDAgeDggOiAwMDAwMDAwMDAwMDAwMDAwCiAgIHg3IDogMDAwMDAwMDAw
-MDAwMDAwMSB4NiA6IGZmZmZmZmZmZmZmZmYwMDAKICAgeDUgOiAwMDAwMDAwMDAwMDAwZmZmIHg0
-IDogZmZmZjAwMDAxMDY1ZGJjOAogICB4MyA6IDAwMDAwMDAwMDAwMDAwMGQgeDIgOiAwMDAwMDAw
-MDAwMDAxMDAwCiAgIHgxIDogZmZmZmZmZmZmZmZmZjAwMCB4MCA6IDAwMDAwMDAwMDAwMDAwMDAK
-ICAgQ2FsbCB0cmFjZToKICAgIF9faW9tbXVfZG1hX3VubWFwKzB4YjgvMHhjMAogICAgaW9tbXVf
-ZG1hX3VubWFwX3NnKzB4OTgvMHhiOAogICAgcHV0X3BhZ2VzKzB4NWMvMHhmMCBbbXNtXQogICAg
-bXNtX2dlbV9mcmVlX3dvcmsrMHgxMGMvMHgxNTAgW21zbV0KICAgIHByb2Nlc3Nfb25lX3dvcmsr
-MHgxZTAvMHgzMzAKICAgIHdvcmtlcl90aHJlYWQrMHg0MC8weDQzOAogICAga3RocmVhZCsweDEy
-Yy8weDEzMAogICAgcmV0X2Zyb21fZm9yaysweDEwLzB4MTgKICAgLS0tWyBlbmQgdHJhY2UgYWZj
-MGRjNWFiODFhMDZiZiBdLS0tCgpOb3QgcXVpdGUgc3VyZSB3aGF0IHRyaWdnZXJlZCB0aGF0LCBi
-dXQgd2UgcmVhbGx5IHNob3VsZG4ndCBiZSBhYnVzaW5nCmRtYV97bWFwLHVubWFwfV9zZygpIGZv
-ciBjYWNoZSBtYWludC4KCkNjOiBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+ClRlc3Rl
-ZC1ieTogU3RlcGhlbiBCb3lkIDxzd2JveWRAY2hyb21pdW0ub3JnPgpSZXZpZXdlZC1ieTogSm9y
-ZGFuIENyb3VzZSA8amNyb3VzZUBjb2RlYXVyb3JhLm9yZz4KU2lnbmVkLW9mZi1ieTogUm9iIENs
-YXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgpTaWduZWQtb2ZmLWJ5OiBTZWFuIFBhdWwgPHNl
-YW5wYXVsQGNocm9taXVtLm9yZz4KTGluazogaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Au
-b3JnL3BhdGNoL21zZ2lkLzIwMTkwNjMwMTI0NzM1LjI3Nzg2LTEtcm9iZGNsYXJrQGdtYWlsLmNv
-bQpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJp
-dmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
-c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L21zbS9tc21fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW0uYwppbmRleCA3OTU2
-NjBlMjliMmNlLi5hNDcyZDRkOTAyZGRlIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNt
-L21zbV9nZW0uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL21zbV9nZW0uYwpAQCAtMTA2LDcg
-KzEwNiw3IEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZSAqKmdldF9wYWdlcyhzdHJ1Y3QgZHJtX2dlbV9v
-YmplY3QgKm9iaikKIAkJICogYmVjYXVzZSBkaXNwbGF5IGNvbnRyb2xsZXIsIEdQVSwgZXRjLiBh
-cmUgbm90IGNvaGVyZW50OgogCQkgKi8KIAkJaWYgKG1zbV9vYmotPmZsYWdzICYgKE1TTV9CT19X
-Q3xNU01fQk9fVU5DQUNIRUQpKQotCQkJZG1hX21hcF9zZyhkZXYtPmRldiwgbXNtX29iai0+c2d0
-LT5zZ2wsCisJCQlkbWFfc3luY19zZ19mb3JfZGV2aWNlKGRldi0+ZGV2LCBtc21fb2JqLT5zZ3Qt
-PnNnbCwKIAkJCQkJbXNtX29iai0+c2d0LT5uZW50cywgRE1BX0JJRElSRUNUSU9OQUwpOwogCX0K
-IApAQCAtMTI0LDcgKzEyNCw3IEBAIHN0YXRpYyB2b2lkIHB1dF9wYWdlcyhzdHJ1Y3QgZHJtX2dl
-bV9vYmplY3QgKm9iaikKIAkJCSAqIEdQVSwgZXRjLiBhcmUgbm90IGNvaGVyZW50OgogCQkJICov
-CiAJCQlpZiAobXNtX29iai0+ZmxhZ3MgJiAoTVNNX0JPX1dDfE1TTV9CT19VTkNBQ0hFRCkpCi0J
-CQkJZG1hX3VubWFwX3NnKG9iai0+ZGV2LT5kZXYsIG1zbV9vYmotPnNndC0+c2dsLAorCQkJCWRt
-YV9zeW5jX3NnX2Zvcl9jcHUob2JqLT5kZXYtPmRldiwgbXNtX29iai0+c2d0LT5zZ2wsCiAJCQkJ
-CSAgICAgbXNtX29iai0+c2d0LT5uZW50cywKIAkJCQkJICAgICBETUFfQklESVJFQ1RJT05BTCk7
-CiAKLS0gCjIuMjAuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============0917075889==
+Content-Type: multipart/alternative; boundary="15647524641.007F.22864"
+Content-Transfer-Encoding: 7bit
+
+
+--15647524641.007F.22864
+Date: Fri, 2 Aug 2019 13:27:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #10 from Samuele Decarli <samuele.decarli@gmail.com> ---
+Interestingly the same commit is blamed for anther issue
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15647524641.007F.22864
+Date: Fri, 2 Aug 2019 13:27:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEEDINFO "
+   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
+spend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
+&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
+</span></b>
+        <pre>Interestingly the same commit is blamed for anther issue
+<a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"show_bug.cgi?id=3D111122">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D111122</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15647524641.007F.22864--
+
+--===============0917075889==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0917075889==--
