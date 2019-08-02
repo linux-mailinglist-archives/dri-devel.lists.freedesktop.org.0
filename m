@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569687F84B
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 15:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BD17F84E
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 15:17:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB0C6EE1F;
-	Fri,  2 Aug 2019 13:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FBAC6EE23;
+	Fri,  2 Aug 2019 13:17:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C916EE21
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 13:16:56 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x72DGtLE021296;
- Fri, 2 Aug 2019 08:16:55 -0500
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x72DGtuH059719
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED576EE21
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 13:17:14 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x72DHDDm115851;
+ Fri, 2 Aug 2019 08:17:13 -0500
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x72DHD7a003685
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 2 Aug 2019 08:16:55 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ Fri, 2 Aug 2019 08:17:13 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 2 Aug
- 2019 08:16:54 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 08:17:12 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 2 Aug 2019 08:16:54 -0500
+ Frontend Transport; Fri, 2 Aug 2019 08:17:12 -0500
 Received: from [10.250.98.129] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x72DGrXM007996;
- Fri, 2 Aug 2019 08:16:53 -0500
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x72DHBTh025005;
+ Fri, 2 Aug 2019 08:17:11 -0500
 Subject: Re: [PATCH v2 0/8] drm/omap: OMAP_BO flags
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>, <airlied@linux.ie>,
  <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>
 References: <20190708104520.24217-1-jjhiblot@ti.com>
  <911cb7a8-aec5-0e8a-d82f-aeec2777d2df@ti.com>
 From: Jean-Jacques Hiblot <jjhiblot@ti.com>
-Message-ID: <77fc76aa-8ec6-886e-c903-141be0e398ca@ti.com>
-Date: Fri, 2 Aug 2019 15:16:47 +0200
+Message-ID: <e75aa6aa-47ea-0a80-4df2-a75150918049@ti.com>
+Date: Fri, 2 Aug 2019 15:17:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
@@ -45,12 +45,12 @@ In-Reply-To: <911cb7a8-aec5-0e8a-d82f-aeec2777d2df@ti.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1564751815;
- bh=sdcJb3D5VL5nUQvdSroxiPmGmCAoYdhjz6S1TNgbge4=;
+ d=ti.com; s=ti-com-17Q1; t=1564751833;
+ bh=KfjNdNN6woo59tiJfigVylguMV3bxVxdRQ2x6ZyvlqQ=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=kI+hxpwxaS6QnWwRvLGqeOrSLSsy7SeJ3MchuZ0Be9ijX9JsFbw/QAe7CcBXiRDWz
- uUuJYk0vSrt+1q0JRz5Esw5bD0yuJWIyGZUHVRZ+jwOvw8SAY1qlI0PFNIuyoaGX+G
- kC9O5saCz9Q2M1h6jw5hVXJs4KSZ9lzM1AiEtUsw=
+ b=cC06ZcN9pc1RoHw+XTBoH+2qJlD7oHdHOQ1N7Tv7M4ivlZT9ilvU+K9eAvAlFvpzj
+ ku+UnsPCX7LlcQw2IIdoU1ssMsT3j8mmKPmW+HDtx0+t0tsWAARjn8ZCgN1Ia78G8K
+ mk5yL9CUD6y+YdM9Ppyt7yALdTg4DgChOAh95ihQ=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,7 +108,8 @@ c2Ugb2YgYXRvbWljCgoKPgo+IElmIEkgcmVjYWxsIHJpZ2h0LCBvbmUgdmFsaWQgY29tbWVudCBm
 cm9tIExhdXJlbnQgd2FzIGFsc28gYWJvdXQgCj4gYWRkaW5nIGtlcm5lbC1kb2MgZm9yIGluY2x1
 ZGUvdWFwaS9kcm0vb21hcF9kcm0uaC4gVGhlIE9NQVBfQk9fKiBmbGFncyAKPiBjb3VsZCBoYXZl
 IGEgYml0IG1vcmUgZXhwbGFuYXRpb25zIGluIHRoZSBmb3JtIG9mIGtlcm5lbCBkb2MuCgpPSyBJ
-IGRpZG4ndCBhZGRyZXNzIHRoaXMgb25lLiBJJ2xsIHdpbGwgZm9yIHYyLgoKCj4gwqBUb21pCj4K
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+IGRpZG4ndCBhZGRyZXNzIHRoaXMgb25lLiBJJ2xsIHVwZGF0ZSB0aGUgY29tbWVudHMgaW4gYSB2
+My4KCgo+IMKgVG9taQo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
