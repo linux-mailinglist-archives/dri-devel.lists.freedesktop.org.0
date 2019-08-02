@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4297EF0E
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 10:21:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07FA27EEDD
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 10:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EEE46ED4B;
-	Fri,  2 Aug 2019 08:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E95606ED22;
+	Fri,  2 Aug 2019 08:19:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com
- [210.160.252.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5C5AC6ECDF
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:40:14 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.64,337,1559487600"; d="scan'208";a="22931998"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A585E6ECDF
+ for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 07:40:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.64,337,1559487600"; d="scan'208";a="23151206"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie6.idc.renesas.com with ESMTP; 02 Aug 2019 16:35:12 +0900
+ by relmlie5.idc.renesas.com with ESMTP; 02 Aug 2019 16:35:16 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id 58AB740078B4;
- Fri,  2 Aug 2019 16:35:09 +0900 (JST)
+ by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0EA3840078B4;
+ Fri,  2 Aug 2019 16:35:13 +0900 (JST)
 From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Jacopo Mondi <jacopo+renesas@jmondi.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH/RFC 08/12] drm: rcar-du: lvds: Fix bridge_to_rcar_lvds
-Date: Fri,  2 Aug 2019 08:34:05 +0100
-Message-Id: <1564731249-22671-9-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH/RFC 09/12] drm: rcar-du: lvds: Fix companion's mode
+Date: Fri,  2 Aug 2019 08:34:06 +0100
+Message-Id: <1564731249-22671-10-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -54,24 +54,24 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXNpbmcgbmFtZSAiYnJpZGdlIiBmb3IgbWFjcm8gYnJpZGdlX3RvX3JjYXJfbHZkcyBhcmd1bWVu
-dCBkb2Vzbid0Cndvcmsgd2hlbiB0aGUgcG9pbnRlciBuYW1lIHVzZWQgYnkgdGhlIGNhbGxlciBp
-cyBub3QgImJyaWRnZSIuClJlbmFtZSB0aGUgYXJndW1lbnQgdG8gImJyaWRnZV9wdHIiIHRvIGFs
-bG93IGZvciBhbnkgcG9pbnRlcgpuYW1lLgoKRml4ZXM6IGM2YTI3ZmE0MWZhYiAoImRybTogcmNh
-ci1kdTogQ29udmVydCBMVkRTIGVuY29kZXIgY29kZSB0byBicmlkZ2UgZHJpdmVyIikKU2lnbmVk
-LW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+
-Ci0tLQogZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgfCA0ICsrLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmNh
-ci1kdS9yY2FyX2x2ZHMuYwppbmRleCA5N2M1MWMyLi5lZGQ2M2Y1IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcmNh
-ci1kdS9yY2FyX2x2ZHMuYwpAQCAtNzIsOCArNzIsOCBAQCBzdHJ1Y3QgcmNhcl9sdmRzIHsKIAli
-b29sIHN0cmlwZV9zd2FwX2RhdGE7CiB9OwogCi0jZGVmaW5lIGJyaWRnZV90b19yY2FyX2x2ZHMo
-YnJpZGdlKSBcCi0JY29udGFpbmVyX29mKGJyaWRnZSwgc3RydWN0IHJjYXJfbHZkcywgYnJpZGdl
-KQorI2RlZmluZSBicmlkZ2VfdG9fcmNhcl9sdmRzKGJyaWRnZV9wdHIpIFwKKwljb250YWluZXJf
-b2YoYnJpZGdlX3B0ciwgc3RydWN0IHJjYXJfbHZkcywgYnJpZGdlKQogCiAjZGVmaW5lIGNvbm5l
-Y3Rvcl90b19yY2FyX2x2ZHMoY29ubmVjdG9yKSBcCiAJY29udGFpbmVyX29mKGNvbm5lY3Rvciwg
-c3RydWN0IHJjYXJfbHZkcywgY29ubmVjdG9yKQotLSAKMi43LjQKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+VGhlIGNvbXBhbmlvbiBlbmNvZGVyIG5lZWRzIHRvIGJlIHRvbGQgdG8gdXNlIHRoZSBzYW1lCm1v
+ZGUgYXMgdGhlIHByaW1hcnkgZW5jb2Rlci4KCkZpeGVzOiBlOWU4Nzk4YWI3YjggKCJkcm06IHJj
+YXItZHU6IGx2ZHM6IEFkZCBzdXBwb3J0IGZvciBkdWFsLWxpbmsgbW9kZSIpClNpZ25lZC1vZmYt
+Ynk6IEZhYnJpemlvIENhc3RybyA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPgotLS0K
+IGRyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfbHZkcy5jIHwgNiArKysrKy0KIDEgZmlsZSBj
+aGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
+L3JjYXJfbHZkcy5jCmluZGV4IGVkZDYzZjUuLjc5NDRhZTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9yY2FyLWR1L3JjYXJfbHZkcy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1
+L3JjYXJfbHZkcy5jCkBAIC00MTUsOCArNDE1LDEyIEBAIHN0YXRpYyB2b2lkIHJjYXJfbHZkc19l
+bmFibGUoc3RydWN0IGRybV9icmlkZ2UgKmJyaWRnZSkKIAkJcmV0dXJuOwogCiAJLyogRW5hYmxl
+IHRoZSBjb21wYW5pb24gTFZEUyBlbmNvZGVyIGluIGR1YWwtbGluayBtb2RlLiAqLwotCWlmIChs
+dmRzLT5kdWFsX2xpbmsgJiYgbHZkcy0+Y29tcGFuaW9uKQorCWlmIChsdmRzLT5kdWFsX2xpbmsg
+JiYgbHZkcy0+Y29tcGFuaW9uKSB7CisJCXN0cnVjdCByY2FyX2x2ZHMgKmNvbXBhbmlvbl9sdmRz
+ID0gYnJpZGdlX3RvX3JjYXJfbHZkcygKKwkJCQkJCQlsdmRzLT5jb21wYW5pb24pOworCQljb21w
+YW5pb25fbHZkcy0+bW9kZSA9IGx2ZHMtPm1vZGU7CiAJCWx2ZHMtPmNvbXBhbmlvbi0+ZnVuY3Mt
+PmVuYWJsZShsdmRzLT5jb21wYW5pb24pOworCX0KIAogCS8qCiAJICogSGFyZGNvZGUgdGhlIGNo
+YW5uZWxzIGFuZCBjb250cm9sIHNpZ25hbHMgcm91dGluZyBmb3Igbm93LgotLSAKMi43LjQKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
