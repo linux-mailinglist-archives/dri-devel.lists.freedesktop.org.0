@@ -1,46 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB5C8002C
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 20:30:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E63480049
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 20:40:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00CEA6EF3D;
-	Fri,  2 Aug 2019 18:29:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F15706EF42;
+	Fri,  2 Aug 2019 18:40:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 925576EF42
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 18:29:57 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8F41972167; Fri,  2 Aug 2019 18:29:57 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111021] [kernel 5.2.1][amdgpu][CIK] BUG: KASAN: null-ptr-deref
- in amdgpu_ib_schedule+0x82/0x790 [amdgpu]
-Date: Fri, 02 Aug 2019 18:29:57 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: erhard_f@mailbox.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111021-502-cCmJZhJXet@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111021-502@http.bugs.freedesktop.org/>
-References: <bug-111021-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D4BF6EED4;
+ Fri,  2 Aug 2019 18:40:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 831C5FB03;
+ Fri,  2 Aug 2019 20:40:50 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dQiXo1Rq36ky; Fri,  2 Aug 2019 20:40:47 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 5B7FE47323; Fri,  2 Aug 2019 20:40:47 +0200 (CEST)
+Date: Fri, 2 Aug 2019 20:40:47 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v2 2/8] drm/etnaviv: split out cmdbuf mapping into
+ address space
+Message-ID: <20190802184047.GA10066@bogon.m.sigxcpu.org>
+References: <20190705171727.27501-1-l.stach@pengutronix.de>
+ <20190705171727.27501-2-l.stach@pengutronix.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190705171727.27501-2-l.stach@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,552 +45,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0082949397=="
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0082949397==
-Content-Type: multipart/alternative; boundary="15647705972.D4a90De4f.10608"
-Content-Transfer-Encoding: 7bit
-
-
---15647705972.D4a90De4f.10608
-Date: Fri, 2 Aug 2019 18:29:57 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111021
-
---- Comment #7 from erhard_f@mailbox.org ---
-Created attachment 144933
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144933&action=3Dedit
-kernel dmesg (5.3-rc2)
-
-[...]
-[  214.315038] cp queue preemption time out
-[  214.315406] Resetting wave fronts (nocpsch) on dev 00000000c3d0b577
-[  214.316011]
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[  214.316631] BUG: KASAN: null-ptr-deref in amdgpu_ib_schedule+0x7c/0x7f0
-[amdgpu]
-[  214.316664] Read of size 8 at addr 0000000000000038 by task xmr-stak/1130
-
-[  214.316724] CPU: 5 PID: 1130 Comm: xmr-stak Not tainted 5.3.0-rc2 #1
-[  214.316754] Hardware name: System manufacturer System Product Name/M5A78=
-L-M
-LX3, BIOS 1401    05/05/2016
-[  214.316783] Call Trace:
-[  214.316818]  dump_stack+0x7c/0xc0
-[  214.317258]  ? amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.317696]  ? amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.317730]  __kasan_report.cold.6+0x5/0x3c
-[  214.318168]  ? amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.318606]  amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.318640]  ? kasan_unpoison_shadow+0x30/0x40
-[  214.318672]  ? __kasan_kmalloc.constprop.7+0xc1/0xd0
-[  214.319110]  ? amdgpu_sync_create+0x32/0x50 [amdgpu]
-[  214.319568]  amdgpu_amdkfd_submit_ib+0x13c/0x230 [amdgpu]
-[  214.320026]  ? amdgpu_amdkfd_get_num_gws+0x20/0x20 [amdgpu]
-[  214.320487]  ? dbgdev_wave_control_diq+0x280/0x280 [amdgpu]
-[  214.320520]  ? wake_up_klogd+0x2b/0x30
-[  214.320550]  ? vprintk_emit+0xdc/0x260
-[  214.320581]  ? memset+0x1f/0x40
-[  214.321040]  deallocate_vmid.isra.12+0x25a/0x270 [amdgpu]
-[  214.321503]  destroy_queue_nocpsch_locked+0x33d/0x360 [amdgpu]
-[  214.321962]  ? init_mqd_sdma+0x90/0x90 [amdgpu]
-[  214.322424]  process_termination_nocpsch+0xb1/0x280 [amdgpu]
-[  214.322886]  kfd_process_dequeue_from_all_devices+0x79/0xa0 [amdgpu]
-[  214.323345]  kfd_process_notifier_release+0x1ab/0x250 [amdgpu]
-[  214.323382]  __mmu_notifier_release+0x9d/0x1c0
-[  214.323414]  ? check_chain_key+0x1d7/0x2e0
-[  214.323446]  exit_mmap+0x7c/0x280
-[  214.323479]  ? __ia32_sys_munmap+0x30/0x30
-[  214.323512]  ? aio_poll_wake+0x3c0/0x3c0
-[  214.323543]  ? lock_downgrade+0x390/0x390
-[  214.323574]  ? up_read+0x12c/0x370
-[  214.323606]  ? rwlock_bug.part.2+0x50/0x50
-[  214.323638]  mmput+0x99/0x1f0
-[  214.323671]  do_exit+0x3cc/0x12e0
-[  214.323703]  ? queued_spin_lock_slowpath+0x366/0x420
-[  214.323735]  ? check_chain_key+0x1d7/0x2e0
-[  214.323766]  ? mm_update_next_owner+0x340/0x340
-[  214.323798]  ? lock_downgrade+0x390/0x390
-[  214.323830]  ? do_raw_spin_lock+0x10e/0x1d0
-[  214.323861]  ? match_held_lock+0x2e/0x240
-[  214.323892]  do_group_exit+0x86/0x130
-[  214.323925]  get_signal+0x1bc/0xeb0
-[  214.323958]  ? refcount_sub_and_test_checked+0xaf/0x150
-[  214.323992]  do_signal+0x9e/0xad0
-[  214.324024]  ? wake_up_q+0x72/0x90
-[  214.324054]  ? rwsem_wake.isra.9+0xb3/0xf0
-[  214.324085]  ? rwsem_mark_wake+0x4d0/0x4d0
-[  214.324116]  ? setup_sigcontext+0x250/0x250
-[  214.324149]  ? __x64_sys_futex+0x1d3/0x240
-[  214.324179]  ? down_read_nested+0x2b0/0x2b0
-[  214.324211]  ? trace_hardirqs_on_thunk+0x1a/0x20
-[  214.324242]  ? mark_held_locks+0x29/0xa0
-[  214.324272]  ? exit_to_usermode_loop+0x41/0x130
-[  214.324303]  exit_to_usermode_loop+0x59/0x130
-[  214.324334]  do_syscall_64+0x1fd/0x250
-[  214.324368]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[  214.324398] RIP: 0033:0x7fd134c26f6c
-[  214.324433] Code: Bad RIP value.
-[  214.324462] RSP: 002b:00007fd11b7fdd30 EFLAGS: 00000246 ORIG_RAX:
-00000000000000ca
-[  214.324496] RAX: fffffffffffffe00 RBX: 00007fd125838c48 RCX:
-00007fd134c26f6c
-[  214.324525] RDX: 0000000000000000 RSI: 0000000000000080 RDI:
-00007fd125838c74
-[  214.324554] RBP: 0000000000000000 R08: 0000000000000000 R09:
-00007fd108000b20
-[  214.324582] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000007
-[  214.324611] R13: 00007fd125838c20 R14: 0000000000000000 R15:
-00007fd125838c74
-[  214.324640]
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[  214.324666] Disabling lock debugging due to kernel taint
-[  214.324680] BUG: kernel NULL pointer dereference, address: 0000000000000=
-038
-[  214.324691] #PF: supervisor read access in kernel mode
-[  214.324700] #PF: error_code(0x0000) - not-present page
-[  214.324708] PGD 0 P4D 0=20
-[  214.324722] Oops: 0000 [#1] SMP KASAN NOPTI
-[  214.324736] CPU: 5 PID: 1130 Comm: xmr-stak Tainted: G    B=20=20=20=20=
-=20=20=20=20=20=20=20=20
-5.3.0-rc2 #1
-[  214.324746] Hardware name: System manufacturer System Product Name/M5A78=
-L-M
-LX3, BIOS 1401    05/05/2016
-[  214.325166] RIP: 0010:amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.325180] Code: 00 00 49 8d 7d 70 e8 e3 d0 73 df 49 8b 45 70 49 8d 7d =
-10
-48 89 44 24 38 e8 d1 d0 73 df 49 8b 6d 10 48 8d 7d 38 e8 c4 d0 73 df <48> 8=
-b 45
-38 48 89 44 24 20 45 84 e4 0f 84 e8 21 30 00 48 83 7c 24
-[  214.325191] RSP: 0018:ffff888378a9f6b0 EFLAGS: 00010286
-[  214.325204] RAX: 0000000000000000 RBX: ffff88837a5884d8 RCX:
-ffffffffa0105081
-[  214.325214] RDX: 0000000000000007 RSI: dffffc0000000000 RDI:
-ffffffffa1968f34
-[  214.325224] RBP: 0000000000000000 R08: fffffbfff42e638d R09:
-fffffbfff42e638d
-[  214.325234] R10: fffffbfff42e638c R11: ffffffffa1731c63 R12:
-0000000000000001
-[  214.325244] R13: ffff8883475050a8 R14: 0000000000000001 R15:
-0000000000ffd000
-[  214.325255] FS:  00007fd11b7fe700(0000) GS:ffff8883e6880000(0000)
-knlGS:0000000000000000
-[  214.325265] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  214.325275] CR2: 0000000000000038 CR3: 0000000373628000 CR4:
-00000000000406e0
-[  214.325283] Call Trace:
-[  214.325299]  ? kasan_unpoison_shadow+0x30/0x40
-[  214.325312]  ? __kasan_kmalloc.constprop.7+0xc1/0xd0
-[  214.325729]  ? amdgpu_sync_create+0x32/0x50 [amdgpu]
-[  214.326163]  amdgpu_amdkfd_submit_ib+0x13c/0x230 [amdgpu]
-[  214.326597]  ? amdgpu_amdkfd_get_num_gws+0x20/0x20 [amdgpu]
-[  214.327035]  ? dbgdev_wave_control_diq+0x280/0x280 [amdgpu]
-[  214.327048]  ? wake_up_klogd+0x2b/0x30
-[  214.327059]  ? vprintk_emit+0xdc/0x260
-[  214.327070]  ? memset+0x1f/0x40
-[  214.327507]  deallocate_vmid.isra.12+0x25a/0x270 [amdgpu]
-[  214.327946]  destroy_queue_nocpsch_locked+0x33d/0x360 [amdgpu]
-[  214.328382]  ? init_mqd_sdma+0x90/0x90 [amdgpu]
-[  214.328819]  process_termination_nocpsch+0xb1/0x280 [amdgpu]
-[  214.329257]  kfd_process_dequeue_from_all_devices+0x79/0xa0 [amdgpu]
-[  214.329694]  kfd_process_notifier_release+0x1ab/0x250 [amdgpu]
-[  214.329709]  __mmu_notifier_release+0x9d/0x1c0
-[  214.329721]  ? check_chain_key+0x1d7/0x2e0
-[  214.329732]  exit_mmap+0x7c/0x280
-[  214.329746]  ? __ia32_sys_munmap+0x30/0x30
-[  214.329758]  ? aio_poll_wake+0x3c0/0x3c0
-[  214.329771]  ? lock_downgrade+0x390/0x390
-[  214.329782]  ? up_read+0x12c/0x370
-[  214.329795]  ? rwlock_bug.part.2+0x50/0x50
-[  214.329808]  mmput+0x99/0x1f0
-[  214.329820]  do_exit+0x3cc/0x12e0
-[  214.329834]  ? queued_spin_lock_slowpath+0x366/0x420
-[  214.329846]  ? check_chain_key+0x1d7/0x2e0
-[  214.329858]  ? mm_update_next_owner+0x340/0x340
-[  214.329871]  ? lock_downgrade+0x390/0x390
-[  214.329884]  ? do_raw_spin_lock+0x10e/0x1d0
-[  214.329896]  ? match_held_lock+0x2e/0x240
-[  214.329908]  do_group_exit+0x86/0x130
-[  214.329921]  get_signal+0x1bc/0xeb0
-[  214.329934]  ? refcount_sub_and_test_checked+0xaf/0x150
-[  214.329947]  do_signal+0x9e/0xad0
-[  214.329959]  ? wake_up_q+0x72/0x90
-[  214.329970]  ? rwsem_wake.isra.9+0xb3/0xf0
-[  214.329981]  ? rwsem_mark_wake+0x4d0/0x4d0
-[  214.329994]  ? setup_sigcontext+0x250/0x250
-[  214.330006]  ? __x64_sys_futex+0x1d3/0x240
-[  214.330017]  ? down_read_nested+0x2b0/0x2b0
-[  214.330029]  ? trace_hardirqs_on_thunk+0x1a/0x20
-[  214.330041]  ? mark_held_locks+0x29/0xa0
-[  214.330052]  ? exit_to_usermode_loop+0x41/0x130
-[  214.330064]  exit_to_usermode_loop+0x59/0x130
-[  214.330076]  do_syscall_64+0x1fd/0x250
-[  214.330089]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[  214.330100] RIP: 0033:0x7fd134c26f6c
-[  214.330112] Code: Bad RIP value.
-[  214.330121] RSP: 002b:00007fd11b7fdd30 EFLAGS: 00000246 ORIG_RAX:
-00000000000000ca
-[  214.330134] RAX: fffffffffffffe00 RBX: 00007fd125838c48 RCX:
-00007fd134c26f6c
-[  214.330143] RDX: 0000000000000000 RSI: 0000000000000080 RDI:
-00007fd125838c74
-[  214.330153] RBP: 0000000000000000 R08: 0000000000000000 R09:
-00007fd108000b20
-[  214.330162] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000007
-[  214.330171] R13: 00007fd125838c20 R14: 0000000000000000 R15:
-00007fd125838c74
-[  214.330181] Modules linked in: fuse cfg80211 rfkill dm_crypt nhpoly1305_=
-sse2
-nhpoly1305 chacha_x86_64 chacha_generic adiantum poly1305_generic
-algif_skcipher crct10dif_pclmul crc32_generic crc32_pclmul ghash_generic
-gf128mul gcm dm_mod input_leds led_class xts joydev hid_generic ctr usbhid =
-hid
-cbc ext4 crc16 mbcache jbd2 ecb amdgpu aesni_intel aes_x86_64 glue_helper
-crypto_simd evdev cryptd k10temp fam15h_power sr_mod cdrom hwmon gpu_sched
-snd_hda_codec_realtek i2c_algo_bit snd_hda_codec_generic ttm snd_hda_codec_=
-hdmi
-ohci_pci drm_kms_helper cfbfillrect syscopyarea cfbimgblt sysfillrect sysim=
-gblt
-fb_sys_fops cfbcopyarea fb font fbdev snd_hda_intel drm snd_hda_codec alx m=
-dio
-snd_hwdep drm_panel_orientation_quirks backlight ehci_pci snd_hda_core ohci=
-_hcd
-snd_pcm ehci_hcd acpi_cpufreq snd_timer usbcore button processor snd usb_co=
-mmon
-soundcore i2c_piix4 lzo sg zstd zram zsmalloc
-[  214.330329] CR2: 0000000000000038
-[  214.330342] ---[ end trace c1688762b8700f92 ]---
-[  214.330760] RIP: 0010:amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.330773] Code: 00 00 49 8d 7d 70 e8 e3 d0 73 df 49 8b 45 70 49 8d 7d =
-10
-48 89 44 24 38 e8 d1 d0 73 df 49 8b 6d 10 48 8d 7d 38 e8 c4 d0 73 df <48> 8=
-b 45
-38 48 89 44 24 20 45 84 e4 0f 84 e8 21 30 00 48 83 7c 24
-[  214.330784] RSP: 0018:ffff888378a9f6b0 EFLAGS: 00010286
-[  214.330796] RAX: 0000000000000000 RBX: ffff88837a5884d8 RCX:
-ffffffffa0105081
-[  214.330806] RDX: 0000000000000007 RSI: dffffc0000000000 RDI:
-ffffffffa1968f34
-[  214.330816] RBP: 0000000000000000 R08: fffffbfff42e638d R09:
-fffffbfff42e638d
-[  214.330826] R10: fffffbfff42e638c R11: ffffffffa1731c63 R12:
-0000000000000001
-[  214.330835] R13: ffff8883475050a8 R14: 0000000000000001 R15:
-0000000000ffd000
-[  214.330847] FS:  00007fd11b7fe700(0000) GS:ffff8883e6880000(0000)
-knlGS:0000000000000000
-[  214.330857] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  214.330866] CR2: 00007fd134c26f42 CR3: 0000000373628000 CR4:
-00000000000406e0
-[  214.330876] Fixing recursive fault but reboot is needed!
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15647705972.D4a90De4f.10608
-Date: Fri, 2 Aug 2019 18:29:57 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [kernel 5.2.1][amdgpu][CIK] BUG: KASAN: null-ptr-deref in=
- amdgpu_ib_schedule+0x82/0x790 [amdgpu]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111021#c7">Commen=
-t # 7</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - [kernel 5.2.1][amdgpu][CIK] BUG: KASAN: null-ptr-deref in=
- amdgpu_ib_schedule+0x82/0x790 [amdgpu]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111021">bug 11102=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-erhard_f&#64;mailbox.org" title=3D"erhard_f&#64;mailbox.org">erhard_f&#64;m=
-ailbox.org</a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144933=
-" name=3D"attach_144933" title=3D"kernel dmesg (5.3-rc2)">attachment 144933=
-</a> <a href=3D"attachment.cgi?id=3D144933&amp;action=3Dedit" title=3D"kern=
-el dmesg (5.3-rc2)">[details]</a></span>
-kernel dmesg (5.3-rc2)
-
-[...]
-[  214.315038] cp queue preemption time out
-[  214.315406] Resetting wave fronts (nocpsch) on dev 00000000c3d0b577
-[  214.316011]
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[  214.316631] BUG: KASAN: null-ptr-deref in amdgpu_ib_schedule+0x7c/0x7f0
-[amdgpu]
-[  214.316664] Read of size 8 at addr 0000000000000038 by task xmr-stak/1130
-
-[  214.316724] CPU: 5 PID: 1130 Comm: xmr-stak Not tainted 5.3.0-rc2 #1
-[  214.316754] Hardware name: System manufacturer System Product Name/M5A78=
-L-M
-LX3, BIOS 1401    05/05/2016
-[  214.316783] Call Trace:
-[  214.316818]  dump_stack+0x7c/0xc0
-[  214.317258]  ? amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.317696]  ? amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.317730]  __kasan_report.cold.6+0x5/0x3c
-[  214.318168]  ? amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.318606]  amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.318640]  ? kasan_unpoison_shadow+0x30/0x40
-[  214.318672]  ? __kasan_kmalloc.constprop.7+0xc1/0xd0
-[  214.319110]  ? amdgpu_sync_create+0x32/0x50 [amdgpu]
-[  214.319568]  amdgpu_amdkfd_submit_ib+0x13c/0x230 [amdgpu]
-[  214.320026]  ? amdgpu_amdkfd_get_num_gws+0x20/0x20 [amdgpu]
-[  214.320487]  ? dbgdev_wave_control_diq+0x280/0x280 [amdgpu]
-[  214.320520]  ? wake_up_klogd+0x2b/0x30
-[  214.320550]  ? vprintk_emit+0xdc/0x260
-[  214.320581]  ? memset+0x1f/0x40
-[  214.321040]  deallocate_vmid.isra.12+0x25a/0x270 [amdgpu]
-[  214.321503]  destroy_queue_nocpsch_locked+0x33d/0x360 [amdgpu]
-[  214.321962]  ? init_mqd_sdma+0x90/0x90 [amdgpu]
-[  214.322424]  process_termination_nocpsch+0xb1/0x280 [amdgpu]
-[  214.322886]  kfd_process_dequeue_from_all_devices+0x79/0xa0 [amdgpu]
-[  214.323345]  kfd_process_notifier_release+0x1ab/0x250 [amdgpu]
-[  214.323382]  __mmu_notifier_release+0x9d/0x1c0
-[  214.323414]  ? check_chain_key+0x1d7/0x2e0
-[  214.323446]  exit_mmap+0x7c/0x280
-[  214.323479]  ? __ia32_sys_munmap+0x30/0x30
-[  214.323512]  ? aio_poll_wake+0x3c0/0x3c0
-[  214.323543]  ? lock_downgrade+0x390/0x390
-[  214.323574]  ? up_read+0x12c/0x370
-[  214.323606]  ? rwlock_bug.part.2+0x50/0x50
-[  214.323638]  mmput+0x99/0x1f0
-[  214.323671]  do_exit+0x3cc/0x12e0
-[  214.323703]  ? queued_spin_lock_slowpath+0x366/0x420
-[  214.323735]  ? check_chain_key+0x1d7/0x2e0
-[  214.323766]  ? mm_update_next_owner+0x340/0x340
-[  214.323798]  ? lock_downgrade+0x390/0x390
-[  214.323830]  ? do_raw_spin_lock+0x10e/0x1d0
-[  214.323861]  ? match_held_lock+0x2e/0x240
-[  214.323892]  do_group_exit+0x86/0x130
-[  214.323925]  get_signal+0x1bc/0xeb0
-[  214.323958]  ? refcount_sub_and_test_checked+0xaf/0x150
-[  214.323992]  do_signal+0x9e/0xad0
-[  214.324024]  ? wake_up_q+0x72/0x90
-[  214.324054]  ? rwsem_wake.isra.9+0xb3/0xf0
-[  214.324085]  ? rwsem_mark_wake+0x4d0/0x4d0
-[  214.324116]  ? setup_sigcontext+0x250/0x250
-[  214.324149]  ? __x64_sys_futex+0x1d3/0x240
-[  214.324179]  ? down_read_nested+0x2b0/0x2b0
-[  214.324211]  ? trace_hardirqs_on_thunk+0x1a/0x20
-[  214.324242]  ? mark_held_locks+0x29/0xa0
-[  214.324272]  ? exit_to_usermode_loop+0x41/0x130
-[  214.324303]  exit_to_usermode_loop+0x59/0x130
-[  214.324334]  do_syscall_64+0x1fd/0x250
-[  214.324368]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[  214.324398] RIP: 0033:0x7fd134c26f6c
-[  214.324433] Code: Bad RIP value.
-[  214.324462] RSP: 002b:00007fd11b7fdd30 EFLAGS: 00000246 ORIG_RAX:
-00000000000000ca
-[  214.324496] RAX: fffffffffffffe00 RBX: 00007fd125838c48 RCX:
-00007fd134c26f6c
-[  214.324525] RDX: 0000000000000000 RSI: 0000000000000080 RDI:
-00007fd125838c74
-[  214.324554] RBP: 0000000000000000 R08: 0000000000000000 R09:
-00007fd108000b20
-[  214.324582] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000007
-[  214.324611] R13: 00007fd125838c20 R14: 0000000000000000 R15:
-00007fd125838c74
-[  214.324640]
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[  214.324666] Disabling lock debugging due to kernel taint
-[  214.324680] BUG: kernel NULL pointer dereference, address: 0000000000000=
-038
-[  214.324691] #PF: supervisor read access in kernel mode
-[  214.324700] #PF: error_code(0x0000) - not-present page
-[  214.324708] PGD 0 P4D 0=20
-[  214.324722] Oops: 0000 [#1] SMP KASAN NOPTI
-[  214.324736] CPU: 5 PID: 1130 Comm: xmr-stak Tainted: G    B=20=20=20=20=
-=20=20=20=20=20=20=20=20
-5.3.0-rc2 #1
-[  214.324746] Hardware name: System manufacturer System Product Name/M5A78=
-L-M
-LX3, BIOS 1401    05/05/2016
-[  214.325166] RIP: 0010:amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.325180] Code: 00 00 49 8d 7d 70 e8 e3 d0 73 df 49 8b 45 70 49 8d 7d =
-10
-48 89 44 24 38 e8 d1 d0 73 df 49 8b 6d 10 48 8d 7d 38 e8 c4 d0 73 df &lt;48=
-&gt; 8b 45
-38 48 89 44 24 20 45 84 e4 0f 84 e8 21 30 00 48 83 7c 24
-[  214.325191] RSP: 0018:ffff888378a9f6b0 EFLAGS: 00010286
-[  214.325204] RAX: 0000000000000000 RBX: ffff88837a5884d8 RCX:
-ffffffffa0105081
-[  214.325214] RDX: 0000000000000007 RSI: dffffc0000000000 RDI:
-ffffffffa1968f34
-[  214.325224] RBP: 0000000000000000 R08: fffffbfff42e638d R09:
-fffffbfff42e638d
-[  214.325234] R10: fffffbfff42e638c R11: ffffffffa1731c63 R12:
-0000000000000001
-[  214.325244] R13: ffff8883475050a8 R14: 0000000000000001 R15:
-0000000000ffd000
-[  214.325255] FS:  00007fd11b7fe700(0000) GS:ffff8883e6880000(0000)
-knlGS:0000000000000000
-[  214.325265] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  214.325275] CR2: 0000000000000038 CR3: 0000000373628000 CR4:
-00000000000406e0
-[  214.325283] Call Trace:
-[  214.325299]  ? kasan_unpoison_shadow+0x30/0x40
-[  214.325312]  ? __kasan_kmalloc.constprop.7+0xc1/0xd0
-[  214.325729]  ? amdgpu_sync_create+0x32/0x50 [amdgpu]
-[  214.326163]  amdgpu_amdkfd_submit_ib+0x13c/0x230 [amdgpu]
-[  214.326597]  ? amdgpu_amdkfd_get_num_gws+0x20/0x20 [amdgpu]
-[  214.327035]  ? dbgdev_wave_control_diq+0x280/0x280 [amdgpu]
-[  214.327048]  ? wake_up_klogd+0x2b/0x30
-[  214.327059]  ? vprintk_emit+0xdc/0x260
-[  214.327070]  ? memset+0x1f/0x40
-[  214.327507]  deallocate_vmid.isra.12+0x25a/0x270 [amdgpu]
-[  214.327946]  destroy_queue_nocpsch_locked+0x33d/0x360 [amdgpu]
-[  214.328382]  ? init_mqd_sdma+0x90/0x90 [amdgpu]
-[  214.328819]  process_termination_nocpsch+0xb1/0x280 [amdgpu]
-[  214.329257]  kfd_process_dequeue_from_all_devices+0x79/0xa0 [amdgpu]
-[  214.329694]  kfd_process_notifier_release+0x1ab/0x250 [amdgpu]
-[  214.329709]  __mmu_notifier_release+0x9d/0x1c0
-[  214.329721]  ? check_chain_key+0x1d7/0x2e0
-[  214.329732]  exit_mmap+0x7c/0x280
-[  214.329746]  ? __ia32_sys_munmap+0x30/0x30
-[  214.329758]  ? aio_poll_wake+0x3c0/0x3c0
-[  214.329771]  ? lock_downgrade+0x390/0x390
-[  214.329782]  ? up_read+0x12c/0x370
-[  214.329795]  ? rwlock_bug.part.2+0x50/0x50
-[  214.329808]  mmput+0x99/0x1f0
-[  214.329820]  do_exit+0x3cc/0x12e0
-[  214.329834]  ? queued_spin_lock_slowpath+0x366/0x420
-[  214.329846]  ? check_chain_key+0x1d7/0x2e0
-[  214.329858]  ? mm_update_next_owner+0x340/0x340
-[  214.329871]  ? lock_downgrade+0x390/0x390
-[  214.329884]  ? do_raw_spin_lock+0x10e/0x1d0
-[  214.329896]  ? match_held_lock+0x2e/0x240
-[  214.329908]  do_group_exit+0x86/0x130
-[  214.329921]  get_signal+0x1bc/0xeb0
-[  214.329934]  ? refcount_sub_and_test_checked+0xaf/0x150
-[  214.329947]  do_signal+0x9e/0xad0
-[  214.329959]  ? wake_up_q+0x72/0x90
-[  214.329970]  ? rwsem_wake.isra.9+0xb3/0xf0
-[  214.329981]  ? rwsem_mark_wake+0x4d0/0x4d0
-[  214.329994]  ? setup_sigcontext+0x250/0x250
-[  214.330006]  ? __x64_sys_futex+0x1d3/0x240
-[  214.330017]  ? down_read_nested+0x2b0/0x2b0
-[  214.330029]  ? trace_hardirqs_on_thunk+0x1a/0x20
-[  214.330041]  ? mark_held_locks+0x29/0xa0
-[  214.330052]  ? exit_to_usermode_loop+0x41/0x130
-[  214.330064]  exit_to_usermode_loop+0x59/0x130
-[  214.330076]  do_syscall_64+0x1fd/0x250
-[  214.330089]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-[  214.330100] RIP: 0033:0x7fd134c26f6c
-[  214.330112] Code: Bad RIP value.
-[  214.330121] RSP: 002b:00007fd11b7fdd30 EFLAGS: 00000246 ORIG_RAX:
-00000000000000ca
-[  214.330134] RAX: fffffffffffffe00 RBX: 00007fd125838c48 RCX:
-00007fd134c26f6c
-[  214.330143] RDX: 0000000000000000 RSI: 0000000000000080 RDI:
-00007fd125838c74
-[  214.330153] RBP: 0000000000000000 R08: 0000000000000000 R09:
-00007fd108000b20
-[  214.330162] R10: 0000000000000000 R11: 0000000000000246 R12:
-0000000000000007
-[  214.330171] R13: 00007fd125838c20 R14: 0000000000000000 R15:
-00007fd125838c74
-[  214.330181] Modules linked in: fuse cfg80211 rfkill dm_crypt nhpoly1305_=
-sse2
-nhpoly1305 chacha_x86_64 chacha_generic adiantum poly1305_generic
-algif_skcipher crct10dif_pclmul crc32_generic crc32_pclmul ghash_generic
-gf128mul gcm dm_mod input_leds led_class xts joydev hid_generic ctr usbhid =
-hid
-cbc ext4 crc16 mbcache jbd2 ecb amdgpu aesni_intel aes_x86_64 glue_helper
-crypto_simd evdev cryptd k10temp fam15h_power sr_mod cdrom hwmon gpu_sched
-snd_hda_codec_realtek i2c_algo_bit snd_hda_codec_generic ttm snd_hda_codec_=
-hdmi
-ohci_pci drm_kms_helper cfbfillrect syscopyarea cfbimgblt sysfillrect sysim=
-gblt
-fb_sys_fops cfbcopyarea fb font fbdev snd_hda_intel drm snd_hda_codec alx m=
-dio
-snd_hwdep drm_panel_orientation_quirks backlight ehci_pci snd_hda_core ohci=
-_hcd
-snd_pcm ehci_hcd acpi_cpufreq snd_timer usbcore button processor snd usb_co=
-mmon
-soundcore i2c_piix4 lzo sg zstd zram zsmalloc
-[  214.330329] CR2: 0000000000000038
-[  214.330342] ---[ end trace c1688762b8700f92 ]---
-[  214.330760] RIP: 0010:amdgpu_ib_schedule+0x7c/0x7f0 [amdgpu]
-[  214.330773] Code: 00 00 49 8d 7d 70 e8 e3 d0 73 df 49 8b 45 70 49 8d 7d =
-10
-48 89 44 24 38 e8 d1 d0 73 df 49 8b 6d 10 48 8d 7d 38 e8 c4 d0 73 df &lt;48=
-&gt; 8b 45
-38 48 89 44 24 20 45 84 e4 0f 84 e8 21 30 00 48 83 7c 24
-[  214.330784] RSP: 0018:ffff888378a9f6b0 EFLAGS: 00010286
-[  214.330796] RAX: 0000000000000000 RBX: ffff88837a5884d8 RCX:
-ffffffffa0105081
-[  214.330806] RDX: 0000000000000007 RSI: dffffc0000000000 RDI:
-ffffffffa1968f34
-[  214.330816] RBP: 0000000000000000 R08: fffffbfff42e638d R09:
-fffffbfff42e638d
-[  214.330826] R10: fffffbfff42e638c R11: ffffffffa1731c63 R12:
-0000000000000001
-[  214.330835] R13: ffff8883475050a8 R14: 0000000000000001 R15:
-0000000000ffd000
-[  214.330847] FS:  00007fd11b7fe700(0000) GS:ffff8883e6880000(0000)
-knlGS:0000000000000000
-[  214.330857] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  214.330866] CR2: 00007fd134c26f42 CR3: 0000000373628000 CR4:
-00000000000406e0
-[  214.330876] Fixing recursive fault but reboot is needed!</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15647705972.D4a90De4f.10608--
-
---===============0082949397==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0082949397==--
+SGksCk9uIEZyaSwgSnVsIDA1LCAyMDE5IGF0IDA3OjE3OjIxUE0gKzAyMDAsIEx1Y2FzIFN0YWNo
+IHdyb3RlOgo+IFRoaXMgYWxsb3dzIHRvIGRlY291cGxlIHRoZSBjbWRidWYgc3ViYWxsb2NhdG9y
+IGNyZWF0ZSBhbmQgbWFwcGluZwo+IHRoZSByZWdpb24gaW50byB0aGUgR1BVIGFkZHJlc3Mgc3Bh
+Y2UuIEFsbG93aW5nIG11bHRpcGxlIEFTIHRvIHNoYXJlCj4gYSBzaW5nbGUgY21kYnVmIHN1YmFs
+bG9jLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1dHJvbml4
+LmRlPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2J1ZmZlci5jIHwg
+MjMgKysrKy0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9jbWRidWYuYyB8
+IDM1ICsrKysrKy0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2NtZGJ1
+Zi5oIHwgMTEgKysrLQo+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2R1bXAuYyAg
+IHwgIDYgKy0KPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYyAgICB8IDE5
+ICsrKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaCAgICB8ICAz
+ICstCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMgICAgfCA3MCArKysr
+KysrKysrKysrKystLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9t
+bXUuaCAgICB8IDEyICsrLS0KPiAgOCBmaWxlcyBjaGFuZ2VkLCAxMTQgaW5zZXJ0aW9ucygrKSwg
+NjUgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2
+L2V0bmF2aXZfYnVmZmVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2J1ZmZl
+ci5jCj4gaW5kZXggZmUwZDJkNjcwMDdkLi42NDAwYTg4Y2Q3NzggMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9ldG5hdml2L2V0bmF2aXZfYnVmZmVyLmMKPiBAQCAtMTE4LDcgKzExOCw4IEBAIHN0YXRp
+YyB2b2lkIGV0bmF2aXZfYnVmZmVyX2R1bXAoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsCj4gIAl1
+MzIgKnB0ciA9IGJ1Zi0+dmFkZHIgKyBvZmY7Cj4gIAo+ICAJZGV2X2luZm8oZ3B1LT5kZXYsICJ2
+aXJ0ICVwIHBoeXMgMHglMDh4IGZyZWUgMHglMDh4XG4iLAo+IC0JCQlwdHIsIGV0bmF2aXZfY21k
+YnVmX2dldF92YShidWYpICsgb2ZmLCBzaXplIC0gbGVuICogNCAtIG9mZik7Cj4gKwkJCXB0ciwg
+ZXRuYXZpdl9jbWRidWZfZ2V0X3ZhKGJ1ZiwgJmdwdS0+Y21kYnVmX21hcHBpbmcpICsKPiArCQkJ
+b2ZmLCBzaXplIC0gbGVuICogNCAtIG9mZik7Cj4gIAo+ICAJcHJpbnRfaGV4X2R1bXAoS0VSTl9J
+TkZPLCAiY21kICIsIERVTVBfUFJFRklYX09GRlNFVCwgMTYsIDQsCj4gIAkJCXB0ciwgbGVuICog
+NCwgMCk7Cj4gQEAgLTE1MSw3ICsxNTIsOCBAQCBzdGF0aWMgdTMyIGV0bmF2aXZfYnVmZmVyX3Jl
+c2VydmUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsCj4gIAlpZiAoYnVmZmVyLT51c2VyX3NpemUg
+KyBjbWRfZHdvcmRzICogc2l6ZW9mKHU2NCkgPiBidWZmZXItPnNpemUpCj4gIAkJYnVmZmVyLT51
+c2VyX3NpemUgPSAwOwo+ICAKPiAtCXJldHVybiBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoYnVmZmVy
+KSArIGJ1ZmZlci0+dXNlcl9zaXplOwo+ICsJcmV0dXJuIGV0bmF2aXZfY21kYnVmX2dldF92YShi
+dWZmZXIsICZncHUtPmNtZGJ1Zl9tYXBwaW5nKSArCj4gKwkgICAgICAgYnVmZmVyLT51c2VyX3Np
+emU7Cj4gIH0KPiAgCj4gIHUxNiBldG5hdml2X2J1ZmZlcl9pbml0KHN0cnVjdCBldG5hdml2X2dw
+dSAqZ3B1KQo+IEBAIC0xNjQsOCArMTY2LDggQEAgdTE2IGV0bmF2aXZfYnVmZmVyX2luaXQoc3Ry
+dWN0IGV0bmF2aXZfZ3B1ICpncHUpCj4gIAlidWZmZXItPnVzZXJfc2l6ZSA9IDA7Cj4gIAo+ICAJ
+Q01EX1dBSVQoYnVmZmVyKTsKPiAtCUNNRF9MSU5LKGJ1ZmZlciwgMiwgZXRuYXZpdl9jbWRidWZf
+Z2V0X3ZhKGJ1ZmZlcikgKwo+IC0JCSBidWZmZXItPnVzZXJfc2l6ZSAtIDQpOwo+ICsJQ01EX0xJ
+TksoYnVmZmVyLCAyLCBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoYnVmZmVyLCAmZ3B1LT5jbWRidWZf
+bWFwcGluZykKPiArCQkgKyBidWZmZXItPnVzZXJfc2l6ZSAtIDQpOwo+ICAKPiAgCXJldHVybiBi
+dWZmZXItPnVzZXJfc2l6ZSAvIDg7Cj4gIH0KPiBAQCAtMjkxLDggKzI5Myw4IEBAIHZvaWQgZXRu
+YXZpdl9zeW5jX3BvaW50X3F1ZXVlKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1LCB1bnNpZ25lZCBp
+bnQgZXZlbnQpCj4gIAo+ICAJLyogQXBwZW5kIHdhaXRsaW5rICovCj4gIAlDTURfV0FJVChidWZm
+ZXIpOwo+IC0JQ01EX0xJTksoYnVmZmVyLCAyLCBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoYnVmZmVy
+KSArCj4gLQkJCSAgICBidWZmZXItPnVzZXJfc2l6ZSAtIDQpOwo+ICsJQ01EX0xJTksoYnVmZmVy
+LCAyLCBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoYnVmZmVyLCAmZ3B1LT5jbWRidWZfbWFwcGluZykK
+PiArCQkgKyBidWZmZXItPnVzZXJfc2l6ZSAtIDQpOwo+ICAKPiAgCS8qCj4gIAkgKiBLaWNrIG9m
+ZiB0aGUgJ3N5bmMgcG9pbnQnIGNvbW1hbmQgYnkgcmVwbGFjaW5nIHRoZSBwcmV2aW91cwo+IEBA
+IC0zMTksNyArMzIxLDcgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3QgZXRuYXZp
+dl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3RhdGUsCj4gIAlpZiAoZHJtX2RlYnVnICYgRFJNX1VUX0RS
+SVZFUikKPiAgCQlldG5hdml2X2J1ZmZlcl9kdW1wKGdwdSwgYnVmZmVyLCAwLCAweDUwKTsKPiAg
+Cj4gLQlsaW5rX3RhcmdldCA9IGV0bmF2aXZfY21kYnVmX2dldF92YShjbWRidWYpOwo+ICsJbGlu
+a190YXJnZXQgPSBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoY21kYnVmLCAmZ3B1LT5jbWRidWZfbWFw
+cGluZyk7Cj4gIAlsaW5rX2R3b3JkcyA9IGNtZGJ1Zi0+c2l6ZSAvIDg7Cj4gIAo+ICAJLyoKPiBA
+QCAtNDEyLDEyICs0MTQsMTMgQEAgdm9pZCBldG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3QgZXRu
+YXZpdl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3RhdGUsCj4gIAlDTURfTE9BRF9TVEFURShidWZmZXIs
+IFZJVlNfR0xfRVZFTlQsIFZJVlNfR0xfRVZFTlRfRVZFTlRfSUQoZXZlbnQpIHwKPiAgCQkgICAg
+ICAgVklWU19HTF9FVkVOVF9GUk9NX1BFKTsKPiAgCUNNRF9XQUlUKGJ1ZmZlcik7Cj4gLQlDTURf
+TElOSyhidWZmZXIsIDIsIGV0bmF2aXZfY21kYnVmX2dldF92YShidWZmZXIpICsKPiAtCQkJICAg
+IGJ1ZmZlci0+dXNlcl9zaXplIC0gNCk7Cj4gKwlDTURfTElOSyhidWZmZXIsIDIsIGV0bmF2aXZf
+Y21kYnVmX2dldF92YShidWZmZXIsICZncHUtPmNtZGJ1Zl9tYXBwaW5nKQo+ICsJCSArIGJ1ZmZl
+ci0+dXNlcl9zaXplIC0gNCk7Cj4gIAo+ICAJaWYgKGRybV9kZWJ1ZyAmIERSTV9VVF9EUklWRVIp
+Cj4gIAkJcHJfaW5mbygic3RyZWFtIGxpbmsgdG8gMHglMDh4IEAgMHglMDh4ICVwXG4iLAo+IC0J
+CQlyZXR1cm5fdGFyZ2V0LCBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoY21kYnVmKSwKPiArCQkJcmV0
+dXJuX3RhcmdldCwKPiArCQkJZXRuYXZpdl9jbWRidWZfZ2V0X3ZhKGNtZGJ1ZiwgJmdwdS0+Y21k
+YnVmX21hcHBpbmcpLAo+ICAJCQljbWRidWYtPnZhZGRyKTsKPiAgCj4gIAlpZiAoZHJtX2RlYnVn
+ICYgRFJNX1VUX0RSSVZFUikgewo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZp
+di9ldG5hdml2X2NtZGJ1Zi5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9jbWRi
+dWYuYwo+IGluZGV4IDdiNzc5OTJmMzFjNC4uODkxNWQ5ZDA1NmE2IDEwMDY0NAo+IC0tLSBhL2Ry
+aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfY21kYnVmLmMKPiArKysgYi9kcml2ZXJzL2dw
+dS9kcm0vZXRuYXZpdi9ldG5hdml2X2NtZGJ1Zi5jCj4gQEAgLTgsNiArOCw3IEBACj4gICNpbmNs
+dWRlIDxkcm0vZHJtX21tLmg+Cj4gIAo+ICAjaW5jbHVkZSAiZXRuYXZpdl9jbWRidWYuaCIKPiAr
+I2luY2x1ZGUgImV0bmF2aXZfZ2VtLmgiCj4gICNpbmNsdWRlICJldG5hdml2X2dwdS5oIgo+ICAj
+aW5jbHVkZSAiZXRuYXZpdl9tbXUuaCIKPiAgCj4gQEAgLTIxLDEwICsyMiw2IEBAIHN0cnVjdCBl
+dG5hdml2X2NtZGJ1Zl9zdWJhbGxvYyB7Cj4gIAl2b2lkICp2YWRkcjsKPiAgCWRtYV9hZGRyX3Qg
+cGFkZHI7Cj4gIAo+IC0JLyogR1BVIG1hcHBpbmcgKi8KPiAtCXUzMiBpb3ZhOwo+IC0Jc3RydWN0
+IGRybV9tbV9ub2RlIHZyYW1fbm9kZTsgLyogb25seSB1c2VkIG9uIE1NVXYyICovCj4gLQo+ICAJ
+LyogYWxsb2NhdGlvbiBtYW5hZ2VtZW50ICovCj4gIAlzdHJ1Y3QgbXV0ZXggbG9jazsKPiAgCURF
+Q0xBUkVfQklUTUFQKGdyYW51bGVfbWFwLCBTVUJBTExPQ19HUkFOVUxFUyk7Cj4gQEAgLTUzLDI2
+ICs1MCwzMSBAQCBldG5hdml2X2NtZGJ1Zl9zdWJhbGxvY19uZXcoc3RydWN0IGV0bmF2aXZfZ3B1
+ICogZ3B1KQo+ICAJCWdvdG8gZnJlZV9zdWJhbGxvYzsKPiAgCX0KPiAgCj4gLQlyZXQgPSBldG5h
+dml2X2lvbW11X2dldF9zdWJhbGxvY192YShncHUsIHN1YmFsbG9jLT5wYWRkciwKPiAtCQkJCQkg
+ICAgJnN1YmFsbG9jLT52cmFtX25vZGUsIFNVQkFMTE9DX1NJWkUsCj4gLQkJCQkJICAgICZzdWJh
+bGxvYy0+aW92YSk7Cj4gLQlpZiAocmV0KQo+IC0JCWdvdG8gZnJlZV9kbWE7Cj4gLQo+ICAJcmV0
+dXJuIHN1YmFsbG9jOwo+ICAKPiAtZnJlZV9kbWE6Cj4gLQlkbWFfZnJlZV93YyhncHUtPmRldiwg
+U1VCQUxMT0NfU0laRSwgc3ViYWxsb2MtPnZhZGRyLCBzdWJhbGxvYy0+cGFkZHIpOwo+ICBmcmVl
+X3N1YmFsbG9jOgo+ICAJa2ZyZWUoc3ViYWxsb2MpOwo+ICAKPiAgCXJldHVybiBFUlJfUFRSKHJl
+dCk7Cj4gIH0KPiAgCj4gK2ludCBldG5hdml2X2NtZGJ1Zl9zdWJhbGxvY19tYXAoc3RydWN0IGV0
+bmF2aXZfY21kYnVmX3N1YmFsbG9jICpzdWJhbGxvYywKPiArCQkJCXN0cnVjdCBldG5hdml2X2lv
+bW11ICptbXUsCj4gKwkJCQlzdHJ1Y3QgZXRuYXZpdl92cmFtX21hcHBpbmcgKm1hcHBpbmcsCj4g
+KwkJCQl1MzIgbWVtb3J5X2Jhc2UpCj4gK3sKPiArCXJldHVybiBldG5hdml2X2lvbW11X2dldF9z
+dWJhbGxvY192YShtbXUsIG1hcHBpbmcsIG1lbW9yeV9iYXNlLAo+ICsJCQkJCSAgICAgc3ViYWxs
+b2MtPnBhZGRyLCBTVUJBTExPQ19TSVpFKTsKPiArfQo+ICsKPiArdm9pZCBldG5hdml2X2NtZGJ1
+Zl9zdWJhbGxvY191bm1hcChzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqbW11LAo+ICsJCQkJICAgc3Ry
+dWN0IGV0bmF2aXZfdnJhbV9tYXBwaW5nICptYXBwaW5nKQo+ICt7Cj4gKwlldG5hdml2X2lvbW11
+X3B1dF9zdWJhbGxvY192YShtbXUsIG1hcHBpbmcpOwo+ICt9Cj4gKwo+ICB2b2lkIGV0bmF2aXZf
+Y21kYnVmX3N1YmFsbG9jX2Rlc3Ryb3koc3RydWN0IGV0bmF2aXZfY21kYnVmX3N1YmFsbG9jICpz
+dWJhbGxvYykKPiAgewo+IC0JZXRuYXZpdl9pb21tdV9wdXRfc3ViYWxsb2NfdmEoc3ViYWxsb2Mt
+PmdwdSwgJnN1YmFsbG9jLT52cmFtX25vZGUsCj4gLQkJCQkgICAgICBTVUJBTExPQ19TSVpFLCBz
+dWJhbGxvYy0+aW92YSk7Cj4gIAlkbWFfZnJlZV93YyhzdWJhbGxvYy0+Z3B1LT5kZXYsIFNVQkFM
+TE9DX1NJWkUsIHN1YmFsbG9jLT52YWRkciwKPiAgCQkgICAgc3ViYWxsb2MtPnBhZGRyKTsKPiAg
+CWtmcmVlKHN1YmFsbG9jKTsKPiBAQCAtMTI2LDkgKzEyOCwxMCBAQCB2b2lkIGV0bmF2aXZfY21k
+YnVmX2ZyZWUoc3RydWN0IGV0bmF2aXZfY21kYnVmICpjbWRidWYpCj4gIAl3YWtlX3VwX2FsbCgm
+c3ViYWxsb2MtPmZyZWVfZXZlbnQpOwo+ICB9Cj4gIAo+IC11MzIgZXRuYXZpdl9jbWRidWZfZ2V0
+X3ZhKHN0cnVjdCBldG5hdml2X2NtZGJ1ZiAqYnVmKQo+ICt1MzIgZXRuYXZpdl9jbWRidWZfZ2V0
+X3ZhKHN0cnVjdCBldG5hdml2X2NtZGJ1ZiAqYnVmLAo+ICsJCQkgIHN0cnVjdCBldG5hdml2X3Zy
+YW1fbWFwcGluZyAqbWFwcGluZykKPiAgewo+IC0JcmV0dXJuIGJ1Zi0+c3ViYWxsb2MtPmlvdmEg
+KyBidWYtPnN1YmFsbG9jX29mZnNldDsKPiArCXJldHVybiBtYXBwaW5nLT5pb3ZhICsgYnVmLT5z
+dWJhbGxvY19vZmZzZXQ7Cj4gIH0KPiAgCj4gIGRtYV9hZGRyX3QgZXRuYXZpdl9jbWRidWZfZ2V0
+X3BhKHN0cnVjdCBldG5hdml2X2NtZGJ1ZiAqYnVmKQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vZXRuYXZpdi9ldG5hdml2X2NtZGJ1Zi5oIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9jbWRidWYuaAo+IGluZGV4IDQ5OTA4Nzk3NDU2ZS4uMTFkOTVmMDVjMDE3IDEwMDY0
+NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfY21kYnVmLmgKPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2NtZGJ1Zi5oCj4gQEAgLTksNiArOSw4
+IEBACj4gICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgo+ICAKPiAgc3RydWN0IGV0bmF2aXZfZ3B1
+Owo+ICtzdHJ1Y3QgZXRuYXZpdl9pb21tdTsKPiArc3RydWN0IGV0bmF2aXZfdnJhbV9tYXBwaW5n
+Owo+ICBzdHJ1Y3QgZXRuYXZpdl9jbWRidWZfc3ViYWxsb2M7Cj4gIAo+ICBzdHJ1Y3QgZXRuYXZp
+dl9jbWRidWYgewo+IEBAIC0yNCwxMyArMjYsMjAgQEAgc3RydWN0IGV0bmF2aXZfY21kYnVmIHsK
+PiAgc3RydWN0IGV0bmF2aXZfY21kYnVmX3N1YmFsbG9jICoKPiAgZXRuYXZpdl9jbWRidWZfc3Vi
+YWxsb2NfbmV3KHN0cnVjdCBldG5hdml2X2dwdSAqIGdwdSk7Cj4gIHZvaWQgZXRuYXZpdl9jbWRi
+dWZfc3ViYWxsb2NfZGVzdHJveShzdHJ1Y3QgZXRuYXZpdl9jbWRidWZfc3ViYWxsb2MgKnN1YmFs
+bG9jKTsKPiAraW50IGV0bmF2aXZfY21kYnVmX3N1YmFsbG9jX21hcChzdHJ1Y3QgZXRuYXZpdl9j
+bWRidWZfc3ViYWxsb2MgKnN1YmFsbG9jLAo+ICsJCQkJc3RydWN0IGV0bmF2aXZfaW9tbXUgKm1t
+dSwKPiArCQkJCXN0cnVjdCBldG5hdml2X3ZyYW1fbWFwcGluZyAqbWFwcGluZywKPiArCQkJCXUz
+MiBtZW1vcnlfYmFzZSk7Cj4gK3ZvaWQgZXRuYXZpdl9jbWRidWZfc3ViYWxsb2NfdW5tYXAoc3Ry
+dWN0IGV0bmF2aXZfaW9tbXUgKm1tdSwKPiArCQkJCSAgIHN0cnVjdCBldG5hdml2X3ZyYW1fbWFw
+cGluZyAqbWFwcGluZyk7Cj4gIAo+ICAKPiAgaW50IGV0bmF2aXZfY21kYnVmX2luaXQoc3RydWN0
+IGV0bmF2aXZfY21kYnVmX3N1YmFsbG9jICpzdWJhbGxvYywKPiAgCQlzdHJ1Y3QgZXRuYXZpdl9j
+bWRidWYgKmNtZGJ1ZiwgdTMyIHNpemUpOwo+ICB2b2lkIGV0bmF2aXZfY21kYnVmX2ZyZWUoc3Ry
+dWN0IGV0bmF2aXZfY21kYnVmICpjbWRidWYpOwo+ICAKPiAtdTMyIGV0bmF2aXZfY21kYnVmX2dl
+dF92YShzdHJ1Y3QgZXRuYXZpdl9jbWRidWYgKmJ1Zik7Cj4gK3UzMiBldG5hdml2X2NtZGJ1Zl9n
+ZXRfdmEoc3RydWN0IGV0bmF2aXZfY21kYnVmICpidWYsCj4gKwkJCSAgc3RydWN0IGV0bmF2aXZf
+dnJhbV9tYXBwaW5nICptYXBwaW5nKTsKPiAgZG1hX2FkZHJfdCBldG5hdml2X2NtZGJ1Zl9nZXRf
+cGEoc3RydWN0IGV0bmF2aXZfY21kYnVmICpidWYpOwo+ICAKPiAgI2VuZGlmIC8qIF9fRVROQVZJ
+Vl9DTURCVUZfSF9fICovCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
+bmF2aXZfZHVtcC5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9kdW1wLmMKPiBp
+bmRleCAwYWE4Y2RlNjg1OTMuLjEzYTYzZDlkY2Y1NCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZXRuYXZpdi9ldG5hdml2X2R1bXAuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5h
+dml2L2V0bmF2aXZfZHVtcC5jCj4gQEAgLTE3MywxMSArMTczLDEzIEBAIHZvaWQgZXRuYXZpdl9j
+b3JlX2R1bXAoc3RydWN0IGV0bmF2aXZfZ2VtX3N1Ym1pdCAqc3VibWl0KQo+ICAKPiAgCWV0bmF2
+aXZfY29yZV9kdW1wX21lbSgmaXRlciwgRVREVU1QX0JVRl9SSU5HLCBncHUtPmJ1ZmZlci52YWRk
+ciwKPiAgCQkJICAgICAgZ3B1LT5idWZmZXIuc2l6ZSwKPiAtCQkJICAgICAgZXRuYXZpdl9jbWRi
+dWZfZ2V0X3ZhKCZncHUtPmJ1ZmZlcikpOwo+ICsJCQkgICAgICBldG5hdml2X2NtZGJ1Zl9nZXRf
+dmEoJmdwdS0+YnVmZmVyLAo+ICsJCQkJCQkgICAgJmdwdS0+Y21kYnVmX21hcHBpbmcpKTsKPiAg
+Cj4gIAlldG5hdml2X2NvcmVfZHVtcF9tZW0oJml0ZXIsIEVURFVNUF9CVUZfQ01ELAo+ICAJCQkg
+ICAgICBzdWJtaXQtPmNtZGJ1Zi52YWRkciwgc3VibWl0LT5jbWRidWYuc2l6ZSwKPiAtCQkJICAg
+ICAgZXRuYXZpdl9jbWRidWZfZ2V0X3ZhKCZzdWJtaXQtPmNtZGJ1ZikpOwo+ICsJCQkgICAgICBl
+dG5hdml2X2NtZGJ1Zl9nZXRfdmEoJnN1Ym1pdC0+Y21kYnVmLAo+ICsJCQkJCQkgICAgJmdwdS0+
+Y21kYnVmX21hcHBpbmcpKTsKPiAgCj4gIAkvKiBSZXNlcnZlIHNwYWNlIGZvciB0aGUgYm9tYXAg
+Ki8KPiAgCWlmIChuX2JvbWFwX3BhZ2VzKSB7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
+bS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
+X2dwdS5jCj4gaW5kZXggZTg0YTBlZDkwNGFhLi42MmEzOGE2M2U0ZWIgMTAwNjQ0Cj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMKPiBAQCAtNjg3LDggKzY4Nyw4IEBAIHN0YXRpYyB2
+b2lkIGV0bmF2aXZfZ3B1X2h3X2luaXQoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUpCj4gIAlwcmVm
+ZXRjaCA9IGV0bmF2aXZfYnVmZmVyX2luaXQoZ3B1KTsKPiAgCj4gIAlncHVfd3JpdGUoZ3B1LCBW
+SVZTX0hJX0lOVFJfRU5CTCwgfjBVKTsKPiAtCWV0bmF2aXZfZ3B1X3N0YXJ0X2ZlKGdwdSwgZXRu
+YXZpdl9jbWRidWZfZ2V0X3ZhKCZncHUtPmJ1ZmZlciksCj4gLQkJCSAgICAgcHJlZmV0Y2gpOwo+
+ICsJZXRuYXZpdl9ncHVfc3RhcnRfZmUoZ3B1LCBldG5hdml2X2NtZGJ1Zl9nZXRfdmEoJmdwdS0+
+YnVmZmVyLAo+ICsJCQkgICAgICZncHUtPmNtZGJ1Zl9tYXBwaW5nKSwgcHJlZmV0Y2gpOwo+ICB9
+Cj4gIAo+ICBpbnQgZXRuYXZpdl9ncHVfaW5pdChzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSkKPiBA
+QCAtNzY3LDE2ICs3NjcsMjQgQEAgaW50IGV0bmF2aXZfZ3B1X2luaXQoc3RydWN0IGV0bmF2aXZf
+Z3B1ICpncHUpCj4gIAkJZ290byBkZXN0cm95X2lvbW11Owo+ICAJfQo+ICAKPiArCXJldCA9IGV0
+bmF2aXZfY21kYnVmX3N1YmFsbG9jX21hcChncHUtPmNtZGJ1Zl9zdWJhbGxvYywgZ3B1LT5tbXUs
+Cj4gKwkJCQkJICAmZ3B1LT5jbWRidWZfbWFwcGluZywKPiArCQkJCQkgIGdwdS0+bWVtb3J5X2Jh
+c2UpOwo+ICsJaWYgKHJldCkgewo+ICsJCWRldl9lcnIoZ3B1LT5kZXYsICJmYWlsZWQgdG8gbWFw
+IGNtZGJ1ZiBzdWJhbGxvY1xuIik7Cj4gKwkJZ290byBkZXN0cm95X3N1YmFsbG9jOwo+ICsJfQo+
+ICsKPiAgCS8qIENyZWF0ZSBidWZmZXI6ICovCj4gIAlyZXQgPSBldG5hdml2X2NtZGJ1Zl9pbml0
+KGdwdS0+Y21kYnVmX3N1YmFsbG9jLCAmZ3B1LT5idWZmZXIsCj4gIAkJCQkgIFBBR0VfU0laRSk7
+Cj4gIAlpZiAocmV0KSB7Cj4gIAkJZGV2X2VycihncHUtPmRldiwgImNvdWxkIG5vdCBjcmVhdGUg
+Y29tbWFuZCBidWZmZXJcbiIpOwo+IC0JCWdvdG8gZGVzdHJveV9zdWJhbGxvYzsKPiArCQlnb3Rv
+IHVubWFwX3N1YmFsbG9jOwo+ICAJfQo+ICAKPiAgCWlmIChncHUtPm1tdS0+dmVyc2lvbiA9PSBF
+VE5BVklWX0lPTU1VX1YxICYmCj4gLQkgICAgZXRuYXZpdl9jbWRidWZfZ2V0X3ZhKCZncHUtPmJ1
+ZmZlcikgPiAweDgwMDAwMDAwKSB7Cj4gKwkgICAgZXRuYXZpdl9jbWRidWZfZ2V0X3ZhKCZncHUt
+PmJ1ZmZlciwgJmdwdS0+Y21kYnVmX21hcHBpbmcpID4gMHg4MDAwMDAwMCkgewo+ICAJCXJldCA9
+IC1FSU5WQUw7Cj4gIAkJZGV2X2VycihncHUtPmRldiwKPiAgCQkJImNvbW1hbmQgYnVmZmVyIG91
+dHNpZGUgdmFsaWQgbWVtb3J5IHdpbmRvd1xuIik7Cj4gQEAgLTgwNSw2ICs4MTMsOCBAQCBpbnQg
+ZXRuYXZpdl9ncHVfaW5pdChzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSkKPiAgCj4gIGZyZWVfYnVm
+ZmVyOgo+ICAJZXRuYXZpdl9jbWRidWZfZnJlZSgmZ3B1LT5idWZmZXIpOwo+ICt1bm1hcF9zdWJh
+bGxvYzoKPiArCWV0bmF2aXZfY21kYnVmX3N1YmFsbG9jX3VubWFwKGdwdS0+bW11LCAmZ3B1LT5j
+bWRidWZfbWFwcGluZyk7Cj4gIGRlc3Ryb3lfc3ViYWxsb2M6Cj4gIAlldG5hdml2X2NtZGJ1Zl9z
+dWJhbGxvY19kZXN0cm95KGdwdS0+Y21kYnVmX3N1YmFsbG9jKTsKPiAgZGVzdHJveV9pb21tdToK
+PiBAQCAtMTY4MSw2ICsxNjkxLDcgQEAgc3RhdGljIHZvaWQgZXRuYXZpdl9ncHVfdW5iaW5kKHN0
+cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+ICAKPiAgCWlmIChncHUt
+PmluaXRpYWxpemVkKSB7Cj4gIAkJZXRuYXZpdl9jbWRidWZfZnJlZSgmZ3B1LT5idWZmZXIpOwo+
+ICsJCWV0bmF2aXZfY21kYnVmX3N1YmFsbG9jX3VubWFwKGdwdS0+bW11LCAmZ3B1LT5jbWRidWZf
+bWFwcGluZyk7Cj4gIAkJZXRuYXZpdl9jbWRidWZfc3ViYWxsb2NfZGVzdHJveShncHUtPmNtZGJ1
+Zl9zdWJhbGxvYyk7Cj4gIAkJZXRuYXZpdl9pb21tdV9kZXN0cm95KGdwdS0+bW11KTsKPiAgCQln
+cHUtPmluaXRpYWxpemVkID0gZmFsc2U7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9l
+dG5hdml2L2V0bmF2aXZfZ3B1LmggYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dw
+dS5oCj4gaW5kZXggYjA2YzdjOThkNTIyLi42YTZhZGQzNTBkMmQgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ldG5hdml2L2V0bmF2aXZfZ3B1LmgKPiBAQCAtNyw2ICs3LDcgQEAKPiAgI2RlZmluZSBfX0VU
+TkFWSVZfR1BVX0hfXwo+ICAKPiAgI2luY2x1ZGUgImV0bmF2aXZfY21kYnVmLmgiCj4gKyNpbmNs
+dWRlICJldG5hdml2X2dlbS5oIgo+ICAjaW5jbHVkZSAiZXRuYXZpdl9kcnYuaCIKPiAgCj4gIHN0
+cnVjdCBldG5hdml2X2dlbV9zdWJtaXQ7Cj4gQEAgLTg0LDcgKzg1LDYgQEAgc3RydWN0IGV0bmF2
+aXZfZXZlbnQgewo+ICB9Owo+ICAKPiAgc3RydWN0IGV0bmF2aXZfY21kYnVmX3N1YmFsbG9jOwo+
+IC1zdHJ1Y3QgZXRuYXZpdl9jbWRidWY7Cj4gIHN0cnVjdCByZWd1bGF0b3I7Cj4gIHN0cnVjdCBj
+bGs7Cj4gIAo+IEBAIC0xMDIsNiArMTAyLDcgQEAgc3RydWN0IGV0bmF2aXZfZ3B1IHsKPiAgCWJv
+b2wgaW5pdGlhbGl6ZWQ7Cj4gIAo+ICAJLyogJ3JpbmcnLWJ1ZmZlcjogKi8KPiArCXN0cnVjdCBl
+dG5hdml2X3ZyYW1fbWFwcGluZyBjbWRidWZfbWFwcGluZzsKPiAgCXN0cnVjdCBldG5hdml2X2Nt
+ZGJ1ZiBidWZmZXI7Cj4gIAlpbnQgZXhlY19zdGF0ZTsKPiAgCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZp
+di9ldG5hdml2X21tdS5jCj4gaW5kZXggNzMxMjc1OTk5YTU3Li5kZDgxMzc2NzI0ZDcgMTAwNjQ0
+Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuYwo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMKPiBAQCAtMzM0LDUyICszMzQsNzIg
+QEAgdm9pZCBldG5hdml2X2lvbW11X3Jlc3RvcmUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUpCj4g
+IAkJZXRuYXZpdl9pb21tdXYyX3Jlc3RvcmUoZ3B1KTsKPiAgfQo+ICAKPiAtaW50IGV0bmF2aXZf
+aW9tbXVfZ2V0X3N1YmFsbG9jX3ZhKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1LCBkbWFfYWRkcl90
+IHBhZGRyLAo+IC0JCQkJICBzdHJ1Y3QgZHJtX21tX25vZGUgKnZyYW1fbm9kZSwgc2l6ZV90IHNp
+emUsCj4gLQkJCQkgIHUzMiAqaW92YSkKPiAraW50IGV0bmF2aXZfaW9tbXVfZ2V0X3N1YmFsbG9j
+X3ZhKHN0cnVjdCBldG5hdml2X2lvbW11ICptbXUsCj4gKwkJCQkgIHN0cnVjdCBldG5hdml2X3Zy
+YW1fbWFwcGluZyAqbWFwcGluZywKPiArCQkJCSAgdTMyIG1lbW9yeV9iYXNlLCBkbWFfYWRkcl90
+IHBhZGRyLAo+ICsJCQkJICBzaXplX3Qgc2l6ZSkKPiAgewo+IC0Jc3RydWN0IGV0bmF2aXZfaW9t
+bXUgKm1tdSA9IGdwdS0+bW11Owo+ICsJbXV0ZXhfbG9jaygmbW11LT5sb2NrKTsKPiAgCj4gKwkv
+Kgo+ICsJICogRm9yIE1NVXYxIHdlIGRvbid0IGFkZCB0aGUgc3ViYWxsb2MgcmVnaW9uIHRvIHRo
+ZSBwYWdldGFibGVzLCBhcwo+ICsJICogdGhvc2UgR1BVcyBjYW4gb25seSB3b3JrIHdpdGggY21k
+YnVmcyBhY2Nlc3NlZCB0aHJvdWdoIHRoZSBsaW5lYXIKPiArCSAqIHdpbmRvdy4gSW5zdGVhZCB3
+ZSBtYW51ZmFjdHVyZSBhIG1hcHBpbmcgdG8gbWFrZSBpdCBsb29rIHVuaWZvcm0KPiArCSAqIHRv
+IHRoZSB1cHBlciBsYXllcnMuCj4gKwkgKi8KPiAgCWlmIChtbXUtPnZlcnNpb24gPT0gRVROQVZJ
+Vl9JT01NVV9WMSkgewo+IC0JCSppb3ZhID0gcGFkZHIgLSBncHUtPm1lbW9yeV9iYXNlOwo+IC0J
+CXJldHVybiAwOwo+ICsJCW1hcHBpbmctPmlvdmEgPSBwYWRkciAtIG1lbW9yeV9iYXNlOwo+ICsJ
+CWxpc3RfYWRkX3RhaWwoJm1hcHBpbmctPm1tdV9ub2RlLCAmbW11LT5tYXBwaW5ncyk7Cj4gIAl9
+IGVsc2Ugewo+ICsJCXN0cnVjdCBkcm1fbW1fbm9kZSAqbm9kZSA9ICZtYXBwaW5nLT52cmFtX25v
+ZGU7Cj4gIAkJaW50IHJldDsKPiAgCj4gLQkJbXV0ZXhfbG9jaygmbW11LT5sb2NrKTsKPiAtCQly
+ZXQgPSBldG5hdml2X2lvbW11X2ZpbmRfaW92YShtbXUsIHZyYW1fbm9kZSwgc2l6ZSk7Cj4gKwkJ
+cmV0ID0gZXRuYXZpdl9pb21tdV9maW5kX2lvdmEobW11LCBub2RlLCBzaXplKTsKPiAgCQlpZiAo
+cmV0IDwgMCkgewo+ICAJCQltdXRleF91bmxvY2soJm1tdS0+bG9jayk7Cj4gIAkJCXJldHVybiBy
+ZXQ7Cj4gIAkJfQo+IC0JCXJldCA9IGV0bmF2aXZfZG9tYWluX21hcChtbXUtPmRvbWFpbiwgdnJh
+bV9ub2RlLT5zdGFydCwgcGFkZHIsCj4gLQkJCQkJIHNpemUsIEVUTkFWSVZfUFJPVF9SRUFEKTsK
+PiArCj4gKwkJbWFwcGluZy0+aW92YSA9IG5vZGUtPnN0YXJ0Owo+ICsJCXJldCA9IGV0bmF2aXZf
+ZG9tYWluX21hcChtbXUtPmRvbWFpbiwgbm9kZS0+c3RhcnQsIHBhZGRyLCBzaXplLAo+ICsJCQkJ
+CSBFVE5BVklWX1BST1RfUkVBRCk7Cj4gKwo+ICAJCWlmIChyZXQgPCAwKSB7Cj4gLQkJCWRybV9t
+bV9yZW1vdmVfbm9kZSh2cmFtX25vZGUpOwo+ICsJCQlkcm1fbW1fcmVtb3ZlX25vZGUobm9kZSk7
+Cj4gIAkJCW11dGV4X3VubG9jaygmbW11LT5sb2NrKTsKPiAgCQkJcmV0dXJuIHJldDsKPiAgCQl9
+Cj4gLQkJZ3B1LT5tbXUtPm5lZWRfZmx1c2ggPSB0cnVlOwo+IC0JCW11dGV4X3VubG9jaygmbW11
+LT5sb2NrKTsKPiAgCj4gLQkJKmlvdmEgPSAodTMyKXZyYW1fbm9kZS0+c3RhcnQ7Cj4gLQkJcmV0
+dXJuIDA7Cj4gKwkJbGlzdF9hZGRfdGFpbCgmbWFwcGluZy0+bW11X25vZGUsICZtbXUtPm1hcHBp
+bmdzKTsKPiArCQltbXUtPm5lZWRfZmx1c2ggPSB0cnVlOwo+ICAJfQo+ICsKPiArCW1hcHBpbmct
+PnVzZSA9IDE7Cj4gKwo+ICsJbXV0ZXhfdW5sb2NrKCZtbXUtPmxvY2spOwo+ICsKPiArCXJldHVy
+biAwOwo+ICB9Cj4gIAo+IC12b2lkIGV0bmF2aXZfaW9tbXVfcHV0X3N1YmFsbG9jX3ZhKHN0cnVj
+dCBldG5hdml2X2dwdSAqZ3B1LAo+IC0JCQkJICAgc3RydWN0IGRybV9tbV9ub2RlICp2cmFtX25v
+ZGUsIHNpemVfdCBzaXplLAo+IC0JCQkJICAgdTMyIGlvdmEpCj4gK3ZvaWQgZXRuYXZpdl9pb21t
+dV9wdXRfc3ViYWxsb2NfdmEoc3RydWN0IGV0bmF2aXZfaW9tbXUgKm1tdSwKPiArCQkgIHN0cnVj
+dCBldG5hdml2X3ZyYW1fbWFwcGluZyAqbWFwcGluZykKPiAgewo+IC0Jc3RydWN0IGV0bmF2aXZf
+aW9tbXUgKm1tdSA9IGdwdS0+bW11Owo+ICsJc3RydWN0IGRybV9tbV9ub2RlICpub2RlID0gJm1h
+cHBpbmctPnZyYW1fbm9kZTsKPiAgCj4gLQlpZiAobW11LT52ZXJzaW9uID09IEVUTkFWSVZfSU9N
+TVVfVjIpIHsKPiAtCQltdXRleF9sb2NrKCZtbXUtPmxvY2spOwo+IC0JCWV0bmF2aXZfZG9tYWlu
+X3VubWFwKG1tdS0+ZG9tYWluLCBpb3ZhLCBzaXplKTsKPiAtCQlkcm1fbW1fcmVtb3ZlX25vZGUo
+dnJhbV9ub2RlKTsKPiAtCQltdXRleF91bmxvY2soJm1tdS0+bG9jayk7Cj4gLQl9Cj4gKwlpZiAo
+IW1hcHBpbmctPnVzZSkKPiArCQlyZXR1cm47Cj4gKwo+ICsJbWFwcGluZy0+dXNlID0gMDsKPiAr
+Cj4gKwlpZiAobW11LT52ZXJzaW9uID09IEVUTkFWSVZfSU9NTVVfVjEpCj4gKwkJcmV0dXJuOwo+
+ICsKPiArCW11dGV4X2xvY2soJm1tdS0+bG9jayk7Cj4gKwlldG5hdml2X2RvbWFpbl91bm1hcCht
+bXUtPmRvbWFpbiwgbm9kZS0+c3RhcnQsIG5vZGUtPnNpemUpOwo+ICsJZHJtX21tX3JlbW92ZV9u
+b2RlKG5vZGUpOwo+ICsJbXV0ZXhfdW5sb2NrKCZtbXUtPmxvY2spOwo+ICB9Cj4gKwo+ICBzaXpl
+X3QgZXRuYXZpdl9pb21tdV9kdW1wX3NpemUoc3RydWN0IGV0bmF2aXZfaW9tbXUgKmlvbW11KQo+
+ICB7Cj4gIAlyZXR1cm4gaW9tbXUtPmRvbWFpbi0+b3BzLT5kdW1wX3NpemUoaW9tbXUtPmRvbWFp
+bik7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11Lmgg
+Yi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21tdS5oCj4gaW5kZXggYTBkYjE3ZmZi
+Njg2Li5mZTFjOWQ2YjkzMzQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
+ZXRuYXZpdl9tbXUuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11
+LmgKPiBAQCAtNTksMTIgKzU5LDEyIEBAIGludCBldG5hdml2X2lvbW11X21hcF9nZW0oc3RydWN0
+IGV0bmF2aXZfaW9tbXUgKm1tdSwKPiAgdm9pZCBldG5hdml2X2lvbW11X3VubWFwX2dlbShzdHJ1
+Y3QgZXRuYXZpdl9pb21tdSAqbW11LAo+ICAJc3RydWN0IGV0bmF2aXZfdnJhbV9tYXBwaW5nICpt
+YXBwaW5nKTsKPiAgCj4gLWludCBldG5hdml2X2lvbW11X2dldF9zdWJhbGxvY192YShzdHJ1Y3Qg
+ZXRuYXZpdl9ncHUgKmdwdSwgZG1hX2FkZHJfdCBwYWRkciwKPiAtCQkJCSAgc3RydWN0IGRybV9t
+bV9ub2RlICp2cmFtX25vZGUsIHNpemVfdCBzaXplLAo+IC0JCQkJICB1MzIgKmlvdmEpOwo+IC12
+b2lkIGV0bmF2aXZfaW9tbXVfcHV0X3N1YmFsbG9jX3ZhKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1
+LAo+IC0JCQkJICAgc3RydWN0IGRybV9tbV9ub2RlICp2cmFtX25vZGUsIHNpemVfdCBzaXplLAo+
+IC0JCQkJICAgdTMyIGlvdmEpOwo+ICtpbnQgZXRuYXZpdl9pb21tdV9nZXRfc3ViYWxsb2NfdmEo
+c3RydWN0IGV0bmF2aXZfaW9tbXUgKm1tdSwKPiArCQkJCSAgc3RydWN0IGV0bmF2aXZfdnJhbV9t
+YXBwaW5nICptYXBwaW5nLAo+ICsJCQkJICB1MzIgbWVtb3J5X2Jhc2UsIGRtYV9hZGRyX3QgcGFk
+ZHIsCj4gKwkJCQkgIHNpemVfdCBzaXplKTsKPiArdm9pZCBldG5hdml2X2lvbW11X3B1dF9zdWJh
+bGxvY192YShzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqbW11LAo+ICsJCQkJICAgc3RydWN0IGV0bmF2
+aXZfdnJhbV9tYXBwaW5nICptYXBwaW5nKTsKPiAgCj4gIHNpemVfdCBldG5hdml2X2lvbW11X2R1
+bXBfc2l6ZShzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqaW9tbXUpOwo+ICB2b2lkIGV0bmF2aXZfaW9t
+bXVfZHVtcChzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqaW9tbXUsIHZvaWQgKmJ1Zik7CgoKUmV2aWV3
+ZWQtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+CgpDaGVlcnMsCiAtLSBHdWlk
+bwoKPiAtLSAKPiAyLjIwLjEKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwo+IGV0bmF2aXYgbWFpbGluZyBsaXN0Cj4gZXRuYXZpdkBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2V0bmF2aXYKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
