@@ -1,45 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD4480014
-	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 20:14:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD8D80023
+	for <lists+dri-devel@lfdr.de>; Fri,  2 Aug 2019 20:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A01786EF36;
-	Fri,  2 Aug 2019 18:14:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE5376EF3B;
+	Fri,  2 Aug 2019 18:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id C71C76EF3A
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 18:14:19 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C38EA72167; Fri,  2 Aug 2019 18:14:19 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Fri, 02 Aug 2019 18:14:19 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: cspack@verizon.net
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-DTR1X4H99b@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3746E6EF3A;
+ Fri,  2 Aug 2019 18:23:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 81A1EFB03;
+ Fri,  2 Aug 2019 20:23:43 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uDBIAJzXWCrI; Fri,  2 Aug 2019 20:23:42 +0200 (CEST)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 0532447323; Fri,  2 Aug 2019 20:23:41 +0200 (CEST)
+Date: Fri, 2 Aug 2019 20:23:41 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v2 2/8] drm/etnaviv: split out cmdbuf mapping into
+ address space
+Message-ID: <20190802182341.GA10483@bogon.m.sigxcpu.org>
+References: <20190705171727.27501-1-l.stach@pengutronix.de>
+ <20190705171727.27501-2-l.stach@pengutronix.de>
+ <20190802133900.GA3251@bogon.m.sigxcpu.org>
+ <1564755713.3090.3.camel@pengutronix.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1564755713.3090.3.camel@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,91 +47,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0388588747=="
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0388588747==
-Content-Type: multipart/alternative; boundary="15647696594.E6bf9F54.7051"
-Content-Transfer-Encoding: 7bit
-
-
---15647696594.E6bf9F54.7051
-Date: Fri, 2 Aug 2019 18:14:19 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
---- Comment #11 from cspack@verizon.net ---
-@Samuele Yes, after redoing the bisect I got the same result as you did.
-Thanks.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15647696594.E6bf9F54.7051
-Date: Fri, 2 Aug 2019 18:14:19 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
-spend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c11">Comme=
-nt # 11</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEEDINFO "
-   title=3D"NEEDINFO - amdgpu kernel 5.2 blank display after resume from su=
-spend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-cspack&#64;verizon.net" title=3D"cspack&#64;verizon.net">cspack&#64;verizon=
-.net</a>
-</span></b>
-        <pre>&#64;Samuele Yes, after redoing the bisect I got the same resu=
-lt as you did.
-Thanks.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15647696594.E6bf9F54.7051--
-
---===============0388588747==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0388588747==--
+SGksCk9uIEZyaSwgQXVnIDAyLCAyMDE5IGF0IDA0OjIxOjUzUE0gKzAyMDAsIFBoaWxpcHAgWmFi
+ZWwgd3JvdGU6Cj4gSGkgR3VpZG8sCj4gCj4gT24gRnJpLCAyMDE5LTA4LTAyIGF0IDE1OjM5ICsw
+MjAwLCBHdWlkbyBHw7xudGhlciB3cm90ZToKPiA+IEhpIEx1Y2FzLAo+ID4gT24gRnJpLCBKdWwg
+MDUsIDIwMTkgYXQgMDc6MTc6MjFQTSArMDIwMCwgTHVjYXMgU3RhY2ggd3JvdGU6Cj4gPiA+IFRo
+aXMgYWxsb3dzIHRvIGRlY291cGxlIHRoZSBjbWRidWYgc3ViYWxsb2NhdG9yIGNyZWF0ZSBhbmQg
+bWFwcGluZwo+ID4gPiB0aGUgcmVnaW9uIGludG8gdGhlIEdQVSBhZGRyZXNzIHNwYWNlLiBBbGxv
+d2luZyBtdWx0aXBsZSBBUyB0byBzaGFyZQo+ID4gPiBhIHNpbmdsZSBjbWRidWYgc3ViYWxsb2Mu
+Cj4gPiAKPiA+IENhbiB5b3UgdGVsbCBtZSB3aGVyZSB0aGlzIHdvdWxkIGFwcGx5PyBJIHRyaWVk
+IDUuMiBhbmQgbmV4dC0yMDE5MDcyNgo+ID4gd2l0aCBhbmQgd2l0aG91dAo+ID4gCj4gPiAgICBb
+UEFUQ0ggMS8yXSBkcm0vZXRuYXZpdjogZml4IGV0bmF2aXZfY21kYnVmX3N1YmFsbG9jX25ldyBy
+ZXR1cm4gdmFsdWUKPiAKPiBJIGhhdmUgc3RhY2tlZAo+IAo+IGRybS9ldG5hdml2OiBkcm9wIHVz
+ZSBvZiBkcm1QLmgKPiBkcm0vZXRuYXZpdjogVXNlCj4gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jl
+c291cmNlKCkKPiBkcm0vZXRuYXZpdjogY2xlYW4gdXAgaW5jbHVkZXMKPiBkcm0vZXRuYXZpdjog
+Zml4Cj4gZXRuYXZpdl9jbWRidWZfc3ViYWxsb2NfbmV3IHJldHVybiB2YWx1ZQo+IGRybS9ldG5h
+dml2OiByZW1vdmUgdW51c2VkIGZ1bmN0aW9uIGV0bmF2aXZfZ2VtX21hcHBpbmdfcmVmZXJlbmNl
+Cj4gZHJtL2V0bmF2aXY6IGR1bXAgb25seSBmYWlsaW5nIHN1Ym1pdAo+IGRybS9ldG5hdml2OiBz
+aW1wbGlmeSB1bmJpbmQgY2hlY2tzCj4gCj4gb24gdG9wIG9mIHY1LjMtcjEgYW5kIHRoaXMgcGF0
+Y2ggYXBwbGllZCB3aXRoIGEgYml0IG9mIGZ1enouCgpUaGF0IHdvcmtlZCwgdGhhbmtzIQogLS0g
+R3VpZG8KCj4gCj4gcmVnYXJkcwo+IFBoaWxpcHAKPiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwo+IGV0bmF2aXYgbWFpbGluZyBsaXN0Cj4gZXRuYXZpdkBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2V0bmF2aXYKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVs
