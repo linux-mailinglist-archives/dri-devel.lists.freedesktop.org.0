@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C31E806DB
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 16:57:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FEB80752
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 18:54:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44F256E56B;
-	Sat,  3 Aug 2019 14:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D84D6E0CC;
+	Sat,  3 Aug 2019 16:54:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC3536E56B
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 14:57:40 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 1984B20024;
- Sat,  3 Aug 2019 16:57:37 +0200 (CEST)
-Date: Sat, 3 Aug 2019 16:57:35 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>
-Subject: [PATCH v1 1/1] drm/exynos: drop use of drmP.h (2nd round)
-Message-ID: <20190803145735.GA28393@ravnborg.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 605336E0CC
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 16:54:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5D43172168; Sat,  3 Aug 2019 16:54:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Sat, 03 Aug 2019 16:54:17 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-NwQexRlK9L@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=hD80L64hAAAA:8 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=ggZf5UuCCofRMXhvyr8A:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,90 +52,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jingoo Han <jingoohan1@gmail.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0430358991=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlcmUgd2FzIGEgZmV3IHVzZXMgb2YgZHJtUCB0aGF0IHdhcyBtaXNzZWQgaW4gdGhlIGxhc3QK
-cGF0Y2ggcmVtb3ZpbmcgdGhpcyBoZWFkZXIgZnJvbSBleHlub3MuCgpSZW1vdmUgdGhlIGZpbmFs
-IHVzZXMgb2YgdGhpcyBoZWFkZXIuCgpTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUBy
-YXZuYm9yZy5vcmc+CkNjOiBJbmtpIERhZSA8aW5raS5kYWVAc2Ftc3VuZy5jb20+CkNjOiBKb29u
-eW91bmcgU2hpbSA8ankwOTIyLnNoaW1Ac2Ftc3VuZy5jb20+CkNjOiBTZXVuZy1Xb28gS2ltIDxz
-dzAzMTIua2ltQHNhbXN1bmcuY29tPgpDYzogS3l1bmdtaW4gUGFyayA8a3l1bmdtaW4ucGFya0Bz
-YW1zdW5nLmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmll
-bCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IEt1a2ppbiBLaW0gPGtnZW5lQGtlcm5lbC5v
-cmc+CkNjOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+CkNjOiBKaW5nb28g
-SGFuIDxqaW5nb29oYW4xQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4
-eW5vc19kcm1fZHJ2LmMgICAgIHwgOCArKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9l
-eHlub3NfZHJtX2ZpbWMuYyAgICB8IDIgKysKIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9z
-X2RybV9nc2MuYyAgICAgfCAyICsrCiBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1f
-aXBwLmMgICAgIHwgNSArKysrLQogZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2lw
-cC5oICAgICB8IDIgLS0KIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9yb3RhdG9y
-LmMgfCAyICsrCiBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fc2NhbGVyLmMgIHwg
-MSArCiA3IGZpbGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2Rydi5jIGIvZHJp
-dmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2Rydi5jCmluZGV4IGNjNTNkY2FkMjVlNC4u
-OGEwM2EzM2MzMmNiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19k
-cm1fZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2Rydi5jCkBA
-IC04LDEyICs4LDIwIEBACiAgKi8KIAogI2luY2x1ZGUgPGxpbnV4L2NvbXBvbmVudC5oPgorI2lu
-Y2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5nLmg+CisjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2
-aWNlLmg+CiAjaW5jbHVkZSA8bGludXgvcG1fcnVudGltZS5oPgorI2luY2x1ZGUgPGxpbnV4L3Vh
-Y2Nlc3MuaD4KIAogI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljLmg+CiAjaW5jbHVkZSA8ZHJtL2Ry
-bV9hdG9taWNfaGVscGVyLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9kcnYuaD4KICNpbmNsdWRlIDxk
-cm0vZHJtX2ZiX2hlbHBlci5oPgorI2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPgorI2luY2x1ZGUg
-PGRybS9kcm1fZm91cmNjLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9pb2N0bC5oPgogI2luY2x1ZGUg
-PGRybS9kcm1fcHJvYmVfaGVscGVyLmg+CisjaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KICNp
-bmNsdWRlIDxkcm0vZXh5bm9zX2RybS5oPgogCiAjaW5jbHVkZSAiZXh5bm9zX2RybV9kcnYuaCIK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9maW1jLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1fZmltYy5jCmluZGV4IGE1OTRhYjdiZTJj
-MC4uNWNmMGVkMGQ3MTRjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5v
-c19kcm1fZmltYy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9maW1j
-LmMKQEAgLTE3LDYgKzE3LDggQEAKICNpbmNsdWRlIDxsaW51eC9yZWdtYXAuaD4KICNpbmNsdWRl
-IDxsaW51eC9zcGlubG9jay5oPgogCisjaW5jbHVkZSA8ZHJtL2RybV9mb3VyY2MuaD4KKyNpbmNs
-dWRlIDxkcm0vZHJtX3ByaW50Lmg+CiAjaW5jbHVkZSA8ZHJtL2V4eW5vc19kcm0uaD4KIAogI2lu
-Y2x1ZGUgImV4eW5vc19kcm1fZHJ2LmgiCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXh5
-bm9zL2V4eW5vc19kcm1fZ3NjLmMgYi9kcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19kcm1f
-Z3NjLmMKaW5kZXggMWU0YjIxYzQ5YTA2Li5hMGZjOWEyYTU4ZjYgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9nc2MuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-ZXh5bm9zL2V4eW5vc19kcm1fZ3NjLmMKQEAgLTE2LDYgKzE2LDggQEAKICNpbmNsdWRlIDxsaW51
-eC9wbV9ydW50aW1lLmg+CiAjaW5jbHVkZSA8bGludXgvcmVnbWFwLmg+CiAKKyNpbmNsdWRlIDxk
-cm0vZHJtX2ZvdXJjYy5oPgorI2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KICNpbmNsdWRlIDxk
-cm0vZXh5bm9zX2RybS5oPgogCiAjaW5jbHVkZSAiZXh5bm9zX2RybV9kcnYuaCIKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9pcHAuYyBiL2RyaXZlcnMvZ3B1
-L2RybS9leHlub3MvZXh5bm9zX2RybV9pcHAuYwppbmRleCBkNDViZmFiNmZlNDAuLjRmMmI3NTUx
-YjI1MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2lwcC5j
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9pcHAuYwpAQCAtMTYsNyAr
-MTYsMTAgQEAKICAqIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNv
-ZnR3YXJlLgogICovCiAKLSNpbmNsdWRlIDxkcm0vZHJtUC5oPgorI2luY2x1ZGUgPGxpbnV4L3Vh
-Y2Nlc3MuaD4KKworI2luY2x1ZGUgPGRybS9kcm1fZmlsZS5oPgorI2luY2x1ZGUgPGRybS9kcm1f
-Zm91cmNjLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9tb2RlLmg+CiAjaW5jbHVkZSA8ZHJtL2V4eW5v
-c19kcm0uaD4KIApkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJt
-X2lwcC5oIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2lwcC5oCmluZGV4IDlj
-YmJjMzAxYmVjOS4uNjdhMDgwNWVlMDA5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZXh5
-bm9zL2V4eW5vc19kcm1faXBwLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3Nf
-ZHJtX2lwcC5oCkBAIC02LDggKzYsNiBAQAogI2lmbmRlZiBfRVhZTk9TX0RSTV9JUFBfSF8KICNk
-ZWZpbmUgX0VYWU5PU19EUk1fSVBQX0hfCiAKLSNpbmNsdWRlIDxkcm0vZHJtUC5oPgotCiBzdHJ1
-Y3QgZXh5bm9zX2RybV9pcHA7CiBzdHJ1Y3QgZXh5bm9zX2RybV9pcHBfdGFzazsKIApkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX3JvdGF0b3IuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9yb3RhdG9yLmMKaW5kZXggOGViYWQyNzQwYWQ1
-Li5iOTg0ODI5OTBkMWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9z
-X2RybV9yb3RhdG9yLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX3Jv
-dGF0b3IuYwpAQCAtMTUsNyArMTUsOSBAQAogI2luY2x1ZGUgPGxpbnV4L29mX2RldmljZS5oPgog
-I2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2RldmljZS5oPgogI2luY2x1ZGUgPGxpbnV4L3BtX3J1
-bnRpbWUuaD4KKyNpbmNsdWRlIDxsaW51eC9zaXplcy5oPgogCisjaW5jbHVkZSA8ZHJtL2RybV9m
-b3VyY2MuaD4KICNpbmNsdWRlIDxkcm0vZXh5bm9zX2RybS5oPgogCiAjaW5jbHVkZSAiZXh5bm9z
-X2RybV9kcnYuaCIKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2Ry
-bV9zY2FsZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9zY2FsZXIuYwpp
-bmRleCA5YWYwOTY0NzllMWMuLmYwODJmMjU5Y2E2ZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2V4eW5vcy9leHlub3NfZHJtX3NjYWxlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9leHlu
-b3MvZXh5bm9zX2RybV9zY2FsZXIuYwpAQCAtMTUsNiArMTUsNyBAQAogI2luY2x1ZGUgPGxpbnV4
-L3BsYXRmb3JtX2RldmljZS5oPgogI2luY2x1ZGUgPGxpbnV4L3BtX3J1bnRpbWUuaD4KIAorI2lu
-Y2x1ZGUgPGRybS9kcm1fZm91cmNjLmg+CiAjaW5jbHVkZSA8ZHJtL2V4eW5vc19kcm0uaD4KIAog
-I2luY2x1ZGUgImV4eW5vc19kcm1fZHJ2LmgiCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0430358991==
+Content-Type: multipart/alternative; boundary="15648512574.b9DD.29337"
+Content-Transfer-Encoding: 7bit
+
+
+--15648512574.b9DD.29337
+Date: Sat, 3 Aug 2019 16:54:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #73 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+On Sat, Aug 03, 2019 at 01:35:55PM +0000, bugzilla-daemon@freedesktop.org
+wrote:
+> [    5.759204] amdgpu 0000:0a:00.0: Direct firmware load for
+> amdgpu/vega20_ta.bin failed with error -2
+> [    5.759205] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
+> "amdgpu/vega20_ta.bin"
+
+Did you get the latest and "greatest" amdgpu firmware package?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15648512574.b9DD.29337
+Date: Sat, 3 Aug 2019 16:54:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c73">Comme=
+nt # 73</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre>On Sat, Aug 03, 2019 at 01:35:55PM +0000, <a href=3D"mailto:bu=
+gzilla-daemon&#64;freedesktop.org">bugzilla-daemon&#64;freedesktop.org</a>
+wrote:
+<span class=3D"quote">&gt; [    5.759204] amdgpu 0000:0a:00.0: Direct firmw=
+are load for
+&gt; amdgpu/vega20_ta.bin failed with error -2
+&gt; [    5.759205] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
+&gt; &quot;amdgpu/vega20_ta.bin&quot;</span >
+
+Did you get the latest and &quot;greatest&quot; amdgpu firmware package?</p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15648512574.b9DD.29337--
+
+--===============0430358991==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0430358991==--
