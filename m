@@ -2,44 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7998053E
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 10:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BC98053F
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 10:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 993E56E479;
-	Sat,  3 Aug 2019 08:19:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B4636E46F;
+	Sat,  3 Aug 2019 08:19:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id ED0126E479
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 08:19:00 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E979272167; Sat,  3 Aug 2019 08:19:00 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Sat, 03 Aug 2019 08:19:01 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: samuele.decarli@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status
-Message-ID: <bug-111244-502-3mNnk7p0yx@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE856E46F
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 08:19:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2019 01:19:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,341,1559545200"; d="scan'208";a="164160230"
+Received: from pkozlows-mobl2.ger.corp.intel.com (HELO [10.252.36.235])
+ ([10.252.36.235])
+ by orsmga007.jf.intel.com with ESMTP; 03 Aug 2019 01:19:14 -0700
+Subject: Re: [PATCH] drm/syncobj: Add better overview documentation for syncobj
+To: Jason Ekstrand <jason@jlekstrand.net>, dri-devel@lists.freedesktop.org
+References: <20190802174033.10505-1-jason@jlekstrand.net>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Message-ID: <f06de0f5-2eaf-6ac9-803b-890d4f0a972c@intel.com>
+Date: Sat, 3 Aug 2019 11:19:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190802174033.10505-1-jason@jlekstrand.net>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,119 +47,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1901831379=="
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1901831379==
-Content-Type: multipart/alternative; boundary="15648203401.b9CA12f2.7282"
-Content-Transfer-Encoding: 7bit
-
-
---15648203401.b9CA12f2.7282
-Date: Sat, 3 Aug 2019 08:19:00 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
-Samuele Decarli <samuele.decarli@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEEDINFO                    |NEW
-
---- Comment #13 from Samuele Decarli <samuele.decarli@gmail.com> ---
-Similar thing for me: disabling composition in Plasma makes suspend/resume =
-work
-again.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15648203401.b9CA12f2.7282
-Date: Sat, 3 Aug 2019 08:19:00 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:samuele.d=
-ecarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli&#64;gmai=
-l.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEEDINFO
-           </td>
-           <td>NEW
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c13">Comme=
-nt # 13</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
-&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
-</span></b>
-        <pre>Similar thing for me: disabling composition in Plasma makes su=
-spend/resume work
-again.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15648203401.b9CA12f2.7282--
-
---===============1901831379==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1901831379==--
+VGhhbmtzIGEgbG90IGZvciB3cml0aW5nIHRoaXMgOikKSSBub3cgaGF2ZSBhIGNhbnZhcyB0byBh
+ZGQgc3R1ZmYgb24hCgpKdXN0IGEgY291cGxlIG9mIHF1ZXN0aW9ucyBiZWxvdy4KCi1MaW9uZWwK
+Ck9uIDAyLzA4LzIwMTkgMjA6NDAsIEphc29uIEVrc3RyYW5kIHdyb3RlOgo+IFRoaXMgcGF0Y2gg
+b25seSBicmluZ3MgdGhlIHN5bmNvYmogZG9jdW1lbnRhdGlvbiB1cC10by1kYXRlIGZvciB0aGUK
+PiBvcmlnaW5hbCBmb3JtIG9mIHN5bmNvYmouICBJdCBkb2VzIG5vdCBjb250YWluIGFueSBpbmZv
+cm1hdGlvbiBhYm91dCB0aGUKPiBkZXNpZ24gb2YgdGltZWxpbmUgc3luY29ianMuCj4gLS0tCj4g
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYyB8IDgxICsrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKystLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNzMgaW5zZXJ0aW9ucygrKSwgOCBk
+ZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmou
+YyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCj4gaW5kZXggMTQzOGRjYjNlYmIxLi4w
+M2NjODg4NzQ0ZmIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMK
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYwo+IEBAIC0yOSwxNyArMjksODIg
+QEAKPiAgIC8qKgo+ICAgICogRE9DOiBPdmVydmlldwo+ICAgICoKPiAtICogRFJNIHN5bmNocm9u
+aXNhdGlvbiBvYmplY3RzIChzeW5jb2JqLCBzZWUgc3RydWN0ICZkcm1fc3luY29iaikgYXJlCj4g
+LSAqIHBlcnNpc3RlbnQgb2JqZWN0cyB0aGF0IGNvbnRhaW4gYW4gb3B0aW9uYWwgZmVuY2UuIFRo
+ZSBmZW5jZSBjYW4gYmUgdXBkYXRlZAo+IC0gKiB3aXRoIGEgbmV3IGZlbmNlLCBvciBiZSBOVUxM
+Lgo+ICsgKiBEUk0gc3luY2hyb25pc2F0aW9uIG9iamVjdHMgKHN5bmNvYmosIHNlZSBzdHJ1Y3Qg
+JmRybV9zeW5jb2JqKSBwcm92aWRlIGEKPiArICogc3luY2hyb25pemF0aW9uIHByaW1pdGl2ZSB3
+aGljaCBjYW4gYmUgdXNlZCBieSB1c2Vyc3BhY2UgdG8gZXhwbGljaXRseQo+ICsgKiBzeW5jaHJv
+bml6ZSBHUFUgY29tbWFuZHMsIGNhbiBiZSBzaGFyZWQgYmV0d2VlbiB1c2Vyc3BhY2UgcHJvY2Vz
+c2VzLCBhbmQKPiArICogY2FuIGJlIHNoYXJlZCBiZXR3ZWVuIGRpZmZlcmVudCBEUk0gZHJpdmVy
+cy4KCgpJJ3ZlIGJlZW4gd29uZGVyaW5nIHdoZXRoZXIgd2Ugc2hvdWxkIGNhbGwgaXQgYSBjb250
+YWluZXIgZm9yIGEgCnN5bmNocm9uaXphdGlvbiBwcmltaXRpdmUgcmF0aGVyIHRoYW4gYSBwcmlt
+aXRpdmUgaXRzZWxmLgoKU3luYyBmaWxlcyBhcmUgYWxzbyBhIGNvbnRhaW5lciwganVzdCB3ZSBm
+ZXdlciBmZWF0dXJlcyAobm8gaG9zdCAKb3BlcmF0aW9ucykuCgpJdCdzIG5vdCByZWFsbHkgaW1w
+b3J0YW50IDopCgoKPiArICogVGhlaXIgcHJpbWFyeSB1c2UtY2FzZSBpcyB0byBpbXBsZW1lbnQg
+VnVsa2FuIGZlbmNlcyBhbmQgc2VtYXBob3Jlcy4KPiArICogVGhlIHN5bmNvYmogdXNlcnNwYWNl
+IEFQSSBwcm92aWRlcyBpb2N0bHMgZm9yIHNldmVyYWwgb3BlcmF0aW9uczoKPiAgICAqCj4gLSAq
+IHN5bmNvYmoncyBjYW4gYmUgd2FpdGVkIHVwb24sIHdoZXJlIGl0IHdpbGwgd2FpdCBmb3IgdGhl
+IHVuZGVybHlpbmcKPiAtICogZmVuY2UuCj4gKyAqICAtIENyZWF0aW9uIGFuZCBkZXN0cnVjdGlv
+biBvZiBzeW5jb2Jqcwo+ICsgKiAgLSBJbXBvcnQgYW5kIGV4cG9ydCBvZiBzeW5jb2JqcyB0by9m
+cm9tIGEgc3luY29iaiBmaWxlIGRlc2NyaXB0b3IKPiArICogIC0gSW1wb3J0IGFuZCBleHBvcnQg
+YSBzeW5jb2JqJ3MgdW5kZXJseWluZyBmZW5jZSB0by9mcm9tIGEgc3luYyBmaWxlCj4gKyAqICAt
+IFJlc2V0IGEgc3luY29iaiAoc2V0IGl0cyBmZW5jZSB0byBOVUxMKQo+ICsgKiAgLSBTaWduYWwg
+YSBzeW5jb2JqIChzZXQgYSB0cml2aWFsbHkgc2lnbmFsZWQgZmVuY2UpCj4gKyAqICAtIFdhaXQg
+YSBzeW5jb2JqJ3MgZmVuY2UgdG8gYmUgc2lnbmFsZWQKPiAgICAqCj4gLSAqIHN5bmNvYmoncyBj
+YW4gYmUgZXhwb3J0IHRvIGZkJ3MgYW5kIGJhY2ssIHRoZXNlIGZkJ3MgYXJlIG9wYXF1ZSBhbmQK
+PiAtICogaGF2ZSBubyBvdGhlciB1c2UgY2FzZSwgZXhjZXB0IHBhc3NpbmcgdGhlIHN5bmNvYmog
+YmV0d2VlbiBwcm9jZXNzZXMuCj4gKyAqIEF0IGl0J3MgY29yZSwgYSBzeW5jb2JqIHNpbXBseSBh
+IHdyYXBwZXIgYXJvdW5kIGEgcG9pbnRlciB0byBhIHN0cnVjdAo+ICsgKiAmZG1hX2ZlbmNlIHdo
+aWNoIG1heSBiZSBOVUxMLgo+ICsgKiBXaGVuIEdQVSB3b3JrIHdoaWNoIHNpZ25hbHMgYSBzeW5j
+b2JqIGlzIGVucXVldWVkIGluIGEgRFJNIGRyaXZlciwKPiArICogdGhlIHN5bmNvYmogZmVuY2Ug
+aXMgcmVwbGFjZWQgd2l0aCBhIGZlbmNlIHdoaWNoIHdpbGwgYmUgc2lnbmFsZWQgYnkgdGhlCj4g
+KyAqIGNvbXBsZXRpb24gb2YgdGhhdCB3b3JrLgo+ICsgKiBXaGVuIEdQVSB3b3JrIHdoaWNoIHdh
+aXRzIG9uIGEgc3luY29iaiBpcyBlbnF1ZXVlZCBpbiBhIERSTSBkcml2ZXIsIHRoZQo+ICsgKiBk
+cml2ZXIgcmV0cmlldmVzIHN5bmNvYmoncyBjdXJyZW50IGZlbmNlIGF0IHRoZSB0aW1lIHRoZSB3
+b3JrIGlzIGVucXVldWVkCj4gKyAqIHdhaXRzIG9uIHRoYXQgZmVuY2UgYmVmb3JlIHN1Ym1pdHRp
+bmcgdGhlIHdvcmsgdG8gaGFyZHdhcmUuCj4gKyAqIElmIHRoZSBzeW5jb2JqJ3MgZmVuY2UgaXMg
+TlVMTCwgdGhlIGVucXVldWUgb3BlcmF0aW9uIGlzIGV4cGVjdGVkIHRvIGZhaWwuCj4gKyAqIEFs
+bCBtYW5pcHVsYXRpb24gb2YgdGhlIHN5bmNvYmpzJ3MgZmVuY2UgaGFwcGVucyBpbiB0ZXJtcyBv
+ZiB0aGUgY3VycmVudAo+ICsgKiBmZW5jZSBhdCB0aGUgdGltZSB0aGUgaW9jdGwgaXMgY2FsbGVk
+IGJ5IHVzZXJzcGFjZSByZWdhcmRsZXNzIG9mIHdoZXRoZXIKPiArICogdGhhdCBvcGVyYXRpb24g
+aXMgYW4gaW1tZWRpYXRlIGhvc3Qtc2lkZSBvcGVyYXRpb24gKHNpZ25hbCBvciByZXNldCkgb3IK
+PiArICogb3IgYW4gb3BlcmF0aW9uIHdoaWNoIGlzIGVucXVldWVkIGluIHNvbWUgZHJpdmVyIHF1
+ZXVlLgo+ICAgICoKPiAtICogVGhlaXIgcHJpbWFyeSB1c2UtY2FzZSBpcyB0byBpbXBsZW1lbnQg
+VnVsa2FuIGZlbmNlcyBhbmQgc2VtYXBob3Jlcy4KCgpNYXliZSBhZGQgYSBsaW5lIGFib3V0IGNy
+ZWF0aW9uIChhbmQgaXRzIHNpZ25hbGVkIGZsYWcpPwoKCj4gKyAqCj4gKyAqIEhvc3Qtc2lkZSB3
+YWl0IG9uIHN5bmNvYmpzCj4gKyAqIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gKyAqCj4g
+KyAqIFRoZSB1c2Vyc3BhY2Ugc3luY29iaiBBUEkgcHJvdmlkZXMgYW4gaW9jdGwgZm9yIHdhaXRp
+bmcgb24gYSBzZXQgb2YKPiArICogc3luY29ianMuCj4gKyAqIFRoZSB3YWl0IGlvY3RsIHRha2Vz
+IGFuIGFycmF5IG9mIHN5bmNvYmogaGFuZGxlcyBhbmQgYSBmbGFnIGluZGljYXRpbmcKPiArICog
+d2hldGhlciBpdCBzaG91bGQgcmV0dXJuIGltbWVkaWF0ZWx5IG9uY2Ugb25lIHN5bmNvYmogaGFz
+IGJlZW4gc2lnbmFsZWQKPiArICogb3IgaWYgaXQgc2hvdWxkIHdhaXQgZm9yIGFsbCB0aGUgc3lu
+Y29ianMgdG8gYmUgc2lnbmFsZWQuCj4gKyAqIFVubGlrZSB0aGUgZW5xdWV1ZWQgR1BVIHdvcmsg
+ZGVwZW5kZW5jaWVzLCB0aGUgaG9zdC1zaWRlIHdhaXQgaW9jdGwKPiArICogd2lsbCBhbHNvIG9w
+dGlvbmFsbHkgd2FpdCBmb3IgdGhlIHN5bmNvYmogdG8gZmlyc3QgcmVjZWl2ZSBhIGZlbmNlIGFu
+ZAo+ICsgKiB0aGVuIHdhaXQgb24gdGhhdCBmZW5jZS4KPiArICogQXNzdW1pbmcgdGhlIHN5bmNv
+Ymogc3RhcnRzIG9mZiB3aXRoIGEgTlVMTCBmZW5jZSwgdGhpcyBhbGxvd3MgYSBjbGllbnQKPiAr
+ICogdG8gZG8gYSBob3N0IHdhaXQgaW4gb25lIHRocmVhZCAob3IgcHJvY2Vzcykgd2hpY2ggd2Fp
+dHMgb24gR1BVIHdvcmsKPiArICogc3VibWl0dGVkIGluIGFub3RoZXIgdGhyZWFkIChvciBwcm9j
+ZXNzKSB3aXRob3V0IGhhdmluZyB0byBtYW51YWxseQo+ICsgKiBzeW5jaHJvbml6ZSBiZXR3ZWVu
+IHRoZSB0d28uCj4gKyAqIFRoaXMgcmVxdWlyZW1lbnQgaXMgaW5oZXJpdGVkIGZyb20gdGhlIFZ1
+bGthbiBmZW5jZSBBUEkuCgoKU2hvdWxkIHdlIGxpc3QgdGhlIGZsYWdzICYgaW9jdGwgbmFtZXM/
+CgoKPiArICoKPiArICoKPiArICogSW1wb3J0L2V4cG9ydCBvZiBzeW5jb2Jqcwo+ICsgKiAtLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gKyAqCj4gKyAqIFRoZSB1c2Vyc3BhY2Ugc3luY29iaiBB
+UEkgcHJvdmlkZXMgdHdvIG1lY2hhbmlzbXMgZm9yIGltcG9ydC9leHBvcnQgb2YKPiArICogc3lu
+Y29ianMuCj4gKyAqCj4gKyAqIFRoZSBmaXJzdCBsZXRzIHRoZSBjbGllbnQgaW1wb3J0IG9yIGV4
+cG9ydCBhbiBlbnRpcmUgc3luY29iaiB0byBhIGZpbGUKPiArICogZGVzY3JpcHRvci4KPiArICog
+VGhlc2UgZmQncyBhcmUgb3BhcXVlIGFuZCBoYXZlIG5vIG90aGVyIHVzZSBjYXNlLCBleGNlcHQg
+cGFzc2luZyB0aGUKPiArICogc3luY29iaiBiZXR3ZWVuIHByb2Nlc3Nlcy4KPiArICogQWxsIHN5
+bmNvYmogaGFuZGxlcyB3aGljaCBhcmUgY3JlYXRlZCBhcyB0aGUgcmVzdWx0IG9mIHN1Y2ggYW4g
+aW1wb3J0Cj4gKyAqIG9wZXJhdGlvbiByZWZlciB0byB0aGUgc2FtZSB1bmRlcmx5aW5nIHN5bmNv
+YmogYXMgd2FzIHVzZWQgZm9yIHRoZQo+ICsgKiBleHBvcnQgYW5kIHRoZSBzeW5jb2JqIGNhbiBi
+ZSB1c2VkIHBlcnNpc3RlbnRseSBhY3Jvc3MgYWxsIHRoZSBwcm9jZXNzZXMKPiArICogd2l0aCB3
+aGljaCBpdCBpcyBzaGFyZWQuCj4gKyAqIFVubGlrZSBkbWEtYnVmLCBpbXBvcnRpbmcgYSBzeW5j
+b2JqIGNyZWF0ZXMgYSBuZXcgaGFuZGxlIGZvciBldmVyeQo+ICsgKiBpbXBvcnQgaW5zdGVhZCBv
+ZiBkZS1kdXBsaWNhdGluZy4KPiArICogVGhlIHByaW1hcnkgdXNlLWNhc2Ugb2YgdGhpcyBwZXJz
+aXN0ZW50IGltcG9ydC9leHBvcnQgaXMgZm9yIHNoYXJlZAo+ICsgKiBWdWxrYW4gZmVuY2VzIGFu
+ZCBzZW1hcGhvcmVzLgo+ICsgKgo+ICsgKiBUaGUgc2Vjb25kIGltcG9ydC9leHBvcnQgbWVjaGFu
+aXNtIGxldHMgdGhlIGNsaWVudCBleHBvcnQgdGhlIHN5bmNvYmoncwo+ICsgKiBjdXJyZW50IGZl
+bmNlIHRvL2Zyb20gYSAmc3luY19maWxlLgo+ICsgKiBXaGVuIGEgc3luY29iaiBpcyBleHBvcnRl
+ZCB0byBhIHN5bmMgZmlsZSwgdGhhdCBzeW5jIGZpbGUgd3JhcHMgdGhlCj4gKyAqIHN5Y25vYmon
+cyBmZW5jZSBhdCB0aGUgdGltZSBvZiBleHBvcnQgYW5kIGFueSBsYXRlciBzaWduYWwgb3IgcmVz
+ZXQKPiArICogb3BlcmF0aW9ucyBvbiB0aGUgc3luY29iaiB3aWxsIG5vdCBhZmZlY3QgdGhlIGV4
+cG9ydGVkIHN5bmMgZmlsZS4KPiArICogV2hlbiBhIHN5bmMgZmlsZSBpcyBpbXBvcnRlZCBpbnRv
+IGEgc3luY29iaiwgdGhlIHN5bmNvYmoncyBmZW5jZSBpcyBzZXQKPiArICogdG8gdGhlIGZlbmNl
+IHdyYXBwZWQgYnkgdGhhdCBzeW5jIGZpbGUuCj4gKyAqIEJlY2F1c2Ugc3luYyBmaWxlcyBhcmUg
+aW1tdXRhYmxlLCByZXNldHRpbmcgb3Igc2lnbmFsaW5nIHRoZSBzeW5jb2JqCj4gKyAqIHdpbGwg
+bm90IGFmZmVjdCBhbnkgc3luYyBmaWxlcyB3aG9zZSBmZW5jZXMgaGF2ZSBiZWVuIGltcG9ydGVk
+IGludG8gdGhlCj4gKyAqIHN5bmNvYmouCj4gICAgKgoKClRoaXMgMyBsaW5lcyBiZWxvdyBzZWVt
+IHRvIGJlIHJlZHVuZGFudCBub3c/CgpNYXliZSByZXBocmFzZSB3aXRoIHNvbWV0aGluZyBsaWtl
+IDoKCgoiU2hhcmluZyBhIHN5bmNvYmogaW5jcmVhc2VzIGl0cyByZWZjb3VudC4gVGhlIHN5bmNv
+YmogaXMgZGVzdHJveWVkIHdoZW4gCmEgY2xpZW50IHJlbGVhc2UgdGhlIGxhc3QgcmVmZXJlbmNl
+LiIKCgo+ICAgICogc3luY29iaiBoYXZlIGEga3JlZiByZWZlcmVuY2UgY291bnQsIGJ1dCBhbHNv
+IGhhdmUgYW4gb3B0aW9uYWwgZmlsZS4KPiAgICAqIFRoZSBmaWxlIGlzIG9ubHkgY3JlYXRlZCBv
+bmNlIHRoZSBzeW5jb2JqIGlzIGV4cG9ydGVkLgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
+c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbA==
