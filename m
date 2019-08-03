@@ -1,30 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DE8805DF
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 12:47:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0749380601
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 13:26:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A256E497;
-	Sat,  3 Aug 2019 10:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679546E4A0;
+	Sat,  3 Aug 2019 11:26:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDDAF6E48E
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 10:47:28 +0000 (UTC)
-X-Originating-IP: 88.168.111.231
-Received: from localhost (lpr83-1-88-168-111-231.fbx.proxad.net
- [88.168.111.231]) (Authenticated sender: maxime.ripard@bootlin.com)
- by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 8B5C720003;
- Sat,  3 Aug 2019 10:47:21 +0000 (UTC)
-Date: Sat, 3 Aug 2019 12:47:19 +0200
-From: Maxime Ripard <maxime.ripard@bootlin.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <20190803104719.gwb6hmreeaqyye6n@flea>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 522746E49E;
+ Sat,  3 Aug 2019 11:26:46 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 03 Aug 2019 04:26:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,342,1559545200"; 
+ d="gz'50?scan'50,208,50";a="348654612"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+ by orsmga005.jf.intel.com with ESMTP; 03 Aug 2019 04:26:43 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+ (envelope-from <lkp@intel.com>)
+ id 1htsBP-0008BO-8a; Sat, 03 Aug 2019 19:26:43 +0800
+Date: Sat, 3 Aug 2019 19:25:44 +0800
+From: kbuild test robot <lkp@intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH 2/2] drm/syncobj: Lookup the syncobj with RCU protection
+Message-ID: <201908031932.wVZZ7h5V%lkp@intel.com>
+References: <20190802163659.23255-2-chris@chris-wilson.co.uk>
 MIME-Version: 1.0
-User-Agent: NeoMutt/20180716
+Content-Type: multipart/mixed; boundary="a8Wt8u1KmwUX3Y2C"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190802163659.23255-2-chris@chris-wilson.co.uk>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -37,1244 +51,427 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Maxime Ripard <mripard@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0451521891=="
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ kbuild-all@01.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0451521891==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oenumjjnz7rvq2td"
+--a8Wt8u1KmwUX3Y2C
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
-
-
---oenumjjnz7rvq2td
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Daniel, Dave,
-
-Here is the first (and pretty late) drm-misc-next PR.
-
-It's pretty big due to the lateness, but there's nothing really major
-showing up. It's pretty much the usual bunch of reworks, fixes, and
-new helpers being introduced.
-
-Thanks!
-Maxime
-
-drm-misc-next-2019-08-03:
-drm-misc-next for 5.4:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
- - Continue to rework the include dependencies
- - fb: Remove the unused drm_gem_fbdev_fb_create function
- - drm-dp-helper: Make the link rate calculation more tolerant to
-                  non-explicitly defined, yet supported, rates
- - fb-helper: Map DRM client buffer only when required, and instanciate a
-	      shadow buffer when the device has a dirty function or says so
- - connector: Add a helper to link the DDC adapter used by that connector to
-              the userspace
-
-Driver Changes:
- - Remove drm_gem_prime_import/export from being defined in the drivers
- - Drop DRM_AUTH usage from drivers
- - Continue to drop drmP.h
- - Convert drivers to the connector ddc helper
-
- - ingenic: Add support for more panel-related cases
- - komeda: Support for dual-link
- - lima: Reduce logging
- - mpag200: Fix the cursor support
- - panfrost: Export GPU features register to userspace through an ioctl
- - pl111: Remove the CLD pads wiring support from the DT
- - rockchip: Rework to use DRM PSR helpers
- - sun4i: Improve support for color encoding and range
- - tinydrm: Rework SPI support, improve MIPI-DBI support, move to drm/tiny
- - vkms: Rework of the CRC tracking
-
- - bridges:
-   - sii902x: Add support for audio graph card
-   - tc358767: Rework AUX data handling code
-   - ti-sn65dsi86: Add Debugfs and proper DSI mode flags support
-
- - panels
-   - Support for GiantPlus GPM940B0, Sharp LQ070Y3DG3B, Ortustech
-     COM37H3M, Novatek NT39016, Sharp LS020B1DD01D, Raydium RM67191,
-     Boe Himax8279d, Sharp LD-D5116Z01B
-   - Conversion of the device tree bindings to the YAML description
-   - jh057n00900: Rework the enable / disable path
-
- - fbdev:
-   - ssd1307fb: Support more devices based on that controller
-The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
-
-  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2019-08-03
-
-for you to fetch changes up to d6781e490179f7ba710dd924187109da70c185b0:
-
-  drm/pl111: Drop special pads config check (2019-08-03 11:59:54 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for 5.4:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
- - Continue to rework the include dependencies
- - fb: Remove the unused drm_gem_fbdev_fb_create function
- - drm-dp-helper: Make the link rate calculation more tolerant to
-                  non-explicitly defined, yet supported, rates
- - fb-helper: Map DRM client buffer only when required, and instanciate a
-	      shadow buffer when the device has a dirty function or says so
- - connector: Add a helper to link the DDC adapter used by that connector to
-              the userspace
-
-Driver Changes:
- - Remove drm_gem_prime_import/export from being defined in the drivers
- - Drop DRM_AUTH usage from drivers
- - Continue to drop drmP.h
- - Convert drivers to the connector ddc helper
-
- - ingenic: Add support for more panel-related cases
- - komeda: Support for dual-link
- - lima: Reduce logging
- - mpag200: Fix the cursor support
- - panfrost: Export GPU features register to userspace through an ioctl
- - pl111: Remove the CLD pads wiring support from the DT
- - rockchip: Rework to use DRM PSR helpers
- - sun4i: Improve support for color encoding and range
- - tinydrm: Rework SPI support, improve MIPI-DBI support, move to drm/tiny
- - vkms: Rework of the CRC tracking
-
- - bridges:
-   - sii902x: Add support for audio graph card
-   - tc358767: Rework AUX data handling code
-   - ti-sn65dsi86: Add Debugfs and proper DSI mode flags support
-
- - panels
-   - Support for GiantPlus GPM940B0, Sharp LQ070Y3DG3B, Ortustech
-     COM37H3M, Novatek NT39016, Sharp LS020B1DD01D, Raydium RM67191,
-     Boe Himax8279d, Sharp LD-D5116Z01B
-   - Conversion of the device tree bindings to the YAML description
-   - jh057n00900: Rework the enable / disable path
-
- - fbdev:
-   - ssd1307fb: Support more devices based on that controller
-
-----------------------------------------------------------------
-Ahmad Fatoum (1):
-      drm/stm: attach gem fence to atomic state
-
-Anders Roxell (1):
-      drm: mali-dp: Mark expected switch fall-through
-
-Andrey Smirnov (15):
-      drm/bridge: tc358767: Simplify tc_poll_timeout()
-      drm/bridge: tc358767: Simplify polling in tc_main_link_setup()
-      drm/bridge: tc358767: Simplify polling in tc_link_training()
-      drm/bridge: tc358767: Simplify tc_set_video_mode()
-      drm/bridge: tc358767: Drop custom tc_write()/tc_read() accessors
-      drm/bridge: tc358767: Simplify AUX data read
-      drm/bridge: tc358767: Simplify AUX data write
-      drm/bridge: tc358767: Increase AUX transfer length limit
-      drm/bridge: tc358767: Use reported AUX transfer size
-      drm/bridge: tc358767: Introduce tc_set_syspllparam()
-      drm/bridge: tc358767: Introduce tc_pllupdate()
-      drm/bridge: tc358767: Simplify tc_aux_wait_busy()
-      drm/bridge: tc358767: Drop unnecessary 8 byte buffer
-      drm/bridge: tc358767: Replace magic number in tc_main_link_enable()
-      drm/bridge: tc358767: Add support for address-only I2C transfers
-
-Andrzej Pietrasiewicz (13):
-      drm: Add ddc link in sysfs created by drm_connector
-      drm: Add drm_connector_init() variant with ddc
-      drm/sun4i: hdmi: Provide ddc symlink in sun4i hdmi connector sysfs di=
-rectory
-      drm/imx: imx-ldb: Provide ddc symlink in connector's sysfs
-      drm/imx: imx-tve: Provide ddc symlink in connector's sysfs
-      drm: sti: Provide ddc symlink in hdmi connector sysfs directory
-      drm/mgag200: Provide ddc symlink in connector sysfs directory
-      drm/ast: Provide ddc symlink in connector sysfs directory
-      drm/bridge: dumb-vga-dac: Provide ddc symlink in connector sysfs dire=
-ctory
-      drm/bridge: dw-hdmi: Provide ddc symlink in connector sysfs directory
-      drm/bridge: ti-tfp410: Provide ddc symlink in connector sysfs directo=
-ry
-      drm/amdgpu: Provide ddc symlink in connector sysfs directory
-      drm/radeon: Provide ddc symlink in connector sysfs directory
-
-Chris Wilson (4):
-      drm: Allow range of 0 for drm_mm_insert_node_in_range()
-      drm/vgem: Reclassify buffer creation debug message
-      dma-buf: Expand reservation_list to fill allocation
-      dma-buf: Relax the write-seqlock for reallocating the shared fence li=
-st
-
-Christian K=F6nig (2):
-      dma-buf: cleanup reservation_object_init/fini
-      drm/syncobj: fix leaking dma_fence in drm_syncobj_query_ioctl
-
-Christoph Hellwig (1):
-      au1200fb: don't use DMA_ATTR_NON_CONSISTENT
-
-Colin Ian King (2):
-      drm/mgag200: add in missing { } around if block
-      fbmem: remove redundant assignment to err
-
-Daniel Vetter (73):
-      drm/prime: Shuffle functions.
-      drm/prime: Update docs
-      drm/prime: Unconditionally set up the prime file private
-      drm/prime: Make DRIVER_PRIME a no-op
-      drm/prime: Actually remove DRIVER_PRIME everywhere
-      drm/arm/komeda: Remove DRIVER_HAVE_IRQ
-      drm/omapdrm: drop fb_debug_enter/leave
-      drm/prime: Align gem_prime_export with obj_funcs.export
-      drm/ioctl: Ditch DRM_UNLOCKED except for the legacy vblank ioctl
-      drm/arc: Drop drm_gem_prime_export/import
-      drm/arm: Drop drm_gem_prime_export/import
-      drm/atmel: Drop drm_gem_prime_export/import
-      drm/etnaviv: Drop drm_gem_prime_export/import
-      drm/exynos: Drop drm_gem_prime_export
-      drm/fsl-dcu: Drop drm_gem_prime_export/import
-      drm/hisilicon: Drop drm_gem_prime_export/import
-      drm/imx: Drop drm_gem_prime_export/import
-      drm/mcde: Drop drm_gem_prime_export/import
-      drm/mtk: Drop drm_gem_prime_export/import
-      drm/meson: Drop drm_gem_prime_export/import
-      drm/msm: Drop drm_gem_prime_export/import
-      drm/mxsfb: Drop drm_gem_prime_export/import
-      drm/nouveau: Drop drm_gem_prime_export/import
-      drm/pl111: Drop drm_gem_prime_export/import
-      drm/qxl: Drop drm_gem_prime_export/import
-      drm/rcar-du: Drop drm_gem_prime_export/import
-      drm/rockchip: Drop drm_gem_prime_export/import
-      drm/shmob: Drop drm_gem_prime_export/import
-      drm/sti: Drop drm_gem_prime_export/import
-      drm/stm: Drop drm_gem_prime_export/import
-      drm/tilcdc: Drop drm_gem_prime_export/import
-      drm/tve2000: Drop drm_gem_prime_export/import
-      drm/vboxvideo: Drop drm_gem_prime_export/import
-      drm/vc3: Drop drm_gem_prime_import
-      drm/radeon: Drop drm_gem_prime_import
-      drm/vgem: Drop drm_gem_prime_export
-      drm/virtio: Drop drm_gem_prime_export/import
-      drm/xen: Drop drm_gem_prime_export/import
-      drm/zte: Drop drm_gem_prime_export/import
-      drm/vram-helper: Drop drm_gem_prime_export/import
-      drm/prime: automatically set gem_obj->resv on import
-      drm/vgem: Ditch attach trickery in the fence ioctl
-      drm/lima: Drop resv argument from lima_bo_create_struct
-      drm/mediatek: Use drm_atomic_helper_wait_for_fences
-      drm/panfrost: don't set gem_obj->resv for prime import anymore
-      drm/vc4: Don set gem_obj->resv in prime import anymore
-      drm/todo: remove gem_prime_import/export todo
-      drm/todo: Update backlight todo
-      drm/todo: Update mmap todo
-      drm/todo: Add new debugfs todo
-      drm/etnaviv: Drop resv argument from etnaviv_gem_new_impl
-      drm/msm: Drop robj from msm_gem_new_impl
-      drm/vkms: Fix crc worker races
-      drm/vkms: Use spin_lock_irq in process context
-      drm/vkms: Rename vkms_output.state_lock to crc_lock
-      drm/vkms: Add our own commit_tail
-      drm/vkms: flush crc workers earlier in commit flow
-      drm/vkms: Dont flush crc worker when we change crc status
-      drm/vkms: No _irqsave within spin_lock_irq needed
-      drm/vkms: totally reworked crc data tracking
-      drm/vkms: No need for ->pages_lock in crc work anymore
-      drm/fb-helper: use gem_bo.resv, not dma_buf.resv in prepare_fb
-      drm/msm: Use drm_gem_fb_prepare_fb
-      drm/vc4: Use drm_gem_fb_prepare_fb
-      drm/vmwgfx: Don't look at state->allow_modeset
-      drm/kms: Catch mode_object lifetime errors
-      drm/doc: Document kapi doc expectations
-      drm/i915: Fix up broken merge
-      fbdev: Ditch fb_edid_add_monspecs
-      drm/radeon: Fill out gem_object->resv
-      drm/nouveau: Fill out gem_object->resv
-      drm/amdgpu: Fill out gem_object->resv
-      drm/prime: Ditch gem_prime_res_obj hook
-
-Denis Efremov (1):
-      drm/client: remove the exporting of drm_client_close
-
-Douglas Anderson (7):
-      drm/panel: simple: Use display_timing for Innolux n116bge
-      drm/panel: simple: Use display_timing for AUO b101ean01
-      drm/panel: simple: document panel_desc; rename a few functions
-      video: of: display_timing: Add of_node_put() in of_get_display_timing=
-()
-      video: of: display_timing: Don't yell if no timing node is present
-      drm: panel-lvds: Spout an error if of_get_display_timing() gives an e=
-rror
-      video: amba-clcd: Spout an error if of_get_display_timing() gives an =
-error
-
-Emil Velikov (14):
-      drm/tegra: remove irrelevant DRM_UNLOCKED flag
-      drm/i915: remove irrelevant DRM_UNLOCKED flag
-      drm/nouveau: remove open-coded drm_invalid_op()
-      vmwgfx: drop empty lastclose stub
-      drm/vmgfx: kill off unused init_mutex
-      drm/vmwgfx: use core drm to extend/check vmw_execbuf_ioctl
-      drm/etnaviv: drop DRM_AUTH usage from the driver
-      drm/exynos: drop DRM_AUTH from DRM_RENDER_ALLOW ioctls
-      drm/lima: drop DRM_AUTH usage from the driver
-      drm/msm: drop DRM_AUTH usage from the driver
-      drm/nouveau: drop DRM_AUTH from DRM_RENDER_ALLOW ioctls
-      drm/omap: drop DRM_AUTH from DRM_RENDER_ALLOW ioctls
-      drm/vgem: drop DRM_AUTH usage from the driver
-      drm/virtio: drop DRM_AUTH usage from the driver
-
-Fabio Estevam (1):
-      drm/bridge: Improve the help text for DRM_ANALOGIX_ANX78XX
-
-Fuqian Huang (1):
-      video: fbdev-MMP: Remove call to memset after dma_alloc_coherent
-
-Guido G=FCnther (8):
-      MAINTAINERS: Add Purism mail alias as reviewer for their devkit's pan=
-el
-      drm/panel: jh057n00900: Don't use magic constant
-      dt-bindings: display/panel: jh057n00900: Document power supply proper=
-ties
-      drm/panel: jh057n00900: Add regulator support
-      drm/panel: jh057n00900: Move panel DSI init to enable()
-      drm/panel: jh057n00900: Move mipi_dsi_dcs_set_display_off to disable()
-      drm/panel: jh057n00900: Print error code on all DRM_DEV_ERROR()s
-      drm/panel: jh057n00900: Use drm_panel_{unprepare, disable} consistent=
-ly
-
-Gustavo A. R. Silva (1):
-      drm: sti: Mark expected switch fall-throughs
-
-H. Nikolaus Schaller (5):
-      dt-bindings: drm/panel: simple: add ortustech, com37h3m05dtc panel
-      dt-bindings: drm/panel: simple: add ortustech, com37h3m99dtc panel
-      dt-bindings: drm/panel: simple: add sharp, lq070y3dg3b panel
-      drm/panel: simple: Add Sharp LQ070Y3DG3B panel support
-      drm/panel: simple: Add Ortustech COM37H3M panel support
-
-Hans de Goede (1):
-      drm: Add Grain Media GM12U320 driver v2
-
-Jani Nikula (1):
-      drm/panel: make drm_panel.h self-contained
-
-Jeffrey Hugo (2):
-      dt-bindings: panel: Add Sharp LD-D5116Z01B
-      drm/panel: simple: Add support for Sharp LD-D5116Z01B panel
-
-Jernej Skrabec (3):
-      drm/sun4i: Introduce color encoding and range properties
-      drm/sun4i: sun8i_csc: Simplify register writes
-      drm/sun4i: sun8i-csc: Add support for color encoding and range
-
-Jerry Han (1):
-      dt-bindings: panel: Add Boe Himax8279d is 1200x1920, 4-lane MIPI-DSI =
-LCD panel
-
-Joshua.Henderson@microchip.com (1):
-      drm/atmel-hlcdc: set layer REP bit to enable replication logic
-
-Jyri Sarha (1):
-      drm/tilcdc: Remove obsolete crtc_mode_valid() hack
-
-Krzysztof Kozlowski (4):
-      drm/lima: Mark 64-bit number as ULL
-      drm/lima: Reduce the amount of logs on deferred probe
-      drm/lima: Reduce number of PTR_ERR() calls
-      drm/lima: Reduce the amount of logs on deferred probe of clocks and r=
-eset controller
-
-Leo Li (4):
-      drm/dp: Use non-cyclic idr
-      drm/nouveau: Use connector kdev as aux device parent
-      drm/amd/display: Use connector kdev as aux device parent
-      drm/amd/display: Implement MST Aux device registration
-
-Linus Walleij (3):
-      drm/mcde: Fix uninitialized variable
-      drm/pl111: Deprecate the pads from the DT binding
-      drm/pl111: Drop special pads config check
-
-Liviu Dudau (1):
-      drm/drm_debugfs_crc.c: Document that .verify_crc_source vfunc is requ=
-ired for enabling CRC support.
-
-Lucas Stach (2):
-      drm/bridge: tc358767: do a software reset if reset pin isn't connected
-      drm/panel: simple: fix AUO g185han01 horizontal blanking
-
-Marek Vasut (1):
-      dt-bindings: display: Add ETM0700G0DH6 compatible string
-
-Marko Kohtala (6):
-      video: ssd1307fb: Use screen_buffer instead of screen_base
-      video: ssd1307fb: Remove unneeded semicolons
-      video: ssd1307fb: Start page range at page_offset
-      video: ssd1307fb: Handle width and height that are not multiple of 8
-      dt-bindings: display: ssd1307fb: Add initialization properties
-      video: ssd1307fb: Add devicetree configuration of display setup
-
-Matt Redfearn (2):
-      drm/bridge/synopsys: dsi: Allow VPG to be enabled via debugfs
-      drm/bridge: adv7511: Attach to DSI host at probe time
-
-Maxime Ripard (2):
-      drm/connector: Fix warning in debug message
-      Merge v5.3-rc1 into drm-misc-next
-
-Maya Rashish (1):
-      drm/agp: Remove unused function drm_agp_bind_pages
-
-Navid Emamdoost (1):
-      drm/panel: check failure cases in the probe func
-
-Neil Armstrong (3):
-      MAINTAINERS: Update Maintainers and Reviewers of DRM Bridge Drivers
-      drm/bridge: dw-hdmi: Use automatic CTS generation mode when using non=
--AHB audio
-      Revert "drm/radeon: Provide ddc symlink in connector sysfs directory"
-
-Nishka Dasgupta (1):
-      drm/pl111: pl111_vexpress.c: Add of_node_put() before return
-
-Noralf Tr=F8nnes (23):
-      drm: Add SPI connector type
-      drm/tinydrm: Use DRM_MODE_CONNECTOR_SPI
-      drm/tinydrm: Use spi_is_bpw_supported()
-      drm/tinydrm: Remove spi debug buffer dumping
-      drm/tinydrm: Remove tinydrm_spi_max_transfer_size()
-      drm/tinydrm: Clean up tinydrm_spi_transfer()
-      drm/tinydrm: Move tinydrm_spi_transfer()
-      drm/tinydrm: Move tinydrm_machine_little_endian()
-      drm/tinydrm/repaper: Don't use tinydrm_display_pipe_init()
-      drm/tinydrm/mipi-dbi: Add mipi_dbi_init_with_formats()
-      drm/tinydrm: Move tinydrm_display_pipe_init() to mipi-dbi
-      drm/tinydrm/mipi-dbi: Move cmdlock mutex init
-      drm/tinydrm: Rename variable mipi -> dbi
-      drm/tinydrm: Rename remaining variable mipi -> dbidev
-      drm/tinydrm: Split struct mipi_dbi in two
-      drm/tinydrm/mipi-dbi: Remove CMA helper dependency
-      drm/tinydrm/Kconfig: drivers: Select BACKLIGHT_CLASS_DEVICE
-      drm/tinydrm/mipi-dbi: Select DRM_KMS_HELPER
-      drm/tinydrm: Move mipi-dbi
-      MAINTAINERS: Remove tinydrm entry
-      drm/tinydrm/Kconfig: Remove menuconfig DRM_TINYDRM
-      drm/tinydrm: Rename folder to tiny
-      drm/gm12u320: Move driver to drm/tiny
-
-Olivier Moysan (4):
-      drm/bridge: sii902x: fix missing reference to mclk clock
-      dt-bindings: display: sii902x: Change audio mclk binding
-      drm/bridge: sii902x: make audio mclk optional
-      drm/bridge: sii902x: add audio graph card support
-
-Paul Cercueil (11):
-      dt-bindings: display: Add GiantPlus GPM940B0 panel documentation
-      media: uapi: Add MEDIA_BUS_FMT_RGB888_3X8 media bus format
-      drm/panel: simple: Add GiantPlus GPM940B0 panel support
-      dt-bindings: display: Add King Display KD035G6-54NT panel documentati=
-on
-      drm/panel: Add Novatek NT39016 panel support
-      dt-bindings: display: Add Sharp LS020B1DD01D panel documentation
-      drm: Add bus flag for Sharp-specific signals
-      drm/panel: simple: Add Sharp LS020B1DD01D panel support
-      DRM: ingenic: Use devm_platform_ioremap_resource
-      DRM: ingenic: Add support for Sharp panels
-      DRM: ingenic: Add support for panels with 8-bit serial bus
-
-Qian Cai (1):
-      gpu/drm: fix a few kernel-doc "/**" mark warnings
-
-Rob Clark (4):
-      drm/bridge: ti-sn65dsi86: add link to datasheet
-      drm/bridge: ti-sn65dsi86: add debugfs
-      drm/bridge: ti-sn65dsi86: correct dsi mode_flags
-      drm/bridge: ti-sn65dsi86: use dev name for debugfs
-
-Rob Herring (17):
-      dt-bindings: display: Convert tpo,tpg110 panel to DT schema
-      dt-bindings: display: rockchip-lvds: Remove panel references
-      Revert "drm/panfrost: Use drm_gem_map_offset()"
-      Revert "drm/gem: Rename drm_gem_dumb_map_offset() to drm_gem_map_offs=
-et()"
-      dt-bindings: display: Convert common panel bindings to DT schema
-      dt-bindings: display: Convert ampire,am-480272h3tmqw-t01h panel to DT=
- schema
-      dt-bindings: display: Convert armadeus,st0700-adapt panel to DT schema
-      dt-bindings: display: Convert bananapi,s070wv20-ct16 panel to DT sche=
-ma
-      dt-bindings: display: Convert dlc,dlc0700yzg-1 panel to DT schema
-      dt-bindings: display: Convert pda,91-00156-a0 panel to DT schema
-      dt-bindings: display: Convert raspberrypi,7inch-touchscreen panel to =
-DT schema
-      dt-bindings: display: Convert tfc,s9700rtwv43tr-01b panel to DT schema
-      dt-bindings: display: Convert panel-lvds to DT schema
-      dt-bindings: display: Convert innolux,ee101ia-01 panel to DT schema
-      dt-bindings: display: Convert mitsubishi,aa104xd12 panel to DT schema
-      dt-bindings: display: Convert mitsubishi,aa121td01 panel to DT schema
-      dt-bindings: display: Convert sgd,gktw70sdae4se panel to DT schema
-
-Robert Chiras (2):
-      dt-bindings: display: panel: Add support for Raydium RM67191 panel
-      drm/panel: Add support for Raydium RM67191 panel driver
-
-Rodrigo Siqueira (2):
-      drm/vkms: Avoid assigning 0 for possible_crtc
-      drm/vkms: Rename vkms_crc.c into vkms_composer.c
-
-Sam Ravnborg (51):
-      drm/mga: drop dependency on drm_os_linux.h
-      drm/mga: make header file self contained
-      drm/mga: drop use of drmP.h
-      drm/mgag200: drop use of drmP.h
-      MAINTAINERS: add Sam Ravnborg for drm/atmel_hlcdc
-      drm/stm: drop use of drmP.h
-      drm/xen: drop use of drmP.h
-      drm/tve200: drop use of drmP.h
-      drm/mxsfb: drop use of drmP.h
-      drm/fsl-dcu: drop use of drmP.h
-      drm/qxl: drop use of drmP.h
-      drm/vkms: drop use of drmP.h
-      drm/scheduler: drop use of drmP.h
-      drm/virtgpu: drop use of drmP.h
-      drm: add missing include to drm_vram_mm_helper.h
-      drm/bochs: drop use of drmP.h
-      drm/ast: drop use of drmP.h
-      drm/hisilicon: drop use of drmP.h
-      drm/shmobile: drop use of drmP.h
-      drm/atmel_hlcdc: drop use of drmP.h
-      drm/meson: drop use of drmP.h
-      drm/v3d: drop use of drmP.h
-      drm/pl111: drop use of drmP.h
-      drm/zte: drop use of drmP.h
-      drm/sun4i: drop use of drmP.h
-      drm/vc4: drop use of drmP.h
-      drm/r128: drop use of drmP.h
-      drm/udl: drop use of drmP.h
-      drm/omapdrm: drop use of drmP.h
-      drm/selftests: drop use of drmP.h
-      drm/tdfx: drop use of drmP.h
-      drm/vgem: drop use of drmP.h
-      drm/i810: drop use of drmP.h
-      drm/tilcdc: drop use of drmP.h
-      drm/i2c/ch7006: drop use of drmP.h
-      drm/i2c/sil164: drop use of drmP.h
-      drm/imx: drop use of drmP.h
-      drm/rockchip: drop use of drmP.h
-      drm/mediatek: drop use of drmP.h
-      drm: drop uapi dependency from drm_vblank.h
-      drm/ati_pcigart: drop dependency on drm_os_linux.h
-      drm: direct include of drm.h in drm_gem.c
-      drm: direct include of drm.h in drm_gem_shmem_helper.c
-      drm: direct include of drm.h in drm_prime.c
-      drm: direct include of drm.h in drm_syncobj.c
-      drm/mediatek: direct include of drm.h in mtk_drm_gem.c
-      drm/fb: remove unused function: drm_gem_fbdev_fb_create()
-      drm/via: drop use of DRM(READ|WRITE) macros
-      drm/via: copy DRM_WAIT_ON as VIA_WAIT_ON and use it
-      drm/via: make via_drv.h self-contained
-      drm/via: drop use of drmP.h
-
-Sean Paul (8):
-      drm/panel: simple: Add ability to override typical timing
-      drm: Make the bw/link rate calculations more forgiving
-      drm/rockchip: Check for fast link training before enabling psr
-      drm/rockchip: Use the helpers for PSR
-      drm/rockchip: Use vop_win in vop_win_disable instead of vop_win_data
-      drm/rockchip: Don't fully disable vop on self refresh
-      drm/rockchip: Use drm_atomic_helper_commit_tail_rpm
-      drm/mst: Fix sphinx warnings in drm_dp_msg_connector register functio=
-ns
-
-Souptick Joarder (2):
-      video: fbdev: nvidia: Remove extra return
-      video: fbdev: nvidia: Remove dead code
-
-Steven Price (3):
-      drm/gem: Rename drm_gem_dumb_map_offset() to drm_gem_map_offset()
-      drm/panfrost: Use drm_gem_map_offset()
-      drm/panfrost: Export all GPU feature registers
-
-Thomas Zimmermann (16):
-      drm/mgag200: Replace struct mga_framebuffer with GEM framebuffer help=
-ers
-      drm/ast: Replace struct ast_framebuffer with GEM framebuffer helpers
-      drm/vram: Set GEM object functions for PRIME
-      drm/bochs: Remove PRIME helpers from driver structure
-      drm/hibmc: Update struct drm_driver for GEM object functions
-      drm/vbox: Remove empty PRIME functions
-      drm/vram: Don't export driver callback functions for PRIME
-      drm/client: Support unmapping of DRM client buffers
-      drm/fb-helper: Map DRM client buffer only when required
-      drm/fb-helper: Instanciate shadow FB if configured in device's mode_c=
-onfig
-      drm/ast: Replace struct ast_fbdev with generic framebuffer emulation
-      drm/bochs: Use shadow buffer for bochs framebuffer console
-      drm/mgag200: Replace struct mga_fbdev with generic framebuffer emulat=
-ion
-      drm/mgag200: Pin displayed cursor BO to video memory
-      drm/mgag200: Set cursor scanout address to correct BO
-      drm/mgag200: Don't unpin the current cursor image's buffer.
-
-Ville Syrj=E4l=E4 (7):
-      drm: Do not use bitwise OR to set picure_aspect_ratio
-      drm: Do not accept garbage mode aspect ratio flags
-      drm: WARN on illegal aspect ratio when converting a mode to umode
-      drm/sun4i: Eliminate pointless on stack copy of drm_display_info
-      drm/sti: Remove pointless casts
-      drm/sti: Try to fix up the tvout possible clones
-      drm/dp_mst: Enable registration of AUX devices for MST ports
-
-Yue Hu (1):
-      drm: Switch to use DEVFREQ_GOV_SIMPLE_ONDEMAND constant
-
-YueHaibing (4):
-      drm/sti: Remove duplicated include from sti_drv.c
-      drm/bridge: sii902x: Make sii902x_audio_digital_mute static
-      drm/komeda: remove set but not used variable 'old'
-      drm/rockchip: Make analogix_dp_atomic_check static
-
-james qian wang (Arm Technology China) (2):
-      drm/komeda: Use drm_display_mode "crtc_" prefixed hardware timings
-      drm/komeda: Enable dual-link support
-
- .../devicetree/bindings/display/arm,pl11x.txt      |   9 +-
- .../devicetree/bindings/display/bridge/sii902x.txt |   5 +-
- .../display/panel/ampire,am-480272h3tmqw-t01h.txt  |  26 -
- .../display/panel/ampire,am-480272h3tmqw-t01h.yaml |  42 +
- .../display/panel/arm,versatile-tft-panel.txt      |   2 +-
- .../display/panel/armadeus,st0700-adapt.txt        |   9 -
- .../display/panel/armadeus,st0700-adapt.yaml       |  33 +
- .../display/panel/bananapi,s070wv20-ct16.txt       |  12 -
- .../display/panel/bananapi,s070wv20-ct16.yaml      |  31 +
- .../bindings/display/panel/boe,himax8279d.txt      |  24 +
- .../bindings/display/panel/dlc,dlc0700yzg-1.txt    |  13 -
- .../bindings/display/panel/dlc,dlc0700yzg-1.yaml   |  31 +
- .../bindings/display/panel/edt,et-series.txt       |   2 +-
- .../bindings/display/panel/giantplus,gpm940b0.txt  |  12 +
- .../bindings/display/panel/innolux,ee101ia-01d.txt |   7 -
- .../display/panel/innolux,ee101ia-01d.yaml         |  31 +
- .../display/panel/kingdisplay,kd035g6-54nt.txt     |  42 +
- .../devicetree/bindings/display/panel/lvds.yaml    | 107 +++
- .../display/panel/mitsubishi,aa104xd12.txt         |  47 --
- .../display/panel/mitsubishi,aa104xd12.yaml        |  75 ++
- .../display/panel/mitsubishi,aa121td01.txt         |  47 --
- .../display/panel/mitsubishi,aa121td01.yaml        |  74 ++
- .../display/panel/ortustech,com37h3m05dtc.txt      |  12 +
- .../display/panel/ortustech,com37h3m99dtc.txt      |  12 +
- .../bindings/display/panel/panel-common.txt        | 101 ---
- .../bindings/display/panel/panel-common.yaml       | 149 ++++
- .../bindings/display/panel/panel-lvds.txt          | 121 ---
- .../devicetree/bindings/display/panel/panel.txt    |   4 -
- .../bindings/display/panel/pda,91-00156-a0.txt     |  14 -
- .../bindings/display/panel/pda,91-00156-a0.yaml    |  31 +
- .../panel/raspberrypi,7inch-touchscreen.txt        |  49 --
- .../panel/raspberrypi,7inch-touchscreen.yaml       |  71 ++
- .../bindings/display/panel/raydium,rm67191.txt     |  41 +
- .../display/panel/rocktech,jh057n00900.txt         |   5 +
- .../bindings/display/panel/sgd,gktw70sdae4se.txt   |  41 -
- .../bindings/display/panel/sgd,gktw70sdae4se.yaml  |  68 ++
- .../bindings/display/panel/sharp,ld-d5116z01b.txt  |  26 +
- .../bindings/display/panel/sharp,lq070y3dg3b.txt   |  12 +
- .../bindings/display/panel/sharp,ls020b1dd01d.txt  |  12 +
- .../bindings/display/panel/simple-panel.txt        |  29 +-
- .../display/panel/tfc,s9700rtwv43tr-01b.txt        |  15 -
- .../display/panel/tfc,s9700rtwv43tr-01b.yaml       |  33 +
- .../bindings/display/panel/tpo,tpg110.txt          |  70 --
- .../bindings/display/panel/tpo,tpg110.yaml         | 101 +++
- .../bindings/display/rockchip/rockchip-lvds.txt    |  11 -
- .../devicetree/bindings/display/ssd1307fb.txt      |  10 +
- Documentation/gpu/drivers.rst                      |   1 -
- Documentation/gpu/drm-kms-helpers.rst              |  12 +
- Documentation/gpu/drm-mm.rst                       |  40 +-
- Documentation/gpu/introduction.rst                 |  16 +
- Documentation/gpu/tinydrm.rst                      |  30 -
- Documentation/gpu/todo.rst                         |  81 +-
- Documentation/media/uapi/v4l/subdev-formats.rst    | 107 +++
- MAINTAINERS                                        |  44 +-
- drivers/dma-buf/reservation.c                      |  65 +-
- drivers/gpu/drm/Kconfig                            |   6 +-
- drivers/gpu/drm/Makefile                           |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c     |  96 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  24 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h        |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |   2 +
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  26 +-
- drivers/gpu/drm/arc/arcpgu_drv.c                   |   5 +-
- .../gpu/drm/arm/display/komeda/d71/d71_component.c |  38 +-
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |  89 ++-
- drivers/gpu/drm/arm/display/komeda/komeda_dev.c    |   5 +-
- drivers/gpu/drm/arm/display/komeda/komeda_drv.c    |   8 +-
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |   5 +-
- drivers/gpu/drm/arm/display/komeda/komeda_kms.h    |   4 +-
- .../gpu/drm/arm/display/komeda/komeda_pipeline.c   |  19 +-
- .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |   6 +-
- .../drm/arm/display/komeda/komeda_pipeline_state.c |   2 +-
- drivers/gpu/drm/arm/display/komeda/komeda_plane.c  |   4 +-
- drivers/gpu/drm/arm/hdlcd_drv.c                    |   6 +-
- drivers/gpu/drm/arm/malidp_drv.c                   |   5 +-
- drivers/gpu/drm/arm/malidp_hw.c                    |   3 +-
- drivers/gpu/drm/armada/armada_drv.c                |   3 +-
- drivers/gpu/drm/armada/armada_gem.c                |   5 +-
- drivers/gpu/drm/armada/armada_gem.h                |   3 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |   3 +-
- drivers/gpu/drm/ast/Makefile                       |   2 +-
- drivers/gpu/drm/ast/ast_dp501.c                    |   5 +-
- drivers/gpu/drm/ast/ast_drv.c                      |  22 +-
- drivers/gpu/drm/ast/ast_drv.h                      |  46 +-
- drivers/gpu/drm/ast/ast_fb.c                       | 346 ---------
- drivers/gpu/drm/ast/ast_main.c                     |  75 +-
- drivers/gpu/drm/ast/ast_mode.c                     |  58 +-
- drivers/gpu/drm/ast/ast_post.c                     |   7 +-
- drivers/gpu/drm/ast/ast_ttm.c                      |   7 +-
- drivers/gpu/drm/ati_pcigart.c                      |  10 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c     |  12 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c       |  18 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h       |  18 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c   |   3 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c    |  12 +-
- drivers/gpu/drm/bochs/bochs.h                      |   6 +-
- drivers/gpu/drm/bochs/bochs_drv.c                  |  11 +-
- drivers/gpu/drm/bochs/bochs_hw.c                   |   4 +
- drivers/gpu/drm/bochs/bochs_kms.c                  |   9 +-
- drivers/gpu/drm/bridge/Kconfig                     |   2 +-
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |  12 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 304 +++++---
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.h |   2 +-
- drivers/gpu/drm/bridge/dumb-vga-dac.c              |   6 +-
- drivers/gpu/drm/bridge/sii902x.c                   |  44 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  51 +-
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  47 ++
- drivers/gpu/drm/bridge/tc358767.c                  | 675 +++++++++-------
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  46 +-
- drivers/gpu/drm/bridge/ti-tfp410.c                 |   6 +-
- drivers/gpu/drm/cirrus/cirrus.c                    |   2 +-
- drivers/gpu/drm/drm_agpsupport.c                   |  45 +-
- drivers/gpu/drm/drm_client.c                       |  61 +-
- drivers/gpu/drm/drm_connector.c                    |  39 +-
- drivers/gpu/drm/drm_debugfs_crc.c                  |   6 +-
- drivers/gpu/drm/drm_dma.c                          |   2 +-
- drivers/gpu/drm/drm_dp_aux_dev.c                   |  18 +-
- drivers/gpu/drm/drm_dp_helper.c                    |  31 +-
- drivers/gpu/drm/drm_dp_mst_topology.c              | 142 +++-
- drivers/gpu/drm/drm_drv.c                          |   4 +-
- drivers/gpu/drm/drm_fb_helper.c                    |  51 +-
- drivers/gpu/drm/drm_file.c                         |   9 +-
- drivers/gpu/drm/drm_gem.c                          |   4 +-
- drivers/gpu/drm/drm_gem_framebuffer_helper.c       |  72 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c             |   1 +
- drivers/gpu/drm/drm_gem_vram_helper.c              |  78 +-
- drivers/gpu/drm/drm_ioc32.c                        |  13 +-
- drivers/gpu/drm/drm_ioctl.c                        | 133 ++--
- drivers/gpu/drm/drm_legacy_misc.c                  |   2 +-
- drivers/gpu/drm/drm_lock.c                         |   2 +-
- drivers/gpu/drm/drm_memory.c                       |   2 +-
- .../gpu/drm/{tinydrm/mipi-dbi.c =3D> drm_mipi_dbi.c} | 517 ++++++++-----
- drivers/gpu/drm/drm_mm.c                           |   2 +-
- drivers/gpu/drm/drm_mode_object.c                  |   4 +
- drivers/gpu/drm/drm_modes.c                        |  17 +-
- drivers/gpu/drm/drm_prime.c                        | 856 +++++++++++------=
-----
- drivers/gpu/drm/drm_scatter.c                      |   2 +-
- drivers/gpu/drm/drm_syncobj.c                      |  11 +-
- drivers/gpu/drm/drm_sysfs.c                        |   8 +
- drivers/gpu/drm/drm_vm.c                           |   2 +-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c              |  28 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c              |  14 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.h              |   3 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c        |   1 -
- drivers/gpu/drm/exynos/exynos_drm_drv.c            |  21 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c         |   5 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c          |   9 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c          |   1 -
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c        |   2 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c          |   1 -
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c     |   6 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  10 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |   9 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c  |   2 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   |   1 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c        |   6 +
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    |   8 +-
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c    |  10 +-
- drivers/gpu/drm/i2c/ch7006_priv.h                  |   1 -
- drivers/gpu/drm/i2c/sil164_drv.c                   |   3 +-
- drivers/gpu/drm/i810/i810_dma.c                    |  17 +-
- drivers/gpu/drm/i810/i810_drv.c                    |  10 +-
- drivers/gpu/drm/i810/i810_drv.h                    |   2 +
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |   5 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |   8 +-
- drivers/gpu/drm/i915/gvt/dmabuf.c                  |   2 +-
- drivers/gpu/drm/i915/i915_drv.c                    |   8 +-
- drivers/gpu/drm/i915/i915_drv.h                    |   3 +-
- drivers/gpu/drm/imx/dw_hdmi-imx.c                  |  14 +-
- drivers/gpu/drm/imx/imx-drm-core.c                 |  13 +-
- drivers/gpu/drm/imx/imx-ldb.c                      |  29 +-
- drivers/gpu/drm/imx/imx-tve.c                      |  16 +-
- drivers/gpu/drm/imx/ipuv3-crtc.c                   |   8 +-
- drivers/gpu/drm/imx/ipuv3-plane.c                  |   5 +-
- drivers/gpu/drm/imx/parallel-display.c             |   8 +-
- drivers/gpu/drm/ingenic/ingenic-drm.c              |  75 +-
- drivers/gpu/drm/lima/lima_device.c                 |  41 +-
- drivers/gpu/drm/lima/lima_drv.c                    |  20 +-
- drivers/gpu/drm/lima/lima_gem.c                    |   2 +-
- drivers/gpu/drm/lima/lima_gem_prime.c              |   3 +-
- drivers/gpu/drm/lima/lima_object.c                 |   9 +-
- drivers/gpu/drm/lima/lima_object.h                 |   3 +-
- drivers/gpu/drm/lima/lima_vm.h                     |   4 +-
- drivers/gpu/drm/mcde/mcde_drv.c                    |  10 +-
- drivers/gpu/drm/mediatek/mtk_disp_color.c          |   2 +-
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |   2 +-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c           |   2 +-
- drivers/gpu/drm/mediatek/mtk_dpi.c                 |  18 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |  10 +-
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c        |   2 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             |  33 +-
- drivers/gpu/drm/mediatek/mtk_drm_fb.c              |  35 +-
- drivers/gpu/drm/mediatek/mtk_drm_fb.h              |   1 -
- drivers/gpu/drm/mediatek/mtk_drm_gem.c             |   7 +-
- drivers/gpu/drm/mediatek/mtk_drm_plane.c           |   4 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c                 |  14 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c                |  14 +-
- drivers/gpu/drm/meson/meson_crtc.c                 |  16 +-
- drivers/gpu/drm/meson/meson_drv.c                  |  33 +-
- drivers/gpu/drm/meson/meson_drv.h                  |  11 +-
- drivers/gpu/drm/meson/meson_dw_hdmi.c              |  19 +-
- drivers/gpu/drm/meson/meson_overlay.c              |  13 +-
- drivers/gpu/drm/meson/meson_plane.c                |  16 +-
- drivers/gpu/drm/meson/meson_registers.h            |   2 +
- drivers/gpu/drm/meson/meson_vclk.c                 |   7 +-
- drivers/gpu/drm/meson/meson_vclk.h                 |   4 +
- drivers/gpu/drm/meson/meson_venc.c                 |  10 +-
- drivers/gpu/drm/meson/meson_venc.h                 |   2 +
- drivers/gpu/drm/meson/meson_venc_cvbs.c            |  11 +-
- drivers/gpu/drm/meson/meson_viu.c                  |   7 +-
- drivers/gpu/drm/meson/meson_vpp.c                  |   7 +-
- drivers/gpu/drm/meson/meson_vpp.h                  |   3 +
- drivers/gpu/drm/mga/mga_dma.c                      |  13 +-
- drivers/gpu/drm/mga/mga_drv.c                      |   7 +-
- drivers/gpu/drm/mga/mga_drv.h                      |  27 +-
- drivers/gpu/drm/mga/mga_ioc32.c                    |   3 +-
- drivers/gpu/drm/mga/mga_irq.c                      |  12 +-
- drivers/gpu/drm/mga/mga_state.c                    |   8 +-
- drivers/gpu/drm/mga/mga_warp.c                     |   4 +-
- drivers/gpu/drm/mgag200/Makefile                   |   2 +-
- drivers/gpu/drm/mgag200/mgag200_cursor.c           |  11 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c              |  10 +-
- drivers/gpu/drm/mgag200/mgag200_drv.h              |  40 +-
- drivers/gpu/drm/mgag200/mgag200_fb.c               | 315 --------
- drivers/gpu/drm/mgag200/mgag200_i2c.c              |   6 +-
- drivers/gpu/drm/mgag200/mgag200_main.c             |  96 +--
- drivers/gpu/drm/mgag200/mgag200_mode.c             |  63 +-
- drivers/gpu/drm/mgag200/mgag200_ttm.c              |   3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |   8 +-
- drivers/gpu/drm/msm/msm_atomic.c                   |   8 +-
- drivers/gpu/drm/msm/msm_drv.c                      |  25 +-
- drivers/gpu/drm/msm/msm_gem.c                      |   8 +-
- drivers/gpu/drm/msm/msm_gpu.c                      |   3 +-
- drivers/gpu/drm/mxsfb/mxsfb_crtc.c                 |  16 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |  16 +-
- drivers/gpu/drm/mxsfb/mxsfb_out.c                  |   1 -
- drivers/gpu/drm/nouveau/nouveau_abi16.c            |   6 -
- drivers/gpu/drm/nouveau/nouveau_abi16.h            |   1 -
- drivers/gpu/drm/nouveau/nouveau_bo.c               |   2 +
- drivers/gpu/drm/nouveau/nouveau_connector.c        |   2 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c              |  33 +-
- drivers/gpu/drm/nouveau/nouveau_gem.h              |   1 -
- drivers/gpu/drm/nouveau/nouveau_prime.c            |   7 -
- drivers/gpu/drm/omapdrm/omap_crtc.c                |   4 +-
- drivers/gpu/drm/omapdrm/omap_debugfs.c             |   2 +
- drivers/gpu/drm/omapdrm/omap_drv.c                 |  22 +-
- drivers/gpu/drm/omapdrm/omap_drv.h                 |   5 +-
- drivers/gpu/drm/omapdrm/omap_fb.c                  |   4 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c               |   4 +-
- drivers/gpu/drm/omapdrm/omap_gem.c                 |   2 +
- drivers/gpu/drm/omapdrm/omap_gem.h                 |   3 +-
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c          |   8 +-
- drivers/gpu/drm/omapdrm/omap_irq.c                 |   2 +
- drivers/gpu/drm/panel/Kconfig                      |  18 +
- drivers/gpu/drm/panel/Makefile                     |   2 +
- drivers/gpu/drm/panel/panel-lvds.c                 |   5 +-
- drivers/gpu/drm/panel/panel-novatek-nt39016.c      | 359 +++++++++
- .../gpu/drm/panel/panel-raspberrypi-touchscreen.c  |  13 +
- drivers/gpu/drm/panel/panel-raydium-rm67191.c      | 668 ++++++++++++++++
- drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c |  75 +-
- drivers/gpu/drm/panel/panel-simple.c               | 343 ++++++++-
- drivers/gpu/drm/panfrost/panfrost_devfreq.c        |   3 +-
- drivers/gpu/drm/panfrost/panfrost_device.h         |   1 +
- drivers/gpu/drm/panfrost/panfrost_drv.c            |  41 +-
- drivers/gpu/drm/panfrost/panfrost_gem.c            |   2 -
- drivers/gpu/drm/panfrost/panfrost_gpu.c            |   2 +
- drivers/gpu/drm/pl111/pl111_debugfs.c              |   4 +-
- drivers/gpu/drm/pl111/pl111_display.c              |  22 +-
- drivers/gpu/drm/pl111/pl111_drm.h                  |  11 +-
- drivers/gpu/drm/pl111/pl111_drv.c                  |  13 +-
- drivers/gpu/drm/pl111/pl111_nomadik.h              |   3 +-
- drivers/gpu/drm/pl111/pl111_versatile.c            |   9 +-
- drivers/gpu/drm/pl111/pl111_versatile.h            |   3 +
- drivers/gpu/drm/pl111/pl111_vexpress.c             |   1 +
- drivers/gpu/drm/qxl/qxl_cmd.c                      |   2 +
- drivers/gpu/drm/qxl/qxl_debugfs.c                  |   4 +-
- drivers/gpu/drm/qxl/qxl_display.c                  |   3 +
- drivers/gpu/drm/qxl/qxl_draw.c                     |   2 +
- drivers/gpu/drm/qxl/qxl_drv.c                      |  15 +-
- drivers/gpu/drm/qxl/qxl_drv.h                      |   7 +-
- drivers/gpu/drm/qxl/qxl_gem.c                      |   1 -
- drivers/gpu/drm/qxl/qxl_ioctl.c                    |   3 +
- drivers/gpu/drm/qxl/qxl_irq.c                      |   4 +
- drivers/gpu/drm/qxl/qxl_kms.c                      |   9 +-
- drivers/gpu/drm/qxl/qxl_release.c                  |   6 +-
- drivers/gpu/drm/qxl/qxl_ttm.c                      |  16 +-
- drivers/gpu/drm/r128/r128_ioc32.c                  |   3 +-
- drivers/gpu/drm/r128/r128_irq.c                    |   5 +-
- drivers/gpu/drm/radeon/radeon_drv.c                |   8 +-
- drivers/gpu/drm/radeon/radeon_object.c             |   1 +
- drivers/gpu/drm/radeon/radeon_prime.c              |  12 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c              |   5 +-
- drivers/gpu/drm/rockchip/Makefile                  |   3 +-
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    | 116 +--
- drivers/gpu/drm/rockchip/cdn-dp-core.c             |  17 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.h             |   2 +-
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |   9 +-
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        |   5 +-
- drivers/gpu/drm/rockchip/inno_hdmi.c               |   3 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |  17 +-
- drivers/gpu/drm/rockchip/rockchip_drm_fb.c         |  29 +-
- drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c      |   2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c        |   8 +-
- drivers/gpu/drm/rockchip/rockchip_drm_psr.c        | 282 -------
- drivers/gpu/drm/rockchip/rockchip_drm_psr.h        |  22 -
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c        | 115 ++-
- drivers/gpu/drm/rockchip/rockchip_lvds.c           |  16 +-
- drivers/gpu/drm/rockchip/rockchip_rgb.c            |   9 +-
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |  11 +-
- drivers/gpu/drm/scheduler/gpu_scheduler_trace.h    |   2 -
- drivers/gpu/drm/scheduler/sched_entity.c           |   3 +
- drivers/gpu/drm/scheduler/sched_fence.c            |   6 +-
- drivers/gpu/drm/scheduler/sched_main.c             |   3 +-
- drivers/gpu/drm/selftests/test-drm_framebuffer.c   |   7 +-
- drivers/gpu/drm/shmobile/shmob_drm_crtc.c          |   3 +-
- drivers/gpu/drm/shmobile/shmob_drm_crtc.h          |   4 +-
- drivers/gpu/drm/shmobile/shmob_drm_drv.c           |   9 +-
- drivers/gpu/drm/shmobile/shmob_drm_kms.c           |   1 -
- drivers/gpu/drm/shmobile/shmob_drm_plane.c         |   2 +-
- drivers/gpu/drm/shmobile/shmob_drm_plane.h         |   1 +
- drivers/gpu/drm/shmobile/shmob_drm_regs.h          |   3 +
- drivers/gpu/drm/sti/sti_drv.c                      |   6 +-
- drivers/gpu/drm/sti/sti_hdmi.c                     |   9 +-
- drivers/gpu/drm/sti/sti_tvout.c                    |  16 +-
- drivers/gpu/drm/stm/drv.c                          |   5 +-
- drivers/gpu/drm/stm/dw_mipi_dsi-stm.c              |  10 +-
- drivers/gpu/drm/stm/ltdc.c                         |   2 +
- drivers/gpu/drm/sun4i/sun4i_backend.c              |  16 +-
- drivers/gpu/drm/sun4i/sun4i_crtc.c                 |  13 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c                  |   7 +-
- drivers/gpu/drm/sun4i/sun4i_framebuffer.c          |   1 -
- drivers/gpu/drm/sun4i/sun4i_frontend.c             |  10 +-
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |  24 +-
- drivers/gpu/drm/sun4i/sun4i_layer.c                |   3 +-
- drivers/gpu/drm/sun4i/sun4i_lvds.c                 |   2 +-
- drivers/gpu/drm/sun4i/sun4i_rgb.c                  |   2 +-
- drivers/gpu/drm/sun4i/sun4i_tcon.c                 |  28 +-
- drivers/gpu/drm/sun4i/sun4i_tv.c                   |   4 +-
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c             |   9 +-
- drivers/gpu/drm/sun4i/sun8i_csc.c                  | 157 +++-
- drivers/gpu/drm/sun4i/sun8i_csc.h                  |   6 +-
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |   3 +-
- drivers/gpu/drm/sun4i/sun8i_mixer.c                |  14 +-
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c             |   6 +-
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c             |   2 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c             |  22 +-
- drivers/gpu/drm/tdfx/tdfx_drv.c                    |  11 +-
- drivers/gpu/drm/tegra/drm.c                        |  30 +-
- drivers/gpu/drm/tegra/gem.c                        |   7 +-
- drivers/gpu/drm/tegra/gem.h                        |   3 +-
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c               |  46 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c                |  25 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.h                |  31 +-
- drivers/gpu/drm/tilcdc/tilcdc_external.c           |  89 +--
- drivers/gpu/drm/tilcdc/tilcdc_external.h           |   1 -
- drivers/gpu/drm/tilcdc/tilcdc_panel.c              |  20 +-
- drivers/gpu/drm/tilcdc/tilcdc_plane.c              |   4 +-
- drivers/gpu/drm/tilcdc/tilcdc_tfp410.c             |  17 +-
- drivers/gpu/drm/{tinydrm =3D> tiny}/Kconfig          |  64 +-
- drivers/gpu/drm/{tinydrm =3D> tiny}/Makefile         |   6 +-
- drivers/gpu/drm/tiny/gm12u320.c                    | 814 +++++++++++++++++=
-+++
- drivers/gpu/drm/{tinydrm =3D> tiny}/hx8357d.c        |  64 +-
- drivers/gpu/drm/{tinydrm =3D> tiny}/ili9225.c        | 179 ++---
- drivers/gpu/drm/{tinydrm =3D> tiny}/ili9341.c        |  86 ++-
- drivers/gpu/drm/{tinydrm =3D> tiny}/mi0283qt.c       |  93 +--
- drivers/gpu/drm/{tinydrm =3D> tiny}/repaper.c        |  61 +-
- drivers/gpu/drm/{tinydrm =3D> tiny}/st7586.c         | 134 ++--
- drivers/gpu/drm/{tinydrm =3D> tiny}/st7735r.c        |  81 +-
- drivers/gpu/drm/tinydrm/core/Makefile              |   4 -
- drivers/gpu/drm/tinydrm/core/tinydrm-helpers.c     | 207 -----
- drivers/gpu/drm/tinydrm/core/tinydrm-pipe.c        | 179 -----
- drivers/gpu/drm/tve200/tve200_display.c            |   8 +-
- drivers/gpu/drm/tve200/tve200_drm.h                |  15 +-
- drivers/gpu/drm/tve200/tve200_drv.c                |   8 +-
- drivers/gpu/drm/udl/udl_connector.c                |   4 +-
- drivers/gpu/drm/udl/udl_connector.h                |   2 +
- drivers/gpu/drm/udl/udl_dmabuf.c                   |  11 +-
- drivers/gpu/drm/udl/udl_drv.c                      |   9 +-
- drivers/gpu/drm/udl/udl_drv.h                      |  11 +-
- drivers/gpu/drm/udl/udl_encoder.c                  |   6 +-
- drivers/gpu/drm/udl/udl_fb.c                       |  15 +-
- drivers/gpu/drm/udl/udl_gem.c                      |   9 +-
- drivers/gpu/drm/udl/udl_main.c                     |   6 +-
- drivers/gpu/drm/udl/udl_modeset.c                  |   6 +-
- drivers/gpu/drm/udl/udl_transfer.c                 |   4 -
- drivers/gpu/drm/v3d/v3d_debugfs.c                  |   3 +-
- drivers/gpu/drm/v3d/v3d_drv.c                      |   6 +-
- drivers/gpu/drm/v3d/v3d_drv.h                      |  13 +-
- drivers/gpu/drm/v3d/v3d_gem.c                      |  12 +-
- drivers/gpu/drm/v3d/v3d_irq.c                      |   2 +
- drivers/gpu/drm/vboxvideo/Makefile                 |   2 +-
- drivers/gpu/drm/vboxvideo/vbox_drv.c               |  13 +-
- drivers/gpu/drm/vboxvideo/vbox_drv.h               |  12 -
- drivers/gpu/drm/vboxvideo/vbox_prime.c             |  56 --
- drivers/gpu/drm/vc4/vc4_bo.c                       |   7 +-
- drivers/gpu/drm/vc4/vc4_crtc.c                     |  11 +-
- drivers/gpu/drm/vc4/vc4_debugfs.c                  |   1 -
- drivers/gpu/drm/vc4/vc4_drv.c                      |   9 +-
- drivers/gpu/drm/vc4/vc4_drv.h                      |  20 +-
- drivers/gpu/drm/vc4/vc4_dsi.c                      |  17 +-
- drivers/gpu/drm/vc4/vc4_gem.c                      |   2 +
- drivers/gpu/drm/vc4/vc4_hvs.c                      |   5 +-
- drivers/gpu/drm/vc4/vc4_kms.c                      |   4 +-
- drivers/gpu/drm/vc4/vc4_plane.c                    |   9 +-
- drivers/gpu/drm/vc4/vc4_txp.c                      |  14 +-
- drivers/gpu/drm/vc4/vc4_v3d.c                      |   4 +
- drivers/gpu/drm/vgem/vgem_drv.c                    |  21 +-
- drivers/gpu/drm/vgem/vgem_drv.h                    |   1 -
- drivers/gpu/drm/vgem/vgem_fence.c                  |  24 +-
- drivers/gpu/drm/via/via_dma.c                      |  43 +-
- drivers/gpu/drm/via/via_dmablit.c                  |  41 +-
- drivers/gpu/drm/via/via_drv.c                      |   7 +-
- drivers/gpu/drm/via/via_drv.h                      |  75 +-
- drivers/gpu/drm/via/via_irq.c                      |  54 +-
- drivers/gpu/drm/via/via_map.c                      |   6 +-
- drivers/gpu/drm/via/via_mm.c                       |   7 +-
- drivers/gpu/drm/via/via_verifier.c                 |  22 +-
- drivers/gpu/drm/via/via_video.c                    |   5 +-
- drivers/gpu/drm/virtio/virtgpu_debugfs.c           |   4 +-
- drivers/gpu/drm/virtio/virtgpu_display.c           |   7 +-
- drivers/gpu/drm/virtio/virtgpu_drv.c               |   9 +-
- drivers/gpu/drm/virtio/virtgpu_drv.h               |   6 +-
- drivers/gpu/drm/virtio/virtgpu_fence.c             |   2 +-
- drivers/gpu/drm/virtio/virtgpu_gem.c               |   4 +-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c             |  26 +-
- drivers/gpu/drm/virtio/virtgpu_kms.c               |   4 +-
- drivers/gpu/drm/virtio/virtgpu_plane.c             |   6 +-
- drivers/gpu/drm/virtio/virtgpu_prime.c             |   2 +
- drivers/gpu/drm/virtio/virtgpu_ttm.c               |  13 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c                |   7 +-
- drivers/gpu/drm/vkms/Makefile                      |   2 +-
- .../gpu/drm/vkms/{vkms_crc.c =3D> vkms_composer.c}   | 179 ++---
- drivers/gpu/drm/vkms/vkms_crtc.c                   | 100 ++-
- drivers/gpu/drm/vkms/vkms_drv.c                    |  50 +-
- drivers/gpu/drm/vkms/vkms_drv.h                    |  44 +-
- drivers/gpu/drm/vkms/vkms_gem.c                    |   1 +
- drivers/gpu/drm/vkms/vkms_output.c                 |   6 +-
- drivers/gpu/drm/vkms/vkms_plane.c                  |  46 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |  20 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   9 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c            |  52 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |   8 -
- drivers/gpu/drm/xen/xen_drm_front.c                |  16 +-
- drivers/gpu/drm/xen/xen_drm_front.h                |  11 +-
- drivers/gpu/drm/xen/xen_drm_front_cfg.c            |   4 +-
- drivers/gpu/drm/xen/xen_drm_front_conn.c           |   1 +
- drivers/gpu/drm/xen/xen_drm_front_conn.h           |   7 +-
- drivers/gpu/drm/xen/xen_drm_front_evtchnl.c        |   4 +-
- drivers/gpu/drm/xen/xen_drm_front_gem.c            |  13 +-
- drivers/gpu/drm/xen/xen_drm_front_gem.h            |   7 +-
- drivers/gpu/drm/xen/xen_drm_front_kms.c            |   7 +-
- drivers/gpu/drm/zte/zx_drm_drv.c                   |   8 +-
- drivers/gpu/drm/zte/zx_hdmi.c                      |   2 +-
- drivers/gpu/drm/zte/zx_plane.c                     |   2 +-
- drivers/gpu/drm/zte/zx_tvenc.c                     |   4 +-
- drivers/gpu/drm/zte/zx_vga.c                       |   4 +-
- drivers/gpu/drm/zte/zx_vou.c                       |   5 +-
- drivers/video/fbdev/amba-clcd.c                    |   4 +-
- drivers/video/fbdev/au1200fb.c                     |   5 +-
- drivers/video/fbdev/core/fbmem.c                   |   2 +-
- drivers/video/fbdev/core/fbmon.c                   |  96 ---
- drivers/video/fbdev/core/modedb.c                  |  57 --
- drivers/video/fbdev/mmp/fb/mmpfb.c                 |   1 -
- drivers/video/fbdev/nvidia/nv_backlight.c          |   2 -
- drivers/video/fbdev/nvidia/nv_setup.c              |  24 -
- drivers/video/fbdev/ssd1307fb.c                    | 131 +++-
- drivers/video/of_display_timing.c                  |  11 +-
- include/drm/bridge/analogix_dp.h                   |   4 -
- include/drm/drm_agpsupport.h                       |  14 -
- include/drm/drm_client.h                           |   2 +
- include/drm/drm_connector.h                        |  21 +
- include/drm/drm_dp_helper.h                        |   4 +
- include/drm/drm_dp_mst_helper.h                    |  11 +
- include/drm/drm_drv.h                              | 104 ++-
- include/drm/drm_gem.h                              |  18 +-
- include/drm/drm_gem_framebuffer_helper.h           |   7 -
- include/drm/drm_gem_vram_helper.h                  |  27 +-
- include/drm/drm_ioctl.h                            |   3 +
- include/drm/drm_mipi_dbi.h                         | 188 +++++
- include/drm/drm_mode_config.h                      |   7 +
- include/drm/drm_panel.h                            |   1 +
- include/drm/drm_prime.h                            |  43 +-
- include/drm/drm_vblank.h                           |   1 -
- include/drm/drm_vram_mm_helper.h                   |   2 +
- include/drm/tinydrm/mipi-dbi.h                     | 117 ---
- include/drm/tinydrm/tinydrm-helpers.h              |  75 --
- include/linux/fb.h                                 |   3 -
- include/linux/reservation.h                        |  46 +-
- include/linux/soc/amlogic/meson-canvas.h           |   1 +
- include/uapi/drm/drm_mode.h                        |   1 +
- include/uapi/drm/panfrost_drm.h                    |  39 +
- include/uapi/linux/media-bus-format.h              |   3 +-
- 493 files changed, 8904 insertions(+), 6630 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/panel/ampire,=
-am-480272h3tmqw-t01h.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/ampire,=
-am-480272h3tmqw-t01h.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/armadeu=
-s,st0700-adapt.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/armadeu=
-s,st0700-adapt.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/bananap=
-i,s070wv20-ct16.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/bananap=
-i,s070wv20-ct16.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/boe,him=
-ax8279d.txt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/dlc,dlc=
-0700yzg-1.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/dlc,dlc=
-0700yzg-1.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/giantpl=
-us,gpm940b0.txt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/innolux=
-,ee101ia-01d.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/innolux=
-,ee101ia-01d.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/kingdis=
-play,kd035g6-54nt.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/lvds.ya=
-ml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/mitsubi=
-shi,aa104xd12.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/mitsubi=
-shi,aa104xd12.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/mitsubi=
-shi,aa121td01.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/mitsubi=
-shi,aa121td01.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/ortuste=
-ch,com37h3m05dtc.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/ortuste=
-ch,com37h3m99dtc.txt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/panel-c=
-ommon.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-c=
-ommon.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/panel-l=
-vds.txt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/panel.t=
-xt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/pda,91-=
-00156-a0.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/pda,91-=
-00156-a0.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/raspber=
-rypi,7inch-touchscreen.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/raspber=
-rypi,7inch-touchscreen.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/raydium=
-,rm67191.txt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/sgd,gkt=
-w70sdae4se.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sgd,gkt=
-w70sdae4se.yaml
- create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,l=
-d-d5116z01b.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,l=
-q070y3dg3b.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/sharp,l=
-s020b1dd01d.txt
- delete mode 100644 Documentation/devicetree/bindings/display/panel/tfc,s97=
-00rtwv43tr-01b.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/tfc,s97=
-00rtwv43tr-01b.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/panel/tpo,tpg=
-110.txt
- create mode 100644 Documentation/devicetree/bindings/display/panel/tpo,tpg=
-110.yaml
- delete mode 100644 Documentation/gpu/tinydrm.rst
- delete mode 100644 drivers/gpu/drm/ast/ast_fb.c
- rename drivers/gpu/drm/{tinydrm/mipi-dbi.c =3D> drm_mipi_dbi.c} (65%)
- delete mode 100644 drivers/gpu/drm/mgag200/mgag200_fb.c
- create mode 100644 drivers/gpu/drm/panel/panel-novatek-nt39016.c
- create mode 100644 drivers/gpu/drm/panel/panel-raydium-rm67191.c
- delete mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_psr.c
- delete mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_psr.h
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/Kconfig (64%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/Makefile (76%)
- create mode 100644 drivers/gpu/drm/tiny/gm12u320.c
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/hx8357d.c (78%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/ili9225.c (64%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/ili9341.c (69%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/mi0283qt.c (70%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/repaper.c (94%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/st7586.c (74%)
- rename drivers/gpu/drm/{tinydrm =3D> tiny}/st7735r.c (69%)
- delete mode 100644 drivers/gpu/drm/tinydrm/core/Makefile
- delete mode 100644 drivers/gpu/drm/tinydrm/core/tinydrm-helpers.c
- delete mode 100644 drivers/gpu/drm/tinydrm/core/tinydrm-pipe.c
- delete mode 100644 drivers/gpu/drm/vboxvideo/vbox_prime.c
- rename drivers/gpu/drm/vkms/{vkms_crc.c =3D> vkms_composer.c} (52%)
- create mode 100644 include/drm/drm_mipi_dbi.h
- delete mode 100644 include/drm/tinydrm/mipi-dbi.h
- delete mode 100644 include/drm/tinydrm/tinydrm-helpers.h
-
---
-Maxime Ripard, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
---oenumjjnz7rvq2td
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXUVmNwAKCRDj7w1vZxhR
-xa9eAP9rAxjhuRQHYX90vaQJWGJKiNkwrej+pg46z5fIQBbJXgEAzXixa3h1OGml
-XFxLoBImC1KQ94hYKRNnv21Stt25fQE=
-=tcQi
------END PGP SIGNATURE-----
-
---oenumjjnz7rvq2td--
-
---===============0451521891==
+Content-Transfer-Encoding: 8bit
+
+Hi Chris,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[cannot apply to v5.3-rc2 next-20190802]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Chris-Wilson/drm-syncobj-Convert-syncobj_idr-to-XArray/20190803-170547
+reproduce: make htmldocs
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+   include/linux/skbuff.h:893: warning: Function parameter or member 'reserved_tailroom' not described in 'sk_buff'
+   include/linux/skbuff.h:893: warning: Function parameter or member 'inner_ipproto' not described in 'sk_buff'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_addrpair' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_portpair' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_ipv6only' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_net_refcnt' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_v6_daddr' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_v6_rcv_saddr' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_cookie' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_listener' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_tw_dr' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_rcv_wnd' not described in 'sock_common'
+   include/net/sock.h:233: warning: Function parameter or member 'skc_tw_rcv_nxt' not described in 'sock_common'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_rx_skb_cache' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_wq_raw' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'tcp_rtx_queue' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_tx_skb_cache' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_route_forced_caps' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_txtime_report_errors' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_validate_xmit_skb' not described in 'sock'
+   include/net/sock.h:515: warning: Function parameter or member 'sk_bpf_storage' not described in 'sock'
+   include/net/sock.h:2439: warning: Function parameter or member 'tcp_rx_skb_cache_key' not described in 'DECLARE_STATIC_KEY_FALSE'
+   include/net/sock.h:2439: warning: Excess function parameter 'sk' description in 'DECLARE_STATIC_KEY_FALSE'
+   include/net/sock.h:2439: warning: Excess function parameter 'skb' description in 'DECLARE_STATIC_KEY_FALSE'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'gso_partial_features' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'l3mdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'xfrmdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'tlsdev_ops' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'name_assign_type' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'ieee802154_ptr' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'mpls_ptr' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'xdp_prog' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'gro_flush_timeout' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'nf_hooks_ingress' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member '____cacheline_aligned_in_smp' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'qdisc_hash' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'xps_cpus_map' not described in 'net_device'
+   include/linux/netdevice.h:2040: warning: Function parameter or member 'xps_rxqs_map' not described in 'net_device'
+   include/linux/phylink.h:56: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(advertising' not described in 'phylink_link_state'
+   include/linux/phylink.h:56: warning: Function parameter or member '__ETHTOOL_DECLARE_LINK_MODE_MASK(lp_advertising' not described in 'phylink_link_state'
+   drivers/net/phy/phylink.c:593: warning: Function parameter or member 'config' not described in 'phylink_create'
+   drivers/net/phy/phylink.c:593: warning: Excess function parameter 'ndev' description in 'phylink_create'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'quotactl' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'quota_on' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'sb_free_mnt_opts' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'sb_eat_lsm_opts' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'sb_kern_mount' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'sb_show_options' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'sb_add_mnt_opt' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'd_instantiate' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'getprocattr' not described in 'security_list_options'
+   include/linux/lsm_hooks.h:1811: warning: Function parameter or member 'setprocattr' not described in 'security_list_options'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c:142: warning: Function parameter or member 'blockable' not described in 'amdgpu_mn_read_lock'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:347: warning: cannot understand function prototype: 'struct amdgpu_vm_pt_cursor '
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:348: warning: cannot understand function prototype: 'struct amdgpu_vm_pt_cursor '
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:494: warning: Function parameter or member 'start' not described in 'amdgpu_vm_pt_first_dfs'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'adev' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'vm' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'start' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'cursor' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:546: warning: Function parameter or member 'entry' not described in 'for_each_amdgpu_vm_pt_dfs_safe'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:823: warning: Function parameter or member 'level' not described in 'amdgpu_vm_bo_param'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'params' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'bo' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'level' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'pe' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'addr' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'count' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'incr' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1285: warning: Function parameter or member 'flags' not described in 'amdgpu_vm_update_flags'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2822: warning: Function parameter or member 'pasid' not described in 'amdgpu_vm_make_compute'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:378: warning: Excess function parameter 'entry' description in 'amdgpu_irq_dispatch'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:379: warning: Function parameter or member 'ih' not described in 'amdgpu_irq_dispatch'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c:379: warning: Excess function parameter 'entry' description in 'amdgpu_irq_dispatch'
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:1: warning: no structured comments found
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:1: warning: no structured comments found
+   drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c:1: warning: 'pp_dpm_sclk pp_dpm_mclk pp_dpm_pcie' not found
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:131: warning: Incorrect use of kernel-doc format:          * @atomic_obj
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:237: warning: Incorrect use of kernel-doc format:          * gpu_info FW provided soc bounding box struct or 0 if not
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'atomic_obj' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'backlight_link' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'backlight_caps' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'freesync_module' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'fw_dmcu' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'dmcu_fw_version' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:242: warning: Function parameter or member 'soc_bounding_box' not described in 'amdgpu_display_manager'
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:1: warning: 'dm_pflip_high_irq' not found
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:1: warning: 'dm_crtc_high_irq' not found
+   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:1: warning: 'register_hpd_handlers' not found
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_pin' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_unpin' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_res_obj' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_get_sg_table' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_import_sg_table' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_vmap' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_vunmap' not described in 'drm_driver'
+   include/drm/drm_drv.h:722: warning: Function parameter or member 'gem_prime_mmap' not described in 'drm_driver'
+   include/drm/drm_modeset_helper_vtables.h:1053: warning: Function parameter or member 'prepare_writeback_job' not described in 'drm_connector_helper_funcs'
+   include/drm/drm_modeset_helper_vtables.h:1053: warning: Function parameter or member 'cleanup_writeback_job' not described in 'drm_connector_helper_funcs'
+   include/drm/drm_atomic_state_helper.h:1: warning: no structured comments found
+>> include/drm/drm_syncobj.h:67: warning: Function parameter or member 'rcu' not described in 'drm_syncobj'
+   include/net/cfg80211.h:1092: warning: Function parameter or member 'txpwr' not described in 'station_parameters'
+   include/net/mac80211.h:4043: warning: Function parameter or member 'sta_set_txpwr' not described in 'ieee80211_ops'
+   Documentation/admin-guide/xfs.rst:257: WARNING: Block quote ends without a blank line; unexpected unindent.
+   include/uapi/linux/firewire-cdev.h:312: WARNING: Inline literal start-string without end-string.
+   drivers/firewire/core-transaction.c:606: WARNING: Inline strong start-string without end-string.
+   drivers/message/fusion/mptbase.c:5057: WARNING: Definition list ends without a blank line; unexpected unindent.
+   drivers/tty/serial/serial_core.c:1964: WARNING: Definition list ends without a blank line; unexpected unindent.
+   Documentation/index.rst:94: WARNING: toctree contains reference to nonexisting document 'virtual/index'
+   Documentation/crypto/crypto_engine.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+   Documentation/kbuild/makefiles.rst:1142: WARNING: Inline emphasis start-string without end-string.
+   Documentation/kbuild/makefiles.rst:1152: WARNING: Inline emphasis start-string without end-string.
+   Documentation/kbuild/makefiles.rst:1154: WARNING: Inline emphasis start-string without end-string.
+   include/linux/i2c.h:522: WARNING: Inline strong start-string without end-string.
+   include/linux/regulator/driver.h:284: WARNING: Unknown target name: "regulator_regmap_x_voltage".
+   include/linux/spi/spi.h:382: WARNING: Unexpected indentation.
+   fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
+   fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
+   fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
+   fs/seq_file.c:40: WARNING: Inline strong start-string without end-string.
+   fs/posix_acl.c:636: WARNING: Inline emphasis start-string without end-string.
+   fs/debugfs/inode.c:399: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/inode.c:478: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/inode.c:510: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/inode.c:603: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:394: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:400: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:439: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:445: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:484: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:490: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:530: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:536: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:578: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:584: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:845: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:851: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:898: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:904: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:1090: WARNING: Inline literal start-string without end-string.
+   fs/debugfs/file.c:1096: WARNING: Inline literal start-string without end-string.
+   drivers/ata/libata-core.c:5945: WARNING: Unknown target name: "hw".
+   kernel/signal.c:349: WARNING: Inline literal start-string without end-string.
+   include/linux/xarray.h:232: WARNING: Unexpected indentation.
+   include/linux/netdevice.h:3482: WARNING: Inline emphasis start-string without end-string.
+   include/linux/netdevice.h:3482: WARNING: Inline emphasis start-string without end-string.
+   net/core/dev.c:5008: WARNING: Unknown target name: "page_is".
+   Documentation/security/keys/core.rst:1110: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1110: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1108: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1108: WARNING: Inline emphasis start-string without end-string.
+   Documentation/security/keys/core.rst:1108: WARNING: Inline emphasis start-string without end-string.
+   Documentation/trace/kprobetrace.rst:99: WARNING: Explicit markup ends without a blank line; unexpected unindent.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:245: WARNING: Unexpected indentation.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:248: WARNING: Block quote ends without a blank line; unexpected unindent.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:271: WARNING: Unexpected indentation.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:282: WARNING: Unexpected indentation.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c:2202: WARNING: Inline emphasis start-string without end-string.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_pm.c:2204: WARNING: Inline emphasis start-string without end-string.
+   include/drm/drm_connector.h:540: WARNING: Inline interpreted text or phrase reference start-string without end-string.
+   include/drm/drm_connector.h:540: WARNING: Inline interpreted text or phrase reference start-string without end-string.
+   Documentation/translations/it_IT/process/maintainer-pgp-guide.rst:458: WARNING: Unknown target name: "nitrokey pro".
+   Documentation/virt/index.rst: WARNING: document isn't included in any toctree
+   include/linux/slab.h:500: WARNING: undefined label: memory-allocation (if the link has no caption the label must precede a section header)
+   Documentation/gpu/drm-internals.rst:302: WARNING: Could not lex literal_block as "c". Highlighting skipped.
+   WARNING: LaTeX command 'latex' cannot be run (needed for math display), check the imgmath_latex setting
+   WARNING: LaTeX command 'latex' cannot be run (needed for math display), check the imgmath_latex setting
+   WARNING: LaTeX command 'latex' cannot be run (needed for math display), check the imgmath_latex setting
+   Documentation/trace/kprobetrace.rst:68: WARNING: undefined label: user_mem_access (if the link has no caption the label must precede a section header)
+   WARNING: LaTeX command 'latex' cannot be run (needed for math display), check the imgmath_latex setting
+
+vim +67 include/drm/drm_syncobj.h
+
+e9083420bbacce2 Dave Airlie     2017-04-04  @67  
+e9083420bbacce2 Dave Airlie     2017-04-04   68  void drm_syncobj_free(struct kref *kref);
+e9083420bbacce2 Dave Airlie     2017-04-04   69  
+e9083420bbacce2 Dave Airlie     2017-04-04   70  /**
+e9083420bbacce2 Dave Airlie     2017-04-04   71   * drm_syncobj_get - acquire a syncobj reference
+e9083420bbacce2 Dave Airlie     2017-04-04   72   * @obj: sync object
+e9083420bbacce2 Dave Airlie     2017-04-04   73   *
+924fe8df7fcfa50 Daniel Vetter   2017-12-14   74   * This acquires an additional reference to @obj. It is illegal to call this
+e9083420bbacce2 Dave Airlie     2017-04-04   75   * without already holding a reference. No locks required.
+e9083420bbacce2 Dave Airlie     2017-04-04   76   */
+e9083420bbacce2 Dave Airlie     2017-04-04   77  static inline void
+e9083420bbacce2 Dave Airlie     2017-04-04   78  drm_syncobj_get(struct drm_syncobj *obj)
+e9083420bbacce2 Dave Airlie     2017-04-04   79  {
+e9083420bbacce2 Dave Airlie     2017-04-04   80  	kref_get(&obj->refcount);
+e9083420bbacce2 Dave Airlie     2017-04-04   81  }
+e9083420bbacce2 Dave Airlie     2017-04-04   82  
+e9083420bbacce2 Dave Airlie     2017-04-04   83  /**
+e9083420bbacce2 Dave Airlie     2017-04-04   84   * drm_syncobj_put - release a reference to a sync object.
+e9083420bbacce2 Dave Airlie     2017-04-04   85   * @obj: sync object.
+e9083420bbacce2 Dave Airlie     2017-04-04   86   */
+e9083420bbacce2 Dave Airlie     2017-04-04   87  static inline void
+e9083420bbacce2 Dave Airlie     2017-04-04   88  drm_syncobj_put(struct drm_syncobj *obj)
+e9083420bbacce2 Dave Airlie     2017-04-04   89  {
+e9083420bbacce2 Dave Airlie     2017-04-04   90  	kref_put(&obj->refcount, drm_syncobj_free);
+e9083420bbacce2 Dave Airlie     2017-04-04   91  }
+e9083420bbacce2 Dave Airlie     2017-04-04   92  
+131280a162e7fc2 Eric Anholt     2018-11-08   93  /**
+131280a162e7fc2 Eric Anholt     2018-11-08   94   * drm_syncobj_fence_get - get a reference to a fence in a sync object
+131280a162e7fc2 Eric Anholt     2018-11-08   95   * @syncobj: sync object.
+131280a162e7fc2 Eric Anholt     2018-11-08   96   *
+131280a162e7fc2 Eric Anholt     2018-11-08   97   * This acquires additional reference to &drm_syncobj.fence contained in @obj,
+131280a162e7fc2 Eric Anholt     2018-11-08   98   * if not NULL. It is illegal to call this without already holding a reference.
+131280a162e7fc2 Eric Anholt     2018-11-08   99   * No locks required.
+131280a162e7fc2 Eric Anholt     2018-11-08  100   *
+131280a162e7fc2 Eric Anholt     2018-11-08  101   * Returns:
+131280a162e7fc2 Eric Anholt     2018-11-08  102   * Either the fence of @obj or NULL if there's none.
+131280a162e7fc2 Eric Anholt     2018-11-08  103   */
+131280a162e7fc2 Eric Anholt     2018-11-08  104  static inline struct dma_fence *
+131280a162e7fc2 Eric Anholt     2018-11-08  105  drm_syncobj_fence_get(struct drm_syncobj *syncobj)
+131280a162e7fc2 Eric Anholt     2018-11-08  106  {
+131280a162e7fc2 Eric Anholt     2018-11-08  107  	struct dma_fence *fence;
+131280a162e7fc2 Eric Anholt     2018-11-08  108  
+131280a162e7fc2 Eric Anholt     2018-11-08  109  	rcu_read_lock();
+131280a162e7fc2 Eric Anholt     2018-11-08  110  	fence = dma_fence_get_rcu_safe(&syncobj->fence);
+131280a162e7fc2 Eric Anholt     2018-11-08  111  	rcu_read_unlock();
+131280a162e7fc2 Eric Anholt     2018-11-08  112  
+131280a162e7fc2 Eric Anholt     2018-11-08  113  	return fence;
+131280a162e7fc2 Eric Anholt     2018-11-08  114  }
+131280a162e7fc2 Eric Anholt     2018-11-08  115  
+e9083420bbacce2 Dave Airlie     2017-04-04  116  struct drm_syncobj *drm_syncobj_find(struct drm_file *file_private,
+e9083420bbacce2 Dave Airlie     2017-04-04  117  				     u32 handle);
+44f8a1396e83f10 Christian König 2019-04-01  118  void drm_syncobj_add_point(struct drm_syncobj *syncobj,
+44f8a1396e83f10 Christian König 2019-04-01  119  			   struct dma_fence_chain *chain,
+44f8a1396e83f10 Christian König 2019-04-01  120  			   struct dma_fence *fence,
+44f8a1396e83f10 Christian König 2019-04-01  121  			   uint64_t point);
+0b258ed1a219a97 Christian König 2018-11-14  122  void drm_syncobj_replace_fence(struct drm_syncobj *syncobj,
+e9083420bbacce2 Dave Airlie     2017-04-04  123  			       struct dma_fence *fence);
+afaf59237843bf8 Jason Ekstrand  2017-08-25  124  int drm_syncobj_find_fence(struct drm_file *file_private,
+649fdce23cdf516 Chunming Zhou   2018-10-15  125  			   u32 handle, u64 point, u64 flags,
+e9083420bbacce2 Dave Airlie     2017-04-04  126  			   struct dma_fence **fence);
+e9083420bbacce2 Dave Airlie     2017-04-04  127  void drm_syncobj_free(struct kref *kref);
+1321fd2c010e7cc Marek Olšák     2017-09-12  128  int drm_syncobj_create(struct drm_syncobj **out_syncobj, uint32_t flags,
+1321fd2c010e7cc Marek Olšák     2017-09-12  129  		       struct dma_fence *fence);
+1321fd2c010e7cc Marek Olšák     2017-09-12  130  int drm_syncobj_get_handle(struct drm_file *file_private,
+1321fd2c010e7cc Marek Olšák     2017-09-12  131  			   struct drm_syncobj *syncobj, u32 *handle);
+684fd0af4732f37 Marek Olšák     2017-09-12  132  int drm_syncobj_get_fd(struct drm_syncobj *syncobj, int *p_fd);
+e9083420bbacce2 Dave Airlie     2017-04-04  133  
+e9083420bbacce2 Dave Airlie     2017-04-04  134  #endif
+
+:::::: The code at line 67 was first introduced by commit
+:::::: e9083420bbacce27e43d418064d0d2dfb4b37aaa drm: introduce sync objects (v4)
+
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+
+--a8Wt8u1KmwUX3Y2C
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+
+--a8Wt8u1KmwUX3Y2C
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1284,4 +481,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0451521891==--
+--a8Wt8u1KmwUX3Y2C--
