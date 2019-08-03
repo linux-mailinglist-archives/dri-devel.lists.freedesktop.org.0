@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10FD81385
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 09:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D6B8136A
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 09:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55CF96E2E4;
-	Mon,  5 Aug 2019 07:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43F56E288;
+	Mon,  5 Aug 2019 07:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A29AE6E0A2
- for <dri-devel@lists.freedesktop.org>; Fri,  2 Aug 2019 23:29:33 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id v18so74255685ljh.6
- for <dri-devel@lists.freedesktop.org>; Fri, 02 Aug 2019 16:29:33 -0700 (PDT)
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7C46E312
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 00:14:47 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id k20so2638046ios.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 02 Aug 2019 17:14:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FqoD94WDLyWA8l9zI3MRA8YgAwJDuCPz2geT9v/93AU=;
- b=n4ylsUBiZ6heNso1xR24KjjpsvfFdQiFdFPZkISiq8FYYcJ67fd3PN5vydn7J9rjeN
- W9oJqR7XnLS5dJZo9Bf2zihf/5qUJAA64FKqZgJwjk89jBViir2L8k3IAUpXhJwRxVpR
- nyctoDvXgsbxcdvyZ2o9bFtKloiDmh0pPWWDKVD/p6Lnrpm17AmWLUuAdE+82L0grtTP
- XqUxtemWbGJSIrGmzZyVE5QBJYQNZ5VtcmdsVBCBt6S2/YnUjQXv12lAbSOjbqxIvbL5
- flm7Fph4fZCLcj0UTc8RiAyLFtBzN+7L2paSl2XIQIOB5ks1kmbIcJdEsTyeQjWCRQN8
- tWuw==
-X-Gm-Message-State: APjAAAXqfgZtdGuTAyw6jNT7AlyRMwoLcfsVHjDLdza8KsznV1w/S2v4
- sl1/EJ+iCJn2U3wKBQMiq0n1JfgMrvcXbFTf11Y=
-X-Google-Smtp-Source: APXvYqxQomGFhJOzhqjL4fHtC06r+EtvDQrM180ePolUOYxy3p36rmppE8ZrP0N69kgRfCGOdkfnpbPRwWIstlW7o8Q=
-X-Received: by 2002:a2e:8802:: with SMTP id x2mr52112581ljh.200.1564788571846; 
- Fri, 02 Aug 2019 16:29:31 -0700 (PDT)
+ bh=h4x/c6aFCerGwW46+jAJx/0xkBWsbbCj8p2s7VTuzx8=;
+ b=oQSbHK1f1mper/TdTn59r3opVV4nOFLNZhTfKLvhXW1/b+6EZp4QxoLxyXoG72oiW/
+ LwzUUBXl0QZccK6E1adI0mTipm7HJNWAU/QNXIWUJZJ7YitbciKcIxS/5t92i+sJM1pu
+ xRV0IB2nb0TNL8bAdF9sRCkcwyQG085DEUHmSYT8C/vjsYa7khHCTMlTC/UGi/eWJe5P
+ nR2l9yrWm1vehecnbWQBI2tBQK8gwFKiXDtAnd8e20axntuJNATG7ccuFQVYKKG7l1kO
+ 5oBfQKEOb9Vseb1vz8WHMft4Pm1SjjeYnHTlr5nukoiyTKgNP448RQDMoKH42EJrXtVF
+ eCzQ==
+X-Gm-Message-State: APjAAAXwgNilTXHplNHEgx2OPTT6wbp4yQTrNMGkwqehyZtl4lYBQdRj
+ r/gRSojoso+vFfDYLjJ4Cv29s98RCizKqDRzeMqWoQ==
+X-Google-Smtp-Source: APXvYqzf+8HF1jNb9DEf6l4Ve9OqBkgZcoiA7Q7ZK26p9D3udPa2BQT1369JwNyXg+EZvobWAJFoHF0bH17R4/EaURY=
+X-Received: by 2002:a02:c916:: with SMTP id t22mr3605894jao.24.1564791286556; 
+ Fri, 02 Aug 2019 17:14:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <bug-204407-27@https.bugzilla.kernel.org/>
- <20190802132306.e945f4420bc2dcddd8d34f75@linux-foundation.org>
- <20190802203344.GD5597@bombadil.infradead.org>
- <1564780650.11067.50.camel@lca.pw>
- <20190802225939.GE5597@bombadil.infradead.org>
-In-Reply-To: <20190802225939.GE5597@bombadil.infradead.org>
-From: Petr Vandrovec <petr@vandrovec.name>
-Date: Fri, 2 Aug 2019 16:29:20 -0700
-Message-ID: <CA+i2_Dc-VrOUk8EVThwAE5HZ1-zFqONuW8Gojv+16UPsAqoM1Q@mail.gmail.com>
-Subject: Re: [Bug 204407] New: Bad page state in process Xorg
-To: Matthew Wilcox <willy@infradead.org>
+References: <20190802131951.11600-1-sashal@kernel.org>
+ <20190802131951.11600-42-sashal@kernel.org>
+In-Reply-To: <20190802131951.11600-42-sashal@kernel.org>
+From: Rob Clark <robdclark@chromium.org>
+Date: Fri, 2 Aug 2019 17:14:35 -0700
+Message-ID: <CAJs_Fx4ddE-85uA3S+YLPat4uX8Mk9zRU2SFm2xmGgmAFWPEyg@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.2 42/76] drm/msm: stop abusing dma_map/unmap for
+ cache
+To: Sasha Levin <sashal@kernel.org>
 X-Mailman-Approved-At: Mon, 05 Aug 2019 07:34:45 +0000
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=h4x/c6aFCerGwW46+jAJx/0xkBWsbbCj8p2s7VTuzx8=;
+ b=MLkWEGvkkIkdnTVe/Yq9GekUC+t7Ci3fj98xN5HfkXiOvm/MMg784R24yCjHSu8K0h
+ AW6wNE43CTPQ3HnsY09vnm7ebuGXirzQWPSNRbN6TDV+yMRx6wt4mBurzmx7Lfu7xfWd
+ wvOc91VHRIKLo1B9aqILfav2Bz8i3r18qHvWo=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,80 +62,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, bugzilla-daemon@bugzilla.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Huang Rui <ray.huang@amd.com>, Qian Cai <cai@lca.pw>,
- Andrew Morton <akpm@linux-foundation.org>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0665196511=="
+Cc: Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0665196511==
-Content-Type: multipart/alternative; boundary="000000000000f93a5c058f2aba0c"
-
---000000000000f93a5c058f2aba0c
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Aug 2, 2019, 3:59 PM Matthew Wilcox <willy@infradead.org> wrote:
-
-> That doesn't help because we call reset_page_owner() in the free page path.
->
-> We could turn on tracing because we call trace_mm_page_free() in this
-> path.  That requires the reporter to be able to reproduce the problem,
-> and it's not clear to me whether this is a "happened once" or "every
-> time I do this, it happens" problem.
->
-
-It happened on 3 of the boots with that kernel.  4th time box either
-spontaneously rebooted when X started, or watchdog restarted box shortly
-after starting X server.
-
-So I believe I should be able to reproduce it with additional patches or
-extra flags enabled.
-
-Petr
-
->
-
---000000000000f93a5c058f2aba0c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Fri, Aug 2, 2019, 3:59 PM Matthew Wilcox &lt;<a href=3D"mai=
-lto:willy@infradead.org">willy@infradead.org</a>&gt; wrote:</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
-That doesn&#39;t help because we call reset_page_owner() in the free page p=
-ath.<br>
-<br>
-We could turn on tracing because we call trace_mm_page_free() in this<br>
-path.=C2=A0 That requires the reporter to be able to reproduce the problem,=
-<br>
-and it&#39;s not clear to me whether this is a &quot;happened once&quot; or=
- &quot;every<br>
-time I do this, it happens&quot; problem.<br></blockquote></div></div><div =
-dir=3D"auto"><br></div><div dir=3D"auto">It happened on 3 of the boots with=
- that kernel.=C2=A0 4th time box either spontaneously rebooted when X start=
-ed, or watchdog restarted box shortly after starting X server.</div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">So I believe I should be able to rep=
-roduce it with additional patches or extra flags enabled.</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Petr</div><div dir=3D"auto"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"></blockquote></div></div></div=
->
-
---000000000000f93a5c058f2aba0c--
-
---===============0665196511==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0665196511==--
+SGkgU2FzaGEsCgpJdCdzIHByb2JhYmx5IGJlc3QgKm5vdCogdG8gYmFja3BvcnQgdGhpcyBwYXRj
+aC4uIGRybS9tc20gYWJ1c2VzIHRoZQpETUEgQVBJIGluIGEgd2F5IHRoYXQgaXQgaXMgbm90IGlu
+dGVuZGVkIGJlIHVzZWQsIHRvIHdvcmsgYXJvdW5kIHRoZQpsYWNrIG9mIGNhY2hlIHN5bmMgQVBJ
+IGV4cG9ydGVkIHRvIGtlcm5lbCBtb2R1bGVzIG9uIGFybS9hcm02NC4gIEkKY291bGRuJ3QgcmVh
+bGx5IGd1YXJhbnRlZSB0aGF0IHRoaXMgcGF0Y2ggZG9lcyB0aGUgcmlnaHQgdGhpbmcgb24Kb2xk
+ZXIgdmVyc2lvbnMgb2YgRE1BIEFQSSwgc28gYmVzdCB0byBsZWF2ZSB0aGluZ3MgYXMgdGhleSB3
+ZXJlLgoKQlIsCi1SCgpPbiBGcmksIEF1ZyAyLCAyMDE5IGF0IDY6MjEgQU0gU2FzaGEgTGV2aW4g
+PHNhc2hhbEBrZXJuZWwub3JnPiB3cm90ZToKPgo+IEZyb206IFJvYiBDbGFyayA8cm9iZGNsYXJr
+QGNocm9taXVtLm9yZz4KPgo+IFsgVXBzdHJlYW0gY29tbWl0IDAwMzZiYzczY2NiZTdlNjAwYTM0
+NjhiZjhlODg3OWIxMjIyNTIyNzQgXQo+Cj4gUmVjZW50bHkgc3BsYXRzIGxpa2UgdGhpcyBzdGFy
+dGVkIHNob3dpbmcgdXA6Cj4KPiAgICBXQVJOSU5HOiBDUFU6IDQgUElEOiAyNTEgYXQgZHJpdmVy
+cy9pb21tdS9kbWEtaW9tbXUuYzo0NTEgX19pb21tdV9kbWFfdW5tYXArMHhiOC8weGMwCj4gICAg
+TW9kdWxlcyBsaW5rZWQgaW46IGF0aDEwa19zbm9jIGF0aDEwa19jb3JlIGZ1c2UgbXNtIGF0aCBt
+YWM4MDIxMSB1dmN2aWRlbyBjZmc4MDIxMSB2aWRlb2J1ZjJfdm1hbGxvYyB2aWRlb2J1ZjJfbWVt
+b3BzIHZpZGUKPiAgICBDUFU6IDQgUElEOiAyNTEgQ29tbToga3dvcmtlci91MTY6NCBUYWludGVk
+OiBHICAgICAgICBXICAgICAgICAgNS4yLjAtcmM1LW5leHQtMjAxOTA2MTkrICMyMzE3Cj4gICAg
+SGFyZHdhcmUgbmFtZTogTEVOT1ZPIDgxSkwvTE5WTkIxNjEyMTYsIEJJT1MgOVVDTjIzV1coVjEu
+MDYpIDEwLzI1LzIwMTgKPiAgICBXb3JrcXVldWU6IG1zbSBtc21fZ2VtX2ZyZWVfd29yayBbbXNt
+XQo+ICAgIHBzdGF0ZTogODBjMDAwMDUgKE56Y3YgZGFpZiArUEFOICtVQU8pCj4gICAgcGMgOiBf
+X2lvbW11X2RtYV91bm1hcCsweGI4LzB4YzAKPiAgICBsciA6IF9faW9tbXVfZG1hX3VubWFwKzB4
+NTQvMHhjMAo+ICAgIHNwIDogZmZmZjAwMDAxMTlhYmNlMAo+ICAgIHgyOTogZmZmZjAwMDAxMTlh
+YmNlMCB4Mjg6IDAwMDAwMDAwMDAwMDAwMDAKPiAgICB4Mjc6IGZmZmY4MDAxZjk5NDY2NDggeDI2
+OiBmZmZmODAwMWVjMjcxMDY4Cj4gICAgeDI1OiAwMDAwMDAwMDAwMDAwMDAwIHgyNDogZmZmZjgw
+MDFlYTM1ODBhOAo+ICAgIHgyMzogZmZmZjgwMDFmOTViYTAxMCB4MjI6IGZmZmY4MDAxOGU4M2Jh
+ODgKPiAgICB4MjE6IGZmZmY4MDAxZTU0OGYwMDAgeDIwOiBmZmZmZmZmZmZmZmZmMDAwCj4gICAg
+eDE5OiAwMDAwMDAwMDAwMDAxMDAwIHgxODogMDAwMDAwMDBjMDAwMDFmZQo+ICAgIHgxNzogMDAw
+MDAwMDAwMDAwMDAwMCB4MTY6IDAwMDAwMDAwMDAwMDAwMDAKPiAgICB4MTU6IGZmZmYwMDAwMTVi
+NzAwNjggeDE0OiAwMDAwMDAwMDAwMDAwMDA1Cj4gICAgeDEzOiAwMDAzMTQyY2MxYmUxNzY4IHgx
+MjogMDAwMDAwMDAwMDAwMDAwMQo+ICAgIHgxMTogZmZmZjgwMDFmNmRlOTEwMCB4MTA6IDAwMDAw
+MDAwMDAwMDAwMDkKPiAgICB4OSA6IGZmZmYwMDAwMTViNzgwMDAgeDggOiAwMDAwMDAwMDAwMDAw
+MDAwCj4gICAgeDcgOiAwMDAwMDAwMDAwMDAwMDAxIHg2IDogZmZmZmZmZmZmZmZmZjAwMAo+ICAg
+IHg1IDogMDAwMDAwMDAwMDAwMGZmZiB4NCA6IGZmZmYwMDAwMTA2NWRiYzgKPiAgICB4MyA6IDAw
+MDAwMDAwMDAwMDAwMGQgeDIgOiAwMDAwMDAwMDAwMDAxMDAwCj4gICAgeDEgOiBmZmZmZmZmZmZm
+ZmZmMDAwIHgwIDogMDAwMDAwMDAwMDAwMDAwMAo+ICAgIENhbGwgdHJhY2U6Cj4gICAgIF9faW9t
+bXVfZG1hX3VubWFwKzB4YjgvMHhjMAo+ICAgICBpb21tdV9kbWFfdW5tYXBfc2crMHg5OC8weGI4
+Cj4gICAgIHB1dF9wYWdlcysweDVjLzB4ZjAgW21zbV0KPiAgICAgbXNtX2dlbV9mcmVlX3dvcmsr
+MHgxMGMvMHgxNTAgW21zbV0KPiAgICAgcHJvY2Vzc19vbmVfd29yaysweDFlMC8weDMzMAo+ICAg
+ICB3b3JrZXJfdGhyZWFkKzB4NDAvMHg0MzgKPiAgICAga3RocmVhZCsweDEyYy8weDEzMAo+ICAg
+ICByZXRfZnJvbV9mb3JrKzB4MTAvMHgxOAo+ICAgIC0tLVsgZW5kIHRyYWNlIGFmYzBkYzVhYjgx
+YTA2YmYgXS0tLQo+Cj4gTm90IHF1aXRlIHN1cmUgd2hhdCB0cmlnZ2VyZWQgdGhhdCwgYnV0IHdl
+IHJlYWxseSBzaG91bGRuJ3QgYmUgYWJ1c2luZwo+IGRtYV97bWFwLHVubWFwfV9zZygpIGZvciBj
+YWNoZSBtYWludC4KPgo+IENjOiBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+Cj4gVGVz
+dGVkLWJ5OiBTdGVwaGVuIEJveWQgPHN3Ym95ZEBjaHJvbWl1bS5vcmc+Cj4gUmV2aWV3ZWQtYnk6
+IEpvcmRhbiBDcm91c2UgPGpjcm91c2VAY29kZWF1cm9yYS5vcmc+Cj4gU2lnbmVkLW9mZi1ieTog
+Um9iIENsYXJrIDxyb2JkY2xhcmtAY2hyb21pdW0ub3JnPgo+IFNpZ25lZC1vZmYtYnk6IFNlYW4g
+UGF1bCA8c2VhbnBhdWxAY2hyb21pdW0ub3JnPgo+IExpbms6IGh0dHBzOi8vcGF0Y2h3b3JrLmZy
+ZWVkZXNrdG9wLm9yZy9wYXRjaC9tc2dpZC8yMDE5MDYzMDEyNDczNS4yNzc4Ni0xLXJvYmRjbGFy
+a0BnbWFpbC5jb20KPiBTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5v
+cmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dlbS5jIHwgNCArKy0tCj4gIDEg
+ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbXNt
+L21zbV9nZW0uYwo+IGluZGV4IDQ5YTAxOTkzOWNjZGMuLmEzYjVmZTFhMTM5NDQgMTAwNjQ0Cj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMKPiArKysgYi9kcml2ZXJzL2dwdS9k
+cm0vbXNtL21zbV9nZW0uYwo+IEBAIC05Nyw3ICs5Nyw3IEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZSAq
+KmdldF9wYWdlcyhzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPiAgICAgICAgICAgICAgICAg
+ICogYmVjYXVzZSBkaXNwbGF5IGNvbnRyb2xsZXIsIEdQVSwgZXRjLiBhcmUgbm90IGNvaGVyZW50
+Ogo+ICAgICAgICAgICAgICAgICAgKi8KPiAgICAgICAgICAgICAgICAgaWYgKG1zbV9vYmotPmZs
+YWdzICYgKE1TTV9CT19XQ3xNU01fQk9fVU5DQUNIRUQpKQo+IC0gICAgICAgICAgICAgICAgICAg
+ICAgIGRtYV9tYXBfc2coZGV2LT5kZXYsIG1zbV9vYmotPnNndC0+c2dsLAo+ICsgICAgICAgICAg
+ICAgICAgICAgICAgIGRtYV9zeW5jX3NnX2Zvcl9kZXZpY2UoZGV2LT5kZXYsIG1zbV9vYmotPnNn
+dC0+c2dsLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtc21fb2Jq
+LT5zZ3QtPm5lbnRzLCBETUFfQklESVJFQ1RJT05BTCk7Cj4gICAgICAgICB9Cj4KPiBAQCAtMTI3
+LDcgKzEyNyw3IEBAIHN0YXRpYyB2b2lkIHB1dF9wYWdlcyhzdHJ1Y3QgZHJtX2dlbV9vYmplY3Qg
+Km9iaikKPiAgICAgICAgICAgICAgICAgICAgICAgICAgKiBHUFUsIGV0Yy4gYXJlIG5vdCBjb2hl
+cmVudDoKPiAgICAgICAgICAgICAgICAgICAgICAgICAgKi8KPiAgICAgICAgICAgICAgICAgICAg
+ICAgICBpZiAobXNtX29iai0+ZmxhZ3MgJiAoTVNNX0JPX1dDfE1TTV9CT19VTkNBQ0hFRCkpCj4g
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkbWFfdW5tYXBfc2cob2JqLT5kZXYtPmRl
+diwgbXNtX29iai0+c2d0LT5zZ2wsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBk
+bWFfc3luY19zZ19mb3JfY3B1KG9iai0+ZGV2LT5kZXYsIG1zbV9vYmotPnNndC0+c2dsLAo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1zbV9vYmotPnNndC0+
+bmVudHMsCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRE1B
+X0JJRElSRUNUSU9OQUwpOwo+Cj4gLS0KPiAyLjIwLjEKPgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
