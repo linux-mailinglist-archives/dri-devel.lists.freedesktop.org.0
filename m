@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60CC8084B
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 22:30:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B1880898
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 01:21:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A8706E1CF;
-	Sat,  3 Aug 2019 20:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C916E15E;
+	Sat,  3 Aug 2019 23:21:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9AC8C6E1CF
- for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 20:30:18 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9569072168; Sat,  3 Aug 2019 20:30:18 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B851B6E15E
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 23:21:23 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 411422887A
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 23:21:22 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 3516828889; Sat,  3 Aug 2019 23:21:22 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111240] RX 560x is very slow
-Date: Sat, 03 Aug 2019 20:30:18 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204391] Overdrive on AMDGPU does not allow clocks above
+ official clocks.
+Date: Sat, 03 Aug 2019 23:21:21 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: haagch@frickel.club
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: haxk612@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc attachments.created
-Message-ID: <bug-111240-502-aPECXRSplU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111240-502@http.bugs.freedesktop.org/>
-References: <bug-111240-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204391-2300-8qPEgNdqpM@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204391-2300@https.bugzilla.kernel.org/>
+References: <bug-204391-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,168 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0265613948=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0265613948==
-Content-Type: multipart/alternative; boundary="15648642181.d785A.764"
-Content-Transfer-Encoding: 7bit
-
-
---15648642181.d785A.764
-Date: Sat, 3 Aug 2019 20:30:18 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111240
-
-Christoph Haag <haagch@frickel.club> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |haagch@frickel.club
-
---- Comment #1 from Christoph Haag <haagch@frickel.club> ---
-Created attachment 144944
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144944&action=3Dedit
-moment of performance drop
-
-I have the same laptop so I tried it and there is actually an interesting
-effect, see attached screenshot.
-
-At first performance is quite good, but at some point during the benchmark,
-performance and GPU usage suddenly drops a lot.
-
-The performance then stays low permanently, even when restarting the benchm=
-ark,
-after waiting for the dgpu get shutdown by runpm.
-
-Maybe I'll take a closer look later with more gallium hud graphs and maybe =
-umr
---top, but for now I'll just leave a comment here confirming that there is =
-an
-issue.
-
-Also loading the benchmark seems to take much longer after the performance =
-drop
-happens, which seems very suspicious.
-
-Tested on Arch with mesa 19.1.3, Linux 5.1, 5.2 and 5.3-rc2. Happens on all
-three kernel versions.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15648642181.d785A.764
-Date: Sat, 3 Aug 2019 20:30:18 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:haagch&#6=
-4;frickel.club" title=3D"Christoph Haag &lt;haagch&#64;frickel.club&gt;"> <=
-span class=3D"fn">Christoph Haag</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 560x is very slow"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111240">bug 11124=
-0</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>haagch&#64;frickel.club
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 560x is very slow"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111240#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 560x is very slow"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111240">bug 11124=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-haagch&#64;frickel.club" title=3D"Christoph Haag &lt;haagch&#64;frickel.clu=
-b&gt;"> <span class=3D"fn">Christoph Haag</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144944=
-" name=3D"attach_144944" title=3D"moment of performance drop">attachment 14=
-4944</a> <a href=3D"attachment.cgi?id=3D144944&amp;action=3Dedit" title=3D"=
-moment of performance drop">[details]</a></span>
-moment of performance drop
-
-I have the same laptop so I tried it and there is actually an interesting
-effect, see attached screenshot.
-
-At first performance is quite good, but at some point during the benchmark,
-performance and GPU usage suddenly drops a lot.
-
-The performance then stays low permanently, even when restarting the benchm=
-ark,
-after waiting for the dgpu get shutdown by runpm.
-
-Maybe I'll take a closer look later with more gallium hud graphs and maybe =
-umr
---top, but for now I'll just leave a comment here confirming that there is =
-an
-issue.
-
-Also loading the benchmark seems to take much longer after the performance =
-drop
-happens, which seems very suspicious.
-
-Tested on Arch with mesa 19.1.3, Linux 5.1, 5.2 and 5.3-rc2. Happens on all
-three kernel versions.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15648642181.d785A.764--
-
---===============0265613948==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0265613948==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQzOTEKCi0tLSBD
+b21tZW50ICM0IGZyb20gSGF4azIwIChoYXhrNjEyQGdtYWlsLmNvbSkgLS0tCkFmdGVyIGxvb2tp
+bmcgYXQgT3ZlckRyaXZlIGNvZGUgaXQgbG9va3MgbGlrZSB0aGlzIGlzIFBQIHRhYmxlIGlzc3Vl
+IG9mIG15IEdQVQpWQklPUyBhcyBpdCBkb2VzbnQgaGF2ZSBPRCByYW5nZSBhbmQgc28gaXQgY2Fu
+dCBmaW5kIGl0IHRodXMgb25seSB1bmRlcmNsb2NraW5nCmlzIGFsbG93ZWQuIEhhcmRjb2Rpbmcg
+dGhlIHJhbmdlIGluIHRoZSBrZXJuZWwgaXMgc3VyZWx5IGEgaHVnZSBoYWNrIGJ1dCBpbmRlZWQK
+d29ya3MgYW5kIGltIGFibGUgdG8gb3ZlcmNsb2NrIHRoZSBjYXJkLgpJdCB3b3VsZCBiZSB1c2Vm
+dWwgdG8gaGF2ZSBhbiBrZXJuZWwgYXJndW1lbnQgdGhhdCB3ZSBjYW4gcGFzcyB0cm91Z2ggR1JV
+QiB0aGF0CndvdWxkIGp1c3QgZGlzYWJsZSB0aGlzIGNoZWNrIGFzIHNvbWUgbGFwdG9wcyBkb250
+IGhhdmUgdGhpcyB0YWJsZS4KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVz
+ZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
