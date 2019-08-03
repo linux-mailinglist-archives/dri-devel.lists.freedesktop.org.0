@@ -2,40 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13CC804D7
-	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 09:06:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7998053E
+	for <lists+dri-devel@lfdr.de>; Sat,  3 Aug 2019 10:19:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4FEE6E484;
-	Sat,  3 Aug 2019 07:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 993E56E479;
+	Sat,  3 Aug 2019 08:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A42A6E46F;
- Sat,  3 Aug 2019 07:06:52 +0000 (UTC)
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl
- [83.86.89.107])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 756402173E;
- Sat,  3 Aug 2019 07:06:51 +0000 (UTC)
-Date: Sat, 3 Aug 2019 09:06:40 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: john.hubbard@gmail.com
-Subject: Re: [PATCH 10/34] genwqe: convert put_page() to put_user_page*()
-Message-ID: <20190803070640.GB2508@kroah.com>
-References: <20190802022005.5117-1-jhubbard@nvidia.com>
- <20190802022005.5117-11-jhubbard@nvidia.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ED0126E479
+ for <dri-devel@lists.freedesktop.org>; Sat,  3 Aug 2019 08:19:00 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id E979272167; Sat,  3 Aug 2019 08:19:00 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Sat, 03 Aug 2019 08:19:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: samuele.decarli@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status
+Message-ID: <bug-111244-502-3mNnk7p0yx@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190802022005.5117-11-jhubbard@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1564816011;
- bh=fAm+JJVlEEdZsZEnQU6VmG7AlISaD9fVfUjXl/e9MGA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EvBQbY6tUIAsZP4MFxGmLRqZJjlnz59fmNMbvE0jfno1B+JXE+PNryIyzSAnXbr8N
- +lgw4Y3y5zL8NJKrLYjFHjBcr6/6qlTB3yc6rbylv5fVS7aSSqYd41B1eBmWwcN4jJ
- e48QvmU3i/Btia6YyxF5rYYxbA6/qQXbJH8nGzR0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,50 +52,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jan Kara <jack@suse.cz>, kvm@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- sparclinux@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
- devel@driverdev.osuosl.org, rds-devel@oss.oracle.com,
- linux-rdma@vger.kernel.org, x86@kernel.org, amd-gfx@lists.freedesktop.org,
- Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- xen-devel@lists.xenproject.org, devel@lists.orangefs.org,
- linux-media@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- "Guilherme G. Piccoli" <gpiccoli@linux.vnet.ibm.com>,
- John Hubbard <jhubbard@nvidia.com>, intel-gfx@lists.freedesktop.org,
- linux-block@vger.kernel.org,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-xfs@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Frank Haverkamp <haver@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1901831379=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBdWcgMDEsIDIwMTkgYXQgMDc6MTk6NDFQTSAtMDcwMCwgam9obi5odWJiYXJkQGdt
-YWlsLmNvbSB3cm90ZToKPiBGcm9tOiBKb2huIEh1YmJhcmQgPGpodWJiYXJkQG52aWRpYS5jb20+
-Cj4gCj4gRm9yIHBhZ2VzIHRoYXQgd2VyZSByZXRhaW5lZCB2aWEgZ2V0X3VzZXJfcGFnZXMqKCks
-IHJlbGVhc2UgdGhvc2UgcGFnZXMKPiB2aWEgdGhlIG5ldyBwdXRfdXNlcl9wYWdlKigpIHJvdXRp
-bmVzLCBpbnN0ZWFkIG9mIHZpYSBwdXRfcGFnZSgpIG9yCj4gcmVsZWFzZV9wYWdlcygpLgo+IAo+
-IFRoaXMgaXMgcGFydCBhIHRyZWUtd2lkZSBjb252ZXJzaW9uLCBhcyBkZXNjcmliZWQgaW4gY29t
-bWl0IGZjMWQ4ZTdjY2EyZAo+ICgibW06IGludHJvZHVjZSBwdXRfdXNlcl9wYWdlKigpLCBwbGFj
-ZWhvbGRlciB2ZXJzaW9ucyIpLgo+IAo+IFRoaXMgY2hhbmdlcyB0aGUgcmVsZWFzZSBjb2RlIHNs
-aWdodGx5LCBiZWNhdXNlIGVhY2ggcGFnZSBzbG90IGluIHRoZQo+IHBhZ2VfbGlzdFtdIGFycmF5
-IGlzIG5vIGxvbmdlciBjaGVja2VkIGZvciBOVUxMLiBIb3dldmVyLCB0aGF0IGNoZWNrCj4gd2Fz
-IHdyb25nIGFueXdheSwgYmVjYXVzZSB0aGUgZ2V0X3VzZXJfcGFnZXMoKSBwYXR0ZXJuIG9mIHVz
-YWdlIGhlcmUKPiBuZXZlciBhbGxvd2VkIGZvciBOVUxMIGVudHJpZXMgd2l0aGluIGEgcmFuZ2Ug
-b2YgcGlubmVkIHBhZ2VzLgo+IAo+IENjOiBGcmFuayBIYXZlcmthbXAgPGhhdmVyQGxpbnV4LnZu
-ZXQuaWJtLmNvbT4KPiBDYzogIkd1aWxoZXJtZSBHLiBQaWNjb2xpIiA8Z3BpY2NvbGlAbGludXgu
-dm5ldC5pYm0uY29tPgo+IENjOiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IENjOiBH
-cmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+IFNpZ25lZC1v
-ZmYtYnk6IEpvaG4gSHViYmFyZCA8amh1YmJhcmRAbnZpZGlhLmNvbT4KPiAtLS0KPiAgZHJpdmVy
-cy9taXNjL2dlbndxZS9jYXJkX3V0aWxzLmMgfCAxNyArKystLS0tLS0tLS0tLS0tLQo+ICAxIGZp
-bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkKCkFja2VkLWJ5OiBH
-cmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1901831379==
+Content-Type: multipart/alternative; boundary="15648203401.b9CA12f2.7282"
+Content-Transfer-Encoding: 7bit
+
+
+--15648203401.b9CA12f2.7282
+Date: Sat, 3 Aug 2019 08:19:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+Samuele Decarli <samuele.decarli@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEEDINFO                    |NEW
+
+--- Comment #13 from Samuele Decarli <samuele.decarli@gmail.com> ---
+Similar thing for me: disabling composition in Plasma makes suspend/resume =
+work
+again.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15648203401.b9CA12f2.7282
+Date: Sat, 3 Aug 2019 08:19:00 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:samuele.d=
+ecarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli&#64;gmai=
+l.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEEDINFO
+           </td>
+           <td>NEW
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
+&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
+</span></b>
+        <pre>Similar thing for me: disabling composition in Plasma makes su=
+spend/resume work
+again.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15648203401.b9CA12f2.7282--
+
+--===============1901831379==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1901831379==--
