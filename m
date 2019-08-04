@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A1F80BA2
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 18:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A956F80BC3
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 19:06:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 171DE89DA2;
-	Sun,  4 Aug 2019 16:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AC389BFE;
+	Sun,  4 Aug 2019 17:06:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8090489D67
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 16:17:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 69D2789BFE
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 17:06:29 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7726772167; Sun,  4 Aug 2019 16:17:41 +0000 (UTC)
+ id 6213B72167; Sun,  4 Aug 2019 17:06:29 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sun, 04 Aug 2019 16:17:41 +0000
+Subject: [Bug 108641] Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks
+Date: Sun, 04 Aug 2019 17:06:29 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: 18.2
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Who: steelwinged@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-HfuqG7SZwM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-108641-502-1oR8OxrUJ5@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108641-502@http.bugs.freedesktop.org/>
+References: <bug-108641-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,70 +52,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0896237778=="
+Content-Type: multipart/mixed; boundary="===============0666595591=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0896237778==
-Content-Type: multipart/alternative; boundary="15649354610.cA2Dfe.24365"
+--===============0666595591==
+Content-Type: multipart/alternative; boundary="15649383890.dfa660ab7.32615"
 Content-Transfer-Encoding: 7bit
 
 
---15649354610.cA2Dfe.24365
-Date: Sun, 4 Aug 2019 16:17:41 +0000
+--15649383890.dfa660ab7.32615
+Date: Sun, 4 Aug 2019 17:06:29 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108641
 
---- Comment #78 from Mauro Gaspari <ilvipero@gmx.com> ---
-(In reply to Sylvain BERTRAND from comment #77)
-> On Sun, Aug 04, 2019 at 05:05:52AM +0000, bugzilla-daemon@freedesktop.org
-> wrote:
-> > By the way, Interesting to see that even my ubuntu budgie LTS with valve
-> > mesa-aco and different kernel, has the same warning.
-> > [    5.739656] amdgpu 0000:0a:00.0: Direct firmware load for
-> > amdgpu/vega20_ta.bin failed with error -2
-> > [    5.739659] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
-> > "amdgpu/vega20_ta.bin"
->=20
-> I don't know of an AMD GPU part able to run without properly loaded firmw=
-are.
->=20
-> That would have to be confirmed by official AMD devs which are the sole p=
-pl
-> with that knowledge.
->=20
-> In the very probable case that the firmware _must_ be loaded for proper g=
-pu
-> operations, you have to tell the maintainers of the distros you use to up=
-date
-> their linux/amdgpu firmware package.
+--- Comment #3 from steelwinged@gmail.com ---
+Situation still occurs on Mesa 19.1.3, refreshed RenderDoc capture at
+https://www47.zippyshare.com/v/fL6gXv7u/file.html
 
-I believe so, and yes it makes total sense that you need the correct firmwa=
-re
-for a piece of hardware to work properly.=20
-I will open bugs for openSUSE and ubuntu, and ask the questions, point to t=
-his
-bug tracker. Let's see what comes out. I will report back as I hear from
-distribution maintainers.=20
+I might be conflating things, but there's also a shader scheduling error:
 
-I am using a RadeonVII at the moment. Is there anyone with a Vega64 or Vega=
-56
-that can do the same tests and let me know if they see same issue? I am hap=
-py
-to include those cards in my same bug reports if someone can confirm.
+##post_scheduler: unscheduled pending instructions :MOV     R27.x.5@R1.w,=
+=20=20=20
+R17.x.1@R1.x
+MOV     R27.x.3@R1.y,    R17.w.1@R0.z
+MOV     R17.x.1@R1.x,    A9.y[R16.x.1@R0.w]_73F@R1.y
+                                            rels: A9.y[R16.x.1@R0.w]_73F@R1=
+.y :
+ <=3D R9.y.1F, R10.y.1F, R11.y.1F, R12.y.1F, R13.y.1F, R14.y.1F
+MOV     R17.w.1@R0.z,    A9.x[R16.x.1@R0.w]_62F@R1.x
+                                            rels: A9.x[R16.x.1@R0.w]_62F@R1=
+.x :
+ <=3D R9.x.1F, R10.x.1F, R11.x.1F, R12.x.1F, R13.x.1F, R14.x.1F
+MOV     R14.y.1F,    4.2039e-45|00000003
+MOV     R13.y.1F,    4.2039e-45|00000003
+MOV     R12.y.1F,    7.00649e-45|00000005
+MOV     R11.y.1F,    5.60519e-45|00000004
+MOV     R10.y.1F,    4.2039e-45|00000003
+MOV     R9.y.1F,    4.2039e-45|00000003
+FLT_TO_UINT     R16.x.1@R0.w,    C4102.x
+MOV     R14.x.1F,    1.4013e-45|00000001
+MOV     R13.x.1F,    0|00000000
+MOV     R12.x.1F,    0|00000000
+MOV     R11.x.1F,    0|00000000
+MOV     R10.x.1F,    5.60519e-45|00000004
+MOV     R9.x.1F,    7.00649e-45|00000005
+
+I don't read mnemonics, but I'm guessing that could be "Shader 9120" from t=
+he
+capture, which also causes the interlacing lines. I'm attaching it shortly.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15649354610.cA2Dfe.24365
-Date: Sun, 4 Aug 2019 16:17:41 +0000
+--15649383890.dfa660ab7.32615
+Date: Sun, 4 Aug 2019 17:06:29 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -131,59 +129,63 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c78">Comme=
-nt # 78</a>
+   title=3D"NEW - Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108641#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
+   title=3D"NEW - Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108641">bug 10864=
+1</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
- <span class=3D"fn">Mauro Gaspari</span></a>
+steelwinged&#64;gmail.com" title=3D"steelwinged&#64;gmail.com">steelwinged&=
+#64;gmail.com</a>
 </span></b>
-        <pre>(In reply to Sylvain BERTRAND from <a href=3D"show_bug.cgi?id=
-=3D109955#c77">comment #77</a>)
-<span class=3D"quote">&gt; On Sun, Aug 04, 2019 at 05:05:52AM +0000, <a hre=
-f=3D"mailto:bugzilla-daemon&#64;freedesktop.org">bugzilla-daemon&#64;freede=
-sktop.org</a>
-&gt; wrote:
-&gt; &gt; By the way, Interesting to see that even my ubuntu budgie LTS wit=
-h valve
-&gt; &gt; mesa-aco and different kernel, has the same warning.
-&gt; &gt; [    5.739656] amdgpu 0000:0a:00.0: Direct firmware load for
-&gt; &gt; amdgpu/vega20_ta.bin failed with error -2
-&gt; &gt; [    5.739659] amdgpu 0000:0a:00.0: psp v11.0: Failed to load fir=
-mware
-&gt; &gt; &quot;amdgpu/vega20_ta.bin&quot;
-&gt;=20
-&gt; I don't know of an AMD GPU part able to run without properly loaded fi=
-rmware.
-&gt;=20
-&gt; That would have to be confirmed by official AMD devs which are the sol=
-e ppl
-&gt; with that knowledge.
-&gt;=20
-&gt; In the very probable case that the firmware _must_ be loaded for prope=
-r gpu
-&gt; operations, you have to tell the maintainers of the distros you use to=
- update
-&gt; their linux/amdgpu firmware package.</span >
+        <pre>Situation still occurs on Mesa 19.1.3, refreshed RenderDoc cap=
+ture at
+<a href=3D"https://www47.zippyshare.com/v/fL6gXv7u/file.html">https://www47=
+.zippyshare.com/v/fL6gXv7u/file.html</a>
 
-I believe so, and yes it makes total sense that you need the correct firmwa=
-re
-for a piece of hardware to work properly.=20
-I will open bugs for openSUSE and ubuntu, and ask the questions, point to t=
-his
-bug tracker. Let's see what comes out. I will report back as I hear from
-distribution maintainers.=20
+I might be conflating things, but there's also a shader scheduling error:
 
-I am using a RadeonVII at the moment. Is there anyone with a Vega64 or Vega=
-56
-that can do the same tests and let me know if they see same issue? I am hap=
-py
-to include those cards in my same bug reports if someone can confirm.</pre>
+##post_scheduler: unscheduled pending instructions :MOV     <a href=3D"mail=
+to:R27.x.5&#64;R1.w">R27.x.5&#64;R1.w</a>,=20=20=20
+<a href=3D"mailto:R17.x.1&#64;R1.x">R17.x.1&#64;R1.x</a>
+MOV     <a href=3D"mailto:R27.x.3&#64;R1.y">R27.x.3&#64;R1.y</a>,    <a hre=
+f=3D"mailto:R17.w.1&#64;R0.z">R17.w.1&#64;R0.z</a>
+MOV     <a href=3D"mailto:R17.x.1&#64;R1.x">R17.x.1&#64;R1.x</a>,    A9.y[<=
+a href=3D"mailto:R16.x.1&#64;R0.w">R16.x.1&#64;R0.w</a>]<a href=3D"mailto:_=
+73F&#64;R1.y">_73F&#64;R1.y</a>
+                                            rels: A9.y[<a href=3D"mailto:R1=
+6.x.1&#64;R0.w">R16.x.1&#64;R0.w</a>]<a href=3D"mailto:_73F&#64;R1.y">_73F&=
+#64;R1.y</a> :
+ &lt;=3D R9.y.1F, R10.y.1F, R11.y.1F, R12.y.1F, R13.y.1F, R14.y.1F
+MOV     <a href=3D"mailto:R17.w.1&#64;R0.z">R17.w.1&#64;R0.z</a>,    A9.x[<=
+a href=3D"mailto:R16.x.1&#64;R0.w">R16.x.1&#64;R0.w</a>]<a href=3D"mailto:_=
+62F&#64;R1.x">_62F&#64;R1.x</a>
+                                            rels: A9.x[<a href=3D"mailto:R1=
+6.x.1&#64;R0.w">R16.x.1&#64;R0.w</a>]<a href=3D"mailto:_62F&#64;R1.x">_62F&=
+#64;R1.x</a> :
+ &lt;=3D R9.x.1F, R10.x.1F, R11.x.1F, R12.x.1F, R13.x.1F, R14.x.1F
+MOV     R14.y.1F,    4.2039e-45|00000003
+MOV     R13.y.1F,    4.2039e-45|00000003
+MOV     R12.y.1F,    7.00649e-45|00000005
+MOV     R11.y.1F,    5.60519e-45|00000004
+MOV     R10.y.1F,    4.2039e-45|00000003
+MOV     R9.y.1F,    4.2039e-45|00000003
+FLT_TO_UINT     <a href=3D"mailto:R16.x.1&#64;R0.w">R16.x.1&#64;R0.w</a>,  =
+  C4102.x
+MOV     R14.x.1F,    1.4013e-45|00000001
+MOV     R13.x.1F,    0|00000000
+MOV     R12.x.1F,    0|00000000
+MOV     R11.x.1F,    0|00000000
+MOV     R10.x.1F,    5.60519e-45|00000004
+MOV     R9.x.1F,    7.00649e-45|00000005
+
+I don't read mnemonics, but I'm guessing that could be &quot;Shader 9120&qu=
+ot; from the
+capture, which also causes the interlacing lines. I'm attaching it shortly.=
+</pre>
         </div>
       </p>
 
@@ -197,9 +199,9 @@ to include those cards in my same bug reports if someone can confirm.</pre>
     </body>
 </html>=
 
---15649354610.cA2Dfe.24365--
+--15649383890.dfa660ab7.32615--
 
---===============0896237778==
+--===============0666595591==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -209,4 +211,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0896237778==--
+--===============0666595591==--
