@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0CB80A02
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 10:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2B180A1B
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 11:41:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3B796E1E2;
-	Sun,  4 Aug 2019 08:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 283F189F92;
+	Sun,  4 Aug 2019 09:41:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id ABBE86E1E2
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 08:36:30 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id A11E472167; Sun,  4 Aug 2019 08:36:30 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF5F89F92
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 09:41:47 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id v24so76831262ljg.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 04 Aug 2019 02:41:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Un84htxySnyq/oPIbkJczaEF16pCyxnlWEcyUuYZ++A=;
+ b=tIOJBswu4CveBEw5eD1ejvVK7kdHrRTEeEtAyN2dDXI/XQGb/2r+g1cyFrijAE42At
+ e97EBZuYO+loOm4zNkZRbfTHoxvrD4mFnEMQVqLacZ8hoiYKctV8vxZmUXoAckTJ/5Fz
+ 6IV+6Cusp+rjAiNq/z+vspE29lLYj1AK9L+MhDcORtnuyWf64Gxpcfys/L1C0Qk0TwfN
+ hQBdlWnFCpQTk+IhMCTzejhVEK3PysYBVv85rpkJT0+bkB/8oZW9F1X+X6SHTcStw4De
+ tZJlnPo0HagqrcaM7aALdhYmXHMgr2xXRq2cTIDDsD0RHCaqH/HhsXUQ48htYGf2lfjd
+ GsEQ==
+X-Gm-Message-State: APjAAAVc+kr300QUzdw0aGJ2RIu4o/VEuYscNbDJ7uk1ZBCgRClNs1Fs
+ nxrnLt3l+jQjEtWSeSF1p7FMBhz92uY=
+X-Google-Smtp-Source: APXvYqzzpOhTKGfm1bk8OZZm2/IS1cErWTCwTOeEnhiTZjQDyTQ18VytbKnA7vZ6lyAxy0HDDY4axw==
+X-Received: by 2002:a2e:3604:: with SMTP id d4mr25146197lja.85.1564911705326; 
+ Sun, 04 Aug 2019 02:41:45 -0700 (PDT)
+Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
+ by smtp.gmail.com with ESMTPSA id
+ 25sm16230194ljn.62.2019.08.04.02.41.44
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Sun, 04 Aug 2019 02:41:44 -0700 (PDT)
+From: Sam Ravnborg <sam@ravnborg.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111240] RX 560x is very slow
-Date: Sun, 04 Aug 2019 08:36:30 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: alfabuster@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: highest
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111240-502-yooYO6J6ni@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111240-502@http.bugs.freedesktop.org/>
-References: <bug-111240-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH v2 0/4] drm: drop drmP in tda998x, tegra, arm, armada
+Date: Sun,  4 Aug 2019 11:41:28 +0200
+Message-Id: <20190804094132.29463-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Un84htxySnyq/oPIbkJczaEF16pCyxnlWEcyUuYZ++A=;
+ b=snfJhpEwOpxTOv7rx5JXLprIOInh39GnEC269uJ06AxibCy3t9kvm8xoExQwOhQ31+
+ 8eL6s2/G5w3jYQxBZuHAWWUA7elVp9g5fst3fXLbz0olSN5Zg81A6ZFnZPc1kd09vvZH
+ bwjPH9dgw42QiRUw6oKeM8WYVnQrlcZUcOOe4H/2PFv1HPbfg3E+GmVCQtdrS50gvRLf
+ qSnBiGJFiecVEhWwa8qVHZpQvLmviBHjSn+8L0uyIRlY0RNZwY2ug/l9tvu2iXI7K7tj
+ ep7lopCfJvmvdcTwkZHrz/K83mv+0hyYPpoXazj5/estMkFBQwfqDP6GD/P/mgvalTBw
+ Hqxg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,102 +66,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0559209993=="
+Cc: David Airlie <airlied@linux.ie>, Liviu Dudau <liviu.dudau@arm.com>,
+ Russell King <linux@armlinux.org.uk>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, malidp@foss.arm.com,
+ linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0559209993==
-Content-Type: multipart/alternative; boundary="15649077900.706C.13654"
-Content-Transfer-Encoding: 7bit
-
-
---15649077900.706C.13654
-Date: Sun, 4 Aug 2019 08:36:30 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111240
-
---- Comment #2 from Denys <alfabuster@gmail.com> ---
-On the Arch you have more fps then Ubuntu, probably Kernel 5.1 better then =
-5.0.
-
-Just now update Kernel to 5.0.0-23-generic, it seems nothing change, same 2=
-6-27
-fps on basic preset.
-
-Christoph Haag, do you know the developers planning some update for amdgpu
-driver?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15649077900.706C.13654
-Date: Sun, 4 Aug 2019 08:36:30 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 560x is very slow"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111240#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - RX 560x is very slow"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111240">bug 11124=
-0</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alfabuster&#64;gmail.com" title=3D"Denys &lt;alfabuster&#64;gmail.com&gt;">=
- <span class=3D"fn">Denys</span></a>
-</span></b>
-        <pre>On the Arch you have more fps then Ubuntu, probably Kernel 5.1=
- better then 5.0.
-
-Just now update Kernel to 5.0.0-23-generic, it seems nothing change, same 2=
-6-27
-fps on basic preset.
-
-Christoph Haag, do you know the developers planning some update for amdgpu
-driver?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15649077900.706C.13654--
-
---===============0559209993==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0559209993==--
+VGhpcyBzZXQgb2YgcGF0Y2hlcyBpcyBvbmUgb2YgdGhlIGZpbmFsIHN0ZXBzIGJlZm9yZQp3ZSBo
+YXZlIHN1Y2NlZWRlZCB0byBzdG9wIHVzaW5nIGRybVAuaCBpbiBhbGwgb2YgZHJtLy4KClRoZXJl
+IGlzIGEgZmV3IHBhdGNoZXMgaW4gZmxpZ2h0IHRocm91Z2ggb3RoZXIgdHJlZXMKYW5kIHRoZSBw
+bGFuIGlzIHRoYXQgYWxsIHVzZXJzIHNoYWxsIGJlIGdvbmUgaW4gdGhlCnVwc3RyZWFtIGtlcm5l
+bCBhZnRlciBuZXh0IG1lcmdlIHdpbmRvdy4KClRoZSBwYXRjaGVzIGhhcyBzZWVuIGJ1aWxkIHRl
+c3Qgd2l0aCB2YXJpb3VzIGNvbmZpZ3MKd2l0aCB2YXJpb3VzIGFyY2hpdGVjdHVyZXMuCgpUaGUg
+cGF0Y2hlcyBoYXMgYmVlbiBzZW50IGJlZm9yZSwgYnV0IHRvIG15IGJlc3Qga25vd2xlZGdlCnRo
+ZXkgaGF2ZSBub3QgYmVlbiBhcHBsaWVkIGFueXdoZXJlLgpBbGwgZm91ciBwYXRjaGVzIGFyZSBi
+YXNlZCBvbiBkcm0tbWlzYy1uZXh0LApidXQgSSBjaGVja2VkIHRoYXQgdGhlIHRkYTk5OHggcGF0
+Y2ggY2FuIGJlIGFwcGxpZWQgdG8KdGhlIHRkYTk5OHggdHJlZS4KClRoZXJlIGFyZSBubyBkZXBl
+bmRlbmNpZXMgYmV0d2VlbiB0aGUgcGF0Y2hlcy4KCnYyOgotIHJlYmFzZSBvbiB0b3Agb2YgZHJt
+LW1pc2MtbmV4dAoKVG8gbWFpbnRhaW5lcnM6IChBc3N1bWluZyB0aGUgcGF0Y2ggYXJlIE9LKQpQ
+bGVhc2UgbGV0IG1lIGtub3cgaWYgeW91IHRha2UgdGhlIHBhdGNoLCBvciByZXF1ZXN0Cm1lIHRv
+IGFwcGx5IGl0IHRvIGRybS1taXNjLW5leHQuCk9yIGxldCBtZSBtZSBrbm93IGlmIHRoZSBwYXRj
+aCBzaG91bGQgYmUgYmFzZWQgb24gYW5vdGhlciB0cmVlLgoKCVNhbQoKClNhbSBSYXZuYm9yZyAo
+NCk6CiAgICAgIGRybS9pMmMvdGRhOTk4eDogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS90
+ZWdyYTogZHJvcCB1c2Ugb2YgZHJtUC5oCiAgICAgIGRybS9hcm1hZGE6IGRyb3AgdXNlIG9mIGRy
+bVAuaAogICAgICBkcm0vYXJtOiBkcm9wIHVzZSBvZiBkcm1QLmgKCiBkcml2ZXJzL2dwdS9kcm0v
+YXJtL2hkbGNkX2NydGMuYyAgICAgICAgfCAxMiArKysrKysrLS0tLS0KIGRyaXZlcnMvZ3B1L2Ry
+bS9hcm0vaGRsY2RfZHJ2LmMgICAgICAgICB8ICA3ICsrKysrKy0KIGRyaXZlcnMvZ3B1L2RybS9h
+cm0vbWFsaWRwX2NydGMuYyAgICAgICB8IDExICsrKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0v
+YXJtL21hbGlkcF9kcnYuYyAgICAgICAgfCAgOCArKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL2Fy
+bS9tYWxpZHBfZHJ2LmggICAgICAgIHwgIDcgKysrKy0tLQogZHJpdmVycy9ncHUvZHJtL2FybS9t
+YWxpZHBfaHcuYyAgICAgICAgIHwgIDcgKysrKysrLQogZHJpdmVycy9ncHUvZHJtL2FybS9tYWxp
+ZHBfbXcuYyAgICAgICAgIHwgIDUgKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9hcm0vbWFsaWRwX3Bs
+YW5lcy5jICAgICB8ICA0ICsrKy0KIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2NydGMu
+YyAgICB8IDEwICsrKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2RlYnVn
+ZnMuYyB8ICA4ICsrKysrKy0tCiBkcml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9kcm0uaCAg
+ICAgfCAgNSArKysrLQogZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfZHJ2LmMgICAgIHwg
+IDggKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS9hcm1hZGEvYXJtYWRhX2ZiLmMgICAgICB8ICAz
+ICsrKwogZHJpdmVycy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfZmJkZXYuYyAgIHwgIDMgKysrCiBk
+cml2ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9nZW0uYyAgICAgfCAgNyArKysrKystCiBkcml2
+ZXJzL2dwdS9kcm0vYXJtYWRhL2FybWFkYV9vdmVybGF5LmMgfCAgOCArKysrKy0tLQogZHJpdmVy
+cy9ncHUvZHJtL2FybWFkYS9hcm1hZGFfcGxhbmUuYyAgIHwgIDQgKysrLQogZHJpdmVycy9ncHUv
+ZHJtL2FybWFkYS9hcm1hZGFfdHJhY2UuaCAgIHwgIDUgKysrKy0KIGRyaXZlcnMvZ3B1L2RybS9p
+MmMvdGRhOTk4eF9kcnYuYyAgICAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZGMu
+YyAgICAgICAgICAgICAgfCAxMyArKysrKysrKystLS0tCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEv
+ZHBhdXguYyAgICAgICAgICAgfCAgNSArKystLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RybS5j
+ICAgICAgICAgICAgIHwgIDggKysrKysrKysKIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9kcm0uaCAg
+ICAgICAgICAgICB8ICAzICstLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2RzaS5jICAgICAgICAg
+ICAgIHwgIDggKysrKystLS0KIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS9mYi5jICAgICAgICAgICAg
+ICB8ICA2ICsrKystLQogZHJpdmVycy9ncHUvZHJtL3RlZ3JhL2dlbS5jICAgICAgICAgICAgIHwg
+IDMgKysrCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvZ2VtLmggICAgICAgICAgICAgfCAgMSAtCiBk
+cml2ZXJzL2dwdS9kcm0vdGVncmEvZ3IyZC5jICAgICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dw
+dS9kcm0vdGVncmEvaGRtaS5jICAgICAgICAgICAgfCAgNSArKysrKwogZHJpdmVycy9ncHUvZHJt
+L3RlZ3JhL2h1Yi5jICAgICAgICAgICAgIHwgIDMgKystCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEv
+aHViLmggICAgICAgICAgICAgfCAgMSAtCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvcGxhbmUuYyAg
+ICAgICAgICAgfCAgMSArCiBkcml2ZXJzL2dwdS9kcm0vdGVncmEvc29yLmMgICAgICAgICAgICAg
+fCAgMyArKysKIGRyaXZlcnMvZ3B1L2RybS90ZWdyYS92aWMuYyAgICAgICAgICAgICB8ICAxICsK
+IDM0IGZpbGVzIGNoYW5nZWQsIDEzNyBpbnNlcnRpb25zKCspLCA0OSBkZWxldGlvbnMoLSkKCgpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
