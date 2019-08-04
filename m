@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0671780AFB
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 14:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CDC980B38
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 16:19:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A5889EAE;
-	Sun,  4 Aug 2019 12:39:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F24D89E01;
+	Sun,  4 Aug 2019 14:18:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B21BD89EAE
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 12:39:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E851F85;
- Sun,  4 Aug 2019 14:39:10 +0200 (CEST)
-Date: Sun, 4 Aug 2019 15:39:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Subject: Re: [PATCH 2/2] drm/omap: dmm_tiler: Remove the
- dma_async_issue_pending() call
-Message-ID: <20190804123909.GG4984@pendragon.ideasonboard.com>
-References: <20190731094233.13890-1-peter.ujfalusi@ti.com>
- <20190731094233.13890-3-peter.ujfalusi@ti.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3569F89DFD
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 14:18:56 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 31C4F72168; Sun,  4 Aug 2019 14:18:56 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
+Date: Sun, 04 Aug 2019 14:18:56 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109955-502-TPMrwXhEZj@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
+References: <bug-109955-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190731094233.13890-3-peter.ujfalusi@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1564922350;
- bh=vqfUF948pQJ+Ht8VA1aLY67yl0LZPvsM3F6faXcuyPk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=by1GXRiC+TPUmRHArzPHIohDDtbPYk7CHsK1DUYRqKMR8RXy8Aftph80lRbuvlI8L
- 0zxOLdkLNQ9c3BsqS3MjUam7iVyF3NhIHyryOJ18BMX/VhRDyHI8lvei5ZUmkBYSSD
- p+3b9snAj5Yx8jq5lw+HBZou2qYvdc2208L9wL8g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,30 +52,124 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jsarha@ti.com, tomi.valkeinen@ti.com,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1568592800=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUGV0ZXIsCgpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4KCk9uIFdlZCwgSnVsIDMxLCAyMDE5
-IGF0IDEyOjQyOjMzUE0gKzAzMDAsIFBldGVyIFVqZmFsdXNpIHdyb3RlOgo+IGRtYV9zeW5jX3dh
-aXQoKSBpcyBjYWxsaW5nIGl0IHNvIG5vIG5lZWQgdG8gY2FsbCBpdCBpbiB0aGUgZHJpdmVyLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IFBldGVyIFVqZmFsdXNpIDxwZXRlci51amZhbHVzaUB0aS5jb20+
-CgpSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29u
-Ym9hcmQuY29tPgoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kbW1fdGls
-ZXIuYyB8IDEgLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2RtbV90aWxlci5jIGIvZHJpdmVycy9n
-cHUvZHJtL29tYXBkcm0vb21hcF9kbW1fdGlsZXIuYwo+IGluZGV4IDc3NzI4ZWFhMWE2Zi4uNDJl
-YzUxYmI3YjFiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZG1t
-X3RpbGVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vb21hcGRybS9vbWFwX2RtbV90aWxlci5j
-Cj4gQEAgLTk4LDcgKzk4LDYgQEAgc3RhdGljIGludCBkbW1fZG1hX2NvcHkoc3RydWN0IGRtbSAq
-ZG1tLCBkbWFfYWRkcl90IHNyYywgZG1hX2FkZHJfdCBkc3QpCj4gIAkJcmV0dXJuIC1FSU87Cj4g
-IAl9Cj4gIAo+IC0JZG1hX2FzeW5jX2lzc3VlX3BlbmRpbmcoZG1tLT53YV9kbWFfY2hhbik7Cj4g
-IAlzdGF0dXMgPSBkbWFfc3luY193YWl0KGRtbS0+d2FfZG1hX2NoYW4sIGNvb2tpZSk7Cj4gIAlp
-ZiAoc3RhdHVzICE9IERNQV9DT01QTEVURSkKPiAgCQlkZXZfZXJyKGRtbS0+ZGV2LCAiaTg3OCB3
-YSBETUEgY29weSBmYWlsdXJlXG4iKTsKCi0tIApSZWdhcmRzLAoKTGF1cmVudCBQaW5jaGFydApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1568592800==
+Content-Type: multipart/alternative; boundary="15649283362.727AE.3103"
+Content-Transfer-Encoding: 7bit
+
+
+--15649283362.727AE.3103
+Date: Sun, 4 Aug 2019 14:18:56 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+
+--- Comment #77 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+On Sun, Aug 04, 2019 at 05:05:52AM +0000, bugzilla-daemon@freedesktop.org
+wrote:
+> By the way, Interesting to see that even my ubuntu budgie LTS with valve
+> mesa-aco and different kernel, has the same warning.
+> [    5.739656] amdgpu 0000:0a:00.0: Direct firmware load for
+> amdgpu/vega20_ta.bin failed with error -2
+> [    5.739659] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
+> "amdgpu/vega20_ta.bin"
+
+I don't know of an AMD GPU part able to run without properly loaded firmwar=
+e.
+
+That would have to be confirmed by official AMD devs which are the sole ppl
+with that knowledge.
+
+In the very probable case that the firmware _must_ be loaded for proper gpu
+operations, you have to tell the maintainers of the distros you use to upda=
+te
+their linux/amdgpu firmware package.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15649283362.727AE.3103
+Date: Sun, 4 Aug 2019 14:18:56 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c77">Comme=
+nt # 77</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
+5</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre>On Sun, Aug 04, 2019 at 05:05:52AM +0000, <a href=3D"mailto:bu=
+gzilla-daemon&#64;freedesktop.org">bugzilla-daemon&#64;freedesktop.org</a>
+wrote:
+<span class=3D"quote">&gt; By the way, Interesting to see that even my ubun=
+tu budgie LTS with valve
+&gt; mesa-aco and different kernel, has the same warning.
+&gt; [    5.739656] amdgpu 0000:0a:00.0: Direct firmware load for
+&gt; amdgpu/vega20_ta.bin failed with error -2
+&gt; [    5.739659] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
+&gt; &quot;amdgpu/vega20_ta.bin&quot;</span >
+
+I don't know of an AMD GPU part able to run without properly loaded firmwar=
+e.
+
+That would have to be confirmed by official AMD devs which are the sole ppl
+with that knowledge.
+
+In the very probable case that the firmware _must_ be loaded for proper gpu
+operations, you have to tell the maintainers of the distros you use to upda=
+te
+their linux/amdgpu firmware package.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15649283362.727AE.3103--
+
+--===============1568592800==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1568592800==--
