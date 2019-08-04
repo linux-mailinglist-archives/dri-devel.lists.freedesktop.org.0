@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D7580990
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 07:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80FF80993
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 07:17:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7C06E1D6;
-	Sun,  4 Aug 2019 05:05:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3526E1D3;
+	Sun,  4 Aug 2019 05:17:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 315CC6E1D8
- for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 05:05:52 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2DC4472167; Sun,  4 Aug 2019 05:05:52 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B47BA6E1D3
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 05:17:04 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 3277728872
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 05:17:04 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 1BE2028892; Sun,  4 Aug 2019 05:17:04 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Sun, 04 Aug 2019 05:05:52 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204181] NULL pointer dereference regression in amdgpu
+Date: Sun, 04 Aug 2019 05:17:02 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ilvipero@gmx.com
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: virtuousfox@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-afpFF0LzWG@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-204181-2300-RxpjzSJVto@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204181-2300@https.bugzilla.kernel.org/>
+References: <bug-204181-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,246 +61,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1830816441=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1830816441==
-Content-Type: multipart/alternative; boundary="15648951522.021e.13847"
-Content-Transfer-Encoding: 7bit
-
-
---15648951522.021e.13847
-Date: Sun, 4 Aug 2019 05:05:52 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #76 from Mauro Gaspari <ilvipero@gmx.com> ---
-(In reply to Sylvain BERTRAND from comment #75)
-> On Sat, Aug 03, 2019 at 05:43:01PM +0000, bugzilla-daemon@freedesktop.org
-> wrote:
-> > > > [    5.759204] amdgpu 0000:0a:00.0: Direct firmware load for
-> > > > amdgpu/vega20_ta.bin failed with error -2
-> > > > [    5.759205] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmw=
-are
-> > > > "amdgpu/vega20_ta.bin"
->=20
-> It seems you have a corrupted/old/missing vega20_ta.bin firmware file.
-> It looks like outdated distro files.
-
-Hello,
-I did some quick search online and it seems a common problem for many users
-amdgpu. And looking around on other reports they seem to be dismissed as
-warnings and not mandatory. I am not an expert and I do not  want to dismis=
-s it
-here, just report what I see.
-
-By the way, Interesting to see that even my ubuntu budgie LTS with valve
-mesa-aco and different kernel, has the same warning.
-
-[    5.435346] [drm] amdgpu kernel modesetting enabled.
-[    5.435500] fb0: switching to amdgpudrmfb from EFI VGA
-[    5.735058] amdgpu 0000:0a:00.0: No more image in the PCI ROM
-[    5.735102] amdgpu 0000:0a:00.0: VRAM: 16368M 0x0000008000000000 -
-0x00000083FEFFFFFF (16368M used)
-[    5.735103] amdgpu 0000:0a:00.0: GART: 512M 0x0000000000000000 -
-0x000000001FFFFFFF
-[    5.735104] amdgpu 0000:0a:00.0: AGP: 267894784M 0x0000008400000000 -
-0x0000FFFFFFFFFFFF
-[    5.735185] [drm] amdgpu: 16368M of VRAM memory ready
-[    5.735186] [drm] amdgpu: 16368M of GTT memory ready.
-[    5.739656] amdgpu 0000:0a:00.0: Direct firmware load for
-amdgpu/vega20_ta.bin failed with error -2
-[    5.739659] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
-"amdgpu/vega20_ta.bin"
-[    6.354308] fbcon: amdgpudrmfb (fb0) is primary device
-[    6.354490] amdgpu 0000:0a:00.0: fb0: amdgpudrmfb frame buffer device
-[    6.384079] amdgpu 0000:0a:00.0: ring gfx uses VM inv eng 0 on hub 0
-[    6.384080] amdgpu 0000:0a:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
-b 0
-[    6.384081] amdgpu 0000:0a:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
-b 0
-[    6.384082] amdgpu 0000:0a:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
-b 0
-[    6.384083] amdgpu 0000:0a:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
-b 0
-[    6.384084] amdgpu 0000:0a:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
-b 0
-[    6.384084] amdgpu 0000:0a:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
-b 0
-[    6.384085] amdgpu 0000:0a:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
-b 0
-[    6.384086] amdgpu 0000:0a:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
-ub 0
-[    6.384087] amdgpu 0000:0a:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
-b 0
-[    6.384088] amdgpu 0000:0a:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[    6.384089] amdgpu 0000:0a:00.0: ring page0 uses VM inv eng 1 on hub 1
-[    6.384089] amdgpu 0000:0a:00.0: ring sdma1 uses VM inv eng 4 on hub 1
-[    6.384090] amdgpu 0000:0a:00.0: ring page1 uses VM inv eng 5 on hub 1
-[    6.384090] amdgpu 0000:0a:00.0: ring uvd_0 uses VM inv eng 6 on hub 1
-[    6.384091] amdgpu 0000:0a:00.0: ring uvd_enc_0.0 uses VM inv eng 7 on h=
-ub 1
-[    6.384092] amdgpu 0000:0a:00.0: ring uvd_enc_0.1 uses VM inv eng 8 on h=
-ub 1
-[    6.384092] amdgpu 0000:0a:00.0: ring uvd_1 uses VM inv eng 9 on hub 1
-[    6.384093] amdgpu 0000:0a:00.0: ring uvd_enc_1.0 uses VM inv eng 10 on =
-hub
-1
-[    6.384094] amdgpu 0000:0a:00.0: ring uvd_enc_1.1 uses VM inv eng 11 on =
-hub
-1
-[    6.384094] amdgpu 0000:0a:00.0: ring vce0 uses VM inv eng 12 on hub 1
-[    6.384095] amdgpu 0000:0a:00.0: ring vce1 uses VM inv eng 13 on hub 1
-[    6.384096] amdgpu 0000:0a:00.0: ring vce2 uses VM inv eng 14 on hub 1
-[    7.067068] [drm] Initialized amdgpu 3.27.0 20150101 for 0000:0a:00.0 on
-minor 0
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15648951522.021e.13847
-Date: Sun, 4 Aug 2019 05:05:52 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c76">Comme=
-nt # 76</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
- <span class=3D"fn">Mauro Gaspari</span></a>
-</span></b>
-        <pre>(In reply to Sylvain BERTRAND from <a href=3D"show_bug.cgi?id=
-=3D109955#c75">comment #75</a>)
-<span class=3D"quote">&gt; On Sat, Aug 03, 2019 at 05:43:01PM +0000, <a hre=
-f=3D"mailto:bugzilla-daemon&#64;freedesktop.org">bugzilla-daemon&#64;freede=
-sktop.org</a>
-&gt; wrote:
-&gt; &gt; &gt; &gt; [    5.759204] amdgpu 0000:0a:00.0: Direct firmware loa=
-d for
-&gt; &gt; &gt; &gt; amdgpu/vega20_ta.bin failed with error -2
-&gt; &gt; &gt; &gt; [    5.759205] amdgpu 0000:0a:00.0: psp v11.0: Failed t=
-o load firmware
-&gt; &gt; &gt; &gt; &quot;amdgpu/vega20_ta.bin&quot;
-&gt;=20
-&gt; It seems you have a corrupted/old/missing vega20_ta.bin firmware file.
-&gt; It looks like outdated distro files.</span >
-
-Hello,
-I did some quick search online and it seems a common problem for many users
-amdgpu. And looking around on other reports they seem to be dismissed as
-warnings and not mandatory. I am not an expert and I do not  want to dismis=
-s it
-here, just report what I see.
-
-By the way, Interesting to see that even my ubuntu budgie LTS with valve
-mesa-aco and different kernel, has the same warning.
-
-[    5.435346] [drm] amdgpu kernel modesetting enabled.
-[    5.435500] fb0: switching to amdgpudrmfb from EFI VGA
-[    5.735058] amdgpu 0000:0a:00.0: No more image in the PCI ROM
-[    5.735102] amdgpu 0000:0a:00.0: VRAM: 16368M 0x0000008000000000 -
-0x00000083FEFFFFFF (16368M used)
-[    5.735103] amdgpu 0000:0a:00.0: GART: 512M 0x0000000000000000 -
-0x000000001FFFFFFF
-[    5.735104] amdgpu 0000:0a:00.0: AGP: 267894784M 0x0000008400000000 -
-0x0000FFFFFFFFFFFF
-[    5.735185] [drm] amdgpu: 16368M of VRAM memory ready
-[    5.735186] [drm] amdgpu: 16368M of GTT memory ready.
-[    5.739656] amdgpu 0000:0a:00.0: Direct firmware load for
-amdgpu/vega20_ta.bin failed with error -2
-[    5.739659] amdgpu 0000:0a:00.0: psp v11.0: Failed to load firmware
-&quot;amdgpu/vega20_ta.bin&quot;
-[    6.354308] fbcon: amdgpudrmfb (fb0) is primary device
-[    6.354490] amdgpu 0000:0a:00.0: fb0: amdgpudrmfb frame buffer device
-[    6.384079] amdgpu 0000:0a:00.0: ring gfx uses VM inv eng 0 on hub 0
-[    6.384080] amdgpu 0000:0a:00.0: ring comp_1.0.0 uses VM inv eng 1 on hu=
-b 0
-[    6.384081] amdgpu 0000:0a:00.0: ring comp_1.1.0 uses VM inv eng 4 on hu=
-b 0
-[    6.384082] amdgpu 0000:0a:00.0: ring comp_1.2.0 uses VM inv eng 5 on hu=
-b 0
-[    6.384083] amdgpu 0000:0a:00.0: ring comp_1.3.0 uses VM inv eng 6 on hu=
-b 0
-[    6.384084] amdgpu 0000:0a:00.0: ring comp_1.0.1 uses VM inv eng 7 on hu=
-b 0
-[    6.384084] amdgpu 0000:0a:00.0: ring comp_1.1.1 uses VM inv eng 8 on hu=
-b 0
-[    6.384085] amdgpu 0000:0a:00.0: ring comp_1.2.1 uses VM inv eng 9 on hu=
-b 0
-[    6.384086] amdgpu 0000:0a:00.0: ring comp_1.3.1 uses VM inv eng 10 on h=
-ub 0
-[    6.384087] amdgpu 0000:0a:00.0: ring kiq_2.1.0 uses VM inv eng 11 on hu=
-b 0
-[    6.384088] amdgpu 0000:0a:00.0: ring sdma0 uses VM inv eng 0 on hub 1
-[    6.384089] amdgpu 0000:0a:00.0: ring page0 uses VM inv eng 1 on hub 1
-[    6.384089] amdgpu 0000:0a:00.0: ring sdma1 uses VM inv eng 4 on hub 1
-[    6.384090] amdgpu 0000:0a:00.0: ring page1 uses VM inv eng 5 on hub 1
-[    6.384090] amdgpu 0000:0a:00.0: ring uvd_0 uses VM inv eng 6 on hub 1
-[    6.384091] amdgpu 0000:0a:00.0: ring uvd_enc_0.0 uses VM inv eng 7 on h=
-ub 1
-[    6.384092] amdgpu 0000:0a:00.0: ring uvd_enc_0.1 uses VM inv eng 8 on h=
-ub 1
-[    6.384092] amdgpu 0000:0a:00.0: ring uvd_1 uses VM inv eng 9 on hub 1
-[    6.384093] amdgpu 0000:0a:00.0: ring uvd_enc_1.0 uses VM inv eng 10 on =
-hub
-1
-[    6.384094] amdgpu 0000:0a:00.0: ring uvd_enc_1.1 uses VM inv eng 11 on =
-hub
-1
-[    6.384094] amdgpu 0000:0a:00.0: ring vce0 uses VM inv eng 12 on hub 1
-[    6.384095] amdgpu 0000:0a:00.0: ring vce1 uses VM inv eng 13 on hub 1
-[    6.384096] amdgpu 0000:0a:00.0: ring vce2 uses VM inv eng 14 on hub 1
-[    7.067068] [drm] Initialized amdgpu 3.27.0 20150101 for 0000:0a:00.0 on
-minor 0</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15648951522.021e.13847--
-
---===============1830816441==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1830816441==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQxODEKCi0tLSBD
+b21tZW50ICMyNyBmcm9tIFNlcmdleSBLb25kYWtvdiAodmlydHVvdXNmb3hAZ21haWwuY29tKSAt
+LS0KQ3JlYXRlZCBhdHRhY2htZW50IDI4NDE1MwogIC0tPiBodHRwczovL2J1Z3ppbGxhLmtlcm5l
+bC5vcmcvYXR0YWNobWVudC5jZ2k/aWQ9Mjg0MTUzJmFjdGlvbj1lZGl0CmRtZXNnXzIwMTktMDgt
+MDQtYW1kZ3B1LW5ld19kZXJlZmVyZW5jZS13aXRoLXNoYWRvd3ByaW1hcnkKClNvLCBJJ3ZlIGJl
+ZW4gdXNpbmcgZXhwbGljaXRseSBkaXNhYmxlZCAiRW5hYmxlUGFnZUZsaXAiIGFuZCAiVGVhckZy
+ZWUiIG9wdGlvbnMKYXMgd29ya2Fyb3VuZCBmb3IgdGhlIG9yaWdpbmFsIGRlcmVmZXJlbmNlIGJ1
+dCB0aGVuIGRlY2lkZWQgdG8gdHJ5IG91dAoiU2hhZG93UHJpbWFyeSIgZHVyaW5nIGZpZGRsaW5n
+IHdpdGggbXZ0b29scycgbW90aW9uLWludGVycG9sYXRpb24gb3B0aW1pemF0aW9uCmluIG1wdiwg
+c2luY2UgcGFnZSBmbGlwcGluZyBpcyBkaXNhYmxlZCBhbnl3YXkuIEJ1dCB0aGUgcmVzdWx0IHdh
+cyBBTk9USEVSIG51bGwKcG9pbnRlciBkZXJlZmVyZW5jZSBtZXJlIHNlY29uZHMgYWZ0ZXIgbG9n
+aW46CkJVRzoga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSwgYWRkcmVzczogMDAwMDAw
+MDAwMDAwMDAwOAojUEY6IHN1cGVydmlzb3IgcmVhZCBhY2Nlc3MgaW4ga2VybmVsIG1vZGUKI1BG
+OiBlcnJvcl9jb2RlKDB4MDAwMCkgLSBub3QtcHJlc2VudCBwYWdlClBHRCAwIFA0RCAwIApPb3Bz
+OiAwMDAwIFsjMV0gUFJFRU1QVCBTTVAgTk9QVEkKQ1BVOiAxIFBJRDogMzI3MiBDb21tOiBYOmNz
+MCBUYWludGVkOiBHICAgICAgICAgIElPICAgICAKNS4yLjUtMTQwNy5nNzliNmE5Yy1IU0YgIzEg
+b3BlblNVU0UgVHVtYmxld2VlZApIYXJkd2FyZSBuYW1lOiBHaWdhYnl0ZSBUZWNobm9sb2d5IENv
+LiwgTHRkLiBHQS05OTBYQS1VRDMvR0EtOTkwWEEtVUQzLCBCSU9TCkYxNGUgMDkvMDkvMjAxNApS
+SVA6IDAwMTA6YW1kZ3B1X3ZtX3VwZGF0ZV9kaXJlY3RvcmllcysweGU3LzB4MjYwIFthbWRncHVd
+CkNvZGU6IDg5IDA4IDQ4IDhkIDRhIDQwIDQ4IDg5IDQ4IDA4IDQ4IDg5IDQyIDQwIDQ4IDhiIDc4
+IGYwIGM2IDQwIDEwIDAwIDRjIDhiCmE3IDgwIDA2IDAwIDAwIDRkIDg1IGU0IDc0IDA4IDRkIDhi
+IGE0IDI0IDQwIDA0IDAwIDAwIDw0ZD4gOGIgNmMgMjQgMDggMzEgZjYgNDkKOGIgOTUgODAgMDYg
+MDAgMDAgNDggODUgZDIgNzQgMGYgNDggOGIgOTIKUlNQOiAwMDE4OmZmZmZhZmMyNDc4YWJhMTAg
+RUZMQUdTOiAwMDAxMDI0NgpSQVg6IGZmZmY5ODc0MmUyMGU2NzAgUkJYOiBmZmZmOTg3NDJlMjBl
+NjU4IFJDWDogZmZmZjk4NzQ0ZmM2NjA0MApSRFg6IGZmZmY5ODc0NGZjNjYwMDAgUlNJOiBmZmZm
+OTg3NDJlMjBlNjM4IFJESTogZmZmZjk4NzNhMjk1ZjgwMApSQlA6IGZmZmY5ODc0NTllMDAwMDAg
+UjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDAwMDAwMDAwMQpSMTA6IDAwMDAwMDAw
+MDAwMDAwMDAgUjExOiAwMDAwMDAwMDAwMDAwMDAwIFIxMjogMDAwMDAwMDAwMDAwMDAwMApSMTM6
+IGZmZmZhZmMyNDc4YWJiNTggUjE0OiBmZmZmOTg3NDRmYzY2MDAwIFIxNTogZmZmZmFmYzI0Nzhh
+YmI1OApGUzogIDAwMDA3ZjNlZTAzZDc3MDAoMDAwMCkgR1M6ZmZmZjk4NzQ2ZGUwMDAwMCgwMDAw
+KSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwCkNTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6
+IDAwMDAwMDAwODAwNTAwMzMKQ1IyOiAwMDAwMDAwMDAwMDAwMDA4IENSMzogMDAwMDAwMDNmMjdh
+YTAwMCBDUjQ6IDAwMDAwMDAwMDAwNDA2ZTAKQ2FsbCBUcmFjZToKIGFtZGdwdV9jc192bV9oYW5k
+bGluZysweDMwOC8weDQ0MCBbYW1kZ3B1XQogYW1kZ3B1X2NzX2lvY3RsKzB4MTU0LzB4YTEwIFth
+bWRncHVdCiA/IGFtZGdwdV9jc192bV9oYW5kbGluZysweDQ0MC8weDQ0MCBbYW1kZ3B1XQogZHJt
+X2lvY3RsX2tlcm5lbCsweGFhLzB4ZjAKIGRybV9pb2N0bCsweDIwOC8weDM4NQogPyBhbWRncHVf
+Y3Nfdm1faGFuZGxpbmcrMHg0NDAvMHg0NDAgW2FtZGdwdV0KID8gX3Jhd19zcGluX3VubG9ja19p
+cnFyZXN0b3JlKzB4NTkvMHg3MAogPyBwcmVlbXB0X2NvdW50X3N1YisweDk4LzB4ZTAKID8gX3Jh
+d19zcGluX3VubG9ja19pcnFyZXN0b3JlKzB4NDYvMHg3MAogYW1kZ3B1X2RybV9pb2N0bCsweDQ5
+LzB4ODAgW2FtZGdwdV0KIGRvX3Zmc19pb2N0bCsweDNlZC8weDcyMAogPyBfX2ZnZXQrMHhmOS8w
+eDFiMAoga3N5c19pb2N0bCsweDVlLzB4OTAKIF9feDY0X3N5c19pb2N0bCsweDE2LzB4MjAKIGRv
+X3N5c2NhbGxfNjQrMHg2Ni8weGMwCiBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg0
+OS8weGJlClJJUDogMDAzMzoweDdmM2VlNjQxYzdjNwpDb2RlOiAwMCAwMCA5MCA0OCA4YiAwNSBk
+MSA4NiAwYyAwMCA2NCBjNyAwMCAyNiAwMCAwMCAwMCA0OCBjNyBjMCBmZiBmZiBmZiBmZgpjMyA2
+NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCBiOCAxMCAwMCAwMCAwMCAwZiAwNSA8NDg+IDNk
+IDAxIGYwIGZmIGZmIDczIDAxCmMzIDQ4IDhiIDBkIGExIDg2IDBjIDAwIGY3IGQ4IDY0IDg5IDAx
+IDQ4ClJTUDogMDAyYjowMDAwN2YzZWUwM2Q2YTA4IEVGTEFHUzogMDAwMDAyNDYgT1JJR19SQVg6
+IDAwMDAwMDAwMDAwMDAwMTAKUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDogMDAwMDdmM2VlMDNk
+NmE3MCBSQ1g6IDAwMDA3ZjNlZTY0MWM3YzcKUkRYOiAwMDAwN2YzZWUwM2Q2YTcwIFJTSTogMDAw
+MDAwMDBjMDE4NjQ0NCBSREk6IDAwMDAwMDAwMDAwMDAwMGUKUkJQOiAwMDAwMDAwMGMwMTg2NDQ0
+IFIwODogMDAwMDdmM2VlMDNkNmI4MCBSMDk6IDAwMDAwMDAwMDAwMDAwMjAKUjEwOiAwMDAwN2Yz
+ZWUwM2Q2YjgwIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDAwMDAwMDAwMDAwMDAKUjEz
+OiAwMDAwMDAwMDAwMDAwMDBlIFIxNDogMDAwMDU1ZDU1ZTZmOGJmMCBSMTU6IDAwMDA1NWQ1NWU2
+ZjkxYTgKTW9kdWxlcyBsaW5rZWQgaW46IGFmX3BhY2tldCB4dF9wa3R0eXBlIHh0X3N0cmluZyBu
+Zl9uYXRfZnRwIG5mX2Nvbm50cmFja19mdHAKeHRfdGNwdWRwIGlwNnRfcnBmaWx0ZXIgaXA2dF9S
+RUpFQ1QgaXB0X1JFSkVDVCB4dF9jb25udHJhY2sgZWJ0YWJsZV9uYXQKaXA2dGFibGVfbmF0IGlw
+NnRhYmxlX21hbmdsZSBpcDZ0YWJsZV9yYXcgaXA2dGFibGVfc2VjdXJpdHkgaXB0YWJsZV9uYXQg
+bmZfbmF0CmlwdGFibGVfbWFuZ2xlIGlwdGFibGVfcmF3IGlwdGFibGVfc2VjdXJpdHkgbmZfY29u
+bnRyYWNrIG5mX2RlZnJhZ19pcHY2Cm5mX2RlZnJhZ19pcHY0IGlwX3NldCBuZm5ldGxpbmsgZWJ0
+YWJsZV9maWx0ZXIgZWJ0YWJsZXMgc2NzaV90cmFuc3BvcnRfaXNjc2kKaXA2dGFibGVfZmlsdGVy
+IGlwNl90YWJsZXMgaXB0YWJsZV9maWx0ZXIgaXBfdGFibGVzIHhfdGFibGVzIGJwZmlsdGVyCnNu
+ZF9zZXFfZHVtbXkgc25kX3NlcV9vc3Mgc25kX3NlcV9taWRpX2V2ZW50IHNuZF9zZXEgc25kX3Bj
+bV9vc3Mgc25kX21peGVyX29zcwptc3IgYm5lcCBpdDg3IGh3bW9uX3ZpZCB6cmFtIGFtZDY0X2Vk
+YWNfbW9kIGVkYWNfbWNlX2FtZCBrdm1fYW1kIGt2bQpyY19hdmVybWVkaWEgdHVuZXJfc2ltcGxl
+IHR1bmVyX3R5cGVzIGlycWJ5cGFzcyB0dW5lciB0ZGE3NDMyIGJ0dXNiIGJ0cnRsIGJ0YmNtCmJ0
+aW50ZWwgdHZhdWRpbyBtc3AzNDAwIGJsdWV0b290aCBzbmRfdXNiX2F1ZGlvIGF0aDlrIGpveWRl
+diBidHR2IGF0aDlrX2NvbW1vbgpzbmRfdXNibWlkaV9saWIgdGVhNTc1eCBhdGg5a19odyB0dmVl
+cHJvbSBzbmRfcmF3bWlkaSB2aWRlb2J1Zl9kbWFfc2cgbXhtX3dtaQp3bWlfYm1vZiBwY3Nwa3Ig
+YXRoIHZpZGVvYnVmX2NvcmUgc25kX3NlcV9kZXZpY2UgazEwdGVtcCBmYW0xNWhfcG93ZXIgcmNf
+Y29yZQpzbmRfaGRhX2NvZGVjX3JlYWx0ZWsgdjRsMl9jb21tb24gc25kX2hkYV9jb2RlY19nZW5l
+cmljCiBzcDUxMDBfdGNvIHNuZF9oZGFfY29kZWNfaGRtaSBsZWR0cmlnX2F1ZGlvIG1hYzgwMjEx
+IGFtZGdwdSB2aWRlb2RldiBtZWRpYQppMmNfcGlpeDQgc25kX2hkYV9pbnRlbCBjZmc4MDIxMSBz
+bmRfaGRhX2NvZGVjIHI4MTY5IHNuZF9oZGFfY29yZSByZWFsdGVrCnNuZF9od2RlcCBsaWJwaHkg
+c25kX3BjbSBncHVfc2NoZWQgcmZraWxsIHR0bSBtYWNfaGlkIGhpZF9nZW5lcmljIHVzYmhpZCB1
+YXMKdXNiX3N0b3JhZ2Ugb2hjaV9wY2kgc2VyaW9fcmF3IHNkX21vZCBlaGNpX3BjaSBvaGNpX2hj
+ZCBlaGNpX2hjZCB4aGNpX3BjaQp4aGNpX2hjZCB3bWkgZXhmYXQoTykgbDJ0cF9wcHAgbDJ0cF9u
+ZXRsaW5rIGwydHBfY29yZSBpcDZfdWRwX3R1bm5lbCB1ZHBfdHVubmVsCnBwcG94IHBwcF9nZW5l
+cmljIHNsaGMgdmhiYShPKSB1aW5wdXQgc2cgbmJkIGRtX211bHRpcGF0aCBzY3NpX2RoX3JkYWMK
+c2NzaV9kaF9lbWMgc2NzaV9kaF9hbHVhIGVjcnlwdGZzCkNSMjogMDAwMDAwMDAwMDAwMDAwOAot
+LS1bIGVuZCB0cmFjZSBhN2YwZWQxNDEzNGE3NmFkIF0tLS0KUklQOiAwMDEwOmFtZGdwdV92bV91
+cGRhdGVfZGlyZWN0b3JpZXMrMHhlNy8weDI2MCBbYW1kZ3B1XQpDb2RlOiA4OSAwOCA0OCA4ZCA0
+YSA0MCA0OCA4OSA0OCAwOCA0OCA4OSA0MiA0MCA0OCA4YiA3OCBmMCBjNiA0MCAxMCAwMCA0YyA4
+YgphNyA4MCAwNiAwMCAwMCA0ZCA4NSBlNCA3NCAwOCA0ZCA4YiBhNCAyNCA0MCAwNCAwMCAwMCA8
+NGQ+IDhiIDZjIDI0IDA4IDMxIGY2IDQ5CjhiIDk1IDgwIDA2IDAwIDAwIDQ4IDg1IGQyIDc0IDBm
+IDQ4IDhiIDkyClJTUDogMDAxODpmZmZmYWZjMjQ3OGFiYTEwIEVGTEFHUzogMDAwMTAyNDYKUkFY
+OiBmZmZmOTg3NDJlMjBlNjcwIFJCWDogZmZmZjk4NzQyZTIwZTY1OCBSQ1g6IGZmZmY5ODc0NGZj
+NjYwNDAKUkRYOiBmZmZmOTg3NDRmYzY2MDAwIFJTSTogZmZmZjk4NzQyZTIwZTYzOCBSREk6IGZm
+ZmY5ODczYTI5NWY4MDAKUkJQOiBmZmZmOTg3NDU5ZTAwMDAwIFIwODogMDAwMDAwMDAwMDAwMDAw
+MCBSMDk6IDAwMDAwMDAwMDAwMDAwMDEKUjEwOiAwMDAwMDAwMDAwMDAwMDAwIFIxMTogMDAwMDAw
+MDAwMDAwMDAwMCBSMTI6IDAwMDAwMDAwMDAwMDAwMDAKUjEzOiBmZmZmYWZjMjQ3OGFiYjU4IFIx
+NDogZmZmZjk4NzQ0ZmM2NjAwMCBSMTU6IGZmZmZhZmMyNDc4YWJiNTgKRlM6ICAwMDAwN2YzZWUw
+M2Q3NzAwKDAwMDApIEdTOmZmZmY5ODc0NmRlMDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAw
+MDAwMApDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzCkNS
+MjogMDAwMDAwMDAwMDAwMDAwOCBDUjM6IDAwMDAwMDAzZjI3YWEwMDAgQ1I0OiAwMDAwMDAwMDAw
+MDQwNmUwCgotLSAKWW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUg
+d2F0Y2hpbmcgdGhlIGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
