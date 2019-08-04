@@ -1,97 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015CE80CB9
-	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 23:28:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5E380CBF
+	for <lists+dri-devel@lfdr.de>; Sun,  4 Aug 2019 23:33:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A1589C27;
-	Sun,  4 Aug 2019 21:28:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4D7389CA2;
+	Sun,  4 Aug 2019 21:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM05-CO1-obe.outbound.protection.outlook.com
- (mail-eopbgr720052.outbound.protection.outlook.com [40.107.72.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD91A89BF3;
- Sun,  4 Aug 2019 21:28:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kJQdOb20GjaD6yZzONTGRYmoyrDDXRuWnRyMWBFPy47WFcByLnjCUxTvfkqujVJkpo8S/ces7A1Dr6Gilsrds40sT94pUKRMWlD0uZRC9yOYsll5SWAyyxtjkeZvPnBrG1GmAE4InC+6Q3iIDWbGVZXhJyb8ccBzhehk5twwIWxaG0XgzG/w6f1nxaMH47wJ+LnMO1IwQwudylc4rnKJqK5hsUICJ0rpeXsPdPK/9f+6J4kIsHolEQ3dzrtKDRj5WRWBxvi9MxJjykt2gkiFPfHze/G8cyzW2LtuJ+xYB9NqFDaqFl50wIftL9tAuKAceVLrzJ98cpPMKggWJKYNAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=by4GKsvlqaY+UEHrwD/LK+DzbkSWm/5p3cSWF+Shlr4=;
- b=jPlo53vx3l6zLOMOKlM+iFNj9dRKLCkCd1KN6+EJaxbbvF2/qWgVYCMTMjcLIL+L6avwY42djVIDfIsNV5pkP/u/7liYwZJyzZjFMmJvIi9NjBWHgYp6CbCjDlUeU9Y6AcVV5YRuXbxbrGWiwxoTYgkMT7GPHX+Bn8c6+63ZEn8hJ1RDQqEyjuMKm1senjTkKSGZaBiemHJz+No2HlfM01B1iBcS8VOAeQ/V3ShbxGHZWfZxTDHz7SVCULh8UJ2fB04PE8m7oEZTsRczrhDYoqCgGrgtjK2P2URjkhHX1gmxLxJk9I28GIOIyx9qZXozzYiluh0WRtqiJEfgvH+M4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=amd.com;dmarc=pass action=none header.from=amd.com;dkim=pass
- header.d=amd.com;arc=none
-Received: from DM6PR12MB3947.namprd12.prod.outlook.com (10.255.174.156) by
- DM6PR12MB3836.namprd12.prod.outlook.com (10.255.173.141) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2136.17; Sun, 4 Aug 2019 21:28:36 +0000
-Received: from DM6PR12MB3947.namprd12.prod.outlook.com
- ([fe80::1c82:54e7:589b:539c]) by DM6PR12MB3947.namprd12.prod.outlook.com
- ([fe80::1c82:54e7:589b:539c%5]) with mapi id 15.20.2136.018; Sun, 4 Aug 2019
- 21:28:36 +0000
-From: "Kuehling, Felix" <Felix.Kuehling@amd.com>
-To: Jason Gunthorpe <jgg@mellanox.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, Ben Goz <ben.goz@amd.com>, Oded Gabbay
- <oded.gabbay@amd.com>
-Subject: Re: [PATCH hmm] drm/amdkfd: fix a use after free race with
- mmu_notififer unregister
-Thread-Topic: [PATCH hmm] drm/amdkfd: fix a use after free race with
- mmu_notififer unregister
-Thread-Index: AQHVSW3eVhbq/l2AtU+wYY32iYZXvabrhD+A
-Date: Sun, 4 Aug 2019 21:28:36 +0000
-Message-ID: <c59ebe8b-9b18-24b8-b02c-8ccaa7df4dc9@amd.com>
-References: <20190802200705.GA10110@ziepe.ca>
-In-Reply-To: <20190802200705.GA10110@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [165.204.54.211]
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-clientproxiedby: YTBPR01CA0033.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:14::46) To DM6PR12MB3947.namprd12.prod.outlook.com
- (2603:10b6:5:1cb::28)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 54afea3a-de22-497e-9644-08d71922b554
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:DM6PR12MB3836; 
-x-ms-traffictypediagnostic: DM6PR12MB3836:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DM6PR12MB383619B523F72217CD759AA592DB0@DM6PR12MB3836.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 0119DC3B5E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(4636009)(396003)(39860400002)(366004)(376002)(136003)(346002)(199004)(189003)(6436002)(31696002)(6636002)(76176011)(66066001)(7736002)(11346002)(110136005)(8676002)(58126008)(305945005)(65806001)(65956001)(3846002)(6246003)(25786009)(52116002)(36756003)(53936002)(68736007)(6116002)(6306002)(99286004)(4326008)(446003)(316002)(6512007)(478600001)(486006)(31686004)(53546011)(6506007)(386003)(54906003)(86362001)(14454004)(102836004)(71200400001)(64126003)(71190400001)(6486002)(966005)(2616005)(229853002)(14444005)(476003)(256004)(66476007)(66556008)(64756008)(66446008)(186003)(8936002)(2501003)(65826007)(2906002)(66946007)(81166006)(81156014)(26005)(5660300002);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3836;
- H:DM6PR12MB3947.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: BiX3VFO1S7rDDpBuTtpeB9iAHyjlTIiuoJelWSxQhxnzcIwOQ7Fvzp23QwbH4coSfTITjM0wNQvGja+OL7jIC3/AIQc0hNmY1W/s59JFcj4N9fOBNNNs/i93Uc8CpIwaDHy06Rg145WBqsg7NAWT+EFBZLoW5R2BoFz9Ji4/m2glv90au8Vun/PrdJ7Z+SlZt5BWwsACISzm9u6knmqvVothVse2GpKCFNpTUnZ0ObzoLv5t2LfTHCMk0PsAp6sTcy5GVtVlwC4GnkY+hnxUwCUnqJ2RJ0dcwS/62adghnh0djJzkNHeBuImvA9AjsoKy1olSL3Cr6gddvAycLFzBff+RcMnxaK+ZeJVdTam57r9CgbiywfggcdD4OsNpzrE6jf2HdDTmByU8HUL2884SxnM9eQ4FMW1ebMswkHCKHA=
-Content-ID: <7A75C99679BCCD43B955A1B48C532566@namprd12.prod.outlook.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C595689C9B
+ for <dri-devel@lists.freedesktop.org>; Sun,  4 Aug 2019 21:33:44 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BFFB672167; Sun,  4 Aug 2019 21:33:44 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110199] [amdgpu] Screen flickering when using a 75Hz monitor
+ paired with an RX 480 GPU
+Date: Sun, 04 Aug 2019 21:33:44 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: critical
+X-Bugzilla-Who: 192k@protonmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110199-502-YPy2LEnYp2@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110199-502@http.bugs.freedesktop.org/>
+References: <bug-110199-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54afea3a-de22-497e-9644-08d71922b554
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2019 21:28:36.0375 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fkuehlin@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3836
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=by4GKsvlqaY+UEHrwD/LK+DzbkSWm/5p3cSWF+Shlr4=;
- b=fAdItCfD03f+Q8QPbSHHU9NSbCnVdMQAgBn0Se2LvcRG66z/RgmOCEnGZeeGwqVxn61H7XIhY1brtBf0Bx2GdFFv1dKraKb86SVOxjAcmdqHVfmGctCMwJ8wf/EVxlLPJ7p4otkPIE6+grhqRe0KhTxbT/pLOAvXwHT/YCrg788=
-X-Mailman-Original-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Felix.Kuehling@amd.com; 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,141 +53,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Hellwig <hch@infradead.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1973737553=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAxOS0wOC0wMiAxNjowNywgSmFzb24gR3VudGhvcnBlIHdyb3RlOg0KPiBXaGVuIHVzaW5n
-IG1tdV9ub3RpZmlmZXJfdW5yZWdpc3Rlcl9ub19yZWxlYXNlKCkgdGhlIGNhbGxlciBtdXN0IGVu
-c3VyZQ0KPiB0aGVyZSBpcyBhIFNSQ1Ugc3luY2hyb25pemUgYmVmb3JlIHRoZSBtbiBtZW1vcnkg
-aXMgZnJlZWQsIG90aGVyd2lzZSB1c2UNCj4gYWZ0ZXIgZnJlZSByYWNlcyBhcmUgcG9zc2libGUs
-IGZvciBpbnN0YW5jZToNCj4NCj4gICAgICAgQ1BVMCAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgQ1BVMQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBpbnZhbGlkYXRlX3JhbmdlX3N0YXJ0DQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGhsaXN0X2Zvcl9lYWNoX2VudHJ5X3JjdSguLikNCj4gICBtbXVfbm90aWZp
-ZXJfdW5yZWdpc3Rlcl9ub19yZWxlYXNlKCZwLT5tbikNCj4gICBrZnJlZShtbikNCj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgKG1uLT5vcHMtPmludmFsaWRhdGVf
-cmFuZ2VfZW5kKQ0KPg0KPiBUaGUgZXJyb3IgdW53aW5kIGluIGFtZGtmZCBtaXNzZXMgdGhlIFNS
-Q1Ugc3luY2hyb25pemF0aW9uLg0KPg0KPiBhbWRrZmQga2VlcHMgdGhlIGtmZF9wcm9jZXNzIGFy
-b3VuZCB1bnRpbCB0aGUgbW0gaXMgcmVsZWFzZWQsIHNvIHNwbGl0IHRoZQ0KPiBmbG93IHRvIGZ1
-bGx5IGluaXRpYWxpemUgdGhlIGtmZF9wcm9jZXNzIGFuZCByZWdpc3RlciBpdCBmb3IgZmluZF9w
-cm9jZXNzLA0KPiBhbmQgd2l0aCB0aGUgbm90aWZpZXIuIFBhc3QgdGhpcyBwb2ludCB0aGUga2Zk
-X3Byb2Nlc3MgZG9lcyBub3QgbmVlZCB0byBiZQ0KPiBjbGVhbmVkIHVwIGFzIGl0IGlzIGZ1bGx5
-IHJlYWR5Lg0KPg0KPiBUaGUgZmluYWwgZmFpbGFibGUgc3RlcCBkb2VzIGEgdm1fbW1hcCgpIGFu
-ZCBkb2VzIG5vdCBzZWVtIHRvIGltcGFjdCB0aGUNCj4ga2ZkX3Byb2Nlc3MgZ2xvYmFsIHN0YXRl
-LiBTaW5jZSBpdCBhbHNvIGNhbm5vdCBiZSB1bmRvbmUgKGFuZCBhbHJlYWR5IGhhcw0KPiBwcm9i
-bGVtcyB3aXRoIHVuZG8gaWYgaXQgaW50ZXJuYWxseSBmYWlscyksIGl0IGhhcyB0byBiZSBsYXN0
-Lg0KPg0KPiBUaGlzIHdheSB3ZSBkb24ndCBoYXZlIHRvIHRyeSB0byB1bndpbmQgdGhlIG1tdV9u
-b3RpZmllcl9yZWdpc3RlcigpIGFuZA0KPiBhdm9pZCB0aGUgcHJvYmxlbSB3aXRoIHRoZSBTUkNV
-Lg0KPg0KPiBBbG9uZyB0aGUgd2F5IHRoaXMgYWxzbyBmaXhlcyB2YXJpb3VzIG90aGVyIGVycm9y
-IHVud2luZCBidWdzIGluIHRoZSBmbG93Lg0KPg0KPiBGaXhlczogNDUxMDIwNDhmNzdlICgiYW1k
-a2ZkOiBBZGQgcHJvY2VzcyBxdWV1ZSBtYW5hZ2VyIG1vZHVsZSIpDQo+IFNpZ25lZC1vZmYtYnk6
-IEphc29uIEd1bnRob3JwZSA8amdnQG1lbGxhbm94LmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRrZmQva2ZkX3Byb2Nlc3MuYyB8IDc0ICsrKysrKysrKysrLS0tLS0tLS0t
-LS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAzNSBpbnNlcnRpb25zKCspLCAzOSBkZWxldGlvbnMo
-LSkNCj4NCj4gYW1ka2ZkIGZvbGtzLCB0aGlzIGxpdHRsZSBidWcgaXMgYmxvY2tpbmcgc29tZSBy
-ZXdvcmsgSSBoYXZlIGZvciB0aGUNCj4gbW11IG5vdGlmaWVycyAoaWUgbW0vbW11X25vdGlmaWVy
-czogcmVtb3ZlIHVucmVnaXN0ZXJfbm9fcmVsZWFzZSkNCj4NCj4gQ2FuIEkgZ2V0IHlvdXIgaGVs
-cCB0byByZXZpZXcgYW5kIGlmIG5lZWRlZCBwb2xpc2ggdGhpcyBjaGFuZ2U/IEknZA0KPiBsaWtl
-IHRvIHNlbmQgdGhpcyBwYXRjaCB0aHJvdWdoIHRoZSBobW0gdHJlZSBhbG9uZyB3aXRoIHRoZSBy
-ZXdvcmssDQo+IHRoYW5rcw0KDQpUaGFua3MuIFRoYXQncyBhIG5pY2UgY2xlYW51cCBvZiB0aGUg
-ZXJyb3IgaGFuZGxpbmcgZHVyaW5nIEtGRCBwcm9jZXNzIA0KY3JlYXRpb24uIE9uZSBuaXQtcGlj
-ayBpbmxpbmUsIG90aGVyd2lzZSB0aGlzIGxvb2tzIGdvb2QgdG8gbWUuDQoNCg0KPg0KPiBZb3Ug
-Y2FuIHNlZSB0aGUgbGFyZ2VyIHNlcmllcyBoZXJlOg0KPg0KPiBodHRwczovL2dpdGh1Yi5jb20v
-amd1bnRob3JwZS9saW51eC9jb21taXRzL21tdV9ub3RpZmllcg0KPg0KPiBKYXNvbg0KPg0KPiBk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX3Byb2Nlc3MuYyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9wcm9jZXNzLmMNCj4gaW5kZXggOGYxMDc2YzBj
-ODhhMjUuLjgxZTNlZTNmMTgxM2JmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGtmZC9rZmRfcHJvY2Vzcy5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2Zk
-L2tmZF9wcm9jZXNzLmMNCj4gQEAgLTYyLDggKzYyLDggQEAgc3RhdGljIHN0cnVjdCB3b3JrcXVl
-dWVfc3RydWN0ICprZmRfcmVzdG9yZV93cTsNCj4gICANCj4gICBzdGF0aWMgc3RydWN0IGtmZF9w
-cm9jZXNzICpmaW5kX3Byb2Nlc3MoY29uc3Qgc3RydWN0IHRhc2tfc3RydWN0ICp0aHJlYWQpOw0K
-PiAgIHN0YXRpYyB2b2lkIGtmZF9wcm9jZXNzX3JlZl9yZWxlYXNlKHN0cnVjdCBrcmVmICpyZWYp
-Ow0KPiAtc3RhdGljIHN0cnVjdCBrZmRfcHJvY2VzcyAqY3JlYXRlX3Byb2Nlc3MoY29uc3Qgc3Ry
-dWN0IHRhc2tfc3RydWN0ICp0aHJlYWQsDQo+IC0JCQkJCXN0cnVjdCBmaWxlICpmaWxlcCk7DQo+
-ICtzdGF0aWMgc3RydWN0IGtmZF9wcm9jZXNzICpjcmVhdGVfcHJvY2Vzcyhjb25zdCBzdHJ1Y3Qg
-dGFza19zdHJ1Y3QgKnRocmVhZCk7DQo+ICtzdGF0aWMgaW50IGtmZF9wcm9jZXNzX2luaXRfY3dz
-cl9hcHUoc3RydWN0IGtmZF9wcm9jZXNzICpwLCBzdHJ1Y3QgZmlsZSAqZmlsZXApOw0KPiAgIA0K
-PiAgIHN0YXRpYyB2b2lkIGV2aWN0X3Byb2Nlc3Nfd29ya2VyKHN0cnVjdCB3b3JrX3N0cnVjdCAq
-d29yayk7DQo+ICAgc3RhdGljIHZvaWQgcmVzdG9yZV9wcm9jZXNzX3dvcmtlcihzdHJ1Y3Qgd29y
-a19zdHJ1Y3QgKndvcmspOw0KPiBAQCAtMjg5LDcgKzI4OSwxNSBAQCBzdHJ1Y3Qga2ZkX3Byb2Nl
-c3MgKmtmZF9jcmVhdGVfcHJvY2VzcyhzdHJ1Y3QgZmlsZSAqZmlsZXApDQo+ICAgCWlmIChwcm9j
-ZXNzKSB7DQo+ICAgCQlwcl9kZWJ1ZygiUHJvY2VzcyBhbHJlYWR5IGZvdW5kXG4iKTsNCj4gICAJ
-fSBlbHNlIHsNCj4gLQkJcHJvY2VzcyA9IGNyZWF0ZV9wcm9jZXNzKHRocmVhZCwgZmlsZXApOw0K
-PiArCQlwcm9jZXNzID0gY3JlYXRlX3Byb2Nlc3ModGhyZWFkKTsNCj4gKwkJaWYgKElTX0VSUihw
-cm9jZXNzKSkNCj4gKwkJCWdvdG8gb3V0Ow0KPiArDQo+ICsJCXJldCA9IGtmZF9wcm9jZXNzX2lu
-aXRfY3dzcl9hcHUocHJvY2VzcywgZmlsZXApOw0KPiArCQlpZiAocmV0KSB7DQo+ICsJCQlwcm9j
-ZXNzID0gRVJSX1BUUihyZXQpOw0KPiArCQkJZ290byBvdXQ7DQo+ICsJCX0NCj4gICANCj4gICAJ
-CWlmICghcHJvY2ZzLmtvYmopDQo+ICAgCQkJZ290byBvdXQ7DQo+IEBAIC02MDksNjQgKzYxNyw1
-NiBAQCBzdGF0aWMgaW50IGtmZF9wcm9jZXNzX2RldmljZV9pbml0X2N3c3JfZGdwdShzdHJ1Y3Qg
-a2ZkX3Byb2Nlc3NfZGV2aWNlICpwZGQpDQo+ICAgCXJldHVybiAwOw0KPiAgIH0NCj4gICANCj4g
-LXN0YXRpYyBzdHJ1Y3Qga2ZkX3Byb2Nlc3MgKmNyZWF0ZV9wcm9jZXNzKGNvbnN0IHN0cnVjdCB0
-YXNrX3N0cnVjdCAqdGhyZWFkLA0KPiAtCQkJCQlzdHJ1Y3QgZmlsZSAqZmlsZXApDQo+ICsvKg0K
-PiArICogT24gcmV0dXJuIHRoZSBrZmRfcHJvY2VzcyBpcyBmdWxseSBvcGVyYXRpb25hbCBhbmQg
-d2lsbCBiZSBmcmVlZCB3aGVuIHRoZQ0KPiArICogbW0gaXMgcmVsZWFzZWQNCj4gKyAqLw0KPiAr
-c3RhdGljIHN0cnVjdCBrZmRfcHJvY2VzcyAqY3JlYXRlX3Byb2Nlc3MoY29uc3Qgc3RydWN0IHRh
-c2tfc3RydWN0ICp0aHJlYWQpDQo+ICAgew0KPiAgIAlzdHJ1Y3Qga2ZkX3Byb2Nlc3MgKnByb2Nl
-c3M7DQo+ICAgCWludCBlcnIgPSAtRU5PTUVNOw0KPiAgIA0KPiAgIAlwcm9jZXNzID0ga3phbGxv
-YyhzaXplb2YoKnByb2Nlc3MpLCBHRlBfS0VSTkVMKTsNCj4gLQ0KPiAgIAlpZiAoIXByb2Nlc3Mp
-DQo+ICAgCQlnb3RvIGVycl9hbGxvY19wcm9jZXNzOw0KPiAgIA0KPiAtCXByb2Nlc3MtPnBhc2lk
-ID0ga2ZkX3Bhc2lkX2FsbG9jKCk7DQo+IC0JaWYgKHByb2Nlc3MtPnBhc2lkID09IDApDQo+IC0J
-CWdvdG8gZXJyX2FsbG9jX3Bhc2lkOw0KPiAtDQo+IC0JaWYgKGtmZF9hbGxvY19wcm9jZXNzX2Rv
-b3JiZWxscyhwcm9jZXNzKSA8IDApDQo+IC0JCWdvdG8gZXJyX2FsbG9jX2Rvb3JiZWxsczsNCj4g
-LQ0KPiAgIAlrcmVmX2luaXQoJnByb2Nlc3MtPnJlZik7DQo+IC0NCj4gICAJbXV0ZXhfaW5pdCgm
-cHJvY2Vzcy0+bXV0ZXgpOw0KPiAtDQo+ICAgCXByb2Nlc3MtPm1tID0gdGhyZWFkLT5tbTsNCj4g
-LQ0KPiAtCS8qIHJlZ2lzdGVyIG5vdGlmaWVyICovDQo+IC0JcHJvY2Vzcy0+bW11X25vdGlmaWVy
-Lm9wcyA9ICZrZmRfcHJvY2Vzc19tbXVfbm90aWZpZXJfb3BzOw0KPiAtCWVyciA9IG1tdV9ub3Rp
-Zmllcl9yZWdpc3RlcigmcHJvY2Vzcy0+bW11X25vdGlmaWVyLCBwcm9jZXNzLT5tbSk7DQo+IC0J
-aWYgKGVycikNCj4gLQkJZ290byBlcnJfbW11X25vdGlmaWVyOw0KPiAtDQo+IC0JaGFzaF9hZGRf
-cmN1KGtmZF9wcm9jZXNzZXNfdGFibGUsICZwcm9jZXNzLT5rZmRfcHJvY2Vzc2VzLA0KPiAtCQkJ
-KHVpbnRwdHJfdClwcm9jZXNzLT5tbSk7DQo+IC0NCj4gICAJcHJvY2Vzcy0+bGVhZF90aHJlYWQg
-PSB0aHJlYWQtPmdyb3VwX2xlYWRlcjsNCj4gLQlnZXRfdGFza19zdHJ1Y3QocHJvY2Vzcy0+bGVh
-ZF90aHJlYWQpOw0KPiAtDQo+ICAgCUlOSVRfTElTVF9IRUFEKCZwcm9jZXNzLT5wZXJfZGV2aWNl
-X2RhdGEpOw0KPiAtDQo+ICsJSU5JVF9ERUxBWUVEX1dPUksoJnByb2Nlc3MtPmV2aWN0aW9uX3dv
-cmssIGV2aWN0X3Byb2Nlc3Nfd29ya2VyKTsNCj4gKwlJTklUX0RFTEFZRURfV09SSygmcHJvY2Vz
-cy0+cmVzdG9yZV93b3JrLCByZXN0b3JlX3Byb2Nlc3Nfd29ya2VyKTsNCj4gKwlwcm9jZXNzLT5s
-YXN0X3Jlc3RvcmVfdGltZXN0YW1wID0gZ2V0X2ppZmZpZXNfNjQoKTsNCj4gICAJa2ZkX2V2ZW50
-X2luaXRfcHJvY2Vzcyhwcm9jZXNzKTsNCj4gKwlwcm9jZXNzLT5pc18zMmJpdF91c2VyX21vZGUg
-PSBpbl9jb21wYXRfc3lzY2FsbCgpOw0KPiArDQo+ICsJcHJvY2Vzcy0+cGFzaWQgPSBrZmRfcGFz
-aWRfYWxsb2MoKTsNCj4gKwlpZiAocHJvY2Vzcy0+cGFzaWQgPT0gMCkNCj4gKwkJZ290byBlcnJf
-YWxsb2NfcGFzaWQ7DQo+ICsNCj4gKwlpZiAoa2ZkX2FsbG9jX3Byb2Nlc3NfZG9vcmJlbGxzKHBy
-b2Nlc3MpIDwgMCkNCj4gKwkJZ290byBlcnJfYWxsb2NfZG9vcmJlbGxzOw0KPiAgIA0KPiAgIAll
-cnIgPSBwcW1faW5pdCgmcHJvY2Vzcy0+cHFtLCBwcm9jZXNzKTsNCj4gICAJaWYgKGVyciAhPSAw
-KQ0KPiAgIAkJZ290byBlcnJfcHJvY2Vzc19wcW1faW5pdDsNCj4gICANCj4gICAJLyogaW5pdCBw
-cm9jZXNzIGFwZXJ0dXJlcyovDQo+IC0JcHJvY2Vzcy0+aXNfMzJiaXRfdXNlcl9tb2RlID0gaW5f
-Y29tcGF0X3N5c2NhbGwoKTsNCj4gICAJZXJyID0ga2ZkX2luaXRfYXBlcnR1cmVzKHByb2Nlc3Mp
-Ow0KPiAgIAlpZiAoZXJyICE9IDApDQo+ICAgCQlnb3RvIGVycl9pbml0X2FwZXJ0dXJlczsNCj4g
-ICANCj4gLQlJTklUX0RFTEFZRURfV09SSygmcHJvY2Vzcy0+ZXZpY3Rpb25fd29yaywgZXZpY3Rf
-cHJvY2Vzc193b3JrZXIpOw0KPiAtCUlOSVRfREVMQVlFRF9XT1JLKCZwcm9jZXNzLT5yZXN0b3Jl
-X3dvcmssIHJlc3RvcmVfcHJvY2Vzc193b3JrZXIpOw0KPiAtCXByb2Nlc3MtPmxhc3RfcmVzdG9y
-ZV90aW1lc3RhbXAgPSBnZXRfamlmZmllc182NCgpOw0KPiAtDQo+IC0JZXJyID0ga2ZkX3Byb2Nl
-c3NfaW5pdF9jd3NyX2FwdShwcm9jZXNzLCBmaWxlcCk7DQo+ICsJLyogTXVzdCBiZSBsYXN0LCBo
-YXZlIHRvIHVzZSByZWxlYXNlIGRlc3RydWN0aW9uIGFmdGVyIHRoaXMgKi8NCj4gKwlwcm9jZXNz
-LT5tbXVfbm90aWZpZXIub3BzID0gJmtmZF9wcm9jZXNzX21tdV9ub3RpZmllcl9vcHM7DQo+ICsJ
-ZXJyID0gbW11X25vdGlmaWVyX3JlZ2lzdGVyKCZwcm9jZXNzLT5tbXVfbm90aWZpZXIsIHByb2Nl
-c3MtPm1tKTsNCj4gICAJaWYgKGVycikNCj4gICAJCWdvdG8gZXJyX2luaXRfY3dzcjsNCg0KVGhp
-cyBsYWJlbCBzaG91bGQgYmUgcmVuYW1lZCB0byBzb21ldGhpbmcgbGlrZSBlcnJfbW11X25vdGlm
-aWVyLiBXaXRoIA0KdGhhdCBmaXhlZCB0aGlzIHBhdGNoIGlzDQoNClJldmlld2VkLWJ5OiBGZWxp
-eCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4NCg0KPiAgIA0KPiArCWdldF90YXNr
-X3N0cnVjdChwcm9jZXNzLT5sZWFkX3RocmVhZCk7DQo+ICsJaGFzaF9hZGRfcmN1KGtmZF9wcm9j
-ZXNzZXNfdGFibGUsICZwcm9jZXNzLT5rZmRfcHJvY2Vzc2VzLA0KPiArCQkJKHVpbnRwdHJfdClw
-cm9jZXNzLT5tbSk7DQo+ICsNCj4gICAJcmV0dXJuIHByb2Nlc3M7DQo+ICAgDQo+ICAgZXJyX2lu
-aXRfY3dzcjoNCj4gQEAgLTY3NSwxNSArNjc1LDExIEBAIHN0YXRpYyBzdHJ1Y3Qga2ZkX3Byb2Nl
-c3MgKmNyZWF0ZV9wcm9jZXNzKGNvbnN0IHN0cnVjdCB0YXNrX3N0cnVjdCAqdGhyZWFkLA0KPiAg
-IGVycl9pbml0X2FwZXJ0dXJlczoNCj4gICAJcHFtX3VuaW5pdCgmcHJvY2Vzcy0+cHFtKTsNCj4g
-ICBlcnJfcHJvY2Vzc19wcW1faW5pdDoNCj4gLQloYXNoX2RlbF9yY3UoJnByb2Nlc3MtPmtmZF9w
-cm9jZXNzZXMpOw0KPiAtCXN5bmNocm9uaXplX3JjdSgpOw0KPiAtCW1tdV9ub3RpZmllcl91bnJl
-Z2lzdGVyX25vX3JlbGVhc2UoJnByb2Nlc3MtPm1tdV9ub3RpZmllciwgcHJvY2Vzcy0+bW0pOw0K
-PiAtZXJyX21tdV9ub3RpZmllcjoNCj4gLQltdXRleF9kZXN0cm95KCZwcm9jZXNzLT5tdXRleCk7
-DQo+ICAgCWtmZF9mcmVlX3Byb2Nlc3NfZG9vcmJlbGxzKHByb2Nlc3MpOw0KPiAgIGVycl9hbGxv
-Y19kb29yYmVsbHM6DQo+ICAgCWtmZF9wYXNpZF9mcmVlKHByb2Nlc3MtPnBhc2lkKTsNCj4gICBl
-cnJfYWxsb2NfcGFzaWQ6DQo+ICsJbXV0ZXhfZGVzdHJveSgmcHJvY2Vzcy0+bXV0ZXgpOw0KPiAg
-IAlrZnJlZShwcm9jZXNzKTsNCj4gICBlcnJfYWxsb2NfcHJvY2VzczoNCj4gICAJcmV0dXJuIEVS
-Ul9QVFIoZXJyKTsNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bA==
+
+--===============1973737553==
+Content-Type: multipart/alternative; boundary="15649544246.BfAA2a52E.10446"
+Content-Transfer-Encoding: 7bit
+
+
+--15649544246.BfAA2a52E.10446
+Date: Sun, 4 Aug 2019 21:33:44 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110199
+
+--- Comment #13 from 192k@protonmail.com ---
+I can confirm this issue exists on rx560
+
+i have discovered a workaround,=20
+
+if you copy the stock powerplaytable to a file with
+cat /sys/class/drm/card0/device/pp_table > pptable
+
+then load the stock pptable with
+
+sudo bash -c 'echo pptable > /sys/class/drm/card0/device/pp_table'
+
+the flickering goes away without having to lock the mclk to the highest sta=
+te
+
+it may also be related to https://bugs.freedesktop.org/show_bug.cgi?id=3D11=
+0347
+this bug.
+by default at boot the voltage for the highest pstate is the maximum allowa=
+ble
+voltage(1150mv) not the powerplay defined voltage of 1025mv, all other psta=
+tes
+are not effected
+
+this is also corrected after reloading the pptable manually.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15649544246.BfAA2a52E.10446
+Date: Sun, 4 Aug 2019 21:33:44 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu] Screen flickering when using a 75Hz monitor pair=
+ed with an RX 480 GPU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110199#c13">Comme=
+nt # 13</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - [amdgpu] Screen flickering when using a 75Hz monitor pair=
+ed with an RX 480 GPU"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110199">bug 11019=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+192k&#64;protonmail.com" title=3D"192k&#64;protonmail.com">192k&#64;protonm=
+ail.com</a>
+</span></b>
+        <pre>I can confirm this issue exists on rx560
+
+i have discovered a workaround,=20
+
+if you copy the stock powerplaytable to a file with
+cat /sys/class/drm/card0/device/pp_table &gt; pptable
+
+then load the stock pptable with
+
+sudo bash -c 'echo pptable &gt; /sys/class/drm/card0/device/pp_table'
+
+the flickering goes away without having to lock the mclk to the highest sta=
+te
+
+it may also be related to <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pp_od_clk_voltage mV cap ignored"
+   href=3D"show_bug.cgi?id=3D110347">https://bugs.freedesktop.org/show_bug.=
+cgi?id=3D110347</a>
+this bug.
+by default at boot the voltage for the highest pstate is the maximum allowa=
+ble
+voltage(1150mv) not the powerplay defined voltage of 1025mv, all other psta=
+tes
+are not effected
+
+this is also corrected after reloading the pptable manually.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15649544246.BfAA2a52E.10446--
+
+--===============1973737553==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1973737553==--
