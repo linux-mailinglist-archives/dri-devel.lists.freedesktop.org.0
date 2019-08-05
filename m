@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8358481595
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 11:36:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4B68159B
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 11:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8276389D2F;
-	Mon,  5 Aug 2019 09:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C4189D39;
+	Mon,  5 Aug 2019 09:37:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E683489D2F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 09:35:59 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1huZPK-0007Vp-8W; Mon, 05 Aug 2019 11:35:58 +0200
-Message-ID: <1564997756.3056.13.camel@pengutronix.de>
-Subject: Re: [PATCH v1 01/16] drm/bridge: tc358767: fix opencoded use of
- drm_panel_*
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org, 
- Thierry Reding <thierry.reding@gmail.com>
-Date: Mon, 05 Aug 2019 11:35:56 +0200
-In-Reply-To: <20190804201637.1240-2-sam@ravnborg.org>
-References: <20190804201637.1240-1-sam@ravnborg.org>
- <20190804201637.1240-2-sam@ravnborg.org>
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 01DCF6E3C9
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 09:37:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F2CC572167; Mon,  5 Aug 2019 09:37:19 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111296] testinggg
+Date: Mon, 05 Aug 2019 09:37:19 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_group component product version resolution
+Message-ID: <bug-111296-502-JzzowB2rTB@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111296-502@http.bugs.freedesktop.org/>
+References: <bug-111296-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,56 +52,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Maxime Ripard <maxime.ripard@bootlin.com>, Kukjin Kim <kgene@kernel.org>,
- Allison Randal <allison@lohutok.net>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>, Alison Wang <alison.wang@nxp.com>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Alexios Zavras <alexios.zavras@intel.com>, linux-samsung-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
- Jernej Skrabec <jernej.skrabec@siol.net>, Shawn Guo <shawnguo@kernel.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Enrico Weigelt <info@metux.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0377720363=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAyMDE5LTA4LTA0IGF0IDIyOjE2ICswMjAwLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4g
-UmVwbGFjZSBvcGVuIGNvZGVkIHZlcnNpb24gd2l0aCBjYWxsIHRvIGRybV9wYW5lbF9nZXRfbW9k
-ZXMoKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+
-Cj4gQ2M6IEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4gQ2M6IE5laWwgQXJt
-c3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPiBDYzogTGF1cmVudCBQaW5jaGFydCA8
-TGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+IENjOiBKb25hcyBLYXJsbWFuIDxq
-b25hc0Brd2lib28uc2U+Cj4gQ2M6IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BzaW9s
-Lm5ldD4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jIHwgMTAgKysr
-Ky0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygt
-KQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMgYi9k
-cml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKPiBpbmRleCA0MmYwM2E5ODVhYzAuLmNl
-YmM4ZTYyMDgyMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3
-LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3LmMKPiBAQCAtMTMxMiw3
-ICsxMzEyLDcgQEAgc3RhdGljIGludCB0Y19jb25uZWN0b3JfZ2V0X21vZGVzKHN0cnVjdCBkcm1f
-Y29ubmVjdG9yICpjb25uZWN0b3IpCj4gIHsKPiAgCXN0cnVjdCB0Y19kYXRhICp0YyA9IGNvbm5l
-Y3Rvcl90b190Yyhjb25uZWN0b3IpOwo+ICAJc3RydWN0IGVkaWQgKmVkaWQ7Cj4gLQl1bnNpZ25l
-ZCBpbnQgY291bnQ7Cj4gKwlpbnQgY291bnQ7CgpUaGlzIGxvb2tzIGxpa2UgaXQgYWxzbyBmaXhl
-cyBhIHBvdGVudGlhbCBidWcgLi4uCgo+ICAJaW50IHJldDsKPiAgCj4gIAlyZXQgPSB0Y19nZXRf
-ZGlzcGxheV9wcm9wcyh0Yyk7Cj4gQEAgLTEzMjEsMTEgKzEzMjEsOSBAQCBzdGF0aWMgaW50IHRj
-X2Nvbm5lY3Rvcl9nZXRfbW9kZXMoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKPiAg
-CQlyZXR1cm4gMDsKPiAgCX0KPiAgCj4gLQlpZiAodGMtPnBhbmVsICYmIHRjLT5wYW5lbC0+ZnVu
-Y3MgJiYgdGMtPnBhbmVsLT5mdW5jcy0+Z2V0X21vZGVzKSB7Cj4gLQkJY291bnQgPSB0Yy0+cGFu
-ZWwtPmZ1bmNzLT5nZXRfbW9kZXModGMtPnBhbmVsKTsKPiAtCQlpZiAoY291bnQgPiAwKQoKLi4u
-IHdoZW4gLmdldF9tb2RlcyByZXR1cm5zIGEgbmVnYXRpdmUgdmFsdWUuCgo+IC0JCQlyZXR1cm4g
-Y291bnQ7Cj4gLQl9Cj4gKwljb3VudCA9IGRybV9wYW5lbF9nZXRfbW9kZXModGMtPnBhbmVsKTsK
-PiArCWlmIChjb3VudCA+IDApCj4gKwkJcmV0dXJuIGNvdW50Owo+ICAKPiAgCWVkaWQgPSBkcm1f
-Z2V0X2VkaWQoY29ubmVjdG9yLCAmdGMtPmF1eC5kZGMpOwoKUmV2aWV3ZWQtYnk6IFBoaWxpcHAg
-WmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+CgpyZWdhcmRzClBoaWxpcHAKCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============0377720363==
+Content-Type: multipart/alternative; boundary="15649978392.8AFBC53.26897"
+Content-Transfer-Encoding: 7bit
+
+
+--15649978392.8AFBC53.26897
+Date: Mon, 5 Aug 2019 09:37:19 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111296
+
+Andre Klapper <a9016009@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+              Group|                            |spam
+          Component|DRM/AMDgpu                  |Two
+            Product|DRI                         |Spam
+            Version|DRI git                     |unspecified
+         Resolution|FIXED                       |INVALID
+
+--- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
+Go away and test somewhere else.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15649978392.8AFBC53.26897
+Date: Mon, 5 Aug 2019 09:37:19 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - testinggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111296">bug 11129=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>DRM/AMDgpu
+           </td>
+           <td>Two
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Version</td>
+           <td>DRI git
+           </td>
+           <td>unspecified
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>FIXED
+           </td>
+           <td>INVALID
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - testinggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111296#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - testinggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111296">bug 11129=
+6</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>Go away and test somewhere else.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15649978392.8AFBC53.26897--
+
+--===============0377720363==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0377720363==--
