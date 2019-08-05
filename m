@@ -1,56 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292B982C92
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 09:25:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5530282C9E
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 09:25:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1893489BAE;
-	Tue,  6 Aug 2019 07:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2394C6E2EA;
+	Tue,  6 Aug 2019 07:24:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F71D89C63;
- Mon,  5 Aug 2019 19:34:57 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id x15so75854826wmj.3;
- Mon, 05 Aug 2019 12:34:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=FFXuFRa8iOJ18WlRqHjA8mIfxhC5O27ek028/P9Nj6g=;
- b=QwKac3JvibxSX/GFX8iR9qxrVTbf/FEbl4q7M6SNxOBzofEll2Mx+B0XsfAQbT4zdL
- i5MnXjviMvG2ugjfWW46ddgJR4CNB5U050aDRampfMhdR7rbgs8xAb2xO5+jRDSCcpiT
- 3dp+Klb3H9swbVROhEp/uJsT18GWb7LyCFCYX817QXmz+px5nxkodtaUiO5/9Wtk64wB
- jsGzzpkV4XzlOk5yPyxlIKhrn6Mb7bKf+2hOMtbnOa3pc4b4ls7UtEv6V3RMV36v0NX7
- 5IWeO7P2xf+waJt3YuHfBPRsW00ZTMhwcR1hQkZgUqv7QWdJKkVqWE9h8VImALXTNAgj
- XHpg==
-X-Gm-Message-State: APjAAAUBRyLQsHflKInCtdTTXOydzKa5crf4Pv/DAT6QWemcwYU0n9TA
- mARl/DCdUDw4YZguXLhwHfGA3TZSIleWW/LqaNA=
-X-Google-Smtp-Source: APXvYqzQwPdYG/05WIdvFe7B2TldXfshdQgaGz6CQHxHiMyKKy8UPn3A4735rs5uV/9BZt8J+BjS7BERTS3hlQfdMGY=
-X-Received: by 2002:a1c:3cc4:: with SMTP id j187mr27979wma.36.1565033696014;
- Mon, 05 Aug 2019 12:34:56 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7CE989DFB
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 21:08:16 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: alyssa) with ESMTPSA id 0834228A0FB
+Date: Mon, 5 Aug 2019 14:08:09 -0700
+From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/2] drm/panfrost: Add madvise and shrinker support
+Message-ID: <20190805210809.GA4376@kevin>
+References: <20190805143358.21245-1-robh@kernel.org>
+ <20190805143358.21245-2-robh@kernel.org>
+ <20190805155209.GA5909@kevin>
+ <CAL_JsqL17x6nr9BzXGXeNimG5OwySsYCtBd6UtLEtATWR1jt4A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190805160307.5418-1-sergey.senozhatsky@gmail.com>
-In-Reply-To: <20190805160307.5418-1-sergey.senozhatsky@gmail.com>
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Mon, 5 Aug 2019 21:34:44 +0200
-Message-ID: <CA+icZUUBSnri4oCFoN+Bi_kJoDVYgwjbrBR7D+JAQVqC0AFYLQ@mail.gmail.com>
-Subject: Re: [PATCHv2 0/3] convert i915 to new mount API
-To: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+In-Reply-To: <CAL_JsqL17x6nr9BzXGXeNimG5OwySsYCtBd6UtLEtATWR1jt4A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Tue, 06 Aug 2019 07:24:35 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=FFXuFRa8iOJ18WlRqHjA8mIfxhC5O27ek028/P9Nj6g=;
- b=WsLcSMIgN5vkl1yy7iONJEshW98E90rrKMzbCSOKKh8JSFEixPuDVuMlstE6TxP4gN
- QUEP99WNKhoqQkTajWuH6ILafJrrHcjcurs34RhJ6qrpsq2910lEtDPjKRGwc6s1qdLg
- +msxnDNP23bk7n/QMR1WKv/nuDTY/coyNBqRBKPiiLQ6akDIqAvrPWT21N9Ge+ztY5l8
- Ng+29x+TRqdCet6LuAM7EtDTSuEPWS6BHbgiopiiHqIk2L0KP9o2EEnkInn8tt+smUDS
- pdslRN/wwRb2XmXyt3fHVbrpoGrGXkq9K7nfhuiYUTmph4efQkYxcMfWZ5H8PhLQq+IR
- ajjQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,34 +40,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sedat.dilek@gmail.com
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- David Howells <dhowells@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, linux-fsdevel@vger.kernel.org,
- Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Steven Price <steven.price@arm.com>
+Content-Type: multipart/mixed; boundary="===============0559315442=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBBdWcgNSwgMjAxOSBhdCA2OjA1IFBNIFNlcmdleSBTZW5vemhhdHNreQo8c2VyZ2V5
-LnNlbm96aGF0c2t5QGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiAgICAgICAgIEhlbGxvLAo+Cj4gQ29u
-dmVydCBpOTE1IHRvIGEgbmV3IG1vdW50IEFQSSBhbmQgZml4IGk5MTVfZ2VtZnNfaW5pdCgpIGtl
-cm5lbCBPb3BzLgo+Cj4gSXQgYWxzbyBhcHBlYXJzIHRoYXQgd2UgbmVlZCB0byBFWFBPUlRzIHB1
-dF9maWxlc3lzdGVtKCksIHNvIGk5MTUKPiBjYW4gcHJvcGVybHkgcHV0IGZpbGVzeXN0ZW0gYWZ0
-ZXIgaXQgaXMgZG9uZSB3aXRoIGtlcm5fbW91bnQoKS4KPgo+IHYyOgo+IC0gZXhwb3J0IHB1dF9m
-aWxlc3lzdGVtKCkgW0NocmlzXQo+IC0gYWx3YXlzIHB1dF9maWxlc3lzdGVtKCkgaW4gaTkxNV9n
-ZW1mc19pbml0KCkgW0NocmlzXQo+IC0gaW1wcm92ZSBpOTE1X2dlbWZzX2luaXQoKSBlcnJvciBt
-ZXNzYWdlIFtDaHJpc10KPgo+IFNlcmdleSBTZW5vemhhdHNreSAoMyk6Cj4gICBmczogZXhwb3J0
-IHB1dF9maWxlc3lzdGVtKCkKPiAgIGk5MTU6IGNvbnZlcnQgdG8gbmV3IG1vdW50IEFQSQo+ICAg
-aTkxNTogZG8gbm90IGxlYWsgbW9kdWxlIHJlZiBjb3VudGVyCj4KCkZlZSBmcmVlIHRvIGFkZDoK
-ClJlcG9ydGVkLWJ5OiBTZWRhdCBEaWxlayA8c2VkYXQuZGlsZWtAZ21haWwuY29tPgoKWzFdIGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvQ0EraWNaVVhoMDY4bThVRmVIRFhDS0RpMFlmTDJa
-PVdvT055N0o3REpMcUFUMUNaK3JRQG1haWwuZ21haWwuY29tLwoKPiAgZHJpdmVycy9ncHUvZHJt
-L2k5MTUvZ2VtL2k5MTVfZ2VtZnMuYyB8IDMzICsrKysrKysrKysrKysrKysrKystLS0tLS0tLQo+
-ICBmcy9maWxlc3lzdGVtcy5jICAgICAgICAgICAgICAgICAgICAgIHwgIDEgKwo+ICAyIGZpbGVz
-IGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCj4KPiAtLQo+IDIuMjIu
-MAo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0559315442==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
+
+
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+> > Just to clarify about the `retained` flag: if userspace does a
+> > madvise(WILLNEED) and we find out that retained=3D0, what's supposed to
+> > happen?
+> >
+> > Should userspace evict the BO from its local cache and allocate one
+> > fresh?
+>=20
+> Yes. Just like msm/freedreno.
+
+Got it. In that case, the series has my A-b :)
+
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl1ImrQACgkQ/v5QWgr1
+WA0WUA//VsQARTgfZgX2WlCn2W8aJt/j+K/5pxq5NEIbV3hovGK0gv6Cpj5G2D1x
+8sbIwWSa9rbPU50J+VLV/aTjRLpFxtfTsNJ3zE62nJG/1FOxa62Lsxdy0nbuq6B6
+uzYAWU428jJl0KwqayUVnupTt1eT9ctA7OwlSySAwiRY76VkEpzXUknf1FoLOii0
+sPA3GDbQv2X/CDGrOXw/j4cS6/wxijsewaa6Y0/O0/qqEoHZMXINMUL1GgKa0cVz
+IndjQWoOuN1GipKlSeNw/P7z0ZzVe9LP3rvSLAikOmXommrGnpSHQPhFHwEqh+8p
+CfqUzCTuymZ5xH9s/btJwJBcbBpkn4f/mXDEA76TzvFPLpdHqqRnfSeWFoFRNR+Q
+wnT2T7TxTkwVJCiXWbdCxyp78RVF/CjN6gw8sqZm+hWo4b1RB7OObYqJ32FKTFCT
+FqClz4s1/PMcdiA59/QWY22zriY2qh0IPWx05DATrbejrwqQ4ELjWOnWIdpgKcqr
+of+llT3Ajs2zBQt12RnuRQLdm5oYr6zLyt7B7v9AKKIRYUS+XAY2bwf+YBuhCW9Q
+l4gB/i9kH2tv8xjt8W2Jk0ta/Lrg7uFwIUpxxlQlS2u5YeYVRKtYQGgvnFZHTbV6
+x0mSFbs0t51suqngxT87lMvMMz1T5v3EzxrkPYEjPh0Wt7KhnCM=
+=dcC6
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
+
+--===============0559315442==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0559315442==--
