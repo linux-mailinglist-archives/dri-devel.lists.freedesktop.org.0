@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC4181F22
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 16:30:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A48F81F29
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 16:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 663FD89D2E;
-	Mon,  5 Aug 2019 14:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 684C689E2C;
+	Mon,  5 Aug 2019 14:34:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E710189D2E
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 14:30:23 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DEA7C72168; Mon,  5 Aug 2019 14:30:23 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+ [209.85.166.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 127E589E43
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 14:34:02 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id j6so68766ioa.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 05 Aug 2019 07:34:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uSH6HC+fPKJWaHpFvpD9jlBMJi/IsTvSr92waspiYr4=;
+ b=UjxK6nAJ4xsZ3tyjlQ8ZAxszU9h/07YKJJpNrk0EsgtBxbP7w3eq9LGqn2nMrzWkhS
+ FOiX0b2GisqRq6cLckVygdOLrlpJphbsdtgmLQQqX1rIhSoQKqD0vyCrSExDR20BnXR6
+ D8VWqam5WC/XFkkKqqXdIeJqH43PuBr7GiVwKaMd2MjBwRGcWyxVJAdFdE8Bv/6u9HUs
+ lebuuVl9+6Upm2DsMdEVOXuqviXhX+yxc5xpuXicZnLiJOAud4QGmi72PTuUsilahMwZ
+ NTxzVdJjGdDchckOs22jOaO3sOeQdkltbFvj5bM11hnkpA1ftjo+DUuoudJcSJ+yLECO
+ JwSw==
+X-Gm-Message-State: APjAAAX8HFt3a/Azav+l4/UmGTvZ556cOeudthQuUseBCJggXATCjQ+4
+ sYvL/cjRgyOltE/ZvMYbY5r/I8U=
+X-Google-Smtp-Source: APXvYqzKGYiejTO56QoXRCCgymxx2OOE0J6HkbdLJwf48gB/slhli93X10v2WZ/uCmjAIO/71TaVww==
+X-Received: by 2002:a02:c916:: with SMTP id t22mr16139364jao.24.1565015640689; 
+ Mon, 05 Aug 2019 07:34:00 -0700 (PDT)
+Received: from xps15.herring.priv ([64.188.179.254])
+ by smtp.googlemail.com with ESMTPSA id y5sm87918337ioc.86.2019.08.05.07.33.58
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 05 Aug 2019 07:33:59 -0700 (PDT)
+From: Rob Herring <robh@kernel.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111299] AMD RX 570 Black Screen/Hang at startup (AMDGpu DC
- problem)
-Date: Mon, 05 Aug 2019 14:30:24 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: suren.karimp@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111299-502-bniX4HMbbo@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111299-502@http.bugs.freedesktop.org/>
-References: <bug-111299-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Subject: [PATCH 1/2] drm/shmem: Add madvise state and purge helpers
+Date: Mon,  5 Aug 2019 08:33:57 -0600
+Message-Id: <20190805143358.21245-1-robh@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,94 +54,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2057484005=="
+Cc: Rob Clark <robdclark@chromium.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, David Airlie <airlied@linux.ie>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2057484005==
-Content-Type: multipart/alternative; boundary="15650154231.59EcbcFD6.14217"
-Content-Transfer-Encoding: 7bit
-
-
---15650154231.59EcbcFD6.14217
-Date: Mon, 5 Aug 2019 14:30:23 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111299
-
---- Comment #2 from Surena Karimpour <suren.karimp@gmail.com> ---
-Its not possible to report without amdgpu.dc=3D0
-Its absolutely impossible to boot the system, it tries to boot and then 'di=
-es',
-quite literally, as nothing functions on the system.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15650154231.59EcbcFD6.14217
-Date: Mon, 5 Aug 2019 14:30:23 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD RX 570 Black Screen/Hang at startup (AMDGpu DC proble=
-m)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111299#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - AMD RX 570 Black Screen/Hang at startup (AMDGpu DC proble=
-m)"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111299">bug 11129=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-suren.karimp&#64;gmail.com" title=3D"Surena Karimpour &lt;suren.karimp&#64;=
-gmail.com&gt;"> <span class=3D"fn">Surena Karimpour</span></a>
-</span></b>
-        <pre>Its not possible to report without amdgpu.dc=3D0
-Its absolutely impossible to boot the system, it tries to boot and then 'di=
-es',
-quite literally, as nothing functions on the system.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15650154231.59EcbcFD6.14217--
-
---===============2057484005==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2057484005==--
+QWRkIHN1cHBvcnQgdG8gdGhlIHNobWVtIEdFTSBoZWxwZXJzIGZvciB0cmFja2luZyBtYWR2aXNl
+IHN0YXRlIGFuZApwdXJnaW5nIHBhZ2VzLiBUaGlzIGlzIGJhc2VkIG9uIHRoZSBtc20gaW1wbGVt
+ZW50YXRpb24uCgpUaGUgQk8gcHJvdmlkZXMgYSBsaXN0X2hlYWQsIGJ1dCB0aGUgbGlzdCBtYW5h
+Z2VtZW50IGlzIGhhbmRsZWQgb3V0c2lkZQpvZiB0aGUgc2htZW0gaGVscGVycyBhcyB0aGVyZSBh
+cmUgZGlmZmVyZW50IGxvY2tpbmcgcmVxdWlyZW1lbnRzLgoKQ2M6IFRvbWV1IFZpem9zbyA8dG9t
+ZXUudml6b3NvQGNvbGxhYm9yYS5jb20+CkNjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5s
+YW5raG9yc3RAbGludXguaW50ZWwuY29tPgpDYzogTWF4aW1lIFJpcGFyZCA8bWF4aW1lLnJpcGFy
+ZEBib290bGluLmNvbT4KQ2M6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgpDYzogRGF2aWQg
+QWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
+LmNoPgpDYzogRXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KU2lnbmVkLW9mZi1ieTogUm9i
+IEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV9z
+aG1lbV9oZWxwZXIuYyB8IDU3ICsrKysrKysrKysrKysrKysrKysrKysrKysrCiBpbmNsdWRlL2Ry
+bS9kcm1fZ2VtX3NobWVtX2hlbHBlci5oICAgICB8IDE1ICsrKysrKysKIDIgZmlsZXMgY2hhbmdl
+ZCwgNzIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
+X3NobWVtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmMK
+aW5kZXggMmY2NDY2N2FjODA1Li40YjQ0MjU3NmRlMWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
+X3NobWVtX2hlbHBlci5jCkBAIC03NSw2ICs3NSw3IEBAIHN0cnVjdCBkcm1fZ2VtX3NobWVtX29i
+amVjdCAqZHJtX2dlbV9zaG1lbV9jcmVhdGUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc2l6ZV90
+CiAJc2htZW0gPSB0b19kcm1fZ2VtX3NobWVtX29iaihvYmopOwogCW11dGV4X2luaXQoJnNobWVt
+LT5wYWdlc19sb2NrKTsKIAltdXRleF9pbml0KCZzaG1lbS0+dm1hcF9sb2NrKTsKKwlJTklUX0xJ
+U1RfSEVBRCgmc2htZW0tPm1hZHZfbGlzdCk7CiAKIAkvKgogCSAqIE91ciBidWZmZXJzIGFyZSBr
+ZXB0IHBpbm5lZCwgc28gYWxsb2NhdGluZyB0aGVtCkBAIC0zNjIsNiArMzYzLDYyIEBAIGRybV9n
+ZW1fc2htZW1fY3JlYXRlX3dpdGhfaGFuZGxlKHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2LAog
+fQogRVhQT1JUX1NZTUJPTChkcm1fZ2VtX3NobWVtX2NyZWF0ZV93aXRoX2hhbmRsZSk7CiAKKy8q
+IFVwZGF0ZSBtYWR2aXNlIHN0YXR1cywgcmV0dXJucyB0cnVlIGlmIG5vdCBwdXJnZWQsIGVsc2UK
+KyAqIGZhbHNlIG9yIC1lcnJuby4KKyAqLworaW50IGRybV9nZW1fc2htZW1fbWFkdmlzZShzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgaW50IG1hZHYpCit7CisJc3RydWN0IGRybV9nZW1fc2ht
+ZW1fb2JqZWN0ICpzaG1lbSA9IHRvX2RybV9nZW1fc2htZW1fb2JqKG9iaik7CisKKwltdXRleF9s
+b2NrKCZzaG1lbS0+cGFnZXNfbG9jayk7CisKKwlpZiAoc2htZW0tPm1hZHYgPj0gMCkKKwkJc2ht
+ZW0tPm1hZHYgPSBtYWR2OworCisJbWFkdiA9IHNobWVtLT5tYWR2OworCisJbXV0ZXhfdW5sb2Nr
+KCZzaG1lbS0+cGFnZXNfbG9jayk7CisKKwlyZXR1cm4gKG1hZHYgPj0gMCk7Cit9CitFWFBPUlRf
+U1lNQk9MKGRybV9nZW1fc2htZW1fbWFkdmlzZSk7CisKK3ZvaWQgZHJtX2dlbV9zaG1lbV9wdXJn
+ZV9sb2NrZWQoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopCit7CisJc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiA9IG9iai0+ZGV2OworCXN0cnVjdCBkcm1fZ2VtX3NobWVtX29iamVjdCAqc2htZW0g
+PSB0b19kcm1fZ2VtX3NobWVtX29iaihvYmopOworCisJV0FSTl9PTighZHJtX2dlbV9zaG1lbV9p
+c19wdXJnZWFibGUoc2htZW0pKTsKKworCWRybV9nZW1fc2htZW1fcHV0X3BhZ2VzX2xvY2tlZChz
+aG1lbSk7CisKKwlzaG1lbS0+bWFkdiA9IC0xOworCisJZHJtX3ZtYV9ub2RlX3VubWFwKCZvYmot
+PnZtYV9ub2RlLCBkZXYtPmFub25faW5vZGUtPmlfbWFwcGluZyk7CisJZHJtX2dlbV9mcmVlX21t
+YXBfb2Zmc2V0KG9iaik7CisKKwkvKiBPdXIgZ29hbCBoZXJlIGlzIHRvIHJldHVybiBhcyBtdWNo
+IG9mIHRoZSBtZW1vcnkgYXMKKwkgKiBpcyBwb3NzaWJsZSBiYWNrIHRvIHRoZSBzeXN0ZW0gYXMg
+d2UgYXJlIGNhbGxlZCBmcm9tIE9PTS4KKwkgKiBUbyBkbyB0aGlzIHdlIG11c3QgaW5zdHJ1Y3Qg
+dGhlIHNobWZzIHRvIGRyb3AgYWxsIG9mIGl0cworCSAqIGJhY2tpbmcgcGFnZXMsICpub3cqLgor
+CSAqLworCXNobWVtX3RydW5jYXRlX3JhbmdlKGZpbGVfaW5vZGUob2JqLT5maWxwKSwgMCwgKGxv
+ZmZfdCktMSk7CisKKwlpbnZhbGlkYXRlX21hcHBpbmdfcGFnZXMoZmlsZV9pbm9kZShvYmotPmZp
+bHApLT5pX21hcHBpbmcsCisJCQkwLCAobG9mZl90KS0xKTsKK30KK0VYUE9SVF9TWU1CT0woZHJt
+X2dlbV9zaG1lbV9wdXJnZV9sb2NrZWQpOworCit2b2lkIGRybV9nZW1fc2htZW1fcHVyZ2Uoc3Ry
+dWN0IGRybV9nZW1fb2JqZWN0ICpvYmopCit7CisJc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0
+ICpzaG1lbSA9IHRvX2RybV9nZW1fc2htZW1fb2JqKG9iaik7CisKKwltdXRleF9sb2NrKCZzaG1l
+bS0+cGFnZXNfbG9jayk7CisJZHJtX2dlbV9zaG1lbV9wdXJnZV9sb2NrZWQob2JqKTsKKwltdXRl
+eF91bmxvY2soJnNobWVtLT5wYWdlc19sb2NrKTsKK30KK0VYUE9SVF9TWU1CT0woZHJtX2dlbV9z
+aG1lbV9wdXJnZSk7CisKIC8qKgogICogZHJtX2dlbV9zaG1lbV9kdW1iX2NyZWF0ZSAtIENyZWF0
+ZSBhIGR1bWIgc2htZW0gYnVmZmVyIG9iamVjdAogICogQGZpbGU6IERSTSBmaWxlIHN0cnVjdHVy
+ZSB0byBjcmVhdGUgdGhlIGR1bWIgYnVmZmVyIGZvcgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
+ZHJtX2dlbV9zaG1lbV9oZWxwZXIuaCBiL2luY2x1ZGUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
+LmgKaW5kZXggMDM4YjZkMzEzNDQ3Li5jZTE2MDBmZGZjM2UgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUv
+ZHJtL2RybV9nZW1fc2htZW1faGVscGVyLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2dlbV9zaG1l
+bV9oZWxwZXIuaApAQCAtNDQsNiArNDQsOSBAQCBzdHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3Qg
+ewogCSAqLwogCXVuc2lnbmVkIGludCBwYWdlc191c2VfY291bnQ7CiAKKwlpbnQgbWFkdjsKKwlz
+dHJ1Y3QgbGlzdF9oZWFkIG1hZHZfbGlzdDsKKwogCS8qKgogCSAqIEBwYWdlc19tYXJrX2RpcnR5
+X29uX3B1dDoKIAkgKgpAQCAtMTIxLDYgKzEyNCwxOCBAQCB2b2lkIGRybV9nZW1fc2htZW1fdW5w
+aW4oc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwogdm9pZCAqZHJtX2dlbV9zaG1lbV92bWFw
+KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKTsKIHZvaWQgZHJtX2dlbV9zaG1lbV92dW5tYXAo
+c3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHZvaWQgKnZhZGRyKTsKIAoraW50IGRybV9nZW1f
+c2htZW1fbWFkdmlzZShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgaW50IG1hZHYpOworCitz
+dGF0aWMgaW5saW5lIGJvb2wgZHJtX2dlbV9zaG1lbV9pc19wdXJnZWFibGUoc3RydWN0IGRybV9n
+ZW1fc2htZW1fb2JqZWN0ICpzaG1lbSkKK3sKKwlyZXR1cm4gKHNobWVtLT5tYWR2ID4gMCkgJiYK
+KwkJIXNobWVtLT52bWFwX3VzZV9jb3VudCAmJiBzaG1lbS0+c2d0ICYmCisJCSFzaG1lbS0+YmFz
+ZS5kbWFfYnVmICYmICFzaG1lbS0+YmFzZS5pbXBvcnRfYXR0YWNoOworfQorCit2b2lkIGRybV9n
+ZW1fc2htZW1fcHVyZ2VfbG9ja2VkKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKTsKK3ZvaWQg
+ZHJtX2dlbV9zaG1lbV9wdXJnZShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7CisKIHN0cnVj
+dCBkcm1fZ2VtX3NobWVtX29iamVjdCAqCiBkcm1fZ2VtX3NobWVtX2NyZWF0ZV93aXRoX2hhbmRs
+ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdiwKIAkJCQkgc3RydWN0IGRybV9kZXZpY2UgKmRl
+diwgc2l6ZV90IHNpemUsCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbA==
