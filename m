@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CF98253C
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 21:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A586382593
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 21:27:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 893F489F49;
-	Mon,  5 Aug 2019 19:00:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4D5D6E17F;
+	Mon,  5 Aug 2019 19:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 229E589F49
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 19:00:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 029E36E17F
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 19:27:31 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1F96C72167; Mon,  5 Aug 2019 19:00:34 +0000 (UTC)
+ id F3C5672167; Mon,  5 Aug 2019 19:27:30 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
- back on when amdgpu.dc=1
-Date: Mon, 05 Aug 2019 19:00:34 +0000
+Subject: [Bug 108641] Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks
+Date: Mon, 05 Aug 2019 19:27:31 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/r600
+X-Bugzilla-Version: 19.1
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tom@reed.vg
+X-Bugzilla-Who: steelwinged@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109246-502-ezQiqfano7@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
-References: <bug-109246-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: version
+Message-ID: <bug-108641-502-hQ6nTUK2xO@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108641-502@http.bugs.freedesktop.org/>
+References: <bug-108641-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,54 +52,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1341894384=="
+Content-Type: multipart/mixed; boundary="===============1155914585=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1341894384==
-Content-Type: multipart/alternative; boundary="15650316341.4CaEFC.30404"
+--===============1155914585==
+Content-Type: multipart/alternative; boundary="15650332501.031CAbf02.1077"
 Content-Transfer-Encoding: 7bit
 
 
---15650316341.4CaEFC.30404
-Date: Mon, 5 Aug 2019 19:00:34 +0000
+--15650332501.031CAbf02.1077
+Date: Mon, 5 Aug 2019 19:27:30 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108641
 
---- Comment #23 from Tom reed <tom@reed.vg> ---
-Confirmed problem. Dual monitors prevent DPMS power off.=20
-Problem happens when triggered by screen off or manually with xset dpms for=
-ce
-off.
+steelwinged@gmail.com changed:
 
-GPU is Gigabyte RX580.
-Ubuntu 18.04 LTS. Kernel 5.0.
-Monitors are 2 Dell S2719dc.=20
-
-Problem occurs on xorg and on Wayland.
-Problem occurs connected to HDMI and display port, and also with dual displ=
-ay
-port.
-
-A workaround is to disable auto input switching on the monitors. This solves
-the problem.
-
-Appears that when one monitor is switching inputs after turning off it wake=
-s up
-the other monitor. A race condition between the two.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Version|18.2                        |19.1
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15650316341.4CaEFC.30404
-Date: Mon, 5 Aug 2019 19:00:34 +0000
+--15650332501.031CAbf02.1077
+Date: Mon, 5 Aug 2019 19:27:30 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -111,46 +94,31 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:steelwing=
+ed&#64;gmail.com" title=3D"steelwinged&#64;gmail.com">steelwinged&#64;gmail=
+.com</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108641">bug 10864=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Version</td>
+           <td>18.2
+           </td>
+           <td>19.1
+           </td>
+         </tr></table>
       <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c23">Comme=
-nt # 23</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
-ck on when amdgpu.dc=3D1"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tom&#64;reed.vg" title=3D"Tom reed &lt;tom&#64;reed.vg&gt;"> <span class=3D=
-"fn">Tom reed</span></a>
-</span></b>
-        <pre>Confirmed problem. Dual monitors prevent DPMS power off.=20
-Problem happens when triggered by screen off or manually with xset dpms for=
-ce
-off.
-
-GPU is Gigabyte RX580.
-Ubuntu 18.04 LTS. Kernel 5.0.
-Monitors are 2 Dell S2719dc.=20
-
-Problem occurs on xorg and on Wayland.
-Problem occurs connected to HDMI and display port, and also with dual displ=
-ay
-port.
-
-A workaround is to disable auto input switching on the monitors. This solves
-the problem.
-
-Appears that when one monitor is switching inputs after turning off it wake=
-s up
-the other monitor. A race condition between the two.</pre>
-        </div>
       </p>
 
 
@@ -163,9 +131,9 @@ the other monitor. A race condition between the two.</pre>
     </body>
 </html>=
 
---15650316341.4CaEFC.30404--
+--15650332501.031CAbf02.1077--
 
---===============1341894384==
+--===============1155914585==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -175,4 +143,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1341894384==--
+--===============1155914585==--
