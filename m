@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C8782534
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 20:59:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CF98253C
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 21:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE7089F3C;
-	Mon,  5 Aug 2019 18:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 893F489F49;
+	Mon,  5 Aug 2019 19:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 10D7A89F4A
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 18:59:41 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 229E589F49
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 19:00:34 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0C0ED72167; Mon,  5 Aug 2019 18:59:41 +0000 (UTC)
+ id 1F96C72167; Mon,  5 Aug 2019 19:00:34 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Mon, 05 Aug 2019 18:59:41 +0000
+Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
+ back on when amdgpu.dc=1
+Date: Mon, 05 Aug 2019 19:00:34 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: rush@rushbase.net
+X-Bugzilla-Who: tom@reed.vg
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-tggaPWOY4a@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-109246-502-ezQiqfano7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
+References: <bug-109246-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,35 +53,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0773709552=="
+Content-Type: multipart/mixed; boundary="===============1341894384=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0773709552==
-Content-Type: multipart/alternative; boundary="15650315810.2C02cfA.28595"
+--===============1341894384==
+Content-Type: multipart/alternative; boundary="15650316341.4CaEFC.30404"
 Content-Transfer-Encoding: 7bit
 
 
---15650315810.2C02cfA.28595
-Date: Mon, 5 Aug 2019 18:59:41 +0000
+--15650316341.4CaEFC.30404
+Date: Mon, 5 Aug 2019 19:00:34 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
 
---- Comment #15 from Damian Kaczmarek <rush@rushbase.net> ---
-Are any other known workarounds? Perhaps some kernel options?
+--- Comment #23 from Tom reed <tom@reed.vg> ---
+Confirmed problem. Dual monitors prevent DPMS power off.=20
+Problem happens when triggered by screen off or manually with xset dpms for=
+ce
+off.
+
+GPU is Gigabyte RX580.
+Ubuntu 18.04 LTS. Kernel 5.0.
+Monitors are 2 Dell S2719dc.=20
+
+Problem occurs on xorg and on Wayland.
+Problem occurs connected to HDMI and display port, and also with dual displ=
+ay
+port.
+
+A workaround is to disable auto input switching on the monitors. This solves
+the problem.
+
+Appears that when one monitor is switching inputs after turning off it wake=
+s up
+the other monitor. A race condition between the two.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15650315810.2C02cfA.28595
-Date: Mon, 5 Aug 2019 18:59:41 +0000
+--15650316341.4CaEFC.30404
+Date: Mon, 5 Aug 2019 19:00:34 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -96,20 +116,40 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c15">Comme=
-nt # 15</a>
+   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
+ck on when amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c23">Comme=
+nt # 23</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
+   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
+ck on when amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-rush&#64;rushbase.net" title=3D"Damian Kaczmarek &lt;rush&#64;rushbase.net&=
-gt;"> <span class=3D"fn">Damian Kaczmarek</span></a>
+tom&#64;reed.vg" title=3D"Tom reed &lt;tom&#64;reed.vg&gt;"> <span class=3D=
+"fn">Tom reed</span></a>
 </span></b>
-        <pre>Are any other known workarounds? Perhaps some kernel options?<=
-/pre>
+        <pre>Confirmed problem. Dual monitors prevent DPMS power off.=20
+Problem happens when triggered by screen off or manually with xset dpms for=
+ce
+off.
+
+GPU is Gigabyte RX580.
+Ubuntu 18.04 LTS. Kernel 5.0.
+Monitors are 2 Dell S2719dc.=20
+
+Problem occurs on xorg and on Wayland.
+Problem occurs connected to HDMI and display port, and also with dual displ=
+ay
+port.
+
+A workaround is to disable auto input switching on the monitors. This solves
+the problem.
+
+Appears that when one monitor is switching inputs after turning off it wake=
+s up
+the other monitor. A race condition between the two.</pre>
         </div>
       </p>
 
@@ -123,9 +163,9 @@ gt;"> <span class=3D"fn">Damian Kaczmarek</span></a>
     </body>
 </html>=
 
---15650315810.2C02cfA.28595--
+--15650316341.4CaEFC.30404--
 
---===============0773709552==
+--===============1341894384==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -135,4 +175,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0773709552==--
+--===============1341894384==--
