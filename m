@@ -1,44 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCAF813DF
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 10:03:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EE6813E5
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 10:05:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF4CD6E2BC;
-	Mon,  5 Aug 2019 08:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCBA56E2B8;
+	Mon,  5 Aug 2019 08:04:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3F4786E2C1
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 08:03:21 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3BF1072167; Mon,  5 Aug 2019 08:03:21 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 108139] My HDMI stopped working at Linux 4.18.8
-Date: Mon, 05 Aug 2019 08:03:21 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: duncan_roe@optusnet.com.au
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-108139-502-GZpsi4SLTj@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-108139-502@http.bugs.freedesktop.org/>
-References: <bug-108139-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B87706E2B8;
+ Mon,  5 Aug 2019 08:04:56 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2019 01:04:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,349,1559545200"; d="scan'208";a="192361845"
+Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2019 01:04:54 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ramalingam C <ramalingam.c@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>
+Subject: Re: [Intel-gfx] [PATCH v12 0/6] HDCP2.2 Phase II
+In-Reply-To: <20190801114119.28830-1-ramalingam.c@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20190801114119.28830-1-ramalingam.c@intel.com>
+Date: Mon, 05 Aug 2019 11:09:11 +0300
+Message-ID: <87d0hkkp94.fsf@intel.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -52,126 +44,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1564141198=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1564141198==
-Content-Type: multipart/alternative; boundary="15649922012.0fcEcd.14763"
-Content-Transfer-Encoding: 7bit
-
-
---15649922012.0fcEcd.14763
-Date: Mon, 5 Aug 2019 08:03:21 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D108139
-
-Duncan Roe <duncan_roe@optusnet.com.au> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |FIXED
-
---- Comment #9 from Duncan Roe <duncan_roe@optusnet.com.au> ---
-Since Linux 5.1, I do not see this bug any more.
-So I guess it is "fixed".
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15649922012.0fcEcd.14763
-Date: Mon, 5 Aug 2019 08:03:21 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:duncan_ro=
-e&#64;optusnet.com.au" title=3D"Duncan Roe &lt;duncan_roe&#64;optusnet.com.=
-au&gt;"> <span class=3D"fn">Duncan Roe</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - My HDMI stopped working at Linux 4.18.8"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108139">bug 10813=
-9</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>NEW
-           </td>
-           <td>RESOLVED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>---
-           </td>
-           <td>FIXED
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - My HDMI stopped working at Linux 4.18.8"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108139#c9">Commen=
-t # 9</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - My HDMI stopped working at Linux 4.18.8"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108139">bug 10813=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-duncan_roe&#64;optusnet.com.au" title=3D"Duncan Roe &lt;duncan_roe&#64;optu=
-snet.com.au&gt;"> <span class=3D"fn">Duncan Roe</span></a>
-</span></b>
-        <pre>Since Linux 5.1, I do not see this bug any more.
-So I guess it is &quot;fixed&quot;.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15649922012.0fcEcd.14763--
-
---===============1564141198==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1564141198==--
+T24gVGh1LCAwMSBBdWcgMjAxOSwgUmFtYWxpbmdhbSBDIDxyYW1hbGluZ2FtLmNAaW50ZWwuY29t
+PiB3cm90ZToKPiBTZXJpZXMgYWRkcyB0aGUgY29udGVudF90eXBlIHN1cHBvcnQgZm9yIEhEQ1Ay
+LjIuIEFsb25nIHdpdGggdGhhdCB1ZXZlbnQKPiBpcyBzZW50IGZvciBlYWNoIEhEQ1Agc3RhdGUg
+Y2hhbmdlIHRyaWdnZXJlZCB3aXRoaW4ga2VybmVsLgoKQWNrZWQtYnk6IEphbmkgTmlrdWxhIDxq
+YW5pLm5pa3VsYUBpbnRlbC5jb20+CgpGb3IgbWVyZ2luZyB0aGUgaTkxNSBzcGVjaWZpYyBwYXJ0
+cyB2aWEgZHJtLW1pc2MgYWxvbmcgdGhlIHJlc3Qgb2YgdGhlCnBhdGNoZXMuCgo+Cj4gUGVra2Eg
+aGF2ZSBjb21wbGV0ZWQgdGhlIFdlc3RvbiBEUk0tYmFja2VuZCByZXZpZXcgaW4KPiBodHRwczov
+L2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvd2F5bGFuZC93ZXN0b24vbWVyZ2VfcmVxdWVzdHMvNDgK
+PiBhbmQgdGhlIFVBUEkgZm9yIEhEQ1AgMi4yIGxvb2tzIGdvb2QuCj4KPiBUaGUgdXNlcnNwYWNl
+IGlzIGFjY2VwdGVkIGluIFdlc3Rvbi4KPgo+IHYxMjoKPiAgIERSTV9NT0RFX0hEQ1BfQ09OVEVO
+VF9UWVBFeCBkZWZpbml0aW9uIGFyZSBtb3ZlZCBpbnRvIGRybV9oZGNwLmgKPiBbcGVra2FdCj4g
+ICBQaWNrZWQgQWNrZWQtYnkgYW5kIFItYnkgZnJvbSByZXZpZXdlcnMuCj4KPiBUZXN0LXdpdGg6
+IDwyMDE5MDcwMzA5NTQ0Ni4xNDA5Mi0yLXJhbWFsaW5nYW0uY0BpbnRlbC5jb20+Cj4KPiBSYW1h
+bGluZ2FtIEMgKDYpOgo+ICAgZHJtOiBBZGQgQ29udGVudCBwcm90ZWN0aW9uIHR5cGUgcHJvcGVy
+dHkKPiAgIGRybS9pOTE1OiBBdHRhY2ggY29udGVudCB0eXBlIHByb3BlcnR5Cj4gICBkcm06IHVl
+dmVudCBmb3IgY29ubmVjdG9yIHN0YXR1cyBjaGFuZ2UKPiAgIGRybS9oZGNwOiB1cGRhdGUgY29u
+dGVudCBwcm90ZWN0aW9uIHByb3BlcnR5IHdpdGggdWV2ZW50Cj4gICBkcm0vaTkxNTogdXBkYXRl
+IHRoZSBoZGNwIHN0YXRlIHdpdGggdWV2ZW50Cj4gICBkcm0vaGRjcDogcmVmZXJlbmNlIGZvciBz
+cm0gZmlsZSBmb3JtYXQKPgo+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMgICAg
+ICAgICB8ICA0ICsrCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgICAgICAgICAg
+IHwgNjggKysrKysrKysrKysrKysrKysrLS0KPiAgZHJpdmVycy9ncHUvZHJtL2RybV9oZGNwLmMg
+ICAgICAgICAgICAgICAgfCA3NyArKysrKysrKysrKysrKysrKysrKysrLQo+ICBkcml2ZXJzL2dw
+dS9kcm0vZHJtX3N5c2ZzLmMgICAgICAgICAgICAgICB8IDM1ICsrKysrKysrKysrCj4gIGRyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMgIHwgMzkgKysrKysrKysrKy0tCj4g
+IGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfaGRjcC5jIHwgNTMgKysrKysrKysr
+Ky0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2hkY3AuaCB8ICAy
+ICstCj4gIGluY2x1ZGUvZHJtL2RybV9jb25uZWN0b3IuaCAgICAgICAgICAgICAgIHwgIDcgKysr
+Cj4gIGluY2x1ZGUvZHJtL2RybV9oZGNwLmggICAgICAgICAgICAgICAgICAgIHwgIDkgKystCj4g
+IGluY2x1ZGUvZHJtL2RybV9tb2RlX2NvbmZpZy5oICAgICAgICAgICAgIHwgIDYgKysKPiAgaW5j
+bHVkZS9kcm0vZHJtX3N5c2ZzLmggICAgICAgICAgICAgICAgICAgfCAgNSArLQo+ICAxMSBmaWxl
+cyBjaGFuZ2VkLCAyNzEgaW5zZXJ0aW9ucygrKSwgMzQgZGVsZXRpb25zKC0pCgotLSAKSmFuaSBO
+aWt1bGEsIEludGVsIE9wZW4gU291cmNlIEdyYXBoaWNzIENlbnRlcgpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
