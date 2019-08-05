@@ -2,31 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31823813AC
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 09:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F25813AF
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 09:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1666E2B4;
-	Mon,  5 Aug 2019 07:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AD76E2A2;
+	Mon,  5 Aug 2019 07:51:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47EF66E2A2
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 07:49:51 +0000 (UTC)
-Received: from uno.localdomain
- (host150-24-dynamic.51-79-r.retail.telecomitalia.it [79.51.24.150])
- (Authenticated sender: jacopo@jmondi.org)
- by relay10.mail.gandi.net (Postfix) with ESMTPSA id A1E3A240004;
- Mon,  5 Aug 2019 07:49:45 +0000 (UTC)
-Date: Mon, 5 Aug 2019 09:51:09 +0200
-From: Jacopo Mondi <jacopo@jmondi.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar_lvds: Fix dual link mode operations
-Message-ID: <20190805075109.oe6slqetqoe5wqzr@uno.localdomain>
-References: <20190723165700.13124-1-jacopo+renesas@jmondi.org>
- <20190801151129.GF5024@pendragon.ideasonboard.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9D15C6E2A2
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 07:51:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 8F94D72167; Mon,  5 Aug 2019 07:51:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111296] testinggg
+Date: Mon, 05 Aug 2019 07:51:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pranjal.vervelogic@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-111296-502-yfdN0hMx9O@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111296-502@http.bugs.freedesktop.org/>
+References: <bug-111296-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20190801151129.GF5024@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -39,162 +52,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: fabrizio.castro@bp.renesas.com, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR RENESAS" <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: multipart/mixed; boundary="===============1745099436=="
+Content-Type: multipart/mixed; boundary="===============0736720751=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1745099436==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="f6oy4oxrt3xzydfx"
-Content-Disposition: inline
+--===============0736720751==
+Content-Type: multipart/alternative; boundary="15649914670.fd6Fd66.13087"
+Content-Transfer-Encoding: 7bit
 
 
---f6oy4oxrt3xzydfx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--15649914670.fd6Fd66.13087
+Date: Mon, 5 Aug 2019 07:51:07 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-Hi Laurent,
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111296
 
-On Thu, Aug 01, 2019 at 06:11:29PM +0300, Laurent Pinchart wrote:
-> Hello Jacopo,
->
-> Thank you for the patch.
->
-> On Tue, Jul 23, 2019 at 06:57:00PM +0200, Jacopo Mondi wrote:
-> > The R-Car LVDS encoder units support dual-link operations by splitting
-> > the pixel output between the primary encoder and the companion one.
->
-> s/the companion one/its companion/
->
-> >
-> > In order for the primary encoder to succesfully control the companion's
-> > operations this should not fail at probe time and register itself its
-> > associated drm bridge so that the primary one can find it.
->
-> This is hard to parse.
->
+Pranjal <pranjal.vervelogic@gmail.com> changed:
 
-Re-reading the whole commit message, I would actually drop it
-completely, it's enough what we have here below.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |FIXED
 
-> > Currently the companion encoder fails at probe time, causing the
-> > registration of the primary to fail preventing the whole DU unit to be
-> > registered correctly.
-> >
-> > Fixes: fa440d870358 ("drm: rcar-du: lvds: Add support for dual-link mode")
-> > Reported-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >
-> > ---
-> > The "Fixes" tag refers to a patch currently part of the
-> > renesas-drivers-2019-07-09-v5.2 branch of Geert's renesas-drivers tree.
-> >
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 31 +++++++++++++++++++++--------
-> >  1 file changed, 23 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index bada7ee98544..8b015ba95895 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -767,14 +767,29 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
-> >  	of_node_put(remote_input);
-> >  	of_node_put(remote);
-> >
-> > -	/*
-> > -	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
-> > -	 * used for the DPAD output even when the LVDS output is not connected.
-> > -	 * Don't fail probe in that case as the DU will need the bridge to
-> > -	 * control the clock.
-> > -	 */
-> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> > -		return ret == -ENODEV ? 0 : ret;
-> > +	switch (ret) {
-> > +	case -ENODEV:
-> > +		/*
-> > +		 * On D3/E3 the LVDS encoder provides a clock to the DU, which
-> > +		 * can be used for the DPAD output even when the LVDS output is
-> > +		 * not connected. Don't fail probe in that case as the DU will
-> > +		 * need the bridge to control the clock.
-> > +		 */
-> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> > +			ret = 0;
-> > +		break;
-> > +	case -ENXIO:
-> > +		/*
-> > +		 * When the LVDS output is used in dual link mode, the
-> > +		 * companion encoder fails at
-> > +		 * 'rcar_lvds_parse_dt_companion()'. Don't fail probe in
-> > +		 * that case as the master encoder will need the companion's
-> > +		 * bridge to control its operations.
-> > +		 */
-> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
-> > +			ret = 0;
->
-> As -ENXIO can only be returned by rcar_lvds_parse_dt_companion(), and
-> rcar_lvds_parse_dt_companion() is only called when the
-> RCAR_LVDS_QUIRK_DUAL_LINK flag is set, this essentially means that you
-> always zero the error returned from rcar_lvds_parse_dt_companion(). This
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-Not totally correct, as rcar_lvds_parse_dt_companion() might also
-return EPROBE_DEFER, but...
+--15649914670.fd6Fd66.13087
+Date: Mon, 5 Aug 2019 07:51:07 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-> is both complicated and too drastic as the second -ENXIO error case
-> shouldn't be ignored. It would be better and simpler to return 0 from
-> rcar_lvds_parse_dt_companion() when the renesas,companion property can't
-> be found.
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:pranjal.v=
+ervelogic&#64;gmail.com" title=3D"Pranjal &lt;pranjal.vervelogic&#64;gmail.=
+com&gt;"> <span class=3D"fn">Pranjal</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - testinggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111296">bug 11129=
+6</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-I agree, returning 0 when when the property is not specified is enough
-and much simpler. I got dragged away by the idea of centralizing error
-handling at the end of the function, but it's ugly and also wrongly
-zeroes the second -ENXIO error returned by the parse_companion
-function.
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
 
-I'll change to what you suggested!
-Thanks
-  j
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
+      <p>
+      </p>
 
->
-> > +		break;
-> > +	}
-> >
-> >  	return ret;
-> >  }
->
-> --
-> Regards,
->
-> Laurent Pinchart
 
---f6oy4oxrt3xzydfx
-Content-Type: application/pgp-signature; name="signature.asc"
+      <hr>
+      <span>You are receiving this mail because:</span>
 
------BEGIN PGP SIGNATURE-----
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1H3+0ACgkQcjQGjxah
-VjxYkxAAlzArBpJQTnAx+2BDrFdNyuVKxAzyoEexaV7boeg586M5iV8fTmgjScff
-4KA54u80j8KxeK9adk7cqeqH1wPi+DkkMomFRPpJzUHrwlVpwPXoVERWOIYEVV4Y
-XA4f+xUHBjm0Ftxx9XJPKEbFyFkJYFZLZyl9r3a0PVccA3yikoQqPBP4FX7xrALM
-lAj/o14JXh0voNbK7k6w+LjM1JieofeJjXk59FmeKrIDy9pvM6IlvBQsC7hSmPZ7
-hsOiKk0kEjMA89aVAPnyhq7vP79F4q3A2C0XjUwgv/hO6JTD7zWVTc1/TItzajQV
-6WmnHMM9CUiKDD1Oo2O25fzBjmbNpm+HMclxxoF2IGGgDpRph4rbKio+NjmIDc/A
-myw7qRfM9juRgGOFXYwQgDpQY/tmaqKhr+hTodwj/BKUwIDzk1l5BfN/JGASEgxQ
-aj2KtNJdTyor7wTktGJ1yFWoBRUsVanGwf/fnOPhMqLlPNz/cdjmR3qjQYimjCLs
-G+GLCmlx9it5ZCnM6xhLj6JhysKpHONJGzbbXQqPoBgA3O0IjoOFg1PS3qztEjSg
-bB5XBKLVSnNNq5Yb7DBWnH+5H7j3iFwK2gXHdSrC/PJnNqeN5DLMFJvJkpmlfwb7
-jLHPMhBT58VN8f9YDS+Y5RUByO3tv0SvVm+nO/KI4i8xfbG+5n8=
-=lvdp
------END PGP SIGNATURE-----
+--15649914670.fd6Fd66.13087--
 
---f6oy4oxrt3xzydfx--
-
---===============1745099436==
+--===============0736720751==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -204,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1745099436==--
+--===============0736720751==--
