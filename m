@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A586382593
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 21:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AEF82595
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 21:27:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D5D6E17F;
-	Mon,  5 Aug 2019 19:27:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E55506E143;
+	Mon,  5 Aug 2019 19:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 029E36E17F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 19:27:31 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B346A6E181
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 19:27:49 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F3C5672167; Mon,  5 Aug 2019 19:27:30 +0000 (UTC)
+ id AD8BC72167; Mon,  5 Aug 2019 19:27:49 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 108641] Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks
-Date: Mon, 05 Aug 2019 19:27:31 +0000
+Date: Mon, 05 Aug 2019 19:27:50 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: version
-Message-ID: <bug-108641-502-hQ6nTUK2xO@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108641-502-7KRwV6fvZj@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-108641-502@http.bugs.freedesktop.org/>
 References: <bug-108641-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1155914585=="
+Content-Type: multipart/mixed; boundary="===============2001310864=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1155914585==
-Content-Type: multipart/alternative; boundary="15650332501.031CAbf02.1077"
+--===============2001310864==
+Content-Type: multipart/alternative; boundary="15650332690.eF3Ba.2688"
 Content-Transfer-Encoding: 7bit
 
 
---15650332501.031CAbf02.1077
-Date: Mon, 5 Aug 2019 19:27:30 +0000
+--15650332690.eF3Ba.2688
+Date: Mon, 5 Aug 2019 19:27:49 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,18 +72,16 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D108641
 
-steelwinged@gmail.com changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Version|18.2                        |19.1
+--- Comment #5 from steelwinged@gmail.com ---
+Can confirm that the program with the attached compute shader is producing
+these lines, compared to nvidia.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15650332501.031CAbf02.1077
-Date: Mon, 5 Aug 2019 19:27:30 +0000
+--15650332690.eF3Ba.2688
+Date: Mon, 5 Aug 2019 19:27:49 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,31 +92,27 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:steelwing=
-ed&#64;gmail.com" title=3D"steelwinged&#64;gmail.com">steelwinged&#64;gmail=
-.com</a>
-</span> changed
-          <a class=3D"bz_bug_link=20
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108641#c5">Commen=
+t # 5</a>
+              on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Interlaced dark lines in XCOM2 (UE3.5) on Aruba and Turks"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108641">bug 10864=
 1</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>18.2
-           </td>
-           <td>19.1
-           </td>
-         </tr></table>
-      <p>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+steelwinged&#64;gmail.com" title=3D"steelwinged&#64;gmail.com">steelwinged&=
+#64;gmail.com</a>
+</span></b>
+        <pre>Can confirm that the program with the attached compute shader =
+is producing
+these lines, compared to nvidia.</pre>
+        </div>
       </p>
 
 
@@ -131,9 +125,9 @@ ed&#64;gmail.com" title=3D"steelwinged&#64;gmail.com">steelwinged&#64;gmail=
     </body>
 </html>=
 
---15650332501.031CAbf02.1077--
+--15650332690.eF3Ba.2688--
 
---===============1155914585==
+--===============2001310864==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -143,4 +137,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1155914585==--
+--===============2001310864==--
