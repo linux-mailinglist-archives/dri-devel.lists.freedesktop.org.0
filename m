@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD21181220
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 08:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CE6812BF
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 09:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05DE389FF9;
-	Mon,  5 Aug 2019 06:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D35216E118;
+	Mon,  5 Aug 2019 07:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 84CE26E02F
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 06:16:32 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 81BD872167; Mon,  5 Aug 2019 06:16:32 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Mon, 05 Aug 2019 06:16:32 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ilvipero@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-JKWQe3i0lB@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53D3C6E118
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 07:09:19 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 05 Aug 2019 00:01:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,349,1559545200"; d="scan'208";a="192350006"
+Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.147.113])
+ by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2019 00:01:45 -0700
+Date: Mon, 5 Aug 2019 15:02:00 +0800
+From: Feng Tang <feng.tang@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [drm/mgag200] 90f479ae51: vm-scalability.median -18.8% regression
+Message-ID: <20190805070200.GA91650@shbuild999.sh.intel.com>
+References: <20190729095155.GP22106@shao2-debian>
+ <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
+ <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,106 +46,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1610398535=="
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ kernel test robot <rong.a.chen@intel.com>, michel@daenzer.net,
+ dri-devel <dri-devel@lists.freedesktop.org>, ying.huang@intel.com, lkp@01.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1610398535==
-Content-Type: multipart/alternative; boundary="15649857924.4D3a86664.30430"
-Content-Transfer-Encoding: 7bit
-
-
---15649857924.4D3a86664.30430
-Date: Mon, 5 Aug 2019 06:16:32 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
-
---- Comment #80 from Mauro Gaspari <ilvipero@gmx.com> ---
-(In reply to Alex Deucher from comment #79)
-> the ta bin is optional.  It's only used for server cards with xgmi and ras
-> features.  Consumer cards don't support those features and don't use it.
-
-Alex,
-Thank you for confirming this. Good to know.
-Regarding the logs and dmesg I posted above, in comment #72, do you see
-anything useful? Is there any other specific tests I can do to help pinpoint
-the issue?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15649857924.4D3a86664.30430
-Date: Mon, 5 Aug 2019 06:16:32 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c80">Comme=
-nt # 80</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-ilvipero&#64;gmx.com" title=3D"Mauro Gaspari &lt;ilvipero&#64;gmx.com&gt;">=
- <span class=3D"fn">Mauro Gaspari</span></a>
-</span></b>
-        <pre>(In reply to Alex Deucher from <a href=3D"show_bug.cgi?id=3D10=
-9955#c79">comment #79</a>)
-<span class=3D"quote">&gt; the ta bin is optional.  It's only used for serv=
-er cards with xgmi and ras
-&gt; features.  Consumer cards don't support those features and don't use i=
-t.</span >
-
-Alex,
-Thank you for confirming this. Good to know.
-Regarding the logs and dmesg I posted above, in <a href=3D"show_bug.cgi?id=
-=3D109955#c72">comment #72</a>, do you see
-anything useful? Is there any other specific tests I can do to help pinpoint
-the issue?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15649857924.4D3a86664.30430--
-
---===============1610398535==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1610398535==--
+SGkgVGhvbWFzLAoKT24gU3VuLCBBdWcgMDQsIDIwMTkgYXQgMDg6Mzk6MTlQTSArMDIwMCwgVGhv
+bWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gSGkKPiAKPiBJIGRpZCBzb21lIGZ1cnRoZXIgYW5hbHlz
+aXMgb24gdGhpcyBwcm9ibGVtIGFuZCBmb3VuZCB0aGF0IHRoZSBibGlua2luZwo+IGN1cnNvciBh
+ZmZlY3RzIHBlcmZvcm1hbmNlIG9mIHRoZSB2bS1zY2FsYWJpbGl0eSB0ZXN0IGNhc2UuCj4gCj4g
+SSBvbmx5IGhhdmUgYSA0LWNvcmUgbWFjaGluZSwgc28gc2NhbGFiaWxpdHkgaXMgbm90IHJlYWxs
+eSB0ZXN0YWJsZS4gWWV0Cj4gSSBzZWUgdGhlIGVmZmVjdHMgb2YgcnVubmluZyB2bS1zY2FsaWJp
+bGl0eSBhZ2FpbnN0IGRybS10aXAsIGEgcmV2ZXJ0IG9mCj4gdGhlIG1nYWcyMDAgcGF0Y2ggYW5k
+IHRoZSB2bWFwIGZpeGVzIHRoYXQgSSBwb3N0ZWQgYSBmZXcgZGF5cyBhZ28uCj4gCj4gQWZ0ZXIg
+cmV2ZXJ0aW5nIHRoZSBtZ2FnMjAwIHBhdGNoLCBydW5uaW5nIHRoZSB0ZXN0IGFzIGRlc2NyaWJl
+ZCBpbiB0aGUKPiByZXBvcnQKPiAKPiAgIGJpbi9sa3AgcnVuIGpvYi55YW1sCj4gCj4gZ2l2ZXMg
+cmVzdWx0cyBsaWtlCj4gCj4gICAyMDE5LTA4LTAyIDE5OjM0OjM3ICAuL2Nhc2UtYW5vbi1jb3ct
+c2VxLWh1Z2V0bGIKPiAgIDIwMTktMDgtMDIgMTk6MzQ6MzcgIC4vdXNlbWVtIC0tcnVudGltZSAz
+MDAgLW4gNCAtLXByZWFsbG9jIC0tcHJlZmF1bHQKPiAgICAgLU8gLVUgODE1Mzk1MjI1Cj4gICA5
+MTczMTk2MjcgYnl0ZXMgLyA3NTY1MzQgdXNlY3MgPSAxMTg0MTEwIEtCL3MKPiAgIDkxNzMxOTYy
+NyBieXRlcyAvIDc2NDY3NSB1c2VjcyA9IDExNzE1MDQgS0Ivcwo+ICAgOTE3MzE5NjI3IGJ5dGVz
+IC8gNzY2NDE0IHVzZWNzID0gMTE2ODg0NiBLQi9zCj4gICA5MTczMTk2MjcgYnl0ZXMgLyA3Nzc5
+OTAgdXNlY3MgPSAxMTUxNDU0IEtCL3MKPiAKPiBSdW5uaW5nIHRoZSB0ZXN0IGFnYWluc3QgY3Vy
+cmVudCBkcm0tdGlwIGdpdmVzIHNsaWdodGx5IHdvcnNlIHJlc3VsdHMsCj4gc3VjaCBhcy4KPiAK
+PiAgIDIwMTktMDgtMDMgMTk6MTc6MDYgIC4vY2FzZS1hbm9uLWNvdy1zZXEtaHVnZXRsYgo+ICAg
+MjAxOS0wOC0wMyAxOToxNzowNiAgLi91c2VtZW0gLS1ydW50aW1lIDMwMCAtbiA0IC0tcHJlYWxs
+b2MgLS1wcmVmYXVsdAo+ICAgICAtTyAtVSA4MTUzOTQ0MDYKPiAgIDkxNzMxODcwMCBieXRlcyAv
+IDg3MTYwNyB1c2VjcyA9IDEwMjc3NzggS0Ivcwo+ICAgOTE3MzE4NzAwIGJ5dGVzIC8gODk0MTcz
+IHVzZWNzID0gMTAwMTg0MCBLQi9zCj4gICA5MTczMTg3MDAgYnl0ZXMgLyA5MTk2OTQgdXNlY3Mg
+PSA5NzQwNDAgS0Ivcwo+ICAgOTE3MzE4NzAwIGJ5dGVzIC8gOTIzMzQxIHVzZWNzID0gOTcwMTkz
+IEtCL3MKPiAKPiBUaGUgdGVzdCBwdXRzIG91dCByb3VnaGx5IG9uZSByZXN1bHQgcGVyIHNlY29u
+ZC4gU3RyYW5nZWx5IHNlbmRpbmcgdGhlCj4gb3V0cHV0IHRvIC9kZXYvbnVsbCBjYW4gbWFrZSBy
+ZXN1bHRzIHNpZ25pZmljYW50bHkgd29yc2UuCj4gCj4gICBiaW4vbGtwIHJ1biBqb2IueWFtbCA+
+IC9kZXYvbnVsbAo+IAo+ICAgMjAxOS0wOC0wMyAxOToyMzowNCAgLi9jYXNlLWFub24tY293LXNl
+cS1odWdldGxiCj4gICAyMDE5LTA4LTAzIDE5OjIzOjA0ICAuL3VzZW1lbSAtLXJ1bnRpbWUgMzAw
+IC1uIDQgLS1wcmVhbGxvYyAtLXByZWZhdWx0Cj4gICAgIC1PIC1VIDgxNTM5NDQwNgo+ICAgOTE3
+MzE4NzAwIGJ5dGVzIC8gMTIwNzM1OCB1c2VjcyA9IDc0MTk2NiBLQi9zCj4gICA5MTczMTg3MDAg
+Ynl0ZXMgLyAxMjEwNDU2IHVzZWNzID0gNzQwMDY3IEtCL3MKPiAgIDkxNzMxODcwMCBieXRlcyAv
+IDEyMTY1NzIgdXNlY3MgPSA3MzYzNDYgS0Ivcwo+ICAgOTE3MzE4NzAwIGJ5dGVzIC8gMTIzOTE1
+MiB1c2VjcyA9IDcyMjkyOSBLQi9zCj4gCj4gSSByZWFsaXplZCB0aGF0IHRoZXJlJ3Mgc3RpbGwg
+YSBibGlua2luZyBjdXJzb3Igb24gdGhlIHNjcmVlbiwgd2hpY2ggSQo+IGRpc2FibGVkIHdpdGgK
+PiAKPiAgIHRwdXQgY2l2aXMKPiAKPiBvciBhbHRlcm5hdGl2ZWx5Cj4gCj4gICBlY2hvIDAgPiAv
+c3lzL2RldmljZXMvdmlydHVhbC9ncmFwaGljcy9mYmNvbi9jdXJzb3JfYmxpbmsKPiAKPiBSdW5u
+aW5nIHRoZSB0aGUgdGVzdCBub3cgZ2l2ZXMgdGhlIG9yaWdpbmFsIG9yIGV2ZW4gYmV0dGVyIHJl
+c3VsdHMsIHN1Y2ggYXMKPiAKPiAgIGJpbi9sa3AgcnVuIGpvYi55YW1sID4gL2Rldi9udWxsCj4g
+Cj4gICAyMDE5LTA4LTAzIDE5OjI5OjE3ICAuL2Nhc2UtYW5vbi1jb3ctc2VxLWh1Z2V0bGIKPiAg
+IDIwMTktMDgtMDMgMTk6Mjk6MTcgIC4vdXNlbWVtIC0tcnVudGltZSAzMDAgLW4gNCAtLXByZWFs
+bG9jIC0tcHJlZmF1bHQKPiAgICAgLU8gLVUgODE1Mzk0NDA2Cj4gICA5MTczMTg3MDAgYnl0ZXMg
+LyA2NTk0MTkgdXNlY3MgPSAxMzU4NDk3IEtCL3MKPiAgIDkxNzMxODcwMCBieXRlcyAvIDY1OTY1
+OCB1c2VjcyA9IDEzNTgwMDUgS0Ivcwo+ICAgOTE3MzE4NzAwIGJ5dGVzIC8gNjU5OTE2IHVzZWNz
+ID0gMTM1NzQ3NCBLQi9zCj4gICA5MTczMTg3MDAgYnl0ZXMgLyA2NjAxNjggdXNlY3MgPSAxMzU2
+OTU2IEtCL3MKPiAKPiBSb25nLCBGZW5nLCBjb3VsZCB5b3UgY29uZmlybSB0aGlzIGJ5IGRpc2Fi
+bGluZyB0aGUgY3Vyc29yIG9yIGJsaW5raW5nPwoKR2xhZCB0byBrbm93IHRoaXMgbWV0aG9kIHJl
+c3RvcmVkIHRoZSBkcm9wLiBSb25nIGlzIHJ1bm5pbmcgdGhlIGNhc2UuCgpXaGlsZSBJIGhhdmUg
+YW5vdGhlciBmaW5kcywgYXMgSSBub3RpY2VkIHlvdXIgcGF0Y2ggY2hhbmdlZCB0aGUgYnBwIGZy
+b20KMjQgdG8gMzIsIEkgaGFkIGEgcGF0Y2ggdG8gY2hhbmdlIGl0IGJhY2sgdG8gMjQsIGFuZCBy
+dW4gdGhlIGNhc2UgaW4KdGhlIHdlZWtlbmQsIHRoZSAtMTglIHJlZ3Jzc2lvbiB3YXMgcmVkdWNl
+ZCB0byBhYm91dCAtNSUuIENvdWxkIHRoaXMKYmUgcmVsYXRlZD8KCmNvbW1pdDogCiAgZjFmODU1
+NWRmYjkgZHJtL2JvY2hzOiBVc2Ugc2hhZG93IGJ1ZmZlciBmb3IgYm9jaHMgZnJhbWVidWZmZXIg
+Y29uc29sZQogIDkwZjQ3OWFlNTFhIGRybS9tZ2FnMjAwOiBSZXBsYWNlIHN0cnVjdCBtZ2FfZmJk
+ZXYgd2l0aCBnZW5lcmljIGZyYW1lYnVmZmVyIGVtdWxhdGlvbgogIDAxZTc1ZmVhMGQ1IG1nYWcy
+MDA6IHJlc3RvcmUgdGhlIGRlcHRoIGJhY2sgdG8gMjQKCmYxZjg1NTVkZmI5YTcwYTIgOTBmNDc5
+YWU1MWFmYTQ1ZWZhYjk3YWZkZGU5IDAxZTc1ZmVhMGQ1ZmYzOWQzZTU4OGMyMGVjNSAKLS0tLS0t
+LS0tLS0tLS0tLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tIAogICAgIDQzOTIxIMKxICAyJSAgICAgLTE4LjMlICAgICAgMzU4ODQgICAgICAg
+ICAgICAtNC44JSAgICAgIDQxODI2ICAgICAgICB2bS1zY2FsYWJpbGl0eS5tZWRpYW4KICAxNDg4
+OTMzNyAgICAgICAgICAgLTE3LjUlICAgMTIyOTEwMjkgICAgICAgICAgICAtNC4xJSAgIDE0Mjc4
+NTc0ICAgICAgICB2bS1zY2FsYWJpbGl0eS50aHJvdWdocHV0CiAKY29tbWl0IDAxZTc1ZmVhMGQ1
+ZmYzOWQzZTU4OGMyMGVjNTJlN2E0ZTY1ODhhNzQKQXV0aG9yOiBGZW5nIFRhbmcgPGZlbmcudGFu
+Z0BpbnRlbC5jb20+CkRhdGU6ICAgRnJpIEF1ZyAyIDE1OjA5OjE5IDIwMTkgKzA4MDAKCiAgICBt
+Z2FnMjAwOiByZXN0b3JlIHRoZSBkZXB0aCBiYWNrIHRvIDI0CiAgICAKICAgIFNpZ25lZC1vZmYt
+Ynk6IEZlbmcgVGFuZyA8ZmVuZy50YW5nQGludGVsLmNvbT4KCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vbWdhZzIwMC9tZ2FnMjAwX21haW4uYyBiL2RyaXZlcnMvZ3B1L2RybS9tZ2FnMjAw
+L21nYWcyMDBfbWFpbi5jCmluZGV4IGE5NzczMzMuLmFjOGY2YzkgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfbWFpbi5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
+Z2FnMjAwL21nYWcyMDBfbWFpbi5jCkBAIC0xNjIsNyArMTYyLDcgQEAgaW50IG1nYWcyMDBfZHJp
+dmVyX2xvYWQoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdW5zaWduZWQgbG9uZyBmbGFncykKIAlp
+ZiAoSVNfRzIwMF9TRShtZGV2KSAmJiBtZGV2LT5tYy52cmFtX3NpemUgPCAoMjA0OCoxMDI0KSkK
+IAkJZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJyZWRfZGVwdGggPSAxNjsKIAllbHNlCi0JCWRldi0+
+bW9kZV9jb25maWcucHJlZmVycmVkX2RlcHRoID0gMzI7CisJCWRldi0+bW9kZV9jb25maWcucHJl
+ZmVycmVkX2RlcHRoID0gMjQ7CiAJZGV2LT5tb2RlX2NvbmZpZy5wcmVmZXJfc2hhZG93ID0gMTsK
+IAogCXIgPSBtZ2FnMjAwX21vZGVzZXRfaW5pdChtZGV2KTsKClRoYW5rcywKRmVuZwoKPiAKPiAK
+PiBUaGUgZGlmZmVyZW5jZSBiZXR3ZWVuIG1nYWcyMDAncyBvcmlnaW5hbCBmYmRldiBzdXBwb3J0
+IGFuZCBnZW5lcmljCj4gZmJkZXYgZW11bGF0aW9uIGlzIGdlbmVyaWMgZmJkZXYncyB3b3JrZXIg
+dGFzayB0aGF0IHVwZGF0ZXMgdGhlIFZSQU0KPiBidWZmZXIgZnJvbSB0aGUgc2hhZG93IGJ1ZmZl
+ci4gbWdhZzIwMCBkb2VzIHRoaXMgaW1tZWRpYXRlbHksIGJ1dCByZWxpZXMKPiBvbiBkcm1fY2Fu
+X3NsZWVwKCksIHdoaWNoIGlzIGRlcHJlY2F0ZWQuCj4gCj4gSSB0aGluayB0aGF0IHRoZSB3b3Jr
+ZXIgdGFzayBpbnRlcmZlcmVzIHdpdGggdGhlIHRlc3QgY2FzZSwgYXMgdGhlCj4gd29ya2VyIGhh
+cyBiZWVuIGluIGZiZGV2IGVtdWxhdGlvbiBzaW5jZSBmb3JldmVyIGFuZCBubyBwZXJmb3JtYW5j
+ZQo+IHJlZ3Jlc3Npb25zIGhhdmUgYmVlbiByZXBvcnRlZCBzbyBmYXIuCj4gCj4gCj4gU28gdW5s
+ZXNzIHRoZXJlJ3MgYSByZXBvcnQgd2hlcmUgdGhpcyBwcm9ibGVtIGhhcHBlbnMgaW4gYSByZWFs
+LXdvcmxkCj4gdXNlIGNhc2UsIEknZCBsaWtlIHRvIGtlZXAgY29kZSBhcyBpdCBpcy4gQW5kIGFw
+cGFyZW50bHkgdGhlcmUncyBhbHdheXMKPiB0aGUgd29ya2Fyb3VuZCBvZiBkaXNhYmxpbmcgdGhl
+IGN1cnNvciBibGlua2luZy4KPiAKPiBCZXN0IHJlZ2FyZHMKPiBUaG9tYXMKPiAKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
