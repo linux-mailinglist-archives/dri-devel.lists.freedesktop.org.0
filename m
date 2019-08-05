@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE90B817AD
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 12:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B299817B7
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 12:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6F796E3F3;
-	Mon,  5 Aug 2019 10:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7AA489A72;
+	Mon,  5 Aug 2019 10:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 149086E3F4
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 10:57:04 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0B89D72167; Mon,  5 Aug 2019 10:57:04 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
- opening 'mailto:'
-Date: Mon, 05 Aug 2019 10:57:04 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: security
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: connectlinksys@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-107877-502-zi0jvXEvMA@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
-References: <bug-107877-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E819989A72
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 10:59:31 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5EF02F9;
+ Mon,  5 Aug 2019 12:59:29 +0200 (CEST)
+Date: Mon, 5 Aug 2019 13:59:28 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v1 14/16] drm/panel: call prepare/enable only once
+Message-ID: <20190805105928.GI29747@pendragon.ideasonboard.com>
+References: <20190804201637.1240-1-sam@ravnborg.org>
+ <20190804201637.1240-15-sam@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190804201637.1240-15-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1565002769;
+ bh=ARbvDmu/mBI7c7RZcT5zH3TBI3qsqJ0Vjc6Kj8MQeEc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bzG0gADiIV8BDeHLoa9Kj9zUWn2mS5xhEnGk8ww5Zw5YmaTPgbxnpI/mRbrnCerJI
+ QvPFax2dQhbSESR8dqmTYt0v0EA3QS3neJcCJF3XQ1ha+Ozf4yS3hCmqCCdlL/C1Og
+ XQQIK/ulpNLVSMxGTf5Eu5gPH4tD47qshkiq8R9g=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,142 +48,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1713350291=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Vincent Abriou <vincent.abriou@st.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Kukjin Kim <kgene@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Alison Wang <alison.wang@nxp.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Alexios Zavras <alexios.zavras@intel.com>, linux-samsung-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Sean Paul <sean@poorly.run>, Allison Randal <allison@lohutok.net>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Shawn Guo <shawnguo@kernel.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Enrico Weigelt <info@metux.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1713350291==
-Content-Type: multipart/alternative; boundary="15650026230.5d0c.8900"
-Content-Transfer-Encoding: 7bit
-
-
---15650026230.5d0c.8900
-Date: Mon, 5 Aug 2019 10:57:03 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
-
-Kevin Ruth <connectlinksys@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |http://www.linksys-extender
-                   |                            |setup.com/
-
---- Comment #29 from Kevin Ruth <connectlinksys@gmail.com> ---
-How to connect with Extender.linksys.com ?
-
-To connect with Extender.linksys.com, you have to plug the Linksys Wifi
-Extender into the Power outlet.
-Once The Power light is Blue on the <a
-href=3D"http://www.linksys-extendersetup.com/" rel=3D"dofollow">linksys ext=
-ender
-setup</a>
-Navigate to your wireless device and connect to the Linksys extender Networ=
-k.
-Once connected to the network, go to 192.168.1.1 or extender.linksys.com
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15650026230.5d0c.8900
-Date: Mon, 5 Aug 2019 10:57:03 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:connectli=
-nksys&#64;gmail.com" title=3D"Kevin Ruth &lt;connectlinksys&#64;gmail.com&g=
-t;"> <span class=3D"fn">Kevin Ruth</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
- for opening 'mailto:'"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
-7</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>http://www.linksys-extendersetup.com/
-           </td>
-         </tr></table>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
- for opening 'mailto:'"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877#c29">Comme=
-nt # 29</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
- for opening 'mailto:'"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
-7</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-connectlinksys&#64;gmail.com" title=3D"Kevin Ruth &lt;connectlinksys&#64;gm=
-ail.com&gt;"> <span class=3D"fn">Kevin Ruth</span></a>
-</span></b>
-        <pre>How to connect with Extender.linksys.com ?
-
-To connect with Extender.linksys.com, you have to plug the Linksys Wifi
-Extender into the Power outlet.
-Once The Power light is Blue on the &lt;a
-href=3D&quot;<a href=3D"http://www.linksys-extendersetup.com/">http://www.l=
-inksys-extendersetup.com/</a>&quot; rel=3D&quot;dofollow&quot;&gt;linksys e=
-xtender
-setup&lt;/a&gt;
-Navigate to your wireless device and connect to the Linksys extender Networ=
-k.
-Once connected to the network, go to 192.168.1.1 or extender.linksys.com</p=
-re>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15650026230.5d0c.8900--
-
---===============1713350291==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1713350291==--
+SGkgU2FtLAoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guCgpPbiBTdW4sIEF1ZyAwNCwgMjAxOSBh
+dCAxMDoxNjozNVBNICswMjAwLCBTYW0gUmF2bmJvcmcgd3JvdGU6Cj4gTWFueSBwYW5lbCBkcml2
+ZXJzIGR1cGxpY2F0ZSBsb2dpYyB0byBwcmV2ZW50IHByZXBhcmUgdG8gYmUgY2FsbGVkCj4gZm9y
+IGEgcGFuZWwgdGhhdCBpcyBhbHJlYWR5IHByZXBhcmVkLgo+IExpa2V3aXNlIGZvciBlbmFibGUu
+Cj4gCj4gSW1wbGVtZW50IHRoaXMgbG9naWMgaW4gZHJtX3BhbmVsIHNvIHRoZSBpbmRpdmlkdWFs
+IGRyaXZlcnMKPiBubyBsb25nZXIgbmVlZHMgdGhpcy4KPiBBIHBhbmVsIGlzIGNvbnNpZGVyZWQg
+cHJlcGFyZWQvZW5hYmxlZCBvbmx5IGlmIHRoZSBwcmVwYXJlL2VuYWJsZSBjYWxsCj4gc3VjY2Vl
+ZHMuCj4gRm9yIGRpc2FibGUvdW5wcmVwYXJlIGl0IGlzIHVuY29uZGl0aW9uYWxseSBjb25zaWRl
+cmVkCj4gZGlzYWJsZWQvdW5wcmVwYXJlZC4KPiAKPiBUaGlzIGFsbG93cyBjYWxscyB0byBwcmVw
+YXJlL2VuYWJsZSBhZ2FpbiwgZXZlbiBpZiB0aGVyZSB3ZXJlCj4gc29tZSBpc3N1ZSBkaXNhYmxp
+bmcgYSByZWd1bGF0b3Igb3Igc2ltaWxhciBkdXJpbmcgZGlzYWJsZS91bnByZXBhcmUuCgpJcyB0
+aGlzIHRoZSByaWdodCBwbGFjZSB0byBoYW5kbGUgdGhpcyA/IFNob3VsZG4ndCB0aGUgdXBwZXIg
+bGF5ZXJzCmVuc3VyZSB0aGFuIGVuYWJsZS9kaXNhYmxlIGFuZCBwcmVwYXJlL3VucHJlcGFyZSBh
+cmUgY29ycmVjdHkgYmFsYW5jZWQsCmFuZCBub3QgY2FsbGVkIG11bHRpcGxlIHRpbWVzID8gQWRk
+aW5nIGVuYWJsZWQgYW5kIHByZXBhcmVkIHN0YXRlIHRvCmRybV9wYW5lbCBub3Qgb25seSBkb2Vz
+bid0IGFsaWduIHdlbGwgd2l0aCBhdG9taWMgc3RhdGUgaGFuZGxpbmcsIGJ1dAphbHNvIHdvdWxk
+IGhpZGUgaXNzdWVzIGluIHVwcGVyIGxheWVycyB0aGF0IHNob3VsZCByZWFsbHkgYmUgZml4ZWQK
+dGhlcmUuCgo+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4K
+PiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNv
+bT4KPiBDYzogTWF4aW1lIFJpcGFyZCA8bWF4aW1lLnJpcGFyZEBib290bGluLmNvbT4KPiBDYzog
+U2VhbiBQYXVsIDxzZWFuQHBvb3JseS5ydW4+Cj4gQ2M6IFRoaWVycnkgUmVkaW5nIDx0aGllcnJ5
+LnJlZGluZ0BnbWFpbC5jb20+Cj4gQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4K
+PiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWxAZmZ3bGwuY2g+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYyB8
+IDY2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0KPiAgaW5jbHVkZS9kcm0v
+ZHJtX3BhbmVsLmggICAgIHwgMjEgKysrKysrKysrKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwgNzUg
+aW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fcGFuZWwuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYwo+IGluZGV4
+IGRhMTlkNWI0YTJmNC4uMDg1Mzc2NDA0MGRlIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fcGFuZWwuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fcGFuZWwuYwo+IEBAIC02
+NiwxMCArNjYsMjEgQEAgRVhQT1JUX1NZTUJPTChkcm1fcGFuZWxfaW5pdCk7Cj4gICAqLwo+ICBp
+bnQgZHJtX3BhbmVsX3ByZXBhcmUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCj4gIHsKPiAtCWlm
+IChwYW5lbCAmJiBwYW5lbC0+ZnVuY3MgJiYgcGFuZWwtPmZ1bmNzLT5wcmVwYXJlKQo+IC0JCXJl
+dHVybiBwYW5lbC0+ZnVuY3MtPnByZXBhcmUocGFuZWwpOwo+ICsJaW50IHJldCA9IC1FTk9TWVM7
+Cj4gIAo+IC0JcmV0dXJuIHBhbmVsID8gLUVOT1NZUyA6IC1FSU5WQUw7Cj4gKwlpZiAoIXBhbmVs
+KQo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsKPiArCWlmIChwYW5lbC0+cHJlcGFyZWQpCj4gKwkJ
+cmV0dXJuIDA7Cj4gKwo+ICsJaWYgKHBhbmVsLT5mdW5jcyAmJiBwYW5lbC0+ZnVuY3MtPnByZXBh
+cmUpCj4gKwkJcmV0ID0gcGFuZWwtPmZ1bmNzLT5wcmVwYXJlKHBhbmVsKTsKPiArCj4gKwlpZiAo
+cmV0ID49IDApCj4gKwkJcGFuZWwtPnByZXBhcmVkID0gdHJ1ZTsKPiArCj4gKwlyZXR1cm4gcmV0
+Owo+ICB9Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3BhbmVsX3ByZXBhcmUpOwo+ICAKPiBAQCAtODUs
+MTAgKzk2LDIxIEBAIEVYUE9SVF9TWU1CT0woZHJtX3BhbmVsX3ByZXBhcmUpOwo+ICAgKi8KPiAg
+aW50IGRybV9wYW5lbF9lbmFibGUoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCj4gIHsKPiAtCWlm
+IChwYW5lbCAmJiBwYW5lbC0+ZnVuY3MgJiYgcGFuZWwtPmZ1bmNzLT5lbmFibGUpCj4gLQkJcmV0
+dXJuIHBhbmVsLT5mdW5jcy0+ZW5hYmxlKHBhbmVsKTsKPiArCWludCByZXQgPSAtRU5PU1lTOwo+
+ICAKPiAtCXJldHVybiBwYW5lbCA/IC1FTk9TWVMgOiAtRUlOVkFMOwo+ICsJaWYgKCFwYW5lbCkK
+PiArCQlyZXR1cm4gLUVJTlZBTDsKPiArCj4gKwlpZiAocGFuZWwtPmVuYWJsZWQpCj4gKwkJcmV0
+dXJuIDA7Cj4gKwo+ICsJaWYgKHBhbmVsLT5mdW5jcyAmJiBwYW5lbC0+ZnVuY3MtPmVuYWJsZSkK
+PiArCQlyZXQgPSBwYW5lbC0+ZnVuY3MtPmVuYWJsZShwYW5lbCk7Cj4gKwo+ICsJaWYgKHJldCA+
+PSAwKQo+ICsJCXBhbmVsLT5lbmFibGVkID0gdHJ1ZTsKPiArCj4gKwlyZXR1cm4gcmV0Owo+ICB9
+Cj4gIEVYUE9SVF9TWU1CT0woZHJtX3BhbmVsX2VuYWJsZSk7Cj4gIAo+IEBAIC0xMDQsMTAgKzEy
+NiwyMCBAQCBFWFBPUlRfU1lNQk9MKGRybV9wYW5lbF9lbmFibGUpOwo+ICAgKi8KPiAgaW50IGRy
+bV9wYW5lbF9kaXNhYmxlKHN0cnVjdCBkcm1fcGFuZWwgKnBhbmVsKQo+ICB7Cj4gLQlpZiAocGFu
+ZWwgJiYgcGFuZWwtPmZ1bmNzICYmIHBhbmVsLT5mdW5jcy0+ZGlzYWJsZSkKPiAtCQlyZXR1cm4g
+cGFuZWwtPmZ1bmNzLT5kaXNhYmxlKHBhbmVsKTsKPiArCWludCByZXQgPSAtRU5PU1lTOwo+ICAK
+PiAtCXJldHVybiBwYW5lbCA/IC1FTk9TWVMgOiAtRUlOVkFMOwo+ICsJaWYgKCFwYW5lbCkKPiAr
+CQlyZXR1cm4gLUVJTlZBTDsKPiArCj4gKwlpZiAoIXBhbmVsLT5lbmFibGVkKQo+ICsJCXJldHVy
+biAwOwo+ICsKPiArCWlmIChwYW5lbC0+ZnVuY3MgJiYgcGFuZWwtPmZ1bmNzLT5kaXNhYmxlKQo+
+ICsJCXJldCA9IHBhbmVsLT5mdW5jcy0+ZGlzYWJsZShwYW5lbCk7Cj4gKwo+ICsJcGFuZWwtPmVu
+YWJsZWQgPSBmYWxzZTsKPiArCj4gKwlyZXR1cm4gcmV0Owo+ICB9Cj4gIEVYUE9SVF9TWU1CT0wo
+ZHJtX3BhbmVsX2Rpc2FibGUpOwo+ICAKPiBAQCAtMTI0LDEwICsxNTYsMjAgQEAgRVhQT1JUX1NZ
+TUJPTChkcm1fcGFuZWxfZGlzYWJsZSk7Cj4gICAqLwo+ICBpbnQgZHJtX3BhbmVsX3VucHJlcGFy
+ZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKPiAgewo+IC0JaWYgKHBhbmVsICYmIHBhbmVsLT5m
+dW5jcyAmJiBwYW5lbC0+ZnVuY3MtPnVucHJlcGFyZSkKPiAtCQlyZXR1cm4gcGFuZWwtPmZ1bmNz
+LT51bnByZXBhcmUocGFuZWwpOwo+ICsJaW50IHJldCA9IC1FTk9TWVM7Cj4gIAo+IC0JcmV0dXJu
+IHBhbmVsID8gLUVOT1NZUyA6IC1FSU5WQUw7Cj4gKwlpZiAoIXBhbmVsKQo+ICsJCXJldHVybiAt
+RUlOVkFMOwo+ICsKPiArCWlmICghcGFuZWwtPnByZXBhcmVkKQo+ICsJCXJldHVybiAwOwo+ICsK
+PiArCWlmIChwYW5lbC0+ZnVuY3MgJiYgcGFuZWwtPmZ1bmNzLT51bnByZXBhcmUpCj4gKwkJcmV0
+ID0gcGFuZWwtPmZ1bmNzLT51bnByZXBhcmUocGFuZWwpOwo+ICsKPiArCXBhbmVsLT5wcmVwYXJl
+ZCA9IGZhbHNlOwo+ICsKPiArCXJldHVybiByZXQ7Cj4gIH0KPiAgRVhQT1JUX1NZTUJPTChkcm1f
+cGFuZWxfdW5wcmVwYXJlKTsKPiAgCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9wYW5l
+bC5oIGIvaW5jbHVkZS9kcm0vZHJtX3BhbmVsLmgKPiBpbmRleCA2MjRiZDE1ZWNmYWIuLjc0OTM1
+MDBmYzliZCAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2RybS9kcm1fcGFuZWwuaAo+ICsrKyBiL2lu
+Y2x1ZGUvZHJtL2RybV9wYW5lbC5oCj4gQEAgLTY1LDYgKzY1LDkgQEAgc3RydWN0IGRybV9wYW5l
+bF9mdW5jcyB7Cj4gIAkgKiBAcHJlcGFyZToKPiAgCSAqCj4gIAkgKiBUdXJuIG9uIHBhbmVsIGFu
+ZCBwZXJmb3JtIHNldCB1cC4KPiArCSAqIFdoZW4gdGhlIHBhbmVsIGlzIHN1Y2Nlc3NmdWxseSBw
+cmVwYXJlZCB0aGUgcHJlcGFyZSgpIGZ1bmN0aW9uCj4gKwkgKiB3aWxsIG5vdCBiZSBjYWxsZWQg
+YWdhaW4gdW50aWwgdGhlIHBhbmVsIGhhcyBiZWVuIHVucHJlcGFyZWQuCj4gKwkgKgo+ICAJICov
+Cj4gIAlpbnQgKCpwcmVwYXJlKShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCk7Cj4gIAo+IEBAIC03
+Miw2ICs3NSw4IEBAIHN0cnVjdCBkcm1fcGFuZWxfZnVuY3Mgewo+ICAJICogQGVuYWJsZToKPiAg
+CSAqCj4gIAkgKiBFbmFibGUgcGFuZWwgKHR1cm4gb24gYmFjayBsaWdodCwgZXRjLikuCj4gKwkg
+KiBXaGVuIHRoZSBwYW5lbCBpcyBzdWNjZXNzZnVsbHkgZW5hYmxlZCB0aGUgZW5hYmxlKCkgZnVu
+Y3Rpb24KPiArCSAqIHdpbGwgbm90IGJlIGNhbGxlZCBhZ2FpbiB1bnRpbCB0aGUgcGFuZWwgaGFz
+IGJlZW4gZGlzYWJsZWQuCj4gIAkgKi8KPiAgCWludCAoKmVuYWJsZSkoc3RydWN0IGRybV9wYW5l
+bCAqcGFuZWwpOwo+ICAKPiBAQCAtNzksNiArODQsNyBAQCBzdHJ1Y3QgZHJtX3BhbmVsX2Z1bmNz
+IHsKPiAgCSAqIEBkaXNhYmxlOgo+ICAJICoKPiAgCSAqIERpc2FibGUgcGFuZWwgKHR1cm4gb2Zm
+IGJhY2sgbGlnaHQsIGV0Yy4pLgo+ICsJICogSWYgdGhlIHBhbmVsIGlzIGFscmVhZHkgZGlzYWJs
+ZWQgdGhlIGRpc2FibGUoKSBmdW5jdGlvbiBpcyBub3QgY2FsbGVkLgo+ICAJICovCj4gIAlpbnQg
+KCpkaXNhYmxlKShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCk7Cj4gIAo+IEBAIC04Niw2ICs5Miw3
+IEBAIHN0cnVjdCBkcm1fcGFuZWxfZnVuY3Mgewo+ICAJICogQHVucHJlcGFyZToKPiAgCSAqCj4g
+IAkgKiBUdXJuIG9mZiBwYW5lbC4KPiArCSAqIElmIHRoZSBwYW5lbCBpcyBhbHJlYWR5IHVucHJl
+cGFyZWQgdGhlIHVucHJlcGFyZSgpIGZ1bmN0aW9uIGlzIG5vdCBjYWxsZWQuCj4gIAkgKi8KPiAg
+CWludCAoKnVucHJlcGFyZSkoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpOwo+ICAKPiBAQCAtMTQ1
+LDYgKzE1MiwyMCBAQCBzdHJ1Y3QgZHJtX3BhbmVsIHsKPiAgCSAqIFBhbmVsIGVudHJ5IGluIHJl
+Z2lzdHJ5Lgo+ICAJICovCj4gIAlzdHJ1Y3QgbGlzdF9oZWFkIGxpc3Q7Cj4gKwo+ICsJLyoqCj4g
+KwkgKiBAcHJlcGFyZWQ6Cj4gKwkgKgo+ICsJICogU2V0IHRvIHRydWUgd2hlbiB0aGUgcGFuZWwg
+aXMgc3VjY2Vzc2Z1bGx5IHByZXBhcmVkLgo+ICsJICovCj4gKwlib29sIHByZXBhcmVkOwo+ICsK
+PiArCS8qKgo+ICsJICogQGVuYWJsZWQ6Cj4gKwkgKgo+ICsJICogU2V0IHRvIHRydWUgd2hlbiB0
+aGUgcGFuZWwgaXMgc3VjY2Vzc2Z1bGx5IGVuYWJsZWQuCj4gKwkgKi8KPiArCWJvb2wgZW5hYmxl
+ZDsKPiAgfTsKPiAgCj4gIHZvaWQgZHJtX3BhbmVsX2luaXQoc3RydWN0IGRybV9wYW5lbCAqcGFu
+ZWwpOwoKLS0gClJlZ2FyZHMsCgpMYXVyZW50IFBpbmNoYXJ0Cl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
