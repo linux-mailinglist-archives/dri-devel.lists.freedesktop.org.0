@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4B68159B
-	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 11:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2C88159F
+	for <lists+dri-devel@lfdr.de>; Mon,  5 Aug 2019 11:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C4189D39;
-	Mon,  5 Aug 2019 09:37:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A073B6E3C6;
+	Mon,  5 Aug 2019 09:37:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 01DCF6E3C9
- for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 09:37:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6E83C6E3D3
+ for <dri-devel@lists.freedesktop.org>; Mon,  5 Aug 2019 09:37:46 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id F2CC572167; Mon,  5 Aug 2019 09:37:19 +0000 (UTC)
+ id 6B54672167; Mon,  5 Aug 2019 09:37:46 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111296] testinggg
-Date: Mon, 05 Aug 2019 09:37:19 +0000
+Date: Mon, 05 Aug 2019 09:37:46 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_group component product version resolution
-Message-ID: <bug-111296-502-JzzowB2rTB@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.isobsolete
+Message-ID: <bug-111296-502-SvngDHeESJ@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111296-502@http.bugs.freedesktop.org/>
 References: <bug-111296-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0377720363=="
+Content-Type: multipart/mixed; boundary="===============0971807936=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0377720363==
-Content-Type: multipart/alternative; boundary="15649978392.8AFBC53.26897"
+--===============0971807936==
+Content-Type: multipart/alternative; boundary="15649978662.90E0F488.30375"
 Content-Transfer-Encoding: 7bit
 
 
---15649978392.8AFBC53.26897
-Date: Mon, 5 Aug 2019 09:37:19 +0000
+--15649978662.90E0F488.30375
+Date: Mon, 5 Aug 2019 09:37:46 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -76,21 +76,15 @@ Andre Klapper <a9016009@gmx.de> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-              Group|                            |spam
-          Component|DRM/AMDgpu                  |Two
-            Product|DRI                         |Spam
-            Version|DRI git                     |unspecified
-         Resolution|FIXED                       |INVALID
-
---- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
-Go away and test somewhere else.
+ Attachment #144947|0                           |1
+        is obsolete|                            |
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15649978392.8AFBC53.26897
-Date: Mon, 5 Aug 2019 09:37:19 +0000
+--15649978662.90E0F488.30375
+Date: Mon, 5 Aug 2019 09:37:46 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -119,63 +113,15 @@ s=3D"fn">Andre Klapper</span></a>
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Group</td>
+           <td style=3D"text-align:right;">Attachment #144947 is obsolete</=
+td>
            <td>
                &nbsp;
            </td>
-           <td>spam
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>DRM/AMDgpu
-           </td>
-           <td>Two
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Product</td>
-           <td>DRI
-           </td>
-           <td>Spam
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>DRI git
-           </td>
-           <td>unspecified
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>FIXED
-           </td>
-           <td>INVALID
+           <td>1
            </td>
          </tr></table>
       <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - testinggg"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111296#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED INVALID - testinggg"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111296">bug 11129=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
-span class=3D"fn">Andre Klapper</span></a>
-</span></b>
-        <pre>Go away and test somewhere else.</pre>
-        </div>
       </p>
 
 
@@ -188,9 +134,9 @@ span class=3D"fn">Andre Klapper</span></a>
     </body>
 </html>=
 
---15649978392.8AFBC53.26897--
+--15649978662.90E0F488.30375--
 
---===============0377720363==
+--===============0971807936==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -200,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0377720363==--
+--===============0971807936==--
