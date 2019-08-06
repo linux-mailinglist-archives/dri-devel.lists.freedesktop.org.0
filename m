@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA9982CD3
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 09:32:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD66A82CD9
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 09:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 406E989F35;
-	Tue,  6 Aug 2019 07:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 051606E318;
+	Tue,  6 Aug 2019 07:33:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0D7AB6E2F3
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 07:32:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8DD436E2F3
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 07:33:01 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0959072167; Tue,  6 Aug 2019 07:32:07 +0000 (UTC)
+ id 8AB2E72167; Tue,  6 Aug 2019 07:33:01 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107262] [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200g
-Date: Tue, 06 Aug 2019 07:32:06 +0000
+Subject: [Bug 109246] HDMI connected monitors fail to sleep and instead turn
+ back on when amdgpu.dc=1
+Date: Tue, 06 Aug 2019 07:33:01 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
-X-Bugzilla-Status: REOPENED
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-107262-502-INiid7fpBs@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107262-502@http.bugs.freedesktop.org/>
-References: <bug-107262-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-109246-502-336tVzvc2E@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109246-502@http.bugs.freedesktop.org/>
+References: <bug-109246-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,43 +53,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2082135657=="
+Content-Type: multipart/mixed; boundary="===============0354626018=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2082135657==
-Content-Type: multipart/alternative; boundary="15650767262.a6CaA.6141"
+--===============0354626018==
+Content-Type: multipart/alternative; boundary="15650767812.05a783CD.6142"
 Content-Transfer-Encoding: 7bit
 
 
---15650767262.a6CaA.6141
-Date: Tue, 6 Aug 2019 07:32:06 +0000
+--15650767812.05a783CD.6142
+Date: Tue, 6 Aug 2019 07:33:01 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107262
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109246
 
-Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de> changed:
+--- Comment #24 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to Tom reed from comment #23)
+> Appears that when one monitor is switching inputs after turning off it wa=
+kes
+> up the other monitor. A race condition between the two.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-         Resolution|NOTABUG                     |---
-
---- Comment #4 from Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de=
-> ---
-Any suggestions regarding this? I see this on all recent AMD systems.
+The problem reported here happens even with only a single monitor connected=
+ via
+HDMI.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15650767262.a6CaA.6141
-Date: Tue, 6 Aug 2019 07:32:06 +0000
+--15650767812.05a783CD.6142
+Date: Tue, 6 Aug 2019 07:33:01 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,61 +99,34 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:pmenzel+b=
-ugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pmenzel+bug=
-s.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul Menzel</s=
-pan></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200=
-g"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107262">bug 10726=
-2</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Status</td>
-           <td>RESOLVED
-           </td>
-           <td>REOPENED
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Resolution</td>
-           <td>NOTABUG
-           </td>
-           <td>---
-           </td>
-         </tr></table>
+    <body>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200=
-g"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107262#c4">Commen=
-t # 4</a>
+          bz_status_NEW "
+   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
+ck on when amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246#c24">Comme=
+nt # 24</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200=
-g"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107262">bug 10726=
-2</a>
+          bz_status_NEW "
+   title=3D"NEW - HDMI connected monitors fail to sleep and instead turn ba=
+ck on when amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109246">bug 10924=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pm=
-enzel+bugs.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul =
-Menzel</span></a>
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
 </span></b>
-        <pre>Any suggestions regarding this? I see this on all recent AMD s=
-ystems.</pre>
+        <pre>(In reply to Tom reed from <a href=3D"show_bug.cgi?id=3D109246=
+#c23">comment #23</a>)
+<span class=3D"quote">&gt; Appears that when one monitor is switching input=
+s after turning off it wakes
+&gt; up the other monitor. A race condition between the two.</span >
+
+The problem reported here happens even with only a single monitor connected=
+ via
+HDMI.</pre>
         </div>
       </p>
 
@@ -167,9 +140,9 @@ ystems.</pre>
     </body>
 </html>=
 
---15650767262.a6CaA.6141--
+--15650767812.05a783CD.6142--
 
---===============2082135657==
+--===============0354626018==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -179,4 +152,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2082135657==--
+--===============0354626018==--
