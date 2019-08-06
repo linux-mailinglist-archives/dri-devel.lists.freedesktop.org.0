@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34FDE82F8F
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 12:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F74A82FB8
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 12:28:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484AD6E34B;
-	Tue,  6 Aug 2019 10:15:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C61176E35D;
+	Tue,  6 Aug 2019 10:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id E18A46E34B
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 10:15:16 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id DB92072167; Tue,  6 Aug 2019 10:15:16 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111305] `ttm_bo_handle_move_mem` sometimes takes more than 50 ms
-Date: Tue, 06 Aug 2019 10:15:16 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111305-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com
+ [IPv6:2607:f8b0:4864:20::e36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7DD76E351;
+ Tue,  6 Aug 2019 10:28:03 +0000 (UTC)
+Received: by mail-vs1-xe36.google.com with SMTP id v129so57948124vsb.11;
+ Tue, 06 Aug 2019 03:28:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=D+lAHSQOxtbia37IV3ZYPxwR4GNMA3lfAOT356BgdJo=;
+ b=C4kSOFjPy51xr5XsP30yT86bwYqrJYkVNMk66z9qqXW270Gc3a41eJ38jlWYWJddC3
+ aRlGm+CA85WkgVL3cVBhjYkgH9SkvUxT0idyx8yeq5XSkpW/c93k51XCQRdla4DWunNv
+ HX/E6CkT3NRicLTVMzlvtJFoZphkwbfVoJjzbBkKQbN+JE4/Ww3prd1kI8NhwEwIJMTO
+ hTb/gGsaQO7jXgjhRgc6Av1SsOGdV9xKAokMgF3oP3fKcI1Gc/J9/EJ7YuSBDm+IfQz1
+ a56xOhR/CuoX3MfJcxf/EjN7cC+AEPAXOekMWzkR7PUjXM9dwgKuw5qdDkdxVSjGg2vh
+ Op2g==
+X-Gm-Message-State: APjAAAUKhbqC2yOXGzPwbTHWCK560THF5NNW52i8+RVb4eFA5sgl8T1O
+ b355FlekxRRmGEKZCLUEGyIQ6gRhqSkvvjX+ttU=
+X-Google-Smtp-Source: APXvYqy1g893T5cbY2vwLDIuC0f1BT4F3bYqYRSDYyJD5qV2AOYEegXLbse59BAi9L+cgpgNU/GZ2D28LR1acf54Z/E=
+X-Received: by 2002:a67:9946:: with SMTP id b67mr1815858vse.37.1565087282971; 
+ Tue, 06 Aug 2019 03:28:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190803104719.gwb6hmreeaqyye6n@flea>
+ <CAPM=9tygocpAnOzJHy3TW2UQc0_6A86e7CpQT1CCMEhWfjzheg@mail.gmail.com>
+ <CAKMK7uEHt2KBJoG21F_zqxbfkyVFRAoir__vZt1yheEFxpwUcg@mail.gmail.com>
+ <CACvgo51Do4XDY9wRku-0v5B+mRRzV2+SgD=dvFT3J9TMf8RK9Q@mail.gmail.com>
+ <CAKMK7uEcoQK+y6y2wW6GJzKDjtPZZ5gads3JY6xL+JiP+2QABQ@mail.gmail.com>
+ <CACvgo50z6bGu4=jqEHCSUOd_geadEwuOcOquLiVRsCdRroG2fg@mail.gmail.com>
+ <CAKMK7uFpuLhR6eL+C15-kPYiEO1upU0+z9nz2BOhriKtSnqX5Q@mail.gmail.com>
+ <CAPj87rMj+Y6vW9VubUnHm1QUmh5JJ-+VwQRd5SULwH0rg6ZYSw@mail.gmail.com>
+In-Reply-To: <CAPj87rMj+Y6vW9VubUnHm1QUmh5JJ-+VwQRd5SULwH0rg6ZYSw@mail.gmail.com>
+From: Emil Velikov <emil.l.velikov@gmail.com>
+Date: Tue, 6 Aug 2019 11:27:13 +0100
+Message-ID: <CACvgo50-N8SqwfLtzMhsvEhY7VMiH4SyTju2mM0mVXamnKktjw@mail.gmail.com>
+Subject: Re: [PULL] drm-misc-next
+To: Daniel Stone <daniel@fooishbar.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=D+lAHSQOxtbia37IV3ZYPxwR4GNMA3lfAOT356BgdJo=;
+ b=FRFgIqk3OwO23h3wKy1pcDcigvRiWGs6pnV3qG1byEYisb/FqJocI7+6+1SKSI0VZs
+ NZYJkmQuM+pkPQnXK9h+1ximKt2bxXPJFsVjqVYQUm2AXzo6E3yY9i2Wtts/xcKMrHWa
+ lPBWrUFRIpg3PsSD2qpPRwm3eHuQx2Wy/1rv514uzksWNs0sfRfpadwWauqlsz0bLwbV
+ YR5mZSA0m0yKtwS8JXpZJRVNSYv1sbtIWcF5KG88IWGckO41s7PocnmT78hR5cO3t0vK
+ 42AwZwJIrlrKmYk6nS1mWJ1wm/S8hKHhf4JFPn1wd73G3ZcTB8ZT183BCanT7GjZSotK
+ 3lTA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,238 +69,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1031688716=="
+Cc: "DRM maintainer tools announcements, discussion,
+ and development" <dim-tools@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1031688716==
-Content-Type: multipart/alternative; boundary="15650865162.fa3Ee.5675"
-Content-Transfer-Encoding: 7bit
-
-
---15650865162.fa3Ee.5675
-Date: Tue, 6 Aug 2019 10:15:16 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111305
-
-            Bug ID: 111305
-           Summary: `ttm_bo_handle_move_mem` sometimes takes more than 50
-                    ms
-           Product: DRI
-           Version: XOrg git
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: normal
-          Priority: medium
-         Component: DRM/AMDgpu
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: pmenzel+bugs.freedesktop.org@molgen.mpg.de
-
-Created attachment 144954
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144954&action=3Dedit
-Screenshot from callgraph excerpt
-
-With Linux 5.3-rc3 and pm-graph=E2=80=99s `sleepgraph.py` [1] measuring sus=
-pend times
-on the Dell OptiPlex 5040 with an external AMD graphics card, the driver ne=
-eds
-2.1 seconds to suspend the device, which is too long.
-
-    $ lspci -nn -s 01:
-    01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Oland XT [Radeon HD 8670 / R7 250/350] [1002:6610] (rev 81)
-    01:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Cape
-Verde/Pitcairn HDMI Audio [Radeon HD 7700/7800 Series] [1002:aab0]
-
-Here is the time:
-
-    0000:01:00.0 suspend (2170.017 ms @ 5037.143762 to 5039.313779)
-
-Looking into the call graph, 1.4 s are spent in `ttm_bo_evict_mm`.
-
-    ttm_bo_evict_mm [ttm] (1438.050 ms @ 5037.601941)
-
-As you can see in the attached screenshot, there are some
-`ttm_bo_handle_move_mem` call which take several milliseconds adding up to =
-the
-long time.
-
-    - ttm_mem_evict_first [ttm] (304.860 ms @ 5037.705809)
-        _raw_spin_lock
-        mutex_trylock (0.000 ms @ 5037.705809)
-        + ttm_bo_del_from_lru [ttm]
-        - ttm_bo_evict [ttm] (304.857 ms @ 5037.705810)
-            amdgpu_evict_flags [amdgpu] (0.000 ms @ 5037.705810)
-            ttm_bo_mem_space [ttm] (0.001 ms @ 5037.705811)
-            ttm_bo_handle_move_mem [ttm] (304.853 ms @ 5037.705812)
-
-[1]: https://github.com/intel/pm-graph
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15650865162.fa3Ee.5675
-Date: Tue, 6 Aug 2019 10:15:16 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - `ttm_bo_handle_move_mem` sometimes takes more than 50 ms"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111305">111305</a>
-          </td>
-        </tr>
-
-        <tr>
-          <th>Summary</th>
-          <td>`ttm_bo_handle_move_mem` sometimes takes more than 50 ms
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>XOrg git
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>normal
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>DRM/AMDgpu
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de
-          </td>
-        </tr></table>
-      <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144954=
-" name=3D"attach_144954" title=3D"Screenshot from callgraph excerpt">attach=
-ment 144954</a> <a href=3D"attachment.cgi?id=3D144954&amp;action=3Dedit" ti=
-tle=3D"Screenshot from callgraph excerpt">[details]</a></span>
-Screenshot from callgraph excerpt
-
-With Linux 5.3-rc3 and pm-graph=E2=80=99s `sleepgraph.py` [1] measuring sus=
-pend times
-on the Dell OptiPlex 5040 with an external AMD graphics card, the driver ne=
-eds
-2.1 seconds to suspend the device, which is too long.
-
-    $ lspci -nn -s 01:
-    01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc.
-[AMD/ATI] Oland XT [Radeon HD 8670 / R7 250/350] [1002:6610] (rev 81)
-    01:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Cape
-Verde/Pitcairn HDMI Audio [Radeon HD 7700/7800 Series] [1002:aab0]
-
-Here is the time:
-
-    0000:01:00.0 suspend (2170.017 ms &#64; 5037.143762 to 5039.313779)
-
-Looking into the call graph, 1.4 s are spent in `ttm_bo_evict_mm`.
-
-    ttm_bo_evict_mm [ttm] (1438.050 ms &#64; 5037.601941)
-
-As you can see in the attached screenshot, there are some
-`ttm_bo_handle_move_mem` call which take several milliseconds adding up to =
-the
-long time.
-
-    - ttm_mem_evict_first [ttm] (304.860 ms &#64; 5037.705809)
-        _raw_spin_lock
-        mutex_trylock (0.000 ms &#64; 5037.705809)
-        + ttm_bo_del_from_lru [ttm]
-        - ttm_bo_evict [ttm] (304.857 ms &#64; 5037.705810)
-            amdgpu_evict_flags [amdgpu] (0.000 ms &#64; 5037.705810)
-            ttm_bo_mem_space [ttm] (0.001 ms &#64; 5037.705811)
-            ttm_bo_handle_move_mem [ttm] (304.853 ms &#64; 5037.705812)
-
-[1]: <a href=3D"https://github.com/intel/pm-graph">https://github.com/intel=
-/pm-graph</a></pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15650865162.fa3Ee.5675--
-
---===============1031688716==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1031688716==--
+T24gVHVlLCA2IEF1ZyAyMDE5IGF0IDExOjE0LCBEYW5pZWwgU3RvbmUgPGRhbmllbEBmb29pc2hi
+YXIub3JnPiB3cm90ZToKCj4gVGhlIGlkZWEgSSBoYWQgYSBmZXcgd2Vla3MgYWdvIHdhcyB0byBo
+YXZlIGRpbSB1c2UgJ2dpdCBwdXNoCj4gLS1wdXNoLW9wdGlvbiBmZG8ucHVzaGVkV2l0aERpbT10
+aGlzLXdhcy1wdXNoZWQtd2l0aC1kaW0tYW5kLW5vdC1tYW51YWxseScsCj4gdGhlbiBoYXZlIHRo
+ZSBob29rcyBvbiB0aGUgc2VydmVyIHNpZGUgY2hlY2sgZm9yIHRoYXQgb3B0aW9uIGFuZAo+IHJl
+ZnVzZSBhbnkgZGlyZWN0IHB1c2hlcy4gKE9yIGF0IGxlYXN0LCBpZiBwZW9wbGUgYXJlIHB1c2hp
+bmcKPiBkaXJlY3RseSwgdGhleSBoYXZlIHRvIF9yZWFsbHlfIHRyeSB0byBiZSBkb2luZyBpdCwg
+YW5kIGNhbid0IGRvIGl0IGJ5Cj4gYWNjaWRlbnQuKQo+CkxldCBtZSB0cnkgYW5kIHdyaXRlIGEg
+RElNIHBhdGNoIGZvciB0aGF0LgoKLUVtaWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVs
