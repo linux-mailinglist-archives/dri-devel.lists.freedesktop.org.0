@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ACD882C7E
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 09:21:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA9982CD3
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 09:32:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85EA68996E;
-	Tue,  6 Aug 2019 07:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 406E989F35;
+	Tue,  6 Aug 2019 07:32:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AEB38996E;
- Tue,  6 Aug 2019 07:21:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 535373078856;
- Tue,  6 Aug 2019 07:21:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com
- [10.36.116.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCCC55D9C8;
- Tue,  6 Aug 2019 07:21:50 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B67D016E32; Tue,  6 Aug 2019 09:21:49 +0200 (CEST)
-Date: Tue, 6 Aug 2019 09:21:49 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Chuhong Yuan <hslester96@gmail.com>
-Subject: Re: [PATCH] drm/qxl: Use dev_get_drvdata where possible
-Message-ID: <20190806072149.n32ktcp23qys26jy@sirius.home.kraxel.org>
-References: <20190723103959.4078-1-hslester96@gmail.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0D7AB6E2F3
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 07:32:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 0959072167; Tue,  6 Aug 2019 07:32:07 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 107262] [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200g
+Date: Tue, 06 Aug 2019 07:32:06 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pmenzel+bugs.freedesktop.org@molgen.mpg.de
+X-Bugzilla-Status: REOPENED
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-107262-502-INiid7fpBs@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-107262-502@http.bugs.freedesktop.org/>
+References: <bug-107262-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190723103959.4078-1-hslester96@gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 06 Aug 2019 07:21:51 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,19 +52,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2082135657=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBKdWwgMjMsIDIwMTkgYXQgMDY6NDA6MDBQTSArMDgwMCwgQ2h1aG9uZyBZdWFuIHdy
-b3RlOgo+IEluc3RlYWQgb2YgdXNpbmcgdG9fcGNpX2RldiArIHBjaV9nZXRfZHJ2ZGF0YSwKPiB1
-c2UgZGV2X2dldF9kcnZkYXRhIHRvIG1ha2UgY29kZSBzaW1wbGVyLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IENodWhvbmcgWXVhbiA8aHNsZXN0ZXI5NkBnbWFpbC5jb20+CgpRdWV1ZWQgZm9yIGRybS1t
-aXNjLW5leHQgKHRoZSBib2NocyBwYXRjaCB0b28pLgoKdGhhbmtzLAogIEdlcmQKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2082135657==
+Content-Type: multipart/alternative; boundary="15650767262.a6CaA.6141"
+Content-Transfer-Encoding: 7bit
+
+
+--15650767262.a6CaA.6141
+Date: Tue, 6 Aug 2019 07:32:06 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D107262
+
+Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|RESOLVED                    |REOPENED
+         Resolution|NOTABUG                     |---
+
+--- Comment #4 from Paul Menzel <pmenzel+bugs.freedesktop.org@molgen.mpg.de=
+> ---
+Any suggestions regarding this? I see this on all recent AMD systems.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15650767262.a6CaA.6141
+Date: Tue, 6 Aug 2019 07:32:06 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:pmenzel+b=
+ugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pmenzel+bug=
+s.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul Menzel</s=
+pan></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200=
+g"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107262">bug 10726=
+2</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>RESOLVED
+           </td>
+           <td>REOPENED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>NOTABUG
+           </td>
+           <td>---
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200=
+g"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107262#c4">Commen=
+t # 4</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_REOPENED "
+   title=3D"REOPENED - [drm] BIOS signature incorrect 0 0 with Ryzen 3 2200=
+g"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107262">bug 10726=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pmenzel+bugs.freedesktop.org&#64;molgen.mpg.de" title=3D"Paul Menzel &lt;pm=
+enzel+bugs.freedesktop.org&#64;molgen.mpg.de&gt;"> <span class=3D"fn">Paul =
+Menzel</span></a>
+</span></b>
+        <pre>Any suggestions regarding this? I see this on all recent AMD s=
+ystems.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15650767262.a6CaA.6141--
+
+--===============2082135657==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2082135657==--
