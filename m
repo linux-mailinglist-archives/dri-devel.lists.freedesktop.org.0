@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31579828D7
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 02:51:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0007B82995
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 04:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D766E2E0;
-	Tue,  6 Aug 2019 00:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC2289FDB;
+	Tue,  6 Aug 2019 02:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 044C46E2FD
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 00:51:37 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 12F8089FDB
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 02:23:31 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00FD672167; Tue,  6 Aug 2019 00:51:36 +0000 (UTC)
+ id 0F59172167; Tue,  6 Aug 2019 02:23:31 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
- power profile]
-Date: Tue, 06 Aug 2019 00:51:36 +0000
+Subject: [Bug 109345] drm-next-2018-12-14 -Linux PPC
+Date: Tue, 06 Aug 2019 02:23:31 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Component: DRM/Radeon
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: timm366@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: acefnq@gmail.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: FIXED
+X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102646-502-HDvsNMnf8Q@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
-References: <bug-102646-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-109345-502-YvJT1BYyGT@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-109345-502@http.bugs.freedesktop.org/>
+References: <bug-109345-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,37 +52,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1155914079=="
+Content-Type: multipart/mixed; boundary="===============0185493387=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1155914079==
-Content-Type: multipart/alternative; boundary="156505269614.86B21.21800"
+--===============0185493387==
+Content-Type: multipart/alternative; boundary="15650582110.BA54eb18.9703"
 Content-Transfer-Encoding: 7bit
 
 
---156505269614.86B21.21800
-Date: Tue, 6 Aug 2019 00:51:36 +0000
+--15650582110.BA54eb18.9703
+Date: Tue, 6 Aug 2019 02:23:31 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
+https://bugs.freedesktop.org/show_bug.cgi?id=3D109345
 
---- Comment #100 from timm366@gmail.com <timm366@gmail.com> ---
-Ahzo, I also verified your patch using my monitor's max resolution/freq
-2560x1440/75Hz (my preferred settings), on Manjaro 5.2.6-arch1-1-custom.
-Thanks!
+Allan Cairns <acefnq@gmail.com> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|REOPENED                    |RESOLVED
+         Resolution|---                         |FIXED
+
+--- Comment #49 from Allan Cairns <acefnq@gmail.com> ---
+All
+Thanks for your hard work in investigating this bug it is very much
+appreciated.  I can confirm the issues on the Amigaone X5000 are resolved.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---156505269614.86B21.21800
-Date: Tue, 6 Aug 2019 00:51:36 +0000
+--15650582110.BA54eb18.9703
+Date: Tue, 6 Aug 2019 02:23:31 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -94,29 +100,58 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:acefnq&#6=
+4;gmail.com" title=3D"Allan Cairns &lt;acefnq&#64;gmail.com&gt;"> <span cla=
+ss=3D"fn">Allan Cairns</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>REOPENED
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>FIXED
+           </td>
+         </tr></table>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c100">Comm=
-ent # 100</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345#c49">Comme=
+nt # 49</a>
               on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
-6</a>
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED FIXED - drm-next-2018-12-14 -Linux PPC"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109345">bug 10934=
+5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-timm366&#64;gmail.com" title=3D"timm366&#64;gmail.com &lt;timm366&#64;gmail=
-.com&gt;"> <span class=3D"fn">timm366&#64;gmail.com</span></a>
+acefnq&#64;gmail.com" title=3D"Allan Cairns &lt;acefnq&#64;gmail.com&gt;"> =
+<span class=3D"fn">Allan Cairns</span></a>
 </span></b>
-        <pre>Ahzo, I also verified your patch using my monitor's max resolu=
-tion/freq
-2560x1440/75Hz (my preferred settings), on Manjaro 5.2.6-arch1-1-custom.
-Thanks!</pre>
+        <pre>All
+Thanks for your hard work in investigating this bug it is very much
+appreciated.  I can confirm the issues on the Amigaone X5000 are resolved.<=
+/pre>
         </div>
       </p>
 
@@ -130,9 +165,9 @@ Thanks!</pre>
     </body>
 </html>=
 
---156505269614.86B21.21800--
+--15650582110.BA54eb18.9703--
 
---===============1155914079==
+--===============0185493387==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +177,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1155914079==--
+--===============0185493387==--
