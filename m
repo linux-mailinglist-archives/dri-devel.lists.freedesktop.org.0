@@ -1,22 +1,22 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0239A83960
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 21:09:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EA88396A
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 21:11:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B68B489A1E;
-	Tue,  6 Aug 2019 19:09:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9752989B20;
+	Tue,  6 Aug 2019 19:11:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48C0C899DE;
- Tue,  6 Aug 2019 19:09:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7820B89B20;
+ Tue,  6 Aug 2019 19:11:46 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from localhost (unverified [78.156.65.138]) 
  by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 17909697-1500050 for multiple; Tue, 06 Aug 2019 20:09:33 +0100
+ 17909706-1500050 for multiple; Tue, 06 Aug 2019 20:11:41 +0100
 MIME-Version: 1.0
 From: Chris Wilson <chris@chris-wilson.co.uk>
 User-Agent: alot/0.6
@@ -24,11 +24,12 @@ To: =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
 References: <20190806150134.104222-1-christian.koenig@amd.com>
- <20190806150134.104222-4-christian.koenig@amd.com>
-In-Reply-To: <20190806150134.104222-4-christian.koenig@amd.com>
-Message-ID: <156511857076.6198.6935979938988923291@skylake-alporthouse-com>
-Subject: Re: [PATCH 4/8] drm/i915: use new reservation_object_fences helper
-Date: Tue, 06 Aug 2019 20:09:30 +0100
+ <20190806150134.104222-6-christian.koenig@amd.com>
+In-Reply-To: <20190806150134.104222-6-christian.koenig@amd.com>
+Message-ID: <156511869892.6198.11569758157436428518@skylake-alporthouse-com>
+Subject: Re: [PATCH 6/8] dma-buf: simplify reservation_object_get_fences_rcu a
+ bit
+Date: Tue, 06 Aug 2019 20:11:38 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,9 +47,11 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBDaHJpc3RpYW4gS8O2bmlnICgyMDE5LTA4LTA2IDE2OjAxOjMwKQo+IEluc3RlYWQg
-b2Ygb3BlbiBjb2RpbmcgdGhlIHNlcXVlbmNlIGxvb3AgdXNlIHRoZSBuZXcgaGVscGVyLgoKSSd2
-ZSBtaXNzZWQgc29tZXRoaW5nLiBXaGF0IHJlc2VydmF0aW9uX29iamVjdF9mZW5jZXMoKT8KLUNo
-cmlzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+UXVvdGluZyBDaHJpc3RpYW4gS8O2bmlnICgyMDE5LTA4LTA2IDE2OjAxOjMyKQo+IFdlIGNhbiBh
+ZGQgdGhlIGV4Y2x1c2l2ZSBmZW5jZSB0byB0aGUgbGlzdCBhZnRlciBtYWtpbmcgc3VyZSB3ZSBn
+b3QKPiBhIGNvbnNpc3RlbnQgc3RhdGUuCj4gCj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvD
+tm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXMgV2lsc29u
+IDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Ci1DaHJpcwpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
