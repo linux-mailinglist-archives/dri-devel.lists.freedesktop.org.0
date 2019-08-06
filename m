@@ -2,45 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B337282FE0
-	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 12:45:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748BC83000
+	for <lists+dri-devel@lfdr.de>; Tue,  6 Aug 2019 12:48:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 840B06E358;
-	Tue,  6 Aug 2019 10:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2803089010;
+	Tue,  6 Aug 2019 10:48:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 729A66E358
- for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 10:45:25 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 6AE3372167; Tue,  6 Aug 2019 10:45:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111228] PRIME output screen stays black on 1002:15d8 with 128MB
- VRAM
-Date: Tue, 06 Aug 2019 10:45:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: januszekdawid@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111228-502-new3GTOcmu@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111228-502@http.bugs.freedesktop.org/>
-References: <bug-111228-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C59A089010
+ for <dri-devel@lists.freedesktop.org>; Tue,  6 Aug 2019 10:48:43 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C036337;
+ Tue,  6 Aug 2019 03:48:43 -0700 (PDT)
+Received: from DESKTOP-E1NTVVP.cambridge.arm.com (unknown [10.1.25.192])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 427DB3F694;
+ Tue,  6 Aug 2019 03:48:42 -0700 (PDT)
+From: Brian Starkey <brian.starkey@arm.com>
+To: Liviu Dudau <Liviu.Dudau@arm.com>,
+ "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
+ "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>, nd@arm.com,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2] drm/crc-debugfs: Add notes about CRC<->commit interactions
+Date: Tue,  6 Aug 2019 11:48:35 +0100
+Message-Id: <20190806104835.26075-1-brian.starkey@arm.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190806091233.GX7444@phenom.ffwll.local>
+References: <20190806091233.GX7444@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,98 +41,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0051343745=="
+Cc: LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0051343745==
-Content-Type: multipart/alternative; boundary="15650883252.A2fa5d81c.10885"
-Content-Transfer-Encoding: 7bit
-
-
---15650883252.A2fa5d81c.10885
-Date: Tue, 6 Aug 2019 10:45:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111228
-
---- Comment #6 from djczaps <januszekdawid@gmail.com> ---
-Similar situation --> if not exactly the same. Except I don't need to do any
-nvidia-blacklist as a backup. Nvidia is just blacklisted itself. Also stran=
-ge
-power management when You pres the switch off button most often the system
-doesn't shutdown. Need to press the power button manually to make it happen.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15650883252.A2fa5d81c.10885
-Date: Tue, 6 Aug 2019 10:45:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - PRIME output screen stays black on 1002:15d8 with 128MB V=
-RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - PRIME output screen stays black on 1002:15d8 with 128MB V=
-RAM"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111228">bug 11122=
-8</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-januszekdawid&#64;gmail.com" title=3D"djczaps &lt;januszekdawid&#64;gmail.c=
-om&gt;"> <span class=3D"fn">djczaps</span></a>
-</span></b>
-        <pre>Similar situation --&gt; if not exactly the same. Except I don=
-'t need to do any
-nvidia-blacklist as a backup. Nvidia is just blacklisted itself. Also stran=
-ge
-power management when You pres the switch off button most often the system
-doesn't shutdown. Need to press the power button manually to make it happen=
-.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15650883252.A2fa5d81c.10885--
-
---===============0051343745==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0051343745==--
+Q1JDIGdlbmVyYXRpb24gY2FuIGJlIGltcGFjdGVkIGJ5IGNvbW1pdHMgY29taW5nIGZyb20gdXNl
+cnNwYWNlLCBhbmQKZW5hYmxpbmcgQ1JDIGdlbmVyYXRpb24gbWF5IGl0c2VsZiB0cmlnZ2VyIGEg
+Y29tbWl0LiBBZGQgbm90ZXMgYWJvdXQKdGhpcyB0byB0aGUga2VybmVsZG9jLgoKU2lnbmVkLW9m
+Zi1ieTogQnJpYW4gU3RhcmtleSA8YnJpYW4uc3RhcmtleUBhcm0uY29tPgotLS0KIGRyaXZlcnMv
+Z3B1L2RybS9kcm1fZGVidWdmc19jcmMuYyB8IDE3ICsrKysrKysrKysrKystLS0tCiBpbmNsdWRl
+L2RybS9kcm1fY3J0Yy5oICAgICAgICAgICAgfCAgNCArKysrCiAyIGZpbGVzIGNoYW5nZWQsIDE3
+IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2RybV9kZWJ1Z2ZzX2NyYy5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2ZzX2NyYy5j
+CmluZGV4IDdjYTQ4NmQ3NTBlOS4uNzcxNTliNmU3N2MzIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2RlYnVnZnNfY3JjLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1Z2Zz
+X2NyYy5jCkBAIC02NSwxMCArNjUsMTkgQEAKICAqIGl0IHN1Ym1pdHMuIEluIHRoaXMgZ2VuZXJh
+bCBjYXNlLCB0aGUgbWF4aW11bSB1c2Vyc3BhY2UgY2FuIGRvIGlzIHRvIGNvbXBhcmUKICAqIHRo
+ZSByZXBvcnRlZCBDUkNzIG9mIGZyYW1lcyB0aGF0IHNob3VsZCBoYXZlIHRoZSBzYW1lIGNvbnRl
+bnRzLgogICoKLSAqIE9uIHRoZSBkcml2ZXIgc2lkZSB0aGUgaW1wbGVtZW50YXRpb24gZWZmb3J0
+IGlzIG1pbmltYWwsIGRyaXZlcnMgb25seSBuZWVkIHRvCi0gKiBpbXBsZW1lbnQgJmRybV9jcnRj
+X2Z1bmNzLnNldF9jcmNfc291cmNlLiBUaGUgZGVidWdmcyBmaWxlcyBhcmUgYXV0b21hdGljYWxs
+eQotICogc2V0IHVwIGlmIHRoYXQgdmZ1bmMgaXMgc2V0LiBDUkMgc2FtcGxlcyBuZWVkIHRvIGJl
+IGNhcHR1cmVkIGluIHRoZSBkcml2ZXIgYnkKLSAqIGNhbGxpbmcgZHJtX2NydGNfYWRkX2NyY19l
+bnRyeSgpLgorICogT24gdGhlIGRyaXZlciBzaWRlIHRoZSBpbXBsZW1lbnRhdGlvbiBlZmZvcnQg
+aXMgbWluaW1hbCwgZHJpdmVycyBvbmx5IG5lZWQKKyAqIHRvIGltcGxlbWVudCAmZHJtX2NydGNf
+ZnVuY3Muc2V0X2NyY19zb3VyY2UuIFRoZSBkZWJ1Z2ZzIGZpbGVzIGFyZQorICogYXV0b21hdGlj
+YWxseSBzZXQgdXAgaWYgdGhhdCB2ZnVuYyBpcyBzZXQuIENSQyBzYW1wbGVzIG5lZWQgdG8gYmUg
+Y2FwdHVyZWQKKyAqIGluIHRoZSBkcml2ZXIgYnkgY2FsbGluZyBkcm1fY3J0Y19hZGRfY3JjX2Vu
+dHJ5KCkuIERlcGVuZGluZyBvbiB0aGUgZHJpdmVyCisgKiBhbmQgSFcgcmVxdWlyZW1lbnRzLCAm
+ZHJtX2NydGNfZnVuY3Muc2V0X2NyY19zb3VyY2UgbWF5IHJlc3VsdCBpbiBhIGNvbW1pdAorICog
+KGV2ZW4gYSBmdWxsIG1vZGVzZXQpLgorICoKKyAqIENSQyByZXN1bHRzIG11c3QgYmUgcmVsaWFi
+bGUgYWNyb3NzIG5vbi1mdWxsLW1vZGVzZXQgYXRvbWljIGNvbW1pdHMsIHNvIGlmIGEKKyAqIGNv
+bW1pdCB2aWEgRFJNX0lPQ1RMX01PREVfQVRPTUlDIHdvdWxkIGRpc2FibGUgb3Igb3RoZXJ3aXNl
+IGludGVyZmVyZSB3aXRoCisgKiBDUkMgZ2VuZXJhdGlvbiwgdGhlbiB0aGUgZHJpdmVyIG11c3Qg
+bWFyayB0aGF0IGNvbW1pdCBhcyBhIGZ1bGwgbW9kZXNldAorICogKGRybV9hdG9taWNfY3J0Y19u
+ZWVkc19tb2Rlc2V0KCkgc2hvdWxkIHJldHVybiB0cnVlKS4gQXMgYSByZXN1bHQsIHRvIGVuc3Vy
+ZQorICogY29uc2lzdGVudCByZXN1bHRzLCBnZW5lcmljIHVzZXJzcGFjZSBtdXN0IHJlLXNldHVw
+IENSQyBnZW5lcmF0aW9uIGFmdGVyIGEKKyAqIGxlZ2FjeSBTRVRDUlRDIG9yIGFuIGF0b21pYyBj
+b21taXQgd2l0aCBEUk1fTU9ERV9BVE9NSUNfQUxMT1dfTU9ERVNFVC4KICAqLwogCiBzdGF0aWMg
+aW50IGNyY19jb250cm9sX3Nob3coc3RydWN0IHNlcV9maWxlICptLCB2b2lkICpkYXRhKQpkaWZm
+IC0tZ2l0IGEvaW5jbHVkZS9kcm0vZHJtX2NydGMuaCBiL2luY2x1ZGUvZHJtL2RybV9jcnRjLmgK
+aW5kZXggMTI4ZDhiMjEwNjIxLi43ZDE0YzExYmRjMGEgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJt
+L2RybV9jcnRjLmgKKysrIGIvaW5jbHVkZS9kcm0vZHJtX2NydGMuaApAQCAtNzU2LDYgKzc1Niw5
+IEBAIHN0cnVjdCBkcm1fY3J0Y19mdW5jcyB7CiAJICogcHJvdmlkZWQgZnJvbSB0aGUgY29uZmln
+dXJlZCBzb3VyY2UuIERyaXZlcnMgbXVzdCBhY2NlcHQgYW4gImF1dG8iCiAJICogc291cmNlIG5h
+bWUgdGhhdCB3aWxsIHNlbGVjdCBhIGRlZmF1bHQgc291cmNlIGZvciB0aGlzIENSVEMuCiAJICoK
+KwkgKiBUaGlzIG1heSB0cmlnZ2VyIGFuIGF0b21pYyBtb2Rlc2V0IGNvbW1pdCBpZiBuZWNlc3Nh
+cnksIHRvIGVuYWJsZSBDUkMKKwkgKiBnZW5lcmF0aW9uLgorCSAqCiAJICogTm90ZSB0aGF0ICJh
+dXRvIiBjYW4gZGVwZW5kIHVwb24gdGhlIGN1cnJlbnQgbW9kZXNldCBjb25maWd1cmF0aW9uLAog
+CSAqIGUuZy4gaXQgY291bGQgcGljayBhbiBlbmNvZGVyIG9yIG91dHB1dCBzcGVjaWZpYyBDUkMg
+c2FtcGxpbmcgcG9pbnQuCiAJICoKQEAgLTc2Nyw2ICs3NzAsNyBAQCBzdHJ1Y3QgZHJtX2NydGNf
+ZnVuY3MgewogCSAqIDAgb24gc3VjY2VzcyBvciBhIG5lZ2F0aXZlIGVycm9yIGNvZGUgb24gZmFp
+bHVyZS4KIAkgKi8KIAlpbnQgKCpzZXRfY3JjX3NvdXJjZSkoc3RydWN0IGRybV9jcnRjICpjcnRj
+LCBjb25zdCBjaGFyICpzb3VyY2UpOworCiAJLyoqCiAJICogQHZlcmlmeV9jcmNfc291cmNlOgog
+CSAqCi0tIAoyLjE3LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbA==
