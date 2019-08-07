@@ -2,44 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAFC84E0F
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 15:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896D984E1B
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 16:02:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 416F16E6FB;
-	Wed,  7 Aug 2019 13:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E856B89026;
+	Wed,  7 Aug 2019 14:02:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3A6E96E6FF
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 13:58:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 36FB772167; Wed,  7 Aug 2019 13:58:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Wed, 07 Aug 2019 13:58:31 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-voktNRIooY@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D32C789026;
+ Wed,  7 Aug 2019 14:02:07 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 17919253-1500050 for multiple; Wed, 07 Aug 2019 15:02:01 +0100
 MIME-Version: 1.0
+From: Chris Wilson <chris@chris-wilson.co.uk>
+User-Agent: alot/0.6
+To: =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20190807135405.2036-1-christian.koenig@amd.com>
+In-Reply-To: <20190807135405.2036-1-christian.koenig@amd.com>
+Message-ID: <156518651926.6198.3556429609794523741@skylake-alporthouse-com>
+Subject: Re: [PATCH] dma-buf: make dma_fence structure a bit smaller
+Date: Wed, 07 Aug 2019 15:01:59 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,113 +40,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1190107877=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1190107877==
-Content-Type: multipart/alternative; boundary="15651863113.c97Eda02e.27830"
-Content-Transfer-Encoding: 7bit
-
-
---15651863113.c97Eda02e.27830
-Date: Wed, 7 Aug 2019 13:58:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
-
---- Comment #22 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to cspack from comment #21)
-> The default is -1 according to the docs and
-> /sys/module/amdgpu/parameters/dc.
-
-What I meant is it's enabled by default for you, so amdgpu.dc=3D1 has no ef=
-fect.
-
-
-> I assume it should effectively be the same but it seems to result in diff=
-erent
-> behavior vs. setting it to 1.
-
-The different behaviour is just luck, which is why you had trouble bisecting
-initially, not related to amdgpu.dc=3D1.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15651863113.c97Eda02e.27830
-Date: Wed, 7 Aug 2019 13:58:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c22">Comme=
-nt # 22</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to cspack from <a href=3D"show_bug.cgi?id=3D111244#c=
-21">comment #21</a>)
-<span class=3D"quote">&gt; The default is -1 according to the docs and
-&gt; /sys/module/amdgpu/parameters/dc.</span >
-
-What I meant is it's enabled by default for you, so amdgpu.dc=3D1 has no ef=
-fect.
-
-
-<span class=3D"quote">&gt; I assume it should effectively be the same but i=
-t seems to result in different
-&gt; behavior vs. setting it to 1.</span >
-
-The different behaviour is just luck, which is why you had trouble bisecting
-initially, not related to amdgpu.dc=3D1.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15651863113.c97Eda02e.27830--
-
---===============1190107877==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1190107877==--
+UXVvdGluZyBDaHJpc3RpYW4gS8O2bmlnICgyMDE5LTA4LTA3IDE0OjU0OjA1KQo+IFRoZSBydWMg
+YW5kIGNiX2xpc3QgYXJlIG5ldmVyIHVzZWQgYXQgdGhlIHNhbWUgdGltZS4KPiBUaGlzIHNtYWwg
+Y2hhbmdlIGlzIGFjdHVhbGx5IG1ha2luZyB0aGUgc3RydWN0dXJlIDE2JSBzbWFsbGVyLgooVHJp
+dmlhbCBwYWlyIG9mIHR5cG9zKQoKWWVzLiBXZSBjbGVhciB0aGUgY2FsbGJhY2sgbGlzdCBvbiBr
+cmVmX3B1dCBzbyB0aGF0IGJ5IHRoZSB0aW1lIHdlCnJlbGVhc2UgdGhlIGZlbmNlIGl0IGlzIHVu
+dXNlZC4gTm8gb25lIHNob3VsZCBiZSBhZGRpbmcgdG8gdGhlIGNiX2xpc3QKdGhhdCB0aGV5IGRv
+bid0IHRoZW1zZWx2ZXMgaG9sZCBhIHJlZmVyZW5jZSBmb3IsIHRoaXMgb25seSBub3cgbWFrZXMg
+Zm9yCmEgbXVjaCBtb3JlIHNwZWN0YWN1bGFyIHVzZS1hZnRlci1mcmVlLiA6KQoKPiBTaWduZWQt
+b2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClJldmll
+d2VkLWJ5OiBDaHJpcyBXaWxzb24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KLUNocmlzCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
