@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69256846EC
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 10:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B896184754
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 10:28:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F84A6E695;
-	Wed,  7 Aug 2019 08:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48CEA6E697;
+	Wed,  7 Aug 2019 08:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7E3DD6E695
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 08:15:23 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 7B04D72167; Wed,  7 Aug 2019 08:15:23 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110214] Raven Ridge (2400G): xterm scrollback buffer disappears
- while Shift+PgUp and Shift+PgDn
-Date: Wed, 07 Aug 2019 08:15:23 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110214-502-zGs8nDK1u2@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
-References: <bug-110214-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C38D6E69C
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 08:28:12 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id z23so72731470ote.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 07 Aug 2019 01:28:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6VqkYW5Pb9NPAUWAJ1Hm+13eBgHLhXTSOzj6pGDrWaE=;
+ b=bQAt58Mp1o0UGxXh5bipo8MVjnxTMcSDp2iaiAxFr7ty3bVdQ4490tFEMDXiMnB2pL
+ 9mcuckt3CaFP8Ckyxl5HAlbfIWHzxjR2iryhHA+PcXDiy3CaYXP00W26iwpb84uWfnF2
+ VWxig3Q1aDdmRD7Ov/GCLZO7dvZ1MP9PPbOT7LrQ6rM/oy8+0j1t0Aq2M0Jw2LJiROc0
+ pdwcnnVR/O89X3LgWi8Cmi8hqRfVu+Cxy/vZ7/L8BWuekfQadvH174nJjfQglimdKj3e
+ vUaCaA7PUqi5GL6o/0jjn2xhEZnqA3JennvrM5JMVqysHUtzbCRLe7N2X1EJ0gx6EYhL
+ s9zw==
+X-Gm-Message-State: APjAAAXgP558wcLlrhkSEGSLeyWCV156le1dTP/B9q5BaInhEKVGQiLw
+ ntQFG8TJ1NNSx/UUEP+IcJKRgmGdDx01XxXzuEZ8nw==
+X-Google-Smtp-Source: APXvYqymZlQCH2slZ+gCrcXV1SxxswvEQuyAECRxiL0EEkmtaR83NXQNrJ+EDazQrKj4+NEKCBEgfpvvPGGKw6+EC7A=
+X-Received: by 2002:a05:6808:118:: with SMTP id
+ b24mr4623781oie.128.1565166491437; 
+ Wed, 07 Aug 2019 01:28:11 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190806133454.8254-1-kraxel@redhat.com>
+ <20190806133454.8254-2-kraxel@redhat.com>
+ <20190806135426.GA7444@phenom.ffwll.local>
+ <20190807072654.arqvx37p4yxhegcu@sirius.home.kraxel.org>
+In-Reply-To: <20190807072654.arqvx37p4yxhegcu@sirius.home.kraxel.org>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 7 Aug 2019 10:28:00 +0200
+Message-ID: <CAKMK7uFyKd71w4H8nFk=WPSHL3KMwQ6kLwAMXTd_TAkrkJ++KQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm: add gem ttm helpers
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc;
+ bh=6VqkYW5Pb9NPAUWAJ1Hm+13eBgHLhXTSOzj6pGDrWaE=;
+ b=QK21tnj2wA2WAGFXzboom94BfRwn1VGhGTG6G9qemB4Z1SDyDwLhNic25qBROeA+AO
+ Otpbp/+1Z5xkFz2u3hnoNZl/7sxTpen5B6V3/zwbN6d3y8xKK5XCIRXb4BBm3yOt9/uk
+ dmBZXigpTm+moy+wJpK9MV+2TKlKA3eVZ91iM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,139 +63,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1365404280=="
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1365404280==
-Content-Type: multipart/alternative; boundary="15651657232.3bDf35b.32560"
-Content-Transfer-Encoding: 7bit
-
-
---15651657232.3bDf35b.32560
-Date: Wed, 7 Aug 2019 08:15:23 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
-
---- Comment #104 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-praye=
-r@amd.com> ---
-(In reply to Diego Viola from comment #103)
-> (In reply to Pierre-Eric Pelloux-Prayer from comment #102)
-> > (In reply to Diego Viola from comment #100)
-> > > (In reply to Michel D=C3=A4nzer from comment #99)
-> > > > https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1554 has so=
-me fixes
-> > > > for DPBB, might help for this as well.
-> > >=20
-> > > Unfortunately it doesn't help, I compiled mesa to /usr/local (from his
-> > > dpbb_fixes branch) but the issue is still there.
-> >=20
-> > I just pushed a new commit on the same MR
-> > (https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1554/
-> > diffs?commit_id=3Dd25df1274ea48fa73b0d8b31558e2cebb0851015).
-> >=20
-> > Could you test on your machine and let me know if it helps?
->=20
-> I can confirm that your new commit fixes the problem. Thank you very much=
-! :D
-
-Thanks for the confirmation.
-I added a Tested-by tag to the commit.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15651657232.3bDf35b.32560
-Date: Wed, 7 Aug 2019 08:15:23 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Raven Ridge (2400G): xterm scrollback buffer disappears w=
-hile Shift+PgUp and Shift+PgDn"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c104">Comm=
-ent # 104</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Raven Ridge (2400G): xterm scrollback buffer disappears w=
-hile Shift+PgUp and Shift+PgDn"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>(In reply to Diego Viola from <a href=3D"show_bug.cgi?id=3D110=
-214#c103">comment #103</a>)
-<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
-href=3D"show_bug.cgi?id=3D110214#c102">comment #102</a>)
-&gt; &gt; (In reply to Diego Viola from <a href=3D"show_bug.cgi?id=3D110214=
-#c100">comment #100</a>)
-&gt; &gt; &gt; (In reply to Michel D=C3=A4nzer from <a href=3D"show_bug.cgi=
-?id=3D110214#c99">comment #99</a>)
-&gt; &gt; &gt; &gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/mer=
-ge_requests/1554">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1=
-554</a> has some fixes
-&gt; &gt; &gt; &gt; for DPBB, might help for this as well.
-&gt; &gt; &gt;=20
-&gt; &gt; &gt; Unfortunately it doesn't help, I compiled mesa to /usr/local=
- (from his
-&gt; &gt; &gt; dpbb_fixes branch) but the issue is still there.
-&gt; &gt;=20
-&gt; &gt; I just pushed a new commit on the same MR
-&gt; &gt; (<a href=3D"https://gitlab.freedesktop.org/mesa/mesa/merge_reques=
-ts/1554/">https://gitlab.freedesktop.org/mesa/mesa/merge_requests/1554/</a>
-&gt; &gt; diffs?commit_id=3Dd25df1274ea48fa73b0d8b31558e2cebb0851015).
-&gt; &gt;=20
-&gt; &gt; Could you test on your machine and let me know if it helps?
-&gt;=20
-&gt; I can confirm that your new commit fixes the problem. Thank you very m=
-uch! :D</span >
-
-Thanks for the confirmation.
-I added a Tested-by tag to the commit.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15651657232.3bDf35b.32560--
-
---===============1365404280==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1365404280==--
+T24gV2VkLCBBdWcgNywgMjAxOSBhdCA5OjI5IEFNIEdlcmQgSG9mZm1hbm4gPGtyYXhlbEByZWRo
+YXQuY29tPiB3cm90ZToKPgo+ID4gPiArLyoqCj4gPiA+ICsgKiBkcm1fZ2VtX3R0bV9tbWFwX29m
+ZnNldCgpIC0gUmV0dXJucyBhIEdFTSB0dG0gb2JqZWN0J3MgbW1hcCBvZmZzZXQKPiA+ID4gKyAq
+IEBnYm86ICAgdGhlIEdFTSB0dG0gb2JqZWN0Cj4gPiA+ICsgKgo+ID4gPiArICogU2VlIGRybV92
+bWFfbm9kZV9vZmZzZXRfYWRkcigpIGZvciBtb3JlIGluZm9ybWF0aW9uLgo+ID4gPiArICoKPiA+
+ID4gKyAqIFJldHVybnM6Cj4gPiA+ICsgKiBUaGUgYnVmZmVyIG9iamVjdCdzIG9mZnNldCBmb3Ig
+dXNlcnNwYWNlIG1hcHBpbmdzIG9uIHN1Y2Nlc3MsIG9yCj4gPiA+ICsgKiAwIGlmIG5vIG9mZnNl
+dCBpcyBhbGxvY2F0ZWQuCj4gPiA+ICsgKi8KPiA+ID4gK3U2NCBkcm1fZ2VtX3R0bV9tbWFwX29m
+ZnNldChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvKQo+ID4gPiArewo+ID4gPiArICAgcmV0
+dXJuIGRybV92bWFfbm9kZV9vZmZzZXRfYWRkcigmYm8tPmJhc2Uudm1hX25vZGUpOwo+ID4KPiA+
+IFdoeSBkbyB3ZSBuZWVkIGEgbmV3IG9uZSBoZXJlLCBjYW4ndCB3ZSB1c2UgdGhlIGV4aXN0aW5n
+IGdlbQo+ID4gaW1wbGVtZW50YXRpb24gZm9yIHRoaXMgKHRoZXJlIHJlYWxseSBzaG91bGQgb25s
+eSBiZSBvbmUgSSBob3BlLCBidXQgSQo+ID4gZGlkbid0IGNoZWNrKS4KPgo+IEhhdm4ndCBmb3Vu
+ZCBvbmUuCgpJdCBnb3QgcmV2ZXJ0ZWQgb3V0IGFnYWluOgoKY29tbWl0IDQxNWQyZTllMDc1NzRk
+M2RlNjNiOGRmNzdkYzY4NmUwZWJmNjQ4NjUKQXV0aG9yOiBSb2IgSGVycmluZyA8cm9iaEBrZXJu
+ZWwub3JnPgpEYXRlOiAgIFdlZCBKdWwgMyAxNjozODo1MCAyMDE5IC0wNjAwCgogICAgUmV2ZXJ0
+ICJkcm0vZ2VtOiBSZW5hbWUgZHJtX2dlbV9kdW1iX21hcF9vZmZzZXQoKSB0byBkcm1fZ2VtX21h
+cF9vZmZzZXQoKSIKCgo+IEJ1dCBtYXliZSB3ZSBkb24ndCBuZWVkIHRoaXMgYXMgc2VwYXJhdGUg
+ZnVuY3Rpb24gYW5kIGNhbiBzaW1wbHkgbW92ZQo+IHRoZSBkcm1fdm1hX25vZGVfb2Zmc2V0X2Fk
+ZHIoKSBjYWxsIGludG8KPiBkcm1fZ2VtX3R0bV9kcml2ZXJfZHVtYl9tbWFwX29mZnNldCgpLgo+
+Cj4gPiA+ICtpbnQgZHJtX2dlbV90dG1fZHJpdmVyX2R1bWJfbW1hcF9vZmZzZXQoc3RydWN0IGRy
+bV9maWxlICpmaWxlLAo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+c3RydWN0IGRybV9kZXZpY2UgKmRldiwKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHVpbnQzMl90IGhhbmRsZSwgdWludDY0X3QgKm9mZnNldCkKPiA+ID4gK3sKPiA+
+ID4gKyAgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZ2VtOwo+ID4gPiArICAgc3RydWN0IHR0bV9i
+dWZmZXJfb2JqZWN0ICpibzsKPiA+ID4gKwo+ID4gPiArICAgZ2VtID0gZHJtX2dlbV9vYmplY3Rf
+bG9va3VwKGZpbGUsIGhhbmRsZSk7Cj4gPiA+ICsgICBpZiAoIWdlbSkKPiA+ID4gKyAgICAgICAg
+ICAgcmV0dXJuIC1FTk9FTlQ7Cj4gPiA+ICsKPiA+ID4gKyAgIGJvID0gZHJtX2dlbV90dG1fb2Zf
+Z2VtKGdlbSk7Cj4gPiA+ICsgICAqb2Zmc2V0ID0gZHJtX2dlbV90dG1fbW1hcF9vZmZzZXQoYm8p
+Owo+ID4gPiArCj4gPiA+ICsgICBkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoZ2VtKTsKPiA+
+ID4gKwo+ID4gPiArICAgcmV0dXJuIDA7Cj4gPiA+ICt9Cj4gPiA+ICtFWFBPUlRfU1lNQk9MKGRy
+bV9nZW1fdHRtX2RyaXZlcl9kdW1iX21tYXBfb2Zmc2V0KTsKPiA+Cj4gPiBTYW1lIGZvciB0aGlz
+LCB5b3UncmUganVzdCB1cGNhc3RpbmcgdG8gdHRtX2JvIGFuZCB0aGVuIGRvd25jYXN0aW5nIHRv
+Cj4gPiBnZW1fYm8gYWdhaW4gLi4uIEkgdGhpbmsganVzdCBhIHNlcmllcyB0byByb2xsIG91dCB0
+aGUgZXhpc3RpbmcgZ2VtCj4gPiBoZWxwZXJzIGV2ZXJ5d2hlcmUgc2hvdWxkIHdvcms/Cj4KPiBJ
+IGRvbid0IHRoaW5rIHNvLiAgZHJtX2dlbV9kdW1iX21hcF9vZmZzZXQoKSBjYWxscwo+IGRybV9n
+ZW1fY3JlYXRlX21tYXBfb2Zmc2V0KCksIHdoaWNoIEkgdGhpbmsgaXMgbm90IGNvcnJlY3QgZm9y
+IHR0bQo+IG9iamVjdHMgYmVjYXVzZSB0dG1fYm9faW5pdCgpIGhhbmRsZXMgdm1hX25vZGUgaW5p
+dGlhbGl6YXRpb24uCgpNb3JlIGNvZGUgdG8gdW5pZnkgZmlyc3Q/IFRoaXMgc2hvdWxkIHdvcmsg
+ZXhhY3RseSB0aGUgc2FtZSB3YXkgZm9yCmFsbCBnZW0gYmFzZWQgZHJpdmVycyBJIHRoaW5rIC4u
+LiBPbmx5IHRyaWNreSBiaXQgaXMgbWFraW5nIHN1cmUKdm13Z2Z4IGtlZXBzIHdvcmtpbmcgY29y
+cmVjdGx5LgotRGFuaWVsCgo+Cj4gY2hlZXJzLAo+ICAgR2VyZAo+Cj4gX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoKCi0tIApEYW5pZWwgVmV0dGVy
+ClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgorNDEgKDApIDc5IDM2NSA1NyA0
+OCAtIGh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
