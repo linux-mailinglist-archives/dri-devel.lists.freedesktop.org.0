@@ -2,33 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B15484D8C
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 15:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC29584DD7
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 15:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C13389D43;
-	Wed,  7 Aug 2019 13:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D966E6DA;
+	Wed,  7 Aug 2019 13:48:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98A0089CE3
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 13:38:38 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 07 Aug 2019 06:37:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,357,1559545200"; d="scan'208";a="176196872"
-Received: from unknown (HELO delly.ger.corp.intel.com) ([10.252.52.138])
- by fmsmga007.fm.intel.com with ESMTP; 07 Aug 2019 06:37:52 -0700
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 55E5A6E6EC
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 13:48:28 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 5244572167; Wed,  7 Aug 2019 13:48:28 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/syncobj: add submit point query capability
-Date: Wed,  7 Aug 2019 16:37:45 +0300
-Message-Id: <20190807133745.4110-3-lionel.g.landwerlin@intel.com>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190807133745.4110-1-lionel.g.landwerlin@intel.com>
-References: <20190807133745.4110-1-lionel.g.landwerlin@intel.com>
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Wed, 07 Aug 2019 13:48:28 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: cspack@verizon.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111244-502-vHWOj3SIL4@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -42,47 +52,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: zhoucm1@amd.com, Christian.Koenig@amd.com, jason@jlekstrand.net
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0002732556=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBmZWF0dXJlIHdhcyB0YWxrZWQgYWJvdXQgYnkgRGF2aWQuIEl0IGFsbG93cyB1c2Vyc3Bh
-Y2UgdG8gcXVlcnkKdGhlIGxhc3Qgc3VibWl0dGVkIHBvaW50IG9uIGEgdGltZWxpbmUuCgpGb2xs
-b3dpbmcgdGhlIHByZXZpb3VzIGNvbW1pdCBpdCBtYWRlIHNlbnNlIHRvIGFkZCBpdC4KClNpZ25l
-ZC1vZmYtYnk6IExpb25lbCBMYW5kd2VybGluIDxsaW9uZWwuZy5sYW5kd2VybGluQGludGVsLmNv
-bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYyB8IDE1ICsrKysrKysrKysrKysr
-LQogaW5jbHVkZS91YXBpL2RybS9kcm0uaCAgICAgICAgfCAgMSArCiAyIGZpbGVzIGNoYW5nZWQs
-IDE1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX3N5bmNvYmouYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCmluZGV4
-IGM0MzdmYjZhYWY3Yy4uYWQyZjU2NzJkNzA3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX3N5bmNvYmouYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3N5bmNvYmouYwpAQCAtMTI5
-MSw3ICsxMjkxLDggQEAgaW50IGRybV9zeW5jb2JqX3F1ZXJ5X2lvY3RsKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJCXJldHVybiAtRU9QTk9UU1VQUDsKIAogCWlmIChhcmdz
-LT5zZWxlY3RvciAhPSBEUk1fU1lOQ09CSl9USU1FTElORV9BUlJBWV9TRUxFQ1RPUl9TSUdOQUxF
-RF9QT0lOVCAmJgotCSAgICBhcmdzLT5zZWxlY3RvciAhPSBEUk1fU1lOQ09CSl9USU1FTElORV9B
-UlJBWV9TRUxFQ1RPUl9TSURFQkFORF9QQVlMT0FEKQorCSAgICBhcmdzLT5zZWxlY3RvciAhPSBE
-Uk1fU1lOQ09CSl9USU1FTElORV9BUlJBWV9TRUxFQ1RPUl9TSURFQkFORF9QQVlMT0FEICYmCisJ
-ICAgIGFyZ3MtPnNlbGVjdG9yICE9IERSTV9TWU5DT0JKX1RJTUVMSU5FX0FSUkFZX1NFTEVDVE9S
-X1NVQk1JVF9QT0lOVCkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKIAlpZiAoYXJncy0+Y291bnRfaGFu
-ZGxlcyA9PSAwKQpAQCAtMTM0Niw2ICsxMzQ3LDE4IEBAIGludCBkcm1fc3luY29ial9xdWVyeV9p
-b2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLAogCQkJaWYgKHJldCkKIAkJ
-CQlnb3RvIGVycm9yOwogCQkJYnJlYWs7CisKKwkJY2FzZSBEUk1fU1lOQ09CSl9USU1FTElORV9B
-UlJBWV9TRUxFQ1RPUl9TVUJNSVRfUE9JTlQ6CisJCQlmZW5jZSA9IGRybV9zeW5jb2JqX2ZlbmNl
-X2dldChzeW5jb2Jqc1tpXSk7CisJCQljaGFpbiA9IHRvX2RtYV9mZW5jZV9jaGFpbihmZW5jZSk7
-CisJCQlwb2ludCA9IGNoYWluID8gY2hhaW4tPmJhc2Uuc2Vxbm8gOiAwOworCQkJZG1hX2ZlbmNl
-X3B1dChmZW5jZSk7CisKKwkJCXJldCA9IGNvcHlfdG9fdXNlcigmcG9pbnRzW2ldLCAmcG9pbnQs
-IHNpemVvZih1aW50NjRfdCkpOworCQkJcmV0ID0gcmV0ID8gLUVGQVVMVCA6IDA7CisJCQlpZiAo
-cmV0KQorCQkJCWdvdG8gZXJyb3I7CisJCQlicmVhazsKIAkJfQogCX0KIApkaWZmIC0tZ2l0IGEv
-aW5jbHVkZS91YXBpL2RybS9kcm0uaCBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtLmgKaW5kZXggZGVh
-NzU5YTM2ZDM3Li4zYjhjZGIzZmZhOTQgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vZHJt
-LmgKKysrIGIvaW5jbHVkZS91YXBpL2RybS9kcm0uaApAQCAtNzg1LDYgKzc4NSw3IEBAIHN0cnVj
-dCBkcm1fc3luY29ial90aW1lbGluZV9hcnJheSB7CiAJX191MzIgc2VsZWN0b3I7CiAjZGVmaW5l
-IERSTV9TWU5DT0JKX1RJTUVMSU5FX0FSUkFZX1NFTEVDVE9SX1NJR05BTEVEX1BPSU5UICAgKDAp
-CiAjZGVmaW5lIERSTV9TWU5DT0JKX1RJTUVMSU5FX0FSUkFZX1NFTEVDVE9SX1NJREVCQU5EX1BB
-WUxPQUQgKDEpCisjZGVmaW5lIERSTV9TWU5DT0JKX1RJTUVMSU5FX0FSUkFZX1NFTEVDVE9SX1NV
-Qk1JVF9QT0lOVCAgICAgKDIpCiB9OwogCiAKLS0gCjIuMjMuMC5yYzEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0002732556==
+Content-Type: multipart/alternative; boundary="15651857083.766d5.25999"
+Content-Transfer-Encoding: 7bit
+
+
+--15651857083.766d5.25999
+Date: Wed, 7 Aug 2019 13:48:28 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #21 from cspack@verizon.net ---
+The default is -1 according to the docs and /sys/module/amdgpu/parameters/d=
+c. I
+assume it should effectively be the same but it seems to result in different
+behavior vs. setting it to 1. DC is enabled in both cases (the log shows
+"Display Core initialized"), but setting it to default results in a
+suspend/resume failure 100% of the time. Whereas setting it to 1 results in
+success most of time, although it did fail eventually after several reboots.
+Very strange.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15651857083.766d5.25999
+Date: Wed, 7 Aug 2019 13:48:28 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c21">Comme=
+nt # 21</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+cspack&#64;verizon.net" title=3D"cspack&#64;verizon.net">cspack&#64;verizon=
+.net</a>
+</span></b>
+        <pre>The default is -1 according to the docs and /sys/module/amdgpu=
+/parameters/dc. I
+assume it should effectively be the same but it seems to result in different
+behavior vs. setting it to 1. DC is enabled in both cases (the log shows
+&quot;Display Core initialized&quot;), but setting it to default results in=
+ a
+suspend/resume failure 100% of the time. Whereas setting it to 1 results in
+success most of time, although it did fail eventually after several reboots.
+Very strange.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15651857083.766d5.25999--
+
+--===============0002732556==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0002732556==--
