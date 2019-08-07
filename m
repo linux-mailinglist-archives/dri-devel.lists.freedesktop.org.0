@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF21849E2
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 12:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD733849E6
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 12:43:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1F90893A7;
-	Wed,  7 Aug 2019 10:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860956E6AD;
+	Wed,  7 Aug 2019 10:43:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9283893A7
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 10:42:16 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
- by mx1.suse.de (Postfix) with ESMTP id 39935ACB8;
- Wed,  7 Aug 2019 10:42:15 +0000 (UTC)
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-To: "Chen, Rong A" <rong.a.chen@intel.com>, Feng Tang <feng.tang@intel.com>
-References: <20190729095155.GP22106@shao2-debian>
- <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
- <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
- <20190805070200.GA91650@shbuild999.sh.intel.com>
- <c0c3f387-dc93-3146-788c-23258b28a015@intel.com>
- <045a23ab-78f7-f363-4a2e-bf24a7a2f79e@suse.de>
- <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNKFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwJQEEwEIAD4W
- IQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznTtgIbAwUJA8JnAAULCQgHAgYVCgkICwIEFgID
- AQIeAQIXgAAKCRBoDcEdUwt6I7D7CACBK42XW+7mCiK8ioXMEy1NzGbXC51RzGea8N83oEJS
- 1KVUtQxrkDxgrW/WLSl/TfqHFsJpdEFOv1XubWbleun3uKPy0e5vZCd5UjZPkeNjnqfCYTDy
- hVVsdOuFbtWDppJyJrThLqr9AgSFmoCNNUt1SVpYEEOLNE6C32BhlnSq21VLC+YXTgO/ZHTa
- YXkq54hHj63jwrcjkBSCkXLh37kHeqnl++GHpN+3R+o3w2OpwHAlvVjdKPT27v1tVkiydsFG
- 65Vd0n3m/ft+IOrGgxQM1C20uqKvsZGB4r3OGR50ekAybO7sjEJJ1Obl4ge/6RRqcvKz4LMb
- tGs85D6tPIeFzsBNBFs50uABCADGJj+DP1fk+UWOWrf4O61HTbC4Vr9QD2K4fUUHnzg2B6zU
- R1BPXqLGG0+lzK8kfYU/F5RjmEcClsIkAaFkg4kzKP14tvY1J5+AV3yNqcdg018HNtiyrSwI
- E0Yz/qm1Ot2NMZ0DdvVBg22IMsiudQ1tx9CH9mtyTbIXgACvl3PW2o9CxiHPE/bohFhwZwh/
- kXYYAE51lhinQ3oFEeQZA3w4OTvxSEspiQR8dg8qJJb+YOAc5IKk6sJmmM7JfFMWSr22satM
- 23oQ3WvJb4RV6HTRTAIEyyZS7g2DhiytgMG60t0qdABG5KXSQW+OKlZRpuWwKWaLh3if/p/u
- 69dvpanbABEBAAHCwHwEGAEIACYWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCWznS4AIbDAUJ
- A8JnAAAKCRBoDcEdUwt6I6X3CACJ8D+TpXBCqJE5xwog08+Dp8uBpx0T9n1wE0GQisZruACW
- NofYn8PTX9k4wmegDLwt7YQDdKxQ4+eTfZeLNQqWg6OCftH5Kx7sjWnJ09tOgniVdROzWJ7c
- VJ/i0okazncsJ+nq48UYvRGE1Swh3A4QRIyphWX4OADOBmTFl9ZYNPnh23eaC9WrNvFr7yP7
- iGjMlfEW8l6Lda//EC5VpXVNza0xeae0zFNst2R9pn+bLkihwDLWxOIyifGRxTqNxoS4I1aw
- VhxPSVztPMSpIA/sOr/N/p6JrBLn+gui2K6mP7bGb8hF+szfArYqz3T1rv1VzUWAJf5Wre5U
- iNx9uqqx
-Message-ID: <370747ca-4dc9-917b-096c-891dcc2aedf0@suse.de>
-Date: Wed, 7 Aug 2019 12:42:09 +0200
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCFE86E6AD;
+ Wed,  7 Aug 2019 10:43:47 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id q12so581088wrj.12;
+ Wed, 07 Aug 2019 03:43:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=T86OWknBIj0SbHQKVsDCCT/XUegLJvpmZp+mGYDEZZY=;
+ b=i2w3hgCCAT1uJQLEopDzcn95Lgr9bemkNK/GOZ23xhCKQqVg258yqGSrBMkfbwCv/z
+ oOutwQTL0MUVsmyZ9g4klbiHJG++2AXNqm3BkJRQVxvraoJQurKjjY28mTbPvyCbQMnU
+ sxehiY6pUc6zCdU5VBTKlbnS/TdqKJMBTDTi6OeYluwtfrFGyGqfDZD1zJ6VT7K6rNc9
+ 8xpgYcIMD7mRwT/+cMiJ22Gah4iRF9LLQKv9slENFn6V2iSA1lbu89pZsWnGcy/JaHLM
+ jxsS1QK1Sw3whhoUGc8jWSNG8hqzS5g6BmU641oczRCRGZ229k/aUZnlk6tVJAqCB5z+
+ IsVw==
+X-Gm-Message-State: APjAAAVr93ZDWpNclc7Fva7QmTJQdnqzU9KPCa90dW+JUaefwUMmr6aX
+ e3XKZvGzbwDYxeINQR58hdk=
+X-Google-Smtp-Source: APXvYqx2YmWQ9+Xz9DzzGMJ7RLS3dhNl8eVGEeDsNrmaXTkzkJHYxQZEoglDHJDZs5szwOfA6mNDBg==
+X-Received: by 2002:a5d:6650:: with SMTP id f16mr10353897wrw.89.1565174626508; 
+ Wed, 07 Aug 2019 03:43:46 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id i18sm120145328wrp.91.2019.08.07.03.43.45
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 07 Aug 2019 03:43:45 -0700 (PDT)
+Subject: Re: [PATCH 2/8] dma-buf: fix shared fence list handling in
+ reservation_object_copy_fences
+To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <20190806150134.104222-1-christian.koenig@amd.com>
+ <20190806150134.104222-2-christian.koenig@amd.com>
+ <156511836757.6198.137641870638609300@skylake-alporthouse-com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <391322c9-b55c-a032-84c8-79a15277ed49@gmail.com>
+Date: Wed, 7 Aug 2019 12:43:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
+In-Reply-To: <156511836757.6198.137641870638609300@skylake-alporthouse-com>
+Content-Language: en-US
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20161025;
+ h=reply-to:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=T86OWknBIj0SbHQKVsDCCT/XUegLJvpmZp+mGYDEZZY=;
+ b=Drn43yet9WLxJm/+yr0QcJeykwQoYOD12sDWcCqxxMptpH+SfbQb9pr9upAhxRvTHm
+ 1DyM5QRc1Wb3Gm2WyaQ1KteV/6mH9vrHbPSPK4KnIcMHq7FbvhezjvuXe1hEJ2u1Bxx/
+ goFG4lI2y5UPDdOeUJO4kq+DGqbZZR/V/x8XCDlTVJU8zEtKTkzqFbbn5ybgHeb6+L6+
+ +pgLNI6eDjQKorDfPiq21k8tFL0/9Ev/9G8KLXEMkC61XmNU+c1VxTiw/HAeFk3A6Uic
+ DMt3QKxwTNNp+zi4iUrSqsKW79MUQW4+jreCmIL6yWQ15b8rsZVOQVQHQ9uqYSg5CQA+
+ aw8g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,359 +75,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, michel@daenzer.net,
- dri-devel <dri-devel@lists.freedesktop.org>, lkp@01.org
-Content-Type: multipart/mixed; boundary="===============0749356008=="
+Reply-To: christian.koenig@amd.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0749356008==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="sWGH0VNK2Gx83gWhQAZj6Cwrl9L48aysI"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---sWGH0VNK2Gx83gWhQAZj6Cwrl9L48aysI
-Content-Type: multipart/mixed; boundary="b5ja26VlgG0Gd18eV9Hr07CQ8IXsFlMV5";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "Chen, Rong A" <rong.a.chen@intel.com>, Feng Tang <feng.tang@intel.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, michel@daenzer.net,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Daniel Vetter <daniel@ffwll.ch>, lkp@01.org
-Message-ID: <370747ca-4dc9-917b-096c-891dcc2aedf0@suse.de>
-Subject: Re: [LKP] [drm/mgag200] 90f479ae51: vm-scalability.median -18.8%
- regression
-References: <20190729095155.GP22106@shao2-debian>
- <1c0bf22b-2c69-6b45-f700-ed832a3a5c17@suse.de>
- <14fdaaed-51c8-b270-b46b-cba7b5c4ba52@suse.de>
- <20190805070200.GA91650@shbuild999.sh.intel.com>
- <c0c3f387-dc93-3146-788c-23258b28a015@intel.com>
- <045a23ab-78f7-f363-4a2e-bf24a7a2f79e@suse.de>
- <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
-In-Reply-To: <37ae41e4-455d-c18d-5c93-7df854abfef9@intel.com>
-
---b5ja26VlgG0Gd18eV9Hr07CQ8IXsFlMV5
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi Rong
-
-Am 06.08.19 um 14:59 schrieb Chen, Rong A:
-> Hi,
->=20
-> On 8/5/2019 6:25 PM, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 05.08.19 um 09:28 schrieb Rong Chen:
->>> Hi,
->>>
->>> On 8/5/19 3:02 PM, Feng Tang wrote:
->>>> Hi Thomas,
->>>>
->>>> On Sun, Aug 04, 2019 at 08:39:19PM +0200, Thomas Zimmermann wrote:
->>>>> Hi
->>>>>
->>>>> I did some further analysis on this problem and found that the blin=
-king
->>>>> cursor affects performance of the vm-scalability test case.
->>>>>
->>>>> I only have a 4-core machine, so scalability is not really testable=
-=2E Yet
->>>>> I see the effects of running vm-scalibility against drm-tip, a reve=
-rt of
->>>>> the mgag200 patch and the vmap fixes that I posted a few days ago.
->>>>>
->>>>> After reverting the mgag200 patch, running the test as described in=
- the
->>>>> report
->>>>>
->>>>> =C2=A0=C2=A0 bin/lkp run job.yaml
->>>>>
->>>>> gives results like
->>>>>
->>>>> =C2=A0=C2=A0 2019-08-02 19:34:37=C2=A0 ./case-anon-cow-seq-hugetlb
->>>>> =C2=A0=C2=A0 2019-08-02 19:34:37=C2=A0 ./usemem --runtime 300 -n 4 =
---prealloc
->>>>> --prefault
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 -O -U 815395225
->>>>> =C2=A0=C2=A0 917319627 bytes / 756534 usecs =3D 1184110 KB/s
->>>>> =C2=A0=C2=A0 917319627 bytes / 764675 usecs =3D 1171504 KB/s
->>>>> =C2=A0=C2=A0 917319627 bytes / 766414 usecs =3D 1168846 KB/s
->>>>> =C2=A0=C2=A0 917319627 bytes / 777990 usecs =3D 1151454 KB/s
->>>>>
->>>>> Running the test against current drm-tip gives slightly worse resul=
-ts,
->>>>> such as.
->>>>>
->>>>> =C2=A0=C2=A0 2019-08-03 19:17:06=C2=A0 ./case-anon-cow-seq-hugetlb
->>>>> =C2=A0=C2=A0 2019-08-03 19:17:06=C2=A0 ./usemem --runtime 300 -n 4 =
---prealloc
->>>>> --prefault
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 -O -U 815394406
->>>>> =C2=A0=C2=A0 917318700 bytes / 871607 usecs =3D 1027778 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 894173 usecs =3D 1001840 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 919694 usecs =3D 974040 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 923341 usecs =3D 970193 KB/s
->>>>>
->>>>> The test puts out roughly one result per second. Strangely sending =
-the
->>>>> output to /dev/null can make results significantly worse.
->>>>>
->>>>> =C2=A0=C2=A0 bin/lkp run job.yaml > /dev/null
->>>>>
->>>>> =C2=A0=C2=A0 2019-08-03 19:23:04=C2=A0 ./case-anon-cow-seq-hugetlb
->>>>> =C2=A0=C2=A0 2019-08-03 19:23:04=C2=A0 ./usemem --runtime 300 -n 4 =
---prealloc
->>>>> --prefault
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 -O -U 815394406
->>>>> =C2=A0=C2=A0 917318700 bytes / 1207358 usecs =3D 741966 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 1210456 usecs =3D 740067 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 1216572 usecs =3D 736346 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 1239152 usecs =3D 722929 KB/s
->>>>>
->>>>> I realized that there's still a blinking cursor on the screen, whic=
-h I
->>>>> disabled with
->>>>>
->>>>> =C2=A0=C2=A0 tput civis
->>>>>
->>>>> or alternatively
->>>>>
->>>>> =C2=A0=C2=A0 echo 0 > /sys/devices/virtual/graphics/fbcon/cursor_bl=
-ink
->>>>>
->>>>> Running the the test now gives the original or even better results,=
-
->>>>> such as
->>>>>
->>>>> =C2=A0=C2=A0 bin/lkp run job.yaml > /dev/null
->>>>>
->>>>> =C2=A0=C2=A0 2019-08-03 19:29:17=C2=A0 ./case-anon-cow-seq-hugetlb
->>>>> =C2=A0=C2=A0 2019-08-03 19:29:17=C2=A0 ./usemem --runtime 300 -n 4 =
---prealloc
->>>>> --prefault
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0 -O -U 815394406
->>>>> =C2=A0=C2=A0 917318700 bytes / 659419 usecs =3D 1358497 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 659658 usecs =3D 1358005 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 659916 usecs =3D 1357474 KB/s
->>>>> =C2=A0=C2=A0 917318700 bytes / 660168 usecs =3D 1356956 KB/s
->>>>>
->>>>> Rong, Feng, could you confirm this by disabling the cursor or blink=
-ing?
->>>> Glad to know this method restored the drop. Rong is running the case=
-=2E
->>> I set "echo 0 > /sys/devices/virtual/graphics/fbcon/cursor_blink" for=
-
->>> both commits,
->>> and the regression has no obvious change.
->> Ah, I see. Thank you for testing. There are two questions that come to=
-
->> my mind: did you send the regular output to /dev/null? And what happen=
-s
->> if you disable the cursor with 'tput civis'?
->=20
-> I didn't send the output to /dev/null because we need to collect data
-> from the output,
-
-You can send it to any file, as long as it doesn't show up on the
-console. I also found the latest results in the file result/vm-scalabilit=
-y.
-
-
-> Actually we run the benchmark as a background process, do we need to
-> disable the cursor and test again?
-
-There's a worker thread that updates the display from the shadow buffer.
-The blinking cursor periodically triggers the worker thread, but the
-actual update is just the size of one character.
-
-The point of the test without output is to see if the regression comes
-from the buffer update (i.e., the memcpy from shadow buffer to VRAM), or
-from the worker thread. If the regression goes away after disabling the
-blinking cursor, then the worker thread is the problem. If it already
-goes away if there's simply no output from the test, the screen update
-is the problem. On my machine I have to disable the blinking cursor, so
-I think the worker causes the performance drop.
-
-Best regards
-Thomas
-
->=20
-> Best Regards,
-> Rong Chen
->=20
->> If there is absolutely nothing changing on the screen, I don't see how=
-
->> the regression could persist.
->>
->> Best regards
->> Thomas
->>
->>
->>> commit:
->>> =C2=A0 f1f8555dfb9 drm/bochs: Use shadow buffer for bochs framebuffer=
- console
->>> =C2=A0 90f479ae51a drm/mgag200: Replace struct mga_fbdev with generic=
-
->>> framebuffer emulation
->>>
->>> f1f8555dfb9a70a2=C2=A0 90f479ae51afa45efab97afdde testcase/testparams=
-/testbox
->>> ----------------=C2=A0 -------------------------- -------------------=
---------
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 %stddev=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 change=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 %s=
-tddev
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 \=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 \
->>> =C2=A0=C2=A0=C2=A0=C2=A0 43394=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -20%=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3457=
-5 =C2=B1=C2=A0 3%
->>> vm-scalability/performance-300s-8T-anon-cow-seq-hugetlb/lkp-knm01
->>> =C2=A0=C2=A0=C2=A0=C2=A0 43393=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -20%=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3457=
-5=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GEO-MEAN
->>> vm-scalability.median
->>>
->>> Best Regards,
->>> Rong Chen
->>>
->>>> While I have another finds, as I noticed your patch changed the bpp =
-from
->>>> 24 to 32, I had a patch to change it back to 24, and run the case in=
-
->>>> the weekend, the -18% regrssion was reduced to about -5%. Could this=
-
->>>> be related?
->>>>
->>>> commit:
->>>> =C2=A0=C2=A0 f1f8555dfb9 drm/bochs: Use shadow buffer for bochs fram=
-ebuffer console
->>>> =C2=A0=C2=A0 90f479ae51a drm/mgag200: Replace struct mga_fbdev with =
-generic
->>>> framebuffer emulation
->>>> =C2=A0=C2=A0 01e75fea0d5 mgag200: restore the depth back to 24
->>>>
->>>> f1f8555dfb9a70a2 90f479ae51afa45efab97afdde9 01e75fea0d5ff39d3e588c2=
-0ec5
->>>> ---------------- --------------------------- -----------------------=
-----
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 43921 =C2=B1=C2=A0 2%=C2=A0=C2=A0=C2=A0=
-=C2=A0 -18.3%=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 35884=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -4.8%=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0
->>>> 41826=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm-scalability.media=
-n
->>>> =C2=A0=C2=A0 14889337=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 -17.5%=C2=A0=C2=A0 12291029=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -4.1%=C2=A0=C2=A0
->>>> 14278574=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm-scalability.th=
-roughput
->>>> =C2=A0 commit 01e75fea0d5ff39d3e588c20ec52e7a4e6588a74
->>>> Author: Feng Tang <feng.tang@intel.com>
->>>> Date:=C2=A0=C2=A0 Fri Aug 2 15:09:19 2019 +0800
->>>>
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 mgag200: restore the depth back to 24
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 Signed-off-by: Fen=
-g Tang <feng.tang@intel.com>
->>>>
->>>> diff --git a/drivers/gpu/drm/mgag200/mgag200_main.c
->>>> b/drivers/gpu/drm/mgag200/mgag200_main.c
->>>> index a977333..ac8f6c9 100644
->>>> --- a/drivers/gpu/drm/mgag200/mgag200_main.c
->>>> +++ b/drivers/gpu/drm/mgag200/mgag200_main.c
->>>> @@ -162,7 +162,7 @@ int mgag200_driver_load(struct drm_device *dev,
->>>> unsigned long flags)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_G200_SE(mdev) && mdev->mc.vram=
-_size < (2048*1024))
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_con=
-fig.preferred_depth =3D 16;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_config.preferr=
-ed_depth =3D 32;
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_config.preferr=
-ed_depth =3D 24;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_config.prefer_shadow =3D 1;=
-
->>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D mgag200_modeset_init(mde=
-v);
->>>>
->>>> Thanks,
->>>> Feng
->>>>
->>>>> The difference between mgag200's original fbdev support and generic=
-
->>>>> fbdev emulation is generic fbdev's worker task that updates the VRA=
-M
->>>>> buffer from the shadow buffer. mgag200 does this immediately, but r=
-elies
->>>>> on drm_can_sleep(), which is deprecated.
->>>>>
->>>>> I think that the worker task interferes with the test case, as the
->>>>> worker has been in fbdev emulation since forever and no performance=
-
->>>>> regressions have been reported so far.
->>>>>
->>>>>
->>>>> So unless there's a report where this problem happens in a real-wor=
-ld
->>>>> use case, I'd like to keep code as it is. And apparently there's al=
-ways
->>>>> the workaround of disabling the cursor blinking.
->>>>>
->>>>> Best regards
->>>>> Thomas
->>>>>
->>
->> _______________________________________________
->> LKP mailing list
->> LKP@lists.01.org
->> https://lists.01.org/mailman/listinfo/lkp
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Linux GmbH, Maxfeldstrasse 5, 90409 Nuernberg, Germany
-GF: Felix Imend=C3=B6rffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG N=C3=BCrnberg)
-
-
---b5ja26VlgG0Gd18eV9Hr07CQ8IXsFlMV5--
-
---sWGH0VNK2Gx83gWhQAZj6Cwrl9L48aysI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl1KqwUACgkQaA3BHVML
-eiMongf9EJAkIdJ27hCXIgBPwD2hgAM6d8AICSk2EzrPctAS7sd70jN7fUG1KRJU
-1pTdzAEOr/7uQt0PVS+GTf0fpHDD6dQYpRRwvFz7exxrcev4AzTJL7uB/7X5J8Au
-rZ3MNcR97j9iNK27VwGIYNhAllnn+mgFVgjvSOgB5TfK0xvR/VJNsFg0yZg+gPAE
-fztZxwKeRwoI7hbvu0xjmKCOyyNKCQafpFCCT8KoQol7l12HCL3x8KizWiaeNy1t
-hs8qrOPnMkLV34ov7O0wuktP4ENU0G1+kQJ8ffc9gnU2zq2i486iNYOvQsrvUM+g
-8FXDfCshzGU9NRMZQ4VF9NVzlxvmzQ==
-=Prop
------END PGP SIGNATURE-----
-
---sWGH0VNK2Gx83gWhQAZj6Cwrl9L48aysI--
-
---===============0749356008==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0749356008==--
+QW0gMDYuMDguMTkgdW0gMjE6MDYgc2NocmllYiBDaHJpcyBXaWxzb246Cj4gUXVvdGluZyBDaHJp
+c3RpYW4gS8O2bmlnICgyMDE5LTA4LTA2IDE2OjAxOjI4KQo+PiBBZGQgc29tZSBoZWxwZXJzIHRv
+IGNvcnJlY3RseSBhbGxvY2F0ZS9mcmVlIHJlc2VydmF0aW9uX29iamVjdF9saXN0cy4KPj4KPj4g
+T3RoZXJ3aXNlIHdlIG1pZ2h0IGZvcmdldCB0byBkcm9wIGRtYV9mZW5jZSByZWZlcmVuY2VzIG9u
+IGxpc3QgZGVzdHJ1Y3Rpb24uCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcg
+PGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPj4gLS0tCj4+ICAgZHJpdmVycy9kbWEtYnVmL3Jl
+c2VydmF0aW9uLmMgfCA2NSArKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLQo+PiAg
+IDEgZmlsZSBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKPj4KPj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jIGIvZHJpdmVycy9kbWEt
+YnVmL3Jlc2VydmF0aW9uLmMKPj4gaW5kZXggZDU5MjA3Y2E3MmQyLi5jMGJhMDU5MzZhYjYgMTAw
+NjQ0Cj4+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jCj4+ICsrKyBiL2RyaXZl
+cnMvZG1hLWJ1Zi9yZXNlcnZhdGlvbi5jCj4+IEBAIC01NSw2ICs1NSw0NyBAQCBFWFBPUlRfU1lN
+Qk9MKHJlc2VydmF0aW9uX3NlcWNvdW50X2NsYXNzKTsKPj4gICBjb25zdCBjaGFyIHJlc2VydmF0
+aW9uX3NlcWNvdW50X3N0cmluZ1tdID0gInJlc2VydmF0aW9uX3NlcWNvdW50IjsKPj4gICBFWFBP
+UlRfU1lNQk9MKHJlc2VydmF0aW9uX3NlcWNvdW50X3N0cmluZyk7Cj4+ICAgCj4+ICsvKioKPj4g
+KyAqIHJlc2VydmF0aW9uX29iamVjdF9saXN0X2FsbG9jIC0gYWxsb2NhdGUgZmVuY2UgbGlzdAo+
+PiArICogQHNoYXJlZF9tYXg6IG51bWJlciBvZiBmZW5jZXMgd2UgbmVlZCBzcGFjZSBmb3IKPj4g
+KyAqCj4+ICsgKiBBbGxvY2F0ZSBhIG5ldyByZXNlcnZhdGlvbl9vYmplY3RfbGlzdCBhbmQgbWFr
+ZSBzdXJlIHRvIGNvcnJlY3RseSBpbml0aWFsaXplCj4+ICsgKiBzaGFyZWRfbWF4Lgo+PiArICov
+Cj4+ICtzdGF0aWMgc3RydWN0IHJlc2VydmF0aW9uX29iamVjdF9saXN0ICoKPj4gK3Jlc2VydmF0
+aW9uX29iamVjdF9saXN0X2FsbG9jKHVuc2lnbmVkIGludCBzaGFyZWRfbWF4KQo+PiArewo+PiAr
+ICAgICAgIHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3RfbGlzdCAqbGlzdDsKPj4gKwo+PiArICAg
+ICAgIGxpc3QgPSBrbWFsbG9jKG9mZnNldG9mKHR5cGVvZigqbGlzdCksIHNoYXJlZFtzaGFyZWRf
+bWF4XSksIEdGUF9LRVJORUwpOwo+PiArICAgICAgIGlmICghbGlzdCkKPj4gKyAgICAgICAgICAg
+ICAgIHJldHVybiBOVUxMOwo+PiArCj4+ICsgICAgICAgbGlzdC0+c2hhcmVkX21heCA9IChrc2l6
+ZShsaXN0KSAtIG9mZnNldG9mKHR5cGVvZigqbGlzdCksIHNoYXJlZCkpIC8KPj4gKyAgICAgICAg
+ICAgICAgIHNpemVvZigqbGlzdC0+c2hhcmVkKTsKPj4gKwo+PiArICAgICAgIHJldHVybiBsaXN0
+Owo+PiArfQo+PiArCj4+ICsvKioKPj4gKyAqIHJlc2VydmF0aW9uX29iamVjdF9saXN0X2ZyZWUg
+LSBmcmVlIGZlbmNlIGxpc3QKPj4gKyAqIEBsaXN0OiBsaXN0IHRvIGZyZWUKPj4gKyAqCj4+ICsg
+KiBGcmVlIGEgcmVzZXJ2YXRpb25fb2JqZWN0X2xpc3QgYW5kIG1ha2Ugc3VyZSB0byBkcm9wIGFs
+bCByZWZlcmVuY2VzLgo+PiArICovCj4+ICtzdGF0aWMgdm9pZCByZXNlcnZhdGlvbl9vYmplY3Rf
+bGlzdF9mcmVlKHN0cnVjdCByZXNlcnZhdGlvbl9vYmplY3RfbGlzdCAqbGlzdCkKPj4gK3sKPj4g
+KyAgICAgICB1bnNpZ25lZCBpbnQgaTsKPj4gKwo+PiArICAgICAgIGlmICghbGlzdCkKPj4gKyAg
+ICAgICAgICAgICAgIHJldHVybjsKPj4gKwo+PiArICAgICAgIGZvciAoaSA9IDA7IGkgPCBsaXN0
+LT5zaGFyZWRfY291bnQ7ICsraSkKPj4gKyAgICAgICAgICAgICAgIGRtYV9mZW5jZV9wdXQocmN1
+X2RlcmVmZXJlbmNlX3Byb3RlY3RlZChsaXN0LT5zaGFyZWRbaV0sIHRydWUpKTsKPj4gKwo+PiAr
+ICAgICAgIGtmcmVlX3JjdShsaXN0LCByY3UpOwo+IFNvIDIgb3V0IG9mIDMgcGF0aHMgZG9uJ3Qg
+bmVlZCBhbm90aGVyIFJDVSBncmFjZSBwZXJpb2QgYmVmb3JlIGZyZWVpbmcuCj4gQWN0dWFsbHks
+IHRoYXQgbGFjayBvZiBSQ1UgaW5zaWRlIHJlc2VydmF0aW9uX29iamVjdF9maW5pIGhhcyBjYXVn
+aHQgbWUKPiBieSBzdXJwcmlzZSBiZWZvcmUuIE5vdCBzdXJlIGlmIHRoYXQncyB3b3J0aCB0cmVh
+dGluZyBhcyBhbnl0aGluZyBvdGhlcgo+IHRoYW4gbXkgb3duIGJ1Zy4uLiBCdXQgaWYgd2UgYWNj
+ZXB0IGl0IGlzIHdvcnRoIHByZXZlbnRpbmcgaGVyZSB0aGVuIHRoZQo+IG9ubHkgb2RkIG9uZSBv
+dXQgaXMgb24gYSByZXNlcnZhdGlvbl9vYmplY3RfY29weV9mZW5jZXMoKSBlcnJvciBwYXRoLAo+
+IHdoZXJlIHRoZSBleHRyYSBkZWxheSBzaG91bGRuJ3QgYmUgYW4gaXNzdWUuCj4KPiBTbyB0byBk
+b3VibGUtUkNVIGRlZmVyIG9uIHJlc2VydmF0aW9uX29iamVjdF9maW5pKCkgb3Igbm90PwoKWWVh
+aCwgSSB0aGluayBpbiB0aGUgX2ZpbmkgcGF0aCB1c2luZyBrZnJlZSBtaWdodCBiZSBsZWdhbCBi
+ZWNhdXNlIApub2JvZHkgZWxzZSBzaG91bGQgaGF2ZSBhbiBleHRyYSByZWZlcmVuY2UgdG8gdGhl
+IG9iamVjdC4KCkJ1dCB0aGUga2V5IHBvaW50IGlzIEkgZG9uJ3QgdGhpbmsgYW4gZXh0cmEgZ3Jh
+Y2UgcGVyaW9kIHdvdWxkIGh1cnQgdXMgCmluIGFueSB3YXksCkNocmlzdGlhbi4KCj4KPiBGb3Ig
+dGhlIHJlc3Qgb2YgdGhlIG1lY2hhbmljYWwgY2hhbmdlcywKPiBSZXZpZXdlZC1ieTogQ2hyaXMg
+V2lsc29uIDxjaHJpc0BjaHJpcy13aWxzb24uY28udWs+Cj4gLUNocmlzCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
