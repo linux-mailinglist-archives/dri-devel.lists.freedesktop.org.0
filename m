@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6FB85535
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 23:33:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBDA85563
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 23:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E236E76D;
-	Wed,  7 Aug 2019 21:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679416E770;
+	Wed,  7 Aug 2019 21:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDBD6E76E;
- Wed,  7 Aug 2019 21:33:24 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A66A330C75BF;
- Wed,  7 Aug 2019 21:33:23 +0000 (UTC)
-Received: from whitewolf.redhat.com (ovpn-121-222.rdu2.redhat.com
- [10.10.121.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5005B600C6;
- Wed,  7 Aug 2019 21:33:22 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/nouveau/dispnv50: Fix runtime PM ref tracking for
- non-blocking modesets
-Date: Wed,  7 Aug 2019 17:33:01 -0400
-Message-Id: <20190807213304.9255-3-lyude@redhat.com>
-In-Reply-To: <20190807213304.9255-1-lyude@redhat.com>
-References: <20190807213304.9255-1-lyude@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3C3486E770
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 21:43:22 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 386C372167; Wed,  7 Aug 2019 21:43:22 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Wed, 07 Aug 2019 21:43:22 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: samuele.decarli@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111244-502-l75FW02nce@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 07 Aug 2019 21:33:23 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,89 +52,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Karol Herbst <karolherbst@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0733998596=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBpcyBzb21ldGhpbmcgdGhhdCBnb3Qgbm90aWNlZCBhIHdoaWxlIGFnbyBiYWNrIHdoZW4g
-SSB3YXMgZml4aW5nIGEKbGFyZ2UgbnVtYmVyIG9mIHJ1bnRpbWUgUE0gcmVsYXRlZCBpc3N1ZXMg
-aW4gbm91dmVhdSwgYnV0IG5ldmVyIGdvdApmaXhlZDoKCmh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
-ZXNrdG9wLm9yZy9zZXJpZXMvNDY4MTUvI3JldjcKCkl0J3Mgbm90IHNhZmUgdG8gaXRlcmF0ZSB0
-aGUgZW50aXJlIGxpc3Qgb2YgQ1JUQ3MgaW4KbnY1MF9kaXNwX2F0b21pY19jb21taXQoKSwgYXMg
-d2UgY291bGQgYmUgZG9pbmcgYSBub24tYmxvY2tpbmcgbW9kZXNldApvbiBvbmUgQ1JUQyBpbiBw
-YXJhbGxlbCB3aXRoIG9uZSBvciBtb3JlIG90aGVyIENSVENzLiBMaWtld2lzZSwgdGhpcwptZWFu
-cyBpdCdzIGFsc28gbm90IHNhZmUgdG8gZG8gc28gaW4gb3JkZXIgdG8gdHJhY2sgcnVudGltZSBQ
-TSBzdGF0ZS4KV2hpbGUgdGhpcyBjb2RlIGlzIGNlcnRhaW5seSB3cm9uZywgc28gZmFyIHRoZSBv
-bmx5IGlzc3VlcyBJJ3ZlIHNlZW4KdGhpcyBjYXVzZSBpbiB0aGUgd2lsZCBpcyB0aGUgb2NjYXNp
-b25hbCBQTSByZWYgdW5iYWxhbmNlIGFmdGVyIGFuCmF0b21pYyBjaGVjayBmYWlsdXJlICsgbW9k
-dWxlIHJlbG9hZGluZyAoc2luY2UgdGhlIFBDSSBkZXZpY2Ugd2lsbApvdXRsaXZlIG5vdXZlYXUg
-aW4gc3VjaCBzY2VuYXJpb3MpLgoKU28sIGRvIHRoaXMgZmFyIG1vcmUgZWxlZ2FudGx5OiBncmFi
-IGEgcnVudGltZSBQTSByZWYgYWNyb3NzIHRoZSBtb2Rlc2V0CmFuZCBjb21taXQgdGFpbCwgdGhl
-biBncmFiL3B1dCByZWZlcmVuY2VzIGZvciBlYWNoIENSVEMgZW5hYmxlL2Rpc2FibGUuClRoaXMg
-YWxzbyBlbmRzIHVwIGJlaW5nIG11Y2ggc2ltcGxlciB0aGVuIHRoZSBwcmV2aW91cyBicm9rZW4g
-c29sdXRpb24Kd2UgaGFkLgoKRmluYWxseSwgc2luY2Ugd2UndmUgcmVtb3ZlZCBhbGwgaXQncyB1
-c2VyczogZ2V0IHJpZCBvZgpub3V2ZWF1X2RybS0+aGF2ZV9kaXNwX3Bvd2VyX3JlZi4KClNpZ25l
-ZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+Ci0tLQogZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jIHwgMzggKysrKysrKysrKystLS0tLS0tLS0tLS0t
-LQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9kcnYuaCAgIHwgIDMgLS0KIDIgZmls
-ZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMjQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jIGIvZHJpdmVycy9ncHUv
-ZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCmluZGV4IDEyNjcwMzgxNjc5NC4uNjU5ZTZmYTY0
-NWNiIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCkBAIC0xODI2LDgg
-KzE4MjYsMTEgQEAgbnY1MF9kaXNwX2F0b21pY19jb21taXRfdGFpbChzdHJ1Y3QgZHJtX2F0b21p
-Y19zdGF0ZSAqc3RhdGUpCiAKIAkJTlZfQVRPTUlDKGRybSwgIiVzOiBjbHIgJTA0eCAoc2V0ICUw
-NHgpXG4iLCBjcnRjLT5uYW1lLAogCQkJICBhc3loLT5jbHIubWFzaywgYXN5aC0+c2V0Lm1hc2sp
-OwotCQlpZiAob2xkX2NydGNfc3RhdGUtPmFjdGl2ZSAmJiAhbmV3X2NydGNfc3RhdGUtPmFjdGl2
-ZSkKKworCQlpZiAob2xkX2NydGNfc3RhdGUtPmFjdGl2ZSAmJiAhbmV3X2NydGNfc3RhdGUtPmFj
-dGl2ZSkgeworCQkJcG1fcnVudGltZV9wdXRfbm9pZGxlKGRldi0+ZGV2KTsKIAkJCWRybV9jcnRj
-X3ZibGFua19vZmYoY3J0Yyk7CisJCX0KIAogCQlpZiAoYXN5aC0+Y2xyLm1hc2spIHsKIAkJCW52
-NTBfaGVhZF9mbHVzaF9jbHIoaGVhZCwgYXN5aCwgYXRvbS0+Zmx1c2hfZGlzYWJsZSk7CkBAIC0x
-OTEzLDggKzE5MTYsMTAgQEAgbnY1MF9kaXNwX2F0b21pY19jb21taXRfdGFpbChzdHJ1Y3QgZHJt
-X2F0b21pY19zdGF0ZSAqc3RhdGUpCiAJCX0KIAogCQlpZiAobmV3X2NydGNfc3RhdGUtPmFjdGl2
-ZSkgewotCQkJaWYgKCFvbGRfY3J0Y19zdGF0ZS0+YWN0aXZlKQorCQkJaWYgKCFvbGRfY3J0Y19z
-dGF0ZS0+YWN0aXZlKSB7CiAJCQkJZHJtX2NydGNfdmJsYW5rX29uKGNydGMpOworCQkJCXBtX3J1
-bnRpbWVfZ2V0X25vcmVzdW1lKGRldi0+ZGV2KTsKKwkJCX0KIAkJCWlmIChuZXdfY3J0Y19zdGF0
-ZS0+ZXZlbnQpCiAJCQkJZHJtX2NydGNfdmJsYW5rX2dldChjcnRjKTsKIAkJfQpAQCAtMTk3OSw2
-ICsxOTg0LDEwIEBAIG52NTBfZGlzcF9hdG9taWNfY29tbWl0X3RhaWwoc3RydWN0IGRybV9hdG9t
-aWNfc3RhdGUgKnN0YXRlKQogCWRybV9hdG9taWNfaGVscGVyX2NsZWFudXBfcGxhbmVzKGRldiwg
-c3RhdGUpOwogCWRybV9hdG9taWNfaGVscGVyX2NvbW1pdF9jbGVhbnVwX2RvbmUoc3RhdGUpOwog
-CWRybV9hdG9taWNfc3RhdGVfcHV0KHN0YXRlKTsKKworCS8qIERyb3AgdGhlIFJQTSByZWYgd2Ug
-Z290IGZyb20gbnY1MF9kaXNwX2F0b21pY19jb21taXQoKSAqLworCXBtX3J1bnRpbWVfbWFya19s
-YXN0X2J1c3koZGV2LT5kZXYpOworCXBtX3J1bnRpbWVfcHV0X2F1dG9zdXNwZW5kKGRldi0+ZGV2
-KTsKIH0KIAogc3RhdGljIHZvaWQKQEAgLTE5OTMsMTEgKzIwMDIsOCBAQCBzdGF0aWMgaW50CiBu
-djUwX2Rpc3BfYXRvbWljX2NvbW1pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQkJc3RydWN0
-IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlLCBib29sIG5vbmJsb2NrKQogewotCXN0cnVjdCBub3V2
-ZWF1X2RybSAqZHJtID0gbm91dmVhdV9kcm0oZGV2KTsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRl
-ICpuZXdfcGxhbmVfc3RhdGU7CiAJc3RydWN0IGRybV9wbGFuZSAqcGxhbmU7Ci0Jc3RydWN0IGRy
-bV9jcnRjICpjcnRjOwotCWJvb2wgYWN0aXZlID0gZmFsc2U7CiAJaW50IHJldCwgaTsKIAogCXJl
-dCA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMoZGV2LT5kZXYpOwpAQCAtMjAzNCwyNyArMjA0MCwxNyBA
-QCBudjUwX2Rpc3BfYXRvbWljX2NvbW1pdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCiAJZHJt
-X2F0b21pY19zdGF0ZV9nZXQoc3RhdGUpOwogCisJLyoKKwkgKiBHcmFiIGFub3RoZXIgUlBNIHJl
-ZiBmb3IgdGhlIGNvbW1pdCB0YWlsLCB3aGljaCB3aWxsIHJlbGVhc2UgdGhlCisJICogcmVmIHdo
-ZW4gaXQncyBmaW5pc2hlZAorCSAqLworCXBtX3J1bnRpbWVfZ2V0X25vcmVzdW1lKGRldi0+ZGV2
-KTsKKwogCWlmIChub25ibG9jaykKIAkJcXVldWVfd29yayhzeXN0ZW1fdW5ib3VuZF93cSwgJnN0
-YXRlLT5jb21taXRfd29yayk7CiAJZWxzZQogCQludjUwX2Rpc3BfYXRvbWljX2NvbW1pdF90YWls
-KHN0YXRlKTsKIAotCWRybV9mb3JfZWFjaF9jcnRjKGNydGMsIGRldikgewotCQlpZiAoY3J0Yy0+
-c3RhdGUtPmFjdGl2ZSkgewotCQkJaWYgKCFkcm0tPmhhdmVfZGlzcF9wb3dlcl9yZWYpIHsKLQkJ
-CQlkcm0tPmhhdmVfZGlzcF9wb3dlcl9yZWYgPSB0cnVlOwotCQkJCXJldHVybiAwOwotCQkJfQot
-CQkJYWN0aXZlID0gdHJ1ZTsKLQkJCWJyZWFrOwotCQl9Ci0JfQotCi0JaWYgKCFhY3RpdmUgJiYg
-ZHJtLT5oYXZlX2Rpc3BfcG93ZXJfcmVmKSB7Ci0JCXBtX3J1bnRpbWVfcHV0X2F1dG9zdXNwZW5k
-KGRldi0+ZGV2KTsKLQkJZHJtLT5oYXZlX2Rpc3BfcG93ZXJfcmVmID0gZmFsc2U7Ci0JfQotCiBl
-cnJfY2xlYW51cDoKIAlpZiAocmV0KQogCQlkcm1fYXRvbWljX2hlbHBlcl9jbGVhbnVwX3BsYW5l
-cyhkZXYsIHN0YXRlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZl
-YXVfZHJ2LmggYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Rydi5oCmluZGV4IGFh
-ZTAzNTgxNjM4My4uNDExMzUyZGQ1MzkwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91
-dmVhdS9ub3V2ZWF1X2Rydi5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVf
-ZHJ2LmgKQEAgLTIwNCw5ICsyMDQsNiBAQCBzdHJ1Y3Qgbm91dmVhdV9kcm0gewogCS8qIGxlZCBt
-YW5hZ2VtZW50ICovCiAJc3RydWN0IG5vdXZlYXVfbGVkICpsZWQ7CiAKLQkvKiBkaXNwbGF5IHBv
-d2VyIHJlZmVyZW5jZSAqLwotCWJvb2wgaGF2ZV9kaXNwX3Bvd2VyX3JlZjsKLQogCXN0cnVjdCBk
-ZXZfcG1fZG9tYWluIHZnYV9wbV9kb21haW47CiAKIAlzdHJ1Y3Qgbm91dmVhdV9zdm0gKnN2bTsK
-LS0gCjIuMjEuMAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0733998596==
+Content-Type: multipart/alternative; boundary="15652142022.EBD3.1548"
+Content-Transfer-Encoding: 7bit
+
+
+--15652142022.EBD3.1548
+Date: Wed, 7 Aug 2019 21:43:22 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #23 from Samuele Decarli <samuele.decarli@gmail.com> ---
+amdgpu.dc=3D1 had no effect on my machine. On my computer resume fails quite
+consistently
+
+Any idea on what should be done to fix this, or even what is the cause?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15652142022.EBD3.1548
+Date: Wed, 7 Aug 2019 21:43:22 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c23">Comme=
+nt # 23</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
+&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
+</span></b>
+        <pre>amdgpu.dc=3D1 had no effect on my machine. On my computer resu=
+me fails quite
+consistently
+
+Any idea on what should be done to fix this, or even what is the cause?</pr=
+e>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15652142022.EBD3.1548--
+
+--===============0733998596==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0733998596==--
