@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B60185349
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 20:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412098535C
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 21:01:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3B256E75D;
-	Wed,  7 Aug 2019 18:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40CF48918F;
+	Wed,  7 Aug 2019 19:01:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6AEDA6E75D
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 18:56:45 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 64F5072167; Wed,  7 Aug 2019 18:56:45 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110413] GPU crash and failed reset leading to deadlock on
- Polaris 22 XL [Radeon RX Vega M GL]
-Date: Wed, 07 Aug 2019 18:56:45 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: proje.pdf@outlook.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110413-502-eO7THha1Io@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110413-502@http.bugs.freedesktop.org/>
-References: <bug-110413-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02F558918F;
+ Wed,  7 Aug 2019 19:01:12 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 93C9980486;
+ Wed,  7 Aug 2019 21:01:10 +0200 (CEST)
+Date: Wed, 7 Aug 2019 21:01:09 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Rob Clark <robdclark@gmail.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Subject: Re: [Freedreno] [PATCH] drm/msm: Make DRM_MSM default to 'm'
+Message-ID: <20190807190109.GA32503@ravnborg.org>
+References: <1565198667-4300-1-git-send-email-jcrouse@codeaurora.org>
+ <20190807173838.GB30025@ravnborg.org>
+ <CAF6AEGv6EY5UBYF8D9tuSaMDvkdrBt+zvRxQA+V4PG6ZfKhUAg@mail.gmail.com>
+ <20190807184648.GA30521@jcrouse1-lnx.qualcomm.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190807184648.GA30521@jcrouse1-lnx.qualcomm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+ a=LpQP-O61AAAA:8 a=-ipZeBXR2iWv2Qf4ONQA:9 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=pioyyrs4ZptJ924tMmac:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,92 +53,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1200673745=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1200673745==
-Content-Type: multipart/alternative; boundary="15652042050.caFC5.10481"
-Content-Transfer-Encoding: 7bit
-
-
---15652042050.caFC5.10481
-Date: Wed, 7 Aug 2019 18:56:45 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110413
-
---- Comment #12 from Utku Helvac=C4=B1 (tuxutku) <proje.pdf@outlook.com> ---
-as it turns out this is not a bug in kernel but amd's aco compiler so its
-irrelevant
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15652042050.caFC5.10481
-Date: Wed, 7 Aug 2019 18:56:45 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - GPU crash and failed reset leading to deadlock on Polaris=
- 22 XL [Radeon RX Vega M GL]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110413#c12">Comme=
-nt # 12</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - GPU crash and failed reset leading to deadlock on Polaris=
- 22 XL [Radeon RX Vega M GL]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110413">bug 11041=
-3</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-proje.pdf&#64;outlook.com" title=3D"Utku Helvac=C4=B1 (tuxutku) &lt;proje.p=
-df&#64;outlook.com&gt;"> <span class=3D"fn">Utku Helvac=C4=B1 (tuxutku)</sp=
-an></a>
-</span></b>
-        <pre>as it turns out this is not a bug in kernel but amd's aco comp=
-iler so its
-irrelevant</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15652042050.caFC5.10481--
-
---===============1200673745==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1200673745==--
+SGkgSm9yZGFuL1JvYi4KCk9uIFdlZCwgQXVnIDA3LCAyMDE5IGF0IDEyOjQ2OjQ5UE0gLTA2MDAs
+IEpvcmRhbiBDcm91c2Ugd3JvdGU6Cj4gT24gV2VkLCBBdWcgMDcsIDIwMTkgYXQgMTE6MDg6NTNB
+TSAtMDcwMCwgUm9iIENsYXJrIHdyb3RlOgo+ID4gT24gV2VkLCBBdWcgNywgMjAxOSBhdCAxMDoz
+OCBBTSBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+IHdyb3RlOgo+ID4gPgo+ID4gPiBI
+aSBKb3JkYW4uCj4gPiA+IE9uIFdlZCwgQXVnIDA3LCAyMDE5IGF0IDExOjI0OjI3QU0gLTA2MDAs
+IEpvcmRhbiBDcm91c2Ugd3JvdGU6Cj4gPiA+ID4gTW9zdCB1c2UgY2FzZXMgZm9yIERSTV9NU00g
+d2lsbCBwcmVmZXIgdG8gYnVpbGQgYm90aCBEUk0gYW5kIE1TTV9EUk0gYXMKPiA+ID4gPiBtb2R1
+bGVzIGJ1dCB0aGVyZSBhcmUgc29tZSBjYXNlcyB3aGVyZSBEUk0gbWlnaHQgYmUgYnVpbHQgaW4g
+Zm9yIHdoYXRldmVyCj4gPiA+ID4gcmVhc29uIGFuZCBpbiB0aG9zZSBzaXR1YXRpb25zIGl0IGlz
+IHByZWZlcmFibGUgdG8gc3RpbGwga2VlcCBNU00gYXMgYQo+ID4gPiA+IG1vZHVsZSBieSBkZWZh
+dWx0IGFuZCBsZXQgdGhlIHVzZXIgZGVjaWRlIGlmIHRoZXkgX3JlYWxseV8gd2FudCB0byBidWls
+ZAo+ID4gPiA+IGl0IGluLgo+ID4gPiA+Cj4gPiA+ID4gQWRkaXRpb25hbGx5IHNlbGVjdCBRQ09N
+X0NPTU1BTkRfREIgZm9yIEFSQ0hfUUNPTSB0YXJnZXRzIHRvIG1ha2Ugc3VyZQo+ID4gPiA+IGl0
+IGRvZXNuJ3QgZ2V0IG1pc3NlZCB3aGVuIHdlIG5lZWQgaXQgZm9yIGE2eHggdGFyZXRzLgo+ID4g
+PiA+Cj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogSm9yZGFuIENyb3VzZSA8amNyb3VzZUBjb2RlYXVy
+b3JhLm9yZz4KPiA+ID4gPiAtLS0KPiA+ID4gPgo+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbXNt
+L0tjb25maWcgfCAzICsrLQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
+LCAxIGRlbGV0aW9uKC0pCj4gPiA+ID4KPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL21zbS9LY29uZmlnIGIvZHJpdmVycy9ncHUvZHJtL21zbS9LY29uZmlnCj4gPiA+ID4gaW5k
+ZXggOWMzN2U0ZC4uM2IyMzM0YiAxMDA2NDQKPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
+bXNtL0tjb25maWcKPiA+ID4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbXNtL0tjb25maWcKPiA+
+ID4gPiBAQCAtMTQsMTEgKzE0LDEyIEBAIGNvbmZpZyBEUk1fTVNNCj4gPiA+ID4gICAgICAgc2Vs
+ZWN0IFNITUVNCj4gPiA+ID4gICAgICAgc2VsZWN0IFRNUEZTCj4gPiA+ID4gICAgICAgc2VsZWN0
+IFFDT01fU0NNIGlmIEFSQ0hfUUNPTQo+ID4gPiA+ICsgICAgIHNlbGVjdCBRQ09NX0NPTU1BTkRf
+REIgaWYgQVJDSF9RQ09NCj4gPiA+ID4gICAgICAgc2VsZWN0IFdBTlRfREVWX0NPUkVEVU1QCj4g
+PiA+ID4gICAgICAgc2VsZWN0IFNORF9TT0NfSERNSV9DT0RFQyBpZiBTTkRfU09DCj4gPiA+ID4g
+ICAgICAgc2VsZWN0IFNZTkNfRklMRQo+ID4gPiA+ICAgICAgIHNlbGVjdCBQTV9PUFAKPiA+ID4g
+PiAtICAgICBkZWZhdWx0IHkKPiA+ID4gPiArICAgICBkZWZhdWx0IG0KPiA+ID4KPiA+ID4gQXMg
+YSBnZW5lcmFsIGNvbW1lbnQgdGhlIHJpZ2h0IHRoaW5nIHdvdWxkIGJlIHRvIGRyb3AgdGhpcyBk
+ZWZhdWx0Lgo+ID4gPiBBcyBpdCBpcyBub3cgdGhlIEtjb25maWcgc2F5cyB0aGF0IHdoZW4gRFJN
+IGlzIHNlbGVjdGVkIHRoZW4gYWxsIG9mIHRoZQo+ID4gPiB3b3JsZCB3b3VsZCB0aGVuIGFsc28g
+Z2V0IERSTV9NU00sIHdoaWNoIG9ubHkgYSBzbWFsbCBwYXJ0IG9mIHRoaXMgd29ybGQKPiA+ID4g
+eW91IHNlZSBhbnkgYmVuZWZpdCBpbi4KPiA+ID4gU28gdGhleSBub3cgaGF2ZSB0byBkZS1zZWxl
+Y3QgTVNNLgo+ID4gCj4gPiBJZiB0aGUgZGVmYXVsdCBpcyBkcm9wcGVkLCBpdCBzaG91bGQgcHJv
+YmFibHkgYmUgYWNjb21wYW5pZWQgYnkgYWRkaW5nCj4gPiBDT05GSUdfRFJNX01TTT1tIHRvIGRl
+ZmNvbmZpZydzLCBJIHRoaW5rClRoYXQgd291bGQgYmUgYmVzdC4gU28gdGhlIGRlZmNvbmZpZ3Mg
+ZW5kIHVwIHdpdGggdGhlIHNhbWUgY29uZmlnIGFzCmJlZm9yZS4KCj4gCj4gSW4gZ2VuZXJhbCBJ
+IHByZWZlciB0byBub3QgdXNlIGEgZGVmYXVsdCBidXQgdGhpcyBpcyB0aGUgb25seSBHUFUgZHJp
+dmVyIGZvcgo+IEFSQ0hfUUNPTSBhbmQgSSB0aGluayBpdHMgc2FmZSB0byBzdGF5IHRoYXQgOTkl
+IG9mIEFSQ0hfUUNPTSB1c2VycyB3b3VsZCBzZWxlY3QKPiB0aGlzIG1vZHVsZSBhbmQgdGhvc2Ug
+dGhhdCB3b3VsZG4ndCB3aWxsIG9taXQgRFJNIGVudGlyZWx5Lgo+IAo+IEkgZmVlbCBpdCBpcyBu
+ZXQgbmVnYXRpdmUgaWYgd2UgZHJvcHBlZCB0aGUgZGVmYXVsdCBidXQgdGhlbiBoYWQgdG8gdHVy
+biBhcm91bmQKPiBhbmQgZW5hYmxlIGl0IGluIGV2ZXJ5IGRlZmNvbmZpZy4KImluIGV2ZXJ5IiBl
+cXVhbHMgdGhyZWUgZGVmY29uZmlnczoKJCBnaXQgZ3JlcCBBUkNIX1FDT00gfCBncmVwIGRlZmNv
+bmZpZwphcmNoL2FybS9jb25maWdzL211bHRpX3Y3X2RlZmNvbmZpZzpDT05GSUdfQVJDSF9RQ09N
+PXkKYXJjaC9hcm0vY29uZmlncy9xY29tX2RlZmNvbmZpZzpDT05GSUdfQVJDSF9RQ09NPXkKYXJj
+aC9hcm02NC9jb25maWdzL2RlZmNvbmZpZzpDT05GSUdfQVJDSF9RQ09NPXkKCglTYW0KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
