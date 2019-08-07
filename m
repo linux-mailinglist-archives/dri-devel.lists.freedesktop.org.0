@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFEA1849C3
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 12:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A061849D0
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 12:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD266E6AC;
-	Wed,  7 Aug 2019 10:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AF28990D;
+	Wed,  7 Aug 2019 10:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE64A6E6AC;
- Wed,  7 Aug 2019 10:38:52 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 76CDD935D0;
- Wed,  7 Aug 2019 10:38:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com
- [10.36.116.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1AAD10016E9;
- Wed,  7 Aug 2019 10:38:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EA6F59D12; Wed,  7 Aug 2019 12:38:49 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B4DEF898AA
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 10:39:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B20DE72167; Wed,  7 Aug 2019 10:39:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/3] drm/qxl: switch qxl to use the new ttm helpers.
-Date: Wed,  7 Aug 2019 12:38:49 +0200
-Message-Id: <20190807103849.7289-4-kraxel@redhat.com>
-In-Reply-To: <20190807103849.7289-1-kraxel@redhat.com>
-References: <20190807103849.7289-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Wed, 07 Aug 2019 10:38:52 +0000 (UTC)
+Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
+Date: Wed, 07 Aug 2019 10:39:25 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: DRI git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111244-502-LR4pbXxlEs@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
+References: <bug-111244-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,88 +52,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0367420345=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-U2lnbmVkLW9mZi1ieTogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+Ci0tLQogZHJp
-dmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmggICAgfCAgNCArLS0tCiBkcml2ZXJzL2dwdS9kcm0v
-cXhsL3F4bF9vYmplY3QuaCB8ICA1IC0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYu
-YyAgICB8ICAyICstCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kdW1iLmMgICB8IDE3IC0tLS0t
-LS0tLS0tLS0tLS0tCiBkcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9pb2N0bC5jICB8ICA1ICsrKy0t
-CiBkcml2ZXJzL2dwdS9kcm0vcXhsL0tjb25maWcgICAgICB8ICAxICsKIDYgZmlsZXMgY2hhbmdl
-ZCwgNiBpbnNlcnRpb25zKCspLCAyOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vcXhsL3F4bF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5oCmlu
-ZGV4IDllMDM0YzVmYTg3ZC4uODJlZmJlNzYwNjJhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcXhsL3F4bF9kcnYuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kcnYuaApAQCAt
-MzgsNiArMzgsNyBAQAogI2luY2x1ZGUgPGRybS9kcm1fY3J0Yy5oPgogI2luY2x1ZGUgPGRybS9k
-cm1fZW5jb2Rlci5oPgogI2luY2x1ZGUgPGRybS9kcm1fZmJfaGVscGVyLmg+CisjaW5jbHVkZSA8
-ZHJtL2RybV9nZW1fdHRtX2hlbHBlci5oPgogI2luY2x1ZGUgPGRybS9kcm1faW9jdGwuaD4KICNp
-bmNsdWRlIDxkcm0vZHJtX2dlbS5oPgogI2luY2x1ZGUgPGRybS9xeGxfZHJtLmg+CkBAIC0zNDcs
-OSArMzQ4LDYgQEAgaW50IHF4bF9ib19rbWFwKHN0cnVjdCBxeGxfYm8gKmJvLCB2b2lkICoqcHRy
-KTsKIGludCBxeGxfbW9kZV9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdiwK
-IAkJCSBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQkJIHN0cnVjdCBkcm1fbW9kZV9jcmVhdGVf
-ZHVtYiAqYXJncyk7Ci1pbnQgcXhsX21vZGVfZHVtYl9tbWFwKHN0cnVjdCBkcm1fZmlsZSAqZmls
-cCwKLQkJICAgICAgIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCi0JCSAgICAgICB1aW50MzJfdCBo
-YW5kbGUsIHVpbnQ2NF90ICpvZmZzZXRfcCk7CiAKIC8qIHF4bCB0dG0gKi8KIGludCBxeGxfdHRt
-X2luaXQoc3RydWN0IHF4bF9kZXZpY2UgKnFkZXYpOwpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL3F4bC9xeGxfb2JqZWN0LmggYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9vYmplY3QuaApp
-bmRleCA4YWU1NGJhNzg1N2MuLjFmMDMxNmViY2ZkMCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3F4bC9xeGxfb2JqZWN0LmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfb2JqZWN0
-LmgKQEAgLTU4LDExICs1OCw2IEBAIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQgbG9uZyBxeGxfYm9f
-c2l6ZShzdHJ1Y3QgcXhsX2JvICpibykKIAlyZXR1cm4gYm8tPnRiby5udW1fcGFnZXMgPDwgUEFH
-RV9TSElGVDsKIH0KIAotc3RhdGljIGlubGluZSB1NjQgcXhsX2JvX21tYXBfb2Zmc2V0KHN0cnVj
-dCBxeGxfYm8gKmJvKQotewotCXJldHVybiBkcm1fdm1hX25vZGVfb2Zmc2V0X2FkZHIoJmJvLT50
-Ym8uYmFzZS52bWFfbm9kZSk7Ci19Ci0KIHN0YXRpYyBpbmxpbmUgaW50IHF4bF9ib193YWl0KHN0
-cnVjdCBxeGxfYm8gKmJvLCB1MzIgKm1lbV90eXBlLAogCQkJICAgICAgYm9vbCBub193YWl0KQog
-ewpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmMgYi9kcml2ZXJzL2dw
-dS9kcm0vcXhsL3F4bF9kcnYuYwppbmRleCBjMTgwMmUwMWQ5ZjYuLjE4MjQ5MTEwYWE1NiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3F4bC9xeGxfZHJ2LmMKQEAgLTI1Miw3ICsyNTIsNyBAQCBzdGF0aWMgc3RydWN0IGRybV9k
-cml2ZXIgcXhsX2RyaXZlciA9IHsKIAkuZHJpdmVyX2ZlYXR1cmVzID0gRFJJVkVSX0dFTSB8IERS
-SVZFUl9NT0RFU0VUIHwgRFJJVkVSX0FUT01JQywKIAogCS5kdW1iX2NyZWF0ZSA9IHF4bF9tb2Rl
-X2R1bWJfY3JlYXRlLAotCS5kdW1iX21hcF9vZmZzZXQgPSBxeGxfbW9kZV9kdW1iX21tYXAsCisJ
-LmR1bWJfbWFwX29mZnNldCA9IGRybV9nZW1fdHRtX2RyaXZlcl9kdW1iX21tYXBfb2Zmc2V0LAog
-I2lmIGRlZmluZWQoQ09ORklHX0RFQlVHX0ZTKQogCS5kZWJ1Z2ZzX2luaXQgPSBxeGxfZGVidWdm
-c19pbml0LAogI2VuZGlmCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kdW1i
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kdW1iLmMKaW5kZXggMjcyZDE5YjY3N2Q4Li5i
-ZDNiMTZhNzAxYTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2R1bWIuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vcXhsL3F4bF9kdW1iLmMKQEAgLTY5LDIwICs2OSwzIEBAIGlu
-dCBxeGxfbW9kZV9kdW1iX2NyZWF0ZShzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGVfcHJpdiwKIAlhcmdz
-LT5oYW5kbGUgPSBoYW5kbGU7CiAJcmV0dXJuIDA7CiB9Ci0KLWludCBxeGxfbW9kZV9kdW1iX21t
-YXAoc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYsCi0JCSAgICAgICBzdHJ1Y3QgZHJtX2Rldmlj
-ZSAqZGV2LAotCQkgICAgICAgdWludDMyX3QgaGFuZGxlLCB1aW50NjRfdCAqb2Zmc2V0X3ApCi17
-Ci0Jc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnb2JqOwotCXN0cnVjdCBxeGxfYm8gKnFvYmo7Ci0K
-LQlCVUdfT04oIW9mZnNldF9wKTsKLQlnb2JqID0gZHJtX2dlbV9vYmplY3RfbG9va3VwKGZpbGVf
-cHJpdiwgaGFuZGxlKTsKLQlpZiAoZ29iaiA9PSBOVUxMKQotCQlyZXR1cm4gLUVOT0VOVDsKLQlx
-b2JqID0gZ2VtX3RvX3F4bF9ibyhnb2JqKTsKLQkqb2Zmc2V0X3AgPSBxeGxfYm9fbW1hcF9vZmZz
-ZXQocW9iaik7Ci0JZHJtX2dlbV9vYmplY3RfcHV0X3VubG9ja2VkKGdvYmopOwotCXJldHVybiAw
-OwotfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfaW9jdGwuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9xeGwvcXhsX2lvY3RsLmMKaW5kZXggODExN2E0NWIzNjEwLi5iMWNjMzhlZDBl
-ZDQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2lvY3RsLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL3F4bC9xeGxfaW9jdGwuYwpAQCAtNjcsOCArNjcsOSBAQCBzdGF0aWMgaW50
-IHF4bF9tYXBfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAlzdHJ1
-Y3QgcXhsX2RldmljZSAqcWRldiA9IGRldi0+ZGV2X3ByaXZhdGU7CiAJc3RydWN0IGRybV9xeGxf
-bWFwICpxeGxfbWFwID0gZGF0YTsKIAotCXJldHVybiBxeGxfbW9kZV9kdW1iX21tYXAoZmlsZV9w
-cml2LCAmcWRldi0+ZGRldiwgcXhsX21hcC0+aGFuZGxlLAotCQkJCSAgJnF4bF9tYXAtPm9mZnNl
-dCk7CisJcmV0dXJuIGRybV9nZW1fdHRtX2RyaXZlcl9kdW1iX21tYXBfb2Zmc2V0KGZpbGVfcHJp
-diwgJnFkZXYtPmRkZXYsCisJCQkJCQkgICBxeGxfbWFwLT5oYW5kbGUsCisJCQkJCQkgICAmcXhs
-X21hcC0+b2Zmc2V0KTsKIH0KIAogc3RydWN0IHF4bF9yZWxvY19pbmZvIHsKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9xeGwvS2NvbmZpZyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvS2NvbmZp
-ZwppbmRleCBkMGQ2OTFiMzFmNGEuLmJmZTkwYzdkMTdiMiAxMDA2NDQKLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3F4bC9LY29uZmlnCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvS2NvbmZpZwpAQCAt
-Myw2ICszLDcgQEAgY29uZmlnIERSTV9RWEwKIAl0cmlzdGF0ZSAiUVhMIHZpcnR1YWwgR1BVIgog
-CWRlcGVuZHMgb24gRFJNICYmIFBDSSAmJiBNTVUKIAlzZWxlY3QgRFJNX0tNU19IRUxQRVIKKwlz
-ZWxlY3QgRFJNX1RUTV9IRUxQRVIKIAlzZWxlY3QgRFJNX1RUTQogCXNlbGVjdCBDUkMzMgogCWhl
-bHAKLS0gCjIuMTguMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVs
+
+--===============0367420345==
+Content-Type: multipart/alternative; boundary="15651743652.edBe.27218"
+Content-Transfer-Encoding: 7bit
+
+
+--15651743652.edBe.27218
+Date: Wed, 7 Aug 2019 10:39:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+
+--- Comment #20 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to cspack from comment #19)
+> With amdgpu.dc=3D0, X doesn't start ((EE) AMDGPU(0): No modes.)
+
+Right (I realized the amdgpu kernel driver doesn't support display with your
+GPU without DC), but amdgpu.dc=3D1 is the default. It was probably just luc=
+k that
+it worked once, which is why your first bisect attempts failed.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15651743652.edBe.27218
+Date: Wed, 7 Aug 2019 10:39:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c20">Comme=
+nt # 20</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to cspack from <a href=3D"show_bug.cgi?id=3D111244#c=
+19">comment #19</a>)
+<span class=3D"quote">&gt; With amdgpu.dc=3D0, X doesn't start ((EE) AMDGPU=
+(0): No modes.)</span >
+
+Right (I realized the amdgpu kernel driver doesn't support display with your
+GPU without DC), but amdgpu.dc=3D1 is the default. It was probably just luc=
+k that
+it worked once, which is why your first bisect attempts failed.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15651743652.edBe.27218--
+
+--===============0367420345==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0367420345==--
