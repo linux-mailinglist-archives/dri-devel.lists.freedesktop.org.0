@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBDA85563
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 23:43:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7EC585565
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 23:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 679416E770;
-	Wed,  7 Aug 2019 21:43:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1DCD6E740;
+	Wed,  7 Aug 2019 21:44:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3C3486E770
- for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 21:43:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id EDBFE89F33
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 21:44:37 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 386C372167; Wed,  7 Aug 2019 21:43:22 +0000 (UTC)
+ id E981C72167; Wed,  7 Aug 2019 21:44:37 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111244] amdgpu kernel 5.2 blank display after resume from suspend
-Date: Wed, 07 Aug 2019 21:43:22 +0000
+Subject: [Bug 110214] Raven Ridge (2400G): xterm scrollback buffer disappears
+ while Shift+PgUp and Shift+PgDn
+Date: Wed, 07 Aug 2019 21:44:38 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: samuele.decarli@gmail.com
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111244-502-l75FW02nce@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111244-502@http.bugs.freedesktop.org/>
-References: <bug-111244-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110214-502-dmPh8paALI@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110214-502@http.bugs.freedesktop.org/>
+References: <bug-110214-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,38 +53,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0733998596=="
+Content-Type: multipart/mixed; boundary="===============1659327727=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0733998596==
-Content-Type: multipart/alternative; boundary="15652142022.EBD3.1548"
+--===============1659327727==
+Content-Type: multipart/alternative; boundary="15652142770.bD34a31b.1824"
 Content-Transfer-Encoding: 7bit
 
 
---15652142022.EBD3.1548
-Date: Wed, 7 Aug 2019 21:43:22 +0000
+--15652142770.bD34a31b.1824
+Date: Wed, 7 Aug 2019 21:44:37 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111244
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110214
 
---- Comment #23 from Samuele Decarli <samuele.decarli@gmail.com> ---
-amdgpu.dc=3D1 had no effect on my machine. On my computer resume fails quite
-consistently
+--- Comment #105 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-praye=
+r@amd.com> ---
+The commit fixing this issue has changed a bit, it would be great if you co=
+uld
+confirm the latest version of the MR works well for you.
 
-Any idea on what should be done to fix this, or even what is the cause?
+Thanks!
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15652142022.EBD3.1548
-Date: Wed, 7 Aug 2019 21:43:22 +0000
+--15652142770.bD34a31b.1824
+Date: Wed, 7 Aug 2019 21:44:37 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -99,24 +102,26 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244#c23">Comme=
-nt # 23</a>
+   title=3D"NEW - Raven Ridge (2400G): xterm scrollback buffer disappears w=
+hile Shift+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214#c105">Comm=
+ent # 105</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu kernel 5.2 blank display after resume from suspend"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111244">bug 11124=
+   title=3D"NEW - Raven Ridge (2400G): xterm scrollback buffer disappears w=
+hile Shift+PgUp and Shift+PgDn"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110214">bug 11021=
 4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-samuele.decarli&#64;gmail.com" title=3D"Samuele Decarli &lt;samuele.decarli=
-&#64;gmail.com&gt;"> <span class=3D"fn">Samuele Decarli</span></a>
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
 </span></b>
-        <pre>amdgpu.dc=3D1 had no effect on my machine. On my computer resu=
-me fails quite
-consistently
+        <pre>The commit fixing this issue has changed a bit, it would be gr=
+eat if you could
+confirm the latest version of the MR works well for you.
 
-Any idea on what should be done to fix this, or even what is the cause?</pr=
-e>
+Thanks!</pre>
         </div>
       </p>
 
@@ -130,9 +135,9 @@ e>
     </body>
 </html>=
 
---15652142022.EBD3.1548--
+--15652142770.bD34a31b.1824--
 
---===============0733998596==
+--===============1659327727==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0733998596==--
+--===============1659327727==--
