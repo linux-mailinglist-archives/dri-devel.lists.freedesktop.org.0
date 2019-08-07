@@ -2,56 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5D3845E6
-	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 09:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8AB845FE
+	for <lists+dri-devel@lfdr.de>; Wed,  7 Aug 2019 09:29:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEEB96E67A;
-	Wed,  7 Aug 2019 07:26:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF9AE6E68D;
+	Wed,  7 Aug 2019 07:27:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from hqemgate15.nvidia.com (hqemgate15.nvidia.com [216.228.121.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E84E6E589;
- Wed,  7 Aug 2019 01:49:57 +0000 (UTC)
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d4a2e4e0000>; Tue, 06 Aug 2019 18:50:06 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Tue, 06 Aug 2019 18:49:56 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Tue, 06 Aug 2019 18:49:56 -0700
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 7 Aug
- 2019 01:49:55 +0000
-Subject: Re: [PATCH v3 00/39] put_user_pages(): miscellaneous call sites
-To: <john.hubbard@gmail.com>, Andrew Morton <akpm@linux-foundation.org>
-References: <20190807013340.9706-1-jhubbard@nvidia.com>
-From: John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <912eb2bd-4102-05c1-5571-c261617ad30b@nvidia.com>
-Date: Tue, 6 Aug 2019 18:49:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7213A6E640
+ for <dri-devel@lists.freedesktop.org>; Wed,  7 Aug 2019 07:26:56 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F07F230B1B7E;
+ Wed,  7 Aug 2019 07:26:55 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com
+ [10.36.116.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8722826164;
+ Wed,  7 Aug 2019 07:26:55 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8E28811AB8; Wed,  7 Aug 2019 09:26:54 +0200 (CEST)
+Date: Wed, 7 Aug 2019 09:26:54 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/3] drm: add gem ttm helpers
+Message-ID: <20190807072654.arqvx37p4yxhegcu@sirius.home.kraxel.org>
+References: <20190806133454.8254-1-kraxel@redhat.com>
+ <20190806133454.8254-2-kraxel@redhat.com>
+ <20190806135426.GA7444@phenom.ffwll.local>
 MIME-Version: 1.0
-In-Reply-To: <20190807013340.9706-1-jhubbard@nvidia.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL104.nvidia.com (172.18.146.11) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Language: en-US
-X-Mailman-Approved-At: Wed, 07 Aug 2019 07:26:18 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nvidia.com; s=n1; 
- t=1565142606; bh=Dn5BKjZ7JEBRqWgfa18GnM7OhUXy8yDZwMN3JIIxlGw=;
- h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=Ikr1Z0QmiSe2izYZJH1uqOSC6icnToC0RNMEpxuB23chpfLBCzP3w/AieqLXvDTl5
- WiAJO8Q4P7LqaICg9w9tXQj3/iPr6N76Dc9IbqJMajQoyinrqFfwgCWwW9UnKbczaL
- GaLoALYFsFwWv8Sy+VSzQYK1xKYCINe6tMld2WSk4jzjh2UDaUm/4PS/zoETIOvAHY
- Cv7DiogcZErrjHQstqfLwjbbIS2N4ESoffKtD4ugOTExuz4uGt5TgMT8y01S0TheeO
- 6qVWyeW6YYVimOARtYB9SW21zJJlrmRpt7UH+8pXV98uEPUBYTW77sxtUkB504xqpb
- D9OLrQ7tTourQ==
+Content-Disposition: inline
+In-Reply-To: <20190806135426.GA7444@phenom.ffwll.local>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 07 Aug 2019 07:26:56 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,37 +55,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jan Kara <jack@suse.cz>, kvm@vger.kernel.org,
- Dave Hansen <dave.hansen@linux.intel.com>, Dave Chinner <david@fromorbit.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- sparclinux@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
- ceph-devel@vger.kernel.org, devel@driverdev.osuosl.org,
- rds-devel@oss.oracle.com, linux-rdma@vger.kernel.org, x86@kernel.org,
- amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, xen-devel@lists.xenproject.org,
- devel@lists.orangefs.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-block@vger.kernel.org,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- linux-rpi-kernel@lists.infradead.org, Dan Williams <dan.j.williams@intel.com>,
- linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-xfs@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gOC82LzE5IDY6MzIgUE0sIGpvaG4uaHViYmFyZEBnbWFpbC5jb20gd3JvdGU6Cj4gRnJvbTog
-Sm9obiBIdWJiYXJkIDxqaHViYmFyZEBudmlkaWEuY29tPgo+IC4uLgo+IAo+IEpvaG4gSHViYmFy
-ZCAoMzgpOgo+ICAgbW0vZ3VwOiBhZGQgbWFrZV9kaXJ0eSBhcmcgdG8gcHV0X3VzZXJfcGFnZXNf
-ZGlydHlfbG9jaygpCi4uLgo+ICA1NCBmaWxlcyBjaGFuZ2VkLCAxOTEgaW5zZXJ0aW9ucygrKSwg
-MzIzIGRlbGV0aW9ucygtKQo+IAphaGVtLCB5ZXMsIGFwcGFyZW50bHkgdGhpcyBpcyB3aGF0IGhh
-cHBlbnMgaWYgSSBhZGQgYSBmZXcgcGF0Y2hlcyB3aGlsZSBlZGl0aW5nCnRoZSBjb3ZlciBsZXR0
-ZXIuLi4gOikgCgpUaGUgc3ViamVjdCBsaW5lIHNob3VsZCByZWFkICIwMC80MSIsIGFuZCB0aGUg
-bGlzdCBvZiBmaWxlcyBhZmZlY3RlZCBoZXJlIGlzCnRoZXJlZm9yZSB1bmRlci1yZXBvcnRlZCBp
-biB0aGlzIGNvdmVyIGxldHRlci4gSG93ZXZlciwgdGhlIHBhdGNoIHNlcmllcyBpdHNlbGYgaXMg
-CmludGFjdCBhbmQgcmVhZHkgZm9yIHN1Ym1pc3Npb24uCgp0aGFua3MsCi0tIApKb2huIEh1YmJh
-cmQKTlZJRElBCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+PiA+ICsvKioKPiA+ICsgKiBkcm1fZ2VtX3R0bV9tbWFwX29mZnNldCgpIC0gUmV0dXJucyBhIEdF
+TSB0dG0gb2JqZWN0J3MgbW1hcCBvZmZzZXQKPiA+ICsgKiBAZ2JvOgl0aGUgR0VNIHR0bSBvYmpl
+Y3QKPiA+ICsgKgo+ID4gKyAqIFNlZSBkcm1fdm1hX25vZGVfb2Zmc2V0X2FkZHIoKSBmb3IgbW9y
+ZSBpbmZvcm1hdGlvbi4KPiA+ICsgKgo+ID4gKyAqIFJldHVybnM6Cj4gPiArICogVGhlIGJ1ZmZl
+ciBvYmplY3QncyBvZmZzZXQgZm9yIHVzZXJzcGFjZSBtYXBwaW5ncyBvbiBzdWNjZXNzLCBvcgo+
+ID4gKyAqIDAgaWYgbm8gb2Zmc2V0IGlzIGFsbG9jYXRlZC4KPiA+ICsgKi8KPiA+ICt1NjQgZHJt
+X2dlbV90dG1fbW1hcF9vZmZzZXQoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibykKPiA+ICt7
+Cj4gPiArCXJldHVybiBkcm1fdm1hX25vZGVfb2Zmc2V0X2FkZHIoJmJvLT5iYXNlLnZtYV9ub2Rl
+KTsKPiAKPiBXaHkgZG8gd2UgbmVlZCBhIG5ldyBvbmUgaGVyZSwgY2FuJ3Qgd2UgdXNlIHRoZSBl
+eGlzdGluZyBnZW0KPiBpbXBsZW1lbnRhdGlvbiBmb3IgdGhpcyAodGhlcmUgcmVhbGx5IHNob3Vs
+ZCBvbmx5IGJlIG9uZSBJIGhvcGUsIGJ1dCBJCj4gZGlkbid0IGNoZWNrKS4KCkhhdm4ndCBmb3Vu
+ZCBvbmUuCgpCdXQgbWF5YmUgd2UgZG9uJ3QgbmVlZCB0aGlzIGFzIHNlcGFyYXRlIGZ1bmN0aW9u
+IGFuZCBjYW4gc2ltcGx5IG1vdmUKdGhlIGRybV92bWFfbm9kZV9vZmZzZXRfYWRkcigpIGNhbGwg
+aW50bwpkcm1fZ2VtX3R0bV9kcml2ZXJfZHVtYl9tbWFwX29mZnNldCgpLgoKPiA+ICtpbnQgZHJt
+X2dlbV90dG1fZHJpdmVyX2R1bWJfbW1hcF9vZmZzZXQoc3RydWN0IGRybV9maWxlICpmaWxlLAo+
+ID4gKwkJCQkJIHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gPiArCQkJCQkgdWludDMyX3QgaGFu
+ZGxlLCB1aW50NjRfdCAqb2Zmc2V0KQo+ID4gK3sKPiA+ICsJc3RydWN0IGRybV9nZW1fb2JqZWN0
+ICpnZW07Cj4gPiArCXN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm87Cj4gPiArCj4gPiArCWdl
+bSA9IGRybV9nZW1fb2JqZWN0X2xvb2t1cChmaWxlLCBoYW5kbGUpOwo+ID4gKwlpZiAoIWdlbSkK
+PiA+ICsJCXJldHVybiAtRU5PRU5UOwo+ID4gKwo+ID4gKwlibyA9IGRybV9nZW1fdHRtX29mX2dl
+bShnZW0pOwo+ID4gKwkqb2Zmc2V0ID0gZHJtX2dlbV90dG1fbW1hcF9vZmZzZXQoYm8pOwo+ID4g
+Kwo+ID4gKwlkcm1fZ2VtX29iamVjdF9wdXRfdW5sb2NrZWQoZ2VtKTsKPiA+ICsKPiA+ICsJcmV0
+dXJuIDA7Cj4gPiArfQo+ID4gK0VYUE9SVF9TWU1CT0woZHJtX2dlbV90dG1fZHJpdmVyX2R1bWJf
+bW1hcF9vZmZzZXQpOwo+IAo+IFNhbWUgZm9yIHRoaXMsIHlvdSdyZSBqdXN0IHVwY2FzdGluZyB0
+byB0dG1fYm8gYW5kIHRoZW4gZG93bmNhc3RpbmcgdG8KPiBnZW1fYm8gYWdhaW4gLi4uIEkgdGhp
+bmsganVzdCBhIHNlcmllcyB0byByb2xsIG91dCB0aGUgZXhpc3RpbmcgZ2VtCj4gaGVscGVycyBl
+dmVyeXdoZXJlIHNob3VsZCB3b3JrPwoKSSBkb24ndCB0aGluayBzby4gIGRybV9nZW1fZHVtYl9t
+YXBfb2Zmc2V0KCkgY2FsbHMKZHJtX2dlbV9jcmVhdGVfbW1hcF9vZmZzZXQoKSwgd2hpY2ggSSB0
+aGluayBpcyBub3QgY29ycmVjdCBmb3IgdHRtCm9iamVjdHMgYmVjYXVzZSB0dG1fYm9faW5pdCgp
+IGhhbmRsZXMgdm1hX25vZGUgaW5pdGlhbGl6YXRpb24uCgpjaGVlcnMsCiAgR2VyZAoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
