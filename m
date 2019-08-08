@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A93286BD8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 22:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3DE86BD9
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 22:48:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C24FD6E8C4;
-	Thu,  8 Aug 2019 20:48:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3816E8BC;
+	Thu,  8 Aug 2019 20:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id DC7F86E8BD
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:48:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4B4756E8C4
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:48:36 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id D998B72167; Thu,  8 Aug 2019 20:48:35 +0000 (UTC)
+ id 4820872167; Thu,  8 Aug 2019 20:48:36 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110671] Regression: DP outputs out of sync on dual-DP tiled 5k
- screen
+Subject: [Bug 101633] [amd-staging] MST monitor, strange behaviour in terminal
 Date: Thu, 08 Aug 2019 20:48:36 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
+X-Bugzilla-Severity: minor
 X-Bugzilla-Who: d.budelkov@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -35,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: see_also
-Message-ID: <bug-110671-502-4GA6iZceNV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110671-502@http.bugs.freedesktop.org/>
-References: <bug-110671-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-101633-502-6Fnxdmd9sM@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-101633-502@http.bugs.freedesktop.org/>
+References: <bug-101633-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,39 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1340131218=="
+Content-Type: multipart/mixed; boundary="===============0532509271=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1340131218==
-Content-Type: multipart/alternative; boundary="15652973151.3D53B.6330"
+--===============0532509271==
+Content-Type: multipart/alternative; boundary="15652973162.D6ff2.6330"
 Content-Transfer-Encoding: 7bit
 
 
---15652973151.3D53B.6330
-Date: Thu, 8 Aug 2019 20:48:35 +0000
+--15652973162.D6ff2.6330
+Date: Thu, 8 Aug 2019 20:48:36 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
+https://bugs.freedesktop.org/show_bug.cgi?id=3D101633
 
 Denys <d.budelkov@gmail.com> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
            See Also|                            |https://bugs.freedesktop.or
-                   |                            |g/show_bug.cgi?id=3D101633
+                   |                            |g/show_bug.cgi?id=3D110671
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15652973151.3D53B.6330
-Date: Thu, 8 Aug 2019 20:48:35 +0000
+--15652973162.D6ff2.6330
+Date: Thu, 8 Aug 2019 20:48:36 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,10 +101,9 @@ ass=3D"fn">Denys</span></a>
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
-reen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
-1</a>
+   title=3D"NEW - [amd-staging] MST monitor, strange behaviour in terminal"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D101633">bug 10163=
+3</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -119,7 +117,7 @@ reen"
            <td>
                &nbsp;
            </td>
-           <td>https://bugs.freedesktop.org/show_bug.cgi?id=3D101633
+           <td>https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
            </td>
          </tr></table>
       <p>
@@ -135,9 +133,9 @@ reen"
     </body>
 </html>=
 
---15652973151.3D53B.6330--
+--15652973162.D6ff2.6330--
 
---===============1340131218==
+--===============0532509271==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -147,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1340131218==--
+--===============0532509271==--
