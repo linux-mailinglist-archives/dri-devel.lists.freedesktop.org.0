@@ -1,39 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F8108637D
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 15:44:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 619288639C
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 15:47:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0B99897EF;
-	Thu,  8 Aug 2019 13:44:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21FCA89061;
+	Thu,  8 Aug 2019 13:47:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5403B6E855;
- Thu,  8 Aug 2019 13:44:25 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CE39A3007F39;
- Thu,  8 Aug 2019 13:44:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com
- [10.36.116.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76D0710001B8;
- Thu,  8 Aug 2019 13:44:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2275B9CAE; Thu,  8 Aug 2019 15:44:21 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A81866E83B
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 13:47:01 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id A538972167; Thu,  8 Aug 2019 13:47:01 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 17/17] drm/qxl: use DEFINE_DRM_GEM_FOPS()
-Date: Thu,  8 Aug 2019 15:44:17 +0200
-Message-Id: <20190808134417.10610-18-kraxel@redhat.com>
-In-Reply-To: <20190808134417.10610-1-kraxel@redhat.com>
-References: <20190808134417.10610-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 08 Aug 2019 13:44:24 +0000 (UTC)
+Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
+Date: Thu, 08 Aug 2019 13:47:01 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111122-502-Dhiik48mkD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
+References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,32 +52,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tzimmermann@suse.de, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <virtualization@lists.linux-foundation.org>, Gerd Hoffmann <kraxel@redhat.com>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU" <spice-devel@lists.freedesktop.org>,
- Dave Airlie <airlied@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0789781427=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2UgaGF2ZSBubyBxeGwtc3BlY2lmaWMgZm9wcyBhbnkgbW9yZS4KClNpZ25lZC1vZmYtYnk6IEdl
-cmQgSG9mZm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9xeGwv
-cXhsX2Rydi5jIHwgMTAgKy0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCA5IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Ry
-di5jIGIvZHJpdmVycy9ncHUvZHJtL3F4bC9xeGxfZHJ2LmMKaW5kZXggMmZiMTY0MWM4MTdlLi40
-ODUzMDgyYmE5MjQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2Rydi5jCkBAIC0xMzIsMTUgKzEzMiw3IEBAIHF4
-bF9wY2lfcmVtb3ZlKHN0cnVjdCBwY2lfZGV2ICpwZGV2KQogCWRybV9kZXZfcHV0KGRldik7CiB9
-CiAKLXN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIHF4bF9mb3BzID0gewotCS5v
-d25lciA9IFRISVNfTU9EVUxFLAotCS5vcGVuID0gZHJtX29wZW4sCi0JLnJlbGVhc2UgPSBkcm1f
-cmVsZWFzZSwKLQkudW5sb2NrZWRfaW9jdGwgPSBkcm1faW9jdGwsCi0JLnBvbGwgPSBkcm1fcG9s
-bCwKLQkucmVhZCA9IGRybV9yZWFkLAotCS5tbWFwID0gZHJtX2dlbV9tbWFwLAotfTsKK0RFRklO
-RV9EUk1fR0VNX0ZPUFMocXhsX2ZvcHMpOwogCiBzdGF0aWMgaW50IHF4bF9kcm1fZnJlZXplKHN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYpCiB7Ci0tIAoyLjE4LjEKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0789781427==
+Content-Type: multipart/alternative; boundary="15652720215.360aB8.10206"
+Content-Transfer-Encoding: 7bit
+
+
+--15652720215.360aB8.10206
+Date: Thu, 8 Aug 2019 13:47:01 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+--- Comment #9 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
+amd.com> ---
+(In reply to Brian Schott from comment #3)
+> I think that I'm seeing something related with my 2700u Inspiron 7375.
+>=20
+> If I have compositing enabled in XFWM4, the system will immediately stop
+> responding after logging in with LightDM. If the window manager compositi=
+ng
+> is disabled, I'm able to log in, but then there is graphical corruption.
+>=20
+> With git bisect I traced the problem back to
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/
+> ?h=3Ddf8368be1382&id=3Ddf8368be1382b442384507a5147c89978cd60702
+>=20
+> I can edit the source file, and by only changing the KMS_DRIVER_MINOR
+> definition from 32 to 30, get the system working correctly with 5.2.0.
+
+I couldn't reproduce the problem (Ryzen 7 PRO 2700U laptop).
+
+Could you list the version number of the various component involved (kernel,
+mesa, xf86-video-amdgpu and libdrm) please?
+
+Also can you reproduce the problem with another desktop environment?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15652720215.360aB8.10206
+Date: Thu, 8 Aug 2019 13:47:01 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c9">Commen=
+t # 9</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Brian Schott from <a href=3D"show_bug.cgi?id=3D11=
+1122#c3">comment #3</a>)
+<span class=3D"quote">&gt; I think that I'm seeing something related with m=
+y 2700u Inspiron 7375.
+&gt;=20
+&gt; If I have compositing enabled in XFWM4, the system will immediately st=
+op
+&gt; responding after logging in with LightDM. If the window manager compos=
+iting
+&gt; is disabled, I'm able to log in, but then there is graphical corruptio=
+n.
+&gt;=20
+&gt; With git bisect I traced the problem back to
+&gt; <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/li=
+nux.git/commit/">https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/l=
+inux.git/commit/</a>
+&gt; ?h=3Ddf8368be1382&amp;id=3Ddf8368be1382b442384507a5147c89978cd60702
+&gt;=20
+&gt; I can edit the source file, and by only changing the KMS_DRIVER_MINOR
+&gt; definition from 32 to 30, get the system working correctly with 5.2.0.=
+</span >
+
+I couldn't reproduce the problem (Ryzen 7 PRO 2700U laptop).
+
+Could you list the version number of the various component involved (kernel,
+mesa, xf86-video-amdgpu and libdrm) please?
+
+Also can you reproduce the problem with another desktop environment?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15652720215.360aB8.10206--
+
+--===============0789781427==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0789781427==--
