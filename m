@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489A1859F8
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 07:47:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6040785A08
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 07:50:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 341836E783;
-	Thu,  8 Aug 2019 05:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 271286E785;
+	Thu,  8 Aug 2019 05:50:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 31B616E780
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 05:46:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7BAD06E785
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 05:49:59 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 2E32472167; Thu,  8 Aug 2019 05:46:59 +0000 (UTC)
+ id 7807572167; Thu,  8 Aug 2019 05:49:59 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Thu, 08 Aug 2019 05:46:59 +0000
+Date: Thu, 08 Aug 2019 05:49:59 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-jdPDjTSmNv@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110865-502-hHkStqdfYO@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
 References: <bug-110865-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1424998760=="
+Content-Type: multipart/mixed; boundary="===============0596362163=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1424998760==
-Content-Type: multipart/alternative; boundary="15652432191.DF6e47.32364"
+--===============0596362163==
+Content-Type: multipart/alternative; boundary="15652433992.FEd807b.32545"
 Content-Transfer-Encoding: 7bit
 
 
---15652432191.DF6e47.32364
-Date: Thu, 8 Aug 2019 05:46:59 +0000
+--15652433992.FEd807b.32545
+Date: Thu, 8 Aug 2019 05:49:59 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,21 +72,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
 
---- Comment #4 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to Martin from comment #3)
-> Thank you for your explanation.
-> How do I find out the blanking periods?
+--- Comment #5 from Alex Deucher <alexdeucher@gmail.com> ---
+Created attachment 144978
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144978&action=3Dedit
+possible fix
 
-They are based on the timing for the mode on the display.  As for the relev=
-ant
-driver code, take a look at smu7_apply_state_adjust_rules().
+Does this patch fix the issue?
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15652432191.DF6e47.32364
-Date: Thu, 8 Aug 2019 05:46:59 +0000
+--15652433992.FEd807b.32545
+Date: Thu, 8 Aug 2019 05:49:59 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,8 +101,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c4">Commen=
-t # 4</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
@@ -114,14 +112,14 @@ t # 4</a>
 alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
 com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>(In reply to Martin from <a href=3D"show_bug.cgi?id=3D110865#c=
-3">comment #3</a>)
-<span class=3D"quote">&gt; Thank you for your explanation.
-&gt; How do I find out the blanking periods?</span >
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144978=
+" name=3D"attach_144978" title=3D"possible fix">attachment 144978</a> <a hr=
+ef=3D"attachment.cgi?id=3D144978&amp;action=3Dedit" title=3D"possible fix">=
+[details]</a></span> <a href=3D'page.cgi?id=3Dsplinter.html&amp;bug=3D11086=
+5&amp;attachment=3D144978'>[review]</a>
+possible fix
 
-They are based on the timing for the mode on the display.  As for the relev=
-ant
-driver code, take a look at smu7_apply_state_adjust_rules().</pre>
+Does this patch fix the issue?</pre>
         </div>
       </p>
 
@@ -135,9 +133,9 @@ driver code, take a look at smu7_apply_state_adjust_rules().</pre>
     </body>
 </html>=
 
---15652432191.DF6e47.32364--
+--15652433992.FEd807b.32545--
 
---===============1424998760==
+--===============0596362163==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -147,4 +145,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1424998760==--
+--===============0596362163==--
