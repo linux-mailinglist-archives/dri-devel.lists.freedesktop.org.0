@@ -1,45 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFC185FA1
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 12:29:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DDA385FB3
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 12:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 513726E81B;
-	Thu,  8 Aug 2019 10:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2824F6E489;
+	Thu,  8 Aug 2019 10:32:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4D5C46E81B
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 10:29:11 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 43F3772167; Thu,  8 Aug 2019 10:29:11 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Thu, 08 Aug 2019 10:29:11 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: mwolf@adiumentum.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-wQktzbNXJh@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
-References: <bug-110865-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A325E6E489;
+ Thu,  8 Aug 2019 10:32:54 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x78ASYqu050949;
+ Thu, 8 Aug 2019 10:32:49 GMT
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2u8has8afa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 08 Aug 2019 10:32:49 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x78AWY1E042945;
+ Thu, 8 Aug 2019 10:32:48 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 2u763k4a6a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 08 Aug 2019 10:32:48 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x78AWk2L023433;
+ Thu, 8 Aug 2019 10:32:46 GMT
+Received: from mwanda (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 08 Aug 2019 03:32:45 -0700
+Date: Thu, 8 Aug 2019 13:32:36 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Xiong Zhang <xiong.y.zhang@intel.com>
+Subject: [PATCH] drm/i915: Use after free in error path in
+ intel_vgpu_create_workload()
+Message-ID: <20190808103236.GB30506@mwanda>
 MIME-Version: 1.0
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9342
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=981
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908080115
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9342
+ signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908080115
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=U9mddLpT2oUhwBIhERUm/ujj+fo8KPR88Op7z8fL3zg=;
+ b=Wh9F6bdu1qu5UBHaCR4GmvIVoL/cPFnP7sfqeOBmGQnat9NUOucR08M6Pvu8VdF464BN
+ ZD4+8Eh9cWN8QGmG77SJzS+GnxEE9qAzv7X9z0SnuKPZBwIRY7s9K6xHAhtDqU2vKSXI
+ DgNQwNwFi2gRMN8UmFPdB6xGXAblwPKkTG4wzU0NToSyLxCHW6Twe9GlrJhazdTvr6xT
+ 6iVXe5qncXAa+wqnWQ4rm6c/gPGSr8OyNmhrvX3cXSh9cmpNAoEdvK/zZSEXcIKPdEQ/
+ pxAIoMJ34jISq1l9AhNj9B9xbYq+CnBGCfha4VUxbVeDrXq8kbuFPPbM3ZqOXYcDHXH3 4w== 
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
+ bh=U9mddLpT2oUhwBIhERUm/ujj+fo8KPR88Op7z8fL3zg=;
+ b=x54brwplD4yOwO/nP374W2vXcxn0rUdNTACsLxsWTMMSlm4/NuclMEG4hhd276AQNLux
+ /ToFbClkLBibox3uBbSTtIxKszgAcCysR/uQW/fkqfJh5oc47Y5lUiOUehw3pCtAWXuM
+ g3Uu1JA2gceg6VCVugbhp1Z0ztVeZdVq09cAjs03r1IYVlVSN+oQIsDvEOucLtByUIT9
+ x6LVXNngfzKuttaz71sEKhHUFeNCsu1RwdS5HQlp2JEoyQNF/wTvaGhhnqMHiFuZjhCQ
+ Em3WQJ5M7P0ktyQT2OV7i6F4ylpsJTl7g0IpKyPY2L+h+ZXKoJ4infjm/59lYVl6UIxi Lg== 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,106 +87,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1668131854=="
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Zhi Wang <zhi.a.wang@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1668131854==
-Content-Type: multipart/alternative; boundary="15652601510.41931d12.12009"
-Content-Transfer-Encoding: 7bit
-
-
---15652601510.41931d12.12009
-Date: Thu, 8 Aug 2019 10:29:11 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
-
---- Comment #6 from Martin <mwolf@adiumentum.com> ---
-Sadly it did not help.
-the MCLK is still fixed at 2000MHz.
-
-How can I verify that I did everything correctly?
-I just rebuilt Kernel 5.2.6 from Fedoras srpm and added the patch in the sp=
-ec
-file.
-
-Or could it be that I have two different 1920x1200 screens? one from HP and=
- one
-from Dell?
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15652601510.41931d12.12009
-Date: Thu, 8 Aug 2019 10:29:11 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
-5</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-mwolf&#64;adiumentum.com" title=3D"Martin &lt;mwolf&#64;adiumentum.com&gt;"=
-> <span class=3D"fn">Martin</span></a>
-</span></b>
-        <pre>Sadly it did not help.
-the MCLK is still fixed at 2000MHz.
-
-How can I verify that I did everything correctly?
-I just rebuilt Kernel 5.2.6 from Fedoras srpm and added the patch in the sp=
-ec
-file.
-
-Or could it be that I have two different 1920x1200 screens? one from HP and=
- one
-from Dell?</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15652601510.41931d12.12009--
-
---===============1668131854==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1668131854==--
+V2UgY2FuJ3QgZnJlZSAid29ya2xvYWQiIHVudGlsIGFmdGVyIHRoZSBwcmludGsgb3IgaXQncyBh
+IHVzZSBhZnRlcgpmcmVlLgoKRml4ZXM6IDIwODlhNzZhZGU5MCAoImRybS9pOTE1L2d2dDogQ2hl
+Y2tpbmcgd29ya2xvYWQncyBnbWEgZWFybGllciIpClNpZ25lZC1vZmYtYnk6IERhbiBDYXJwZW50
+ZXIgPGRhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9n
+dnQvc2NoZWR1bGVyLmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L3Nj
+aGVkdWxlci5jIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L3NjaGVkdWxlci5jCmluZGV4IDMy
+YWU2YjViN2UxNi4uYWMxZGJiMTc2ODc0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkx
+NS9ndnQvc2NoZWR1bGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3Z0L3NjaGVkdWxl
+ci5jCkBAIC0xNTI1LDkgKzE1MjUsOSBAQCBpbnRlbF92Z3B1X2NyZWF0ZV93b3JrbG9hZChzdHJ1
+Y3QgaW50ZWxfdmdwdSAqdmdwdSwgaW50IHJpbmdfaWQsCiAJCQlpZiAoIWludGVsX2d2dF9nZ3R0
+X3ZhbGlkYXRlX3JhbmdlKHZncHUsCiAJCQkJd29ya2xvYWQtPndhX2N0eC5pbmRpcmVjdF9jdHgu
+Z3Vlc3RfZ21hLAogCQkJCXdvcmtsb2FkLT53YV9jdHguaW5kaXJlY3RfY3R4LnNpemUpKSB7Ci0J
+CQkJa21lbV9jYWNoZV9mcmVlKHMtPndvcmtsb2Fkcywgd29ya2xvYWQpOwogCQkJCWd2dF92Z3B1
+X2VycigiaW52YWxpZCB3YV9jdHggYXQ6IDB4JWx4XG4iLAogCQkJCSAgICB3b3JrbG9hZC0+d2Ff
+Y3R4LmluZGlyZWN0X2N0eC5ndWVzdF9nbWEpOworCQkJCWttZW1fY2FjaGVfZnJlZShzLT53b3Jr
+bG9hZHMsIHdvcmtsb2FkKTsKIAkJCQlyZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsKIAkJCX0KIAkJ
+fQpAQCAtMTUzOSw5ICsxNTM5LDkgQEAgaW50ZWxfdmdwdV9jcmVhdGVfd29ya2xvYWQoc3RydWN0
+IGludGVsX3ZncHUgKnZncHUsIGludCByaW5nX2lkLAogCQkJaWYgKCFpbnRlbF9ndnRfZ2d0dF92
+YWxpZGF0ZV9yYW5nZSh2Z3B1LAogCQkJCXdvcmtsb2FkLT53YV9jdHgucGVyX2N0eC5ndWVzdF9n
+bWEsCiAJCQkJQ0FDSEVMSU5FX0JZVEVTKSkgewotCQkJCWttZW1fY2FjaGVfZnJlZShzLT53b3Jr
+bG9hZHMsIHdvcmtsb2FkKTsKIAkJCQlndnRfdmdwdV9lcnIoImludmFsaWQgcGVyX2N0eCBhdDog
+MHglbHhcbiIsCiAJCQkJCXdvcmtsb2FkLT53YV9jdHgucGVyX2N0eC5ndWVzdF9nbWEpOworCQkJ
+CWttZW1fY2FjaGVfZnJlZShzLT53b3JrbG9hZHMsIHdvcmtsb2FkKTsKIAkJCQlyZXR1cm4gRVJS
+X1BUUigtRUlOVkFMKTsKIAkJCX0KIAkJfQotLSAKMi4yMC4xCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
