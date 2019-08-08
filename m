@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FA386BBF
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 22:42:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A93286BD8
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 22:48:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E95566E8B9;
-	Thu,  8 Aug 2019 20:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C24FD6E8C4;
+	Thu,  8 Aug 2019 20:48:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BD5366E8C1
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:41:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id DC7F86E8BD
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:48:35 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BA0A572167; Thu,  8 Aug 2019 20:41:59 +0000 (UTC)
+ id D998B72167; Thu,  8 Aug 2019 20:48:35 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110671] Regression: DP outputs out of sync on dual-DP tiled 5k
  screen
-Date: Thu, 08 Aug 2019 20:41:59 +0000
+Date: Thu, 08 Aug 2019 20:48:36 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,8 +34,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110671-502-8FZQzuJhHC@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: see_also
+Message-ID: <bug-110671-502-4GA6iZceNV@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110671-502@http.bugs.freedesktop.org/>
 References: <bug-110671-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -53,18 +53,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2045830150=="
+Content-Type: multipart/mixed; boundary="===============1340131218=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============2045830150==
-Content-Type: multipart/alternative; boundary="15652969195.9EF729c.4990"
+--===============1340131218==
+Content-Type: multipart/alternative; boundary="15652973151.3D53B.6330"
 Content-Transfer-Encoding: 7bit
 
 
---15652969195.9EF729c.4990
-Date: Thu, 8 Aug 2019 20:41:59 +0000
+--15652973151.3D53B.6330
+Date: Thu, 8 Aug 2019 20:48:35 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -73,36 +73,19 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110671
 
---- Comment #10 from Denys <d.budelkov@gmail.com> ---
-Just added some debug to rc3 and tried to check what happens(in context of
-5fc0cbfad4564856ee0f323d3f88a7cff19cc3f1).
+Denys <d.budelkov@gmail.com> changed:
 
-So in program_timing_sync() there is preparing of groups of pipes for sync.=
-=20
-And looks like(in my case) pipe_set[j]->plane_state is always true,=20
-and all elements > 0 is removed from the pipe_set in this case,=20
-hence group_size =3D=3D 1 and dc->hwss.enable_timing_synchronization() newer
-called.
-
-Contrary with old check
-!pipe_set[j]->stream_res.tg->funcs->is_blanked(pipe_set[j]->stream_res.tg) =
-is
-always false and we have our sync.
-
-Maybe it should be !pipe_set[j]->plane_state instead of
-pipe_set[j]->plane_state ?
-I applied this change to my 5.3.0-rc3 build and so far everything looks ok.
-
-I do not understand the purpose of is_blanked or plane_state, maybe with mst
-hubs or other stuff it may be a different story, but in my simple config it
-looks like just a typo.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           See Also|                            |https://bugs.freedesktop.or
+                   |                            |g/show_bug.cgi?id=3D101633
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15652969195.9EF729c.4990
-Date: Thu, 8 Aug 2019 20:41:59 +0000
+--15652973151.3D53B.6330
+Date: Thu, 8 Aug 2019 20:48:35 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,50 +96,33 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
-reen"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671#c10">Comme=
-nt # 10</a>
-              on <a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:d.budelko=
+v&#64;gmail.com" title=3D"Denys &lt;d.budelkov&#64;gmail.com&gt;"> <span cl=
+ass=3D"fn">Denys</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Regression: DP outputs out of sync on dual-DP tiled 5k sc=
 reen"
    href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110671">bug 11067=
 1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-d.budelkov&#64;gmail.com" title=3D"Denys &lt;d.budelkov&#64;gmail.com&gt;">=
- <span class=3D"fn">Denys</span></a>
-</span></b>
-        <pre>Just added some debug to rc3 and tried to check what happens(i=
-n context of
-5fc0cbfad4564856ee0f323d3f88a7cff19cc3f1).
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-So in program_timing_sync() there is preparing of groups of pipes for sync.=
-=20
-And looks like(in my case) pipe_set[j]-&gt;plane_state is always true,=20
-and all elements &gt; 0 is removed from the pipe_set in this case,=20
-hence group_size =3D=3D 1 and dc-&gt;hwss.enable_timing_synchronization() n=
-ewer
-called.
-
-Contrary with old check
-!pipe_set[j]-&gt;stream_res.tg-&gt;funcs-&gt;is_blanked(pipe_set[j]-&gt;str=
-eam_res.tg) is
-always false and we have our sync.
-
-Maybe it should be !pipe_set[j]-&gt;plane_state instead of
-pipe_set[j]-&gt;plane_state ?
-I applied this change to my 5.3.0-rc3 build and so far everything looks ok.
-
-I do not understand the purpose of is_blanked or plane_state, maybe with mst
-hubs or other stuff it may be a different story, but in my simple config it
-looks like just a typo.</pre>
-        </div>
+         <tr>
+           <td style=3D"text-align:right;">See Also</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>https://bugs.freedesktop.org/show_bug.cgi?id=3D101633
+           </td>
+         </tr></table>
+      <p>
       </p>
 
 
@@ -169,9 +135,9 @@ looks like just a typo.</pre>
     </body>
 </html>=
 
---15652969195.9EF729c.4990--
+--15652973151.3D53B.6330--
 
---===============2045830150==
+--===============1340131218==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -181,4 +147,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============2045830150==--
+--===============1340131218==--
