@@ -2,35 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAF0985DA5
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 11:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD9685DB5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 11:02:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 257C86E6BF;
-	Thu,  8 Aug 2019 09:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6355C6E591;
+	Thu,  8 Aug 2019 09:02:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5756E69C;
- Thu,  8 Aug 2019 09:01:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2019 02:01:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,360,1559545200"; d="scan'208";a="186287426"
-Received: from jmaier-mobl.ger.corp.intel.com (HELO [10.249.34.77])
- ([10.249.34.77])
- by orsmga002.jf.intel.com with ESMTP; 08 Aug 2019 02:01:24 -0700
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-fixes
-Message-ID: <ace294a6-6bb2-d9b1-695d-3260e1d60831@linux.intel.com>
-Date: Thu, 8 Aug 2019 11:01:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id B46E26E591
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 09:02:55 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B100672167; Thu,  8 Aug 2019 09:02:55 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111331] bugggg
+Date: Thu, 08 Aug 2019 09:02:55 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Spam
+X-Bugzilla-Component: Two
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: a9016009@gmx.de
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: product bug_group bug_status resolution component
+Message-ID: <bug-111331-502-L1c9hcbi7r@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111331-502@http.bugs.freedesktop.org/>
+References: <bug-111331-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,33 +52,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0676741421=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZHJtLW1pc2MtZml4ZXMtMjAxOS0wOC0wODoKZHJtLW1pc2MtZml4ZXMgZm9yIHY1LjMtcmM0Ogot
-IFN1c3BlbmQgZml4IGZvciByb2NrY2hpcAotIEZpeCB1bnRlcm1pbmF0ZWQgc3RybmNweSBjbWRs
-aW5lIG1vZGUgcGFyc2VyClRoZSBmb2xsb3dpbmcgY2hhbmdlcyBzaW5jZSBjb21taXQgNTg1NDA1
-OTQ1NzA3NzhmZDE0OWNkOGM5YjJiZmY2MWYyY2VmYThjOToKCiAgZHJtL2JvY2hzOiBVc2Ugc2hh
-ZG93IGJ1ZmZlciBmb3IgYm9jaHMgZnJhbWVidWZmZXIgY29uc29sZSAoMjAxOS0wOC0wMSAxNTow
-MTo0MiArMDIwMCkKCmFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0OgoKICBn
-aXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgdGFncy9kcm0tbWlzYy1m
-aXhlcy0yMDE5LTA4LTA4Cgpmb3IgeW91IHRvIGZldGNoIGNoYW5nZXMgdXAgdG8gZjdjY2JlZDY1
-NmY3ODIxMjU5M2NhOTY1ZDlhOGYzNGJmMjRlMGFhYjoKCiAgZHJtL3JvY2tjaGlwOiBTdXNwZW5k
-IERQIGxhdGUgKDIwMTktMDgtMDUgMTA6MjY6MTIgLTA0MDApCgotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCmRybS1taXNjLWZp
-eGVzIGZvciB2NS4zLXJjNDoKLSBTdXNwZW5kIGZpeCBmb3Igcm9ja2NoaXAKLSBGaXggdW50ZXJt
-aW5hdGVkIHN0cm5jcHkgY21kbGluZSBtb2RlIHBhcnNlcgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpDaHVob25nIFl1YW4g
-KDEpOgogICAgICBkcm0vbW9kZXM6IEZpeCB1bnRlcm1pbmF0ZWQgc3RybmNweQoKRG91Z2xhcyBB
-bmRlcnNvbiAoMSk6CiAgICAgIGRybS9yb2NrY2hpcDogU3VzcGVuZCBEUCBsYXRlCgogZHJpdmVy
-cy9ncHUvZHJtL2RybV9tb2Rlcy5jICAgICAgICAgICAgICAgICAgICAgfCA0ICsrKy0KIGRyaXZl
-cnMvZ3B1L2RybS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1yb2NrY2hpcC5jIHwgMiArLQogMiBmaWxl
-cyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0676741421==
+Content-Type: multipart/alternative; boundary="15652549750.f6dfB.29837"
+Content-Transfer-Encoding: 7bit
+
+
+--15652549750.f6dfB.29837
+Date: Thu, 8 Aug 2019 09:02:55 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111331
+
+Andre Klapper <a9016009@gmx.de> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Product|DRI                         |Spam
+              Group|                            |spam
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
+          Component|General                     |Two
+
+--- Comment #1 from Andre Klapper <a9016009@gmx.de> ---
+Go away and test somewhere else.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15652549750.f6dfB.29837
+Date: Thu, 8 Aug 2019 09:02:55 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:a9016009&=
+#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <span clas=
+s=3D"fn">Andre Klapper</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - bugggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111331">bug 11133=
+1</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
+           </td>
+           <td>Spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Group</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Status</td>
+           <td>NEW
+           </td>
+           <td>RESOLVED
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Resolution</td>
+           <td>---
+           </td>
+           <td>INVALID
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>General
+           </td>
+           <td>Two
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - bugggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111331#c1">Commen=
+t # 1</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_RESOLVED  bz_closed"
+   title=3D"RESOLVED INVALID - bugggg"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111331">bug 11133=
+1</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+a9016009&#64;gmx.de" title=3D"Andre Klapper &lt;a9016009&#64;gmx.de&gt;"> <=
+span class=3D"fn">Andre Klapper</span></a>
+</span></b>
+        <pre>Go away and test somewhere else.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15652549750.f6dfB.29837--
+
+--===============0676741421==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0676741421==--
