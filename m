@@ -1,35 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4CB685DCB
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 11:04:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7610485E44
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 11:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A355C89B62;
-	Thu,  8 Aug 2019 09:04:39 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC5386E69C
- for <dri-devel@freedesktop.org>; Thu,  8 Aug 2019 09:04:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2019 02:04:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,360,1559545200"; d="scan'208";a="203503767"
-Received: from namburis-mobl.ger.corp.intel.com (HELO
- delly.ger.corp.intel.com) ([10.249.34.123])
- by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2019 02:04:35 -0700
-From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
-To: dri-devel@freedesktop.org
-Subject: [PATCH v2 1/1] drm/syncobj: add sideband payload
-Date: Thu,  8 Aug 2019 12:04:22 +0300
-Message-Id: <20190808090422.8102-2-lionel.g.landwerlin@intel.com>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190808090422.8102-1-lionel.g.landwerlin@intel.com>
-References: <20190808090422.8102-1-lionel.g.landwerlin@intel.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94AD56E76F;
+	Thu,  8 Aug 2019 09:30:10 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 268026E7C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 09:30:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 234C972167; Thu,  8 Aug 2019 09:30:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
+Date: Thu, 08 Aug 2019 09:30:09 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michel@daenzer.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-111122-502-X50Ll7KoDy@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
+References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -43,151 +52,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Ekstrand <jason@jlekstrand.net>,
- Christian Koenig <Christian.Koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1732620797=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIFZ1bGthbiB0aW1lbGluZSBzZW1hcGhvcmVzIGFsbG93IHNpZ25hbGluZyB0byBoYXBwZW4g
-b24gdGhlIHBvaW50Cm9mIHRoZSB0aW1lbGluZSB3aXRob3V0IGFsbCBvZiB0aGUgaXRzIGRlcGVu
-ZGVuY2llcyB0byBiZSBjcmVhdGVkLgoKVGhlIGN1cnJlbnQgMiBpbXBsZW1lbnRhdGlvbnMgKEFN
-RC9JbnRlbCkgb2YgdGhlIFZ1bGthbiBzcGVjIG9uIHRvcCBvZgp0aGUgTGludXgga2VybmVsIGFy
-ZSB1c2luZyBhIHRocmVhZCB0byB3YWl0IG9uIHRoZSBkZXBlbmRlbmNpZXMgb2YgYQpnaXZlbiBw
-b2ludCB0byBtYXRlcmlhbGl6ZSBhbmQgZGVsYXkgYWN0dWFsIHN1Ym1pc3Npb24gdG8gdGhlIGtl
-cm5lbApkcml2ZXIgdW50aWwgdGhlIHdhaXQgY29tcGxldGVzLgoKSWYgYSBiaW5hcnkgc2VtYXBo
-b3JlIGlzIHN1Ym1pdHRlZCBmb3Igc2lnbmFsaW5nIGFsb25nIHRoZSBzaWRlIG9mIGEKdGltZWxp
-bmUgc2VtYXBob3JlIHdhaXRpbmcgZm9yIGNvbXBsZXRpb24gdGhhdCBtZWFucyB0aGF0IHRoZSBk
-cm0Kc3luY29iaiBhc3NvY2lhdGVkIHdpdGggdGhhdCBiaW5hcnkgc2VtYXBob3JlIHdpbGwgbm90
-IGhhdmUgYSBETUEKZmVuY2UgYXNzb2NpYXRlZCB3aXRoIGl0IGJ5IHRoZSB0aW1lIHZrUXVldWVT
-dWJtaXQoKSByZXR1cm5zLiBUaGlzIGFuZAp0aGUgZmFjdCB0aGF0IGEgYmluYXJ5IHNlbWFwaG9y
-ZSBjYW4gYmUgc2lnbmFsZWQgYW5kIHVuc2lnbmFsZWQgYXMKYmVmb3JlIGl0cyBETUEgZmVuY2Vz
-IG1hdGVyaWFsaXplIG1lYW4gdGhhdCB3ZSBjYW5ub3QganVzdCByZWx5IG9uIHRoZQpmZW5jZSB3
-aXRoaW4gdGhlIHN5bmNvYmogYnV0IHdlIGFsc28gbmVlZCBhIHNpZGViYW5kIHBheWxvYWQgdmVy
-aWZ5aW5nCnRoYXQgdGhlIGZlbmNlIGluIHRoZSBzeW5jb2JqIG1hdGNoZXMgdGhlIGxhc3Qgc3Vi
-bWlzc2lvbiBmcm9tIHRoZQpWdWxrYW4gQVBJIHBvaW50IG9mIHZpZXcuCgpUaGlzIGNoYW5nZSBh
-ZGRzIGEgc2lkZWJhbmQgcGF5bG9hZCB0aGF0IGlzIGluY3JlbWVudGVkIHdpdGggc2lnbmFsZWQK
-c3luY29iaiB3aGVuIHZrUXVldWVTdWJtaXQoKSBpcyBjYWxsZWQuIFRoZSBuZXh0IHZrUXVldWVT
-dWJtaXQoKQp3YWl0aW5nIG9uIGEgdGhlIHN5bmNvYmogd2lsbCByZWFkIHRoZSBzaWRlYmFuZCBw
-YXlsb2FkIGFuZCB3YWl0IGZvciBhCmZlbmNlIGNoYWluIGVsZW1lbnQgd2l0aCBhIHNlcW5vIHN1
-cGVyaW9yIG9yIGVxdWFsIHRvIHRoZSBzaWRlYmFuZApwYXlsb2FkIHZhbHVlIHRvIGJlIGFkZGVk
-IGludG8gdGhlIGZlbmNlIGNoYWluIGFuZCB1c2UgdGhhdCBmZW5jZSB0bwp0cmlnZ2VyIHRoZSBz
-dWJtaXNzaW9uIG9uIHRoZSBrZXJuZWwgZHJpdmVyLgoKdjI6IFVzZSBhIHNlcGFyYXRlIGlvY3Rs
-IHRvIGdldC9zZXQgdGhlIHNpZGViYW5kIHZhbHVlIChDaHJpc3RpYW4pCgpTaWduZWQtb2ZmLWJ5
-OiBMaW9uZWwgTGFuZHdlcmxpbiA8bGlvbmVsLmcubGFuZHdlcmxpbkBpbnRlbC5jb20+CkNjOiBD
-aHJpc3RpYW4gS29lbmlnIDxDaHJpc3RpYW4uS29lbmlnQGFtZC5jb20+CkNjOiBKYXNvbiBFa3N0
-cmFuZCA8amFzb25Aamxla3N0cmFuZC5uZXQ+CkNjOiBEYXZpZChDaHVuTWluZykgWmhvdSA8RGF2
-aWQxLlpob3VAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVybmFsLmggfCAg
-MiArKwogZHJpdmVycy9ncHUvZHJtL2RybV9pb2N0bC5jICAgIHwgIDMgKysKIGRyaXZlcnMvZ3B1
-L2RybS9kcm1fc3luY29iai5jICB8IDYzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKyst
-LS0KIGluY2x1ZGUvZHJtL2RybV9zeW5jb2JqLmggICAgICB8ICA5ICsrKysrCiBpbmNsdWRlL3Vh
-cGkvZHJtL2RybS5oICAgICAgICAgfCAgNSArKy0KIDUgZmlsZXMgY2hhbmdlZCwgNzcgaW5zZXJ0
-aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2ludGVybmFsLmggYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVybmFsLmgKaW5kZXggNTFhMjA1
-NWM4ZjE4Li5kZTUyNjc3MTFhN2MgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1faW50
-ZXJuYWwuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2ludGVybmFsLmgKQEAgLTIwOCw2ICsy
-MDgsOCBAQCBpbnQgZHJtX3N5bmNvYmpfdGltZWxpbmVfc2lnbmFsX2lvY3RsKHN0cnVjdCBkcm1f
-ZGV2aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJCQkJICAgICAgc3RydWN0IGRybV9maWxlICpmaWxl
-X3ByaXZhdGUpOwogaW50IGRybV9zeW5jb2JqX3F1ZXJ5X2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsIHZvaWQgKmRhdGEsCiAJCQkgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXZhdGUp
-OworaW50IGRybV9zeW5jb2JqX3NpZGViYW5kX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-IHZvaWQgKmRhdGEsCisJCQkgICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXZhdGUpOwog
-CiAvKiBkcm1fZnJhbWVidWZmZXIuYyAqLwogdm9pZCBkcm1fZnJhbWVidWZmZXJfcHJpbnRfaW5m
-byhzdHJ1Y3QgZHJtX3ByaW50ZXIgKnAsIHVuc2lnbmVkIGludCBpbmRlbnQsCmRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3Rs
-LmMKaW5kZXggZjY3NWEzYmIyYzg4Li43ZmQ5OTUzM2Y3OGYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1faW9jdGwuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2lvY3RsLmMKQEAg
-LTcwMyw2ICs3MDMsOSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9pb2N0bF9kZXNjIGRybV9p
-b2N0bHNbXSA9IHsKIAkJICAgICAgRFJNX1JFTkRFUl9BTExPVyksCiAJRFJNX0lPQ1RMX0RFRihE
-Uk1fSU9DVExfU1lOQ09CSl9RVUVSWSwgZHJtX3N5bmNvYmpfcXVlcnlfaW9jdGwsCiAJCSAgICAg
-IERSTV9SRU5ERVJfQUxMT1cpLAorCURSTV9JT0NUTF9ERUYoRFJNX0lPQ1RMX1NZTkNPQkpfU0lE
-RUJBTkQsIGRybV9zeW5jb2JqX3NpZGViYW5kX2lvY3RsLAorCQkgICAgICBEUk1fUkVOREVSX0FM
-TE9XKSwKKwogCURSTV9JT0NUTF9ERUYoRFJNX0lPQ1RMX0NSVENfR0VUX1NFUVVFTkNFLCBkcm1f
-Y3J0Y19nZXRfc2VxdWVuY2VfaW9jdGwsIDApLAogCURSTV9JT0NUTF9ERUYoRFJNX0lPQ1RMX0NS
-VENfUVVFVUVfU0VRVUVOQ0UsIGRybV9jcnRjX3F1ZXVlX3NlcXVlbmNlX2lvY3RsLCAwKSwKIAlE
-Uk1fSU9DVExfREVGKERSTV9JT0NUTF9NT0RFX0NSRUFURV9MRUFTRSwgZHJtX21vZGVfY3JlYXRl
-X2xlYXNlX2lvY3RsLCBEUk1fTUFTVEVSKSwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fc3luY29iai5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9zeW5jb2JqLmMKaW5kZXggYjkyN2U0
-ODJlNTU0Li42NmY0ZjkxYmFhNmQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3lu
-Y29iai5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fc3luY29iai5jCkBAIC0xMTUwLDggKzEx
-NTAsMTAgQEAgZHJtX3N5bmNvYmpfcmVzZXRfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwg
-dm9pZCAqZGF0YSwKIAlpZiAocmV0IDwgMCkKIAkJcmV0dXJuIHJldDsKIAotCWZvciAoaSA9IDA7
-IGkgPCBhcmdzLT5jb3VudF9oYW5kbGVzOyBpKyspCisJZm9yIChpID0gMDsgaSA8IGFyZ3MtPmNv
-dW50X2hhbmRsZXM7IGkrKykgewogCQlkcm1fc3luY29ial9yZXBsYWNlX2ZlbmNlKHN5bmNvYmpz
-W2ldLCBOVUxMKTsKKwkJc3luY29ianNbaV0tPnNpZGViYW5kX3BheWxvYWQgPSAwOworCX0KIAog
-CWRybV9zeW5jb2JqX2FycmF5X2ZyZWUoc3luY29ianMsIGFyZ3MtPmNvdW50X2hhbmRsZXMpOwog
-CkBAIC0xMjA1LDcgKzEyMDcsNyBAQCBkcm1fc3luY29ial90aW1lbGluZV9zaWduYWxfaW9jdGwo
-c3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKIAlpZiAoIWRybV9jb3JlX2NoZWNr
-X2ZlYXR1cmUoZGV2LCBEUklWRVJfU1lOQ09CSl9USU1FTElORSkpCiAJCXJldHVybiAtRU9QTk9U
-U1VQUDsKIAotCWlmIChhcmdzLT5wYWQgIT0gMCkKKwlpZiAoYXJncy0+ZmxhZ3MgIT0gMCkKIAkJ
-cmV0dXJuIC1FSU5WQUw7CiAKIAlpZiAoYXJncy0+Y291bnRfaGFuZGxlcyA9PSAwKQpAQCAtMTI3
-Niw3ICsxMjc4LDcgQEAgaW50IGRybV9zeW5jb2JqX3F1ZXJ5X2lvY3RsKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsIHZvaWQgKmRhdGEsCiAJaWYgKCFkcm1fY29yZV9jaGVja19mZWF0dXJlKGRldiwg
-RFJJVkVSX1NZTkNPQkpfVElNRUxJTkUpKQogCQlyZXR1cm4gLUVPUE5PVFNVUFA7CiAKLQlpZiAo
-YXJncy0+cGFkICE9IDApCisJaWYgKGFyZ3MtPmZsYWdzICE9IDApCiAJCXJldHVybiAtRUlOVkFM
-OwogCiAJaWYgKGFyZ3MtPmNvdW50X2hhbmRsZXMgPT0gMCkKQEAgLTEzMTIsMTUgKzEzMTQsNjgg
-QEAgaW50IGRybV9zeW5jb2JqX3F1ZXJ5X2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZv
-aWQgKmRhdGEsCiAJCQlwb2ludCA9IGRtYV9mZW5jZV9pc19zaWduYWxlZChsYXN0X3NpZ25hbGVk
-KSA/CiAJCQkJbGFzdF9zaWduYWxlZC0+c2Vxbm8gOgogCQkJCXRvX2RtYV9mZW5jZV9jaGFpbihs
-YXN0X3NpZ25hbGVkKS0+cHJldl9zZXFubzsKLQkJCWRtYV9mZW5jZV9wdXQobGFzdF9zaWduYWxl
-ZCk7CisJCQkJZG1hX2ZlbmNlX3B1dChsYXN0X3NpZ25hbGVkKTsKIAkJfSBlbHNlIHsKIAkJCXBv
-aW50ID0gMDsKIAkJfQogCQlyZXQgPSBjb3B5X3RvX3VzZXIoJnBvaW50c1tpXSwgJnBvaW50LCBz
-aXplb2YodWludDY0X3QpKTsKIAkJcmV0ID0gcmV0ID8gLUVGQVVMVCA6IDA7CiAJCWlmIChyZXQp
-CisJCQlnb3RvIGVycm9yOworCQlicmVhazsKKwl9CisKK2Vycm9yOgorCWRybV9zeW5jb2JqX2Fy
-cmF5X2ZyZWUoc3luY29ianMsIGFyZ3MtPmNvdW50X2hhbmRsZXMpOworCisJcmV0dXJuIHJldDsK
-K30KKworaW50IGRybV9zeW5jb2JqX3NpZGViYW5kX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpk
-ZXYsIHZvaWQgKmRhdGEsCisJCQkgICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXZhdGUp
-Cit7CisJc3RydWN0IGRybV9zeW5jb2JqX3RpbWVsaW5lX2FycmF5ICphcmdzID0gZGF0YTsKKwlz
-dHJ1Y3QgZHJtX3N5bmNvYmogKipzeW5jb2JqczsKKwl1aW50NjRfdCBfX3VzZXIgKnBvaW50cyA9
-IHU2NF90b191c2VyX3B0cihhcmdzLT5wb2ludHMpOworCXVpbnQzMl90IGk7CisJaW50IHJldDsK
-KworCWlmICghZHJtX2NvcmVfY2hlY2tfZmVhdHVyZShkZXYsIERSSVZFUl9TWU5DT0JKX1RJTUVM
-SU5FKSkKKwkJcmV0dXJuIC1FT1BOT1RTVVBQOworCisJaWYgKGFyZ3MtPmZsYWdzICE9IERSTV9T
-WU5DT0JKX1RJTUVMSU5FX0FSUkFZX0dFVF9TSURFQkFORF9QQVlMT0FEICYmCisJICAgIGFyZ3Mt
-PmZsYWdzICE9IERSTV9TWU5DT0JKX1RJTUVMSU5FX0FSUkFZX1NFVF9TSURFQkFORF9QQVlMT0FE
-KQorCQlyZXR1cm4gLUVJTlZBTDsKKworCWlmIChhcmdzLT5jb3VudF9oYW5kbGVzID09IDApCisJ
-CXJldHVybiAtRUlOVkFMOworCisJcmV0ID0gZHJtX3N5bmNvYmpfYXJyYXlfZmluZChmaWxlX3By
-aXZhdGUsCisJCQkJICAgICB1NjRfdG9fdXNlcl9wdHIoYXJncy0+aGFuZGxlcyksCisJCQkJICAg
-ICBhcmdzLT5jb3VudF9oYW5kbGVzLAorCQkJCSAgICAgJnN5bmNvYmpzKTsKKwlpZiAocmV0IDwg
-MCkKKwkJcmV0dXJuIHJldDsKKworCWZvciAoaSA9IDA7IGkgPCBhcmdzLT5jb3VudF9oYW5kbGVz
-OyBpKyspIHsKKwkJc3dpdGNoIChhcmdzLT5mbGFncykgeworCQljYXNlIERSTV9TWU5DT0JKX1RJ
-TUVMSU5FX0FSUkFZX0dFVF9TSURFQkFORF9QQVlMT0FEOgorCQkJY29weV90b191c2VyKCZwb2lu
-dHNbaV0sICZzeW5jb2Jqc1tpXS0+c2lkZWJhbmRfcGF5bG9hZCwgc2l6ZW9mKHVpbnQ2NF90KSk7
-CisJCQlyZXQgPSByZXQgPyAtRUZBVUxUIDogMDsKKwkJCWlmIChyZXQpCisJCQkJZ290byBlcnJv
-cjsKKwkJCWJyZWFrOworCisJCWNhc2UgRFJNX1NZTkNPQkpfVElNRUxJTkVfQVJSQVlfU0VUX1NJ
-REVCQU5EX1BBWUxPQUQ6CisJCQljb3B5X2Zyb21fdXNlcigmc3luY29ianNbaV0tPnNpZGViYW5k
-X3BheWxvYWQsICZwb2ludHNbaV0sIHNpemVvZih1aW50NjRfdCkpOworCQkJcmV0ID0gcmV0ID8g
-LUVGQVVMVCA6IDA7CisJCQlpZiAocmV0KQorCQkJCWdvdG8gZXJyb3I7CiAJCQlicmVhazsKKwkJ
-fQogCX0KKworZXJyb3I6CiAJZHJtX3N5bmNvYmpfYXJyYXlfZnJlZShzeW5jb2JqcywgYXJncy0+
-Y291bnRfaGFuZGxlcyk7CiAKIAlyZXR1cm4gcmV0OwpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0v
-ZHJtX3N5bmNvYmouaCBiL2luY2x1ZGUvZHJtL2RybV9zeW5jb2JqLmgKaW5kZXggNmNmNzI0M2Ex
-ZGM1Li5iNTg3YjhlMDc1NDcgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZHJtL2RybV9zeW5jb2JqLmgK
-KysrIGIvaW5jbHVkZS9kcm0vZHJtX3N5bmNvYmouaApAQCAtNjEsNiArNjEsMTUgQEAgc3RydWN0
-IGRybV9zeW5jb2JqIHsKIAkgKiBAZmlsZTogQSBmaWxlIGJhY2tpbmcgZm9yIHRoaXMgc3luY29i
-ai4KIAkgKi8KIAlzdHJ1Y3QgZmlsZSAqZmlsZTsKKwkvKioKKwkgKiBAc2lkZWJhbmRfcGF5bG9h
-ZDogQSA2NGJpdCBzaWRlIGJhbmQgcGF5bG9hZC4KKwkgKgorCSAqIFdlIHVzZSB0aGUgc2lkZWJh
-bmQgcGF5bG9hZCB2YWx1ZSB0byB3YWl0IG9uIGJpbmFyeSBzeW5jb2JqIGZlbmNlcworCSAqIHRv
-IG1hdGVyaWFsaXplLiBJdCBpcyBhIHJlc2VydmF0aW9uIG1lY2hhbmlzbSBmb3IgdGhlIHNpZ25h
-bGVyIHRvCisJICogZXhwcmVzcyB0aGF0IGF0IHNvbWUgcG9pbnQgaW4gdGhlIGZ1dHVyZSBhIGRt
-YSBmZW5jZSB3aXRoIHRoZSBzYW1lCisJICogc2Vxbm8gd2lsbCBiZSBwdXQgaW50byB0aGUgc3lu
-Y29iai4KKwkgKi8KKwl1NjQgc2lkZWJhbmRfcGF5bG9hZDsKIH07CiAKIHZvaWQgZHJtX3N5bmNv
-YmpfZnJlZShzdHJ1Y3Qga3JlZiAqa3JlZik7CmRpZmYgLS1naXQgYS9pbmNsdWRlL3VhcGkvZHJt
-L2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm0uaAppbmRleCA4YTViMmY4ZjhlYjkuLmRmY2Jh
-ZjYwM2FmZiAxMDA2NDQKLS0tIGEvaW5jbHVkZS91YXBpL2RybS9kcm0uaAorKysgYi9pbmNsdWRl
-L3VhcGkvZHJtL2RybS5oCkBAIC03ODIsNyArNzgyLDkgQEAgc3RydWN0IGRybV9zeW5jb2JqX3Rp
-bWVsaW5lX2FycmF5IHsKIAlfX3U2NCBoYW5kbGVzOwogCV9fdTY0IHBvaW50czsKIAlfX3UzMiBj
-b3VudF9oYW5kbGVzOwotCV9fdTMyIHBhZDsKKwlfX3UzMiBmbGFnczsKKyNkZWZpbmUgRFJNX1NZ
-TkNPQkpfVElNRUxJTkVfQVJSQVlfR0VUX1NJREVCQU5EX1BBWUxPQUQgKDApCisjZGVmaW5lIERS
-TV9TWU5DT0JKX1RJTUVMSU5FX0FSUkFZX1NFVF9TSURFQkFORF9QQVlMT0FEICgxKQogfTsKIAog
-CkBAIC05NDYsNiArOTQ4LDcgQEAgZXh0ZXJuICJDIiB7CiAjZGVmaW5lIERSTV9JT0NUTF9TWU5D
-T0JKX1FVRVJZCQlEUk1fSU9XUigweENCLCBzdHJ1Y3QgZHJtX3N5bmNvYmpfdGltZWxpbmVfYXJy
-YXkpCiAjZGVmaW5lIERSTV9JT0NUTF9TWU5DT0JKX1RSQU5TRkVSCURSTV9JT1dSKDB4Q0MsIHN0
-cnVjdCBkcm1fc3luY29ial90cmFuc2ZlcikKICNkZWZpbmUgRFJNX0lPQ1RMX1NZTkNPQkpfVElN
-RUxJTkVfU0lHTkFMCURSTV9JT1dSKDB4Q0QsIHN0cnVjdCBkcm1fc3luY29ial90aW1lbGluZV9h
-cnJheSkKKyNkZWZpbmUgRFJNX0lPQ1RMX1NZTkNPQkpfU0lERUJBTkQJRFJNX0lPV1IoMHhDRSwg
-c3RydWN0IGRybV9zeW5jb2JqX3RpbWVsaW5lX2FycmF5KQogCiAvKioKICAqIERldmljZSBzcGVj
-aWZpYyBpb2N0bHMgc2hvdWxkIG9ubHkgYmUgaW4gdGhlaXIgcmVzcGVjdGl2ZSBoZWFkZXJzCi0t
-IAoyLjIzLjAucmMxCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWw=
+
+--===============1732620797==
+Content-Type: multipart/alternative; boundary="15652566091.920ab1b.1558"
+Content-Transfer-Encoding: 7bit
+
+
+--15652566091.920ab1b.1558
+Date: Thu, 8 Aug 2019 09:30:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+Michel D=C3=A4nzer <michel@daenzer.net> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |maraeo@gmail.com,
+                   |                            |pierre-eric.pelloux-prayer@
+                   |                            |amd.com
+
+--- Comment #8 from Michel D=C3=A4nzer <michel@daenzer.net> ---
+(In reply to Nicholas Kazlauskas from comment #6)
+> The bisected commit is the one that allowed xf86-video-amdgpu to start
+> scanning out DCC compressed buffers that mesa produces, with the caveat t=
+hat
+> mesa needs a hook on present for the re-tile. My guess is that hook isn't
+> running when you aren't using "compositing".
+
+Yeah, could be that radeonsi is missing cases where this hook needs to run =
+(or
+DCC needs to be disabled altogether).
+
+Pierre or Marek, can you look into this?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15652566091.920ab1b.1558
+Date: Thu, 8 Aug 2019 09:30:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:michel&#6=
+4;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.net&gt;">=
+ <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">CC</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>maraeo&#64;gmail.com, pierre-eric.pelloux-prayer&#64;amd.com
+           </td>
+         </tr></table>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c8">Commen=
+t # 8</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
+net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
+</span></b>
+        <pre>(In reply to Nicholas Kazlauskas from <a href=3D"show_bug.cgi?=
+id=3D111122#c6">comment #6</a>)
+<span class=3D"quote">&gt; The bisected commit is the one that allowed xf86=
+-video-amdgpu to start
+&gt; scanning out DCC compressed buffers that mesa produces, with the cavea=
+t that
+&gt; mesa needs a hook on present for the re-tile. My guess is that hook is=
+n't
+&gt; running when you aren't using &quot;compositing&quot;.</span >
+
+Yeah, could be that radeonsi is missing cases where this hook needs to run =
+(or
+DCC needs to be disabled altogether).
+
+Pierre or Marek, can you look into this?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15652566091.920ab1b.1558--
+
+--===============1732620797==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1732620797==--
