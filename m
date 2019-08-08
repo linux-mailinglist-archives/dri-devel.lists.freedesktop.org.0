@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C172886C84
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 23:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6D386CC5
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 23:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8718F6ECC8;
-	Thu,  8 Aug 2019 21:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11B16ECCA;
+	Thu,  8 Aug 2019 21:55:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C7FD16ECC8
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 21:34:58 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BED0172167; Thu,  8 Aug 2019 21:34:58 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111241] Shadertoy shader causing hang
-Date: Thu, 08 Aug 2019 21:34:59 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111241-502-Sz42NMBciq@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
-References: <bug-111241-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 045D66ECCA
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 21:55:54 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 464Md14DG8z9sNF;
+ Fri,  9 Aug 2019 07:55:49 +1000 (AEST)
+Date: Fri, 9 Aug 2019 07:55:47 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@linux.ie>,
+ DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the amdgpu-fixes tree with the
+ drm-fixes tree
+Message-ID: <20190809075547.679c0713@canb.auug.org.au>
 MIME-Version: 1.0
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=canb.auug.org.au; s=201702; t=1565301351;
+ bh=0Ou22NT90/zxAm29hlbGDucgM9byIb1KYwf2gwqPCLw=;
+ h=Date:From:To:Cc:Subject:From;
+ b=eELnzwxYuaaQaTqFFXzXFsHOcF4yd5L0ETzTOCSV5uw6wapbBnXBpT9YkIk1Xdia1
+ Qnbfln+lgG7Rocsye2iU0v20LdeZLuyFiNYKwepW5m4/KuD447TQjCkmZog2hKPN4G
+ CvSQt3Wt45E30EILN2A3pSbncGTfXomR5eNpvvDeNsvJBxS/V6UO6uDZOED/evk9uQ
+ a29st3+I1BUXcX6K45gWI7NzZGa9gtoIGWr7EHYC+uRNFIst2wCZ3th2uq6vrB/jz8
+ kQZl4AUGntZV1zGbUW7MW+vYWqm1ADazJSV5CPScrfmYoHdhnr71q90WUlcUy63vYh
+ IO2RV/K0ehTVg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,87 +48,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0760362784=="
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Joseph Greathouse <Joseph.Greathouse@amd.com>
+Content-Type: multipart/mixed; boundary="===============1784207502=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============1784207502==
+Content-Type: multipart/signed; boundary="Sig_/0GEow4Lfw6PR50E2okImpXH";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
---===============0760362784==
-Content-Type: multipart/alternative; boundary="15653000980.75B694dEe.13351"
-Content-Transfer-Encoding: 7bit
-
-
---15653000980.75B694dEe.13351
-Date: Thu, 8 Aug 2019 21:34:58 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/0GEow4Lfw6PR50E2okImpXH
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
+Hi all,
 
---- Comment #1 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
-amd.com> ---
-I could reproduce the issue on a Raven Ridge and a Navi10.
+Today's linux-next merge of the amdgpu-fixes tree got conflicts in:
 
-But when using NIR (radeonsi_enable_nir=3Dtrue env variable) the shader is
-perfectly usable.
+  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+  include/uapi/linux/kfd_ioctl.h
+
+between commit:
+
+  4b3e30ed3ec7 ("Revert "drm/amdkfd: New IOCTL to allocate queue GWS"")
+
+from the drm-fixes tree and commit:
+
+  7e51b56cd5b8 ("drm/amdkfd: Remove GPU ID in GWS queue creation")
+
+from the amdgpu-fixes tree.
+
+I fixed it up (I just used the former) and can carry the fix as
+necessary. This is now fixed as far as linux-next is concerned, but any
+non trivial conflicts should be mentioned to your upstream maintainer
+when your tree is submitted for merging.  You may also want to consider
+cooperating with the maintainer of the conflicting tree to minimise any
+particularly complex conflicts.
 
 --=20
-You are receiving this mail because:
-You are the assignee for the bug.=
+Cheers,
+Stephen Rothwell
 
---15653000980.75B694dEe.13351
-Date: Thu, 8 Aug 2019 21:34:58 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+--Sig_/0GEow4Lfw6PR50E2okImpXH
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c1">Commen=
-t # 1</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
-</span></b>
-        <pre>I could reproduce the issue on a Raven Ridge and a Navi10.
+-----BEGIN PGP SIGNATURE-----
 
-But when using NIR (radeonsi_enable_nir=3Dtrue env variable) the shader is
-perfectly usable.</pre>
-        </div>
-      </p>
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl1MmmMACgkQAVBC80lX
+0Gzm9Af/Tr4iPShzhGwvhE1Hflvd2O4Ad6Ivv7wYBf4kULwSx+n4LZAjYazP+526
+B4NZ5y/8z1GPhE4ZbmcaLyi7PLCNOA8XmD2u3bd7jlGlwyGfTFzrIsihPEjPsofV
+m///ZAZN6IrGfbekcr8+5divRQH4fHFLCR9vrIJn3KTMfSO7d4keqIpyFgdto/Z/
+29o4oDO4LAMMULeMJfPZSLiI58piSW6euxKLIy9nqyADh5GSuyPcjvJcTKWv/9Na
+Ct2VcrN1QAKKpJU62RSNG2ZgupY7yUoIbvD6I87g4GM6XZYfXXfvBFqjRu8eJrAL
+TpwpFSFdxhgkCaNQFffHs/sTV7cPdA==
+=c4nH
+-----END PGP SIGNATURE-----
 
+--Sig_/0GEow4Lfw6PR50E2okImpXH--
 
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15653000980.75B694dEe.13351--
-
---===============0760362784==
+--===============1784207502==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +119,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0760362784==--
+--===============1784207502==--
