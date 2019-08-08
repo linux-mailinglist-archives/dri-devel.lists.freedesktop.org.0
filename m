@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90216862DD
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 15:18:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221D786300
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 15:22:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EEF6E837;
-	Thu,  8 Aug 2019 13:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB316E839;
+	Thu,  8 Aug 2019 13:22:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 408D46E836
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 13:18:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55766E827
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 13:22:39 +0000 (UTC)
 Received: from lupine.hi.pengutronix.de
  ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1hviJb-0003Bo-RD; Thu, 08 Aug 2019 15:18:47 +0200
-Message-ID: <1565270327.3656.12.camel@pengutronix.de>
-Subject: Re: [PATCH 20/21] drm/dp: Fix a couple of whitespace issues
+ id 1hviNK-0003uo-Bc; Thu, 08 Aug 2019 15:22:38 +0200
+Message-ID: <1565270558.3656.13.camel@pengutronix.de>
+Subject: Re: [PATCH 06/21] drm/dp: Probe link using existing parsing helpers
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org
-Date: Thu, 08 Aug 2019 15:18:47 +0200
-In-Reply-To: <20190805122350.8838-20-thierry.reding@gmail.com>
+Date: Thu, 08 Aug 2019 15:22:38 +0200
+In-Reply-To: <20190805122350.8838-6-thierry.reding@gmail.com>
 References: <20190805122350.8838-1-thierry.reding@gmail.com>
- <20190805122350.8838-20-thierry.reding@gmail.com>
+ <20190805122350.8838-6-thierry.reding@gmail.com>
 X-Mailer: Evolution 3.22.6-1+deb9u2 
 Mime-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
@@ -51,21 +51,10 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gTW9uLCAyMDE5LTA4LTA1IGF0IDE0OjIzICswMjAwLCBUaGllcnJ5IFJlZGluZyB3cm90ZToK
-PiBGcm9tOiBUaGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IAo+IFJlbW92ZSBh
-IGdyYXR1aXR1b3VzIGJsYW5rIGxpbmUgaW4gb25lIHBsYWNlIGFuZCBhZGQgYSBibGFuayBsaW5l
-IGluCj4gYW5vdGhlciB0byBpbXByb3ZlIHJlYWRhYmlsaXR5LgoKU2VlbXMgbGlrZSB0aGUgY29t
-bWVudCBkZXNjcmlwdGlvbiBpcyBvdXRkYXRlZCBoZXJlIGFzIHdlbGwuCgo+IFNpZ25lZC1vZmYt
-Ynk6IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMv
-Z3B1L2RybS9kcm1fZHBfaGVscGVyLmMgfCAxIC0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRp
-b24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfaGVscGVyLmMKPiBpbmRleCAxMzZlZTYwOWYyZWUuLjZi
-NDQzMWJhZGUzZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX2hlbHBlci5j
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9oZWxwZXIuYwo+IEBAIC0yMTYsNyArMjE2
-LDYgQEAgc3RhdGljIGludCBkcm1fZHBfZHBjZF9hY2Nlc3Moc3RydWN0IGRybV9kcF9hdXggKmF1
-eCwgdTggcmVxdWVzdCwKPiAgCQl9Cj4gIAo+ICAJCXJldCA9IGF1eC0+dHJhbnNmZXIoYXV4LCAm
-bXNnKTsKPiAtCj4gIAkJaWYgKHJldCA+PSAwKSB7Cj4gIAkJCW5hdGl2ZV9yZXBseSA9IG1zZy5y
-ZXBseSAmIERQX0FVWF9OQVRJVkVfUkVQTFlfTUFTSzsKPiAgCQkJaWYgKG5hdGl2ZV9yZXBseSA9
-PSBEUF9BVVhfTkFUSVZFX1JFUExZX0FDSykgewoKcmVnYXJkcwpQaGlsaXBwCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+PiBGcm9tOiBUaGllcnJ5IFJlZGluZyA8dHJlZGluZ0BudmlkaWEuY29tPgo+IAo+IFVzZSBleGlz
+dGluZyBwYXJzaW5nIGhlbHBlcnMgdG8gcHJvYmUgYSBEaXNwbGF5UG9ydCBsaW5rLgo+IAo+IFNp
+Z25lZC1vZmYtYnk6IFRoaWVycnkgUmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+CgpSZXZpZXdl
+ZC1ieTogUGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KCnJlZ2FyZHMKUGhp
+bGlwcApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
