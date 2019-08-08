@@ -1,31 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED3E86657
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 17:57:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CA4F8669A
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 18:04:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 018AC6E893;
-	Thu,  8 Aug 2019 15:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFC966E891;
+	Thu,  8 Aug 2019 16:04:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pokefinder.org (sauhun.de [88.99.104.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2C6F56E893
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 15:57:11 +0000 (UTC)
-Received: from localhost (p5486CA1C.dip0.t-ipconnect.de [84.134.202.28])
- by pokefinder.org (Postfix) with ESMTPSA id 994732C3112;
- Thu,  8 Aug 2019 17:57:09 +0200 (CEST)
-Date: Thu, 8 Aug 2019 17:57:09 +0200
-From: Wolfram Sang <wsa@the-dreams.de>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 426CA6E891
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 16:04:39 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28A9BCC;
+ Thu,  8 Aug 2019 18:04:37 +0200 (CEST)
+Date: Thu, 8 Aug 2019 19:04:34 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Wolfram Sang <wsa@the-dreams.de>
 Subject: Re: [PATCH] i2c: replace i2c_new_secondary_device with an ERR_PTR
  variant
-Message-ID: <20190808155709.GA1316@ninjato>
+Message-ID: <20190808160434.GT6055@pendragon.ideasonboard.com>
 References: <20190722172600.3452-1-wsa+renesas@sang-engineering.com>
  <9b71c556-bd70-4d29-dba5-fbeaefb5f3b4@ideasonboard.com>
+ <20190808155709.GA1316@ninjato>
 MIME-Version: 1.0
-In-Reply-To: <9b71c556-bd70-4d29-dba5-fbeaefb5f3b4@ideasonboard.com>
+Content-Disposition: inline
+In-Reply-To: <20190808155709.GA1316@ninjato>
 User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=ideasonboard.com; s=mail; t=1565280277;
+ bh=2Z25y9y0pIeMu154o724gwaRvd94rUWhzxTXYm467WQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NiaEP20FJyRAMJPXnJnVsUFT/vH8DWKJx8ejlWgYPR6WUDGlo/wqeM7UcgNjRFUrb
+ vRBGUvCqStWmdIkmAiafBuIX2m4Ne2yDMox51YLpba5LD7yfBRGizDbNj9IN7gImam
+ qpibQgFcYg9EXUpg8/qZNSDZFULJQZ6UWhzEEXxY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -38,266 +50,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-media@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0372839370=="
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ David Airlie <airlied@linux.ie>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-i2c@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0372839370==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
-Content-Disposition: inline
-
-
---sm4nu43k4a2Rpi4c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 23, 2019 at 04:47:09PM +0100, Kieran Bingham wrote:
-> Hi Wolfram,
->=20
-> On 22/07/2019 18:26, Wolfram Sang wrote:
-> > In the general move to have i2c_new_*_device functions which return
-> > ERR_PTR instead of NULL, this patch converts i2c_new_secondary_device().
-> >=20
-> > There are only few users, so this patch converts the I2C core and all
-> > users in one go. The function gets renamed to i2c_new_ancillary_device()
-> > so out-of-tree users will get a build failure to understand they need to
-> > adapt their error checking code.
-> >=20
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >=20
-> > Kindly asking for acks/revs/tests from people knowing the modified
-> > drivers.
->=20
-> Certainly, this looks good for the adv748x.
->=20
-> The ADV7511, and adv7604 are not mine, but they also look fine to me.
->=20
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-Thanks, Kieran! Gently pinging for acks for ADV7511 and ADV7604.
-
-
->=20
->=20
-> >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 18 +++++++++---------
-> >  drivers/i2c/i2c-core-base.c                  | 10 +++++-----
-> >  drivers/media/i2c/adv748x/adv748x-core.c     |  6 +++---
-> >  drivers/media/i2c/adv7604.c                  | 10 +++++-----
-> >  include/linux/i2c.h                          |  2 +-
-> >  5 files changed, 23 insertions(+), 23 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu=
-/drm/bridge/adv7511/adv7511_drv.c
-> > index f6d2681f6927..9e13e466e72c 100644
-> > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> > @@ -981,10 +981,10 @@ static int adv7511_init_cec_regmap(struct adv7511=
- *adv)
-> >  {
-> >  	int ret;
-> > =20
-> > -	adv->i2c_cec =3D i2c_new_secondary_device(adv->i2c_main, "cec",
-> > +	adv->i2c_cec =3D i2c_new_ancillary_device(adv->i2c_main, "cec",
-> >  						ADV7511_CEC_I2C_ADDR_DEFAULT);
-> > -	if (!adv->i2c_cec)
-> > -		return -EINVAL;
-> > +	if (IS_ERR(adv->i2c_cec))
-> > +		return PTR_ERR(adv->i2c_cec);
-> >  	i2c_set_clientdata(adv->i2c_cec, adv);
-> > =20
-> >  	adv->regmap_cec =3D devm_regmap_init_i2c(adv->i2c_cec,
-> > @@ -1165,20 +1165,20 @@ static int adv7511_probe(struct i2c_client *i2c=
-, const struct i2c_device_id *id)
-> > =20
-> >  	adv7511_packet_disable(adv7511, 0xffff);
-> > =20
-> > -	adv7511->i2c_edid =3D i2c_new_secondary_device(i2c, "edid",
-> > +	adv7511->i2c_edid =3D i2c_new_ancillary_device(i2c, "edid",
-> >  					ADV7511_EDID_I2C_ADDR_DEFAULT);
-> > -	if (!adv7511->i2c_edid) {
-> > -		ret =3D -EINVAL;
-> > +	if (IS_ERR(adv7511->i2c_edid)) {
-> > +		ret =3D PTR_ERR(adv7511->i2c_edid);
-> >  		goto uninit_regulators;
-> >  	}
-> > =20
-> >  	regmap_write(adv7511->regmap, ADV7511_REG_EDID_I2C_ADDR,
-> >  		     adv7511->i2c_edid->addr << 1);
-> > =20
-> > -	adv7511->i2c_packet =3D i2c_new_secondary_device(i2c, "packet",
-> > +	adv7511->i2c_packet =3D i2c_new_ancillary_device(i2c, "packet",
-> >  					ADV7511_PACKET_I2C_ADDR_DEFAULT);
-> > -	if (!adv7511->i2c_packet) {
-> > -		ret =3D -EINVAL;
-> > +	if (IS_ERR(adv7511->i2c_packet)) {
-> > +		ret =3D PTR_ERR(adv7511->i2c_packet);
-> >  		goto err_i2c_unregister_edid;
-> >  	}
-> > =20
-> > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> > index f26ed495d384..76cb91e064b8 100644
-> > --- a/drivers/i2c/i2c-core-base.c
-> > +++ b/drivers/i2c/i2c-core-base.c
-> > @@ -966,7 +966,7 @@ struct i2c_client *devm_i2c_new_dummy_device(struct=
- device *dev,
-> >  EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-> > =20
-> >  /**
-> > - * i2c_new_secondary_device - Helper to get the instantiated secondary=
- address
-> > + * i2c_new_ancillary_device - Helper to get the instantiated secondary=
- address
-> >   * and create the associated device
-> >   * @client: Handle to the primary client
-> >   * @name: Handle to specify which secondary address to get
-> > @@ -985,9 +985,9 @@ EXPORT_SYMBOL_GPL(devm_i2c_new_dummy_device);
-> >   * cell whose "reg-names" value matches the slave name.
-> >   *
-> >   * This returns the new i2c client, which should be saved for later us=
-e with
-> > - * i2c_unregister_device(); or NULL to indicate an error.
-> > + * i2c_unregister_device(); or an ERR_PTR to describe the error.
-> >   */
-> > -struct i2c_client *i2c_new_secondary_device(struct i2c_client *client,
-> > +struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
-> >  						const char *name,
-> >  						u16 default_addr)
-> >  {
-> > @@ -1002,9 +1002,9 @@ struct i2c_client *i2c_new_secondary_device(struc=
-t i2c_client *client,
-> >  	}
-> > =20
-> >  	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
-> > -	return i2c_new_dummy(client->adapter, addr);
-> > +	return i2c_new_dummy_device(client->adapter, addr);
-> >  }
-> > -EXPORT_SYMBOL_GPL(i2c_new_secondary_device);
-> > +EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
-> > =20
-> >  /* -------------------------------------------------------------------=
------- */
-> > =20
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i=
-2c/adv748x/adv748x-core.c
-> > index f57cd77a32fa..2567de2b0037 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> > @@ -183,14 +183,14 @@ static int adv748x_initialise_clients(struct adv7=
-48x_state *state)
-> >  	int ret;
-> > =20
-> >  	for (i =3D ADV748X_PAGE_DPLL; i < ADV748X_PAGE_MAX; ++i) {
-> > -		state->i2c_clients[i] =3D i2c_new_secondary_device(
-> > +		state->i2c_clients[i] =3D i2c_new_ancillary_device(
-> >  				state->client,
-> >  				adv748x_default_addresses[i].name,
-> >  				adv748x_default_addresses[i].default_addr);
-> > =20
-> > -		if (state->i2c_clients[i] =3D=3D NULL) {
-> > +		if (IS_ERR(state->i2c_clients[i])) {
-> >  			adv_err(state, "failed to create i2c client %u\n", i);
-> > -			return -ENOMEM;
-> > +			return PTR_ERR(state->i2c_clients[i]);
-> >  		}
-> > =20
-> >  		ret =3D adv748x_configure_regmap(state, i);
-> > diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-> > index 28a84bf9f8a9..8ed1d9b59dd2 100644
-> > --- a/drivers/media/i2c/adv7604.c
-> > +++ b/drivers/media/i2c/adv7604.c
-> > @@ -2878,14 +2878,14 @@ static struct i2c_client *adv76xx_dummy_client(=
-struct v4l2_subdev *sd,
-> >  	struct i2c_client *new_client;
-> > =20
-> >  	if (pdata && pdata->i2c_addresses[page])
-> > -		new_client =3D i2c_new_dummy(client->adapter,
-> > +		new_client =3D i2c_new_dummy_device(client->adapter,
-> >  					   pdata->i2c_addresses[page]);
-> >  	else
-> > -		new_client =3D i2c_new_secondary_device(client,
-> > +		new_client =3D i2c_new_ancillary_device(client,
-> >  				adv76xx_default_addresses[page].name,
-> >  				adv76xx_default_addresses[page].default_addr);
-> > =20
-> > -	if (new_client)
-> > +	if (!IS_ERR(new_client))
-> >  		io_write(sd, io_reg, new_client->addr << 1);
-> > =20
-> >  	return new_client;
-> > @@ -3520,8 +3520,8 @@ static int adv76xx_probe(struct i2c_client *clien=
-t,
-> >  			continue;
-> > =20
-> >  		state->i2c_clients[i] =3D adv76xx_dummy_client(sd, i);
-> > -		if (!state->i2c_clients[i]) {
-> > -			err =3D -EINVAL;
-> > +		if (IS_ERR(state->i2c_clients[i])) {
-> > +			err =3D PTR_ERR(state->i2c_clients[i]);
-> >  			v4l2_err(sd, "failed to create i2c client %u\n", i);
-> >  			goto err_i2c;
-> >  		}
-> > diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-> > index fa5552c2307b..ebbe024dd9e0 100644
-> > --- a/include/linux/i2c.h
-> > +++ b/include/linux/i2c.h
-> > @@ -473,7 +473,7 @@ extern struct i2c_client *
-> >  devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap=
-, u16 address);
-> > =20
-> >  extern struct i2c_client *
-> > -i2c_new_secondary_device(struct i2c_client *client,
-> > +i2c_new_ancillary_device(struct i2c_client *client,
-> >  				const char *name,
-> >  				u16 default_addr);
-> > =20
-> >=20
->=20
-> --=20
-> Regards
-> --
-> Kieran
-
---sm4nu43k4a2Rpi4c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1MRlEACgkQFA3kzBSg
-KbY75g/+KoLVKl50vLnV8t/WlRCPjw1QiiofzMQ5Dtt3N9HwGWPvXqbQ11KUL0He
-27nMKf1Chf1V9iwnkPCoUluLU5l2ZqFJcvW5VvHMtvGHDky1On/5IrdhwJdEPyXR
-m4CfqQKxGkvJCJTrIYDMYFANcDpTUvtoqDqPCfcT0NcbhiC5hQvn4eIvHbv4jy4S
-8nHBv4FV6GIIlmi1c1Iux2AmbTOKwtL9uo5VEeefWin6m8NXrfMxpVZmpxoDyjAJ
-Xz6ZrZKEl0VAXHgBa7CIJ6N5S2W5jMq3ZETRJuBZj4qgoYcDQhnaSxz4ksT+VIG9
-7rSEpBCXw8wsW0N1INB1mZpiSArg6BwALbXzHsB0UaOrQwMKqNG/WHm79Gl22uZ5
-RUnvUwcKjXvsxnSL7V8p+jTIUmGuIr1ytWazySOACePgePGNIwMthIYKBvquu+/v
-nbkWeEzDPpZq9jZhcRpwfseQodVrgsTwR6a556L928iF9cRFWDxhU4FjZyfiNkzt
-8jONRD4EXlXygcFuNkOROZ7/Aa5+EIikUSoCNRXOm8TqR9ptpHMh1gAwlfIgnGjO
-kKpa7JyZLS7Uc/3kw+tShClsExYPRc1hG+EW/f31CZ4BpajQ+q50Ilf7/eqNbsQi
-EaLNAZbjMhNZQ3+YQ4IB3WwK53VQP65sU8uxGqwsBVvlCoey5Lc=
-=oIN2
------END PGP SIGNATURE-----
-
---sm4nu43k4a2Rpi4c--
-
---===============0372839370==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0372839370==--
+T24gVGh1LCBBdWcgMDgsIDIwMTkgYXQgMDU6NTc6MDlQTSArMDIwMCwgV29sZnJhbSBTYW5nIHdy
+b3RlOgo+IE9uIFR1ZSwgSnVsIDIzLCAyMDE5IGF0IDA0OjQ3OjA5UE0gKzAxMDAsIEtpZXJhbiBC
+aW5naGFtIHdyb3RlOgo+ID4gT24gMjIvMDcvMjAxOSAxODoyNiwgV29sZnJhbSBTYW5nIHdyb3Rl
+Ogo+ID4gPiBJbiB0aGUgZ2VuZXJhbCBtb3ZlIHRvIGhhdmUgaTJjX25ld18qX2RldmljZSBmdW5j
+dGlvbnMgd2hpY2ggcmV0dXJuCj4gPiA+IEVSUl9QVFIgaW5zdGVhZCBvZiBOVUxMLCB0aGlzIHBh
+dGNoIGNvbnZlcnRzIGkyY19uZXdfc2Vjb25kYXJ5X2RldmljZSgpLgo+ID4gPiAKPiA+ID4gVGhl
+cmUgYXJlIG9ubHkgZmV3IHVzZXJzLCBzbyB0aGlzIHBhdGNoIGNvbnZlcnRzIHRoZSBJMkMgY29y
+ZSBhbmQgYWxsCj4gPiA+IHVzZXJzIGluIG9uZSBnby4gVGhlIGZ1bmN0aW9uIGdldHMgcmVuYW1l
+ZCB0byBpMmNfbmV3X2FuY2lsbGFyeV9kZXZpY2UoKQo+ID4gPiBzbyBvdXQtb2YtdHJlZSB1c2Vy
+cyB3aWxsIGdldCBhIGJ1aWxkIGZhaWx1cmUgdG8gdW5kZXJzdGFuZCB0aGV5IG5lZWQgdG8KPiA+
+ID4gYWRhcHQgdGhlaXIgZXJyb3IgY2hlY2tpbmcgY29kZS4KPiA+ID4gCj4gPiA+IFNpZ25lZC1v
+ZmYtYnk6IFdvbGZyYW0gU2FuZyA8d3NhK3JlbmVzYXNAc2FuZy1lbmdpbmVlcmluZy5jb20+Cj4g
+PiA+IC0tLQo+ID4gPiAKPiA+ID4gS2luZGx5IGFza2luZyBmb3IgYWNrcy9yZXZzL3Rlc3RzIGZy
+b20gcGVvcGxlIGtub3dpbmcgdGhlIG1vZGlmaWVkCj4gPiA+IGRyaXZlcnMuCj4gPiAKPiA+IENl
+cnRhaW5seSwgdGhpcyBsb29rcyBnb29kIGZvciB0aGUgYWR2NzQ4eC4KPiA+IAo+ID4gVGhlIEFE
+Vjc1MTEsIGFuZCBhZHY3NjA0IGFyZSBub3QgbWluZSwgYnV0IHRoZXkgYWxzbyBsb29rIGZpbmUg
+dG8gbWUuCj4gPiAKPiA+IFJldmlld2VkLWJ5OiBLaWVyYW4gQmluZ2hhbSA8a2llcmFuLmJpbmdo
+YW0rcmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPgo+IAo+IFRoYW5rcywgS2llcmFuISBHZW50bHkg
+cGluZ2luZyBmb3IgYWNrcyBmb3IgQURWNzUxMSBhbmQgQURWNzYwNC4KCkZvciB0aGUgYWR2NzUx
+MSBkcml2ZXIsCgpSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFy
+dEBpZGVhc29uYm9hcmQuY29tPgoKRm9yIHRoZSBhZHY3NjA0IGRyaXZlciwgcGxlYXNlIHNlZSBi
+ZWxvdy4KCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1MTEvYWR2NzUxMV9kcnYu
+YyB8IDE4ICsrKysrKysrKy0tLS0tLS0tLQo+ID4gPiAgZHJpdmVycy9pMmMvaTJjLWNvcmUtYmFz
+ZS5jICAgICAgICAgICAgICAgICAgfCAxMCArKysrKy0tLS0tCj4gPiA+ICBkcml2ZXJzL21lZGlh
+L2kyYy9hZHY3NDh4L2Fkdjc0OHgtY29yZS5jICAgICB8ICA2ICsrKy0tLQo+ID4gPiAgZHJpdmVy
+cy9tZWRpYS9pMmMvYWR2NzYwNC5jICAgICAgICAgICAgICAgICAgfCAxMCArKysrKy0tLS0tCj4g
+PiA+ICBpbmNsdWRlL2xpbnV4L2kyYy5oICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICst
+Cj4gPiA+ICA1IGZpbGVzIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIzIGRlbGV0aW9ucygt
+KQo+ID4gPiAKPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUx
+MS9hZHY3NTExX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFf
+ZHJ2LmMKPiA+ID4gaW5kZXggZjZkMjY4MWY2OTI3Li45ZTEzZTQ2NmU3MmMgMTAwNjQ0Cj4gPiA+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Rydi5jCj4gPiA+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3NTExX2Rydi5jCj4gPiA+
+IEBAIC05ODEsMTAgKzk4MSwxMCBAQCBzdGF0aWMgaW50IGFkdjc1MTFfaW5pdF9jZWNfcmVnbWFw
+KHN0cnVjdCBhZHY3NTExICphZHYpCj4gPiA+ICB7Cj4gPiA+ICAJaW50IHJldDsKPiA+ID4gIAo+
+ID4gPiAtCWFkdi0+aTJjX2NlYyA9IGkyY19uZXdfc2Vjb25kYXJ5X2RldmljZShhZHYtPmkyY19t
+YWluLCAiY2VjIiwKPiA+ID4gKwlhZHYtPmkyY19jZWMgPSBpMmNfbmV3X2FuY2lsbGFyeV9kZXZp
+Y2UoYWR2LT5pMmNfbWFpbiwgImNlYyIsCj4gPiA+ICAJCQkJCQlBRFY3NTExX0NFQ19JMkNfQURE
+Ul9ERUZBVUxUKTsKPiA+ID4gLQlpZiAoIWFkdi0+aTJjX2NlYykKPiA+ID4gLQkJcmV0dXJuIC1F
+SU5WQUw7Cj4gPiA+ICsJaWYgKElTX0VSUihhZHYtPmkyY19jZWMpKQo+ID4gPiArCQlyZXR1cm4g
+UFRSX0VSUihhZHYtPmkyY19jZWMpOwo+ID4gPiAgCWkyY19zZXRfY2xpZW50ZGF0YShhZHYtPmky
+Y19jZWMsIGFkdik7Cj4gPiA+ICAKPiA+ID4gIAlhZHYtPnJlZ21hcF9jZWMgPSBkZXZtX3JlZ21h
+cF9pbml0X2kyYyhhZHYtPmkyY19jZWMsCj4gPiA+IEBAIC0xMTY1LDIwICsxMTY1LDIwIEBAIHN0
+YXRpYyBpbnQgYWR2NzUxMV9wcm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAqaTJjLCBjb25zdCBzdHJ1
+Y3QgaTJjX2RldmljZV9pZCAqaWQpCj4gPiA+ICAKPiA+ID4gIAlhZHY3NTExX3BhY2tldF9kaXNh
+YmxlKGFkdjc1MTEsIDB4ZmZmZik7Cj4gPiA+ICAKPiA+ID4gLQlhZHY3NTExLT5pMmNfZWRpZCA9
+IGkyY19uZXdfc2Vjb25kYXJ5X2RldmljZShpMmMsICJlZGlkIiwKPiA+ID4gKwlhZHY3NTExLT5p
+MmNfZWRpZCA9IGkyY19uZXdfYW5jaWxsYXJ5X2RldmljZShpMmMsICJlZGlkIiwKPiA+ID4gIAkJ
+CQkJQURWNzUxMV9FRElEX0kyQ19BRERSX0RFRkFVTFQpOwo+ID4gPiAtCWlmICghYWR2NzUxMS0+
+aTJjX2VkaWQpIHsKPiA+ID4gLQkJcmV0ID0gLUVJTlZBTDsKPiA+ID4gKwlpZiAoSVNfRVJSKGFk
+djc1MTEtPmkyY19lZGlkKSkgewo+ID4gPiArCQlyZXQgPSBQVFJfRVJSKGFkdjc1MTEtPmkyY19l
+ZGlkKTsKPiA+ID4gIAkJZ290byB1bmluaXRfcmVndWxhdG9yczsKPiA+ID4gIAl9Cj4gPiA+ICAK
+PiA+ID4gIAlyZWdtYXBfd3JpdGUoYWR2NzUxMS0+cmVnbWFwLCBBRFY3NTExX1JFR19FRElEX0ky
+Q19BRERSLAo+ID4gPiAgCQkgICAgIGFkdjc1MTEtPmkyY19lZGlkLT5hZGRyIDw8IDEpOwo+ID4g
+PiAgCj4gPiA+IC0JYWR2NzUxMS0+aTJjX3BhY2tldCA9IGkyY19uZXdfc2Vjb25kYXJ5X2Rldmlj
+ZShpMmMsICJwYWNrZXQiLAo+ID4gPiArCWFkdjc1MTEtPmkyY19wYWNrZXQgPSBpMmNfbmV3X2Fu
+Y2lsbGFyeV9kZXZpY2UoaTJjLCAicGFja2V0IiwKPiA+ID4gIAkJCQkJQURWNzUxMV9QQUNLRVRf
+STJDX0FERFJfREVGQVVMVCk7Cj4gPiA+IC0JaWYgKCFhZHY3NTExLT5pMmNfcGFja2V0KSB7Cj4g
+PiA+IC0JCXJldCA9IC1FSU5WQUw7Cj4gPiA+ICsJaWYgKElTX0VSUihhZHY3NTExLT5pMmNfcGFj
+a2V0KSkgewo+ID4gPiArCQlyZXQgPSBQVFJfRVJSKGFkdjc1MTEtPmkyY19wYWNrZXQpOwo+ID4g
+PiAgCQlnb3RvIGVycl9pMmNfdW5yZWdpc3Rlcl9lZGlkOwo+ID4gPiAgCX0KPiA+ID4gIAo+ID4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pMmMvaTJjLWNvcmUtYmFzZS5jIGIvZHJpdmVycy9pMmMv
+aTJjLWNvcmUtYmFzZS5jCj4gPiA+IGluZGV4IGYyNmVkNDk1ZDM4NC4uNzZjYjkxZTA2NGI4IDEw
+MDY0NAo+ID4gPiAtLS0gYS9kcml2ZXJzL2kyYy9pMmMtY29yZS1iYXNlLmMKPiA+ID4gKysrIGIv
+ZHJpdmVycy9pMmMvaTJjLWNvcmUtYmFzZS5jCj4gPiA+IEBAIC05NjYsNyArOTY2LDcgQEAgc3Ry
+dWN0IGkyY19jbGllbnQgKmRldm1faTJjX25ld19kdW1teV9kZXZpY2Uoc3RydWN0IGRldmljZSAq
+ZGV2LAo+ID4gPiAgRVhQT1JUX1NZTUJPTF9HUEwoZGV2bV9pMmNfbmV3X2R1bW15X2RldmljZSk7
+Cj4gPiA+ICAKPiA+ID4gIC8qKgo+ID4gPiAtICogaTJjX25ld19zZWNvbmRhcnlfZGV2aWNlIC0g
+SGVscGVyIHRvIGdldCB0aGUgaW5zdGFudGlhdGVkIHNlY29uZGFyeSBhZGRyZXNzCj4gPiA+ICsg
+KiBpMmNfbmV3X2FuY2lsbGFyeV9kZXZpY2UgLSBIZWxwZXIgdG8gZ2V0IHRoZSBpbnN0YW50aWF0
+ZWQgc2Vjb25kYXJ5IGFkZHJlc3MKPiA+ID4gICAqIGFuZCBjcmVhdGUgdGhlIGFzc29jaWF0ZWQg
+ZGV2aWNlCj4gPiA+ICAgKiBAY2xpZW50OiBIYW5kbGUgdG8gdGhlIHByaW1hcnkgY2xpZW50Cj4g
+PiA+ICAgKiBAbmFtZTogSGFuZGxlIHRvIHNwZWNpZnkgd2hpY2ggc2Vjb25kYXJ5IGFkZHJlc3Mg
+dG8gZ2V0Cj4gPiA+IEBAIC05ODUsOSArOTg1LDkgQEAgRVhQT1JUX1NZTUJPTF9HUEwoZGV2bV9p
+MmNfbmV3X2R1bW15X2RldmljZSk7Cj4gPiA+ICAgKiBjZWxsIHdob3NlICJyZWctbmFtZXMiIHZh
+bHVlIG1hdGNoZXMgdGhlIHNsYXZlIG5hbWUuCj4gPiA+ICAgKgo+ID4gPiAgICogVGhpcyByZXR1
+cm5zIHRoZSBuZXcgaTJjIGNsaWVudCwgd2hpY2ggc2hvdWxkIGJlIHNhdmVkIGZvciBsYXRlciB1
+c2Ugd2l0aAo+ID4gPiAtICogaTJjX3VucmVnaXN0ZXJfZGV2aWNlKCk7IG9yIE5VTEwgdG8gaW5k
+aWNhdGUgYW4gZXJyb3IuCj4gPiA+ICsgKiBpMmNfdW5yZWdpc3Rlcl9kZXZpY2UoKTsgb3IgYW4g
+RVJSX1BUUiB0byBkZXNjcmliZSB0aGUgZXJyb3IuCj4gPiA+ICAgKi8KPiA+ID4gLXN0cnVjdCBp
+MmNfY2xpZW50ICppMmNfbmV3X3NlY29uZGFyeV9kZXZpY2Uoc3RydWN0IGkyY19jbGllbnQgKmNs
+aWVudCwKPiA+ID4gK3N0cnVjdCBpMmNfY2xpZW50ICppMmNfbmV3X2FuY2lsbGFyeV9kZXZpY2Uo
+c3RydWN0IGkyY19jbGllbnQgKmNsaWVudCwKPiA+ID4gIAkJCQkJCWNvbnN0IGNoYXIgKm5hbWUs
+Cj4gPiA+ICAJCQkJCQl1MTYgZGVmYXVsdF9hZGRyKQo+ID4gPiAgewo+ID4gPiBAQCAtMTAwMiw5
+ICsxMDAyLDkgQEAgc3RydWN0IGkyY19jbGllbnQgKmkyY19uZXdfc2Vjb25kYXJ5X2RldmljZShz
+dHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50LAo+ID4gPiAgCX0KPiA+ID4gIAo+ID4gPiAgCWRldl9k
+YmcoJmNsaWVudC0+YWRhcHRlci0+ZGV2LCAiQWRkcmVzcyBmb3IgJXMgOiAweCV4XG4iLCBuYW1l
+LCBhZGRyKTsKPiA+ID4gLQlyZXR1cm4gaTJjX25ld19kdW1teShjbGllbnQtPmFkYXB0ZXIsIGFk
+ZHIpOwo+ID4gPiArCXJldHVybiBpMmNfbmV3X2R1bW15X2RldmljZShjbGllbnQtPmFkYXB0ZXIs
+IGFkZHIpOwo+ID4gPiAgfQo+ID4gPiAtRVhQT1JUX1NZTUJPTF9HUEwoaTJjX25ld19zZWNvbmRh
+cnlfZGV2aWNlKTsKPiA+ID4gK0VYUE9SVF9TWU1CT0xfR1BMKGkyY19uZXdfYW5jaWxsYXJ5X2Rl
+dmljZSk7Cj4gPiA+ICAKPiA+ID4gIC8qIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gKi8KPiA+ID4gIAo+ID4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9pMmMvYWR2NzQ4eC9hZHY3NDh4LWNvcmUuYyBi
+L2RyaXZlcnMvbWVkaWEvaTJjL2Fkdjc0OHgvYWR2NzQ4eC1jb3JlLmMKPiA+ID4gaW5kZXggZjU3
+Y2Q3N2EzMmZhLi4yNTY3ZGUyYjAwMzcgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEv
+aTJjL2Fkdjc0OHgvYWR2NzQ4eC1jb3JlLmMKPiA+ID4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMv
+YWR2NzQ4eC9hZHY3NDh4LWNvcmUuYwo+ID4gPiBAQCAtMTgzLDE0ICsxODMsMTQgQEAgc3RhdGlj
+IGludCBhZHY3NDh4X2luaXRpYWxpc2VfY2xpZW50cyhzdHJ1Y3QgYWR2NzQ4eF9zdGF0ZSAqc3Rh
+dGUpCj4gPiA+ICAJaW50IHJldDsKPiA+ID4gIAo+ID4gPiAgCWZvciAoaSA9IEFEVjc0OFhfUEFH
+RV9EUExMOyBpIDwgQURWNzQ4WF9QQUdFX01BWDsgKytpKSB7Cj4gPiA+IC0JCXN0YXRlLT5pMmNf
+Y2xpZW50c1tpXSA9IGkyY19uZXdfc2Vjb25kYXJ5X2RldmljZSgKPiA+ID4gKwkJc3RhdGUtPmky
+Y19jbGllbnRzW2ldID0gaTJjX25ld19hbmNpbGxhcnlfZGV2aWNlKAo+ID4gPiAgCQkJCXN0YXRl
+LT5jbGllbnQsCj4gPiA+ICAJCQkJYWR2NzQ4eF9kZWZhdWx0X2FkZHJlc3Nlc1tpXS5uYW1lLAo+
+ID4gPiAgCQkJCWFkdjc0OHhfZGVmYXVsdF9hZGRyZXNzZXNbaV0uZGVmYXVsdF9hZGRyKTsKPiA+
+ID4gIAo+ID4gPiAtCQlpZiAoc3RhdGUtPmkyY19jbGllbnRzW2ldID09IE5VTEwpIHsKPiA+ID4g
+KwkJaWYgKElTX0VSUihzdGF0ZS0+aTJjX2NsaWVudHNbaV0pKSB7Cj4gPiA+ICAJCQlhZHZfZXJy
+KHN0YXRlLCAiZmFpbGVkIHRvIGNyZWF0ZSBpMmMgY2xpZW50ICV1XG4iLCBpKTsKPiA+ID4gLQkJ
+CXJldHVybiAtRU5PTUVNOwo+ID4gPiArCQkJcmV0dXJuIFBUUl9FUlIoc3RhdGUtPmkyY19jbGll
+bnRzW2ldKTsKPiA+ID4gIAkJfQo+ID4gPiAgCj4gPiA+ICAJCXJldCA9IGFkdjc0OHhfY29uZmln
+dXJlX3JlZ21hcChzdGF0ZSwgaSk7Cj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL2ky
+Yy9hZHY3NjA0LmMgYi9kcml2ZXJzL21lZGlhL2kyYy9hZHY3NjA0LmMKPiA+ID4gaW5kZXggMjhh
+ODRiZjlmOGE5Li44ZWQxZDliNTlkZDIgMTAwNjQ0Cj4gPiA+IC0tLSBhL2RyaXZlcnMvbWVkaWEv
+aTJjL2Fkdjc2MDQuYwo+ID4gPiArKysgYi9kcml2ZXJzL21lZGlhL2kyYy9hZHY3NjA0LmMKPiA+
+ID4gQEAgLTI4NzgsMTQgKzI4NzgsMTQgQEAgc3RhdGljIHN0cnVjdCBpMmNfY2xpZW50ICphZHY3
+Nnh4X2R1bW15X2NsaWVudChzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLAo+ID4gPiAgCXN0cnVjdCBp
+MmNfY2xpZW50ICpuZXdfY2xpZW50Owo+ID4gPiAgCj4gPiA+ICAJaWYgKHBkYXRhICYmIHBkYXRh
+LT5pMmNfYWRkcmVzc2VzW3BhZ2VdKQo+ID4gPiAtCQluZXdfY2xpZW50ID0gaTJjX25ld19kdW1t
+eShjbGllbnQtPmFkYXB0ZXIsCj4gPiA+ICsJCW5ld19jbGllbnQgPSBpMmNfbmV3X2R1bW15X2Rl
+dmljZShjbGllbnQtPmFkYXB0ZXIsCj4gPiA+ICAJCQkJCSAgIHBkYXRhLT5pMmNfYWRkcmVzc2Vz
+W3BhZ2VdKTsKPiA+ID4gIAllbHNlCj4gPiA+IC0JCW5ld19jbGllbnQgPSBpMmNfbmV3X3NlY29u
+ZGFyeV9kZXZpY2UoY2xpZW50LAo+ID4gPiArCQluZXdfY2xpZW50ID0gaTJjX25ld19hbmNpbGxh
+cnlfZGV2aWNlKGNsaWVudCwKPiA+ID4gIAkJCQlhZHY3Nnh4X2RlZmF1bHRfYWRkcmVzc2VzW3Bh
+Z2VdLm5hbWUsCj4gPiA+ICAJCQkJYWR2NzZ4eF9kZWZhdWx0X2FkZHJlc3Nlc1twYWdlXS5kZWZh
+dWx0X2FkZHIpOwo+ID4gPiAgCj4gPiA+IC0JaWYgKG5ld19jbGllbnQpCj4gPiA+ICsJaWYgKCFJ
+U19FUlIobmV3X2NsaWVudCkpCj4gPiA+ICAJCWlvX3dyaXRlKHNkLCBpb19yZWcsIG5ld19jbGll
+bnQtPmFkZHIgPDwgMSk7Cj4gPiA+ICAKPiA+ID4gIAlyZXR1cm4gbmV3X2NsaWVudDsKPiA+ID4g
+QEAgLTM1MjAsOCArMzUyMCw4IEBAIHN0YXRpYyBpbnQgYWR2NzZ4eF9wcm9iZShzdHJ1Y3QgaTJj
+X2NsaWVudCAqY2xpZW50LAo+ID4gPiAgCQkJY29udGludWU7Cj4gPiA+ICAKPiA+ID4gIAkJc3Rh
+dGUtPmkyY19jbGllbnRzW2ldID0gYWR2NzZ4eF9kdW1teV9jbGllbnQoc2QsIGkpOwo+ID4gPiAt
+CQlpZiAoIXN0YXRlLT5pMmNfY2xpZW50c1tpXSkgewo+ID4gPiAtCQkJZXJyID0gLUVJTlZBTDsK
+PiA+ID4gKwkJaWYgKElTX0VSUihzdGF0ZS0+aTJjX2NsaWVudHNbaV0pKSB7Cj4gPiA+ICsJCQll
+cnIgPSBQVFJfRVJSKHN0YXRlLT5pMmNfY2xpZW50c1tpXSk7Cj4gPiA+ICAJCQl2NGwyX2Vycihz
+ZCwgImZhaWxlZCB0byBjcmVhdGUgaTJjIGNsaWVudCAldVxuIiwgaSk7Cj4gPiA+ICAJCQlnb3Rv
+IGVycl9pMmM7CgpUaGlzIHdpbGwgY2FsbCBhZHY3Nnh4X3VucmVnaXN0ZXJfY2xpZW50cygpLCB3
+aGljaCB3aWxsIHRyeSB0bwppMmNfdW5yZWdpc3Rlcl9kZXZpY2UoKSBhbGwgbm9uLU5VTEwgaTJj
+X2NsaWVudHMgZW50cmllcy4gWW91IG5lZWQgdG8KZWl0aGVyIHNldCB0aGUgZW50cnkgdG8gTlVM
+TCBoZXJlLCBvciB1cGRhdGUKYWR2NzZ4eF91bnJlZ2lzdGVyX2NsaWVudHMoKSB0byBza2lwIElT
+X0VSUigpIGVudHJpZXMuIE15IHByZWZlcmVuY2UKd291bGQgYmUgdG8gc3RvcmUgdGhlIHJldHVy
+biB2YWx1ZSBvZiBhZHY3Nnh4X2R1bW15X2NsaWVudCgpIGluIGEgbG9jYWwKdmFyaWFibGUgaGVy
+ZSwgYW5kIHNldCBzdGF0ZS0+aTJjX2NsaWVudHNbaV0gYWZ0ZXIgdGhlIGVycm9yIGNoZWNrLgoK
+PiA+ID4gIAkJfQo+ID4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9pMmMuaCBiL2luY2x1
+ZGUvbGludXgvaTJjLmgKPiA+ID4gaW5kZXggZmE1NTUyYzIzMDdiLi5lYmJlMDI0ZGQ5ZTAgMTAw
+NjQ0Cj4gPiA+IC0tLSBhL2luY2x1ZGUvbGludXgvaTJjLmgKPiA+ID4gKysrIGIvaW5jbHVkZS9s
+aW51eC9pMmMuaAo+ID4gPiBAQCAtNDczLDcgKzQ3Myw3IEBAIGV4dGVybiBzdHJ1Y3QgaTJjX2Ns
+aWVudCAqCj4gPiA+ICBkZXZtX2kyY19uZXdfZHVtbXlfZGV2aWNlKHN0cnVjdCBkZXZpY2UgKmRl
+diwgc3RydWN0IGkyY19hZGFwdGVyICphZGFwLCB1MTYgYWRkcmVzcyk7Cj4gPiA+ICAKPiA+ID4g
+IGV4dGVybiBzdHJ1Y3QgaTJjX2NsaWVudCAqCj4gPiA+IC1pMmNfbmV3X3NlY29uZGFyeV9kZXZp
+Y2Uoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCwKPiA+ID4gK2kyY19uZXdfYW5jaWxsYXJ5X2Rl
+dmljZShzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50LAo+ID4gPiAgCQkJCWNvbnN0IGNoYXIgKm5h
+bWUsCj4gPiA+ICAJCQkJdTE2IGRlZmF1bHRfYWRkcik7Cj4gPiA+ICAKCi0tIApSZWdhcmRzLAoK
+TGF1cmVudCBQaW5jaGFydApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWw=
