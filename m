@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF2286B2D
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 22:14:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 573F086B5D
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 22:22:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3714A6E8B7;
-	Thu,  8 Aug 2019 20:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 205D86E8BB;
+	Thu,  8 Aug 2019 20:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
  [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAF6C6E8B7
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:14:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340746E8BB
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:22:18 +0000 (UTC)
 Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 699D328B99
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:14:05 +0000 (UTC)
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 0E31528BBC
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 20:22:18 +0000 (UTC)
 Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 5E1B628BAB; Thu,  8 Aug 2019 20:14:05 +0000 (UTC)
+ id 01CBF28BB6; Thu,  8 Aug 2019 20:22:17 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
  pdx-wl-mail.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
+ NO_RELAYS autolearn=ham version=3.3.1
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 204241] amdgpu fails to resume from suspend
-Date: Thu, 08 Aug 2019 20:13:57 +0000
+Date: Thu, 08 Aug 2019 20:22:17 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -41,8 +41,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-204241-2300-YEswvZrQ8F@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-204241-2300-dbtSENfsau@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-204241-2300@https.bugzilla.kernel.org/>
 References: <bug-204241-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -66,16 +66,11 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCkFuZHJl
-eSBHcm9kem92c2t5IChhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tKSBjaGFuZ2VkOgoKICAgICAg
-ICAgICBXaGF0ICAgIHxSZW1vdmVkICAgICAgICAgICAgICAgICAgICAgfEFkZGVkCi0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0KICAgICAgICAgICAgICAgICBDQ3wgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgfGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20KCi0tLSBDb21tZW50ICMyIGZyb20gQW5kcmV5
-IEdyb2R6b3Zza3kgKGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20pIC0tLQpDYW4geW91IHBvc3Qg
-ZnVsbCBkbWVzZyBsb2cgZnJvbSBib290LCB3aGF0IGNhcmQgYXJlIHlvdSB1c2luZyA/CgotLSAK
-WW91IGFyZSByZWNlaXZpbmcgdGhpcyBtYWlsIGJlY2F1c2U6CllvdSBhcmUgd2F0Y2hpbmcgdGhl
-IGFzc2lnbmVlIG9mIHRoZSBidWcuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbA==
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQyNDEKCi0tLSBD
+b21tZW50ICMzIGZyb20gQW5kcmV5IEdyb2R6b3Zza3kgKGFuZHJleS5ncm9kem92c2t5QGFtZC5j
+b20pIC0tLQpPSywgY2hlY2tlZCBsc3BjaSBhbmQgaXQncyBFbGxzbWVyZS4uLiBOZXZlciBtaW5k
+LgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNo
+aW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWw=
