@@ -2,46 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A645F8690B
-	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 20:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F9786914
+	for <lists+dri-devel@lfdr.de>; Thu,  8 Aug 2019 20:53:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBB86E8A9;
-	Thu,  8 Aug 2019 18:50:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 359306E8AE;
+	Thu,  8 Aug 2019 18:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C1E36E8A9
- for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 18:50:18 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 501EDCC;
- Thu,  8 Aug 2019 20:50:16 +0200 (CEST)
-Date: Thu, 8 Aug 2019 21:50:05 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH 08/60] drm/bridge: Extend bridge API to disable connector
- creation
-Message-ID: <20190808185005.GZ6055@pendragon.ideasonboard.com>
-References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
- <CGME20190707182224epcas1p4686a40d653b417cd532738ab4b62db67@epcas1p4.samsung.com>
- <20190707181937.6250-5-laurent.pinchart@ideasonboard.com>
- <8b51b540-61ec-435e-e87a-da0dfbbc70a6@samsung.com>
- <20190808142525.GL6055@pendragon.ideasonboard.com>
- <d971f5d2-d30f-eb25-bc2d-06f1188b3e9e@samsung.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB5206E8AE
+ for <dri-devel@lists.freedesktop.org>; Thu,  8 Aug 2019 18:53:20 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C282C72167; Thu,  8 Aug 2019 18:53:20 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111334] amdgpu-pro-19.20-812932 fails to compile DKMS
+Date: Thu, 08 Aug 2019 18:53:20 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu-pro
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gustavo.diaz@gdnet.com.ar
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ attachments.created
+Message-ID: <bug-111334-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d971f5d2-d30f-eb25-bc2d-06f1188b3e9e@samsung.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1565290216;
- bh=/ulqLEYjRn7tu3lyUYOcLk8dz8rIt5Zcmpa01LChrxE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rb7WLvpBew6o6PzNhhJfpQubtdQQ1vYSLGVoi3/3biGY8tcGu3ocIJTvChDWvV87v
- 6+hzj33RpGfD/oXHuJCekZsqZEdYeKYeox6ZKT9F9Z/44RQCeBuTWvguTDsC+ZJqFO
- 6EJF59qA5LGL+TyHOS2TiRtGMSjwtzjWP3b6OyJE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,226 +52,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2103489340=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgQW5kcnplaiwKCk9uIFRodSwgQXVnIDA4LCAyMDE5IGF0IDA3OjM2OjQ5UE0gKzAyMDAsIEFu
-ZHJ6ZWogSGFqZGEgd3JvdGU6Cj4gT24gMDguMDguMjAxOSAxNjoyNSwgTGF1cmVudCBQaW5jaGFy
-dCB3cm90ZToKPiA+IE9uIFdlZCwgSnVsIDE3LCAyMDE5IGF0IDA4OjM5OjQ3QU0gKzAyMDAsIEFu
-ZHJ6ZWogSGFqZGEgd3JvdGU6Cj4gPj4gT24gMDcuMDcuMjAxOSAyMDoxOCwgTGF1cmVudCBQaW5j
-aGFydCB3cm90ZToKPiA+Pj4gTW9zdCBicmlkZ2UgZHJpdmVycyBjcmVhdGUgYSBEUk0gY29ubmVj
-dG9yIHRvIG1vZGVsIHRoZSBjb25uZWN0b3IgYXQgdGhlCj4gPj4+IG91dHB1dCBvZiB0aGUgYnJp
-ZGdlLiBUaGlzIG1vZGVsIGlzIGhpc3RvcmljYWwgYW5kIGhhcyB3b3JrZWQgcHJldHR5Cj4gPj4+
-IHdlbGwgc28gZmFyLCBidXQgY2F1c2VzIHNldmVyYWwgaXNzdWVzOgo+ID4+Pgo+ID4+PiAtIEl0
-IHByZXZlbnRzIHN1cHBvcnRpbmcgbW9yZSBjb21wbGV4IGRpc3BsYXkgcGlwZWxpbmVzIHdoZXJl
-IERSTQo+ID4+PiBjb25uZWN0b3Igb3BlcmF0aW9ucyBhcmUgc3BsaXQgb3ZlciBtdWx0aXBsZSBj
-b21wb25lbnRzLiBGb3IgaW5zdGFuY2UgYQo+ID4+PiBwaXBlbGluZSB3aXRoIGEgYnJpZGdlIGNv
-bm5lY3RlZCB0byB0aGUgRERDIHNpZ25hbHMgdG8gcmVhZCBFRElEIGRhdGEsCj4gPj4+IGFuZCBh
-bm90aGVyIG9uZSBjb25uZWN0ZWQgdG8gdGhlIEhQRCBzaWduYWwgdG8gZGV0ZWN0IGNvbm5lY3Rp
-b24gYW5kCj4gPj4+IGRpc2Nvbm5lY3Rpb24sIHdpbGwgbm90IGJlIHBvc3NpYmxlIHRvIHN1cHBv
-cnQgdGhyb3VnaCB0aGlzIG1vZGVsLgo+ID4+Pgo+ID4+PiAtIEl0IHJlcXVpcmVzIGV2ZXJ5IGJy
-aWRnZSBkcml2ZXIgdG8gaW1wbGVtZW50IHNpbWlsYXIgY29ubmVjdG9yCj4gPj4+IGhhbmRsaW5n
-IGNvZGUsIHJlc3VsdGluZyBpbiBjb2RlIGR1cGxpY2F0aW9uLgo+ID4+Pgo+ID4+PiAtIEl0IGFz
-c3VtZXMgdGhhdCBhIGJyaWRnZSB3aWxsIGVpdGhlciBiZSB3aXJlZCB0byBhIGNvbm5lY3RvciBv
-ciB0bwo+ID4+PiBhbm90aGVyIGJyaWRnZSwgYnV0IGRvZXNuJ3Qgc3VwcG9ydCBicmlkZ2VzIHRo
-YXQgY2FuIGJlIHVzZWQgaW4gYm90aAo+ID4+PiBwb3NpdGlvbnMgdmVyeSB3ZWxsIChhbHRob3Vn
-aCB0aGVyZSBpcyBzb21lIGFkLWhvYyBzdXBwb3J0IGZvciB0aGlzIGluCj4gPj4+IHRoZSBhbmFs
-b2dpeF9kcCBicmlkZ2UgZHJpdmVyKS4KPiA+Pj4KPiA+Pj4gSW4gb3JkZXIgdG8gc29sdmUgdGhl
-c2UgaXNzdWVzLCBvd25lcnNoaXAgb2YgdGhlIGNvbm5lY3RvciBzaG91bGQgYmUKPiA+Pj4gbW92
-ZWQgdG8gdGhlIGRpc3BsYXkgY29udHJvbGxlciBkcml2ZXIgKHdoZXJlIGl0IGNhbiBiZSBpbXBs
-ZW1lbnRlZAo+ID4+PiB1c2luZyBoZWxwZXJzIHByb3ZpZGVkIGJ5IHRoZSBjb3JlKS4KPiA+Pj4K
-PiA+Pj4gRXh0ZW5kIHRoZSBicmlkZ2UgQVBJIHRvIGFsbG93IGRpc2FibGluZyBjb25uZWN0b3Ig
-Y3JlYXRpb24gaW4gYnJpZGdlCj4gPj4+IGRyaXZlcnMgYXMgYSBmaXJzdCBzdGVwIHRvd2FyZHMg
-dGhlIG5ldyBtb2RlbC4gVGhlIG5ldyBjcmVhdGVfY29ubmVjdG9yCj4gPj4+IGFyZ3VtZW50IHRv
-IHRoZSBicmlkZ2UgLmF0dGFjaCgpIG9wZXJhdGlvbiB0ZWxscyB0aGUgYnJpZGdlIGRyaXZlcgo+
-ID4+PiB3aGV0aGVyIHRvIGNyZWF0ZSBhIGNvbm5lY3Rvci4gU2V0IHRoZSBhcmd1bWVudCB0byB0
-cnVlIHVuY29uZGl0aW9uYWxseSwKPiA+Pj4gYW5kIG1vZGlmeSBhbGwgZXhpc3RpbmcgYnJpZGdl
-IGRyaXZlcnMgdG8gcmV0dXJuIGFuIGVycm9yIHdoZW4gY29ubmVjdG9yCj4gPj4+IGNyZWF0aW9u
-IGlzIG5vdCByZXF1ZXN0ZWQgYXMgdGhleSBkb24ndCBzdXBwb3J0IHRoaXMgZmVhdHVyZSB5ZXQu
-Cj4gPj4+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGlu
-Y2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KPiA+Pj4gLS0tCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0v
-YXJjL2FyY3BndV9oZG1pLmMgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+Pj4gIGRy
-aXZlcnMvZ3B1L2RybS9hdG1lbC1obGNkYy9hdG1lbF9obGNkY19vdXRwdXQuYyAgICAgICAgIHwg
-MiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hZHY3NTExL2Fkdjc1MTFfZHJ2LmMg
-ICAgICAgICAgICAgfCA2ICsrKysrLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFs
-b2dpeC1hbng3OHh4LmMgICAgICAgICAgICAgICAgfCA2ICsrKysrLQo+ID4+PiAgZHJpdmVycy9n
-cHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeF9kcF9jb3JlLmMgICAgICAgfCA4ICsrKysr
-Ky0tCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2NkbnMtZHNpLmMgICAgICAgICAgICAg
-ICAgICAgICAgICB8IDYgKysrKy0tCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2x2ZHMt
-ZW5jb2Rlci5jICAgICAgICAgICAgICAgICAgICB8IDQgKystLQo+ID4+PiAgZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS9tZWdhY2hpcHMtc3RkcHh4eHgtZ2UtYjg1MHYzLWZ3LmMgfCA2ICsrKysrLQo+
-ID4+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9ueHAtcHRuMzQ2MC5jICAgICAgICAgICAgICAg
-ICAgICAgfCA2ICsrKysrLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYW5lbC5jICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgfCA1ICsrKystCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0v
-YnJpZGdlL3BhcmFkZS1wczg2MjIuYyAgICAgICAgICAgICAgICAgICB8IDUgKysrKy0KPiA+Pj4g
-IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2lpOTAyeC5jICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgNiArKysrKy0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2lsLXNpaTg2MjAuYyAg
-ICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9z
-aW1wbGUtYnJpZGdlLmMgICAgICAgICAgICAgICAgICAgfCA2ICsrKysrLQo+ID4+PiAgZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5cy9kdy1oZG1pLmMgICAgICAgICAgICAgICAgfCA4ICsr
-KysrKy0tCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3LW1pcGktZHNp
-LmMgICAgICAgICAgICB8IDggKysrKystLS0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uv
-dGMzNTg3NjQuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgNSArKysrLQo+ID4+PiAgZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jICAgICAgICAgICAgICAgICAgICAgICAgfCA1ICsr
-KystCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RoYzYzbHZkMTAyNC5jICAgICAgICAg
-ICAgICAgICAgICB8IDUgKysrLS0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktc242
-NWRzaTg2LmMgICAgICAgICAgICAgICAgICAgIHwgNSArKysrLQo+ID4+PiAgZHJpdmVycy9ncHUv
-ZHJtL2JyaWRnZS90aS10ZnA0MTAuYyAgICAgICAgICAgICAgICAgICAgICAgfCA1ICsrKystCj4g
-Pj4+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2JyaWRnZS5jICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB8IDUgKysrLS0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fc2ltcGxlX2ttc19oZWxw
-ZXIuYyAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2V4eW5v
-cy9leHlub3NfZHAuYyAgICAgICAgICAgICAgICAgICAgICAgfCAzICsrLQo+ID4+PiAgZHJpdmVy
-cy9ncHUvZHJtL2V4eW5vcy9leHlub3NfZHJtX2RzaS5jICAgICAgICAgICAgICAgICAgfCA0ICsr
-LS0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2hkbWkuYyAgICAgICAgICAg
-ICAgICAgICAgIHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2ZzbC1kY3UvZnNsX2RjdV9k
-cm1fcmdiLmMgICAgICAgICAgICAgICAgfCAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vaGlz
-aWxpY29uL2tpcmluL2R3X2RybV9kc2kuYyAgICAgICAgICAgICB8IDIgKy0KPiA+Pj4gIGRyaXZl
-cnMvZ3B1L2RybS9pMmMvdGRhOTk4eF9kcnYuYyAgICAgICAgICAgICAgICAgICAgICAgIHwgOCAr
-KysrKystLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtbGRiLmMgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfCAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vaW14L3BhcmFsbGVs
-LWRpc3BsYXkuYyAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9tY2RlL21jZGVfZHNpLmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNiArKysrKy0KPiA+
-Pj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHBpLmMgICAgICAgICAgICAgICAgICAg
-ICAgIHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyAgICAg
-ICAgICAgICAgICAgICAgICAgfCAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
-bXRrX2hkbWkuYyAgICAgICAgICAgICAgICAgICAgICB8IDggKysrKysrLS0KPiA+Pj4gIGRyaXZl
-cnMvZ3B1L2RybS9tc20vZHNpL2RzaV9tYW5hZ2VyLmMgICAgICAgICAgICAgICAgICAgIHwgNCAr
-Ky0tCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vbXNtL2VkcC9lZHBfYnJpZGdlLmMgICAgICAgICAg
-ICAgICAgICAgICB8IDIgKy0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vaGRtaS9oZG1pX2Jy
-aWRnZS5jICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL29t
-YXBkcm0vb21hcF9kcnYuYyAgICAgICAgICAgICAgICAgICAgICAgfCAzICsrLQo+ID4+PiAgZHJp
-dmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV9lbmNvZGVyLmMgICAgICAgICAgICAgICAgfCAy
-ICstCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYyAgICAgICAgICAg
-ICAgICAgICAgICB8IDcgKysrKystLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3Jv
-Y2tjaGlwX2x2ZHMuYyAgICAgICAgICAgICAgICAgfCAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9k
-cm0vcm9ja2NoaXAvcm9ja2NoaXBfcmdiLmMgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+Pj4g
-IGRyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2R2by5jICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRhLmMgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgfCAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZG1p
-LmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9zdG0vbHRkYy5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4+PiAg
-ZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjRpX2x2ZHMuYyAgICAgICAgICAgICAgICAgICAgICAg
-fCAyICstCj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuNGlfcmdiLmMgICAgICAgICAg
-ICAgICAgICAgICAgICB8IDIgKy0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS90aWxjZGMvdGlsY2Rj
-X2V4dGVybmFsLmMgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4+PiAgZHJpdmVycy9ncHUvZHJt
-L3ZjNC92YzRfZHBpLmMgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAyICstCj4gPj4+ICBk
-cml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9kc2kuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
-IDIgKy0KPiA+Pj4gIGluY2x1ZGUvZHJtL2RybV9icmlkZ2UuaCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgNCArKy0tCj4gPj4+ICA1MyBmaWxlcyBjaGFuZ2VkLCAxNDAgaW5zZXJ0
-aW9ucygrKSwgNjcgZGVsZXRpb25zKC0pCj4gPj4+Cj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vYXJjL2FyY3BndV9oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vYXJjL2FyY3BndV9o
-ZG1pLmMKPiA+Pj4gaW5kZXggOThhYWM3NDNjYzI2Li43MzlmMjM1OGYxZDUgMTAwNjQ0Cj4gPj4+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hcmMvYXJjcGd1X2hkbWkuYwo+ID4+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vYXJjL2FyY3BndV9oZG1pLmMKPiA+Pj4gQEAgLTM5LDcgKzM5LDcgQEAgaW50
-IGFyY3BndV9kcm1faGRtaV9pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0sIHN0cnVjdCBkZXZp
-Y2Vfbm9kZSAqbnApCj4gPj4+ICAJCXJldHVybiByZXQ7Cj4gPj4+ICAKPiA+Pj4gIAkvKiBMaW5r
-IGRybV9icmlkZ2UgdG8gZW5jb2RlciAqLwo+ID4+PiAtCXJldCA9IGRybV9icmlkZ2VfYXR0YWNo
-KGVuY29kZXIsIGJyaWRnZSwgTlVMTCk7Cj4gPj4+ICsJcmV0ID0gZHJtX2JyaWRnZV9hdHRhY2go
-ZW5jb2RlciwgYnJpZGdlLCBOVUxMLCB0cnVlKTsKPiA+PiBGZXcgc3VnZ2VzdGlvbnM6Cj4gPj4K
-PiA+PiAxLiBNYXliZSBpdCB3b3VsZCBiZSBtb3JlIGNvbnZlbmllbnQgdG8gYWRkIGZsYWdzIGFy
-Z3VtZW50IGluc3RlYWQgb2YgYm9vbDoKPiA+Pgo+ID4+IC0gY29kZSBzaG91bGQgYmUgbW9yZSBy
-ZWFkYWJsZTogcmV0ID0gZHJtX2JyaWRnZV9hdHRhY2goZW5jb2RlciwgYnJpZGdlLAo+ID4+IE5V
-TEwsIERSTV9CUklER0VfRkxBR19OT19DT05ORUNUT1IpCj4gPj4KPiA+PiAtIGl0IGNhbiBiZSBl
-YXNpbHkgZXhwYW5kZWQgbGF0ZXIgd2l0aCBvdGhlciBmbGFncywgdGhlcmUgYXQgbGVhc3QgdHdv
-Cj4gPj4gZHJpdmVycyB3aGljaCB3b3VsZCBiZW5lZml0IGZyb20gRFJNX0JSSURHRV9GTEFHX05P
-X0NIQUlOSU5HIGZsYWcuCj4gPiBQbGVhc2Ugbm90ZSB0aGF0IEkgdGhpbmsgdGhpcyBmbGFnIHNo
-b3VsZCBkaXNhcHBlYXIgb25jZSBkcml2ZXJzIGdldAo+ID4gY29udmVydGVkIHRvIHRoZSBuZXcg
-bW9kZWwuIFRoaXMgd2lsbCBob3dldmVyIHRha2Ugc29tZSB0aW1lLiBJJ20gbm90Cj4gPiBvcHBv
-c2VkIHRvIHR1cm5pbmcgdGhlIGJvb2sgaW50byBhIGZsYWcgdGhvdWdoLiBJIHdhcyBob3Bpbmcg
-dG8gcmVjZWl2ZQo+ID4gbW9yZSByZXZpZXcgY29tbWVudHMgb24gdGhpcyBwYXJ0aWN1bGFyIHBh
-dGNoLCBidXQgYXMgdGhhdCdzIG5vdCB0aGUKPiA+IGNhc2UsIEkgY2FuIGFscmVhZHkgcHJvY2Vl
-ZCB3aXRoIHRoZSBjaGFuZ2UuCj4gPgo+ID4gV2hhdCB3b3VsZCB0aGUgRFJNX0JSSURHRV9GTEFH
-X05PX0NIQUlOSU5HIGZsYWcgYmUgdXNlZCBmb3IgPwo+IAo+IFRvIGF2b2lkIHNldHRpbmcgZW5j
-b2Rlci0+YnJpZGdlIG9yIHByZXZpb3VzX2JyaWRnZS0+bmV4dCBmaWVsZCB0bwo+IGF0dGFjaGVk
-IGJyaWRnZSAobGFzdCBsaW5lcyBvZiBkcm1fYnJpZGdlX2F0dGFjaCBjb2RlKS4KPiAKPiBUaGlz
-IGlzIGZvciBzdXJlIHRoZSBjYXNlIG9mIGV4eW5vc19kc2kgYW5kIHZjNF9kc2ksIGJ1dCBJIGd1
-ZXNzIGl0IGNhbgo+IGFmZmVjdCBvdGhlciBkcml2ZXJzIGFzIHdlbGwsIHByb2JhYmx5IHRoZXkg
-anVzdCB1c2Ugb3RoZXIgd29ya2Fyb3VuZHMKPiBvciBoYXZlIG1vcmUgZmxleGlibGUgaGFyZHdh
-cmUuCj4gCj4gR2VuZXJhbGx5IGlkZWEgdGhhdCBvcmRlciBvZiBjYWxsaW5nCj4gcHJlX2VuYWJs
-ZS9lbmFibGUvZGlzYWJsZS9wb3N0X2Rpc2FibGUgY2FsbGJhY2tzIGluIGNoYWluZWQKPiBlbmNv
-ZGVyL2JyaWRnZXMgaXMgZml4ZWQgaXMgd3JvbmcgSU1ITywgb25seSB2aWRlbyBzb3VyY2UgY29t
-cG9uZW50Cj4ga25vd3MgaW4gd2hpY2ggbW9tZW50IGl0IHNob3VsZCBlbmFibGUgaXRzIHNpbmsg
-YW5kIGlmIGl0IHNob3VsZCBkbwo+IHNvbWV0aGluZyBhZnRlci4gQW5kIGl0IGRvZXMgbm90IHdv
-cmsgYXQgYWxsIHdpdGggc291cmNlcy9zaW5rcyBoYXZpbmcKPiBtb3JlIHRoYW4gb25lIG91dHB1
-dC9pbnB1dC4KCk1ha2VzIHNlbnNlLiBJIHRoaW5rIEkgd291bGQgaG93ZXZlciBzdGlsbCBzZXQg
-dGhlIC0+bmV4dCBmaWVsZCwgaW4Kb3JkZXIgdG8gdHJhY2sgYnJpZGdlcywgYW5kIG9ubHkgc2tp
-cCBjaGFpbmluZyBvZiB0aGUgZW5hYmxlL2Rpc2FibGUKb3BlcmF0aW9ucy4KCj4gPj4gMi4gSWYg
-dGhlIHBhdGNoIGNhbiBiZSBhcHBsaWVkIGF0b21pY2FsbHkgaXQgaXMgT0sgYXMgaXMsIGlmIG5v
-dCB5b3UgY2FuCj4gPj4gdXNlIHByZXByb2Nlc3NvciB2YXJhcmcgbWFnaWMgdG8gc3VwcG9ydCBu
-ZXcgYW5kIG9sZCBzeW50YXgsIHN0aCBsaWtlOgo+ID4+Cj4gPj4gI2RlZmluZSBfZHJtX2JyaWRn
-ZV9hdHRhY2goZW5jb2RlciwgYnJpZGdlLCBwcmV2LCBmbGFncywgb3B0YXJnLi4uKQo+ID4+IF9f
-ZHJtX2JyaWRnZV9hdHRhY2goZW5jb2RlciwgYnJpZGdlLCBwcmV2LCBmbGFncykKPiA+Pgo+ID4+
-ICNkZWZpbmUgZHJtX2JyaWRnZV9hdHRhY2goZW5jb2RlciwgYnJpZGdlLCBwcmV2LCBvcHRhcmcu
-Li4pCj4gPj4gX2RybV9icmlkZ2VfYXR0YWNoKGVuY29kZXIsIGJyaWRnZSwgcHJldiwgIyNvcHRh
-cmcsIDApCj4gPgo+ID4gR29vZCBwb2ludC4gSSdsbCB0cnkgdG8gZG8gdGhpcyBhdG9taWNhbGx5
-LCBidXQgaWYgaXQgZmFpbHMgSSdsbCBmb2xsb3cKPiA+IHlvdXIgc3VnZ2VzdGlvbi4KPiA+Cj4g
-Pj4gMy4gTWF5YmUgbW9yZSBjb252ZW5pZW50IHdvdWxkIGJlIHRvIGp1c3Qgc2V0IHRoZSBmbGFn
-cyBkaXJlY3RseSBiZWZvcmUKPiA+PiBhdHRhY2htZW50Ogo+ID4+Cj4gPj4gwqDCoMKgIGJyaWRn
-ZS0+ZG9udF9jcmVhdGVfY29ubmVjdG9yID0gdHJ1ZTsKPiA+Pgo+ID4+IMKgwqDCoCByZXQgPSBk
-cm1fYnJpZGdlX2F0dGFjaChlbmNvZGVyLCBicmlkZ2UsIE5VTEwpOwo+ID4+Cj4gPj4gwqDCoMKg
-IFRoaXMgd2F5IGl0IHdpbGwgYmUgc3RpbGwgZXhwYW5kYWJsZSwgYW5kIGxlc3MgY2hhbmdlcy4K
-PiA+Cj4gPiBCcmlkZ2VzIHRoYXQgYXJlIGNoYWluZWQgd291bGQgbmVlZCB0byBzZXQgdGhlIGRv
-bnRfY3JlYXRlX2Nvbm5lY3Rvcgo+ID4gZmxhZyBvZiB0aGUgbmV4dCBicmlkZ2UuIEl0IHdvdWxk
-IGJlIGEgYml0IHVnbHksIGJ1dCB3b3VsZCBtYWtlIHRoaXMKPiA+IHBhdGNoIHNtYWxsZXIuIE9u
-IHRoZSBvdGhlciBoYW5kIHdlIHdvdWxkIG5lZWQgdG8ga2VlcCB0aGUgaWYKPiA+ICghY3JlYXRl
-X2Nvbm5lY3RvcikgY2hlY2sgaW4gdGhlIC5hdHRhY2goKSBoYW5kbGVycywgYW5kIGl0IHdvdWxk
-IGJlCj4gPiBlYXNpZXIgdG8gbWlzcyBpdCBpbiBicmlkZ2UgZHJpdmVycyAoY3VycmVudCBvciBu
-ZXcpIHRoYW4gd2l0aCBhbgo+ID4gZXhwbGljaXQgYXJndW1lbnQgdG8gdGhlIC5hdHRhY2goKSBv
-cGVyYXRpb24uIEkgd291bGQgdGh1cyBoYXZlIGEKPiA+IHByZWZlcmVuY2UgZm9yIHRoZSBuZXcg
-YXJndW1lbnQgdG8gLmF0dGFjaCgpLiBFc3BlY2lhbGx5IGlmIGl0IGNhbiBoZWxwCj4gPiB5b3Ug
-d2l0aCBEUk1fQlJJREdFX0ZMQUdfTk9fQ0hBSU5JTkcgOi0pCj4gCj4gYnJpZGdlLT5kb250X2No
-YWluIHdvdWxkIHdvcmsgYXMgd2VsbCA6KQo+IAo+IEJ0dyBJIHdvbmRlciBpZiBpdCBjb3VsZCBi
-ZSBwb3NzaWJsZSB0byBkaXNhbGxvdyBjcmVhdGluZyBjb25uZWN0b3JzCj4gYXQgYWxsIGJ5IG5l
-dyBicmlkZ2VzIC0gaXQgd291bGQgc3BlZWQtdXAgdHJhbnNpdGlvbi4KCklmIHdlIGNhbiBhZ3Jl
-ZSBvbiB0aGF0LCB0aGF0IHdvdWxkIGJlIHdvbmRlcmZ1bCAhCgo+IEFub3RoZXIgbG9uZyB0ZXJt
-IGlkZWEuIFNpbmNlIGJyaWRnZXMgY2FuIGJlIGF0dGFjaGVkIHRvOgo+IC0gZW5jb2RlciwKPiAt
-IGFub3RoZXIgYnJpZGdlLAo+IC0gY3J0YyAoSSBoYXZlIG9uZSBleGFtcGxlLCBidXQgSSBndWVz
-cyB0aGVyZSBjb3VsZCBiZSBtb3JlKSwKPiAtIGV2ZW4gYmVmb3JlIGNydGMgKGltYWdlIHBvc3Rw
-cm9jZXNzaW5nKQo+IEFuZCBzaW5jZSBicmlkZ2Ugb3V0cHV0IGdvZXMgdG86Cj4gLSBhbm90aGVy
-IGJyaWRnZSwKPiAtIHBhbmVsLgo+IAo+IFdvdWxkbid0IGJlIGJldHRlciB0byBjcmVhdGUgZHJt
-X3NvdXJjZSBhbmQgZHJtX3NpbmsgKGRvIG5vdCByZXNwb25kCj4gd2l0aCB4a2NkIHBpY3R1cmUg
-OikgKToKPgo+IC0gZHJtX3NvdXJjZSB3aWxsIGJlIGVtYmVkZGVkIGluIHNvdXJjZSBkZXZpY2Ug
-Y29udGV4dCwKPiAtIGRybV9zaW5rIHdpbGwgYmUgZW1iZWRkZWQgaW4gc2luayBkZXZpY2UgY29u
-dGV4dC4KPgo+IFdlIGNvdWxkIG1ha2UgdGhlbiB0cmFuc2l0aW9ucyBvZiBicmlkZ2VzIHRvIGRy
-bV9zaW5rIHdpdGggZHJtX3NvdXJjZQo+IGVtYmVkZWQgaW4gaXRzIGNvbnRleHQsIGFuZCBwYW5l
-bHMgdG8gZHJtX3NpbmsuCj4gVGhpcyB3YXkgd2UgY291bGQgZHJvcCB0aGVzZSBjcmF6eSBjb25z
-dHJ1Y3RzOgo+Cj4gLSBpZiBzaW5rIGlzIHBhbmVsIHRoZW4gZG8gc3RoLCBlbHNpZiBpcyBicmlk
-Z2UgdGhlbiBkbyBzdGhfZWxzZSwKPiAtIGlmIHNyYyBpcyBicmlkZ2UgdGhlbiBkbyBzdGgsIGVs
-c2lmIGlzIGVuY29kZXIgLi4uIGVsc2lmIC4uLi4KPiAtIGhlbHBlcnMgb2ZfZmluZF9wYW5lbF9v
-cl9icmlkZ2UsCj4gLSBkcm1fcGFuZWxfYnJpZGdlLAo+Cj4gQWxzbyB3ZSBjb3VsZCBpbXBsZW1l
-bnQgZWFzaWx5IG11bHRpIGlucHV0L291dHB1dCBicmlkZ2VzL3BhbmVscy9jcnRjcyB3aGF0ZXZl
-ci4KPiBBbmQgaHBkIGNhbGxiYWNrcyB5b3UgaGF2ZSBwcm9wb3NlZCBpbiBhbm90aGVyIHBhdGNo
-IHdvdWxkIGZpdCBiZXR0ZXIKPiB0byBkcm1fc291cmNlLm9wcy4KPiAuLi4KCk15IGJlc3QgYW5z
-d2VyIHRvIHRoaXMgaXM6IG9uZSBzdGVwIGF0IGEgdGltZSA6LSkgWWVzLCB0aGF0J3MgdGhlCmRp
-cmVjdGlvbiBJIHdhbnQgdG8gdGFrZSAodGhlcmUgd2lsbCBvZiBjb3Vyc2UgYmUgbG90cyBvZiBi
-aWtlc2hlZGRpbmcKb24gdGhlIGRldGFpbHMpLCBhbmQgdGhpcyBzZXJpZXMgaXMgb25lIHN0ZXAg
-aW4gdGhhdCBkaXJlY3Rpb24uIFdoYXQgSSdtCnJlYWxseSB0cnlpbmcgdG8gZG8gaGVyZSBpcyBz
-aW1wbGlmeSBicmlkZ2UgaW1wbGVtZW50YXRpb25zIGJ5IGNyZWF0aW5nCmEgY2xlYXIgQVBJIHRo
-YXQgc2hyaW5rcyBhcyBtdWNoIGFzIHBvc3NpYmxlIHRoZSBkdXRpZXMgb2YgYnJpZGdlCmRyaXZl
-cnMuIFRoaXMgbW92ZXMgZXhpc3RpbmcgY29tcGxleGl0eSBvdXRzaWRlIG9mIGJyaWRnZXMsIGFu
-ZCB3ZSBvZgpjb3Vyc2UgZG9uJ3Qgd2FudCB0byBkdXBsaWNhdGUgaXQgaW4gYWxsIGRpc3BsYXkg
-Y29udHJvbGxlciBkcml2ZXJzLCBzbwpJJ20gYWxzbyBjcmVhdGluZyBoZWxwZXJzIHRoYXQgY2Vu
-dHJhbGlzZSB0aGUgY29tcGxleGl0eS4gVGhlaXIgdXNlIGlzCm5vdCBtYW5kYXRvcnkgKERhbmll
-bCBoYXMgaGFtbWVyZWQgdGhlICJubyBtaWRsYXllciIgbWVzc2FnZSBlbm91Z2gpLApidXQgZm9y
-IHRoZSB2YXN0IG1ham9yaXR5IG9mIGRpc3BsYXkgY29udHJvbGxlcnMsIGl0IHNob3VsZCBncmVh
-dGx5CnNpbXBsaWZ5IHRoZSBjb2RlLgoKTXkgbmV4dCBwbGFubmVkIHN0ZXBzIGFyZToKCi0gQ29u
-dmVydCBtb3JlIGJyaWRnZSBkcml2ZXJzIHRvIHN1cHBvcnQgRFJNX0JSSURHRV9GTEFHX05PX0NP
-Tk5FQ1RPUgotIENvbnZlcnQgbW9yZSBkaXNwbGF5IGNvbnRyb2xsZXIgZHJpdmVycyB0byB1c2Ug
-RFJNX0JSSURHRV9GTEFHX05PX0NPTk5FQ1RPUgotIERyb3Agc3VwcG9ydCBmb3IgIURSTV9CUklE
-R0VfRkxBR19OT19DT05ORUNUT1IgaW4gYnJpZGdlIGRyaXZlcnMgb25jZQogIHRoZXkgYXJlIG9u
-bHkgdXNlZCBieSBkaXNwbGF5IGNvbnRyb2xsZXJzIHRoYXQgc2V0CiAgRFJNX0JSSURHRV9GTEFH
-X05PX0NPTk5FQ1RPUgoKSW4gcGFyYWxsZWwsIEkgd2FudCB0byBhZGRyZXNzIGRybV9wYW5lbCBh
-ZCBkcm1fcGFuZWxfYnJpZGdlLiBXaXRoIHRoZQpleHRlbnNpb24gb2YgdGhlIGJyaWRnZSBBUEkg
-dG8gZXhwb3NlIGNvbm5lY3Rvci1yZWxhdGVkIG9wZXJhdGlvbnMgZG9uZQppbiB0aGlzIHNlcmll
-cywgdGhlIGRpc3RpbmN0aW9uIGJldHdlZW4gcGFuZWwgYW5kIGJyaWRnZXMgYmVjb21lcyBtdWNo
-CnRoaW5uZXIsIG9wZW5pbmcgdGhlIGRvb3IgdG8gbG90cyBvZiBzaW1wbGlmaWNhdGlvbnMuCgot
-LSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hhcnQKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVs
+
+--===============2103489340==
+Content-Type: multipart/alternative; boundary="15652904000.CFEB9f.22293"
+Content-Transfer-Encoding: 7bit
+
+
+--15652904000.CFEB9f.22293
+Date: Thu, 8 Aug 2019 18:53:20 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111334
+
+            Bug ID: 111334
+           Summary: amdgpu-pro-19.20-812932 fails to compile DKMS
+           Product: DRI
+           Version: XOrg git
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: DRM/AMDgpu-pro
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: gustavo.diaz@gdnet.com.ar
+
+Created attachment 144985
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144985&action=3Dedit
+Logs files
+
+Hi,
+
+I have problems installing amdgpu-pro driver, which fails when compiling DK=
+MS,
+no matter if use default kernel 4.15 or hwe, 5.0 in Ubuntu 18.04.2 (KDE Neon
+flavor).
+
+I am attaching all the related info and the log from the installation proce=
+ss,
+including the DKMS compile log.
+
+Thanks in advance
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15652904000.CFEB9f.22293
+Date: Thu, 8 Aug 2019 18:53:20 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - amdgpu-pro-19.20-812932 fails to compile DKMS"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111334">111334</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>amdgpu-pro-19.20-812932 fails to compile DKMS
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>DRI
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>XOrg git
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>DRM/AMDgpu-pro
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>gustavo.diaz&#64;gdnet.com.ar
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144985=
+" name=3D"attach_144985" title=3D"Logs files">attachment 144985</a> <a href=
+=3D"attachment.cgi?id=3D144985&amp;action=3Dedit" title=3D"Logs files">[det=
+ails]</a></span>
+Logs files
+
+Hi,
+
+I have problems installing amdgpu-pro driver, which fails when compiling DK=
+MS,
+no matter if use default kernel 4.15 or hwe, 5.0 in Ubuntu 18.04.2 (KDE Neon
+flavor).
+
+I am attaching all the related info and the log from the installation proce=
+ss,
+including the DKMS compile log.
+
+Thanks in advance</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15652904000.CFEB9f.22293--
+
+--===============2103489340==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2103489340==--
