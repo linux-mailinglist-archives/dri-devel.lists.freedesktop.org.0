@@ -2,38 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEA486F0F
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 03:02:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48E086F52
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 03:27:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7BFA6ECE9;
-	Fri,  9 Aug 2019 01:02:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D416ECEC;
+	Fri,  9 Aug 2019 01:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C622A6ECE7;
- Fri,  9 Aug 2019 01:02:43 +0000 (UTC)
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 08 Aug 2019 18:02:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,363,1559545200"; 
- d="asc'?scan'208";a="258892297"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.116])
- by orsmga001.jf.intel.com with ESMTP; 08 Aug 2019 18:02:40 -0700
-Date: Fri, 9 Aug 2019 08:58:40 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH] drm/i915: Use after free in error path in
- intel_vgpu_create_workload()
-Message-ID: <20190809005840.GA7032@zhen-hp.sh.intel.com>
-References: <20190808103236.GB30506@mwanda>
- <156526106102.20411.17520131390381233492@skylake-alporthouse-com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2ED256ECE8
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 01:27:24 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 26F9D72167; Fri,  9 Aug 2019 01:27:24 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110258] Lenovo V110-15AST AMD A9-9410  AMD R5 Stoney hangs
+ after waking after suspend. 5.0 onwards
+Date: Fri, 09 Aug 2019 01:27:24 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: eugene@bright.gdn
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110258-502-SKqRP9DW24@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110258-502@http.bugs.freedesktop.org/>
+References: <bug-110258-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <156526106102.20411.17520131390381233492@skylake-alporthouse-com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,59 +53,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- Zhi Wang <zhi.a.wang@intel.com>, kernel-janitors@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Xiong Zhang <xiong.y.zhang@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- Dan Carpenter <dan.carpenter@oracle.com>
-Content-Type: multipart/mixed; boundary="===============1661766532=="
+Content-Type: multipart/mixed; boundary="===============1417313417=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1661766532==
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
-Content-Disposition: inline
+--===============1417313417==
+Content-Type: multipart/alternative; boundary="15653140440.CBfCa93.13404"
+Content-Transfer-Encoding: 7bit
 
 
---FCuugMFkClbJLl1L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--15653140440.CBfCa93.13404
+Date: Fri, 9 Aug 2019 01:27:24 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
-On 2019.08.08 11:44:21 +0100, Chris Wilson wrote:
-> Quoting Dan Carpenter (2019-08-08 11:32:36)
-> > We can't free "workload" until after the printk or it's a use after
-> > free.
-> >=20
-> > Fixes: 2089a76ade90 ("drm/i915/gvt: Checking workload's gma earlier")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
->=20
-> That's the simpler patch,
-> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110258
 
-Thanks a lot, will queue this up.
+--- Comment #10 from Eugene Bright <eugene@bright.gdn> ---
+Does someone work on the fix here?
+Should this issue be reported to the kernel.org?
 
 --=20
-Open Source Technology Center, Intel ltd.
+You are receiving this mail because:
+You are the assignee for the bug.=
 
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+--15653140440.CBfCa93.13404
+Date: Fri, 9 Aug 2019 01:27:24 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 
---FCuugMFkClbJLl1L
-Content-Type: application/pgp-signature; name="signature.asc"
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
+aking after suspend. 5.0 onwards"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258#c10">Comme=
+nt # 10</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
+aking after suspend. 5.0 onwards"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258">bug 11025=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+eugene&#64;bright.gdn" title=3D"Eugene Bright &lt;eugene&#64;bright.gdn&gt;=
+"> <span class=3D"fn">Eugene Bright</span></a>
+</span></b>
+        <pre>Does someone work on the fix here?
+Should this issue be reported to the kernel.org?</pre>
+        </div>
+      </p>
 
------BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXUzFQAAKCRCxBBozTXgY
-J5EAAJkBRaKvljSknayoIbjCoWwSQK+1XgCeKPC2dx9VcLD8Sd9OLXGHqHyWtS8=
-=O1aB
------END PGP SIGNATURE-----
+      <hr>
+      <span>You are receiving this mail because:</span>
 
---FCuugMFkClbJLl1L--
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
 
---===============1661766532==
+--15653140440.CBfCa93.13404--
+
+--===============1417313417==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -108,4 +139,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1661766532==--
+--===============1417313417==--
