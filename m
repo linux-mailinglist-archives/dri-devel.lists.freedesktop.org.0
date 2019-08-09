@@ -2,44 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F7F86EB6
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 02:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6221586EF8
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 02:53:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A01D6ECE2;
-	Fri,  9 Aug 2019 00:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 324AD6ECE5;
+	Fri,  9 Aug 2019 00:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 046A56ECE2
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 00:15:33 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 00BDC72167; Fri,  9 Aug 2019 00:15:32 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111241] Shadertoy shader causing hang
-Date: Fri, 09 Aug 2019 00:15:33 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: 19.1
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: Dieter@nuetzel-hh.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111241-502-Tif3QIbJlK@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
-References: <bug-111241-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFEC6ECE5;
+ Fri,  9 Aug 2019 00:53:21 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7822AC08EC00;
+ Fri,  9 Aug 2019 00:53:20 +0000 (UTC)
+Received: from whitewolf.redhat.com (ovpn-120-190.rdu2.redhat.com
+ [10.10.120.190])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFB3360BEC;
+ Fri,  9 Aug 2019 00:53:13 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org
+Subject: [PATCH v2] drm/nouveau: Only recalculate PBN/VCPI on mode/connector
+ changes
+Date: Thu,  8 Aug 2019 20:53:05 -0400
+Message-Id: <20190809005307.18391-1-lyude@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 09 Aug 2019 00:53:20 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,144 +44,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1971174611=="
+Cc: Bohdan Milar <bmilar@redhat.com>, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, William Lewis <minutemaidpark@hotmail.com>,
+ stable@vger.kernel.org, Karol Herbst <karolherbst@gmail.com>,
+ Jerry Zuo <Jerry.Zuo@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@redhat.com>, Juston Li <juston.li@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1971174611==
-Content-Type: multipart/alternative; boundary="15653097321.4c1b.2228"
-Content-Transfer-Encoding: 7bit
-
-
---15653097321.4c1b.2228
-Date: Fri, 9 Aug 2019 00:15:32 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
-
---- Comment #2 from Dieter N=C3=BCtzel <Dieter@nuetzel-hh.de> ---
-RX 580 / NIR
-amd-staging-drm-next
-Mesa git
-Firefox 68.0.1
-
-[42489.228053] [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR*
-Waiting for fences timed out or interrupted!=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
-[42494.348053] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[42508.171689] [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR*
-Waiting for fences timed out or interrupted!
-
-[42513.035801] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-
-[42556.811021] [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR*
-Waiting for fences timed out or interrupted!=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
-[42561.418927] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-
-[42571.658863] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15653097321.4c1b.2228
-Date: Fri, 9 Aug 2019 00:15:32 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c2">Commen=
-t # 2</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241">bug 11124=
-1</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-Dieter&#64;nuetzel-hh.de" title=3D"Dieter N=C3=BCtzel &lt;Dieter&#64;nuetze=
-l-hh.de&gt;"> <span class=3D"fn">Dieter N=C3=BCtzel</span></a>
-</span></b>
-        <pre>RX 580 / NIR
-amd-staging-drm-next
-Mesa git
-Firefox 68.0.1
-
-[42489.228053] [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR*
-Waiting for fences timed out or interrupted!=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
-[42494.348053] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-[42508.171689] [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR*
-Waiting for fences timed out or interrupted!
-
-[42513.035801] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-
-[42556.811021] [drm:amdgpu_dm_commit_planes.constprop.0 [amdgpu]] *ERROR*
-Waiting for fences timed out or interrupted!=20=20=20=20=20=20=20=20=20=20=
-=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
-=20
-[42561.418927] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered
-
-[42571.658863] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout,=
- but
-soft recovered</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15653097321.4c1b.2228--
-
---===============1971174611==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1971174611==--
+SSAtdGhvdWdodC0gSSBoYWQgZml4ZWQgdGhpcyBlbnRpcmVseSwgYnV0IGl0IGxvb2tzIGxpa2Ug
+dGhhdCBJIGRpZG4ndAp0ZXN0IHRoaXMgdGhvcm91Z2hseSBlbm91Z2ggYXMgd2UgYXBwYXJlbnRs
+eSBzdGlsbCBtYWtlIG9uZSBiaWcgbWlzdGFrZQp3aXRoIG52NTBfbXN0b19hdG9taWNfY2hlY2so
+KSAtIHdlIGRvbid0IGhhbmRsZSB0aGUgZm9sbG93aW5nIHNjZW5hcmlvOgoKKiBDUlRDICMxIGhh
+cyBuIFZDUEkgYWxsb2NhdGVkIHRvIGl0LCBpcyBhdHRhY2hlZCB0byBjb25uZWN0b3IgRFAtNAog
+IHdoaWNoIGlzIGF0dGFjaGVkIHRvIGVuY29kZXIgIzEuIGVuYWJsZWQ9eSBhY3RpdmU9bgoqIENS
+VEMgIzEgaXMgY2hhbmdlZCBmcm9tIERQLTQgdG8gRFAtNSwgY2F1c2luZzoKICAqIERQLTQgY3J0
+Yz0jMeKGkk5VTEwgKFZDUEkgbuKGkjApCiAgKiBEUC01IGNydGM9TlVMTOKGkiMxCiAgKiBDUlRD
+ICMxIHN0ZWFscyBlbmNvZGVyICMxIGJhY2sgZnJvbSBEUC00IGFuZCBnaXZlcyBpdCB0byBEUC01
+CiAgKiBDUlRDICMxIG1haW50YWlucyB0aGUgc2FtZSBtb2RlIGFzIGJlZm9yZSwganVzdCB3aXRo
+IGEgZGlmZmVyZW50CiAgICBjb25uZWN0b3IKKiBtb2RlX2NoYW5nZWQ9biBjb25uZWN0b3JzX2No
+YW5nZWQ9eQogICh3ZSBfU0hPVUxEXyBkbyBWQ1BJIDDihpJuIGhlcmUsIGJ1dCBkb24ndCkKCk9u
+Y2UgdGhlIGFib3ZlIHNjZW5hcmlvIGlzIHJlcGVhdGVkIG9uY2UsIHdlJ2xsIGF0dGVtcHQgZnJl
+ZWluZyBWQ1BJCmZyb20gdGhlIGNvbm5lY3RvciB0aGF0IHdlIGRpZG4ndCBhbGxvY2F0ZSBkdWUg
+dG8gdGhlIGNvbm5lY3RvcnMKY2hhbmdpbmcsIGJ1dCB0aGUgbW9kZSBzdGF5aW5nIHRoZSBzYW1l
+LiBTaWdoLgoKU2luY2UgbnY1MF9tc3RvX2F0b21pY19jaGVjaygpIGhhcyBicm9rZW4gYSBmZXcg
+dGltZXMgbm93LCBsZXQncyByZXRoaW5rCnRoaW5ncyBhIGJpdCB0byBiZSBtb3JlIGNhcmVmdWw6
+IGxpbWl0IGJvdGggVkNQSS9QQk4gYWxsb2NhdGlvbnMgdG8KbW9kZV9jaGFuZ2VkIHx8IGNvbm5l
+Y3RvcnNfY2hhbmdlZCwgc2luY2UgbmVpdGhlciBWQ1BJIG9yIFBCTiBzaG91bGQKZXZlciBuZWVk
+IHRvIGNoYW5nZSBvdXRzaWRlIG9mIHJvdXRpbmcgYW5kIG1vZGUgY2hhbmdlcy4KCkNoYW5nZXMg
+c2luY2UgdjE6CiogRml4IGFjY2lkZW50YWwgcmV2ZXJzYWwgb2YgY2xvY2sgYW5kIGJwcCBhcmd1
+bWVudHMgaW4KICBkcm1fZHBfY2FsY19wYm5fbW9kZSgpIC0gV2lsbGlhbSBMZXdpcwoKU2lnbmVk
+LW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KUmVwb3J0ZWQtYnk6IEJvaGRh
+biBNaWxhciA8Ym1pbGFyQHJlZGhhdC5jb20+ClRlc3RlZC1ieTogQm9oZGFuIE1pbGFyIDxibWls
+YXJAcmVkaGF0LmNvbT4KRml4ZXM6IDIzMmM5ZWVjNDE3YSAoImRybS9ub3V2ZWF1OiBVc2UgYXRv
+bWljIFZDUEkgaGVscGVycyBmb3IgTVNUIikKUmVmZXJlbmNlczogNDEyZTg1YjYwNTMxICgiZHJt
+L25vdXZlYXU6IE9ubHkgcmVsZWFzZSBWQ1BJIHNsb3RzIG9uIG1vZGUgY2hhbmdlcyIpCkNjOiBM
+eXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgpDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRo
+YXQuY29tPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KQ2M6IERh
+dmlkIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgpDYzogSmVycnkgWnVvIDxKZXJyeS5adW9A
+YW1kLmNvbT4KQ2M6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgpDYzog
+SnVzdG9uIExpIDxqdXN0b24ubGlAaW50ZWwuY29tPgpDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1
+cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgpDYzogS2Fyb2wgSGVyYnN0IDxrYXJvbGhl
+cmJzdEBnbWFpbC5jb20+CkNjOiBJbGlhIE1pcmtpbiA8aW1pcmtpbkBhbHVtLm1pdC5lZHU+CkNj
+OiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NS4xKwotLS0KIGRyaXZlcnMvZ3B1L2RybS9u
+b3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8IDIyICsrKysrKysrKysrKystLS0tLS0tLS0KIDEgZmls
+ZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwppbmRleCAxMjY3MDM4MTY3OTQuLjVjMzZjNzUyMzJl
+NiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCisr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwpAQCAtNzcxLDE2ICs3
+NzEsMjAgQEAgbnY1MF9tc3RvX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29k
+ZXIsCiAJc3RydWN0IG52NTBfaGVhZF9hdG9tICphc3loID0gbnY1MF9oZWFkX2F0b20oY3J0Y19z
+dGF0ZSk7CiAJaW50IHNsb3RzOwogCi0JLyogV2hlbiByZXN0b3JpbmcgZHVwbGljYXRlZCBzdGF0
+ZXMsIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQgdGhlCi0JICogYncgcmVtYWlucyB0aGUgc2Ft
+ZSBhbmQgYXZvaWQgcmVjYWxjdWxhdGluZyBpdCwgYXMgdGhlIGNvbm5lY3RvcidzCi0JICogYnBj
+IG1heSBoYXZlIGNoYW5nZWQgYWZ0ZXIgdGhlIHN0YXRlIHdhcyBkdXBsaWNhdGVkCi0JICovCi0J
+aWYgKCFzdGF0ZS0+ZHVwbGljYXRlZCkKLQkJYXN5aC0+ZHAucGJuID0KLQkJCWRybV9kcF9jYWxj
+X3Bibl9tb2RlKGNydGNfc3RhdGUtPmFkanVzdGVkX21vZGUuY2xvY2ssCi0JCQkJCSAgICAgY29u
+bmVjdG9yLT5kaXNwbGF5X2luZm8uYnBjICogMyk7CisJaWYgKGNydGNfc3RhdGUtPm1vZGVfY2hh
+bmdlZCB8fCBjcnRjX3N0YXRlLT5jb25uZWN0b3JzX2NoYW5nZWQpIHsKKwkJLyoKKwkJICogV2hl
+biByZXN0b3JpbmcgZHVwbGljYXRlZCBzdGF0ZXMsIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQK
+KwkJICogdGhlIGJ3IHJlbWFpbnMgdGhlIHNhbWUgYW5kIGF2b2lkIHJlY2FsY3VsYXRpbmcgaXQs
+IGFzIHRoZQorCQkgKiBjb25uZWN0b3IncyBicGMgbWF5IGhhdmUgY2hhbmdlZCBhZnRlciB0aGUg
+c3RhdGUgd2FzCisJCSAqIGR1cGxpY2F0ZWQKKwkJICovCisJCWlmICghc3RhdGUtPmR1cGxpY2F0
+ZWQpIHsKKwkJCWNvbnN0IGludCBicHAgPSBjb25uZWN0b3ItPmRpc3BsYXlfaW5mby5icGMgKiAz
+OworCQkJY29uc3QgaW50IGNsb2NrID0gY3J0Y19zdGF0ZS0+YWRqdXN0ZWRfbW9kZS5jbG9jazsK
+KworCQkJYXN5aC0+ZHAucGJuID0gZHJtX2RwX2NhbGNfcGJuX21vZGUoY2xvY2ssIGJwcCk7CisJ
+CX0KIAotCWlmIChjcnRjX3N0YXRlLT5tb2RlX2NoYW5nZWQpIHsKIAkJc2xvdHMgPSBkcm1fZHBf
+YXRvbWljX2ZpbmRfdmNwaV9zbG90cyhzdGF0ZSwgJm1zdG0tPm1nciwKIAkJCQkJCSAgICAgIG1z
+dGMtPnBvcnQsCiAJCQkJCQkgICAgICBhc3loLT5kcC5wYm4pOwotLSAKMi4yMS4wCgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
