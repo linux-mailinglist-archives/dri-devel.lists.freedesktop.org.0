@@ -1,27 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8030288BA1
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 15:55:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9ADD88BB0
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 15:55:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FF296E411;
-	Sat, 10 Aug 2019 13:55:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A81106E42D;
+	Sat, 10 Aug 2019 13:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE4DE6EEA1
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 21:09:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0F16EEAB
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 21:38:27 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: alyssa) with ESMTPSA id 1314828AC17
+ (Authenticated sender: alyssa) with ESMTPSA id F2B1428A1D9
+Date: Fri, 9 Aug 2019 14:38:19 -0700
 From: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/panfrost: Add errata descriptions from kbase
-Date: Fri,  9 Aug 2019 14:09:10 -0700
-Message-Id: <20190809210910.15432-1-alyssa.rosenzweig@collabora.com>
-X-Mailer: git-send-email 2.20.1
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v4 3/9] drm/panfrost: Restructure the GEM object creation
+Message-ID: <20190809213819.GA15496@kevin>
+References: <20190808222200.13176-1-robh@kernel.org>
+ <20190808222200.13176-4-robh@kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20190808222200.13176-4-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Sat, 10 Aug 2019 13:55:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -35,123 +38,244 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- tomeu.vizoso@collabora.com, steven.price@arm.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maxime Ripard <maxime.ripard@bootlin.com>, Robin Murphy <robin.murphy@arm.com>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
+ David Airlie <airlied@linux.ie>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============0513382500=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hpbGUgbmV3ZXIga2Jhc2UgaW5jbHVkZSBvbmx5IHRoZSBudW1iZXJzIG9mIGVycmF0YSwgb2xk
-ZXIga2Jhc2UKcmVsZWFzZXMgaW5jbHVkZWQgb25lLWxpbmUgZGVzY3JpcHRpb25zIGZvciBlYWNo
-IGVycmF0YSwgd2hpY2ggaXMgdXNlZnVsCmZvciB0aG9zZSB3b3JraW5nIG9uIHRoZSBkcml2ZXIu
-IEltcG9ydCB0aGVzZSBkZXNjcmlwdGlvbnMuIE1vc3QgYXJlCmZyb20ga2Jhc2UgdmVyYmF0aW07
-IGEgZmV3IEkgZWRpdGVkIGZvciBjbGFyaXR5LgoKdjI6IFdyb3RlIGEgZGVzY3JpcHRpb24gZm9y
-IHRoZSB3b3JrYXJvdW5kIG9mIGFuIGlzc3VlIHdob3NlIGNhdXNlIGlzCnN0aWxsIHVua25vd24g
-KFN0ZXBoZW4pLiBFcnJhdGEgd2hpY2ggcGVydGFpbiB0byBuZXdlciBtb2RlbHMKdW5zdXBwb3J0
-ZWQgYnkgdGhlIG1haW5saW5lIGRyaXZlciwgZm9yIHdoaWNoIEFybSBoYXMgbm90IHlldCByZWxl
-YXNlZAplcnJhdGEgaW5mb3JtYXRpb24sIGhhdmUgYmVlbiByZW1vdmVkIGZyb20gdGhlIGlzc3Vl
-IGxpc3QgYXMgdGhlIGtlcm5lbApuZWVkIG5vdCBjb25jZXJuIGl0c2VsZiB3aXRoIHRoZXNlLgoK
-U2lnbmVkLW9mZi1ieTogQWx5c3NhIFJvc2VuendlaWcgPGFseXNzYS5yb3Nlbnp3ZWlnQGNvbGxh
-Ym9yYS5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2lzc3Vlcy5o
-IHwgMTA2ICsrKysrKysrKysrKysrKy0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDc4IGluc2VydGlv
-bnMoKyksIDI4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9wYW5m
-cm9zdC9wYW5mcm9zdF9pc3N1ZXMuaCBiL2RyaXZlcnMvZ3B1L2RybS9wYW5mcm9zdC9wYW5mcm9z
-dF9pc3N1ZXMuaAppbmRleCBjZWM2ZGNkYWQuLjM2ZTUwMzYxNCAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3BhbmZyb3N0L3BhbmZyb3N0X2lzc3Vlcy5oCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9wYW5mcm9zdC9wYW5mcm9zdF9pc3N1ZXMuaApAQCAtMTMsMzcgKzEzLDEwMSBAQAogICogdG8g
-Y2FyZSBhYm91dC4KICAqLwogZW51bSBwYW5mcm9zdF9od19pc3N1ZSB7CisJLyogTmVlZCB3YXkg
-dG8gZ3VhcmFudGVlIHRoYXQgYWxsIHByZXZpb3VzbHktdHJhbnNsYXRlZCBtZW1vcnkgYWNjZXNz
-ZXMKKwkgKiBhcmUgY29tbWl0ZWQgKi8KIAlIV19JU1NVRV82MzY3LAorCisJLyogT24gam9iIGNv
-bXBsZXRlIHdpdGggbm9uLWRvbmUgdGhlIGNhY2hlIGlzIG5vdCBmbHVzaGVkICovCiAJSFdfSVNT
-VUVfNjc4NywKKworCS8qIFdyaXRlIG9mIFBSRkNOVF9DT05GSUdfTU9ERV9NQU5VQUwgdG8gUFJG
-Q05UX0NPTkZJRyBjYXVzZXMgYQorCSAqIGluc3RydW1lbnRhdGlvbiBkdW1wIGlmIFBSRkNOVF9U
-SUxFUl9FTiBpcyBlbmFibGVkICovCiAJSFdfSVNTVUVfODE4NiwKKworCS8qIFRJQjogUmVwb3J0
-cyBmYXVsdHMgZnJvbSBhIHZ0aWxlIHdoaWNoIGhhcyBub3QgeWV0IGJlZW4gYWxsb2NhdGVkICov
-CiAJSFdfSVNTVUVfODI0NSwKKworCS8qIHVUTEIgZGVhZGxvY2sgY291bGQgb2NjdXIgd2hlbiB3
-cml0aW5nIHRvIGFuIGludmFsaWQgcGFnZSBhdCB0aGUKKwkgKiBzYW1lIHRpbWUgYXMgYWNjZXNz
-IHRvIGEgdmFsaWQgcGFnZSBpbiB0aGUgc2FtZSB1VExCIGNhY2hlIGxpbmUgKCA9PQorCSAqIDQg
-UFRFcyA9PSAxNksgYmxvY2sgb2YgbWFwcGluZykgKi8KIAlIV19JU1NVRV84MzE2LAorCisJLyog
-SFQ6IFRFUk1JTkFURSBmb3IgUlVOIGNvbW1hbmQgaWdub3JlZCBpZiBwcmV2aW91cyBMT0FEX0RF
-U0NSSVBUT1IgaXMKKwkgKiBzdGlsbCBleGVjdXRpbmcgKi8KIAlIV19JU1NVRV84Mzk0LAorCisJ
-LyogQ1NFOiBTZW5kcyBhIFRFUk1JTkFURUQgcmVzcG9uc2UgZm9yIGEgdGFzayB0aGF0IHNob3Vs
-ZCBub3QgYmUKKwkgKiB0ZXJtaW5hdGVkICovCiAJSFdfSVNTVUVfODQwMSwKKworCS8qIFJlcGVh
-dGVkbHkgU29mdC1zdG9wcGluZyBhIGpvYiBjaGFpbiBjb25zaXN0aW5nIG9mIChWZXJ0ZXggU2hh
-ZGVyLAorCSAqIENhY2hlIEZsdXNoLCBUaWxlcikgam9icyBjYXVzZXMgREFUQV9JTlZBTElEX0ZB
-VUxUIG9uIHRpbGVyIGpvYi4gKi8KIAlIV19JU1NVRV84NDA4LAorCisJLyogRGlzYWJsZSB0aGUg
-UGF1c2UgQnVmZmVyIGluIHRoZSBMUyBwaXBlLiAqLwogCUhXX0lTU1VFXzg0NDMsCisKKwkvKiBD
-aGFuZ2UgaW4gUk1VcyBpbiB1c2UgY2F1c2VzIHByb2JsZW1zIHJlbGF0ZWQgd2l0aCB0aGUgY29y
-ZSdzIFNEQyAqLwogCUhXX0lTU1VFXzg5ODcsCisKKwkvKiBDb21wdXRlIGVuZHBvaW50IGhhcyBh
-IDQtZGVlcCBxdWV1ZSBvZiB0YXNrcywgbWVhbmluZyBhIHNvZnQgc3RvcAorCSAqIHdvbid0IGNv
-bXBsZXRlIHVudGlsIGFsbCA0IHRhc2tzIGhhdmUgY29tcGxldGVkICovCiAJSFdfSVNTVUVfOTQz
-NSwKKworCS8qIEhUOiBUaWxlciByZXR1cm5zIFRFUk1JTkFURUQgZm9yIG5vbi10ZXJtaW5hdGVk
-IGNvbW1hbmQgKi8KIAlIV19JU1NVRV85NTEwLAorCisJLyogT2NjYXNpb25hbGx5IHRoZSBHUFUg
-d2lsbCBpc3N1ZSBtdWx0aXBsZSBwYWdlIGZhdWx0cyBmb3IgdGhlIHNhbWUKKwkgKiBhZGRyZXNz
-IGJlZm9yZSB0aGUgTU1VIHBhZ2UgdGFibGUgaGFzIGJlZW4gcmVhZCBieSB0aGUgR1BVICovCiAJ
-SFdfSVNTVUVfOTYzMCwKKworCS8qIFJBIERDRCBsb2FkIHJlcXVlc3QgdG8gU0RDIHJldHVybnMg
-aW52YWxpZCBsb2FkIGlnbm9yZSBjYXVzaW5nCisJICogY29sb3VyIGJ1ZmZlciBtaXNtYXRjaCAq
-LwogCUhXX0lTU1VFXzEwMzI3LAorCisJLyogTU1VIFRMQiBpbnZhbGlkYXRpb24gaGF6YXJkcyAq
-LwogCUhXX0lTU1VFXzEwNjQ5LAorCisJLyogTWlzc2luZyBjYWNoZSBmbHVzaCBpbiBtdWx0aSBj
-b3JlLWdyb3VwIGNvbmZpZ3VyYXRpb24gKi8KIAlIV19JU1NVRV8xMDY3NiwKKworCS8qIENoaWNr
-ZW4gYml0IG9uIFQ3MlggZm9yIGEgaGFyZHdhcmUgd29ya2Fyb3VuZCBpbiBjb21waWxlciAqLwog
-CUhXX0lTU1VFXzEwNzk3LAorCisJLyogU29mdC1zdG9wcGluZyBmcmFnbWVudCBqb2JzIG1pZ2h0
-IGZhaWwgd2l0aCBUSUxFX1JBTkdFX0ZBVUxUICovCiAJSFdfSVNTVUVfMTA4MTcsCisKKwkvKiBJ
-bnRlcm1pdHRlbnQgbWlzc2luZyBpbnRlcnJ1cHQgb24gam9iIGNvbXBsZXRpb24gKi8KIAlIV19J
-U1NVRV8xMDg4MywKKworCS8qIFNvZnQtc3RvcHBpbmcgZnJhZ21lbnQgam9icyBtaWdodCBmYWls
-IHdpdGggVElMRV9SQU5HRV9FUlJPUgorCSAqIChzaW1pbGFyIHRvIGlzc3VlIDEwODE3KSBhbmQg
-Y2FuIHVzZSAjMTA4MTcgd29ya2Fyb3VuZCAqLwogCUhXX0lTU1VFXzEwOTU5LAorCisJLyogU29m
-dC1zdG9wcGVkIGZyYWdtZW50IHNoYWRlciBqb2IgY2FuIHJlc3RhcnQgd2l0aCBvdXQtb2YtYm91
-bmQKKwkgKiByZXN0YXJ0IGluZGV4ICovCiAJSFdfSVNTVUVfMTA5NjksCisKKwkvKiBSYWNlIGNv
-bmRpdGlvbiBjYW4gY2F1c2UgdGlsZSBsaXN0IGNvcnJ1cHRpb24gKi8KIAlIV19JU1NVRV8xMTAy
-MCwKKworCS8qIFdyaXRlIGJ1ZmZlciBjYW4gY2F1c2UgdGlsZSBsaXN0IGNvcnJ1cHRpb24gKi8K
-IAlIV19JU1NVRV8xMTAyNCwKKworCS8qIFBhdXNlIGJ1ZmZlciBjYW4gY2F1c2UgYSBmcmFnbWVu
-dCBqb2IgaGFuZyAqLwogCUhXX0lTU1VFXzExMDM1LAotCUhXX0lTU1VFXzExMDU2LAorCisJLyog
-Q2xlYXIgZW5jb2RlciBzdGF0ZSBmb3IgYSBoYXJkIHN0b3BwZWQgZnJhZ21lbnQgam9iIHdoaWNo
-IGlzIEFGQkMKKwkgKiBlbmNvZGVkIGJ5IHNvZnQgcmVzZXR0aW5nIHRoZSBHUFUuIE9ubHkgZm9y
-IFQ3NlggcjBwMCwgcjBwMSBhbmQKKwkgKiByMHAxXzUwcmVsMCAqLwogCUhXX0lTU1VFX1Q3Nlhf
-MzU0MiwKKworCS8qIEtlZXAgdGlsZXIgbW9kdWxlIGNsb2NrIG9uIHRvIHByZXZlbnQgR1BVIHN0
-YWxsICovCiAJSFdfSVNTVUVfVDc2WF8zOTUzLAotCUhXX0lTU1VFX1RNSVhfODQ2MywKKworCS8q
-IERvbid0IHNldCBTQ19MU19BVFRSX0NIRUNLX0RJU0FCTEUvU0NfTFNfQUxMT1dfQVRUUl9UWVBF
-UyAqLwogCUdQVUNPUkVfMTYxOSwKLQlIV19JU1NVRV9UTUlYXzg0MzgsCi0JSFdfSVNTVUVfVEdP
-WF9SMV8xMjM0LAorCiAJSFdfSVNTVUVfRU5ECiB9OwogCkBAIC01OSw5ICsxMjMsNyBAQCBlbnVt
-IHBhbmZyb3N0X2h3X2lzc3VlIHsKIAlCSVRfVUxMKEhXX0lTU1VFXzEwNjc2KSB8IFwKIAlCSVRf
-VUxMKEhXX0lTU1VFXzEwODgzKSB8IFwKIAlCSVRfVUxMKEhXX0lTU1VFXzExMDIwKSB8IFwKLQlC
-SVRfVUxMKEhXX0lTU1VFXzExMDM1KSB8IFwKLQlCSVRfVUxMKEhXX0lTU1VFXzExMDU2KSB8IFwK
-LQlCSVRfVUxMKEhXX0lTU1VFX1RNSVhfODQzOCkpCisJQklUX1VMTChIV19JU1NVRV8xMTAzNSkp
-CiAKICNkZWZpbmUgaHdfaXNzdWVzX3Q2MDBfcjBwMF8xNWRldjAgKFwKIAlCSVRfVUxMKEhXX0lT
-U1VFXzgxODYpIHwgXApAQCAtNzgsOSArMTQwLDcgQEAgZW51bSBwYW5mcm9zdF9od19pc3N1ZSB7
-CiAjZGVmaW5lIGh3X2lzc3Vlc190NjIwIChcCiAJQklUX1VMTChIV19JU1NVRV8xMDY0OSkgfCBc
-CiAJQklUX1VMTChIV19JU1NVRV8xMDg4MykgfCBcCi0JQklUX1VMTChIV19JU1NVRV8xMDk1OSkg
-fCBcCi0JQklUX1VMTChIV19JU1NVRV8xMTA1NikgfCBcCi0JQklUX1VMTChIV19JU1NVRV9UTUlY
-Xzg0MzgpKQorCUJJVF9VTEwoSFdfSVNTVUVfMTA5NTkpKQogCiAjZGVmaW5lIGh3X2lzc3Vlc190
-NjIwX3IwcDEgKFwKIAlCSVRfVUxMKEhXX0lTU1VFXzEwMzI3KSB8IFwKQEAgLTk3LDE0ICsxNTcs
-MTEgQEAgZW51bSBwYW5mcm9zdF9od19pc3N1ZSB7CiAjZGVmaW5lIGh3X2lzc3Vlc190NzIwIChc
-CiAJQklUX1VMTChIV19JU1NVRV8xMDY0OSkgfCBcCiAJQklUX1VMTChIV19JU1NVRV8xMDc5Nykg
-fCBcCi0JQklUX1VMTChIV19JU1NVRV8xMDg4MykgfCBcCi0JQklUX1VMTChIV19JU1NVRV8xMTA1
-NikgfCBcCi0JQklUX1VMTChIV19JU1NVRV9UTUlYXzg0MzgpKQorCUJJVF9VTEwoSFdfSVNTVUVf
-MTA4ODMpKQogCiAjZGVmaW5lIGh3X2lzc3Vlc190NzYwIChcCiAJQklUX1VMTChIV19JU1NVRV8x
-MDg4MykgfCBcCi0JQklUX1VMTChIV19JU1NVRV9UNzZYXzM5NTMpIHwgXAotCUJJVF9VTEwoSFdf
-SVNTVUVfVE1JWF84NDM4KSkKKwlCSVRfVUxMKEhXX0lTU1VFX1Q3NlhfMzk1MykpCiAKICNkZWZp
-bmUgaHdfaXNzdWVzX3Q3NjBfcjBwMCAoXAogCUJJVF9VTEwoSFdfSVNTVUVfMTEwMjApIHwgXApA
-QCAtMTI5LDM2ICsxODYsMjkgQEAgZW51bSBwYW5mcm9zdF9od19pc3N1ZSB7CiAKICNkZWZpbmUg
-aHdfaXNzdWVzX3Q4MjAgKFwKIAlCSVRfVUxMKEhXX0lTU1VFXzEwODgzKSB8IFwKLQlCSVRfVUxM
-KEhXX0lTU1VFX1Q3NlhfMzk1MykgfCBcCi0JQklUX1VMTChIV19JU1NVRV9UTUlYXzg0MzgpKQor
-CUJJVF9VTEwoSFdfSVNTVUVfVDc2WF8zOTUzKSkKIAogI2RlZmluZSBod19pc3N1ZXNfdDgzMCAo
-XAogCUJJVF9VTEwoSFdfSVNTVUVfMTA4ODMpIHwgXAotCUJJVF9VTEwoSFdfSVNTVUVfVDc2WF8z
-OTUzKSB8IFwKLQlCSVRfVUxMKEhXX0lTU1VFX1RNSVhfODQzOCkpCisJQklUX1VMTChIV19JU1NV
-RV9UNzZYXzM5NTMpKQogCiAjZGVmaW5lIGh3X2lzc3Vlc190ODYwIChcCiAJQklUX1VMTChIV19J
-U1NVRV8xMDg4MykgfCBcCi0JQklUX1VMTChIV19JU1NVRV9UNzZYXzM5NTMpIHwgXAotCUJJVF9V
-TEwoSFdfSVNTVUVfVE1JWF84NDM4KSkKKwlCSVRfVUxMKEhXX0lTU1VFX1Q3NlhfMzk1MykpCiAK
-ICNkZWZpbmUgaHdfaXNzdWVzX3Q4ODAgKFwKIAlCSVRfVUxMKEhXX0lTU1VFXzEwODgzKSB8IFwK
-LQlCSVRfVUxMKEhXX0lTU1VFX1Q3NlhfMzk1MykgfCBcCi0JQklUX1VMTChIV19JU1NVRV9UTUlY
-Xzg0MzgpKQorCUJJVF9VTEwoSFdfSVNTVUVfVDc2WF8zOTUzKSkKIAogI2RlZmluZSBod19pc3N1
-ZXNfZzMxIDAKIAotI2RlZmluZSBod19pc3N1ZXNfZzMxX3IxcDAgKFwKLQlCSVRfVUxMKEhXX0lT
-U1VFX1RHT1hfUjFfMTIzNCkpCisjZGVmaW5lIGh3X2lzc3Vlc19nMzFfcjFwMCAwCiAKICNkZWZp
-bmUgaHdfaXNzdWVzX2c1MSAwCiAKICNkZWZpbmUgaHdfaXNzdWVzX2c1MiAwCiAKLSNkZWZpbmUg
-aHdfaXNzdWVzX2c3MSAoXAotCUJJVF9VTEwoSFdfSVNTVUVfVE1JWF84NDYzKSB8IFwKLQlCSVRf
-VUxMKEhXX0lTU1VFX1RNSVhfODQzOCkpCisjZGVmaW5lIGh3X2lzc3Vlc19nNzEgMAogCiAjZGVm
-aW5lIGh3X2lzc3Vlc19nNzFfcjBwMF8wNWRldjAgKFwKIAlCSVRfVUxMKEhXX0lTU1VFX1Q3Nlhf
-Mzk1MykpCi0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+
+--===============0513382500==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="azLHFNyN32YCQGCU"
+Content-Disposition: inline
+
+
+--azLHFNyN32YCQGCU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Still A-b :)
+On Thu, Aug 08, 2019 at 04:21:54PM -0600, Rob Herring wrote:
+> Setting the GPU VA when creating the GEM object doesn't allow for any
+> conditional adjustments to the mapping. In preparation to support
+> adjusting the mapping and per FD address spaces, restructure the GEM
+> object creation to map and unmap the GEM object in the GEM object .open()
+> and .close() hooks.
+>=20
+> While panfrost_gem_free_object() and panfrost_gem_prime_import_sg_table()
+> are not really needed after this commit, keep them as we'll need them in
+> subsequent commits.
+>=20
+> Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Acked-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> Steven, Alyssa, I kept your tags, but please take another look as things
+> moved around a bit here.
+>=20
+>  drivers/gpu/drm/panfrost/panfrost_drv.c |  9 ----
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 67 ++++++++++++++-----------
+>  2 files changed, 37 insertions(+), 39 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_drv.c
+> index 926d021ee202..2894cfbbce2b 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -78,7 +78,6 @@ static int panfrost_ioctl_get_param(struct drm_device *=
+ddev, void *data, struct
+>  static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
+>  		struct drm_file *file)
+>  {
+> -	int ret;
+>  	struct drm_gem_shmem_object *shmem;
+>  	struct drm_panfrost_create_bo *args =3D data;
+>=20
+> @@ -90,17 +89,9 @@ static int panfrost_ioctl_create_bo(struct drm_device =
+*dev, void *data,
+>  	if (IS_ERR(shmem))
+>  		return PTR_ERR(shmem);
+>=20
+> -	ret =3D panfrost_mmu_map(to_panfrost_bo(&shmem->base));
+> -	if (ret)
+> -		goto err_free;
+> -
+>  	args->offset =3D to_panfrost_bo(&shmem->base)->node.start << PAGE_SHIFT;
+>=20
+>  	return 0;
+> -
+> -err_free:
+> -	drm_gem_handle_delete(file, args->handle);
+> -	return ret;
+>  }
+>=20
+>  /**
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/pa=
+nfrost/panfrost_gem.c
+> index 67d374184340..3933f83ba6b0 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -15,6 +15,39 @@
+>   * BO.
+>   */
+>  static void panfrost_gem_free_object(struct drm_gem_object *obj)
+> +{
+> +	mutex_lock(&pfdev->shrinker_lock);
+> +	if (!list_empty(&bo->base.madv_list))
+> +		list_del(&bo->base.madv_list);
+> +	mutex_unlock(&pfdev->shrinker_lock);
+> +
+> +	drm_gem_shmem_free_object(obj);
+> +}
+> +
+> +static int panfrost_gem_open(struct drm_gem_object *obj, struct drm_file=
+ *file_priv)
+> +{
+> +	int ret;
+> +	size_t size =3D obj->size;
+> +	u64 align =3D size >=3D SZ_2M ? SZ_2M >> PAGE_SHIFT : 0;
+> +	struct panfrost_gem_object *bo =3D to_panfrost_bo(obj);
+> +	struct panfrost_device *pfdev =3D obj->dev->dev_private;
+> +
+> +	spin_lock(&pfdev->mm_lock);
+> +	ret =3D drm_mm_insert_node_generic(&pfdev->mm, &bo->node,
+> +					 size >> PAGE_SHIFT, align, 0, 0);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret =3D panfrost_mmu_map(bo);
+> +	if (ret)
+> +		drm_mm_remove_node(&bo->node);
+> +
+> +out:
+> +	spin_unlock(&pfdev->mm_lock);
+> +	return ret;
+> +}
+> +
+> +static void panfrost_gem_close(struct drm_gem_object *obj, struct drm_fi=
+le *file_priv)
+>  {
+>  	struct panfrost_gem_object *bo =3D to_panfrost_bo(obj);
+>  	struct panfrost_device *pfdev =3D obj->dev->dev_private;
+> @@ -23,19 +56,15 @@ static void panfrost_gem_free_object(struct drm_gem_o=
+bject *obj)
+>  		panfrost_mmu_unmap(bo);
+>=20
+>  	spin_lock(&pfdev->mm_lock);
+> -	drm_mm_remove_node(&bo->node);
+> +	if (drm_mm_node_allocated(&bo->node))
+> +		drm_mm_remove_node(&bo->node);
+>  	spin_unlock(&pfdev->mm_lock);
+> -
+> -	mutex_lock(&pfdev->shrinker_lock);
+> -	if (!list_empty(&bo->base.madv_list))
+> -		list_del(&bo->base.madv_list);
+> -	mutex_unlock(&pfdev->shrinker_lock);
+> -
+> -	drm_gem_shmem_free_object(obj);
+>  }
+>=20
+>  static const struct drm_gem_object_funcs panfrost_gem_funcs =3D {
+>  	.free =3D panfrost_gem_free_object,
+> +	.open =3D panfrost_gem_open,
+> +	.close =3D panfrost_gem_close,
+>  	.print_info =3D drm_gem_shmem_print_info,
+>  	.pin =3D drm_gem_shmem_pin,
+>  	.unpin =3D drm_gem_shmem_unpin,
+> @@ -55,10 +84,7 @@ static const struct drm_gem_object_funcs panfrost_gem_=
+funcs =3D {
+>   */
+>  struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev=
+, size_t size)
+>  {
+> -	int ret;
+> -	struct panfrost_device *pfdev =3D dev->dev_private;
+>  	struct panfrost_gem_object *obj;
+> -	u64 align;
+>=20
+>  	obj =3D kzalloc(sizeof(*obj), GFP_KERNEL);
+>  	if (!obj)
+> @@ -66,21 +92,7 @@ struct drm_gem_object *panfrost_gem_create_object(stru=
+ct drm_device *dev, size_t
+>=20
+>  	obj->base.base.funcs =3D &panfrost_gem_funcs;
+>=20
+> -	size =3D roundup(size, PAGE_SIZE);
+> -	align =3D size >=3D SZ_2M ? SZ_2M >> PAGE_SHIFT : 0;
+> -
+> -	spin_lock(&pfdev->mm_lock);
+> -	ret =3D drm_mm_insert_node_generic(&pfdev->mm, &obj->node,
+> -					 size >> PAGE_SHIFT, align, 0, 0);
+> -	spin_unlock(&pfdev->mm_lock);
+> -	if (ret)
+> -		goto free_obj;
+> -
+>  	return &obj->base.base;
+> -
+> -free_obj:
+> -	kfree(obj);
+> -	return ERR_PTR(ret);
+>  }
+>=20
+>  struct drm_gem_object *
+> @@ -89,15 +101,10 @@ panfrost_gem_prime_import_sg_table(struct drm_device=
+ *dev,
+>  				   struct sg_table *sgt)
+>  {
+>  	struct drm_gem_object *obj;
+> -	struct panfrost_gem_object *pobj;
+>=20
+>  	obj =3D drm_gem_shmem_prime_import_sg_table(dev, attach, sgt);
+>  	if (IS_ERR(obj))
+>  		return ERR_CAST(obj);
+>=20
+> -	pobj =3D to_panfrost_bo(obj);
+> -
+> -	panfrost_mmu_map(pobj);
+> -
+>  	return obj;
+>  }
+> --
+> 2.20.1
+
+--azLHFNyN32YCQGCU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEQ17gm7CvANAdqvY4/v5QWgr1WA0FAl1N58YACgkQ/v5QWgr1
+WA3K4g//YMX750/5j3+0WkxTsTDE5cm9OhFvcS61wVntcv3PM9QLBNo2O0+yeqI0
+Z4avYi0mTDkT5GtLiwu5faFR7i+75/NOLJA3cnm3Ei+Zg5Ui6w9TmQzD0aY6dLz2
+ykiniEuPXBu6ZYADtvH91TYLzOoJQhaERRM6uR0iuYivwDYWtvqoOMFgoeQ5p9ZU
+RzGz27kBdu9rfR8n5s0JqOvHbfo7kr+Oy89R1+vEiJK/Z23WTmrC+cAAQhyl0lNk
+Se/VzOo9fv4d9OBclFzltcE13p6J717HrXVTPbHOIZEqdSA+IuKXR52Fwl+GS5Eu
+2Oh2iQGRySN77Nj9Hrq+V7v35TlKgqTKxZPLqslR5LzgqfUTum3QRk+TGQa8eaQD
+RMCIyLYZgrJyb6mArbg/EeoroNqLsT9021G3GaKjyv7cUCXcAgplQXpeic0k8RyK
+url/WivwMZilb+JRgq0NMjVLC6d3WEWG6tl0gLShqnXyzcaiD3qj7AAknfycZ7jU
+fECtZi3pqQlxZ8hmYk9jLx4/72eU7w2W7f0TDKFAMYht0z8NPjkIiJo7GDgdhenW
+ag/QjNV/82xQbE2YgHAkPAAg1IaAF9iqO82A9C1hSf3r3lRbFK0mZfkShmRV3Pz6
+ikDWsGPQ5QD3Lc5cweDBiCr2ck4X6AxA+droAnAYAfaQlynizsI=
+=52x9
+-----END PGP SIGNATURE-----
+
+--azLHFNyN32YCQGCU--
+
+--===============0513382500==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0513382500==--
