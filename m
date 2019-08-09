@@ -2,37 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5289787B9C
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 15:45:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637EA87C3F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 16:00:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66FFC6EE0B;
-	Fri,  9 Aug 2019 13:45:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F346EE10;
+	Fri,  9 Aug 2019 14:00:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71A146EE0A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 13:45:10 +0000 (UTC)
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1hw5Ce-00017P-BP; Fri, 09 Aug 2019 15:45:08 +0200
-Message-ID: <1565358308.2323.65.camel@pengutronix.de>
-Subject: Re: [PATCH v3 8/8] drm/etnaviv: implement per-process address
- spaces on MMUv2
-From: Lucas Stach <l.stach@pengutronix.de>
-To: etnaviv@lists.freedesktop.org
-Date: Fri, 09 Aug 2019 15:45:08 +0200
-In-Reply-To: <20190809120424.32679-8-l.stach@pengutronix.de>
-References: <20190809120424.32679-1-l.stach@pengutronix.de>
- <20190809120424.32679-8-l.stach@pengutronix.de>
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 30FF86EE10
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 14:00:34 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2DFAB72167; Fri,  9 Aug 2019 14:00:34 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 108718] Raven Ridge: ring sdma0 timeout on heavy CSS website
+ with Firefox WebRender
+Date: Fri, 09 Aug 2019 14:00:34 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-108718-502-5sSK0bLZcH@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-108718-502@http.bugs.freedesktop.org/>
+References: <bug-108718-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,70 +53,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1854588413=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gRnJlaXRhZywgZGVuIDA5LjA4LjIwMTksIDE0OjA0ICswMjAwIHNjaHJpZWIgTHVjYXMgU3Rh
-Y2g6Cj4gVGhpcyBidWlsZHMgb24gdG9wIG9mIHRoZSBNTVUgY29udGV4dHMgaW50cm9kdWNlZCBl
-YXJsaWVyLiBJbnN0ZWFkIG9mIGhhdmluZwo+IG9uZSBjb250ZXh0IHBlciBHUFUgY29yZSwgZWFj
-aCBHUFUgY2xpZW50IHJlY2VpdmVzIGl0cyBvd24gY29udGV4dC4KPiAKPiBPbiBNTVV2MSB0aGlz
-IHN0aWxsIG1lYW5zIGEgc2luZ2xlIHNoYXJlZCBwYWdldGFibGUgc2V0IGlzIHVzZWQgYnkgYWxs
-Cj4gY2xpZW50cywgYnV0IG9uIE1NVXYyIHRoZXJlIGlzIG5vdyBhIGRpc3RpbmN0IHNldCBvZiBw
-YWdldGFibGVzIGZvciBlYWNoCj4gY2xpZW50LiBBcyB0aGUgY29tbWFuZCBmZXRjaCBpcyBhbHNv
-IHRyYW5zbGF0ZWQgdmlhIHRoZSBNTVUgb24gTU1VdjIgdGhlCj4ga2VybmVsIGNvbW1hbmQgcmlu
-Z2J1ZmZlciBpcyBtYXBwZWQgaW50byBlYWNoIG9mIHRoZSBjbGllbnQgcGFnZXRhYmxlcy4KPiAK
-PiBBcyB0aGUgTU1VIGNvbnRleHQgc3dpdGNoIGlzIGEgYml0IG9mIGEgaGVhdnkgb3BlcmF0aW9u
-LCBkdWUgdG8gdGhlIG5lZWRlZAo+IGNhY2hlIGFuZCBUTEIgZmx1c2hpbmcsIHRoaXMgcGF0Y2gg
-aW1wbGVtZW50cyBhIGxhenkgd2F5IG9mIHN3aXRjaGluZyB0aGUKPiBNTVUgY29udGV4dC4gVGhl
-IGtlcm5lbCBkb2VzIG5vdCBoYXZlIGl0cyBvd24gTU1VIGNvbnRleHQsIGJ1dCByZXVzZXMgdGhl
-Cj4gbGFzdCBjbGllbnQgY29udGV4dCBmb3IgYWxsIG9mIGl0cyBvcGVyYXRpb25zLiBUaGlzIGhh
-cyBzb21lIHZpc2libGUgaW1wYWN0LAo+IGFzIHRoZSBHUFUgY2FuIG5vdyBvbmx5IGJlIHN0YXJ0
-ZWQgb25jZSBhIGNsaWVudCBoYXMgc3VibWl0dGVkIHNvbWUgd29yayBhbmQKPiB3ZSBnb3QgdGhl
-IGNsaWVudCBNTVUgY29udGV4dCBhc3NpZ25lZC4gQWxzbyB0aGUgTU1VIGNvbnRleHQgaGFzIGEg
-ZGlmZmVyZW50Cj4gbGlmZXRpbWUgdGhhbiB0aGUgZ2VuZXJhbCBjbGllbnQgY29udGV4dCwgYXMg
-dGhlIEdQVSBtaWdodCBzdGlsbCBleGVjdXRlIHRoZQo+IGtlcm5lbCBjb21tYW5kIGJ1ZmZlciBp
-biB0aGUgY29udGV4dCBvZiBhIGNsaWVudCBldmVuIGFmdGVyIHRoZSBjbGllbnQgaGFzCj4gY29t
-cGxldGVkIGFsbCBHUFUgd29yayBhbmQgaGFzIGJlZW4gdGVybWluYXRlZC4gT25seSB3aGVuIHRo
-ZSBHUFUgaXMgcnVudGltZQo+IHN1c3BlbmRlZCBvciBzd2l0Y2hlcyB0byBhbm90aGVyIGNsaWVu
-dHMgTU1VIGNvbnRleHQgaXMgdGhlIG9sZCBjb250ZXh0Cj4gZnJlZWQgdXAuCj4gCj4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KPiAtLS0KPiB2
-MzogRG9uJ3QgY2FsbCBldG5hdml2X2NtZGJ1Zl9zdWJhbGxvY191bm1hcCB3aGVuIG1hcHBpbmcg
-ZmFpbGVkLgo+IC0tLQpbLi4uXQo+IMKgCS8qCj4gQEAgLTMwOCw3ICszMTIsOCBAQCB2b2lkIGV0
-bmF2aXZfc3luY19wb2ludF9xdWV1ZShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwgdW5zaWduZWQg
-aW50IGV2ZW50KQo+IMKgCj4gwqAvKiBBcHBlbmQgYSBjb21tYW5kIGJ1ZmZlciB0byB0aGUgcmlu
-ZyBidWZmZXIuICovCj4gwqB2b2lkIGV0bmF2aXZfYnVmZmVyX3F1ZXVlKHN0cnVjdCBldG5hdml2
-X2dwdSAqZ3B1LCB1MzIgZXhlY19zdGF0ZSwKPiA+IC0JdW5zaWduZWQgaW50IGV2ZW50LCBzdHJ1
-Y3QgZXRuYXZpdl9jbWRidWYgKmNtZGJ1ZikKPiA+ICsJc3RydWN0IGV0bmF2aXZfaW9tbXVfY29u
-dGV4dCAqbW11X2NvbnRleHQsIHVuc2lnbmVkIGludCBldmVudCwKPiA+ICsJc3RydWN0IGV0bmF2
-aXZfY21kYnVmICpjbWRidWYpCj4gwqB7Cj4gPiDCoAlzdHJ1Y3QgZXRuYXZpdl9jbWRidWYgKmJ1
-ZmZlciA9ICZncHUtPmJ1ZmZlcjsKPiA+IMKgCXVuc2lnbmVkIGludCB3YWl0bGlua19vZmZzZXQg
-PSBidWZmZXItPnVzZXJfc2l6ZSAtIDE2Owo+IEBAIC0zMTcsMTcgKzMyMiwxOSBAQCB2b2lkIGV0
-bmF2aXZfYnVmZmVyX3F1ZXVlKHN0cnVjdCBldG5hdml2X2dwdSAqZ3B1LCB1MzIgZXhlY19zdGF0
-ZSwKPiA+IMKgCWJvb2wgc3dpdGNoX2NvbnRleHQgPSBncHUtPmV4ZWNfc3RhdGUgIT0gZXhlY19z
-dGF0ZTsKPiA+IMKgCXVuc2lnbmVkIGludCBuZXdfZmx1c2hfc2VxID0gUkVBRF9PTkNFKGdwdS0+
-bW11X2NvbnRleHQtPmZsdXNoX3NlcSk7Cj4gPiDCoAlib29sIG5lZWRfZmx1c2ggPSBncHUtPmZs
-dXNoX3NlcSAhPSBuZXdfZmx1c2hfc2VxOwo+ICsJYm9vbCBzd2l0Y2hfbW11X2NvbnRleHQgPSBn
-cHUtPm1tdV9jb250ZXh0ICE9IG1tdV9jb250ZXh0OwoKCkkgc2NyZXdlZCB1cCB0aGlzIG9uZSBk
-dXJpbmcgdGhlIHJld29yayB0byBhdm9pZCB0aGUgZmx1c2ggc2VxdWVuY2UKcmFjZS4gSSdsbCBz
-cXVhc2ggdGhlIGZvbGxvd2luZyBpbnRvIHRoaXMgY29tbWl0OgoKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZp
-di9ldG5hdml2X2J1ZmZlci5jCkBAIC0zMjAsOSArMzIwLDkgQEAgdm9pZCBldG5hdml2X2J1ZmZl
-cl9xdWV1ZShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3RhdGUsCsKgwqDCoMKg
-wqDCoMKgwqB1MzIgcmV0dXJuX3RhcmdldCwgcmV0dXJuX2R3b3JkczsKwqDCoMKgwqDCoMKgwqDC
-oHUzMiBsaW5rX3RhcmdldCwgbGlua19kd29yZHM7CsKgwqDCoMKgwqDCoMKgwqBib29sIHN3aXRj
-aF9jb250ZXh0ID0gZ3B1LT5leGVjX3N0YXRlICE9IGV4ZWNfc3RhdGU7Ci3CoMKgwqDCoMKgwqDC
-oHVuc2lnbmVkIGludCBuZXdfZmx1c2hfc2VxID0gUkVBRF9PTkNFKGdwdS0+bW11X2NvbnRleHQt
-PmZsdXNoX3NlcSk7Ci3CoMKgwqDCoMKgwqDCoGJvb2wgbmVlZF9mbHVzaCA9IGdwdS0+Zmx1c2hf
-c2VxICE9IG5ld19mbHVzaF9zZXE7CsKgwqDCoMKgwqDCoMKgwqBib29sIHN3aXRjaF9tbXVfY29u
-dGV4dCA9IGdwdS0+bW11X2NvbnRleHQgIT0gbW11X2NvbnRleHQ7CivCoMKgwqDCoMKgwqDCoHVu
-c2lnbmVkIGludCBuZXdfZmx1c2hfc2VxID0gUkVBRF9PTkNFKGdwdS0+bW11X2NvbnRleHQtPmZs
-dXNoX3NlcSk7CivCoMKgwqDCoMKgwqDCoGJvb2wgbmVlZF9mbHVzaCA9IHN3aXRjaF9tbXVfY29u
-dGV4dCB8fCBncHUtPmZsdXNoX3NlcSAhPSBuZXdfZmx1c2hfc2VxOwpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1854588413==
+Content-Type: multipart/alternative; boundary="15653592342.0AB961c0.28606"
+Content-Transfer-Encoding: 7bit
+
+
+--15653592342.0AB961c0.28606
+Date: Fri, 9 Aug 2019 14:00:34 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D108718
+
+--- Comment #2 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
+amd.com> ---
+Can you still reproduce this issue?
+
+It seems to work fine here with a recent kernel + mesa configuration.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15653592342.0AB961c0.28606
+Date: Fri, 9 Aug 2019 14:00:34 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Raven Ridge: ring sdma0 timeout on heavy CSS website with=
+ Firefox WebRender"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108718#c2">Commen=
+t # 2</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Raven Ridge: ring sdma0 timeout on heavy CSS website with=
+ Firefox WebRender"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D108718">bug 10871=
+8</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>Can you still reproduce this issue?
+
+It seems to work fine here with a recent kernel + mesa configuration.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15653592342.0AB961c0.28606--
+
+--===============1854588413==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1854588413==--
