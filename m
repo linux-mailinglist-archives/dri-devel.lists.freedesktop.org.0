@@ -2,44 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B8387465
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 10:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A075087476
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 10:43:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE4D76ED1A;
-	Fri,  9 Aug 2019 08:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B17786ED35;
+	Fri,  9 Aug 2019 08:43:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 85C2D6ED37
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 08:40:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8200572167; Fri,  9 Aug 2019 08:40:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 100239] Incorrect rendering in CS:GO
-Date: Fri, 09 Aug 2019 08:40:49 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Mesa
-X-Bugzilla-Component: Drivers/Gallium/radeonsi
-X-Bugzilla-Version: git
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michel@daenzer.net
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-100239-502-i6jg02Lbna@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-100239-502@http.bugs.freedesktop.org/>
-References: <bug-100239-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mx1.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256A26ED35;
+ Fri,  9 Aug 2019 08:43:38 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+ by mx1.suse.de (Postfix) with ESMTP id 689A0AE49;
+ Fri,  9 Aug 2019 08:43:35 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+ id 89DB71E437E; Fri,  9 Aug 2019 10:43:34 +0200 (CEST)
+Date: Fri, 9 Aug 2019 10:43:34 +0200
+From: Jan Kara <jack@suse.cz>
+To: "Weiny, Ira" <ira.weiny@intel.com>
+Subject: Re: [PATCH 00/34] put_user_pages(): miscellaneous call sites
+Message-ID: <20190809084334.GB17568@quack2.suse.cz>
+References: <20190802091244.GD6461@dhcp22.suse.cz>
+ <20190802124146.GL25064@quack2.suse.cz>
+ <20190802142443.GB5597@bombadil.infradead.org>
+ <20190802145227.GQ25064@quack2.suse.cz>
+ <076e7826-67a5-4829-aae2-2b90f302cebd@nvidia.com>
+ <20190807083726.GA14658@quack2.suse.cz>
+ <20190807084649.GQ11812@dhcp22.suse.cz>
+ <20190808023637.GA1508@iweiny-DESK2.sc.intel.com>
+ <e648a7f3-6a1b-c9ea-1121-7ab69b6b173d@nvidia.com>
+ <2807E5FD2F6FDA4886F6618EAC48510E79E79644@CRSMSX101.amr.corp.intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <2807E5FD2F6FDA4886F6618EAC48510E79E79644@CRSMSX101.amr.corp.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,100 +49,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1328910129=="
+Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>, Dave Chinner <david@fromorbit.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Michal Hocko <mhocko@kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>, "Williams,
+ Dan J" <dan.j.williams@intel.com>,
+ "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+ "rds-devel@oss.oracle.com" <rds-devel@oss.oracle.com>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Christoph Hellwig <hch@infradead.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "devel@lists.orangefs.org" <devel@lists.orangefs.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ "linux-rpi-kernel@lists.infradead.org" <linux-rpi-kernel@lists.infradead.org>,
+ "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+ "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1328910129==
-Content-Type: multipart/alternative; boundary="15653400493.ecBb0dCD0.9100"
-Content-Transfer-Encoding: 7bit
-
-
---15653400493.ecBb0dCD0.9100
-Date: Fri, 9 Aug 2019 08:40:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D100239
-
---- Comment #25 from Michel D=C3=A4nzer <michel@daenzer.net> ---
-(In reply to Bruno Jacquet (Xaapyks) from comment #23)
-> So I'd say the issue is still there.
-
-Maybe you have a ~/.drirc or other drirc file which gets picked up and disa=
-bles
-radeonsi_zerovram? (E.g. due to ever starting the old "driconf" application
-with a driver which supported the option)
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15653400493.ecBb0dCD0.9100
-Date: Fri, 9 Aug 2019 08:40:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Incorrect rendering in CS:GO"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100239#c25">Comme=
-nt # 25</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_REOPENED "
-   title=3D"REOPENED - Incorrect rendering in CS:GO"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D100239">bug 10023=
-9</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-michel&#64;daenzer.net" title=3D"Michel D=C3=A4nzer &lt;michel&#64;daenzer.=
-net&gt;"> <span class=3D"fn">Michel D=C3=A4nzer</span></a>
-</span></b>
-        <pre>(In reply to Bruno Jacquet (Xaapyks) from <a href=3D"show_bug.=
-cgi?id=3D100239#c23">comment #23</a>)
-<span class=3D"quote">&gt; So I'd say the issue is still there.</span >
-
-Maybe you have a ~/.drirc or other drirc file which gets picked up and disa=
-bles
-radeonsi_zerovram? (E.g. due to ever starting the old &quot;driconf&quot; a=
-pplication
-with a driver which supported the option)</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15653400493.ecBb0dCD0.9100--
-
---===============1328910129==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
+T24gVGh1IDA4LTA4LTE5IDE2OjI1OjA0LCBXZWlueSwgSXJhIHdyb3RlOgo+ID4gSSB0aG91Z2h0
+IEknZCBjYXVnaHQgdGhpbmdzIGVhcmx5IGVub3VnaCB0byBnZXQgYXdheSB3aXRoIHRoZQo+ID4g
+cmVuYW1lIGFuZCBkZWxldGlvbiBvZiB0aGF0LiBZb3UgY291bGQgZWl0aGVyOgo+ID4gCj4gPiBh
+KSBvcGVuIGNvZGUgYW4gaW1wbGVtZW50YXRpb24gb2YgdmFkZHJfcHV0X3BhZ2VzX2RpcnR5X2xv
+Y2soKSB0aGF0Cj4gPiBkb2Vzbid0IGNhbGwgYW55IG9mIHRoZSAqcHV0X3VzZXJfcGFnZXNfZGly
+dHkqKCkgdmFyaWFudHMsIG9yCj4gPiAKPiA+IGIpIGluY2x1ZGUgbXkgZmlyc3QgcGF0Y2ggKCIi
+KSBhcmUgcGFydCBvZiB5b3VyIHNlcmllcywgb3IKPiA+IAo+ID4gYykgYmFzZSB0aGlzIG9uIEFu
+ZHJld3MncyB0cmVlLCB3aGljaCBhbHJlYWR5IGhhcyBtZXJnZWQgaW4gbXkgZmlyc3QgcGF0Y2gu
+Cj4gPiAKPiAKPiBZZXAgSSBjYW4gZG8gdGhpcy4gIEkgZGlkIG5vdCByZWFsaXplIHRoYXQgQW5k
+cmV3IGhhZCBhY2NlcHRlZCBhbnkgb2YKPiB0aGlzIHdvcmsuICBJJ2xsIGNoZWNrIG91dCBoaXMg
+dHJlZS4gIEJ1dCBJIGRvbid0IHRoaW5rIGhlIGlzIGdvaW5nIHRvCj4gYWNjZXB0IHRoaXMgc2Vy
+aWVzIHRocm91Z2ggaGlzIHRyZWUuICBTbyB3aGF0IGlzIHRoZSBFVEEgb24gdGhhdCBsYW5kaW5n
+Cj4gaW4gTGludXMnIHRyZWU/Cj4gCj4gVG8gdGhhdCBwb2ludCBJJ20gc3RpbGwgbm90IHN1cmUg
+d2hvIHdvdWxkIHRha2UgYWxsIHRoaXMgYXMgSSBhbSBub3cKPiB0b3VjaGluZyBtbSwgcHJvY2Zz
+LCByZG1hLCBleHQ0LCBhbmQgeGZzLgoKTU0gdHJlZSB3b3VsZCBiZSBvbmUgY2FuZGlkYXRlIGZv
+ciByb3V0aW5nIGJ1dCB0aGVyZSBhcmUgb3RoZXIgb3B0aW9ucyB0aGF0CndvdWxkIG1ha2Ugc2Vu
+c2UgYXMgd2VsbCAtIERhbidzIHRyZWUsIFZGUyB0cmVlLCBvciBldmVuIEkgY2FuIHBpY2t1cCB0
+aGUKcGF0Y2hlcyB0byBteSB0cmVlIGlmIG5lZWRlZC4gQnV0IGxldCdzIHdvcnJ5IGFib3V0IHRo
+ZSByb3V0aW5nIGFmdGVyIHdlCmhhdmUgd29ya2luZyBhbmQgcmV2aWV3ZWQgcGF0Y2hlcy4uLgoK
+CQkJCQkJCQlIb256YQotLSAKSmFuIEthcmEgPGphY2tAc3VzZS5jb20+ClNVU0UgTGFicywgQ1IK
 X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1328910129==--
