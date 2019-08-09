@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1E387D60
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 16:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3BB87D9D
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 17:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94EC66EE28;
-	Fri,  9 Aug 2019 14:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB896EE2B;
+	Fri,  9 Aug 2019 15:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 628AB6EE28
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 14:59:12 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3DC706EE2B
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 15:03:35 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5F23872167; Fri,  9 Aug 2019 14:59:12 +0000 (UTC)
+ id 3527D72167; Fri,  9 Aug 2019 15:03:35 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110865] Rx480 consumes 20w more power in idle than under Windows
-Date: Fri, 09 Aug 2019 14:59:12 +0000
+Subject: [Bug 111305] `ttm_bo_handle_move_mem` sometimes takes more than 50 ms
+Date: Fri, 09 Aug 2019 15:03:35 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
+X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110865-502-772dhgMhVS@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110865-502@http.bugs.freedesktop.org/>
-References: <bug-110865-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111305-502-Kly6VYSNC1@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111305-502@http.bugs.freedesktop.org/>
+References: <bug-111305-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,46 +52,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0321318768=="
+Content-Type: multipart/mixed; boundary="===============0038792488=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0321318768==
-Content-Type: multipart/alternative; boundary="15653627522.71eFFcEb.7105"
+--===============0038792488==
+Content-Type: multipart/alternative; boundary="15653630150.6FaEb.7250"
 Content-Transfer-Encoding: 7bit
 
 
---15653627522.71eFFcEb.7105
-Date: Fri, 9 Aug 2019 14:59:12 +0000
+--15653630150.6FaEb.7250
+Date: Fri, 9 Aug 2019 15:03:35 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110865
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111305
 
---- Comment #14 from Alex Deucher <alexdeucher@gmail.com> ---
-(In reply to Dieter N=C3=BCtzel from comment #13)
+--- Comment #3 from Alex Deucher <alexdeucher@gmail.com> ---
+(In reply to Paul Menzel from comment #2)
 >=20
-> Alex, is this the same problem?
+> Just to clarify, the VRAM on the external graphics device is powered off,
+> correct?
 
-No.
+Correct.
 
 >=20
-> GFX Clocks and Power:
->         300 MHz (MCLK)
->         300 MHz (SCLK)
+> Are there any tools to analyze these delays?
 
-Your mclk is going to a lower state when it's idle.
+I guess profiling the relevant functions in ttm.  See if we are waiting on
+pages, etc.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15653627522.71eFFcEb.7105
-Date: Fri, 9 Aug 2019 14:59:12 +0000
+--15653630150.6FaEb.7250
+Date: Fri, 9 Aug 2019 15:03:35 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -107,31 +107,32 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865#c14">Comme=
-nt # 14</a>
+   title=3D"NEW - `ttm_bo_handle_move_mem` sometimes takes more than 50 ms"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111305#c3">Commen=
+t # 3</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Rx480 consumes 20w more power in idle than under Windows"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110865">bug 11086=
+   title=3D"NEW - `ttm_bo_handle_move_mem` sometimes takes more than 50 ms"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111305">bug 11130=
 5</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
 alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
 com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
 </span></b>
-        <pre>(In reply to Dieter N=C3=BCtzel from <a href=3D"show_bug.cgi?i=
-d=3D110865#c13">comment #13</a>)
+        <pre>(In reply to Paul Menzel from <a href=3D"show_bug.cgi?id=3D111=
+305#c2">comment #2</a>)
 <span class=3D"quote">&gt;=20
-&gt; Alex, is this the same problem?</span >
+&gt; Just to clarify, the VRAM on the external graphics device is powered o=
+ff,
+&gt; correct?</span >
 
-No.
+Correct.
 
 <span class=3D"quote">&gt;=20
-&gt; GFX Clocks and Power:
-&gt;         300 MHz (MCLK)
-&gt;         300 MHz (SCLK)</span >
+&gt; Are there any tools to analyze these delays?</span >
 
-Your mclk is going to a lower state when it's idle.</pre>
+I guess profiling the relevant functions in ttm.  See if we are waiting on
+pages, etc.</pre>
         </div>
       </p>
 
@@ -145,9 +146,9 @@ Your mclk is going to a lower state when it's idle.</pre>
     </body>
 </html>=
 
---15653627522.71eFFcEb.7105--
+--15653630150.6FaEb.7250--
 
---===============0321318768==
+--===============0038792488==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -157,4 +158,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0321318768==--
+--===============0038792488==--
