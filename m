@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CFB87FBB
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 18:22:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7AB87FBC
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 18:23:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB9356EE5A;
-	Fri,  9 Aug 2019 16:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 346366EE59;
+	Fri,  9 Aug 2019 16:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 124C86EE5A
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 16:22:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 30FE06EE59
+ for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 16:22:59 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0F3A172167; Fri,  9 Aug 2019 16:22:42 +0000 (UTC)
+ id 2D6C472167; Fri,  9 Aug 2019 16:22:59 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111241] Shadertoy shader causing hang
-Date: Fri, 09 Aug 2019 16:22:42 +0000
+Date: Fri, 09 Aug 2019 16:22:59 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-111241-502-VgvCmM8bCi@http.bugs.freedesktop.org/>
+Message-ID: <bug-111241-502-U4PqlGLlOt@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-111241-502@http.bugs.freedesktop.org/>
 References: <bug-111241-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0833675524=="
+Content-Type: multipart/mixed; boundary="===============0429389027=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0833675524==
-Content-Type: multipart/alternative; boundary="15653677620.eac3b09.21444"
+--===============0429389027==
+Content-Type: multipart/alternative; boundary="15653677791.fB36c9A5C.21415"
 Content-Transfer-Encoding: 7bit
 
 
---15653677620.eac3b09.21444
-Date: Fri, 9 Aug 2019 16:22:42 +0000
+--15653677791.fB36c9A5C.21415
+Date: Fri, 9 Aug 2019 16:22:59 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,18 +72,18 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111241
 
---- Comment #4 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
+--- Comment #5 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@=
 amd.com> ---
-Created attachment 144993
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144993&action=3Dedit
-tgsi version of the shader
+Created attachment 144994
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D144994&action=3Dedit
+nir version
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15653677620.eac3b09.21444
-Date: Fri, 9 Aug 2019 16:22:42 +0000
+--15653677791.fB36c9A5C.21415
+Date: Fri, 9 Aug 2019 16:22:59 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -100,8 +100,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Shadertoy shader causing hang"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c4">Commen=
-t # 4</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111241#c5">Commen=
+t # 5</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Shadertoy shader causing hang"
@@ -112,11 +112,11 @@ pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
  &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
 -Eric Pelloux-Prayer</span></a>
 </span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144993=
-" name=3D"attach_144993" title=3D"tgsi version of the shader">attachment 14=
-4993</a> <a href=3D"attachment.cgi?id=3D144993&amp;action=3Dedit" title=3D"=
-tgsi version of the shader">[details]</a></span>
-tgsi version of the shader</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D144994=
+" name=3D"attach_144994" title=3D"nir version">attachment 144994</a> <a hre=
+f=3D"attachment.cgi?id=3D144994&amp;action=3Dedit" title=3D"nir version">[d=
+etails]</a></span>
+nir version</pre>
         </div>
       </p>
 
@@ -130,9 +130,9 @@ tgsi version of the shader</pre>
     </body>
 </html>=
 
---15653677620.eac3b09.21444--
+--15653677791.fB36c9A5C.21415--
 
---===============0833675524==
+--===============0429389027==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -142,4 +142,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0833675524==--
+--===============0429389027==--
