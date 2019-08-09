@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31782879E3
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 14:25:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A29A3879E5
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 14:26:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0B3F6EDF8;
-	Fri,  9 Aug 2019 12:25:25 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19AD06EDF7
- for <dri-devel@lists.freedesktop.org>; Fri,  9 Aug 2019 12:25:24 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1hw3xS-0008Jq-2q; Fri, 09 Aug 2019 14:25:22 +0200
-Message-ID: <1565353521.4864.5.camel@pengutronix.de>
-Subject: Re: [PATCH v3 8/8] drm/etnaviv: implement per-process address
- spaces on MMUv2
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, etnaviv@lists.freedesktop.org
-Date: Fri, 09 Aug 2019 14:25:21 +0200
-In-Reply-To: <20190809120424.32679-8-l.stach@pengutronix.de>
-References: <20190809120424.32679-1-l.stach@pengutronix.de>
- <20190809120424.32679-8-l.stach@pengutronix.de>
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69D516EDF7;
+	Fri,  9 Aug 2019 12:26:13 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6BE46EDF7
+ for <dri-devel@freedesktop.org>; Fri,  9 Aug 2019 12:26:12 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 09 Aug 2019 05:26:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,364,1559545200"; d="scan'208";a="186653335"
+Received: from bvonhage-mobl2.ger.corp.intel.com (HELO [10.252.35.153])
+ ([10.252.35.153])
+ by orsmga002.jf.intel.com with ESMTP; 09 Aug 2019 05:26:10 -0700
+Subject: Re: [PATCH v4 1/1] drm/syncobj: add sideband payload
+To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@freedesktop.org
+References: <20190809113030.2547-1-lionel.g.landwerlin@intel.com>
+ <20190809113030.2547-2-lionel.g.landwerlin@intel.com>
+ <156535104115.29541.10253048719287893942@skylake-alporthouse-com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Message-ID: <ee964f2a-088d-cce7-4040-0eff143d9b8b@intel.com>
+Date: Fri, 9 Aug 2019 15:26:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <156535104115.29541.10253048719287893942@skylake-alporthouse-com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,39 +49,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>,
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de,
- patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="utf-8"
+Cc: Christian Koenig <Christian.Koenig@amd.com>,
+ Jason Ekstrand <jason@jlekstrand.net>
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDE5LTA4LTA5IGF0IDE0OjA0ICswMjAwLCBMdWNhcyBTdGFjaCB3cm90ZToKPiBU
-aGlzIGJ1aWxkcyBvbiB0b3Agb2YgdGhlIE1NVSBjb250ZXh0cyBpbnRyb2R1Y2VkIGVhcmxpZXIu
-IEluc3RlYWQgb2YgaGF2aW5nCj4gb25lIGNvbnRleHQgcGVyIEdQVSBjb3JlLCBlYWNoIEdQVSBj
-bGllbnQgcmVjZWl2ZXMgaXRzIG93biBjb250ZXh0Lgo+IAo+IE9uIE1NVXYxIHRoaXMgc3RpbGwg
-bWVhbnMgYSBzaW5nbGUgc2hhcmVkIHBhZ2V0YWJsZSBzZXQgaXMgdXNlZCBieSBhbGwKPiBjbGll
-bnRzLCBidXQgb24gTU1VdjIgdGhlcmUgaXMgbm93IGEgZGlzdGluY3Qgc2V0IG9mIHBhZ2V0YWJs
-ZXMgZm9yIGVhY2gKPiBjbGllbnQuIEFzIHRoZSBjb21tYW5kIGZldGNoIGlzIGFsc28gdHJhbnNs
-YXRlZCB2aWEgdGhlIE1NVSBvbiBNTVV2MiB0aGUKPiBrZXJuZWwgY29tbWFuZCByaW5nYnVmZmVy
-IGlzIG1hcHBlZCBpbnRvIGVhY2ggb2YgdGhlIGNsaWVudCBwYWdldGFibGVzLgo+IAo+IEFzIHRo
-ZSBNTVUgY29udGV4dCBzd2l0Y2ggaXMgYSBiaXQgb2YgYSBoZWF2eSBvcGVyYXRpb24sIGR1ZSB0
-byB0aGUgbmVlZGVkCj4gY2FjaGUgYW5kIFRMQiBmbHVzaGluZywgdGhpcyBwYXRjaCBpbXBsZW1l
-bnRzIGEgbGF6eSB3YXkgb2Ygc3dpdGNoaW5nIHRoZQo+IE1NVSBjb250ZXh0LiBUaGUga2VybmVs
-IGRvZXMgbm90IGhhdmUgaXRzIG93biBNTVUgY29udGV4dCwgYnV0IHJldXNlcyB0aGUKPiBsYXN0
-IGNsaWVudCBjb250ZXh0IGZvciBhbGwgb2YgaXRzIG9wZXJhdGlvbnMuIFRoaXMgaGFzIHNvbWUg
-dmlzaWJsZSBpbXBhY3QsCj4gYXMgdGhlIEdQVSBjYW4gbm93IG9ubHkgYmUgc3RhcnRlZCBvbmNl
-IGEgY2xpZW50IGhhcyBzdWJtaXR0ZWQgc29tZSB3b3JrIGFuZAo+IHdlIGdvdCB0aGUgY2xpZW50
-IE1NVSBjb250ZXh0IGFzc2lnbmVkLiBBbHNvIHRoZSBNTVUgY29udGV4dCBoYXMgYSBkaWZmZXJl
-bnQKPiBsaWZldGltZSB0aGFuIHRoZSBnZW5lcmFsIGNsaWVudCBjb250ZXh0LCBhcyB0aGUgR1BV
-IG1pZ2h0IHN0aWxsIGV4ZWN1dGUgdGhlCj4ga2VybmVsIGNvbW1hbmQgYnVmZmVyIGluIHRoZSBj
-b250ZXh0IG9mIGEgY2xpZW50IGV2ZW4gYWZ0ZXIgdGhlIGNsaWVudCBoYXMKPiBjb21wbGV0ZWQg
-YWxsIEdQVSB3b3JrIGFuZCBoYXMgYmVlbiB0ZXJtaW5hdGVkLiBPbmx5IHdoZW4gdGhlIEdQVSBp
-cyBydW50aW1lCj4gc3VzcGVuZGVkIG9yIHN3aXRjaGVzIHRvIGFub3RoZXIgY2xpZW50cyBNTVUg
-Y29udGV4dCBpcyB0aGUgb2xkIGNvbnRleHQKPiBmcmVlZCB1cC4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KClJldmlld2VkLWJ5OiBQaGls
-aXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPgoKcmVnYXJkcwpQaGlsaXBwCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+T24gMDkvMDgvMjAxOSAxNDo0NCwgQ2hyaXMgV2lsc29uIHdyb3RlOgo+IFF1b3RpbmcgTGlvbmVs
+IExhbmR3ZXJsaW4gKDIwMTktMDgtMDkgMTI6MzA6MzApCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRl
+L3VhcGkvZHJtL2RybS5oIGIvaW5jbHVkZS91YXBpL2RybS9kcm0uaAo+PiBpbmRleCA4YTViMmY4
+ZjhlYjkuLjFjZTgzODUzZjk5NyAxMDA2NDQKPj4gLS0tIGEvaW5jbHVkZS91YXBpL2RybS9kcm0u
+aAo+PiArKysgYi9pbmNsdWRlL3VhcGkvZHJtL2RybS5oCj4+IEBAIC03ODUsNiArNzg1LDIyIEBA
+IHN0cnVjdCBkcm1fc3luY29ial90aW1lbGluZV9hcnJheSB7Cj4+ICAgICAgICAgIF9fdTMyIHBh
+ZDsKPj4gICB9Owo+PiAgIAo+PiArc3RydWN0IGRybV9zeW5jb2JqX2JpbmFyeV9hcnJheSB7Cj4+
+ICsgICAgICAgLyogQSBwb2ludGVyIHRvIGFuIGFycmF5IG9mIHUzMiBzeW5jb2JqIGhhbmRsZXMu
+ICovCj4+ICsgICAgICAgX191NjQgaGFuZGxlczsKPj4gKyAgICAgICAvKiBBIHBvaW50ZXIgdG8g
+YW4gYXJyYXkgb2YgdTMyIGFjY2VzcyBmbGFncyBmb3IgZWFjaCBoYW5kbGUuICovCj4+ICsgICAg
+ICAgX191NjQgYWNjZXNzX2ZsYWdzOwo+PiArICAgICAgIC8qIFRoZSBiaW5hcnkgdmFsdWUgb2Yg
+YSBzeW5jb2JqIGlzIHJlYWQgYmVmb3JlIGl0IGlzIGluY3JlbWVudGVkLiAqLwo+PiArI2RlZmlu
+ZSBJOTE1X0RSTV9TWU5DT0JKX0JJTkFSWV9JVEVNX1ZBTFVFX1JFQUQgKDF1IDw8IDApCj4+ICsj
+ZGVmaW5lIEk5MTVfRFJNX1NZTkNPQkpfQklOQVJZX0lURU1fVkFMVUVfSU5DICAoMXUgPDwgMSkK
+PiBZb3UncmUgbm90IGluIEthbnNhcyBhbnltb3JlIDspCj4gLUNocmlzCj4KV2hpY2ggbWVhbnM/
+IDopCgoKLUxpb25lbAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
