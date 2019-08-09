@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6221586EF8
-	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 02:53:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEA486F0F
+	for <lists+dri-devel@lfdr.de>; Fri,  9 Aug 2019 03:02:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 324AD6ECE5;
-	Fri,  9 Aug 2019 00:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BFA6ECE9;
+	Fri,  9 Aug 2019 01:02:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AFEC6ECE5;
- Fri,  9 Aug 2019 00:53:21 +0000 (UTC)
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7822AC08EC00;
- Fri,  9 Aug 2019 00:53:20 +0000 (UTC)
-Received: from whitewolf.redhat.com (ovpn-120-190.rdu2.redhat.com
- [10.10.120.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFB3360BEC;
- Fri,  9 Aug 2019 00:53:13 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org
-Subject: [PATCH v2] drm/nouveau: Only recalculate PBN/VCPI on mode/connector
- changes
-Date: Thu,  8 Aug 2019 20:53:05 -0400
-Message-Id: <20190809005307.18391-1-lyude@redhat.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C622A6ECE7;
+ Fri,  9 Aug 2019 01:02:43 +0000 (UTC)
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 08 Aug 2019 18:02:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,363,1559545200"; 
+ d="asc'?scan'208";a="258892297"
+Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.116])
+ by orsmga001.jf.intel.com with ESMTP; 08 Aug 2019 18:02:40 -0700
+Date: Fri, 9 Aug 2019 08:58:40 +0800
+From: Zhenyu Wang <zhenyuw@linux.intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [PATCH] drm/i915: Use after free in error path in
+ intel_vgpu_create_workload()
+Message-ID: <20190809005840.GA7032@zhen-hp.sh.intel.com>
+References: <20190808103236.GB30506@mwanda>
+ <156526106102.20411.17520131390381233492@skylake-alporthouse-com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 09 Aug 2019 00:53:20 +0000 (UTC)
+In-Reply-To: <156526106102.20411.17520131390381233492@skylake-alporthouse-com>
+User-Agent: Mutt/1.10.0 (2018-05-17)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -44,79 +46,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bohdan Milar <bmilar@redhat.com>, linux-kernel@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, William Lewis <minutemaidpark@hotmail.com>,
- stable@vger.kernel.org, Karol Herbst <karolherbst@gmail.com>,
- Jerry Zuo <Jerry.Zuo@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@redhat.com>, Juston Li <juston.li@intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Cc: David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ Zhi Wang <zhi.a.wang@intel.com>, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Xiong Zhang <xiong.y.zhang@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Content-Type: multipart/mixed; boundary="===============1661766532=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SSAtdGhvdWdodC0gSSBoYWQgZml4ZWQgdGhpcyBlbnRpcmVseSwgYnV0IGl0IGxvb2tzIGxpa2Ug
-dGhhdCBJIGRpZG4ndAp0ZXN0IHRoaXMgdGhvcm91Z2hseSBlbm91Z2ggYXMgd2UgYXBwYXJlbnRs
-eSBzdGlsbCBtYWtlIG9uZSBiaWcgbWlzdGFrZQp3aXRoIG52NTBfbXN0b19hdG9taWNfY2hlY2so
-KSAtIHdlIGRvbid0IGhhbmRsZSB0aGUgZm9sbG93aW5nIHNjZW5hcmlvOgoKKiBDUlRDICMxIGhh
-cyBuIFZDUEkgYWxsb2NhdGVkIHRvIGl0LCBpcyBhdHRhY2hlZCB0byBjb25uZWN0b3IgRFAtNAog
-IHdoaWNoIGlzIGF0dGFjaGVkIHRvIGVuY29kZXIgIzEuIGVuYWJsZWQ9eSBhY3RpdmU9bgoqIENS
-VEMgIzEgaXMgY2hhbmdlZCBmcm9tIERQLTQgdG8gRFAtNSwgY2F1c2luZzoKICAqIERQLTQgY3J0
-Yz0jMeKGkk5VTEwgKFZDUEkgbuKGkjApCiAgKiBEUC01IGNydGM9TlVMTOKGkiMxCiAgKiBDUlRD
-ICMxIHN0ZWFscyBlbmNvZGVyICMxIGJhY2sgZnJvbSBEUC00IGFuZCBnaXZlcyBpdCB0byBEUC01
-CiAgKiBDUlRDICMxIG1haW50YWlucyB0aGUgc2FtZSBtb2RlIGFzIGJlZm9yZSwganVzdCB3aXRo
-IGEgZGlmZmVyZW50CiAgICBjb25uZWN0b3IKKiBtb2RlX2NoYW5nZWQ9biBjb25uZWN0b3JzX2No
-YW5nZWQ9eQogICh3ZSBfU0hPVUxEXyBkbyBWQ1BJIDDihpJuIGhlcmUsIGJ1dCBkb24ndCkKCk9u
-Y2UgdGhlIGFib3ZlIHNjZW5hcmlvIGlzIHJlcGVhdGVkIG9uY2UsIHdlJ2xsIGF0dGVtcHQgZnJl
-ZWluZyBWQ1BJCmZyb20gdGhlIGNvbm5lY3RvciB0aGF0IHdlIGRpZG4ndCBhbGxvY2F0ZSBkdWUg
-dG8gdGhlIGNvbm5lY3RvcnMKY2hhbmdpbmcsIGJ1dCB0aGUgbW9kZSBzdGF5aW5nIHRoZSBzYW1l
-LiBTaWdoLgoKU2luY2UgbnY1MF9tc3RvX2F0b21pY19jaGVjaygpIGhhcyBicm9rZW4gYSBmZXcg
-dGltZXMgbm93LCBsZXQncyByZXRoaW5rCnRoaW5ncyBhIGJpdCB0byBiZSBtb3JlIGNhcmVmdWw6
-IGxpbWl0IGJvdGggVkNQSS9QQk4gYWxsb2NhdGlvbnMgdG8KbW9kZV9jaGFuZ2VkIHx8IGNvbm5l
-Y3RvcnNfY2hhbmdlZCwgc2luY2UgbmVpdGhlciBWQ1BJIG9yIFBCTiBzaG91bGQKZXZlciBuZWVk
-IHRvIGNoYW5nZSBvdXRzaWRlIG9mIHJvdXRpbmcgYW5kIG1vZGUgY2hhbmdlcy4KCkNoYW5nZXMg
-c2luY2UgdjE6CiogRml4IGFjY2lkZW50YWwgcmV2ZXJzYWwgb2YgY2xvY2sgYW5kIGJwcCBhcmd1
-bWVudHMgaW4KICBkcm1fZHBfY2FsY19wYm5fbW9kZSgpIC0gV2lsbGlhbSBMZXdpcwoKU2lnbmVk
-LW9mZi1ieTogTHl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KUmVwb3J0ZWQtYnk6IEJvaGRh
-biBNaWxhciA8Ym1pbGFyQHJlZGhhdC5jb20+ClRlc3RlZC1ieTogQm9oZGFuIE1pbGFyIDxibWls
-YXJAcmVkaGF0LmNvbT4KRml4ZXM6IDIzMmM5ZWVjNDE3YSAoImRybS9ub3V2ZWF1OiBVc2UgYXRv
-bWljIFZDUEkgaGVscGVycyBmb3IgTVNUIikKUmVmZXJlbmNlczogNDEyZTg1YjYwNTMxICgiZHJt
-L25vdXZlYXU6IE9ubHkgcmVsZWFzZSBWQ1BJIHNsb3RzIG9uIG1vZGUgY2hhbmdlcyIpCkNjOiBM
-eXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgpDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRo
-YXQuY29tPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KQ2M6IERh
-dmlkIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgpDYzogSmVycnkgWnVvIDxKZXJyeS5adW9A
-YW1kLmNvbT4KQ2M6IEhhcnJ5IFdlbnRsYW5kIDxoYXJyeS53ZW50bGFuZEBhbWQuY29tPgpDYzog
-SnVzdG9uIExpIDxqdXN0b24ubGlAaW50ZWwuY29tPgpDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1
-cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgpDYzogS2Fyb2wgSGVyYnN0IDxrYXJvbGhl
-cmJzdEBnbWFpbC5jb20+CkNjOiBJbGlhIE1pcmtpbiA8aW1pcmtpbkBhbHVtLm1pdC5lZHU+CkNj
-OiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NS4xKwotLS0KIGRyaXZlcnMvZ3B1L2RybS9u
-b3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyB8IDIyICsrKysrKysrKysrKystLS0tLS0tLS0KIDEgZmls
-ZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwppbmRleCAxMjY3MDM4MTY3OTQuLjVjMzZjNzUyMzJl
-NiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvZGlzcG52NTAvZGlzcC5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYwpAQCAtNzcxLDE2ICs3
-NzEsMjAgQEAgbnY1MF9tc3RvX2F0b21pY19jaGVjayhzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29k
-ZXIsCiAJc3RydWN0IG52NTBfaGVhZF9hdG9tICphc3loID0gbnY1MF9oZWFkX2F0b20oY3J0Y19z
-dGF0ZSk7CiAJaW50IHNsb3RzOwogCi0JLyogV2hlbiByZXN0b3JpbmcgZHVwbGljYXRlZCBzdGF0
-ZXMsIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQgdGhlCi0JICogYncgcmVtYWlucyB0aGUgc2Ft
-ZSBhbmQgYXZvaWQgcmVjYWxjdWxhdGluZyBpdCwgYXMgdGhlIGNvbm5lY3RvcidzCi0JICogYnBj
-IG1heSBoYXZlIGNoYW5nZWQgYWZ0ZXIgdGhlIHN0YXRlIHdhcyBkdXBsaWNhdGVkCi0JICovCi0J
-aWYgKCFzdGF0ZS0+ZHVwbGljYXRlZCkKLQkJYXN5aC0+ZHAucGJuID0KLQkJCWRybV9kcF9jYWxj
-X3Bibl9tb2RlKGNydGNfc3RhdGUtPmFkanVzdGVkX21vZGUuY2xvY2ssCi0JCQkJCSAgICAgY29u
-bmVjdG9yLT5kaXNwbGF5X2luZm8uYnBjICogMyk7CisJaWYgKGNydGNfc3RhdGUtPm1vZGVfY2hh
-bmdlZCB8fCBjcnRjX3N0YXRlLT5jb25uZWN0b3JzX2NoYW5nZWQpIHsKKwkJLyoKKwkJICogV2hl
-biByZXN0b3JpbmcgZHVwbGljYXRlZCBzdGF0ZXMsIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoYXQK
-KwkJICogdGhlIGJ3IHJlbWFpbnMgdGhlIHNhbWUgYW5kIGF2b2lkIHJlY2FsY3VsYXRpbmcgaXQs
-IGFzIHRoZQorCQkgKiBjb25uZWN0b3IncyBicGMgbWF5IGhhdmUgY2hhbmdlZCBhZnRlciB0aGUg
-c3RhdGUgd2FzCisJCSAqIGR1cGxpY2F0ZWQKKwkJICovCisJCWlmICghc3RhdGUtPmR1cGxpY2F0
-ZWQpIHsKKwkJCWNvbnN0IGludCBicHAgPSBjb25uZWN0b3ItPmRpc3BsYXlfaW5mby5icGMgKiAz
-OworCQkJY29uc3QgaW50IGNsb2NrID0gY3J0Y19zdGF0ZS0+YWRqdXN0ZWRfbW9kZS5jbG9jazsK
-KworCQkJYXN5aC0+ZHAucGJuID0gZHJtX2RwX2NhbGNfcGJuX21vZGUoY2xvY2ssIGJwcCk7CisJ
-CX0KIAotCWlmIChjcnRjX3N0YXRlLT5tb2RlX2NoYW5nZWQpIHsKIAkJc2xvdHMgPSBkcm1fZHBf
-YXRvbWljX2ZpbmRfdmNwaV9zbG90cyhzdGF0ZSwgJm1zdG0tPm1nciwKIAkJCQkJCSAgICAgIG1z
-dGMtPnBvcnQsCiAJCQkJCQkgICAgICBhc3loLT5kcC5wYm4pOwotLSAKMi4yMS4wCgpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1661766532==
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
+
+
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 2019.08.08 11:44:21 +0100, Chris Wilson wrote:
+> Quoting Dan Carpenter (2019-08-08 11:32:36)
+> > We can't free "workload" until after the printk or it's a use after
+> > free.
+> >=20
+> > Fixes: 2089a76ade90 ("drm/i915/gvt: Checking workload's gma earlier")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+>=20
+> That's the simpler patch,
+> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
+
+Thanks a lot, will queue this up.
+
+--=20
+Open Source Technology Center, Intel ltd.
+
+$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXUzFQAAKCRCxBBozTXgY
+J5EAAJkBRaKvljSknayoIbjCoWwSQK+1XgCeKPC2dx9VcLD8Sd9OLXGHqHyWtS8=
+=O1aB
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
+
+--===============1661766532==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1661766532==--
