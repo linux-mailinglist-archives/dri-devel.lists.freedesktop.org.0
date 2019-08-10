@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949F1889EA
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43CA1889E9
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC1C76E2CD;
-	Sat, 10 Aug 2019 08:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ABC86E2C7;
+	Sat, 10 Aug 2019 08:18:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 99E046E2C7
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6B5E16E2D2
  for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9725D72167; Sat, 10 Aug 2019 08:18:48 +0000 (UTC)
+ id 68EE672167; Sat, 10 Aug 2019 08:18:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111358] Operators are appearing when not expected
+Subject: [Bug 111351] operators are appearing in the content when not expected
 Date: Sat, 10 Aug 2019 08:18:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_group component version product
-Message-ID: <bug-111358-502-osQDd1CNAp@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111358-502@http.bugs.freedesktop.org/>
-References: <bug-111358-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: version bug_group component product
+Message-ID: <bug-111351-502-zL8uT8CmkR@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111351-502@http.bugs.freedesktop.org/>
+References: <bug-111351-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,17 +52,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0648233252=="
+Content-Type: multipart/mixed; boundary="===============0202837679=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0648233252==
-Content-Type: multipart/alternative; boundary="15654251287.4fCEb8.14042"
+--===============0202837679==
+Content-Type: multipart/alternative; boundary="15654251285.DcF3D.14042"
 Content-Transfer-Encoding: 7bit
 
 
---15654251287.4fCEb8.14042
+--15654251285.DcF3D.14042
 Date: Sat, 10 Aug 2019 08:18:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -70,22 +70,22 @@ Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111358
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111351
 
 Chris Wilson <chris@chris-wilson.co.uk> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
+            Version|XOrg git                    |unspecified
               Group|                            |spam
           Component|General                     |Two
-            Version|XOrg git                    |unspecified
             Product|DRI                         |Spam
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654251287.4fCEb8.14042
+--15654251285.DcF3D.14042
 Date: Sat, 10 Aug 2019 08:18:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
@@ -103,9 +103,9 @@ Auto-Submitted: auto-generated
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Operators are appearing when not expected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111358">bug 11135=
-8</a>
+   title=3D"NEW - operators are appearing in the content when not expected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111351">bug 11135=
+1</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -113,6 +113,14 @@ Auto-Submitted: auto-generated
             <th>Removed</th>
             <th>Added</th>
           </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Version</td>
+           <td>XOrg git
+           </td>
+           <td>unspecified
+           </td>
+         </tr>
 
          <tr>
            <td style=3D"text-align:right;">Group</td>
@@ -128,14 +136,6 @@ Auto-Submitted: auto-generated
            <td>General
            </td>
            <td>Two
-           </td>
-         </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>XOrg git
-           </td>
-           <td>unspecified
            </td>
          </tr>
 
@@ -159,9 +159,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15654251287.4fCEb8.14042--
+--15654251285.DcF3D.14042--
 
---===============0648233252==
+--===============0202837679==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +171,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0648233252==--
+--===============0202837679==--
