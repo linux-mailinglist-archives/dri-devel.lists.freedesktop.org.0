@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 058A688B7B
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 15:02:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5650188B82
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 15:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77F96E312;
-	Sat, 10 Aug 2019 13:02:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF846E3E7;
+	Sat, 10 Aug 2019 13:14:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id B18126E3F4
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 13:02:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 93C4E6E3EE
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 13:14:23 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id AE04872167; Sat, 10 Aug 2019 13:02:39 +0000 (UTC)
+ id 9031A72167; Sat, 10 Aug 2019 13:14:23 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sat, 10 Aug 2019 13:02:39 +0000
+Date: Sat, 10 Aug 2019 13:14:23 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-FhfHbcpKsR@http.bugs.freedesktop.org/>
+Message-ID: <bug-110674-502-0bewnKxf7o@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1845164796=="
+Content-Type: multipart/mixed; boundary="===============0207878193=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1845164796==
-Content-Type: multipart/alternative; boundary="15654421596.8F14Dd8.27789"
+--===============0207878193==
+Content-Type: multipart/alternative; boundary="15654428636.B9ff.29496"
 Content-Transfer-Encoding: 7bit
 
 
---15654421596.8F14Dd8.27789
-Date: Sat, 10 Aug 2019 13:02:39 +0000
+--15654428636.B9ff.29496
+Date: Sat, 10 Aug 2019 13:14:23 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,22 +72,33 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #63 from Tom B <tom@r.je> ---
-I've just done some testing with 5.2.7
+--- Comment #64 from Tom B <tom@r.je> ---
+Scratch that, I just rebooted with HDMI+DP and it froze as soon as SDDM
+started. I was eventually able to switch TTY and the voltages looked correct
+(it was boosted down) but I was never able to log in to KDE as SDDM was fro=
+zen.
+Restarting sddm allowed me to enter my password but it froze as soon as I
+logged in. Not that HDMI is an optimal solution anyway as I get the flicker=
+ing,
+and I've tried 3 different cables.=20
 
-- I still get the 135w/1.1v constant power state and crashing with DP+DP.
+Back to 5.0.13 which works mostly fine. I do get a crash very occasionally,=
+ the
+machine will appear to wake up from sleep with a black screen and a cursor.
+Very rare, once a week or so and only when sleep/resume cycle has been run
+multiple times.
 
-- HDMI+DP works, but this was my original setup when I got the VII.
-Unfortunately  I get random flickering and black screens on the HDMI monitor
-every 3-5 minutes as described in
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110510
+Peter Hercek mentioned virtual machines, as such I tried with iommu enabled=
+ and
+disabled in the bios, it didn't make any difference but thought it was worth
+reporting to save others time trying it.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654421596.8F14Dd8.27789
-Date: Sat, 10 Aug 2019 13:02:39 +0000
+--15654428636.B9ff.29496
+Date: Sat, 10 Aug 2019 13:14:23 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,8 +115,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c63">Comme=
-nt # 63</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c64">Comme=
+nt # 64</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -115,18 +126,26 @@ nt # 63</a>
 tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
 B</span></a>
 </span></b>
-        <pre>I've just done some testing with 5.2.7
+        <pre>Scratch that, I just rebooted with HDMI+DP and it froze as soo=
+n as SDDM
+started. I was eventually able to switch TTY and the voltages looked correct
+(it was boosted down) but I was never able to log in to KDE as SDDM was fro=
+zen.
+Restarting sddm allowed me to enter my password but it froze as soon as I
+logged in. Not that HDMI is an optimal solution anyway as I get the flicker=
+ing,
+and I've tried 3 different cables.=20
 
-- I still get the 135w/1.1v constant power state and crashing with DP+DP.
+Back to 5.0.13 which works mostly fine. I do get a crash very occasionally,=
+ the
+machine will appear to wake up from sleep with a black screen and a cursor.
+Very rare, once a week or so and only when sleep/resume cycle has been run
+multiple times.
 
-- HDMI+DP works, but this was my original setup when I got the VII.
-Unfortunately  I get random flickering and black screens on the HDMI monitor
-every 3-5 minutes as described in
-<a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Radeon VII HDMI issues: Flicking/system crashing"
-   href=3D"show_bug.cgi?id=3D110510">https://bugs.freedesktop.org/show_bug.=
-cgi?id=3D110510</a></pre>
+Peter Hercek mentioned virtual machines, as such I tried with iommu enabled=
+ and
+disabled in the bios, it didn't make any difference but thought it was worth
+reporting to save others time trying it.</pre>
         </div>
       </p>
 
@@ -140,9 +159,9 @@ cgi?id=3D110510</a></pre>
     </body>
 </html>=
 
---15654421596.8F14Dd8.27789--
+--15654428636.B9ff.29496--
 
---===============1845164796==
+--===============0207878193==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -152,4 +171,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1845164796==--
+--===============0207878193==--
