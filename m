@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5650188B82
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 15:14:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 020E188B83
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 15:15:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AF846E3E7;
-	Sat, 10 Aug 2019 13:14:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6D56E3EF;
+	Sat, 10 Aug 2019 13:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 93C4E6E3EE
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 13:14:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id D39DE6E3EF
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 13:15:53 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 9031A72167; Sat, 10 Aug 2019 13:14:23 +0000 (UTC)
+ id D04CD72167; Sat, 10 Aug 2019 13:15:53 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sat, 10 Aug 2019 13:14:23 +0000
+Date: Sat, 10 Aug 2019 13:15:53 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-0bewnKxf7o@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110674-502-nF5G5pRjlf@http.bugs.freedesktop.org/>
 In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
 References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0207878193=="
+Content-Type: multipart/mixed; boundary="===============2140622060=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0207878193==
-Content-Type: multipart/alternative; boundary="15654428636.B9ff.29496"
+--===============2140622060==
+Content-Type: multipart/alternative; boundary="15654429531.cBEbdaC.30724"
 Content-Transfer-Encoding: 7bit
 
 
---15654428636.B9ff.29496
-Date: Sat, 10 Aug 2019 13:14:23 +0000
+--15654429531.cBEbdaC.30724
+Date: Sat, 10 Aug 2019 13:15:53 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,33 +72,22 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #64 from Tom B <tom@r.je> ---
-Scratch that, I just rebooted with HDMI+DP and it froze as soon as SDDM
-started. I was eventually able to switch TTY and the voltages looked correct
-(it was boosted down) but I was never able to log in to KDE as SDDM was fro=
-zen.
-Restarting sddm allowed me to enter my password but it froze as soon as I
-logged in. Not that HDMI is an optimal solution anyway as I get the flicker=
-ing,
-and I've tried 3 different cables.=20
+--- Comment #65 from Tom B <tom@r.je> ---
+Created attachment 145018
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145018&action=3Dedit
+5.2.7  full dmesg
 
-Back to 5.0.13 which works mostly fine. I do get a crash very occasionally,=
- the
-machine will appear to wake up from sleep with a black screen and a cursor.
-Very rare, once a week or so and only when sleep/resume cycle has been run
-multiple times.
+Full dmesg from 5.2.7, 2xdisplayport monitors the error that keeps repeating
+is:
 
-Peter Hercek mentioned virtual machines, as such I tried with iommu enabled=
- and
-disabled in the bios, it didn't make any difference but thought it was worth
-reporting to save others time trying it.
+*ERROR* Failed to initialize parser -125!
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654428636.B9ff.29496
-Date: Sat, 10 Aug 2019 13:14:23 +0000
+--15654429531.cBEbdaC.30724
+Date: Sat, 10 Aug 2019 13:15:53 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -115,8 +104,8 @@ Auto-Submitted: auto-generated
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c64">Comme=
-nt # 64</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c65">Comme=
+nt # 65</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
@@ -126,26 +115,16 @@ nt # 64</a>
 tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
 B</span></a>
 </span></b>
-        <pre>Scratch that, I just rebooted with HDMI+DP and it froze as soo=
-n as SDDM
-started. I was eventually able to switch TTY and the voltages looked correct
-(it was boosted down) but I was never able to log in to KDE as SDDM was fro=
-zen.
-Restarting sddm allowed me to enter my password but it froze as soon as I
-logged in. Not that HDMI is an optimal solution anyway as I get the flicker=
-ing,
-and I've tried 3 different cables.=20
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145018=
+" name=3D"attach_145018" title=3D"5.2.7  full dmesg">attachment 145018</a> =
+<a href=3D"attachment.cgi?id=3D145018&amp;action=3Dedit" title=3D"5.2.7  fu=
+ll dmesg">[details]</a></span>
+5.2.7  full dmesg
 
-Back to 5.0.13 which works mostly fine. I do get a crash very occasionally,=
- the
-machine will appear to wake up from sleep with a black screen and a cursor.
-Very rare, once a week or so and only when sleep/resume cycle has been run
-multiple times.
+Full dmesg from 5.2.7, 2xdisplayport monitors the error that keeps repeating
+is:
 
-Peter Hercek mentioned virtual machines, as such I tried with iommu enabled=
- and
-disabled in the bios, it didn't make any difference but thought it was worth
-reporting to save others time trying it.</pre>
+*ERROR* Failed to initialize parser -125!</pre>
         </div>
       </p>
 
@@ -159,9 +138,9 @@ reporting to save others time trying it.</pre>
     </body>
 </html>=
 
---15654428636.B9ff.29496--
+--15654429531.cBEbdaC.30724--
 
---===============0207878193==
+--===============2140622060==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +150,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0207878193==--
+--===============2140622060==--
