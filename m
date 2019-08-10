@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2229889DC
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B337889DE
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D81B6E28F;
-	Sat, 10 Aug 2019 08:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FF546E299;
+	Sat, 10 Aug 2019 08:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 15E126E28F
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:16:15 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2FD8A6E299
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:39 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 0B6D672167; Sat, 10 Aug 2019 08:16:15 +0000 (UTC)
+ id 2C64F72167; Sat, 10 Aug 2019 08:18:39 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 111368] the bug is visible at the site
-Date: Sat, 10 Aug 2019 08:16:15 +0000
+Date: Sat, 10 Aug 2019 08:18:39 +0000
 X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: General
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- attachments.created
-Message-ID: <bug-111368-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: bug_file_loc
+Message-ID: <bug-111368-502-fsmAPchtqX@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111368-502@http.bugs.freedesktop.org/>
+References: <bug-111368-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,18 +52,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1255617878=="
+Content-Type: multipart/mixed; boundary="===============1413398454=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1255617878==
-Content-Type: multipart/alternative; boundary="15654249740.bc32C3FED.12587"
+--===============1413398454==
+Content-Type: multipart/alternative; boundary="15654251191.1450548fC.14090"
 Content-Transfer-Encoding: 7bit
 
 
---15654249740.bc32C3FED.12587
-Date: Sat, 10 Aug 2019 08:16:14 +0000
+--15654251191.1450548fC.14090
+Date: Sat, 10 Aug 2019 08:18:39 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -72,29 +72,20 @@ Auto-Submitted: auto-generated
 
 https://bugs.freedesktop.org/show_bug.cgi?id=3D111368
 
-            Bug ID: 111368
-           Summary: the bug is visible at the site
-           Product: DRI
-           Version: unspecified
-          Hardware: Other
-                OS: All
-            Status: NEW
-          Severity: minor
-          Priority: medium
-         Component: General
-          Assignee: dri-devel@lists.freedesktop.org
-          Reporter: saurabhdubey0601@gmail.com
+saurabhdubey0601@gmail.com changed:
 
-Created attachment 145017
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145017&action=3Dedit
-the bug is highlighted
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                URL|                            |https://www.cs.nmsu.edu/~jo
+                   |                            |shagam/archive/cs574/3-dri.
+                   |                            |html
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654249740.bc32C3FED.12587
-Date: Sat, 10 Aug 2019 08:16:14 +0000
+--15654251191.1450548fC.14090
+Date: Sat, 10 Aug 2019 08:18:39 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,89 +96,32 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-        <tr>
-          <th>Bug ID</th>
-          <td><a class=3D"bz_bug_link=20
+    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:saurabhdu=
+bey0601&#64;gmail.com" title=3D"saurabhdubey0601&#64;gmail.com">saurabhdube=
+y0601&#64;gmail.com</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - the bug is visible at the site"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111368">111368</a>
-          </td>
-        </tr>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111368">bug 11136=
+8</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
 
-        <tr>
-          <th>Summary</th>
-          <td>the bug is visible at the site
-          </td>
-        </tr>
-
-        <tr>
-          <th>Product</th>
-          <td>DRI
-          </td>
-        </tr>
-
-        <tr>
-          <th>Version</th>
-          <td>unspecified
-          </td>
-        </tr>
-
-        <tr>
-          <th>Hardware</th>
-          <td>Other
-          </td>
-        </tr>
-
-        <tr>
-          <th>OS</th>
-          <td>All
-          </td>
-        </tr>
-
-        <tr>
-          <th>Status</th>
-          <td>NEW
-          </td>
-        </tr>
-
-        <tr>
-          <th>Severity</th>
-          <td>minor
-          </td>
-        </tr>
-
-        <tr>
-          <th>Priority</th>
-          <td>medium
-          </td>
-        </tr>
-
-        <tr>
-          <th>Component</th>
-          <td>General
-          </td>
-        </tr>
-
-        <tr>
-          <th>Assignee</th>
-          <td>dri-devel&#64;lists.freedesktop.org
-          </td>
-        </tr>
-
-        <tr>
-          <th>Reporter</th>
-          <td>saurabhdubey0601&#64;gmail.com
-          </td>
-        </tr></table>
+         <tr>
+           <td style=3D"text-align:right;">URL</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>https://www.cs.nmsu.edu/~joshagam/archive/cs574/3-dri.html
+           </td>
+         </tr></table>
       <p>
-        <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145017=
-" name=3D"attach_145017" title=3D"the bug is highlighted">attachment 145017=
-</a> <a href=3D"attachment.cgi?id=3D145017&amp;action=3Dedit" title=3D"the =
-bug is highlighted">[details]</a></span>
-the bug is highlighted</pre>
-        </div>
       </p>
 
 
@@ -200,9 +134,9 @@ the bug is highlighted</pre>
     </body>
 </html>=
 
---15654249740.bc32C3FED.12587--
+--15654251191.1450548fC.14090--
 
---===============1255617878==
+--===============1413398454==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -212,4 +146,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1255617878==--
+--===============1413398454==--
