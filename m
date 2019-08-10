@@ -2,23 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C34988968
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 09:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F53688988
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:01:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC316E202;
-	Sat, 10 Aug 2019 07:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 210F36E02F;
+	Sat, 10 Aug 2019 08:01:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id E4DC76E202
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 07:59:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C97DD6E02F
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:01:05 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id E15AC72167; Sat, 10 Aug 2019 07:59:50 +0000 (UTC)
+ id C57A772167; Sat, 10 Aug 2019 08:01:05 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111351] operators are appearing in the content when not expected
-Date: Sat, 10 Aug 2019 07:59:50 +0000
+Subject: [Bug 111353] operators are appearing in the content when they are
+ not expected
+Date: Sat, 10 Aug 2019 08:01:05 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: new
 X-Bugzilla-Watch-Reason: None
@@ -27,7 +28,7 @@ X-Bugzilla-Component: General
 X-Bugzilla-Version: XOrg git
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: anamkhan40@yahoo.com
+X-Bugzilla-Who: palfaiza@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
@@ -36,7 +37,7 @@ X-Bugzilla-Flags:
 X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
  bug_file_loc op_sys bug_status bug_severity priority component assigned_to
  reporter attachments.created
-Message-ID: <bug-111351-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111353-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,52 +53,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0557641824=="
+Content-Type: multipart/mixed; boundary="===============0476112380=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0557641824==
-Content-Type: multipart/alternative; boundary="15654239901.AaeC594fB.10352"
+--===============0476112380==
+Content-Type: multipart/alternative; boundary="15654240650.3ca8Be79e.10587"
 Content-Transfer-Encoding: 7bit
 
 
---15654239901.AaeC594fB.10352
-Date: Sat, 10 Aug 2019 07:59:50 +0000
+--15654240650.3ca8Be79e.10587
+Date: Sat, 10 Aug 2019 08:01:05 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111351
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111353
 
-            Bug ID: 111351
-           Summary: operators are appearing in the content when not
-                    expected
+            Bug ID: 111353
+           Summary: operators are appearing in the content when they are
+                    not expected
            Product: DRI
            Version: XOrg git
           Hardware: Other
-               URL: http://https://www.cs.nmsu.edu/~joshagam/archive/cs574
-                    /3-dri.html
+               URL: https://www.cs.nmsu.edu/~joshagam/archive/cs574/3-dri.
+                    html
                 OS: All
             Status: NEW
           Severity: normal
           Priority: medium
          Component: General
           Assignee: dri-devel@lists.freedesktop.org
-          Reporter: anamkhan40@yahoo.com
+          Reporter: palfaiza@gmail.com
 
-Created attachment 145003
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145003&action=3Dedit
-bug for operator
+Created attachment 145004
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145004&action=3Dedit
+Bug for operator
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654239901.AaeC594fB.10352
-Date: Sat, 10 Aug 2019 07:59:50 +0000
+--15654240650.3ca8Be79e.10587
+Date: Sat, 10 Aug 2019 08:01:05 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -113,14 +114,16 @@ Auto-Submitted: auto-generated
           <th>Bug ID</th>
           <td><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - operators are appearing in the content when not expected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111351">111351</a>
+   title=3D"NEW - operators are appearing in the content when they are not =
+expected"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111353">111353</a>
           </td>
         </tr>
 
         <tr>
           <th>Summary</th>
-          <td>operators are appearing in the content when not expected
+          <td>operators are appearing in the content when they are not expe=
+cted
           </td>
         </tr>
 
@@ -144,8 +147,7 @@ Auto-Submitted: auto-generated
 
         <tr>
           <th>URL</th>
-          <td>http://https://www.cs.nmsu.edu/~joshagam/archive/cs574/3-dri.=
-html
+          <td>https://www.cs.nmsu.edu/~joshagam/archive/cs574/3-dri.html
           </td>
         </tr>
 
@@ -187,16 +189,16 @@ html
 
         <tr>
           <th>Reporter</th>
-          <td>anamkhan40&#64;yahoo.com
+          <td>palfaiza&#64;gmail.com
           </td>
         </tr></table>
       <p>
         <div>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145003=
-" name=3D"attach_145003" title=3D"bug for operator">attachment 145003</a> <=
-a href=3D"attachment.cgi?id=3D145003&amp;action=3Dedit" title=3D"bug for op=
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145004=
+" name=3D"attach_145004" title=3D"Bug for operator">attachment 145004</a> <=
+a href=3D"attachment.cgi?id=3D145004&amp;action=3Dedit" title=3D"Bug for op=
 erator">[details]</a></span>
-bug for operator</pre>
+Bug for operator</pre>
         </div>
       </p>
 
@@ -210,9 +212,9 @@ bug for operator</pre>
     </body>
 </html>=
 
---15654239901.AaeC594fB.10352--
+--15654240650.3ca8Be79e.10587--
 
---===============0557641824==
+--===============0476112380==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -222,4 +224,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0557641824==--
+--===============0476112380==--
