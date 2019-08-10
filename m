@@ -1,54 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F7988CB7
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 20:14:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7AE88CD5
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 21:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 247586E11B;
-	Sat, 10 Aug 2019 18:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DB6F6E079;
+	Sat, 10 Aug 2019 19:00:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
- [198.145.29.98])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 914876E11B
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 18:14:23 +0000 (UTC)
-Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
- by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 3088426E3C
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 18:14:23 +0000 (UTC)
-Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
- id 2488026E51; Sat, 10 Aug 2019 18:14:23 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
- pdx-wl-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
- NO_RELAYS autolearn=unavailable version=3.3.1
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 832626E46C
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 19:00:17 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 7FAF972167; Sat, 10 Aug 2019 19:00:17 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201285] Kernel oops in amdgpu with Ryzen5 2400G
-Date: Sat, 10 Aug 2019 18:14:21 +0000
-X-Bugzilla-Reason: None
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sat, 10 Aug 2019 19:00:17 +0000
+X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: oyvinds@everdot.org
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: tom@r.je
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201285-2300-uA0G7O5kzI@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201285-2300@https.bugzilla.kernel.org/>
-References: <bug-201285-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+Message-ID: <bug-110674-502-StWaP4pArY@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,167 +52,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0548888994=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDEyODUKCi0tLSBD
-b21tZW50ICM5IGZyb20gb3l2aW5kc0BldmVyZG90Lm9yZyAtLS0KTGludXggeW9vbmEuZXZlcmRv
-dC5vcmcgNS4yLjUtSmluc29sOgoKWyAgICAwLjc3NjIyMV0gQU1ELVZpOiBBTUQgSU9NTVV2MiBk
-cml2ZXIgYnkgSm9lcmcgUm9lZGVsIDxqcm9lZGVsQHN1c2UuZGU+ClsgICAgMC43NzY0MTZdIFtk
-cm1dIGFtZGdwdSBrZXJuZWwgbW9kZXNldHRpbmcgZW5hYmxlZC4KWyAgICAwLjc3NjU5Ml0gUGFy
-c2luZyBDUkFUIHRhYmxlIHdpdGggMSBub2RlcwpbICAgIDAuNzc2NzEwXSBDcmVhdGluZyB0b3Bv
-bG9neSBTWVNGUyBlbnRyaWVzClsgICAgMC43NzY4NTJdIFRvcG9sb2d5OiBBZGQgQVBVIG5vZGUg
-WzB4MDoweDBdClsgICAgMC43NzY5NjZdIEZpbmlzaGVkIGluaXRpYWxpemluZyB0b3BvbG9neQpb
-ICAgIDAuNzc3MTM1XSBhbWRncHUgMDAwMDowZjowMC4wOiByZW1vdmVfY29uZmxpY3RpbmdfcGNp
-X2ZyYW1lYnVmZmVyczogYmFyIDA6CjB4ZTAwMDAwMDAgLT4gMHhlZmZmZmZmZgpbICAgIDAuNzc3
-MzE2XSBhbWRncHUgMDAwMDowZjowMC4wOiByZW1vdmVfY29uZmxpY3RpbmdfcGNpX2ZyYW1lYnVm
-ZmVyczogYmFyIDI6CjB4ZjAwMDAwMDAgLT4gMHhmMDFmZmZmZgpbICAgIDAuNzc3NDkwXSBhbWRn
-cHUgMDAwMDowZjowMC4wOiByZW1vdmVfY29uZmxpY3RpbmdfcGNpX2ZyYW1lYnVmZmVyczogYmFy
-IDU6CjB4ZjdhMDAwMDAgLT4gMHhmN2E3ZmZmZgpbICAgIDAuNzc3NjYzXSBhbWRncHUgMDAwMDow
-ZjowMC4wOiB2Z2FhcmI6IGRlYWN0aXZhdGUgdmdhIGNvbnNvbGUKWyAgICAwLjc3ODU2N10gQ29u
-c29sZTogc3dpdGNoaW5nIHRvIGNvbG91ciBkdW1teSBkZXZpY2UgODB4MjUKWyAgICAwLjc3ODgw
-NV0gW2RybV0gaW5pdGlhbGl6aW5nIGtlcm5lbCBtb2Rlc2V0dGluZyAoUkFWRU4gMHgxMDAyOjB4
-MTVERAoweDEwNDM6MHg4NzZCIDB4QzYpLgpbICAgIDAuNzc4ODIwXSBbZHJtXSByZWdpc3RlciBt
-bWlvIGJhc2U6IDB4RjdBMDAwMDAKWyAgICAwLjc3ODgyMl0gW2RybV0gcmVnaXN0ZXIgbW1pbyBz
-aXplOiA1MjQyODgKWyAgICAwLjc3ODgzOF0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciAwIDxz
-b2MxNV9jb21tb24+ClsgICAgMC43Nzg4NDBdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIgMSA8
-Z21jX3Y5XzA+ClsgICAgMC43Nzg4NDJdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIgMiA8dmVn
-YTEwX2loPgpbICAgIDAuNzc4ODQ0XSBbZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDMgPHBzcD4K
-WyAgICAwLjc3ODg0Nl0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA0IDxnZnhfdjlfMD4KWyAg
-ICAwLjc3ODg0OF0gW2RybV0gYWRkIGlwIGJsb2NrIG51bWJlciA1IDxzZG1hX3Y0XzA+ClsgICAg
-MC43Nzg4NTBdIFtkcm1dIGFkZCBpcCBibG9jayBudW1iZXIgNiA8cG93ZXJwbGF5PgpbICAgIDAu
-Nzc4ODUyXSBbZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDcgPGRtPgpbICAgIDAuNzc4ODU0XSBb
-ZHJtXSBhZGQgaXAgYmxvY2sgbnVtYmVyIDggPHZjbl92MV8wPgpbICAgIDAuNzc4ODY0XSBbZHJt
-XSBWQ04gZGVjb2RlIGlzIGVuYWJsZWQgaW4gVk0gbW9kZQpbICAgIDAuNzc4ODY2XSBbZHJtXSBW
-Q04gZW5jb2RlIGlzIGVuYWJsZWQgaW4gVk0gbW9kZQpbICAgIDAuNzc4ODY4XSBbZHJtXSBWQ04g
-anBlZyBkZWNvZGUgaXMgZW5hYmxlZCBpbiBWTSBtb2RlClsgICAgMC43OTk1MzNdIFtkcm1dIEJJ
-T1Mgc2lnbmF0dXJlIGluY29ycmVjdCA1YiA3ClsgICAgMC43OTk1NTJdIEFUT00gQklPUzogMTEz
-LVJBVkVOLTExMQpbICAgIDAuNzk5NTc5XSBbZHJtXSBSQVMgSU5GTzogcmFzIGluaXRpYWxpemVk
-IHN1Y2Nlc3NmdWxseSwgaGFyZHdhcmUKYWJpbGl0eVswXSByYXNfbWFza1swXQpbICAgIDAuNzk5
-NTgyXSBbZHJtXSB2bSBzaXplIGlzIDI2MjE0NCBHQiwgNCBsZXZlbHMsIGJsb2NrIHNpemUgaXMg
-OS1iaXQsCmZyYWdtZW50IHNpemUgaXMgOS1iaXQKWyAgICAwLjc5OTYwMV0gYW1kZ3B1IDAwMDA6
-MGY6MDAuMDogVlJBTTogNTEyTSAweDAwMDAwMEY0MDAwMDAwMDAgLQoweDAwMDAwMEY0MUZGRkZG
-RkYgKDUxMk0gdXNlZCkKWyAgICAwLjc5OTYwM10gYW1kZ3B1IDAwMDA6MGY6MDAuMDogR0FSVDog
-MTAyNE0gMHgwMDAwMDAwMDAwMDAwMDAwIC0KMHgwMDAwMDAwMDNGRkZGRkZGClsgICAgMC43OTk2
-MDVdIGFtZGdwdSAwMDAwOjBmOjAwLjA6IEFHUDogMjY3NDE5NjQ4TSAweDAwMDAwMEY4MDAwMDAw
-MDAgLQoweDAwMDBGRkZGRkZGRkZGRkYKWyAgICAwLjc5OTYxMF0gW2RybV0gRGV0ZWN0ZWQgVlJB
-TSBSQU09NTEyTSwgQkFSPTUxMk0KWyAgICAwLjc5OTYxMl0gW2RybV0gUkFNIHdpZHRoIDEyOGJp
-dHMgRERSNApbICAgIDAuNzk5NjY0XSBbVFRNXSBab25lICBrZXJuZWw6IEF2YWlsYWJsZSBncmFw
-aGljcyBtZW1vcnk6IDc5Mzg4MzYgS2lCClsgICAgMC43OTk2NjZdIFtUVE1dIFpvbmUgICBkbWEz
-MjogQXZhaWxhYmxlIGdyYXBoaWNzIG1lbW9yeTogMjA5NzE1MiBLaUIKWyAgICAwLjc5OTY2N10g
-W1RUTV0gSW5pdGlhbGl6aW5nIHBvb2wgYWxsb2NhdG9yClsgICAgMC43OTk2NzBdIFtUVE1dIElu
-aXRpYWxpemluZyBETUEgcG9vbCBhbGxvY2F0b3IKWyAgICAwLjc5OTcwNF0gW2RybV0gYW1kZ3B1
-OiA1MTJNIG9mIFZSQU0gbWVtb3J5IHJlYWR5ClsgICAgMC43OTk3MDZdIFtkcm1dIGFtZGdwdTog
-MzA3Mk0gb2YgR1RUIG1lbW9yeSByZWFkeS4KWyAgICAwLjc5OTczOF0gW2RybV0gR0FSVDogbnVt
-IGNwdSBwYWdlcyAyNjIxNDQsIG51bSBncHUgcGFnZXMgMjYyMTQ0ClsgICAgMC43OTk4NjldIFtk
-cm1dIFBDSUUgR0FSVCBvZiAxMDI0TSBlbmFibGVkICh0YWJsZSBhdCAweDAwMDAwMEY0MDA5MDAw
-MDApLgpbICAgIDAuODAwNzA0XSBbZHJtXSB1c2VfZG9vcmJlbGwgYmVpbmcgc2V0IHRvOiBbdHJ1
-ZV0KWyAgICAwLjgwMDc1OF0gW2RybV0gRm91bmQgVkNOIGZpcm13YXJlIFZlcnNpb24gRU5DOiAx
-LjkgREVDOiAxIFZFUDogMApSZXZpc2lvbjogMjgKWyAgICAwLjgwMDc2MV0gW2RybV0gUFNQIGxv
-YWRpbmcgVkNOIGZpcm13YXJlClsgICAgMC44MjEzNDhdIFtkcm1dIHJlc2VydmUgMHg0MDAwMDAg
-ZnJvbSAweGY0MDBjMDAwMDAgZm9yIFBTUCBUTVIgU0laRQpbICAgIDAuOTEzNjc4XSBbZHJtXSBE
-TV9QUExJQjogdmFsdWVzIGZvciBGIGNsb2NrClsgICAgMC45MTM2ODBdIFtkcm1dIERNX1BQTElC
-OiAgIDAgaW4ga0h6ClsgICAgMC45MTM2ODFdIFtkcm1dIERNX1BQTElCOiAgIDAgaW4ga0h6Clsg
-ICAgMC45MTM2ODNdIFtkcm1dIERNX1BQTElCOiAgIDAgaW4ga0h6ClsgICAgMC45MTM2ODRdIFtk
-cm1dIERNX1BQTElCOiAgIDE1MDAwMDAgaW4ga0h6ClsgICAgMC45MTM2ODVdIC0tLS0tLS0tLS0t
-LVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQpbICAgIDAuOTEzNzAxXSBXQVJOSU5HOiBDUFU6IDYg
-UElEOiAxIGF0CmRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMvY2FsY3Mv
-ZGNuX2NhbGNzLmM6MTQwMQpkY25fYndfdXBkYXRlX2Zyb21fcHBsaWIuY29sZCsweDczLzB4OWMK
-WyAgICAwLjkxMzcwNF0gTW9kdWxlcyBsaW5rZWQgaW46ClsgICAgMC45MTM3MDhdIENQVTogNiBQ
-SUQ6IDEgQ29tbTogc3dhcHBlci8wIE5vdCB0YWludGVkIDUuMi41LUppbnNvbCAjMQpbICAgIDAu
-OTEzNzEwXSBIYXJkd2FyZSBuYW1lOiBTeXN0ZW0gbWFudWZhY3R1cmVyIFN5c3RlbSBQcm9kdWN0
-IE5hbWUvUk9HIFNUUklYClg0NzAtRiBHQU1JTkcsIEJJT1MgNDIwNyAxMi8wNy8yMDE4ClsgICAg
-MC45MTM3MTRdIFJJUDogMDAxMDpkY25fYndfdXBkYXRlX2Zyb21fcHBsaWIuY29sZCsweDczLzB4
-OWMKWyAgICAwLjkxMzcxN10gQ29kZTogNDggOGIgOTMgZTAgMDIgMDAgMDAgZGIgNDIgNzggODMg
-ZjkgMDIgNzcgMzcgYjggMDIgMDAgMDAKMDAgOGQgNzEgZmYgZTkgZGMgZDcgZmYgZmYgNDggYzcg
-YzcgNTAgN2MgNjkgOTggMzEgYzAgZTggYWQgMzMgOTQgZmYgPDBmPiAwYiBlOQo0YSBkOCBmZiBm
-ZiA0OCBjNyBjNyA1MCA3YyA2OSA5OCAzMSBjMCBlOCA5OCAzMyA5NCBmZiAwZgpbICAgIDAuOTEz
-NzIwXSBSU1A6IDAwMTg6ZmZmZmIyY2FjMDA0Zjg3OCBFRkxBR1M6IDAwMDEwMjQ2ClsgICAgMC45
-MTM3MjNdIFJBWDogMDAwMDAwMDAwMDAwMDAyNCBSQlg6IGZmZmY5ZTQ5MDQwZmEwMDAgUkNYOgow
-MDAwMDAwMDAwMDAwMzYxClsgICAgMC45MTM3MjRdIFJEWDogMDAwMDAwMDAwMDAwMDAwMCBSU0k6
-IDAwMDAwMDAwMDAwMDAwOTIgUkRJOgpmZmZmZmZmZjk5MjI1MGFjClsgICAgMC45MTM3MjZdIFJC
-UDogZmZmZjllNDkwYjg1MDA4MCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5OgowMDAwMDAwMDAw
-MDAwMzYxClsgICAgMC45MTM3MjhdIFIxMDogMDcyMDA3MjAwNzIwMDcyMCBSMTE6IDA3MjAwNzIw
-MDcyMDA3MjAgUjEyOgpmZmZmYjJjYWMwMDRmOTE4ClsgICAgMC45MTM3MzBdIFIxMzogMDAwMDAw
-MDAwMDAwMDAwMSBSMTQ6IDAwMDAwMDAwMDAwMDAwMGEgUjE1OgpmZmZmYjJjYWMwMDRmYWEwClsg
-ICAgMC45MTM3MzJdIEZTOiAgMDAwMDAwMDAwMDAwMDAwMCgwMDAwKSBHUzpmZmZmOWU0OTBlYjgw
-MDAwKDAwMDApCmtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAgICAwLjkxMzczNV0gQ1M6ICAwMDEw
-IERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbICAgIDAuOTEzNzM2XSBD
-UjI6IDAwMDA3ZjgxYThmOWFhMjggQ1IzOiAwMDAwMDAwMjQxYTBhMDAwIENSNDoKMDAwMDAwMDAw
-MDM0MDZlMApbICAgIDAuOTEzNzM4XSBDYWxsIFRyYWNlOgpbICAgIDAuOTEzNzQ1XSAgZGNuMTBf
-Y3JlYXRlX3Jlc291cmNlX3Bvb2wrMHg5N2EvMHhhMzQKWyAgICAwLjkxMzc0OV0gID8ga21lbV9j
-YWNoZV9hbGxvY190cmFjZSsweDFiZC8weDFkMApbICAgIDAuOTEzNzUyXSAgZGNfY3JlYXRlX3Jl
-c291cmNlX3Bvb2wrMHgxODgvMHgyMzAKWyAgICAwLjkxMzc1NV0gID8gZGFsX2dwaW9fc2Vydmlj
-ZV9jcmVhdGUrMHg5NC8weGUwClsgICAgMC45MTM3NTddICBkY19jcmVhdGUrMHgyMTkvMHg1ZTAK
-WyAgICAwLjkxMzc2MF0gIGFtZGdwdV9kbV9pbml0KzB4ZWIvMHgxNjAKWyAgICAwLjkxMzc2M10g
-IGRtX2h3X2luaXQrMHhlLzB4MjAKWyAgICAwLjkxMzc2Nl0gIGFtZGdwdV9kZXZpY2VfaW5pdC5j
-b2xkKzB4MTI4MS8weDE2MTMKWyAgICAwLjkxMzc2OF0gIGFtZGdwdV9kcml2ZXJfbG9hZF9rbXMr
-MHg4OC8weDI3MApbICAgIDAuOTEzNzcyXSAgZHJtX2Rldl9yZWdpc3RlcisweDExMS8weDE1MApb
-ICAgIDAuOTEzNzc1XSAgYW1kZ3B1X3BjaV9wcm9iZSsweGJkLzB4MTIwClsgICAgMC45MTM3Nzhd
-ICA/IF9fcG1fcnVudGltZV9yZXN1bWUrMHg1OC8weDgwClsgICAgMC45MTM3ODFdICBsb2NhbF9w
-Y2lfcHJvYmUrMHg0Mi8weDgwClsgICAgMC45MTM3ODRdICBwY2lfZGV2aWNlX3Byb2JlKzB4MTA2
-LzB4MWIwClsgICAgMC45MTM3ODddICByZWFsbHlfcHJvYmUrMHhmMC8weDM4MApbICAgIDAuOTEz
-Nzg5XSAgZHJpdmVyX3Byb2JlX2RldmljZSsweDU5LzB4ZDAKWyAgICAwLjkxMzc5Ml0gIGRldmlj
-ZV9kcml2ZXJfYXR0YWNoKzB4NTMvMHg2MApbICAgIDAuOTEzNzk1XSAgX19kcml2ZXJfYXR0YWNo
-KzB4OGEvMHgxNTAKWyAgICAwLjkxMzc5N10gID8gZGV2aWNlX2RyaXZlcl9hdHRhY2grMHg2MC8w
-eDYwClsgICAgMC45MTM3OTldICBidXNfZm9yX2VhY2hfZGV2KzB4NzgvMHhjMApbICAgIDAuOTEz
-ODAyXSAgYnVzX2FkZF9kcml2ZXIrMHgxNGEvMHgxZTAKWyAgICAwLjkxMzgwNF0gIGRyaXZlcl9y
-ZWdpc3RlcisweDZjLzB4YjAKWyAgICAwLjkxMzgwOF0gID8gZHJtX3NjaGVkX2ZlbmNlX3NsYWJf
-aW5pdCsweDMxLzB4MzEKWyAgICAwLjkxMzgxMl0gIGRvX29uZV9pbml0Y2FsbCsweDQ2LzB4MWU0
-ClsgICAgMC45MTM4MTVdICBrZXJuZWxfaW5pdF9mcmVlYWJsZSsweDE5Mi8weDIzOQpbICAgIDAu
-OTEzODIwXSAgPyByZXN0X2luaXQrMHg5Zi8weDlmClsgICAgMC45MTM4MjJdICBrZXJuZWxfaW5p
-dCsweGEvMHgxMDEKWyAgICAwLjkxMzgyNF0gIHJldF9mcm9tX2ZvcmsrMHgyMi8weDQwClsgICAg
-MC45MTM4NDBdIC0tLVsgZW5kIHRyYWNlIDRmYmRjNGM2OTliNjAwZjMgXS0tLQpbICAgIDAuOTEz
-ODQyXSBbZHJtXSBETV9QUExJQjogdmFsdWVzIGZvciBEQ0YgY2xvY2sKWyAgICAwLjkxMzg0M10g
-W2RybV0gRE1fUFBMSUI6ICAgMzAwMDAwIGluIGtIegpbICAgIDAuOTEzODQ1XSBbZHJtXSBETV9Q
-UExJQjogICA2MDAwMDAgaW4ga0h6ClsgICAgMC45MTM4NDZdIFtkcm1dIERNX1BQTElCOiAgIDYy
-NjAwMCBpbiBrSHoKWyAgICAwLjkxMzg0N10gW2RybV0gRE1fUFBMSUI6ICAgNjU0MDAwIGluIGtI
-egpbICAgIDAuOTE0MDU0XSBbZHJtOmNvbnN0cnVjdF0gKkVSUk9SKiBjb25zdHJ1Y3Q6IEludmFs
-aWQgQ29ubmVjdG9yIE9iamVjdElECmZyb20gQWRhcHRlciBTZXJ2aWNlIGZvciBjb25uZWN0b3Ig
-aW5kZXg6MiEgdHlwZSAwIGV4cGVjdGVkIDMKWyAgICAwLjkxNDA1OF0gW2RybTpjb25zdHJ1Y3Rd
-ICpFUlJPUiogY29uc3RydWN0OiBJbnZhbGlkIENvbm5lY3RvciBPYmplY3RJRApmcm9tIEFkYXB0
-ZXIgU2VydmljZSBmb3IgY29ubmVjdG9yIGluZGV4OjMhIHR5cGUgMCBleHBlY3RlZCAzClsgICAg
-MC45MTQzMDFdIFtkcm1dIERpc3BsYXkgQ29yZSBpbml0aWFsaXplZCB3aXRoIHYzLjIuMjchClsg
-ICAgMC45MzkzNDZdIFtkcm1dIFN1cHBvcnRzIHZibGFuayB0aW1lc3RhbXAgY2FjaGluZyBSZXYg
-MiAoMjEuMTAuMjAxMykuClsgICAgMC45MzkzNDhdIFtkcm1dIERyaXZlciBzdXBwb3J0cyBwcmVj
-aXNlIHZibGFuayB0aW1lc3RhbXAgcXVlcnkuClsgICAgMC45NTEzNTNdIFtkcm1dIFZDTiBkZWNv
-ZGUgYW5kIGVuY29kZSBpbml0aWFsaXplZCBzdWNjZXNzZnVsbHkodW5kZXIgU1BHCk1vZGUpLgpb
-ICAgIDAuOTUyNDAyXSBrZmQga2ZkOiBBbGxvY2F0ZWQgMzk2OTA1NiBieXRlcyBvbiBnYXJ0Clsg
-ICAgMC45NTI0MThdIFRvcG9sb2d5OiBBZGQgQVBVIG5vZGUgWzB4MTVkZDoweDEwMDJdClsgICAg
-MC45NTI1OTRdIGtmZCBrZmQ6IGFkZGVkIGRldmljZSAxMDAyOjE1ZGQKWyAgICAwLjk1NDM0NV0g
-W2RybV0gZmIgbWFwcGFibGUgYXQgMHhDMTAwMDAwMApbICAgIDAuOTU0MzQ3XSBbZHJtXSB2cmFt
-IGFwcGVyIGF0IDB4QzAwMDAwMDAKWyAgICAwLjk1NDM0OF0gW2RybV0gc2l6ZSA4Mjk0NDAwClsg
-ICAgMC45NTQzNDldIFtkcm1dIGZiIGRlcHRoIGlzIDI0ClsgICAgMC45NTQzNTFdIFtkcm1dICAg
-IHBpdGNoIGlzIDc2ODAKWyAgICAwLjk1NDQwMl0gZmJjb246IGFtZGdwdWRybWZiIChmYjApIGlz
-IHByaW1hcnkgZGV2aWNlClsgICAgMC45OTYzMTVdIENvbnNvbGU6IHN3aXRjaGluZyB0byBjb2xv
-dXIgZnJhbWUgYnVmZmVyIGRldmljZSAyNDB4NjcKWyAgICAxLjAxMjg2NF0gYW1kZ3B1IDAwMDA6
-MGY6MDAuMDogZmIwOiBhbWRncHVkcm1mYiBmcmFtZSBidWZmZXIgZGV2aWNlClsgICAgMS4wMTI5
-NTFdIGFtZGdwdSAwMDAwOjBmOjAwLjA6IHJpbmcgZ2Z4IHVzZXMgVk0gaW52IGVuZyAwIG9uIGh1
-YiAwClsgICAgMS4wMTI5NzFdIGFtZGdwdSAwMDAwOjBmOjAwLjA6IHJpbmcgY29tcF8xLjAuMCB1
-c2VzIFZNIGludiBlbmcgMSBvbiBodWIgMApbICAgIDEuMDEyOTkyXSBhbWRncHUgMDAwMDowZjow
-MC4wOiByaW5nIGNvbXBfMS4xLjAgdXNlcyBWTSBpbnYgZW5nIDQgb24gaHViIDAKWyAgICAxLjAx
-MzAxM10gYW1kZ3B1IDAwMDA6MGY6MDAuMDogcmluZyBjb21wXzEuMi4wIHVzZXMgVk0gaW52IGVu
-ZyA1IG9uIGh1YiAwClsgICAgMS4wMTMwMzNdIGFtZGdwdSAwMDAwOjBmOjAwLjA6IHJpbmcgY29t
-cF8xLjMuMCB1c2VzIFZNIGludiBlbmcgNiBvbiBodWIgMApbICAgIDEuMDEzMDU0XSBhbWRncHUg
-MDAwMDowZjowMC4wOiByaW5nIGNvbXBfMS4wLjEgdXNlcyBWTSBpbnYgZW5nIDcgb24gaHViIDAK
-WyAgICAxLjAxMzA3NV0gYW1kZ3B1IDAwMDA6MGY6MDAuMDogcmluZyBjb21wXzEuMS4xIHVzZXMg
-Vk0gaW52IGVuZyA4IG9uIGh1YiAwClsgICAgMS4wMTMwOTZdIGFtZGdwdSAwMDAwOjBmOjAwLjA6
-IHJpbmcgY29tcF8xLjIuMSB1c2VzIFZNIGludiBlbmcgOSBvbiBodWIgMApbICAgIDEuMDEzMTE2
-XSBhbWRncHUgMDAwMDowZjowMC4wOiByaW5nIGNvbXBfMS4zLjEgdXNlcyBWTSBpbnYgZW5nIDEw
-IG9uIGh1YiAwClsgICAgMS4wMTMxMzddIGFtZGdwdSAwMDAwOjBmOjAwLjA6IHJpbmcga2lxXzIu
-MS4wIHVzZXMgVk0gaW52IGVuZyAxMSBvbiBodWIgMApbICAgIDEuMDEzMTU4XSBhbWRncHUgMDAw
-MDowZjowMC4wOiByaW5nIHNkbWEwIHVzZXMgVk0gaW52IGVuZyAwIG9uIGh1YiAxClsgICAgMS4w
-MTMxNzhdIGFtZGdwdSAwMDAwOjBmOjAwLjA6IHJpbmcgdmNuX2RlYyB1c2VzIFZNIGludiBlbmcg
-MSBvbiBodWIgMQpbICAgIDEuMDEzMTk4XSBhbWRncHUgMDAwMDowZjowMC4wOiByaW5nIHZjbl9l
-bmMwIHVzZXMgVk0gaW52IGVuZyA0IG9uIGh1YiAxClsgICAgMS4wMTMyMThdIGFtZGdwdSAwMDAw
-OjBmOjAwLjA6IHJpbmcgdmNuX2VuYzEgdXNlcyBWTSBpbnYgZW5nIDUgb24gaHViIDEKWyAgICAx
-LjAxMzIzOF0gYW1kZ3B1IDAwMDA6MGY6MDAuMDogcmluZyB2Y25fanBlZyB1c2VzIFZNIGludiBl
-bmcgNiBvbiBodWIgMQpbICAgIDEuMDIwODI2XSBbZHJtXSBJbml0aWFsaXplZCBhbWRncHUgMy4z
-Mi4wIDIwMTUwMTAxIGZvciAwMDAwOjBmOjAwLjAgb24KbWlub3IgMAoKV2hhdCBkaWQgQU1EIG1l
-YW4gYnkgdGhpcz8KCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91
-IGFyZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0548888994==
+Content-Type: multipart/alternative; boundary="15654636175.9eFFCA9.25912"
+Content-Transfer-Encoding: 7bit
+
+
+--15654636175.9eFFCA9.25912
+Date: Sat, 10 Aug 2019 19:00:17 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #68 from Tom B <tom@r.je> ---
+Apologies for the multiple replies/emails. I think I must just have got luc=
+ky.
+It worked several boots (in a row) and now only works very occasionally. I
+think it was just coincidence that it worked a few times after I installed =
+that
+kernel, sorry guys.
+
+During my tests with 5.2.7 I have noticed some interesting findings with the
+wattage though. It will indeed get stuck on a specific wattage, I've had 33,
+24, 45, 133, 134 and on several wattages there is some fluctuation.  e.g.
+33-34.
+
+Higher wattages are significantly more stable, 133w lasts quite a while bef=
+ore
+it crashes, 33w crashes instantly. I'm assuming this is because the card ju=
+st
+doesn't have enough power to do what's required.
+
+When the wattage gets stuck, if you force the performance mode:
+
+# echo high > /sys/class/drm/card0/device/power_dpm_force_performance_level
+
+it confuses the driver and sensors then shows
+
+ERROR: Can't get value of subfeature power1_average: I/O error
+
+Despite working until manually setting the power state. There doesn't seem =
+to
+be a way to get it back to a state where sensors shows the wattage after it
+reaches this state, other than rebooting.
+
+
+The inconsistent nature of this bug and the fact that it sometimes doesn't
+appear suggests a race condition. I'd assume something else on the system
+happens before or after amdgpu is expecting.
+
+Is there any way to delay loading the amdgpu driver and manually loading it
+after everything else?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15654636175.9eFFCA9.25912
+Date: Sat, 10 Aug 2019 19:00:17 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c68">Comme=
+nt # 68</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
+B</span></a>
+</span></b>
+        <pre>Apologies for the multiple replies/emails. I think I must just=
+ have got lucky.
+It worked several boots (in a row) and now only works very occasionally. I
+think it was just coincidence that it worked a few times after I installed =
+that
+kernel, sorry guys.
+
+During my tests with 5.2.7 I have noticed some interesting findings with the
+wattage though. It will indeed get stuck on a specific wattage, I've had 33,
+24, 45, 133, 134 and on several wattages there is some fluctuation.  e.g.
+33-34.
+
+Higher wattages are significantly more stable, 133w lasts quite a while bef=
+ore
+it crashes, 33w crashes instantly. I'm assuming this is because the card ju=
+st
+doesn't have enough power to do what's required.
+
+When the wattage gets stuck, if you force the performance mode:
+
+# echo high &gt; /sys/class/drm/card0/device/power_dpm_force_performance_le=
+vel
+
+it confuses the driver and sensors then shows
+
+ERROR: Can't get value of subfeature power1_average: I/O error
+
+Despite working until manually setting the power state. There doesn't seem =
+to
+be a way to get it back to a state where sensors shows the wattage after it
+reaches this state, other than rebooting.
+
+
+The inconsistent nature of this bug and the fact that it sometimes doesn't
+appear suggests a race condition. I'd assume something else on the system
+happens before or after amdgpu is expecting.
+
+Is there any way to delay loading the amdgpu driver and manually loading it
+after everything else?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15654636175.9eFFCA9.25912--
+
+--===============0548888994==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0548888994==--
