@@ -1,33 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A49688B29
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 13:58:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FCE88B34
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 14:10:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DC206E3D6;
-	Sat, 10 Aug 2019 11:58:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE1C76E3E5;
+	Sat, 10 Aug 2019 12:10:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32EAD6E3D6;
- Sat, 10 Aug 2019 11:58:48 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 17952799-1500050 for multiple; Sat, 10 Aug 2019 12:58:46 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 31D456E3E7
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 12:10:09 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 2E49772167; Sat, 10 Aug 2019 12:10:09 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sat, 10 Aug 2019 12:10:08 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: phercek@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-BpaLxsIjS6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190809222643.23142-37-matthew.auld@intel.com>
-References: <20190809222643.23142-1-matthew.auld@intel.com>
- <20190809222643.23142-37-matthew.auld@intel.com>
-Message-ID: <156543832357.2301.2327144087757873957@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [Intel-gfx] [PATCH v3 36/37] drm/i915/query: Expose memory regions
- through the query uAPI
-Date: Sat, 10 Aug 2019 12:58:43 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,103 +52,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0237432049=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBNYXR0aGV3IEF1bGQgKDIwMTktMDgtMDkgMjM6MjY6NDIpCj4gRnJvbTogQWJkaWVs
-IEphbnVsZ3VlIDxhYmRpZWwuamFudWxndWVAbGludXguaW50ZWwuY29tPgo+IAo+IFJldHVybnMg
-dGhlIGF2YWlsYWJsZSBtZW1vcnkgcmVnaW9uIGFyZWFzIHN1cHBvcnRlZCBieSB0aGUgSFcuCgpB
-bmQgaG93IGRvZXMgb25lIHVzZSB0aGlzIGluZm9ybWF0aW9uPwoKSG93IGRvZXMgdGhpcyByZWxh
-dGUgdG8gdGhlIGluZm9ybWF0aW9uIHByZXNlbnRlZCBieSBWdWxrYW4gb3IgT3BlbkNMCiAKVGVz
-dGNhc2U6IGlndC8uLi4/CgpOZXcgdUFQSSBzaG91bGQgYWx3YXlzIGNvbWUgd2l0aCBhIHRlc3Rj
-YXNlLgoKPiBTaWduZWQtb2ZmLWJ5OiBBYmRpZWwgSmFudWxndWUgPGFiZGllbC5qYW51bGd1ZUBs
-aW51eC5pbnRlbC5jb20+Cj4gQ2M6IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxp
-bnV4LmludGVsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9xdWVyeS5j
-IHwgNTcgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICBpbmNsdWRlL3VhcGkvZHJt
-L2k5MTVfZHJtLmggICAgICAgfCAzOSArKysrKysrKysrKysrKysrKysrKysKPiAgMiBmaWxlcyBj
-aGFuZ2VkLCA5NiBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfcXVlcnkuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcXVlcnkuYwo+
-IGluZGV4IGFkOTI0MGEwODE3YS4uNjlhMmE5MDZmZWVmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2k5MTVfcXVlcnkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
-MTVfcXVlcnkuYwo+IEBAIC0xNDIsMTAgKzE0Miw2NyBAQCBxdWVyeV9lbmdpbmVfaW5mbyhzdHJ1
-Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSwKPiAgICAgICAgIHJldHVybiBsZW47Cj4gIH0KPiAg
-Cj4gK3N0YXRpYyBpbnQgcXVlcnlfbWVtcmVnaW9uX2luZm8oc3RydWN0IGRybV9pOTE1X3ByaXZh
-dGUgKmRldl9wcml2LAo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRy
-bV9pOTE1X3F1ZXJ5X2l0ZW0gKnF1ZXJ5X2l0ZW0pCj4gK3sKPiArICAgICAgIHN0cnVjdCBkcm1f
-aTkxNV9xdWVyeV9tZW1vcnlfcmVnaW9uX2luZm8gX191c2VyICpxdWVyeV9wdHIgPQo+ICsgICAg
-ICAgICAgICAgICB1NjRfdG9fdXNlcl9wdHIocXVlcnlfaXRlbS0+ZGF0YV9wdHIpOwo+ICsgICAg
-ICAgc3RydWN0IGRybV9pOTE1X21lbW9yeV9yZWdpb25faW5mbyBfX3VzZXIgKmluZm9fcHRyID0K
-PiArICAgICAgICAgICAgICAgJnF1ZXJ5X3B0ci0+cmVnaW9uc1swXTsKPiArICAgICAgIHN0cnVj
-dCBkcm1faTkxNV9tZW1vcnlfcmVnaW9uX2luZm8gaW5mbyA9IHsgfTsKPiArICAgICAgIHN0cnVj
-dCBkcm1faTkxNV9xdWVyeV9tZW1vcnlfcmVnaW9uX2luZm8gcXVlcnk7Cj4gKyAgICAgICB1MzIg
-dG90YWxfbGVuZ3RoOwo+ICsgICAgICAgaW50IHJldCwgaTsKPiArCj4gKyAgICAgICBpZiAocXVl
-cnlfaXRlbS0+ZmxhZ3MgIT0gMCkKPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4g
-Kwo+ICsgICAgICAgdG90YWxfbGVuZ3RoID0gc2l6ZW9mKHN0cnVjdCBkcm1faTkxNV9xdWVyeV9t
-ZW1vcnlfcmVnaW9uX2luZm8pOwo+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUo
-ZGV2X3ByaXYtPnJlZ2lvbnMpOyArK2kpIHsKPiArICAgICAgICAgICAgICAgc3RydWN0IGludGVs
-X21lbW9yeV9yZWdpb24gKnJlZ2lvbiA9IGRldl9wcml2LT5yZWdpb25zW2ldOwo+ICsKPiArICAg
-ICAgICAgICAgICAgaWYgKCFyZWdpb24pCj4gKyAgICAgICAgICAgICAgICAgICAgICAgY29udGlu
-dWU7Cj4gKwo+ICsgICAgICAgICAgICAgICB0b3RhbF9sZW5ndGggKz0gc2l6ZW9mKHN0cnVjdCBk
-cm1faTkxNV9tZW1vcnlfcmVnaW9uX2luZm8pOwo+ICsgICAgICAgfQo+ICsKPiArICAgICAgIHJl
-dCA9IGNvcHlfcXVlcnlfaXRlbSgmcXVlcnksIHNpemVvZihxdWVyeSksIHRvdGFsX2xlbmd0aCwK
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBxdWVyeV9pdGVtKTsKPiArICAgICAgIGlm
-IChyZXQgIT0gMCkKPiArICAgICAgICAgICAgICAgcmV0dXJuIHJldDsKPiArCj4gKyAgICAgICBp
-ZiAocXVlcnkubnVtX3JlZ2lvbnMgfHwgcXVlcnkucnN2ZFswXSB8fCBxdWVyeS5yc3ZkWzFdIHx8
-Cj4gKyAgICAgICAgICAgcXVlcnkucnN2ZFsyXSkKPiArICAgICAgICAgICAgICAgcmV0dXJuIC1F
-SU5WQUw7Cj4gKwo+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoZGV2X3ByaXYt
-PnJlZ2lvbnMpOyArK2kpIHsKPiArICAgICAgICAgICAgICAgc3RydWN0IGludGVsX21lbW9yeV9y
-ZWdpb24gKnJlZ2lvbiA9IGRldl9wcml2LT5yZWdpb25zW2ldOwo+ICsKPiArICAgICAgICAgICAg
-ICAgaWYgKCFyZWdpb24pCj4gKyAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gKwo+
-ICsgICAgICAgICAgICAgICBpbmZvLmlkID0gcmVnaW9uLT5pZDsKPiArICAgICAgICAgICAgICAg
-aW5mby5zaXplID0gcmVzb3VyY2Vfc2l6ZSgmcmVnaW9uLT5yZWdpb24pOwo+ICsKPiArICAgICAg
-ICAgICAgICAgaWYgKF9fY29weV90b191c2VyKGluZm9fcHRyLCAmaW5mbywgc2l6ZW9mKGluZm8p
-KSkKPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVGQVVMVDsKPiArCj4gKyAgICAg
-ICAgICAgICAgIHF1ZXJ5Lm51bV9yZWdpb25zKys7Cj4gKyAgICAgICAgICAgICAgIGluZm9fcHRy
-Kys7Cj4gKyAgICAgICB9Cj4gKwo+ICsgICAgICAgaWYgKF9fY29weV90b191c2VyKHF1ZXJ5X3B0
-ciwgJnF1ZXJ5LCBzaXplb2YocXVlcnkpKSkKPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FRkFV
-TFQ7Cj4gKwo+ICsgICAgICAgcmV0dXJuIHRvdGFsX2xlbmd0aDsKPiArfQo+ICsKPiAgc3RhdGlj
-IGludCAoKiBjb25zdCBpOTE1X3F1ZXJ5X2Z1bmNzW10pKHN0cnVjdCBkcm1faTkxNV9wcml2YXRl
-ICpkZXZfcHJpdiwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
-dWN0IGRybV9pOTE1X3F1ZXJ5X2l0ZW0gKnF1ZXJ5X2l0ZW0pID0gewo+ICAgICAgICAgcXVlcnlf
-dG9wb2xvZ3lfaW5mbywKPiAgICAgICAgIHF1ZXJ5X2VuZ2luZV9pbmZvLAo+ICsgICAgICAgcXVl
-cnlfbWVtcmVnaW9uX2luZm8sCj4gIH07Cj4gIAo+ICBpbnQgaTkxNV9xdWVyeV9pb2N0bChzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUgKmZpbGUpCj4g
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvdWFwaS9kcm0vaTkxNV9kcm0uaCBiL2luY2x1ZGUvdWFwaS9k
-cm0vaTkxNV9kcm0uaAo+IGluZGV4IDc1ZDc5YzE3ZTkxYi4uN2VmMDM3ZjU4ZTFiIDEwMDY0NAo+
-IC0tLSBhL2luY2x1ZGUvdWFwaS9kcm0vaTkxNV9kcm0uaAo+ICsrKyBiL2luY2x1ZGUvdWFwaS9k
-cm0vaTkxNV9kcm0uaAo+IEBAIC0yMDM4LDYgKzIwMzgsNyBAQCBzdHJ1Y3QgZHJtX2k5MTVfcXVl
-cnlfaXRlbSB7Cj4gICAgICAgICBfX3U2NCBxdWVyeV9pZDsKPiAgI2RlZmluZSBEUk1fSTkxNV9R
-VUVSWV9UT1BPTE9HWV9JTkZPICAgIDEKPiAgI2RlZmluZSBEUk1fSTkxNV9RVUVSWV9FTkdJTkVf
-SU5GTyAgICAgMgo+ICsjZGVmaW5lIERSTV9JOTE1X1FVRVJZX01FTVJFR0lPTl9JTkZPICAgMwo+
-ICAvKiBNdXN0IGJlIGtlcHQgY29tcGFjdCAtLSBubyBob2xlcyBhbmQgd2VsbCBkb2N1bWVudGVk
-ICovCj4gIAo+ICAgICAgICAgLyoKPiBAQCAtMjE3Nyw2ICsyMTc4LDQ0IEBAIHN0cnVjdCBkcm1f
-aTkxNV9xdWVyeV9lbmdpbmVfaW5mbyB7Cj4gICAgICAgICBzdHJ1Y3QgZHJtX2k5MTVfZW5naW5l
-X2luZm8gZW5naW5lc1tdOwo+ICB9Owo+ICAKPiArc3RydWN0IGRybV9pOTE1X21lbW9yeV9yZWdp
-b25faW5mbyB7Cj4gKwo+ICsgICAgICAgLyoqIEJhc2UgdHlwZSBvZiBhIHJlZ2lvbgo+ICsgICAg
-ICAgICovCj4gKyNkZWZpbmUgSTkxNV9TWVNURU1fTUVNT1JZICAgICAgICAgMAo+ICsjZGVmaW5l
-IEk5MTVfREVWSUNFX01FTU9SWSAgICAgICAgIDEKPiArCj4gKyAgICAgICAvKiogVGhlIHJlZ2lv
-biBpZCBpcyBlbmNvZGVkIGluIGEgbGF5b3V0IHdoaWNoIG1ha2VzIGl0IHBvc3NpYmxlIHRvCj4g
-KyAgICAgICAgKiAgcmV0cmlldmUgdGhlIGZvbGxvd2luZyBpbmZvcm1hdGlvbjoKPiArICAgICAg
-ICAqCj4gKyAgICAgICAgKiAgQmFzZSB0eXBlOiBsb2cyKElEID4+IDE2KQo+ICsgICAgICAgICog
-IEluc3RhbmNlOiAgbG9nMihJRCAmIDB4ZmZmZikKPiArICAgICAgICAqLwo+ICsgICAgICAgX191
-MzIgaWQ7CgpZb3Ugc3RpbGwgaGF2ZW4ndCBnaXZlbiB1c2Vyc3BhY2UgdGhlIGJhc2ljcyBzdWNo
-IGFzIHRvdGFsIHNpemUgYW5kIGNodW5rIHNpemUuCgo+ICsgICAgICAgLyoqIFJlc2VydmVkIGZp
-ZWxkLiBNQlogKi8KPiArICAgICAgIF9fdTMyIHJzdmQwOwo+ICsKPiArICAgICAgIC8qKiBVbnVz
-ZWQgZm9yIG5vdy4gTUJaICovCj4gKyAgICAgICBfX3U2NCBmbGFnczsKPiArCj4gKyAgICAgICBf
-X3U2NCBzaXplOwo+ICsKPiArICAgICAgIC8qKiBSZXNlcnZlZCBmaWVsZHMgbXVzdCBiZSBjbGVh
-cmVkIHRvIHplcm8uICovCj4gKyAgICAgICBfX3U2NCByc3ZkMVs0XTsKPiArfTsKPiArCj4gK3N0
-cnVjdCBkcm1faTkxNV9xdWVyeV9tZW1vcnlfcmVnaW9uX2luZm8gewo+ICsKPiArICAgICAgIC8q
-KiBOdW1iZXIgb2Ygc3RydWN0IGRybV9pOTE1X21lbW9yeV9yZWdpb25faW5mbyBzdHJ1Y3RzICov
-Cj4gKyAgICAgICBfX3UzMiBudW1fcmVnaW9uczsKPiArCj4gKyAgICAgICAvKiogTUJaICovCj4g
-KyAgICAgICBfX3UzMiByc3ZkWzNdOwo+ICsKPiArICAgICAgIHN0cnVjdCBkcm1faTkxNV9tZW1v
-cnlfcmVnaW9uX2luZm8gcmVnaW9uc1tdOwo+ICt9Owo+ICsKPiAgI2lmIGRlZmluZWQoX19jcGx1
-c3BsdXMpCj4gIH0KPiAgI2VuZGlmCj4gLS0gCj4gMi4yMC4xCj4gCj4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBJbnRlbC1nZnggbWFpbGluZyBsaXN0
-Cj4gSW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwtZ2Z4Cl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0237432049==
+Content-Type: multipart/alternative; boundary="15654390092.CCffe8d.19530"
+Content-Transfer-Encoding: 7bit
+
+
+--15654390092.CCffe8d.19530
+Date: Sat, 10 Aug 2019 12:10:09 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #62 from Peter Hercek <phercek@gmail.com> ---
+OK, I started to use 5.2.5 kernel after the my last hang up with 4.20.11. It
+worked fine for 1 week. I'm trying 5.2.7 now.
+
+It is possible something was fixed in 5.2.5 because there was one commit wh=
+ich
+seemed related (drm/amdgpu: Reserve shared fence for eviction fence
+dd68722c427d5b33420dce0ed0c44b4881e0a416). But there are reasons to think I=
+ was
+just lucky for the week: the commit seems to relate to some VM support and I
+have got crashes without VM use, and ReddestDream reported the problem in
+5.4.rc3 as well.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15654390092.CCffe8d.19530
+Date: Sat, 10 Aug 2019 12:10:09 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c62">Comme=
+nt # 62</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+phercek&#64;gmail.com" title=3D"Peter Hercek &lt;phercek&#64;gmail.com&gt;"=
+> <span class=3D"fn">Peter Hercek</span></a>
+</span></b>
+        <pre>OK, I started to use 5.2.5 kernel after the my last hang up wi=
+th 4.20.11. It
+worked fine for 1 week. I'm trying 5.2.7 now.
+
+It is possible something was fixed in 5.2.5 because there was one commit wh=
+ich
+seemed related (drm/amdgpu: Reserve shared fence for eviction fence
+dd68722c427d5b33420dce0ed0c44b4881e0a416). But there are reasons to think I=
+ was
+just lucky for the week: the commit seems to relate to some VM support and I
+have got crashes without VM use, and ReddestDream reported the problem in
+5.4.rc3 as well.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15654390092.CCffe8d.19530--
+
+--===============0237432049==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0237432049==--
