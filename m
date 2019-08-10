@@ -1,33 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8243488AE3
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 12:55:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E258988AE6
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 12:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0711E6E315;
-	Sat, 10 Aug 2019 10:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D96766E2B0;
+	Sat, 10 Aug 2019 10:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82EC06E2DF;
- Sat, 10 Aug 2019 10:54:56 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 17952330-1500050 for multiple; Sat, 10 Aug 2019 11:54:54 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D25576E2B0
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 10:56:52 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id C693872167; Sat, 10 Aug 2019 10:56:52 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110659] pageflipping seems to cause jittering on mouse input
+ when running Hitman 2 in Wine/DXVK with amdgpu.dc=1
+Date: Sat, 10 Aug 2019 10:56:53 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tempel.julian@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: high
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110659-502-FniDDK1Qrm@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110659-502@http.bugs.freedesktop.org/>
+References: <bug-110659-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <20190809222643.23142-20-matthew.auld@intel.com>
-References: <20190809222643.23142-1-matthew.auld@intel.com>
- <20190809222643.23142-20-matthew.auld@intel.com>
-Message-ID: <156543449196.2301.15522079858701428736@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [Intel-gfx] [PATCH v3 19/37] drm/i915: enumerate and init each
- supported region
-Date: Sat, 10 Aug 2019 11:54:51 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -40,80 +53,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0118503768=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBNYXR0aGV3IEF1bGQgKDIwMTktMDgtMDkgMjM6MjY6MjUpCj4gRnJvbTogQWJkaWVs
-IEphbnVsZ3VlIDxhYmRpZWwuamFudWxndWVAbGludXguaW50ZWwuY29tPgo+IAo+IE5vdGhpbmcg
-dG8gZW51bWVyYXRlIHlldC4uLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFiZGllbCBKYW51bGd1ZSA8
-YWJkaWVsLmphbnVsZ3VlQGxpbnV4LmludGVsLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3
-IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+Cj4gQ2M6IEpvb25hcyBMYWh0aW5lbiA8am9v
-bmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2k5
-MTUvaTkxNV9kcnYuaCAgICAgICAgICAgICAgIHwgIDMgKwo+ICBkcml2ZXJzL2dwdS9kcm0vaTkx
-NS9pOTE1X2dlbV9ndHQuYyAgICAgICAgICAgfCA3MCArKysrKysrKysrKysrKysrKy0tCj4gIC4u
-Li9ncHUvZHJtL2k5MTUvc2VsZnRlc3RzL21vY2tfZ2VtX2RldmljZS5jICB8ICA2ICsrCj4gIDMg
-ZmlsZXMgY2hhbmdlZCwgNzIgaW5zZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiAKPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaCBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2k5MTVfZHJ2LmgKPiBpbmRleCBmN2JlOGNlZTQ3MDkuLjNkN2RhNjlmMGQxYiAxMDA2
-NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5oCj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9kcnYuaAo+IEBAIC0yNDM2LDYgKzI0MzYsOSBAQCBpbnQgX19t
-dXN0X2NoZWNrIGk5MTVfZ2VtX2V2aWN0X2Zvcl9ub2RlKHN0cnVjdCBpOTE1X2FkZHJlc3Nfc3Bh
-Y2UgKnZtLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWdu
-ZWQgaW50IGZsYWdzKTsKPiAgaW50IGk5MTVfZ2VtX2V2aWN0X3ZtKHN0cnVjdCBpOTE1X2FkZHJl
-c3Nfc3BhY2UgKnZtKTsKPiAgCj4gK3ZvaWQgaTkxNV9nZW1fY2xlYW51cF9tZW1vcnlfcmVnaW9u
-cyhzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSk7Cj4gK2ludCBpOTE1X2dlbV9pbml0X21l
-bW9yeV9yZWdpb25zKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1KTsKPiArCj4gIC8qIGk5
-MTVfZ2VtX2ludGVybmFsLmMgKi8KPiAgc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKgo+ICBp
-OTE1X2dlbV9vYmplY3RfY3JlYXRlX2ludGVybmFsKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpk
-ZXZfcHJpdiwKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9nZW1fZ3R0
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dlbV9ndHQuYwo+IGluZGV4IDgzYTAyZTc3
-M2M1OC4uYTFkZDNlN2UxYWQ5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
-MTVfZ2VtX2d0dC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9nZW1fZ3R0LmMK
-Ck5vdGUgdGhpcyBpcyBub3QgYSBHRU0gZmlsZS4gVGhpcyBpcyBhIGhhcmR3YXJlIGludGVyZmFj
-ZSB0aGF0IEkgaGF2ZW4ndApyZW5hbWVkIGR1ZSB0byBleHBlY3RlZCBjb25mbGljdGVkLi4uCgo+
-IEBAIC0yNzEzLDYgKzI3MTMsNjYgQEAgaW50IGk5MTVfaW5pdF9nZ3R0KHN0cnVjdCBkcm1faTkx
-NV9wcml2YXRlICppOTE1KQo+ICAgICAgICAgcmV0dXJuIDA7Cj4gIH0KPiAgCj4gK3ZvaWQgaTkx
-NV9nZW1fY2xlYW51cF9tZW1vcnlfcmVnaW9ucyhzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkx
-NSkKPiArewo+ICsgICAgICAgaW50IGk7Cj4gKwo+ICsgICAgICAgaTkxNV9nZW1fY2xlYW51cF9z
-dG9sZW4oaTkxNSk7Cj4gKwo+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUoaTkx
-NS0+cmVnaW9ucyk7ICsraSkgewo+ICsgICAgICAgICAgICAgICBzdHJ1Y3QgaW50ZWxfbWVtb3J5
-X3JlZ2lvbiAqcmVnaW9uID0gaTkxNS0+cmVnaW9uc1tpXTsKPiArCj4gKyAgICAgICAgICAgICAg
-IGlmIChyZWdpb24pCj4gKyAgICAgICAgICAgICAgICAgICAgICAgaW50ZWxfbWVtb3J5X3JlZ2lv
-bl9kZXN0cm95KHJlZ2lvbik7Cj4gKyAgICAgICB9Cj4gK30KPiArCj4gK2ludCBpOTE1X2dlbV9p
-bml0X21lbW9yeV9yZWdpb25zKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1KQo+ICt7Cj4g
-KyAgICAgICBpbnQgZXJyLCBpOwo+ICsKPiArICAgICAgIC8qCj4gKyAgICAgICAgKiBJbml0aWFs
-aXNlIHN0b2xlbiBlYXJseSBzbyB0aGF0IHdlIG1heSByZXNlcnZlIHByZWFsbG9jYXRlZAo+ICsg
-ICAgICAgICogb2JqZWN0cyBmb3IgdGhlIEJJT1MgdG8gS01TIHRyYW5zaXRpb24uCj4gKyAgICAg
-ICAgKi8KPiArICAgICAgIC8qIFhYWDogc3RvbGVuIHdpbGwgYmVjb21lIGEgcmVnaW9uIGF0IHNv
-bWUgcG9pbnQgKi8KPiArICAgICAgIGVyciA9IGk5MTVfZ2VtX2luaXRfc3RvbGVuKGk5MTUpOwo+
-ICsgICAgICAgaWYgKGVycikKPiArICAgICAgICAgICAgICAgcmV0dXJuIGVycjsKPiArCj4gKyAg
-ICAgICBmb3IgKGkgPSAwOyBpIDwgSU5URUxfTUVNT1JZX1VLTk9XTjsgaSsrKSB7Cj4gKyAgICAg
-ICAgICAgICAgIHN0cnVjdCBpbnRlbF9tZW1vcnlfcmVnaW9uICptZW0gPSBOVUxMOwo+ICsgICAg
-ICAgICAgICAgICB1MzIgdHlwZTsKPiArCj4gKyAgICAgICAgICAgICAgIGlmICghSEFTX1JFR0lP
-TihpOTE1LCBCSVQoaSkpKQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGNvbnRpbnVlOwo+ICsK
-PiArICAgICAgICAgICAgICAgdHlwZSA9IE1FTU9SWV9UWVBFX0ZST01fUkVHSU9OKGludGVsX3Jl
-Z2lvbl9tYXBbaV0pOwo+ICsgICAgICAgICAgICAgICBzd2l0Y2ggKHR5cGUpIHsKPiArICAgICAg
-ICAgICAgICAgZGVmYXVsdDoKPiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsKPiArICAg
-ICAgICAgICAgICAgfQo+ICsKPiArICAgICAgICAgICAgICAgaWYgKElTX0VSUihtZW0pKSB7Cj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgZXJyID0gUFRSX0VSUihtZW0pOwo+ICsgICAgICAgICAg
-ICAgICAgICAgICAgIERSTV9FUlJPUigiRmFpbGVkIHRvIHNldHVwIHJlZ2lvbiglZCkgdHlwZT0l
-ZFxuIiwgZXJyLCB0eXBlKTsKPiArICAgICAgICAgICAgICAgICAgICAgICBnb3RvIG91dF9jbGVh
-bnVwOwo+ICsgICAgICAgICAgICAgICB9Cj4gKwo+ICsgICAgICAgICAgICAgICBtZW0tPmlkID0g
-aW50ZWxfcmVnaW9uX21hcFtpXTsKPiArICAgICAgICAgICAgICAgbWVtLT50eXBlID0gdHlwZTsK
-PiArICAgICAgICAgICAgICAgbWVtLT5pbnN0YW5jZSA9IE1FTU9SWV9JTlNUQU5DRV9GUk9NX1JF
-R0lPTihpbnRlbF9yZWdpb25fbWFwW2ldKTsKPiArCj4gKyAgICAgICAgICAgICAgIGk5MTUtPnJl
-Z2lvbnNbaV0gPSBtZW07Cj4gKyAgICAgICB9Cj4gKwo+ICsgICAgICAgcmV0dXJuIDA7Cj4gKwo+
-ICtvdXRfY2xlYW51cDoKPiArICAgICAgIGk5MTVfZ2VtX2NsZWFudXBfbWVtb3J5X3JlZ2lvbnMo
-aTkxNSk7Cj4gKyAgICAgICByZXR1cm4gZXJyOwo+ICt9Cj4gKwo+ICBzdGF0aWMgdm9pZCBnZ3R0
-X2NsZWFudXBfaHcoc3RydWN0IGk5MTVfZ2d0dCAqZ2d0dCkKPiAgewo+ICAgICAgICAgc3RydWN0
-IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBnZ3R0LT52bS5pOTE1Owo+IEBAIC0yNzU0LDYgKzI4
-MTQsOCBAQCB2b2lkIGk5MTVfZ2d0dF9kcml2ZXJfcmVsZWFzZShzdHJ1Y3QgZHJtX2k5MTVfcHJp
-dmF0ZSAqaTkxNSkKPiAgewo+ICAgICAgICAgc3RydWN0IHBhZ2V2ZWMgKnB2ZWM7Cj4gIAo+ICsg
-ICAgICAgaTkxNV9nZW1fY2xlYW51cF9tZW1vcnlfcmVnaW9ucyhpOTE1KTsKCldoYXQgYXJlIHlv
-dSBkb2luZyBoZXJlPyBKdXN0IGJlY2F1c2UgZ2d0dCBhbmQgc3RvbGVuIHdlcmUgcmVsYXRlZD8K
-LUNocmlzCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0118503768==
+Content-Type: multipart/alternative; boundary="15654346120.38633.8147"
+Content-Transfer-Encoding: 7bit
+
+
+--15654346120.38633.8147
+Date: Sat, 10 Aug 2019 10:56:52 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110659
+
+--- Comment #29 from tempel.julian@gmail.com ---
+The patches by Nicholas are now merged in drm-next-5.4 branch (tested with
+recent commit that bases the branch on 5.3-rc3), but the mouse input issue =
+in
+certain games is still unaffected.
+
+I was also able to reproduce it with a different system (also with RX 580)
+which features a 60Hz FreeSync display, it definitely makes FreeSync imposs=
+ible
+to use in the aforementioned titles.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15654346120.38633.8147
+Date: Sat, 10 Aug 2019 10:56:52 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659#c29">Comme=
+nt # 29</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - pageflipping seems to cause jittering on mouse input when=
+ running Hitman 2 in Wine/DXVK with amdgpu.dc=3D1"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110659">bug 11065=
+9</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tempel.julian&#64;gmail.com" title=3D"tempel.julian&#64;gmail.com">tempel.j=
+ulian&#64;gmail.com</a>
+</span></b>
+        <pre>The patches by Nicholas are now merged in drm-next-5.4 branch =
+(tested with
+recent commit that bases the branch on 5.3-rc3), but the mouse input issue =
+in
+certain games is still unaffected.
+
+I was also able to reproduce it with a different system (also with RX 580)
+which features a 60Hz FreeSync display, it definitely makes FreeSync imposs=
+ible
+to use in the aforementioned titles.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15654346120.38633.8147--
+
+--===============0118503768==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0118503768==--
