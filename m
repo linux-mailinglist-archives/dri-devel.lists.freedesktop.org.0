@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C318889EB
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F961889F1
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFD86E2CC;
-	Sat, 10 Aug 2019 08:18:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B0E6E2D5;
+	Sat, 10 Aug 2019 08:19:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5CBA46E2D3
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 212166E2B6
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:50 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5A45172167; Sat, 10 Aug 2019 08:18:49 +0000 (UTC)
+ id 1D83772167; Sat, 10 Aug 2019 08:18:50 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111342] hi
-Date: Sat, 10 Aug 2019 08:18:49 +0000
+Subject: [Bug 111367] Operator is  not needed
+Date: Sat, 10 Aug 2019 08:18:50 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: product version component bug_group
-Message-ID: <bug-111342-502-rSovTfpPc9@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111342-502@http.bugs.freedesktop.org/>
-References: <bug-111342-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: product version bug_group component
+Message-ID: <bug-111367-502-UHIaN8SkVD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111367-502@http.bugs.freedesktop.org/>
+References: <bug-111367-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0097212014=="
+Content-Type: multipart/mixed; boundary="===============0018002924=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0097212014==
-Content-Type: multipart/alternative; boundary="15654251293.47FB2241c.14042"
+--===============0018002924==
+Content-Type: multipart/alternative; boundary="15654251301.C141Decc.14042"
 Content-Transfer-Encoding: 7bit
 
 
---15654251293.47FB2241c.14042
-Date: Sat, 10 Aug 2019 08:18:49 +0000
+--15654251301.C141Decc.14042
+Date: Sat, 10 Aug 2019 08:18:50 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111342
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111367
 
 Chris Wilson <chris@chris-wilson.co.uk> changed:
 
@@ -78,15 +78,15 @@ Chris Wilson <chris@chris-wilson.co.uk> changed:
 ----------------------------------------------------------------------------
             Product|DRI                         |Spam
             Version|XOrg git                    |unspecified
-          Component|General                     |Two
               Group|                            |spam
+          Component|General                     |Two
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654251293.47FB2241c.14042
-Date: Sat, 10 Aug 2019 08:18:49 +0000
+--15654251301.C141Decc.14042
+Date: Sat, 10 Aug 2019 08:18:50 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,9 +103,9 @@ Auto-Submitted: auto-generated
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - hi"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111342">bug 11134=
-2</a>
+   title=3D"NEW - Operator is not needed"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111367">bug 11136=
+7</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -131,19 +131,19 @@ Auto-Submitted: auto-generated
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>General
-           </td>
-           <td>Two
-           </td>
-         </tr>
-
-         <tr>
            <td style=3D"text-align:right;">Group</td>
            <td>
                &nbsp;
            </td>
            <td>spam
+           </td>
+         </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>General
+           </td>
+           <td>Two
            </td>
          </tr></table>
       <p>
@@ -159,9 +159,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15654251293.47FB2241c.14042--
+--15654251301.C141Decc.14042--
 
---===============0097212014==
+--===============0018002924==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +171,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0097212014==--
+--===============0018002924==--
