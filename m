@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E2D889E7
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C76889ED
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1CB6E2B6;
-	Sat, 10 Aug 2019 08:18:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC1F36E2AF;
+	Sat, 10 Aug 2019 08:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 935CA6E2D7
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id F242F6E2D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:45 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 8F8B972167; Sat, 10 Aug 2019 08:18:46 +0000 (UTC)
+ id E9D7672167; Sat, 10 Aug 2019 08:18:45 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111347] operators are appearing in the content when not expected
+Subject: [Bug 111354] operators are appearing in the content when not expected
 Date: Sat, 10 Aug 2019 08:18:46 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
@@ -34,9 +34,9 @@ X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_group component version product
-Message-ID: <bug-111347-502-RZ7boCpxtH@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111347-502@http.bugs.freedesktop.org/>
-References: <bug-111347-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-111354-502-alC88vS7m4@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111354-502@http.bugs.freedesktop.org/>
+References: <bug-111354-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,25 +52,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1908053677=="
+Content-Type: multipart/mixed; boundary="===============0410018602=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1908053677==
-Content-Type: multipart/alternative; boundary="15654251265.c45F8.14042"
+--===============0410018602==
+Content-Type: multipart/alternative; boundary="15654251258.BAeDa6.14042"
 Content-Transfer-Encoding: 7bit
 
 
---15654251265.c45F8.14042
-Date: Sat, 10 Aug 2019 08:18:46 +0000
+--15654251258.BAeDa6.14042
+Date: Sat, 10 Aug 2019 08:18:45 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111347
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111354
 
 Chris Wilson <chris@chris-wilson.co.uk> changed:
 
@@ -85,8 +85,8 @@ Chris Wilson <chris@chris-wilson.co.uk> changed:
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654251265.c45F8.14042
-Date: Sat, 10 Aug 2019 08:18:46 +0000
+--15654251258.BAeDa6.14042
+Date: Sat, 10 Aug 2019 08:18:45 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -104,8 +104,8 @@ Auto-Submitted: auto-generated
           <a class=3D"bz_bug_link=20
           bz_status_NEW "
    title=3D"NEW - operators are appearing in the content when not expected"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111347">bug 11134=
-7</a>
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111354">bug 11135=
+4</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -159,9 +159,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15654251265.c45F8.14042--
+--15654251258.BAeDa6.14042--
 
---===============1908053677==
+--===============0410018602==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +171,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1908053677==--
+--===============0410018602==--
