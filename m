@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9D2889F2
-	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBF8889EC
+	for <lists+dri-devel@lfdr.de>; Sat, 10 Aug 2019 10:19:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9A776E2D7;
-	Sat, 10 Aug 2019 08:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAB896E29C;
+	Sat, 10 Aug 2019 08:18:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id D0D676E2E2
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:46 +0000 (UTC)
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3B3C86E2BD
+ for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 08:18:48 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id CE29072167; Sat, 10 Aug 2019 08:18:46 +0000 (UTC)
+ id 3889672167; Sat, 10 Aug 2019 08:18:48 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111361] operator inclueing content
-Date: Sat, 10 Aug 2019 08:18:47 +0000
+Subject: [Bug 111368] the bug is visible at the site
+Date: Sat, 10 Aug 2019 08:18:48 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Spam
-X-Bugzilla-Component: Two
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: General
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: chris@chris-wilson.co.uk
+X-Bugzilla-Severity: minor
+X-Bugzilla-Who: saurabhdubey0601@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: component bug_group version product
-Message-ID: <bug-111361-502-8vxDs34b6u@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111361-502@http.bugs.freedesktop.org/>
-References: <bug-111361-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: product bug_group component
+Message-ID: <bug-111368-502-ZyH6DV9gU6@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111368-502@http.bugs.freedesktop.org/>
+References: <bug-111368-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +52,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1699751515=="
+Content-Type: multipart/mixed; boundary="===============0989443066=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1699751515==
-Content-Type: multipart/alternative; boundary="15654251268.fC7d.14042"
+--===============0989443066==
+Content-Type: multipart/alternative; boundary="15654251281.fFd2ABf.14090"
 Content-Transfer-Encoding: 7bit
 
 
---15654251268.fC7d.14042
-Date: Sat, 10 Aug 2019 08:18:46 +0000
+--15654251281.fFd2ABf.14090
+Date: Sat, 10 Aug 2019 08:18:48 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111361
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111368
 
 Chris Wilson <chris@chris-wilson.co.uk> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-          Component|General                     |Two
-              Group|                            |spam
-            Version|XOrg git                    |unspecified
             Product|DRI                         |Spam
+              Group|                            |spam
+          Component|General                     |Two
+
+saurabhdubey0601@gmail.com changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+          Component|                            |General
+            Product|                            |DRI
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15654251268.fC7d.14042
-Date: Sat, 10 Aug 2019 08:18:46 +0000
+--15654251281.fFd2ABf.14090
+Date: Sat, 10 Aug 2019 08:18:48 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -103,9 +109,9 @@ Auto-Submitted: auto-generated
 </span> changed
           <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - operator inclueing content"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111361">bug 11136=
-1</a>
+   title=3D"NEW - the bug is visible at the site"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111368">bug 11136=
+8</a>
           <br>
              <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
           <tr>
@@ -115,10 +121,10 @@ Auto-Submitted: auto-generated
           </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Component</td>
-           <td>General
+           <td style=3D"text-align:right;">Product</td>
+           <td>DRI
            </td>
-           <td>Two
+           <td>Spam
            </td>
          </tr>
 
@@ -132,18 +138,44 @@ Auto-Submitted: auto-generated
          </tr>
 
          <tr>
-           <td style=3D"text-align:right;">Version</td>
-           <td>XOrg git
+           <td style=3D"text-align:right;">Component</td>
+           <td>General
            </td>
-           <td>unspecified
+           <td>Two
+           </td>
+         </tr>
+          </table><span class=3D"vcard"><a class=3D"email" href=3D"mailto:s=
+aurabhdubey0601&#64;gmail.com" title=3D"saurabhdubey0601&#64;gmail.com">sau=
+rabhdubey0601&#64;gmail.com</a>
+</span> changed
+          <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - the bug is visible at the site"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111368">bug 11136=
+8</a>
+          <br>
+             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+          <tr>
+            <th>What</th>
+            <th>Removed</th>
+            <th>Added</th>
+          </tr>
+
+         <tr>
+           <td style=3D"text-align:right;">Component</td>
+           <td>
+               &nbsp;
+           </td>
+           <td>General
            </td>
          </tr>
 
          <tr>
            <td style=3D"text-align:right;">Product</td>
-           <td>DRI
+           <td>
+               &nbsp;
            </td>
-           <td>Spam
+           <td>DRI
            </td>
          </tr></table>
       <p>
@@ -159,9 +191,9 @@ Auto-Submitted: auto-generated
     </body>
 </html>=
 
---15654251268.fC7d.14042--
+--15654251281.fFd2ABf.14090--
 
---===============1699751515==
+--===============0989443066==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -171,4 +203,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1699751515==--
+--===============0989443066==--
