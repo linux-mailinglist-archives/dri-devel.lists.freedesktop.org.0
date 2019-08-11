@@ -2,44 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC6B88FDB
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 07:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9186488FE8
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 07:59:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB5166E13C;
-	Sun, 11 Aug 2019 05:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B757289E5A;
+	Sun, 11 Aug 2019 05:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 523DE6E495
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 05:39:49 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4F44772167; Sun, 11 Aug 2019 05:39:49 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 102646] Screen flickering under amdgpu-experimental [buggy auto
- power profile]
-Date: Sun, 11 Aug 2019 05:39:48 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: m.ivanov2k@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: high
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-102646-502-9WjZVMBnIo@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-102646-502@http.bugs.freedesktop.org/>
-References: <bug-102646-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBFD89D3E;
+ Sun, 11 Aug 2019 05:59:46 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 10 Aug 2019 22:59:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,372,1559545200"; d="scan'208";a="204345854"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by fmsmga002.fm.intel.com with ESMTP; 10 Aug 2019 22:59:45 -0700
+Received: from FMSMSX109.amr.corp.intel.com (10.18.116.9) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Sat, 10 Aug 2019 22:59:45 -0700
+Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.251]) by
+ FMSMSX109.amr.corp.intel.com ([169.254.15.42]) with mapi id 14.03.0439.000;
+ Sat, 10 Aug 2019 22:59:44 -0700
+From: "Tang, CQ" <cq.tang@intel.com>
+To: Chris Wilson <chris@chris-wilson.co.uk>, "Auld, Matthew"
+ <matthew.auld@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+Subject: RE: [Intel-gfx] [PATCH v3 03/37] drm/i915/region: support basic
+ eviction
+Thread-Topic: [Intel-gfx] [PATCH v3 03/37] drm/i915/region: support basic
+ eviction
+Thread-Index: AQHVTwGTj4z87ru8lEmGRrEIsrUscKb0oUCAgADUKsA=
+Date: Sun, 11 Aug 2019 05:59:44 +0000
+Message-ID: <1D440B9B88E22A4ABEF89F9F1F81BC29E344F2C4@FMSMSX106.amr.corp.intel.com>
+References: <20190809222643.23142-1-matthew.auld@intel.com>
+ <20190809222643.23142-4-matthew.auld@intel.com>
+ <156543231144.2301.517198494962557600@skylake-alporthouse-com>
+In-Reply-To: <156543231144.2301.517198494962557600@skylake-alporthouse-com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiOWFmNmE5NWUtMzUzZC00Mjc5LWE1M2QtNDRjNmYyN2Y5OWY3IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiR3c1dkhHc0JzcGd5T0lFb1wvdjErQ1g2dlp0Q1lIVXBGU3dKQlZ5VmdCRnFiU3pIRitveUdPdVwvdUVabGpQSXI2In0=
+x-ctpclassification: CTP_NT
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.107]
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
@@ -53,93 +65,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0629507403=="
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0629507403==
-Content-Type: multipart/alternative; boundary="15655019893.BF4b8.30077"
-Content-Transfer-Encoding: 7bit
-
-
---15655019893.BF4b8.30077
-Date: Sun, 11 Aug 2019 05:39:49 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102646
-
---- Comment #102 from Maxim Ivanov <m.ivanov2k@gmail.com> ---
-I have also compiled a kernel for myself with this patch and I can confirm =
-it
-is working correctly under amdgpu with my monitor (1920x1080 @ 75Hz) !
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15655019893.BF4b8.30077
-Date: Sun, 11 Aug 2019 05:39:49 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646#c102">Comm=
-ent # 102</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Screen flickering under amdgpu-experimental [buggy auto p=
-ower profile]"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D102646">bug 10264=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-m.ivanov2k&#64;gmail.com" title=3D"Maxim Ivanov &lt;m.ivanov2k&#64;gmail.co=
-m&gt;"> <span class=3D"fn">Maxim Ivanov</span></a>
-</span></b>
-        <pre>I have also compiled a kernel for myself with this patch and I=
- can confirm it
-is working correctly under amdgpu with my monitor (1920x1080 &#64; 75Hz) !<=
-/pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15655019893.BF4b8.30077--
-
---===============0629507403==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0629507403==--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSW50ZWwtZ2Z4IFttYWls
+dG86aW50ZWwtZ2Z4LWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnXSBPbiBCZWhhbGYNCj4g
+T2YgQ2hyaXMgV2lsc29uDQo+IFNlbnQ6IFNhdHVyZGF5LCBBdWd1c3QgMTAsIDIwMTkgMzoxOSBB
+TQ0KPiBUbzogQXVsZCwgTWF0dGhldyA8bWF0dGhldy5hdWxkQGludGVsLmNvbT47IGludGVsLQ0K
+PiBnZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnDQo+IFN1YmplY3Q6IFJlOiBbSW50ZWwtZ2Z4XSBbUEFUQ0ggdjMgMDMvMzddIGRy
+bS9pOTE1L3JlZ2lvbjogc3VwcG9ydCBiYXNpYw0KPiBldmljdGlvbg0KPiANCj4gUXVvdGluZyBN
+YXR0aGV3IEF1bGQgKDIwMTktMDgtMDkgMjM6MjY6MDkpDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2k5MTVfZ2VtLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5
+MTVfZ2VtLmMgaW5kZXggNmZmMDFhNDA0MzQ2Li44NzM1ZGVhNzQ4MDkNCj4gPiAxMDA2NDQNCj4g
+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dlbS5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaTkxNV9nZW0uYw0KPiA+IEBAIC0xMTA1LDYgKzExMDUsMjMgQEAgaTkx
+NV9nZW1fbWFkdmlzZV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZQ0KPiAqZGV2LCB2b2lkICpkYXRh
+LA0KPiA+ICAgICAgICAgICAgICFpOTE1X2dlbV9vYmplY3RfaGFzX3BhZ2VzKG9iaikpDQo+ID4g
+ICAgICAgICAgICAgICAgIGk5MTVfZ2VtX29iamVjdF90cnVuY2F0ZShvYmopOw0KPiA+DQo+ID4g
+KyAgICAgICBpZiAob2JqLT5tbS5yZWdpb24pIHsNCj4gPiArICAgICAgICAgICAgICAgbXV0ZXhf
+bG9jaygmb2JqLT5tbS5yZWdpb24tPm9ial9sb2NrKTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAg
+ICAgIHN3aXRjaCAob2JqLT5tbS5tYWR2KSB7DQo+ID4gKyAgICAgICAgICAgICAgIGNhc2UgSTkx
+NV9NQURWX1dJTExORUVEOg0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGxpc3RfbW92ZSgm
+b2JqLT5tbS5yZWdpb25fbGluaywNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgJm9iai0+bW0ucmVnaW9uLT5vYmplY3RzKTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAg
+ICBicmVhazsNCj4gPiArICAgICAgICAgICAgICAgZGVmYXVsdDoNCj4gPiArICAgICAgICAgICAg
+ICAgICAgICAgICBsaXN0X21vdmUoJm9iai0+bW0ucmVnaW9uX2xpbmssDQo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICZvYmotPm1tLnJlZ2lvbi0+cHVyZ2VhYmxlKTsNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4gPiArICAgICAgICAgICAgICAgfQ0K
+PiA+ICsNCj4gPiArICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKCZvYmotPm1tLnJlZ2lvbi0+
+b2JqX2xvY2spOw0KPiA+ICsgICAgICAgfQ0KPiA+ICsNCj4gPiAgICAgICAgIGFyZ3MtPnJldGFp
+bmVkID0gb2JqLT5tbS5tYWR2ICE9IF9fSTkxNV9NQURWX1BVUkdFRDsNCj4gDQo+IExpdHRsZSBi
+aXQgb2YgYW4gaW1wZWRhbmNlIG1pc21hdGNoLCBJIGhvcGUgdGhpcyB0dXJucyBvdXQgZmluZSB3
+aGVuDQo+IGV2ZXJ5dGhpbmcgaXMgYSBtZW1vcnkgcmVnaW9uLg0KPiANCj4gPiAgICAgICAgIG11
+dGV4X3VubG9jaygmb2JqLT5tbS5sb2NrKTsNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L2dwdS9kcm0vaTkxNS9pbnRlbF9tZW1vcnlfcmVnaW9uLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2Ry
+bS9pOTE1L2ludGVsX21lbW9yeV9yZWdpb24uYw0KPiA+IGluZGV4IGVmMTJlNDYyYWNiOC4uM2Ez
+Y2FhYWRlYTFmIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX21l
+bW9yeV9yZWdpb24uYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX21lbW9y
+eV9yZWdpb24uYw0KPiA+IEBAIC0xMiw2ICsxMiw1MSBAQCBjb25zdCB1MzIgaW50ZWxfcmVnaW9u
+X21hcFtdID0gew0KPiA+ICAgICAgICAgW0lOVEVMX01FTU9SWV9TVE9MRU5dID0gQklUKElOVEVM
+X1NUT0xFTiArDQo+ID4gSU5URUxfTUVNT1JZX1RZUEVfU0hJRlQpIHwgQklUKDApLCAgfTsNCj4g
+Pg0KPiA+ICtzdGF0aWMgaW50DQo+ID4gK2ludGVsX21lbW9yeV9yZWdpb25fZXZpY3Qoc3RydWN0
+IGludGVsX21lbW9yeV9yZWdpb24gKm1lbSwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
+IHJlc291cmNlX3NpemVfdCB0YXJnZXQsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICB1
+bnNpZ25lZCBpbnQgZmxhZ3MpIHsNCj4gPiArICAgICAgIHN0cnVjdCBkcm1faTkxNV9nZW1fb2Jq
+ZWN0ICpvYmo7DQo+ID4gKyAgICAgICByZXNvdXJjZV9zaXplX3QgZm91bmQ7DQo+ID4gKyAgICAg
+ICBpbnQgZXJyOw0KPiA+ICsNCj4gPiArICAgICAgIGVyciA9IDA7DQo+ID4gKyAgICAgICBmb3Vu
+ZCA9IDA7DQo+ID4gKw0KPiA+ICsgICAgICAgbXV0ZXhfbG9jaygmbWVtLT5vYmpfbG9jayk7DQo+
+ID4gKyAgICAgICBsaXN0X2Zvcl9lYWNoX2VudHJ5KG9iaiwgJm1lbS0+cHVyZ2VhYmxlLCBtbS5y
+ZWdpb25fbGluaykgew0KPiA+ICsgICAgICAgICAgICAgICBpZiAoIWk5MTVfZ2VtX29iamVjdF9o
+YXNfcGFnZXMob2JqKSkNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsNCj4g
+PiArDQo+ID4gKyAgICAgICAgICAgICAgIGlmIChSRUFEX09OQ0Uob2JqLT5waW5fZ2xvYmFsKSkN
+Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZTsNCj4gPiArDQo+ID4gKyAgICAg
+ICAgICAgICAgIGlmIChhdG9taWNfcmVhZCgmb2JqLT5iaW5kX2NvdW50KSkNCj4gPiArICAgICAg
+ICAgICAgICAgICAgICAgICBjb250aW51ZTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgIG11
+dGV4X3VubG9jaygmbWVtLT5vYmpfbG9jayk7DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICBf
+X2k5MTVfZ2VtX29iamVjdF9wdXRfcGFnZXMob2JqLCBJOTE1X01NX1NIUklOS0VSKTsNCj4gDQo+
+IFNvIHdlIGRvbid0IHJlYWxseSBjYXJlIGFib3V0IHRoZSBvYmplY3QgYmVpbmcgYm91bmQgdGhl
+bj8gQXMgYWxsIHdlIGNhcmUNCj4gYWJvdXQgaXMgdGhlIHBhZ2UncyBwaW5fY291bnQuDQo+IA0K
+PiBTbyBpbnN0ZWFkIG9mIG9iai0+cGluX2dsb2JhbCwgb2JqLT5iaW5kX2JvdW5kLCB5b3UganVz
+dCB3YW50DQo+IA0KPiBpZiAoYXRvbWljX3JlYWQoJm9iai0+cGFnZXMucGluX2NvdW50KSkNCj4g
+CWNvbnRpbnVlOw0KPiANCj4gYXMgdGhlIHF1aWNrIGNoZWNrIHRvIHNlZSBpZiBpdCBpcyB3b3J0
+aCBwcmVjZWRpbmcuDQo+IA0KPiA+ICsgICAgICAgICAgICAgICBtdXRleF9sb2NrX25lc3RlZCgm
+b2JqLT5tbS5sb2NrLCBJOTE1X01NX1NIUklOS0VSKTsNCj4gPiArICAgICAgICAgICAgICAgaWYg
+KCFpOTE1X2dlbV9vYmplY3RfaGFzX3BhZ2VzKG9iaikpIHsNCj4gPiArICAgICAgICAgICAgICAg
+ICAgICAgICBvYmotPm1tLm1hZHYgPSBfX0k5MTVfTUFEVl9QVVJHRUQ7DQo+ID4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgZm91bmQgKz0gb2JqLT5iYXNlLnNpemU7DQo+ID4gKyAgICAgICAgICAg
+ICAgIH0NCj4gPiArICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKCZvYmotPm1tLmxvY2spOw0K
+PiANCj4gVGhlIGxvY2tpbmcgaGVyZSBhY2NvbXBsaXNoZXMgd2hhdD8gWW91IGp1c3Qgd2FudCBh
+IGJvb2xlYW4gZnJvbQ0KPiBwdXRfcGFnZXMoKS4NCg0KSSBoYXZlIHRoZSBzYW1lIHF1ZXN0aW9u
+LiBCdXQgbG9va2VkIHRoZSBpOTE1X2dlbV9zaHJpbmsoKSBmdW5jdGlvbiwgaXQgaGFzIHNpbWls
+YXIgY29kZS4gRG8gd2UgcHJldmVudCBhbnkgcmFjZSBjb25kaXRpb24gaGVyZT8NCkkgd2FudCB0
+byB1c2UgdGhpcyBmdW5jdGlvbiBmb3Igc3dhcHBpbmcgc28gaG9wZSB0byB1bmRlcnN0YW5kIG1v
+cmUuDQoNCi0tQ1ENCg0KPiANCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgIGlmIChmb3VuZCA+
+PSB0YXJnZXQpDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIDA7DQo+ID4gKw0K
+PiA+ICsgICAgICAgICAgICAgICBtdXRleF9sb2NrKCZtZW0tPm9ial9sb2NrKTsNCj4gPiArICAg
+ICAgIH0NCj4gPiArDQo+ID4gKyAgICAgICBlcnIgPSAtRU5PU1BDOw0KPiA+ICsgICAgICAgbXV0
+ZXhfdW5sb2NrKCZtZW0tPm9ial9sb2NrKTsNCj4gPiArICAgICAgIHJldHVybiBlcnI7DQo+ID4g
+K30NCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4g
+SW50ZWwtZ2Z4IG1haWxpbmcgbGlzdA0KPiBJbnRlbC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+DQo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vaW50ZWwt
+Z2Z4DQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
