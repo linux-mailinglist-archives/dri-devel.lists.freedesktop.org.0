@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B7088EC3
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 01:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD7B88EF5
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 03:15:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2589A6E19C;
-	Sat, 10 Aug 2019 23:11:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253216E2B2;
+	Sun, 11 Aug 2019 01:15:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02C146E162
- for <dri-devel@lists.freedesktop.org>; Sat, 10 Aug 2019 23:11:05 +0000 (UTC)
-Received: from pendragon.bb.dnainternet.fi
- (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C54FD1519;
- Sun, 11 Aug 2019 01:11:00 +0200 (CEST)
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 64D426E478
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 01:15:48 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 6127F72167; Sun, 11 Aug 2019 01:15:48 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 9/9] drm/panel: Add driver for the Toppoly TD043MTEA1 panel
-Date: Sun, 11 Aug 2019 02:10:48 +0300
-Message-Id: <20190810231048.1921-10-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190810231048.1921-1-laurent.pinchart@ideasonboard.com>
-References: <20190810231048.1921-1-laurent.pinchart@ideasonboard.com>
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sun, 11 Aug 2019 01:15:48 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-YNnHrER2N7@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=ideasonboard.com; s=mail; t=1565478661;
- bh=a60aoQNEG2l3vKR+1aTb4GGQPVJecleNcHjnFg7AL5Y=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jqt4bcD4iteu/r3T2ZTw6Tx3PMXXaJHPWSjbodVE/q0DJIbD2y9XFO+eAVpER8nCB
- p74rK2xCs7mRmUBhhNfWM6W/wTElpjuhv/TH0hrPQUy4oZOYVhQt5SddwN1yjQrAvf
- I8VRMEbydA5jEBqX+Lhb/NmYI4gMyv6zuGdaD+u0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -46,270 +52,183 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0464967178=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYW5lbCBpcyB1c2VkIG9uIHRoZSBPTUFQMyBQYW5kb3JhLgoKVGhlIGNvZGUgaXMgYmFz
-ZWQgb24gdGhlIG9tYXBkcm0tc3BlY2lmaWMgcGFuZWwtdHBvLXRkMDQzbXRlYTEgZHJpdmVyLgoK
-U2lnbmVkLW9mZi1ieTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29u
-Ym9hcmQuY29tPgotLS0KQ2hhbmdlcyBzaW5jZSB2MToKCi0gTWVudGlvbiBib2FyZHMgdXNpbmcg
-dGhlIHBhbmVsIGluIEtjb25maWcKLSBSZW5hbWVkIHRkMDQzbXRlYTFfZGV2aWNlIHRvIHRkMDQz
-bXRlYTFfcGFuZWwKLSBGaXhlZCB0eXBvIGluIFRvcHBvbHkgbmFtZQotIENvbW1lbnRzIHVwZGF0
-ZXMKLSBTdG9yZSB3aWR0aF9tbSBhbmQgaGVpZ2h0X21tIGluIGRybV9kaXNwbGF5X21vZGUKLSBV
-c2UgZHJtX3BhbmVsX3VucHJlcGFyZSgpIGluIC5yZW1vdmUoKSBoYW5kbGVyCi0gUmVwbGFjZSBl
-bmFibGUvZGlzYWJsZSB3aXRoIHByZXBhcmUvdW5wcmVwYXJlCi0tLQogZHJpdmVycy9ncHUvZHJt
-L3BhbmVsL0tjb25maWcgICAgICAgICAgICAgICAgfCAgIDcgKwogZHJpdmVycy9ncHUvZHJtL3Bh
-bmVsL01ha2VmaWxlICAgICAgICAgICAgICAgfCAgIDEgKwogZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLXRwby10ZDA0M210ZWExLmMgfCA1MDggKysrKysrKysrKysrKysrKysrKwogMyBmaWxl
-cyBjaGFuZ2VkLCA1MTYgaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMv
-Z3B1L2RybS9wYW5lbC9wYW5lbC10cG8tdGQwNDNtdGVhMS5jCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3BhbmVsL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvS2NvbmZpZwpp
-bmRleCBjMjY4OTQyMGQyZGQuLmYxNTJiYzRlZWI1MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3BhbmVsL0tjb25maWcKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL0tjb25maWcKQEAg
-LTMzMiw2ICszMzIsMTMgQEAgY29uZmlnIERSTV9QQU5FTF9UUE9fVEQwMjhUVEVDMQogCSAgU2F5
-IFkgaGVyZSBpZiB5b3Ugd2FudCB0byBlbmFibGUgc3VwcG9ydCBmb3IgVFBPIFREMDI4VFRFQzEg
-NDgweDY0MAogCSAgMi44IiBwYW5lbCAoZm91bmQgb24gdGhlIE9wZW5Nb2tvIE5lbyBGcmVlUnVu
-bmVyIGFuZCBOZW8gMTk3MykuCiAKK2NvbmZpZyBEUk1fUEFORUxfVFBPX1REMDQzTVRFQTEKKwl0
-cmlzdGF0ZSAiVG9wcG9seSAoVFBPKSBURDA0M01URUExIHBhbmVsIGRyaXZlciIKKwlkZXBlbmRz
-IG9uIEdQSU9MSUIgJiYgT0YgJiYgUkVHVUxBVE9SICYmIFNQSQorCWhlbHAKKwkgIFNheSBZIGhl
-cmUgaWYgeW91IHdhbnQgdG8gZW5hYmxlIHN1cHBvcnQgZm9yIFRQTyBURDA0M01URUExIDgwMHg0
-ODAKKwkgIDQuMyIgcGFuZWwgKGZvdW5kIG9uIHRoZSBPTUFQMyBQYW5kb3JhIGJvYXJkKS4KKwog
-Y29uZmlnIERSTV9QQU5FTF9UUE9fVFBHMTEwCiAJdHJpc3RhdGUgIlRQTyBUUEcgODAweDQwMCBw
-YW5lbCIKIAlkZXBlbmRzIG9uIE9GICYmIFNQSSAmJiBHUElPTElCCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vcGFuZWwvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvTWFrZWZp
-bGUKaW5kZXggMjdiNzc2NzM3YWQzLi5iNmNkMzlmZTBmMjAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9wYW5lbC9NYWtlZmlsZQorKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvTWFrZWZp
-bGUKQEAgLTM1LDUgKzM1LDYgQEAgb2JqLSQoQ09ORklHX0RSTV9QQU5FTF9TSVRST05JWF9TVDc3
-MDEpICs9IHBhbmVsLXNpdHJvbml4LXN0NzcwMS5vCiBvYmotJChDT05GSUdfRFJNX1BBTkVMX1NJ
-VFJPTklYX1NUNzc4OVYpICs9IHBhbmVsLXNpdHJvbml4LXN0Nzc4OXYubwogb2JqLSQoQ09ORklH
-X0RSTV9QQU5FTF9TT05ZX0FDWDU2NUFLTSkgKz0gcGFuZWwtc29ueS1hY3g1NjVha20ubwogb2Jq
-LSQoQ09ORklHX0RSTV9QQU5FTF9UUE9fVEQwMjhUVEVDMSkgKz0gcGFuZWwtdHBvLXRkMDI4dHRl
-YzEubworb2JqLSQoQ09ORklHX0RSTV9QQU5FTF9UUE9fVEQwNDNNVEVBMSkgKz0gcGFuZWwtdHBv
-LXRkMDQzbXRlYTEubwogb2JqLSQoQ09ORklHX0RSTV9QQU5FTF9UUE9fVFBHMTEwKSArPSBwYW5l
-bC10cG8tdHBnMTEwLm8KIG9iai0kKENPTkZJR19EUk1fUEFORUxfVFJVTFlfTlQzNTU5N19XUVhH
-QSkgKz0gcGFuZWwtdHJ1bHktbnQzNTU5Ny5vCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-cGFuZWwvcGFuZWwtdHBvLXRkMDQzbXRlYTEuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5l
-bC10cG8tdGQwNDNtdGVhMS5jCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAw
-MC4uMWYwY2IwZWY3Y2ZlCi0tLSAvZGV2L251bGwKKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLXRwby10ZDA0M210ZWExLmMKQEAgLTAsMCArMSw1MDggQEAKKy8vIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBHUEwtMi4wKworLyoKKyAqIFRvcHBvbHkgVEQwNDNNVEVBMSBQYW5lbCBE
-cml2ZXIKKyAqCisgKiBDb3B5cmlnaHQgKEMpIDIwMTkgVGV4YXMgSW5zdHJ1bWVudHMgSW5jb3Jw
-b3JhdGVkCisgKgorICogQmFzZWQgb24gdGhlIG9tYXBkcm0tc3BlY2lmaWMgcGFuZWwtdHBvLXRk
-MDQzbXRlYTEgZHJpdmVyCisgKgorICogQXV0aG9yOiBHcmHFvnZ5ZGFzIElnbm90YXMgPG5vdGFz
-YXNAZ21haWwuY29tPgorICovCisKKyNpbmNsdWRlIDxsaW51eC9kZWxheS5oPgorI2luY2x1ZGUg
-PGxpbnV4L21vZHVsZS5oPgorI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPgor
-I2luY2x1ZGUgPGxpbnV4L3NwaS9zcGkuaD4KKworI2luY2x1ZGUgPGRybS9kcm1fY29ubmVjdG9y
-Lmg+CisjaW5jbHVkZSA8ZHJtL2RybV9tb2Rlcy5oPgorI2luY2x1ZGUgPGRybS9kcm1fcGFuZWwu
-aD4KKworI2RlZmluZSBUUE9fUjAyX01PREUoeCkJCQkoKHgpICYgNykKKyNkZWZpbmUgVFBPX1Iw
-Ml9NT0RFXzgwMHg0ODAJCTcKKyNkZWZpbmUgVFBPX1IwMl9OQ0xLX1JJU0lORwkJQklUKDMpCisj
-ZGVmaW5lIFRQT19SMDJfSFNZTkNfSElHSAkJQklUKDQpCisjZGVmaW5lIFRQT19SMDJfVlNZTkNf
-SElHSAkJQklUKDUpCisKKyNkZWZpbmUgVFBPX1IwM19OU1RBTkRCWQkJQklUKDApCisjZGVmaW5l
-IFRQT19SMDNfRU5fQ1BfQ0xLCQlCSVQoMSkKKyNkZWZpbmUgVFBPX1IwM19FTl9WR0xfUFVNUAkJ
-QklUKDIpCisjZGVmaW5lIFRQT19SMDNfRU5fUFdNCQkJQklUKDMpCisjZGVmaW5lIFRQT19SMDNf
-RFJJVklOR19DQVBfMTAwCQlCSVQoNCkKKyNkZWZpbmUgVFBPX1IwM19FTl9QUkVfQ0hBUkdFCQlC
-SVQoNikKKyNkZWZpbmUgVFBPX1IwM19TT0ZUV0FSRV9DVEwJCUJJVCg3KQorCisjZGVmaW5lIFRQ
-T19SMDRfTkZMSVBfSAkJCUJJVCgwKQorI2RlZmluZSBUUE9fUjA0X05GTElQX1YJCQlCSVQoMSkK
-KyNkZWZpbmUgVFBPX1IwNF9DUF9DTEtfRlJFUV8xSAkJQklUKDIpCisjZGVmaW5lIFRQT19SMDRf
-VkdMX0ZSRVFfMUgJCUJJVCg0KQorCisjZGVmaW5lIFRQT19SMDNfVkFMX05PUk1BTCBcCisJKFRQ
-T19SMDNfTlNUQU5EQlkgfCBUUE9fUjAzX0VOX0NQX0NMSyB8IFRQT19SMDNfRU5fVkdMX1BVTVAg
-fCBcCisJIFRQT19SMDNfRU5fUFdNIHwgVFBPX1IwM19EUklWSU5HX0NBUF8xMDAgfCBUUE9fUjAz
-X0VOX1BSRV9DSEFSR0UgfCBcCisJIFRQT19SMDNfU09GVFdBUkVfQ1RMKQorCisjZGVmaW5lIFRQ
-T19SMDNfVkFMX1NUQU5EQlkgXAorCShUUE9fUjAzX0RSSVZJTkdfQ0FQXzEwMCB8IFRQT19SMDNf
-RU5fUFJFX0NIQVJHRSB8IFwKKwkgVFBPX1IwM19TT0ZUV0FSRV9DVEwpCisKK3N0YXRpYyBjb25z
-dCB1MTYgdGQwNDNtdGVhMV9kZWZfZ2FtbWFbMTJdID0geworCTEwNSwgMzE1LCAzODEsIDQzMSwg
-NDkwLCA1MzcsIDU3OSwgNjg2LCA3ODAsIDgzNywgODgwLCAxMDIzCit9OworCitzdHJ1Y3QgdGQw
-NDNtdGVhMV9wYW5lbCB7CisJc3RydWN0IGRybV9wYW5lbCBwYW5lbDsKKworCXN0cnVjdCBzcGlf
-ZGV2aWNlICpzcGk7CisJc3RydWN0IHJlZ3VsYXRvciAqdmNjX3JlZzsKKwlzdHJ1Y3QgZ3Bpb19k
-ZXNjICpyZXNldF9ncGlvOworCisJdW5zaWduZWQgaW50IG1vZGU7CisJdTE2IGdhbW1hWzEyXTsK
-Kwlib29sIHZtaXJyb3I7CisJYm9vbCBwb3dlcmVkX29uOworCWJvb2wgc3BpX3N1c3BlbmRlZDsK
-Kwlib29sIHBvd2VyX29uX3Jlc3VtZTsKK307CisKKyNkZWZpbmUgdG9fdGQwNDNtdGVhMV9kZXZp
-Y2UocCkgY29udGFpbmVyX29mKHAsIHN0cnVjdCB0ZDA0M210ZWExX3BhbmVsLCBwYW5lbCkKKwor
-LyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyAqIEhhcmR3YXJlIEFjY2VzcworICovCisKK3N0YXRp
-YyBpbnQgdGQwNDNtdGVhMV93cml0ZShzdHJ1Y3QgdGQwNDNtdGVhMV9wYW5lbCAqbGNkLCB1OCBh
-ZGRyLCB1OCB2YWx1ZSkKK3sKKwlzdHJ1Y3Qgc3BpX21lc3NhZ2UgbXNnOworCXN0cnVjdCBzcGlf
-dHJhbnNmZXIgeGZlcjsKKwl1MTYgZGF0YTsKKwlpbnQgcmV0OworCisJc3BpX21lc3NhZ2VfaW5p
-dCgmbXNnKTsKKworCW1lbXNldCgmeGZlciwgMCwgc2l6ZW9mKHhmZXIpKTsKKworCWRhdGEgPSAo
-KHUxNilhZGRyIDw8IDEwKSB8ICgxIDw8IDgpIHwgdmFsdWU7CisJeGZlci50eF9idWYgPSAmZGF0
-YTsKKwl4ZmVyLmJpdHNfcGVyX3dvcmQgPSAxNjsKKwl4ZmVyLmxlbiA9IDI7CisJc3BpX21lc3Nh
-Z2VfYWRkX3RhaWwoJnhmZXIsICZtc2cpOworCisJcmV0ID0gc3BpX3N5bmMobGNkLT5zcGksICZt
-c2cpOworCWlmIChyZXQgPCAwKQorCQlkZXZfd2FybigmbGNkLT5zcGktPmRldiwgImZhaWxlZCB0
-byB3cml0ZSB0byBMQ0QgcmVnICglZClcbiIsCisJCQkgcmV0KTsKKworCXJldHVybiByZXQ7Cit9
-CisKK3N0YXRpYyB2b2lkIHRkMDQzbXRlYTFfd3JpdGVfZ2FtbWEoc3RydWN0IHRkMDQzbXRlYTFf
-cGFuZWwgKmxjZCkKK3sKKwljb25zdCB1MTYgKmdhbW1hID0gbGNkLT5nYW1tYTsKKwl1bnNpZ25l
-ZCBpbnQgaTsKKwl1OCB2YWw7CisKKwkvKiBnYW1tYSBiaXRzIFs5OjhdICovCisJZm9yICh2YWwg
-PSBpID0gMDsgaSA8IDQ7IGkrKykKKwkJdmFsIHw9IChnYW1tYVtpXSAmIDB4MzAwKSA+PiAoKGkg
-KyAxKSAqIDIpOworCXRkMDQzbXRlYTFfd3JpdGUobGNkLCAweDExLCB2YWwpOworCisJZm9yICh2
-YWwgPSBpID0gMDsgaSA8IDQ7IGkrKykKKwkJdmFsIHw9IChnYW1tYVtpICsgNF0gJiAweDMwMCkg
-Pj4gKChpICsgMSkgKiAyKTsKKwl0ZDA0M210ZWExX3dyaXRlKGxjZCwgMHgxMiwgdmFsKTsKKwor
-CWZvciAodmFsID0gaSA9IDA7IGkgPCA0OyBpKyspCisJCXZhbCB8PSAoZ2FtbWFbaSArIDhdICYg
-MHgzMDApID4+ICgoaSArIDEpICogMik7CisJdGQwNDNtdGVhMV93cml0ZShsY2QsIDB4MTMsIHZh
-bCk7CisKKwkvKiBnYW1tYSBiaXRzIFs3OjBdICovCisJZm9yICh2YWwgPSBpID0gMDsgaSA8IDEy
-OyBpKyspCisJCXRkMDQzbXRlYTFfd3JpdGUobGNkLCAweDE0ICsgaSwgZ2FtbWFbaV0gJiAweGZm
-KTsKK30KKworc3RhdGljIGludCB0ZDA0M210ZWExX3dyaXRlX21pcnJvcihzdHJ1Y3QgdGQwNDNt
-dGVhMV9wYW5lbCAqbGNkKQoreworCXU4IHJlZzQgPSBUUE9fUjA0X05GTElQX0ggfCBUUE9fUjA0
-X05GTElQX1YgfAorCQlUUE9fUjA0X0NQX0NMS19GUkVRXzFIIHwgVFBPX1IwNF9WR0xfRlJFUV8x
-SDsKKwlpZiAobGNkLT52bWlycm9yKQorCQlyZWc0ICY9IH5UUE9fUjA0X05GTElQX1Y7CisKKwly
-ZXR1cm4gdGQwNDNtdGVhMV93cml0ZShsY2QsIDQsIHJlZzQpOworfQorCitzdGF0aWMgaW50IHRk
-MDQzbXRlYTFfcG93ZXJfb24oc3RydWN0IHRkMDQzbXRlYTFfcGFuZWwgKmxjZCkKK3sKKwlpbnQg
-cmV0OworCisJaWYgKGxjZC0+cG93ZXJlZF9vbikKKwkJcmV0dXJuIDA7CisKKwlyZXQgPSByZWd1
-bGF0b3JfZW5hYmxlKGxjZC0+dmNjX3JlZyk7CisJaWYgKHJldCA8IDApCisJCXJldHVybiByZXQ7
-CisKKwkvKiBXYWl0IGZvciB0aGUgcGFuZWwgdG8gc3RhYmlsaXplLiAqLworCW1zbGVlcCgxNjAp
-OworCisJZ3Bpb2Rfc2V0X3ZhbHVlKGxjZC0+cmVzZXRfZ3BpbywgMCk7CisKKwl0ZDA0M210ZWEx
-X3dyaXRlKGxjZCwgMiwgVFBPX1IwMl9NT0RFKGxjZC0+bW9kZSkgfCBUUE9fUjAyX05DTEtfUklT
-SU5HKTsKKwl0ZDA0M210ZWExX3dyaXRlKGxjZCwgMywgVFBPX1IwM19WQUxfTk9STUFMKTsKKwl0
-ZDA0M210ZWExX3dyaXRlKGxjZCwgMHgyMCwgMHhmMCk7CisJdGQwNDNtdGVhMV93cml0ZShsY2Qs
-IDB4MjEsIDB4ZjApOworCXRkMDQzbXRlYTFfd3JpdGVfbWlycm9yKGxjZCk7CisJdGQwNDNtdGVh
-MV93cml0ZV9nYW1tYShsY2QpOworCisJbGNkLT5wb3dlcmVkX29uID0gdHJ1ZTsKKworCXJldHVy
-biAwOworfQorCitzdGF0aWMgdm9pZCB0ZDA0M210ZWExX3Bvd2VyX29mZihzdHJ1Y3QgdGQwNDNt
-dGVhMV9wYW5lbCAqbGNkKQoreworCWlmICghbGNkLT5wb3dlcmVkX29uKQorCQlyZXR1cm47CisK
-Kwl0ZDA0M210ZWExX3dyaXRlKGxjZCwgMywgVFBPX1IwM19WQUxfU1RBTkRCWSB8IFRQT19SMDNf
-RU5fUFdNKTsKKworCWdwaW9kX3NldF92YWx1ZShsY2QtPnJlc2V0X2dwaW8sIDEpOworCisJLyog
-d2FpdCBmb3IgYXQgbGVhc3QgMiB2c3luY3MgYmVmb3JlIGN1dHRpbmcgb2ZmIHBvd2VyICovCisJ
-bXNsZWVwKDUwKTsKKworCXRkMDQzbXRlYTFfd3JpdGUobGNkLCAzLCBUUE9fUjAzX1ZBTF9TVEFO
-REJZKTsKKworCXJlZ3VsYXRvcl9kaXNhYmxlKGxjZC0+dmNjX3JlZyk7CisKKwlsY2QtPnBvd2Vy
-ZWRfb24gPSBmYWxzZTsKK30KKworLyogLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyAqIHN5c2ZzCisg
-Ki8KKworc3RhdGljIHNzaXplX3Qgdm1pcnJvcl9zaG93KHN0cnVjdCBkZXZpY2UgKmRldiwgc3Ry
-dWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsCisJCQkgICAgY2hhciAqYnVmKQoreworCXN0cnVj
-dCB0ZDA0M210ZWExX3BhbmVsICpsY2QgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKKworCXJldHVy
-biBzbnByaW50ZihidWYsIFBBR0VfU0laRSwgIiVkXG4iLCBsY2QtPnZtaXJyb3IpOworfQorCitz
-dGF0aWMgc3NpemVfdCB2bWlycm9yX3N0b3JlKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRl
-dmljZV9hdHRyaWJ1dGUgKmF0dHIsCisJCQkgICAgIGNvbnN0IGNoYXIgKmJ1Ziwgc2l6ZV90IGNv
-dW50KQoreworCXN0cnVjdCB0ZDA0M210ZWExX3BhbmVsICpsY2QgPSBkZXZfZ2V0X2RydmRhdGEo
-ZGV2KTsKKwlpbnQgdmFsOworCWludCByZXQ7CisKKwlyZXQgPSBrc3RydG9pbnQoYnVmLCAwLCAm
-dmFsKTsKKwlpZiAocmV0IDwgMCkKKwkJcmV0dXJuIHJldDsKKworCWxjZC0+dm1pcnJvciA9ICEh
-dmFsOworCisJcmV0ID0gdGQwNDNtdGVhMV93cml0ZV9taXJyb3IobGNkKTsKKwlpZiAocmV0IDwg
-MCkKKwkJcmV0dXJuIHJldDsKKworCXJldHVybiBjb3VudDsKK30KKworc3RhdGljIHNzaXplX3Qg
-bW9kZV9zaG93KHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0
-dHIsCisJCQkgY2hhciAqYnVmKQoreworCXN0cnVjdCB0ZDA0M210ZWExX3BhbmVsICpsY2QgPSBk
-ZXZfZ2V0X2RydmRhdGEoZGV2KTsKKworCXJldHVybiBzbnByaW50ZihidWYsIFBBR0VfU0laRSwg
-IiVkXG4iLCBsY2QtPm1vZGUpOworfQorCitzdGF0aWMgc3NpemVfdCBtb2RlX3N0b3JlKHN0cnVj
-dCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsCisJCQkgIGNvbnN0
-IGNoYXIgKmJ1Ziwgc2l6ZV90IGNvdW50KQoreworCXN0cnVjdCB0ZDA0M210ZWExX3BhbmVsICps
-Y2QgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsKKwlsb25nIHZhbDsKKwlpbnQgcmV0OworCisJcmV0
-ID0ga3N0cnRvbChidWYsIDAsICZ2YWwpOworCWlmIChyZXQgIT0gMCB8fCB2YWwgJiB+NykKKwkJ
-cmV0dXJuIC1FSU5WQUw7CisKKwlsY2QtPm1vZGUgPSB2YWw7CisKKwl2YWwgfD0gVFBPX1IwMl9O
-Q0xLX1JJU0lORzsKKwl0ZDA0M210ZWExX3dyaXRlKGxjZCwgMiwgdmFsKTsKKworCXJldHVybiBj
-b3VudDsKK30KKworc3RhdGljIHNzaXplX3QgZ2FtbWFfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYs
-IHN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICphdHRyLAorCQkJICBjaGFyICpidWYpCit7CisJc3Ry
-dWN0IHRkMDQzbXRlYTFfcGFuZWwgKmxjZCA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOworCXNzaXpl
-X3QgbGVuID0gMDsKKwl1bnNpZ25lZCBpbnQgaTsKKwlpbnQgcmV0OworCisJZm9yIChpID0gMDsg
-aSA8IEFSUkFZX1NJWkUobGNkLT5nYW1tYSk7IGkrKykgeworCQlyZXQgPSBzbnByaW50ZihidWYg
-KyBsZW4sIFBBR0VfU0laRSAtIGxlbiwgIiV1ICIsCisJCQkJbGNkLT5nYW1tYVtpXSk7CisJCWlm
-IChyZXQgPCAwKQorCQkJcmV0dXJuIHJldDsKKwkJbGVuICs9IHJldDsKKwl9CisJYnVmW2xlbiAt
-IDFdID0gJ1xuJzsKKworCXJldHVybiBsZW47Cit9CisKK3N0YXRpYyBzc2l6ZV90IGdhbW1hX3N0
-b3JlKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsCisJ
-CQkgICBjb25zdCBjaGFyICpidWYsIHNpemVfdCBjb3VudCkKK3sKKwlzdHJ1Y3QgdGQwNDNtdGVh
-MV9wYW5lbCAqbGNkID0gZGV2X2dldF9kcnZkYXRhKGRldik7CisJdW5zaWduZWQgaW50IGdbMTJd
-OworCXVuc2lnbmVkIGludCBpOworCWludCByZXQ7CisKKwlyZXQgPSBzc2NhbmYoYnVmLCAiJXUg
-JXUgJXUgJXUgJXUgJXUgJXUgJXUgJXUgJXUgJXUgJXUiLAorCQkJJmdbMF0sICZnWzFdLCAmZ1sy
-XSwgJmdbM10sICZnWzRdLCAmZ1s1XSwKKwkJCSZnWzZdLCAmZ1s3XSwgJmdbOF0sICZnWzldLCAm
-Z1sxMF0sICZnWzExXSk7CisJaWYgKHJldCAhPSAxMikKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwlm
-b3IgKGkgPSAwOyBpIDwgMTI7IGkrKykKKwkJbGNkLT5nYW1tYVtpXSA9IGdbaV07CisKKwl0ZDA0
-M210ZWExX3dyaXRlX2dhbW1hKGxjZCk7CisKKwlyZXR1cm4gY291bnQ7Cit9CisKK3N0YXRpYyBE
-RVZJQ0VfQVRUUl9SVyh2bWlycm9yKTsKK3N0YXRpYyBERVZJQ0VfQVRUUl9SVyhtb2RlKTsKK3N0
-YXRpYyBERVZJQ0VfQVRUUl9SVyhnYW1tYSk7CisKK3N0YXRpYyBzdHJ1Y3QgYXR0cmlidXRlICp0
-ZDA0M210ZWExX2F0dHJzW10gPSB7CisJJmRldl9hdHRyX3ZtaXJyb3IuYXR0ciwKKwkmZGV2X2F0
-dHJfbW9kZS5hdHRyLAorCSZkZXZfYXR0cl9nYW1tYS5hdHRyLAorCU5VTEwsCit9OworCitzdGF0
-aWMgY29uc3Qgc3RydWN0IGF0dHJpYnV0ZV9ncm91cCB0ZDA0M210ZWExX2F0dHJfZ3JvdXAgPSB7
-CisJLmF0dHJzID0gdGQwNDNtdGVhMV9hdHRycywKK307CisKKy8qIC0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tCisgKiBQYW5lbCBPcGVyYXRpb25zCisgKi8KKworc3RhdGljIGludCB0ZDA0M210ZWExX3Vu
-cHJlcGFyZShzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCkKK3sKKwlzdHJ1Y3QgdGQwNDNtdGVhMV9w
-YW5lbCAqbGNkID0gdG9fdGQwNDNtdGVhMV9kZXZpY2UocGFuZWwpOworCisJaWYgKCFsY2QtPnNw
-aV9zdXNwZW5kZWQpCisJCXRkMDQzbXRlYTFfcG93ZXJfb2ZmKGxjZCk7CisKKwlyZXR1cm4gMDsK
-K30KKworc3RhdGljIGludCB0ZDA0M210ZWExX3ByZXBhcmUoc3RydWN0IGRybV9wYW5lbCAqcGFu
-ZWwpCit7CisJc3RydWN0IHRkMDQzbXRlYTFfcGFuZWwgKmxjZCA9IHRvX3RkMDQzbXRlYTFfZGV2
-aWNlKHBhbmVsKTsKKwlpbnQgcmV0OworCisJLyoKKwkgKiBJZiB3ZSBhcmUgcmVzdW1pbmcgZnJv
-bSBzeXN0ZW0gc3VzcGVuZCwgU1BJIG1pZ2h0IG5vdCBiZSBlbmFibGVkCisJICogeWV0LCBzbyB3
-ZSdsbCBwcm9ncmFtIHRoZSBMQ0QgZnJvbSBTUEkgUE0gcmVzdW1lIGNhbGxiYWNrLgorCSAqLwor
-CWlmIChsY2QtPnNwaV9zdXNwZW5kZWQpCisJCXJldHVybiAwOworCisJcmV0ID0gdGQwNDNtdGVh
-MV9wb3dlcl9vbihsY2QpOworCWlmIChyZXQpIHsKKwkJZGV2X2VycigmbGNkLT5zcGktPmRldiwg
-IiVzOiBwb3dlciBvbiBmYWlsZWQgKCVkKVxuIiwKKwkJCV9fZnVuY19fLCByZXQpOworCQlyZXR1
-cm4gcmV0OworCX0KKworCXJldHVybiAwOworfQorCitzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9k
-aXNwbGF5X21vZGUgdGQwNDNtdGVhMV9tb2RlID0geworCS5jbG9jayA9IDM2MDAwLAorCS5oZGlz
-cGxheSA9IDgwMCwKKwkuaHN5bmNfc3RhcnQgPSA4MDAgKyA2OCwKKwkuaHN5bmNfZW5kID0gODAw
-ICsgNjggKyAxLAorCS5odG90YWwgPSA4MDAgKyA2OCArIDEgKyAyMTQsCisJLnZkaXNwbGF5ID0g
-NDgwLAorCS52c3luY19zdGFydCA9IDQ4MCArIDM5LAorCS52c3luY19lbmQgPSA0ODAgKyAzOSAr
-IDEsCisJLnZ0b3RhbCA9IDQ4MCArIDM5ICsgMSArIDM0LAorCS52cmVmcmVzaCA9IDYwLAorCS50
-eXBlID0gRFJNX01PREVfVFlQRV9EUklWRVIgfCBEUk1fTU9ERV9UWVBFX1BSRUZFUlJFRCwKKwku
-ZmxhZ3MgPSBEUk1fTU9ERV9GTEFHX05IU1lOQyB8IERSTV9NT0RFX0ZMQUdfTlZTWU5DLAorCS53
-aWR0aF9tbSA9IDk0LAorCS5oZWlnaHRfbW0gPSA1NiwKK307CisKK3N0YXRpYyBpbnQgdGQwNDNt
-dGVhMV9nZXRfbW9kZXMoc3RydWN0IGRybV9wYW5lbCAqcGFuZWwpCit7CisJc3RydWN0IGRybV9j
-b25uZWN0b3IgKmNvbm5lY3RvciA9IHBhbmVsLT5jb25uZWN0b3I7CisJc3RydWN0IGRybV9kaXNw
-bGF5X21vZGUgKm1vZGU7CisKKwltb2RlID0gZHJtX21vZGVfZHVwbGljYXRlKHBhbmVsLT5kcm0s
-ICZ0ZDA0M210ZWExX21vZGUpOworCWlmICghbW9kZSkKKwkJcmV0dXJuIC1FTk9NRU07CisKKwlk
-cm1fbW9kZV9zZXRfbmFtZShtb2RlKTsKKwlkcm1fbW9kZV9wcm9iZWRfYWRkKGNvbm5lY3Rvciwg
-bW9kZSk7CisKKwljb25uZWN0b3ItPmRpc3BsYXlfaW5mby53aWR0aF9tbSA9IHRkMDQzbXRlYTFf
-bW9kZS53aWR0aF9tbTsKKwljb25uZWN0b3ItPmRpc3BsYXlfaW5mby5oZWlnaHRfbW0gPSB0ZDA0
-M210ZWExX21vZGUuaGVpZ2h0X21tOworCS8qCisJICogRklYTUU6IEFjY29yZGluZyB0byB0aGUg
-ZGF0YXNoZWV0IHN5bmMgc2lnbmFscyBhcmUgc2FtcGxlZCBvbiB0aGUKKwkgKiByaXNpbmcgZWRn
-ZSBvZiB0aGUgY2xvY2ssIGJ1dCB0aGUgY29kZSBydW5uaW5nIG9uIHRoZSBPTUFQMyBQYW5kb3Jh
-CisJICogaW5kaWNhdGVzIHNhbXBsaW5nIG9uIHRoZSBmYWxsaW5nIGVkZ2UuIFRoaXMgc2hvdWxk
-IGJlIHRlc3RlZCBvbiBhCisJICogcmVhbCBkZXZpY2UuCisJICovCisJY29ubmVjdG9yLT5kaXNw
-bGF5X2luZm8uYnVzX2ZsYWdzID0gRFJNX0JVU19GTEFHX0RFX0hJR0gKKwkJCQkJICB8IERSTV9C
-VVNfRkxBR19TWU5DX1NBTVBMRV9ORUdFREdFCisJCQkJCSAgfCBEUk1fQlVTX0ZMQUdfUElYREFU
-QV9TQU1QTEVfUE9TRURHRTsKKworCXJldHVybiAxOworfQorCitzdGF0aWMgY29uc3Qgc3RydWN0
-IGRybV9wYW5lbF9mdW5jcyB0ZDA0M210ZWExX2Z1bmNzID0geworCS51bnByZXBhcmUgPSB0ZDA0
-M210ZWExX3VucHJlcGFyZSwKKwkucHJlcGFyZSA9IHRkMDQzbXRlYTFfcHJlcGFyZSwKKwkuZ2V0
-X21vZGVzID0gdGQwNDNtdGVhMV9nZXRfbW9kZXMsCit9OworCisvKiAtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLQorICogUG93ZXIgTWFuYWdlbWVudCwgUHJvYmUgYW5kIFJlbW92ZQorICovCisKK3N0YXRp
-YyBpbnQgX19tYXliZV91bnVzZWQgdGQwNDNtdGVhMV9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRl
-dikKK3sKKwlzdHJ1Y3QgdGQwNDNtdGVhMV9wYW5lbCAqbGNkID0gZGV2X2dldF9kcnZkYXRhKGRl
-dik7CisKKwlpZiAobGNkLT5wb3dlcmVkX29uKSB7CisJCXRkMDQzbXRlYTFfcG93ZXJfb2ZmKGxj
-ZCk7CisJCWxjZC0+cG93ZXJlZF9vbiA9IHRydWU7CisJfQorCisJbGNkLT5zcGlfc3VzcGVuZGVk
-ID0gdHJ1ZTsKKworCXJldHVybiAwOworfQorCitzdGF0aWMgaW50IF9fbWF5YmVfdW51c2VkIHRk
-MDQzbXRlYTFfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikKK3sKKwlzdHJ1Y3QgdGQwNDNtdGVh
-MV9wYW5lbCAqbGNkID0gZGV2X2dldF9kcnZkYXRhKGRldik7CisJaW50IHJldDsKKworCWxjZC0+
-c3BpX3N1c3BlbmRlZCA9IGZhbHNlOworCisJaWYgKGxjZC0+cG93ZXJlZF9vbikgeworCQlsY2Qt
-PnBvd2VyZWRfb24gPSBmYWxzZTsKKwkJcmV0ID0gdGQwNDNtdGVhMV9wb3dlcl9vbihsY2QpOwor
-CQlpZiAocmV0KQorCQkJcmV0dXJuIHJldDsKKwl9CisKKwlyZXR1cm4gMDsKK30KKworc3RhdGlj
-IFNJTVBMRV9ERVZfUE1fT1BTKHRkMDQzbXRlYTFfcG1fb3BzLCB0ZDA0M210ZWExX3N1c3BlbmQs
-CisJCQkgdGQwNDNtdGVhMV9yZXN1bWUpOworCitzdGF0aWMgaW50IHRkMDQzbXRlYTFfcHJvYmUo
-c3RydWN0IHNwaV9kZXZpY2UgKnNwaSkKK3sKKwlzdHJ1Y3QgdGQwNDNtdGVhMV9wYW5lbCAqbGNk
-OworCWludCByZXQ7CisKKwlsY2QgPSBkZXZtX2t6YWxsb2MoJnNwaS0+ZGV2LCBzaXplb2YoKmxj
-ZCksIEdGUF9LRVJORUwpOworCWlmIChsY2QgPT0gTlVMTCkKKwkJcmV0dXJuIC1FTk9NRU07CisK
-KwlzcGlfc2V0X2RydmRhdGEoc3BpLCBsY2QpOworCWxjZC0+c3BpID0gc3BpOworCWxjZC0+bW9k
-ZSA9IFRQT19SMDJfTU9ERV84MDB4NDgwOworCW1lbWNweShsY2QtPmdhbW1hLCB0ZDA0M210ZWEx
-X2RlZl9nYW1tYSwgc2l6ZW9mKGxjZC0+Z2FtbWEpKTsKKworCWxjZC0+dmNjX3JlZyA9IGRldm1f
-cmVndWxhdG9yX2dldCgmc3BpLT5kZXYsICJ2Y2MiKTsKKwlpZiAoSVNfRVJSKGxjZC0+dmNjX3Jl
-ZykpIHsKKwkJZGV2X2Vycigmc3BpLT5kZXYsICJmYWlsZWQgdG8gZ2V0IFZDQyByZWd1bGF0b3Jc
-biIpOworCQlyZXR1cm4gUFRSX0VSUihsY2QtPnZjY19yZWcpOworCX0KKworCWxjZC0+cmVzZXRf
-Z3BpbyA9IGRldm1fZ3Bpb2RfZ2V0KCZzcGktPmRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0hJR0gp
-OworCWlmIChJU19FUlIobGNkLT5yZXNldF9ncGlvKSkgeworCQlkZXZfZXJyKCZzcGktPmRldiwg
-ImZhaWxlZCB0byBnZXQgcmVzZXQgR1BJT1xuIik7CisJCXJldHVybiBQVFJfRVJSKGxjZC0+cmVz
-ZXRfZ3Bpbyk7CisJfQorCisJc3BpLT5iaXRzX3Blcl93b3JkID0gMTY7CisJc3BpLT5tb2RlID0g
-U1BJX01PREVfMDsKKworCXJldCA9IHNwaV9zZXR1cChzcGkpOworCWlmIChyZXQgPCAwKSB7CisJ
-CWRldl9lcnIoJnNwaS0+ZGV2LCAiZmFpbGVkIHRvIHNldHVwIFNQSTogJWRcbiIsIHJldCk7CisJ
-CXJldHVybiByZXQ7CisJfQorCisJcmV0ID0gc3lzZnNfY3JlYXRlX2dyb3VwKCZzcGktPmRldi5r
-b2JqLCAmdGQwNDNtdGVhMV9hdHRyX2dyb3VwKTsKKwlpZiAocmV0IDwgMCkgeworCQlkZXZfZXJy
-KCZzcGktPmRldiwgImZhaWxlZCB0byBjcmVhdGUgc3lzZnMgZmlsZXNcbiIpOworCQlyZXR1cm4g
-cmV0OworCX0KKworCWRybV9wYW5lbF9pbml0KCZsY2QtPnBhbmVsKTsKKwlsY2QtPnBhbmVsLmRl
-diA9ICZsY2QtPnNwaS0+ZGV2OworCWxjZC0+cGFuZWwuZnVuY3MgPSAmdGQwNDNtdGVhMV9mdW5j
-czsKKworCXJldCA9IGRybV9wYW5lbF9hZGQoJmxjZC0+cGFuZWwpOworCWlmIChyZXQgPCAwKSB7
-CisJCXN5c2ZzX3JlbW92ZV9ncm91cCgmc3BpLT5kZXYua29iaiwgJnRkMDQzbXRlYTFfYXR0cl9n
-cm91cCk7CisJCXJldHVybiByZXQ7CisJfQorCisJcmV0dXJuIDA7Cit9CisKK3N0YXRpYyBpbnQg
-dGQwNDNtdGVhMV9yZW1vdmUoc3RydWN0IHNwaV9kZXZpY2UgKnNwaSkKK3sKKwlzdHJ1Y3QgdGQw
-NDNtdGVhMV9wYW5lbCAqbGNkID0gc3BpX2dldF9kcnZkYXRhKHNwaSk7CisKKwlkcm1fcGFuZWxf
-cmVtb3ZlKCZsY2QtPnBhbmVsKTsKKwlkcm1fcGFuZWxfdW5wcmVwYXJlKCZsY2QtPnBhbmVsKTsK
-KworCXN5c2ZzX3JlbW92ZV9ncm91cCgmc3BpLT5kZXYua29iaiwgJnRkMDQzbXRlYTFfYXR0cl9n
-cm91cCk7CisKKwlyZXR1cm4gMDsKK30KKworc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2Vf
-aWQgdGQwNDNtdGVhMV9vZl9tYXRjaFtdID0geworCXsgLmNvbXBhdGlibGUgPSAidHBvLHRkMDQz
-bXRlYTEiLCB9LAorCXsgLyogc2VudGluZWwgKi8gfSwKK307CisKK01PRFVMRV9ERVZJQ0VfVEFC
-TEUob2YsIHRkMDQzbXRlYTFfb2ZfbWF0Y2gpOworCitzdGF0aWMgc3RydWN0IHNwaV9kcml2ZXIg
-dGQwNDNtdGVhMV9kcml2ZXIgPSB7CisJLnByb2JlCQk9IHRkMDQzbXRlYTFfcHJvYmUsCisJLnJl
-bW92ZQkJPSB0ZDA0M210ZWExX3JlbW92ZSwKKwkuZHJpdmVyCQk9IHsKKwkJLm5hbWUJPSAicGFu
-ZWwtdHBvLXRkMDQzbXRlYTEiLAorCQkucG0JPSAmdGQwNDNtdGVhMV9wbV9vcHMsCisJCS5vZl9t
-YXRjaF90YWJsZSA9IHRkMDQzbXRlYTFfb2ZfbWF0Y2gsCisJfSwKK307CisKK21vZHVsZV9zcGlf
-ZHJpdmVyKHRkMDQzbXRlYTFfZHJpdmVyKTsKKworTU9EVUxFX0FMSUFTKCJzcGk6dHBvLHRkMDQz
-bXRlYTEiKTsKK01PRFVMRV9BVVRIT1IoIkdyYcW+dnlkYXMgSWdub3RhcyA8bm90YXNhc0BnbWFp
-bC5jb20+Iik7CitNT0RVTEVfREVTQ1JJUFRJT04oIlRQTyBURDA0M01URUExIFBhbmVsIERyaXZl
-ciIpOworTU9EVUxFX0xJQ0VOU0UoIkdQTCIpOwotLSAKUmVnYXJkcywKCkxhdXJlbnQgUGluY2hh
-cnQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0464967178==
+Content-Type: multipart/alternative; boundary="15654861483.3575Afd.22325"
+Content-Transfer-Encoding: 7bit
+
+
+--15654861483.3575Afd.22325
+Date: Sun, 11 Aug 2019 01:15:48 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #69 from ReddestDream <reddestdream@gmail.com> ---
+>The inconsistent nature of this bug and the fact that it sometimes doesn't=
+ appear suggests a race condition. I'd assume something else on the system =
+happens before or after amdgpu is expecting.
+
+>Is there any way to delay loading the amdgpu driver and manually loading i=
+t after everything else?
+
+Based on all the data you (Tom B) and others have provided as well as my own
+tests, my current suspicion is that there is a bug in the display mode/type
+detection and enumeration, leading to the driver losing state consistency a=
+nd
+eventually contact entirely with the hardware.
+
+I think the clock dysregulation and excessive voltage/wattage are symptoms =
+of
+the underlying disease rather than the cause. If something is wrong between
+what the driver thinks the hardware state is and what the hardware state
+actually is, it's only a matter of time before this inconsistency leads to
+dysregulation, instability, and crashing. For this reason, I'm not convinced
+there is any better workaround than "just use one monitor." Pushing up the
+clocks only seems to at best prolong the inevitable. :(
+
+I'm also not convinced there is one commit in particular to point to here.
+Rather it was probably in the restructuring of something between 5.0 and 5.1
+that it became fundamentally broken while it was always somewhat flawed bef=
+ore.
+
+Unfortunately, Radeon VII probably isn't really being tested by kernel
+developers anymore and it's likely that multimonitor with this card on Linux
+was never fully tested at all. It also seems like AMD's kernel development =
+has
+moved on to Navi and that the upcoming new Vega card, Arcturus, won't have
+display outs at all, so work on that can't fix this issue.
+
+As this card is fairly uncommon and expensive, the only real hope for a fix
+seems to be to get the card into the hands of someone who has the skill to =
+fix
+graphics drivers and a willingness/need to test multimonitor.
+
+Perhaps someone like gnif who has been able to solve the infamous Vega Reset
+Bug on Vega 10 cards might be able to fix it. It's likely he will encounter=
+ our
+issue while testing Radeon VII with Looking Glass and such. Someone has alr=
+eady
+offered to lend him a Radeon VII as he states in the video, so there's some
+hope that his work will lead to a solution.
+
+https://www.youtube.com/watch?v=3D1ShkjXoG0O0
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15654861483.3575Afd.22325
+Date: Sun, 11 Aug 2019 01:15:48 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c69">Comme=
+nt # 69</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
+l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt;The inconsistent nature of this bug =
+and the fact that it sometimes doesn't appear suggests a race condition. I'=
+d assume something else on the system happens before or after amdgpu is exp=
+ecting.</span >
+
+<span class=3D"quote">&gt;Is there any way to delay loading the amdgpu driv=
+er and manually loading it after everything else?</span >
+
+Based on all the data you (Tom B) and others have provided as well as my own
+tests, my current suspicion is that there is a bug in the display mode/type
+detection and enumeration, leading to the driver losing state consistency a=
+nd
+eventually contact entirely with the hardware.
+
+I think the clock dysregulation and excessive voltage/wattage are symptoms =
+of
+the underlying disease rather than the cause. If something is wrong between
+what the driver thinks the hardware state is and what the hardware state
+actually is, it's only a matter of time before this inconsistency leads to
+dysregulation, instability, and crashing. For this reason, I'm not convinced
+there is any better workaround than &quot;just use one monitor.&quot; Pushi=
+ng up the
+clocks only seems to at best prolong the inevitable. :(
+
+I'm also not convinced there is one commit in particular to point to here.
+Rather it was probably in the restructuring of something between 5.0 and 5.1
+that it became fundamentally broken while it was always somewhat flawed bef=
+ore.
+
+Unfortunately, Radeon VII probably isn't really being tested by kernel
+developers anymore and it's likely that multimonitor with this card on Linux
+was never fully tested at all. It also seems like AMD's kernel development =
+has
+moved on to Navi and that the upcoming new Vega card, Arcturus, won't have
+display outs at all, so work on that can't fix this issue.
+
+As this card is fairly uncommon and expensive, the only real hope for a fix
+seems to be to get the card into the hands of someone who has the skill to =
+fix
+graphics drivers and a willingness/need to test multimonitor.
+
+Perhaps someone like gnif who has been able to solve the infamous Vega Reset
+Bug on Vega 10 cards might be able to fix it. It's likely he will encounter=
+ our
+issue while testing Radeon VII with Looking Glass and such. Someone has alr=
+eady
+offered to lend him a Radeon VII as he states in the video, so there's some
+hope that his work will lead to a solution.
+
+<a href=3D"https://www.youtube.com/watch?v=3D1ShkjXoG0O0">https://www.youtu=
+be.com/watch?v=3D1ShkjXoG0O0</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15654861483.3575Afd.22325--
+
+--===============0464967178==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0464967178==--
