@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AC5892B9
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 19:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814D3892BB
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 19:02:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D6CE6E392;
-	Sun, 11 Aug 2019 17:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05DA06E36D;
+	Sun, 11 Aug 2019 17:02:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C56A76E393
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 17:00:25 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id C275572168; Sun, 11 Aug 2019 17:00:25 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Sun, 11 Aug 2019 17:00:25 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-4MhG2bZbJX@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 399066E36D
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 17:02:05 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 3B0FB803FD;
+ Sun, 11 Aug 2019 19:02:03 +0200 (CEST)
+Date: Sun, 11 Aug 2019 19:02:02 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Subject: Re: [PATCH 4/4] drm/panel/ili9341: Support DPI panels
+Message-ID: <20190811170201.GF14660@ravnborg.org>
+References: <20190801135249.28803-1-noralf@tronnes.org>
+ <20190801135249.28803-5-noralf@tronnes.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20190801135249.28803-5-noralf@tronnes.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=SJz97ENfAAAA:8
+ a=tlNg7XH2imPNryk50GwA:9 a=wPNLvfGTeEIA:10 a=vFet0B0WnEQeilDPIY6i:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,139 +45,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2002538548=="
+Cc: daniel.vetter@ffwll.ch, emil.l.velikov@gmail.com, josef@lusticky.cz,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2002538548==
-Content-Type: multipart/alternative; boundary="15655428253.816DA6EA.15976"
-Content-Transfer-Encoding: 7bit
-
-
---15655428253.816DA6EA.15976
-Date: Sun, 11 Aug 2019 17:00:25 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #71 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
-On Sun, Aug 11, 2019 at 01:15:48AM +0000, bugzilla-daemon@freedesktop.org
-wrote:
-> I think the clock dysregulation and excessive voltage/wattage are symptom=
-s of
-
-Is there a way to configure the smu block to keep the memory clock to its m=
-ax
-with the appropriate power/voltage? If the smu block do configure some of t=
-he
-vram arbiter block priority, could we tell it to keep the dc[en]x to max
-priority and ignore display vram watermarks? (due to the realtime requireme=
-nt
-of monitor data transmission, I still don't understand the existence of
-watermarks in the first place, I would need data which proves me wrong).
-
-On my AMD TAHITI XT, the memory clock seems to be locked to the max (only 1
-full hd 144Hz monitor). I recall dce6 has fancy inner-blocks configuration:=
- I
-simplified it in my custom driver (something about availability of display
-clocks and memory bandwidth. Maybe the smu while clock/power managing breaks
-due this dc[en]x "fancy" inner-blocks configuration.=20
-
-Additionnally, never heard of 2 displays which would be driven by a common
-display block and being in sync. Is the sync dependant on the monitors and =
-not
-the display block??  What I am missing ? The nasty displayport mst thingy?
-I would always set this to false.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15655428253.816DA6EA.15976
-Date: Sun, 11 Aug 2019 17:00:25 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c71">Comme=
-nt # 71</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
-and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
-</span></b>
-        <pre>On Sun, Aug 11, 2019 at 01:15:48AM +0000, <a href=3D"mailto:bu=
-gzilla-daemon&#64;freedesktop.org">bugzilla-daemon&#64;freedesktop.org</a>
-wrote:
-<span class=3D"quote">&gt; I think the clock dysregulation and excessive vo=
-ltage/wattage are symptoms of</span >
-
-Is there a way to configure the smu block to keep the memory clock to its m=
-ax
-with the appropriate power/voltage? If the smu block do configure some of t=
-he
-vram arbiter block priority, could we tell it to keep the dc[en]x to max
-priority and ignore display vram watermarks? (due to the realtime requireme=
-nt
-of monitor data transmission, I still don't understand the existence of
-watermarks in the first place, I would need data which proves me wrong).
-
-On my AMD TAHITI XT, the memory clock seems to be locked to the max (only 1
-full hd 144Hz monitor). I recall dce6 has fancy inner-blocks configuration:=
- I
-simplified it in my custom driver (something about availability of display
-clocks and memory bandwidth. Maybe the smu while clock/power managing breaks
-due this dc[en]x &quot;fancy&quot; inner-blocks configuration.=20
-
-Additionnally, never heard of 2 displays which would be driven by a common
-display block and being in sync. Is the sync dependant on the monitors and =
-not
-the display block??  What I am missing ? The nasty displayport mst thingy?
-I would always set this to false.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15655428253.816DA6EA.15976--
-
---===============2002538548==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2002538548==--
+SGkgTm9yYWxmLgoKT24gVGh1LCBBdWcgMDEsIDIwMTkgYXQgMDM6NTI6NDlQTSArMDIwMCwgTm9y
+YWxmIFRyw7hubmVzIHdyb3RlOgo+IEFkZCBzdXBwb3J0IGZvciBwYW5lbHMgdGhhdCB1c2UgdGhl
+IERQSSBpbnRlcmZhY2UuCj4gSUxJOTM0MSBoYXMgb25ib2FyZCBSQU0gc28gdGhlIGFzc3VtcHRp
+b24gbWFkZSBoZXJlIGlzIHRoYXQgYWxsIHN1Y2gKPiBwYW5lbHMgc3VwcG9ydCBwaXhlbCB1cGxv
+YWQgb3ZlciBEQkkuCj4gCj4gVGhlIHByZXNlbmNlL2Fic2Vuc2Ugb2YgdGhlIERldmljZSBUcmVl
+ICdwb3J0JyBub2RlIGRlY2lkZXMgd2hpY2gKPiBpbnRlcmZhY2UgaXMgdXNlZCBmb3IgcGl4ZWwg
+dHJhbnNmZXIuCj4gCj4gU2lnbmVkLW9mZi1ieTogTm9yYWxmIFRyw7hubmVzIDxub3JhbGZAdHJv
+bm5lcy5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1pbGl0ZWstaWxp
+OTM0MS5jIHwgNTYgKysrKysrKysrKysrKysrKy0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDQ1IGlu
+c2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vcGFuZWwvcGFuZWwtaWxpdGVrLWlsaTkzNDEuYyBiL2RyaXZlcnMvZ3B1L2RybS9wYW5l
+bC9wYW5lbC1pbGl0ZWstaWxpOTM0MS5jCj4gaW5kZXggZjYwODJmYTJhMzg5Li43Y2JmZDczOWM3
+ZmQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWlsaXRlay1pbGk5
+MzQxLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtaWxpdGVrLWlsaTkzNDEu
+Ywo+IEBAIC0xMSw2ICsxMSw3IEBACj4gICNpbmNsdWRlIDxsaW51eC9ncGlvL2NvbnN1bWVyLmg+
+Cj4gICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KPiAgI2luY2x1ZGUgPGxpbnV4L29mX2Rldmlj
+ZS5oPgo+ICsjaW5jbHVkZSA8bGludXgvb2ZfZ3JhcGguaD4KPiAgI2luY2x1ZGUgPGxpbnV4L3Bt
+Lmg+Cj4gICNpbmNsdWRlIDxsaW51eC9wcm9wZXJ0eS5oPgo+ICAjaW5jbHVkZSA8bGludXgvcmVn
+dWxhdG9yL2NvbnN1bWVyLmg+Cj4gQEAgLTUzLDExICs1NCwxMyBAQAo+ICBzdHJ1Y3QgaWxpOTM0
+MV9jb25maWcgewo+ICAJY29uc3Qgc3RydWN0IGRybV9wYW5lbF9mdW5jcyAqZnVuY3M7Cj4gIAlj
+b25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZTsKPiArCWJvb2wgbm9fZHBpOwo+ICB9
+Owo+ICAKPiAgc3RydWN0IGlsaTkzNDEgewo+ICAJc3RydWN0IG1pcGlfZGJpX2RldiBkYmlkZXY7
+IC8qIFRoaXMgbXVzdCBiZSB0aGUgZmlyc3QgZW50cnkgKi8KPiAgCXN0cnVjdCBkcm1fcGFuZWwg
+cGFuZWw7Cj4gKwlib29sIHVzZV9kcGk7Cj4gIAlzdHJ1Y3QgcmVndWxhdG9yICpyZWd1bGF0b3I7
+Cj4gIAlzdHJ1Y3QgYmFja2xpZ2h0X2RldmljZSAqYmFja2xpZ2h0Owo+ICAJY29uc3Qgc3RydWN0
+IGlsaTkzNDFfY29uZmlnICpjb25mOwo+IEBAIC0xNzQsNiArMTc3LDcgQEAgc3RhdGljIGNvbnN0
+IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHl4MjQwcXYyOV9tb2RlID0gewo+ICBzdGF0aWMgY29u
+c3Qgc3RydWN0IGlsaTkzNDFfY29uZmlnIHl4MjQwcXYyOV9kYXRhID0gewo+ICAJLmZ1bmNzID0g
+Jnl4MjQwcXYyOV9mdW5jcywKPiAgCS5tb2RlID0gJnl4MjQwcXYyOV9tb2RlLAo+ICsJLm5vX2Rw
+aSA9IHRydWUsCj4gIH07Cj4gIAo+ICBzdGF0aWMgaW50IG1pMDI4M3F0X3ByZXBhcmUoc3RydWN0
+IGRybV9wYW5lbCAqcGFuZWwpCj4gQEAgLTI5MSw2ICsyOTUsNyBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRybV9kaXNwbGF5X21vZGUgbWkwMjgzcXRfbW9kZSA9IHsKPiAgc3RhdGljIGNvbnN0IHN0
+cnVjdCBpbGk5MzQxX2NvbmZpZyBtaTAyODNxdF9kYXRhID0gewo+ICAJLmZ1bmNzID0gJm1pMDI4
+M3F0X2RybV9mdW5jcywKPiAgCS5tb2RlID0gJm1pMDI4M3F0X21vZGUsCj4gKwkubm9fZHBpID0g
+dHJ1ZSwKPiAgfTsKPiAgCj4gIC8qIExlZ2FjeSwgRFJNIGRyaXZlciBuYW1lIGlzIEFCSSAqLwo+
+IEBAIC0zMDMsNiArMzA4LDcgQEAgc3RhdGljIGludCBpbGk5MzQxX3Byb2JlKHN0cnVjdCBzcGlf
+ZGV2aWNlICpzcGkpCj4gIAljb25zdCBzdHJ1Y3Qgc3BpX2RldmljZV9pZCAqc3BpX2lkOwo+ICAJ
+c3RydWN0IGRldmljZSAqZGV2ID0gJnNwaS0+ZGV2Owo+ICAJc3RydWN0IGRybV9kcml2ZXIgKmRy
+aXZlcjsKPiArCXN0cnVjdCBkZXZpY2Vfbm9kZSAqcG9ydDsKPiAgCXN0cnVjdCBtaXBpX2RiaSAq
+ZGJpOwo+ICAJc3RydWN0IGdwaW9fZGVzYyAqZGM7Cj4gIAlzdHJ1Y3QgaWxpOTM0MSAqaWxpOwo+
+IEBAIC0zNTcsMjEgKzM2Myw0NCBAQCBzdGF0aWMgaW50IGlsaTkzNDFfcHJvYmUoc3RydWN0IHNw
+aV9kZXZpY2UgKnNwaSkKPiAgCWlsaS0+cGFuZWwuZGV2ID0gZGV2Owo+ICAJaWxpLT5wYW5lbC5m
+dW5jcyA9IGlsaS0+Y29uZi0+ZnVuY3M7Cj4gIAo+IC0JaWYgKGlsaS0+Y29uZiA9PSAmbWkwMjgz
+cXRfZGF0YSkKPiAtCQlkcml2ZXIgPSAmbWkwMjgzcXRfZHJtX2RyaXZlcjsKPiAtCWVsc2UKPiAt
+CQlkcml2ZXIgPSAmaWxpOTM0MV9kcm1fZHJpdmVyOwo+ICAKPiAtCXJldHVybiBkcm1fbWlwaV9k
+YmlfcGFuZWxfcmVnaXN0ZXIoJmlsaS0+cGFuZWwsICZpbGktPmRiaWRldiwgZHJpdmVyLAo+IC0J
+CQkJCSAgIGlsaS0+Y29uZi0+bW9kZSwgcm90YXRpb24pOwo+ICsJcG9ydCA9IG9mX2dldF9jaGls
+ZF9ieV9uYW1lKGRldi0+b2Zfbm9kZSwgInBvcnQiKTsKPiArCWlmIChwb3J0KSB7Cj4gKwkJb2Zf
+bm9kZV9wdXQocG9ydCk7Cj4gKwkJaWxpLT51c2VfZHBpID0gdHJ1ZTsKPiArCX0KPiArCj4gKwlp
+ZiAoaWxpLT5jb25mLT5ub19kcGkpCj4gKwkJaWxpLT51c2VfZHBpID0gZmFsc2U7Cj4gKwo+ICsJ
+aWYgKGlsaS0+dXNlX2RwaSkgewo+ICsJCXJldCA9IGRybV9wYW5lbF9hZGQoJmlsaS0+cGFuZWwp
+Owo+ICsJfSBlbHNlIHsKPiArCQlpZiAoaWxpLT5jb25mID09ICZtaTAyODNxdF9kYXRhKQo+ICsJ
+CQlkcml2ZXIgPSAmbWkwMjgzcXRfZHJtX2RyaXZlcjsKPiArCQllbHNlCj4gKwkJCWRyaXZlciA9
+ICZpbGk5MzQxX2RybV9kcml2ZXI7Cj4gKwo+ICsJCXJldCA9IGRybV9taXBpX2RiaV9wYW5lbF9y
+ZWdpc3RlcigmaWxpLT5wYW5lbCwgJmlsaS0+ZGJpZGV2LCBkcml2ZXIsCj4gKwkJCQkJCSAgaWxp
+LT5jb25mLT5tb2RlLCByb3RhdGlvbik7Cj4gKwl9Cj4gKwo+ICsJcmV0dXJuIHJldDsKPiAgfQo+
+ICAKPiAgc3RhdGljIGludCBpbGk5MzQxX3JlbW92ZShzdHJ1Y3Qgc3BpX2RldmljZSAqc3BpKQo+
+ICB7Cj4gIAlzdHJ1Y3QgaWxpOTM0MSAqaWxpID0gc3BpX2dldF9kcnZkYXRhKHNwaSk7Cj4gIAo+
+IC0JZHJtX2Rldl91bnBsdWcoJmlsaS0+ZGJpZGV2LmRybSk7Cj4gLQlkcm1fYXRvbWljX2hlbHBl
+cl9zaHV0ZG93bigmaWxpLT5kYmlkZXYuZHJtKTsKPiArCWlmIChpbGktPnVzZV9kcGkpIHsKPiAr
+CQlkcm1fcGFuZWxfcmVtb3ZlKCZpbGktPnBhbmVsKTsKPiArCQlkcm1fcGFuZWxfZGlzYWJsZSgm
+aWxpLT5wYW5lbCk7Cj4gKwkJZHJtX3BhbmVsX3VucHJlcGFyZSgmaWxpLT5wYW5lbCk7Cj4gKwkJ
+a2ZyZWUoaWxpKTsKQXQgZmlyc3QgSSB0aG91Z2h0IC0gb3JkZXIgaXMgd3JvbmcuCkJ1dCBkcm1f
+cGFuZWxfcmVtb3ZlKCkgcHJldmVudHMgZGlzcGxheSBkcml2ZXJzIGZyb20gdXNpbmcgdGhlIGRy
+aXZlci4KQW5kIHRoaXMgd2lsbCBub3QgaW52YWxpZGF0ZSB0aGUgb3RoZXIgY2FsbHMuCk1heWJl
+IGFkZCBhIHNob3J0IGNvbW1lbnQ/CgoJU2FtCgoKPiArCX0gZWxzZSB7Cj4gKwkJZHJtX2Rldl91
+bnBsdWcoJmlsaS0+ZGJpZGV2LmRybSk7Cj4gKwkJZHJtX2F0b21pY19oZWxwZXJfc2h1dGRvd24o
+JmlsaS0+ZGJpZGV2LmRybSk7Cj4gKwl9Cj4gIAo+ICAJcmV0dXJuIDA7Cj4gIH0KPiBAQCAtMzgw
+LDIxICs0MDksMjYgQEAgc3RhdGljIHZvaWQgaWxpOTM0MV9zaHV0ZG93bihzdHJ1Y3Qgc3BpX2Rl
+dmljZSAqc3BpKQo+ICB7Cj4gIAlzdHJ1Y3QgaWxpOTM0MSAqaWxpID0gc3BpX2dldF9kcnZkYXRh
+KHNwaSk7Cj4gIAo+IC0JZHJtX2F0b21pY19oZWxwZXJfc2h1dGRvd24oJmlsaS0+ZGJpZGV2LmRy
+bSk7Cj4gKwlpZiAoIWlsaS0+dXNlX2RwaSkKPiArCQlkcm1fYXRvbWljX2hlbHBlcl9zaHV0ZG93
+bigmaWxpLT5kYmlkZXYuZHJtKTsKPiAgfQo+ICAKPiAgc3RhdGljIGludCBfX21heWJlX3VudXNl
+ZCBpbGk5MzQxX3BtX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQo+ICB7Cj4gIAlzdHJ1Y3Qg
+aWxpOTM0MSAqaWxpID0gZGV2X2dldF9kcnZkYXRhKGRldik7Cj4gIAo+IC0JcmV0dXJuIGRybV9t
+b2RlX2NvbmZpZ19oZWxwZXJfc3VzcGVuZCgmaWxpLT5kYmlkZXYuZHJtKTsKPiArCWlmICghaWxp
+LT51c2VfZHBpKQo+ICsJCXJldHVybiBkcm1fbW9kZV9jb25maWdfaGVscGVyX3N1c3BlbmQoJmls
+aS0+ZGJpZGV2LmRybSk7Cj4gKwo+ICsJcmV0dXJuIDA7Cj4gIH0KPiAgCj4gIHN0YXRpYyBpbnQg
+X19tYXliZV91bnVzZWQgaWxpOTM0MV9wbV9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQo+ICB7
+Cj4gIAlzdHJ1Y3QgaWxpOTM0MSAqaWxpID0gZGV2X2dldF9kcnZkYXRhKGRldik7Cj4gIAo+IC0J
+ZHJtX21vZGVfY29uZmlnX2hlbHBlcl9yZXN1bWUoJmlsaS0+ZGJpZGV2LmRybSk7Cj4gKwlpZiAo
+IWlsaS0+dXNlX2RwaSkKPiArCQlkcm1fbW9kZV9jb25maWdfaGVscGVyX3Jlc3VtZSgmaWxpLT5k
+YmlkZXYuZHJtKTsKPiAgCj4gIAlyZXR1cm4gMDsKPiAgfQo+IC0tIAo+IDIuMjAuMQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
