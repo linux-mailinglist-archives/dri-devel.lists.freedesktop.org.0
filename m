@@ -1,40 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224C889248
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 17:24:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E818924C
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 17:26:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E3D89B03;
-	Sun, 11 Aug 2019 15:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26DC789E1B;
+	Sun, 11 Aug 2019 15:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05EB589B03
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 15:24:52 +0000 (UTC)
-Received: from ravnborg.org (unknown [158.248.194.18])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 4F8D520025;
- Sun, 11 Aug 2019 17:24:50 +0200 (CEST)
-Date: Sun, 11 Aug 2019 17:24:48 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Subject: Re: [PATCH 2/4] drm/tiny/ili9341: Move driver to drm/panel
-Message-ID: <20190811152448.GA14660@ravnborg.org>
-References: <20190801135249.28803-1-noralf@tronnes.org>
- <20190801135249.28803-3-noralf@tronnes.org>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CFE9C89E7B
+ for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 15:26:13 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CBF8772167; Sun, 11 Aug 2019 15:26:13 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Sun, 11 Aug 2019 15:26:13 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: tom@r.je
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-2Z6jPLdWIY@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190801135249.28803-3-noralf@tronnes.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
- a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=8nJEP1OIZ-IA:10 a=WZHNqt2aAAAA:8
- a=SJz97ENfAAAA:8 a=JiMZDR7rqWeD9vZXaSYA:9 a=wPNLvfGTeEIA:10
- a=PrHl9onO2p7xFKlKy1af:22 a=vFet0B0WnEQeilDPIY6i:22
- a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,44 +52,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Lechner <david@lechnology.com>, daniel.vetter@ffwll.ch,
- emil.l.velikov@gmail.com, josef@lusticky.cz, dri-devel@lists.freedesktop.org,
- thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0741442028=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTm9yYWxmLgoKTW9zdCBmZWVkYmFjayBvbiB0aGlzIGRyaXZlciB3YXMgY292ZXJlZCBpbiBj
-b21tZW50IHRvIDEvNC4KT25seSBhIGZldyB0aGluZ3MgY2F1Z2h0IG15IGV5ZS4KCk9uIFRodSwg
-QXVnIDAxLCAyMDE5IGF0IDAzOjUyOjQ3UE0gKzAyMDAsIE5vcmFsZiBUcsO4bm5lcyB3cm90ZToK
-PiBNb3ZlIHRoZSBkcml2ZXIgdG8gZHJtL3BhbmVsIGFuZCB0YWtlIGFkdmFudGFnZSBvZiB0aGUg
-bmV3IHBhbmVsIHN1cHBvcnQKPiBpbiBkcm1fbWlwaV9kYmkuIENoYW5nZSB0aGUgZmlsZSBuYW1l
-IHRvIG1hdGNoIHRoZSBuYW1pbmcgc3RhbmRhcmQgaW4KPiBkcm0vcGFuZWwuIFRoZSBEUk0gZHJp
-dmVyIG5hbWUgaXMga2VwdCBzaW5jZSBpdCBpcyBBQkkuCj4gCj4gQWRkIG1pc3NpbmcgTUFJTlRB
-SU5FUlMgZW50cnkuCj4gCj4gQ2M6IERhdmlkIExlY2huZXIgPGRhdmlkQGxlY2hub2xvZ3kuY29t
-Pgo+IFNpZ25lZC1vZmYtYnk6IE5vcmFsZiBUcsO4bm5lcyA8bm9yYWxmQHRyb25uZXMub3JnPgo+
-IC0tLQo+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
-IDcgKwo+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvS2NvbmZpZyAgICAgICAgICAgICAgICAgfCAg
-MTIgKysKPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVsL01ha2VmaWxlICAgICAgICAgICAgICAgIHwg
-ICAxICsKPiAgLi4uL3BhbmVsLWlsaXRlay1pbGk5MzQxLmN9ICAgICAgICAgICAgICAgICAgIHwg
-MTc0ICsrKysrKysrKystLS0tLS0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vdGlueS9LY29uZmlnICAg
-ICAgICAgICAgICAgICAgfCAgMTMgLS0KPiAgZHJpdmVycy9ncHUvZHJtL3RpbnkvTWFrZWZpbGUg
-ICAgICAgICAgICAgICAgIHwgICAxIC0KPiAgNiBmaWxlcyBjaGFuZ2VkLCAxMTMgaW5zZXJ0aW9u
-cygrKSwgOTUgZGVsZXRpb25zKC0pCj4gIHJlbmFtZSBkcml2ZXJzL2dwdS9kcm0ve3RpbnkvaWxp
-OTM0MS5jID0+IHBhbmVsL3BhbmVsLWlsaXRlay1pbGk5MzQxLmN9ICg2NiUpCj4gCj4gKwo+ICtz
-dHJ1Y3QgaWxpOTM0MSB7Cj4gKwlzdHJ1Y3QgbWlwaV9kYmlfZGV2IGRiaWRldjsgLyogVGhpcyBt
-dXN0IGJlIHRoZSBmaXJzdCBlbnRyeSAqLwoKQ2FuIHdlIGF2b2lkIHRoZSBuZWVkIGZvciB0aGlz
-IHRvIGJlIHRoZSBmaXJzdCBlbnRyeT8KCgo+IC1zdGF0aWMgc3RydWN0IGRybV9kcml2ZXIgaWxp
-OTM0MV9kcml2ZXIgPSB7Cj4gLQkuZHJpdmVyX2ZlYXR1cmVzCT0gRFJJVkVSX0dFTSB8IERSSVZF
-Ul9NT0RFU0VUIHwgRFJJVkVSX0FUT01JQywKPiAtCS5mb3BzCQkJPSAmaWxpOTM0MV9mb3BzLAo+
-IC0JLnJlbGVhc2UJCT0gbWlwaV9kYmlfcmVsZWFzZSwKPiAtCURSTV9HRU1fQ01BX1ZNQVBfRFJJ
-VkVSX09QUywKPiAtCS5kZWJ1Z2ZzX2luaXQJCT0gbWlwaV9kYmlfZGVidWdmc19pbml0LAo+IC0J
-Lm5hbWUJCQk9ICJpbGk5MzQxIiwKPiAtCS5kZXNjCQkJPSAiSWxpdGVrIElMSTkzNDEiLAo+IC0J
-LmRhdGUJCQk9ICIyMDE4MDUxNCIsCj4gLQkubWFqb3IJCQk9IDEsCj4gLQkubWlub3IJCQk9IDAs
-Cgo+ICtERUZJTkVfRFJNX01JUElfREJJX1BBTkVMX0RSSVZFUihpbGk5MzQxLCAiSWxpdGVrIElM
-STkzNDEiLCAiMjAxODA1MTQiKTsKVXBkYXRlIHRoZSBkYXRlLiBUaGlzIGlzIGEgbWFqb3IgY2hh
-bmdlIHNvIGxldCBpdCBiZSByZWZlbGN0ZWQgaW4gdGhlCmRhdGUuCgoJU2FtCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============0741442028==
+Content-Type: multipart/alternative; boundary="15655371732.Df5cd.31853"
+Content-Transfer-Encoding: 7bit
+
+
+--15655371732.Df5cd.31853
+Date: Sun, 11 Aug 2019 15:26:13 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #70 from Tom B <tom@r.je> ---
+> Based on all the data you (Tom B) and others have provided as well as my =
+own tests, my current suspicion is that there is a bug in the display mode/=
+type detection and enumeration, leading to the driver losing state consiste=
+ncy and eventually contact entirely with the hardware.
+
+I looked through the commits and the code trying to find anything that dealt
+with multiple displays as that seems to be the trigger but couldn't find
+anything that looked promising.
+
+It's probably worth noting what I tried/found even though I was unsuccessfu=
+l as
+it may help someone. I'm fairly sure that the problem must be this file:
+https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/amd/powerplay=
+/vega20_ppt.c
+There is a variable called NumOfDisplays and related code.  Maybe someone w=
+ho
+understands driver development can point me in the right direction:
+
+Line 2049 seems promising.
+
+smu_send_smc_msg_with_param(smu, SMU_MSG_NumOfDisplays, 0);
+        ret =3D vega20_set_uclk_to_highest_dpm_level(smu,
+                                                   &dpm_table->mem_table);
+
+
+
+if (ret)
+                pr_err("Failed to set uclk to highest dpm level");
+
+
+
+
+Although that error message is not displayed in dmesg, this function deals =
+with
+multiple displays and the power levels. Unfortunatelely I cannot find
+documenation for the driver code. What does smu_send_smc_msg_with_param do?
+Because here the last argument is 0. In the next function,
+vega20_display_config_changed the final argument is the number of displays:
+
+smu_send_smc_msg_with_param(smu,
+                                            SMU_MSG_NumOfDisplays,
+                                            smu->display_config->num_displa=
+y);
+
+
+
+The next point of interest is line 2091. I don't think it's the cause of the
+bug but:
+
+disable_mclk_switching =3D ((1 < smu->display_config->num_display) &&
+                                  !smu->display_config->multi_monitor_in_sy=
+nc)
+|| vblank_too_short;
+
+
+ disable_mclk_switching is set if the number of displays is more than 1 and
+"multi_monitor_in_sync" (whatever that is, possibly mirrored displays?)  or
+"vblank_too_short". I don't believe this is a problem because the code has
+existed since January, presumably for the February release, but perhaps the
+contents of the different variables has chagned so this code runs different=
+ly.
+
+I only mention this because it's the only point in the code I found where it
+does something different if more than one display is connected.=20
+
+My questions for the driver devs:
+
+1. Why is smu_send_smc_msg_with_param called with zero in the function
+vega20_pre_display_config_changed but the number of displays in the next
+function?
+2. Is num_displays an index (so 0 is actually the first display and we're
+assuming 1 display in index 0) or is it actually 0, no displays?
+3. Is there any way to see which code appears in which kernel version? The =
+tags
+are definitely incorrect, the first commit for that file:
+https://github.com/torvalds/linux/commit/74e07f9d3b77034cd1546617afce1d014a=
+68d1ca#diff-2575675126169f3c0c971db736852af9
+says 5.2 but was done in December last year so I can't imagine this file is=
+n't
+used.
+
+
+
+However, as a customer this is very frustrating. I bought the VII instead o=
+f an
+nvidia card because AMD were supporting open source drivers.
+
+As it stands:
+
+- The AMDGPU driver worked for 4 months after the VII's release and now we'=
+ve
+had nearly the same amount of time where it hasn't worked with the latest
+kernel.
+- The AMDGPU-Pro driver only supports Ubuntu, I've never managed to get it =
+to
+run successfully on Arch and the latest version only supports The RX5700 ca=
+rds
+anyway.
+
+I emailed AMD technical support about this bug over a month ago and never g=
+ot a
+reply.
+
+The VII appears to be completely unsupported other than the initial driver
+release when the card came out. I'll be going back to nvidia next time and
+although I had intended to keep the VII for several years it looks like that
+won't be possible as I can't run an old kernel forever.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15655371732.Df5cd.31853
+Date: Sun, 11 Aug 2019 15:26:13 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c70">Comme=
+nt # 70</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
+B</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; Based on all the data you (Tom B) a=
+nd others have provided as well as my own tests, my current suspicion is th=
+at there is a bug in the display mode/type detection and enumeration, leadi=
+ng to the driver losing state consistency and eventually contact entirely w=
+ith the hardware.</span >
+
+I looked through the commits and the code trying to find anything that dealt
+with multiple displays as that seems to be the trigger but couldn't find
+anything that looked promising.
+
+It's probably worth noting what I tried/found even though I was unsuccessfu=
+l as
+it may help someone. I'm fairly sure that the problem must be this file:
+<a href=3D"https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/am=
+d/powerplay/vega20_ppt.c">https://github.com/torvalds/linux/blob/master/dri=
+vers/gpu/drm/amd/powerplay/vega20_ppt.c</a>
+There is a variable called NumOfDisplays and related code.  Maybe someone w=
+ho
+understands driver development can point me in the right direction:
+
+Line 2049 seems promising.
+
+smu_send_smc_msg_with_param(smu, SMU_MSG_NumOfDisplays, 0);
+        ret =3D vega20_set_uclk_to_highest_dpm_level(smu,
+                                                   &amp;dpm_table-&gt;mem_t=
+able);
+
+
+
+if (ret)
+                pr_err(&quot;Failed to set uclk to highest dpm level&quot;);
+
+
+
+
+Although that error message is not displayed in dmesg, this function deals =
+with
+multiple displays and the power levels. Unfortunatelely I cannot find
+documenation for the driver code. What does smu_send_smc_msg_with_param do?
+Because here the last argument is 0. In the next function,
+vega20_display_config_changed the final argument is the number of displays:
+
+smu_send_smc_msg_with_param(smu,
+                                            SMU_MSG_NumOfDisplays,
+                                            smu-&gt;display_config-&gt;num_=
+display);
+
+
+
+The next point of interest is line 2091. I don't think it's the cause of the
+bug but:
+
+disable_mclk_switching =3D ((1 &lt; smu-&gt;display_config-&gt;num_display)=
+ &amp;&amp;
+                                  !smu-&gt;display_config-&gt;multi_monitor=
+_in_sync)
+|| vblank_too_short;
+
+
+ disable_mclk_switching is set if the number of displays is more than 1 and
+&quot;multi_monitor_in_sync&quot; (whatever that is, possibly mirrored disp=
+lays?)  or
+&quot;vblank_too_short&quot;. I don't believe this is a problem because the=
+ code has
+existed since January, presumably for the February release, but perhaps the
+contents of the different variables has chagned so this code runs different=
+ly.
+
+I only mention this because it's the only point in the code I found where it
+does something different if more than one display is connected.=20
+
+My questions for the driver devs:
+
+1. Why is smu_send_smc_msg_with_param called with zero in the function
+vega20_pre_display_config_changed but the number of displays in the next
+function?
+2. Is num_displays an index (so 0 is actually the first display and we're
+assuming 1 display in index 0) or is it actually 0, no displays?
+3. Is there any way to see which code appears in which kernel version? The =
+tags
+are definitely incorrect, the first commit for that file:
+<a href=3D"https://github.com/torvalds/linux/commit/74e07f9d3b77034cd154661=
+7afce1d014a68d1ca#diff-2575675126169f3c0c971db736852af9">https://github.com=
+/torvalds/linux/commit/74e07f9d3b77034cd1546617afce1d014a68d1ca#diff-257567=
+5126169f3c0c971db736852af9</a>
+says 5.2 but was done in December last year so I can't imagine this file is=
+n't
+used.
+
+
+
+However, as a customer this is very frustrating. I bought the VII instead o=
+f an
+nvidia card because AMD were supporting open source drivers.
+
+As it stands:
+
+- The AMDGPU driver worked for 4 months after the VII's release and now we'=
+ve
+had nearly the same amount of time where it hasn't worked with the latest
+kernel.
+- The AMDGPU-Pro driver only supports Ubuntu, I've never managed to get it =
+to
+run successfully on Arch and the latest version only supports The RX5700 ca=
+rds
+anyway.
+
+I emailed AMD technical support about this bug over a month ago and never g=
+ot a
+reply.
+
+The VII appears to be completely unsupported other than the initial driver
+release when the card came out. I'll be going back to nvidia next time and
+although I had intended to keep the VII for several years it looks like that
+won't be possible as I can't run an old kernel forever.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15655371732.Df5cd.31853--
+
+--===============0741442028==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0741442028==--
