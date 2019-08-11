@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6691689410
-	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 23:07:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C8289412
+	for <lists+dri-devel@lfdr.de>; Sun, 11 Aug 2019 23:09:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58CFE6E3B2;
-	Sun, 11 Aug 2019 21:07:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E8B76E3C1;
+	Sun, 11 Aug 2019 21:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9CD6E3B2
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 21:07:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D57B06E3A2;
+ Sun, 11 Aug 2019 21:09:05 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from haswell.alporthouse.com (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 17962817-1500050 
- for multiple; Sun, 11 Aug 2019 22:07:34 +0100
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP id 17962826-1500050 
+ for multiple; Sun, 11 Aug 2019 22:09:03 +0100
 From: Chris Wilson <chris@chris-wilson.co.uk>
 To: dri-devel@lists.freedesktop.org
 Subject: [CI] dma-fence: Propagate errors to dma-fence-array container
-Date: Sun, 11 Aug 2019 22:07:33 +0100
-Message-Id: <20190811210733.18728-1-chris@chris-wilson.co.uk>
+Date: Sun, 11 Aug 2019 22:09:02 +0100
+Message-Id: <20190811210902.22112-1-chris@chris-wilson.co.uk>
 X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -36,7 +36,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@list.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
