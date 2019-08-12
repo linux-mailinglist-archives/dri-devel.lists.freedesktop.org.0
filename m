@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3AF8A3A9
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 18:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1889E8A3D4
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 18:56:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E45116E584;
-	Mon, 12 Aug 2019 16:47:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497AB6E520;
+	Mon, 12 Aug 2019 16:56:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C1EF6E58B
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:47:31 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 689C272167; Mon, 12 Aug 2019 16:47:31 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A33DF6E520
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:56:30 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 69A68283B2
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:56:30 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 5E55E28451; Mon, 12 Aug 2019 16:56:30 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 12 Aug 2019 16:47:31 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204559] amdgpu: kernel oops with constant gpu resets while
+ using mpv
+Date: Mon, 12 Aug 2019 16:56:29 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: reddestdream@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: shoegaze@tutanota.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-dveamVhRTU@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+Message-ID: <bug-204559-2300-H4fxUB700v@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204559-2300@https.bugzilla.kernel.org/>
+References: <bug-204559-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,146 +62,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2118292844=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============2118292844==
-Content-Type: multipart/alternative; boundary="15656284516.FcC7.23923"
-Content-Transfer-Encoding: 7bit
-
-
---15656284516.FcC7.23923
-Date: Mon, 12 Aug 2019 16:47:31 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #88 from ReddestDream <reddestdream@gmail.com> ---
->The question then becomes: Why doesn't the race condition happen with only=
- one screen? Perhaps it's a matter of speed. With a single display, the dri=
-ver detect the displays, read/parse the EDID data, initialize in time. But =
-then that doesn't explain why the crash still occurs if you boot with one D=
-isplayPort monitor and attach another after X is running.
-
-I do suspect it's a matter of speed and complexity when you have more monit=
-ors.
-Also maybe the clock it tries to set (the value of hard_min_level) is diffe=
-rent
-if you only have one monitor and somehow that takes more time (resetting it
-away from some default).
-
-I do wonder if maybe in:
-
-"[SetUclkToHightestDpmLevel] Set hard min uclk failed!",
-                                return ret);
-
-It should return -EINVAL instead. Maybe then it would reset and try again
-instead of just ignoring it and continuing with initialization anyway, lead=
-ing
-to instability.
-
->One thing I've been trying to work out is the difference between vega21_pp=
-t.c and   vega20_hwmgr.c is, as they both contain slightly different or ide=
-ntical versions of the same functions. It looks like the functions in vega2=
-0_hwmgr.c  take precedence but it's strange to see this duplication and bot=
-h files are worked on in the commit history.
-
-Hmm. That is interesting. I'll take a look.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15656284516.FcC7.23923
-Date: Mon, 12 Aug 2019 16:47:31 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c88">Comme=
-nt # 88</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
-l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
-</span></b>
-        <pre><span class=3D"quote">&gt;The question then becomes: Why doesn=
-'t the race condition happen with only one screen? Perhaps it's a matter of=
- speed. With a single display, the driver detect the displays, read/parse t=
-he EDID data, initialize in time. But then that doesn't explain why the cra=
-sh still occurs if you boot with one DisplayPort monitor and attach another=
- after X is running.</span >
-
-I do suspect it's a matter of speed and complexity when you have more monit=
-ors.
-Also maybe the clock it tries to set (the value of hard_min_level) is diffe=
-rent
-if you only have one monitor and somehow that takes more time (resetting it
-away from some default).
-
-I do wonder if maybe in:
-
-&quot;[SetUclkToHightestDpmLevel] Set hard min uclk failed!&quot;,
-                                return ret);
-
-It should return -EINVAL instead. Maybe then it would reset and try again
-instead of just ignoring it and continuing with initialization anyway, lead=
-ing
-to instability.
-
-<span class=3D"quote">&gt;One thing I've been trying to work out is the dif=
-ference between vega21_ppt.c and   vega20_hwmgr.c is, as they both contain =
-slightly different or identical versions of the same functions. It looks li=
-ke the functions in vega20_hwmgr.c  take precedence but it's strange to see=
- this duplication and both files are worked on in the commit history.</span=
- >
-
-Hmm. That is interesting. I'll take a look.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15656284516.FcC7.23923--
-
---===============2118292844==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============2118292844==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ1NTkKCi0tLSBD
+b21tZW50ICM3IGZyb20gTWF4aW0gU2hldmlha292IChzaG9lZ2F6ZUB0dXRhbm90YS5jb20pIC0t
+LQpCeSB0aGUgd2F5LCBob3cgKmV4YWN0bHkqIGRvZXMgZGlzYWJsaW5nIHJ1bnBtIGFmZmVjdCB0
+aGUgc3lzdGVtPyBEb2VzIGl0IGxlYXZlCnRoZSBkaXNjcmV0ZSBHUFUgYWx3YXlzLW9uIG9yIHZp
+Y2UgdmVyc2U/IE9yIGRvZXMgaXQgdmFyeSBvbiBlYWNoIHN5c3RlbT8KSSBoYXZlIHRyaWVkIHJ1
+bm5pbmcgVGhlIENyZXcgdmlhIFdpbmUgKyBEWFZLIHdoaWxlIGhhdmluZyBhbWRncHUucnVucG09
+MCBpbiBteQprZXJuZWwgcGFyYW1zIGFuZCBpdCBzZWVtcyB0aGF0IGRpc2NyZXRlIEdQVSB3YXMg
+YmVpbmcgdXNlZCBhcyB0aGUgZnJhbWVyYXRlCndhcyBtb3JlIHRoYW4gZmluZS4KCi0tIApZb3Ug
+YXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFyZSB3YXRjaGluZyB0aGUgYXNz
+aWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVs
