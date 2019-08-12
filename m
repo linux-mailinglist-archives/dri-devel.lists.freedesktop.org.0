@@ -1,34 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0503D8A165
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 16:43:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 553688A185
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 16:49:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 273976E50E;
-	Mon, 12 Aug 2019 14:43:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77396E54E;
+	Mon, 12 Aug 2019 14:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8586E02D;
- Mon, 12 Aug 2019 14:43:24 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 17970900-1500050 for multiple; Mon, 12 Aug 2019 15:43:17 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CFEDF6E550
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 14:49:25 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id CC7D572167; Mon, 12 Aug 2019 14:49:25 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
+Date: Mon, 12 Aug 2019 14:49:26 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: chithanh@gentoo.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111122-502-ZR8LHIxk0O@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
+References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <886f647b-24a6-ee24-4f50-68153fec6c53@amd.com>
-References: <20190810153430.30636-1-chris@chris-wilson.co.uk>
- <20190810153430.30636-3-chris@chris-wilson.co.uk>
- <886f647b-24a6-ee24-4f50-68153fec6c53@amd.com>
-Message-ID: <156562099543.2301.5895998761855095437@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 3/4] dma-fence: Refactor signaling for manual invocation
-Date: Mon, 12 Aug 2019 15:43:15 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -41,36 +52,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1246051780=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBLb2VuaWcsIENocmlzdGlhbiAoMjAxOS0wOC0xMiAxNTozNDozMikKPiBBbSAxMC4w
-OC4xOSB1bSAxNzozNCBzY2hyaWViIENocmlzIFdpbHNvbjoKPiA+IE1vdmUgdGhlIGR1cGxpY2F0
-ZWQgY29kZSB3aXRoaW4gZG1hLWZlbmNlLmMgaW50byB0aGUgaGVhZGVyIGZvciB3aWRlcgo+ID4g
-cmV1c2UuIEluIHRoZSBwcm9jZXNzIGFwcGx5IGEgc21hbGwgbWljcm8tb3B0aW1pc2F0aW9uIHRv
-IG9ubHkgcHJ1bmUgdGhlCj4gPiBmZW5jZS0+Y2JfbGlzdCBvbmNlIHJhdGhlciB0aGFuIHVzZSBs
-aXN0X2RlbCBvbiBldmVyeSBlbnRyeS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpcyBXaWxz
-b24gPGNocmlzQGNocmlzLXdpbHNvbi5jby51az4KPiA+IENjOiBUdnJ0a28gVXJzdWxpbiA8dHZy
-dGtvLnVyc3VsaW5AaW50ZWwuY29tPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZG1hLWJ1Zi9NYWtl
-ZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgMTAgKy0KPiA+ICAgZHJpdmVycy9kbWEtYnVmL2Rt
-YS1mZW5jZS10cmFjZS5jICAgICAgICAgICB8ICAyOCArKysKPiA+ICAgZHJpdmVycy9kbWEtYnVm
-L2RtYS1mZW5jZS5jICAgICAgICAgICAgICAgICB8ICAzMyArLS0KPiA+ICAgZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ3QvaW50ZWxfYnJlYWRjcnVtYnMuYyB8ICAzMiArLS0KPiA+ICAgaW5jbHVkZS9s
-aW51eC9kbWEtZmVuY2UtaW1wbC5oICAgICAgICAgICAgICB8ICA4MyArKysrKysrCj4gPiAgIGlu
-Y2x1ZGUvbGludXgvZG1hLWZlbmNlLXR5cGVzLmggICAgICAgICAgICAgfCAyNTggKysrKysrKysr
-KysrKysrKysrKysKPiA+ICAgaW5jbHVkZS9saW51eC9kbWEtZmVuY2UuaCAgICAgICAgICAgICAg
-ICAgICB8IDIyOCArLS0tLS0tLS0tLS0tLS0tLQo+IAo+IE1obSwgSSBkb24ndCByZWFsbHkgc2Vl
-IHRoZSB2YWx1ZSBpbiBjcmVhdGluZyBtb3JlIGhlYWRlciBmaWxlcy4KPiAKPiBFc3BlY2lhbGx5
-IEknbSBwcmV0dHkgc3VyZSB0aGF0IHRoZSB0eXBlcyBzaG91bGQgc3RheSBpbiBkbWEtZmVuY2Uu
-aAoKaWlyYywgd2hlbiBJIGluY2x1ZGVkIHRoZSB0cmFjZS5oIGZyb20gZG1hLWZlbmNlLmggb3Ig
-ZG1hLWZlbmNlLWltcGwuaAp3aXRob3V0IHNlcGFyYXRpbmcgdGhlIHR5cGVzLCBhbWRncHUgZmFp
-bGVkIHRvIGNvbXBpbGUgKHdoaWNoIGlzIG1vcmUKdGhhbiBsaWtlbHkgdG8gYmUgc2ltcGx5IGR1
-ZSB0byBiZSBmaXJzdCBkcm0gaW4gdGhlIGxpc3QgdG8gY29tcGlsZSkuCgpEb2luZyBtb3JlIHdv
-cmsgd2Fzbid0IHRocm91Z2ggY2hvaWNlLgotQ2hyaXMKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1246051780==
+Content-Type: multipart/alternative; boundary="15656213651.8069aE87.5796"
+Content-Transfer-Encoding: 7bit
+
+
+--15656213651.8069aE87.5796
+Date: Mon, 12 Aug 2019 14:49:25 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+--- Comment #15 from Ch=C3=AD-Thanh Christopher Nguy=E1=BB=85n <chithanh@ge=
+ntoo.org> ---
+It seems that the graphics corruption on my Dell Latitude 5495 with kernel =
+5.2
+is a different issue. Kai-Heng Feng bisected and identified this in the Ubu=
+ntu
+Launchpad tracker already.
+
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1837688#yui_3_10_3_1_1=
+565621082983_410
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15656213651.8069aE87.5796
+Date: Mon, 12 Aug 2019 14:49:25 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c15">Comme=
+nt # 15</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+chithanh&#64;gentoo.org" title=3D"Ch=C3=AD-Thanh Christopher Nguy=E1=BB=85n=
+ &lt;chithanh&#64;gentoo.org&gt;"> <span class=3D"fn">Ch=C3=AD-Thanh Christ=
+opher Nguy=E1=BB=85n</span></a>
+</span></b>
+        <pre>It seems that the graphics corruption on my Dell Latitude 5495=
+ with kernel 5.2
+is a different issue. Kai-Heng Feng bisected and identified this in the Ubu=
+ntu
+Launchpad tracker already.
+
+<a href=3D"https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1837688#yui=
+_3_10_3_1_1565621082983_410">https://bugs.launchpad.net/ubuntu/+source/linu=
+x/+bug/1837688#yui_3_10_3_1_1565621082983_410</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15656213651.8069aE87.5796--
+
+--===============1246051780==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1246051780==--
