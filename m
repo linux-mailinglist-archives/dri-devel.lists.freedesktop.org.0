@@ -1,72 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3C4F89512
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 02:30:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E02189517
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 02:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB966E3FC;
-	Mon, 12 Aug 2019 00:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3006E40B;
+	Mon, 12 Aug 2019 00:51:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1340 seconds by postgrey-1.36 at gabe;
- Mon, 12 Aug 2019 00:30:26 UTC
-Received: from gateway24.websitewelcome.com (gateway24.websitewelcome.com
- [192.185.51.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1390C6E3FC
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 00:30:26 +0000 (UTC)
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
- by gateway24.websitewelcome.com (Postfix) with ESMTP id 9B7F5A677
- for <dri-devel@lists.freedesktop.org>; Sun, 11 Aug 2019 19:08:05 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22]) by cmsmtp with SMTP
- id wxsbhXKcf2qH7wxsbhXCD3; Sun, 11 Aug 2019 19:08:05 -0500
-X-Authority-Reason: nr=8
-Received: from [187.192.11.120] (port=52004 helo=embeddedor)
- by gator4166.hostgator.com with esmtpa (Exim 4.92)
- (envelope-from <gustavo@embeddedor.com>)
- id 1hwxsa-002WKs-7p; Sun, 11 Aug 2019 19:08:04 -0500
-Date: Sun, 11 Aug 2019 19:08:01 -0500
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To: "James (Qian) Wang" <james.qian.wang@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Brian Starkey <brian.starkey@arm.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH] drm/komeda: Fix potential integer overflow in
- komeda_crtc_update_clock_ratio
-Message-ID: <20190812000801.GA29204@embeddedor>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0CEFB6E40B
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 00:51:07 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id F1D5A72167; Mon, 12 Aug 2019 00:51:06 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111372] Dual-monitor desktop environment crash with certain
+ monitor positions
+Date: Mon, 12 Aug 2019 00:51:07 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/Gallium/radeonsi
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: theodorettshaw@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact attachments.created
+Message-ID: <bug-111372-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.192.11.120
-X-Source-L: No
-X-Exim-ID: 1hwxsa-002WKs-7p
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [187.192.11.120]:52004
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 6
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt;
- c=relaxed/relaxed; 
- d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
- Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=HkwYskj4hcqhar/pMnuy1yYlf+y7tZmG56Gg3PFUL0k=; b=JPVkijILtRkj9igWsLFjuJmYKS
- F6CinifQtxXBv7RW3u4IN8In493M+5I2neJuiW7XfzXSqrDNg/Zr02XVfXlm/PwP29tt5KP4mMRie
- HPxbIABPA0ukRCfyr9UdHNomWKpYkYicF+0dCsZn/gkzvCeVt2j8HbbCg9w8D6iQjRj8Ew6RXazHW
- yAe8khiwLlq2fxLIVW8syIYNZSwcvOmeg+Xz+gOBqamAUuK0+UFrI/hDSZ9FPcnnYz6qMTqkgssXX
- 6rKg1UaFiclhTCHAEO6rh5z+ZOPDg96QQQiWcAB9Eaa/iyoXblSQaa+nx5lWPw9qm3CCbjjESAFIS
- KM8pQ5uQ==;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,35 +53,246 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1931411962=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHN1ZmZpeCBVTEwgdG8gY29uc3RhbnQgMTAwMCBpbiBvcmRlciB0byBhdm9pZCBhIHBvdGVu
-dGlhbCBpbnRlZ2VyCm92ZXJmbG93IGFuZCBnaXZlIHRoZSBjb21waWxlciBjb21wbGV0ZSBpbmZv
-cm1hdGlvbiBhYm91dCB0aGUgcHJvcGVyCmFyaXRobWV0aWMgdG8gdXNlLiBOb3RpY2UgdGhhdCB0
-aGlzIGNvbnN0YW50IGlzIGJlaW5nIHVzZWQgaW4gYSBjb250ZXh0CnRoYXQgZXhwZWN0cyBhbiBl
-eHByZXNzaW9uIG9mIHR5cGUgdTY0LCBidXQgaXQncyBjdXJyZW50bHkgZXZhbHVhdGVkCnVzaW5n
-IDMyLWJpdCBhcml0aG1ldGljLgoKQWRkcmVzc2VzLUNvdmVyaXR5LUlEOiAxNDg1Nzk2ICgiVW5p
-bnRlbnRpb25hbCBpbnRlZ2VyIG92ZXJmbG93IikKRml4ZXM6IGVkMjJjNmQ5MzA0ZCAoImRybS9r
-b21lZGE6IFVzZSBkcm1fZGlzcGxheV9tb2RlICJjcnRjXyIgcHJlZml4ZWQgaGFyZHdhcmUgdGlt
-aW5ncyIpClNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9AZW1iZWRk
-ZWRvci5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFf
-Y3J0Yy5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21l
-ZGFfY3J0Yy5jIGIvZHJpdmVycy9ncHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY3J0
-Yy5jCmluZGV4IGZhOWE0NTkzYmIzNy4uNjI0ZDI1N2RhMjBmIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vYXJtL2Rpc3BsYXkva29tZWRhL2tvbWVkYV9jcnRjLmMKKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2FybS9kaXNwbGF5L2tvbWVkYS9rb21lZGFfY3J0Yy5jCkBAIC0yNyw3ICsyNyw3IEBA
-IHN0YXRpYyB2b2lkIGtvbWVkYV9jcnRjX3VwZGF0ZV9jbG9ja19yYXRpbyhzdHJ1Y3Qga29tZWRh
-X2NydGNfc3RhdGUgKmtjcnRjX3N0KQogCQlyZXR1cm47CiAJfQogCi0JcHhsY2xrID0ga2NydGNf
-c3QtPmJhc2UuYWRqdXN0ZWRfbW9kZS5jcnRjX2Nsb2NrICogMTAwMDsKKwlweGxjbGsgPSBrY3J0
-Y19zdC0+YmFzZS5hZGp1c3RlZF9tb2RlLmNydGNfY2xvY2sgKiAxMDAwVUxMOwogCWFjbGsgPSBr
-b21lZGFfY3J0Y19nZXRfYWNsayhrY3J0Y19zdCk7CiAKIAlrY3J0Y19zdC0+Y2xvY2tfcmF0aW8g
-PSBkaXY2NF91NjQoYWNsayA8PCAzMiwgcHhsY2xrKTsKLS0gCjIuMjIuMAoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1931411962==
+Content-Type: multipart/alternative; boundary="15655710660.cb1E.30294"
+Content-Transfer-Encoding: 7bit
+
+
+--15655710660.cb1E.30294
+Date: Mon, 12 Aug 2019 00:51:06 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111372
+
+            Bug ID: 111372
+           Summary: Dual-monitor desktop environment crash with certain
+                    monitor positions
+           Product: Mesa
+           Version: unspecified
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/Gallium/radeonsi
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: theodorettshaw@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Created attachment 145032
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145032&action=3Dedit
+Monitor placement crash/working cutoff
+
+There's an issue with certain desktop environments crashing on startup when=
+ the
+monitors of a multi-display system are in certain positions. In my case, I =
+have
+two monitors, and my desktop environment crashes with the error=20
+
+cinnamon: ../src/gallium/drivers/radeonsi/si_state_viewport.c:239:
+si_emit_guardband: Assertion `left <=3D -1 && top <=3D -1 && right >=3D 1 &=
+& bottom
+>=3D 1' failed.
+
+when my secondary monitor is positioned to the left of the primary monitor.=
+ An
+example placement can be seen in the attached image. This is roughly the
+cutoff; moving the secondary monitor, the Philips, any farther left and
+restarting the DE will result in a crash. Keeping it further right and
+restarting the DE results in no issues. The secondary monitor can be either
+above or below the primary monitor with the same results. This error also
+occurs if the secondary monitor is too far left when the DE starts on system
+startup. Switching which monitor is the primary and secondary results in the
+same issue, with a crash if the new secondary is too far left.
+
+I'm using Linux Mint 19.2, Cinnamon 4.2.3, and kernel version 5.0.0-23-gene=
+ric,
+though I've tried several different kernel versions. I'm using an RX480. The
+issue has been confirmed by others at
+https://github.com/linuxmint/cinnamon/issues/8754 and a very similar and li=
+kely
+linked issue at https://bugs.launchpad.net/ubuntu/+source/cinnamon/+bug/183=
+7087
+. glxinfo output can be found at https://pastebin.com/RGnAR320 and I'm happ=
+y to
+provide any other information needed, though I may need some pointers on
+something like recompiling Mesa in debug mode and getting a trace stack.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15655710660.cb1E.30294
+Date: Mon, 12 Aug 2019 00:51:06 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Dual-monitor desktop environment crash with certain monit=
+or positions"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111372">111372</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Dual-monitor desktop environment crash with certain monitor p=
+ositions
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>unspecified
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/Gallium/radeonsi
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>theodorettshaw&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145032=
+" name=3D"attach_145032" title=3D"Monitor placement crash/working cutoff">a=
+ttachment 145032</a> <a href=3D"attachment.cgi?id=3D145032&amp;action=3Dedi=
+t" title=3D"Monitor placement crash/working cutoff">[details]</a></span>
+Monitor placement crash/working cutoff
+
+There's an issue with certain desktop environments crashing on startup when=
+ the
+monitors of a multi-display system are in certain positions. In my case, I =
+have
+two monitors, and my desktop environment crashes with the error=20
+
+cinnamon: ../src/gallium/drivers/radeonsi/si_state_viewport.c:239:
+si_emit_guardband: Assertion `left &lt;=3D -1 &amp;&amp; top &lt;=3D -1 &am=
+p;&amp; right &gt;=3D 1 &amp;&amp; bottom
+<span class=3D"quote">&gt;=3D 1' failed.</span >
+
+when my secondary monitor is positioned to the left of the primary monitor.=
+ An
+example placement can be seen in the attached image. This is roughly the
+cutoff; moving the secondary monitor, the Philips, any farther left and
+restarting the DE will result in a crash. Keeping it further right and
+restarting the DE results in no issues. The secondary monitor can be either
+above or below the primary monitor with the same results. This error also
+occurs if the secondary monitor is too far left when the DE starts on system
+startup. Switching which monitor is the primary and secondary results in the
+same issue, with a crash if the new secondary is too far left.
+
+I'm using Linux Mint 19.2, Cinnamon 4.2.3, and kernel version 5.0.0-23-gene=
+ric,
+though I've tried several different kernel versions. I'm using an RX480. The
+issue has been confirmed by others at
+<a href=3D"https://github.com/linuxmint/cinnamon/issues/8754">https://githu=
+b.com/linuxmint/cinnamon/issues/8754</a> and a very similar and likely
+linked issue at <a href=3D"https://bugs.launchpad.net/ubuntu/+source/cinnam=
+on/+bug/1837087">https://bugs.launchpad.net/ubuntu/+source/cinnamon/+bug/18=
+37087</a>
+. glxinfo output can be found at <a href=3D"https://pastebin.com/RGnAR320">=
+https://pastebin.com/RGnAR320</a> and I'm happy to
+provide any other information needed, though I may need some pointers on
+something like recompiling Mesa in debug mode and getting a trace stack.</p=
+re>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15655710660.cb1E.30294--
+
+--===============1931411962==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1931411962==--
