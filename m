@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E4589574
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 04:50:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40509895B5
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 05:13:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A34926E41A;
-	Mon, 12 Aug 2019 02:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58F826E433;
+	Mon, 12 Aug 2019 03:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 64AEE6E41F
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 02:50:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 97E056E43C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 03:12:57 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3E4D672168; Mon, 12 Aug 2019 02:50:02 +0000 (UTC)
+ id 94F8672168; Mon, 12 Aug 2019 03:12:57 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 109955] amdgpu [RX Vega 64] system freeze while gaming
-Date: Mon, 12 Aug 2019 02:50:02 +0000
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Mon, 12 Aug 2019 03:12:57 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +26,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jlanzobr@gmail.com
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-109955-502-JblzRoXtTl@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-109955-502@http.bugs.freedesktop.org/>
-References: <bug-109955-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110674-502-mwPHqeMQjD@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,41 +52,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0817748795=="
+Content-Type: multipart/mixed; boundary="===============1906002473=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0817748795==
-Content-Type: multipart/alternative; boundary="15655782021.f54AD9F02.15288"
+--===============1906002473==
+Content-Type: multipart/alternative; boundary="15655795772.8B9894.19656"
 Content-Transfer-Encoding: 7bit
 
 
---15655782021.f54AD9F02.15288
-Date: Mon, 12 Aug 2019 02:50:02 +0000
+--15655795772.8B9894.19656
+Date: Mon, 12 Aug 2019 03:12:57 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D109955
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
---- Comment #83 from J. Andrew Lanz-O'Brien <jlanzobr@gmail.com> ---
-Can confirm that this bug is still present as of August 11, 2019 on kernel
-5.2.8 with mesa 19.1.4. Borderlands 2 hard locked my system about 5 times
-tonight. Manually setting the power profile didn't help either, ie these two
-commands:
+--- Comment #76 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+> Unfortunately, it does look like going through and slowing disabling feat=
+ures
+> and/or bisecting might be the only way to find how this issue got started=
+. At
+> least if we could narrow it down, we might be in better shape. :/
 
-echo manual > /sys/class/drm/card0/device/power_dpm_force_performance_level
-echo 7 > /sys/class/drm/card0/device/pp_dpm_sclk
+I guess, you are good for a bisection if you have a "working" kernel.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15655782021.f54AD9F02.15288
-Date: Mon, 12 Aug 2019 02:50:02 +0000
+--15655795772.8B9894.19656
+Date: Mon, 12 Aug 2019 03:12:57 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,27 +102,27 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955#c83">Comme=
-nt # 83</a>
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c76">Comme=
+nt # 76</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - amdgpu [RX Vega 64] system freeze while gaming"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D109955">bug 10995=
-5</a>
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-jlanzobr&#64;gmail.com" title=3D"J. Andrew Lanz-O'Brien &lt;jlanzobr&#64;gm=
-ail.com&gt;"> <span class=3D"fn">J. Andrew Lanz-O'Brien</span></a>
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
 </span></b>
-        <pre>Can confirm that this bug is still present as of August 11, 20=
-19 on kernel
-5.2.8 with mesa 19.1.4. Borderlands 2 hard locked my system about 5 times
-tonight. Manually setting the power profile didn't help either, ie these two
-commands:
+        <pre><span class=3D"quote">&gt; Unfortunately, it does look like go=
+ing through and slowing disabling features
+&gt; and/or bisecting might be the only way to find how this issue got star=
+ted. At
+&gt; least if we could narrow it down, we might be in better shape. :/</spa=
+n >
 
-echo manual &gt; /sys/class/drm/card0/device/power_dpm_force_performance_le=
-vel
-echo 7 &gt; /sys/class/drm/card0/device/pp_dpm_sclk</pre>
+I guess, you are good for a bisection if you have a &quot;working&quot; ker=
+nel.</pre>
         </div>
       </p>
 
@@ -136,9 +136,9 @@ echo 7 &gt; /sys/class/drm/card0/device/pp_dpm_sclk</pre>
     </body>
 </html>=
 
---15655782021.f54AD9F02.15288--
+--15655795772.8B9894.19656--
 
---===============0817748795==
+--===============1906002473==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -148,4 +148,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============0817748795==--
+--===============1906002473==--
