@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75BF896A8
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 07:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0444A89702
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 07:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC1756E47D;
-	Mon, 12 Aug 2019 05:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9A086E495;
+	Mon, 12 Aug 2019 05:57:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id F19DF6E488
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 05:18:18 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id EBC7F72167; Mon, 12 Aug 2019 05:18:18 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 12 Aug 2019 05:18:18 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: chris@hodapp.email
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-AfhOD8FcoM@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C24A36E495
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 05:57:33 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7C5vIR4061742;
+ Mon, 12 Aug 2019 00:57:18 -0500
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7C5vI9Q080164
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 12 Aug 2019 00:57:18 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 12
+ Aug 2019 00:56:05 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 12 Aug 2019 00:56:05 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7C5u3mB022015;
+ Mon, 12 Aug 2019 00:56:03 -0500
+Subject: Re: [PATCH for-5.3] drm/omap: ensure we have a valid dma_mask
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, Christoph Hellwig <hch@lst.de>
+References: <20190808101042.18809-1-hch@lst.de>
+ <7fff8fd3-16ae-1f42-fcd6-9aa360fe36b5@ti.com> <20190809080750.GA21874@lst.de>
+ <c219e7e6-0f66-d6fd-e0cf-59c803386825@ti.com>
+From: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <b5961703-6e6f-5183-206b-d792017beb96@ti.com>
+Date: Mon, 12 Aug 2019 08:56:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <c219e7e6-0f66-d6fd-e0cf-59c803386825@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ti.com; s=ti-com-17Q1; t=1565589438;
+ bh=d/2eujAuWcFMzItdKiZz1Co+QI1jNG7Mcvw6s/uq0OE=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=aWW5sFmsib5UYxgILEXnXw+NZAMQwMz0uPV7NaumisPe9UoIh+rdngL/9a29c0sT4
+ sTHG54yZhPi0b+Bgb2N95dodWtp54E5cClAQkI/hehzDqaYl5tBHNCf7L9fEUkikFY
+ WqpCHXJV88nTU61dWCA3w05/m62gjyjEweMDBJAU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,107 +63,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0169957268=="
+Cc: airlied@linux.ie, "H. Nikolaus Schaller" <hns@goldelico.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Tony Lindgren <tony@atomide.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0169957268==
-Content-Type: multipart/alternative; boundary="15655870983.Ec6583.7145"
-Content-Transfer-Encoding: 7bit
-
-
---15655870983.Ec6583.7145
-Date: Mon, 12 Aug 2019 05:18:18 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #78 from Chris Hodapp <chris@hodapp.email> ---
-> I don't see anywhere else to go but bisection from 5.0.13 to 5.1. That sh=
-ould at least find something . . .
-
-I tried something like that before but a huge portion of the commits in that
-range won't build kernels that can boot (at least on my system). I ended up
-resorting to trying reverting individual vega20-affecting  commits out of 5=
-.1.
-See my results far above in the thread (though someone else willing to spend
-more time doing a deeper analysis of the code could probably take my approa=
-ch
-much further).
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15655870983.Ec6583.7145
-Date: Mon, 12 Aug 2019 05:18:18 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c78">Comme=
-nt # 78</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-chris&#64;hodapp.email" title=3D"Chris Hodapp &lt;chris&#64;hodapp.email&gt=
-;"> <span class=3D"fn">Chris Hodapp</span></a>
-</span></b>
-        <pre><span class=3D"quote">&gt; I don't see anywhere else to go but=
- bisection from 5.0.13 to 5.1. That should at least find something . . .</s=
-pan >
-
-I tried something like that before but a huge portion of the commits in that
-range won't build kernels that can boot (at least on my system). I ended up
-resorting to trying reverting individual vega20-affecting  commits out of 5=
-.1.
-See my results far above in the thread (though someone else willing to spend
-more time doing a deeper analysis of the code could probably take my approa=
-ch
-much further).</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15655870983.Ec6583.7145--
-
---===============0169957268==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0169957268==--
+CgpPbiAwOS8wOC8yMDE5IDEzLjAwLCBUb21pIFZhbGtlaW5lbiB3cm90ZToKPiBIZXJlJ3MgbXkg
+dmVyc2lvbi4KPiAKPiBGcm9tIGMyNTgzMDllMzZmYzg2MDc2ZGIxNTVhZWFkMDNhMzkwMGI5NmMz
+ZDQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCj4gRnJvbTogVG9taSBWYWxrZWluZW4gPHRvbWku
+dmFsa2VpbmVuQHRpLmNvbT4KPiBEYXRlOiBGcmksIDkgQXVnIDIwMTkgMDk6NTQ6NDkgKzAzMDAK
+PiBTdWJqZWN0OiBbUEFUQ0hdIGRybS9vbWFwOiBlbnN1cmUgd2UgaGF2ZSBhIHZhbGlkIGRtYV9t
+YXNrCj4gCj4gVGhlIG9tYXBkcm0gZHJpdmVyIHVzZXMgZG1hX3NldF9jb2hlcmVudF9tYXNrKCks
+IGJ1dCB0aGF0J3Mgbm90IGVub3VnaAo+IGFueW1vcmUgd2hlbiBMUEFFIGlzIGVuYWJsZWQuCj4g
+Cj4gRnJvbSBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT46Cj4gCj4gVGhlIHRyYWRpdGlv
+bmFsIGFybSBETUEgY29kZSBpZ25vcmVzLCBidXQgdGhlIGdlbmVyaWMgZG1hLWRpcmVjdC9zd2lv
+dGxiCj4gaGFzIHN0cmljdGVyIGNoZWNrcyBhbmQgdGh1cyBmYWlscyBtYXBwaW5ncyB3aXRob3V0
+IGEgRE1BIG1hc2suICBBcyB3ZQo+IHVzZSBzd2lvdGxiIGZvciBhcm0gd2l0aCBMUEFFIG5vdywg
+b21hcGRybSBuZWVkcyB0byBjYXRjaCB1cCBhbmQKPiBhY3R1YWxseSBzZXQgYSBETUEgbWFzay4K
+PiAKPiBDaGFuZ2UgdGhlIGRtYV9zZXRfY29oZXJlbnRfbWFzaygpIGNhbGwgdG8KPiBkbWFfY29l
+cmNlX21hc2tfYW5kX2NvaGVyZW50KCkgc28gdGhhdCB0aGUgZGV2LT5kbWFfbWFzayBpcyBhbHNv
+IHNldC4KClJldmlld2VkLWJ5OiBQZXRlciBVamZhbHVzaSA8cGV0ZXIudWpmYWx1c2lAdGkuY29t
+PgoKPiBGaXhlczogYWQzYzdiMThjNWIzICgiYXJtOiB1c2Ugc3dpb3RsYiBmb3IgYm91bmNlIGJ1
+ZmZlcmluZyBvbiBMUEFFIGNvbmZpZ3MiKQo+IFJlcG9ydGVkLWJ5OiAiSC4gTmlrb2xhdXMgU2No
+YWxsZXIiIDxobnNAZ29sZGVsaWNvLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBUb21pIFZhbGtlaW5l
+biA8dG9taS52YWxrZWluZW5AdGkuY29tPgo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vb21hcGRybS9vbWFwX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9kcnYu
+Ywo+IGluZGV4IDI4OGM1OWRhZTU2YS4uMWJhZDBhMmNjNWM2IDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZHJ2LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vb21h
+cGRybS9vbWFwX2Rydi5jCj4gQEAgLTY2OSw3ICs2NjksNyBAQCBzdGF0aWMgaW50IHBkZXZfcHJv
+YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPiAgCWlmIChvbWFwZHNzX2lzX2luaXRp
+YWxpemVkKCkgPT0gZmFsc2UpCj4gIAkJcmV0dXJuIC1FUFJPQkVfREVGRVI7Cj4gIAo+IC0JcmV0
+ID0gZG1hX3NldF9jb2hlcmVudF9tYXNrKCZwZGV2LT5kZXYsIERNQV9CSVRfTUFTSygzMikpOwo+
+ICsJcmV0ID0gZG1hX2NvZXJjZV9tYXNrX2FuZF9jb2hlcmVudCgmcGRldi0+ZGV2LCBETUFfQklU
+X01BU0soMzIpKTsKPiAgCWlmIChyZXQpIHsKPiAgCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJGYWls
+ZWQgdG8gc2V0IHRoZSBETUEgbWFza1xuIik7Cj4gIAkJcmV0dXJuIHJldDsKPiAKPiAKPiAKPiAK
+Ci0gUMOpdGVyCgpUZXhhcyBJbnN0cnVtZW50cyBGaW5sYW5kIE95LCBQb3Jra2FsYW5rYXR1IDIy
+LCAwMDE4MCBIZWxzaW5raS4KWS10dW5udXMvQnVzaW5lc3MgSUQ6IDA2MTU1MjEtNC4gS290aXBh
+aWtrYS9Eb21pY2lsZTogSGVsc2lua2kKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVs
