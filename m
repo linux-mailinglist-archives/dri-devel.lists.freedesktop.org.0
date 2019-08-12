@@ -1,36 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B9C8A191
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 16:53:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B19178A1AF
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 16:54:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1696B6E554;
-	Mon, 12 Aug 2019 14:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9909A89E8C;
+	Mon, 12 Aug 2019 14:54:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (mail.fireflyinternet.com [109.228.58.192])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06D306E554;
- Mon, 12 Aug 2019 14:53:19 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 17971039-1500050 for multiple; Mon, 12 Aug 2019 15:53:15 +0100
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2A53189E8C
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 14:54:36 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id 26E3572167; Mon, 12 Aug 2019 14:54:36 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111386] Mesa 19.1.1 introduced Tearing
+Date: Mon, 12 Aug 2019 14:54:36 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Mesa
+X-Bugzilla-Component: Drivers/DRI/i915
+X-Bugzilla-Version: 19.1
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dave.diamond00@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ qa_contact
+Message-ID: <bug-111386-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-From: Chris Wilson <chris@chris-wilson.co.uk>
-In-Reply-To: <40961588-a377-9c92-379f-e24e3b711ce7@amd.com>
-References: <20190810153430.30636-1-chris@chris-wilson.co.uk>
- <20190810153430.30636-3-chris@chris-wilson.co.uk>
- <886f647b-24a6-ee24-4f50-68153fec6c53@amd.com>
- <156562099543.2301.5895998761855095437@skylake-alporthouse-com>
- <40961588-a377-9c92-379f-e24e3b711ce7@amd.com>
-Message-ID: <156562159336.2301.12364265101196283146@skylake-alporthouse-com>
-User-Agent: alot/0.6
-Subject: Re: [PATCH 3/4] dma-fence: Refactor signaling for manual invocation
-Date: Mon, 12 Aug 2019 15:53:13 +0100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -43,42 +52,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============2093287286=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBLb2VuaWcsIENocmlzdGlhbiAoMjAxOS0wOC0xMiAxNTo1MDo1OSkKPiBBbSAxMi4w
-OC4xOSB1bSAxNjo0MyBzY2hyaWViIENocmlzIFdpbHNvbjoKPiA+IFF1b3RpbmcgS29lbmlnLCBD
-aHJpc3RpYW4gKDIwMTktMDgtMTIgMTU6MzQ6MzIpCj4gPj4gQW0gMTAuMDguMTkgdW0gMTc6MzQg
-c2NocmllYiBDaHJpcyBXaWxzb246Cj4gPj4+IE1vdmUgdGhlIGR1cGxpY2F0ZWQgY29kZSB3aXRo
-aW4gZG1hLWZlbmNlLmMgaW50byB0aGUgaGVhZGVyIGZvciB3aWRlcgo+ID4+PiByZXVzZS4gSW4g
-dGhlIHByb2Nlc3MgYXBwbHkgYSBzbWFsbCBtaWNyby1vcHRpbWlzYXRpb24gdG8gb25seSBwcnVu
-ZSB0aGUKPiA+Pj4gZmVuY2UtPmNiX2xpc3Qgb25jZSByYXRoZXIgdGhhbiB1c2UgbGlzdF9kZWwg
-b24gZXZlcnkgZW50cnkuCj4gPj4+Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IENocmlzIFdpbHNvbiA8
-Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVrPgo+ID4+PiBDYzogVHZydGtvIFVyc3VsaW4gPHR2cnRr
-by51cnN1bGluQGludGVsLmNvbT4KPiA+Pj4gLS0tCj4gPj4+ICAgIGRyaXZlcnMvZG1hLWJ1Zi9N
-YWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgMTAgKy0KPiA+Pj4gICAgZHJpdmVycy9kbWEt
-YnVmL2RtYS1mZW5jZS10cmFjZS5jICAgICAgICAgICB8ICAyOCArKysKPiA+Pj4gICAgZHJpdmVy
-cy9kbWEtYnVmL2RtYS1mZW5jZS5jICAgICAgICAgICAgICAgICB8ICAzMyArLS0KPiA+Pj4gICAg
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ3QvaW50ZWxfYnJlYWRjcnVtYnMuYyB8ICAzMiArLS0KPiA+
-Pj4gICAgaW5jbHVkZS9saW51eC9kbWEtZmVuY2UtaW1wbC5oICAgICAgICAgICAgICB8ICA4MyAr
-KysrKysrCj4gPj4+ICAgIGluY2x1ZGUvbGludXgvZG1hLWZlbmNlLXR5cGVzLmggICAgICAgICAg
-ICAgfCAyNTggKysrKysrKysrKysrKysrKysrKysKPiA+Pj4gICAgaW5jbHVkZS9saW51eC9kbWEt
-ZmVuY2UuaCAgICAgICAgICAgICAgICAgICB8IDIyOCArLS0tLS0tLS0tLS0tLS0tLQo+ID4+IE1o
-bSwgSSBkb24ndCByZWFsbHkgc2VlIHRoZSB2YWx1ZSBpbiBjcmVhdGluZyBtb3JlIGhlYWRlciBm
-aWxlcy4KPiA+Pgo+ID4+IEVzcGVjaWFsbHkgSSdtIHByZXR0eSBzdXJlIHRoYXQgdGhlIHR5cGVz
-IHNob3VsZCBzdGF5IGluIGRtYS1mZW5jZS5oCj4gPiBpaXJjLCB3aGVuIEkgaW5jbHVkZWQgdGhl
-IHRyYWNlLmggZnJvbSBkbWEtZmVuY2UuaCBvciBkbWEtZmVuY2UtaW1wbC5oCj4gPiB3aXRob3V0
-IHNlcGFyYXRpbmcgdGhlIHR5cGVzLCBhbWRncHUgZmFpbGVkIHRvIGNvbXBpbGUgKHdoaWNoIGlz
-IG1vcmUKPiA+IHRoYW4gbGlrZWx5IHRvIGJlIHNpbXBseSBkdWUgdG8gYmUgZmlyc3QgZHJtIGlu
-IHRoZSBsaXN0IHRvIGNvbXBpbGUpLgo+IAo+IEFoLCBidXQgd2h5IGRvIHlvdSB3YW50IHRvIGlu
-Y2x1ZGUgdHJhY2UuaCBpbiBhIGhlYWRlciBpbiB0aGUgZmlyc3QgcGxhY2U/Cj4gCj4gVGhhdCdz
-IHVzdWFsbHkgbm90IHNvbWV0aGluZyBJIHdvdWxkIHJlY29tbWVuZCBlaXRoZXIuCgpUaGUgcHJv
-YmxlbSBpcyB0aGF0IHdlIGRvIGVtaXQgYSB0cmFjZXBvaW50IGFzIHBhcnQgb2YgdGhlIHNlcXVl
-bmNlIEkKd2FudCB0byBwdXQgaW50byB0aGUgcmV1c2FibGUgY2h1bmsgb2YgY29kZS4KLUNocmlz
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
+
+--===============2093287286==
+Content-Type: multipart/alternative; boundary="15656216761.ffF7226e4.5933"
+Content-Transfer-Encoding: 7bit
+
+
+--15656216761.ffF7226e4.5933
+Date: Mon, 12 Aug 2019 14:54:36 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111386
+
+            Bug ID: 111386
+           Summary: Mesa 19.1.1 introduced Tearing
+           Product: Mesa
+           Version: 19.1
+          Hardware: x86-64 (AMD64)
+                OS: Linux (All)
+            Status: NEW
+          Severity: normal
+          Priority: medium
+         Component: Drivers/DRI/i915
+          Assignee: dri-devel@lists.freedesktop.org
+          Reporter: dave.diamond00@gmail.com
+        QA Contact: dri-devel@lists.freedesktop.org
+
+Hi, I landed here by suggestion of another user of the OS which I'm using:=
+=20
+Manjaro Linux [1]
+
+Let's start with my system specs:
+https://pastebin.com/5MuBGinn
+
+Since the upgrade of Mesa package to 19.1.1, my graphics (Intel i915) begun=
+ to
+suffer of video tearing: before of such update I never experienced video
+Tearing, thanks to the compositor (the one shipped by default on XFCE and a=
+lso
+if using Compton instead).
+To get rid of video tearing I had to enable the <Option "TearFree" "true"> =
+in
+the /etc/X11/xorg.conf.d/20-intel.conf file.
+Furthermore seems that another user of Manjaro, encountered the same issue =
+of
+Mesa:
+https://forum.manjaro.org/t/stable-update-2019-07-03-kernels-systemd-pamac-=
+8-0-kde-xfce-browser-qt/93362/143
+
+
+[1] https://forum.manjaro.org/t/i915-graphics-and-tearing/98500
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15656216761.ffF7226e4.5933
+Date: Mon, 12 Aug 2019 14:54:36 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body><table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
+        <tr>
+          <th>Bug ID</th>
+          <td><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Mesa 19.1.1 introduced Tearing"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111386">111386</a>
+          </td>
+        </tr>
+
+        <tr>
+          <th>Summary</th>
+          <td>Mesa 19.1.1 introduced Tearing
+          </td>
+        </tr>
+
+        <tr>
+          <th>Product</th>
+          <td>Mesa
+          </td>
+        </tr>
+
+        <tr>
+          <th>Version</th>
+          <td>19.1
+          </td>
+        </tr>
+
+        <tr>
+          <th>Hardware</th>
+          <td>x86-64 (AMD64)
+          </td>
+        </tr>
+
+        <tr>
+          <th>OS</th>
+          <td>Linux (All)
+          </td>
+        </tr>
+
+        <tr>
+          <th>Status</th>
+          <td>NEW
+          </td>
+        </tr>
+
+        <tr>
+          <th>Severity</th>
+          <td>normal
+          </td>
+        </tr>
+
+        <tr>
+          <th>Priority</th>
+          <td>medium
+          </td>
+        </tr>
+
+        <tr>
+          <th>Component</th>
+          <td>Drivers/DRI/i915
+          </td>
+        </tr>
+
+        <tr>
+          <th>Assignee</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr>
+
+        <tr>
+          <th>Reporter</th>
+          <td>dave.diamond00&#64;gmail.com
+          </td>
+        </tr>
+
+        <tr>
+          <th>QA Contact</th>
+          <td>dri-devel&#64;lists.freedesktop.org
+          </td>
+        </tr></table>
+      <p>
+        <div>
+        <pre>Hi, I landed here by suggestion of another user of the OS whic=
+h I'm using:=20
+Manjaro Linux [1]
+
+Let's start with my system specs:
+<a href=3D"https://pastebin.com/5MuBGinn">https://pastebin.com/5MuBGinn</a>
+
+Since the upgrade of Mesa package to 19.1.1, my graphics (Intel i915) begun=
+ to
+suffer of video tearing: before of such update I never experienced video
+Tearing, thanks to the compositor (the one shipped by default on XFCE and a=
+lso
+if using Compton instead).
+To get rid of video tearing I had to enable the &lt;Option &quot;TearFree&q=
+uot; &quot;true&quot;&gt; in
+the /etc/X11/xorg.conf.d/20-intel.conf file.
+Furthermore seems that another user of Manjaro, encountered the same issue =
+of
+Mesa:
+<a href=3D"https://forum.manjaro.org/t/stable-update-2019-07-03-kernels-sys=
+temd-pamac-8-0-kde-xfce-browser-qt/93362/143">https://forum.manjaro.org/t/s=
+table-update-2019-07-03-kernels-systemd-pamac-8-0-kde-xfce-browser-qt/93362=
+/143</a>
+
+
+[1] <a href=3D"https://forum.manjaro.org/t/i915-graphics-and-tearing/98500"=
+>https://forum.manjaro.org/t/i915-graphics-and-tearing/98500</a></pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15656216761.ffF7226e4.5933--
+
+--===============2093287286==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============2093287286==--
