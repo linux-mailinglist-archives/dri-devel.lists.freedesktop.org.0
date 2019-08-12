@@ -1,65 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4244A89868
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 10:05:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 102F689882
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 10:14:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE5E6E4AB;
-	Mon, 12 Aug 2019 08:05:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EE06E221;
+	Mon, 12 Aug 2019 08:14:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33EE56E4A6
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 08:05:10 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id u25so10905260wmc.4
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 01:05:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=ufGKwBzHzNSFgdcOablNE0vz1Z8KtfQ2TuFP4lhH54s=;
- b=pFYgKFBMtPK91An8xNKEwNB5Smvosuf2HoHhsmULUrlyCmTBj1NE5SeoW1F//UJ4yJ
- b4IY0h63LXj1ELq/gO2c3rmSSJNyhA0bnyNQpMLp5Mr3kWZFK8GSH+jNfESAVG1/NfGz
- +1Acm7boVLyLzbbr9V5AJ3fVr5dUbTxxVS2adyAoqJ5pxHWweqG9g2lLQC2eQ2DhQ9jG
- k/OJ0eVts6WtrLXL8r05vHykXd8e3TWWq5/fCT/CWeWiYdssZ0e8iVTPKfBF1nRU2+2M
- QiMnAIHFKi5EL1heegDk0qBkg59KwD8HnqmM6mhJ2IdmWI9N4s5K/OS2SB6sFsvUqcVJ
- x5uw==
-X-Gm-Message-State: APjAAAUU3u1wqGz1t4vm82qJH5j+7qGo5R1t8NX9eEH/LkAlH+7HJSAI
- 5BkS/4nWUSAgvEDYJWvhFpQCkw==
-X-Google-Smtp-Source: APXvYqz6EhFotsYU49z2I1UAbp0US62x0A/jBhKf/LnRcG4G8QeOE3aQJV2P+8AsQawnjG/Y2744Aw==
-X-Received: by 2002:a05:600c:d9:: with SMTP id
- u25mr3152884wmm.26.1565597108741; 
- Mon, 12 Aug 2019 01:05:08 -0700 (PDT)
-Received: from dell ([2.27.35.255])
- by smtp.gmail.com with ESMTPSA id a142sm10918918wme.2.2019.08.12.01.05.07
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 12 Aug 2019 01:05:08 -0700 (PDT)
-Date: Mon, 12 Aug 2019 09:05:06 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] backlight: lms283gf05: Fix a typo in the description
- passed to 'devm_gpio_request_one()'
-Message-ID: <20190812080506.GH4594@dell>
-References: <20190724213828.16916-1-christophe.jaillet@wanadoo.fr>
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85BCB6E221
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 08:14:50 +0000 (UTC)
+X-Originating-IP: 86.250.200.211
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr
+ [86.250.200.211]) (Authenticated sender: maxime.ripard@bootlin.com)
+ by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 6446E20011;
+ Mon, 12 Aug 2019 08:14:46 +0000 (UTC)
+Date: Mon, 12 Aug 2019 10:14:45 +0200
+From: Maxime Ripard <maxime.ripard@bootlin.com>
+To: Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [linux-sunxi] [PATCH v8 0/4] Add support for Orange Pi 3
+Message-ID: <20190812081445.kfsbikfrt3pmsh6d@flea>
+References: <20190806155744.10263-1-megous@megous.com>
+ <2218280.0sI6yjypBf@jernej-laptop>
+ <CAGb2v67JVG2rhOdUwBmfsO0+RYb4DNOPmUo=Q_UhL3N+niLiEg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190724213828.16916-1-christophe.jaillet@wanadoo.fr>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent;
- bh=ufGKwBzHzNSFgdcOablNE0vz1Z8KtfQ2TuFP4lhH54s=;
- b=OY9w3Qb2FPL1d33M1cJQ78ypsj3wJgGSSLa58LntOr6i8+Y/csGOZbC4Ker6pqyPs2
- mDavytQZlhhFhYAVgAjmMWni2VyzsDAx5zM+gi0AwjXuxGATwlfNCG4Ky9P0UNf8vpdJ
- KzQdyR7xciH9PyWU15yjV6Hk7icax2SIkpEvzxgQ3SNr78oaiNIPf8ywfJaBcMp/A9Ks
- Hba2yrD6v3GPn3Uxu+GHDXDrZ64Yp8ZwL4+CnvsWoXAYegzGZTJa872+hxrBlCaT4qrw
- 8wI3Ln5V9zkazaJs5Fc/iZRNFAsiZ/oOh1PrtjstePthVp1CFTDR7x3a0WTj4WuOwcpu
- WbYA==
+In-Reply-To: <CAGb2v67JVG2rhOdUwBmfsO0+RYb4DNOPmUo=Q_UhL3N+niLiEg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,23 +41,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
- kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+ Mark Rutland <mark.rutland@arm.com>, devicetree <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-sunxi <linux-sunxi@googlegroups.com>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============0990090185=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyNCBKdWwgMjAxOSwgQ2hyaXN0b3BoZSBKQUlMTEVUIHdyb3RlOgoKPiBUaGUgZGVz
-Y3JpcHRpb24gcGFzc2VkIHRvICdkZXZtX2dwaW9fcmVxdWVzdF9vbmUoKScgc2hvdWxkIGJlIHJl
-bGF0ZWQgdG8KPiBMTVMyODNHRjA1LCBub3QgTE1TMjg1R0YwNS4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBDaHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5hZG9vLmZyPgo+IC0t
-LQo+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sbXMyODNnZjA1LmMgfCAyICstCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKQXBwbGllZCwgdGhhbmtz
-LgoKLS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExl
-YWQKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxv
-dyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0990090185==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wnuh5gs25vfqywb6"
+Content-Disposition: inline
+
+
+--wnuh5gs25vfqywb6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Aug 12, 2019 at 03:54:03PM +0800, Chen-Yu Tsai wrote:
+> On Mon, Aug 12, 2019 at 3:45 PM Jernej =C5=A0krabec <jernej.skrabec@gmail=
+=2Ecom> wrote:
+> >
+> > Dne torek, 06. avgust 2019 ob 17:57:39 CEST je megous@megous.com napisa=
+l(a):
+> > > From: Ondrej Jirman <megous@megous.com>
+> > >
+> > > This series implements support for Xunlong Orange Pi 3 board. There
+> > > are only a few patches remaining.
+> > >
+> > > - ethernet support - just a DT change (patch 1)
+> > > - HDMI support (patches 2-4)
+> > >
+> > > For some people, ethernet doesn't work after reboot because u-boot do=
+esn't
+> > > support AXP805 PMIC, and will not turn off the etherent PHY regulator=
+s.
+> > > So the regulator controlled by gpio will be shut down, but the other =
+one
+> > > controlled by the AXP PMIC will not.
+> > >
+> > > This is a problem only when running with a builtin driver. This needs
+> > > to be fixed in u-boot.
+> > >
+> > >
+> > > Please take a look.
+> >
+> > Is there anything missing? It would be nice to get this in 5.4. There i=
+s a lot
+> > of H6 boards which needs DDC bus enable mechanism (part of H6 reference
+> > design), including Beelink GS1 which already has HDMI node in mainline =
+kernel
+> > DT, but due to disabled DDC lines works only with 1024x768 (fallback
+> > resolution in DRM core).
+>
+> I have a few minor comments about patch 1.
+>
+> I think the HDMI bits are good, but I don't have maintainership / commit
+> permissions for drm-misc, so I'll have to wait until someone applies patc=
+hes
+> 2 and 3 before I apply patch 4.
+
+I've applied 2,3 and 4
+
+Thanks!
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--wnuh5gs25vfqywb6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXVEf9QAKCRDj7w1vZxhR
+xXlgAP9MFKL3iPUwZUiy1/l5hoQrktuJFTIedDN9ko3r/H6TDAD/RZg3u4WBh6O3
+tteR/L/slzyHzMHsyD72abKseY8/IQE=
+=i2m2
+-----END PGP SIGNATURE-----
+
+--wnuh5gs25vfqywb6--
+
+--===============0990090185==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============0990090185==--
