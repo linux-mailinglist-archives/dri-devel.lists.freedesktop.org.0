@@ -1,45 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47F08A37E
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 18:38:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 643C28A389
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 18:42:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC276E581;
-	Mon, 12 Aug 2019 16:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 583076E57E;
+	Mon, 12 Aug 2019 16:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 541DE6E588
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:38:54 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 5117172167; Mon, 12 Aug 2019 16:38:54 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mail.wl.linuxfoundation.org (mail.wl.linuxfoundation.org
+ [198.145.29.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F506E57E
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:42:11 +0000 (UTC)
+Received: from mail.wl.linuxfoundation.org (localhost [127.0.0.1])
+ by mail.wl.linuxfoundation.org (Postfix) with ESMTP id 1E3E928514
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:42:11 +0000 (UTC)
+Received: by mail.wl.linuxfoundation.org (Postfix, from userid 486)
+ id 0EBAE28541; Mon, 12 Aug 2019 16:42:11 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+ pdx-wl-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=2.0 tests=BAYES_00,NO_RECEIVED,
+ NO_RELAYS autolearn=unavailable version=3.3.1
+From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Mon, 12 Aug 2019 16:38:54 +0000
-X-Bugzilla-Reason: AssignedTo
+Subject: [Bug 204559] amdgpu: kernel oops with constant gpu resets while
+ using mpv
+Date: Mon, 12 Aug 2019 16:42:10 +0000
+X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: tom@r.je
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: shoegaze@tutanota.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-k90hrOMZsv@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-204559-2300-7rkmWRSfPm@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-204559-2300@https.bugzilla.kernel.org/>
+References: <bug-204559-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,127 +62,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0893782449=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0893782449==
-Content-Type: multipart/alternative; boundary="15656279345.C8Cf5D5D.22451"
-Content-Transfer-Encoding: 7bit
-
-
---15656279345.C8Cf5D5D.22451
-Date: Mon, 12 Aug 2019 16:38:54 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
-
---- Comment #87 from Tom B <tom@r.je> ---
-> Could be we've got a race condition between the powerplay setup and amdgpu
-handing off the card to drm_dev_register to advertise it for normal use.
-
-The question then becomes: Why doesn't the race condition happen with only =
-one
-screen? Perhaps it's a matter of speed. With a single display, the driver
-detect the displays, read/parse the EDID data, initialize in time. But then
-that doesn't explain why the crash still occurs if you boot with one
-DisplayPort monitor and attach another after X is running.
-
-One thing I've been trying to work out is the difference between vega21_ppt=
-.c
-and   vega20_hwmgr.c is, as they both contain slightly different or identic=
-al
-versions of the same functions. It looks like the functions in vega20_hwmgr=
-.c=20
-take precedence but it's strange to see this duplication and both files are
-worked on in the commit history.
-
-Take a look at vega20_set_uclk_to_highest_dpm_level and
-vega20_apply_clocks_adjust_rules in both for examples.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15656279345.C8Cf5D5D.22451
-Date: Mon, 12 Aug 2019 16:38:54 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c87">Comme=
-nt # 87</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-tom&#64;r.je" title=3D"Tom B &lt;tom&#64;r.je&gt;"> <span class=3D"fn">Tom =
-B</span></a>
-</span></b>
-        <pre><span class=3D"quote">&gt; Could be we've got a race condition=
- between the powerplay setup and amdgpu</span >
-handing off the card to drm_dev_register to advertise it for normal use.
-
-The question then becomes: Why doesn't the race condition happen with only =
-one
-screen? Perhaps it's a matter of speed. With a single display, the driver
-detect the displays, read/parse the EDID data, initialize in time. But then
-that doesn't explain why the crash still occurs if you boot with one
-DisplayPort monitor and attach another after X is running.
-
-One thing I've been trying to work out is the difference between vega21_ppt=
-.c
-and   vega20_hwmgr.c is, as they both contain slightly different or identic=
-al
-versions of the same functions. It looks like the functions in vega20_hwmgr=
-.c=20
-take precedence but it's strange to see this duplication and both files are
-worked on in the commit history.
-
-Take a look at vega20_set_uclk_to_highest_dpm_level and
-vega20_apply_clocks_adjust_rules in both for examples.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15656279345.C8Cf5D5D.22451--
-
---===============0893782449==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============0893782449==--
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDQ1NTkKCi0tLSBD
+b21tZW50ICM2IGZyb20gTWF4aW0gU2hldmlha292IChzaG9lZ2F6ZUB0dXRhbm90YS5jb20pIC0t
+LQpDcmVhdGVkIGF0dGFjaG1lbnQgMjg0MzQ1CiAgLS0+IGh0dHBzOi8vYnVnemlsbGEua2VybmVs
+Lm9yZy9hdHRhY2htZW50LmNnaT9pZD0yODQzNDUmYWN0aW9uPWVkaXQKZG1lc2cgLXcgd2l0aCBy
+dW5wbT0wIHBhcmFtZXRlcgoKSSBoYXZlIGxlZnQgbXkgbGFwdG9wIHdpdGggYSB2aWRlbyBwbGF5
+aW5nIGZvciBhYm91dCBoYWxmIGFuIGhvdXIgYW5kIGl0IHNlZW1zCmxpa2Ugbm8gR1BVLXJlbGF0
+ZWQgd2FybmluZ3MgaGF2ZSBiZWVuIHByb2R1Y2VkIHNvIGZhciwgb25seSBSVEw4ODIxQ0Ugc3Bh
+bS4KU2VlbXMgbGlrZSB0aGUgcm9vdCBjYXVzZSBvZiB0aGUgcHJvYmxlbSBpcyBzb21ld2hlcmUg
+aW4gdGhlIHJ1bnRpbWUgcG93ZXIKbWFuYWdlbWVudCBhbmQvb3IgR1BVIHN3aXRjaGluZyBzdHVm
+ZiBhcyBmYXIgYXMgSSBjYW4gc2VlLgoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRoaXMgbWFpbCBi
+ZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVnLgpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
