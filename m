@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C297789864
-	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 10:04:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4244A89868
+	for <lists+dri-devel@lfdr.de>; Mon, 12 Aug 2019 10:05:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D1689298;
-	Mon, 12 Aug 2019 08:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE5E6E4AB;
+	Mon, 12 Aug 2019 08:05:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56FE889298
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 08:04:48 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id e8so10024263wme.1
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 01:04:48 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33EE56E4A6
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 08:05:10 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id u25so10905260wmc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 01:05:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to:user-agent;
- bh=wjNEuymamId9pBrE0t9Jv7n+ZoyE6GIwiG26F4pY9IY=;
- b=QbxxunouPgLwXHJC+80hT0q97PNoIOm4Cup1FoUH3UJIxIr2j+C7sgwJQTWzE+z+2n
- uyKOYst8Av4zeCbqDgvSr8KOMb6C4SRT/+AGF8nD8hrGCo5XI6s487BXM0Ma6L7f6slr
- MIFlUfgQSg/Diq/5GlhuWk/GDp4EKK/xxJkd7Sem0E/+RR30M3fmmxlIygappkLb3Ly9
- tL/OhBoV4idqmqcQAoXFBIDKkoaFeaira+Y+unUJyp1T8lXpo5tUVDY1fd45917vqZaM
- O9H1aYwIHRU+TFKF5lUj1jZfOFQdpe7w2fdStDwpDYkdE+If4QR4ipJUDJvy0E4wh23e
- eT7g==
-X-Gm-Message-State: APjAAAUvmxlvFtKMCgFxRiAYIOkmCWMQ4gKx7IowZvChPMPEuWkqKFxT
- AOSR5/h5oSwgIrlefi5GhsomVw==
-X-Google-Smtp-Source: APXvYqwQyQT7y9KW1746rGOUkQIliXRbrThzvwE2AlJmv6pZsqMwmxsrrNkWv6H5uU1Cleg/mLnx2w==
-X-Received: by 2002:a1c:64c5:: with SMTP id
- y188mr10508736wmb.154.1565597086871; 
- Mon, 12 Aug 2019 01:04:46 -0700 (PDT)
+ bh=ufGKwBzHzNSFgdcOablNE0vz1Z8KtfQ2TuFP4lhH54s=;
+ b=pFYgKFBMtPK91An8xNKEwNB5Smvosuf2HoHhsmULUrlyCmTBj1NE5SeoW1F//UJ4yJ
+ b4IY0h63LXj1ELq/gO2c3rmSSJNyhA0bnyNQpMLp5Mr3kWZFK8GSH+jNfESAVG1/NfGz
+ +1Acm7boVLyLzbbr9V5AJ3fVr5dUbTxxVS2adyAoqJ5pxHWweqG9g2lLQC2eQ2DhQ9jG
+ k/OJ0eVts6WtrLXL8r05vHykXd8e3TWWq5/fCT/CWeWiYdssZ0e8iVTPKfBF1nRU2+2M
+ QiMnAIHFKi5EL1heegDk0qBkg59KwD8HnqmM6mhJ2IdmWI9N4s5K/OS2SB6sFsvUqcVJ
+ x5uw==
+X-Gm-Message-State: APjAAAUU3u1wqGz1t4vm82qJH5j+7qGo5R1t8NX9eEH/LkAlH+7HJSAI
+ 5BkS/4nWUSAgvEDYJWvhFpQCkw==
+X-Google-Smtp-Source: APXvYqz6EhFotsYU49z2I1UAbp0US62x0A/jBhKf/LnRcG4G8QeOE3aQJV2P+8AsQawnjG/Y2744Aw==
+X-Received: by 2002:a05:600c:d9:: with SMTP id
+ u25mr3152884wmm.26.1565597108741; 
+ Mon, 12 Aug 2019 01:05:08 -0700 (PDT)
 Received: from dell ([2.27.35.255])
- by smtp.gmail.com with ESMTPSA id c1sm231471657wrh.1.2019.08.12.01.04.46
+ by smtp.gmail.com with ESMTPSA id a142sm10918918wme.2.2019.08.12.01.05.07
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 12 Aug 2019 01:04:46 -0700 (PDT)
-Date: Mon, 12 Aug 2019 09:04:44 +0100
+ Mon, 12 Aug 2019 01:05:08 -0700 (PDT)
+Date: Mon, 12 Aug 2019 09:05:06 +0100
 From: Lee Jones <lee.jones@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1] backlight: lm3630a: Switch to use
- fwnode_property_count_uXX()
-Message-ID: <20190812080444.GG4594@dell>
-References: <20190723193400.68851-1-andriy.shevchenko@linux.intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] backlight: lms283gf05: Fix a typo in the description
+ passed to 'devm_gpio_request_one()'
+Message-ID: <20190812080506.GH4594@dell>
+References: <20190724213828.16916-1-christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20190723193400.68851-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20190724213828.16916-1-christophe.jaillet@wanadoo.fr>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to
  :user-agent;
- bh=wjNEuymamId9pBrE0t9Jv7n+ZoyE6GIwiG26F4pY9IY=;
- b=M+H9pQlp8W2jcanGP4CSdah5dBJ5UREqNyTcUhuFOK7BMMGMw5aR/yxk7QhujpZcVD
- j0M7AMfshvcIRed/WCggxnzQL+NM/mH0aCttJDP1uR1tlxdxFF1pfCGRz6q0cLyLrsS4
- lmOddb52uoD+Q0zZ1dVr/jFKZnJ3HCSYsl4afZkhsuzyYxXeK1rqEpDuhICeKOKb2L2H
- vxb5D7XtJhqg3sW51PV7t2oY38dwNvMDhc/zTdEIUXJvTuQ8xWUihtnUj5vcJiY9e8g7
- Dz2r0wLZSc+RK98XfvyMzRjKOulw53Kn6i6oa3kgb5tmYB1qAB5k35gq6oFIgd8Tmyl8
- gfhw==
+ bh=ufGKwBzHzNSFgdcOablNE0vz1Z8KtfQ2TuFP4lhH54s=;
+ b=OY9w3Qb2FPL1d33M1cJQ78ypsj3wJgGSSLa58LntOr6i8+Y/csGOZbC4Ker6pqyPs2
+ mDavytQZlhhFhYAVgAjmMWni2VyzsDAx5zM+gi0AwjXuxGATwlfNCG4Ky9P0UNf8vpdJ
+ KzQdyR7xciH9PyWU15yjV6Hk7icax2SIkpEvzxgQ3SNr78oaiNIPf8ywfJaBcMp/A9Ks
+ Hba2yrD6v3GPn3Uxu+GHDXDrZ64Yp8ZwL4+CnvsWoXAYegzGZTJa872+hxrBlCaT4qrw
+ 8wI3Ln5V9zkazaJs5Fc/iZRNFAsiZ/oOh1PrtjstePthVp1CFTDR7x3a0WTj4WuOwcpu
+ WbYA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,21 +72,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
- Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org
+Cc: daniel.thompson@linaro.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMyBKdWwgMjAxOSwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOgoKPiBVc2UgdXNlIGZ3
-bm9kZV9wcm9wZXJ0eV9jb3VudF91WFgoKSBkaXJlY3RseSwgdGhhdCBtYWtlcyBjb2RlIG5lYXRl
-ci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtv
-QGxpbnV4LmludGVsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy92aWRlby9iYWNrbGlnaHQvbG0zNjMw
-YV9ibC5jIHwgMyArLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0
-aW9ucygtKQoKQXBwbGllZCwgdGhhbmtzLgoKLS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpMaW5h
-cm8gU2VydmljZXMgVGVjaG5pY2FsIExlYWQKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29m
-dHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxvdyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJs
-b2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRl
-dmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8v
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+T24gV2VkLCAyNCBKdWwgMjAxOSwgQ2hyaXN0b3BoZSBKQUlMTEVUIHdyb3RlOgoKPiBUaGUgZGVz
+Y3JpcHRpb24gcGFzc2VkIHRvICdkZXZtX2dwaW9fcmVxdWVzdF9vbmUoKScgc2hvdWxkIGJlIHJl
+bGF0ZWQgdG8KPiBMTVMyODNHRjA1LCBub3QgTE1TMjg1R0YwNS4KPiAKPiBTaWduZWQtb2ZmLWJ5
+OiBDaHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5hZG9vLmZyPgo+IC0t
+LQo+ICBkcml2ZXJzL3ZpZGVvL2JhY2tsaWdodC9sbXMyODNnZjA1LmMgfCAyICstCj4gIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKQXBwbGllZCwgdGhhbmtz
+LgoKLS0gCkxlZSBKb25lcyBb5p2O55C85pavXQpMaW5hcm8gU2VydmljZXMgVGVjaG5pY2FsIExl
+YWQKTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBTb0NzCkZvbGxv
+dyBMaW5hcm86IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
