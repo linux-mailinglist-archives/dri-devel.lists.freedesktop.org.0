@@ -1,44 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F808AEC1
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 07:26:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B048AECB
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 07:28:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 687AA6E038;
-	Tue, 13 Aug 2019 05:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5B26E03C;
+	Tue, 13 Aug 2019 05:28:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 331D36E038
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 05:26:21 +0000 (UTC)
-Received: from kernel.org (unknown [104.132.0.74])
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D906E03C
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 05:28:49 +0000 (UTC)
+Received: from ravnborg.org (unknown [158.248.194.18])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3343520651;
- Tue, 13 Aug 2019 05:26:20 +0000 (UTC)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id C554C80330;
+ Tue, 13 Aug 2019 07:28:46 +0200 (CEST)
+Date: Tue, 13 Aug 2019 07:28:45 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Inki Dae <inki.dae@samsung.com>
+Subject: Re: [PATCH v1 1/1] drm/exynos: drop use of drmP.h (2nd round)
+Message-ID: <20190813052845.GA21448@ravnborg.org>
+References: <20190803145735.GA28393@ravnborg.org>
+ <CGME20190812185129epcas4p3284224dcf88127c4e97d36be6f5e5aa7@epcas4p3.samsung.com>
+ <20190812185122.GA7087@ravnborg.org>
+ <92eba3eb-a57b-7cb3-c447-e6ce8a564a60@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <20190812182421.141150-17-brendanhiggins@google.com>
-References: <20190812182421.141150-1-brendanhiggins@google.com>
- <20190812182421.141150-17-brendanhiggins@google.com>
-Subject: Re: [PATCH v12 16/18] MAINTAINERS: add entry for KUnit the unit
- testing framework
-From: Stephen Boyd <sboyd@kernel.org>
-To: Brendan Higgins <brendanhiggins@google.com>, frowand.list@gmail.com,
- gregkh@linuxfoundation.org, jpoimboe@redhat.com, keescook@google.com,
- kieran.bingham@ideasonboard.com, mcgrof@kernel.org, peterz@infradead.org,
- robh@kernel.org, shuah@kernel.org, tytso@mit.edu,
- yamada.masahiro@socionext.com
-User-Agent: alot/0.8.1
-Date: Mon, 12 Aug 2019 22:26:19 -0700
-Message-Id: <20190813052620.3343520651@mail.kernel.org>
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1565673980;
- bh=lPRZcsZMxeDRskHBYpCls/sLZwp4I2kKLlM8NAZFiKs=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=xn4OU3Vfrh5XaaxwHEg2nAYmcPQN4J/TifXTCMJ5o7krieQoEGIJGod054h5ECObD
- CkclJzEUNF9+0geiUzt4z12AoPF3hn4t9CqzxfzzBaQXO5GQpk28SuZ+cbZpVymscf
- 9Ei8ih0lW6E9cRj9dyak9H2XXgXNOez/5Hi5pqtg=
+Content-Disposition: inline
+In-Reply-To: <92eba3eb-a57b-7cb3-c447-e6ce8a564a60@samsung.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+ a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+ a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=IkcTkHD0fZMA:10
+ a=PaGloZ4-fHqVkK3eTaMA:9 a=QEXdDO2ut3YA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,28 +47,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
- Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
- Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
- linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
- wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
- dan.carpenter@oracle.com, devicetree@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
- rostedt@goodmis.org, julia.lawall@lip6.fr, kunit-dev@googlegroups.com,
- richard@nod.at, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
- mpe@ellerman.id.au, linux-fsdevel@vger.kernel.org, logang@deltatee.com
+Cc: David Airlie <airlied@linux.ie>, Jingoo Han <jingoohan1@gmail.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBCcmVuZGFuIEhpZ2dpbnMgKDIwMTktMDgtMTIgMTE6MjQ6MTkpCj4gQWRkIG15c2Vs
-ZiBhcyBtYWludGFpbmVyIG9mIEtVbml0LCB0aGUgTGludXgga2VybmVsJ3MgdW5pdCB0ZXN0aW5n
-Cj4gZnJhbWV3b3JrLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEJyZW5kYW4gSGlnZ2lucyA8YnJlbmRh
-bmhpZ2dpbnNAZ29vZ2xlLmNvbT4KPiBSZXZpZXdlZC1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxn
-cmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiBSZXZpZXdlZC1ieTogTG9nYW4gR3VudGhvcnBl
-IDxsb2dhbmdAZGVsdGF0ZWUuY29tPgo+IC0tLQoKUmV2aWV3ZWQtYnk6IFN0ZXBoZW4gQm95ZCA8
-c2JveWRAa2VybmVsLm9yZz4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbA==
+SGkgSW5raS4KCk9uIFR1ZSwgQXVnIDEzLCAyMDE5IGF0IDEwOjAzOjUxUE0gKzA5MDAsIElua2kg
+RGFlIHdyb3RlOgo+IEhpLAo+IAo+IE9uIDE5LiA4LiAxMy4g7Jik7KCEIDM6NTEsIFNhbSBSYXZu
+Ym9yZyB3cm90ZToKPiA+IEhpIElua2kuCj4gPiAKPiA+IEFueSBwbGFucyB0byB0YWtlIHRoaXMg
+dG8gdGhlIGV4eW5vcyB0cmVlPwo+ID4gCj4gCj4gSXQgd2lsbCBiZSBtZXJnZWQgdG8gbmV4dC4K
+VGhhbmtzLCBvbmUgbW9yZSBvZmYgdGhlIGxpc3QuCgoJU2FtCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbA==
