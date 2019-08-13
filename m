@@ -2,57 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BE08E70C
-	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 10:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AA28E69F
+	for <lists+dri-devel@lfdr.de>; Thu, 15 Aug 2019 10:35:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0CEE6E941;
-	Thu, 15 Aug 2019 08:38:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A8C6E925;
+	Thu, 15 Aug 2019 08:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9793789C9B
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 16:31:17 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id u25so121241wmc.4
- for <dri-devel@lists.freedesktop.org>; Mon, 12 Aug 2019 09:31:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7j2F6czmvL1ihv3E7n7MMuOUAa5rNveJU7g593UBgYA=;
- b=PZq1xAN4jV8Pc+AHPNAFFW6AdSqXL7UHTpXkagS1JWCoJS8XblzQOwNHTMDm8Q5UM/
- Q8c8wZYHHUhMV2fAkPIEqjYP8L5cKlA5P3oFPQYJI6vNjGqOP2Y0ovSRGb9sVqy9wi3Z
- 6oeCTvm21z/4b2j0T+ajLLhB23ufnahfiTAXbQ4P4J8OQcwuv0wBjm+8osGlmqudMVB6
- 1dV/VSlV6bAbeUYTVRpOrhCUInw52HPLEP167irtY2zCC3s7SAXMZc8pT8AMyFbOxKRr
- 5WMHdcD2tE5n/Ss0U2UojSvvXBg8uzLuzOQtxsy/jf/xtgEWyMITtIspuwQd9dn6AXEi
- d3cQ==
-X-Gm-Message-State: APjAAAWJDab5c1JQZ9lnct2CZEFWgQIceHbvT41sv90QykyXjKhljl05
- +hx75s1bUR0l5zlLB/q0bHVG9kSRnwCPSn2tI8Or+Q==
-X-Google-Smtp-Source: APXvYqyBPrcQ6sKCBQ9GudU9fmlJm1BzQW1oNBg6A7HHuE1qGnnV3Lr+F7PfdpqBa1bRHlFWSF9yk1iPYMGg2B6knOM=
-X-Received: by 2002:a7b:c04f:: with SMTP id u15mr165779wmc.106.1565627476232; 
- Mon, 12 Aug 2019 09:31:16 -0700 (PDT)
+Received: from onstation.org (onstation.org [52.200.56.107])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E2AF6E56E;
+ Tue, 13 Aug 2019 00:22:35 +0000 (UTC)
+Received: from localhost (c-98-239-145-235.hsd1.wv.comcast.net
+ [98.239.145.235])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: masneyb)
+ by onstation.org (Postfix) with ESMTPSA id 9E0EE3E95F;
+ Tue, 13 Aug 2019 00:22:32 +0000 (UTC)
+Date: Mon, 12 Aug 2019 20:22:32 -0400
+From: Brian Masney <masneyb@onstation.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 1/7] drm/msm/mdp4: Drop unused GPIO include
+Message-ID: <20190813002232.GA7391@onstation.org>
+References: <20190629125933.679-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-References: <20190808085522.21950-1-narmstrong@baylibre.com>
- <20190808085522.21950-4-narmstrong@baylibre.com>
-In-Reply-To: <20190808085522.21950-4-narmstrong@baylibre.com>
-From: Maxime Jourdan <mjourdan@baylibre.com>
-Date: Mon, 12 Aug 2019 18:31:05 +0200
-Message-ID: <CAMO6naxDkpjLTaByYBhkgP6i1YE1F1ATBAp8gPuVjDy9DAUM7g@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] MAINTAINERS: Update with Amlogic DRM bindings
- converted as YAML
-To: Neil Armstrong <narmstrong@baylibre.com>
+Content-Disposition: inline
+In-Reply-To: <20190629125933.679-1-linus.walleij@linaro.org>
 X-Mailman-Approved-At: Thu, 15 Aug 2019 08:34:55 +0000
-X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc;
- bh=7j2F6czmvL1ihv3E7n7MMuOUAa5rNveJU7g593UBgYA=;
- b=xSTOh9h2HX4eRr/sFVEwfbnUvN24DujY5BIcNJrS8ivVAR6KMTWJ/ODWqQXBloN/jK
- z/XY2ixB+QMFtF0BLRbNSzSwRkyzcSXSXgWNBjcaF1mI9AaGtSexLw18VhF9X1SySAsY
- wynbSdt/jvTDFZkKTDx6B/u1LupR6bRzT5md+cGGgrkRNhvEbiHdHwhsbQ/ylF7TPebN
- gKiWtFddsM80lb1BkTKx++1N7O58a5UhkYM8AZjfqwnwm3Z/1SRF9fIkbeb5wrPkKy9W
- DkstxnclguamE68bROEp5JsalTxz2zlCJTDuRzy6UJF/bYrYmzf80dRMcooY8DeHBCPN
- bDGA==
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=onstation.org; s=default; t=1565655753;
+ bh=sb0WR/Lam+MQeGrs+dKxlciD9ML3MyK8geyLpKKaC1Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VW81jMPwL4Fy7OcT/tg3E7kK7C8W1WdYNvi0AaKyHGxJ+iY8b52lc48Q85E60r67/
+ I+VadjPwDyGglbpklKzAZxirfF8ixd0F4j+ox+kwdTRF1XEBU83/Q2L6U8rbtGThQr
+ MpJGf3QslLSm2OfKEFNFg+Ph2o+EUt6NXJBRGIYY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,34 +47,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, Maxime Ripard <maxime.ripard@bootlin.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBBdWcgOCwgMjAxOSBhdCAxMDo1NSBBTSBOZWlsIEFybXN0cm9uZyA8bmFybXN0cm9u
-Z0BiYXlsaWJyZS5jb20+IHdyb3RlOgo+Cj4gVGhlIGFtbG9naWMsbWVzb24tZHctaGRtaS50eHQg
-YW5kIGFtbG9naWMsbWVzb24tdnB1LnR4dCBoYXMgYmVlbgo+IGNvbnZlcnRlZCB0byBZQU1MIHNj
-aGVtYXMsIHVwZGF0ZSBNQUlOVEFJTkVSUyB0byBtYXRjaCB0aGVtIGFnYWluLgo+Cj4gU2lnbmVk
-LW9mZi1ieTogTmVpbCBBcm1zdHJvbmcgPG5hcm1zdHJvbmdAYmF5bGlicmUuY29tPgo+IC0tLQo+
-ICBNQUlOVEFJTkVSUyB8IDQgKystLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRBSU5F
-UlMKPiBpbmRleCA2NDI2ZGI1MTk4ZjAuLmM1NWMxODUzMWNkMSAxMDA2NDQKPiAtLS0gYS9NQUlO
-VEFJTkVSUwo+ICsrKyBiL01BSU5UQUlORVJTCj4gQEAgLTUzMTgsOCArNTMxOCw4IEBAIEw6ICAg
-ICAgICBsaW51eC1hbWxvZ2ljQGxpc3RzLmluZnJhZGVhZC5vcmcKPiAgVzogICAgIGh0dHA6Ly9s
-aW51eC1tZXNvbi5jb20vCj4gIFM6ICAgICBTdXBwb3J0ZWQKPiAgRjogICAgIGRyaXZlcnMvZ3B1
-L2RybS9tZXNvbi8KPiAtRjogICAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9k
-aXNwbGF5L2FtbG9naWMsbWVzb24tdnB1LnR4dAo+IC1GOiAgICAgRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYW1sb2dpYyxtZXNvbi1kdy1oZG1pLnR4dAo+ICtGOiAg
-ICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYW1sb2dpYyxtZXNv
-bi12cHUueWFtbAo+ICtGOiAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rp
-c3BsYXkvYW1sb2dpYyxtZXNvbi1kdy1oZG1pLnlhbWwKPiAgRjogICAgIERvY3VtZW50YXRpb24v
-Z3B1L21lc29uLnJzdAo+ICBUOiAgICAgZ2l0IGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3Jn
-L2RybS9kcm0tbWlzYwo+Cj4gLS0KPiAyLjIyLjAKPgoKUmV2aWV3ZWQtYnk6IE1heGltZSBKb3Vy
-ZGFuIDxtam91cmRhbkBiYXlsaWJyZS5jb20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbA==
+T24gU2F0LCBKdW4gMjksIDIwMTkgYXQgMDI6NTk6MjdQTSArMDIwMCwgTGludXMgV2FsbGVpaiB3
+cm90ZToKPiBUaGlzIGZpbGUgaXMgbm90IHVzaW5nIGFueSBzeW1ib2xzIGZyb20gPGxpbnV4L2dw
+aW8uaD4gc28ganVzdAo+IGRyb3AgdGhpcyBpbmNsdWRlLgo+IAo+IENjOiBSb2IgQ2xhcmsgPHJv
+YmRjbGFya0BnbWFpbC5jb20+Cj4gQ2M6IFNlYW4gUGF1bCA8c2VhbkBwb29ybHkucnVuPgo+IENj
+OiBsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9yZwo+IENjOiBmcmVlZHJlbm9AbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCj4gU2lnbmVkLW9mZi1ieTogTGludXMgV2FsbGVpaiA8bGludXMud2FsbGVp
+akBsaW5hcm8ub3JnPgoKRm9yIHRoZSBzZXJpZXM6CgpSZXZpZXdlZC1ieTogQnJpYW4gTWFzbmV5
+IDxtYXNuZXliQG9uc3RhdGlvbi5vcmc+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
