@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D508B11E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 09:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F2878B127
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 09:32:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFC2C89BD2;
-	Tue, 13 Aug 2019 07:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 476C089C03;
+	Tue, 13 Aug 2019 07:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D2589BD2
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 07:29:45 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7D7TdHk126943;
- Tue, 13 Aug 2019 02:29:39 -0500
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7D7TdPN123736
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 13 Aug 2019 02:29:39 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 13
- Aug 2019 02:29:38 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 13 Aug 2019 02:29:39 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x7D7TaRQ006341;
- Tue, 13 Aug 2019 02:29:37 -0500
-Subject: Re: [PATCH 27/60] drm/omap: Simplify HDMI mode and infoframe
- configuration
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- <dri-devel@lists.freedesktop.org>
-References: <20190707180852.5512-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-1-laurent.pinchart@ideasonboard.com>
- <20190707181937.6250-24-laurent.pinchart@ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <8bc028da-ad5f-b4eb-0de4-f1554a28c3cb@ti.com>
-Date: Tue, 13 Aug 2019 10:29:36 +0300
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 016B789C03
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 07:32:03 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id b29so68824398lfq.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 00:32:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=vxu83LzGun/cvg+At2wTJfRfSpQASHRNUqO+Ng51ie8=;
+ b=JlrylqaRzaqGQR7rIsr+ABI0z8lmXg7Ci8ySkjpFb+xKs89EgxhZ8zz9lj4LDUxevb
+ hGMth4k2JLGfm1wW61FSIxbG3mbRu9pg//WDBfvXSWEhylMWooYP4sdWe5vkS04kbeEq
+ 8qgGJlTs1J5Janr7RkTz/W1005VS5rbPbDNZjqjHh2SI2a5Nuxz7k4Mz6Y4TXmDT5dRU
+ MHmRRkPgD/2K+kTlxlTsRqfxhrPHFrlhJ5q0SnkaaKpXkQPMxFUSTwHnAww2Zas71ONi
+ ZVoiZLsdG9rQKGAbStnP8QZfG4fUA0fTr9N01lGaNWXHaxrZQwY87q01q9g1ZDkJSHP9
+ 9G9g==
+X-Gm-Message-State: APjAAAX3zcRy6ql1FSewIE3rT0a8T1/z860uMEjQe+E0vYELBW8Tnlbt
+ 1IvSVjuI26Bveo5fNoCzytI=
+X-Google-Smtp-Source: APXvYqyxKF3rXH4VHIfBOMLXFGVC72dhGFu+jR0IZAyJ29q6Vs2uMqPd2n5EUKqEtsqKjD1scZd+YA==
+X-Received: by 2002:ac2:5976:: with SMTP id h22mr21755605lfp.79.1565681522140; 
+ Tue, 13 Aug 2019 00:32:02 -0700 (PDT)
+Received: from [10.17.182.20] (ll-22.209.223.85.sovam.net.ua. [85.223.209.22])
+ by smtp.gmail.com with ESMTPSA id
+ t4sm23424123ljh.9.2019.08.13.00.32.00
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 13 Aug 2019 00:32:01 -0700 (PDT)
+Subject: Re: [Xen-devel] [PATCH] drm/xen-front: Make structure fb_funcs
+ constant
+To: Nishka Dasgupta <nishkadg.linux@gmail.com>,
+ oleksandr_andrushchenko@epam.com, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org
+References: <20190813062712.24993-1-nishkadg.linux@gmail.com>
+From: Oleksandr Andrushchenko <andr2000@gmail.com>
+Message-ID: <f370930a-6c1c-ef4f-9fc1-0848985b9765@gmail.com>
+Date: Tue, 13 Aug 2019 10:32:00 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190707181937.6250-24-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20190813062712.24993-1-nishkadg.linux@gmail.com>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ti.com; s=ti-com-17Q1; t=1565681379;
- bh=zRSdUM3a2jyGeonXOxCSgL0Bn9hOWdtaLKvInrJX0T0=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=Z1J6R1csI60LIPA6tvOWBXDcOS6Q6dYncw/6tqz0B0LsULVR1YlXqcMzuYN3eg0lO
- AvQgUlQBsuKRc+CPbvS1EKnnDG9g1FnVX7st/7eWbYpIUgT0UHDpAlnw/0LbDaxXBo
- PJ+AxBytd8tfh+RGtxIZTrPBQf1BJuor5kfsHSSI=
+ d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-transfer-encoding:content-language;
+ bh=vxu83LzGun/cvg+At2wTJfRfSpQASHRNUqO+Ng51ie8=;
+ b=sXp80xqW3Rlpc3D+XtVSptkkayCz9E57QP8m8AIDRPT+Yt/VNcLGPv4C73rrlTWeAl
+ OfAZuMyMDyfiKVgWn9f0YL/IueFXoHkfPcrtbQSTBzFYrxVz4T6HqPgWu/DJGgo1I5WY
+ U5kBxz/wCf4ENAaKc/GYZVIVEXDr3Bc6tbMmWDeEjaHO/xv8Xcleb/efIskcETAUBDid
+ 9yRTDUCEhKu0I6qCpV4Eq1+hLZ9mPxUorsPqbLh+smqPXdqQYumxyDOCLIPhh8b3j+So
+ W01UNLnOwelGIkWozq2avHKCEK58nGg4AvzwCWZ4UJFXbGL9OgOZWnLMxR48bEh354cR
+ 5maw==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,26 +74,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Sean Paul <sean@poorly.run>
 Content-Transfer-Encoding: base64
 Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDcvMDcvMjAxOSAyMToxOSwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToKPiBSZW1vdmUgdGhl
-IG9tYXBfY29ubmVjdG9yX2dldF9oZG1pX21vZGUoKSBmdW5jdGlvbiBhcyB0aGUgSERNSSBtb2Rl
-IGNhbgo+IGJlIGFjY2Vzc2VkIGRpcmVjdGx5IGZyb20gdGhlIGNvbm5lY3RvcidzIGRpc3BsYXkg
-aW5mby4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNo
-YXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9v
-bWFwX2Nvbm5lY3Rvci5jIHwgMTEgLS0tLS0tLS0tLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9vbWFw
-ZHJtL29tYXBfY29ubmVjdG9yLmggfCAgMSAtCj4gICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9v
-bWFwX2VuY29kZXIuYyAgIHwgIDQgKy0tLQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMTUgZGVsZXRpb25zKC0pCgpSZXZpZXdlZC1ieTogVG9taSBWYWxrZWluZW4gPHRvbWku
-dmFsa2VpbmVuQHRpLmNvbT4KCiAgVG9taQoKLS0gClRleGFzIEluc3RydW1lbnRzIEZpbmxhbmQg
-T3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgpZLXR1bm51cy9CdXNpbmVzcyBJ
-RDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWljaWxlOiBIZWxzaW5raQpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+Ck9uIDgvMTMvMTkgOToyNyBBTSwgTmlzaGthIERhc2d1cHRhIHdyb3RlOgo+IFN0YXRpYyBzdHJ1
+Y3R1cmUgZmJfZnVuY3MsIG9mIHR5cGUgZHJtX2ZyYW1lYnVmZmVyX2Z1bmNzLCBpcyB1c2VkIG9u
+bHkKPiB3aGVuIGl0IGlzIHBhc3NlZCB0byBkcm1fZ2VtX2ZiX2NyZWF0ZV93aXRoX2Z1bmNzKCkg
+YXMgaXRzIGxhc3QKPiBhcmd1bWVudC4gZHJtX2dlbV9mYl9jcmVhdGVfd2l0aF9mdW5jcyBkb2Vz
+IG5vdCBtb2RpZnkgaXRzIGxzdCBhcmd1bWVudAo+IChmYl9mdW5jcykgYW5kIGhlbmNlIGZiX2Z1
+bmNzIGlzIG5ldmVyIG1vZGlmaWVkLiBUaGVyZWZvcmUgbWFrZSBmYl9mdW5jcwo+IGNvbnN0YW50
+IHRvIHByb3RlY3QgaXQgZnJvbSBmdXJ0aGVyIG1vZGlmaWNhdGlvbi4KPiBJc3N1ZSBmb3VuZCB3
+aXRoIENvY2NpbmVsbGUuCj4KPiBTaWduZWQtb2ZmLWJ5OiBOaXNoa2EgRGFzZ3VwdGEgPG5pc2hr
+YWRnLmxpbnV4QGdtYWlsLmNvbT4KUmV2aWV3ZWQtYnk6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtv
+IDxvbGVrc2FuZHJfYW5kcnVzaGNoZW5rb0BlcGFtLmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1
+L2RybS94ZW4veGVuX2RybV9mcm9udF9rbXMuYyB8IDIgKy0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
+L2RybS94ZW4veGVuX2RybV9mcm9udF9rbXMuYyBiL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2Ry
+bV9mcm9udF9rbXMuYwo+IGluZGV4IGMyOTU1ZDM3NTM5NC4uNGE5ODRmNDU1NTVlIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udF9rbXMuYwo+ICsrKyBiL2Ry
+aXZlcnMvZ3B1L2RybS94ZW4veGVuX2RybV9mcm9udF9rbXMuYwo+IEBAIC00NSw3ICs0NSw3IEBA
+IHN0YXRpYyB2b2lkIGZiX2Rlc3Ryb3koc3RydWN0IGRybV9mcmFtZWJ1ZmZlciAqZmIpCj4gICAJ
+ZHJtX2dlbV9mYl9kZXN0cm95KGZiKTsKPiAgIH0KPiAgIAo+IC1zdGF0aWMgc3RydWN0IGRybV9m
+cmFtZWJ1ZmZlcl9mdW5jcyBmYl9mdW5jcyA9IHsKPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1f
+ZnJhbWVidWZmZXJfZnVuY3MgZmJfZnVuY3MgPSB7Cj4gICAJLmRlc3Ryb3kgPSBmYl9kZXN0cm95
+LAo+ICAgfTsKPiAgIAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVs
