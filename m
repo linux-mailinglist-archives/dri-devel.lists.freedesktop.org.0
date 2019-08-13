@@ -2,37 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7148C06E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 20:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0731F8C09D
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 20:33:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA916E027;
-	Tue, 13 Aug 2019 18:20:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BABA6E062;
+	Tue, 13 Aug 2019 18:33:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 629B76E027;
- Tue, 13 Aug 2019 18:20:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id DA0C7FB04;
- Tue, 13 Aug 2019 20:20:17 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aOfb-3m0kLib; Tue, 13 Aug 2019 20:20:16 +0200 (CEST)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 4DA1C400FC; Tue, 13 Aug 2019 20:20:16 +0200 (CEST)
-Date: Tue, 13 Aug 2019 20:20:16 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v3 4/8] drm/etnaviv: replace MMU flush marker with flush
- sequence
-Message-ID: <20190813182016.GA23166@bogon.m.sigxcpu.org>
-References: <20190809120424.32679-1-l.stach@pengutronix.de>
- <20190809120424.32679-4-l.stach@pengutronix.de>
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C396C6E229
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 18:33:04 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id BF958721AA; Tue, 13 Aug 2019 18:33:04 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 13 Aug 2019 18:33:04 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: unspecified
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: major
+X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-k5LXtwAApV@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20190809120424.32679-4-l.stach@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -45,94 +52,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Russell King <linux+etnaviv@armlinux.org.uk>, etnaviv@lists.freedesktop.org,
- kernel@pengutronix.de, patchwork-lst@pengutronix.de
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1714332056=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCk9uIEZyaSwgQXVnIDA5LCAyMDE5IGF0IDAyOjA0OjIwUE0gKzAyMDAsIEx1Y2FzIFN0YWNo
-IHdyb3RlOgo+IElmIGEgTU1VIGlzIHNoYXJlZCBiZXR3ZWVuIG11bHRpcGxlIEdQVXMsIGFsbCBv
-ZiB0aGVtIG5lZWQgdG8gZmx1c2ggdGhlaXIKPiBUTEJzLCBzbyBhIHNpbmdsZSBtYXJrZXIgdGhh
-dCBnZXRzIHJlc2V0IG9uIHRoZSBmaXJzdCBmbHVzaCB3b24ndCBkby4KPiBSZXBsYWNlIHRoZSBm
-bHVzaCBtYXJrZXIgd2l0aCBhIHNlcXVlbmNlIG51bWJlciwgc28gdGhhdCBpdCdzIHBvc3NpYmxl
-IHRvCj4gY2hlY2sgaWYgdGhlIFRMQiBpcyBpbiBzeW5jIHdpdGggdGhlIGN1cnJlbnQgcGFnZSB0
-YWJsZSBzdGF0ZSBmb3IgZWFjaCBHUFUuCj4gCj4gU2lnbmVkLW9mZi1ieTogTHVjYXMgU3RhY2gg
-PGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+CgpSZXZpZXdlZC1ieTogR3VpZG8gR8O8bnRoZXIgPGFn
-eEBzaWd4Y3B1Lm9yZz4KCj4gLS0tCj4gdjM6IEF2b2lkIGZsdXNoIHNlcXVlbmNlIHVwZGF0ZSBy
-YWNpbmcgd2l0aCB0aGUgZmx1c2guCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0
-bmF2aXZfYnVmZmVyLmMgfCAxMCArKysrKystLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2
-L2V0bmF2aXZfZ3B1LmggICAgfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2
-aXZfbW11LmMgICAgfCAgNiArKystLS0KPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZp
-dl9tbXUuaCAgICB8ICAyICstCj4gIDQgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwg
-OCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYv
-ZXRuYXZpdl9idWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfYnVmZmVy
-LmMKPiBpbmRleCA2NDAwYTg4Y2Q3NzguLmEzY2RiMjBiZmM1ZiAxMDA2NDQKPiAtLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2J1ZmZlci5jCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9idWZmZXIuYwo+IEBAIC0zMTUsNiArMzE1LDggQEAgdm9pZCBl
-dG5hdml2X2J1ZmZlcl9xdWV1ZShzdHJ1Y3QgZXRuYXZpdl9ncHUgKmdwdSwgdTMyIGV4ZWNfc3Rh
-dGUsCj4gIAl1MzIgcmV0dXJuX3RhcmdldCwgcmV0dXJuX2R3b3JkczsKPiAgCXUzMiBsaW5rX3Rh
-cmdldCwgbGlua19kd29yZHM7Cj4gIAlib29sIHN3aXRjaF9jb250ZXh0ID0gZ3B1LT5leGVjX3N0
-YXRlICE9IGV4ZWNfc3RhdGU7Cj4gKwl1bnNpZ25lZCBpbnQgbmV3X2ZsdXNoX3NlcSA9IFJFQURf
-T05DRShncHUtPm1tdS0+Zmx1c2hfc2VxKTsKPiArCWJvb2wgbmVlZF9mbHVzaCA9IGdwdS0+Zmx1
-c2hfc2VxICE9IG5ld19mbHVzaF9zZXE7Cj4gIAo+ICAJbG9ja2RlcF9hc3NlcnRfaGVsZCgmZ3B1
-LT5sb2NrKTsKPiAgCj4gQEAgLTMyOSwxNCArMzMxLDE0IEBAIHZvaWQgZXRuYXZpdl9idWZmZXJf
-cXVldWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHUzMiBleGVjX3N0YXRlLAo+ICAJICogbmVl
-ZCB0byBhcHBlbmQgYSBtbXUgZmx1c2ggbG9hZCBzdGF0ZSwgZm9sbG93ZWQgYnkgYSBuZXcKPiAg
-CSAqIGxpbmsgdG8gdGhpcyBidWZmZXIgLSBhIHRvdGFsIG9mIGZvdXIgYWRkaXRpb25hbCB3b3Jk
-cy4KPiAgCSAqLwo+IC0JaWYgKGdwdS0+bW11LT5uZWVkX2ZsdXNoIHx8IHN3aXRjaF9jb250ZXh0
-KSB7Cj4gKwlpZiAobmVlZF9mbHVzaCB8fCBzd2l0Y2hfY29udGV4dCkgewo+ICAJCXUzMiB0YXJn
-ZXQsIGV4dHJhX2R3b3JkczsKPiAgCj4gIAkJLyogbGluayBjb21tYW5kICovCj4gIAkJZXh0cmFf
-ZHdvcmRzID0gMTsKPiAgCj4gIAkJLyogZmx1c2ggY29tbWFuZCAqLwo+IC0JCWlmIChncHUtPm1t
-dS0+bmVlZF9mbHVzaCkgewo+ICsJCWlmIChuZWVkX2ZsdXNoKSB7Cj4gIAkJCWlmIChncHUtPm1t
-dS0+dmVyc2lvbiA9PSBFVE5BVklWX0lPTU1VX1YxKQo+ICAJCQkJZXh0cmFfZHdvcmRzICs9IDE7
-Cj4gIAkJCWVsc2UKPiBAQCAtMzQ5LDcgKzM1MSw3IEBAIHZvaWQgZXRuYXZpdl9idWZmZXJfcXVl
-dWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHUzMiBleGVjX3N0YXRlLAo+ICAKPiAgCQl0YXJn
-ZXQgPSBldG5hdml2X2J1ZmZlcl9yZXNlcnZlKGdwdSwgYnVmZmVyLCBleHRyYV9kd29yZHMpOwo+
-ICAKPiAtCQlpZiAoZ3B1LT5tbXUtPm5lZWRfZmx1c2gpIHsKPiArCQlpZiAobmVlZF9mbHVzaCkg
-ewo+ICAJCQkvKiBBZGQgdGhlIE1NVSBmbHVzaCAqLwo+ICAJCQlpZiAoZ3B1LT5tbXUtPnZlcnNp
-b24gPT0gRVROQVZJVl9JT01NVV9WMSkgewo+ICAJCQkJQ01EX0xPQURfU1RBVEUoYnVmZmVyLCBW
-SVZTX0dMX0ZMVVNIX01NVSwKPiBAQCAtMzY5LDcgKzM3MSw3IEBAIHZvaWQgZXRuYXZpdl9idWZm
-ZXJfcXVldWUoc3RydWN0IGV0bmF2aXZfZ3B1ICpncHUsIHUzMiBleGVjX3N0YXRlLAo+ICAJCQkJ
-CVNZTkNfUkVDSVBJRU5UX1BFKTsKPiAgCQkJfQo+ICAKPiAtCQkJZ3B1LT5tbXUtPm5lZWRfZmx1
-c2ggPSBmYWxzZTsKPiArCQkJZ3B1LT5mbHVzaF9zZXEgPSBuZXdfZmx1c2hfc2VxOwo+ICAJCX0K
-PiAgCj4gIAkJaWYgKHN3aXRjaF9jb250ZXh0KSB7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmggYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
-dml2X2dwdS5oCj4gaW5kZXggOTMzYzhkMDE2ZjExLi45NjM4MDk0MmNkOGMgMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaAo+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmgKPiBAQCAtMTM3LDYgKzEzNyw3IEBAIHN0cnVj
-dCBldG5hdml2X2dwdSB7Cj4gIAlpbnQgaXJxOwo+ICAKPiAgCXN0cnVjdCBldG5hdml2X2lvbW11
-ICptbXU7Cj4gKwl1bnNpZ25lZCBpbnQgZmx1c2hfc2VxOwo+ICAKPiAgCS8qIFBvd2VyIENvbnRy
-b2w6ICovCj4gIAlzdHJ1Y3QgY2xrICpjbGtfYnVzOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vZXRuYXZpdi9ldG5hdml2X21tdS5jIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRu
-YXZpdl9tbXUuYwo+IGluZGV4IDA5ZjUxNjA5M2I5MS4uYmJkMTYyNGEzZGY4IDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfbW11LmMKPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21tdS5jCj4gQEAgLTI2Myw3ICsyNjMsNyBAQCBpbnQg
-ZXRuYXZpdl9pb21tdV9tYXBfZ2VtKHN0cnVjdCBldG5hdml2X2lvbW11ICptbXUsCj4gIAl9Cj4g
-IAo+ICAJbGlzdF9hZGRfdGFpbCgmbWFwcGluZy0+bW11X25vZGUsICZtbXUtPm1hcHBpbmdzKTsK
-PiAtCW1tdS0+bmVlZF9mbHVzaCA9IHRydWU7Cj4gKwltbXUtPmZsdXNoX3NlcSsrOwo+ICB1bmxv
-Y2s6Cj4gIAltdXRleF91bmxvY2soJm1tdS0+bG9jayk7Cj4gIAo+IEBAIC0yODIsNyArMjgyLDcg
-QEAgdm9pZCBldG5hdml2X2lvbW11X3VubWFwX2dlbShzdHJ1Y3QgZXRuYXZpdl9pb21tdSAqbW11
-LAo+ICAJCWV0bmF2aXZfaW9tbXVfcmVtb3ZlX21hcHBpbmcobW11LCBtYXBwaW5nKTsKPiAgCj4g
-IAlsaXN0X2RlbCgmbWFwcGluZy0+bW11X25vZGUpOwo+IC0JbW11LT5uZWVkX2ZsdXNoID0gdHJ1
-ZTsKPiArCW1tdS0+Zmx1c2hfc2VxKys7Cj4gIAltdXRleF91bmxvY2soJm1tdS0+bG9jayk7Cj4g
-IH0KPiAgCj4gQEAgLTM2OSw3ICszNjksNyBAQCBpbnQgZXRuYXZpdl9pb21tdV9nZXRfc3ViYWxs
-b2NfdmEoc3RydWN0IGV0bmF2aXZfaW9tbXUgKm1tdSwKPiAgCQkJcmV0dXJuIHJldDsKPiAgCQl9
-Cj4gIAo+IC0JCW1tdS0+bmVlZF9mbHVzaCA9IHRydWU7Cj4gKwkJbW11LT5mbHVzaF9zZXErKzsK
-PiAgCX0KPiAgCj4gIAlsaXN0X2FkZF90YWlsKCZtYXBwaW5nLT5tbXVfbm9kZSwgJm1tdS0+bWFw
-cGluZ3MpOwo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X21t
-dS5oIGIvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9tbXUuaAo+IGluZGV4IGZlMWM5
-ZDZiOTMzNC4uMzRhZmUyNWRmOWNhIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5h
-dml2L2V0bmF2aXZfbW11LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2
-X21tdS5oCj4gQEAgLTQ4LDcgKzQ4LDcgQEAgc3RydWN0IGV0bmF2aXZfaW9tbXUgewo+ICAJc3Ry
-dWN0IG11dGV4IGxvY2s7Cj4gIAlzdHJ1Y3QgbGlzdF9oZWFkIG1hcHBpbmdzOwo+ICAJc3RydWN0
-IGRybV9tbSBtbTsKPiAtCWJvb2wgbmVlZF9mbHVzaDsKPiArCXVuc2lnbmVkIGludCBmbHVzaF9z
-ZXE7Cj4gIH07Cj4gIAo+ICBzdHJ1Y3QgZXRuYXZpdl9nZW1fb2JqZWN0Owo+IC0tIAo+IDIuMjAu
-MQo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4g
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+
+--===============1714332056==
+Content-Type: multipart/alternative; boundary="15657211847.77ea.25417"
+Content-Transfer-Encoding: 7bit
+
+
+--15657211847.77ea.25417
+Date: Tue, 13 Aug 2019 18:33:04 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+
+--- Comment #98 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
+> The code seems very similar to what we see in
+> vega20_notify_smc_display_config_after_ps_adjustment near where we get th=
+e "
+> [SetHardMinFreq] Set hard min uclk failed!" Maybe this
+> smum_send_msg_to_smc_with_parameter get through where others fail because=
+ of
+> the formatting or something?
+
+It seems there is a patch from amd about smu v11 and this smc/smu command.
+I may be wrong though.
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15657211847.77ea.25417
+Date: Tue, 13 Aug 2019 18:33:04 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c98">Comme=
+nt # 98</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
+and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+</span></b>
+        <pre><span class=3D"quote">&gt; The code seems very similar to what=
+ we see in
+&gt; vega20_notify_smc_display_config_after_ps_adjustment near where we get=
+ the &quot;
+&gt; [SetHardMinFreq] Set hard min uclk failed!&quot; Maybe this
+&gt; smum_send_msg_to_smc_with_parameter get through where others fail beca=
+use of
+&gt; the formatting or something?</span >
+
+It seems there is a patch from amd about smu v11 and this smc/smu command.
+I may be wrong though.</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15657211847.77ea.25417--
+
+--===============1714332056==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1714332056==--
