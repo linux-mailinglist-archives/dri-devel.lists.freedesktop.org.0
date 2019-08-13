@@ -2,46 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB018B23E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 10:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7445E8B24A
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 10:25:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCFB46E09F;
-	Tue, 13 Aug 2019 08:22:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CE8D6E096;
+	Tue, 13 Aug 2019 08:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 232996E09E
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 08:22:29 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 1D3867215A; Tue, 13 Aug 2019 08:22:29 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
+Received: from mx1.redhat.com (mx1.redhat.com [209.132.183.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F073B6E093
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 08:25:14 +0000 (UTC)
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A1F4330224A8;
+ Tue, 13 Aug 2019 08:25:14 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-144.ams2.redhat.com
+ [10.36.116.144])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B06F6A768;
+ Tue, 13 Aug 2019 08:25:13 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4C53516E32; Tue, 13 Aug 2019 10:25:09 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110886] After S3 resume, kernel:
- [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
- [CRTC:57:crtc-0] flip_done timed out
-Date: Tue, 13 Aug 2019 08:22:28 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: unspecified
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kai.heng.feng@canonical.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-110886-502-LeWbgc0Z4O@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
-References: <bug-110886-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+Subject: [PATCH 0/2] drm/virtio: notify virtqueues without holding spinlock
+Date: Tue, 13 Aug 2019 10:25:07 +0200
+Message-Id: <20190813082509.29324-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 13 Aug 2019 08:25:14 +0000 (UTC)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,94 +44,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1721306729=="
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1721306729==
-Content-Type: multipart/alternative; boundary="15656845491.29FCfDdC.21610"
-Content-Transfer-Encoding: 7bit
-
-
---15656845491.29FCfDdC.21610
-Date: Tue, 13 Aug 2019 08:22:29 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
-
---- Comment #6 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
-Created attachment 145044
-  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145044&action=3Dedit
-failed log when iommu is disabled.
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15656845491.29FCfDdC.21610
-Date: Tue, 13 Aug 2019 08:22:29 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body>
-      <p>
-        <div>
-            <b><a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c6">Commen=
-t # 6</a>
-              on <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
-flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
-6</a>
-              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
-64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
-</span></b>
-        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145044=
-" name=3D"attach_145044" title=3D"failed log when iommu is disabled.">attac=
-hment 145044</a> <a href=3D"attachment.cgi?id=3D145044&amp;action=3Dedit" t=
-itle=3D"failed log when iommu is disabled.">[details]</a></span>
-failed log when iommu is disabled.</pre>
-        </div>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15656845491.29FCfDdC.21610--
-
---===============1721306729==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1721306729==--
+CgpHZXJkIEhvZmZtYW5uICgyKToKICBkcm0vdmlydGlvOiBjbGVhbnVwIHF1ZXVlIGZ1bmN0aW9u
+cwogIGRybS92aXJ0aW86IG5vdGlmeSB2aXJ0cXVldWVzIHdpdGhvdXQgaG9sZGluZyBzcGlubG9j
+awoKIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV92cS5jIHwgNTQgKysrKysrKysrKysr
+KystLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspLCAyNyBk
+ZWxldGlvbnMoLSkKCi0tIAoyLjE4LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbA==
