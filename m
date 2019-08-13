@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40688B224
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 10:15:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB018B23E
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 10:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A4C89DFD;
-	Tue, 13 Aug 2019 08:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFB46E09F;
+	Tue, 13 Aug 2019 08:22:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id BC4CC89DBA
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 08:15:34 +0000 (UTC)
+ [131.252.210.165])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 232996E09E
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 08:22:29 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id B90FE7215A; Tue, 13 Aug 2019 08:15:34 +0000 (UTC)
+ id 1D3867215A; Tue, 13 Aug 2019 08:22:29 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
-Date: Tue, 13 Aug 2019 08:15:34 +0000
+Subject: [Bug 110886] After S3 resume, kernel:
+ [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+ [CRTC:57:crtc-0] flip_done timed out
+Date: Tue, 13 Aug 2019 08:22:28 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Who: kai.heng.feng@canonical.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-111122-502-ysjEHcZjo4@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
-References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-110886-502-LeWbgc0Z4O@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
+References: <bug-110886-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,49 +54,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1678010188=="
+Content-Type: multipart/mixed; boundary="===============1721306729=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1678010188==
-Content-Type: multipart/alternative; boundary="15656841341.D638dEC2.21214"
+--===============1721306729==
+Content-Type: multipart/alternative; boundary="15656845491.29FCfDdC.21610"
 Content-Transfer-Encoding: 7bit
 
 
---15656841341.D638dEC2.21214
-Date: Tue, 13 Aug 2019 08:15:34 +0000
+--15656845491.29FCfDdC.21610
+Date: Tue, 13 Aug 2019 08:22:29 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
 
---- Comment #16 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
-@amd.com> ---
-(In reply to Brian Schott from comment #13)
-> (In reply to Pierre-Eric Pelloux-Prayer from comment #12)
-> > Does using "AMD_DEBUG=3Dnodcc" Mesa environment variable help?
->=20
-> It does. Exporting that in my ~/.profile makes the desktop usable.
->=20
-
-Let's focus on this issue first.
-
-Can you paste the output of: "AMD_DEBUG=3Dinfo glxgears" please?
-
-And would you be able to test other versions of Mesa to see if your issue c=
-ould
-be bisected (if it happens to be a Mesa problem)?
+--- Comment #6 from Kai-Heng Feng <kai.heng.feng@canonical.com> ---
+Created attachment 145044
+  --> https://bugs.freedesktop.org/attachment.cgi?id=3D145044&action=3Dedit
+failed log when iommu is disabled.
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15656841341.D638dEC2.21214
-Date: Tue, 13 Aug 2019 08:15:34 +0000
+--15656845491.29FCfDdC.21610
+Date: Tue, 13 Aug 2019 08:22:29 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,36 +100,25 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c16">Comme=
-nt # 16</a>
+   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
+flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c6">Commen=
+t # 6</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
-2</a>
+   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
+flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
- &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
--Eric Pelloux-Prayer</span></a>
+kai.heng.feng&#64;canonical.com" title=3D"Kai-Heng Feng &lt;kai.heng.feng&#=
+64;canonical.com&gt;"> <span class=3D"fn">Kai-Heng Feng</span></a>
 </span></b>
-        <pre>(In reply to Brian Schott from <a href=3D"show_bug.cgi?id=3D11=
-1122#c13">comment #13</a>)
-<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
-href=3D"show_bug.cgi?id=3D111122#c12">comment #12</a>)
-&gt; &gt; Does using &quot;AMD_DEBUG=3Dnodcc&quot; Mesa environment variabl=
-e help?
-&gt;=20
-&gt; It does. Exporting that in my ~/.profile makes the desktop usable.
-&gt; </span >
-
-Let's focus on this issue first.
-
-Can you paste the output of: &quot;AMD_DEBUG=3Dinfo glxgears&quot; please?
-
-And would you be able to test other versions of Mesa to see if your issue c=
-ould
-be bisected (if it happens to be a Mesa problem)?</pre>
+        <pre>Created <span class=3D""><a href=3D"attachment.cgi?id=3D145044=
+" name=3D"attach_145044" title=3D"failed log when iommu is disabled.">attac=
+hment 145044</a> <a href=3D"attachment.cgi?id=3D145044&amp;action=3Dedit" t=
+itle=3D"failed log when iommu is disabled.">[details]</a></span>
+failed log when iommu is disabled.</pre>
         </div>
       </p>
 
@@ -153,9 +132,9 @@ be bisected (if it happens to be a Mesa problem)?</pre>
     </body>
 </html>=
 
---15656841341.D638dEC2.21214--
+--15656845491.29FCfDdC.21610--
 
---===============1678010188==
+--===============1721306729==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -165,4 +144,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1678010188==--
+--===============1721306729==--
