@@ -1,44 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD978AE2E
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 06:56:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE708AE40
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 06:57:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2058D6E636;
-	Tue, 13 Aug 2019 04:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1356E63B;
+	Tue, 13 Aug 2019 04:57:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33A1F6E634
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 04:56:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72C9E6E63B
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 04:57:47 +0000 (UTC)
 Received: from kernel.org (unknown [104.132.0.74])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F3D9520842;
- Tue, 13 Aug 2019 04:56:23 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 3AF0A206C2;
+ Tue, 13 Aug 2019 04:57:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFd5g44xciLPBhH_J3zUcY3TedWTijdnWgF055qffF+dAguhPQ@mail.gmail.com>
+In-Reply-To: <CAFd5g44GxE-p+Jk_46GYA-WWVHLW7w=yE+K_tbbdiniDfrk-2w@mail.gmail.com>
 References: <20190812182421.141150-1-brendanhiggins@google.com>
- <20190812182421.141150-4-brendanhiggins@google.com>
- <20190812225520.5A67C206A2@mail.kernel.org>
- <20190812233336.GA224410@google.com>
- <20190812235940.100842063F@mail.kernel.org>
- <CAFd5g44xciLPBhH_J3zUcY3TedWTijdnWgF055qffF+dAguhPQ@mail.gmail.com>
-Subject: Re: [PATCH v12 03/18] kunit: test: add string_stream a std::stream
- like string builder
+ <20190812182421.141150-5-brendanhiggins@google.com>
+ <20190812234644.E054D20679@mail.kernel.org>
+ <CAFd5g44huOiR9B0H1C2TtiPy63BDuwi_Qpb_exF3zmT3ttV8eg@mail.gmail.com>
+ <CAFd5g44GxE-p+Jk_46GYA-WWVHLW7w=yE+K_tbbdiniDfrk-2w@mail.gmail.com>
+Subject: Re: [PATCH v12 04/18] kunit: test: add assertion printing library
 From: Stephen Boyd <sboyd@kernel.org>
 To: Brendan Higgins <brendanhiggins@google.com>
 User-Agent: alot/0.8.1
-Date: Mon, 12 Aug 2019 21:56:23 -0700
-Message-Id: <20190813045623.F3D9520842@mail.kernel.org>
+Date: Mon, 12 Aug 2019 21:57:46 -0700
+Message-Id: <20190813045747.3AF0A206C2@mail.kernel.org>
 X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=kernel.org; s=default; t=1565672184;
- bh=bXucgrFXk/kRlx/+pJKV0Q6XVk0iierRltlctkg+LVc=;
+ d=kernel.org; s=default; t=1565672267;
+ bh=DYjr3iNqzIZZG76leV1s359ko+TvTUQm8spLagGHMHw=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=ffUlrdm+bUfVZhu/jCzu6pFXLfJ2e5vq2QdN+72ke3JyIwETiKumZtzMd4xAD0uZQ
- /rPGd3booc5g3L4338EB1nTQbyZ1i/DzdLA4TSlHMDkNF2nArtVJ9V3GVNDRua8R+2
- b4hBBhhd51+wIzbJ+o74ZQ+LwswCPMUrlxG5/QIo=
+ b=BTwdTrkEp8drYKqfL8D9Ky5nkPDptSWvvGIAlm2zBb2UDU+0TVgv2y5RV+T+uAhfY
+ tWPKzKIXLNFpV9AmAXD2trHaopP6q/JkL76VTk8Nk5HLsR0pl5LlSlCExSkq+YZ59Z
+ pYb/52F6++Rtk7YAqglHez91WgCEV0yvDG9bHKxs=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,14 +78,29 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBCcmVuZGFuIEhpZ2dpbnMgKDIwMTktMDgtMTIgMTc6NDE6MDUpCj4gT24gTW9uLCBB
-dWcgMTIsIDIwMTkgYXQgNDo1OSBQTSBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+IHdy
-b3RlOgo+ID4KPiA+ID4ga3VuaXRfcmVzb3VyY2VfZGVzdHJveSAocmVzcGVjdGl2ZSBlcXVpdmFs
-ZW50cyB0byBkZXZtX2tmcmVlLCBhbmQKPiA+ID4gZGV2cmVzX2Rlc3Ryb3kpIGFuZCB1c2Uga3Vu
-aXRfa2ZyZWUgaGVyZT8KPiA+ID4KPiA+Cj4gPiBZZXMsIG9yIGRyb3AgdGhlIEFQSSBlbnRpcmVs
-eT8gRG9lcyBhbnl0aGluZyBuZWVkIHRoaXMgZnVuY3Rpb25hbGl0eT8KPiAKPiBEcm9wIHRoZSBr
-dW5pdF9yZXNvdXJjZSBBUEk/IEkgd291bGQgc3Ryb25nbHkgcHJlZmVyIG5vdCB0by4KCk5vLiBJ
-IG1lYW4gdGhpcyBBUEksIHN0cmluZ19zdHJlYW1fY2xlYXIoKS4gRG9lcyBhbnl0aGluZyB1c2Ug
-aXQ/CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWw=
+UXVvdGluZyBCcmVuZGFuIEhpZ2dpbnMgKDIwMTktMDgtMTIgMjE6Mjc6MDUpCj4gT24gTW9uLCBB
+dWcgMTIsIDIwMTkgYXQgNDo1NiBQTSBCcmVuZGFuIEhpZ2dpbnMKPiA8YnJlbmRhbmhpZ2dpbnNA
+Z29vZ2xlLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gTW9uLCBBdWcgMTIsIDIwMTkgYXQgNDo0NiBQ
+TSBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4gPgo+ID4gPiBRdW90
+aW5nIEJyZW5kYW4gSGlnZ2lucyAoMjAxOS0wOC0xMiAxMToyNDowNykKPiA+ID4gPiArI2RlZmlu
+ZSBLVU5JVF9JTklUX0ZBSUxfQVNTRVJUX1NUUlVDVCh0ZXN0LCB0eXBlKSB7ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXAo+ID4gPiA+ICsgICAgICAgICAgICAgICAuYXNzZXJ0ID0gS1VOSVRf
+SU5JVF9BU1NFUlRfU1RSVUNUKHRlc3QsICAgICAgICAgICAgICAgICAgICAgICBcCj4gPiA+ID4g
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdHlwZSwg
+ICAgICAgICAgICAgICAgICAgICAgIFwKPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBrdW5pdF9mYWlsX2Fzc2VydF9mb3JtYXQpICAgXAo+
+ID4gPgo+ID4gPiBUaGlzIG9uZSBnb3QgaW5kZW50ZWQgb25lIHRvbyBtYW55IHRpbWVzPwo+ID4K
+PiA+IE5vdCB1bmxlc3MgSSBoYXZlIGJlZW4gdXNpbmcgdGhlIHdyb25nIGZvcm1hdHRpbmcgZm9y
+IG11bHRpbGluZQo+ID4gbWFjcm9zLiBZb3UgY2FuIHNlZSB0aGlzIGNvbW1pdCBhcHBsaWVkIGhl
+cmU6Cj4gPiBodHRwczovL2t1bml0Lmdvb2dsZXNvdXJjZS5jb20vbGludXgvKy84NzA5NjRkYTI5
+OTA5MjAwMzA5OTBkZDFmZmI2NDdlZjQwOGU1MmRmL2luY2x1ZGUva3VuaXQvYXNzZXJ0LmgjNTkK
+PiA+Cj4gPiBJIGhhdmUgdGVzdCwgdHlwZSwgYW5kIGt1bml0X2ZhaWxfYXNzZXJ0X2Zvcm1hdCBh
+bGwgY29sdW1uIGFsaWduZWQgKGl0Cj4gPiBqdXN0IGRvZXNuJ3QgcmVuZGVyIG5pY2VseSBpbiB0
+aGUgcGF0Y2ggZm9ybWF0KS4KPiAKPiBEaXNyZWdhcmQgdGhhdCBsYXN0IGNvbW1lbnQuIEkganVz
+dCBsb29rZWQgYXQgdGhlIGxpbmUgaW1tZWRpYXRlbHkKPiBhYm92ZSB5b3VyIGNvbW1lbnQgYW5k
+IHRob3VnaHQgaXQgbG9va2VkIGNvcnJlY3QuIFNvcnJ5IGFib3V0IHRoYXQKPiAoeW91IHdlcmUg
+cG9pbnRpbmcgb3V0IHRoYXQgdGhlIC5hc3NlcnQgbGluZSBsb29rZWQgd3JvbmcsIGNvcnJlY3Q/
+KS4KClllcy4gLmFzc2VydCBpcyBkb3VibGUgdGFiYmVkPwoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
