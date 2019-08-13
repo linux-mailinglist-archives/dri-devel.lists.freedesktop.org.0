@@ -2,23 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0731F8C09D
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 20:33:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D09B8C0E6
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 20:41:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BABA6E062;
-	Tue, 13 Aug 2019 18:33:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 239D96E160;
+	Tue, 13 Aug 2019 18:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id C396C6E229
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 18:33:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id B16D86E0DB
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 18:41:31 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id BF958721AA; Tue, 13 Aug 2019 18:33:04 +0000 (UTC)
+ id A77787215A; Tue, 13 Aug 2019 18:41:31 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
-Date: Tue, 13 Aug 2019 18:33:04 +0000
+Subject: [Bug 110886] After S3 resume, kernel:
+ [drm:drm_atomic_helper_wait_for_flip_done [drm_kms_helper]] *ERROR*
+ [CRTC:57:crtc-0] flip_done timed out
+Date: Tue, 13 Aug 2019 18:41:31 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
@@ -26,17 +28,17 @@ X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
 X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: major
-X-Bugzilla-Who: sylvain.bertrand@gmail.com
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andrey.grodzovsky@amd.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-110674-502-k5LXtwAApV@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
-References: <bug-110674-502@http.bugs.freedesktop.org/>
+Message-ID: <bug-110886-502-laF4slxLNp@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110886-502@http.bugs.freedesktop.org/>
+References: <bug-110886-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -52,44 +54,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1714332056=="
+Content-Type: multipart/mixed; boundary="===============1061794042=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1714332056==
-Content-Type: multipart/alternative; boundary="15657211847.77ea.25417"
+--===============1061794042==
+Content-Type: multipart/alternative; boundary="15657216910.eEdA3.26449"
 Content-Transfer-Encoding: 7bit
 
 
---15657211847.77ea.25417
-Date: Tue, 13 Aug 2019 18:33:04 +0000
+--15657216910.eEdA3.26449
+Date: Tue, 13 Aug 2019 18:41:31 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110886
 
---- Comment #98 from Sylvain BERTRAND <sylvain.bertrand@gmail.com> ---
-> The code seems very similar to what we see in
-> vega20_notify_smc_display_config_after_ps_adjustment near where we get th=
-e "
-> [SetHardMinFreq] Set hard min uclk failed!" Maybe this
-> smum_send_msg_to_smc_with_parameter get through where others fail because=
- of
-> the formatting or something?
+--- Comment #8 from Andrey Grodzovsky <andrey.grodzovsky@amd.com> ---
+(In reply to Kai-Heng Feng from comment #6)
+> Created attachment 145044 [details]
+> failed log when iommu is disabled.
 
-It seems there is a patch from amd about smu v11 and this smc/smu command.
-I may be wrong though.
+What was the failur ewith IOMMU disabled ? Is it the same as with IOMMU ena=
+bled
+?
+In the log I only see PSP errors on resume. Can you confirm that the only
+failure/error you observed in the log in that use case ?
+
+Can you please provide your FW versions by=20
+cat /sys/kernel/debug/dri/0/amdgpu_firmware_info
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15657211847.77ea.25417
-Date: Tue, 13 Aug 2019 18:33:04 +0000
+--15657216910.eEdA3.26449
+Date: Tue, 13 Aug 2019 18:41:31 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -105,29 +109,37 @@ Auto-Submitted: auto-generated
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c98">Comme=
-nt # 98</a>
+   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
+flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886#c8">Commen=
+t # 8</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
-4</a>
+   title=3D"NEW - After S3 resume, kernel: [drm:drm_atomic_helper_wait_for_=
+flip_done [drm_kms_helper]] *ERROR* [CRTC:57:crtc-0] flip_done timed out"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110886">bug 11088=
+6</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-sylvain.bertrand&#64;gmail.com" title=3D"Sylvain BERTRAND &lt;sylvain.bertr=
-and&#64;gmail.com&gt;"> <span class=3D"fn">Sylvain BERTRAND</span></a>
+andrey.grodzovsky&#64;amd.com" title=3D"Andrey Grodzovsky &lt;andrey.grodzo=
+vsky&#64;amd.com&gt;"> <span class=3D"fn">Andrey Grodzovsky</span></a>
 </span></b>
-        <pre><span class=3D"quote">&gt; The code seems very similar to what=
- we see in
-&gt; vega20_notify_smc_display_config_after_ps_adjustment near where we get=
- the &quot;
-&gt; [SetHardMinFreq] Set hard min uclk failed!&quot; Maybe this
-&gt; smum_send_msg_to_smc_with_parameter get through where others fail beca=
-use of
-&gt; the formatting or something?</span >
+        <pre>(In reply to Kai-Heng Feng from <a href=3D"show_bug.cgi?id=3D1=
+10886#c6">comment #6</a>)
+<span class=3D"quote">&gt; Created <span class=3D""><a href=3D"attachment.c=
+gi?id=3D145044" name=3D"attach_145044" title=3D"failed log when iommu is di=
+sabled.">attachment 145044</a> <a href=3D"attachment.cgi?id=3D145044&amp;ac=
+tion=3Dedit" title=3D"failed log when iommu is disabled.">[details]</a></sp=
+an>
+&gt; failed log when iommu is disabled.</span >
 
-It seems there is a patch from amd about smu v11 and this smc/smu command.
-I may be wrong though.</pre>
+What was the failur ewith IOMMU disabled ? Is it the same as with IOMMU ena=
+bled
+?
+In the log I only see PSP errors on resume. Can you confirm that the only
+failure/error you observed in the log in that use case ?
+
+Can you please provide your FW versions by=20
+cat /sys/kernel/debug/dri/0/amdgpu_firmware_info</pre>
         </div>
       </p>
 
@@ -141,9 +153,9 @@ I may be wrong though.</pre>
     </body>
 </html>=
 
---15657211847.77ea.25417--
+--15657216910.eEdA3.26449--
 
---===============1714332056==
+--===============1061794042==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -153,4 +165,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1714332056==--
+--===============1061794042==--
