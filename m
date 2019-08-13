@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3168B202
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 10:09:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40688B224
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 10:15:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA0016E088;
-	Tue, 13 Aug 2019 08:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A4C89DFD;
+	Tue, 13 Aug 2019 08:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
- [209.85.160.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6625D6E088
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 08:09:01 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id x4so7476668qts.5
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 01:09:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3QYn8xVPbDnU8yCH5QG2DkGvPPJ9yAG+CBaSbT63l5s=;
- b=NiCWoJGYWIFRxxu7EWoOeIi5sMSoELpfb6aD1piakz6Zt88h11rfvCR32BwRam7Z8f
- ge+M5Ix2khrUTgu5y24vST7fc0CYaX6/GUaPSD6w35n/ShQ4u8cykxTpF9+u40+ZG71k
- po2kQLXAjURi7wRLzyKBfMGt2BrFEFQV4DMRgGzCbZRmOoT7NdSSwfwZOlYO18xmuaH9
- OlCQAEfocwJ8JlXu5eih8iBQlgqq2wF0G8D4fMml00yxcFG58RuBbTxPzT51iSgvFhXk
- UNKapXVsRPDLjel6KG7gcNPQydnHXUvclIARpnABQ4UkXxYzL8SbbQj7/bYSRzX1rCtG
- mRKg==
-X-Gm-Message-State: APjAAAX8P7mjr8Kybf5FwLWpdzLU9GajpiWMFr+hZa4PcvbS2BhTwJva
- HUXxuntZa3d+0Yl3egAE/gYMM1OkIFrLe68pKcU=
-X-Google-Smtp-Source: APXvYqzQY3jw5cidojWGquR6Ywd0UV4rVnIr4Q175ebPJlWm5I+ETbY/lAleI6WDMLSOu84QmW6hk+yfSbxvjbk+0xI=
-X-Received: by 2002:ac8:117:: with SMTP id e23mr17771674qtg.18.1565683740433; 
- Tue, 13 Aug 2019 01:09:00 -0700 (PDT)
+Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
+ [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BC4CC89DBA
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 08:15:34 +0000 (UTC)
+Received: by culpepper.freedesktop.org (Postfix, from userid 33)
+ id B90FE7215A; Tue, 13 Aug 2019 08:15:34 +0000 (UTC)
+From: bugzilla-daemon@freedesktop.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 111122] 2500U: Graphics corruption on kernel 5.2
+Date: Tue, 13 Aug 2019 08:15:34 +0000
+X-Bugzilla-Reason: AssignedTo
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: DRI
+X-Bugzilla-Component: DRM/AMDgpu
+X-Bugzilla-Version: XOrg git
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: pierre-eric.pelloux-prayer@amd.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: medium
+X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-111122-502-ysjEHcZjo4@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-111122-502@http.bugs.freedesktop.org/>
+References: <bug-111122-502@http.bugs.freedesktop.org/>
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <cover.1565367567.git.agx@sigxcpu.org>
- <e0562d8bb4098dc4cdb4023b41fb75b312be22a5.1565367567.git.agx@sigxcpu.org>
-In-Reply-To: <e0562d8bb4098dc4cdb4023b41fb75b312be22a5.1565367567.git.agx@sigxcpu.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 13 Aug 2019 10:08:44 +0200
-Message-ID: <CAK8P3a3Vrd+sttJrQwD-jA9p_egG4x-hc41eGK8H-_aVm-uoYw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] arm64: imx8mq: add imx8mq iomux-gpr field defines
-To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,37 +52,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- Jonas Karlman <jonas@kwiboo.se>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, Robert Chiras <robert.chiras@nxp.com>,
- Lee Jones <lee.jones@linaro.org>, Shawn Guo <shawnguo@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1678010188=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBBdWcgOSwgMjAxOSBhdCA2OjI0IFBNIEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNw
-dS5vcmc+IHdyb3RlOgo+Cj4gVGhpcyBhZGRzIGFsbCB0aGUgZ3ByIHJlZ2lzdGVycyBhbmQgdGhl
-IGRlZmluZSBuZWVkZWQgZm9yIHNlbGVjdGluZwo+IHRoZSBpbnB1dCBzb3VyY2UgaW4gdGhlIGlt
-eC1ud2wgZHJtIGJyaWRnZS4KPgo+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hA
-c2lneGNwdS5vcmc+Cj4gKwo+ICsjZGVmaW5lIElPTVVYQ19HUFIwICAgIDB4MDAKPiArI2RlZmlu
-ZSBJT01VWENfR1BSMSAgICAweDA0Cj4gKyNkZWZpbmUgSU9NVVhDX0dQUjIgICAgMHgwOAo+ICsj
-ZGVmaW5lIElPTVVYQ19HUFIzICAgIDB4MGMKPiArI2RlZmluZSBJT01VWENfR1BSNCAgICAweDEw
-Cj4gKyNkZWZpbmUgSU9NVVhDX0dQUjUgICAgMHgxNAo+ICsjZGVmaW5lIElPTVVYQ19HUFI2ICAg
-IDB4MTgKPiArI2RlZmluZSBJT01VWENfR1BSNyAgICAweDFjCihtb3JlIG9mIHRoZSBzYW1lKQoK
-aHVoPwoKPiArLyogaS5NWDhNcSBpb211eCBncHIgcmVnaXN0ZXIgZmllbGQgZGVmaW5lcyAqLwo+
-ICsjZGVmaW5lIElNWDhNUV9HUFIxM19NSVBJX01VWF9TRUwgICAgICAgICAgICAgIEJJVCgyKQoK
-SSB0aGluayB0aGlzIGRlZmluZSBzaG91bGQgcHJvYmFibHkgYmUgbG9jYWwgdG8gdGhlIHBpbmN0
-cmwgZHJpdmVyLCB0bwplbnN1cmUgdGhhdCBubyBvdGhlciBkcml2ZXJzIGZpZGRsZSB3aXRoIHRo
-ZSByZWdpc3RlcnMgbWFudWFsbHkuCgogICAgIEFybmQKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1678010188==
+Content-Type: multipart/alternative; boundary="15656841341.D638dEC2.21214"
+Content-Transfer-Encoding: 7bit
+
+
+--15656841341.D638dEC2.21214
+Date: Tue, 13 Aug 2019 08:15:34 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+https://bugs.freedesktop.org/show_bug.cgi?id=3D111122
+
+--- Comment #16 from Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer=
+@amd.com> ---
+(In reply to Brian Schott from comment #13)
+> (In reply to Pierre-Eric Pelloux-Prayer from comment #12)
+> > Does using "AMD_DEBUG=3Dnodcc" Mesa environment variable help?
+>=20
+> It does. Exporting that in my ~/.profile makes the desktop usable.
+>=20
+
+Let's focus on this issue first.
+
+Can you paste the output of: "AMD_DEBUG=3Dinfo glxgears" please?
+
+And would you be able to test other versions of Mesa to see if your issue c=
+ould
+be bisected (if it happens to be a Mesa problem)?
+
+--=20
+You are receiving this mail because:
+You are the assignee for the bug.=
+
+--15656841341.D638dEC2.21214
+Date: Tue, 13 Aug 2019 08:15:34 +0000
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: http://bugs.freedesktop.org/
+Auto-Submitted: auto-generated
+
+<html>
+    <head>
+      <base href=3D"https://bugs.freedesktop.org/">
+    </head>
+    <body>
+      <p>
+        <div>
+            <b><a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122#c16">Comme=
+nt # 16</a>
+              on <a class=3D"bz_bug_link=20
+          bz_status_NEW "
+   title=3D"NEW - 2500U: Graphics corruption on kernel 5.2"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D111122">bug 11112=
+2</a>
+              from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
+pierre-eric.pelloux-prayer&#64;amd.com" title=3D"Pierre-Eric Pelloux-Prayer=
+ &lt;pierre-eric.pelloux-prayer&#64;amd.com&gt;"> <span class=3D"fn">Pierre=
+-Eric Pelloux-Prayer</span></a>
+</span></b>
+        <pre>(In reply to Brian Schott from <a href=3D"show_bug.cgi?id=3D11=
+1122#c13">comment #13</a>)
+<span class=3D"quote">&gt; (In reply to Pierre-Eric Pelloux-Prayer from <a =
+href=3D"show_bug.cgi?id=3D111122#c12">comment #12</a>)
+&gt; &gt; Does using &quot;AMD_DEBUG=3Dnodcc&quot; Mesa environment variabl=
+e help?
+&gt;=20
+&gt; It does. Exporting that in my ~/.profile makes the desktop usable.
+&gt; </span >
+
+Let's focus on this issue first.
+
+Can you paste the output of: &quot;AMD_DEBUG=3Dinfo glxgears&quot; please?
+
+And would you be able to test other versions of Mesa to see if your issue c=
+ould
+be bisected (if it happens to be a Mesa problem)?</pre>
+        </div>
+      </p>
+
+
+      <hr>
+      <span>You are receiving this mail because:</span>
+
+      <ul>
+          <li>You are the assignee for the bug.</li>
+      </ul>
+    </body>
+</html>=
+
+--15656841341.D638dEC2.21214--
+
+--===============1678010188==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: inline
+
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+
+--===============1678010188==--
