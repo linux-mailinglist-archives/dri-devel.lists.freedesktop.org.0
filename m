@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1D18ACE3
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 04:57:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 071328AD15
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 05:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D82C46E0A2;
-	Tue, 13 Aug 2019 02:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BDC6E616;
+	Tue, 13 Aug 2019 03:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
  [131.252.210.165])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3E9FF6E61C
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 02:57:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 45AF66E61F
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 03:15:19 +0000 (UTC)
 Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 3B7CA72167; Tue, 13 Aug 2019 02:57:44 +0000 (UTC)
+ id 4229D72167; Tue, 13 Aug 2019 03:15:19 +0000 (UTC)
 From: bugzilla-daemon@freedesktop.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 110258] Lenovo V110-15AST AMD A9-9410  AMD R5 Stoney hangs
- after waking after suspend. 5.0 onwards
-Date: Tue, 13 Aug 2019 02:57:43 +0000
+Subject: [Bug 110674] Crashes / Resets From AMDGPU / Radeon VII
+Date: Tue, 13 Aug 2019 03:15:19 +0000
 X-Bugzilla-Reason: AssignedTo
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: None
 X-Bugzilla-Product: DRI
 X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: XOrg git
+X-Bugzilla-Version: unspecified
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: major
-X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Who: reddestdream@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: medium
 X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-110258-502-74x6cCNcew@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-110258-502@http.bugs.freedesktop.org/>
-References: <bug-110258-502@http.bugs.freedesktop.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-110674-502-n9UNHmMprF@http.bugs.freedesktop.org/>
+In-Reply-To: <bug-110674-502@http.bugs.freedesktop.org/>
+References: <bug-110674-502@http.bugs.freedesktop.org/>
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -53,41 +52,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1798825064=="
+Content-Type: multipart/mixed; boundary="===============1474207070=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1798825064==
-Content-Type: multipart/alternative; boundary="15656650643.8A6ad9f.29953"
+--===============1474207070==
+Content-Type: multipart/alternative; boundary="15656661193.EAAfeC.32767"
 Content-Transfer-Encoding: 7bit
 
 
---15656650643.8A6ad9f.29953
-Date: Tue, 13 Aug 2019 02:57:44 +0000
+--15656661193.EAAfeC.32767
+Date: Tue, 13 Aug 2019 03:15:19 +0000
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: http://bugs.freedesktop.org/
 Auto-Submitted: auto-generated
 
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110258
+https://bugs.freedesktop.org/show_bug.cgi?id=3D110674
 
-Alex Deucher <alexdeucher@gmail.com> changed:
+--- Comment #92 from ReddestDream <reddestdream@gmail.com> ---
+>If you follow the callstack:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jian-hong@endlessm.com
+I've been thinking all this over. The only thing unfortunately that really
+sticks out at me still is how Chris Hodapp says that reverting this commit:
 
---- Comment #14 from Alex Deucher <alexdeucher@gmail.com> ---
-*** Bug 110457 has been marked as a duplicate of this bug. ***
+https://github.com/torvalds/linux/commit/d1a3e239a6016f2bb42a91696056e22398=
+2e8538#diff-0bc07842bc28283d64ffa6dd2ed716de
+
+Seems to improve things. Considering that we now know from Tom B.'s work th=
+at
+dpm_state.hard_min_level is apparently calculated correctly and stable the
+entire time, it doesn't make sense that reverting this commit could fix
+anything.=20
+
+The code seems very similar to what we see in
+vega20_notify_smc_display_config_after_ps_adjustment near where we get the "
+[SetHardMinFreq] Set hard min uclk failed!" Maybe this
+smum_send_msg_to_smc_with_parameter get through where others fail because of
+the formatting or something?
+
+Thanks again Tom B. for all your testing. I'd like to do some tests of my o=
+wn,
+but time's just not permitting for me ATM. Hoping to be more free next week=
+end.
+:/
 
 --=20
 You are receiving this mail because:
 You are the assignee for the bug.=
 
---15656650643.8A6ad9f.29953
-Date: Tue, 13 Aug 2019 02:57:44 +0000
+--15656661193.EAAfeC.32767
+Date: Tue, 13 Aug 2019 03:15:19 +0000
 MIME-Version: 1.0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,56 +115,51 @@ Auto-Submitted: auto-generated
     <head>
       <base href=3D"https://bugs.freedesktop.org/">
     </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:alexdeuch=
-er&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.com&gt;">=
- <span class=3D"fn">Alex Deucher</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_NEW "
-   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
-aking after suspend. 5.0 onwards"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258">bug 11025=
-8</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">CC</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>jian-hong&#64;endlessm.com
-           </td>
-         </tr></table>
+    <body>
       <p>
         <div>
             <b><a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
-aking after suspend. 5.0 onwards"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258#c14">Comme=
-nt # 14</a>
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674#c92">Comme=
+nt # 92</a>
               on <a class=3D"bz_bug_link=20
           bz_status_NEW "
-   title=3D"NEW - Lenovo V110-15AST AMD A9-9410 AMD R5 Stoney hangs after w=
-aking after suspend. 5.0 onwards"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110258">bug 11025=
-8</a>
+   title=3D"NEW - Crashes / Resets From AMDGPU / Radeon VII"
+   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D110674">bug 11067=
+4</a>
               from <span class=3D"vcard"><a class=3D"email" href=3D"mailto:=
-alexdeucher&#64;gmail.com" title=3D"Alex Deucher &lt;alexdeucher&#64;gmail.=
-com&gt;"> <span class=3D"fn">Alex Deucher</span></a>
+reddestdream&#64;gmail.com" title=3D"ReddestDream &lt;reddestdream&#64;gmai=
+l.com&gt;"> <span class=3D"fn">ReddestDream</span></a>
 </span></b>
-        <pre>*** <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED DUPLICATE - System resumes failed and hits [drm:amdgpu=
-_job_timedout [amdgpu]] *ERROR* ring gfx timeout on Acer Aspire A315-21G"
-   href=3D"show_bug.cgi?id=3D110457">Bug 110457</a> has been marked as a du=
-plicate of this bug. ***</pre>
+        <pre><span class=3D"quote">&gt;If you follow the callstack:</span >
+
+I've been thinking all this over. The only thing unfortunately that really
+sticks out at me still is how Chris Hodapp says that reverting this commit:
+
+<a href=3D"https://github.com/torvalds/linux/commit/d1a3e239a6016f2bb42a916=
+96056e223982e8538#diff-0bc07842bc28283d64ffa6dd2ed716de">https://github.com=
+/torvalds/linux/commit/d1a3e239a6016f2bb42a91696056e223982e8538#diff-0bc078=
+42bc28283d64ffa6dd2ed716de</a>
+
+Seems to improve things. Considering that we now know from Tom B.'s work th=
+at
+dpm_state.hard_min_level is apparently calculated correctly and stable the
+entire time, it doesn't make sense that reverting this commit could fix
+anything.=20
+
+The code seems very similar to what we see in
+vega20_notify_smc_display_config_after_ps_adjustment near where we get the =
+&quot;
+[SetHardMinFreq] Set hard min uclk failed!&quot; Maybe this
+smum_send_msg_to_smc_with_parameter get through where others fail because of
+the formatting or something?
+
+Thanks again Tom B. for all your testing. I'd like to do some tests of my o=
+wn,
+but time's just not permitting for me ATM. Hoping to be more free next week=
+end.
+:/</pre>
         </div>
       </p>
 
@@ -161,9 +173,9 @@ plicate of this bug. ***</pre>
     </body>
 </html>=
 
---15656650643.8A6ad9f.29953--
+--15656661193.EAAfeC.32767--
 
---===============1798825064==
+--===============1474207070==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -173,4 +185,4 @@ X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
 IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
 dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
 
---===============1798825064==--
+--===============1474207070==--
