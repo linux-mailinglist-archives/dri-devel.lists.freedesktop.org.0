@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C45E8ADCF
-	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 06:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBB738ADE0
+	for <lists+dri-devel@lfdr.de>; Tue, 13 Aug 2019 06:39:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA206E624;
-	Tue, 13 Aug 2019 04:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC75B6E623;
+	Tue, 13 Aug 2019 04:39:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from culpepper.freedesktop.org (culpepper.freedesktop.org
- [IPv6:2610:10:20:722:a800:ff:fe98:4b55])
- by gabe.freedesktop.org (Postfix) with ESMTP id 536AF6E624
- for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 04:35:53 +0000 (UTC)
-Received: by culpepper.freedesktop.org (Postfix, from userid 33)
- id 4FF8A72167; Tue, 13 Aug 2019 04:35:53 +0000 (UTC)
-From: bugzilla-daemon@freedesktop.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 107877] deepin-desktop: xdg-email: no method available for
- opening 'mailto:'
-Date: Tue, 13 Aug 2019 04:35:53 +0000
-X-Bugzilla-Reason: AssignedTo
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: DRI
-X-Bugzilla-Component: DRM/AMDgpu
-X-Bugzilla-Version: DRI git
-X-Bugzilla-Keywords: security
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jason.miller1045@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: FIXED
-X-Bugzilla-Priority: medium
-X-Bugzilla-Assigned-To: dri-devel@lists.freedesktop.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_file_loc
-Message-ID: <bug-107877-502-8kAQQYT1n5@http.bugs.freedesktop.org/>
-In-Reply-To: <bug-107877-502@http.bugs.freedesktop.org/>
-References: <bug-107877-502@http.bugs.freedesktop.org/>
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3EFB6E623
+ for <dri-devel@lists.freedesktop.org>; Tue, 13 Aug 2019 04:38:59 +0000 (UTC)
+Received: from kernel.org (unknown [104.132.0.74])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 661F82054F;
+ Tue, 13 Aug 2019 04:38:59 +0000 (UTC)
 MIME-Version: 1.0
+In-Reply-To: <20190812182421.141150-15-brendanhiggins@google.com>
+References: <20190812182421.141150-1-brendanhiggins@google.com>
+ <20190812182421.141150-15-brendanhiggins@google.com>
+Subject: Re: [PATCH v12 14/18] kunit: defconfig: add defconfigs for building
+ KUnit tests
+From: Stephen Boyd <sboyd@kernel.org>
+To: Brendan Higgins <brendanhiggins@google.com>, frowand.list@gmail.com,
+ gregkh@linuxfoundation.org, jpoimboe@redhat.com, keescook@google.com,
+ kieran.bingham@ideasonboard.com, mcgrof@kernel.org, peterz@infradead.org,
+ robh@kernel.org, shuah@kernel.org, tytso@mit.edu,
+ yamada.masahiro@socionext.com
+User-Agent: alot/0.8.1
+Date: Mon, 12 Aug 2019 21:38:58 -0700
+Message-Id: <20190813043859.661F82054F@mail.kernel.org>
+X-Mailman-Original-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=kernel.org; s=default; t=1565671139;
+ bh=3xMxQdsEpxtjj+1yTxgV9WOlUO2WQ552exvs56/rr1o=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=LR11it/I3O8CGTrv+Ng5zvucPa8uUkEfa3LmKFjw6O5u9qhsOj4v0EPjTnoOYONrH
+ u/tnKqLjb2VOMamzmBD+bQ92PSyu/l9yjopx4tVHE3QOH9DwxrVN/Ixn8t2s8dlBob
+ UQtw5MZJLoTm4I6qlCWqOvb7Iah3ocYPA4XTG7DY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,97 +51,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1550896671=="
+Cc: pmladek@suse.com, linux-doc@vger.kernel.org, amir73il@gmail.com,
+ Brendan Higgins <brendanhiggins@google.com>, dri-devel@lists.freedesktop.org,
+ Alexander.Levin@microsoft.com, linux-kselftest@vger.kernel.org,
+ linux-nvdimm@lists.01.org, khilman@baylibre.com, knut.omang@oracle.com,
+ wfg@linux.intel.com, joel@jms.id.au, rientjes@google.com, jdike@addtoit.com,
+ dan.carpenter@oracle.com, devicetree@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Tim.Bird@sony.com, linux-um@lists.infradead.org,
+ rostedt@goodmis.org, julia.lawall@lip6.fr, kunit-dev@googlegroups.com,
+ richard@nod.at, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ mpe@ellerman.id.au, linux-fsdevel@vger.kernel.org, logang@deltatee.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1550896671==
-Content-Type: multipart/alternative; boundary="15656709531.1EBeA3aC.11052"
-Content-Transfer-Encoding: 7bit
-
-
---15656709531.1EBeA3aC.11052
-Date: Tue, 13 Aug 2019 04:35:53 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-https://bugs.freedesktop.org/show_bug.cgi?id=3D107877
-
-jason miller <jason.miller1045@gmail.com> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                URL|                            |https://mywifiextlogn.com/
-
---=20
-You are receiving this mail because:
-You are the assignee for the bug.=
-
---15656709531.1EBeA3aC.11052
-Date: Tue, 13 Aug 2019 04:35:53 +0000
-MIME-Version: 1.0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: http://bugs.freedesktop.org/
-Auto-Submitted: auto-generated
-
-<html>
-    <head>
-      <base href=3D"https://bugs.freedesktop.org/">
-    </head>
-    <body><span class=3D"vcard"><a class=3D"email" href=3D"mailto:jason.mil=
-ler1045&#64;gmail.com" title=3D"jason miller &lt;jason.miller1045&#64;gmail=
-.com&gt;"> <span class=3D"fn">jason miller</span></a>
-</span> changed
-          <a class=3D"bz_bug_link=20
-          bz_status_RESOLVED  bz_closed"
-   title=3D"RESOLVED FIXED - deepin-desktop: xdg-email: no method available=
- for opening 'mailto:'"
-   href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=3D107877">bug 10787=
-7</a>
-          <br>
-             <table border=3D"1" cellspacing=3D"0" cellpadding=3D"8">
-          <tr>
-            <th>What</th>
-            <th>Removed</th>
-            <th>Added</th>
-          </tr>
-
-         <tr>
-           <td style=3D"text-align:right;">URL</td>
-           <td>
-               &nbsp;
-           </td>
-           <td>https://mywifiextlogn.com/
-           </td>
-         </tr></table>
-      <p>
-      </p>
-
-
-      <hr>
-      <span>You are receiving this mail because:</span>
-
-      <ul>
-          <li>You are the assignee for the bug.</li>
-      </ul>
-    </body>
-</html>=
-
---15656709531.1EBeA3aC.11052--
-
---===============1550896671==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: inline
-
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-
---===============1550896671==--
+UXVvdGluZyBCcmVuZGFuIEhpZ2dpbnMgKDIwMTktMDgtMTIgMTE6MjQ6MTcpCj4gZGlmZiAtLWdp
+dCBhL2FyY2gvdW0vY29uZmlncy9rdW5pdF9kZWZjb25maWcgYi9hcmNoL3VtL2NvbmZpZ3Mva3Vu
+aXRfZGVmY29uZmlnCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAwMDAwMDAwMDAwMDAw
+Li5iZmU0OTY4OTAzOGYxCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2FyY2gvdW0vY29uZmlncy9r
+dW5pdF9kZWZjb25maWcKPiBAQCAtMCwwICsxLDggQEAKPiArQ09ORklHX09GPXkKPiArQ09ORklH
+X09GX1VOSVRURVNUPXkKPiArQ09ORklHX09GX09WRVJMQVk9eQo+ICtDT05GSUdfSTJDPXkKPiAr
+Q09ORklHX0kyQ19NVVg9eQo+ICtDT05GSUdfS1VOSVQ9eQo+ICtDT05GSUdfS1VOSVRfVEVTVD15
+Cj4gK0NPTkZJR19LVU5JVF9FWEFNUExFX1RFU1Q9eQo+IGRpZmYgLS1naXQgYS90b29scy90ZXN0
+aW5nL2t1bml0L2NvbmZpZ3MvYWxsX3Rlc3RzLmNvbmZpZyBiL3Rvb2xzL3Rlc3Rpbmcva3VuaXQv
+Y29uZmlncy9hbGxfdGVzdHMuY29uZmlnCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAw
+MDAwMDAwMDAwMDAwLi5iZmU0OTY4OTAzOGYxCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL3Rvb2xz
+L3Rlc3Rpbmcva3VuaXQvY29uZmlncy9hbGxfdGVzdHMuY29uZmlnCj4gQEAgLTAsMCArMSw4IEBA
+Cj4gK0NPTkZJR19PRj15Cj4gK0NPTkZJR19PRl9VTklUVEVTVD15Cj4gK0NPTkZJR19PRl9PVkVS
+TEFZPXkKPiArQ09ORklHX0kyQz15Cj4gK0NPTkZJR19JMkNfTVVYPXkKCkFyZSB0aGVzZSBhYm92
+ZSBjb25maWcgb3B0aW9ucyBuZWNlc3Nhcnk/IEkgZG9uJ3QgdGhpbmsgdGhleSdyZSBwYXJ0IG9m
+CnRoZSBwYXRjaCBzZXJpZXMgYW55bW9yZSBzbyBpdCBsb29rcyBvZGQgdG8gZW5hYmxlIHRoZSBP
+RiB1bml0dGVzdHMgYW5kCmkyYyBjb25maWdzLgoKPiArQ09ORklHX0tVTklUPXkKPiArQ09ORklH
+X0tVTklUX1RFU1Q9eQo+ICtDT05GSUdfS1VOSVRfRVhBTVBMRV9URVNUPXkKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
